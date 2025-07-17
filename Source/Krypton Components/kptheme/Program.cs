@@ -49,6 +49,10 @@ internal static class Program
                 case "fix-images":
                     Console.Error.WriteLine(cmd + " not implemented yet");
                     return 2;
+                case "prosys":
+                    return RunProSys(rest);
+                case "pro2003":
+                    return RunProOffice2003(rest);
                 default:
                     Console.Error.WriteLine("Unknown command: " + cmd);
                     PrintGenSchemeUsage();
@@ -101,6 +105,58 @@ internal static class Program
         return 0;
     }
 
+    private static int RunProSys(string[] args)
+    {
+        var dict = ParseArgs(args);
+
+        string? output = null;
+        if (!dict.TryGetValue("--output", out output))
+        {
+            dict.TryGetValue("-o", out output);
+        }
+
+        var dryRun   = dict.ContainsKey("--dry-run");
+        var overwrite = dict.ContainsKey("--overwrite");
+
+        if (dryRun)
+        {
+            Console.WriteLine("Dry-run mode: no files will be written.");
+        }
+
+        Krypton.ThemeGen.SchemeGenerator.GenerateProfessional(
+            output ?? string.Empty,
+            dryRun: dryRun,
+            overwrite: overwrite);
+
+        return 0;
+    }
+
+    private static int RunProOffice2003(string[] args)
+    {
+        var dict = ParseArgs(args);
+
+        string? output = null;
+        if (!dict.TryGetValue("--output", out output))
+        {
+            dict.TryGetValue("-o", out output);
+        }
+
+        var dryRun   = dict.ContainsKey("--dry-run");
+        var overwrite = dict.ContainsKey("--overwrite");
+
+        if (dryRun)
+        {
+            Console.WriteLine("Dry-run mode: no files will be written.");
+        }
+
+        Krypton.ThemeGen.SchemeGenerator.GenerateProfessionalOffice2003(
+            output ?? string.Empty,
+            dryRun: dryRun,
+            overwrite: overwrite);
+
+        return 0;
+    }
+
     private static Dictionary<string, string> ParseArgs(string[] args)
     {
         var dict = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
@@ -136,7 +192,7 @@ internal static class Program
         Console.WriteLine("options:");
         Console.WriteLine("  --dry-run                Preview actions without writing files");
         Console.WriteLine("  --print                  Display mapping table to console; implies --dry-run and disables file writes");
-        Console.WriteLine("  --migrate                Remove colour arrays and convert remaining _ribbonColors/_trackBarColors index usages to BaseColors properties");
+        Console.WriteLine("  --migrate                Remove color arrays and convert remaining _ribbonColors/_trackBarColors index usages to BaseColors properties");
         Console.WriteLine("  -o OUTPUT, --output OUTPUT");
         Console.WriteLine("                           Directory to place all generated files instead of alongside palette files");
         Console.WriteLine("  -f FILE, --file FILE     Convert one specific palette .cs file");

@@ -11,8 +11,10 @@ namespace Krypton.ThemeGen;
 
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using Microsoft.CodeAnalysis;
@@ -40,7 +42,7 @@ public static class SchemeGenerator
 
     private const string BaseColorMarker = "private static readonly Color[] _schemeBaseColors";
 
-    // Marker for track-bar colour arrays found in palette classes
+    // Marker for track-bar color arrays found in palette classes
     private const string TrackBarColorMarker = "private static readonly Color[] _trackBarColors";
 
     public static void Generate(string paletteFile, string outputFolder, bool embedResx, bool dryRun, bool overwrite, bool migrate, bool printMapping = false)
@@ -104,8 +106,11 @@ public static class SchemeGenerator
             }
             catch (Exception ex)
             {
-                Console.Error.WriteLine($"{Path.GetFileName(palettePath)}: failed to parse scheme array – {ex.Message}. Skipping file.");
-                continue; // skip further processing for this palette
+                // Roslyn failed – fall back to simple text extraction so we can still migrate/convert the file.
+                Console.Error.WriteLine($"{Path.GetFileName(palettePath)}: Roslyn parse failed – falling back to text extraction ({ex.Message})");
+
+                colorsRaw = ExtractColorExpressions(palettePath, BaseColorMarker);
+                commentNames = new List<string>();
             }
 
             List<string> trackBarColorsRaw;
@@ -121,7 +126,13 @@ public static class SchemeGenerator
             bool hasAnyArrays = colorsRaw.Count > 0 || trackBarColorsRaw.Count > 0;
             if (!hasAnyArrays)
             {
-                Console.WriteLine($"Info: {Path.GetFileName(palettePath)} – no colour arrays found (already migrated). Running index conversion only.");
+                var info = $"Info: {Path.GetFileName(palettePath)} – no color arrays found (already migrated).";
+                if (migrate)
+                {
+                    info += " Running index conversion only.";
+                }
+
+                Console.WriteLine(info);
             }
 
             List<string> alignedColors = new();
@@ -133,7 +144,7 @@ public static class SchemeGenerator
                 : Path.GetFullPath(outputFolder);
             Directory.CreateDirectory(outputDir);
 
-            // Align base colours first (may be empty)
+            // Align base colors first (may be empty)
             // commentNames already obtained via Roslyn or fallback above
             var maxLen = Math.Max(colorsRaw.Count, commentNames.Count);
             while (colorsRaw.Count < maxLen) colorsRaw.Add("GlobalStaticValues.EMPTY_COLOR");
@@ -141,7 +152,7 @@ public static class SchemeGenerator
 
             AlignColors(enumNames, colorsRaw, commentNames, out alignedColors, out missingFlags);
 
-            // Overlay track-bar colours onto the aligned list
+            // Overlay track-bar colors onto the aligned list
             if (trackBarColorsRaw.Count > 0)
             {
                 string[] trackBarEnumNames =
@@ -242,27 +253,34 @@ public static class SchemeGenerator
                     UpdateConstructorArguments(palettePath, className);
                 }
 
-                // 2) Always run the colour index to property conversion
+                // 2) Always run the color index to property conversion
                 try
                 {
                     var srcText = File.ReadAllText(palettePath);
                     var replacedText = ConvertRibbonColorArrayEntriesToProperties(srcText);
                     replacedText = ConvertTrackBarColorArrayEntriesToProperties(replacedText);
+                    // Ensure a BaseColors field exists so the above replacements compile successfully
+                    replacedText = EnsureBaseColorsField(replacedText);
 
                     if (!string.Equals(srcText, replacedText, StringComparison.Ordinal))
                     {
-                        if (hasAnyArrays || inPlace)
+                        // Always write the converted text back to the palette file itself when migrating.
+                        // This guarantees that residual index references are fixed even if the file no longer contains
+                        // the original color arrays (hasAnyArrays == false).
+
+                        File.WriteAllText(palettePath, ToCrLf(replacedText), Utf8NoBom);
+
+                        // Additionally, if the user requested an explicit output folder and is not working in-place,
+                        // emit a converted copy there for inspection.
+                        if (!string.IsNullOrWhiteSpace(outputFolder) && !inPlace)
                         {
-                            // In-place modification (arrays removed or user requested it)
-                            File.WriteAllText(palettePath, ToCrLf(replacedText), Utf8NoBom);
-                        }
-                        else if (!string.IsNullOrWhiteSpace(outputFolder))
-                        {
-                            // Base palette without arrays – write converted copy to output folder
                             var copyPath = Path.Combine(Path.GetFullPath(outputFolder), Path.GetFileName(palettePath));
-                            Directory.CreateDirectory(Path.GetDirectoryName(copyPath)!);
-                            File.WriteAllText(copyPath, ToCrLf(replacedText), Utf8NoBom);
-                            Console.WriteLine($"Converted copy written to {copyPath}");
+                            if (!Path.Equals(copyPath, palettePath))
+                            {
+                                Directory.CreateDirectory(Path.GetDirectoryName(copyPath)!);
+                                File.WriteAllText(copyPath, ToCrLf(replacedText), Utf8NoBom);
+                                Console.WriteLine($"Converted copy written to {copyPath}");
+                            }
                         }
                     }
                 }
@@ -288,6 +306,140 @@ public static class SchemeGenerator
                 Console.Error.WriteLine($"{fail} palette files failed");
             }
         }
+    }
+
+    // ------------------------ NEW: Professional System extraction ---------------------------
+    /// <summary>
+    /// Generates a PaletteProfessionalSystem_BaseScheme.cs file by instantiating the existing
+    /// PaletteProfessionalSystem class and reading its private _ribbonColors field via reflection.
+    /// Only SchemeBaseColors properties are produced – standalone colors can be added later.
+    /// </summary>
+    /// <param name="outputFolder">Folder to place generated file (current dir if empty)</param>
+    /// <param name="dryRun">If true, no file is written – path is printed instead</param>
+    /// <param name="overwrite">Allow overwriting existing scheme file</param>
+    public static void GenerateProfessional(string outputFolder, bool dryRun, bool overwrite)
+    {
+        // 1. Locate repo root so we can get enumeration names (same helper as other path)
+        var root = LocateRepoRoot(Directory.GetCurrentDirectory());
+        var enumFile = Path.Combine(root, "Source", "Krypton Components", "Krypton.Toolkit", "Palette Builtin", "Enumerations", "PaletteEnumerations.cs");
+        if (!File.Exists(enumFile)) throw new FileNotFoundException(enumFile);
+
+        var enumNames = ParseEnumNames(enumFile);
+        if (enumNames.Count == 0) throw new InvalidOperationException("Failed to read SchemeBaseColors enum.");
+
+        // 2. Instantiate palette – this runs DefineRibbonColors()
+        var palette = new Krypton.Toolkit.PaletteProfessionalSystem();
+        var field   = typeof(Krypton.Toolkit.PaletteProfessionalSystem)
+                        .GetField("_ribbonColors", BindingFlags.Instance | BindingFlags.NonPublic);
+        if (field == null) throw new InvalidOperationException("_ribbonColors field not found – toolkit updated?");
+
+        var colorsArr = (Color[])field.GetValue(palette)!;
+
+        // 3. Convert colors to expressions – pad with EMPTY_COLOR for missing
+        var exprs = new List<string>(enumNames.Count);
+        var missing = new List<bool>(enumNames.Count);
+        for (int i = 0; i < enumNames.Count; i++)
+        {
+            if (i < colorsArr.Length)
+            {
+                exprs.Add(ToColorExpr(colorsArr[i]));
+                missing.Add(false);
+            }
+            else
+            {
+                exprs.Add("GlobalStaticValues.EMPTY_COLOR");
+                missing.Add(true);
+            }
+        }
+
+        // 4. Generate code
+        var className = "PaletteProfessionalSystem_BaseScheme";
+        var code = GenerateSchemeCode(className, exprs, enumNames, missing);
+
+        // 5. Determine output path
+        var outputDir = string.IsNullOrWhiteSpace(outputFolder) ? Directory.GetCurrentDirectory() : Path.GetFullPath(outputFolder);
+        Directory.CreateDirectory(outputDir);
+        var destPath = Path.Combine(outputDir, className + ".cs");
+
+        if (dryRun)
+        {
+            Console.WriteLine(destPath);
+            return;
+        }
+
+        if (File.Exists(destPath) && !overwrite)
+        {
+            Console.WriteLine(destPath + " *File exists, not replaced. Use --overwrite to force.");
+            return;
+        }
+
+        File.WriteAllText(destPath, ToCrLf(code), Utf8NoBom);
+        Console.WriteLine("Scheme written to " + destPath);
+    }
+
+    /// <summary>
+    /// Generates a PaletteProfessionalOffice2003_BaseScheme.cs using reflection.
+    /// </summary>
+    public static void GenerateProfessionalOffice2003(string outputFolder, bool dryRun, bool overwrite)
+    {
+        var root = LocateRepoRoot(Directory.GetCurrentDirectory());
+        var enumFile = Path.Combine(root, "Source", "Krypton Components", "Krypton.Toolkit", "Palette Builtin", "Enumerations", "PaletteEnumerations.cs");
+        var enumNames = ParseEnumNames(enumFile);
+
+        // Build a full Office 2003 ribbon palette from the two-entry header pair and generate a scheme class.
+        void Emit(Color[] headerPair, string classSuffix)
+        {
+            // 1. Create a fresh palette instance
+            var palette = new Krypton.Toolkit.PaletteProfessionalOffice2003();
+
+            // 2. Construct a KryptonProfessionalKCT with the header colours (constructor is internal)
+            var kctType = typeof(Krypton.Toolkit.PaletteOffice2003Base).Assembly
+                .GetType("Krypton.Toolkit.KryptonProfessionalKCT", throwOnError: true)!;
+
+            var kctCtor = kctType.GetConstructor(
+                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
+                binder: null,
+                types: new[] { typeof(Color[]), typeof(bool), typeof(Krypton.Toolkit.PaletteBase) },
+                modifiers: null) ?? throw new InvalidOperationException("KryptonProfessionalKCT ctor not found.");
+
+            var kct = kctCtor.Invoke(new object[] { headerPair, false, palette });
+
+            // 3. Inject the colour table into the palette's private field
+            typeof(Krypton.Toolkit.PaletteOffice2003Base)
+                .GetField("_table", BindingFlags.Instance | BindingFlags.NonPublic)!
+                .SetValue(palette, kct);
+
+            // 4. Re-run DefineRibbonColors so the palette rebuilds its _ribbonColors array
+            typeof(Krypton.Toolkit.PaletteOffice2003Base)
+                .GetMethod("DefineRibbonColors", BindingFlags.Instance | BindingFlags.NonPublic)!
+                .Invoke(palette, null);
+
+            // 5. Generate the scheme file from the populated palette instance
+            var className = $"PaletteProfessionalOffice2003_{classSuffix}Scheme";
+            GenerateFromPalette(palette, className, outputFolder, dryRun, overwrite);
+        }
+
+        var pType = typeof(Krypton.Toolkit.PaletteProfessionalOffice2003);
+        Color[]? cB = (Color[]?)pType.GetField("_colorsB", BindingFlags.Static | BindingFlags.NonPublic)?.GetValue(null);
+        Color[]? cG = (Color[]?)pType.GetField("_colorsG", BindingFlags.Static | BindingFlags.NonPublic)?.GetValue(null);
+        Color[]? cS = (Color[]?)pType.GetField("_colorsS", BindingFlags.Static | BindingFlags.NonPublic)?.GetValue(null);
+
+        if (cB == null || cG == null || cS == null)
+            throw new InvalidOperationException("Office2003 palette static arrays not found.");
+
+        Emit(cB, "Blue");
+        Emit(cG, "HomeStead");
+        Emit(cS, "Metallic");
+    }
+
+    /// <summary>
+    /// Converts a Color to a C# expression (Color.FromArgb(...))
+    /// </summary>
+    private static string ToColorExpr(Color c)
+    {
+        if (c.A != 255)
+            return $"Color.FromArgb({c.A}, {c.R}, {c.G}, {c.B})";
+        return $"Color.FromArgb({c.R}, {c.G}, {c.B})";
     }
 
     private static string LocateRepoRoot(string start)
@@ -542,7 +694,7 @@ public static class SchemeGenerator
             var args = init.ArgumentList.Arguments;
             bool updated = false;
 
-            var newArgs = args;
+            var newArgsList = new List<ArgumentSyntax>();
 
             for (int i = 0; i < args.Count; i++)
             {
@@ -576,10 +728,28 @@ public static class SchemeGenerator
                 if (replacement != null)
                 {
                     updated = true;
-                    var newArg = arg.WithExpression(replacement);
-                    newArgs = newArgs.Replace(arg, newArg);
+                    newArgsList.Add(arg.WithExpression(replacement));
+                }
+                else
+                {
+                    newArgsList.Add(arg);
                 }
             }
+
+            // Normalize leading trivia so there is at most one space between arguments
+            for (int i = 0; i < newArgsList.Count; i++)
+            {
+                // Remove existing leading trivia (which may include multiple spaces/newlines)
+                var argNoTrivia = newArgsList[i].WithoutLeadingTrivia();
+                // Add a single space before all but the first argument for readability
+                if (i > 0)
+                {
+                    argNoTrivia = argNoTrivia.WithLeadingTrivia(SyntaxFactory.Space);
+                }
+                newArgsList[i] = argNoTrivia;
+            }
+
+            var newArgs = SyntaxFactory.SeparatedList(newArgsList);
 
             if (!updated)
             {
@@ -620,7 +790,7 @@ public static class SchemeGenerator
     }
 
     /// <summary>
-    /// Parses the specified array variable using Roslyn and returns aligned colour expressions and comments.
+    /// Parses the specified array variable using Roslyn and returns aligned color expressions and comments.
     /// </summary>
     private static List<string> ExtractColorsRoslyn(string filePath, string variableName, out List<string> commentsOut, IReadOnlyList<string> enumNames)
     {
@@ -689,18 +859,32 @@ public static class SchemeGenerator
             if (string.IsNullOrEmpty(label))
             {
                 // Separator (comma) trivia
-                SyntaxToken separatorToken;
-                if (expr is InitializerExpressionSyntax ini && idx < ini.Expressions.Count - 1)
+                var separatorToken = default(SyntaxToken);
+                try
                 {
-                    var sep = ini.Expressions.GetSeparator(idx);
-                    separatorToken = sep;
+                    if (expr is InitializerExpressionSyntax ini)
+                    {
+                        var seps = ini.Expressions.GetSeparators().ToList();
+                        if (idx < seps.Count)
+                        {
+                            separatorToken = seps[idx];
+                        }
+                    }
+                    else if (expr is CollectionExpressionSyntax col)
+                    {
+                        var seps = col.Elements.GetSeparators().ToList();
+                        if (idx < seps.Count)
+                        {
+                            separatorToken = seps[idx];
+                        }
+                    }
                 }
-                else if (expr is CollectionExpressionSyntax col && idx < col.Elements.Count - 1)
+                catch (ArgumentOutOfRangeException)
                 {
-                    var sep = col.Elements.GetSeparator(idx);
-                    separatorToken = sep;
+                    // Malformed initializer; ignore and continue without a separator token.
+                    separatorToken = default;
                 }
-                else separatorToken = default;
+                // 'separatorToken' remains 'default' if no separator exists for this element
 
                 if (separatorToken.IsKind(SyntaxKind.CommaToken))
                 {
@@ -840,20 +1024,20 @@ public static class SchemeGenerator
     }
 
     /// <summary>
-    /// Replaces all _ribbonColors[(int)SchemeBaseColors.SomeValue] entries with BaseColors.SomeValue properties<br/>
+    /// Replaces all _ribbonColors[(int)SchemeBaseColors.SomeValue] and _schemeBaseColors[(int)SchemeBaseColors.SomeValue] entries with BaseColors.SomeValue properties<br/>
     /// Where "SomeValue" here is just an example property.
     /// </summary>
     /// <param name="file">Text to work on.</param>
     /// <returns>The updated result of the replace operation.</returns>
     private static string ConvertRibbonColorArrayEntriesToProperties(string text)
     {
-        // Handles _ribbonColors[(int)SchemeBaseColors.SomeValue] (optionally spanning multiple lines / spaces)
-        const string pattern = @"_ribbonColou?rs\s*\[\s*\(\s*int\s*\)\s*SchemeBaseColors\s*\.\s*(\w+)\s*\]";
+        // Handles both _ribbonColors and _schemeBaseColors array accesses with optional (int) cast
+        const string pattern = @"(?:_ribbonColou?rs|_schemeBaseColors)\s*\[\s*(?:\(\s*int\s*\)\s*)?SchemeBaseColors\s*\.\s*(\w+)\s*\]";
 
         return Regex.Replace(text, pattern, m => $"BaseColors.{m.Groups[1].Value}", RegexOptions.Singleline);
     }
 
-    // Mapping for track-bar colours
+    // Mapping for track-bar colors
     private static readonly Dictionary<string, string> TrackBarIndexMap = new Dictionary<string, string>(6)
     {
         { "0", "TrackBarTickMarks" },
@@ -883,5 +1067,129 @@ public static class SchemeGenerator
             }
             throw new ArgumentOutOfRangeException($"Array index incorrect: {idx}");
         }, RegexOptions.Singleline);
+    }
+
+    /// <summary>
+    /// Ensures that a <c>protected readonly KryptonColorSchemeBase? BaseColors;</c> field is declared in the
+    /// provided source text. If the declaration is missing, it is inserted immediately after a
+    /// <c>#region Variables</c> directive when present, or as the first member inside the class body otherwise.
+    /// </summary>
+    /// <param name="text">C# source code to inspect/modify.</param>
+    /// <returns>Updated source code that includes the field declaration.</returns>
+    private static string EnsureBaseColorsField(string text)
+    {
+        // Detect an existing declaration irrespective of nullable annotation
+        if (Regex.IsMatch(text, @"\bKryptonColorSchemeBase\s*\??\s*BaseColors\s*;"))
+        {
+            return text; // Already present – nothing to do
+        }
+
+        var lines = text.Split(new[] { "\r\n", "\n", "\r" }, StringSplitOptions.None).ToList();
+
+        // Attempt to insert inside a '#region Variables' or '#region Instance Fields' block if it exists
+        int regionIdx = lines.FindIndex(l => Regex.IsMatch(l, @"#region\s+(Variables|Instance\s+Fields)", RegexOptions.IgnoreCase));
+        int insertIdx = -1;
+        string indent = "    "; // default 4-space indent
+
+        if (regionIdx >= 0)
+        {
+            // Use indentation of the region line for consistency
+            indent = new string(lines[regionIdx].TakeWhile(char.IsWhiteSpace).ToArray());
+            insertIdx = regionIdx + 1;
+            // Skip any blank lines following the region
+            while (insertIdx < lines.Count && string.IsNullOrWhiteSpace(lines[insertIdx]))
+            {
+                insertIdx++;
+            }
+        }
+        else
+        {
+            // Fallback: locate first '{' after the class declaration and insert on next line
+            int classIdx = lines.FindIndex(l => l.Contains(" class "));
+            if (classIdx >= 0)
+            {
+                // Find the opening brace
+                int braceLine = classIdx;
+                while (braceLine < lines.Count && !lines[braceLine].Contains("{"))
+                {
+                    braceLine++;
+                }
+                if (braceLine < lines.Count)
+                {
+                    insertIdx = braceLine + 1;
+                    indent = new string(lines[braceLine].TakeWhile(char.IsWhiteSpace).ToArray()) + "    ";
+                }
+            }
+        }
+
+        if (insertIdx < 0)
+        {
+            // As a last resort, append at the end before the closing brace
+            insertIdx = lines.Count - 1;
+        }
+
+        lines.Insert(insertIdx, indent + "protected readonly KryptonColorSchemeBase? BaseColors;");
+
+        return string.Join("\r\n", lines);
+    }
+
+    // Generic helper used by both professional palettes
+    private static void GenerateFromPalette(object paletteInstance, string className, string outputFolder, bool dryRun, bool overwrite)
+    {
+        var enumFile = Path.Combine(LocateRepoRoot(Directory.GetCurrentDirectory()),
+            "Source", "Krypton Components", "Krypton.Toolkit", "Palette Builtin", "Enumerations", "PaletteEnumerations.cs");
+        if (!File.Exists(enumFile)) throw new FileNotFoundException(enumFile);
+
+        var enumNames = ParseEnumNames(enumFile);
+        if (enumNames.Count == 0) throw new InvalidOperationException("Failed to read SchemeBaseColors enum.");
+
+        FieldInfo? field = null;
+        var type = paletteInstance.GetType();
+        while (type != null && field == null)
+        {
+            field = type.GetField("_ribbonColors", BindingFlags.Instance | BindingFlags.NonPublic);
+            type = type.BaseType;
+        }
+        if (field == null)
+            throw new InvalidOperationException("_ribbonColors field not found – toolkit updated?");
+
+        var arr = (Color[])field.GetValue(paletteInstance)!;
+
+        var exprs = new List<string>(enumNames.Count);
+        var missing = new List<bool>(enumNames.Count);
+        for (int i = 0; i < enumNames.Count; i++)
+        {
+            if (i < arr.Length)
+            {
+                exprs.Add(ToColorExpr(arr[i]));
+                missing.Add(false);
+            }
+            else
+            {
+                exprs.Add("GlobalStaticValues.EMPTY_COLOR");
+                missing.Add(true);
+            }
+        }
+
+        var code = GenerateSchemeCode(className, exprs, enumNames, missing);
+
+        var outputDir = string.IsNullOrWhiteSpace(outputFolder) ? Directory.GetCurrentDirectory() : Path.GetFullPath(outputFolder);
+        Directory.CreateDirectory(outputDir);
+        var destPath = Path.Combine(outputDir, className + ".cs");
+
+        if (dryRun)
+        {
+            Console.WriteLine(destPath);
+            return;
+        }
+
+        if (File.Exists(destPath) && !overwrite)
+        {
+            Console.WriteLine(destPath + " *File exists, not replaced. Use --overwrite to force.");
+            return;
+        }
+
+        File.WriteAllText(destPath, ToCrLf(code), Utf8NoBom);
+        Console.WriteLine("Scheme written to " + destPath);
     }
 }

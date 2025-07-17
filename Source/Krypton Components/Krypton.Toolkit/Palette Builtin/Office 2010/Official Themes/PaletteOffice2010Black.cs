@@ -262,18 +262,12 @@ public class PaletteOffice2010Black : PaletteOffice2010BlackBase
         Color.FromArgb(174, 174, 175), // RibbonQATButtonLight
         Color.FromArgb(161, 161, 161), // RibbonQATOverflow1
         Color.FromArgb(68, 68, 68), // RibbonQATOverflow2
-        Color.FromArgb(82, 82,
-            82), // RibbonGroupSeparatorDark
-        Color.FromArgb(190, 190,
-            190), // RibbonGroupSeparatorLight
-        Color.FromArgb(210, 217,
-            219), // ButtonClusterButtonBack1
-        Color.FromArgb(214, 222,
-            223), // ButtonClusterButtonBack2
-        Color.FromArgb(179, 188,
-            191), // ButtonClusterButtonBorder1
-        Color.FromArgb(145, 156,
-            159), // ButtonClusterButtonBorder2
+        Color.FromArgb(82, 82, 82), // RibbonGroupSeparatorDark
+        Color.FromArgb(190, 190, 190), // RibbonGroupSeparatorLight
+        Color.FromArgb(210, 217, 219), // ButtonClusterButtonBack1
+        Color.FromArgb(214, 222, 223), // ButtonClusterButtonBack2
+        Color.FromArgb(179, 188, 191), // ButtonClusterButtonBorder1
+        Color.FromArgb(145, 156, 159), // ButtonClusterButtonBorder2
         Color.FromArgb(235, 235, 235), // NavigatorMiniBackColor
         Color.FromArgb(205, 205, 205), // GridListNormal1
         Color.FromArgb(166, 166, 166), // GridListNormal2
@@ -291,7 +285,6 @@ public class PaletteOffice2010Black : PaletteOffice2010BlackBase
         Color.FromArgb(245, 210, 87), // GridSheetRowSelected
         Color.FromArgb(218, 220, 221), // GridDataCellBorder
         Color.FromArgb(183, 219, 255), // GridDataCellSelected
-        //Color.Black,
         Color.FromArgb(70, 70, 70), // InputControlTextNormal
         Color.FromArgb(168, 168, 168), // InputControlTextDisabled
         Color.FromArgb(132, 132, 132), // InputControlBorderNormal
