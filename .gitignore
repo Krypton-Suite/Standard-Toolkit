@@ -317,7 +317,6 @@ __pycache__/
 # OpenCover UI analysis results
 OpenCover/
 
-
 Help/New/Help/
 Installer Project Files/Krypton Toolkit Suite/Krypton Toolkit Suite-cache/cacheIndex.txt
 Installer Project Files/Krypton Toolkit Suite/Krypton Toolkit Suite-cache/part1/Krypton Toolkit Suite1.cab
@@ -332,3 +331,5 @@ Source/Krypton Components/Temp.txt
 # Log files
 /Logs
 Source/Krypton Components/Krypton.Ribbon/Temp.txt
+
+.cursor/

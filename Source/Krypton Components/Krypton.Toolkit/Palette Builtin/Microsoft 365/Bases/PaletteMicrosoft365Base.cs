@@ -246,7 +246,7 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
 
     private readonly Color[] _ribbonColors;
 
-    private readonly Color[] _trackBarColours;
+    private readonly Color[] _trackBarColors;
     private readonly ImageList _checkBoxList;
     private readonly ImageList _galleryButtonList;
     private readonly Image?[] _radioButtonArray;
@@ -293,7 +293,7 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
 
         if (trackBarColours != null)
         {
-            _trackBarColours = trackBarColours;
+            _trackBarColors = trackBarColours;
         }
 
         DefineFonts();
@@ -4185,14 +4185,14 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
         switch (element)
         {
             case PaletteElement.TrackBarTick:
-                return _trackBarColours[0];
+                return _trackBarColors[0];
             case PaletteElement.TrackBarTrack:
-                return _trackBarColours[1];
+                return _trackBarColors[1];
             case PaletteElement.TrackBarPosition:
                 return state switch
                 {
                     PaletteState.Disabled => GlobalStaticValues.EMPTY_COLOR,
-                    _ => _trackBarColours[4]
+                    _ => _trackBarColors[4]
                 };
             default:
                 // Should never happen!
@@ -4220,9 +4220,9 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
         switch (element)
         {
             case PaletteElement.TrackBarTick:
-                return _trackBarColours[0];
+                return _trackBarColors[0];
             case PaletteElement.TrackBarTrack:
-                return _trackBarColours[2];
+                return _trackBarColors[2];
             case PaletteElement.TrackBarPosition:
                 return state switch
                 {
@@ -4258,9 +4258,9 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
         switch (element)
         {
             case PaletteElement.TrackBarTick:
-                return _trackBarColours[0];
+                return _trackBarColors[0];
             case PaletteElement.TrackBarTrack:
-                return _trackBarColours[3];
+                return _trackBarColors[3];
             case PaletteElement.TrackBarPosition:
                 return state switch
                 {
@@ -4299,14 +4299,14 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
                     return GlobalStaticValues.EMPTY_COLOR;
                 }
 
-                return _trackBarColours[0];
+                return _trackBarColors[0];
             case PaletteElement.TrackBarTrack:
                 if (CommonHelper.IsOverrideState(state))
                 {
                     return GlobalStaticValues.EMPTY_COLOR;
                 }
 
-                return _trackBarColours[3];
+                return _trackBarColors[3];
             case PaletteElement.TrackBarPosition:
                 if (CommonHelper.IsOverrideStateExclude(state, PaletteState.FocusOverride))
                 {
@@ -4347,14 +4347,14 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
                     return GlobalStaticValues.EMPTY_COLOR;
                 }
 
-                return _trackBarColours[0];
+                return _trackBarColors[0];
             case PaletteElement.TrackBarTrack:
                 if (CommonHelper.IsOverrideState(state))
                 {
                     return GlobalStaticValues.EMPTY_COLOR;
                 }
 
-                return _trackBarColours[3];
+                return _trackBarColors[3];
             case PaletteElement.TrackBarPosition:
                 if (CommonHelper.IsOverrideStateExclude(state, PaletteState.FocusOverride))
                 {

@@ -35,7 +35,7 @@ internal partial class VisualToolkitBinaryInformationForm : KryptonForm
     /// <param name="showReadmeButton">The show readme button.</param>
     public VisualToolkitBinaryInformationForm(ToolkitSupportType toolkitType, bool? showChangeLogButton, bool? showReadmeButton)
     {
-        //SetInheritedControlOverride();
+        //SetInheritedControlOverride(); // Disabled as part of issue #2296. See the issue for details.
 
         InitializeComponent();
 

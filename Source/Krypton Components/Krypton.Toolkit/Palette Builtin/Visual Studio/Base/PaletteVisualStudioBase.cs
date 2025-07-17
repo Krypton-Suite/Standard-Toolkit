@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
- *  
+ *
  */
 #endregion
 
@@ -25,7 +25,7 @@ public abstract class PaletteVisualStudioBase : PaletteBase
     private static readonly Padding _contentPaddingHeader2 = new Padding(2, 1, 2, 1);
     private static readonly Padding _contentPaddingDock = new Padding(2, 2, 2, 1);
     private static readonly Padding _contentPaddingCalendar = new Padding(2);
-    //private static readonly Padding _contentPaddingHeaderForm = new Padding(owningForm!.RealWindowBorders.Left, owningForm!.RealWindowBorders.Bottom / 2, 0, 0);         
+    //private static readonly Padding _contentPaddingHeaderForm = new Padding(owningForm!.RealWindowBorders.Left, owningForm!.RealWindowBorders.Bottom / 2, 0, 0);
     private static readonly Padding _contentPaddingLabel = new Padding(3, 1, 3, 1);
     private static readonly Padding _contentPaddingLabel2 = new Padding(8, 2, 8, 2);
     private static readonly Padding _contentPaddingButtonInputControl = new Padding(0);
@@ -222,7 +222,7 @@ public abstract class PaletteVisualStudioBase : PaletteBase
 
     private readonly Color[] _ribbonColours;
 
-    private readonly Color[] _trackBarColours;
+    private readonly Color[] _trackBarColors;
     private readonly ImageList _checkBoxList;
     private readonly ImageList _galleryButtonList;
     private readonly Image?[] _radioButtonArray;
@@ -272,7 +272,7 @@ public abstract class PaletteVisualStudioBase : PaletteBase
 
         if (trackBarColours != null)
         {
-            _trackBarColours = trackBarColours;
+            _trackBarColors = trackBarColours;
         }
 
         DefineFonts();
@@ -280,7 +280,7 @@ public abstract class PaletteVisualStudioBase : PaletteBase
 
     #endregion
 
-    #region Renderer        
+    #region Renderer
     /// <summary>Gets the renderer to use for this palette.</summary>
     /// <returns> Renderer to use for drawing palette settings.</returns>
     public override IRenderer GetRenderer() => KryptonManager.RenderVisualStudio;
@@ -3264,14 +3264,14 @@ public abstract class PaletteVisualStudioBase : PaletteBase
         switch (element)
         {
             case PaletteElement.TrackBarTick:
-                return _trackBarColours[0];
+                return _trackBarColors[0];
             case PaletteElement.TrackBarTrack:
-                return _trackBarColours[1];
+                return _trackBarColors[1];
             case PaletteElement.TrackBarPosition:
                 return state switch
                 {
                     PaletteState.Disabled => GlobalStaticValues.EMPTY_COLOR,
-                    _ => _trackBarColours[4]
+                    _ => _trackBarColors[4]
                 };
             default:
                 // Should never happen!
@@ -3299,9 +3299,9 @@ public abstract class PaletteVisualStudioBase : PaletteBase
         switch (element)
         {
             case PaletteElement.TrackBarTick:
-                return _trackBarColours[0];
+                return _trackBarColors[0];
             case PaletteElement.TrackBarTrack:
-                return _trackBarColours[2];
+                return _trackBarColors[2];
             case PaletteElement.TrackBarPosition:
                 return state switch
                 {
@@ -3337,9 +3337,9 @@ public abstract class PaletteVisualStudioBase : PaletteBase
         switch (element)
         {
             case PaletteElement.TrackBarTick:
-                return _trackBarColours[0];
+                return _trackBarColors[0];
             case PaletteElement.TrackBarTrack:
-                return _trackBarColours[3];
+                return _trackBarColors[3];
             case PaletteElement.TrackBarPosition:
                 return state switch
                 {
@@ -3378,14 +3378,14 @@ public abstract class PaletteVisualStudioBase : PaletteBase
                     return GlobalStaticValues.EMPTY_COLOR;
                 }
 
-                return _trackBarColours[0];
+                return _trackBarColors[0];
             case PaletteElement.TrackBarTrack:
                 if (CommonHelper.IsOverrideState(state))
                 {
                     return GlobalStaticValues.EMPTY_COLOR;
                 }
 
-                return _trackBarColours[3];
+                return _trackBarColors[3];
             case PaletteElement.TrackBarPosition:
                 if (CommonHelper.IsOverrideStateExclude(state, PaletteState.FocusOverride))
                 {
@@ -3426,14 +3426,14 @@ public abstract class PaletteVisualStudioBase : PaletteBase
                     return GlobalStaticValues.EMPTY_COLOR;
                 }
 
-                return _trackBarColours[0];
+                return _trackBarColors[0];
             case PaletteElement.TrackBarTrack:
                 if (CommonHelper.IsOverrideState(state))
                 {
                     return GlobalStaticValues.EMPTY_COLOR;
                 }
 
-                return _trackBarColours[3];
+                return _trackBarColors[3];
             case PaletteElement.TrackBarPosition:
                 if (CommonHelper.IsOverrideStateExclude(state, PaletteState.FocusOverride))
                 {

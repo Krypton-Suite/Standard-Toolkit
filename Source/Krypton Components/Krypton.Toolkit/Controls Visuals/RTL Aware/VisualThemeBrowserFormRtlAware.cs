@@ -22,7 +22,7 @@ internal partial class VisualThemeBrowserFormRtlAware : KryptonForm
     /// <param name="themeBrowserData">The data to create the <see cref="VisualThemeBrowserFormRtlAware"/> UI.</param>
     public VisualThemeBrowserFormRtlAware(KryptonThemeBrowserData themeBrowserData)
     {
-        SetInheritedControlOverride();
+        //SetInheritedControlOverride(); // Disabled as part of issue #2296. See the issue for details.
         InitializeComponent();
 
         _themeBrowserData = themeBrowserData;
@@ -44,7 +44,10 @@ internal partial class VisualThemeBrowserFormRtlAware : KryptonForm
 
         StartPosition = _themeBrowserData.StartPosition ?? FormStartPosition.CenterScreen;
 
-        klbThemeList.SelectedIndex = _themeBrowserData.StartIndex ?? GlobalStaticValues.GLOBAL_DEFAULT_THEME_INDEX;
+        if (klbThemeList.Items.Count > 0)
+        {
+            klbThemeList.SelectedIndex = _themeBrowserData.StartIndex ?? GlobalStaticValues.GLOBAL_DEFAULT_THEME_INDEX;
+        }
 
         klblHeader.Text = KryptonManager.Strings.MiscellaneousThemeStrings.ThemeBrowserDescription;
 
