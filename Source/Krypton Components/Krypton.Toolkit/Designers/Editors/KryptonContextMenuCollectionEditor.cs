@@ -10,48 +10,47 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+/// <summary>
+/// Designer for a collection of context menu items.
+/// </summary>
+public partial class KryptonContextMenuCollectionEditor : CollectionEditor
 {
+    #region Identity
     /// <summary>
-    /// Designer for a collection of context menu items.
+    /// Initialize a new instance of the KryptonContextMenuCollectionEditor class.
     /// </summary>
-    public partial class KryptonContextMenuCollectionEditor : CollectionEditor
+    public KryptonContextMenuCollectionEditor()
+        : base(typeof(KryptonContextMenuCollection))
     {
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the KryptonContextMenuCollectionEditor class.
-        /// </summary>
-        public KryptonContextMenuCollectionEditor()
-            : base(typeof(KryptonContextMenuCollection))
-        {
-        }
-        #endregion
-
-        #region Protected Overrides
-        /// <summary>
-        /// Creates a new form to display and edit the current collection.
-        /// </summary>
-        /// <returns>A CollectionForm to provide as the user interface for editing the collection.</returns>
-        protected override CollectionForm CreateCollectionForm() => new KryptonContextMenuCollectionForm(this);
-
-        /// <summary>
-        /// Gets the data types that this collection editor can contain. 
-        /// </summary>
-        /// <returns>An array of data types that this collection can contain.</returns>
-        protected override Type[] CreateNewItemTypes() =>
-            [
-                typeof(KryptonContextMenuItems),
-                typeof(KryptonContextMenuItem),
-                typeof(KryptonContextMenuSeparator),
-                typeof(KryptonContextMenuHeading),
-                typeof(KryptonContextMenuLinkLabel),
-                typeof(KryptonContextMenuCheckBox),
-                typeof(KryptonContextMenuCheckButton),
-                typeof(KryptonContextMenuRadioButton),
-                typeof(KryptonContextMenuColorColumns),
-                typeof(KryptonContextMenuMonthCalendar),
-                typeof(KryptonContextMenuImageSelect)
-            ];
-        #endregion
     }
+    #endregion
+
+    #region Protected Overrides
+    /// <summary>
+    /// Creates a new form to display and edit the current collection.
+    /// </summary>
+    /// <returns>A CollectionForm to provide as the user interface for editing the collection.</returns>
+    protected override CollectionForm CreateCollectionForm() => new KryptonContextMenuCollectionForm(this);
+
+    /// <summary>
+    /// Gets the data types that this collection editor can contain. 
+    /// </summary>
+    /// <returns>An array of data types that this collection can contain.</returns>
+    protected override Type[] CreateNewItemTypes() =>
+    [
+        typeof(KryptonContextMenuItems),
+        typeof(KryptonContextMenuItem),
+        typeof(KryptonContextMenuSeparator),
+        typeof(KryptonContextMenuHeading),
+        typeof(KryptonContextMenuLinkLabel),
+        typeof(KryptonContextMenuCheckBox),
+        typeof(KryptonContextMenuCheckButton),
+        typeof(KryptonContextMenuRadioButton),
+        typeof(KryptonContextMenuColorColumns),
+        typeof(KryptonContextMenuMonthCalendar),
+        typeof(KryptonContextMenuImageSelect)
+    ];
+    #endregion
 }

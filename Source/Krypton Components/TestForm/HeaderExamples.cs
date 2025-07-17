@@ -7,13 +7,12 @@
  */
 #endregion
 
-namespace TestForm
+namespace TestForm;
+
+public partial class HeaderExamples : /*Krypton*/Form
 {
-    public partial class HeaderExamples : /*Krypton*/Form
+    public HeaderExamples()
     {
-        public HeaderExamples()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

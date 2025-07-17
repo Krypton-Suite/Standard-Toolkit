@@ -10,105 +10,104 @@
  */
 #endregion
 
-namespace Krypton.Navigator
+namespace Krypton.Navigator;
+
+/// <summary>
+/// View element that positions the provided page in the requested position.
+/// </summary>
+internal class ViewLayoutPopupPage : ViewLayoutNull
 {
+    #region Instance Fields
+    private readonly KryptonNavigator _navigator;
+    private readonly KryptonPage _page;
+    #endregion
+
+    #region Identity
     /// <summary>
-    /// View element that positions the provided page in the requested position.
+    /// Initialize a new instance of the ViewLayoutPopupPage class.
     /// </summary>
-    internal class ViewLayoutPopupPage : ViewLayoutNull
+    /// <param name="navigator">Reference to owning navigator control.</param>
+    /// <param name="page">Page to the positioned.</param>
+    public ViewLayoutPopupPage([DisallowNull] KryptonNavigator navigator,
+        [DisallowNull] KryptonPage page)
     {
-        #region Instance Fields
-        private readonly KryptonNavigator _navigator;
-        private readonly KryptonPage _page;
-        #endregion
+        Debug.Assert(navigator is not null);
+        Debug.Assert(page is not null);
 
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the ViewLayoutPopupPage class.
-        /// </summary>
-        /// <param name="navigator">Reference to owning navigator control.</param>
-        /// <param name="page">Page to the positioned.</param>
-        public ViewLayoutPopupPage([DisallowNull] KryptonNavigator navigator,
-                                   [DisallowNull] KryptonPage page)
+        _navigator = navigator ?? throw new ArgumentNullException(nameof(navigator));
+        _page = page ?? throw new ArgumentNullException(nameof(page));
+    }
+
+    /// <summary>
+    /// Obtains the String representation of this instance.
+    /// </summary>
+    /// <returns>User readable name of the instance.</returns>
+    public override string ToString() =>
+        // Return the class name and instance identifier
+        $"ViewLayoutPopupPage:{Id}";
+
+    #endregion
+
+    #region Layout
+    /// <summary>
+    /// Discover the preferred size of the element.
+    /// </summary>
+    /// <param name="context">Layout context.</param>
+    public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
+    {
+        Debug.Assert(context is not null);
+
+        if (context is null)
         {
-            Debug.Assert(navigator is not null);
-            Debug.Assert(page is not null);
-
-            _navigator = navigator ?? throw new ArgumentNullException(nameof(navigator));
-            _page = page ?? throw new ArgumentNullException(nameof(page));
+            throw new ArgumentNullException(nameof(context));
         }
 
-        /// <summary>
-        /// Obtains the String representation of this instance.
-        /// </summary>
-        /// <returns>User readable name of the instance.</returns>
-        public override string ToString() =>
-            // Return the class name and instance identifier
-            $"ViewLayoutPopupPage:{Id}";
+        return _page.GetPreferredSize(context.DisplayRectangle.Size);
+    }
 
-        #endregion
+    /// <summary>
+    /// Perform a layout of the elements.
+    /// </summary>
+    /// <param name="context">Layout context.</param>
+    public override void Layout([DisallowNull] ViewLayoutContext context)
+    {
+        Debug.Assert(context is not null);
 
-        #region Layout
-        /// <summary>
-        /// Discover the preferred size of the element.
-        /// </summary>
-        /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
+        if (context is null)
         {
-            Debug.Assert(context is not null);
-
-            if (context is null)
-            {
-                throw new ArgumentNullException(nameof(context));
-            }
-
-            return _page.GetPreferredSize(context.DisplayRectangle.Size);
+            throw new ArgumentNullException(nameof(context));
         }
-
-        /// <summary>
-        /// Perform a layout of the elements.
-        /// </summary>
-        /// <param name="context">Layout context.</param>
-        public override void Layout([DisallowNull] ViewLayoutContext context)
-        {
-            Debug.Assert(context is not null);
-
-            if (context is null)
-            {
-                throw new ArgumentNullException(nameof(context));
-            }
             
-            // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+        // We take on all the available display area
+        ClientRectangle = context.DisplayRectangle;
 
-            // Are we allowed to layout child controls?
-            if (!context.ViewManager!.DoNotLayoutControls)
+        // Are we allowed to layout child controls?
+        if (!context.ViewManager!.DoNotLayoutControls)
+        {
+            // Are we allowed to actually layout the pages?
+            if (_navigator.InternalCanLayout)
             {
-                // Are we allowed to actually layout the pages?
-                if (_navigator.InternalCanLayout)
+                // Update position of page if not already in correct position
+                if ((_page.Location != Point.Empty) ||
+                    (_page.Width != ClientWidth) ||
+                    (_page.Height != ClientHeight))
                 {
-                    // Update position of page if not already in correct position
-                    if ((_page.Location != Point.Empty) ||
-                        (_page.Width != ClientWidth) ||
-                        (_page.Height != ClientHeight))
-                    {
-                        _page.SetBounds(0, 0, ClientWidth, ClientHeight);
-                    }
+                    _page.SetBounds(0, 0, ClientWidth, ClientHeight);
+                }
 
-                    // Update position of child panel if not already in correct position
-                    if ((_navigator.ChildPanel!.Location != ClientLocation) ||
-                        (_navigator.ChildPanel.Width != ClientWidth) ||
-                        (_navigator.ChildPanel.Height != ClientHeight))
-                    {
-                        // Position the child panel for showing page
-                        _navigator.ChildPanel.SetBounds(ClientLocation.X,
-                                                        ClientLocation.Y,
-                                                        ClientWidth,
-                                                        ClientHeight);
-                    }
+                // Update position of child panel if not already in correct position
+                if ((_navigator.ChildPanel!.Location != ClientLocation) ||
+                    (_navigator.ChildPanel.Width != ClientWidth) ||
+                    (_navigator.ChildPanel.Height != ClientHeight))
+                {
+                    // Position the child panel for showing page
+                    _navigator.ChildPanel.SetBounds(ClientLocation.X,
+                        ClientLocation.Y,
+                        ClientWidth,
+                        ClientHeight);
                 }
             }
         }
-        #endregion
     }
+    #endregion
 }

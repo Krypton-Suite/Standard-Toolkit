@@ -10,29 +10,28 @@
  */
 #endregion
 
-namespace Krypton.Ribbon
-{
-    internal class KryptonRibbonGroupContainerCollectionEditor : CollectionEditor
-    {
-        /// <summary>
-        /// Initialize a new instance of the KryptonRibbonGroupTopCollectionEditor class.
-        /// </summary>
-        public KryptonRibbonGroupContainerCollectionEditor()
-            : base(typeof(KryptonRibbonGroupContainerCollection))
-        {
-        }
+namespace Krypton.Ribbon;
 
-        /// <summary>
-        /// Gets the data types that this collection editor can contain. 
-        /// </summary>
-        /// <returns>An array of data types that this collection can contain.</returns>
-        protected override Type[] CreateNewItemTypes() =>
-            // Bug https://github.com/Krypton-Suite/Standard-Toolkit/issues/66
-            // For some reason in .Net5 onwards, the following function is not called
-            [
-                typeof(KryptonRibbonGroupLines),
-                typeof(KryptonRibbonGroupTriple),
-                typeof(KryptonRibbonGroupSeparator)
-            ];
+internal class KryptonRibbonGroupContainerCollectionEditor : CollectionEditor
+{
+    /// <summary>
+    /// Initialize a new instance of the KryptonRibbonGroupTopCollectionEditor class.
+    /// </summary>
+    public KryptonRibbonGroupContainerCollectionEditor()
+        : base(typeof(KryptonRibbonGroupContainerCollection))
+    {
     }
+
+    /// <summary>
+    /// Gets the data types that this collection editor can contain. 
+    /// </summary>
+    /// <returns>An array of data types that this collection can contain.</returns>
+    protected override Type[] CreateNewItemTypes() =>
+        // Bug https://github.com/Krypton-Suite/Standard-Toolkit/issues/66
+        // For some reason in .Net5 onwards, the following function is not called
+        [
+            typeof(KryptonRibbonGroupLines),
+            typeof(KryptonRibbonGroupTriple),
+            typeof(KryptonRibbonGroupSeparator)
+        ];
 }

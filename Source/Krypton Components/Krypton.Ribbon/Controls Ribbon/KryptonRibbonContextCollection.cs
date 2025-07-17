@@ -12,38 +12,37 @@
  */
 #endregion
 
-namespace Krypton.Ribbon
+namespace Krypton.Ribbon;
+
+/// <summary>
+/// Delegate used for hooking into a KryptonRibbonContext typed collection.
+/// </summary>
+public delegate void RibbonContextHandler(object sender, TypedCollectionEventArgs<KryptonRibbonContext> e);
+
+/// <summary>
+/// Specialise the generic collection with type specific rules for context item accessor.
+/// </summary>
+public class KryptonRibbonContextCollection : TypedCollection<KryptonRibbonContext>
 {
+    #region Public
     /// <summary>
-    /// Delegate used for hooking into a KryptonRibbonContext typed collection.
+    /// Gets the item with the provided unique name.
     /// </summary>
-    public delegate void RibbonContextHandler(object sender, TypedCollectionEventArgs<KryptonRibbonContext> e);
-
-    /// <summary>
-    /// Specialise the generic collection with type specific rules for context item accessor.
-    /// </summary>
-    public class KryptonRibbonContextCollection : TypedCollection<KryptonRibbonContext>
+    /// <param name="name">Name of the ribbon context instance.</param>
+    /// <returns>Item at specified index.</returns>
+    public override KryptonRibbonContext? this[string name]
     {
-        #region Public
-        /// <summary>
-        /// Gets the item with the provided unique name.
-        /// </summary>
-        /// <param name="name">Name of the ribbon context instance.</param>
-        /// <returns>Item at specified index.</returns>
-        public override KryptonRibbonContext? this[string name]
+        get
         {
-            get
+            // Search for a context with the same name as that requested.
+            foreach (KryptonRibbonContext context in this.Where(context => context.ContextName == name))
             {
-                // Search for a context with the same name as that requested.
-                foreach (KryptonRibbonContext context in this.Where(context => context.ContextName == name))
-                {
-                    return context;
-                }
-
-                // Let base class perform standard processing
-                return base[name];
+                return context;
             }
+
+            // Let base class perform standard processing
+            return base[name];
         }
-        #endregion
     }
+    #endregion
 }

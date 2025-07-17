@@ -12,63 +12,62 @@
  */
 #endregion
 
-namespace Krypton.Ribbon
+namespace Krypton.Ribbon;
+
+/// <summary>
+/// Positions the quick access toolbar extra button for the minibar in the caption.
+/// </summary>
+internal class ViewDrawRibbonQATExtraButtonMini : ViewDrawRibbonQATExtraButton
 {
+    private readonly int _miniButtonHeight; // = 22;
+    private readonly int _miniButtonOffset; // = 24;
+    #region Identity
     /// <summary>
-    /// Positions the quick access toolbar extra button for the minibar in the caption.
+    /// Initialize a new instance of the ViewDrawRibbonQATExtraButtonMini class.
     /// </summary>
-    internal class ViewDrawRibbonQATExtraButtonMini : ViewDrawRibbonQATExtraButton
+    /// <param name="ribbon">Reference to owning ribbon control.</param>
+    /// <param name="needPaint">Delegate for notifying paint requests.</param>
+    public ViewDrawRibbonQATExtraButtonMini(KryptonRibbon ribbon,
+        NeedPaintHandler needPaint)
+        : base(ribbon, needPaint)
     {
-        private readonly int _miniButtonHeight; // = 22;
-        private readonly int _miniButtonOffset; // = 24;
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the ViewDrawRibbonQATExtraButtonMini class.
-        /// </summary>
-        /// <param name="ribbon">Reference to owning ribbon control.</param>
-        /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewDrawRibbonQATExtraButtonMini(KryptonRibbon ribbon,
-                                                NeedPaintHandler needPaint)
-            : base(ribbon, needPaint)
-        {
-            _miniButtonHeight = (int)(22 * FactorDpiY);
-            _miniButtonOffset = (int)(24 * FactorDpiX);
-        }
-
-        /// <summary>
-        /// Obtains the String representation of this instance.
-        /// </summary>
-        /// <returns>User readable name of the instance.</returns>
-        public override string ToString() =>
-            // Return the class name and instance identifier
-            $@"ViewDrawRibbonQATExtraButtonMini:{Id}";
-
-        #endregion
-
-        #region Layout
-        /// <summary>
-        /// Perform a layout of the elements.
-        /// </summary>
-        /// <param name="context">Layout context.</param>
-        public override void Layout([DisallowNull] ViewLayoutContext context)
-        {
-            Debug.Assert(context != null);
-
-            Rectangle clientRect = context!.DisplayRectangle;
-
-            // For the minibar we have to position ourself at bottom of available area
-            clientRect.Y = clientRect.Bottom - 1 - _miniButtonOffset;
-            clientRect.Height = _miniButtonHeight;
-
-            // Use modified size to position base class and children
-            context.DisplayRectangle = clientRect;
-
-            // Let children be laid out inside border area
-            base.Layout(context);
-
-            // Put back the original display value now we have finished
-            context.DisplayRectangle = ClientRectangle;
-        }
-        #endregion
+        _miniButtonHeight = (int)(22 * FactorDpiY);
+        _miniButtonOffset = (int)(24 * FactorDpiX);
     }
+
+    /// <summary>
+    /// Obtains the String representation of this instance.
+    /// </summary>
+    /// <returns>User readable name of the instance.</returns>
+    public override string ToString() =>
+        // Return the class name and instance identifier
+        $@"ViewDrawRibbonQATExtraButtonMini:{Id}";
+
+    #endregion
+
+    #region Layout
+    /// <summary>
+    /// Perform a layout of the elements.
+    /// </summary>
+    /// <param name="context">Layout context.</param>
+    public override void Layout([DisallowNull] ViewLayoutContext context)
+    {
+        Debug.Assert(context != null);
+
+        Rectangle clientRect = context!.DisplayRectangle;
+
+        // For the minibar we have to position ourself at bottom of available area
+        clientRect.Y = clientRect.Bottom - 1 - _miniButtonOffset;
+        clientRect.Height = _miniButtonHeight;
+
+        // Use modified size to position base class and children
+        context.DisplayRectangle = clientRect;
+
+        // Let children be laid out inside border area
+        base.Layout(context);
+
+        // Put back the original display value now we have finished
+        context.DisplayRectangle = ClientRectangle;
+    }
+    #endregion
 }

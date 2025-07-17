@@ -7,29 +7,28 @@
  */
 #endregion
 
-namespace TestForm
+namespace TestForm;
+
+public partial class ButtonsTest : KryptonForm
 {
-    public partial class ButtonsTest : KryptonForm
+    public ButtonsTest()
     {
-        public ButtonsTest()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
+    }
 
-        private void kcbtnDropDown_SelectedColorChanged(object sender, ColorEventArgs e)
-        {
-            kryptonButton3.Values.DropDownArrowColor = e.Color;
+    private void kcbtnDropDown_SelectedColorChanged(object sender, ColorEventArgs e)
+    {
+        kryptonButton3.Values.DropDownArrowColor = e.Color;
 
-            kryptonButton4.Values.DropDownArrowColor = e.Color;
+        kryptonButton4.Values.DropDownArrowColor = e.Color;
 
-            kryptonButton7.Values.DropDownArrowColor = e.Color;
+        kryptonButton7.Values.DropDownArrowColor = e.Color;
 
-            kryptonButton8.Values.DropDownArrowColor = e.Color;
-        }
+        kryptonButton8.Values.DropDownArrowColor = e.Color;
+    }
 
-        private void kbtnButtonStyles_Click(object sender, EventArgs e)
-        {
-            new ButtonStyleExamples().Show();
-        }
+    private void kbtnButtonStyles_Click(object sender, EventArgs e)
+    {
+        new ButtonStyleExamples().Show();
     }
 }

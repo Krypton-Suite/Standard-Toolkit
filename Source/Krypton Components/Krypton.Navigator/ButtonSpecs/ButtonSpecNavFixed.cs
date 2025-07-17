@@ -10,110 +10,109 @@
  */
 #endregion
 
-namespace Krypton.Navigator
+namespace Krypton.Navigator;
+
+/// <summary>
+/// Implementation for the fixed navigator buttons.
+/// </summary>
+[TypeConverter(typeof(ButtonSpecNavFixedConverter))]
+public abstract class ButtonSpecNavFixed : ButtonSpec
 {
+    #region Instance Fields
+
+    private HeaderLocation _location;
+    #endregion
+
+    #region Identity
     /// <summary>
-    /// Implementation for the fixed navigator buttons.
+    /// Initialize a new instance of the ButtonSpecNavFixed class.
     /// </summary>
-    [TypeConverter(typeof(ButtonSpecNavFixedConverter))]
-    public abstract class ButtonSpecNavFixed : ButtonSpec
+    /// <param name="navigator">Reference to owning navigator instance.</param>
+    /// <param name="fixedStyle">Fixed style to use.</param>
+    protected ButtonSpecNavFixed([DisallowNull] KryptonNavigator navigator,
+        PaletteButtonSpecStyle fixedStyle)
     {
-        #region Instance Fields
+        Debug.Assert(navigator != null);
 
-        private HeaderLocation _location;
-        #endregion
+        // Remember back reference to owning navigator.
+        Navigator = navigator ?? throw new ArgumentNullException(nameof(navigator));
 
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the ButtonSpecNavFixed class.
-        /// </summary>
-        /// <param name="navigator">Reference to owning navigator instance.</param>
-        /// <param name="fixedStyle">Fixed style to use.</param>
-        protected ButtonSpecNavFixed([DisallowNull] KryptonNavigator navigator,
-                                  PaletteButtonSpecStyle fixedStyle)
+        // Fix the type
+        ProtectedType = fixedStyle;
+
+        // Default other properties
+        _location = HeaderLocation.PrimaryHeader;
+    }
+    #endregion
+
+    #region IsDefault
+    /// <summary>
+    /// Gets a value indicating if all values are default.
+    /// </summary>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public override bool IsDefault => (base.IsDefault &&
+                                       (HeaderLocation == HeaderLocation.PrimaryHeader));
+
+    #endregion
+
+    #region AllowComponent
+    /// <summary>
+    /// Gets a value indicating if the component is allowed to be selected at design time.
+    /// </summary>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public override bool AllowComponent => false;
+
+    #endregion
+
+    #region HeaderLocation
+    /// <summary>
+    /// Gets and sets if the button header location.
+    /// </summary>
+    [Localizable(true)]
+    [Category(@"Behavior")]
+    [Description(@"Defines header location for the button.")]
+    [RefreshProperties(RefreshProperties.All)]
+    //[DefaultValue(typeof(HeaderLocation), "PrimaryHeader")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public HeaderLocation HeaderLocation
+    {
+        get => _location;
+
+        set
         {
-            Debug.Assert(navigator != null);
-
-            // Remember back reference to owning navigator.
-            Navigator = navigator ?? throw new ArgumentNullException(nameof(navigator));
-
-            // Fix the type
-            ProtectedType = fixedStyle;
-
-            // Default other properties
-            _location = HeaderLocation.PrimaryHeader;
-        }
-        #endregion
-
-        #region IsDefault
-        /// <summary>
-        /// Gets a value indicating if all values are default.
-        /// </summary>
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override bool IsDefault => (base.IsDefault &&
-                                             (HeaderLocation == HeaderLocation.PrimaryHeader));
-
-        #endregion
-
-        #region AllowComponent
-        /// <summary>
-        /// Gets a value indicating if the component is allowed to be selected at design time.
-        /// </summary>
-        [Browsable(false)]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public override bool AllowComponent => false;
-
-        #endregion
-
-        #region HeaderLocation
-        /// <summary>
-        /// Gets and sets if the button header location.
-        /// </summary>
-        [Localizable(true)]
-        [Category(@"Behavior")]
-        [Description(@"Defines header location for the button.")]
-        [RefreshProperties(RefreshProperties.All)]
-        //[DefaultValue(typeof(HeaderLocation), "PrimaryHeader")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-        public HeaderLocation HeaderLocation
-        {
-            get => _location;
-
-            set
+            if (_location != value)
             {
-                if (_location != value)
-                {
-                    _location = value;
-                    OnButtonSpecPropertyChanged(@"Location");
-                }
+                _location = value;
+                OnButtonSpecPropertyChanged(@"Location");
             }
         }
-
-        /// <summary>
-        /// Resets the HeaderLocation property to its default value.
-        /// </summary>
-        public void ResetHeaderLocation() => HeaderLocation = HeaderLocation.PrimaryHeader;
-        #endregion
-
-        #region IButtonSpecValues
-        /// <summary>
-        /// Gets the button location value.
-        /// </summary>
-        /// <param name="palette">Palette to use for inheriting values.</param>
-        /// <returns>Button location.</returns>
-        public override HeaderLocation GetLocation(PaletteBase? palette) =>
-            // Ask the view builder to recover the correct location
-            Navigator.ViewBuilder!.GetFixedButtonLocation(this);
-
-        #endregion
-
-        #region Navigator
-        /// <summary>
-        /// Gets access to the owning navigator control.
-        /// </summary>
-        protected KryptonNavigator Navigator { get; }
-
-        #endregion
     }
+
+    /// <summary>
+    /// Resets the HeaderLocation property to its default value.
+    /// </summary>
+    public void ResetHeaderLocation() => HeaderLocation = HeaderLocation.PrimaryHeader;
+    #endregion
+
+    #region IButtonSpecValues
+    /// <summary>
+    /// Gets the button location value.
+    /// </summary>
+    /// <param name="palette">Palette to use for inheriting values.</param>
+    /// <returns>Button location.</returns>
+    public override HeaderLocation GetLocation(PaletteBase? palette) =>
+        // Ask the view builder to recover the correct location
+        Navigator.ViewBuilder!.GetFixedButtonLocation(this);
+
+    #endregion
+
+    #region Navigator
+    /// <summary>
+    /// Gets access to the owning navigator control.
+    /// </summary>
+    protected KryptonNavigator Navigator { get; }
+
+    #endregion
 }

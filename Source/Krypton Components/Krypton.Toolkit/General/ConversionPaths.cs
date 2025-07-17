@@ -7,11 +7,11 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+internal class ConversionPaths
 {
-    internal class ConversionPaths
-    {
-        #region Public
+    #region Public
 
 #if NETCOREAPP3_0_OR_GREATER
         /// <summary>Gets or sets the XML directory.</summary>
@@ -22,13 +22,12 @@ namespace Krypton.Toolkit
         /// <value>The json directory.</value>
         public required string JsonDirectory { get; set; }
 #else
-        /// <summary>Gets or sets the XML directory.</summary>
-        /// <value>The XML directory.</value>
-        public string XmlDirectory { get; set; }
-        /// <summary>Gets or sets the json directory.</summary>
-        /// <value>The json directory.</value>
-        public string JsonDirectory { get; set; }
+    /// <summary>Gets or sets the XML directory.</summary>
+    /// <value>The XML directory.</value>
+    public string XmlDirectory { get; set; }
+    /// <summary>Gets or sets the json directory.</summary>
+    /// <value>The json directory.</value>
+    public string JsonDirectory { get; set; }
 #endif
-        #endregion
-    }
+    #endregion
 }

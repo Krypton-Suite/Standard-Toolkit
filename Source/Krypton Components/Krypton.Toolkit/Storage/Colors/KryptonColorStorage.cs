@@ -7,16 +7,15 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
-{
-    [TypeConverter(typeof(ExpandableObjectConverter))]
-    public class KryptonColorStorage : Storage
-    {
-        public override bool IsDefault { get; }
+namespace Krypton.Toolkit;
 
-        public void Reset()
-        {
-            throw new NotImplementedException();
-        }
+[TypeConverter(typeof(ExpandableObjectConverter))]
+public class KryptonColorStorage : Storage
+{
+    public override bool IsDefault { get; }
+
+    public void Reset()
+    {
+        throw new NotImplementedException();
     }
 }

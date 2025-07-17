@@ -10,18 +10,18 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
-{
-    /// <summary>
-    /// Custom type converter so that ButtonStyle values appear as neat text at design time.
-    /// </summary>
-    internal class ButtonStyleConverter : StringLookupConverter<ButtonStyle>
-    {
-        #region Static Fields
+namespace Krypton.Toolkit;
 
-        [Localizable(true)]
-        private static readonly BiDictionary<ButtonStyle, string> _pairs = new BiDictionary<ButtonStyle, string>(
-            new Dictionary<ButtonStyle, string>
+/// <summary>
+/// Custom type converter so that ButtonStyle values appear as neat text at design time.
+/// </summary>
+internal class ButtonStyleConverter : StringLookupConverter<ButtonStyle>
+{
+    #region Static Fields
+
+    [Localizable(true)]
+    private static readonly BiDictionary<ButtonStyle, string> _pairs = new BiDictionary<ButtonStyle, string>(
+        new Dictionary<ButtonStyle, string>
         {
             {ButtonStyle.Standalone, DesignTimeUtilities.DEFAULT_BUTTON_SPEC_STYLE_STANDALONE},
             {ButtonStyle.Alternate, DesignTimeUtilities.DEFAULT_BUTTON_SPEC_STYLE_ALTERNATE},
@@ -44,16 +44,15 @@ namespace Krypton.Toolkit
             {ButtonStyle.Custom3, DesignTimeUtilities.DEFAULT_BUTTON_SPEC_STYLE_CUSTOM_THREE}
         });
 
-        #endregion
+    #endregion
 
-        #region Protected
+    #region Protected
 
-        /// <summary>
-        /// Gets an array of lookup pairs.
-        /// </summary>
-        protected override IReadOnlyDictionary<ButtonStyle /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
-        protected override IReadOnlyDictionary<string /*Display*/, ButtonStyle /*Enum*/ > PairsStringToEnum => _pairs.SecondToFirst;
+    /// <summary>
+    /// Gets an array of lookup pairs.
+    /// </summary>
+    protected override IReadOnlyDictionary<ButtonStyle /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
+    protected override IReadOnlyDictionary<string /*Display*/, ButtonStyle /*Enum*/ > PairsStringToEnum => _pairs.SecondToFirst;
 
-        #endregion
-    }
+    #endregion
 }

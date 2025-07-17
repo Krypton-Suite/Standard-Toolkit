@@ -10,28 +10,27 @@
  */
 #endregion
 
-namespace Krypton.Workspace
+namespace Krypton.Workspace;
+
+/// <summary>
+/// Workspace cell event data.
+/// </summary>
+public class WorkspaceCellEventArgs : EventArgs
 {
+    #region Identity
     /// <summary>
-    /// Workspace cell event data.
+    /// Initialize a new instance of the WorkspaceCellEventArgs class.
     /// </summary>
-    public class WorkspaceCellEventArgs : EventArgs
-    {
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the WorkspaceCellEventArgs class.
-        /// </summary>
-        /// <param name="cell">Workspace cell associated with the event.</param>
-        public WorkspaceCellEventArgs(KryptonWorkspaceCell cell) => Cell = cell;
+    /// <param name="cell">Workspace cell associated with the event.</param>
+    public WorkspaceCellEventArgs(KryptonWorkspaceCell cell) => Cell = cell;
 
-        #endregion
+    #endregion
 
-        #region Public
-        /// <summary>
-        /// Gets the cell reference.
-        /// </summary>
-        public KryptonWorkspaceCell Cell { get; }
+    #region Public
+    /// <summary>
+    /// Gets the cell reference.
+    /// </summary>
+    public KryptonWorkspaceCell Cell { get; }
 
-        #endregion
-    }
+    #endregion
 }

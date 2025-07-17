@@ -51,9 +51,10 @@ namespace Krypton.Toolkit
             // 
             // labelMessage
             // 
-            this.labelMessage.Location = new System.Drawing.Point(66, 20);
+            this.labelMessage.Location = new System.Drawing.Point(88, 25);
+            this.labelMessage.Margin = new System.Windows.Forms.Padding(4);
             this.labelMessage.Name = "labelMessage";
-            this.labelMessage.Size = new System.Drawing.Size(218, 20);
+            this.labelMessage.Size = new System.Drawing.Size(270, 24);
             this.labelMessage.TabIndex = 0;
             this.labelMessage.Values.Text = "Please wait for operation to complete.";
             // 
@@ -62,16 +63,18 @@ namespace Krypton.Toolkit
             this.kryptonPanel1.Controls.Add(this.labelMessage);
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
+            this.kryptonPanel1.Margin = new System.Windows.Forms.Padding(4);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(296, 66);
+            this.kryptonPanel1.Size = new System.Drawing.Size(421, 67);
             this.kryptonPanel1.TabIndex = 1;
             // 
             // kpbModalProgress
             // 
             this.kpbModalProgress.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.kpbModalProgress.Location = new System.Drawing.Point(0, 56);
+            this.kpbModalProgress.Location = new System.Drawing.Point(0, 55);
+            this.kpbModalProgress.Margin = new System.Windows.Forms.Padding(4);
             this.kpbModalProgress.Name = "kpbModalProgress";
-            this.kpbModalProgress.Size = new System.Drawing.Size(296, 10);
+            this.kpbModalProgress.Size = new System.Drawing.Size(421, 12);
             this.kpbModalProgress.StateCommon.Back.Color1 = System.Drawing.Color.Green;
             this.kpbModalProgress.StateDisabled.Back.ColorStyle = Krypton.Toolkit.PaletteColorStyle.OneNote;
             this.kpbModalProgress.StateNormal.Back.ColorStyle = Krypton.Toolkit.PaletteColorStyle.OneNote;
@@ -80,15 +83,14 @@ namespace Krypton.Toolkit
             // 
             // ModalWaitDialog
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(296, 66);
+            this.ClientSize = new System.Drawing.Size(421, 67);
             this.ControlBox = false;
             this.Controls.Add(this.kpbModalProgress);
             this.Controls.Add(this.kryptonPanel1);
-            this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ModalWaitDialog";

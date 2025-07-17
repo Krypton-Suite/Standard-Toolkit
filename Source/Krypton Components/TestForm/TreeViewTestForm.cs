@@ -8,15 +8,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace TestForm
-{
-    public partial class TreeViewTestForm : KryptonForm
-    {
-        public TreeViewTestForm()
-        {
-            InitializeComponent();
+namespace TestForm;
 
-            SetInheritedControlOverride();
-        }
+public partial class TreeViewTestForm : KryptonForm
+{
+    public TreeViewTestForm()
+    {
+        InitializeComponent();
+
+        SetInheritedControlOverride();
     }
 }

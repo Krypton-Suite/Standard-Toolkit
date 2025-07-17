@@ -10,50 +10,49 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+public class PaletteOffice2007LightGray : PaletteOffice2007Base
 {
-    public class PaletteOffice2007LightGray : PaletteOffice2007Base
+    //private static readonly string _themeName;
+
+    public PaletteOffice2007LightGray(string themeName, Color[] schemeColors, ImageList checkBoxList, ImageList galleryButtonList, Image?[] radioButtonArray, Color[] trackBarColors) : base(themeName, schemeColors, checkBoxList, galleryButtonList, radioButtonArray, trackBarColors)
     {
-        //private static readonly string _themeName;
-
-        public PaletteOffice2007LightGray(string themeName, Color[] schemeColors, ImageList checkBoxList, ImageList galleryButtonList, Image?[] radioButtonArray, Color[] trackBarColors) : base(themeName, schemeColors, checkBoxList, galleryButtonList, radioButtonArray, trackBarColors)
-        {
-        }
-
-        public override Image? GetContextMenuSubMenuImage() => throw new NotImplementedException();
-
-        #region Tab Row Background
-
-        /// <inheritdoc />
-        public override Color GetRibbonTabRowGradientColor1(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
-
-        /// <inheritdoc />
-        public override Color GetRibbonTabRowBackgroundGradientRaftingDark(PaletteState state) =>
-            GlobalStaticValues.EMPTY_COLOR;
-
-        /// <inheritdoc />
-        public override Color GetRibbonTabRowBackgroundGradientRaftingLight(PaletteState state) =>
-            GlobalStaticValues.EMPTY_COLOR;
-
-        /// <inheritdoc />
-        public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
-
-        /// <inheritdoc />
-        public override float GetRibbonTabRowGradientRaftingAngle(PaletteState state) => -1;
-
-        #endregion
-
-        #region AppButton Colors
-
-        /// <inheritdoc />
-        public override Color GetRibbonFileAppTabBottomColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
-
-        /// <inheritdoc />
-        public override Color GetRibbonFileAppTabTopColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
-
-        /// <inheritdoc />
-        public override Color GetRibbonFileAppTabTextColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
-
-        #endregion
     }
+
+    public override Image? GetContextMenuSubMenuImage() => throw new NotImplementedException();
+
+    #region Tab Row Background
+
+    /// <inheritdoc />
+    public override Color GetRibbonTabRowGradientColor1(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+
+    /// <inheritdoc />
+    public override Color GetRibbonTabRowBackgroundGradientRaftingDark(PaletteState state) =>
+        GlobalStaticValues.EMPTY_COLOR;
+
+    /// <inheritdoc />
+    public override Color GetRibbonTabRowBackgroundGradientRaftingLight(PaletteState state) =>
+        GlobalStaticValues.EMPTY_COLOR;
+
+    /// <inheritdoc />
+    public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+
+    /// <inheritdoc />
+    public override float GetRibbonTabRowGradientRaftingAngle(PaletteState state) => -1;
+
+    #endregion
+
+    #region AppButton Colors
+
+    /// <inheritdoc />
+    public override Color GetRibbonFileAppTabBottomColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+
+    /// <inheritdoc />
+    public override Color GetRibbonFileAppTabTopColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+
+    /// <inheritdoc />
+    public override Color GetRibbonFileAppTabTextColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+
+    #endregion
 }

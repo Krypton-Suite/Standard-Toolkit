@@ -19,55 +19,54 @@
 
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+/// <summary>
+/// Public class for the underlying editing control
+/// </summary>
+[ToolboxItem(false)]
+public class PercentageEditingControl : DataGridViewTextBoxEditingControl
 {
+    #region Identity
+
     /// <summary>
-    /// Public class for the underlying editing control
+    /// Constructor
     /// </summary>
-    [ToolboxItem(false)]
-    public class PercentageEditingControl : DataGridViewTextBoxEditingControl
+    public PercentageEditingControl()
+        : base()
     {
-        #region Identity
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        public PercentageEditingControl()
-            : base()
-        {
-        }
-
-        #endregion
-
-        #region Implementation
-
-        /// <summary>
-        /// Returns if the character is a valid digit
-        /// </summary>
-        /// <param name="c">The character.</param>
-        /// <returns>True if valid digit, false otherwise.</returns>
-        private bool IsValidForNumberInput(char c)
-        {
-            return char.IsDigit(c);
-            // OrElse c = Chr(8) OrElse c = "."c OrElse c = "-"c OrElse c = "("c OrElse c = ")"c
-        }
-
-        #endregion
-
-        #region Protected Overrides
-
-        /// <summary>
-        /// Overrides OnKeyPress
-        /// </summary>
-        /// <param name="e"></param>
-        protected override void OnKeyPress(KeyPressEventArgs e)
-        {
-            if (!IsValidForNumberInput(e.KeyChar))
-            {
-                e.Handled = true;
-            }
-        }
-
-        #endregion
     }
+
+    #endregion
+
+    #region Implementation
+
+    /// <summary>
+    /// Returns if the character is a valid digit
+    /// </summary>
+    /// <param name="c">The character.</param>
+    /// <returns>True if valid digit, false otherwise.</returns>
+    private bool IsValidForNumberInput(char c)
+    {
+        return char.IsDigit(c);
+        // OrElse c = Chr(8) OrElse c = "."c OrElse c = "-"c OrElse c = "("c OrElse c = ")"c
+    }
+
+    #endregion
+
+    #region Protected Overrides
+
+    /// <summary>
+    /// Overrides OnKeyPress
+    /// </summary>
+    /// <param name="e"></param>
+    protected override void OnKeyPress(KeyPressEventArgs e)
+    {
+        if (!IsValidForNumberInput(e.KeyChar))
+        {
+            e.Handled = true;
+        }
+    }
+
+    #endregion
 }

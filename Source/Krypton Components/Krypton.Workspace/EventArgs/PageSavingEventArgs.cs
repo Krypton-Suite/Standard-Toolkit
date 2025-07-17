@@ -10,34 +10,33 @@
  */
 #endregion
 
-namespace Krypton.Workspace
+namespace Krypton.Workspace;
+
+/// <summary>
+/// Event data for persisting extra data for a workspace cell page.
+/// </summary>
+public class PageSavingEventArgs : XmlSavingEventArgs
 {
+    #region Identity
     /// <summary>
-    /// Event data for persisting extra data for a workspace cell page.
+    /// Initialize a new instance of the PageSavingEventArgs class.
     /// </summary>
-    public class PageSavingEventArgs : XmlSavingEventArgs
-    {
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the PageSavingEventArgs class.
-        /// </summary>
-        /// <param name="workspace">Reference to owning workspace control.</param>
-        /// <param name="page">Reference to owning workspace cell page.</param>
-        /// <param name="xmlWriter">Xml writer for persisting custom data.</param>
-        public PageSavingEventArgs(KryptonWorkspace workspace,
-                                   KryptonPage page,
-                                   XmlWriter xmlWriter)
-            : base(workspace, xmlWriter) =>
-            Page = page;
+    /// <param name="workspace">Reference to owning workspace control.</param>
+    /// <param name="page">Reference to owning workspace cell page.</param>
+    /// <param name="xmlWriter">Xml writer for persisting custom data.</param>
+    public PageSavingEventArgs(KryptonWorkspace workspace,
+        KryptonPage page,
+        XmlWriter xmlWriter)
+        : base(workspace, xmlWriter) =>
+        Page = page;
 
-        #endregion
+    #endregion
 
-        #region Public
-        /// <summary>
-        /// Gets the workspace cell page reference.
-        /// </summary>
-        public KryptonPage Page { get; }
+    #region Public
+    /// <summary>
+    /// Gets the workspace cell page reference.
+    /// </summary>
+    public KryptonPage Page { get; }
 
-        #endregion
-    }
+    #endregion
 }

@@ -12,78 +12,77 @@
  */
 #endregion
 
-namespace Krypton.Ribbon
+namespace Krypton.Ribbon;
+
+/// <summary>
+/// View for drawing an individual key tip.
+/// </summary>
+internal class ViewDrawRibbonKeyTip : ViewDrawDocker,
+    IContentValues
 {
+    #region Instance Fields
+
+    private readonly ViewDrawContent _drawContent;
+    #endregion
+
+    #region Identity
     /// <summary>
-    /// View for drawing an individual key tip.
+    /// Initialize a new instance of the ViewDrawRibbonKeyTip class.
     /// </summary>
-    internal class ViewDrawRibbonKeyTip : ViewDrawDocker,
-                                          IContentValues
+    /// <param name="keyTipInfo">Key tip information to display.</param>
+    /// <param name="paletteBack">Background palette for appearance.</param>
+    /// <param name="paletteBorder">Border palette for appearance.</param>
+    /// <param name="paletteContent">Content palette for appearance.</param>
+    public ViewDrawRibbonKeyTip(KeyTipInfo keyTipInfo,
+        IPaletteBack paletteBack,
+        IPaletteBorder paletteBorder,
+        IPaletteContent? paletteContent)
+        : base(paletteBack, paletteBorder)
     {
-        #region Instance Fields
+        KeyTipInfo = keyTipInfo;
 
-        private readonly ViewDrawContent _drawContent;
-        #endregion
+        // Create view for the key tip text
+        _drawContent = new ViewDrawContent(paletteContent, this, VisualOrientation.Top);
 
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the ViewDrawRibbonKeyTip class.
-        /// </summary>
-        /// <param name="keyTipInfo">Key tip information to display.</param>
-        /// <param name="paletteBack">Background palette for appearance.</param>
-        /// <param name="paletteBorder">Border palette for appearance.</param>
-        /// <param name="paletteContent">Content palette for appearance.</param>
-        public ViewDrawRibbonKeyTip(KeyTipInfo keyTipInfo,
-                                    IPaletteBack paletteBack,
-                                    IPaletteBorder paletteBorder,
-                                    IPaletteContent? paletteContent)
-            : base(paletteBack, paletteBorder)
-        {
-            KeyTipInfo = keyTipInfo;
-
-            // Create view for the key tip text
-            _drawContent = new ViewDrawContent(paletteContent, this, VisualOrientation.Top);
-
-            // Add content as filler for ourself
-            Add(_drawContent, ViewDockStyle.Fill);
-        }
-        #endregion
-
-        #region KeyTipInfo
-        /// <summary>
-        /// Gets the associated key tip info.
-        /// </summary>
-        public KeyTipInfo KeyTipInfo { get; }
-
-        #endregion
-
-        #region IContent
-        /// <summary>
-        /// Gets the content image.
-        /// </summary>
-        /// <param name="state">The state for which the image is needed.</param>
-        /// <returns>Image value.</returns>
-        public Image? GetImage(PaletteState state) => null;
-
-        /// <summary>
-        /// Gets the image color that should be transparent.
-        /// </summary>
-        /// <param name="state">The state for which the image is needed.</param>
-        /// <returns>Color value.</returns>
-        public Color GetImageTransparentColor(PaletteState state) => Color.Empty;
-
-        /// <summary>
-        /// Gets the content short text.
-        /// </summary>
-        /// <returns>String value.</returns>
-        public string GetShortText() => KeyTipInfo.KeyString;
-
-        /// <summary>
-        /// Gets the content long text.
-        /// </summary>
-        /// <returns>String value.</returns>
-        public string GetLongText() => string.Empty;
-
-        #endregion
+        // Add content as filler for ourself
+        Add(_drawContent, ViewDockStyle.Fill);
     }
+    #endregion
+
+    #region KeyTipInfo
+    /// <summary>
+    /// Gets the associated key tip info.
+    /// </summary>
+    public KeyTipInfo KeyTipInfo { get; }
+
+    #endregion
+
+    #region IContent
+    /// <summary>
+    /// Gets the content image.
+    /// </summary>
+    /// <param name="state">The state for which the image is needed.</param>
+    /// <returns>Image value.</returns>
+    public Image? GetImage(PaletteState state) => null;
+
+    /// <summary>
+    /// Gets the image color that should be transparent.
+    /// </summary>
+    /// <param name="state">The state for which the image is needed.</param>
+    /// <returns>Color value.</returns>
+    public Color GetImageTransparentColor(PaletteState state) => Color.Empty;
+
+    /// <summary>
+    /// Gets the content short text.
+    /// </summary>
+    /// <returns>String value.</returns>
+    public string GetShortText() => KeyTipInfo.KeyString;
+
+    /// <summary>
+    /// Gets the content long text.
+    /// </summary>
+    /// <returns>String value.</returns>
+    public string GetLongText() => string.Empty;
+
+    #endregion
 }

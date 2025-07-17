@@ -7,96 +7,95 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+internal class KryptonThemeComboBoxDesigner : ControlDesigner
 {
-    internal class KryptonThemeComboBoxDesigner : ControlDesigner
+    #region Instance Fields
+
+    private DesignerVerbCollection? _verbCollection;
+    private DesignerVerb _resetVerb;
+    private KryptonThemeComboBox? _themeComboBox;
+    private IComponentChangeService? _changeService;
+
+    #endregion
+
+    #region Public
+
+    public override void Initialize([DisallowNull] IComponent component)
     {
-        #region Instance Fields
+        base.Initialize(component);
 
-        private DesignerVerbCollection? _verbCollection;
-        private DesignerVerb _resetVerb;
-        private KryptonThemeComboBox? _themeComboBox;
-        private IComponentChangeService? _changeService;
+        Debug.Assert(component != null);
 
-        #endregion
+        _themeComboBox = component as KryptonThemeComboBox;
 
-        #region Public
+        _changeService = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
+    }
 
-        public override void Initialize([DisallowNull] IComponent component)
+    public override DesignerActionListCollection ActionLists
+    {
+        get;
+    }
+
+    public override DesignerVerbCollection Verbs
+    {
+        get
         {
-            base.Initialize(component);
-
-            Debug.Assert(component != null);
-
-            _themeComboBox = component as KryptonThemeComboBox;
-
-            _changeService = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
-        }
-
-        public override DesignerActionListCollection ActionLists
-        {
-            get;
-        }
-
-        public override DesignerVerbCollection Verbs
-        {
-            get
+            if (_verbCollection == null)
             {
-                if (_verbCollection == null)
-                {
-                    _verbCollection = [];
+                _verbCollection = [];
 
-                    _resetVerb = new DesignerVerb(@"Reset to Default Theme", OnReset);
+                _resetVerb = new DesignerVerb(@"Reset to Default Theme", OnReset);
 
-                    _verbCollection.AddRange(new DesignerVerb[] { _resetVerb });
-                }
+                _verbCollection.AddRange(new DesignerVerb[] { _resetVerb });
+            }
+
+            UpdateVerbStatus();
+
+            return _verbCollection;
+        }
+    }
+
+    #endregion
+
+    #region Implementation
+
+    private void UpdateVerbStatus()
+    {
+        if (_verbCollection != null)
+        {
+            _resetVerb.Enabled = !_themeComboBox!.SelectedIndex.Equals((int)PaletteMode.Microsoft365Blue);
+        }
+    }
+
+    private void OnComponentChanged(object sender, ComponentChangedEventArgs e) => UpdateVerbStatus();
+
+    private void OnComponentRemoving(object sender, ComponentEventArgs e)
+    {
+        throw new NotImplementedException();
+    }
+
+    private void OnReset(object? sender, EventArgs e)
+    {
+        if (_themeComboBox != null)
+        {
+            DialogResult result = KryptonMessageBox.Show(@"This will reset the current theme back to 'Microsoft 365 - Blue'. Do you want to continue?",
+                @"Reset Theme",
+                KryptonMessageBoxButtons.YesNo,
+                KryptonMessageBoxIcon.Question
+            );
+
+            if (result == DialogResult.Yes)
+            {
+                _themeComboBox.SelectedIndex = (int)PaletteMode.Microsoft365Blue;
+
+                //_themeComboBox.OnComponentChanged(_manager, null, _manager.GlobalPaletteMode, PaletteMode.Microsoft365Blue);
 
                 UpdateVerbStatus();
-
-                return _verbCollection;
             }
         }
-
-        #endregion
-
-        #region Implementation
-
-        private void UpdateVerbStatus()
-        {
-            if (_verbCollection != null)
-            {
-                _resetVerb.Enabled = !_themeComboBox!.SelectedIndex.Equals((int)PaletteMode.Microsoft365Blue);
-            }
-        }
-
-        private void OnComponentChanged(object sender, ComponentChangedEventArgs e) => UpdateVerbStatus();
-
-        private void OnComponentRemoving(object sender, ComponentEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void OnReset(object? sender, EventArgs e)
-        {
-            if (_themeComboBox != null)
-            {
-                DialogResult result = KryptonMessageBox.Show(@"This will reset the current theme back to 'Microsoft 365 - Blue'. Do you want to continue?",
-                    @"Reset Theme",
-                    KryptonMessageBoxButtons.YesNo,
-                    KryptonMessageBoxIcon.Question
-                );
-
-                if (result == DialogResult.Yes)
-                {
-                    _themeComboBox.SelectedIndex = (int)PaletteMode.Microsoft365Blue;
-
-                    //_themeComboBox.OnComponentChanged(_manager, null, _manager.GlobalPaletteMode, PaletteMode.Microsoft365Blue);
-
-                    UpdateVerbStatus();
-                }
-            }
-        }
-
-        #endregion
     }
+
+    #endregion
 }

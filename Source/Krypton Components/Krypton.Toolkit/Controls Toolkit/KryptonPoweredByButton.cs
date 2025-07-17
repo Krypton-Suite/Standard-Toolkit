@@ -7,116 +7,109 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+/// <summary>
+/// A button that displays the Krypton Toolkit branding and provides information about the toolkit version.
+/// </summary>
+/// <seealso cref="Krypton.Toolkit.KryptonButton" />
+[ToolboxItem(true)]
+[ToolboxBitmap(typeof(KryptonButton), "ToolboxBitmaps.KryptonButton.bmp")]
+[DesignerCategory(@"code")]
+[Description(@"A button that displays the Krypton Toolkit branding and provides information about the toolkit version.")]
+[Designer(typeof(KryptonButtonDesigner))]
+public class KryptonPoweredByButton : KryptonButton
 {
-    /// <summary>
-    /// A button that displays the Krypton Toolkit branding and provides information about the toolkit version.
-    /// </summary>
-    /// <seealso cref="Krypton.Toolkit.KryptonButton" />
-    [ToolboxItem(true)]
-    [ToolboxBitmap(typeof(KryptonButton), "ToolboxBitmaps.KryptonButton.bmp")]
-    [DesignerCategory(@"code")]
-    [Description(@"A button that displays the Krypton Toolkit branding and provides information about the toolkit version.")]
-    [Designer(typeof(KryptonButtonDesigner))]
-    public class KryptonPoweredByButton : KryptonButton
+    #region Instance Fields
+
+    private PoweredByButtonValues? _poweredByButtonValues;
+
+    #endregion
+
+    #region Public
+
+    /// <summary>Gets or sets the button values.</summary>
+    /// <value>The button values.</value>
+    [Category(@"Visuals")]
+    [Description(@"Gets or sets the values for the Powered By button.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden )]
+    public PoweredByButtonValues ButtonValues
     {
-        #region Instance Fields
+        get => _poweredByButtonValues ??= new PoweredByButtonValues(this);
 
-        private ToolkitSupportType _toolkitType;
-
-        #endregion
-
-        #region Public
-
-        /// <summary>
-        /// Gets or sets the type of the toolkit.
-        /// </summary>
-        [Category(@"Visuals")]
-        [Description(@"Gets or sets the type of the toolkit.")]
-        [DefaultValue(typeof(ToolkitSupportType), "Stable")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public ToolkitSupportType ToolkitSupportType
+        set
         {
-            get => _toolkitType;
-            set
+            if (_poweredByButtonValues != value)
             {
-                _toolkitType = value;
+                if (_poweredByButtonValues != null)
+                {
+                    _poweredByButtonValues.PropertyChanged -= OnPropertyChanged;
+                }
+
+                _poweredByButtonValues = value ?? new PoweredByButtonValues(this);
+
+                _poweredByButtonValues.PropertyChanged += OnPropertyChanged;
 
                 Invalidate();
             }
         }
-
-        #endregion
-
-        #region Identity
-
-        /// <summary>Initializes a new instance of the <see cref="KryptonPoweredByButton" /> class.</summary>
-        public KryptonPoweredByButton()
-        {
-            _toolkitType = ToolkitSupportType.Stable;
-
-            Values.Text = @$"{KryptonManager.Strings.MiscellaneousStrings.PoweredByText} Krypton";
-
-            Values.Image = ButtonImageResources.Krypton_Stable_Button;
-
-            Size = new Size(153, 25);
-        }
-
-        #endregion
-
-        #region Overrides
-
-        /// <inheritdoc />
-        [AllowNull]
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override string Text { get; set; } =
-            @$"{KryptonManager.Strings.MiscellaneousStrings.PoweredByText} Krypton";
-
-        /// <inheritdoc />
-        protected override void OnClick(EventArgs e)
-        {
-            new VisualToolkitBinaryInformationForm(_toolkitType).ShowDialog();
-
-            base.OnClick(e);
-        }
-
-        /// <inheritdoc />
-        protected override void OnPaint(PaintEventArgs? e)
-        {
-            base.OnPaint(e);
-
-            switch (_toolkitType)
-            {
-                case ToolkitSupportType.Canary:
-                    Values.Image = ButtonImageResources.Krypton_Canary_Button;
-                    break;
-                case ToolkitSupportType.Nightly:
-                    Values.Image = ButtonImageResources.Krypton_Nightly_Button;
-                    break;
-                case ToolkitSupportType.LongTermSupport:
-                    Values.Image = ButtonImageResources.Krypton_Long_Term_Stable_Button;
-                    break;
-                case ToolkitSupportType.Stable:
-                default:
-                    Values.Image = ButtonImageResources.Krypton_Stable_Button;
-                    break;
-            }
-        }
-
-        #endregion
-
-        #region Event
-
-        /// <summary>Occurs when the control is clicked.</summary>
-        [Browsable(false)]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler Click
-        {
-            add { base.Click += value; }
-            remove { base.Click -= value; }
-        }
-
-        #endregion
     }
+
+    private bool ShouldSerializeButtonValues() => !ButtonValues.IsDefault;
+
+    public void ResetButtonValues() => ButtonValues.Reset();
+
+    #endregion
+
+    #region Identity
+
+    /// <summary>Initializes a new instance of the <see cref="KryptonPoweredByButton" /> class.</summary>
+    public KryptonPoweredByButton()
+    {
+        Values.Text = @$"{KryptonManager.Strings.MiscellaneousStrings.PoweredByText} Krypton";
+
+        Values.Image = ButtonImageResources.Krypton_Stable_Button;
+
+        Size = new Size(153, 25);
+    }
+
+    #endregion
+
+    #region Overrides
+
+    /// <inheritdoc />
+    [AllowNull]
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public override string Text { get; set; } =
+        @$"{KryptonManager.Strings.MiscellaneousStrings.PoweredByText} Krypton";
+
+    /// <inheritdoc />
+    protected override void OnClick(EventArgs e)
+    {
+        new VisualToolkitBinaryInformationForm(ButtonValues.ToolkitSupportType, ButtonValues.ShowChangeLogButton, ButtonValues.ShowReadmeButton).ShowDialog();
+
+        base.OnClick(e);
+    }
+
+    #endregion
+
+    #region Event
+
+    /// <summary>Occurs when the control is clicked.</summary>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public new event EventHandler Click
+    {
+        add { base.Click += value; }
+        remove { base.Click -= value; }
+    }
+
+    #endregion
+
+    #region Implementation
+
+    private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e) => Invalidate();
+
+    #endregion
 }

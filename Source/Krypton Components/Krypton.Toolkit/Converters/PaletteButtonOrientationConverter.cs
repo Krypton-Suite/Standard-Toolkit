@@ -10,18 +10,18 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
-{
-    /// <summary>
-    /// Custom type converter so that PaletteButtonOrientation values appear as neat text at design time.
-    /// </summary>
-    internal class PaletteButtonOrientationConverter : StringLookupConverter<PaletteButtonOrientation>
-    {
-        #region Static Fields
+namespace Krypton.Toolkit;
 
-        [Localizable(true)]
-        private static readonly BiDictionary<PaletteButtonOrientation, string> _pairs = new BiDictionary<PaletteButtonOrientation, string>(
-            new Dictionary<PaletteButtonOrientation, string>
+/// <summary>
+/// Custom type converter so that PaletteButtonOrientation values appear as neat text at design time.
+/// </summary>
+internal class PaletteButtonOrientationConverter : StringLookupConverter<PaletteButtonOrientation>
+{
+    #region Static Fields
+
+    [Localizable(true)]
+    private static readonly BiDictionary<PaletteButtonOrientation, string> _pairs = new BiDictionary<PaletteButtonOrientation, string>(
+        new Dictionary<PaletteButtonOrientation, string>
         {
             {PaletteButtonOrientation.Inherit, DesignTimeUtilities.DEFAULT_PALETTE_BUTTON_ORIENTATION_INHERIT},
             {PaletteButtonOrientation.Auto, DesignTimeUtilities.DEFAULT_PALETTE_BUTTON_ORIENTATION_AUTO},
@@ -31,15 +31,14 @@ namespace Krypton.Toolkit
             {PaletteButtonOrientation.FixedRight, DesignTimeUtilities.DEFAULT_PALETTE_BUTTON_ORIENTATION_FIXED_RIGHT}
         });
 
-        #endregion
+    #endregion
 
-        #region Protected
-        /// <summary>
-        /// Gets an array of lookup pairs.
-        /// </summary>
-        protected override IReadOnlyDictionary<PaletteButtonOrientation /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
-        protected override IReadOnlyDictionary<string /*Display*/, PaletteButtonOrientation /*Enum*/ > PairsStringToEnum => _pairs.SecondToFirst;
+    #region Protected
+    /// <summary>
+    /// Gets an array of lookup pairs.
+    /// </summary>
+    protected override IReadOnlyDictionary<PaletteButtonOrientation /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
+    protected override IReadOnlyDictionary<string /*Display*/, PaletteButtonOrientation /*Enum*/ > PairsStringToEnum => _pairs.SecondToFirst;
 
-        #endregion
-    }
+    #endregion
 }

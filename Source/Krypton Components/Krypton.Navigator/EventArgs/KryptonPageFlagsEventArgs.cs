@@ -10,30 +10,29 @@
  */
 #endregion
 
-namespace Krypton.Navigator
+namespace Krypton.Navigator;
+
+/// <summary>
+/// Provide a KryptonPageFlags enumeration with event details.
+/// </summary>
+public class KryptonPageFlagsEventArgs : EventArgs
 {
+    #region Identity
     /// <summary>
-    /// Provide a KryptonPageFlags enumeration with event details.
+    /// Initialize a new instance of the KryptonPageFlagsEventArgs class.
     /// </summary>
-    public class KryptonPageFlagsEventArgs : EventArgs
-    {
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the KryptonPageFlagsEventArgs class.
-        /// </summary>
-        /// <param name="flags">KryptonPageFlags enumeration.</param>
-        public KryptonPageFlagsEventArgs(KryptonPageFlags flags) =>
-            // Remember parameter details
-            Flags = flags;
+    /// <param name="flags">KryptonPageFlags enumeration.</param>
+    public KryptonPageFlagsEventArgs(KryptonPageFlags flags) =>
+        // Remember parameter details
+        Flags = flags;
 
-        #endregion
+    #endregion
 
-        #region Public
-        /// <summary>
-        /// Gets the KryptonPageFlags enumeration value.
-        /// </summary>
-        public KryptonPageFlags Flags { get; }
+    #region Public
+    /// <summary>
+    /// Gets the KryptonPageFlags enumeration value.
+    /// </summary>
+    public KryptonPageFlags Flags { get; }
 
-        #endregion
-    }
+    #endregion
 }

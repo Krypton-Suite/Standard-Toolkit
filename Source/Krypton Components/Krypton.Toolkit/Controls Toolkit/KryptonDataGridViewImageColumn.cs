@@ -9,86 +9,85 @@
  *  
  */
 #endregion
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+/// <inheritdoc/>
+public class KryptonDataGridViewImageColumn : DataGridViewImageColumn, IIconCell
 {
-    /// <inheritdoc/>
-    public class KryptonDataGridViewImageColumn : DataGridViewImageColumn, IIconCell
+    private KryptonDataGridView? _dataGridView = null;
+
+    #region Identity
+    /// <summary>
+    /// Initialize a new instance of the KryptonDataGridViewImageColumn class.
+    /// </summary>
+    public KryptonDataGridViewImageColumn()
+        : this(false)
     {
-        private KryptonDataGridView? _dataGridView = null;
-
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the KryptonDataGridViewImageColumn class.
-        /// </summary>
-        public KryptonDataGridViewImageColumn()
-            : this(false)
-        {
-        }
-
-        /// <summary>
-        /// Initialize a new instance of the KryptonDataGridViewImageColumn class.
-        /// </summary>
-        /// <param name="valuesAreIcons">When set to true values of type Icon are expected, otherwise Image.</param>
-        public KryptonDataGridViewImageColumn(bool valuesAreIcons)
-            : base(valuesAreIcons)
-        {
-            IconSpecs = [];
-        }
-        #endregion
-
-        #region IIconCell implementation
-        protected override void OnDataGridViewChanged()
-        {
-            IconSpecs.CollectionChanged -= OnIconSpecsCollectionChanged;
-
-            // KDGV needs a column refresh only
-            if (DataGridView is KryptonDataGridView dataGridView)
-            {
-                _dataGridView = dataGridView;
-                IconSpecs.CollectionChanged += OnIconSpecsCollectionChanged;
-            }
-            else
-            {
-                _dataGridView = null;
-            }
-
-            base.OnDataGridViewChanged();
-        }
-
-        /// <summary>
-        /// Will inform the KGDV that the column needs a repaint. 
-        /// </summary>
-        /// <param name="sender">Not used.</param>
-        /// <param name="e">Not used.</param>
-        private void OnIconSpecsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
-        {
-            _dataGridView?.InvalidateColumn(this.Index);
-        }
-
-        /// <summary>
-        /// Create a cloned copy of the column.
-        /// </summary>
-        /// <returns></returns>
-        public override object Clone()
-        {
-            var cloned = base.Clone() as KryptonDataGridViewImageColumn ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("cloned"));
-
-            foreach (IconSpec sp in IconSpecs)
-            {
-                cloned.IconSpecs.Add((sp.Clone() as IconSpec)!);
-            }
-
-            return cloned;
-        }
-
-        /// <summary>
-        /// Gets the collection of the icon specifications.
-        /// </summary>
-        [Category(@"Data")]
-        [Description(@"Set of extra icons to appear on the column header.")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public ObservableCollection<IconSpec> IconSpecs { get; }
     }
 
+    /// <summary>
+    /// Initialize a new instance of the KryptonDataGridViewImageColumn class.
+    /// </summary>
+    /// <param name="valuesAreIcons">When set to true values of type Icon are expected, otherwise Image.</param>
+    public KryptonDataGridViewImageColumn(bool valuesAreIcons)
+        : base(valuesAreIcons)
+    {
+        IconSpecs = [];
+    }
     #endregion
+
+    #region IIconCell implementation
+    protected override void OnDataGridViewChanged()
+    {
+        IconSpecs.CollectionChanged -= OnIconSpecsCollectionChanged;
+
+        // KDGV needs a column refresh only
+        if (DataGridView is KryptonDataGridView dataGridView)
+        {
+            _dataGridView = dataGridView;
+            IconSpecs.CollectionChanged += OnIconSpecsCollectionChanged;
+        }
+        else
+        {
+            _dataGridView = null;
+        }
+
+        base.OnDataGridViewChanged();
+    }
+
+    /// <summary>
+    /// Will inform the KGDV that the column needs a repaint. 
+    /// </summary>
+    /// <param name="sender">Not used.</param>
+    /// <param name="e">Not used.</param>
+    private void OnIconSpecsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        _dataGridView?.InvalidateColumn(this.Index);
+    }
+
+    /// <summary>
+    /// Create a cloned copy of the column.
+    /// </summary>
+    /// <returns></returns>
+    public override object Clone()
+    {
+        var cloned = base.Clone() as KryptonDataGridViewImageColumn ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("cloned"));
+
+        foreach (IconSpec sp in IconSpecs)
+        {
+            cloned.IconSpecs.Add((sp.Clone() as IconSpec)!);
+        }
+
+        return cloned;
+    }
+
+    /// <summary>
+    /// Gets the collection of the icon specifications.
+    /// </summary>
+    [Category(@"Data")]
+    [Description(@"Set of extra icons to appear on the column header.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public ObservableCollection<IconSpec> IconSpecs { get; }
 }
+
+#endregion

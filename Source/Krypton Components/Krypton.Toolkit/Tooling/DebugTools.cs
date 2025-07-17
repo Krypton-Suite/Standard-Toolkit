@@ -10,36 +10,35 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+/// <summary>
+/// Allow Krypton to be improved by getting help from users
+/// </summary>
+public static class DebugTools
 {
+    #region Implementation
+
     /// <summary>
     /// Allow Krypton to be improved by getting help from users
     /// </summary>
-    public static class DebugTools
+    public static Exception NotImplemented(string? outOfRange,
+        [CallerFilePath] string callingFilePath = "",
+        [CallerLineNumber] int lineNumber = 0,
+        [CallerMemberName] string? callingMethod = "")
     {
-        #region Implementation
-
-        /// <summary>
-        /// Allow Krypton to be improved by getting help from users
-        /// </summary>
-        public static Exception NotImplemented(string? outOfRange,
-            [CallerFilePath] string callingFilePath = "",
-            [CallerLineNumber] int lineNumber = 0,
-            [CallerMemberName] string? callingMethod = "")
-        {
-            // Do not use `KryptonMessageBox` as this will cause palette's to go into recurrent loop 
-            if (DialogResult.Yes == MessageBox.Show(
+        // Do not use `KryptonMessageBox` as this will cause palette's to go into recurrent loop 
+        if (DialogResult.Yes == MessageBox.Show(
                 $"If you are seeing this message, please submit a new bug report here.\n\nAdditional details:-\nMethod Signature: {callingMethod}\nFunction: {callingMethod}\nFile: {callingFilePath}\nLine Number: {lineNumber}",
                 "Not Implemented - Please submit ?", MessageBoxButtons.YesNo, MessageBoxIcon.Error, MessageBoxDefaultButton.Button2) )
-            {
-                Process.Start(@"https://github.com/Krypton-Suite/Standard-Toolkit/issues/new/choose");
-            }
-            return new ArgumentOutOfRangeException(outOfRange)
-            {
-                Source = callingMethod
-            };
+        {
+            Process.Start(@"https://github.com/Krypton-Suite/Standard-Toolkit/issues/new/choose");
         }
-
-        #endregion
+        return new ArgumentOutOfRangeException(outOfRange)
+        {
+            Source = callingMethod
+        };
     }
+
+    #endregion
 }

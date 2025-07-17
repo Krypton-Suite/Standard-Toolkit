@@ -10,28 +10,27 @@
  */
 #endregion
 
-namespace Krypton.Navigator
-{
-    /// <summary>
-    /// Custom type converter so that ButtonDisplayLogic values appear as neat text at design time.
-    /// </summary>
-    public class ButtonDisplayLogicConverter : StringLookupConverter<ButtonDisplayLogic>
-    {
-        private static readonly BiDictionary<ButtonDisplayLogic, string> _pairs = new BiDictionary<ButtonDisplayLogic, string>(
-            new Dictionary<ButtonDisplayLogic, string>
-            {
-                {ButtonDisplayLogic.None, @"None"},
-                {ButtonDisplayLogic.Context, @"Context"},
-                {ButtonDisplayLogic.NextPrevious, @"Next/Previous"},
-                {ButtonDisplayLogic.ContextNextPrevious, @"Context & Next/Previous"}
-            });
+namespace Krypton.Navigator;
 
-        #region Protected
-        /// <summary>
-        /// Gets an array of lookup pairs.
-        /// </summary>
-        protected override IReadOnlyDictionary<string /*Display*/, ButtonDisplayLogic /*Enum*/ > PairsStringToEnum  => _pairs.SecondToFirst;
-        protected override IReadOnlyDictionary<ButtonDisplayLogic /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
-        #endregion
-    }
+/// <summary>
+/// Custom type converter so that ButtonDisplayLogic values appear as neat text at design time.
+/// </summary>
+public class ButtonDisplayLogicConverter : StringLookupConverter<ButtonDisplayLogic>
+{
+    private static readonly BiDictionary<ButtonDisplayLogic, string> _pairs = new BiDictionary<ButtonDisplayLogic, string>(
+        new Dictionary<ButtonDisplayLogic, string>
+        {
+            {ButtonDisplayLogic.None, @"None"},
+            {ButtonDisplayLogic.Context, @"Context"},
+            {ButtonDisplayLogic.NextPrevious, @"Next/Previous"},
+            {ButtonDisplayLogic.ContextNextPrevious, @"Context & Next/Previous"}
+        });
+
+    #region Protected
+    /// <summary>
+    /// Gets an array of lookup pairs.
+    /// </summary>
+    protected override IReadOnlyDictionary<string /*Display*/, ButtonDisplayLogic /*Enum*/ > PairsStringToEnum  => _pairs.SecondToFirst;
+    protected override IReadOnlyDictionary<ButtonDisplayLogic /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
+    #endregion
 }

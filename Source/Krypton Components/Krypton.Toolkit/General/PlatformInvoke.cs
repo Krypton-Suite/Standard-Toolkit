@@ -33,8 +33,7 @@ using Microsoft.Win32.SafeHandles;
 using static System.Runtime.InteropServices.Marshal;
 
 
-namespace Krypton.Toolkit
-{
+namespace Krypton.Toolkit;
     internal static class Libraries
     {
         public const string Comctl32 = "comctl32.dll";
@@ -4672,4 +4671,3 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         public static bool IsFalse(this PI.BOOL b) => b == PI.BOOL.FALSE;
         public static PI.BOOL ToBOOL(this bool b) => b ? PI.BOOL.TRUE : PI.BOOL.FALSE;
     }
-}

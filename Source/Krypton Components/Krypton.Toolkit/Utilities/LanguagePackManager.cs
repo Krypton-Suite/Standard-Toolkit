@@ -10,47 +10,46 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+internal class LanguagePackManager : Storage
 {
-    internal class LanguagePackManager : Storage
+    #region Instance Fields
+
+    private readonly ArrayList _installedLanguagesList = [];
+
+    #endregion
+
+    #region Public
+
+    public ArrayList InstalledLanguagesList => _installedLanguagesList;
+
+    #endregion
+
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public override bool IsDefault { get; }
+
+    #region Identity
+
+    public LanguagePackManager()
     {
-        #region Instance Fields
-
-        private readonly ArrayList _installedLanguagesList = [];
-
-        #endregion
-
-        #region Public
-
-        public ArrayList InstalledLanguagesList => _installedLanguagesList;
-
-        #endregion
-
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override bool IsDefault { get; }
-
-        #region Identity
-
-        public LanguagePackManager()
-        {
             
-        }
-
-        #endregion
-
-        #region Implementation
-
-        public void GetInstalledLanguagePacks()
-        {
-            // Code from: https://social.msdn.microsoft.com/Forums/vstudio/en-US/080649c6-6cc1-4230-91d9-ea681777051d/is-it-possible-to-find-os-installed-language-by-c?forum=csharpgeneral
-
-            foreach (InputLanguage language in InputLanguage.InstalledInputLanguages)
-            {
-                InstalledLanguagesList.Add(language.Culture.EnglishName);
-            }
-        }
-
-        #endregion
     }
+
+    #endregion
+
+    #region Implementation
+
+    public void GetInstalledLanguagePacks()
+    {
+        // Code from: https://social.msdn.microsoft.com/Forums/vstudio/en-US/080649c6-6cc1-4230-91d9-ea681777051d/is-it-possible-to-find-os-installed-language-by-c?forum=csharpgeneral
+
+        foreach (InputLanguage language in InputLanguage.InstalledInputLanguages)
+        {
+            InstalledLanguagesList.Add(language.Culture.EnglishName);
+        }
+    }
+
+    #endregion
 }

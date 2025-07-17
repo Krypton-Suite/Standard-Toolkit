@@ -5,20 +5,19 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+/// <summary>
+/// Provide inheritance of palette ribbon general properties.
+/// </summary>
+public abstract class PaletteRibbonFileAppTabInherit : GlobalId, IPaletteRibbonFileAppTab
 {
-    /// <summary>
-    /// Provide inheritance of palette ribbon general properties.
-    /// </summary>
-    public abstract class PaletteRibbonFileAppTabInherit : GlobalId, IPaletteRibbonFileAppTab
-    {
-        /// <inheritdoc />
-        public abstract Color GetRibbonFileAppTabTopColor(PaletteState state);
+    /// <inheritdoc />
+    public abstract Color GetRibbonFileAppTabTopColor(PaletteState state);
 
-        /// <inheritdoc />
-        public abstract Color GetRibbonFileAppTabBottomColor(PaletteState state);
+    /// <inheritdoc />
+    public abstract Color GetRibbonFileAppTabBottomColor(PaletteState state);
 
-        /// <inheritdoc />
-        public abstract Color GetRibbonFileAppTabTextColor(PaletteState state);
-    }
+    /// <inheritdoc />
+    public abstract Color GetRibbonFileAppTabTextColor(PaletteState state);
 }

@@ -10,79 +10,78 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+/// <summary>
+/// Helper class for the NumericUpDown and DomainUpDown controls
+/// </summary>
+internal static class CommonHelperUpDownBase
 {
     /// <summary>
-    /// Helper class for the NumericUpDown and DomainUpDown controls
+    /// Returns the width of the contained UpDown spin button control in a Numeric- or DomainUpDown
     /// </summary>
-    internal static class CommonHelperUpDownBase
+    /// <param name="controls">The DomainUpDown- or NumericUpDown.Controls collection.</param>
+    /// <returns>The width of the UpDownButtons control or 0 if not found.</returns>
+    internal static int GetUpDownButtonWidth(DomainUpDown.ControlCollection controls)
     {
-        /// <summary>
-        /// Returns the width of the contained UpDown spin button control in a Numeric- or DomainUpDown
-        /// </summary>
-        /// <param name="controls">The DomainUpDown- or NumericUpDown.Controls collection.</param>
-        /// <returns>The width of the UpDownButtons control or 0 if not found.</returns>
-        internal static int GetUpDownButtonWidth(DomainUpDown.ControlCollection controls)
-        {
-            int result = 0;
+        int result = 0;
 
-            // In the inner updown controls collection find the UpDownButtons control and record it's width
-            foreach (var c in controls)
+        // In the inner updown controls collection find the UpDownButtons control and record it's width
+        foreach (var c in controls)
+        {
+            if (c is Control control)
             {
-                if (c is Control control)
+                if (c.GetType().Name.Equals("UpDownButtons"))
                 {
-                    if (c.GetType().Name.Equals("UpDownButtons"))
-                    {
-                        result = control.Width;
-                        break;
-                    }
+                    result = control.Width;
+                    break;
                 }
             }
-
-            return result;
         }
 
-        /// <summary>
-        /// Returns the total width for all buttonspecs in the collection
-        /// </summary>
-        /// <param name="buttonSpecsCollection">ButtonSpecs collection.</param>
-        /// <returns>The total width of buttons in the collection.</returns>
-        internal static int GetButtonSpecsWidth(ButtonSpecCollection<ButtonSpecAny> buttonSpecsCollection)
+        return result;
+    }
+
+    /// <summary>
+    /// Returns the total width for all buttonspecs in the collection
+    /// </summary>
+    /// <param name="buttonSpecsCollection">ButtonSpecs collection.</param>
+    /// <returns>The total width of buttons in the collection.</returns>
+    internal static int GetButtonSpecsWidth(ButtonSpecCollection<ButtonSpecAny> buttonSpecsCollection)
+    {
+        int result = 0;
+
+        foreach (var bs in buttonSpecsCollection)
         {
-            int result = 0;
-
-            foreach (var bs in buttonSpecsCollection)
-            {
-                result += (int)Math.Ceiling(bs.GetView().ClientRectangleF.Width);
-            }
-
-            return result;
+            result += (int)Math.Ceiling(bs.GetView().ClientRectangleF.Width);
         }
 
-        /// <summary>
-        /// Selects the width based on MinimumSize- and MaximumSize.Width
-        /// </summary>
-        /// <param name="newWidth">The new width</param>
-        /// <param name="minimumWidth">Maximum width possible.</param>
-        /// <param name="maximumWidth">Minimum width required.</param>
-        /// <returns>The width fot the control after bounds have been checked.</returns>
-        internal static int GetAutoSizeWidth(int newWidth, int minimumWidth, int maximumWidth)
+        return result;
+    }
+
+    /// <summary>
+    /// Selects the width based on MinimumSize- and MaximumSize.Width
+    /// </summary>
+    /// <param name="newWidth">The new width</param>
+    /// <param name="minimumWidth">Maximum width possible.</param>
+    /// <param name="maximumWidth">Minimum width required.</param>
+    /// <returns>The width fot the control after bounds have been checked.</returns>
+    internal static int GetAutoSizeWidth(int newWidth, int minimumWidth, int maximumWidth)
+    {
+        int result = newWidth;
+
+        if (newWidth > 0)
         {
-            int result = newWidth;
-
-            if (newWidth > 0)
+            if (maximumWidth > 0 && newWidth >= maximumWidth)
             {
-                if (maximumWidth > 0 && newWidth >= maximumWidth)
-                {
-                    result = maximumWidth;
-                }
-                else if (minimumWidth > 0 && newWidth <= minimumWidth)
-                {
-                    result = minimumWidth;
-                }
+                result = maximumWidth;
             }
-
-            return result;
+            else if (minimumWidth > 0 && newWidth <= minimumWidth)
+            {
+                result = minimumWidth;
+            }
         }
+
+        return result;
     }
 }

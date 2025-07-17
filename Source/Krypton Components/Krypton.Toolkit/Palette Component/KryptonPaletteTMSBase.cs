@@ -10,37 +10,36 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+/// <summary>
+/// Base class for the palette TMS storage classes to derive from.
+/// </summary>
+public abstract class KryptonPaletteTMSBase : Storage
 {
+    #region Identity
     /// <summary>
-    /// Base class for the palette TMS storage classes to derive from.
+    /// Initialize a new instance of the KryptonPaletteKCTBase class.
     /// </summary>
-    public abstract class KryptonPaletteTMSBase : Storage
+    /// <param name="internalKCT">Reference to inherited values.</param>
+    /// <param name="needPaint">Delegate for notifying paint requests.</param>
+    internal KryptonPaletteTMSBase([DisallowNull] KryptonInternalKCT internalKCT,
+        NeedPaintHandler needPaint)
     {
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the KryptonPaletteKCTBase class.
-        /// </summary>
-        /// <param name="internalKCT">Reference to inherited values.</param>
-        /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        internal KryptonPaletteTMSBase([DisallowNull] KryptonInternalKCT internalKCT,
-                                       NeedPaintHandler needPaint)
-        {
-            Debug.Assert(internalKCT != null);
+        Debug.Assert(internalKCT != null);
 
-            InternalKCT = internalKCT!;
+        InternalKCT = internalKCT!;
 
-            // Store the provided paint notification delegate
-            NeedPaint = needPaint;
-        }
-        #endregion
-
-        #region Protected
-        /// <summary>
-        /// Gets access to the internal class used to inherit values.
-        /// </summary>
-        internal KryptonInternalKCT InternalKCT { get; }
-
-        #endregion
+        // Store the provided paint notification delegate
+        NeedPaint = needPaint;
     }
+    #endregion
+
+    #region Protected
+    /// <summary>
+    /// Gets access to the internal class used to inherit values.
+    /// </summary>
+    internal KryptonInternalKCT InternalKCT { get; }
+
+    #endregion
 }

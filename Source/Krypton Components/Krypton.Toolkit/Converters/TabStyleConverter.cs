@@ -10,18 +10,18 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
-{
-    /// <summary>
-    /// Custom type converter so that TabStyle values appear as neat text at design time.
-    /// </summary>
-    internal class TabStyleConverter : StringLookupConverter<TabStyle>
-    {
-        #region Static Fields
+namespace Krypton.Toolkit;
 
-        [Localizable(true)]
-        private static readonly BiDictionary<TabStyle, string> _pairs = new BiDictionary<TabStyle, string>(
-            new Dictionary<TabStyle, string>
+/// <summary>
+/// Custom type converter so that TabStyle values appear as neat text at design time.
+/// </summary>
+internal class TabStyleConverter : StringLookupConverter<TabStyle>
+{
+    #region Static Fields
+
+    [Localizable(true)]
+    private static readonly BiDictionary<TabStyle, string> _pairs = new BiDictionary<TabStyle, string>(
+        new Dictionary<TabStyle, string>
         {
             {TabStyle.HighProfile, DesignTimeUtilities.DEFAULT_TAB_STYLE_HIGH_PROFILE},
             {TabStyle.StandardProfile, DesignTimeUtilities.DEFAULT_TAB_STYLE_STANDARD_PROFILE},
@@ -34,16 +34,15 @@ namespace Krypton.Toolkit
             {TabStyle.Custom3, DesignTimeUtilities.DEFAULT_TAB_STYLE_CUSTOM3}
         });
 
-        #endregion
+    #endregion
 
-        #region Protected
+    #region Protected
 
-        /// <summary>
-        /// Gets an array of lookup pairs.
-        /// </summary>
-        protected override IReadOnlyDictionary<TabStyle /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
-        protected override IReadOnlyDictionary<string /*Display*/, TabStyle /*Enum*/ > PairsStringToEnum => _pairs.SecondToFirst;
+    /// <summary>
+    /// Gets an array of lookup pairs.
+    /// </summary>
+    protected override IReadOnlyDictionary<TabStyle /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
+    protected override IReadOnlyDictionary<string /*Display*/, TabStyle /*Enum*/ > PairsStringToEnum => _pairs.SecondToFirst;
 
-        #endregion
-    }
+    #endregion
 }

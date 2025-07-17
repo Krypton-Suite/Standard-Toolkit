@@ -6,62 +6,61 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+/// <summary>
+/// Taken and then modified from
+/// https://stackoverflow.com/questions/255341/getting-multiple-keys-of-specified-value-of-a-generic-dictionary/255638#255638
+/// </summary>
+/// <typeparam name="TFirst"></typeparam>
+/// <typeparam name="TSecond"></typeparam>
+public class BiDictionary<TFirst, TSecond> where TFirst : notnull where TSecond : notnull
 {
-    /// <summary>
-    /// Taken and then modified from
-    /// https://stackoverflow.com/questions/255341/getting-multiple-keys-of-specified-value-of-a-generic-dictionary/255638#255638
-    /// </summary>
-    /// <typeparam name="TFirst"></typeparam>
-    /// <typeparam name="TSecond"></typeparam>
-    public class BiDictionary<TFirst, TSecond> where TFirst : notnull where TSecond : notnull
+    private static readonly IList<TFirst> _emptyFirstList = Array.Empty<TFirst>();
+    private static readonly IList<TSecond> _emptySecondList = Array.Empty<TSecond>();
+
+    private readonly IDictionary<TFirst, TSecond> _firstToSecond = new Dictionary<TFirst, TSecond>();
+    private readonly IDictionary<TSecond, TFirst> _secondToFirst = new Dictionary<TSecond, TFirst>();
+
+    public BiDictionary(IDictionary<TFirst, TSecond> dictionary)
     {
-        private static readonly IList<TFirst> _emptyFirstList = Array.Empty<TFirst>();
-        private static readonly IList<TSecond> _emptySecondList = Array.Empty<TSecond>();
-
-        private readonly IDictionary<TFirst, TSecond> _firstToSecond = new Dictionary<TFirst, TSecond>();
-        private readonly IDictionary<TSecond, TFirst> _secondToFirst = new Dictionary<TSecond, TFirst>();
-
-        public BiDictionary(IDictionary<TFirst, TSecond> dictionary)
+        if (dictionary == null)
         {
-            if (dictionary == null)
-            {
-                throw new ArgumentNullException(nameof(dictionary));
-            }
-
-            foreach (KeyValuePair<TFirst, TSecond> keyValuePair in dictionary)
-            {
-                Add(keyValuePair.Key, keyValuePair.Value);
-            }
+            throw new ArgumentNullException(nameof(dictionary));
         }
 
-        public void Add(TFirst first, TSecond second)
+        foreach (KeyValuePair<TFirst, TSecond> keyValuePair in dictionary)
         {
-            _firstToSecond.Add(first, second);
-            _secondToFirst.Add(second, first);
+            Add(keyValuePair.Key, keyValuePair.Value);
         }
-
-        // Note potential ambiguity using indexers (e.g. mapping from int to int)
-        // Hence the methods as well...
-        public TSecond this[TFirst first] => GetByFirst(first)!;
-
-        public TFirst this[TSecond second] => GetBySecond(second)!;
-
-        public TSecond? GetByFirst(TFirst first)
-        {
-            _firstToSecond.TryGetValue(first, out var second);
-            return second;
-        }
-
-        public TFirst? GetBySecond(TSecond second)
-        {
-            _secondToFirst.TryGetValue(second, out var first);
-            return first;
-        }
-
-        public ICollection<TFirst> GetAllFirsts() => _firstToSecond.Keys;
-
-        public IReadOnlyDictionary<TFirst, TSecond> FirstToSecond => new ReadOnlyDictionary<TFirst, TSecond>(_firstToSecond);
-        public IReadOnlyDictionary<TSecond, TFirst> SecondToFirst => new ReadOnlyDictionary<TSecond, TFirst>(_secondToFirst);
     }
+
+    public void Add(TFirst first, TSecond second)
+    {
+        _firstToSecond.Add(first, second);
+        _secondToFirst.Add(second, first);
+    }
+
+    // Note potential ambiguity using indexers (e.g. mapping from int to int)
+    // Hence the methods as well...
+    public TSecond this[TFirst first] => GetByFirst(first)!;
+
+    public TFirst this[TSecond second] => GetBySecond(second)!;
+
+    public TSecond? GetByFirst(TFirst first)
+    {
+        _firstToSecond.TryGetValue(first, out var second);
+        return second;
+    }
+
+    public TFirst? GetBySecond(TSecond second)
+    {
+        _secondToFirst.TryGetValue(second, out var first);
+        return first;
+    }
+
+    public ICollection<TFirst> GetAllFirsts() => _firstToSecond.Keys;
+
+    public IReadOnlyDictionary<TFirst, TSecond> FirstToSecond => new ReadOnlyDictionary<TFirst, TSecond>(_firstToSecond);
+    public IReadOnlyDictionary<TSecond, TFirst> SecondToFirst => new ReadOnlyDictionary<TSecond, TFirst>(_secondToFirst);
 }

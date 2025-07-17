@@ -7,13 +7,12 @@
  */
 #endregion
 
-namespace TestForm
+namespace TestForm;
+
+public partial class GroupBoxTest : KryptonForm
 {
-    public partial class GroupBoxTest : KryptonForm
+    public GroupBoxTest()
     {
-        public GroupBoxTest()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

@@ -5,26 +5,25 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+[Category(@"code"), ToolboxBitmap(typeof(PictureBox)), Description(@""), ToolboxItem(true)]
+public class KryptonPictureBox : PictureBox
 {
-    [Category(@"code"), ToolboxBitmap(typeof(PictureBox)), Description(@""), ToolboxItem(true)]
-    public class KryptonPictureBox : PictureBox
+    #region Identity
+
+    public KryptonPictureBox()
     {
-        #region Identity
-
-        public KryptonPictureBox()
-        {
-            BackColor = Color.Transparent;
-        }
-
-        #endregion
-
-        #region Removed Designer Visibility
-
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new Color BackColor { get => base.BackColor; set => base.BackColor = value; }
-
-        #endregion
+        BackColor = Color.Transparent;
     }
+
+    #endregion
+
+    #region Removed Designer Visibility
+
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public new Color BackColor { get => base.BackColor; set => base.BackColor = value; }
+
+    #endregion
 }

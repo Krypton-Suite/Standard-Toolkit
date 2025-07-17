@@ -10,21 +10,20 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+/// <summary>
+/// Create a default value attribute for color property.
+/// </summary>
+public sealed class KryptonDefaultColorAttribute : DefaultValueAttribute
 {
+    #region Identity
     /// <summary>
-    /// Create a default value attribute for color property.
+    /// Initialize a new instance of the KryptonDefaultColorAttribute class.
     /// </summary>
-    public sealed class KryptonDefaultColorAttribute : DefaultValueAttribute
+    public KryptonDefaultColorAttribute()
+        : base(GlobalStaticValues.EMPTY_COLOR)
     {
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the KryptonDefaultColorAttribute class.
-        /// </summary>
-        public KryptonDefaultColorAttribute()
-            : base(GlobalStaticValues.EMPTY_COLOR)
-        {
-        }
-        #endregion
     }
+    #endregion
 }

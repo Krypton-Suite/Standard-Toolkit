@@ -10,92 +10,91 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+/// <summary>
+/// Extend the ProfessionalColorTable with some Krypton specific properties.
+/// </summary>
+public class KryptonColorTable : ProfessionalColorTable
 {
+    #region Identity
     /// <summary>
-    /// Extend the ProfessionalColorTable with some Krypton specific properties.
+    /// Creates a new instance of the KryptonColorTable class.
     /// </summary>
-    public class KryptonColorTable : ProfessionalColorTable
-    {
-        #region Identity
-        /// <summary>
-        /// Creates a new instance of the KryptonColorTable class.
-        /// </summary>
-        /// <param name="palette">Reference to associated palette.</param>
-        public KryptonColorTable(PaletteBase palette) => Palette = palette;
+    /// <param name="palette">Reference to associated palette.</param>
+    public KryptonColorTable(PaletteBase palette) => Palette = palette;
 
-        #endregion
+    #endregion
 
-        #region Palette
-        /// <summary>
-        /// Gets the associated palette instance.
-        /// </summary>
-        public PaletteBase Palette { get; }
+    #region Palette
+    /// <summary>
+    /// Gets the associated palette instance.
+    /// </summary>
+    public PaletteBase Palette { get; }
 
-        #endregion
+    #endregion
 
-        #region RoundedEdges
-        /// <summary>
-        /// Gets a value indicating if rounded edges are required.
-        /// </summary>
-        public virtual InheritBool UseRoundedEdges => InheritBool.True;
+    #region RoundedEdges
+    /// <summary>
+    /// Gets a value indicating if rounded edges are required.
+    /// </summary>
+    public virtual InheritBool UseRoundedEdges => InheritBool.True;
 
-        #endregion
+    #endregion
 
-        #region MenuItemText
-        /// <summary>
-        /// Gets the text color used on the menu items.
-        /// </summary>
-        public virtual Color MenuItemText => SystemColors.MenuText;
+    #region MenuItemText
+    /// <summary>
+    /// Gets the text color used on the menu items.
+    /// </summary>
+    public virtual Color MenuItemText => SystemColors.MenuText;
 
-        #endregion
+    #endregion
 
-        #region MenuStripText
-        /// <summary>
-        /// Gets the text color used on the menu strip.
-        /// </summary>
-        public virtual Color MenuStripText => SystemColors.MenuText;
+    #region MenuStripText
+    /// <summary>
+    /// Gets the text color used on the menu strip.
+    /// </summary>
+    public virtual Color MenuStripText => SystemColors.MenuText;
 
-        #endregion
+    #endregion
 
-        #region ToolStripText
-        /// <summary>
-        /// Gets the text color used on the tool strip.
-        /// </summary>
-        public virtual Color ToolStripText => SystemColors.MenuText;
+    #region ToolStripText
+    /// <summary>
+    /// Gets the text color used on the tool strip.
+    /// </summary>
+    public virtual Color ToolStripText => SystemColors.MenuText;
 
-        #endregion
+    #endregion
 
-        #region StatusStripText
-        /// <summary>
-        /// Gets the text color used on the status strip.
-        /// </summary>
-        public virtual Color StatusStripText => SystemColors.MenuText;
+    #region StatusStripText
+    /// <summary>
+    /// Gets the text color used on the status strip.
+    /// </summary>
+    public virtual Color StatusStripText => SystemColors.MenuText;
 
-        #endregion
+    #endregion
 
-        #region MenuStripFont
-        /// <summary>
-        /// Gets the font used on the menu strip.
-        /// </summary>
-        public virtual Font MenuStripFont => SystemInformation.MenuFont;
+    #region MenuStripFont
+    /// <summary>
+    /// Gets the font used on the menu strip.
+    /// </summary>
+    public virtual Font MenuStripFont => SystemInformation.MenuFont;
 
-        #endregion
+    #endregion
 
-        #region ToolStripFont
-        /// <summary>
-        /// Gets the font used on the tool strip.
-        /// </summary>
-        public virtual Font ToolStripFont => SystemInformation.MenuFont;
+    #region ToolStripFont
+    /// <summary>
+    /// Gets the font used on the tool strip.
+    /// </summary>
+    public virtual Font ToolStripFont => SystemInformation.MenuFont;
 
-        #endregion
+    #endregion
 
-        #region StatusStripFont
-        /// <summary>
-        /// Gets the font used on the status strip.
-        /// </summary>
-        public virtual Font StatusStripFont => SystemInformation.MenuFont;
+    #region StatusStripFont
+    /// <summary>
+    /// Gets the font used on the status strip.
+    /// </summary>
+    public virtual Font StatusStripFont => SystemInformation.MenuFont;
 
-        #endregion
-    }
+    #endregion
 }

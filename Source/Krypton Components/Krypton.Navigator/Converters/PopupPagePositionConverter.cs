@@ -10,18 +10,18 @@
  */
 #endregion
 
-namespace Krypton.Navigator
-{
-    /// <summary>
-    /// Custom type converter so that PopupPagePosition values appear as neat text at design time.
-    /// </summary>
-    public class PopupPagePositionConverter : StringLookupConverter<PopupPagePosition>
-    {
-        #region Static Fields
+namespace Krypton.Navigator;
 
-        [Localizable(true)]
-        private static readonly BiDictionary<PopupPagePosition, string> _pairs = new BiDictionary<PopupPagePosition, string>(
-            new Dictionary<PopupPagePosition, string>
+/// <summary>
+/// Custom type converter so that PopupPagePosition values appear as neat text at design time.
+/// </summary>
+public class PopupPagePositionConverter : StringLookupConverter<PopupPagePosition>
+{
+    #region Static Fields
+
+    [Localizable(true)]
+    private static readonly BiDictionary<PopupPagePosition, string> _pairs = new BiDictionary<PopupPagePosition, string>(
+        new Dictionary<PopupPagePosition, string>
         {
             {PopupPagePosition.ModeAppropriate, @"Mode Appropriate"},
             {PopupPagePosition.AboveFar, @"Above Element - Far Aligned"},
@@ -38,13 +38,12 @@ namespace Krypton.Navigator
             {PopupPagePosition.NearTop, @"Near Side of Element - Top Aligned"}
         });
 
-        #endregion
-        #region Protected
-        /// <summary>
-        /// Gets an array of lookup pairs.
-        /// </summary>
-        protected override IReadOnlyDictionary<string /*Display*/, PopupPagePosition /*Enum*/ > PairsStringToEnum  => _pairs.SecondToFirst;
-        protected override IReadOnlyDictionary<PopupPagePosition /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
-        #endregion
-    }
+    #endregion
+    #region Protected
+    /// <summary>
+    /// Gets an array of lookup pairs.
+    /// </summary>
+    protected override IReadOnlyDictionary<string /*Display*/, PopupPagePosition /*Enum*/ > PairsStringToEnum  => _pairs.SecondToFirst;
+    protected override IReadOnlyDictionary<PopupPagePosition /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
+    #endregion
 }

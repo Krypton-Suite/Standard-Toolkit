@@ -10,18 +10,18 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
-{
-    /// <summary>
-    /// Custom type converter so that PaletteImageEffect values appear as neat text at design time.
-    /// </summary>
-    internal class PaletteImageEffectConverter : StringLookupConverter<PaletteImageEffect>
-    {
-        #region Static Fields
+namespace Krypton.Toolkit;
 
-        [Localizable(true)]
-        private static readonly BiDictionary<PaletteImageEffect, string> _pairs = new BiDictionary<PaletteImageEffect, string>(
-            new Dictionary<PaletteImageEffect, string>
+/// <summary>
+/// Custom type converter so that PaletteImageEffect values appear as neat text at design time.
+/// </summary>
+internal class PaletteImageEffectConverter : StringLookupConverter<PaletteImageEffect>
+{
+    #region Static Fields
+
+    [Localizable(true)]
+    private static readonly BiDictionary<PaletteImageEffect, string> _pairs = new BiDictionary<PaletteImageEffect, string>(
+        new Dictionary<PaletteImageEffect, string>
         {
             {PaletteImageEffect.Inherit, DesignTimeUtilities.DEFAULT_PALETTE_IMAGE_EFFECT_INHERIT},
             {PaletteImageEffect.Light, DesignTimeUtilities.DEFAULT_PALETTE_IMAGE_EFFECT_LIGHT},
@@ -36,15 +36,14 @@ namespace Krypton.Toolkit
             {PaletteImageEffect.GrayScaleBlue, DesignTimeUtilities.DEFAULT_PALETTE_IMAGE_EFFECT_GRAY_SCALE_BLUE}
         });
 
-        #endregion
+    #endregion
 
-        #region Protected
-        /// <summary>
-        /// Gets an array of lookup pairs.
-        /// </summary>
-        protected override IReadOnlyDictionary<PaletteImageEffect /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
-        protected override IReadOnlyDictionary<string /*Display*/, PaletteImageEffect /*Enum*/ > PairsStringToEnum => _pairs.SecondToFirst;
+    #region Protected
+    /// <summary>
+    /// Gets an array of lookup pairs.
+    /// </summary>
+    protected override IReadOnlyDictionary<PaletteImageEffect /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
+    protected override IReadOnlyDictionary<string /*Display*/, PaletteImageEffect /*Enum*/ > PairsStringToEnum => _pairs.SecondToFirst;
 
-        #endregion
-    }
+    #endregion
 }

@@ -10,39 +10,38 @@
  */
 #endregion
 
-namespace Krypton.Workspace
+namespace Krypton.Workspace;
+
+internal class KryptonWorkspaceCellDesigner : KryptonNavigatorDesigner
 {
-    internal class KryptonWorkspaceCellDesigner : KryptonNavigatorDesigner
+    #region Public
+    /// <summary>
+    /// Gets the selection rules that indicate the movement capabilities of a component.
+    /// </summary>
+    public override SelectionRules SelectionRules => SelectionRules.None;
+
+    #endregion
+
+    #region Implementation
+    /// <summary>
+    /// Occurs when the component is being removed from the designer.
+    /// </summary>
+    /// <param name="sender">Source of the event.</param>
+    /// <param name="e">A ComponentEventArgs containing event data.</param>
+    protected override void OnComponentRemoving(object? sender, ComponentEventArgs e)
     {
-        #region Public
-        /// <summary>
-        /// Gets the selection rules that indicate the movement capabilities of a component.
-        /// </summary>
-        public override SelectionRules SelectionRules => SelectionRules.None;
-
-        #endregion
-
-        #region Implementation
-        /// <summary>
-        /// Occurs when the component is being removed from the designer.
-        /// </summary>
-        /// <param name="sender">Source of the event.</param>
-        /// <param name="e">A ComponentEventArgs containing event data.</param>
-        protected override void OnComponentRemoving(object? sender, ComponentEventArgs e)
+        // If our control is being removed
+        if (e.Component == Navigator)
         {
-            // If our control is being removed
-            if (e.Component == Navigator)
-            {
-                // If this workspace cell is inside a parent
-                var cell = Navigator as KryptonWorkspaceCell ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(Navigator)));                
-                // Cell an only be inside a workspace sequence
-                var sequence = cell.WorkspaceParent as KryptonWorkspaceSequence;
-                // Remove the cell from the parent
-                sequence?.Children?.Remove(cell);
-            }
-
-            base.OnComponentRemoving(sender, e);
+            // If this workspace cell is inside a parent
+            var cell = Navigator as KryptonWorkspaceCell ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(Navigator)));                
+            // Cell an only be inside a workspace sequence
+            var sequence = cell.WorkspaceParent as KryptonWorkspaceSequence;
+            // Remove the cell from the parent
+            sequence?.Children?.Remove(cell);
         }
-        #endregion
+
+        base.OnComponentRemoving(sender, e);
     }
+    #endregion
 }

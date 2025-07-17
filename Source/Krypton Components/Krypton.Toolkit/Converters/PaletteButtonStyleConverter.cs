@@ -10,18 +10,18 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
-{
-    /// <summary>
-    /// Custom type converter so that PaletteButtonStyle values appear as neat text at design time.
-    /// </summary>
-    internal class PaletteButtonStyleConverter : StringLookupConverter<PaletteButtonStyle>
-    {
-        #region Static Fields
+namespace Krypton.Toolkit;
 
-        [Localizable(true)]
-        private static readonly BiDictionary<PaletteButtonStyle, string> _pairs = new BiDictionary<PaletteButtonStyle, string>(
-            new Dictionary<PaletteButtonStyle, string>
+/// <summary>
+/// Custom type converter so that PaletteButtonStyle values appear as neat text at design time.
+/// </summary>
+internal class PaletteButtonStyleConverter : StringLookupConverter<PaletteButtonStyle>
+{
+    #region Static Fields
+
+    [Localizable(true)]
+    private static readonly BiDictionary<PaletteButtonStyle, string> _pairs = new BiDictionary<PaletteButtonStyle, string>(
+        new Dictionary<PaletteButtonStyle, string>
         {
             {PaletteButtonStyle.Inherit, DesignTimeUtilities.DEFAULT_PALETTE_BUTTON_STYLE_INHERIT},
             {PaletteButtonStyle.Standalone, DesignTimeUtilities.DEFAULT_PALETTE_BUTTON_STYLE_STANDALONE},
@@ -43,15 +43,14 @@ namespace Krypton.Toolkit
             {PaletteButtonStyle.Custom3, DesignTimeUtilities.DEFAULT_PALETTE_BUTTON_STYLE_CUSTOM3}
         });
 
-        #endregion
+    #endregion
 
-        #region Protected
-        /// <summary>
-        /// Gets an array of lookup pairs.
-        /// </summary>
-        protected override IReadOnlyDictionary<PaletteButtonStyle /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
-        protected override IReadOnlyDictionary<string /*Display*/, PaletteButtonStyle /*Enum*/ > PairsStringToEnum => _pairs.SecondToFirst;
+    #region Protected
+    /// <summary>
+    /// Gets an array of lookup pairs.
+    /// </summary>
+    protected override IReadOnlyDictionary<PaletteButtonStyle /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
+    protected override IReadOnlyDictionary<string /*Display*/, PaletteButtonStyle /*Enum*/ > PairsStringToEnum => _pairs.SecondToFirst;
 
-        #endregion
-    }
+    #endregion
 }

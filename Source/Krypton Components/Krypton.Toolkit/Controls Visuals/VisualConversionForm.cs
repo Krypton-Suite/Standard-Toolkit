@@ -9,57 +9,87 @@
 
 using Timer = System.Windows.Forms.Timer;
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+internal partial class VisualConversionForm : KryptonForm
 {
-    internal partial class VisualConversionForm : KryptonForm
+    #region Instance Fields
+
+    private Timer _progressReportingTimer;
+
+    #endregion
+
+    #region Properties
+
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    internal bool OpenConversionLogOnCompletion { get; set; }
+
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    internal bool OpenOutputPathOnCompletion { get; set; }
+
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    internal BackgroundWorker? ConversionWorker { get; set; }
+
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    internal string ConversionLogFilePath { get; set; } = string.Empty;
+
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    internal string OutputPath { get; set; } = string.Empty;
+
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    internal KryptonProgressBar ConversionProgressBar => kpbConversionProgress;
+
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    internal KryptonWrapLabel ConversionLog => kwlMessage;
+
+    #endregion
+
+    #region Identity
+
+    public VisualConversionForm()
     {
-        #region Instance Fields
+        InitializeComponent();
+    }
 
-        private Timer _progressReportingTimer;
+    #endregion
 
-        #endregion
-
-        #region Properties
-
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        internal bool OpenConversionLogOnCompletion { get; set; }
-
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        internal bool OpenOutputPathOnCompletion { get; set; }
-
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        internal BackgroundWorker? ConversionWorker { get; set; }
-
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        internal string ConversionLogFilePath { get; set; } = string.Empty;
-
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        internal string OutputPath { get; set; } = string.Empty;
-
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        internal KryptonProgressBar ConversionProgressBar => kpbConversionProgress;
-
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        internal KryptonWrapLabel ConversionLog => kwlMessage;
-
-        #endregion
-
-        #region Identity
-
-        public VisualConversionForm()
+    private void kbtnCancel_Click(object sender, EventArgs e)
+    {
+        if (ConversionWorker != null)
         {
-            InitializeComponent();
+            try
+            {
+                ConversionWorker.CancelAsync();
+            }
+            catch (Exception exception)
+            {
+                KryptonExceptionHandler.CaptureException(exception);
+            }
         }
+    }
 
-        #endregion
-
-        private void kbtnCancel_Click(object sender, EventArgs e)
+    private void VisualConversionForm_Load(object sender, EventArgs e)
+    {
+        _progressReportingTimer = new Timer
         {
-            if (ConversionWorker != null)
+            Interval = 1000
+        };
+
+        _progressReportingTimer.Tick += ProgressReportingTimer_Tick!;
+    }
+
+    private void ProgressReportingTimer_Tick(object sender, EventArgs e)
+    {
+        if (kpbConversionProgress.Value == kpbConversionProgress.Maximum)
+        {
+            if (OpenConversionLogOnCompletion)
             {
                 try
                 {
-                    ConversionWorker.CancelAsync();
+                    if (File.Exists(ConversionLogFilePath))
+                    {
+                        Process.Start(@"notepad.exe", ConversionLogFilePath);
+                    }
                 }
                 catch (Exception exception)
                 {
@@ -67,50 +97,19 @@ namespace Krypton.Toolkit
                 }
             }
         }
+    }
 
-        private void VisualConversionForm_Load(object sender, EventArgs e)
+    private void VisualConversionForm_FormClosing(object sender, FormClosingEventArgs e)
+    {
+        if (ConversionWorker != null && ConversionWorker.IsBusy)
         {
-            _progressReportingTimer = new Timer
+            try
             {
-                Interval = 1000
-            };
-
-            _progressReportingTimer.Tick += ProgressReportingTimer_Tick!;
-        }
-
-        private void ProgressReportingTimer_Tick(object sender, EventArgs e)
-        {
-            if (kpbConversionProgress.Value == kpbConversionProgress.Maximum)
-            {
-                if (OpenConversionLogOnCompletion)
-                {
-                    try
-                    {
-                        if (File.Exists(ConversionLogFilePath))
-                        {
-                            Process.Start(@"notepad.exe", ConversionLogFilePath);
-                        }
-                    }
-                    catch (Exception exception)
-                    {
-                        KryptonExceptionHandler.CaptureException(exception);
-                    }
-                }
+                ConversionWorker.CancelAsync();
             }
-        }
-
-        private void VisualConversionForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (ConversionWorker != null && ConversionWorker.IsBusy)
+            catch (Exception exception)
             {
-                try
-                {
-                    ConversionWorker.CancelAsync();
-                }
-                catch (Exception exception)
-                {
-                    KryptonExceptionHandler.CaptureException(exception);
-                }
+                KryptonExceptionHandler.CaptureException(exception);
             }
         }
     }

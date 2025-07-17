@@ -10,53 +10,52 @@
  */
 #endregion
 
-namespace Krypton.Workspace
+namespace Krypton.Workspace;
+
+/// <summary>
+/// Add conversion to a string for display in properties window at design time.
+/// </summary>
+public class KryptonWorkspaceSequenceConverter : ExpandableObjectConverter
 {
     /// <summary>
-    /// Add conversion to a string for display in properties window at design time.
+    /// Returns whether this converter can convert the object to the specified type.
     /// </summary>
-    public class KryptonWorkspaceSequenceConverter : ExpandableObjectConverter
+    /// <param name="context">An ITypeDescriptorContext that provides a format context.</param>
+    /// <param name="destinationType">A Type that represents the type you want to convert to.</param>
+    /// <returns>true if this converter can perform the conversion; otherwise, false.</returns>
+    public override bool CanConvertTo(ITypeDescriptorContext? context, Type? destinationType)
     {
-        /// <summary>
-        /// Returns whether this converter can convert the object to the specified type.
-        /// </summary>
-        /// <param name="context">An ITypeDescriptorContext that provides a format context.</param>
-        /// <param name="destinationType">A Type that represents the type you want to convert to.</param>
-        /// <returns>true if this converter can perform the conversion; otherwise, false.</returns>
-        public override bool CanConvertTo(ITypeDescriptorContext? context, Type? destinationType)
+        // Can always convert to a string representation
+        if (destinationType == typeof(string))
         {
-            // Can always convert to a string representation
-            if (destinationType == typeof(string))
-            {
-                return true;
-            }
-
-            // Let base class do standard processing
-            return base.CanConvertTo(context, destinationType);
+            return true;
         }
 
-        /// <summary>
-        /// Converts the given value object to the specified type, using the specified context and culture information.
-        /// </summary>
-        /// <param name="context">An ITypeDescriptorContext that provides a format context.</param>
-        /// <param name="culture">A CultureInfo. If a null reference (Nothing in Visual Basic) is passed, the current culture is assumed.</param>
-        /// <param name="value">The Object to convert.</param>
-        /// <param name="destinationType">The Type to convert the value parameter to.</param>
-        /// <returns>An Object that represents the converted value.</returns>
-        public override object? ConvertTo(ITypeDescriptorContext? context,
-                                         CultureInfo? culture, 
-                                         object? value, 
-                                         Type destinationType)
+        // Let base class do standard processing
+        return base.CanConvertTo(context, destinationType);
+    }
+
+    /// <summary>
+    /// Converts the given value object to the specified type, using the specified context and culture information.
+    /// </summary>
+    /// <param name="context">An ITypeDescriptorContext that provides a format context.</param>
+    /// <param name="culture">A CultureInfo. If a null reference (Nothing in Visual Basic) is passed, the current culture is assumed.</param>
+    /// <param name="value">The Object to convert.</param>
+    /// <param name="destinationType">The Type to convert the value parameter to.</param>
+    /// <returns>An Object that represents the converted value.</returns>
+    public override object? ConvertTo(ITypeDescriptorContext? context,
+        CultureInfo? culture, 
+        object? value, 
+        Type destinationType)
+    {
+        // Can always convert to a string representation
+        if (destinationType == typeof(string))
         {
-            // Can always convert to a string representation
-            if (destinationType == typeof(string))
-            {
-                var sequence = value as KryptonWorkspaceSequence;
-                return sequence?.ToString();
-            }
+            var sequence = value as KryptonWorkspaceSequence;
+            return sequence?.ToString();
+        }
             
-            // Let base class attempt other conversions
-            return base.ConvertTo(context, culture, value, destinationType);
-        }
+        // Let base class attempt other conversions
+        return base.ConvertTo(context, culture, value, destinationType);
     }
 }
