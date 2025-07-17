@@ -188,7 +188,7 @@ public sealed class PaletteMicrosoft365BlueLightMode_BaseScheme : KryptonColorSc
     public override Color GridSheetRowSelected             { get; set; } = Color.FromArgb(255, 213, 141);
     public override Color GridDataCellBorder               { get; set; } = Color.FromArgb(188, 195, 209);
     public override Color GridDataCellSelected             { get; set; } = Color.FromArgb(188, 213, 239);
-    public override Color InputControlTextNormal           { get; set; } = Color.Blue;
+    public override Color InputControlTextNormal           { get; set; } = Color.FromArgb(41, 41, 41);
     public override Color InputControlTextDisabled         { get; set; } = Color.FromArgb(77, 77, 77);
     public override Color InputControlBorderNormal         { get; set; } = Color.FromArgb(171, 193, 222);
     public override Color InputControlBorderDisabled       { get; set; } = Color.FromArgb(177, 187, 198);
