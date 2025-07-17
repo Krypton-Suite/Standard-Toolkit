@@ -39,16 +39,16 @@ public class KryptonDataGridViewImageColumn : DataGridViewImageColumn, IIconCell
     #region IIconCell implementation
     protected override void OnDataGridViewChanged()
     {
-        IconSpecs.CollectionChanged -= OnIconSpecsCollectionChanged;
-
         // KDGV needs a column refresh only
         if (DataGridView is KryptonDataGridView dataGridView)
         {
             _dataGridView = dataGridView;
             IconSpecs.CollectionChanged += OnIconSpecsCollectionChanged;
         }
-        else
+        else if (_dataGridView is not null)
         {
+            // only unhook on KDGV type
+            IconSpecs.CollectionChanged -= OnIconSpecsCollectionChanged;
             _dataGridView = null;
         }
 
@@ -68,7 +68,7 @@ public class KryptonDataGridViewImageColumn : DataGridViewImageColumn, IIconCell
     /// <summary>
     /// Create a cloned copy of the column.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>The cloned object.</returns>
     public override object Clone()
     {
         var cloned = base.Clone() as KryptonDataGridViewImageColumn ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("cloned"));
