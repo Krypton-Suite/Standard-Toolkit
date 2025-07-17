@@ -41,6 +41,8 @@ public static class SchemeGenerator
     private static string ToCrLf(string text) => text.Replace("\r\n", "\n").Replace("\r", "").Replace("\n", "\r\n");
 
     private const string BaseColorMarker = "private static readonly Color[] _schemeBaseColors";
+    // Some early Office 2007 palettes used a different variable name for the base colour array
+    private const string OfficeColorMarker = "private static readonly Color[] _schemeOfficeColours";
 
     // Marker for track-bar color arrays found in palette classes
     private const string TrackBarColorMarker = "private static readonly Color[] _trackBarColors";
@@ -96,21 +98,50 @@ public static class SchemeGenerator
             }
             List<string> colorsRaw = new();
             List<string> commentNames = new();
-            try
-            {
-                colorsRaw = ExtractColorsRoslyn(palettePath, "_schemeBaseColors", out commentNames, enumNames);
-            }
-            catch (InvalidOperationException ioe) when (ioe.Message.Contains("Variable not found"))
-            {
-                // _schemeBaseColors array absent – treat as already migrated; leave lists empty
-            }
-            catch (Exception ex)
-            {
-                // Roslyn failed – fall back to simple text extraction so we can still migrate/convert the file.
-                Console.Error.WriteLine($"{Path.GetFileName(palettePath)}: Roslyn parse failed – falling back to text extraction ({ex.Message})");
+            string detectedBaseArrayMarker = BaseColorMarker;
 
-                colorsRaw = ExtractColorExpressions(palettePath, BaseColorMarker);
-                commentNames = new List<string>();
+            // Try both modern and legacy array variable names
+            string[] possibleVars = { "_schemeBaseColors", "_schemeOfficeColours" };
+            foreach (var varName in possibleVars)
+            {
+                try
+                {
+                    colorsRaw = ExtractColorsRoslyn(palettePath, varName, out commentNames, enumNames);
+                    // Found and parsed successfully
+                    detectedBaseArrayMarker = varName == "_schemeOfficeColours" ? OfficeColorMarker : BaseColorMarker;
+                    break;
+                }
+                catch (InvalidOperationException ioe) when (ioe.Message.Contains("Variable not found"))
+                {
+                    // Try the next variant
+                    continue;
+                }
+                catch (Exception)
+                {
+                    // We'll handle Roslyn failure after the loop
+                    throw;
+                }
+            }
+
+            if (colorsRaw.Count == 0)
+            {
+                // Either variable not found or Roslyn parse failed – fall back to simple text extraction
+                try
+                {
+                    string markerToUse = detectedBaseArrayMarker;
+                    // Determine marker based on file contents if not set
+                    if (!File.ReadAllText(palettePath).Contains(BaseColorMarker) && File.ReadAllText(palettePath).Contains(OfficeColorMarker))
+                    {
+                        markerToUse = OfficeColorMarker;
+                    }
+
+                    colorsRaw = ExtractColorExpressions(palettePath, markerToUse);
+                    commentNames = new List<string>();
+                }
+                catch (Exception ex)
+                {
+                    Console.Error.WriteLine($"{Path.GetFileName(palettePath)}: color array extraction failed ({ex.Message})");
+                }
             }
 
             List<string> trackBarColorsRaw;
@@ -124,6 +155,17 @@ public static class SchemeGenerator
             }
 
             bool hasAnyArrays = colorsRaw.Count > 0 || trackBarColorsRaw.Count > 0;
+
+            // Treat 'LightGray' themed palettes specially – we still want to generate a dummy
+            // base scheme class even when they have no embedded colour arrays. This allows
+            // their constructors to migrate to the KryptonColorSchemeBase overload just like
+            // every other palette.
+            bool forceScheme = Path.GetFileName(palettePath).Contains("LightGray", StringComparison.OrdinalIgnoreCase);
+            if (forceScheme)
+            {
+                hasAnyArrays |= true; // ensure subsequent logic emits a scheme file
+            }
+
             if (!hasAnyArrays)
             {
                 var info = $"Info: {Path.GetFileName(palettePath)} – no color arrays found (already migrated).";
@@ -242,7 +284,7 @@ public static class SchemeGenerator
                 {
                     if (colorsRaw.Count > 0)
                     {
-                        RemoveArrayFromFile(palettePath, BaseColorMarker);
+                        RemoveArrayFromFile(palettePath, detectedBaseArrayMarker);
                     }
                     if (trackBarColorsRaw.Count > 0)
                     {
@@ -259,8 +301,25 @@ public static class SchemeGenerator
                     var srcText = File.ReadAllText(palettePath);
                     var replacedText = ConvertRibbonColorArrayEntriesToProperties(srcText);
                     replacedText = ConvertTrackBarColorArrayEntriesToProperties(replacedText);
+                    replacedText = ConvertColorTableArrayEntriesToBaseColors(replacedText);
                     // Ensure a BaseColors field exists so the above replacements compile successfully
                     replacedText = EnsureBaseColorsField(replacedText);
+
+                    // Fix: ensure a newline separates a closing brace from an immediately following #region/#endregion
+                    // directive *without* destroying its indentation.
+                    replacedText = Regex.Replace(
+                        replacedText,
+                        @"(?<indent>^[ \t]*)\}(?:[ \t]*#(?<dir>region|endregion))",
+                        m =>
+                        {
+                            var indent = m.Groups["indent"].Value;
+                            var dir    = m.Groups["dir"].Value;
+                            return $"{indent}}}\r\n{indent}#{dir}";
+                        },
+                        RegexOptions.Multiline);
+                    // Ensure a convenient constructor overload that directly accepts a KryptonColorSchemeBase instance
+                    // so derived palette classes can pass their generated scheme without calling ToArray().
+                    replacedText = EnsureSchemeConstructor(replacedText);
 
                     if (!string.Equals(srcText, replacedText, StringComparison.Ordinal))
                     {
@@ -671,14 +730,16 @@ public static class SchemeGenerator
     private sealed class BaseCtorArgRewriter : CSharpSyntaxRewriter
     {
         private readonly string _schemeClassName;
+        private readonly bool _isLightGray;
         public bool HasChanges { get; private set; }
 
-        private ExpressionSyntax SchemeCtorExpr => SyntaxFactory.ParseExpression($"new {_schemeClassName}()");
+        private ExpressionSyntax SchemeCtorExpr => SyntaxFactory.ParseExpression($"new {_schemeClassName}().ToArray()");
         private ExpressionSyntax TrackBarExpr  => SyntaxFactory.ParseExpression($"new {_schemeClassName}().ToTrackBarArray()");
 
         public BaseCtorArgRewriter(string schemeClassName)
         {
             _schemeClassName = schemeClassName;
+            _isLightGray = schemeClassName.Contains("LightGray", StringComparison.OrdinalIgnoreCase);
         }
 
         public override SyntaxNode VisitConstructorDeclaration(ConstructorDeclarationSyntax node)
@@ -696,6 +757,48 @@ public static class SchemeGenerator
 
             var newArgsList = new List<ArgumentSyntax>();
 
+            // When converting LightGray palettes we also need to adjust the parameter list
+            ParameterListSyntax newParamList = node.ParameterList;
+            if (_isLightGray)
+            {
+                var paramBuilder = new List<ParameterSyntax>();
+                bool schemeInserted = false;
+
+                ParameterSyntax MakeSchemeParam()
+                {
+                    var type = SyntaxFactory.IdentifierName("KryptonColorSchemeBase").WithTrailingTrivia(SyntaxFactory.Space);
+                    return SyntaxFactory.Parameter(SyntaxFactory.Identifier("scheme")).WithType(type);
+                }
+
+                foreach (var p in node.ParameterList.Parameters)
+                {
+                    var pName = p.Identifier.Text;
+                    // Drop the two Color[] parameters
+                    if (pName is "schemeColors" or "trackBarColors")
+                    {
+                        updated = true;
+                        continue;
+                    }
+
+                    paramBuilder.Add(p);
+
+                    // insert 'scheme' parameter immediately after themeName (if present)
+                    if (!schemeInserted && pName == "themeName")
+                    {
+                        paramBuilder.Add(MakeSchemeParam());
+                        schemeInserted = true;
+                    }
+                }
+
+                if (!schemeInserted)
+                {
+                    // prepend if themeName not found
+                    paramBuilder.Insert(0, MakeSchemeParam());
+                }
+
+                newParamList = node.ParameterList.WithParameters(ToSeparated(paramBuilder));
+            }
+
             for (int i = 0; i < args.Count; i++)
             {
                 var arg = args[i];
@@ -706,29 +809,32 @@ public static class SchemeGenerator
                 if (expr is IdentifierNameSyntax id)
                 {
                     var name = id.Identifier.Text;
-                    if (name == "_schemeBaseColors")
+                    if (name is "_schemeBaseColors" or "schemeColors")
                     {
-                        replacement = SchemeCtorExpr;
+                        replacement = _isLightGray ? SyntaxFactory.IdentifierName("scheme") : SchemeCtorExpr;
                     }
-                    else if (name == "_trackBarColors")
+                    else if (name is "_trackBarColors" or "trackBarColors")
                     {
-                        replacement = TrackBarExpr;
+                        if (_isLightGray)
+                        {
+                            // Skip this argument entirely for LightGray
+                            updated = true;
+                            continue;
+                        }
+                        else
+                        {
+                            replacement = TrackBarExpr;
+                        }
                     }
                 }
-                else if (expr is InvocationExpressionSyntax inv &&
-                         inv.Expression is MemberAccessExpressionSyntax ma &&
-                         ma.Name.Identifier.Text == "ToArray" &&
-                         ma.Expression is ObjectCreationExpressionSyntax oce &&
-                         oce.Type.ToString() == _schemeClassName)
-                {
-                    // Replace 'new Scheme().ToArray()' with 'new Scheme()'
-                    replacement = SchemeCtorExpr;
-                }
+                // If the expression already matches the intended SchemeCtorExpr, no replacement needed.
 
                 if (replacement != null)
                 {
                     updated = true;
-                    newArgsList.Add(arg.WithExpression(replacement));
+                    // Preserve original leading/trailing trivia so indentation and line breaks stay intact
+                    var newExpr = replacement.WithTriviaFrom(expr);
+                    newArgsList.Add(arg.WithExpression(newExpr));
                 }
                 else
                 {
@@ -736,29 +842,63 @@ public static class SchemeGenerator
                 }
             }
 
-            // Normalize leading trivia so there is at most one space between arguments
-            for (int i = 0; i < newArgsList.Count; i++)
+            // Helper to build separated lists with commas
+            static SeparatedSyntaxList<T> ToSeparated<T>(IEnumerable<T> nodes) where T : SyntaxNode
             {
-                // Remove existing leading trivia (which may include multiple spaces/newlines)
-                var argNoTrivia = newArgsList[i].WithoutLeadingTrivia();
-                // Add a single space before all but the first argument for readability
-                if (i > 0)
+                var nodeList = nodes.ToList();
+                if (nodeList.Count == 0) return default;
+                if (nodeList.Count == 1) return SyntaxFactory.SeparatedList(nodeList);
+
+                var separators = new List<SyntaxToken>();
+                for (int i = 0; i < nodeList.Count - 1; i++)
                 {
-                    argNoTrivia = argNoTrivia.WithLeadingTrivia(SyntaxFactory.Space);
+                    separators.Add(SyntaxFactory.Token(SyntaxKind.CommaToken).WithTrailingTrivia(SyntaxFactory.Space));
                 }
-                newArgsList[i] = argNoTrivia;
+                return SyntaxFactory.SeparatedList(nodeList, separators);
             }
 
-            var newArgs = SyntaxFactory.SeparatedList(newArgsList);
+            // Re-format: put each argument on its own indented line for readability
+            var ctorIndentTrivia = node.GetLeadingTrivia()
+                                        .LastOrDefault(t => t.IsKind(SyntaxKind.WhitespaceTrivia));
 
-            if (!updated)
+            // Base indentation of the constructor plus four more spaces
+            var indentText = (ctorIndentTrivia == default ? string.Empty : ctorIndentTrivia.ToString()) + new string(' ', 4);
+
+            var separated = new List<SyntaxNodeOrToken>();
+            for (int i = 0; i < newArgsList.Count; i++)
+            {
+                var arg = newArgsList[i]
+                    .WithLeadingTrivia(SyntaxFactory.ElasticCarriageReturnLineFeed, SyntaxFactory.Whitespace(indentText))
+                    .WithTrailingTrivia(); // remove trailing space to avoid 'arg ,' pattern
+
+                separated.Add(arg);
+
+                if (i < newArgsList.Count - 1)
+                {
+                    // comma token followed by nothing (newline is part of next arg leading trivia)
+                    separated.Add(SyntaxFactory.Token(SyntaxKind.CommaToken));
+                }
+            }
+
+            var newArgs = SyntaxFactory.SeparatedList<ArgumentSyntax>(separated);
+
+            var originalArgsText = init.ArgumentList.Arguments.ToFullString();
+            var newArgsText = newArgs.ToFullString();
+
+            if (!updated && string.Equals(originalArgsText, newArgsText, StringComparison.Ordinal))
             {
                 var visited = base.VisitConstructorDeclaration(node);
                 return visited ?? node;
             }
 
-            var newInit = init!.WithArgumentList(init.ArgumentList.WithArguments(newArgs));
+            var newInit = init.WithArgumentList(init.ArgumentList.WithArguments(newArgs));
             var newNode = node.WithInitializer(newInit);
+            if (_isLightGray)
+            {
+                newNode = newNode.WithParameterList(newParamList);
+            }
+
+            // Do NOT call NormalizeWhitespace here – it strips our custom indentation.
 
             HasChanges = true;
 
@@ -843,6 +983,11 @@ public static class SchemeGenerator
             var rawExpr = exprNode.ToFullString().Replace("\r", "").Replace("\n", " ");
             rawExpr = Regex.Replace(rawExpr, "\\s+", " "); // collapse whitespace
             var colourExpr = rawExpr.Split(new[] {"//"}, 2, StringSplitOptions.None)[0].Trim().TrimEnd(',');
+            if (string.IsNullOrWhiteSpace(colourExpr))
+            {
+                // Comment-only entry: mark as empty color so generated code remains valid
+                colourExpr = "GlobalStaticValues.EMPTY_COLOR";
+            }
             colours.Add(colourExpr);
 
             // Gather trivia for potential comment labels
@@ -1070,6 +1215,17 @@ public static class SchemeGenerator
     }
 
     /// <summary>
+    /// Replaces occurrences of _schemeBaseColors inside KryptonColorTable constructor calls
+    /// with BaseColors!.ToArray() so code continues to compile after the array field is removed.
+    /// </summary>
+    private static string ConvertColorTableArrayEntriesToBaseColors(string text)
+    {
+        const string pattern = @"new\s+KryptonColorTable[^\(]*\(\s*_schemeBaseColors\s*,";
+
+        return Regex.Replace(text, pattern, m => m.Value.Replace("_schemeBaseColors", "BaseColors!.ToArray()"), RegexOptions.Singleline);
+    }
+
+    /// <summary>
     /// Ensures that a <c>protected readonly KryptonColorSchemeBase? BaseColors;</c> field is declared in the
     /// provided source text. If the declaration is missing, it is inserted immediately after a
     /// <c>#region Variables</c> directive when present, or as the first member inside the class body otherwise.
@@ -1084,12 +1240,21 @@ public static class SchemeGenerator
             return text; // Already present – nothing to do
         }
 
+        // Apply only to classes that explicitly derive from PaletteBase
+        if (!Regex.IsMatch(text, @"class\s+\w+\s*:\s*[^\{\r\n]*\bPaletteBase\b", RegexOptions.Singleline))
+        {
+            return text; // Not derived from PaletteBase – do not insert
+        }
+
         var lines = text.Split(new[] { "\r\n", "\n", "\r" }, StringSplitOptions.None).ToList();
 
         // Attempt to insert inside a '#region Variables' or '#region Instance Fields' block if it exists
         int regionIdx = lines.FindIndex(l => Regex.IsMatch(l, @"#region\s+(Variables|Instance\s+Fields)", RegexOptions.IgnoreCase));
         int insertIdx = -1;
         string indent = "    "; // default 4-space indent
+
+        // Treat any abstract class derived from PaletteBase as an umbrella "base" palette class
+        bool isBaseClass = Regex.IsMatch(text, @"abstract\s+class\s+\w+\s*:\s*[^\{\r\n]*\bPaletteBase\b", RegexOptions.Singleline);
 
         if (regionIdx >= 0)
         {
@@ -1128,9 +1293,117 @@ public static class SchemeGenerator
             insertIdx = lines.Count - 1;
         }
 
-        lines.Insert(insertIdx, indent + "protected readonly KryptonColorSchemeBase? BaseColors;");
+        var fieldLine = isBaseClass
+            ? "protected readonly KryptonColorSchemeBase? BaseColors;"
+            : "protected readonly KryptonColorSchemeBase BaseColors;";
+
+        lines.Insert(insertIdx, indent + fieldLine);
 
         return string.Join("\r\n", lines);
+    }
+
+    /// <summary>
+    /// Ensures that a constructor overload accepting a <see cref="KryptonColorSchemeBase"/> instance exists.
+    /// If missing, a new constructor is inserted just before the <c>#endregion Identity</c> marker of the class.
+    /// </summary>
+    /// <param name="text">The source code to inspect/modify.</param>
+    /// <returns>The updated source code.</returns>
+    private static string EnsureSchemeConstructor(string text)
+    {
+        // 1. Detect palette class
+        var mClass = Regex.Match(text, @"class\s+(\w+)\s*:\s*[^\r\n{]*\bPaletteBase\b");
+        if (!mClass.Success)
+        {
+            return text; // Not relevant
+        }
+
+        string className = mClass.Groups[1].Value;
+
+        // 2. Bail if constructor already present
+        if (Regex.IsMatch(text, $@"{Regex.Escape(className)}\s*\([^)]*KryptonColorSchemeBase", RegexOptions.Singleline))
+        {
+            return text;
+        }
+
+        // 3. Determine if existing main ctor has themeName first parameter (attribute tolerant)
+        bool hasThemeName = Regex.IsMatch(text, $@"{Regex.Escape(className)}\s*\(\s*(?:\[[^\]]*\]\s*)*string\s+themeName\b", RegexOptions.Singleline);
+
+        // 4. Build new ctor source
+        var indent = "    ";
+        var sb = new StringBuilder();
+        // Determine if target class is marked abstract (i.e. a palette *base* class)
+        bool isAbstract = Regex.IsMatch(text, $@"abstract\s+class\s+{Regex.Escape(className)}\b");
+        string visibility = isAbstract ? "protected" : "public";
+        sb.AppendLine(indent + "/// <summary>");
+        sb.AppendLine(indent + "/// Overload that accepts a KryptonColorSchemeBase instance and forwards colours to the main constructor.");
+        sb.AppendLine(indent + "/// </summary>");
+        sb.AppendLine(indent + "// TODO this should be merged into main constructor once all palettes");
+        sb.AppendLine(indent + "// have their own KryptonColorSchemeBase-derived class");
+
+        if (hasThemeName)
+        {
+            sb.AppendLine(indent + $"{visibility} {className}(");
+            sb.AppendLine(indent + "    string themeName,");
+            sb.AppendLine(indent + "    [DisallowNull] KryptonColorSchemeBase scheme,");
+            sb.AppendLine(indent + "    [DisallowNull] ImageList checkBoxList,");
+            sb.AppendLine(indent + "    [DisallowNull] ImageList galleryButtonList,");
+            sb.AppendLine(indent + "    [DisallowNull] Image?[] radioButtonArray)");
+            sb.AppendLine(indent + "    : this(themeName,");
+            sb.AppendLine(indent + "           scheme.ToArray(),");
+            sb.AppendLine(indent + "           checkBoxList,");
+            sb.AppendLine(indent + "           galleryButtonList,");
+            sb.AppendLine(indent + "           radioButtonArray,");
+            sb.AppendLine(indent + "           scheme.ToTrackBarArray())");
+        }
+        else
+        {
+            sb.AppendLine(indent + $"{visibility} {className}(");
+            sb.AppendLine(indent + "    [DisallowNull] KryptonColorSchemeBase scheme,");
+            sb.AppendLine(indent + "    [DisallowNull] ImageList checkBoxList,");
+            sb.AppendLine(indent + "    [DisallowNull] ImageList galleryButtonList,");
+            sb.AppendLine(indent + "    [DisallowNull] Image?[] radioButtonArray)");
+            sb.AppendLine(indent + "    : this(scheme.ToArray(),");
+            sb.AppendLine(indent + "           checkBoxList,");
+            sb.AppendLine(indent + "           galleryButtonList,");
+            sb.AppendLine(indent + "           radioButtonArray,");
+            sb.AppendLine(indent + "           scheme.ToTrackBarArray())");
+        }
+
+        sb.AppendLine(indent + "{");
+        sb.AppendLine(indent + "    BaseColors = scheme;");
+        sb.AppendLine(indent + "}");
+        sb.AppendLine();
+
+        // 5. Insert immediately after the primary constructor
+        int ctorStart = text.IndexOf($"protected {className}(", StringComparison.Ordinal);
+        if (ctorStart < 0)
+        {
+            // No constructor found – fallback to end of class
+            int lastBrace = text.LastIndexOf('}');
+            if (lastBrace < 0) return text;
+            var newTextLast = text.Substring(0, lastBrace).TrimEnd() + "\r\n\r\n" + sb.ToString() + "\r\n" + text.Substring(lastBrace);
+            // collapse duplicate blank lines
+            return Regex.Replace(newTextLast, "(\r\n){3,}", "\r\n\r\n");
+        }
+
+        // find the opening brace of that constructor
+        int braceOpen = text.IndexOf('{', ctorStart);
+        if (braceOpen < 0) return text;
+
+        int depth = 1; // after first '{'
+        int pos = braceOpen + 1;
+        while (pos < text.Length && depth > 0)
+        {
+            char c = text[pos];
+            if (c == '{') depth++; else if (c == '}') depth--;
+            pos++;
+        }
+        int insertPos = pos; // position after closing brace
+
+        string beforeCtor = text.Substring(0, insertPos);
+        string afterCtor  = text.Substring(insertPos);
+        var newTextInsert = beforeCtor.TrimEnd() + "\r\n\r\n" + sb.ToString() + "\r\n" + afterCtor;
+        return Regex.Replace(newTextInsert, "(\r\n){3,}", "\r\n\r\n");
     }
 
     // Generic helper used by both professional palettes
