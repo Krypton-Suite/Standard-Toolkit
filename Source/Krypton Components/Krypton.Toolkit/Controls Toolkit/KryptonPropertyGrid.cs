@@ -1,7 +1,7 @@
 ﻿#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2021 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2021 - 2025. All rights reserved.
  */
 #endregion
 
@@ -53,7 +53,7 @@ public class KryptonPropertyGrid : VisualControlBase,
         }
 
         /// <summary>
-        /// Releases all resources used by the Control. 
+        /// Releases all resources used by the Control.
         /// </summary>
         /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
         protected override void Dispose(bool disposing)
@@ -116,7 +116,7 @@ public class KryptonPropertyGrid : VisualControlBase,
             switch (m.Msg)
             {
                 case PI.WM_.ERASEBKGND:
-                    // Do not draw the background here, always do it in the paint 
+                    // Do not draw the background here, always do it in the paint
                     // instead to prevent flicker because of a two stage drawing process
                     break;
 
@@ -160,11 +160,13 @@ public class KryptonPropertyGrid : VisualControlBase,
                 // If we managed to get a compatible bitmap
                 if (hBitmap != IntPtr.Zero)
                 {
+                    // Must use the screen device context for the bitmap when drawing into the
+                    // bitmap otherwise the Opacity and RightToLeftLayout will not work correctly.
+                    // Select the new bitmap into the screen DC
+                    IntPtr oldBitmap = PI.SelectObject(_screenDC, hBitmap);
+
                     try
                     {
-                        // Must use the screen device context for the bitmap when drawing into the 
-                        // bitmap otherwise the Opacity and RightToLeftLayout will not work correctly.
-                        PI.SelectObject(_screenDC, hBitmap);
 
                         // Easier to draw using a graphics instance than a DC!
                         using (Graphics g = Graphics.FromHdc(_screenDC))
@@ -202,6 +204,9 @@ public class KryptonPropertyGrid : VisualControlBase,
                     }
                     finally
                     {
+                        // Restore the original bitmap
+                        PI.SelectObject(_screenDC, oldBitmap);
+
                         // Delete the temporary bitmap
                         PI.DeleteObject(hBitmap);
                     }
@@ -256,7 +261,7 @@ public class KryptonPropertyGrid : VisualControlBase,
     {
         // Contains another control and needs marking as such for validation to work
         SetStyle(ControlStyles.ContainerControl, true);
-        // Cannot select this control, only the child tree view and does not generate a 
+        // Cannot select this control, only the child tree view and does not generate a
         SetStyle(ControlStyles.Selectable | ControlStyles.StandardClick, false);
 
         // Default fields
@@ -705,7 +710,7 @@ public class KryptonPropertyGrid : VisualControlBase,
         switch (m.Msg)
         {
             case PI.WM_.ERASEBKGND:
-                // Do not draw the background here, always do it in the paint 
+                // Do not draw the background here, always do it in the paint
                 // instead to prevent flicker because of a two stage drawing process
                 break;
 
@@ -930,7 +935,7 @@ public class KryptonPropertyGrid : VisualControlBase,
             KryptonContextMenu?.Show(this, PointToScreen(e.Location));
         }
     }
-        
+
     private void OnPropertyGridClick(object? sender, EventArgs e) => OnClick(e);
 
     private void OnResetClick(object? sender, EventArgs e)

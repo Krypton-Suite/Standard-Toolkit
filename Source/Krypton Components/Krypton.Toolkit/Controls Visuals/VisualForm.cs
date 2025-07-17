@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
  *
  */
 #endregion
@@ -1505,12 +1505,13 @@ public abstract class VisualForm : Form,
                         // If we managed to get a compatible bitmap
                         if (hBitmap != IntPtr.Zero)
                         {
+                            // Must use the screen device context for the bitmap when drawing into the
+                            // bitmap otherwise the Opacity and RightToLeftLayout will not work correctly.
+                            // Select the new bitmap into the screen DC
+                            IntPtr oldBitmap = PI.SelectObject(_screenDC, hBitmap);
+
                             try
                             {
-                                // Must use the screen device context for the bitmap when drawing into the
-                                // bitmap otherwise the Opacity and RightToLeftLayout will not work correctly.
-                                PI.SelectObject(_screenDC, hBitmap);
-
                                 // Drawing is easier when using a Graphics instance
                                 using (Graphics g = Graphics.FromHdc(_screenDC))
                                 {
@@ -1522,6 +1523,9 @@ public abstract class VisualForm : Form,
                             }
                             finally
                             {
+                                // Restore the original bitmap
+                                PI.SelectObject(_screenDC, oldBitmap);
+
                                 // Delete the temporary bitmap
                                 PI.DeleteObject(hBitmap);
                             }
