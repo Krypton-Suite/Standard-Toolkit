@@ -83,6 +83,7 @@ internal static class Program
         }
         var dryRun = dict.ContainsKey("--dry-run");
         var printMapping = dict.ContainsKey("--print");
+        var oneCtor      = dict.ContainsKey("--ctor1");
 
         if (printMapping)
         {
@@ -101,7 +102,8 @@ internal static class Program
                                  dryRun: dryRun,
                                  overwrite: overwrite,
                                  migrate: migrate,
-                                 printMapping: printMapping);
+                                 printMapping: printMapping,
+                                 oneCtor: oneCtor);
         return 0;
     }
 
@@ -193,6 +195,7 @@ internal static class Program
         Console.WriteLine("  --dry-run                Preview actions without writing files");
         Console.WriteLine("  --print                  Display mapping table to console; implies --dry-run and disables file writes");
         Console.WriteLine("  --migrate                Remove color arrays and convert remaining _ribbonColors/_trackBarColors index usages to BaseColors properties");
+        Console.WriteLine("  --ctor1                  During --migrate: replace old array ctor with single scheme-based ctor (no helper overload)");
         Console.WriteLine("  -o OUTPUT, --output OUTPUT");
         Console.WriteLine("                           Directory to place all generated files instead of alongside palette files");
         Console.WriteLine("  -f FILE, --file FILE     Convert one specific palette .cs file");

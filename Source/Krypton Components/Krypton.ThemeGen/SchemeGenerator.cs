@@ -47,7 +47,11 @@ public static class SchemeGenerator
     // Marker for track-bar color arrays found in palette classes
     private const string TrackBarColorMarker = "private static readonly Color[] _trackBarColors";
 
-    public static void Generate(string paletteFile, string outputFolder, bool embedResx, bool dryRun, bool overwrite, bool migrate, bool printMapping = false)
+    public static void Generate(string paletteFile, string outputFolder,
+                            bool embedResx, bool dryRun,
+                            bool overwrite, bool migrate,
+                            bool printMapping = false,
+                            bool oneCtor = false)
     {
         if (string.IsNullOrWhiteSpace(paletteFile)) throw new ArgumentException("paletteFile");
 
@@ -292,7 +296,7 @@ public static class SchemeGenerator
                     }
 
                     // Update constructor arguments to use generated scheme
-                    UpdateConstructorArguments(palettePath, className);
+                    UpdateConstructorArguments(palettePath, className, oneCtor);
                 }
 
                 // 2) Always run the color index to property conversion
@@ -303,7 +307,7 @@ public static class SchemeGenerator
                     replacedText = ConvertTrackBarColorArrayEntriesToProperties(replacedText);
                     replacedText = ConvertColorTableArrayEntriesToBaseColors(replacedText);
                     // Ensure a BaseColors field exists so the above replacements compile successfully
-                    replacedText = EnsureBaseColorsField(replacedText);
+                    replacedText = EnsureBaseColorsField(replacedText, oneCtor);
 
                     // Fix: ensure a newline separates a closing brace from an immediately following #region/#endregion
                     // directive *without* destroying its indentation.
@@ -319,7 +323,8 @@ public static class SchemeGenerator
                         RegexOptions.Multiline);
                     // Ensure a convenient constructor overload that directly accepts a KryptonColorSchemeBase instance
                     // so derived palette classes can pass their generated scheme without calling ToArray().
-                    replacedText = EnsureSchemeConstructor(replacedText);
+                    if (!oneCtor)                         // helper-ctor only when dual-ctor mode
+                        replacedText = EnsureSchemeConstructor(replacedText);
 
                     if (!string.Equals(srcText, replacedText, StringComparison.Ordinal))
                     {
@@ -696,17 +701,39 @@ public static class SchemeGenerator
     /// <summary>
     /// Replaces constructor arguments referencing the removed arrays with calls to the generated scheme class.
     /// </summary>
-    private static void UpdateConstructorArguments(string filePath, string schemeClassName)
+    private static void UpdateConstructorArguments(string filePath, string schemeClassName, bool singleCtor)
     {
         var source = File.ReadAllText(filePath);
+
+        // For LightGray palettes we leave the original constructor untouched.
+        if (schemeClassName.IndexOf("LightGray", StringComparison.OrdinalIgnoreCase) >= 0)
+        {
+            return; // skip modifications
+        }
 
         var tree = CSharpSyntaxTree.ParseText(source, CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.Preview));
         var root = tree.GetCompilationUnitRoot();
 
-        var rewriter = new BaseCtorArgRewriter(schemeClassName);
+        var rewriter = singleCtor
+            ? (CSharpSyntaxRewriter)new BaseCtorSingleRewriter(schemeClassName)
+            : new BaseCtorArgRewriter(schemeClassName);
         var newRoot = (CompilationUnitSyntax)rewriter.Visit(root);
 
-        if (!rewriter.HasChanges)
+        bool hasChanges;
+        if (rewriter is BaseCtorArgRewriter r1)
+        {
+            hasChanges = r1.HasChanges;
+        }
+        else if (rewriter is BaseCtorSingleRewriter r2)
+        {
+            hasChanges = r2.HasChanges;
+        }
+        else
+        {
+            hasChanges = false;
+        }
+
+        if (!hasChanges)
         {
             return; // nothing modified
         }
@@ -737,6 +764,195 @@ public static class SchemeGenerator
         private ExpressionSyntax TrackBarExpr  => SyntaxFactory.ParseExpression($"new {_schemeClassName}().ToTrackBarArray()");
 
         public BaseCtorArgRewriter(string schemeClassName)
+        {
+            _schemeClassName = schemeClassName;
+            _isLightGray = schemeClassName.Contains("LightGray", StringComparison.OrdinalIgnoreCase);
+        }
+
+        public override SyntaxNode VisitConstructorDeclaration(ConstructorDeclarationSyntax node)
+        {
+            // Only process constructors that delegate to base(...)
+            var init = node.Initializer;
+            if (init == null || init.Kind() != SyntaxKind.BaseConstructorInitializer)
+            {
+                var visited = base.VisitConstructorDeclaration(node);
+                return visited ?? node;
+            }
+
+            var args = init.ArgumentList.Arguments;
+            bool updated = false;
+
+            var newArgsList = new List<ArgumentSyntax>();
+
+            // When converting LightGray palettes we also need to adjust the parameter list
+            ParameterListSyntax newParamList = node.ParameterList;
+            if (_isLightGray)
+            {
+                var paramBuilder = new List<ParameterSyntax>();
+                bool schemeInserted = false;
+
+                ParameterSyntax MakeSchemeParam()
+                {
+                    var type = SyntaxFactory.IdentifierName("KryptonColorSchemeBase").WithTrailingTrivia(SyntaxFactory.Space);
+                    return SyntaxFactory.Parameter(SyntaxFactory.Identifier("scheme")).WithType(type);
+                }
+
+                foreach (var p in node.ParameterList.Parameters)
+                {
+                    var pName = p.Identifier.Text;
+                    // Drop the two Color[] parameters
+                    if (pName is "schemeColors" or "schemeColours" or "trackBarColors" or "trackBarColours")
+                    {
+                        updated = true;
+                        continue;
+                    }
+
+                    paramBuilder.Add(p);
+
+                    // insert 'scheme' parameter immediately after themeName (if present)
+                    if (!schemeInserted && pName == "themeName")
+                    {
+                        paramBuilder.Add(MakeSchemeParam());
+                        schemeInserted = true;
+                    }
+                }
+
+                if (!schemeInserted)
+                {
+                    // prepend if themeName not found
+                    paramBuilder.Insert(0, MakeSchemeParam());
+                }
+
+                newParamList = node.ParameterList.WithParameters(ToSeparated(paramBuilder));
+            }
+
+            for (int i = 0; i < args.Count; i++)
+            {
+                var arg = args[i];
+                var expr = arg.Expression;
+
+                ExpressionSyntax? replacement = null;
+
+                if (expr is IdentifierNameSyntax id)
+                {
+                    var name = id.Identifier.Text;
+                    if (name is "_schemeBaseColors" or "schemeColors")
+                    {
+                        replacement = _isLightGray ? SyntaxFactory.IdentifierName("scheme") : SchemeCtorExpr;
+                    }
+                    else if (name is "_trackBarColors" or "trackBarColors")
+                    {
+                        if (_isLightGray)
+                        {
+                            // Skip this argument entirely for LightGray
+                            updated = true;
+                            continue;
+                        }
+                        else
+                        {
+                            replacement = TrackBarExpr;
+                        }
+                    }
+                }
+                // If the expression already matches the intended SchemeCtorExpr, no replacement needed.
+
+                if (replacement != null)
+                {
+                    updated = true;
+                    // Preserve original leading/trailing trivia so indentation and line breaks stay intact
+                    var newExpr = replacement.WithTriviaFrom(expr);
+                    newArgsList.Add(arg.WithExpression(newExpr));
+                }
+                else
+                {
+                    newArgsList.Add(arg);
+                }
+            }
+
+            // Helper to build separated lists with commas
+            static SeparatedSyntaxList<T> ToSeparated<T>(IEnumerable<T> nodes) where T : SyntaxNode
+            {
+                var nodeList = nodes.ToList();
+                if (nodeList.Count == 0) return default;
+                if (nodeList.Count == 1) return SyntaxFactory.SeparatedList(nodeList);
+
+                var separators = new List<SyntaxToken>();
+                for (int i = 0; i < nodeList.Count - 1; i++)
+                {
+                    separators.Add(SyntaxFactory.Token(SyntaxKind.CommaToken).WithTrailingTrivia(SyntaxFactory.Space));
+                }
+                return SyntaxFactory.SeparatedList(nodeList, separators);
+            }
+
+            // Re-format: put each argument on its own indented line for readability
+            var ctorIndentTrivia = node.GetLeadingTrivia()
+                                        .LastOrDefault(t => t.IsKind(SyntaxKind.WhitespaceTrivia));
+
+            // Base indentation of the constructor plus four more spaces
+            var indentText = (ctorIndentTrivia == default ? string.Empty : ctorIndentTrivia.ToString()) + new string(' ', 4);
+
+            var separated = new List<SyntaxNodeOrToken>();
+            for (int i = 0; i < newArgsList.Count; i++)
+            {
+                var arg = newArgsList[i]
+                    .WithLeadingTrivia(SyntaxFactory.ElasticCarriageReturnLineFeed, SyntaxFactory.Whitespace(indentText))
+                    .WithTrailingTrivia(); // remove trailing space to avoid 'arg ,' pattern
+
+                separated.Add(arg);
+
+                if (i < newArgsList.Count - 1)
+                {
+                    // comma token followed by nothing (newline is part of next arg leading trivia)
+                    separated.Add(SyntaxFactory.Token(SyntaxKind.CommaToken));
+                }
+            }
+
+            var newArgs = SyntaxFactory.SeparatedList<ArgumentSyntax>(separated);
+
+            var originalArgsText = init.ArgumentList.Arguments.ToFullString();
+            var newArgsText = newArgs.ToFullString();
+
+            if (!updated && string.Equals(originalArgsText, newArgsText, StringComparison.Ordinal))
+            {
+                var visited = base.VisitConstructorDeclaration(node);
+                return visited ?? node;
+            }
+
+            var newInit = init.WithArgumentList(init.ArgumentList.WithArguments(newArgs));
+            var newNode = node.WithInitializer(newInit);
+            if (_isLightGray)
+            {
+                newNode = newNode.WithParameterList(newParamList);
+            }
+
+            // Do NOT call NormalizeWhitespace here – it strips our custom indentation.
+
+            HasChanges = true;
+
+            var visitedNew = base.VisitConstructorDeclaration(newNode);
+            return visitedNew ?? newNode;
+        }
+    }
+
+    /// <summary>
+    /// Rewrites the *existing* constructor of a palette-base class so it
+    ///   • takes a single KryptonColorSchemeBase “scheme” parameter
+    ///   • drops the two Color[] parameters
+    ///   • rewrites body:  _ribbonColors = scheme.ToArray();
+    ///   • adds “BaseColors = scheme;” as first statement
+    /// A readonly field ‘_trackBarColors’ is deleted by pre-existing removal
+    /// code once it becomes unused.
+    /// </summary>
+    private sealed class BaseCtorSingleRewriter : CSharpSyntaxRewriter
+    {
+        private readonly string _schemeClassName;
+        private readonly bool _isLightGray;
+        public bool HasChanges { get; private set; }
+
+        private ExpressionSyntax SchemeCtorExpr => SyntaxFactory.ParseExpression($"new {_schemeClassName}().ToArray()");
+        private ExpressionSyntax TrackBarExpr  => SyntaxFactory.ParseExpression($"new {_schemeClassName}().ToTrackBarArray()");
+
+        public BaseCtorSingleRewriter(string schemeClassName)
         {
             _schemeClassName = schemeClassName;
             _isLightGray = schemeClassName.Contains("LightGray", StringComparison.OrdinalIgnoreCase);
@@ -809,22 +1025,13 @@ public static class SchemeGenerator
                 if (expr is IdentifierNameSyntax id)
                 {
                     var name = id.Identifier.Text;
-                    if (name is "_schemeBaseColors" or "schemeColors")
+                    if (name is "_schemeBaseColors" or "schemeColors" or "schemeColours")
                     {
                         replacement = _isLightGray ? SyntaxFactory.IdentifierName("scheme") : SchemeCtorExpr;
                     }
-                    else if (name is "_trackBarColors" or "trackBarColors")
+                    else if (name is "_trackBarColors" or "trackBarColors" or "trackBarColours")
                     {
-                        if (_isLightGray)
-                        {
-                            // Skip this argument entirely for LightGray
-                            updated = true;
-                            continue;
-                        }
-                        else
-                        {
-                            replacement = TrackBarExpr;
-                        }
+                        replacement = TrackBarExpr; // always pass track-bar array
                     }
                 }
                 // If the expression already matches the intended SchemeCtorExpr, no replacement needed.
@@ -1232,7 +1439,7 @@ public static class SchemeGenerator
     /// </summary>
     /// <param name="text">C# source code to inspect/modify.</param>
     /// <returns>Updated source code that includes the field declaration.</returns>
-    private static string EnsureBaseColorsField(string text)
+    private static string EnsureBaseColorsField(string text, bool singleCtor)
     {
         // Detect an existing declaration irrespective of nullable annotation
         if (Regex.IsMatch(text, @"\bKryptonColorSchemeBase\s*\??\s*BaseColors\s*;"))
@@ -1293,9 +1500,9 @@ public static class SchemeGenerator
             insertIdx = lines.Count - 1;
         }
 
-        var fieldLine = isBaseClass
-            ? "protected readonly KryptonColorSchemeBase? BaseColors;"
-            : "protected readonly KryptonColorSchemeBase BaseColors;";
+        var fieldLine = (isBaseClass && singleCtor)
+            ? "protected readonly KryptonColorSchemeBase BaseColors;"
+            : "protected readonly KryptonColorSchemeBase? BaseColors;";
 
         lines.Insert(insertIdx, indent + fieldLine);
 
