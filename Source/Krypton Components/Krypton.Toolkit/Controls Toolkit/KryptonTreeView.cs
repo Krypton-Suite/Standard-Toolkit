@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *
  */
 #endregion
 
@@ -78,7 +78,7 @@ public class KryptonTreeView : VisualControlBase,
         }
 
         /// <summary>
-        /// Releases all resources used by the Control. 
+        /// Releases all resources used by the Control.
         /// </summary>
         /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
         protected override void Dispose(bool disposing)
@@ -169,7 +169,7 @@ public class KryptonTreeView : VisualControlBase,
             switch (m.Msg)
             {
                 case PI.WM_.ERASEBKGND:
-                    // Do not draw the background here, always do it in the paint 
+                    // Do not draw the background here, always do it in the paint
                     // instead to prevent flicker because of a two stage drawing process
                     break;
                 case PI.WM_.PRINTCLIENT:
@@ -243,12 +243,13 @@ public class KryptonTreeView : VisualControlBase,
                 // If we managed to get a compatible bitmap
                 if (hBitmap != IntPtr.Zero)
                 {
+                    // Must use the screen device context for the bitmap when drawing into the
+                    // bitmap otherwise the Opacity and RightToLeftLayout will not work correctly.
+                    // Select the new bitmap into the screen DC
+                    var oldBitmap = PI.SelectObject(_screenDC, hBitmap);
+
                     try
                     {
-                        // Must use the screen device context for the bitmap when drawing into the 
-                        // bitmap otherwise the Opacity and RightToLeftLayout will not work correctly.
-                        PI.SelectObject(_screenDC, hBitmap);
-
                         // Easier to draw using a graphics instance than a DC!
                         using (Graphics g = Graphics.FromHdc(_screenDC))
                         {
@@ -285,6 +286,9 @@ public class KryptonTreeView : VisualControlBase,
                     }
                     finally
                     {
+                        // Restore the original bitmap
+                        PI.SelectObject(_screenDC, oldBitmap);
+
                         // Delete the temporary bitmap
                         PI.DeleteObject(hBitmap);
                     }
@@ -669,7 +673,7 @@ public class KryptonTreeView : VisualControlBase,
     private void OnTreeClick(object? sender, EventArgs e) => OnClick(e);
 
     /// <summary>
-    /// Releases all resources used by the Control. 
+    /// Releases all resources used by the Control.
     /// </summary>
     /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
     protected override void Dispose(bool disposing)
@@ -816,8 +820,8 @@ public class KryptonTreeView : VisualControlBase,
     public bool MultiSelect
     {
         get => _multiSelect || CheckBoxes;
-        set 
-        { 
+        set
+        {
             _multiSelect = value;
             // Force redraw of current options
             var checkedNodes = CheckedNodes;
@@ -1389,7 +1393,7 @@ public class KryptonTreeView : VisualControlBase,
     public void BeginUpdate() => _treeView.BeginUpdate();
 
     /// <summary>
-    /// Resumes painting the TreeView control after painting is suspended by the BeginUpdate method. 
+    /// Resumes painting the TreeView control after painting is suspended by the BeginUpdate method.
     /// </summary>
     public void EndUpdate() => _treeView.EndUpdate();
 
@@ -2180,7 +2184,7 @@ public class KryptonTreeView : VisualControlBase,
             {
                 try
                 {
-                    // Must use the screen device context for the bitmap when drawing into the 
+                    // Must use the screen device context for the bitmap when drawing into the
                     // bitmap otherwise the Opacity and RightToLeftLayout will not work correctly.
                     PI.SelectObject(_screenDC, hBitmap);
 
