@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *
  */
 #endregion
 
@@ -372,7 +372,7 @@ public class KryptonNumericUpDown : VisualControlBase,
                         rect.left -= borderSize.Width + 1;
 
                         //////////////////////////////////////////////////////
-                        // Following to allow the Draw to always happen, to allow centering etc  
+                        // Following to allow the Draw to always happen, to allow centering etc
                         _internalNumericUpDown.TextAlign =
                             states.Content.GetContentShortTextH(state) switch
                             {
@@ -490,7 +490,7 @@ public class KryptonNumericUpDown : VisualControlBase,
             // We need to create and cache a device context compatible with the display
             _screenDC = PI.CreateCompatibleDC(IntPtr.Zero);
         }
-        #endregion  
+        #endregion
 
         #region Public
         /// <summary>
@@ -577,12 +577,12 @@ public class KryptonNumericUpDown : VisualControlBase,
                         // If we managed to get a compatible bitmap
                         if (hBitmap != IntPtr.Zero)
                         {
+                            // Must use the screen device context for the bitmap when drawing into the
+                            // bitmap otherwise the Opacity and RightToLeftLayout will not work correctly.
+                            var oldBitmap = PI.SelectObject(_screenDC, hBitmap);
+
                             try
                             {
-                                // Must use the screen device context for the bitmap when drawing into the 
-                                // bitmap otherwise the Opacity and RightToLeftLayout will not work correctly.
-                                PI.SelectObject(_screenDC, hBitmap);
-
                                 // Easier to draw using a graphics instance than a DC!
                                 using Graphics g = Graphics.FromHdc(_screenDC);
                                 // Drawn entire client area in the background color
@@ -601,6 +601,9 @@ public class KryptonNumericUpDown : VisualControlBase,
                             }
                             finally
                             {
+                                // Restore the original bitmap
+                                PI.SelectObject(_screenDC, oldBitmap);
+
                                 // Delete the temporary bitmap
                                 PI.DeleteObject(hBitmap);
                             }
@@ -1956,7 +1959,7 @@ public class KryptonNumericUpDown : VisualControlBase,
             newWidth = CommonHelperUpDownBase.GetAutoSizeWidth(newWidth, MinimumSize.Width, MaximumSize.Width);
 
             if ( newWidth > 0)
-            { 
+            {
                 Width = newWidth + 1;
                 PerformNeedPaint(true);
             }
