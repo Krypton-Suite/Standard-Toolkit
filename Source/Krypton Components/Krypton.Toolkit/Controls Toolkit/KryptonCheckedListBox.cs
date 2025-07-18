@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *
  */
 #endregion
 
@@ -58,7 +58,7 @@ public class KryptonCheckedListBox : VisualControlBase,
         public bool Contains(object? item) => IndexOf(item) != -1;
 
         /// <summary>
-        /// Copies all the elements of the current collection to the specified Array. 
+        /// Copies all the elements of the current collection to the specified Array.
         /// </summary>
         /// <param name="array">The Array that is the destination of the elements copied from the collection.</param>
         /// <param name="index">The index in array at which copying begins.</param>
@@ -83,7 +83,7 @@ public class KryptonCheckedListBox : VisualControlBase,
         }
 
         /// <summary>
-        /// Returns an index into the collection of checked indexes. 
+        /// Returns an index into the collection of checked indexes.
         /// </summary>
         /// <param name="index">The index of the checked item.</param>
         /// <returns>-1 if not found; otherwise index position.</returns>
@@ -204,7 +204,7 @@ public class KryptonCheckedListBox : VisualControlBase,
         public bool Contains(object? item) => IndexOf(item) != -1;
 
         /// <summary>
-        /// Copies all the elements of the current collection to the specified Array. 
+        /// Copies all the elements of the current collection to the specified Array.
         /// </summary>
         /// <param name="array">The Array that is the destination of the elements copied from the collection.</param>
         /// <param name="index">The index in array at which copying begins.</param>
@@ -448,7 +448,7 @@ public class KryptonCheckedListBox : VisualControlBase,
         }
 
         /// <summary>
-        /// Releases all resources used by the Control. 
+        /// Releases all resources used by the Control.
         /// </summary>
         /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
         protected override void Dispose(bool disposing)
@@ -625,7 +625,7 @@ public class KryptonCheckedListBox : VisualControlBase,
                     base.WndProc(ref m);
                     return;
                 case PI.WM_.ERASEBKGND:
-                    // Do not draw the background here, always do it in the paint 
+                    // Do not draw the background here, always do it in the paint
                     // instead to prevent flicker because of a two stage drawing process
                     break;
                 case PI.WM_.PRINTCLIENT:
@@ -841,12 +841,13 @@ public class KryptonCheckedListBox : VisualControlBase,
                 // If we managed to get a compatible bitmap
                 if (hBitmap != IntPtr.Zero)
                 {
+                    // Must use the screen device context for the bitmap when drawing into the
+                    // bitmap otherwise the Opacity and RightToLeftLayout will not work correctly.
+                    // Select the new bitmap into the screen DC
+                    IntPtr oldBitmap = PI.SelectObject(_screenDC, hBitmap);
+
                     try
                     {
-                        // Must use the screen device context for the bitmap when drawing into the 
-                        // bitmap otherwise the Opacity and RightToLeftLayout will not work correctly.
-                        PI.SelectObject(_screenDC, hBitmap);
-
                         // Easier to draw using a graphics instance than a DC!
                         using (Graphics g = Graphics.FromHdc(_screenDC))
                         {
@@ -892,6 +893,9 @@ public class KryptonCheckedListBox : VisualControlBase,
                     }
                     finally
                     {
+                        // Restore the original bitmap
+                        PI.SelectObject(_screenDC, oldBitmap);
+
                         // Delete the temporary bitmap
                         PI.DeleteObject(hBitmap);
                     }
@@ -984,7 +988,7 @@ public class KryptonCheckedListBox : VisualControlBase,
 
     #region Events
     /// <summary>
-    /// Occurs when the property of a control is bound to a data value. 
+    /// Occurs when the property of a control is bound to a data value.
     /// </summary>
     [Description(@"Occurs when the property of a control is bound to a data value.")]
     [Category(@"Property Changed")]
@@ -1226,7 +1230,7 @@ public class KryptonCheckedListBox : VisualControlBase,
     // ReSharper restore RedundantBaseQualifier
 
     /// <summary>
-    /// Releases all resources used by the Control. 
+    /// Releases all resources used by the Control.
     /// </summary>
     /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
     protected override void Dispose(bool disposing)
@@ -1417,7 +1421,7 @@ public class KryptonCheckedListBox : VisualControlBase,
     private bool ShouldSerializeItemStyle() => ItemStyle != ButtonStyle.ListItem;
 
     /// <summary>
-    /// Gets or sets the width by which the horizontal scroll bar of a KryptonCheckedListBox can scroll. 
+    /// Gets or sets the width by which the horizontal scroll bar of a KryptonCheckedListBox can scroll.
     /// </summary>
     [Category(@"Behavior")]
     [Description(@"The width, in pixels, by which a list box can be scrolled horizontally. Only valid HorizontalScrollbar is true.")]
@@ -1430,7 +1434,7 @@ public class KryptonCheckedListBox : VisualControlBase,
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether a horizontal scroll bar is Displayed in the control. 
+    /// Gets or sets a value indicating whether a horizontal scroll bar is Displayed in the control.
     /// </summary>
     [Category(@"Behavior")]
     [Description(@"Indicates whether the KryptonCheckedListBox will display a horizontal scrollbar for items beyond the right edge of the KryptonCheckedListBox.")]
@@ -1443,7 +1447,7 @@ public class KryptonCheckedListBox : VisualControlBase,
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether the vertical scroll bar is shown at all times. 
+    /// Gets or sets a value indicating whether the vertical scroll bar is shown at all times.
     /// </summary>
     [Category(@"Behavior")]
     [Description(@"Indicates if the list box should always have a scroll bar present, regardless of how many items are present.")]
@@ -1493,7 +1497,7 @@ public class KryptonCheckedListBox : VisualControlBase,
     }
 
     /// <summary>
-    /// Gets the items of the KryptonCheckedListBox. 
+    /// Gets the items of the KryptonCheckedListBox.
     /// </summary>
     [Category(@"Data")]
     [Description(@"The items in the KryptonCheckedListBox.")]
@@ -1849,7 +1853,7 @@ public class KryptonCheckedListBox : VisualControlBase,
     public int IndexFromPoint(int x, int y) => _listBox.IndexFromPoint(x, y);
 
     /// <summary>
-    /// Selects or clears the selection for the specified item in a KryptonCheckedListBox. 
+    /// Selects or clears the selection for the specified item in a KryptonCheckedListBox.
     /// </summary>
     /// <param name="index">The zero-based index of the item in a KryptonCheckedListBox to select or clear the selection for.</param>
     /// <param name="value">true to select the specified item; otherwise, false.</param>
@@ -1870,7 +1874,7 @@ public class KryptonCheckedListBox : VisualControlBase,
     public void BeginUpdate() => _listBox.BeginUpdate();
 
     /// <summary>
-    /// Resumes painting the ListBox control after painting is suspended by the BeginUpdate method. 
+    /// Resumes painting the ListBox control after painting is suspended by the BeginUpdate method.
     /// </summary>
     public void EndUpdate() => _listBox.EndUpdate();
 
@@ -2361,34 +2365,39 @@ public class KryptonCheckedListBox : VisualControlBase,
             // If we managed to get a compatible bitmap
             if (hBitmap != IntPtr.Zero)
             {
+                // Must use the screen device context for the bitmap when drawing into the
+                // bitmap otherwise the Opacity and RightToLeftLayout will not work correctly.
+                IntPtr oldBitmap = PI.SelectObject(_screenDC, hBitmap);
+
                 try
                 {
-                    // Must use the screen device context for the bitmap when drawing into the 
-                    // bitmap otherwise the Opacity and RightToLeftLayout will not work correctly.
-                    PI.SelectObject(_screenDC, hBitmap);
-
                     // Easier to draw using a graphics instance than a DC!
-                    using Graphics g = Graphics.FromHdc(_screenDC);
-                    // Ask the view element to layout in given space, needs this before a render call
-                    using (var context = new ViewLayoutContext(this, Renderer))
+                    using (Graphics g = Graphics.FromHdc(_screenDC))
                     {
-                        context.DisplayRectangle = e.Bounds;
-                        _listBox.ViewDrawPanel.Layout(context);
-                        _layoutDocker.Layout(context);
-                    }
+                        // Ask the view element to layout in given space, needs this before a render call
+                        using (var context = new ViewLayoutContext(this, Renderer))
+                        {
+                            context.DisplayRectangle = e.Bounds;
+                            _listBox.ViewDrawPanel.Layout(context);
+                            _layoutDocker.Layout(context);
+                        }
 
-                    // Ask the view element to actually draw
-                    using (var context = new RenderContext(this, g, e.Bounds, Renderer))
-                    {
-                        _listBox.ViewDrawPanel.Render(context);
-                        _layoutDocker.Render(context);
-                    }
+                        // Ask the view element to actually draw
+                        using (var context = new RenderContext(this, g, e.Bounds, Renderer))
+                        {
+                            _listBox.ViewDrawPanel.Render(context);
+                            _layoutDocker.Render(context);
+                        }
 
-                    // Now blit from the bitmap from the screen to the real dc
-                    PI.BitBlt(hdc, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height, _screenDC, e.Bounds.X, e.Bounds.Y, PI.SRCCOPY);
+                        // Now blit from the bitmap from the screen to the real dc
+                        PI.BitBlt(hdc, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height, _screenDC, e.Bounds.X, e.Bounds.Y, PI.SRCCOPY);
+                    }
                 }
                 finally
                 {
+                    // Restore the original bitmap
+                    PI.SelectObject(_screenDC, oldBitmap);
+
                     // Delete the temporary bitmap
                     PI.DeleteObject(hBitmap);
                 }

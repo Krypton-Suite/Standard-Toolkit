@@ -31,6 +31,7 @@
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
             this.kpgExample = new Krypton.Toolkit.KryptonPropertyGrid();
             this.kryptonThemeComboBox1 = new Krypton.Toolkit.KryptonThemeComboBox();
+            this.kbtnStressTest = new Krypton.Toolkit.KryptonButton();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
@@ -38,6 +39,7 @@
             // 
             // kryptonPanel1
             // 
+            this.kryptonPanel1.Controls.Add(this.kbtnStressTest);
             this.kryptonPanel1.Controls.Add(this.kryptonThemeComboBox1);
             this.kryptonPanel1.Controls.Add(this.kpgExample);
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -48,11 +50,11 @@
             // 
             // kpgExample
             // 
-            this.kpgExample.Location = new System.Drawing.Point(13, 41);
+            this.kpgExample.Location = new System.Drawing.Point(13, 69);
             this.kpgExample.Name = "kpgExample";
             this.kpgExample.Padding = new System.Windows.Forms.Padding(1);
             this.kpgExample.SelectedObject = this.kpgExample;
-            this.kpgExample.Size = new System.Drawing.Size(362, 485);
+            this.kpgExample.Size = new System.Drawing.Size(362, 457);
             this.kpgExample.TabIndex = 0;
             this.kpgExample.Text = "kryptonPropertyGrid1";
             // 
@@ -66,6 +68,15 @@
             this.kryptonThemeComboBox1.Size = new System.Drawing.Size(362, 22);
             this.kryptonThemeComboBox1.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kryptonThemeComboBox1.TabIndex = 1;
+            // 
+            // kbtnStressTest
+            // 
+            this.kbtnStressTest.Location = new System.Drawing.Point(13, 41);
+            this.kbtnStressTest.Name = "kbtnStressTest";
+            this.kbtnStressTest.Size = new System.Drawing.Size(362, 22);
+            this.kbtnStressTest.TabIndex = 2;
+            this.kbtnStressTest.Values.Text = "Run Stress Test";
+            this.kbtnStressTest.Click += new System.EventHandler(this.kbtnStressTest_Click);
             // 
             // PropertyGridTest
             // 
@@ -89,5 +100,6 @@
         private KryptonPanel kryptonPanel1;
         private KryptonPropertyGrid kpgExample;
         private KryptonThemeComboBox kryptonThemeComboBox1;
+        private Krypton.Toolkit.KryptonButton kbtnStressTest;
     }
 }
