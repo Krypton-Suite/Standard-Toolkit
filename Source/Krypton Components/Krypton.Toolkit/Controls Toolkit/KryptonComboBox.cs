@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *
  */
 #endregion
 
@@ -308,7 +308,7 @@ public class KryptonComboBox : VisualControlBase,
                     var hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
 
                     //////////////////////////////////////////////////////
-                    // Following removed to allow the Draw to always happen, to allow centering etc  
+                    // Following removed to allow the Draw to always happen, to allow centering etc
                     //if (_kryptonComboBox.Enabled && _kryptonComboBox.DropDownStyle == ComboBoxStyle.DropDown)
                     //{
                     // Let base implementation draw the actual text area
@@ -378,7 +378,7 @@ public class KryptonComboBox : VisualControlBase,
                         }
                         else
                             ////////////////////////////////////////////////////////
-                            //// Following commented out, to allow the Draw to always happen even tho the edit box will draw over afterwards  
+                            //// Following commented out, to allow the Draw to always happen even tho the edit box will draw over afterwards
                             //// Draw Over is tracked here
                             ////  https://github.com/Krypton-Suite/Standard-Toolkit/issues/179
                             //// If not enabled or not the dropDown Style then we can draw over the text area
@@ -584,7 +584,7 @@ public class KryptonComboBox : VisualControlBase,
             //        //ItemHeight = Font.Height - 1;
 
             //        // #1455 - The lower part of the text can become clipped with chars like g, y, p, etc.
-            //        // when subtracting one from the font height. 
+            //        // when subtracting one from the font height.
             //        ItemHeight = Font.Height;
             //    }
             //    else
@@ -596,7 +596,7 @@ public class KryptonComboBox : VisualControlBase,
             //}
 
             // #1455 - The lower part of the text can become clipped with chars like g, y, p, etc.
-            // when subtracting one from the font height. 
+            // when subtracting one from the font height.
             ItemHeight = _osMajorVersion < 6
                 ? Font.Height + 1
                 : Font.Height;
@@ -1703,7 +1703,7 @@ public class KryptonComboBox : VisualControlBase,
 
         set
         {
-            // Do nothing, we set the ItemHeight internally to match the font 
+            // Do nothing, we set the ItemHeight internally to match the font
         }
     }
 
@@ -2052,7 +2052,7 @@ public class KryptonComboBox : VisualControlBase,
     public void BeginUpdate() => _comboBox.BeginUpdate();
 
     /// <summary>
-    /// Resumes painting the ComboBox control after painting is suspended by the BeginUpdate method. 
+    /// Resumes painting the ComboBox control after painting is suspended by the BeginUpdate method.
     /// </summary>
     public void EndUpdate() => _comboBox.EndUpdate();
 
@@ -2410,7 +2410,6 @@ public class KryptonComboBox : VisualControlBase,
             DropDownStyle = _deferredComboBoxStyle.Value;
             _deferredComboBoxStyle = null;
         }
-            
     }
 
     /// <summary>
@@ -2895,12 +2894,13 @@ public class KryptonComboBox : VisualControlBase,
                     // If we managed to get a compatible bitmap
                     if (hBitmap != IntPtr.Zero)
                     {
+                        // Must use the screen device context for the bitmap when drawing into the
+                        // bitmap otherwise the Opacity and RightToLeftLayout will not work correctly.
+                        // Select the new bitmap into the screen DC
+                        var oldBitmap = PI.SelectObject(_screenDC, hBitmap);
+
                         try
                         {
-                            // Must use the screen device context for the bitmap when drawing into the 
-                            // bitmap otherwise the Opacity and RightToLeftLayout will not work correctly.
-                            PI.SelectObject(_screenDC, hBitmap);
-
                             // Easier to draw using a graphics instance than a DC!
                             using Graphics g = Graphics.FromHdc(_screenDC);
                             // Ask the view element to layout in given space, needs this before a render call
@@ -2923,6 +2923,9 @@ public class KryptonComboBox : VisualControlBase,
                         }
                         finally
                         {
+                            // Restore the original bitmap
+                            PI.SelectObject(_screenDC, oldBitmap);
+
                             // Delete the temporary bitmap
                             PI.DeleteObject(hBitmap);
                         }
