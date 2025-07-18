@@ -285,6 +285,8 @@ namespace Krypton.Toolkit
             Color.Empty, // RibbonTabTracking4
             Color.Empty, // RibbonGroupBorder3
             Color.Empty, // RibbonGroupBorder4
+            Color.Empty, // RibbonGroupBorder5
+            Color.FromArgb(24, 24, 24), // RibbonGroupTitleText
             Color.Empty, // RibbonDropArrowLight
             Color.Empty // RibbonDropArrowDark
         };
