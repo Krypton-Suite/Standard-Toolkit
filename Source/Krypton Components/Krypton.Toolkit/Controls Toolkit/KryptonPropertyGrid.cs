@@ -1,7 +1,7 @@
 ﻿#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2021 - 2024. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2021 - 2025. All rights reserved.
  */
 #endregion
 
@@ -57,7 +57,7 @@ namespace Krypton.Toolkit
             }
 
             /// <summary>
-            /// Releases all resources used by the Control. 
+            /// Releases all resources used by the Control.
             /// </summary>
             /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
             protected override void Dispose(bool disposing)
@@ -120,7 +120,7 @@ namespace Krypton.Toolkit
                 switch (m.Msg)
                 {
                     case PI.WM_.ERASEBKGND:
-                        // Do not draw the background here, always do it in the paint 
+                        // Do not draw the background here, always do it in the paint
                         // instead to prevent flicker because of a two stage drawing process
                         break;
 
@@ -166,7 +166,7 @@ namespace Krypton.Toolkit
                     {
                         try
                         {
-                            // Must use the screen device context for the bitmap when drawing into the 
+                            // Must use the screen device context for the bitmap when drawing into the
                             // bitmap otherwise the Opacity and RightToLeftLayout will not work correctly.
                             PI.SelectObject(_screenDC, hBitmap);
 
@@ -259,7 +259,7 @@ namespace Krypton.Toolkit
         {
             // Contains another control and needs marking as such for validation to work
             SetStyle(ControlStyles.ContainerControl, true);
-            // Cannot select this control, only the child tree view and does not generate a 
+            // Cannot select this control, only the child tree view and does not generate a
             SetStyle(ControlStyles.Selectable | ControlStyles.StandardClick, false);
 
             // Default fields
@@ -318,8 +318,6 @@ namespace Krypton.Toolkit
             menuItems.Items.Add(_resetMenuItem);
 
             KryptonContextMenu.Items.Add(menuItems);
-
-            _propertyGrid.MouseDown += PropertyGrid_MouseDown;
         }
 
         /// <summary>
@@ -721,7 +719,7 @@ namespace Krypton.Toolkit
             switch (m.Msg)
             {
                 case PI.WM_.ERASEBKGND:
-                    // Do not draw the background here, always do it in the paint 
+                    // Do not draw the background here, always do it in the paint
                     // instead to prevent flicker because of a two stage drawing process
                     break;
                 case PI.WM_.VSCROLL:
@@ -756,6 +754,10 @@ namespace Krypton.Toolkit
                         // If the mouse position is within our client area
                         if (ClientRectangle.Contains(mousePt))
                         {
+                            // Update reset menu item enabled/text state just before showing menu
+                            bool canReset = CanResetCurrentProperty();
+                            _resetMenuItem.Enabled = canReset;
+
                             // Show the context menu
                             KryptonContextMenu.Show(this, PointToScreen(mousePt));
                         }
@@ -919,32 +921,6 @@ namespace Krypton.Toolkit
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         protected override ControlCollection CreateControlsInstance() => new KryptonReadOnlyControls(this);
 
-        private void PropertyGrid_MouseDown(object? sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Right && _propertyGrid.SelectedGridItem != null)
-            {
-                // Check if the selected property can be reset
-                if (_propertyGrid.SelectedGridItem is GridItem selectedGridItem &&
-                    selectedGridItem.PropertyDescriptor != null)
-                {
-                    PropertyDescriptor prop = selectedGridItem.PropertyDescriptor;
-
-                    // Ensure _propertyGrid.SelectedObject is not null before calling CanResetValue
-                    bool canReset = (prop.Attributes[typeof(DefaultValueAttribute)] != null ||
-                                     (_propertyGrid.SelectedObject != null && prop.CanResetValue(_propertyGrid.SelectedObject)));
-
-                    _resetMenuItem.Enabled = canReset; // Disable if it cannot be reset
-                }
-                else
-                {
-                    _resetMenuItem.Enabled = false; // Disable if no valid property is selected
-                }
-
-                // Show the KryptonContextMenu
-                KryptonContextMenu?.Show(this, PointToScreen(e.Location));
-            }
-        }
-
         private void OnPropertyGridClick(object? sender, EventArgs e) => OnClick(e);
 
         private void OnResetClick(object? sender, EventArgs e)
@@ -968,6 +944,52 @@ namespace Krypton.Toolkit
             }
         }
 
+        /// <summary>
+        /// Determine if currently selected property can be reset.
+        /// </summary>
+        /// <returns>True when reset is possible.</returns>
+        private bool CanResetCurrentProperty()
+        {
+            if (_propertyGrid.SelectedGridItem is not GridItem selectedGridItem || selectedGridItem.PropertyDescriptor is null)
+            {
+                return false;
+            }
+
+            PropertyDescriptor prop = selectedGridItem.PropertyDescriptor;
+
+            object[]? targets = _propertyGrid.SelectedObjects?.Length > 0
+                ? _propertyGrid.SelectedObjects
+                : _propertyGrid.SelectedObject is not null
+                    ? new[] { _propertyGrid.SelectedObject }
+                    : null;
+
+            if (targets == null)
+            {
+                return false;
+            }
+
+            foreach (object target in targets)
+            {
+                if (prop.CanResetValue(target))
+                {
+                    return true;
+                }
+            }
+
+            if (prop.Attributes[typeof(DefaultValueAttribute)] is DefaultValueAttribute dva)
+            {
+                foreach (object target in targets)
+                {
+                    object? current = prop.GetValue(target);
+                    if (!Equals(current, dva.Value))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
 
         #endregion
     }
