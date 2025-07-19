@@ -47,6 +47,41 @@ public static class SchemeGenerator
     // Marker for track-bar color arrays found in palette classes
     private const string TrackBarColorMarker = "private static readonly Color[] _trackBarColors";
 
+    // Family-base palette classes that must retain array backing for one more release
+    private static readonly HashSet<string> FamilyBaseNames = new HashSet<string>(StringComparer.Ordinal)
+    {
+        "PaletteMicrosoft365Base",
+        "PaletteOffice2007Base",
+        "PaletteOffice2010Base",
+        "PaletteOffice2013Base"
+    };
+
+    private static readonly HashSet<string> ExplicitlyExcludedFiles = new HashSet<string>(StringComparer.Ordinal)
+    {
+        "PaletteBase.cs",
+        "PaletteEnumerations.cs",
+        "KryptonColorSchemeBase.cs"
+    };
+
+    private static bool IsFamilyBase(string palettePath)
+    {
+        var name = Path.GetFileNameWithoutExtension(palettePath);
+        return FamilyBaseNames.Contains(name);
+    }
+
+    /// <summary>
+    /// Helper wrapper for reading text files. Acts as direct pass-through for now but centralises I/O for future caching.
+    /// </summary>
+    private static string GetFile(string path) => File.ReadAllText(path);
+
+    /// <summary>
+    /// Helper wrapper for writing text files using CR/LF normalisation and UTF-8 without BOM.
+    /// </summary>
+    private static void SetFile(string path, string content)
+        => File.WriteAllText(path, ToCrLf(content), Utf8NoBom);
+
+    private static bool _emptySchemeCreated;
+
     public static void Generate(string paletteFile, string outputFolder,
                             bool embedResx, bool dryRun,
                             bool overwrite, bool migrate,
@@ -83,9 +118,20 @@ public static class SchemeGenerator
 
         if (files.Length == 0) throw new FileNotFoundException($"No palette file found matching '{paletteFile}' (after excluding base classes)");
 
+        // Create shared EmptySchemeBase once
+        try
+        {
+            var repoRoot = LocateRepoRoot(Path.GetDirectoryName(files[0])!);
+            EnsureEmptySchemeBase(repoRoot, overwrite, dryRun);
+        }
+        catch { }
+
         int ok = 0, fail = 0;
         foreach (var palettePath in files)
         {
+            if (ExplicitlyExcludedFiles.Contains(Path.GetFileName(palettePath)))
+                continue;
+            bool isFamilyBase = IsFamilyBase(palettePath);
             var root = LocateRepoRoot(Path.GetDirectoryName(palettePath)!);
             var enumFile = Path.Combine(root, "Source", "Krypton Components", "Krypton.Toolkit", "Palette Builtin", "Enumerations", "PaletteEnumerations.cs");
             if (!File.Exists(enumFile))
@@ -134,7 +180,8 @@ public static class SchemeGenerator
                 {
                     string markerToUse = detectedBaseArrayMarker;
                     // Determine marker based on file contents if not set
-                    if (!File.ReadAllText(palettePath).Contains(BaseColorMarker) && File.ReadAllText(palettePath).Contains(OfficeColorMarker))
+                    var paletteTextTmp = GetFile(palettePath);
+                    if (!paletteTextTmp.Contains(BaseColorMarker) && paletteTextTmp.Contains(OfficeColorMarker))
                     {
                         markerToUse = OfficeColorMarker;
                     }
@@ -164,18 +211,27 @@ public static class SchemeGenerator
             // base scheme class even when they have no embedded colour arrays. This allows
             // their constructors to migrate to the KryptonColorSchemeBase overload just like
             // every other palette.
-            bool forceScheme = Path.GetFileName(palettePath).Contains("LightGray", StringComparison.OrdinalIgnoreCase);
-            if (forceScheme)
+            bool isLightGray = Path.GetFileName(palettePath).Contains("LightGray", StringComparison.OrdinalIgnoreCase);
+            if (isLightGray)
             {
-                hasAnyArrays |= true; // ensure subsequent logic emits a scheme file
+                // Do NOT generate a per-palette scheme; use shared EmptySchemeBase instead
+                hasAnyArrays = false;
             }
 
             if (!hasAnyArrays)
             {
-                var info = $"Info: {Path.GetFileName(palettePath)} – no color arrays found (already migrated).";
-                if (migrate)
+                string info;
+                if (isFamilyBase)
                 {
-                    info += " Running index conversion only.";
+                    info = $"Info: {Path.GetFileName(palettePath)} – processing as base class.";
+                }
+                else
+                {
+                    info = $"Info: {Path.GetFileName(palettePath)} – no color arrays found (already migrated).";
+                    if (migrate)
+                    {
+                        info += " Running index conversion only.";
+                    }
                 }
 
                 Console.WriteLine(info);
@@ -246,9 +302,12 @@ public static class SchemeGenerator
                 PrintMappingTable(enumNames, commentNames, colorsRaw, alignedColors);
             }
 
-            bool destWritten = false;
             string? className = null;
-            if (hasAnyArrays)
+            if (isLightGray)
+            {
+                className = "EmptySchemeBase";
+            }
+            else if (hasAnyArrays)
             {
                 className = Path.GetFileNameWithoutExtension(palettePath) + "_BaseScheme";
                 var code = GenerateSchemeCode(className, alignedColors, enumNames, missingFlags);
@@ -268,10 +327,9 @@ public static class SchemeGenerator
                     }
                     else
                     {
-                        File.WriteAllText(destPath, ToCrLf(code), Utf8NoBom);
+                        SetFile(destPath, code);
                         Console.WriteLine(destPath + (existed ? " *Overwritten." : string.Empty));
                         ok++;
-                        destWritten = true;
                     }
                 }
             }
@@ -280,81 +338,168 @@ public static class SchemeGenerator
             // We only touch the original palette file when:
             //   • we generated a scheme alongside it (destWritten), or
             //   • no separate output folder was specified (in-place generation).
+            // Determine if we process files in-place (no --output) or write converted copies elsewhere
             bool inPlace = string.IsNullOrWhiteSpace(outputFolder);
+            string? targetPath = palettePath;
+            if (!inPlace && !dryRun)
+            {
+                // Ensure copy exists in output folder before any modifications
+                var copyPath = Path.Combine(Path.GetFullPath(outputFolder), Path.GetFileName(palettePath));
+                if (!Path.Equals(copyPath, palettePath))
+                {
+                    Directory.CreateDirectory(Path.GetDirectoryName(copyPath)!);
+                    // only copy if not already done earlier in scheme generation
+                    if (!File.Exists(copyPath))
+                    {
+                        File.Copy(palettePath, copyPath, overwrite: true);
+                    }
+                    targetPath = copyPath;
+                }
+            }
             if (migrate && !dryRun)
             {
-                // 1) Remove arrays only if we generated and wrote the scheme file *or* in-place processing
-                if ((destWritten || inPlace) && className != null)
+                if (isFamilyBase)
                 {
-                    if (colorsRaw.Count > 0)
+                    // For family-base palettes: keep arrays, only add scheme ctor & obsolete attributes
+
+                    try
                     {
-                        RemoveArrayFromFile(palettePath, detectedBaseArrayMarker);
-                    }
-                    if (trackBarColorsRaw.Count > 0)
-                    {
-                        RemoveArrayFromFile(palettePath, TrackBarColorMarker);
-                    }
+                        var srcText = GetFile(targetPath);
+                        var replacedText = srcText;
 
-                    // Update constructor arguments to use generated scheme
-                    UpdateConstructorArguments(palettePath, className, oneCtor);
-                }
+                        // Ensure BaseColors field exists (harmless if already present)
+                        replacedText = EnsureBaseColorsField(replacedText, oneCtor);
 
-                // 2) Always run the color index to property conversion
-                try
-                {
-                    var srcText = File.ReadAllText(palettePath);
-                    var replacedText = ConvertRibbonColorArrayEntriesToProperties(srcText);
-                    replacedText = ConvertTrackBarColorArrayEntriesToProperties(replacedText);
-                    replacedText = ConvertColorTableArrayEntriesToBaseColors(replacedText);
-                    // Ensure a BaseColors field exists so the above replacements compile successfully
-                    replacedText = EnsureBaseColorsField(replacedText, oneCtor);
-
-                    // Fix: ensure a newline separates a closing brace from an immediately following #region/#endregion
-                    // directive *without* destroying its indentation.
-                    replacedText = Regex.Replace(
-                        replacedText,
-                        @"(?<indent>^[ \t]*)\}(?:[ \t]*#(?<dir>region|endregion))",
-                        m =>
-                        {
-                            var indent = m.Groups["indent"].Value;
-                            var dir    = m.Groups["dir"].Value;
-                            return $"{indent}}}\r\n{indent}#{dir}";
-                        },
-                        RegexOptions.Multiline);
-                    // Ensure a convenient constructor overload that directly accepts a KryptonColorSchemeBase instance
-                    // so derived palette classes can pass their generated scheme without calling ToArray().
-                    if (!oneCtor)                         // helper-ctor only when dual-ctor mode
+                        // Ensure KryptonColorSchemeBase constructor overload exists
                         replacedText = EnsureSchemeConstructor(replacedText);
 
-                    if (!string.Equals(srcText, replacedText, StringComparison.Ordinal))
-                    {
-                        // Always write the converted text back to the palette file itself when migrating.
-                        // This guarantees that residual index references are fixed even if the file no longer contains
-                        // the original color arrays (hasAnyArrays == false).
+                        // Mark any Color[] constructor as obsolete
+                        replacedText = EnsureObsoleteOnColorArrayConstructors(replacedText);
 
-                        File.WriteAllText(palettePath, ToCrLf(replacedText), Utf8NoBom);
-
-                        // Additionally, if the user requested an explicit output folder and is not working in-place,
-                        // emit a converted copy there for inspection.
-                        if (!string.IsNullOrWhiteSpace(outputFolder) && !inPlace)
+                        if (!string.Equals(srcText, replacedText, StringComparison.Ordinal))
                         {
-                            var copyPath = Path.Combine(Path.GetFullPath(outputFolder), Path.GetFileName(palettePath));
-                            if (!Path.Equals(copyPath, palettePath))
+                            SetFile(targetPath, replacedText);
+
+                            if (!inPlace)
                             {
-                                Directory.CreateDirectory(Path.GetDirectoryName(copyPath)!);
-                                File.WriteAllText(copyPath, ToCrLf(replacedText), Utf8NoBom);
-                                Console.WriteLine($"Converted copy written to {copyPath}");
+                                Console.WriteLine($"Updated family-base palette {Path.GetFileName(targetPath)}");
                             }
                         }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.Error.WriteLine($"{targetPath}: family-base migration failed - {ex.Message}");
+                    }
+                }
+                else
+                {
+                    // ===== regular (non-base) palette migration logic =====
+                    if (className != null)
+                    {
+                        if (colorsRaw.Count > 0)
+                        {
+                            RemoveArrayFromFile(targetPath, detectedBaseArrayMarker);
+                        }
+                        if (trackBarColorsRaw.Count > 0)
+                        {
+                            RemoveArrayFromFile(targetPath, TrackBarColorMarker);
+                        }
+
+                        // Update constructor arguments to use generated scheme
+                        UpdateConstructorArguments(targetPath, className, oneCtor);
+                    }
+
+                    try
+                    {
+                        var srcText = GetFile(targetPath);
+                        var replacedText = ConvertRibbonColorArrayEntriesToProperties(srcText);
+                        replacedText = ConvertTrackBarColorArrayEntriesToProperties(replacedText);
+                        replacedText = ConvertColorTableArrayEntriesToBaseColors(replacedText);
+                        replacedText = EnsureBaseColorsField(replacedText, oneCtor);
+                        if (!oneCtor)
+                            replacedText = EnsureSchemeConstructor(replacedText);
+
+                        // Always mark any remaining Color[] constructors as obsolete
+                        replacedText = EnsureObsoleteOnColorArrayConstructors(replacedText);
+
+                        // newline fix
+                        replacedText = Regex.Replace(
+                            replacedText,
+                            @"(?<indent>^[ \t]*)\}(?:[ \t]*#(?<dir>region|endregion))",
+                            m =>
+                            {
+                                var indent = m.Groups["indent"].Value;
+                                var dir    = m.Groups["dir"].Value;
+                                return $"{indent}}}\r\n{indent}#{dir}";
+                            },
+                            RegexOptions.Multiline);
+
+                        if (!string.Equals(srcText, replacedText, StringComparison.Ordinal))
+                        {
+                            SetFile(targetPath, replacedText);
+
+                            if (!inPlace)
+                            {
+                                Console.WriteLine($"Converted copy written to {targetPath}");
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.Error.WriteLine($"{targetPath}: array reference conversion failed - {ex.Message}");
+                    }
+                }
+            }
+
+            // Dry-run validation asserts
+            if (dryRun)
+            {
+                try
+                {
+                    string validationText;
+
+                    if (migrate)
+                    {
+                        // Use already transformed text if we migrated in-memory earlier
+                        if (isFamilyBase)
+                        {
+                            var src = GetFile(palettePath);
+                            validationText = EnsureObsoleteOnColorArrayConstructors(EnsureSchemeConstructor(EnsureBaseColorsField(src, oneCtor)));
+                        }
+                        else
+                        {
+                            var src = GetFile(palettePath);
+                            var tmp = ConvertRibbonColorArrayEntriesToProperties(src);
+                            tmp = ConvertTrackBarColorArrayEntriesToProperties(tmp);
+                            tmp = ConvertColorTableArrayEntriesToBaseColors(tmp);
+                            tmp = EnsureBaseColorsField(tmp, oneCtor);
+                            if (!oneCtor)
+                                tmp = EnsureSchemeConstructor(tmp);
+                            tmp = EnsureObsoleteOnColorArrayConstructors(tmp);
+                            validationText = tmp;
+                        }
+                    }
+                    else
+                    {
+                        // No migration requested – validate current state only
+                        validationText = GetFile(palettePath);
+                    }
+
+                    if (isFamilyBase)
+                    {
+                        ValidateFamilyBaseDryRun(Path.GetFileName(palettePath), validationText);
+                    }
+                    else
+                    {
+                        ValidateThemeDryRun(Path.GetFileName(palettePath), validationText);
                     }
                 }
                 catch (Exception ex)
                 {
-                    Console.Error.WriteLine($"{palettePath}: array reference conversion failed - {ex.Message}");
+                    Console.Error.WriteLine($"[CHECK ERROR] {Path.GetFileName(palettePath)}: {ex.Message}");
                 }
             }
 
-            // done processing this palette
             continue;
         }
 
@@ -370,6 +515,37 @@ public static class SchemeGenerator
                 Console.Error.WriteLine($"{fail} palette files failed");
             }
         }
+    }
+
+    private static void EnsureEmptySchemeBase(string repoRoot, bool overwrite, bool dryRun)
+    {
+        if (_emptySchemeCreated) return;
+        _emptySchemeCreated = true;
+
+        var destDir = Path.Combine(repoRoot, "Source", "Krypton Components", "Krypton.Toolkit", "Palette Builtin", "Base", "Schemes");
+        var destPath = Path.Combine(destDir, "EmptySchemeBase.cs");
+
+        if (dryRun)
+        {
+            Console.WriteLine(destPath);
+            return; // Skip generation in dry-run mode
+        }
+
+        var enumFile = Path.Combine(repoRoot, "Source", "Krypton Components", "Krypton.Toolkit", "Palette Builtin", "Enumerations", "PaletteEnumerations.cs");
+        if (!File.Exists(enumFile)) return;
+
+        var enumNames = ParseEnumNames(enumFile);
+        if (enumNames.Count == 0) return;
+
+        var colors = Enumerable.Repeat("GlobalStaticValues.EMPTY_COLOR", enumNames.Count).ToList();
+        var missing = Enumerable.Repeat(true, enumNames.Count).ToList();
+        var code = GenerateSchemeCode("EmptySchemeBase", colors, enumNames, missing);
+
+        Directory.CreateDirectory(destDir);
+
+        if (File.Exists(destPath) && !overwrite) return;
+
+        SetFile(destPath, code);
     }
 
     // ------------------------ NEW: Professional System extraction ---------------------------
@@ -437,7 +613,7 @@ public static class SchemeGenerator
             return;
         }
 
-        File.WriteAllText(destPath, ToCrLf(code), Utf8NoBom);
+        SetFile(destPath, code);
         Console.WriteLine("Scheme written to " + destPath);
     }
 
@@ -694,8 +870,8 @@ public static class SchemeGenerator
             }
         }
 
-        var finalText = ToCrLf(string.Join("\r\n", lines));
-        File.WriteAllText(filePath, finalText, Utf8NoBom);
+        var finalText = string.Join("\r\n", lines);
+        SetFile(filePath, finalText);
     }
 
     /// <summary>
@@ -703,7 +879,7 @@ public static class SchemeGenerator
     /// </summary>
     private static void UpdateConstructorArguments(string filePath, string schemeClassName, bool singleCtor)
     {
-        var source = File.ReadAllText(filePath);
+        var source = GetFile(filePath);
 
         // For LightGray palettes we leave the original constructor untouched.
         if (schemeClassName.IndexOf("LightGray", StringComparison.OrdinalIgnoreCase) >= 0)
@@ -739,7 +915,7 @@ public static class SchemeGenerator
         }
 
         var newText = newRoot.ToFullString();
-        File.WriteAllText(filePath, ToCrLf(newText), Utf8NoBom);
+        SetFile(filePath, newText);
     }
 
     /// <summary>
@@ -801,7 +977,7 @@ public static class SchemeGenerator
                 {
                     var pName = p.Identifier.Text;
                     // Drop the two Color[] parameters
-                    if (pName is "schemeColors" or "schemeColours" or "trackBarColors" or "trackBarColours")
+                    if (pName is "schemeColors" or "schemeColors" or "trackBarColors" or "trackBarColors")
                     {
                         updated = true;
                         continue;
@@ -914,8 +1090,10 @@ public static class SchemeGenerator
 
             if (!updated && string.Equals(originalArgsText, newArgsText, StringComparison.Ordinal))
             {
-                var visited = base.VisitConstructorDeclaration(node);
-                return visited ?? node;
+                // Ensure obsolete attribute even when no other changes are required
+                var obsoleteChecked = AddObsoleteIfRequired(node);
+                var visited = base.VisitConstructorDeclaration(obsoleteChecked);
+                return visited ?? obsoleteChecked;
             }
 
             var newInit = init.WithArgumentList(init.ArgumentList.WithArguments(newArgs));
@@ -925,6 +1103,9 @@ public static class SchemeGenerator
                 newNode = newNode.WithParameterList(newParamList);
             }
 
+            // Inject obsolete attribute on the legacy constructor (with Color[] parameter)
+            newNode = AddObsoleteIfRequired(newNode);
+
             // Do NOT call NormalizeWhitespace here – it strips our custom indentation.
 
             HasChanges = true;
@@ -932,15 +1113,60 @@ public static class SchemeGenerator
             var visitedNew = base.VisitConstructorDeclaration(newNode);
             return visitedNew ?? newNode;
         }
+
+        /// <summary>
+        /// Adds a [System.Obsolete] attribute to constructors that still accept a Color[] parameter
+        /// as the first non-string argument, unless the attribute is already present.
+        /// </summary>
+        private static ConstructorDeclarationSyntax AddObsoleteIfRequired(ConstructorDeclarationSyntax ctor)
+        {
+            // skip if already decorated
+            if (ctor.AttributeLists.Any(al => al.Attributes.Any(a => a.Name.ToString().Contains("Obsolete"))))
+            {
+                return ctor;
+            }
+
+            bool firstNonStringIsColorArray = false;
+            foreach (var p in ctor.ParameterList.Parameters)
+            {
+                var typeStr = p.Type?.ToString() ?? string.Empty;
+                if (string.Equals(typeStr, "string", StringComparison.OrdinalIgnoreCase))
+                {
+                    continue; // string parameters are ignored
+                }
+                firstNonStringIsColorArray = typeStr.IndexOf("Color[]", StringComparison.Ordinal) >= 0;
+                break; // only first non-string parameter considered
+            }
+
+            if (!firstNonStringIsColorArray)
+            {
+                return ctor;
+            }
+
+            var obsoleteAttr = SyntaxFactory.AttributeList(
+                SyntaxFactory.SingletonSeparatedList(
+                    SyntaxFactory.Attribute(
+                        SyntaxFactory.ParseName("System.Obsolete"),
+                        SyntaxFactory.ParseAttributeArgumentList("(\"Color[] constructor is obsolete. Use KryptonColorSchemeBase overload.\", false)"))));
+
+            // Preserve indentation: align attribute with constructor
+            var leadingTrivia = ctor.GetLeadingTrivia();
+            if (leadingTrivia.Any())
+            {
+                obsoleteAttr = obsoleteAttr.WithLeadingTrivia(leadingTrivia);
+            }
+
+            return ctor.AddAttributeLists(obsoleteAttr);
+        }
     }
 
     /// <summary>
     /// Rewrites the *existing* constructor of a palette-base class so it
-    ///   • takes a single KryptonColorSchemeBase “scheme” parameter
+    ///   • takes a single KryptonColorSchemeBase "scheme" parameter
     ///   • drops the two Color[] parameters
     ///   • rewrites body:  _ribbonColors = scheme.ToArray();
-    ///   • adds “BaseColors = scheme;” as first statement
-    /// A readonly field ‘_trackBarColors’ is deleted by pre-existing removal
+    ///   • adds "BaseColors = scheme;" as first statement
+    /// A readonly field 'trackBarColors' is deleted by pre-existing removal
     /// code once it becomes unused.
     /// </summary>
     private sealed class BaseCtorSingleRewriter : CSharpSyntaxRewriter
@@ -1025,11 +1251,11 @@ public static class SchemeGenerator
                 if (expr is IdentifierNameSyntax id)
                 {
                     var name = id.Identifier.Text;
-                    if (name is "_schemeBaseColors" or "schemeColors" or "schemeColours")
+                    if (name is "_schemeBaseColors" or "schemeColors" or "schemeColors")
                     {
                         replacement = _isLightGray ? SyntaxFactory.IdentifierName("scheme") : SchemeCtorExpr;
                     }
-                    else if (name is "_trackBarColors" or "trackBarColors" or "trackBarColours")
+                    else if (name is "_trackBarColors" or "trackBarColors" or "trackBarColors")
                     {
                         replacement = TrackBarExpr; // always pass track-bar array
                     }
@@ -1094,8 +1320,9 @@ public static class SchemeGenerator
 
             if (!updated && string.Equals(originalArgsText, newArgsText, StringComparison.Ordinal))
             {
-                var visited = base.VisitConstructorDeclaration(node);
-                return visited ?? node;
+                var obsoleteChecked = AddObsoleteIfRequired(node);
+                var visited = base.VisitConstructorDeclaration(obsoleteChecked);
+                return visited ?? obsoleteChecked;
             }
 
             var newInit = init.WithArgumentList(init.ArgumentList.WithArguments(newArgs));
@@ -1105,6 +1332,9 @@ public static class SchemeGenerator
                 newNode = newNode.WithParameterList(newParamList);
             }
 
+            // Inject obsolete attribute on Color[] constructor
+            newNode = AddObsoleteIfRequired(newNode);
+
             // Do NOT call NormalizeWhitespace here – it strips our custom indentation.
 
             HasChanges = true;
@@ -1112,10 +1342,56 @@ public static class SchemeGenerator
             var visitedNew = base.VisitConstructorDeclaration(newNode);
             return visitedNew ?? newNode;
         }
+
+        /// <inheritdoc cref="BaseCtorArgRewriter.AddObsoleteIfRequired" />
+        private static ConstructorDeclarationSyntax AddObsoleteIfRequired(ConstructorDeclarationSyntax ctor)
+        {
+            if (ctor.AttributeLists.Any(al => al.Attributes.Any(a => a.Name.ToString().Contains("Obsolete"))))
+            {
+                return ctor;
+            }
+
+            bool firstNonStringIsColorArray = false;
+            foreach (var p in ctor.ParameterList.Parameters)
+            {
+                var typeStr = p.Type?.ToString() ?? string.Empty;
+                if (string.Equals(typeStr, "string", StringComparison.OrdinalIgnoreCase))
+                {
+                    continue;
+                }
+                firstNonStringIsColorArray = typeStr.IndexOf("Color[]", StringComparison.Ordinal) >= 0;
+                break;
+            }
+
+            if (!firstNonStringIsColorArray)
+            {
+                return ctor;
+            }
+
+            var obsoleteAttr = SyntaxFactory.AttributeList(
+                SyntaxFactory.SingletonSeparatedList(
+                    SyntaxFactory.Attribute(
+                        SyntaxFactory.ParseName("System.Obsolete"),
+                        SyntaxFactory.ParseAttributeArgumentList("(\"Color[] constructor is obsolete. Use KryptonColorSchemeBase overload.\", false)"))));
+
+            var leadingTrivia = ctor.GetLeadingTrivia();
+            if (leadingTrivia.Any())
+            {
+                obsoleteAttr = obsoleteAttr.WithLeadingTrivia(leadingTrivia);
+            }
+
+            return ctor.AddAttributeLists(obsoleteAttr);
+        }
     }
 
     private static IEnumerable<string> EnumeratePaletteFiles(string spec)
     {
+        // If a directory path was supplied, gather all .cs files beneath it
+        if (Directory.Exists(spec))
+        {
+            return Directory.GetFiles(Path.GetFullPath(spec), "*.cs", SearchOption.AllDirectories);
+        }
+
         bool hasWildcards = spec.IndexOfAny(new[] { '*', '?' }) >= 0;
 
         if (!hasWildcards && File.Exists(spec)) return new[] { Path.GetFullPath(spec) };
@@ -1133,6 +1409,16 @@ public static class SchemeGenerator
             return Directory.GetFiles(tkPaletteRoot, spec, SearchOption.AllDirectories);
         }
 
+        // Try resolving directory relative to repo root when not absolute / not found
+        if (!Path.IsPathRooted(spec))
+        {
+            var altDir = Path.Combine(LocateRepoRoot(Directory.GetCurrentDirectory()), spec);
+            if (Directory.Exists(altDir))
+            {
+                return Directory.GetFiles(altDir, "*.cs", SearchOption.AllDirectories);
+            }
+        }
+
         return Array.Empty<string>();
     }
 
@@ -1142,7 +1428,7 @@ public static class SchemeGenerator
     private static List<string> ExtractColorsRoslyn(string filePath, string variableName, out List<string> commentsOut, IReadOnlyList<string> enumNames)
     {
         commentsOut = new List<string>();
-        var code = File.ReadAllText(filePath);
+        var code = GetFile(filePath);
         var tree = CSharpSyntaxTree.ParseText(code, CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.Preview));
         var root = tree.GetCompilationUnitRoot();
 
@@ -1613,6 +1899,31 @@ public static class SchemeGenerator
         return Regex.Replace(newTextInsert, "(\r\n){3,}", "\r\n\r\n");
     }
 
+    /// <summary>
+    /// Ensures that a constructor overload accepting a <see cref="KryptonColorSchemeBase"/> instance exists.
+    /// If missing, a new constructor is inserted just before the <c>#endregion Identity</c> marker of the class.
+    /// </summary>
+    /// <param name="text">The source code to inspect/modify.</param>
+    /// <returns>The updated source code.</returns>
+    private static string EnsureObsoleteOnColorArrayConstructors(string text)
+    {
+        var tree = CSharpSyntaxTree.ParseText(text, CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.Preview));
+        var root = tree.GetCompilationUnitRoot();
+
+        var rewriter = new ObsoleteColorArrayConstructorRewriter();
+        var newRoot = (CompilationUnitSyntax)rewriter.Visit(root);
+
+        bool hasChanges = rewriter.HasChanges;
+
+        if (!hasChanges)
+        {
+            return text; // nothing modified
+        }
+
+        var newText = newRoot.ToFullString();
+        return newText;
+    }
+
     // Generic helper used by both professional palettes
     private static void GenerateFromPalette(object paletteInstance, string className, string outputFolder, bool dryRun, bool overwrite)
     {
@@ -1669,7 +1980,137 @@ public static class SchemeGenerator
             return;
         }
 
-        File.WriteAllText(destPath, ToCrLf(code), Utf8NoBom);
+        SetFile(destPath, code);
         Console.WriteLine("Scheme written to " + destPath);
+    }
+
+    private static void ValidateFamilyBaseDryRun(string fileName, string text)
+    {
+        if (!IsPaletteClass(text)) return; // skip helper files
+
+        bool ok = true;
+        void Fail(string msg) { Console.Error.WriteLine($"[CHECK FAIL] {fileName}: {msg}"); ok = false; }
+
+        // At least one obsolete attribute on Color[] ctor
+        bool hasColorArrayCtor = Regex.IsMatch(text, @"\(\s*(?:\[[^\]]*\]\s*)*Color\[\]\s+\w+");
+        if (hasColorArrayCtor && !Regex.IsMatch(text, @"\[\s*System\.Obsolete"))
+            Fail("Missing [Obsolete] attribute on Color[] constructor");
+
+        if (!Regex.IsMatch(text, @"private\s+readonly\s+Color\[\]\s+_ribbonColors"))
+            Fail("_ribbonColors array field removed");
+
+        // Disallow BaseColors.property reads except the "?.ToArray()/ToTrackBarArray()" helper accesses
+        var matches = Regex.Matches(text, @"BaseColors\.([A-Za-z0-9_]+)");
+        foreach (Match m in matches)
+        {
+            var prop = m.Groups[1].Value;
+            if (prop != "ToArray()" && prop != "ToTrackBarArray()")
+            {
+                Fail("Found direct BaseColors property access: " + prop);
+                break;
+            }
+        }
+
+        // Ensure scheme overload exists
+        if (!Regex.IsMatch(text, @"KryptonColorSchemeBase\s+scheme"))
+            Fail("Scheme overload constructor missing");
+
+        if (ok)
+            Console.WriteLine($"[CHECK OK] {fileName} family-base validation passed.");
+    }
+
+    private static void ValidateThemeDryRun(string fileName, string text)
+    {
+        if (!IsPaletteClass(text)) return; // skip helper files
+
+        bool ok = true;
+        void Fail(string msg) { Console.Error.WriteLine($"[CHECK FAIL] {fileName}: {msg}"); ok = false; }
+
+        bool hasArrayIndexers = Regex.IsMatch(text, @"_ribbonColors\[");
+        if (hasArrayIndexers)
+            Fail("Residual _ribbonColors indexers detected");
+
+        bool baseColorsUsage = Regex.IsMatch(text, @"BaseColors\.[A-Z]");
+
+        if (!baseColorsUsage && !hasArrayIndexers)
+        {
+            Console.WriteLine($"[UNSUPPORTED] {fileName} – palette not yet covered by automatic migration.");
+            return;
+        }
+
+        if (!baseColorsUsage)
+            Fail("No BaseColors property usages detected – conversion might have failed");
+
+        bool hasColorArrayCtor = Regex.IsMatch(text, @"\(\s*(?:\[[^\]]*\]\s*)*Color\[\]\s+\w+");
+        bool hasObsolete = Regex.IsMatch(text, @"\[\s*System\.Obsolete");
+        if (hasColorArrayCtor && !hasObsolete)
+            Fail("Obsolete attribute missing on Color[] constructor");
+
+        if (ok)
+            Console.WriteLine($"[CHECK OK] {fileName} theme validation passed.");
+    }
+
+    private static bool IsPaletteClass(string text)
+        => Regex.IsMatch(text, @"class\s+\w+\s*:\s*[^\{\r\n]*\bPaletteBase\b")
+           && !Regex.IsMatch(text, @"abstract\s+class");
+}
+
+/// <summary>
+/// Roslyn-based visitor that rewrites constructors to mark Color[] constructors as obsolete.
+/// </summary>
+internal sealed class ObsoleteColorArrayConstructorRewriter : CSharpSyntaxRewriter
+{
+    public bool HasChanges { get; private set; }
+
+    public override SyntaxNode VisitConstructorDeclaration(ConstructorDeclarationSyntax node)
+    {
+        var newNode = AddObsoleteIfRequired(node);
+
+        if (!object.ReferenceEquals(newNode, node))
+        {
+            HasChanges = true;
+        }
+
+        return base.VisitConstructorDeclaration(newNode) ?? newNode;
+    }
+
+    /// <inheritdoc cref="BaseCtorArgRewriter.AddObsoleteIfRequired" />
+    private static ConstructorDeclarationSyntax AddObsoleteIfRequired(ConstructorDeclarationSyntax ctor)
+    {
+        if (ctor.AttributeLists.Any(al => al.Attributes.Any(a => a.Name.ToString().Contains("Obsolete"))))
+        {
+            return ctor;
+        }
+
+        bool firstNonStringIsColorArray = false;
+        foreach (var p in ctor.ParameterList.Parameters)
+        {
+            var typeStr = p.Type?.ToString() ?? string.Empty;
+            if (string.Equals(typeStr, "string", StringComparison.OrdinalIgnoreCase))
+            {
+                continue;
+            }
+            firstNonStringIsColorArray = typeStr.IndexOf("Color[]", StringComparison.Ordinal) >= 0;
+            break;
+        }
+
+        if (!firstNonStringIsColorArray)
+        {
+            return ctor;
+        }
+
+        var obsoleteAttr = SyntaxFactory.AttributeList(
+            SyntaxFactory.SingletonSeparatedList(
+                SyntaxFactory.Attribute(
+                    SyntaxFactory.ParseName("System.Obsolete"),
+                    SyntaxFactory.ParseAttributeArgumentList("(\"Color[] constructor is obsolete. Use KryptonColorSchemeBase overload.\", false)"))));
+
+        var leadingTrivia = ctor.GetLeadingTrivia();
+        if (leadingTrivia.Any())
+        {
+            obsoleteAttr = obsoleteAttr.WithLeadingTrivia(leadingTrivia);
+        }
+
+        return ctor.AddAttributeLists(obsoleteAttr);
     }
 }

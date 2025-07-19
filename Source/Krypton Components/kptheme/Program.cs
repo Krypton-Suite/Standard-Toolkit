@@ -69,18 +69,29 @@ internal static class Program
     private static int RunGenScheme(string[] args)
     {
         var dict = ParseArgs(args);
-        if (!dict.TryGetValue("--file", out var palette) && !dict.TryGetValue("-f", out palette) &&
-            !dict.ContainsKey("--directory") && !dict.ContainsKey("-d"))
-        {
-            Console.Error.WriteLine("No --file or --directory specified. Nothing to do.");
-            PrintGenSchemeUsage();
-            return 1;
-        }
         string? output = null;
         if (!dict.TryGetValue("--output", out output))
         {
             dict.TryGetValue("-o", out output);
         }
+
+        // Determine palette specification (file or directory)
+        string paletteSpec;
+        if (dict.TryGetValue("--file", out var fileSpec) || dict.TryGetValue("-f", out fileSpec))
+        {
+            paletteSpec = fileSpec;
+        }
+        else if (dict.TryGetValue("--directory", out var dirSpec) || dict.TryGetValue("-d", out dirSpec))
+        {
+            paletteSpec = dirSpec; // pass directory path directly; SchemeGenerator handles recursion
+        }
+        else
+        {
+            Console.Error.WriteLine("No --file or --directory specified. Nothing to do.");
+            PrintGenSchemeUsage();
+            return 1;
+        }
+
         var dryRun = dict.ContainsKey("--dry-run");
         var printMapping = dict.ContainsKey("--print");
         var oneCtor      = dict.ContainsKey("--ctor1");
@@ -96,7 +107,8 @@ internal static class Program
             Console.WriteLine("Dry-run mode: no files will be written.");
         }
         var overwrite = dict.ContainsKey("--overwrite");
-        SchemeGenerator.Generate(palette ?? string.Empty,
+
+        SchemeGenerator.Generate(paletteSpec,
                                  output ?? string.Empty,
                                  embedResx: dict.ContainsKey("--embed-resx"),
                                  dryRun: dryRun,

@@ -34,12 +34,12 @@ public class PaletteMicrosoft365LightGray : PaletteMicrosoft365Base
 
     // TODO: convert to use KryptonColorSchemeBase
     public PaletteMicrosoft365LightGray(
-        Color[] schemeColours,
+        Color[] schemeColors,
         ImageList checkBoxList,
         ImageList galleryButtonList,
         Image?[] radioButtonArray,
-        Color[] trackBarColours)
-        : base(schemeColours, checkBoxList, galleryButtonList, radioButtonArray, trackBarColours)
+        Color[] trackBarColors)
+        : base(schemeColors, checkBoxList, galleryButtonList, radioButtonArray, trackBarColors)
     {
     }
 

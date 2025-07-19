@@ -37,7 +37,7 @@ internal static class PaletteSchemeColorExtensions
             }
         }
 
-        // Fallback: access private _ribbonColours/_ribbonColors array
+        // Fallback: access private _ribbonColors/_ribbonColors array
         Color[]? scheme = GetColorArray(palette);
         return scheme is { Length: > 0 } && (int)colorEnum < scheme.Length
             ? scheme[(int)colorEnum]
@@ -135,8 +135,7 @@ internal static class PaletteSchemeColorExtensions
 
     private static Color[]? GetColorArray(PaletteBase palette)
     {
-        FieldInfo? fi = palette.GetType().GetField("_ribbonColours", BindingFlags.NonPublic | BindingFlags.Instance)
-                        ?? palette.GetType().GetField("_ribbonColors", BindingFlags.NonPublic | BindingFlags.Instance);
+        FieldInfo? fi = palette.GetType().GetField("_ribbonColors", BindingFlags.NonPublic | BindingFlags.Instance);
         return fi?.GetValue(palette) as Color[];
     }
 

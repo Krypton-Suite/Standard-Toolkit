@@ -27,6 +27,83 @@ Nothing in the low-level rendering pipeline had to change – all internal code 
 works with simple arrays – but **every public API writen or reviewed becomes
 readable and type-safe**.
 
+## Current migration workflow (SchemeGenerator v2)
+
+The `kptheme genscheme` command is the single tool used to maintain, verify and migrate palette files.
+It supports **two orthogonal switches**:
+
+* `--migrate`   – perform source-level changes in the palette files themselves (array removal, ctor rewrites…)
+* `--dry-run`   – simulate everything **in-memory only** and print a validation report instead of touching any file
+
+### 1. Palette categories
+
+SchemeGenerator distinguishes between two kinds of palette classes:
+
+1. **Family-base palettes** – four concrete abstract bases that sit directly on `PaletteBase` and have many derived “theme” subclasses.
+   • `PaletteMicrosoft365Base`
+   • `PaletteOffice2007Base`
+   • `PaletteOffice2010Base`
+   • `PaletteOffice2013Base`
+
+   They **retain the legacy `_ribbonColors` array for one more release**.  Migration only
+   – adds a strongly-typed constructor that forwards the scheme to the existing array,
+   – injects `[Obsolete(..., false)]` on every `Color[]` constructor,
+   – ensures a nullable `BaseColors` field is present.  No array removal or index-to-property conversion is executed yet.
+
+2. **Theme palettes** – every other concrete palette class.  These are migrated fully: colour arrays are deleted, all `[...]` accesses become `BaseColors.<Property>`, and a helper overload taking a `KryptonColorSchemeBase` is inserted (until the next major version when the legacy `Color[]` ctor disappears entirely).
+
+### 2. Typical commands
+
+• **Preview everything, no writes – safe!**
+
+```bash
+kptheme genscheme --migrate --dry-run -d "Source/Krypton Components/Krypton.Toolkit/Palette Builtin"
+```
+
+The generator runs all transformations in memory and prints
+`[CHECK OK]` / `[CHECK FAIL]` lines for each palette.  Nothing on disk is modified.
+
+• **Generate scheme classes only**
+
+```bash
+kptheme genscheme -f PaletteMicrosoft365Black.cs
+```
+
+This creates / updates `Schemes/PaletteMicrosoft365Black_BaseScheme.cs` next to the palette but leaves the palette source untouched.
+
+• **Full migration pass** (use after the dry-run is clean!)
+
+```bash
+kptheme genscheme --migrate -d "Palette Builtin" --overwrite
+```
+
+Writes scheme files *and* updates palette sources in place.  Family-bases keep their arrays, themes lose them.
+
+### 3. Built-in validation in dry-run mode
+
+During `--dry-run` SchemeGenerator simulates the transformation and then asserts that the resulting text obeys the expected rules.
+
+Family-base checks:
+    - `[Obsolete]` attribute present on every `Color[]` constructor
+    - `_ribbonColors` array still declared
+    - No `BaseColors.` property usages
+    - New `KryptonColorSchemeBase` overload exists
+
+Theme palette checks:
+    - No residual `_ribbonColors[...]` indexers
+    - At least one `BaseColors.` property usage
+    - `[Obsolete]` attribute present on the legacy ctor
+
+A failing check is printed as `[CHECK FAIL] PaletteName: message` and the process exits with a non-zero status.
+
+### 4. Release timeline
+
+• **Current release** – V100: dual constructors, arrays still available in family-bases, marked obsolete.
+
+• **Next major release** – V110: obsolete array-based constructors will be removed; family-bases will finally drop the arrays and adopt the same strong-typed implementation as themes.
+
+---
+
 ## `KryptonColorSchemeBase` (new)
 
 * Purely abstract – **no arrays, no collections**.
