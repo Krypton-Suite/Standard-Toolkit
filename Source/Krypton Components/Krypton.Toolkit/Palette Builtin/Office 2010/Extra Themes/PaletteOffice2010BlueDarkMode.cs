@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
- *  
+ *
  */
 #endregion
 
@@ -233,38 +233,38 @@ public class PaletteOffice2010BlueDarkMode : PaletteOffice2010BlueDarkModeBase
         Color.FromArgb(219, 231, 247), // RibbonQATMini2
         Color.FromArgb(195, 213, 236), // RibbonQATMini3
         Color.FromArgb(128, Color.White), // RibbonQATMini4
-        Color.FromArgb(72, Color.White), // RibbonQATMini5                                                       
+        Color.FromArgb(72, Color.White), // RibbonQATMini5
         Color.FromArgb(153, 176, 206), // RibbonQATMini1I
         Color.FromArgb(226, 233, 241), // RibbonQATMini2I
         Color.FromArgb(198, 210, 226), // RibbonQATMini3I
         Color.FromArgb(128, Color.White), // RibbonQATMini4I
-        Color.FromArgb(72, Color.White), // RibbonQATMini5I                                                      
-        Color.FromArgb(178, 205, 237), // RibbonQATFullbar1                                                      
-        Color.FromArgb(170, 197, 234), // RibbonQATFullbar2                                                      
-        Color.FromArgb(126, 161, 205), // RibbonQATFullbar3                                                      
-        Color.FromArgb(86, 125, 177), // RibbonQATButtonDark                                                      
-        Color.FromArgb(234, 242, 249), // RibbonQATButtonLight                                                      
-        Color.FromArgb(192, 220, 255), // RibbonQATOverflow1                                                      
-        Color.FromArgb(55, 100, 160), // RibbonQATOverflow2                                                      
-        Color.FromArgb(140, 172, 211), // RibbonGroupSeparatorDark                                                      
-        Color.FromArgb(248, 250, 252), // RibbonGroupSeparatorLight                                                      
-        Color.FromArgb(192, 212, 241), // ButtonClusterButtonBack1                                                      
-        Color.FromArgb(200, 219, 238), // ButtonClusterButtonBack2                                                      
-        Color.FromArgb(155, 183, 224), // ButtonClusterButtonBorder1                                                      
-        Color.FromArgb(117, 150, 191), // ButtonClusterButtonBorder2                                                      
-        Color.FromArgb(213, 228, 242), // NavigatorMiniBackColor                                                    
-        Color.FromArgb(134, 179, 236), // GridListNormal1                                                    
-        Color.FromArgb(63, 122, 197), // GridListNormal2                                                    
-        Color.FromArgb(63, 122, 197), // GridListPressed1                                                    
-        Color.FromArgb(252, 253, 255), // GridListPressed2                                                    
-        Color.FromArgb(170, 195, 240), // GridListSelected                                                    
-        Color.FromArgb(134, 179, 236), // GridSheetColNormal1                                                    
-        Color.FromArgb(63, 122, 197), // GridSheetColNormal2                                                    
-        Color.FromArgb(223, 226, 228), // GridSheetColPressed1                                                    
-        Color.FromArgb(188, 197, 210), // GridSheetColPressed2                                                    
+        Color.FromArgb(72, Color.White), // RibbonQATMini5I
+        Color.FromArgb(178, 205, 237), // RibbonQATFullbar1
+        Color.FromArgb(170, 197, 234), // RibbonQATFullbar2
+        Color.FromArgb(126, 161, 205), // RibbonQATFullbar3
+        Color.FromArgb(86, 125, 177), // RibbonQATButtonDark
+        Color.FromArgb(234, 242, 249), // RibbonQATButtonLight
+        Color.FromArgb(192, 220, 255), // RibbonQATOverflow1
+        Color.FromArgb(55, 100, 160), // RibbonQATOverflow2
+        Color.FromArgb(140, 172, 211), // RibbonGroupSeparatorDark
+        Color.FromArgb(248, 250, 252), // RibbonGroupSeparatorLight
+        Color.FromArgb(192, 212, 241), // ButtonClusterButtonBack1
+        Color.FromArgb(200, 219, 238), // ButtonClusterButtonBack2
+        Color.FromArgb(155, 183, 224), // ButtonClusterButtonBorder1
+        Color.FromArgb(117, 150, 191), // ButtonClusterButtonBorder2
+        Color.FromArgb(213, 228, 242), // NavigatorMiniBackColor
+        Color.FromArgb(134, 179, 236), // GridListNormal1
+        Color.FromArgb(63, 122, 197), // GridListNormal2
+        Color.FromArgb(63, 122, 197), // GridListPressed1
+        Color.FromArgb(252, 253, 255), // GridListPressed2
+        Color.FromArgb(170, 195, 240), // GridListSelected
+        Color.FromArgb(134, 179, 236), // GridSheetColNormal1
+        Color.FromArgb(63, 122, 197), // GridSheetColNormal2
+        Color.FromArgb(223, 226, 228), // GridSheetColPressed1
+        Color.FromArgb(188, 197, 210), // GridSheetColPressed2
         Color.FromArgb(249, 217, 159), // GridSheetColSelected1
         Color.FromArgb(241, 193, 95), // GridSheetColSelected2
-        Color.FromArgb(228, 236, 247), // GridSheetRowNormal                                                   
+        Color.FromArgb(228, 236, 247), // GridSheetRowNormal
         Color.FromArgb(187, 196, 209), // GridSheetRowPressed
         Color.FromArgb(255, 213, 141), // GridSheetRowSelected
         Color.FromArgb(188, 195, 209), // GridDataCellBorder
@@ -318,7 +318,7 @@ public class PaletteOffice2010BlueDarkMode : PaletteOffice2010BlueDarkModeBase
         Color.FromArgb(198, 214, 231), // ButtonNavigatorPressed2
         Color.FromArgb(200, 219, 240), // ButtonNavigatorChecked1
         Color.FromArgb(177, 201, 228), // ButtonNavigatorChecked2
-        Color.FromArgb(201, 217, 239) // ToolTipBottom                                                                      
+        Color.FromArgb(201, 217, 239) // ToolTipBottom
     ];
 
     #endregion
@@ -477,7 +477,7 @@ public abstract class PaletteOffice2010BlueDarkModeBase : PaletteBase
     private static readonly Padding _contentPaddingHeader2 = new Padding(2, 1, 2, 1);
     private static readonly Padding _contentPaddingDock = new Padding(2, 2, 2, 1);
     private static readonly Padding _contentPaddingCalendar = new Padding(2);
-    //private static readonly Padding _contentPaddingHeaderForm = new Padding(owningForm!.RealWindowBorders.Left, owningForm!.RealWindowBorders.Bottom / 2, 0, 0);         
+    //private static readonly Padding _contentPaddingHeaderForm = new Padding(owningForm!.RealWindowBorders.Left, owningForm!.RealWindowBorders.Bottom / 2, 0, 0);
     private static readonly Padding _contentPaddingLabel = new Padding(3, 1, 3, 1);
     private static readonly Padding _contentPaddingLabel2 = new Padding(8, 2, 8, 2);
     private static readonly Padding _contentPaddingButtonInputControl = new Padding(0);
@@ -671,7 +671,7 @@ public abstract class PaletteOffice2010BlueDarkModeBase : PaletteBase
     #region Instance Fields
     private KryptonColorTable2010BlueDarkMode? _table;
     private readonly Color[] _ribbonColours;
-    private readonly Color[] _trackBarColours;
+    private readonly Color[] _trackBarColors;
     private readonly ImageList _checkBoxList;
     private readonly ImageList _galleryButtonList;
     private readonly Image?[] _radioButtonArray;
@@ -718,7 +718,7 @@ public abstract class PaletteOffice2010BlueDarkModeBase : PaletteBase
         }
         if (trackBarColors != null)
         {
-            _trackBarColours = trackBarColors;
+            _trackBarColors = trackBarColors;
         }
 
         // Get the font settings from the system
@@ -4633,14 +4633,14 @@ public abstract class PaletteOffice2010BlueDarkModeBase : PaletteBase
         switch (element)
         {
             case PaletteElement.TrackBarTick:
-                return _trackBarColours[0];
+                return _trackBarColors[0];
             case PaletteElement.TrackBarTrack:
-                return _trackBarColours[1];
+                return _trackBarColors[1];
             case PaletteElement.TrackBarPosition:
                 return state switch
                 {
                     PaletteState.Disabled => GlobalStaticValues.EMPTY_COLOR,
-                    _ => _trackBarColours[4]
+                    _ => _trackBarColors[4]
                 };
             default:
                 // Should never happen!
@@ -4668,9 +4668,9 @@ public abstract class PaletteOffice2010BlueDarkModeBase : PaletteBase
         switch (element)
         {
             case PaletteElement.TrackBarTick:
-                return _trackBarColours[0];
+                return _trackBarColors[0];
             case PaletteElement.TrackBarTrack:
-                return _trackBarColours[2];
+                return _trackBarColors[2];
             case PaletteElement.TrackBarPosition:
                 return state switch
                 {
@@ -4706,9 +4706,9 @@ public abstract class PaletteOffice2010BlueDarkModeBase : PaletteBase
         switch (element)
         {
             case PaletteElement.TrackBarTick:
-                return _trackBarColours[0];
+                return _trackBarColors[0];
             case PaletteElement.TrackBarTrack:
-                return _trackBarColours[3];
+                return _trackBarColors[3];
             case PaletteElement.TrackBarPosition:
                 return state switch
                 {
@@ -4747,14 +4747,14 @@ public abstract class PaletteOffice2010BlueDarkModeBase : PaletteBase
                     return GlobalStaticValues.EMPTY_COLOR;
                 }
 
-                return _trackBarColours[0];
+                return _trackBarColors[0];
             case PaletteElement.TrackBarTrack:
                 if (CommonHelper.IsOverrideState(state))
                 {
                     return GlobalStaticValues.EMPTY_COLOR;
                 }
 
-                return _trackBarColours[3];
+                return _trackBarColors[3];
             case PaletteElement.TrackBarPosition:
                 if (CommonHelper.IsOverrideStateExclude(state, PaletteState.FocusOverride))
                 {
@@ -4795,14 +4795,14 @@ public abstract class PaletteOffice2010BlueDarkModeBase : PaletteBase
                     return GlobalStaticValues.EMPTY_COLOR;
                 }
 
-                return _trackBarColours[0];
+                return _trackBarColors[0];
             case PaletteElement.TrackBarTrack:
                 if (CommonHelper.IsOverrideState(state))
                 {
                     return GlobalStaticValues.EMPTY_COLOR;
                 }
 
-                return _trackBarColours[3];
+                return _trackBarColors[3];
             case PaletteElement.TrackBarPosition:
                 if (CommonHelper.IsOverrideStateExclude(state, PaletteState.FocusOverride))
                 {

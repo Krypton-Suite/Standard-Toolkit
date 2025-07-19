@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *
  */
 #endregion
 
@@ -366,7 +366,7 @@ public class KryptonDomainUpDown : VisualControlBase,
                         rect.left -= borderSize.Width + 1;
 
                         //////////////////////////////////////////////////////
-                        // Following to allow the Draw to always happen, to allow centering etc  
+                        // Following to allow the Draw to always happen, to allow centering etc
                         _internalDomainUpDown.TextAlign =
                             states.Content.GetContentShortTextH(state) switch
                             {
@@ -466,7 +466,7 @@ public class KryptonDomainUpDown : VisualControlBase,
             _screenDC = PI.CreateCompatibleDC(IntPtr.Zero);
 
         }
-        #endregion  
+        #endregion
 
         #region Public
         /// <summary>
@@ -554,12 +554,11 @@ public class KryptonDomainUpDown : VisualControlBase,
                         // If we managed to get a compatible bitmap
                         if (hBitmap != IntPtr.Zero)
                         {
+                            // Must use the screen device context for the bitmap when drawing into the
+                            // bitmap otherwise the Opacity and RightToLeftLayout will not work correctly.
+                            IntPtr oldBitmap = PI.SelectObject(_screenDC, hBitmap);
                             try
                             {
-                                // Must use the screen device context for the bitmap when drawing into the 
-                                // bitmap otherwise the Opacity and RightToLeftLayout will not work correctly.
-                                PI.SelectObject(_screenDC, hBitmap);
-
                                 // Easier to draw using a graphics instance than a DC!
                                 using Graphics g = Graphics.FromHdc(_screenDC);
                                 // Drawn entire client area in the background color
@@ -578,6 +577,7 @@ public class KryptonDomainUpDown : VisualControlBase,
                             }
                             finally
                             {
+                                PI.SelectObject(_screenDC, oldBitmap);
                                 // Delete the temporary bitmap
                                 PI.DeleteObject(hBitmap);
                             }
@@ -912,7 +912,7 @@ public class KryptonDomainUpDown : VisualControlBase,
     [DefaultValue(false)]
     [Description("Autosizes the control. Only if either the Items list is populated or the Text property has been set.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-    public new bool AutoSize 
+    public new bool AutoSize
     {
         get => _autoSize;
 
@@ -1054,7 +1054,7 @@ public class KryptonDomainUpDown : VisualControlBase,
     public DomainUpDown.DomainUpDownItemCollection Items => DomainUpDown.Items;
 
     /// <summary>
-    /// Gets or sets the index value of the selected item. 
+    /// Gets or sets the index value of the selected item.
     /// </summary>
     [Browsable(false)]
     [DefaultValue(-1)]
@@ -1065,7 +1065,7 @@ public class KryptonDomainUpDown : VisualControlBase,
     }
 
     /// <summary>
-    /// Gets or sets the selected item based on the index value of the selected item in the collection.  
+    /// Gets or sets the selected item based on the index value of the selected item in the collection.
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -1076,7 +1076,7 @@ public class KryptonDomainUpDown : VisualControlBase,
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether the item collection is sorted.   
+    /// Gets or sets a value indicating whether the item collection is sorted.
     /// </summary>
     [Category(@"Behavior")]
     [Description(@"Controls whether items in the domain list are sorted.")]

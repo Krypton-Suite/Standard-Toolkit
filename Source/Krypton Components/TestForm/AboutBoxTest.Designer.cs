@@ -98,6 +98,7 @@ namespace TestForm
             this.kryptonButton1.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kryptonButton1.Values.Text = "Cance&l";
             this.kryptonButton1.Values.UseAsADialogButton = true;
+            this.kryptonButton1.Click += new System.EventHandler(this.kryptonButton1_Click);
             // 
             // kryptonBorderEdge1
             // 

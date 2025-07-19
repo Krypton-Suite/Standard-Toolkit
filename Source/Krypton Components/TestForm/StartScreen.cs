@@ -1,9 +1,9 @@
 ﻿#region BSD License
 /*
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2025. All rights reserved. 
- *  
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2024 - 2025. All rights reserved.
+ *
  */
 #endregion
 
@@ -190,7 +190,7 @@ public partial class StartScreen : KryptonForm
 
     private void kbtnPropertyGrid_Click(object sender, EventArgs e)
     {
-        new PropertyGridTest().Show();
+        new PropertyGridTest().Show(this);
     }
 
     private void kbtnDateTime_Click(object sender, EventArgs e)
@@ -228,5 +228,11 @@ public partial class StartScreen : KryptonForm
         var viewer = new PaletteViewerForm();
         viewer.AttachKryptonManager(kryptonManager1);
         viewer.Show();
+    }
+
+    private void kbtnVisualControls_Click(object sender, EventArgs e)
+    {
+        var vcontrols = new VisualControlsTest();
+        vcontrols.Show(this);
     }
 }

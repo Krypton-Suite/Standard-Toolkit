@@ -76,7 +76,8 @@ namespace TestForm
             this.kbtnFadeForm = new Krypton.Toolkit.KryptonButton();
             this.kbtnCommandLinkButtons = new Krypton.Toolkit.KryptonButton();
             this.kbtnBreadCrumb = new Krypton.Toolkit.KryptonButton();
-            this.kbtnRTLTest = new Krypton.Toolkit.KryptonButton();
+            this.kbtnPaletteViewer = new Krypton.Toolkit.KryptonButton();
+            this.kbtnVisualControls = new Krypton.Toolkit.KryptonButton();
             this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
@@ -119,11 +120,11 @@ namespace TestForm
             this.kryptonPanel1.Controls.Add(this.kbtnFadeForm);
             this.kryptonPanel1.Controls.Add(this.kbtnCommandLinkButtons);
             this.kryptonPanel1.Controls.Add(this.kbtnBreadCrumb);
-            this.kryptonPanel1.Controls.Add(this.kbtnRTLTest);
+            this.kryptonPanel1.Controls.Add(this.kbtnVisualControls);
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(373, 588);
+            this.kryptonPanel1.Size = new System.Drawing.Size(379, 531);
             this.kryptonPanel1.TabIndex = 0;
             // 
             // kbtnBlurredForm
@@ -336,10 +337,10 @@ namespace TestForm
             // kbtnExit
             // 
             this.kbtnExit.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.kbtnExit.Location = new System.Drawing.Point(12, 493);
+            this.kbtnExit.Location = new System.Drawing.Point(124, 498);
             this.kbtnExit.Margin = new System.Windows.Forms.Padding(2);
             this.kbtnExit.Name = "kbtnExit";
-            this.kbtnExit.Size = new System.Drawing.Size(153, 20);
+            this.kbtnExit.Size = new System.Drawing.Size(153, 22);
             this.kbtnExit.TabIndex = 15;
             this.kbtnExit.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnExit.Values.Text = "Exit";
@@ -495,18 +496,18 @@ namespace TestForm
             this.kbtnBreadCrumb.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnBreadCrumb.Values.Text = "BreadCrumb";
             this.kbtnBreadCrumb.Click += new System.EventHandler(this.kbtnBreadCrumb_Click);
-            // 
-            // kbtnRTLTest
-            // 
-            this.kbtnRTLTest.Location = new System.Drawing.Point(13, 466);
-            this.kbtnRTLTest.Margin = new System.Windows.Forms.Padding(2);
-            this.kbtnRTLTest.Name = "kbtnRTLTest";
-            this.kbtnRTLTest.Size = new System.Drawing.Size(153, 20);
-            this.kbtnRTLTest.TabIndex = 33;
-            this.kbtnRTLTest.Values.DropDownArrowColor = System.Drawing.Color.Empty;
-            this.kbtnRTLTest.Values.Text = "RTL Test";
-            this.kbtnRTLTest.Click += new System.EventHandler(this.kbtnRTLTest_Click);
-            // 
+            //
+            // kbtnVisualControls
+            //
+            this.kbtnVisualControls.Location = new System.Drawing.Point(13, 468);
+            this.kbtnVisualControls.Margin = new System.Windows.Forms.Padding(2);
+            this.kbtnVisualControls.Name = "kbtnVisualControls";
+            this.kbtnVisualControls.Size = new System.Drawing.Size(153, 20);
+            this.kbtnVisualControls.TabIndex = 34;
+            this.kbtnVisualControls.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kbtnVisualControls.Values.Text = "Visual Controls";
+            this.kbtnVisualControls.Click += new System.EventHandler(this.kbtnVisualControls_Click);
+            //
             // kryptonManager1
             // 
             this.kryptonManager1.BaseFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -519,7 +520,7 @@ namespace TestForm
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.CancelButton = this.kbtnExit;
-            this.ClientSize = new System.Drawing.Size(373, 588);
+            this.ClientSize = new System.Drawing.Size(390, 531);
             this.Controls.Add(this.kryptonPanel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -578,5 +579,6 @@ namespace TestForm
         private KryptonButton kbtnBlurredForm;
         private KryptonButton kbtnRTLTest;
         private KryptonButton kbtnPaletteViewer;
+        private KryptonButton kbtnVisualControls;
     }
 }

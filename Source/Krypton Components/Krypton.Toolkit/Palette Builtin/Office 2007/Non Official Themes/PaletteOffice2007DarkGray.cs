@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
- *  
+ *
  */
 #endregion
 
@@ -58,7 +58,7 @@ public class PaletteOffice2007DarkGray : PaletteOffice2007Base
 
     #region Colour Arrays
 
-    private static readonly Color[] _trackBarColours =
+    private static readonly Color[] _trackBarColors =
     [
         Color.FromArgb(130, 130, 130), // Tick marks
         Color.FromArgb(156, 160, 165), // Top track
@@ -196,7 +196,7 @@ public class PaletteOffice2007DarkGray : PaletteOffice2007Base
         Color.FromArgb(226, 229, 234), // RibbonGroupFrameInside2
         Color.FromArgb(220, 224, 231), // RibbonGroupFrameInside3
         Color.FromArgb(232, 234, 238), // RibbonGroupFrameInside4
-        Color.FromArgb(68, 68, 68), // RibbonGroupCollapsedText         
+        Color.FromArgb(68, 68, 68), // RibbonGroupCollapsedText
         Color.FromArgb(179, 185, 195), // AlternatePressedBack1
         Color.FromArgb(216, 224, 224), // AlternatePressedBack2
         Color.FromArgb(125, 125, 125), // AlternatePressedBorder1
@@ -210,38 +210,38 @@ public class PaletteOffice2007DarkGray : PaletteOffice2007Base
         Color.FromArgb(210, 215, 221), // RibbonQATMini2
         Color.FromArgb(195, 200, 206), // RibbonQATMini3
         Color.FromArgb(10, Color.White), // RibbonQATMini4
-        Color.FromArgb(32, Color.White), // RibbonQATMini5                                                       
+        Color.FromArgb(32, Color.White), // RibbonQATMini5
         Color.FromArgb(200, 200, 200), // RibbonQATMini1I
         Color.FromArgb(233, 234, 238), // RibbonQATMini2I
         Color.FromArgb(223, 224, 228), // RibbonQATMini3I
         Color.FromArgb(10, Color.White), // RibbonQATMini4I
-        Color.FromArgb(32, Color.White), // RibbonQATMini5I                                                       
-        Color.FromArgb(217, 222, 230), // RibbonQATFullbar1                                                      
-        Color.FromArgb(214, 219, 227), // RibbonQATFullbar2                                                      
-        Color.FromArgb(194, 201, 212), // RibbonQATFullbar3                                                      
-        Color.FromArgb(103, 103, 103), // RibbonQATButtonDark                                                      
-        Color.FromArgb(225, 225, 225), // RibbonQATButtonLight                                                      
-        Color.FromArgb(219, 218, 228), // RibbonQATOverflow1                                                      
-        Color.FromArgb(55, 100, 160), // RibbonQATOverflow2                                                      
-        Color.FromArgb(173, 177, 181), // RibbonGroupSeparatorDark                                                      
-        Color.FromArgb(232, 235, 237), // RibbonGroupSeparatorLight                                                      
-        Color.FromArgb(231, 234, 238), // ButtonClusterButtonBack1                                                      
-        Color.FromArgb(241, 243, 243), // ButtonClusterButtonBack2                                                      
-        Color.FromArgb(197, 198, 199), // ButtonClusterButtonBorder1                                                      
-        Color.FromArgb(157, 158, 159), // ButtonClusterButtonBorder2                                                      
-        Color.FromArgb(238, 238, 244), // NavigatorMiniBackColor                                                    
-        Color.White, // GridListNormal1                                                    
-        Color.FromArgb(212, 215, 219), // GridListNormal2                                                    
-        Color.FromArgb(210, 213, 218), // GridListPressed1                                                    
-        Color.FromArgb(252, 253, 253), // GridListPressed2                                                    
-        Color.FromArgb(186, 189, 194), // GridListSelected                                                    
-        Color.FromArgb(241, 243, 243), // GridSheetColNormal1                                                    
-        Color.FromArgb(200, 201, 202), // GridSheetColNormal2                                                    
-        Color.FromArgb(208, 208, 208), // GridSheetColPressed1                                                    
-        Color.FromArgb(166, 166, 166), // GridSheetColPressed2                                                    
+        Color.FromArgb(32, Color.White), // RibbonQATMini5I
+        Color.FromArgb(217, 222, 230), // RibbonQATFullbar1
+        Color.FromArgb(214, 219, 227), // RibbonQATFullbar2
+        Color.FromArgb(194, 201, 212), // RibbonQATFullbar3
+        Color.FromArgb(103, 103, 103), // RibbonQATButtonDark
+        Color.FromArgb(225, 225, 225), // RibbonQATButtonLight
+        Color.FromArgb(219, 218, 228), // RibbonQATOverflow1
+        Color.FromArgb(55, 100, 160), // RibbonQATOverflow2
+        Color.FromArgb(173, 177, 181), // RibbonGroupSeparatorDark
+        Color.FromArgb(232, 235, 237), // RibbonGroupSeparatorLight
+        Color.FromArgb(231, 234, 238), // ButtonClusterButtonBack1
+        Color.FromArgb(241, 243, 243), // ButtonClusterButtonBack2
+        Color.FromArgb(197, 198, 199), // ButtonClusterButtonBorder1
+        Color.FromArgb(157, 158, 159), // ButtonClusterButtonBorder2
+        Color.FromArgb(238, 238, 244), // NavigatorMiniBackColor
+        Color.White, // GridListNormal1
+        Color.FromArgb(212, 215, 219), // GridListNormal2
+        Color.FromArgb(210, 213, 218), // GridListPressed1
+        Color.FromArgb(252, 253, 253), // GridListPressed2
+        Color.FromArgb(186, 189, 194), // GridListSelected
+        Color.FromArgb(241, 243, 243), // GridSheetColNormal1
+        Color.FromArgb(200, 201, 202), // GridSheetColNormal2
+        Color.FromArgb(208, 208, 208), // GridSheetColPressed1
+        Color.FromArgb(166, 166, 166), // GridSheetColPressed2
         Color.FromArgb(255, 204, 153), // GridSheetColSelected1
         Color.FromArgb(255, 155, 104), // GridSheetColSelected2
-        Color.FromArgb(231, 231, 231), // GridSheetRowNormal                                                   
+        Color.FromArgb(231, 231, 231), // GridSheetRowNormal
         Color.FromArgb(184, 191, 196), // GridSheetRowPressed
         Color.FromArgb(245, 199, 149), // GridSheetRowSelected
         Color.FromArgb(188, 195, 209), // GridDataCellBorder
@@ -323,7 +323,7 @@ public class PaletteOffice2007DarkGray : PaletteOffice2007Base
     }
 
     /// <summary>Initializes a new instance of the <see cref="PaletteOffice2007DarkGray" /> class.</summary>
-    public PaletteOffice2007DarkGray() : base(_themeName, _schemeOfficeColours, _checkBoxList, _galleryButtonList, _radioButtonArray, _trackBarColours)
+    public PaletteOffice2007DarkGray() : base(_themeName, _schemeOfficeColours, _checkBoxList, _galleryButtonList, _radioButtonArray, _trackBarColors)
     {
 
     }
@@ -399,7 +399,7 @@ public class PaletteOffice2007DarkGray : PaletteOffice2007Base
         },
         _ => base.GetButtonSpecImage(style, state)
     };
-    #endregion    
+    #endregion
 
     #region Tab Row Background
 

@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
- *  
+ *
  */
 #endregion
 
@@ -283,38 +283,38 @@ public class PaletteMicrosoft365SilverDarkMode : PaletteMicrosoft365SilverDarkMo
         Color.FromArgb(210, 215, 221), // RibbonQATMini2
         Color.FromArgb(195, 200, 206), // RibbonQATMini3
         Color.FromArgb(10, Color.White), // RibbonQATMini4
-        Color.FromArgb(32, Color.White), // RibbonQATMini5                                                       
+        Color.FromArgb(32, Color.White), // RibbonQATMini5
         Color.FromArgb(200, 200, 200), // RibbonQATMini1I
         Color.FromArgb(233, 234, 238), // RibbonQATMini2I
         Color.FromArgb(223, 224, 228), // RibbonQATMini3I
         Color.FromArgb(10, Color.White), // RibbonQATMini4I
-        Color.FromArgb(32, Color.White), // RibbonQATMini5I                                                       
-        Color.FromArgb(217, 222, 230), // RibbonQATFullbar1                                                      
-        Color.FromArgb(214, 219, 227), // RibbonQATFullbar2                                                      
-        Color.FromArgb(194, 201, 212), // RibbonQATFullbar3                                                      
-        Color.FromArgb(103, 103, 103), // RibbonQATButtonDark                                                      
-        Color.FromArgb(225, 225, 225), // RibbonQATButtonLight                                                      
-        Color.FromArgb(219, 218, 228), // RibbonQATOverflow1                                                      
-        Color.FromArgb(55, 100, 160), // RibbonQATOverflow2                                                      
-        Color.FromArgb(173, 177, 181), // RibbonGroupSeparatorDark                                                      
-        Color.FromArgb(232, 235, 237), // RibbonGroupSeparatorLight                                                      
-        Color.FromArgb(231, 234, 238), // ButtonClusterButtonBack1                                                      
-        Color.FromArgb(241, 243, 243), // ButtonClusterButtonBack2                                                      
-        Color.FromArgb(197, 198, 199), // ButtonClusterButtonBorder1                                                      
-        Color.FromArgb(157, 158, 159), // ButtonClusterButtonBorder2                                                      
-        Color.FromArgb(238, 238, 244), // NavigatorMiniBackColor                                                    
-        Color.FromArgb(119, 132, 161), // GridListNormal1                                                    
-        Color.FromArgb(83, 99, 136), // GridListNormal2                                                    
-        Color.FromArgb(83, 99, 136), // GridListPressed1                                                    
-        Color.FromArgb(252, 253, 253), // GridListPressed2                                                    
-        Color.FromArgb(83, 99, 136), // GridListSelected                                                    
-        Color.FromArgb(119, 132, 161), // GridSheetColNormal1                                                    
-        Color.FromArgb(83, 99, 136), // GridSheetColNormal2                                                    
-        Color.FromArgb(208, 208, 208), // GridSheetColPressed1                                                    
-        Color.FromArgb(166, 166, 166), // GridSheetColPressed2                                                    
+        Color.FromArgb(32, Color.White), // RibbonQATMini5I
+        Color.FromArgb(217, 222, 230), // RibbonQATFullbar1
+        Color.FromArgb(214, 219, 227), // RibbonQATFullbar2
+        Color.FromArgb(194, 201, 212), // RibbonQATFullbar3
+        Color.FromArgb(103, 103, 103), // RibbonQATButtonDark
+        Color.FromArgb(225, 225, 225), // RibbonQATButtonLight
+        Color.FromArgb(219, 218, 228), // RibbonQATOverflow1
+        Color.FromArgb(55, 100, 160), // RibbonQATOverflow2
+        Color.FromArgb(173, 177, 181), // RibbonGroupSeparatorDark
+        Color.FromArgb(232, 235, 237), // RibbonGroupSeparatorLight
+        Color.FromArgb(231, 234, 238), // ButtonClusterButtonBack1
+        Color.FromArgb(241, 243, 243), // ButtonClusterButtonBack2
+        Color.FromArgb(197, 198, 199), // ButtonClusterButtonBorder1
+        Color.FromArgb(157, 158, 159), // ButtonClusterButtonBorder2
+        Color.FromArgb(238, 238, 244), // NavigatorMiniBackColor
+        Color.FromArgb(119, 132, 161), // GridListNormal1
+        Color.FromArgb(83, 99, 136), // GridListNormal2
+        Color.FromArgb(83, 99, 136), // GridListPressed1
+        Color.FromArgb(252, 253, 253), // GridListPressed2
+        Color.FromArgb(83, 99, 136), // GridListSelected
+        Color.FromArgb(119, 132, 161), // GridSheetColNormal1
+        Color.FromArgb(83, 99, 136), // GridSheetColNormal2
+        Color.FromArgb(208, 208, 208), // GridSheetColPressed1
+        Color.FromArgb(166, 166, 166), // GridSheetColPressed2
         Color.FromArgb(54, 64, 88), // GridSheetColSelected1
         Color.FromArgb(83, 99, 136), // GridSheetColSelected2
-        Color.FromArgb(231, 231, 231), // GridSheetRowNormal                                                   
+        Color.FromArgb(231, 231, 231), // GridSheetRowNormal
         Color.FromArgb(184, 191, 196), // GridSheetRowPressed
         Color.FromArgb(245, 199, 149), // GridSheetRowSelected
         Color.FromArgb(188, 195, 209), // GridDataCellBorder
@@ -368,7 +368,7 @@ public class PaletteMicrosoft365SilverDarkMode : PaletteMicrosoft365SilverDarkMo
         Color.FromArgb(225, 226, 230), // ButtonNavigatorPressed2
         Color.FromArgb(222, 227, 234), // ButtonNavigatorChecked1
         Color.FromArgb(206, 214, 221), // ButtonNavigatorChecked2
-        Color.FromArgb(221, 221, 221) // ToolTipBottom                                                                      
+        Color.FromArgb(221, 221, 221) // ToolTipBottom
     ];
 
     #endregion
@@ -413,7 +413,7 @@ public class PaletteMicrosoft365SilverDarkMode : PaletteMicrosoft365SilverDarkMo
     }
     #endregion
 
-    #region Images        
+    #region Images
     /// <summary>
     /// Gets an image indicating a sub-menu on a context menu item.
     /// </summary>
@@ -424,7 +424,7 @@ public class PaletteMicrosoft365SilverDarkMode : PaletteMicrosoft365SilverDarkMo
 
     #endregion
 
-    #region ButtonSpec        
+    #region ButtonSpec
     /// <summary>
     /// Gets the image to display for the button.
     /// </summary>
@@ -611,7 +611,7 @@ public abstract class PaletteMicrosoft365SilverDarkModeBase : PaletteBase
     private static readonly Padding _contentPaddingHeader2 = new Padding(2, 1, 2, 1);
     private static readonly Padding _contentPaddingDock = new Padding(2, 2, 2, 1);
     private static readonly Padding _contentPaddingCalendar = new Padding(2);
-    //private static readonly Padding _contentPaddingHeaderForm = new Padding(owningForm!.RealWindowBorders.Left, owningForm!.RealWindowBorders.Bottom / 2, 0, 0);         
+    //private static readonly Padding _contentPaddingHeaderForm = new Padding(owningForm!.RealWindowBorders.Left, owningForm!.RealWindowBorders.Bottom / 2, 0, 0);
     private static readonly Padding _contentPaddingLabel = new Padding(3, 1, 3, 1);
     private static readonly Padding _contentPaddingLabel2 = new Padding(8, 2, 8, 2);
     private static readonly Padding _contentPaddingButtonInputControl = new Padding(0);
@@ -808,13 +808,13 @@ public abstract class PaletteMicrosoft365SilverDarkModeBase : PaletteBase
 
     private readonly Color[] _ribbonColours;
 
-    private readonly Color[] _trackBarColours;
+    private readonly Color[] _trackBarColors;
     private readonly ImageList _checkBoxList;
     private readonly ImageList _galleryButtonList;
     private readonly Image?[] _radioButtonArray;
     #endregion
 
-    #region Constructor        
+    #region Constructor
     /// <summary>
     /// Initializes a new instance of the <see cref="PaletteMicrosoft365SilverDarkModeBase"/> class.
     /// </summary>
@@ -856,14 +856,14 @@ public abstract class PaletteMicrosoft365SilverDarkModeBase : PaletteBase
 
         if (trackBarColours != null)
         {
-            _trackBarColours = trackBarColours;
+            _trackBarColors = trackBarColours;
         }
 
         DefineFonts();
     }
     #endregion
 
-    #region Renderer        
+    #region Renderer
     /// <summary>
     /// Gets the renderer to use for this palette.
     /// </summary>
@@ -4714,14 +4714,14 @@ public abstract class PaletteMicrosoft365SilverDarkModeBase : PaletteBase
         switch (element)
         {
             case PaletteElement.TrackBarTick:
-                return _trackBarColours[0];
+                return _trackBarColors[0];
             case PaletteElement.TrackBarTrack:
-                return _trackBarColours[1];
+                return _trackBarColors[1];
             case PaletteElement.TrackBarPosition:
                 return state switch
                 {
                     PaletteState.Disabled => GlobalStaticValues.EMPTY_COLOR,
-                    _ => _trackBarColours[4]
+                    _ => _trackBarColors[4]
                 };
             default:
                 // Should never happen!
@@ -4749,9 +4749,9 @@ public abstract class PaletteMicrosoft365SilverDarkModeBase : PaletteBase
         switch (element)
         {
             case PaletteElement.TrackBarTick:
-                return _trackBarColours[0];
+                return _trackBarColors[0];
             case PaletteElement.TrackBarTrack:
-                return _trackBarColours[2];
+                return _trackBarColors[2];
             case PaletteElement.TrackBarPosition:
                 return state switch
                 {
@@ -4787,9 +4787,9 @@ public abstract class PaletteMicrosoft365SilverDarkModeBase : PaletteBase
         switch (element)
         {
             case PaletteElement.TrackBarTick:
-                return _trackBarColours[0];
+                return _trackBarColors[0];
             case PaletteElement.TrackBarTrack:
-                return _trackBarColours[3];
+                return _trackBarColors[3];
             case PaletteElement.TrackBarPosition:
                 return state switch
                 {
@@ -4828,14 +4828,14 @@ public abstract class PaletteMicrosoft365SilverDarkModeBase : PaletteBase
                     return GlobalStaticValues.EMPTY_COLOR;
                 }
 
-                return _trackBarColours[0];
+                return _trackBarColors[0];
             case PaletteElement.TrackBarTrack:
                 if (CommonHelper.IsOverrideState(state))
                 {
                     return GlobalStaticValues.EMPTY_COLOR;
                 }
 
-                return _trackBarColours[3];
+                return _trackBarColors[3];
             case PaletteElement.TrackBarPosition:
                 if (CommonHelper.IsOverrideStateExclude(state, PaletteState.FocusOverride))
                 {
@@ -4876,14 +4876,14 @@ public abstract class PaletteMicrosoft365SilverDarkModeBase : PaletteBase
                     return GlobalStaticValues.EMPTY_COLOR;
                 }
 
-                return _trackBarColours[0];
+                return _trackBarColors[0];
             case PaletteElement.TrackBarTrack:
                 if (CommonHelper.IsOverrideState(state))
                 {
                     return GlobalStaticValues.EMPTY_COLOR;
                 }
 
-                return _trackBarColours[3];
+                return _trackBarColors[3];
             case PaletteElement.TrackBarPosition:
                 if (CommonHelper.IsOverrideStateExclude(state, PaletteState.FocusOverride))
                 {

@@ -48,7 +48,7 @@ public partial class VisualTaskDialogForm : KryptonForm
     /// <exception cref="System.ArgumentNullException">taskDialog</exception>
     public VisualTaskDialogForm(KryptonTaskDialog taskDialog)
     {
-        SetInheritedControlOverride();
+        //SetInheritedControlOverride(); // Disabled as part of issue #2296. See the issue for details.
         // Must provide a valid reference
 
         _taskDialog = taskDialog ??
@@ -662,7 +662,7 @@ public partial class VisualTaskDialogForm : KryptonForm
             messageContentSize.Width = (int)(messageContentSize.Width * FactorDpiX);
             messageContentSize.Height = (int)(messageContentSize.Height * FactorDpiY);
 
-            // Always add on an extra 5 pixels as sometimes the measure size does not draw the last 
+            // Always add on an extra 5 pixels as sometimes the measure size does not draw the last
             // character it contains, this ensures there is always definitely enough space for it all
             messageMainSize.Width += 5;
             messageContentSize.Width += 5;
@@ -863,7 +863,7 @@ public partial class VisualTaskDialogForm : KryptonForm
         var footerTextSize = g.MeasureString(_footerText, _footerLabel.Font, 200).ToSize();
         var footerHyperlinkSize = g.MeasureString(_footerHyperlink, _footerLabel.Font, 200).ToSize();
 
-        // Always add on an extra 5 pixels as sometimes the measure size does not draw the last 
+        // Always add on an extra 5 pixels as sometimes the measure size does not draw the last
         // character it contains, this ensures there is always definitely enough space for it all
         footerTextSize.Width += 5;
         footerHyperlinkSize.Width += 5;

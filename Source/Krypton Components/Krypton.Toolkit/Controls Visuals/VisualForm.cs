@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *
  */
 #endregion
 
@@ -16,7 +16,7 @@
 namespace Krypton.Toolkit;
 
 /// <summary>
-/// Base class that allows a form to have custom chrome applied. You should derive 
+/// Base class that allows a form to have custom chrome applied. You should derive
 /// a class from this that performs the specific chrome drawing that is required.
 /// </summary>
 [ToolboxItem(false)]
@@ -95,7 +95,7 @@ public abstract class VisualForm : Form,
     }
 
     /// <summary>
-    /// Initialize a new instance of the VisualForm class. 
+    /// Initialize a new instance of the VisualForm class.
     /// </summary>
     protected VisualForm()
     {
@@ -136,7 +136,7 @@ public abstract class VisualForm : Form,
     }
 
     /// <summary>
-    /// Releases all resources used by the Control. 
+    /// Releases all resources used by the Control.
     /// </summary>
     /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
     protected override void Dispose(bool disposing)
@@ -233,7 +233,7 @@ public abstract class VisualForm : Form,
                 {
                     try
                     {
-                        // Set back to false in case we decide that the operating system 
+                        // Set back to false in case we decide that the operating system
                         // is not capable of supporting our custom chrome implementation
                         _useThemeFormChromeBorderWidth = false;
 
@@ -309,7 +309,7 @@ public abstract class VisualForm : Form,
                 switch (value)
                 {
                     case PaletteMode.Custom:
-                        // Do nothing, you must assign a palette to the 
+                        // Do nothing, you must assign a palette to the
                         // 'Palette' property in order to get the custom mode
                         break;
                     default:
@@ -990,7 +990,7 @@ public abstract class VisualForm : Form,
     {
         var processed = false;
 
-        // We do not process the message if on an MDI child, because doing so prevents the 
+        // We do not process the message if on an MDI child, because doing so prevents the
         // LayoutMdi call on the parent from working and cascading/tiling the children
         if (_themedApp && MdiParent is null)
         {
@@ -1090,7 +1090,7 @@ public abstract class VisualForm : Form,
                     processed = OnPaintNonClient(ref m);
                     break;
                 case 0x00AE:
-                    // Mystery message causes OS title bar buttons to draw, we want to 
+                    // Mystery message causes OS title bar buttons to draw, we want to
                     // prevent that and ignoring the messages seems to do no harm.
                     processed = true;
                     break;
@@ -1505,12 +1505,13 @@ public abstract class VisualForm : Form,
                         // If we managed to get a compatible bitmap
                         if (hBitmap != IntPtr.Zero)
                         {
+                            // Must use the screen device context for the bitmap when drawing into the
+                            // bitmap otherwise the Opacity and RightToLeftLayout will not work correctly.
+                            // Select the new bitmap into the screen DC
+                            IntPtr oldBitmap = PI.SelectObject(_screenDC, hBitmap);
+
                             try
                             {
-                                // Must use the screen device context for the bitmap when drawing into the 
-                                // bitmap otherwise the Opacity and RightToLeftLayout will not work correctly.
-                                PI.SelectObject(_screenDC, hBitmap);
-
                                 // Drawing is easier when using a Graphics instance
                                 using (Graphics g = Graphics.FromHdc(_screenDC))
                                 {
@@ -1522,6 +1523,9 @@ public abstract class VisualForm : Form,
                             }
                             finally
                             {
+                                // Restore the original bitmap
+                                PI.SelectObject(_screenDC, oldBitmap);
+
                                 // Delete the temporary bitmap
                                 PI.DeleteObject(hBitmap);
                             }
@@ -1730,9 +1734,9 @@ public abstract class VisualForm : Form,
     private void InitializeComponent()
     {
         SuspendLayout();
-        // 
+        //
         // VisualForm
-        // 
+        //
         ClientSize = new Size(284, 261);
         Name = "VisualForm";
         ResumeLayout(false);
