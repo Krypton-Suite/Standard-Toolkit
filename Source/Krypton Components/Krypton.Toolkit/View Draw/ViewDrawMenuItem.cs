@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
- *  
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege, et al. 2017 - 2023. All rights reserved.
+ *
  */
 #endregion
 
@@ -275,7 +275,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resolves the correct text string to use from the menu item.
         /// </summary>
-        public string ResolveText => _cachedCommand != null ? _cachedCommand.Text : KryptonContextMenuItem.Text;
+        public string ResolveText => _cachedCommand != null
+            && !string.IsNullOrEmpty(_cachedCommand.Text)
+                ? _cachedCommand.Text
+                : KryptonContextMenuItem.Text;
 
         #endregion
 
@@ -283,7 +286,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resolves the correct extra text string to use from the menu item.
         /// </summary>
-        public string ResolveExtraText => _cachedCommand != null ? _cachedCommand.ExtraText : KryptonContextMenuItem.ExtraText;
+        public string ResolveExtraText => _cachedCommand != null
+            && !string.IsNullOrEmpty(_cachedCommand.ExtraText)
+                ? _cachedCommand.ExtraText
+                : KryptonContextMenuItem.ExtraText;
 
         #endregion
 
@@ -317,7 +323,7 @@ namespace Krypton.Toolkit
                 // If menu item is split into regular button and sub menu areas
                 if (SplitSeparator.Draw)
                 {
-                    // If mouse is inside or to the right of the slip indicator, 
+                    // If mouse is inside or to the right of the slip indicator,
                     // then a sub menu is required when the button is used
                     return pt.X > SplitSeparator.ClientRectangle.X;
                 }
