@@ -176,8 +176,11 @@ public class KryptonForm : VisualForm,
             Margin = new Padding(0),
             Name = "InternalKryptonPanel",
             Size = new Size(100, 100),
-            TabStop = false
+            TabStop = false,
         };
+        // B2318 - Since the introduction of the InternalPanel override for OnControlRemoved and OnControlAdded don't fire correctly.
+        _internalKryptonPanel.ControlRemoved += (s, e) => OnControlRemoved(e);
+        _internalKryptonPanel.ControlAdded += (s, e) => OnControlAdded(e);
 
         // Create the root element that contains the title bar and null filler
         _drawDocker = new ViewDrawForm(StateActive.Back, StateActive.Border)
@@ -1052,6 +1055,7 @@ public class KryptonForm : VisualForm,
     /// Raises the ControlRemoved event.
     /// </summary>
     /// <param name="e">An EventArgs containing event data.</param>
+    //protected override void OnControlRemoved(ControlEventArgs e)
     protected override void OnControlRemoved(ControlEventArgs e)
     {
         // Is the cached reference being removed?
@@ -1063,6 +1067,8 @@ public class KryptonForm : VisualForm,
             // Recalc to test if status strip should be unintegrated
             RecalcNonClient();
         }
+
+        base.OnControlRemoved(e);
     }
 
     /// <summary>
