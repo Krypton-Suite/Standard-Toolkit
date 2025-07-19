@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -195,6 +195,7 @@ public abstract class PaletteOffice2007Base : PaletteBase
     #endregion
 
     #region Instance Fields
+    protected readonly KryptonColorSchemeBase? BaseColors;
     private KryptonColorTable2007? _table;
     private readonly Color[] _ribbonColors;
     private readonly Color[] _trackBarColors;
@@ -254,6 +255,28 @@ public abstract class PaletteOffice2007Base : PaletteBase
         // Get the font settings from the system
         DefineFonts();
     }
+
+    /// <summary>
+    /// Overload that accepts a KryptonColorSchemeBase instance and forwards colours to the main constructor.
+    /// </summary>
+    // TODO this should be merged into main constructor once all palettes
+    // have their own KryptonColorSchemeBase-derived class
+    protected PaletteOffice2007Base(
+        string themeName,
+        [DisallowNull] KryptonColorSchemeBase scheme,
+        [DisallowNull] ImageList checkBoxList,
+        [DisallowNull] ImageList galleryButtonList,
+        [DisallowNull] Image?[] radioButtonArray)
+        : this(themeName,
+               scheme.ToArray(),
+               checkBoxList,
+               galleryButtonList,
+               radioButtonArray,
+               scheme.ToTrackBarArray())
+    {
+        BaseColors = scheme;
+    }
+
     #endregion
 
     #region Renderer

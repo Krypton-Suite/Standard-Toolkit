@@ -1861,7 +1861,7 @@ public static class SchemeGenerator
         var ctorRegex = new Regex(@"^([ \t]*)(public|protected|internal)[ \t]+\w+[ \t]*\([^\)]*Color\[\]", RegexOptions.Compiled);
 
         // Attribute text constant
-        const string AttrTemplate = "[System.Obsolete(\"Color[] constructor is obsolete. Use KryptonColorSchemeBase overload.\", false)]";
+        const string AttrTemplate = "[System.Obsolete(\"Color[] constructor is deprecated and will be removed in V110. Use KryptonColorSchemeBase overload.\", false)]";
 
         for (int i = 0; i < lines.Count; i++)
         {
