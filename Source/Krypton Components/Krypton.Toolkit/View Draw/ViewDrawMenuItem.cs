@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *
  */
 #endregion
 
@@ -121,7 +121,7 @@ internal class ViewDrawMenuItem : ViewDrawCanvas
             string shortcutString = KryptonContextMenuItem.ShortcutKeyDisplayString;
             if (string.IsNullOrEmpty(shortcutString))
             {
-                shortcutString = (KryptonContextMenuItem.ShortcutKeys != Keys.None) 
+                shortcutString = (KryptonContextMenuItem.ShortcutKeys != Keys.None)
                     ? new KeysConverter().ConvertToString(KryptonContextMenuItem.ShortcutKeys) ?? string.Empty
                     : string.Empty;
             }
@@ -142,12 +142,12 @@ internal class ViewDrawMenuItem : ViewDrawCanvas
 
         // SubMenu Indicator
         HasSubMenu = KryptonContextMenuItem.Items.Count > 0;
-        _subMenuContent = new ViewDrawMenuItemContent(menuItemState.ItemImage.Content, new FixedContentValue(null, null, 
-                !HasSubMenu 
-                    ? _empty16x16 
-                    : provider.ProviderImages.GetContextMenuSubMenuImage(), 
-                KryptonContextMenuItem.Items.Count == 0 
-                    ? GlobalStaticValues.TRANSPARENCY_KEY_COLOR 
+        _subMenuContent = new ViewDrawMenuItemContent(menuItemState.ItemImage.Content, new FixedContentValue(null, null,
+                !HasSubMenu
+                    ? _empty16x16
+                    : provider.ProviderImages.GetContextMenuSubMenuImage(),
+                KryptonContextMenuItem.Items.Count == 0
+                    ? GlobalStaticValues.TRANSPARENCY_KEY_COLOR
                     : GlobalStaticValues.EMPTY_COLOR),
             3);
         docker.Add(new ViewLayoutCenter(_subMenuContent), ViewDockStyle.Right);
@@ -284,7 +284,10 @@ internal class ViewDrawMenuItem : ViewDrawCanvas
     /// <summary>
     /// Resolves the correct text string to use from the menu item.
     /// </summary>
-    public string ResolveText => _cachedCommand != null ? _cachedCommand.Text : KryptonContextMenuItem.Text;
+    public string ResolveText => _cachedCommand != null
+        && !string.IsNullOrEmpty(_cachedCommand.Text)
+            ? _cachedCommand.Text
+            : KryptonContextMenuItem.Text;
 
     #endregion
 
@@ -292,7 +295,10 @@ internal class ViewDrawMenuItem : ViewDrawCanvas
     /// <summary>
     /// Resolves the correct extra text string to use from the menu item.
     /// </summary>
-    public string ResolveExtraText => _cachedCommand != null ? _cachedCommand.ExtraText : KryptonContextMenuItem.ExtraText;
+    public string ResolveExtraText => _cachedCommand != null
+        && !string.IsNullOrEmpty(_cachedCommand.ExtraText)
+            ? _cachedCommand.ExtraText
+            : KryptonContextMenuItem.ExtraText;
 
     #endregion
 
@@ -326,7 +332,7 @@ internal class ViewDrawMenuItem : ViewDrawCanvas
             // If menu item is split into regular button and sub menu areas
             if (SplitSeparator.Draw)
             {
-                // If mouse is inside or to the right of the slip indicator, 
+                // If mouse is inside or to the right of the slip indicator,
                 // then a sub menu is required when the button is used
                 return pt.X > SplitSeparator.ClientRectangle.X;
             }
