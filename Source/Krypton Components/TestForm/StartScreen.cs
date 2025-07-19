@@ -190,7 +190,7 @@ public partial class StartScreen : KryptonForm
 
     private void kbtnPropertyGrid_Click(object sender, EventArgs e)
     {
-        new PropertyGridTest().Show();
+        new PropertyGridTest().Show(this);
     }
 
     private void kbtnDateTime_Click(object sender, EventArgs e)
