@@ -178,7 +178,7 @@ public class KryptonForm : VisualForm,
             Size = new Size(100, 100),
             TabStop = false,
         };
-        // B2318 - Since the introduction of the InternalPanel override for OnControlRemoved and OnControlAdded don't fire correctly.
+        // B2318 - Since the introduction of the InternalPanel overrides for OnControlRemoved and OnControlAdded don't fire correctly.
         _internalKryptonPanel.ControlRemoved += (s, e) => OnControlRemoved(e);
         _internalKryptonPanel.ControlAdded += (s, e) => OnControlAdded(e);
 
