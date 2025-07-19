@@ -3,6 +3,7 @@
 ====
 
 ## 2025-11-xx - Build 2511 (V10 - alpha) - November 2025
+* Resolved [#2324](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2324), Update PlatformInvoke.cs imports (see #2316)
 * Resolved [#2318](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2318), `KryptonForm` does not handle the `ControlRemoved` and `ControlAdded` event correctly.
 * Resolved [#2319](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2319), Enhance KryptonContextMenuItem and KryptonCommand functionality
 * Resolved [#2178](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2178), Fix `KryptonPropertyGrid` enabling logic for `Reset` menu-item
