@@ -3,6 +3,7 @@
 =======
 
 # 2025-08-25 - Build 2508 (Patch 8) - August 2025
+* Resolved [#2319](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2319), Enhance KryptonContextMenuItem and KryptonCommand functionality
 * Resolved [#2178](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2178), Fix `KryptonPropertyGrid` enabling logic for `Reset` menu-item
 * Resolved [#2300](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2300), Fix memory leak in PaletteBase
 * Resolved [#2277](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2277), Added colors in the `Color[] _schemeOfficeColors`.
