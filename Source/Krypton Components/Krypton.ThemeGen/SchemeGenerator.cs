@@ -341,22 +341,34 @@ public static class SchemeGenerator
             // Determine if we process files in-place (no --output) or write converted copies elsewhere
             bool inPlace = string.IsNullOrWhiteSpace(outputFolder);
             string? targetPath = palettePath;
+            bool modificationsAllowed = true;
+
             if (!inPlace && !dryRun)
             {
-                // Ensure copy exists in output folder before any modifications
                 var copyPath = Path.Combine(Path.GetFullPath(outputFolder), Path.GetFileName(palettePath));
+
                 if (!Path.Equals(copyPath, palettePath))
                 {
                     Directory.CreateDirectory(Path.GetDirectoryName(copyPath)!);
-                    // only copy if not already done earlier in scheme generation
-                    if (!File.Exists(copyPath))
+
+                    bool copyExists = File.Exists(copyPath);
+
+                    if (!copyExists || overwrite)
                     {
+                        // Create or overwrite the copy as requested
                         File.Copy(palettePath, copyPath, overwrite: true);
                     }
+                    else
+                    {
+                        // Copy exists and overwrite not requested – skip later modifications
+                        modificationsAllowed = false;
+                    }
+
                     targetPath = copyPath;
                 }
             }
-            if (migrate && !dryRun)
+
+            if (migrate && !dryRun && modificationsAllowed)
             {
                 if (isFamilyBase)
                 {
@@ -820,9 +832,12 @@ public static class SchemeGenerator
             var pad = braceCol - line.Length;
             if (pad < 1) pad = 1;
             line += new string(' ', pad) + "{ get; set; } = " + expr + ";";
-            if (i < missingFlags.Count && missingFlags[i] && !MenuNames.Contains(name))
+            if (className != "EmptySchemeBase")
             {
-                line += " // missing value";
+                if (i < missingFlags.Count && missingFlags[i] && !MenuNames.Contains(name))
+                {
+                    line += " // missing value";
+                }
             }
             sb.AppendLine(line);
         }
@@ -1012,7 +1027,7 @@ public static class SchemeGenerator
                 if (expr is IdentifierNameSyntax id)
                 {
                     var name = id.Identifier.Text;
-                    if (name is "_schemeBaseColors" or "schemeColors")
+                    if (name is "_schemeBaseColors" or "_schemeOfficeColours" or "schemeColors")
                     {
                         replacement = _isLightGray ? SyntaxFactory.IdentifierName("scheme") : SchemeCtorExpr;
                     }
@@ -1149,12 +1164,22 @@ public static class SchemeGenerator
                         SyntaxFactory.ParseName("System.Obsolete"),
                         SyntaxFactory.ParseAttributeArgumentList("(\"Color[] constructor is obsolete. Use KryptonColorSchemeBase overload.\", false)"))));
 
-            // Preserve indentation: align attribute with constructor
-            var leadingTrivia = ctor.GetLeadingTrivia();
-            if (leadingTrivia.Any())
+            // Build leading trivia for the attribute: keep XML docs/whitespace, but strip
+            // any #region/#endregion directives so the attribute ends up *inside* the region
+            // and immediately before the constructor signature.
+            var originalTrivia = ctor.GetLeadingTrivia();
+            var filteredTrivia = SyntaxFactory.TriviaList(
+                originalTrivia.Where(t =>
+                    !t.IsKind(SyntaxKind.RegionDirectiveTrivia) &&
+                    !t.IsKind(SyntaxKind.EndRegionDirectiveTrivia)));
+
+            // Ensure at least one newline precedes the attribute for neat formatting.
+            if (!filteredTrivia.Any(t => t.IsKind(SyntaxKind.EndOfLineTrivia)))
             {
-                obsoleteAttr = obsoleteAttr.WithLeadingTrivia(leadingTrivia);
+                filteredTrivia = filteredTrivia.Insert(0, SyntaxFactory.ElasticCarriageReturnLineFeed);
             }
+
+            obsoleteAttr = obsoleteAttr.WithLeadingTrivia(filteredTrivia);
 
             return ctor.AddAttributeLists(obsoleteAttr);
         }
@@ -1251,7 +1276,7 @@ public static class SchemeGenerator
                 if (expr is IdentifierNameSyntax id)
                 {
                     var name = id.Identifier.Text;
-                    if (name is "_schemeBaseColors" or "schemeColors" or "schemeColors")
+                    if (name is "_schemeBaseColors" or "_schemeOfficeColours" or "schemeColors")
                     {
                         replacement = _isLightGray ? SyntaxFactory.IdentifierName("scheme") : SchemeCtorExpr;
                     }
@@ -1374,11 +1399,21 @@ public static class SchemeGenerator
                         SyntaxFactory.ParseName("System.Obsolete"),
                         SyntaxFactory.ParseAttributeArgumentList("(\"Color[] constructor is obsolete. Use KryptonColorSchemeBase overload.\", false)"))));
 
-            var leadingTrivia = ctor.GetLeadingTrivia();
-            if (leadingTrivia.Any())
+            // Build leading trivia for the attribute: keep XML docs/whitespace, but strip
+            // any #region/#endregion directives so the attribute ends up *inside* the region
+            // and immediately before the constructor signature.
+            var originalTrivia = ctor.GetLeadingTrivia();
+            var filteredTrivia = SyntaxFactory.TriviaList(
+                originalTrivia.Where(t =>
+                    !t.IsKind(SyntaxKind.EndRegionDirectiveTrivia)));
+
+            // Ensure at least one newline precedes the attribute for neat formatting.
+            if (!filteredTrivia.Any(t => t.IsKind(SyntaxKind.EndOfLineTrivia)))
             {
-                obsoleteAttr = obsoleteAttr.WithLeadingTrivia(leadingTrivia);
+                filteredTrivia = filteredTrivia.Insert(0, SyntaxFactory.ElasticCarriageReturnLineFeed);
             }
+
+            obsoleteAttr = obsoleteAttr.WithLeadingTrivia(filteredTrivia);
 
             return ctor.AddAttributeLists(obsoleteAttr);
         }
@@ -1670,9 +1705,9 @@ public static class SchemeGenerator
     private static string ConvertRibbonColorArrayEntriesToProperties(string text)
     {
         // Handles both _ribbonColors and _schemeBaseColors array accesses with optional (int) cast
-        const string pattern = @"(?:_ribbonColou?rs|_schemeBaseColors)\s*\[\s*(?:\(\s*int\s*\)\s*)?SchemeBaseColors\s*\.\s*(\w+)\s*\]";
+        const string pattern = @"(?:_ribbonColou?rs|_schemeBaseColou?rs)\s*\[\s*(?:\(\s*int\s*\)\s*)?SchemeBaseColors\s*\.\s*(\w+)\s*\]";
 
-        return Regex.Replace(text, pattern, m => $"BaseColors.{m.Groups[1].Value}", RegexOptions.Singleline);
+        return Regex.Replace(text, pattern, m => $"BaseColors!.{m.Groups[1].Value}", RegexOptions.Singleline);
     }
 
     // Mapping for track-bar colors
@@ -1701,7 +1736,7 @@ public static class SchemeGenerator
             var idx = m.Groups[1].Value;
             if (TrackBarIndexMap.TryGetValue(idx, out var prop))
             {
-                return $"BaseColors.{prop}";
+                return $"BaseColors!.{prop}";
             }
             throw new ArgumentOutOfRangeException($"Array index incorrect: {idx}");
         }, RegexOptions.Singleline);
@@ -1713,9 +1748,9 @@ public static class SchemeGenerator
     /// </summary>
     private static string ConvertColorTableArrayEntriesToBaseColors(string text)
     {
-        const string pattern = @"new\s+KryptonColorTable[^\(]*\(\s*_schemeBaseColors\s*,";
+        const string pattern = @"new\s+KryptonColorTable[^\(]*\(\s*(?:_schemeBaseColors|_schemeOfficeColours)\s*,";
 
-        return Regex.Replace(text, pattern, m => m.Value.Replace("_schemeBaseColors", "BaseColors!.ToArray()"), RegexOptions.Singleline);
+        return Regex.Replace(text, pattern, m => m.Value.Replace("_schemeBaseColors", "BaseColors!.ToArray()").Replace("_schemeOfficeColours", "BaseColors!.ToArray()"), RegexOptions.Singleline);
     }
 
     /// <summary>
@@ -1907,21 +1942,71 @@ public static class SchemeGenerator
     /// <returns>The updated source code.</returns>
     private static string EnsureObsoleteOnColorArrayConstructors(string text)
     {
-        var tree = CSharpSyntaxTree.ParseText(text, CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.Preview));
-        var root = tree.GetCompilationUnitRoot();
+        // Pure textual processing – skip Roslyn to avoid trivia duplication issues.
+        return InsertObsoleteAttributeLine(text);
+    }
 
-        var rewriter = new ObsoleteColorArrayConstructorRewriter();
-        var newRoot = (CompilationUnitSyntax)rewriter.Visit(root);
+    /// <summary>
+    /// Ensures that each Color[] constructor has the obsolete attribute placed on the line
+    /// immediately preceding the constructor signature. This is a final textual fallback that
+    /// avoids complex trivia handling issues.
+    /// </summary>
+    private static string InsertObsoleteAttributeLine(string text)
+    {
+        var lines = text.Split(new[] { "\r\n" }, StringSplitOptions.None).ToList();
 
-        bool hasChanges = rewriter.HasChanges;
+        // Regex that roughly matches a constructor line containing a Color[] parameter.
+        var ctorRegex = new Regex(@"^([ \t]*)(public|protected|internal)[ \t]+\w+[ \t]*\([^\)]*Color\[\]", RegexOptions.Compiled);
 
-        if (!hasChanges)
+        // Attribute text constant
+        const string AttrTemplate = "[System.Obsolete(\"Color[] constructor is obsolete. Use KryptonColorSchemeBase overload.\", false)]";
+
+        for (int i = 0; i < lines.Count; i++)
         {
-            return text; // nothing modified
+            var line = lines[i];
+            var m = ctorRegex.Match(line);
+            if (!m.Success)
+                continue;
+
+            int search = i - 1;
+            bool alreadyHasAttr = false;
+
+            // Walk backwards over blank lines, XML docs and attributes to see if Obsolete already present
+            while (search >= 0)
+            {
+                var prev = lines[search].TrimStart();
+                if (prev.Length == 0)
+                {
+                    search--;
+                    continue; // skip blank
+                }
+
+                if (prev.StartsWith("///"))
+                {
+                    search--;
+                    continue; // xml doc line
+                }
+
+                if (prev.StartsWith("["))
+                {
+                    if (prev.Contains("Obsolete"))
+                        alreadyHasAttr = true;
+                    search--;
+                    continue; // other attribute lines
+                }
+
+                break; // reached non-doc/attr line
+            }
+
+            if (alreadyHasAttr)
+                continue; // constructor already marked
+
+            var indent = m.Groups[1].Value;
+            lines.Insert(i, indent + AttrTemplate);
+            i++; // skip over inserted line so we don't process same ctor again
         }
 
-        var newText = newRoot.ToFullString();
-        return newText;
+        return string.Join("\r\n", lines);
     }
 
     // Generic helper used by both professional palettes
@@ -2105,11 +2190,21 @@ internal sealed class ObsoleteColorArrayConstructorRewriter : CSharpSyntaxRewrit
                     SyntaxFactory.ParseName("System.Obsolete"),
                     SyntaxFactory.ParseAttributeArgumentList("(\"Color[] constructor is obsolete. Use KryptonColorSchemeBase overload.\", false)"))));
 
-        var leadingTrivia = ctor.GetLeadingTrivia();
-        if (leadingTrivia.Any())
+        // Build leading trivia for the attribute: keep XML docs/whitespace, but strip
+        // any #region/#endregion directives so the attribute ends up *inside* the region
+        // and immediately before the constructor signature.
+        var originalTrivia = ctor.GetLeadingTrivia();
+        var filteredTrivia = SyntaxFactory.TriviaList(
+            originalTrivia.Where(t =>
+                !t.IsKind(SyntaxKind.EndRegionDirectiveTrivia)));
+
+        // Ensure at least one newline precedes the attribute for neat formatting.
+        if (!filteredTrivia.Any(t => t.IsKind(SyntaxKind.EndOfLineTrivia)))
         {
-            obsoleteAttr = obsoleteAttr.WithLeadingTrivia(leadingTrivia);
+            filteredTrivia = filteredTrivia.Insert(0, SyntaxFactory.ElasticCarriageReturnLineFeed);
         }
+
+        obsoleteAttr = obsoleteAttr.WithLeadingTrivia(filteredTrivia);
 
         return ctor.AddAttributeLists(obsoleteAttr);
     }
