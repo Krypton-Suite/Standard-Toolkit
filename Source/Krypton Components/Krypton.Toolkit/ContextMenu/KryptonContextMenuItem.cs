@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
- *  
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege, et al. 2017 - 2023. All rights reserved.
+ *
  */
 #endregion
 
@@ -24,6 +24,14 @@ namespace Krypton.Toolkit
     [DefaultEvent(nameof(Click))]
     public class KryptonContextMenuItem : KryptonContextMenuItemBase
     {
+        #region Nested Classes
+        // Provides proper design-time reference conversion for the KryptonCommand property even when the item is not sited.
+        private sealed class KryptonCommandReferenceConverter : ReferenceConverter
+        {
+            public KryptonCommandReferenceConverter() : base(typeof(KryptonCommand)) { }
+        }
+        #endregion
+
         #region Instance Fields
         private bool _enabled;
         private bool _splitSubMenu;
@@ -40,6 +48,8 @@ namespace Krypton.Toolkit
         private Keys _shortcutKeys;
         private readonly PaletteContextMenuItemStateRedirect _stateRedirect;
         private KryptonCommand? _command;
+        private object? _commandParameter;
+
         #endregion
 
         #region Events
@@ -622,6 +632,7 @@ namespace Krypton.Toolkit
         [Category(@"Behavior")]
         [Description(@"Command associated with the menu item.")]
         [DefaultValue(null)]
+        [TypeConverter(typeof(KryptonCommandReferenceConverter))]
         public virtual KryptonCommand? KryptonCommand
         {
             get => _command;
@@ -637,6 +648,30 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
+        /// Gets and sets an optional parameter value that can be used inside a shared KryptonCommand Execute handler.
+        /// </summary>
+        [KryptonPersist]
+        [Category(@"Behavior")]
+        [Description(@"Value passed to the KryptonCommand Execute handler to discriminate between menu items.")]
+        [DefaultValue(null)]
+        [Browsable(true)]
+        [TypeConverter(typeof(StringConverter))]
+        public object? CommandParameter
+        {
+            get => _commandParameter;
+            set
+            {
+                if (!Equals(_commandParameter, value))
+                {
+                    _commandParameter = value;
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(CommandParameter)));
+                }
+            }
+        }
+
+        private bool ShouldSerializeCommandParameter() => CommandParameter != null;
+        private void ResetCommandParameter() => CommandParameter = null;
+
         /// Generates a Click event for the component.
         /// </summary>
         public void PerformClick()
@@ -672,8 +707,8 @@ namespace Krypton.Toolkit
 
             OnClick(EventArgs.Empty);
 
-            // If we have an attached command then execute it
-            KryptonCommand?.PerformExecute();
+            // If we have an attached command then execute it, indicating this item as the sender
+            KryptonCommand?.PerformExecute(this);
         }
         #endregion
 

@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
- *  
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege, et al. 2017 - 2023. All rights reserved.
+ *
  */
 #endregion
 
@@ -77,7 +77,7 @@ namespace Krypton.Toolkit
             _assignedButtonSpec = null;
         }
 
-        /// <summary> 
+        /// <summary>
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
@@ -380,6 +380,10 @@ namespace Krypton.Toolkit
         /// Generates a Execute event for a button.
         /// </summary>
         public void PerformExecute() => OnExecute(EventArgs.Empty);
+
+        // Allow specifying the originating sender so shared commands can identify the source control
+        public void PerformExecute(object? sender)
+            => Execute?.Invoke(sender ?? this, EventArgs.Empty);
 
         #endregion
 
