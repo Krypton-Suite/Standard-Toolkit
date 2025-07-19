@@ -431,7 +431,7 @@ public static class SchemeGenerator
                         if (!oneCtor)
                             replacedText = EnsureSchemeConstructor(replacedText);
 
-                        // Always mark any remaining Color[] constructors as obsolete
+                        // Mark any Color[] constructor as obsolete
                         replacedText = EnsureObsoleteOnColorArrayConstructors(replacedText);
 
                         // newline fix
@@ -487,7 +487,6 @@ public static class SchemeGenerator
                             tmp = EnsureBaseColorsField(tmp, oneCtor);
                             if (!oneCtor)
                                 tmp = EnsureSchemeConstructor(tmp);
-                            tmp = EnsureObsoleteOnColorArrayConstructors(tmp);
                             validationText = tmp;
                         }
                     }
@@ -953,6 +952,8 @@ public static class SchemeGenerator
 
         private ExpressionSyntax SchemeCtorExpr => SyntaxFactory.ParseExpression($"new {_schemeClassName}().ToArray()");
         private ExpressionSyntax TrackBarExpr  => SyntaxFactory.ParseExpression($"new {_schemeClassName}().ToTrackBarArray()");
+        // New: scheme instance expression (without converting to array)
+        private ExpressionSyntax SchemeInstanceExpr => SyntaxFactory.ParseExpression($"new {_schemeClassName}()");
 
         public BaseCtorArgRewriter(string schemeClassName)
         {
@@ -1029,20 +1030,30 @@ public static class SchemeGenerator
                     var name = id.Identifier.Text;
                     if (name is "_schemeBaseColors" or "_schemeOfficeColours" or "schemeColors")
                     {
-                        replacement = _isLightGray ? SyntaxFactory.IdentifierName("scheme") : SchemeCtorExpr;
+                        // Use the provided scheme parameter for LightGray palettes; otherwise, pass a new scheme instance
+                        replacement = _isLightGray ? SyntaxFactory.IdentifierName("scheme") : SchemeInstanceExpr;
                     }
                     else if (name is "_trackBarColors" or "trackBarColors")
                     {
-                        if (_isLightGray)
-                        {
-                            // Skip this argument entirely for LightGray
-                            updated = true;
-                            continue;
-                        }
-                        else
-                        {
-                            replacement = TrackBarExpr;
-                        }
+                        // Track-bar colors are now supplied by the scheme instance; remove argument entirely
+                        updated = true;
+                        continue;
+                    }
+                }
+                else if (expr is InvocationExpressionSyntax invExpr)
+                {
+                    var invText = invExpr.ToString().Replace(" ", string.Empty);
+                    var patternToArray = $"new{_schemeClassName}().ToArray()";
+                    var patternTrack = $"new{_schemeClassName}().ToTrackBarArray()";
+
+                    if (string.Equals(invText, patternToArray, StringComparison.Ordinal))
+                    {
+                        replacement = SchemeInstanceExpr;
+                    }
+                    else if (string.Equals(invText, patternTrack, StringComparison.Ordinal))
+                    {
+                        updated = true;
+                        continue; // skip track-bar argument
                     }
                 }
                 // If the expression already matches the intended SchemeCtorExpr, no replacement needed.
@@ -1105,10 +1116,8 @@ public static class SchemeGenerator
 
             if (!updated && string.Equals(originalArgsText, newArgsText, StringComparison.Ordinal))
             {
-                // Ensure obsolete attribute even when no other changes are required
-                var obsoleteChecked = AddObsoleteIfRequired(node);
-                var visited = base.VisitConstructorDeclaration(obsoleteChecked);
-                return visited ?? obsoleteChecked;
+                var visited = base.VisitConstructorDeclaration(node);
+                return visited ?? node;
             }
 
             var newInit = init.WithArgumentList(init.ArgumentList.WithArguments(newArgs));
@@ -1118,70 +1127,12 @@ public static class SchemeGenerator
                 newNode = newNode.WithParameterList(newParamList);
             }
 
-            // Inject obsolete attribute on the legacy constructor (with Color[] parameter)
-            newNode = AddObsoleteIfRequired(newNode);
-
             // Do NOT call NormalizeWhitespace here – it strips our custom indentation.
 
             HasChanges = true;
 
             var visitedNew = base.VisitConstructorDeclaration(newNode);
             return visitedNew ?? newNode;
-        }
-
-        /// <summary>
-        /// Adds a [System.Obsolete] attribute to constructors that still accept a Color[] parameter
-        /// as the first non-string argument, unless the attribute is already present.
-        /// </summary>
-        private static ConstructorDeclarationSyntax AddObsoleteIfRequired(ConstructorDeclarationSyntax ctor)
-        {
-            // skip if already decorated
-            if (ctor.AttributeLists.Any(al => al.Attributes.Any(a => a.Name.ToString().Contains("Obsolete"))))
-            {
-                return ctor;
-            }
-
-            bool firstNonStringIsColorArray = false;
-            foreach (var p in ctor.ParameterList.Parameters)
-            {
-                var typeStr = p.Type?.ToString() ?? string.Empty;
-                if (string.Equals(typeStr, "string", StringComparison.OrdinalIgnoreCase))
-                {
-                    continue; // string parameters are ignored
-                }
-                firstNonStringIsColorArray = typeStr.IndexOf("Color[]", StringComparison.Ordinal) >= 0;
-                break; // only first non-string parameter considered
-            }
-
-            if (!firstNonStringIsColorArray)
-            {
-                return ctor;
-            }
-
-            var obsoleteAttr = SyntaxFactory.AttributeList(
-                SyntaxFactory.SingletonSeparatedList(
-                    SyntaxFactory.Attribute(
-                        SyntaxFactory.ParseName("System.Obsolete"),
-                        SyntaxFactory.ParseAttributeArgumentList("(\"Color[] constructor is obsolete. Use KryptonColorSchemeBase overload.\", false)"))));
-
-            // Build leading trivia for the attribute: keep XML docs/whitespace, but strip
-            // any #region/#endregion directives so the attribute ends up *inside* the region
-            // and immediately before the constructor signature.
-            var originalTrivia = ctor.GetLeadingTrivia();
-            var filteredTrivia = SyntaxFactory.TriviaList(
-                originalTrivia.Where(t =>
-                    !t.IsKind(SyntaxKind.RegionDirectiveTrivia) &&
-                    !t.IsKind(SyntaxKind.EndRegionDirectiveTrivia)));
-
-            // Ensure at least one newline precedes the attribute for neat formatting.
-            if (!filteredTrivia.Any(t => t.IsKind(SyntaxKind.EndOfLineTrivia)))
-            {
-                filteredTrivia = filteredTrivia.Insert(0, SyntaxFactory.ElasticCarriageReturnLineFeed);
-            }
-
-            obsoleteAttr = obsoleteAttr.WithLeadingTrivia(filteredTrivia);
-
-            return ctor.AddAttributeLists(obsoleteAttr);
         }
     }
 
@@ -1345,9 +1296,8 @@ public static class SchemeGenerator
 
             if (!updated && string.Equals(originalArgsText, newArgsText, StringComparison.Ordinal))
             {
-                var obsoleteChecked = AddObsoleteIfRequired(node);
-                var visited = base.VisitConstructorDeclaration(obsoleteChecked);
-                return visited ?? obsoleteChecked;
+                var visited = base.VisitConstructorDeclaration(node);
+                return visited ?? node;
             }
 
             var newInit = init.WithArgumentList(init.ArgumentList.WithArguments(newArgs));
@@ -1357,65 +1307,12 @@ public static class SchemeGenerator
                 newNode = newNode.WithParameterList(newParamList);
             }
 
-            // Inject obsolete attribute on Color[] constructor
-            newNode = AddObsoleteIfRequired(newNode);
-
             // Do NOT call NormalizeWhitespace here – it strips our custom indentation.
 
             HasChanges = true;
 
             var visitedNew = base.VisitConstructorDeclaration(newNode);
             return visitedNew ?? newNode;
-        }
-
-        /// <inheritdoc cref="BaseCtorArgRewriter.AddObsoleteIfRequired" />
-        private static ConstructorDeclarationSyntax AddObsoleteIfRequired(ConstructorDeclarationSyntax ctor)
-        {
-            if (ctor.AttributeLists.Any(al => al.Attributes.Any(a => a.Name.ToString().Contains("Obsolete"))))
-            {
-                return ctor;
-            }
-
-            bool firstNonStringIsColorArray = false;
-            foreach (var p in ctor.ParameterList.Parameters)
-            {
-                var typeStr = p.Type?.ToString() ?? string.Empty;
-                if (string.Equals(typeStr, "string", StringComparison.OrdinalIgnoreCase))
-                {
-                    continue;
-                }
-                firstNonStringIsColorArray = typeStr.IndexOf("Color[]", StringComparison.Ordinal) >= 0;
-                break;
-            }
-
-            if (!firstNonStringIsColorArray)
-            {
-                return ctor;
-            }
-
-            var obsoleteAttr = SyntaxFactory.AttributeList(
-                SyntaxFactory.SingletonSeparatedList(
-                    SyntaxFactory.Attribute(
-                        SyntaxFactory.ParseName("System.Obsolete"),
-                        SyntaxFactory.ParseAttributeArgumentList("(\"Color[] constructor is obsolete. Use KryptonColorSchemeBase overload.\", false)"))));
-
-            // Build leading trivia for the attribute: keep XML docs/whitespace, but strip
-            // any #region/#endregion directives so the attribute ends up *inside* the region
-            // and immediately before the constructor signature.
-            var originalTrivia = ctor.GetLeadingTrivia();
-            var filteredTrivia = SyntaxFactory.TriviaList(
-                originalTrivia.Where(t =>
-                    !t.IsKind(SyntaxKind.EndRegionDirectiveTrivia)));
-
-            // Ensure at least one newline precedes the attribute for neat formatting.
-            if (!filteredTrivia.Any(t => t.IsKind(SyntaxKind.EndOfLineTrivia)))
-            {
-                filteredTrivia = filteredTrivia.Insert(0, SyntaxFactory.ElasticCarriageReturnLineFeed);
-            }
-
-            obsoleteAttr = obsoleteAttr.WithLeadingTrivia(filteredTrivia);
-
-            return ctor.AddAttributeLists(obsoleteAttr);
         }
     }
 
@@ -1942,6 +1839,11 @@ public static class SchemeGenerator
     /// <returns>The updated source code.</returns>
     private static string EnsureObsoleteOnColorArrayConstructors(string text)
     {
+        // Apply only to classes that derive from PaletteBase (including abstract ones) to avoid
+        // marking unrelated color-table helper classes.
+        if (!Regex.IsMatch(text, @"class\s+\w+\s*:\s*[^\{\r\n]*\bPaletteBase\b", RegexOptions.Singleline))
+            return text;
+
         // Pure textual processing – skip Roslyn to avoid trivia duplication issues.
         return InsertObsoleteAttributeLine(text);
     }
@@ -1968,41 +1870,75 @@ public static class SchemeGenerator
             if (!m.Success)
                 continue;
 
-            int search = i - 1;
             bool alreadyHasAttr = false;
+            int insertPos = i; // default to just before constructor
 
-            // Walk backwards over blank lines, XML docs and attributes to see if Obsolete already present
-            while (search >= 0)
+            // Find where XML docs end and attributes begin (if any)
+            int j = i - 1;
+            int firstAttributeLine = -1;
+            int lastXmlDocLine = -1;
+
+            // Walk backwards to analyze what's before the constructor
+            while (j >= 0)
             {
-                var prev = lines[search].TrimStart();
+                var prev = lines[j].TrimStart();
+
                 if (prev.Length == 0)
                 {
-                    search--;
-                    continue; // skip blank
-                }
-
-                if (prev.StartsWith("///"))
-                {
-                    search--;
-                    continue; // xml doc line
+                    j--;
+                    continue; // skip blank lines
                 }
 
                 if (prev.StartsWith("["))
                 {
-                    if (prev.Contains("Obsolete"))
+                    firstAttributeLine = j;
+                    if (prev.Contains("Obsolete", StringComparison.OrdinalIgnoreCase))
                         alreadyHasAttr = true;
-                    search--;
-                    continue; // other attribute lines
+                }
+                else if (prev.StartsWith("///"))
+                {
+                    if (lastXmlDocLine == -1)
+                    {
+                        // Find the last XML doc line by checking forward
+                        lastXmlDocLine = j;
+                        while (lastXmlDocLine + 1 < i && lines[lastXmlDocLine + 1].TrimStart().StartsWith("///"))
+                        {
+                            lastXmlDocLine++;
+                        }
+                    }
+                    // Skip to before XML docs
+                    while (j >= 0 && lines[j].TrimStart().StartsWith("///"))
+                    {
+                        j--;
+                    }
+                    break;
+                }
+                else
+                {
+                    break; // hit something else
                 }
 
-                break; // reached non-doc/attr line
+                j--;
             }
 
             if (alreadyHasAttr)
                 continue; // constructor already marked
 
+            // Determine insertion position
+            if (firstAttributeLine >= 0)
+            {
+                // Insert before first attribute
+                insertPos = firstAttributeLine;
+            }
+            else if (lastXmlDocLine >= 0)
+            {
+                // Insert after last XML doc line
+                insertPos = lastXmlDocLine + 1;
+            }
+            // else use default (just before constructor)
+
             var indent = m.Groups[1].Value;
-            lines.Insert(i, indent + AttrTemplate);
+            lines.Insert(insertPos, indent + AttrTemplate);
             i++; // skip over inserted line so we don't process same ctor again
         }
 
@@ -2138,74 +2074,4 @@ public static class SchemeGenerator
     private static bool IsPaletteClass(string text)
         => Regex.IsMatch(text, @"class\s+\w+\s*:\s*[^\{\r\n]*\bPaletteBase\b")
            && !Regex.IsMatch(text, @"abstract\s+class");
-}
-
-/// <summary>
-/// Roslyn-based visitor that rewrites constructors to mark Color[] constructors as obsolete.
-/// </summary>
-internal sealed class ObsoleteColorArrayConstructorRewriter : CSharpSyntaxRewriter
-{
-    public bool HasChanges { get; private set; }
-
-    public override SyntaxNode VisitConstructorDeclaration(ConstructorDeclarationSyntax node)
-    {
-        var newNode = AddObsoleteIfRequired(node);
-
-        if (!object.ReferenceEquals(newNode, node))
-        {
-            HasChanges = true;
-        }
-
-        return base.VisitConstructorDeclaration(newNode) ?? newNode;
-    }
-
-    /// <inheritdoc cref="BaseCtorArgRewriter.AddObsoleteIfRequired" />
-    private static ConstructorDeclarationSyntax AddObsoleteIfRequired(ConstructorDeclarationSyntax ctor)
-    {
-        if (ctor.AttributeLists.Any(al => al.Attributes.Any(a => a.Name.ToString().Contains("Obsolete"))))
-        {
-            return ctor;
-        }
-
-        bool firstNonStringIsColorArray = false;
-        foreach (var p in ctor.ParameterList.Parameters)
-        {
-            var typeStr = p.Type?.ToString() ?? string.Empty;
-            if (string.Equals(typeStr, "string", StringComparison.OrdinalIgnoreCase))
-            {
-                continue;
-            }
-            firstNonStringIsColorArray = typeStr.IndexOf("Color[]", StringComparison.Ordinal) >= 0;
-            break;
-        }
-
-        if (!firstNonStringIsColorArray)
-        {
-            return ctor;
-        }
-
-        var obsoleteAttr = SyntaxFactory.AttributeList(
-            SyntaxFactory.SingletonSeparatedList(
-                SyntaxFactory.Attribute(
-                    SyntaxFactory.ParseName("System.Obsolete"),
-                    SyntaxFactory.ParseAttributeArgumentList("(\"Color[] constructor is obsolete. Use KryptonColorSchemeBase overload.\", false)"))));
-
-        // Build leading trivia for the attribute: keep XML docs/whitespace, but strip
-        // any #region/#endregion directives so the attribute ends up *inside* the region
-        // and immediately before the constructor signature.
-        var originalTrivia = ctor.GetLeadingTrivia();
-        var filteredTrivia = SyntaxFactory.TriviaList(
-            originalTrivia.Where(t =>
-                !t.IsKind(SyntaxKind.EndRegionDirectiveTrivia)));
-
-        // Ensure at least one newline precedes the attribute for neat formatting.
-        if (!filteredTrivia.Any(t => t.IsKind(SyntaxKind.EndOfLineTrivia)))
-        {
-            filteredTrivia = filteredTrivia.Insert(0, SyntaxFactory.ElasticCarriageReturnLineFeed);
-        }
-
-        obsoleteAttr = obsoleteAttr.WithLeadingTrivia(filteredTrivia);
-
-        return ctor.AddAttributeLists(obsoleteAttr);
-    }
 }
