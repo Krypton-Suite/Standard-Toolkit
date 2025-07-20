@@ -228,11 +228,12 @@ public class PaletteProfessionalSystem : PaletteBase
     {
         BaseColors = new PaletteProfessionalSystem_BaseScheme();
 
-        // Ensure fonts and color arrays are built from the supplied scheme
         ThemeName = nameof(PaletteProfessionalSystem);
 
+        // Get the font settings from the system
         DefineFonts();
 
+        // Generate the myriad ribbon colors from system settings
         DefineRibbonColors();
     }
 
@@ -4128,7 +4129,7 @@ public class PaletteProfessionalSystem : PaletteBase
             ribbonTabSelected2,           // RibbonTabSelected2
             ribbonTabSelected3,           // RibbonTabSelected3
             ribbonTabSelected4,           // RibbonTabSelected4
-            Color.Empty,                  // RibbonTabSelected5
+            GlobalStaticValues.EMPTY_COLOR,  // RibbonTabSelected5
             ribbonTabTracking1,           // RibbonTabTracking1
             ribbonTabTracking2,           // RibbonTabTracking2
             Color.FromArgb(196, ColorTable.ButtonSelectedGradientMiddle), // RibbonTabHighlight1
@@ -4176,8 +4177,8 @@ public class PaletteProfessionalSystem : PaletteBase
             ribbonGroupFrameBorder1,      // RibbonGroupFrameBorder2
             ribbonGroupFrameInside1,      // RibbonGroupFrameInside1
             ribbonGroupFrameInside1,      // RibbonGroupFrameInside2
-            Color.Empty,                  // RibbonGroupFrameInside3
-            Color.Empty,                  // RibbonGroupFrameInside4
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupFrameInside3
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupFrameInside4
             SystemColors.ControlText,     // RibbonGroupCollapsedText
             SystemColors.ControlText,     // RibbonGroupButtonText
             // Non ribbon colors
@@ -4297,6 +4298,7 @@ public class PaletteProfessionalSystem : PaletteBase
         }
     }
 
+    /*
     private Image? CreateDropDownImage(Color color)
     {
         // Create image that has an alpha channel
@@ -4316,6 +4318,7 @@ public class PaletteProfessionalSystem : PaletteBase
 
         return image;
     }
+    */
 
     private Image CreateGalleryUpImage(Color color)
     {
