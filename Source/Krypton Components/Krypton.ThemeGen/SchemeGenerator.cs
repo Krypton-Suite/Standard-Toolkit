@@ -45,6 +45,7 @@ public static class SchemeGenerator
     private const string OfficeColorMarker = "private static readonly Color[] _schemeOfficeColours";
     // Marker for Sparkle ribbon colour arrays
     private const string RibbonColorMarker = "private static readonly Color[] _ribbonColors";
+    private const string VisualStudioColorMarker = "private static readonly Color[] _schemeVisualStudioColors";
 
     // Marker for track-bar color arrays found in palette classes
     private const string TrackBarColorMarker = "private static readonly Color[] _trackBarColors";
@@ -57,7 +58,8 @@ public static class SchemeGenerator
         "PaletteOffice2010Base",
         "PaletteOffice2013Base",
         "PaletteSparkleBase",
-        "PaletteSparkleBlueDarkModeBase"
+        "PaletteSparkleBlueDarkModeBase",
+        "PaletteVisualStudioBase"
     };
 
     private static readonly HashSet<string> ExplicitlyExcludedFiles = new HashSet<string>(StringComparer.Ordinal)
@@ -73,7 +75,7 @@ public static class SchemeGenerator
         if (FamilyBaseNames.Contains(name)) return true;
 
         // Treat any PaletteSparkle*Base (including DarkMode) as family base for now
-        return Regex.IsMatch(name, @"^PaletteSparkle.*Base$");
+        return Regex.IsMatch(name, @"^(?:PaletteSparkle|PaletteVisualStudio).*Base$");
     }
 
     // Single-file cache: only keep the currently processed file in memory
@@ -213,7 +215,7 @@ public static class SchemeGenerator
             string detectedBaseArrayMarker = BaseColorMarker;
 
             // Try modern, legacy and Sparkle array variable names
-            string[] possibleVars = { "_schemeBaseColors", "_schemeOfficeColours", "_ribbonColors" };
+            string[] possibleVars = { "_schemeBaseColors", "_schemeOfficeColours", "_ribbonColors", "_schemeVisualStudioColors" };
             foreach (var varName in possibleVars)
             {
                 try
@@ -222,9 +224,10 @@ public static class SchemeGenerator
                     // Found and parsed successfully
                     detectedBaseArrayMarker = varName switch
                     {
-                        "_schemeOfficeColours" => OfficeColorMarker,
-                        "_ribbonColors"        => RibbonColorMarker,
-                        _                      => BaseColorMarker
+                        "_schemeOfficeColours"      => OfficeColorMarker,
+                        "_ribbonColors"             => RibbonColorMarker,
+                        "_schemeVisualStudioColors" => VisualStudioColorMarker,
+                        _                           => BaseColorMarker
                     };
                     break;
                 }
@@ -255,6 +258,10 @@ public static class SchemeGenerator
                     else if (!paletteTextTmp.Contains(BaseColorMarker) && paletteTextTmp.Contains(RibbonColorMarker))
                     {
                         markerToUse = RibbonColorMarker;
+                    }
+                    else if (!paletteTextTmp.Contains(BaseColorMarker) && paletteTextTmp.Contains(VisualStudioColorMarker))
+                    {
+                        markerToUse = VisualStudioColorMarker;
                     }
 
                     colorsRaw = ExtractColorExpressions(palettePath, markerToUse);
@@ -1110,7 +1117,7 @@ public static class SchemeGenerator
                 if (expr is IdentifierNameSyntax id)
                 {
                     var name = id.Identifier.Text;
-                    if (name is "_schemeBaseColors" or "_schemeOfficeColours" or "_ribbonColors" or "schemeColors")
+                    if (name is "_schemeBaseColors" or "_schemeOfficeColours" or "_ribbonColors" or "_schemeVisualStudioColors" or "schemeColors")
                     {
                         // Use the provided scheme parameter for LightGray palettes; otherwise, pass a new scheme instance
                         replacement = _isLightGray ? SyntaxFactory.IdentifierName("scheme") : SchemeInstanceExpr;
@@ -1309,7 +1316,7 @@ public static class SchemeGenerator
                 if (expr is IdentifierNameSyntax id)
                 {
                     var name = id.Identifier.Text;
-                    if (name is "_schemeBaseColors" or "_schemeOfficeColours" or "_ribbonColors" or "schemeColors")
+                    if (name is "_schemeBaseColors" or "_schemeOfficeColours" or "_ribbonColors" or "_schemeVisualStudioColors" or "schemeColors")
                     {
                         replacement = _isLightGray ? SyntaxFactory.IdentifierName("scheme") : SchemeCtorExpr;
                     }
@@ -1727,9 +1734,13 @@ public static class SchemeGenerator
     /// </summary>
     private static string ConvertColorTableArrayEntriesToBaseColors(string text)
     {
-        const string pattern = @"new\s+KryptonColorTable[^\(]*\(\s*(?:_schemeBaseColors|_schemeOfficeColours|_ribbonColors)\s*,";
+        const string pattern = @"new\s+KryptonColorTable[^\(]*\(\s*(?:_schemeBaseColors|_schemeOfficeColours|_ribbonColors|_schemeVisualStudioColors)\s*,";
 
-        return Regex.Replace(text, pattern, m => m.Value.Replace("_schemeBaseColors", "BaseColors!.ToArray()").Replace("_schemeOfficeColours", "BaseColors!.ToArray()").Replace("_ribbonColors", "BaseColors!.ToArray()"), RegexOptions.Singleline);
+        return Regex.Replace(text, pattern, m => m.Value
+            .Replace("_schemeBaseColors", "BaseColors!.ToArray()")
+            .Replace("_schemeOfficeColours", "BaseColors!.ToArray()")
+            .Replace("_ribbonColors", "BaseColors!.ToArray()")
+            .Replace("_schemeVisualStudioColors", "BaseColors!.ToArray()"), RegexOptions.Singleline);
     }
 
     /// <summary>

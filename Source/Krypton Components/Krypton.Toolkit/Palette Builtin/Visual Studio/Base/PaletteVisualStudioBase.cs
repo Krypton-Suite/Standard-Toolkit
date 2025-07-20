@@ -218,6 +218,7 @@ public abstract class PaletteVisualStudioBase : PaletteBase
 
     #region Instance Fields
 
+    protected readonly KryptonColorSchemeBase? BaseColors;
     private KryptonColorTableVisualStudio? _table;
 
     private readonly Color[] _ribbonColors;
@@ -237,6 +238,7 @@ public abstract class PaletteVisualStudioBase : PaletteBase
     /// <param name="galleryButtonList">The gallery button list.</param>
     /// <param name="radioButtonArray">The radio button array.</param>
     /// <param name="trackBarColors">The track bar colours.</param>
+    [System.Obsolete("Color[] constructor is deprecated and will be removed in V110. Use KryptonColorSchemeBase overload.", false)]
     public PaletteVisualStudioBase([DisallowNull] Color[] schemeColors,
         [DisallowNull] ImageList checkBoxList,
         [DisallowNull] ImageList galleryButtonList,
@@ -276,6 +278,25 @@ public abstract class PaletteVisualStudioBase : PaletteBase
         }
 
         DefineFonts();
+    }
+
+    /// <summary>
+    /// Overload that accepts a KryptonColorSchemeBase instance and forwards colours to the main constructor.
+    /// </summary>
+    // TODO this should be merged into main constructor once all palettes
+    // have their own KryptonColorSchemeBase-derived class
+    protected PaletteVisualStudioBase(
+        [DisallowNull] KryptonColorSchemeBase scheme,
+        [DisallowNull] ImageList checkBoxList,
+        [DisallowNull] ImageList galleryButtonList,
+        [DisallowNull] Image?[] radioButtonArray)
+        : this(scheme.ToArray(),
+               checkBoxList,
+               galleryButtonList,
+               radioButtonArray,
+               scheme.ToTrackBarArray())
+    {
+        BaseColors = scheme;
     }
 
     #endregion
