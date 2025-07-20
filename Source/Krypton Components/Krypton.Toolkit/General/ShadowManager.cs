@@ -230,36 +230,38 @@ internal class ShadowManager
 
             // four corner
             using (var gp = new GraphicsPath())
-            using (var matrix = new Matrix())
             {
-                gp.AddEllipse(0, 0, blurOffset * 2, blurOffset * 2);
-                using (var pgb = new PathGradientBrush(gp)
-                       {
-                           CenterColor = _shadowValues.Colour,
-                           SurroundColors = [Color.Transparent],
-                           CenterPoint = new PointF(blurOffset, blurOffset)
-                       })
+                using (var matrix = new Matrix())
                 {
-                    // left-Top
-                    g.FillPie(pgb, 0, 0, blurOffset * 2, blurOffset * 2, 180, 90);
+                    gp.AddEllipse(0, 0, blurOffset * 2, blurOffset * 2);
+                    using (var pgb = new PathGradientBrush(gp)
+                           {
+                               CenterColor = _shadowValues.Colour,
+                               SurroundColors = [Color.Transparent],
+                               CenterPoint = new PointF(blurOffset, blurOffset)
+                           })
+                    {
+                        // left-Top
+                        g.FillPie(pgb, 0, 0, blurOffset * 2, blurOffset * 2, 180, 90);
 
-                    // right-Top
-                    matrix.Translate(w - blurOffset * 2, 0);
+                        // right-Top
+                        matrix.Translate(w - blurOffset * 2, 0);
 
-                    pgb.Transform = matrix;
-                    //pgb.Transform.Translate(w-blur*2, 0);
-                    g.FillPie(pgb, w - blurOffset * 2, 0, blurOffset * 2, blurOffset * 2, 270, 90);
+                        pgb.Transform = matrix;
+                        //pgb.Transform.Translate(w-blur*2, 0);
+                        g.FillPie(pgb, w - blurOffset * 2, 0, blurOffset * 2, blurOffset * 2, 270, 90);
 
-                    // right-Bottom
-                    matrix.Translate(0, h - blurOffset * 2);
-                    pgb.Transform = matrix;
-                    g.FillPie(pgb, w - blurOffset * 2, h - blurOffset * 2, blurOffset * 2, blurOffset * 2, 0, 90);
+                        // right-Bottom
+                        matrix.Translate(0, h - blurOffset * 2);
+                        pgb.Transform = matrix;
+                        g.FillPie(pgb, w - blurOffset * 2, h - blurOffset * 2, blurOffset * 2, blurOffset * 2, 0, 90);
 
-                    // left-Bottom
-                    matrix.Reset();
-                    matrix.Translate(0, h - blurOffset * 2);
-                    pgb.Transform = matrix;
-                    g.FillPie(pgb, 0, h - blurOffset * 2, blurOffset * 2, blurOffset * 2, 90, 90);
+                        // left-Bottom
+                        matrix.Reset();
+                        matrix.Translate(0, h - blurOffset * 2);
+                        pgb.Transform = matrix;
+                        g.FillPie(pgb, 0, h - blurOffset * 2, blurOffset * 2, blurOffset * 2, 90, 90);
+                    }
                 }
             }
         }

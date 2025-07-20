@@ -2340,17 +2340,26 @@ public class KryptonTreeView : VisualControlBase,
                                         new Point(cx, cy + size / 2)
                                     };
                                 }
-                                using (Brush b = new SolidBrush(SystemColors.ControlText))
-                                    g.FillPolygon(b, triangle);
 
+                                using (Brush b = new SolidBrush(SystemColors.ControlText))
+                                {
+                                    g.FillPolygon(b, triangle);
+                                }
+
+#if INTERNAL_BUILD
                                 // DEBUG: Draw a red rectangle around the indent area
                                 using (Pen debugPen = new Pen(Color.Red, 1))
+                                {
                                     g.DrawRectangle(debugPen, indentBounds);
+                                }
 
                                 // DEBUG: Draw the RTL state as a string (larger, bold, and with indent X)
                                 string rtlState = $"RTL:{RightToLeft} RTLLayout:{RightToLeftLayout} IndentX:{indentBounds.X}";
                                 using (Font debugFont = new Font("Arial", 10, FontStyle.Bold))
+                                {
                                     g.DrawString(rtlState, debugFont, Brushes.Red, indentBounds.X + 2, indentBounds.Y + 2);
+                                }
+#endif
                             }
                         }
                     }
@@ -2535,7 +2544,7 @@ public class KryptonTreeView : VisualControlBase,
 
     private void OnMouseDoubleClick(object? sender, MouseEventArgs e) => base.OnMouseDoubleClick(e);
 
-    #endregion
+#endregion
 
     /// <summary>
     /// Raises the RightToLeftChanged event.

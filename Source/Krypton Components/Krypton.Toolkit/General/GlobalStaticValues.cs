@@ -59,6 +59,9 @@ public class GlobalStaticValues
     /// <summary>The current supported palette version</summary>
     public const int CURRENT_SUPPORTED_PALETTE_VERSION = 20;
 
+    /// <summary>The default extra padding for RTL layouts</summary>
+    public const int DEFAULT_EXTRA_RTL_PADDING = 8;
+
     /// <summary>The default highlight debugging color</summary>
     public static Color DEFAULT_HIGHLIGHT_DEBUGGING_COLOR = Color.Red;
 

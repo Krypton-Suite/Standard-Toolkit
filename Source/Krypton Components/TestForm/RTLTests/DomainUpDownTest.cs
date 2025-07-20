@@ -38,28 +38,23 @@ public partial class DomainUpDownTest : KryptonForm
         kryptonDomainUpDown1.Items.Clear();
         kryptonDomainUpDown1.Items.AddRange(new object[] { "Red", "Green", "Blue", "Yellow", "Purple", "Orange" });
         kryptonDomainUpDown1.SelectedIndex = 0;
-        //kryptonDomainUpDown1.Wrap = true;
 
         kryptonDomainUpDown2.Items.Clear();
         kryptonDomainUpDown2.Items.AddRange(new object[] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" });
         kryptonDomainUpDown2.SelectedIndex = 0;
-        //kryptonDomainUpDown2.Wrap = true;
 
         kryptonDomainUpDown3.Items.Clear();
         kryptonDomainUpDown3.Items.AddRange(new object[] { "January", "February", "March", "April", "May", "June", 
                                                            "July", "August", "September", "October", "November", "December" });
         kryptonDomainUpDown3.SelectedIndex = 0;
-        //kryptonDomainUpDown3.Wrap = true;
 
         kryptonDomainUpDown4.Items.Clear();
         kryptonDomainUpDown4.Items.AddRange(new object[] { "Small", "Medium", "Large", "Extra Large" });
         kryptonDomainUpDown4.SelectedIndex = 1;
-        //kryptonDomainUpDown4.Wrap = false;
 
         kryptonDomainUpDown5.Items.Clear();
         kryptonDomainUpDown5.Items.AddRange(new object[] { "Low", "Medium", "High", "Critical" });
         kryptonDomainUpDown5.SelectedIndex = 0;
-        //kryptonDomainUpDown5.Wrap = false;
 
         // Set initial RTL state
         UpdateRtlState();

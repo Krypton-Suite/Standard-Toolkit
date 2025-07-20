@@ -5700,7 +5700,9 @@ public class RenderStandard : RenderBase
 
             // RTL FIX: Add extra left padding in RTL mode so window buttons are not cut off
             bool isRtl = kryptonForm.RightToLeft == RightToLeft.Yes && kryptonForm.RightToLeftLayout;
-            int extraPadding = 8; // Tune as needed for your button size/margin
+
+            // If the padding is not enough to cover the chrome borders then add extra
+            int extraPadding = GlobalStaticValues.DEFAULT_EXTRA_RTL_PADDING;
 
             if (isRtl)
             {

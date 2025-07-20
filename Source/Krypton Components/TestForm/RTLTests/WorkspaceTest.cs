@@ -52,7 +52,7 @@ public partial class WorkspaceTest : KryptonForm
         rootSequence.Children.Add(cell3);
         
         // Set the root sequence to define the structure of the workspace
-        workspace.Root = rootSequence;
+        workspace.Root.Children?.Add(rootSequence);
         
         // Add workspace to the form
         Controls.Add(workspace);
