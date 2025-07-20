@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -146,6 +146,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
 
     #region Instance Fields
 
+    protected readonly KryptonColorSchemeBase? BaseColors;
     private KryptonColorTableSparkle? _table;
     private readonly Color[] _ribbonColors;
     private readonly Color[] _sparkleColors;
@@ -171,6 +172,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
     /// <param name="ribbonGroupCollapsedBorderContextTracking">Colors for tracking a collapsed group border.</param>
     /// <param name="checkBoxList">Images for check box controls.</param>
     /// <param name="radioButtonArray">Images for radio button controls.</param>
+    [System.Obsolete("Color[] constructor is deprecated and will be removed in V110. Use KryptonColorSchemeBase overload.", false)]
     protected PaletteSparkleBlueDarkModeBase(Color[] ribbonColors,
         Color[] sparkleColors,
         Color[] appButtonNormal,
@@ -193,6 +195,23 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
 
         // Get the font settings from the system
         DefineFonts();
+    }
+
+    /// <summary>
+    /// Overload that accepts a KryptonColorSchemeBase instance and forwards colours to the main constructor.
+    /// </summary>
+    protected PaletteSparkleBlueDarkModeBase(
+        [DisallowNull] KryptonColorSchemeBase scheme,
+        [DisallowNull] Color[] sparkleColors,
+        [DisallowNull] Color[] appButtonNormal,
+        [DisallowNull] Color[] appButtonTrack,
+        [DisallowNull] Color[] appButtonPressed,
+        [DisallowNull] Color[] ribbonGroupCollapsedBorderContextTracking,
+        [DisallowNull] ImageList checkBoxList,
+        [DisallowNull] Image?[] radioButtonArray)
+        : this(scheme.ToArray(), sparkleColors, appButtonNormal, appButtonTrack, appButtonPressed, ribbonGroupCollapsedBorderContextTracking, checkBoxList, radioButtonArray)
+    {
+        BaseColors = scheme;
     }
 
     #endregion Identity

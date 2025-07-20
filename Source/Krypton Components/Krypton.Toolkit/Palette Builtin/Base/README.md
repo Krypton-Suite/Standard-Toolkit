@@ -39,18 +39,21 @@ It supports **two orthogonal switches**:
 
 SchemeGenerator distinguishes between two kinds of palette classes:
 
-1. **Family-base palettes** – four concrete abstract bases that sit directly on `PaletteBase` and have many derived “theme” subclasses.
+1. **Family-base palettes** – concrete abstract bases that sit directly on `PaletteBase` and have many derived “theme” subclasses.
    • `PaletteMicrosoft365Base`
    • `PaletteOffice2007Base`
    • `PaletteOffice2010Base`
    • `PaletteOffice2013Base`
+   • `PaletteSparkleBase`
+   • `PaletteSparkleBlueDarkModeBase`
+   • `PaletteVisualStudioBase`
 
    They **retain the legacy `_ribbonColors` array for one more release**.  Migration only
    – adds a strongly-typed constructor that forwards the scheme to the existing array,
    – injects `[Obsolete(..., false)]` on every `Color[]` constructor,
    – ensures a nullable `BaseColors` field is present.  No array removal or index-to-property conversion is executed yet.
 
-2. **Theme palettes** – every other concrete palette class.  These are migrated fully: colour arrays are deleted, all `[...]` accesses become `BaseColors.<Property>`, and a helper overload taking a `KryptonColorSchemeBase` is inserted (until the next major version when the legacy `Color[]` ctor disappears entirely).
+2. **Theme palettes** – every other concrete palette class.  These are migrated fully: colour arrays are deleted, all `[...]` accesses become `BaseColors.<Property>` (in non-base palettes!), and a helper overload taking a `KryptonColorSchemeBase` is inserted (until the next major version when the legacy `Color[]` ctor disappears entirely).  This now also covers Sparkle, Professional, and Visual Studio theme variants.
 
 ### 2. Typical commands
 

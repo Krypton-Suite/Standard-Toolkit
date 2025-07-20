@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *
  */
 #endregion
 
@@ -26,7 +26,7 @@ public class PaletteSparkleBase : PaletteBase
     private static readonly Padding _contentPaddingHeader2 = new Padding(3, 2, 2, 2);
     private static readonly Padding _contentPaddingHeader3 = new Padding(2, 1, 2, 1);
     private static readonly Padding _contentPaddingCalendar = new Padding(2);
-    //private static readonly Padding _contentPaddingHeaderForm = new Padding(owningForm!.RealWindowBorders.Left, owningForm!.RealWindowBorders.Bottom / 2, 0, 0);         
+    //private static readonly Padding _contentPaddingHeaderForm = new Padding(owningForm!.RealWindowBorders.Left, owningForm!.RealWindowBorders.Bottom / 2, 0, 0);
     private static readonly Padding _contentPaddingLabel = new Padding(3, 1, 3, 1);
     private static readonly Padding _contentPaddingLabel2 = new Padding(8, 2, 8, 2);
     private static readonly Padding _contentPaddingButtonInputControl = new Padding(0);
@@ -194,6 +194,7 @@ public class PaletteSparkleBase : PaletteBase
     #endregion
 
     #region Instance Fields
+    protected readonly KryptonColorSchemeBase? BaseColors;
     private KryptonColorTableSparkle? _table;
     private readonly Color[] _ribbonColors;
     private readonly Color[] _sparkleColors;
@@ -217,6 +218,7 @@ public class PaletteSparkleBase : PaletteBase
     /// <param name="ribbonGroupCollapsedBorderContextTracking">Colors for tracking a collapsed group border.</param>
     /// <param name="checkBoxList">Images for check box controls.</param>
     /// <param name="radioButtonArray">Images for radio button controls.</param>
+    [System.Obsolete("Color[] constructor is deprecated and will be removed in V110. Use KryptonColorSchemeBase overload.", false)]
     public PaletteSparkleBase(Color[] ribbonColors,
         Color[] sparkleColors,
         Color[] appButtonNormal,
@@ -266,6 +268,24 @@ public class PaletteSparkleBase : PaletteBase
         // Get the font settings from the system
         DefineFonts();
     }
+
+    /// <summary>
+    /// Overload that accepts a KryptonColorSchemeBase instance and forwards colours to the main constructor.
+    /// </summary>
+    public PaletteSparkleBase(
+        [DisallowNull] KryptonColorSchemeBase scheme,
+        [DisallowNull] Color[] sparkleColors,
+        [DisallowNull] Color[] appButtonNormal,
+        [DisallowNull] Color[] appButtonTrack,
+        [DisallowNull] Color[] appButtonPressed,
+        [DisallowNull] Color[] ribbonGroupCollapsedBorderContextTracking,
+        [DisallowNull] ImageList checkBoxList,
+        [DisallowNull] Image?[] radioButtonArray)
+        : this(scheme.ToArray(), sparkleColors, appButtonNormal, appButtonTrack, appButtonPressed, ribbonGroupCollapsedBorderContextTracking, checkBoxList, radioButtonArray)
+    {
+        BaseColors = scheme;
+    }
+
     #endregion
 
     #region Renderer

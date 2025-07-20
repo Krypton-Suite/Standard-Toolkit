@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2023 - 2025. All rights reserved.
  *
  */
 #endregion
@@ -215,6 +215,7 @@ public abstract class PaletteVisualStudio2010With2013Base : PaletteBase
 
     #region Instance Fields
 
+    protected readonly KryptonColorSchemeBase? BaseColors;
     private KryptonVisualStudio2010With2013ColorTable? _table;
 
     private readonly Color[] _ribbonColors;
@@ -234,6 +235,7 @@ public abstract class PaletteVisualStudio2010With2013Base : PaletteBase
     /// <param name="galleryButtonList">The gallery button list.</param>
     /// <param name="radioButtonArray">The radio button array.</param>
     /// <param name="trackBarColors">The track bar colours.</param>
+    [System.Obsolete("Color[] constructor is deprecated and will be removed in V110. Use KryptonColorSchemeBase overload.", false)]
     public PaletteVisualStudio2010With2013Base([DisallowNull] Color[] schemeColors,
         [DisallowNull] ImageList checkBoxList,
         [DisallowNull] ImageList galleryButtonList,
@@ -272,6 +274,25 @@ public abstract class PaletteVisualStudio2010With2013Base : PaletteBase
         }
 
         DefineFonts();
+    }
+
+    /// <summary>
+    /// Overload that accepts a KryptonColorSchemeBase instance and forwards colours to the main constructor.
+    /// </summary>
+    // TODO this should be merged into main constructor once all palettes
+    // have their own KryptonColorSchemeBase-derived class
+    protected PaletteVisualStudio2010With2013Base(
+        [DisallowNull] KryptonColorSchemeBase scheme,
+        [DisallowNull] ImageList checkBoxList,
+        [DisallowNull] ImageList galleryButtonList,
+        [DisallowNull] Image?[] radioButtonArray)
+        : this(scheme.ToArray(),
+               checkBoxList,
+               galleryButtonList,
+               radioButtonArray,
+               scheme.ToTrackBarArray())
+    {
+        BaseColors = scheme;
     }
 
     #endregion
