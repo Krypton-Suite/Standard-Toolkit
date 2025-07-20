@@ -433,7 +433,7 @@ public class AccurateText : GlobalId
         // Link is dead
         // Translation table: http://msdn.microsoft.com/msdnmag/issues/06/03/TextRendering/default.aspx?fig=true#fig4
 
-        flags |= sf.Alignment switch
+        flags = sf.Alignment switch
         {
             // Horizontal Alignment
             StringAlignment.Center => TextFormatFlags.HorizontalCenter,
