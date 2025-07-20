@@ -92,6 +92,37 @@ public class KryptonLabel : VisualSimpleBase, IContentValues
 
     #region Public
     /// <summary>
+    /// Enables the display of Unicode Surrogates, but only when the Orientation is set to Top.
+    /// </summary>
+    [Browsable(true)]
+    [EditorBrowsable(EditorBrowsableState.Always)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    [RefreshProperties(RefreshProperties.All)]
+    [DefaultValue(false)]
+    [Description("Enables the display of Unicode Surrogates, but only when the Orientation is set to Top.")]
+    public virtual bool EnableUnicodeSurrogates 
+    {
+        get;
+        set
+        {
+            if (field != value)
+            {
+                // store the new setting
+                field = value;
+
+                // When enabled Orientation must be Top
+                if (value)
+                {
+                    Orientation = VisualOrientation.Top;
+                }
+
+                // refresh
+                Invalidate();
+            }
+        }
+    }
+
+    /// <summary>
     /// Gets and sets the automatic resize of the control to fit contents.
     /// </summary>
     [Browsable(true)]
@@ -493,6 +524,39 @@ public class KryptonLabel : VisualSimpleBase, IContentValues
         // Always need to draw the background because always transparent
         true;
 
+    /// <inheritdoc/>
+    protected override void OnPaint(PaintEventArgs? e)
+    {
+        // Base first then it's out turn
+        base.OnPaint(e);
+
+        if (EnableUnicodeSurrogates && Orientation == VisualOrientation.Top)
+        {
+            PaletteContent state;
+            PaletteState paletteState;
+
+            if (Enabled)
+            {
+                state = StateNormal;
+                paletteState = PaletteState.Normal;
+            }
+            else
+            {
+                state = StateDisabled;
+                paletteState = PaletteState.Disabled;
+            }
+
+            Font font = state.GetContentShortTextFont(paletteState) ?? KryptonManager.CurrentGlobalPalette.BaseFont;
+            Color foreColor = state.GetContentShortTextColor1(paletteState);
+            Color backColor = KryptonManager.CurrentGlobalPalette.GetBackColor1(PaletteBackStyle.PanelClient, paletteState);
+
+            TextFormatFlags textFormatFlags = RightToLeft == RightToLeft.No
+                ? TextFormatFlags.Left | TextFormatFlags.VerticalCenter
+                : TextFormatFlags.Right | TextFormatFlags.VerticalCenter;
+
+            TextRenderer.DrawText(e!.Graphics, Text, font, e.ClipRectangle, foreColor, backColor, textFormatFlags);
+        }
+    }
     #endregion
 
     #region Implementation
