@@ -35,7 +35,7 @@ public static class SchemeGenerator
 "#endregion\n";
 
     // UTF8 encoding without BOM
-    private static readonly Encoding Utf8NoBom = new UTF8Encoding(false);
+    private static readonly Encoding Utf8Bom = new UTF8Encoding(true);
 
     // Normalize line endings to CRLF
     private static string ToCrLf(string text) => text.Replace("\r\n", "\n").Replace("\r", "").Replace("\n", "\r\n");
@@ -43,6 +43,8 @@ public static class SchemeGenerator
     private const string BaseColorMarker = "private static readonly Color[] _schemeBaseColors";
     // Some early Office 2007 palettes used a different variable name for the base colour array
     private const string OfficeColorMarker = "private static readonly Color[] _schemeOfficeColours";
+    // Marker for Sparkle ribbon colour arrays
+    private const string RibbonColorMarker = "private static readonly Color[] _ribbonColors";
 
     // Marker for track-bar color arrays found in palette classes
     private const string TrackBarColorMarker = "private static readonly Color[] _trackBarColors";
@@ -53,7 +55,9 @@ public static class SchemeGenerator
         "PaletteMicrosoft365Base",
         "PaletteOffice2007Base",
         "PaletteOffice2010Base",
-        "PaletteOffice2013Base"
+        "PaletteOffice2013Base",
+        "PaletteSparkleBase",
+        "PaletteSparkleBlueDarkModeBase"
     };
 
     private static readonly HashSet<string> ExplicitlyExcludedFiles = new HashSet<string>(StringComparer.Ordinal)
@@ -66,19 +70,76 @@ public static class SchemeGenerator
     private static bool IsFamilyBase(string palettePath)
     {
         var name = Path.GetFileNameWithoutExtension(palettePath);
-        return FamilyBaseNames.Contains(name);
+        if (FamilyBaseNames.Contains(name)) return true;
+
+        // Treat any PaletteSparkle*Base (including DarkMode) as family base for now
+        return Regex.IsMatch(name, @"^PaletteSparkle.*Base$");
+    }
+
+    // Single-file cache: only keep the currently processed file in memory
+    private static string? _cachedPath;
+    private static string  _cachedContent = string.Empty;
+    private static bool    _cacheDirty;
+
+    /// <summary>
+    /// Reads a text file into memory only once. Subsequent calls for the same path
+    /// return the cached content. When switching to a different file, pending changes
+    /// for the previous file are flushed automatically.
+    /// </summary>
+    private static string GetFileText(string path)
+    {
+        if (string.Equals(_cachedPath, path, StringComparison.OrdinalIgnoreCase))
+        {
+            return _cachedContent;
+        }
+
+        FlushCache();
+
+        _cachedContent = File.ReadAllText(path);
+        _cachedPath    = path;
+        _cacheDirty    = false;
+        return _cachedContent;
+    }
+
+    /// Returns an array of lines for the given file while still reading from disk only once.
+    private static string[] GetFileLines(string path)
+        => GetFileText(path).Split(new[] { "\r\n", "\n", "\r" }, StringSplitOptions.None);
+
+    /// <summary>
+    /// Stores updated content for the given path in memory and marks it dirty. The file will be
+    /// physically written to disk when a different file is accessed or at the end of processing.
+    /// If SetFile is invoked for a path other than the currently cached file, the existing cache is
+    /// flushed first and the new content is written immediately (no caching for such one-off writes).
+    /// </summary>
+    private static void SetFile(string path, string content)
+    {
+        var normalized = ToCrLf(content);
+
+        if (string.Equals(_cachedPath, path, StringComparison.OrdinalIgnoreCase) || _cachedPath is null)
+        {
+            _cachedPath    = path;
+            _cachedContent = normalized;
+            _cacheDirty    = true;
+        }
+        else
+        {
+            // Different file: flush previous cache once, then write directly without caching
+            FlushCache();
+            File.WriteAllText(path, normalized, Utf8Bom);
+        }
     }
 
     /// <summary>
-    /// Helper wrapper for reading text files. Acts as direct pass-through for now but centralises I/O for future caching.
+    /// Writes the cached file (if any and dirty) to disk and clears the dirty flag.
     /// </summary>
-    private static string GetFile(string path) => File.ReadAllText(path);
-
-    /// <summary>
-    /// Helper wrapper for writing text files using CR/LF normalisation and UTF-8 without BOM.
-    /// </summary>
-    private static void SetFile(string path, string content)
-        => File.WriteAllText(path, ToCrLf(content), Utf8NoBom);
+    private static void FlushCache()
+    {
+        if (_cacheDirty && _cachedPath != null)
+        {
+            File.WriteAllText(_cachedPath, _cachedContent, Utf8Bom);
+            _cacheDirty = false;
+        }
+    }
 
     private static bool _emptySchemeCreated;
 
@@ -132,6 +193,7 @@ public static class SchemeGenerator
             if (ExplicitlyExcludedFiles.Contains(Path.GetFileName(palettePath)))
                 continue;
             bool isFamilyBase = IsFamilyBase(palettePath);
+            bool modified = false; // track if this palette resulted in changes
             var root = LocateRepoRoot(Path.GetDirectoryName(palettePath)!);
             var enumFile = Path.Combine(root, "Source", "Krypton Components", "Krypton.Toolkit", "Palette Builtin", "Enumerations", "PaletteEnumerations.cs");
             if (!File.Exists(enumFile))
@@ -150,18 +212,23 @@ public static class SchemeGenerator
             List<string> commentNames = new();
             string detectedBaseArrayMarker = BaseColorMarker;
 
-            // Try both modern and legacy array variable names
-            string[] possibleVars = { "_schemeBaseColors", "_schemeOfficeColours" };
+            // Try modern, legacy and Sparkle array variable names
+            string[] possibleVars = { "_schemeBaseColors", "_schemeOfficeColours", "_ribbonColors" };
             foreach (var varName in possibleVars)
             {
                 try
                 {
                     colorsRaw = ExtractColorsRoslyn(palettePath, varName, out commentNames, enumNames);
                     // Found and parsed successfully
-                    detectedBaseArrayMarker = varName == "_schemeOfficeColours" ? OfficeColorMarker : BaseColorMarker;
+                    detectedBaseArrayMarker = varName switch
+                    {
+                        "_schemeOfficeColours" => OfficeColorMarker,
+                        "_ribbonColors"        => RibbonColorMarker,
+                        _                      => BaseColorMarker
+                    };
                     break;
                 }
-                catch (InvalidOperationException ioe) when (ioe.Message.Contains("Variable not found"))
+                catch (InvalidOperationException ioe) when (ioe.Message.Contains("Variable not found") || ioe.Message.Contains("No initializer"))
                 {
                     // Try the next variant
                     continue;
@@ -180,10 +247,14 @@ public static class SchemeGenerator
                 {
                     string markerToUse = detectedBaseArrayMarker;
                     // Determine marker based on file contents if not set
-                    var paletteTextTmp = GetFile(palettePath);
+                    var paletteTextTmp = GetFileText(palettePath);
                     if (!paletteTextTmp.Contains(BaseColorMarker) && paletteTextTmp.Contains(OfficeColorMarker))
                     {
                         markerToUse = OfficeColorMarker;
+                    }
+                    else if (!paletteTextTmp.Contains(BaseColorMarker) && paletteTextTmp.Contains(RibbonColorMarker))
+                    {
+                        markerToUse = RibbonColorMarker;
                     }
 
                     colorsRaw = ExtractColorExpressions(palettePath, markerToUse);
@@ -205,7 +276,11 @@ public static class SchemeGenerator
                 trackBarColorsRaw = ExtractColorExpressions(palettePath, TrackBarColorMarker);
             }
 
-            bool hasAnyArrays = colorsRaw.Count > 0 || trackBarColorsRaw.Count > 0;
+            bool hasMainColors = colorsRaw.Count > 0;
+            bool hasTrackBar   = trackBarColorsRaw.Count > 0;
+            bool mainArrayHasContent  = colorsRaw.Any(c => !c.Contains("GlobalStaticValues.EMPTY_COLOR", StringComparison.Ordinal));
+            bool generateScheme       = mainArrayHasContent && hasTrackBar;
+            bool hasAnyArrays         = hasMainColors || hasTrackBar;
 
             // Treat 'LightGray' themed palettes specially – we still want to generate a dummy
             // base scheme class even when they have no embedded colour arrays. This allows
@@ -307,7 +382,7 @@ public static class SchemeGenerator
             {
                 className = "EmptySchemeBase";
             }
-            else if (hasAnyArrays)
+            else if (generateScheme)
             {
                 className = Path.GetFileNameWithoutExtension(palettePath) + "_BaseScheme";
                 var code = GenerateSchemeCode(className, alignedColors, enumNames, missingFlags);
@@ -330,6 +405,7 @@ public static class SchemeGenerator
                         SetFile(destPath, code);
                         Console.WriteLine(destPath + (existed ? " *Overwritten." : string.Empty));
                         ok++;
+                        modified = true;
                     }
                 }
             }
@@ -376,7 +452,7 @@ public static class SchemeGenerator
 
                     try
                     {
-                        var srcText = GetFile(targetPath);
+                        var srcText = GetFileText(targetPath);
                         var replacedText = srcText;
 
                         // Ensure BaseColors field exists (harmless if already present)
@@ -396,6 +472,7 @@ public static class SchemeGenerator
                             {
                                 Console.WriteLine($"Updated family-base palette {Path.GetFileName(targetPath)}");
                             }
+                            modified = true;
                         }
                     }
                     catch (Exception ex)
@@ -406,16 +483,13 @@ public static class SchemeGenerator
                 else
                 {
                     // ===== regular (non-base) palette migration logic =====
-                    if (className != null)
+                    if (className != null && generateScheme)
                     {
-                        if (colorsRaw.Count > 0)
-                        {
-                            RemoveArrayFromFile(targetPath, detectedBaseArrayMarker);
-                        }
-                        if (trackBarColorsRaw.Count > 0)
-                        {
-                            RemoveArrayFromFile(targetPath, TrackBarColorMarker);
-                        }
+                        // Remove main colour array
+                        RemoveArrayFromFile(targetPath, detectedBaseArrayMarker);
+
+                        // Remove track-bar array at the same time
+                        RemoveArrayFromFile(targetPath, TrackBarColorMarker);
 
                         // Update constructor arguments to use generated scheme
                         UpdateConstructorArguments(targetPath, className, oneCtor);
@@ -423,7 +497,7 @@ public static class SchemeGenerator
 
                     try
                     {
-                        var srcText = GetFile(targetPath);
+                        var srcText = GetFileText(targetPath);
                         var replacedText = ConvertRibbonColorArrayEntriesToProperties(srcText);
                         replacedText = ConvertTrackBarColorArrayEntriesToProperties(replacedText);
                         replacedText = ConvertColorTableArrayEntriesToBaseColors(replacedText);
@@ -454,6 +528,7 @@ public static class SchemeGenerator
                             {
                                 Console.WriteLine($"Converted copy written to {targetPath}");
                             }
+                            modified = true;
                         }
                     }
                     catch (Exception ex)
@@ -475,12 +550,12 @@ public static class SchemeGenerator
                         // Use already transformed text if we migrated in-memory earlier
                         if (isFamilyBase)
                         {
-                            var src = GetFile(palettePath);
+                            var src = GetFileText(palettePath);
                             validationText = EnsureObsoleteOnColorArrayConstructors(EnsureSchemeConstructor(EnsureBaseColorsField(src, oneCtor)));
                         }
                         else
                         {
-                            var src = GetFile(palettePath);
+                            var src = GetFileText(palettePath);
                             var tmp = ConvertRibbonColorArrayEntriesToProperties(src);
                             tmp = ConvertTrackBarColorArrayEntriesToProperties(tmp);
                             tmp = ConvertColorTableArrayEntriesToBaseColors(tmp);
@@ -493,7 +568,7 @@ public static class SchemeGenerator
                     else
                     {
                         // No migration requested – validate current state only
-                        validationText = GetFile(palettePath);
+                        validationText = GetFileText(palettePath);
                     }
 
                     if (isFamilyBase)
@@ -511,6 +586,10 @@ public static class SchemeGenerator
                 }
             }
 
+            if (modified && !dryRun)
+            {
+                Console.WriteLine($"{Path.GetFileName(palettePath)} processed.");
+            }
             continue;
         }
 
@@ -526,6 +605,9 @@ public static class SchemeGenerator
                 Console.Error.WriteLine($"{fail} palette files failed");
             }
         }
+
+        // Ensure any pending cached file is flushed to disk
+        FlushCache();
     }
 
     private static void EnsureEmptySchemeBase(string repoRoot, bool overwrite, bool dryRun)
@@ -730,7 +812,7 @@ public static class SchemeGenerator
 
     private static List<string> ExtractColorExpressions(string palettePath, string marker = BaseColorMarker)
     {
-        var lines = File.ReadAllLines(palettePath);
+        var lines = GetFileLines(palettePath);
         var start = Array.FindIndex(lines, l => l.Contains(marker));
         if (start < 0) return new List<string>();
         var colors = new List<string>();
@@ -849,7 +931,7 @@ public static class SchemeGenerator
     /// </summary>
     private static void RemoveArrayFromFile(string filePath, string marker)
     {
-        var lines = File.ReadAllLines(filePath).ToList();
+        var lines = GetFileLines(filePath).ToList();
         int start = lines.FindIndex(l => l.Contains(marker));
         if (start < 0) return; // nothing to migrate
 
@@ -893,7 +975,7 @@ public static class SchemeGenerator
     /// </summary>
     private static void UpdateConstructorArguments(string filePath, string schemeClassName, bool singleCtor)
     {
-        var source = GetFile(filePath);
+        var source = GetFileText(filePath);
 
         // For LightGray palettes we leave the original constructor untouched.
         if (schemeClassName.IndexOf("LightGray", StringComparison.OrdinalIgnoreCase) >= 0)
@@ -1028,7 +1110,7 @@ public static class SchemeGenerator
                 if (expr is IdentifierNameSyntax id)
                 {
                     var name = id.Identifier.Text;
-                    if (name is "_schemeBaseColors" or "_schemeOfficeColours" or "schemeColors")
+                    if (name is "_schemeBaseColors" or "_schemeOfficeColours" or "_ribbonColors" or "schemeColors")
                     {
                         // Use the provided scheme parameter for LightGray palettes; otherwise, pass a new scheme instance
                         replacement = _isLightGray ? SyntaxFactory.IdentifierName("scheme") : SchemeInstanceExpr;
@@ -1227,7 +1309,7 @@ public static class SchemeGenerator
                 if (expr is IdentifierNameSyntax id)
                 {
                     var name = id.Identifier.Text;
-                    if (name is "_schemeBaseColors" or "_schemeOfficeColours" or "schemeColors")
+                    if (name is "_schemeBaseColors" or "_schemeOfficeColours" or "_ribbonColors" or "schemeColors")
                     {
                         replacement = _isLightGray ? SyntaxFactory.IdentifierName("scheme") : SchemeCtorExpr;
                     }
@@ -1360,7 +1442,7 @@ public static class SchemeGenerator
     private static List<string> ExtractColorsRoslyn(string filePath, string variableName, out List<string> commentsOut, IReadOnlyList<string> enumNames)
     {
         commentsOut = new List<string>();
-        var code = GetFile(filePath);
+        var code = GetFileText(filePath);
         var tree = CSharpSyntaxTree.ParseText(code, CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.Preview));
         var root = tree.GetCompilationUnitRoot();
 
@@ -1645,9 +1727,9 @@ public static class SchemeGenerator
     /// </summary>
     private static string ConvertColorTableArrayEntriesToBaseColors(string text)
     {
-        const string pattern = @"new\s+KryptonColorTable[^\(]*\(\s*(?:_schemeBaseColors|_schemeOfficeColours)\s*,";
+        const string pattern = @"new\s+KryptonColorTable[^\(]*\(\s*(?:_schemeBaseColors|_schemeOfficeColours|_ribbonColors)\s*,";
 
-        return Regex.Replace(text, pattern, m => m.Value.Replace("_schemeBaseColors", "BaseColors!.ToArray()").Replace("_schemeOfficeColours", "BaseColors!.ToArray()"), RegexOptions.Singleline);
+        return Regex.Replace(text, pattern, m => m.Value.Replace("_schemeBaseColors", "BaseColors!.ToArray()").Replace("_schemeOfficeColours", "BaseColors!.ToArray()").Replace("_ribbonColors", "BaseColors!.ToArray()"), RegexOptions.Singleline);
     }
 
     /// <summary>
@@ -1744,6 +1826,57 @@ public static class SchemeGenerator
 
         string className = mClass.Groups[1].Value;
 
+        // Special early handling for PaletteSparkleBase
+        bool isSparkleBaseClass = className.StartsWith("PaletteSparkle", StringComparison.Ordinal) && className.EndsWith("Base", StringComparison.Ordinal);
+        if (isSparkleBaseClass)
+        {
+            // Bail if appropriate ctor already exists
+            if (Regex.IsMatch(text, $@"{Regex.Escape(className)}\s*\([^)]*KryptonColorSchemeBase[^)]*Color\[\][^)]*sparkleColors", RegexOptions.Singleline))
+                return text;
+
+            // Build Sparkle-specific overload
+            var ind = "    ";
+            var sbSpark = new StringBuilder();
+            string visibilitySpark = Regex.IsMatch(text, $@"abstract\s+class\s+{Regex.Escape(className)}\b") ? "protected" : "public";
+            sbSpark.AppendLine(ind + "/// <summary>");
+            sbSpark.AppendLine(ind + "/// Overload that accepts a KryptonColorSchemeBase instance and forwards colours to the main constructor.");
+            sbSpark.AppendLine(ind + "/// </summary>");
+            sbSpark.AppendLine(ind + $"{visibilitySpark} {className}(");
+            sbSpark.AppendLine(ind + "    [DisallowNull] KryptonColorSchemeBase scheme,");
+            sbSpark.AppendLine(ind + "    [DisallowNull] Color[] sparkleColors,");
+            sbSpark.AppendLine(ind + "    [DisallowNull] Color[] appButtonNormal,");
+            sbSpark.AppendLine(ind + "    [DisallowNull] Color[] appButtonTrack,");
+            sbSpark.AppendLine(ind + "    [DisallowNull] Color[] appButtonPressed,");
+            sbSpark.AppendLine(ind + "    [DisallowNull] Color[] ribbonGroupCollapsedBorderContextTracking,");
+            sbSpark.AppendLine(ind + "    [DisallowNull] ImageList checkBoxList,");
+            sbSpark.AppendLine(ind + "    [DisallowNull] Image?[] radioButtonArray)");
+            sbSpark.AppendLine(ind + "    : this(scheme.ToArray(), sparkleColors, appButtonNormal, appButtonTrack, appButtonPressed, ribbonGroupCollapsedBorderContextTracking, checkBoxList, radioButtonArray)");
+            sbSpark.AppendLine(ind + "{");
+            sbSpark.AppendLine(ind + "    BaseColors = scheme;");
+            sbSpark.AppendLine(ind + "}");
+
+            // Insert Sparkle ctor after existing primary one or at end of class
+            int sCtorStart = text.IndexOf($"public {className}(", StringComparison.Ordinal);
+            if (sCtorStart < 0) sCtorStart = text.IndexOf($"protected {className}(", StringComparison.Ordinal);
+
+            int sInsertPos;
+            if (sCtorStart >= 0)
+            {
+                int sBraceOpen = text.IndexOf('{', sCtorStart);
+                int sDepth = 1; int sPos = sBraceOpen + 1;
+                while (sPos < text.Length && sDepth > 0) { char c = text[sPos]; if (c=='{') sDepth++; else if (c=='}') sDepth--; sPos++; }
+                sInsertPos = sPos;
+            }
+            else
+            {
+                sInsertPos = text.LastIndexOf('}');
+                if (sInsertPos < 0) return text;
+            }
+
+            string newTextS = text.Substring(0, sInsertPos).TrimEnd() + "\r\n\r\n" + sbSpark.ToString() + "\r\n" + text.Substring(sInsertPos);
+            return Regex.Replace(newTextS, "(\r\n){3,}", "\r\n\r\n");
+        }
+
         // 2. Bail if constructor already present
         if (Regex.IsMatch(text, $@"{Regex.Escape(className)}\s*\([^)]*KryptonColorSchemeBase", RegexOptions.Singleline))
         {
@@ -1760,6 +1893,7 @@ public static class SchemeGenerator
         bool isAbstract = Regex.IsMatch(text, $@"abstract\s+class\s+{Regex.Escape(className)}\b");
         string visibility = isAbstract ? "protected" : "public";
         sb.AppendLine(indent + "/// <summary>");
+        sb.AppendLine(indent + $"{visibility} {className}(");
         sb.AppendLine(indent + "/// Overload that accepts a KryptonColorSchemeBase instance and forwards colours to the main constructor.");
         sb.AppendLine(indent + "/// </summary>");
         sb.AppendLine(indent + "// TODO this should be merged into main constructor once all palettes");
@@ -1801,6 +1935,11 @@ public static class SchemeGenerator
 
         // 5. Insert immediately after the primary constructor
         int ctorStart = text.IndexOf($"protected {className}(", StringComparison.Ordinal);
+        if (ctorStart < 0)
+        {
+            // Try public ctor
+            ctorStart = text.IndexOf($"public {className}(", StringComparison.Ordinal);
+        }
         if (ctorStart < 0)
         {
             // No constructor found – fallback to end of class
