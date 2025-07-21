@@ -408,10 +408,12 @@ public abstract class PaletteOffice2010SilverDarkModeBase : PaletteBase
     #endregion
 
     #region Instance Fields
+    /// <inheritdoc/>
+    protected override Color[] SchemeColors => _ribbonColors;
+
     protected readonly KryptonColorSchemeBase? BaseColors;
     private KryptonColorTable2010SilverDarkMode? _table;
     private readonly Color[]? _ribbonColors;
-    private readonly Color[] _trackBarColors;
     private readonly ImageList _checkBoxList;
     private readonly ImageList _galleryButtonList;
     private readonly Image?[] _radioButtonArray;
@@ -457,10 +459,6 @@ public abstract class PaletteOffice2010SilverDarkModeBase : PaletteBase
         if (radioButtonArray != null)
         {
             _radioButtonArray = radioButtonArray;
-        }
-        if (trackBarColors != null)
-        {
-            _trackBarColors = trackBarColors;
         }
 
         // Get the font settings from the system

@@ -217,9 +217,12 @@ public abstract class PaletteOffice2010Base : PaletteBase
     #endregion
 
     #region Instance Fields
+    /// <inheritdoc/>
+    protected override Color[] SchemeColors => _ribbonColors;
+    private readonly Color[] _ribbonColors;
+
     protected readonly KryptonColorSchemeBase? BaseColors;
     protected KryptonColorTable2010? Table { get; set; }
-    private readonly Color[] _ribbonColors;
     private readonly Color[] _trackBarColors;
     private readonly ImageList _checkBoxList;
     private readonly ImageList _galleryButtonList;
@@ -4518,14 +4521,14 @@ public abstract class PaletteOffice2010Base : PaletteBase
         switch (element)
         {
             case PaletteElement.TrackBarTick:
-                return _trackBarColors[0];
+                return _trackBarColors[(int)SchemeBaseColors.TrackBarTickMarks];
             case PaletteElement.TrackBarTrack:
-                return _trackBarColors[1];
+                return _trackBarColors[(int)SchemeBaseColors.TrackBarTopTrack];
             case PaletteElement.TrackBarPosition:
                 return state switch
                 {
                     PaletteState.Disabled => GlobalStaticValues.EMPTY_COLOR,
-                    _ => _trackBarColors[4]
+                    _ => _trackBarColors[(int)SchemeBaseColors.TrackBarOutsidePosition]
                 };
             default:
                 // Should never happen!
@@ -4553,9 +4556,9 @@ public abstract class PaletteOffice2010Base : PaletteBase
         switch (element)
         {
             case PaletteElement.TrackBarTick:
-                return _trackBarColors[0];
+                return _trackBarColors[(int)SchemeBaseColors.TrackBarTickMarks];
             case PaletteElement.TrackBarTrack:
-                return _trackBarColors[2];
+                return _trackBarColors[(int)SchemeBaseColors.TrackBarBottomTrack];
             case PaletteElement.TrackBarPosition:
                 return state switch
                 {
@@ -4591,9 +4594,9 @@ public abstract class PaletteOffice2010Base : PaletteBase
         switch (element)
         {
             case PaletteElement.TrackBarTick:
-                return _trackBarColors[0];
+                return _trackBarColors[(int)SchemeBaseColors.TrackBarTickMarks];
             case PaletteElement.TrackBarTrack:
-                return _trackBarColors[3];
+                return _trackBarColors[(int)SchemeBaseColors.TrackBarFillTrack];
             case PaletteElement.TrackBarPosition:
                 return state switch
                 {
@@ -4632,14 +4635,14 @@ public abstract class PaletteOffice2010Base : PaletteBase
                     return GlobalStaticValues.EMPTY_COLOR;
                 }
 
-                return _trackBarColors[0];
+                return _trackBarColors[(int)SchemeBaseColors.TrackBarTickMarks];
             case PaletteElement.TrackBarTrack:
                 if (CommonHelper.IsOverrideState(state))
                 {
                     return GlobalStaticValues.EMPTY_COLOR;
                 }
 
-                return _trackBarColors[3];
+                return _trackBarColors[(int)SchemeBaseColors.TrackBarFillTrack];
             case PaletteElement.TrackBarPosition:
                 if (CommonHelper.IsOverrideStateExclude(state, PaletteState.FocusOverride))
                 {
@@ -4680,14 +4683,14 @@ public abstract class PaletteOffice2010Base : PaletteBase
                     return GlobalStaticValues.EMPTY_COLOR;
                 }
 
-                return _trackBarColors[0];
+                return _trackBarColors[(int)SchemeBaseColors.TrackBarTickMarks];
             case PaletteElement.TrackBarTrack:
                 if (CommonHelper.IsOverrideState(state))
                 {
                     return GlobalStaticValues.EMPTY_COLOR;
                 }
 
-                return _trackBarColors[3];
+                return _trackBarColors[(int)SchemeBaseColors.TrackBarFillTrack];
             case PaletteElement.TrackBarPosition:
                 if (CommonHelper.IsOverrideStateExclude(state, PaletteState.FocusOverride))
                 {

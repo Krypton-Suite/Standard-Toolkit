@@ -221,11 +221,13 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
 
     #region Variables
 
+    /// <inheritdoc/>
+    protected override Color[] SchemeColors => _ribbonColors;
+    private readonly Color[] _ribbonColors;
+
     protected KryptonColorTable365? Table { get; set; }
 
     protected readonly KryptonColorSchemeBase? BaseColors;
-
-    private readonly Color[] _ribbonColors;
 
     private readonly ImageList _checkBoxList;
     private readonly ImageList _galleryButtonList;
@@ -1929,7 +1931,7 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
     /// </summary>
     /// <param name="style">Content style.</param>
     /// <param name="state">Palette value should be applicable to this state.</param>
-    /// <returns>PaletteTextPrefix value.</returns>
+    /// <returns>PaletteTextHotkeyPrefix value.</returns>
     public override PaletteTextHotkeyPrefix GetContentShortTextPrefix(PaletteContentStyle style, PaletteState state)
     {
         // We do not provide override values
@@ -2542,7 +2544,7 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
     /// </summary>
     /// <param name="style">Content style.</param>
     /// <param name="state">Palette value should be applicable to this state.</param>
-    /// <returns>PaletteTextPrefix value.</returns>
+    /// <returns>PaletteTextHotkeyPrefix value.</returns>
     public override PaletteTextHotkeyPrefix GetContentLongTextPrefix(PaletteContentStyle style, PaletteState state)
     {
         // We do not provide override values

@@ -188,9 +188,12 @@ public class PaletteProfessionalSystem : PaletteBase
     private Image? _disabledDropDownImage;
     private Image? _normalDropDownImage;
 
+    /// <inheritdoc/>
+    protected override Color[] SchemeColors => _ribbonColors;
+    private Color[] _ribbonColors;
+
     //private Color _disabledDropDownColor;
     //private Color _normalDropDownColor;
-    private Color[] _ribbonColors;
     private Color _disabledText;
     private Color _disabledGlyphDark;
     private Color _disabledGlyphLight;

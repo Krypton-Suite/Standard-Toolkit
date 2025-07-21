@@ -18,6 +18,12 @@ public abstract class PaletteBase : Component
 {
     #region Instance Fields
 
+    /// <summary>
+    /// Direct indexed access to the palette's backing color array.
+    /// </summary>
+    protected abstract Color[] SchemeColors { get; }
+    internal Color[] GetSchemeColors() => SchemeColors;
+
     private Padding? _inputControlPadding;
     private PaletteDragFeedback _dragFeedback;
     private Image[] _toolBarImages;
@@ -48,7 +54,7 @@ public abstract class PaletteBase : Component
 
     #endregion
 
-    #endregion
+    #endregion Instance Fields
 
     #region Events
     /// <summary>
@@ -2098,4 +2104,28 @@ public abstract class PaletteBase : Component
         base.Dispose(disposing);
     }
     #endregion
+
+    private readonly object _colorLock = new();
+
+    /// <summary>
+    /// Copies <paramref name="source"/> into <see cref="SchemeColors"/> and invalidates the color table.
+    /// <param name="source">Color array with all values.</param>
+    /// </summary>
+    protected void CopySchemeColors(Color[] source)
+    {
+        if (source == null)
+        {
+            throw new ArgumentNullException(nameof(source));
+        }
+
+        lock (_colorLock)
+        {
+            Array.Copy(source, SchemeColors, Math.Min(source.Length, SchemeColors.Length));
+
+            var tableField = GetType().GetField("Table", BindingFlags.Instance | BindingFlags.NonPublic);
+            tableField?.SetValue(this, null);
+        }
+
+        OnPalettePaint(this, new PaletteLayoutEventArgs(true, true));
+    }
 }

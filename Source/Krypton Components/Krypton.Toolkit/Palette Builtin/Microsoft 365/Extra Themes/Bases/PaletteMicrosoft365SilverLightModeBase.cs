@@ -221,11 +221,13 @@ public abstract class PaletteMicrosoft365SilverLightModeBase : PaletteBase
 
     #region Variables
 
+    /// <inheritdoc/>
+    protected override Color[] SchemeColors => _ribbonColors;
+    private readonly Color[] _ribbonColors;
+
     protected KryptonColorTable365SilverLightMode? Table { get; set; }
 
     protected readonly KryptonColorSchemeBase BaseColors;
-
-    private readonly Color[] _ribbonColors;
 
     private readonly ImageList _checkBoxList;
     private readonly ImageList _galleryButtonList;

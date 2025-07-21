@@ -218,10 +218,12 @@ public abstract class PaletteOffice2013WhiteBase : PaletteBase
 
     #region Instance Fields
 
+    /// <inheritdoc/>
+    protected override Color[] SchemeColors => _ribbonColors;
+    private readonly Color[] _ribbonColors;
+
     protected readonly KryptonColorSchemeBase? BaseColors;
     protected KryptonColorTable2013White? Table { get; set; }
-    private readonly Color[] _ribbonColors;
-    private readonly Color[] _trackBarColors;
     private readonly ImageList _checkBoxList;
     private readonly ImageList _galleryButtonList;
     private readonly Image?[] _radioButtonArray;
@@ -259,7 +261,6 @@ public abstract class PaletteOffice2013WhiteBase : PaletteBase
         _checkBoxList = checkBoxList ?? throw new ArgumentNullException(nameof(CheckedListBox));
         _galleryButtonList = galleryButtonList ?? throw new ArgumentNullException(nameof(galleryButtonList));
         _radioButtonArray = radioButtonArray ?? throw new ArgumentNullException(nameof(radioButtonArray));
-        _trackBarColors = trackBarColors ?? throw new ArgumentNullException(nameof(trackBarColors));
 
         // Get the font settings from the system
         DefineFonts();

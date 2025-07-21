@@ -222,6 +222,8 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
 
     protected readonly KryptonColorSchemeBase BaseColors;
 
+    /// <inheritdoc/>
+    protected override Color[] SchemeColors => _ribbonColors;
     private readonly Color[] _ribbonColors;
 
     private readonly ImageList _checkBoxList;
