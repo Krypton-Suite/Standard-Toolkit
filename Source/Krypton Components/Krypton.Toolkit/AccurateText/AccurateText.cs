@@ -10,6 +10,8 @@
  */
 #endregion
 
+using System.Drawing;
+
 namespace Krypton.Toolkit;
 
 /// <summary>
@@ -289,7 +291,33 @@ public class AccurateText : GlobalId
 
                 try
                 {
-                    g.DrawString(memento.Text, memento.Font!, brush, rect, memento.Format);
+                    // Support for unicode surrogates is only available when drawing horizontally.
+                    if (orientation == VisualOrientation.Top)
+                    {
+                        // Only a brush is provided, so we have to get the color from it since
+                        // DrawText only works with solid colors.
+                        Color color = brush is SolidBrush b
+                            ? b.Color
+                            : brush is LinearGradientBrush l
+                                ? l.LinearColors[0]
+                                : KryptonManager.CurrentGlobalPalette.GetContentShortTextColor1(PaletteContentStyle.LabelNormalControl, PaletteState.Normal);
+
+                        // Convert from StringFormat to TextFormatFlags
+                        var tff = StringFormatToFlags(memento.Format);
+
+                        // End line ellipsis don't work well with DrawText and tend to cut off words when not needed
+                        // DrawString seems to do this better
+                        tff &= ~(TextFormatFlags.EndEllipsis | TextFormatFlags.WordEllipsis | TextFormatFlags.PathEllipsis);
+                        
+                        // Whatever happens, NoClipping is on
+                        tff |= TextFormatFlags.NoClipping;
+
+                        TextRenderer.DrawText(g, memento.Text, memento.Font!, rect, color, tff);
+                    }
+                    else
+                    {
+                        g.DrawString(memento.Text, memento.Font!, brush, rect, memento.Format);
+                    }
                 }
                 catch
                 {
@@ -463,14 +491,16 @@ public class AccurateText : GlobalId
                 break;
         }
 
-        flags |= sf.HotkeyPrefix switch
+        switch (sf.HotkeyPrefix)
         {
             // Hotkey Prefix
-            HotkeyPrefix.None => TextFormatFlags.NoPrefix,
-            HotkeyPrefix.Hide => TextFormatFlags.HidePrefix,
-            // Underlines the hotkey character
-            _ => TextFormatFlags.PrefixOnly
-        };
+            case HotkeyPrefix.None:
+                flags |= TextFormatFlags.NoPrefix;
+                break;
+            case HotkeyPrefix.Hide:
+                flags |= TextFormatFlags.HidePrefix;
+                break;
+        }
 
         switch (sf.FormatFlags)
         {
