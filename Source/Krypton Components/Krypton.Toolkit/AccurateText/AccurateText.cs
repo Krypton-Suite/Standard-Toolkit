@@ -658,37 +658,40 @@ namespace Krypton.Toolkit
             return sf;
         }
 
-        private static TextFormatFlags StringFormatToFlags(StringFormat sf)
+        private static TextFormatFlags StringFormatToFlags2(StringFormat sf)
         {
             var flags = new TextFormatFlags();
 
+            // Link is dead
             // Translation table: http://msdn.microsoft.com/msdnmag/issues/06/03/TextRendering/default.aspx?fig=true#fig4
 
             flags = sf.Alignment switch
             {
                 // Horizontal Alignment
-                StringAlignment.Center => flags & TextFormatFlags.HorizontalCenter,
-                StringAlignment.Far => flags & TextFormatFlags.Right,
-                _ => flags & TextFormatFlags.Left
+                StringAlignment.Center => TextFormatFlags.HorizontalCenter,
+                StringAlignment.Far => TextFormatFlags.Right,
+                _ => TextFormatFlags.Left
             };
-            flags = sf.LineAlignment switch
+
+            flags |= sf.LineAlignment switch
             {
                 // Vertical Alignment
-                StringAlignment.Far => flags & TextFormatFlags.Bottom,
-                StringAlignment.Center => flags & TextFormatFlags.VerticalCenter,
-                _ => flags & TextFormatFlags.Top
+                StringAlignment.Far => TextFormatFlags.Bottom,
+                StringAlignment.Center => TextFormatFlags.VerticalCenter,
+                _ => TextFormatFlags.Top
             };
+
             switch (sf.Trimming)
             {
                 // Ellipsis
                 case StringTrimming.EllipsisCharacter:
-                    flags &= TextFormatFlags.EndEllipsis;
+                    flags |= TextFormatFlags.EndEllipsis;
                     break;
                 case StringTrimming.EllipsisPath:
-                    flags &= TextFormatFlags.PathEllipsis;
+                    flags |= TextFormatFlags.PathEllipsis;
                     break;
                 case StringTrimming.EllipsisWord:
-                    flags &= TextFormatFlags.WordEllipsis;
+                    flags |= TextFormatFlags.WordEllipsis;
                     break;
             }
 
@@ -696,10 +699,10 @@ namespace Krypton.Toolkit
             {
                 // Hotkey Prefix
                 case HotkeyPrefix.None:
-                    flags &= TextFormatFlags.NoPrefix;
+                    flags |= TextFormatFlags.NoPrefix;
                     break;
                 case HotkeyPrefix.Hide:
-                    flags &= TextFormatFlags.HidePrefix;
+                    flags |= TextFormatFlags.HidePrefix;
                     break;
             }
 
@@ -707,21 +710,21 @@ namespace Krypton.Toolkit
             {
                 // Text Padding
                 case StringFormatFlags.FitBlackBox:
-                    flags &= TextFormatFlags.NoPadding;
+                    flags |= TextFormatFlags.NoPadding;
                     break;
                 // Text Wrapping
                 case StringFormatFlags.NoWrap:
-                    flags &= TextFormatFlags.SingleLine;
+                    flags |= TextFormatFlags.SingleLine;
                     break;
                 case StringFormatFlags.LineLimit:
-                    flags &= TextFormatFlags.TextBoxControl;
+                    flags |= TextFormatFlags.TextBoxControl;
                     break;
                 // Other Flags
                 case StringFormatFlags.DirectionRightToLeft:
-                    flags &= TextFormatFlags.RightToLeft;
+                    flags |= TextFormatFlags.RightToLeft;
                     break;
                 case StringFormatFlags.NoClip:
-                    flags &= TextFormatFlags.NoClipping;
+                    flags |= TextFormatFlags.NoClipping;
                     break;
             }
 
