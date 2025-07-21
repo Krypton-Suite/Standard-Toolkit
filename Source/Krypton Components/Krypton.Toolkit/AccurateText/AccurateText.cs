@@ -426,7 +426,7 @@ public class AccurateText : GlobalId
         return sf;
     }
 
-    private static TextFormatFlags StringFormatToFlags2(StringFormat sf)
+    private static TextFormatFlags StringFormatToFlags(StringFormat sf)
     {
         var flags = new TextFormatFlags();
 
