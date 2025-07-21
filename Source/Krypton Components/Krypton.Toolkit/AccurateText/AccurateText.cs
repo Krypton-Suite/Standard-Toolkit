@@ -695,14 +695,16 @@ namespace Krypton.Toolkit
                     break;
             }
 
-            flags |= sf.HotkeyPrefix switch
+            switch (sf.HotkeyPrefix)
             {
                 // Hotkey Prefix
-                HotkeyPrefix.None => TextFormatFlags.NoPrefix,
-                HotkeyPrefix.Hide => TextFormatFlags.HidePrefix,
-                // Underlines the hotkey character
-                _ => TextFormatFlags.PrefixOnly
-            };
+                case HotkeyPrefix.None:
+                    flags |= TextFormatFlags.NoPrefix;
+                    break;
+                case HotkeyPrefix.Hide:
+                    flags |= TextFormatFlags.HidePrefix;
+                    break;
+            }
 
             switch (sf.FormatFlags)
             {
