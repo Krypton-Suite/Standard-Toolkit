@@ -2840,6 +2840,10 @@ public class PaletteSparkleBase : PaletteBase
                 return _contentPaddingGrid;
             case PaletteContentStyle.HeaderForm:
             {
+                if (owningForm == null)
+                {
+                    return new Padding();
+                }
                 Padding borders = owningForm!.RealWindowBorders;
                 return new Padding(borders.Left, borders.Bottom / 2, 0, 0);
             }
@@ -2956,6 +2960,10 @@ public class PaletteSparkleBase : PaletteBase
             case PaletteMetricInt.CheckButtonGap:
                 return 5;
             case PaletteMetricInt.HeaderButtonEdgeInsetForm:
+                if (owningForm == null)
+                {
+                    return 0;
+                }
                 return Math.Max(2, owningForm!.RealWindowBorders.Right);
             case PaletteMetricInt.HeaderButtonEdgeInsetInputControl:
                 return 1;
@@ -3028,6 +3036,10 @@ public class PaletteSparkleBase : PaletteBase
             case PaletteMetricPadding.BarPaddingOutside:
                 return _metricPaddingBarOutside;
             case PaletteMetricPadding.HeaderButtonPaddingForm:
+                if (owningForm == null)
+                {
+                    return new Padding();
+                }
                 return new Padding(0, owningForm!.RealWindowBorders.Right, 0, 0);
             case PaletteMetricPadding.RibbonButtonPadding:
                 return _metricPaddingRibbon;
@@ -4323,11 +4335,11 @@ public class PaletteSparkleBase : PaletteBase
         switch (element)
         {
             case PaletteElement.TrackBarTick:
-                return _trackBarColors[(int)SchemeBaseColors.TrackBarTickMarks];
+                return BaseColors!.TrackBarTickMarks;
             case PaletteElement.TrackBarTrack:
-                return _trackBarColors[(int)SchemeBaseColors.TrackBarTopTrack];
+                return BaseColors!.TrackBarTopTrack;
             case PaletteElement.TrackBarPosition:
-                return _trackBarColors[(int)SchemeBaseColors.TrackBarOutsidePosition];
+                return BaseColors!.TrackBarOutsidePosition;
             default:
                 // Should never happen!
                 Debug.Assert(false);
@@ -4354,9 +4366,9 @@ public class PaletteSparkleBase : PaletteBase
         switch (element)
         {
             case PaletteElement.TrackBarTick:
-                return _trackBarColors[(int)SchemeBaseColors.TrackBarTickMarks];
+                return BaseColors!.TrackBarTickMarks;
             case PaletteElement.TrackBarTrack:
-                return _trackBarColors[(int)SchemeBaseColors.TrackBarBottomTrack];
+                return BaseColors!.TrackBarBottomTrack;
             case PaletteElement.TrackBarPosition:
                 return state switch
                 {
@@ -4390,9 +4402,9 @@ public class PaletteSparkleBase : PaletteBase
         switch (element)
         {
             case PaletteElement.TrackBarTick:
-                return _trackBarColors[(int)SchemeBaseColors.TrackBarTickMarks];
+                return BaseColors!.TrackBarTickMarks;
             case PaletteElement.TrackBarTrack:
-                return _trackBarColors[(int)SchemeBaseColors.TrackBarFillTrack];
+                return BaseColors!.TrackBarFillTrack;
             case PaletteElement.TrackBarPosition:
                 return state switch
                 {
@@ -4428,14 +4440,14 @@ public class PaletteSparkleBase : PaletteBase
                     return GlobalStaticValues.EMPTY_COLOR;
                 }
 
-                return _trackBarColors[(int)SchemeBaseColors.TrackBarTickMarks];
+                return BaseColors!.TrackBarTickMarks;
             case PaletteElement.TrackBarTrack:
                 if (CommonHelper.IsOverrideState(state))
                 {
                     return GlobalStaticValues.EMPTY_COLOR;
                 }
 
-                return _trackBarColors[(int)SchemeBaseColors.TrackBarFillTrack];
+                return BaseColors!.TrackBarFillTrack;
             case PaletteElement.TrackBarPosition:
                 if (CommonHelper.IsOverrideStateExclude(state, PaletteState.FocusOverride))
                 {
@@ -4471,10 +4483,10 @@ public class PaletteSparkleBase : PaletteBase
         switch (element)
         {
             case PaletteElement.TrackBarTick:
-                return CommonHelper.IsOverrideState(state) ? GlobalStaticValues.EMPTY_COLOR : _trackBarColors[(int)SchemeBaseColors.TrackBarTickMarks];
+                return CommonHelper.IsOverrideState(state) ? GlobalStaticValues.EMPTY_COLOR : BaseColors!.TrackBarTickMarks;
 
             case PaletteElement.TrackBarTrack:
-                return CommonHelper.IsOverrideState(state) ? GlobalStaticValues.EMPTY_COLOR : _trackBarColors[(int)SchemeBaseColors.TrackBarFillTrack];
+                return CommonHelper.IsOverrideState(state) ? GlobalStaticValues.EMPTY_COLOR : BaseColors!.TrackBarFillTrack;
 
             case PaletteElement.TrackBarPosition:
                 if (CommonHelper.IsOverrideStateExclude(state, PaletteState.FocusOverride))
@@ -4561,4 +4573,5 @@ public class PaletteSparkleBase : PaletteBase
     public override Color GetRibbonFileAppTabTextColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
 
     #endregion
+
 }

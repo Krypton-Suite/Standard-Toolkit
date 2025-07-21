@@ -225,7 +225,6 @@ public abstract class PaletteVisualStudioBase : PaletteBase
     protected readonly KryptonColorSchemeBase? BaseColors;
     private KryptonColorTableVisualStudio? _table;
 
-    private readonly Color[] _trackBarColors;
     private readonly ImageList _checkBoxList;
     private readonly ImageList _galleryButtonList;
     private readonly Image?[] _radioButtonArray;
@@ -272,11 +271,6 @@ public abstract class PaletteVisualStudioBase : PaletteBase
         if (radioButtonArray != null)
         {
             _radioButtonArray = radioButtonArray;
-        }
-
-        if (trackBarColors != null)
-        {
-            _trackBarColors = trackBarColors;
         }
 
         DefineFonts();
@@ -2033,6 +2027,10 @@ public abstract class PaletteVisualStudioBase : PaletteBase
                 return _contentPaddingGrid;
             case PaletteContentStyle.HeaderForm:
             {
+                if (owningForm == null)
+                {
+                    return new Padding();
+                }
                 Padding borders = owningForm!.RealWindowBorders;
                 return new Padding(borders.Left, borders.Bottom / 2, 0, 0);
             }
@@ -2149,6 +2147,10 @@ public abstract class PaletteVisualStudioBase : PaletteBase
             case PaletteMetricInt.CheckButtonGap:
                 return 5;
             case PaletteMetricInt.HeaderButtonEdgeInsetForm:
+                if (owningForm == null)
+                {
+                    return 0;
+                }
                 return Math.Max(2, owningForm!.RealWindowBorders.Right);
             case PaletteMetricInt.HeaderButtonEdgeInsetInputControl:
                 return 1;
@@ -2222,6 +2224,10 @@ public abstract class PaletteVisualStudioBase : PaletteBase
             case PaletteMetricPadding.BarPaddingOutside:
                 return _metricPaddingBarOutside;
             case PaletteMetricPadding.HeaderButtonPaddingForm:
+                if (owningForm == null)
+                {
+                    return new Padding();
+                }
                 return new Padding(0, owningForm!.RealWindowBorders.Right, 0, 0);
             case PaletteMetricPadding.RibbonButtonPadding:
                 return _metricPaddingRibbon;
@@ -3287,14 +3293,14 @@ public abstract class PaletteVisualStudioBase : PaletteBase
         switch (element)
         {
             case PaletteElement.TrackBarTick:
-                return _trackBarColors[(int)SchemeBaseColors.TrackBarTickMarks];
+                return BaseColors!.TrackBarTickMarks;
             case PaletteElement.TrackBarTrack:
-                return _trackBarColors[(int)SchemeBaseColors.TrackBarTopTrack];
+                return BaseColors!.TrackBarTopTrack;
             case PaletteElement.TrackBarPosition:
                 return state switch
                 {
                     PaletteState.Disabled => GlobalStaticValues.EMPTY_COLOR,
-                    _ => _trackBarColors[(int)SchemeBaseColors.TrackBarOutsidePosition]
+                    _ => BaseColors!.TrackBarOutsidePosition
                 };
             default:
                 // Should never happen!
@@ -3322,9 +3328,9 @@ public abstract class PaletteVisualStudioBase : PaletteBase
         switch (element)
         {
             case PaletteElement.TrackBarTick:
-                return _trackBarColors[(int)SchemeBaseColors.TrackBarTickMarks];
+                return BaseColors!.TrackBarTickMarks;
             case PaletteElement.TrackBarTrack:
-                return _trackBarColors[(int)SchemeBaseColors.TrackBarBottomTrack];
+                return BaseColors!.TrackBarBottomTrack;
             case PaletteElement.TrackBarPosition:
                 return state switch
                 {
@@ -3360,9 +3366,9 @@ public abstract class PaletteVisualStudioBase : PaletteBase
         switch (element)
         {
             case PaletteElement.TrackBarTick:
-                return _trackBarColors[(int)SchemeBaseColors.TrackBarTickMarks];
+                return BaseColors!.TrackBarTickMarks;
             case PaletteElement.TrackBarTrack:
-                return _trackBarColors[(int)SchemeBaseColors.TrackBarFillTrack];
+                return BaseColors!.TrackBarFillTrack;
             case PaletteElement.TrackBarPosition:
                 return state switch
                 {
@@ -3401,14 +3407,14 @@ public abstract class PaletteVisualStudioBase : PaletteBase
                     return GlobalStaticValues.EMPTY_COLOR;
                 }
 
-                return _trackBarColors[(int)SchemeBaseColors.TrackBarTickMarks];
+                return BaseColors!.TrackBarTickMarks;
             case PaletteElement.TrackBarTrack:
                 if (CommonHelper.IsOverrideState(state))
                 {
                     return GlobalStaticValues.EMPTY_COLOR;
                 }
 
-                return _trackBarColors[(int)SchemeBaseColors.TrackBarFillTrack];
+                return BaseColors!.TrackBarFillTrack;
             case PaletteElement.TrackBarPosition:
                 if (CommonHelper.IsOverrideStateExclude(state, PaletteState.FocusOverride))
                 {
@@ -3449,14 +3455,14 @@ public abstract class PaletteVisualStudioBase : PaletteBase
                     return GlobalStaticValues.EMPTY_COLOR;
                 }
 
-                return _trackBarColors[(int)SchemeBaseColors.TrackBarTickMarks];
+                return BaseColors!.TrackBarTickMarks;
             case PaletteElement.TrackBarTrack:
                 if (CommonHelper.IsOverrideState(state))
                 {
                     return GlobalStaticValues.EMPTY_COLOR;
                 }
 
-                return _trackBarColors[(int)SchemeBaseColors.TrackBarFillTrack];
+                return BaseColors!.TrackBarFillTrack;
             case PaletteElement.TrackBarPosition:
                 if (CommonHelper.IsOverrideStateExclude(state, PaletteState.FocusOverride))
                 {

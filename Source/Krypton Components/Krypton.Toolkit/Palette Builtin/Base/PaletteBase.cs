@@ -2122,8 +2122,23 @@ public abstract class PaletteBase : Component
         {
             Array.Copy(source, SchemeColors, Math.Min(source.Length, SchemeColors.Length));
 
-            var tableField = GetType().GetField("Table", BindingFlags.Instance | BindingFlags.NonPublic);
-            tableField?.SetValue(this, null);
+            // Invalidate any cached color-table so it will rebuild next time.
+            var tableField = GetType().GetField("Table", BindingFlags.Instance | BindingFlags.NonPublic)
+                            ?? GetType().GetField("_table", BindingFlags.Instance | BindingFlags.NonPublic);
+
+            if (tableField != null)
+            {
+                tableField.SetValue(this, null);
+            }
+            else
+            {
+                // Some palette bases expose the table as a property instead of a field.
+                var tableProp = GetType().GetProperty("Table", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+                if (tableProp != null && tableProp.CanWrite)
+                {
+                    tableProp.SetValue(this, null);
+                }
+            }
         }
 
         OnPalettePaint(this, new PaletteLayoutEventArgs(true, true));
