@@ -60,7 +60,7 @@ public partial class DomainUpDownTest : KryptonForm
         UpdateRtlState();
     }
 
-    private void kbtnToggleRtl_Click(object sender, EventArgs e)
+    private void kbtnToggleRtl_Click(object? sender, EventArgs e)
     {
 
     }
@@ -75,7 +75,7 @@ public partial class DomainUpDownTest : KryptonForm
         klblRtlStatus.StateCommon.ShortText.Color1 = isRtl ? Color.Green : Color.Blue;
     }
 
-    private void kbtnResetValues_Click(object sender, EventArgs e)
+    private void kbtnResetValues_Click(object? sender, EventArgs e)
     {
         // Reset all domain up/down values
         kryptonDomainUpDown1.SelectedIndex = 0;
@@ -85,7 +85,7 @@ public partial class DomainUpDownTest : KryptonForm
         kryptonDomainUpDown5.SelectedIndex = 0;
     }
 
-    private void kbtnTestUpDown_Click(object sender, EventArgs e)
+    private void kbtnTestUpDown_Click(object? sender, EventArgs e)
     {
         // Test the up/down functionality
         kryptonDomainUpDown1.UpButton();
@@ -95,7 +95,7 @@ public partial class DomainUpDownTest : KryptonForm
         kryptonDomainUpDown5.UpButton();
     }
 
-    private void kbtnAddItems_Click(object sender, EventArgs e)
+    private void kbtnAddItems_Click(object? sender, EventArgs e)
     {
         // Add some additional items to test with
         kryptonDomainUpDown1.Items.Add("Cyan");

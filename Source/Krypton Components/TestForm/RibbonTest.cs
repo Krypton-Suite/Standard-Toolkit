@@ -20,4 +20,16 @@ public partial class RibbonTest : KryptonForm
     {
         kryptonRibbon.SelectedTab!.ContextName = @"Testing";
     }
+
+    private void kryptonToggleSwitch1_CheckedChanged(object sender, EventArgs e)
+    {
+        // Toggle the RightToLeft property of the form
+        RightToLeft = kryptonToggleSwitch1.Checked ? RightToLeft.Yes : RightToLeft.No;
+        // Update the layout accordingly
+        RightToLeftLayout = kryptonToggleSwitch1.Checked;
+        
+        // Optionally, update any controls that need to reflect this change
+        kryptonRibbon.RightToLeft = RightToLeft;
+        //kryptonRibbon.RightToLeftLayout = RightToLeftLayout;
+    }
 }

@@ -579,15 +579,18 @@ internal class ViewLayoutRibbonTabs : ViewComposite
         // Clear down the list of tab sets
         ContextTabSets.Clear();
 
+        bool isRtl = _ribbon.RightToLeft == RightToLeft.Yes;
+
         // Add all tabs that do not have a context name
-        AddTabsWithContextName(string.Empty);
+        AddTabsWithContextName(string.Empty, isRtl);
 
         // Add each set of tabs that match each listed selected context name
-        foreach (var contextName in _cachedSelectedContext
+            var contextNames = isRtl ? _cachedSelectedContext.AsEnumerable().Reverse() : _cachedSelectedContext;
+        foreach (var contextName in contextNames
                      .Where(contextName => _ribbon.RibbonContexts[contextName] != null)
                 )
         {
-            AddTabsWithContextName(contextName);
+            AddTabsWithContextName(contextName, isRtl);
         }
             
         // When in design time help mode
@@ -609,7 +612,7 @@ internal class ViewLayoutRibbonTabs : ViewComposite
         }
     }
 
-    private void AddTabsWithContextName(string contextName)
+    private void AddTabsWithContextName(string contextName, bool isRtl)
     {
         ContextTabSet? cts = null;
 
@@ -625,7 +628,8 @@ internal class ViewLayoutRibbonTabs : ViewComposite
         }
 
         // Add child elements appropriate for each ribbon tab
-        for (var i = 0; i < _ribbon.RibbonTabs.Count; i++)
+        var indices = isRtl ? Enumerable.Range(0, _ribbon.RibbonTabs.Count).Reverse() : Enumerable.Range(0, _ribbon.RibbonTabs.Count);
+        foreach (var i in indices)
         {
             KryptonRibbonTab ribbonTab = _ribbon.RibbonTabs[i];
             if (IsRibbonVisible(ribbonTab, contextName))

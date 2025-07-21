@@ -73,6 +73,7 @@
             this.buttonSelectedApply = new Krypton.Toolkit.KryptonButton();
             this.textBoxSelectedContexts = new Krypton.Toolkit.KryptonTextBox();
             this.labelContextsInstructions = new Krypton.Toolkit.KryptonLabel();
+            this.kryptonToggleSwitch1 = new Krypton.Toolkit.KryptonToggleSwitch();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonRibbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.labelOffice2007Styles)).BeginInit();
             this.labelOffice2007Styles.SuspendLayout();
@@ -107,7 +108,7 @@
             this.contextDefRed,
             this.contextDefGreen});
             this.kryptonRibbon.RibbonFileAppButton.AppButtonMenuItems.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
-            ((Krypton.Toolkit.KryptonContextMenuItemBase)(this.kryptonContextMenuItem2))});
+            this.kryptonContextMenuItem2});
             this.kryptonRibbon.RibbonFileAppButton.AppButtonShowRecentDocs = false;
             this.kryptonRibbon.RibbonTabs.AddRange(new Krypton.Ribbon.KryptonRibbonTab[] {
             this.tabHome,
@@ -116,7 +117,7 @@
             this.contextGreen2});
             this.kryptonRibbon.SelectedContext = "Red,Green";
             this.kryptonRibbon.SelectedTab = this.tabHome;
-            this.kryptonRibbon.Size = new System.Drawing.Size(924, 115);
+            this.kryptonRibbon.Size = new System.Drawing.Size(926, 115);
             this.kryptonRibbon.StateCommon.RibbonAppButton.BackColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.kryptonRibbon.StateCommon.RibbonAppButton.BackColor2 = System.Drawing.Color.Yellow;
             this.kryptonRibbon.StateCommon.RibbonAppButton.BackColor3 = System.Drawing.Color.Lime;
@@ -178,13 +179,14 @@
             // 
             // labelOffice2007Styles
             // 
+            this.labelOffice2007Styles.Controls.Add(this.kryptonToggleSwitch1);
             this.labelOffice2007Styles.Controls.Add(this.groupOffice2007Styles);
             this.labelOffice2007Styles.Controls.Add(this.groupAddContext);
             this.labelOffice2007Styles.Controls.Add(this.groupSelectedContexts);
             this.labelOffice2007Styles.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelOffice2007Styles.Location = new System.Drawing.Point(0, 115);
             this.labelOffice2007Styles.Name = "labelOffice2007Styles";
-            this.labelOffice2007Styles.Size = new System.Drawing.Size(924, 507);
+            this.labelOffice2007Styles.Size = new System.Drawing.Size(926, 501);
             this.labelOffice2007Styles.TabIndex = 2;
             // 
             // groupOffice2007Styles
@@ -461,11 +463,19 @@
             this.labelContextsInstructions.Values.Text = "Use a common separated list of context names and then\r\npress the \'Apply\' button. " +
     "To remove all contextual tabs\r\njust remove all the text and press \'Apply\'.";
             // 
+            // kryptonToggleSwitch1
+            // 
+            this.kryptonToggleSwitch1.Location = new System.Drawing.Point(16, 328);
+            this.kryptonToggleSwitch1.Name = "kryptonToggleSwitch1";
+            this.kryptonToggleSwitch1.Size = new System.Drawing.Size(90, 28);
+            this.kryptonToggleSwitch1.TabIndex = 6;
+            this.kryptonToggleSwitch1.CheckedChanged += new System.EventHandler(this.kryptonToggleSwitch1_CheckedChanged);
+            // 
             // RibbonTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(924, 622);
+            this.ClientSize = new System.Drawing.Size(926, 616);
             this.CloseBox = false;
             this.Controls.Add(this.labelOffice2007Styles);
             this.Controls.Add(this.kryptonRibbon);
@@ -540,5 +550,6 @@
         private KryptonTextBox textBoxSelectedContexts;
         private KryptonLabel labelContextsInstructions;
         private Krypton.Ribbon.KryptonRibbonGroupColorButton kryptonRibbonGroupColorButton1;
+        private KryptonToggleSwitch kryptonToggleSwitch1;
     }
 }

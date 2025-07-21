@@ -35,7 +35,7 @@ public partial class PropertyGridTest : KryptonForm
         kryptonPanel1.Controls.Add(btnToggleRtl);
     }
 
-    private void BtnToggleRtl_Click(object sender, EventArgs e)
+    private void BtnToggleRtl_Click(object? sender, EventArgs e)
     {
         // Toggle RTL settings for the form and property grid
         RightToLeft = RightToLeft == RightToLeft.Yes ? RightToLeft.No : RightToLeft.Yes;
@@ -43,12 +43,11 @@ public partial class PropertyGridTest : KryptonForm
         kpgExample.RightToLeft = RightToLeft;
         kpgExample.RightToLeftLayout = RightToLeftLayout;
         // Update button text
-        var btn = Controls["btnToggleRtl"] as Krypton.Toolkit.KryptonButton;
-        if (btn != null)
+        if (Controls["btnToggleRtl"] is KryptonButton btn)
             btn.Text = $"RTL: {(RightToLeft == RightToLeft.Yes ? "ON" : "OFF")}";
     }
 
-    private void kbtnStressTest_Click(object sender, EventArgs e)
+    private void kbtnStressTest_Click(object? sender, EventArgs e)
     {
         const int Iterations = 200;
         int paintFailures = 0;
@@ -110,7 +109,7 @@ public partial class PropertyGridTest : KryptonForm
         }
     }
 
-    private void kbtnStressTestBeforeFix_Click(object sender, EventArgs e)
+    private void kbtnStressTestBeforeFix_Click(object? sender, EventArgs e)
     {
         const int Iterations = 200;
         int reproductionFailures = 0;
