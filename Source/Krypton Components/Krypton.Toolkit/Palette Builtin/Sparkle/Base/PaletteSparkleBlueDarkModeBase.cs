@@ -119,7 +119,6 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
     private static readonly Color[] _ribbonGroupCollapsedBackContext = [Color.FromArgb(48, 255, 255, 255), Color.FromArgb(235, 235, 235)];
     private static readonly Color[] _ribbonGroupCollapsedBackContextTracking = [Color.FromArgb(48, 255, 255, 255), Color.FromArgb(235, 235, 235)];
     private static readonly Color[] _ribbonGroupCollapsedBorderContext = [Color.FromArgb(128, 199, 199, 199), Color.FromArgb(199, 199, 199), Color.FromArgb(48, 255, 255, 255), Color.FromArgb(235, 235, 235)];
-    private static readonly Color[] _trackBarColors = [Color.FromArgb(180, 180, 180), Color.FromArgb(33, 37, 50), Color.FromArgb(126, 131, 142), Color.FromArgb(99, 99, 99), Color.FromArgb(32, Color.White), Color.FromArgb(35, 35, 35)];
     private static readonly Color _inputControlTextDisabled = Color.FromArgb(172, 168, 153);
     private static readonly Color _colorDark00 = Color.Black;
     private static readonly Color _colorWhite119 = Color.FromArgb(119, 119, 119);
@@ -146,9 +145,20 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
 
     #region Instance Fields
 
+    /// <inheritdoc/>
+    protected override Color[] SchemeColors => _ribbonColors;
+    private readonly Color[] _ribbonColors;
+
+    private readonly Color[] _trackBarColors = [
+        Color.FromArgb(180, 180, 180),
+        Color.FromArgb(33, 37, 50),
+        Color.FromArgb(126, 131, 142),
+        Color.FromArgb(99, 99, 99),
+        Color.FromArgb(32, Color.White),
+        Color.FromArgb(35, 35, 35)];
+
     protected readonly KryptonColorSchemeBase? BaseColors;
     private KryptonColorTableSparkle? _table;
-    private readonly Color[] _ribbonColors;
     private readonly Color[] _sparkleColors;
     private readonly Color[] _appButtonNormal;
     private readonly Color[] _appButtonTrack;
@@ -209,9 +219,17 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
         [DisallowNull] Color[] ribbonGroupCollapsedBorderContextTracking,
         [DisallowNull] ImageList checkBoxList,
         [DisallowNull] Image?[] radioButtonArray)
-        : this(scheme.ToArray(), sparkleColors, appButtonNormal, appButtonTrack, appButtonPressed, ribbonGroupCollapsedBorderContextTracking, checkBoxList, radioButtonArray)
+        : this(scheme.ToArray(),
+            sparkleColors,
+            appButtonNormal,
+            appButtonTrack,
+            appButtonPressed,
+            ribbonGroupCollapsedBorderContextTracking,
+            checkBoxList,
+            radioButtonArray)
     {
         BaseColors = scheme;
+        _trackBarColors = scheme.ToTrackBarArray();
     }
 
     #endregion Identity
@@ -2687,6 +2705,10 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                 return _contentPaddingGrid;
             case PaletteContentStyle.HeaderForm:
             {
+                if (owningForm == null)
+                {
+                    return new Padding();
+                }
                 Padding borders = owningForm!.RealWindowBorders;
                 return new Padding(borders.Left, borders.Bottom / 2, 0, 0);
             }
@@ -2804,6 +2826,10 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
             case PaletteMetricInt.CheckButtonGap:
                 return 5;
             case PaletteMetricInt.HeaderButtonEdgeInsetForm:
+                if (owningForm == null)
+                {
+                    return 0;
+                }
                 return Math.Max(2, owningForm!.RealWindowBorders.Right);
             case PaletteMetricInt.HeaderButtonEdgeInsetInputControl:
                 return 1;
@@ -2876,6 +2902,10 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
             case PaletteMetricPadding.BarPaddingOutside:
                 return _metricPaddingBarOutside;
             case PaletteMetricPadding.HeaderButtonPaddingForm:
+                if (owningForm == null)
+                {
+                    return new Padding();
+                }
                 return new Padding(0, owningForm!.RealWindowBorders.Right, 0, 0);
             case PaletteMetricPadding.RibbonButtonPadding:
                 return _metricPaddingRibbon;
@@ -4151,11 +4181,11 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
         switch (element)
         {
             case PaletteElement.TrackBarTick:
-                return _trackBarColors[0];
+                return BaseColors!.TrackBarTickMarks;
             case PaletteElement.TrackBarTrack:
-                return _trackBarColors[1];
+                return BaseColors!.TrackBarTopTrack;
             case PaletteElement.TrackBarPosition:
-                return _trackBarColors[4];
+                return BaseColors!.TrackBarOutsidePosition;
             default:
                 // Should never happen!
                 Debug.Assert(false);
@@ -4182,9 +4212,9 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
         switch (element)
         {
             case PaletteElement.TrackBarTick:
-                return _trackBarColors[0];
+                return BaseColors!.TrackBarTickMarks;
             case PaletteElement.TrackBarTrack:
-                return _trackBarColors[2];
+                return BaseColors!.TrackBarBottomTrack;
             case PaletteElement.TrackBarPosition:
                 return state switch
                 {
@@ -4218,9 +4248,9 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
         switch (element)
         {
             case PaletteElement.TrackBarTick:
-                return _trackBarColors[0];
+                return BaseColors!.TrackBarTickMarks;
             case PaletteElement.TrackBarTrack:
-                return _trackBarColors[3];
+                return BaseColors!.TrackBarFillTrack;
             case PaletteElement.TrackBarPosition:
                 return state switch
                 {
@@ -4256,14 +4286,14 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                     return GlobalStaticValues.EMPTY_COLOR;
                 }
 
-                return _trackBarColors[0];
+                return BaseColors!.TrackBarTickMarks;
             case PaletteElement.TrackBarTrack:
                 if (CommonHelper.IsOverrideState(state))
                 {
                     return GlobalStaticValues.EMPTY_COLOR;
                 }
 
-                return _trackBarColors[3];
+                return BaseColors!.TrackBarFillTrack;
             case PaletteElement.TrackBarPosition:
                 if (CommonHelper.IsOverrideStateExclude(state, PaletteState.FocusOverride))
                 {
@@ -4299,10 +4329,10 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
         switch (element)
         {
             case PaletteElement.TrackBarTick:
-                return CommonHelper.IsOverrideState(state) ? GlobalStaticValues.EMPTY_COLOR : _trackBarColors[0];
+                return CommonHelper.IsOverrideState(state) ? GlobalStaticValues.EMPTY_COLOR : BaseColors!.TrackBarTickMarks;
 
             case PaletteElement.TrackBarTrack:
-                return CommonHelper.IsOverrideState(state) ? GlobalStaticValues.EMPTY_COLOR : _trackBarColors[3];
+                return CommonHelper.IsOverrideState(state) ? GlobalStaticValues.EMPTY_COLOR : BaseColors!.TrackBarFillTrack;
 
             case PaletteElement.TrackBarPosition:
                 if (CommonHelper.IsOverrideStateExclude(state, PaletteState.FocusOverride))
@@ -4359,4 +4389,5 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
     }
 
     #endregion OnUserPreferenceChanged
+
 }

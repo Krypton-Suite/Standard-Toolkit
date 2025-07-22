@@ -219,10 +219,12 @@ public abstract class PaletteOffice2010BlackBase : PaletteBase
 
     #region Instance Fields
 
+    /// <inheritdoc/>
+    protected override Color[] SchemeColors => _ribbonColors;
+    private readonly Color[] _ribbonColors;
+
     protected readonly KryptonColorSchemeBase? BaseColors;
     protected KryptonColorTable2010? Table { get; set; }
-    private readonly Color[] _ribbonColors;
-    private readonly Color[] _trackBarColors;
     private readonly ImageList _checkBoxList;
     private readonly ImageList _galleryButtonList;
     private readonly Image?[] _radioButtonArray;
@@ -269,10 +271,6 @@ public abstract class PaletteOffice2010BlackBase : PaletteBase
         if (radioButtonArray != null)
         {
             _radioButtonArray = radioButtonArray;
-        }
-        if (trackBarColors != null)
-        {
-            _trackBarColors = trackBarColors;
         }
 
         // Get the font settings from the system
@@ -2951,6 +2949,10 @@ public abstract class PaletteOffice2010BlackBase : PaletteBase
                 return _contentPaddingGrid;
             case PaletteContentStyle.HeaderForm:
             {
+                if (owningForm == null)
+                {
+                    return new Padding();
+                }
                 Padding borders = owningForm!.RealWindowBorders;
                 return new Padding(borders.Left, borders.Bottom / 2, 0, 0);
             }
@@ -3068,6 +3070,10 @@ public abstract class PaletteOffice2010BlackBase : PaletteBase
             case PaletteMetricInt.CheckButtonGap:
                 return 5;
             case PaletteMetricInt.HeaderButtonEdgeInsetForm:
+                if (owningForm == null)
+                {
+                    return 0;
+                }
                 return Math.Max(2, owningForm!.RealWindowBorders.Right);
             case PaletteMetricInt.HeaderButtonEdgeInsetInputControl:
                 return 1;
@@ -3141,6 +3147,10 @@ public abstract class PaletteOffice2010BlackBase : PaletteBase
             case PaletteMetricPadding.BarPaddingOutside:
                 return _metricPaddingBarOutside;
             case PaletteMetricPadding.HeaderButtonPaddingForm:
+                if (owningForm == null)
+                {
+                    return new Padding();
+                }
                 return new Padding(0, owningForm!.RealWindowBorders.Right, 0, 0);
             case PaletteMetricPadding.RibbonButtonPadding:
                 return _metricPaddingRibbon;

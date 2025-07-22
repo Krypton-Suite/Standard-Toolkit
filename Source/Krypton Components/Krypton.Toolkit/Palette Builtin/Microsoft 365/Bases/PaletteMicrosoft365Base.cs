@@ -221,11 +221,13 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
 
     #region Variables
 
+    /// <inheritdoc/>
+    protected override Color[] SchemeColors => _ribbonColors;
+    private readonly Color[] _ribbonColors;
+
     protected KryptonColorTable365? Table { get; set; }
 
     protected readonly KryptonColorSchemeBase? BaseColors;
-
-    private readonly Color[] _ribbonColors;
 
     private readonly ImageList _checkBoxList;
     private readonly ImageList _galleryButtonList;
@@ -1929,7 +1931,7 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
     /// </summary>
     /// <param name="style">Content style.</param>
     /// <param name="state">Palette value should be applicable to this state.</param>
-    /// <returns>PaletteTextPrefix value.</returns>
+    /// <returns>PaletteTextHotkeyPrefix value.</returns>
     public override PaletteTextHotkeyPrefix GetContentShortTextPrefix(PaletteContentStyle style, PaletteState state)
     {
         // We do not provide override values
@@ -2542,7 +2544,7 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
     /// </summary>
     /// <param name="style">Content style.</param>
     /// <param name="state">Palette value should be applicable to this state.</param>
-    /// <returns>PaletteTextPrefix value.</returns>
+    /// <returns>PaletteTextHotkeyPrefix value.</returns>
     public override PaletteTextHotkeyPrefix GetContentLongTextPrefix(PaletteContentStyle style, PaletteState state)
     {
         // We do not provide override values
@@ -2936,6 +2938,10 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
                 return _contentPaddingGrid;
             case PaletteContentStyle.HeaderForm:
             {
+                if (owningForm == null)
+                {
+                    return new Padding();
+                }
                 Padding borders = owningForm!.RealWindowBorders;
                 return new Padding(borders.Left, borders.Bottom / 2, 0, 0);
             }
@@ -3052,6 +3058,10 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
             case PaletteMetricInt.CheckButtonGap:
                 return 5;
             case PaletteMetricInt.HeaderButtonEdgeInsetForm:
+                if (owningForm == null)
+                {
+                    return 0;
+                }
                 return Math.Max(2, owningForm!.RealWindowBorders.Right);
             case PaletteMetricInt.HeaderButtonEdgeInsetInputControl:
                 return 1;
@@ -3125,6 +3135,10 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
             case PaletteMetricPadding.BarPaddingOutside:
                 return _metricPaddingBarOutside;
             case PaletteMetricPadding.HeaderButtonPaddingForm:
+                if (owningForm == null)
+                {
+                    return new Padding();
+                }
                 return new Padding(0, owningForm!.RealWindowBorders.Right, 0, 0);
             case PaletteMetricPadding.RibbonButtonPadding:
                 return _metricPaddingRibbon;
@@ -4482,4 +4496,5 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
     }
 
     #endregion OnUserPreferenceChanged
+
 }

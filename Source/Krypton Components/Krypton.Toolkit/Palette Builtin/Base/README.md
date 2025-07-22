@@ -574,3 +574,101 @@ Search regex:
 
 Replacement:
 `BaseColors.$1`
+
+---
+
+## Recent Architecture Improvements
+
+### Unified Color Scheme Access
+
+The toolkit now provides a consistent, reflection-free API for runtime color manipulation across all palette families:
+
+#### 1. **`SchemeColors` Property**
+
+All palette classes now expose their internal color array through an abstract property:
+
+```csharp
+// In PaletteBase:
+protected abstract Color[] SchemeColors { get; }
+
+// In derived palette families (e.g., PaletteMicrosoft365Base):
+protected override Color[] SchemeColors => _ribbonColors;
+
+// In KryptonCustomPaletteBase (delegates to wrapped palette):
+protected override Color[] SchemeColors => _basePalette?.GetSchemeColors() ?? Array.Empty<Color>();
+```
+
+This eliminates the need for reflection to access private fields when updating colors at runtime.
+
+#### 2. **`CopySchemeColors` Method**
+
+`PaletteBase` now includes a protected helper method for safely updating the color scheme:
+
+```csharp
+protected void CopySchemeColors(Color[] source)
+{
+    // Thread-safe array copy
+    lock (_colorLock)
+    {
+        Array.Copy(source, SchemeColors, Math.Min(source.Length, SchemeColors.Length));
+        
+        // Clear cached color table (handles Table, _table, or property variants)
+        InvalidateColorTableCache();
+    }
+    
+    // Trigger UI refresh
+    OnPalettePaint(this, new PaletteLayoutEventArgs(true, true));
+}
+```
+
+The method handles:
+    - Thread-safe color updates
+    - Automatic cache invalidation (works with `Table`, `_table` fields, or `Table` properties)
+    - Immediate UI refresh via `PalettePaint` event
+
+#### 3. **`ApplyBaseColors` Public API**
+
+`KryptonCustomPaletteBase` exposes a simple public method for theme editors:
+
+```csharp
+public bool ApplyBaseColors(Color[] colors)
+{
+    if (colors == null) throw new ArgumentNullException(nameof(colors));
+    if (_basePalette == null) return false;
+    
+    CopySchemeColors(colors);
+    return true;
+}
+```
+
+### Benefits for Palette Designer and Runtime Updates
+
+1. **No Reflection Required** - All color updates use public or protected APIs
+2. **Deterministic Behavior** - `CopySchemeColors` handles all palette families consistently
+3. **Thread-Safe** - Built-in locking prevents race conditions during color updates
+4. **Automatic UI Updates** - `PalettePaint` event ensures immediate visual feedback
+
+### Usage in Theme Editors
+
+When implementing "Load Default Palette" or similar features:
+
+```csharp
+// 1. Get colors from source palette (e.g., via BaseScheme)
+var schemeColors = sourceScheme.ToArray();
+
+// 2. Apply to custom palette - no reflection needed!
+if (customPalette.ApplyBaseColors(schemeColors))
+{
+    // Success - UI automatically refreshes
+}
+else
+{
+    // Fallback to PopulateFromBase() for full clone
+    customPalette.PopulateFromBase(false);
+}
+```
+
+This architecture ensures that runtime color manipulation is:
+    - **Safe** - No private field access or reflection hacks
+    - **Fast** - Direct array operations with minimal overhead
+    - **Maintainable** - Clear API boundaries between palette layers
