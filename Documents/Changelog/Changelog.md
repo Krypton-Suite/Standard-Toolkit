@@ -3,6 +3,7 @@
 =======
 
 # 2025-08-25 - Build 2508 (Patch 8) - August 2025
+* Resolved [#2331](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2331), Correction of edges, 3D effect and color adjustment in `KryptonRibbon` in Office 2010 themes.
 * Resolved [#2329](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2329), `AccurateText.StringFormatToFlags()` performs incorrect conversion to TextFormatFlags.
 * Resolved [#2319](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2319), Enhance KryptonContextMenuItem and KryptonCommand functionality
 * Resolved [#2178](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2178), Fix `KryptonPropertyGrid` enabling logic for `Reset` menu-item

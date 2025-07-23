@@ -181,15 +181,15 @@ namespace Krypton.Toolkit
             Color.Violet, // LinkVisitedOverridePanel
             Color.FromArgb(255, 90, 90), // LinkPressedOverridePanel
             Color.White, // TextLabelPanel
-            Color.White, // RibbonTabTextNormal
+            Color.Black, // RibbonTabTextNormal
             Color.Black, // RibbonTabTextChecked
             Color.FromArgb(94, 94, 94), // RibbonTabSelected1
             Color.FromArgb(201, 201, 201), // RibbonTabSelected2
             Color.FromArgb(192, 192, 192), // RibbonTabSelected3
             Color.FromArgb(192, 192, 192), // RibbonTabSelected4
             Color.FromArgb(192, 192, 192), // RibbonTabSelected5
-            Color.FromArgb(94, 94, 94), // RibbonTabTracking1
-            Color.FromArgb(183, 183, 183), // RibbonTabTracking2
+            Color.FromArgb(237, 201, 88), // RibbonTabTracking1
+            Color.FromArgb(251, 248, 224), // RibbonTabTracking2
             Color.FromArgb(94, 94, 94), // RibbonTabHighlight1
             Color.FromArgb(201, 201, 201), // RibbonTabHighlight2
             Color.FromArgb(192, 192, 192), // RibbonTabHighlight3
@@ -318,8 +318,8 @@ namespace Krypton.Toolkit
             Color.FromArgb(193, 193, 193), // RibbonGalleryBackTracking
             Color.FromArgb(176, 176, 176), // RibbonGalleryBack1
             Color.FromArgb(150, 150, 150), // RibbonGalleryBack2
-            Color.FromArgb(148, 149, 151), // RibbonTabTracking3
-            Color.FromArgb(127, 127, 127), // RibbonTabTracking4
+            Color.FromArgb(248, 225, 135), // RibbonTabTracking3
+            Color.FromArgb(255, 249, 196), // RibbonTabTracking4
             Color.FromArgb(82, 82, 82), // RibbonGroupBorder3
             Color.FromArgb(176, 176, 176), // RibbonGroupBorder4
             Color.FromArgb(178, 178, 178), // RibbonGroupBorder5
@@ -4052,6 +4052,7 @@ namespace Krypton.Toolkit
                     {
                         case PaletteState.Normal:
                         case PaletteState.CheckedNormal:
+                            return PaletteRibbonColorStyle.RibbonGroupAreaBorder3;
                         case PaletteState.ContextNormal:
                         case PaletteState.ContextCheckedNormal:
                             return PaletteRibbonColorStyle.Empty;
