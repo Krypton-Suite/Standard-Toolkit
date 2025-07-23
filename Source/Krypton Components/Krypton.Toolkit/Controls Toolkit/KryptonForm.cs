@@ -224,14 +224,7 @@ public class KryptonForm : VisualForm,
         // END #1979 Temporary fix
     }
 
-    private float GetDpiFactor()
-    {
-#if NET462
-            return PI.GetDpiForWindow(Handle) / 96F;
-#else
-        return DeviceDpi / 96F;
-#endif
-    }
+    private float GetDpiFactor() => DeviceDpi / 96F;
 
     /// <summary>
     /// Releases all resources used by the Control. 

@@ -104,14 +104,7 @@ public class KryptonGroupBox : VisualControlContainment
         _ignoreLayout = false;
     }
 
-    private float GetDpiFactor()
-    {
-#if NET462
-                return PI.GetDpiForWindow(Panel.Handle) / 96F;
-#else
-        return Panel.DeviceDpi / 96F;
-#endif
-    }
+    private float GetDpiFactor() => Panel.DeviceDpi / 96F;
 
     /// <summary>
     /// Clean up any resources being used.
