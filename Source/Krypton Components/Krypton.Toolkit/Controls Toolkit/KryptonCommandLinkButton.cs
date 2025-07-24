@@ -153,14 +153,7 @@ public class KryptonCommandLinkButton : VisualSimpleBase, IButtonControl
         ViewManager = new ViewManager(this, _drawCommandLinkButton);
     }
 
-    private float GetDpiFactor()
-    {
-#if NET462
-            return PI.GetDpiForWindow(Handle) / 96F;
-#else
-        return DeviceDpi / 96F;
-#endif
-    }
+    private float GetDpiFactor() => DeviceDpi / 96F;
 
     #endregion
 

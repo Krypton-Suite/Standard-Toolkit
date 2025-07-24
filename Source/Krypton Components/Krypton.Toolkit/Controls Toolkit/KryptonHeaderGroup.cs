@@ -197,14 +197,7 @@ public class KryptonHeaderGroup : VisualControlContainment
         _ignoreLayout = false;
     }
 
-    private float GetDpiFactor()
-    {
-#if NET462
-            return PI.GetDpiForWindow(Handle) / 96F;
-#else
-        return DeviceDpi / 96F;
-#endif
-    }
+    private float GetDpiFactor() => DeviceDpi / 96F;
 
     /// <summary>
     /// Clean up any resources being used.
