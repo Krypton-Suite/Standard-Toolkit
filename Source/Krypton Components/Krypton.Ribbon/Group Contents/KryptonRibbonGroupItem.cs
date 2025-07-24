@@ -43,16 +43,10 @@ public abstract class KryptonRibbonGroupItem : Component,
         // Do the Tooltip Magic
         _toolTipValues = new ToolTipValues(null/*NeedPaintDelegate*/, GetDpiFactor); // Must be replaced by appropriate call
 
-    private float GetDpiFactor()
-    {
-        return (Ribbon != null)
-#if NET462
-                ? PI.GetDpiForWindow(Ribbon.Handle) / 96F
-#else
+    private float GetDpiFactor() =>
+        (Ribbon != null)
             ? Ribbon.DeviceDpi / 96F
-#endif
             : 1.0f;
-    }
 
     #endregion Identity
 
