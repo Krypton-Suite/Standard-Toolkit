@@ -3111,11 +3111,11 @@ public enum KryptonUseRTLLayout
 public enum KryptonEmojiListType
 {
     /// <summary>
-    /// Use the default emoji list.
+    /// Use the latest emoji list.
     /// </summary>
     Latest = 0,
     /// <summary>
-    /// Use the Windows 11 emoji list.
+    /// Use the latest public emoji list.
     /// </summary>
     Public = 1,
 }

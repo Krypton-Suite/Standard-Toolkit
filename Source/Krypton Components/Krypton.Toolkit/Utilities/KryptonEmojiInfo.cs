@@ -10,13 +10,32 @@
 
 namespace Krypton.Toolkit;
 
+/// <summary>
+/// Represents a single Unicode emoji, including its character, name, and underlying codepoints.
+/// </summary>
 public class KryptonEmojiInfo
 {
+    /// <summary>
+    /// Gets or sets the emoji glyph (actual emoji character).
+    /// </summary>
+    /// <example>😀</example>
     public string Glyph { get; set; }
 
+    /// <summary>
+    /// Gets or sets the official Unicode name for the emoji.
+    /// </summary>
+    /// <example>Grinning Face</example>
     public string Name { get; set; }
 
-    public string[] Codepoints { get; set; }
+    /// <summary>
+    /// Gets or sets the Unicode codepoints that compose this emoji, represented as hexadecimal strings.
+    /// </summary>
+    /// <example>{ "1F600" }</example>
+    public string[] CodePoints { get; set; }
 
+    /// <summary>
+    /// Returns a string that represents the current emoji, combining the glyph and its name.
+    /// </summary>
+    /// <returns>A string in the format "😀 - Grinning Face".</returns>
     public override string ToString() => $"{Glyph} - {Name}";
 }
