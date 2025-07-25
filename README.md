@@ -142,6 +142,8 @@ Follow the links to see the different objects and layouts that this framework al
 # Breaking Changes
 ## V100.00 (2025-11-xx - Build 2511 - November 2025)
 There are list of changes that have occurred during the development of the V100.00 version
+* Implemented [#2328](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2328), Set the baseline support to .NET Framework 4.7.2
+	- **Note:** This is a breaking change, as the minimum supported version of .NET Framework has been raised from 4.6.2 to 4.7.2.
 * Resolved [#240](https://github.com/Krypton-Suite/Standard-Toolkit/issues/240), **[Breaking Change]** `KryptonRichTextBox` Why is it not possible to have the `ButtonSpecs` aligned to the top of a control
 	- `ButtonSpecs` have been removed from the `KryptonRichTextBox`
 	- Use another layout to align in the designers

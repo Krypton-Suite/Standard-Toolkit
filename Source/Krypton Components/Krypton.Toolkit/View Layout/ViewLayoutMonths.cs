@@ -125,16 +125,10 @@ public class ViewLayoutMonths : ViewComposite,
         _drawHeader.Add(_drawToday, ViewDockStyle.Left);
     }
 
-    private float GetDpiFactor()
-    {
-        return (_visualPopupToolTip != null)
-#if NET462
-                ? PI.GetDpiForWindow(_visualPopupToolTip.Handle) / 96F
-#else
+    private float GetDpiFactor() =>
+        (_visualPopupToolTip != null)
             ? _visualPopupToolTip.DeviceDpi / 96F
-#endif
             : 1F;
-    }
 
     /// <summary>
     /// Obtains the String representation of this instance.

@@ -126,14 +126,7 @@ public abstract class VisualControlBase : Control,
         _toolTipManager.CancelToolTip += OnCancelToolTip;
     }
 
-    private float GetDpiFactor()
-    {
-#if NET462
-            return PI.GetDpiForWindow(Handle) / 96F;
-#else
-        return DeviceDpi / 96F;
-#endif
-    }
+    private float GetDpiFactor() => DeviceDpi / 96F;
 
     /// <summary>
     /// Clean up any resources being used.

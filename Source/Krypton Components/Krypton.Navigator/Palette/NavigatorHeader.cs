@@ -63,14 +63,7 @@ public class NavigatorHeader : Storage
         HeaderValuesSecondary = new HeaderGroupMappingSecondary(_navigator, needPaint, GetDpiFactor);
     }
 
-    private float GetDpiFactor()
-    {
-#if NET462
-            return PI.GetDpiForWindow(_navigator.Handle) / 96F;
-#else
-        return _navigator.DeviceDpi / 96F;
-#endif
-    }
+    private float GetDpiFactor() => _navigator.DeviceDpi / 96F;
 
     #endregion
 
