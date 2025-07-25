@@ -53,7 +53,7 @@ public partial class AdvancedEmojiViewerForm : KryptonForm
         {
             e.Glyph,
             e.Name,
-            CodepointsText = string.Join(" ", e.Codepoints)
+            CodepointsText = string.Join(" ", e.CodePoints)
         }).ToList();
 
         kdvEmojis.DataSource = bound;
@@ -69,7 +69,7 @@ public partial class AdvancedEmojiViewerForm : KryptonForm
 
             var name = selectedRow.Cells["Name"].Value.ToString();
 
-            var codepoints = selectedRow.Cells["CodepointsText"].Value.ToString();
+            var codepoints = selectedRow.Cells["CodePointsText"].Value.ToString();
 
             string copiedText = $"{glyph} - {name} ({codepoints})";
 
