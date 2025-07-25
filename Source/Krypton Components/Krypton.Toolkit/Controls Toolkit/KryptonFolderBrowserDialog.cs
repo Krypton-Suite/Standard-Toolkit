@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
     [ToolboxItem(true)]
     public class KryptonFolderBrowserDialog : ShellDialogWrapper, IDisposable
     {
-#if NET6_0_OR_GREATER
+#if NET8_0_OR_GREATER
         private readonly FolderBrowserDialog _internalOpenFileDialog = new();// { AutoUpgradeEnabled = true };
 #else
         private readonly ShellBrowserDialogTFM _internalOpenFileDialog = new ShellBrowserDialogTFM();
@@ -45,7 +45,7 @@ namespace Krypton.Toolkit
         //    return true;
         //}
 
-#if NET6_0_OR_GREATER
+#if NET8_0_OR_GREATER
         /// <inheritdoc />
         public override Guid? ClientGuid 
         { 
@@ -70,7 +70,7 @@ namespace Krypton.Toolkit
             set => _internalOpenFileDialog.SelectedPath = value!;
         }
 
-#if NET6_0_OR_GREATER
+#if NET8_0_OR_GREATER
         /// <summary>
         ///  Gets or sets the initial directory displayed by the folder browser dialog.
         /// </summary>
