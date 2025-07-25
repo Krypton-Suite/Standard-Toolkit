@@ -53,7 +53,12 @@
 	</Reference>
   </ItemGroup>
 
-  <PropertyGroup>
+	<ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
+		<Reference Include="System.Net.Http" />
+	</ItemGroup>
+
+
+	<PropertyGroup>
 	<PackageId>Krypton.Toolkit</PackageId>
 	<Description>This is the core toolkit module.</Description>
   </PropertyGroup>

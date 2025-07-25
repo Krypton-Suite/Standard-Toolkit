@@ -3102,3 +3102,22 @@ public enum KryptonUseRTLLayout
 }
 
 #endregion
+
+#region Enum KryptonEmojiListType
+
+/// <summary>
+/// Specifies the type of emoji list to use.
+/// </summary>
+public enum KryptonEmojiListType
+{
+    /// <summary>
+    /// Use the default emoji list.
+    /// </summary>
+    Latest = 0,
+    /// <summary>
+    /// Use the Windows 11 emoji list.
+    /// </summary>
+    Public = 1,
+}
+
+#endregion
