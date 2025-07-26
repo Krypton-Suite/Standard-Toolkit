@@ -191,7 +191,7 @@ namespace Krypton.Toolkit
         [Description("Gets or sets the file dialog box Icon")]
         public Icon? Icon { get; set; }
 
-#if NET6_0_OR_GREATER
+#if NET8_0_OR_GREATER
         /// <summary>
         /// <para>
         /// Gets or sets the GUID to associate with this dialog state. Typically, state such

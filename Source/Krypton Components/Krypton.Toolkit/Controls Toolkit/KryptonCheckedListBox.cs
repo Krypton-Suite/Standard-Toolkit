@@ -152,7 +152,7 @@ namespace Krypton.Toolkit
 
             private int InnerArrayIndexOfIdentifier(object identifier, int stateMask)
             {
-#if NET6_0_OR_GREATER
+#if NET8_0_OR_GREATER
 // https://github.com/dotnet/winforms/commit/1f4a593a6de32e75ff0f5fa97d35191c1facbc93#diff-c4db2c84a2a605af84487ad4386f94c42193826e71b7cf8d297c610c034245f9
                 return _internalListBox.InnerArrayIndexOf(identifier, stateMask);
 #else
