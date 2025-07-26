@@ -870,9 +870,6 @@ namespace Krypton.Toolkit
 
                 // Remember to pull down the manager instance
                 _buttonManager?.Destruct();
-
-                // Tell the buttons class to cleanup resources
-                _subclassButtons?.Dispose();
             }
 
             base.Dispose(disposing);
