@@ -1,12 +1,12 @@
-﻿#region BSD License
+#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *
  */
 #endregion
 
@@ -149,7 +149,7 @@ namespace Krypton.Toolkit
             /// <summary>
             /// Gets and sets if the combo box is currently dropped.
             /// </summary>
-            [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)] 
+            [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
             public bool Dropped { get; set; }
 
             /// <summary>
@@ -308,7 +308,7 @@ namespace Krypton.Toolkit
                             var hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
 
                             //////////////////////////////////////////////////////
-                            // Following removed to allow the Draw to always happen, to allow centering etc  
+                            // Following removed to allow the Draw to always happen, to allow centering etc
                             //if (_kryptonComboBox.Enabled && _kryptonComboBox.DropDownStyle == ComboBoxStyle.DropDown)
                             //{
                             // Let base implementation draw the actual text area
@@ -324,11 +324,16 @@ namespace Krypton.Toolkit
                             //}
                             //}
 
-                            // Paint the entire area in the background color
-                            using (Graphics g = Graphics.FromHdc(hdc))
+                            // Cache incoming Message to avoid ref-capture error
+                            Message msgCopy = m;
+
+                            // Grab the client area of the control
+                            PI.GetClientRect(Handle, out PI.RECT rect);
+                            var bounds = new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
+
+                            RenderBufferedPaintHelper.PaintBuffered(hdc, bounds, g =>
                             {
-                                // Grab the client area of the control
-                                PI.GetClientRect(Handle, out PI.RECT rect);
+                                var localBounds = new Rectangle(Point.Empty, bounds.Size);
 
                                 PaletteState state = _kryptonComboBox.Enabled
                                         ? _kryptonComboBox.IsActive
@@ -339,15 +344,16 @@ namespace Krypton.Toolkit
 
                                 // Drawn entire client area in the background color
                                 using var backBrush = new SolidBrush(states.PaletteBack.GetBackColor1(state));
-                                g.FillRectangle(backBrush, new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top));
+                                g.FillRectangle(backBrush, localBounds);
 
                                 // Get the constant used to crack open the display
                                 var dropDownWidth = SystemInformation.VerticalScrollBarWidth;
                                 Size borderSize = SystemInformation.BorderSize;
 
                                 // Create rect for the text area
-                                rect.top += borderSize.Height;
-                                rect.bottom -= borderSize.Height;
+                                var textRect = localBounds;
+                                textRect.Y += borderSize.Height;
+                                textRect.Height -= borderSize.Height * 2;
 
                                 // Create rectangle that represents the drop-down button
                                 Rectangle dropRect;
@@ -355,30 +361,32 @@ namespace Krypton.Toolkit
                                 // Update text and drop-down rects dependent on the right to left setting
                                 if (_kryptonComboBox.RightToLeft == RightToLeft.Yes)
                                 {
-                                    dropRect = new Rectangle(rect.left + borderSize.Width + 1, rect.top + 1, dropDownWidth - 2, rect.bottom - rect.top - 2);
-                                    rect.left += borderSize.Width + dropDownWidth;
-                                    rect.right -= borderSize.Width;
+                                    dropRect = new Rectangle(borderSize.Width + 1, textRect.Y + 1, dropDownWidth - 2, textRect.Height - 2);
+                                    textRect.X += borderSize.Width + dropDownWidth;
+                                    textRect.Width -= borderSize.Width + dropDownWidth;
                                 }
                                 else
                                 {
-                                    rect.left += borderSize.Width;
-                                    rect.right -= borderSize.Width + dropDownWidth;
-                                    dropRect = new Rectangle(rect.right + 1, rect.top + 1, dropDownWidth - 2, rect.bottom - rect.top - 2);
+                                    textRect.X += borderSize.Width;
+                                    textRect.Width -= borderSize.Width + dropDownWidth;
+                                    dropRect = new Rectangle(textRect.Right + 1, textRect.Y + 1, dropDownWidth - 2, textRect.Height - 2);
                                 }
 
-                                // Exclude border from being drawn, we need to take off another 2 pixels from all edges
-                                PI.IntersectClipRect(hdc, rect.left + 2, rect.top, rect.right - 2, rect.bottom);
+                                // Set clipping region using Graphics
+                                var clipRect = new Rectangle(textRect.Left + 2, textRect.Top, textRect.Width - 4, textRect.Height);
+                                g.SetClip(clipRect);
+
                                 var displayText = _kryptonComboBox.Text;
                                 if (!string.IsNullOrWhiteSpace(_kryptonComboBox.CueHint.CueHintText)
                                     && string.IsNullOrEmpty(displayText)
                                 )
                                 {
                                     // Go perform the drawing of the CueHint
-                                    _kryptonComboBox.CueHint.PerformPaint(_kryptonComboBox, g, rect, backBrush);
+                                    _kryptonComboBox.CueHint.PerformPaint(_kryptonComboBox, g, textRect, backBrush);
                                 }
                                 else
                                 ////////////////////////////////////////////////////////
-                                //// Following commented out, to allow the Draw to always happen even tho the edit box will draw over afterwards  
+                                //// Following commented out, to allow the Draw to always happen even tho the edit box will draw over afterwards
                                 //// Draw Over is tracked here
                                 ////  https://github.com/Krypton-Suite/Standard-Toolkit/issues/179
                                 //// If not enabled or not the dropDown Style then we can draw over the text area
@@ -411,8 +419,7 @@ namespace Krypton.Toolkit
                                     }
 
                                     // Draw text using font defined by the control
-                                    var rectangle = new Rectangle(rect.left, rect.top, rect.right - rect.left,
-                                        rect.bottom - rect.top);
+                                    var rectangle = new Rectangle(textRect.Left + 2, textRect.Top, textRect.Width - 4, textRect.Height);
                                     rectangle = CommonHelper.ApplyPadding(VisualOrientation.Top, rectangle, states.Content.GetBorderContentPadding(null, state));
                                     // Find correct text color
                                     Color textColor = states.Content.GetContentShortTextColor1(state);
@@ -428,15 +435,12 @@ namespace Krypton.Toolkit
                                         flags);
                                 }
 
-                                // Remove clipping settings
-                                PI.SelectClipRgn(hdc, IntPtr.Zero);
-
                                 // Draw the drop-down button
                                 DrawDropButton(g, dropRect);
-                            }
+                            });
 
                             // Do we need to match the original BeginPaint?
-                            if (m.WParam == IntPtr.Zero)
+                            if (msgCopy.WParam == IntPtr.Zero)
                             {
                                 PI.EndPaint(Handle, ref ps);
                             }
@@ -584,7 +588,7 @@ namespace Krypton.Toolkit
                 //        //ItemHeight = Font.Height - 1;
 
                 //        // #1455 - The lower part of the text can become clipped with chars like g, y, p, etc.
-                //        // when subtracting one from the font height. 
+                //        // when subtracting one from the font height.
                 //        ItemHeight = Font.Height;
                 //    }
                 //    else
@@ -596,7 +600,7 @@ namespace Krypton.Toolkit
                 //}
 
                 // #1455 - The lower part of the text can become clipped with chars like g, y, p, etc.
-                // when subtracting one from the font height. 
+                // when subtracting one from the font height.
                 ItemHeight = _osMajorVersion < 6
                     ? Font.Height + 1
                     : Font.Height;
@@ -842,7 +846,6 @@ namespace Krypton.Toolkit
         private readonly ViewDrawButton _drawButton;
         private readonly ViewDrawPanel _drawPanel;
         private Padding _layoutPadding;
-        private IntPtr _screenDC;
         private readonly ButtonSpecAny _toolTipSpec;
         private VisualPopupToolTip _toolTip;
         private bool _firstTimePaint;
@@ -1186,9 +1189,6 @@ namespace Krypton.Toolkit
             ToolTipManager.CancelToolTip += OnCancelToolTip;
             _buttonManager.ToolTipManager = ToolTipManager;
 
-            // We need to create and cache a device context compatible with the display
-            _screenDC = PI.CreateCompatibleDC(IntPtr.Zero);
-
             // Add combo box holder to the controls collection
             ((KryptonReadOnlyControls)Controls).AddInternal(_comboHolder);
 
@@ -1226,12 +1226,6 @@ namespace Krypton.Toolkit
             }
 
             base.Dispose(disposing);
-
-            if (_screenDC != IntPtr.Zero)
-            {
-                PI.DeleteDC(_screenDC);
-                _screenDC = IntPtr.Zero;
-            }
         }
         #endregion
 
@@ -1703,7 +1697,7 @@ namespace Krypton.Toolkit
 
             set
             {
-                // Do nothing, we set the ItemHeight internally to match the font 
+                // Do nothing, we set the ItemHeight internally to match the font
             }
         }
 
@@ -2052,7 +2046,7 @@ namespace Krypton.Toolkit
         public void BeginUpdate() => _comboBox.BeginUpdate();
 
         /// <summary>
-        /// Resumes painting the ComboBox control after painting is suspended by the BeginUpdate method. 
+        /// Resumes painting the ComboBox control after painting is suspended by the BeginUpdate method.
         /// </summary>
         public void EndUpdate() => _comboBox.EndUpdate();
 
@@ -2410,7 +2404,6 @@ namespace Krypton.Toolkit
                 DropDownStyle = _deferredComboBoxStyle.Value;
                 _deferredComboBoxStyle = null;
             }
-            
         }
 
         /// <summary>
@@ -2884,55 +2877,26 @@ namespace Krypton.Toolkit
                     // Update the view with the calculated state
                     _drawButton.ElementState = buttonState;
 
-                    // Grab the raw device context for the graphics instance
-                    var hdc = e.Graphics.GetHdc();
+                    // Use RenderBufferedPaintHelper for buffered painting
+                    var localBounds = new Rectangle(Point.Empty, drawBounds.Size);
 
-                    try
+                    RenderBufferedPaintHelper.PaintBuffered(e.Graphics, drawBounds, g =>
                     {
-                        // Create bitmap that all drawing occurs onto, then we can blit it later to remove flicker
-                        var hBitmap = PI.CreateCompatibleBitmap(hdc, drawBounds.Right, drawBounds.Bottom);
-
-                        // If we managed to get a compatible bitmap
-                        if (hBitmap != IntPtr.Zero)
+                        // Ask the view element to layout in given space, needs this before a render call
+                        using (var context = new ViewLayoutContext(this, Renderer))
                         {
-                            try
-                            {
-                                // Must use the screen device context for the bitmap when drawing into the 
-                                // bitmap otherwise the Opacity and RightToLeftLayout will not work correctly.
-                                PI.SelectObject(_screenDC, hBitmap);
-
-                                // Easier to draw using a graphics instance than a DC!
-                                using Graphics g = Graphics.FromHdc(_screenDC);
-                                // Ask the view element to layout in given space, needs this before a render call
-                                using (var context = new ViewLayoutContext(this, Renderer))
-                                {
-                                    context.DisplayRectangle = drawBounds;
-                                    _drawPanel.Layout(context);
-                                    _drawButton.Layout(context);
-                                }
-
-                                // Ask the view element to actually draw
-                                using (var context = new RenderContext(this, g, drawBounds, Renderer))
-                                {
-                                    _drawPanel.Render(context);
-                                    _drawButton.Render(context);
-                                }
-
-                                // Now blit from the bitmap from the screen to the real dc
-                                PI.BitBlt(hdc, drawBounds.X, drawBounds.Y, drawBounds.Width, drawBounds.Height, _screenDC, drawBounds.X, drawBounds.Y, PI.SRCCOPY);
-                            }
-                            finally
-                            {
-                                // Delete the temporary bitmap
-                                PI.DeleteObject(hBitmap);
-                            }
+                            context.DisplayRectangle = localBounds;
+                            _drawPanel.Layout(context);
+                            _drawButton.Layout(context);
                         }
-                    }
-                    finally
-                    {
-                        // Must reserve the GetHdc() call before
-                        e.Graphics.ReleaseHdc();
-                    }
+
+                        // Ask the view element to actually draw
+                        using (var context = new RenderContext(this, g, localBounds, Renderer))
+                        {
+                            _drawPanel.Render(context);
+                            _drawButton.Render(context);
+                        }
+                    });
                 }
             }
         }

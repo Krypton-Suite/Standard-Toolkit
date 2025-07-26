@@ -3,6 +3,7 @@
 =======
 
 # 2025-08-25 - Build 2508 (Patch 8) - August 2025
+* Implemented [#2348](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2348), Replace raw memory-DC double-buffering with GDI+ bitmap buffering.
 * Implemented [#2338](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2338), Update specific pre-processor directives
 * Resolved [#2341](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2341), Fix exception in `RenderStandard.ContentFontForButtonForm` during teardown
 * Resolved [#2329](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2329), `AccurateText.StringFormatToFlags()` performs incorrect conversion to TextFormatFlags.

@@ -1,12 +1,12 @@
-﻿#region BSD License
+#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *
  */
 #endregion
 
@@ -366,7 +366,7 @@ namespace Krypton.Toolkit
                                 rect.left -= borderSize.Width + 1;
 
                                 //////////////////////////////////////////////////////
-                                // Following to allow the Draw to always happen, to allow centering etc  
+                                // Following to allow the Draw to always happen, to allow centering etc
                                 _internalDomainUpDown.TextAlign =
                                     states.Content.GetContentShortTextH(state) switch
                                     {
@@ -444,7 +444,6 @@ namespace Krypton.Toolkit
             #region Instance Fields
             private PaletteTripleToPalette _palette;
             private ViewDrawButton _viewButton;
-            private IntPtr _screenDC;
             private Point _mousePressed;
             #endregion
 
@@ -461,12 +460,8 @@ namespace Krypton.Toolkit
                 : base(buttonsPtr, kryptonDomainUpDown, internalDomainUpDown)
             {
                 _mousePressed = new Point(-int.MaxValue, -int.MaxValue);
-
-                // We need to create and cache a device context compatible with the display
-                _screenDC = PI.CreateCompatibleDC(IntPtr.Zero);
-
             }
-            #endregion  
+            #endregion
 
             #region Public
             /// <summary>
@@ -474,11 +469,6 @@ namespace Krypton.Toolkit
             /// </summary>
             public void Dispose()
             {
-                if (_screenDC != IntPtr.Zero)
-                {
-                    PI.DeleteDC(_screenDC);
-                    _screenDC = IntPtr.Zero;
-                }
             }
 
             /// <summary>
@@ -537,6 +527,7 @@ namespace Krypton.Toolkit
                     case PI.WM_.PAINT:
                         {
                             var ps = new PI.PAINTSTRUCT();
+                            Message msgCopy = m;
 
                             // Do we need to BeginPaint or just take the given HDC?
                             var hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
@@ -548,45 +539,24 @@ namespace Krypton.Toolkit
 
                             try
                             {
-                                // Create bitmap that all drawing occurs onto, then we can blit it later to remove flicker
-                                var hBitmap = PI.CreateCompatibleBitmap(hdc, clientRect.Right, clientRect.Bottom);
-
-                                // If we managed to get a compatible bitmap
-                                if (hBitmap != IntPtr.Zero)
+                                RenderBufferedPaintHelper.PaintBuffered(hdc, clientRect, g =>
                                 {
-                                    try
+                                    var localBounds = new Rectangle(Point.Empty, clientRect.Size);
+
+                                    // Drawn entire client area in the background color
+                                    using (var backBrush = new SolidBrush(DomainUpDown.DomainUpDown.BackColor))
                                     {
-                                        // Must use the screen device context for the bitmap when drawing into the 
-                                        // bitmap otherwise the Opacity and RightToLeftLayout will not work correctly.
-                                        PI.SelectObject(_screenDC, hBitmap);
-
-                                        // Easier to draw using a graphics instance than a DC!
-                                        using Graphics g = Graphics.FromHdc(_screenDC);
-                                        // Drawn entire client area in the background color
-                                        using (var backBrush = new SolidBrush(DomainUpDown.DomainUpDown.BackColor))
-                                        {
-                                            g.FillRectangle(backBrush, clientRect);
-                                        }
-
-                                        // Draw the actual up and down buttons split inside the client rectangle
-                                        DrawUpDownButtons(g,
-                                            clientRect with { Height = clientRect.Height - 1 });
-
-                                        // Now blit from the bitmap from the screen to the real dc
-                                        PI.BitBlt(hdc, clientRect.X, clientRect.Y, clientRect.Width, clientRect.Height,
-                                            _screenDC, clientRect.X, clientRect.Y, PI.SRCCOPY);
+                                        g.FillRectangle(backBrush, localBounds);
                                     }
-                                    finally
-                                    {
-                                        // Delete the temporary bitmap
-                                        PI.DeleteObject(hBitmap);
-                                    }
-                                }
+
+                                    // Draw the actual up and down buttons split inside the client rectangle
+                                    DrawUpDownButtons(g, localBounds with { Height = localBounds.Height - 1 });
+                                });
                             }
                             finally
                             {
                                 // Do we need to match the original BeginPaint?
-                                if (m.WParam == IntPtr.Zero)
+                                if (msgCopy.WParam == IntPtr.Zero)
                                 {
                                     PI.EndPaint(Handle, ref ps);
                                 }
@@ -1018,7 +988,7 @@ namespace Krypton.Toolkit
         public DomainUpDown.DomainUpDownItemCollection Items => DomainUpDown.Items;
 
         /// <summary>
-        /// Gets or sets the index value of the selected item. 
+        /// Gets or sets the index value of the selected item.
         /// </summary>
         [Browsable(false)]
         [DefaultValue(-1)]
@@ -1029,7 +999,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets or sets the selected item based on the index value of the selected item in the collection.  
+        /// Gets or sets the selected item based on the index value of the selected item in the collection.
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -1040,7 +1010,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the item collection is sorted.   
+        /// Gets or sets a value indicating whether the item collection is sorted.
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Controls whether items in the domain list are sorted.")]
