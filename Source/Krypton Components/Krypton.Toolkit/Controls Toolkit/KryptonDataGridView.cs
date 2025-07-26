@@ -218,6 +218,7 @@ public class KryptonDataGridView : DataGridView
 
             // Dispose of view manager related resources
             ViewManager?.Dispose();
+            Control c = new();
         }
 
         base.Dispose(disposing);
@@ -384,6 +385,16 @@ public class KryptonDataGridView : DataGridView
     #endregion
 
     #region Public
+    /// <inheritdoc/>
+    [Category(@"Behavior")]
+    [DefaultValue(true)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public new bool DoubleBuffered 
+    {
+        get => base.DoubleBuffered;
+        set => base.DoubleBuffered = value;
+    }
+
     [Browsable(true)]
     [Category(@"Behavior")]
     [Description(@"When true the KryptonDataGridView will, upon connecting a data source, convert WinForms column types to Krypton column types, when false the standard WinForms column types.")]
