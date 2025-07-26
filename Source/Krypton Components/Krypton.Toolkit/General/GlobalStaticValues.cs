@@ -98,6 +98,12 @@ public class GlobalStaticValues
     /// <summary>The default ribbon application button text color</summary>
     public static readonly Color DEFAULT_RIBBON_FILE_APP_TAB_TEXT_COLOR = Color.White;
 
+    /// <summary>The latest emoji list URL</summary>
+    public const string DEFAULT_LATEST_EMOJI_LIST_URL = @"https://unicode.org/Public/emoji/latest/emoji-test.txt";
+
+    /// <summary>The public emoji list URL</summary>
+    public const string DEFAULT_PUBLIC_EMOJI_LIST_URL = @"https://unicode.org/Public/draft/emoji/emoji-test.txt";
+
     #region Arrays
 
     #region Images
