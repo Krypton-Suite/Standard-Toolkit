@@ -230,4 +230,14 @@ public partial class StartScreen : KryptonForm
         var vcontrols = new VisualControlsTest();
         vcontrols.Show(this);
     }
+
+    private void kbtnBasicEmojiViewer_Click(object sender, EventArgs e)
+    {
+        new BasicEmojiViewerForm().Show();
+    }
+
+    private void kbtnAdvancedEmojiViewer_Click(object sender, EventArgs e)
+    {
+        new AdvancedEmojiViewerForm().Show();
+    }
 }
