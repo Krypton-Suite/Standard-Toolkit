@@ -43,6 +43,7 @@ namespace TestForm
             this.kryptonThemeComboBox = new Krypton.Toolkit.KryptonThemeComboBox();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPalette)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboTheme)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelTop)).BeginInit();
@@ -56,16 +57,18 @@ namespace TestForm
             // 
             this.dataGridViewPalette.AllowUserToAddRows = false;
             this.dataGridViewPalette.AllowUserToDeleteRows = false;
+            this.dataGridViewPalette.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridViewPalette.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridViewPalette.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewPalette.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridViewPalette.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
-            this.dataGridViewPalette.Location = new System.Drawing.Point(0, 70);
+            this.dataGridViewPalette.Location = new System.Drawing.Point(355, 70);
             this.dataGridViewPalette.MultiSelect = false;
             this.dataGridViewPalette.Name = "dataGridViewPalette";
             this.dataGridViewPalette.RowTemplate.Height = 30;
             this.dataGridViewPalette.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dataGridViewPalette.Size = new System.Drawing.Size(1289, 522);
+            this.dataGridViewPalette.Size = new System.Drawing.Size(938, 510);
             this.dataGridViewPalette.TabIndex = 0;
             this.dataGridViewPalette.ColumnAdded += new System.Windows.Forms.DataGridViewColumnEventHandler(this.DataGridViewPalette_ColumnAdded);
             this.dataGridViewPalette.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DataGridViewPalette_ColumnHeaderMouseClick);
@@ -127,7 +130,7 @@ namespace TestForm
             this.panelTop.Location = new System.Drawing.Point(0, 0);
             this.panelTop.Name = "panelTop";
             this.panelTop.Padding = new System.Windows.Forms.Padding(8);
-            this.panelTop.Size = new System.Drawing.Size(1289, 70);
+            this.panelTop.Size = new System.Drawing.Size(1297, 70);
             this.panelTop.TabIndex = 1;
             // 
             // labelSourceTitle
@@ -208,7 +211,7 @@ namespace TestForm
             this.comboSaveFormat.Items.AddRange(new object[] {
             "CSV",
             "XML"});
-            this.comboSaveFormat.Location = new System.Drawing.Point(917, 8);
+            this.comboSaveFormat.Location = new System.Drawing.Point(925, 8);
             this.comboSaveFormat.Margin = new System.Windows.Forms.Padding(16, 2, 2, 2);
             this.comboSaveFormat.Name = "comboSaveFormat";
             this.comboSaveFormat.Size = new System.Drawing.Size(63, 22);
@@ -220,7 +223,7 @@ namespace TestForm
             this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonSave.AutoSize = true;
             this.buttonSave.Enabled = false;
-            this.buttonSave.Location = new System.Drawing.Point(985, 8);
+            this.buttonSave.Location = new System.Drawing.Point(993, 8);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(60, 26);
             this.buttonSave.TabIndex = 6;
@@ -244,8 +247,9 @@ namespace TestForm
             // 
             this.kryptonThemeComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.kryptonThemeComboBox.DefaultPalette = Krypton.Toolkit.PaletteMode.Microsoft365Blue;
+            this.kryptonThemeComboBox.DropDownWidth = 350;
             this.kryptonThemeComboBox.IntegralHeight = false;
-            this.kryptonThemeComboBox.Location = new System.Drawing.Point(917, 40);
+            this.kryptonThemeComboBox.Location = new System.Drawing.Point(925, 40);
             this.kryptonThemeComboBox.Name = "kryptonThemeComboBox";
             this.kryptonThemeComboBox.Size = new System.Drawing.Size(350, 22);
             this.kryptonThemeComboBox.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
@@ -255,9 +259,9 @@ namespace TestForm
             // 
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.statusLabel});
-            this.statusStrip.Location = new System.Drawing.Point(0, 592);
+            this.statusStrip.Location = new System.Drawing.Point(0, 568);
             this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Size = new System.Drawing.Size(1289, 22);
+            this.statusStrip.Size = new System.Drawing.Size(1297, 22);
             this.statusStrip.TabIndex = 2;
             // 
             // statusLabel
@@ -266,9 +270,20 @@ namespace TestForm
             this.statusLabel.Size = new System.Drawing.Size(39, 17);
             this.statusLabel.Text = "Ready";
             // 
+            // propertyGrid1
+            // 
+            this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.propertyGrid1.Location = new System.Drawing.Point(0, 70);
+            this.propertyGrid1.Name = "propertyGrid1";
+            this.propertyGrid1.PropertySort = System.Windows.Forms.PropertySort.Alphabetical;
+            this.propertyGrid1.SelectedObject = this.dataGridViewPalette;
+            this.propertyGrid1.Size = new System.Drawing.Size(349, 498);
+            this.propertyGrid1.TabIndex = 4;
+            // 
             // PaletteViewerForm
             // 
-            this.ClientSize = new System.Drawing.Size(1289, 614);
+            this.ClientSize = new System.Drawing.Size(1297, 590);
+            this.Controls.Add(this.propertyGrid1);
             this.Controls.Add(this.dataGridViewPalette);
             this.Controls.Add(this.panelTop);
             this.Controls.Add(this.statusStrip);
@@ -289,5 +304,7 @@ namespace TestForm
             this.PerformLayout();
 
         }
+
+        private PropertyGrid propertyGrid1;
     }
 }
