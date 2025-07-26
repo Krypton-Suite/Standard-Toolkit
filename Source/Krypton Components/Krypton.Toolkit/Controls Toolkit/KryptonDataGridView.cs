@@ -218,7 +218,6 @@ public class KryptonDataGridView : DataGridView
 
             // Dispose of view manager related resources
             ViewManager?.Dispose();
-            Control c = new();
         }
 
         base.Dispose(disposing);
