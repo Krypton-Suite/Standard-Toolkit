@@ -289,7 +289,33 @@ namespace Krypton.Toolkit
 
                     try
                     {
-                        g.DrawString(memento.Text, memento.Font!, brush, rect, memento.Format);
+                        // Support for unicode surrogates is only available when drawing horizontally.
+                        if (orientation == VisualOrientation.Top)
+                        {
+                            // Only a brush is provided, so we have to get the color from it since
+                            // DrawText only works with solid colors.
+                            Color color = brush is SolidBrush b
+                                ? b.Color
+                                : brush is LinearGradientBrush l
+                                    ? l.LinearColors[0]
+                                    : KryptonManager.CurrentGlobalPalette.GetContentShortTextColor1(PaletteContentStyle.LabelNormalControl, PaletteState.Normal);
+
+                            // Convert from StringFormat to TextFormatFlags
+                            var tff = StringFormatToFlags(memento.Format);
+
+                            // End line ellipsis don't work well with DrawText and tend to cut off words when not needed
+                            // DrawString seems to do this better
+                            tff &= ~(TextFormatFlags.EndEllipsis | TextFormatFlags.WordEllipsis | TextFormatFlags.PathEllipsis);
+
+                            // Whatever happens, NoClipping is on
+                            tff |= TextFormatFlags.NoClipping;
+
+                            TextRenderer.DrawText(g, memento.Text, memento.Font!, rect, color, tff);
+                        }
+                        else
+                        {
+                            g.DrawString(memento.Text, memento.Font!, brush, rect, memento.Format);
+                        }
                     }
                     catch
                     {
@@ -426,7 +452,7 @@ namespace Krypton.Toolkit
             return sf;
         }
 
-        private static TextFormatFlags StringFormatToFlags2(StringFormat sf)
+        private static TextFormatFlags StringFormatToFlags(StringFormat sf)
         {
             var flags = new TextFormatFlags();
 
