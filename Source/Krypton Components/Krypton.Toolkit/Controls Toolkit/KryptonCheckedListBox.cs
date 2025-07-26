@@ -442,15 +442,6 @@ public class KryptonCheckedListBox : VisualControlBase,
             base.DrawMode = DrawMode.OwnerDrawVariable;
             // ReSharper restore RedundantBaseQualifier
         }
-
-        /// <summary>
-        /// Releases all resources used by the Control.
-        /// </summary>
-        /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
-        protected override void Dispose(bool disposing)
-        {
-            base.Dispose(disposing);
-        }
         #endregion
 
         #region Public
@@ -1196,15 +1187,6 @@ public class KryptonCheckedListBox : VisualControlBase,
         // ReSharper disable RedundantBaseQualifier
         base.OnClick(e);
     // ReSharper restore RedundantBaseQualifier
-
-    /// <summary>
-    /// Releases all resources used by the Control.
-    /// </summary>
-    /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
-    protected override void Dispose(bool disposing)
-    {
-        base.Dispose(disposing);
-    }
     #endregion
 
     #region Public
