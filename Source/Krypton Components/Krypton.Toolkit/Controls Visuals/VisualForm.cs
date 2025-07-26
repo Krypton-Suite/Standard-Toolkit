@@ -581,7 +581,7 @@ namespace Krypton.Toolkit
             }
         }
 
-#if NET6_0_OR_GREATER
+#if NET8_0_OR_GREATER
         /// <summary>Gets or sets the anchoring for minimized MDI children.</summary>
         /// <value> <c>true</c> to anchor minimized MDI children to the bottom left of the parent form; <c>false</c> to anchor to the top left of the parent form.</value>
         [Category(@"Window Style")]
@@ -893,7 +893,7 @@ namespace Krypton.Toolkit
         //    /* FadeValues disabled and moved to extended until proven stable. Further development in V100
         //    if (FadeValues.FadingEnabled)
         //    {
-        //        #if NETCOREAPP3_0_OR_GREATER
+        //        #if NET8_0_OR_GREATER
         //            KryptonFormFadeController.ModernFadeFormIn(FadeValues.Owner ?? this, FadeValues.FadeDuration);
         //        #else
         //            KryptonFormFadeController.FadeIn(FadeValues.Owner ?? this, FadeValues.FadeSpeed);
@@ -909,7 +909,7 @@ namespace Krypton.Toolkit
         //    /* FadeValues disabled and moved to extended until proven stable. Further development in V100
         //    if (FadeValues is { FadingEnabled: true, ShouldCloseOnFadeOut: true })
         //    {
-        //        #if NETCOREAPP3_0_OR_GREATER
+        //        #if NET8_0_OR_GREATER
         //            KryptonFormFadeController.ModernFadeFormOut(FadeValues.Owner ?? this, FadeValues.FadeDuration);
         //        #else
         //            KryptonFormFadeController.FadeOut(FadeValues.Owner ?? this, FadeValues.FadeSpeed);

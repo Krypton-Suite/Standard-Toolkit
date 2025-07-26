@@ -40,7 +40,7 @@ namespace Krypton.Toolkit
 
                 return actionList;
 
-/*#if NET9_0_OR_GREATER
+/*#if NET8_0_OR_GREATER
                 DesignerActionListCollection actionList = new DesignerActionListCollection();
 
                 actionList.Add(new KryptonCommandLinkButtonActionList(this));
