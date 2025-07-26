@@ -7,12 +7,7 @@
  */
 #endregion
 
-using System;
-using System.Windows.Forms;
-using Krypton.Toolkit;
-using System.Collections.Generic;
 using System.IO;
-using System.Xml;
 
 namespace TestForm;
 

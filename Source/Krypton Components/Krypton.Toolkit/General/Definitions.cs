@@ -1997,7 +1997,7 @@ public enum KryptonMessageBoxButtons
     /// <summary>
     ///  Specifies that the message box contains Cancel, Try Again, and Continue buttons.
     /// </summary>
-#if NET6_0_OR_GREATER
+#if NET8_0_OR_GREATER
         CancelTryContinue = MessageBoxButtons.CancelTryContinue
 #else
     CancelTryContinue = 0x00000006
@@ -2043,7 +2043,7 @@ public enum KryptonMessageBoxResult
     No = DialogResult.No,
     Close = 8,
     Help = 9,
-#if NET6_0_OR_GREATER
+#if NET8_0_OR_GREATER
         TryAgain = DialogResult.TryAgain,
         Continue = DialogResult.Continue,
 #else
@@ -2261,7 +2261,7 @@ public enum KryptonToastNotificationResult
     No = DialogResult.No,
     Close = 8,
     Help = 9,
-#if NET6_0_OR_GREATER
+#if NET8_0_OR_GREATER
         TryAgain = DialogResult.TryAgain,
         Continue = DialogResult.Continue,
 #else
@@ -3099,6 +3099,25 @@ public enum KryptonUseRTLLayout
     No = 0,
     /// <summary>Use RTL.</summary>
     Yes = 1
+}
+
+#endregion
+
+#region Enum KryptonEmojiListType
+
+/// <summary>
+/// Specifies the type of emoji list to use.
+/// </summary>
+public enum KryptonEmojiListType
+{
+    /// <summary>
+    /// Use the latest emoji list.
+    /// </summary>
+    Latest = 0,
+    /// <summary>
+    /// Use the latest public emoji list.
+    /// </summary>
+    Public = 1,
 }
 
 #endregion
