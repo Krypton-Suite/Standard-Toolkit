@@ -11,8 +11,8 @@
 	<PropertyGroup>
 		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
 		<NeutralLanguage>en</NeutralLanguage>
-		<Authors>Phil Wright (A.K.A ComponentFactory), Peter Wagner (A.K.A Wagnerp) and Simon Coghlan (A.K.A Smurf-IV)</Authors>
-		<Copyright>© Component Factory Pty Ltd, 2006 - 2016. Then modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac and Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.</Copyright>
+		<Authors>Phil Wright (A.K.A ComponentFactory), Peter Wagner (A.K.A Wagnerp), Simon Coghlan (A.K.A Smurf-IV), Giduac, Ahmed Abdelhameed, Lesandro and tobitege</Authors>
+		<Copyright>© Component Factory Pty Ltd, 2006 - 2016. Then modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, Lesandro and tobitege et al. 2017 - 2025. All rights reserved.</Copyright>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -42,7 +42,7 @@
 				<!-- common package data -->
 				<PackageProjectUrl>https://github.com/Krypton-Suite/Standard-Toolkit</PackageProjectUrl>
 				<PackageIcon>Krypton Canary.png</PackageIcon>
-				<Authors>Peter William Wagner &amp; Simon Coghlan &amp; Giduac &amp; Ahmed Abdelhameed &amp; Thomas Bolon</Authors>
+				<Authors>Peter William Wagner &amp; Simon Coghlan &amp; Giduac &amp; Ahmed Abdelhameed &amp; Lesandro &amp; tobitege &amp; Thomas Bolon</Authors>
 				<!--<PackageLicenseFile>License.md</PackageLicenseFile>-->
 				<PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
 				<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
@@ -75,7 +75,7 @@
 				<!-- common package data -->
 				<PackageProjectUrl>https://github.com/Krypton-Suite/Standard-Toolkit</PackageProjectUrl>
 				<PackageIcon>Krypton Nightly.png</PackageIcon>
-				<Authors>Peter William Wagner &amp; Simon Coghlan &amp; Giduac &amp; Ahmed Abdelhameed &amp; Thomas Bolon</Authors>
+				<Authors>Peter William Wagner &amp; Simon Coghlan &amp; Giduac &amp; Ahmed Abdelhameed &amp; Lesandro &amp; tobitege &amp; Thomas Bolon</Authors>
 				<!--<PackageLicenseFile>License.md</PackageLicenseFile>-->
 				<PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
 				<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
@@ -111,7 +111,7 @@
 				<!-- common package data -->
 				<PackageProjectUrl>https://github.com/Krypton-Suite/Standard-Toolkit</PackageProjectUrl>
 				<PackageIcon>Krypton Stable.png</PackageIcon>
-				<Authors>Peter William Wagner &amp; Simon Coghlan &amp; Giduac &amp; Ahmed Abdelhameed &amp; Thomas Bolon</Authors>
+				<Authors>Peter William Wagner &amp; Simon Coghlan &amp; Giduac &amp; Ahmed Abdelhameed &amp; Lesandro &amp; tobitege &amp; Thomas Bolon</Authors>
 				<!--<PackageLicenseFile>License.md</PackageLicenseFile>-->
 				<PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
 				<PackageReadmeFile>README.md</PackageReadmeFile>

@@ -4,10 +4,15 @@
 
 ## 2025-11-xx - Build 2511 (V10 - alpha) - November 2025
 * Implemented [#2220](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2220), Enables limited support on multiple Krypton Controls for unicode surrogates.
+* Implemented [#2339](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2339), Add a emoji parser for future features
+* Implemented [#2338](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2338), Update specific pre-processor directives
+* Resolved [#2341](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2341), Fix exception in `RenderStandard.ContentFontForButtonForm` during teardown
+* Implemented [#2328](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2328), Set the baseline support to .NET Framework 4.7.2
+	- **Note:** This is a breaking change, as the minimum supported version of .NET Framework has been raised from 4.6.2 to 4.7.2.
 * Resolved [#2329](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2329), `AccurateText.StringFormatToFlags()` performs incorrect conversion to TextFormatFlags.
-* Resolved [#2324](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2324), Update PlatformInvoke.cs imports (see #2316)
+* Resolved [#2324](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2324), Update `PlatformInvoke.cs` imports (see #2316)
 * Resolved [#2318](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2318), `KryptonForm` does not handle the `ControlRemoved` and `ControlAdded` event correctly.
-* Resolved [#2319](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2319), Enhance KryptonContextMenuItem and KryptonCommand functionality
+* Resolved [#2319](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2319), Enhance `KryptonContextMenuItem` and `KryptonCommand` functionality
 * Resolved [#2178](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2178), Fix `KryptonPropertyGrid` enabling logic for `Reset` menu-item
 * Resolved [#2312](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2312), (fix) correct GDI resource handling of components' WmPaint
 * Resolved [#2309](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2309), `KryptonDataGridViewImageColumn` causes lagging in grid refresh when a new row is auto added.
