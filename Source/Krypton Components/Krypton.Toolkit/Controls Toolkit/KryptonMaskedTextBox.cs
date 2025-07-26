@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *
  */
 #endregion
 
@@ -158,40 +158,51 @@ public class KryptonMaskedTextBox : VisualControlBase,
 
                     // Do we need to BeginPaint or just take the given HDC?
                     var hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
+                    var originalWParam = m.WParam;
 
-                    // Paint the entire area in the background color
-                    using (Graphics g = Graphics.FromHdc(hdc))
+                    // Grab the client area of the control
+                    PI.GetClientRect(Handle, out PI.RECT rect);
+                    var clientRectangle = new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
+
+                    // If enabled then use buffered painting, otherwise handle normally to avoid DefWndProc issues
+                    if (_kryptonMaskedTextBox.Enabled)
                     {
-                        // Grab the client area of the control
-                        PI.GetClientRect(Handle, out PI.RECT rect);
-
-                        // Drawn entire client area in the background color
-                        using (var backBrush = new SolidBrush(BackColor))
+                        // Use buffered painting to avoid invalid parameter exceptions
+                        RenderBufferedPaintHelper.PaintBuffered(hdc, clientRectangle, g =>
                         {
-                            g.FillRectangle(backBrush, new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top));
-                        }
+                            // Use local (0,0)-based bounds for painting
+                            var localBounds = new Rectangle(Point.Empty, clientRectangle.Size);
+                            using var backBrush = new SolidBrush(BackColor);
+                            g.FillRectangle(backBrush, localBounds);
+                        });
 
-                        // Create rect for the text area
-                        Size borderSize = SystemInformation.BorderSize;
-                        rect.left -= borderSize.Width + 1;
-
-                        // If enabled then let the combo draw the text area
-                        if (_kryptonMaskedTextBox.Enabled)
+                        // Let base implementation draw the actual text area
+                        if (originalWParam == IntPtr.Zero)
                         {
-                            // Let base implementation draw the actual text area
-                            if (m.WParam == IntPtr.Zero)
-                            {
-                                m.WParam = hdc;
-                                DefWndProc(ref m);
-                                m.WParam = IntPtr.Zero;
-                            }
-                            else
-                            {
-                                DefWndProc(ref m);
-                            }
+                            m.WParam = hdc;
+                            DefWndProc(ref m);
+                            m.WParam = IntPtr.Zero;
                         }
                         else
                         {
+                            DefWndProc(ref m);
+                        }
+                    }
+                    else
+                    {
+                        // Use buffered painting for disabled state
+                        RenderBufferedPaintHelper.PaintBuffered(hdc, clientRectangle, g =>
+                        {
+                            // Use local (0,0)-based bounds for painting
+                            var localBounds = new Rectangle(Point.Empty, clientRectangle.Size);
+                            // Drawn entire client area in the background color
+                            using var backBrush = new SolidBrush(BackColor);
+                            g.FillRectangle(backBrush, localBounds);
+
+                            // Create rect for the text area
+                            Size borderSize = SystemInformation.BorderSize;
+                            var adjustedRect = new RectangleF(rect.left - borderSize.Width - 1, rect.top, rect.right - rect.left, rect.bottom - rect.top);
+
                             // Set the correct text rendering hint for the text drawing. We only draw if the edit text is disabled so we
                             // just always grab the disable state value. Without this line the wrong hint can occur because it inherits
                             // it from the device context. Resulting in blurred text.
@@ -225,25 +236,18 @@ public class KryptonMaskedTextBox : VisualControlBase,
                             try
                             {
                                 using var foreBrush = new SolidBrush(ForeColor);
-                                g.DrawString(drawText, Font, foreBrush,
-                                    new RectangleF(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top),
-                                    stringFormat);
+                                g.DrawString(drawText, Font, foreBrush, adjustedRect, stringFormat);
                             }
                             catch (ArgumentException)
                             {
                                 using var foreBrush = new SolidBrush(ForeColor);
-                                g.DrawString(drawText, _kryptonMaskedTextBox.GetTripleState().PaletteContent?.GetContentShortTextFont(PaletteState.Disabled)!, foreBrush,
-                                    new RectangleF(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top),
-                                    stringFormat);
+                                g.DrawString(drawText, _kryptonMaskedTextBox.GetTripleState().PaletteContent?.GetContentShortTextFont(PaletteState.Disabled)!, foreBrush, adjustedRect, stringFormat);
                             }
-                        }
-
-                        // Remove clipping settings
-                        PI.SelectClipRgn(hdc, IntPtr.Zero);
+                        });
                     }
 
                     // Do we need to match the original BeginPaint?
-                    if (m.WParam == IntPtr.Zero)
+                    if (originalWParam == IntPtr.Zero)
                     {
                         PI.EndPaint(Handle, ref ps);
                     }
@@ -962,7 +966,7 @@ public class KryptonMaskedTextBox : VisualControlBase,
     }
 
     /// <summary>
-    /// Gets or sets the input mask to use at run time. 
+    /// Gets or sets the input mask to use at run time.
     /// </summary>
     [Category(@"Behavior")]
     [Description(@"Sets the string governing the input allowed for the control.")]
