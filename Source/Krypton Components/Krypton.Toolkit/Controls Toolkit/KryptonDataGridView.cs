@@ -232,7 +232,14 @@ namespace Krypton.Toolkit
         public new bool DoubleBuffered 
         {
             get => base.DoubleBuffered;
-            set => base.DoubleBuffered = value;
+            set
+            {
+                if (base.DoubleBuffered != value)
+                {
+                    base.DoubleBuffered = value;
+                    Invalidate();
+                }
+            }
         }
 
         /// <summary>
