@@ -13,7 +13,7 @@ internal class ConversionPaths
 {
     #region Public
 
-#if NETCOREAPP3_0_OR_GREATER
+#if NET8_0_OR_GREATER
         /// <summary>Gets or sets the XML directory.</summary>
         /// <value>The XML directory.</value>
         public required string XmlDirectory { get; set; }
