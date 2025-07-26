@@ -72,16 +72,6 @@ public class KryptonListView : VisualControlBase,
             base.BorderStyle = BorderStyle.None;
             // ReSharper restore RedundantBaseQualifier
         }
-
-        /// <summary>
-        /// Releases all resources used by the Control.
-        /// </summary>
-        /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
-        protected override void Dispose(bool disposing)
-        {
-            base.Dispose(disposing);
-        }
-
         #endregion
 
         #region Public
@@ -467,15 +457,6 @@ public class KryptonListView : VisualControlBase,
         => VirtualItemsSelectionRangeChanged?.Invoke(this, e);
 
     private void OnListViewClick(object? sender, EventArgs e) => OnClick(e);
-
-    /// <summary>
-    /// Clean up any resources being used.
-    /// </summary>
-    /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-    protected override void Dispose(bool disposing)
-    {
-        base.Dispose(disposing);
-    }
 
     #region Public
 

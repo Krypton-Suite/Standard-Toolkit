@@ -49,16 +49,6 @@ public class KryptonPropertyGrid : VisualControlBase,
             ToolStripRenderer = ToolStripManager.Renderer;
             UseCompatibleTextRendering = false;
         }
-
-        /// <summary>
-        /// Releases all resources used by the Control.
-        /// </summary>
-        /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
-        protected override void Dispose(bool disposing)
-        {
-            base.Dispose(disposing);
-        }
-
         #endregion
 
         #region Public
@@ -290,15 +280,6 @@ public class KryptonPropertyGrid : VisualControlBase,
         menuItems.Items.Add(_resetMenuItem);
 
         KryptonContextMenu.Items.Add(menuItems);
-    }
-
-    /// <summary>
-    /// Clean up any resources being used.
-    /// </summary>
-    /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-    protected override void Dispose(bool disposing)
-    {
-        base.Dispose(disposing);
     }
     #endregion
 

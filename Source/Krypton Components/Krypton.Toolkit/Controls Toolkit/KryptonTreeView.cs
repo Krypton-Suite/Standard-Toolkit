@@ -72,15 +72,6 @@ public class KryptonTreeView : VisualControlBase,
             base.BorderStyle = BorderStyle.None;
             // ReSharper restore RedundantBaseQualifier
         }
-
-        /// <summary>
-        /// Releases all resources used by the Control.
-        /// </summary>
-        /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
-        protected override void Dispose(bool disposing)
-        {
-            base.Dispose(disposing);
-        }
         #endregion
 
         #region Public
@@ -649,14 +640,6 @@ public class KryptonTreeView : VisualControlBase,
 
     private void OnTreeClick(object? sender, EventArgs e) => OnClick(e);
 
-    /// <summary>
-    /// Releases all resources used by the Control.
-    /// </summary>
-    /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
-    protected override void Dispose(bool disposing)
-    {
-        base.Dispose(disposing);
-    }
     #endregion
 
     #region Public

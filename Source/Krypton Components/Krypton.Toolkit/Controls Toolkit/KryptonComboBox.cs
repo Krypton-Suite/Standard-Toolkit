@@ -1222,8 +1222,6 @@ public class KryptonComboBox : VisualControlBase,
         }
 
         base.Dispose(disposing);
-
-
     }
     #endregion
 

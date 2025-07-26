@@ -1187,6 +1187,7 @@ public class KryptonCheckedListBox : VisualControlBase,
         // ReSharper disable RedundantBaseQualifier
         base.OnClick(e);
     // ReSharper restore RedundantBaseQualifier
+
     #endregion
 
     #region Public
