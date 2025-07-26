@@ -225,6 +225,16 @@ public class KryptonDataGridView : DataGridView
     #endregion
 
     #region Public New
+    /// <inheritdoc/>
+    [Category(@"Behavior")]
+    [DefaultValue(true)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public new bool DoubleBuffered 
+    {
+        get => base.DoubleBuffered;
+        set => base.DoubleBuffered = value;
+    }
+
     /// <summary>
     /// Gets or sets the number of columns displayed in the KryptonDataGridView.
     /// </summary>
@@ -384,16 +394,6 @@ public class KryptonDataGridView : DataGridView
     #endregion
 
     #region Public
-    /// <inheritdoc/>
-    [Category(@"Behavior")]
-    [DefaultValue(true)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-    public new bool DoubleBuffered 
-    {
-        get => base.DoubleBuffered;
-        set => base.DoubleBuffered = value;
-    }
-
     [Browsable(true)]
     [Category(@"Behavior")]
     [Description(@"When true the KryptonDataGridView will, upon connecting a data source, convert WinForms column types to Krypton column types, when false the standard WinForms column types.")]
