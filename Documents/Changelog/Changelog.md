@@ -3,7 +3,7 @@
 ====
 
 ## 2025-11-xx - Build 2511 (V10 - alpha) - November 2025
-* Resolved [#2359](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2359), Revert painting changes in `VisualForm.cs` (from PR #2350)
+* Resolved [#2359](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2359), Rework GDI+ and emoji output (from PR #2350)
 * Resolved [#2294](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2294), Introduce type-safe colour-scheme abstraction for all palette families
 * Resolved [#2348](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2348), Replace raw memory-DC double-buffering with GDI+ bitmap buffering
 * Implemented [#2354](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2354), `KryptonDataGridView.DoubleBuffered` property added.
