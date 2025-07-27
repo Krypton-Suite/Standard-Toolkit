@@ -7,151 +7,147 @@
  */
 #endregion
 
-using System;
 using System.Reflection;
-using Krypton.Toolkit;
-using System.Windows.Forms;
 using System.Threading;
 
-namespace TestForm
+namespace TestForm;
+
+public partial class VisualControlsTest : KryptonForm
 {
-    public partial class VisualControlsTest : KryptonForm
+    public VisualControlsTest()
     {
-        public VisualControlsTest()
+        InitializeComponent();
+    }
+
+    private void ShowFormByName(string typeName, params object[]? args)
+    {
+        var asm = typeof(KryptonForm).Assembly; // Krypton.Toolkit assembly
+        var type = asm.GetType($"Krypton.Toolkit.{typeName}");
+        if (type == null)
         {
-            InitializeComponent();
+            _ = MessageBox.Show($"Type {typeName} not found.");
+            return;
         }
 
-        private void ShowFormByName(string typeName, params object[]? args)
+        try
         {
-            var asm = typeof(KryptonForm).Assembly; // Krypton.Toolkit assembly
-            var type = asm.GetType($"Krypton.Toolkit.{typeName}");
-            if (type == null)
+            var instance = Activator.CreateInstance(type, args ?? Array.Empty<object>());
+            if (instance is Form frm)
             {
-                _ = MessageBox.Show($"Type {typeName} not found.");
-                return;
-            }
-
-            try
-            {
-                var instance = Activator.CreateInstance(type, args ?? Array.Empty<object>());
-                if (instance is Form frm)
+                // Only add dummy content when base form directly
+                if (typeName == "VisualToastNotificationBaseForm")
                 {
-                    // Only add dummy content when base form directly
-                    if (typeName == "VisualToastNotificationBaseForm")
+                    var label = new KryptonLabel
                     {
-                        var label = new KryptonLabel
-                        {
-                            Text = "Demo Toast Notification Base Form",
-                            Dock = DockStyle.Fill
-                        };
-                        frm.Controls.Add(label);
-                        frm.ClientSize = new System.Drawing.Size(350, 100);
-                    }
+                        Text = "Demo Toast Notification Base Form",
+                        Dock = DockStyle.Fill
+                    };
+                    frm.Controls.Add(label);
+                    frm.ClientSize = new System.Drawing.Size(350, 100);
+                }
 
-                    frm.ShowDialog(this);
-                }
-                else if (instance != null)
-                {
-                    // try ShowEditor for MultilineStringEditor1
-                    var mi = type.GetMethod("ShowEditor", BindingFlags.Instance | BindingFlags.Public);
-                    mi?.Invoke(instance, null);
-                }
-                // Special handling for MultilineStringEditorForm to ensure content area visible
-                if (typeName.StartsWith("VisualMultilineStringEditorForm"))
-                {
-                    type.GetMethod("SetupInputCanvas", BindingFlags.NonPublic | BindingFlags.Instance)
-                        ?.Invoke(instance, null);
-                }
+                frm.ShowDialog(this);
             }
-            catch (Exception ex)
+            else if (instance != null)
             {
-                _ = MessageBox.Show($"Could not create instance of {typeName}: {ex.Message}");
+                // try ShowEditor for MultilineStringEditor1
+                var mi = type.GetMethod("ShowEditor", BindingFlags.Instance | BindingFlags.Public);
+                mi?.Invoke(instance, null);
+            }
+            // Special handling for MultilineStringEditorForm to ensure content area visible
+            if (typeName.StartsWith("VisualMultilineStringEditorForm"))
+            {
+                type.GetMethod("SetupInputCanvas", BindingFlags.NonPublic | BindingFlags.Instance)
+                    ?.Invoke(instance, null);
             }
         }
-
-        private void kbtnVisualInformationBoxForm_Click(object sender, EventArgs e) =>
-            ShowFormByName("VisualInformationBoxForm");
-
-        private void kbtnVisualMultilineStringEditorForm_Click(object sender, EventArgs e) =>
-            ShowFormByName("VisualMultilineStringEditorForm", new string[] { "Alpha", "Beta", "Gamma" }, null!, true, "Demo header", "Multiline Editor Demo");
-
-        private void kbtnVisualSplashScreen_Click(object sender, EventArgs e)
+        catch (Exception ex)
         {
-            var data = new KryptonSplashScreenData
-            {
-                ShowApplicationName = true,
-                ShowVersion = true,
-                ShowProgressBar = false
-            };
+            _ = MessageBox.Show($"Could not create instance of {typeName}: {ex.Message}");
+        }
+    }
 
-            ShowFormByName("VisualSplashScreenForm", data);
+    private void kbtnVisualInformationBoxForm_Click(object sender, EventArgs e) =>
+        ShowFormByName("VisualInformationBoxForm");
+
+    private void kbtnVisualMultilineStringEditorForm_Click(object sender, EventArgs e) =>
+        ShowFormByName("VisualMultilineStringEditorForm", new string[] { "Alpha", "Beta", "Gamma" }, null!, true, "Demo header", "Multiline Editor Demo");
+
+    private void kbtnVisualSplashScreen_Click(object sender, EventArgs e)
+    {
+        var data = new KryptonSplashScreenData
+        {
+            ShowApplicationName = true,
+            ShowVersion = true,
+            ShowProgressBar = false
+        };
+
+        ShowFormByName("VisualSplashScreenForm", data);
+    }
+
+    private void kbtnVisualTaskDialogForm_Click(object sender, EventArgs e)
+    {
+        var td = new KryptonTaskDialog
+        {
+            WindowTitle = "Demo TaskDialogForm",
+            MainInstruction = "Hello from TaskDialogForm",
+            Content = "This is a demo of VisualTaskDialogForm.",
+            Icon = KryptonMessageBoxIcon.Information
+        };
+
+        ShowFormByName("VisualTaskDialogForm", td);
+    }
+
+    private void kbtnVisualTaskDialog_Click(object sender, EventArgs e)
+    {
+        var td = new KryptonTaskDialog
+        {
+            WindowTitle = "Demo VisualTaskDialog",
+            MainInstruction = "Hello from VisualTaskDialog",
+            Content = "This is a demo of VisualTaskDialog window.",
+            Icon = KryptonMessageBoxIcon.Information
+        };
+
+        ShowFormByName("VisualTaskDialog", td);
+    }
+
+    private void kbtnVisualThemeBrowser_Click(object sender, EventArgs e)
+    {
+        var data = new KryptonThemeBrowserData { WindowTitle = "Theme Browser", StartIndex = 1 };
+        KryptonThemeBrowser.Show(data);
+    }
+
+    private void kbtnVisualThemeBrowserRtlAware_Click(object sender, EventArgs e)
+    {
+        var data = new KryptonThemeBrowserData { WindowTitle = "Theme Browser RTL", StartIndex = 1 };
+        ShowFormByName("VisualThemeBrowserFormRtlAware", data);
+    }
+
+    private void kbtnVisualToastNotification_Click(object sender, EventArgs e)
+    {
+        var data = new KryptonBasicToastNotificationData
+        {
+            NotificationTitle = "Demo Toast",
+            NotificationContent = "This is a basic toast notification.",
+            NotificationIcon = KryptonToastNotificationIcon.Information,
+            ShowCloseBox = true,
+            CountDownSeconds = 0
+        };
+
+        ShowFormByName("VisualToastNotificationBasicForm", data);
+    }
+
+    private void kbtnModalWaitDialog_Click(object sender, EventArgs e)
+    {
+        using var waitDlg = new ModalWaitDialog(true, 0, 100);
+
+        for (int i = 0; i <= 100; i++)
+        {
+            waitDlg.UpdateProgressBarValue(i);
+            waitDlg.UpdateDialog();
+            Thread.Sleep(40);
         }
 
-        private void kbtnVisualTaskDialogForm_Click(object sender, EventArgs e)
-        {
-            var td = new KryptonTaskDialog
-            {
-                WindowTitle = "Demo TaskDialogForm",
-                MainInstruction = "Hello from TaskDialogForm",
-                Content = "This is a demo of VisualTaskDialogForm.",
-                Icon = KryptonMessageBoxIcon.Information
-            };
-
-            ShowFormByName("VisualTaskDialogForm", td);
-        }
-
-        private void kbtnVisualTaskDialog_Click(object sender, EventArgs e)
-        {
-            var td = new KryptonTaskDialog
-            {
-                WindowTitle = "Demo VisualTaskDialog",
-                MainInstruction = "Hello from VisualTaskDialog",
-                Content = "This is a demo of VisualTaskDialog window.",
-                Icon = KryptonMessageBoxIcon.Information
-            };
-
-            ShowFormByName("VisualTaskDialog", td);
-        }
-
-        private void kbtnVisualThemeBrowser_Click(object sender, EventArgs e)
-        {
-            var data = new KryptonThemeBrowserData { WindowTitle = "Theme Browser", StartIndex = 1 };
-            KryptonThemeBrowser.Show(data);
-        }
-
-        private void kbtnVisualThemeBrowserRtlAware_Click(object sender, EventArgs e)
-        {
-            var data = new KryptonThemeBrowserData { WindowTitle = "Theme Browser RTL", StartIndex = 1 };
-            ShowFormByName("VisualThemeBrowserFormRtlAware", data);
-        }
-
-        private void kbtnVisualToastNotification_Click(object sender, EventArgs e)
-        {
-            var data = new KryptonBasicToastNotificationData
-            {
-                NotificationTitle = "Demo Toast",
-                NotificationContent = "This is a basic toast notification.",
-                NotificationIcon = KryptonToastNotificationIcon.Information,
-                ShowCloseBox = true,
-                CountDownSeconds = 0
-            };
-
-            ShowFormByName("VisualToastNotificationBasicForm", data);
-        }
-
-        private void kbtnModalWaitDialog_Click(object sender, EventArgs e)
-        {
-            using var waitDlg = new ModalWaitDialog(true, 0, 100);
-
-            for (int i = 0; i <= 100; i++)
-            {
-                waitDlg.UpdateProgressBarValue(i);
-                waitDlg.UpdateDialog();
-                Thread.Sleep(40);
-            }
-
-            waitDlg.Close();
-        }
+        waitDlg.Close();
     }
 }

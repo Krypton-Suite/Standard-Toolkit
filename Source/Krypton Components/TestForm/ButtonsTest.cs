@@ -7,8 +7,6 @@
  */
 #endregion
 
-using Krypton.Toolkit;
-
 namespace TestForm;
 
 public partial class ButtonsTest : KryptonForm

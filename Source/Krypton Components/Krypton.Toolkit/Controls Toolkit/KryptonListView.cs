@@ -30,7 +30,6 @@ public class KryptonListView : VisualControlBase,
 
         private readonly ViewManager? _viewManager;
         private readonly KryptonListView _kryptonListView;
-        private readonly IntPtr _screenDC;
         private bool _mouseOver;
 
         #endregion
@@ -72,24 +71,7 @@ public class KryptonListView : VisualControlBase,
             base.Size = Size.Empty;
             base.BorderStyle = BorderStyle.None;
             // ReSharper restore RedundantBaseQualifier
-
-            // We need to create and cache a device context compatible with the display
-            _screenDC = PI.CreateCompatibleDC(IntPtr.Zero);
         }
-
-        /// <summary>
-        /// Releases all resources used by the Control.
-        /// </summary>
-        /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
-        protected override void Dispose(bool disposing)
-        {
-            base.Dispose(disposing);
-            if (_screenDC != IntPtr.Zero)
-            {
-                PI.DeleteDC(_screenDC);
-            }
-        }
-
         #endregion
 
         #region Public
@@ -224,73 +206,56 @@ public class KryptonListView : VisualControlBase,
         {
             var ps = new PI.PAINTSTRUCT();
 
-            // Do we need to BeginPaint or just take the given HDC?
+            // Acquire the DC that we should ultimately paint to
             IntPtr hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
 
-            // Create bitmap that all drawing occurs onto, then we can blit it later to remove flicker
             Rectangle realRect = CommonHelper.RealClientRectangle(Handle);
-
-            // No point drawing when one of the dimensions is zero
             if (realRect is { Width: > 0, Height: > 0 })
             {
-                IntPtr hBitmap = PI.CreateCompatibleBitmap(hdc, realRect.Width, realRect.Height);
+                // Copy of the incoming message so we can safely modify WParam inside the lambda
+                Message msgCopy = m;
 
-                // If we managed to get a compatible bitmap
-                if (hBitmap != IntPtr.Zero)
+                RenderBufferedPaintHelper.PaintBuffered(hdc, realRect, g =>
                 {
-                    // Must use the screen device context for the bitmap when drawing into the
-                    // bitmap otherwise the Opacity and RightToLeftLayout will not work correctly.
-                    // Select the new bitmap into the screen DC
-                    var oldBitmap = PI.SelectObject(_screenDC, hBitmap);
+                    // Use local (0,0)-based bounds for layout/render
+                    var localBounds = new Rectangle(Point.Empty, realRect.Size);
 
+                    // Perform layout using the provided Graphics
+                    using (var layoutContext = new ViewLayoutContext(this, _kryptonListView.Renderer))
+                    {
+                        layoutContext.DisplayRectangle = localBounds;
+                        ViewDrawPanel.Layout(layoutContext);
+                    }
+
+                    // Render the panel background/border/etc.
+                    using (var renderContext = new RenderContext(this, _kryptonListView, g,
+                        localBounds, _kryptonListView.Renderer))
+                    {
+                        ViewDrawPanel.Render(renderContext);
+                    }
+
+                    // Ensure the ListView background colour stays in sync with the palette
+                    Color newBackColor = ViewDrawPanel.GetPalette().GetBackColor1(ViewDrawPanel.State);
+                    if (newBackColor != BackColor)
+                    {
+                        BackColor = newBackColor;
+                    }
+
+                    // Let the base ListView paint its usual contents into the buffered Graphics
+                    IntPtr memHdc = g.GetHdc();
                     try
                     {
-                        // Easier to draw using a graphics instance than a DC!
-                        using (Graphics g = Graphics.FromHdc(_screenDC))
-                        {
-                            // Ask the view element to layout in given space, needs this before a render call
-                            using (var context = new ViewLayoutContext(this, _kryptonListView.Renderer))
-                            {
-                                context.DisplayRectangle = realRect;
-                                ViewDrawPanel.Layout(context);
-                            }
-
-                            using (var context = new RenderContext(this, _kryptonListView, g, realRect,
-                                       _kryptonListView.Renderer))
-                            {
-                                ViewDrawPanel.Render(context);
-                            }
-
-                            // We can only control the background color by using the built in property and not
-                            // by overriding the drawing directly, therefore we can only provide a single color.
-                            Color color1 = ViewDrawPanel.GetPalette().GetBackColor1(ViewDrawPanel.State);
-                            if (color1 != BackColor)
-                            {
-                                BackColor = color1;
-                            }
-
-                            // Replace given DC with the screen DC for base window proc drawing
-                            IntPtr beforeDC = m.WParam;
-                            m.WParam = _screenDC;
-                            DefWndProc(ref m);
-                            m.WParam = beforeDC;
-                        }
-
-                        // Now blit from the bitmap from the screen to the real dc
-                        PI.BitBlt(hdc, 0, 0, realRect.Width, realRect.Height, _screenDC, 0, 0, PI.SRCCOPY);
+                        msgCopy.WParam = memHdc;
+                        DefWndProc(ref msgCopy);
                     }
                     finally
                     {
-                        // Restore the original bitmap
-                        PI.SelectObject(_screenDC, oldBitmap);
-
-                        // Delete the temporary bitmap
-                        PI.DeleteObject(hBitmap);
+                        g.ReleaseHdc(memHdc);
                     }
-                }
+                });
             }
 
-            // Do we need to match the original BeginPaint?
+            // Complete the original BeginPaint call if we made one
             if (m.WParam == IntPtr.Zero)
             {
                 PI.EndPaint(Handle, ref ps);
@@ -313,7 +278,6 @@ public class KryptonListView : VisualControlBase,
     private readonly ViewLayoutFill _layoutFill;
     private readonly InternalListView _listView;
     private bool? _fixedActive;
-    private readonly IntPtr _screenDC;
     private bool _mouseOver;
     private bool _alwaysActive;
     private bool _forcedLayout;
@@ -458,9 +422,6 @@ public class KryptonListView : VisualControlBase,
         // Create the view manager instance
         ViewManager = new ViewManager(this, _drawDockerOuter);
 
-        // We need to create and cache a device context compatible with the display
-        _screenDC = PI.CreateCompatibleDC(IntPtr.Zero);
-
         // Add tree view to the controls collection
         ((KryptonReadOnlyControls)Controls).AddInternal(_listView);
     }
@@ -496,19 +457,6 @@ public class KryptonListView : VisualControlBase,
         => VirtualItemsSelectionRangeChanged?.Invoke(this, e);
 
     private void OnListViewClick(object? sender, EventArgs e) => OnClick(e);
-
-    /// <summary>
-    /// Clean up any resources being used.
-    /// </summary>
-    /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-    protected override void Dispose(bool disposing)
-    {
-        base.Dispose(disposing);
-        if (_screenDC != IntPtr.Zero)
-        {
-            PI.DeleteDC(_screenDC);
-        }
-    }
 
     #region Public
 
@@ -999,47 +947,6 @@ public class KryptonListView : VisualControlBase,
         get => _listView.View;
         set => _listView.View = value;
     }
-
-    /* TODO: Need to wire up the virtual events as well
-    /// <summary>Gets or sets the number of <see cref="T:System.Windows.Forms.ListViewItem" /> objects contained in the list when in virtual mode.</summary>
-    /// <returns>The number of <see cref="T:System.Windows.Forms.ListViewItem" /> objects contained in the <see cref="T:System.Windows.Forms.ListView" /> when in virtual mode.</returns>
-    /// <exception cref="T:System.ArgumentException">
-    /// <see cref="P:System.Windows.Forms.ListView.VirtualListSize" /> is set to a value less than 0.</exception>
-    /// <exception cref="T:System.InvalidOperationException">
-    /// <see cref="P:System.Windows.Forms.ListView.VirtualMode" /> is set to <see langword="true" />, <see cref="P:System.Windows.Forms.ListView.VirtualListSize" /> is greater than 0, and <see cref="E:System.Windows.Forms.ListView.RetrieveVirtualItem" /> is not handled.</exception>
-    [Category("Behavior")]
-    [DefaultValue(0)]
-    [RefreshProperties(RefreshProperties.Repaint)]
-    [Description("ListViewVirtualListSizeDescr")]
-    public int VirtualListSize
-    {
-        get => _listView.VirtualListSize;
-        set => _listView.VirtualListSize = value;
-    }
-
-    /// <summary>Gets or sets a value indicating whether you have provided your own data-management operations for the <see cref="T:System.Windows.Forms.ListView" /> control.</summary>
-    /// <returns>
-    /// <see langword="true" /> if <see cref="T:System.Windows.Forms.ListView" /> uses data-management operations that you provide; otherwise, <see langword="false" />. The default is <see langword="false" />.</returns>
-    /// <exception cref="T:System.InvalidOperationException">
-    ///         <see cref="P:System.Windows.Forms.ListView.VirtualMode" /> is set to <see langword="true" /> and one of the following conditions exist:
-    ///
-    /// <see cref="P:System.Windows.Forms.ListView.VirtualListSize" /> is greater than 0 and <see cref="E:System.Windows.Forms.ListView.RetrieveVirtualItem" /> is not handled.
-    ///  -or-
-    ///
-    /// <see cref="P:System.Windows.Forms.ListView.Items" />, <see cref="P:System.Windows.Forms.ListView.CheckedItems" />, or <see cref="P:System.Windows.Forms.ListView.SelectedItems" /> contains items.
-    ///  -or-
-    ///
-    /// Edits are made to <see cref="P:System.Windows.Forms.ListView.Items" />.</exception>
-    [Category("Behavior")]
-    [DefaultValue(false)]
-    [RefreshProperties(RefreshProperties.Repaint)]
-    [Description("ListViewVirtualModeDescr")]
-    public bool VirtualMode
-    {
-        get => _listView.VirtualMode;
-        set => _listView.VirtualMode = value;
-    }
-    */
 
     /// <summary>Arranges items in the control when they are displayed as icons with a specified alignment setting.</summary>
     /// <param name="value">One of the <see cref="T:System.Windows.Forms.ListViewAlignment" /> values.</param>
