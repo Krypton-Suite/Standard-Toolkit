@@ -1,12 +1,12 @@
-﻿#region BSD License
+#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *
  */
 #endregion
 
@@ -159,93 +159,96 @@ namespace Krypton.Toolkit
                             // Do we need to BeginPaint or just take the given HDC?
                             var hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
 
-                            // Paint the entire area in the background color
-                            using (Graphics g = Graphics.FromHdc(hdc))
+                            // Cache incoming Message to avoid CS1628 ref-capture errors
+                            Message msgCopy = m;
+
+                            // Grab the client area of the control
+                            PI.GetClientRect(Handle, out PI.RECT rect);
+                            var bounds = new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
+
+                            try
                             {
-                                // Grab the client area of the control
-                                PI.GetClientRect(Handle, out PI.RECT rect);
-
-                                // Drawn entire client area in the background color
-                                using (var backBrush = new SolidBrush(BackColor))
-                                {
-                                    g.FillRectangle(backBrush, new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top));
-                                }
-
-                                // Create rect for the text area
-                                Size borderSize = SystemInformation.BorderSize;
-                                rect.left -= borderSize.Width + 1;
-
-                                // If enabled then let the combo draw the text area
+                                // If enabled then let the control draw the text area first
                                 if (_kryptonMaskedTextBox.Enabled)
                                 {
                                     // Let base implementation draw the actual text area
-                                    if (m.WParam == IntPtr.Zero)
+                                    DefWndProc(ref msgCopy);
+                                }
+
+                                // Now do our custom drawing using RenderBufferedPaintHelper
+                                using Graphics g = Graphics.FromHdc(hdc);
+                                RenderBufferedPaintHelper.PaintBuffered(g, bounds, paintGraphics =>
+                                {
+                                    // Use local coordinates inside lambda
+                                    var localBounds = new Rectangle(Point.Empty, bounds.Size);
+
+                                    // If disabled, paint custom text
+                                    if (!_kryptonMaskedTextBox.Enabled)
                                     {
-                                        m.WParam = hdc;
-                                        DefWndProc(ref m);
-                                        m.WParam = IntPtr.Zero;
+                                        // Paint the entire area in the background color
+                                        using (var backBrush = new SolidBrush(BackColor))
+                                        {
+                                            paintGraphics.FillRectangle(backBrush, localBounds);
+                                        }
                                     }
                                     else
                                     {
-                                        DefWndProc(ref m);
+                                        // Set the correct text rendering hint for the text drawing. We only draw if the edit text is disabled so we
+                                        // just always grab the disable state value. Without this line the wrong hint can occur because it inherits
+                                        // it from the device context. Resulting in blurred text.
+                                        g.TextRenderingHint = CommonHelper.PaletteTextHintToRenderingHint(
+                                            _kryptonMaskedTextBox.StateDisabled.PaletteContent!
+                                                .GetContentShortTextHint(PaletteState.Disabled));
+
+                                        // Define the string formatting requirements
+                                        var stringFormat = new StringFormat
+                                        {
+                                            LineAlignment = StringAlignment.Center,
+                                            FormatFlags = StringFormatFlags.NoWrap,
+                                            Trimming = StringTrimming.None
+                                        };
+
+                                        stringFormat.Alignment = _kryptonMaskedTextBox.TextAlign switch
+                                        {
+                                            HorizontalAlignment.Left => RightToLeft == RightToLeft.Yes
+                                                ? StringAlignment.Far
+                                                : StringAlignment.Near,
+                                            HorizontalAlignment.Right => RightToLeft == RightToLeft.Yes
+                                                ? StringAlignment.Near
+                                                : StringAlignment.Far,
+                                            HorizontalAlignment.Center => StringAlignment.Center,
+                                            _ => stringFormat.Alignment
+                                        };
+
+                                        // Use the correct prefix setting
+                                        stringFormat.HotkeyPrefix = HotkeyPrefix.None;
+
+                                        // Draw using a solid brush
+                                        var drawText = MaskedTextProvider?.ToDisplayString() ?? Text;
+                                        try
+                                        {
+                                            using var foreBrush = new SolidBrush(ForeColor);
+                                            g.DrawString(drawText, Font, foreBrush,
+                                                new RectangleF(localBounds.X, localBounds.Y, localBounds.Width, localBounds.Height),
+                                                stringFormat);
+                                        }
+                                        catch (ArgumentException)
+                                        {
+                                            using var foreBrush = new SolidBrush(ForeColor);
+                                            g.DrawString(drawText, _kryptonMaskedTextBox.GetTripleState().PaletteContent?.GetContentShortTextFont(PaletteState.Disabled)!, foreBrush,
+                                                new RectangleF(localBounds.X, localBounds.Y, localBounds.Width, localBounds.Height),
+                                                stringFormat);
+                                        }
                                     }
-                                }
-                                else
-                                {
-                                    // Set the correct text rendering hint for the text drawing. We only draw if the edit text is disabled so we
-                                    // just always grab the disable state value. Without this line the wrong hint can occur because it inherits
-                                    // it from the device context. Resulting in blurred text.
-                                    g.TextRenderingHint = CommonHelper.PaletteTextHintToRenderingHint(_kryptonMaskedTextBox.StateDisabled.PaletteContent!.GetContentShortTextHint(PaletteState.Disabled));
-
-                                    // Define the string formatting requirements
-                                    var stringFormat = new StringFormat
-                                    {
-                                        LineAlignment = StringAlignment.Center,
-                                        FormatFlags = StringFormatFlags.NoWrap,
-                                        Trimming = StringTrimming.None
-                                    };
-
-                                    stringFormat.Alignment = _kryptonMaskedTextBox.TextAlign switch
-                                    {
-                                        HorizontalAlignment.Left => RightToLeft == RightToLeft.Yes
-                                            ? StringAlignment.Far
-                                            : StringAlignment.Near,
-                                        HorizontalAlignment.Right => RightToLeft == RightToLeft.Yes
-                                            ? StringAlignment.Near
-                                            : StringAlignment.Far,
-                                        HorizontalAlignment.Center => StringAlignment.Center,
-                                        _ => stringFormat.Alignment
-                                    };
-
-                                    // Use the correct prefix setting
-                                    stringFormat.HotkeyPrefix = HotkeyPrefix.None;
-
-                                    // Draw using a solid brush
-                                    var drawText = MaskedTextProvider?.ToDisplayString() ?? Text;
-                                    try
-                                    {
-                                        using var foreBrush = new SolidBrush(ForeColor);
-                                        g.DrawString(drawText, Font, foreBrush,
-                                            new RectangleF(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top),
-                                            stringFormat);
-                                    }
-                                    catch (ArgumentException)
-                                    {
-                                        using var foreBrush = new SolidBrush(ForeColor);
-                                        g.DrawString(drawText, _kryptonMaskedTextBox.GetTripleState().PaletteContent?.GetContentShortTextFont(PaletteState.Disabled)!, foreBrush,
-                                            new RectangleF(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top),
-                                            stringFormat);
-                                    }
-                                }
-
-                                // Remove clipping settings
-                                PI.SelectClipRgn(hdc, IntPtr.Zero);
+                                });
                             }
-
-                            // Do we need to match the original BeginPaint?
-                            if (m.WParam == IntPtr.Zero)
+                            finally
                             {
-                                PI.EndPaint(Handle, ref ps);
+                                // Do we need to match the original BeginPaint?
+                                if (m.WParam == IntPtr.Zero)
+                                {
+                                    PI.EndPaint(Handle, ref ps);
+                                }
                             }
                         }
                         break;
@@ -603,7 +606,7 @@ namespace Krypton.Toolkit
         /// Gets a value indicating whether the control has input focus.
         /// </summary>
         [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)] 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool Focused => MaskedTextBox.Focused;
 
         /// <summary>
@@ -962,7 +965,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets or sets the input mask to use at run time. 
+        /// Gets or sets the input mask to use at run time.
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Sets the string governing the input allowed for the control.")]

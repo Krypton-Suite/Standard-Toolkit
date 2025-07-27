@@ -1,12 +1,12 @@
-﻿#region BSD License
+#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *
  */
 #endregion
 
@@ -138,7 +138,7 @@ namespace Krypton.Toolkit
                 var lparam = Marshal.AllocCoTaskMem(Marshal.SizeOf(fmtRange));
                 Marshal.StructureToPtr(fmtRange, lparam, false);
 
-                //Send the rendered data for printing 
+                //Send the rendered data for printing
                 var res = (IntPtr)PI.SendMessage(Handle, PI.EM_FORMATRANGE, wparam, lparam);
 
                 //Free the block of memory allocated
@@ -222,30 +222,41 @@ namespace Krypton.Toolkit
                         )
                         {
                             var ps = new PI.PAINTSTRUCT();
+                            Message msgCopy = m; // Cache to avoid ref-capture issues
+
                             // Do we need to BeginPaint or just take the given HDC?
                             var hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
-                            using (Graphics g = Graphics.FromHdc(hdc))
+
+                            try
                             {
                                 // Grab the client area of the control
                                 PI.GetClientRect(Handle, out PI.RECT rect);
+                                var bounds = new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
 
-                                PaletteState state = _kryptonRichTextBox.Enabled
-                                    ? _kryptonRichTextBox.IsActive
-                                        ? PaletteState.Tracking
-                                        : PaletteState.Normal
-                                    : PaletteState.Disabled;
-                                var states = _kryptonRichTextBox.GetTripleState();
+                                RenderBufferedPaintHelper.PaintBuffered(hdc, bounds, g =>
+                                {
+                                    var localBounds = new Rectangle(Point.Empty, bounds.Size);
 
-                                // Drawn entire client area in the background color
-                                using var backBrush = new SolidBrush(states.PaletteBack.GetBackColor1(state));
-                                // Go perform the drawing of the CueHint
-                                _kryptonRichTextBox.CueHint.PerformPaint(_kryptonRichTextBox, g, rect, backBrush);
+                                    PaletteState state = _kryptonRichTextBox.Enabled
+                                        ? _kryptonRichTextBox.IsActive
+                                            ? PaletteState.Tracking
+                                            : PaletteState.Normal
+                                        : PaletteState.Disabled;
+                                    var states = _kryptonRichTextBox.GetTripleState();
+
+                                    // Drawn entire client area in the background color
+                                    using var backBrush = new SolidBrush(states.PaletteBack.GetBackColor1(state));
+                                    // Go perform the drawing of the CueHint
+                                    _kryptonRichTextBox.CueHint.PerformPaint(_kryptonRichTextBox, g, localBounds, backBrush);
+                                });
                             }
-
-                            // Do we need to match the original BeginPaint?
-                            if (m.WParam == IntPtr.Zero)
+                            finally
                             {
-                                PI.EndPaint(Handle, ref ps);
+                                // Do we need to match the original BeginPaint?
+                                if (msgCopy.WParam == IntPtr.Zero)
+                                {
+                                    PI.EndPaint(Handle, ref ps);
+                                }
                             }
                         }
                         base.WndProc(ref m);
@@ -1388,7 +1399,7 @@ namespace Krypton.Toolkit
         public void Clear() => _richTextBox?.Clear();
 
         /// <summary>
-        /// Clears information about the most recent operation from the undo buffer of the rich text box. 
+        /// Clears information about the most recent operation from the undo buffer of the rich text box.
         /// </summary>
         public void ClearUndo() => _richTextBox?.ClearUndo();
 
