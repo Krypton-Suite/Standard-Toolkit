@@ -3,6 +3,7 @@
 =======
 
 # 2025-08-25 - Build 2508 (Patch 8) - August 2025
+* Implemented [#2220](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2220), Enables limited support on multiple Krypton Controls for unicode surrogates.
 * Implemented [#2354](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2354), `KryptonDataGridView.DoubleBuffered` property added.
 * Implemented [#2338](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2338), Update specific pre-processor directives
 * Resolved [#2341](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2341), Fix exception in `RenderStandard.ContentFontForButtonForm` during teardown
