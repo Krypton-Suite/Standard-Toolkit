@@ -188,7 +188,14 @@ public class KryptonListBox : VisualControlBase,
                     // Mouse is not over the control
                     MouseOver = false;
                     _kryptonListBox.PerformNeedPaint(true);
-                    Invalidate();
+
+                    // Invalidate the previously tracked item so it rerenders in normal state
+                    if (MouseIndex >= 0 && MouseIndex < Items.Count)
+                    {
+                        Invalidate(GetItemRectangle(MouseIndex));
+                    }
+
+                    MouseIndex = -1;
                     base.WndProc(ref m);
                     break;
                 case PI.WM_.MOUSEMOVE:
@@ -216,10 +223,20 @@ public class KryptonListBox : VisualControlBase,
                             }
                         }
 
-                        // If item under mouse has changed, then need to reflect for tracking
+                        // If the item under the mouse has changed, then only invalidate the
+                        // old and new item rectangles to avoid full-control flicker.
                         if (MouseIndex != mouseIndex)
                         {
-                            Invalidate();
+                            if (MouseIndex >= 0 && MouseIndex < Items.Count)
+                            {
+                                Invalidate(GetItemRectangle(MouseIndex));
+                            }
+
+                            if (mouseIndex >= 0 && mouseIndex < Items.Count)
+                            {
+                                Invalidate(GetItemRectangle(mouseIndex));
+                            }
+
                             MouseIndex = mouseIndex;
                         }
                     }
@@ -247,6 +264,13 @@ public class KryptonListBox : VisualControlBase,
         #region Private
         private void WmPaint(ref Message m)
         {
+            // Check if control is disposed before accessing Handle
+            if (IsDisposed || Disposing)
+            {
+                // Skip painting if control is being disposed
+                return;
+            }
+
             var ps = new PI.PAINTSTRUCT();
 
             // Acquire the DC to paint into (BeginPaint if not provided)
@@ -261,6 +285,9 @@ public class KryptonListBox : VisualControlBase,
 
                 RenderBufferedPaintHelper.PaintBuffered(hdc, realRect, g =>
                 {
+                    // Use greyscale antialiasing in the off-screen buffer to avoid ClearType colour-fringing
+                    g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
+
                     var localBounds = new Rectangle(Point.Empty, realRect.Size);
 
                     // Layout the view elements
@@ -306,6 +333,14 @@ public class KryptonListBox : VisualControlBase,
 
         protected override void OnSelectedIndexChanged(EventArgs e)
         {
+            // Check if control is disposed before accessing Handle
+            if (IsDisposed || Disposing)
+            {
+                // Call base implementation and exit early if control is being disposed
+                base.OnSelectedIndexChanged(e);
+                return;
+            }
+
             // Prevent scrollbar flicker by disabling redraw
             PI.SendMessage(Handle, PI.SETREDRAW, (IntPtr)0, IntPtr.Zero);
             BeginUpdate();
@@ -1576,21 +1611,21 @@ public class KryptonListBox : VisualControlBase,
         // Update the view with the calculated state
         _drawButton.ElementState = buttonState;
 
-        // Perform buffered painting to avoid GDI+ invalid parameter issues
-        RenderBufferedPaintHelper.PaintBuffered(e.Graphics, e.Bounds, g =>
-        {
-            var localBounds = new Rectangle(Point.Empty, e.Bounds.Size);
+        // Detect if content contains emojis; emoji items should skip buffered painting to avoid double-render artefacts
+        bool hasEmojis = AccurateText.ContainsEmojis(_contentValues!.ShortText);
 
+        RenderBufferedPaintHelper.PaintWithOptionalBuffering(e.Graphics, e.Bounds, hasEmojis, (gr, bounds) =>
+        {
             // Layout view elements for this item
             using (var layoutContext = new ViewLayoutContext(this, Renderer))
             {
-                layoutContext.DisplayRectangle = localBounds;
+                layoutContext.DisplayRectangle = bounds;
                 _listBox.ViewDrawPanel.Layout(layoutContext);
                 _drawButton.Layout(layoutContext);
             }
 
             // Render the item visuals
-            using (var renderContext = new RenderContext(this, g, localBounds, Renderer))
+            using (var renderContext = new RenderContext(this, gr, bounds, Renderer))
             {
                 _listBox.ViewDrawPanel.Render(renderContext);
                 _drawButton.Render(renderContext);
@@ -1611,7 +1646,6 @@ public class KryptonListBox : VisualControlBase,
 
     private void UpdateContentFromItemIndex(int index)
     {
-
         // If the object exposes the rich interface then use is...
         if (Items[index] is IContentValues itemValues)
         {
@@ -1665,8 +1699,7 @@ public class KryptonListBox : VisualControlBase,
         }
     }
 
-    private bool SelectedIndicesChanged(int[]? left,
-        ListBox.SelectedIndexCollection? right)
+    private bool SelectedIndicesChanged(int[]? left, ListBox.SelectedIndexCollection? right)
     {
         // First time around the left can be null
         if ((left == null) && (right != null))

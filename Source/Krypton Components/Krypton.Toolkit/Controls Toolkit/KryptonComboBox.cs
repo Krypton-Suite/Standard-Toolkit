@@ -236,6 +236,13 @@ public class KryptonComboBox : VisualControlBase,
         /// <param name="m">A Windows-based message.</param>
         protected override void WndProc(ref Message m)
         {
+            // Check if control is disposed before accessing Handle
+            if (IsDisposed || Disposing)
+            {
+                // Skip painting if control is being disposed
+                return;
+            }
+
             switch (m.Msg)
             {
                 case PI.WM_.NCHITTEST:
@@ -2677,6 +2684,14 @@ public class KryptonComboBox : VisualControlBase,
     /// <param name="m">A Windows-based message.</param>
     protected override void WndProc(ref Message m)
     {
+        // Check if control is disposed before accessing Handle
+        if (IsDisposed || Disposing)
+        {
+            // Call base implementation and exit early if control is being disposed
+            base.WndProc(ref m);
+            return;
+        }
+
         switch (m.Msg)
         {
             case PI.WM_.NCHITTEST:

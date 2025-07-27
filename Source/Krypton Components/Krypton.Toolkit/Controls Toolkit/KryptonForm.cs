@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
- *  
+ *
  */
 #endregion
 
@@ -227,7 +227,7 @@ public class KryptonForm : VisualForm,
     private float GetDpiFactor() => DeviceDpi / 96F;
 
     /// <summary>
-    /// Releases all resources used by the Control. 
+    /// Releases all resources used by the Control.
     /// </summary>
     /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
     protected override void Dispose(bool disposing)
@@ -821,7 +821,7 @@ public class KryptonForm : VisualForm,
     [EditorBrowsable(EditorBrowsableState.Never)]
     public FormWindowState GetWindowState()
     {
-        // Get the current window style (cannot use the 
+        // Get the current window style (cannot use the
         // WindowState property as it can be slightly out of date)
         var style = PI.GetWindowLong(Handle, PI.GWL_.STYLE);
 
@@ -1070,7 +1070,7 @@ public class KryptonForm : VisualForm,
     /// <param name="e">An EventArgs containing event data.</param>
     protected override void OnLoad(EventArgs e)
     {
-        // Let base class perform standard actions such as calculating the 
+        // Let base class perform standard actions such as calculating the
         // correct initial size and position of the window when first shown
         base.OnLoad(e);
 
@@ -1781,7 +1781,7 @@ public class KryptonForm : VisualForm,
                 _firstCheckView = true;
                 UseThemeFormChromeBorderWidth = needChrome;
                 base.UseThemeFormChromeBorderWidth = true; // make sure "Form" buttons are drawn correctly
-                PerformNeedPaint(true);     // Force Layout size change 
+                PerformNeedPaint(true);     // Force Layout size change
             }
         }
     }
@@ -2006,7 +2006,7 @@ public class KryptonForm : VisualForm,
     }
 
     /// <summary>
-    /// Example by juverpp 
+    /// Example by juverpp
     /// </summary>
     protected override CreateParams CreateParams
     {

@@ -1489,7 +1489,6 @@ public abstract class VisualForm : Form,
                     // After excluding the client area, is there anything left to draw?
                     if (minimized || clipClientRect is { Width: > 0, Height: > 0 })
                     {
-                        // If not minimized we need to clip the client area
                         if (!minimized)
                         {
                             // Exclude client area from being drawn into and bit blitted
@@ -1497,42 +1496,19 @@ public abstract class VisualForm : Form,
                                 clipClientRect.Right, clipClientRect.Bottom);
                         }
 
-                        // Create one the correct size and cache for future drawing
-                        IntPtr hBitmap = PI.CreateCompatibleBitmap(hDC, windowBounds.Width, windowBounds.Height);
-
-                        // If we managed to get a compatible bitmap
-                        if (hBitmap != IntPtr.Zero)
+                        if (minimized)
                         {
-                            // Must use the screen device context for the bitmap when drawing into the
-                            // bitmap otherwise the Opacity and RightToLeftLayout will not work correctly.
-                            // Select the new bitmap into the screen DC
-                            IntPtr oldBitmap = PI.SelectObject(_screenDC, hBitmap);
-
-                            try
-                            {
-                                // Drawing is easier when using a Graphics instance
-                                using (Graphics g = Graphics.FromHdc(_screenDC))
-                                {
-                                    WindowChromePaint(g, windowBounds);
-                                }
-
-                                // Now blit from the bitmap to the screen
-                                PI.BitBlt(hDC, 0, 0, windowBounds.Width, windowBounds.Height, _screenDC, 0, 0, PI.SRCCOPY);
-                            }
-                            finally
-                            {
-                                // Restore the original bitmap
-                                PI.SelectObject(_screenDC, oldBitmap);
-
-                                // Delete the temporary bitmap
-                                PI.DeleteObject(hBitmap);
-                            }
+                            // Minimized windows can paint directly without buffering
+                            using Graphics g = Graphics.FromHdc(hDC);
+                            WindowChromePaint(g, windowBounds);
                         }
                         else
                         {
-                            // Drawing is easier when using a Graphics instance
-                            using Graphics g = Graphics.FromHdc(hDC);
-                            WindowChromePaint(g, windowBounds);
+                            // Use helper that retains ClearType text when buffering
+                            RenderBufferedPaintHelper.PaintBuffered(hDC, windowBounds, g =>
+                            {
+                                WindowChromePaint(g, windowBounds);
+                            }, preserveTextRenderingHint: true);
                         }
                     }
                 }

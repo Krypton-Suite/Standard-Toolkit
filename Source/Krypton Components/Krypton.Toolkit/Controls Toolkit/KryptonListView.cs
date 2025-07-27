@@ -144,6 +144,14 @@ public class KryptonListView : VisualControlBase,
         /// <param name="m">A Windows-based message.</param>
         protected override void WndProc(ref Message m)
         {
+            // Check if control is disposed before accessing Handle
+            if (IsDisposed || Disposing)
+            {
+                // Call base implementation and exit early if control is being disposed
+                base.WndProc(ref m);
+                return;
+            }
+
             switch (m.Msg)
             {
                 case PI.WM_.ERASEBKGND:
@@ -204,6 +212,13 @@ public class KryptonListView : VisualControlBase,
 
         private void WmPaint(ref Message m)
         {
+            // Check if control is disposed before accessing Handle
+            if (IsDisposed || Disposing)
+            {
+                // Skip painting if control is being disposed
+                return;
+            }
+
             var ps = new PI.PAINTSTRUCT();
 
             // Acquire the DC that we should ultimately paint to
@@ -1455,6 +1470,14 @@ public class KryptonListView : VisualControlBase,
     /// <inheritdoc/>>
     protected override void CreateHandle()
     {
+        // Check if control is disposed before accessing Handle
+        if (IsDisposed || Disposing)
+        {
+            // Call base implementation and exit early if control is being disposed
+            base.CreateHandle();
+            return;
+        }
+
         base.CreateHandle();
 
         PI.SetWindowTheme(Handle, @"DarkMode_Explorer", null);

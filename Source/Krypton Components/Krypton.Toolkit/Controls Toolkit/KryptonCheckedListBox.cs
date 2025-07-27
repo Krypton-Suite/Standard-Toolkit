@@ -2301,21 +2301,21 @@ public class KryptonCheckedListBox : VisualControlBase,
         // Update check box to show correct checked image
         _drawCheckBox.CheckState = GetItemCheckState(e.Index);
 
-        RenderBufferedPaintHelper.PaintBuffered(e.Graphics, e.Bounds, g =>
-        {
-            // Use local (0,0)-based bounds for off-screen bitmap rendering
-            var localBounds = new Rectangle(Point.Empty, e.Bounds.Size);
+        // Determine whether the item text contains colour emoji so we can skip extra buffering
+        bool hasEmojis = AccurateText.ContainsEmojis(_contentValues!.ShortText);
 
+        RenderBufferedPaintHelper.PaintWithOptionalBuffering(e.Graphics, e.Bounds, hasEmojis, (gr, bounds) =>
+        {
             // Ask the view element to layout in given space, needs this before a render call
             using (var context = new ViewLayoutContext(this, Renderer))
             {
-                context.DisplayRectangle = localBounds;
+                context.DisplayRectangle = bounds;
                 _listBox.ViewDrawPanel.Layout(context);
                 _layoutDocker.Layout(context);
             }
 
             // Ask the view element to actually draw
-            using (var context = new RenderContext(this, g, localBounds, Renderer))
+            using (var context = new RenderContext(this, gr, bounds, Renderer))
             {
                 _listBox.ViewDrawPanel.Render(context);
                 _layoutDocker.Render(context);
