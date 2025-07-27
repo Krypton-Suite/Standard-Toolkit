@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2021 - 2025. All rights reserved.
@@ -26,6 +26,7 @@ namespace Krypton.Toolkit
             #region Instance Fields
             private readonly ViewManager? _viewManager;
             private readonly KryptonPropertyGrid _kryptonPropertyGrid;
+            private readonly IntPtr _screenDC;
             #endregion
 
             #region Identity
@@ -49,9 +50,25 @@ namespace Krypton.Toolkit
                 //base.BorderStyle = BorderStyle.None;
                 // ReSharper restore RedundantBaseQualifier
 
+                // We need to create and cache a device context compatible with the display
+                _screenDC = PI.CreateCompatibleDC(IntPtr.Zero);
                 ToolStripRenderer = ToolStripManager.Renderer;
                 UseCompatibleTextRendering = false;
             }
+
+            /// <summary>
+            /// Releases all resources used by the Control.
+            /// </summary>
+            /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
+            protected override void Dispose(bool disposing)
+            {
+                base.Dispose(disposing);
+                if (_screenDC != IntPtr.Zero)
+                {
+                    PI.DeleteDC(_screenDC);
+                }
+            }
+
             #endregion
 
             #region Public
@@ -136,48 +153,63 @@ namespace Krypton.Toolkit
                 // Do we need to BeginPaint or just take the given HDC?
                 IntPtr hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
 
-                // Get the client rectangle for rendering
+                // Create bitmap that all drawing occurs onto, then we can blit it later to remove flicker
                 Rectangle realRect = CommonHelper.RealClientRectangle(Handle);
 
                 // No point drawing when one of the dimensions is zero
                 if (realRect is { Width: > 0, Height: > 0 })
                 {
-                    // Cache incoming Message to avoid CS1628 ref-capture errors
-                    Message msgCopy = m;
+                    IntPtr hBitmap = PI.CreateCompatibleBitmap(hdc, realRect.Width, realRect.Height);
 
-                    // Use RenderBufferedPaintHelper for buffered painting
-                    RenderBufferedPaintHelper.PaintBuffered(hdc, realRect, g =>
+                    // If we managed to get a compatible bitmap
+                    if (hBitmap != IntPtr.Zero)
                     {
-                        // Use local coordinates inside the lambda
-                        var localBounds = new Rectangle(Point.Empty, realRect.Size);
-
-                        // Ask the view element to layout in given space, needs this before a render call
-                        using (var context = new ViewLayoutContext(this, _kryptonPropertyGrid.Renderer))
+                        try
                         {
-                            context.DisplayRectangle = localBounds;
-                            ViewDrawPanel.Layout(context);
-                        }
+                            // Must use the screen device context for the bitmap when drawing into the
+                            // bitmap otherwise the Opacity and RightToLeftLayout will not work correctly.
+                            PI.SelectObject(_screenDC, hBitmap);
 
-                        using (var context = new RenderContext(this, _kryptonPropertyGrid, g, localBounds,
-                                   _kryptonPropertyGrid.Renderer))
+                            // Easier to draw using a graphics instance than a DC!
+                            using (Graphics g = Graphics.FromHdc(_screenDC))
+                            {
+                                // Ask the view element to layout in given space, needs this before a render call
+                                using (var context = new ViewLayoutContext(this, _kryptonPropertyGrid.Renderer))
+                                {
+                                    context.DisplayRectangle = realRect;
+                                    ViewDrawPanel.Layout(context);
+                                }
+
+                                using (var context = new RenderContext(this, _kryptonPropertyGrid, g, realRect,
+                                           _kryptonPropertyGrid.Renderer))
+                                {
+                                    ViewDrawPanel.Render(context);
+                                }
+
+                                // We can only control the background color by using the built in property and not
+                                // by overriding the drawing directly, therefore we can only provide a single color.
+                                Color color1 = ViewDrawPanel.GetPalette().GetBackColor1(ViewDrawPanel.State);
+                                if (color1 != BackColor)
+                                {
+                                    BackColor = color1;
+                                }
+
+                                // Replace given DC with the screen DC for base window proc drawing
+                                IntPtr beforeDC = m.WParam;
+                                m.WParam = _screenDC;
+                                DefWndProc(ref m);
+                                m.WParam = beforeDC;
+                            }
+
+                            // Now blit from the bitmap from the screen to the real dc
+                            PI.BitBlt(hdc, 0, 0, realRect.Width, realRect.Height, _screenDC, 0, 0, PI.SRCCOPY);
+                        }
+                        finally
                         {
-                            ViewDrawPanel.Render(context);
+                            // Delete the temporary bitmap
+                            PI.DeleteObject(hBitmap);
                         }
-
-                        // We can only control the background color by using the built in property and not
-                        // by overriding the drawing directly, therefore we can only provide a single color.
-                        Color color1 = ViewDrawPanel.GetPalette().GetBackColor1(ViewDrawPanel.State);
-                        if (color1 != BackColor)
-                        {
-                            BackColor = color1;
-                        }
-
-                        // Call base window proc with current HDC (no nested buffering needed)
-                        IntPtr beforeDC = msgCopy.WParam;
-                        msgCopy.WParam = hdc;
-                        DefWndProc(ref msgCopy);
-                        msgCopy.WParam = beforeDC;
-                    });
+                    }
                 }
 
                 // Do we need to match the original BeginPaint?
@@ -197,6 +229,7 @@ namespace Krypton.Toolkit
         private readonly ViewLayoutFill _layoutFill;
         private readonly InternalPropertyGrid _propertyGrid;
         private bool? _fixedActive;
+        private readonly IntPtr _screenDC;
         private bool _alwaysActive;
         private bool _forcedLayout;
         private readonly KryptonContextMenuItem _resetMenuItem;
@@ -269,6 +302,9 @@ namespace Krypton.Toolkit
             // Create the view manager instance
             ViewManager = new ViewManager(this, _drawDockerOuter);
 
+            // We need to create and cache a device context compatible with the display
+            _screenDC = PI.CreateCompatibleDC(IntPtr.Zero);
+
             // Add tree view to the controls collection
             ((KryptonReadOnlyControls)Controls).AddInternal(_propertyGrid);
 
@@ -282,6 +318,19 @@ namespace Krypton.Toolkit
             menuItems.Items.Add(_resetMenuItem);
 
             KryptonContextMenu.Items.Add(menuItems);
+        }
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+            if (_screenDC != IntPtr.Zero)
+            {
+                PI.DeleteDC(_screenDC);
+            }
         }
         #endregion
 
