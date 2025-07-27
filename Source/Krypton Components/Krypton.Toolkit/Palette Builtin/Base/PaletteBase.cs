@@ -81,6 +81,11 @@ public abstract class PaletteBase : Component
     /// Occurs when a button spec change occurs.
     /// </summary>
     public event EventHandler? ButtonSpecChanged;
+
+    /// <summary>
+    /// Occurs when a single scheme color is changed.
+    /// </summary>
+    public event EventHandler<SchemeColorChangedEventArgs>? SchemeColorChanged;
     #endregion
 
     #region Identity
@@ -2165,9 +2170,14 @@ public abstract class PaletteBase : Component
     {
         lock (_colorLock)
         {
+            if (SchemeColors[(int)colorIndex] == newColor)
+                return; // no change
             SchemeColors[(int)colorIndex] = newColor;
             InvalidateColorTable();
         }
+        OnSchemeColorChanged(colorIndex, newColor);
+        SchemeColorChanged?.Invoke(this, new SchemeColorChangedEventArgs(colorIndex, newColor));
+        OnPalettePaint(this, new PaletteLayoutEventArgs(true, true));
     }
 
     // Thread-safe single-color getter
@@ -2182,19 +2192,9 @@ public abstract class PaletteBase : Component
     // Thread-safe batch update
     public virtual void UpdateSchemeColors(Dictionary<SchemeBaseColors, Color> colorUpdates)
     {
-        if (colorUpdates is null)
-        {
-            throw new ArgumentNullException(nameof(colorUpdates));
-        }
-
-        lock (_colorLock)
-        {
-            foreach (var update in colorUpdates)
-            {
-                SchemeColors[(int)update.Key] = update.Value;
-            }
-            InvalidateColorTable();
-        }
+        if (colorUpdates is null) throw new ArgumentNullException(nameof(colorUpdates));
+        foreach (var kv in colorUpdates)
+            SetSchemeColor(kv.Key, kv.Value); // reuses events + paint
     }
 
     // Thread-safe full-scheme replacement
@@ -2205,14 +2205,36 @@ public abstract class PaletteBase : Component
             throw new ArgumentNullException(nameof(newScheme));
         }
 
-        var newColors = newScheme.ToArray();
-
         lock (_colorLock)
         {
-            Array.Copy(newColors, SchemeColors, newColors.Length);
+            Array.Copy(newScheme.ToArray(), SchemeColors, SchemeColors.Length);
             InvalidateColorTable();
         }
+        // notify each index has changed
+        foreach (SchemeBaseColors idx in Enum.GetValues(typeof(SchemeBaseColors)))
+        {
+            SchemeColorChanged?.Invoke(this, new SchemeColorChangedEventArgs(idx, SchemeColors[(int)idx]));
+        }
+        OnPalettePaint(this, new PaletteLayoutEventArgs(true, true));
     }
 
     #endregion Palette Helpers
+
+    /// <summary>Hook for derived families to rebuild caches when a color changes.</summary>
+    protected virtual void OnSchemeColorChanged(SchemeBaseColors index, Color newColor) { }
+}
+
+/// <summary>
+/// Data for when one scheme color changes.
+/// </summary>
+public sealed class SchemeColorChangedEventArgs : EventArgs
+{
+    public SchemeBaseColors Index { get; }
+    public Color NewColor { get; }
+
+    public SchemeColorChangedEventArgs(SchemeBaseColors index, Color newColor)
+    {
+        Index = index;
+        NewColor = newColor;
+    }
 }
