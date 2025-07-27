@@ -393,7 +393,6 @@ public class KryptonCheckedListBox : VisualControlBase,
         private object? _innerArray;
         private readonly ViewManager? _viewManager;
         private readonly KryptonCheckedListBox _kryptonCheckedListBox;
-        private readonly IntPtr _screenDC;
         private bool _mouseOver;
         private bool _killNextSelect;
         private int _lastSelected;
@@ -442,22 +441,6 @@ public class KryptonCheckedListBox : VisualControlBase,
             base.MultiColumn = false;
             base.DrawMode = DrawMode.OwnerDrawVariable;
             // ReSharper restore RedundantBaseQualifier
-
-            // We need to create and cache a device context compatible with the display
-            _screenDC = PI.CreateCompatibleDC(IntPtr.Zero);
-        }
-
-        /// <summary>
-        /// Releases all resources used by the Control.
-        /// </summary>
-        /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
-        protected override void Dispose(bool disposing)
-        {
-            base.Dispose(disposing);
-            if (_screenDC != IntPtr.Zero)
-            {
-                PI.DeleteDC(_screenDC);
-            }
         }
         #endregion
 
@@ -836,70 +819,50 @@ public class KryptonCheckedListBox : VisualControlBase,
             // No point drawing when one of the dimensions is zero
             if (realRect is { Width: > 0, Height: > 0 })
             {
-                var hBitmap = PI.CreateCompatibleBitmap(hdc, realRect.Width, realRect.Height);
+                // Cache a copy of the message so the ref parameter is not captured inside the lambda
+                var messageCopy = m;
 
-                // If we managed to get a compatible bitmap
-                if (hBitmap != IntPtr.Zero)
+                RenderBufferedPaintHelper.PaintBuffered(hdc, realRect, g =>
                 {
-                    // Must use the screen device context for the bitmap when drawing into the
-                    // bitmap otherwise the Opacity and RightToLeftLayout will not work correctly.
-                    // Select the new bitmap into the screen DC
-                    IntPtr oldBitmap = PI.SelectObject(_screenDC, hBitmap);
+                    // Use local (0,0)-based bounds for layout/render
+                    var localBounds = new Rectangle(Point.Empty, realRect.Size);
 
+                    // Ask the view element to layout in given space, needs this before a render call
+                    using (var context = new ViewLayoutContext(this, _kryptonCheckedListBox.Renderer))
+                    {
+                        context.DisplayRectangle = localBounds;
+                        ViewDrawPanel.Layout(context);
+                    }
+
+                    using (var context = new RenderContext(this, _kryptonCheckedListBox, g,
+                               localBounds, _kryptonCheckedListBox.Renderer))
+                    {
+                        ViewDrawPanel.Render(context);
+                    }
+
+                    // Replace given DC with the buffered graphics DC for base window proc drawing
+                    var tempHdc = g.GetHdc();
                     try
                     {
-                        // Easier to draw using a graphics instance than a DC!
-                        using (Graphics g = Graphics.FromHdc(_screenDC))
-                        {
-                            // Ask the view element to layout in given space, needs this before a render call
-                            using (var context = new ViewLayoutContext(this, _kryptonCheckedListBox.Renderer))
-                            {
-                                context.DisplayRectangle = realRect;
-                                ViewDrawPanel.Layout(context);
-                            }
-
-                            using (var context = new RenderContext(this, _kryptonCheckedListBox, g,
-                                       realRect, _kryptonCheckedListBox.Renderer))
-                            {
-                                ViewDrawPanel.Render(context);
-                            }
-
-                            // Replace given DC with the screen DC for base window proc drawing
-                            var beforeDC = m.WParam;
-                            m.WParam = _screenDC;
-                            DefWndProc(ref m);
-                            m.WParam = beforeDC;
-
-                            if (Items.Count == 0)
-                            {
-                                using var context = new RenderContext(this, _kryptonCheckedListBox, g,
-                                    realRect, _kryptonCheckedListBox.Renderer);
-                                ViewDrawPanel.Render(context);
-                            }
-                        }
-
-                        // Now blit from the bitmap from the screen to the real dc
-                        PI.BitBlt(hdc, 0, 0, realRect.Width, realRect.Height, _screenDC, 0, 0, PI.SRCCOPY);
-
-                        // When disabled with no items the above code does not draw the background! Strange but true, and
-                        // so we need to draw the background instead directly, without using a bit blitting of bitmap
-                        if (Items.Count == 0)
-                        {
-                            using Graphics g = Graphics.FromHdc(hdc);
-                            using var context = new RenderContext(this, _kryptonCheckedListBox, g,
-                                realRect, _kryptonCheckedListBox.Renderer);
-                            ViewDrawPanel.Render(context);
-                        }
+                        // Create a local copy of the cached message with the new HDC
+                        var localMessage = messageCopy;
+                        localMessage.WParam = tempHdc;
+                        DefWndProc(ref localMessage);
                     }
                     finally
                     {
-                        // Restore the original bitmap
-                        PI.SelectObject(_screenDC, oldBitmap);
-
-                        // Delete the temporary bitmap
-                        PI.DeleteObject(hBitmap);
+                        g.ReleaseHdc(tempHdc);
                     }
-                }
+
+                    // When disabled with no items the above code does not draw the background! Strange but true,
+                    // so we need to draw the background instead directly
+                    if (Items.Count == 0)
+                    {
+                        using var context = new RenderContext(this, _kryptonCheckedListBox, g,
+                            localBounds, _kryptonCheckedListBox.Renderer);
+                        ViewDrawPanel.Render(context);
+                    }
+                });
             }
 
             // Do we need to match the original BeginPaint?
@@ -974,7 +937,6 @@ public class KryptonCheckedListBox : VisualControlBase,
     private readonly FixedContentValue? _contentValues;
     private bool? _fixedActive;
     private ButtonStyle _style;
-    private readonly IntPtr _screenDC;
     private int _lastSelectedIndex;
     private bool _mouseOver;
     private bool _alwaysActive;
@@ -1215,9 +1177,6 @@ public class KryptonCheckedListBox : VisualControlBase,
         // Create the view manager instance
         ViewManager = new ViewManager(this, _drawDockerOuter);
 
-        // We need to create and cache a device context compatible with the display
-        _screenDC = PI.CreateCompatibleDC(IntPtr.Zero);
-
         // Add text box to the controls collection
         ((KryptonReadOnlyControls)Controls).AddInternal(_listBox);
 
@@ -1229,18 +1188,6 @@ public class KryptonCheckedListBox : VisualControlBase,
         base.OnClick(e);
     // ReSharper restore RedundantBaseQualifier
 
-    /// <summary>
-    /// Releases all resources used by the Control.
-    /// </summary>
-    /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
-    protected override void Dispose(bool disposing)
-    {
-        base.Dispose(disposing);
-        if (_screenDC != IntPtr.Zero)
-        {
-            PI.DeleteDC(_screenDC);
-        }
-    }
     #endregion
 
     #region Public
@@ -2354,60 +2301,26 @@ public class KryptonCheckedListBox : VisualControlBase,
         // Update check box to show correct checked image
         _drawCheckBox.CheckState = GetItemCheckState(e.Index);
 
-        // Grab the raw device context for the graphics instance
-        var hdc = e.Graphics.GetHdc();
-
-        try
+        RenderBufferedPaintHelper.PaintBuffered(e.Graphics, e.Bounds, g =>
         {
-            // Create bitmap that all drawing occurs onto, then we can blit it later to remove flicker
-            var hBitmap = PI.CreateCompatibleBitmap(hdc, e.Bounds.Right, e.Bounds.Bottom);
+            // Use local (0,0)-based bounds for off-screen bitmap rendering
+            var localBounds = new Rectangle(Point.Empty, e.Bounds.Size);
 
-            // If we managed to get a compatible bitmap
-            if (hBitmap != IntPtr.Zero)
+            // Ask the view element to layout in given space, needs this before a render call
+            using (var context = new ViewLayoutContext(this, Renderer))
             {
-                // Must use the screen device context for the bitmap when drawing into the
-                // bitmap otherwise the Opacity and RightToLeftLayout will not work correctly.
-                IntPtr oldBitmap = PI.SelectObject(_screenDC, hBitmap);
-
-                try
-                {
-                    // Easier to draw using a graphics instance than a DC!
-                    using (Graphics g = Graphics.FromHdc(_screenDC))
-                    {
-                        // Ask the view element to layout in given space, needs this before a render call
-                        using (var context = new ViewLayoutContext(this, Renderer))
-                        {
-                            context.DisplayRectangle = e.Bounds;
-                            _listBox.ViewDrawPanel.Layout(context);
-                            _layoutDocker.Layout(context);
-                        }
-
-                        // Ask the view element to actually draw
-                        using (var context = new RenderContext(this, g, e.Bounds, Renderer))
-                        {
-                            _listBox.ViewDrawPanel.Render(context);
-                            _layoutDocker.Render(context);
-                        }
-
-                        // Now blit from the bitmap from the screen to the real dc
-                        PI.BitBlt(hdc, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height, _screenDC, e.Bounds.X, e.Bounds.Y, PI.SRCCOPY);
-                    }
-                }
-                finally
-                {
-                    // Restore the original bitmap
-                    PI.SelectObject(_screenDC, oldBitmap);
-
-                    // Delete the temporary bitmap
-                    PI.DeleteObject(hBitmap);
-                }
+                context.DisplayRectangle = localBounds;
+                _listBox.ViewDrawPanel.Layout(context);
+                _layoutDocker.Layout(context);
             }
-        }
-        finally
-        {
-            // Must reserve the GetHdc() call before
-            e.Graphics.ReleaseHdc();
-        }
+
+            // Ask the view element to actually draw
+            using (var context = new RenderContext(this, g, localBounds, Renderer))
+            {
+                _listBox.ViewDrawPanel.Render(context);
+                _layoutDocker.Render(context);
+            }
+        });
     }
 
     private void OnListBoxMeasureItem(object? sender, MeasureItemEventArgs e)

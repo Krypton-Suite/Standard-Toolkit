@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -33,8 +33,9 @@ public class KryptonListBox : VisualControlBase,
         #region Instance Fields
         private readonly ViewManager? _viewManager;
         private readonly KryptonListBox _kryptonListBox;
-        private readonly IntPtr _screenDC;
         private bool _mouseOver;
+        // Capture scroll position before user click
+        private int _preClickTopIndex;
 
         #endregion
 
@@ -76,20 +77,8 @@ public class KryptonListBox : VisualControlBase,
             // ReSharper restore RedundantBaseQualifier
 
             // We need to create and cache a device context compatible with the display
-            _screenDC = PI.CreateCompatibleDC(IntPtr.Zero);
-        }
-
-        /// <summary>
-        /// Releases all resources used by the Control.
-        /// </summary>
-        /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
-        protected override void Dispose(bool disposing)
-        {
-            base.Dispose(disposing);
-            if (_screenDC != IntPtr.Zero)
-            {
-                PI.DeleteDC(_screenDC);
-            }
+            // Track pre-click scroll
+            MouseDown += OnInternalListBoxMouseDown;
         }
         #endregion
 
@@ -260,88 +249,84 @@ public class KryptonListBox : VisualControlBase,
         {
             var ps = new PI.PAINTSTRUCT();
 
-            // Do we need to BeginPaint or just take the given HDC?
-            var hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
+            // Acquire the DC to paint into (BeginPaint if not provided)
+            IntPtr hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
 
-            // Create bitmap that all drawing occurs onto, then we can blit it later to remove flicker
             Rectangle realRect = CommonHelper.RealClientRectangle(Handle);
 
-            // No point drawing when one of the dimensions is zero
             if (realRect is { Width: > 0, Height: > 0 })
             {
-                var hBitmap = PI.CreateCompatibleBitmap(hdc, realRect.Width, realRect.Height);
+                // Copy incoming message so we can safely modify WParam inside the lambda (avoids CS1628)
+                Message msgCopy = m;
 
-                // If we managed to get a compatible bitmap
-                if (hBitmap != IntPtr.Zero)
+                RenderBufferedPaintHelper.PaintBuffered(hdc, realRect, g =>
                 {
-                    // Must use the screen device context for the bitmap when drawing into the
-                    // bitmap otherwise the Opacity and RightToLeftLayout will not work correctly.
-                    // Select the new bitmap into the screen DC
-                    var oldBitmap = PI.SelectObject(_screenDC, hBitmap);
+                    var localBounds = new Rectangle(Point.Empty, realRect.Size);
 
-                    try
+                    // Layout the view elements
+                    using (var layoutContext = new ViewLayoutContext(this, _kryptonListBox.Renderer))
                     {
+                        layoutContext.DisplayRectangle = localBounds;
+                        ViewDrawPanel.Layout(layoutContext);
+                    }
 
-                        // Easier to draw using a graphics instance than a DC!
-                        using (Graphics g = Graphics.FromHdc(_screenDC))
-                        {
-                            // Ask the view element to layout in given space, needs this before a render call
-                            using (var context = new ViewLayoutContext(this, _kryptonListBox.Renderer))
-                            {
-                                context.DisplayRectangle = realRect;
-                                ViewDrawPanel.Layout(context);
-                            }
+                    // Render background / borders
+                    using (var renderContext = new RenderContext(this, _kryptonListBox, g, localBounds, _kryptonListBox.Renderer))
+                    {
+                        ViewDrawPanel.Render(renderContext);
 
-                            using (var context = new RenderContext(this, _kryptonListBox, g, realRect,
-                                       _kryptonListBox.Renderer))
-                            {
-                                ViewDrawPanel.Render(context);
-                            }
-
-                            // Replace given DC with the screen DC for base window proc drawing
-                            var beforeDC = m.WParam;
-                            m.WParam = _screenDC;
-                            DefWndProc(ref m);
-                            m.WParam = beforeDC;
-
-                            if (Items.Count == 0)
-                            {
-                                using var context = new RenderContext(this, _kryptonListBox, g, realRect,
-                                    _kryptonListBox.Renderer);
-                                ViewDrawPanel.Render(context);
-                            }
-                        }
-
-                        // Now blit from the bitmap from the screen to the real dc
-                        PI.BitBlt(hdc, 0, 0, realRect.Width, realRect.Height, _screenDC, 0, 0, PI.SRCCOPY);
-
-                        // When disabled with no items the above code does not draw the background!
+                        // If empty, render the empty state visuals again
                         if (Items.Count == 0)
                         {
-                            using Graphics g = Graphics.FromHdc(hdc);
-                            using var context = new RenderContext(this, _kryptonListBox, g, realRect,
-                                _kryptonListBox.Renderer);
-                            ViewDrawPanel.Render(context);
+                            ViewDrawPanel.Render(renderContext);
                         }
+                    }
+
+                    // Let base ListBox paint its standard content into the buffered Graphics
+                    IntPtr memHdc = g.GetHdc();
+                    try
+                    {
+                        msgCopy.WParam = memHdc;
+                        DefWndProc(ref msgCopy);
                     }
                     finally
                     {
-                        // Restore the original bitmap
-                        PI.SelectObject(_screenDC, oldBitmap);
-
-                        // Delete the temporary bitmap
-                        PI.DeleteObject(hBitmap);
+                        g.ReleaseHdc(memHdc);
                     }
-                }
+                });
             }
 
-            // Do we need to match the original BeginPaint?
+            // Complete BeginPaint if we started one
             if (m.WParam == IntPtr.Zero)
             {
                 PI.EndPaint(Handle, ref ps);
             }
         }
         #endregion
+
+        protected override void OnSelectedIndexChanged(EventArgs e)
+        {
+            // Prevent scrollbar flicker by disabling redraw
+            PI.SendMessage(Handle, PI.SETREDRAW, (IntPtr)0, IntPtr.Zero);
+            BeginUpdate();
+            try
+            {
+                // Let base update selection and possibly auto-scroll
+                base.OnSelectedIndexChanged(e);
+                // Then restore scroll to previous position
+                TopIndex = Math.Min(_preClickTopIndex, Items.Count - 1);
+            }
+            finally
+            {
+                EndUpdate();
+                // Re-enable redraw and repaint
+                PI.SendMessage(Handle, PI.SETREDRAW, (IntPtr)1, IntPtr.Zero);
+                Invalidate();
+            }
+        }
+
+        // Store the TopIndex before a click drives selection
+        private void OnInternalListBoxMouseDown(object? sender, MouseEventArgs e) => _preClickTopIndex = TopIndex;
     }
     #endregion
 
@@ -361,7 +346,6 @@ public class KryptonListBox : VisualControlBase,
     private readonly FixedContentValue? _contentValues;
     private bool? _fixedActive;
     private ButtonStyle _style;
-    private readonly IntPtr _screenDC;
     private int[] _lastSelectedColl;
     private int _lastSelectedIndex;
     private bool _mouseOver;
@@ -602,9 +586,6 @@ public class KryptonListBox : VisualControlBase,
         // Create the view manager instance
         ViewManager = new ViewManager(this, _drawDockerOuter);
 
-        // We need to create and cache a device context compatible with the display
-        _screenDC = PI.CreateCompatibleDC(IntPtr.Zero);
-
         // Add list box to the controls collection
         ((KryptonReadOnlyControls)Controls).AddInternal(_listBox);
     }
@@ -614,18 +595,6 @@ public class KryptonListBox : VisualControlBase,
         base.OnClick(e);
     // ReSharper restore RedundantBaseQualifier
 
-    /// <summary>
-    /// Releases all resources used by the Control.
-    /// </summary>
-    /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
-    protected override void Dispose(bool disposing)
-    {
-        base.Dispose(disposing);
-        if (_screenDC != IntPtr.Zero)
-        {
-            PI.DeleteDC(_screenDC);
-        }
-    }
     #endregion
 
     #region Public
@@ -1320,9 +1289,25 @@ public class KryptonListBox : VisualControlBase,
     /// <param name="e">An EventArgs that contains the event data.</param>
     protected override void OnPaletteChanged(EventArgs e)
     {
-        _listBox.Recreate();
-        _listBox.RefreshItemSizes();
-        _listBox.Invalidate();
+        _listBox.BeginUpdate();
+        try
+        {
+            // Preserve scroll and selected index to avoid shifting when theme changes
+            int oldTopIndex = _listBox.TopIndex;
+            int oldSelectedIndex = _listBox.SelectedIndex;
+            _listBox.Recreate();
+            // Restore scroll position and selection
+            _listBox.TopIndex = Math.Min(oldTopIndex, _listBox.Items.Count - 1);
+            if (oldSelectedIndex >= 0 && oldSelectedIndex < _listBox.Items.Count)
+                _listBox.SelectedIndex = oldSelectedIndex;
+            _listBox.RefreshItemSizes();
+            _listBox.Invalidate();
+        }
+        finally
+        {
+            _listBox.EndUpdate();
+        }
+
         base.OnPaletteChanged(e);
     }
 
@@ -1591,55 +1576,26 @@ public class KryptonListBox : VisualControlBase,
         // Update the view with the calculated state
         _drawButton.ElementState = buttonState;
 
-        // Grab the raw device context for the graphics instance
-        var hdc = e.Graphics.GetHdc();
-
-        try
+        // Perform buffered painting to avoid GDI+ invalid parameter issues
+        RenderBufferedPaintHelper.PaintBuffered(e.Graphics, e.Bounds, g =>
         {
-            // Create bitmap that all drawing occurs onto, then we can blit it later to remove flicker
-            var hBitmap = PI.CreateCompatibleBitmap(hdc, e.Bounds.Right, e.Bounds.Bottom);
+            var localBounds = new Rectangle(Point.Empty, e.Bounds.Size);
 
-            // If we managed to get a compatible bitmap
-            if (hBitmap != IntPtr.Zero)
+            // Layout view elements for this item
+            using (var layoutContext = new ViewLayoutContext(this, Renderer))
             {
-                try
-                {
-                    // Must use the screen device context for the bitmap when drawing into the
-                    // bitmap otherwise the Opacity and RightToLeftLayout will not work correctly.
-                    PI.SelectObject(_screenDC, hBitmap);
-
-                    // Easier to draw using a graphics instance than a DC!
-                    using Graphics g = Graphics.FromHdc(_screenDC);
-                    // Ask the view element to layout in given space, needs this before a render call
-                    using (var context = new ViewLayoutContext(this, Renderer))
-                    {
-                        context.DisplayRectangle = e.Bounds;
-                        _listBox.ViewDrawPanel.Layout(context);
-                        _drawButton.Layout(context);
-                    }
-
-                    // Ask the view element to actually draw
-                    using (var context = new RenderContext(this, g, e.Bounds, Renderer))
-                    {
-                        _listBox.ViewDrawPanel.Render(context);
-                        _drawButton.Render(context);
-                    }
-
-                    // Now blit from the bitmap from the screen to the real dc
-                    PI.BitBlt(hdc, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height, _screenDC, e.Bounds.X, e.Bounds.Y, PI.SRCCOPY);
-                }
-                finally
-                {
-                    // Delete the temporary bitmap
-                    PI.DeleteObject(hBitmap);
-                }
+                layoutContext.DisplayRectangle = localBounds;
+                _listBox.ViewDrawPanel.Layout(layoutContext);
+                _drawButton.Layout(layoutContext);
             }
-        }
-        finally
-        {
-            // Must reserve the GetHdc() call before
-            e.Graphics.ReleaseHdc();
-        }
+
+            // Render the item visuals
+            using (var renderContext = new RenderContext(this, g, localBounds, Renderer))
+            {
+                _listBox.ViewDrawPanel.Render(renderContext);
+                _drawButton.Render(renderContext);
+            }
+        });
     }
 
     private void OnListBoxMeasureItem(object? sender, MeasureItemEventArgs e)

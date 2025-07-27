@@ -1,9 +1,9 @@
 ﻿#region BSD License
 /*
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2025. All rights reserved. 
- *  
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2023 - 2025. All rights reserved.
+ *
  */
 #endregion
 
@@ -54,7 +54,7 @@ public class KryptonThemeListBox : KryptonListBox, IKryptonThemeSelectorBase
     [DefaultValue(null)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     [Obsolete("Deprecated and will be removed in V110. Set a global custom palette through 'ThemeManager.ApplyTheme(...)'.")]
-    public KryptonCustomPaletteBase? KryptonCustomPalette 
+    public KryptonCustomPaletteBase? KryptonCustomPalette
     {
         get => _kryptonCustomPalette;
         set => _kryptonCustomPalette = value;
@@ -68,7 +68,7 @@ public class KryptonThemeListBox : KryptonListBox, IKryptonThemeSelectorBase
     [Description(@"The default palette mode.")]
     [DefaultValue(PaletteMode.Global)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-    public PaletteMode DefaultPalette 
+    public PaletteMode DefaultPalette
     {
         get => _defaultPalette;
         set => SelectedIndex = CommonHelperThemeSelectors.DefaultPaletteSetter(ref _defaultPalette, value, Items, SelectedIndex);
@@ -100,7 +100,9 @@ public class KryptonThemeListBox : KryptonListBox, IKryptonThemeSelectorBase
     /// <param name="e">Eventargs object data (not used).</param>
     private void KryptonManagerGlobalPaletteChanged(object? sender, EventArgs e)
     {
-        SelectedIndex = CommonHelperThemeSelectors.KryptonManagerGlobalPaletteChanged(_isLocalUpdate, ref _isExternalUpdate, SelectedIndex, Items);
+        int newIndex = CommonHelperThemeSelectors.KryptonManagerGlobalPaletteChanged(_isLocalUpdate, ref _isExternalUpdate, SelectedIndex, Items);
+        if (newIndex >= 0 && newIndex != SelectedIndex)
+            SelectedIndex = newIndex;
     }
 
     #endregion
@@ -117,8 +119,9 @@ public class KryptonThemeListBox : KryptonListBox, IKryptonThemeSelectorBase
 
         if (!CommonHelperThemeSelectors.OnSelectedIndexChanged(ref _isLocalUpdate, _isExternalUpdate, ref _defaultPalette, themeName, _manager, _kryptonCustomPalette))
         {
-            //theme change went wrong, make the active theme the selected theme in the list.
-            SelectedIndex = CommonHelperThemeSelectors.GetPaletteIndex(Items, _manager.GlobalPaletteMode);
+            int fallbackIndex = CommonHelperThemeSelectors.GetPaletteIndex(Items, _manager.GlobalPaletteMode);
+            if (fallbackIndex >= 0 && fallbackIndex != SelectedIndex)
+                SelectedIndex = fallbackIndex;
         }
 
         base.OnSelectedIndexChanged(e);
@@ -141,7 +144,7 @@ public class KryptonThemeListBox : KryptonListBox, IKryptonThemeSelectorBase
     /// <summary>Gets or sets the format specifier characters that indicate how a value is to be Displayed.</summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public new string FormatString 
+    public new string FormatString
     {
         get => base.FormatString;
         set => base.FormatString = value;
@@ -155,7 +158,7 @@ public class KryptonThemeListBox : KryptonListBox, IKryptonThemeSelectorBase
     /// <summary>Gets and sets the selected index.</summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public new int SelectedIndex 
+    public new int SelectedIndex
     {
         get => base.SelectedIndex;
         set => base.SelectedIndex = value;

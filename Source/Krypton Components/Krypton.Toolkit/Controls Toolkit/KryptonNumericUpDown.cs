@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -347,75 +347,77 @@ public class KryptonNumericUpDown : VisualControlBase,
 
                     // Do we need to BeginPaint or just take the given HDC?
                     var hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
+                    var originalWParam = m.WParam;
 
-                    // Paint the entire area in the background color
-                    using (Graphics g = Graphics.FromHdc(hdc))
+                    // Grab the client area of the control
+                    PI.GetClientRect(Handle, out PI.RECT rect);
+                    var clientRectangle = new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
+
+                    PaletteState state = NumericUpDown.Enabled
+                        ? (NumericUpDown.IsActive ? PaletteState.Tracking : PaletteState.Normal)
+                        : PaletteState.Disabled;
+                    PaletteInputControlTripleStates states = NumericUpDown.GetTripleState();
+
+                    // Copy local variables to avoid closure issues
+                    var backColor = states.PaletteBack.GetBackColor1(state);
+                    var contentH = states.Content.GetContentShortTextH(state);
+                    
+                    // Use buffered painting to avoid invalid parameter exceptions
+                    RenderBufferedPaintHelper.PaintBuffered(hdc, clientRectangle, g =>
                     {
-                        // Grab the client area of the control
-                        PI.GetClientRect(Handle, out PI.RECT rect);
-
-                        PaletteState state = NumericUpDown.Enabled
-                            ? (NumericUpDown.IsActive ? PaletteState.Tracking : PaletteState.Normal)
-                            : PaletteState.Disabled;
-                        PaletteInputControlTripleStates states = NumericUpDown.GetTripleState();
-
+                        // Use local (0,0)-based bounds for painting
+                        var localBounds = new Rectangle(Point.Empty, clientRectangle.Size);
                         // Drawn entire client area in the background color
-                        using (var backBrush = new SolidBrush(states.PaletteBack.GetBackColor1(state)))
-                        {
-                            g.FillRectangle(backBrush,
-                                new Rectangle(rect.left, rect.top, rect.right - rect.left,
-                                    rect.bottom - rect.top));
-                        }
+                        using var backBrush = new SolidBrush(backColor);
+                        g.FillRectangle(backBrush, localBounds);
+                    });
 
-                        // Create rect for the text area
-                        Size borderSize = SystemInformation.BorderSize;
-                        rect.left -= borderSize.Width + 1;
-
-                        //////////////////////////////////////////////////////
-                        // Following to allow the Draw to always happen, to allow centering etc
-                        _internalNumericUpDown.TextAlign =
-                            states.Content.GetContentShortTextH(state) switch
-                            {
-                                PaletteRelativeAlign.Center => HorizontalAlignment.Center,
-                                PaletteRelativeAlign.Far => HorizontalAlignment.Right,
-                                _ => HorizontalAlignment.Left
-                            };
-
-                        if (NumericUpDown is { TrailingZeroes: false, AllowDecimals: true })
+                    //////////////////////////////////////////////////////
+                    // Following to allow the Draw to always happen, to allow centering etc
+                    _internalNumericUpDown.TextAlign =
+                        contentH switch
                         {
-                            // Got ot deal with culture formatting, and also the override to include `ThousandsSeparator`
-                            var textInvariantAsRequested =
-                                _internalNumericUpDown.Value.ToString(
-                                    $"F{_internalNumericUpDown.DecimalPlaces.ToString(CultureInfo
-                                        .InvariantCulture)}", CultureInfo.CurrentCulture);
-                            var textInvariantAsTrimmed =
-                                _internalNumericUpDown.Value.ToString(@"0.#########################",
-                                    CultureInfo.InvariantCulture);
-                            var lengthToRemove = textInvariantAsRequested.Length -
-                                                 textInvariantAsTrimmed.Length;
-                            if (lengthToRemove > 0)
-                            {
-                                _internalNumericUpDown.SetChangingText(true);
-                                _internalNumericUpDown.Text = textInvariantAsRequested.Substring(0,
-                                    textInvariantAsRequested.Length - lengthToRemove);
-                            }
-                        }
+                            PaletteRelativeAlign.Center => HorizontalAlignment.Center,
+                            PaletteRelativeAlign.Far => HorizontalAlignment.Right,
+                            _ => HorizontalAlignment.Left
+                        };
 
-                        // Let base implementation draw the actual text area
-                        if (m.WParam == IntPtr.Zero)
+                    if (NumericUpDown is { TrailingZeroes: false, AllowDecimals: true })
+                    {
+                        // Got ot deal with culture formatting, and also the override to include `ThousandsSeparator`
+                        var textInvariantAsRequested =
+                            _internalNumericUpDown.Value.ToString(
+                                $"F{_internalNumericUpDown.DecimalPlaces.ToString(CultureInfo
+                                    .InvariantCulture)}", CultureInfo.CurrentCulture);
+                        var textInvariantAsTrimmed =
+                            _internalNumericUpDown.Value.ToString(@"0.#########################",
+                                CultureInfo.InvariantCulture);
+                        var lengthToRemove = textInvariantAsRequested.Length -
+                                             textInvariantAsTrimmed.Length;
+                        if (lengthToRemove > 0)
                         {
-                            m.WParam = hdc;
-                            DefWndProc(ref m);
-                            m.WParam = IntPtr.Zero;
-                        }
-                        else
-                        {
-                            DefWndProc(ref m);
+                            _internalNumericUpDown.SetChangingText(true);
+                            _internalNumericUpDown.Text = textInvariantAsRequested.Substring(0,
+                                textInvariantAsRequested.Length - lengthToRemove);
                         }
                     }
 
+                    // Create message copy for safe DefWndProc call
+                    var msgCopy = m;
+                    
+                    // Let base implementation draw the actual text area
+                    if (originalWParam == IntPtr.Zero)
+                    {
+                        msgCopy.WParam = hdc;
+                        DefWndProc(ref msgCopy);
+                    }
+                    else
+                    {
+                        DefWndProc(ref msgCopy);
+                    }
+
                     // Do we need to match the original BeginPaint?
-                    if (m.WParam == IntPtr.Zero)
+                    if (originalWParam == IntPtr.Zero)
                     {
                         PI.EndPaint(Handle, ref ps);
                     }
@@ -469,7 +471,6 @@ public class KryptonNumericUpDown : VisualControlBase,
         #region Instance Fields
         private PaletteTripleToPalette _palette;
         private ViewDrawButton _viewButton;
-        private IntPtr _screenDC;
         private Point _mousePressed;
         #endregion
 
@@ -486,9 +487,6 @@ public class KryptonNumericUpDown : VisualControlBase,
             : base(buttonsPtr, kryptonNumericUpDown, internalNumericUpDown)
         {
             _mousePressed = new Point(-int.MaxValue, -int.MaxValue);
-
-            // We need to create and cache a device context compatible with the display
-            _screenDC = PI.CreateCompatibleDC(IntPtr.Zero);
         }
         #endregion
 
@@ -498,11 +496,6 @@ public class KryptonNumericUpDown : VisualControlBase,
         /// </summary>
         public void Dispose()
         {
-            if (_screenDC != IntPtr.Zero)
-            {
-                PI.DeleteDC(_screenDC);
-                _screenDC = IntPtr.Zero;
-            }
         }
 
         /// <summary>
@@ -566,48 +559,22 @@ public class KryptonNumericUpDown : VisualControlBase,
 
                     // Grab the client area of the control
                     PI.GetClientRect(Handle, out PI.RECT rect);
-                    var clientRect = new Rectangle(rect.left, rect.top, rect.right - rect.left,
-                        rect.bottom - rect.top);
+                    var clientRect = new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
 
                     try
                     {
-                        // Create bitmap that all drawing occurs onto, then we can blit it later to remove flicker
-                        var hBitmap = PI.CreateCompatibleBitmap(hdc, clientRect.Right, clientRect.Bottom);
-
-                        // If we managed to get a compatible bitmap
-                        if (hBitmap != IntPtr.Zero)
+                        // Use buffered painting to avoid invalid parameter exceptions
+                        RenderBufferedPaintHelper.PaintBuffered(hdc, clientRect, g =>
                         {
-                            // Must use the screen device context for the bitmap when drawing into the
-                            // bitmap otherwise the Opacity and RightToLeftLayout will not work correctly.
-                            var oldBitmap = PI.SelectObject(_screenDC, hBitmap);
+                            // Use local (0,0)-based bounds for painting
+                            var localBounds = new Rectangle(Point.Empty, clientRect.Size);
+                            // Drawn entire client area in the background color
+                            using var backBrush = new SolidBrush(NumericUpDown.NumericUpDown.BackColor);
+                            g.FillRectangle(backBrush, localBounds);
 
-                            try
-                            {
-                                // Easier to draw using a graphics instance than a DC!
-                                using Graphics g = Graphics.FromHdc(_screenDC);
-                                // Drawn entire client area in the background color
-                                using (var backBrush = new SolidBrush(NumericUpDown.NumericUpDown.BackColor))
-                                {
-                                    g.FillRectangle(backBrush, clientRect);
-                                }
-
-                                // Draw the actual up and down buttons split inside the client rectangle
-                                DrawUpDownButtons(g,
-                                    clientRect with { Height = clientRect.Height - 1 });
-
-                                // Now blit from the bitmap from the screen to the real dc
-                                PI.BitBlt(hdc, clientRect.X, clientRect.Y, clientRect.Width, clientRect.Height,
-                                    _screenDC, clientRect.X, clientRect.Y, PI.SRCCOPY);
-                            }
-                            finally
-                            {
-                                // Restore the original bitmap
-                                PI.SelectObject(_screenDC, oldBitmap);
-
-                                // Delete the temporary bitmap
-                                PI.DeleteObject(hBitmap);
-                            }
-                        }
+                            // Draw the actual up and down buttons split inside the client rectangle
+                            DrawUpDownButtons(g, localBounds with { Height = localBounds.Height - 1 });
+                        });
                     }
                     finally
                     {

@@ -3,6 +3,7 @@
 ====
 
 ## 2025-11-xx - Build 2511 (V10 - alpha) - November 2025
+* Resolved [#2348](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2348), Replace raw memory-DC double-buffering with GDI+ bitmap buffering
 * Implemented [#2354](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2354), `KryptonDataGridView.DoubleBuffered` property added.
 * Implemented [#2220](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2220), Enables limited support on multiple Krypton Controls for unicode surrogates.
 * Implemented [#2339](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2339), Add a emoji parser for future features
