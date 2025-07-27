@@ -225,6 +225,23 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public New
+        /// <inheritdoc/>
+        [Category(@"Behavior")]
+        [DefaultValue(true)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        public new bool DoubleBuffered 
+        {
+            get => base.DoubleBuffered;
+            set
+            {
+                if (base.DoubleBuffered != value)
+                {
+                    base.DoubleBuffered = value;
+                    Invalidate();
+                }
+            }
+        }
+
         /// <summary>
         /// Gets or sets the number of columns displayed in the KryptonDataGridView.
         /// </summary>
