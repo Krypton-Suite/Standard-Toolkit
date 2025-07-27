@@ -11,8 +11,8 @@ namespace Krypton.Toolkit;
 
 public abstract class PaletteVisualStudio2019DarkMode : PaletteVisualStudioBase
 {
-    protected PaletteVisualStudio2019DarkMode(Color[] schemeColours, ImageList checkBoxList, ImageList galleryButtonList, Image?[] radioButtonArray, Color[] trackBarColours) 
-        : base(schemeColours, checkBoxList, galleryButtonList, radioButtonArray, trackBarColours)
+    protected PaletteVisualStudio2019DarkMode(Color[] schemeColors, ImageList checkBoxList, ImageList galleryButtonList, Image?[] radioButtonArray, Color[] trackBarColors) 
+        : base(schemeColors, checkBoxList, galleryButtonList, radioButtonArray, trackBarColors)
     {
         ThemeName = nameof(PaletteVisualStudio2019DarkMode);
     }
