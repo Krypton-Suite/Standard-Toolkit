@@ -1150,6 +1150,7 @@ public abstract class PaletteBase : Component
             case PaletteButtonSpecStyle.ArrowLeft:
             case PaletteButtonSpecStyle.ArrowRight:
             case PaletteButtonSpecStyle.ArrowUp:
+            case PaletteButtonSpecStyle.ArrowDown:
             case PaletteButtonSpecStyle.DropDown:
             case PaletteButtonSpecStyle.PinVertical:
             case PaletteButtonSpecStyle.PinHorizontal:
@@ -1945,7 +1946,6 @@ public abstract class PaletteBase : Component
         // Convert to HSL space
         ColorHSL hsl = new ColorHSL(baseColor)
         {
-
             // Remove saturation and fix luminance
             Saturation = 0.0f,
             Luminance = 0.55f
@@ -2105,13 +2105,46 @@ public abstract class PaletteBase : Component
     }
     #endregion
 
+    #region Palette Helpers
+
     private readonly object _colorLock = new();
+
+    /// <summary>
+    /// Resets <see cref="ColorTable"/> to be updated on next paint.
+    /// </summary>
+    protected virtual void InvalidateColorTable()
+    {
+        // Default implementation uses reflection as fallback
+        var tableField = GetType().GetField("_table", BindingFlags.Instance | BindingFlags.NonPublic)
+                         ?? GetType().GetField("Table", BindingFlags.Instance | BindingFlags.NonPublic);
+
+        if (tableField != null)
+        {
+            tableField.SetValue(this, null);
+            return;
+        }
+
+        // Try property approach
+        var tableProp = GetType().GetProperty("ColorTable", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+        if (tableProp != null && tableProp.CanWrite)
+        {
+            tableProp.SetValue(this, null);
+        }
+    }
+
+    /// <summary>
+    /// Updates scheme colors and invalidates the color table.
+    /// </summary>
+    protected void UpdateColorTable()
+    {
+        InvalidateColorTable();
+    }
 
     /// <summary>
     /// Copies <paramref name="source"/> into <see cref="SchemeColors"/> and invalidates the color table.
     /// <param name="source">Color array with all values.</param>
     /// </summary>
-    protected void CopySchemeColors(Color[] source)
+    public virtual void CopySchemeColors(Color[] source)
     {
         if (source == null)
         {
@@ -2121,26 +2154,65 @@ public abstract class PaletteBase : Component
         lock (_colorLock)
         {
             Array.Copy(source, SchemeColors, Math.Min(source.Length, SchemeColors.Length));
-
-            // Invalidate any cached color-table so it will rebuild next time.
-            var tableField = GetType().GetField("Table", BindingFlags.Instance | BindingFlags.NonPublic)
-                            ?? GetType().GetField("_table", BindingFlags.Instance | BindingFlags.NonPublic);
-
-            if (tableField != null)
-            {
-                tableField.SetValue(this, null);
-            }
-            else
-            {
-                // Some palette bases expose the table as a property instead of a field.
-                var tableProp = GetType().GetProperty("Table", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
-                if (tableProp != null && tableProp.CanWrite)
-                {
-                    tableProp.SetValue(this, null);
-                }
-            }
+            InvalidateColorTable();
         }
 
         OnPalettePaint(this, new PaletteLayoutEventArgs(true, true));
     }
+
+    // Thread-safe single-color setter
+    public virtual void SetSchemeColor(SchemeBaseColors colorIndex, Color newColor)
+    {
+        lock (_colorLock)
+        {
+            SchemeColors[(int)colorIndex] = newColor;
+            InvalidateColorTable();
+        }
+    }
+
+    // Thread-safe single-color getter
+    public virtual Color GetSchemeColor(SchemeBaseColors colorIndex)
+    {
+        lock (_colorLock)
+        {
+            return SchemeColors[(int)colorIndex];
+        }
+    }
+
+    // Thread-safe batch update
+    public virtual void UpdateSchemeColors(Dictionary<SchemeBaseColors, Color> colorUpdates)
+    {
+        if (colorUpdates is null)
+        {
+            throw new ArgumentNullException(nameof(colorUpdates));
+        }
+
+        lock (_colorLock)
+        {
+            foreach (var update in colorUpdates)
+            {
+                SchemeColors[(int)update.Key] = update.Value;
+            }
+            InvalidateColorTable();
+        }
+    }
+
+    // Thread-safe full-scheme replacement
+    public void ApplyScheme(KryptonColorSchemeBase newScheme)
+    {
+        if (newScheme is null)
+        {
+            throw new ArgumentNullException(nameof(newScheme));
+        }
+
+        var newColors = newScheme.ToArray();
+
+        lock (_colorLock)
+        {
+            Array.Copy(newColors, SchemeColors, newColors.Length);
+            InvalidateColorTable();
+        }
+    }
+
+    #endregion Palette Helpers
 }
