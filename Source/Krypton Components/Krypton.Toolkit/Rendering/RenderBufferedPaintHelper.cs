@@ -20,8 +20,10 @@ public static class RenderBufferedPaintHelper
     /// <param name="paintAction">Delegate that does the actual drawing into the provided Graphics.</param>
     public static void PaintBuffered(Graphics targetGraphics, Rectangle targetRectangle, Action<Graphics> paintAction)
     {
-        if ((targetRectangle.Width <= 0) || (targetRectangle.Height <= 0))
+        if (targetRectangle.Width <= 0 || targetRectangle.Height <= 0)
+        {
             return;
+        }
 
         using var bitmap = new Bitmap(targetRectangle.Width, targetRectangle.Height);
         using var gMem = Graphics.FromImage(bitmap);
