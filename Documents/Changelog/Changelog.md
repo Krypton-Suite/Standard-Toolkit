@@ -3,6 +3,8 @@
 ====
 
 ## 2025-11-xx - Build 2511 (V10 - alpha) - November 2025
+* Resolved [#2359](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2359), Revert painting changes in `VisualForm.cs` (from PR #2350)
+* Resolved [#2294](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2294), Introduce type-safe colour-scheme abstraction for all palette families
 * Resolved [#2348](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2348), Replace raw memory-DC double-buffering with GDI+ bitmap buffering
 * Implemented [#2354](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2354), `KryptonDataGridView.DoubleBuffered` property added.
 * Implemented [#2220](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2220), Enables limited support on multiple Krypton Controls for unicode surrogates.
@@ -18,7 +20,6 @@
 * Resolved [#2178](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2178), Fix `KryptonPropertyGrid` enabling logic for `Reset` menu-item
 * Resolved [#2312](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2312), (fix) correct GDI resource handling of components' WmPaint
 * Resolved [#2309](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2309), `KryptonDataGridViewImageColumn` causes lagging in grid refresh when a new row is auto added.
-* Resolved [#2294](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2294), Added ThemeGen assembly and kptheme CLI app.
 * Resolved [#2296](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2296), Fix `Visual Controls' components from showing blank content.
 * Resolved [#2299](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2299), Fix memory leak in PaletteBase
 * Resolved [#2235](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2235), `OSUtilities` Adds OsVersionInfo to the properties.

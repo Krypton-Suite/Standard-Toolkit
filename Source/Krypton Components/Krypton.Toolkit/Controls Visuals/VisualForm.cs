@@ -42,6 +42,7 @@ public abstract class VisualForm : Form,
     private KryptonCustomPaletteBase? _localCustomPalette;
     private PaletteBase _palette;
     private PaletteMode _paletteMode;
+    private readonly IntPtr _screenDC;
     private ShadowValues _shadowValues;
     private ShadowManager _shadowManager;
     private BlurValues _blurValues;
@@ -103,6 +104,9 @@ public abstract class VisualForm : Form,
         // Automatically redraw whenever the size of the window changes
         SetStyle(ControlStyles.ResizeRedraw, true);
 
+        // We need to create and cache a device context compatible with the display
+        _screenDC = PI.CreateCompatibleDC(IntPtr.Zero);
+
         // Setup the need paint delegate
         NeedPaintDelegate = OnNeedPaint;
 
@@ -158,6 +162,11 @@ public abstract class VisualForm : Form,
         base.Dispose(disposing);
 
         ViewManager?.Dispose();
+
+        if (_screenDC != IntPtr.Zero)
+        {
+            PI.DeleteDC(_screenDC);
+        }
     }
     #endregion
 
@@ -1455,49 +1464,87 @@ public abstract class VisualForm : Form,
     /// <param name="hWnd">Window handle of window being painted.</param>
     protected virtual void OnNonClientPaint(IntPtr hWnd)
     {
-        // Get the real window bounds
+        // Create rectangle that encloses the entire window
         Rectangle windowBounds = RealWindowRectangle;
-        if (windowBounds.Width <= 0 || windowBounds.Height <= 0)
-            return;
 
-        IntPtr hDC = PI.GetWindowDC(Handle);
-        if (hDC == IntPtr.Zero)
-            return;
-
-        try
+        // We can only draw a window that has some size
+        if (windowBounds is { Width: > 0, Height: > 0 })
         {
-            // Clip out the client area so we only paint the non-client region
-            Padding borders = RealWindowBorders;
-            Rectangle clipClientRect = new(
-                borders.Left,
-                borders.Top,
-                windowBounds.Width - borders.Horizontal,
-                windowBounds.Height - borders.Vertical);
+            // Get the device context for this window
+            IntPtr hDC = PI.GetWindowDC(Handle);
 
-            bool minimized = CommonHelper.IsFormMinimized(this);
-            if (!minimized)
+            // If we managed to get a device context
+            if (hDC != IntPtr.Zero)
             {
-                PI.ExcludeClipRect(
-                    hDC,
-                    clipClientRect.Left,
-                    clipClientRect.Top,
-                    clipClientRect.Right,
-                    clipClientRect.Bottom);
+                try
+                {
+                    // Find the rectangle that covers the client area of the form
+                    Padding borders = RealWindowBorders;
+
+                    var clipClientRect = new Rectangle(borders.Left, borders.Top,
+                        windowBounds.Width - borders.Horizontal, windowBounds.Height - borders.Vertical);
+
+                    var minimized = CommonHelper.IsFormMinimized(this);
+
+                    // After excluding the client area, is there anything left to draw?
+                    if (minimized || clipClientRect is { Width: > 0, Height: > 0 })
+                    {
+                        // If not minimized we need to clip the client area
+                        if (!minimized)
+                        {
+                            // Exclude client area from being drawn into and bit blitted
+                            PI.ExcludeClipRect(hDC, clipClientRect.Left, clipClientRect.Top,
+                                clipClientRect.Right, clipClientRect.Bottom);
+                        }
+
+                        // Create one the correct size and cache for future drawing
+                        IntPtr hBitmap = PI.CreateCompatibleBitmap(hDC, windowBounds.Width, windowBounds.Height);
+
+                        // If we managed to get a compatible bitmap
+                        if (hBitmap != IntPtr.Zero)
+                        {
+                            // Must use the screen device context for the bitmap when drawing into the
+                            // bitmap otherwise the Opacity and RightToLeftLayout will not work correctly.
+                            // Select the new bitmap into the screen DC
+                            IntPtr oldBitmap = PI.SelectObject(_screenDC, hBitmap);
+
+                            try
+                            {
+                                // Drawing is easier when using a Graphics instance
+                                using (Graphics g = Graphics.FromHdc(_screenDC))
+                                {
+                                    WindowChromePaint(g, windowBounds);
+                                }
+
+                                // Now blit from the bitmap to the screen
+                                PI.BitBlt(hDC, 0, 0, windowBounds.Width, windowBounds.Height, _screenDC, 0, 0, PI.SRCCOPY);
+                            }
+                            finally
+                            {
+                                // Restore the original bitmap
+                                PI.SelectObject(_screenDC, oldBitmap);
+
+                                // Delete the temporary bitmap
+                                PI.DeleteObject(hBitmap);
+                            }
+                        }
+                        else
+                        {
+                            // Drawing is easier when using a Graphics instance
+                            using Graphics g = Graphics.FromHdc(hDC);
+                            WindowChromePaint(g, windowBounds);
+                        }
+                    }
+                }
+                finally
+                {
+                    // Must always release the device context
+                    PI.ReleaseDC(Handle, hDC);
+                }
             }
-
-            // Use our buffered‐paint helper instead of raw DIB/DC
-            RenderBufferedPaintHelper.PaintBuffered(hDC, windowBounds, g =>
-            {
-                var localBounds = new Rectangle(Point.Empty, windowBounds.Size);
-                WindowChromePaint(g, localBounds);
-            });
-        }
-        finally
-        {
-            PI.ReleaseDC(Handle, hDC);
         }
 
-        // Count this paint cycle
+        // Bump the number of paints that have occurred
         PaintCount++;
     }
 
