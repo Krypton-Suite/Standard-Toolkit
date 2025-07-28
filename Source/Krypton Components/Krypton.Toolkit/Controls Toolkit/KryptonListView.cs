@@ -1,7 +1,7 @@
-#region BSD License
+﻿#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2021 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2021 - 2024. All rights reserved. 
  */
 #endregion
 
@@ -30,6 +30,7 @@ namespace Krypton.Toolkit
 
             private readonly ViewManager? _viewManager;
             private readonly KryptonListView _kryptonListView;
+            private readonly IntPtr _screenDC;
             private bool _mouseOver;
 
             #endregion
@@ -71,6 +72,22 @@ namespace Krypton.Toolkit
                 base.Size = Size.Empty;
                 base.BorderStyle = BorderStyle.None;
                 // ReSharper restore RedundantBaseQualifier
+
+                // We need to create and cache a device context compatible with the display
+                _screenDC = PI.CreateCompatibleDC(IntPtr.Zero);
+            }
+
+            /// <summary>
+            /// Releases all resources used by the Control. 
+            /// </summary>
+            /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
+            protected override void Dispose(bool disposing)
+            {
+                base.Dispose(disposing);
+                if (_screenDC != IntPtr.Zero)
+                {
+                    PI.DeleteDC(_screenDC);
+                }
             }
 
             #endregion
@@ -148,7 +165,7 @@ namespace Krypton.Toolkit
                 switch (m.Msg)
                 {
                     case PI.WM_.ERASEBKGND:
-                        // Do not draw the background here, always do it in the paint
+                        // Do not draw the background here, always do it in the paint 
                         // instead to prevent flicker because of a two stage drawing process
                         break;
                     case PI.WM_.PRINTCLIENT:
@@ -206,54 +223,73 @@ namespace Krypton.Toolkit
             private void WmPaint(ref Message m)
             {
                 var ps = new PI.PAINTSTRUCT();
-                Message msgCopy = m;
 
                 // Do we need to BeginPaint or just take the given HDC?
                 IntPtr hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
 
+                // Create bitmap that all drawing occurs onto, then we can blit it later to remove flicker
                 Rectangle realRect = CommonHelper.RealClientRectangle(Handle);
 
-                try
+                // No point drawing when one of the dimensions is zero
+                if (realRect is { Width: > 0, Height: > 0 })
                 {
-                    RenderBufferedPaintHelper.PaintBuffered(hdc, realRect, g =>
+                    IntPtr hBitmap = PI.CreateCompatibleBitmap(hdc, realRect.Width, realRect.Height);
+
+                    // If we managed to get a compatible bitmap
+                    if (hBitmap != IntPtr.Zero)
                     {
-                        var localBounds = new Rectangle(Point.Empty, realRect.Size);
-
-                        // Ask the view element to layout in given space, needs this before a render call
-                        using (var context = new ViewLayoutContext(this, _kryptonListView.Renderer))
+                        try
                         {
-                            context.DisplayRectangle = localBounds;
-                            ViewDrawPanel.Layout(context);
-                        }
+                            // Must use the screen device context for the bitmap when drawing into the 
+                            // bitmap otherwise the Opacity and RightToLeftLayout will not work correctly.
+                            PI.SelectObject(_screenDC, hBitmap);
 
-                        using (var context = new RenderContext(this, _kryptonListView, g, localBounds,
-                                   _kryptonListView.Renderer))
+                            // Easier to draw using a graphics instance than a DC!
+                            using (Graphics g = Graphics.FromHdc(_screenDC))
+                            {
+                                // Ask the view element to layout in given space, needs this before a render call
+                                using (var context = new ViewLayoutContext(this, _kryptonListView.Renderer))
+                                {
+                                    context.DisplayRectangle = realRect;
+                                    ViewDrawPanel.Layout(context);
+                                }
+
+                                using (var context = new RenderContext(this, _kryptonListView, g, realRect,
+                                           _kryptonListView.Renderer))
+                                {
+                                    ViewDrawPanel.Render(context);
+                                }
+
+                                // We can only control the background color by using the built in property and not
+                                // by overriding the drawing directly, therefore we can only provide a single color.
+                                Color color1 = ViewDrawPanel.GetPalette().GetBackColor1(ViewDrawPanel.State);
+                                if (color1 != BackColor)
+                                {
+                                    BackColor = color1;
+                                }
+
+                                // Replace given DC with the screen DC for base window proc drawing
+                                IntPtr beforeDC = m.WParam;
+                                m.WParam = _screenDC;
+                                DefWndProc(ref m);
+                                m.WParam = beforeDC;
+                            }
+
+                            // Now blit from the bitmap from the screen to the real dc
+                            PI.BitBlt(hdc, 0, 0, realRect.Width, realRect.Height, _screenDC, 0, 0, PI.SRCCOPY);
+                        }
+                        finally
                         {
-                            ViewDrawPanel.Render(context);
+                            // Delete the temporary bitmap
+                            PI.DeleteObject(hBitmap);
                         }
-
-                        // We can only control the background color by using the built in property and not
-                        // by overriding the drawing directly, therefore we can only provide a single color.
-                        Color color1 = ViewDrawPanel.GetPalette().GetBackColor1(ViewDrawPanel.State);
-                        if (color1 != BackColor)
-                        {
-                            BackColor = color1;
-                        }
-
-                        // Use the buffered HDC for base window proc drawing (no need to call GetHdc on Graphics)
-                        IntPtr beforeDC = msgCopy.WParam;
-                        msgCopy.WParam = hdc;
-                        DefWndProc(ref msgCopy);
-                        msgCopy.WParam = beforeDC;
-                    });
-                }
-                finally
-                {
-                    // Do we need to match the original BeginPaint?
-                    if (m.WParam == IntPtr.Zero)
-                    {
-                        PI.EndPaint(Handle, ref ps);
                     }
+                }
+
+                // Do we need to match the original BeginPaint?
+                if (m.WParam == IntPtr.Zero)
+                {
+                    PI.EndPaint(Handle, ref ps);
                 }
             }
 
@@ -273,6 +309,7 @@ namespace Krypton.Toolkit
         private readonly ViewLayoutFill _layoutFill;
         private readonly InternalListView _listView;
         private bool? _fixedActive;
+        private readonly IntPtr _screenDC;
         private bool _mouseOver;
         private bool _alwaysActive;
         private bool _forcedLayout;
@@ -339,7 +376,7 @@ namespace Krypton.Toolkit
             // Contains another control and needs marking as such for validation to work
             SetStyle(ControlStyles.ContainerControl, true);
 
-            // Cannot select this control, only the child tree view and does not generate a
+            // Cannot select this control, only the child tree view and does not generate a 
             SetStyle(ControlStyles.Selectable | ControlStyles.StandardClick, false);
             // Default fields
             base.Padding = new Padding(1);
@@ -413,9 +450,12 @@ namespace Krypton.Toolkit
             {
                 { drawDockerInner, ViewDockStyle.Fill }
             };
-
+            
             // Create the view manager instance
             ViewManager = new ViewManager(this, _drawDockerOuter);
+
+            // We need to create and cache a device context compatible with the display
+            _screenDC = PI.CreateCompatibleDC(IntPtr.Zero);
 
             // Add tree view to the controls collection
             ((KryptonReadOnlyControls)Controls).AddInternal(_listView);
@@ -452,6 +492,19 @@ namespace Krypton.Toolkit
             => VirtualItemsSelectionRangeChanged?.Invoke(this, e);
 
         private void OnListViewClick(object? sender, EventArgs e) => OnClick(e);
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+            if (_screenDC != IntPtr.Zero)
+            {
+                PI.DeleteDC(_screenDC);
+            }
+        }
 
         #region Public
 
@@ -965,13 +1018,13 @@ namespace Krypton.Toolkit
         /// <see langword="true" /> if <see cref="T:System.Windows.Forms.ListView" /> uses data-management operations that you provide; otherwise, <see langword="false" />. The default is <see langword="false" />.</returns>
         /// <exception cref="T:System.InvalidOperationException">
         ///         <see cref="P:System.Windows.Forms.ListView.VirtualMode" /> is set to <see langword="true" /> and one of the following conditions exist:
-        ///
+        /// 
         /// <see cref="P:System.Windows.Forms.ListView.VirtualListSize" /> is greater than 0 and <see cref="E:System.Windows.Forms.ListView.RetrieveVirtualItem" /> is not handled.
         ///  -or-
-        ///
+        /// 
         /// <see cref="P:System.Windows.Forms.ListView.Items" />, <see cref="P:System.Windows.Forms.ListView.CheckedItems" />, or <see cref="P:System.Windows.Forms.ListView.SelectedItems" /> contains items.
         ///  -or-
-        ///
+        /// 
         /// Edits are made to <see cref="P:System.Windows.Forms.ListView.Items" />.</exception>
         [Category("Behavior")]
         [DefaultValue(false)]
@@ -1329,7 +1382,7 @@ namespace Krypton.Toolkit
             switch (m.Msg)
             {
                 case PI.WM_.ERASEBKGND:
-                    // Do not draw the background here, always do it in the paint
+                    // Do not draw the background here, always do it in the paint 
                     // instead to prevent flicker because of a two stage drawing process
                     break;
                 //case PI.WM_.PRINTCLIENT:
