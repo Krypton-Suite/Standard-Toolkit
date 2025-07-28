@@ -1,15 +1,15 @@
 ﻿#region BSD License
 /*
- *
+ * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2021 - 2025. All rights reserved.
- *
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2021 - 2025. All rights reserved. 
+ *  
  */
 #endregion
 
 #if NET8_0_OR_GREATER
 using MethodInvoker = System.Windows.Forms.MethodInvoker;
-#endif
+#endif 
 
 // ReSharper disable InconsistentNaming
 
@@ -308,33 +308,24 @@ internal class CommonDialogHandler
                     {
                         var ps = new PI.PAINTSTRUCT();
 
-                        // Acquire device context for the child control
+                        // Do we need to BeginPaint or just take the given HDC?
                         var hdc = PI.BeginPaint(control.hWnd, ref ps);
                         if (hdc == IntPtr.Zero)
                         {
                             break;
                         }
 
-                        // Determine the bounds of the child window (always start at 0,0 inside its own DC)
-                        var bounds = new Rectangle(Point.Empty, control.Size);
-
-                        // Avoid CS1628 by copying message data if needed later (none here, but keep pattern consistent)
-                        RenderBufferedPaintHelper.PaintBuffered(hdc, bounds, g =>
+                        using (Graphics g = Graphics.FromHdc(hdc))
                         {
-                            // Use local (0,0)-based bounds for off-screen bitmap rendering
-                            var localBounds = new Rectangle(Point.Empty, bounds.Size);
-
                             using var gh = new GraphicsHint(g, PaletteGraphicsHint.AntiAlias);
                             var lineColor = KryptonManager.CurrentGlobalPalette.GetBorderColor1(PaletteBorderStyle.ControlGroupBox, PaletteState.Normal);
-                            DrawRoundedRectangle(g,
-                                new Pen(lineColor),
-                                new Point(0, 10),
-                                localBounds.Size - new Size(1, 11), 5);
+                            DrawRoundedRectangle(g, new Pen(lineColor), new Point(0, 10),
+                                control.Size - new Size(1, 11), 5);
                             var font = KryptonManager.CurrentGlobalPalette.GetContentShortTextFont(PaletteContentStyle.LabelNormalPanel, PaletteState.Normal);
                             TextRenderer.DrawText(g, control.Text, font, new Point(4, 0), _defaultFontColour,
                                 _backColour,
                                 TextFormatFlags.HidePrefix | TextFormatFlags.NoClipping);
-                        });
+                        }
 
                         PI.EndPaint(control.hWnd, ref ps);
                         PI.ReleaseDC(control.hWnd, hdc);
@@ -479,7 +470,7 @@ internal class CommonDialogHandler
                 AutoReset = false,
                 Enabled = true
             };
-            // Hook up the Elapsed event for the timer.
+            // Hook up the Elapsed event for the timer. 
             _resizeTimer.Elapsed += OnResizeTimedEvent;
         }
     }
