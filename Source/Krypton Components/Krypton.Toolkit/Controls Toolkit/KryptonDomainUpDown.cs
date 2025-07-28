@@ -343,48 +343,50 @@ public class KryptonDomainUpDown : VisualControlBase,
                     // Do we need to BeginPaint or just take the given HDC?
                     var hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
 
-                    // Determine client rectangle
-                    PI.GetClientRect(Handle, out PI.RECT rect);
-                    Rectangle clientRect = new(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
-
-                    // Copy message for safe modification inside lambda
-                    Message msgCopy = m;
-
-                    RenderBufferedPaintHelper.PaintBuffered(hdc, clientRect, g =>
+                    // Paint the entire area in the background color
+                    using (Graphics g = Graphics.FromHdc(hdc))
                     {
-                        // Use local (0,0)-based bounds for painting
-                        var localBounds = new Rectangle(Point.Empty, clientRect.Size);
+                        // Grab the client area of the control
+                        PI.GetClientRect(Handle, out PI.RECT rect);
 
                         PaletteState state = DomainUpDown.Enabled
-                            ? (DomainUpDown.IsActive ? PaletteState.Tracking : PaletteState.Normal)
-                            : PaletteState.Disabled;
-
+                                ? (DomainUpDown.IsActive ? PaletteState.Tracking : PaletteState.Normal)
+                                : PaletteState.Disabled
+                            ;
                         PaletteInputControlTripleStates states = DomainUpDown.GetTripleState();
 
-                        // Fill background
-                        using var backBrush = new SolidBrush(states.PaletteBack.GetBackColor1(state));
-                        g.FillRectangle(backBrush, localBounds);
-
-                        // Adjust text alignment based on palette
-                        _internalDomainUpDown.TextAlign = states.Content.GetContentShortTextH(state) switch
+                        // Drawn entire client area in the background color
+                        using (var backBrush = new SolidBrush(states.PaletteBack.GetBackColor1(state)))
                         {
-                            PaletteRelativeAlign.Center => HorizontalAlignment.Center,
-                            PaletteRelativeAlign.Far => HorizontalAlignment.Right,
-                            _ => HorizontalAlignment.Left
-                        };
-
-                        // Let base control draw its content into the buffered graphics
-                        IntPtr memHdc = g.GetHdc();
-                        try
-                        {
-                            msgCopy.WParam = memHdc;
-                            DefWndProc(ref msgCopy);
+                            g.FillRectangle(backBrush, new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top));
                         }
-                        finally
+
+                        // Create rect for the text area
+                        Size borderSize = SystemInformation.BorderSize;
+                        rect.left -= borderSize.Width + 1;
+
+                        //////////////////////////////////////////////////////
+                        // Following to allow the Draw to always happen, to allow centering etc
+                        _internalDomainUpDown.TextAlign =
+                            states.Content.GetContentShortTextH(state) switch
+                            {
+                                PaletteRelativeAlign.Center => HorizontalAlignment.Center,
+                                PaletteRelativeAlign.Far => HorizontalAlignment.Right,
+                                _ => HorizontalAlignment.Left
+                            };
+
+                        // Let base implementation draw the actual text area
+                        if (m.WParam == IntPtr.Zero)
                         {
-                            g.ReleaseHdc(memHdc);
+                            m.WParam = hdc;
+                            DefWndProc(ref m);
+                            m.WParam = IntPtr.Zero;
                         }
-                    });
+                        else
+                        {
+                            DefWndProc(ref m);
+                        }
+                    }
 
                     // Do we need to match the original BeginPaint?
                     if (m.WParam == IntPtr.Zero)
@@ -442,6 +444,7 @@ public class KryptonDomainUpDown : VisualControlBase,
         #region Instance Fields
         private PaletteTripleToPalette _palette;
         private ViewDrawButton _viewButton;
+        private IntPtr _screenDC;
         private Point _mousePressed;
         #endregion
 
@@ -459,6 +462,9 @@ public class KryptonDomainUpDown : VisualControlBase,
         {
             _mousePressed = new Point(-int.MaxValue, -int.MaxValue);
 
+            // We need to create and cache a device context compatible with the display
+            _screenDC = PI.CreateCompatibleDC(IntPtr.Zero);
+
         }
         #endregion
 
@@ -468,6 +474,11 @@ public class KryptonDomainUpDown : VisualControlBase,
         /// </summary>
         public void Dispose()
         {
+            if (_screenDC != IntPtr.Zero)
+            {
+                PI.DeleteDC(_screenDC);
+                _screenDC = IntPtr.Zero;
+            }
         }
 
         /// <summary>
@@ -537,18 +548,44 @@ public class KryptonDomainUpDown : VisualControlBase,
 
                     try
                     {
-                        RenderBufferedPaintHelper.PaintBuffered(hdc, clientRect, g =>
-                        {
-                            // Use local (0,0)-based bounds for painting
-                            var localBounds = new Rectangle(Point.Empty, clientRect.Size);
+                        // Create bitmap that all drawing occurs onto, then we can blit it later to remove flicker
+                        var hBitmap = PI.CreateCompatibleBitmap(hdc, clientRect.Right, clientRect.Bottom);
 
-                            using (var backBrush = new SolidBrush(DomainUpDown.DomainUpDown.BackColor))
-                                g.FillRectangle(backBrush, localBounds);
-                            DrawUpDownButtons(g, localBounds with { Height = localBounds.Height - 1 });
-                        });
+                        // If we managed to get a compatible bitmap
+                        if (hBitmap != IntPtr.Zero)
+                        {
+                            // Must use the screen device context for the bitmap when drawing into the
+                            // bitmap otherwise the Opacity and RightToLeftLayout will not work correctly.
+                            IntPtr oldBitmap = PI.SelectObject(_screenDC, hBitmap);
+                            try
+                            {
+                                // Easier to draw using a graphics instance than a DC!
+                                using Graphics g = Graphics.FromHdc(_screenDC);
+                                // Drawn entire client area in the background color
+                                using (var backBrush = new SolidBrush(DomainUpDown.DomainUpDown.BackColor))
+                                {
+                                    g.FillRectangle(backBrush, clientRect);
+                                }
+
+                                // Draw the actual up and down buttons split inside the client rectangle
+                                DrawUpDownButtons(g,
+                                    clientRect with { Height = clientRect.Height - 1 });
+
+                                // Now blit from the bitmap from the screen to the real dc
+                                PI.BitBlt(hdc, clientRect.X, clientRect.Y, clientRect.Width, clientRect.Height,
+                                    _screenDC, clientRect.X, clientRect.Y, PI.SRCCOPY);
+                            }
+                            finally
+                            {
+                                PI.SelectObject(_screenDC, oldBitmap);
+                                // Delete the temporary bitmap
+                                PI.DeleteObject(hBitmap);
+                            }
+                        }
                     }
                     finally
                     {
+                        // Do we need to match the original BeginPaint?
                         if (m.WParam == IntPtr.Zero)
                         {
                             PI.EndPaint(Handle, ref ps);

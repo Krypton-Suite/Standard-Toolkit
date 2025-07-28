@@ -36,6 +36,7 @@ public class KryptonTreeView : VisualControlBase,
         #region Instance Fields
         private readonly ViewManager? _viewManager;
         private readonly KryptonTreeView _kryptonTreeView;
+        private readonly IntPtr _screenDC;
         private bool _mouseOver;
         #endregion
 
@@ -71,6 +72,22 @@ public class KryptonTreeView : VisualControlBase,
             base.Size = Size.Empty;
             base.BorderStyle = BorderStyle.None;
             // ReSharper restore RedundantBaseQualifier
+
+            // We need to create and cache a device context compatible with the display
+            _screenDC = PI.CreateCompatibleDC(IntPtr.Zero);
+        }
+
+        /// <summary>
+        /// Releases all resources used by the Control.
+        /// </summary>
+        /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+            if (_screenDC != IntPtr.Zero)
+            {
+                PI.DeleteDC(_screenDC);
+            }
         }
         #endregion
 
@@ -221,50 +238,61 @@ public class KryptonTreeView : VisualControlBase,
             // No point drawing when one of the dimensions is zero
             if (realRect is { Width: > 0, Height: > 0 })
             {
-                // Cache a copy of the message to safely use inside the lambda below
-                var messageCopy = m;
+                IntPtr hBitmap = PI.CreateCompatibleBitmap(hdc, realRect.Width, realRect.Height);
 
-                // Use buffered painting to avoid invalid parameter exceptions
-                RenderBufferedPaintHelper.PaintBuffered(hdc, realRect, g =>
+                // If we managed to get a compatible bitmap
+                if (hBitmap != IntPtr.Zero)
                 {
-                    var localBounds = new Rectangle(Point.Empty, realRect.Size);
+                    // Must use the screen device context for the bitmap when drawing into the
+                    // bitmap otherwise the Opacity and RightToLeftLayout will not work correctly.
+                    // Select the new bitmap into the screen DC
+                    var oldBitmap = PI.SelectObject(_screenDC, hBitmap);
 
-                    // Ask the view element to layout in given space, needs this before a render call
-                    using (var context = new ViewLayoutContext(this, _kryptonTreeView.Renderer))
-                    {
-                        context.DisplayRectangle = localBounds;
-                        ViewDrawPanel.Layout(context);
-                    }
-
-                    using (var context = new RenderContext(this, _kryptonTreeView,
-                           g, localBounds, _kryptonTreeView.Renderer))
-                    {
-                        ViewDrawPanel.Render(context);
-                    }
-
-                    // We can only control the background color by using the built in property and not
-                    // by overriding the drawing directly, therefore we can only provide a single color.
-                    Color color1 = ViewDrawPanel.GetPalette().GetBackColor1(ViewDrawPanel.State);
-                    if (color1 != BackColor)
-                    {
-                        BackColor = color1;
-                    }
-
-                    // Since we're using buffered painting, we need to handle DefWndProc differently
-                    // The original DC operations are handled by the buffer helper
-                    var tempHdc = g.GetHdc();
                     try
                     {
-                        // Create a local copy of the cached message with the new HDC
-                        var localMessage = messageCopy;
-                        localMessage.WParam = tempHdc;
-                        DefWndProc(ref localMessage);
+                        // Easier to draw using a graphics instance than a DC!
+                        using (Graphics g = Graphics.FromHdc(_screenDC))
+                        {
+                            // Ask the view element to layout in given space, needs this before a render call
+                            using (var context = new ViewLayoutContext(this, _kryptonTreeView.Renderer))
+                            {
+                                context.DisplayRectangle = realRect;
+                                ViewDrawPanel.Layout(context);
+                            }
+
+                            using (var context = new RenderContext(this, _kryptonTreeView, g, realRect,
+                                       _kryptonTreeView.Renderer))
+                            {
+                                ViewDrawPanel.Render(context);
+                            }
+
+                            // We can only control the background color by using the built in property and not
+                            // by overriding the drawing directly, therefore we can only provide a single color.
+                            Color color1 = ViewDrawPanel.GetPalette().GetBackColor1(ViewDrawPanel.State);
+                            if (color1 != BackColor)
+                            {
+                                BackColor = color1;
+                            }
+
+                            // Replace given DC with the screen DC for base window proc drawing
+                            IntPtr beforeDC = m.WParam;
+                            m.WParam = _screenDC;
+                            DefWndProc(ref m);
+                            m.WParam = beforeDC;
+                        }
+
+                        // Now blit from the bitmap from the screen to the real dc
+                        PI.BitBlt(hdc, 0, 0, realRect.Width, realRect.Height, _screenDC, 0, 0, PI.SRCCOPY);
                     }
                     finally
                     {
-                        g.ReleaseHdc(tempHdc);
+                        // Restore the original bitmap
+                        PI.SelectObject(_screenDC, oldBitmap);
+
+                        // Delete the temporary bitmap
+                        PI.DeleteObject(hBitmap);
                     }
-                });
+                }
             }
 
             // Do we need to match the original BeginPaint?
@@ -301,6 +329,7 @@ public class KryptonTreeView : VisualControlBase,
     private readonly FixedContentValue? _contentValues;
     private bool? _fixedActive;
     private ButtonStyle _style;
+    private readonly IntPtr _screenDC;
     private bool _itemHeightDefault;
     private bool _mouseOver;
     private bool _alwaysActive;
@@ -634,12 +663,27 @@ public class KryptonTreeView : VisualControlBase,
         // Create the view manager instance
         ViewManager = new ViewManager(this, _drawDockerOuter);
 
+        // We need to create and cache a device context compatible with the display
+        _screenDC = PI.CreateCompatibleDC(IntPtr.Zero);
+
         // Add tree view to the controls collection
         ((KryptonReadOnlyControls)Controls).AddInternal(_treeView);
     }
 
     private void OnTreeClick(object? sender, EventArgs e) => OnClick(e);
 
+    /// <summary>
+    /// Releases all resources used by the Control.
+    /// </summary>
+    /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
+    protected override void Dispose(bool disposing)
+    {
+        base.Dispose(disposing);
+        if (_screenDC != IntPtr.Zero)
+        {
+            PI.DeleteDC(_screenDC);
+        }
+    }
     #endregion
 
     #region Public
@@ -2118,8 +2162,8 @@ public class KryptonTreeView : VisualControlBase,
         // Update the view with the calculated state
         _drawButton.ElementState = buttonState;
 
-        Rectangle bounds = e.Bounds;
-        var indent = _treeView.Indent;
+        // Grab the raw device context for the graphics instance
+        var hdc = e.Graphics.GetHdc();
 
         try
         {
@@ -2148,67 +2192,57 @@ public class KryptonTreeView : VisualControlBase,
         // Use buffered painting to avoid invalid parameter exceptions
         RenderBufferedPaintHelper.PaintBuffered(e.Graphics, e.Bounds, g =>
         {
-            var localBounds = new Rectangle(Point.Empty, e.Bounds.Size);
-            var localNodeBounds = new Rectangle(bounds.X - e.Bounds.X, bounds.Y - e.Bounds.Y, bounds.Width, bounds.Height);
-            var localIndentBounds = new Rectangle(indentBounds.X - e.Bounds.X, indentBounds.Y - e.Bounds.Y, indentBounds.Width, indentBounds.Height);
+            Rectangle bounds = e.Bounds;
+            var indent = _treeView.Indent;
 
-            using (var context = new ViewLayoutContext(this, Renderer))
+            // Create indent rectangle and adjust bounds for remainder
+            var nodeIndent = NodeIndent(e.Node) + 2;
+            var indentBounds = bounds with { X = bounds.X + nodeIndent - indent, Width = indent };
+            bounds.X += nodeIndent;
+            bounds.Width -= nodeIndent;
+
+            // Create bitmap that all drawing occurs onto, then we can blit it later to remove flicker
+            var hBitmap = PI.CreateCompatibleBitmap(hdc, bounds.Right, bounds.Bottom);
+
+            // If we managed to get a compatible bitmap
+            if (hBitmap != IntPtr.Zero)
             {
-                context.DisplayRectangle = localBounds;
-                _treeView.ViewDrawPanel.Layout(context);
-                context.DisplayRectangle = localNodeBounds;
-
-                // If no using full row selection, then layout using only required width
-                Size prefSize = _layoutDocker.GetPreferredSize(context);
-                if (!FullRowSelect)
+                try
                 {
-                    if (prefSize.Width < localNodeBounds.Width)
+                    // Must use the screen device context for the bitmap when drawing into the
+                    // bitmap otherwise the Opacity and RightToLeftLayout will not work correctly.
+                    PI.SelectObject(_screenDC, hBitmap);
+
+                    // Easier to draw using a graphics instance than a DC!
+                    using Graphics g = Graphics.FromHdc(_screenDC);
+                    using (var context = new ViewLayoutContext(this, Renderer))
                     {
-                        localNodeBounds.Width = prefSize.Width;
-                    }
-                }
+                        context.DisplayRectangle = e.Bounds;
+                        _treeView.ViewDrawPanel.Layout(context);
+                        context.DisplayRectangle = bounds;
 
-                // Always ensure we have enough space for drawing all the elements
-                if (localNodeBounds.Width < prefSize.Width)
-                {
-                    localNodeBounds.Width = prefSize.Width;
-                }
+                        // If no using full row selection, then layout using only required width
+                        Size prefSize = _layoutDocker.GetPreferredSize(context);
+                        if (!FullRowSelect)
+                        {
+                            if (prefSize.Width < bounds.Width)
+                            {
+                                bounds.Width = prefSize.Width;
+                            }
+                        }
 
-                context.DisplayRectangle = localNodeBounds;
+                        // Always ensure we have enough space for drawing all the elements
+                        if (bounds.Width < prefSize.Width)
+                        {
+                            bounds.Width = prefSize.Width;
+                        }
 
-                _layoutDocker.Layout(context);
-            }
+                        context.DisplayRectangle = bounds;
 
-            using (var context = new RenderContext(this, g, localBounds, Renderer))
-            {
-                _treeView.ViewDrawPanel.Render(context);
-            }
-
-            // Do we have an indent area for drawing plus/minus/lines?
-            if (localIndentBounds.X >= 0)
-            {
-                // Do we draw lines between nodes?
-                if (ShowLines
-                    && (Redirector.GetMetricBool(PaletteState.Normal, PaletteMetricBool.TreeViewLines) != InheritBool.False))
-                {
-                    // Find center points
-                    var hCenter = localIndentBounds.X + (localIndentBounds.Width / 2) - 1;
-                    var vCenter = localIndentBounds.Y + (localIndentBounds.Height / 2);
-                    vCenter -= (vCenter + 1) % 2;
-
-                    // Default to showing full line height
-                    var top = localIndentBounds.Y;
-                    top -= (top + 1) % 2;
-                    var bottom = localIndentBounds.Bottom;
-
-                    // If the first root node then do not show top half of line
-                    if ((e.Node.Parent == null) && (e.Node.PrevNode == null))
-                    {
-                        top = vCenter;
+                        _layoutDocker.Layout(context);
                     }
 
-                    // If the last node in collection then do not show bottom half of line
-                    if (e.Node.NextNode == null)
+                    using (var context = new RenderContext(this, g, e.Bounds, Renderer))
                     {
                         // Do we draw lines between nodes?
                         if (ShowLines
@@ -2334,126 +2368,172 @@ public class KryptonTreeView : VisualControlBase,
 #endif
                             }
                         }
+                        
+                        _treeView.ViewDrawPanel.Render(context);
                     }
 
-                    // Draw the horizontal and vertical lines
-                    Color lineColor = Redirector.GetContentShortTextColor1(PaletteContentStyle.InputControlStandalone, PaletteState.Normal);
-                    using var linePen = new Pen(lineColor);
-                    linePen.DashStyle = DashStyle.Dot;
-                    linePen.DashOffset = indent % 2;
-                    g.DrawLine(linePen, hCenter, top, hCenter, bottom);
-                    g.DrawLine(linePen, hCenter - 1, vCenter - 1, localIndentBounds.Right, vCenter - 1);
-                    hCenter -= indent;
-
-                    // Draw the vertical lines for previous node levels
-                    while (hCenter >= 0)
+                    // Do we have an indent area for drawing plus/minus/lines?
+                    if (indentBounds.X >= 0)
                     {
-                        var begin = localIndentBounds.Y;
-                        begin -= (begin + 1) % 2;
-                        g.DrawLine(linePen, hCenter, begin, hCenter, localIndentBounds.Bottom);
-                        hCenter -= indent;
+                        // Do we draw lines between nodes?
+                        if (ShowLines
+                            && (Redirector.GetMetricBool(PaletteState.Normal, PaletteMetricBool.TreeViewLines) != InheritBool.False))
+                        {
+                            // Find center points
+                            var hCenter = indentBounds.X + (indentBounds.Width / 2) - 1;
+                            var vCenter = indentBounds.Y + (indentBounds.Height / 2);
+                            vCenter -= (vCenter + 1) % 2;
+
+                            // Default to showing full line height
+                            var top = indentBounds.Y;
+                            top -= (top + 1) % 2;
+                            var bottom = indentBounds.Bottom;
+
+                            // If the first root node then do not show top half of line
+                            if ((e.Node.Parent == null) && (e.Node.PrevNode == null))
+                            {
+                                top = vCenter;
+                            }
+
+                            // If the last node in collection then do not show bottom half of line
+                            if (e.Node.NextNode == null)
+                            {
+                                bottom = vCenter;
+                            }
+
+                            // Draw the horizontal and vertical lines
+                            Color lineColor = Redirector.GetContentShortTextColor1(PaletteContentStyle.InputControlStandalone, PaletteState.Normal);
+                            using var linePen = new Pen(lineColor);
+                            linePen.DashStyle = DashStyle.Dot;
+                            linePen.DashOffset = indent % 2;
+                            g.DrawLine(linePen, hCenter, top, hCenter, bottom);
+                            g.DrawLine(linePen, hCenter - 1, vCenter - 1, indentBounds.Right, vCenter - 1);
+                            hCenter -= indent;
+
+                            // Draw the vertical lines for previous node levels
+                            while (hCenter >= 0)
+                            {
+                                var begin = indentBounds.Y;
+                                begin -= (begin + 1) % 2;
+                                g.DrawLine(linePen, hCenter, begin, hCenter, indentBounds.Bottom);
+                                hCenter -= indent;
+                            }
+                        }
+
+                        // Do we draw any plus/minus images in indent bounds?
+                        if (ShowPlusMinus && (e.Node.Nodes.Count > 0))
+                        {
+                            Image? drawImage = _redirectImages!.GetTreeViewImage(e.Node.IsExpanded);
+                            if (drawImage != null)
+                            {
+                                float dpiFactor = g.DpiX / 96F;
+                                drawImage = CommonHelper.ScaleImageForSizedDisplay(drawImage,
+                                    drawImage.Width * dpiFactor,
+                                    drawImage.Height * dpiFactor, false)!;
+                                g.DrawImage(drawImage, new Rectangle(indentBounds.X + ((indentBounds.Width - drawImage.Width) / 2) - 1,
+                                    indentBounds.Y + ((indentBounds.Height - drawImage.Height) / 2),
+                                    drawImage.Width, drawImage.Height));
+                            }
+                        }
                     }
+
+                    using (var context = new RenderContext(this, g, bounds, Renderer))
+                    {
+                        _layoutDocker.Render(context);
+                    }
+
+                    // Do we draw an image for the node?
+                    if (ImageList != null)
+                    {
+                        Image? drawImage = null;
+                        var imageCount = ImageList.Images.Count;
+
+                        try
+                        {
+                            if (e.Node.IsSelected)
+                            {
+                                // Check node values before tree level values
+                                if (!string.IsNullOrEmpty(e.Node.SelectedImageKey))
+                                {
+                                    drawImage = ImageList.Images[e.Node.SelectedImageKey];
+                                }
+                                else if ((e.Node.SelectedImageIndex >= 0) && (e.Node.SelectedImageIndex < imageCount))
+                                {
+                                    drawImage = ImageList.Images[e.Node.SelectedImageIndex];
+                                }
+                                else if (!string.IsNullOrEmpty(SelectedImageKey))
+                                {
+                                    drawImage = ImageList.Images[SelectedImageKey];
+                                }
+                                else if ((SelectedImageIndex >= 0) && (SelectedImageIndex < imageCount))
+                                {
+                                    drawImage = ImageList.Images[SelectedImageIndex];
+                                }
+                            }
+                            else
+                            {
+                                // Check node values before tree level values
+                                if (!string.IsNullOrEmpty(e.Node.ImageKey))
+                                {
+                                    drawImage = ImageList.Images[e.Node.ImageKey];
+                                }
+                                else if ((e.Node.ImageIndex >= 0) && (e.Node.ImageIndex < imageCount))
+                                {
+                                    drawImage = ImageList.Images[e.Node.ImageIndex];
+                                }
+                                else if (!string.IsNullOrEmpty(ImageKey))
+                                {
+                                    drawImage = ImageList.Images[ImageKey];
+                                }
+                                else if ((ImageIndex >= 0) && (ImageIndex < imageCount))
+                                {
+                                    drawImage = ImageList.Images[ImageIndex];
+                                }
+                            }
+
+                            if (drawImage != null)
+                            {
+                                float dpiFactor = g.DpiX / 96F;
+                                drawImage = CommonHelper.ScaleImageForSizedDisplay(drawImage,
+                                    drawImage.Width * dpiFactor,
+                                    drawImage.Height * dpiFactor, false)!;
+                                g.DrawImage(drawImage, _layoutImage.ClientRectangle);
+                            }
+                        }
+                        catch
+                        {
+                            // ignored
+                        }
+                    }
+
+                    // Draw a node state image?
+                    if (_layoutImageCenterState.Visible)
+                    {
+                        if (drawStateImage != null)
+                        {
+                            float dpiFactor = g.DpiX / 96F;
+                            drawStateImage = CommonHelper.ScaleImageForSizedDisplay(drawStateImage,
+                                drawStateImage.Width * dpiFactor,
+                                drawStateImage.Height * dpiFactor, false)!;
+                            g.DrawImage(drawStateImage, _layoutImageState.ClientRectangle);
+                        }
+                    }
+
+                    // Now blit from the bitmap from the screen to the real dc
+                    PI.BitBlt(hdc, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height, _screenDC, e.Bounds.X, e.Bounds.Y, PI.SRCCOPY);
                 }
-
-                // Do we draw any plus/minus images in indent bounds?
-                if (ShowPlusMinus && (e.Node.Nodes.Count > 0))
+                finally
                 {
-                    Image? drawImage = _redirectImages!.GetTreeViewImage(e.Node.IsExpanded);
-                    if (drawImage != null)
-                    {
-                        float dpiFactor = g.DpiX / 96F;
-                        drawImage = CommonHelper.ScaleImageForSizedDisplay(drawImage,
-                            drawImage.Width * dpiFactor,
-                            drawImage.Height * dpiFactor, false)!;
-                        g.DrawImage(drawImage, new Rectangle(localIndentBounds.X + ((localIndentBounds.Width - drawImage.Width) / 2) - 1,
-                            localIndentBounds.Y + ((localIndentBounds.Height - drawImage.Height) / 2),
-                            drawImage.Width, drawImage.Height));
-                    }
+                    // Delete the temporary bitmap
+                    PI.DeleteObject(hBitmap);
                 }
             }
-
-            using (var context = new RenderContext(this, g, localNodeBounds, Renderer))
-            {
-                _layoutDocker.Render(context);
-            }
-
-            // Do we draw an image for the node?
-            if (ImageList != null)
-            {
-                Image? drawImage = null;
-                var imageCount = ImageList.Images.Count;
-
-                try
-                {
-                    if (e.Node.IsSelected)
-                    {
-                        // Check node values before tree level values
-                        if (!string.IsNullOrEmpty(e.Node.SelectedImageKey))
-                        {
-                            drawImage = ImageList.Images[e.Node.SelectedImageKey];
-                        }
-                        else if ((e.Node.SelectedImageIndex >= 0) && (e.Node.SelectedImageIndex < imageCount))
-                        {
-                            drawImage = ImageList.Images[e.Node.SelectedImageIndex];
-                        }
-                        else if (!string.IsNullOrEmpty(SelectedImageKey))
-                        {
-                            drawImage = ImageList.Images[SelectedImageKey];
-                        }
-                        else if ((SelectedImageIndex >= 0) && (SelectedImageIndex < imageCount))
-                        {
-                            drawImage = ImageList.Images[SelectedImageIndex];
-                        }
-                    }
-                    else
-                    {
-                        // Check node values before tree level values
-                        if (!string.IsNullOrEmpty(e.Node.ImageKey))
-                        {
-                            drawImage = ImageList.Images[e.Node.ImageKey];
-                        }
-                        else if ((e.Node.ImageIndex >= 0) && (e.Node.ImageIndex < imageCount))
-                        {
-                            drawImage = ImageList.Images[e.Node.ImageIndex];
-                        }
-                        else if (!string.IsNullOrEmpty(ImageKey))
-                        {
-                            drawImage = ImageList.Images[ImageKey];
-                        }
-                        else if ((ImageIndex >= 0) && (ImageIndex < imageCount))
-                        {
-                            drawImage = ImageList.Images[ImageIndex];
-                        }
-                    }
-
-                    if (drawImage != null)
-                    {
-                        float dpiFactor = g.DpiX / 96F;
-                        drawImage = CommonHelper.ScaleImageForSizedDisplay(drawImage,
-                            drawImage.Width * dpiFactor,
-                            drawImage.Height * dpiFactor, false)!;
-                        g.DrawImage(drawImage, _layoutImage.ClientRectangle);
-                    }
-                }
-                catch
-                {
-                    // ignored
-                }
-            }
-
-            // Draw a node state image?
-            if (_layoutImageCenterState.Visible)
-            {
-                if (drawStateImage != null)
-                {
-                    float dpiFactor = g.DpiX / 96F;
-                    drawStateImage = CommonHelper.ScaleImageForSizedDisplay(drawStateImage,
-                        drawStateImage.Width * dpiFactor,
-                        drawStateImage.Height * dpiFactor, false)!;
-                    g.DrawImage(drawStateImage, _layoutImageState.ClientRectangle);
-                }
-            }
-        });
+        }
+        finally
+        {
+            // Must reserve the GetHdc() call before
+            e.Graphics.ReleaseHdc();
+        }
     }
 
     private void OnTreeViewGotFocus(object? sender, EventArgs e)

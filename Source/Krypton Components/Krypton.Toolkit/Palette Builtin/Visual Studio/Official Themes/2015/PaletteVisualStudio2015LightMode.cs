@@ -11,8 +11,8 @@ namespace Krypton.Toolkit;
 
 public abstract class PaletteVisualStudio2015LightMode : PaletteVisualStudioBase
 {
-    protected PaletteVisualStudio2015LightMode(Color[] schemeColours, ImageList checkBoxList, ImageList galleryButtonList, Image?[] radioButtonArray, Color[] trackBarColours) 
-        : base(schemeColours, checkBoxList, galleryButtonList, radioButtonArray, trackBarColours)
+    protected PaletteVisualStudio2015LightMode(Color[] schemeColors, ImageList checkBoxList, ImageList galleryButtonList, Image?[] radioButtonArray, Color[] trackBarColors) 
+        : base(schemeColors, checkBoxList, galleryButtonList, radioButtonArray, trackBarColors)
     {
         ThemeName = nameof(PaletteVisualStudio2015LightMode);
     }

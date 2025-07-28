@@ -22,6 +22,7 @@ public class KryptonPropertyGrid : VisualControlBase,
         #region Instance Fields
         private readonly ViewManager? _viewManager;
         private readonly KryptonPropertyGrid _kryptonPropertyGrid;
+        private readonly IntPtr _screenDC;
         #endregion
 
         #region Identity
@@ -46,9 +47,24 @@ public class KryptonPropertyGrid : VisualControlBase,
             // ReSharper restore RedundantBaseQualifier
 
             // We need to create and cache a device context compatible with the display
+            _screenDC = PI.CreateCompatibleDC(IntPtr.Zero);
             ToolStripRenderer = ToolStripManager.Renderer;
             UseCompatibleTextRendering = false;
         }
+
+        /// <summary>
+        /// Releases all resources used by the Control.
+        /// </summary>
+        /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+            if (_screenDC != IntPtr.Zero)
+            {
+                PI.DeleteDC(_screenDC);
+            }
+        }
+
         #endregion
 
         #region Public
@@ -130,54 +146,74 @@ public class KryptonPropertyGrid : VisualControlBase,
         {
             var ps = new PI.PAINTSTRUCT();
 
-            // Acquire the DC to paint into (BeginPaint if not provided)
+            // Do we need to BeginPaint or just take the given HDC?
             IntPtr hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
 
-            Rectangle clientRect = CommonHelper.RealClientRectangle(Handle);
-            if (clientRect is { Width: > 0, Height: > 0 })
+            // Create bitmap that all drawing occurs onto, then we can blit it later to remove flicker
+            Rectangle realRect = CommonHelper.RealClientRectangle(Handle);
+
+            // No point drawing when one of the dimensions is zero
+            if (realRect is { Width: > 0, Height: > 0 })
             {
-                // Copy incoming message to allow safe modification inside the lambda (avoids CS1628)
-                Message msgCopy = m;
+                IntPtr hBitmap = PI.CreateCompatibleBitmap(hdc, realRect.Width, realRect.Height);
 
-                RenderBufferedPaintHelper.PaintBuffered(hdc, clientRect, g =>
+                // If we managed to get a compatible bitmap
+                if (hBitmap != IntPtr.Zero)
                 {
-                    var localBounds = new Rectangle(Point.Empty, clientRect.Size);
+                    // Must use the screen device context for the bitmap when drawing into the
+                    // bitmap otherwise the Opacity and RightToLeftLayout will not work correctly.
+                    // Select the new bitmap into the screen DC
+                    IntPtr oldBitmap = PI.SelectObject(_screenDC, hBitmap);
 
-                    // Layout using provided buffered Graphics
-                    using (var layoutContext = new ViewLayoutContext(this, _kryptonPropertyGrid.Renderer))
-                    {
-                        layoutContext.DisplayRectangle = localBounds;
-                        ViewDrawPanel.Layout(layoutContext);
-                    }
-
-                    // Render panel background/borders etc.
-                    using (var renderContext = new RenderContext(this, _kryptonPropertyGrid, g, localBounds, _kryptonPropertyGrid.Renderer))
-                    {
-                        ViewDrawPanel.Render(renderContext);
-                    }
-
-                    // Keep ListView background colour in sync with palette
-                    Color newBackColor = ViewDrawPanel.GetPalette().GetBackColor1(ViewDrawPanel.State);
-                    if (newBackColor != BackColor)
-                    {
-                        BackColor = newBackColor;
-                    }
-
-                    // Let base PropertyGrid paint its standard content
-                    IntPtr memHdc = g.GetHdc();
                     try
                     {
-                        msgCopy.WParam = memHdc;
-                        DefWndProc(ref msgCopy);
+
+                        // Easier to draw using a graphics instance than a DC!
+                        using (Graphics g = Graphics.FromHdc(_screenDC))
+                        {
+                            // Ask the view element to layout in given space, needs this before a render call
+                            using (var context = new ViewLayoutContext(this, _kryptonPropertyGrid.Renderer))
+                            {
+                                context.DisplayRectangle = realRect;
+                                ViewDrawPanel.Layout(context);
+                            }
+
+                            using (var context = new RenderContext(this, _kryptonPropertyGrid, g, realRect,
+                                       _kryptonPropertyGrid.Renderer))
+                            {
+                                ViewDrawPanel.Render(context);
+                            }
+
+                            // We can only control the background color by using the built in property and not
+                            // by overriding the drawing directly, therefore we can only provide a single color.
+                            Color color1 = ViewDrawPanel.GetPalette().GetBackColor1(ViewDrawPanel.State);
+                            if (color1 != BackColor)
+                            {
+                                BackColor = color1;
+                            }
+
+                            // Replace given DC with the screen DC for base window proc drawing
+                            IntPtr beforeDC = m.WParam;
+                            m.WParam = _screenDC;
+                            DefWndProc(ref m);
+                            m.WParam = beforeDC;
+                        }
+
+                        // Now blit from the bitmap from the screen to the real dc
+                        PI.BitBlt(hdc, 0, 0, realRect.Width, realRect.Height, _screenDC, 0, 0, PI.SRCCOPY);
                     }
                     finally
                     {
-                        g.ReleaseHdc(memHdc);
+                        // Restore the original bitmap
+                        PI.SelectObject(_screenDC, oldBitmap);
+
+                        // Delete the temporary bitmap
+                        PI.DeleteObject(hBitmap);
                     }
-                });
+                }
             }
 
-            // Complete BeginPaint if we started one
+            // Do we need to match the original BeginPaint?
             if (m.WParam == IntPtr.Zero)
             {
                 PI.EndPaint(Handle, ref ps);
@@ -194,6 +230,7 @@ public class KryptonPropertyGrid : VisualControlBase,
     private readonly ViewLayoutFill _layoutFill;
     private readonly InternalPropertyGrid _propertyGrid;
     private bool? _fixedActive;
+    private readonly IntPtr _screenDC;
     private bool _alwaysActive;
     private bool _forcedLayout;
     private readonly KryptonContextMenuItem _resetMenuItem;
@@ -267,6 +304,9 @@ public class KryptonPropertyGrid : VisualControlBase,
         // Create the view manager instance
         ViewManager = new ViewManager(this, _drawDockerOuter);
 
+        // We need to create and cache a device context compatible with the display
+        _screenDC = PI.CreateCompatibleDC(IntPtr.Zero);
+
         // Add tree view to the controls collection
         ((KryptonReadOnlyControls)Controls).AddInternal(_propertyGrid);
 
@@ -280,6 +320,19 @@ public class KryptonPropertyGrid : VisualControlBase,
         menuItems.Items.Add(_resetMenuItem);
 
         KryptonContextMenu.Items.Add(menuItems);
+    }
+
+    /// <summary>
+    /// Clean up any resources being used.
+    /// </summary>
+    /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+    protected override void Dispose(bool disposing)
+    {
+        base.Dispose(disposing);
+        if (_screenDC != IntPtr.Zero)
+        {
+            PI.DeleteDC(_screenDC);
+        }
     }
     #endregion
 

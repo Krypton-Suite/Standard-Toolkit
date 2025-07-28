@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege, et al. 2017 - 2025. All rights reserved.
+ *
  */
 #endregion
 
@@ -718,7 +718,25 @@ public enum SchemeBaseColors
     DisabledMenuItemText = 231,
 
     /// <summary>Text color for menu strips.</summary>
-    MenuStripText = 232
+    MenuStripText = 232,
+
+    /// <summary>TrackBar Tick Marks color.</summary>
+    TrackBarTickMarks = 233,
+
+    /// <summary>TrackBar Top Track color.</summary>
+    TrackBarTopTrack = 234,
+
+    /// <summary>TrackBar Bottom Track color.</summary>
+    TrackBarBottomTrack = 235,
+
+    /// <summary>TrackBar Fill Track color.</summary>
+    TrackBarFillTrack = 236,
+
+    /// <summary>TrackBar Outside Position color.</summary>
+    TrackBarOutsidePosition = 237,
+
+    /// <summary>TrackBar Border Position color.</summary>
+    TrackBarBorderPosition = 238
 }
 
 #endregion
