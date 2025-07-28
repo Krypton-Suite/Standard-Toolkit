@@ -1511,12 +1511,20 @@ namespace Krypton.Toolkit
                                                         clipClientRect.Right, clipClientRect.Bottom);
                             }
 
-                            // Use RenderBufferedPaintHelper for buffered painting
-                            RenderBufferedPaintHelper.PaintBuffered(hDC, windowBounds, g =>
+                            if (minimized)
                             {
-                                var localBounds = new Rectangle(Point.Empty, windowBounds.Size);
-                                WindowChromePaint(g, localBounds);
-                            });
+                                // Minimized windows can paint directly without buffering
+                                using Graphics g = Graphics.FromHdc(hDC);
+                                WindowChromePaint(g, windowBounds);
+                            }
+                            else
+                            {
+                                // Use helper that retains ClearType text when buffering
+                                RenderBufferedPaintHelper.PaintBuffered(hDC, windowBounds, g =>
+                                {
+                                    WindowChromePaint(g, windowBounds);
+                                }, preserveTextRenderingHint: true);
+                            }
                         }
                     }
                     finally

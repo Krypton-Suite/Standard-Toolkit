@@ -1543,26 +1543,32 @@ namespace Krypton.Toolkit
             // Update the view with the calculated state
             _drawButton.ElementState = buttonState;
 
-            RenderBufferedPaintHelper.PaintBuffered(e.Graphics, e.Bounds, g =>
-            {
-                // Use RenderBufferedPaintHelper for efficient buffered painting
-                var localBounds = new Rectangle(Point.Empty, e.Bounds.Size);
+            bool hasEmojis = AccurateText.ContainsEmojis(_contentValues!.ShortText);
 
-                // Ask the view element to layout in given space, needs this before a render call
-                using (var context = new ViewLayoutContext(this, Renderer))
+            RenderBufferedPaintHelper.PaintWithOptionalBuffering(
+                e.Graphics,
+                e.Bounds,
+                skipBufferedPainting: hasEmojis,
+                (gr, bounds) =>
                 {
-                    context.DisplayRectangle = localBounds;
-                    _listBox.ViewDrawPanel.Layout(context);
-                    _drawButton.Layout(context);
-                }
+                    // Use RenderBufferedPaintHelper for efficient buffered painting
+                    var localBounds = new Rectangle(Point.Empty, e.Bounds.Size);
 
-                // Ask the view element to actually draw
-                using (var context = new RenderContext(this, g, localBounds, Renderer))
-                {
-                    _listBox.ViewDrawPanel.Render(context);
-                    _drawButton.Render(context);
-                }
-            });
+                    // Ask the view element to layout in given space, needs this before a render call
+                    using (var context = new ViewLayoutContext(this, Renderer))
+                    {
+                        context.DisplayRectangle = localBounds;
+                        _listBox.ViewDrawPanel.Layout(context);
+                        _drawButton.Layout(context);
+                    }
+
+                    // Ask the view element to actually draw
+                    using (var context = new RenderContext(this, g, localBounds, Renderer))
+                    {
+                        _listBox.ViewDrawPanel.Render(context);
+                        _drawButton.Render(context);
+                    }
+                });
         }
 
         private void OnListBoxMeasureItem(object? sender, MeasureItemEventArgs e)

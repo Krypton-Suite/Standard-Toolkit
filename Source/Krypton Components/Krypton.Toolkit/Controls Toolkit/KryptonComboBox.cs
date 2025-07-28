@@ -2880,23 +2880,29 @@ namespace Krypton.Toolkit
                     // Use RenderBufferedPaintHelper for buffered painting
                     var localBounds = new Rectangle(Point.Empty, drawBounds.Size);
 
-                    RenderBufferedPaintHelper.PaintBuffered(e.Graphics, drawBounds, g =>
-                    {
-                        // Ask the view element to layout in given space, needs this before a render call
-                        using (var context = new ViewLayoutContext(this, Renderer))
-                        {
-                            context.DisplayRectangle = localBounds;
-                            _drawPanel.Layout(context);
-                            _drawButton.Layout(context);
-                        }
+                    bool hasEmojis = AccurateText.ContainsEmojis(_contentValues!.ShortText);
 
-                        // Ask the view element to actually draw
-                        using (var context = new RenderContext(this, g, localBounds, Renderer))
+                    RenderBufferedPaintHelper.PaintWithOptionalBuffering(
+                        e.Graphics,
+                        e.Bounds,
+                        skipBufferedPainting: hasEmojis,
+                        (gr, bounds) =>
                         {
-                            _drawPanel.Render(context);
-                            _drawButton.Render(context);
-                        }
-                    });
+                            // Ask the view element to layout in given space, needs this before a render call
+                            using (var context = new ViewLayoutContext(this, Renderer))
+                            {
+                                context.DisplayRectangle = localBounds;
+                                _drawPanel.Layout(context);
+                                _drawButton.Layout(context);
+                            }
+
+                            // Ask the view element to actually draw
+                            using (var context = new RenderContext(this, gr, localBounds, Renderer))
+                            {
+                                _drawPanel.Render(context);
+                                _drawButton.Render(context);
+                            }
+                        });
                 }
             }
         }

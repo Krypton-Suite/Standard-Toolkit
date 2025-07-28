@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *
  */
 #endregion
 
@@ -22,9 +22,9 @@ namespace Krypton.Toolkit
         private const int GLOW_EXTRA_WIDTH = 14;
         private const int GLOW_EXTRA_HEIGHT = 3;
 
-        // DO NOT USE THIS CACHING, because when the Theme Font is changed and there is a global update, 
+        // DO NOT USE THIS CACHING, because when the Theme Font is changed and there is a global update,
         // the whole thing gets locked up in resizing......
-        //private static TimedCache<(string text, Font font, StringFormatFlags formatFlags, TextRenderingHint hint), AccurateTextMemento> _cache 
+        //private static TimedCache<(string text, Font font, StringFormatFlags formatFlags, TextRenderingHint hint), AccurateTextMemento> _cache
         //    = new(TimeSpan.FromMinutes(10));
 
         #endregion
@@ -249,7 +249,7 @@ namespace Krypton.Toolkit
                     switch (orientation)
                     {
                         case VisualOrientation.Bottom:
-                            // Translate to opposite side of origin, so the rotate can 
+                            // Translate to opposite side of origin, so the rotate can
                             // then bring it back to original position but mirror image
                             translateX = (rect.X * 2) + rect.Width;
                             translateY = (rect.Y * 2) + rect.Height;
@@ -259,7 +259,7 @@ namespace Krypton.Toolkit
                         case VisualOrientation.Left:
                             // Invert the dimensions of the rectangle for drawing upwards
                             rect = rect with { Width = rect.Height, Height = rect.Width };
-                            // Translate back from a quarter left turn to the original place 
+                            // Translate back from a quarter left turn to the original place
                             translateX = rect.X - rect.Y - 1;
                             translateY = rect.X + rect.Y + rect.Width;
                             rotation = 270;
@@ -269,7 +269,7 @@ namespace Krypton.Toolkit
                             // Invert the dimensions of the rectangle for drawing upwards
                             rect = rect with { Width = rect.Height, Height = rect.Width };
 
-                            // Translate back from a quarter right turn to the original place 
+                            // Translate back from a quarter right turn to the original place
                             translateX = rect.X + rect.Y + rect.Height + 1;
                             translateY = -(rect.X - rect.Y);
                             rotation = 90f;
@@ -289,33 +289,15 @@ namespace Krypton.Toolkit
 
                     try
                     {
-                        // Support for unicode surrogates is only available when drawing horizontally.
-                        if (orientation == VisualOrientation.Top)
-                        {
-                            // Only a brush is provided, so we have to get the color from it since
-                            // DrawText only works with solid colors.
-                            Color color = brush is SolidBrush b
-                                ? b.Color
-                                : brush is LinearGradientBrush l
-                                    ? l.LinearColors[0]
-                                    : KryptonManager.CurrentGlobalPalette.GetContentShortTextColor1(PaletteContentStyle.LabelNormalControl, PaletteState.Normal);
+                        Color color = brush is SolidBrush b
+                            ? b.Color
+                            : brush is LinearGradientBrush l
+                                ? l.LinearColors[0]
+                                : KryptonManager.CurrentGlobalPalette.GetContentShortTextColor1(PaletteContentStyle.LabelNormalControl, PaletteState.Normal);
 
-                            // Convert from StringFormat to TextFormatFlags
-                            var tff = StringFormatToFlags(memento.Format);
-
-                            // End line ellipsis don't work well with DrawText and tend to cut off words when not needed
-                            // DrawString seems to do this better
-                            tff &= ~(TextFormatFlags.EndEllipsis | TextFormatFlags.WordEllipsis | TextFormatFlags.PathEllipsis);
-
-                            // Whatever happens, NoClipping is on
-                            tff |= TextFormatFlags.NoClipping;
-
-                            TextRenderer.DrawText(g, memento.Text, memento.Font!, rect, color, tff);
-                        }
-                        else
-                        {
-                            g.DrawString(memento.Text, memento.Font!, brush, rect, memento.Format);
-                        }
+                        // Use our smart text drawing method that handles Unicode surrogates with high quality
+                        // and preserves all text formatting from the memento
+                        DrawTextSmart(g, memento.Text, memento.Font!, rect, color, memento.Format, orientation);
                     }
                     catch
                     {
@@ -344,114 +326,130 @@ namespace Krypton.Toolkit
             return ret;
         }
 
-        private static Color ContrastColor(Color color)
-        {
-            //  Counting the perceptive luminance - human eye favours green colour... 
-            var a = 1
-                     - (((0.299 * color.R)
-                         + ((0.587 * color.G) + (0.114 * color.B)))
-                        / 255);
-            var d = a < 0.5 ? 0 : 255;
 
-            //  dark colours - white font
-            return Color.FromArgb(d, d, d);
+        public static void DrawTextSmart(Graphics graphics, string text, Font font, Rectangle bounds, Color foreColor)
+        {
+            DrawTextSmart(graphics, text, font, bounds, foreColor, null, VisualOrientation.Top);
         }
+
+        public static void DrawTextSmart(Graphics graphics, string text, Font font, Rectangle bounds, Color foreColor, StringFormat? stringFormat)
+        {
+            DrawTextSmart(graphics, text, font, bounds, foreColor, stringFormat, VisualOrientation.Top);
+        }
+
+        public static void DrawTextSmart(Graphics graphics, string text, Font font, Rectangle bounds, Color foreColor, StringFormat? stringFormat, VisualOrientation orientation = VisualOrientation.Top)
+        {
+            // Check if text contains emojis/surrogate pairs
+            bool hasEmojis = ContainsEmojis(text);
+
+            // Only use TextRenderer.DrawText for horizontal text (VisualOrientation.Top) with emojis
+            if (hasEmojis && orientation == VisualOrientation.Top)
+            {
+                // Use TextRenderer for emoji support with quality settings
+                DrawTextWithQuality(graphics, text, font, bounds, foreColor, stringFormat);
+            }
+            else
+            {
+                // Use Graphics.DrawString for better quality
+                var originalHint = graphics.TextRenderingHint;
+                try
+                {
+                    graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+                    using (var brush = new SolidBrush(foreColor))
+                    {
+                        if (stringFormat != null)
+                        {
+                            graphics.DrawString(text, font, brush, bounds, stringFormat);
+                        }
+                        else
+                        {
+                            graphics.DrawString(text, font, brush, bounds);
+                        }
+                    }
+                }
+                finally
+                {
+                    graphics.TextRenderingHint = originalHint;
+                }
+            }
+        }
+
+        public static bool ContainsEmojis(string? text)
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return false;
+            }
+
+            // Check for surrogate pairs (emojis)
+            for (int i = 0; i < text.Length; i++)
+            {
+                if (char.IsHighSurrogate(text[i]) && i + 1 < text.Length && char.IsLowSurrogate(text[i + 1]))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         #endregion
 
         #region Implementation
-        private static StringFormat FlagsToStringFormat(TextFormatFlags flags)
+
+        private static void DrawTextWithQuality(Graphics graphics, string text, Font font, Rectangle bounds, Color foreColor)
         {
-            var sf = new StringFormat();
-
-            // Translation table: http://msdn.microsoft.com/msdnmag/issues/06/03/TextRendering/default.aspx?fig=true#fig4
-
-            // Horizontal Alignment
-            if ((flags & TextFormatFlags.HorizontalCenter) == TextFormatFlags.HorizontalCenter)
-            {
-                sf.Alignment = StringAlignment.Center;
-            }
-            else if ((flags & TextFormatFlags.Right) == TextFormatFlags.Right)
-            {
-                sf.Alignment = StringAlignment.Far;
-            }
-            else
-            {
-                sf.Alignment = StringAlignment.Near;
-            }
-
-            // Vertical Alignment
-            if ((flags & TextFormatFlags.Bottom) == TextFormatFlags.Bottom)
-            {
-                sf.LineAlignment = StringAlignment.Far;
-            }
-            else if ((flags & TextFormatFlags.VerticalCenter) == TextFormatFlags.VerticalCenter)
-            {
-                sf.LineAlignment = StringAlignment.Center;
-            }
-            else
-            {
-                sf.LineAlignment = StringAlignment.Near;
-            }
-
-            // Ellipsis
-            if ((flags & TextFormatFlags.EndEllipsis) == TextFormatFlags.EndEllipsis)
-            {
-                sf.Trimming = StringTrimming.EllipsisCharacter;
-            }
-            else if ((flags & TextFormatFlags.PathEllipsis) == TextFormatFlags.PathEllipsis)
-            {
-                sf.Trimming = StringTrimming.EllipsisPath;
-            }
-            else if ((flags & TextFormatFlags.WordEllipsis) == TextFormatFlags.WordEllipsis)
-            {
-                sf.Trimming = StringTrimming.EllipsisWord;
-            }
-            else
-            {
-                sf.Trimming = StringTrimming.Character;
-            }
-
-            // Hotkey Prefix
-            if ((flags & TextFormatFlags.NoPrefix) == TextFormatFlags.NoPrefix)
-            {
-                sf.HotkeyPrefix = HotkeyPrefix.None;
-            }
-            else if ((flags & TextFormatFlags.HidePrefix) == TextFormatFlags.HidePrefix)
-            {
-                sf.HotkeyPrefix = HotkeyPrefix.Hide;
-            }
-            else
-            {
-                sf.HotkeyPrefix = HotkeyPrefix.Show;
-            }
-
-            // Text Padding
-            if ((flags & TextFormatFlags.NoPadding) == TextFormatFlags.NoPadding)
-            {
-                sf.FormatFlags |= StringFormatFlags.FitBlackBox;
-            }
-
-            // Text Wrapping
-            if ((flags & TextFormatFlags.SingleLine) == TextFormatFlags.SingleLine)
-            {
-                sf.FormatFlags |= StringFormatFlags.NoWrap;
-            }
-            else if ((flags & TextFormatFlags.TextBoxControl) == TextFormatFlags.TextBoxControl)
-            {
-                sf.FormatFlags |= StringFormatFlags.LineLimit;
-            }
-
-            // Other Flags
-            //if ((flags & TextFormatFlags.RightToLeft) == TextFormatFlags.RightToLeft)
-            //        sf.FormatFlags |= StringFormatFlags.DirectionRightToLeft;
-            if ((flags & TextFormatFlags.NoClipping) == TextFormatFlags.NoClipping)
-            {
-                sf.FormatFlags |= StringFormatFlags.NoClip;
-            }
-
-            return sf;
+            DrawTextWithQuality(graphics, text, font, bounds, foreColor, null);
         }
 
+        private static void DrawTextWithQuality(Graphics graphics, string text, Font font, Rectangle bounds, Color foreColor, StringFormat? stringFormat)
+        {
+            // Save the original text rendering hint
+            var originalHint = graphics.TextRenderingHint;
+
+            try
+            {
+                // Use ClearType rendering for better quality
+                graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+
+                // When using TextRenderer in a buffered context, we need to ensure it draws at the correct position
+                // The IDeviceContext overload of TextRenderer.DrawText respects the current Graphics transform
+                if (stringFormat != null)
+                {
+                    // Convert StringFormat to TextFormatFlags for TextRenderer
+                    var flags = StringFormatToFlags(stringFormat);
+
+                    // End line ellipsis don't work well with DrawText and tend to cut off words when not needed
+                    // DrawString seems to do this better
+                    flags &= ~(TextFormatFlags.EndEllipsis | TextFormatFlags.WordEllipsis | TextFormatFlags.PathEllipsis);
+
+                    // Whatever happens, NoClipping is on for better quality
+                    flags |= TextFormatFlags.NoClipping;
+
+                    // Remove prefix handling flags as they can interfere with quality
+                    flags &= ~(TextFormatFlags.HidePrefix | TextFormatFlags.NoPrefix);
+
+                    // Use the IDeviceContext overload which respects the current Graphics state
+                    TextRenderer.DrawText(graphics, text, font, bounds, foreColor, flags);
+                }
+                else
+                {
+                    // Use TextRenderer with basic quality settings
+                    TextRenderer.DrawText(graphics, text, font, bounds, foreColor,
+                        TextFormatFlags.NoClipping | TextFormatFlags.NoPrefix);
+                }
+            }
+            finally
+            {
+                // Restore original text rendering hint
+                graphics.TextRenderingHint = originalHint;
+            }
+        }
+
+        /// <summary>
+        /// Converts StringFormat to TextFormatFlags.
+        /// </summary>
+        /// <param name="sf">The StringFormat to convert.</param>
+        /// <returns>Equivalent TextFormatFlags.</returns>
         private static TextFormatFlags StringFormatToFlags(StringFormat sf)
         {
             var flags = new TextFormatFlags();

@@ -215,37 +215,41 @@ namespace Krypton.Toolkit
 
                 try
                 {
-                    RenderBufferedPaintHelper.PaintBuffered(hdc, realRect, g =>
-                    {
-                        var localBounds = new Rectangle(Point.Empty, realRect.Size);
-
-                        // Ask the view element to layout in given space, needs this before a render call
-                        using (var context = new ViewLayoutContext(this, _kryptonListView.Renderer))
+                    RenderBufferedPaintHelper.PaintWithOptionalBuffering(
+                        e.Graphics,
+                        item.Bounds,
+                        skipBufferedPainting: AccurateText.ContainsEmojis(item.Text),
+                        (gr, bounds) =>
                         {
-                            context.DisplayRectangle = localBounds;
-                            ViewDrawPanel.Layout(context);
-                        }
+                            var localBounds = new Rectangle(Point.Empty, realRect.Size);
 
-                        using (var context = new RenderContext(this, _kryptonListView, g, localBounds,
-                                   _kryptonListView.Renderer))
-                        {
-                            ViewDrawPanel.Render(context);
-                        }
+                            // Ask the view element to layout in given space, needs this before a render call
+                            using (var context = new ViewLayoutContext(this, _kryptonListView.Renderer))
+                            {
+                                context.DisplayRectangle = localBounds;
+                                ViewDrawPanel.Layout(context);
+                            }
 
-                        // We can only control the background color by using the built in property and not
-                        // by overriding the drawing directly, therefore we can only provide a single color.
-                        Color color1 = ViewDrawPanel.GetPalette().GetBackColor1(ViewDrawPanel.State);
-                        if (color1 != BackColor)
-                        {
-                            BackColor = color1;
-                        }
+                            using (var context = new RenderContext(this, _kryptonListView, g, localBounds,
+                                       _kryptonListView.Renderer))
+                            {
+                                ViewDrawPanel.Render(context);
+                            }
 
-                        // Use the buffered HDC for base window proc drawing (no need to call GetHdc on Graphics)
-                        IntPtr beforeDC = msgCopy.WParam;
-                        msgCopy.WParam = hdc;
-                        DefWndProc(ref msgCopy);
-                        msgCopy.WParam = beforeDC;
-                    });
+                            // We can only control the background color by using the built in property and not
+                            // by overriding the drawing directly, therefore we can only provide a single color.
+                            Color color1 = ViewDrawPanel.GetPalette().GetBackColor1(ViewDrawPanel.State);
+                            if (color1 != BackColor)
+                            {
+                                BackColor = color1;
+                            }
+
+                            // Use the buffered HDC for base window proc drawing (no need to call GetHdc on Graphics)
+                            IntPtr beforeDC = msgCopy.WParam;
+                            msgCopy.WParam = hdc;
+                            DefWndProc(ref msgCopy);
+                            msgCopy.WParam = beforeDC;
+                        });
                 }
                 finally
                 {

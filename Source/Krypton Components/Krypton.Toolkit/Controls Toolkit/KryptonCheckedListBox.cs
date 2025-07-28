@@ -2193,26 +2193,30 @@ namespace Krypton.Toolkit
             // Update check box to show correct checked image
             _drawCheckBox.CheckState = GetItemCheckState(e.Index);
 
-            RenderBufferedPaintHelper.PaintBuffered(e.Graphics, e.Bounds, g =>
-            {
-                // Use local coordinates inside lambda
-                var localBounds = new Rectangle(Point.Empty, e.Bounds.Size);
-
-                // Ask the view element to layout in given space, needs this before a render call
-                using (var context = new ViewLayoutContext(this, Renderer))
+            RenderBufferedPaintHelper.PaintWithOptionalBuffering(
+                e.Graphics,
+                e.Bounds,
+                skipBufferedPainting: AccurateText.ContainsEmojis(_listBox.GetItemText(Items[e.Index])),
+                (gr, bounds) =>
                 {
-                    context.DisplayRectangle = localBounds;
-                    _listBox.ViewDrawPanel.Layout(context);
-                    _layoutDocker.Layout(context);
-                }
+                    // Use local coordinates inside lambda
+                    var localBounds = new Rectangle(Point.Empty, bounds.Size);
 
-                // Ask the view element to actually draw
-                using (var context = new RenderContext(this, g, localBounds, Renderer))
-                {
-                    _listBox.ViewDrawPanel.Render(context);
-                    _layoutDocker.Render(context);
-                }
-            });
+                    // Ask the view element to layout in given space, needs this before a render call
+                    using (var context = new ViewLayoutContext(this, Renderer))
+                    {
+                        context.DisplayRectangle = localBounds;
+                        _listBox.ViewDrawPanel.Layout(context);
+                        _layoutDocker.Layout(context);
+                    }
+
+                    // Ask the view element to actually draw
+                    using (var context = new RenderContext(this, gr, localBounds, Renderer))
+                    {
+                        _listBox.ViewDrawPanel.Render(context);
+                        _layoutDocker.Render(context);
+                    }
+                });
         }
 
         private void OnListBoxMeasureItem(object? sender, MeasureItemEventArgs e)
