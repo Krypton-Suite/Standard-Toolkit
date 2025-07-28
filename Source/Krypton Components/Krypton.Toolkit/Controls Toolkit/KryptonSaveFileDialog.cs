@@ -25,7 +25,7 @@ namespace Krypton.Toolkit
         /// <inheritdoc />
         protected override DialogResult ShowActualDialog(IWin32Window? owner) => _internalSaveFileDialog.ShowDialog(owner);
 
-#if NET7_0 || NET8_0_OR_GREATER
+#if NET8_0_OR_GREATER
         /// <summary>
         ///  Gets or sets a value indicating whether the dialog box verifies if the creation of the specified file will be successful.
         ///  If this flag is not set, the calling application must handle errors, such as denial of access, discovered when the item is created.
@@ -104,7 +104,7 @@ namespace Krypton.Toolkit
             set => _internalSaveFileDialog.CheckPathExists = value;
         }
 
-#if NET6_0_OR_GREATER
+#if NET8_0_OR_GREATER
         /// <inheritdoc />
         public override Guid? ClientGuid
         { 

@@ -98,7 +98,7 @@ namespace Krypton.Toolkit
             }
         }
 
-#if NET6_0_OR_GREATER
+#if NET8_0_OR_GREATER
         /// <inheritdoc />
         public override Guid? ClientGuid
         {

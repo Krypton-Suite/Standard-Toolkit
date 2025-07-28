@@ -22,7 +22,7 @@ namespace TestForm
             // see https://aka.ms/applicationconfiguration.
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-#if NET6_0_OR_GREATER
+#if NET8_0_OR_GREATER
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
 #endif
 

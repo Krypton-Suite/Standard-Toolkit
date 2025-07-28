@@ -17,11 +17,11 @@ namespace Krypton.Toolkit
     [DefaultProperty("Heading")]
     [Designer(typeof(KryptonCommandLinkButtonDesigner))]
     [DesignerCategory("code")]
-#if NET6_0
+#if NET8_0_OR_GREATER
 #pragma warning disable CS0618
 #endif
     [ClassInterface(ClassInterfaceType.AutoDispatch)]
-#if NET6_0
+#if NET8_0_OR_GREATER
 #pragma warning restore CS0618
 #endif
     [DisplayName("Krypton Command Link")]

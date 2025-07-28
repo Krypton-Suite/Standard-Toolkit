@@ -364,7 +364,7 @@ namespace Krypton.Toolkit
                     _button2.Text = KryptonManager.Strings.GeneralStrings.TryAgain;
                     _button3.Text = KryptonManager.Strings.GeneralStrings.Continue;
                     _button1.DialogResult = DialogResult.Cancel;
-#if NET6_0_OR_GREATER
+#if NET8_0_OR_GREATER
                     _button2.DialogResult = DialogResult.TryAgain;
                     _button3.DialogResult = DialogResult.Continue;
 #else
