@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- *
+ * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- *
+ * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
- *
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  
  */
 #endregion
 
@@ -138,7 +138,7 @@ public class KryptonRichTextBox : VisualControlBase,
             var lParam = Marshal.AllocCoTaskMem(Marshal.SizeOf(fmtRange));
             Marshal.StructureToPtr(fmtRange, lParam, false);
 
-            //Send the rendered data for printing
+            //Send the rendered data for printing 
             var res = (IntPtr)PI.SendMessage(Handle, PI.EM_FORMATRANGE, wParam, lParam);
 
             //Free the block of memory allocated
@@ -224,15 +224,11 @@ public class KryptonRichTextBox : VisualControlBase,
                         var ps = new PI.PAINTSTRUCT();
                         // Do we need to BeginPaint or just take the given HDC?
                         IntPtr hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
-
-                        // Obtain client rectangle bounds
-                        PI.GetClientRect(Handle, out PI.RECT rect);
-                        Rectangle clientRect = new Rectangle(0, 0, rect.right - rect.left, rect.bottom - rect.top);
-
-                        var localBounds = new Rectangle(Point.Empty, clientRect.Size);
-
-                        RenderBufferedPaintHelper.PaintBuffered(hdc, clientRect, g =>
+                        using (Graphics g = Graphics.FromHdc(hdc))
                         {
+                            // Grab the client area of the control
+                            PI.GetClientRect(Handle, out PI.RECT rect);
+
                             PaletteState state = _kryptonRichTextBox.Enabled
                                 ? _kryptonRichTextBox.IsActive
                                     ? PaletteState.Tracking
@@ -240,15 +236,13 @@ public class KryptonRichTextBox : VisualControlBase,
                                 : PaletteState.Disabled;
                             IPaletteTriple states = _kryptonRichTextBox.GetTripleState();
 
-                            // Fill background
+                            // Drawn entire client area in the background color
                             using var backBrush = new SolidBrush(states.PaletteBack.GetBackColor1(state));
-                            g.FillRectangle(backBrush, localBounds);
+                            // Go perform the drawing of the CueHint
+                            _kryptonRichTextBox.CueHint.PerformPaint(_kryptonRichTextBox, g, rect, backBrush);
+                        }
 
-                            // Draw CueHint text
-                            _kryptonRichTextBox.CueHint.PerformPaint(_kryptonRichTextBox, g, localBounds, backBrush);
-                        });
-
-                        // Complete BeginPaint if we started it
+                        // Do we need to match the original BeginPaint?
                         if (m.WParam == IntPtr.Zero)
                         {
                             PI.EndPaint(Handle, ref ps);
@@ -526,7 +520,7 @@ public class KryptonRichTextBox : VisualControlBase,
 
     #region Public
     /// <summary>
-    ///
+    /// 
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Set a watermark/prompt message for the user.")]
@@ -1315,7 +1309,7 @@ public class KryptonRichTextBox : VisualControlBase,
     public void Clear() => _richTextBox.Clear();
 
     /// <summary>
-    /// Clears information about the most recent operation from the undo buffer of the rich text box.
+    /// Clears information about the most recent operation from the undo buffer of the rich text box. 
     /// </summary>
     public void ClearUndo() => _richTextBox.ClearUndo();
 

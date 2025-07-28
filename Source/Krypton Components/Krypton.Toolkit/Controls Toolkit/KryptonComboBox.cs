@@ -324,15 +324,11 @@ public class KryptonComboBox : VisualControlBase,
                     //}
                     //}
 
-                    // Grab the client area of the control
-                    PI.GetClientRect(Handle, out PI.RECT rect);
-                    var clientRectangle = new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
-
-                    // Use buffered painting to avoid invalid parameter exceptions
-                    RenderBufferedPaintHelper.PaintBuffered(hdc, clientRectangle, g =>
+                    // Paint the entire area in the background color
+                    using (Graphics g = Graphics.FromHdc(hdc))
                     {
-                        // Use local (0,0)-based bounds for painting
-                        var localBounds = new Rectangle(Point.Empty, clientRectangle.Size);
+                        // Grab the client area of the control
+                        PI.GetClientRect(Handle, out PI.RECT rect);
 
                         PaletteState state = _kryptonComboBox.Enabled
                             ? _kryptonComboBox.IsActive
@@ -343,14 +339,15 @@ public class KryptonComboBox : VisualControlBase,
 
                         // Drawn entire client area in the background color
                         using var backBrush = new SolidBrush(states.PaletteBack.GetBackColor1(state));
-                        g.FillRectangle(backBrush, localBounds);
+                        g.FillRectangle(backBrush, new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top));
 
                         // Get the constant used to crack open the display
                         var dropDownWidth = SystemInformation.VerticalScrollBarWidth;
                         Size borderSize = SystemInformation.BorderSize;
 
                         // Create rect for the text area
-                        var workingRect = new Rectangle(rect.left, rect.top + borderSize.Height, rect.right - rect.left, rect.bottom - rect.top - (borderSize.Height * 2));
+                        rect.top += borderSize.Height;
+                        rect.bottom -= borderSize.Height;
 
                         // Create rectangle that represents the drop-down button
                         Rectangle dropRect;
@@ -358,22 +355,26 @@ public class KryptonComboBox : VisualControlBase,
                         // Update text and drop-down rects dependent on the right to left setting
                         if (_kryptonComboBox.RightToLeft == RightToLeft.Yes)
                         {
-                            dropRect = new Rectangle(workingRect.Left + borderSize.Width + 1, workingRect.Top + 1, dropDownWidth - 2, workingRect.Height - 2);
-                            workingRect = new Rectangle(workingRect.Left + borderSize.Width + dropDownWidth, workingRect.Top, workingRect.Width - borderSize.Width - dropDownWidth, workingRect.Height);
+                            dropRect = new Rectangle(rect.left + borderSize.Width + 1, rect.top + 1, dropDownWidth - 2, rect.bottom - rect.top - 2);
+                            rect.left += borderSize.Width + dropDownWidth;
+                            rect.right -= borderSize.Width;
                         }
                         else
                         {
-                            workingRect = new Rectangle(workingRect.Left + borderSize.Width, workingRect.Top, workingRect.Width - borderSize.Width - dropDownWidth, workingRect.Height);
-                            dropRect = new Rectangle(workingRect.Right + 1, workingRect.Top + 1, dropDownWidth - 2, workingRect.Height - 2);
+                            rect.left += borderSize.Width;
+                            rect.right -= borderSize.Width + dropDownWidth;
+                            dropRect = new Rectangle(rect.right + 1, rect.top + 1, dropDownWidth - 2, rect.bottom - rect.top - 2);
                         }
 
+                        // Exclude border from being drawn, we need to take off another 2 pixels from all edges
+                        PI.IntersectClipRect(hdc, rect.left + 2, rect.top, rect.right - 2, rect.bottom);
                         var displayText = _kryptonComboBox.Text;
                         if (!string.IsNullOrWhiteSpace(_kryptonComboBox.CueHint.CueHintText)
                             && string.IsNullOrEmpty(displayText)
                            )
                         {
                             // Go perform the drawing of the CueHint
-                            _kryptonComboBox.CueHint.PerformPaint(_kryptonComboBox, g, workingRect, backBrush);
+                            _kryptonComboBox.CueHint.PerformPaint(_kryptonComboBox, g, rect, backBrush);
                         }
                         else
                             ////////////////////////////////////////////////////////
@@ -385,11 +386,7 @@ public class KryptonComboBox : VisualControlBase,
                         {
                             using var graphicsHint = new GraphicsTextHint(g, CommonHelper.PaletteTextHintToRenderingHint(states.Content.GetContentShortTextHint(state)));
 
-                            // Configure text rendering hint to match palette
-                            g.TextRenderingHint = CommonHelper.PaletteTextHintToRenderingHint(states.Content.GetContentShortTextHint(state));
-
-                            // Configure text formatting flags
-                            TextFormatFlags flags = TextFormatFlags.TextBoxControl | TextFormatFlags.NoPadding | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix | TextFormatFlags.VerticalCenter;
+                            TextFormatFlags flags = TextFormatFlags.TextBoxControl | TextFormatFlags.NoPadding | TextFormatFlags.VerticalCenter;
 
                             // Use the correct prefix setting
                             flags |= TextFormatFlags.NoPrefix;
@@ -414,7 +411,8 @@ public class KryptonComboBox : VisualControlBase,
                             }
 
                             // Draw text using font defined by the control
-                            var rectangle = new Rectangle(workingRect.Left + 2, workingRect.Top, workingRect.Width - 4, workingRect.Height);
+                            var rectangle = new Rectangle(rect.left, rect.top, rect.right - rect.left,
+                                rect.bottom - rect.top);
                             rectangle = CommonHelper.ApplyPadding(VisualOrientation.Top, rectangle, states.Content.GetBorderContentPadding(null, state));
                             // Find correct text color
                             Color textColor = states.Content.GetContentShortTextColor1(state);
@@ -430,9 +428,12 @@ public class KryptonComboBox : VisualControlBase,
                                 flags);
                         }
 
+                        // Remove clipping settings
+                        PI.SelectClipRgn(hdc, IntPtr.Zero);
+
                         // Draw the drop-down button
                         DrawDropButton(g, dropRect);
-                    });
+                    }
 
                     // Do we need to match the original BeginPaint?
                     if (m.WParam == IntPtr.Zero)
@@ -841,6 +842,7 @@ public class KryptonComboBox : VisualControlBase,
     private readonly ViewDrawButton _drawButton;
     private readonly ViewDrawPanel _drawPanel;
     private Padding _layoutPadding;
+    private IntPtr _screenDC;
     private readonly ButtonSpecAny _toolTipSpec;
     private VisualPopupToolTip _toolTip;
     private bool _firstTimePaint;
@@ -1185,6 +1187,9 @@ public class KryptonComboBox : VisualControlBase,
         ToolTipManager.CancelToolTip += OnCancelToolTip;
         _buttonManager.ToolTipManager = ToolTipManager;
 
+        // We need to create and cache a device context compatible with the display
+        _screenDC = PI.CreateCompatibleDC(IntPtr.Zero);
+
         // Add combo box holder to the controls collection
         ((KryptonReadOnlyControls)Controls).AddInternal(_comboHolder);
 
@@ -1222,6 +1227,12 @@ public class KryptonComboBox : VisualControlBase,
         }
 
         base.Dispose(disposing);
+
+        if (_screenDC != IntPtr.Zero)
+        {
+            PI.DeleteDC(_screenDC);
+            _screenDC = IntPtr.Zero;
+        }
     }
     #endregion
 
@@ -2872,19 +2883,58 @@ public class KryptonComboBox : VisualControlBase,
                 // Update the view with the calculated state
                 _drawButton.ElementState = buttonState;
 
-                // Ask the view element to layout in given space (ensures correct palette-rendered visuals)
-                using (var layoutContext = new ViewLayoutContext(this, Renderer))
-                {
-                    layoutContext.DisplayRectangle = drawBounds;
-                    _drawPanel.Layout(layoutContext);
-                    _drawButton.Layout(layoutContext);
-                }
+                // Grab the raw device context for the graphics instance
+                var hdc = e.Graphics.GetHdc();
 
-                // Render using the buffered Graphics so we match main control visuals, including images/fonts
-                using (var renderContext = new RenderContext(this, e.Graphics, drawBounds, Renderer))
+                try
                 {
-                    _drawPanel.Render(renderContext);
-                    _drawButton.Render(renderContext);
+                    // Create bitmap that all drawing occurs onto, then we can blit it later to remove flicker
+                    var hBitmap = PI.CreateCompatibleBitmap(hdc, drawBounds.Right, drawBounds.Bottom);
+
+                    // If we managed to get a compatible bitmap
+                    if (hBitmap != IntPtr.Zero)
+                    {
+                        // Must use the screen device context for the bitmap when drawing into the
+                        // bitmap otherwise the Opacity and RightToLeftLayout will not work correctly.
+                        // Select the new bitmap into the screen DC
+                        var oldBitmap = PI.SelectObject(_screenDC, hBitmap);
+
+                        try
+                        {
+                            // Easier to draw using a graphics instance than a DC!
+                            using Graphics g = Graphics.FromHdc(_screenDC);
+                            // Ask the view element to layout in given space, needs this before a render call
+                            using (var context = new ViewLayoutContext(this, Renderer))
+                            {
+                                context.DisplayRectangle = drawBounds;
+                                _drawPanel.Layout(context);
+                                _drawButton.Layout(context);
+                            }
+
+                            // Ask the view element to actually draw
+                            using (var context = new RenderContext(this, g, drawBounds, Renderer))
+                            {
+                                _drawPanel.Render(context);
+                                _drawButton.Render(context);
+                            }
+
+                            // Now blit from the bitmap from the screen to the real dc
+                            PI.BitBlt(hdc, drawBounds.X, drawBounds.Y, drawBounds.Width, drawBounds.Height, _screenDC, drawBounds.X, drawBounds.Y, PI.SRCCOPY);
+                        }
+                        finally
+                        {
+                            // Restore the original bitmap
+                            PI.SelectObject(_screenDC, oldBitmap);
+
+                            // Delete the temporary bitmap
+                            PI.DeleteObject(hBitmap);
+                        }
+                    }
+                }
+                finally
+                {
+                    // Must reserve the GetHdc() call before
+                    e.Graphics.ReleaseHdc();
                 }
             }
         }

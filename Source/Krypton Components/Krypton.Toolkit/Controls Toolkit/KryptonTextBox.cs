@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- *
+ * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- *
+ * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
- *
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  
  */
 #endregion
 
@@ -139,58 +139,53 @@ public class KryptonTextBox : VisualControlBase,
 
                     // Do we need to BeginPaint or just take the given HDC?
                     var hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
-                    var originalWParam = m.WParam;
 
+                    // Paint the entire area in the background color
+                    using Graphics g = Graphics.FromHdc(hdc);
                     // Grab the client area of the control
                     PI.GetClientRect(Handle, out PI.RECT rect);
-                    var textRectangle = new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
 
-                    // If enabled then use buffered painting, otherwise handle normally to avoid DefWndProc issues
-                    if (_kryptonTextBox.Enabled)
+                    var textRectangle = new Rectangle(rect.left, rect.top, rect.right - rect.left,
+                        rect.bottom - rect.top);
+
+                    // Create rect for the text area
+                    Size borderSize = SystemInformation.BorderSize;
+                    rect.left -= borderSize.Width + 1;
+
+                    if (!string.IsNullOrWhiteSpace(_kryptonTextBox.CueHint.CueHintText)
+                        && string.IsNullOrEmpty(_kryptonTextBox.Text)
+                       )
                     {
-                        // Copy message for safe modification inside lambda
-                        Message msgCopy = m;
-
-                        // Use buffered painting to avoid invalid parameter exceptions
-                        RenderBufferedPaintHelper.PaintBuffered(hdc, textRectangle, g =>
-                        {
-                            var localBounds = new Rectangle(Point.Empty, textRectangle.Size);
-
-                            if (!string.IsNullOrWhiteSpace(_kryptonTextBox.CueHint.CueHintText)
-                                && string.IsNullOrEmpty(_kryptonTextBox.Text))
-                            {
-                                // Go perform the drawing of the CueHint
-                                using var backBrush = new SolidBrush(BackColor);
-                                _kryptonTextBox.CueHint.PerformPaint(_kryptonTextBox, g, localBounds, backBrush);
-                            }
-                            else
-                            {
-                                using var backBrush = new SolidBrush(BackColor);
-                                g.FillRectangle(backBrush, localBounds);
-                            }
-
-                            // Let base implementation draw the actual text area into the buffered graphics
-                            IntPtr memHdc = g.GetHdc();
-                            try
-                            {
-                                msgCopy.WParam = memHdc;
-                                DefWndProc(ref msgCopy);
-                            }
-                            finally
-                            {
-                                g.ReleaseHdc(memHdc);
-                            }
-                        });
+                        // Go perform the drawing of the CueHint
+                        using var backBrush = new SolidBrush(BackColor);
+                        _kryptonTextBox.CueHint.PerformPaint(_kryptonTextBox, g, textRectangle, backBrush);
                     }
                     else
                     {
-                        // Use buffered painting for disabled state
-                        RenderBufferedPaintHelper.PaintBuffered(hdc, textRectangle, g =>
+                        using (var backBrush = new SolidBrush(BackColor))
                         {
-                            var localBounds = new Rectangle(Point.Empty, textRectangle.Size);
-                            using var backBrush = new SolidBrush(BackColor);
-                            g.FillRectangle(backBrush, localBounds);
+                            // Draw entire client area in the background color
+                            g.FillRectangle(backBrush,
+                                textRectangle);
+                        }
 
+                        // If enabled then let the combo draw the text area
+                        if (_kryptonTextBox.Enabled)
+                        {
+                            // Let base implementation draw the actual text area
+                            if (m.WParam == IntPtr.Zero)
+                            {
+                                m.WParam = hdc;
+                                DefWndProc(ref m);
+                                m.WParam = IntPtr.Zero;
+                            }
+                            else
+                            {
+                                DefWndProc(ref m);
+                            }
+                        }
+                        else
+                        {
                             // Set the correct text rendering hint for the text drawing. We only draw if the edit text is disabled so we
                             // just always grab the disable state value. Without this line the wrong hint can occur because it inherits
                             // it from the device context. Resulting in blurred text.
@@ -235,7 +230,9 @@ public class KryptonTextBox : VisualControlBase,
                             try
                             {
                                 using var foreBrush = new SolidBrush(ForeColor);
-                                g.DrawString(drawString, Font, foreBrush, localBounds, stringFormat);
+                                g.DrawString(drawString, Font, foreBrush,
+                                    textRectangle,
+                                    stringFormat);
                             }
                             catch (ArgumentException)
                             {
@@ -243,13 +240,17 @@ public class KryptonTextBox : VisualControlBase,
                                 g.DrawString(drawString,
                                     _kryptonTextBox.GetTripleState().PaletteContent?
                                         .GetContentShortTextFont(PaletteState.Disabled)!, foreBrush,
-                                    localBounds, stringFormat);
+                                    textRectangle,
+                                    stringFormat);
                             }
-                        });
+                        }
+
+                        // Remove clipping settings
+                        PI.SelectClipRgn(hdc, IntPtr.Zero);
                     }
 
                     // Do we need to match the original BeginPaint?
-                    if (originalWParam == IntPtr.Zero)
+                    if (m.WParam == IntPtr.Zero)
                     {
                         PI.EndPaint(Handle, ref ps);
                     }
@@ -1170,7 +1171,7 @@ public class KryptonTextBox : VisualControlBase,
     public void Clear() => _textBox.Clear();
 
     /// <summary>
-    /// Clears information about the most recent operation from the undo buffer of the rich text box.
+    /// Clears information about the most recent operation from the undo buffer of the rich text box. 
     /// </summary>
     public void ClearUndo() => _textBox.ClearUndo();
 
