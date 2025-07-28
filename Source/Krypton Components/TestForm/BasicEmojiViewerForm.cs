@@ -27,6 +27,17 @@ public partial class BasicEmojiViewerForm : KryptonForm
             klbEmojis.DataSource = _emojiList;
 
             klbEmojis.DisplayMember = nameof(KryptonEmojiInfo.ToString);
+
+            // Populate ComboBox with first 20 emojis
+            kcbEmojis.DataSource = _emojiList.Take(20).ToList();
+            kcbEmojis.DisplayMember = nameof(KryptonEmojiInfo.ToString);
+
+            // Populate ListView with first 20 emojis
+            klvEmojis.Columns.Add("Emoji", 220);
+            foreach (var emoji in _emojiList.Take(20))
+            {
+                klvEmojis.Items.Add(new ListViewItem(emoji.ToString()));
+            }
         }
         catch (Exception exception)
         {
