@@ -5256,6 +5256,8 @@ public class KryptonCustomPaletteBase : PaletteBase
                 return grid.StatePressed.HeaderColumn.Back;
             case PaletteState.CheckedNormal:
                 return grid.StateSelected.HeaderColumn.Back;
+            case PaletteState.BoldedOverride:
+                return grid.StateSelected.HeaderColumn.Back;
             default:
                 // Should never happen!
                 Debug.Assert(false);
