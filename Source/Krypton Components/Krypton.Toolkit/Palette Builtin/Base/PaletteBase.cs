@@ -18,12 +18,6 @@ public abstract class PaletteBase : Component
 {
     #region Instance Fields
 
-    /// <summary>
-    /// Direct indexed access to the palette's backing color array.
-    /// </summary>
-    protected abstract Color[] SchemeColors { get; }
-    internal Color[] GetSchemeColors() => SchemeColors;
-
     private Padding? _inputControlPadding;
     private PaletteDragFeedback _dragFeedback;
     private Image[] _toolBarImages;
@@ -54,7 +48,7 @@ public abstract class PaletteBase : Component
 
     #endregion
 
-    #endregion Instance Fields
+    #endregion
 
     #region Events
     /// <summary>
@@ -81,11 +75,6 @@ public abstract class PaletteBase : Component
     /// Occurs when a button spec change occurs.
     /// </summary>
     public event EventHandler? ButtonSpecChanged;
-
-    /// <summary>
-    /// Occurs when a single scheme color is changed.
-    /// </summary>
-    public event EventHandler<SchemeColorChangedEventArgs>? SchemeColorChanged;
     #endregion
 
     #region Identity
@@ -1155,7 +1144,6 @@ public abstract class PaletteBase : Component
             case PaletteButtonSpecStyle.ArrowLeft:
             case PaletteButtonSpecStyle.ArrowRight:
             case PaletteButtonSpecStyle.ArrowUp:
-            case PaletteButtonSpecStyle.ArrowDown:
             case PaletteButtonSpecStyle.DropDown:
             case PaletteButtonSpecStyle.PinVertical:
             case PaletteButtonSpecStyle.PinHorizontal:
@@ -1951,6 +1939,7 @@ public abstract class PaletteBase : Component
         // Convert to HSL space
         ColorHSL hsl = new ColorHSL(baseColor)
         {
+
             // Remove saturation and fix luminance
             Saturation = 0.0f,
             Luminance = 0.55f
@@ -2109,132 +2098,4 @@ public abstract class PaletteBase : Component
         base.Dispose(disposing);
     }
     #endregion
-
-    #region Palette Helpers
-
-    private readonly object _colorLock = new();
-
-    /// <summary>
-    /// Resets <see cref="ColorTable"/> to be updated on next paint.
-    /// </summary>
-    protected virtual void InvalidateColorTable()
-    {
-        // Default implementation uses reflection as fallback
-        var tableField = GetType().GetField("_table", BindingFlags.Instance | BindingFlags.NonPublic)
-                         ?? GetType().GetField("Table", BindingFlags.Instance | BindingFlags.NonPublic);
-
-        if (tableField != null)
-        {
-            tableField.SetValue(this, null);
-            return;
-        }
-
-        // Try property approach
-        var tableProp = GetType().GetProperty("ColorTable", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
-        if (tableProp != null && tableProp.CanWrite)
-        {
-            tableProp.SetValue(this, null);
-        }
-    }
-
-    /// <summary>
-    /// Updates scheme colors and invalidates the color table.
-    /// </summary>
-    protected void UpdateColorTable()
-    {
-        InvalidateColorTable();
-    }
-
-    /// <summary>
-    /// Copies <paramref name="source"/> into <see cref="SchemeColors"/> and invalidates the color table.
-    /// <param name="source">Color array with all values.</param>
-    /// </summary>
-    public virtual void CopySchemeColors(Color[] source)
-    {
-        if (source == null)
-        {
-            throw new ArgumentNullException(nameof(source));
-        }
-
-        lock (_colorLock)
-        {
-            Array.Copy(source, SchemeColors, Math.Min(source.Length, SchemeColors.Length));
-            InvalidateColorTable();
-        }
-
-        OnPalettePaint(this, new PaletteLayoutEventArgs(true, true));
-    }
-
-    // Thread-safe single-color setter
-    public virtual void SetSchemeColor(SchemeBaseColors colorIndex, Color newColor)
-    {
-        lock (_colorLock)
-        {
-            if (SchemeColors[(int)colorIndex] == newColor)
-                return; // no change
-            SchemeColors[(int)colorIndex] = newColor;
-            InvalidateColorTable();
-        }
-        OnSchemeColorChanged(colorIndex, newColor);
-        SchemeColorChanged?.Invoke(this, new SchemeColorChangedEventArgs(colorIndex, newColor));
-        OnPalettePaint(this, new PaletteLayoutEventArgs(true, true));
-    }
-
-    // Thread-safe single-color getter
-    public virtual Color GetSchemeColor(SchemeBaseColors colorIndex)
-    {
-        lock (_colorLock)
-        {
-            return SchemeColors[(int)colorIndex];
-        }
-    }
-
-    // Thread-safe batch update
-    public virtual void UpdateSchemeColors(Dictionary<SchemeBaseColors, Color> colorUpdates)
-    {
-        if (colorUpdates is null) throw new ArgumentNullException(nameof(colorUpdates));
-        foreach (var kv in colorUpdates)
-            SetSchemeColor(kv.Key, kv.Value); // reuses events + paint
-    }
-
-    // Thread-safe full-scheme replacement
-    public void ApplyScheme(KryptonColorSchemeBase newScheme)
-    {
-        if (newScheme is null)
-        {
-            throw new ArgumentNullException(nameof(newScheme));
-        }
-
-        lock (_colorLock)
-        {
-            Array.Copy(newScheme.ToArray(), SchemeColors, SchemeColors.Length);
-            InvalidateColorTable();
-        }
-        // notify each index has changed
-        foreach (SchemeBaseColors idx in Enum.GetValues(typeof(SchemeBaseColors)))
-        {
-            SchemeColorChanged?.Invoke(this, new SchemeColorChangedEventArgs(idx, SchemeColors[(int)idx]));
-        }
-        OnPalettePaint(this, new PaletteLayoutEventArgs(true, true));
-    }
-
-    #endregion Palette Helpers
-
-    /// <summary>Hook for derived families to rebuild caches when a color changes.</summary>
-    protected virtual void OnSchemeColorChanged(SchemeBaseColors index, Color newColor) { }
-}
-
-/// <summary>
-/// Data for when one scheme color changes.
-/// </summary>
-public sealed class SchemeColorChangedEventArgs : EventArgs
-{
-    public SchemeBaseColors Index { get; }
-    public Color NewColor { get; }
-
-    public SchemeColorChangedEventArgs(SchemeBaseColors index, Color newColor)
-    {
-        Index = index;
-        NewColor = newColor;
-    }
 }

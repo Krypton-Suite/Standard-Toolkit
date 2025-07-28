@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- *
+ * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- *
+ * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
- *
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  
  */
 #endregion
 
@@ -34,9 +34,6 @@ public class KryptonCustomPaletteBase : PaletteBase
     #endregion
 
     #region Instance Fields
-
-    /// <inheritdoc/>
-    protected override Color[] SchemeColors => _basePalette?.GetSchemeColors() ?? Array.Empty<Color>();
 
     private int _suspendCount;
     private IRenderer? _baseRenderer;
@@ -125,7 +122,7 @@ public class KryptonCustomPaletteBase : PaletteBase
         container.Add(this);
     }
 
-    /// <summary>
+    /// <summary> 
     /// Clean up any resources being used.
     /// </summary>
     /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
@@ -2765,7 +2762,7 @@ public class KryptonCustomPaletteBase : PaletteBase
                 switch (value)
                 {
                     case RendererMode.Custom:
-                        // Do nothing, you must assign a palette to the
+                        // Do nothing, you must assign a palette to the 
                         // 'Palette' property in order to get the custom mode
                         break;
                     default:
@@ -3225,7 +3222,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             doc.AppendChild(doc.CreateComment("WARNING: Modifying this file may render it invalid for importing."));
             doc.AppendChild(doc.CreateComment($@"Date created: {DateTime.Now.ToLongDateString()}"));
 
-            // Create a root node with version and the date information, by
+            // Create a root node with version and the date information, by 
             // having a version number the loading of older version is easier
             var root = doc.CreateElement("KryptonPalette");
             root.SetAttribute(nameof(Version), GlobalStaticValues.CURRENT_SUPPORTED_PALETTE_VERSION.ToString());
@@ -5698,7 +5695,7 @@ public class KryptonCustomPaletteBase : PaletteBase
         // Only raise the need to paint if painting has not been suspended
         if (_suspendCount == 0)
         {
-            // Changes to the colors of the menu/tool/status areas always
+            // Changes to the colors of the menu/tool/status areas always 
             // need a new palette updating into the toolstrip manager.
             OnPalettePaint(this, new PaletteLayoutEventArgs(e.NeedLayout, true));
         }
@@ -5767,32 +5764,5 @@ public class KryptonCustomPaletteBase : PaletteBase
     /// <summary>Returns the value of the PaletteName.</summary>
     /// <returns>The value of the PaletteName.</returns>
     public string GetPaletteName() => PaletteName;
-    #endregion
-
-    #region Palette Helpers
-
-    /// <summary>
-    /// Replaces the internal colour array used by the underlying base palette with the
-    /// supplied <paramref name="colors"/> array. After the update the internal colour-table
-    /// cache is cleared so the next paint cycle renders with the new scheme.
-    /// </summary>
-    /// <param name="colors">Array of colours that follow the <see cref="SchemeBaseColors"/> order.</param>
-    /// <returns><see langword="true"/> if the update was applied successfully.</returns>
-    public bool ApplyBaseColors(Color[] colors)
-    {
-        if (colors == null)
-        {
-            throw new ArgumentNullException(nameof(colors));
-        }
-
-        if (_basePalette == null)
-        {
-            return false;
-        }
-
-        CopySchemeColors(colors);
-        return true;
-    }
-
     #endregion
 }

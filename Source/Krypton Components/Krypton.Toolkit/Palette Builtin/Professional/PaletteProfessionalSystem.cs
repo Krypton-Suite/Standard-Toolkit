@@ -1,12 +1,12 @@
-#region BSD License
+﻿#region BSD License
 /*
- *
+ * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- *
+ * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
- *
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  
  */
 #endregion
 
@@ -26,7 +26,7 @@ public class PaletteProfessionalSystem : PaletteBase
     private static readonly Padding _contentPaddingHeader2 = new Padding(3, 2, 3, 2);
     private static readonly Padding _contentPaddingHeader3 = new Padding(2, 1, 2, 1);
     private static readonly Padding _contentPaddingCalendar = new Padding(2);
-    //private static readonly Padding _contentPaddingHeaderForm = new Padding(owningForm!.RealWindowBorders.Left, owningForm!.RealWindowBorders.Bottom / 2, 0, 0);
+    //private static readonly Padding _contentPaddingHeaderForm = new Padding(owningForm!.RealWindowBorders.Left, owningForm!.RealWindowBorders.Bottom / 2, 0, 0);         
     private static readonly Padding _contentPaddingLabel = new Padding(3, 2, 3, 2);
     private static readonly Padding _contentPaddingLabel2 = new Padding(8, 2, 8, 2);
     private static readonly Padding _contentPaddingButtonCalendar = new Padding(0);
@@ -167,7 +167,7 @@ public class PaletteProfessionalSystem : PaletteBase
 
     #endregion
 
-    #region Colors
+    #region Colours
 
     private static readonly Color _contextTextColor = Color.White;
     //private static readonly Color _lightGray = Color.FromArgb(242, 242, 242);
@@ -178,22 +178,15 @@ public class PaletteProfessionalSystem : PaletteBase
 
     #endregion
 
-    #endregion Static Fields
+    #endregion
 
     #region Instance Fields
-
-    protected readonly KryptonColorSchemeBase BaseColors;
     private KryptonProfessionalKCT? _table;
-
     private Image? _disabledDropDownImage;
     private Image? _normalDropDownImage;
-
-    /// <inheritdoc/>
-    protected override Color[] SchemeColors => _ribbonColors;
-    private Color[] _ribbonColors;
-
     //private Color _disabledDropDownColor;
     //private Color _normalDropDownColor;
+    private Color[] _ribbonColors;
     private Color _disabledText;
     private Color _disabledGlyphDark;
     private Color _disabledGlyphLight;
@@ -219,31 +212,24 @@ public class PaletteProfessionalSystem : PaletteBase
     private Image? _galleryImageUp;
     private Image? _galleryImageDown;
     private Image? _galleryImageDropDown;
-
-    #endregion Instance Fields
+    #endregion
 
     #region Identity
-
     /// <summary>
     /// Initialize a new instance of the PaletteProfessionalSystem class.
     /// </summary>
     public PaletteProfessionalSystem()
     {
-        BaseColors = new PaletteProfessionalSystem_BaseScheme();
-
         ThemeName = nameof(PaletteProfessionalSystem);
-
         // Get the font settings from the system
         DefineFonts();
 
         // Generate the myriad ribbon colors from system settings
         DefineRibbonColors();
     }
-
     #endregion
 
     #region Renderer
-
     /// <summary>
     /// Gets the renderer to use for this palette.
     /// </summary>
@@ -255,7 +241,6 @@ public class PaletteProfessionalSystem : PaletteBase
     #endregion
 
     #region Back
-
     /// <summary>
     /// Gets a value indicating if background should be drawn.
     /// </summary>
@@ -407,9 +392,9 @@ public class PaletteProfessionalSystem : PaletteBase
                 return state == PaletteState.Disabled ? SystemColors.Control : SystemColors.Window;
 
             case PaletteBackStyle.ControlRibbon:
-                return BaseColors!.RibbonTabSelected4;
+                return _ribbonColors[(int)SchemeBaseColors.RibbonTabSelected4];
             case PaletteBackStyle.ControlRibbonAppMenu:
-                return BaseColors!.AppButtonBack1;
+                return _ribbonColors[(int)SchemeBaseColors.AppButtonBack1];
             case PaletteBackStyle.ContextMenuOuter:
             case PaletteBackStyle.ContextMenuInner:
                 return ColorTable.ToolStripDropDownBackground;
@@ -618,9 +603,9 @@ public class PaletteProfessionalSystem : PaletteBase
                 return state == PaletteState.Disabled ? SystemColors.Control : SystemColors.Window;
 
             case PaletteBackStyle.ControlRibbon:
-                return BaseColors!.RibbonTabSelected4;
+                return _ribbonColors[(int)SchemeBaseColors.RibbonTabSelected4];
             case PaletteBackStyle.ControlRibbonAppMenu:
-                return BaseColors!.AppButtonBack2;
+                return _ribbonColors[(int)SchemeBaseColors.AppButtonBack2];
             case PaletteBackStyle.ContextMenuOuter:
             case PaletteBackStyle.ContextMenuInner:
                 return ColorTable.ToolStripDropDownBackground;
@@ -894,7 +879,6 @@ public class PaletteProfessionalSystem : PaletteBase
     #endregion
 
     #region Border
-
     /// <summary>
     /// Gets a value indicating if border should be drawn.
     /// </summary>
@@ -1088,12 +1072,12 @@ public class PaletteProfessionalSystem : PaletteBase
             case PaletteBorderStyle.ControlRibbon:
                 return state == PaletteState.Disabled
                     ? FadedColor(ColorTable.ButtonSelectedBorder)
-                    : BaseColors!.RibbonGroupsArea1;
+                    : _ribbonColors[(int)SchemeBaseColors.RibbonGroupsArea1];
 
             case PaletteBorderStyle.ControlRibbonAppMenu:
                 return state == PaletteState.Disabled
-                    ? FadedColor(BaseColors!.AppButtonBorder)
-                    : BaseColors!.AppButtonBorder;
+                    ? FadedColor(_ribbonColors[(int)SchemeBaseColors.AppButtonBorder])
+                    : _ribbonColors[(int)SchemeBaseColors.AppButtonBorder];
 
             case PaletteBorderStyle.ContextMenuOuter:
             case PaletteBorderStyle.ContextMenuInner:
@@ -1283,12 +1267,12 @@ public class PaletteProfessionalSystem : PaletteBase
             case PaletteBorderStyle.ControlRibbon:
                 return state == PaletteState.Disabled
                     ? FadedColor(ColorTable.ButtonSelectedBorder)
-                    : BaseColors!.RibbonGroupsArea1;
+                    : _ribbonColors[(int)SchemeBaseColors.RibbonGroupsArea1];
 
             case PaletteBorderStyle.ControlRibbonAppMenu:
                 return state == PaletteState.Disabled
-                    ? FadedColor(BaseColors!.AppButtonBorder)
-                    : BaseColors!.AppButtonBorder;
+                    ? FadedColor(_ribbonColors[(int)SchemeBaseColors.AppButtonBorder])
+                    : _ribbonColors[(int)SchemeBaseColors.AppButtonBorder];
 
             case PaletteBorderStyle.ContextMenuOuter:
             case PaletteBorderStyle.ContextMenuInner:
@@ -1543,7 +1527,6 @@ public class PaletteProfessionalSystem : PaletteBase
     #endregion
 
     #region Content
-
     /// <summary>
     /// Gets a value indicating if content should be drawn.
     /// </summary>
@@ -2577,10 +2560,6 @@ public class PaletteProfessionalSystem : PaletteBase
                 return _contentPaddingGrid;
             case PaletteContentStyle.HeaderForm:
             {
-                if (owningForm == null)
-                {
-                    return new Padding();
-                }
                 Padding borders = owningForm!.RealWindowBorders;
                 return new Padding(borders.Left, borders.Bottom / 2, 0, 0);
             }
@@ -2697,10 +2676,6 @@ public class PaletteProfessionalSystem : PaletteBase
             case PaletteMetricInt.CheckButtonGap:
                 return 5;
             case PaletteMetricInt.HeaderButtonEdgeInsetForm:
-                if (owningForm == null)
-                {
-                    return 0;
-                }
                 return Math.Max(2, owningForm!.RealWindowBorders.Right);
             case PaletteMetricInt.HeaderButtonEdgeInsetInputControl:
                 return 1;
@@ -2774,10 +2749,6 @@ public class PaletteProfessionalSystem : PaletteBase
             case PaletteMetricPadding.BarPaddingOutside:
                 return _metricPaddingBarOutside;
             case PaletteMetricPadding.HeaderButtonPaddingForm:
-                if (owningForm == null)
-                {
-                    return new Padding();
-                }
                 return new Padding(0, owningForm!.RealWindowBorders.Right, 0, 0);
             case PaletteMetricPadding.RibbonButtonPadding:
                 return _metricPaddingRibbon;
@@ -2823,7 +2794,6 @@ public class PaletteProfessionalSystem : PaletteBase
     #endregion
 
     #region Images
-
     /// <summary>
     /// Gets a tree view image appropriate for the provided state.
     /// </summary>
@@ -2991,7 +2961,6 @@ public class PaletteProfessionalSystem : PaletteBase
     #endregion
 
     #region RibbonGeneral
-
     /// <summary>
     /// Gets the ribbon shape that should be used.
     /// </summary>
@@ -3038,63 +3007,63 @@ public class PaletteProfessionalSystem : PaletteBase
     /// </summary>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
-    public override Color GetRibbonDropArrowLight(PaletteState state) => BaseColors!.RibbonGroupDialogLight;
+    public override Color GetRibbonDropArrowLight(PaletteState state) => _ribbonColors[(int)SchemeBaseColors.RibbonGroupDialogLight];
 
     /// <summary>
     /// Gets the color for the drop arrow dark.
     /// </summary>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
-    public override Color GetRibbonDropArrowDark(PaletteState state) => BaseColors!.RibbonGroupDialogDark;
+    public override Color GetRibbonDropArrowDark(PaletteState state) => _ribbonColors[(int)SchemeBaseColors.RibbonGroupDialogDark];
 
     /// <summary>
     /// Gets the color for the dialog launcher dark.
     /// </summary>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
-    public override Color GetRibbonGroupDialogDark(PaletteState state) => BaseColors!.RibbonGroupDialogDark;
+    public override Color GetRibbonGroupDialogDark(PaletteState state) => _ribbonColors[(int)SchemeBaseColors.RibbonGroupDialogDark];
 
     /// <summary>
     /// Gets the color for the dialog launcher light.
     /// </summary>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
-    public override Color GetRibbonGroupDialogLight(PaletteState state) => BaseColors!.RibbonGroupDialogLight;
+    public override Color GetRibbonGroupDialogLight(PaletteState state) => _ribbonColors[(int)SchemeBaseColors.RibbonGroupDialogLight];
 
     /// <summary>
     /// Gets the color for the group separator dark.
     /// </summary>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
-    public override Color GetRibbonGroupSeparatorDark(PaletteState state) => BaseColors!.RibbonGroupSeparatorDark;
+    public override Color GetRibbonGroupSeparatorDark(PaletteState state) => _ribbonColors[(int)SchemeBaseColors.RibbonGroupSeparatorDark];
 
     /// <summary>
     /// Gets the color for the group separator light.
     /// </summary>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
-    public override Color GetRibbonGroupSeparatorLight(PaletteState state) => BaseColors!.RibbonGroupSeparatorLight;
+    public override Color GetRibbonGroupSeparatorLight(PaletteState state) => _ribbonColors[(int)SchemeBaseColors.RibbonGroupSeparatorLight];
 
     /// <summary>
     /// Gets the color for the minimize bar dark.
     /// </summary>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
-    public override Color GetRibbonMinimizeBarDark(PaletteState state) => BaseColors!.RibbonMinimizeBarDark;
+    public override Color GetRibbonMinimizeBarDark(PaletteState state) => _ribbonColors[(int)SchemeBaseColors.RibbonMinimizeBarDark];
 
     /// <summary>
     /// Gets the color for the minimize bar light.
     /// </summary>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
-    public override Color GetRibbonMinimizeBarLight(PaletteState state) => BaseColors!.RibbonMinimizeBarLight;
+    public override Color GetRibbonMinimizeBarLight(PaletteState state) => _ribbonColors[(int)SchemeBaseColors.RibbonMinimizeBarLight];
 
     /// <summary>
     /// Gets the color for the tab separator.
     /// </summary>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
-    public override Color GetRibbonTabSeparatorColor(PaletteState state) => BaseColors!.RibbonTabSeparatorColor;
+    public override Color GetRibbonTabSeparatorColor(PaletteState state) => _ribbonColors[(int)SchemeBaseColors.RibbonTabSeparatorColor];
 
     /// <summary>
     /// Gets the color for the tab context separators.
@@ -3122,19 +3091,18 @@ public class PaletteProfessionalSystem : PaletteBase
     /// </summary>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
-    public override Color GetRibbonQATButtonDark(PaletteState state) => BaseColors!.RibbonQATButtonDark;
+    public override Color GetRibbonQATButtonDark(PaletteState state) => _ribbonColors[(int)SchemeBaseColors.RibbonQATButtonDark];
 
     /// <summary>
     /// Gets the color for the extra QAT button light content color.
     /// </summary>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
-    public override Color GetRibbonQATButtonLight(PaletteState state) => BaseColors!.RibbonQATButtonLight;
+    public override Color GetRibbonQATButtonLight(PaletteState state) => _ribbonColors[(int)SchemeBaseColors.RibbonQATButtonLight];
 
     #endregion
 
     #region RibbonBack
-
     /// <summary>
     /// Gets the method used to draw the background of a ribbon item.
     /// </summary>
@@ -3260,34 +3228,34 @@ public class PaletteProfessionalSystem : PaletteBase
                 return state switch
                 {
                     PaletteState.Disabled => SystemColors.Control,
-                    PaletteState.Tracking => BaseColors!.RibbonGalleryBackTracking,
-                    _ => BaseColors!.RibbonGalleryBackNormal
+                    PaletteState.Tracking => _ribbonColors[(int)SchemeBaseColors.RibbonGalleryBackTracking],
+                    _ => _ribbonColors[(int)SchemeBaseColors.RibbonGalleryBackNormal]
                 };
             case PaletteRibbonBackStyle.RibbonGalleryBorder:
                 return state switch
                 {
                     PaletteState.Disabled => FadedColor(ColorTable.ButtonSelectedBorder),
-                    _ => BaseColors!.RibbonGalleryBorder
+                    _ => _ribbonColors[(int)SchemeBaseColors.RibbonGalleryBorder]
                 };
             case PaletteRibbonBackStyle.RibbonAppMenuDocs:
-                return BaseColors!.AppButtonMenuDocsBack;
+                return _ribbonColors[(int)SchemeBaseColors.AppButtonMenuDocsBack];
             case PaletteRibbonBackStyle.RibbonAppMenuInner:
-                return BaseColors!.AppButtonInner1;
+                return _ribbonColors[(int)SchemeBaseColors.AppButtonInner1];
             case PaletteRibbonBackStyle.RibbonAppMenuOuter:
-                return BaseColors!.AppButtonOuter1;
+                return _ribbonColors[(int)SchemeBaseColors.AppButtonOuter1];
             case PaletteRibbonBackStyle.RibbonQATMinibar:
                 return state == PaletteState.Normal
-                    ? BaseColors!.RibbonQATMini1
-                    : BaseColors!.RibbonQATMini1I;
+                    ? _ribbonColors[(int)SchemeBaseColors.RibbonQATMini1]
+                    : _ribbonColors[(int)SchemeBaseColors.RibbonQATMini1I];
 
             case PaletteRibbonBackStyle.RibbonQATFullbar:
-                return BaseColors!.RibbonQATFullbar1;
+                return _ribbonColors[(int)SchemeBaseColors.RibbonQATFullbar1];
             case PaletteRibbonBackStyle.RibbonQATOverflow:
-                return BaseColors!.RibbonQATOverflow1;
+                return _ribbonColors[(int)SchemeBaseColors.RibbonQATOverflow1];
             case PaletteRibbonBackStyle.RibbonGroupCollapsedFrameBorder:
-                return BaseColors!.RibbonGroupFrameBorder1;
+                return _ribbonColors[(int)SchemeBaseColors.RibbonGroupFrameBorder1];
             case PaletteRibbonBackStyle.RibbonGroupCollapsedFrameBack:
-                return BaseColors!.RibbonGroupFrameInside1;
+                return _ribbonColors[(int)SchemeBaseColors.RibbonGroupFrameInside1];
             case PaletteRibbonBackStyle.RibbonGroupNormalBorder:
             case PaletteRibbonBackStyle.RibbonGroupCollapsedBorder:
                 switch (state)
@@ -3298,7 +3266,7 @@ public class PaletteProfessionalSystem : PaletteBase
                     case PaletteState.ContextNormal:
                     case PaletteState.ContextTracking:
                     case PaletteState.ContextPressed:
-                        return BaseColors!.RibbonGroupBorder1;
+                        return _ribbonColors[(int)SchemeBaseColors.RibbonGroupBorder1];
                     default:
                         // Should never happen!
                         Debug.Assert(false);
@@ -3328,7 +3296,7 @@ public class PaletteProfessionalSystem : PaletteBase
             case PaletteRibbonBackStyle.RibbonGroupArea:
                 return state == PaletteState.ContextCheckedNormal
                     ? _contextGroupAreaBorder
-                    : BaseColors!.RibbonGroupsArea1;
+                    : _ribbonColors[(int)SchemeBaseColors.RibbonGroupsArea1];
 
             case PaletteRibbonBackStyle.RibbonTab:
                 switch (state)
@@ -3336,13 +3304,13 @@ public class PaletteProfessionalSystem : PaletteBase
                     case PaletteState.Tracking:
                     case PaletteState.Pressed:
                     case PaletteState.ContextTracking:
-                        return BaseColors!.RibbonTabTracking1;
+                        return _ribbonColors[(int)SchemeBaseColors.RibbonTabTracking1];
                     case PaletteState.CheckedNormal:
                     case PaletteState.CheckedTracking:
                     case PaletteState.CheckedPressed:
                     case PaletteState.ContextCheckedNormal:
                     case PaletteState.ContextCheckedTracking:
-                        return BaseColors!.RibbonTabSelected1;
+                        return _ribbonColors[(int)SchemeBaseColors.RibbonTabSelected1];
                     case PaletteState.FocusOverride:
                         return _contextCheckedTabBorder1;
                     case PaletteState.Normal:
@@ -3375,22 +3343,22 @@ public class PaletteProfessionalSystem : PaletteBase
         switch (style)
         {
             case PaletteRibbonBackStyle.RibbonAppMenuInner:
-                return BaseColors!.AppButtonInner2;
+                return _ribbonColors[(int)SchemeBaseColors.AppButtonInner2];
             case PaletteRibbonBackStyle.RibbonAppMenuOuter:
-                return BaseColors!.AppButtonOuter2;
+                return _ribbonColors[(int)SchemeBaseColors.AppButtonOuter2];
             case PaletteRibbonBackStyle.RibbonQATMinibar:
                 return state == PaletteState.Normal
-                    ? BaseColors!.RibbonQATMini2
-                    : BaseColors!.RibbonQATMini2I;
+                    ? _ribbonColors[(int)SchemeBaseColors.RibbonQATMini2]
+                    : _ribbonColors[(int)SchemeBaseColors.RibbonQATMini2I];
 
             case PaletteRibbonBackStyle.RibbonQATFullbar:
-                return BaseColors!.RibbonQATFullbar2;
+                return _ribbonColors[(int)SchemeBaseColors.RibbonQATFullbar2];
             case PaletteRibbonBackStyle.RibbonQATOverflow:
-                return BaseColors!.RibbonQATOverflow2;
+                return _ribbonColors[(int)SchemeBaseColors.RibbonQATOverflow2];
             case PaletteRibbonBackStyle.RibbonGroupCollapsedFrameBorder:
-                return BaseColors!.RibbonGroupFrameBorder2;
+                return _ribbonColors[(int)SchemeBaseColors.RibbonGroupFrameBorder2];
             case PaletteRibbonBackStyle.RibbonGroupCollapsedFrameBack:
-                return BaseColors!.RibbonGroupFrameInside2;
+                return _ribbonColors[(int)SchemeBaseColors.RibbonGroupFrameInside2];
             case PaletteRibbonBackStyle.RibbonGroupNormalBorder:
             case PaletteRibbonBackStyle.RibbonGroupCollapsedBorder:
                 switch (state)
@@ -3401,7 +3369,7 @@ public class PaletteProfessionalSystem : PaletteBase
                     case PaletteState.ContextNormal:
                     case PaletteState.ContextTracking:
                     case PaletteState.ContextPressed:
-                        return BaseColors!.RibbonGroupBorder2;
+                        return _ribbonColors[(int)SchemeBaseColors.RibbonGroupBorder2];
                     default:
                         // Should never happen!
                         Debug.Assert(false);
@@ -3429,20 +3397,20 @@ public class PaletteProfessionalSystem : PaletteBase
                 }
                 break;
             case PaletteRibbonBackStyle.RibbonGroupArea:
-                return BaseColors!.RibbonGroupsArea2;
+                return _ribbonColors[(int)SchemeBaseColors.RibbonGroupsArea2];
             case PaletteRibbonBackStyle.RibbonTab:
                 switch (state)
                 {
                     case PaletteState.Tracking:
                     case PaletteState.Pressed:
                     case PaletteState.ContextTracking:
-                        return BaseColors!.RibbonTabTracking2;
+                        return _ribbonColors[(int)SchemeBaseColors.RibbonTabTracking2];
                     case PaletteState.CheckedNormal:
                     case PaletteState.CheckedTracking:
                     case PaletteState.CheckedPressed:
                     case PaletteState.ContextCheckedTracking:
                     case PaletteState.ContextCheckedNormal:
-                        return BaseColors!.RibbonTabSelected2;
+                        return _ribbonColors[(int)SchemeBaseColors.RibbonTabSelected2];
                     case PaletteState.FocusOverride:
                         return _contextCheckedTabBorder2;
                     case PaletteState.Normal:
@@ -3479,17 +3447,17 @@ public class PaletteProfessionalSystem : PaletteBase
         switch (style)
         {
             case PaletteRibbonBackStyle.RibbonAppMenuOuter:
-                return BaseColors!.AppButtonOuter3;
+                return _ribbonColors[(int)SchemeBaseColors.AppButtonOuter3];
             case PaletteRibbonBackStyle.RibbonQATMinibar:
                 return state == PaletteState.Normal
-                    ? BaseColors!.RibbonQATMini3
-                    : BaseColors!.RibbonQATMini3I;
+                    ? _ribbonColors[(int)SchemeBaseColors.RibbonQATMini3]
+                    : _ribbonColors[(int)SchemeBaseColors.RibbonQATMini3I];
 
             case PaletteRibbonBackStyle.RibbonQATFullbar:
-                return BaseColors!.RibbonQATFullbar3;
+                return _ribbonColors[(int)SchemeBaseColors.RibbonQATFullbar3];
             case PaletteRibbonBackStyle.RibbonGroupNormalBorder:
             case PaletteRibbonBackStyle.RibbonGroupCollapsedBorder:
-                return BaseColors!.RibbonGroupBorder3;
+                return _ribbonColors[(int)SchemeBaseColors.RibbonGroupBorder3];
             case PaletteRibbonBackStyle.RibbonAppMenuDocs:
             case PaletteRibbonBackStyle.RibbonAppMenuInner:
             case PaletteRibbonBackStyle.RibbonQATOverflow:
@@ -3518,20 +3486,20 @@ public class PaletteProfessionalSystem : PaletteBase
                 }
                 break;
             case PaletteRibbonBackStyle.RibbonGroupArea:
-                return BaseColors!.RibbonGroupsArea3;
+                return _ribbonColors[(int)SchemeBaseColors.RibbonGroupsArea3];
             case PaletteRibbonBackStyle.RibbonTab:
                 switch (state)
                 {
                     case PaletteState.Tracking:
                     case PaletteState.Pressed:
                     case PaletteState.ContextTracking:
-                        return BaseColors!.RibbonTabTracking3;
+                        return _ribbonColors[(int)SchemeBaseColors.RibbonTabTracking3];
                     case PaletteState.CheckedNormal:
                     case PaletteState.CheckedTracking:
                     case PaletteState.CheckedPressed:
                     case PaletteState.ContextCheckedNormal:
                     case PaletteState.ContextCheckedTracking:
-                        return BaseColors!.RibbonTabSelected3;
+                        return _ribbonColors[(int)SchemeBaseColors.RibbonTabSelected3];
                     case PaletteState.FocusOverride:
                         return _contextCheckedTabBorder3;
                     case PaletteState.Normal:
@@ -3565,12 +3533,12 @@ public class PaletteProfessionalSystem : PaletteBase
         {
             case PaletteRibbonBackStyle.RibbonQATMinibar:
                 return state == PaletteState.Normal
-                    ? BaseColors!.RibbonQATMini4
-                    : BaseColors!.RibbonQATMini4I;
+                    ? _ribbonColors[(int)SchemeBaseColors.RibbonQATMini4]
+                    : _ribbonColors[(int)SchemeBaseColors.RibbonQATMini4I];
 
             case PaletteRibbonBackStyle.RibbonGroupNormalBorder:
             case PaletteRibbonBackStyle.RibbonGroupCollapsedBorder:
-                return BaseColors!.RibbonGroupBorder4;
+                return _ribbonColors[(int)SchemeBaseColors.RibbonGroupBorder4];
             case PaletteRibbonBackStyle.RibbonAppMenuDocs:
             case PaletteRibbonBackStyle.RibbonAppMenuInner:
             case PaletteRibbonBackStyle.RibbonAppMenuOuter:
@@ -3600,20 +3568,20 @@ public class PaletteProfessionalSystem : PaletteBase
                 }
                 break;
             case PaletteRibbonBackStyle.RibbonGroupArea:
-                return BaseColors!.RibbonGroupsArea4;
+                return _ribbonColors[(int)SchemeBaseColors.RibbonGroupsArea4];
             case PaletteRibbonBackStyle.RibbonTab:
                 switch (state)
                 {
                     case PaletteState.Tracking:
                     case PaletteState.Pressed:
                     case PaletteState.ContextTracking:
-                        return BaseColors!.RibbonTabTracking4;
+                        return _ribbonColors[(int)SchemeBaseColors.RibbonTabTracking4];
                     case PaletteState.CheckedNormal:
                     case PaletteState.CheckedTracking:
                     case PaletteState.CheckedPressed:
                     case PaletteState.ContextCheckedNormal:
                     case PaletteState.ContextCheckedTracking:
-                        return BaseColors!.RibbonTabSelected4;
+                        return _ribbonColors[(int)SchemeBaseColors.RibbonTabSelected4];
                     case PaletteState.FocusOverride:
                         return _contextCheckedTabBorder4;
                     case PaletteState.Normal:
@@ -3647,7 +3615,7 @@ public class PaletteProfessionalSystem : PaletteBase
         {
             case PaletteRibbonBackStyle.RibbonGroupNormalBorder:
             case PaletteRibbonBackStyle.RibbonGroupCollapsedBorder:
-                return BaseColors!.RibbonGroupBorder5;
+                return _ribbonColors[(int)SchemeBaseColors.RibbonGroupBorder5];
             case PaletteRibbonBackStyle.RibbonAppMenuDocs:
             case PaletteRibbonBackStyle.RibbonAppMenuInner:
             case PaletteRibbonBackStyle.RibbonAppMenuOuter:
@@ -3662,8 +3630,8 @@ public class PaletteProfessionalSystem : PaletteBase
                 return GlobalStaticValues.EMPTY_COLOR;
             case PaletteRibbonBackStyle.RibbonQATMinibar:
                 return state == PaletteState.Normal
-                    ? BaseColors!.RibbonQATMini5
-                    : BaseColors!.RibbonQATMini5I;
+                    ? _ribbonColors[(int)SchemeBaseColors.RibbonQATMini5]
+                    : _ribbonColors[(int)SchemeBaseColors.RibbonQATMini5I];
 
             case PaletteRibbonBackStyle.RibbonAppButton:
                 switch (state)
@@ -3682,14 +3650,14 @@ public class PaletteProfessionalSystem : PaletteBase
                 }
                 break;
             case PaletteRibbonBackStyle.RibbonGroupArea:
-                return BaseColors!.RibbonGroupsArea5;
+                return _ribbonColors[(int)SchemeBaseColors.RibbonGroupsArea5];
             case PaletteRibbonBackStyle.RibbonTab:
                 switch (state)
                 {
                     case PaletteState.Disabled:
                         return _disabledText;
                     case PaletteState.Pressed:
-                        return BaseColors!.RibbonTabTracking2;
+                        return _ribbonColors[(int)SchemeBaseColors.RibbonTabTracking2];
                     case PaletteState.Tracking:
                     case PaletteState.CheckedNormal:
                     case PaletteState.CheckedTracking:
@@ -3719,7 +3687,6 @@ public class PaletteProfessionalSystem : PaletteBase
     #endregion
 
     #region RibbonText
-
     /// <summary>
     /// Gets the =color for the item text.
     /// </summary>
@@ -3737,22 +3704,22 @@ public class PaletteProfessionalSystem : PaletteBase
                 return state switch
                 {
                     PaletteState.Disabled => _disabledText,
-                    _ => BaseColors!.RibbonGroupTitleText
+                    _ => _ribbonColors[(int)SchemeBaseColors.RibbonGroupTitleText]
                 };
             case PaletteRibbonTextStyle.RibbonTab:
                 return state switch
                 {
                     PaletteState.Disabled => _disabledText,
-                    PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking or PaletteState.ContextCheckedNormal or PaletteState.ContextCheckedTracking or PaletteState.FocusOverride => BaseColors!.RibbonTabTextChecked,
-                    _ => BaseColors!.RibbonTabTextNormal
+                    PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking or PaletteState.ContextCheckedNormal or PaletteState.ContextCheckedTracking or PaletteState.FocusOverride => _ribbonColors[(int)SchemeBaseColors.RibbonTabTextChecked],
+                    _ => _ribbonColors[(int)SchemeBaseColors.RibbonTabTextNormal]
                 };
             case PaletteRibbonTextStyle.RibbonGroupCollapsedText:
-                return BaseColors!.RibbonGroupCollapsedText;
+                return _ribbonColors[(int)SchemeBaseColors.RibbonGroupCollapsedText];
             case PaletteRibbonTextStyle.RibbonGroupButtonText:
             case PaletteRibbonTextStyle.RibbonGroupLabelText:
             case PaletteRibbonTextStyle.RibbonGroupCheckBoxText:
             case PaletteRibbonTextStyle.RibbonGroupRadioButtonText:
-                return state == PaletteState.Disabled ? _disabledText : BaseColors!.RibbonGroupCollapsedText;
+                return state == PaletteState.Disabled ? _disabledText : _ribbonColors[(int)SchemeBaseColors.RibbonGroupCollapsedText];
 
             default:
                 // Should never happen!
@@ -3766,7 +3733,6 @@ public class PaletteProfessionalSystem : PaletteBase
     #endregion
 
     #region ElementColor
-
     /// <summary>
     /// Gets the first element color.
     /// </summary>
@@ -3973,7 +3939,6 @@ public class PaletteProfessionalSystem : PaletteBase
     #endregion
 
     #region ColorTable
-
     /// <summary>
     /// Gets access to the color table instance.
     /// </summary>
@@ -3990,6 +3955,7 @@ public class PaletteProfessionalSystem : PaletteBase
         // Create the color table to use as the base for getting krypton colors
         var kct = new KryptonColorTable(this)
         {
+
             // Always turn off the use of any theme specific colors
             UseSystemColors = useSystemColors
         };
@@ -3997,18 +3963,16 @@ public class PaletteProfessionalSystem : PaletteBase
         // Calculate the krypton specific colors
         Color[] colors =
         [
-            kct.OverflowButtonGradientEnd, // Header1Begin
-            kct.OverflowButtonGradientEnd  // Header1End
+            kct.OverflowButtonGradientEnd,   // Header1Begin
+            kct.OverflowButtonGradientEnd // Header1End
         ];
 
         // Create a krypton extension color table
         return new KryptonProfessionalKCT(colors, true, this);
     }
-
-    #endregion ColorTable
+    #endregion
 
     #region OnUserPreferenceChanged
-
     /// <summary>
     /// Handle a change in the user preferences.
     /// </summary>
@@ -4057,11 +4021,9 @@ public class PaletteProfessionalSystem : PaletteBase
 
         base.OnUserPreferenceChanged(sender, e);
     }
-
-    #endregion OnUserPreferenceChanged
+    #endregion
 
     #region Implementation
-
     private void DefineRibbonColors()
     {
         // Main values
@@ -4069,7 +4031,7 @@ public class PaletteProfessionalSystem : PaletteBase
         Color groupStart = ColorTable.RaftingContainerGradientBegin;
         Color groupEnd = ColorTable.MenuBorder;
 
-        // Spot standard background colors and then tweak values
+        // Spot standard background colors and then tweak values 
         // so it looks good under the standard windows settings.
         switch (SystemColors.Control.ToArgb())
         {
@@ -4136,7 +4098,7 @@ public class PaletteProfessionalSystem : PaletteBase
             Color.Red, Color.Red, Color.Red, Color.Red, Color.Red,
             Color.Red, Color.Red, Color.Red, Color.Red, Color.Red,
             Color.Red, Color.Red, Color.Red, Color.Red, Color.Red,
-            Color.Red, Color.Red, Color.Red, Color.Red, Color.Red,
+            Color.Red, Color.Red, Color.Red, Color.Red, Color.Red,   
             // Ribbon colors
             SystemColors.ControlText,     // RibbonTabTextNormal
             SystemColors.ControlText,     // RibbonTabTextChecked
@@ -4144,7 +4106,7 @@ public class PaletteProfessionalSystem : PaletteBase
             ribbonTabSelected2,           // RibbonTabSelected2
             ribbonTabSelected3,           // RibbonTabSelected3
             ribbonTabSelected4,           // RibbonTabSelected4
-            GlobalStaticValues.EMPTY_COLOR,  // RibbonTabSelected5
+            Color.Empty,                  // RibbonTabSelected5
             ribbonTabTracking1,           // RibbonTabTracking1
             ribbonTabTracking2,           // RibbonTabTracking2
             Color.FromArgb(196, ColorTable.ButtonSelectedGradientMiddle), // RibbonTabHighlight1
@@ -4192,34 +4154,33 @@ public class PaletteProfessionalSystem : PaletteBase
             ribbonGroupFrameBorder1,      // RibbonGroupFrameBorder2
             ribbonGroupFrameInside1,      // RibbonGroupFrameInside1
             ribbonGroupFrameInside1,      // RibbonGroupFrameInside2
-            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupFrameInside3
-            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupFrameInside4
+            Color.Empty,                  // RibbonGroupFrameInside3
+            Color.Empty,                  // RibbonGroupFrameInside4
             SystemColors.ControlText,     // RibbonGroupCollapsedText
-            SystemColors.ControlText,     // RibbonGroupButtonText
             // Non ribbon colors
             Color.Red, Color.Red, Color.Red,
             Color.Red, Color.Red, Color.Red,
-            Color.Red, Color.Red, Color.Red,
+            Color.Red, Color.Red, Color.Red,  
             // Ribbon colors
             ColorTable.MenuBorder,            // RibbonQATMini1
             groupStart,                       // RibbonQATMini2
             ribbonQATMini3,                   // RibbonQATMini3
             Color.FromArgb(32, Color.White),  // RibbonQATMini4
-            Color.FromArgb(32, Color.White),  // RibbonQATMini5
+            Color.FromArgb(32, Color.White),  // RibbonQATMini5                                                       
             ColorTable.MenuBorder,            // RibbonQATMini1I
             groupStart,                       // RibbonQATMini2I
             ribbonQATMini3,                   // RibbonQATMini3I
             Color.FromArgb(32, Color.White),  // RibbonQATMini4I
-            Color.FromArgb(32, Color.White),  // RibbonQATMini5I
-            groupStart,                       // RibbonQATFullbar1
-            ribbonQATMini3,                   // RibbonQATFullbar2
-            ribbonGroupsArea1,                // RibbonQATFullbar3
-            SystemColors.ControlText,         // RibbonQATButtonDark
-            SystemColors.ControlLight,        // RibbonQATButtonLight
-            groupStart,                       // RibbonQATOverflow1
-            ColorTable.MenuBorder,            // RibbonQATOverflow2
-            ribbonGroupSepDark,               // RibbonGroupSeparatorDark
-            ColorTable.GripLight,             // RibbonGroupSeparatorLight
+            Color.FromArgb(32, Color.White),  // RibbonQATMini5I                                                      
+            groupStart,                       // RibbonQATFullbar1                                                      
+            ribbonQATMini3,                   // RibbonQATFullbar2                                                      
+            ribbonGroupsArea1,                // RibbonQATFullbar3                                                      
+            SystemColors.ControlText,         // RibbonQATButtonDark                                                      
+            SystemColors.ControlLight,        // RibbonQATButtonLight                                                      
+            groupStart,                       // RibbonQATOverflow1                                                      
+            ColorTable.MenuBorder,            // RibbonQATOverflow2                                                      
+            ribbonGroupSepDark,               // RibbonGroupSeparatorDark                                                      
+            ColorTable.GripLight,             // RibbonGroupSeparatorLight                                                      
             // Non ribbon colors
             Color.Red, Color.Red, Color.Red, Color.Red, Color.Red,
             Color.Red, Color.Red, Color.Red, Color.Red, Color.Red,
@@ -4230,7 +4191,7 @@ public class PaletteProfessionalSystem : PaletteBase
             Color.Red, Color.Red, Color.Red, Color.Red, Color.Red,
             SystemColors.Window,              // AppButtonBack1
             ribbonGroupsArea1,                // AppButtonBack2
-            ColorTable.MenuBorder,            // AppButtonBorder
+            ColorTable.MenuBorder,            // AppButtonBorder                              
             ColorTable.SeparatorDark,         // AppButtonOuter1
             ColorTable.SeparatorDark,         // AppButtonOuter2
             ColorTable.StatusStripGradientBegin,     // AppButtonOuter3
@@ -4262,7 +4223,7 @@ public class PaletteProfessionalSystem : PaletteBase
             Color.Red,                        // ButtonNavigatorPressed1
             Color.Red,                        // ButtonNavigatorPressed2
             Color.Red,                        // ButtonNavigatorChecked1
-            Color.Red                         // ButtonNavigatorChecked2
+            Color.Red // ButtonNavigatorChecked2
         ];
 
         // Generate second set of ribbon colors
@@ -4297,23 +4258,8 @@ public class PaletteProfessionalSystem : PaletteBase
         ];
         _appButtonTrack = [highlight1, highlight2, ColorTable.ButtonSelectedGradientEnd, highlight3, highlight4];
         _appButtonPressed = [highlight1, pressed4, ColorTable.CheckPressedBackground, highlight2, pressed4];
-
-        // Synchronize the strongly-typed color scheme with the generated ribbon colors
-        {
-            var schemeType = BaseColors.GetType();
-            foreach (SchemeBaseColors role in Enum.GetValues(typeof(SchemeBaseColors)))
-            {
-                int index = (int)role;
-                if (index < _ribbonColors.Length)
-                {
-                    var prop = schemeType.GetProperty(role.ToString(), System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
-                    prop?.SetValue(BaseColors, _ribbonColors[index]);
-                }
-            }
-        }
     }
 
-    /*
     private Image? CreateDropDownImage(Color color)
     {
         // Create image that has an alpha channel
@@ -4333,7 +4279,6 @@ public class PaletteProfessionalSystem : PaletteBase
 
         return image;
     }
-    */
 
     private Image CreateGalleryUpImage(Color color)
     {
@@ -4382,14 +4327,12 @@ public class PaletteProfessionalSystem : PaletteBase
 
         return image;
     }
-
-    #endregion Implementation
+    #endregion
 
     #region Tab Row Background
 
     /// <inheritdoc />
-    public override Color GetRibbonTabRowGradientColor1(PaletteState state) =>
-        GlobalStaticValues.EMPTY_COLOR;
+    public override Color GetRibbonTabRowGradientColor1(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
 
     /// <inheritdoc />
     public override Color GetRibbonTabRowBackgroundGradientRaftingDark(PaletteState state) =>
@@ -4400,13 +4343,12 @@ public class PaletteProfessionalSystem : PaletteBase
         GlobalStaticValues.EMPTY_COLOR;
 
     /// <inheritdoc />
-    public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) =>
-        GlobalStaticValues.EMPTY_COLOR;
+    public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
 
     /// <inheritdoc />
     public override float GetRibbonTabRowGradientRaftingAngle(PaletteState state) => -1;
 
-    #endregion Tab Row Background
+    #endregion
 
     #region AppButton Colors
 
@@ -4419,5 +4361,5 @@ public class PaletteProfessionalSystem : PaletteBase
     /// <inheritdoc />
     public override Color GetRibbonFileAppTabTextColor(PaletteState state) => GlobalStaticValues.DEFAULT_RIBBON_FILE_APP_TAB_TEXT_COLOR;
 
-    #endregion AppButton Colors
+    #endregion
 }

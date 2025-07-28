@@ -58,8 +58,4 @@
     </Reference>
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Cyotek.Windows.Forms.ColorPicker" Version="2.0.0-beta.7" />
-  </ItemGroup>
-
 </Project>

@@ -1,12 +1,12 @@
-#region BSD License
+﻿#region BSD License
 /*
- *
+ * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- *
+ * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
- *
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  
  */
 #endregion
 
@@ -26,7 +26,7 @@ public abstract class PaletteOffice2007Base : PaletteBase
     private static readonly Padding _contentPaddingHeader2 = new Padding(2, 1, 2, 1);
     private static readonly Padding _contentPaddingDock = new Padding(2, 2, 2, 1);
     private static readonly Padding _contentPaddingCalendar = new Padding(2);
-    //private static readonly Padding _contentPaddingHeaderForm = new Padding(owningForm!.RealWindowBorders.Left, owningForm!.RealWindowBorders.Bottom / 2, 0, 0);
+    //private static readonly Padding _contentPaddingHeaderForm = new Padding(owningForm!.RealWindowBorders.Left, owningForm!.RealWindowBorders.Bottom / 2, 0, 0);         
     private static readonly Padding _contentPaddingLabel = new Padding(3, 1, 3, 1);
     private static readonly Padding _contentPaddingLabel2 = new Padding(8, 2, 8, 2);
     private static readonly Padding _contentPaddingButtonCalendar = new Padding(-1);
@@ -121,7 +121,7 @@ public abstract class PaletteOffice2007Base : PaletteBase
 
     #endregion
 
-    #region Colors
+    #region Colours
 
     private static readonly Color _gridTextColor = Color.Black;
     private static readonly Color _colorWhite192 = Color.FromArgb(192, 192, 192);
@@ -152,16 +152,20 @@ public abstract class PaletteOffice2007Base : PaletteBase
     private static readonly Color _contextMenuHeadingBorder = Color.FromArgb(197, 197, 197);
     private static readonly Color _contextMenuImageBackChecked = Color.FromArgb(255, 227, 149);
     private static readonly Color _contextMenuImageBorderChecked = Color.FromArgb(242, 149, 54);
-
-    private static readonly Color[] _ribbonGroupCollapsedBackContext = [Color.FromArgb(48, 255, 255, 255), Color.FromArgb(235, 235, 235)];
-    private static readonly Color[] _ribbonGroupCollapsedBackContextTracking = [Color.FromArgb(48, 255, 255, 255), Color.FromArgb(235, 235, 235)];
-    private static readonly Color[] _ribbonGroupCollapsedBorderContext = [Color.FromArgb(128, 199, 199, 199), Color.FromArgb(199, 199, 199), Color.FromArgb(48, 255, 255, 255), Color.FromArgb(235, 235, 235)];
-    private static readonly Color[] _ribbonGroupCollapsedBorderContextTracking = [Color.FromArgb(128, 168, 184, 196), Color.FromArgb(168, 184, 196), Color.FromArgb(48, 255, 255, 255), Color.FromArgb(192, 207, 220)];
-
-    private static readonly Color[] _appButtonNormal = [Color.FromArgb(243, 245, 248), Color.FromArgb(214, 220, 231), Color.FromArgb(188, 198, 211), Color.FromArgb(254, 254, 255), Color.FromArgb(206, 213, 225)];
-    private static readonly Color[] _appButtonTrack = [Color.FromArgb(255, 251, 230), Color.FromArgb(248, 230, 143), Color.FromArgb(238, 213, 126), Color.FromArgb(254, 247, 129), Color.FromArgb(240, 201, 41)];
-    private static readonly Color[] _appButtonPressed = [Color.FromArgb(235, 227, 196), Color.FromArgb(228, 198, 149), Color.FromArgb(166, 97, 7), Color.FromArgb(242, 155, 57), Color.FromArgb(236, 136, 9)];
-
+    private static readonly Color[] _ribbonGroupCollapsedBackContext = [Color.FromArgb(48, 255, 255, 255), Color.FromArgb(235, 235, 235)
+    ];
+    private static readonly Color[] _ribbonGroupCollapsedBackContextTracking = [Color.FromArgb(48, 255, 255, 255), Color.FromArgb(235, 235, 235)
+    ];
+    private static readonly Color[] _ribbonGroupCollapsedBorderContext = [Color.FromArgb(128, 199, 199, 199), Color.FromArgb(199, 199, 199), Color.FromArgb(48, 255, 255, 255), Color.FromArgb(235, 235, 235)
+    ];
+    private static readonly Color[] _ribbonGroupCollapsedBorderContextTracking = [Color.FromArgb(128, 168, 184, 196), Color.FromArgb(168, 184, 196), Color.FromArgb(48, 255, 255, 255), Color.FromArgb(192, 207, 220)
+    ];
+    private static readonly Color[] _appButtonNormal = [Color.FromArgb(243, 245, 248), Color.FromArgb(214, 220, 231), Color.FromArgb(188, 198, 211), Color.FromArgb(254, 254, 255), Color.FromArgb(206, 213, 225)
+    ];
+    private static readonly Color[] _appButtonTrack = [Color.FromArgb(255, 251, 230), Color.FromArgb(248, 230, 143), Color.FromArgb(238, 213, 126), Color.FromArgb(254, 247, 129), Color.FromArgb(240, 201, 41)
+    ];
+    private static readonly Color[] _appButtonPressed = [Color.FromArgb(235, 227, 196), Color.FromArgb(228, 198, 149), Color.FromArgb(166, 97, 7), Color.FromArgb(242, 155, 57), Color.FromArgb(236, 136, 9)
+    ];
     private static readonly Color[] _buttonBorderColors =
     [
         Color.FromArgb(212, 212, 212), // Button, Disabled, Border
@@ -188,24 +192,18 @@ public abstract class PaletteOffice2007Base : PaletteBase
 
     #endregion
 
-    #endregion Static Fields
+    #endregion
 
     #region Instance Fields
-
-    /// <inheritdoc/>
-    protected override Color[] SchemeColors => _ribbonColors;
-    private readonly Color[] _ribbonColors;
-
-    protected readonly KryptonColorSchemeBase? BaseColors;
     private KryptonColorTable2007? _table;
+    private readonly Color[] _ribbonColors;
+    private readonly Color[] _trackBarColors;
     private readonly ImageList _checkBoxList;
     private readonly ImageList _galleryButtonList;
     private readonly Image?[] _radioButtonArray;
-
     #endregion
 
     #region Identity
-
     /// <summary>
     /// Initialize a new instance of the PaletteOffice2007Base class.
     /// </summary>
@@ -248,36 +246,17 @@ public abstract class PaletteOffice2007Base : PaletteBase
         {
             _radioButtonArray = radioButtonArray;
         }
+        if (trackBarColors != null)
+        {
+            _trackBarColors = trackBarColors;
+        }
 
         // Get the font settings from the system
         DefineFonts();
     }
-
-    /// <summary>
-    /// Overload that accepts a KryptonColorSchemeBase instance and forwards colours to the main constructor.
-    /// </summary>
-    // TODO this should be merged into main constructor once all palettes
-    // have their own KryptonColorSchemeBase-derived class
-    protected PaletteOffice2007Base(
-        string themeName,
-        [DisallowNull] KryptonColorSchemeBase scheme,
-        [DisallowNull] ImageList checkBoxList,
-        [DisallowNull] ImageList galleryButtonList,
-        [DisallowNull] Image?[] radioButtonArray)
-        : this(themeName,
-               scheme.ToArray(),
-               checkBoxList,
-               galleryButtonList,
-               radioButtonArray,
-               scheme.ToTrackBarArray())
-    {
-        BaseColors = scheme;
-    }
-
     #endregion
 
     #region Renderer
-
     /// <summary>
     /// Gets the renderer to use for this palette.
     /// </summary>
@@ -289,7 +268,6 @@ public abstract class PaletteOffice2007Base : PaletteBase
     #endregion
 
     #region Back
-
     /// <summary>
     /// Gets a value indicating if background should be drawn.
     /// </summary>
@@ -1722,7 +1700,6 @@ public abstract class PaletteOffice2007Base : PaletteBase
             _ => throw new ArgumentOutOfRangeException(nameof(style))
         };
     }
-
     #endregion
 
     #region Border
@@ -2260,11 +2237,9 @@ public abstract class PaletteOffice2007Base : PaletteBase
             _ => throw new ArgumentOutOfRangeException(nameof(style))
         };
     }
-
     #endregion
 
     #region Content
-
     /// <summary>
     /// Gets a value indicating if content should be drawn.
     /// </summary>
@@ -3472,10 +3447,6 @@ public abstract class PaletteOffice2007Base : PaletteBase
                 return _contentPaddingGrid;
             case PaletteContentStyle.HeaderForm:
             {
-                if (owningForm == null)
-                {
-                    return new Padding();
-                }
                 Padding borders = owningForm!.RealWindowBorders;
                 return new Padding(borders.Left, borders.Bottom / 2, 0, 0);
             }
@@ -3571,7 +3542,6 @@ public abstract class PaletteOffice2007Base : PaletteBase
             _ => throw new ArgumentOutOfRangeException(nameof(style))
         };
     }
-
     #endregion
 
     #region Metric
@@ -3594,10 +3564,6 @@ public abstract class PaletteOffice2007Base : PaletteBase
             case PaletteMetricInt.CheckButtonGap:
                 return 5;
             case PaletteMetricInt.HeaderButtonEdgeInsetForm:
-                if (owningForm == null)
-                {
-                    return 0;
-                }
                 return Math.Max(2, owningForm!.RealWindowBorders.Right);
             case PaletteMetricInt.HeaderButtonEdgeInsetInputControl:
                 return 1;
@@ -3671,10 +3637,6 @@ public abstract class PaletteOffice2007Base : PaletteBase
             case PaletteMetricPadding.BarPaddingOutside:
                 return _metricPaddingBarOutside;
             case PaletteMetricPadding.HeaderButtonPaddingForm:
-                if (owningForm == null)
-                {
-                    return new Padding();
-                }
                 return new Padding(0, owningForm!.RealWindowBorders.Right, 0, 0);
             case PaletteMetricPadding.RibbonButtonPadding:
                 return _metricPaddingRibbon;
@@ -3715,11 +3677,9 @@ public abstract class PaletteOffice2007Base : PaletteBase
 
         return Padding.Empty;
     }
-
     #endregion
 
     #region Images
-
     /// <summary>
     /// Gets a tree view image appropriate for the provided state.
     /// </summary>
@@ -3850,7 +3810,6 @@ public abstract class PaletteOffice2007Base : PaletteBase
         PaletteRibbonGalleryButton.DropDown => _galleryButtonList.Images[2],
         _ => _galleryButtonList.Images[0]
     };
-
     #endregion
 
     #region ButtonSpec
@@ -3942,7 +3901,6 @@ public abstract class PaletteOffice2007Base : PaletteBase
     #endregion
 
     #region RibbonGeneral
-
     /// <summary>
     /// Gets the ribbon shape that should be used.
     /// </summary>
@@ -4085,7 +4043,6 @@ public abstract class PaletteOffice2007Base : PaletteBase
     #endregion
 
     #region RibbonBack
-
     /// <summary>
     /// Gets the method used to draw the background of a ribbon item.
     /// </summary>
@@ -4902,11 +4859,9 @@ public abstract class PaletteOffice2007Base : PaletteBase
 
         return Color.Red;
     }
-
     #endregion
 
     #region RibbonText
-
     /// <summary>
     /// Gets the =color for the item text.
     /// </summary>
@@ -4945,11 +4900,9 @@ public abstract class PaletteOffice2007Base : PaletteBase
 
         return Color.Red;
     }
-
     #endregion
 
     #region ElementColor
-
     /// <summary>
     /// Gets the first element color.
     /// </summary>
@@ -4967,14 +4920,14 @@ public abstract class PaletteOffice2007Base : PaletteBase
         switch (element)
         {
             case PaletteElement.TrackBarTick:
-                return BaseColors!.TrackBarTickMarks;
+                return _trackBarColors[0];
             case PaletteElement.TrackBarTrack:
-                return BaseColors!.TrackBarTopTrack;
+                return _trackBarColors[1];
             case PaletteElement.TrackBarPosition:
                 return state switch
                 {
                     PaletteState.Disabled => GlobalStaticValues.EMPTY_COLOR,
-                    _ => BaseColors!.TrackBarOutsidePosition
+                    _ => _trackBarColors[4]
                 };
             default:
                 // Should never happen!
@@ -5003,9 +4956,9 @@ public abstract class PaletteOffice2007Base : PaletteBase
         switch (element)
         {
             case PaletteElement.TrackBarTick:
-                return BaseColors!.TrackBarTickMarks;
+                return _trackBarColors[0];
             case PaletteElement.TrackBarTrack:
-                return BaseColors!.TrackBarBottomTrack;
+                return _trackBarColors[2];
             case PaletteElement.TrackBarPosition:
                 return state switch
                 {
@@ -5043,9 +4996,9 @@ public abstract class PaletteOffice2007Base : PaletteBase
         switch (element)
         {
             case PaletteElement.TrackBarTick:
-                return BaseColors!.TrackBarTickMarks;
+                return _trackBarColors[0];
             case PaletteElement.TrackBarTrack:
-                return BaseColors!.TrackBarFillTrack;
+                return _trackBarColors[3];
             case PaletteElement.TrackBarPosition:
                 return state switch
                 {
@@ -5085,14 +5038,14 @@ public abstract class PaletteOffice2007Base : PaletteBase
                     return GlobalStaticValues.EMPTY_COLOR;
                 }
 
-                return BaseColors!.TrackBarTickMarks;
+                return _trackBarColors[0];
             case PaletteElement.TrackBarTrack:
                 if (CommonHelper.IsOverrideState(state))
                 {
                     return GlobalStaticValues.EMPTY_COLOR;
                 }
 
-                return BaseColors!.TrackBarFillTrack;
+                return _trackBarColors[3];
             case PaletteElement.TrackBarPosition:
                 if (CommonHelper.IsOverrideStateExclude(state, PaletteState.FocusOverride))
                 {
@@ -5134,14 +5087,14 @@ public abstract class PaletteOffice2007Base : PaletteBase
                     return GlobalStaticValues.EMPTY_COLOR;
                 }
 
-                return BaseColors!.TrackBarTickMarks;
+                return _trackBarColors[0];
             case PaletteElement.TrackBarTrack:
                 if (CommonHelper.IsOverrideState(state))
                 {
                     return GlobalStaticValues.EMPTY_COLOR;
                 }
 
-                return BaseColors!.TrackBarFillTrack;
+                return _trackBarColors[3];
             case PaletteElement.TrackBarPosition:
                 if (CommonHelper.IsOverrideStateExclude(state, PaletteState.FocusOverride))
                 {
@@ -5165,11 +5118,9 @@ public abstract class PaletteOffice2007Base : PaletteBase
 
         return Color.Red;
     }
-
     #endregion
 
     #region ColorTable
-
     /// <summary>
     /// Gets access to the color table instance.
     /// </summary>
@@ -5178,7 +5129,6 @@ public abstract class PaletteOffice2007Base : PaletteBase
     #endregion
 
     #region OnUserPreferenceChanged
-
     /// <summary>
     /// Handle a change in the user preferences.
     /// </summary>
@@ -5194,7 +5144,6 @@ public abstract class PaletteOffice2007Base : PaletteBase
 
         base.OnUserPreferenceChanged(sender, e);
     }
-
     #endregion
 
 }
