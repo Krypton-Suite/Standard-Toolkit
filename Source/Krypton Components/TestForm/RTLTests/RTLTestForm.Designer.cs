@@ -32,12 +32,14 @@
             this.ktsRTL = new Krypton.Toolkit.KryptonToggleSwitch();
             this.buttonSpecAny1 = new Krypton.Toolkit.ButtonSpecAny();
             this.buttonSpecAny2 = new Krypton.Toolkit.ButtonSpecAny();
+            this.kryptonPropertyGrid1 = new Krypton.Toolkit.KryptonPropertyGrid();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // kryptonPanel1
             // 
+            this.kryptonPanel1.Controls.Add(this.kryptonPropertyGrid1);
             this.kryptonPanel1.Controls.Add(this.ktsRTL);
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
@@ -63,6 +65,16 @@
             this.buttonSpecAny2.Type = Krypton.Toolkit.PaletteButtonSpecStyle.ArrowLeft;
             this.buttonSpecAny2.UniqueName = "6707f9f6597349d1a4832a107cc5522b";
             // 
+            // kryptonPropertyGrid1
+            // 
+            this.kryptonPropertyGrid1.Location = new System.Drawing.Point(13, 13);
+            this.kryptonPropertyGrid1.Name = "kryptonPropertyGrid1";
+            this.kryptonPropertyGrid1.Padding = new System.Windows.Forms.Padding(1);
+            this.kryptonPropertyGrid1.SelectedObject = this;
+            this.kryptonPropertyGrid1.Size = new System.Drawing.Size(326, 413);
+            this.kryptonPropertyGrid1.TabIndex = 1;
+            this.kryptonPropertyGrid1.Text = "kryptonPropertyGrid1";
+            // 
             // RTLTestForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -86,5 +98,6 @@
         private KryptonToggleSwitch ktsRTL;
         private ButtonSpecAny buttonSpecAny1;
         private ButtonSpecAny buttonSpecAny2;
+        private KryptonPropertyGrid kryptonPropertyGrid1;
     }
 }

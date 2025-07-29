@@ -2243,7 +2243,7 @@ public class KryptonForm : VisualForm,
             Rectangle availableArea = context.DisplayRectangle;
             
             // Check if RTL layout is enabled
-            bool isRTL = context.Control?.RightToLeftLayout == true;
+            bool isRTL = (context.Control as Form)?.RightToLeftLayout == true;
             
             // Get the title alignment from the form
             var kryptonForm = context.Control as KryptonForm;
