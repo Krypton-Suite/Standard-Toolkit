@@ -349,6 +349,13 @@ public class KryptonListBox : VisualControlBase,
 
         protected override void OnSelectedIndexChanged(EventArgs e)
         {
+            // Prevent ObjectDisposedException if handle is invalid
+            if (!IsHandleCreated || IsDisposed)
+            {
+                base.OnSelectedIndexChanged(e);
+                return;
+            }
+
             // Prevent scrollbar flicker by disabling redraw
             PI.SendMessage(Handle, PI.SETREDRAW, (IntPtr)0, IntPtr.Zero);
             BeginUpdate();
