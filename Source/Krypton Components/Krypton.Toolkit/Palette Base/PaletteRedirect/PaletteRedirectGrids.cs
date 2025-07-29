@@ -1012,6 +1012,7 @@ public class PaletteRedirectGrids : PaletteRedirect
                 }
                 break;
 
+            case PaletteState.BoldedOverride:
             case PaletteState.Normal:
                 switch (style)
                 {
