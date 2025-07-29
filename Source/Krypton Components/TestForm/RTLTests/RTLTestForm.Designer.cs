@@ -30,6 +30,8 @@
         {
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
             this.ktsRTL = new Krypton.Toolkit.KryptonToggleSwitch();
+            this.buttonSpecAny1 = new Krypton.Toolkit.ButtonSpecAny();
+            this.buttonSpecAny2 = new Krypton.Toolkit.ButtonSpecAny();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -40,7 +42,7 @@
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(802, 444);
+            this.kryptonPanel1.Size = new System.Drawing.Size(804, 438);
             this.kryptonPanel1.TabIndex = 0;
             // 
             // ktsRTL
@@ -51,12 +53,25 @@
             this.ktsRTL.TabIndex = 0;
             this.ktsRTL.CheckedChanged += new System.EventHandler(this.ktsRTL_CheckedChanged);
             // 
+            // buttonSpecAny1
+            // 
+            this.buttonSpecAny1.Type = Krypton.Toolkit.PaletteButtonSpecStyle.Previous;
+            this.buttonSpecAny1.UniqueName = "4c02382cf86f4197ac6cc70654c2834e";
+            // 
+            // buttonSpecAny2
+            // 
+            this.buttonSpecAny2.Type = Krypton.Toolkit.PaletteButtonSpecStyle.ArrowLeft;
+            this.buttonSpecAny2.UniqueName = "6707f9f6597349d1a4832a107cc5522b";
+            // 
             // RTLTestForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(802, 444);
+            this.ButtonSpecs.Add(this.buttonSpecAny1);
+            this.ButtonSpecs.Add(this.buttonSpecAny2);
+            this.ClientSize = new System.Drawing.Size(804, 438);
             this.Controls.Add(this.kryptonPanel1);
+            this.HelpButton = true;
             this.Name = "RTLTestForm";
             this.Text = "RTLTestForm";
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
@@ -69,5 +84,7 @@
 
         private KryptonPanel kryptonPanel1;
         private KryptonToggleSwitch ktsRTL;
+        private ButtonSpecAny buttonSpecAny1;
+        private ButtonSpecAny buttonSpecAny2;
     }
 }

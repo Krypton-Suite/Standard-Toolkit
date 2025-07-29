@@ -1045,8 +1045,8 @@ public class KryptonForm : VisualForm,
 
         private PaletteRelativeAlign GetRTLAdjustedAlignment(PaletteRelativeAlign originalAlignment)
         {
-            // If RTL is enabled, reverse the alignment
-            if (_kryptonForm.RightToLeft == RightToLeft.Yes)
+            // If RTL layout is enabled, reverse the alignment
+            if (_kryptonForm.RightToLeftLayout)
             {
                 return originalAlignment switch
                 {
@@ -1060,8 +1060,8 @@ public class KryptonForm : VisualForm,
 
         private PaletteRelativeAlign GetRTLAdjustedImageAlignment(PaletteRelativeAlign titleAlignment)
         {
-            // If RTL is enabled, position the icon after the text
-            if (_kryptonForm.RightToLeft == RightToLeft.Yes)
+            // If RTL layout is enabled, position the icon after the text
+            if (_kryptonForm.RightToLeftLayout)
             {
                 return titleAlignment switch
                 {
@@ -1776,8 +1776,8 @@ public class KryptonForm : VisualForm,
     {
         if (MdiParent == null)
         {
-            // For RTL mode, disable region clipping to prevent border issues
-            if (RightToLeft == RightToLeft.Yes)
+            // For RTL layout mode, disable region clipping to prevent border issues
+            if (RightToLeftLayout)
             {
                 SuspendPaint();
                 _regionWindowState = FormWindowState.Maximized;
@@ -2208,8 +2208,8 @@ public class KryptonForm : VisualForm,
         {
             var originalEdge = _baseRedirector.GetButtonSpecEdge(style);
             
-            // If RTL is enabled, reverse the edge alignment
-            if (_kryptonForm.RightToLeft == RightToLeft.Yes)
+            // If RTL layout is enabled, reverse the edge alignment
+            if (_kryptonForm.RightToLeftLayout)
             {
                 return originalEdge switch
                 {
@@ -2242,8 +2242,8 @@ public class KryptonForm : VisualForm,
             // Get the available area
             Rectangle availableArea = context.DisplayRectangle;
             
-            // Check if RTL is enabled
-            bool isRTL = context.Control?.RightToLeft == RightToLeft.Yes;
+            // Check if RTL layout is enabled
+            bool isRTL = context.Control?.RightToLeftLayout == true;
             
             // Get the title alignment from the form
             var kryptonForm = context.Control as KryptonForm;
