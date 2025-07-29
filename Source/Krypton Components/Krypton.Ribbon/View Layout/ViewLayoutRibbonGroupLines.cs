@@ -971,20 +971,34 @@ internal class ViewLayoutRibbonGroupLines : ViewComposite,
 
     private void LargeMediumLayout(ViewLayoutContext context, ref int split1)
     {
-        var x = ClientLocation.X;
+        bool isRtl = _ribbon.RightToLeft == RightToLeft.Yes;
+        var x = isRtl ? ClientRectangle.Right : ClientLocation.X;
         var y = ClientLocation.Y + _ribbon.CalculatedValues.GroupLineGapHeight;
 
         // At design time we reserve space at the left side for the selection flap
         if (_ribbon.InDesignHelperMode)
         {
-            x += DesignTimeDraw.FlapWidth;
+            if (isRtl)
+            {
+                x -= DesignTimeDraw.FlapWidth;
+            }
+            else
+            {
+                x += DesignTimeDraw.FlapWidth;
+            }
         }
 
         ViewBase? previousChild = null;
 
+        // Determine layout order based on RTL
+        IEnumerable<int> childIndices = isRtl
+            ? Enumerable.Range(0, Count).Reverse()
+            : Enumerable.Range(0, Count);
+
         // Position the visible items in turn
-        for (int i = 0, visibleIndex = 0; i < Count; i++)
+        foreach (int childIdxIter in childIndices)
         {
+            int i = childIdxIter;
             ViewBase? child = this[i];
 
             // We only position visible items
@@ -1011,28 +1025,47 @@ internal class ViewLayoutRibbonGroupLines : ViewComposite,
                 // If not the first item on the line, then get the pixel gap between them
                 if ((previousChild != null) && _viewToGap.TryGetValue(child, out var value))
                 {
-                    x += value;
+                    x += isRtl ? -value : value;
                 }
 
                 // Get the size of the child item
-                Size childSize = _sizeList[visibleIndex];
+                Size childSize = _sizeList[childIdxIter];
+
+                Rectangle childRect;
+                if (isRtl)
+                {
+                    x -= childSize.Width;
+                    childRect = new Rectangle(x, y, childSize.Width, childSize.Height);
+                }
+                else
+                {
+                    childRect = new Rectangle(x, y, childSize.Width, childSize.Height);
+                    x += childSize.Width;
+                }
 
                 // Define display rectangle for the group
-                context.DisplayRectangle = new Rectangle(x, y, childSize.Width, childSize.Height);
+                context.DisplayRectangle = childRect;
 
                 // Position the element
                 this[i]?.Layout(context);
 
                 // Do we need to split after this item
-                if (split1 == visibleIndex)
+                if (split1 == childIdxIter)
                 {
                     // Move back to start of line and downwards to next line
-                    x = ClientLocation.X;
+                    x = isRtl ? ClientRectangle.Right : ClientLocation.X;
 
                     // At design time we reserve space at the left side for the selection flap
                     if (_ribbon.InDesignHelperMode)
                     {
-                        x += DesignTimeDraw.FlapWidth;
+                        if (isRtl)
+                        {
+                            x -= DesignTimeDraw.FlapWidth;
+                        }
+                        else
+                        {
+                            x += DesignTimeDraw.FlapWidth;
+                        }
                     }
 
                     y += _ribbon.CalculatedValues.GroupLineHeight +
@@ -1043,35 +1076,43 @@ internal class ViewLayoutRibbonGroupLines : ViewComposite,
                 }
                 else
                 {
-                    // Move across to next position
-                    x += childSize.Width;
-
                     // We have become the previous child
                     previousChild = child;
                 }
-
-                // Not all child items are visible, so track separately
-                visibleIndex++;
             }
         }
     }
 
     private void SmallLayout(ViewLayoutContext context)
     {
-        var x = ClientLocation.X;
+        bool isRtl = _ribbon.RightToLeft == RightToLeft.Yes;
+        var x = isRtl ? ClientRectangle.Right : ClientLocation.X;
         var y = ClientLocation.Y;
 
         // At design time we reserve space at the left side for the selection flap
         if (_ribbon.InDesignHelperMode)
         {
-            x += DesignTimeDraw.FlapWidth;
+            if (isRtl)
+            {
+                x -= DesignTimeDraw.FlapWidth;
+            }
+            else
+            {
+                x += DesignTimeDraw.FlapWidth;
+            }
         }
 
         ViewBase? previousChild = null;
 
+        // Determine layout order based on RTL
+        IEnumerable<int> childIndices = isRtl
+            ? Enumerable.Range(0, Count).Reverse()
+            : Enumerable.Range(0, Count);
+
         // Position the visible items in turn
-        for (int i = 0, visibleIndex = 0; i < Count; i++)
+        foreach (int childIdxIter in childIndices)
         {
+            int i = childIdxIter;
             ViewBase? child = this[i];
 
             // We only position visible items
@@ -1098,28 +1139,47 @@ internal class ViewLayoutRibbonGroupLines : ViewComposite,
                 // If not the first item on the line, then get the pixel gap between them
                 if ((previousChild != null) && _viewToGap.TryGetValue(child, out var value))
                 {
-                    x += value;
+                    x += isRtl ? -value : value;
                 }
 
                 // Get the size of the child item
-                Size childSize = _sizeList[visibleIndex];
+                Size childSize = _sizeList[childIdxIter];
+
+                Rectangle childRect;
+                if (isRtl)
+                {
+                    x -= childSize.Width;
+                    childRect = new Rectangle(x, y, childSize.Width, childSize.Height);
+                }
+                else
+                {
+                    childRect = new Rectangle(x, y, childSize.Width, childSize.Height);
+                    x += childSize.Width;
+                }
 
                 // Define display rectangle for the group
-                context.DisplayRectangle = new Rectangle(x, y, childSize.Width, childSize.Height);
+                context.DisplayRectangle = childRect;
 
                 // Position the element
                 this[i]?.Layout(context);
 
                 // Do we need to split after this item
-                if ((_split1Small == visibleIndex) || (_split2Small == visibleIndex))
+                if ((_split1Small == childIdxIter) || (_split2Small == childIdxIter))
                 {
                     // Move back to start of line and downwards to next line
-                    x = ClientLocation.X;
+                    x = isRtl ? ClientRectangle.Right : ClientLocation.X;
 
                     // At design time we reserve space at the left side for the selection flap
                     if (_ribbon.InDesignHelperMode)
                     {
-                        x += DesignTimeDraw.FlapWidth;
+                        if (isRtl)
+                        {
+                            x -= DesignTimeDraw.FlapWidth;
+                        }
+                        else
+                        {
+                            x += DesignTimeDraw.FlapWidth;
+                        }
                     }
 
                     y += _ribbon.CalculatedValues.GroupLineHeight;
@@ -1129,15 +1189,9 @@ internal class ViewLayoutRibbonGroupLines : ViewComposite,
                 }
                 else
                 {
-                    // Move across to next position
-                    x += childSize.Width;
-
                     // We have become the previous child
                     previousChild = child;
                 }
-
-                // Not all child items are visible, so track separately
-                visibleIndex++;
             }
         }
     }

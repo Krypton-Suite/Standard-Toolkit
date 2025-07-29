@@ -335,9 +335,7 @@ internal class ViewLayoutRibbonGroups : ViewComposite
                 if (child!.Visible)
                 {
                     // Cache preferred size of the child
-                    Size childSize = child is ViewDrawRibbonGroup
-                        ? new Size(_groupWidths[j++], _ribbon!.CalculatedValues.GroupHeight)
-                        : this[i]!.GetPreferredSize(context);
+                    Size childSize = child.GetPreferredSize(context);
 
                     // Only interested in items with some width
                     if (childSize.Width > 0)
@@ -354,14 +352,11 @@ internal class ViewLayoutRibbonGroups : ViewComposite
                             x += childSize.Width;
                         }
                         context.DisplayRectangle = childRect;
-                        this[i]?.Layout(context);
+                        this[i]!.Layout(context);
                     }
                 }
             }
         }
-
-        // Update our own size to reflect how wide we actually need to be for all the children
-        ClientRectangle = new Rectangle(ClientLocation, new Size(Math.Abs(x - ClientLocation.X), ClientHeight));
 
         // Update the display rectangle we allocated for use by parent
         context.DisplayRectangle = ClientRectangle;

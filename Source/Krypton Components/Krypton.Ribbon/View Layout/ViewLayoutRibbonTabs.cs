@@ -456,26 +456,30 @@ internal class ViewLayoutRibbonTabs : ViewComposite
             var bottom = ClientRectangle.Bottom;
             var height = ClientHeight;
 
-            if (_ribbon.RightToLeft == RightToLeft.Yes)
+            bool isRtl = _ribbon.RightToLeft == RightToLeft.Yes;
+            
+            if (isRtl)
             {
-                // Layout from right to left
+                // Layout from right to left in RTL mode
                 x = ClientRectangle.Right;
                 for (var i = 0; i < Count; i++)
                 {
                     if (layoutSizes[i].Width > 0)
                     {
-                        x -= layoutSizes[i].Width;
                         switch (this[i])
                         {
                             case ViewDrawRibbonTabSep tabSep:
                                 tabSep.Draw = _showSeparators;
+                                x -= layoutSizes[i].Width;
                                 context.DisplayRectangle = new Rectangle(x, y, layoutSizes[i].Width, height);
                                 break;
                             case ViewDrawRibbonTab tab:
                                 tab.Checked = _ribbon.SelectedTab == tab.RibbonTab;
+                                x -= layoutSizes[i].Width;
                                 context.DisplayRectangle = new Rectangle(x, bottom - layoutSizes[i].Height, layoutSizes[i].Width, layoutSizes[i].Height);
                                 break;
                             case ViewDrawRibbonDesignTab:
+                                x -= layoutSizes[i].Width;
                                 context.DisplayRectangle = new Rectangle(x, bottom - layoutSizes[i].Height, layoutSizes[i].Width, layoutSizes[i].Height);
                                 break;
                         }
@@ -511,42 +515,8 @@ internal class ViewLayoutRibbonTabs : ViewComposite
             }
         }
 
-        // Fill remainder space with the tabs spare element
-        var customCaptionRect = Rectangle.Empty;
-        if (GetViewForSpare != null)
-        {
-            GetViewForSpare.Visible = false;
-            if (x < ClientRectangle.Right)
-            {
-                if (_ribbon.GetRedirector()?.GetMetricBool(PaletteState.Normal, PaletteMetricBool.RibbonTabsSpareCaption) == InheritBool.True)
-                {
-                    customCaptionRect = new Rectangle(x, ClientRectangle.Y, ClientRectangle.Right - x, ClientHeight);
-                    context.DisplayRectangle = customCaptionRect;
-                    GetViewForSpare.Visible = true;
-                    GetViewForSpare.Layout(context);
-                    x = ClientRectangle.Right;
-                }
-            }
-        }
-
-        // We have an owning form we need to update the custom area it treats as a caption
-        if (_ribbon.CaptionArea?.KryptonForm != null)
-        {
-            if (!customCaptionRect.IsEmpty)
-            {
-                // Convert the rectangle to the owning form coordinates
-                customCaptionRect = ParentControl!.RectangleToScreen(customCaptionRect);
-                customCaptionRect = _ribbon.CaptionArea.KryptonForm.RectangleToClient(customCaptionRect);
-            }
-
-            _ribbon.CaptionArea.KryptonForm.CustomCaptionArea = customCaptionRect;
-        }
-
-        // Update our own size to reflect how wide we actually need to be for all the children
-        ClientRectangle = new Rectangle(ClientLocation, new Size(Math.Abs(x - ClientLocation.X), ClientHeight));
-
         // Update the display rectangle we allocated for use by parent
-        context.DisplayRectangle = new Rectangle(ClientLocation, new Size(Math.Abs(x - ClientLocation.X), ClientHeight));
+        context.DisplayRectangle = ClientRectangle;
     }
     #endregion
 

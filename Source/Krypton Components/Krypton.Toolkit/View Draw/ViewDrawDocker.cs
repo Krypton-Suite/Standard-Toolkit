@@ -111,6 +111,14 @@ public class ViewDrawDocker : ViewDrawCanvas
 
     #endregion
 
+    #region IgnoreRightToLeftLayout
+    /// <summary>
+    /// Gets and sets if the RightToLeftLayout ability is used.
+    /// </summary>
+    public bool IgnoreRightToLeftLayout { get; set; }
+
+    #endregion
+
     #region IgnoreBorderSpace
     /// <summary>
     /// Gets and sets a value indicating if border space should be ignored in working out preferred size.
@@ -577,8 +585,17 @@ public class ViewDrawDocker : ViewDrawCanvas
         var bottomEdges = PaletteDrawBorders.All;
         var fillEdges = PaletteDrawBorders.All;
 
+        // Determine if we are in RTL mode
+        bool isRtl = context.Control is not null &&
+                     context.Control.RightToLeft == RightToLeft.Yes &&
+                     CommonHelper.GetRightToLeftLayout(context.Control) &&
+                     !IgnoreRightToLeftLayout;
+
+        // Choose the correct order for children based on RTL mode
+        var children = isRtl ? this : Reverse();
+
         // Position all except the filler
-        foreach (var child in Reverse())
+        foreach (var child in children)
         {
             // Only position visible children
             if (child.Visible && GetDock(child) != ViewDockStyle.Fill)
@@ -815,7 +832,7 @@ public class ViewDrawDocker : ViewDrawCanvas
     public ViewDockStyle CalculateDock(ViewDockStyle ds, Control? control)
     {
         // Do we need to adjust to reflect right to left layout?
-        if (CommonHelper.GetRightToLeftLayout(control!) && control!.RightToLeft == RightToLeft.Yes)
+        if (!IgnoreRightToLeftLayout && CommonHelper.GetRightToLeftLayout(control!) && control!.RightToLeft == RightToLeft.Yes)
         {
             // Only need to invert the left and right sides
             ds = ds switch

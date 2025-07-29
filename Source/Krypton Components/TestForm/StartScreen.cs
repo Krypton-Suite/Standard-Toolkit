@@ -245,4 +245,9 @@ public partial class StartScreen : KryptonForm
     {
         new AdvancedEmojiViewerForm().Show();
     }
+
+    private void kbtnRTLTests_Click(object sender, EventArgs e)
+    {
+        new RTLMenuForm().Show();
+    }
 }

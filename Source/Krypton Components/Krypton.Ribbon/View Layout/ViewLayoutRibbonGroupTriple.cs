@@ -477,18 +477,31 @@ internal class ViewLayoutRibbonGroupTriple : ViewComposite,
         // Are there any children to layout?
         if (Count > 0)
         {
-            var x = ClientLocation.X;
+            bool isRtl = _ribbon.RightToLeft == RightToLeft.Yes;
+            var x = isRtl ? ClientRectangle.Right : ClientLocation.X;
             var y = ClientLocation.Y;
 
             // At design time we reserve space at the left side for the selection flap
             if (_ribbon.InDesignHelperMode)
             {
-                x += DesignTimeDraw.FlapWidth;
+                if (isRtl)
+                {
+                    x -= DesignTimeDraw.FlapWidth;
+                }
+                else
+                {
+                    x += DesignTimeDraw.FlapWidth;
+                }
             }
 
-            // Position each item from left/top to right/bottom 
-            for (var i = 0; i < Count; i++)
+            // Determine layout order based on RTL
+            IEnumerable<int> childIndices = isRtl
+                ? Enumerable.Range(0, Count).Reverse()
+                : Enumerable.Range(0, Count);
+
+            foreach (int childIdxIter in childIndices)
             {
+                int i = childIdxIter;
                 ViewBase? child = this[i];
 
                 // We only position visible items
@@ -511,30 +524,74 @@ internal class ViewLayoutRibbonGroupTriple : ViewComposite,
 
                     if (horizontal)
                     {
+                        Rectangle childRect;
+                        if (isRtl)
+                        {
+                            x -= childSize.Width;
+                            childRect = new Rectangle(x, y, childSize.Width, ClientHeight);
+                        }
+                        else
+                        {
+                            childRect = new Rectangle(x, y, childSize.Width, ClientHeight);
+                            x += childSize.Width;
+                        }
+
                         // Define display rectangle for the group
-                        context.DisplayRectangle = new Rectangle(x, y, childSize.Width, ClientHeight);
+                        context.DisplayRectangle = childRect;
 
                         // Position the element
                         this[i]?.Layout(context);
 
-                        // Move across to next position (add 1 extra as the spacing gap)
-                        x += childSize.Width + 1;
+                        // Add spacing gap (except for the last item in RTL mode)
+                        if (!isRtl || childIdxIter != childIndices.Last())
+                        {
+                            x += isRtl ? -1 : 1;
+                        }
                     }
                     else
                     {
-                        // Define display rectangle for the group
-                        switch (_ribbonTriple.ItemAlignment)
+                        Rectangle childRect;
+                        if (isRtl)
                         {
-                            case RibbonItemAlignment.Near:
-                                context.DisplayRectangle = new Rectangle(x, y, childSize.Width, childSize.Height);
-                                break;
-                            case RibbonItemAlignment.Center:
-                                context.DisplayRectangle = new Rectangle(x + ((widest - childSize.Width) / 2), y, childSize.Width, childSize.Height);
-                                break;
-                            case RibbonItemAlignment.Far:
-                                context.DisplayRectangle = new Rectangle(x + widest - childSize.Width, y, childSize.Width, childSize.Height);
-                                break;
+                            // For RTL, we need to reverse the alignment logic
+                            switch (_ribbonTriple.ItemAlignment)
+                            {
+                                case RibbonItemAlignment.Near:
+                                    childRect = new Rectangle(x - childSize.Width, y, childSize.Width, childSize.Height);
+                                    break;
+                                case RibbonItemAlignment.Center:
+                                    childRect = new Rectangle(x - childSize.Width - ((widest - childSize.Width) / 2), y, childSize.Width, childSize.Height);
+                                    break;
+                                case RibbonItemAlignment.Far:
+                                    childRect = new Rectangle(x - widest, y, childSize.Width, childSize.Height);
+                                    break;
+                                default:
+                                    childRect = new Rectangle(x - childSize.Width, y, childSize.Width, childSize.Height);
+                                    break;
+                            }
                         }
+                        else
+                        {
+                            // Define display rectangle for the group
+                            switch (_ribbonTriple.ItemAlignment)
+                            {
+                                case RibbonItemAlignment.Near:
+                                    childRect = new Rectangle(x, y, childSize.Width, childSize.Height);
+                                    break;
+                                case RibbonItemAlignment.Center:
+                                    childRect = new Rectangle(x + ((widest - childSize.Width) / 2), y, childSize.Width, childSize.Height);
+                                    break;
+                                case RibbonItemAlignment.Far:
+                                    childRect = new Rectangle(x + widest - childSize.Width, y, childSize.Width, childSize.Height);
+                                    break;
+                                default:
+                                    childRect = new Rectangle(x, y, childSize.Width, childSize.Height);
+                                    break;
+                            }
+                        }
+
+                        // Define display rectangle for the group
+                        context.DisplayRectangle = childRect;
 
                         // Position the element
                         this[i]?.Layout(context);

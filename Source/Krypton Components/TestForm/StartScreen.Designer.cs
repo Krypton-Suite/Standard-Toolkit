@@ -42,6 +42,7 @@ namespace TestForm
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StartScreen));
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
+            this.kbtnAdvancedEmojiViewer = new Krypton.Toolkit.KryptonButton();
             this.kbtnBasicEmojiViewer = new Krypton.Toolkit.KryptonButton();
             this.kbtnBlurredForm = new Krypton.Toolkit.KryptonButton();
             this.kbtnSplashScreen = new Krypton.Toolkit.KryptonButton();
@@ -79,7 +80,7 @@ namespace TestForm
             this.kbtnBreadCrumb = new Krypton.Toolkit.KryptonButton();
             this.kbtnVisualControls = new Krypton.Toolkit.KryptonButton();
             this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
-            this.kbtnAdvancedEmojiViewer = new Krypton.Toolkit.KryptonButton();
+            this.kbtnRTLTests = new Krypton.Toolkit.KryptonButton();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
@@ -87,6 +88,7 @@ namespace TestForm
             // 
             // kryptonPanel1
             // 
+            this.kryptonPanel1.Controls.Add(this.kbtnRTLTests);
             this.kryptonPanel1.Controls.Add(this.kbtnAdvancedEmojiViewer);
             this.kryptonPanel1.Controls.Add(this.kbtnBasicEmojiViewer);
             this.kryptonPanel1.Controls.Add(this.kbtnBlurredForm);
@@ -127,8 +129,19 @@ namespace TestForm
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(374, 576);
+            this.kryptonPanel1.Size = new System.Drawing.Size(366, 552);
             this.kryptonPanel1.TabIndex = 0;
+            // 
+            // kbtnAdvancedEmojiViewer
+            // 
+            this.kbtnAdvancedEmojiViewer.Location = new System.Drawing.Point(223, 466);
+            this.kbtnAdvancedEmojiViewer.Margin = new System.Windows.Forms.Padding(2);
+            this.kbtnAdvancedEmojiViewer.Name = "kbtnAdvancedEmojiViewer";
+            this.kbtnAdvancedEmojiViewer.Size = new System.Drawing.Size(153, 20);
+            this.kbtnAdvancedEmojiViewer.TabIndex = 36;
+            this.kbtnAdvancedEmojiViewer.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kbtnAdvancedEmojiViewer.Values.Text = "Advanced Emoji Viewer";
+            this.kbtnAdvancedEmojiViewer.Click += new System.EventHandler(this.kbtnAdvancedEmojiViewer_Click);
             // 
             // kbtnBasicEmojiViewer
             // 
@@ -352,7 +365,7 @@ namespace TestForm
             // 
             this.kbtnExit.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.kbtnExit.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.kbtnExit.Location = new System.Drawing.Point(120, 540);
+            this.kbtnExit.Location = new System.Drawing.Point(116, 516);
             this.kbtnExit.Margin = new System.Windows.Forms.Padding(2);
             this.kbtnExit.Name = "kbtnExit";
             this.kbtnExit.Size = new System.Drawing.Size(153, 22);
@@ -529,16 +542,16 @@ namespace TestForm
             this.kryptonManager1.ToolkitStrings.MessageBoxStrings.LessDetails = "L&ess Details...";
             this.kryptonManager1.ToolkitStrings.MessageBoxStrings.MoreDetails = "&More Details...";
             // 
-            // kbtnAdvancedEmojiViewer
+            // kbtnRTLTests
             // 
-            this.kbtnAdvancedEmojiViewer.Location = new System.Drawing.Point(223, 466);
-            this.kbtnAdvancedEmojiViewer.Margin = new System.Windows.Forms.Padding(2);
-            this.kbtnAdvancedEmojiViewer.Name = "kbtnAdvancedEmojiViewer";
-            this.kbtnAdvancedEmojiViewer.Size = new System.Drawing.Size(153, 20);
-            this.kbtnAdvancedEmojiViewer.TabIndex = 36;
-            this.kbtnAdvancedEmojiViewer.Values.DropDownArrowColor = System.Drawing.Color.Empty;
-            this.kbtnAdvancedEmojiViewer.Values.Text = "Advanced Emoji Viewer";
-            this.kbtnAdvancedEmojiViewer.Click += new System.EventHandler(this.kbtnAdvancedEmojiViewer_Click);
+            this.kbtnRTLTests.Location = new System.Drawing.Point(223, 492);
+            this.kbtnRTLTests.Margin = new System.Windows.Forms.Padding(2);
+            this.kbtnRTLTests.Name = "kbtnRTLTests";
+            this.kbtnRTLTests.Size = new System.Drawing.Size(153, 20);
+            this.kbtnRTLTests.TabIndex = 37;
+            this.kbtnRTLTests.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kbtnRTLTests.Values.Text = "RTL Tests";
+            this.kbtnRTLTests.Click += new System.EventHandler(this.kbtnRTLTests_Click);
             // 
             // StartScreen
             // 
@@ -546,7 +559,7 @@ namespace TestForm
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.CancelButton = this.kbtnExit;
-            this.ClientSize = new System.Drawing.Size(374, 576);
+            this.ClientSize = new System.Drawing.Size(366, 552);
             this.Controls.Add(this.kryptonPanel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -608,5 +621,6 @@ namespace TestForm
         private KryptonButton kbtnVisualControls;
         private KryptonButton kbtnBasicEmojiViewer;
         private KryptonButton kbtnAdvancedEmojiViewer;
+        private KryptonButton kbtnRTLTests;
     }
 }

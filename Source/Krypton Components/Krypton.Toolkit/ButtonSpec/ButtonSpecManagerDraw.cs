@@ -155,6 +155,8 @@ public class ButtonSpecManagerDraw : ButtonSpecManagerBase
     /// --- RTL SUPPORT ---
     /// We use CalculateDock to ensure that in RTL mode, window buttons (min/max/close)
     /// are docked to the left, and in LTR to the right, for proper mirroring.
+    /// In RTL mode, we also insert buttons at the beginning instead of the end to maintain
+    /// correct order (Close, Max, Min from right to left).
     /// This is essential for correct custom chrome behavior in RTL.
     /// </remarks>
     protected override void AddViewToDocker(int i,
@@ -167,6 +169,9 @@ public class ButtonSpecManagerDraw : ButtonSpecManagerBase
 
         // --- RTL SUPPORT: Use CalculateDock for correct mirroring ---
         ViewDockStyle adjustedDockStyle = viewDocker.CalculateDock(dockStyle, Control);
+
+        // Determine if we're in RTL mode (both must be set for true mirroring)
+        bool isRtl = Control.RightToLeft == RightToLeft.Yes && CommonHelper.GetRightToLeftLayout(Control);
 
         // By default, add to the end of the children
         var insertIndex = viewDocker.Count;
@@ -182,6 +187,16 @@ public class ButtonSpecManagerDraw : ButtonSpecManagerBase
                     break;
                 }
             }
+        }
+
+        // In RTL mode, we need to maintain the correct button order
+        // Since all form buttons use ViewDockStyle.Right, we insert them at the end
+        // but the order in the collection determines their visual order
+        if (isRtl && dockStyle == ViewDockStyle.Right)
+        {
+            // In RTL mode, insert at the end to maintain the order from the collection
+            // The collection order (Close, Max, Min) will be preserved
+            insertIndex = viewDocker.Count;
         }
 
         viewDocker.Insert(insertIndex, view);

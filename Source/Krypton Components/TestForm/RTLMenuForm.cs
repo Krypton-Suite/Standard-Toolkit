@@ -59,6 +59,11 @@ namespace TestForm
             new RTLTestForm().Show();
         }
 
+        private void kbtnRibbonRTL_Click(object sender, EventArgs e)
+        {
+            new RibbonRTLTestForm().Show();
+        }
+
         private void kbtnSplitContainer_Click(object sender, EventArgs e)
         {
             new SplitContainerTest().Show();

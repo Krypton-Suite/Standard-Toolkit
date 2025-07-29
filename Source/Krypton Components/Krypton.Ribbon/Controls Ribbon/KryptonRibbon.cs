@@ -3212,7 +3212,42 @@ public class KryptonRibbon : VisualSimple,
     protected override void OnRightToLeftChanged(EventArgs e)
     {
         base.OnRightToLeftChanged(e);
+        
+        // Rebuild the layout for RTL support
+        RebuildLayoutForRtl();
+        
         // Invalidate and relayout the ribbon for RTL changes
         PerformNeedPaint(true);
     }
+
+    /// <summary>
+    /// Rebuilds the layout to support RTL mirroring.
+    /// This method ensures that all ribbon elements are properly positioned in RTL mode.
+    /// </summary>
+    /// <remarks>
+    /// This is called whenever RightToLeft changes.
+    /// The method triggers the necessary layout and repaint updates for all ribbon components.
+    /// </remarks>
+    private void RebuildLayoutForRtl()
+    {
+        // Force a layout update to reflect RTL changes
+        PerformNeedPaint(true);
+        
+        // Invalidate the control to trigger a repaint
+        Invalidate();
+        
+        // Update QAT layout if present
+        CaptionArea?.UpdateQAT();
+        
+        // Force layout recalculation
+        PerformLayout();
+        
+        // Update all child controls RTL settings
+        foreach (Control child in Controls)
+        {
+            child.RightToLeft = RightToLeft;
+        }
+    }
+
+
 }

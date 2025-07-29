@@ -526,12 +526,12 @@ internal class ViewLayoutRibbonTabsArea : ViewLayoutDocker
         if (isRtl)
         {
             // Place application button on right and tabs as the filler in RTL mode
+            Add(_rightSeparator, ViewDockStyle.Right);
             Add(_leftSeparator, ViewDockStyle.Right);
             Add(LayoutAppButton, ViewDockStyle.Right);
             Add(_layoutAppButtonSep, ViewDockStyle.Right);
             Add(LayoutAppTab, ViewDockStyle.Right);
             Add(tabsDocker, ViewDockStyle.Fill);
-            Add(_rightSeparator, ViewDockStyle.Right);
         }
         else
         {

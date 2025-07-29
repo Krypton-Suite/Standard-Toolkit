@@ -76,7 +76,7 @@ public class KryptonForm : VisualForm,
 
     #region Instance Fields
 
-    private readonly ButtonSpecManagerDraw _buttonManager;
+    private ButtonSpecManagerDraw _buttonManager;
     private VisualPopupToolTip? _visualPopupToolTip;
     private readonly ViewDrawForm _drawDocker;
     private readonly ViewDrawDocker _drawHeading;
@@ -139,7 +139,20 @@ public class KryptonForm : VisualForm,
         ButtonSpecMin = new ButtonSpecFormWindowMin(this);
         ButtonSpecMax = new ButtonSpecFormWindowMax(this);
         ButtonSpecClose = new ButtonSpecFormWindowClose(this);
-        buttonSpecsFixed.AddRange([ButtonSpecMin, ButtonSpecMax, ButtonSpecClose]);
+        
+        // Determine if we're in RTL mode (both must be set for true mirroring)
+        bool isRtl = RightToLeft == RightToLeft.Yes && RightToLeftLayout;
+        
+        // In RTL mode, add buttons in reverse order (Close, Max, Min) for proper positioning
+        // In LTR mode, add buttons in normal order (Min, Max, Close)
+        if (isRtl)
+        {
+            buttonSpecsFixed.AddRange([ButtonSpecClose, ButtonSpecMax, ButtonSpecMin]);
+        }
+        else
+        {
+            buttonSpecsFixed.AddRange([ButtonSpecMin, ButtonSpecMax, ButtonSpecClose]);
+        }
 
         // Create the palette storage
         StateCommon = new PaletteFormRedirect(Redirector, NeedPaintDelegate, this);
@@ -1281,6 +1294,7 @@ public class KryptonForm : VisualForm,
     /// 1. Window buttons are placed on the correct side (left in RTL, right in LTR)
     /// 2. The title bar content (text + icon) is properly positioned
     /// 3. The layout is updated when RTL settings change
+    /// 4. Button order is correct for RTL mode (Close, Max, Min vs Min, Max, Close)
     /// </summary>
     /// <remarks>
     /// This is called from the constructor, and whenever RightToLeft or RightToLeftLayout changes.
@@ -1298,8 +1312,54 @@ public class KryptonForm : VisualForm,
         // The button manager will handle window button placement (left in RTL, right in LTR)
         _drawHeading.Add(_drawContent, ViewDockStyle.Fill);
         
-        // Force the button manager to recreate window buttons with the new RTL setting
-        // This ensures the min/max/close buttons are docked to the correct side
+        // Recreate the button manager with the correct button order for RTL mode
+        RecreateButtonManagerForRtl();
+        
+        // Force a layout update to reflect RTL changes
+        PerformNeedPaint(true);
+    }
+
+    /// <summary>
+    /// Recreates the button manager with the correct button order for RTL mode.
+    /// This ensures that window buttons are positioned in the correct order:
+    /// - LTR: Min, Max, Close (from left to right)
+    /// - RTL: Close, Max, Min (from right to left)
+    /// </summary>
+    private void RecreateButtonManagerForRtl()
+    {
+        // Determine if we're in RTL mode (both must be set for true mirroring)
+        bool isRtl = RightToLeft == RightToLeft.Yes && RightToLeftLayout;
+        
+        // Create a new fixed button collection with the correct order
+        var buttonSpecsFixed = new FormFixedButtonSpecCollection(this);
+        
+        // In RTL mode, add buttons in reverse order (Close, Max, Min) for proper positioning
+        // In LTR mode, add buttons in normal order (Min, Max, Close)
+        if (isRtl)
+        {
+            buttonSpecsFixed.AddRange([ButtonSpecClose, ButtonSpecMax, ButtonSpecMin]);
+        }
+        else
+        {
+            buttonSpecsFixed.AddRange([ButtonSpecMin, ButtonSpecMax, ButtonSpecClose]);
+        }
+        
+        // Destruct the existing button manager
+        _buttonManager.Destruct();
+        
+        // Recreate the button manager with the new collection
+        _buttonManager = new ButtonSpecManagerDraw(this, Redirector, ButtonSpecs, buttonSpecsFixed,
+            [_drawHeading],
+            [StateCommon.Header],
+            [PaletteMetricInt.HeaderButtonEdgeInsetForm],
+            [PaletteMetricPadding.HeaderButtonPaddingForm],
+            CreateToolStripRenderer,
+            OnNeedPaint);
+        
+        // Restore the tooltip manager
+        _buttonManager.ToolTipManager = ToolTipManager;
+        
+        // Recreate the buttons with the new collection
         _buttonManager.RecreateButtons();
     }
 
