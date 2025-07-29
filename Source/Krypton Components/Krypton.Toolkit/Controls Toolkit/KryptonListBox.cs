@@ -35,6 +35,8 @@ public class KryptonListBox : VisualControlBase,
         private readonly KryptonListBox _kryptonListBox;
         private readonly IntPtr _screenDC;
         private bool _mouseOver;
+        // Capture scroll position before user click
+        private int _preClickTopIndex;
 
         #endregion
 
@@ -77,6 +79,8 @@ public class KryptonListBox : VisualControlBase,
 
             // We need to create and cache a device context compatible with the display
             _screenDC = PI.CreateCompatibleDC(IntPtr.Zero);
+            // Track pre-click scroll
+            MouseDown += OnInternalListBoxMouseDown;
         }
 
         /// <summary>
@@ -335,13 +339,66 @@ public class KryptonListBox : VisualControlBase,
                 }
             }
 
-            // Do we need to match the original BeginPaint?
+            // Complete BeginPaint if we started one
             if (m.WParam == IntPtr.Zero)
             {
                 PI.EndPaint(Handle, ref ps);
             }
         }
         #endregion
+
+        protected override void OnSelectedIndexChanged(EventArgs e)
+        {
+            // Prevent ObjectDisposedException if handle is invalid
+            if (!IsHandleCreated || IsDisposed)
+            {
+                base.OnSelectedIndexChanged(e);
+                return;
+            }
+
+            // Prevent scrollbar flicker by disabling redraw
+            PI.SendMessage(Handle, PI.SETREDRAW, (IntPtr)0, IntPtr.Zero);
+            BeginUpdate();
+            try
+            {
+                // Let base update selection and possibly auto-scroll
+                base.OnSelectedIndexChanged(e);
+                // Only restore scroll if we clicked on a visible item
+                if (_preClickTopIndex >= 0)
+                {
+                    TopIndex = Math.Min(_preClickTopIndex, Items.Count - 1);
+                }
+            }
+            finally
+            {
+                EndUpdate();
+                // Re-enable redraw and repaint
+                PI.SendMessage(Handle, PI.SETREDRAW, (IntPtr)1, IntPtr.Zero);
+                Invalidate();
+            }
+        }
+
+        private void OnInternalListBoxMouseDown(object? sender, MouseEventArgs e)
+        {
+            // Only capture scroll position if the clicked item is already visible
+            int index = IndexFromPoint(e.Location);
+            if (index >= 0 && index < Items.Count)
+            {
+                // Check if the item is already visible
+                int visibleItems = ClientSize.Height / ItemHeight;
+                int bottomVisibleIndex = TopIndex + visibleItems - 1;
+
+                if (index >= TopIndex && index <= bottomVisibleIndex)
+                {
+                    _preClickTopIndex = TopIndex;
+                }
+                else
+                {
+                    // For non-visible items, don't capture - let normal scrolling happen
+                    _preClickTopIndex = -1;
+                }
+            }
+        }
     }
     #endregion
 
@@ -368,6 +425,8 @@ public class KryptonListBox : VisualControlBase,
     private bool _alwaysActive;
     private bool _forcedLayout;
     private bool _trackingMouseEnter;
+    // Captures the scroll position before a click/selection change
+    private int _preClickTopIndex;
     #endregion
 
     #region Events
@@ -1320,9 +1379,27 @@ public class KryptonListBox : VisualControlBase,
     /// <param name="e">An EventArgs that contains the event data.</param>
     protected override void OnPaletteChanged(EventArgs e)
     {
-        _listBox.Recreate();
-        _listBox.RefreshItemSizes();
-        _listBox.Invalidate();
+        _listBox.BeginUpdate();
+        try
+        {
+            // Preserve scroll and selected index to avoid shifting when theme changes
+            int oldTopIndex = _listBox.TopIndex;
+            int oldSelectedIndex = _listBox.SelectedIndex;
+            _listBox.Recreate();
+            // Restore scroll position and selection
+            _listBox.TopIndex = Math.Min(oldTopIndex, _listBox.Items.Count - 1);
+            if ((oldSelectedIndex >= 0) &&
+                (oldSelectedIndex < _listBox.Items.Count))
+            {
+                _listBox.SelectedIndex = oldSelectedIndex;
+            }
+            _listBox.RefreshItemSizes();
+            _listBox.Invalidate();
+        }
+        finally
+        {
+            _listBox.EndUpdate();
+        }
         base.OnPaletteChanged(e);
     }
 
@@ -1588,7 +1665,7 @@ public class KryptonListBox : VisualControlBase,
             _overrideCheckedPressed.Apply = hasFocus;
         }
 
-        // Update the view with the calculated state
+        // Update view element state
         _drawButton.ElementState = buttonState;
 
         // Grab the raw device context for the graphics instance
@@ -1685,11 +1762,18 @@ public class KryptonListBox : VisualControlBase,
         switch (_listBox.SelectionMode)
         {
             case SelectionMode.One:
+                // Restore scroll to pre-click position
+                int oldTopIndex = _preClickTopIndex;
                 if (_lastSelectedIndex != _listBox.SelectedIndex)
                 {
                     _lastSelectedIndex = _listBox.SelectedIndex;
                     UpdateStateAndPalettes();
                     _listBox.Invalidate();
+                    // Only restore scroll if we clicked on a visible item
+                    if (oldTopIndex >= 0)
+                    {
+                        _listBox.TopIndex = Math.Min(oldTopIndex, _listBox.Items.Count - 1);
+                    }
                     OnSelectedIndexChanged(e);
                 }
                 break;
@@ -1697,7 +1781,6 @@ public class KryptonListBox : VisualControlBase,
             case SelectionMode.MultiExtended:
                 if (SelectedIndicesChanged(_lastSelectedColl, _listBox.SelectedIndices))
                 {
-                    // Clone the selected index collection
                     _lastSelectedColl = new int[_listBox.SelectedIndices.Count];
                     _listBox.SelectedIndices.CopyTo(_lastSelectedColl, 0);
 
