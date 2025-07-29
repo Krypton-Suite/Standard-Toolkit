@@ -15,12 +15,12 @@ namespace Krypton.Ribbon;
 internal class KryptonRibbonGroupContainerCollectionEditor : CollectionEditor
 {
     #region Static Fields
-    private static readonly Type[] _supportedTypes =
-    [
+    private static readonly Type[] _supportedTypes = new[]
+    {
         typeof(KryptonRibbonGroupLines),
         typeof(KryptonRibbonGroupTriple),
         typeof(KryptonRibbonGroupSeparator)
-    ];
+    };
     #endregion
 
     /// <summary>
