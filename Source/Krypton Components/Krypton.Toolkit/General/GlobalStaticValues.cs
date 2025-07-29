@@ -104,6 +104,9 @@ public class GlobalStaticValues
     /// <summary>The public emoji list URL</summary>
     public const string DEFAULT_PUBLIC_EMOJI_LIST_URL = @"https://unicode.org/Public/draft/emoji/emoji-test.txt";
 
+    /// <summary>Define padding between icon and text in RTL mode.</summary>
+    public const int RTL_ICON_TEXT_PADDING = 8;
+
     #region Arrays
 
     #region Images

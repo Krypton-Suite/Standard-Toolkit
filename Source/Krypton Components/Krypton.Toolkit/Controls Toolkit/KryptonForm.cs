@@ -161,7 +161,10 @@ public class KryptonForm : VisualForm,
 
         // Content draws the text and icon inside the title bar
         _drawContent = new ViewDrawContent(StateActive.Header.Content, this, VisualOrientation.Top);
-        _drawHeading.Add(_drawContent, ViewDockStyle.Fill);
+        
+        // Create RTL-aware layout for title bar content
+        var titleBarLayout = new RTLTitleBarLayout(_drawContent);
+        _drawHeading.Add(titleBarLayout, ViewDockStyle.Fill);
 
         // Create a decorator so that the heading has a fixed sized and not based on content
         _headingFixedSize = new ViewDecoratorFixedSize(_drawHeading, Size.Empty);
@@ -190,13 +193,16 @@ public class KryptonForm : VisualForm,
         };
 
         // Create button specification collection manager
-        _buttonManager = new ButtonSpecManagerDraw(this, Redirector, ButtonSpecs, buttonSpecsFixed,
+        _buttonManager = new ButtonSpecManagerDraw(this, new RTLPaletteRedirect(Redirector, this), ButtonSpecs, buttonSpecsFixed,
             [_drawHeading],
             [StateCommon.Header],
             [PaletteMetricInt.HeaderButtonEdgeInsetForm],
             [PaletteMetricPadding.HeaderButtonPaddingForm],
             CreateToolStripRenderer,
             OnNeedPaint);
+
+        // Apply RTL settings to button manager if needed
+        ApplyRTLToButtonManager();
 
         // Create the manager for handling tooltips
         ToolTipManager = new ToolTipManager(new ToolTipValues(null, GetDpiFactor)); // use default, as each button "could" have different values ??!!??
@@ -1016,13 +1022,61 @@ public class KryptonForm : VisualForm,
                 or PaletteContentStyle.HeaderDockInactive
                 or PaletteContentStyle.HeaderDockActive
                 or PaletteContentStyle.HeaderSecondary
+                or PaletteContentStyle.HeaderCalendar
                 or PaletteContentStyle.HeaderCustom1
                 or PaletteContentStyle.HeaderCustom2
-                or PaletteContentStyle.HeaderCustom3 => _kryptonForm._formTitleAlign != PaletteRelativeAlign.Inherit
-                    ? _kryptonForm._formTitleAlign
-                    : base.GetContentShortTextH(style, state),
+                or PaletteContentStyle.HeaderCustom3 => GetRTLAdjustedAlignment(_kryptonForm._formTitleAlign),
             _ => base.GetContentShortTextH(style, state)
         };
+
+        public override PaletteRelativeAlign GetContentImageH(PaletteContentStyle style, PaletteState state) => style switch
+        {
+            PaletteContentStyle.HeaderForm
+                or PaletteContentStyle.HeaderPrimary
+                or PaletteContentStyle.HeaderDockInactive
+                or PaletteContentStyle.HeaderDockActive
+                or PaletteContentStyle.HeaderSecondary
+                or PaletteContentStyle.HeaderCalendar
+                or PaletteContentStyle.HeaderCustom1
+                or PaletteContentStyle.HeaderCustom2
+                or PaletteContentStyle.HeaderCustom3 => GetRTLAdjustedImageAlignment(_kryptonForm._formTitleAlign),
+            _ => base.GetContentImageH(style, state)
+        };
+
+        private PaletteRelativeAlign GetRTLAdjustedAlignment(PaletteRelativeAlign originalAlignment)
+        {
+            // If RTL is enabled, reverse the alignment
+            if (_kryptonForm.RightToLeft == RightToLeft.Yes)
+            {
+                return originalAlignment switch
+                {
+                    PaletteRelativeAlign.Near => PaletteRelativeAlign.Far,
+                    PaletteRelativeAlign.Far => PaletteRelativeAlign.Near,
+                    _ => originalAlignment
+                };
+            }
+            return originalAlignment;
+        }
+
+        private PaletteRelativeAlign GetRTLAdjustedImageAlignment(PaletteRelativeAlign titleAlignment)
+        {
+            // If RTL is enabled, position the icon after the text
+            if (_kryptonForm.RightToLeft == RightToLeft.Yes)
+            {
+                return titleAlignment switch
+                {
+                    PaletteRelativeAlign.Near => PaletteRelativeAlign.Far, // Icon on the right when text is on the left
+                    PaletteRelativeAlign.Far => PaletteRelativeAlign.Near, // Icon on the left when text is on the right
+                    PaletteRelativeAlign.Center => PaletteRelativeAlign.Center, // Keep centered
+                    _ => PaletteRelativeAlign.Far // Default to right side in RTL
+                };
+            }
+            else
+            {
+                // In LTR mode, icon should be on the left (Near)
+                return PaletteRelativeAlign.Near;
+            }
+        }
     }
 
     /// <summary>
@@ -1722,13 +1776,32 @@ public class KryptonForm : VisualForm,
     {
         if (MdiParent == null)
         {
+            // For RTL mode, disable region clipping to prevent border issues
+            if (RightToLeft == RightToLeft.Yes)
+            {
+                SuspendPaint();
+                _regionWindowState = FormWindowState.Maximized;
+                UpdateBorderRegion(null); // No region clipping in RTL mode
+                ResumePaint();
+                return;
+            }
+
             // Get the size of each window border
             var xBorder = PI.GetSystemMetrics(PI.SM_.CXSIZEFRAME) * 2;
             var yBorder = PI.GetSystemMetrics(PI.SM_.CYSIZEFRAME) * 2;
 
-            // Reduce the Bounds by the padding on all but the top
-            var maximizedRect = new Rectangle(xBorder, yBorder, Width - (xBorder * 2),
-                Height - (yBorder * 2));
+            // Get the actual border widths from the form's border palette
+            var formBorder = StateCommon.Border as PaletteFormBorder;
+            var (leftBorder, topBorder) = formBorder?.BorderWidths(FormBorderStyle) ?? (xBorder / 2, yBorder / 2);
+            var rightBorder = leftBorder; // Use same width for right border
+            var bottomBorder = topBorder; // Use same width for bottom border
+
+            // Calculate the maximized region with proper border handling
+            var maximizedRect = new Rectangle(
+                leftBorder, 
+                topBorder, 
+                Width - (leftBorder + rightBorder),
+                Height - (topBorder + bottomBorder));
 
             // Use this as the new region
             SuspendPaint();
@@ -2006,25 +2079,19 @@ public class KryptonForm : VisualForm,
     }
 
     /// <summary>
-    /// Example by juverpp 
+    /// Gets the creation parameters used to create the window.
     /// </summary>
+    /// <returns>Creation parameters.</returns>
     protected override CreateParams CreateParams
     {
         get
         {
-            // add the drop shadow flag for automatically drawing
-            // a drop shadow around the form
             CreateParams cp = base.CreateParams;
 
-#pragma warning disable CS0618 // Type or member is obsolete
+            // Do we need to add the drop shadow style?
             if (UseDropShadow)
             {
                 cp.ClassStyle |= CS_DROPSHADOW;
-            }
-#pragma warning restore CS0618 // Type or member is obsolete
-            if (!CloseBox)
-            {
-                cp.ClassStyle |= CP_NOCLOSE_BUTTON;
             }
 
             return cp;
@@ -2090,4 +2157,177 @@ public class KryptonForm : VisualForm,
     #region #1979 Temporary Fix
     public KryptonPanel InternalPanel => _internalKryptonPanel;
     #endregion #1979 Temporary Fix
+
+    /// <summary>
+    /// Gets and sets the RightToLeft property.
+    /// </summary>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public override RightToLeft RightToLeft
+    {
+        get => base.RightToLeft;
+        set
+        {
+            if (base.RightToLeft != value)
+            {
+                base.RightToLeft = value;
+                ApplyRTLToButtonManager();
+                RecalcNonClient();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Apply RTL settings to the button manager.
+    /// </summary>
+    private void ApplyRTLToButtonManager()
+    {
+        if (_buttonManager != null)
+        {
+            // Force recreation of buttons to apply RTL positioning
+            _buttonManager.RecreateButtons();
+        }
+    }
+
+    /// <summary>
+    /// RTL-aware palette redirector for KryptonForm.
+    /// </summary>
+    private class RTLPaletteRedirect : PaletteRedirect
+    {
+        private readonly PaletteRedirect _baseRedirector;
+        private readonly KryptonForm _kryptonForm;
+
+        public RTLPaletteRedirect(PaletteRedirect baseRedirector, KryptonForm kryptonForm)
+            : base(baseRedirector)
+        {
+            _baseRedirector = baseRedirector;
+            _kryptonForm = kryptonForm;
+        }
+
+        public override PaletteRelativeEdgeAlign GetButtonSpecEdge(PaletteButtonSpecStyle style)
+        {
+            var originalEdge = _baseRedirector.GetButtonSpecEdge(style);
+            
+            // If RTL is enabled, reverse the edge alignment
+            if (_kryptonForm.RightToLeft == RightToLeft.Yes)
+            {
+                return originalEdge switch
+                {
+                    PaletteRelativeEdgeAlign.Near => PaletteRelativeEdgeAlign.Far,
+                    PaletteRelativeEdgeAlign.Far => PaletteRelativeEdgeAlign.Near,
+                    _ => originalEdge
+                };
+            }
+            
+            return originalEdge;
+        }
+    }
+
+    /// <summary>
+    /// RTL-aware layout for title bar content.
+    /// </summary>
+    private class RTLTitleBarLayout : ViewLayoutDocker
+    {
+        private readonly ViewDrawContent _content;
+
+        public RTLTitleBarLayout(ViewDrawContent content)
+        {
+            _content = content;
+            // Add the content as a child
+            Add(_content, ViewDockStyle.Fill);
+        }
+
+        public override void Layout(ViewLayoutContext context)
+        {
+            // Get the available area
+            Rectangle availableArea = context.DisplayRectangle;
+            
+            // Check if RTL is enabled
+            bool isRTL = context.Control?.RightToLeft == RightToLeft.Yes;
+            
+            // Get the title alignment from the form
+            var kryptonForm = context.Control as KryptonForm;
+            var titleAlign = kryptonForm?._formTitleAlign ?? PaletteRelativeAlign.Near;
+            
+            // Calculate the content size
+            Size contentSize = _content.GetPreferredSize(context);
+            
+            Rectangle contentRect;
+            
+            if (isRTL)
+            {
+                // In RTL mode, adjust positioning based on alignment
+                switch (titleAlign)
+                {
+                    case PaletteRelativeAlign.Near:
+                        // In RTL, "Near" means left side
+                        contentRect = new Rectangle(
+                            availableArea.Left,
+                            availableArea.Top,
+                            contentSize.Width + GlobalStaticValues.RTL_ICON_TEXT_PADDING,
+                            availableArea.Height);
+                        break;
+                        
+                    case PaletteRelativeAlign.Far:
+                        // In RTL, "Far" means right side
+                        contentRect = new Rectangle(
+                            availableArea.Right - contentSize.Width - GlobalStaticValues.RTL_ICON_TEXT_PADDING,
+                            availableArea.Top,
+                            contentSize.Width + GlobalStaticValues.RTL_ICON_TEXT_PADDING,
+                            availableArea.Height);
+                        break;
+                        
+                    case PaletteRelativeAlign.Center:
+                    default:
+                        // Center the content with padding
+                        contentRect = new Rectangle(
+                            availableArea.Left + (availableArea.Width - contentSize.Width - GlobalStaticValues.RTL_ICON_TEXT_PADDING) / 2,
+                            availableArea.Top,
+                            contentSize.Width + GlobalStaticValues.RTL_ICON_TEXT_PADDING,
+                            availableArea.Height);
+                        break;
+                }
+            }
+            else
+            {
+                // In LTR mode, use normal alignment
+                switch (titleAlign)
+                {
+                    case PaletteRelativeAlign.Near:
+                        // In LTR, "Near" means left side
+                        contentRect = new Rectangle(
+                            availableArea.Left,
+                            availableArea.Top,
+                            contentSize.Width,
+                            availableArea.Height);
+                        break;
+                        
+                    case PaletteRelativeAlign.Far:
+                        // In LTR, "Far" means right side
+                        contentRect = new Rectangle(
+                            availableArea.Right - contentSize.Width,
+                            availableArea.Top,
+                            contentSize.Width,
+                            availableArea.Height);
+                        break;
+                        
+                    case PaletteRelativeAlign.Center:
+                    default:
+                        // Center the content
+                        contentRect = new Rectangle(
+                            availableArea.Left + (availableArea.Width - contentSize.Width) / 2,
+                            availableArea.Top,
+                            contentSize.Width,
+                            availableArea.Height);
+                        break;
+                }
+            }
+            
+            // Set the display rectangle for the content
+            context.DisplayRectangle = contentRect;
+            
+            // Layout the content using the base class
+            base.Layout(context);
+        }
+    }
 }
