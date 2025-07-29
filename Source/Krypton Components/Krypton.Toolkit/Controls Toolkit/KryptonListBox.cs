@@ -1381,8 +1381,11 @@ public class KryptonListBox : VisualControlBase,
             _listBox.Recreate();
             // Restore scroll position and selection
             _listBox.TopIndex = Math.Min(oldTopIndex, _listBox.Items.Count - 1);
-            if (oldSelectedIndex >= 0 && oldSelectedIndex < _listBox.Items.Count)
+            if ((oldSelectedIndex >= 0) &&
+                (oldSelectedIndex < _listBox.Items.Count))
+            {
                 _listBox.SelectedIndex = oldSelectedIndex;
+            }
             _listBox.RefreshItemSizes();
             _listBox.Invalidate();
         }
