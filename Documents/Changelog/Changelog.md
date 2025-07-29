@@ -4,6 +4,7 @@
 
 ## 2025-11-xx - Build 2511 (V10 - alpha) - November 2025
 * Implemented [#2368](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2368), Fix exception in `PaletteRedirectGrids.GetInheritBack` due to missing `BoldedOverride`.
+* Implemented [#2349](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2349), Fix `KryptonListBox` shifting on visible item selection.
 * Implemented [#2354](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2354), `KryptonDataGridView.DoubleBuffered` property added.
 * Implemented [#2220](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2220), Enables limited support on multiple Krypton Controls for unicode surrogates.
 * Implemented [#2339](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2339), Add a emoji parser for future features
