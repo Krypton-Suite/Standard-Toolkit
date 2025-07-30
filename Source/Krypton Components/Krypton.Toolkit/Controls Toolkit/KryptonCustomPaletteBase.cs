@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *
  */
 #endregion
 
@@ -123,7 +123,7 @@ namespace Krypton.Toolkit
             container.Add(this);
         }
 
-        /// <summary> 
+        /// <summary>
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
@@ -309,7 +309,7 @@ namespace Krypton.Toolkit
 
         #endregion
 
-        #region Font        
+        #region Font
         /*
         /// <summary>
         /// Gets access to defining the font and colour values for text.
@@ -2741,7 +2741,7 @@ namespace Krypton.Toolkit
         //            switch (value)
         //            {
         //                case PaletteMode.Custom:
-        //                    // Do nothing, you must assign a palette to the 
+        //                    // Do nothing, you must assign a palette to the
         //                    // 'BasePalette' property in order to get the custom mode
         //                    break;
         //                default:
@@ -2764,7 +2764,7 @@ namespace Krypton.Toolkit
         //                    }
         //                    else
         //                    {
-        //                        // Restore the original base palette as 'SetPalette' will not 
+        //                        // Restore the original base palette as 'SetPalette' will not
         //                        // work correctly unless it still has the old value in place
         //                        _basePalette = tempPalette;
         //                    }
@@ -2820,7 +2820,7 @@ namespace Krypton.Toolkit
                     //}
                     //else
                     {
-                        // Restore the original base palette as 'SetPalette' will not 
+                        // Restore the original base palette as 'SetPalette' will not
                         // work correctly unless it still has the old value in place
                         _basePalette = tempPalette;
                     }
@@ -2869,7 +2869,7 @@ namespace Krypton.Toolkit
                     switch (value)
                     {
                         case RendererMode.Custom:
-                            // Do nothing, you must assign a palette to the 
+                            // Do nothing, you must assign a palette to the
                             // 'Palette' property in order to get the custom mode
                             break;
                         default:
@@ -3375,7 +3375,7 @@ namespace Krypton.Toolkit
                 doc.AppendChild(doc.CreateComment("WARNING: Modifying this file may render it invalid for importing."));
                 doc.AppendChild(doc.CreateComment($@"Date created: {DateTime.Now.ToLongDateString()}"));
 
-                // Create a root node with version and the date information, by 
+                // Create a root node with version and the date information, by
                 // having a version number the loading of older version is easier
                 var root = doc.CreateElement("KryptonPalette");
                 root.SetAttribute(nameof(Version), GlobalStaticValues.CURRENT_SUPPORTED_PALETTE_VERSION.ToString());
@@ -5397,6 +5397,8 @@ namespace Krypton.Toolkit
         {
             switch (state)
             {
+                case PaletteState.BoldedOverride:
+                    return grid.StateSelected.HeaderColumn.Back;
                 case PaletteState.Disabled:
                     return grid.StateDisabled.HeaderColumn.Back;
                 case PaletteState.Normal:
@@ -5636,7 +5638,7 @@ namespace Krypton.Toolkit
             {
                 case PaletteState.Disabled:
                     return panel.StateDisabled;
-               
+
                 case PaletteState.Tracking: // #1552 KPanel does not implement the tracking state, default to normal
                 case PaletteState.Normal:
                     return panel.StateNormal;
@@ -5849,7 +5851,7 @@ namespace Krypton.Toolkit
             // Only raise the need to paint if painting has not been suspended
             if (_suspendCount == 0)
             {
-                // Changes to the colors of the menu/tool/status areas always 
+                // Changes to the colors of the menu/tool/status areas always
                 // need a new palette updating into the toolstrip manager.
                 OnPalettePaint(this, new PaletteLayoutEventArgs(e.NeedLayout, true));
             }
