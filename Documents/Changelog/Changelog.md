@@ -4,6 +4,7 @@
 
 # 2025-08-25 - Build 2508 (Patch 8) - August 2025
 * Implemented [#2368](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2368), Fix 2 themes-related exceptions in `KryptonCustomPaletteBase`, `PaletteRedirectGrids`.
+* Resolved [#2359](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2359), Revert full GDI+ refactor commit (from PR #2351)
 * Implemented [#2348](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2348), Replace raw memory-DC double-buffering with GDI+ bitmap buffering.
 * Implemented [#2354](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2354), `KryptonDataGridView.DoubleBuffered` property added.
 * Implemented [#2220](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2220), Enables limited support on multiple Krypton Controls for unicode surrogates.
