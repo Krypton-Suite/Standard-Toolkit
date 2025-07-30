@@ -107,4 +107,9 @@
 		<DefineConstants>$(DefineConstants);LTS</DefineConstants>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(UseWindowsForms)' == 'true'">
+		<!-- Force legacy in-process WinForms designer for .NET Core and later projects -->
+		<UseWindowsFormsDesigner>false</UseWindowsFormsDesigner>
+	</PropertyGroup>
+
 </Project>
