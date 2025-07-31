@@ -3,6 +3,7 @@
 =======
 
 # 2025-08-25 - Build 2508 (Patch 8) - August 2025
+* Resolved [#2331](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2331), Correction of edges, 3D effect and color adjustment in `KryptonRibbon` in Office 2010 themes.
 * Implemented [#2374](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2374), Fix exception in `VisualForm` invalidation
 * Implemented [#2368](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2368), Fix 2 themes-related exceptions in `KryptonCustomPaletteBase`, `PaletteRedirectGrids`.
 * Resolved [#2359](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2359), Revert full GDI+ refactor commit (from PR #2351)
