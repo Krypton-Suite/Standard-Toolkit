@@ -4746,7 +4746,13 @@ namespace Krypton.Toolkit
                     }
                     break;
                 case PaletteRibbonBackStyle.RibbonGroupArea:
-                    return _ribbonColours[(int)SchemeOfficeColors.RibbonGroupsArea3];
+                    switch (state)
+                    {
+                        case PaletteState.Tracking:
+                            return _ribbonColours[(int)SchemeOfficeColors.RibbonGroupBorder1]; 
+                        default:
+                            return _ribbonColours[(int)SchemeOfficeColors.RibbonGroupsArea3];
+                    }
                 case PaletteRibbonBackStyle.RibbonTab:
                     switch (state)
                     {
