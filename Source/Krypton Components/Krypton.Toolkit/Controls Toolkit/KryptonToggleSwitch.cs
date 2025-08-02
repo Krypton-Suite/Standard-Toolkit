@@ -779,14 +779,14 @@ public class KryptonToggleSwitch : Control, IContentValues
     [AllowNull]
     public override string Text { get; set; }
 
-    /// <summary>Gets or sets a value indicating whether control's elements are aligned to support locales using right-to-left fonts.</summary>
-    [Browsable(false)]
-    [Category("Behavior")]
-    [Description("Indicates whether the control should support RightToLeft layouts.")]
-    [DefaultValue(typeof(RightToLeft), "Inherit")]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public override RightToLeft RightToLeft
+            /// <summary>Gets or sets a value indicating whether control's elements are aligned to support locales using right-to-left fonts.</summary>
+        [Browsable(true)]
+        [Category("Behavior")]
+        [Description("Indicates whether the control should support RightToLeft layouts.")]
+        [DefaultValue(RightToLeft.No)]
+        [EditorBrowsable(EditorBrowsableState.Always)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        public override RightToLeft RightToLeft
     {
         get => base.RightToLeft;
         set

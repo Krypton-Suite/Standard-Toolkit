@@ -2161,8 +2161,10 @@ public class KryptonForm : VisualForm,
     /// <summary>
     /// Gets and sets the RightToLeft property.
     /// </summary>
-    [Browsable(false)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Browsable(true)]
+    [DefaultValue(RightToLeft.No)]
+    [EditorBrowsable(EditorBrowsableState.Always)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public override RightToLeft RightToLeft
     {
         get => base.RightToLeft;
@@ -2172,7 +2174,30 @@ public class KryptonForm : VisualForm,
             {
                 base.RightToLeft = value;
                 ApplyRTLToButtonManager();
-                RecalcNonClient();
+                // Delay the non-client recalculation to allow button manager to update first
+                BeginInvoke(new Action(() => RecalcNonClient()));
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets and sets the RightToLeftLayout property.
+    /// </summary>
+    [Browsable(true)]
+    [DefaultValue(false)]
+    [EditorBrowsable(EditorBrowsableState.Always)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public override bool RightToLeftLayout
+    {
+        get => base.RightToLeftLayout;
+        set
+        {
+            if (base.RightToLeftLayout != value)
+            {
+                base.RightToLeftLayout = value;
+                ApplyRTLToButtonManager();
+                // Delay the non-client recalculation to allow button manager to update first
+                BeginInvoke(new Action(() => RecalcNonClient()));
             }
         }
     }
@@ -2186,6 +2211,12 @@ public class KryptonForm : VisualForm,
         {
             // Force recreation of buttons to apply RTL positioning
             _buttonManager.RecreateButtons();
+            
+            // Force a layout update to ensure buttons are positioned correctly
+            PerformLayout();
+            
+            // Force a repaint to ensure the changes are visible
+            Invalidate();
         }
     }
 
@@ -2208,8 +2239,9 @@ public class KryptonForm : VisualForm,
         {
             var originalEdge = _baseRedirector.GetButtonSpecEdge(style);
             
-            // If RTL layout is enabled, reverse the edge alignment
-            if (_kryptonForm.RightToLeftLayout)
+            // Always check the current RTL state dynamically
+            // If both RTL and RTL Layout are enabled, reverse the edge alignment
+            if (_kryptonForm.RightToLeft == RightToLeft.Yes && _kryptonForm.RightToLeftLayout)
             {
                 return originalEdge switch
                 {

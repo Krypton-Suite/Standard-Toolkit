@@ -34,4 +34,18 @@ public partial class ControlsTest : KryptonForm
     {
         new CheckedListBoxDemo().ShowDialog();
     }
+
+    private void ktsRTLToggle_CheckedChanged(object sender, EventArgs e)
+    {
+        if (ktsRTLToggle.Checked)
+        {
+            RightToLeft = RightToLeft.Yes;
+            RightToLeftLayout = true;
+        }
+        else
+        {
+            RightToLeft = RightToLeft.No;
+            RightToLeftLayout = false;
+        }
+    }
 }
