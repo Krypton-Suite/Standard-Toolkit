@@ -71,6 +71,8 @@ namespace TestForm
             this.krgbBug833Test = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonTab2 = new Krypton.Ribbon.KryptonRibbonTab();
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
+            this.ktsRTLToggle = new Krypton.Toolkit.KryptonToggleSwitch();
+            this.kryptonLabel3 = new Krypton.Toolkit.KryptonLabel();
             this.kryptonButton17 = new Krypton.Toolkit.KryptonButton();
             this.kryptonLabel2 = new Krypton.Toolkit.KryptonLabel();
             this.kryptonLabel1 = new Krypton.Toolkit.KryptonLabel();
@@ -122,8 +124,6 @@ namespace TestForm
             this.kryptonColorDialog1 = new Krypton.Toolkit.KryptonColorDialog();
             this.kryptonPrintDialog1 = new Krypton.Toolkit.KryptonPrintDialog();
             this.kryptonSeparator1 = new Krypton.Toolkit.KryptonSeparator();
-            this.kryptonLabel3 = new Krypton.Toolkit.KryptonLabel();
-            this.ktsRTLToggle = new Krypton.Toolkit.KryptonToggleSwitch();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonRibbon1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
@@ -153,7 +153,7 @@ namespace TestForm
             this.kryptonRibbonTab1,
             this.kryptonRibbonTab2});
             this.kryptonRibbon1.SelectedTab = this.kryptonRibbonTab1;
-            this.kryptonRibbon1.Size = new System.Drawing.Size(1341, 115);
+            this.kryptonRibbon1.Size = new System.Drawing.Size(1345, 115);
             this.kryptonRibbon1.TabIndex = 0;
             // 
             // kryptonRibbonContext1
@@ -330,8 +330,25 @@ namespace TestForm
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 115);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(1341, 495);
+            this.kryptonPanel1.Size = new System.Drawing.Size(1345, 483);
             this.kryptonPanel1.TabIndex = 1;
+            // 
+            // ktsRTLToggle
+            // 
+            this.ktsRTLToggle.Location = new System.Drawing.Point(107, 448);
+            this.ktsRTLToggle.Name = "ktsRTLToggle";
+            this.ktsRTLToggle.Size = new System.Drawing.Size(90, 28);
+            this.ktsRTLToggle.TabIndex = 87;
+            this.ktsRTLToggle.CheckedChanged += new System.EventHandler(this.ktsRTLToggle_CheckedChanged);
+            // 
+            // kryptonLabel3
+            // 
+            this.kryptonLabel3.LabelStyle = Krypton.Toolkit.LabelStyle.BoldControl;
+            this.kryptonLabel3.Location = new System.Drawing.Point(13, 448);
+            this.kryptonLabel3.Name = "kryptonLabel3";
+            this.kryptonLabel3.Size = new System.Drawing.Size(87, 20);
+            this.kryptonLabel3.TabIndex = 86;
+            this.kryptonLabel3.Values.Text = "Right to Left:";
             // 
             // kryptonButton17
             // 
@@ -386,7 +403,7 @@ namespace TestForm
             this.kryptonComboBox4.Enabled = false;
             this.kryptonComboBox4.IntegralHeight = false;
             this.kryptonComboBox4.Location = new System.Drawing.Point(1175, 352);
-            this.kryptonComboBox4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kryptonComboBox4.Margin = new System.Windows.Forms.Padding(2);
             this.kryptonComboBox4.Name = "kryptonComboBox4";
             this.kryptonComboBox4.Size = new System.Drawing.Size(135, 22);
             this.kryptonComboBox4.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
@@ -398,7 +415,7 @@ namespace TestForm
             this.kryptonComboBox2.Enabled = false;
             this.kryptonComboBox2.IntegralHeight = false;
             this.kryptonComboBox2.Location = new System.Drawing.Point(480, 411);
-            this.kryptonComboBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kryptonComboBox2.Margin = new System.Windows.Forms.Padding(2);
             this.kryptonComboBox2.Name = "kryptonComboBox2";
             this.kryptonComboBox2.Size = new System.Drawing.Size(112, 22);
             this.kryptonComboBox2.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
@@ -421,7 +438,7 @@ namespace TestForm
             "6",
             "77777777777777777777777777777777777777777777777777777777777777777777777777777"});
             this.kryptonComboBox3.Location = new System.Drawing.Point(1044, 351);
-            this.kryptonComboBox3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kryptonComboBox3.Margin = new System.Windows.Forms.Padding(2);
             this.kryptonComboBox3.Name = "kryptonComboBox3";
             this.kryptonComboBox3.Size = new System.Drawing.Size(127, 22);
             this.kryptonComboBox3.TabIndex = 38;
@@ -439,7 +456,7 @@ namespace TestForm
             "6",
             "77777777777777777777777777777777777777777777777777777777777777777777777777777"});
             this.kryptonComboBox1.Location = new System.Drawing.Point(362, 411);
-            this.kryptonComboBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kryptonComboBox1.Margin = new System.Windows.Forms.Padding(2);
             this.kryptonComboBox1.Name = "kryptonComboBox1";
             this.kryptonComboBox1.Size = new System.Drawing.Size(112, 22);
             this.kryptonComboBox1.TabIndex = 38;
@@ -447,12 +464,10 @@ namespace TestForm
             // 
             // kryptonRichTextBox2
             // 
-            this.kryptonRichTextBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
             this.kryptonRichTextBox2.Enabled = false;
             this.kryptonRichTextBox2.Location = new System.Drawing.Point(920, 353);
             this.kryptonRichTextBox2.Name = "kryptonRichTextBox2";
-            this.kryptonRichTextBox2.Size = new System.Drawing.Size(100, 139);
+            this.kryptonRichTextBox2.Size = new System.Drawing.Size(100, 127);
             this.kryptonRichTextBox2.TabIndex = 37;
             this.kryptonRichTextBox2.Text = "kryptonRichTextBox2";
             // 
@@ -527,7 +542,7 @@ namespace TestForm
             listViewItem8,
             listViewItem9});
             this.kryptonListView1.Location = new System.Drawing.Point(649, 35);
-            this.kryptonListView1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kryptonListView1.Margin = new System.Windows.Forms.Padding(2);
             this.kryptonListView1.Name = "kryptonListView1";
             this.kryptonListView1.Size = new System.Drawing.Size(118, 226);
             this.kryptonListView1.SmallImageList = this.imageList1;
@@ -559,7 +574,7 @@ namespace TestForm
             listViewItem2,
             listViewItem3});
             this.listKrypton.Location = new System.Drawing.Point(528, 35);
-            this.listKrypton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.listKrypton.Margin = new System.Windows.Forms.Padding(2);
             this.listKrypton.Name = "listKrypton";
             this.listKrypton.Size = new System.Drawing.Size(118, 226);
             this.listKrypton.SmallImageList = this.imageList1;
@@ -570,7 +585,7 @@ namespace TestForm
             // 
             this.kryptonTreeView2.Enabled = false;
             this.kryptonTreeView2.Location = new System.Drawing.Point(692, 270);
-            this.kryptonTreeView2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kryptonTreeView2.Margin = new System.Windows.Forms.Padding(2);
             this.kryptonTreeView2.Name = "kryptonTreeView2";
             this.kryptonTreeView2.Size = new System.Drawing.Size(74, 78);
             this.kryptonTreeView2.TabIndex = 28;
@@ -578,7 +593,7 @@ namespace TestForm
             // kryptonTreeView1
             // 
             this.kryptonTreeView1.Location = new System.Drawing.Point(607, 270);
-            this.kryptonTreeView1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kryptonTreeView1.Margin = new System.Windows.Forms.Padding(2);
             this.kryptonTreeView1.Name = "kryptonTreeView1";
             this.kryptonTreeView1.Size = new System.Drawing.Size(74, 78);
             this.kryptonTreeView1.TabIndex = 27;
@@ -587,7 +602,7 @@ namespace TestForm
             // 
             this.kryptonMaskedTextBox2.Enabled = false;
             this.kryptonMaskedTextBox2.Location = new System.Drawing.Point(110, 380);
-            this.kryptonMaskedTextBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kryptonMaskedTextBox2.Margin = new System.Windows.Forms.Padding(2);
             this.kryptonMaskedTextBox2.Name = "kryptonMaskedTextBox2";
             this.kryptonMaskedTextBox2.Size = new System.Drawing.Size(90, 23);
             this.kryptonMaskedTextBox2.TabIndex = 26;
@@ -596,7 +611,7 @@ namespace TestForm
             // kryptonMaskedTextBox1
             // 
             this.kryptonMaskedTextBox1.Location = new System.Drawing.Point(13, 380);
-            this.kryptonMaskedTextBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kryptonMaskedTextBox1.Margin = new System.Windows.Forms.Padding(2);
             this.kryptonMaskedTextBox1.Name = "kryptonMaskedTextBox1";
             this.kryptonMaskedTextBox1.Size = new System.Drawing.Size(90, 23);
             this.kryptonMaskedTextBox1.TabIndex = 25;
@@ -611,7 +626,7 @@ namespace TestForm
             0,
             0});
             this.kryptonNumericUpDown2.Location = new System.Drawing.Point(110, 353);
-            this.kryptonNumericUpDown2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kryptonNumericUpDown2.Margin = new System.Windows.Forms.Padding(2);
             this.kryptonNumericUpDown2.Maximum = new decimal(new int[] {
             100,
             0,
@@ -639,7 +654,7 @@ namespace TestForm
             0,
             0});
             this.kryptonNumericUpDown1.Location = new System.Drawing.Point(13, 353);
-            this.kryptonNumericUpDown1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kryptonNumericUpDown1.Margin = new System.Windows.Forms.Padding(2);
             this.kryptonNumericUpDown1.Maximum = new decimal(new int[] {
             100,
             0,
@@ -663,7 +678,7 @@ namespace TestForm
             // 
             this.kryptonDomainUpDown2.Enabled = false;
             this.kryptonDomainUpDown2.Location = new System.Drawing.Point(110, 327);
-            this.kryptonDomainUpDown2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kryptonDomainUpDown2.Margin = new System.Windows.Forms.Padding(2);
             this.kryptonDomainUpDown2.Name = "kryptonDomainUpDown2";
             this.kryptonDomainUpDown2.Size = new System.Drawing.Size(90, 22);
             this.kryptonDomainUpDown2.TabIndex = 22;
@@ -672,7 +687,7 @@ namespace TestForm
             // kryptonDomainUpDown1
             // 
             this.kryptonDomainUpDown1.Location = new System.Drawing.Point(13, 327);
-            this.kryptonDomainUpDown1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kryptonDomainUpDown1.Margin = new System.Windows.Forms.Padding(2);
             this.kryptonDomainUpDown1.Name = "kryptonDomainUpDown1";
             this.kryptonDomainUpDown1.Size = new System.Drawing.Size(90, 22);
             this.kryptonDomainUpDown1.TabIndex = 21;
@@ -682,7 +697,7 @@ namespace TestForm
             // 
             this.kryptonTrackBar2.Enabled = false;
             this.kryptonTrackBar2.Location = new System.Drawing.Point(480, 384);
-            this.kryptonTrackBar2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kryptonTrackBar2.Margin = new System.Windows.Forms.Padding(2);
             this.kryptonTrackBar2.Name = "kryptonTrackBar2";
             this.kryptonTrackBar2.Size = new System.Drawing.Size(106, 27);
             this.kryptonTrackBar2.TabIndex = 20;
@@ -690,7 +705,7 @@ namespace TestForm
             // kryptonTrackBar1
             // 
             this.kryptonTrackBar1.Location = new System.Drawing.Point(362, 384);
-            this.kryptonTrackBar1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kryptonTrackBar1.Margin = new System.Windows.Forms.Padding(2);
             this.kryptonTrackBar1.Name = "kryptonTrackBar1";
             this.kryptonTrackBar1.Size = new System.Drawing.Size(106, 27);
             this.kryptonTrackBar1.TabIndex = 19;
@@ -699,7 +714,7 @@ namespace TestForm
             // 
             this.kryptonGroupBox2.Enabled = false;
             this.kryptonGroupBox2.Location = new System.Drawing.Point(480, 327);
-            this.kryptonGroupBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kryptonGroupBox2.Margin = new System.Windows.Forms.Padding(2);
             this.kryptonGroupBox2.Size = new System.Drawing.Size(112, 53);
             this.kryptonGroupBox2.TabIndex = 18;
             this.kryptonGroupBox2.Values.Heading = "Disabled Grp";
@@ -707,7 +722,7 @@ namespace TestForm
             // kryptonGroupBox1
             // 
             this.kryptonGroupBox1.Location = new System.Drawing.Point(362, 327);
-            this.kryptonGroupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kryptonGroupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.kryptonGroupBox1.Size = new System.Drawing.Size(112, 53);
             this.kryptonGroupBox1.TabIndex = 17;
             this.kryptonGroupBox1.Values.Heading = "Enabled Grp";
@@ -716,7 +731,7 @@ namespace TestForm
             // 
             this.kryptonPanel3.Enabled = false;
             this.kryptonPanel3.Location = new System.Drawing.Point(480, 268);
-            this.kryptonPanel3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kryptonPanel3.Margin = new System.Windows.Forms.Padding(2);
             this.kryptonPanel3.Name = "kryptonPanel3";
             this.kryptonPanel3.Size = new System.Drawing.Size(100, 53);
             this.kryptonPanel3.StateCommon.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
@@ -725,7 +740,7 @@ namespace TestForm
             // kryptonPanel2
             // 
             this.kryptonPanel2.Location = new System.Drawing.Point(362, 268);
-            this.kryptonPanel2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kryptonPanel2.Margin = new System.Windows.Forms.Padding(2);
             this.kryptonPanel2.Name = "kryptonPanel2";
             this.kryptonPanel2.Size = new System.Drawing.Size(100, 53);
             this.kryptonPanel2.StateCommon.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
@@ -735,7 +750,7 @@ namespace TestForm
             // 
             this.kryptonRadioButton2.Enabled = false;
             this.kryptonRadioButton2.Location = new System.Drawing.Point(281, 299);
-            this.kryptonRadioButton2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kryptonRadioButton2.Margin = new System.Windows.Forms.Padding(2);
             this.kryptonRadioButton2.Name = "kryptonRadioButton2";
             this.kryptonRadioButton2.Size = new System.Drawing.Size(70, 20);
             this.kryptonRadioButton2.TabIndex = 14;
@@ -744,7 +759,7 @@ namespace TestForm
             // kryptonRadioButton1
             // 
             this.kryptonRadioButton1.Location = new System.Drawing.Point(206, 299);
-            this.kryptonRadioButton1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kryptonRadioButton1.Margin = new System.Windows.Forms.Padding(2);
             this.kryptonRadioButton1.Name = "kryptonRadioButton1";
             this.kryptonRadioButton1.Size = new System.Drawing.Size(66, 20);
             this.kryptonRadioButton1.TabIndex = 13;
@@ -754,7 +769,7 @@ namespace TestForm
             // 
             this.kryptonTextBox2.Enabled = false;
             this.kryptonTextBox2.Location = new System.Drawing.Point(110, 299);
-            this.kryptonTextBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kryptonTextBox2.Margin = new System.Windows.Forms.Padding(2);
             this.kryptonTextBox2.Name = "kryptonTextBox2";
             this.kryptonTextBox2.Size = new System.Drawing.Size(90, 23);
             this.kryptonTextBox2.TabIndex = 12;
@@ -763,7 +778,7 @@ namespace TestForm
             // kryptonTextBox1
             // 
             this.kryptonTextBox1.Location = new System.Drawing.Point(13, 299);
-            this.kryptonTextBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kryptonTextBox1.Margin = new System.Windows.Forms.Padding(2);
             this.kryptonTextBox1.Name = "kryptonTextBox1";
             this.kryptonTextBox1.Size = new System.Drawing.Size(90, 23);
             this.kryptonTextBox1.TabIndex = 11;
@@ -909,28 +924,11 @@ namespace TestForm
             this.kryptonSeparator1.Size = new System.Drawing.Size(53, 52);
             this.kryptonSeparator1.TabIndex = 45;
             // 
-            // kryptonLabel3
-            // 
-            this.kryptonLabel3.LabelStyle = Krypton.Toolkit.LabelStyle.BoldControl;
-            this.kryptonLabel3.Location = new System.Drawing.Point(13, 448);
-            this.kryptonLabel3.Name = "kryptonLabel3";
-            this.kryptonLabel3.Size = new System.Drawing.Size(87, 20);
-            this.kryptonLabel3.TabIndex = 86;
-            this.kryptonLabel3.Values.Text = "Right to Left:";
-            // 
-            // ktsRTLToggle
-            // 
-            this.ktsRTLToggle.Location = new System.Drawing.Point(107, 448);
-            this.ktsRTLToggle.Name = "ktsRTLToggle";
-            this.ktsRTLToggle.Size = new System.Drawing.Size(90, 28);
-            this.ktsRTLToggle.TabIndex = 87;
-            this.ktsRTLToggle.CheckedChanged += new System.EventHandler(this.ktsRTLToggle_CheckedChanged);
-            // 
             // ControlsTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1341, 610);
+            this.ClientSize = new System.Drawing.Size(1345, 598);
             this.Controls.Add(this.kryptonPanel1);
             this.Controls.Add(this.kryptonRibbon1);
             this.Name = "ControlsTest";

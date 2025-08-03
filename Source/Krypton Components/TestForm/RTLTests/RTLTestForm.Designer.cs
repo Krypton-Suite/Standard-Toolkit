@@ -53,6 +53,7 @@
             this.ktsRTL.Name = "ktsRTL";
             this.ktsRTL.Size = new System.Drawing.Size(90, 28);
             this.ktsRTL.TabIndex = 0;
+            this.ktsRTL.Text = "Toggle RTL States";
             this.ktsRTL.CheckedChanged += new System.EventHandler(this.ktsRTL_CheckedChanged);
             // 
             // buttonSpecAny1

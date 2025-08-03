@@ -15,13 +15,45 @@ namespace TestForm.RTLTests
         public RTLTestForm()
         {
             InitializeComponent();
+            
+            // Set initial title to help identify the form
+            Text = "RTL Test Form - State: LTR Normal";
+            
+            // Set FormTitleAlign to Center to test the problematic case
+            FormTitleAlign = PaletteRelativeAlign.Center;
         }
 
         private void ktsRTL_CheckedChanged(object sender, EventArgs e)
         {
-            // Toggle RTL settings
-            RightToLeft = RightToLeft == RightToLeft.Yes ? RightToLeft.No : RightToLeft.Yes;
-            RightToLeftLayout = !RightToLeftLayout;
+            // Cycle through the four RTL states
+            if (RightToLeft == RightToLeft.No && !RightToLeftLayout)
+            {
+                // State 1 -> State 2: RTL = false, RTL Layout = true
+                RightToLeft = RightToLeft.No;
+                RightToLeftLayout = true;
+                Text = "RTL Test Form - State: LTR Normal (RTL Layout = true)";
+            }
+            else if (RightToLeft == RightToLeft.No && RightToLeftLayout)
+            {
+                // State 2 -> State 3: RTL = true, RTL Layout = false
+                RightToLeft = RightToLeft.Yes;
+                RightToLeftLayout = false;
+                Text = "RTL Test Form - State: RTL Aligned, Layout Unchanged";
+            }
+            else if (RightToLeft == RightToLeft.Yes && !RightToLeftLayout)
+            {
+                // State 3 -> State 4: RTL = true, RTL Layout = true
+                RightToLeft = RightToLeft.Yes;
+                RightToLeftLayout = true;
+                Text = "RTL Test Form - State: RTL Aligned, Layout Mirrored";
+            }
+            else
+            {
+                // State 4 -> State 1: RTL = false, RTL Layout = false
+                RightToLeft = RightToLeft.No;
+                RightToLeftLayout = false;
+                Text = "RTL Test Form - State: LTR Normal";
+            }
         }
     }
 }

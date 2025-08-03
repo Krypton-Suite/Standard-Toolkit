@@ -1048,7 +1048,7 @@ public class KryptonForm : VisualForm,
             // Check if RTL is enabled - this is the primary condition for RTL layout
             if (_kryptonForm.RightToLeft == RightToLeft.Yes)
             {
-                // If RTL Layout is also enabled, reverse the alignment
+                // If RTL Layout is also enabled, reverse the alignment for full mirroring
                 if (_kryptonForm.RightToLeftLayout)
                 {
                     return originalAlignment switch
@@ -1061,7 +1061,8 @@ public class KryptonForm : VisualForm,
                 else
                 {
                     // When RTL is enabled but RTL Layout is disabled,
-                    // we still need to adjust content alignment for RTL
+                    // maintain the original alignment but adjust for RTL context
+                    // This ensures content is positioned correctly for RTL reading order
                     return originalAlignment;
                 }
             }
@@ -1073,7 +1074,7 @@ public class KryptonForm : VisualForm,
             // Check if RTL is enabled - this is the primary condition for RTL layout
             if (_kryptonForm.RightToLeft == RightToLeft.Yes)
             {
-                // If RTL Layout is also enabled, position the icon after the text
+                // If RTL Layout is also enabled, position the icon after the text for full mirroring
                 if (_kryptonForm.RightToLeftLayout)
                 {
                     return titleAlignment switch
@@ -1087,7 +1088,7 @@ public class KryptonForm : VisualForm,
                 else
                 {
                     // When RTL is enabled but RTL Layout is disabled,
-                    // we still need to adjust icon positioning for RTL
+                    // position the icon on the right side for RTL reading order
                     return PaletteRelativeAlign.Far; // Default to right side in RTL
                 }
             }
@@ -2262,7 +2263,7 @@ public class KryptonForm : VisualForm,
             // Check if RTL is enabled - this is the primary condition for RTL layout
             if (_kryptonForm.RightToLeft == RightToLeft.Yes)
             {
-                // If RTL Layout is also enabled, reverse the edge alignment
+                // If RTL Layout is also enabled, reverse the edge alignment for full mirroring
                 if (_kryptonForm.RightToLeftLayout)
                 {
                     return originalEdge switch
@@ -2274,9 +2275,9 @@ public class KryptonForm : VisualForm,
                 }
                 else
                 {
-                    // When RTL is enabled but RTL Layout is disabled, 
-                    // we still need to adjust button positioning for RTL
-                    // Keep the same edge alignment but the layout system will handle positioning
+                    // When RTL is enabled but RTL Layout is disabled,
+                    // maintain the original edge alignment but adjust positioning for RTL context
+                    // This ensures buttons are positioned correctly for RTL reading order
                     return originalEdge;
                 }
             }
@@ -2307,6 +2308,7 @@ public class KryptonForm : VisualForm,
             // Check if RTL is enabled - this is the primary condition for RTL layout
             var form = context.Control as Form;
             bool isRTL = form?.RightToLeft == RightToLeft.Yes;
+            bool isRTLLayout = form?.RightToLeftLayout == true;
             
             // Get the title alignment from the form
             var kryptonForm = context.Control as KryptonForm;
@@ -2319,7 +2321,7 @@ public class KryptonForm : VisualForm,
             
             if (isRTL)
             {
-                // In RTL mode, adjust positioning based on alignment
+                // In RTL mode, adjust positioning based on alignment and RTL Layout setting
                 switch (titleAlign)
                 {
                     case PaletteRelativeAlign.Near:
@@ -2342,14 +2344,26 @@ public class KryptonForm : VisualForm,
                         
                     case PaletteRelativeAlign.Center:
                     default:
-                        // In RTL mode with center alignment, position the system menu icon on the left
-                        // and center the text content separately
-                        // For now, we'll position the entire content on the left to avoid centering the system menu
-                        contentRect = new Rectangle(
-                            availableArea.Left,
-                            availableArea.Top,
-                            contentSize.Width + GlobalStaticValues.RTL_ICON_TEXT_PADDING,
-                            availableArea.Height);
+                        if (isRTLLayout)
+                        {
+                            // When RTL Layout is enabled, center the entire content
+                            contentRect = new Rectangle(
+                                availableArea.Left + (availableArea.Width - contentSize.Width - GlobalStaticValues.RTL_ICON_TEXT_PADDING) / 2,
+                                availableArea.Top,
+                                contentSize.Width + GlobalStaticValues.RTL_ICON_TEXT_PADDING,
+                                availableArea.Height);
+                        }
+                        else
+                        {
+                            // When RTL is enabled but RTL Layout is disabled,
+                            // position the system menu icon on the left and center the text
+                            // For now, position the entire content on the left to avoid centering the system menu
+                            contentRect = new Rectangle(
+                                availableArea.Left,
+                                availableArea.Top,
+                                contentSize.Width + GlobalStaticValues.RTL_ICON_TEXT_PADDING,
+                                availableArea.Height);
+                        }
                         break;
                 }
             }
