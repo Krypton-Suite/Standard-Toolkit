@@ -1045,31 +1045,51 @@ public class KryptonForm : VisualForm,
 
         private PaletteRelativeAlign GetRTLAdjustedAlignment(PaletteRelativeAlign originalAlignment)
         {
-            // If RTL layout is enabled, reverse the alignment
-            if (_kryptonForm.RightToLeftLayout)
+            // Check if RTL is enabled - this is the primary condition for RTL layout
+            if (_kryptonForm.RightToLeft == RightToLeft.Yes)
             {
-                return originalAlignment switch
+                // If RTL Layout is also enabled, reverse the alignment
+                if (_kryptonForm.RightToLeftLayout)
                 {
-                    PaletteRelativeAlign.Near => PaletteRelativeAlign.Far,
-                    PaletteRelativeAlign.Far => PaletteRelativeAlign.Near,
-                    _ => originalAlignment
-                };
+                    return originalAlignment switch
+                    {
+                        PaletteRelativeAlign.Near => PaletteRelativeAlign.Far,
+                        PaletteRelativeAlign.Far => PaletteRelativeAlign.Near,
+                        _ => originalAlignment
+                    };
+                }
+                else
+                {
+                    // When RTL is enabled but RTL Layout is disabled,
+                    // we still need to adjust content alignment for RTL
+                    return originalAlignment;
+                }
             }
             return originalAlignment;
         }
 
         private PaletteRelativeAlign GetRTLAdjustedImageAlignment(PaletteRelativeAlign titleAlignment)
         {
-            // If RTL layout is enabled, position the icon after the text
-            if (_kryptonForm.RightToLeftLayout)
+            // Check if RTL is enabled - this is the primary condition for RTL layout
+            if (_kryptonForm.RightToLeft == RightToLeft.Yes)
             {
-                return titleAlignment switch
+                // If RTL Layout is also enabled, position the icon after the text
+                if (_kryptonForm.RightToLeftLayout)
                 {
-                    PaletteRelativeAlign.Near => PaletteRelativeAlign.Far, // Icon on the right when text is on the left
-                    PaletteRelativeAlign.Far => PaletteRelativeAlign.Near, // Icon on the left when text is on the right
-                    PaletteRelativeAlign.Center => PaletteRelativeAlign.Center, // Keep centered
-                    _ => PaletteRelativeAlign.Far // Default to right side in RTL
-                };
+                    return titleAlignment switch
+                    {
+                        PaletteRelativeAlign.Near => PaletteRelativeAlign.Far, // Icon on the right when text is on the left
+                        PaletteRelativeAlign.Far => PaletteRelativeAlign.Near, // Icon on the left when text is on the right
+                        PaletteRelativeAlign.Center => PaletteRelativeAlign.Center, // Keep centered
+                        _ => PaletteRelativeAlign.Far // Default to right side in RTL
+                    };
+                }
+                else
+                {
+                    // When RTL is enabled but RTL Layout is disabled,
+                    // we still need to adjust icon positioning for RTL
+                    return PaletteRelativeAlign.Far; // Default to right side in RTL
+                }
             }
             else
             {
@@ -2239,16 +2259,26 @@ public class KryptonForm : VisualForm,
         {
             var originalEdge = _baseRedirector.GetButtonSpecEdge(style);
             
-            // Always check the current RTL state dynamically
-            // If both RTL and RTL Layout are enabled, reverse the edge alignment
-            if (_kryptonForm.RightToLeft == RightToLeft.Yes && _kryptonForm.RightToLeftLayout)
+            // Check if RTL is enabled - this is the primary condition for RTL layout
+            if (_kryptonForm.RightToLeft == RightToLeft.Yes)
             {
-                return originalEdge switch
+                // If RTL Layout is also enabled, reverse the edge alignment
+                if (_kryptonForm.RightToLeftLayout)
                 {
-                    PaletteRelativeEdgeAlign.Near => PaletteRelativeEdgeAlign.Far,
-                    PaletteRelativeEdgeAlign.Far => PaletteRelativeEdgeAlign.Near,
-                    _ => originalEdge
-                };
+                    return originalEdge switch
+                    {
+                        PaletteRelativeEdgeAlign.Near => PaletteRelativeEdgeAlign.Far,
+                        PaletteRelativeEdgeAlign.Far => PaletteRelativeEdgeAlign.Near,
+                        _ => originalEdge
+                    };
+                }
+                else
+                {
+                    // When RTL is enabled but RTL Layout is disabled, 
+                    // we still need to adjust button positioning for RTL
+                    // Keep the same edge alignment but the layout system will handle positioning
+                    return originalEdge;
+                }
             }
             
             return originalEdge;
@@ -2274,8 +2304,9 @@ public class KryptonForm : VisualForm,
             // Get the available area
             Rectangle availableArea = context.DisplayRectangle;
             
-            // Check if RTL layout is enabled
-            bool isRTL = (context.Control as Form)?.RightToLeftLayout == true;
+            // Check if RTL is enabled - this is the primary condition for RTL layout
+            var form = context.Control as Form;
+            bool isRTL = form?.RightToLeft == RightToLeft.Yes;
             
             // Get the title alignment from the form
             var kryptonForm = context.Control as KryptonForm;
@@ -2311,9 +2342,11 @@ public class KryptonForm : VisualForm,
                         
                     case PaletteRelativeAlign.Center:
                     default:
-                        // Center the content with padding
+                        // In RTL mode with center alignment, position the system menu icon on the left
+                        // and center the text content separately
+                        // For now, we'll position the entire content on the left to avoid centering the system menu
                         contentRect = new Rectangle(
-                            availableArea.Left + (availableArea.Width - contentSize.Width - GlobalStaticValues.RTL_ICON_TEXT_PADDING) / 2,
+                            availableArea.Left,
                             availableArea.Top,
                             contentSize.Width + GlobalStaticValues.RTL_ICON_TEXT_PADDING,
                             availableArea.Height);
