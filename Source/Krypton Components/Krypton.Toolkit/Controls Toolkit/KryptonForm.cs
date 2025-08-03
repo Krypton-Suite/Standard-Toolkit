@@ -1284,6 +1284,15 @@ public class KryptonForm : VisualForm,
 
         // Register with the ActiveFormTracker
         ActiveFormTracker.Attach(this);
+
+        // Apply any RTL settings that may have been set before the handle was created
+        // This ensures that RTL properties set in the designer are properly applied
+        if (RightToLeft == RightToLeft.Yes || RightToLeftLayout)
+        {
+            ApplyRTLToButtonManager();
+            // Delay the non-client recalculation to allow button manager to update first
+            BeginInvoke(new Action(() => RecalcNonClient()));
+        }
     }
 
     #endregion
@@ -1812,7 +1821,7 @@ public class KryptonForm : VisualForm,
             var yBorder = PI.GetSystemMetrics(PI.SM_.CYSIZEFRAME) * 2;
 
             // Get the actual border widths from the form's border palette
-            var formBorder = StateCommon.Border as PaletteFormBorder;
+            var formBorder = StateCommon?.Border as PaletteFormBorder;
             var (leftBorder, topBorder) = formBorder?.BorderWidths(FormBorderStyle) ?? (xBorder / 2, yBorder / 2);
             var rightBorder = leftBorder; // Use same width for right border
             var bottomBorder = topBorder; // Use same width for bottom border
@@ -2196,7 +2205,11 @@ public class KryptonForm : VisualForm,
                 base.RightToLeft = value;
                 ApplyRTLToButtonManager();
                 // Delay the non-client recalculation to allow button manager to update first
-                BeginInvoke(new Action(() => RecalcNonClient()));
+                // Only call BeginInvoke if the handle is created
+                if (IsHandleCreated)
+                {
+                    BeginInvoke(new Action(() => RecalcNonClient()));
+                }
             }
         }
     }
@@ -2218,7 +2231,11 @@ public class KryptonForm : VisualForm,
                 base.RightToLeftLayout = value;
                 ApplyRTLToButtonManager();
                 // Delay the non-client recalculation to allow button manager to update first
-                BeginInvoke(new Action(() => RecalcNonClient()));
+                // Only call BeginInvoke if the handle is created
+                if (IsHandleCreated)
+                {
+                    BeginInvoke(new Action(() => RecalcNonClient()));
+                }
             }
         }
     }
@@ -2237,7 +2254,11 @@ public class KryptonForm : VisualForm,
             PerformLayout();
             
             // Force a repaint to ensure the changes are visible
-            Invalidate();
+            // Only invalidate if the handle is created
+            if (IsHandleCreated)
+            {
+                Invalidate();
+            }
         }
     }
 
@@ -2252,8 +2273,8 @@ public class KryptonForm : VisualForm,
         public RTLPaletteRedirect(PaletteRedirect baseRedirector, KryptonForm kryptonForm)
             : base(baseRedirector)
         {
-            _baseRedirector = baseRedirector;
-            _kryptonForm = kryptonForm;
+            _baseRedirector = baseRedirector ?? throw new ArgumentNullException(nameof(baseRedirector));
+            _kryptonForm = kryptonForm ?? throw new ArgumentNullException(nameof(kryptonForm));
         }
 
         public override PaletteRelativeEdgeAlign GetButtonSpecEdge(PaletteButtonSpecStyle style)
@@ -2295,13 +2316,21 @@ public class KryptonForm : VisualForm,
 
         public RTLTitleBarLayout(ViewDrawContent content)
         {
-            _content = content;
+            _content = content ?? throw new ArgumentNullException(nameof(content));
             // Add the content as a child
             Add(_content, ViewDockStyle.Fill);
         }
 
         public override void Layout(ViewLayoutContext context)
         {
+            // Validate context
+            if (context?.Control == null)
+            {
+                // If context or control is null, use default layout
+                base.Layout(context);
+                return;
+            }
+            
             // Get the available area
             Rectangle availableArea = context.DisplayRectangle;
             
@@ -2315,7 +2344,7 @@ public class KryptonForm : VisualForm,
             var titleAlign = kryptonForm?._formTitleAlign ?? PaletteRelativeAlign.Near;
             
             // Calculate the content size
-            Size contentSize = _content.GetPreferredSize(context);
+            Size contentSize = _content?.GetPreferredSize(context) ?? Size.Empty;
             
             Rectangle contentRect;
             
@@ -2325,21 +2354,45 @@ public class KryptonForm : VisualForm,
                 switch (titleAlign)
                 {
                     case PaletteRelativeAlign.Near:
-                        // In RTL, "Near" means left side
-                        contentRect = new Rectangle(
-                            availableArea.Left,
-                            availableArea.Top,
-                            contentSize.Width + GlobalStaticValues.RTL_ICON_TEXT_PADDING,
-                            availableArea.Height);
+                        if (isRTLLayout)
+                        {
+                            // When RTL Layout is enabled, "Near" means right side in RTL
+                            contentRect = new Rectangle(
+                                availableArea.Right - contentSize.Width - GlobalStaticValues.RTL_ICON_TEXT_PADDING,
+                                availableArea.Top,
+                                contentSize.Width + GlobalStaticValues.RTL_ICON_TEXT_PADDING,
+                                availableArea.Height);
+                        }
+                        else
+                        {
+                            // When RTL is enabled but RTL Layout is disabled, "Near" means left side
+                            contentRect = new Rectangle(
+                                availableArea.Left,
+                                availableArea.Top,
+                                contentSize.Width + GlobalStaticValues.RTL_ICON_TEXT_PADDING,
+                                availableArea.Height);
+                        }
                         break;
                         
                     case PaletteRelativeAlign.Far:
-                        // In RTL, "Far" means right side
-                        contentRect = new Rectangle(
-                            availableArea.Right - contentSize.Width - GlobalStaticValues.RTL_ICON_TEXT_PADDING,
-                            availableArea.Top,
-                            contentSize.Width + GlobalStaticValues.RTL_ICON_TEXT_PADDING,
-                            availableArea.Height);
+                        if (isRTLLayout)
+                        {
+                            // When RTL Layout is enabled, "Far" means left side in RTL
+                            contentRect = new Rectangle(
+                                availableArea.Left,
+                                availableArea.Top,
+                                contentSize.Width + GlobalStaticValues.RTL_ICON_TEXT_PADDING,
+                                availableArea.Height);
+                        }
+                        else
+                        {
+                            // When RTL is enabled but RTL Layout is disabled, "Far" means right side
+                            contentRect = new Rectangle(
+                                availableArea.Right - contentSize.Width - GlobalStaticValues.RTL_ICON_TEXT_PADDING,
+                                availableArea.Top,
+                                contentSize.Width + GlobalStaticValues.RTL_ICON_TEXT_PADDING,
+                                availableArea.Height);
+                        }
                         break;
                         
                     case PaletteRelativeAlign.Center:
