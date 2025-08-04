@@ -48,9 +48,9 @@ public class KryptonDataGridViewRatingColumn : KryptonDataGridViewIconColumn
     private bool _disposed;
     #endregion
 
+    #region Identity
     // we only handle images, therefore call base with false
     //: base(false)
-
     public KryptonDataGridViewRatingColumn()
         : base(new KryptonDataGridViewRatingCell())
     {
@@ -66,6 +66,7 @@ public class KryptonDataGridViewRatingColumn : KryptonDataGridViewIconColumn
         ValueType = _defaultValueType;
         ReadOnly = false;
     }
+    #endregion
 
     #region Public
     /// <summary>
@@ -308,17 +309,16 @@ public class KryptonDataGridViewRatingColumn : KryptonDataGridViewIconColumn
     {
         Bitmap canvas = new Bitmap(_ratingImageCanvasSize, _ratingImageCanvasSize);
 
-        using (Graphics g = Graphics.FromImage(canvas))
-        {
-            // resize the image if needed
-            if (image.Width != _ratingImageSize || image.Height != _ratingImageSize)
-            {
-                image = new Bitmap(image, _ratingImageSize, _ratingImageSize);
-            }
+        using Graphics g = Graphics.FromImage(canvas);
 
-            // Paint it on the canvas
-            g.DrawImage(image, _ratingImageRectangle);
+        // resize the image if needed
+        if (image.Width != _ratingImageSize || image.Height != _ratingImageSize)
+        {
+            image = new Bitmap(image, _ratingImageSize, _ratingImageSize);
         }
+
+        // Paint it on the canvas
+        g.DrawImage(image, _ratingImageRectangle);
 
         return canvas;
     }
