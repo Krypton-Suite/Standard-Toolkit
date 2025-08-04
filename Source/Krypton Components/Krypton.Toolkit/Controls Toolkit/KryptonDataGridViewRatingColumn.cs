@@ -1,0 +1,402 @@
+﻿#region BSD License
+/*
+ * 
+ * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
+ * 
+ *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, tobitege & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  
+ */
+#endregion
+
+using System.Windows.Forms;
+
+namespace Krypton.Toolkit;
+
+public class KryptonDataGridViewRatingColumn : KryptonDataGridViewIconColumn
+{
+    #region Private/internal static
+    internal static readonly Type _defaultValueType = typeof(byte);
+    // This is the size of the square image canvas where the rating image is painted on.
+    internal const int _ratingImageCanvasSize = 14;
+    // This is the size of the rating image that is painted in the canvas above.
+    internal const int _ratingImageSize = 12;
+    // The rectangle to position the rating image on the canvas
+    internal static readonly Rectangle _ratingImageRectangle = new(1, 1, 12, 12);
+    // The fallback rating image
+    internal static readonly Image _ratingFallBackImageEnabled = GenerateFallBackImage(Color.Green);
+    internal static readonly Image _ratingFallBackImageDisabled = GenerateFallBackImage(Color.Gray);
+    #endregion
+
+    #region Private fields
+    // User configurable: the maximum rating possible to display
+    private byte _ratingMaximum;
+    //  User configurable: custom enabled state rating image
+    private Image? _image;
+    //  User configurable: custom disabled state rating image
+    private Image? _imageDisabled;
+    // enabled state dictionary for rating images
+    private Dictionary<byte, Image> _images;
+    // disabled state dictionary for rating images
+    private Dictionary<byte, Image> _imagesDisabled;
+    // reference to the KryptonDataGridView, if we are part of one
+    private KryptonDataGridView? _dataGridView;
+    // KryptonDataGridView active palette, or null if on a DataGridView
+    private PaletteBase? _palette;
+    // If the object has been disposed
+    private bool _disposed;
+    #endregion
+
+    // we only handle images, therefore call base with false
+    //: base(false)
+
+    public KryptonDataGridViewRatingColumn()
+        : base(new KryptonDataGridViewRatingCell())
+    {
+        _ratingMaximum = 0;
+        _dataGridView = null;
+        _palette = null;
+        _disposed = false;
+        _image = null;
+        _images = [];
+        _imagesDisabled = [];
+
+        DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+        ValueType = _defaultValueType;
+        ReadOnly = false;
+    }
+
+    #region Public
+    /// <summary>
+    /// The maximum value the rating can have.<br/>
+    /// A maximum 255 images is supported.<br/>
+    /// Width of the column to accomodate the rating is at the descretion of the user.<br/>
+    /// Set to zero to disable the display of rating images an empty cell is displayed instead.
+    /// </summary>
+    [Browsable(true)]
+    [DefaultValue(10)]
+    [EditorBrowsable(EditorBrowsableState.Always)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    [Description("The maximum value the rating can have.")]
+    public byte RatingMaximum
+    {
+        get => _ratingMaximum;
+        set
+        {
+            if (_ratingMaximum != value)
+            {
+                _ratingMaximum = value;
+                OnGenerateRatingImages();
+            }
+        }
+    }
+
+    /// <summary>
+    /// The image to be used that indicates the rating when the DataGridView is enabled.<br/>
+    /// The images is replicated the number of times equal to the cell value.<br/>
+    /// If Image is set to null a stock images will be used.
+    /// </summary>
+    [Browsable(true)]
+    [DefaultValue(null)]
+    [EditorBrowsable(EditorBrowsableState.Always)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [Description("The image to be used that indicates the rating when the DataGridView is enabled.")]
+    public Image? Image 
+    {
+        get => _image;
+        set
+        {
+            if (_image != value)
+            {
+                _image = value;
+                OnGenerateRatingImages();
+            }
+        }
+    }
+
+    /// <summary>
+    /// The image to be used that indicates the rating when the DataGridView is disabled.<br/>
+    /// The images is replicated the number of times equal to the cell value.<br/>
+    /// If Image is set to null a stock images will be used.
+    /// </summary>
+    [Browsable(true)]
+    [DefaultValue(null)]
+    [EditorBrowsable(EditorBrowsableState.Always)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [Description("The image to be used that indicates the rating when the DataGridView is disabled.")]
+    public Image? ImageDisabled 
+    {
+        get => _imageDisabled;
+        set
+        {
+            if (_imageDisabled != value)
+            {
+                _imageDisabled = value;
+                OnGenerateRatingImages();
+            }
+        }
+    }
+    #endregion
+
+    #region Public override
+    /// <summary>
+    /// Create a cloned copy of the column.
+    /// </summary>
+    /// <returns>The cloned object.</returns>
+    public override object Clone()
+    {
+        var cloned = base.Clone() as KryptonDataGridViewRatingColumn ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("cloned"));
+
+        foreach(KeyValuePair<byte, Image> kvp in _images)
+        {
+            cloned._images.Add(kvp.Key, kvp.Value);
+        }
+
+        foreach (KeyValuePair<byte, Image> kvp in _imagesDisabled)
+        {
+            cloned._imagesDisabled.Add(kvp.Key, kvp.Value);
+        }
+
+        return cloned;
+    }
+    #endregion
+
+    #region Protected override
+    /// <inheritdoc/>
+    protected override void OnDataGridViewChanged()
+    {
+        if (_dataGridView is not null)
+        {
+            _dataGridView.PaletteChanged -= OnPaletteChanged;
+            _dataGridView = null;
+        }
+
+        if (DataGridView is KryptonDataGridView dataGridView)
+        {
+            _dataGridView = dataGridView;
+            _dataGridView.PaletteChanged += OnPaletteChanged;
+        }
+
+        base.OnDataGridViewChanged();
+    }
+
+    /// <inheritdoc/>
+    protected override void Dispose(bool disposing)
+    {
+        if (!_disposed && disposing)
+        {
+            if (_dataGridView is not null)
+            {
+                _dataGridView.PaletteChanged -= OnPaletteChanged;
+                _dataGridView = null;
+
+                _images.Clear();
+                _imagesDisabled.Clear();
+
+                _disposed = true;
+            }
+        }
+
+        base.Dispose(disposing);
+    }
+    #endregion
+
+    #region Implementation
+    /// <summary>
+    /// Generates the rating images to be used for each possible value
+    /// </summary>
+    private void OnGenerateRatingImages()
+    {
+        // always clear when we get here
+        _images.Clear();
+        _imagesDisabled.Clear();
+
+        if (_ratingMaximum > 0)
+        {
+            // Enabled/disabled image
+            Image enabledImage;
+            Image disabledImage;
+
+            // get the respective image for the enabled state
+            enabledImage = _image is not null
+                ? _image
+                : ResourceFiles.Stars.StarImageResources.star_yellow is Image imgEnabled
+                    ? imgEnabled
+                    : _ratingFallBackImageEnabled;
+
+            // get the respective image for the disabled state
+            disabledImage = _imageDisabled is not null
+                ? _imageDisabled
+                : ResourceFiles.Stars.StarImageResources.star_yellow_disabled is Image imgDisabled
+                    ? imgDisabled
+                    : _ratingFallBackImageDisabled;
+
+            // Generate the images and store them in the dictionary
+            GenerateRatingImages(enabledImage, _images);
+            GenerateRatingImages(disabledImage, _imagesDisabled);
+        }
+
+        // Refesh the column
+        OnInvalidateColumn();
+    }
+
+    /// <summary>
+    /// Generates the separate rating images and stores then in the corresponding dictionary.<br/>
+    /// This has to be run twice, once for the enabled images and once for the disabled.
+    /// </summary>
+    /// <param name="baseImage">Single base rating image.</param>
+    /// <param name="images">Dictionary where the generated rating images are stored.</param>
+    private void GenerateRatingImages(Image baseImage, Dictionary<byte, Image> images)
+    {
+        /* 
+           Generate the images and then store in the dictionary.
+           Each image in the dictionary is based on the size of the rating. 
+           In that way the image can be aligned in the cell
+        */
+
+        Bitmap bitmap;
+        Rectangle rectangle;
+
+        baseImage = GenerateBaseImage(baseImage);
+
+        // Rating images are stored by their byte key. Starting at 1 until Byte.MaxValue
+        // Zero is not used as a rating of zero will result in a blank cell
+        for (byte i = 1; i <= _ratingMaximum; i++)
+        {
+            // full size of the canvas per possible rating
+            rectangle = new Rectangle(0, 0, i * _ratingImageCanvasSize, _ratingImageCanvasSize);
+            bitmap = new Bitmap(rectangle.Width, rectangle.Height);
+
+            using (Graphics g = Graphics.FromImage(bitmap))
+            {
+                // create the all the images based on the possible number of ratings
+                // for example: 1: *, 2: **, 3: ***, etc.  
+                for (byte j = 0; j < _ratingMaximum; j++)
+                {
+                    // Paint the image starting at 0,0 or next to the previous one
+                    g.DrawImage(baseImage, j * 14, 0);
+                }
+
+                images.Add(i, new Bitmap(bitmap));
+            }
+        }
+    }
+
+    /// <summary>
+    /// Generates the static fall back image.<br/>
+    /// Fallback images are static and generic for all columns of this type.
+    /// </summary>
+    /// <param name="color">The color of the image.</param>
+    /// <returns>The rating image that will be painted onto the single canvas.</returns>
+    private static Image GenerateFallBackImage(Color color)
+    {
+        Bitmap result = new Bitmap(_ratingImageSize, _ratingImageSize);
+
+        using Brush brush = new SolidBrush(color);
+        using Graphics g = Graphics.FromImage(result);
+
+        g.FillEllipse(brush, _ratingImageRectangle);
+
+        return result;
+    }
+    /// <summary>
+    /// Paints the rating image onto the canvas.
+    /// </summary>
+    /// <param name="image">A single image that represents one rating point.</param>
+    private Image GenerateBaseImage(Image image)
+    {
+        Bitmap canvas = new Bitmap(_ratingImageCanvasSize, _ratingImageCanvasSize);
+
+        using (Graphics g = Graphics.FromImage(canvas))
+        {
+            // resize the image if needed
+            if (image.Width != _ratingImageSize || image.Height != _ratingImageSize)
+            {
+                image = new Bitmap(image, _ratingImageSize, _ratingImageSize);
+            }
+
+            // Paint it on the canvas
+            g.DrawImage(image, _ratingImageRectangle);
+        }
+
+        return canvas;
+    }
+    /// <summary>
+    /// Check which palette is active / to be used.
+    /// </summary>
+    /// <param name="sender">Not used.</param>
+    /// <param name="e">Not used.</param>
+    private void OnPaletteChanged(object? sender, EventArgs e)
+    {
+        if (_dataGridView is KryptonDataGridView dataGridView)
+        {
+            if (dataGridView.Palette is not null && dataGridView.PaletteMode == PaletteMode.Custom)
+            {
+                _palette = dataGridView.Palette;
+            }
+            else if (dataGridView.PaletteMode != PaletteMode.Global && dataGridView.PaletteMode != PaletteMode.Custom)
+            {
+                _palette = KryptonManager.GetPaletteForMode(dataGridView.PaletteMode);
+            }
+            else
+            {
+                _palette = KryptonManager.CurrentGlobalPalette;
+            }
+        }
+        else
+        {
+            _palette = KryptonManager.CurrentGlobalPalette;
+        }
+
+        // the colors have changed
+        OnGenerateRatingImages();
+        OnInvalidateColumn();
+    }
+
+    /// <summary>
+    /// Force a column refresh
+    /// </summary>
+    private void OnInvalidateColumn()
+    {
+        DataGridView?.InvalidateColumn(this.Index);
+    }
+    #endregion
+
+    #region Internal
+    /// <summary>
+    /// Gets the rating image that corresponds to the the ratingIndex and if the DataGridView is disabled or not.
+    /// </summary>
+    /// <param name="ratingIndex">The rating number.</param>
+    /// <returns>
+    /// The rating image.<br/>
+    /// If the ratingIndex is below the lower bound it will return null.<br/>
+    /// Is the ratingIndex over the upper bound it will return the largest index available.</returns>
+    internal Image? GetImage(byte ratingIndex)
+    {
+        if (ratingIndex > 0)
+        {
+            // is the requested index to large, return the largest available
+            if (ratingIndex > _images.Count)
+            {
+                ratingIndex = (byte)_images.Count;
+            }
+
+            // return the image based on the state of the grid
+            return DataGridView!.Enabled
+                ? _images[ratingIndex]
+                : _imagesDisabled[ratingIndex];
+        }
+        else
+        {
+            // 1 is the lowest key we have in the dictionaries
+            return null;
+        }
+    }
+
+    /// <summary>
+    /// Returns the number of rating images in a single dictionary
+    /// </summary>
+    public byte RatingImageCount => (byte)_images.Count;
+    #endregion
+}
