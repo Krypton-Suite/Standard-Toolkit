@@ -2146,6 +2146,46 @@ public abstract class PaletteBase : Component
     }
 
     /// <summary>
+    /// Discovers and returns every static <see cref="Color"/> field defined on this palette instance,
+    /// regardless of its declared visibility.
+    /// The method inspects the actual runtime type of the palette (including all base types)
+    /// and uses reflection with <see cref="BindingFlags.Static"/>,
+    /// <see cref="BindingFlags.NonPublic"/>, <see cref="BindingFlags.Public"/>,
+    /// and <see cref="BindingFlags.FlattenHierarchy"/> to locate all fields whose element type is <see cref="Color"/>.
+    /// </summary>
+    /// <returns>
+    /// An <see cref="IReadOnlyDictionary{String,Color}"/> where each key is the exact name of a static <see cref="Color"/>
+    /// field (including private, internal, protected and public), and each value is the corresponding <see cref="Color"/> instance
+    /// as initialized by the type’s static constructor.
+    /// This allows harvesting every palette color array in a fully automated, deterministic manner.
+    /// </returns>
+    public IReadOnlyDictionary<string, Color[]> GetStaticColorArrays()
+    {
+        // Look at this palette’s exact runtime type
+        var type   = GetType();
+        var result = new Dictionary<string, Color[]>();
+
+        // Grab every static field (public or non-public) on this type or its base types
+        var fields = type.GetFields(BindingFlags.Static
+                                | BindingFlags.NonPublic
+                                | BindingFlags.Public
+                                | BindingFlags.FlattenHierarchy);
+
+        // Filter down to only Color[] fields
+        foreach (var f in fields)
+        {
+            if (f.FieldType == typeof(Color[]))
+            {
+                // Read the array (private or not) and store it
+                var array = (Color[])f.GetValue(null)!;
+                result[f.Name] = array;
+            }
+        }
+
+        return result;
+    }
+
+    /// <summary>
     /// Copies <paramref name="source"/> into <see cref="SchemeColors"/> and invalidates the color table.
     /// <param name="source">Color array with all values.</param>
     /// </summary>

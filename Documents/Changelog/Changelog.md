@@ -3,7 +3,8 @@
 ====
 
 ## 2025-11-xx - Build 2511 (V10 - alpha) - November 2025
-* Implemented [#2384](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2384), Fix exceptions in `KryptonTextBox`, `KryptonMaskedTextBox` when disabled
+* Implemented [#2386](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2386), Fix exceptions in `KryptonTextBox`, `KryptonMaskedTextBox` when disabled
+* Implemented [#2384](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2384), Fix TrackBar colors usage in palettes.
 * Implemented [#2368](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2368), Fix exception in `PaletteRedirectGrids.GetInheritBack` due to missing `BoldedOverride`.
 * Implemented [#2365](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2365), Fix exception in `KryptonCustomPaletteBase.GetPaletteBackGridHeaderColumn` for `BoldedOverride` state.
 * Implemented [#2349](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2349), Fix `KryptonListBox` shifting on visible item selection.
