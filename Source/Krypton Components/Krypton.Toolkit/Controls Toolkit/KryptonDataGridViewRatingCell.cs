@@ -12,6 +12,9 @@
 
 namespace Krypton.Toolkit;
 
+/// <summary>
+/// KryptonDataGridViewRatingCell used by the KryptonDataGridViewRatingColumn
+/// </summary>
 public class KryptonDataGridViewRatingCell : KryptonDataGridViewTextBoxCell
 {
     #region Identity
@@ -46,12 +49,12 @@ public class KryptonDataGridViewRatingCell : KryptonDataGridViewTextBoxCell
     protected override void Paint(Graphics graphics, Rectangle clipBounds, Rectangle cellBounds, int rowIndex, DataGridViewElementStates cellState, object? value, 
         object? formattedValue, string? errorText, DataGridViewCellStyle cellStyle, DataGridViewAdvancedBorderStyle advancedBorderStyle, DataGridViewPaintParts paintParts)
     {
-        // if value is zero no rating image will be displayed
+        // If value is zero no rating image will be displayed
         var currentValue = value is not null 
             ? value.ToString() 
             : "0";
 
-        // we never show the numbers
+        // We never show the numbers
         value = null;
         formattedValue = null;
         
@@ -62,7 +65,7 @@ public class KryptonDataGridViewRatingCell : KryptonDataGridViewTextBoxCell
             && byte.TryParse(currentValue, out byte cellValue)
             && cellValue > 0)
         {
-            // first the cell is painted
+            // First the cell is painted
             base.Paint(graphics, clipBounds, cellBounds, rowIndex, cellState, value, formattedValue, errorText, cellStyle, advancedBorderStyle, paintParts);
 
             // Get the rating image, if the cellValue is smaller than 1 it will return null
