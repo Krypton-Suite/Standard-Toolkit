@@ -168,6 +168,7 @@ public class KryptonDataGridViewRatingColumn : KryptonDataGridViewIconColumn
         {
             _images.Clear();
             _imagesDisabled.Clear();
+            _ratingMaximum = 0;
 
             _disposed = true;
         }
