@@ -44,7 +44,6 @@ public class KryptonDataGridViewRatingColumn : KryptonDataGridViewIconColumn
     private Dictionary<byte, Image> _images;
     // Disabled state dictionary for rating images
     private Dictionary<byte, Image> _imagesDisabled;
-
     // If the object has been disposed
     private bool _disposed;
     #endregion
