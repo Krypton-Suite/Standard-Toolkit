@@ -107,12 +107,7 @@ public class KryptonDataGridViewRatingCell : KryptonDataGridViewTextBoxCell
         }
         else
         {
-            x = cellBounds.X + cellBounds.Width - image.Width;
-            if (x < cellBounds.X)
-            {
-                x = cellBounds.X;
-            }
-
+            x = Math.Max(cellBounds.X, cellBounds.X + cellBounds.Width - image.Width);
             y = cellBounds.Top + 3;
         }
 
