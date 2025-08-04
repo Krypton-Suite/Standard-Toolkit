@@ -4168,9 +4168,9 @@ public abstract class PaletteMicrosoft365BlackDarkModeAlternateBase : PaletteBas
         switch (element)
         {
             case PaletteElement.TrackBarTick:
-                return BaseColors!.TrackBarTickMarks;
+                return _ribbonColors![(int)SchemeBaseColors.TrackBarTickMarks];
             case PaletteElement.TrackBarTrack:
-                return BaseColors!.TrackBarTopTrack;
+                return _ribbonColors![(int)SchemeBaseColors.TrackBarTopTrack];
             case PaletteElement.TrackBarPosition:
                 return state switch
                 {
@@ -4203,9 +4203,9 @@ public abstract class PaletteMicrosoft365BlackDarkModeAlternateBase : PaletteBas
         switch (element)
         {
             case PaletteElement.TrackBarTick:
-                return BaseColors!.TrackBarTickMarks;
+                return _ribbonColors![(int)SchemeBaseColors.TrackBarTickMarks];
             case PaletteElement.TrackBarTrack:
-                return BaseColors!.TrackBarBottomTrack;
+                return _ribbonColors![(int)SchemeBaseColors.TrackBarBottomTrack];
             case PaletteElement.TrackBarPosition:
                 return state switch
                 {
@@ -4241,9 +4241,9 @@ public abstract class PaletteMicrosoft365BlackDarkModeAlternateBase : PaletteBas
         switch (element)
         {
             case PaletteElement.TrackBarTick:
-                return BaseColors!.TrackBarTickMarks;
+                return _ribbonColors![(int)SchemeBaseColors.TrackBarTickMarks];
             case PaletteElement.TrackBarTrack:
-                return BaseColors!.TrackBarFillTrack;
+                return _ribbonColors![(int)SchemeBaseColors.TrackBarFillTrack];
             case PaletteElement.TrackBarPosition:
                 return state switch
                 {
@@ -4281,14 +4281,14 @@ public abstract class PaletteMicrosoft365BlackDarkModeAlternateBase : PaletteBas
                 {
                     return GlobalStaticValues.EMPTY_COLOR;
                 }
-                return BaseColors!.TrackBarTickMarks;
+                return _ribbonColors![(int)SchemeBaseColors.TrackBarTickMarks];
 
             case PaletteElement.TrackBarTrack:
                 if (CommonHelper.IsOverrideState(state))
                 {
                     return GlobalStaticValues.EMPTY_COLOR;
                 }
-                return BaseColors!.TrackBarFillTrack;
+                return _ribbonColors![(int)SchemeBaseColors.TrackBarFillTrack];
 
             case PaletteElement.TrackBarPosition:
                 if (CommonHelper.IsOverrideStateExclude(state, PaletteState.FocusOverride))
@@ -4330,14 +4330,14 @@ public abstract class PaletteMicrosoft365BlackDarkModeAlternateBase : PaletteBas
                     return GlobalStaticValues.EMPTY_COLOR;
                 }
 
-                return BaseColors!.TrackBarTickMarks;
+                return _ribbonColors![(int)SchemeBaseColors.TrackBarTickMarks];
             case PaletteElement.TrackBarTrack:
                 if (CommonHelper.IsOverrideState(state))
                 {
                     return GlobalStaticValues.EMPTY_COLOR;
                 }
 
-                return BaseColors!.TrackBarFillTrack;
+                return _ribbonColors![(int)SchemeBaseColors.TrackBarFillTrack];
             case PaletteElement.TrackBarPosition:
                 if (CommonHelper.IsOverrideStateExclude(state, PaletteState.FocusOverride))
                 {
