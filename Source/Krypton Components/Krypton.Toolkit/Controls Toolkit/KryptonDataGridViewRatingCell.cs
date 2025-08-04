@@ -75,10 +75,11 @@ public class KryptonDataGridViewRatingCell : KryptonDataGridViewTextBoxCell
             {
                 int x;
                 int y;
+                int rectX;
                 int width;
 
-                PaintGetImagePosition(out x, out y, out width, in image, in cellBounds);
-                graphics.DrawImage(image, x, y, new Rectangle(0, 0, width, image.Height), GraphicsUnit.Pixel);
+                PaintGetImagePosition(out x, out y, out width, out rectX, in image, in cellBounds);
+                graphics.DrawImage(image, x, y, new Rectangle(rectX, 0, width, image.Height), GraphicsUnit.Pixel);
             }
         }
         else
@@ -98,20 +99,33 @@ public class KryptonDataGridViewRatingCell : KryptonDataGridViewTextBoxCell
     #region Private
     // Determines the factors to position the image in the cell.
     // Used internally only
-    private void PaintGetImagePosition(out int x, out int y, out int width, in Image image, in Rectangle cellBounds)
+    private void PaintGetImagePosition(out int x, out int y, out int width, out int rectX, in Image image, in Rectangle cellBounds)
     {
+        // If the image width is smaller than cellbounds.width, 
+        // The image fits the cell
+        width = Math.Min(cellBounds.Width, image.Width);
+
         if (DataGridView!.RightToLeft == RightToLeft.No)
         {
+            // LTR aligned
             x = cellBounds.X;
+            // Add three to cater for cell borders
             y = cellBounds.Top + 3;
+            // LTR alignes left, the rectangle for the image starts there
+            rectX = 0;
         }
         else
         {
+            // Determines on RTL wether "cellBounds.X + cellBounds.Width - image.Width"
+            // amounts to a value which is farther to the left than cellBounds.X.
+            // The max is the value that will serve as x when positioning the image on the cell.
             x = Math.Max(cellBounds.X, cellBounds.X + cellBounds.Width - image.Width);
+            // Add three to cater for cell borders
             y = cellBounds.Top + 3;
+            // Makes sure the rating image is aligned to a full image on the right when RTL is on
+            // The latter or right portion of the image is painted
+            rectX = image.Width - width;
         }
-
-        width = Math.Min(cellBounds.Width, image.Width);
     }
     #endregion
 }
