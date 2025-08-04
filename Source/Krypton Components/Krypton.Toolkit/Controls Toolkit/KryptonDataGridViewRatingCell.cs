@@ -14,10 +14,6 @@ namespace Krypton.Toolkit;
 
 public class KryptonDataGridViewRatingCell : KryptonDataGridViewTextBoxCell
 {
-    #region Private fields
-    //private KryptonDataGridViewRatingColumn? _owningKryptonColumn;
-    #endregion
-
     #region Identity
     public KryptonDataGridViewRatingCell()
     {
@@ -43,7 +39,6 @@ public class KryptonDataGridViewRatingCell : KryptonDataGridViewTextBoxCell
     public override object Clone()
     {
         var clone = base.Clone() as KryptonDataGridViewRatingCell ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("clone"));
-        //clone.OwningKryptonColumn = OwningKryptonColumn;
         return clone;
     }
 
