@@ -14,7 +14,7 @@ namespace Krypton.Toolkit;
 
 /// <summary>
 /// A column to display a rating.<br/>
-/// Ratings can reach from 1 to 255, set RatingMaximum to the desired number of images.<br/>
+/// Ratings can reach from 1 to 254, set RatingMaximum to the desired number of images.<br/>
 /// You van assign custom images to the properties Image and ImgeDisabled.<br/>
 /// If you do not supply your own images, stock images will be used.
 /// </summary>
@@ -74,7 +74,7 @@ public class KryptonDataGridViewRatingColumn : KryptonDataGridViewIconColumn
     #region Public
     /// <summary>
     /// The maximum value the rating can have.<br/>
-    /// A maximum 255 images is supported.<br/>
+    /// A maximum 254 images is supported.<br/>
     /// Width of the column to accomodate the rating is at the descretion of the user.<br/>
     /// Set to zero to disable the display of rating images an empty cell is displayed instead.
     /// </summary>
