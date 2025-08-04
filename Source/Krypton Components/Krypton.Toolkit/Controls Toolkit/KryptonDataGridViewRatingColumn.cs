@@ -167,16 +167,13 @@ public class KryptonDataGridViewRatingColumn : KryptonDataGridViewIconColumn
     /// <inheritdoc/>
     protected override void OnDataGridViewChanged()
     {
-        if (_dataGridView is not null)
-        {
-            _dataGridView.PaletteChanged -= OnPaletteChanged;
-            _dataGridView = null;
-        }
-
         if (DataGridView is KryptonDataGridView dataGridView)
         {
             _dataGridView = dataGridView;
-            _dataGridView.PaletteChanged += OnPaletteChanged;
+        }
+        else
+        {
+            _dataGridView = null;
         }
 
         base.OnDataGridViewChanged();
@@ -189,7 +186,6 @@ public class KryptonDataGridViewRatingColumn : KryptonDataGridViewIconColumn
         {
             if (_dataGridView is not null)
             {
-                _dataGridView.PaletteChanged -= OnPaletteChanged;
                 _dataGridView = null;
 
                 _images.Clear();
@@ -321,37 +317,6 @@ public class KryptonDataGridViewRatingColumn : KryptonDataGridViewIconColumn
         g.DrawImage(image, _ratingImageRectangle);
 
         return canvas;
-    }
-    /// <summary>
-    /// Check which palette is active / to be used.
-    /// </summary>
-    /// <param name="sender">Not used.</param>
-    /// <param name="e">Not used.</param>
-    private void OnPaletteChanged(object? sender, EventArgs e)
-    {
-        if (_dataGridView is KryptonDataGridView dataGridView)
-        {
-            if (dataGridView.Palette is not null && dataGridView.PaletteMode == PaletteMode.Custom)
-            {
-                _palette = dataGridView.Palette;
-            }
-            else if (dataGridView.PaletteMode != PaletteMode.Global && dataGridView.PaletteMode != PaletteMode.Custom)
-            {
-                _palette = KryptonManager.GetPaletteForMode(dataGridView.PaletteMode);
-            }
-            else
-            {
-                _palette = KryptonManager.CurrentGlobalPalette;
-            }
-        }
-        else
-        {
-            _palette = KryptonManager.CurrentGlobalPalette;
-        }
-
-        // the colors have changed
-        OnGenerateRatingImages();
-        OnInvalidateColumn();
     }
 
     /// <summary>
