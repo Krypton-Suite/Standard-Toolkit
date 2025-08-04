@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *
  */
 #endregion
 
@@ -226,23 +226,17 @@ public class KryptonTextBox : VisualControlBase,
                                 drawString = new string(PasswordChar, Text.Length);
                             }
 
-                            // Draw using a solid brush
-                            try
-                            {
-                                using var foreBrush = new SolidBrush(ForeColor);
-                                g.DrawString(drawString, Font, foreBrush,
-                                    textRectangle,
-                                    stringFormat);
-                            }
-                            catch (ArgumentException)
-                            {
-                                using var foreBrush = new SolidBrush(ForeColor);
-                                g.DrawString(drawString,
-                                    _kryptonTextBox.GetTripleState().PaletteContent?
-                                        .GetContentShortTextFont(PaletteState.Disabled)!, foreBrush,
-                                    textRectangle,
-                                    stringFormat);
-                            }
+                            // Define the font to use for disabled painting – always query the palette first.
+                            // Avoids exception - magnitudes faster than another repaint AND try/catch.
+                            var disabledFont = _kryptonTextBox
+                                                   .GetTripleState()
+                                                   .PaletteContent?
+                                                   .GetContentShortTextFont(PaletteState.Disabled)
+                                               ?? Font; // Fallback: current Font if palette returns null
+                            using var foreBrush = new SolidBrush(ForeColor);
+                            g.DrawString(drawString, disabledFont, foreBrush,
+                                textRectangle,
+                                stringFormat);
                         }
 
                         // Remove clipping settings
@@ -1171,7 +1165,7 @@ public class KryptonTextBox : VisualControlBase,
     public void Clear() => _textBox.Clear();
 
     /// <summary>
-    /// Clears information about the most recent operation from the undo buffer of the rich text box. 
+    /// Clears information about the most recent operation from the undo buffer of the rich text box.
     /// </summary>
     public void ClearUndo() => _textBox.ClearUndo();
 
