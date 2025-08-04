@@ -32,9 +32,9 @@ public class KryptonDataGridViewRatingColumn : KryptonDataGridViewIconColumn
     #region Private fields
     // User configurable: the maximum rating possible to display
     private byte _ratingMaximum;
-    //  User configurable: custom enabled state rating image
+    // User configurable: custom enabled state rating image
     private Image? _image;
-    //  User configurable: custom disabled state rating image
+    // User configurable: custom disabled state rating image
     private Image? _imageDisabled;
     // enabled state dictionary for rating images
     private Dictionary<byte, Image> _images;
@@ -42,8 +42,6 @@ public class KryptonDataGridViewRatingColumn : KryptonDataGridViewIconColumn
     private Dictionary<byte, Image> _imagesDisabled;
     // reference to the KryptonDataGridView, if we are part of one
     private KryptonDataGridView? _dataGridView;
-    // KryptonDataGridView active palette, or null if on a DataGridView
-    private PaletteBase? _palette;
     // If the object has been disposed
     private bool _disposed;
     #endregion
@@ -56,7 +54,6 @@ public class KryptonDataGridViewRatingColumn : KryptonDataGridViewIconColumn
     {
         _ratingMaximum = 0;
         _dataGridView = null;
-        _palette = null;
         _disposed = false;
         _image = null;
         _images = [];
@@ -304,7 +301,6 @@ public class KryptonDataGridViewRatingColumn : KryptonDataGridViewIconColumn
     private Image GenerateBaseImage(Image image)
     {
         Bitmap canvas = new Bitmap(_ratingImageCanvasSize, _ratingImageCanvasSize);
-
         using Graphics g = Graphics.FromImage(canvas);
 
         // resize the image if needed
