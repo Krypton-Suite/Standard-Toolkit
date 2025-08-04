@@ -21,11 +21,6 @@ public class KryptonDataGridViewRatingCell : KryptonDataGridViewTextBoxCell
     #region Identity
     public KryptonDataGridViewRatingCell()
     {
-        // type cast here once
-        //if (_owningKryptonColumn is null && OwningColumn is KryptonDataGridViewRatingColumn owningColumn)
-        //{
-        //    _owningKryptonColumn = owningColumn;
-        //}
     }
     #endregion
 
