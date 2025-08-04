@@ -16,7 +16,7 @@ namespace Krypton.Toolkit;
 /// A column to display a rating.<br/>
 /// Ratings can reach from 1 to 254, set RatingMaximum to the desired number of images.<br/>
 /// You van assign custom images to the properties Image and ImgeDisabled.<br/>
-/// If you do not supply your own images, stock images will be used.
+/// If you do not supply your own images, default stock images will be used.
 /// </summary>
 public class KryptonDataGridViewRatingColumn : KryptonDataGridViewIconColumn
 {
@@ -53,7 +53,7 @@ public class KryptonDataGridViewRatingColumn : KryptonDataGridViewIconColumn
     #region Identity
 
     /// <summary>
-    /// Default constructor
+    /// Default constructor.
     /// </summary>
     public KryptonDataGridViewRatingColumn()
         : base(new KryptonDataGridViewRatingCell())
@@ -320,7 +320,7 @@ public class KryptonDataGridViewRatingColumn : KryptonDataGridViewIconColumn
     }
 
     /// <summary>
-    /// Force a column refresh
+    /// Perform a column refresh.
     /// </summary>
     private void OnInvalidateColumn()
     {
@@ -360,7 +360,7 @@ public class KryptonDataGridViewRatingColumn : KryptonDataGridViewIconColumn
     }
 
     /// <summary>
-    /// Returns the number of rating images in a single dictionary
+    /// Returns the number of rating images in a single dictionary.
     /// </summary>
     public byte RatingImageCount => (byte)_images.Count;
     #endregion

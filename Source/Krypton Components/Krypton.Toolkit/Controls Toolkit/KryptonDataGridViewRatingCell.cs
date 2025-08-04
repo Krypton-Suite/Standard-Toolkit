@@ -13,7 +13,7 @@
 namespace Krypton.Toolkit;
 
 /// <summary>
-/// KryptonDataGridViewRatingCell used by the KryptonDataGridViewRatingColumn
+/// KryptonDataGridViewRatingCell used by the KryptonDataGridViewRatingColumn.
 /// </summary>
 public class KryptonDataGridViewRatingCell : KryptonDataGridViewTextBoxCell
 {
