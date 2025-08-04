@@ -44,8 +44,7 @@ public class KryptonDataGridViewRatingColumn : KryptonDataGridViewIconColumn
     private Dictionary<byte, Image> _images;
     // Disabled state dictionary for rating images
     private Dictionary<byte, Image> _imagesDisabled;
-    // Reference to the KryptonDataGridView, if we are part of one
-    private KryptonDataGridView? _dataGridView;
+
     // If the object has been disposed
     private bool _disposed;
     #endregion
@@ -59,7 +58,6 @@ public class KryptonDataGridViewRatingColumn : KryptonDataGridViewIconColumn
         : base(new KryptonDataGridViewRatingCell())
     {
         _ratingMaximum = 0;
-        _dataGridView = null;
         _disposed = false;
         _image = null;
         _images = [];
@@ -165,34 +163,14 @@ public class KryptonDataGridViewRatingColumn : KryptonDataGridViewIconColumn
 
     #region Protected override
     /// <inheritdoc/>
-    protected override void OnDataGridViewChanged()
-    {
-        if (DataGridView is KryptonDataGridView dataGridView)
-        {
-            _dataGridView = dataGridView;
-        }
-        else
-        {
-            _dataGridView = null;
-        }
-
-        base.OnDataGridViewChanged();
-    }
-
-    /// <inheritdoc/>
     protected override void Dispose(bool disposing)
     {
         if (!_disposed && disposing)
         {
-            if (_dataGridView is not null)
-            {
-                _dataGridView = null;
+            _images.Clear();
+            _imagesDisabled.Clear();
 
-                _images.Clear();
-                _imagesDisabled.Clear();
-
-                _disposed = true;
-            }
+            _disposed = true;
         }
 
         base.Dispose(disposing);
