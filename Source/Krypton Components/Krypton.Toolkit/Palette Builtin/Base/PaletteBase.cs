@@ -2146,7 +2146,7 @@ public abstract class PaletteBase : Component
     }
 
     /// <summary>
-    /// Discovers and returns every static <see cref="Color[]"/> field defined on this palette instance,
+    /// Discovers and returns every static <see cref="Color"/> field defined on this palette instance,
     /// regardless of its declared visibility.
     /// The method inspects the actual runtime type of the palette (including all base types)
     /// and uses reflection with <see cref="BindingFlags.Static"/>,
@@ -2154,8 +2154,8 @@ public abstract class PaletteBase : Component
     /// and <see cref="BindingFlags.FlattenHierarchy"/> to locate all fields whose element type is <see cref="Color"/>.
     /// </summary>
     /// <returns>
-    /// An <see cref="IReadOnlyDictionary{String,Color[]}"/> where each key is the exact name of a static <see cref="Color[]"/>
-    /// field (including private, internal, protected and public), and each value is the corresponding <see cref="Color[]"/> instance
+    /// An <see cref="IReadOnlyDictionary{String,Color}"/> where each key is the exact name of a static <see cref="Color"/>
+    /// field (including private, internal, protected and public), and each value is the corresponding <see cref="Color"/> instance
     /// as initialized by the type’s static constructor.
     /// This allows harvesting every palette color array in a fully automated, deterministic manner.
     /// </returns>
