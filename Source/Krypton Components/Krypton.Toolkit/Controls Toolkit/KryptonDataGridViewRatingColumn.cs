@@ -221,20 +221,16 @@ public class KryptonDataGridViewRatingColumn : KryptonDataGridViewIconColumn
     /// <param name="images">Dictionary where the generated rating images are stored.</param>
     private void GenerateRatingImages(Image baseImage, Dictionary<byte, Image> images)
     {
-        /* 
-           Generate the images and then store in the dictionary.
-           Each image in the dictionary is based on the size of the rating. 
-           In that way the image can be aligned in the cell
-        */
-
+        // Generate the images and then store in the dictionary.
+        // Each image in the dictionary is based on the size of the rating. 
+        // In that way the image can be aligned in the cell
         // Rating images are stored by their byte key. Starting at 1 until Byte.MaxValue minus few
         // Zero is not used as a rating of zero will result in a blank cell
+
         Bitmap bitmap;
         Rectangle rectangle = new(0, 0, 0, _ratingImageCanvasSize);
         baseImage = GenerateBaseImage(baseImage);
 
-        // cache each generated image, this way only the outer loop is needed.
-        Bitmap? previousImage = null;
         for (byte i = 1, j = 0; i <= _ratingMaximum; i++, j++)
         {
             // Adjust the width of the canvas on each iteration
@@ -243,15 +239,15 @@ public class KryptonDataGridViewRatingColumn : KryptonDataGridViewIconColumn
 
             using (Graphics g = Graphics.FromImage(bitmap))
             {
-                if (previousImage is not null)
+                // Reuse the previous image from the dictionary
+                if (images.Count > 0)
                 {
-                    g.DrawImage(previousImage, 0, 0);
+                    g.DrawImage(images[j], 0, 0);
                 }
-                
+
+                // Add one baseImage to the canvas
                 g.DrawImage(baseImage, j * 14, 0);
 
-                // cache the image for the next pass
-                previousImage = bitmap;
                 // save to dictionary
                 images.Add(i, bitmap);
             }
