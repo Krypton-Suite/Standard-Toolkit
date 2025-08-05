@@ -59,6 +59,7 @@ public class KryptonDataGridViewRatingColumn : KryptonDataGridViewIconColumn
         _ratingMaximum = 0;
         _disposed = false;
         _image = null;
+        _imageDisabled = null;
         _images = [];
         _imagesDisabled = [];
 
