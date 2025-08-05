@@ -191,18 +191,15 @@ public class KryptonDataGridViewRatingColumn : KryptonDataGridViewIconColumn
         if (_ratingMaximum > 0)
         {
             // Enabled/disabled image
-            Image enabledImage;
-            Image disabledImage;
-
             // Get the respective image for the enabled state
-            enabledImage = _image is not null
+            Image enabledImage = _image is not null
                 ? _image
                 : ResourceFiles.Stars.StarImageResources.star_yellow is Image imgEnabled
                     ? imgEnabled
                     : _ratingFallBackImageEnabled;
 
             // Get the respective image for the disabled state
-            disabledImage = _imageDisabled is not null
+            Image disabledImage = _imageDisabled is not null
                 ? _imageDisabled
                 : ResourceFiles.Stars.StarImageResources.star_yellow_disabled is Image imgDisabled
                     ? imgDisabled
