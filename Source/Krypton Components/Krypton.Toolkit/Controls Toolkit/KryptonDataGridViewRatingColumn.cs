@@ -63,7 +63,6 @@ public class KryptonDataGridViewRatingColumn : KryptonDataGridViewIconColumn
         _images = [];
         _imagesDisabled = [];
 
-        DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
         ValueType = _defaultValueType;
         ReadOnly = false;
     }
