@@ -234,7 +234,10 @@ public class KryptonDataGridViewRatingColumn : KryptonDataGridViewIconColumn
 
         // Rating images are stored by their byte key. Starting at 1 until Byte.MaxValue
         // Zero is not used as a rating of zero will result in a blank cell
-        for (byte i = 1; i <= _ratingMaximum; i++)
+
+        // cachec each generated image, this way only the outer loop is needed.
+        Bitmap? previousImage = null;
+        for (byte i = 1, j = 0; i <= _ratingMaximum; i++, j++)
         {
             // Full size of the canvas per possible rating
             rectangle = new Rectangle(0, 0, i * _ratingImageCanvasSize, _ratingImageCanvasSize);
@@ -242,14 +245,16 @@ public class KryptonDataGridViewRatingColumn : KryptonDataGridViewIconColumn
 
             using (Graphics g = Graphics.FromImage(bitmap))
             {
-                // Create the all the images based on the possible number of ratings
-                // For example: 1: *, 2: **, 3: ***, etc.  
-                for (byte j = 0; j < _ratingMaximum; j++)
+                if (previousImage is not null)
                 {
-                    // Paint the image starting at 0,0 or next to the previous one
-                    g.DrawImage(baseImage, j * 14, 0);
+                    g.DrawImage(previousImage, 0, 0);
                 }
+                
+                g.DrawImage(baseImage, j * 14, 0);
 
+                // cache the image for the next pass
+                previousImage = bitmap;
+                // save to dictionary
                 images.Add(i, new Bitmap(bitmap));
             }
         }
