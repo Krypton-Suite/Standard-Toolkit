@@ -227,29 +227,26 @@ public class KryptonDataGridViewRatingColumn : KryptonDataGridViewIconColumn
         // Rating images are stored by their byte key. Starting at 1 until Byte.MaxValue minus few
         // Zero is not used as a rating of zero will result in a blank cell
 
-        Bitmap bitmap;
-        Rectangle rectangle = new(0, 0, 0, _ratingImageCanvasSize);
+        // Rectangle to copy out the slice on each iteration
+        Rectangle rectangle = new Rectangle(0, 0, 0, _ratingImageCanvasSize);
+        // Get the base image
         baseImage = GenerateBaseImage(baseImage);
 
-        for (byte i = 1, j = 0; i <= _ratingMaximum; i++, j++)
+        // Create the full size bitmap once
+        using Bitmap bitmap = new(_ratingMaximum * _ratingImageCanvasSize, _ratingImageCanvasSize);
+        // One time using
+        using (Graphics g = Graphics.FromImage(bitmap))
         {
-            // Adjust the width of the canvas on each iteration
-            rectangle.Width = i * _ratingImageCanvasSize;
-            bitmap = new Bitmap(rectangle.Width, rectangle.Height);
-
-            using (Graphics g = Graphics.FromImage(bitmap))
+            for (byte i = 1, j = 0; i <= _ratingMaximum; i++, j++)
             {
-                // Reuse the previous image from the dictionary
-                if (images.Count > 0)
-                {
-                    g.DrawImage(images[j], 0, 0);
-                }
+                // Draw the next baseImage on each iteration
+                g.DrawImage(baseImage, j * _ratingImageCanvasSize, 0);
 
-                // Add one baseImage to the canvas
-                g.DrawImage(baseImage, j * 14, 0);
+                // Adjust the rectangle width to copy out the slice of bitmap.
+                rectangle.Width = i * _ratingImageCanvasSize;
 
-                // save to dictionary
-                images.Add(i, bitmap);
+                // Clone just the needed portion into its own Bitmap, and save it to the dictionary.
+                images.Add(i, bitmap.Clone(rectangle, bitmap.PixelFormat));
             }
         }
     }
