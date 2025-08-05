@@ -14,7 +14,7 @@ namespace Krypton.Toolkit;
 
 /// <summary>
 /// A column to display a rating.<br/>
-/// Ratings can reach from 1 to 254, set RatingMaximum to the desired number of images.<br/>
+/// Ratings can reach from 1 to 253, set RatingMaximum to the desired number of images.<br/>
 /// You van assign custom images to the properties Image and ImgeDisabled.<br/>
 /// If you do not supply your own images, default stock images will be used.
 /// </summary>
@@ -227,20 +227,18 @@ public class KryptonDataGridViewRatingColumn : KryptonDataGridViewIconColumn
            In that way the image can be aligned in the cell
         */
 
+        // Rating images are stored by their byte key. Starting at 1 until Byte.MaxValue minus few
+        // Zero is not used as a rating of zero will result in a blank cell
         Bitmap bitmap;
-        Rectangle rectangle;
-
+        Rectangle rectangle = new(0, 0, 0, _ratingImageCanvasSize);
         baseImage = GenerateBaseImage(baseImage);
 
-        // Rating images are stored by their byte key. Starting at 1 until Byte.MaxValue
-        // Zero is not used as a rating of zero will result in a blank cell
-
-        // cachec each generated image, this way only the outer loop is needed.
+        // cache each generated image, this way only the outer loop is needed.
         Bitmap? previousImage = null;
         for (byte i = 1, j = 0; i <= _ratingMaximum; i++, j++)
         {
-            // Full size of the canvas per possible rating
-            rectangle = new Rectangle(0, 0, i * _ratingImageCanvasSize, _ratingImageCanvasSize);
+            // Adjust the width of the canvas on each iteration
+            rectangle.Width = i * _ratingImageCanvasSize;
             bitmap = new Bitmap(rectangle.Width, rectangle.Height);
 
             using (Graphics g = Graphics.FromImage(bitmap))
@@ -255,7 +253,7 @@ public class KryptonDataGridViewRatingColumn : KryptonDataGridViewIconColumn
                 // cache the image for the next pass
                 previousImage = bitmap;
                 // save to dictionary
-                images.Add(i, new Bitmap(bitmap));
+                images.Add(i, bitmap);
             }
         }
     }
