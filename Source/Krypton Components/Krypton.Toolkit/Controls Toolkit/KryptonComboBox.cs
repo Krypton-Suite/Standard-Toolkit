@@ -399,6 +399,10 @@ public class KryptonComboBox : VisualControlBase,
 
                             switch (states.Content.GetContentShortTextH(state))
                             {
+                                case PaletteRelativeAlign.Inherit:
+                                    // For Inherit, default to Near alignment
+                                    flags |= TextFormatFlags.Left;
+                                    break;
                                 case PaletteRelativeAlign.Near:
                                     flags |= TextFormatFlags.Left;
                                     break;
@@ -407,6 +411,10 @@ public class KryptonComboBox : VisualControlBase,
                                     break;
                                 case PaletteRelativeAlign.Far:
                                     flags |= TextFormatFlags.Right;
+                                    break;
+                                default:
+                                    // Should never happen!
+                                    Debug.Assert(false);
                                     break;
                             }
 

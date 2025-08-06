@@ -2263,6 +2263,45 @@ public class KryptonForm : VisualForm,
     }
 
     /// <summary>
+    /// Apply RTL settings to all child controls.
+    /// </summary>
+    protected void ApplyRTLToChildControls()
+    {
+        if (RightToLeft == RightToLeft.Yes && RightToLeftLayout)
+        {
+            // Apply RTL settings to all child controls recursively
+            ApplyRTLToControlsRecursive(Controls);
+        }
+    }
+
+    /// <summary>
+    /// Apply RTL settings to controls recursively.
+    /// </summary>
+    /// <param name="controls">Collection of controls to process.</param>
+    private void ApplyRTLToControlsRecursive(Control.ControlCollection controls)
+    {
+        foreach (Control control in controls)
+        {
+            // Set RTL properties on the control
+            control.RightToLeft = RightToLeft;
+            
+            // Only set RightToLeftLayout if the child control supports it
+            // Use reflection to check if the property exists and is writable
+            var property = control.GetType().GetProperty("RightToLeftLayout");
+            if (property?.CanWrite == true)
+            {
+                property.SetValue(control, RightToLeftLayout);
+            }
+
+            // Recursively apply to child controls
+            if (control.Controls.Count > 0)
+            {
+                ApplyRTLToControlsRecursive(control.Controls);
+            }
+        }
+    }
+
+    /// <summary>
     /// RTL-aware palette redirector for KryptonForm.
     /// </summary>
     private class RTLPaletteRedirect : PaletteRedirect

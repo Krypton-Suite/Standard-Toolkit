@@ -5985,6 +5985,10 @@ public class RenderStandard : RenderBase
     {
         switch (align)
         {
+            case PaletteRelativeAlign.Inherit:
+                // For Inherit, we need to determine the default alignment
+                // In most cases, Inherit should default to Near alignment
+                return rtl == RightToLeft.Yes ? 2 : 0;
             case PaletteRelativeAlign.Near:
                 return rtl == RightToLeft.Yes ? 2 : 0;
             case PaletteRelativeAlign.Center:

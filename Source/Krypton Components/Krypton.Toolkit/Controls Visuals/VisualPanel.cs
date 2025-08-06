@@ -39,6 +39,7 @@ public abstract class VisualPanel : Panel,
     private PaletteMode _paletteMode;
     private readonly SimpleCall _refreshCall;
     private KryptonContextMenu? _kryptonContextMenu;
+    private bool _rightToLeftLayout;
 
     #endregion
 
@@ -579,6 +580,28 @@ public abstract class VisualPanel : Panel,
         get => base.BorderStyle;
         set => base.BorderStyle = value;
     }
+
+    /// <summary>
+    /// Gets and sets the RightToLeftLayout property.
+    /// </summary>
+    [Browsable(true)]
+    [DefaultValue(false)]
+    [EditorBrowsable(EditorBrowsableState.Always)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public virtual bool RightToLeftLayout
+    {
+        get => _rightToLeftLayout;
+        set
+        {
+            if (_rightToLeftLayout != value)
+            {
+                _rightToLeftLayout = value;
+                // Force layout update for RTL layout changes
+                PerformLayout();
+                Invalidate();
+            }
+        }
+    }
     #endregion
 
     #region Public IKryptonDebug
@@ -803,8 +826,33 @@ public abstract class VisualPanel : Panel,
     /// <param name="e">An EventArgs containing event data.</param>
     protected override void OnRightToLeftChanged(EventArgs e)
     {
+        // Apply RTL settings to child controls
+        ApplyRTLToChildControls();
+        
         OnNeedPaint(null, new NeedLayoutEventArgs(true));
         base.OnRightToLeftChanged(e);
+    }
+
+    /// <summary>
+    /// Apply RTL settings to child controls.
+    /// </summary>
+    protected virtual void ApplyRTLToChildControls()
+    {
+        if (RightToLeft == RightToLeft.Yes && RightToLeftLayout)
+        {
+            foreach (Control child in Controls)
+            {
+                child.RightToLeft = RightToLeft;
+                
+                // Only set RightToLeftLayout if the child control supports it
+                // Use reflection to check if the property exists and is writable
+                var property = child.GetType().GetProperty("RightToLeftLayout");
+                if (property?.CanWrite == true)
+                {
+                    property.SetValue(child, RightToLeftLayout);
+                }
+            }
+        }
     }
 
     /// <summary>

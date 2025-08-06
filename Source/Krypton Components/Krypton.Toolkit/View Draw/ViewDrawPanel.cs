@@ -20,6 +20,8 @@ public class ViewDrawPanel : ViewComposite
     #region Instance Fields
     internal IPaletteBack _paletteBack;
     private IDisposable? _memento;
+    private RightToLeft _rightToLeft;
+    private bool _rightToLeftLayout;
 
     #endregion
 
@@ -31,6 +33,8 @@ public class ViewDrawPanel : ViewComposite
     {
         VisualOrientation = VisualOrientation.Top;
         IgnoreRender = false;
+        _rightToLeft = RightToLeft.No;
+        _rightToLeftLayout = false;
     }
         
     /// <summary>
@@ -42,6 +46,8 @@ public class ViewDrawPanel : ViewComposite
         Debug.Assert(paletteBack != null);
         _paletteBack = paletteBack!;
         VisualOrientation = VisualOrientation.Top;
+        _rightToLeft = RightToLeft.No;
+        _rightToLeftLayout = false;
     }
 
     /// <summary>
@@ -84,6 +90,27 @@ public class ViewDrawPanel : ViewComposite
     /// Gets and sets the orientation of the panel.
     /// </summary>
     public VisualOrientation VisualOrientation { get; set; }
+
+    #endregion
+
+    #region RTL Support
+    /// <summary>
+    /// Gets and sets the RightToLeft setting for RTL-aware rendering.
+    /// </summary>
+    public RightToLeft RightToLeft
+    {
+        get => _rightToLeft;
+        set => _rightToLeft = value;
+    }
+
+    /// <summary>
+    /// Gets and sets the RightToLeftLayout setting for RTL-aware rendering.
+    /// </summary>
+    public bool RightToLeftLayout
+    {
+        get => _rightToLeftLayout;
+        set => _rightToLeftLayout = value;
+    }
 
     #endregion
 
@@ -150,6 +177,13 @@ public class ViewDrawPanel : ViewComposite
             throw new ArgumentNullException(nameof(context));
         }
 
+        // Cache RTL settings from the control
+        if (context.Control != null)
+        {
+            _rightToLeft = context.Control.RightToLeft;
+            _rightToLeftLayout = CommonHelper.GetRightToLeftLayout(context.Control);
+        }
+
         // We take on all the available display area
         if (context.Control is KryptonForm)
         {
@@ -160,8 +194,33 @@ public class ViewDrawPanel : ViewComposite
 
         ClientRectangle = context.DisplayRectangle;
 
+        // Apply RTL layout adjustments if needed
+        if (_rightToLeft == RightToLeft.Yes && _rightToLeftLayout)
+        {
+            ApplyRTLLayoutAdjustments(context);
+        }
+
         // Let child elements layout
         base.Layout(context);
+    }
+
+    /// <summary>
+    /// Apply RTL layout adjustments to child elements.
+    /// </summary>
+    /// <param name="context">Layout context.</param>
+    private void ApplyRTLLayoutAdjustments(ViewLayoutContext context)
+    {
+        // For RTL layout, we need to adjust the display rectangle
+        // This is a basic implementation - more sophisticated RTL handling
+        // would be needed for complex layouts
+        if (context.DisplayRectangle.Width > 0)
+        {
+            // In RTL mode, we might need to adjust the layout context
+            // This is a placeholder for more advanced RTL layout logic
+            var adjustedRect = context.DisplayRectangle;
+            // Apply RTL-specific adjustments here if needed
+            context.DisplayRectangle = adjustedRect;
+        }
     }
     #endregion
 
@@ -200,9 +259,30 @@ public class ViewDrawPanel : ViewComposite
                 // The path encloses the entire panel area
                 panelPath.AddRectangle(rectF);
 
+                // Apply RTL rendering adjustments if needed
+                if (_rightToLeft == RightToLeft.Yes && _rightToLeftLayout)
+                {
+                    ApplyRTLRenderingAdjustments(context);
+                }
+
                 // Perform actual panel drawing
                 _memento = context.Renderer.RenderStandardBack.DrawBack(context, ClientRectangle, panelPath, _paletteBack, VisualOrientation, State, _memento);
             }
+        }
+    }
+
+    /// <summary>
+    /// Apply RTL rendering adjustments.
+    /// </summary>
+    /// <param name="context">Rendering context.</param>
+    private void ApplyRTLRenderingAdjustments(RenderContext context)
+    {
+        // For RTL rendering, we might need to adjust the graphics context
+        // This is a placeholder for more advanced RTL rendering logic
+        if (context.Graphics != null)
+        {
+            // Apply RTL-specific rendering adjustments here if needed
+            // For example, flipping the coordinate system for RTL
         }
     }
     #endregion

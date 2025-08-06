@@ -227,6 +227,15 @@ internal class ViewDrawRibbonGalleryButton : ViewLeaf, IContentValues
 
         switch (_alignment)
         {
+            case PaletteRelativeAlign.Inherit:
+                // For Inherit, default to Near alignment
+                path.AddLine(rect.Left, rect.Bottom - 1, rect.Left, rect.Top);
+                path.AddLine(rect.Left, rect.Top, rect.Right - 2, rect.Top);
+                path.AddLine(rect.Right - 2, rect.Top, rect.Right - 1, rect.Top + 1);
+                path.AddLine(rect.Right - 1, rect.Top + 1, rect.Right - 1, rect.Bottom - 1);
+                path.AddLine(rect.Right - 1, rect.Bottom - 1, rect.Left, rect.Bottom - 1);
+                path.CloseFigure();
+                break;
             case PaletteRelativeAlign.Near:
                 path.AddLine(rect.Left, rect.Bottom - 1, rect.Left, rect.Top);
                 path.AddLine(rect.Left, rect.Top, rect.Right - 2, rect.Top);
@@ -249,6 +258,10 @@ internal class ViewDrawRibbonGalleryButton : ViewLeaf, IContentValues
                 path.AddLine(rect.Right - 1, rect.Bottom - 1, rect.Left, rect.Bottom - 1);
                 path.AddLine(rect.Left, rect.Bottom - 1, rect.Left, rect.Top);
                 path.CloseFigure();
+                break;
+            default:
+                // Should never happen!
+                Debug.Assert(false);
                 break;
         }
         return path;

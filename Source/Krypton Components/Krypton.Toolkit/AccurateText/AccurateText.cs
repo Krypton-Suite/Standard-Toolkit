@@ -92,6 +92,11 @@ public class AccurateText : GlobalId
         // How do we position text horizontally?
         switch (align)
         {
+            case PaletteRelativeAlign.Inherit:
+                // For Inherit, default to Near alignment
+                format.Alignment = (rtl == RightToLeft.Yes) ? StringAlignment.Far : StringAlignment.Near;
+                break;
+
             case PaletteRelativeAlign.Near:
                 format.Alignment = (rtl == RightToLeft.Yes) ? StringAlignment.Far : StringAlignment.Near;
                 break;
