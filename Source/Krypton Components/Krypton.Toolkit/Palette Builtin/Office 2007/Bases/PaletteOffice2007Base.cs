@@ -18,8 +18,18 @@ namespace Krypton.Toolkit;
 public abstract class PaletteOffice2007Base : PaletteBase
 {
     #region Static Fields
+
+    // registration guard so default colours are initialised lazily only once
+    private static bool _defaultsRegistered;
+
     static PaletteOffice2007Base()
     {
+        if (_defaultsRegistered)
+        {
+            return;
+        }
+        _defaultsRegistered = true;
+
         RegisterColor<ButtonBackColor>(ButtonBackColor.Color1, Color.FromArgb(221, 221, 221));
         RegisterColor<ButtonBackColor>(ButtonBackColor.Color2, Color.FromArgb(236, 236, 236));
         RegisterColor<ButtonBackColor>(ButtonBackColor.Color3, Color.FromArgb(255, 213,  77));

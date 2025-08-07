@@ -287,17 +287,49 @@ public class PaletteSparkleBase : PaletteBase
         [DisallowNull] Color[] ribbonGroupCollapsedBorderContextTracking,
         [DisallowNull] ImageList checkBoxList,
         [DisallowNull] Image?[] radioButtonArray)
-        : this(scheme.ToArray(),
-            sparkleColors,
-            appButtonNormal,
-            appButtonTrack,
-            appButtonPressed,
-            ribbonGroupCollapsedBorderContextTracking,
-            checkBoxList,
-            radioButtonArray)
     {
+        // Save colors for use in the color table
+        ThemeName = nameof(PaletteSparkleBase);
+
+        if (scheme != null)
+        {
+            _ribbonColors = scheme.ToArray();
+            _trackBarColors = scheme.ToTrackBarArray();
+        }
+
+        if (sparkleColors != null)
+        {
+            _sparkleColors = sparkleColors;
+        }
+        if (appButtonNormal != null)
+        {
+            _appButtonNormal = appButtonNormal;
+        }
+        if (appButtonTrack != null)
+        {
+            _appButtonTrack = appButtonTrack;
+        }
+        if (appButtonPressed != null)
+        {
+            _appButtonPressed = appButtonPressed;
+        }
+        if (ribbonGroupCollapsedBorderContextTracking != null)
+        {
+            _ribbonGroupCollapsedBorderContextTracking = ribbonGroupCollapsedBorderContextTracking;
+        }
+        if (checkBoxList != null)
+        {
+            _checkBoxList = checkBoxList;
+        }
+        if (radioButtonArray != null)
+        {
+            _radioButtonArray = radioButtonArray;
+        }
+
+        // Get the font settings from the system
+        DefineFonts();
+
         BaseColors = scheme;
-        _trackBarColors = scheme.ToTrackBarArray();
     }
 
     #endregion

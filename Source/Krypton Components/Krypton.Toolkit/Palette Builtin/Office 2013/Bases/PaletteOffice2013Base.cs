@@ -18,8 +18,18 @@ namespace Krypton.Toolkit;
 public abstract class PaletteOffice2013Base : PaletteBase
 {
     #region Static Fields
+
+    // registration guard so default colours are initialised lazily only once
+    private static bool _defaultsRegistered;
+
     static PaletteOffice2013Base()
     {
+        if (_defaultsRegistered)
+        {
+            return;
+        }
+        _defaultsRegistered = true;
+
         RegisterColor<AppButtonNormalColor>(AppButtonNormalColor.Color1, Color.FromArgb(243, 245, 248));
         RegisterColor<AppButtonNormalColor>(AppButtonNormalColor.Color2, Color.FromArgb(214, 220, 231));
         RegisterColor<AppButtonNormalColor>(AppButtonNormalColor.Color3, Color.FromArgb(188, 198, 211));
@@ -297,12 +307,34 @@ public abstract class PaletteOffice2013Base : PaletteBase
         [DisallowNull] ImageList checkBoxList,
         [DisallowNull] ImageList galleryButtonList,
         [DisallowNull] Image?[] radioButtonArray)
-        : this(scheme.ToArray(),
-               checkBoxList,
-               galleryButtonList,
-               radioButtonArray,
-               scheme.ToTrackBarArray())
     {
+        Debug.Assert(scheme != null);
+        Debug.Assert(checkBoxList != null);
+        Debug.Assert(galleryButtonList != null);
+        Debug.Assert(radioButtonArray != null);
+
+        // Remember incoming sets of values
+        ThemeName = nameof(PaletteOffice2013Base);
+
+        if (scheme != null)
+        {
+            _ribbonColors = scheme.ToArray();
+        }
+        if (checkBoxList != null)
+        {
+            _checkBoxList = checkBoxList;
+        }
+        if (galleryButtonList != null)
+        {
+            _galleryButtonList = galleryButtonList;
+        }
+        if (radioButtonArray != null)
+        {
+            _radioButtonArray = radioButtonArray;
+        }
+
+        // Get the font settings from the system
+        DefineFonts();
         BaseColors = scheme;
     }
 

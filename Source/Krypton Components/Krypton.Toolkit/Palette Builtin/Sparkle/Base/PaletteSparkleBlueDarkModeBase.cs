@@ -193,6 +193,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
         Image?[] radioButtonArray)
     {
         ThemeName = nameof(PaletteSparkleBlueDarkModeBase);
+
         // Save colors for use in the color table
         _ribbonColors = ribbonColors;
         _sparkleColors = sparkleColors;
@@ -219,17 +220,27 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
         [DisallowNull] Color[] ribbonGroupCollapsedBorderContextTracking,
         [DisallowNull] ImageList checkBoxList,
         [DisallowNull] Image?[] radioButtonArray)
-        : this(scheme.ToArray(),
-            sparkleColors,
-            appButtonNormal,
-            appButtonTrack,
-            appButtonPressed,
-            ribbonGroupCollapsedBorderContextTracking,
-            checkBoxList,
-            radioButtonArray)
     {
+        ThemeName = nameof(PaletteSparkleBlueDarkModeBase);
+
+        // Save colors for use in the color table
+        if (scheme != null)
+        {
+            _ribbonColors = scheme.ToArray();
+            _trackBarColors = scheme.ToTrackBarArray();
+        }
+        _sparkleColors = sparkleColors;
+        _appButtonNormal = appButtonNormal;
+        _appButtonTrack = appButtonTrack;
+        _appButtonPressed = appButtonPressed;
+        _ribbonGroupCollapsedBorderContextTracking = ribbonGroupCollapsedBorderContextTracking;
+        _checkBoxList = checkBoxList;
+        _radioButtonArray = radioButtonArray;
+
+        // Get the font settings from the system
+        DefineFonts();
+
         BaseColors = scheme;
-        _trackBarColors = scheme.ToTrackBarArray();
     }
 
     #endregion Identity

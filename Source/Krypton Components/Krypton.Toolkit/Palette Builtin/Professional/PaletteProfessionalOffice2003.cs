@@ -38,7 +38,6 @@ public class PaletteProfessionalOffice2003 : PaletteOffice2003Base
     #endregion
 
     #region Instance Fields
-    protected readonly KryptonColorSchemeBase? BaseColors;
     private bool _usingOffice2003;
     #endregion
 
@@ -4586,8 +4585,10 @@ public class PaletteOffice2003Base : PaletteBase
         Color highlight4 = MergeColors(Color.White, 0.25f, ColorTable.ButtonPressedGradientMiddle, 0.75f);
         //Color pressed3 = MergeColors(Color.White, 0.50f, ColorTable.CheckBackground, 0.50f);
         Color pressed4 = MergeColors(Color.White, 0.25f, ColorTable.CheckPressedBackground, 0.75f);
-        _appButtonNormal = [ColorTable.SeparatorLight, ColorTable.ImageMarginGradientBegin, ColorTable.ImageMarginGradientMiddle, ColorTable.GripLight, ColorTable.ImageMarginGradientBegin
-        ];
+        _appButtonNormal = [
+            ColorTable.SeparatorLight, ColorTable.ImageMarginGradientBegin,
+            ColorTable.ImageMarginGradientMiddle, ColorTable.GripLight,
+            ColorTable.ImageMarginGradientBegin];
         _appButtonTrack = [highlight1, highlight2, ColorTable.ButtonSelectedGradientEnd, highlight3, highlight4];
         _appButtonPressed = [highlight1, pressed4, ColorTable.CheckPressedBackground, highlight2, pressed4];
 
@@ -4682,7 +4683,7 @@ public class PaletteOffice2003Base : PaletteBase
 
     /// <inheritdoc />
     public override Color GetRibbonTabRowGradientColor1(PaletteState state) =>
-	    GlobalStaticValues.EMPTY_COLOR;
+        GlobalStaticValues.EMPTY_COLOR;
 
     /// <inheritdoc />
     public override Color GetRibbonTabRowBackgroundGradientRaftingDark(PaletteState state) =>
@@ -4694,7 +4695,7 @@ public class PaletteOffice2003Base : PaletteBase
 
     /// <inheritdoc />
     public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) =>
-	    GlobalStaticValues.EMPTY_COLOR;
+        GlobalStaticValues.EMPTY_COLOR;
 
     /// <inheritdoc />
     public override float GetRibbonTabRowGradientRaftingAngle(PaletteState state) => -1;

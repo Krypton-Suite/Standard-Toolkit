@@ -229,8 +229,18 @@ public class PaletteOffice2010SilverDarkMode : PaletteOffice2010SilverDarkModeBa
 public abstract class PaletteOffice2010SilverDarkModeBase : PaletteBase
 {
     #region Static Fields
+
+    // registration guard so default colours are initialised lazily only once
+    private static bool _defaultsRegistered;
+
     static PaletteOffice2010SilverDarkModeBase()
     {
+        if (_defaultsRegistered)
+        {
+            return;
+        }
+        _defaultsRegistered = true;
+
         RegisterColor<ButtonBackColor>(ButtonBackColor.Color1, Color.FromArgb(221, 221, 221));
         RegisterColor<ButtonBackColor>(ButtonBackColor.Color2, Color.FromArgb(236, 236, 236));
         RegisterColor<ButtonBackColor>(ButtonBackColor.Color3, Color.FromArgb(142,156,187));
@@ -466,12 +476,35 @@ public abstract class PaletteOffice2010SilverDarkModeBase : PaletteBase
         [DisallowNull] ImageList checkBoxList,
         [DisallowNull] ImageList galleryButtonList,
         [DisallowNull] Image?[] radioButtonArray)
-        : this(scheme.ToArray(),
-               checkBoxList,
-               galleryButtonList,
-               radioButtonArray,
-               scheme.ToTrackBarArray())
     {
+        Debug.Assert(scheme != null);
+        Debug.Assert(checkBoxList != null);
+        Debug.Assert(galleryButtonList != null);
+        Debug.Assert(radioButtonArray != null);
+
+        // Remember incoming sets of values
+        ThemeName = nameof(PaletteOffice2010SilverDarkModeBase);
+
+        if (scheme != null)
+        {
+            _ribbonColors = scheme.ToArray();
+        }
+
+        if (checkBoxList != null)
+        {
+            _checkBoxList = checkBoxList;
+        }
+        if (galleryButtonList != null)
+        {
+            _galleryButtonList = galleryButtonList;
+        }
+        if (radioButtonArray != null)
+        {
+            _radioButtonArray = radioButtonArray;
+        }
+
+        // Get the font settings from the system
+        DefineFonts();
         BaseColors = scheme;
     }
 
@@ -4757,7 +4790,6 @@ public class KryptonColorTable2010SilverDarkMode : KryptonColorTable
     /// <param name="colors">Source of </param>
     /// <param name="roundedEdges">Should have rounded edges.</param>
     /// <param name="palette">Associated palette instance.</param>
-    [System.Obsolete("Color[] constructor is deprecated and will be removed in V110. Use KryptonColorSchemeBase overload.", false)]
     public KryptonColorTable2010SilverDarkMode([DisallowNull] Color[] colors,
         InheritBool roundedEdges,
         PaletteBase palette)

@@ -17,8 +17,18 @@ namespace Krypton.Toolkit;
 public abstract class PaletteVisualStudioBase : PaletteBase
 {
     #region Static Fields
+
+    // registration guard so default colours are initialised lazily only once
+    private static bool _defaultsRegistered;
+
     static PaletteVisualStudioBase()
     {
+        if (_defaultsRegistered)
+        {
+            return;
+        }
+        _defaultsRegistered = true;
+
         RegisterColor<AppButtonNormalColor>(AppButtonNormalColor.Color1, Color.FromArgb(243, 245, 248));
         RegisterColor<AppButtonNormalColor>(AppButtonNormalColor.Color2, Color.FromArgb(214, 220, 231));
         RegisterColor<AppButtonNormalColor>(AppButtonNormalColor.Color3, Color.FromArgb(188, 198, 211));
@@ -226,7 +236,6 @@ public abstract class PaletteVisualStudioBase : PaletteBase
     /// <param name="galleryButtonList">The gallery button list.</param>
     /// <param name="radioButtonArray">The radio button array.</param>
     /// <param name="trackBarColors">The track bar colours.</param>
-    [System.Obsolete("Color[] constructor is deprecated and will be removed in V110. Use KryptonColorSchemeBase overload.", false)]
     public PaletteVisualStudioBase([DisallowNull] Color[] schemeColors,
         [DisallowNull] ImageList checkBoxList,
         [DisallowNull] ImageList galleryButtonList,
@@ -273,12 +282,35 @@ public abstract class PaletteVisualStudioBase : PaletteBase
         [DisallowNull] ImageList checkBoxList,
         [DisallowNull] ImageList galleryButtonList,
         [DisallowNull] Image?[] radioButtonArray)
-        : this(scheme.ToArray(),
-               checkBoxList,
-               galleryButtonList,
-               radioButtonArray,
-               scheme.ToTrackBarArray())
     {
+        Debug.Assert(scheme != null);
+        Debug.Assert(checkBoxList != null);
+        Debug.Assert(galleryButtonList != null);
+        Debug.Assert(radioButtonArray != null);
+
+        ThemeName = nameof(PaletteVisualStudioBase);
+
+        if (scheme != null)
+        {
+            _ribbonColors = scheme.ToArray();
+        }
+
+        if (checkBoxList != null)
+        {
+            _checkBoxList = checkBoxList;
+        }
+
+        if (galleryButtonList != null)
+        {
+            _galleryButtonList = galleryButtonList;
+        }
+
+        if (radioButtonArray != null)
+        {
+            _radioButtonArray = radioButtonArray;
+        }
+
+        DefineFonts();
         BaseColors = scheme;
     }
 
