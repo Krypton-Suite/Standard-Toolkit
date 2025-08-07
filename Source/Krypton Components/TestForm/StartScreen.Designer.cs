@@ -60,7 +60,7 @@ namespace TestForm
             this.kbtnCalendar = new Krypton.Toolkit.KryptonButton();
             this.kryptonThemeComboBox1 = new Krypton.Toolkit.KryptonThemeComboBox();
             this.kbtnPoweredByButton = new Krypton.Toolkit.KryptonButton();
-            this.btnColourTestimonials = new Krypton.Toolkit.KryptonButton();
+            this.btnPanelForm = new Krypton.Toolkit.KryptonButton();
             this.kbtnPaletteViewer = new Krypton.Toolkit.KryptonButton();
             this.kbtnTreeView = new Krypton.Toolkit.KryptonButton();
             this.kbtnExit = new Krypton.Toolkit.KryptonButton();
@@ -107,7 +107,7 @@ namespace TestForm
             this.kryptonPanel1.Controls.Add(this.kbtnCalendar);
             this.kryptonPanel1.Controls.Add(this.kryptonThemeComboBox1);
             this.kryptonPanel1.Controls.Add(this.kbtnPoweredByButton);
-            this.kryptonPanel1.Controls.Add(this.btnColourTestimonials);
+            this.kryptonPanel1.Controls.Add(this.btnPanelForm);
             this.kryptonPanel1.Controls.Add(this.kbtnPaletteViewer);
             this.kryptonPanel1.Controls.Add(this.kbtnTreeView);
             this.kryptonPanel1.Controls.Add(this.kbtnExit);
@@ -328,16 +328,16 @@ namespace TestForm
             this.kbtnPoweredByButton.Values.Text = "Powered by Button";
             this.kbtnPoweredByButton.Click += new System.EventHandler(this.kbtnPoweredByButton_Click);
             // 
-            // btnColourTestimonials
+            // btnPanelForm
             // 
-            this.btnColourTestimonials.Location = new System.Drawing.Point(223, 415);
-            this.btnColourTestimonials.Margin = new System.Windows.Forms.Padding(2);
-            this.btnColourTestimonials.Name = "btnColourTestimonials";
-            this.btnColourTestimonials.Size = new System.Drawing.Size(153, 20);
-            this.btnColourTestimonials.TabIndex = 16;
-            this.btnColourTestimonials.Values.DropDownArrowColor = System.Drawing.Color.Empty;
-            this.btnColourTestimonials.Values.Text = "Colour Testimonials";
-            this.btnColourTestimonials.Click += new System.EventHandler(this.btnColourTestimonials_Click);
+            this.btnPanelForm.Location = new System.Drawing.Point(223, 415);
+            this.btnPanelForm.Margin = new System.Windows.Forms.Padding(2);
+            this.btnPanelForm.Name = "btnPanelForm";
+            this.btnPanelForm.Size = new System.Drawing.Size(153, 20);
+            this.btnPanelForm.TabIndex = 16;
+            this.btnPanelForm.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.btnPanelForm.Values.Text = "Panel Form";
+            this.btnPanelForm.Click += new System.EventHandler(this.btnColourTestimonials_Click);
             // 
             // kbtnPaletteViewer
             // 
@@ -609,7 +609,7 @@ namespace TestForm
         private KryptonButton kbtnInputBox;
         private KryptonButton kbtnHeaderExamples;
         private KryptonButton kbtnAbout;
-        private KryptonButton btnColourTestimonials;
+        private KryptonButton btnPanelForm;
         private KryptonButton kbtnRibbonNavigatorWorkspace;
         private KryptonButton kbtnPropertyGrid;
         private KryptonButton kbtnDateTime;
