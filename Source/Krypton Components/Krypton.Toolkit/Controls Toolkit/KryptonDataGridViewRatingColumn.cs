@@ -333,6 +333,6 @@ public class KryptonDataGridViewRatingColumn : KryptonDataGridViewIconColumn
     /// <summary>
     /// Returns the number of rating images in a single dictionary.
     /// </summary>
-    public byte RatingImageCount => (byte)_images.Count;
+    internal byte RatingImageCount => (byte)_images.Count;
     #endregion
 }
