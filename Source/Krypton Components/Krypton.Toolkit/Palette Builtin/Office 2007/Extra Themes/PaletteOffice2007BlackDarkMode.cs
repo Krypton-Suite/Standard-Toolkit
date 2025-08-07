@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -398,6 +398,61 @@ public class PaletteOffice2007BlackDarkMode : PaletteOffice2007BlackDarkModeBase
 public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
 {
     #region Static Fields
+    static PaletteOffice2007BlackDarkModeBase()
+    {
+        RegisterColor<AppButtonNormalColor>(AppButtonNormalColor.Color1, Color.FromArgb(243, 245, 248));
+        RegisterColor<AppButtonNormalColor>(AppButtonNormalColor.Color2, Color.FromArgb(214, 220, 231));
+        RegisterColor<AppButtonNormalColor>(AppButtonNormalColor.Color3, Color.FromArgb(188, 198, 211));
+        RegisterColor<AppButtonNormalColor>(AppButtonNormalColor.Color4, Color.FromArgb(254, 254, 255));
+        RegisterColor<AppButtonNormalColor>(AppButtonNormalColor.Color5, Color.FromArgb(206, 213, 225));
+
+        RegisterColor<AppButtonPressedColor>(AppButtonPressedColor.Color1, Color.FromArgb(235, 227, 196));
+        RegisterColor<AppButtonPressedColor>(AppButtonPressedColor.Color2, Color.FromArgb(185, 185, 185));
+        RegisterColor<AppButtonPressedColor>(AppButtonPressedColor.Color3, Color.FromArgb(35, 35, 35));
+        RegisterColor<AppButtonPressedColor>(AppButtonPressedColor.Color4, Color.FromArgb(50, 50, 50));
+        RegisterColor<AppButtonPressedColor>(AppButtonPressedColor.Color5, Color.FromArgb(100, 100, 100));
+
+        RegisterColor<AppButtonTrackColor>(AppButtonTrackColor.Color1, Color.FromArgb(255, 251, 230));
+        RegisterColor<AppButtonTrackColor>(AppButtonTrackColor.Color2, Color.FromArgb(178, 178, 178));
+        RegisterColor<AppButtonTrackColor>(AppButtonTrackColor.Color3, Color.FromArgb(176, 176, 176));
+        RegisterColor<AppButtonTrackColor>(AppButtonTrackColor.Color4, Color.FromArgb(179, 179, 179));
+        RegisterColor<AppButtonTrackColor>(AppButtonTrackColor.Color5, Color.FromArgb(160, 160, 160));
+
+        RegisterColor<ButtonBackColor>(ButtonBackColor.Color1, Color.FromArgb(250, 250, 250));
+        RegisterColor<ButtonBackColor>(ButtonBackColor.Color2, Color.FromArgb(250, 250, 250));
+        RegisterColor<ButtonBackColor>(ButtonBackColor.Color3, Color.FromArgb(91, 91, 91));
+        RegisterColor<ButtonBackColor>(ButtonBackColor.Color4, Color.FromArgb(33, 33, 33));
+        RegisterColor<ButtonBackColor>(ButtonBackColor.Color5, Color.FromArgb(121, 121, 121));
+        RegisterColor<ButtonBackColor>(ButtonBackColor.Color6, Color.FromArgb(91, 91, 91));
+        RegisterColor<ButtonBackColor>(ButtonBackColor.Color7, Color.FromArgb(91, 91, 91));
+        RegisterColor<ButtonBackColor>(ButtonBackColor.Color8, Color.FromArgb(88, 88, 88));
+        RegisterColor<ButtonBackColor>(ButtonBackColor.Color9, Color.FromArgb(41, 41, 41));
+        RegisterColor<ButtonBackColor>(ButtonBackColor.Color10, Color.FromArgb(70, 70, 70));
+
+        RegisterColor<ButtonBorderColor>(ButtonBorderColor.Color1, Color.FromArgb(180, 180, 180));
+        RegisterColor<ButtonBorderColor>(ButtonBorderColor.Color2, Color.FromArgb(187, 186, 186));
+        RegisterColor<ButtonBorderColor>(ButtonBorderColor.Color3, Color.FromArgb(139, 139, 139));
+        RegisterColor<ButtonBorderColor>(ButtonBorderColor.Color4, Color.FromArgb(30, 30, 30));
+        RegisterColor<ButtonBorderColor>(ButtonBorderColor.Color5, Color.FromArgb(4, 3, 3));
+        RegisterColor<ButtonBorderColor>(ButtonBorderColor.Color6, Color.FromArgb(30, 30, 30));
+        RegisterColor<ButtonBorderColor>(ButtonBorderColor.Color7, Color.FromArgb(4, 3, 3));
+
+        RegisterColor<RibbonGroupCollapsedBack>(RibbonGroupCollapsedBack.Color1, Color.FromArgb(48, 255, 255, 255));
+        RegisterColor<RibbonGroupCollapsedBack>(RibbonGroupCollapsedBack.Color2, Color.FromArgb(235, 235, 235));
+
+        RegisterColor<RibbonGroupCollapsedBackT>(RibbonGroupCollapsedBackT.Color1, Color.FromArgb(48, 255, 255, 255));
+        RegisterColor<RibbonGroupCollapsedBackT>(RibbonGroupCollapsedBackT.Color2, Color.FromArgb(235, 235, 235));
+
+        RegisterColor<RibbonGroupCollapsedBorder>(RibbonGroupCollapsedBorder.Color1, Color.FromArgb(128, 199, 199, 199));
+        RegisterColor<RibbonGroupCollapsedBorder>(RibbonGroupCollapsedBorder.Color2, Color.FromArgb(199, 199, 199));
+        RegisterColor<RibbonGroupCollapsedBorder>(RibbonGroupCollapsedBorder.Color3, Color.FromArgb(48, 255, 255, 255));
+        RegisterColor<RibbonGroupCollapsedBorder>(RibbonGroupCollapsedBorder.Color4, Color.FromArgb(235, 235, 235));
+
+        RegisterColor<RibbonGroupCollapsedBorderT>(RibbonGroupCollapsedBorderT.Color1, Color.FromArgb(128, 168, 184, 196));
+        RegisterColor<RibbonGroupCollapsedBorderT>(RibbonGroupCollapsedBorderT.Color2, Color.FromArgb(168, 184, 196));
+        RegisterColor<RibbonGroupCollapsedBorderT>(RibbonGroupCollapsedBorderT.Color3, Color.FromArgb(48, 255, 255, 255));
+        RegisterColor<RibbonGroupCollapsedBorderT>(RibbonGroupCollapsedBorderT.Color4, Color.FromArgb(192, 207, 220));
+    }
 
     #region Padding
     private static readonly Padding _contentPaddingGrid = new Padding(2, 1, 2, 1);
@@ -532,86 +587,6 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
     #endregion
 
     #region Colour Arrays
-
-    private static readonly Color[] _ribbonGroupCollapsedBackContext =
-    [
-        Color.FromArgb(48, 255, 255, 255),
-        Color.FromArgb(235, 235, 235)
-    ];
-
-    private static readonly Color[] _ribbonGroupCollapsedBackContextTracking =
-    [
-        Color.FromArgb(48, 255, 255, 255),
-        Color.FromArgb(235, 235, 235)
-    ];
-
-    private static readonly Color[] _ribbonGroupCollapsedBorderContext =
-    [
-        Color.FromArgb(128, 199, 199, 199),
-        Color.FromArgb(199, 199, 199),
-        Color.FromArgb(48, 255, 255, 255),
-        Color.FromArgb(235, 235, 235)
-    ];
-
-    private static readonly Color[] _ribbonGroupCollapsedBorderContextTracking =
-    [
-        Color.FromArgb(128, 168, 184, 196),
-        Color.FromArgb(168, 184, 196),
-        Color.FromArgb(48, 255, 255, 255),
-        Color.FromArgb(192, 207, 220)
-    ];
-
-    private static readonly Color[] _appButtonNormal =
-    [
-        Color.FromArgb(243, 245, 248),
-        Color.FromArgb(214, 220, 231),
-        Color.FromArgb(188, 198, 211),
-        Color.FromArgb(254, 254, 255),
-        Color.FromArgb(206, 213, 225)
-    ];
-
-    private static readonly Color[] _appButtonTrack =
-    [
-        Color.FromArgb(255, 251, 230),
-        Color.FromArgb(178, 178, 178),
-        Color.FromArgb(176, 176, 176),
-        Color.FromArgb(179, 179, 179),
-        Color.FromArgb(160, 160, 160)
-    ];
-
-    private static readonly Color[] _appButtonPressed =
-    [
-        Color.FromArgb(235, 227, 196),
-        Color.FromArgb(185, 185, 185),
-        Color.FromArgb(35, 35, 35),
-        Color.FromArgb(50, 50, 50),
-        Color.FromArgb(100, 100, 100)
-    ];
-
-    private static readonly Color[] _buttonBorderColors =
-    [
-        Color.FromArgb(180, 180, 180), // Button, Disabled, Border
-        Color.FromArgb(187, 186, 186),  // Button, Tracking, Border 1
-        Color.FromArgb(139, 139, 139),  // Button, Tracking, Border 2
-        Color.FromArgb(30, 30, 30),  // Button, Pressed, Border 1
-        Color.FromArgb(4, 3, 3),  // Button, Pressed, Border 2
-        Color.FromArgb(30, 30, 30),  // Button, Checked, Border 1
-        Color.FromArgb(4, 3, 3)   // Button, Checked, Border 2
-    ];
-
-    private static readonly Color[] _buttonBackColors =
-    [
-        Color.FromArgb(250, 250, 250), // Button, Disabled, Back 1
-        Color.FromArgb(250, 250, 250), // Button, Disabled, Back 2
-        Color.FromArgb(91, 91, 91), // Button, Tracking, Back 1
-        Color.FromArgb(33, 33, 33), // Button, Tracking, Back 2
-        Color.FromArgb(121, 121, 121), // Button, Pressed, Back 1
-        Color.FromArgb(91, 91, 91),  // Button, Pressed, Back 2
-        Color.FromArgb(91, 91, 91), // Button, Checked, Back 1
-        Color.FromArgb(88, 88, 88), // Button, Checked, Back 2
-        Color.FromArgb(41, 41, 41), // Button, Checked Tracking, Back 1
-        Color.FromArgb(70, 70, 70)  // Button, Checked Tracking, Back 2
-    ];
 
     #endregion
 
@@ -916,7 +891,7 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
                 return state == PaletteState.CheckedNormal ? BaseColors!.GridDataCellSelected : BaseColors!.PanelAlternative;
 
             case PaletteBackStyle.GridDataCellSheet:
-                return state == PaletteState.CheckedNormal ? _buttonBackColors[6] : BaseColors!.PanelAlternative;
+                return state == PaletteState.CheckedNormal ? GetArrayColor<ButtonBackColor>(ButtonBackColor.Color7) : BaseColors!.PanelAlternative;
 
             case PaletteBackStyle.TabHighProfile:
             case PaletteBackStyle.TabStandardProfile:
@@ -939,8 +914,8 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
                         {
                             PaletteBackStyle.TabLowProfile => GlobalStaticValues.EMPTY_COLOR,
                             PaletteBackStyle.TabHighProfile => state == PaletteState.Tracking
-                                ? _buttonBackColors[2]
-                                : _buttonBackColors[4],
+                                ? GetArrayColor<ButtonBackColor>(ButtonBackColor.Color3)
+                                : GetArrayColor<ButtonBackColor>(ButtonBackColor.Color5),
                             _ => SystemColors.Window
                         };
 
@@ -951,9 +926,9 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
                         {
                             return state switch
                             {
-                                PaletteState.CheckedNormal => _buttonBackColors[6],
-                                PaletteState.CheckedPressed => _buttonBackColors[4],
-                                _ => _buttonBackColors[8]
+                                PaletteState.CheckedNormal => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color7),
+                                PaletteState.CheckedPressed => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color5),
+                                _ => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color9)
                             };
                         }
                         else
@@ -990,7 +965,7 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
                 return state == PaletteState.Disabled ? _disabledBack : BaseColors!.HeaderPrimaryBack1;
 
             case PaletteBackStyle.HeaderDockActive:
-                return state == PaletteState.Disabled ? _disabledBack : _buttonBackColors[6];
+                return state == PaletteState.Disabled ? _disabledBack : GetArrayColor<ButtonBackColor>(ButtonBackColor.Color7);
 
             case PaletteBackStyle.HeaderSecondary:
                 return state == PaletteState.Disabled ? _disabledBack : BaseColors!.HeaderSecondaryBack1;
@@ -1096,7 +1071,7 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
             case PaletteBackStyle.ContextMenuItemSplit:
                 return state switch
                 {
-                    PaletteState.Tracking => _buttonBackColors[2],
+                    PaletteState.Tracking => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color3),
                     _ => _contextMenuOuterBack
                 };
             case PaletteBackStyle.ContextMenuInner:
@@ -1112,8 +1087,8 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
                 {
                     PaletteState.Disabled => _disabledBack,
                     PaletteState.Normal or PaletteState.NormalDefaultOverride or PaletteState.CheckedNormal => BaseColors!.RibbonGalleryBack1,
-                    PaletteState.Tracking or PaletteState.CheckedTracking => _buttonBackColors[2],
-                    PaletteState.Pressed or PaletteState.CheckedPressed => _buttonBackColors[4],
+                    PaletteState.Tracking or PaletteState.CheckedTracking => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color3),
+                    PaletteState.Pressed or PaletteState.CheckedPressed => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color5),
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
             case PaletteBackStyle.ButtonForm:
@@ -1163,12 +1138,12 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
                         _ => BaseColors!.ButtonNormalBack1
                     },
                     PaletteState.NormalDefaultOverride => BaseColors!.ButtonNormalDefaultBack1,
-                    PaletteState.CheckedNormal => style == PaletteBackStyle.ButtonInputControl ? BaseColors!.ButtonNormalBack1 : _buttonBackColors[6],
-                    PaletteState.Tracking => _buttonBackColors[2],
+                    PaletteState.CheckedNormal => style == PaletteBackStyle.ButtonInputControl ? BaseColors!.ButtonNormalBack1 : GetArrayColor<ButtonBackColor>(ButtonBackColor.Color7),
+                    PaletteState.Tracking => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color3),
                     PaletteState.Pressed or PaletteState.CheckedPressed => style == PaletteBackStyle.ButtonAlternate
                         ? BaseColors!.AlternatePressedBack1
-                        : _buttonBackColors[4],
-                    PaletteState.CheckedTracking => style == PaletteBackStyle.ButtonInputControl ? BaseColors!.ButtonNormalBack1 : _buttonBackColors[8],
+                        : GetArrayColor<ButtonBackColor>(ButtonBackColor.Color5),
+                    PaletteState.CheckedTracking => style == PaletteBackStyle.ButtonInputControl ? BaseColors!.ButtonNormalBack1 : GetArrayColor<ButtonBackColor>(ButtonBackColor.Color9),
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
             default:
@@ -1231,7 +1206,7 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
                 return state == PaletteState.CheckedNormal ? BaseColors!.GridDataCellSelected : BaseColors!.PanelAlternative;
 
             case PaletteBackStyle.GridDataCellSheet:
-                return state == PaletteState.CheckedNormal ? _buttonBackColors[7] : BaseColors!.PanelAlternative;
+                return state == PaletteState.CheckedNormal ? GetArrayColor<ButtonBackColor>(ButtonBackColor.Color8) : BaseColors!.PanelAlternative;
 
             case PaletteBackStyle.TabHighProfile:
             case PaletteBackStyle.TabStandardProfile:
@@ -1253,7 +1228,7 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
                 {
                     PaletteState.Disabled => _disabledBack,
                     PaletteState.Normal => BaseColors!.ButtonNormalBack2,
-                    PaletteState.Tracking or PaletteState.Pressed => _buttonBackColors[3],
+                    PaletteState.Tracking or PaletteState.Pressed => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color4),
                     PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => SystemColors.Window,
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
@@ -1262,7 +1237,7 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
                 {
                     PaletteState.Disabled => _disabledBack,
                     PaletteState.Normal or PaletteState.CheckedNormal => BaseColors!.ButtonNormalBack2,
-                    PaletteState.Tracking or PaletteState.CheckedTracking or PaletteState.Pressed or PaletteState.CheckedPressed => _buttonBackColors[3],
+                    PaletteState.Tracking or PaletteState.CheckedTracking or PaletteState.Pressed or PaletteState.CheckedPressed => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color4),
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
             case PaletteBackStyle.HeaderForm:
@@ -1283,7 +1258,7 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
                 return state == PaletteState.Disabled ? _disabledBack : BaseColors!.HeaderPrimaryBack2;
 
             case PaletteBackStyle.HeaderDockActive:
-                return state == PaletteState.Disabled ? _disabledBack : _buttonBackColors[7];
+                return state == PaletteState.Disabled ? _disabledBack : GetArrayColor<ButtonBackColor>(ButtonBackColor.Color8);
 
             case PaletteBackStyle.HeaderSecondary:
                 return state == PaletteState.Disabled ? _disabledBack : BaseColors!.HeaderSecondaryBack2;
@@ -1387,7 +1362,7 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
                 return _contextMenuOuterBack;
             case PaletteBackStyle.ContextMenuSeparator:
             case PaletteBackStyle.ContextMenuItemSplit:
-                return state == PaletteState.Tracking ? _buttonBackColors[3] : _contextMenuOuterBack;
+                return state == PaletteState.Tracking ? GetArrayColor<ButtonBackColor>(ButtonBackColor.Color4) : _contextMenuOuterBack;
             case PaletteBackStyle.ContextMenuInner:
                 return _contextMenuInnerBack;
             case PaletteBackStyle.ContextMenuHeading:
@@ -1401,8 +1376,8 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
                 {
                     PaletteState.Disabled => _disabledBack2,
                     PaletteState.Normal or PaletteState.NormalDefaultOverride or PaletteState.CheckedNormal => BaseColors!.RibbonGalleryBack2,
-                    PaletteState.Tracking or PaletteState.CheckedTracking => _buttonBackColors[2],
-                    PaletteState.Pressed or PaletteState.CheckedPressed => _buttonBackColors[4],
+                    PaletteState.Tracking or PaletteState.CheckedTracking => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color3),
+                    PaletteState.Pressed or PaletteState.CheckedPressed => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color5),
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
             case PaletteBackStyle.ButtonForm:
@@ -1443,7 +1418,7 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
             case PaletteBackStyle.ContextMenuItemHighlight:
                 return state switch
                 {
-                    PaletteState.Disabled => _buttonBackColors[1],
+                    PaletteState.Disabled => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color2),
                     PaletteState.Normal => style switch
                     {
                         PaletteBackStyle.ButtonNavigatorStack => BaseColors!.ButtonNormalNavigatorBack2,
@@ -1456,12 +1431,12 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
                         PaletteBackStyle.ButtonLowProfile or PaletteBackStyle.ButtonBreadCrumb or PaletteBackStyle.ButtonListItem or PaletteBackStyle.ButtonCommand or PaletteBackStyle.ButtonButtonSpec or PaletteBackStyle.ContextMenuItemHighlight => GlobalStaticValues.EMPTY_COLOR,
                         _ => BaseColors!.ButtonNormalDefaultBack2
                     },
-                    PaletteState.CheckedNormal => style == PaletteBackStyle.ButtonInputControl ? BaseColors!.ButtonNormalBack2 : _buttonBackColors[7],
-                    PaletteState.Tracking => _buttonBackColors[3],
+                    PaletteState.CheckedNormal => style == PaletteBackStyle.ButtonInputControl ? BaseColors!.ButtonNormalBack2 : GetArrayColor<ButtonBackColor>(ButtonBackColor.Color8),
+                    PaletteState.Tracking => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color4),
                     PaletteState.Pressed or PaletteState.CheckedPressed => style == PaletteBackStyle.ButtonAlternate
                         ? BaseColors!.AlternatePressedBack2
-                        : _buttonBackColors[5],
-                    PaletteState.CheckedTracking => style == PaletteBackStyle.ButtonInputControl ? BaseColors!.ButtonNormalBack1 : _buttonBackColors[9],
+                        : GetArrayColor<ButtonBackColor>(ButtonBackColor.Color6),
+                    PaletteState.CheckedTracking => style == PaletteBackStyle.ButtonInputControl ? BaseColors!.ButtonNormalBack1 : GetArrayColor<ButtonBackColor>(ButtonBackColor.Color10),
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
             default:
@@ -2338,7 +2313,7 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
             {
                 PaletteState.Disabled => _disabledBorder,
                 PaletteState.Normal => BaseColors!.ButtonNormalBorder,
-                PaletteState.Tracking or PaletteState.Pressed => _buttonBorderColors[2],
+                PaletteState.Tracking or PaletteState.Pressed => GetArrayColor<ButtonBorderColor>(ButtonBorderColor.Color3),
                 PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => BaseColors!.ControlBorder,
                 _ => throw DebugTools.NotImplemented(state.ToString())
             },
@@ -2346,7 +2321,7 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
             {
                 PaletteState.Disabled => _disabledBorder,
                 PaletteState.Normal or PaletteState.CheckedNormal => BaseColors!.ButtonNormalBorder,
-                PaletteState.Tracking or PaletteState.CheckedTracking or PaletteState.Pressed or PaletteState.CheckedPressed => _buttonBorderColors[2],
+                PaletteState.Tracking or PaletteState.CheckedTracking or PaletteState.Pressed or PaletteState.CheckedPressed => GetArrayColor<ButtonBorderColor>(ButtonBorderColor.Color3),
                 _ => throw DebugTools.NotImplemented(state.ToString())
             },
             PaletteBorderStyle.HeaderCalendar => state == PaletteState.Disabled
@@ -2359,8 +2334,8 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
             PaletteBorderStyle.ContextMenuHeading or PaletteBorderStyle.ContextMenuItemImageColumn => _contextMenuHeadingBorder,
             PaletteBorderStyle.ContextMenuSeparator or PaletteBorderStyle.ContextMenuItemSplit => state switch
             {
-                PaletteState.Disabled => _buttonBorderColors[0],
-                PaletteState.Tracking => _buttonBorderColors[1],
+                PaletteState.Disabled => GetArrayColor<ButtonBorderColor>(ButtonBorderColor.Color1),
+                PaletteState.Tracking => GetArrayColor<ButtonBorderColor>(ButtonBorderColor.Color2),
                 _ => _contextMenuHeadingBorder
             },
             PaletteBorderStyle.ContextMenuItemImage => _contextMenuImageBorderChecked,
@@ -2388,25 +2363,25 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
             {
                 PaletteState.Disabled => _disabledBorder,
                 PaletteState.Normal or PaletteState.NormalDefaultOverride or PaletteState.CheckedNormal => BaseColors!.RibbonGalleryBorder,
-                PaletteState.Tracking or PaletteState.CheckedTracking => _buttonBorderColors[1],
-                PaletteState.Pressed or PaletteState.CheckedPressed => _buttonBorderColors[3],
+                PaletteState.Tracking or PaletteState.CheckedTracking => GetArrayColor<ButtonBorderColor>(ButtonBorderColor.Color2),
+                PaletteState.Pressed or PaletteState.CheckedPressed => GetArrayColor<ButtonBorderColor>(ButtonBorderColor.Color4),
                 _ => throw DebugTools.NotImplemented(state.ToString())
             },
             PaletteBorderStyle.ButtonStandalone or PaletteBorderStyle.ButtonAlternate or PaletteBorderStyle.ButtonLowProfile or PaletteBorderStyle.ButtonBreadCrumb or PaletteBorderStyle.ButtonListItem or PaletteBorderStyle.ButtonCommand or PaletteBorderStyle.ButtonButtonSpec or PaletteBorderStyle.ButtonCluster or PaletteBorderStyle.ButtonNavigatorStack or PaletteBorderStyle.ButtonNavigatorOverflow or PaletteBorderStyle.ButtonNavigatorMini or PaletteBorderStyle.ButtonCustom1 or PaletteBorderStyle.ButtonCustom2 or PaletteBorderStyle.ButtonCustom3 or PaletteBorderStyle.ButtonInputControl or PaletteBorderStyle.ContextMenuItemHighlight => state switch
             {
-                PaletteState.Disabled => _buttonBorderColors[0],
+                PaletteState.Disabled => GetArrayColor<ButtonBorderColor>(ButtonBorderColor.Color1),
                 PaletteState.Normal => style == PaletteBorderStyle.ButtonCluster
                     ? BaseColors!.ButtonClusterButtonBorder1
                     : BaseColors!.ButtonNormalBorder,
                 PaletteState.NormalDefaultOverride => style is PaletteBorderStyle.ButtonLowProfile or PaletteBorderStyle.ButtonBreadCrumb or PaletteBorderStyle.ButtonListItem or PaletteBorderStyle.ButtonCommand or PaletteBorderStyle.ButtonButtonSpec or PaletteBorderStyle.ContextMenuItemHighlight
                     ? GlobalStaticValues.EMPTY_COLOR
                     : BaseColors!.ButtonNormalDefaultBorder,
-                PaletteState.CheckedNormal => _buttonBorderColors[5],
-                PaletteState.Tracking => _buttonBorderColors[1],
+                PaletteState.CheckedNormal => GetArrayColor<ButtonBorderColor>(ButtonBorderColor.Color6),
+                PaletteState.Tracking => GetArrayColor<ButtonBorderColor>(ButtonBorderColor.Color2),
                 PaletteState.Pressed or PaletteState.CheckedPressed => style == PaletteBorderStyle.ButtonAlternate
                     ? BaseColors!.AlternatePressedBorder1
-                    : _buttonBorderColors[3],
-                PaletteState.CheckedTracking => _buttonBorderColors[3],
+                    : GetArrayColor<ButtonBorderColor>(ButtonBorderColor.Color4),
+                PaletteState.CheckedTracking => GetArrayColor<ButtonBorderColor>(ButtonBorderColor.Color4),
                 _ => throw DebugTools.NotImplemented(state.ToString())
             },
             PaletteBorderStyle.ButtonCalendarDay => state switch
@@ -2414,10 +2389,10 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
                 PaletteState.Disabled => _disabledBack,
                 PaletteState.Normal => BaseColors!.ButtonNormalBack1,
                 PaletteState.NormalDefaultOverride => BaseColors!.ButtonNormalDefaultBack1,
-                PaletteState.CheckedNormal => _buttonBackColors[6],
-                PaletteState.Tracking => _buttonBackColors[2],
-                PaletteState.Pressed or PaletteState.CheckedPressed => _buttonBackColors[4],
-                PaletteState.CheckedTracking => _buttonBackColors[8],
+                PaletteState.CheckedNormal => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color7),
+                PaletteState.Tracking => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color3),
+                PaletteState.Pressed or PaletteState.CheckedPressed => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color5),
+                PaletteState.CheckedTracking => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color9),
                 _ => throw DebugTools.NotImplemented(state.ToString())
             },
             _ => throw new ArgumentOutOfRangeException(nameof(style))
@@ -2460,7 +2435,7 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
             {
                 PaletteState.Disabled => _disabledBorder,
                 PaletteState.Normal => BaseColors!.ButtonNormalBorder,
-                PaletteState.Tracking or PaletteState.Pressed => _buttonBorderColors[2],
+                PaletteState.Tracking or PaletteState.Pressed => GetArrayColor<ButtonBorderColor>(ButtonBorderColor.Color3),
                 PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => BaseColors!.ControlBorder,
                 _ => throw DebugTools.NotImplemented(state.ToString())
             },
@@ -2468,7 +2443,7 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
             {
                 PaletteState.Disabled => _disabledBorder,
                 PaletteState.Normal or PaletteState.CheckedNormal => BaseColors!.ButtonNormalBorder,
-                PaletteState.Tracking or PaletteState.CheckedTracking or PaletteState.Pressed or PaletteState.CheckedPressed => _buttonBorderColors[2],
+                PaletteState.Tracking or PaletteState.CheckedTracking or PaletteState.Pressed or PaletteState.CheckedPressed => GetArrayColor<ButtonBorderColor>(ButtonBorderColor.Color3),
                 _ => throw DebugTools.NotImplemented(state.ToString())
             },
             PaletteBorderStyle.HeaderForm => state == PaletteState.Disabled
@@ -2481,8 +2456,8 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
             PaletteBorderStyle.ContextMenuHeading or PaletteBorderStyle.ContextMenuItemImageColumn => _contextMenuHeadingBorder,
             PaletteBorderStyle.ContextMenuSeparator or PaletteBorderStyle.ContextMenuItemSplit => state switch
             {
-                PaletteState.Disabled => _buttonBorderColors[0],
-                PaletteState.Tracking => _buttonBorderColors[2],
+                PaletteState.Disabled => GetArrayColor<ButtonBorderColor>(ButtonBorderColor.Color1),
+                PaletteState.Tracking => GetArrayColor<ButtonBorderColor>(ButtonBorderColor.Color3),
                 _ => _contextMenuHeadingBorder
             },
             PaletteBorderStyle.ContextMenuItemImage => _contextMenuImageBorderChecked,
@@ -2510,23 +2485,23 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
             {
                 PaletteState.Disabled => _disabledBorder,
                 PaletteState.Normal or PaletteState.NormalDefaultOverride or PaletteState.CheckedNormal => BaseColors!.RibbonGalleryBorder,
-                PaletteState.Tracking or PaletteState.CheckedTracking => _buttonBorderColors[1],
-                PaletteState.Pressed or PaletteState.CheckedPressed => _buttonBorderColors[3],
+                PaletteState.Tracking or PaletteState.CheckedTracking => GetArrayColor<ButtonBorderColor>(ButtonBorderColor.Color2),
+                PaletteState.Pressed or PaletteState.CheckedPressed => GetArrayColor<ButtonBorderColor>(ButtonBorderColor.Color4),
                 _ => throw DebugTools.NotImplemented(state.ToString())
             },
             PaletteBorderStyle.ButtonStandalone or PaletteBorderStyle.ButtonAlternate or PaletteBorderStyle.ButtonLowProfile or PaletteBorderStyle.ButtonBreadCrumb or PaletteBorderStyle.ButtonListItem or PaletteBorderStyle.ButtonCommand or PaletteBorderStyle.ButtonButtonSpec or PaletteBorderStyle.ButtonCluster or PaletteBorderStyle.ButtonNavigatorStack or PaletteBorderStyle.ButtonNavigatorOverflow or PaletteBorderStyle.ButtonNavigatorMini or PaletteBorderStyle.ButtonCustom1 or PaletteBorderStyle.ButtonCustom2 or PaletteBorderStyle.ButtonCustom3 or PaletteBorderStyle.ButtonInputControl or PaletteBorderStyle.ContextMenuItemHighlight => state switch
             {
-                PaletteState.Disabled => _buttonBorderColors[0],
+                PaletteState.Disabled => GetArrayColor<ButtonBorderColor>(ButtonBorderColor.Color1),
                 PaletteState.Normal => style == PaletteBorderStyle.ButtonCluster
                     ? BaseColors!.ButtonClusterButtonBorder2
                     : BaseColors!.ButtonNormalBorder,
                 PaletteState.NormalDefaultOverride => BaseColors!.ButtonNormalDefaultBorder,
-                PaletteState.CheckedNormal => _buttonBorderColors[6],
-                PaletteState.Tracking => _buttonBorderColors[2],
+                PaletteState.CheckedNormal => GetArrayColor<ButtonBorderColor>(ButtonBorderColor.Color7),
+                PaletteState.Tracking => GetArrayColor<ButtonBorderColor>(ButtonBorderColor.Color3),
                 PaletteState.Pressed or PaletteState.CheckedPressed => style == PaletteBorderStyle.ButtonAlternate
                     ? BaseColors!.AlternatePressedBorder2
-                    : _buttonBorderColors[4],
-                PaletteState.CheckedTracking => _buttonBorderColors[4],
+                    : GetArrayColor<ButtonBorderColor>(ButtonBorderColor.Color5),
+                PaletteState.CheckedTracking => GetArrayColor<ButtonBorderColor>(ButtonBorderColor.Color5),
                 _ => throw DebugTools.NotImplemented(state.ToString())
             },
             PaletteBorderStyle.ButtonCalendarDay => state switch
@@ -2534,10 +2509,10 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
                 PaletteState.Disabled => _disabledBack,
                 PaletteState.Normal => BaseColors!.ButtonNormalBack1,
                 PaletteState.NormalDefaultOverride => BaseColors!.ButtonNormalDefaultBack1,
-                PaletteState.CheckedNormal => _buttonBackColors[6],
-                PaletteState.Tracking => _buttonBackColors[2],
-                PaletteState.Pressed or PaletteState.CheckedPressed => _buttonBackColors[4],
-                PaletteState.CheckedTracking => _buttonBackColors[8],
+                PaletteState.CheckedNormal => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color7),
+                PaletteState.Tracking => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color3),
+                PaletteState.Pressed or PaletteState.CheckedPressed => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color5),
+                PaletteState.CheckedTracking => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color9),
                 _ => throw DebugTools.NotImplemented(state.ToString())
             },
             _ => throw new ArgumentOutOfRangeException(nameof(style))
@@ -4757,10 +4732,10 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
                     case PaletteState.Tracking:
                         return BaseColors!.RibbonGroupCollapsedBorderT1;
                     case PaletteState.ContextNormal:
-                        return _ribbonGroupCollapsedBorderContext[0];
+                        return GetArrayColor<RibbonGroupCollapsedBorder>(RibbonGroupCollapsedBorder.Color1);
                     case PaletteState.ContextTracking:
                     case PaletteState.Pressed:
-                        return _ribbonGroupCollapsedBorderContextTracking[0];
+                        return GetArrayColor<RibbonGroupCollapsedBorderT>(RibbonGroupCollapsedBorderT.Color1);
                     default:
                         // Should never happen!
                         Debug.Assert(false);
@@ -4783,9 +4758,9 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
                     case PaletteState.Tracking:
                         return BaseColors!.RibbonGroupCollapsedBackT1;
                     case PaletteState.ContextNormal:
-                        return _ribbonGroupCollapsedBackContext[0];
+                        return GetArrayColor<RibbonGroupCollapsedBack>(RibbonGroupCollapsedBack.Color1);
                     case PaletteState.ContextTracking:
-                        return _ribbonGroupCollapsedBackContextTracking[0];
+                        return GetArrayColor<RibbonGroupCollapsedBackT>(RibbonGroupCollapsedBackT.Color1);
                     default:
                         // Should never happen!
                         Debug.Assert(false);
@@ -4833,11 +4808,11 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
                 switch (state)
                 {
                     case PaletteState.Normal:
-                        return _appButtonNormal[0];
+                        return GetArrayColor<AppButtonNormalColor>(AppButtonNormalColor.Color1);
                     case PaletteState.Tracking:
-                        return _appButtonTrack[0];
+                        return GetArrayColor<AppButtonTrackColor>(AppButtonTrackColor.Color1);
                     case PaletteState.Pressed:
-                        return _appButtonPressed[0];
+                        return GetArrayColor<AppButtonPressedColor>(AppButtonPressedColor.Color1);
                     default:
                         // Should never happen!
                         Debug.Assert(false);
@@ -4920,10 +4895,10 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
                     case PaletteState.Tracking:
                         return BaseColors!.RibbonGroupCollapsedBorderT2;
                     case PaletteState.ContextNormal:
-                        return _ribbonGroupCollapsedBorderContext[1];
+                        return GetArrayColor<RibbonGroupCollapsedBorder>(RibbonGroupCollapsedBorder.Color2);
                     case PaletteState.ContextTracking:
                     case PaletteState.Pressed:
-                        return _ribbonGroupCollapsedBorderContextTracking[1];
+                        return GetArrayColor<RibbonGroupCollapsedBorderT>(RibbonGroupCollapsedBorderT.Color2);
                     default:
                         // Should never happen!
                         Debug.Assert(false);
@@ -4946,9 +4921,9 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
                     case PaletteState.Tracking:
                         return BaseColors!.RibbonGroupCollapsedBackT2;
                     case PaletteState.ContextNormal:
-                        return _ribbonGroupCollapsedBackContext[1];
+                        return GetArrayColor<RibbonGroupCollapsedBack>(RibbonGroupCollapsedBack.Color2);
                     case PaletteState.ContextTracking:
-                        return _ribbonGroupCollapsedBackContextTracking[1];
+                        return GetArrayColor<RibbonGroupCollapsedBackT>(RibbonGroupCollapsedBackT.Color2);
                     default:
                         // Should never happen!
                         Debug.Assert(false);
@@ -4996,11 +4971,11 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
                 switch (state)
                 {
                     case PaletteState.Normal:
-                        return _appButtonNormal[1];
+                        return GetArrayColor<AppButtonNormalColor>(AppButtonNormalColor.Color2);
                     case PaletteState.Tracking:
-                        return _appButtonTrack[1];
+                        return GetArrayColor<AppButtonTrackColor>(AppButtonTrackColor.Color2);
                     case PaletteState.Pressed:
-                        return _appButtonPressed[1];
+                        return GetArrayColor<AppButtonPressedColor>(AppButtonPressedColor.Color2);
                     default:
                         // Should never happen!
                         Debug.Assert(false);
@@ -5083,10 +5058,10 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
                     case PaletteState.Tracking:
                         return BaseColors!.RibbonGroupCollapsedBorderT3;
                     case PaletteState.ContextNormal:
-                        return _ribbonGroupCollapsedBorderContext[2];
+                        return GetArrayColor<RibbonGroupCollapsedBorder>(RibbonGroupCollapsedBorder.Color3);
                     case PaletteState.ContextTracking:
                     case PaletteState.Pressed:
-                        return _ribbonGroupCollapsedBorderContextTracking[2];
+                        return GetArrayColor<RibbonGroupCollapsedBorderT>(RibbonGroupCollapsedBorderT.Color3);
                     default:
                         // Should never happen!
                         Debug.Assert(false);
@@ -5132,11 +5107,11 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
                 switch (state)
                 {
                     case PaletteState.Normal:
-                        return _appButtonNormal[2];
+                        return GetArrayColor<AppButtonNormalColor>(AppButtonNormalColor.Color3);
                     case PaletteState.Tracking:
-                        return _appButtonTrack[2];
+                        return GetArrayColor<AppButtonTrackColor>(AppButtonTrackColor.Color3);
                     case PaletteState.Pressed:
-                        return _appButtonPressed[2];
+                        return GetArrayColor<AppButtonPressedColor>(AppButtonPressedColor.Color3);
                     default:
                         // Should never happen!
                         Debug.Assert(false);
@@ -5206,10 +5181,10 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
                     case PaletteState.Tracking:
                         return BaseColors!.RibbonGroupCollapsedBorderT4;
                     case PaletteState.ContextNormal:
-                        return _ribbonGroupCollapsedBorderContext[3];
+                        return GetArrayColor<RibbonGroupCollapsedBorder>(RibbonGroupCollapsedBorder.Color4);
                     case PaletteState.ContextTracking:
                     case PaletteState.Pressed:
-                        return _ribbonGroupCollapsedBorderContextTracking[3];
+                        return GetArrayColor<RibbonGroupCollapsedBorderT>(RibbonGroupCollapsedBorderT.Color4);
                     default:
                         // Should never happen!
                         Debug.Assert(false);
@@ -5257,11 +5232,11 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
                 switch (state)
                 {
                     case PaletteState.Normal:
-                        return _appButtonNormal[3];
+                        return GetArrayColor<AppButtonNormalColor>(AppButtonNormalColor.Color4);
                     case PaletteState.Tracking:
-                        return _appButtonTrack[3];
+                        return GetArrayColor<AppButtonTrackColor>(AppButtonTrackColor.Color4);
                     case PaletteState.Pressed:
-                        return _appButtonPressed[3];
+                        return GetArrayColor<AppButtonPressedColor>(AppButtonPressedColor.Color4);
                     default:
                         // Should never happen!
                         Debug.Assert(false);
@@ -5341,11 +5316,11 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
                 switch (state)
                 {
                     case PaletteState.Normal:
-                        return _appButtonNormal[4];
+                        return GetArrayColor<AppButtonNormalColor>(AppButtonNormalColor.Color5);
                     case PaletteState.Tracking:
-                        return _appButtonTrack[4];
+                        return GetArrayColor<AppButtonTrackColor>(AppButtonTrackColor.Color5);
                     case PaletteState.Pressed:
-                        return _appButtonPressed[4];
+                        return GetArrayColor<AppButtonPressedColor>(AppButtonPressedColor.Color5);
                     default:
                         // Should never happen!
                         Debug.Assert(false);
@@ -5499,8 +5474,8 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
                     PaletteState.Disabled => ControlPaint.Light(
                         BaseColors!.ButtonNormalBorder),
                     PaletteState.Normal => BaseColors!.ButtonNormalBorder,
-                    PaletteState.Tracking => _buttonBorderColors[1],
-                    PaletteState.Pressed => _buttonBorderColors[3],
+                    PaletteState.Tracking => GetArrayColor<ButtonBorderColor>(ButtonBorderColor.Color2),
+                    PaletteState.Pressed => GetArrayColor<ButtonBorderColor>(ButtonBorderColor.Color4),
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
             default:
@@ -5540,8 +5515,8 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
                         BaseColors!.ButtonNormalBack1),
                     PaletteState.Normal => ControlPaint.Light(
                         BaseColors!.ButtonNormalBack1),
-                    PaletteState.Tracking => ControlPaint.Light(_buttonBackColors[2]),
-                    PaletteState.Pressed => ControlPaint.Light(_buttonBackColors[4]),
+                    PaletteState.Tracking => ControlPaint.Light(GetArrayColor<ButtonBackColor>(ButtonBackColor.Color3)),
+                    PaletteState.Pressed => ControlPaint.Light(GetArrayColor<ButtonBackColor>(ButtonBackColor.Color5)),
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
 
@@ -5590,8 +5565,8 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
                 {
                     PaletteState.Disabled => ControlPaint.LightLight(BaseColors!.ButtonNormalBack1),
                     PaletteState.Normal => BaseColors!.ButtonNormalBack1,
-                    PaletteState.Tracking or PaletteState.FocusOverride => _buttonBackColors[2],
-                    PaletteState.Pressed => _buttonBackColors[4],
+                    PaletteState.Tracking or PaletteState.FocusOverride => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color3),
+                    PaletteState.Pressed => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color5),
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
             default:
@@ -5639,8 +5614,8 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
                 {
                     PaletteState.Disabled => ControlPaint.LightLight(BaseColors!.ButtonNormalBack1),
                     PaletteState.Normal => BaseColors!.ButtonNormalBack2,
-                    PaletteState.Tracking or PaletteState.FocusOverride => _buttonBackColors[3],
-                    PaletteState.Pressed => _buttonBackColors[5],
+                    PaletteState.Tracking or PaletteState.FocusOverride => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color4),
+                    PaletteState.Pressed => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color6),
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
             default:

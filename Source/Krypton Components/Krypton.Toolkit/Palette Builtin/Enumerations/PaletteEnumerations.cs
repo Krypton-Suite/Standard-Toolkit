@@ -1000,3 +1000,145 @@ public enum SchemeTrackingColors
 }
 
 #endregion
+
+#region Enumeration: AppButtonNormalColor
+
+/// <summary>Slot enum for AppButtonNormal array indexes.</summary>
+public enum AppButtonNormalColor
+{
+    Color1 = 0,
+    Color2 = 1,
+    Color3 = 2,
+    Color4 = 3,
+    Color5 = 4
+}
+
+#endregion
+
+#region Enumeration: AppButtonPressedColor
+
+/// <summary>Slot enum for AppButtonPressed array indexes.</summary>
+public enum AppButtonPressedColor
+{
+    Color1 = 0,
+    Color2 = 1,
+    Color3 = 2,
+    Color4 = 3,
+    Color5 = 4
+}
+
+#endregion
+
+#region Enumeration: AppButtonTrackColor
+
+/// <summary>Slot enum for AppButtonTrack array indexes.</summary>
+public enum AppButtonTrackColor
+{
+    Color1 = 0,
+    Color2 = 1,
+    Color3 = 2,
+    Color4 = 3,
+    Color5 = 4
+}
+
+#endregion
+
+#region Enumeration: ArrowBorderColor
+
+/// <summary>Slot enum for ArrowBorderColors array indexes.</summary>
+public enum ArrowBorderColor
+{
+    Color1 = 0,
+    Color2 = 1,
+    Color3 = 2,
+    Color4 = 3
+}
+
+#endregion
+
+#region Enumeration: ButtonBackColor
+
+/// <summary>Slot enum for ButtonBackColors array indexes.</summary>
+public enum ButtonBackColor
+{
+    Color1 = 0,
+    Color2 = 1,
+    Color3 = 2,
+    Color4 = 3,
+    Color5 = 4,
+    Color6 = 5,
+    Color7 = 6,
+    Color8 = 7,
+    Color9 = 8,
+    Color10 = 9
+}
+
+#endregion
+
+#region Enumeration: ButtonBorderColor
+
+/// <summary>Slot enum for ButtonBorderColors array indexes.</summary>
+public enum ButtonBorderColor
+{
+    Color1 = 0,
+    Color2 = 1,
+    Color3 = 2,
+    Color4 = 3,
+    Color5 = 4,
+    Color6 = 5,
+    Color7 = 6
+}
+
+#endregion
+
+#region Enumeration: RibbonGroupCollapsedBack
+
+/// <summary>Slot enum for RibbonGroupCollapsedBackContext array indexes.</summary>
+public enum RibbonGroupCollapsedBack
+{
+    Color1 = 0,
+    Color2 = 1,
+    Color3 = 2,
+    Color4 = 3
+}
+
+#endregion
+
+#region Enumeration: RibbonGroupCollapsedBackT
+
+/// <summary>Slot enum for RibbonGroupCollapsedBackContextTracking array indexes.</summary>
+public enum RibbonGroupCollapsedBackT
+{
+    Color1 = 0,
+    Color2 = 1,
+    Color3 = 2,
+    Color4 = 3
+}
+
+#endregion
+
+#region Enumeration: RibbonGroupCollapsedBorder
+
+/// <summary>Slot enum for RibbonGroupCollapsedBorderContext array indexes.</summary>
+public enum RibbonGroupCollapsedBorder
+{
+    Color1 = 0,
+    Color2 = 1,
+    Color3 = 2,
+    Color4 = 3
+}
+
+#endregion
+
+#region Enumeration: RibbonGroupCollapsedBorderT
+
+/// <summary>Slot enum for RibbonGroupCollapsedBorderContextTracking array indexes.</summary>
+public enum RibbonGroupCollapsedBorderT
+{
+    Color1 = 0,
+    Color2 = 1,
+    Color3 = 2,
+    Color4 = 3
+}
+
+#endregion
