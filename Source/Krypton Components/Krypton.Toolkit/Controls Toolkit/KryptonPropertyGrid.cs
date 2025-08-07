@@ -831,11 +831,20 @@ public class KryptonPropertyGrid : VisualControlBase,
     /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
     protected override void OnNeedPaint(object? sender, NeedLayoutEventArgs e)
     {
-        if (IsHandleCreated && !e.NeedLayout)
+        // Ensure inner grid repaints on any palette change
+        if (IsHandleCreated)
         {
+            if (e.NeedLayout)
+            {
+                // Recreate native grid handle to pick up new theme details
+                _propertyGrid.Recreate();
+            }
+
+            // Always repaint inner grid
             _propertyGrid.Invalidate();
         }
-        else
+
+        if (e.NeedLayout)
         {
             ForceControlLayout();
         }
