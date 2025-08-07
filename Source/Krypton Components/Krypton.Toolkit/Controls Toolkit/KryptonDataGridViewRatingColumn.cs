@@ -71,7 +71,7 @@ public class KryptonDataGridViewRatingColumn : KryptonDataGridViewIconColumn
     #region Public
     /// <summary>
     /// The maximum value the rating can have.<br/>
-    /// A maximum 254 images is supported.<br/>
+    /// A maximum 253 images is supported.<br/>
     /// Width of the column to accomodate the rating is at the descretion of the user.<br/>
     /// Set to zero to disable the display of rating images an empty cell is displayed instead.
     /// </summary>
