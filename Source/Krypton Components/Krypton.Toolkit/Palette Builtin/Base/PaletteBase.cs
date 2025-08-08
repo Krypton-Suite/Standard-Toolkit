@@ -2112,6 +2112,36 @@ public abstract class PaletteBase : Component
 
     #region Palette Helpers
 
+    // GLOBAL lookup table that holds every colour previously kept in the old static Color[] arrays
+    // Key = (enum type that defines the slot, zero-based index)
+    private static readonly Dictionary<(Type Enum, int Index), Color> _colorLut = new Dictionary<(Type Enum, int Index), Color>();
+
+    /// <summary>
+    /// Called once from a family base static constructor to seed default colours for a particular enum slot.
+    /// </summary>
+    protected static void RegisterColor<TEnum>(TEnum slot, Color value) where TEnum : struct, Enum
+    {
+        _colorLut[(typeof(TEnum), Convert.ToInt32(slot))] = value;
+    }
+
+    /// <summary>
+    /// Retrieves a colour previously registered for <typeparamref name="TEnum"/>.
+    /// </summary>
+    public Color GetArrayColor<TEnum>(TEnum slot) where TEnum : struct, Enum
+    {
+        return _colorLut[(typeof(TEnum), Convert.ToInt32(slot))];
+    }
+
+    /// <summary>
+    /// Replaces a registered colour at run-time and triggers a repaint.
+    /// </summary>
+    public void SetArrayColor<TEnum>(TEnum slot, Color newColor) where TEnum : struct, Enum
+    {
+        _colorLut[(typeof(TEnum), Convert.ToInt32(slot))] = newColor;
+        // Inform listeners that colours have changed so UI repaints.
+        OnPalettePaint(this, new PaletteLayoutEventArgs(true, true));
+    }
+
     private readonly object _colorLock = new();
 
     /// <summary>
