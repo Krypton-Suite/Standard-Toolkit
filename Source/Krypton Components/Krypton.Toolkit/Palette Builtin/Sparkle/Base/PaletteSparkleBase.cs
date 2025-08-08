@@ -191,14 +191,6 @@ public class PaletteSparkleBase : PaletteBase
     #region Instance Fields
     /// <inheritdoc/>
     protected override Color[] SchemeColors => _ribbonColors;
-    private Color[] _trackBarColors = [
-        Color.FromArgb(180, 180, 180),
-        Color.FromArgb(33, 37, 50),
-        Color.FromArgb(126, 131, 142),
-        Color.FromArgb(99, 99, 99),
-        Color.FromArgb(32, Color.White),
-        Color.FromArgb(35, 35, 35)
-    ];
 
     protected readonly KryptonColorSchemeBase? BaseColors;
     private KryptonColorTableSparkle? _table;
@@ -241,7 +233,6 @@ public class PaletteSparkleBase : PaletteBase
         {
             _ribbonColors = ribbonColors;
         }
-
         if (sparkleColors != null)
         {
             _sparkleColors = sparkleColors;
@@ -273,6 +264,8 @@ public class PaletteSparkleBase : PaletteBase
 
         // Get the font settings from the system
         DefineFonts();
+
+        SetTrackBarColors();
     }
 
     /// <summary>
@@ -294,9 +287,7 @@ public class PaletteSparkleBase : PaletteBase
         if (scheme != null)
         {
             _ribbonColors = scheme.ToArray();
-            _trackBarColors = scheme.ToTrackBarArray();
         }
-
         if (sparkleColors != null)
         {
             _sparkleColors = sparkleColors;
@@ -330,6 +321,20 @@ public class PaletteSparkleBase : PaletteBase
         DefineFonts();
 
         BaseColors = scheme;
+
+        SetTrackBarColors();
+    }
+
+    protected void SetTrackBarColors()
+    {
+        // Sparkle themes do NOT have own TrackBar colors in themes!
+        // Those are solely defined in this base class, so overwrite here:
+        _ribbonColors[(int)SchemeBaseColors.TrackBarTickMarks] = Color.FromArgb(180, 180, 180);
+        _ribbonColors[(int)SchemeBaseColors.TrackBarTopTrack] = Color.FromArgb(33, 37, 50);
+        _ribbonColors[(int)SchemeBaseColors.TrackBarBottomTrack] = Color.FromArgb(126, 131, 142);
+        _ribbonColors[(int)SchemeBaseColors.TrackBarFillTrack] = Color.FromArgb(99, 99, 99);
+        _ribbonColors[(int)SchemeBaseColors.TrackBarOutsidePosition] =  Color.FromArgb(32, Color.White);
+        _ribbonColors[(int)SchemeBaseColors.TrackBarBorderPosition] = Color.FromArgb(35, 35, 35);
     }
 
     #endregion
