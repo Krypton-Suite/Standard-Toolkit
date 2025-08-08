@@ -69,20 +69,6 @@ public class PaletteOffice2013LightGray : PaletteOffice2013Base
     private static readonly Image _formHelpDisabled = Office2010ControlBoxResources.Office2010HelpIconDisabled;
 
     #endregion
-
-    #region Colour Arrays
-
-    private static readonly Color[]? _trackBarColors =
-    [
-        Color.FromArgb(170, 170, 170), // Tick marks
-        Color.FromArgb(166, 170, 175), // Top track
-        Color.FromArgb(226, 220, 235), // Bottom track
-        Color.FromArgb(206, 200, 215), // Fill track
-        Color.FromArgb(64, Color.White), // Outside position
-        Color.FromArgb(80, 81, 82) // Border (normal) position
-    ];
-
-    #endregion
     #endregion
 
     #region Identity

@@ -16,28 +16,26 @@
     * `ButtonBorderColors`, `ButtonBackColors`
     * `RibbonGroupCollapsedBackContext`, `RibbonGroupCollapsedBackContextTracking`
     * `RibbonGroupCollapsedBorderContext`, `RibbonGroupCollapsedBorderContextTracking`
-    * These correspond to private static arrays (listed below) and must be folded into the scheme as named properties:
-      _appButtonNormal  
-      _appButtonPressed  
-      _appButtonTrack  
-      _arrowBorderColors  
-      _buttonBackColors  
-      _buttonBorderColors  
+    * These correspond to slot families registered via `RegisterColor<TEnum>` (publicly mutable at runtime; see the static constructor in `PaletteMicrosoft365Base.cs`) and must be folded into the scheme as named properties:
+      AppButtonNormalColor (5)  
+      AppButtonTrackColor (5)  
+      AppButtonPressedColor (5)  
+      ButtonBackColor (10)  
+      ButtonBorderColor (7)
+
+    * Additionally, fold remaining legacy arrays used by other themes/renderers into the scheme as named properties (to be removed during clean‑up):
+      _ribbonColors  
       _colorsB  
       _colorsG  
       _colorsS  
-      _ribbonColors  
       _ribbonGroupCollapsedBackContext  
       _ribbonGroupCollapsedBackContextTracking  
       _ribbonGroupCollapsedBorderContext  
       _ribbonGroupCollapsedBorderContextTracking  
-      _schemeBaseColors  
-      _schemeOfficeColours  
-      _schemeVisualStudioColors  
       _sparkleColors  
       _trackBarColors  
-      _trackBarColours  
-      _trackColors
+      _trackColors  
+      _arrowBorderColors
 * Use auto-properties - no arrays, no enums, no “slot” indices.
 
 ```csharp

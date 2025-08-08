@@ -149,14 +149,6 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
     protected override Color[] SchemeColors => _ribbonColors;
     private readonly Color[] _ribbonColors;
 
-    private readonly Color[] _trackBarColors = [
-        Color.FromArgb(180, 180, 180),
-        Color.FromArgb(33, 37, 50),
-        Color.FromArgb(126, 131, 142),
-        Color.FromArgb(99, 99, 99),
-        Color.FromArgb(32, Color.White),
-        Color.FromArgb(35, 35, 35)];
-
     protected readonly KryptonColorSchemeBase? BaseColors;
     private KryptonColorTableSparkle? _table;
     private readonly Color[] _sparkleColors;
@@ -193,6 +185,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
         Image?[] radioButtonArray)
     {
         ThemeName = nameof(PaletteSparkleBlueDarkModeBase);
+
         // Save colors for use in the color table
         _ribbonColors = ribbonColors;
         _sparkleColors = sparkleColors;
@@ -205,6 +198,8 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
 
         // Get the font settings from the system
         DefineFonts();
+
+        SetTrackBarColors();
     }
 
     /// <summary>
@@ -219,17 +214,40 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
         [DisallowNull] Color[] ribbonGroupCollapsedBorderContextTracking,
         [DisallowNull] ImageList checkBoxList,
         [DisallowNull] Image?[] radioButtonArray)
-        : this(scheme.ToArray(),
-            sparkleColors,
-            appButtonNormal,
-            appButtonTrack,
-            appButtonPressed,
-            ribbonGroupCollapsedBorderContextTracking,
-            checkBoxList,
-            radioButtonArray)
     {
+        ThemeName = nameof(PaletteSparkleBlueDarkModeBase);
+
+        // Save colors for use in the color table
+        if (scheme != null)
+        {
+            _ribbonColors = scheme.ToArray();
+        }
+        _sparkleColors = sparkleColors;
+        _appButtonNormal = appButtonNormal;
+        _appButtonTrack = appButtonTrack;
+        _appButtonPressed = appButtonPressed;
+        _ribbonGroupCollapsedBorderContextTracking = ribbonGroupCollapsedBorderContextTracking;
+        _checkBoxList = checkBoxList;
+        _radioButtonArray = radioButtonArray;
+
+        // Get the font settings from the system
+        DefineFonts();
+
         BaseColors = scheme;
-        _trackBarColors = scheme.ToTrackBarArray();
+
+        SetTrackBarColors();
+    }
+
+    private void SetTrackBarColors()
+    {
+        // Sparkle themes do NOT have own TrackBar colors in themes!
+        // Those are solely defined in this base class, so overwrite here:
+        _ribbonColors[(int)SchemeBaseColors.TrackBarTickMarks] = Color.FromArgb(180, 180, 180);
+        _ribbonColors[(int)SchemeBaseColors.TrackBarTopTrack] = Color.FromArgb(33, 37, 50);
+        _ribbonColors[(int)SchemeBaseColors.TrackBarBottomTrack] = Color.FromArgb(126, 131, 142);
+        _ribbonColors[(int)SchemeBaseColors.TrackBarFillTrack] = Color.FromArgb(99, 99, 99);
+        _ribbonColors[(int)SchemeBaseColors.TrackBarOutsidePosition] =  Color.FromArgb(32, Color.White);
+        _ribbonColors[(int)SchemeBaseColors.TrackBarBorderPosition] = Color.FromArgb(35, 35, 35);
     }
 
     #endregion Identity
