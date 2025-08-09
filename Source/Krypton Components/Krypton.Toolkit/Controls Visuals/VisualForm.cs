@@ -729,7 +729,7 @@ namespace Krypton.Toolkit
                     PI.RedrawWindow(Handle, IntPtr.Zero, hRgn.Value,
                         PI.RDW_FRAME | PI.RDW_UPDATENOW | PI.RDW_INVALIDATE);
                 }
-                catch (InvalidOperationException ioEx)
+                catch (InvalidOperationException)
                 {
                     // Object is currently in use elsewhere. Fallback to full non-client redraw.
                     PI.RedrawWindow(Handle, IntPtr.Zero, IntPtr.Zero,
