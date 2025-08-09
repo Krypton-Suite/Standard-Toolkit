@@ -192,6 +192,53 @@ internal static class BuildLogic
             return;
         }
 
+        // NuGet page actions are interpreted here via the standard F5 Run
+        if (state.TasksPage == TasksPage.NuGet)
+        {
+            EnsurePaths(state);
+            state.Tail.Clear();
+            state.SummaryReady = false;
+            state.ErrorCount = 0;
+            state.WarningCount = 0;
+
+            var nugetTargets = new List<string>();
+            switch (state.NuGetAction)
+            {
+                case NuGetAction.Tools:
+                {
+                    StartNuGetTools(state);
+                    return;
+                }
+                case NuGetAction.RebuildPack:
+                {
+                    nugetTargets.Add("Rebuild");
+                    nugetTargets.Add(GetPackTargetForCurrent(state));
+                    break;
+                }
+                case NuGetAction.Push:
+                {
+                    nugetTargets.Add("Push");
+                    break;
+                }
+                case NuGetAction.PackPush:
+                {
+                    nugetTargets.Add(GetPackTargetForCurrent(state));
+                    nugetTargets.Add("Push");
+                    break;
+                }
+                case NuGetAction.BuildPackPush:
+                {
+                    nugetTargets.Add("Rebuild");
+                    nugetTargets.Add(GetPackTargetForCurrent(state));
+                    nugetTargets.Add("Push");
+                    break;
+                }
+            }
+            state.PendingTargets = new Queue<string>(nugetTargets);
+            StartNextBuildStep(state);
+            return;
+        }
+
         if (state.Action == BuildAction.Debug)
         {
             _ = StartCleanAsync(state, onCompleted: () =>
@@ -278,21 +325,45 @@ internal static class BuildLogic
         {
             if (File.Exists(state.TextLogPath))
             {
-                state.SummaryLines = ReadTailForSummary(state.TextLogPath, 300);
+                var tail = ReadTailForSummary(state.TextLogPath, 300);
+                var meta = BuildSummaryHeader(state);
+                var combined = new List<string>(meta.Count + tail.Count + 1);
+                combined.AddRange(meta);
+                combined.AddRange(tail);
+                state.SummaryLines = combined;
                 state.SummaryReady = true;
                 TryNoteNoWork(state);
             }
             else
             {
-                state.SummaryLines = new[] { $"No build log found at: {state.TextLogPath}" };
+                var meta = BuildSummaryHeader(state);
+                var missing = new List<string>(meta.Count + 2);
+                missing.AddRange(meta);
+                missing.Add($"No build log found at: {state.TextLogPath}");
+                state.SummaryLines = missing;
                 state.SummaryReady = true;
             }
         }
         catch (Exception ex)
         {
-            state.SummaryLines = new[] { "Failed to load summary:", ex.Message };
+            var meta = BuildSummaryHeader(state);
+            meta.Add("Failed to load summary:");
+            meta.Add(ex.Message);
+            state.SummaryLines = meta;
             state.SummaryReady = true;
         }
+    }
+
+    private static List<string> BuildSummaryHeader(AppState state)
+    {
+        string tz = TimeZoneInfo.Local.StandardName;
+        string now = DateTimeOffset.Now.ToString("yyyy-MM-dd HH:mm:ss zzz");
+        string cfg = GetEffectiveConfiguration(state);
+        return new List<string>
+        {
+            $"Build Summary — {now} (Zone: {tz})",
+            $"Channel: {state.Channel}   Config: {cfg}"
+        };
     }
 
     private static IReadOnlyList<string> ReadTailForSummary(string filePath, int maxLines)
@@ -342,6 +413,18 @@ internal static class BuildLogic
             }
         }
         return -1;
+    }
+
+    private static void TryAppendCompletionTime(AppState state, DateTimeOffset when)
+    {
+        try
+        {
+            var list = state.SummaryLines as List<string> ?? state.SummaryLines?.ToList() ?? new List<string>();
+            list.Add($"Completed at: {when:yyyy-MM-dd HH:mm:ss zzz}");
+            state.SummaryLines = list;
+            state.SummaryReady = true;
+        }
+        catch {}
     }
 
     private static string GetPackTargetForCurrent(AppState state)
@@ -588,8 +671,8 @@ internal static class BuildLogic
         state.ErrorCount = 0;
         state.WarningCount = 0;
         string scriptsDir = Path.Combine(state.RootPath, "Scripts");
-        string fileName = "cmd.exe";
-        string arguments = "/c update-nuget.cmd";
+        string fileName = "nuget.exe";
+        string arguments = "update -Self -NonInteractive";
 
         state.OnOutput?.Invoke($"Running: {fileName} {arguments} (cwd: {scriptsDir})");
         state.Process = new Process

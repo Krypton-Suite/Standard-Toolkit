@@ -30,4 +30,19 @@ namespace krypton.build
         PackLite,
         PackAll
     }
+
+    public enum TasksPage
+    {
+        Ops,
+        NuGet
+    }
+
+    public enum NuGetAction
+    {
+        RebuildPack,
+        Push,
+        PackPush,
+        BuildPackPush,
+        Tools
+    }
 }

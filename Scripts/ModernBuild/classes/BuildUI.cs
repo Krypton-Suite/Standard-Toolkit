@@ -23,7 +23,7 @@ public static class BuildUI
             X = 0,
             Y = 0,
             Width = Dim.Fill(),
-            Height = (Dim.Fill()! - 2)
+            Height = Dim.Fill()
         };
         top.Add(win);
 
@@ -38,7 +38,7 @@ public static class BuildUI
 
         var tasksFrame = new FrameView
         {
-            Title = "Tasks",
+            Title = "Tasks: Ops",
             X = 0,
             Y = 1,
             Width = TASKS_AREA_WIDTH,
@@ -93,7 +93,14 @@ public static class BuildUI
 
         var hk2 = MakeHK("F2", 1, () =>
         {
-            state.Action = BuildLogic.NextAction(state.Action);
+            if (state.TasksPage == TasksPage.NuGet)
+            {
+                state.NuGetAction = NextNuGetAction(state.NuGetAction);
+            }
+            else
+            {
+                state.Action = NextOpsAction(state.Action);
+            }
             state.RequestRenderAll?.Invoke();
         });
         var tx2 = MakeText(1);
@@ -105,7 +112,18 @@ public static class BuildUI
         });
         var tx3 = MakeText(2);
 
-        var hk5 = MakeHK("F5", 3, () =>
+        var hk4 = MakeHK("F4", 3, () =>
+        {
+            state.TasksPage = state.TasksPage == TasksPage.Ops ? TasksPage.NuGet : TasksPage.Ops;
+            if (state.TasksPage == TasksPage.Ops && state.Action == BuildAction.NuGetTools)
+            {
+                state.Action = BuildAction.Build;
+            }
+            state.RequestRenderAll?.Invoke();
+        });
+        var tx4 = MakeText(3);
+
+        var hk5 = MakeHK("F5", 4, () =>
         {
             if (state.IsRunning)
             {
@@ -116,39 +134,44 @@ public static class BuildUI
                 BuildLogic.StartBuild(state);
             }
         });
-        var tx5 = MakeText(3);
+        var tx5 = MakeText(4);
 
-        var hk6 = MakeHK("F6", 4, () =>
+        var hk6 = MakeHK("F6", 5, () =>
         {
             BuildLogic.CycleTailSize(state);
             state.RequestRenderAll?.Invoke();
         });
-        var tx6 = MakeText(4);
+        var tx6 = MakeText(5);
 
-        var hk7 = MakeHK("F7", 5, () =>
+        var hk7 = MakeHK("F7", 6, () =>
         {
             _ = BuildLogic.StartCleanAsync(state);
         });
-        var tx7 = MakeText(5);
+        var tx7 = MakeText(6);
 
         Action? clearOutput = null;
-        var hk8 = MakeHK("F8", 6, () =>
+        var hk8 = MakeHK("F8", 7, () =>
         {
             clearOutput?.Invoke();
         });
-        var tx8 = MakeText(6);
+        var tx8 = MakeText(7);
 
-        var hk9 = MakeHK("F9", 7, () =>
+        var hk9 = MakeHK("F9", 8, () =>
         {
             state.PackMode = BuildLogic.NextPackMode(state.PackMode);
             state.RequestRenderAll?.Invoke();
         });
-        var tx9 = MakeText(7);
+        var tx9 = MakeText(8);
+        var hkEsc = MakeHK("ESC", 9, () =>
+        {
+            Application.RequestStop();
+        });
+        var txEsc = MakeText(9);
         var hint = new Label
         {
             Text = string.Empty,
             X = 0,
-            Y = 9,
+            Y = 10,
             Width = Dim.Fill(),
             CanFocus = false
         };
@@ -157,7 +180,7 @@ public static class BuildUI
         {
             Text = "Auto-Scroll",
             X = 0,
-            Y = 12,
+            Y = 13,
             AllowCheckStateNone = false,
             CheckedState = state.AutoScroll ? CheckState.Checked : CheckState.UnChecked
         };
@@ -167,7 +190,7 @@ public static class BuildUI
             state.AutoScroll = autoScrollCb.CheckedState == CheckState.Checked;
         };
 
-        tasksFrame.Add(hk1, tx1, hk2, tx2, hk3, tx3, hk5, tx5, hk6, tx6, hk7, tx7, hk8, tx8, hk9, tx9, hint, autoScrollCb);
+        tasksFrame.Add(hk1, tx1, hk2, tx2, hk3, tx3, hk4, tx4, hk5, tx5, hk6, tx6, hk7, tx7, hk8, tx8, hk9, tx9, hkEsc, txEsc, hint, autoScrollCb);
         tasksFrame.Height = Dim.Func(() =>
         {
             return autoScrollCb.Frame.Y + autoScrollCb.Frame.Height + 2;
@@ -180,7 +203,7 @@ public static class BuildUI
             X = 0,
             Y = Pos.Bottom(tasksFrame),
             Width = TASKS_AREA_WIDTH,
-            Height = (Dim.Fill()! - 12)
+            Height = (Dim.Fill()! - 14)
         };
         var overview = new TextView
         {
@@ -202,7 +225,7 @@ public static class BuildUI
             X = Pos.Right(tasksFrame),
             Y = 1,
             Width = Dim.Fill(),
-            Height = (Dim.Fill()! - 12)
+            Height = (Dim.Fill()! - 14)
         };
         var logLines = new ObservableCollection<string>();
         var outputList = new ListView
@@ -268,49 +291,21 @@ public static class BuildUI
             X = 0,
             Y = Pos.Bottom(statusSpacerBottom),
             Width = Dim.Fill(),
-            Height = 9
+            Height = 11
         };
         var summary = new TextView
         {
             ReadOnly = true,
             WordWrap = true,
-            CanFocus = false,
+            CanFocus = true,
             X = 0,
             Y = 0,
             Width = Dim.Fill(),
             Height = Dim.Fill()
         };
+        summary.VerticalScrollBar.AutoShow = true;
         summaryFrame.Add(summary);
         win.Add(statusSpacerTop, status, statusSpacerBottom, summaryFrame);
-
-        var footerHost = new View
-        {
-            X = 0,
-            Y = Pos.AnchorEnd(2),
-            Width = Dim.Fill(),
-            Height = 2,
-            CanFocus = false
-        };
-        var footerTop = new Label
-        {
-            Text = " F1 Channel | F2 Action | F3 Config | F5 Run/Stop | F6 Tail Size | F7 Clean | F8 Clear | F9 PackMode ",
-            X = 0,
-            Y = 0,
-            Width = Dim.Fill(),
-            Height = 1,
-            CanFocus = false
-        };
-        var footerBottom = new Label
-        {
-            Text = " PgUp/PgDn Summary | Home Oldest | End Newest | Esc/F10 Exit ",
-            X = 0,
-            Y = 1,
-            Width = Dim.Fill(),
-            Height = 1,
-            CanFocus = false
-        };
-        footerHost.Add(footerTop, footerBottom);
-        top.Add(footerHost);
 
         var panelScheme = new ColorScheme
         {
@@ -319,20 +314,18 @@ public static class BuildUI
             HotNormal = new Terminal.Gui.Attribute(Terminal.Gui.Color.BrightYellow, Terminal.Gui.Color.Black),
             HotFocus = new Terminal.Gui.Attribute(Terminal.Gui.Color.BrightYellow, Terminal.Gui.Color.Black)
         };
-        var footerScheme = new ColorScheme
+        var nugetScheme = new ColorScheme
         {
-            Normal = new Terminal.Gui.Attribute(Terminal.Gui.Color.Black, Terminal.Gui.Color.BrightCyan),
-            Focus = new Terminal.Gui.Attribute(Terminal.Gui.Color.Black, Terminal.Gui.Color.BrightCyan),
-            HotNormal = new Terminal.Gui.Attribute(Terminal.Gui.Color.BrightYellow, Terminal.Gui.Color.BrightCyan),
-            HotFocus = new Terminal.Gui.Attribute(Terminal.Gui.Color.BrightYellow, Terminal.Gui.Color.BrightCyan)
+            Normal = new Terminal.Gui.Attribute(Terminal.Gui.Color.BrightRed, Terminal.Gui.Color.Black),
+            Focus = new Terminal.Gui.Attribute(Terminal.Gui.Color.BrightRed, Terminal.Gui.Color.Black),
+            HotNormal = new Terminal.Gui.Attribute(Terminal.Gui.Color.BrightYellow, Terminal.Gui.Color.Black),
+            HotFocus = new Terminal.Gui.Attribute(Terminal.Gui.Color.BrightYellow, Terminal.Gui.Color.Black)
         };
+
         tasksFrame.ColorScheme = panelScheme;
         overviewFrame.ColorScheme = panelScheme;
         outputFrame.ColorScheme = panelScheme;
         summaryFrame.ColorScheme = panelScheme;
-        footerHost.ColorScheme = footerScheme;
-        footerTop.ColorScheme = footerScheme;
-        footerBottom.ColorScheme = footerScheme;
 
         state.OnOutput = line => Application.Invoke(() =>
         {
@@ -352,31 +345,34 @@ public static class BuildUI
         var ui = new UIContext
         {
             Status = status,
+            TasksFrame = tasksFrame,
+            SummaryFrame = summaryFrame,
+            PanelScheme = panelScheme,
+            NugetScheme = nugetScheme,
             Tx1 = tx1,
             Tx2 = tx2,
             Tx3 = tx3,
+            Tx4 = tx4,
             Tx5 = tx5,
             Tx6 = tx6,
             Tx7 = tx7,
             Tx8 = tx8,
             Tx9 = tx9,
+            TxEsc = txEsc,
             Hint = hint,
             Overview = overview,
             Summary = summary,
             OutputList = outputList
         };
 
-        var tick = new System.Timers.Timer(500);
+        var tick = new System.Timers.Timer(1000);
         tick.AutoReset = true;
         tick.Elapsed += (_, __) =>
         {
-            if (state.IsRunning)
+            Application.Invoke(() =>
             {
-                Application.Invoke(() =>
-                {
-                    RenderStatus(state, ui);
-                });
-            }
+                RenderStatus(state, ui);
+            });
         };
         tick.Start();
 
@@ -406,13 +402,30 @@ public static class BuildUI
                 }
                 case KeyCode.F2:
                 {
-                    state.Action = BuildLogic.NextAction(state.Action);
+                    if (state.TasksPage == TasksPage.NuGet)
+                    {
+                        state.NuGetAction = NextNuGetAction(state.NuGetAction);
+                    }
+                    else
+                    {
+                        state.Action = NextOpsAction(state.Action);
+                    }
                     RenderAll(state, ui);
                     break;
                 }
                 case KeyCode.F3:
                 {
                     state.Configuration = BuildLogic.NextConfig(state.Channel, state.Configuration);
+                    RenderAll(state, ui);
+                    break;
+                }
+                case KeyCode.F4:
+                {
+                    state.TasksPage = state.TasksPage == TasksPage.Ops ? TasksPage.NuGet : TasksPage.Ops;
+                    if (state.TasksPage == TasksPage.Ops && state.Action == BuildAction.NuGetTools)
+                    {
+                        state.Action = BuildAction.Build;
+                    }
                     RenderAll(state, ui);
                     break;
                 }
@@ -457,24 +470,44 @@ public static class BuildUI
                 }
                 case KeyCode.PageUp:
                 {
+                    if (ui.Summary != null && ui.Summary.HasFocus)
+                    {
+                        // let TextView handle
+                        break;
+                    }
                     state.SummaryOffset += 20;
                     RenderSummary(state, ui);
                     break;
                 }
                 case KeyCode.PageDown:
                 {
+                    if (ui.Summary != null && ui.Summary.HasFocus)
+                    {
+                        // let TextView handle
+                        break;
+                    }
                     state.SummaryOffset = Math.Max(0, state.SummaryOffset - 20);
                     RenderSummary(state, ui);
                     break;
                 }
                 case KeyCode.Home:
                 {
+                    if (ui.Summary != null && ui.Summary.HasFocus)
+                    {
+                        // let TextView handle
+                        break;
+                    }
                     state.SummaryOffset = int.MaxValue;
                     RenderSummary(state, ui);
                     break;
                 }
                 case KeyCode.End:
                 {
+                    if (ui.Summary != null && ui.Summary.HasFocus)
+                    {
+                        // let TextView handle
+                        break;
+                    }
                     state.SummaryOffset = 0;
                     RenderSummary(state, ui);
                     break;
@@ -497,15 +530,21 @@ public static class BuildUI
 
     internal sealed class UIContext
     {
+        public FrameView? TasksFrame { get; set; }
+        public FrameView? SummaryFrame { get; set; }
+        public ColorScheme? PanelScheme { get; set; }
+        public ColorScheme? NugetScheme { get; set; }
         public Label? Status { get; set; }
         public Label? Tx1 { get; set; }
         public Label? Tx2 { get; set; }
         public Label? Tx3 { get; set; }
+        public Label? Tx4 { get; set; }
         public Label? Tx5 { get; set; }
         public Label? Tx6 { get; set; }
         public Label? Tx7 { get; set; }
         public Label? Tx8 { get; set; }
         public Label? Tx9 { get; set; }
+        public Label? TxEsc { get; set; }
         public Label? Hint { get; set; }
         public TextView? Overview { get; set; }
         public TextView? Summary { get; set; }
@@ -521,6 +560,47 @@ public static class BuildUI
         RenderSummary(state, ui);
     }
 
+    private static BuildAction NextOpsAction(BuildAction action)
+    {
+        // Same cycle as BuildLogic.NextAction but skipping NuGetTools
+        return action switch
+        {
+            BuildAction.Build       => BuildAction.Rebuild,
+            BuildAction.Rebuild     => BuildAction.Pack,
+            BuildAction.Pack        => BuildAction.BuildPack,
+            BuildAction.BuildPack   => BuildAction.Debug,
+            BuildAction.Debug       => BuildAction.Installer,
+            BuildAction.NuGetTools  => BuildAction.Build, // sanitize if ever present
+            BuildAction.Installer   => BuildAction.Build,
+            _                       => BuildAction.Build
+        };
+    }
+
+    private static NuGetAction NextNuGetAction(NuGetAction action)
+    {
+        return action switch
+        {
+            NuGetAction.RebuildPack   => NuGetAction.Push,
+            NuGetAction.Push          => NuGetAction.PackPush,
+            NuGetAction.PackPush      => NuGetAction.BuildPackPush,
+            NuGetAction.BuildPackPush => NuGetAction.Tools,
+            _                         => NuGetAction.RebuildPack
+        };
+    }
+
+    private static string FormatNuGetAction(NuGetAction action)
+    {
+        return action switch
+        {
+            NuGetAction.RebuildPack     => "Rebuild+Pack",
+            NuGetAction.Push            => "Push",
+            NuGetAction.PackPush        => "Pack+Push",
+            NuGetAction.BuildPackPush   => "Rebuild+Pack+Push",
+            NuGetAction.Tools           => "Update NuGet",
+            _                           => action.ToString()
+        };
+    }
+
     private static void RenderStatus(AppState state, UIContext ui)
     {
         string st = state.IsRunning ? "RUNNING" : (state.LastExitCode == 0 ? "DONE" : "IDLE");
@@ -530,69 +610,151 @@ public static class BuildUI
         }
         TimeSpan? elapsed = state.IsRunning && state.StartTimeUtc.HasValue ? DateTime.UtcNow - state.StartTimeUtc.Value : (TimeSpan?)null;
         string elapsedText = elapsed.HasValue ? elapsed.Value.ToString("hh\\:mm\\:ss") : "--:--:--";
+        if (ui.SummaryFrame != null)
+        {
+            string ts = DateTimeOffset.Now.ToString("yyyy-MM-dd HH:mm:ss zzz");
+            ui.SummaryFrame.Title = $"Summary — {ts}";
+        }
         if (ui.Status != null)
         {
             ui.Status.Text = $"{st}   Elapsed: {elapsedText}   Errors: {state.ErrorCount}   Warnings: {state.WarningCount}";
         }
     }
 
-    private static void RenderTasks(AppState state, UIContext ui)
+        private static void RenderTasks(AppState state, UIContext ui)
     {
-        ChannelType nextChannel = BuildLogic.NextChannel(state.Channel);
-        BuildAction nextAction = BuildLogic.NextAction(state.Action);
-        string FormatAction(BuildAction a)
+        if (state.TasksPage == TasksPage.Ops)
         {
-            return a == BuildAction.Installer ? "Installer" : a.ToString();
-        }
-        string nextConfig = BuildLogic.NextConfig(state.Channel, state.Configuration);
-        if (ui.Tx1 != null)
-        {
-            ui.Tx1.Text = $"Channel   {state.Channel} (next: {nextChannel})";
-        }
-        if (ui.Tx2 != null)
-        {
-            ui.Tx2.Text = $"Action    {FormatAction(state.Action)} (next: {FormatAction(nextAction)})";
-        }
-        if (ui.Tx3 != null)
-        {
-            ui.Tx3.Text = $"Config    {state.Configuration} (next: {nextConfig})";
-        }
-        if (ui.Tx6 != null)
-        {
-            ui.Tx6.Text = $"Tail      {state.TailLines}";
-        }
-        if (ui.Tx5 != null)
-        {
-            ui.Tx5.Text = $"Run/Stop  {(state.IsRunning ? "Stop" : "Run")}";
-        }
-        if (ui.Tx7 != null)
-        {
-            ui.Tx7.Text = "Clean     Delete Bin/obj/Logs";
-        }
-        if (ui.Tx8 != null)
-        {
-            ui.Tx8.Text = "Clear     Clear live output";
-        }
-        bool showF9 = (state.Channel == ChannelType.Stable) &&
-                      (state.Action == BuildAction.Pack || state.Action == BuildAction.BuildPack);
-        if (showF9)
-        {
-            PackMode nextPack = BuildLogic.NextPackMode(state.PackMode);
-            if (ui.Tx9 != null)
+            ChannelType nextChannel = BuildLogic.NextChannel(state.Channel);
+            BuildAction nextAction = NextOpsAction(state.Action);
+            string FormatAction(BuildAction a)
             {
-                ui.Tx9.Text = $"PackMode  {state.PackMode} (next: {nextPack})";
+                return a == BuildAction.Installer ? "Installer" : a.ToString();
+            }
+            if (ui.TasksFrame != null)
+            {
+                ui.TasksFrame.Title = "Tasks: Ops";
+                if (ui.PanelScheme != null)
+                {
+                    ui.TasksFrame.ColorScheme = ui.PanelScheme;
+                }
+            }
+            string nextConfig = BuildLogic.NextConfig(state.Channel, state.Configuration);
+            if (ui.Tx1 != null)
+            {
+                ui.Tx1.Text = $"Channel   {state.Channel} (next: {nextChannel})";
+            }
+            if (ui.Tx2 != null)
+            {
+                ui.Tx2.Text = $"Action    {FormatAction(state.Action)} (next: {FormatAction(nextAction)})";
+            }
+            if (ui.Tx3 != null)
+            {
+                ui.Tx3.Text = $"Config    {state.Configuration} (next: {nextConfig})";
+            }
+            if (ui.Tx4 != null)
+            {
+                ui.Tx4.Text = "Page      Ops (F4 to switch)";
+            }
+            if (ui.Tx6 != null)
+            {
+                ui.Tx6.Text = $"Tail      {state.TailLines}";
+            }
+            if (ui.Tx5 != null)
+            {
+                ui.Tx5.Text = $"Run/Stop  {(state.IsRunning ? "Stop" : "Run")}";
+            }
+            if (ui.Tx7 != null)
+            {
+                ui.Tx7.Text = "Clean     Delete Bin/obj/Logs";
+            }
+            if (ui.Tx8 != null)
+            {
+                ui.Tx8.Text = "Clear     Clear live output";
+            }
+            if (ui.TxEsc != null)
+            {
+                ui.TxEsc.Text = "Exit      Exit application";
+            }
+            bool showF9 = (state.Channel == ChannelType.Stable) &&
+                          (state.Action == BuildAction.Pack || state.Action == BuildAction.BuildPack);
+            if (showF9)
+            {
+                PackMode nextPack = BuildLogic.NextPackMode(state.PackMode);
+                if (ui.Tx9 != null)
+                {
+                    ui.Tx9.Text = $"PackMode  {state.PackMode} (next: {nextPack})";
+                }
+            }
+            else
+            {
+                if (ui.Tx9 != null)
+                {
+                    ui.Tx9.Text = "PackMode  (Stable only)";
+                }
+            }
+            if (ui.Hint != null)
+            {
+                ui.Hint.Text = "F-keys cycle options.\nF5 toggles Run/Stop.";
             }
         }
         else
         {
+            // NuGet page: keep channel/config visible, show NuGet-specific actions
+            ChannelType nextChannel = BuildLogic.NextChannel(state.Channel);
+            string nextConfig = BuildLogic.NextConfig(state.Channel, state.Configuration);
+            if (ui.TasksFrame != null)
+            {
+                ui.TasksFrame.Title = "Tasks: NuGet";
+                if (ui.NugetScheme != null)
+                {
+                    ui.TasksFrame.ColorScheme = ui.NugetScheme;
+                }
+            }
+            if (ui.Tx1 != null)
+            {
+                ui.Tx1.Text = $"Channel   {state.Channel} (next: {nextChannel})";
+            }
+            if (ui.Tx2 != null)
+            {
+                ui.Tx2.Text = $"Action    {FormatNuGetAction(state.NuGetAction)}";
+            }
+            if (ui.Tx3 != null)
+            {
+                ui.Tx3.Text = $"Config    {state.Configuration} (next: {nextConfig})";
+            }
+            if (ui.Tx4 != null)
+            {
+                ui.Tx4.Text = "Page      NuGet (F4 to switch)";
+            }
+            if (ui.Tx5 != null)
+            {
+                ui.Tx5.Text = $"Run/Stop  {(state.IsRunning ? "Stop" : "Run")}";
+            }
+            if (ui.Tx6 != null)
+            {
+                ui.Tx6.Text = $"Tail      {state.TailLines}";
+            }
+            if (ui.Tx7 != null)
+            {
+                ui.Tx7.Text = "Clean     Delete Bin/obj/Logs";
+            }
+            if (ui.Tx8 != null)
+            {
+                ui.Tx8.Text = "Clear     Clear live output";
+            }
             if (ui.Tx9 != null)
             {
                 ui.Tx9.Text = "PackMode  (Stable only)";
             }
-        }
-        if (ui.Hint != null)
-        {
-            ui.Hint.Text = "F-keys cycle options.\nF5 toggles Run/Stop.";
+            if (ui.TxEsc != null)
+            {
+                ui.TxEsc.Text = "Exit      Exit application";
+            }
+            if (ui.Hint != null)
+            {
+                ui.Hint.Text = "NuGet page:\nF2 cycles NuGet actions.\nF5 runs the selected action(s).";
+            }
         }
     }
 
@@ -601,12 +763,25 @@ public static class BuildUI
         string prefix = state.Channel.ToString().ToLowerInvariant();
         var sb = new StringBuilder();
 
+        int CalcWrapWidth()
+        {
+            // Use the fixed layout width for the left column (Build Settings)
+            int width = TASKS_AREA_WIDTH - 4; // usable row width as requested
+            return Math.Max(10, width);
+        }
+
         void AddKV(string label, string value)
         {
             sb.AppendLine(label);
-            const int max = 38;
-            string v = value.Length > max ? value.Substring(0, max - 3) + "..." : value;
-            sb.AppendLine("  " + v);
+            int max = CalcWrapWidth();
+            int start = 0;
+            while (start < value.Length)
+            {
+                int len = Math.Min(max, value.Length - start);
+                string chunk = value.Substring(start, len);
+                sb.AppendLine("  " + chunk);
+                start += len;
+            }
         }
 
         string TrimScriptsPath(string fullPath)

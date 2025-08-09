@@ -39,6 +39,9 @@ namespace krypton.build
         public PackMode PackMode { get; set; } = PackMode.Pack;
         public Action? RequestRenderAll { get; set; }
         public bool AutoScroll { get; set; } = true;
+
+        public TasksPage TasksPage { get; set; } = TasksPage.Ops;
+        public NuGetAction NuGetAction { get; set; } = NuGetAction.RebuildPack;
     }
 
     public sealed class TailBuffer
