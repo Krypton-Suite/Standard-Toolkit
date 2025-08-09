@@ -42,6 +42,11 @@ namespace krypton.build
 
         public TasksPage TasksPage { get; set; } = TasksPage.Ops;
         public NuGetAction NuGetAction { get; set; } = NuGetAction.RebuildPack;
+        public bool NuGetIncludeSymbols { get; set; }
+        public bool NuGetSkipDuplicate { get; set; } = true;
+        public NuGetSource NuGetSource { get; set; } = NuGetSource.Default;
+        public string NuGetCustomSource { get; set; } = string.Empty;
+        public Queue<string>? NuGetPushQueue { get; set; }
     }
 
     public sealed class TailBuffer

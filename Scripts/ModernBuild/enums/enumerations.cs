@@ -45,4 +45,12 @@ namespace krypton.build
         BuildPackPush,
         Tools
     }
+
+    public enum NuGetSource
+    {
+        Default,
+        NuGetOrg,
+        GitHub,
+        Custom
+    }
 }

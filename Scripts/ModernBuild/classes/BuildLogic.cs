@@ -217,21 +217,29 @@ internal static class BuildLogic
                 }
                 case NuGetAction.Push:
                 {
-                    nugetTargets.Add("Push");
-                    break;
+                    StartNuGetPush(state);
+                    return;
                 }
                 case NuGetAction.PackPush:
                 {
                     nugetTargets.Add(GetPackTargetForCurrent(state));
-                    nugetTargets.Add("Push");
-                    break;
+                    state.PendingTargets = new Queue<string>(nugetTargets);
+                    state.Process = null;
+                    StartNextBuildStep(state);
+                    state.PendingTargets = new Queue<string>(new string[0]);
+                    StartNuGetPush(state);
+                    return;
                 }
                 case NuGetAction.BuildPackPush:
                 {
                     nugetTargets.Add("Rebuild");
                     nugetTargets.Add(GetPackTargetForCurrent(state));
-                    nugetTargets.Add("Push");
-                    break;
+                    state.PendingTargets = new Queue<string>(nugetTargets);
+                    state.Process = null;
+                    StartNextBuildStep(state);
+                    state.PendingTargets = new Queue<string>(new string[0]);
+                    StartNuGetPush(state);
+                    return;
                 }
             }
             state.PendingTargets = new Queue<string>(nugetTargets);
@@ -718,6 +726,257 @@ internal static class BuildLogic
 
         state.IsRunning = true;
         state.StartTimeUtc = DateTime.UtcNow;
+        state.Process.Start();
+        state.Process.BeginOutputReadLine();
+        state.Process.BeginErrorReadLine();
+    }
+
+    private static void StartNuGetPush(AppState state)
+    {
+        if (state.IsRunning)
+        {
+            return;
+        }
+
+        try
+        {
+            // Preflight credential/source checks
+            if (!ValidateNuGetCredentials(state))
+            {
+                return;
+            }
+
+            string channelFolder = state.Channel switch
+            {
+                ChannelType.Nightly => Path.Combine(state.RootPath, "Bin", "Nightly"),
+                ChannelType.Canary => Path.Combine(state.RootPath, "Bin", "Canary"),
+                _ => Path.Combine(state.RootPath, "Bin", "Release")
+            };
+            if (!Directory.Exists(channelFolder))
+            {
+                state.OnOutput?.Invoke($"Packages folder not found: {channelFolder}");
+                state.LastExitCode = 1;
+                state.SummaryLines = new[] { $"NuGet push failed. Folder not found: {channelFolder}" };
+                state.SummaryReady = true;
+                return;
+            }
+
+            var files = new List<string>();
+            files.AddRange(Directory.GetFiles(channelFolder, "*.nupkg", SearchOption.TopDirectoryOnly));
+            if (state.NuGetIncludeSymbols)
+            {
+                files.AddRange(Directory.GetFiles(channelFolder, "*.snupkg", SearchOption.TopDirectoryOnly));
+            }
+            files.Sort(StringComparer.OrdinalIgnoreCase);
+            if (files.Count == 0)
+            {
+                state.OnOutput?.Invoke("No packages found to push.");
+                state.SummaryLines = new[] { "No packages found to push." };
+                state.SummaryReady = true;
+                return;
+            }
+
+            state.NuGetPushQueue = new Queue<string>(files);
+            RunNextNuGetPush(state);
+        }
+        catch (Exception ex)
+        {
+            state.OnOutput?.Invoke($"NuGet push error: {ex.Message}");
+            state.LastExitCode = 1;
+            state.SummaryLines = new[] { "NuGet push error:", ex.Message };
+            state.SummaryReady = true;
+        }
+    }
+
+    private static bool ValidateNuGetCredentials(AppState state)
+    {
+        try
+        {
+            switch (state.NuGetSource)
+            {
+                case NuGetSource.GitHub:
+                {
+                    bool hasGithub = NuGetSourceExists(state, "nuget.pkg.github.com") || NuGetSourceExists(state, "github");
+                    if (!hasGithub)
+                    {
+                        state.OnOutput?.Invoke("[yellow]GitHub source not found in NuGet sources. Configure it first (nuget sources add ...).[/]");
+                        state.SummaryLines = new[] { "GitHub source not configured.", "Add a NuGet source for GitHub Packages before pushing." };
+                        state.SummaryReady = true;
+                        state.LastExitCode = 1;
+                        return false;
+                    }
+                    break;
+                }
+                case NuGetSource.Custom:
+                {
+                    if (string.IsNullOrWhiteSpace(state.NuGetCustomSource))
+                    {
+                        state.OnOutput?.Invoke("[yellow]Custom source is empty. Set a URL for Custom source before pushing.[/]");
+                        state.SummaryLines = new[] { "Custom source is empty.", "Set 'Source' to Custom and provide a URL." };
+                        state.SummaryReady = true;
+                        state.LastExitCode = 1;
+                        return false;
+                    }
+                    break;
+                }
+                case NuGetSource.NuGetOrg:
+                case NuGetSource.Default:
+                default:
+                {
+                    if (!HasNuGetOrgApiKey(state))
+                    {
+                        state.OnOutput?.Invoke("[yellow]NuGet.org API key not found. Configure it with 'nuget.exe setapikey <KEY> -Source https://api.nuget.org/v3/index.json'.[/]");
+                        state.SummaryLines = new[]
+                        {
+                            "NuGet.org API key not detected.",
+                            "Run: nuget.exe setapikey <KEY> -Source https://api.nuget.org/v3/index.json"
+                        };
+                        state.SummaryReady = true;
+                        state.LastExitCode = 1;
+                        return false;
+                    }
+                    break;
+                }
+            }
+            return true;
+        }
+        catch (Exception ex)
+        {
+            state.OnOutput?.Invoke($"[yellow]Credential preflight check failed: {ex.Message}[/]");
+            state.SummaryLines = new[] { "Credential preflight check failed.", ex.Message };
+            state.SummaryReady = true;
+            state.LastExitCode = 1;
+            return false;
+        }
+    }
+
+    private static bool HasNuGetOrgApiKey(AppState state)
+    {
+        var psi = new ProcessStartInfo
+        {
+            FileName = "nuget.exe",
+            Arguments = "config -list",
+            WorkingDirectory = Path.Combine(state.RootPath, "Scripts"),
+            UseShellExecute = false,
+            RedirectStandardOutput = true,
+            RedirectStandardError = true,
+            CreateNoWindow = true,
+            StandardOutputEncoding = Encoding.UTF8,
+            StandardErrorEncoding = Encoding.UTF8
+        };
+        using var p = Process.Start(psi)!;
+        string output = p.StandardOutput.ReadToEnd();
+        p.WaitForExit(5000);
+        if (string.IsNullOrEmpty(output))
+        {
+            return false;
+        }
+        return output.IndexOf("api.nuget.org", StringComparison.OrdinalIgnoreCase) >= 0
+            || output.IndexOf("https://api.nuget.org/v3/index.json", StringComparison.OrdinalIgnoreCase) >= 0;
+    }
+
+    private static bool NuGetSourceExists(AppState state, string expected)
+    {
+        var psi = new ProcessStartInfo
+        {
+            FileName = "nuget.exe",
+            Arguments = "sources list -format Detailed",
+            WorkingDirectory = Path.Combine(state.RootPath, "Scripts"),
+            UseShellExecute = false,
+            RedirectStandardOutput = true,
+            RedirectStandardError = true,
+            CreateNoWindow = true,
+            StandardOutputEncoding = Encoding.UTF8,
+            StandardErrorEncoding = Encoding.UTF8
+        };
+        using var p = Process.Start(psi)!;
+        string output = p.StandardOutput.ReadToEnd();
+        p.WaitForExit(5000);
+        if (string.IsNullOrEmpty(output))
+        {
+            return false;
+        }
+        return output.IndexOf(expected, StringComparison.OrdinalIgnoreCase) >= 0;
+    }
+
+    private static void RunNextNuGetPush(AppState state)
+    {
+        if (state.NuGetPushQueue == null || state.NuGetPushQueue.Count == 0)
+        {
+            state.IsRunning = false;
+            state.LastExitCode = 0;
+            state.SummaryLines = new[] { "NuGet push completed." };
+            state.SummaryReady = true;
+            state.RequestRenderAll?.Invoke();
+            return;
+        }
+
+        string pkg = state.NuGetPushQueue.Dequeue();
+        string fileName = "nuget.exe";
+        var args = new StringBuilder().Append("push \"").Append(pkg).Append("\" ");
+        if (state.NuGetSkipDuplicate)
+        {
+            args.Append("-SkipDuplicate ");
+        }
+        args.Append("-NonInteractive ");
+
+        string? resolvedSource = state.NuGetSource switch
+        {
+            NuGetSource.NuGetOrg => "https://api.nuget.org/v3/index.json",
+            NuGetSource.GitHub => "github",
+            NuGetSource.Custom => string.IsNullOrWhiteSpace(state.NuGetCustomSource) ? null : state.NuGetCustomSource,
+            _ => null
+        };
+        if (!string.IsNullOrWhiteSpace(resolvedSource))
+        {
+            args.Append("-Source \"").Append(resolvedSource).Append("\" ");
+        }
+
+        state.OnOutput?.Invoke($"Running: {fileName} {args}");
+        state.Process = new Process
+        {
+            StartInfo = new ProcessStartInfo
+            {
+                FileName = fileName,
+                Arguments = args.ToString(),
+                WorkingDirectory = Path.Combine(state.RootPath, "Scripts"),
+                UseShellExecute = false,
+                RedirectStandardError = true,
+                RedirectStandardOutput = true,
+                CreateNoWindow = true,
+                StandardOutputEncoding = Encoding.UTF8,
+                StandardErrorEncoding = Encoding.UTF8
+            },
+            EnableRaisingEvents = true
+        };
+        state.Process.OutputDataReceived += (_, e) =>
+        {
+            if (!string.IsNullOrEmpty(e.Data)) state.OnOutput?.Invoke(e.Data);
+        };
+        state.Process.ErrorDataReceived += (_, e) =>
+        {
+            if (!string.IsNullOrEmpty(e.Data)) state.OnOutput?.Invoke(e.Data);
+        };
+        state.Process.Exited += (_, __) =>
+        {
+            int code = state.Process?.ExitCode ?? -1;
+            if (code != 0)
+            {
+                state.OnOutput?.Invoke($"[red]nuget.exe exited with code {code} for {Path.GetFileName(pkg)}[/]");
+                state.LastExitCode = code;
+                state.IsRunning = false;
+                state.SummaryLines = new[] { $"NuGet push failed for {Path.GetFileName(pkg)} (code {code})." };
+                state.SummaryReady = true;
+                state.RequestRenderAll?.Invoke();
+                return;
+            }
+            RunNextNuGetPush(state);
+        };
+        if (!state.IsRunning || !state.StartTimeUtc.HasValue)
+        {
+            state.StartTimeUtc = DateTime.UtcNow;
+        }
+        state.IsRunning = true;
         state.Process.Start();
         state.Process.BeginOutputReadLine();
         state.Process.BeginErrorReadLine();

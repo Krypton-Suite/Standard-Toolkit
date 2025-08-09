@@ -138,21 +138,42 @@ public static class BuildUI
 
         var hk6 = MakeHK("F6", 5, () =>
         {
-            BuildLogic.CycleTailSize(state);
+            if (state.TasksPage == TasksPage.NuGet)
+            {
+                state.NuGetIncludeSymbols = !state.NuGetIncludeSymbols;
+            }
+            else
+            {
+                BuildLogic.CycleTailSize(state);
+            }
             state.RequestRenderAll?.Invoke();
         });
         var tx6 = MakeText(5);
 
         var hk7 = MakeHK("F7", 6, () =>
         {
-            _ = BuildLogic.StartCleanAsync(state);
+            if (state.TasksPage == TasksPage.NuGet)
+            {
+                state.NuGetSkipDuplicate = !state.NuGetSkipDuplicate;
+            }
+            else
+            {
+                _ = BuildLogic.StartCleanAsync(state);
+            }
         });
         var tx7 = MakeText(6);
 
         Action? clearOutput = null;
         var hk8 = MakeHK("F8", 7, () =>
         {
-            clearOutput?.Invoke();
+            if (state.TasksPage == TasksPage.NuGet)
+            {
+                state.NuGetSource = NextNuGetSource(state.NuGetSource);
+            }
+            else
+            {
+                clearOutput?.Invoke();
+            }
         });
         var tx8 = MakeText(7);
 
@@ -443,22 +464,46 @@ public static class BuildUI
                 }
                 case KeyCode.F6:
                 {
-                    BuildLogic.CycleTailSize(state);
-                    RenderAll(state, ui);
+                    if (state.TasksPage == TasksPage.NuGet)
+                    {
+                        state.NuGetIncludeSymbols = !state.NuGetIncludeSymbols;
+                        RenderAll(state, ui);
+                    }
+                    else
+                    {
+                        BuildLogic.CycleTailSize(state);
+                        RenderAll(state, ui);
+                    }
                     break;
                 }
                 case KeyCode.F7:
                 {
-                    _ = BuildLogic.StartCleanAsync(state);
+                    if (state.TasksPage == TasksPage.NuGet)
+                    {
+                        state.NuGetSkipDuplicate = !state.NuGetSkipDuplicate;
+                        RenderAll(state, ui);
+                    }
+                    else
+                    {
+                        _ = BuildLogic.StartCleanAsync(state);
+                    }
                     break;
                 }
                 case KeyCode.F8:
                 {
-                    state.Tail.Clear();
-                    logLines.Clear();
-                    if (outputList.Viewport.X < 0)
+                    if (state.TasksPage == TasksPage.NuGet)
                     {
-                        outputList.Viewport = outputList.Viewport with { X = 0 };
+                        state.NuGetSource = NextNuGetSource(state.NuGetSource);
+                        RenderAll(state, ui);
+                    }
+                    else
+                    {
+                        state.Tail.Clear();
+                        logLines.Clear();
+                        if (outputList.Viewport.X < 0)
+                        {
+                            outputList.Viewport = outputList.Viewport with { X = 0 };
+                        }
                     }
                     break;
                 }
@@ -601,6 +646,29 @@ public static class BuildUI
         };
     }
 
+    private static NuGetSource NextNuGetSource(NuGetSource source)
+    {
+        return source switch
+        {
+            NuGetSource.Default     => NuGetSource.NuGetOrg,
+            NuGetSource.NuGetOrg    => NuGetSource.GitHub,
+            NuGetSource.GitHub      => NuGetSource.Custom,
+            _                       => NuGetSource.Default
+        };
+    }
+
+    private static string FormatNuGetSource(NuGetSource source, string custom)
+    {
+        return source switch
+        {
+            NuGetSource.Default     => "Default",
+            NuGetSource.NuGetOrg    => "NuGet.org",
+            NuGetSource.GitHub      => "GitHub",
+            NuGetSource.Custom      => string.IsNullOrWhiteSpace(custom) ? "Custom (unset)" : custom,
+            _                       => source.ToString()
+        };
+    }
+
     private static void RenderStatus(AppState state, UIContext ui)
     {
         string st = state.IsRunning ? "RUNNING" : (state.LastExitCode == 0 ? "DONE" : "IDLE");
@@ -656,22 +724,13 @@ public static class BuildUI
             {
                 ui.Tx4.Text = "Page      Ops (F4 to switch)";
             }
-            if (ui.Tx6 != null)
-            {
-                ui.Tx6.Text = $"Tail      {state.TailLines}";
-            }
+            if (ui.Tx6 != null) ui.Tx6.Text = $"Tail      {state.TailLines}";
             if (ui.Tx5 != null)
             {
                 ui.Tx5.Text = $"Run/Stop  {(state.IsRunning ? "Stop" : "Run")}";
             }
-            if (ui.Tx7 != null)
-            {
-                ui.Tx7.Text = "Clean     Delete Bin/obj/Logs";
-            }
-            if (ui.Tx8 != null)
-            {
-                ui.Tx8.Text = "Clear     Clear live output";
-            }
+            if (ui.Tx7 != null) ui.Tx7.Text = "Clean     Delete Bin/obj/Logs";
+            if (ui.Tx8 != null) ui.Tx8.Text = "Clear     Clear live output";
             if (ui.TxEsc != null)
             {
                 ui.TxEsc.Text = "Exit      Exit application";
@@ -731,17 +790,12 @@ public static class BuildUI
             {
                 ui.Tx5.Text = $"Run/Stop  {(state.IsRunning ? "Stop" : "Run")}";
             }
-            if (ui.Tx6 != null)
-            {
-                ui.Tx6.Text = $"Tail      {state.TailLines}";
-            }
-            if (ui.Tx7 != null)
-            {
-                ui.Tx7.Text = "Clean     Delete Bin/obj/Logs";
-            }
+            if (ui.Tx6 != null) ui.Tx6.Text = $"Symbols   {(state.NuGetIncludeSymbols ? "Yes" : "No")}";
+            if (ui.Tx7 != null) ui.Tx7.Text = $"SkipDup   {(state.NuGetSkipDuplicate ? "Yes" : "No")}";
             if (ui.Tx8 != null)
             {
-                ui.Tx8.Text = "Clear     Clear live output";
+                string src = FormatNuGetSource(state.NuGetSource, state.NuGetCustomSource);
+                ui.Tx8.Text = $"Source    {src}";
             }
             if (ui.Tx9 != null)
             {
