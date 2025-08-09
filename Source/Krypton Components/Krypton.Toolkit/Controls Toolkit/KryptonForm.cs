@@ -1039,7 +1039,7 @@ public class KryptonForm : VisualForm,
                 or PaletteContentStyle.HeaderCalendar
                 or PaletteContentStyle.HeaderCustom1
                 or PaletteContentStyle.HeaderCustom2
-                or PaletteContentStyle.HeaderCustom3 => GetRTLAdjustedImageAlignment(_kryptonForm._formTitleAlign),
+                or PaletteContentStyle.HeaderCustom3 => GetRTLAdjustedAlignment(_kryptonForm._formTitleAlign),
             _ => base.GetContentImageH(style, state)
         };
 
@@ -2365,139 +2365,15 @@ public class KryptonForm : VisualForm,
             // Validate context
             if (context?.Control == null)
             {
-                // If context or control is null, use default layout
                 base.Layout(context);
                 return;
             }
-            
-            // Get the available area
+ 
+            // Give the content the full available area so renderer can align to Far/Near/Center precisely
             Rectangle availableArea = context.DisplayRectangle;
-            
-            // Check if RTL is enabled - this is the primary condition for RTL layout
-            var form = context.Control as Form;
-            bool isRTL = form?.RightToLeft == RightToLeft.Yes;
-            bool isRTLLayout = form?.RightToLeftLayout == true;
-            
-            // Get the title alignment from the form
-            var kryptonForm = context.Control as KryptonForm;
-            var titleAlign = kryptonForm?._formTitleAlign ?? PaletteRelativeAlign.Near;
-            
-            // Calculate the content size
-            Size contentSize = _content?.GetPreferredSize(context) ?? Size.Empty;
-            
-            Rectangle contentRect;
-            
-            if (isRTL)
-            {
-                // In RTL mode, adjust positioning based on alignment and RTL Layout setting
-                switch (titleAlign)
-                {
-                    case PaletteRelativeAlign.Near:
-                        if (isRTLLayout)
-                        {
-                            // When RTL Layout is enabled, "Near" means right side in RTL
-                            contentRect = new Rectangle(
-                                availableArea.Right - contentSize.Width - GlobalStaticValues.RTL_ICON_TEXT_PADDING,
-                                availableArea.Top,
-                                contentSize.Width + GlobalStaticValues.RTL_ICON_TEXT_PADDING,
-                                availableArea.Height);
-                        }
-                        else
-                        {
-                            // When RTL is enabled but RTL Layout is disabled, "Near" means left side
-                            contentRect = new Rectangle(
-                                availableArea.Left,
-                                availableArea.Top,
-                                contentSize.Width + GlobalStaticValues.RTL_ICON_TEXT_PADDING,
-                                availableArea.Height);
-                        }
-                        break;
-                        
-                    case PaletteRelativeAlign.Far:
-                        if (isRTLLayout)
-                        {
-                            // When RTL Layout is enabled, "Far" means left side in RTL
-                            contentRect = new Rectangle(
-                                availableArea.Left,
-                                availableArea.Top,
-                                contentSize.Width + GlobalStaticValues.RTL_ICON_TEXT_PADDING,
-                                availableArea.Height);
-                        }
-                        else
-                        {
-                            // When RTL is enabled but RTL Layout is disabled, "Far" means right side
-                            contentRect = new Rectangle(
-                                availableArea.Right - contentSize.Width - GlobalStaticValues.RTL_ICON_TEXT_PADDING,
-                                availableArea.Top,
-                                contentSize.Width + GlobalStaticValues.RTL_ICON_TEXT_PADDING,
-                                availableArea.Height);
-                        }
-                        break;
-                        
-                    case PaletteRelativeAlign.Center:
-                    default:
-                        if (isRTLLayout)
-                        {
-                            // When RTL Layout is enabled, center the entire content
-                            contentRect = new Rectangle(
-                                availableArea.Left + (availableArea.Width - contentSize.Width - GlobalStaticValues.RTL_ICON_TEXT_PADDING) / 2,
-                                availableArea.Top,
-                                contentSize.Width + GlobalStaticValues.RTL_ICON_TEXT_PADDING,
-                                availableArea.Height);
-                        }
-                        else
-                        {
-                            // When RTL is enabled but RTL Layout is disabled,
-                            // position the system menu icon on the left and center the text
-                            // For now, position the entire content on the left to avoid centering the system menu
-                            contentRect = new Rectangle(
-                                availableArea.Left,
-                                availableArea.Top,
-                                contentSize.Width + GlobalStaticValues.RTL_ICON_TEXT_PADDING,
-                                availableArea.Height);
-                        }
-                        break;
-                }
-            }
-            else
-            {
-                // In LTR mode, use normal alignment
-                switch (titleAlign)
-                {
-                    case PaletteRelativeAlign.Near:
-                        // In LTR, "Near" means left side
-                        contentRect = new Rectangle(
-                            availableArea.Left,
-                            availableArea.Top,
-                            contentSize.Width,
-                            availableArea.Height);
-                        break;
-                        
-                    case PaletteRelativeAlign.Far:
-                        // In LTR, "Far" means right side
-                        contentRect = new Rectangle(
-                            availableArea.Right - contentSize.Width,
-                            availableArea.Top,
-                            contentSize.Width,
-                            availableArea.Height);
-                        break;
-                        
-                    case PaletteRelativeAlign.Center:
-                    default:
-                        // Center the content
-                        contentRect = new Rectangle(
-                            availableArea.Left + (availableArea.Width - contentSize.Width) / 2,
-                            availableArea.Top,
-                            contentSize.Width,
-                            availableArea.Height);
-                        break;
-                }
-            }
-            
-            // Set the display rectangle for the content
-            context.DisplayRectangle = contentRect;
-            
-            // Layout the content using the base class
+            context.DisplayRectangle = availableArea;
+ 
+            // Defer actual alignment to palette redirectors (GetContentShortTextH/GetContentImageH)
             base.Layout(context);
         }
     }

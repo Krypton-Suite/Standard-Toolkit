@@ -9,7 +9,7 @@ public partial class FormTitleAlignInheritTestOld : KryptonForm
 {
     public FormTitleAlignInheritTestOld()
     {
-        InitializeComponent();
+        //InitializeComponent();
         InitializeTest();
     }
 

@@ -417,7 +417,10 @@ public class KryptonToggleSwitch : Control, IContentValues
     /// <summary>Starts the animation.</summary>
     private void StartAnimation()
     {
-        _animationPosition = Checked ? _padding : Width - _knobSize - _padding;
+        bool rtl = IsRtlLayout();
+        _animationPosition = Checked
+            ? (rtl ? _padding : Width - _knobSize - _padding)
+            : (rtl ? Width - _knobSize - _padding : _padding);
         _animationTimer.Start();
     }
 
@@ -430,13 +433,24 @@ public class KryptonToggleSwitch : Control, IContentValues
             (StateNormal != null ? StateNormal : StateCommon);
     }
 
+    /// <summary>
+    /// Determines whether the control should render in Right-To-Left layout.
+    /// </summary>
+    private bool IsRtlLayout()
+    {
+        return CommonHelper.GetRightToLeftLayout(this) && RightToLeft == RightToLeft.Yes;
+    }
+
     /// <summary>Gets the knob rectangle.</summary>
     private RectangleF GetKnobRectangle()
     {
         float knobDiameter = _knobSize;
 
         // Adjust x-position based on RTL
-        float x = Checked ? Width - knobDiameter - _padding : _padding;
+        bool rtl = IsRtlLayout();
+        float x = Checked
+            ? (rtl ? _padding : Width - knobDiameter - _padding)
+            : (rtl ? Width - knobDiameter - _padding : _padding);
 
         float y = (Height - knobDiameter) / 2f;
 
@@ -643,12 +657,22 @@ public class KryptonToggleSwitch : Control, IContentValues
                 float textX;
                 float textPadding = Math.Max(4, _knobSize / 4); // Ensure a minimum padding
 
-                // Position knob's right edge
-                float knobEdge = _animationPosition + _knobSize + textPadding;
+                bool rtl = IsRtlLayout();
+                if (!rtl)
+                {
+                    // LTR: text sits to the left when checked, otherwise to the right of the moving knob
+                    float knobEdge = _animationPosition + _knobSize + textPadding;
+                    textX = Checked ? _padding : Math.Min(Width - textSize.Width - _padding, knobEdge);
+                }
+                else
+                {
+                    // RTL: mirror the logic - when checked, text is on the right; otherwise it sits to the left of the moving knob
+                    float knobEdge = _animationPosition - textPadding;
+                    textX = Checked
+                        ? Math.Max(_padding, Width - textSize.Width - _padding)
+                        : Math.Max(_padding, Math.Min(Width - textSize.Width - _padding, knobEdge - textSize.Width));
+                }
 
-                // Ensure text remains within bounds
-                textX = Checked ? _padding : Math.Min(Width - textSize.Width - _padding, knobEdge);
-                   
                 float textY = (Height - textSize.Height) / 2f; // Center text vertically
 
                 // Enable better text rendering for smooth appearance
@@ -717,7 +741,10 @@ public class KryptonToggleSwitch : Control, IContentValues
     private void OnAnimationTimerTick(object? sender, EventArgs e)
     {
         // Determine the correct position for animation
-        float targetPosition = Checked ? Width - _knobSize - _padding : _padding;
+        bool rtl = IsRtlLayout();
+        float targetPosition = Checked
+            ? (rtl ? _padding : Width - _knobSize - _padding)
+            : (rtl ? Width - _knobSize - _padding : _padding);
 
         float step = 0.1f; // Adjust for smoothness
 

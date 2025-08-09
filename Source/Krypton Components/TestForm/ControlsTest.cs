@@ -41,11 +41,19 @@ public partial class ControlsTest : KryptonForm
         {
             RightToLeft = RightToLeft.Yes;
             RightToLeftLayout = true;
+
+            kryptonPanel1.RightToLeft = RightToLeft.Yes;
+
+            kryptonPanel1.RightToLeftLayout = true;
         }
         else
         {
             RightToLeft = RightToLeft.No;
             RightToLeftLayout = false;
+
+            kryptonPanel1.RightToLeft = RightToLeft.No;
+
+            kryptonPanel1.RightToLeftLayout = false;
         }
     }
 }

@@ -50,7 +50,7 @@
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(808, 426);
+            this.kryptonPanel1.Size = new System.Drawing.Size(812, 414);
             this.kryptonPanel1.TabIndex = 0;
             // 
             // kryptonCheckButton1
@@ -78,6 +78,7 @@
             this.kryptonButton1.TabIndex = 2;
             this.kryptonButton1.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kryptonButton1.Values.Text = "kryptonButton1";
+            this.kryptonButton1.Click += new System.EventHandler(this.kryptonButton1_Click);
             // 
             // kryptonPropertyGrid1
             // 
@@ -113,7 +114,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ButtonSpecs.Add(this.buttonSpecAny1);
             this.ButtonSpecs.Add(this.buttonSpecAny2);
-            this.ClientSize = new System.Drawing.Size(808, 426);
+            this.ClientSize = new System.Drawing.Size(812, 414);
             this.Controls.Add(this.kryptonPanel1);
             this.HelpButton = true;
             this.Name = "RTLTestForm";

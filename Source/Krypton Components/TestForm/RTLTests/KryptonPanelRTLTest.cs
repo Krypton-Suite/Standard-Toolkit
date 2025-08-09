@@ -16,7 +16,7 @@ public partial class KryptonPanelRTLTest : KryptonForm
 
     public KryptonPanelRTLTest()
     {
-        InitializeComponent();
+        //InitializeComponent();
         InitializeTestControls();
     }
 

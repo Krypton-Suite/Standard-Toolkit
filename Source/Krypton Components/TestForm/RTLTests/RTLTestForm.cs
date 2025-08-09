@@ -21,7 +21,7 @@ public partial class RTLTestForm : KryptonForm
         Text = "RTL Test Form - State: LTR Normal";
             
         // Set title alignment to center to test the problematic case
-        FormTitleAlign = PaletteRelativeAlign.Center;
+        //FormTitleAlign = PaletteRelativeAlign.Center;
     }
 
     private void ktsRTL_CheckedChanged(object sender, EventArgs e)
@@ -84,5 +84,10 @@ public partial class RTLTestForm : KryptonForm
             System.Diagnostics.Debug.WriteLine($"RTL property setting test failed: {ex.Message}");
             throw;
         }
+    }
+
+    private void kryptonButton1_Click(object sender, EventArgs e)
+    {
+        new KryptonPanelRTLTest().ShowDialog();
     }
 }
