@@ -1,0 +1,689 @@
+#region BSD License
+/*
+ *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2025 - 2025. All rights reserved.
+ */
+#endregion
+
+namespace krypton.build;
+
+public static class BuildUI
+{
+    private static readonly byte TASKS_AREA_WIDTH = 40;
+
+    internal static Toplevel Create(AppState state)
+    {
+        var top = new Toplevel
+        {
+            X = 0, Y = 0, Width = Dim.Fill(), Height = Dim.Fill()
+        };
+        var win = new Window
+        {
+            Title = "ModernBuild",
+            X = 0,
+            Y = 0,
+            Width = Dim.Fill(),
+            Height = (Dim.Fill()! - 2)
+        };
+        top.Add(win);
+
+        var status = new Label
+        {
+            Text = string.Empty,
+            X = 0,
+            Y = 0,
+            Width = Dim.Fill(),
+            Height = 1
+        };
+
+        var tasksFrame = new FrameView
+        {
+            Title = "Tasks",
+            X = 0,
+            Y = 1,
+            Width = TASKS_AREA_WIDTH,
+            Height = Dim.Auto(DimAutoStyle.Content)
+        };
+        var hotkeyScheme = new ColorScheme
+        {
+            Normal    = new Terminal.Gui.Attribute(Terminal.Gui.Color.BrightYellow, Terminal.Gui.Color.Black),
+            Focus     = new Terminal.Gui.Attribute(Terminal.Gui.Color.BrightYellow, Terminal.Gui.Color.Black),
+            HotNormal = new Terminal.Gui.Attribute(Terminal.Gui.Color.BrightYellow, Terminal.Gui.Color.Black),
+            HotFocus  = new Terminal.Gui.Attribute(Terminal.Gui.Color.BrightYellow, Terminal.Gui.Color.Black)
+        };
+
+        Button MakeHK(string key, int row, Action onClick)
+        {
+            var b = new Button
+            {
+                Text = key,
+                X = 0,
+                Y = row,
+                ColorScheme = hotkeyScheme,
+                CanFocus = true,
+                NoDecorations = true,
+                NoPadding = true
+            };
+            b.Accepting += (_, __) =>
+            {
+                onClick();
+            };
+            return b;
+        }
+
+        Label MakeText(int row)
+        {
+            return new Label
+            {
+                Text = string.Empty,
+                X = 4,
+                Y = row,
+                Width = Dim.Fill(),
+                CanFocus = false
+            };
+        }
+
+        var hk1 = MakeHK("F1", 0, () =>
+        {
+            state.Channel = BuildLogic.NextChannel(state.Channel);
+            state.Configuration = state.Channel == ChannelType.Nightly ? "Debug" : BuildLogic.DefaultConfig(state.Channel);
+            state.RequestRenderAll?.Invoke();
+        });
+        var tx1 = MakeText(0);
+
+        var hk2 = MakeHK("F2", 1, () =>
+        {
+            state.Action = BuildLogic.NextAction(state.Action);
+            state.RequestRenderAll?.Invoke();
+        });
+        var tx2 = MakeText(1);
+
+        var hk3 = MakeHK("F3", 2, () =>
+        {
+            state.Configuration = BuildLogic.NextConfig(state.Channel, state.Configuration);
+            state.RequestRenderAll?.Invoke();
+        });
+        var tx3 = MakeText(2);
+
+        var hk5 = MakeHK("F5", 3, () =>
+        {
+            if (state.IsRunning)
+            {
+                BuildLogic.StopBuild(state);
+            }
+            else
+            {
+                BuildLogic.StartBuild(state);
+            }
+        });
+        var tx5 = MakeText(3);
+
+        var hk6 = MakeHK("F6", 4, () =>
+        {
+            BuildLogic.CycleTailSize(state);
+            state.RequestRenderAll?.Invoke();
+        });
+        var tx6 = MakeText(4);
+
+        var hk7 = MakeHK("F7", 5, () =>
+        {
+            _ = BuildLogic.StartCleanAsync(state);
+        });
+        var tx7 = MakeText(5);
+
+        Action? clearOutput = null;
+        var hk8 = MakeHK("F8", 6, () =>
+        {
+            clearOutput?.Invoke();
+        });
+        var tx8 = MakeText(6);
+
+        var hk9 = MakeHK("F9", 7, () =>
+        {
+            state.PackMode = BuildLogic.NextPackMode(state.PackMode);
+            state.RequestRenderAll?.Invoke();
+        });
+        var tx9 = MakeText(7);
+        var hint = new Label
+        {
+            Text = string.Empty,
+            X = 0,
+            Y = 9,
+            Width = Dim.Fill(),
+            CanFocus = false
+        };
+
+        var autoScrollCb = new CheckBox
+        {
+            Text = "Auto-Scroll",
+            X = 0,
+            Y = 12,
+            AllowCheckStateNone = false,
+            CheckedState = state.AutoScroll ? CheckState.Checked : CheckState.UnChecked
+        };
+
+        autoScrollCb.CheckedStateChanged += (s, e) =>
+        {
+            state.AutoScroll = autoScrollCb.CheckedState == CheckState.Checked;
+        };
+
+        tasksFrame.Add(hk1, tx1, hk2, tx2, hk3, tx3, hk5, tx5, hk6, tx6, hk7, tx7, hk8, tx8, hk9, tx9, hint, autoScrollCb);
+        tasksFrame.Height = Dim.Func(() =>
+        {
+            return autoScrollCb.Frame.Y + autoScrollCb.Frame.Height + 2;
+        });
+        win.Add(tasksFrame);
+
+        var overviewFrame = new FrameView
+        {
+            Title = "Build Settings",
+            X = 0,
+            Y = Pos.Bottom(tasksFrame),
+            Width = TASKS_AREA_WIDTH,
+            Height = (Dim.Fill()! - 12)
+        };
+        var overview = new TextView
+        {
+            ReadOnly = true,
+            WordWrap = false,
+            CanFocus = true,
+            X = 0,
+            Y = 0,
+            Width = Dim.Fill(),
+            Height = Dim.Fill()
+        };
+        overview.VerticalScrollBar.AutoShow = true;
+        overviewFrame.Add(overview);
+        win.Add(overviewFrame);
+
+        var outputFrame = new FrameView
+        {
+            Title = "Live Output",
+            X = Pos.Right(tasksFrame),
+            Y = 1,
+            Width = Dim.Fill(),
+            Height = (Dim.Fill()! - 12)
+        };
+        var logLines = new ObservableCollection<string>();
+        var outputList = new ListView
+        {
+            X = 0,
+            Y = 0,
+            Width = Dim.Fill(),
+            Height = Dim.Fill(),
+            CanFocus = true,
+            AllowsMarking = false,
+            AllowsMultipleSelection = false
+        };
+        outputList.SetSource(logLines);
+        outputList.VerticalScrollBar.AutoShow = true;
+        outputList.HorizontalScrollBar.AutoShow = true;
+
+        clearOutput = () =>
+        {
+            state.Tail.Clear();
+            logLines.Clear();
+        };
+        outputList.OpenSelectedItem += (s, a) =>
+        {
+            try
+            {
+                if (Terminal.Gui.Clipboard.IsSupported && outputList.SelectedItem >= 0 && outputList.SelectedItem < logLines.Count)
+                {
+                    Terminal.Gui.Clipboard.Contents = logLines[outputList.SelectedItem];
+                    state.OnOutput?.Invoke("Copied line to clipboard.");
+                }
+            }
+            catch
+            {
+            }
+        };
+        outputFrame.Add(outputList);
+        win.Add(outputFrame);
+
+        var statusSpacerTop = new Label
+        {
+            Text = string.Empty,
+            X = 0,
+            Y = Pos.Bottom(outputFrame),
+            Width = Dim.Fill(),
+            Height = 1,
+            CanFocus = false
+        };
+        status.Y = Pos.Bottom(statusSpacerTop);
+
+        var statusSpacerBottom = new Label
+        {
+            Text = string.Empty,
+            X = 0,
+            Y = Pos.Bottom(status),
+            Width = Dim.Fill(),
+            Height = 1,
+            CanFocus = false
+        };
+
+        var summaryFrame = new FrameView
+        {
+            Title = "Summary",
+            X = 0,
+            Y = Pos.Bottom(statusSpacerBottom),
+            Width = Dim.Fill(),
+            Height = 9
+        };
+        var summary = new TextView
+        {
+            ReadOnly = true,
+            WordWrap = true,
+            CanFocus = false,
+            X = 0,
+            Y = 0,
+            Width = Dim.Fill(),
+            Height = Dim.Fill()
+        };
+        summaryFrame.Add(summary);
+        win.Add(statusSpacerTop, status, statusSpacerBottom, summaryFrame);
+
+        var footerHost = new View
+        {
+            X = 0,
+            Y = Pos.AnchorEnd(2),
+            Width = Dim.Fill(),
+            Height = 2,
+            CanFocus = false
+        };
+        var footerTop = new Label
+        {
+            Text = " F1 Channel | F2 Action | F3 Config | F5 Run/Stop | F6 Tail Size | F7 Clean | F8 Clear | F9 PackMode ",
+            X = 0,
+            Y = 0,
+            Width = Dim.Fill(),
+            Height = 1,
+            CanFocus = false
+        };
+        var footerBottom = new Label
+        {
+            Text = " PgUp/PgDn Summary | Home Oldest | End Newest | Esc/F10 Exit ",
+            X = 0,
+            Y = 1,
+            Width = Dim.Fill(),
+            Height = 1,
+            CanFocus = false
+        };
+        footerHost.Add(footerTop, footerBottom);
+        top.Add(footerHost);
+
+        var panelScheme = new ColorScheme
+        {
+            Normal = new Terminal.Gui.Attribute(Terminal.Gui.Color.Gray, Terminal.Gui.Color.Black),
+            Focus = new Terminal.Gui.Attribute(Terminal.Gui.Color.White, Terminal.Gui.Color.Black),
+            HotNormal = new Terminal.Gui.Attribute(Terminal.Gui.Color.BrightYellow, Terminal.Gui.Color.Black),
+            HotFocus = new Terminal.Gui.Attribute(Terminal.Gui.Color.BrightYellow, Terminal.Gui.Color.Black)
+        };
+        var footerScheme = new ColorScheme
+        {
+            Normal = new Terminal.Gui.Attribute(Terminal.Gui.Color.Black, Terminal.Gui.Color.BrightCyan),
+            Focus = new Terminal.Gui.Attribute(Terminal.Gui.Color.Black, Terminal.Gui.Color.BrightCyan),
+            HotNormal = new Terminal.Gui.Attribute(Terminal.Gui.Color.BrightYellow, Terminal.Gui.Color.BrightCyan),
+            HotFocus = new Terminal.Gui.Attribute(Terminal.Gui.Color.BrightYellow, Terminal.Gui.Color.BrightCyan)
+        };
+        tasksFrame.ColorScheme = panelScheme;
+        overviewFrame.ColorScheme = panelScheme;
+        outputFrame.ColorScheme = panelScheme;
+        summaryFrame.ColorScheme = panelScheme;
+        footerHost.ColorScheme = footerScheme;
+        footerTop.ColorScheme = footerScheme;
+        footerBottom.ColorScheme = footerScheme;
+
+        state.OnOutput = line => Application.Invoke(() =>
+        {
+            var viewport = outputList.Viewport;
+            int currentCount = logLines.Count;
+            int bottomVisible = viewport.Y + viewport.Height - 1;
+            bool userScrolledUp = bottomVisible < (currentCount - 1);
+            logLines.Add(Colorize(line));
+            if (state.AutoScroll || !userScrolledUp)
+            {
+                outputList.MoveEnd();
+            }
+            RenderStatus(state, new UIContext { Status = status });
+            RenderSummary(state, new UIContext { Summary = summary });
+        });
+
+        var ui = new UIContext
+        {
+            Status = status,
+            Tx1 = tx1,
+            Tx2 = tx2,
+            Tx3 = tx3,
+            Tx5 = tx5,
+            Tx6 = tx6,
+            Tx7 = tx7,
+            Tx8 = tx8,
+            Tx9 = tx9,
+            Hint = hint,
+            Overview = overview,
+            Summary = summary,
+            OutputList = outputList
+        };
+
+        var tick = new System.Timers.Timer(500);
+        tick.AutoReset = true;
+        tick.Elapsed += (_, __) =>
+        {
+            if (state.IsRunning)
+            {
+                Application.Invoke(() =>
+                {
+                    RenderStatus(state, ui);
+                });
+            }
+        };
+        tick.Start();
+
+        state.RequestRenderAll = () => Application.Invoke(() =>
+        {
+            RenderStatus(state, ui);
+            RenderTasks(state, ui);
+            RenderOverview(state, ui);
+            RenderSummary(state, ui);
+        });
+
+        if (state.Channel == ChannelType.Nightly)
+        {
+            state.Configuration = "Debug";
+        }
+        RenderAll(state, ui);
+        top.KeyDown += (object? _, Key key) =>
+        {
+            switch (key.KeyCode)
+            {
+                case KeyCode.F1:
+                {
+                    state.Channel = BuildLogic.NextChannel(state.Channel);
+                    state.Configuration = state.Channel == ChannelType.Nightly ? "Debug" : BuildLogic.DefaultConfig(state.Channel);
+                    RenderAll(state, ui);
+                    break;
+                }
+                case KeyCode.F2:
+                {
+                    state.Action = BuildLogic.NextAction(state.Action);
+                    RenderAll(state, ui);
+                    break;
+                }
+                case KeyCode.F3:
+                {
+                    state.Configuration = BuildLogic.NextConfig(state.Channel, state.Configuration);
+                    RenderAll(state, ui);
+                    break;
+                }
+                case KeyCode.F5:
+                {
+                    if (state.IsRunning)
+                    {
+                        BuildLogic.StopBuild(state);
+                    }
+                    else
+                    {
+                        BuildLogic.StartBuild(state);
+                    }
+                    break;
+                }
+                case KeyCode.F6:
+                {
+                    BuildLogic.CycleTailSize(state);
+                    RenderAll(state, ui);
+                    break;
+                }
+                case KeyCode.F7:
+                {
+                    _ = BuildLogic.StartCleanAsync(state);
+                    break;
+                }
+                case KeyCode.F8:
+                {
+                    state.Tail.Clear();
+                    logLines.Clear();
+                    if (outputList.Viewport.X < 0)
+                    {
+                        outputList.Viewport = outputList.Viewport with { X = 0 };
+                    }
+                    break;
+                }
+                case KeyCode.F9:
+                {
+                    state.PackMode = BuildLogic.NextPackMode(state.PackMode);
+                    RenderAll(state, ui);
+                    break;
+                }
+                case KeyCode.PageUp:
+                {
+                    state.SummaryOffset += 20;
+                    RenderSummary(state, ui);
+                    break;
+                }
+                case KeyCode.PageDown:
+                {
+                    state.SummaryOffset = Math.Max(0, state.SummaryOffset - 20);
+                    RenderSummary(state, ui);
+                    break;
+                }
+                case KeyCode.Home:
+                {
+                    state.SummaryOffset = int.MaxValue;
+                    RenderSummary(state, ui);
+                    break;
+                }
+                case KeyCode.End:
+                {
+                    state.SummaryOffset = 0;
+                    RenderSummary(state, ui);
+                    break;
+                }
+                case KeyCode.Esc:
+                {
+                    Application.RequestStop();
+                    break;
+                }
+                case KeyCode.F10:
+                {
+                    Application.RequestStop();
+                    break;
+                }
+            }
+        };
+
+        return top;
+    }
+
+    internal sealed class UIContext
+    {
+        public Label? Status { get; set; }
+        public Label? Tx1 { get; set; }
+        public Label? Tx2 { get; set; }
+        public Label? Tx3 { get; set; }
+        public Label? Tx5 { get; set; }
+        public Label? Tx6 { get; set; }
+        public Label? Tx7 { get; set; }
+        public Label? Tx8 { get; set; }
+        public Label? Tx9 { get; set; }
+        public Label? Hint { get; set; }
+        public TextView? Overview { get; set; }
+        public TextView? Summary { get; set; }
+        public ListView? OutputList { get; set; }
+    }
+
+    private static void RenderAll(AppState state, UIContext ui)
+    {
+        BuildLogic.EnsurePaths(state);
+        RenderStatus(state, ui);
+        RenderTasks(state, ui);
+        RenderOverview(state, ui);
+        RenderSummary(state, ui);
+    }
+
+    private static void RenderStatus(AppState state, UIContext ui)
+    {
+        string st = state.IsRunning ? "RUNNING" : (state.LastExitCode == 0 ? "DONE" : "IDLE");
+        if (!state.IsRunning && state.LastExitCode != 0 && state.LastExitCode != int.MinValue)
+        {
+            st = "FAILED";
+        }
+        TimeSpan? elapsed = state.IsRunning && state.StartTimeUtc.HasValue ? DateTime.UtcNow - state.StartTimeUtc.Value : (TimeSpan?)null;
+        string elapsedText = elapsed.HasValue ? elapsed.Value.ToString("hh\\:mm\\:ss") : "--:--:--";
+        if (ui.Status != null)
+        {
+            ui.Status.Text = $"{st}   Elapsed: {elapsedText}   Errors: {state.ErrorCount}   Warnings: {state.WarningCount}";
+        }
+    }
+
+    private static void RenderTasks(AppState state, UIContext ui)
+    {
+        ChannelType nextChannel = BuildLogic.NextChannel(state.Channel);
+        BuildAction nextAction = BuildLogic.NextAction(state.Action);
+        string FormatAction(BuildAction a)
+        {
+            return a == BuildAction.Installer ? "Installer" : a.ToString();
+        }
+        string nextConfig = BuildLogic.NextConfig(state.Channel, state.Configuration);
+        if (ui.Tx1 != null)
+        {
+            ui.Tx1.Text = $"Channel   {state.Channel} (next: {nextChannel})";
+        }
+        if (ui.Tx2 != null)
+        {
+            ui.Tx2.Text = $"Action    {FormatAction(state.Action)} (next: {FormatAction(nextAction)})";
+        }
+        if (ui.Tx3 != null)
+        {
+            ui.Tx3.Text = $"Config    {state.Configuration} (next: {nextConfig})";
+        }
+        if (ui.Tx6 != null)
+        {
+            ui.Tx6.Text = $"Tail      {state.TailLines}";
+        }
+        if (ui.Tx5 != null)
+        {
+            ui.Tx5.Text = $"Run/Stop  {(state.IsRunning ? "Stop" : "Run")}";
+        }
+        if (ui.Tx7 != null)
+        {
+            ui.Tx7.Text = "Clean     Delete Bin/obj/Logs";
+        }
+        if (ui.Tx8 != null)
+        {
+            ui.Tx8.Text = "Clear     Clear live output";
+        }
+        bool showF9 = (state.Channel == ChannelType.Stable) &&
+                      (state.Action == BuildAction.Pack || state.Action == BuildAction.BuildPack);
+        if (showF9)
+        {
+            PackMode nextPack = BuildLogic.NextPackMode(state.PackMode);
+            if (ui.Tx9 != null)
+            {
+                ui.Tx9.Text = $"PackMode  {state.PackMode} (next: {nextPack})";
+            }
+        }
+        else
+        {
+            if (ui.Tx9 != null)
+            {
+                ui.Tx9.Text = "PackMode  (Stable only)";
+            }
+        }
+        if (ui.Hint != null)
+        {
+            ui.Hint.Text = "F-keys cycle options.\nF5 toggles Run/Stop.";
+        }
+    }
+
+    private static void RenderOverview(AppState state, UIContext ui)
+    {
+        string prefix = state.Channel.ToString().ToLowerInvariant();
+        var sb = new StringBuilder();
+
+        void AddKV(string label, string value)
+        {
+            sb.AppendLine(label);
+            const int max = 38;
+            string v = value.Length > max ? value.Substring(0, max - 3) + "..." : value;
+            sb.AppendLine("  " + v);
+        }
+
+        string TrimScriptsPath(string fullPath)
+        {
+            char sep = Path.DirectorySeparatorChar;
+            string pattern = $"{sep}Scripts{sep}";
+            int idx = fullPath.IndexOf(pattern, StringComparison.OrdinalIgnoreCase);
+            if (idx < 0 && Path.DirectorySeparatorChar != Path.AltDirectorySeparatorChar)
+            {
+                string altPattern = $"{Path.AltDirectorySeparatorChar}Scripts{Path.AltDirectorySeparatorChar}";
+                idx = fullPath.IndexOf(altPattern, StringComparison.OrdinalIgnoreCase);
+            }
+            if (idx >= 0)
+            {
+                return fullPath.Substring(idx + 1);
+            }
+            return fullPath;
+        }
+
+        string TrimLogsPath(string fullPath)
+        {
+            char sep = Path.DirectorySeparatorChar;
+            string pattern = $"{sep}Logs{sep}";
+            int idx = fullPath.IndexOf(pattern, StringComparison.OrdinalIgnoreCase);
+            if (idx < 0 && Path.DirectorySeparatorChar != Path.AltDirectorySeparatorChar)
+            {
+                string altPattern = $"{Path.AltDirectorySeparatorChar}Logs{Path.AltDirectorySeparatorChar}";
+                idx = fullPath.IndexOf(altPattern, StringComparison.OrdinalIgnoreCase);
+            }
+            if (idx >= 0)
+            {
+                return fullPath.Substring(idx + 1);
+            }
+            return fullPath;
+        }
+
+        AddKV("Project", TrimScriptsPath(state.ProjectFile));
+        AddKV("MSBuild", state.MsBuildPath);
+
+        AddKV("Text Log", TrimLogsPath(Path.Combine(state.RootPath, "Logs", prefix + "-build-summary.log")));
+        AddKV("BinLog", TrimLogsPath(Path.Combine(state.RootPath, "Logs", prefix + "-build.binlog")));
+        if (ui.Overview != null)
+        {
+            ui.Overview.Text = sb.ToString();
+        }
+    }
+
+    private static void RenderSummary(AppState state, UIContext ui)
+    {
+        if (ui.Summary == null)
+        {
+            return;
+        }
+        if (!state.SummaryReady)
+        {
+            ui.Summary.Text = "Summary will appear here after the build finishes.";
+            return;
+        }
+        IReadOnlyList<string> all = state.SummaryLines ?? Array.Empty<string>();
+        int total = all.Count;
+        int pageSize = 20;
+        int maxOffset = Math.Max(0, total - pageSize);
+        state.SummaryOffset = Math.Clamp(state.SummaryOffset, 0, maxOffset);
+        int start = Math.Max(0, total - pageSize - state.SummaryOffset);
+        int end = Math.Min(total, start + pageSize);
+        var sb = new StringBuilder();
+        for (int i = start; i < end; i++)
+        {
+            sb.AppendLine(all[i]);
+        }
+        ui.Summary.Text = sb.ToString();
+        ui.Summary.MoveEnd();
+    }
+
+    private static string Colorize(string line)
+    {
+        string text = line.Replace("[red]", string.Empty).Replace("[/]", string.Empty).Replace("[yellow]", string.Empty);
+        return text.Replace("     ", "  ");
+    }
+}
