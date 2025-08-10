@@ -649,6 +649,20 @@ public class KryptonGlobalToolkitStrings : GlobalId
     /// <summary>Resets the krypton search box strings.</summary>
     public void ResetSearchBoxStrings() => KryptonSearchBoxStrings.Reset();
 
+    /// <summary>Gets the outlook grid strings.</summary>
+    /// <value>The outlook grid strings.</value>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public static KryptonOutlookGridStrings KryptonOutlookGridStrings { get; } = new KryptonOutlookGridStrings();
+
+    [Category(@"Visuals")]
+    [Description(@"Collection of outlook grid strings.")]
+    [MergableProperty(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    [Localizable(true)]
+    public KryptonOutlookGridStrings OutlookGridStrings => KryptonOutlookGridStrings;
+    private bool ShouldSerializeOutlookGridStrings() => !KryptonOutlookGridStrings.IsDefault;
+    private void ResetOutlookGridStrings() => KryptonOutlookGridStrings.Reset();
+
     #endregion
 
     #region Identity

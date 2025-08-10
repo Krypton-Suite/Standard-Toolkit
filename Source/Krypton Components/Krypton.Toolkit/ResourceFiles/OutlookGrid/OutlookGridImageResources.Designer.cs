@@ -83,6 +83,56 @@ namespace Krypton.Toolkit.ResourceFiles.OutlookGrid {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap SearchToolBar_ButtonCaseSensitive {
+            get {
+                object obj = ResourceManager.GetObject("SearchToolBar_ButtonCaseSensitive", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SearchToolBar_ButtonFromBegin {
+            get {
+                object obj = ResourceManager.GetObject("SearchToolBar_ButtonFromBegin", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SearchToolBar_ButtonSearch {
+            get {
+                object obj = ResourceManager.GetObject("SearchToolBar_ButtonSearch", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SearchToolBar_ButtonWholeWord {
+            get {
+                object obj = ResourceManager.GetObject("SearchToolBar_ButtonWholeWord", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SearchToolBar_Filter {
+            get {
+                object obj = ResourceManager.GetObject("SearchToolBar_Filter", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap ThreeColors_blue_white_red_32 {
             get {
                 object obj = ResourceManager.GetObject("ThreeColors_blue_white_red_32", resourceCulture);
