@@ -40,13 +40,18 @@ namespace Krypton.Build
         public Action? RequestRenderAll { get; set; }
         public bool AutoScroll { get; set; } = true;
 
+        public Queue<string>? NuGetPushQueue { get; set; }
         public TasksPage TasksPage { get; set; } = TasksPage.Ops;
         public NuGetAction NuGetAction { get; set; } = NuGetAction.RebuildPack;
-        public bool NuGetIncludeSymbols { get; set; }
-        public bool NuGetSkipDuplicate { get; set; } = true;
         public NuGetSource NuGetSource { get; set; } = NuGetSource.Default;
+        public bool NuGetCreateZip { get; set; }
         public string NuGetCustomSource { get; set; } = string.Empty;
-        public Queue<string>? NuGetPushQueue { get; set; }
+        public bool NuGetIncludeSymbols { get; set; }
+        public string? NuGetLastZipPath { get; set; }
+        public bool NuGetRunPushAfterMsBuild { get; set; }
+        public bool NuGetRunZipAfterMsBuild { get; set; }
+        public bool NuGetSkipDuplicate { get; set; } = true;
+        public string? LastCompletedTarget { get; set; }
     }
 
     public sealed class TailBuffer

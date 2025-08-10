@@ -161,10 +161,7 @@ internal static class BuildLogic
 
     private static string GetEffectiveConfiguration(AppState state)
     {
-        if (state.Action == BuildAction.Installer)
-        {
-            return "Installer";
-        }
+        // Installer config is not used as an Ops action anymore
         return state.Configuration;
     }
 
@@ -186,6 +183,11 @@ internal static class BuildLogic
         state.SummaryReady = false;
         state.ErrorCount = 0;
         state.WarningCount = 0;
+        // Reset any leftover orchestration flags/queues from previous runs
+        state.PendingTargets = null;
+        state.NuGetRunPushAfterMsBuild = false;
+        state.NuGetRunZipAfterMsBuild = false;
+        state.LastCompletedTarget = null;
         if (state.Action == BuildAction.NuGetTools)
         {
             StartNuGetTools(state);
@@ -213,6 +215,7 @@ internal static class BuildLogic
                 {
                     nugetTargets.Add("Rebuild");
                     nugetTargets.Add(GetPackTargetForCurrent(state));
+                    state.NuGetRunZipAfterMsBuild = state.NuGetCreateZip;
                     break;
                 }
                 case NuGetAction.Push:
@@ -224,10 +227,10 @@ internal static class BuildLogic
                 {
                     nugetTargets.Add(GetPackTargetForCurrent(state));
                     state.PendingTargets = new Queue<string>(nugetTargets);
-                    state.Process = null;
+                    // After MSBuild completes, run zip (optional) and then push
+                    state.NuGetRunPushAfterMsBuild = true;
+                    state.NuGetRunZipAfterMsBuild = state.NuGetCreateZip;
                     StartNextBuildStep(state);
-                    state.PendingTargets = new Queue<string>(new string[0]);
-                    StartNuGetPush(state);
                     return;
                 }
                 case NuGetAction.BuildPackPush:
@@ -235,10 +238,10 @@ internal static class BuildLogic
                     nugetTargets.Add("Rebuild");
                     nugetTargets.Add(GetPackTargetForCurrent(state));
                     state.PendingTargets = new Queue<string>(nugetTargets);
-                    state.Process = null;
+                    // After MSBuild completes, run zip (optional) and then push
+                    state.NuGetRunPushAfterMsBuild = true;
+                    state.NuGetRunZipAfterMsBuild = state.NuGetCreateZip;
                     StartNextBuildStep(state);
-                    state.PendingTargets = new Queue<string>(new string[0]);
-                    StartNuGetPush(state);
                     return;
                 }
             }
@@ -485,6 +488,7 @@ internal static class BuildLogic
             .ToString();
 
         state.OnOutput?.Invoke($"Running: \"{state.MsBuildPath}\" {args}");
+        state.LastCompletedTarget = null;
         state.Process = new Process
         {
             StartInfo = new ProcessStartInfo
@@ -539,6 +543,7 @@ internal static class BuildLogic
         state.Process.Exited += (_, __) =>
         {
             state.LastExitCode = state.Process?.ExitCode ?? -1;
+            state.LastCompletedTarget = target;
             if (state.LastExitCode != 0)
             {
                 state.OnOutput?.Invoke($"[red]Exit code: {state.LastExitCode}[/]");
@@ -553,17 +558,47 @@ internal static class BuildLogic
                         }
                     }
                 }
-                catch
+                catch {}
+                TryLoadSummary(state);
+                state.IsRunning = false;
+                state.RequestRenderAll?.Invoke();
+                return;
+            }
+
+            // Success path
+            if (state.PendingTargets != null && state.PendingTargets.Count > 0)
+            {
+                // Intermediate step (e.g., Rebuild before Pack). Advance only if the last completed
+                // target matches what we started for this process; otherwise ignore spurious exits.
+                string? justCompleted = state.LastCompletedTarget;
+                if (!string.IsNullOrEmpty(justCompleted))
                 {
+                    StartNextBuildStep(state);
+                    return;
                 }
             }
-            TryLoadSummary(state);
-            if (state.LastExitCode == 0 && state.PendingTargets != null && state.PendingTargets.Count > 0)
+
+            // No more MSBuild steps queued
+            bool dispatched = false;
+            if (state.TasksPage == TasksPage.NuGet)
             {
-                StartNextBuildStep(state);
+                if (state.NuGetRunZipAfterMsBuild)
+                {
+                    state.NuGetRunZipAfterMsBuild = false;
+                    TryCreateNuGetZip(state);
+                }
+                if (state.NuGetRunPushAfterMsBuild)
+                {
+                    state.NuGetRunPushAfterMsBuild = false;
+                    StartNuGetPush(state);
+                    dispatched = true;
+                }
             }
-            else
+
+            if (!dispatched)
             {
+                // Only load summary once at the end of the full chain
+                TryLoadSummary(state);
                 state.IsRunning = false;
                 state.RequestRenderAll?.Invoke();
             }
@@ -774,6 +809,33 @@ internal static class BuildLogic
             state.LastExitCode = 1;
             state.SummaryLines = new[] { "NuGet push error:", ex.Message };
             state.SummaryReady = true;
+        }
+    }
+
+    private static void TryCreateNuGetZip(AppState state)
+    {
+        try
+        {
+            string bin = Path.Combine(state.RootPath, "Bin", "Release");
+            if (!Directory.Exists(bin))
+            {
+                state.OnOutput?.Invoke($"ZIP: folder not found: {bin}");
+                return;
+            }
+            string date = DateTime.Now.ToString("yyyyMMdd");
+            string name = $"{date}_NuGet_Packages.zip";
+            string zipPath = Path.Combine(state.RootPath, "Bin", name);
+            if (File.Exists(zipPath))
+            {
+                try { File.Delete(zipPath); } catch { }
+            }
+            state.OnOutput?.Invoke($"Creating ZIP: {zipPath}");
+            System.IO.Compression.ZipFile.CreateFromDirectory(bin, zipPath, System.IO.Compression.CompressionLevel.Optimal, includeBaseDirectory: false);
+            state.NuGetLastZipPath = zipPath;
+        }
+        catch (Exception ex)
+        {
+            state.OnOutput?.Invoke($"ZIP error: {ex.Message}");
         }
     }
 

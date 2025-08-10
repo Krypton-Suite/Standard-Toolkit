@@ -201,6 +201,19 @@ public static class BuildUI
             Height = 1,
             CanFocus = false
         };
+        var createZipCb = new CheckBox
+        {
+            Text = "Create ZIP",
+            X = 0,
+            Y = 15,
+            AllowCheckStateNone = false,
+            CheckedState = state.NuGetCreateZip ? CheckState.Checked : CheckState.UnChecked,
+            Visible = false
+        };
+        createZipCb.CheckedStateChanged += (s, e) =>
+        {
+            state.NuGetCreateZip = createZipCb.CheckedState == CheckState.Checked;
+        };
         var hkTest = MakeHK("TEST", 11, () =>
         {
             BuildLogic.PreviewNuGetCommands(state);
@@ -233,7 +246,7 @@ public static class BuildUI
         hkTest.Visible = false;
         txTest.Visible = false;
         tasksFrame.Add(hk1, tx1, hk2, tx2, hk3, tx3, hk4, tx4, hk5, tx5, hk6, tx6, hk7, tx7, hk8, tx8, hk9, tx9,
-                       hkEsc, txEsc, spacerAfterEsc, hkTest, txTest, hint, autoScrollCb);
+                       hkEsc, txEsc, spacerAfterEsc, hkTest, txTest, hint, createZipCb, autoScrollCb);
         tasksFrame.Height = Dim.Func(() =>
         {
             return autoScrollCb.Frame.Y + autoScrollCb.Frame.Height + 2;
@@ -376,7 +389,12 @@ public static class BuildUI
             int currentCount = logLines.Count;
             int bottomVisible = viewport.Y + viewport.Height - 1;
             bool userScrolledUp = bottomVisible < (currentCount - 1);
-            logLines.Add(Colorize(line));
+            string clean = Colorize(line);
+            int maxWidth = Math.Max(20, viewport.Width > 0 ? viewport.Width - 1 : 120);
+            foreach (string chunk in SoftWrap(clean, maxWidth))
+            {
+                logLines.Add(chunk);
+            }
             if (state.AutoScroll || !userScrolledUp)
             {
                 outputList.MoveEnd();
@@ -392,6 +410,7 @@ public static class BuildUI
             SummaryFrame = summaryFrame,
             PanelScheme = panelScheme,
             NugetScheme = nugetScheme,
+            CreateZip = createZipCb,
             Tx1 = tx1,
             Tx2 = tx2,
             Tx3 = tx3,
@@ -607,6 +626,7 @@ public static class BuildUI
         public FrameView? SummaryFrame { get; set; }
         public ColorScheme? PanelScheme { get; set; }
         public ColorScheme? NugetScheme { get; set; }
+        public CheckBox? CreateZip { get; set; }
         public Label? Status { get; set; }
         public Label? Tx1 { get; set; }
         public Label? Tx2 { get; set; }
@@ -644,9 +664,9 @@ public static class BuildUI
             BuildAction.Rebuild     => BuildAction.Pack,
             BuildAction.Pack        => BuildAction.BuildPack,
             BuildAction.BuildPack   => BuildAction.Debug,
-            BuildAction.Debug       => BuildAction.Installer,
+            BuildAction.Debug       => BuildAction.Build, // skip Installer entirely on Ops
             BuildAction.NuGetTools  => BuildAction.Build, // sanitize if ever present
-            BuildAction.Installer   => BuildAction.Build,
+            BuildAction.Installer   => BuildAction.Build, // sanitize if ever present
             _                       => BuildAction.Build
         };
     }
@@ -765,6 +785,10 @@ public static class BuildUI
             {
                 ui.TxEsc.Text = "Exit      Exit application";
             }
+            if (ui.CreateZip != null)
+            {
+                ui.CreateZip.Visible = false;
+            }
             bool showF9 = (state.Channel == ChannelType.Stable) &&
                           (state.Action == BuildAction.Pack || state.Action == BuildAction.BuildPack);
             if (showF9)
@@ -825,6 +849,11 @@ public static class BuildUI
             {
                 string src = FormatNuGetSource(state.NuGetSource, state.NuGetCustomSource);
                 ui.Tx8.Text = $"Source    {src}";
+            }
+            if (ui.CreateZip != null)
+            {
+                bool showZip = state.NuGetAction == NuGetAction.RebuildPack || state.NuGetAction == NuGetAction.PackPush || state.NuGetAction == NuGetAction.BuildPackPush;
+                ui.CreateZip.Visible = showZip;
             }
             if (ui.TestBtn != null) ui.TestBtn.Visible = true;
             if (ui.TxTest != null) { ui.TxTest.Visible = true; ui.TxTest.Text = "Test      Preview commands"; }
@@ -942,5 +971,43 @@ public static class BuildUI
     {
         string text = line.Replace("[red]", string.Empty).Replace("[/]", string.Empty).Replace("[yellow]", string.Empty);
         return text.Replace("     ", "  ");
+    }
+
+    private static IEnumerable<string> SoftWrap(string text, int maxWidth)
+    {
+        if (string.IsNullOrEmpty(text))
+        {
+            yield return string.Empty;
+            yield break;
+        }
+        if (maxWidth <= 10)
+        {
+            yield return text;
+            yield break;
+        }
+        int index = 0;
+        while (index < text.Length)
+        {
+            int remaining = text.Length - index;
+            if (remaining <= maxWidth)
+            {
+                yield return text.Substring(index);
+                yield break;
+            }
+            int take = maxWidth;
+            int lastSpace = text.LastIndexOf(' ', index + take - 1, take);
+            if (lastSpace <= index)
+            {
+                // no space to break on, hard break
+                yield return text.Substring(index, take);
+                index += take;
+            }
+            else
+            {
+                int len = lastSpace - index;
+                yield return text.Substring(index, len);
+                index = lastSpace + 1;
+            }
+        }
     }
 }
