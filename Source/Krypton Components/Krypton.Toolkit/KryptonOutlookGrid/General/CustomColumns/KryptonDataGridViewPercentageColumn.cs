@@ -25,6 +25,7 @@ namespace Krypton.Toolkit
     /// Hosts a collection of KryptonDataGridViewPercentageColumn cells.
     /// </summary>
     /// <seealso cref="DataGridViewColumn" />
+    [Obsolete("Deprecated in V100, and will be removed from V110 and onward and is replaced by KryptonDataGridViewProgressColumn.")]
     public class KryptonDataGridViewPercentageColumn : DataGridViewColumn// KryptonDataGridViewTextBoxColumn
     {
         #region Identity

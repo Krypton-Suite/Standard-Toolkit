@@ -24,6 +24,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Class for a DataGridViewPercentageCell
     /// </summary>
+    [Obsolete("Deprecated in V100, and will be removed from V110 and onward and is replaced by KryptonDataGridViewProgressColumn.")]
     public class DataGridViewPercentageCell : KryptonDataGridViewTextBoxCell
     {
         #region Identity
