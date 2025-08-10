@@ -5,7 +5,7 @@
  */
 #endregion
 
-namespace krypton.build
+namespace Krypton.Build
 {
     public enum ChannelType
     {

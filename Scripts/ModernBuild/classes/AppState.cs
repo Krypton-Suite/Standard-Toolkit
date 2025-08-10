@@ -5,9 +5,9 @@
  */
 #endregion
 
-using krypton.build;
+using Krypton.Build;
 
-namespace krypton.build
+namespace Krypton.Build
 {
     public sealed class AppState
     {

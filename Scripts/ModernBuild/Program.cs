@@ -5,7 +5,7 @@
  */
 #endregion
 
-using krypton.build;
+using Krypton.Build;
 
 internal static class Program
 {
