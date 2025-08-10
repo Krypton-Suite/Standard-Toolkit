@@ -25,7 +25,7 @@ namespace Krypton.Toolkit
     /// Formatting cell
     /// </summary>
     /// <seealso cref="KryptonDataGridViewTextBoxCell" />
-    public class KryptonDataGridViewFormattingCell : KryptonDataGridViewTextBoxCell
+    internal class KryptonDataGridViewFormattingCell : KryptonDataGridViewTextBoxCell
     {
         #region Instance Fields
 

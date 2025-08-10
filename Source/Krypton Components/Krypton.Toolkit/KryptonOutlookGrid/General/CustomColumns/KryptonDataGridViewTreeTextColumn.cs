@@ -25,7 +25,7 @@ namespace Krypton.Toolkit
     /// Special column used to enable nodes in the grid.
     /// </summary>
     /// <seealso cref="KryptonDataGridViewTextBoxColumn" />
-    public class KryptonDataGridViewTreeTextColumn : KryptonDataGridViewTextBoxColumn
+    internal class KryptonDataGridViewTreeTextColumn : KryptonDataGridViewTextBoxColumn
     {
         #region Identity
 

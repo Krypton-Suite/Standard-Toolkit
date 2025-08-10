@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Token object
     /// </summary>
-    public class KryptonDataGridViewToken : IComparable<KryptonDataGridViewToken>
+    internal class KryptonDataGridViewToken : IComparable<KryptonDataGridViewToken>
     {
         #region Identity
 

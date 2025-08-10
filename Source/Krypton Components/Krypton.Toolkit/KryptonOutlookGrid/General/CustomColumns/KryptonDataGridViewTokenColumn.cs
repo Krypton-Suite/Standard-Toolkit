@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Class for a rating column
     /// </summary>
-    public class KryptonDataGridViewTokenColumn : KryptonDataGridViewTextBoxColumn
+    internal class KryptonDataGridViewTokenColumn : KryptonDataGridViewTextBoxColumn
     {
         #region Identity
 

@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Hosts a collection of KryptonDataGridViewTextAndImageCell cells.
     /// </summary>
-    public class KryptonDataGridViewTextAndImageColumn : DataGridViewColumn
+    internal class KryptonDataGridViewTextAndImageColumn : DataGridViewColumn
     {
         #region Instance Fields
 

@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Class for a rating cells.
     /// </summary>
-    public class KryptonDataGridViewTokenListCell : KryptonDataGridViewTextBoxCell
+    internal class KryptonDataGridViewTokenListCell : KryptonDataGridViewTextBoxCell
     {
         #region Public Fields
 

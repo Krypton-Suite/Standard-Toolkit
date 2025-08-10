@@ -25,7 +25,7 @@ namespace Krypton.Toolkit
     /// Class for a KryptonDataGridViewFormattingColumn : KryptonDataGridViewTextBoxColumn with conditional formatting abilities
     /// </summary>
     /// <seealso cref="KryptonDataGridViewTextBoxColumn" />
-    public class KryptonDataGridViewFormattingColumn : KryptonDataGridViewTextBoxColumn
+    internal class KryptonDataGridViewFormattingColumn : KryptonDataGridViewTextBoxColumn
     {
         #region Instance Fields
 

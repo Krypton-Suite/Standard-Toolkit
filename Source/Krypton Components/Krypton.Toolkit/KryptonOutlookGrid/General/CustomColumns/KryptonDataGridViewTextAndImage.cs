@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Class for TextAndImage object
     /// </summary>
-    public class KryptonDataGridViewTextAndImage : IComparable<KryptonDataGridViewTextAndImage>
+    internal class KryptonDataGridViewTextAndImage : IComparable<KryptonDataGridViewTextAndImage>
     {
         #region Public Fields
 
