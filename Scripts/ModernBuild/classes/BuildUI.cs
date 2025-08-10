@@ -119,6 +119,10 @@ public static class BuildUI
             {
                 state.Action = BuildAction.Build;
             }
+            if (state.TasksPage == TasksPage.NuGet)
+            {
+                state.Configuration = "Release";
+            }
             state.RequestRenderAll?.Invoke();
         });
         var tx4 = MakeText(3);
@@ -188,11 +192,25 @@ public static class BuildUI
             Application.RequestStop();
         });
         var txEsc = MakeText(9);
-        var hint = new Label
+        var spacerAfterEsc = new Label
         {
             Text = string.Empty,
             X = 0,
             Y = 10,
+            Width = Dim.Fill(),
+            Height = 1,
+            CanFocus = false
+        };
+        var hkTest = MakeHK("TEST", 11, () =>
+        {
+            BuildLogic.PreviewNuGetCommands(state);
+        });
+        var txTest = MakeText(11);
+        var hint = new Label
+        {
+            Text = string.Empty,
+            X = 0,
+            Y = 12,
             Width = Dim.Fill(),
             CanFocus = false
         };
@@ -201,7 +219,7 @@ public static class BuildUI
         {
             Text = "Auto-Scroll",
             X = 0,
-            Y = 13,
+            Y = 16,
             AllowCheckStateNone = false,
             CheckedState = state.AutoScroll ? CheckState.Checked : CheckState.UnChecked
         };
@@ -211,7 +229,11 @@ public static class BuildUI
             state.AutoScroll = autoScrollCb.CheckedState == CheckState.Checked;
         };
 
-        tasksFrame.Add(hk1, tx1, hk2, tx2, hk3, tx3, hk4, tx4, hk5, tx5, hk6, tx6, hk7, tx7, hk8, tx8, hk9, tx9, hkEsc, txEsc, hint, autoScrollCb);
+        // Initially hide TEST, will be shown on NuGet page during RenderTasks
+        hkTest.Visible = false;
+        txTest.Visible = false;
+        tasksFrame.Add(hk1, tx1, hk2, tx2, hk3, tx3, hk4, tx4, hk5, tx5, hk6, tx6, hk7, tx7, hk8, tx8, hk9, tx9,
+                       hkEsc, txEsc, spacerAfterEsc, hkTest, txTest, hint, autoScrollCb);
         tasksFrame.Height = Dim.Func(() =>
         {
             return autoScrollCb.Frame.Y + autoScrollCb.Frame.Height + 2;
@@ -380,6 +402,8 @@ public static class BuildUI
             Tx8 = tx8,
             Tx9 = tx9,
             TxEsc = txEsc,
+            TestBtn = hkTest,
+            TxTest = txTest,
             Hint = hint,
             Overview = overview,
             Summary = summary,
@@ -446,6 +470,10 @@ public static class BuildUI
                     if (state.TasksPage == TasksPage.Ops && state.Action == BuildAction.NuGetTools)
                     {
                         state.Action = BuildAction.Build;
+                    }
+                    if (state.TasksPage == TasksPage.NuGet)
+                    {
+                        state.Configuration = "Release";
                     }
                     RenderAll(state, ui);
                     break;
@@ -590,6 +618,8 @@ public static class BuildUI
         public Label? Tx8 { get; set; }
         public Label? Tx9 { get; set; }
         public Label? TxEsc { get; set; }
+        public Button? TestBtn { get; set; }
+        public Label? TxTest { get; set; }
         public Label? Hint { get; set; }
         public TextView? Overview { get; set; }
         public TextView? Summary { get; set; }
@@ -747,11 +777,10 @@ public static class BuildUI
             }
             else
             {
-                if (ui.Tx9 != null)
-                {
-                    ui.Tx9.Text = "PackMode  (Stable only)";
-                }
+                if (ui.Tx9 != null) { ui.Tx9.Text = "PackMode  (Stable only)"; }
             }
+            if (ui.TestBtn != null) ui.TestBtn.Visible = false;
+            if (ui.TxTest != null) { ui.TxTest.Visible = false; ui.TxTest.Text = string.Empty; }
             if (ui.Hint != null)
             {
                 ui.Hint.Text = "F-keys cycle options.\nF5 toggles Run/Stop.";
@@ -797,10 +826,9 @@ public static class BuildUI
                 string src = FormatNuGetSource(state.NuGetSource, state.NuGetCustomSource);
                 ui.Tx8.Text = $"Source    {src}";
             }
-            if (ui.Tx9 != null)
-            {
-                ui.Tx9.Text = "PackMode  (Stable only)";
-            }
+            if (ui.TestBtn != null) ui.TestBtn.Visible = true;
+            if (ui.TxTest != null) { ui.TxTest.Visible = true; ui.TxTest.Text = "Test      Preview commands"; }
+            if (ui.Tx9 != null) { ui.Tx9.Text = "PackMode  (Stable only)"; }
             if (ui.TxEsc != null)
             {
                 ui.TxEsc.Text = "Exit      Exit application";

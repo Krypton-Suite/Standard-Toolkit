@@ -746,26 +746,15 @@ internal static class BuildLogic
                 return;
             }
 
-            string channelFolder = state.Channel switch
-            {
-                ChannelType.Nightly => Path.Combine(state.RootPath, "Bin", "Nightly"),
-                ChannelType.Canary => Path.Combine(state.RootPath, "Bin", "Canary"),
-                _ => Path.Combine(state.RootPath, "Bin", "Release")
-            };
-            if (!Directory.Exists(channelFolder))
-            {
-                state.OnOutput?.Invoke($"Packages folder not found: {channelFolder}");
-                state.LastExitCode = 1;
-                state.SummaryLines = new[] { $"NuGet push failed. Folder not found: {channelFolder}" };
-                state.SummaryReady = true;
-                return;
-            }
-
             var files = new List<string>();
-            files.AddRange(Directory.GetFiles(channelFolder, "*.nupkg", SearchOption.TopDirectoryOnly));
-            if (state.NuGetIncludeSymbols)
+            foreach (string f in GetCandidatePackageFolders(state))
             {
-                files.AddRange(Directory.GetFiles(channelFolder, "*.snupkg", SearchOption.TopDirectoryOnly));
+                if (!Directory.Exists(f)) continue;
+                files.AddRange(Directory.GetFiles(f, "*.nupkg", SearchOption.TopDirectoryOnly));
+                if (state.NuGetIncludeSymbols)
+                {
+                    files.AddRange(Directory.GetFiles(f, "*.snupkg", SearchOption.TopDirectoryOnly));
+                }
             }
             files.Sort(StringComparer.OrdinalIgnoreCase);
             if (files.Count == 0)
@@ -980,6 +969,88 @@ internal static class BuildLogic
         state.Process.Start();
         state.Process.BeginOutputReadLine();
         state.Process.BeginErrorReadLine();
+    }
+
+    internal static void PreviewNuGetCommands(AppState state)
+    {
+        try
+        {
+            var files = new List<string>();
+            foreach (string f in GetCandidatePackageFolders(state))
+            {
+                if (!Directory.Exists(f)) continue;
+                files.AddRange(Directory.GetFiles(f, "*.nupkg", SearchOption.TopDirectoryOnly));
+                if (state.NuGetIncludeSymbols)
+                {
+                    files.AddRange(Directory.GetFiles(f, "*.snupkg", SearchOption.TopDirectoryOnly));
+                }
+            }
+            files.Sort(StringComparer.OrdinalIgnoreCase);
+
+            string? resolvedSource = state.NuGetSource switch
+            {
+                NuGetSource.NuGetOrg => "https://api.nuget.org/v3/index.json",
+                NuGetSource.GitHub => "github",
+                NuGetSource.Custom => string.IsNullOrWhiteSpace(state.NuGetCustomSource) ? null : state.NuGetCustomSource,
+                _ => null
+            };
+
+            var lines = new List<string>();
+            lines.Add("NuGet preview commands:");
+            foreach (string pkg in files)
+            {
+                var cmd = new StringBuilder().Append("nuget.exe push \"").Append(pkg).Append("\" ");
+                if (state.NuGetSkipDuplicate) cmd.Append("-SkipDuplicate ");
+                cmd.Append("-NonInteractive ");
+                if (!string.IsNullOrWhiteSpace(resolvedSource))
+                {
+                    cmd.Append("-Source \"").Append(resolvedSource).Append("\" ");
+                }
+                lines.Add(cmd.ToString());
+            }
+            if (lines.Count == 1)
+            {
+                lines.Add("(no packages found)");
+            }
+            state.SummaryLines = lines;
+            state.SummaryReady = true;
+            state.RequestRenderAll?.Invoke();
+        }
+        catch (Exception ex)
+        {
+            state.SummaryLines = new[] { "Failed to preview NuGet commands:", ex.Message };
+            state.SummaryReady = true;
+            state.RequestRenderAll?.Invoke();
+        }
+    }
+
+    private static IReadOnlyList<string> GetCandidatePackageFolders(AppState state)
+    {
+        /*
+        // Should packages ever be expected in their own channel output bin folders:
+        string bin = Path.Combine(state.RootPath, "Bin");
+        var list = new List<string>(5);
+        switch (state.Channel)
+        {
+            case ChannelType.Nightly:
+                list.Add(Path.Combine(bin, "Nightly"));
+                break;
+            case ChannelType.Canary:
+                list.Add(Path.Combine(bin, "Canary"));
+                break;
+            default:
+                list.Add(Path.Combine(bin, "Release"));
+                list.Add(Path.Combine(bin, "Stable"));
+                break;
+        }
+        // Also consider generic bin outputs without channel segregation
+        list.Add(Path.Combine(bin, "Release"));
+        list.Add(Path.Combine(bin, "Debug"));
+        return list.Distinct(StringComparer.OrdinalIgnoreCase).ToList();
+        */
+        // Packages are always produced into Bin/Release regardless of channel
+        string binRelease = Path.Combine(state.RootPath, "Bin", "Release");
+        return new[] { binRelease };
     }
 
     private static string GetInstallerProjFile(string rootPath)
