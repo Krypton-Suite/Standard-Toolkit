@@ -3,7 +3,10 @@
 ====
 
 ## 2025-11-xx - Build 2511 (V10 - alpha) - November 2025
-* Implemented [#2376](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2376), Implements `KryptonOutlookGrid` and `KryptonOutlookGridAio` (which is All In One container for adding t an Ogrid and all features in fast way). Courtesy of @KamaniAR.
+* Implemented [#2376](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2376), **[Breaking Change]** Implements `KryptonOutlookGrid` and `KryptonOutlookGridAio` (which is All In One container for adding t an Ogrid and all features in fast way). Courtesy of @KamaniAR.
+	- Several component names & file names have refactored to reflect that those are specific the `KryptonOutlookGrid`. 
+	- Items that previously had their name starting with OutlookGrid now start with KryptonOutlookGrid.
+	- Items that had nog prefix of this kind will no start with KryptonOutlookGrid.
 * Resolved [#2397](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2397), `KryptonForm` throws and exception on CTRL+F1.
 * Implemented [#2392](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2392), Fix `KryptonPropertyGrid` theme switching
 * Implemented [#2389](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2389), Transform private color arrays in base palettes.
