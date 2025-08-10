@@ -2062,7 +2062,8 @@ public class KryptonForm : VisualForm,
                 }
             }
 
-            control = control.Parent ?? throw new InvalidOperationException("Parent control is null.");
+            // If the parent is null then the caller did not find a help provider.
+            control = control.Parent;
         }
 
         return null;
