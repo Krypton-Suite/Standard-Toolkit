@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Overrides ValueType
         /// </summary>
-        public override Type ValueType => typeof(TextAndImage);
+        public override Type ValueType => typeof(KryptonDataGridViewTextAndImage);
 
         /// <summary>
         /// Sets the value.
@@ -59,7 +59,7 @@ namespace Krypton.Toolkit
         {
             if (value is not null && !(OwningRow as OutlookGridRow)!.IsGroupRow!) //Test to catch crash when first column is text and image when grouping
             {
-                Image = ((TextAndImage)value).Image;
+                Image = ((KryptonDataGridViewTextAndImage)value).Image;
             }
 
             return base.SetValue(rowIndex, value);
@@ -131,7 +131,7 @@ namespace Krypton.Toolkit
         protected override void Paint(Graphics graphics, Rectangle clipBounds, Rectangle cellBounds, int rowIndex, DataGridViewElementStates cellState, object? value, object? formattedValue, string? errorText, DataGridViewCellStyle cellStyle, DataGridViewAdvancedBorderStyle advancedBorderStyle, DataGridViewPaintParts paintParts)
         {
             //TODO : improve we assume it is a 16x16 image 
-            if (Value != null && (Value as TextAndImage)?.Image != null)
+            if (Value != null && (Value as KryptonDataGridViewTextAndImage)?.Image != null)
             {
                 Padding inheritedPadding = Style.Padding;
                 Style.Padding = new Padding(_imageSize.Width + 2,
@@ -142,7 +142,7 @@ namespace Krypton.Toolkit
                 // Draw the image clipped to the cell.
                 GraphicsContainer container = graphics.BeginContainer();
                 graphics.SetClip(cellBounds);
-                graphics.DrawImage((Value as TextAndImage)?.Image!, new Rectangle(cellBounds.Location.X + 2, cellBounds.Location.Y + (cellBounds.Height - 16) / 2 - 1, 16, 16));
+                graphics.DrawImage((Value as KryptonDataGridViewTextAndImage)?.Image!, new Rectangle(cellBounds.Location.X + 2, cellBounds.Location.Y + (cellBounds.Height - 16) / 2 - 1, 16, 16));
                 graphics.EndContainer(container);
             }
 

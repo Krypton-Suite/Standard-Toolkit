@@ -22,61 +22,42 @@
 namespace Krypton.Toolkit
 {
     /// <summary>
-    /// Token object
+    /// Class for TextAndImage object
     /// </summary>
-    public class Token : IComparable<Token>
+    public class KryptonDataGridViewTextAndImage : IComparable<KryptonDataGridViewTextAndImage>
     {
-        #region Identity
+        #region Public Fields
 
         /// <summary>
-        /// Default constructor
+        /// The text
         /// </summary>
-        public Token()
-        {
-        }
+        public string Text;
+
+        /// <summary>
+        /// The image
+        /// </summary>
+        public Image? Image;
+
+        #endregion
+
+        #region Identity
 
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="text">Text of the token</param>
-        /// <param name="bg">Background color</param>
-        /// <param name="fg">Foreground text color</param>
-        public Token(string text, Color bg, Color fg)
+        public KryptonDataGridViewTextAndImage()
+        { }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="text">The text.</param>
+        /// <param name="img">The image.</param>
+        public KryptonDataGridViewTextAndImage(string text, Image? img)
         {
             Text = text;
-
-            BackColor = bg;
-
-            ForeColor = fg;
+            Image = img;
         }
-
-        #endregion
-
-        #region Public
-
-        /// <summary>
-        /// Text of the token
-        /// </summary>
-        public string Text { get; set; }
-        /// <summary>
-        /// Background color
-        /// </summary>
-        public Color BackColor { get; set; }
-        /// <summary>
-        /// Foreground text color
-        /// </summary>
-        public Color ForeColor { get; set; }
-
-        #endregion
-
-        #region Implementation
-
-        /// <summary>
-        /// Compare a Token to another
-        /// </summary>
-        /// <param name="other"></param>
-        /// <returns></returns>
-        public int CompareTo(Token? other) => Text.CompareTo(other!.Text);
 
         #endregion
 
@@ -100,6 +81,17 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <returns></returns>
         public override int GetHashCode() => base.GetHashCode();
+
+        #endregion
+
+        #region Implementation
+
+        /// <summary>
+        /// Compares to.
+        /// </summary>
+        /// <param name="other">The other.</param>
+        /// <returns></returns>
+        public int CompareTo(KryptonDataGridViewTextAndImage? other) => Text.CompareTo(other!.Text);
 
         #endregion
     }

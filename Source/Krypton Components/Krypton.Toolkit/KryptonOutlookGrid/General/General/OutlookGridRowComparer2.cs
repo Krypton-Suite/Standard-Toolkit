@@ -119,11 +119,11 @@ namespace Krypton.Toolkit
                                     {
                                         compareResult = ts1.CompareTo(ts2) * orderModifier;
                                     }
-                                    else if (o1 is TextAndImage ti1 && o2 is TextAndImage ti2)
+                                    else if (o1 is KryptonDataGridViewTextAndImage ti1 && o2 is KryptonDataGridViewTextAndImage ti2)
                                     {
                                         compareResult = ti1.CompareTo(ti2) * orderModifier;
                                     }
-                                    else if (o1 is Token tok1 && o2 is Token tok2)
+                                    else if (o1 is KryptonDataGridViewToken tok1 && o2 is KryptonDataGridViewToken tok2)
                                     {
                                         compareResult = tok1.CompareTo(tok2) * orderModifier;
                                     }
@@ -179,11 +179,11 @@ namespace Krypton.Toolkit
                                 case TimeSpan ts1:
                                     compareResult = ts1.CompareTo(o2 as TimeSpan?) * orderModifier;
                                     break;
-                                case TextAndImage ti1:
-                                    compareResult = ti1.CompareTo(o2 as TextAndImage) * orderModifier;
+                                case KryptonDataGridViewTextAndImage ti1:
+                                    compareResult = ti1.CompareTo(o2 as KryptonDataGridViewTextAndImage) * orderModifier;
                                     break;
-                                case Token tok1:
-                                    compareResult = tok1.CompareTo(o2 as Token) * orderModifier;
+                                case KryptonDataGridViewToken tok1:
+                                    compareResult = tok1.CompareTo(o2 as KryptonDataGridViewToken) * orderModifier;
                                     break;
                                 default:
                                     // Fallback for types not explicitly handled above, mirroring the original implicit

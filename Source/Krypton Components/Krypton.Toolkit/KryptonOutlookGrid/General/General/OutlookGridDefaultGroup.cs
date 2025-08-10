@@ -500,14 +500,14 @@ namespace Krypton.Toolkit
                     TimeSpan t2 = (TimeSpan)o2!;
                     compareResult = (t1 > t2 ? 1 : t1 < t2 ? -1 : 0) * orderModifier;
                 }
-                else if (_val is TextAndImage)
+                else if (_val is KryptonDataGridViewTextAndImage)
                 {
-                    compareResult = ((TextAndImage)_val).CompareTo((TextAndImage)o2!) * orderModifier;
+                    compareResult = ((KryptonDataGridViewTextAndImage)_val).CompareTo((KryptonDataGridViewTextAndImage)o2!) * orderModifier;
                 }
                 //TODO implement a value for Token Column ??
-                else if (_val is Token)
+                else if (_val is KryptonDataGridViewToken)
                 {
-                    compareResult = ((Token)_val).CompareTo((Token)o2!) * orderModifier;
+                    compareResult = ((KryptonDataGridViewToken)_val).CompareTo((KryptonDataGridViewToken)o2!) * orderModifier;
                 }
                 else if (_val is IComparable comparableValue) // Fallback for other IComparable types
                 {

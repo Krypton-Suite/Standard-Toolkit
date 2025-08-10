@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Class for a rating cells.
     /// </summary>
-    public class TokenListCell : KryptonDataGridViewTextBoxCell
+    public class KryptonDataGridViewTokenListCell : KryptonDataGridViewTextBoxCell
     {
         #region Public Fields
 
@@ -37,11 +37,11 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Constructor
         /// </summary>
-        public TokenListCell()
+        public KryptonDataGridViewTokenListCell()
         {
             //Value type is an integer. 
             //Formatted value type is an image since we derive from the ImageCell 
-            ValueType = typeof(List<TokenListCell>);
+            ValueType = typeof(List<KryptonDataGridViewTokenListCell>);
         }
 
         #endregion
@@ -70,9 +70,9 @@ namespace Krypton.Toolkit
             int nextPosition = cellBounds.X + (int)(1 * factorX);
             Font? f = KryptonManager.CurrentGlobalPalette.GetContentShortTextFont(PaletteContentStyle.GridDataCellList, PaletteState.Normal);
 
-            if (value is List<Token> tokens)
+            if (value is List<KryptonDataGridViewToken> tokens)
             {
-                foreach (Token tok in tokens)
+                foreach (KryptonDataGridViewToken tok in tokens)
                 {
                     Rectangle rectangle = new();
                     Size s = TextRenderer.MeasureText(tok.Text, f);
@@ -106,7 +106,7 @@ namespace Krypton.Toolkit
             int nextPosition = (int)(1 * factorX);
             if (Value != null)
             {
-                foreach (Token tok in (List<Token>)Value)
+                foreach (KryptonDataGridViewToken tok in (List<KryptonDataGridViewToken>)Value)
                 {
                     Size s = TextRenderer.MeasureText(tok.Text, f);
                     nextPosition += s.Width + (int)(10 * factorX) + (int)(5 * factorX);

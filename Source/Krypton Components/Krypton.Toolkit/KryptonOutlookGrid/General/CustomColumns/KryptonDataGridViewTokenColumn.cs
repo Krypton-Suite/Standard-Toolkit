@@ -33,11 +33,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public KryptonDataGridViewTokenColumn()
         {
-            CellTemplate = new TokenCell();
+            CellTemplate = new KryptonDataGridViewTokenCell();
 
             DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
-            ValueType = typeof(TokenCell);
+            ValueType = typeof(KryptonDataGridViewTokenCell);
         }
 
         #endregion

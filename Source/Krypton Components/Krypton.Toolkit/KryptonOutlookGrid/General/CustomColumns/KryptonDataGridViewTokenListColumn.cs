@@ -33,9 +33,9 @@ namespace Krypton.Toolkit
         /// </summary>
         public KryptonDataGridViewTokenListColumn()
         {
-            CellTemplate = new TokenListCell();
+            CellTemplate = new KryptonDataGridViewTokenListCell();
             DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            ValueType = typeof(List<TokenListCell>);
+            ValueType = typeof(List<KryptonDataGridViewTokenListCell>);
         }
 
         #endregion

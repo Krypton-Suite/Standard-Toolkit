@@ -1400,7 +1400,7 @@ namespace Krypton.Toolkit
             _formatConditions.RemoveAll(x => x.ColumnName == col.Name);
             for (int i = 0; i < _internalRows.Count; i++)
             {
-                FormattingCell fCell = (FormattingCell)_internalRows[i].Cells[_colSelected];
+                KryptonDataGridViewFormattingCell fCell = (KryptonDataGridViewFormattingCell)_internalRows[i].Cells[_colSelected];
                 //fCell.FormatType = formatConditions[i].FormatType;
                 fCell.FormatParams = null;
             }
@@ -2960,7 +2960,7 @@ namespace Krypton.Toolkit
                     if (list[i].Cells[formatColumn].Value != null)
                     {
                         typeColumn = Columns[_formatConditions[j].ColumnName]!.ValueType;
-                        FormattingCell fCell = new(list[i].Cells[formatColumn])
+                        KryptonDataGridViewFormattingCell fCell = new(list[i].Cells[formatColumn])
                         {
                             FormatType = _formatConditions[j].FormatType,
                             FormatParams = _formatConditions[j].FormatParams?.Clone() as IFormatParams
@@ -3154,11 +3154,11 @@ namespace Krypton.Toolkit
                                     gr.FormatStyle =
                                         groupedColumns[i].DataGridViewColumn!.DefaultCellStyle
                                             .Format; //We can the formatting applied to the cell to the group
-                                    if (value is TextAndImage)
+                                    if (value is KryptonDataGridViewTextAndImage)
                                     {
-                                        gr.GroupImage = (value as TextAndImage)?.Image;
+                                        gr.GroupImage = (value as KryptonDataGridViewTextAndImage)?.Image;
                                     }
-                                    else if (value is Token token)
+                                    else if (value is KryptonDataGridViewToken token)
                                     {
                                         Bitmap bmp = new(13, 13);
                                         using (Graphics gfx = Graphics.FromImage(bmp))

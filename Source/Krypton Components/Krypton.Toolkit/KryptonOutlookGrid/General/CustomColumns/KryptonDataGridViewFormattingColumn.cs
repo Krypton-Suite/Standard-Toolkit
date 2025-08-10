@@ -40,9 +40,9 @@ namespace Krypton.Toolkit
         /// </summary>
         public KryptonDataGridViewFormattingColumn()
         {
-            CellTemplate = new FormattingCell();
+            CellTemplate = new KryptonDataGridViewFormattingCell();
             DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            ValueType = typeof(FormattingCell);
+            ValueType = typeof(KryptonDataGridViewFormattingCell);
             ContrastTextColor = false;
         }
 

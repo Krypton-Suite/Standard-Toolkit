@@ -25,7 +25,7 @@ namespace Krypton.Toolkit
     /// Formatting cell
     /// </summary>
     /// <seealso cref="KryptonDataGridViewTextBoxCell" />
-    public class FormattingCell : KryptonDataGridViewTextBoxCell
+    public class KryptonDataGridViewFormattingCell : KryptonDataGridViewTextBoxCell
     {
         #region Instance Fields
 
@@ -54,14 +54,14 @@ namespace Krypton.Toolkit
 
         #region Identity
 
-        public FormattingCell()
+        public KryptonDataGridViewFormattingCell()
         {
 
         }
 
-        public FormattingCell(DataGridViewCell cell) => _cell = cell;
+        public KryptonDataGridViewFormattingCell(DataGridViewCell cell) => _cell = cell;
 
-        public FormattingCell(KryptonDataGridViewTextBoxCell textBoxCell)
+        public KryptonDataGridViewFormattingCell(KryptonDataGridViewTextBoxCell textBoxCell)
         {
 
         }
