@@ -89,7 +89,7 @@ internal partial class VisualCustomFormatRuleRtlAwareForm : KryptonForm
                 selected = i;
             }
 
-            kcmbFormatStyle.Items.Add(new KryptonListItem(OutlookGridLanguageManager.Instance.GetString(names[i])));
+            kcmbFormatStyle.Items.Add(new KryptonListItem(KryptonOutlookGridLanguageManager.Instance.GetString(names[i])));
         }
 
         kcmbFormatStyle.SelectedIndex = selected;

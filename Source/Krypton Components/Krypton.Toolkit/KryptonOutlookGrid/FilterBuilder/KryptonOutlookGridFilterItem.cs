@@ -452,9 +452,9 @@ internal partial class KryptonOutlookGridFilterItem : UserControl, IKryptonOutlo
 
             var value1 = filterValues1.Value1.ToStringNull();
             var value2 = filterValues1.Value2.ToStringNull();
-            _readableFilter = HelperExtensions.GetReadableFilterString(string.Empty, colName, _dataType, op, value1, value2, true);
+            _readableFilter = KryptonOutlookGridHelperExtensions.GetReadableFilterString(string.Empty, colName, _dataType, op, value1, value2, true);
             if (IsValid(false))
-                _filter = HelperExtensions.GetFilterString(string.Empty, colName, _dataType, op, value1, value2);
+                _filter = KryptonOutlookGridHelperExtensions.GetFilterString(string.Empty, colName, _dataType, op, value1, value2);
             else
                 _filter = "";
         }

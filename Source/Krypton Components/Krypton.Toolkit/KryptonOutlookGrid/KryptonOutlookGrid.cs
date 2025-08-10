@@ -49,10 +49,10 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     private IDisposable? _mementoBack;
     private PaletteBorder _border;
 
-    private OutlookGridGroupCollection _groupCollection;     // List of Groups (of rows)
-    private List<OutlookGridRow> _internalRows;              // List of Rows in order to keep them as is (without grouping,...)
-    private HashSet<OutlookGridRow> _originalRows = default!;   // List of Rows in order to keep them as is (without grouping, filter,...)
-    private readonly OutlookGridColumnCollection _internalColumns;    // List of columns in order to know if sorted, Grouped, types,...
+    private KryptonOutlookGridGroupCollection _groupCollection;     // List of Groups (of rows)
+    private List<KryptonOutlookGridRow> _internalRows;              // List of Rows in order to keep them as is (without grouping,...)
+    private HashSet<KryptonOutlookGridRow> _originalRows = default!;   // List of Rows in order to keep them as is (without grouping, filter,...)
+    private readonly KryptonOutlookGridColumnCollection _internalColumns;    // List of columns in order to know if sorted, Grouped, types,...
     private int _previousGroupRowSelected = -1; //Useful to allow the selection of a group row or not when on mouse down 
 
     //Krypton ContextMenu for the columns header
@@ -107,7 +107,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     private GridFillMode _fillMode = GridFillMode.GroupsAndNodes;
 
     //Formatting
-    private List<ConditionalFormatting> _formatConditions;
+    private List<KryptonOutlookGridConditionalFormatting> _formatConditions;
 
     private readonly float _factorX;
     private readonly float _factorY;
@@ -119,23 +119,23 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     /// <summary>
     /// Group Image Click Event
     /// </summary>
-    public event EventHandler<OutlookGridGroupImageEventArgs>? GroupImageClick;
+    public event EventHandler<KryptonOutlookGridGroupImageEventArgs>? GroupImageClick;
     /// <summary>
     /// Node expanding event
     /// </summary>
-    public event EventHandler<ExpandingEventArgs>? NodeExpanding;
+    public event EventHandler<KryptonOutlookGridExpandingEventArgs>? NodeExpanding;
     /// <summary>
     /// Node Expanded event
     /// </summary>
-    public event EventHandler<ExpandedEventArgs>? NodeExpanded;
+    public event EventHandler<KryptonOutlookGridExpandedEventArgs>? NodeExpanded;
     /// <summary>
     /// Node Collapsing Event
     /// </summary>
-    public event EventHandler<CollapsingEventArgs>? NodeCollapsing;
+    public event EventHandler<KryptonOutlookGridCollapsingEventArgs>? NodeCollapsing;
     /// <summary>
     /// Node Collapsed event
     /// </summary>
-    public event EventHandler<CollapsedEventArgs>? NodeCollapsed;
+    public event EventHandler<KryptonOutlookGridCollapsedEventArgs>? NodeCollapsed;
 
     #endregion
 
@@ -149,11 +149,11 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
         InitializeComponent();
 
         // very important, this indicates that a new default row class is going to be used to fill the grid
-        // in this case our custom OutlookGridRow class
-        base.RowTemplate = new OutlookGridRow();
-        _groupCollection = new OutlookGridGroupCollection(null);
+        // in this case our custom KryptonOutlookGridRow class
+        base.RowTemplate = new KryptonOutlookGridRow();
+        _groupCollection = new KryptonOutlookGridGroupCollection(null);
         _internalRows = [];
-        //_originalRows = new List<OutlookGridRow>();
+        //_originalRows = new List<KryptonOutlookGridRow>();
         _internalColumns = [];
         _fillMode = GridFillMode.GroupsAndNodes;
 
@@ -252,7 +252,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public List<OutlookGridRow> InternalRows
+    public List<KryptonOutlookGridRow> InternalRows
     {
         get => _internalRows;
         set => _internalRows = value;
@@ -279,10 +279,10 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     /// <summary>
     /// Gets or sets the group collection.
     /// </summary>
-    /// <value>OutlookGridGroupCollection.</value>
+    /// <value>KryptonOutlookGridGroupCollection.</value>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public OutlookGridGroupCollection GroupCollection
+    public KryptonOutlookGridGroupCollection GroupCollection
     {
         get => _groupCollection;
         set => _groupCollection = value;
@@ -310,7 +310,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     [Category("Behavior")]
     [Description("Conditional formatting.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-    public List<ConditionalFormatting> ConditionalFormatting
+    public List<KryptonOutlookGridConditionalFormatting> ConditionalFormatting
     {
         get => _formatConditions;
         set => _formatConditions = value;
@@ -443,7 +443,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     /// <param name="e">The <see cref="DataGridViewCellCancelEventArgs"/> instance containing the event data.</param>
     protected override void OnCellBeginEdit(DataGridViewCellCancelEventArgs e)
     {
-        OutlookGridRow row = (OutlookGridRow)Rows[e.RowIndex];
+        KryptonOutlookGridRow row = (KryptonOutlookGridRow)Rows[e.RowIndex];
         if (row.IsGroupRow || row.IsSummaryRow)
         {
             e.Cancel = true;
@@ -462,7 +462,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     {
         if (e.RowIndex >= 0)
         {
-            OutlookGridRow row = (OutlookGridRow)Rows[e.RowIndex];
+            KryptonOutlookGridRow row = (KryptonOutlookGridRow)Rows[e.RowIndex];
             if (row.IsGroupRow)
             {
                 row.Group?.Collapsed = !row.Group.Collapsed;
@@ -561,7 +561,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
                     {
                         if (_dragDropType == 0)
                         {
-                            OutlookGridColumn col = (OutlookGridColumn)_internalColumns.FindFromColumnIndex(_dragDropSourceIndex)!;
+                            KryptonOutlookGridColumn col = (KryptonOutlookGridColumn)_internalColumns.FindFromColumnIndex(_dragDropSourceIndex)!;
                             string groupInterval = "";
                             string groupType = "";
                             string? groupSortBySummaryCount = "";
@@ -569,9 +569,9 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
                             if (col.GroupingType != null)
                             {
                                 groupType = col.GroupingType.GetType().Name;
-                                if (groupType == nameof(OutlookGridDateTimeGroup))
+                                if (groupType == nameof(KryptonOutlookGridDateTimeGroup))
                                 {
-                                    groupInterval = ((OutlookGridDateTimeGroup)col.GroupingType).Interval.ToString();
+                                    groupInterval = ((KryptonOutlookGridDateTimeGroup)col.GroupingType).Interval.ToString();
                                 }
 
                                 groupSortBySummaryCount = CommonHelper.BoolToString(col.GroupingType.SortBySummaryCount);
@@ -806,7 +806,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
             base.OnCellMouseDown(e); // To allow column resizing
             return;
         }
-        OutlookGridRow row = (OutlookGridRow)Rows[e.RowIndex];
+        KryptonOutlookGridRow row = (KryptonOutlookGridRow)Rows[e.RowIndex];
         //DebugUtilities.WriteLine("OnCellMouseDown " + DateTime.Now.Ticks.ToString() + "IsIconHit" + row.IsIconHit(e).ToString());
         if (_previousGroupRowSelected != -1 && _previousGroupRowSelected != e.RowIndex && PreviousSelectedGroupRow < Rows.Count)
         {
@@ -834,7 +834,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
             }
             else if (row.IsGroupImageHit(e))
             {
-                OnGroupImageClick(new OutlookGridGroupImageEventArgs(row));
+                OnGroupImageClick(new KryptonOutlookGridGroupImageEventArgs(row));
             }
             else
             {
@@ -867,7 +867,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
         if (_previousGroupRowSelected != -1 && _previousGroupRowSelected != newRowIndex)
         {
             // Ensure the previous group row index is still valid within the Rows collection
-            if (_previousGroupRowSelected < Rows.Count && Rows[_previousGroupRowSelected] is OutlookGridRow previousOutlookRow)
+            if (_previousGroupRowSelected < Rows.Count && Rows[_previousGroupRowSelected] is KryptonOutlookGridRow previousOutlookRow)
             {
                 // Invalidate the previously selected group row to ensure it redraws without selection.
                 // You might also need to clear specific selection states if they are being held.
@@ -879,7 +879,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
 
         // Now, if the *new* current row is a group row, update _previousGroupRowSelected
         // and handle clearing selection if that's still desired for group rows on navigation.
-        if (currentRow is OutlookGridRow currentOutlookRow && currentOutlookRow.IsGroupRow)
+        if (currentRow is KryptonOutlookGridRow currentOutlookRow && currentOutlookRow.IsGroupRow)
         {
             // If the user navigates *onto* a group row with the keyboard,
             // you might still want to clear the selection or prevent it from being selected visually.
@@ -913,7 +913,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
             }
             else if (e.Button == MouseButtons.Left)
             {
-                OutlookGridColumn? col = _internalColumns.FindFromColumnIndex(e.ColumnIndex) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("col"));
+                KryptonOutlookGridColumn? col = _internalColumns.FindFromColumnIndex(e.ColumnIndex) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("col"));
                 if (col.DataGridViewColumn!.SortMode != DataGridViewColumnSortMode.NotSortable)
                 {
                     SortOrder previousSort = col.SortDirection;
@@ -999,8 +999,8 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
             Graphics g = e.Graphics;
 
             // Iterate through currently visible rows
-            var visibleRows = this.Rows.Cast<OutlookGridRow>().Where(r => r.Visible && r.DataGridView != null && (r.IsGroupRow || r.IsSummaryRow));
-            //var visibleRows = this.Rows.Cast<OutlookGridRow>().Where(r => r.Visible && r.DataGridView != null && r.IsGroupRow);
+            var visibleRows = this.Rows.Cast<KryptonOutlookGridRow>().Where(r => r.Visible && r.DataGridView != null && (r.IsGroupRow || r.IsSummaryRow));
+            //var visibleRows = this.Rows.Cast<KryptonOutlookGridRow>().Where(r => r.Visible && r.DataGridView != null && r.IsGroupRow);
             if (visibleRows != null)
             {
                 foreach (DataGridViewRow row in visibleRows)
@@ -1029,7 +1029,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
                     IPaletteBack rowHeaderPaletteBack = isSelected ? this.StateSelected.HeaderRow.Back : this.StateNormal.HeaderRow.Back;
                     IPaletteBorder rowHeaderPaletteBorder = isSelected ? this.StateSelected.HeaderRow.Border : this.StateNormal.HeaderRow.Border;
 
-                    // --- Drawing logic for the row header (copied from OutlookGridRow) ---
+                    // --- Drawing logic for the row header (copied from KryptonOutlookGridRow) ---
                     using (RenderContext rhRenderContext = new(this, g, rowHeaderPaintArea, this.Renderer!))
                     {
                         using (GraphicsPath rhPath = this.Renderer!.RenderStandardBorder.GetBackPath(rhRenderContext, rowHeaderPaintArea, rowHeaderPaletteBorder, VisualOrientation.Top, rowHeaderRenderingState))
@@ -1082,7 +1082,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
             h = GlobalStaticValues.Office2013GroupRowHeight; // special height for office 2013         
         }
 
-        //For each OutlookGridColumn
+        //For each KryptonOutlookGridColumn
         for (int j = 0; j < _internalColumns.Count; j++)
         {
             if (_internalColumns[j].GroupingType != null)
@@ -1111,7 +1111,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     {
         if (_colSelected > -1)
         {
-            OutlookGridColumn col = (OutlookGridColumn)_internalColumns.FindFromColumnIndex(_colSelected)!;
+            KryptonOutlookGridColumn col = (KryptonOutlookGridColumn)_internalColumns.FindFromColumnIndex(_colSelected)!;
             UnSortColumn(col);
             Fill();
         }
@@ -1126,7 +1126,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     {
         if (_colSelected > -1)
         {
-            OutlookGridColumn col = (OutlookGridColumn)_internalColumns.FindFromColumnIndex(_colSelected)!;
+            KryptonOutlookGridColumn col = (KryptonOutlookGridColumn)_internalColumns.FindFromColumnIndex(_colSelected)!;
             SortColumn(col, SortOrder.Ascending);
             if (col.IsGrouped)
             {
@@ -1145,7 +1145,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     {
         if (_colSelected > -1)
         {
-            OutlookGridColumn col = (OutlookGridColumn)_internalColumns.FindFromColumnIndex(_colSelected)!;
+            KryptonOutlookGridColumn col = (KryptonOutlookGridColumn)_internalColumns.FindFromColumnIndex(_colSelected)!;
             SortColumn(col, SortOrder.Descending);
             if (col.IsGrouped)
             {
@@ -1164,7 +1164,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     {
         if (_colSelected > -1)
         {
-            OutlookGridColumn col = (OutlookGridColumn)_internalColumns.FindFromColumnIndex(_colSelected)!;
+            KryptonOutlookGridColumn col = (KryptonOutlookGridColumn)_internalColumns.FindFromColumnIndex(_colSelected)!;
             GroupColumn(col, SortOrder.Ascending, null);
             ForceRefreshGroupBox();
             Fill();
@@ -1180,7 +1180,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     {
         if (_colSelected > -1)
         {
-            OutlookGridColumn col = (OutlookGridColumn)_internalColumns.FindFromColumnIndex(_colSelected)!;
+            KryptonOutlookGridColumn col = (KryptonOutlookGridColumn)_internalColumns.FindFromColumnIndex(_colSelected)!;
             UnGroupColumn(col.Name!);
             ForceRefreshGroupBox();
             Fill();
@@ -1189,13 +1189,13 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
 
     private void OnGroupCollapse(object? sender, EventArgs e)
     {
-        OutlookGridColumn col = (OutlookGridColumn)_internalColumns.FindFromColumnIndex(_colSelected)!;
+        KryptonOutlookGridColumn col = (KryptonOutlookGridColumn)_internalColumns.FindFromColumnIndex(_colSelected)!;
         Collapse(col.Name);
     }
 
     private void OnGroupExpand(object? sender, EventArgs e)
     {
-        OutlookGridColumn col = (OutlookGridColumn)_internalColumns.FindFromColumnIndex(_colSelected)!;
+        KryptonOutlookGridColumn col = (KryptonOutlookGridColumn)_internalColumns.FindFromColumnIndex(_colSelected)!;
         Expand(col.Name);
     }
 
@@ -1203,7 +1203,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     {
 
         var item = sender as KryptonContextMenuItem ?? throw new ArgumentNullException(nameof(sender));
-        OutlookGridColumn col = (OutlookGridColumn)_internalColumns.FindFromColumnIndex(_colSelected)!;
+        KryptonOutlookGridColumn col = (KryptonOutlookGridColumn)_internalColumns.FindFromColumnIndex(_colSelected)!;
         col.GroupingType?.SortBySummaryCount = item.Checked;
         ForceRefreshGroupBox();
         Fill();
@@ -1212,14 +1212,14 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     private void OnGroupIntervalClick(object? sender, EventArgs e)
     {
         var item = sender as KryptonContextMenuItem ?? throw new ArgumentNullException(nameof(sender));
-        OutlookGridColumn col = (OutlookGridColumn)_internalColumns.FindFromColumnIndex(_colSelected)!;
+        KryptonOutlookGridColumn col = (KryptonOutlookGridColumn)_internalColumns.FindFromColumnIndex(_colSelected)!;
         if (col.GroupingType != null)
         {
             if (item != null)
             {
                 if (item.Tag != null)
                 {
-                    ((OutlookGridDateTimeGroup)col.GroupingType).Interval =
+                    ((KryptonOutlookGridDateTimeGroup)col.GroupingType).Interval =
                         (DateInterval)Enum.Parse(typeof(DateInterval), item.Tag.ToString()!);
                 }
             }
@@ -1231,12 +1231,12 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     private void OnConditionalFormattingClick(object? sender, EventArgs e)
     {
         var item = sender as KryptonContextMenuImageSelect ?? throw new ArgumentNullException(nameof(sender));
-        OutlookGridColumn col = (OutlookGridColumn)_internalColumns.FindFromColumnIndex(_colSelected)!;
-        ConditionalFormatting? format = _formatConditions.FirstOrDefault(x => x.ColumnName == col.Name);
-        ConditionalFormatting newFormat = (item.Tag as List<ConditionalFormatting>)![item.SelectedIndex];
+        KryptonOutlookGridColumn col = (KryptonOutlookGridColumn)_internalColumns.FindFromColumnIndex(_colSelected)!;
+        KryptonOutlookGridConditionalFormatting? format = _formatConditions.FirstOrDefault(x => x.ColumnName == col.Name);
+        KryptonOutlookGridConditionalFormatting newFormat = (item.Tag as List<KryptonOutlookGridConditionalFormatting>)![item.SelectedIndex];
         if (format == null)
         {
-            _formatConditions.Add(new ConditionalFormatting(col.DataGridViewColumn!.Name, newFormat.FormatType, newFormat.FormatParams));
+            _formatConditions.Add(new KryptonOutlookGridConditionalFormatting(col.DataGridViewColumn!.Name, newFormat.FormatType, newFormat.FormatParams));
         }
         else
         {
@@ -1255,17 +1255,17 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
             fm.ShowDialog();
             if (fm.DialogResult == DialogResult.OK)
             {
-                OutlookGridColumn col = (OutlookGridColumn)_internalColumns.FindFromColumnIndex(_colSelected)!;
-                ConditionalFormatting? format = _formatConditions.FirstOrDefault(x => x.ColumnName == col.Name);
+                KryptonOutlookGridColumn col = (KryptonOutlookGridColumn)_internalColumns.FindFromColumnIndex(_colSelected)!;
+                KryptonOutlookGridConditionalFormatting? format = _formatConditions.FirstOrDefault(x => x.ColumnName == col.Name);
                 if (format == null)
                 {
-                    ConditionalFormatting newFormat = new(col.DataGridViewColumn!.Name, EnumConditionalFormatType.TwoColorsRange, new TwoColorsParams(fm.MinimumColor, fm.MaximumColor));
+                    KryptonOutlookGridConditionalFormatting newFormat = new(col.DataGridViewColumn!.Name, EnumConditionalFormatType.TwoColorsRange, new KryptonOutlookGridTwoColorsParams(fm.MinimumColor, fm.MaximumColor));
                     _formatConditions.Add(newFormat);
                 }
                 else
                 {
                     format.FormatType = EnumConditionalFormatType.TwoColorsRange;
-                    format.FormatParams = new TwoColorsParams(fm.MinimumColor, fm.MaximumColor);
+                    format.FormatParams = new KryptonOutlookGridTwoColorsParams(fm.MinimumColor, fm.MaximumColor);
                 }
                 Fill();
             }
@@ -1277,17 +1277,17 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
             fm.ShowDialog();
             if (fm.DialogResult == DialogResult.OK)
             {
-                OutlookGridColumn col = (OutlookGridColumn)_internalColumns.FindFromColumnIndex(_colSelected)!;
-                ConditionalFormatting? format = _formatConditions.FirstOrDefault(x => x.ColumnName == col.Name);
+                KryptonOutlookGridColumn col = (KryptonOutlookGridColumn)_internalColumns.FindFromColumnIndex(_colSelected)!;
+                KryptonOutlookGridConditionalFormatting? format = _formatConditions.FirstOrDefault(x => x.ColumnName == col.Name);
                 if (format == null)
                 {
-                    ConditionalFormatting newFormat = new(col.DataGridViewColumn!.Name, EnumConditionalFormatType.TwoColorsRange, new TwoColorsParams(fm.MinimumColor, fm.MaximumColor));
+                    KryptonOutlookGridConditionalFormatting newFormat = new(col.DataGridViewColumn!.Name, EnumConditionalFormatType.TwoColorsRange, new KryptonOutlookGridTwoColorsParams(fm.MinimumColor, fm.MaximumColor));
                     _formatConditions.Add(newFormat);
                 }
                 else
                 {
                     format.FormatType = EnumConditionalFormatType.TwoColorsRange;
-                    format.FormatParams = new TwoColorsParams(fm.MinimumColor, fm.MaximumColor);
+                    format.FormatParams = new KryptonOutlookGridTwoColorsParams(fm.MinimumColor, fm.MaximumColor);
                 }
                 Fill();
             }
@@ -1304,17 +1304,17 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
             fm.ShowDialog();
             if (fm.DialogResult == DialogResult.OK)
             {
-                OutlookGridColumn col = (OutlookGridColumn)_internalColumns.FindFromColumnIndex(_colSelected)!;
-                ConditionalFormatting? format = _formatConditions.FirstOrDefault(x => x.ColumnName == col.Name);
+                KryptonOutlookGridColumn col = (KryptonOutlookGridColumn)_internalColumns.FindFromColumnIndex(_colSelected)!;
+                KryptonOutlookGridConditionalFormatting? format = _formatConditions.FirstOrDefault(x => x.ColumnName == col.Name);
                 if (format == null)
                 {
-                    ConditionalFormatting newFormat = new(col.DataGridViewColumn!.Name, EnumConditionalFormatType.ThreeColorsRange, new ThreeColorsParams(Color.FromArgb(248, 105, 107), Color.FromArgb(255, 235, 132), Color.FromArgb(99, 190, 123)));
+                    KryptonOutlookGridConditionalFormatting newFormat = new(col.DataGridViewColumn!.Name, EnumConditionalFormatType.ThreeColorsRange, new KryptonOutlookGridThreeColorsParams(Color.FromArgb(248, 105, 107), Color.FromArgb(255, 235, 132), Color.FromArgb(99, 190, 123)));
                     _formatConditions.Add(newFormat);
                 }
                 else
                 {
                     format.FormatType = EnumConditionalFormatType.ThreeColorsRange;
-                    format.FormatParams = new ThreeColorsParams(Color.FromArgb(248, 105, 107), Color.FromArgb(255, 235, 132), Color.FromArgb(99, 190, 123));
+                    format.FormatParams = new KryptonOutlookGridThreeColorsParams(Color.FromArgb(248, 105, 107), Color.FromArgb(255, 235, 132), Color.FromArgb(99, 190, 123));
                 }
                 Fill();
             }
@@ -1326,17 +1326,17 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
             fm.ShowDialog();
             if (fm.DialogResult == DialogResult.OK)
             {
-                OutlookGridColumn col = (OutlookGridColumn)_internalColumns.FindFromColumnIndex(_colSelected)!;
-                ConditionalFormatting? format = _formatConditions.FirstOrDefault(x => x.ColumnName == col.Name);
+                KryptonOutlookGridColumn col = (KryptonOutlookGridColumn)_internalColumns.FindFromColumnIndex(_colSelected)!;
+                KryptonOutlookGridConditionalFormatting? format = _formatConditions.FirstOrDefault(x => x.ColumnName == col.Name);
                 if (format == null)
                 {
-                    ConditionalFormatting newFormat = new(col.DataGridViewColumn!.Name, EnumConditionalFormatType.ThreeColorsRange, new ThreeColorsParams(Color.FromArgb(248, 105, 107), Color.FromArgb(255, 235, 132), Color.FromArgb(99, 190, 123)));
+                    KryptonOutlookGridConditionalFormatting newFormat = new(col.DataGridViewColumn!.Name, EnumConditionalFormatType.ThreeColorsRange, new KryptonOutlookGridThreeColorsParams(Color.FromArgb(248, 105, 107), Color.FromArgb(255, 235, 132), Color.FromArgb(99, 190, 123)));
                     _formatConditions.Add(newFormat);
                 }
                 else
                 {
                     format.FormatType = EnumConditionalFormatType.ThreeColorsRange;
-                    format.FormatParams = new ThreeColorsParams(Color.FromArgb(248, 105, 107), Color.FromArgb(255, 235, 132), Color.FromArgb(99, 190, 123));
+                    format.FormatParams = new KryptonOutlookGridThreeColorsParams(Color.FromArgb(248, 105, 107), Color.FromArgb(255, 235, 132), Color.FromArgb(99, 190, 123));
                 }
                 Fill();
             }
@@ -1352,17 +1352,17 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
             fm.ShowDialog();
             if (fm.DialogResult == DialogResult.OK)
             {
-                OutlookGridColumn col = (OutlookGridColumn)_internalColumns.FindFromColumnIndex(_colSelected)!;
-                ConditionalFormatting? format = _formatConditions.FirstOrDefault(x => x.ColumnName == col.Name);
+                KryptonOutlookGridColumn col = (KryptonOutlookGridColumn)_internalColumns.FindFromColumnIndex(_colSelected)!;
+                KryptonOutlookGridConditionalFormatting? format = _formatConditions.FirstOrDefault(x => x.ColumnName == col.Name);
                 if (format == null)
                 {
-                    ConditionalFormatting newFormat = new(col.DataGridViewColumn!.Name, EnumConditionalFormatType.Bar, new BarParams(fm.MinimumColor, fm.Gradient));
+                    KryptonOutlookGridConditionalFormatting newFormat = new(col.DataGridViewColumn!.Name, EnumConditionalFormatType.Bar, new KryptonOutlookGridBarParams(fm.MinimumColor, fm.Gradient));
                     _formatConditions.Add(newFormat);
                 }
                 else
                 {
                     format.FormatType = EnumConditionalFormatType.Bar;
-                    format.FormatParams = new BarParams(fm.MinimumColor, fm.Gradient);
+                    format.FormatParams = new KryptonOutlookGridBarParams(fm.MinimumColor, fm.Gradient);
                 }
                 Fill();
             }
@@ -1374,17 +1374,17 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
             fm.ShowDialog();
             if (fm.DialogResult == DialogResult.OK)
             {
-                OutlookGridColumn col = (OutlookGridColumn)_internalColumns.FindFromColumnIndex(_colSelected)!;
-                ConditionalFormatting? format = _formatConditions.FirstOrDefault(x => x.ColumnName == col.Name);
+                KryptonOutlookGridColumn col = (KryptonOutlookGridColumn)_internalColumns.FindFromColumnIndex(_colSelected)!;
+                KryptonOutlookGridConditionalFormatting? format = _formatConditions.FirstOrDefault(x => x.ColumnName == col.Name);
                 if (format == null)
                 {
-                    ConditionalFormatting newFormat = new(col.DataGridViewColumn!.Name, EnumConditionalFormatType.Bar, new BarParams(fm.MinimumColor, fm.Gradient));
+                    KryptonOutlookGridConditionalFormatting newFormat = new(col.DataGridViewColumn!.Name, EnumConditionalFormatType.Bar, new KryptonOutlookGridBarParams(fm.MinimumColor, fm.Gradient));
                     _formatConditions.Add(newFormat);
                 }
                 else
                 {
                     format.FormatType = EnumConditionalFormatType.Bar;
-                    format.FormatParams = new BarParams(fm.MinimumColor, fm.Gradient);
+                    format.FormatParams = new KryptonOutlookGridBarParams(fm.MinimumColor, fm.Gradient);
                 }
                 Fill();
             }
@@ -1394,7 +1394,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
 
     private void OnClearConditionalClick(object? sender, EventArgs e)
     {
-        OutlookGridColumn col = (OutlookGridColumn)_internalColumns.FindFromColumnIndex(_colSelected)!;
+        KryptonOutlookGridColumn col = (KryptonOutlookGridColumn)_internalColumns.FindFromColumnIndex(_colSelected)!;
         _formatConditions.RemoveAll(x => x.ColumnName == col.Name);
         for (int i = 0; i < _internalRows.Count; i++)
         {
@@ -1463,8 +1463,8 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     /// Handles the ColumnSortChangedEvent event. Update the header (glyph) and fill the grid too.
     /// </summary>
     /// <param name="sender">Source of the event.</param>
-    /// <param name="e">A OutlookGridColumnEventArgs that contains the event data.</param>
-    private void ColumnSortChangedEvent(object? sender, OutlookGridColumnEventArgs e)
+    /// <param name="e">A KryptonOutlookGridColumnEventArgs that contains the event data.</param>
+    private void ColumnSortChangedEvent(object? sender, KryptonOutlookGridColumnEventArgs e)
     {
         if (e is null)
         {
@@ -1482,8 +1482,8 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     /// Handles the ColumnGroupAddedEvent event. Fill the grid too.
     /// </summary>
     /// <param name="sender">Source of the event.</param>
-    /// <param name="e">A OutlookGridColumnEventArgs that contains the event data.</param>
-    private void ColumnGroupAddedEvent(object? sender, OutlookGridColumnEventArgs e)
+    /// <param name="e">A KryptonOutlookGridColumnEventArgs that contains the event data.</param>
+    private void ColumnGroupAddedEvent(object? sender, KryptonOutlookGridColumnEventArgs e)
     {
         GroupColumn(e.Column.Name!, e.Column.SortDirection, null);
         //We fill again the grid with the new Grouping info
@@ -1497,8 +1497,8 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     /// Handles the ColumnGroupRemovedEvent event. Fill the grid too.
     /// </summary>
     /// <param name="sender">Source of the event.</param>
-    /// <param name="e">A OutlookGridColumnEventArgs that contains the event data.</param>
-    private void ColumnGroupRemovedEvent(object? sender, OutlookGridColumnEventArgs e)
+    /// <param name="e">A KryptonOutlookGridColumnEventArgs that contains the event data.</param>
+    private void ColumnGroupRemovedEvent(object? sender, KryptonOutlookGridColumnEventArgs e)
     {
         UnGroupColumn(e.Column.Name!);
         //We fill again the grid with the new Grouping info
@@ -1552,7 +1552,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    private void GridGroupExpandEvent(object? sender, OutlookGridColumnEventArgs e)
+    private void GridGroupExpandEvent(object? sender, KryptonOutlookGridColumnEventArgs e)
     {
         Expand(e.Column.Name);
 #if DEBUG
@@ -1560,7 +1560,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
 #endif
     }
 
-    private void GridGroupCollapseEvent(object? sender, OutlookGridColumnEventArgs e)
+    private void GridGroupCollapseEvent(object? sender, KryptonOutlookGridColumnEventArgs e)
     {
         Collapse(e.Column.Name);
 #if DEBUG
@@ -1568,7 +1568,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
 #endif
     }
 
-    private void ColumnGroupIndexChangedEvent(object? sender, OutlookGridColumnEventArgs e)
+    private void ColumnGroupIndexChangedEvent(object? sender, KryptonOutlookGridColumnEventArgs e)
     {
         //TODO 25/01/2014
         _internalColumns.ChangeGroupIndex(e.Column);
@@ -1579,20 +1579,20 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
 #endif
     }
 
-    private void GroupIntervalClickEvent(object? sender, OutlookGridColumnEventArgs e)
+    private void GroupIntervalClickEvent(object? sender, KryptonOutlookGridColumnEventArgs e)
     {
-        OutlookGridColumn col = (OutlookGridColumn)_internalColumns.FindFromColumnName(e.Column.Name)!;
-        (col.GroupingType as OutlookGridDateTimeGroup)!.Interval =
-            (e.Column.GroupingType as OutlookGridDateTimeGroup)!.Interval;
+        KryptonOutlookGridColumn col = (KryptonOutlookGridColumn)_internalColumns.FindFromColumnName(e.Column.Name)!;
+        (col.GroupingType as KryptonOutlookGridDateTimeGroup)!.Interval =
+            (e.Column.GroupingType as KryptonOutlookGridDateTimeGroup)!.Interval;
         Fill();
 #if DEBUG
         Debug.WriteLine(@"OutlookGrid - Receives GroupIntervalClickEvent");
 #endif
     }
 
-    private void SortBySummaryCountEvent(object? sender, OutlookGridColumnEventArgs e)
+    private void SortBySummaryCountEvent(object? sender, KryptonOutlookGridColumnEventArgs e)
     {
-        OutlookGridColumn col = (OutlookGridColumn)_internalColumns.FindFromColumnName(e.Column.Name)!;
+        KryptonOutlookGridColumn col = (KryptonOutlookGridColumn)_internalColumns.FindFromColumnName(e.Column.Name)!;
         if (col.GroupingType != null)
         {
             if (e.Column.GroupingType != null)
@@ -1609,8 +1609,8 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     /// <summary>
     /// Raises the GroupImageClick event.
     /// </summary>
-    /// <param name="e">A OutlookGridGroupImageEventArgs that contains the event data.</param>
-    protected virtual void OnGroupImageClick(OutlookGridGroupImageEventArgs e)
+    /// <param name="e">A KryptonOutlookGridGroupImageEventArgs that contains the event data.</param>
+    protected virtual void OnGroupImageClick(KryptonOutlookGridGroupImageEventArgs e)
     {
         GroupImageClick?.Invoke(this, e);
     }
@@ -1618,8 +1618,8 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     /// <summary>
     /// Raises the NodeExpanding event.
     /// </summary>
-    /// <param name="e">A ExpandingEventArgs that contains the event data.</param>
-    protected virtual void OnNodeExpanding(ExpandingEventArgs e)
+    /// <param name="e">A KryptonOutlookGridExpandingEventArgs that contains the event data.</param>
+    protected virtual void OnNodeExpanding(KryptonOutlookGridExpandingEventArgs e)
     {
         NodeExpanding?.Invoke(this, e);
     }
@@ -1627,8 +1627,8 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     /// <summary>
     /// Raises the NodeExpanded event.
     /// </summary>
-    /// <param name="e">A ExpandedEventArgs that contains the event data.</param>
-    protected virtual void OnNodeExpanded(ExpandedEventArgs e)
+    /// <param name="e">A KryptonOutlookGridExpandedEventArgs that contains the event data.</param>
+    protected virtual void OnNodeExpanded(KryptonOutlookGridExpandedEventArgs e)
     {
         NodeExpanded?.Invoke(this, e);
     }
@@ -1636,8 +1636,8 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     /// <summary>
     /// Raises the NodeCollapsing event.
     /// </summary>
-    /// <param name="e">A CollapsingEventArgs that contains the event data.</param>
-    protected virtual void OnNodeCollapsing(CollapsingEventArgs e)
+    /// <param name="e">A KryptonOutlookGridCollapsingEventArgs that contains the event data.</param>
+    protected virtual void OnNodeCollapsing(KryptonOutlookGridCollapsingEventArgs e)
     {
         NodeCollapsing?.Invoke(this, e);
 
@@ -1646,8 +1646,8 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     /// <summary>
     /// Raises the NodeCollapsed event.
     /// </summary>
-    /// <param name="e">A CollapsedEventArgs that contains the event data.</param>
-    protected virtual void OnNodeCollapsed(CollapsedEventArgs e)
+    /// <param name="e">A KryptonOutlookGridCollapsedEventArgs that contains the event data.</param>
+    protected virtual void OnNodeCollapsed(KryptonOutlookGridCollapsedEventArgs e)
     {
         NodeCollapsed?.Invoke(this, e);
     }
@@ -1665,8 +1665,8 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     /// <param name="groupIndex">The column's position in grouping and at which level.</param>
     /// <param name="sortIndex">the column's position among sorted columns.</param>
     /// <param name="comparer">The comparer if needed</param>
-    public void AddInternalColumn(DataGridViewColumn col, IOutlookGridGroup group, SortOrder sortDirection, int groupIndex, int sortIndex, IComparer? comparer) =>
-        AddInternalColumn(new OutlookGridColumn(col, group, sortDirection, groupIndex, sortIndex, comparer));
+    public void AddInternalColumn(DataGridViewColumn col, IKryptonOutlookGridGroup group, SortOrder sortDirection, int groupIndex, int sortIndex, IComparer? comparer) =>
+        AddInternalColumn(new KryptonOutlookGridColumn(col, group, sortDirection, groupIndex, sortIndex, comparer));
 
     /// <summary>
     /// Add a column for internal uses of the OutlookGrid. The column must already exists in the DataGridView. Do this *BEFORE* using the grid (sorting and grouping, filling,...)
@@ -1678,8 +1678,8 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     /// <param name="sortIndex">the column's position among sorted columns.</param>
     /// <param name="comparer">The comparer if needed</param>
     /// <param name="aggregationType">The type of aggregation to apply to the column.</param>
-    public void AddInternalColumn(DataGridViewColumn col, IOutlookGridGroup group, SortOrder sortDirection, int groupIndex, int sortIndex, IComparer? comparer, KryptonOutlookGridAggregationType aggregationType) =>
-        AddInternalColumn(new OutlookGridColumn(col, group, sortDirection, groupIndex, sortIndex, comparer, aggregationType));
+    public void AddInternalColumn(DataGridViewColumn col, IKryptonOutlookGridGroup group, SortOrder sortDirection, int groupIndex, int sortIndex, IComparer? comparer, KryptonOutlookGridAggregationType aggregationType) =>
+        AddInternalColumn(new KryptonOutlookGridColumn(col, group, sortDirection, groupIndex, sortIndex, comparer, aggregationType));
 
     /// <summary>
     /// Add a column for internal uses of the OutlookGrid. The column must already exists in the DataGridView. Do this *BEFORE* using the grid (sorting and grouping, filling,...)
@@ -1689,8 +1689,8 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     /// <param name="sortDirection">The sort direction.</param>
     /// <param name="groupIndex">The column's position in grouping and at which level.</param>
     /// <param name="sortIndex">the column's position among sorted columns.</param>
-    public void AddInternalColumn(DataGridViewColumn col, IOutlookGridGroup group, SortOrder sortDirection, int groupIndex, int sortIndex) =>
-        AddInternalColumn(new OutlookGridColumn(col, group, sortDirection, groupIndex, sortIndex, null));
+    public void AddInternalColumn(DataGridViewColumn col, IKryptonOutlookGridGroup group, SortOrder sortDirection, int groupIndex, int sortIndex) =>
+        AddInternalColumn(new KryptonOutlookGridColumn(col, group, sortDirection, groupIndex, sortIndex, null));
 
     /// <summary>
     /// Add a column for internal uses of the OutlookGrid. The column must already exists in the DataGridView. Do this *BEFORE* using the grid (sorting and grouping, filling,...)
@@ -1701,14 +1701,14 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     /// <param name="groupIndex">The column's position in grouping and at which level.</param>
     /// <param name="sortIndex">the column's position among sorted columns.</param>
     /// <param name="aggregationType">The type of aggregation to apply to the column.</param>
-    public void AddInternalColumn(DataGridViewColumn col, IOutlookGridGroup group, SortOrder sortDirection, int groupIndex, int sortIndex, KryptonOutlookGridAggregationType aggregationType) =>
-        AddInternalColumn(new OutlookGridColumn(col, group, sortDirection, groupIndex, sortIndex, null, aggregationType));
+    public void AddInternalColumn(DataGridViewColumn col, IKryptonOutlookGridGroup group, SortOrder sortDirection, int groupIndex, int sortIndex, KryptonOutlookGridAggregationType aggregationType) =>
+        AddInternalColumn(new KryptonOutlookGridColumn(col, group, sortDirection, groupIndex, sortIndex, null, aggregationType));
 
     /// <summary>
     /// Add a column for internal uses of the OutlookGrid. The column must already exists in the DataGridView. Do this *BEFORE* using the grid (sorting and grouping, filling,...)
     /// </summary>
-    /// <param name="col">The configured OutlookGridColumn.</param>
-    public void AddInternalColumn(OutlookGridColumn col)
+    /// <param name="col">The configured KryptonOutlookGridColumn.</param>
+    public void AddInternalColumn(KryptonOutlookGridColumn col)
     {
         Debug.Assert(col != null);
         if (col != null)
@@ -1727,13 +1727,13 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     /// Add an array of OutlookGridColumns for internal use of OutlookGrid. The columns must already exist in the DataGridView. Do this *BEFORE* using the grid (sorting and grouping, filling,...)
     /// </summary>
     /// <param name="cols">The array of columns</param>
-    public void AddRangeInternalColumns(params OutlookGridColumn[] cols)
+    public void AddRangeInternalColumns(params KryptonOutlookGridColumn[] cols)
     {
         Debug.Assert(cols != null);
         // All columns with DisplayIndex != -1 are put into the initialColumns array
         if (cols != null)
         {
-            foreach (OutlookGridColumn col in cols)
+            foreach (KryptonOutlookGridColumn col in cols)
             {
                 AddInternalColumn(col);
             }
@@ -1744,13 +1744,13 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     /// Add an array of OutlookGridColumns for internal use of OutlookGrid. The columns must already exist in the DataGridView. Do this *BEFORE* using the grid (sorting and grouping, filling,...)
     /// </summary>
     /// <param name="cols">The list of columns.</param>
-    public void AddRangeInternalColumns(List<OutlookGridColumn> cols)
+    public void AddRangeInternalColumns(List<KryptonOutlookGridColumn> cols)
     {
         Debug.Assert(cols != null);
         // All columns with DisplayIndex != -1 are put into the initialColumns array
         if (cols != null)
         {
-            foreach (OutlookGridColumn col in cols)
+            foreach (KryptonOutlookGridColumn col in cols)
             {
                 AddInternalColumn(col);
             }
@@ -1763,7 +1763,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     /// <param name="columnName">The name of the column.</param>
     /// <param name="sortDirection">The sort direction of the group./</param>
     /// <param name="gr">The IOutlookGridGroup object.</param>
-    public void GroupColumn(string columnName, SortOrder sortDirection, IOutlookGridGroup? gr) => GroupColumn(_internalColumns[columnName]!, sortDirection, gr);
+    public void GroupColumn(string columnName, SortOrder sortDirection, IKryptonOutlookGridGroup? gr) => GroupColumn(_internalColumns[columnName]!, sortDirection, gr);
 
     /// <summary>
     /// Group a column
@@ -1771,7 +1771,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     /// <param name="col">The name of the column.</param>
     /// <param name="sortDirection">The sort direction of the group./</param>
     /// <param name="gr">The IOutlookGridGroup object.</param>
-    public void GroupColumn(OutlookGridColumn col, SortOrder sortDirection, IOutlookGridGroup? gr)
+    public void GroupColumn(KryptonOutlookGridColumn col, SortOrder sortDirection, IKryptonOutlookGridGroup? gr)
     {
         if (!col.IsGrouped)
         {
@@ -1798,7 +1798,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     /// <summary>
     /// Ungroup a column
     /// </summary>
-    /// <param name="columnName">The OutlookGridColumn.</param>
+    /// <param name="columnName">The KryptonOutlookGridColumn.</param>
     public void UnGroupColumn(string columnName)
     {
         UnGroupColumn(_internalColumns[columnName]!);
@@ -1807,8 +1807,8 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     /// <summary>
     /// Ungroup a column
     /// </summary>
-    /// <param name="col">The OutlookGridColumn.</param>
-    public void UnGroupColumn(OutlookGridColumn col)
+    /// <param name="col">The KryptonOutlookGridColumn.</param>
+    public void UnGroupColumn(KryptonOutlookGridColumn col)
     {
         if (col.IsGrouped)
         {
@@ -1834,7 +1834,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     /// </summary>
     /// <param name="col">The outlookGridColumn</param>
     /// <param name="sort">The new SortOrder.</param>
-    public void SortColumn(OutlookGridColumn col, SortOrder sort)
+    public void SortColumn(KryptonOutlookGridColumn col, SortOrder sort)
     {
         //Change the SortIndex and MaxSortIndex only if it is not a grouped column
         if (!col.IsGrouped && col.SortIndex == -1)
@@ -1854,7 +1854,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     /// UnSort the column. Call Fill after to make the changes
     /// </summary>
     /// <param name="col">The outlookGridColumn.</param>
-    public void UnSortColumn(OutlookGridColumn col)
+    public void UnSortColumn(KryptonOutlookGridColumn col)
     {
         //Remove the SortIndex and rearrange the SortIndexes only if the column is not grouped
         if (!col.IsGrouped)
@@ -1959,7 +1959,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     {
         for (int i = currentRow - 1; i >= 0; i--)
         {
-            OutlookGridRow row = (OutlookGridRow)Rows[i];
+            KryptonOutlookGridRow row = (KryptonOutlookGridRow)Rows[i];
             if (row.IsGroupRow)
             {
                 return i;
@@ -1974,7 +1974,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     /// <param name="list">The result list of OutlookGridRows</param>
     /// <param name="groupRow">The IOutlookGridGroup that contains rows to inspect.</param>
     /// <returns>A list of OutlookGridRows</returns>
-    public List<OutlookGridRow> GetSubRows(ref List<OutlookGridRow> list, IOutlookGridGroup? groupRow)
+    public List<KryptonOutlookGridRow> GetSubRows(ref List<KryptonOutlookGridRow> list, IKryptonOutlookGridGroup? groupRow)
     {
         list.AddRange(groupRow!.Rows);
         for (int i = 0; i < groupRow.Children.Count; i++)
@@ -2027,8 +2027,8 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     /// <param name="columnIndex">The column used by the context menu.</param>
     private void ShowColumnHeaderContextMenu(int columnIndex)
     {
-        // Find the OutlookGridColumn associated with the clicked DataGridViewColumn
-        OutlookGridColumn? col = _internalColumns.FindFromColumnIndex(columnIndex);
+        // Find the KryptonOutlookGridColumn associated with the clicked DataGridViewColumn
+        KryptonOutlookGridColumn? col = _internalColumns.FindFromColumnIndex(columnIndex);
         DataGridViewColumn? clickedDgvColumn = col?.DataGridViewColumn;
 
         // Create menu items the first time they are needed
@@ -2069,7 +2069,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
             KryptonContextMenuItemBase[] arrayOptions = new KryptonContextMenuItemBase[names.Length];
             for (int i = 0; i < names.Length; i++)
             {
-                it = new KryptonContextMenuItem(OutlookGridLanguageManager.Instance.GetString(names[i]))
+                it = new KryptonContextMenuItem(KryptonOutlookGridLanguageManager.Instance.GetString(names[i]))
                 {
                     Tag = names[i]
                 };
@@ -2103,69 +2103,69 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
                 ColorDepth = ColorDepth.Depth32Bit,
                 ImageSize = new Size(32, 32)
             };
-            List<ConditionalFormatting> tmpTag = [];
+            List<KryptonOutlookGridConditionalFormatting> tmpTag = [];
             imgListFormatting.Images.Add(DataBarImageResources.Databar_solid_blue_32);
-            tmpTag.Add(new ConditionalFormatting(EnumConditionalFormatType.Bar, new BarParams(Color.FromArgb(76, 118, 255), false)));
+            tmpTag.Add(new KryptonOutlookGridConditionalFormatting(EnumConditionalFormatType.Bar, new KryptonOutlookGridBarParams(Color.FromArgb(76, 118, 255), false)));
             imgListFormatting.Images.Add(DataBarImageResources.Databar_solid_green_32);
-            tmpTag.Add(new ConditionalFormatting(EnumConditionalFormatType.Bar, new BarParams(Color.FromArgb(95, 173, 123), false)));
+            tmpTag.Add(new KryptonOutlookGridConditionalFormatting(EnumConditionalFormatType.Bar, new KryptonOutlookGridBarParams(Color.FromArgb(95, 173, 123), false)));
             imgListFormatting.Images.Add(DataBarImageResources.Databar_solid_red_32);
-            tmpTag.Add(new ConditionalFormatting(EnumConditionalFormatType.Bar, new BarParams(Color.FromArgb(248, 108, 103), false)));
+            tmpTag.Add(new KryptonOutlookGridConditionalFormatting(EnumConditionalFormatType.Bar, new KryptonOutlookGridBarParams(Color.FromArgb(248, 108, 103), false)));
             imgListFormatting.Images.Add(DataBarImageResources.Databar_solid_yellow_32);
-            tmpTag.Add(new ConditionalFormatting(EnumConditionalFormatType.Bar, new BarParams(Color.FromArgb(255, 185, 56), false)));
+            tmpTag.Add(new KryptonOutlookGridConditionalFormatting(EnumConditionalFormatType.Bar, new KryptonOutlookGridBarParams(Color.FromArgb(255, 185, 56), false)));
             imgListFormatting.Images.Add(DataBarImageResources.Databar_solid_violet_32);
-            tmpTag.Add(new ConditionalFormatting(EnumConditionalFormatType.Bar, new BarParams(Color.FromArgb(185, 56, 255), false)));
+            tmpTag.Add(new KryptonOutlookGridConditionalFormatting(EnumConditionalFormatType.Bar, new KryptonOutlookGridBarParams(Color.FromArgb(185, 56, 255), false)));
             imgListFormatting.Images.Add(DataBarImageResources.Databar_solid_pink_32);
-            tmpTag.Add(new ConditionalFormatting(EnumConditionalFormatType.Bar, new BarParams(Color.FromArgb(255, 56, 185), false)));
+            tmpTag.Add(new KryptonOutlookGridConditionalFormatting(EnumConditionalFormatType.Bar, new KryptonOutlookGridBarParams(Color.FromArgb(255, 56, 185), false)));
 
             imgListFormatting.Images.Add(DataBarImageResources.Databar_gradient_blue_32);
-            tmpTag.Add(new ConditionalFormatting(EnumConditionalFormatType.Bar, new BarParams(Color.FromArgb(76, 118, 255), true)));
+            tmpTag.Add(new KryptonOutlookGridConditionalFormatting(EnumConditionalFormatType.Bar, new KryptonOutlookGridBarParams(Color.FromArgb(76, 118, 255), true)));
             imgListFormatting.Images.Add(DataBarImageResources.Databar_gradient_green_32);
-            tmpTag.Add(new ConditionalFormatting(EnumConditionalFormatType.Bar, new BarParams(Color.FromArgb(95, 173, 123), true)));
+            tmpTag.Add(new KryptonOutlookGridConditionalFormatting(EnumConditionalFormatType.Bar, new KryptonOutlookGridBarParams(Color.FromArgb(95, 173, 123), true)));
             imgListFormatting.Images.Add(DataBarImageResources.Databar_gradient_red_32);
-            tmpTag.Add(new ConditionalFormatting(EnumConditionalFormatType.Bar, new BarParams(Color.FromArgb(248, 108, 103), true)));
-            tmpTag.Add(new ConditionalFormatting(EnumConditionalFormatType.Bar, new BarParams(Color.FromArgb(255, 185, 56), true)));
+            tmpTag.Add(new KryptonOutlookGridConditionalFormatting(EnumConditionalFormatType.Bar, new KryptonOutlookGridBarParams(Color.FromArgb(248, 108, 103), true)));
+            tmpTag.Add(new KryptonOutlookGridConditionalFormatting(EnumConditionalFormatType.Bar, new KryptonOutlookGridBarParams(Color.FromArgb(255, 185, 56), true)));
             imgListFormatting.Images.Add(DataBarImageResources.Databar_gradient_violet_32);
-            tmpTag.Add(new ConditionalFormatting(EnumConditionalFormatType.Bar, new BarParams(Color.FromArgb(185, 56, 255), true)));
+            tmpTag.Add(new KryptonOutlookGridConditionalFormatting(EnumConditionalFormatType.Bar, new KryptonOutlookGridBarParams(Color.FromArgb(185, 56, 255), true)));
             imgListFormatting.Images.Add(DataBarImageResources.Databar_gradient_pink_32);
-            tmpTag.Add(new ConditionalFormatting(EnumConditionalFormatType.Bar, new BarParams(Color.FromArgb(255, 56, 185), true)));
+            tmpTag.Add(new KryptonOutlookGridConditionalFormatting(EnumConditionalFormatType.Bar, new KryptonOutlookGridBarParams(Color.FromArgb(255, 56, 185), true)));
 
             imgListFormatting.Images.Add(OutlookGridImageResources.TwoColors_white_blue_32);
-            tmpTag.Add(new ConditionalFormatting(EnumConditionalFormatType.TwoColorsRange, new TwoColorsParams(Color.White, Color.FromArgb(76, 118, 255))));
+            tmpTag.Add(new KryptonOutlookGridConditionalFormatting(EnumConditionalFormatType.TwoColorsRange, new KryptonOutlookGridTwoColorsParams(Color.White, Color.FromArgb(76, 118, 255))));
             imgListFormatting.Images.Add(OutlookGridImageResources.TwoColors_blue_white_32);
-            tmpTag.Add(new ConditionalFormatting(EnumConditionalFormatType.TwoColorsRange, new TwoColorsParams(Color.FromArgb(76, 118, 255), Color.White)));
+            tmpTag.Add(new KryptonOutlookGridConditionalFormatting(EnumConditionalFormatType.TwoColorsRange, new KryptonOutlookGridTwoColorsParams(Color.FromArgb(76, 118, 255), Color.White)));
             imgListFormatting.Images.Add(OutlookGridImageResources.TwoColors_white_green_32);
-            tmpTag.Add(new ConditionalFormatting(EnumConditionalFormatType.TwoColorsRange, new TwoColorsParams(Color.White, Color.FromArgb(95, 173, 123))));
+            tmpTag.Add(new KryptonOutlookGridConditionalFormatting(EnumConditionalFormatType.TwoColorsRange, new KryptonOutlookGridTwoColorsParams(Color.White, Color.FromArgb(95, 173, 123))));
             imgListFormatting.Images.Add(OutlookGridImageResources.TwoColors_green_white_32);
-            tmpTag.Add(new ConditionalFormatting(EnumConditionalFormatType.TwoColorsRange, new TwoColorsParams(Color.FromArgb(95, 173, 123), Color.White)));
+            tmpTag.Add(new KryptonOutlookGridConditionalFormatting(EnumConditionalFormatType.TwoColorsRange, new KryptonOutlookGridTwoColorsParams(Color.FromArgb(95, 173, 123), Color.White)));
             imgListFormatting.Images.Add(OutlookGridImageResources.TwoColors_white_red_32);
-            tmpTag.Add(new ConditionalFormatting(EnumConditionalFormatType.TwoColorsRange, new TwoColorsParams(Color.White, Color.FromArgb(248, 108, 103))));
+            tmpTag.Add(new KryptonOutlookGridConditionalFormatting(EnumConditionalFormatType.TwoColorsRange, new KryptonOutlookGridTwoColorsParams(Color.White, Color.FromArgb(248, 108, 103))));
             imgListFormatting.Images.Add(OutlookGridImageResources.TwoColors_red_white_32);
-            tmpTag.Add(new ConditionalFormatting(EnumConditionalFormatType.TwoColorsRange, new TwoColorsParams(Color.FromArgb(248, 108, 103), Color.White)));
+            tmpTag.Add(new KryptonOutlookGridConditionalFormatting(EnumConditionalFormatType.TwoColorsRange, new KryptonOutlookGridTwoColorsParams(Color.FromArgb(248, 108, 103), Color.White)));
             imgListFormatting.Images.Add(OutlookGridImageResources.TwoColors_white_yellow_32);
-            tmpTag.Add(new ConditionalFormatting(EnumConditionalFormatType.TwoColorsRange, new TwoColorsParams(Color.White, Color.FromArgb(255, 185, 56))));
+            tmpTag.Add(new KryptonOutlookGridConditionalFormatting(EnumConditionalFormatType.TwoColorsRange, new KryptonOutlookGridTwoColorsParams(Color.White, Color.FromArgb(255, 185, 56))));
             imgListFormatting.Images.Add(OutlookGridImageResources.TwoColors_yellow_white_32);
-            tmpTag.Add(new ConditionalFormatting(EnumConditionalFormatType.TwoColorsRange, new TwoColorsParams(Color.FromArgb(255, 185, 56), Color.White)));
+            tmpTag.Add(new KryptonOutlookGridConditionalFormatting(EnumConditionalFormatType.TwoColorsRange, new KryptonOutlookGridTwoColorsParams(Color.FromArgb(255, 185, 56), Color.White)));
             imgListFormatting.Images.Add(OutlookGridImageResources.TwoColors_white_violet_32);
-            tmpTag.Add(new ConditionalFormatting(EnumConditionalFormatType.TwoColorsRange, new TwoColorsParams(Color.White, Color.FromArgb(185, 56, 255))));
+            tmpTag.Add(new KryptonOutlookGridConditionalFormatting(EnumConditionalFormatType.TwoColorsRange, new KryptonOutlookGridTwoColorsParams(Color.White, Color.FromArgb(185, 56, 255))));
             imgListFormatting.Images.Add(OutlookGridImageResources.TwoColors_violet_white_32);
-            tmpTag.Add(new ConditionalFormatting(EnumConditionalFormatType.TwoColorsRange, new TwoColorsParams(Color.FromArgb(185, 56, 255), Color.White)));
+            tmpTag.Add(new KryptonOutlookGridConditionalFormatting(EnumConditionalFormatType.TwoColorsRange, new KryptonOutlookGridTwoColorsParams(Color.FromArgb(185, 56, 255), Color.White)));
             imgListFormatting.Images.Add(OutlookGridImageResources.TwoColors_white_pink_32);
-            tmpTag.Add(new ConditionalFormatting(EnumConditionalFormatType.TwoColorsRange, new TwoColorsParams(Color.White, Color.FromArgb(255, 56, 185))));
+            tmpTag.Add(new KryptonOutlookGridConditionalFormatting(EnumConditionalFormatType.TwoColorsRange, new KryptonOutlookGridTwoColorsParams(Color.White, Color.FromArgb(255, 56, 185))));
             imgListFormatting.Images.Add(OutlookGridImageResources.TwoColors_pink_white_32);
-            tmpTag.Add(new ConditionalFormatting(EnumConditionalFormatType.TwoColorsRange, new TwoColorsParams(Color.FromArgb(255, 56, 185), Color.White)));
+            tmpTag.Add(new KryptonOutlookGridConditionalFormatting(EnumConditionalFormatType.TwoColorsRange, new KryptonOutlookGridTwoColorsParams(Color.FromArgb(255, 56, 185), Color.White)));
 
             imgListFormatting.Images.Add(OutlookGridImageResources.ThreeColors_green_yellow_red_32);
-            tmpTag.Add(new ConditionalFormatting(EnumConditionalFormatType.ThreeColorsRange, new ThreeColorsParams(Color.FromArgb(84, 179, 112), Color.FromArgb(252, 229, 130), Color.FromArgb(243, 120, 97))));
+            tmpTag.Add(new KryptonOutlookGridConditionalFormatting(EnumConditionalFormatType.ThreeColorsRange, new KryptonOutlookGridThreeColorsParams(Color.FromArgb(84, 179, 112), Color.FromArgb(252, 229, 130), Color.FromArgb(243, 120, 97))));
             imgListFormatting.Images.Add(OutlookGridImageResources.ThreeColors_red_yellow_green_32);
-            tmpTag.Add(new ConditionalFormatting(EnumConditionalFormatType.ThreeColorsRange, new ThreeColorsParams(Color.FromArgb(243, 120, 97), Color.FromArgb(252, 229, 130), Color.FromArgb(84, 179, 112))));
+            tmpTag.Add(new KryptonOutlookGridConditionalFormatting(EnumConditionalFormatType.ThreeColorsRange, new KryptonOutlookGridThreeColorsParams(Color.FromArgb(243, 120, 97), Color.FromArgb(252, 229, 130), Color.FromArgb(84, 179, 112))));
             imgListFormatting.Images.Add(OutlookGridImageResources.ThreeColors_green_white_red_32);
-            tmpTag.Add(new ConditionalFormatting(EnumConditionalFormatType.ThreeColorsRange, new ThreeColorsParams(Color.FromArgb(84, 179, 112), Color.White, Color.FromArgb(243, 120, 97))));
+            tmpTag.Add(new KryptonOutlookGridConditionalFormatting(EnumConditionalFormatType.ThreeColorsRange, new KryptonOutlookGridThreeColorsParams(Color.FromArgb(84, 179, 112), Color.White, Color.FromArgb(243, 120, 97))));
             imgListFormatting.Images.Add(OutlookGridImageResources.ThreeColors_red_white_green_32);
-            tmpTag.Add(new ConditionalFormatting(EnumConditionalFormatType.ThreeColorsRange, new ThreeColorsParams(Color.FromArgb(243, 120, 97), Color.White, Color.FromArgb(84, 179, 112))));
+            tmpTag.Add(new KryptonOutlookGridConditionalFormatting(EnumConditionalFormatType.ThreeColorsRange, new KryptonOutlookGridThreeColorsParams(Color.FromArgb(243, 120, 97), Color.White, Color.FromArgb(84, 179, 112))));
             imgListFormatting.Images.Add(OutlookGridImageResources.ThreeColors_blue_white_red_32);
-            tmpTag.Add(new ConditionalFormatting(EnumConditionalFormatType.ThreeColorsRange, new ThreeColorsParams(Color.FromArgb(134, 166, 253), Color.White, Color.FromArgb(243, 120, 97))));
+            tmpTag.Add(new KryptonOutlookGridConditionalFormatting(EnumConditionalFormatType.ThreeColorsRange, new KryptonOutlookGridThreeColorsParams(Color.FromArgb(134, 166, 253), Color.White, Color.FromArgb(243, 120, 97))));
             imgListFormatting.Images.Add(OutlookGridImageResources.ThreeColors_red_white_blue_32);
-            tmpTag.Add(new ConditionalFormatting(EnumConditionalFormatType.ThreeColorsRange, new ThreeColorsParams(Color.FromArgb(243, 120, 97), Color.White, Color.FromArgb(134, 166, 253))));
+            tmpTag.Add(new KryptonOutlookGridConditionalFormatting(EnumConditionalFormatType.ThreeColorsRange, new KryptonOutlookGridThreeColorsParams(Color.FromArgb(243, 120, 97), Color.White, Color.FromArgb(134, 166, 253))));
 
 
             it = null;
@@ -2173,7 +2173,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
             arrayOptions = new KryptonContextMenuItemBase[names.Length + 2]; // +2 for separator and Clear Rules
             for (int i = 0; i < names.Length; i++)
             {
-                it = new(OutlookGridLanguageManager.Instance.GetString(names[i]))
+                it = new(KryptonOutlookGridLanguageManager.Instance.GetString(names[i]))
                 {
                     Tag = names[i]
                 };
@@ -2405,10 +2405,10 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
             _menuCollapse!.Visible = col.IsGrouped;
             _menuSeparator4!.Visible = _menuExpand.Visible || _menuCollapse.Visible;
             _menuGroupByThisColumn!.Visible = !col.IsGrouped && clickedDgvColumn.SortMode != DataGridViewColumnSortMode.NotSortable;
-            _menuGroupInterval!.Visible = col.IsGrouped && clickedDgvColumn.SortMode != DataGridViewColumnSortMode.NotSortable && col.GroupingType?.GetType() == typeof(OutlookGridDateTimeGroup);
+            _menuGroupInterval!.Visible = col.IsGrouped && clickedDgvColumn.SortMode != DataGridViewColumnSortMode.NotSortable && col.GroupingType?.GetType() == typeof(KryptonOutlookGridDateTimeGroup);
             if (_menuGroupInterval.Visible)
             {
-                string? currentInterval = Enum.GetName(typeof(DateInterval), (col.GroupingType as OutlookGridDateTimeGroup)!.Interval);
+                string? currentInterval = Enum.GetName(typeof(DateInterval), (col.GroupingType as KryptonOutlookGridDateTimeGroup)!.Interval);
                 foreach (KryptonContextMenuItem item in ((KryptonContextMenuItems)_menuGroupInterval.Items[0]).Items.Cast<KryptonContextMenuItem>())
                 {
                     item.Checked = item.Tag!.ToString() == currentInterval;
@@ -2425,7 +2425,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
                 _menuConditionalFormatting!.Visible = true;
 
                 //Get the format condition
-                ConditionalFormatting format = _formatConditions.FirstOrDefault(x => x.ColumnName == col.Name)!;
+                KryptonOutlookGridConditionalFormatting format = _formatConditions.FirstOrDefault(x => x.ColumnName == col.Name)!;
 
                 for (int i = 0; i < _menuConditionalFormatting.Items[0].ItemChildCount; i++)
                 {
@@ -2523,7 +2523,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     public void ResetAllSortingColumns()
     {
         _internalColumns.MaxSortIndex = -1;
-        foreach (OutlookGridColumn col in _internalColumns)
+        foreach (KryptonOutlookGridColumn col in _internalColumns)
         {
             if (!col.IsGrouped && col.SortDirection != SortOrder.None)
             {
@@ -2541,7 +2541,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     ///// Sort the grid
     ///// </summary>
     ///// <param name="comparer">The IComparer object.</param>
-    //public void Sort(IComparer<OutlookGridRow> comparer)
+    //public void Sort(IComparer<KryptonOutlookGridRow> comparer)
     //{
     //    Fill();
     //}
@@ -2559,10 +2559,10 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     /// Assign the rows to the internal list.
     /// </summary>
     /// <param name="l">List of OutlookGridRows</param>
-    public void AssignRows(List<OutlookGridRow> l)
+    public void AssignRows(List<KryptonOutlookGridRow> l)
     {
         _internalRows = l;
-        _originalRows = new HashSet<OutlookGridRow>(l);
+        _originalRows = new HashSet<KryptonOutlookGridRow>(l);
     }
 
     /// <summary>
@@ -2571,8 +2571,8 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     /// <param name="rows">DataGridViewRowCollection</param>
     public void AssignRows(DataGridViewRowCollection rows)
     {
-        _internalRows = rows.Cast<OutlookGridRow>().ToList();
-        _originalRows = new HashSet<OutlookGridRow>(rows.Cast<OutlookGridRow>());
+        _internalRows = rows.Cast<KryptonOutlookGridRow>().ToList();
+        _originalRows = new HashSet<KryptonOutlookGridRow>(rows.Cast<KryptonOutlookGridRow>());
     }
 
     /// <summary>
@@ -2589,8 +2589,8 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
         //// loop through all rows to find the GroupRows
         //for (int i = 0; i < this.Rows.Count; i++)
         //{
-        //    if (((OutlookGridRow)this.Rows[i]).IsGroupRow)
-        //        ((OutlookGridRow)this.Rows[i]).Group.Collapsed = collapsed;
+        //    if (((KryptonOutlookGridRow)this.Rows[i]).IsGroupRow)
+        //        ((KryptonOutlookGridRow)this.Rows[i]).Group.Collapsed = collapsed;
         //}
         RecursiveSetGroupCollapse(_groupCollection, collapsed);
 
@@ -2605,7 +2605,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
         }
     }
 
-    private void RecursiveSetGroupCollapse(OutlookGridGroupCollection col, bool collapsed)
+    private void RecursiveSetGroupCollapse(KryptonOutlookGridGroupCollection col, bool collapsed)
     {
         for (int i = 0; i < col.Count; i++)
         {
@@ -2624,8 +2624,8 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
         // loop through all rows to find the GroupRows
         //for (int i = 0; i < this.Rows.Count; i++)
         //{
-        //    if (((OutlookGridRow)this.Rows[i]).IsGroupRow && ((OutlookGridRow)this.Rows[i]).Group.Column.DataGridViewColumn.Name == c.Name)
-        //        ((OutlookGridRow)this.Rows[i]).Group.Collapsed = collapsed;
+        //    if (((KryptonOutlookGridRow)this.Rows[i]).IsGroupRow && ((KryptonOutlookGridRow)this.Rows[i]).Group.Column.DataGridViewColumn.Name == c.Name)
+        //        ((KryptonOutlookGridRow)this.Rows[i]).Group.Collapsed = collapsed;
         //}
         RecursiveSetGroupCollapse(c, _groupCollection, collapsed);
 
@@ -2640,7 +2640,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
         }
     }
 
-    private void RecursiveSetGroupCollapse(string? c, OutlookGridGroupCollection col, bool collapsed)
+    private void RecursiveSetGroupCollapse(string? c, KryptonOutlookGridGroupCollection col, bool collapsed)
     {
         for (int i = 0; i < col.Count; i++)
         {
@@ -2665,7 +2665,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
             return;
         }
 
-        OutlookGridRow row = (OutlookGridRow)Rows[rowIndex];
+        KryptonOutlookGridRow row = (KryptonOutlookGridRow)Rows[rowIndex];
         if (row.IsGroupRow)
         {
             row.Group?.Collapsed = collapsed;
@@ -2691,7 +2691,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     {
         if (Rows.Count > 0)
         {
-            foreach (OutlookGridRow r in Rows)
+            foreach (KryptonOutlookGridRow r in Rows)
             {
                 RecursiveDescendantSetNodeCollapse(r, false);
             }
@@ -2713,7 +2713,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     {
         if (Rows.Count > 0)
         {
-            foreach (OutlookGridRow r in Rows)
+            foreach (KryptonOutlookGridRow r in Rows)
             {
                 RecursiveDescendantSetNodeCollapse(r, true);
             }
@@ -2728,20 +2728,20 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
         }
     }
 
-    private void RecursiveDescendantSetNodeCollapse(OutlookGridRow r, bool collapsed)
+    private void RecursiveDescendantSetNodeCollapse(KryptonOutlookGridRow r, bool collapsed)
     {
         //No events - for speed
         if (r.HasChildren)
         {
             r.Collapsed = collapsed;
-            foreach (OutlookGridRow r2 in r.Nodes.Nodes)
+            foreach (KryptonOutlookGridRow r2 in r.Nodes.Nodes)
             {
                 RecursiveDescendantSetNodeCollapse(r2, collapsed);
             }
         }
     }
 
-    //private void RecursiveUpwardSetNodeCollapse(OutlookGridRow r, bool collapsed)
+    //private void RecursiveUpwardSetNodeCollapse(KryptonOutlookGridRow r, bool collapsed)
     //{
     //    //No events - for speed
     //    if (r.ParentNode != null)
@@ -2757,7 +2757,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
 
     //}
 
-    private void RecursiveUpwardSetNodeCollapse(OutlookGridRow? r, bool collapsed)
+    private void RecursiveUpwardSetNodeCollapse(KryptonOutlookGridRow? r, bool collapsed)
     {
         //No events - for speed
         if (r != null && r.ParentNode != null)
@@ -2771,26 +2771,26 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     /// <summary>
     /// Ensure the node is visible (all parents expanded)
     /// </summary>
-    /// <param name="r">The OutlookGridRow which needs to be visible.</param>
-    public void EnsureVisibleNode(OutlookGridRow r) => RecursiveUpwardSetNodeCollapse(r, false);
+    /// <param name="r">The KryptonOutlookGridRow which needs to be visible.</param>
+    public void EnsureVisibleNode(KryptonOutlookGridRow r) => RecursiveUpwardSetNodeCollapse(r, false);
 
     /// <summary>
     /// Collapses the node.
     /// </summary>
-    /// <param name="node">The OutlookGridRow node.</param>
+    /// <param name="node">The KryptonOutlookGridRow node.</param>
     /// <returns></returns>
-    public bool CollapseNode(OutlookGridRow node)
+    public bool CollapseNode(KryptonOutlookGridRow node)
     {
         if (!node.Collapsed)
         {
-            CollapsingEventArgs exp = new(node);
+            KryptonOutlookGridCollapsingEventArgs exp = new(node);
             OnNodeCollapsing(exp);
 
             if (!exp.Cancel)
             {
                 node.SetNodeCollapse(true);
 
-                CollapsedEventArgs expend = new(node);
+                KryptonOutlookGridCollapsedEventArgs expend = new(node);
                 OnNodeCollapsed(expend);
             }
 
@@ -2806,20 +2806,20 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     /// <summary>
     /// Expands the node.
     /// </summary>
-    /// <param name="node">The OutlookGridRow node.</param>
+    /// <param name="node">The KryptonOutlookGridRow node.</param>
     /// <returns></returns>
-    public bool ExpandNode(OutlookGridRow node)
+    public bool ExpandNode(KryptonOutlookGridRow node)
     {
         if (node.Collapsed)
         {
-            ExpandingEventArgs exp = new(node);
+            KryptonOutlookGridExpandingEventArgs exp = new(node);
             OnNodeExpanding(exp);
 
             if (!exp.Cancel)
             {
                 node.SetNodeCollapse(false);
 
-                ExpandedEventArgs expend = new(node);
+                KryptonOutlookGridExpandedEventArgs expend = new(node);
                 OnNodeExpanded(expend);
             }
 
@@ -2835,7 +2835,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     /// <summary>
     /// Expand Node and all its SubNodes (without events)
     /// </summary>
-    public void ExpandNodeAndSubNodes(OutlookGridRow r)
+    public void ExpandNodeAndSubNodes(KryptonOutlookGridRow r)
     {
         RecursiveDescendantSetNodeCollapse(r, false);
         r.Visible = !r.Visible;
@@ -2849,7 +2849,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     /// <summary>
     /// Collapse Node and all its SubNodes (without events)
     /// </summary>
-    public void CollapseNodeAndSubNodes(OutlookGridRow r)
+    public void CollapseNodeAndSubNodes(KryptonOutlookGridRow r)
     {
         RecursiveDescendantSetNodeCollapse(r, true);
         r.Visible = !r.Visible;
@@ -2863,7 +2863,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     #region Grid Fill functions
 
 
-    private void NonGroupedRecursiveFillOutlookGridRows(List<OutlookGridRow> l, List<OutlookGridRow> tmp)
+    private void NonGroupedRecursiveFillOutlookGridRows(List<KryptonOutlookGridRow> l, List<KryptonOutlookGridRow> tmp)
     {
         for (int i = 0; i < l.Count; i++)
         {
@@ -2877,7 +2877,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
         }
     }
 
-    private void FillMinMaxFormatConditions(Type? typeColumn, int j, List<OutlookGridRow> list, int formatColumn)
+    private void FillMinMaxFormatConditions(Type? typeColumn, int j, List<KryptonOutlookGridRow> list, int formatColumn)
     {
         if (typeColumn == typeof(TimeSpan))
         {
@@ -2948,7 +2948,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
         }
     }
 
-    private void FillValueFormatConditions(int formatColumn, Type? typeColumn, List<OutlookGridRow> list)
+    private void FillValueFormatConditions(int formatColumn, Type? typeColumn, List<KryptonOutlookGridRow> list)
     {
         for (var i = 0; i < list.Count; i++)
         {
@@ -2961,7 +2961,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
                     KryptonDataGridViewFormattingCell fCell = new(list[i].Cells[formatColumn])
                     {
                         FormatType = _formatConditions[j].FormatType,
-                        FormatParams = _formatConditions[j].FormatParams?.Clone() as IFormatParams
+                        FormatParams = _formatConditions[j].FormatParams?.Clone() as IKryptonOutlookGridFormatParams
                     };
 
                     switch (_formatConditions[j].FormatType)
@@ -2969,49 +2969,49 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
                         case EnumConditionalFormatType.Bar:
                             if (typeColumn == typeof(TimeSpan))
                             {
-                                (fCell.FormatParams as BarParams)!.ProportionValue =
-                                    ColorFormatting.ConvertBar(
+                                (fCell.FormatParams as KryptonOutlookGridBarParams)!.ProportionValue =
+                                    KryptonOutlookGridColorFormatting.ConvertBar(
                                         ((TimeSpan)list[i].Cells[formatColumn].Value!).TotalMinutes,
                                         _formatConditions[j].MinValue, _formatConditions[j].MaxValue);
                             }
                             else if (typeColumn == typeof(decimal))
                             {
-                                (fCell.FormatParams as BarParams)!.ProportionValue = ColorFormatting.ConvertBar(Convert.ToDouble(list[i].Cells[formatColumn].Value), _formatConditions[j].MinValue, _formatConditions[j].MaxValue);
+                                (fCell.FormatParams as KryptonOutlookGridBarParams)!.ProportionValue = KryptonOutlookGridColorFormatting.ConvertBar(Convert.ToDouble(list[i].Cells[formatColumn].Value), _formatConditions[j].MinValue, _formatConditions[j].MaxValue);
                             }
                             else
                             {
-                                (fCell.FormatParams as BarParams)!.ProportionValue = ColorFormatting.ConvertBar((double)list[i].Cells[formatColumn].Value!, _formatConditions[j].MinValue, _formatConditions[j].MaxValue);
+                                (fCell.FormatParams as KryptonOutlookGridBarParams)!.ProportionValue = KryptonOutlookGridColorFormatting.ConvertBar((double)list[i].Cells[formatColumn].Value!, _formatConditions[j].MinValue, _formatConditions[j].MaxValue);
                             }
                             break;
                         case EnumConditionalFormatType.TwoColorsRange:
                             if (typeColumn == typeof(TimeSpan))
                             {
-                                (fCell.FormatParams as TwoColorsParams)!.ValueColor = ColorFormatting.ConvertTwoRange(((TimeSpan)list[i].Cells[formatColumn].Value!).TotalMinutes, _formatConditions[j].MinValue, _formatConditions[j].MaxValue, (TwoColorsParams)_formatConditions[j].FormatParams!);
+                                (fCell.FormatParams as KryptonOutlookGridTwoColorsParams)!.ValueColor = KryptonOutlookGridColorFormatting.ConvertTwoRange(((TimeSpan)list[i].Cells[formatColumn].Value!).TotalMinutes, _formatConditions[j].MinValue, _formatConditions[j].MaxValue, (KryptonOutlookGridTwoColorsParams)_formatConditions[j].FormatParams!);
                             }
                             else if (typeColumn == typeof(decimal))
                             {
-                                (fCell.FormatParams as TwoColorsParams)!.ValueColor = ColorFormatting.ConvertTwoRange(Convert.ToDouble(list[i].Cells[formatColumn].Value), _formatConditions[j].MinValue, _formatConditions[j].MaxValue, (TwoColorsParams)_formatConditions[j].FormatParams!);
+                                (fCell.FormatParams as KryptonOutlookGridTwoColorsParams)!.ValueColor = KryptonOutlookGridColorFormatting.ConvertTwoRange(Convert.ToDouble(list[i].Cells[formatColumn].Value), _formatConditions[j].MinValue, _formatConditions[j].MaxValue, (KryptonOutlookGridTwoColorsParams)_formatConditions[j].FormatParams!);
                             }
                             else
                             {
-                                (fCell.FormatParams as TwoColorsParams)!.ValueColor =
-                                    ColorFormatting.ConvertTwoRange(
-                                        Convert.ToDouble(list[i].Cells[formatColumn].Value), _formatConditions[j].MinValue, _formatConditions[j].MaxValue, (TwoColorsParams)_formatConditions[j].FormatParams!);
+                                (fCell.FormatParams as KryptonOutlookGridTwoColorsParams)!.ValueColor =
+                                    KryptonOutlookGridColorFormatting.ConvertTwoRange(
+                                        Convert.ToDouble(list[i].Cells[formatColumn].Value), _formatConditions[j].MinValue, _formatConditions[j].MaxValue, (KryptonOutlookGridTwoColorsParams)_formatConditions[j].FormatParams!);
                             }
                             //list[i].Cells[formatColumn].Style.SelectionBackColor = list[i].Cells[formatColumn].Style.BackColor;
                             break;
                         case EnumConditionalFormatType.ThreeColorsRange:
                             if (typeColumn == typeof(TimeSpan))
                             {
-                                (fCell.FormatParams as ThreeColorsParams)!.ValueColor = ColorFormatting.ConvertThreeRange(((TimeSpan)list[i].Cells[formatColumn].Value!).TotalMinutes, _formatConditions[j].MinValue, _formatConditions[j].MaxValue, _formatConditions[j].FormatParams as ThreeColorsParams);
+                                (fCell.FormatParams as KryptonOutlookGridThreeColorsParams)!.ValueColor = KryptonOutlookGridColorFormatting.ConvertThreeRange(((TimeSpan)list[i].Cells[formatColumn].Value!).TotalMinutes, _formatConditions[j].MinValue, _formatConditions[j].MaxValue, _formatConditions[j].FormatParams as KryptonOutlookGridThreeColorsParams);
                             }
                             else if (typeColumn == typeof(decimal))
                             {
-                                (fCell.FormatParams as ThreeColorsParams)!.ValueColor = ColorFormatting.ConvertThreeRange(Convert.ToDouble(list[i].Cells[formatColumn].Value), _formatConditions[j].MinValue, _formatConditions[j].MaxValue, _formatConditions[j].FormatParams as ThreeColorsParams);
+                                (fCell.FormatParams as KryptonOutlookGridThreeColorsParams)!.ValueColor = KryptonOutlookGridColorFormatting.ConvertThreeRange(Convert.ToDouble(list[i].Cells[formatColumn].Value), _formatConditions[j].MinValue, _formatConditions[j].MaxValue, _formatConditions[j].FormatParams as KryptonOutlookGridThreeColorsParams);
                             }
                             else
                             {
-                                (fCell.FormatParams as ThreeColorsParams)!.ValueColor = ColorFormatting.ConvertThreeRange(Convert.ToDouble(list[i].Cells[formatColumn].Value), _formatConditions[j].MinValue, _formatConditions[j].MaxValue, _formatConditions[j].FormatParams as ThreeColorsParams);
+                                (fCell.FormatParams as KryptonOutlookGridThreeColorsParams)!.ValueColor = KryptonOutlookGridColorFormatting.ConvertThreeRange(Convert.ToDouble(list[i].Cells[formatColumn].Value), _formatConditions[j].MinValue, _formatConditions[j].MaxValue, _formatConditions[j].FormatParams as KryptonOutlookGridThreeColorsParams);
                             }
                             //list[i].Cells[formatColumn].Style.SelectionBackColor = list[i].Cells[formatColumn].Style.BackColor;
                             break;
@@ -3037,9 +3037,9 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
         Stopwatch azer = new();
         azer.Start();
 #endif
-        List<OutlookGridRow> list;
-        List<OutlookGridRow> tmp = null!; // = new List<OutlookGridRow>();
-        IOutlookGridGroup? grParent = null;
+        List<KryptonOutlookGridRow> list;
+        List<KryptonOutlookGridRow> tmp = null!; // = new List<KryptonOutlookGridRow>();
+        IKryptonOutlookGridGroup? grParent = null;
         Rows.Clear();
         _groupCollection.Clear();
 
@@ -3079,10 +3079,10 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
         if (_internalColumns.CountGrouped() == 0)
         {
             //Applying sort
-            //list.Sort(new OutlookGridRowComparer2(_internalColumns.GetIndexAndSortSortedOnlyColumns()));
+            //list.Sort(new KryptonOutlookGridRowComparer2(_internalColumns.GetIndexAndSortSortedOnlyColumns()));
             var orders = _internalColumns.GetIndexAndSortSortedOnlyColumns();
             if (orders.Count > 0)
-                list.Sort(new OutlookGridRowComparer2(orders));
+                list.Sort(new KryptonOutlookGridRowComparer2(orders));
 
             //Add rows to underlying DataGridView
             if (_fillMode == GridFillMode.GroupsOnly)
@@ -3112,13 +3112,13 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
         {
             //Group part of the job
             //We get the columns that are grouped
-            List<OutlookGridColumn>? groupedColumns = _internalColumns.FindGroupedColumns();
+            List<KryptonOutlookGridColumn>? groupedColumns = _internalColumns.FindGroupedColumns();
 
-            //For each OutlookGridRow in the grid
+            //For each KryptonOutlookGridRow in the grid
             for (int j = 0; j < list.Count; j++)
             {
                 //Reload the groups collection for each rows !!
-                OutlookGridGroupCollection children = _groupCollection;
+                KryptonOutlookGridGroupCollection children = _groupCollection;
 
                 //For each grouped column (ordered by GroupIndex)
                 if (groupedColumns != null)
@@ -3142,10 +3142,10 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
                             formattedValue = outlookGridGroup.Value;
 
                             //We search the corresponding group.
-                            IOutlookGridGroup? gr = children.FindGroup(formattedValue);
+                            IKryptonOutlookGridGroup? gr = children.FindGroup(formattedValue);
                             if (gr == null)
                             {
-                                gr = (IOutlookGridGroup)outlookGridGroup.Clone();
+                                gr = (IKryptonOutlookGridGroup)outlookGridGroup.Clone();
                                 gr.ParentGroup = grParent;
                                 gr.Column = groupedColumns[i];
                                 gr.Value = value;
@@ -3233,7 +3233,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
                 if (_summaryGrid != null)
                 {
                     ResetSummaryGrid();
-                    var sRow = (OutlookGridRow)row.Clone()!;
+                    var sRow = (KryptonOutlookGridRow)row.Clone()!;
                     sRow.IsSummaryRow = true;
                     sRow.CreateCells(_summaryGrid!, row.Cells.Cast<DataGridViewCell>().Select(c => c.Value).ToArray()!);
                     _summaryGrid.Rows.Add(sRow);
@@ -3261,16 +3261,16 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     /// <summary>
     /// Sort recursively the OutlookGridRows within groups
     /// </summary>
-    /// <param name="groupCollection">The OutlookGridGroupCollection.</param>
+    /// <param name="groupCollection">The KryptonOutlookGridGroupCollection.</param>
     /// <param name="sortList">The list of sorted columns</param>
-    private void RecursiveSort(OutlookGridGroupCollection groupCollection, List<Tuple<int, SortOrder, IComparer>> sortList)
+    private void RecursiveSort(KryptonOutlookGridGroupCollection groupCollection, List<Tuple<int, SortOrder, IComparer>> sortList)
     {
         //We sort the groups
         if (groupCollection.Count > 0)
         {
             if (groupCollection[0]!.Column.GroupingType!.SortBySummaryCount)
             {
-                groupCollection.Sort(new OutlookGridGroupCountComparer());
+                groupCollection.Sort(new KryptonOutlookGridGroupCountComparer());
             }
             else
             {
@@ -3285,7 +3285,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
             if (groupCollection[i]!.Children.Count == 0 && sortList.Count > 0)
             {
                 //We sort the rows according to the sorted only columns
-                groupCollection[i]!.Rows.Sort(new OutlookGridRowComparer2(sortList));
+                groupCollection[i]!.Rows.Sort(new KryptonOutlookGridRowComparer2(sortList));
             }
             //else
             //{
@@ -3303,7 +3303,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     /// Update all the parents counters of a group
     /// </summary>
     /// <param name="l">The group which</param>
-    private void RecursiveIncrementParentGroupCounters(IOutlookGridGroup? l)
+    private void RecursiveIncrementParentGroupCounters(IKryptonOutlookGridGroup? l)
     {
         //Add +1 to the counter
         if (l != null)
@@ -3320,13 +3320,13 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     /// <summary>
     /// Transform a group in a list of OutlookGridRows. Recursive call
     /// </summary>
-    /// <param name="l">The OutlookGridGroupCollection that contains the groups and associated rows.</param>
-    /// <param name="tmp">A List of OutlookGridRow</param>
-    private void RecursiveFillOutlookGridRows(OutlookGridGroupCollection l, List<OutlookGridRow> tmp)
+    /// <param name="l">The KryptonOutlookGridGroupCollection that contains the groups and associated rows.</param>
+    /// <param name="tmp">A List of KryptonOutlookGridRow</param>
+    private void RecursiveFillOutlookGridRows(KryptonOutlookGridGroupCollection l, List<KryptonOutlookGridRow> tmp)
     {
-        OutlookGridRow? gridRow;
-        IOutlookGridGroup? gridGroup;
-        //OutlookGridRow? grSummaryRow;
+        KryptonOutlookGridRow? gridRow;
+        IKryptonOutlookGridGroup? gridGroup;
+        //KryptonOutlookGridRow? grSummaryRow;
         var firstColumn = this.Columns.GetFirstColumn(DataGridViewElementStates.Visible);
         int firstColumnIndex = firstColumn == null ? -1 : firstColumn.Index;
         bool _requireSummary = _fillMode != GridFillMode.GroupsOnly && _internalColumns.Any(c => c.AggregationType != KryptonOutlookGridAggregationType.None);
@@ -3337,7 +3337,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
             gridGroup = l.List[i];
 
             //Create the group row
-            gridRow = RowTemplate.Clone() as OutlookGridRow;
+            gridRow = RowTemplate.Clone() as KryptonOutlookGridRow;
             gridRow!.Group = gridGroup;
             gridRow.IsGroupRow = true;
             if (gridGroup != null)
@@ -3384,9 +3384,9 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     /// Recursively retrieves all data rows (non-group and non-summary rows) belonging to the current group
     /// and all its descendant child groups. This method uses a pure LINQ approach for recursion.
     /// </summary>
-    /// <param name="currentGroup">The current <see cref="IOutlookGridGroup"/> to start collecting rows from.</param>
-    /// <returns>A <see cref="List{T}"/> of <see cref="OutlookGridRow"/> objects that are data rows within the specified group hierarchy.</returns>
-    public static List<OutlookGridRow> GetAllRowsRecursive(IOutlookGridGroup? currentGroup)
+    /// <param name="currentGroup">The current <see cref="IKryptonOutlookGridGroup"/> to start collecting rows from.</param>
+    /// <returns>A <see cref="List{T}"/> of <see cref="KryptonOutlookGridRow"/> objects that are data rows within the specified group hierarchy.</returns>
+    public static List<KryptonOutlookGridRow> GetAllRowsRecursive(IKryptonOutlookGridGroup? currentGroup)
     {
         if (currentGroup == null)
         {
@@ -3394,7 +3394,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
         }
 
         // Get current group's direct data rows, filtering out any group or summary rows.
-        var directDataRows = (currentGroup.Rows ?? Enumerable.Empty<OutlookGridRow>())
+        var directDataRows = (currentGroup.Rows ?? Enumerable.Empty<KryptonOutlookGridRow>())
                              .Where(r => !r.IsGroupRow && !r.IsSummaryRow);
 
         // Get all data rows from all descendants by recursively flattening the child groups.
@@ -3417,7 +3417,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     /// <param name="version">The version of the config file.</param>
     public void PersistConfiguration(string path, string version)
     {
-        OutlookGridColumn? col;
+        KryptonOutlookGridColumn? col;
         using (XmlWriter writer = XmlWriter.Create(path, new XmlWriterSettings { Indent = true }))
         {
             writer.WriteStartDocument();
@@ -3439,9 +3439,9 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
                     writer.WriteElementString("XXXItemsText", col.GroupingType.XxxItemsText);
                     writer.WriteElementString("SortBySummaryCount", CommonHelper.BoolToString(col.GroupingType.SortBySummaryCount));
                     //writer.WriteElementString("ItemsComparer", (col.GroupingType.ItemsComparer == null) ? "" : col.GroupingType.ItemsComparer.GetType().AssemblyQualifiedName);
-                    if (col.GroupingType.GetType() == typeof(OutlookGridDateTimeGroup))
+                    if (col.GroupingType.GetType() == typeof(KryptonOutlookGridDateTimeGroup))
                     {
-                        writer.WriteElementString("GroupDateInterval", ((OutlookGridDateTimeGroup)col.GroupingType).Interval.ToString());
+                        writer.WriteElementString("GroupDateInterval", ((KryptonOutlookGridDateTimeGroup)col.GroupingType).Interval.ToString());
                     }
                 }
                 writer.WriteEndElement();
@@ -3458,12 +3458,12 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
             writer.WriteEndElement();
 
             //Conditional formatting
-            writer.WriteStartElement("ConditionalFormatting");
+            writer.WriteStartElement("KryptonOutlookGridConditionalFormatting");
             for (int i = 0; i < _formatConditions.Count; i++)
             {
                 _formatConditions[i].Persist(writer);
             }
-            writer.WriteEndElement(); // End ConditionalFormatting
+            writer.WriteEndElement(); // End KryptonOutlookGridConditionalFormatting
             writer.WriteEndElement(); //End OutlookGrid
             writer.WriteEndDocument();
             writer.Flush();
@@ -3492,14 +3492,14 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     /// </summary>
     /// <param name="name">The name.</param>
     /// <returns></returns>
-    public OutlookGridColumn? FindFromColumnName(string name) => _internalColumns.FindFromColumnName(name);
+    public KryptonOutlookGridColumn? FindFromColumnName(string name) => _internalColumns.FindFromColumnName(name);
 
     /// <summary>
     /// Finds the column from its index.
     /// </summary>
     /// <param name="index">The index.</param>
     /// <returns></returns>
-    public OutlookGridColumn? FindFromColumnIndex(int index) => _internalColumns.FindFromColumnIndex(index);
+    public KryptonOutlookGridColumn? FindFromColumnIndex(int index) => _internalColumns.FindFromColumnIndex(index);
 
     #endregion OutlookGrid methods
 
@@ -3517,16 +3517,16 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     public event EventHandler? OnGridColumnCreating;
 
     /// <summary>
-    /// Occurs when an internal <see cref="OutlookGridColumn"/> is about to be created, allowing external customization of its properties.
+    /// Occurs when an internal <see cref="KryptonOutlookGridColumn"/> is about to be created, allowing external customization of its properties.
     /// </summary>
     /// <remarks>
     /// <para>
-    /// This event is raised just before an <see cref="OutlookGridColumn"/> is fully initialized after being derived from a <see cref="DataGridViewColumn"/>.
-    /// Subscribers can use this event to apply custom properties, such as <see cref="OutlookGridColumn.AggregationType"/>,
-    /// <see cref="OutlookGridColumn.GroupingType"/>, <see cref="OutlookGridColumn.RowsComparer"/>, or <see cref="OutlookGridColumn.AvailableInContextMenu"/>.
+    /// This event is raised just before an <see cref="KryptonOutlookGridColumn"/> is fully initialized after being derived from a <see cref="DataGridViewColumn"/>.
+    /// Subscribers can use this event to apply custom properties, such as <see cref="KryptonOutlookGridColumn.AggregationType"/>,
+    /// <see cref="KryptonOutlookGridColumn.GroupingType"/>, <see cref="KryptonOutlookGridColumn.RowsComparer"/>, or <see cref="KryptonOutlookGridColumn.AvailableInContextMenu"/>.
     /// </para>
     /// <para>
-    /// The `sender` parameter of the event handler will be the <see cref="OutlookGridColumn"/> being customized.
+    /// The `sender` parameter of the event handler will be the <see cref="KryptonOutlookGridColumn"/> being customized.
     /// </para>
     /// </remarks>
     public event EventHandler? OnInternalColumnCreating;
@@ -3562,14 +3562,14 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
             }
         }
 
-        List<OutlookGridRow> l = [];
+        List<KryptonOutlookGridRow> l = [];
         if (AutoGenerateColumns)
         {
             foreach (System.Data.DataRow item in dataTable.Rows)
             {
                 if (AutoGenerateColumns)
                 {
-                    OutlookGridRow row = new();
+                    KryptonOutlookGridRow row = new();
                     row.CreateCells(this, item.ItemArray!);
                     l.Add(row);
                 }
@@ -3605,7 +3605,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
                         cellValues[i] = DBNull.Value; // Or appropriate default
                     }
                 }
-                OutlookGridRow row = new();
+                KryptonOutlookGridRow row = new();
                 row.CreateCells(this, cellValues);
                 l.Add(row);
             }
@@ -3624,7 +3624,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     /// <typeparam name="T">The type of the model object in the list.</typeparam>
     /// <param name="data">The <see cref="System.Collections.Generic.List{T}"/> of model objects to be used as the data source.</param>
     /// <remarks>
-    /// This method explicitly iterates through the provided list, creates <see cref="OutlookGridRow"/>
+    /// This method explicitly iterates through the provided list, creates <see cref="KryptonOutlookGridRow"/>
     /// instances, and populates their cells based on the model's properties and the grid's
     /// column definitions (either auto-generated or pre-defined). This provides granular control
     /// over row and cell creation, adhering to a manual population strategy.
@@ -3635,7 +3635,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
         SuspendLayout();
         AutoGenerateKryptonColumns = false;
 
-        List<OutlookGridRow> l = [];
+        List<KryptonOutlookGridRow> l = [];
         try
         {
             if (AutoGenerateColumns)
@@ -3683,7 +3683,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
 
             foreach (T item in data)
             {
-                OutlookGridRow row = new();
+                KryptonOutlookGridRow row = new();
                 object?[] cellValues = new object?[this.Columns.Count];
 
                 // Populate cellValues array based on column mappings
@@ -3729,7 +3729,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     /// <param name="data">The <see cref="System.Collections.Generic.List{T}"/> of object arrays to be used as the data source.</param>
     /// <remarks>
     /// This method manually populates the grid's rows by iterating through the provided list.
-    /// Each inner object array is treated as the direct cell values for a new <see cref="OutlookGridRow"/>.
+    /// Each inner object array is treated as the direct cell values for a new <see cref="KryptonOutlookGridRow"/>.
     /// If <see cref="P:System.Windows.Forms.DataGridView.AutoGenerateColumns"/> is <see langword="true"/>, column types
     /// are inferred by examining values across all rows for each respective column index.
     /// It's crucial that the order of values within each <see langword="object[]"/>
@@ -3741,7 +3741,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
         SuspendLayout();
         AutoGenerateKryptonColumns = false;
 
-        List<OutlookGridRow> l = [];
+        List<KryptonOutlookGridRow> l = [];
         try
         {
             if (AutoGenerateColumns)
@@ -3834,7 +3834,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
             {
                 foreach (object[] itemArray in data)
                 {
-                    OutlookGridRow row = new();
+                    KryptonOutlookGridRow row = new();
                     // Ensure that the number of cells created matches the number of actual columns in the grid.
                     // If itemArray is shorter, the extra cells will be default. If longer, extra values ignored.
                     object[] valuesToUse = new object[this.Columns.Count];
@@ -3882,7 +3882,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
         SuspendLayout();
         AutoGenerateKryptonColumns = false;
 
-        List<OutlookGridRow> l = [];
+        List<KryptonOutlookGridRow> l = [];
         try
         {
             if (AutoGenerateColumns)
@@ -3997,7 +3997,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
             {
                 foreach (Dictionary<string, object> rowDictionary in data)
                 {
-                    OutlookGridRow row = new();
+                    KryptonOutlookGridRow row = new();
                     object[] cellValues = new object[this.Columns.Count];
 
                     // Populate cellValues array based on grid column order and dictionary keys
@@ -4036,7 +4036,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     }
 
     /// <summary>
-    /// Sets the data source for the KryptonOutlookGrid, manually generating OutlookGridRow instances
+    /// Sets the data source for the KryptonOutlookGrid, manually generating KryptonOutlookGridRow instances
     /// from various supported data source types. This method consolidates all specific SetDataSource overloads.
     /// </summary>
     /// <param name="dataSource">The data source (e.g., DataTable, List&lt;T&gt;, BindingSource, Array, List&lt;object[]&gt;, List&lt;Dictionary&lt;string, object&gt;&gt;).</param>
@@ -4051,7 +4051,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
         SuspendLayout();
         AutoGenerateKryptonColumns = false;
 
-        List<OutlookGridRow> generatedRows = [];
+        List<KryptonOutlookGridRow> generatedRows = [];
 
         try
         {
@@ -4427,7 +4427,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
 
 
             // --- 4. Populate rows (using the optimized delegate approach) ---
-            Action<OutlookGridRow, object, object?[]>? processItemFunction = null;
+            Action<KryptonOutlookGridRow, object, object?[]>? processItemFunction = null;
 
             // Determine the data item type and select the appropriate processing function *once*
             if (itemType == typeof(System.Data.DataRow))
@@ -4542,7 +4542,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
                 {
                     if (item == null) continue;
 
-                    OutlookGridRow row = new();
+                    KryptonOutlookGridRow row = new();
                     object?[] cellValues = new object?[Columns.Count];
 
                     // Call the pre-selected function
@@ -4561,7 +4561,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
                 {
                     if (item == null) continue;
 
-                    OutlookGridRow row = new();
+                    KryptonOutlookGridRow row = new();
                     object?[] cellValues = new object?[Columns.Count];
                     // If no specific processor, cells will remain DBNull.Value unless explicitly set here.
                     // This scenario typically indicates either no columns were generated or a generic type
@@ -4733,30 +4733,30 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     }
 
     /// <summary>
-    /// Creates an internal <see cref="OutlookGridColumn"/> from a <see cref="DataGridViewColumn"/>,
+    /// Creates an internal <see cref="KryptonOutlookGridColumn"/> from a <see cref="DataGridViewColumn"/>,
     /// determining the appropriate grouping based on the <see cref="DataGridViewColumn.ValueType"/>.
-    /// It then calls <see cref="CustomizeInternalColumn(OutlookGridColumn)"/> to allow for further customization
+    /// It then calls <see cref="CustomizeInternalColumn(KryptonOutlookGridColumn)"/> to allow for further customization
     /// and to raise the <see cref="OnInternalColumnCreating"/> event.
     /// </summary>
-    /// <param name="column">The <see cref="DataGridViewColumn"/> from which to create the internal <see cref="OutlookGridColumn"/>.</param>
-    /// <returns>A newly created and potentially customized <see cref="OutlookGridColumn"/> instance.</returns>
-    protected virtual OutlookGridColumn CreateInternalColumn(DataGridViewColumn column)
+    /// <param name="column">The <see cref="DataGridViewColumn"/> from which to create the internal <see cref="KryptonOutlookGridColumn"/>.</param>
+    /// <returns>A newly created and potentially customized <see cref="KryptonOutlookGridColumn"/> instance.</returns>
+    protected virtual KryptonOutlookGridColumn CreateInternalColumn(DataGridViewColumn column)
     {
-        IOutlookGridGroup group = new OutlookGridDefaultGroup(null);
+        IKryptonOutlookGridGroup group = new KryptonOutlookGridDefaultGroup(null);
         if (column.ValueType != null && column.ValueType == typeof(DateTime))
-            group = new OutlookGridDateTimeGroup(null);
+            group = new KryptonOutlookGridDateTimeGroup(null);
 
-        var col = new OutlookGridColumn(column, group, SortOrder.None, -1, -1);
+        var col = new KryptonOutlookGridColumn(column, group, SortOrder.None, -1, -1);
         CustomizeInternalColumn(col);
         return col;
     }
 
     /// <summary>
-    /// Allows to customize properties of a newly created internal <see cref="OutlookGridColumn"/>.
+    /// Allows to customize properties of a newly created internal <see cref="KryptonOutlookGridColumn"/>.
     /// This method also raises the <see cref="OnInternalColumnCreating"/> event, providing an external
     /// point for customization.
     /// </summary>
-    /// <param name="column">The <see cref="OutlookGridColumn"/> to customize.</param>
+    /// <param name="column">The <see cref="KryptonOutlookGridColumn"/> to customize.</param>
     /// <remarks>
     /// <para>
     /// This method applies base common styling (if any) and then raises the <see cref="OnInternalColumnCreating"/> event.
@@ -4773,7 +4773,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     /// <item><see cref="SetDataSource(object?)"/></item>
     /// </list>
     /// </para>
-    /// <para>Here are some examples of how you might customize an <see cref="OutlookGridColumn"/>, either directly within an override of this method (if this method is virtual)
+    /// <para>Here are some examples of how you might customize an <see cref="KryptonOutlookGridColumn"/>, either directly within an override of this method (if this method is virtual)
     /// or more commonly within an event handler subscribed to <see cref="OnInternalColumnCreating"/>:</para>
     /// <list type="bullet">
     /// <item>
@@ -4794,7 +4794,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     /// <code language="csharp">
     /// if (column.DataGridViewColumn != null &amp;&amp; column.DataGridViewColumn.ValueType == typeof(DateTime))
     /// {
-    ///     column.GroupingType = new OutlookGridDateTimeGroup(null); // Ensure date grouping
+    ///     column.GroupingType = new KryptonOutlookGridDateTimeGroup(null); // Ensure date grouping
     /// }
     /// </code>
     /// </description>
@@ -4812,7 +4812,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     /// </item>
     /// </list>
     /// </remarks>
-    protected virtual void CustomizeInternalColumn(OutlookGridColumn column)
+    protected virtual void CustomizeInternalColumn(KryptonOutlookGridColumn column)
     {
         OnInternalColumnCreating?.Invoke(column, EventArgs.Empty);
     }
@@ -4933,7 +4933,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     /// <summary>
     /// Handles the change event for aggregation options in the context menu.
     /// When an aggregation type is selected from the menu, this method updates the
-    /// <see cref="OutlookGridColumn.AggregationType"/> for the selected column
+    /// <see cref="KryptonOutlookGridColumn.AggregationType"/> for the selected column
     /// and triggers a grid refresh to apply the new aggregation.
     /// </summary>
     /// <param name="sender">The source of the event, expected to be a <see cref="KryptonContextMenuItem"/>.</param>
@@ -4942,7 +4942,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     private void OnAggregationChange(object? sender, EventArgs e)
     {
         var item = sender as KryptonContextMenuItem ?? throw new ArgumentNullException(nameof(sender));
-        OutlookGridColumn col = _internalColumns.FindFromColumnIndex(_colSelected)!;
+        KryptonOutlookGridColumn col = _internalColumns.FindFromColumnIndex(_colSelected)!;
         if (item != null)
         {
             if (item.Tag != null)
@@ -4961,15 +4961,15 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     /// Calculates the aggregated value for a given column within a list of rows based on the column's <see cref="KryptonOutlookGridAggregationType"/>.
     /// Supports Sum, Average, Min, Max, and Count.
     /// </summary>
-    /// <param name="rows">The list of <see cref="OutlookGridRow"/> objects to aggregate.</param>
-    /// <param name="column">The <see cref="OutlookGridColumn"/> for which to perform aggregation,
+    /// <param name="rows">The list of <see cref="KryptonOutlookGridRow"/> objects to aggregate.</param>
+    /// <param name="column">The <see cref="KryptonOutlookGridColumn"/> for which to perform aggregation,
     /// which also defines the <see cref="KryptonOutlookGridAggregationType"/>.</param>
     /// <returns>
     /// The calculated aggregated value as an <see cref="object"/> (e.g., double for Sum/Average,
     /// object for Min/Max, int for Count), or <c>null</c> if no aggregation is specified
     /// (<see cref="KryptonOutlookGridAggregationType.None"/>) or if an error occurs during calculation (e.g., non-numeric data for numeric aggregations).
     /// </returns>
-    private object? CalculateAggregation(List<OutlookGridRow> rows, OutlookGridColumn column)
+    private object? CalculateAggregation(List<KryptonOutlookGridRow> rows, KryptonOutlookGridColumn column)
     {
         if (column.AggregationType == KryptonOutlookGridAggregationType.None)
         {
@@ -4983,18 +4983,18 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
             switch (column.AggregationType)
             {
                 case KryptonOutlookGridAggregationType.Sum:
-                    return rows.Cast<OutlookGridRow>().Sum(r => Convert.ToDouble(r.Cells[columnIndex].Value));
+                    return rows.Cast<KryptonOutlookGridRow>().Sum(r => Convert.ToDouble(r.Cells[columnIndex].Value));
                 case KryptonOutlookGridAggregationType.Count:
-                    return rows.Cast<OutlookGridRow>().Count(r => r.Cells[columnIndex].Value != null);
+                    return rows.Cast<KryptonOutlookGridRow>().Count(r => r.Cells[columnIndex].Value != null);
                 case KryptonOutlookGridAggregationType.Average:
-                    return rows.Cast<OutlookGridRow>().Average(r => Convert.ToDouble(r.Cells[columnIndex].Value));
+                    return rows.Cast<KryptonOutlookGridRow>().Average(r => Convert.ToDouble(r.Cells[columnIndex].Value));
                 case KryptonOutlookGridAggregationType.Min:
-                    return rows.Cast<OutlookGridRow>().Min(r => r.Cells[columnIndex].Value);
+                    return rows.Cast<KryptonOutlookGridRow>().Min(r => r.Cells[columnIndex].Value);
                 case KryptonOutlookGridAggregationType.Max:
-                    return rows.Cast<OutlookGridRow>().Max(r => r.Cells[columnIndex].Value);
+                    return rows.Cast<KryptonOutlookGridRow>().Max(r => r.Cells[columnIndex].Value);
                 case KryptonOutlookGridAggregationType.MinMax:
-                    var minValue = rows.Cast<OutlookGridRow>().Min(r => r.Cells[columnIndex].Value);
-                    var maxValue = rows.Cast<OutlookGridRow>().Max(r => r.Cells[columnIndex].Value);
+                    var minValue = rows.Cast<KryptonOutlookGridRow>().Min(r => r.Cells[columnIndex].Value);
+                    var maxValue = rows.Cast<KryptonOutlookGridRow>().Max(r => r.Cells[columnIndex].Value);
                     string format = column.DataGridViewColumn.DefaultCellStyle.Format;
                     var formattedMinValue = !string.IsNullOrEmpty(format) ? string.Format("{0:" + format + "}", minValue) : minValue;
                     var formattedMaxValue = !string.IsNullOrEmpty(format) ? string.Format("{0:" + format + "}", maxValue) : maxValue;
@@ -5014,11 +5014,11 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     /// Creates a summary row for a given group or a grand total for the entire grid.
     /// </summary>
     /// <param name="gridGroup">
-    /// The <see cref="IOutlookGridGroup"/> for which the summary row is being created.
+    /// The <see cref="IKryptonOutlookGridGroup"/> for which the summary row is being created.
     /// If <c>null</c>, this method generates a 'Grand Total' summary row.
     /// </param>
     /// <param name="rows">
-    /// The list of <see cref="OutlookGridRow"/> instances that belong to the specified group (or all rows for grand total).
+    /// The list of <see cref="KryptonOutlookGridRow"/> instances that belong to the specified group (or all rows for grand total).
     /// These rows are used to calculate the aggregated values.
     /// </param>
     /// <param name="firstColumnIndex">
@@ -5026,13 +5026,13 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     /// should be displayed. If -1, no specific column is designated for this text.
     /// </param>
     /// <returns>
-    /// An <see cref="OutlookGridRow"/> instance configured as a summary row, containing aggregated values
+    /// An <see cref="KryptonOutlookGridRow"/> instance configured as a summary row, containing aggregated values
     /// formatted according to column-specific aggregation types and format strings.
     /// </returns>
     /// <remarks>
     /// <para>
     /// This method clones the grid's <see cref="System.Windows.Forms.DataGridView.RowTemplate"/> to initialize the summary row.
-    /// It sets properties like <see cref="OutlookGridRow.Group"/> and <see cref="OutlookGridRow.IsSummaryRow"/>.
+    /// It sets properties like <see cref="KryptonOutlookGridRow.Group"/> and <see cref="KryptonOutlookGridRow.IsSummaryRow"/>.
     /// The row's height is adjusted to match the group's height (if applicable) for correct rendering, especially on high DPI.
     /// </para>
     /// <para>
@@ -5048,10 +5048,10 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     ///         <list type="bullet">
     ///             <item>First, using the <see cref="System.Windows.Forms.DataGridViewCellStyle.Format"/>
     ///                   of the associated <see cref="System.Windows.Forms.DataGridViewColumn"/>.</item>
-    ///             <item>Then, if <see cref="OutlookGridColumn.AggregationFormatString"/> is provided for the column,
+    ///             <item>Then, if <see cref="KryptonOutlookGridColumn.AggregationFormatString"/> is provided for the column,
     ///                   it formats the entire display string using the group text, aggregation type, and the
     ///                   previously formatted aggregated value (as arguments {0}, {1}, and {2} respectively).</item>
-    ///             <item>If <see cref="OutlookGridColumn.AggregationFormatString"/> is not set or fails, it defaults
+    ///             <item>If <see cref="KryptonOutlookGridColumn.AggregationFormatString"/> is not set or fails, it defaults
     ///                   to "[AggregationType]: [FormattedValue]".</item>
     ///             <item>For <see cref="KryptonOutlookGridAggregationType.MinMax"/>, `CalculateAggregation` is assumed to return a string
     ///                   that is used directly.</item>
@@ -5061,16 +5061,16 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     /// </para>
     /// <para>
     /// A clone of the `grSummaryRow` (named `grSummaryRowForGroup`) is created and stored in
-    /// <see cref="IOutlookGridGroup.SummaryRow"/>. This allows for a raw aggregated value to be stored directly on the group,
+    /// <see cref="IKryptonOutlookGridGroup.SummaryRow"/>. This allows for a raw aggregated value to be stored directly on the group,
     /// potentially for internal calculations, while the primary `grSummaryRow` holds the formatted display values.
     /// </para>
     /// </remarks>
-    private OutlookGridRow CreateSummaryRow(IOutlookGridGroup? gridGroup, List<OutlookGridRow> rows, int firstColumnIndex)
+    private KryptonOutlookGridRow CreateSummaryRow(IKryptonOutlookGridGroup? gridGroup, List<KryptonOutlookGridRow> rows, int firstColumnIndex)
     {
         string grandTotalText = "Grand Total";
-        OutlookGridRow? grSummaryRowForGroup;
-        OutlookGridRow? grSummaryRow;
-        grSummaryRow = RowTemplate.Clone() as OutlookGridRow;
+        KryptonOutlookGridRow? grSummaryRowForGroup;
+        KryptonOutlookGridRow? grSummaryRow;
+        grSummaryRow = RowTemplate.Clone() as KryptonOutlookGridRow;
         grSummaryRow!.Group = gridGroup;
         grSummaryRow.IsSummaryRow = true;
 
@@ -5078,7 +5078,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
             grSummaryRow.Height = gridGroup.Height;
         grSummaryRow.MinimumHeight = grSummaryRow.Height;
 
-        grSummaryRowForGroup = grSummaryRow.Clone() as OutlookGridRow;
+        grSummaryRowForGroup = grSummaryRow.Clone() as KryptonOutlookGridRow;
 
         // Define the group text once
         object groupText = gridGroup == null ? grandTotalText : gridGroup.Value!; // Use gridGroup.Value directly
@@ -5139,7 +5139,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
                     }
                 }
 
-                // Now, use OutlookGridColumn.AggregationFormatString for the *overall summary cell string*
+                // Now, use KryptonOutlookGridColumn.AggregationFormatString for the *overall summary cell string*
                 // Pass all three potential arguments: GroupText, AggregationType, FormattedValue
                 if (!string.IsNullOrEmpty(col.AggregationFormatString))
                 {
@@ -5323,7 +5323,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
             /*if (_summaryGrid.Columns.Contains("ColScroll"))
                 _summaryGrid.Columns.Remove("ColScroll");*/
             _summaryGrid.Height = _summaryGrid.Rows[0].Height;
-            //var sHeight = (_summaryGrid.Rows[0] as OutlookGridRow)!.GetPreferredHeight(0, DataGridViewAutoSizeRowMode.AllCells, false);
+            //var sHeight = (_summaryGrid.Rows[0] as KryptonOutlookGridRow)!.GetPreferredHeight(0, DataGridViewAutoSizeRowMode.AllCells, false);
             //_summaryGrid.Height = sHeight;
             int mainGridScrollbarWidth = this.VerticalScrollBar.Visible ? this.VerticalScrollBar.Width : 0;
             if (mainGridScrollbarWidth > 0)
@@ -5476,7 +5476,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     {
         int grpInfo = 1;
         List<KryptonOutlookGridFilterField> allFilters = [];
-        List<OutlookGridColumn> filteredColumns = [];
+        List<KryptonOutlookGridColumn> filteredColumns = [];
         var list = _originalRows;
         //_internalRows = _originalRows.ToList();
 
@@ -5487,10 +5487,10 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
 
         if (ToolBarFilters != null && ToolBarFilters.Count > 0)
         {
-            var fExpression = ToolBarFilters.ToExpression<OutlookGridRow>(Columns);
+            var fExpression = ToolBarFilters.ToExpression<KryptonOutlookGridRow>(Columns);
             // compile and use expression
-            Func<OutlookGridRow, bool> cFilter = fExpression.Compile();
-            list = new HashSet<OutlookGridRow>(_originalRows.Where(cFilter));
+            Func<KryptonOutlookGridRow, bool> cFilter = fExpression.Compile();
+            list = new HashSet<KryptonOutlookGridRow>(_originalRows.Where(cFilter));
         }
 
         if (filteredColumns.Count == 0 && currentFilter == null)
@@ -5529,9 +5529,9 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
             allFilters.AddRange(currentFilter);
         }
 
-        var filterExpression = allFilters.ToExpression<OutlookGridRow>(Columns);
+        var filterExpression = allFilters.ToExpression<KryptonOutlookGridRow>(Columns);
         // compile and use expression
-        Func<OutlookGridRow, bool> compiledFilter = filterExpression.Compile();
+        Func<KryptonOutlookGridRow, bool> compiledFilter = filterExpression.Compile();
         _internalRows = list.Where(compiledFilter).ToList();
         /*var filteredResults = _internalRows.Where(compiledFilter).ToList();
         _internalRows = filteredResults;*/
@@ -5721,7 +5721,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     /// </returns>
     /// <exception cref="InvalidOperationException">
     /// Thrown if the grid's data source is not loaded or is in an unsupported format for searching.
-    /// This method supports searching within `OutlookGridRow` collections, `System.Data.DataTable`,
+    /// This method supports searching within `KryptonOutlookGridRow` collections, `System.Data.DataTable`,
     /// or directly populated rows when no `DataSource` is assigned.
     /// </exception>
     /// <remarks>
@@ -5775,7 +5775,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
             if (currentCellIndex == -1)
                 currentCellIndex = this.Columns.GetFirstColumn(DataGridViewElementStates.Visible)!.Index;
             currentRowIndex = this.Rows.GetFirstRow(DataGridViewElementStates.Visible);
-            if (this.Rows[currentRowIndex] is OutlookGridRow oRow && oRow.IsGroupRow)
+            if (this.Rows[currentRowIndex] is KryptonOutlookGridRow oRow && oRow.IsGroupRow)
             {
                 currentRowIndex++;
             }
@@ -5792,14 +5792,14 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     /// <param name="searchColumnIndex">The zero-based index of the column to search. If -1, all visible columns are searched.</param>
     /// <returns>The <paramref name="textToSearch"/> if at least one row matches the search criteria; otherwise, returns an empty string.</returns>
     /// <remarks>
-    /// This method directly filters an internal collection of OutlookGridRow objects (`_originalRows`)
+    /// This method directly filters an internal collection of KryptonOutlookGridRow objects (`_originalRows`)
     /// and updates the grid's displayed rows (`_internalRows`) by calling `Fill()`.
     /// This approach is used when filtering by `BindingSource.Filter` is not applicable or desired.
     /// It performs a case-insensitive substring search.
     /// </remarks>
     private string SearchInOutlookGridRows(string textToSearch, int searchColumnIndex = -1)
     {
-        List<OutlookGridRow> filteredRows = new();
+        List<KryptonOutlookGridRow> filteredRows = new();
 
         if (string.IsNullOrEmpty(textToSearch))
         {
@@ -5807,7 +5807,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
             Fill();
             return string.Empty;
         }
-        Func<OutlookGridRow, bool> rowFilterPredicate;
+        Func<KryptonOutlookGridRow, bool> rowFilterPredicate;
         if (searchColumnIndex >= 0)
         {
             // Search in a specific column
@@ -6146,7 +6146,7 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
         else
             formattedValue = e.Value.ToStringNull()?.Replace(" ", zeroWidth) ?? string.Empty;
 
-        if (this.Rows[e.RowIndex] is OutlookGridRow row && row.IsSummaryRow)
+        if (this.Rows[e.RowIndex] is KryptonOutlookGridRow row && row.IsSummaryRow)
             formattedValue = e.FormattedValue.ToStringNull()?.Replace(" ", zeroWidth) ?? string.Empty;
 
         var formattedSearchText = searchText.Replace(" ", zeroWidth);

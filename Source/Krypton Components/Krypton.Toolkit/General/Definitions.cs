@@ -2930,7 +2930,7 @@ public enum RightToLeftLayout
 #region Enum DateInterval
 
 /// <summary>
-/// Enum of Date interval for the OutlookGridDateTimeGroup
+/// Enum of Date interval for the KryptonOutlookGridDateTimeGroup
 /// </summary>
 public enum DateInterval
 {
