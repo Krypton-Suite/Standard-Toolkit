@@ -19,31 +19,30 @@
 
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+/// <summary>
+/// Base class for OutlookGridRowNode events
+/// </summary>
+/// <seealso cref="EventArgs" />
+public class OutlookGridRowNodeEventBase : EventArgs
 {
+    private OutlookGridRow _row;
+
     /// <summary>
-    /// Base class for OutlookGridRowNode events
+    /// Initializes a new instance of the <see cref="OutlookGridRowNodeEventBase"/> class.
     /// </summary>
-    /// <seealso cref="EventArgs" />
-    public class OutlookGridRowNodeEventBase : EventArgs
+    /// <param name="node">The node.</param>
+    public OutlookGridRowNodeEventBase(OutlookGridRow node)
     {
-        private OutlookGridRow _row;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="OutlookGridRowNodeEventBase"/> class.
-        /// </summary>
-        /// <param name="node">The node.</param>
-        public OutlookGridRowNodeEventBase(OutlookGridRow node)
-        {
-            _row = node;
-        }
-
-        /// <summary>
-        /// Gets the node.
-        /// </summary>
-        /// <value>
-        /// The node.
-        /// </value>
-        public OutlookGridRow Node => _row;
+        _row = node;
     }
+
+    /// <summary>
+    /// Gets the node.
+    /// </summary>
+    /// <value>
+    /// The node.
+    /// </value>
+    public OutlookGridRow Node => _row;
 }

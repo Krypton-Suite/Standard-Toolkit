@@ -19,31 +19,30 @@
 
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+/// <summary>
+/// Class for events of the group image of a group row.
+/// </summary>
+public class OutlookGridGroupImageEventArgs : EventArgs
 {
+    private OutlookGridRow _row;
+
     /// <summary>
-    /// Class for events of the group image of a group row.
+    /// Constructor
     /// </summary>
-    public class OutlookGridGroupImageEventArgs : EventArgs
+    /// <param name="row">The OutlookGridRow.</param>
+    public OutlookGridGroupImageEventArgs(OutlookGridRow row)
     {
-        private OutlookGridRow _row;
+        _row = row;
+    }
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="row">The OutlookGridRow.</param>
-        public OutlookGridGroupImageEventArgs(OutlookGridRow row)
-        {
-            _row = row;
-        }
-
-        /// <summary>
-        /// Gets or sets the row.
-        /// </summary>
-        public OutlookGridRow Row
-        {
-            get => _row;
-            set => _row = value;
-        }
+    /// <summary>
+    /// Gets or sets the row.
+    /// </summary>
+    public OutlookGridRow Row
+    {
+        get => _row;
+        set => _row = value;
     }
 }

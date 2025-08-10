@@ -1,33 +1,33 @@
-﻿namespace Krypton.Toolkit
+﻿namespace Krypton.Toolkit;
+
+partial class KryptonOutlookGridFilter
 {
-    partial class KryptonOutlookGridFilter
+    /// <summary>
+    /// Required designer variable.
+    /// </summary>
+    private System.ComponentModel.IContainer components = null;
+
+    /// <summary>
+    /// Clean up any resources being used.
+    /// </summary>
+    /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+    protected override void Dispose(bool disposing)
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
-        private System.ComponentModel.IContainer components = null;
-
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
+        if (disposing && (components != null))
         {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
+            components.Dispose();
         }
+        base.Dispose(disposing);
+    }
 
-        #region Windows Form Designer generated code
+    #region Windows Form Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
-        {
+    /// <summary>
+    /// Required method for Designer support - do not modify
+    /// the contents of this method with the code editor.
+    /// </summary>
+    private void InitializeComponent()
+    {
             this.FlowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.FilterItemGroup1 = new Krypton.Toolkit.KryptonOutlookGridFilterItemGroup();
             this.FlowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
@@ -79,7 +79,7 @@
             this.FlowLayoutPanel2.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.FlowLayoutPanel2.Location = new System.Drawing.Point(0, 0);
             this.FlowLayoutPanel2.Name = "FlowLayoutPanel2";
-            this.FlowLayoutPanel2.Size = new System.Drawing.Size(264, 103);
+            this.FlowLayoutPanel2.Size = new System.Drawing.Size(272, 79);
             this.FlowLayoutPanel2.TabIndex = 3;
             // 
             // arkTableLayoutPanelEx1
@@ -159,7 +159,7 @@
             this.PnlMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PnlMain.Location = new System.Drawing.Point(0, 0);
             this.PnlMain.Name = "PnlMain";
-            this.PnlMain.Size = new System.Drawing.Size(264, 103);
+            this.PnlMain.Size = new System.Drawing.Size(272, 79);
             this.PnlMain.TabIndex = 4;
             // 
             // newGroup
@@ -172,19 +172,19 @@
             this.newGroup.Size = new System.Drawing.Size(481, 56);
             this.newGroup.TabIndex = 0;
             // 
-            // Filter
+            // KryptonOutlookGridFilter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(264, 103);
+            this.ClientSize = new System.Drawing.Size(272, 79);
             this.Controls.Add(this.PnlMain);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "Filter";
+            this.Name = "KryptonOutlookGridFilter";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Filter";
@@ -201,19 +201,18 @@
             this.ResumeLayout(false);
             this.PerformLayout();
 
-        }
-        internal System.Windows.Forms.FlowLayoutPanel FlowLayoutPanel1;
-        internal KryptonOutlookGridFilterItemGroup FilterItemGroup1;
-        internal KryptonOutlookGridFilterItemGroup newGroup;
-        internal System.Windows.Forms.FlowLayoutPanel FlowLayoutPanel2;
-
-        #endregion
-
-        private KryptonPanel PnlMain;
-        private TableLayoutPanel arkTableLayoutPanelEx1;
-        private TableLayoutPanel TpActions;
-        private KryptonButton BtnOk;
-        private KryptonButton BtnCancel;
-        private KryptonButton BtnClear;
     }
+    internal System.Windows.Forms.FlowLayoutPanel FlowLayoutPanel1;
+    internal KryptonOutlookGridFilterItemGroup FilterItemGroup1;
+    internal KryptonOutlookGridFilterItemGroup newGroup;
+    internal System.Windows.Forms.FlowLayoutPanel FlowLayoutPanel2;
+
+    #endregion
+
+    private KryptonPanel PnlMain;
+    private TableLayoutPanel arkTableLayoutPanelEx1;
+    private TableLayoutPanel TpActions;
+    private KryptonButton BtnOk;
+    private KryptonButton BtnCancel;
+    private KryptonButton BtnClear;
 }

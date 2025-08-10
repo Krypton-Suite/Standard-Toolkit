@@ -19,31 +19,30 @@
 
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+/// <summary>
+/// Class for events of the column in the groupbox.
+/// </summary>
+public class OutlookGridColumnEventArgs : EventArgs
 {
+    private OutlookGridColumn _column;
+
     /// <summary>
-    /// Class for events of the column in the groupbox.
+    /// Constructor
     /// </summary>
-    public class OutlookGridColumnEventArgs : EventArgs
+    /// <param name="col">The OutlookGridColumn.</param>
+    public OutlookGridColumnEventArgs(OutlookGridColumn col)
     {
-        private OutlookGridColumn _column;
+        _column = col;
+    }
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="col">The OutlookGridColumn.</param>
-        public OutlookGridColumnEventArgs(OutlookGridColumn col)
-        {
-            _column = col;
-        }
-
-        /// <summary>
-        /// Gets or sets the name of the column.
-        /// </summary>
-        public OutlookGridColumn Column
-        {
-            get => _column;
-            set => _column = value;
-        }
+    /// <summary>
+    /// Gets or sets the name of the column.
+    /// </summary>
+    public OutlookGridColumn Column
+    {
+        get => _column;
+        set => _column = value;
     }
 }

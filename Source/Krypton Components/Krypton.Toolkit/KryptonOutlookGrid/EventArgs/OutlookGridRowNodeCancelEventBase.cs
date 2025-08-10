@@ -19,31 +19,30 @@
 
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+/// <summary>
+/// Base class OutlookGridRowNode cancellable events
+/// </summary>
+/// <seealso cref="CancelEventArgs" />
+public class OutlookGridRowNodeCancelEventBase : CancelEventArgs
 {
+    private OutlookGridRow _row;
+
     /// <summary>
-    /// Base class OutlookGridRowNode cancellable events
+    /// Initializes a new instance of the <see cref="OutlookGridRowNodeCancelEventBase"/> class.
     /// </summary>
-    /// <seealso cref="CancelEventArgs" />
-    public class OutlookGridRowNodeCancelEventBase : CancelEventArgs
+    /// <param name="node">The node.</param>
+    public OutlookGridRowNodeCancelEventBase(OutlookGridRow node)
     {
-        private OutlookGridRow _row;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="OutlookGridRowNodeCancelEventBase"/> class.
-        /// </summary>
-        /// <param name="node">The node.</param>
-        public OutlookGridRowNodeCancelEventBase(OutlookGridRow node)
-        {
-            _row = node;
-        }
-
-        /// <summary>
-        /// Gets the node.
-        /// </summary>
-        /// <value>
-        /// The node.
-        /// </value>
-        public OutlookGridRow Node => _row;
+        _row = node;
     }
+
+    /// <summary>
+    /// Gets the node.
+    /// </summary>
+    /// <value>
+    /// The node.
+    /// </value>
+    public OutlookGridRow Node => _row;
 }

@@ -19,80 +19,79 @@
 
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+/// <summary>
+/// Class for TextAndImage object
+/// </summary>
+internal class KryptonDataGridViewTextAndImage : IComparable<KryptonDataGridViewTextAndImage>
 {
+    #region Public Fields
+
     /// <summary>
-    /// Class for TextAndImage object
+    /// The text
     /// </summary>
-    internal class KryptonDataGridViewTextAndImage : IComparable<KryptonDataGridViewTextAndImage>
+    public string Text;
+
+    /// <summary>
+    /// The image
+    /// </summary>
+    public Image? Image;
+
+    #endregion
+
+    #region Identity
+
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    public KryptonDataGridViewTextAndImage()
+    { }
+
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="text">The text.</param>
+    /// <param name="img">The image.</param>
+    public KryptonDataGridViewTextAndImage(string text, Image? img)
     {
-        #region Public Fields
-
-        /// <summary>
-        /// The text
-        /// </summary>
-        public string Text;
-
-        /// <summary>
-        /// The image
-        /// </summary>
-        public Image? Image;
-
-        #endregion
-
-        #region Identity
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        public KryptonDataGridViewTextAndImage()
-        { }
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="text">The text.</param>
-        /// <param name="img">The image.</param>
-        public KryptonDataGridViewTextAndImage(string text, Image? img)
-        {
-            Text = text;
-            Image = img;
-        }
-
-        #endregion
-
-        #region Public Overrides
-
-        /// <summary>
-        /// Overrides ToString
-        /// </summary>
-        /// <returns>String that represents TextAndImage</returns>
-        public override string ToString() => Text;
-
-        /// <summary>
-        /// Overrides Equals
-        /// </summary>
-        /// <param name="obj">The object to compare</param>
-        /// <returns>true if equal, false otherwise.</returns>
-        public override bool Equals(object? obj) => Text.Equals(obj?.ToString());
-
-        /// <summary>
-        /// Overrides GetHashCode
-        /// </summary>
-        /// <returns></returns>
-        public override int GetHashCode() => base.GetHashCode();
-
-        #endregion
-
-        #region Implementation
-
-        /// <summary>
-        /// Compares to.
-        /// </summary>
-        /// <param name="other">The other.</param>
-        /// <returns></returns>
-        public int CompareTo(KryptonDataGridViewTextAndImage? other) => Text.CompareTo(other!.Text);
-
-        #endregion
+        Text = text;
+        Image = img;
     }
+
+    #endregion
+
+    #region Public Overrides
+
+    /// <summary>
+    /// Overrides ToString
+    /// </summary>
+    /// <returns>String that represents TextAndImage</returns>
+    public override string ToString() => Text;
+
+    /// <summary>
+    /// Overrides Equals
+    /// </summary>
+    /// <param name="obj">The object to compare</param>
+    /// <returns>true if equal, false otherwise.</returns>
+    public override bool Equals(object? obj) => Text.Equals(obj?.ToString());
+
+    /// <summary>
+    /// Overrides GetHashCode
+    /// </summary>
+    /// <returns></returns>
+    public override int GetHashCode() => base.GetHashCode();
+
+    #endregion
+
+    #region Implementation
+
+    /// <summary>
+    /// Compares to.
+    /// </summary>
+    /// <param name="other">The other.</param>
+    /// <returns></returns>
+    public int CompareTo(KryptonDataGridViewTextAndImage? other) => Text.CompareTo(other!.Text);
+
+    #endregion
 }

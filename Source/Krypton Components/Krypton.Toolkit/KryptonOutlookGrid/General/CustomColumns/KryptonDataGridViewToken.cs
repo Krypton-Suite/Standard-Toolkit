@@ -19,88 +19,87 @@
 
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+/// <summary>
+/// Token object
+/// </summary>
+internal class KryptonDataGridViewToken : IComparable<KryptonDataGridViewToken>
 {
+    #region Identity
+
     /// <summary>
-    /// Token object
+    /// Default constructor
     /// </summary>
-    internal class KryptonDataGridViewToken : IComparable<KryptonDataGridViewToken>
+    public KryptonDataGridViewToken()
     {
-        #region Identity
-
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        public KryptonDataGridViewToken()
-        {
-        }
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="text">Text of the token</param>
-        /// <param name="bg">Background color</param>
-        /// <param name="fg">Foreground text color</param>
-        public KryptonDataGridViewToken(string text, Color bg, Color fg)
-        {
-            Text = text;
-
-            BackColor = bg;
-
-            ForeColor = fg;
-        }
-
-        #endregion
-
-        #region Public
-
-        /// <summary>
-        /// Text of the token
-        /// </summary>
-        public string Text { get; set; }
-        /// <summary>
-        /// Background color
-        /// </summary>
-        public Color BackColor { get; set; }
-        /// <summary>
-        /// Foreground text color
-        /// </summary>
-        public Color ForeColor { get; set; }
-
-        #endregion
-
-        #region Implementation
-
-        /// <summary>
-        /// Compare a Token to another
-        /// </summary>
-        /// <param name="other"></param>
-        /// <returns></returns>
-        public int CompareTo(KryptonDataGridViewToken? other) => Text.CompareTo(other!.Text);
-
-        #endregion
-
-        #region Public Overrides
-
-        /// <summary>
-        /// Overrides ToString
-        /// </summary>
-        /// <returns>String that represents TextAndImage</returns>
-        public override string ToString() => Text;
-
-        /// <summary>
-        /// Overrides Equals
-        /// </summary>
-        /// <param name="obj">The object to compare</param>
-        /// <returns>true if equal, false otherwise.</returns>
-        public override bool Equals(object? obj) => Text.Equals(obj?.ToString());
-
-        /// <summary>
-        /// Overrides GetHashCode
-        /// </summary>
-        /// <returns></returns>
-        public override int GetHashCode() => base.GetHashCode();
-
-        #endregion
     }
+
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="text">Text of the token</param>
+    /// <param name="bg">Background color</param>
+    /// <param name="fg">Foreground text color</param>
+    public KryptonDataGridViewToken(string text, Color bg, Color fg)
+    {
+        Text = text;
+
+        BackColor = bg;
+
+        ForeColor = fg;
+    }
+
+    #endregion
+
+    #region Public
+
+    /// <summary>
+    /// Text of the token
+    /// </summary>
+    public string Text { get; set; }
+    /// <summary>
+    /// Background color
+    /// </summary>
+    public Color BackColor { get; set; }
+    /// <summary>
+    /// Foreground text color
+    /// </summary>
+    public Color ForeColor { get; set; }
+
+    #endregion
+
+    #region Implementation
+
+    /// <summary>
+    /// Compare a Token to another
+    /// </summary>
+    /// <param name="other"></param>
+    /// <returns></returns>
+    public int CompareTo(KryptonDataGridViewToken? other) => Text.CompareTo(other!.Text);
+
+    #endregion
+
+    #region Public Overrides
+
+    /// <summary>
+    /// Overrides ToString
+    /// </summary>
+    /// <returns>String that represents TextAndImage</returns>
+    public override string ToString() => Text;
+
+    /// <summary>
+    /// Overrides Equals
+    /// </summary>
+    /// <param name="obj">The object to compare</param>
+    /// <returns>true if equal, false otherwise.</returns>
+    public override bool Equals(object? obj) => Text.Equals(obj?.ToString());
+
+    /// <summary>
+    /// Overrides GetHashCode
+    /// </summary>
+    /// <returns></returns>
+    public override int GetHashCode() => base.GetHashCode();
+
+    #endregion
 }

@@ -19,137 +19,136 @@
 
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+/// <summary>
+/// Class for a TextAndImage cell
+/// </summary>
+internal class KryptonDataGridViewTextAndImageCell : KryptonDataGridViewTextBoxCell
 {
-    /// <summary>
-    /// Class for a TextAndImage cell
-    /// </summary>
-    internal class KryptonDataGridViewTextAndImageCell : KryptonDataGridViewTextBoxCell
+    #region Instance Fields
+
+    private Image? _imageValue;
+    private Size _imageSize;
+
+    #endregion
+
+    #region Identity
+
+    /// <summary>Initializes a new instance of the <see cref="KryptonDataGridViewTextAndImageCell" /> class.</summary>
+    public KryptonDataGridViewTextAndImageCell()
     {
-        #region Instance Fields
+    }
 
-        private Image? _imageValue;
-        private Size _imageSize;
+    #endregion
 
-        #endregion
+    #region Public Overrides
 
-        #region Identity
+    /// <summary>
+    /// Overrides ValueType
+    /// </summary>
+    public override Type ValueType => typeof(KryptonDataGridViewTextAndImage);
 
-        /// <summary>Initializes a new instance of the <see cref="KryptonDataGridViewTextAndImageCell" /> class.</summary>
-        public KryptonDataGridViewTextAndImageCell()
+    /// <summary>
+    /// Sets the value.
+    /// </summary>
+    /// <param name="rowIndex">Index of the row.</param>
+    /// <param name="value">The value.</param>
+    /// <returns></returns>
+    protected override bool SetValue(int rowIndex, object? value)
+    {
+        if (value is not null && !(OwningRow as OutlookGridRow)!.IsGroupRow!) //Test to catch crash when first column is text and image when grouping
         {
+            Image = ((KryptonDataGridViewTextAndImage)value).Image;
         }
 
-        #endregion
+        return base.SetValue(rowIndex, value);
+    }
 
-        #region Public Overrides
+    /// <summary>
+    /// Overrides Clone
+    /// </summary>
+    /// <returns>The cloned KryptonDataGridViewTextAndImageCell</returns>
+    public override object Clone()
+    {
+        var c = (KryptonDataGridViewTextAndImageCell)base.Clone();
+        c._imageValue = _imageValue;
+        c._imageSize = _imageSize;
+        return c;
+    }
 
-        /// <summary>
-        /// Overrides ValueType
-        /// </summary>
-        public override Type ValueType => typeof(KryptonDataGridViewTextAndImage);
+    #endregion
 
-        /// <summary>
-        /// Sets the value.
-        /// </summary>
-        /// <param name="rowIndex">Index of the row.</param>
-        /// <param name="value">The value.</param>
-        /// <returns></returns>
-        protected override bool SetValue(int rowIndex, object? value)
+    #region Public
+
+    /// <summary>
+    /// Gets or sets the image.
+    /// </summary>
+    /// <value>
+    /// The image.
+    /// </value>
+    public Image? Image
+    {
+        get => _imageValue;
+
+        set
         {
-            if (value is not null && !(OwningRow as OutlookGridRow)!.IsGroupRow!) //Test to catch crash when first column is text and image when grouping
+            if (Image != value)
             {
-                Image = ((KryptonDataGridViewTextAndImage)value).Image;
-            }
+                _imageValue = value;
+                _imageSize = value!.Size;
 
-            return base.SetValue(rowIndex, value);
-        }
-
-        /// <summary>
-        /// Overrides Clone
-        /// </summary>
-        /// <returns>The cloned KryptonDataGridViewTextAndImageCell</returns>
-        public override object Clone()
-        {
-            var c = (KryptonDataGridViewTextAndImageCell)base.Clone();
-            c._imageValue = _imageValue;
-            c._imageSize = _imageSize;
-            return c;
-        }
-
-        #endregion
-
-        #region Public
-
-        /// <summary>
-        /// Gets or sets the image.
-        /// </summary>
-        /// <value>
-        /// The image.
-        /// </value>
-        public Image? Image
-        {
-            get => _imageValue;
-
-            set
-            {
-                if (Image != value)
-                {
-                    _imageValue = value;
-                    _imageSize = value!.Size;
-
-                    //if (this.InheritedStyle != null)
-                    //{
-                    Padding inheritedPadding = Style.Padding;
-                    //Padding inheritedPadding = this.InheritedStyle.Padding;
-                    Style.Padding = new Padding(_imageSize.Width + 2,
-                        inheritedPadding.Top, inheritedPadding.Right,
-                        inheritedPadding.Bottom);
-                    //}
-                }
-            }
-        }
-
-        #endregion
-
-        #region Protected Overrides
-
-        /// <summary>
-        /// Overrides Paint
-        /// </summary>
-        /// <param name="graphics"></param>
-        /// <param name="clipBounds"></param>
-        /// <param name="cellBounds"></param>
-        /// <param name="rowIndex"></param>
-        /// <param name="cellState"></param>
-        /// <param name="value"></param>
-        /// <param name="formattedValue"></param>
-        /// <param name="errorText"></param>
-        /// <param name="cellStyle"></param>
-        /// <param name="advancedBorderStyle"></param>
-        /// <param name="paintParts"></param>
-        protected override void Paint(Graphics graphics, Rectangle clipBounds, Rectangle cellBounds, int rowIndex, DataGridViewElementStates cellState, object? value, object? formattedValue, string? errorText, DataGridViewCellStyle cellStyle, DataGridViewAdvancedBorderStyle advancedBorderStyle, DataGridViewPaintParts paintParts)
-        {
-            //TODO : improve we assume it is a 16x16 image 
-            if (Value != null && (Value as KryptonDataGridViewTextAndImage)?.Image != null)
-            {
+                //if (this.InheritedStyle != null)
+                //{
                 Padding inheritedPadding = Style.Padding;
+                //Padding inheritedPadding = this.InheritedStyle.Padding;
                 Style.Padding = new Padding(_imageSize.Width + 2,
                     inheritedPadding.Top, inheritedPadding.Right,
                     inheritedPadding.Bottom);
-                //To be in phase with highlight feature who forces the style.
-
-                // Draw the image clipped to the cell.
-                GraphicsContainer container = graphics.BeginContainer();
-                graphics.SetClip(cellBounds);
-                graphics.DrawImage((Value as KryptonDataGridViewTextAndImage)?.Image!, new Rectangle(cellBounds.Location.X + 2, cellBounds.Location.Y + (cellBounds.Height - 16) / 2 - 1, 16, 16));
-                graphics.EndContainer(container);
+                //}
             }
+        }
+    }
 
-            // Paint the base content
-            base.Paint(graphics, clipBounds, cellBounds, rowIndex, cellState, value, formattedValue, errorText, cellStyle, advancedBorderStyle, paintParts);
+    #endregion
+
+    #region Protected Overrides
+
+    /// <summary>
+    /// Overrides Paint
+    /// </summary>
+    /// <param name="graphics"></param>
+    /// <param name="clipBounds"></param>
+    /// <param name="cellBounds"></param>
+    /// <param name="rowIndex"></param>
+    /// <param name="cellState"></param>
+    /// <param name="value"></param>
+    /// <param name="formattedValue"></param>
+    /// <param name="errorText"></param>
+    /// <param name="cellStyle"></param>
+    /// <param name="advancedBorderStyle"></param>
+    /// <param name="paintParts"></param>
+    protected override void Paint(Graphics graphics, Rectangle clipBounds, Rectangle cellBounds, int rowIndex, DataGridViewElementStates cellState, object? value, object? formattedValue, string? errorText, DataGridViewCellStyle cellStyle, DataGridViewAdvancedBorderStyle advancedBorderStyle, DataGridViewPaintParts paintParts)
+    {
+        //TODO : improve we assume it is a 16x16 image 
+        if (Value != null && (Value as KryptonDataGridViewTextAndImage)?.Image != null)
+        {
+            Padding inheritedPadding = Style.Padding;
+            Style.Padding = new Padding(_imageSize.Width + 2,
+                inheritedPadding.Top, inheritedPadding.Right,
+                inheritedPadding.Bottom);
+            //To be in phase with highlight feature who forces the style.
+
+            // Draw the image clipped to the cell.
+            GraphicsContainer container = graphics.BeginContainer();
+            graphics.SetClip(cellBounds);
+            graphics.DrawImage((Value as KryptonDataGridViewTextAndImage)?.Image!, new Rectangle(cellBounds.Location.X + 2, cellBounds.Location.Y + (cellBounds.Height - 16) / 2 - 1, 16, 16));
+            graphics.EndContainer(container);
         }
 
-        #endregion
+        // Paint the base content
+        base.Paint(graphics, clipBounds, cellBounds, rowIndex, cellState, value, formattedValue, errorText, cellStyle, advancedBorderStyle, paintParts);
     }
+
+    #endregion
 }

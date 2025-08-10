@@ -19,21 +19,20 @@
 
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+/// <summary>
+/// Class for Node collapsed events 
+/// </summary>
+/// <seealso cref="T:OutlookGridRowNodeEventBase" />
+public class CollapsedEventArgs : OutlookGridRowNodeEventBase
 {
     /// <summary>
-    /// Class for Node collapsed events 
+    /// Initializes a new instance of the <see cref="CollapsedEventArgs"/> class.
     /// </summary>
-    /// <seealso cref="T:OutlookGridRowNodeEventBase" />
-    public class CollapsedEventArgs : OutlookGridRowNodeEventBase
+    /// <param name="node">The node.</param>
+    public CollapsedEventArgs(OutlookGridRow node)
+        : base(node)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CollapsedEventArgs"/> class.
-        /// </summary>
-        /// <param name="node">The node.</param>
-        public CollapsedEventArgs(OutlookGridRow node)
-            : base(node)
-        {
-        }
     }
 }

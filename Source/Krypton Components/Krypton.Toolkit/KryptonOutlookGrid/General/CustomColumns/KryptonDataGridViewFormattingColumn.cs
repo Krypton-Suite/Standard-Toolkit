@@ -19,47 +19,46 @@
 
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+/// <summary>
+/// Class for a KryptonDataGridViewFormattingColumn : KryptonDataGridViewTextBoxColumn with conditional formatting abilities
+/// </summary>
+/// <seealso cref="KryptonDataGridViewTextBoxColumn" />
+internal class KryptonDataGridViewFormattingColumn : KryptonDataGridViewTextBoxColumn
 {
+    #region Instance Fields
+
+    private bool _contrastTextColor;
+
+    #endregion
+
+    #region Identity
+
     /// <summary>
-    /// Class for a KryptonDataGridViewFormattingColumn : KryptonDataGridViewTextBoxColumn with conditional formatting abilities
+    /// Initializes a new instance of the <see cref="KryptonDataGridViewFormattingColumn"/> class.
     /// </summary>
-    /// <seealso cref="KryptonDataGridViewTextBoxColumn" />
-    internal class KryptonDataGridViewFormattingColumn : KryptonDataGridViewTextBoxColumn
+    public KryptonDataGridViewFormattingColumn()
     {
-        #region Instance Fields
-
-        private bool _contrastTextColor;
-
-        #endregion
-
-        #region Identity
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="KryptonDataGridViewFormattingColumn"/> class.
-        /// </summary>
-        public KryptonDataGridViewFormattingColumn()
-        {
-            CellTemplate = new KryptonDataGridViewFormattingCell();
-            DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            ValueType = typeof(KryptonDataGridViewFormattingCell);
-            ContrastTextColor = false;
-        }
-
-        #endregion
-
-        #region Public
-
-        /// <summary>Gets or sets a value indicating whether [contrast text color].</summary>
-        /// <value><c>true</c> if [contrast text color]; otherwise, <c>false</c>.</value>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public bool ContrastTextColor
-        {
-            get => _contrastTextColor; 
-            
-            set => _contrastTextColor = value;
-        }
-
-        #endregion
+        CellTemplate = new KryptonDataGridViewFormattingCell();
+        DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+        ValueType = typeof(KryptonDataGridViewFormattingCell);
+        ContrastTextColor = false;
     }
+
+    #endregion
+
+    #region Public
+
+    /// <summary>Gets or sets a value indicating whether [contrast text color].</summary>
+    /// <value><c>true</c> if [contrast text color]; otherwise, <c>false</c>.</value>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public bool ContrastTextColor
+    {
+        get => _contrastTextColor; 
+        
+        set => _contrastTextColor = value;
+    }
+
+    #endregion
 }

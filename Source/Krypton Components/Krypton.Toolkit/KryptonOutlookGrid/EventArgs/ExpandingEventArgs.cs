@@ -19,20 +19,19 @@
 
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+/// <summary>
+/// Class for Node expanding events
+/// </summary>
+/// <seealso cref="T:OutlookGridRowNodeCancelEventBase" />
+public class ExpandingEventArgs : OutlookGridRowNodeCancelEventBase
 {
     /// <summary>
-    /// Class for Node expanding events
+    /// Initializes a new instance of the <see cref="ExpandingEventArgs"/> class.
     /// </summary>
-    /// <seealso cref="T:OutlookGridRowNodeCancelEventBase" />
-    public class ExpandingEventArgs : OutlookGridRowNodeCancelEventBase
+    /// <param name="node">The node.</param>
+    public ExpandingEventArgs(OutlookGridRow node) : base(node)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ExpandingEventArgs"/> class.
-        /// </summary>
-        /// <param name="node">The node.</param>
-        public ExpandingEventArgs(OutlookGridRow node) : base(node)
-        {
-        }
     }
 }

@@ -63,29 +63,28 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
-{
-    public class KryptonOutlookGridSearchToolBarSearchEventArgs : EventArgs
-    {
-        public string ValueToSearch { get; private set; }
-        public DataGridViewColumn? ColumnToSearch { get; private set; }
-        public bool CaseSensitive { get; private set; }
-        public bool WholeWord { get; private set; }
-        public bool FromBegin { get; private set; }
+namespace Krypton.Toolkit;
 
-        /// <summary>Initializes a new instance of the <see cref="KryptonOutlookGridSearchToolBarSearchEventArgs" /> class.</summary>
-        /// <param name="value">The value.</param>
-        /// <param name="column">The column.</param>
-        /// <param name="case">if set to <c>true</c> [case].</param>
-        /// <param name="whole">if set to <c>true</c> [whole].</param>
-        /// <param name="fromBegin">if set to <c>true</c> [from begin].</param>
-        public KryptonOutlookGridSearchToolBarSearchEventArgs(string value, DataGridViewColumn? column, bool @case, bool whole, bool fromBegin)
-        {
-            ValueToSearch = value;
-            ColumnToSearch = column;
-            CaseSensitive = @case;
-            WholeWord = whole;
-            FromBegin = fromBegin;
-        }
+public class KryptonOutlookGridSearchToolBarSearchEventArgs : EventArgs
+{
+    public string ValueToSearch { get; private set; }
+    public DataGridViewColumn? ColumnToSearch { get; private set; }
+    public bool CaseSensitive { get; private set; }
+    public bool WholeWord { get; private set; }
+    public bool FromBegin { get; private set; }
+
+    /// <summary>Initializes a new instance of the <see cref="KryptonOutlookGridSearchToolBarSearchEventArgs" /> class.</summary>
+    /// <param name="value">The value.</param>
+    /// <param name="column">The column.</param>
+    /// <param name="case">if set to <c>true</c> [case].</param>
+    /// <param name="whole">if set to <c>true</c> [whole].</param>
+    /// <param name="fromBegin">if set to <c>true</c> [from begin].</param>
+    public KryptonOutlookGridSearchToolBarSearchEventArgs(string value, DataGridViewColumn? column, bool @case, bool whole, bool fromBegin)
+    {
+        ValueToSearch = value;
+        ColumnToSearch = column;
+        CaseSensitive = @case;
+        WholeWord = whole;
+        FromBegin = fromBegin;
     }
 }

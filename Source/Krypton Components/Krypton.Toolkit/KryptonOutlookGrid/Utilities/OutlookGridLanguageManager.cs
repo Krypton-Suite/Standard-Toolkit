@@ -19,76 +19,75 @@
 
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+internal class OutlookGridLanguageManager
 {
-    internal class OutlookGridLanguageManager
+    #region Instance Fields
+
+    private static OutlookGridLanguageManager? _mInstance = null;
+
+    private static readonly object _myLock = new();
+    private ResourceManager _rm;
+
+    private CultureInfo _ci;
+    //Used for blocking critical sections on updates
+    private object _locker = new();
+
+    #endregion
+
+    #region Identity
+
+    public OutlookGridLanguageManager()
     {
-        #region Instance Fields
+        _rm = new ResourceManager("Krypton.Toolkit.ResourceFiles.OutlookGrid.Strings.OutlookGridStringResources", Assembly.GetExecutingAssembly());
+        _ci = Thread.CurrentThread.CurrentCulture; //CultureInfo.CurrentCulture;
+    }
 
-        private static OutlookGridLanguageManager? _mInstance = null;
+    #endregion
 
-        private static readonly object _myLock = new();
-        private ResourceManager _rm;
+    #region Public
 
-        private CultureInfo _ci;
-        //Used for blocking critical sections on updates
-        private object _locker = new();
+    /// <summary>Gets or sets the P locker.</summary>
+    /// <value>The P locker.</value>
+    public object PLocker
+    {
+        get => _locker; 
+        
+        set => _locker = value;
+    }
 
-        #endregion
-
-        #region Identity
-
-        public OutlookGridLanguageManager()
+    /// <summary>Gets the instance of the singleton.</summary>
+    public static OutlookGridLanguageManager Instance
+    {
+        get
         {
-            _rm = new ResourceManager("Krypton.Toolkit.ResourceFiles.OutlookGrid.Strings.OutlookGridStringResources", Assembly.GetExecutingAssembly());
-            _ci = Thread.CurrentThread.CurrentCulture; //CultureInfo.CurrentCulture;
-        }
-
-        #endregion
-
-        #region Public
-
-        /// <summary>Gets or sets the P locker.</summary>
-        /// <value>The P locker.</value>
-        public object PLocker
-        {
-            get => _locker; 
-            
-            set => _locker = value;
-        }
-
-        /// <summary>Gets the instance of the singleton.</summary>
-        public static OutlookGridLanguageManager Instance
-        {
-            get
+            if (_mInstance == null)
             {
-                if (_mInstance == null)
+                lock (_myLock)
                 {
-                    lock (_myLock)
+                    if (_mInstance == null)
                     {
-                        if (_mInstance == null)
-                        {
-                            _mInstance = new OutlookGridLanguageManager();
-                        }
+                        _mInstance = new OutlookGridLanguageManager();
                     }
                 }
-
-                return _mInstance;
             }
+
+            return _mInstance;
         }
-
-        #endregion
-
-        #region Implementation
-
-        /// <summary>
-        /// Get localized string
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        /// <remarks></remarks>
-        public string GetString(string name) => _rm.GetString(name, _ci)!;
-
-        #endregion
     }
+
+    #endregion
+
+    #region Implementation
+
+    /// <summary>
+    /// Get localized string
+    /// </summary>
+    /// <param name="name"></param>
+    /// <returns></returns>
+    /// <remarks></remarks>
+    public string GetString(string name) => _rm.GetString(name, _ci)!;
+
+    #endregion
 }

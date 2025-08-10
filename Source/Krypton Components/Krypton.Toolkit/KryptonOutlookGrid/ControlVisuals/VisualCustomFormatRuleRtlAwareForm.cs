@@ -7,228 +7,227 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+internal partial class VisualCustomFormatRuleRtlAwareForm : KryptonForm
 {
-    internal partial class VisualCustomFormatRuleRtlAwareForm : KryptonForm
+    #region Instance Fields
+
+    private bool _gradient;
+
+    private Color _minimumColor;
+
+    private Color _maximumColor;
+
+    private Color _intermediateColor;
+
+    private EnumConditionalFormatType _conditionalFormatType;
+
+    #endregion
+
+    #region Public
+
+    public bool Gradient => _gradient;
+
+    public Color MaximumColor => _maximumColor;
+
+    public Color MinimumColor => _minimumColor;
+
+    public Color IntermediateColor => _intermediateColor;
+
+    #endregion
+
+    #region Identity
+
+    public VisualCustomFormatRuleRtlAwareForm(EnumConditionalFormatType conditionalFormatType)
     {
-        #region Instance Fields
+        InitializeComponent();
 
-        private bool _gradient;
+        _conditionalFormatType = conditionalFormatType;
 
-        private Color _minimumColor;
-
-        private Color _maximumColor;
-
-        private Color _intermediateColor;
-
-        private EnumConditionalFormatType _conditionalFormatType;
-
-        #endregion
-
-        #region Public
-
-        public bool Gradient => _gradient;
-
-        public Color MaximumColor => _maximumColor;
-
-        public Color MinimumColor => _minimumColor;
-
-        public Color IntermediateColor => _intermediateColor;
-
-        #endregion
-
-        #region Identity
-
-        public VisualCustomFormatRuleRtlAwareForm(EnumConditionalFormatType conditionalFormatType)
-        {
-            InitializeComponent();
-
-            _conditionalFormatType = conditionalFormatType;
-
-            Initialize();
-        }
-
-        #endregion
-
-        #region Implementation
-
-        private void Initialize()
-        {
-            // Set up text
-            Text = KryptonManager.Strings.OutlookGridStrings.CustomFormatWindowTitle;
-            klblFill.Text = KryptonManager.Strings.OutlookGridStrings.CustomFormatFillLabelText;
-            klblFormat.Text = KryptonManager.Strings.OutlookGridStrings.CustomFormatLabelText;
-            klblPreview.Text = KryptonManager.Strings.OutlookGridStrings.CustomFormatPreviewLabelText;
-            kcolbtnIntermediateColor.Text = KryptonManager.Strings.OutlookGridStrings.CustomFormatIntermediateColorButtonText;
-            kcolbtnMaximumColor.Text = KryptonManager.Strings.OutlookGridStrings.CustomFormatMaximumColorButtonText;
-            kcolbtnMinimumColor.Text = KryptonManager.Strings.OutlookGridStrings.CustomFormatMinimumColorButtonText;
-            kbtnCancel.Text = KryptonManager.Strings.GeneralStrings.Cancel;
-            kbtnOk.Text = KryptonManager.Strings.GeneralStrings.OK;
-            kcmbFillMode.SelectedIndex = 0;
-            kcmbFormatStyle.SelectedIndex = -1;
-
-            _maximumColor = Color.FromArgb(243, 120, 97);
-            _intermediateColor = Color.FromArgb(252, 229, 130);
-            _minimumColor = Color.FromArgb(84, 179, 122);
-        }
-
-        private void VisualCustomFormatRuleRtlAwareForm_Load(object sender, EventArgs e)
-        {
-            kcolbtnMinimumColor.SelectedColor = _minimumColor;
-            kcolbtnIntermediateColor.SelectedColor = _intermediateColor;
-            kcolbtnMaximumColor.SelectedColor = _maximumColor;
-
-            int selected = -1;
-
-            string[] names = Enum.GetNames(typeof(EnumConditionalFormatType));
-
-            for (int i = 0; i < names.Length; i++)
-            {
-                if (_conditionalFormatType.ToString().Equals(names[i]))
-                {
-                    selected = i;
-                }
-
-                kcmbFormatStyle.Items.Add(new KryptonListItem(OutlookGridLanguageManager.Instance.GetString(names[i])));
-            }
-
-            kcmbFormatStyle.SelectedIndex = selected;
-        }
-
-        private void UpdateFormatType(EnumConditionalFormatType conditionalFormatType)
-        {
-            switch (conditionalFormatType)
-            {
-                case EnumConditionalFormatType.TwoColorsRange:
-                    klblFill.Visible = false;
-                    kcmbFillMode.Visible = false;
-                    kcolbtnMinimumColor.Visible = true;
-                    kcolbtnIntermediateColor.Visible = false;
-                    kcolbtnMaximumColor.Visible = true;
-                    break;
-                case EnumConditionalFormatType.ThreeColorsRange:
-                    klblFill.Visible = false;
-                    kcmbFillMode.Visible = false;
-                    kcolbtnMinimumColor.Visible = true;
-                    kcolbtnIntermediateColor.Visible = true;
-                    kcolbtnMaximumColor.Visible = true;
-                    break;
-                case EnumConditionalFormatType.Bar:
-                    klblFill.Visible = true;
-                    kcmbFillMode.Visible = true;
-                    kcolbtnMinimumColor.Visible = true;
-                    kcolbtnIntermediateColor.Visible = false;
-                    kcolbtnMaximumColor.Visible = false;
-                    break;
-            }
-
-            kpbxPreview.Invalidate();
-        }
-
-        private void kpbxPreview_Paint(object sender, PaintEventArgs e)
-        {
-            e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
-            switch (_conditionalFormatType)
-            {
-                case EnumConditionalFormatType.Bar:
-                    if (_gradient)
-                    {
-                        using (LinearGradientBrush br = new LinearGradientBrush(e.ClipRectangle, _minimumColor, Color.White, LinearGradientMode.Horizontal))
-                        {
-                            e.Graphics.FillRectangle(br, e.ClipRectangle);
-                        }
-                    }
-                    else
-                    {
-                        using (SolidBrush br = new SolidBrush(_minimumColor))
-                        {
-                            e.Graphics.FillRectangle(br, e.ClipRectangle);
-                        }
-                    }
-                    using (Pen pen = new Pen(_minimumColor)) //Color.FromArgb(255, 140, 197, 66)))
-                    {
-                        Rectangle rect = e.ClipRectangle;
-                        rect.Inflate(-1, -1);
-                        e.Graphics.DrawRectangle(pen, rect);
-                    }
-                    break;
-                case EnumConditionalFormatType.TwoColorsRange:
-                    // Draw the background gradient.
-                    using (LinearGradientBrush br = new LinearGradientBrush(e.ClipRectangle, _minimumColor, _maximumColor, LinearGradientMode.Horizontal))
-                    {
-                        e.Graphics.FillRectangle(br, e.ClipRectangle);
-                    }
-                    break;
-                case EnumConditionalFormatType.ThreeColorsRange:
-                    // Draw the background gradient.              
-                    using (LinearGradientBrush br = new LinearGradientBrush(e.ClipRectangle, _minimumColor, _maximumColor, LinearGradientMode.Horizontal))
-                    {
-                        ColorBlend blend = new ColorBlend();
-                        blend.Colors = new[] { _minimumColor, _intermediateColor, _maximumColor };
-                        blend.Positions = new[] { 0f, 0.5f, 1.0f };
-                        br.InterpolationColors = blend;
-                        e.Graphics.FillRectangle(br, e.ClipRectangle);
-                    }
-                    break;
-            }
-        }
-
-        private ArrayList GetEnumConditionalFormatTypeList()
-        {
-            ArrayList values = new ArrayList();
-
-            foreach (var value in Enum.GetValues(typeof(EnumConditionalFormatType)))
-            {
-                values.Add(value);
-            }
-
-            return values;
-        }
-
-        private void kbtnOk_Click(object sender, EventArgs e)
-        {
-            DialogResult = DialogResult.OK;
-        }
-
-        private void kbtnCancel_Click(object sender, EventArgs e)
-        {
-            DialogResult = DialogResult.Cancel;
-        }
-
-        private void kcolbtnMinimumColor_SelectedColorChanged(object sender, ColorEventArgs e)
-        {
-            _minimumColor = e.Color;
-
-            kpbxPreview.Invalidate();
-        }
-
-        private void kcolbtnIntermediateColor_SelectedColorChanged(object sender, ColorEventArgs e)
-        {
-            _intermediateColor = e.Color;
-
-            kpbxPreview.Invalidate();
-        }
-
-        private void kcolbtnMaximumColor_SelectedColorChanged(object sender, ColorEventArgs e)
-        {
-            _maximumColor = e.Color;
-
-            kpbxPreview.Invalidate();
-        }
-
-        private void kcmbFormatStyle_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            var tag = (kcmbFormatStyle.Items[kcmbFormatStyle.SelectedIndex] as KryptonListItem)?.Tag;
-
-            if (tag is not null)
-            {
-                _conditionalFormatType =
-                    (EnumConditionalFormatType)Enum.Parse(typeof(EnumConditionalFormatType), tag.ToString()!);
-            }
-
-            UpdateFormatType(_conditionalFormatType);
-        }
-
-        #endregion
+        Initialize();
     }
+
+    #endregion
+
+    #region Implementation
+
+    private void Initialize()
+    {
+        // Set up text
+        Text = KryptonManager.Strings.OutlookGridStrings.CustomFormatWindowTitle;
+        klblFill.Text = KryptonManager.Strings.OutlookGridStrings.CustomFormatFillLabelText;
+        klblFormat.Text = KryptonManager.Strings.OutlookGridStrings.CustomFormatLabelText;
+        klblPreview.Text = KryptonManager.Strings.OutlookGridStrings.CustomFormatPreviewLabelText;
+        kcolbtnIntermediateColor.Text = KryptonManager.Strings.OutlookGridStrings.CustomFormatIntermediateColorButtonText;
+        kcolbtnMaximumColor.Text = KryptonManager.Strings.OutlookGridStrings.CustomFormatMaximumColorButtonText;
+        kcolbtnMinimumColor.Text = KryptonManager.Strings.OutlookGridStrings.CustomFormatMinimumColorButtonText;
+        kbtnCancel.Text = KryptonManager.Strings.GeneralStrings.Cancel;
+        kbtnOk.Text = KryptonManager.Strings.GeneralStrings.OK;
+        kcmbFillMode.SelectedIndex = 0;
+        kcmbFormatStyle.SelectedIndex = -1;
+
+        _maximumColor = Color.FromArgb(243, 120, 97);
+        _intermediateColor = Color.FromArgb(252, 229, 130);
+        _minimumColor = Color.FromArgb(84, 179, 122);
+    }
+
+    private void VisualCustomFormatRuleRtlAwareForm_Load(object sender, EventArgs e)
+    {
+        kcolbtnMinimumColor.SelectedColor = _minimumColor;
+        kcolbtnIntermediateColor.SelectedColor = _intermediateColor;
+        kcolbtnMaximumColor.SelectedColor = _maximumColor;
+
+        int selected = -1;
+
+        string[] names = Enum.GetNames(typeof(EnumConditionalFormatType));
+
+        for (int i = 0; i < names.Length; i++)
+        {
+            if (_conditionalFormatType.ToString().Equals(names[i]))
+            {
+                selected = i;
+            }
+
+            kcmbFormatStyle.Items.Add(new KryptonListItem(OutlookGridLanguageManager.Instance.GetString(names[i])));
+        }
+
+        kcmbFormatStyle.SelectedIndex = selected;
+    }
+
+    private void UpdateFormatType(EnumConditionalFormatType conditionalFormatType)
+    {
+        switch (conditionalFormatType)
+        {
+            case EnumConditionalFormatType.TwoColorsRange:
+                klblFill.Visible = false;
+                kcmbFillMode.Visible = false;
+                kcolbtnMinimumColor.Visible = true;
+                kcolbtnIntermediateColor.Visible = false;
+                kcolbtnMaximumColor.Visible = true;
+                break;
+            case EnumConditionalFormatType.ThreeColorsRange:
+                klblFill.Visible = false;
+                kcmbFillMode.Visible = false;
+                kcolbtnMinimumColor.Visible = true;
+                kcolbtnIntermediateColor.Visible = true;
+                kcolbtnMaximumColor.Visible = true;
+                break;
+            case EnumConditionalFormatType.Bar:
+                klblFill.Visible = true;
+                kcmbFillMode.Visible = true;
+                kcolbtnMinimumColor.Visible = true;
+                kcolbtnIntermediateColor.Visible = false;
+                kcolbtnMaximumColor.Visible = false;
+                break;
+        }
+
+        kpbxPreview.Invalidate();
+    }
+
+    private void kpbxPreview_Paint(object sender, PaintEventArgs e)
+    {
+        e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+        switch (_conditionalFormatType)
+        {
+            case EnumConditionalFormatType.Bar:
+                if (_gradient)
+                {
+                    using (LinearGradientBrush br = new LinearGradientBrush(e.ClipRectangle, _minimumColor, Color.White, LinearGradientMode.Horizontal))
+                    {
+                        e.Graphics.FillRectangle(br, e.ClipRectangle);
+                    }
+                }
+                else
+                {
+                    using (SolidBrush br = new SolidBrush(_minimumColor))
+                    {
+                        e.Graphics.FillRectangle(br, e.ClipRectangle);
+                    }
+                }
+                using (Pen pen = new Pen(_minimumColor)) //Color.FromArgb(255, 140, 197, 66)))
+                {
+                    Rectangle rect = e.ClipRectangle;
+                    rect.Inflate(-1, -1);
+                    e.Graphics.DrawRectangle(pen, rect);
+                }
+                break;
+            case EnumConditionalFormatType.TwoColorsRange:
+                // Draw the background gradient.
+                using (LinearGradientBrush br = new LinearGradientBrush(e.ClipRectangle, _minimumColor, _maximumColor, LinearGradientMode.Horizontal))
+                {
+                    e.Graphics.FillRectangle(br, e.ClipRectangle);
+                }
+                break;
+            case EnumConditionalFormatType.ThreeColorsRange:
+                // Draw the background gradient.              
+                using (LinearGradientBrush br = new LinearGradientBrush(e.ClipRectangle, _minimumColor, _maximumColor, LinearGradientMode.Horizontal))
+                {
+                    ColorBlend blend = new ColorBlend();
+                    blend.Colors = new[] { _minimumColor, _intermediateColor, _maximumColor };
+                    blend.Positions = new[] { 0f, 0.5f, 1.0f };
+                    br.InterpolationColors = blend;
+                    e.Graphics.FillRectangle(br, e.ClipRectangle);
+                }
+                break;
+        }
+    }
+
+    private ArrayList GetEnumConditionalFormatTypeList()
+    {
+        ArrayList values = new ArrayList();
+
+        foreach (var value in Enum.GetValues(typeof(EnumConditionalFormatType)))
+        {
+            values.Add(value);
+        }
+
+        return values;
+    }
+
+    private void kbtnOk_Click(object sender, EventArgs e)
+    {
+        DialogResult = DialogResult.OK;
+    }
+
+    private void kbtnCancel_Click(object sender, EventArgs e)
+    {
+        DialogResult = DialogResult.Cancel;
+    }
+
+    private void kcolbtnMinimumColor_SelectedColorChanged(object sender, ColorEventArgs e)
+    {
+        _minimumColor = e.Color;
+
+        kpbxPreview.Invalidate();
+    }
+
+    private void kcolbtnIntermediateColor_SelectedColorChanged(object sender, ColorEventArgs e)
+    {
+        _intermediateColor = e.Color;
+
+        kpbxPreview.Invalidate();
+    }
+
+    private void kcolbtnMaximumColor_SelectedColorChanged(object sender, ColorEventArgs e)
+    {
+        _maximumColor = e.Color;
+
+        kpbxPreview.Invalidate();
+    }
+
+    private void kcmbFormatStyle_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        var tag = (kcmbFormatStyle.Items[kcmbFormatStyle.SelectedIndex] as KryptonListItem)?.Tag;
+
+        if (tag is not null)
+        {
+            _conditionalFormatType =
+                (EnumConditionalFormatType)Enum.Parse(typeof(EnumConditionalFormatType), tag.ToString()!);
+        }
+
+        UpdateFormatType(_conditionalFormatType);
+    }
+
+    #endregion
 }

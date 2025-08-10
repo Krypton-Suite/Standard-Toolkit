@@ -19,18 +19,17 @@
 
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+/// <summary>
+/// Parameter class for Conditional Formatting
+/// </summary>
+/// <seealso cref="System.ICloneable" />
+public interface IFormatParams : ICloneable
 {
     /// <summary>
-    /// Parameter class for Conditional Formatting
+    /// Persists the parameters.
     /// </summary>
-    /// <seealso cref="System.ICloneable" />
-    public interface IFormatParams : ICloneable
-    {
-        /// <summary>
-        /// Persists the parameters.
-        /// </summary>
-        /// <param name="writer">The XML writer.</param>
-        void Persist(XmlWriter writer);
-    }
+    /// <param name="writer">The XML writer.</param>
+    void Persist(XmlWriter writer);
 }

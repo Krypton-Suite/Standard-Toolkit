@@ -19,97 +19,96 @@
 
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+/// <summary>
+/// Class for a DataGridViewPercentageCell
+/// </summary>
+[Obsolete("Deprecated in V100, and will be removed from V110 and onward and is replaced by KryptonDataGridViewProgressColumn.")]
+public class DataGridViewPercentageCell : KryptonDataGridViewTextBoxCell
 {
-    /// <summary>
-    /// Class for a DataGridViewPercentageCell
-    /// </summary>
-    [Obsolete("Deprecated in V100, and will be removed from V110 and onward and is replaced by KryptonDataGridViewProgressColumn.")]
-    public class DataGridViewPercentageCell : KryptonDataGridViewTextBoxCell
+    #region Identity
+
+    /// <summary>Initializes a new instance of the <see cref="DataGridViewPercentageCell" /> class.</summary>
+    public DataGridViewPercentageCell()
     {
-        #region Identity
+        Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+    }
 
-        /// <summary>Initializes a new instance of the <see cref="DataGridViewPercentageCell" /> class.</summary>
-        public DataGridViewPercentageCell()
+    #endregion
+
+    #region Public Overrides
+
+    /// <summary>Specify the type of object used for editing. This is how the WinForms framework figures out what type of edit control to make.</summary>
+    public override Type EditType => typeof(PercentageEditingControl);
+
+    /// <summary>Overrides TypeValue.</summary>
+    public override Type ValueType => typeof(double);
+
+    /// <summary>Specify the default cell contents upon creation of a new cell.</summary>
+    public override object DefaultNewRowValue => 0;
+
+    #endregion
+
+    #region Implementation
+
+    /// <summary>
+    /// Overrides Paint
+    /// </summary>
+    /// <param name="graphics"></param>
+    /// <param name="clipBounds"></param>
+    /// <param name="cellBounds"></param>
+    /// <param name="rowIndex"></param>
+    /// <param name="cellState"></param>
+    /// <param name="value"></param>
+    /// <param name="formattedValue"></param>
+    /// <param name="errorText"></param>
+    /// <param name="cellStyle"></param>
+    /// <param name="advancedBorderStyle"></param>
+    /// <param name="paintParts"></param>
+    protected override void Paint(Graphics graphics, Rectangle clipBounds, Rectangle cellBounds, int rowIndex, DataGridViewElementStates cellState, object? value, object? formattedValue, string? errorText, DataGridViewCellStyle cellStyle, DataGridViewAdvancedBorderStyle advancedBorderStyle,
+        DataGridViewPaintParts paintParts)
+    {
+        //Draw the bar
+        int barWidth;
+
+        if (value is not null)
         {
-            Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-        }
+            barWidth = (double)value >= 1.0
+                ? cellBounds.Width - 10
+                : (int)((cellBounds.Width - 10) * (double)value);
 
-        #endregion
-
-        #region Public Overrides
-
-        /// <summary>Specify the type of object used for editing. This is how the WinForms framework figures out what type of edit control to make.</summary>
-        public override Type EditType => typeof(PercentageEditingControl);
-
-        /// <summary>Overrides TypeValue.</summary>
-        public override Type ValueType => typeof(double);
-
-        /// <summary>Specify the default cell contents upon creation of a new cell.</summary>
-        public override object DefaultNewRowValue => 0;
-
-        #endregion
-
-        #region Implementation
-
-        /// <summary>
-        /// Overrides Paint
-        /// </summary>
-        /// <param name="graphics"></param>
-        /// <param name="clipBounds"></param>
-        /// <param name="cellBounds"></param>
-        /// <param name="rowIndex"></param>
-        /// <param name="cellState"></param>
-        /// <param name="value"></param>
-        /// <param name="formattedValue"></param>
-        /// <param name="errorText"></param>
-        /// <param name="cellStyle"></param>
-        /// <param name="advancedBorderStyle"></param>
-        /// <param name="paintParts"></param>
-        protected override void Paint(Graphics graphics, Rectangle clipBounds, Rectangle cellBounds, int rowIndex, DataGridViewElementStates cellState, object? value, object? formattedValue, string? errorText, DataGridViewCellStyle cellStyle, DataGridViewAdvancedBorderStyle advancedBorderStyle,
-            DataGridViewPaintParts paintParts)
-        {
-            //Draw the bar
-            int barWidth;
-
-            if (value is not null)
+            if ((double)value > 0 && barWidth > 0)
             {
-                barWidth = (double)value >= 1.0
-                    ? cellBounds.Width - 10
-                    : (int)((cellBounds.Width - 10) * (double)value);
+                Rectangle r = new(cellBounds.X + 3, cellBounds.Y + 3, barWidth, cellBounds.Height - 8);
 
-                if ((double)value > 0 && barWidth > 0)
+                using (LinearGradientBrush linearBrush = new LinearGradientBrush(r, KryptonManager.CurrentGlobalPalette.GetBackColor1(PaletteBackStyle.GridHeaderColumnList, PaletteState.Normal), KryptonManager.CurrentGlobalPalette.GetBackColor2(PaletteBackStyle.GridHeaderColumnList, PaletteState.Normal), LinearGradientMode.Vertical))
                 {
-                    Rectangle r = new(cellBounds.X + 3, cellBounds.Y + 3, barWidth, cellBounds.Height - 8);
-
-                    using (LinearGradientBrush linearBrush = new LinearGradientBrush(r, KryptonManager.CurrentGlobalPalette.GetBackColor1(PaletteBackStyle.GridHeaderColumnList, PaletteState.Normal), KryptonManager.CurrentGlobalPalette.GetBackColor2(PaletteBackStyle.GridHeaderColumnList, PaletteState.Normal), LinearGradientMode.Vertical))
-                    {
-                        graphics.FillRectangle(linearBrush, r);
-                    }
-
-                    using (Pen pen = new Pen(KryptonManager.CurrentGlobalPalette.GetBorderColor1(PaletteBorderStyle.GridHeaderColumnList, PaletteState.Normal)))
-                    {
-                        graphics.DrawRectangle(pen, r);
-                    }
-
-                    //TODO : implement customization like conditional formatting
-                    //using (LinearGradientBrush linearBrush = new LinearGradientBrush(r, Color.FromArgb(255, 140, 197, 66), Color.FromArgb(255, 247, 251, 242), LinearGradientMode.Horizontal))
-                    //{
-                    //    graphics.FillRectangle(linearBrush, r);
-                    //}
-
-                    //using (Pen pen = new Pen(Color.FromArgb(255, 140, 197, 66)))
-                    //{
-                    //    graphics.DrawRectangle(pen, r);
-
-                    //}
+                    graphics.FillRectangle(linearBrush, r);
                 }
 
-                base.Paint(graphics, clipBounds, cellBounds, rowIndex, cellState, value, formattedValue, errorText, cellStyle, advancedBorderStyle,
-                    DataGridViewPaintParts.None | DataGridViewPaintParts.ContentForeground);
-            }
-        }
+                using (Pen pen = new Pen(KryptonManager.CurrentGlobalPalette.GetBorderColor1(PaletteBorderStyle.GridHeaderColumnList, PaletteState.Normal)))
+                {
+                    graphics.DrawRectangle(pen, r);
+                }
 
-        #endregion
+                //TODO : implement customization like conditional formatting
+                //using (LinearGradientBrush linearBrush = new LinearGradientBrush(r, Color.FromArgb(255, 140, 197, 66), Color.FromArgb(255, 247, 251, 242), LinearGradientMode.Horizontal))
+                //{
+                //    graphics.FillRectangle(linearBrush, r);
+                //}
+
+                //using (Pen pen = new Pen(Color.FromArgb(255, 140, 197, 66)))
+                //{
+                //    graphics.DrawRectangle(pen, r);
+
+                //}
+            }
+
+            base.Paint(graphics, clipBounds, cellBounds, rowIndex, cellState, value, formattedValue, errorText, cellStyle, advancedBorderStyle,
+                DataGridViewPaintParts.None | DataGridViewPaintParts.ContentForeground);
+        }
     }
+
+    #endregion
 }

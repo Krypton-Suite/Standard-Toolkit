@@ -63,7 +63,6 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
-{
-    public delegate void KryptonOutlookGridSearchToolBarSearchEventHandler(object sender, KryptonOutlookGridSearchToolBarSearchEventArgs e);
-}
+namespace Krypton.Toolkit;
+
+public delegate void KryptonOutlookGridSearchToolBarSearchEventHandler(object sender, KryptonOutlookGridSearchToolBarSearchEventArgs e);

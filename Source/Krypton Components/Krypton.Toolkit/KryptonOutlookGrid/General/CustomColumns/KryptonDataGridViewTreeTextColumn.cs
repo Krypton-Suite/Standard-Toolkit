@@ -19,24 +19,23 @@
 
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+/// <summary>
+/// Special column used to enable nodes in the grid.
+/// </summary>
+/// <seealso cref="KryptonDataGridViewTextBoxColumn" />
+internal class KryptonDataGridViewTreeTextColumn : KryptonDataGridViewTextBoxColumn
 {
+    #region Identity
+
     /// <summary>
-    /// Special column used to enable nodes in the grid.
+    /// Initializes a new instance of the <see cref="KryptonDataGridViewTreeTextColumn"/> class.
     /// </summary>
-    /// <seealso cref="KryptonDataGridViewTextBoxColumn" />
-    internal class KryptonDataGridViewTreeTextColumn : KryptonDataGridViewTextBoxColumn
+    public KryptonDataGridViewTreeTextColumn()
     {
-        #region Identity
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="KryptonDataGridViewTreeTextColumn"/> class.
-        /// </summary>
-        public KryptonDataGridViewTreeTextColumn()
-        {
-            CellTemplate = new KryptonDataGridViewTreeTextCell();
-        }
-
-        #endregion
+        CellTemplate = new KryptonDataGridViewTreeTextCell();
     }
+
+    #endregion
 }

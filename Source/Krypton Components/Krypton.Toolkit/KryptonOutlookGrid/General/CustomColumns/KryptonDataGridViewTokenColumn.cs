@@ -19,27 +19,26 @@
 
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+/// <summary>
+/// Class for a rating column
+/// </summary>
+internal class KryptonDataGridViewTokenColumn : KryptonDataGridViewTextBoxColumn
 {
+    #region Identity
+
     /// <summary>
-    /// Class for a rating column
+    /// Constructor
     /// </summary>
-    internal class KryptonDataGridViewTokenColumn : KryptonDataGridViewTextBoxColumn
+    public KryptonDataGridViewTokenColumn()
     {
-        #region Identity
+        CellTemplate = new KryptonDataGridViewTokenCell();
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        public KryptonDataGridViewTokenColumn()
-        {
-            CellTemplate = new KryptonDataGridViewTokenCell();
+        DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
-            DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-            ValueType = typeof(KryptonDataGridViewTokenCell);
-        }
-
-        #endregion
+        ValueType = typeof(KryptonDataGridViewTokenCell);
     }
+
+    #endregion
 }
