@@ -7,6 +7,8 @@
 	- Several component names & file names have been refactored to reflect that those are specific to the `KryptonOutlookGrid`. 
 	- Items that previously had their name starting with OutlookGrid now start with KryptonOutlookGrid.
 	- Items that had no prefix of this kind will now start with KryptonOutlookGrid.
+	- The `RatingColumn` from KOG has been replaced by `KryptonDataGridViewRatingColumn`.
+	- PercentageColumn is obsolete and replaced by `KryptonDataGridViewProgressColumn`.
 * Resolved [#2397](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2397), `KryptonForm` throws and exception on CTRL+F1.
 * Implemented [#2392](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2392), Fix `KryptonPropertyGrid` theme switching
 * Implemented [#2389](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2389), Transform private color arrays in base palettes.
