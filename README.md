@@ -91,27 +91,9 @@ To find out how to install either `Canary` or `Nightly` versions, please check o
 
 Development of the Krypton Standard Toolkit is supported by these generous organisations:
 
-<table>
-<tr>
-	<td width="200px">
-	<a href="https://jb.gg/OpenSource"></a>
-	<center><img href="https://resources.jetbrains.com/storage/products/company/brand/logos/jetbrains.svg" /></center>
-	</td>
-	<td width="200px">
-		<a href="https://www.yourkit.com/">
-		<center><img src="https://github.com/Krypton-Suite/Documentation/blob/main/Assets/Supporter-Logos/yourkit-logo.png?raw=true" /></center>
-		</a>
-	</td>
-</tr>
-<tr>
-	<td width="200px">
-		JetBrains provides cutting-edge IDE and developer productivity tools.
-	</td>
-	<td width="200px">
-		YourKit provides a market-leading intelligent <a href="https://www.yourkit.com/features/">Java Profiler</a> and <a href="https://www.yourkit.com/dotnet/features/">.NET Profiler</a>.
-	</td>
-</tr>
-</table>
+| [![JetBrains logo.](https://resources.jetbrains.com/storage/products/company/brand/logos/jetbrains.svg)](https://jb.gg/OpenSource)       | [![YourKit logo](https://github.com/Krypton-Suite/Documentation/blob/main/Assets/Supporter-Logos/yourkit-logo.png?raw=true)](https://www.yourkit.com/)       |
+|----------------|----------------|
+| JetBrains provides cutting-edge IDE and developer productivity tools. | YourKit provides a market-leading intelligent <a href="https://www.yourkit.com/features/">Java Profiler</a> and <a href="https://www.yourkit.com/dotnet/features/">.NET Profiler</a>. |
 
 =======
 
