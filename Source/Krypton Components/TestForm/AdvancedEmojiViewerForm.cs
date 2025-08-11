@@ -65,15 +65,15 @@ public partial class AdvancedEmojiViewerForm : KryptonForm
         {
             var selectedRow = kdvEmojis.SelectedRows[0];
 
-            var glyph = selectedRow.Cells["Glyph"].Value.ToString();
+            var glyph = selectedRow.Cells["Glyph"].Value!.ToString();
 
-            var name = selectedRow.Cells["Name"].Value.ToString();
+            var name = selectedRow.Cells["Name"].Value!.ToString();
 
-            var codepoints = selectedRow.Cells["CodePointsText"].Value.ToString();
+            var codepoints = selectedRow.Cells["CodepointsText"].Value!.ToString();
 
             string copiedText = $"{glyph} - {name} ({codepoints})";
 
-            Clipboard.SetText(copiedText);
+            Clipboard.SetText(copiedText!);
         }
         else
         {
@@ -87,9 +87,9 @@ public partial class AdvancedEmojiViewerForm : KryptonForm
         {
             var selectedRow = kdvEmojis.SelectedRows[0];
 
-            var glyph = selectedRow.Cells["Glyph"].Value.ToString();
+            var glyph = selectedRow.Cells["Glyph"].Value!.ToString();
 
-            Clipboard.SetText(glyph);
+            Clipboard.SetText(glyph!);
         }
         else
         {
