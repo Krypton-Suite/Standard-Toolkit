@@ -94,7 +94,8 @@ Development of the Krypton Standard Toolkit is supported by these generous organ
 <table>
 <tr>
 	<td width="200px">
-		[![JetBrains logo.](https://resources.jetbrains.com/storage/products/company/brand/logos/jetbrains.svg)](https://jb.gg/OpenSource)
+	<a href="https://jb.gg/OpenSource"></a>
+	<center><img href="https://resources.jetbrains.com/storage/products/company/brand/logos/jetbrains.svg" /></center>
 	</td>
 	<td width="200px">
 		<a href="https://www.yourkit.com/">
