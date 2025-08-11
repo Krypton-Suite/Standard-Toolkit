@@ -109,7 +109,7 @@ internal class KryptonOutlookGridAioActionList : DesignerActionList
     /// Gets or sets a value indicating whether the grand total row should be displayed at the bottom of the grid.
     /// This property acts as a proxy for the control's actual ShowSummaryGrid property.
     /// </summary>
-    public bool ShowGrandTotalAtBottom
+    public bool ShowSummaryGrid
     {
         get => _allInOneGrid.ShowSummaryGrid;
         set
@@ -249,7 +249,7 @@ internal class KryptonOutlookGridAioActionList : DesignerActionList
             actions.Add(new DesignerActionHeaderItem("Summary Configuration"));
             actions.Add(new DesignerActionPropertyItem(nameof(ShowSubTotal), "Show Sub Totals", "Summary Configuration", "Controls the visibility of sub total rows."));
             actions.Add(new DesignerActionPropertyItem(nameof(ShowGrandTotal), "Show Grand Totals", "Summary Configuration", "Controls the visibility of grand total rows."));
-            actions.Add(new DesignerActionPropertyItem(nameof(ShowGrandTotalAtBottom), "Show Grand Total at Bottom", "Summary Configuration", "Controls the visibility of the summary grid."));
+            actions.Add(new DesignerActionPropertyItem(nameof(ShowSummaryGrid), "Show Grand Total at Bottom", "Summary Configuration", "Controls the visibility of the summary grid."));
 
             // Add Column Filtering actions
             actions.Add(new DesignerActionHeaderItem("Searching And Filtering"));
