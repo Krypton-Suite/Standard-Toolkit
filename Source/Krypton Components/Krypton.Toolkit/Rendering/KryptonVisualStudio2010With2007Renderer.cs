@@ -805,11 +805,9 @@ public class KryptonVisualStudio2010With2007Renderer : KryptonProfessionalRender
                 e.Graphics.FillRectangle(backBrush, marginRect);
             }
 
-            // Create the light and dark line pens
-            using (Pen lightPen =
-                   new Pen(CommonHelper.WhitenColor(KCT.ToolStripDropDownBackground, 1.02f, 1.02f, 1.02f)),
-                   darkPen = new Pen(CommonHelper.WhitenColor(KCT.ToolStripDropDownBackground, 1.26f, 1.26f,
-                       1.26f)))
+            // Create the light and dark line pens from the color table to match ToolStripDropDownMenu
+            using (Pen lightPen = new Pen(KCT.ImageMarginGradientEnd),
+                   darkPen  = new Pen(KCT.ImageMarginGradientMiddle))
             {
                 if (!rtl)
                 {

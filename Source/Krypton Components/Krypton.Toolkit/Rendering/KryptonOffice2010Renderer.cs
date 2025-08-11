@@ -1029,14 +1029,25 @@ public class KryptonOffice2010Renderer : KryptonProfessionalRenderer
                 marginRect.X += MARGIN_INSET / 2;
             }
 
-            using var marginPen = new Pen(Color.FromArgb(80, KCT.MenuBorder));
-            if (!rtl)
+            // Fill the margin and draw the standard two separator lines using the color table
+            using (var backBrush = new SolidBrush(KCT.ImageMarginGradientBegin))
             {
-                e.Graphics.DrawLine(marginPen, marginRect.Right, marginRect.Top, marginRect.Right, marginRect.Bottom);
+                e.Graphics.FillRectangle(backBrush, marginRect);
             }
-            else
+
+            using (Pen lightPen = new Pen(KCT.ImageMarginGradientEnd),
+                   darkPen  = new Pen(KCT.ImageMarginGradientMiddle))
             {
-                e.Graphics.DrawLine(marginPen, marginRect.Left - 1, marginRect.Top, marginRect.Left - 1, marginRect.Bottom);
+                if (!rtl)
+                {
+                    e.Graphics.DrawLine(lightPen, marginRect.Right, marginRect.Top, marginRect.Right, marginRect.Bottom);
+                    e.Graphics.DrawLine(darkPen,  marginRect.Right - 1, marginRect.Top, marginRect.Right - 1, marginRect.Bottom);
+                }
+                else
+                {
+                    e.Graphics.DrawLine(lightPen, marginRect.Left - 1, marginRect.Top, marginRect.Left - 1, marginRect.Bottom);
+                    e.Graphics.DrawLine(darkPen,  marginRect.Left,     marginRect.Top, marginRect.Left,     marginRect.Bottom);
+                }
             }
         }
         else
