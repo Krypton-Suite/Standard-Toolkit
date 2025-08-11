@@ -1,9 +1,9 @@
 ﻿#region BSD License
 /*
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
- *  
+ *
  */
 #endregion
 
@@ -287,8 +287,9 @@ public static class GraphicsExtensions
             case KryptonToastNotificationIcon.Warning:
                 return ToastNotificationImageResources.Toast_Notification_Warning_128_x_115;
             case KryptonToastNotificationIcon.Asterisk:
-            case KryptonToastNotificationIcon.Error:
                 return ToastNotificationImageResources.Toast_Notification_Asterisk_128_x_128;
+            case KryptonToastNotificationIcon.Error:
+                return ToastNotificationImageResources.Toast_Notification_Critical_128_x_128;
             case KryptonToastNotificationIcon.SystemAsterisk:
                 return ScaleImage(SystemIcons.Asterisk.ToBitmap(), newSize);
             case KryptonToastNotificationIcon.Stop:
@@ -338,6 +339,40 @@ public static class GraphicsExtensions
                 DebugTools.NotImplemented(notificationIconType.ToString());
                 throw new ArgumentOutOfRangeException(nameof(notificationIconType), notificationIconType, null);
         }
+    }
+
+    /// <summary>
+    /// Returns a Bitmap for a toast notification icon, using existing mapping and optional scaling.
+    /// Centralizes conversion to Bitmap to reduce duplication in forms that require Bitmap images.
+    /// </summary>
+    /// <param name="notificationIconType">Type of icon to resolve. If null, returns null.</param>
+    /// <param name="applicationIcon">Optional application Icon used when the icon type is Application.</param>
+    /// <param name="customImage">Optional custom image used when the icon type is Custom or Application.</param>
+    /// <param name="customSize">Optional target size for system-derived images.</param>
+    /// <returns>Bitmap or null.</returns>
+    public static Bitmap? GetToastNotificationBitmap(
+        KryptonToastNotificationIcon? notificationIconType,
+        Icon? applicationIcon = null,
+        Image? customImage = null,
+        Size? customSize = null)
+    {
+        if (notificationIconType is null)
+        {
+            return null;
+        }
+
+        // If asking for Application, prefer the provided applicationIcon converted to Bitmap.
+        Image? customForMapping = notificationIconType == KryptonToastNotificationIcon.Application
+            ? (applicationIcon?.ToBitmap() ?? customImage)
+            : customImage;
+
+        Image? resolved = GetToastNotificationIconType(notificationIconType.Value, customForMapping, customSize);
+        if (resolved == null)
+        {
+            return null;
+        }
+
+        return resolved as Bitmap ?? new Bitmap(resolved);
     }
 }
 #endregion

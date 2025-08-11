@@ -3,7 +3,7 @@
 ====
 
 ## 2025-11-xx - Build 2511 (V10 - alpha) - November 2025
-* Resolved [#2397](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2397), `KryptonForm` throws and exception on CTRL+F1.
+* Resolved [#2125](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2125), Refactored `GetToastNotificationIconType`.
 * Implemented [#2392](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2392), Fix `KryptonPropertyGrid` theme switching
 * Implemented [#2389](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2389), Transform private color arrays in base palettes.
 * Implemented [#2377](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2377), Adds the `KryptonDataGridViewRatingColumn`.
