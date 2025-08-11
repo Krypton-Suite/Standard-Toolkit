@@ -27,7 +27,7 @@ public class KryptonOutlookGridAio : KryptonHeaderGroup
 {
 
     #region Private Variables
-    private bool _showGrandTotalAtBottom = false;
+    private bool _showSummaryGrid = false;
     #endregion Private Variables
 
     #region Identity
@@ -93,11 +93,9 @@ public class KryptonOutlookGridAio : KryptonHeaderGroup
         OutlookGrid.OnSearchCompleted += OutlookGrid_OnSearchCompleted;
         SummaryGrid.RowHeightChanged += SummaryGrid_RowHeightChanged;
     }
-
     #endregion Identity
 
     #region Public Properties
-
     /// <summary>
     /// Gets or sets a value indicating whether the associated <see cref="KryptonOutlookGridGroupBox"/> is visible.
     /// </summary>
@@ -144,7 +142,7 @@ public class KryptonOutlookGridAio : KryptonHeaderGroup
     /// This is the primary grid control whose appearance and behavior are being customized.
     /// </remarks>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-    public KryptonOutlookGrid OutlookGrid { get; set; } = default!;
+    public KryptonOutlookGrid OutlookGrid { get; }
 
     /// <summary>
     /// Gets or sets a value indicating whether the grand total row should be displayed at the bottom of the grid.
@@ -156,16 +154,20 @@ public class KryptonOutlookGridAio : KryptonHeaderGroup
     /// </remarks>
     [DefaultValue(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-    public bool ShowGrandTotalAtBottom
+    public bool ShowSummaryGrid
     {
-        get { return _showGrandTotalAtBottom; }
+        get => _showSummaryGrid;
         set
         {
-            _showGrandTotalAtBottom = value;
-            if (_showGrandTotalAtBottom)
+            _showSummaryGrid = value;
+            if (_showSummaryGrid)
+            {
                 OutlookGrid.SummaryGrid = SummaryGrid;
+            }
             else
+            {
                 OutlookGrid.SummaryGrid = null;
+            }
         }
     }
 
@@ -275,9 +277,7 @@ public class KryptonOutlookGridAio : KryptonHeaderGroup
         get => OutlookGrid.CurrentCell!;
         set => OutlookGrid.CurrentCell = value;
     }
-
     #endregion Public Properties
-
 
     #region Methods
 
@@ -330,7 +330,6 @@ public class KryptonOutlookGridAio : KryptonHeaderGroup
     {
         OutlookGrid.Focus();
     }
-
     #endregion Methods
 
     #region Internal
@@ -340,7 +339,7 @@ public class KryptonOutlookGridAio : KryptonHeaderGroup
     /// <remarks>
     /// This private grid is intended for displaying a single row of data, such as a grand total,
     /// at the bottom of the main grid. Its visibility and use are managed internally by the control,
-    /// and it is linked to the <c>ShowGrandTotalAtBottom</c> property. It is not intended for direct
+    /// and it is linked to the <c>ShowSummaryGrid</c> property. It is not intended for direct
     /// access or serialization by the designer.
     /// </remarks>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]

@@ -107,17 +107,17 @@ internal class KryptonOutlookGridAioActionList : DesignerActionList
 
     /// <summary>
     /// Gets or sets a value indicating whether the grand total row should be displayed at the bottom of the grid.
-    /// This property acts as a proxy for the control's actual ShowGrandTotalAtBottom property.
+    /// This property acts as a proxy for the control's actual ShowSummaryGrid property.
     /// </summary>
     public bool ShowGrandTotalAtBottom
     {
-        get => _allInOneGrid.ShowGrandTotalAtBottom;
+        get => _allInOneGrid.ShowSummaryGrid;
         set
         {
-            if (_allInOneGrid.ShowGrandTotalAtBottom != value)
+            if (_allInOneGrid.ShowSummaryGrid != value)
             {
-                _service?.OnComponentChanged(_allInOneGrid, null, _allInOneGrid.ShowGrandTotalAtBottom, value);
-                _allInOneGrid.ShowGrandTotalAtBottom = value;
+                _service?.OnComponentChanged(_allInOneGrid, null, _allInOneGrid.ShowSummaryGrid, value);
+                _allInOneGrid.ShowSummaryGrid = value;
             }
         }
     }
