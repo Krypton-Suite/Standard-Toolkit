@@ -30,6 +30,12 @@ internal sealed class FileMenuBorderTestRenderer : Krypton.Toolkit.KryptonProfes
 
     protected override void OnRenderMenuItemBackground(System.Windows.Forms.ToolStripItemRenderEventArgs e)
     {
+        // First, honor per-item overrides (KryptonToolStripMenuItem State* colors)
+        if (TryRenderMenuItemOverride(e))
+        {
+            return;
+        }
+
         base.OnRenderMenuItemBackground(e);
 
         var ownerItem = e.Item.OwnerItem as System.Windows.Forms.ToolStripMenuItem;

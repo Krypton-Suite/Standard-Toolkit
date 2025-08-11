@@ -657,6 +657,12 @@ public class KryptonOffice2010Renderer : KryptonProfessionalRenderer
     /// <param name="e">An ToolStripItemRenderEventArgs containing the event data.</param>
     protected override void OnRenderMenuItemBackground(ToolStripItemRenderEventArgs e)
     {
+        // Parity: per-item overrides via helper
+        if (TryRenderMenuItemOverride(e))
+        {
+            return;
+        }
+
         if ((e.ToolStrip is MenuStrip or ContextMenuStrip or ToolStripDropDownMenu))
         {
             if (e.Item.Pressed && (e.ToolStrip is MenuStrip))

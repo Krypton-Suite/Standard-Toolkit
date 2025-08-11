@@ -1,13 +1,4 @@
-﻿#region BSD License
-/*
- *
- *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2025. All rights reserved.
- *
- */
-#endregion
-
-namespace TestForm
+﻿namespace TestForm
 {
     partial class MenuToolBarStatusStripTest
     {
@@ -76,6 +67,12 @@ namespace TestForm
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
             this.kryptonThemeListBox1 = new Krypton.Toolkit.KryptonThemeListBox();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.editUndo = new Krypton.Toolkit.KryptonToolStripMenuItem();
+            this.editRedo = new Krypton.Toolkit.KryptonToolStripMenuItem();
+            this.editCut = new Krypton.Toolkit.KryptonToolStripMenuItem();
+            this.editCopy = new Krypton.Toolkit.KryptonToolStripMenuItem();
+            this.editPaste = new Krypton.Toolkit.KryptonToolStripMenuItem();
+            this.editSelectAll = new Krypton.Toolkit.KryptonToolStripMenuItem();
             this.newToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.openToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.saveToolStripButton = new System.Windows.Forms.ToolStripButton();
@@ -206,15 +203,57 @@ namespace TestForm
             //
             // editToolStripMenuItem
             //
+            editUndo.Name = "editUndo";
+            editUndo.Text = "&Undo";
+            editUndo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
+            editUndo.StateHighlight.ItemHighlight.Back.Color1 = System.Drawing.Color.FromArgb(255, 245, 230);
+            editUndo.StateHighlight.ItemHighlight.Border.Color1 = System.Drawing.Color.OrangeRed;
+
+            editRedo.Name = "editRedo";
+            editRedo.Text = "&Redo";
+            editRedo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
+            editRedo.StateHighlight.ItemHighlight.Back.Color1 = System.Drawing.Color.FromArgb(230, 245, 255);
+            editRedo.StateHighlight.ItemHighlight.Border.Color1 = System.Drawing.Color.RoyalBlue;
+
+            editCut.Name = "editCut";
+            editCut.Text = "Cu&t";
+            editCut.Image = ((System.Drawing.Image)(resources.GetObject("cutToolStripMenuItem.Image")));
+            editCut.ImageTransparentColor = System.Drawing.Color.Magenta;
+            editCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
+            editCut.StateHighlight.ItemHighlight.Back.Color1 = System.Drawing.Color.FromArgb(235, 255, 235);
+            editCut.StateHighlight.ItemHighlight.Border.Color1 = System.Drawing.Color.ForestGreen;
+
+            editCopy.Name = "editCopy";
+            editCopy.Text = "&Copy";
+            editCopy.Image = ((System.Drawing.Image)(resources.GetObject("copyToolStripMenuItem.Image")));
+            editCopy.ImageTransparentColor = System.Drawing.Color.Magenta;
+            editCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            editCopy.StateHighlight.ItemHighlight.Back.Color1 = System.Drawing.Color.FromArgb(240, 240, 255);
+            editCopy.StateHighlight.ItemHighlight.Border.Color1 = System.Drawing.Color.MediumSlateBlue;
+
+            editPaste.Name = "editPaste";
+            editPaste.Text = "&Paste";
+            editPaste.Image = ((System.Drawing.Image)(resources.GetObject("pasteToolStripMenuItem.Image")));
+            editPaste.ImageTransparentColor = System.Drawing.Color.Magenta;
+            editPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
+            editPaste.StateHighlight.ItemHighlight.Back.Color1 = System.Drawing.Color.FromArgb(255, 250, 220);
+            editPaste.StateHighlight.ItemHighlight.Border.Color1 = System.Drawing.Color.DarkGoldenrod;
+
+            editSelectAll.Name = "editSelectAll";
+            editSelectAll.Text = "Select &All";
+            editSelectAll.StateHighlight.ItemHighlight.Back.Color1 = System.Drawing.Color.FromArgb(235, 235, 235);
+            editSelectAll.StateHighlight.ItemHighlight.Border.Color1 = System.Drawing.Color.DimGray;
+
+            this.editToolStripMenuItem.DropDownItems.Clear();
             this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.undoToolStripMenuItem,
-            this.redoToolStripMenuItem,
+            editUndo,
+            editRedo,
             this.toolStripSeparator3,
-            this.cutToolStripMenuItem,
-            this.copyToolStripMenuItem,
-            this.pasteToolStripMenuItem,
+            editCut,
+            editCopy,
+            editPaste,
             this.toolStripSeparator4,
-            this.selectAllToolStripMenuItem});
+            editSelectAll});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
             this.editToolStripMenuItem.Text = "&Edit";
@@ -656,5 +695,11 @@ namespace TestForm
         private System.Windows.Forms.ToolStripMenuItem animateStatusStripToolStripMenuItem;
         private Krypton.Toolkit.KryptonThemeComboBox kryptonThemeComboBox1;
         private System.Windows.Forms.ToolStripControlHost toolStripThemeHost;
+        private Krypton.Toolkit.KryptonToolStripMenuItem editUndo;
+        private Krypton.Toolkit.KryptonToolStripMenuItem editRedo;
+        private Krypton.Toolkit.KryptonToolStripMenuItem editCut;
+        private Krypton.Toolkit.KryptonToolStripMenuItem editCopy;
+        private Krypton.Toolkit.KryptonToolStripMenuItem editPaste;
+        private Krypton.Toolkit.KryptonToolStripMenuItem editSelectAll;
     }
 }
