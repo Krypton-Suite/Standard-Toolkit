@@ -88,6 +88,8 @@ namespace TestForm
             this.helpToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripComboBox1 = new System.Windows.Forms.ToolStripComboBox();
             this.kryptonToolStripComboBox1 = new Krypton.Toolkit.KryptonToolStripComboBox();
+            this.kryptonThemeComboBox1 = new Krypton.Toolkit.KryptonThemeComboBox();
+            this.toolStripThemeHost = new System.Windows.Forms.ToolStripControlHost(this.kryptonThemeComboBox1);
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
@@ -110,6 +112,7 @@ namespace TestForm
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(808, 24);
+            this.menuStrip1.Renderer = new TestForm.FileMenuBorderTestRenderer(Krypton.Toolkit.KryptonManager.CurrentGlobalPalette.ColorTable);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             //
@@ -431,6 +434,15 @@ namespace TestForm
             this.toolStrip1.Size = new System.Drawing.Size(483, 25);
             this.toolStrip1.TabIndex = 0;
             //
+            // kryptonThemeComboBox1 hosted in tool strip
+            //
+            this.kryptonThemeComboBox1.Name = "kryptonThemeComboBox1";
+            this.kryptonThemeComboBox1.Size = new System.Drawing.Size(170, 22);
+            this.toolStripThemeHost.AutoSize = false;
+            this.toolStripThemeHost.Name = "toolStripThemeHost";
+            this.toolStripThemeHost.Size = new System.Drawing.Size(170, 22);
+            this.toolStrip1.Items.Add(this.toolStripThemeHost);
+            //
             // newToolStripButton
             //
             this.newToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -642,5 +654,7 @@ namespace TestForm
         private KryptonThemeListBox kryptonThemeListBox1;
         private KryptonToolStripComboBox kryptonToolStripComboBox1;
         private System.Windows.Forms.ToolStripMenuItem animateStatusStripToolStripMenuItem;
+        private Krypton.Toolkit.KryptonThemeComboBox kryptonThemeComboBox1;
+        private System.Windows.Forms.ToolStripControlHost toolStripThemeHost;
     }
 }
