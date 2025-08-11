@@ -41,6 +41,9 @@ internal class ViewDrawMenuImageColumn : ViewDrawDocker
         // We draw the image-margin separator lines ourselves using the color table,
         // so suppress the standard single-edge border for this canvas.
         MaxBorderEdges = PaletteDrawBorders.None;
+
+        // We will render our own gradient background instead of the standard canvas fill
+        DrawCanvas = false;
     }
 
     /// <summary>
@@ -82,6 +85,54 @@ internal class ViewDrawMenuImageColumn : ViewDrawDocker
 
     #region Paint
     /// <summary>
+    /// Perform rendering before child elements are rendered.
+    /// </summary>
+    /// <param name="context">Rendering context.</param>
+    public override void RenderBefore([DisallowNull] RenderContext context)
+    {
+        base.RenderBefore(context);
+
+        // Fill the image column using palette back colors first (to honor control overrides),
+        // and fall back to the ColorTable values when palette is empty.
+        var rect = ClientRectangle;
+        if (rect.Width > 0 && rect.Height > 0)
+        {
+            Color p1 = PaletteBack!.GetBackColor1(State);
+            Color p2 = PaletteBack!.GetBackColor2(State);
+
+            if (p1 != GlobalStaticValues.EMPTY_COLOR || p2 != GlobalStaticValues.EMPTY_COLOR)
+            {
+                if (p1 == p2)
+                {
+                    using var solid = new SolidBrush(p1);
+                    context.Graphics.FillRectangle(solid, rect);
+                }
+                else
+                {
+                    using var brush = new LinearGradientBrush(rect, p1, p2, 0f);
+                    context.Graphics.FillRectangle(brush, rect);
+                }
+            }
+            else
+            {
+                var ct = _provider.ProviderRedirector.ColorTable;
+                Color c1 = ct.ImageMarginGradientBegin;
+                Color c2 = ct.ImageMarginGradientEnd;
+                if (c1 == c2)
+                {
+                    using var solid = new SolidBrush(c1);
+                    context.Graphics.FillRectangle(solid, rect);
+                }
+                else
+                {
+                    using var brush = new LinearGradientBrush(rect, c1, c2, 0f);
+                    context.Graphics.FillRectangle(brush, rect);
+                }
+            }
+        }
+    }
+
+    /// <summary>
     /// Perform rendering after child elements are rendered.
     /// </summary>
     /// <param name="context">Rendering context.</param>
@@ -96,10 +147,17 @@ internal class ViewDrawMenuImageColumn : ViewDrawDocker
         bool rtl = CommonHelper.GetRightToLeftLayout(context.Control!) &&
                    context.Control!.RightToLeft == RightToLeft.Yes;
 
-        // Acquire colors from the active color table
-        var colorTable = _provider.ProviderRedirector.ColorTable;
-        using var lightPen = new Pen(colorTable.ImageMarginGradientEnd);
-        using var darkPen = new Pen(colorTable.ImageMarginGradientMiddle);
+        // Prefer palette border colors so control overrides work; fallback to ColorTable
+        Color lineLight = PaletteBorder!.GetBorderColor1(State);
+        Color lineDark = PaletteBorder!.GetBorderColor2(State);
+        if (lineLight == GlobalStaticValues.EMPTY_COLOR && lineDark == GlobalStaticValues.EMPTY_COLOR)
+        {
+            var colorTable = _provider.ProviderRedirector.ColorTable;
+            lineLight = colorTable.ImageMarginGradientEnd;
+            lineDark = colorTable.ImageMarginGradientMiddle;
+        }
+        using var lightPen = new Pen(lineLight);
+        using var darkPen = new Pen(lineDark);
 
         if (!rtl)
         {

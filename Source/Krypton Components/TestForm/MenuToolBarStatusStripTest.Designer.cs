@@ -42,14 +42,14 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.redoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editUndo = new Krypton.Toolkit.KryptonToolStripMenuItem();
+            this.editRedo = new Krypton.Toolkit.KryptonToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editCut = new Krypton.Toolkit.KryptonToolStripMenuItem();
+            this.editCopy = new Krypton.Toolkit.KryptonToolStripMenuItem();
+            this.editPaste = new Krypton.Toolkit.KryptonToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editSelectAll = new Krypton.Toolkit.KryptonToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.customizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -60,6 +60,12 @@
             this.searchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.redoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new Krypton.Toolkit.KryptonStatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.kryptonProgressBarToolStripItem1 = new Krypton.Toolkit.KryptonProgressBarToolStripItem();
@@ -67,12 +73,6 @@
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
             this.kryptonThemeListBox1 = new Krypton.Toolkit.KryptonThemeListBox();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.editUndo = new Krypton.Toolkit.KryptonToolStripMenuItem();
-            this.editRedo = new Krypton.Toolkit.KryptonToolStripMenuItem();
-            this.editCut = new Krypton.Toolkit.KryptonToolStripMenuItem();
-            this.editCopy = new Krypton.Toolkit.KryptonToolStripMenuItem();
-            this.editPaste = new Krypton.Toolkit.KryptonToolStripMenuItem();
-            this.editSelectAll = new Krypton.Toolkit.KryptonToolStripMenuItem();
             this.newToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.openToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.saveToolStripButton = new System.Windows.Forms.ToolStripButton();
@@ -85,8 +85,38 @@
             this.helpToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripComboBox1 = new System.Windows.Forms.ToolStripComboBox();
             this.kryptonToolStripComboBox1 = new Krypton.Toolkit.KryptonToolStripComboBox();
-            this.kryptonThemeComboBox1 = new Krypton.Toolkit.KryptonThemeComboBox();
-            this.toolStripThemeHost = new System.Windows.Forms.ToolStripControlHost(this.kryptonThemeComboBox1);
+            this.toolStripThemeHost = new Krypton.Toolkit.KryptonToolStripThemeComboBox();
+            this.kryptonContextMenu1 = new Krypton.Toolkit.KryptonContextMenu();
+            this.kryptonContextMenuItems1 = new Krypton.Toolkit.KryptonContextMenuItems();
+            this.kryptonContextMenuItem1 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItem2 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItem3 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItem4 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItem5 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItem6 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItems2 = new Krypton.Toolkit.KryptonContextMenuItems();
+            this.kryptonContextMenuItems3 = new Krypton.Toolkit.KryptonContextMenuItems();
+            this.kryptonContextMenuItems4 = new Krypton.Toolkit.KryptonContextMenuItems();
+            this.kryptonContextMenuItems5 = new Krypton.Toolkit.KryptonContextMenuItems();
+            this.kryptonContextMenuItem7 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItem8 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItem9 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItem10 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItem11 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuSeparator1 = new Krypton.Toolkit.KryptonContextMenuSeparator();
+            this.kryptonContextMenuItem12 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItem13 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItem14 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItem15 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuHeading1 = new Krypton.Toolkit.KryptonContextMenuHeading();
+            this.kryptonContextMenuItem16 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItem17 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItem18 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItems6 = new Krypton.Toolkit.KryptonContextMenuItems();
+            this.kryptonContextMenuItem19 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItem20 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItem21 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItem22 = new Krypton.Toolkit.KryptonContextMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
@@ -96,6 +126,7 @@
             this.kryptonPanel1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonToolStripComboBox1.KryptonComboBoxControl)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.toolStripThemeHost)).BeginInit();
             this.SuspendLayout();
             //
             // menuStrip1
@@ -108,8 +139,7 @@
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(808, 24);
-            this.menuStrip1.Renderer = new TestForm.FileMenuBorderTestRenderer(Krypton.Toolkit.KryptonManager.CurrentGlobalPalette.ColorTable);
+            this.menuStrip1.Size = new System.Drawing.Size(812, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             //
@@ -203,117 +233,87 @@
             //
             // editToolStripMenuItem
             //
-            editUndo.Name = "editUndo";
-            editUndo.Text = "&Undo";
-            editUndo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            editUndo.StateHighlight.ItemHighlight.Back.Color1 = System.Drawing.Color.FromArgb(255, 245, 230);
-            editUndo.StateHighlight.ItemHighlight.Border.Color1 = System.Drawing.Color.OrangeRed;
-
-            editRedo.Name = "editRedo";
-            editRedo.Text = "&Redo";
-            editRedo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-            editRedo.StateHighlight.ItemHighlight.Back.Color1 = System.Drawing.Color.FromArgb(230, 245, 255);
-            editRedo.StateHighlight.ItemHighlight.Border.Color1 = System.Drawing.Color.RoyalBlue;
-
-            editCut.Name = "editCut";
-            editCut.Text = "Cu&t";
-            editCut.Image = ((System.Drawing.Image)(resources.GetObject("cutToolStripMenuItem.Image")));
-            editCut.ImageTransparentColor = System.Drawing.Color.Magenta;
-            editCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            editCut.StateHighlight.ItemHighlight.Back.Color1 = System.Drawing.Color.FromArgb(235, 255, 235);
-            editCut.StateHighlight.ItemHighlight.Border.Color1 = System.Drawing.Color.ForestGreen;
-
-            editCopy.Name = "editCopy";
-            editCopy.Text = "&Copy";
-            editCopy.Image = ((System.Drawing.Image)(resources.GetObject("copyToolStripMenuItem.Image")));
-            editCopy.ImageTransparentColor = System.Drawing.Color.Magenta;
-            editCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            editCopy.StateHighlight.ItemHighlight.Back.Color1 = System.Drawing.Color.FromArgb(240, 240, 255);
-            editCopy.StateHighlight.ItemHighlight.Border.Color1 = System.Drawing.Color.MediumSlateBlue;
-
-            editPaste.Name = "editPaste";
-            editPaste.Text = "&Paste";
-            editPaste.Image = ((System.Drawing.Image)(resources.GetObject("pasteToolStripMenuItem.Image")));
-            editPaste.ImageTransparentColor = System.Drawing.Color.Magenta;
-            editPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            editPaste.StateHighlight.ItemHighlight.Back.Color1 = System.Drawing.Color.FromArgb(255, 250, 220);
-            editPaste.StateHighlight.ItemHighlight.Border.Color1 = System.Drawing.Color.DarkGoldenrod;
-
-            editSelectAll.Name = "editSelectAll";
-            editSelectAll.Text = "Select &All";
-            editSelectAll.StateHighlight.ItemHighlight.Back.Color1 = System.Drawing.Color.FromArgb(235, 235, 235);
-            editSelectAll.StateHighlight.ItemHighlight.Border.Color1 = System.Drawing.Color.DimGray;
-
-            this.editToolStripMenuItem.DropDownItems.Clear();
             this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            editUndo,
-            editRedo,
+            this.editUndo,
+            this.editRedo,
             this.toolStripSeparator3,
-            editCut,
-            editCopy,
-            editPaste,
+            this.editCut,
+            this.editCopy,
+            this.editPaste,
             this.toolStripSeparator4,
-            editSelectAll});
+            this.editSelectAll});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
             this.editToolStripMenuItem.Text = "&Edit";
             //
-            // undoToolStripMenuItem
+            // editUndo
             //
-            this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
-            this.undoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.undoToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
-            this.undoToolStripMenuItem.Text = "&Undo";
+            this.editUndo.Name = "editUndo";
+            this.editUndo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
+            this.editUndo.Size = new System.Drawing.Size(144, 22);
+            this.editUndo.StateHighlight.ItemHighlight.Back.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(245)))), ((int)(((byte)(230)))));
+            this.editUndo.StateHighlight.ItemHighlight.Border.Color1 = System.Drawing.Color.OrangeRed;
+            this.editUndo.Text = "&Undo";
             //
-            // redoToolStripMenuItem
+            // editRedo
             //
-            this.redoToolStripMenuItem.Name = "redoToolStripMenuItem";
-            this.redoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-            this.redoToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
-            this.redoToolStripMenuItem.Text = "&Redo";
+            this.editRedo.Name = "editRedo";
+            this.editRedo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
+            this.editRedo.Size = new System.Drawing.Size(144, 22);
+            this.editRedo.StateHighlight.ItemHighlight.Back.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(245)))), ((int)(((byte)(255)))));
+            this.editRedo.StateHighlight.ItemHighlight.Border.Color1 = System.Drawing.Color.RoyalBlue;
+            this.editRedo.Text = "&Redo";
             //
             // toolStripSeparator3
             //
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(141, 6);
             //
-            // cutToolStripMenuItem
+            // editCut
             //
-            this.cutToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("cutToolStripMenuItem.Image")));
-            this.cutToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
-            this.cutToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.cutToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
-            this.cutToolStripMenuItem.Text = "Cu&t";
+            this.editCut.Image = ((System.Drawing.Image)(resources.GetObject("editCut.Image")));
+            this.editCut.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.editCut.Name = "editCut";
+            this.editCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
+            this.editCut.Size = new System.Drawing.Size(144, 22);
+            this.editCut.StateHighlight.ItemHighlight.Back.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(255)))), ((int)(((byte)(235)))));
+            this.editCut.StateHighlight.ItemHighlight.Border.Color1 = System.Drawing.Color.ForestGreen;
+            this.editCut.Text = "Cu&t";
             //
-            // copyToolStripMenuItem
+            // editCopy
             //
-            this.copyToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("copyToolStripMenuItem.Image")));
-            this.copyToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-            this.copyToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.copyToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
-            this.copyToolStripMenuItem.Text = "&Copy";
+            this.editCopy.Image = ((System.Drawing.Image)(resources.GetObject("editCopy.Image")));
+            this.editCopy.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.editCopy.Name = "editCopy";
+            this.editCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            this.editCopy.Size = new System.Drawing.Size(144, 22);
+            this.editCopy.StateHighlight.ItemHighlight.Back.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(255)))));
+            this.editCopy.StateHighlight.ItemHighlight.Border.Color1 = System.Drawing.Color.MediumSlateBlue;
+            this.editCopy.Text = "&Copy";
             //
-            // pasteToolStripMenuItem
+            // editPaste
             //
-            this.pasteToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("pasteToolStripMenuItem.Image")));
-            this.pasteToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
-            this.pasteToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
-            this.pasteToolStripMenuItem.Text = "&Paste";
+            this.editPaste.Image = ((System.Drawing.Image)(resources.GetObject("editPaste.Image")));
+            this.editPaste.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.editPaste.Name = "editPaste";
+            this.editPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
+            this.editPaste.Size = new System.Drawing.Size(144, 22);
+            this.editPaste.StateHighlight.ItemHighlight.Back.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(250)))), ((int)(((byte)(220)))));
+            this.editPaste.StateHighlight.ItemHighlight.Border.Color1 = System.Drawing.Color.DarkGoldenrod;
+            this.editPaste.Text = "&Paste";
             //
             // toolStripSeparator4
             //
             this.toolStripSeparator4.Name = "toolStripSeparator4";
             this.toolStripSeparator4.Size = new System.Drawing.Size(141, 6);
             //
-            // selectAllToolStripMenuItem
+            // editSelectAll
             //
-            this.selectAllToolStripMenuItem.Name = "selectAllToolStripMenuItem";
-            this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
-            this.selectAllToolStripMenuItem.Text = "Select &All";
+            this.editSelectAll.Name = "editSelectAll";
+            this.editSelectAll.Size = new System.Drawing.Size(144, 22);
+            this.editSelectAll.StateHighlight.ItemHighlight.Back.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
+            this.editSelectAll.StateHighlight.ItemHighlight.Border.Color1 = System.Drawing.Color.DimGray;
+            this.editSelectAll.Text = "Select &All";
             //
             // toolsToolStripMenuItem
             //
@@ -386,16 +386,64 @@
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.aboutToolStripMenuItem.Text = "&About...";
             //
+            // undoToolStripMenuItem
+            //
+            this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
+            this.undoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
+            this.undoToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.undoToolStripMenuItem.Text = "&Undo";
+            //
+            // redoToolStripMenuItem
+            //
+            this.redoToolStripMenuItem.Name = "redoToolStripMenuItem";
+            this.redoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
+            this.redoToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.redoToolStripMenuItem.Text = "&Redo";
+            //
+            // cutToolStripMenuItem
+            //
+            this.cutToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("cutToolStripMenuItem.Image")));
+            this.cutToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
+            this.cutToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
+            this.cutToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.cutToolStripMenuItem.Text = "Cu&t";
+            //
+            // copyToolStripMenuItem
+            //
+            this.copyToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("copyToolStripMenuItem.Image")));
+            this.copyToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
+            this.copyToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.copyToolStripMenuItem.Text = "&Copy";
+            //
+            // pasteToolStripMenuItem
+            //
+            this.pasteToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("pasteToolStripMenuItem.Image")));
+            this.pasteToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
+            this.pasteToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
+            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.pasteToolStripMenuItem.Text = "&Paste";
+            //
+            // selectAllToolStripMenuItem
+            //
+            this.selectAllToolStripMenuItem.Name = "selectAllToolStripMenuItem";
+            this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.selectAllToolStripMenuItem.Text = "Select &All";
+            //
             // statusStrip1
             //
             this.statusStrip1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1,
             this.kryptonProgressBarToolStripItem1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 418);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 406);
             this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.ProgressBars = null;
             this.statusStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.ManagerRenderMode;
-            this.statusStrip1.Size = new System.Drawing.Size(808, 24);
+            this.statusStrip1.Size = new System.Drawing.Size(812, 24);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             //
@@ -420,11 +468,11 @@
             // toolStripContainer1.ContentPanel
             //
             this.toolStripContainer1.ContentPanel.Controls.Add(this.kryptonPanel1);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(808, 369);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(812, 357);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 24);
             this.toolStripContainer1.Name = "toolStripContainer1";
-            this.toolStripContainer1.Size = new System.Drawing.Size(808, 394);
+            this.toolStripContainer1.Size = new System.Drawing.Size(812, 382);
             this.toolStripContainer1.TabIndex = 2;
             this.toolStripContainer1.Text = "toolStripContainer1";
             //
@@ -438,17 +486,18 @@
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(808, 369);
+            this.kryptonPanel1.Size = new System.Drawing.Size(812, 357);
             this.kryptonPanel1.TabIndex = 0;
             //
             // kryptonThemeListBox1
             //
             this.kryptonThemeListBox1.DefaultPalette = Krypton.Toolkit.PaletteMode.ProfessionalSystem;
             this.kryptonThemeListBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kryptonThemeListBox1.KryptonContextMenu = this.kryptonContextMenu1;
             this.kryptonThemeListBox1.Location = new System.Drawing.Point(0, 0);
             this.kryptonThemeListBox1.Margin = new System.Windows.Forms.Padding(5);
             this.kryptonThemeListBox1.Name = "kryptonThemeListBox1";
-            this.kryptonThemeListBox1.Size = new System.Drawing.Size(808, 369);
+            this.kryptonThemeListBox1.Size = new System.Drawing.Size(812, 357);
             this.kryptonThemeListBox1.TabIndex = 0;
             //
             // toolStrip1
@@ -467,20 +516,12 @@
             this.toolStripSeparator7,
             this.helpToolStripButton,
             this.toolStripComboBox1,
-            this.kryptonToolStripComboBox1});
+            this.kryptonToolStripComboBox1,
+            this.toolStripThemeHost});
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(483, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(622, 25);
             this.toolStrip1.TabIndex = 0;
-            //
-            // kryptonThemeComboBox1 hosted in tool strip
-            //
-            this.kryptonThemeComboBox1.Name = "kryptonThemeComboBox1";
-            this.kryptonThemeComboBox1.Size = new System.Drawing.Size(170, 22);
-            this.toolStripThemeHost.AutoSize = false;
-            this.toolStripThemeHost.Name = "toolStripThemeHost";
-            this.toolStripThemeHost.Size = new System.Drawing.Size(170, 22);
-            this.toolStrip1.Items.Add(this.toolStripThemeHost);
             //
             // newToolStripButton
             //
@@ -609,11 +650,41 @@
             this.kryptonToolStripComboBox1.Size = new System.Drawing.Size(121, 22);
             this.kryptonToolStripComboBox1.Text = "kryptonToolStripComboBox1";
             //
+            // toolStripThemeHost
+            //
+            this.toolStripThemeHost.AccessibleName = "toolStripThemeHost";
+            this.toolStripThemeHost.AutoSize = false;
+            this.toolStripThemeHost.DefaultPalette = Krypton.Toolkit.PaletteMode.ProfessionalSystem;
+            this.toolStripThemeHost.DropDownWidth = 300;
+            this.toolStripThemeHost.Name = "toolStripThemeHost";
+            this.toolStripThemeHost.Size = new System.Drawing.Size(170, 22);
+            this.toolStripThemeHost.Text = "Professional - System";
+            //
+            // kryptonContextMenu1
+            //
+            this.kryptonContextMenu1.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
+            this.kryptonContextMenuHeading1,
+            this.kryptonContextMenuItem3,
+            this.kryptonContextMenuSeparator1,
+            this.kryptonContextMenuItems6});
+            this.kryptonContextMenu1.StateCommon.ItemImageColumn.Back.Color1 = System.Drawing.Color.Red;
+            this.kryptonContextMenu1.StateCommon.ItemImageColumn.Back.Color2 = System.Drawing.Color.Lime;
+            this.kryptonContextMenu1.StateCommon.ItemImageColumn.Border.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.kryptonContextMenu1.StateCommon.ItemImageColumn.Border.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
+            //
+            // kryptonContextMenuItems6
+            //
+            this.kryptonContextMenuItems6.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
+            this.kryptonContextMenuItem19,
+            this.kryptonContextMenuItem20,
+            this.kryptonContextMenuItem21,
+            this.kryptonContextMenuItem22});
+            //
             // MenuToolBarStatusStripTest
             //
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(808, 442);
+            this.ClientSize = new System.Drawing.Size(812, 430);
             this.Controls.Add(this.toolStripContainer1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
@@ -636,6 +707,7 @@
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonToolStripComboBox1.KryptonComboBoxControl)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.toolStripThemeHost)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -693,13 +765,43 @@
         private KryptonThemeListBox kryptonThemeListBox1;
         private KryptonToolStripComboBox kryptonToolStripComboBox1;
         private System.Windows.Forms.ToolStripMenuItem animateStatusStripToolStripMenuItem;
-        private Krypton.Toolkit.KryptonThemeComboBox kryptonThemeComboBox1;
-        private System.Windows.Forms.ToolStripControlHost toolStripThemeHost;
         private Krypton.Toolkit.KryptonToolStripMenuItem editUndo;
         private Krypton.Toolkit.KryptonToolStripMenuItem editRedo;
         private Krypton.Toolkit.KryptonToolStripMenuItem editCut;
         private Krypton.Toolkit.KryptonToolStripMenuItem editCopy;
         private Krypton.Toolkit.KryptonToolStripMenuItem editPaste;
         private Krypton.Toolkit.KryptonToolStripMenuItem editSelectAll;
+        private KryptonContextMenu kryptonContextMenu1;
+        private KryptonContextMenuHeading kryptonContextMenuHeading1;
+        private KryptonContextMenuItem kryptonContextMenuItem3;
+        private KryptonContextMenuSeparator kryptonContextMenuSeparator1;
+        private KryptonContextMenuItems kryptonContextMenuItems6;
+        private KryptonContextMenuItem kryptonContextMenuItem19;
+        private KryptonContextMenuItem kryptonContextMenuItem20;
+        private KryptonContextMenuItem kryptonContextMenuItem21;
+        private KryptonContextMenuItem kryptonContextMenuItem22;
+        private KryptonContextMenuItems kryptonContextMenuItems1;
+        private KryptonContextMenuItem kryptonContextMenuItem1;
+        private KryptonContextMenuItem kryptonContextMenuItem2;
+        private KryptonContextMenuItem kryptonContextMenuItem4;
+        private KryptonContextMenuItem kryptonContextMenuItem5;
+        private KryptonContextMenuItem kryptonContextMenuItem6;
+        private KryptonContextMenuItems kryptonContextMenuItems2;
+        private KryptonContextMenuItems kryptonContextMenuItems3;
+        private KryptonContextMenuItems kryptonContextMenuItems4;
+        private KryptonContextMenuItems kryptonContextMenuItems5;
+        private KryptonContextMenuItem kryptonContextMenuItem7;
+        private KryptonContextMenuItem kryptonContextMenuItem8;
+        private KryptonContextMenuItem kryptonContextMenuItem9;
+        private KryptonContextMenuItem kryptonContextMenuItem10;
+        private KryptonContextMenuItem kryptonContextMenuItem11;
+        private KryptonContextMenuItem kryptonContextMenuItem12;
+        private KryptonContextMenuItem kryptonContextMenuItem13;
+        private KryptonContextMenuItem kryptonContextMenuItem14;
+        private KryptonContextMenuItem kryptonContextMenuItem15;
+        private KryptonContextMenuItem kryptonContextMenuItem16;
+        private KryptonContextMenuItem kryptonContextMenuItem17;
+        private KryptonContextMenuItem kryptonContextMenuItem18;
+        private KryptonToolStripThemeComboBox toolStripThemeHost;
     }
 }
