@@ -27,46 +27,74 @@ public class KryptonOutlookGridAio : KryptonHeaderGroup
 {
 
     #region Private Variables
-
     private bool _showGrandTotalAtBottom = false;
-
-    /// <summary>
-    /// Gets or sets the <see cref="KryptonOutlookGrid"/> instance used to display summary or aggregate information.
-    /// </summary>
-    /// <remarks>
-    /// This private grid is intended for displaying a single row of data, such as a grand total,
-    /// at the bottom of the main grid. Its visibility and use are managed internally by the control,
-    /// and it is linked to the <c>ShowGrandTotalAtBottom</c> property. It is not intended for direct
-    /// access or serialization by the designer.
-    /// </remarks>
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    internal KryptonOutlookGrid SummaryGrid { get; set; } = default!;
-
-    /// <summary>
-    /// Gets or sets the <see cref="KryptonOutlookGridGroupBox"/> associated with this control.
-    /// </summary>
-    /// <remarks>
-    /// This property is marked with <see cref="DesignerSerializationVisibility.Content"/>,
-    /// meaning that the properties of the <see cref="KryptonOutlookGridGroupBox"/> instance itself
-    /// will be serialized by the designer, allowing its customizable settings to be saved and loaded.
-    /// This group box typically provides grouping functionality for the grid.
-    /// </remarks>
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    internal KryptonOutlookGridGroupBox GroupBox { get; set; } = default!;
-
-    /// <summary>
-    /// Gets or sets the <see cref="KryptonOutlookGridSearchToolBar"/> associated with this control.
-    /// </summary>
-    /// <remarks>
-    /// This property is marked with <see cref="DesignerSerializationVisibility.Content"/>,
-    /// meaning that the properties of the <see cref="KryptonOutlookGridSearchToolBar"/> instance itself
-    /// will be serialized by the designer, allowing its customizable settings to be saved and loaded.
-    /// This toolbar provides search capabilities for the grid.
-    /// </remarks>
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    internal KryptonOutlookGridSearchToolBar SearchToolBar { get; set; } = default!;
-
     #endregion Private Variables
+
+    #region Identity
+    /// <summary>
+    /// Initializes a new instance of the <see cref="KryptonOutlookGridAio"/> class.
+    /// </summary>
+    /// <remarks>
+    /// This constructor sets up the initial state and layout of the composite control.
+    /// It initializes the <see cref="GroupBox"/>, <see cref="SearchToolBar"/>, and <see cref="OutlookGrid"/>
+    /// child controls, adding them to the control's panel.
+    /// It also establishes event subscriptions, such as `OnSearchCompleted` from the <see cref="OutlookGrid"/>
+    /// to update the header based on search text.
+    /// </remarks>
+    public KryptonOutlookGridAio()
+    {
+        this.ValuesPrimary.Image = null;
+        this.HeaderVisibleSecondary = false;
+        this.ValuesSecondary.Heading = string.Empty;
+
+        SearchToolBar = new KryptonOutlookGridSearchToolBar();
+        GroupBox = new KryptonOutlookGridGroupBox();
+        SummaryGrid = new KryptonOutlookGrid();
+        OutlookGrid = new KryptonOutlookGrid();
+
+        // Initialize GroupBox control
+        GroupBox.Name = "GroupBox";
+        GroupBox.Dock = DockStyle.Top;
+        GroupBox.AllowDrop = true;
+        GroupBox.Visible = false;
+
+        // Initialize SearchToolBar control
+        SearchToolBar.Name = "SearchToolBar";
+        SearchToolBar.Dock = DockStyle.Top;
+        SearchToolBar.AllowMerge = false;
+        SearchToolBar.GripStyle = ToolStripGripStyle.Hidden;
+        SearchToolBar.Visible = false;
+
+        // Initialize OutlookGrid for summary
+        SummaryGrid.Name = "SummaryGrid";
+        SummaryGrid.Dock = DockStyle.Bottom;
+        SummaryGrid.ColumnHeadersVisible = false;
+        SummaryGrid.Enabled = false;
+        SummaryGrid.Visible = false;
+        SummaryGrid.Height = 25;
+
+        // Initialize OutlookGrid control
+        OutlookGrid.Name = "OutlookGrid";
+        OutlookGrid.Dock = DockStyle.Fill;
+        OutlookGrid.AllowDrop = true;
+        OutlookGrid.GroupBox = GroupBox;
+        OutlookGrid.ShowColumnFilter = true;
+        OutlookGrid.SearchToolBar = SearchToolBar;
+        OutlookGrid.EnableSearchOnKeyPress = true;
+
+        // Add controls to the Panel of the KryptonHeaderGroup in desired Z-order
+        this.Panel.Controls.Add(OutlookGrid);
+        this.Panel.Controls.Add(SearchToolBar);
+        this.Panel.Controls.Add(GroupBox);
+        this.Panel.Controls.Add(SummaryGrid);
+
+        // Register events after controls are set up
+        OutlookGrid.RegisterGroupBoxEvents();
+        OutlookGrid.OnSearchCompleted += OutlookGrid_OnSearchCompleted;
+        SummaryGrid.RowHeightChanged += SummaryGrid_RowHeightChanged;
+    }
+
+    #endregion Identity
 
     #region Public Properties
 
@@ -250,72 +278,6 @@ public class KryptonOutlookGridAio : KryptonHeaderGroup
 
     #endregion Public Properties
 
-    #region Identity
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="KryptonOutlookGridAio"/> class.
-    /// </summary>
-    /// <remarks>
-    /// This constructor sets up the initial state and layout of the composite control.
-    /// It initializes the <see cref="GroupBox"/>, <see cref="SearchToolBar"/>, and <see cref="OutlookGrid"/>
-    /// child controls, adding them to the control's panel.
-    /// It also establishes event subscriptions, such as `OnSearchCompleted` from the <see cref="OutlookGrid"/>
-    /// to update the header based on search text.
-    /// </remarks>
-    public KryptonOutlookGridAio()
-    {
-        this.ValuesPrimary.Image = null;
-        this.HeaderVisibleSecondary = false;
-        this.ValuesSecondary.Heading = string.Empty;
-
-        SearchToolBar = new KryptonOutlookGridSearchToolBar();
-        GroupBox = new KryptonOutlookGridGroupBox();
-        SummaryGrid = new KryptonOutlookGrid();
-        OutlookGrid = new KryptonOutlookGrid();
-
-        // Initialize GroupBox control
-        GroupBox.Name = "GroupBox";
-        GroupBox.Dock = DockStyle.Top;
-        GroupBox.AllowDrop = true;
-        GroupBox.Visible = false;
-
-        // Initialize SearchToolBar control
-        SearchToolBar.Name = "SearchToolBar";
-        SearchToolBar.Dock = DockStyle.Top;
-        SearchToolBar.AllowMerge = false;
-        SearchToolBar.GripStyle = ToolStripGripStyle.Hidden;
-        SearchToolBar.Visible = false;
-
-        // Initialize OutlookGrid for summary
-        SummaryGrid.Name = "SummaryGrid";
-        SummaryGrid.Dock = DockStyle.Bottom;
-        SummaryGrid.ColumnHeadersVisible = false;
-        SummaryGrid.Enabled = false;
-        SummaryGrid.Visible = false;
-        SummaryGrid.Height = 25;
-
-        // Initialize OutlookGrid control
-        OutlookGrid.Name = "OutlookGrid";
-        OutlookGrid.Dock = DockStyle.Fill;
-        OutlookGrid.AllowDrop = true;
-        OutlookGrid.GroupBox = GroupBox;
-        OutlookGrid.ShowColumnFilter = true;
-        OutlookGrid.SearchToolBar = SearchToolBar;
-        OutlookGrid.EnableSearchOnKeyPress = true;
-
-        // Add controls to the Panel of the KryptonHeaderGroup in desired Z-order
-        this.Panel.Controls.Add(OutlookGrid);
-        this.Panel.Controls.Add(SearchToolBar);
-        this.Panel.Controls.Add(GroupBox);
-        this.Panel.Controls.Add(SummaryGrid);
-
-        // Register events after controls are set up
-        OutlookGrid.RegisterGroupBoxEvents();
-        OutlookGrid.OnSearchCompleted += OutlookGrid_OnSearchCompleted;
-        SummaryGrid.RowHeightChanged += SummaryGrid_RowHeightChanged;
-    }
-
-    #endregion Identity
 
     #region Methods
 
@@ -371,4 +333,41 @@ public class KryptonOutlookGridAio : KryptonHeaderGroup
 
     #endregion Methods
 
+    #region Internal
+    /// <summary>
+    /// Gets or sets the <see cref="KryptonOutlookGrid"/> instance used to display summary or aggregate information.
+    /// </summary>
+    /// <remarks>
+    /// This private grid is intended for displaying a single row of data, such as a grand total,
+    /// at the bottom of the main grid. Its visibility and use are managed internally by the control,
+    /// and it is linked to the <c>ShowGrandTotalAtBottom</c> property. It is not intended for direct
+    /// access or serialization by the designer.
+    /// </remarks>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    internal KryptonOutlookGrid SummaryGrid { get; }
+
+    /// <summary>
+    /// Gets or sets the <see cref="KryptonOutlookGridGroupBox"/> associated with this control.
+    /// </summary>
+    /// <remarks>
+    /// This property is marked with <see cref="DesignerSerializationVisibility.Content"/>,
+    /// meaning that the properties of the <see cref="KryptonOutlookGridGroupBox"/> instance itself
+    /// will be serialized by the designer, allowing its customizable settings to be saved and loaded.
+    /// This group box typically provides grouping functionality for the grid.
+    /// </remarks>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    internal KryptonOutlookGridGroupBox GroupBox { get; }
+
+    /// <summary>
+    /// Gets or sets the <see cref="KryptonOutlookGridSearchToolBar"/> associated with this control.
+    /// </summary>
+    /// <remarks>
+    /// This property is marked with <see cref="DesignerSerializationVisibility.Content"/>,
+    /// meaning that the properties of the <see cref="KryptonOutlookGridSearchToolBar"/> instance itself
+    /// will be serialized by the designer, allowing its customizable settings to be saved and loaded.
+    /// This toolbar provides search capabilities for the grid.
+    /// </remarks>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    internal KryptonOutlookGridSearchToolBar SearchToolBar { get; }
+    #endregion
 }
