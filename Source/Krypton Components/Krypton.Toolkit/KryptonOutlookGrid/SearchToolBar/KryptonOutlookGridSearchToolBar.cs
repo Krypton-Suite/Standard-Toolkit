@@ -87,7 +87,7 @@
 namespace Krypton.Toolkit;
 
 [DesignerCategory("code")]
-public partial class KryptonOutlookGridSearchToolBar : ToolStrip
+public partial class KryptonOutlookGridSearchToolBar : KryptonToolStrip
 {
     #region Design Code
 
