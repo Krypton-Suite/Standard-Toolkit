@@ -1,15 +1,15 @@
 ﻿#region BSD License
 /*
  *   BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2025. All rights reserved. 
- *  
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2023 - 2025. All rights reserved.
+ *
  */
 #endregion
 
 namespace Krypton.Toolkit;
 
 /// <summary>
-/// 
+///
 /// </summary>
 public class KryptonVisualStudio2010With2007Renderer : KryptonProfessionalRenderer
 {
@@ -248,7 +248,7 @@ public class KryptonVisualStudio2010With2007Renderer : KryptonProfessionalRender
 
     #region OnRenderArrow
     /// <summary>
-    /// Raises the RenderArrow event. 
+    /// Raises the RenderArrow event.
     /// </summary>
     /// <param name="e">An ToolStripArrowRenderEventArgs containing the event data.</param>
     protected override void OnRenderArrow(ToolStripArrowRenderEventArgs e)
@@ -263,12 +263,12 @@ public class KryptonVisualStudio2010With2007Renderer : KryptonProfessionalRender
             RectangleF boundsF = arrowPath.GetBounds();
             boundsF.Inflate(1f, 1f);
 
-            Color color1 = e.Item!.Enabled 
-                ? KCT.ToolStripText 
+            Color color1 = e.Item!.Enabled
+                ? KCT.ToolStripText
                 : _disabled;
-                
-            Color color2 = e.Item.Enabled 
-                ? CommonHelper.WhitenColor(KCT.ToolStripText, 0.7f, 0.7f, 0.7f) 
+
+            Color color2 = e.Item.Enabled
+                ? CommonHelper.WhitenColor(KCT.ToolStripText, 0.7f, 0.7f, 0.7f)
                 : _disabled;
 
             // Use gradient angle to match the arrow direction
@@ -290,7 +290,7 @@ public class KryptonVisualStudio2010With2007Renderer : KryptonProfessionalRender
 
     #region OnRenderButtonBackground
     /// <summary>
-    /// Raises the RenderButtonBackground event. 
+    /// Raises the RenderButtonBackground event.
     /// </summary>
     /// <param name="e">An ToolStripItemRenderEventArgs containing the event data.</param>
     protected override void OnRenderButtonBackground(ToolStripItemRenderEventArgs e)
@@ -309,7 +309,7 @@ public class KryptonVisualStudio2010With2007Renderer : KryptonProfessionalRender
 
     #region OnRenderDropDownButtonBackground
     /// <summary>
-    /// Raises the RenderDropDownButtonBackground event. 
+    /// Raises the RenderDropDownButtonBackground event.
     /// </summary>
     /// <param name="e">An ToolStripItemRenderEventArgs containing the event data.</param>
     protected override void OnRenderDropDownButtonBackground(ToolStripItemRenderEventArgs e)
@@ -325,7 +325,7 @@ public class KryptonVisualStudio2010With2007Renderer : KryptonProfessionalRender
 
     #region OnRenderItemCheck
     /// <summary>
-    /// Raises the RenderItemCheck event. 
+    /// Raises the RenderItemCheck event.
     /// </summary>
     /// <param name="e">An ToolStripItemImageRenderEventArgs containing the event data.</param>
     protected override void OnRenderItemCheck(ToolStripItemImageRenderEventArgs e)
@@ -413,7 +413,7 @@ public class KryptonVisualStudio2010With2007Renderer : KryptonProfessionalRender
 
     #region OnRenderItemText
     /// <summary>
-    /// Raises the RenderItemText event. 
+    /// Raises the RenderItemText event.
     /// </summary>
     /// <param name="e">A ToolStripItemTextRenderEventArgs that contains the event data.</param>
     protected override void OnRenderItemText(ToolStripItemTextRenderEventArgs e)
@@ -458,7 +458,7 @@ public class KryptonVisualStudio2010With2007Renderer : KryptonProfessionalRender
 
     #region OnRenderItemImage
     /// <summary>
-    /// Raises the RenderItemImage event. 
+    /// Raises the RenderItemImage event.
     /// </summary>
     /// <param name="e">An ToolStripItemImageRenderEventArgs containing the event data.</param>
     protected override void OnRenderItemImage(ToolStripItemImageRenderEventArgs e)
@@ -493,7 +493,7 @@ public class KryptonVisualStudio2010With2007Renderer : KryptonProfessionalRender
 
     #region OnRenderMenuItemBackground
     /// <summary>
-    /// Raises the RenderMenuItemBackground event. 
+    /// Raises the RenderMenuItemBackground event.
     /// </summary>
     /// <param name="e">An ToolStripItemRenderEventArgs containing the event data.</param>
     protected override void OnRenderMenuItemBackground(ToolStripItemRenderEventArgs e)
@@ -556,7 +556,7 @@ public class KryptonVisualStudio2010With2007Renderer : KryptonProfessionalRender
 
     #region OnRenderSplitButtonBackground
     /// <summary>
-    /// Raises the RenderSplitButtonBackground event. 
+    /// Raises the RenderSplitButtonBackground event.
     /// </summary>
     /// <param name="e">An ToolStripItemRenderEventArgs containing the event data.</param>
     protected override void OnRenderSplitButtonBackground(ToolStripItemRenderEventArgs e)
@@ -590,7 +590,7 @@ public class KryptonVisualStudio2010With2007Renderer : KryptonProfessionalRender
 
     #region OnRenderStatusStripSizingGrip
     /// <summary>
-    /// Raises the RenderStatusStripSizingGrip event. 
+    /// Raises the RenderStatusStripSizingGrip event.
     /// </summary>
     /// <param name="e">An ToolStripRenderEventArgs containing the event data.</param>
     protected override void OnRenderStatusStripSizingGrip(ToolStripRenderEventArgs e)
@@ -628,7 +628,7 @@ public class KryptonVisualStudio2010With2007Renderer : KryptonProfessionalRender
 
     #region OnRenderToolStripContentPanelBackground
     /// <summary>
-    /// Raises the RenderToolStripContentPanelBackground event. 
+    /// Raises the RenderToolStripContentPanelBackground event.
     /// </summary>
     /// <param name="e">An ToolStripContentPanelRenderEventArgs containing the event data.</param>
     protected override void OnRenderToolStripContentPanelBackground(ToolStripContentPanelRenderEventArgs e)
@@ -648,7 +648,7 @@ public class KryptonVisualStudio2010With2007Renderer : KryptonProfessionalRender
 
     #region OnRenderSeparator
     /// <summary>
-    /// Raises the RenderSeparator event. 
+    /// Raises the RenderSeparator event.
     /// </summary>
     /// <param name="e">An ToolStripSeparatorRenderEventArgs containing the event data.</param>
     protected override void OnRenderSeparator(ToolStripSeparatorRenderEventArgs e)
@@ -686,7 +686,7 @@ public class KryptonVisualStudio2010With2007Renderer : KryptonProfessionalRender
 
     #region OnRenderToolStripBackground
     /// <summary>
-    /// Raises the RenderToolStripBackground event. 
+    /// Raises the RenderToolStripBackground event.
     /// </summary>
     /// <param name="e">An ToolStripRenderEventArgs containing the event data.</param>
     protected override void OnRenderToolStripBackground(ToolStripRenderEventArgs e)
@@ -723,7 +723,7 @@ public class KryptonVisualStudio2010With2007Renderer : KryptonProfessionalRender
 
                 Form? owner = e.ToolStrip.FindForm();
 
-                // Check if the status strip is inside a KryptonForm and using the Office 2007 renderer, in 
+                // Check if the status strip is inside a KryptonForm and using the Office 2007 renderer, in
                 // which case we want to extend the drawing down into the border area for an integrated look
                 if (e.ToolStrip.Visible
                     && e.ToolStrip is { Dock: DockStyle.Bottom, RenderMode: ToolStripRenderMode.ManagerRenderMode }
@@ -773,7 +773,7 @@ public class KryptonVisualStudio2010With2007Renderer : KryptonProfessionalRender
 
     #region OnRenderImageMargin
     /// <summary>
-    /// Raises the RenderImageMargin event. 
+    /// Raises the RenderImageMargin event.
     /// </summary>
     /// <param name="e">An ToolStripRenderEventArgs containing the event data.</param>
     protected override void OnRenderImageMargin(ToolStripRenderEventArgs e)
@@ -832,7 +832,7 @@ public class KryptonVisualStudio2010With2007Renderer : KryptonProfessionalRender
 
     #region OnRenderToolStripBorder
     /// <summary>
-    /// Raises the RenderToolStripBorder event. 
+    /// Raises the RenderToolStripBorder event.
     /// </summary>
     /// <param name="e">An ToolStripRenderEventArgs containing the event data.</param>
     protected override void OnRenderToolStripBorder(ToolStripRenderEventArgs e)
