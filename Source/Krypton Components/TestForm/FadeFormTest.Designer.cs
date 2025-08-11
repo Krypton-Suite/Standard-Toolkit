@@ -71,7 +71,7 @@ namespace TestForm
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(1092, 676);
+            this.kryptonPanel1.Size = new System.Drawing.Size(1094, 670);
             this.kryptonPanel1.TabIndex = 0;
             // 
             // cbtnShowImage
@@ -92,10 +92,13 @@ namespace TestForm
             this.kryptonPictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("kryptonPictureBox1.Image")));
             this.kryptonPictureBox1.Location = new System.Drawing.Point(365, 75);
             this.kryptonPictureBox1.Name = "kryptonPictureBox1";
-            this.kryptonPictureBox1.Size = new System.Drawing.Size(715, 589);
+            this.kryptonPictureBox1.Size = new System.Drawing.Size(717, 583);
             this.kryptonPictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.kryptonPictureBox1.TabIndex = 7;
             this.kryptonPictureBox1.TabStop = false;
+            this.kryptonPictureBox1.ToolTipValues.Description = "Nice autumn picture.";
+            this.kryptonPictureBox1.ToolTipValues.EnableToolTips = true;
+            this.kryptonPictureBox1.ToolTipValues.Heading = "Picture";
             // 
             // label2
             // 
@@ -121,7 +124,7 @@ namespace TestForm
             this.kryptonPropertyGrid1.Location = new System.Drawing.Point(13, 13);
             this.kryptonPropertyGrid1.Name = "kryptonPropertyGrid1";
             this.kryptonPropertyGrid1.SelectedObject = this;
-            this.kryptonPropertyGrid1.Size = new System.Drawing.Size(332, 651);
+            this.kryptonPropertyGrid1.Size = new System.Drawing.Size(332, 645);
             this.kryptonPropertyGrid1.TabIndex = 0;
             this.kryptonPropertyGrid1.ViewBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
             this.kryptonPropertyGrid1.ViewForeColor = System.Drawing.Color.White;
@@ -205,7 +208,7 @@ namespace TestForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1092, 676);
+            this.ClientSize = new System.Drawing.Size(1094, 670);
             this.Controls.Add(this.kryptonPanel1);
             this.Name = "FadeFormTest";
             this.Text = "FadeFormTest";
