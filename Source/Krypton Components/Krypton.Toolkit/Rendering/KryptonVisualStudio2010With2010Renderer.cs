@@ -1,7 +1,7 @@
 ﻿#region BSD License
 /*
- *   BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2023 - 2025. All rights reserved.
+ *  BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2023 - 2025. All rights reserved. *
  *
  */
 #endregion
@@ -855,6 +855,10 @@ public class KryptonVisualStudio2010With2010Renderer : KryptonProfessionalRender
                 break;
             case StatusStrip _:
             {
+                if (TryRenderStatusStripOverride(e, e.Graphics))
+                {
+                    break;
+                }
                 // Make sure the font is current
                 if (e.ToolStrip.Font != KCT.StatusStripFont)
                 {

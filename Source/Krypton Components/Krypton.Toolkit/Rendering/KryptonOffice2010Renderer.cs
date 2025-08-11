@@ -859,6 +859,10 @@ public class KryptonOffice2010Renderer : KryptonProfessionalRenderer
                 break;
             case StatusStrip _:
             {
+                if (TryRenderStatusStripOverride(e, e.Graphics))
+                {
+                    break;
+                }
                 // Make sure the font is current
                 if (e.ToolStrip.Font != KCT.StatusStripFont)
                 {
