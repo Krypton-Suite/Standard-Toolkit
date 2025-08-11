@@ -93,8 +93,8 @@ internal partial class VisualToastNotificationBasicForm : VisualToastNotificatio
 
     private void UpdateFonts()
     {
-        krtbNotificationContentText.StateCommon.Content.Font = _basicToastNotificationData.NotificationContentFont ??
-                                                               KryptonManager.CurrentGlobalPalette.BaseFont;
+        krtbNotificationContentText.StateCommon.Content.Font =
+             _basicToastNotificationData.NotificationContentFont ?? KryptonManager.CurrentGlobalPalette.BaseFont;
 
         if (_basicToastNotificationData.NotificationTitleFont != null)
         {
@@ -248,7 +248,6 @@ internal partial class VisualToastNotificationBasicForm : VisualToastNotificatio
             };
         }
 
-
         base.Show();
     }
 
@@ -353,6 +352,18 @@ internal partial class VisualToastNotificationBasicForm : VisualToastNotificatio
 
     protected override void OnFormClosing(FormClosingEventArgs e)
     {
+        _timer?.Stop();
+
+        _timer?.Dispose();
+
+        _timer = null;
+
+        _soundPlayer?.Stop();
+
+        _soundPlayer?.Dispose();
+
+        _soundPlayer = null;
+
         base.OnFormClosing(e);
     }
 
