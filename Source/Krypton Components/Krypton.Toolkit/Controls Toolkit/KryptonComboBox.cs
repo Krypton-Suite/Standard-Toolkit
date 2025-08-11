@@ -216,8 +216,10 @@ public class KryptonComboBox : VisualControlBase,
         #region Protected
         protected override void OnEnabledChanged(EventArgs e)
         {
-            // Do not forward, to allow the correct Background for disabled state
-            // See https://github.com/Krypton-Suite/Standard-Toolkit/issues/662
+            if (Enabled)
+            {
+                base.OnEnabledChanged(e);
+            }
         }
 
         /// <summary>
