@@ -44,11 +44,11 @@ public partial class PanelForm : KryptonForm
         kryptonDataGridView1.InvalidateColumn(0);
         return;
 
-        MessageBox.Show(
+        //MessageBox.Show(
 
-            $"IsWindowsEleven: {OSUtilities.IsWindowsEleven}" +
-            $"PlatformID: {OSUtilities.OsVersionInfo.PlatformId}"
-            );
+        //    $"IsWindowsEleven: {OSUtilities.IsWindowsEleven}" +
+        //    $"PlatformID: {OSUtilities.OsVersionInfo.PlatformId}"
+        //    );
     }
 
     private void kryptonButton2_Click(object sender, EventArgs e)
