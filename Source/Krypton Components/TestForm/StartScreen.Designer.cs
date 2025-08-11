@@ -80,6 +80,7 @@ namespace TestForm
             this.kbtnBreadCrumb = new Krypton.Toolkit.KryptonButton();
             this.kbtnVisualControls = new Krypton.Toolkit.KryptonButton();
             this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
+            this.btnKryptonOutlookGrid = new Krypton.Toolkit.KryptonButton();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
@@ -87,6 +88,7 @@ namespace TestForm
             // 
             // kryptonPanel1
             // 
+            this.kryptonPanel1.Controls.Add(this.btnKryptonOutlookGrid);
             this.kryptonPanel1.Controls.Add(this.kbtnAdvancedEmojiViewer);
             this.kryptonPanel1.Controls.Add(this.kbtnBasicEmojiViewer);
             this.kryptonPanel1.Controls.Add(this.kbtnBlurredForm);
@@ -540,6 +542,15 @@ namespace TestForm
             this.kryptonManager1.ToolkitStrings.MessageBoxStrings.LessDetails = "L&ess Details...";
             this.kryptonManager1.ToolkitStrings.MessageBoxStrings.MoreDetails = "&More Details...";
             // 
+            // btnKryptonOutlookGrid
+            // 
+            this.btnKryptonOutlookGrid.Location = new System.Drawing.Point(223, 492);
+            this.btnKryptonOutlookGrid.Name = "btnKryptonOutlookGrid";
+            this.btnKryptonOutlookGrid.Size = new System.Drawing.Size(153, 20);
+            this.btnKryptonOutlookGrid.TabIndex = 37;
+            this.btnKryptonOutlookGrid.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.btnKryptonOutlookGrid.Values.Text = "KryptonOutlookGrid";
+            // 
             // StartScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -607,5 +618,6 @@ namespace TestForm
         private KryptonButton kbtnVisualControls;
         private KryptonButton kbtnBasicEmojiViewer;
         private KryptonButton kbtnAdvancedEmojiViewer;
+        private KryptonButton btnKryptonOutlookGrid;
     }
 }

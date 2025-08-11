@@ -3,6 +3,12 @@
 ====
 
 ## 2025-11-xx - Build 2511 (V10 - alpha) - November 2025
+* Implemented [#2376](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2376), **[Breaking Change]** Implements `KryptonOutlookGrid` and `KryptonOutlookGridAio` (which is All In One container for adding t an Ogrid and all features in fast way). Courtesy of @KamaniAR.
+	- Several component names & file names have been refactored to reflect that those are specific to the `KryptonOutlookGrid`. 
+	- Items that previously had their name starting with OutlookGrid now start with KryptonOutlookGrid.
+	- Items that had no prefix of this kind will now start with KryptonOutlookGrid.
+	- The `RatingColumn` from KOG has been replaced by `KryptonDataGridViewRatingColumn`.
+	- PercentageColumn is obsolete and replaced by `KryptonDataGridViewProgressColumn`.
 * Implemented [#2048](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2048), `KryptonStatusStrip` control theming.
 * Implemented [#2291](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2291), Add tooltips to `KryptonPictureBox`.
 * Resolved [#2401](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2401), Fix `KryptonComboBox` event `OnEnabledChanged`.
