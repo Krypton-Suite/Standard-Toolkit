@@ -93,7 +93,7 @@ public class KryptonComboBox : VisualControlBase,
                         base.WndProc(ref m);
                         return;
                     case PI.WM_.COMMAND:
-                        DefWndProc(ref m);
+                        // Ignore spurious WM_COMMAND during handle churn to avoid native crashes
                         return;
                 }
             }
@@ -112,7 +112,16 @@ public class KryptonComboBox : VisualControlBase,
 
                     break;
                 case PI.WM_.COMMAND:
-                    base.WndProc(ref m);
+                    // Ensure WM_COMMAND processes even while non-initiator forms have redraw disabled during theme swaps.
+                    // If this is the initiating form, use base routing; otherwise, let default proc handle native routing directly.
+                    if (ThemeChangeCoordinator.InProgress && !ReferenceEquals(FindForm(), ThemeChangeCoordinator.Initiator))
+                    {
+                        DefWndProc(ref m);
+                    }
+                    else
+                    {
+                        base.WndProc(ref m);
+                    }
                     break;
                 default:
                     base.WndProc(ref m);
@@ -257,6 +266,22 @@ public class KryptonComboBox : VisualControlBase,
         /// <param name="m">A Windows-based message.</param>
         protected override void WndProc(ref Message m)
         {
+            // Early guard for handle churn/theme swaps to avoid re-entrant faults on command routing
+            bool unstable = ThemeChangeCoordinator.InProgress || RecreatingHandle || IsDisposed || !IsHandleCreated;
+            if (unstable)
+            {
+                switch (m.Msg)
+                {
+                    case PI.WM_.PAINT:
+                    case PI.WM_.PRINTCLIENT:
+                        base.WndProc(ref m);
+                        return;
+                    case PI.WM_.COMMAND:
+                        base.WndProc(ref m);
+                        return;
+                }
+            }
+
             switch (m.Msg)
             {
                 case PI.WM_.NCHITTEST:
@@ -478,6 +503,9 @@ public class KryptonComboBox : VisualControlBase,
                         PI.EndPaint(Handle, ref ps);
                     }
                 }
+                    break;
+                case PI.WM_.COMMAND:
+                    base.WndProc(ref m);
                     break;
                 case PI.WM_.CONTEXTMENU:
                     // Only interested in overriding the behavior when we have a krypton context menu...

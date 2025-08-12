@@ -109,36 +109,50 @@ public class KryptonThemeComboBox : KryptonComboBox, IKryptonThemeSelectorBase
     /// <inheritdoc />
     protected override void OnSelectedIndexChanged(EventArgs e)
     {
-        // Disable redraw to prevent transient WM_COMMAND re-entrancy while palette switches
+        // Disable redraw immediately to reduce flicker; defer the heavy theme swap until after WM_COMMAND unwinds
         if (IsHandleCreated)
         {
             PI.SendMessage(Handle, PI.SETREDRAW, IntPtr.Zero, IntPtr.Zero);
         }
 
-        ThemeChangeCoordinator.Begin();
-        try
+        if (!IsHandleCreated)
         {
-            if (!CommonHelperThemeSelectors.OnSelectedIndexChanged(ref _isLocalUpdate, _isExternalUpdate, ref _defaultPalette, Text, _manager, _kryptonCustomPalette))
+            base.OnSelectedIndexChanged(e);
+            return;
+        }
+
+        BeginInvoke((System.Windows.Forms.MethodInvoker)(() =>
+        {
+            if (IsDisposed || !IsHandleCreated)
             {
-                //theme change went wrong, make the active theme the selected theme in the list.
-                SelectedIndex = CommonHelperThemeSelectors.GetPaletteIndex(Items, _manager.GlobalPaletteMode);
+                return;
+            }
+            // Mark this form as the initiator so redraw is not disabled for it during the change
+            ThemeChangeCoordinator.Begin(FindForm());
+            try
+            {
+                if (!CommonHelperThemeSelectors.OnSelectedIndexChanged(ref _isLocalUpdate, _isExternalUpdate, ref _defaultPalette, Text, _manager, _kryptonCustomPalette))
+                {
+                    // theme change failed; resync index to current global palette
+                    SelectedIndex = CommonHelperThemeSelectors.GetPaletteIndex(Items, _manager.GlobalPaletteMode);
+                }
+
+                base.OnSelectedIndexChanged(e);
+            }
+            finally
+            {
+                ThemeChangeCoordinator.End();
             }
 
-            base.OnSelectedIndexChanged(e);
-        }
-        finally
-        {
-            ThemeChangeCoordinator.End();
-        }
-
-        if (IsHandleCreated)
-        {
-            PI.SendMessage(Handle, PI.SETREDRAW, (IntPtr)1, IntPtr.Zero);
-            Invalidate(true);
-            Update();
-            // Ensure a second repaint after layouts settle
-            BeginInvoke((System.Windows.Forms.MethodInvoker)(() => { Invalidate(true); Update(); }));
-        }
+            if (IsHandleCreated)
+            {
+                PI.SendMessage(Handle, PI.SETREDRAW, (IntPtr)1, IntPtr.Zero);
+                Invalidate(true);
+                Update();
+                // Ensure a second repaint after layouts settle
+                BeginInvoke((System.Windows.Forms.MethodInvoker)(() => { Invalidate(true); Update(); }));
+            }
+        }));
     }
 
     #endregion

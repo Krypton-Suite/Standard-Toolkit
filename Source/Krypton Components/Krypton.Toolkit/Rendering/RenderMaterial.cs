@@ -86,6 +86,11 @@ public sealed class RenderMaterial : RenderOffice2010
         VisualOrientation orientation,
         PaletteState state)
     {
+        #if DEBUG
+        if (context is null) throw new ArgumentNullException(nameof(context));
+        if (palette is null) throw new ArgumentNullException(nameof(palette));
+        if (rect.Width < 0 || rect.Height < 0) return; // benign skip
+        #endif
         if (palette == null)
         {
             throw new ArgumentNullException(nameof(palette));
@@ -156,6 +161,11 @@ public sealed class RenderMaterial : RenderOffice2010
         VisualOrientation orientation,
         PaletteState state)
     {
+        #if DEBUG
+        if (context is null) throw new ArgumentNullException(nameof(context));
+        if (palette is null) throw new ArgumentNullException(nameof(palette));
+        if (rect.Width < 0 || rect.Height < 0) rect = Rectangle.Empty;
+        #endif
         // For invalid rectangles, let base handle it
         if (rect.Width <= 0 || rect.Height <= 0)
         {
@@ -186,6 +196,11 @@ public sealed class RenderMaterial : RenderOffice2010
         VisualOrientation orientation,
         PaletteState state)
     {
+        #if DEBUG
+        if (context is null) throw new ArgumentNullException(nameof(context));
+        if (palette is null) throw new ArgumentNullException(nameof(palette));
+        if (rect.Width < 0 || rect.Height < 0) rect = Rectangle.Empty;
+        #endif
         // For invalid rectangles, let base handle it
         if (rect.Width <= 0 || rect.Height <= 0)
         {
@@ -218,6 +233,12 @@ public sealed class RenderMaterial : RenderOffice2010
         PaletteState state,
         IDisposable? memento)
     {
+        #if DEBUG
+        if (context is null) throw new ArgumentNullException(nameof(context));
+        if (palette is null) throw new ArgumentNullException(nameof(palette));
+        if (path is null) throw new ArgumentNullException(nameof(path));
+        if (rect.Width < 0 || rect.Height < 0) rect = Rectangle.Empty;
+        #endif
         if (palette == null)
         {
             throw new ArgumentNullException(nameof(palette));

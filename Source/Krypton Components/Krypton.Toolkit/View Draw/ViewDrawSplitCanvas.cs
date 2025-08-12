@@ -26,6 +26,8 @@ public class ViewDrawSplitCanvas : ViewComposite
     private PaletteBorderInheritForced? _borderForced;
     private Region? _clipRegion;
     private Rectangle _splitRectangle;
+    private System.Windows.Forms.Timer? _rippleTimer;
+    private readonly List<Ripple> _ripples = new List<Ripple>();
 
     #endregion
 
@@ -102,6 +104,13 @@ public class ViewDrawSplitCanvas : ViewComposite
             {
                 _clipRegion.Dispose();
                 _clipRegion = null;
+            }
+
+            if (_rippleTimer != null)
+            {
+                _rippleTimer.Stop();
+                _rippleTimer.Dispose();
+                _rippleTimer = null;
             }
         }
 
@@ -517,7 +526,7 @@ public class ViewDrawSplitCanvas : ViewComposite
             var draw = PaletteBorder.GetBorderDraw(State);
             var edges = PaletteBorder.GetBorderDrawBorders(State);
             var width = PaletteBorder.GetBorderWidth(State);
-            if (rect.Width > 0 && rect.Height > 0 && draw == InheritBool.True && CommonHelper.HasABorder(edges) && width > 0)
+            if (!ThemeChangeCoordinator.InProgress && rect.Width > 0 && rect.Height > 0 && draw == InheritBool.True && CommonHelper.HasABorder(edges) && width > 0)
             {
                 // Remember the current clipping region
                 _clipRegion = context.Graphics.Clip.Clone();
@@ -530,11 +539,12 @@ public class ViewDrawSplitCanvas : ViewComposite
                         Orientation, State);
 
                 // Create a new region the same as the existing clipping region
-                var combineRegion = new Region(borderPath);
-
-                // Reduce clipping region down by our border path
-                combineRegion.Intersect(_clipRegion);
-                context.Graphics.Clip = combineRegion;
+                using (var combineRegion = new Region(borderPath))
+                {
+                    // Reduce clipping region down by our border path
+                    combineRegion.Intersect(_clipRegion);
+                    context.Graphics.Clip = combineRegion;
+                }
 
                 borderPath.Dispose();
             }
@@ -563,6 +573,41 @@ public class ViewDrawSplitCanvas : ViewComposite
             // Do we draw the border after the children?
             if (DrawBorderLast)
             {
+                // Draw ripple overlay before the border when enabled for Material renderer
+                // Avoid any extra clipping or overlay painting while theme switching is in progress
+                if (_ripples.Count > 0 && context.Renderer is RenderMaterial && !ThemeChangeCoordinator.InProgress)
+                {
+                    // Clip to the inside of the border/back path to keep the ripple bounded
+                    GraphicsPath borderPath = DrawTabBorder
+                        ? context.Renderer.RenderTabBorder.GetTabBackPath(context, ClientRectangle, PaletteBorder!, Orientation, State, TabBorderStyle)
+                        : context.Renderer.RenderStandardBorder.GetBackPath(context, ClientRectangle, PaletteBorder!, Orientation, State);
+
+                    using (var clip = new Clipping(context.Graphics, borderPath))
+                    {
+                        // Choose on-surface overlay color based on background brightness
+                        Color surface = PaletteBack.GetBackColor1(State);
+                        bool isDark = surface.GetBrightness() < 0.5f;
+                        Color baseColor = isDark ? Color.White : Color.Black;
+
+                        int now = Environment.TickCount;
+                        float maxRadius = (float)Math.Sqrt((ClientWidth * ClientWidth) + (ClientHeight * ClientHeight));
+
+                        for (int i = 0; i < _ripples.Count; i++)
+                        {
+                            Ripple r = _ripples[i];
+                            float t = Math.Min(1f, (now - r.TicksStart) / (float)r.DurationMs);
+                            int alpha = (int)(255f * (1f - t) * 0.20f);
+                            float radius = t * maxRadius;
+
+                            using var brush = new SolidBrush(Color.FromArgb(Math.Max(0, Math.Min(255, alpha)), baseColor));
+                            RectangleF rect = new RectangleF(r.Origin.X - radius, r.Origin.Y - radius, radius * 2f, radius * 2f);
+                            context.Graphics.FillEllipse(brush, rect);
+                        }
+                    }
+
+                    borderPath.Dispose();
+                }
+
                 // Restore the clipping region only if we changed it
                 if (_clipRegion != null)
                 {
@@ -585,6 +630,8 @@ public class ViewDrawSplitCanvas : ViewComposite
         // Do we need to draw the background?
         if (DrawCanvas && PaletteBack.GetBackDraw(State) == InheritBool.True)
         {
+            // During theme/palette changes, avoid split clipping path work to reduce GDI churn
+            // If a theme change is in progress, still draw normally here; higher-level guards already prevent risky clipping
             if (Splitter)
             {
                 var mouseInSplit = MouseInSplit;
@@ -777,5 +824,81 @@ public class ViewDrawSplitCanvas : ViewComposite
                                     PaletteMetric.GetMetricBool(State, PaletteMetricBool.SplitWithFading) ==
                                     InheritBool.True;
 
+    #endregion
+
+    #region Ripple
+    private sealed class Ripple
+    {
+        public PointF Origin;
+        public int TicksStart;
+        public int DurationMs;
+    }
+
+    /// <summary>
+    /// Starts a ripple animation from the specified control-relative origin.
+    /// </summary>
+    /// <param name="origin">Point in control coordinates.</param>
+    public void StartRipple(Point origin)
+    {
+        // Guard against invalid size
+        if (ClientRectangle.Width <= 0 || ClientRectangle.Height <= 0)
+        {
+            return;
+        }
+
+        // Convert from control coordinates to this canvas local coordinates
+        var local = new Point(origin.X - ClientLocation.X, origin.Y - ClientLocation.Y);
+        var ripple = new Ripple
+        {
+            Origin = new PointF(local.X, local.Y),
+            TicksStart = Environment.TickCount,
+            DurationMs = 300
+        };
+
+        _ripples.Add(ripple);
+
+        if (_rippleTimer == null)
+        {
+            _rippleTimer = new System.Windows.Forms.Timer
+            {
+                Interval = 16
+            };
+            _rippleTimer.Tick += OnRippleTick;
+        }
+
+        if (!_rippleTimer.Enabled)
+        {
+            _rippleTimer.Start();
+        }
+    }
+
+    /// <summary>
+    /// Cancels all in-flight ripples.
+    /// </summary>
+    public void CancelRipples()
+    {
+        _ripples.Clear();
+        if (_rippleTimer != null)
+        {
+            _rippleTimer.Stop();
+        }
+        // Request a repaint to clear any remaining visuals
+        (FindMouseController() as ButtonController)?.PerformNeedPaint();
+    }
+
+    private void OnRippleTick(object? sender, EventArgs e)
+    {
+        int now = Environment.TickCount;
+        // Remove completed ripples
+        _ripples.RemoveAll(r => (now - r.TicksStart) >= r.DurationMs);
+
+        if (_ripples.Count == 0 && _rippleTimer != null)
+        {
+            _rippleTimer.Stop();
+        }
+
+        // Invalidate to continue animation
+        (FindMouseController() as ButtonController)?.PerformNeedPaint();
+    }
     #endregion
 }

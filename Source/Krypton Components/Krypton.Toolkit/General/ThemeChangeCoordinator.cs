@@ -15,13 +15,16 @@ namespace Krypton.Toolkit;
 internal static class ThemeChangeCoordinator
 {
     private static int _nestDepth;
+    public static Form? Initiator { get; private set; }
 
     /// <summary>
     /// True while a palette/theme change is in progress.
     /// </summary>
     public static volatile bool InProgress;
 
-    public static void Begin()
+    public static void Begin() => Begin(null);
+
+    public static void Begin(Form? initiator)
     {
         _nestDepth++;
         if (_nestDepth > 1)
@@ -31,10 +34,17 @@ internal static class ThemeChangeCoordinator
         }
 
         InProgress = true;
+        Initiator = initiator;
         foreach (Form form in Application.OpenForms)
         {
             try
             {
+                // Keep redraw enabled for the initiating form so its WM_COMMAND completes safely
+                if (ReferenceEquals(form, initiator))
+                {
+                    continue;
+                }
+
                 if (form.IsHandleCreated)
                 {
                     PI.SendMessage(form.Handle, PI.SETREDRAW, IntPtr.Zero, IntPtr.Zero);
@@ -86,6 +96,7 @@ internal static class ThemeChangeCoordinator
         finally
         {
             InProgress = false;
+            Initiator = null;
         }
     }
 }
