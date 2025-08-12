@@ -82,6 +82,22 @@ public class KryptonComboBox : VisualControlBase,
         /// <param name="m">A Windows-based message.</param>
         protected override void WndProc(ref Message m)
         {
+            // Consolidated guard for theme swap or unstable handles
+            bool unstable = ThemeChangeCoordinator.InProgress || RecreatingHandle || !IsHandleCreated;
+            if (unstable)
+            {
+                switch (m.Msg)
+                {
+                    case PI.WM_.PAINT:
+                    case PI.WM_.PRINTCLIENT:
+                        base.WndProc(ref m);
+                        return;
+                    case PI.WM_.COMMAND:
+                        DefWndProc(ref m);
+                        return;
+                }
+            }
+
             switch (m.Msg)
             {
                 case PI.WM_.NCHITTEST:
@@ -94,6 +110,9 @@ public class KryptonComboBox : VisualControlBase,
                         base.WndProc(ref m);
                     }
 
+                    break;
+                case PI.WM_.COMMAND:
+                    base.WndProc(ref m);
                     break;
                 default:
                     base.WndProc(ref m);
@@ -339,7 +358,7 @@ public class KryptonComboBox : VisualControlBase,
                             : PaletteState.Disabled;
                         PaletteInputControlTripleStates states = _kryptonComboBox.GetComboBoxTripleState();
 
-                        // Drawn entire client area in the background color
+                        // Draw entire client area in the background color
                         using var backBrush = new SolidBrush(states.PaletteBack.GetBackColor1(state));
                         g.FillRectangle(backBrush, new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top));
 
@@ -369,7 +388,11 @@ public class KryptonComboBox : VisualControlBase,
                         }
 
                         // Exclude border from being drawn, we need to take off another 2 pixels from all edges
-                        PI.IntersectClipRect(hdc, rect.left + 2, rect.top, rect.right - 2, rect.bottom);
+                        // Guard: ensure rect is sane before clipping
+                        if (rect.right > rect.left && rect.bottom > rect.top)
+                        {
+                            PI.IntersectClipRect(hdc, rect.left + 2, rect.top, rect.right - 2, rect.bottom);
+                        }
                         var displayText = _kryptonComboBox.Text;
                         if (!string.IsNullOrWhiteSpace(_kryptonComboBox.CueHint.CueHintText)
                             && string.IsNullOrEmpty(displayText)
@@ -412,10 +435,21 @@ public class KryptonComboBox : VisualControlBase,
                                     break;
                             }
 
-                            // Draw text using font defined by the control
-                            var rectangle = new Rectangle(rect.left, rect.top, rect.right - rect.left,
-                                rect.bottom - rect.top);
-                            rectangle = CommonHelper.ApplyPadding(VisualOrientation.Top, rectangle, states.Content.GetBorderContentPadding(null, state));
+                            // Draw text using font defined by the control; fall back to Text if display text empty
+                            var rectangle = new Rectangle(rect.left, rect.top,
+                                Math.Max(0, rect.right - rect.left),
+                                Math.Max(0, rect.bottom - rect.top));
+                            if (rectangle.Width == 0 || rectangle.Height == 0)
+                            {
+                                // Nothing to draw yet (can happen during theme switch)
+                                break;
+                            }
+                            rectangle = CommonHelper.ApplyPadding(VisualOrientation.Top, rectangle,
+                                states.Content.GetBorderContentPadding(null, state));
+                            if (rectangle.Width <= 0 || rectangle.Height <= 0)
+                            {
+                                break;
+                            }
                             // Find correct text color
                             Color textColor = states.Content.GetContentShortTextColor1(state);
                             Font? contentShortTextFont = states.Content.GetContentShortTextFont(state);
@@ -423,8 +457,9 @@ public class KryptonComboBox : VisualControlBase,
                             Color backColor = states.PaletteBack.GetBackColor1(state);
 
                             // TODO: Replace this with the graphic DrawString to get around some drawing looking Very Poor
+                            var toDraw = string.IsNullOrEmpty(displayText) ? Text ?? string.Empty : displayText;
                             TextRenderer.DrawText(g,
-                                Text, contentShortTextFont,
+                                toDraw, contentShortTextFont,
                                 rectangle,
                                 textColor, backColor,
                                 flags);

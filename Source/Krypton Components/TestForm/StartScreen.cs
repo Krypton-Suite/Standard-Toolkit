@@ -66,6 +66,19 @@ public partial class StartScreen : KryptonForm
         kbtnAbout.OverrideDefault.Back.ColorStyle = PaletteColorStyle.Solid;
         kbtnAbout.OverrideDefault.Back.Color1 = Color.FromArgb(200, 0, 0);
         kbtnAbout.OverrideDefault.Back.Color2 = Color.FromArgb(200, 0, 0);
+
+        /*
+        // Automatic Material shadow defaults if wanted
+        if (ShadowValues.IsDefault)
+        {
+            ShadowValues.EnableShadows = true;
+            ShadowValues.Offset = new Point(2, 2);
+            ShadowValues.ExtraWidth = 6;
+            ShadowValues.BlurDistance = 40;
+            ShadowValues.Colour = Color.Black;
+            ShadowValues.Opacity = 40;
+        }
+        */
     }
 
     private void kbtnAboutBox_Click(object sender, EventArgs e)

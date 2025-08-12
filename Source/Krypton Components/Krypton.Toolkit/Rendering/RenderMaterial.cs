@@ -91,16 +91,48 @@ public sealed class RenderMaterial : RenderOffice2010
             throw new ArgumentNullException(nameof(palette));
         }
 
-        // Respect palette intent: if no edges requested or width is 0, skip entirely
+        // Respect palette intent: if no edges requested or width is 0, skip drawing
         var edges = palette.GetBorderDrawBorders(state);
-        if (!CommonHelper.HasABorder(edges))
+        var width = palette.GetBorderWidth(state);
+        if (!CommonHelper.HasABorder(edges) || width <= 0)
         {
             return;
         }
 
-        var width = palette.GetBorderWidth(state);
-        if (width <= 0)
+        // For crisp Material rectangles, avoid anti-alias corner artifacts when rounding is zero
+        var rounding = palette.GetBorderRounding(state);
+        if (rounding <= 0.0001f && rect.Width > 0 && rect.Height > 0)
         {
+            var g = context.Graphics;
+            var oldSmoothing = g.SmoothingMode;
+            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
+
+            using (var pen = new Pen(palette.GetBorderColor1(state), 1))
+            {
+                var left = rect.Left;
+                var right = rect.Right - 1;
+                var top = rect.Top;
+                var bottom = rect.Bottom - 1;
+
+                if (CommonHelper.HasTopBorder(edges))
+                {
+                    g.DrawLine(pen, left, top, right, top);
+                }
+                if (CommonHelper.HasBottomBorder(edges))
+                {
+                    g.DrawLine(pen, left, bottom, right, bottom);
+                }
+                if (CommonHelper.HasLeftBorder(edges))
+                {
+                    g.DrawLine(pen, left, top, left, bottom);
+                }
+                if (CommonHelper.HasRightBorder(edges))
+                {
+                    g.DrawLine(pen, right, top, right, bottom);
+                }
+            }
+
+            g.SmoothingMode = oldSmoothing;
             return;
         }
 
@@ -109,25 +141,41 @@ public sealed class RenderMaterial : RenderOffice2010
         {
             var g = context.Graphics;
             var old = g.SmoothingMode;
-            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+            g.SmoothingMode = rounding <= 0.0001f
+                ? System.Drawing.Drawing2D.SmoothingMode.None
+                : System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
             g.DrawPath(pen, path);
             g.SmoothingMode = old;
         }
     }
 
-    /// <inheritdoc />
+                /// <inheritdoc />
     public override GraphicsPath GetBackPath([DisallowNull] RenderContext context,
         Rectangle rect,
         [DisallowNull] IPaletteBorder palette,
         VisualOrientation orientation,
         PaletteState state)
     {
-        if (TryGetFlatRectPath(context, palette, rect, state, out var flatPath))
+        // For invalid rectangles, let base handle it
+        if (rect.Width <= 0 || rect.Height <= 0)
         {
-            return flatPath!;
+            return base.GetBackPath(context, rect, palette, orientation, state);
         }
 
-        // Otherwise, defer to base behavior for rounded/visible borders
+        // Check if we need to draw a border
+        var draw = palette.GetBorderDraw(state);
+        var edges = palette.GetBorderDrawBorders(state);
+        var width = palette.GetBorderWidth(state);
+
+        if (draw != InheritBool.True || !CommonHelper.HasABorder(edges) || width <= 0)
+        {
+            // No border needed - return exact rectangle without any padding
+            var path = new GraphicsPath();
+            path.AddRectangle(rect);
+            return path;
+        }
+
+        // Border is needed - use base implementation
         return base.GetBackPath(context, rect, palette, orientation, state);
     }
 
@@ -138,48 +186,27 @@ public sealed class RenderMaterial : RenderOffice2010
         VisualOrientation orientation,
         PaletteState state)
     {
-        if (TryGetFlatRectPath(context, palette, rect, state, out var flatPath))
+        // For invalid rectangles, let base handle it
+        if (rect.Width <= 0 || rect.Height <= 0)
         {
-            return flatPath!;
+            return base.GetBorderPath(context, rect, palette, orientation, state);
         }
 
-        return base.GetBorderPath(context, rect, palette, orientation, state);
-    }
-
-    private static bool TryGetFlatRectPath([DisallowNull] RenderContext context,
-        [DisallowNull] IPaletteBorder palette,
-        Rectangle rect,
-        PaletteState state,
-        out GraphicsPath? path)
-    {
-        if (context == null)
-        {
-            throw new ArgumentNullException(nameof(context));
-        }
-        if (palette == null)
-        {
-            throw new ArgumentNullException(nameof(palette));
-        }
-
+        // Check if we need to draw a border
         var draw = palette.GetBorderDraw(state);
         var edges = palette.GetBorderDrawBorders(state);
         var width = palette.GetBorderWidth(state);
+
         if (draw != InheritBool.True || !CommonHelper.HasABorder(edges) || width <= 0)
         {
-            // If the rect is invalid (can happen during first switch), do not return a path
-            if (rect.Width <= 0 || rect.Height <= 0)
-            {
-                path = null;
-                return false;
-            }
-
-            path = new GraphicsPath();
+            // No border needed - return exact rectangle
+            var path = new GraphicsPath();
             path.AddRectangle(rect);
-            return true;
+            return path;
         }
 
-        path = null;
-        return false;
+        // Border is needed - use base implementation
+        return base.GetBorderPath(context, rect, palette, orientation, state);
     }
 
     /// <inheritdoc />

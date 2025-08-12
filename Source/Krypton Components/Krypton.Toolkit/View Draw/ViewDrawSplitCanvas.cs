@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *
  */
 #endregion
 
@@ -33,16 +33,16 @@ public class ViewDrawSplitCanvas : ViewComposite
     /// <summary>
     /// Initialize a new instance of the ViewDrawSplitCanvas class.
     /// </summary>
-    /// <param name="paletteBack">Palette source for the background.</param>        
+    /// <param name="paletteBack">Palette source for the background.</param>
     /// <param name="paletteBorder">Palette source for the border.</param>
     /// <param name="orientation">Visual orientation of the content.</param>
     public ViewDrawSplitCanvas(IPaletteBack paletteBack,
         IPaletteBorder paletteBorder,
         VisualOrientation orientation)
-        : this(paletteBack, 
-            paletteBorder, 
-            null, 
-            PaletteMetricPadding.HeaderGroupPaddingPrimary, 
+        : this(paletteBack,
+            paletteBorder,
+            null,
+            PaletteMetricPadding.HeaderGroupPaddingPrimary,
             orientation)
     {
     }
@@ -50,7 +50,7 @@ public class ViewDrawSplitCanvas : ViewComposite
     /// <summary>
     /// Initialize a new instance of the ViewDrawSplitCanvas class.
     /// </summary>
-    /// <param name="paletteBack">Palette source for the background.</param>        
+    /// <param name="paletteBack">Palette source for the background.</param>
     /// <param name="paletteBorder">Palette source for the border.</param>
     /// <param name="paletteMetric">Palette source for metric values.</param>
     /// <param name="metricPadding">Matric used to get padding values.</param>
@@ -156,8 +156,8 @@ public class ViewDrawSplitCanvas : ViewComposite
     {
         get => _splitRectangle;
 
-        set 
-        { 
+        set
+        {
             _splitRectangle = value;
 
             if (FindMouseController() is ButtonController controller)
@@ -188,7 +188,7 @@ public class ViewDrawSplitCanvas : ViewComposite
     /// <summary>
     /// Update the source palettes for drawing.
     /// </summary>
-    /// <param name="paletteBack">Palette source for the background.</param>        
+    /// <param name="paletteBack">Palette source for the background.</param>
     /// <param name="paletteBorder">Palette source for the border.</param>
     public virtual void SetPalettes(IPaletteBack paletteBack,
         IPaletteBorder paletteBorder) => SetPalettes(paletteBack, paletteBorder, PaletteMetric);
@@ -196,10 +196,10 @@ public class ViewDrawSplitCanvas : ViewComposite
     /// <summary>
     /// Update the source palettes for drawing.
     /// </summary>
-    /// <param name="paletteBack">Palette source for the background.</param>        
+    /// <param name="paletteBack">Palette source for the background.</param>
     /// <param name="paletteBorder">Palette source for the border.</param>
     /// <param name="paletteMetric">Palette source for the metric.</param>
-    public virtual void SetPalettes([DisallowNull] IPaletteBack paletteBack, 
+    public virtual void SetPalettes([DisallowNull] IPaletteBack paletteBack,
         [DisallowNull] IPaletteBorder paletteBorder,
         IPaletteMetric? paletteMetric)
     {
@@ -263,7 +263,7 @@ public class ViewDrawSplitCanvas : ViewComposite
     {
         get => _borderForced?.MaxBorderEdges ?? PaletteDrawBorders.All;
 
-        set 
+        set
         {
             // If the decorator object used to override the border palette is not created...
             if (_borderForced == null)
@@ -274,8 +274,8 @@ public class ViewDrawSplitCanvas : ViewComposite
                 // Now we want to always use the forced version instead
                 PaletteBorder = _borderForced;
             }
-                
-            _borderForced.MaxBorderEdges = value; 
+
+            _borderForced.MaxBorderEdges = value;
         }
     }
     #endregion
@@ -288,7 +288,7 @@ public class ViewDrawSplitCanvas : ViewComposite
     {
         get => _borderForced?.ForceGraphicsHint ?? PaletteGraphicsHint.Inherit;
 
-        set 
+        set
         {
             // If the decorator object used to override the border palette is not created...
             if (_borderForced == null)
@@ -300,7 +300,7 @@ public class ViewDrawSplitCanvas : ViewComposite
                 PaletteBorder = _borderForced;
             }
 
-            _borderForced.ForceGraphicsHint = value; 
+            _borderForced.ForceGraphicsHint = value;
         }
     }
     #endregion
@@ -315,7 +315,7 @@ public class ViewDrawSplitCanvas : ViewComposite
 
     #region DrawCanvas
     /// <summary>
-    /// Gets and sets if the canvas should 
+    /// Gets and sets if the canvas should
     /// </summary>
     public bool DrawCanvas { get; set; }
 
@@ -360,7 +360,7 @@ public class ViewDrawSplitCanvas : ViewComposite
     public override bool EvalTransparentPaint([DisallowNull] ViewContext context)
     {
         Debug.Assert(context is not null);
-            
+
         if (context is null)
         {
             throw new ArgumentNullException(nameof(context));
@@ -476,7 +476,7 @@ public class ViewDrawSplitCanvas : ViewComposite
     /// </summary>
     /// <param name="context">Rendering context.</param>
     /// <exception cref="ArgumentNullException"></exception>
-    public override void RenderBefore([DisallowNull] RenderContext context) 
+    public override void RenderBefore([DisallowNull] RenderContext context)
     {
         Debug.Assert(context is not null);
 
@@ -491,29 +491,42 @@ public class ViewDrawSplitCanvas : ViewComposite
             throw new ArgumentNullException(nameof(context.Renderer));
         }
 
+        // Skip if we have no drawable area (can happen briefly during theme toggles)
+        if (ClientRectangle.Width <= 0 || ClientRectangle.Height <= 0)
+        {
+            return;
+        }
+
         RenderBackground(context, ClientRectangle);
 
-        if (DrawCanvas && PaletteBorder != null)
+        if (DrawCanvas && PaletteBorder != null &&
+            ClientRectangle.Width > 0 &&
+            ClientRectangle.Height > 0)
         {
             // Do we draw the border before the children?
             if (!DrawBorderLast)
             {
                 RenderBorder(context, ClientRectangle);
+                return;
             }
-            else
-            {
-                // Drawing border afterwards, and so clip children to prevent drawing
-                // over the corners if they are rounded.  We only clip children if the 
-                // border is drawn afterwards.
 
+            // Drawing border afterwards. Only clip children when a real border will be drawn
+            // and the client rectangle is valid. This avoids 1px gutters in Material normal state
+            // and prevents issues during early layout when sizes can be 0x0.
+            var rect = ClientRectangle;
+            var draw = PaletteBorder.GetBorderDraw(State);
+            var edges = PaletteBorder.GetBorderDrawBorders(State);
+            var width = PaletteBorder.GetBorderWidth(State);
+            if (rect.Width > 0 && rect.Height > 0 && draw == InheritBool.True && CommonHelper.HasABorder(edges) && width > 0)
+            {
                 // Remember the current clipping region
                 _clipRegion = context.Graphics.Clip.Clone();
 
                 // Restrict the clipping to the area inside the canvas border
                 GraphicsPath borderPath = DrawTabBorder
-                    ? context.Renderer.RenderTabBorder.GetTabBorderPath(context, ClientRectangle, PaletteBorder,
+                    ? context.Renderer.RenderTabBorder.GetTabBorderPath(context, rect, PaletteBorder,
                         Orientation, State, TabBorderStyle)
-                    : context.Renderer.RenderStandardBorder.GetBorderPath(context, ClientRectangle, PaletteBorder,
+                    : context.Renderer.RenderStandardBorder.GetBorderPath(context, rect, PaletteBorder,
                         Orientation, State);
 
                 // Create a new region the same as the existing clipping region
@@ -543,18 +556,22 @@ public class ViewDrawSplitCanvas : ViewComposite
             throw new ArgumentNullException(nameof(context));
         }
 
-        if (DrawCanvas && PaletteBorder != null)
+        if (DrawCanvas && PaletteBorder != null &&
+            ClientRectangle.Width > 0 &&
+            ClientRectangle.Height > 0)
         {
             // Do we draw the border after the children?
             if (DrawBorderLast)
             {
-                // Set the clipping region back to original setting
-                var oldRegion = context.Graphics.Clip;
-                context.Graphics.Clip = _clipRegion!;
-                _clipRegion = null;
-
-                // Remember to dispose of the temporary region, no longer needed
-                oldRegion.Dispose();
+                // Restore the clipping region only if we changed it
+                if (_clipRegion != null)
+                {
+                    var oldRegion = context.Graphics.Clip;
+                    context.Graphics.Clip = _clipRegion;
+                    _clipRegion = null;
+                    // Remember to dispose of the temporary region, no longer needed
+                    oldRegion.Dispose();
+                }
 
                 RenderBorder(context, ClientRectangle);
             }
@@ -683,9 +700,9 @@ public class ViewDrawSplitCanvas : ViewComposite
         }
     }
 
-    private void DrawBackground([DisallowNull] RenderContext context, 
-        Rectangle rect, 
-        IPaletteBack paletteBack, 
+    private void DrawBackground([DisallowNull] RenderContext context,
+        Rectangle rect,
+        IPaletteBack paletteBack,
         IPaletteBorder paletteBorder,
         PaletteState state)
     {
@@ -719,9 +736,9 @@ public class ViewDrawSplitCanvas : ViewComposite
         borderPath.Dispose();
     }
 
-    private void DrawBorder([DisallowNull] RenderContext context, 
-        Rectangle rect, 
-        IPaletteBorder paletteBorder, 
+    private void DrawBorder([DisallowNull] RenderContext context,
+        Rectangle rect,
+        IPaletteBorder paletteBorder,
         PaletteState state)
     {
         if (context.Renderer is null)

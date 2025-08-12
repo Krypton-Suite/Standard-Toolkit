@@ -1,7 +1,7 @@
 #region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2025 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2025 - 2025. All rights reserved.
  */
 #endregion
 
@@ -202,7 +202,7 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
             case PaletteBackStyle.HeaderForm:
             case PaletteBackStyle.HeaderPrimary:
                 // Flat, solid header background from scheme
-                return BaseColors.HeaderPrimaryBack1;
+                return BaseColors?.HeaderPrimaryBack1 ?? SystemColors.ControlDark;
             // Ensure dropdown/popups that use ControlClient (e.g. ComboBox list) pick up
             // the scheme panel color instead of the base Microsoft 365 window color.
             case PaletteBackStyle.ControlClient:
@@ -236,7 +236,7 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
                 return GetMaterialButtonBackColor(state);
             case PaletteBackStyle.HeaderForm:
             case PaletteBackStyle.HeaderPrimary:
-                return BaseColors.HeaderPrimaryBack2;
+                return BaseColors?.HeaderPrimaryBack2 ?? SystemColors.ControlDarkDark;
             case PaletteBackStyle.ControlClient:
                 return base.GetBackColor2(PaletteBackStyle.PanelClient, state);
             case PaletteBackStyle.ContextMenuOuter:
@@ -397,6 +397,13 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
         return base.GetBorderDraw(style, state);
     }
 
+    /// <inheritdoc />
+    public override PaletteGraphicsHint GetBorderGraphicsHint(PaletteBorderStyle style, PaletteState state)
+    {
+        // Keep Material crisp/flat; no smoothing/blur/shadow
+        return PaletteGraphicsHint.None;
+    }
+
     private static bool IsAnyButtonBorderStyle(PaletteBorderStyle style)
     {
         switch (style)
@@ -554,7 +561,9 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
 
         if (IsAnyButtonBorderStyle(style) || IsAnyInputBorderStyle(style))
         {
-            return BaseColors.ControlBorder;
+            // For Material theme, use the panel background color for "invisible" borders
+            // This prevents white lines in dark themes when borders are technically present but shouldn't be visible
+            return BaseColors?.PanelClient ?? Color.Transparent;
         }
 
         return base.GetBorderColor1(style, state);
@@ -570,7 +579,9 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
 
         if (IsAnyButtonBorderStyle(style) || IsAnyInputBorderStyle(style))
         {
-            return BaseColors.ControlBorder;
+            // For Material theme, use the panel background color for "invisible" borders
+            // This prevents white lines in dark themes when borders are technically present but shouldn't be visible
+            return BaseColors?.PanelClient ?? Color.Transparent;
         }
 
         return base.GetBorderColor2(style, state);

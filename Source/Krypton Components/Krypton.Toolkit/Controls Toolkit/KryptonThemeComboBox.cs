@@ -1,9 +1,9 @@
 ﻿#region BSD License
 /*
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2025. All rights reserved. 
- *  
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2024 - 2025. All rights reserved.
+ *
  */
 #endregion
 
@@ -54,7 +54,7 @@ public class KryptonThemeComboBox : KryptonComboBox, IKryptonThemeSelectorBase
     [DefaultValue(null)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     [Obsolete("Deprecated and will be removed in V110. Set a global custom palette through 'ThemeManager.ApplyTheme(...)'.")]
-    public KryptonCustomPaletteBase? KryptonCustomPalette 
+    public KryptonCustomPaletteBase? KryptonCustomPalette
     {
         get => _kryptonCustomPalette;
         set => _kryptonCustomPalette = value;
@@ -68,7 +68,7 @@ public class KryptonThemeComboBox : KryptonComboBox, IKryptonThemeSelectorBase
     [Description(@"The default palette mode.")]
     [DefaultValue(PaletteMode.Global)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-    public PaletteMode DefaultPalette 
+    public PaletteMode DefaultPalette
     {
         get => _defaultPalette;
         set => SelectedIndex = CommonHelperThemeSelectors.DefaultPaletteSetter(ref _defaultPalette, value, Items, SelectedIndex);
@@ -109,13 +109,36 @@ public class KryptonThemeComboBox : KryptonComboBox, IKryptonThemeSelectorBase
     /// <inheritdoc />
     protected override void OnSelectedIndexChanged(EventArgs e)
     {
-        if ( !CommonHelperThemeSelectors.OnSelectedIndexChanged(ref _isLocalUpdate, _isExternalUpdate, ref _defaultPalette, Text, _manager, _kryptonCustomPalette))
+        // Disable redraw to prevent transient WM_COMMAND re-entrancy while palette switches
+        if (IsHandleCreated)
         {
-            //theme change went wrong, make the active theme the selected theme in the list.
-            SelectedIndex = CommonHelperThemeSelectors.GetPaletteIndex(Items, _manager.GlobalPaletteMode);
+            PI.SendMessage(Handle, PI.SETREDRAW, IntPtr.Zero, IntPtr.Zero);
         }
 
-        base.OnSelectedIndexChanged(e);
+        ThemeChangeCoordinator.Begin();
+        try
+        {
+            if (!CommonHelperThemeSelectors.OnSelectedIndexChanged(ref _isLocalUpdate, _isExternalUpdate, ref _defaultPalette, Text, _manager, _kryptonCustomPalette))
+            {
+                //theme change went wrong, make the active theme the selected theme in the list.
+                SelectedIndex = CommonHelperThemeSelectors.GetPaletteIndex(Items, _manager.GlobalPaletteMode);
+            }
+
+            base.OnSelectedIndexChanged(e);
+        }
+        finally
+        {
+            ThemeChangeCoordinator.End();
+        }
+
+        if (IsHandleCreated)
+        {
+            PI.SendMessage(Handle, PI.SETREDRAW, (IntPtr)1, IntPtr.Zero);
+            Invalidate(true);
+            Update();
+            // Ensure a second repaint after layouts settle
+            BeginInvoke((System.Windows.Forms.MethodInvoker)(() => { Invalidate(true); Update(); }));
+        }
     }
 
     #endregion
@@ -186,7 +209,7 @@ public class KryptonThemeComboBox : KryptonComboBox, IKryptonThemeSelectorBase
     /// <summary>Gets or sets the text completion behavior of the combobox.</summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public new AutoCompleteMode AutoCompleteMode 
+    public new AutoCompleteMode AutoCompleteMode
     {
         get => base.AutoCompleteMode;
         set => base.AutoCompleteMode = value;
@@ -195,7 +218,7 @@ public class KryptonThemeComboBox : KryptonComboBox, IKryptonThemeSelectorBase
     /// <summary>Gets or sets the autocomplete source, which can be one of the values from AutoCompleteSource enumeration.</summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public new AutoCompleteSource AutoCompleteSource 
+    public new AutoCompleteSource AutoCompleteSource
     {
         get => base.AutoCompleteSource;
         set => base.AutoCompleteSource = value;
@@ -204,7 +227,7 @@ public class KryptonThemeComboBox : KryptonComboBox, IKryptonThemeSelectorBase
     /// <summary>Gets and sets the selected index.</summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public new int SelectedIndex 
+    public new int SelectedIndex
     {
         get => base.SelectedIndex;
         set => base.SelectedIndex = value;

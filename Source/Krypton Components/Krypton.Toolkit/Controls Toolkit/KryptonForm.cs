@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
  *
  */
 #endregion
@@ -1934,22 +1934,6 @@ public class KryptonForm : VisualForm,
 
             // Hide the form icon by default for a cleaner Material header (user can still re-enable later)
             AllowIconDisplay = false;
-
-            if (ShadowValues.IsDefault)
-            {
-                ShadowValues.EnableShadows = true;
-                ShadowValues.Offset = new Point(2, 2);
-                ShadowValues.ExtraWidth = 6;
-                ShadowValues.BlurDistance = 40;
-                ShadowValues.Colour = Color.Black;
-                ShadowValues.Opacity = 40;
-            }
-
-            if (BlurValues.IsDefault)
-            {
-                BlurValues.BlurWhenFocusLost = true;
-                BlurValues.Opacity = 85;
-            }
         }
     }
 
