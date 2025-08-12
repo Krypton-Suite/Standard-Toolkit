@@ -4,6 +4,8 @@
 
 ## 2025-11-xx - Build 2511 (V10 - alpha) - November 2025
 * Resolved [#2103](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2103), Ensure that `KryptonForm` properly supports RTL/LTR
+* Resolved [#2411](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2411), Fixes for `VisualToastNotificationBasicForm` and `CommonDialogHandler`.
+* Resolved [#2125](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2125), Refactored `GetToastNotificationIconType`.
 * Implemented [#2048](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2048), `KryptonStatusStrip` control theming.
 * Implemented [#2291](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2291), Add tooltips to `KryptonPictureBox`.
 * Resolved [#2401](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2401), Fix `KryptonComboBox` event `OnEnabledChanged`.
