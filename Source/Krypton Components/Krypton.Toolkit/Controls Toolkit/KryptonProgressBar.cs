@@ -321,6 +321,7 @@ public class KryptonProgressBar : Control, IContentValues
 
     [Category(@"Visuals")]
     [Description(@"Shadow color for the text; Empty for automatic.")]
+    [DefaultValue(typeof(Color), nameof(Color.Empty))]
     public Color TextShadowColor
     {
         get => _textShadowColor;
@@ -335,6 +336,8 @@ public class KryptonProgressBar : Control, IContentValues
             Invalidate();
         }
     }
+    private bool ShouldSerializeTextShadowColor() => _textShadowColor != Color.Empty;
+    public void ResetTextShadowColor() => TextShadowColor = Color.Empty;
 
     [Category(@"Visuals")]
     [Description(@"Draw a rounded backdrop behind the text for readability.")]
@@ -356,6 +359,7 @@ public class KryptonProgressBar : Control, IContentValues
 
     [Category(@"Visuals")]
     [Description(@"Backdrop color for the text; Empty for automatic semi-transparent.")]
+    [DefaultValue(typeof(Color), nameof(Color.Empty))]
     public Color TextBackdropColor
     {
         get => _textBackdropColor;
@@ -370,6 +374,8 @@ public class KryptonProgressBar : Control, IContentValues
             Invalidate();
         }
     }
+    private bool ShouldSerializeTextBackdropColor() => _textBackdropColor != Color.Empty;
+    public void ResetTextBackdropColor() => TextBackdropColor = Color.Empty;
 
     private bool ShouldSerializeStyle() => Style != ProgressBarStyle.Continuous;
 
