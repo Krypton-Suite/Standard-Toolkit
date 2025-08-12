@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
- *  
+ *
  */
 #endregion
 
@@ -32,16 +32,16 @@ public class ViewDrawCanvas : ViewComposite
     /// <summary>
     /// Initialize a new instance of the ViewDrawCanvas class.
     /// </summary>
-    /// <param name="paletteBack">Palette source for the background.</param>        
+    /// <param name="paletteBack">Palette source for the background.</param>
     /// <param name="paletteBorder">Palette source for the border.</param>
     /// <param name="orientation">Visual orientation of the content.</param>
     public ViewDrawCanvas(IPaletteBack paletteBack,
         IPaletteBorder paletteBorder,
         VisualOrientation orientation)
-        : this(paletteBack, 
-            paletteBorder, 
-            null, 
-            PaletteMetricPadding.HeaderGroupPaddingPrimary, 
+        : this(paletteBack,
+            paletteBorder,
+            null,
+            PaletteMetricPadding.HeaderGroupPaddingPrimary,
             orientation)
     {
     }
@@ -49,7 +49,7 @@ public class ViewDrawCanvas : ViewComposite
     /// <summary>
     /// Initialize a new instance of the ViewDrawCanvas class.
     /// </summary>
-    /// <param name="paletteBack">Palette source for the background.</param>        
+    /// <param name="paletteBack">Palette source for the background.</param>
     /// <param name="paletteBorder">Palette source for the border.</param>
     /// <param name="paletteMetric">Palette source for metric values.</param>
     /// <param name="metricPadding">Metric used to get padding values.</param>
@@ -136,7 +136,7 @@ public class ViewDrawCanvas : ViewComposite
     /// <summary>
     /// Update the source palettes for drawing.
     /// </summary>
-    /// <param name="paletteBack">Palette source for the background.</param>        
+    /// <param name="paletteBack">Palette source for the background.</param>
     /// <param name="paletteBorder">Palette source for the border.</param>
     public virtual void SetPalettes([DisallowNull] IPaletteBack paletteBack,
         [DisallowNull] IPaletteBorder paletteBorder) =>
@@ -145,10 +145,10 @@ public class ViewDrawCanvas : ViewComposite
     /// <summary>
     /// Update the source palettes for drawing.
     /// </summary>
-    /// <param name="paletteBack">Palette source for the background.</param>        
+    /// <param name="paletteBack">Palette source for the background.</param>
     /// <param name="paletteBorder">Palette source for the border.</param>
     /// <param name="paletteMetric">Palette source for the metric.</param>
-    public virtual void SetPalettes([DisallowNull] IPaletteBack paletteBack, 
+    public virtual void SetPalettes([DisallowNull] IPaletteBack paletteBack,
         [DisallowNull] IPaletteBorder paletteBorder,
         IPaletteMetric? paletteMetric)
     {
@@ -236,7 +236,7 @@ public class ViewDrawCanvas : ViewComposite
     {
         get => _borderForced?.MaxBorderEdges ?? PaletteDrawBorders.All;
 
-        set 
+        set
         {
             // If the decorator object used to override the border palette is not created...
             if (_borderForced == null)
@@ -267,7 +267,7 @@ public class ViewDrawCanvas : ViewComposite
                 }
             }
 
-            _borderForced.MaxBorderEdges = value; 
+            _borderForced.MaxBorderEdges = value;
         }
     }
     #endregion
@@ -280,7 +280,7 @@ public class ViewDrawCanvas : ViewComposite
     {
         get => _borderForced?.ForceGraphicsHint ?? PaletteGraphicsHint.Inherit;
 
-        set 
+        set
         {
             // If the decorator object used to override the border palette is not created...
             if (_borderForced == null)
@@ -292,7 +292,7 @@ public class ViewDrawCanvas : ViewComposite
                 _paletteBorder = _borderForced;
             }
 
-            _borderForced.ForceGraphicsHint = value; 
+            _borderForced.ForceGraphicsHint = value;
         }
     }
     #endregion
@@ -307,7 +307,7 @@ public class ViewDrawCanvas : ViewComposite
 
     #region DrawCanvas
     /// <summary>
-    /// Gets and sets if the canvas should 
+    /// Gets and sets if the canvas should
     /// </summary>
     public bool DrawCanvas { get; set; }
 
@@ -460,7 +460,7 @@ public class ViewDrawCanvas : ViewComposite
     /// </summary>
     /// <param name="context">Rendering context.</param>
     /// <exception cref="ArgumentNullException"></exception>
-    public override void RenderBefore([DisallowNull] RenderContext context) 
+    public override void RenderBefore([DisallowNull] RenderContext context)
     {
         Debug.Assert(context is not null);
 
@@ -489,7 +489,11 @@ public class ViewDrawCanvas : ViewComposite
             }
             else
             {
-                borderPath = context.Renderer.RenderStandardBorder.GetBackPath(context, ClientRectangle, _paletteBorder!, Orientation, State);
+            if (ClientRectangle.Width <= 0 || ClientRectangle.Height <= 0)
+            {
+                return;
+            }
+            borderPath = context.Renderer.RenderStandardBorder.GetBackPath(context, ClientRectangle, _paletteBorder!, Orientation, State);
                 borderPadding = context.Renderer.RenderStandardBorder.GetBorderRawPadding(_paletteBorder!, State, Orientation);
             }
 
@@ -514,15 +518,15 @@ public class ViewDrawCanvas : ViewComposite
             else
             {
                 // Drawing border afterwards, and so clip children to prevent drawing
-                // over the corners if they are rounded.  We only clip children if the 
+                // over the corners if they are rounded.  We only clip children if the
                 // border is drawn afterwards.
 
                 // Remember the current clipping region
                 _clipRegion = context.Graphics.Clip.Clone();
 
                 // Restrict the clipping to the area inside the canvas border
-                using GraphicsPath borderPath = DrawTabBorder 
-                    ? context.Renderer.RenderTabBorder.GetTabBorderPath(context, ClientRectangle, _paletteBorder, Orientation, State, TabBorderStyle) 
+                using GraphicsPath borderPath = DrawTabBorder
+                    ? context.Renderer.RenderTabBorder.GetTabBorderPath(context, ClientRectangle, _paletteBorder, Orientation, State, TabBorderStyle)
                     : context.Renderer.RenderStandardBorder.GetBorderPath(context, ClientRectangle, _paletteBorder, Orientation, State);
 
                 // Create a new region the same as the existing clipping region

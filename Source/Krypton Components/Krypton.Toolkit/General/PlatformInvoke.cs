@@ -2753,6 +2753,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         internal const int MA_NOACTIVATE = 0x03;
         internal const int EM_FORMATRANGE = 0x0439;
         internal const int RDW_INVALIDATE = 0x0001;
+        internal const int RDW_ALLCHILDREN = 0x0080;
         internal const int RDW_UPDATENOW = 0x0100;
         internal const int RDW_FRAME = 0x0400;
         internal const int DCX_WINDOW = 0x01;

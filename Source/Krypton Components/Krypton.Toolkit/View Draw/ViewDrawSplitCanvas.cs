@@ -532,6 +532,10 @@ public class ViewDrawSplitCanvas : ViewComposite
                 _clipRegion = context.Graphics.Clip.Clone();
 
                 // Restrict the clipping to the area inside the canvas border
+                if (ClientRectangle.Width <= 0 || ClientRectangle.Height <= 0)
+                {
+                    return;
+                }
                 GraphicsPath borderPath = DrawTabBorder
                     ? context.Renderer.RenderTabBorder.GetTabBorderPath(context, rect, PaletteBorder,
                         Orientation, State, TabBorderStyle)

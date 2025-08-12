@@ -146,11 +146,21 @@ public class KryptonThemeComboBox : KryptonComboBox, IKryptonThemeSelectorBase
 
             if (IsHandleCreated)
             {
+                // Re-enable redraw and perform a single composited repaint to reduce flicker
                 PI.SendMessage(Handle, PI.SETREDRAW, (IntPtr)1, IntPtr.Zero);
-                Invalidate(true);
-                Update();
-                // Ensure a second repaint after layouts settle
-                BeginInvoke((System.Windows.Forms.MethodInvoker)(() => { Invalidate(true); Update(); }));
+                var form = FindForm();
+                if (form is { IsHandleCreated: true })
+                {
+                    // Force full subtree invalidation and a one-pass update including children and frame
+                    form.Invalidate(true);
+                    PI.RedrawWindow(form.Handle, IntPtr.Zero, IntPtr.Zero,
+                        PI.RDW_INVALIDATE | PI.RDW_ALLCHILDREN | PI.RDW_UPDATENOW | PI.RDW_FRAME);
+                }
+                else
+                {
+                    Invalidate(true);
+                    Update();
+                }
             }
         }));
     }

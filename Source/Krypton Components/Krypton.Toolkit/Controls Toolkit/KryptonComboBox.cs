@@ -112,16 +112,20 @@ public class KryptonComboBox : VisualControlBase,
 
                     break;
                 case PI.WM_.COMMAND:
-                    // Ensure WM_COMMAND processes even while non-initiator forms have redraw disabled during theme swaps.
-                    // If this is the initiating form, use base routing; otherwise, let default proc handle native routing directly.
+                    // During theme swap, prevent selection-change commands on non-initiator forms from re-entering native routing.
                     if (ThemeChangeCoordinator.InProgress && !ReferenceEquals(FindForm(), ThemeChangeCoordinator.Initiator))
                     {
-                        DefWndProc(ref m);
+                        int code = PI.HIWORD(m.WParam);
+                        // CBN_SELCHANGE (0x1), CBN_SELENDOK (0x9), CBN_SELENDCANCEL (0xA)
+                        if (code is 0x0001 or 0x0009 or 0x000A)
+                        {
+                            #if DEBUG
+                            DebugLogger.WriteLine("InternalPanel: Swallowing CBN_* on non-initiator during theme swap.");
+                            #endif
+                            return;
+                        }
                     }
-                    else
-                    {
-                        base.WndProc(ref m);
-                    }
+                    base.WndProc(ref m);
                     break;
                 default:
                     base.WndProc(ref m);
