@@ -1,9 +1,9 @@
 ﻿#region BSD License
 /*
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2025. All rights reserved. 
- *  
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2024 - 2025. All rights reserved.
+ *
  */
 #endregion
 
@@ -180,5 +180,29 @@ public partial class UserInputToastNotificationTest : KryptonForm
     private void kbtnSampleText_Click(object sender, EventArgs e)
     {
         ktxtToastContent.Text = GlobalStaticValues.DEFAULT_LONG_SEED_TEXT;
+    }
+
+    private void kbtnContentFont_Click(object sender, EventArgs e)
+    {
+        using (var contentFontDialog = new KryptonFontDialog())
+        {
+            if (contentFontDialog.ShowDialog(this) == DialogResult.OK)
+            {
+                // Apply chosen font to content preview or store for use in data
+                ktxtToastContent.StateCommon.Content.Font = contentFontDialog.Font;
+            }
+        }
+    }
+
+    private void kbtnTitleFont_Click(object sender, EventArgs e)
+    {
+        using (var titleFontDialog = new KryptonFontDialog())
+        {
+            if (titleFontDialog.ShowDialog(this) == DialogResult.OK)
+            {
+                // Apply chosen font to title preview or store for use in data
+                ktxtToastTitle.StateCommon.Content.Font = titleFontDialog.Font;
+            }
+        }
     }
 }
