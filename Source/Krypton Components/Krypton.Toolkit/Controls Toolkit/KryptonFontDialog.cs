@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *
  */
 #endregion
 
@@ -59,11 +59,12 @@ public class KryptonFontDialog : FontDialog
     /// that are currently installed on the system.
     /// </summary>
     public KryptonFontDialog() =>
-        _commonDialogHandler = new CommonDialogHandler(true)
+        _commonDialogHandler = new CommonDialogHandler(false)
         {
             Icon = DialogImageResources.font,
             ShowIcon = false
         };
+
     /// <summary>
     /// Display the Legacy Extended colours choice
     /// </summary>
@@ -113,6 +114,12 @@ public class KryptonFontDialog : FontDialog
     /// <inheritdoc />
     protected override IntPtr HookProc(IntPtr hWnd, int msg, IntPtr wparam, IntPtr lparam)
     {
+        // Fast path: when not enhancing the dialog UI, avoid heavy re-hosting/painting logic to prevent blank dialogs
+        // and modality issues on some systems. Only set the title if provided, then delegate to base.
+        // We are not embedding for FontDialog to avoid breaking the modal loop.
+        // Ensure INITDIALOG continues normally so native controls initialize.
+        _commonDialogHandler.ReturnHandledOnInitDialog = false;
+
         var (handled, retValue) = _commonDialogHandler.HookProc(hWnd, msg, wparam, lparam);
         if (_displayExtendedColorsButton
             && msg == PI.WM_.INITDIALOG
