@@ -1,9 +1,9 @@
 ﻿#region BSD License
 /*
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2025. All rights reserved. 
- *  
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2024 - 2025. All rights reserved.
+ *
  */
 #endregion
 
@@ -138,21 +138,23 @@ public partial class BasicToastNotificationTest : KryptonForm
 
     private void kbtnContentFont_Click(object sender, EventArgs e)
     {
-        var contentFontDialog = new KryptonFontDialog();
-
-        if (contentFontDialog.ShowDialog() == DialogResult.OK)
+        using (var contentFontDialog = new KryptonFontDialog())
         {
-            _contentFont = contentFontDialog.Font;
+            if (contentFontDialog.ShowDialog(this) == DialogResult.OK)
+            {
+                _contentFont = contentFontDialog.Font;
+            }
         }
     }
 
     private void kbtnTitleFont_Click(object sender, EventArgs e)
     {
-        KryptonFontDialog titleFontDialog = new KryptonFontDialog();
-
-        if (titleFontDialog.ShowDialog() == DialogResult.OK)
+        using (var titleFontDialog = new KryptonFontDialog())
         {
-            _titleFont = titleFontDialog.Font;
+            if (titleFontDialog.ShowDialog(this) == DialogResult.OK)
+            {
+                _titleFont = titleFontDialog.Font;
+            }
         }
     }
 
@@ -219,11 +221,6 @@ public partial class BasicToastNotificationTest : KryptonForm
     private void kbtnSampleText_Click(object sender, EventArgs e)
     {
         ktxtToastContent.Text = GlobalStaticValues.DEFAULT_LONG_SEED_TEXT;
-    }
-
-    private void kcmbToastTitleAlignment_SelectedIndexChanged(object sender, EventArgs e)
-    {
-
     }
 
     private void kcmbToastTitleAlignmentV_SelectedIndexChanged(object sender, EventArgs e)
