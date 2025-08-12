@@ -1932,6 +1932,9 @@ public class KryptonForm : VisualForm,
                 FormTitleAlign = PaletteRelativeAlign.Center;
             }
 
+            // Hide the form icon by default for a cleaner Material header (user can still re-enable later)
+            AllowIconDisplay = false;
+
             if (ShadowValues.IsDefault)
             {
                 ShadowValues.EnableShadows = true;

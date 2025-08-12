@@ -13,6 +13,45 @@ namespace Krypton.Toolkit;
 /// </summary>
 public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
 {
+    #region Material Tokens (first pass)
+    private static Color BlendOverlay(Color baseColor, Color overlayColor, float overlayWeight)
+        => CommonHelper.MergeColors(baseColor, 1f - overlayWeight, overlayColor, overlayWeight);
+
+    private bool IsDarkSurface()
+    {
+        var surface = BaseColors != null ? BaseColors.PanelClient : SystemColors.Control;
+        return surface.GetBrightness() < 0.5f;
+    }
+
+    private Color TokenSurface => BaseColors != null ? BaseColors.PanelClient : SystemColors.Control;
+    private Color TokenOnSurface => BaseColors != null ? BaseColors.TextLabelControl : SystemColors.ControlText;
+    private Color TokenOutline => BaseColors != null ? BaseColors.ControlBorder : SystemColors.ControlDark;
+    private Color TokenPrimary => BaseColors != null ? BaseColors.TextButtonNormal : SystemColors.HotTrack;
+
+    private Color GetMaterialButtonBackColor(PaletteState state)
+    {
+        var surface = TokenSurface;
+
+        // Subtle state overlays per Material guidance (approximate)
+        float overlay = state switch
+        {
+            PaletteState.Tracking => 0.06f,
+            PaletteState.Pressed or PaletteState.CheckedPressed => 0.12f,
+            PaletteState.CheckedNormal => 0.08f,
+            PaletteState.CheckedTracking => 0.10f,
+            _ => 0f
+        };
+
+        if (overlay <= 0f)
+        {
+            return surface;
+        }
+
+        var overlayColor = IsDarkSurface() ? Color.White : Color.Black;
+        return BlendOverlay(surface, overlayColor, overlay);
+    }
+    #endregion
+
     #region Padding (Material compact)
     private static readonly Padding _metricPaddingHeader = new Padding(0, 2, 0, 2);
     private static readonly Padding _metricPaddingInputControl = new Padding(0);
@@ -55,6 +94,21 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
 
         switch (style)
         {
+            case PaletteBackStyle.ButtonStandalone:
+            case PaletteBackStyle.ButtonAlternate:
+            case PaletteBackStyle.ButtonLowProfile:
+            case PaletteBackStyle.ButtonBreadCrumb:
+            case PaletteBackStyle.ButtonListItem:
+            case PaletteBackStyle.ButtonCommand:
+            case PaletteBackStyle.ButtonButtonSpec:
+            case PaletteBackStyle.ButtonCluster:
+            case PaletteBackStyle.ButtonForm:
+            case PaletteBackStyle.ButtonFormClose:
+            case PaletteBackStyle.ButtonCustom1:
+            case PaletteBackStyle.ButtonCustom2:
+            case PaletteBackStyle.ButtonCustom3:
+                // Force flat solid fills for buttons
+                return PaletteColorStyle.Solid;
             case PaletteBackStyle.ContextMenuOuter:
             case PaletteBackStyle.ContextMenuInner:
                 return PaletteColorStyle.Solid;
@@ -129,6 +183,22 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
         // Force dark popups and context menus without touching scheme files
         switch (style)
         {
+            // Buttons: use neutral surface color; state-specific nuances are small and handled by BorderColor/2
+            case PaletteBackStyle.ButtonStandalone:
+            case PaletteBackStyle.ButtonAlternate:
+            case PaletteBackStyle.ButtonLowProfile:
+            case PaletteBackStyle.ButtonBreadCrumb:
+            case PaletteBackStyle.ButtonListItem:
+            case PaletteBackStyle.ButtonCommand:
+            case PaletteBackStyle.ButtonButtonSpec:
+            case PaletteBackStyle.ButtonCluster:
+            case PaletteBackStyle.ButtonForm:
+            case PaletteBackStyle.ButtonFormClose:
+            case PaletteBackStyle.ButtonCustom1:
+            case PaletteBackStyle.ButtonCustom2:
+            case PaletteBackStyle.ButtonCustom3:
+                // Neutral container/background for Material with state overlays
+                return GetMaterialButtonBackColor(state);
             case PaletteBackStyle.HeaderForm:
             case PaletteBackStyle.HeaderPrimary:
                 // Flat, solid header background from scheme
@@ -150,6 +220,20 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
     {
         switch (style)
         {
+            case PaletteBackStyle.ButtonStandalone:
+            case PaletteBackStyle.ButtonAlternate:
+            case PaletteBackStyle.ButtonLowProfile:
+            case PaletteBackStyle.ButtonBreadCrumb:
+            case PaletteBackStyle.ButtonListItem:
+            case PaletteBackStyle.ButtonCommand:
+            case PaletteBackStyle.ButtonButtonSpec:
+            case PaletteBackStyle.ButtonCluster:
+            case PaletteBackStyle.ButtonForm:
+            case PaletteBackStyle.ButtonFormClose:
+            case PaletteBackStyle.ButtonCustom1:
+            case PaletteBackStyle.ButtonCustom2:
+            case PaletteBackStyle.ButtonCustom3:
+                return GetMaterialButtonBackColor(state);
             case PaletteBackStyle.HeaderForm:
             case PaletteBackStyle.HeaderPrimary:
                 return BaseColors.HeaderPrimaryBack2;
@@ -224,6 +308,12 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
     {
         switch (metric)
         {
+            case PaletteMetricPadding.HeaderButtonPaddingForm:
+                if (owningForm == null)
+                {
+                    return new Padding();
+                }
+                return new Padding(0, owningForm!.RealWindowBorders.Right, 0, 0);
             case PaletteMetricPadding.PageButtonPadding:
                 return _metricPaddingPageButtons;
             case PaletteMetricPadding.BarPaddingTabs:
@@ -232,13 +322,8 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
             case PaletteMetricPadding.BarPaddingOnly:
                 return _metricPaddingBarInside;
             case PaletteMetricPadding.BarPaddingOutside:
-                return _metricPaddingBarOutside;
-            case PaletteMetricPadding.HeaderButtonPaddingForm:
-                if (owningForm == null)
-                {
-                    return new Padding();
-                }
-                return new Padding(0, owningForm!.RealWindowBorders.Right, 0, 0);
+                // Remove top/left outer padding around bar items to avoid stray chrome lines
+                return Padding.Empty;
             case PaletteMetricPadding.RibbonButtonPadding:
                 return _metricPaddingRibbon;
             case PaletteMetricPadding.RibbonAppButton:
@@ -277,38 +362,45 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
 
     #region Border
     /// <inheritdoc />
-    public override int GetBorderWidth(PaletteBorderStyle style, PaletteState state)
+    public override InheritBool GetBorderDraw(PaletteBorderStyle style, PaletteState state)
     {
-        if (CommonHelper.IsOverrideState(state))
+        // Suppress container/docking chrome under Material
+        if (style == PaletteBorderStyle.ControlClient || style == PaletteBorderStyle.ControlAlternate)
         {
-            return -1;
+            return InheritBool.False;
         }
 
-        switch (style)
+        if (CommonHelper.IsOverrideState(state))
         {
-            case PaletteBorderStyle.FormMain:
-            case PaletteBorderStyle.HeaderForm:
-                // Hide visual chrome; hit-testing is handled separately to retain resize.
-                return 0;
-            default:
-                return base.GetBorderWidth(style, state);
+            // Input focus override stays visible to provide underline
+            if (state == PaletteState.FocusOverride && IsAnyInputBorderStyle(style))
+            {
+                return InheritBool.True;
+            }
+
+            // For all button styles, suppress borders through overrides (e.g., NormalDefaultOverride)
+            if (IsAnyButtonBorderStyle(style))
+            {
+                return InheritBool.False;
+            }
+
+            return InheritBool.Inherit;
         }
+
+        if (IsAnyButtonBorderStyle(style))
+        {
+            var interactiveMask = PaletteState.Tracking | PaletteState.Pressed | PaletteState.Checked;
+            bool isInteractive = (state & interactiveMask) != 0;
+            return isInteractive ? InheritBool.True : InheritBool.False;
+        }
+
+        return base.GetBorderDraw(style, state);
     }
 
-    /// <inheritdoc />
-    public override float GetBorderRounding(PaletteBorderStyle style, PaletteState state)
+    private static bool IsAnyButtonBorderStyle(PaletteBorderStyle style)
     {
-        if (CommonHelper.IsOverrideState(state))
-        {
-            return GlobalStaticValues.DEFAULT_PRIMARY_CORNER_ROUNDING_VALUE;
-        }
-
         switch (style)
         {
-            case PaletteBorderStyle.FormMain:
-            case PaletteBorderStyle.HeaderForm:
-                // Keep form chrome flat per Material.
-                return 0f;
             case PaletteBorderStyle.ButtonStandalone:
             case PaletteBorderStyle.ButtonGallery:
             case PaletteBorderStyle.ButtonAlternate:
@@ -328,42 +420,160 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
             case PaletteBorderStyle.ButtonNavigatorMini:
             case PaletteBorderStyle.ButtonCalendarDay:
             case PaletteBorderStyle.ButtonInputControl:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    private static bool IsAnyInputBorderStyle(PaletteBorderStyle style)
+    {
+        switch (style)
+        {
             case PaletteBorderStyle.InputControlStandalone:
             case PaletteBorderStyle.InputControlRibbon:
             case PaletteBorderStyle.InputControlCustom1:
             case PaletteBorderStyle.InputControlCustom2:
             case PaletteBorderStyle.InputControlCustom3:
-                return 4f;
+                return true;
             default:
-                return base.GetBorderRounding(style, state);
+                return false;
         }
+    }
+    /// <inheritdoc />
+    public override PaletteDrawBorders GetBorderDrawBorders(PaletteBorderStyle style, PaletteState state)
+    {
+        // Suppress container borders entirely under Material
+        if (style == PaletteBorderStyle.ControlClient || style == PaletteBorderStyle.ControlAlternate)
+        {
+            return PaletteDrawBorders.None;
+        }
+
+        // Route input controls to bottom-only to achieve underline focus style
+        if (IsAnyInputBorderStyle(style))
+        {
+            // Respect focus override explicitly
+            if (state == PaletteState.FocusOverride)
+            {
+                return PaletteDrawBorders.Bottom;
+            }
+            return PaletteDrawBorders.Bottom;
+        }
+
+        // Buttons: hide borders unless interactive (hover/pressed/checked), including override states
+        if (IsAnyButtonBorderStyle(style))
+        {
+            var interactiveMask = PaletteState.Tracking | PaletteState.Pressed | PaletteState.Checked;
+            bool isInteractive = (state & interactiveMask) != 0;
+            // For override states (e.g., NormalDefaultOverride) treat as non-interactive
+            if (CommonHelper.IsOverrideState(state) && state != PaletteState.FocusOverride)
+            {
+                isInteractive = false;
+            }
+            return isInteractive ? PaletteDrawBorders.All : PaletteDrawBorders.None;
+        }
+
+        return base.GetBorderDrawBorders(style, state);
+    }
+
+    /// <inheritdoc />
+    public override int GetBorderWidth(PaletteBorderStyle style, PaletteState state)
+    {
+        if (CommonHelper.IsOverrideState(state))
+        {
+            // Promote focus underline thickness for inputs
+            if (state == PaletteState.FocusOverride && IsAnyInputBorderStyle(style))
+            {
+                return 2;
+            }
+
+            // All button styles remain borderless through any override state
+            if (IsAnyButtonBorderStyle(style))
+            {
+                return 0;
+            }
+
+            return -1;
+        }
+
+        // Normal path
+        if (IsAnyButtonBorderStyle(style))
+        {
+            // Borderless when not interactive; outline only on hover/pressed/checked (context variants included)
+            var interactiveMask = PaletteState.Tracking | PaletteState.Pressed | PaletteState.Checked;
+            bool isInteractive = (state & interactiveMask) != 0;
+            return isInteractive ? 1 : 0;
+        }
+
+        if (style == PaletteBorderStyle.FormMain || style == PaletteBorderStyle.HeaderForm)
+        {
+            // Hide visual chrome; hit-testing is handled separately to retain resize.
+            return 0;
+        }
+
+        if (IsAnyInputBorderStyle(style))
+        {
+            // Underline style: draw only bottom edge; thicker when tracking/pressed/focused overrides route here
+            return state is PaletteState.Disabled or PaletteState.Normal ? 1 : 2;
+        }
+
+        return base.GetBorderWidth(style, state);
+    }
+
+    /// <inheritdoc />
+    public override float GetBorderRounding(PaletteBorderStyle style, PaletteState state)
+    {
+        if (CommonHelper.IsOverrideState(state))
+        {
+            return GlobalStaticValues.DEFAULT_PRIMARY_CORNER_ROUNDING_VALUE;
+        }
+
+        if (style == PaletteBorderStyle.FormMain || style == PaletteBorderStyle.HeaderForm)
+        {
+            // Keep form chrome flat per Material.
+            return 0f;
+        }
+
+        if (IsAnyButtonBorderStyle(style) || IsAnyInputBorderStyle(style))
+        {
+            // Buttons and inputs: rectangular in Material pass here
+            return 0f;
+        }
+
+        return base.GetBorderRounding(style, state);
     }
 
     /// <inheritdoc />
     public override Color GetBorderColor1(PaletteBorderStyle style, PaletteState state)
     {
         // Keep form border color aligned with header background to avoid a contrasting edge
-        switch (style)
+        if (style == PaletteBorderStyle.FormMain || style == PaletteBorderStyle.HeaderForm)
         {
-            case PaletteBorderStyle.FormMain:
-            case PaletteBorderStyle.HeaderForm:
-                return GetBackColor1(PaletteBackStyle.HeaderForm, state);
-            default:
-                return base.GetBorderColor1(style, state);
+            return GetBackColor1(PaletteBackStyle.HeaderForm, state);
         }
+
+        if (IsAnyButtonBorderStyle(style) || IsAnyInputBorderStyle(style))
+        {
+            return BaseColors.ControlBorder;
+        }
+
+        return base.GetBorderColor1(style, state);
     }
 
     /// <inheritdoc />
     public override Color GetBorderColor2(PaletteBorderStyle style, PaletteState state)
     {
-        switch (style)
+        if (style == PaletteBorderStyle.FormMain || style == PaletteBorderStyle.HeaderForm)
         {
-            case PaletteBorderStyle.FormMain:
-            case PaletteBorderStyle.HeaderForm:
-                return GetBackColor2(PaletteBackStyle.HeaderForm, state);
-            default:
-                return base.GetBorderColor2(style, state);
+            return GetBackColor2(PaletteBackStyle.HeaderForm, state);
         }
+
+        if (IsAnyButtonBorderStyle(style) || IsAnyInputBorderStyle(style))
+        {
+            return BaseColors.ControlBorder;
+        }
+
+        return base.GetBorderColor2(style, state);
     }
     #endregion
 }
