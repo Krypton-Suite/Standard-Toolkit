@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
- *  
+ *
  */
 #endregion
 
@@ -185,7 +185,13 @@ internal class BlurManager
         _visualBlur.SetTargetRect(_parentForm.DesktopLocation, clientRectangle);
 
         Rectangle targetRect = _visualBlur.TargetRect;
-        _visualBlur.UpdateBlur(_currentFormDisplay!);
+            // Ensure a snapshot exists; first-run focus loss may occur before any prior snapshot was taken
+            if (_currentFormDisplay == null)
+            {
+                _currentFormDisplay = TakeSnapshot(targetRect);
+            }
+
+            _visualBlur.UpdateBlur(_currentFormDisplay!);
         // As UpdateBlur can take a few moments, then it is possible for the app to be closed before getting to the next line
         if ((_visualBlur == null)
             || _parentForm.IsDisposed

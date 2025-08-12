@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2017 - 2025. All rights reserved.
  *
  */
 #endregion
@@ -124,6 +124,7 @@ public sealed class KryptonManager : Component
     private static RenderOffice2010? _renderOffice2010;
     private static RenderOffice2013? _renderOffice2013;
     private static RenderMicrosoft365? _renderMicrosoft365;
+    private static RenderMaterial? _renderMaterial;
     private static RenderSparkle? _renderSparkle;
     private static RenderVisualStudio2010With2007? _renderVisualStudio2010With2007;
     private static RenderVisualStudio2010With2010? _renderVisualStudio2010With2010;
@@ -588,6 +589,11 @@ public sealed class KryptonManager : Component
             case PaletteMode.VisualStudio2010Render365:
                 return PaletteVisualStudio2010Microsoft365Variation;
 
+            case PaletteMode.MaterialLight:
+                return PaletteMaterialLight;
+            case PaletteMode.MaterialDark:
+                return PaletteMaterialDark;
+
             case PaletteMode.Custom:
             case PaletteMode.Global:
                 return CurrentGlobalPalette;
@@ -870,6 +876,12 @@ public sealed class KryptonManager : Component
     /// </summary>
     public static PaletteVisualStudio2010Microsoft365Variation PaletteVisualStudio2010Microsoft365Variation => _paletteVisualStudio2010Microsoft365Variation ??= new PaletteVisualStudio2010Microsoft365Variation();
 
+    public static PaletteMaterialLight PaletteMaterialLight => _paletteMaterialLight ??= new PaletteMaterialLight();
+    public static PaletteMaterialDark PaletteMaterialDark => _paletteMaterialDark ??= new PaletteMaterialDark();
+
+    private static PaletteMaterialLight? _paletteMaterialLight;
+    private static PaletteMaterialDark? _paletteMaterialDark;
+
     //public static PaletteBase CustomPaletteBase => _customPalette ??= new PaletteBase ();
 
     /// <summary>
@@ -905,6 +917,8 @@ public sealed class KryptonManager : Component
                 return RenderVisualStudio2010With2013;
             case RendererMode.VisualStudio2010WithMicrosoft365Renderer:
                 return RenderVisualStudio2010WithMicrosoft365;
+            case RendererMode.Material:
+                return RenderMaterial;
             case RendererMode.Inherit:
             case RendererMode.Custom:
             default:
@@ -938,6 +952,11 @@ public sealed class KryptonManager : Component
     /// Gets the single instance of the 365 2013 renderer.
     /// </summary>
     public static RenderMicrosoft365 RenderMicrosoft365 => _renderMicrosoft365 ??= new RenderMicrosoft365();
+
+    /// <summary>
+    /// Gets the single instance of the Material renderer.
+    /// </summary>
+    public static RenderMaterial RenderMaterial => _renderMaterial ??= new RenderMaterial();
 
     /// <summary>
     /// Gets the single instance of the professional renderer.
@@ -1134,11 +1153,15 @@ public sealed class KryptonManager : Component
             case PaletteMode.VisualStudio2010Render365:
                 Images.ToolbarImages.SetToolBarImages(GlobalStaticValues.Microsoft365ToolBarImages);
                 break;
+            case PaletteMode.MaterialLight:
+            case PaletteMode.MaterialDark:
+                Images.ToolbarImages.SetToolBarImages(GlobalStaticValues.Microsoft365ToolBarImages);
+                break;
             default:
                 // Should not happen!
 
                 // Disable since palette mode is an enum and is not nullable
-                //Debug.Assert(paletteMode is not null); 
+                //Debug.Assert(paletteMode is not null);
 
                 DebugTools.NotImplemented(paletteMode.ToString());
                 break;
