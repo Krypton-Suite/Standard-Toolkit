@@ -274,7 +274,7 @@ Ahmed-Abdelhameed have been fixing and adding more capabilities to this toolkit.
 - There is also an Extensions project, which takes these base controls and add more useful complete controls (Currently outside the scope of this help). To find out more, please head to this [link](https://github.com/Krypton-Suite/Extended-Toolkit)
 - All .Net Versions from 4.6.2 are catered for (interim releases, i.e. releases in-between Long Term Support (LTS) versions of .NET will **only** be supported for the duration of that particular version, usually 24 months.)
 - New versions of NuGet packages can be obtained via this [link](https://www.nuget.org/profiles/Krypton_Suite), or via your package manager by searching `Krypton.`.
-- New, major versions are released annually, with patches if needed released throughout that period. Version 90 is expected to release in November 2024.
+- New, major versions are released annually, with patches if needed released throughout that period. Version 100 is expected to release in November 2025.
 - For tips on how to build the toolkit for yourself, please read the following [article](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Contributing/How-to-Build.html).
 
 ## Contributing to this project
