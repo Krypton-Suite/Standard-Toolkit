@@ -39,6 +39,10 @@ public partial class ProgressBarTest : KryptonForm
         kryptonProgressBar1.Value = ktrkProgressValues.Value;
 
         kryptonProgressBar2.Value = ktrkProgressValues.Value;
+
+        kryptonProgressBarVert1.Value = ktrkProgressValues.Value;
+
+        kryptonProgressBarVert2.Value = ktrkProgressValues.Value;
     }
 
     private void kchkUseProgressValueAsText_CheckedChanged(object sender, EventArgs e)
@@ -55,6 +59,12 @@ public partial class ProgressBarTest : KryptonForm
 
         kryptonProgressBar2.Style =
             (ProgressBarStyle)Enum.Parse(typeof(ProgressBarStyle), kcmbProgressBarStyle.Text);
+
+        kryptonProgressBarVert1.Style =
+            (ProgressBarStyle)Enum.Parse(typeof(ProgressBarStyle), kcmbProgressBarStyle.Text);
+
+        kryptonProgressBarVert2.Style =
+            (ProgressBarStyle)Enum.Parse(typeof(ProgressBarStyle), kcmbProgressBarStyle.Text);
     }
 
     private void kcbtnProgressBarColour_SelectedColorChanged(object sender, ColorEventArgs e)
@@ -62,24 +72,43 @@ public partial class ProgressBarTest : KryptonForm
         kryptonProgressBar1.StateCommon.Back.Color1 = e.Color;
 
         kryptonProgressBar2.StateCommon.Back.Color1 = e.Color;
+
+        kryptonProgressBarVert1.StateCommon.Back.Color1 = e.Color;
+
+        kryptonProgressBarVert2.StateCommon.Back.Color1 = e.Color;
     }
 
     private void kcmbColorStyle_SelectedIndexChanged(object sender, EventArgs e)
     {
         var style = (PaletteColorStyle)Enum.Parse(typeof(PaletteColorStyle), kcmbColorStyle.Text);
         kryptonProgressBar1.ValueBackColorStyle = style;
+
         kryptonProgressBar2.ValueBackColorStyle = style;
+
+        kryptonProgressBarVert1.ValueBackColorStyle = style;
+
+        kryptonProgressBarVert2.ValueBackColorStyle = style;
     }
 
     private void kchkShowTextBackdrop_CheckedChanged(object sender, EventArgs e)
     {
         kryptonProgressBar1.ShowTextBackdrop = kchkShowTextBackdrop.Checked;
+
         kryptonProgressBar2.ShowTextBackdrop = kchkShowTextBackdrop.Checked;
+
+        kryptonProgressBarVert1.ShowTextBackdrop = kchkShowTextBackdrop.Checked;
+
+        kryptonProgressBarVert2.ShowTextBackdrop = kchkShowTextBackdrop.Checked;
     }
 
     private void kcbtnBackdropColor_SelectedColorChanged(object sender, ColorEventArgs e)
     {
         kryptonProgressBar1.TextBackdropColor = e.Color;
+
         kryptonProgressBar2.TextBackdropColor = e.Color;
+
+        kryptonProgressBarVert1.TextBackdropColor = e.Color;
+
+        kryptonProgressBarVert2.TextBackdropColor = e.Color;
     }
 }

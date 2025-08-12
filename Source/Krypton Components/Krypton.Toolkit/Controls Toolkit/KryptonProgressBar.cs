@@ -1024,7 +1024,70 @@ public class KryptonProgressBar : Control, IContentValues
             Color shadow = _textShadowColor != Color.Empty ? _textShadowColor : ControlPaint.Dark(baseText);
             shadow = Color.FromArgb(160, shadow);
             var textFont = barPaletteState.PaletteContent!.GetContentShortTextFont(barState) ?? Font;
-            TextRenderer.DrawText(renderContext.Graphics, Text, textFont, shadowRect, shadow, flags);
+
+            using (var brush = new SolidBrush(shadow))
+            {
+                // Build StringFormat aligned as per palette
+                var sf = new StringFormat { FormatFlags = StringFormatFlags.NoClip };
+                if (RightToLeft == RightToLeft.Yes)
+                {
+                    sf.FormatFlags |= StringFormatFlags.DirectionRightToLeft;
+                }
+                sf.Alignment = hAlign switch
+                {
+                    PaletteRelativeAlign.Center => StringAlignment.Center,
+                    PaletteRelativeAlign.Far => StringAlignment.Far,
+                    _ => StringAlignment.Near
+                };
+                sf.LineAlignment = vAlign switch
+                {
+                    PaletteRelativeAlign.Center => StringAlignment.Center,
+                    PaletteRelativeAlign.Far => StringAlignment.Far,
+                    _ => StringAlignment.Near
+                };
+
+                // Apply orientation transforms similar to AccurateText
+                var g = renderContext.Graphics;
+                var originalHint = g.TextRenderingHint;
+                g.TextRenderingHint = CommonHelper.PaletteTextHintToRenderingHint(
+                    barPaletteState.PaletteContent.GetContentShortTextHint(barState));
+
+                int translateX = 0, translateY = 0; float rotation = 0f;
+                Rectangle drawRect = shadowRect;
+                switch (Orientation)
+                {
+                    case VisualOrientation.Bottom:
+                        translateX = (drawRect.X * 2) + drawRect.Width;
+                        translateY = (drawRect.Y * 2) + drawRect.Height;
+                        rotation = 180f;
+                        break;
+                    case VisualOrientation.Left:
+                        drawRect = new Rectangle(drawRect.X, drawRect.Y, drawRect.Height, drawRect.Width);
+                        translateX = drawRect.X - drawRect.Y - 1;
+                        translateY = drawRect.X + drawRect.Y + drawRect.Width;
+                        rotation = 270f;
+                        break;
+                    case VisualOrientation.Right:
+                        drawRect = new Rectangle(drawRect.X, drawRect.Y, drawRect.Height, drawRect.Width);
+                        translateX = drawRect.X + drawRect.Y + drawRect.Height + 1;
+                        translateY = -(drawRect.X - drawRect.Y);
+                        rotation = 90f;
+                        break;
+                }
+
+                if (translateX != 0 || translateY != 0) g.TranslateTransform(translateX, translateY);
+                if (Math.Abs(rotation) > 0.1f) g.RotateTransform(rotation);
+                try
+                {
+                    g.DrawString(Text, textFont, brush, drawRect, sf);
+                }
+                finally
+                {
+                    if (Math.Abs(rotation) > 0.1f) g.RotateTransform(-rotation);
+                    if (translateX != 0 || translateY != 0) g.TranslateTransform(-translateX, -translateY);
+                    g.TextRenderingHint = originalHint;
+                }
+            }
         }
 
         renderer.RenderStandardContent.DrawContent(renderContext, ClientRectangle,
