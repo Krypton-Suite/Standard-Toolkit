@@ -99,7 +99,48 @@ public class KryptonThemeComboBox : KryptonComboBox, IKryptonThemeSelectorBase
     /// <param name="e">Eventargs object data (not used).</param>
     private void KryptonManagerGlobalPaletteChanged(object? sender, EventArgs e)
     {
-        SelectedIndex = CommonHelperThemeSelectors.KryptonManagerGlobalPaletteChanged(_isLocalUpdate, ref _isExternalUpdate, SelectedIndex, Items);
+        if (_isLocalUpdate)
+        {
+            return;
+        }
+
+        var mode = KryptonManager.CurrentGlobalPaletteMode;
+        if (mode == PaletteMode.Global)
+        {
+            return;
+        }
+
+        int idx = CommonHelperThemeSelectors.GetPaletteIndex(Items, mode);
+        if (idx == SelectedIndex)
+        {
+            return;
+        }
+
+        void Commit()
+        {
+            if (IsDisposed || !IsHandleCreated)
+            {
+                return;
+            }
+            _isExternalUpdate = true;
+            try
+            {
+                SelectedIndex = idx;
+            }
+            finally
+            {
+                _isExternalUpdate = false;
+            }
+        }
+
+        if (ThemeChangeCoordinator.InProgress)
+        {
+            BeginInvoke((System.Windows.Forms.MethodInvoker)Commit);
+        }
+        else
+        {
+            Commit();
+        }
     }
 
     #endregion

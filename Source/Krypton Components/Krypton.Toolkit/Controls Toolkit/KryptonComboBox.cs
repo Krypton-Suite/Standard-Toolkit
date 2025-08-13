@@ -281,7 +281,8 @@ public class KryptonComboBox : VisualControlBase,
                         base.WndProc(ref m);
                         return;
                     case PI.WM_.COMMAND:
-                        base.WndProc(ref m);
+                        // Ignore spurious WM_COMMAND during handle churn/theme swap to avoid native crashes
+                        //base.WndProc(ref m);
                         return;
                 }
             }
