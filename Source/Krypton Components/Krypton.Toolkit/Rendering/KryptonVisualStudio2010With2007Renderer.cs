@@ -497,6 +497,12 @@ public class KryptonVisualStudio2010With2007Renderer : KryptonProfessionalRender
     /// <param name="e">An ToolStripItemRenderEventArgs containing the event data.</param>
     protected override void OnRenderMenuItemBackground(ToolStripItemRenderEventArgs e)
     {
+        // Parity: per-item overrides via helper
+        if (TryRenderMenuItemOverride(e))
+        {
+            return;
+        }
+
         if ((e.ToolStrip is MenuStrip or ContextMenuStrip or ToolStripDropDownMenu))
         {
             if (e.Item.Pressed && (e.ToolStrip is MenuStrip))
@@ -808,11 +814,9 @@ public class KryptonVisualStudio2010With2007Renderer : KryptonProfessionalRender
                 e.Graphics.FillRectangle(backBrush, marginRect);
             }
 
-            // Create the light and dark line pens
-            using (Pen lightPen =
-                   new Pen(CommonHelper.WhitenColor(KCT.ToolStripDropDownBackground, 1.02f, 1.02f, 1.02f)),
-                   darkPen = new Pen(CommonHelper.WhitenColor(KCT.ToolStripDropDownBackground, 1.26f, 1.26f,
-                       1.26f)))
+            // Create the light and dark line pens from the color table to match ToolStripDropDownMenu
+            using (Pen lightPen = new Pen(KCT.ImageMarginGradientEnd),
+                   darkPen  = new Pen(KCT.ImageMarginGradientMiddle))
             {
                 if (!rtl)
                 {
