@@ -145,12 +145,13 @@ public class KryptonRibbonGroupThemeComboBox : KryptonRibbonGroupComboBox, IKryp
             }
         }
 
-        if (ThemeChangeCoordinator.InProgress)
+        if (ThemeChangeCoordinator.InProgress && !ComboBox.IsDisposed && ComboBox.IsHandleCreated)
         {
             ComboBox.BeginInvoke((System.Windows.Forms.MethodInvoker)Commit);
         }
         else
         {
+            // If the handle is not yet created (or disposed), invoke synchronously to avoid InvalidOperationException
             Commit();
         }
     }

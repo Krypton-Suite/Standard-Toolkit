@@ -24,9 +24,20 @@ public sealed class PaletteMaterialLight : PaletteMaterialBase
         _checkBoxList = new ImageList
         {
             ImageSize = new Size(13, 13),
-            ColorDepth = ColorDepth.Depth24Bit
+            ColorDepth = ColorDepth.Depth32Bit
         };
-        _checkBoxList.Images.AddStrip(CheckBoxStripResources.CheckBoxStrip2010Blue);
+
+        var lightPalette = new MaterialSelectionGlyphFactory.MaterialGlyphPalette(
+            outline: Color.FromArgb(0x60, 0x60, 0x60),
+            primary: Color.FromArgb(0x1F, 0x6E, 0xC1),
+            onPrimary: Color.White,
+            disabled: Color.FromArgb(0xA0, 0xA0, 0xA0));
+
+        var cbStrip = MaterialSelectionGlyphFactory.CreateCheckBoxStrip(lightPalette, _checkBoxList.ImageSize);
+        for (int i = 0; i < cbStrip.Length; i++)
+        {
+            _checkBoxList.Images.Add(cbStrip[i]);
+        }
 
         _galleryButtonList = new ImageList
         {
@@ -36,17 +47,7 @@ public sealed class PaletteMaterialLight : PaletteMaterialBase
         };
         _galleryButtonList.Images.AddStrip(GalleryImageResources.Gallery2010);
 
-        _radioButtonArray =
-        [
-            Office2010RadioButtonImageResources.RadioButton2010BlueD,
-            Office2010RadioButtonImageResources.RadioButton2010BlueN,
-            Office2010RadioButtonImageResources.RadioButton2010BlueT,
-            Office2010RadioButtonImageResources.RadioButton2010BlueP,
-            Office2010RadioButtonImageResources.RadioButton2010BlueDC,
-            Office2010RadioButtonImageResources.RadioButton2010BlueNC,
-            Office2010RadioButtonImageResources.RadioButton2010BlueTC,
-            Office2010RadioButtonImageResources.RadioButton2010BluePC
-        ];
+        _radioButtonArray = MaterialSelectionGlyphFactory.CreateRadioButtonArray(lightPalette, new Size(13, 13));
     }
 
     public PaletteMaterialLight()

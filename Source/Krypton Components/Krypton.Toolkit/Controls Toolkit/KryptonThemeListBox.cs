@@ -134,12 +134,13 @@ public class KryptonThemeListBox : KryptonListBox, IKryptonThemeSelectorBase
             }
         }
 
-        if (ThemeChangeCoordinator.InProgress)
+        if (ThemeChangeCoordinator.InProgress && !IsDisposed && IsHandleCreated)
         {
             BeginInvoke((System.Windows.Forms.MethodInvoker)Commit);
         }
         else
         {
+            // If the handle is not yet created (or disposed), update immediately to avoid InvalidOperationException
             Commit();
         }
     }
