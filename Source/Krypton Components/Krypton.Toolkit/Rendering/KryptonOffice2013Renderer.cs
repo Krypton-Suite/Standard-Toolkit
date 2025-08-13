@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
  *
  */
 #endregion
@@ -658,6 +658,12 @@ public class KryptonOffice2013Renderer : KryptonProfessionalRenderer
     /// <param name="e">An ToolStripItemRenderEventArgs containing the event data.</param>
     protected override void OnRenderMenuItemBackground(ToolStripItemRenderEventArgs e)
     {
+        // Parity: per-item overrides via helper
+        if (TryRenderMenuItemOverride(e))
+        {
+            return;
+        }
+
         if ((e.ToolStrip is MenuStrip or ContextMenuStrip or ToolStripDropDownMenu))
         {
             if (e.Item.Pressed && (e.ToolStrip is MenuStrip))
@@ -1035,14 +1041,25 @@ public class KryptonOffice2013Renderer : KryptonProfessionalRenderer
                 marginRect.X += _marginInset / 2;
             }
 
-            using var marginPen = new Pen(Color.FromArgb(80, KCT.MenuBorder));
-            if (!rtl)
+            // Fill the margin and draw the standard two separator lines using the color table
+            using (var backBrush = new SolidBrush(KCT.ImageMarginGradientBegin))
             {
-                e.Graphics.DrawLine(marginPen, marginRect.Right, marginRect.Top, marginRect.Right, marginRect.Bottom);
+                e.Graphics.FillRectangle(backBrush, marginRect);
             }
-            else
+
+            using (Pen lightPen = new Pen(KCT.ImageMarginGradientEnd),
+                   darkPen  = new Pen(KCT.ImageMarginGradientMiddle))
             {
-                e.Graphics.DrawLine(marginPen, marginRect.Left - 1, marginRect.Top, marginRect.Left - 1, marginRect.Bottom);
+                if (!rtl)
+                {
+                    e.Graphics.DrawLine(lightPen, marginRect.Right, marginRect.Top, marginRect.Right, marginRect.Bottom);
+                    e.Graphics.DrawLine(darkPen,  marginRect.Right - 1, marginRect.Top, marginRect.Right - 1, marginRect.Bottom);
+                }
+                else
+                {
+                    e.Graphics.DrawLine(lightPen, marginRect.Left - 1, marginRect.Top, marginRect.Left - 1, marginRect.Bottom);
+                    e.Graphics.DrawLine(darkPen,  marginRect.Left,     marginRect.Top, marginRect.Left,     marginRect.Bottom);
+                }
             }
         }
         else
