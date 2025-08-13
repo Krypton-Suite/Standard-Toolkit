@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
  *
  */
 #endregion
@@ -499,6 +499,12 @@ public class KryptonOffice2007Renderer : KryptonProfessionalRenderer
     /// <param name="e">An ToolStripItemRenderEventArgs containing the event data.</param>
     protected override void OnRenderMenuItemBackground(ToolStripItemRenderEventArgs e)
     {
+        // Parity: per-item overrides via helper
+        if (TryRenderMenuItemOverride(e))
+        {
+            return;
+        }
+
         if ((e.ToolStrip is MenuStrip or ContextMenuStrip or ToolStripDropDownMenu))
         {
             if (e.Item.Pressed && (e.ToolStrip is MenuStrip))
@@ -810,11 +816,9 @@ public class KryptonOffice2007Renderer : KryptonProfessionalRenderer
                 e.Graphics.FillRectangle(backBrush, marginRect);
             }
 
-            // Create the light and dark line pens
-            using (Pen lightPen =
-                   new Pen(CommonHelper.WhitenColor(KCT.ToolStripDropDownBackground, 1.02f, 1.02f, 1.02f)),
-                   darkPen = new Pen(CommonHelper.WhitenColor(KCT.ToolStripDropDownBackground, 1.26f, 1.26f,
-                       1.26f)))
+            // Create the light and dark line pens from the color table to match ToolStripDropDownMenu
+            using (Pen lightPen = new Pen(KCT.ImageMarginGradientEnd),
+                   darkPen  = new Pen(KCT.ImageMarginGradientMiddle))
             {
                 if (!rtl)
                 {

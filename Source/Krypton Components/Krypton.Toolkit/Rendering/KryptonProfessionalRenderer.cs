@@ -218,6 +218,65 @@ public class KryptonProfessionalRenderer : ToolStripProfessionalRenderer
     }
     #endregion
 
+    #region MenuItem Per-Item Override Helper
+    /// <summary>
+    /// If the item is a KryptonToolStripMenuItem and it has any per-item palette overrides,
+    /// draw its background/border here and return true to signal the caller to skip default painting.
+    /// </summary>
+    /// <param name="e">Item render event args.</param>
+    /// <returns>True if the item was painted using per-item overrides; otherwise false.</returns>
+    protected bool TryRenderMenuItemOverride(ToolStripItemRenderEventArgs e)
+    {
+        if (e.Item is not KryptonToolStripMenuItem ktmi)
+        {
+            return false;
+        }
+
+        // Resolve which highlight palette to use based on state
+        PaletteDoubleMetric highlight;
+        if (!ktmi.Enabled)
+        {
+            highlight = ktmi.StateDisabled.ItemHighlight;
+        }
+        else if (ktmi.Pressed || ktmi.Selected)
+        {
+            // Checked does not expose its own highlight; use StateHighlight
+            highlight = ktmi.StateHighlight.ItemHighlight;
+        }
+        else
+        {
+            highlight = ktmi.StateNormal.ItemHighlight;
+        }
+
+        bool hasBack = !highlight.IsDefault && !highlight.Back.IsDefault;
+        bool hasBorder = !highlight.IsDefault && !highlight.Border.IsDefault;
+        if (!hasBack && !hasBorder)
+        {
+            return false;
+        }
+
+        Rectangle rect = e.Item.ContentRectangle;
+        if (hasBack)
+        {
+            // Use a simple fill based on Color1; this is sufficient for per-item testing without full renderer path
+            var state = !ktmi.Enabled ? PaletteState.Disabled : (ktmi.Pressed || ktmi.Selected ? PaletteState.Tracking : PaletteState.Normal);
+            Color c1 = highlight.Back.GetBackColor1(state);
+            using var brush = new SolidBrush(c1);
+            e.Graphics.FillRectangle(brush, rect);
+        }
+        if (hasBorder)
+        {
+            var state = !ktmi.Enabled ? PaletteState.Disabled : (ktmi.Pressed || ktmi.Selected ? PaletteState.Tracking : PaletteState.Normal);
+            Color b1 = highlight.Border.GetBorderColor1(state);
+            using var pen = new Pen(b1);
+            rect.Width -= 1; rect.Height -= 1;
+            e.Graphics.DrawRectangle(pen, rect);
+        }
+
+        return true;
+    }
+    #endregion
+
     #region OnRenderToolStripBorder
     /// <summary>
     /// Raises the RenderToolStripBorder event.
