@@ -579,7 +579,9 @@ public class ViewDrawSplitCanvas : ViewComposite
             {
                 // Draw ripple overlay before the border when enabled for Material renderer
                 // Avoid any extra clipping or overlay painting while theme switching is in progress
-                if (_ripples.Count > 0 && context.Renderer is RenderMaterial && !ThemeChangeCoordinator.InProgress)
+                if (_ripples.Count > 0 && context.Renderer is RenderMaterial &&
+                    KryptonManager.CurrentGlobalPalette?.RippleEffect == true &&
+                    !ThemeChangeCoordinator.InProgress)
                 {
                     // Clip to the inside of the border/back path to keep the ripple bounded
                     GraphicsPath borderPath = DrawTabBorder

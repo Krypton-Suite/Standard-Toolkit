@@ -314,10 +314,14 @@ public class ButtonController : GlobalId,
                             // Indicate that the mouse wants to select the elment
                             OnMouseSelect(new MouseEventArgs(MouseButtons.Left, 1, pt.X, pt.Y, 0));
 
-                            // Start a ripple animation if the target supports it
+                            // Start a ripple animation if the target supports it and palette allows it
                             if (Target is IRippleHost rippleHost)
                             {
-                                rippleHost.StartRipple(pt);
+                                var palette = KryptonManager.CurrentGlobalPalette;
+                                if (palette != null && palette.RippleEffect)
+                                {
+                                    rippleHost.StartRipple(pt);
+                                }
                             }
 
                             // Generate a click event if we generate click on mouse down

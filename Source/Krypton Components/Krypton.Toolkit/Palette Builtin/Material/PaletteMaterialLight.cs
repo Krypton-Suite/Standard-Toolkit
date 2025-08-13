@@ -48,6 +48,11 @@ public sealed class PaletteMaterialLight : PaletteMaterialBase
         _galleryButtonList.Images.AddStrip(GalleryImageResources.Gallery2010);
 
         _radioButtonArray = MaterialSelectionGlyphFactory.CreateRadioButtonArray(lightPalette, new Size(13, 13));
+
+        // Override context menu glyphs to Material
+        _contextMenuChecked = MaterialSelectionGlyphFactory.CreateMenuCheckedGlyph(lightPalette, new Size(16, 16), true);
+        _contextMenuIndeterminate = MaterialSelectionGlyphFactory.CreateMenuIndeterminateGlyph(lightPalette, new Size(16, 16), true);
+        _contextMenuSubMenu = MaterialSelectionGlyphFactory.CreateMenuSubMenuArrow(lightPalette, new Size(16, 16));
     }
 
     public PaletteMaterialLight()
@@ -55,7 +60,15 @@ public sealed class PaletteMaterialLight : PaletteMaterialBase
     {
     }
 
-    public override Image? GetContextMenuSubMenuImage() => _forward365.GetContextMenuSubMenuImage();
+    protected override bool IsDarkSurface() => false;
+
+    private static Image? _contextMenuChecked;
+    private static Image? _contextMenuIndeterminate;
+    private static Image? _contextMenuSubMenu;
+
+    public override Image? GetContextMenuCheckedImage() => _contextMenuChecked;
+    public override Image? GetContextMenuIndeterminateImage() => _contextMenuIndeterminate;
+    public override Image? GetContextMenuSubMenuImage() => _contextMenuSubMenu;
     public override Image? GetButtonSpecImage(PaletteButtonSpecStyle style, PaletteState state) => _forward365.GetButtonSpecImage(style, state);
     public override Color GetRibbonFileAppTabBottomColor(PaletteState state) => _forward365.GetRibbonFileAppTabBottomColor(state);
     public override Color GetRibbonFileAppTabTopColor(PaletteState state) => _forward365.GetRibbonFileAppTabTopColor(state);

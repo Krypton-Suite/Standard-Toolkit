@@ -50,12 +50,7 @@ public sealed class RenderMaterial : RenderOffice2010
             throw new ArgumentNullException(nameof(colorPalette));
         }
 
-        var renderer = new KryptonOffice2010Renderer(colorPalette.ColorTable)
-        {
-            RoundedEdges = colorPalette.ColorTable.UseRoundedEdges != InheritBool.False
-        };
-
-        return renderer;
+        return new KryptonMaterialRenderer(colorPalette.ColorTable);
     }
     #endregion
 

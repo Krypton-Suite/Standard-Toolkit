@@ -17,11 +17,7 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
     private static Color BlendOverlay(Color baseColor, Color overlayColor, float overlayWeight)
         => CommonHelper.MergeColors(baseColor, 1f - overlayWeight, overlayColor, overlayWeight);
 
-    private bool IsDarkSurface()
-    {
-        var surface = BaseColors != null ? BaseColors.PanelClient : SystemColors.Control;
-        return surface.GetBrightness() < 0.5f;
-    }
+    protected abstract bool IsDarkSurface();
 
     private Color TokenSurface => BaseColors != null ? BaseColors.PanelClient : SystemColors.Control;
     private Color TokenOnSurface => BaseColors != null ? BaseColors.TextLabelControl : SystemColors.ControlText;
@@ -74,6 +70,8 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
         [DisallowNull] Image?[] radioButtonArray)
         : base(scheme, checkBoxList, galleryButtonList, radioButtonArray)
     {
+        // Enable ripple by default for Material themes
+        RippleEffect = true;
     }
     #endregion
 
@@ -111,6 +109,7 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
                 return PaletteColorStyle.Solid;
             case PaletteBackStyle.ContextMenuOuter:
             case PaletteBackStyle.ContextMenuInner:
+            case PaletteBackStyle.ContextMenuItemHighlight:
                 return PaletteColorStyle.Solid;
             case PaletteBackStyle.ControlClient:
             case PaletteBackStyle.ControlAlternate:
@@ -150,6 +149,7 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
         {
             case PaletteBackStyle.ContextMenuOuter:
             case PaletteBackStyle.ContextMenuInner:
+            case PaletteBackStyle.ContextMenuItemHighlight:
                 return PaletteGraphicsHint.None;
             case PaletteBackStyle.ControlClient:
             case PaletteBackStyle.ControlAlternate:
@@ -209,7 +209,11 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
                 return base.GetBackColor1(PaletteBackStyle.PanelClient, state);
             case PaletteBackStyle.ContextMenuOuter:
             case PaletteBackStyle.ContextMenuInner:
-                return Color.FromArgb(32, 32, 32);
+                // Use scheme surface so Light stays light and Dark stays dark
+                return BaseColors?.PanelClient ?? base.GetBackColor1(PaletteBackStyle.PanelClient, state);
+            case PaletteBackStyle.ContextMenuItemHighlight:
+                // Use the same subtle overlay model as buttons for hover/pressed highlight
+                return GetMaterialButtonBackColor(state);
             default:
                 return base.GetBackColor1(style, state);
         }
@@ -241,7 +245,9 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
                 return base.GetBackColor2(PaletteBackStyle.PanelClient, state);
             case PaletteBackStyle.ContextMenuOuter:
             case PaletteBackStyle.ContextMenuInner:
-                return Color.FromArgb(48, 48, 48);
+                return BaseColors?.PanelAlternative ?? base.GetBackColor2(PaletteBackStyle.PanelClient, state);
+            case PaletteBackStyle.ContextMenuItemHighlight:
+                return GetMaterialButtonBackColor(state);
             default:
                 return base.GetBackColor2(style, state);
         }
