@@ -27,11 +27,9 @@ public sealed class PaletteMaterialLight : PaletteMaterialBase
             ColorDepth = ColorDepth.Depth32Bit
         };
 
-        var lightPalette = new MaterialSelectionGlyphFactory.MaterialGlyphPalette(
-            outline: Color.FromArgb(0x60, 0x60, 0x60),
-            primary: Color.FromArgb(0x1F, 0x6E, 0xC1),
-            onPrimary: Color.White,
-            disabled: Color.FromArgb(0xA0, 0xA0, 0xA0));
+        // Build glyph palette dynamically from the Material Light scheme instead of hard-coding
+        var scheme = new PaletteMaterialLight_BaseScheme();
+        var lightPalette = MaterialSelectionGlyphFactory.FromScheme(scheme, isDarkSurface: false);
 
         var cbStrip = MaterialSelectionGlyphFactory.CreateCheckBoxStrip(lightPalette, _checkBoxList.ImageSize);
         for (int i = 0; i < cbStrip.Length; i++)

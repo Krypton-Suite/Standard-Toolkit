@@ -36,6 +36,21 @@ internal static class MaterialSelectionGlyphFactory
         public System.Drawing.Color Disabled { get; }
     }
 
+	/// <summary>
+	/// Create a lightweight glyph palette from a color scheme so the glyphs follow theme colors.
+	/// Deterministic mapping: on-primary is black for dark-surface themes and white for light-surface themes.
+	/// </summary>
+	/// <param name="scheme">Material scheme providing base colors.</param>
+	/// <param name="isDarkSurface">Whether the theme uses a dark surface baseline.</param>
+	internal static MaterialGlyphPalette FromScheme([System.Diagnostics.CodeAnalysis.DisallowNull] KryptonColorSchemeBase scheme, bool isDarkSurface)
+	{
+		var outline = scheme.ControlBorder;
+		var primary = scheme.TextButtonNormal;
+		var disabled = scheme.InputControlTextDisabled;
+		var onPrimary = isDarkSurface ? System.Drawing.Color.Black : System.Drawing.Color.White;
+		return new MaterialGlyphPalette(outline, primary, onPrimary, disabled);
+	}
+
     internal static System.Drawing.Image[] CreateCheckBoxStrip(MaterialGlyphPalette palette, System.Drawing.Size size)
     {
         return new System.Drawing.Image[]
@@ -88,22 +103,25 @@ internal static class MaterialSelectionGlyphFactory
             g.Clear(System.Drawing.Color.Transparent);
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 
-            var rect = new System.Drawing.Rectangle(0, 0, size.Width - 1, size.Height - 1);
-            var borderColor = !enabled ? palette.Disabled : palette.Outline;
+			var rect = new System.Drawing.Rectangle(0, 0, size.Width - 1, size.Height - 1);
+			var borderColor = !enabled ? palette.Disabled : palette.Outline;
             var fillColor = System.Drawing.Color.Transparent;
 
-            if (isChecked || isIndeterminate)
+			if (isChecked || isIndeterminate)
             {
-                borderColor = !enabled ? palette.Disabled : palette.Primary;
-                fillColor = !enabled ? System.Drawing.Color.FromArgb(128, palette.Disabled) : palette.Primary;
-                if (state == GlyphVisualState.Tracking)
-                {
-                    fillColor = Blend(fillColor, System.Drawing.Color.White, 0.06f);
-                }
-                else if (state == GlyphVisualState.Pressed)
-                {
-                    fillColor = Blend(fillColor, System.Drawing.Color.Black, 0.12f);
-                }
+				borderColor = !enabled ? palette.Disabled : palette.Primary;
+				fillColor = !enabled ? System.Drawing.Color.FromArgb(128, palette.Disabled) : palette.Primary;
+				// Enhance visibility: stronger hover/press nuance when checked/indeterminate
+				if (enabled && state == GlyphVisualState.Tracking)
+				{
+					fillColor = Blend(fillColor, System.Drawing.Color.White, 0.25f);
+					borderColor = Blend(borderColor, System.Drawing.Color.White, 0.25f);
+				}
+				else if (enabled && state == GlyphVisualState.Pressed)
+				{
+					fillColor = Blend(fillColor, System.Drawing.Color.Black, 0.12f);
+					borderColor = Blend(borderColor, System.Drawing.Color.Black, 0.12f);
+				}
             }
             else
             {
@@ -131,9 +149,21 @@ internal static class MaterialSelectionGlyphFactory
                 g.DrawRectangle(p, rect);
             }
 
-            if (isChecked)
+			if (isChecked)
             {
-                var markColor = !enabled ? palette.Disabled : palette.OnPrimary;
+				var markColor = !enabled ? palette.Disabled : palette.OnPrimary;
+				// Provide subtle state nuances for the check mark as well
+				if (enabled)
+				{
+					if (state == GlyphVisualState.Tracking)
+					{
+						markColor = Blend(markColor, System.Drawing.Color.White, 0.25f);
+					}
+					else if (state == GlyphVisualState.Pressed)
+					{
+						markColor = Blend(markColor, System.Drawing.Color.Black, 0.12f);
+					}
+				}
                 using (var pen = new System.Drawing.Pen(markColor, 2f))
                 {
                     pen.StartCap = System.Drawing.Drawing2D.LineCap.Round;
@@ -146,7 +176,18 @@ internal static class MaterialSelectionGlyphFactory
             }
             else if (isIndeterminate)
             {
-                var barColor = !enabled ? palette.Disabled : palette.OnPrimary;
+				var barColor = !enabled ? palette.Disabled : palette.OnPrimary;
+				if (enabled)
+				{
+					if (state == GlyphVisualState.Tracking)
+					{
+						barColor = Blend(barColor, System.Drawing.Color.White, 0.25f);
+					}
+					else if (state == GlyphVisualState.Pressed)
+					{
+						barColor = Blend(barColor, System.Drawing.Color.Black, 0.12f);
+					}
+				}
                 var barRect = new System.Drawing.Rectangle(3, (size.Height / 2) - 1, size.Width - 6, 3);
                 using (var b = new System.Drawing.SolidBrush(barColor))
                 {
@@ -175,41 +216,41 @@ internal static class MaterialSelectionGlyphFactory
             float ringWidth = 2f;
             var ringRect = new System.Drawing.RectangleF(center.X - radius + 0.5f, center.Y - radius + 0.5f, radius * 2f - 1f, radius * 2f - 1f);
 
-			var ringColor = !enabled ? palette.Disabled : (isChecked ? palette.Primary : palette.Outline);
+            var ringColor = !enabled ? palette.Disabled : (isChecked ? palette.Primary : palette.Outline);
 
-			// Apply subtle state nuance for checked radios (Material guidance)
-			if (enabled && isChecked)
-			{
-				if (state == GlyphVisualState.Tracking)
-				{
-					ringColor = Blend(ringColor, System.Drawing.Color.White, 0.25f);
-				}
-				else if (state == GlyphVisualState.Pressed)
-				{
-					ringColor = Blend(ringColor, System.Drawing.Color.Black, 0.12f);
-				}
-			}
+            // Apply subtle state nuance for checked radios (Material guidance)
+            if (enabled && isChecked)
+            {
+                if (state == GlyphVisualState.Tracking)
+                {
+                    ringColor = Blend(ringColor, System.Drawing.Color.White, 0.25f);
+                }
+                else if (state == GlyphVisualState.Pressed)
+                {
+                    ringColor = Blend(ringColor, System.Drawing.Color.Black, 0.12f);
+                }
+            }
 
             using (var pen = new System.Drawing.Pen(ringColor, ringWidth))
             {
                 g.DrawEllipse(pen, ringRect);
             }
 
-			if (isChecked)
+            if (isChecked)
             {
-				var dotColor = !enabled ? palette.Disabled : palette.Primary;
-				// Subtle state nuance for the inner dot when checked
-				if (enabled)
-				{
-					if (state == GlyphVisualState.Tracking)
-					{
-						dotColor = Blend(dotColor, System.Drawing.Color.White, 0.25f);
-					}
-					else if (state == GlyphVisualState.Pressed)
-					{
-						dotColor = Blend(dotColor, System.Drawing.Color.Black, 0.12f);
-					}
-				}
+                var dotColor = !enabled ? palette.Disabled : palette.Primary;
+                // Subtle state nuance for the inner dot when checked
+                if (enabled)
+                {
+                    if (state == GlyphVisualState.Tracking)
+                    {
+                        dotColor = Blend(dotColor, System.Drawing.Color.White, 0.25f);
+                    }
+                    else if (state == GlyphVisualState.Pressed)
+                    {
+                        dotColor = Blend(dotColor, System.Drawing.Color.Black, 0.12f);
+                    }
+                }
                 float dotRadius = 3f;
                 var dotRect = new System.Drawing.RectangleF(center.X - dotRadius, center.Y - dotRadius, dotRadius * 2, dotRadius * 2);
                 using (var b = new System.Drawing.SolidBrush(dotColor))
