@@ -70,8 +70,8 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
         [DisallowNull] Image?[] radioButtonArray)
         : base(scheme, checkBoxList, galleryButtonList, radioButtonArray)
     {
-        // Enable ripple by default for Material themes
-        RippleEffect = true;
+        // Disable ripple by default
+        RippleEffect = false;
     }
     #endregion
 
