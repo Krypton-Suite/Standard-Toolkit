@@ -593,6 +593,10 @@ public sealed class KryptonManager : Component
                 return PaletteMaterialLight;
             case PaletteMode.MaterialDark:
                 return PaletteMaterialDark;
+            case PaletteMode.MaterialLightRipple:
+                return PaletteMaterialLightRipple;
+            case PaletteMode.MaterialDarkRipple:
+                return PaletteMaterialDarkRipple;
 
             case PaletteMode.Custom:
             case PaletteMode.Global:
@@ -878,9 +882,13 @@ public sealed class KryptonManager : Component
 
     public static PaletteMaterialLight PaletteMaterialLight => _paletteMaterialLight ??= new PaletteMaterialLight();
     public static PaletteMaterialDark PaletteMaterialDark => _paletteMaterialDark ??= new PaletteMaterialDark();
+    public static PaletteMaterialLightRipple PaletteMaterialLightRipple => _paletteMaterialLightRipple ??= new PaletteMaterialLightRipple();
+    public static PaletteMaterialDarkRipple PaletteMaterialDarkRipple => _paletteMaterialDarkRipple ??= new PaletteMaterialDarkRipple();
 
     private static PaletteMaterialLight? _paletteMaterialLight;
     private static PaletteMaterialDark? _paletteMaterialDark;
+    private static PaletteMaterialLightRipple? _paletteMaterialLightRipple;
+    private static PaletteMaterialDarkRipple? _paletteMaterialDarkRipple;
 
     //public static PaletteBase CustomPaletteBase => _customPalette ??= new PaletteBase ();
 
@@ -1155,6 +1163,9 @@ public sealed class KryptonManager : Component
                 break;
             case PaletteMode.MaterialLight:
             case PaletteMode.MaterialDark:
+            case PaletteMode.MaterialLightRipple:
+            case PaletteMode.MaterialDarkRipple:
+                // TODO create our own Material images
                 Images.ToolbarImages.SetToolBarImages(GlobalStaticValues.Microsoft365ToolBarImages);
                 break;
             default:

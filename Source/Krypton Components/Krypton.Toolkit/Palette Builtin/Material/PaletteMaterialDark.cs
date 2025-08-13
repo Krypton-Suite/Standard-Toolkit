@@ -1,7 +1,7 @@
 #region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2025 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2025 - 2025. All rights reserved.
  */
 #endregion
 
@@ -11,7 +11,7 @@ namespace Krypton.Toolkit;
 /// Material Dark palette variant.
 /// Temporarily reuses Microsoft 365 Black image lists and scheme while selecting the Material renderer.
 /// </summary>
-public sealed class PaletteMaterialDark : PaletteMaterialBase
+public class PaletteMaterialDark : PaletteMaterialBase
 {
     private static readonly ImageList _checkBoxList;
     private static readonly ImageList _galleryButtonList;

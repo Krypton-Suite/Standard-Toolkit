@@ -383,6 +383,16 @@ public enum PaletteMode
     MaterialDark,
 
     /// <summary>
+    /// Material Light palette with Ripple effect.
+    /// </summary>
+    MaterialLightRipple,
+
+    /// <summary>
+    /// Material Dark palette with Ripple effect.
+    /// </summary>
+    MaterialDarkRipple,
+
+    /// <summary>
     /// Specifies a custom palette be used.
     /// </summary>
     Custom

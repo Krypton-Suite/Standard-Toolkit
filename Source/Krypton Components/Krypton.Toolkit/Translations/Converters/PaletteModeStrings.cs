@@ -82,6 +82,8 @@ public class PaletteModeStrings : GlobalId
     internal const string DEFAULT_PALETTE_VISUAL_STUDIO_2022_LIGHT_MODE = @"Visual Studio 2022 - Light Mode";
     internal const string DEFAULT_PALETTE_MATERIAL_LIGHT = @"Material - Light";
     internal const string DEFAULT_PALETTE_MATERIAL_DARK = @"Material - Dark";
+    internal const string DEFAULT_PALETTE_MATERIAL_LIGHT_RIPPLE = @"Material - Light (Ripple)";
+    internal const string DEFAULT_PALETTE_MATERIAL_DARK_RIPPLE = @"Material - Dark (Ripple)";
     internal const string DEFAULT_PALETTE_CUSTOM = @"Custom";
 
     #endregion
@@ -166,6 +168,8 @@ public class PaletteModeStrings : GlobalId
             //{ DEFAULT_PALETTE_VISUAL_STUDIO_2022_LIGHT_MODE, PaletteMode.VisualStudio2022LightMode },
             { DEFAULT_PALETTE_MATERIAL_LIGHT, PaletteMode.MaterialLight },
             { DEFAULT_PALETTE_MATERIAL_DARK, PaletteMode.MaterialDark },
+            { DEFAULT_PALETTE_MATERIAL_LIGHT_RIPPLE, PaletteMode.MaterialLightRipple },
+            { DEFAULT_PALETTE_MATERIAL_DARK_RIPPLE, PaletteMode.MaterialDarkRipple },
             { DEFAULT_PALETTE_CUSTOM, PaletteMode.Custom }
         });
 
