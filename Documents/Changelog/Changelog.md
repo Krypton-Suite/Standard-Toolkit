@@ -9,6 +9,7 @@
 	- Items that had no prefix of this kind will now start with KryptonOutlookGrid.
 	- The `RatingColumn` from KOG has been replaced by `KryptonDataGridViewRatingColumn`.
 	- PercentageColumn is obsolete and replaced by `KryptonDataGridViewProgressColumn`.
+	- `KryptonOutlookGridAio` columns need to be managed at design time via the `KryptonOutlookGridAio.Columns` property only.
 * Implemented [#2048](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2048), `KryptonStatusStrip` control theming.
 * Implemented [#2291](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2291), Add tooltips to `KryptonPictureBox`.
 * Resolved [#2401](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2401), Fix `KryptonComboBox` event `OnEnabledChanged`.

@@ -189,8 +189,12 @@ public class KryptonOutlookGridAio : KryptonHeaderGroup
     /// that contains all the columns currently displayed in the <see cref="KryptonOutlookGrid"/>.
     /// Changes to this collection directly affect the columns visible in the grid.
     /// </remarks>
-    [Browsable(false)]
+    [Browsable(true)]
+    /*
+     * Serialization for this property needs to remain Hidden. The actual serialisation is done through/by the Editor itself.
+     */
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [Editor(typeof(KryptonDataGridViewColumnCollectionEditor), typeof(System.Drawing.Design.UITypeEditor))]
     public DataGridViewColumnCollection Columns => OutlookGrid.Columns;
 
     /// <summary>
