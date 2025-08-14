@@ -635,6 +635,12 @@ public class RenderStandard : RenderBase
         Debug.Assert(context.Control != null);
         Debug.Assert(!context.Control!.IsDisposed);
 
+        // Guard against invalid rectangles causing downstream GDI issues
+        if (rect.Width <= 0 || rect.Height <= 0)
+        {
+            return new GraphicsPath();
+        }
+
         // Use helper to create a border path in middle of the pen
         return CreateBorderBackPath(false,
             true,
@@ -677,6 +683,12 @@ public class RenderStandard : RenderBase
 
         Debug.Assert(context.Control != null);
         Debug.Assert(!context.Control!.IsDisposed);
+
+        // Guard against invalid rectangles causing downstream GDI issues
+        if (rect.Width <= 0 || rect.Height <= 0)
+        {
+            return new GraphicsPath();
+        }
 
         // Use helper to create a border path in middle of the pen
         var isForm = context.Control as KryptonForm;

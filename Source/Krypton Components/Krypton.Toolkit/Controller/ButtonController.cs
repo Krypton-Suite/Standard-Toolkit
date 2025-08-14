@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *
  */
 #endregion
 
@@ -313,6 +313,16 @@ public class ButtonController : GlobalId,
 
                             // Indicate that the mouse wants to select the elment
                             OnMouseSelect(new MouseEventArgs(MouseButtons.Left, 1, pt.X, pt.Y, 0));
+
+                            // Start a ripple animation if the target supports it and palette allows it
+                            if (Target is IRippleHost rippleHost)
+                            {
+                                var palette = KryptonManager.CurrentGlobalPalette;
+                                if (palette != null && palette.RippleEffect)
+                                {
+                                    rippleHost.StartRipple(pt);
+                                }
+                            }
 
                             // Generate a click event if we generate click on mouse down
                             if (ClickOnDown)
@@ -790,7 +800,7 @@ public class ButtonController : GlobalId,
                 }
                 else
                 {
-                    // Only hot tracking, so show tracking only if mouse over the target 
+                    // Only hot tracking, so show tracking only if mouse over the target
                     newState = _mouseOver ? PaletteState.Tracking : PaletteState.Normal;
                 }
             }

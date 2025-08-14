@@ -131,6 +131,32 @@ public abstract class PaletteBase : Component
     private bool ShouldSerializeUseThemeFormChromeBorderWidth() => UseThemeFormChromeBorderWidth != InheritBool.True;
     #endregion
 
+    #region RippleEffect
+    private bool _rippleEffect;
+
+    /// <summary>
+    /// Gets or sets whether the Material renderer ripple overlay is enabled.
+    /// </summary>
+    [KryptonPersist(false)]
+    [Category(@"Visuals")]
+    [Description(@"Enable touch/click ripple overlay for Material renderer.")]
+    [DefaultValue(false)]
+    public virtual bool RippleEffect
+    {
+        get => _rippleEffect;
+
+        set
+        {
+            if (_rippleEffect != value)
+            {
+                _rippleEffect = value;
+                OnPalettePaint(this, new PaletteLayoutEventArgs(true, false));
+            }
+        }
+    }
+    private void ResetRippleEffect() => RippleEffect = false;
+    private bool ShouldSerializeRippleEffect() => RippleEffect != false;
+    #endregion
     #region Renderer
     /// <summary>
     /// Gets the renderer to use for this palette.

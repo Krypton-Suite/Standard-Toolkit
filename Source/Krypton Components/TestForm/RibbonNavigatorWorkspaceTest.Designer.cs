@@ -186,7 +186,7 @@
             // 
             // kryptonManager
             // 
-            this.kryptonManager.GlobalPaletteMode = Krypton.Toolkit.PaletteMode.Office2007Silver;
+            this.kryptonManager.GlobalPaletteMode = Krypton.Toolkit.PaletteMode.Global;
             // 
             // panelFill
             // 
@@ -590,7 +590,7 @@
             // 
             // kryptonThemeComboBox1
             // 
-            this.kryptonThemeComboBox1.DefaultPalette = Krypton.Toolkit.PaletteMode.Office2007Silver;
+            this.kryptonThemeComboBox1.DefaultPalette = Krypton.Toolkit.PaletteMode.Global;
             this.kryptonThemeComboBox1.DropDownWidth = 121;
             this.kryptonThemeComboBox1.IntegralHeight = false;
             this.kryptonThemeComboBox1.Location = new System.Drawing.Point(13, 311);
@@ -1029,7 +1029,7 @@
             // 
             // kryptonRibbonGroupThemeComboBox1
             // 
-            this.kryptonRibbonGroupThemeComboBox1.DefaultPalette = Krypton.Toolkit.PaletteMode.Office2007Silver;
+            this.kryptonRibbonGroupThemeComboBox1.DefaultPalette = Krypton.Toolkit.PaletteMode.Global;
             this.kryptonRibbonGroupThemeComboBox1.DropDownWidth = 200;
             this.kryptonRibbonGroupThemeComboBox1.FormattingEnabled = false;
             this.kryptonRibbonGroupThemeComboBox1.ItemHeight = 16;

@@ -2753,6 +2753,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         internal const int MA_NOACTIVATE = 0x03;
         internal const int EM_FORMATRANGE = 0x0439;
         internal const int RDW_INVALIDATE = 0x0001;
+        internal const int RDW_ALLCHILDREN = 0x0080;
         internal const int RDW_UPDATENOW = 0x0100;
         internal const int RDW_FRAME = 0x0400;
         internal const int DCX_WINDOW = 0x01;
@@ -3687,7 +3688,12 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
                 PlaceHolder1,
                 PlaceHolder2,
                 PlaceHolder3,
-                AccentPolicy = 19
+                AccentPolicy = 19,
+                // Windows 11 attributes (values per SDK headers)
+                SystemBackdropType = 38, // keep placeholders aligned; we only need Border/Caption/Text below but numbering must not collide
+                BorderColor = 34,
+                CaptionColor = 35,
+                TextColor = 36
             }
 
             public enum DWMNCRENDERINGPOLICY : uint
@@ -3891,6 +3897,16 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
                 // Disable non-client area rendering on the window.
                 var result = DwmSetWindowAttribute(hWnd, DWMWINDOWATTRIBUTE.NCRenderingPolicy, ref ncrp,
                     sizeof(int));
+                return result == 0;
+            }
+
+            /// <summary>
+            /// Hide the DWM accent border around a window (Win11+). Equivalent to DWMWA_BORDER_COLOR = CLR_INVALID.
+            /// </summary>
+            public static bool WindowHideBorder(IntPtr hWnd)
+            {
+                int clrInvalid = -1; // CLR_INVALID
+                var result = DwmSetWindowAttribute(hWnd, DWMWINDOWATTRIBUTE.BorderColor, ref clrInvalid, sizeof(int));
                 return result == 0;
             }
         }

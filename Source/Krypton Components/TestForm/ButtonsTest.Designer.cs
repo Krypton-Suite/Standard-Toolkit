@@ -98,7 +98,7 @@ namespace TestForm
             // 
             this.kryptonThemeComboBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.kryptonThemeComboBox1.DefaultPalette = Krypton.Toolkit.PaletteMode.Microsoft365Blue;
+            this.kryptonThemeComboBox1.DefaultPalette = Krypton.Toolkit.PaletteMode.Global;
             this.kryptonThemeComboBox1.DropDownWidth = 492;
             this.kryptonThemeComboBox1.IntegralHeight = false;
             this.kryptonThemeComboBox1.Location = new System.Drawing.Point(18, 13);

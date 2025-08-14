@@ -3349,6 +3349,7 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
         switch (style)
         {
             case PaletteButtonSpecStyle.Close:
+            case PaletteButtonSpecStyle.FormClose:
                 return _buttonSpecClose;
             case PaletteButtonSpecStyle.Context:
                 return _buttonSpecContext;

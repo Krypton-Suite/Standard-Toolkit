@@ -83,6 +83,11 @@
     <Project Path="Krypton.Toolkit/Krypton.Toolkit 2022.csproj" />
     <Project Path="Krypton.Workspace/Krypton.Workspace 2022.csproj" />
   </Folder>
+  <Project Path="../TestHarnesses/ThemeSwapRepro/ThemeSwapRepro.csproj">
+    <BuildType Solution="Canary|*" Project="Release" />
+    <BuildType Solution="Installer|*" Project="Debug" />
+    <BuildType Solution="Nightly|*" Project="Release" />
+  </Project>
   <Project Path="TestForm/TestForm.csproj">
     <BuildDependency Project="Krypton.Navigator/Krypton.Navigator 2022.csproj" />
     <BuildType Solution="Canary|*" Project="Debug" />
