@@ -941,11 +941,6 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
                         }
                     }
 
-                    // Note Can we remove this?
-                    //#if DEBUG
-                    //                        internalColumns.DebugOutput();
-                    //#endif
-
                     //Refresh the groupBox if the column is grouped
                     if (col.IsGrouped)
                     {
@@ -967,7 +962,10 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     protected override void OnCellFormatting(DataGridViewCellFormattingEventArgs e)
     {
         //Allows to have a picture in the first column
-        if (e.DesiredType?.Name == "Image" && e.Value != null && e.Value.GetType().Name != e.DesiredType.Name && e.Value.GetType().Name != "Bitmap")
+        if (e.DesiredType?.Name == "Image"
+            && e.Value != null
+            && e.Value.GetType().Name != e.DesiredType.Name
+            && e.Value.GetType().Name != "Bitmap")
         {
             e.Value = null;
         }
@@ -1470,9 +1468,9 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
         {
             throw new ArgumentNullException(nameof(e));
         }
-#if DEBUG
+
         Debug.WriteLine(@"OutlookGrid - Receives ColumnSortChangedEvent : " + e.Column.Name + @" " + e.Column.SortDirection);
-#endif
+
         _internalColumns[e.Column.Name!]!.SortDirection = e.Column.SortDirection;
         _internalColumns[e.Column.Name!]!.DataGridViewColumn!.HeaderCell.SortGlyphDirection = e.Column.SortDirection;
         Fill();
@@ -1488,9 +1486,9 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
         GroupColumn(e.Column.Name!, e.Column.SortDirection, null);
         //We fill again the grid with the new Grouping info
         Fill();
-#if DEBUG
+
         Debug.WriteLine(@"OutlookGrid - Receives ColumnGroupAddedEvent : " + e.Column.Name);
-#endif
+
     }
 
     /// <summary>
@@ -1503,9 +1501,9 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
         UnGroupColumn(e.Column.Name!);
         //We fill again the grid with the new Grouping info
         Fill();
-#if DEBUG
+
         Debug.WriteLine(@"OutlookGrid - Receives ColumnGroupRemovedEvent : " + e.Column.Name);
-#endif
+
     }
 
     /// <summary>
@@ -1516,9 +1514,9 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     private void ClearGroupingEvent(object? sender, EventArgs e)
     {
         ClearGroups();
-#if DEBUG
+
         Debug.WriteLine(@"OutlookGrid - Receives ClearGroupingEvent");
-#endif
+
     }
 
     /// <summary>
@@ -1529,9 +1527,8 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     private void FullCollapseEvent(object? sender, EventArgs e)
     {
         CollapseAll();
-#if DEBUG
+
         Debug.WriteLine(@"OutlookGrid - Receives FullCollapseEvent");
-#endif
     }
 
     /// <summary>
@@ -1542,9 +1539,8 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     private void FullExpandEvent(object? sender, EventArgs e)
     {
         ExpandAll();
-#if DEBUG
+
         Debug.WriteLine(@"OutlookGrid - Receives FullExpandEvent");
-#endif
     }
 
     /// <summary>
@@ -1555,17 +1551,15 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     private void GridGroupExpandEvent(object? sender, KryptonOutlookGridColumnEventArgs e)
     {
         Expand(e.Column.Name);
-#if DEBUG
+
         Debug.WriteLine(@"OutlookGrid - Receives GridGroupExpandEvent");
-#endif
     }
 
     private void GridGroupCollapseEvent(object? sender, KryptonOutlookGridColumnEventArgs e)
     {
         Collapse(e.Column.Name);
-#if DEBUG
+
         Debug.WriteLine(@"OutlookGrid - Receives GridGroupCollapseEvent");
-#endif
     }
 
     private void ColumnGroupIndexChangedEvent(object? sender, KryptonOutlookGridColumnEventArgs e)
@@ -1574,9 +1568,8 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
         _internalColumns.ChangeGroupIndex(e.Column);
         Fill(); //to reflect the changes
         ForceRefreshGroupBox();
-#if DEBUG
+
         Debug.WriteLine(@"OutlookGrid - Receives ColumnGroupIndexChangedEvent");
-#endif
     }
 
     private void GroupIntervalClickEvent(object? sender, KryptonOutlookGridColumnEventArgs e)
@@ -1585,9 +1578,8 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
         (col.GroupingType as KryptonOutlookGridDateTimeGroup)!.Interval =
             (e.Column.GroupingType as KryptonOutlookGridDateTimeGroup)!.Interval;
         Fill();
-#if DEBUG
+
         Debug.WriteLine(@"OutlookGrid - Receives GroupIntervalClickEvent");
-#endif
     }
 
     private void SortBySummaryCountEvent(object? sender, KryptonOutlookGridColumnEventArgs e)
@@ -1601,9 +1593,8 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
             }
         }
         Fill();
-#if DEBUG
+
         Debug.WriteLine(@"OutlookGrid - Receives SortBySummaryCountEvent");
-#endif
     }
 
     /// <summary>
@@ -1824,9 +1815,8 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
                 }
             }
         }
-#if DEBUG
+
         _internalColumns.DebugOutput();
-#endif
     }
 
     /// <summary>
@@ -1845,9 +1835,8 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
         //Change the order in all cases
         col.SortDirection = sort;
         col.DataGridViewColumn!.HeaderCell.SortGlyphDirection = sort;
-#if DEBUG
+
         _internalColumns.DebugOutput();
-#endif
     }
 
     /// <summary>
@@ -1863,9 +1852,8 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
             col.SortDirection = SortOrder.None;
             col.DataGridViewColumn!.HeaderCell.SortGlyphDirection = SortOrder.None;
         }
-#if DEBUG
+
         _internalColumns.DebugOutput();
-#endif
     }
 
     /// <summary>
@@ -2532,9 +2520,8 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
                 col.SortIndex = -1;
             }
         }
-#if DEBUG
+
         _internalColumns.DebugOutput();
-#endif
     }
 
     ///// <summary>
@@ -3033,10 +3020,10 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     public void Fill()
     {
         Cursor.Current = Cursors.WaitCursor;
-#if (DEBUG)
+
         Stopwatch azer = new();
         azer.Start();
-#endif
+
         List<KryptonOutlookGridRow> list;
         List<KryptonOutlookGridRow> tmp = null!; // = new List<KryptonOutlookGridRow>();
         IKryptonOutlookGridGroup? grParent = null;
@@ -3069,11 +3056,11 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
         FillValueFormatConditions(formatColumn, typeColumn, list);
 
         //End of Formatting
-#if DEBUG
+
         azer.Stop();
         Debug.WriteLine(@"Formatting : " + azer.ElapsedMilliseconds + @" ms");
         azer.Start();
-#endif
+
         // this block is used of grouping is turned off
         // this will simply list all attributes of each object in the list
         if (_internalColumns.CountGrouped() == 0)
@@ -3252,10 +3239,9 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
         }
 
         Cursor.Current = Cursors.Default;
-#if DEBUG
+
         azer.Stop();
         Debug.WriteLine(@"FillGrid : " + azer.ElapsedMilliseconds + @" ms");
-#endif
     }
 
     /// <summary>
