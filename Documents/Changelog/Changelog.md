@@ -4,6 +4,7 @@
 
 ## 2025-11-xx - Build 2511 (V10 - alpha) - November 2025
 * Implemented [#2396](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2396), Added ModernBuild terminal.gui app to solution
+* Implemented [#1022](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1022), Introducing `Material` theme (dark/light).
 * Resolved [#2030](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2030), Fix drawing in `ViewDrawMenuImageColumn` for KContextMenu.
 * Resolved [#2411](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2411), Fixes for `VisualToastNotificationBasicForm` and `CommonDialogHandler`.
 * Resolved [#2125](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2125), Refactored `GetToastNotificationIconType`.

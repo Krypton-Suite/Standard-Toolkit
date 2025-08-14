@@ -1,9 +1,9 @@
 ﻿#region BSD License
 /*
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2025. All rights reserved. 
- *  
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2023 - 2025. All rights reserved.
+ *
  */
 #endregion
 
@@ -80,6 +80,10 @@ public class PaletteModeStrings : GlobalId
     internal const string DEFAULT_PALETTE_VISUAL_STUDIO_2019_LIGHT_MODE = @"Visual Studio 2019 - Light Mode";
     internal const string DEFAULT_PALETTE_VISUAL_STUDIO_2022_DARK_MODE = @"Visual Studio 2022 - Dark Mode";
     internal const string DEFAULT_PALETTE_VISUAL_STUDIO_2022_LIGHT_MODE = @"Visual Studio 2022 - Light Mode";
+    internal const string DEFAULT_PALETTE_MATERIAL_LIGHT = @"Material - Light";
+    internal const string DEFAULT_PALETTE_MATERIAL_DARK = @"Material - Dark";
+    internal const string DEFAULT_PALETTE_MATERIAL_LIGHT_RIPPLE = @"Material - Light (Ripple)";
+    internal const string DEFAULT_PALETTE_MATERIAL_DARK_RIPPLE = @"Material - Dark (Ripple)";
     internal const string DEFAULT_PALETTE_CUSTOM = @"Custom";
 
     #endregion
@@ -162,6 +166,10 @@ public class PaletteModeStrings : GlobalId
             //{ DEFAULT_PALETTE_VISUAL_STUDIO_2019_LIGHT_MODE, PaletteMode.VisualStudio2019LightMode },
             //{ DEFAULT_PALETTE_VISUAL_STUDIO_2022_DARK_MODE, PaletteMode.VisualStudio2022DarkMode },
             //{ DEFAULT_PALETTE_VISUAL_STUDIO_2022_LIGHT_MODE, PaletteMode.VisualStudio2022LightMode },
+            { DEFAULT_PALETTE_MATERIAL_LIGHT, PaletteMode.MaterialLight },
+            { DEFAULT_PALETTE_MATERIAL_DARK, PaletteMode.MaterialDark },
+            { DEFAULT_PALETTE_MATERIAL_LIGHT_RIPPLE, PaletteMode.MaterialLightRipple },
+            { DEFAULT_PALETTE_MATERIAL_DARK_RIPPLE, PaletteMode.MaterialDarkRipple },
             { DEFAULT_PALETTE_CUSTOM, PaletteMode.Custom }
         });
 

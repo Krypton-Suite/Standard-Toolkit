@@ -83,7 +83,7 @@ namespace TestForm
             // 
             // kryptonThemeComboBox1
             // 
-            this.kryptonThemeComboBox1.DefaultPalette = Krypton.Toolkit.PaletteMode.ProfessionalSystem;
+            this.kryptonThemeComboBox1.DefaultPalette = Krypton.Toolkit.PaletteMode.Global;
             this.kryptonThemeComboBox1.DropDownWidth = 334;
             this.kryptonThemeComboBox1.IntegralHeight = false;
             this.kryptonThemeComboBox1.Location = new System.Drawing.Point(141, 13);
@@ -105,7 +105,7 @@ namespace TestForm
             // 
             this.kryptonThemeListBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.kryptonThemeListBox1.DefaultPalette = Krypton.Toolkit.PaletteMode.ProfessionalSystem;
+            this.kryptonThemeListBox1.DefaultPalette = Krypton.Toolkit.PaletteMode.Global;
             this.kryptonThemeListBox1.Location = new System.Drawing.Point(141, 40);
             this.kryptonThemeListBox1.Name = "kryptonThemeListBox1";
             this.kryptonThemeListBox1.Size = new System.Drawing.Size(334, 356);

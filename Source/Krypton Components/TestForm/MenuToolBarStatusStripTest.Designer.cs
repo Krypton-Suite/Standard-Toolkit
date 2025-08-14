@@ -491,7 +491,7 @@
             //
             // kryptonThemeListBox1
             //
-            this.kryptonThemeListBox1.DefaultPalette = Krypton.Toolkit.PaletteMode.ProfessionalSystem;
+            this.kryptonThemeListBox1.DefaultPalette = Krypton.Toolkit.PaletteMode.Global;
             this.kryptonThemeListBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonThemeListBox1.KryptonContextMenu = this.kryptonContextMenu1;
             this.kryptonThemeListBox1.Location = new System.Drawing.Point(0, 0);
