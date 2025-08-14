@@ -154,7 +154,7 @@ namespace TestForm
             //
             // kryptonThemeComboBox3
             //
-            this.kryptonThemeComboBox3.DefaultPalette = Krypton.Toolkit.PaletteMode.Microsoft365Blue;
+            this.kryptonThemeComboBox3.DefaultPalette = Krypton.Toolkit.PaletteMode.Global;
             this.kryptonThemeComboBox3.DisplayMember = "Key";
             this.kryptonThemeComboBox3.DropDownWidth = 121;
             this.kryptonThemeComboBox3.IntegralHeight = false;
@@ -208,7 +208,7 @@ namespace TestForm
             //
             // kryptonThemeComboBox1
             //
-            this.kryptonThemeComboBox1.DefaultPalette = Krypton.Toolkit.PaletteMode.Microsoft365Blue;
+            this.kryptonThemeComboBox1.DefaultPalette = Krypton.Toolkit.PaletteMode.Global;
             this.kryptonThemeComboBox1.DisplayMember = "Key";
             this.kryptonThemeComboBox1.DropDownWidth = 250;
             this.kryptonThemeComboBox1.IntegralHeight = false;
@@ -235,7 +235,7 @@ namespace TestForm
             //
             // kryptonThemeComboBox2
             //
-            this.kryptonThemeComboBox2.DefaultPalette = Krypton.Toolkit.PaletteMode.Microsoft365Blue;
+            this.kryptonThemeComboBox2.DefaultPalette = Krypton.Toolkit.PaletteMode.Global;
             this.kryptonThemeComboBox2.DisplayMember = "Key";
             this.kryptonThemeComboBox2.DropDownWidth = 121;
             this.kryptonThemeComboBox2.IntegralHeight = false;

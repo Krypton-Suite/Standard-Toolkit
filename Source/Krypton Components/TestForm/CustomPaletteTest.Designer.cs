@@ -49,7 +49,7 @@ namespace TestForm
             // kryptonManager1
             // 
             this.kryptonManager1.BaseFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.kryptonManager1.GlobalPaletteMode = Krypton.Toolkit.PaletteMode.ProfessionalSystem;
+            this.kryptonManager1.GlobalPaletteMode = Krypton.Toolkit.PaletteMode.Global;
             // 
             // kryptonCustomPaletteBase1
             // 
@@ -60,7 +60,7 @@ namespace TestForm
             // 
             // kryptonThemeComboBox1
             // 
-            this.kryptonThemeComboBox1.DefaultPalette = Krypton.Toolkit.PaletteMode.ProfessionalSystem;
+            this.kryptonThemeComboBox1.DefaultPalette = Krypton.Toolkit.PaletteMode.Global;
             this.kryptonThemeComboBox1.DropDownWidth = 301;
             this.kryptonThemeComboBox1.IntegralHeight = false;
             this.kryptonThemeComboBox1.Location = new System.Drawing.Point(239, 217);
