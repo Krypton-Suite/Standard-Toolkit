@@ -24,7 +24,7 @@ public class ViewDrawCanvas : ViewComposite
     internal PaletteMetricPadding _metricPadding;
     private IDisposable? _mementoBack;
     private PaletteBorderInheritForced? _borderForced;
-    private Region _clipRegion;
+    private Region? _clipRegion;
 
     #endregion
 
@@ -560,11 +560,14 @@ public class ViewDrawCanvas : ViewComposite
             if (DrawBorderLast)
             {
                 // Set the clipping region back to original setting
-                Region oldRegion = context.Graphics.Clip;
-                context.Graphics.Clip = _clipRegion;
+                if (_clipRegion != null)
+                {
+                    Region oldRegion = context.Graphics.Clip;
+                    context.Graphics.Clip = _clipRegion;
 
-                // Remember to dispose of the temporary region, no longer needed
-                oldRegion.Dispose();
+                    // Remember to dispose of the temporary region, no longer needed
+                    oldRegion.Dispose();
+                }
 
                 RenderBorder(context);
             }
