@@ -284,6 +284,13 @@ public class KryptonOutlookGridAio : KryptonHeaderGroup
     #endregion Public Properties
 
     #region Methods
+    /// <summary>
+    /// AutoSize property is disabled since it is not part of the grid.
+    /// </summary>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public override bool AutoSize { get ; set; }
 
     /// <summary>
     /// Handles the <see cref="KryptonOutlookGrid.OnSearchCompleted"/> event to update the secondary header.
