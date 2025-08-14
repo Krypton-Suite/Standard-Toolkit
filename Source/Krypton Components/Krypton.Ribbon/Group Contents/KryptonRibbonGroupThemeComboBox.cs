@@ -1,9 +1,9 @@
 ﻿#region BSD License
 /*
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2025. All rights reserved. 
- *  
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2025. All rights reserved.
+ *
  */
 #endregion
 
@@ -66,7 +66,7 @@ public class KryptonRibbonGroupThemeComboBox : KryptonRibbonGroupComboBox, IKryp
     [DefaultValue(null)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     [Obsolete("Deprecated and will be removed in V110. Set a global custom palette through 'ThemeManager.ApplyTheme(...)'.")]
-    public KryptonCustomPaletteBase? KryptonCustomPalette 
+    public KryptonCustomPaletteBase? KryptonCustomPalette
     {
         get => _kryptonCustomPalette;
         set => _kryptonCustomPalette = value;
@@ -80,7 +80,7 @@ public class KryptonRibbonGroupThemeComboBox : KryptonRibbonGroupComboBox, IKryp
     [Description(@"The default palette mode.")]
     [DefaultValue(PaletteMode.Global)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-    public PaletteMode DefaultPalette 
+    public PaletteMode DefaultPalette
     {
         get => _defaultPalette;
         set => SelectedIndex = CommonHelperThemeSelectors.DefaultPaletteSetter(ref _defaultPalette, value, Items, SelectedIndex);
@@ -106,9 +106,53 @@ public class KryptonRibbonGroupThemeComboBox : KryptonRibbonGroupComboBox, IKryp
          * OnHandleCreated could not be used here since this control derives from Component.
          */
 
-        if (ComboBox is not null)
+        if (ComboBox is null)
         {
-            SelectedIndex = CommonHelperThemeSelectors.KryptonManagerGlobalPaletteChanged(_isLocalUpdate, ref _isExternalUpdate, SelectedIndex, Items);
+            return;
+        }
+
+        if (_isLocalUpdate)
+        {
+            return;
+        }
+
+        var mode = KryptonManager.CurrentGlobalPaletteMode;
+        if (mode == PaletteMode.Global)
+        {
+            return;
+        }
+
+        int idx = CommonHelperThemeSelectors.GetPaletteIndex(Items, mode);
+        if (idx == SelectedIndex)
+        {
+            return;
+        }
+
+        void Commit()
+        {
+            if (ComboBox.IsDisposed || !ComboBox.IsHandleCreated)
+            {
+                return;
+            }
+            _isExternalUpdate = true;
+            try
+            {
+                SelectedIndex = idx;
+            }
+            finally
+            {
+                _isExternalUpdate = false;
+            }
+        }
+
+        if (ThemeChangeCoordinator.InProgress && !ComboBox.IsDisposed && ComboBox.IsHandleCreated)
+        {
+            ComboBox.BeginInvoke((System.Windows.Forms.MethodInvoker)Commit);
+        }
+        else
+        {
+            // If the handle is not yet created (or disposed), invoke synchronously to avoid InvalidOperationException
+            Commit();
         }
     }
 
@@ -142,7 +186,7 @@ public class KryptonRibbonGroupThemeComboBox : KryptonRibbonGroupComboBox, IKryp
     /// <summary>Gets or sets the format specifier characters that indicate how a value is to be Displayed.</summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public override string FormatString 
+    public override string FormatString
     {
         get => base.FormatString;
         set => base.FormatString = value;

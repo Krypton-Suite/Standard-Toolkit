@@ -18,7 +18,67 @@ public partial class StartScreen : KryptonForm
 
     private void StartScreen_Load(object sender, EventArgs e)
     {
+        // TEMP: visualize whether remaining lines are button borders
+        // Use the real About button (kbtnAbout) shown at the top-left
+        kbtnAbout.StateCommon.Border.DrawBorders = PaletteDrawBorders.All;
+        kbtnAbout.StateCommon.Border.Width = 2;
+        kbtnAbout.StateCommon.Border.GraphicsHint = PaletteGraphicsHint.None;
+        kbtnAbout.StateCommon.Border.ColorStyle = PaletteColorStyle.Solid;
+        kbtnAbout.StateCommon.Border.Color1 = Color.Lime;
+        kbtnAbout.StateCommon.Border.Color2 = Color.Lime;
 
+        kbtnAbout.StateNormal.Border.DrawBorders = PaletteDrawBorders.All;
+        kbtnAbout.StateNormal.Border.Width = 2;
+        kbtnAbout.StateNormal.Border.ColorStyle = PaletteColorStyle.Solid;
+        kbtnAbout.StateNormal.Border.Color1 = Color.Lime;
+        kbtnAbout.StateNormal.Border.Color2 = Color.Lime;
+
+        kbtnAbout.StateDisabled.Border.DrawBorders = PaletteDrawBorders.All;
+        kbtnAbout.StateDisabled.Border.Width = 2;
+        kbtnAbout.StateDisabled.Border.ColorStyle = PaletteColorStyle.Solid;
+        kbtnAbout.StateDisabled.Border.Color1 = Color.Lime;
+        kbtnAbout.StateDisabled.Border.Color2 = Color.Lime;
+
+        kbtnAbout.StateTracking.Border.DrawBorders = PaletteDrawBorders.All;
+        kbtnAbout.StateTracking.Border.Width = 2;
+        kbtnAbout.StateTracking.Border.ColorStyle = PaletteColorStyle.Solid;
+        kbtnAbout.StateTracking.Border.Color1 = Color.Lime;
+        kbtnAbout.StateTracking.Border.Color2 = Color.Lime;
+
+        kbtnAbout.StatePressed.Border.DrawBorders = PaletteDrawBorders.All;
+        kbtnAbout.StatePressed.Border.Width = 2;
+        kbtnAbout.StatePressed.Border.ColorStyle = PaletteColorStyle.Solid;
+        kbtnAbout.StatePressed.Border.Color1 = Color.Lime;
+        kbtnAbout.StatePressed.Border.Color2 = Color.Lime;
+
+        kbtnAbout.OverrideDefault.Border.DrawBorders = PaletteDrawBorders.All;
+        kbtnAbout.OverrideDefault.Border.Width = 2;
+        kbtnAbout.OverrideDefault.Border.GraphicsHint = PaletteGraphicsHint.None;
+        kbtnAbout.OverrideDefault.Border.ColorStyle = PaletteColorStyle.Solid;
+        kbtnAbout.OverrideDefault.Border.Color1 = Color.Lime;
+        kbtnAbout.OverrideDefault.Border.Color2 = Color.Lime;
+
+        // Also color the button background to detect any 1px interior gaps vs parent background
+        kbtnAbout.StateCommon.Back.Draw = InheritBool.True;
+        kbtnAbout.StateCommon.Back.ColorStyle = PaletteColorStyle.Solid;
+        kbtnAbout.StateCommon.Back.Color1 = Color.FromArgb(200, 0, 0); // red fill
+        kbtnAbout.StateCommon.Back.Color2 = Color.FromArgb(200, 0, 0);
+        kbtnAbout.OverrideDefault.Back.ColorStyle = PaletteColorStyle.Solid;
+        kbtnAbout.OverrideDefault.Back.Color1 = Color.FromArgb(200, 0, 0);
+        kbtnAbout.OverrideDefault.Back.Color2 = Color.FromArgb(200, 0, 0);
+
+        /*
+        // Automatic Material shadow defaults if wanted
+        if (ShadowValues.IsDefault)
+        {
+            ShadowValues.EnableShadows = true;
+            ShadowValues.Offset = new Point(2, 2);
+            ShadowValues.ExtraWidth = 6;
+            ShadowValues.BlurDistance = 40;
+            ShadowValues.Colour = Color.Black;
+            ShadowValues.Opacity = 40;
+        }
+        */
     }
 
     private void kbtnAboutBox_Click(object sender, EventArgs e)

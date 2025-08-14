@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *
  */
 #endregion
 
@@ -106,6 +106,8 @@ public class KryptonForm : VisualForm,
     private InheritBool _internalPanelState;
     private int _foundRibbonOffset = -1;
     private readonly KryptonPanel _internalKryptonPanel;
+    // Compensate for Windows 11 outer accent border by shrinking the window region slightly
+    private const int NON_CLIENT_REGION_INSET = 4;
 
     #endregion
 
@@ -233,7 +235,7 @@ public class KryptonForm : VisualForm,
     private float GetDpiFactor() => DeviceDpi / 96F;
 
     /// <summary>
-    /// Releases all resources used by the Control. 
+    /// Releases all resources used by the Control.
     /// </summary>
     /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
     protected override void Dispose(bool disposing)
@@ -827,7 +829,7 @@ public class KryptonForm : VisualForm,
     [EditorBrowsable(EditorBrowsableState.Never)]
     public FormWindowState GetWindowState()
     {
-        // Get the current window style (cannot use the 
+        // Get the current window style (cannot use the
         // WindowState property as it can be slightly out of date)
         var style = PI.GetWindowLong(Handle, PI.GWL_.STYLE);
 
@@ -1145,12 +1147,14 @@ public class KryptonForm : VisualForm,
     /// <param name="e">An EventArgs containing event data.</param>
     protected override void OnLoad(EventArgs e)
     {
-        // Let base class perform standard actions such as calculating the 
+        // Let base class perform standard actions such as calculating the
         // correct initial size and position of the window when first shown
         base.OnLoad(e);
 
         // We only apply custom chrome when control is already created and positioned
         UpdateUseThemeFormChromeBorderWidthDecision();
+
+        ApplyMaterialFormChromeDefaultsIfNeeded();
     }
 
     /// <summary>
@@ -1222,6 +1226,8 @@ public class KryptonForm : VisualForm,
 
         // Test if we need to change the custom chrome usage
         UpdateUseThemeFormChromeBorderWidthDecision();
+
+        ApplyMaterialFormChromeDefaultsIfNeeded();
     }
 
     /// <summary>
@@ -1279,7 +1285,6 @@ public class KryptonForm : VisualForm,
             {
                 base.Controls.Add(checkForRibbon[i]);
             }
-
         }
 
         // Register with the ActiveFormTracker
@@ -1293,6 +1298,9 @@ public class KryptonForm : VisualForm,
             // Delay the non-client recalculation to allow button manager to update first
             BeginInvoke(new Action(() => RecalcNonClient()));
         }
+        
+        // Ensure Material defaults are applied as early as possible for new forms
+        ApplyMaterialFormChromeDefaultsIfNeeded();
     }
 
     #endregion
@@ -1382,6 +1390,19 @@ public class KryptonForm : VisualForm,
         }
 
         Padding borders = RealWindowBorders;
+
+        // Material: use a wider invisible hit band for easier resize while keeping flat, borderless visuals.
+        // RealWindowBorders can be 0 when the palette (e.g., Material) suppresses border width for drawing.
+        // Expanding the hit test band preserves resize affordance without adding visible chrome.
+        if (Renderer is RenderMaterial)
+        {
+            const int materialResizeThickness = 6;
+            borders = new Padding(
+                Math.Max(borders.Left, materialResizeThickness),
+                Math.Max(borders.Top, materialResizeThickness),
+                Math.Max(borders.Right, materialResizeThickness),
+                Math.Max(borders.Bottom, materialResizeThickness));
+        }
         // Restrict the top border to the same size as the left as we are using
         // the values for the size of the border hit testing for resizing the window
         // and not the size of the border for drawing purposes.
@@ -1659,9 +1680,17 @@ public class KryptonForm : VisualForm,
                     _headerStylePrev = _headerStyle;
                 }
 
-                // Update the heading to have a height matching the window requirements
-                Padding windowBorders = RealWindowBorders;
-                _headingFixedSize.FixedSize = new Size(windowBorders.Top, windowBorders.Top);
+                // Update the heading to enforce a fixed Material-like caption height when Material renderer is active
+                if (Renderer is RenderMaterial)
+                {
+                    const int materialCaptionHeight = 44; // px
+                    _headingFixedSize.FixedSize = new Size(materialCaptionHeight, materialCaptionHeight);
+                }
+                else
+                {
+                    Padding windowBorders = RealWindowBorders;
+                    _headingFixedSize.FixedSize = new Size(windowBorders.Top, windowBorders.Top);
+                }
 
                 // A change in window state since last time requires a layout
                 if (_lastWindowState != GetWindowState())
@@ -1884,7 +1913,7 @@ public class KryptonForm : VisualForm,
                 _firstCheckView = true;
                 UseThemeFormChromeBorderWidth = needChrome;
                 base.UseThemeFormChromeBorderWidth = true; // make sure "Form" buttons are drawn correctly
-                PerformNeedPaint(true);     // Force Layout size change 
+                PerformNeedPaint(true);     // Force Layout size change
             }
         }
     }
@@ -1997,6 +2026,20 @@ public class KryptonForm : VisualForm,
         _visualPopupToolTip = null;
     }
 
+    private void ApplyMaterialFormChromeDefaultsIfNeeded()
+    {
+        if (Renderer is RenderMaterial)
+        {
+            if (FormTitleAlign is PaletteRelativeAlign.Near or PaletteRelativeAlign.Inherit)
+            {
+                FormTitleAlign = PaletteRelativeAlign.Center;
+            }
+
+            // Hide the form icon by default for a cleaner Material header (user can still re-enable later)
+            AllowIconDisplay = false;
+        }
+    }
+
     private void OnStatusDockChanged(object? sender, EventArgs e)
     {
         if (StatusStripMerging)
@@ -2021,6 +2064,9 @@ public class KryptonForm : VisualForm,
         if (PaletteMode == PaletteMode.Global)
         {
             UpdateUseThemeFormChromeBorderWidthDecision();
+
+            // Apply Material defaults when global palette switches
+            ApplyMaterialFormChromeDefaultsIfNeeded();
         }
     }
 
@@ -2111,6 +2157,7 @@ public class KryptonForm : VisualForm,
 
     /// <summary>
     /// Gets the creation parameters used to create the window.
+    /// Example by juverpp
     /// </summary>
     /// <returns>Creation parameters.</returns>
     protected override CreateParams CreateParams

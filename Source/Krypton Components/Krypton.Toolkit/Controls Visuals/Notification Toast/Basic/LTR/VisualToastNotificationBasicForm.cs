@@ -356,8 +356,6 @@ internal partial class VisualToastNotificationBasicForm : VisualToastNotificatio
 
         _timer?.Dispose();
 
-        _timer = null;
-
         _soundPlayer?.Stop();
 
         _soundPlayer?.Dispose();
