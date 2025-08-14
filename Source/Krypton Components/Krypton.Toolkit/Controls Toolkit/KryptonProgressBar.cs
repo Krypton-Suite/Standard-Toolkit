@@ -705,8 +705,15 @@ public class KryptonProgressBar : Control, IContentValues
     /// <inheritdoc />
     protected override void OnPaint(PaintEventArgs e)
     {
-        // Get the renderer associated with this palette
-        IRenderer renderer = _palette!.GetRenderer();
+		// If no palette is available, fall back to base painting
+		if (_palette == null)
+		{
+			base.OnPaint(e);
+			return;
+		}
+
+		// Get the renderer associated with this palette
+		IRenderer renderer = _palette!.GetRenderer();
 
         // Create the rendering context that is passed into all renderer calls
         using var renderContext = new RenderContext(this, e.Graphics, e.ClipRectangle, renderer);

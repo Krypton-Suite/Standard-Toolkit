@@ -101,6 +101,17 @@ public partial class ProgressBarTest : KryptonForm
         kryptonProgressBarVert2.ShowTextBackdrop = kchkShowTextBackdrop.Checked;
     }
 
+    private void kchkShowTextShadow_CheckedChanged(object sender, EventArgs e)
+    {
+        kryptonProgressBar1.ShowTextShadow = kchkShowTextShadow.Checked;
+
+        kryptonProgressBar2.ShowTextShadow = kchkShowTextShadow.Checked;
+
+        kryptonProgressBarVert1.ShowTextShadow = kchkShowTextShadow.Checked;
+
+        kryptonProgressBarVert2.ShowTextShadow = kchkShowTextShadow.Checked;
+    }
+
     private void kcbtnBackdropColor_SelectedColorChanged(object sender, ColorEventArgs e)
     {
         kryptonProgressBar1.TextBackdropColor = e.Color;
