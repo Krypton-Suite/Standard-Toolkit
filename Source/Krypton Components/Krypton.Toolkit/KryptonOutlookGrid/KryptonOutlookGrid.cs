@@ -47,7 +47,6 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     private PaletteBorderInheritRedirect _paletteBorder;
     //private PaletteContentInheritRedirect _paletteContent;
     private IDisposable? _mementoBack;
-    private PaletteBorder _border;
 
     private KryptonOutlookGridGroupCollection _groupCollection;     // List of Groups (of rows)
     private List<KryptonOutlookGridRow> _internalRows;              // List of Rows in order to keep them as is (without grouping,...)
@@ -176,9 +175,6 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
         _paletteBack = new PaletteBackInheritRedirect(_paletteRedirect);
         _paletteBorder = new PaletteBorderInheritRedirect(_paletteRedirect);
         //_paletteContent = new PaletteContentInheritRedirect(_paletteRedirect);
-
-        // Create storage that maps onto the inherit instances
-        _border = new PaletteBorder(_paletteBorder, null);
 
         AllowUserToOrderColumns = false;  //we will handle it ourselves
         _hideColumnOnGrouping = false;
@@ -367,14 +363,6 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
 
         set => _rightToLeftLayout = value;
     }
-
-    /// <summary>
-    /// Gets access to the border palette details.
-    /// </summary>
-    [Category("Visuals")]
-    [Description("Overrides borders settings.")]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-    public PaletteBorder Border => _border;
 
     /// <summary>
     /// Gets or sets a value indicating whether the column context menu is allowed.
@@ -980,16 +968,6 @@ public partial class KryptonOutlookGrid : KryptonDataGridView
     protected override void OnPaint(PaintEventArgs e)
     {
         base.OnPaint(e);
-        if (_palette != null)
-        {
-            IRenderer renderer = _palette.GetRenderer();
-
-            using (RenderContext renderContext = new(this, e.Graphics, e.ClipRectangle, renderer))
-            {
-                _paletteBorder.Style = PaletteBorderStyle.HeaderPrimary;
-                renderer.RenderStandardBorder.DrawBorder(renderContext, ClientRectangle, _border, VisualOrientation.Top, PaletteState.Normal);
-            }
-        }
 
         if (this.RowHeadersVisible)
         {
