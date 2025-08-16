@@ -1047,56 +1047,37 @@ public class KryptonForm : VisualForm,
 
         private PaletteRelativeAlign GetRTLAdjustedAlignment(PaletteRelativeAlign originalAlignment)
         {
-            // Check if RTL is enabled - this is the primary condition for RTL layout
-            if (_kryptonForm.RightToLeft == RightToLeft.Yes)
+            // Only apply RTL adjustments when both RTL and RTL Layout are enabled
+            if (_kryptonForm.RightToLeft == RightToLeft.Yes && _kryptonForm.RightToLeftLayout)
             {
-                // If RTL Layout is also enabled, reverse the alignment for full mirroring
-                if (_kryptonForm.RightToLeftLayout)
+                return originalAlignment switch
                 {
-                    return originalAlignment switch
-                    {
-                        PaletteRelativeAlign.Near => PaletteRelativeAlign.Far,
-                        PaletteRelativeAlign.Far => PaletteRelativeAlign.Near,
-                        _ => originalAlignment
-                    };
-                }
-                else
-                {
-                    // When RTL is enabled but RTL Layout is disabled,
-                    // maintain the original alignment but adjust for RTL context
-                    // This ensures content is positioned correctly for RTL reading order
-                    return originalAlignment;
-                }
+                    PaletteRelativeAlign.Near => PaletteRelativeAlign.Far,
+                    PaletteRelativeAlign.Far => PaletteRelativeAlign.Near,
+                    _ => originalAlignment
+                };
             }
+            
+            // When RTL Layout is disabled, return original alignment unchanged
             return originalAlignment;
         }
 
         private PaletteRelativeAlign GetRTLAdjustedImageAlignment(PaletteRelativeAlign titleAlignment)
         {
-            // Check if RTL is enabled - this is the primary condition for RTL layout
-            if (_kryptonForm.RightToLeft == RightToLeft.Yes)
+            // Only apply RTL adjustments when both RTL and RTL Layout are enabled
+            if (_kryptonForm.RightToLeft == RightToLeft.Yes && _kryptonForm.RightToLeftLayout)
             {
-                // If RTL Layout is also enabled, position the icon after the text for full mirroring
-                if (_kryptonForm.RightToLeftLayout)
+                return titleAlignment switch
                 {
-                    return titleAlignment switch
-                    {
-                        PaletteRelativeAlign.Near => PaletteRelativeAlign.Far, // Icon on the right when text is on the left
-                        PaletteRelativeAlign.Far => PaletteRelativeAlign.Near, // Icon on the left when text is on the right
-                        PaletteRelativeAlign.Center => PaletteRelativeAlign.Center, // Keep centered
-                        _ => PaletteRelativeAlign.Far // Default to right side in RTL
-                    };
-                }
-                else
-                {
-                    // When RTL is enabled but RTL Layout is disabled,
-                    // position the icon on the right side for RTL reading order
-                    return PaletteRelativeAlign.Far; // Default to right side in RTL
-                }
+                    PaletteRelativeAlign.Near => PaletteRelativeAlign.Far, // Icon on the right when text is on the left
+                    PaletteRelativeAlign.Far => PaletteRelativeAlign.Near, // Icon on the left when text is on the right
+                    PaletteRelativeAlign.Center => PaletteRelativeAlign.Center, // Keep centered
+                    _ => PaletteRelativeAlign.Far // Default to right side in RTL
+                };
             }
             else
             {
-                // In LTR mode, icon should be on the left (Near)
+                // In LTR mode or when RTL Layout is disabled, icon should be on the left (Near)
                 return PaletteRelativeAlign.Near;
             }
         }
