@@ -56,6 +56,16 @@ public class KryptonComboBox : VisualControlBase,
             // Find the largest size of any child control
             foreach (Control c in Controls)
             {
+                // Avoid triggering framework font measurement path that can throw first-chance exceptions
+                // when asking ComboBox for its preferred size. We only need width here; height is computed
+                // from ItemHeight below.
+                if (c is ComboBox)
+                {
+                    maxSize.Width = Math.Max(maxSize.Width, c.Width);
+                    maxSize.Height = Math.Max(maxSize.Height, c.Height);
+                    continue;
+                }
+
                 try
                 {
                     Size cSize = c.GetPreferredSize(proposedSize);
