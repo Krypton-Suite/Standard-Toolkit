@@ -3121,3 +3121,33 @@ public enum KryptonEmojiListType
 }
 
 #endregion
+
+#region Enum ShieldIconThemeMode
+
+/// <summary>
+/// Defines how UAC shield icons should handle theme changes.
+/// </summary>
+public enum ShieldIconThemeMode
+{
+    /// <summary>
+    /// Automatically detect and adapt to the current theme.
+    /// </summary>
+    Automatic = 0,
+
+    /// <summary>
+    /// Force light theme appearance regardless of system theme.
+    /// </summary>
+    Light = 1,
+
+    /// <summary>
+    /// Force dark theme appearance regardless of system theme.
+    /// </summary>
+    Dark = 2,
+
+    /// <summary>
+    /// Use the system's default theme behavior.
+    /// </summary>
+    System = 3
+}
+
+#endregion
