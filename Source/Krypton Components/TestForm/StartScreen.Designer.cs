@@ -262,6 +262,7 @@ namespace TestForm
             this.kbtnDataGrid.TabIndex = 23;
             this.kbtnDataGrid.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnDataGrid.Values.Text = "DataGrid";
+            this.kbtnDataGrid.Click += new System.EventHandler(this.kbtnDataGrid_Click);
             //
             // kbtnControlsTest
             //
