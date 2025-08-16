@@ -93,6 +93,16 @@ namespace Krypton.Toolkit.ResourceFiles.Generic {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap SparkleDropDownButtonBlack {
+            get {
+                object obj = ResourceManager.GetObject("SparkleDropDownButtonBlack", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap SparkleDropDownOutlineButton {
             get {
                 object obj = ResourceManager.GetObject("SparkleDropDownOutlineButton", resourceCulture);
