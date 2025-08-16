@@ -305,13 +305,9 @@ public class AccurateText : GlobalId
 
                         // Conditional ellipsis: only allow if text would overflow the target rect
                         var ellipsisFlags = TextFormatFlags.EndEllipsis | TextFormatFlags.WordEllipsis | TextFormatFlags.PathEllipsis;
-                        if ((tff & ellipsisFlags) != 0)
+                        if (((tff & ellipsisFlags) != 0) && (memento.Size.Width <= rect.Width))
                         {
-                            bool wouldClip = (memento.Size.Width > rect.Width);
-                            if (!wouldClip)
-                            {
-                                tff &= ~ellipsisFlags;
-                            }
+                            tff &= ~ellipsisFlags;
                         }
 
                         // IMPORTANT:
