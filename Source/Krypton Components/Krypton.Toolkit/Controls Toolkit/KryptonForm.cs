@@ -2413,7 +2413,6 @@ public class KryptonForm : VisualForm,
             // Validate context
             if (context?.Control == null)
             {
-                base.Layout(context);
                 return;
             }
  

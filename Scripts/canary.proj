@@ -4,6 +4,8 @@
 	<PropertyGroup>
 		<RootFolder>$(MSBuildProjectDirectory)</RootFolder>
 		<Configuration>Canary</Configuration>
+		<CanaryBuildPath>..\Bin\Canary\Zips</CanaryBuildPath>
+		<CanaryZipName>Krypton-Canary</CanaryZipName>
 	</PropertyGroup>
 
 	<Target Name="Clean">
@@ -59,17 +61,49 @@
 		<Exec Command="nuget.exe push %(NugetPkgs.Identity)" />
 	</Target>
 
-	<Target Name="CreateNightlyZip">
+
+
+	<Target Name="CreateCanaryZip">
 		<PropertyGroup>
 			<StringDate>$([System.DateTime]::Now.ToString('yyyyMMdd'))</StringDate>
 		</PropertyGroup>
 		<ItemGroup>
 			<DebugApplicationFiles Include="..\Bin\Canary\**\*.*" Exclude="..\Bin\Canary\*vshost.exe*" />
 		</ItemGroup>
-		<MakeDir Directories="$(NightlyBuildPath)"/>
+		<MakeDir Directories="$(CanaryBuildPath)"/>
 		<Zip Files="@(DebugApplicationFiles)"
 		     WorkingDirectory="..\Bin\Canary"
-		     ZipFileName="$(NightlyBuildPath)\$(StringDate)_$(NightlyZipName).zip"
+		     ZipFileName="$(CanaryBuildPath)\$(StringDate)_$(CanaryZipName).zip"
 		     ZipLevel="9" />
 	</Target>
+
+	<Target Name="CreateCanaryTar">
+		<PropertyGroup>
+			<StringDate>$([System.DateTime]::Now.ToString('yyyyMMdd'))</StringDate>
+		</PropertyGroup>
+		<ItemGroup>
+			<DebugApplicationFiles Include="..\Bin\Canary\**\*.*" Exclude="..\Bin\Canary\*vshost.exe*" />
+		</ItemGroup>
+		<MakeDir Directories="$(CanaryBuildPath)"/>
+		
+		<!-- Method 1: Using 7-Zip if available (recommended for Windows) -->
+		<Exec Command="7z.exe a -ttar &quot;$(CanaryBuildPath)\$(StringDate)_$(CanaryZipName).tar&quot; &quot;..\Bin\Canary\*&quot;" 
+		      Condition="Exists('C:\Program Files\7-Zip\7z.exe')" 
+		      WorkingDirectory="$(CanaryBuildPath)" />
+		<Exec Command="7z.exe a -tgzip &quot;$(CanaryBuildPath)\$(StringDate)_$(CanaryZipName).tar.gz&quot; &quot;$(CanaryBuildPath)\$(StringDate)_$(CanaryZipName).tar&quot;" 
+		      Condition="Exists('C:\Program Files\7-Zip\7z.exe')" 
+		      WorkingDirectory="$(CanaryBuildPath)" />
+		<Delete Files="$(CanaryBuildPath)\$(StringDate)_$(CanaryZipName).tar" 
+		        Condition="Exists('C:\Program Files\7-Zip\7z.exe')" />
+		
+		<!-- Method 2: Using PowerShell tar command (Windows 10/11) -->
+		<Exec Command="powershell.exe -Command &quot;tar -czf '$(CanaryBuildPath)\$(StringDate)_$(CanaryZipName)_ps.tar.gz' -C '..\Bin\Canary' .&quot;" 
+		      Condition="Exists('C:\Windows\System32\tar.exe')" />
+		
+		<!-- Method 3: Using Git Bash tar if available -->
+		<Exec Command="&quot;C:\Program Files\Git\bin\bash.exe&quot; -c &quot;cd '..\Bin\Canary' && tar -czf '$(CanaryBuildPath)/$(StringDate)_$(CanaryZipName)_git.tar.gz' *&quot;" 
+		      Condition="Exists('C:\Program Files\Git\bin\bash.exe')" />
+	</Target>
+
+	<Target Name="CreateAllCanaryArchives" DependsOnTargets="CreateCanaryZip;CreateCanaryTar" />
 </Project>

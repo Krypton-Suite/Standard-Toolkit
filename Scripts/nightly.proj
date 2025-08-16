@@ -4,6 +4,8 @@
 	<PropertyGroup>
 		<RootFolder>$(MSBuildProjectDirectory)</RootFolder>
 		<Configuration>Nightly</Configuration>
+		<NightlyBuildPath>..\Bin\Nightly\Zips</NightlyBuildPath>
+		<NightlyZipName>Krypton-Nightly</NightlyZipName>
 	</PropertyGroup>
 
 	<Target Name="Clean">
@@ -74,4 +76,34 @@
 		     ZipFileName="$(NightlyBuildPath)\$(StringDate)_$(NightlyZipName).zip"
 		     ZipLevel="9" />
 	</Target>
+
+	<Target Name="CreateNightlyTar">
+		<PropertyGroup>
+			<StringDate>$([System.DateTime]::Now.ToString('yyyyMMdd'))</StringDate>
+		</PropertyGroup>
+		<ItemGroup>
+			<DebugApplicationFiles Include="..\Bin\Nightly\**\*.*" Exclude="..\Bin\Nightly\*vshost.exe*" />
+		</ItemGroup>
+		<MakeDir Directories="$(NightlyBuildPath)"/>
+		
+		<!-- Method 1: Using 7-Zip if available (recommended for Windows) -->
+		<Exec Command="7z.exe a -ttar &quot;$(NightlyBuildPath)\$(StringDate)_$(NightlyZipName).tar&quot; &quot;..\Bin\Nightly\*&quot;" 
+		      Condition="Exists('C:\Program Files\7-Zip\7z.exe')" 
+		      WorkingDirectory="$(NightlyBuildPath)" />
+		<Exec Command="7z.exe a -tgzip &quot;$(NightlyBuildPath)\$(StringDate)_$(NightlyZipName).tar.gz&quot; &quot;$(NightlyBuildPath)\$(StringDate)_$(NightlyZipName).tar&quot;" 
+		      Condition="Exists('C:\Program Files\7-Zip\7z.exe')" 
+		      WorkingDirectory="$(NightlyBuildPath)" />
+		<Delete Files="$(NightlyBuildPath)\$(StringDate)_$(NightlyZipName).tar" 
+		        Condition="Exists('C:\Program Files\7-Zip\7z.exe')" />
+		
+		<!-- Method 2: Using PowerShell tar command (Windows 10/11) -->
+		<Exec Command="powershell.exe -Command &quot;tar -czf '$(NightlyBuildPath)\$(StringDate)_$(NightlyZipName)_ps.tar.gz' -C '..\Bin\Nightly' .&quot;" 
+		      Condition="Exists('C:\Windows\System32\tar.exe')" />
+		
+		<!-- Method 3: Using Git Bash tar if available -->
+		<Exec Command="&quot;C:\Program Files\Git\bin\bash.exe&quot; -c &quot;cd '..\Bin\Nightly' && tar -czf '$(NightlyBuildPath)/$(StringDate)_$(NightlyZipName)_git.tar.gz' *&quot;" 
+		      Condition="Exists('C:\Program Files\Git\bin\bash.exe')" />
+	</Target>
+
+	<Target Name="CreateAllArchives" DependsOnTargets="CreateNightlyZip;CreateNightlyTar" />
 </Project>

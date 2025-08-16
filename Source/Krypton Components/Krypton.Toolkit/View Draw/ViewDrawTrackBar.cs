@@ -147,11 +147,6 @@ public class ViewDrawTrackBar : ViewDrawPanel
     public Padding Padding { get; set; }
 
     /// <summary>
-    /// Gets and sets the right to left setting.
-    /// </summary>
-    public RightToLeft RightToLeft { get; set; }
-
-    /// <summary>
     /// Gets or sets a value indicating how to display the tick marks on the track bar.
     /// </summary>
     public TickStyle TickStyle
