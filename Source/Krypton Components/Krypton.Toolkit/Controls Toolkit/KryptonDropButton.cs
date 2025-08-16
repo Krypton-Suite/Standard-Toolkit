@@ -836,10 +836,10 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
             }
 
             // Use SHGetStockIconInfo to get the system shield icon
-            var shinfo = new SHSTOCKICONINFO();
+            var shinfo = new PI.SHSTOCKICONINFO();
             shinfo.cbSize = Marshal.SizeOf(shinfo);
 
-            int result = SHGetStockIconInfo(SIID_SHIELD, SHGSI_ICON | SHGSI_LARGEICON, ref shinfo);
+            int result = PI.SHGetStockIconInfo(GlobalStaticValues.SIID_SHIELD, GlobalStaticValues.SHGSI_ICON | GlobalStaticValues.SHGSI_LARGEICON, ref shinfo);
             if (result == 0 && shinfo.hIcon != IntPtr.Zero)
             {
                 try
@@ -848,12 +848,12 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
                 }
                 finally
                 {
-                    DestroyIcon(shinfo.hIcon);
+                    PI.DestroyIcon(shinfo.hIcon);
                 }
             }
 
             // Try medium size if large failed
-            result = SHGetStockIconInfo(SIID_SHIELD, SHGSI_ICON | SHGSI_SMALLICON, ref shinfo);
+            result = PI.SHGetStockIconInfo(GlobalStaticValues.SIID_SHIELD, GlobalStaticValues.SHGSI_ICON | GlobalStaticValues.SHGSI_SMALLICON, ref shinfo);
             if (result == 0 && shinfo.hIcon != IntPtr.Zero)
             {
                 try
@@ -862,7 +862,7 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
                 }
                 finally
                 {
-                    DestroyIcon(shinfo.hIcon);
+                    PI.DestroyIcon(shinfo.hIcon);
                 }
             }
 
@@ -923,30 +923,6 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
             return null;
         }
     }
-    #endregion
-
-    #region P/Invoke Declarations
-    private const int SIID_SHIELD = 77;
-    private const uint SHGSI_ICON = 0x000000100;
-    private const uint SHGSI_LARGEICON = 0x000000000;
-    private const uint SHGSI_SMALLICON = 0x000000001;
-
-    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-    private struct SHSTOCKICONINFO
-    {
-        public int cbSize;
-        public IntPtr hIcon;
-        public int iSysImageIndex;
-        public int iIcon;
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)]
-        public string szPath;
-    }
-
-    [DllImport("shell32.dll", CharSet = CharSet.Unicode, ExactSpelling = true, PreserveSig = false)]
-    private static extern int SHGetStockIconInfo(uint siid, uint uFlags, ref SHSTOCKICONINFO psii);
-
-    [DllImport("user32.dll", SetLastError = true)]
-    private static extern bool DestroyIcon(IntPtr hIcon);
     #endregion
 
     #region Implementation
