@@ -3,6 +3,7 @@
 ====
 
 ## 2025-11-xx - Build 2511 (V10 - alpha) - November 2025
+* Resolved [#1971](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2416), `KryptonDataGridViewColumn` Drop-down arrow image incorrect for Sparkle themes.
 * Implemented [#2416](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2416), Fix font sizing exception in `KryptonComboBox`.
 * Implemented [#1022](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1022), Introducing `Material` theme (dark/light).
 * Resolved [#2030](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2030), Fix drawing in `ViewDrawMenuImageColumn` for KContextMenu.
