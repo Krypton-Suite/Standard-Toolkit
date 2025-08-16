@@ -115,7 +115,7 @@ public class OsVersionInfo
 
 public class UserAccountControlShieldHelper
 {
-    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+   /* [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct SHSTOCKICONINFO
     {
         public uint cbSize;
@@ -127,7 +127,7 @@ public class UserAccountControlShieldHelper
     }
 
     [DllImport(Libraries.Shell32, CharSet = CharSet.Unicode, SetLastError = false)]
-    public static extern int SHGetStockIconInfo(int siid, uint uFlags, ref SHSTOCKICONINFO psii);
+    public static extern int SHGetStockIconInfo(int siid, uint uFlags, ref SHSTOCKICONINFO psii);*/
 
 
     /// <summary>
