@@ -4705,7 +4705,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
     }
 
     [DllImport(Libraries.Shell32, CharSet = CharSet.Unicode, ExactSpelling = true, PreserveSig = false)]
-    public static extern int SHGetStockIconInfo(uint siid, uint uFlags, ref SHSTOCKICONINFO psii);
+    public static extern int SHGetStockIconInfo(int siid, int uFlags, ref SHSTOCKICONINFO psii);
 
     [DllImport(Libraries.User32, SetLastError = true)]
     public static extern bool DestroyIcon(IntPtr hIcon);

@@ -105,9 +105,9 @@ public class GlobalStaticValues
     public const string DEFAULT_PUBLIC_EMOJI_LIST_URL = @"https://unicode.org/Public/draft/emoji/emoji-test.txt";
 
     public const int SIID_SHIELD = 77;
-    public const uint SHGSI_ICON = 0x000000100;
-    public const uint SHGSI_LARGEICON = 0x000000000;
-    public const uint SHGSI_SMALLICON = 0x000000001;
+    public const int SHGSI_ICON = 0x000000100;
+    public const int SHGSI_LARGEICON = 0x000000000;
+    public const int SHGSI_SMALLICON = 0x000000001;
 
     #region Arrays
 
