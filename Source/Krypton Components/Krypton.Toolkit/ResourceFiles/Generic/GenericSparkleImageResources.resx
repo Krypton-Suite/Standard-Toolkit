@@ -127,6 +127,9 @@
   <data name="SparkleDropDownButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\..\Resources\SparkleDropDownButton.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="SparkleDropDownButtonBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\SparkleDropDownButtonBlack.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="SparkleDropDownOutlineButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\..\Resources\SparkleDropDownOutlineButton.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
