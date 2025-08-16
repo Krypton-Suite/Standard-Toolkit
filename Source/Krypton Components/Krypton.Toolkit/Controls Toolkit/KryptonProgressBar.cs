@@ -1,10 +1,9 @@
 ﻿#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2022 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2022 - 2025. All rights reserved.
  */
 #endregion
-
 
 using Timer = System.Windows.Forms.Timer;
 // ReSharper disable UnusedMember.Global
@@ -42,6 +41,11 @@ namespace Krypton.Toolkit
         private readonly PaletteBack _stateBackValue;
         private readonly Timer _marqueeTimer;
         private int _marqueeLocation;
+        private int _blockCount;
+        private bool _showTextShadow;
+        private Color _textShadowColor;
+        private bool _showTextBackdrop;
+        private Color _textBackdropColor;
 
         #endregion
 
@@ -117,7 +121,12 @@ namespace Krypton.Toolkit
             StateNormal = new PaletteTriple(StateCommon, OnNeedPaintHandler);
             ((PaletteBack)StateNormal.PaletteBack).ColorStyle = PaletteColorStyle.OneNote;
             _stateBackValue = new PaletteTriple(StateCommon, OnNeedPaintHandler).Back;
-            _stateBackValue.ColorStyle = PaletteColorStyle.SolidAllLine;
+            _stateBackValue.ColorStyle = PaletteColorStyle.GlassNormalFull;
+            _blockCount = 0; // 0 = automatic sizing
+            _showTextShadow = false;
+            _textShadowColor = Color.Empty;
+            _showTextBackdrop = false;
+            _textBackdropColor = Color.Empty;
         }
 
         /// <inheritdoc />
@@ -244,6 +253,128 @@ namespace Krypton.Toolkit
                 }
             }
         }
+
+
+        /// <summary>Gets or sets the number of blocks to render for Blocks style; 0 means automatic sizing based on height.</summary>
+        [Category("Behavior")]
+        [Description("Number of blocks when using Blocks style; 0 for automatic.")]
+        [DefaultValue(0)]
+        public int BlockCount
+        {
+            get => _blockCount;
+            set
+            {
+                if (value < 0)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(BlockCount));
+                }
+                if (_blockCount == value)
+                {
+                    return;
+                }
+                _blockCount = value;
+                if (Style == ProgressBarStyle.Blocks)
+                {
+                    Invalidate();
+                }
+            }
+        }
+
+        /// <summary>Gets or sets the color drawing style of the filled value area.</summary>
+        [Category(@"Visuals")]
+        [Description(@"Color drawing style of the progress value segment.")]
+        [DefaultValue(PaletteColorStyle.GlassNormalFull)]
+        public PaletteColorStyle ValueBackColorStyle
+        {
+            get => _stateBackValue.ColorStyle;
+            set
+            {
+                if (_stateBackValue.ColorStyle == value)
+                {
+                    return;
+                }
+
+                _stateBackValue.ColorStyle = value;
+                Invalidate();
+            }
+        }
+
+        [Category(@"Visuals")]
+        [Description(@"Draw a subtle shadow behind the text to improve readability.")]
+        [DefaultValue(false)]
+        public bool ShowTextShadow
+        {
+            get => _showTextShadow;
+            set
+            {
+                if (_showTextShadow == value)
+                {
+                    return;
+                }
+
+                _showTextShadow = value;
+                Invalidate();
+            }
+        }
+
+        [Category(@"Visuals")]
+        [Description(@"Shadow color for the text; Empty for automatic.")]
+        [DefaultValue(typeof(Color), nameof(Color.Empty))]
+        public Color TextShadowColor
+        {
+            get => _textShadowColor;
+            set
+            {
+                if (_textShadowColor == value)
+                {
+                    return;
+                }
+
+                _textShadowColor = value;
+                Invalidate();
+            }
+        }
+        private bool ShouldSerializeTextShadowColor() => _textShadowColor != Color.Empty;
+        public void ResetTextShadowColor() => TextShadowColor = Color.Empty;
+
+        [Category(@"Visuals")]
+        [Description(@"Draw a rounded backdrop behind the text for readability.")]
+        [DefaultValue(false)]
+        public bool ShowTextBackdrop
+        {
+            get => _showTextBackdrop;
+            set
+            {
+                if (_showTextBackdrop == value)
+                {
+                    return;
+                }
+
+                _showTextBackdrop = value;
+                Invalidate();
+            }
+        }
+
+        [Category(@"Visuals")]
+        [Description(@"Backdrop color for the text; Empty for automatic semi-transparent.")]
+        [DefaultValue(typeof(Color), nameof(Color.Empty))]
+        public Color TextBackdropColor
+        {
+            get => _textBackdropColor;
+            set
+            {
+                if (_textBackdropColor == value)
+                {
+                    return;
+                }
+
+                _textBackdropColor = value;
+                Invalidate();
+            }
+        }
+
+        private bool ShouldSerializeTextBackdropColor() => _textBackdropColor != Color.Empty;
+        public void ResetTextBackdropColor() => TextBackdropColor = Color.Empty;
 
         private bool ShouldSerializeStyle() => Style != ProgressBarStyle.Continuous;
 
@@ -387,7 +518,7 @@ namespace Krypton.Toolkit
 
 
         /// <summary>
-        /// Gets or sets the text associated with this control. 
+        /// Gets or sets the text associated with this control.
         /// </summary>
         [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
         [RefreshProperties(RefreshProperties.Repaint)]
@@ -584,99 +715,227 @@ namespace Krypton.Toolkit
         /// <inheritdoc />
         protected override void OnPaint(PaintEventArgs e)
         {
-            if (_palette != null)
+            // If no palette is available, fall back to base painting
+            if (_palette == null)
             {
-                // Get the renderer associated with this palette
-                IRenderer? renderer = _palette.GetRenderer();
+                base.OnPaint(e);
+                return;
+            }
 
-                // Create the rendering context that is passed into all renderer calls
-                using var renderContext = new RenderContext(this, e.Graphics, e.ClipRectangle, renderer);
-                // Set the style we want picked up from the base palette
-                var (barPaletteState, barState) = GetBarPaletteState();
+            // Get the renderer associated with this palette
+            IRenderer renderer = _palette!.GetRenderer();
 
-                // Draw the background of the entire control over the entire client area. 
-                using (GraphicsPath path = CreateRectGraphicsPath(ClientRectangle))
-                {
-                    var panelState = !Parent.Enabled
-                        ? PaletteState.Disabled
-                        : PaletteState.Normal;
-                    // Ask renderer to draw the background
-                    _mementoBackClientPanel = renderer.RenderStandardBack.DrawBack(renderContext, ClientRectangle, path, _paletteBackClientPanel, Orientation,
-                        panelState, _mementoBackClientPanel);
-                }
+            // Create the rendering context that is passed into all renderer calls
+            using var renderContext = new RenderContext(this, e.Graphics, e.ClipRectangle, renderer);
+            // Set the style we want picked up from the base palette
+            var (barPaletteState, barState) = GetBarPaletteState();
 
-                //////////////////////////////////////////////////////////////////////////////////
-                // In case the border has a rounded effect we need to get the background path   //
-                // to draw from the border part of the renderer. It will return a path that is  //
-                // appropriate for use drawing within the border settings.                      //
-                //////////////////////////////////////////////////////////////////////////////////
-                using (GraphicsPath path = renderer.RenderStandardBorder.GetBackPath(renderContext,
-                           ClientRectangle,
-                    barPaletteState.PaletteBorder,
+            // Draw the background of the entire control over the entire client area.
+            using (GraphicsPath path = CreateRectGraphicsPath(ClientRectangle))
+            {
+                var panelState = !Parent!.Enabled
+                    ? PaletteState.Disabled
+                    : PaletteState.Normal;
+                // Ask renderer to draw the background
+                _mementoBackClientPanel = renderer.RenderStandardBack.DrawBack(renderContext, ClientRectangle, path, _paletteBackClientPanel, Orientation,
+                    panelState, _mementoBackClientPanel);
+            }
+
+            //////////////////////////////////////////////////////////////////////////////////
+            // In case the border has a rounded effect we need to get the background path   //
+            // to draw from the border part of the renderer. It will return a path that is  //
+            // appropriate for use drawing within the border settings.                      //
+            //////////////////////////////////////////////////////////////////////////////////
+            using (GraphicsPath fullLozengePath = renderer.RenderStandardBorder.GetBackPath(renderContext,
+                    ClientRectangle,
+                    barPaletteState.PaletteBorder!,
                     Orientation,
                     barState))
-                {
-                    // Ask renderer to draw the background
-                    _mementoBackProgressBar = renderer.RenderStandardBack.DrawBack(renderContext, ClientRectangle, path, barPaletteState.PaletteBack,
-                        Orientation, barState, _mementoBackProgressBar);
-                }
+            {
+                // Ask renderer to draw the background
+                using var gh = new GraphicsHint(renderContext.Graphics, barPaletteState.PaletteBorder!.GetBorderGraphicsHint(barState));
+                _mementoBackProgressBar = renderer.RenderStandardBack.DrawBack(renderContext, ClientRectangle,
+                    fullLozengePath, barPaletteState.PaletteBack,
+                    Orientation, barState, _mementoBackProgressBar);
+                using var region = new Region(fullLozengePath);
+                // Set the clipping region, So that "Small" rounded values do not escape the draw area
+                e.Graphics.SetClip(region, CombineMode.Replace);
+            }
 
-                // Create a rectangle inset
-                Rectangle innerRect = ClientRectangle;
-                var maximumRange = (Maximum - Minimum);
-                if (_style == ProgressBarStyle.Marquee)
+            // Create a rectangle inset
+            Rectangle innerRect = ClientRectangle;
+            var maximumRange = (Maximum - Minimum);
+
+            switch (Style)
+            {
+                case ProgressBarStyle.Marquee:
                 {
-                    float ratio = 1.0f / maximumRange;
-                    int half = (int)(3 * ratio);
-                    int lower = Math.Max(_marqueeLocation - Minimum - half, Minimum);
-                    int higher = Math.Min(lower + half, maximumRange);
+                    int bandUnits = Math.Max(1, maximumRange / 10);
+                    int lowerUnits = Math.Max(_marqueeLocation - Minimum, Minimum);
+                    int upperUnits = Math.Min(lowerUnits + bandUnits, maximumRange);
+
                     switch (Orientation)
                     {
                         case VisualOrientation.Top:
                         case VisualOrientation.Bottom:
-                            {
-                                int width = innerRect.Width;
+                        {
+                            int width = innerRect.Width;
+                            float pixelsPerUnit = width / (float)maximumRange;
 
-                                innerRect.X += (int)(ratio * width * lower);
-                                innerRect.Width = (int)(ratio * width * higher);
-                                // Now do special clipping handling for curved borders
-                                if (innerRect.Right > ClientRectangle.Right)
-                                {
-                                    innerRect.Width -= (innerRect.Right - ClientRectangle.Right);
-                                }
-                                if (innerRect.X > ClientRectangle.Right)
-                                {
-                                    innerRect.X = ClientRectangle.Right;
-                                }
+                            innerRect.X += (int)(pixelsPerUnit * lowerUnits);
+                            innerRect.Width = (int)(pixelsPerUnit * (upperUnits - lowerUnits));
+                            if (innerRect.Right > ClientRectangle.Right)
+                            {
+                                innerRect.Width -= (innerRect.Right - ClientRectangle.Right);
                             }
+                            if (innerRect.X > ClientRectangle.Right)
+                            {
+                                innerRect.X = ClientRectangle.Right;
+                            }
+                        }
                             break;
 
                         case VisualOrientation.Left:
                         case VisualOrientation.Right:
+                        {
+                            int height = innerRect.Height;
+                            float pixelsPerUnit = height / (float)maximumRange;
+
+                            innerRect.Y += (int)(pixelsPerUnit * lowerUnits);
+                            innerRect.Height = (int)(pixelsPerUnit * (upperUnits - lowerUnits));
+                            if (innerRect.Bottom > ClientRectangle.Bottom)
                             {
-                                int height = innerRect.Height;
-
-                                innerRect.Y += (int)(ratio * height * lower);
-                                innerRect.Height = (int)(ratio * height * higher);
-                                // Now do special clipping handling for curved borders
-                                if (innerRect.Bottom > ClientRectangle.Bottom)
-                                {
-                                    innerRect.Height -= (innerRect.Bottom - ClientRectangle.Bottom);
-                                }
-
-                                if (innerRect.Y > ClientRectangle.Bottom)
-                                {
-                                    innerRect.Y = ClientRectangle.Bottom;
-                                }
+                                innerRect.Height -= (innerRect.Bottom - ClientRectangle.Bottom);
                             }
+                            if (innerRect.Y > ClientRectangle.Bottom)
+                            {
+                                innerRect.Y = ClientRectangle.Bottom;
+                            }
+                        }
                             break;
                     }
+
+                    using (GraphicsPath valueLozengePath = renderer.RenderStandardBorder.GetBackPath(renderContext,
+                            innerRect,
+                            barPaletteState.PaletteBorder!,
+                            Orientation,
+                            barState))
+                    {
+                        using var gh = new GraphicsHint(renderContext.Graphics,
+                            barPaletteState.PaletteBorder.GetBorderGraphicsHint(PaletteState.Normal));
+                        _mementoBackProgressValue = renderer.RenderStandardBack.DrawBack(renderContext, innerRect, valueLozengePath, _stateBackValue,
+                            Orientation, barState, _mementoBackProgressValue);
+                    }
+                    break;
                 }
-                else
+
+                case ProgressBarStyle.Blocks:
                 {
-                    // Draw the value offset
                     float v = (Value - Minimum);
-                    float ratio = v / maximumRange;
+                    float ratio = maximumRange == 0 ? 0f : v / maximumRange;
+                    int totalBlocks = _blockCount > 0 ? _blockCount : Math.Max(1, maximumRange / 10);
+                    float filledBlocksFloat = ratio * totalBlocks;
+                    int fullBlocks = Math.Max(0, Math.Min(totalBlocks, (int)Math.Floor(filledBlocksFloat)));
+                    float fractional = Math.Max(0f, Math.Min(1f, filledBlocksFloat - fullBlocks));
+                    bool rtl = RightToLeft == RightToLeft.Yes;
+
+                    switch (Orientation)
+                    {
+                        case VisualOrientation.Top:
+                        case VisualOrientation.Bottom:
+                        {
+                            Rectangle barRect = ClientRectangle;
+                            int gap = Math.Max(1, Math.Min(3, barRect.Height / 6));
+                            int blockWidth = Math.Max(1, (barRect.Width - ((totalBlocks - 1) * gap)) / totalBlocks);
+                            // Draw full blocks
+                            for (int i = 0; i < fullBlocks; i++)
+                            {
+                                int x = rtl
+                                    ? barRect.Right - ((i + 1) * blockWidth) - (i * gap)
+                                    : barRect.Left + (i * (blockWidth + gap));
+                                Rectangle block = new Rectangle(x, barRect.Y, blockWidth, barRect.Height);
+                                using (GraphicsPath path = renderer.RenderStandardBorder.GetBackPath(renderContext, block,
+                                        barPaletteState.PaletteBorder!, Orientation, barState))
+                                {
+                                    using var gh = new GraphicsHint(renderContext.Graphics,
+                                        barPaletteState.PaletteBorder.GetBorderGraphicsHint(PaletteState.Normal));
+                                    _mementoBackProgressValue = renderer.RenderStandardBack.DrawBack(renderContext, block, path, _stateBackValue,
+                                        Orientation, barState, _mementoBackProgressValue);
+                                }
+                            }
+                            // Draw partial last block if needed
+                            if (fractional > 0f && fullBlocks < totalBlocks)
+                            {
+                                int i = fullBlocks;
+                                int fractionWidth = Math.Max(1, (int)Math.Round(blockWidth * fractional, MidpointRounding.AwayFromZero));
+                                int xBase = rtl
+                                    ? barRect.Right - ((i + 1) * blockWidth) - (i * gap)
+                                    : barRect.Left + (i * (blockWidth + gap));
+                                int x = rtl ? xBase + (blockWidth - fractionWidth) : xBase;
+                                Rectangle block = new Rectangle(x, barRect.Y, fractionWidth, barRect.Height);
+                                using (GraphicsPath path = renderer.RenderStandardBorder.GetBackPath(renderContext, block,
+                                        barPaletteState.PaletteBorder!, Orientation, barState))
+                                {
+                                    using var gh = new GraphicsHint(renderContext.Graphics,
+                                        barPaletteState.PaletteBorder.GetBorderGraphicsHint(PaletteState.Normal));
+                                    _mementoBackProgressValue = renderer.RenderStandardBack.DrawBack(renderContext, block, path, _stateBackValue,
+                                        Orientation, barState, _mementoBackProgressValue);
+                                }
+                            }
+                        }
+                            break;
+
+                        case VisualOrientation.Left:
+                        case VisualOrientation.Right:
+                        {
+                            Rectangle barRect = ClientRectangle;
+                            int gap = Math.Max(1, Math.Min(3, barRect.Width / 6));
+                            int blockHeight = Math.Max(1, (barRect.Height - ((totalBlocks - 1) * gap)) / totalBlocks);
+                            // Draw full blocks
+                            for (int i = 0; i < fullBlocks; i++)
+                            {
+                                int y = rtl
+                                    ? barRect.Bottom - ((i + 1) * blockHeight) - (i * gap)
+                                    : barRect.Top + (i * (blockHeight + gap));
+                                Rectangle block = new Rectangle(barRect.X, y, barRect.Width, blockHeight);
+                                using (GraphicsPath path = renderer.RenderStandardBorder.GetBackPath(renderContext, block,
+                                        barPaletteState.PaletteBorder!, Orientation, barState))
+                                {
+                                    using var gh = new GraphicsHint(renderContext.Graphics,
+                                        barPaletteState.PaletteBorder.GetBorderGraphicsHint(PaletteState.Normal));
+                                    _mementoBackProgressValue = renderer.RenderStandardBack.DrawBack(renderContext, block, path, _stateBackValue,
+                                        Orientation, barState, _mementoBackProgressValue);
+                                }
+                            }
+                            // Draw partial last block if needed
+                            if (fractional > 0f && fullBlocks < totalBlocks)
+                            {
+                                int i = fullBlocks;
+                                int fractionHeight = Math.Max(1, (int)Math.Round(blockHeight * fractional, MidpointRounding.AwayFromZero));
+                                int yBase = rtl
+                                    ? barRect.Bottom - ((i + 1) * blockHeight) - (i * gap)
+                                    : barRect.Top + (i * (blockHeight + gap));
+                                int y = rtl ? yBase + (blockHeight - fractionHeight) : yBase;
+                                Rectangle block = new Rectangle(barRect.X, y, barRect.Width, fractionHeight);
+                                using (GraphicsPath path = renderer.RenderStandardBorder.GetBackPath(renderContext, block,
+                                        barPaletteState.PaletteBorder!, Orientation, barState))
+                                {
+                                    using var gh = new GraphicsHint(renderContext.Graphics,
+                                        barPaletteState.PaletteBorder.GetBorderGraphicsHint(PaletteState.Normal));
+                                    _mementoBackProgressValue = renderer.RenderStandardBack.DrawBack(renderContext, block, path, _stateBackValue,
+                                        Orientation, barState, _mementoBackProgressValue);
+                                }
+                            }
+                        }
+                            break;
+                    }
+                    break;
+                }
+
+                default: // Continuous
+                {
+                    float v = (Value - Minimum);
+                    float ratio = maximumRange == 0 ? 0f : v / maximumRange;
                     switch (Orientation)
                     {
                         case VisualOrientation.Top:
@@ -686,7 +945,6 @@ namespace Krypton.Toolkit
                             {
                                 innerRect.X = ClientRectangle.Right - innerRect.Width;
                             }
-
                             break;
 
                         case VisualOrientation.Left:
@@ -696,31 +954,133 @@ namespace Krypton.Toolkit
                             {
                                 innerRect.Y = ClientRectangle.Bottom - innerRect.Height;
                             }
-
                             break;
                     }
+
+                    using (GraphicsPath valueLozengePath = renderer.RenderStandardBorder.GetBackPath(renderContext,
+                            innerRect,
+                            barPaletteState.PaletteBorder!,
+                            Orientation,
+                            barState))
+                    {
+                        using var gh = new GraphicsHint(renderContext.Graphics,
+                            barPaletteState.PaletteBorder.GetBorderGraphicsHint(PaletteState.Normal));
+                        _mementoBackProgressValue = renderer.RenderStandardBack.DrawBack(renderContext, innerRect, valueLozengePath, _stateBackValue,
+                            Orientation, barState, _mementoBackProgressValue);
+                    }
+                    break;
                 }
-
-                using (GraphicsPath path = renderer.RenderStandardBorder.GetBackPath(renderContext,
-                           innerRect,
-                           barPaletteState.PaletteBorder,
-                           Orientation,
-                           barState))
-                {
-                    // Ask renderer to draw the background
-                    _mementoBackProgressValue = renderer.RenderStandardBack.DrawBack(renderContext, innerRect, path, _stateBackValue,
-                        Orientation, barState, _mementoBackProgressValue);
-                }
-
-                // Now we draw the border of the inner area
-                renderer.RenderStandardBorder.DrawBorder(renderContext, ClientRectangle, barPaletteState.PaletteBorder,
-                    Orientation, barState);
-
-                // Last of all we draw the content over the top of the border and background
-                renderer.RenderStandardContent.DrawContent(renderContext, ClientRectangle,
-                    barPaletteState.PaletteContent, _mementoContent,
-                    Orientation, barState, false, true, false);
             }
+
+            // Now we draw the border of the inner area
+            renderer.RenderStandardBorder.DrawBorder(renderContext, ClientRectangle, barPaletteState.PaletteBorder,
+                Orientation, barState);
+
+            // Optional text backdrop for readability
+            if (_showTextBackdrop && !string.IsNullOrEmpty(Text))
+            {
+                // Use the exact short-text rectangle from the content memento to match DrawContent
+                var textRect = renderer.RenderStandardContent.GetContentShortTextRectangle(_mementoContent!);
+                var backRect = Rectangle.Inflate(textRect, 6, 2);
+
+                using (GraphicsPath gp = new GraphicsPath())
+                {
+                    int r = Math.Min(backRect.Height, 10);
+                    var arc = new Rectangle(backRect.X, backRect.Y, r, r);
+                    gp.AddArc(arc, 180, 90);
+                    arc.X = backRect.Right - r; gp.AddArc(arc, 270, 90);
+                    arc.Y = backRect.Bottom - r; gp.AddArc(arc, 0, 90);
+                    arc.X = backRect.X; gp.AddArc(arc, 90, 90);
+                    gp.CloseFigure();
+
+                    Color fill = _textBackdropColor != Color.Empty ? _textBackdropColor : Color.FromArgb(150, Color.White);
+                    using (var b = new SolidBrush(fill))
+                    {
+                        renderContext.Graphics.FillPath(b, gp);
+                    }
+                    using (var p = new Pen(Color.FromArgb(100, ControlPaint.Dark(fill)), 1f))
+                    {
+                        renderContext.Graphics.DrawPath(p, gp);
+                    }
+                }
+            }
+
+            // Last of all we draw a shadow underneath the text using the same rect as DrawContent
+            if (_showTextShadow && !string.IsNullOrEmpty(Text))
+            {
+                Rectangle shadowRect = renderer.RenderStandardContent.GetContentShortTextRectangle(_mementoContent!);
+                // Compensate for GDI+ rotation rounding when drawing vertical text shadows
+                if (Orientation == VisualOrientation.Left)
+                {
+                    shadowRect.Offset(1, 0);
+                }
+                else if (Orientation == VisualOrientation.Right)
+                {
+                    shadowRect.Offset(-1, 0);
+                }
+
+                var hAlign = barPaletteState.PaletteContent!.GetContentShortTextH(barState);
+                var vAlign = barPaletteState.PaletteContent!.GetContentShortTextV(barState);
+
+                TextFormatFlags flags = TextFormatFlags.NoPadding | TextFormatFlags.NoClipping;
+                flags |= hAlign switch
+                {
+                    PaletteRelativeAlign.Center => TextFormatFlags.HorizontalCenter,
+                    PaletteRelativeAlign.Far => TextFormatFlags.Right,
+                    _ => TextFormatFlags.Left
+                };
+                flags |= vAlign switch
+                {
+                    PaletteRelativeAlign.Center => TextFormatFlags.VerticalCenter,
+                    PaletteRelativeAlign.Far => TextFormatFlags.Bottom,
+                    _ => TextFormatFlags.Top
+                };
+
+                Color baseText = barPaletteState.PaletteContent!.GetContentShortTextColor1(barState);
+                Color shadow = _textShadowColor != Color.Empty ? _textShadowColor : ControlPaint.Dark(baseText);
+                shadow = Color.FromArgb(160, shadow);
+                var textFont = barPaletteState.PaletteContent!.GetContentShortTextFont(barState) ?? Font;
+
+                using (var brush = new SolidBrush(shadow))
+                {
+                    // Build an AccurateText memento matching the real content draw
+                    var paletteContent = barPaletteState.PaletteContent!;
+                    var hint = paletteContent.GetContentShortTextHint(barState);
+                    var trim = paletteContent.GetContentShortTextTrim(barState);
+                    var prefix = paletteContent.GetContentShortTextPrefix(barState);
+                    var renderingHint = CommonHelper.PaletteTextHintToRenderingHint(hint);
+
+                    using var memento = AccurateText.MeasureString(renderContext.Graphics,
+                        RightToLeft,
+                        Text,
+                        textFont,
+                        trim,
+                        hAlign,
+                        prefix,
+                        renderingHint,
+                        false,
+                        false,
+                        false);
+
+                    // Ensure drawing hint matches the main text draw
+                    using (var drawHint = new GraphicsTextHint(renderContext.Graphics, renderingHint))
+                    {
+                        AccurateText.DrawString(renderContext.Graphics,
+                            brush,
+                            shadowRect,
+                            RightToLeft,
+                            Orientation,
+                            false,
+                            false,
+                            barState,
+                            memento);
+                    }
+                }
+            }
+
+            renderer.RenderStandardContent.DrawContent(renderContext, ClientRectangle,
+                barPaletteState.PaletteContent!, _mementoContent!,
+                Orientation, barState, false, false, false);
 
             base.OnPaint(e);
         }
