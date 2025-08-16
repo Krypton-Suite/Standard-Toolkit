@@ -238,6 +238,13 @@ public partial class StartScreen : KryptonForm
         aboutBox.Show();
     }
 
+    private void kbtnDataGrid_Click(object sender, EventArgs e)
+    {
+        var form = new DataGridViewDemo();
+
+        form.Show();
+    }
+
     private void btnColourTestimonials_Click(object sender, EventArgs e)
     {
         new PanelForm().Show();

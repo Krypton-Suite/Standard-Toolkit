@@ -51,7 +51,7 @@ internal sealed class FileMenuBorderTestRenderer : Krypton.Toolkit.KryptonProfes
                 try { overrideColor = System.Drawing.ColorTranslator.FromHtml(s); } catch { /* ignore */ }
             }
 
-            var hasMap = _nameToColor.TryGetValue(e.Item.Name, out var mappedColor);
+            var hasMap = _nameToColor.TryGetValue(e.Item.Name ?? string.Empty, out var mappedColor);
             var borderColor = overrideColor ?? (hasMap ? mappedColor : (System.Drawing.Color?)null);
 
             if (borderColor.HasValue)
