@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *
  */
 #endregion
 
@@ -174,10 +174,10 @@ public class KryptonDataGridView : DataGridView
         // Yes, we want to be drawn double buffered by default
         DoubleBuffered = true;
 
-        //Seb : for DPi Correction  
+        //Seb : for DPi Correction
         using (Graphics g = CreateGraphics())
         {
-            //float factorX = g.DpiX > 96 ? (1f * g.DpiX / 96) : 1f;  
+            //float factorX = g.DpiX > 96 ? (1f * g.DpiX / 96) : 1f;
             var factorY = g.DpiY > 96 ? (1f * g.DpiY / 96) : 1f;
             ColumnHeadersHeight = (int)(ColumnHeadersHeight * factorY);
         }
@@ -229,7 +229,7 @@ public class KryptonDataGridView : DataGridView
     [Category(@"Behavior")]
     [DefaultValue(true)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-    public new bool DoubleBuffered 
+    public new bool DoubleBuffered
     {
         get => base.DoubleBuffered;
         set
@@ -252,7 +252,7 @@ public class KryptonDataGridView : DataGridView
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [DefaultValue(0)]
     [EditorBrowsable(EditorBrowsableState.Advanced)]
-    public new int ColumnCount 
+    public new int ColumnCount
     {
         // base.ColumnCount is a non virtual property.
         get => base.ColumnCount;
@@ -302,7 +302,7 @@ public class KryptonDataGridView : DataGridView
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public new DataGridViewCellBorderStyle CellBorderStyle 
+    public new DataGridViewCellBorderStyle CellBorderStyle
     {
         get => base.CellBorderStyle;
         set => base.CellBorderStyle = value;
@@ -314,7 +314,7 @@ public class KryptonDataGridView : DataGridView
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public new DataGridViewHeaderBorderStyle ColumnHeadersBorderStyle 
+    public new DataGridViewHeaderBorderStyle ColumnHeadersBorderStyle
     {
         get => base.ColumnHeadersBorderStyle;
         set => base.ColumnHeadersBorderStyle = value;
@@ -326,7 +326,7 @@ public class KryptonDataGridView : DataGridView
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public new DataGridViewCellStyle ColumnHeadersDefaultCellStyle 
+    public new DataGridViewCellStyle ColumnHeadersDefaultCellStyle
     {
         get => base.ColumnHeadersDefaultCellStyle;
         set => base.ColumnHeadersDefaultCellStyle = value;
@@ -338,7 +338,7 @@ public class KryptonDataGridView : DataGridView
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public new DataGridViewCellStyle DefaultCellStyle 
+    public new DataGridViewCellStyle DefaultCellStyle
     {
         get => base.DefaultCellStyle;
         set => base.DefaultCellStyle = value;
@@ -350,19 +350,19 @@ public class KryptonDataGridView : DataGridView
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public new bool EnableHeadersVisualStyles 
+    public new bool EnableHeadersVisualStyles
     {
         get => base.EnableHeadersVisualStyles;
         set => base.EnableHeadersVisualStyles = value;
     }
 
     /// <summary>
-    /// Gets or sets the color of the grid lines separating the cells of the DataGridView. 
+    /// Gets or sets the color of the grid lines separating the cells of the DataGridView.
     /// </summary>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public new Color GridColor 
+    public new Color GridColor
     {
         get => base.GridColor;
         set => base.GridColor = value;
@@ -374,7 +374,7 @@ public class KryptonDataGridView : DataGridView
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public new DataGridViewHeaderBorderStyle RowHeadersBorderStyle 
+    public new DataGridViewHeaderBorderStyle RowHeadersBorderStyle
     {
         get => base.RowHeadersBorderStyle;
         set => base.RowHeadersBorderStyle = value;
@@ -386,7 +386,7 @@ public class KryptonDataGridView : DataGridView
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public new DataGridViewCellStyle RowHeadersDefaultCellStyle 
+    public new DataGridViewCellStyle RowHeadersDefaultCellStyle
     {
         get => base.RowHeadersDefaultCellStyle;
         set => base.RowHeadersDefaultCellStyle = value;
@@ -405,7 +405,7 @@ public class KryptonDataGridView : DataGridView
     [Category(@"Behavior")]
     [Description(@"When true the KryptonDataGridView will, upon connecting a data source, convert WinForms column types to Krypton column types, when false the standard WinForms column types.")]
     [DefaultValue(true)]
-    public bool AutoGenerateKryptonColumns 
+    public bool AutoGenerateKryptonColumns
     {
         get; set;
     } = true;
@@ -415,7 +415,7 @@ public class KryptonDataGridView : DataGridView
     [Category(@"Behavior")]
     [Description(@"Consider using KryptonContextMenu within the behaviors section.\nThe Winforms shortcut menu to show when the user right-clicks the page.\nNote: The ContextMenu will be rendered.")]
     [DefaultValue(null)]
-    public override ContextMenuStrip? ContextMenuStrip 
+    public override ContextMenuStrip? ContextMenuStrip
     {
         [DebuggerStepThrough]
         get => base.ContextMenuStrip;
@@ -448,7 +448,7 @@ public class KryptonDataGridView : DataGridView
     [Category(@"Behavior")]
     [Description(@"The KryptonContextMenu to show when the user right-clicks the Control.")]
     [DefaultValue(null)]
-    public virtual KryptonContextMenu? KryptonContextMenu 
+    public virtual KryptonContextMenu? KryptonContextMenu
     {
         get => _kryptonContextMenu;
 
@@ -479,7 +479,7 @@ public class KryptonDataGridView : DataGridView
     [Category(@"Visuals")]
     [Description(@"Determine if the outer borders of the grid cells are drawn.")]
     [DefaultValue(false)]
-    public bool HideOuterBorders 
+    public bool HideOuterBorders
     {
         get => _hideOuterBorders;
 
@@ -499,7 +499,7 @@ public class KryptonDataGridView : DataGridView
     [Category(@"Visuals")]
     [Description(@"Palette applied to drawing.")]
     [DefaultValue(PaletteMode.Global)]
-    public PaletteMode PaletteMode 
+    public PaletteMode PaletteMode
     {
         [DebuggerStepThrough]
         get => _paletteMode;
@@ -512,7 +512,7 @@ public class KryptonDataGridView : DataGridView
                 switch (value)
                 {
                     case PaletteMode.Custom:
-                        // Do nothing, you must assign a palette to the 
+                        // Do nothing, you must assign a palette to the
                         // 'Palette' property in order to get the custom mode
                         break;
                     default:
@@ -547,7 +547,7 @@ public class KryptonDataGridView : DataGridView
     [Category(@"Visuals")]
     [Description(@"Custom palette applied to drawing.")]
     [DefaultValue(null)]
-    public PaletteBase? Palette 
+    public PaletteBase? Palette
     {
         [DebuggerStepThrough]
         get => _localPalette;
@@ -605,7 +605,7 @@ public class KryptonDataGridView : DataGridView
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Advanced)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public IRenderer? Renderer 
+    public IRenderer? Renderer
     {
         [DebuggerStepThrough]
         get;
@@ -863,7 +863,7 @@ public class KryptonDataGridView : DataGridView
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public Point CellOver 
+    public Point CellOver
     {
         get => _cellOver;
         set => _cellOver = value;
@@ -871,13 +871,13 @@ public class KryptonDataGridView : DataGridView
 
     //seb
     /// <summary>
-    /// Highlight search strings in the DataGridView 
+    /// Highlight search strings in the DataGridView
     /// </summary>
     /// <param name="s">The string to search.</param>
     public void HighlightSearch(string s) => HighlightSearch(s, []);
 
     /// <summary>
-    /// Highlight search strings in the DataGridView 
+    /// Highlight search strings in the DataGridView
     /// </summary>
     /// <param name="s">The string to search.</param>
     /// <param name="columnsIndex">The columns where highlighting is possible, empty list means all columns.</param>
@@ -931,7 +931,7 @@ public class KryptonDataGridView : DataGridView
     /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
     protected void OnNeedResyncPaint(object? sender, NeedLayoutEventArgs e)
     {
-        // Ensure the current cell style values are in sync with the new 
+        // Ensure the current cell style values are in sync with the new
         // palette setting and any state overrides that are defined
         SyncCellStylesWithPalette();
 
@@ -1076,7 +1076,7 @@ public class KryptonDataGridView : DataGridView
     }
 
     /// <summary>
-    /// Raises the PaintBackground event.  
+    /// Raises the PaintBackground event.
     /// </summary>
     /// <param name="pevent">An PaintEventArgs that contains the event data.</param>
     protected override void OnPaintBackground(PaintEventArgs pevent)
@@ -1085,7 +1085,7 @@ public class KryptonDataGridView : DataGridView
     }
 
     /// <summary>
-    /// Raises the CellMouseEnter event. 
+    /// Raises the CellMouseEnter event.
     /// </summary>
     /// <param name="e">A DataGridViewCellEventArgs that contains the event data.</param>
     protected override void OnCellMouseEnter(DataGridViewCellEventArgs e)
@@ -1095,7 +1095,7 @@ public class KryptonDataGridView : DataGridView
     }
 
     /// <summary>
-    /// Raises the CellMouseMove event. 
+    /// Raises the CellMouseMove event.
     /// </summary>
     /// <param name="e">A DataGridViewCellMouseEventArgs that contains the event data.</param>
     protected override void OnCellMouseMove(DataGridViewCellMouseEventArgs e)
@@ -1151,7 +1151,7 @@ public class KryptonDataGridView : DataGridView
     }
 
     /// <summary>
-    /// Raises the CellMouseLeave event. 
+    /// Raises the CellMouseLeave event.
     /// </summary>
     /// <param name="e">A DataGridViewCellEventArgs that contains the event data.</param>
     protected override void OnCellMouseLeave(DataGridViewCellEventArgs e)
@@ -1169,7 +1169,7 @@ public class KryptonDataGridView : DataGridView
     }
 
     /// <summary>
-    /// Raises the CellMouseDown event. 
+    /// Raises the CellMouseDown event.
     /// </summary>
     /// <param name="e">A DataGridViewCellEventArgs that contains the event data.</param>
     protected override void OnCellMouseDown(DataGridViewCellMouseEventArgs e)
@@ -1189,7 +1189,7 @@ public class KryptonDataGridView : DataGridView
     }
 
     /// <summary>
-    /// Raises the CellMouseUp event. 
+    /// Raises the CellMouseUp event.
     /// </summary>
     /// <param name="e">A DataGridViewCellEventArgs that contains the event data.</param>
     protected override void OnCellMouseUp(DataGridViewCellMouseEventArgs e)
@@ -1215,6 +1215,7 @@ public class KryptonDataGridView : DataGridView
         CellAreaMouseLeaveInternal();
         base.OnEditingControlShowing(e);
     }
+
 
     /// <summary>
     /// Raises the CellPainting event.
@@ -1256,6 +1257,9 @@ public class KryptonDataGridView : DataGridView
             {
                 using (var renderContext = new RenderContext(this, tempG, tempCellBounds, Renderer!))
                 {
+                    bool isHeaderCell = e.RowIndex == -1 && e.ColumnIndex >= 0;
+                    Rectangle headerContentBounds = Rectangle.Empty;
+
                     // Force the border to have a specified maximum border edge
                     _borderForced.SetInherit(paletteBorder);
                     _borderForced.MaxBorderEdges = GetCellMaxBorderEdges(e.CellBounds, e.ColumnIndex, e.RowIndex);
@@ -1320,7 +1324,8 @@ public class KryptonDataGridView : DataGridView
                                     };
                                 }
                             }
-
+                            // Capture the remaining bounds for header text rendering
+                            headerContentBounds = tempCellBounds;
                             break;
                         }
                         // If this is a row header cell
@@ -1454,7 +1459,7 @@ public class KryptonDataGridView : DataGridView
                             // Blit the image onto the screen
                             e.Graphics?.DrawImage(tempBitmap, e.CellBounds.Location);
 
-                            //Seb Search highlight 
+                            //Seb Search highlight
                             //Empty _restrictColumnsSearch means highlight everywhere
                             if (!string.IsNullOrEmpty(_searchString)
                                 && (_restrictColumnsSearch.Count == 0 || (_restrictColumnsSearch.Count != 0
@@ -1549,20 +1554,49 @@ public class KryptonDataGridView : DataGridView
                                     }
                                 }
 
-                                // Find the correct layout for the header content
-                                using IDisposable memento = Renderer.RenderStandardContent.LayoutContent(
-                                    layoutContext, tempCellBounds,
-                                    _contentInherit, _shortTextValue,
-                                    VisualOrientation.Top, state);
-                                // Perform actual drawing of the content
-                                Renderer.RenderStandardContent.DrawContent(renderContext, tempCellBounds,
-                                    _contentInherit, memento,
-                                    VisualOrientation.Top,
-                                    state, true);
+                                if (!isHeaderCell)
+                                {
+                                    // Non-header: let renderer draw content
+                                    using IDisposable memento = Renderer.RenderStandardContent.LayoutContent(
+                                        layoutContext, tempCellBounds,
+                                        _contentInherit, _shortTextValue,
+                                        VisualOrientation.Top, state);
+                                    Renderer.RenderStandardContent.DrawContent(renderContext, tempCellBounds,
+                                        _contentInherit, memento,
+                                        VisualOrientation.Top,
+                                        state, true);
+                                }
                             }
 
                             // Blit the image onto the screen
                             e.Graphics?.DrawImage(tempBitmap, e.CellBounds.Location);
+
+                            // Column header text: draw with GDI TextRenderer directly to final DC with strict clipping
+                            if (isHeaderCell)
+                            {
+                                string text = e.FormattedValue?.ToString() ?? string.Empty;
+                                if (!string.IsNullOrEmpty(text))
+                                {
+                                    Rectangle constrainedContentBounds = headerContentBounds;
+                                    Rectangle colDisplayRect = GetColumnDisplayRectangle(e.ColumnIndex, false);
+                                    if (colDisplayRect.Width > 0)
+                                    {
+                                        // Translate display rect into cell-local coords
+                                        colDisplayRect.Offset(-e.CellBounds.X, -e.CellBounds.Y);
+                                        constrainedContentBounds = Rectangle.Intersect(constrainedContentBounds, colDisplayRect);
+                                    }
+
+                                    Color textColor = _contentInherit.GetContentShortTextColor1(state);
+                                    Font textFont = _contentInherit.GetContentShortTextFont(state) ?? SystemFonts.DefaultFont;
+                                    var tff = KryptonDataGridViewUtilities.ComputeTextFormatFlagsForCellStyleAlignment(
+                                        rtl,
+                                        e.CellStyle!.Alignment,
+                                        e.CellStyle.WrapMode);
+                                    TextRenderer.DrawText(e.Graphics!, text, textFont,
+                                        new Rectangle(e.CellBounds.Location + (Size)constrainedContentBounds.Location, constrainedContentBounds.Size),
+                                        textColor, tff);
+                                }
+                            }
                         }
                     }
                     else
@@ -1618,35 +1652,34 @@ public class KryptonDataGridView : DataGridView
         Rectangle clipBounds,
         Rectangle gridBounds)
     {
-        if (!IsDisposed)
+        // Are we not disposed and have a manager to use for painting?
+        if (IsDisposed || ViewManager == null)
         {
-            // Do we have a manager to use for painting?
-            if (ViewManager != null)
-            {
-                // If the layout is dirty, or the size of the control has changed 
-                // without a layout being performed, then perform a layout now
-                if (_layoutDirty && (!Size.Equals(_lastLayoutSize)))
-                {
-                    ViewManagerLayout();
-                }
-
-                // Do not currently clip because it causes issues when the scroll bars are not showing and the user
-                // scrolls by using the keyboard or by sorting the columns. So it does cause a little flicker
-                //   using (Clipping clip = new Clipping(graphics, GetBackgroundClipRect(), true))
-                {
-                    // Draw the background as transparent, by drawing parent
-                    PaintTransparentBackground(graphics, clipBounds);
-
-                    // Use the view manager to paint the view panel that fills the entire areas as the background
-                    using var context = new RenderContext(this, graphics, clipBounds, Renderer!);
-                    ViewManager.Paint(context);
-                }
-
-                // Request for a refresh has been serviced
-                _refresh = false;
-                _refreshAll = false;
-            }
+            return;
         }
+
+        // If the layout is dirty, or the size of the control has changed
+        // without a layout being performed, then perform a layout now
+        if (_layoutDirty && (!Size.Equals(_lastLayoutSize)))
+        {
+            ViewManagerLayout();
+        }
+
+        // Do not currently clip because it causes issues when the scroll bars are not showing and the user
+        // scrolls by using the keyboard or by sorting the columns. So it does cause a little flicker
+        //   using (Clipping clip = new Clipping(graphics, GetBackgroundClipRect(), true))
+        {
+            // Draw the background as transparent, by drawing parent
+            PaintTransparentBackground(graphics, clipBounds);
+
+            // Use the view manager to paint the view panel that fills the entire areas as the background
+            using var context = new RenderContext(this, graphics, clipBounds, Renderer!);
+            ViewManager.Paint(context);
+        }
+
+        // Request for a refresh has been serviced
+        _refresh = false;
+        _refreshAll = false;
     }
 
     /// <summary>
@@ -1703,7 +1736,7 @@ public class KryptonDataGridView : DataGridView
         SyncCellStylesWithPalette();
     }
 
-    internal bool RightToLeftInternal 
+    internal bool RightToLeftInternal
     {
         get
         {
@@ -1728,7 +1761,7 @@ public class KryptonDataGridView : DataGridView
     /// <summary>
     /// Handles the auto generation of Krypton columns<br/>
     /// </summary>
-    /// <param name="convertOnEmptyDataPropertyName">When true, even if the DataPropertyName has not been set columns will be converted. 
+    /// <param name="convertOnEmptyDataPropertyName">When true, even if the DataPropertyName has not been set columns will be converted.
     /// When true the DataPropertyName is mandatory.</param>
     private void ReplaceDefaultColumsWithKryptonColumns(bool convertOnEmptyDataPropertyName = false)
     {
@@ -1894,7 +1927,7 @@ public class KryptonDataGridView : DataGridView
         ShowCellToolTips = true;
 
         // Remove border from being drawn, border is drawn according to system settings
-        // and we do not want that appearance. So set to 'None' and override the 
+        // and we do not want that appearance. So set to 'None' and override the
         // BorderStyle property so it cannot be set to anything else.
         BorderStyle = BorderStyle.None;
 
@@ -1907,7 +1940,7 @@ public class KryptonDataGridView : DataGridView
 
     private void SetupSyncCellStyles()
     {
-        // Grab the default font (etc...) values as the starting remembered values. 
+        // Grab the default font (etc...) values as the starting remembered values.
         // Then when we test for changes it will not look as if the user has changed
         // them. This ensures the call to SyncCellStylesWithPalette updated them.
         _columnFont = ColumnHeadersDefaultCellStyle.Font;
@@ -1932,7 +1965,7 @@ public class KryptonDataGridView : DataGridView
         _dataCellSelBackColor = DefaultCellStyle.SelectionBackColor;
         _dataCellSelForeColor = DefaultCellStyle.SelectionForeColor;
 
-        // Ensure the current cell style values are in sync with the new palette 
+        // Ensure the current cell style values are in sync with the new palette
         // setting and any state overrides that are defined.
         SyncCellStylesWithPalette();
 
@@ -2368,7 +2401,7 @@ public class KryptonDataGridView : DataGridView
                 PaletteDrawBorders.Left;
         }
 
-        // Check if the cell is hard against the far or bottom edges, if so do not need to draw 
+        // Check if the cell is hard against the far or bottom edges, if so do not need to draw
         // border that is hard against the edge as it will then look like it has double borders
         if (HideOuterBorders)
         {
@@ -2720,7 +2753,7 @@ public class KryptonDataGridView : DataGridView
                 _palette.ButtonSpecChanged += OnButtonSpecChanged;
             }
 
-            // Ensure the current cell style values are in sync with the new 
+            // Ensure the current cell style values are in sync with the new
             // palette setting and any state overrides that are defined
             SyncCellStylesWithPalette();
         }
@@ -2793,7 +2826,7 @@ public class KryptonDataGridView : DataGridView
     private void OnUserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e) => OnNeedResyncPaint(Palette!, new NeedLayoutEventArgs(true));
 
     private void OnSyncPropertyChanged(object? sender, EventArgs e) =>
-        // Ensure the current cell style values are in sync with the new palette 
+        // Ensure the current cell style values are in sync with the new palette
         // setting and any state overrides that are defined.
         SyncCellStylesWithPalette();
 
@@ -2802,7 +2835,7 @@ public class KryptonDataGridView : DataGridView
         // Only interested in the first color from the background palettes
         if (e.PropertyName == "Color1")
         {
-            // Ensure the current cell style values are in sync with the new palette 
+            // Ensure the current cell style values are in sync with the new palette
             // setting and any state overrides that are defined.
             SyncCellStylesWithPalette();
         }
@@ -2830,8 +2863,8 @@ public class KryptonDataGridView : DataGridView
     public ToolStripRenderer CreateToolStripRenderer() => Renderer?.RenderToolStrip(GetResolvedPalette()!)!;
 
     private void OnKryptonContextMenuDisposed(object? sender, EventArgs e) =>
-        // When the current krypton context menu is disposed, we should remove 
-        // it to prevent it being used again, as that would just throw an exception 
+        // When the current krypton context menu is disposed, we should remove
+        // it to prevent it being used again, as that would just throw an exception
         // because it has been disposed.
         KryptonContextMenu = null;
 
@@ -2889,5 +2922,4 @@ public class KryptonDataGridView : DataGridView
         base.WndProc(ref m);
     }
     #endregion menus
-      
 }
