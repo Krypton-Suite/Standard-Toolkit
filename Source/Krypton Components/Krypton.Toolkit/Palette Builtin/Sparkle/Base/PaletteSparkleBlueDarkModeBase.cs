@@ -79,7 +79,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
     private static readonly Image _buttonSpecRibbonMinimize = GenericWhiteImageResources.WhitePendantRibbonMinimize;
     private static readonly Image _buttonSpecRibbonExpand = GenericWhiteImageResources.WhitePendantRibbonExpand;
     private static readonly Image? _sparkleDropDownOutlineButton = GenericSparkleImageResources.SparkleDropDownOutlineButton;
-    private static readonly Image? _sparkleDropDownButton = GenericSparkleImageResources.SparkleDropDownButton;
+    private static readonly Image? _sparkleDropDownButton = GenericSparkleImageResources.SparkleDropDownButtonBlack;
     private static readonly Image? _sparkleDropUpButton = GenericSparkleImageResources.SparkleDropUpButton;
     private static readonly Image? _sparkleGalleryDropButton = GenericSparkleImageResources.SparkleGalleryDropButton;
     private static readonly Image _sparkleCloseA = SparkleControlBoxResources.SparkleButtonCloseNormal;
