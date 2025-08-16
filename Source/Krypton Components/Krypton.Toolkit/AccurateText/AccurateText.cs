@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
- *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
- *  
+ * © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
+ *
+ * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ * Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *
  */
 #endregion
 
@@ -22,9 +22,9 @@ public class AccurateText : GlobalId
     private const int GLOW_EXTRA_WIDTH = 14;
     private const int GLOW_EXTRA_HEIGHT = 3;
 
-    // DO NOT USE THIS CACHING, because when the Theme Font is changed and there is a global update, 
+    // DO NOT USE THIS CACHING, because when the Theme Font is changed and there is a global update,
     // the whole thing gets locked up in resizing......
-    //private static TimedCache<(string text, Font font, StringFormatFlags formatFlags, TextRenderingHint hint), AccurateTextMemento> _cache 
+    //private static TimedCache<(string text, Font font, StringFormatFlags formatFlags, TextRenderingHint hint), AccurateTextMemento> _cache
     //    = new(TimeSpan.FromMinutes(10));
 
     #endregion
@@ -249,7 +249,7 @@ public class AccurateText : GlobalId
                 switch (orientation)
                 {
                     case VisualOrientation.Bottom:
-                        // Translate to opposite side of origin, so the rotate can 
+                        // Translate to opposite side of origin, so the rotate can
                         // then bring it back to original position but mirror image
                         translateX = (rect.X * 2) + rect.Width;
                         translateY = (rect.Y * 2) + rect.Height;
@@ -259,7 +259,7 @@ public class AccurateText : GlobalId
                     case VisualOrientation.Left:
                         // Invert the dimensions of the rectangle for drawing upwards
                         rect = rect with { Width = rect.Height, Height = rect.Width };
-                        // Translate back from a quarter left turn to the original place 
+                        // Translate back from a quarter left turn to the original place
                         translateX = rect.X - rect.Y - 1;
                         translateY = rect.X + rect.Y + rect.Width;
                         rotation = 270;
@@ -269,7 +269,7 @@ public class AccurateText : GlobalId
                         // Invert the dimensions of the rectangle for drawing upwards
                         rect = rect with { Width = rect.Height, Height = rect.Width };
 
-                        // Translate back from a quarter right turn to the original place 
+                        // Translate back from a quarter right turn to the original place
                         translateX = rect.X + rect.Y + rect.Height + 1;
                         translateY = -(rect.X - rect.Y);
                         rotation = 90f;
@@ -303,12 +303,22 @@ public class AccurateText : GlobalId
                         // Convert from StringFormat to TextFormatFlags
                         var tff = StringFormatToFlags(memento.Format);
 
-                        // End line ellipsis don't work well with DrawText and tend to cut off words when not needed
-                        // DrawString seems to do this better
-                        tff &= ~(TextFormatFlags.EndEllipsis | TextFormatFlags.WordEllipsis | TextFormatFlags.PathEllipsis);
-                        
-                        // Whatever happens, NoClipping is on
-                        tff |= TextFormatFlags.NoClipping;
+                        // Conditional ellipsis: only allow if text would overflow the target rect
+                        var ellipsisFlags = TextFormatFlags.EndEllipsis | TextFormatFlags.WordEllipsis | TextFormatFlags.PathEllipsis;
+                        if ((tff & ellipsisFlags) != 0)
+                        {
+                            bool wouldClip = (memento.Size.Width > rect.Width);
+                            if (!wouldClip)
+                            {
+                                tff &= ~ellipsisFlags;
+                            }
+                        }
+
+                        // IMPORTANT:
+                        // Do NOT set TextFormatFlags.NoClipping here.
+                        // The renderer relies on the Graphics clip region and displayRect to enforce clipping.
+                        // Forcing NoClipping at this layer would bypass upstream clipping.
+                        tff &= ~TextFormatFlags.NoClipping;
 
                         TextRenderer.DrawText(g, memento.Text, memento.Font!, rect, color, tff);
                     }
@@ -346,7 +356,7 @@ public class AccurateText : GlobalId
 
     private static Color ContrastColor(Color color)
     {
-        //  Counting the perceptive luminance - human eye favours green colour... 
+        // Counting the perceptive luminance - human eye favours green colour...
         var a = 1
                 - (((0.299 * color.R)
                     + ((0.587 * color.G) + (0.114 * color.B)))
