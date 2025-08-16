@@ -304,7 +304,9 @@ public class AccurateText : GlobalId
                         var tff = StringFormatToFlags(memento.Format);
 
                         // Conditional ellipsis: only allow if text would overflow the target rect
-                        var ellipsisFlags = TextFormatFlags.EndEllipsis | TextFormatFlags.WordEllipsis | TextFormatFlags.PathEllipsis;
+                        const TextFormatFlags ellipsisFlags = TextFormatFlags.EndEllipsis |
+                                                              TextFormatFlags.WordEllipsis |
+                                                              TextFormatFlags.PathEllipsis;
                         if (((tff & ellipsisFlags) != 0) && (memento.Size.Width <= rect.Width))
                         {
                             tff &= ~ellipsisFlags;
