@@ -49,8 +49,8 @@ namespace TestForm
             this.kryptonContextMenuItem1 = new Krypton.Toolkit.KryptonContextMenuItem();
             this.kryptonCommand1 = new Krypton.Toolkit.KryptonCommand();
             this.kryptonContextMenuItem2 = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonCommand2 = new Krypton.Toolkit.KryptonCommand();
             this.kryptonContextMenuItem3 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonCommand2 = new Krypton.Toolkit.KryptonCommand();
             this.kryptonButton6 = new Krypton.Toolkit.KryptonButton();
             this.kryptonButton7 = new Krypton.Toolkit.KryptonButton();
             this.kryptonButton8 = new Krypton.Toolkit.KryptonButton();
@@ -81,7 +81,7 @@ namespace TestForm
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(542, 233);
+            this.kryptonPanel1.Size = new System.Drawing.Size(554, 233);
             this.kryptonPanel1.TabIndex = 0;
             // 
             // kbtnButtonStyles
@@ -98,12 +98,11 @@ namespace TestForm
             // 
             this.kryptonThemeComboBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.kryptonThemeComboBox1.DefaultPalette = Krypton.Toolkit.PaletteMode.Global;
             this.kryptonThemeComboBox1.DropDownWidth = 492;
             this.kryptonThemeComboBox1.IntegralHeight = false;
             this.kryptonThemeComboBox1.Location = new System.Drawing.Point(18, 13);
             this.kryptonThemeComboBox1.Name = "kryptonThemeComboBox1";
-            this.kryptonThemeComboBox1.Size = new System.Drawing.Size(504, 22);
+            this.kryptonThemeComboBox1.Size = new System.Drawing.Size(516, 22);
             this.kryptonThemeComboBox1.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kryptonThemeComboBox1.TabIndex = 9;
             // 
@@ -144,19 +143,19 @@ namespace TestForm
             this.kryptonButton5.Values.Image = ((System.Drawing.Image)(resources.GetObject("kryptonButton5.Values.Image")));
             this.kryptonButton5.Values.ShowSplitOption = true;
             this.kryptonButton5.Values.Text = "Disabled UAC Drop Down";
-            this.kryptonButton5.Values.UseAsUACElevationButton = true;
+            this.kryptonButton5.Values.UseSystemShieldIcon = true;
             // 
             // kryptonContextMenu1
             // 
             this.kryptonContextMenu1.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
-            ((Krypton.Toolkit.KryptonContextMenuItemBase)(this.kryptonContextMenuItems1))});
+            this.kryptonContextMenuItems1});
             // 
             // kryptonContextMenuItems1
             // 
             this.kryptonContextMenuItems1.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
-            ((Krypton.Toolkit.KryptonContextMenuItemBase)(this.kryptonContextMenuItem1)),
-            ((Krypton.Toolkit.KryptonContextMenuItemBase)(this.kryptonContextMenuItem2)),
-            ((Krypton.Toolkit.KryptonContextMenuItemBase)(this.kryptonContextMenuItem3))});
+            this.kryptonContextMenuItem1,
+            this.kryptonContextMenuItem2,
+            this.kryptonContextMenuItem3});
             // 
             // kryptonContextMenuItem1
             // 
@@ -174,15 +173,15 @@ namespace TestForm
             this.kryptonContextMenuItem2.KryptonCommand = this.kryptonCommand1;
             this.kryptonContextMenuItem2.Text = "Choice 2 (Command 1)";
             // 
-            // kryptonCommand2
-            // 
-            this.kryptonCommand2.Execute += new System.EventHandler(this.kryptonCommand1_Execute);
-            // 
             // kryptonContextMenuItem3
             // 
             this.kryptonContextMenuItem3.CommandParameter = "ThisIsCmd2";
             this.kryptonContextMenuItem3.KryptonCommand = this.kryptonCommand2;
             this.kryptonContextMenuItem3.Text = "Choice 3 (Command 2)";
+            // 
+            // kryptonCommand2
+            // 
+            this.kryptonCommand2.Execute += new System.EventHandler(this.kryptonCommand1_Execute);
             // 
             // kryptonButton6
             // 
@@ -273,7 +272,7 @@ namespace TestForm
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ButtonSpecs.Add(this.buttonSpecAny1);
-            this.ClientSize = new System.Drawing.Size(542, 233);
+            this.ClientSize = new System.Drawing.Size(554, 233);
             this.Controls.Add(this.kryptonPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));

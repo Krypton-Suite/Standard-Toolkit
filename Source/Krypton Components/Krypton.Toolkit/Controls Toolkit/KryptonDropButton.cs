@@ -779,6 +779,176 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
     protected virtual ViewDrawButton ViewDrawButton => _drawButton;
     #endregion
 
+    #region UAC Shield Methods
+    /// <summary>
+    /// Gets the appropriate UAC shield icon for the current operating system using system APIs.
+    /// </summary>
+    /// <returns>An Icon representing the UAC shield for the current OS, or null if not available.</returns>
+    internal static Icon? GetShieldIconStatic()
+    {
+        try
+        {
+            // Try to get the system shield icon using SHGetStockIconInfo API first
+            var systemShieldIcon = GetSystemShieldIcon();
+            if (systemShieldIcon != null)
+            {
+                return systemShieldIcon;
+            }
+
+            // Fallback to OS-specific resource-based icons
+            if (OSUtilities.IsAtLeastWindowsEleven)
+            {
+                return CreateIconFromBitmap(ResourceFiles.UAC.UACShieldIconResources.UACShieldWindows11);
+            }
+            else if (OSUtilities.IsWindowsTen)
+            {
+                return CreateIconFromBitmap(ResourceFiles.UAC.UACShieldIconResources.UACShieldWindows10);
+            }
+            else if (OSUtilities.IsWindowsEightPointOne || OSUtilities.IsWindowsEight || OSUtilities.IsWindowsSeven)
+            {
+                return CreateIconFromBitmap(ResourceFiles.UAC.UACShieldIconResources.UACShieldWindows7881);
+            }
+            else
+            {
+                // Final fallback to system shield icon for older Windows versions
+                return SystemIcons.Shield;
+            }
+        }
+        catch
+        {
+            // Fallback to system shield icon if all else fails
+            return SystemIcons.Shield;
+        }
+    }
+
+    /// <summary>
+    /// Gets the system UAC shield icon using Windows API calls.
+    /// </summary>
+    /// <returns>The system shield icon or null if not available.</returns>
+    private static Icon? GetSystemShieldIcon()
+    {
+        try
+        {
+            // Check if we're on Windows Vista or later (UAC was introduced in Vista)
+            if (Environment.OSVersion.Version.Major < 6)
+            {
+                return null;
+            }
+
+            // Use SHGetStockIconInfo to get the system shield icon
+            var shinfo = new SHSTOCKICONINFO();
+            shinfo.cbSize = Marshal.SizeOf(shinfo);
+
+            int result = SHGetStockIconInfo(SIID_SHIELD, SHGSI_ICON | SHGSI_LARGEICON, ref shinfo);
+            if (result == 0 && shinfo.hIcon != IntPtr.Zero)
+            {
+                try
+                {
+                    return Icon.FromHandle(shinfo.hIcon).Clone() as Icon;
+                }
+                finally
+                {
+                    DestroyIcon(shinfo.hIcon);
+                }
+            }
+
+            // Try medium size if large failed
+            result = SHGetStockIconInfo(SIID_SHIELD, SHGSI_ICON | SHGSI_SMALLICON, ref shinfo);
+            if (result == 0 && shinfo.hIcon != IntPtr.Zero)
+            {
+                try
+                {
+                    return Icon.FromHandle(shinfo.hIcon).Clone() as Icon;
+                }
+                finally
+                {
+                    DestroyIcon(shinfo.hIcon);
+                }
+            }
+
+            return null;
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    /// <summary>
+    /// Creates an Icon from a Bitmap with proper DPI scaling.
+    /// </summary>
+    /// <param name="bitmap">The bitmap to convert.</param>
+    /// <returns>An Icon created from the bitmap, or null if conversion fails.</returns>
+    private static Icon? CreateIconFromBitmap(Bitmap? bitmap)
+    {
+        if (bitmap == null) return null;
+        
+        try
+        {
+            // Create icon with proper DPI awareness
+            return Icon.FromHandle(bitmap.GetHicon());
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    /// <summary>
+    /// Gets a DPI-aware system shield icon at the specified size.
+    /// </summary>
+    /// <param name="size">The desired icon size.</param>
+    /// <returns>A DPI-aware system shield icon or null if not available.</returns>
+    internal static Icon? GetSystemShieldIconAtSize(int size)
+    {
+        try
+        {
+            var baseIcon = GetSystemShieldIcon();
+            if (baseIcon == null)
+            {
+                return null;
+            }
+
+            // Scale the icon to the requested size with DPI awareness
+            using (var bitmap = new Bitmap(size, size))
+            using (var graphics = Graphics.FromImage(bitmap))
+            {
+                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                graphics.DrawIcon(baseIcon, new Rectangle(0, 0, size, size));
+                return CreateIconFromBitmap(bitmap);
+            }
+        }
+        catch
+        {
+            return null;
+        }
+    }
+    #endregion
+
+    #region P/Invoke Declarations
+    private const int SIID_SHIELD = 77;
+    private const uint SHGSI_ICON = 0x000000100;
+    private const uint SHGSI_LARGEICON = 0x000000000;
+    private const uint SHGSI_SMALLICON = 0x000000001;
+
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+    private struct SHSTOCKICONINFO
+    {
+        public int cbSize;
+        public IntPtr hIcon;
+        public int iSysImageIndex;
+        public int iIcon;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)]
+        public string szPath;
+    }
+
+    [DllImport("shell32.dll", CharSet = CharSet.Unicode, ExactSpelling = true, PreserveSig = false)]
+    private static extern int SHGetStockIconInfo(uint siid, uint uFlags, ref SHSTOCKICONINFO psii);
+
+    [DllImport("user32.dll", SetLastError = true)]
+    private static extern bool DestroyIcon(IntPtr hIcon);
+    #endregion
+
     #region Implementation
     private void OnButtonTextChanged(object? sender, EventArgs e) => OnTextChanged(EventArgs.Empty);
 

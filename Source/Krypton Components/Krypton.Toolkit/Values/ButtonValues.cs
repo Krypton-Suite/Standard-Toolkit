@@ -10,6 +10,9 @@
  */
 #endregion
 
+using System.Drawing;
+using System.Windows.Forms;
+
 namespace Krypton.Toolkit;
 
 /// <summary>
@@ -27,6 +30,7 @@ public class ButtonValues : Storage,
 
     private bool _useAsDialogButton;
     private bool _useAsUACElevationButton;
+    private bool _useSystemShieldIcon;
     private bool _showSplitOption;
     private UACShieldIconSize? _uacShieldIconSize;
     private Image? _image;
@@ -79,6 +83,7 @@ public class ButtonValues : Storage,
                                       (Image == null) &&
                                       (UseAsADialogButton == false) &&
                                       (UseAsUACElevationButton == false) &&
+                                      (UseSystemShieldIcon == false) &&
                                       (ShowSplitOption == false) &&
                                       (DropDownArrowColor == GlobalStaticValues.EMPTY_COLOR) &&
                                       //(UACShieldIconSize == UACShieldIconSize.ExtraSmall)
@@ -257,7 +262,15 @@ public class ButtonValues : Storage,
         {
             _useAsUACElevationButton = value;
 
-            ShowUACShield(value, _uacShieldIconSize ?? UACShieldIconSize.ExtraSmall);
+            // If UseSystemShieldIcon is also set, prioritize it over the legacy UAC elevation
+            if (_useSystemShieldIcon)
+            {
+                UpdateOSUACShieldIcon(_uacShieldIconSize ?? UACShieldIconSize.ExtraSmall);
+            }
+            else
+            {
+                ShowUACShield(value, _uacShieldIconSize ?? UACShieldIconSize.ExtraSmall);
+            }
         }
     }
 
@@ -279,6 +292,66 @@ public class ButtonValues : Storage,
     }
     }
     */
+
+    #endregion
+
+    #region UseSystemShieldIcon
+
+    /// <summary>
+    /// When true, the button will display the operating system's native UAC shield icon.
+    /// </summary>
+    [Category(@"Visuals")]
+    [DefaultValue(false)]
+    [Description(@"Use the operating system's UAC shield icon that matches the OS style.")]
+    public bool UseSystemShieldIcon
+    {
+        get => _useSystemShieldIcon;
+        set
+        {
+            if (_useSystemShieldIcon != value)
+            {
+                _useSystemShieldIcon = value;
+                
+                if (value)
+                {
+                    // If enabling system shield icon, clear the legacy UAC elevation
+                    _useAsUACElevationButton = false;
+                    UpdateOSUACShieldIcon(UACShieldIconSize);
+                }
+                else
+                {
+                    // If disabling system shield icon, clear the image
+                    Image = null;
+                    PerformNeedPaint(true);
+                }
+            }
+        }
+    }
+
+    #endregion
+
+    #region UseThemeAwareShieldIcon
+
+    /// <summary>
+    /// When true, the UAC shield icon will automatically adapt to the current theme (light/dark).
+    /// This property works in conjunction with UseSystemShieldIcon.
+    /// </summary>
+    [Category(@"Visuals")]
+    [DefaultValue(true)]
+    [Description(@"Automatically adapt the UAC shield icon to the current theme (light/dark).")]
+    public bool UseThemeAwareShieldIcon { get; set; } = true;
+
+    #endregion
+
+    #region ShieldIconThemeMode
+
+    /// <summary>
+    /// Specifies how the UAC shield icon should handle theme changes.
+    /// </summary>
+    [Category(@"Visuals")]
+    [DefaultValue(ShieldIconThemeMode.Automatic)]
+    [Description(@"Specifies how the UAC shield icon should handle theme changes.")]
+    public ShieldIconThemeMode ShieldIconThemeMode { get; set; } = ShieldIconThemeMode.Automatic;
 
     #endregion
 
@@ -313,7 +386,15 @@ public class ButtonValues : Storage,
         {
             _uacShieldIconSize = value;
 
-            ShowUACShieldImage(_useAsUACElevationButton, value);
+            // Update the shield image based on which property is active
+            if (_useAsUACElevationButton)
+            {
+                ShowUACShieldImage(true, value);
+            }
+            else if (_useSystemShieldIcon)
+            {
+                UpdateOSUACShieldIcon(value);
+            }
         }
     }
 
@@ -439,7 +520,17 @@ public class ButtonValues : Storage,
         {
             int h = height ?? 16, w = width ?? 16;
 
-            Image shield = SystemIcons.Shield.ToBitmap();
+            // Use OS-specific shield icon if requested, otherwise fall back to system icon
+            Image shield;
+            if (_useSystemShieldIcon)
+            {
+                Icon? shieldIcon = KryptonDropButton.GetShieldIconStatic();
+                shield = shieldIcon?.ToBitmap() ?? SystemIcons.Shield.ToBitmap();
+            }
+            else
+            {
+                shield = SystemIcons.Shield.ToBitmap();
+            }
 
             switch (shieldIconSize)
             {
@@ -477,7 +568,7 @@ public class ButtonValues : Storage,
 
     private void ShowUACShield(bool showShield, UACShieldIconSize? uacShieldIconSize)
     {
-        switch (_uacShieldIconSize)
+        switch (uacShieldIconSize)
         {
             case UACShieldIconSize.ExtraSmall:
                 ShowUACShieldImage(showShield, UACShieldIconSize.ExtraSmall);
@@ -508,45 +599,111 @@ public class ButtonValues : Storage,
     /// <param name="customSize">Size of the custom.</param>
     private void UpdateOSUACShieldIcon(UACShieldIconSize? iconSize = null, Size? customSize = null)
     {
-        //if (OSUtilities.IsWindowsEleven)
-        //{
-        //    Image windowsElevenUacShieldImage = UACShieldIconResources.UACShieldWindows11;
+        if (_useSystemShieldIcon)
+        {
+            try
+            {
+                // Get the target icon size
+                UACShieldIconSize targetIconSize = iconSize ?? _uacShieldIconSize ?? UACShieldIconSize.ExtraSmall;
+                int targetSize = GetTargetSize(targetIconSize);
 
-        //    if (iconSize == UACShieldIconSize.Custom)
-        //    {
-        //        UpdateShieldSize(UACShieldIconSize.Custom, customSize, windowsElevenUacShieldImage);
-        //    }
-        //    else
-        //    {
-        //        UpdateShieldSize(iconSize, null, windowsElevenUacShieldImage);
-        //    }
-        //}
-        //else if (OSUtilities.IsWindowsTen)
-        //{
-        //    Image windowsTenUacShieldImage = UACShieldIconResources.UACShieldWindows10;
+                // Try to get a DPI-aware system shield icon at the exact size first
+                Icon? shieldIcon = KryptonDropButton.GetSystemShieldIconAtSize(targetSize);
+                
+                if (shieldIcon == null)
+                {
+                    // Fallback to the general system shield icon and scale it
+                    shieldIcon = KryptonDropButton.GetShieldIconStatic();
+                }
 
-        //    if (iconSize == UACShieldIconSize.Custom)
-        //    {
-        //        UpdateShieldSize(UACShieldIconSize.Custom, customSize, windowsTenUacShieldImage);
-        //    }
-        //    else
-        //    {
-        //        UpdateShieldSize(iconSize, null, windowsTenUacShieldImage);
-        //    }
-        //}
-        //else if (OSUtilities.IsWindowsEightPointOne || OSUtilities.IsWindowsEight || OSUtilities.IsWindowsSeven)
-        //{
-        //    Image windowsEightUacShieldImage = UACShieldIconResources.UACShieldWindows7881;
+                if (shieldIcon != null)
+                {
+                    // Use the icon directly if it's the right size, otherwise scale it
+                    if (shieldIcon.Size.Width == targetSize && shieldIcon.Size.Height == targetSize)
+                    {
+                        Image = shieldIcon.ToBitmap();
+                    }
+                    else
+                    {
+                        // Scale the icon to the appropriate size with high quality
+                        Image = ScaleIconWithQuality(shieldIcon, targetSize, targetSize);
+                    }
+                    
+                    PerformNeedPaint(true);
+                }
+                else
+                {
+                    // Final fallback: SystemIcons.Shield
+                    Image = ScaleIconWithQuality(SystemIcons.Shield, targetSize, targetSize);
+                    PerformNeedPaint(true);
+                }
+            }
+            catch
+            {
+                // fallback: SystemIcons.Shield
+                UACShieldIconSize targetIconSize = iconSize ?? _uacShieldIconSize ?? UACShieldIconSize.ExtraSmall;
+                int targetSize = GetTargetSize(targetIconSize);
+                Image = ScaleIconWithQuality(SystemIcons.Shield, targetSize, targetSize);
+                PerformNeedPaint(true);
+            }
+        }
+        else
+        {
+            // If not using system shield icon, clear the image
+            Image = null;
+            PerformNeedPaint(true);
+        }
+    }
 
-        //    if (iconSize == UACShieldIconSize.Custom)
-        //    {
-        //        UpdateShieldSize(UACShieldIconSize.Custom, customSize, windowsEightUacShieldImage);
-        //    }
-        //    else
-        //    {
-        //        UpdateShieldSize(iconSize, null, windowsEightUacShieldImage);
-        //    }
-        //}
+    /// <summary>
+    /// Scales an icon with high quality and DPI awareness.
+    /// </summary>
+    /// <param name="icon">The icon to scale.</param>
+    /// <param name="width">The target width.</param>
+    /// <param name="height">The target height.</param>
+    /// <returns>A scaled bitmap.</returns>
+    private static Bitmap? ScaleIconWithQuality(Icon icon, int width, int height)
+    {
+        try
+        {
+            using (var bitmap = new Bitmap(width, height))
+            using (var graphics = Graphics.FromImage(bitmap))
+            {
+                // Set high quality rendering
+                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                graphics.SmoothingMode = SmoothingMode.HighQuality;
+                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                graphics.CompositingQuality = CompositingQuality.HighQuality;
+
+                // Draw the icon with proper scaling
+                graphics.DrawIcon(icon, new Rectangle(0, 0, width, height));
+                
+                return new Bitmap(bitmap);
+            }
+        }
+        catch
+        {
+            // Fallback to basic scaling if high quality fails
+            return GraphicsExtensions.ScaleImage(icon.ToBitmap(), width, height);
+        }
+    }
+
+    /// <summary>
+    /// Gets the target size in pixels for the given UAC shield icon size.
+    /// </summary>
+    /// <param name="iconSize">The UAC shield icon size.</param>
+    /// <returns>The target size in pixels.</returns>
+    private static int GetTargetSize(UACShieldIconSize iconSize)
+    {
+        return iconSize switch
+        {
+            UACShieldIconSize.ExtraSmall => 16,
+            UACShieldIconSize.Small => 32,
+            UACShieldIconSize.Medium => 64,
+            UACShieldIconSize.Large => 128,
+            UACShieldIconSize.ExtraLarge => 256,
+            _ => 16
+        };
     }
 
     #endregion
