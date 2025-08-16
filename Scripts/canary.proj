@@ -68,13 +68,18 @@
 			<StringDate>$([System.DateTime]::Now.ToString('yyyyMMdd'))</StringDate>
 		</PropertyGroup>
 		<ItemGroup>
-			<DebugApplicationFiles Include="..\Bin\Canary\**\*.*" Exclude="..\Bin\Canary\*vshost.exe*" />
+			<DebugApplicationFiles Include="..\Bin\Canary\**\*.*" Exclude="..\Bin\Canary\*vshost.exe*;..\Bin\Canary\**\*.json;..\Bin\Canary\**\*.pdb" />
 		</ItemGroup>
 		<MakeDir Directories="$(CanaryBuildPath)"/>
-		<Zip Files="@(DebugApplicationFiles)"
-		     WorkingDirectory="..\Bin\Canary"
-		     ZipFileName="$(CanaryBuildPath)\$(StringDate)_$(CanaryZipName).zip"
-		     ZipLevel="9" />
+		
+		<!-- Using 7-Zip for ZIP creation (compatible with all MSBuild versions) -->
+		<Exec Command="7z.exe a -tzip &quot;$(CanaryBuildPath)\$(CanaryZipName)_$(StringDate).zip&quot; &quot;..\Bin\Canary\*&quot; -x!*.json -x!*.pdb" 
+		      Condition="Exists('C:\Program Files\7-Zip\7z.exe')" 
+		      WorkingDirectory="$(CanaryBuildPath)" />
+		
+		<!-- Fallback: Using PowerShell Compress-Archive if 7-Zip not available -->
+		<Exec Command="powershell.exe -Command &quot;Get-ChildItem '..\Bin\Canary\*' -Recurse | Where-Object {$_.Extension -notin '.json','.pdb'} | Compress-Archive -DestinationPath '$(CanaryBuildPath)\$(CanaryZipName)_$(StringDate).zip' -Force&quot;" 
+		      Condition="!Exists('C:\Program Files\7z.exe')" />
 	</Target>
 
 	<Target Name="CreateCanaryTar">
@@ -82,26 +87,26 @@
 			<StringDate>$([System.DateTime]::Now.ToString('yyyyMMdd'))</StringDate>
 		</PropertyGroup>
 		<ItemGroup>
-			<DebugApplicationFiles Include="..\Bin\Canary\**\*.*" Exclude="..\Bin\Canary\*vshost.exe*" />
+			<DebugApplicationFiles Include="..\Bin\Canary\**\*.*" Exclude="..\Bin\Canary\*vshost.exe*;..\Bin\Canary\**\*.json;..\Bin\Canary\**\*.pdb" />
 		</ItemGroup>
 		<MakeDir Directories="$(CanaryBuildPath)"/>
 		
 		<!-- Method 1: Using 7-Zip if available (recommended for Windows) -->
-		<Exec Command="7z.exe a -ttar &quot;$(CanaryBuildPath)\$(StringDate)_$(CanaryZipName).tar&quot; &quot;..\Bin\Canary\*&quot;" 
+		<Exec Command="7z.exe a -ttar &quot;$(CanaryBuildPath)\$(CanaryZipName)_$(StringDate).tar&quot; &quot;..\Bin\Canary\*&quot; -x!*.json -x!*.pdb" 
 		      Condition="Exists('C:\Program Files\7-Zip\7z.exe')" 
 		      WorkingDirectory="$(CanaryBuildPath)" />
-		<Exec Command="7z.exe a -tgzip &quot;$(CanaryBuildPath)\$(StringDate)_$(CanaryZipName).tar.gz&quot; &quot;$(CanaryBuildPath)\$(StringDate)_$(CanaryZipName).tar&quot;" 
+		<Exec Command="7z.exe a -tgzip &quot;$(CanaryBuildPath)\$(CanaryZipName)_$(StringDate).tar.gz&quot; &quot;$(CanaryBuildPath)\$(CanaryZipName)_$(StringDate).tar&quot;" 
 		      Condition="Exists('C:\Program Files\7-Zip\7z.exe')" 
 		      WorkingDirectory="$(CanaryBuildPath)" />
-		<Delete Files="$(CanaryBuildPath)\$(StringDate)_$(CanaryZipName).tar" 
+		<Delete Files="$(CanaryBuildPath)\$(CanaryZipName)_$(StringDate).tar" 
 		        Condition="Exists('C:\Program Files\7-Zip\7z.exe')" />
 		
 		<!-- Method 2: Using PowerShell tar command (Windows 10/11) -->
-		<Exec Command="powershell.exe -Command &quot;tar -czf '$(CanaryBuildPath)\$(StringDate)_$(CanaryZipName)_ps.tar.gz' -C '..\Bin\Canary' .&quot;" 
+		<Exec Command="powershell.exe -Command tar -czf &quot;$(CanaryBuildPath)\$(CanaryZipName)_$(StringDate)_ps.tar.gz&quot; -C &quot;..\Bin\Canary&quot; . --exclude=*.json --exclude=*.pdb" 
 		      Condition="Exists('C:\Windows\System32\tar.exe')" />
 		
 		<!-- Method 3: Using Git Bash tar if available -->
-		<Exec Command="&quot;C:\Program Files\Git\bin\bash.exe&quot; -c &quot;cd '..\Bin\Canary' && tar -czf '$(CanaryBuildPath)/$(StringDate)_$(CanaryZipName)_git.tar.gz' *&quot;" 
+		<Exec Command="&quot;C:\Program Files\Git\bin\bash.exe&quot; -c &quot;cd ../Bin/Canary &amp;&amp; tar -czf &quot;$(CanaryBuildPath)/$(CanaryZipName)_$(StringDate)_git.tar.gz&quot; * --exclude=*.json --exclude=*.pdb&quot;" 
 		      Condition="Exists('C:\Program Files\Git\bin\bash.exe')" />
 	</Target>
 
