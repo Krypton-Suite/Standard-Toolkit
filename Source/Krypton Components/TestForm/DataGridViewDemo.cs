@@ -1,0 +1,261 @@
+#region BSD License
+/*
+ *
+ *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2025 - 2025. All rights reserved.
+ *
+ */
+#endregion
+
+namespace TestForm;
+
+public partial class DataGridViewDemo : KryptonForm
+{
+    private bool _prevEnableHeadersVisualStylesChecked;
+    private bool _suppressOptionSync;
+    public DataGridViewDemo()
+    {
+        InitializeComponent();
+    }
+
+    private void DataGridViewDemo_Load(object sender, EventArgs e)
+    {
+        // Designer now sets all control state, columns, and checkbox defaults.
+        _prevEnableHeadersVisualStylesChecked = kchkEnableHeadersVisualStyles.Checked;
+
+        kdgvMain.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+
+        for (int i = 1; i <= 50; i++)
+        {
+            kdgvMain.Rows.Add(i, $"Item {i}", i * 2, DateTime.Today.AddDays(i), i % 2 == 0);
+        }
+
+        kdgvMain.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+        kcmbAutoSizeColumnsMode.SelectedItem = "AllCells";
+
+        // Guard future column additions against incompatible SelectionMode
+        kdgvMain.ColumnAdded += kdgvMain_ColumnAdded;
+
+        // Align numeric minimums to the grid's effective limits
+        // Enforce documented grid minimum for row headers width (4)
+        knudRowHeadersWidth.Value = kdgvMain.RowHeadersWidth;
+        if (knudRowHeadersWidth.Minimum < 4)
+        {
+            knudRowHeadersWidth.Minimum = 4;
+            if (knudRowHeadersWidth.Value < knudRowHeadersWidth.Minimum)
+            {
+                knudRowHeadersWidth.Value = knudRowHeadersWidth.Minimum;
+            }
+        }
+
+        knudColumnHeadersHeight.Value = kdgvMain.ColumnHeadersHeight;
+        if (knudColumnHeadersHeight.Minimum < 0)
+        {
+            knudColumnHeadersHeight.Minimum = 0;
+            if (knudColumnHeadersHeight.Value < knudColumnHeadersHeight.Minimum)
+            {
+                knudColumnHeadersHeight.Value = knudColumnHeadersHeight.Minimum;
+            }
+        }
+    }
+
+    private void kchkAllowUserToAddRows_CheckedChanged(object sender, EventArgs e)
+    {
+        kdgvMain.AllowUserToAddRows = kchkAllowUserToAddRows.Checked;
+    }
+
+    private void kchkAllowUserToDeleteRows_CheckedChanged(object sender, EventArgs e)
+    {
+        kdgvMain.AllowUserToDeleteRows = kchkAllowUserToDeleteRows.Checked;
+    }
+
+    private void kchkAllowUserToResizeColumns_CheckedChanged(object sender, EventArgs e)
+    {
+        kdgvMain.AllowUserToResizeColumns = kchkAllowUserToResizeColumns.Checked;
+    }
+
+    private void kchkAllowUserToResizeRows_CheckedChanged(object sender, EventArgs e)
+    {
+        kdgvMain.AllowUserToResizeRows = kchkAllowUserToResizeRows.Checked;
+    }
+
+    private void kchkMultiSelect_CheckedChanged(object sender, EventArgs e)
+    {
+        kdgvMain.MultiSelect = kchkMultiSelect.Checked;
+    }
+
+    private void kchkReadOnly_CheckedChanged(object sender, EventArgs e)
+    {
+        kdgvMain.ReadOnly = kchkReadOnly.Checked;
+    }
+
+    private void kchkRowHeadersVisible_CheckedChanged(object sender, EventArgs e)
+    {
+        kdgvMain.RowHeadersVisible = kchkRowHeadersVisible.Checked;
+
+        // If user hides row headers while RowHeaderSelect is active, switch to FullRowSelect
+        if (!kchkRowHeadersVisible.Checked && kdgvMain.SelectionMode == DataGridViewSelectionMode.RowHeaderSelect)
+        {
+            _suppressOptionSync = true;
+            kdgvMain.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            kcmbSelectionMode.SelectedItem = nameof(DataGridViewSelectionMode.FullRowSelect);
+            _suppressOptionSync = false;
+        }
+    }
+
+    private void kchkColumnHeadersVisible_CheckedChanged(object sender, EventArgs e)
+    {
+        kdgvMain.ColumnHeadersVisible = kchkColumnHeadersVisible.Checked;
+
+        // If user hides column headers while ColumnHeaderSelect is active, switch to FullColumnSelect
+        if (!kchkColumnHeadersVisible.Checked && kdgvMain.SelectionMode == DataGridViewSelectionMode.ColumnHeaderSelect)
+        {
+            _suppressOptionSync = true;
+            kdgvMain.SelectionMode = DataGridViewSelectionMode.FullColumnSelect;
+            kcmbSelectionMode.SelectedItem = nameof(DataGridViewSelectionMode.FullColumnSelect);
+            _suppressOptionSync = false;
+        }
+    }
+
+    private void kchkEnableHeadersVisualStyles_CheckedChanged(object sender, EventArgs e)
+    {
+        kdgvMain.EnableHeadersVisualStyles = kchkEnableHeadersVisualStyles.Checked;
+    }
+
+    private void kcmbAutoSizeColumnsMode_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (kcmbAutoSizeColumnsMode.SelectedItem is string name)
+        {
+            kdgvMain.AutoSizeColumnsMode = (DataGridViewAutoSizeColumnsMode)Enum.Parse(typeof(DataGridViewAutoSizeColumnsMode), name);
+        }
+    }
+
+    private void kcmbSelectionMode_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (_suppressOptionSync)
+        {
+            return;
+        }
+
+        if (kcmbSelectionMode.SelectedItem is string name)
+        {
+            var newMode = (DataGridViewSelectionMode)Enum.Parse(typeof(DataGridViewSelectionMode), name);
+            EnsureSelectionModeCompatibility(newMode);
+            kdgvMain.SelectionMode = newMode;
+        }
+    }
+
+    private void kcmbEditMode_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (kcmbEditMode.SelectedItem is string name)
+        {
+            kdgvMain.EditMode = (DataGridViewEditMode)Enum.Parse(typeof(DataGridViewEditMode), name);
+        }
+    }
+
+    private void kcmbScrollBars_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (kcmbScrollBars.SelectedItem is string name)
+        {
+            kdgvMain.ScrollBars = (ScrollBars)Enum.Parse(typeof(ScrollBars), name);
+        }
+    }
+
+    private void kcmbAutoSizeRowsMode_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (kcmbAutoSizeRowsMode.SelectedItem is string name)
+        {
+            kdgvMain.AutoSizeRowsMode = (DataGridViewAutoSizeRowsMode)Enum.Parse(typeof(DataGridViewAutoSizeRowsMode), name);
+        }
+    }
+
+    private void knudRowHeadersWidth_ValueChanged(object sender, EventArgs e)
+    {
+        if (_suppressOptionSync)
+        {
+            return;
+        }
+        var requested = (int)knudRowHeadersWidth.Value;
+        var safe = Math.Max(4, requested);
+        if (safe != requested)
+        {
+            _suppressOptionSync = true;
+            knudRowHeadersWidth.Value = safe;
+            _suppressOptionSync = false;
+        }
+        kdgvMain.RowHeadersWidth = safe;
+    }
+
+    private void knudColumnHeadersHeight_ValueChanged(object sender, EventArgs e)
+    {
+        if (_suppressOptionSync)
+        {
+            return;
+        }
+        var requested = (int)knudColumnHeadersHeight.Value;
+        kdgvMain.ColumnHeadersHeight = requested;
+        var effective = kdgvMain.ColumnHeadersHeight;
+        if (effective != requested)
+        {
+            _suppressOptionSync = true;
+            knudColumnHeadersHeight.Value = effective;
+            _suppressOptionSync = false;
+        }
+    }
+
+    private void kdgvMain_RowHeadersWidthChanged(object sender, EventArgs e)
+    {
+        _suppressOptionSync = true;
+        knudRowHeadersWidth.Value = kdgvMain.RowHeadersWidth;
+        _suppressOptionSync = false;
+    }
+
+    private void kdgvMain_ColumnHeadersHeightChanged(object sender, EventArgs e)
+    {
+        _suppressOptionSync = true;
+        knudColumnHeadersHeight.Value = kdgvMain.ColumnHeadersHeight;
+        _suppressOptionSync = false;
+    }
+
+    private void kdgvMain_ColumnAdded(object? sender, DataGridViewColumnEventArgs e)
+    {
+        if (kdgvMain.SelectionMode == DataGridViewSelectionMode.ColumnHeaderSelect && e.Column.SortMode == DataGridViewColumnSortMode.Automatic)
+        {
+            e.Column.SortMode = DataGridViewColumnSortMode.Programmatic;
+        }
+    }
+
+    private void EnsureSelectionModeCompatibility(DataGridViewSelectionMode newMode)
+    {
+        if (newMode == DataGridViewSelectionMode.ColumnHeaderSelect)
+        {
+            // Ensure headers are visible for header selection
+            if (!kdgvMain.ColumnHeadersVisible)
+            {
+                _suppressOptionSync = true;
+                kdgvMain.ColumnHeadersVisible = true;
+                kchkColumnHeadersVisible.Checked = true;
+                _suppressOptionSync = false;
+            }
+
+            foreach (DataGridViewColumn column in kdgvMain.Columns)
+            {
+                if (column.SortMode == DataGridViewColumnSortMode.Automatic)
+                {
+                    column.SortMode = DataGridViewColumnSortMode.Programmatic;
+                }
+            }
+        }
+        else if (newMode == DataGridViewSelectionMode.RowHeaderSelect)
+        {
+            // Ensure row headers are visible for header selection
+            if (!kdgvMain.RowHeadersVisible)
+            {
+                _suppressOptionSync = true;
+                kdgvMain.RowHeadersVisible = true;
+                kchkRowHeadersVisible.Checked = true;
+                _suppressOptionSync = false;
+            }
+        }
+    }
+}
