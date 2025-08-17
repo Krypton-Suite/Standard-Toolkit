@@ -12,20 +12,16 @@ namespace Krypton.Toolkit;
 /// </summary>
 internal class KryptonMessageBoxNativeWindow : NativeWindow
 {
-    private const int WM_SETFOCUS = 0x0007;
-    private const int WM_KILLFOCUS = 0x0008;
-    private const int WM_MOUSEWHEEL = 0x020A;
-
     protected override void WndProc(ref Message m)
     {
         // Prevent the user from entering the control
-        if (m.Msg == WM_SETFOCUS)
+        if (m.Msg == PI.WM_.SETFOCUS)
         {
-            m.Msg = WM_KILLFOCUS;
+            m.Msg = PI.WM_.KILLFOCUS;
         }
 
         // Disable zoom, eat the message
-        if (m.Msg == WM_MOUSEWHEEL)
+        if (m.Msg == PI.WM_.MOUSEWHEEL)
         {
             return;
         }
