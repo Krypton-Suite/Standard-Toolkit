@@ -157,6 +157,18 @@ public partial class DataGridViewDemo : KryptonForm
         kdgvMain.EnableHeadersVisualStyles = kchkEnableHeadersVisualStyles.Checked;
     }
 
+    private void kchkShowGridLines_CheckedChanged(object sender, EventArgs e)
+    {
+        kdgvMain.StateCommon.DataCell.Border.DrawBorders =
+            kchkShowGridLines.Checked
+                ? PaletteDrawBorders.All
+                : PaletteDrawBorders.None;
+        kdgvMain.StateCommon.HeaderRow.Border.DrawBorders = kdgvMain.StateCommon.DataCell.Border.DrawBorders;
+        kdgvMain.StateCommon.HeaderColumn.Border.DrawBorders = kdgvMain.StateCommon.DataCell.Border.DrawBorders;
+
+        kdgvMain.HideOuterBorders = !kchkShowGridLines.Checked;
+    }
+
     private void kcmbAutoSizeColumnsMode_SelectedIndexChanged(object sender, EventArgs e)
     {
         if (kcmbAutoSizeColumnsMode.SelectedItem is string name)

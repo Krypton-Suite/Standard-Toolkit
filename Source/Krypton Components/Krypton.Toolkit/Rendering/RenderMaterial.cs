@@ -107,7 +107,7 @@ public sealed class RenderMaterial : RenderOffice2010
             var oldSmoothing = g.SmoothingMode;
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
 
-            using (var pen = new Pen(palette.GetBorderColor1(state), 1))
+            using (var pen = new Pen(palette.GetBorderColor1(state), Math.Max(1, palette.GetBorderWidth(state))))
             {
                 var left = rect.Left;
                 var right = rect.Right - 1;
