@@ -612,6 +612,18 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
             case PaletteContentStyle.GridHeaderRowCustom2:
             case PaletteContentStyle.GridHeaderRowCustom3:
                 return BaseColors?.HeaderText ?? base.GetContentShortTextColor1(style, state);
+
+            // Selected data cells: use header text color (e.g., white in Material Dark)
+            case PaletteContentStyle.GridDataCellList:
+            case PaletteContentStyle.GridDataCellSheet:
+            case PaletteContentStyle.GridDataCellCustom1:
+            case PaletteContentStyle.GridDataCellCustom2:
+            case PaletteContentStyle.GridDataCellCustom3:
+                if (state is PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed)
+                {
+                    return BaseColors?.HeaderText ?? base.GetContentShortTextColor1(style, state);
+                }
+                break;
         }
 
         return base.GetContentShortTextColor1(style, state);
@@ -633,9 +645,86 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
             case PaletteContentStyle.GridHeaderRowCustom2:
             case PaletteContentStyle.GridHeaderRowCustom3:
                 return BaseColors?.HeaderText ?? base.GetContentShortTextColor2(style, state);
+
+            case PaletteContentStyle.GridDataCellList:
+            case PaletteContentStyle.GridDataCellSheet:
+            case PaletteContentStyle.GridDataCellCustom1:
+            case PaletteContentStyle.GridDataCellCustom2:
+            case PaletteContentStyle.GridDataCellCustom3:
+                if (state is PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed)
+                {
+                    return BaseColors?.HeaderText ?? base.GetContentShortTextColor2(style, state);
+                }
+                break;
         }
 
         return base.GetContentShortTextColor2(style, state);
+    }
+
+    /// <inheritdoc />
+    public override Color GetContentLongTextColor1(PaletteContentStyle style, PaletteState state)
+    {
+        switch (style)
+        {
+            // Match header foregrounds for long text as well
+            case PaletteContentStyle.GridHeaderColumnList:
+            case PaletteContentStyle.GridHeaderColumnSheet:
+            case PaletteContentStyle.GridHeaderColumnCustom1:
+            case PaletteContentStyle.GridHeaderColumnCustom2:
+            case PaletteContentStyle.GridHeaderColumnCustom3:
+            case PaletteContentStyle.GridHeaderRowList:
+            case PaletteContentStyle.GridHeaderRowSheet:
+            case PaletteContentStyle.GridHeaderRowCustom1:
+            case PaletteContentStyle.GridHeaderRowCustom2:
+            case PaletteContentStyle.GridHeaderRowCustom3:
+                return BaseColors?.HeaderText ?? base.GetContentLongTextColor1(style, state);
+
+            // Selected cells with long text: keep contrast consistent
+            case PaletteContentStyle.GridDataCellList:
+            case PaletteContentStyle.GridDataCellSheet:
+            case PaletteContentStyle.GridDataCellCustom1:
+            case PaletteContentStyle.GridDataCellCustom2:
+            case PaletteContentStyle.GridDataCellCustom3:
+                if (state is PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed)
+                {
+                    return BaseColors?.HeaderText ?? base.GetContentLongTextColor1(style, state);
+                }
+                break;
+        }
+
+        return base.GetContentLongTextColor1(style, state);
+    }
+
+    /// <inheritdoc />
+    public override Color GetContentLongTextColor2(PaletteContentStyle style, PaletteState state)
+    {
+        switch (style)
+        {
+            case PaletteContentStyle.GridHeaderColumnList:
+            case PaletteContentStyle.GridHeaderColumnSheet:
+            case PaletteContentStyle.GridHeaderColumnCustom1:
+            case PaletteContentStyle.GridHeaderColumnCustom2:
+            case PaletteContentStyle.GridHeaderColumnCustom3:
+            case PaletteContentStyle.GridHeaderRowList:
+            case PaletteContentStyle.GridHeaderRowSheet:
+            case PaletteContentStyle.GridHeaderRowCustom1:
+            case PaletteContentStyle.GridHeaderRowCustom2:
+            case PaletteContentStyle.GridHeaderRowCustom3:
+                return BaseColors?.HeaderText ?? base.GetContentLongTextColor2(style, state);
+
+            case PaletteContentStyle.GridDataCellList:
+            case PaletteContentStyle.GridDataCellSheet:
+            case PaletteContentStyle.GridDataCellCustom1:
+            case PaletteContentStyle.GridDataCellCustom2:
+            case PaletteContentStyle.GridDataCellCustom3:
+                if (state is PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed)
+                {
+                    return BaseColors?.HeaderText ?? base.GetContentLongTextColor2(style, state);
+                }
+                break;
+        }
+
+        return base.GetContentLongTextColor2(style, state);
     }
     #endregion
 }
