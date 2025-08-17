@@ -614,6 +614,9 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
         switch (style)
         {
             // Ensure KryptonDataGridView header text follows scheme header text
+            // ToolStrip/Context menu item text should follow header text (white in Material Dark)
+            case PaletteContentStyle.ButtonListItem:
+            case PaletteContentStyle.HeaderForm:
             case PaletteContentStyle.GridHeaderColumnList:
             case PaletteContentStyle.GridHeaderColumnSheet:
             case PaletteContentStyle.GridHeaderColumnCustom1:
@@ -624,6 +627,9 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
             case PaletteContentStyle.GridHeaderRowCustom1:
             case PaletteContentStyle.GridHeaderRowCustom2:
             case PaletteContentStyle.GridHeaderRowCustom3:
+            case PaletteContentStyle.ContextMenuItemTextStandard:
+            case PaletteContentStyle.ContextMenuItemTextAlternate:
+            case PaletteContentStyle.ContextMenuItemShortcutText:
                 return BaseColors?.HeaderText ?? base.GetContentShortTextColor1(style, state);
 
             // Data cells: always use on-surface text (white in Material Dark, dark in Light)
@@ -653,6 +659,9 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
             case PaletteContentStyle.GridHeaderRowCustom1:
             case PaletteContentStyle.GridHeaderRowCustom2:
             case PaletteContentStyle.GridHeaderRowCustom3:
+            case PaletteContentStyle.ContextMenuItemTextStandard:
+            case PaletteContentStyle.ContextMenuItemTextAlternate:
+            case PaletteContentStyle.ContextMenuItemShortcutText:
                 return BaseColors?.HeaderText ?? base.GetContentShortTextColor2(style, state);
 
             // Data cells: always use on-surface text secondary color (often same as Color1)
@@ -673,6 +682,7 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
         switch (style)
         {
             // Match header foregrounds for long text as well
+            // ToolStrip/Context menu long text
             case PaletteContentStyle.GridHeaderColumnList:
             case PaletteContentStyle.GridHeaderColumnSheet:
             case PaletteContentStyle.GridHeaderColumnCustom1:
@@ -683,6 +693,9 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
             case PaletteContentStyle.GridHeaderRowCustom1:
             case PaletteContentStyle.GridHeaderRowCustom2:
             case PaletteContentStyle.GridHeaderRowCustom3:
+            case PaletteContentStyle.ContextMenuItemTextStandard:
+            case PaletteContentStyle.ContextMenuItemTextAlternate:
+            case PaletteContentStyle.ContextMenuItemShortcutText:
                 return BaseColors?.HeaderText ?? base.GetContentLongTextColor1(style, state);
 
             // Selected cells with long text: keep contrast consistent
@@ -716,6 +729,9 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
             case PaletteContentStyle.GridHeaderRowCustom1:
             case PaletteContentStyle.GridHeaderRowCustom2:
             case PaletteContentStyle.GridHeaderRowCustom3:
+            case PaletteContentStyle.ContextMenuItemTextStandard:
+            case PaletteContentStyle.ContextMenuItemTextAlternate:
+            case PaletteContentStyle.ContextMenuItemShortcutText:
                 return BaseColors?.HeaderText ?? base.GetContentLongTextColor2(style, state);
 
             case PaletteContentStyle.GridDataCellList:
