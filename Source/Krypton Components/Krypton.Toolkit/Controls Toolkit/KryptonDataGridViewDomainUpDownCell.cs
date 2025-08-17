@@ -153,7 +153,8 @@ public class KryptonDataGridViewDomainUpDownCell : DataGridViewTextBoxCell
             // If the ErrorText is set, only the error icon is shown. Otherwise both are painted on the same spot.
             if (ErrorText.Length == 0)
             {
-                graphics.DrawImage(image, new Rectangle(pos, textArea.Top, indicatorSize, indicatorSize));
+                var sized = KryptonOwningColumn?.GetIndicatorImageForSize(indicatorSize) ?? image;
+                graphics.DrawImage(sized, new Rectangle(pos, textArea.Top, indicatorSize, indicatorSize));
             }
             else
             {

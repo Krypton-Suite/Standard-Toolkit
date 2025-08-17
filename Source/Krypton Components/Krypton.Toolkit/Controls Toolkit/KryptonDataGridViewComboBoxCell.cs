@@ -412,7 +412,9 @@ public class KryptonDataGridViewComboBoxCell : DataGridViewTextBoxCell
             string text;
             if (ErrorText.Length == 0)
             {
-                graphics.DrawImage(image, new Rectangle(pos, textArea.Top, indicatorSize, indicatorSize));
+                // Use crisp cached glyph rendered by renderer if available
+                var sized = KryptonOwningColumn?.GetIndicatorImageForSize(indicatorSize) ?? image;
+                graphics.DrawImage(sized, new Rectangle(pos, textArea.Top, indicatorSize, indicatorSize));
                 text = _selectedItemText;
             }
             else
