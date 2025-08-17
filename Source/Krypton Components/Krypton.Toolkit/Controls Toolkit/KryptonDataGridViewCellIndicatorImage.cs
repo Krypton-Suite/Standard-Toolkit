@@ -1,8 +1,8 @@
 ﻿#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *
  */
 #endregion
 
@@ -23,7 +23,7 @@ internal class KryptonDataGridViewCellIndicatorImage : IDisposable
     private KryptonDataGridView? _dataGridView;
     // State of disposal
     private bool _disposed = false;
-        
+
     // type and state of the image
     private PaletteRibbonGalleryButton _paletteRibbonGalleryButton = PaletteRibbonGalleryButton.Down;
     private PaletteState _paletteState = PaletteState.Normal;
@@ -49,7 +49,7 @@ internal class KryptonDataGridViewCellIndicatorImage : IDisposable
     /// Set this property via the column's 'protected override void OnDataGridViewChanged()'.
     /// </summary>
     public KryptonDataGridView? DataGridView
-    { 
+    {
         get => _dataGridView;
 
         set
@@ -71,7 +71,7 @@ internal class KryptonDataGridViewCellIndicatorImage : IDisposable
             }
         }
     }
-        
+
     /// <summary>
     /// Cell indicator image.
     /// </summary>
