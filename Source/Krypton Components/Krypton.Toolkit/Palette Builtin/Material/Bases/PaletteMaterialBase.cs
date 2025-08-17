@@ -207,6 +207,13 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
             // the scheme panel color instead of the base Microsoft 365 window color.
             case PaletteBackStyle.ControlClient:
                 return base.GetBackColor1(PaletteBackStyle.PanelClient, state);
+            // DataGridView data cells should use the surface background (dark in Material Dark)
+            case PaletteBackStyle.GridDataCellList:
+            case PaletteBackStyle.GridDataCellSheet:
+            case PaletteBackStyle.GridDataCellCustom1:
+            case PaletteBackStyle.GridDataCellCustom2:
+            case PaletteBackStyle.GridDataCellCustom3:
+                return BaseColors?.PanelClient ?? base.GetBackColor1(PaletteBackStyle.PanelClient, state);
             case PaletteBackStyle.ContextMenuOuter:
             case PaletteBackStyle.ContextMenuInner:
                 // Use scheme surface so Light stays light and Dark stays dark
@@ -243,6 +250,12 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
                 return BaseColors?.HeaderPrimaryBack2 ?? SystemColors.ControlDarkDark;
             case PaletteBackStyle.ControlClient:
                 return base.GetBackColor2(PaletteBackStyle.PanelClient, state);
+            case PaletteBackStyle.GridDataCellList:
+            case PaletteBackStyle.GridDataCellSheet:
+            case PaletteBackStyle.GridDataCellCustom1:
+            case PaletteBackStyle.GridDataCellCustom2:
+            case PaletteBackStyle.GridDataCellCustom3:
+                return BaseColors?.PanelClient ?? base.GetBackColor2(PaletteBackStyle.PanelClient, state);
             case PaletteBackStyle.ContextMenuOuter:
             case PaletteBackStyle.ContextMenuInner:
                 return BaseColors?.PanelAlternative ?? base.GetBackColor2(PaletteBackStyle.PanelClient, state);
@@ -613,17 +626,13 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
             case PaletteContentStyle.GridHeaderRowCustom3:
                 return BaseColors?.HeaderText ?? base.GetContentShortTextColor1(style, state);
 
-            // Selected data cells: use header text color (e.g., white in Material Dark)
+            // Data cells: always use on-surface text (white in Material Dark, dark in Light)
             case PaletteContentStyle.GridDataCellList:
             case PaletteContentStyle.GridDataCellSheet:
             case PaletteContentStyle.GridDataCellCustom1:
             case PaletteContentStyle.GridDataCellCustom2:
             case PaletteContentStyle.GridDataCellCustom3:
-                if (state is PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed)
-                {
-                    return BaseColors?.HeaderText ?? base.GetContentShortTextColor1(style, state);
-                }
-                break;
+                return BaseColors?.TextLabelControl ?? base.GetContentShortTextColor1(style, state);
         }
 
         return base.GetContentShortTextColor1(style, state);
@@ -646,16 +655,13 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
             case PaletteContentStyle.GridHeaderRowCustom3:
                 return BaseColors?.HeaderText ?? base.GetContentShortTextColor2(style, state);
 
+            // Data cells: always use on-surface text secondary color (often same as Color1)
             case PaletteContentStyle.GridDataCellList:
             case PaletteContentStyle.GridDataCellSheet:
             case PaletteContentStyle.GridDataCellCustom1:
             case PaletteContentStyle.GridDataCellCustom2:
             case PaletteContentStyle.GridDataCellCustom3:
-                if (state is PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed)
-                {
-                    return BaseColors?.HeaderText ?? base.GetContentShortTextColor2(style, state);
-                }
-                break;
+                return BaseColors?.TextLabelControl ?? base.GetContentShortTextColor2(style, state);
         }
 
         return base.GetContentShortTextColor2(style, state);
