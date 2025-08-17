@@ -520,8 +520,8 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
 
         if (style == PaletteBorderStyle.FormMain || style == PaletteBorderStyle.HeaderForm)
         {
-            // Hide visual chrome; hit-testing is handled separately to retain resize.
-            return 0;
+            // Ensure a visible 1px window outline for Material so the title bar is not lost
+            return 1;
         }
 
         if (IsAnyInputBorderStyle(style))
@@ -559,10 +559,10 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
     /// <inheritdoc />
     public override Color GetBorderColor1(PaletteBorderStyle style, PaletteState state)
     {
-        // Keep form border color aligned with header background to avoid a contrasting edge
+        // Use scheme-defined form border colors for proper window outline visibility
         if (style == PaletteBorderStyle.FormMain || style == PaletteBorderStyle.HeaderForm)
         {
-            return GetBackColor1(PaletteBackStyle.HeaderForm, state);
+            return base.GetBorderColor1(style, state);
         }
 
         if (IsAnyButtonBorderStyle(style) || IsAnyInputBorderStyle(style))
@@ -580,7 +580,7 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
     {
         if (style == PaletteBorderStyle.FormMain || style == PaletteBorderStyle.HeaderForm)
         {
-            return GetBackColor2(PaletteBackStyle.HeaderForm, state);
+            return base.GetBorderColor2(style, state);
         }
 
         if (IsAnyButtonBorderStyle(style) || IsAnyInputBorderStyle(style))
@@ -591,6 +591,51 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
         }
 
         return base.GetBorderColor2(style, state);
+    }
+    #endregion
+
+    #region Content (Material tweaks)
+    /// <inheritdoc />
+    public override Color GetContentShortTextColor1(PaletteContentStyle style, PaletteState state)
+    {
+        switch (style)
+        {
+            // Ensure KryptonDataGridView header text follows scheme header text
+            case PaletteContentStyle.GridHeaderColumnList:
+            case PaletteContentStyle.GridHeaderColumnSheet:
+            case PaletteContentStyle.GridHeaderColumnCustom1:
+            case PaletteContentStyle.GridHeaderColumnCustom2:
+            case PaletteContentStyle.GridHeaderColumnCustom3:
+            case PaletteContentStyle.GridHeaderRowList:
+            case PaletteContentStyle.GridHeaderRowSheet:
+            case PaletteContentStyle.GridHeaderRowCustom1:
+            case PaletteContentStyle.GridHeaderRowCustom2:
+            case PaletteContentStyle.GridHeaderRowCustom3:
+                return BaseColors?.HeaderText ?? base.GetContentShortTextColor1(style, state);
+        }
+
+        return base.GetContentShortTextColor1(style, state);
+    }
+
+    /// <inheritdoc />
+    public override Color GetContentShortTextColor2(PaletteContentStyle style, PaletteState state)
+    {
+        switch (style)
+        {
+            case PaletteContentStyle.GridHeaderColumnList:
+            case PaletteContentStyle.GridHeaderColumnSheet:
+            case PaletteContentStyle.GridHeaderColumnCustom1:
+            case PaletteContentStyle.GridHeaderColumnCustom2:
+            case PaletteContentStyle.GridHeaderColumnCustom3:
+            case PaletteContentStyle.GridHeaderRowList:
+            case PaletteContentStyle.GridHeaderRowSheet:
+            case PaletteContentStyle.GridHeaderRowCustom1:
+            case PaletteContentStyle.GridHeaderRowCustom2:
+            case PaletteContentStyle.GridHeaderRowCustom3:
+                return BaseColors?.HeaderText ?? base.GetContentShortTextColor2(style, state);
+        }
+
+        return base.GetContentShortTextColor2(style, state);
     }
     #endregion
 }
