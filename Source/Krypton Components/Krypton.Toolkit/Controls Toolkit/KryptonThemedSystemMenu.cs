@@ -7,35 +7,20 @@
  */
 #endregion
 
+
 namespace Krypton.Toolkit;
 
 /// <summary>
 /// Provides a themed system menu that replaces the native Windows system menu with a KryptonContextMenu.
 /// </summary>
 [TypeConverter(typeof(KryptonThemedSystemMenuConverter))]
-public class KryptonThemedSystemMenu
+public class KryptonThemedSystemMenu : IKryptonThemedSystemMenu
 {
-    #region Icon Types
-    /// <summary>
-    /// Types of system menu icons that can be displayed.
-    /// </summary>
-    public enum SystemMenuIconType
-    {
-        /// <summary>Restore icon (square with arrow)</summary>
-        Restore,
-        /// <summary>Minimize icon (horizontal line)</summary>
-        Minimize,
-        /// <summary>Maximize icon (square outline)</summary>
-        Maximize,
-        /// <summary>Close icon (X)</summary>
-        Close
-    }
-    #endregion
-
     #region Instance Fields
     private readonly Form _form;
     private readonly KryptonContextMenu _contextMenu;
     private readonly List<SystemMenuItem> _menuItems;
+    private ThemedSystemMenuItemCollection? _designerMenuItems;
     #endregion
 
     #region Identity
@@ -66,6 +51,24 @@ public class KryptonThemedSystemMenu
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public KryptonContextMenu ContextMenu => _contextMenu;
+
+    /// <summary>
+    /// Gets or sets the designer-configured menu items.
+    /// </summary>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public ThemedSystemMenuItemCollection? DesignerMenuItems
+    {
+        get => _designerMenuItems;
+        set
+        {
+            if (_designerMenuItems != value)
+            {
+                _designerMenuItems = value;
+                Refresh();
+            }
+        }
+    }
 
     /// <summary>
     /// Gets or sets whether the themed system menu is enabled.
@@ -570,6 +573,9 @@ public class KryptonThemedSystemMenu
             // If anything goes wrong, fall back to basic menu items
             CreateBasicMenuItems();
         }
+
+        // Add designer-configured menu items
+        AddDesignerMenuItems();
     }
 
     private SystemMenuItem? CreateMenuItem(IntPtr hMenu, int position)
@@ -577,7 +583,7 @@ public class KryptonThemedSystemMenu
         try
         {
             var mii = new PI.MENUITEMINFO();
-            mii.fMask = PI.MIIM_ID | PI.MIIM_STRING | PI.MIIM_STATE | PI.MIIM_TYPE;
+            mii.fMask = (uint)(PI.MIIM_.ID | PI.MIIM_.ID | PI.MIIM_.ID | PI.MIIM_.TYPE);
 
             if (PI.GetMenuItemInfo(hMenu, (uint)position, true, ref mii))
             {
@@ -588,7 +594,7 @@ public class KryptonThemedSystemMenu
                 var contextMenuItem = new KryptonContextMenuItem(text);
 
                 // Set the enabled state
-                contextMenuItem.Enabled = (mii.fState & PI.MFS_DISABLED) == 0;
+                contextMenuItem.Enabled = (mii.fState & (uint)PI.MFS_.DISABLED) == 0;
 
                 // Handle click events
                 contextMenuItem.Click += (sender, e) => HandleMenuItemClick(mii.wID);
@@ -777,7 +783,7 @@ public class KryptonThemedSystemMenu
         catch
         {
             // Fallback to system command
-            SendSysCommand(PI.SC_.MAXIMIZE);
+                SendSysCommand(PI.SC_.MAXIMIZE);
         }
     }
 
@@ -823,7 +829,7 @@ public class KryptonThemedSystemMenu
         else
         {
             // Fallback for non-KryptonForm forms using Win32 API
-            PI.PostMessage(_form.Handle, PI.WM_.SYSCOMMAND, (IntPtr)command, lParam);
+            PI.PostMessage(_form.Handle, (uint)PI.WM_.SYSCOMMAND, (IntPtr)(uint)command, lParam);
         }
     }
 
@@ -865,6 +871,65 @@ public class KryptonThemedSystemMenu
         }
 
         return originalLocation;
+    }
+
+    /// <summary>
+    /// Adds designer-configured menu items to the context menu.
+    /// </summary>
+    private void AddDesignerMenuItems()
+    {
+        if (_designerMenuItems == null || _designerMenuItems.Count == 0)
+            return;
+
+        // Add a separator before custom items if there are existing items
+        if (_contextMenu.Items.Count > 0)
+        {
+            _contextMenu.Items.Add(new KryptonContextMenuSeparator());
+        }
+
+        foreach (var designerItem in _designerMenuItems)
+        {
+            if (!designerItem.Visible)
+                continue;
+
+            var contextMenuItem = designerItem.CreateContextMenuItem();
+            
+            // Add click handler for designer items (placeholder - can be extended)
+            contextMenuItem.Click += (sender, e) => OnDesignerMenuItemClick(designerItem);
+            
+            if (designerItem.InsertBeforeClose)
+            {
+                // Find the Close item and insert before it
+                for (int i = _contextMenu.Items.Count - 1; i >= 0; i--)
+                {
+                    if (_contextMenu.Items[i] is KryptonContextMenuItem menuItem &&
+                        menuItem.Text.StartsWith("Close"))
+                    {
+                        _contextMenu.Items.Insert(i, contextMenuItem);
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                _contextMenu.Items.Add(contextMenuItem);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Handles clicks on designer-configured menu items.
+    /// </summary>
+    /// <param name="designerItem">The designer menu item that was clicked.</param>
+    private void OnDesignerMenuItemClick(ThemedSystemMenuItem designerItem)
+    {
+        // This is a placeholder - in a real implementation, you might want to:
+        // 1. Raise a custom event that the form can handle
+        // 2. Use a callback mechanism
+        // 3. Integrate with a command pattern
+        
+        // For now, we'll just log or handle it silently
+        System.Diagnostics.Debug.WriteLine($"Designer menu item clicked: {designerItem.Text}");
     }
     #endregion
 

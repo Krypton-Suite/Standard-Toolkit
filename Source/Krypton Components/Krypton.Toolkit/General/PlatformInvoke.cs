@@ -103,32 +103,44 @@ namespace Krypton.Toolkit;
         internal const int BM_CLICK = 0x00F5;
 
         // Menu item info mask constants
-        internal const uint MIIM_STATE = 0x00000001;
-        internal const uint MIIM_ID = 0x00000002;
-        internal const uint MIIM_SUBMENU = 0x00000004;
-        internal const uint MIIM_CHECKMARKS = 0x00000008;
-        internal const uint MIIM_TYPE = 0x00000010;
-        internal const uint MIIM_DATA = 0x00000020;
-        internal const uint MIIM_STRING = 0x00000040;
-        internal const uint MIIM_BITMAP = 0x00000080;
-        internal const uint MIIM_FTYPE = 0x00000100;
+        [Flags]
+        internal enum MIIM_ : uint
+        {
+            STATE = 0x00000001,
+            ID = 0x00000002,
+            SUBMENU = 0x00000004,
+            CHECKMARKS = 0x00000008,
+            TYPE = 0x00000010,
+            DATA = 0x00000020,
+            STRING = 0x00000040,
+            BITMAP = 0x00000080,
+            FTYPE = 0x00000100
+        }
 
         // Menu item type constants
-        internal const uint MFT_STRING = 0x00000000;
-        internal const uint MFT_BITMAP = 0x00000004;
-        internal const uint MFT_MENUBARBREAK = 0x00000020;
-        internal const uint MFT_MENUBREAK = 0x00000040;
-        internal const uint MFT_OWNERDRAW = 0x00000100;
-        internal const uint MFT_RADIOCHECK = 0x00000200;
-        internal const uint MFT_SEPARATOR = 0x00000800;
-        internal const uint MFT_RIGHTORDER = 0x00002000;
+        [Flags]
+        internal enum MFT_ : uint
+        {
+            STRING = 0x00000000,
+            BITMAP = 0x00000004,
+            MENUBARBREAK = 0x00000020,
+            MENUBREAK = 0x00000040,
+            OWNERDRAW = 0x00000100,
+            RADIOCHECK = 0x00000200,
+            SEPARATOR = 0x00000800,
+            RIGHTORDER = 0x00002000
+        }
 
         // Menu item state constants
-        internal const uint MFS_GRAYED = 0x00000003;
-        internal const uint MFS_DISABLED = 0x00000003;
-        internal const uint MFS_CHECKED = 0x00000008;
-        internal const uint MFS_HILITE = 0x00000080;
-        internal const uint MFS_DEFAULT = 0x00001000;
+        [Flags]
+        internal enum MFS_ : uint
+        {
+            GRAYED = 0x00000003,
+            DISABLED = 0x00000003,
+            CHECKED = 0x00000008,
+            HILITE = 0x00000080,
+            DEFAULT = 0x00001000
+        }
 
     #endregion
 

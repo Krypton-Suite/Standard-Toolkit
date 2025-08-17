@@ -1,11 +1,8 @@
 #region BSD License
 /*
  *
- * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2025 - 2025. All rights reserved.
  *
  */
 #endregion
@@ -36,6 +33,7 @@ public class ThemedSystemMenuValues : Storage, INotifyPropertyChanged
     private bool _showOnLeftClick;
     private bool _showOnRightClick;
     private bool _showOnAltSpace;
+    private ThemedSystemMenuItemCollection? _customMenuItems;
     #endregion
 
     #region Identity
@@ -53,6 +51,10 @@ public class ThemedSystemMenuValues : Storage, INotifyPropertyChanged
         _showOnLeftClick = DEFAULT_SHOW_ON_LEFT_CLICK;
         _showOnRightClick = DEFAULT_SHOW_ON_RIGHT_CLICK;
         _showOnAltSpace = DEFAULT_SHOW_ON_ALT_SPACE;
+        
+        // Initialize custom menu items collection
+        _customMenuItems = new ThemedSystemMenuItemCollection();
+        _customMenuItems.CollectionChanged += OnCustomMenuItemsChanged;
     }
     #endregion
 
@@ -65,7 +67,8 @@ public class ThemedSystemMenuValues : Storage, INotifyPropertyChanged
     public override bool IsDefault => (Enabled == DEFAULT_ENABLED) &&
                                      (ShowOnLeftClick == DEFAULT_SHOW_ON_LEFT_CLICK) &&
                                      (ShowOnRightClick == DEFAULT_SHOW_ON_RIGHT_CLICK) &&
-                                     (ShowOnAltSpace == DEFAULT_SHOW_ON_ALT_SPACE);
+                                     (ShowOnAltSpace == DEFAULT_SHOW_ON_ALT_SPACE) &&
+                                     (_customMenuItems == null || _customMenuItems.Count == 0);
     #endregion
 
     #region Enabled
@@ -187,6 +190,70 @@ public class ThemedSystemMenuValues : Storage, INotifyPropertyChanged
     /// </summary>
     public void ResetShowOnAltSpace() => ShowOnAltSpace = DEFAULT_SHOW_ON_ALT_SPACE;
 
+    #endregion
+
+    #region CustomMenuItems
+    /// <summary>
+    /// Gets the collection of custom menu items for the themed system menu.
+    /// </summary>
+    [Category(@"Menu Items")]
+    [Description(@"Custom menu items to display in the themed system menu.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    [Editor(typeof(ThemedSystemMenuItemsEditor), typeof(UITypeEditor))]
+    public ThemedSystemMenuItemCollection CustomMenuItems
+    {
+        get => _customMenuItems ??= new ThemedSystemMenuItemCollection();
+        set
+        {
+            if (_customMenuItems != value)
+            {
+                if (_customMenuItems != null)
+                {
+                    _customMenuItems.CollectionChanged -= OnCustomMenuItemsChanged;
+                }
+                
+                _customMenuItems = value;
+                
+                if (_customMenuItems != null)
+                {
+                    _customMenuItems.CollectionChanged += OnCustomMenuItemsChanged;
+                }
+                
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CustomMenuItems)));
+                PerformNeedPaint(true);
+            }
+        }
+    }
+
+    private bool ShouldSerializeCustomMenuItems() => _customMenuItems?.Count > 0;
+
+    /// <summary>
+    /// Resets the CustomMenuItems collection to its default value.
+    /// </summary>
+    public void ResetCustomMenuItems()
+    {
+        if (_customMenuItems != null)
+        {
+            _customMenuItems.Clear();
+        }
+    }
+    #endregion
+
+    #region Private Methods
+    /// <summary>
+    /// Handles changes to the custom menu items collection.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">Event arguments.</param>
+    private void OnCustomMenuItemsChanged(object? sender, EventArgs e)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CustomMenuItems)));
+        PerformNeedPaint(true);
+    }
+    #endregion
+
+    #region Reset and Serialization
+
     /// <summary>
     /// Resets all properties to their default values.
     /// </summary>
@@ -196,6 +263,7 @@ public class ThemedSystemMenuValues : Storage, INotifyPropertyChanged
         ResetShowOnLeftClick();
         ResetShowOnRightClick();
         ResetShowOnAltSpace();
+        ResetCustomMenuItems();
     }
 
     /// <summary>
@@ -203,5 +271,6 @@ public class ThemedSystemMenuValues : Storage, INotifyPropertyChanged
     /// </summary>
     /// <returns>True if any properties should be serialized; otherwise false.</returns>
     public bool ShouldSerialize() => !IsDefault;
+ 
     #endregion
 }

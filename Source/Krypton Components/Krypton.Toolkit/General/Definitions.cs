@@ -742,6 +742,94 @@ public interface IKryptonDesignObject
 }
 #endregion
 
+#region IKryptonThemedSystemMenu
+
+/// <summary>
+/// Defines the interface for themed system menu functionality.
+/// </summary>
+public interface IKryptonThemedSystemMenu
+{
+    /// <summary>
+    /// Gets or sets whether the themed system menu is enabled.
+    /// </summary>
+    bool Enabled { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether left-click on title bar shows the themed system menu.
+    /// </summary>
+    bool ShowOnLeftClick { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether right-click on title bar shows the themed system menu.
+    /// </summary>
+    bool ShowOnRightClick { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether Alt+Space shows the themed system menu.
+    /// </summary>
+    bool ShowOnAltSpace { get; set; }
+
+    /// <summary>
+    /// Gets the number of items currently in the themed system menu.
+    /// </summary>
+    int MenuItemCount { get; }
+
+    /// <summary>
+    /// Gets whether the themed system menu contains any items.
+    /// </summary>
+    bool HasMenuItems { get; }
+
+    /// <summary>
+    /// Shows the themed system menu at the specified screen location.
+    /// </summary>
+    /// <param name="screenLocation">The screen coordinates where the menu should appear.</param>
+    void Show(Point screenLocation);
+
+    /// <summary>
+    /// Shows the themed system menu at the form's top-left position.
+    /// </summary>
+    void ShowAtFormTopLeft();
+
+    /// <summary>
+    /// Refreshes the themed system menu.
+    /// </summary>
+    void Refresh();
+
+    /// <summary>
+    /// Handles keyboard shortcuts for the themed system menu.
+    /// </summary>
+    /// <param name="keyData">The key data to process.</param>
+    /// <returns>True if the shortcut was handled; otherwise false.</returns>
+    bool HandleKeyboardShortcut(Keys keyData);
+
+    /// <summary>
+    /// Adds a custom menu item to the themed system menu.
+    /// </summary>
+    /// <param name="text">The text to display for the menu item.</param>
+    /// <param name="clickHandler">The event handler for when the menu item is clicked.</param>
+    /// <param name="insertBeforeClose">If true, inserts the item before the Close item; otherwise adds it at the end.</param>
+    void AddCustomMenuItem(string text, EventHandler clickHandler, bool insertBeforeClose = true);
+
+    /// <summary>
+    /// Adds a separator to the themed system menu.
+    /// </summary>
+    /// <param name="insertBeforeClose">If true, inserts the separator before the Close item; otherwise adds it at the end.</param>
+    void AddSeparator(bool insertBeforeClose = true);
+
+    /// <summary>
+    /// Clears all custom items from the themed system menu.
+    /// </summary>
+    void ClearCustomItems();
+
+    /// <summary>
+    /// Gets a list of custom menu item texts.
+    /// </summary>
+    /// <returns>A list of custom menu item texts.</returns>
+    List<string> GetCustomMenuItems();
+}
+
+#endregion
+
 #region Enum VisualOrientation
 /// <summary>
 /// Specifies the orientation of a visual element.
@@ -3121,3 +3209,23 @@ public enum KryptonEmojiListType
 }
 
 #endregion
+
+#region Enum Icon Types
+
+/// <summary>
+/// Types of system menu icons that can be displayed.
+/// </summary>
+public enum SystemMenuIconType
+{
+    /// <summary>Restore icon (square with arrow)</summary>
+    Restore,
+    /// <summary>Minimize icon (horizontal line)</summary>
+    Minimize,
+    /// <summary>Maximize icon (square outline)</summary>
+    Maximize,
+    /// <summary>Close icon (X)</summary>
+    Close
+}
+
+#endregion
+

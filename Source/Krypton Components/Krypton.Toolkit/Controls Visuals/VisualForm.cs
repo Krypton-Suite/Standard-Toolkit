@@ -13,6 +13,7 @@
 // ReSharper disable CommentTypo
 // ReSharper disable IdentifierTypo
 // ReSharper disable InconsistentNaming
+
 namespace Krypton.Toolkit;
 
 /// <summary>
@@ -1636,6 +1637,56 @@ public abstract class VisualForm : Form,
 
     #endregion
 
+    #region Themed System Menu
+    /// <summary>
+    /// Gets or sets a value indicating if the themed system menu is enabled.
+    /// </summary>
+    [Category(@"Appearance")]
+    [Description(@"Enables or disables the themed system menu that replaces the native Windows system menu.")]
+    [DefaultValue(true)]
+    public virtual bool UseThemedSystemMenu { get; set; } = true;
+
+    /// <summary>
+    /// Gets access to the themed system menu for advanced customization.
+    /// </summary>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public virtual IKryptonThemedSystemMenu? ThemedSystemMenu => null;
+
+    /// <summary>
+    /// Determines if the specified screen point is within the title bar area.
+    /// </summary>
+    /// <param name="screenPoint">The screen coordinates to test.</param>
+    /// <returns>True if the point is in the title bar area; otherwise false.</returns>
+    protected virtual bool IsInTitleBarArea(Point screenPoint) => false;
+
+    /// <summary>
+    /// Determines if the specified screen point is over the control buttons (min/max/close).
+    /// </summary>
+    /// <param name="screenPoint">The screen coordinates to test.</param>
+    /// <returns>True if the point is over control buttons; otherwise false.</returns>
+    protected virtual bool IsOnControlButtons(Point screenPoint) => false;
+
+    /// <summary>
+    /// Shows the themed system menu at the specified screen location.
+    /// </summary>
+    /// <param name="screenLocation">The screen coordinates where the menu should appear.</param>
+    protected virtual void ShowThemedSystemMenu(Point screenLocation) { }
+
+    /// <summary>
+    /// Shows the themed system menu at the form's top-left position.
+    /// </summary>
+    protected virtual void ShowThemedSystemMenuAtFormTopLeft() { }
+
+    /// <summary>
+    /// Handles keyboard shortcuts for the themed system menu.
+    /// </summary>
+    /// <param name="keyData">The key data to process.</param>
+    /// <returns>True if the shortcut was handled; otherwise false.</returns>
+    protected virtual bool HandleThemedSystemMenuKeyboardShortcut(Keys keyData) => false;
+    #endregion
+
     #region Implementation
     private void OnGlobalPaletteChanged(object? sender, EventArgs e)
     {
@@ -1740,5 +1791,36 @@ public abstract class VisualForm : Form,
         ClientSize = new Size(284, 261);
         Name = "VisualForm";
         ResumeLayout(false);
+    }
+
+    /// <summary>
+    /// Processes a command key.
+    /// </summary>
+    /// <param name="msg">A Message, passed by reference, that represents the window message to process.</param>
+    /// <param name="keyData">One of the Keys values that represents the key to process.</param>
+    /// <returns>True if the character was processed by the control; otherwise, false.</returns>
+    protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+    {
+        // Handle basic themed system menu keyboard shortcuts if enabled
+        if (UseThemedSystemMenu)
+        {
+            // Handle Alt+Space to show the themed system menu
+            if (keyData == (Keys.Alt | Keys.Space))
+            {
+                ShowThemedSystemMenuAtFormTopLeft();
+                return true;
+            }
+
+            // Handle Alt+F4 for close (let derived classes handle this)
+            if (keyData == (Keys.Alt | Keys.F4))
+            {
+                if (HandleThemedSystemMenuKeyboardShortcut(keyData))
+                {
+                    return true;
+                }
+            }
+        }
+
+        return base.ProcessCmdKey(ref msg, keyData);
     }
 }

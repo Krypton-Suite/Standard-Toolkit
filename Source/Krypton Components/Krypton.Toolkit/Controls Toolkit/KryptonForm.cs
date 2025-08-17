@@ -210,6 +210,9 @@ public class KryptonForm : VisualForm,
         _themedSystemMenu.ShowOnRightClick = _themedSystemMenuValues.ShowOnRightClick;
         _themedSystemMenu.ShowOnAltSpace = _themedSystemMenuValues.ShowOnAltSpace;
         
+        // Connect designer menu items
+        _themedSystemMenu.DesignerMenuItems = _themedSystemMenuValues.CustomMenuItems;
+        
         // Hook into value changes to keep them synchronized
         _themedSystemMenuValues.PropertyChanged += OnThemedSystemMenuValuesChanged;
 
@@ -822,7 +825,7 @@ public class KryptonForm : VisualForm,
     [Category(@"Appearance")]
     [Description(@"Enables or disables the themed system menu that replaces the native Windows system menu.")]
     [DefaultValue(true)]
-    public bool UseThemedSystemMenu
+    public override bool UseThemedSystemMenu
     {
         get => _themedSystemMenuValues?.Enabled ?? false;
         set
@@ -895,7 +898,7 @@ public class KryptonForm : VisualForm,
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Advanced)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public KryptonThemedSystemMenu? ThemedSystemMenu => _themedSystemMenu;
+    public override IKryptonThemedSystemMenu? ThemedSystemMenu => _themedSystemMenu;
 
     /// <summary>
     /// Gets access to the ToolTipManager used for displaying tool tips.
@@ -1252,30 +1255,7 @@ public class KryptonForm : VisualForm,
         // Test if we need to change the custom chrome usage
         UpdateUseThemeFormChromeBorderWidthDecision();
 
-    /// <inheritdoc />
-    protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
-    {
-        // Handle Alt+Space to show the themed system menu
-        if (UseThemedSystemMenu && _themedSystemMenuValues?.ShowOnAltSpace == true && _themedSystemMenu != null &&
-            _themedSystemMenu.ShowOnAltSpace && keyData == (Keys.Alt | Keys.Space))
-        {
-            // Show the themed system menu at the top-left of the form
-            _themedSystemMenu.ShowAtFormTopLeft();
-            return true;
-        }
 
-        // Handle Alt+F4 for close (integrate with themed system menu if enabled)
-        if (UseThemedSystemMenu && _themedSystemMenu != null && keyData == (Keys.Alt | Keys.F4))
-        {
-            // Let the themed system menu handle Alt+F4
-            if (_themedSystemMenu.HandleKeyboardShortcut(keyData))
-            {
-                return true;
-            }
-        }
-
-        return base.ProcessCmdKey(ref msg, keyData);
-    }
 
     /// <inheritdoc />
     protected override void WndProc(ref Message m)
@@ -1316,7 +1296,7 @@ public class KryptonForm : VisualForm,
                 // Check if the click is in the title bar area (but not on buttons)
                 if (IsInTitleBarArea(screenPoint) && !IsOnControlButtons(screenPoint))
                 {
-                    _themedSystemMenu.Show(screenPoint);
+                    ShowThemedSystemMenu(screenPoint);
                     m.Result = IntPtr.Zero;
                     return;
                 }
@@ -1577,7 +1557,7 @@ public class KryptonForm : VisualForm,
                 // Only show the menu if clicking in the title bar area (but not on buttons)
                 if (IsInTitleBarArea(screenPoint) && !IsOnControlButtons(screenPoint))
                 {
-                    _themedSystemMenu.Show(screenPoint);
+                    ShowThemedSystemMenu(screenPoint);
                     return true;
                 }
             }
@@ -2154,6 +2134,9 @@ public class KryptonForm : VisualForm,
                 case nameof(ThemedSystemMenuValues.ShowOnAltSpace):
                     _themedSystemMenu.ShowOnAltSpace = _themedSystemMenuValues.ShowOnAltSpace;
                     break;
+                case nameof(ThemedSystemMenuValues.CustomMenuItems):
+                    _themedSystemMenu.DesignerMenuItems = _themedSystemMenuValues.CustomMenuItems;
+                    break;
             }
         }
     }
@@ -2318,7 +2301,7 @@ public class KryptonForm : VisualForm,
     /// </summary>
     /// <param name="screenPoint">The screen coordinates to test.</param>
     /// <returns>True if the point is in the title bar area; otherwise false.</returns>
-    private bool IsInTitleBarArea(Point screenPoint)
+    protected override bool IsInTitleBarArea(Point screenPoint)
     {
         // Convert screen coordinates to window coordinates
         var windowPoint = ScreenToWindow(screenPoint);
@@ -2332,7 +2315,7 @@ public class KryptonForm : VisualForm,
     /// </summary>
     /// <param name="screenPoint">The screen coordinates to test.</param>
     /// <returns>True if the point is over control buttons; otherwise false.</returns>
-    private bool IsOnControlButtons(Point screenPoint)
+    protected override bool IsOnControlButtons(Point screenPoint)
     {
         // Convert screen coordinates to window coordinates
         var windowPoint = ScreenToWindow(screenPoint);
@@ -2341,6 +2324,47 @@ public class KryptonForm : VisualForm,
         return _buttonManager.GetButtonRectangle(ButtonSpecMin).Contains(windowPoint) ||
                _buttonManager.GetButtonRectangle(ButtonSpecMax).Contains(windowPoint) ||
                _buttonManager.GetButtonRectangle(ButtonSpecClose).Contains(windowPoint);
+    }
+
+    /// <summary>
+    /// Shows the themed system menu at the specified screen location.
+    /// </summary>
+    /// <param name="screenLocation">The screen coordinates where the menu should appear.</param>
+    protected override void ShowThemedSystemMenu(Point screenLocation)
+    {
+        if (UseThemedSystemMenu && _themedSystemMenu != null)
+        {
+            _themedSystemMenu.Show(screenLocation);
+        }
+    }
+
+    /// <summary>
+    /// Shows the themed system menu at the form's top-left position.
+    /// </summary>
+    protected override void ShowThemedSystemMenuAtFormTopLeft()
+    {
+        if (UseThemedSystemMenu && _themedSystemMenu != null)
+        {
+            _themedSystemMenu.ShowAtFormTopLeft();
+        }
+    }
+
+    /// <summary>
+    /// Handles keyboard shortcuts for the themed system menu.
+    /// </summary>
+    /// <param name="keyData">The key data to process.</param>
+    /// <returns>True if the shortcut was handled; otherwise false.</returns>
+    protected override bool HandleThemedSystemMenuKeyboardShortcut(Keys keyData)
+    {
+        if (UseThemedSystemMenu && _themedSystemMenu != null)
+        {
+            // Handle Alt+F4 for close
+            if (keyData == (Keys.Alt | Keys.F4))
+            {
+                return _themedSystemMenu.HandleKeyboardShortcut(keyData);
+            }
+        }
+        return false;
     }
 
     #endregion

@@ -28,9 +28,9 @@ namespace TestForm
             UseThemedSystemMenu = true;
 
             // Configure how the menu appears
-            ShowThemedSystemMenuOnLeftClick = true;   // Left-click on title bar
-            ShowThemedSystemMenuOnRightClick = true;  // Right-click on title bar
-            ShowThemedSystemMenuOnAltSpace = true;    // Alt+Space keyboard shortcut
+            ThemedSystemMenuValues.ShowOnLeftClick = true;   // Left-click on title bar
+            ThemedSystemMenuValues.ShowOnRightClick = true;  // Right-click on title bar
+            ThemedSystemMenuValues.ShowOnAltSpace = true;    // Alt+Space keyboard shortcut
         }
 
         protected override void OnLoad(EventArgs e)
@@ -38,9 +38,9 @@ namespace TestForm
             base.OnLoad(e);
 
             // Initialize the checkboxes to match current settings
-            kryptonCheckBox1.Checked = ShowThemedSystemMenuOnLeftClick;
-            kryptonCheckBox2.Checked = ShowThemedSystemMenuOnRightClick;
-            kryptonCheckBox3.Checked = ShowThemedSystemMenuOnAltSpace;
+            kryptonCheckBox1.Checked = ThemedSystemMenuValues.ShowOnLeftClick;
+            kryptonCheckBox2.Checked = ThemedSystemMenuValues.ShowOnRightClick;
+            kryptonCheckBox3.Checked = ThemedSystemMenuValues.ShowOnAltSpace;
 
             // Demonstrate the enhanced themed system menu features
             if (ThemedSystemMenu != null)
@@ -70,17 +70,17 @@ namespace TestForm
 
         private void kryptonCheckBox1_CheckedChanged(object sender, EventArgs e)
         {
-            ShowThemedSystemMenuOnLeftClick = kryptonCheckBox1.Checked;
+            ThemedSystemMenuValues.ShowOnLeftClick = kryptonCheckBox1.Checked;
         }
 
         private void kryptonCheckBox2_CheckedChanged(object sender, EventArgs e)
         {
-            ShowThemedSystemMenuOnRightClick = kryptonCheckBox2.Checked;
+            ThemedSystemMenuValues.ShowOnRightClick = kryptonCheckBox2.Checked;
         }
 
         private void kryptonCheckBox3_CheckedChanged(object sender, EventArgs e)
         {
-            ShowThemedSystemMenuOnAltSpace = kryptonCheckBox3.Checked;
+            ThemedSystemMenuValues.ShowOnAltSpace = kryptonCheckBox3.Checked;
         }
 
         private void kryptonButton1_Click(object sender, EventArgs e)

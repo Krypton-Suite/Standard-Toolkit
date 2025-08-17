@@ -405,4 +405,9 @@ public partial class Main : KryptonForm
     {
         new ThemedSystemMenuTest().ShowDialog();
     }
+
+    private void kryptonButton19_Click(object sender, EventArgs e)
+    {
+        new DesignerMenuTest().ShowDialog();
+    }
 }

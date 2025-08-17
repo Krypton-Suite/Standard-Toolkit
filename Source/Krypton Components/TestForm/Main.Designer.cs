@@ -125,6 +125,7 @@ namespace TestForm
             this.kryptonFontDialog1 = new Krypton.Toolkit.KryptonFontDialog();
             this.kryptonColorDialog1 = new Krypton.Toolkit.KryptonColorDialog();
             this.kryptonButton18 = new Krypton.Toolkit.KryptonButton();
+            this.kryptonButton19 = new Krypton.Toolkit.KryptonButton();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonHeaderGroup1)).BeginInit();
@@ -147,6 +148,7 @@ namespace TestForm
             // kryptonPanel1
             // 
             this.kryptonPanel1.Controls.Add(this.kryptonButton18);
+            this.kryptonPanel1.Controls.Add(this.kryptonButton19);
             this.kryptonPanel1.Controls.Add(this.kryptonButton17);
             this.kryptonPanel1.Controls.Add(this.kryptonCheckedListBox1);
             this.kryptonPanel1.Controls.Add(this.kryptonButton16);
@@ -968,6 +970,16 @@ namespace TestForm
             this.kryptonButton18.Values.Text = "System Menu";
             this.kryptonButton18.Click += new System.EventHandler(this.kryptonButton18_Click);
             // 
+            // kryptonButton19
+            // 
+            this.kryptonButton19.Location = new System.Drawing.Point(154, 621);
+            this.kryptonButton19.Name = "kryptonButton19";
+            this.kryptonButton19.Size = new System.Drawing.Size(133, 25);
+            this.kryptonButton19.TabIndex = 89;
+            this.kryptonButton19.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kryptonButton19.Values.Text = "Designer Menu";
+            this.kryptonButton19.Click += new System.EventHandler(this.kryptonButton19_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1100,5 +1112,6 @@ namespace TestForm
         private KryptonCheckedListBox kryptonCheckedListBox1;
         private KryptonButton kryptonButton17;
         private KryptonButton kryptonButton18;
+        private KryptonButton kryptonButton19;
     }
 }
