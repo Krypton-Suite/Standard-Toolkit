@@ -45,7 +45,7 @@ public class ThemedSystemMenuItemsEditor : CollectionEditor
     /// </summary>
     /// <param name="value">The item to get the display text for.</param>
     /// <returns>The display text for the item.</returns>
-    protected override string GetDisplayText(object value)
+    protected override string GetDisplayText(object? value)
     {
         if (value is ThemedSystemMenuItem menuItem)
         {
