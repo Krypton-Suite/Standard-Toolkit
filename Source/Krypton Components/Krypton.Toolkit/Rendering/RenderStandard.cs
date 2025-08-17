@@ -1360,8 +1360,15 @@ public class RenderStandard : RenderBase
         if (standard.DrawShortText)
         {
             using var hint = new GraphicsTextHint(context.Graphics, standard.ShortTextHint);
+            // Constrain drawing to the provided display rectangle
+            Rectangle shortTextRectToDraw = Rectangle.Intersect(standard.ShortTextRect, displayRect);
+            if (shortTextRectToDraw.IsEmpty)
+            {
+                shortTextRectToDraw = standard.ShortTextRect;
+            }
+
             // Get the rectangle to use when dealing with gradients
-            Rectangle gradientRect = context.GetAlignedRectangle(palette.GetContentShortTextColorAlign(state), standard.ShortTextRect);
+            Rectangle gradientRect = context.GetAlignedRectangle(palette.GetContentShortTextColorAlign(state), shortTextRectToDraw);
 
             // Use standard helper routine to create appropriate color brush
             Color color1 = palette.GetContentShortTextColor1(state);
@@ -1375,7 +1382,7 @@ public class RenderStandard : RenderBase
             {
                 if (!AccurateText.DrawString(context.Graphics,
                         colorBrush,
-                        standard.ShortTextRect,
+                        shortTextRectToDraw,
                         context.Control.RightToLeft,
                         standard.Orientation,
                         state,
@@ -1387,7 +1394,7 @@ public class RenderStandard : RenderBase
                     // Try again using the new font
                     AccurateText.DrawString(context.Graphics,
                         colorBrush,
-                        standard.ShortTextRect,
+                        shortTextRectToDraw,
                         context.Control.RightToLeft,
                         standard.Orientation,
                         state,
@@ -1402,13 +1409,13 @@ public class RenderStandard : RenderBase
             if (ShouldDrawImage(shortImage))
             {
                 // Get the rectangle to use when dealing with gradients
-                Rectangle imageRect = context.GetAlignedRectangle(palette.GetContentShortTextImageAlign(state), standard.ShortTextRect);
+                Rectangle imageRect = context.GetAlignedRectangle(palette.GetContentShortTextImageAlign(state), shortTextRectToDraw);
 
                 // Use standard helper routine to create appropriate image brush
                 using Brush imageBrush = CreateImageBrush(imageRect, shortImage, shortImageStyle);
                 if (!AccurateText.DrawString(context.Graphics,
                         imageBrush,
-                        standard.ShortTextRect,
+                        shortTextRectToDraw,
                         context.Control.RightToLeft,
                         standard.Orientation,
                         state,
@@ -1419,7 +1426,7 @@ public class RenderStandard : RenderBase
 
                     AccurateText.DrawString(context.Graphics,
                         imageBrush,
-                        standard.ShortTextRect,
+                        shortTextRectToDraw,
                         context.Control.RightToLeft,
                         standard.Orientation,
                         state,
@@ -1431,8 +1438,15 @@ public class RenderStandard : RenderBase
         if (standard.DrawLongText)
         {
             using var hint = new GraphicsTextHint(context.Graphics, standard.LongTextHint);
+            // Constrain drawing to the provided display rectangle
+            Rectangle longTextRectToDraw = Rectangle.Intersect(standard.LongTextRect, displayRect);
+            if (longTextRectToDraw.IsEmpty)
+            {
+                longTextRectToDraw = standard.LongTextRect;
+            }
+
             // Get the rectangle to use when dealing with gradients
-            Rectangle gradientRect = context.GetAlignedRectangle(palette.GetContentLongTextColorAlign(state), standard.LongTextRect);
+            Rectangle gradientRect = context.GetAlignedRectangle(palette.GetContentLongTextColorAlign(state), longTextRectToDraw);
 
             // Use standard helper routine to create appropriate color brush
             Color color1 = palette.GetContentLongTextColor1(state);
@@ -1446,7 +1460,7 @@ public class RenderStandard : RenderBase
             {
                 if (!AccurateText.DrawString(context.Graphics,
                         colorBrush,
-                        standard.LongTextRect,
+                        longTextRectToDraw,
                         context.Control.RightToLeft,
                         standard.Orientation,
                         state,
@@ -1457,7 +1471,7 @@ public class RenderStandard : RenderBase
 
                     AccurateText.DrawString(context.Graphics,
                         colorBrush,
-                        standard.LongTextRect,
+                        longTextRectToDraw,
                         context.Control.RightToLeft,
                         standard.Orientation,
                         state,
@@ -1472,13 +1486,13 @@ public class RenderStandard : RenderBase
             if (ShouldDrawImage(longImage))
             {
                 // Get the rectangle to use when dealing with gradients
-                Rectangle imageRect = context.GetAlignedRectangle(palette.GetContentLongTextImageAlign(state), standard.LongTextRect);
+                Rectangle imageRect = context.GetAlignedRectangle(palette.GetContentLongTextImageAlign(state), longTextRectToDraw);
 
                 // Use standard helper routine to create appropriate image brush
                 using Brush imageBrush = CreateImageBrush(imageRect, longImage, longImageStyle);
                 if (!AccurateText.DrawString(context.Graphics,
                         imageBrush,
-                        standard.LongTextRect,
+                        longTextRectToDraw,
                         context.Control.RightToLeft,
                         standard.Orientation,
                         state,
@@ -1489,7 +1503,7 @@ public class RenderStandard : RenderBase
 
                     AccurateText.DrawString(context.Graphics,
                         imageBrush,
-                        standard.LongTextRect,
+                        longTextRectToDraw,
                         context.Control.RightToLeft,
                         standard.Orientation,
                         state,
