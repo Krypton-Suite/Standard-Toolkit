@@ -4,6 +4,7 @@
 
 ## 2025-11-xx - Build 2511 (V10 - alpha) - November 2025
 * Resolved [#1022](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1022), `Material - Dark` fixes for KDGV painting.
+* Resolved [#413](https://github.com/Krypton-Suite/Standard-Toolkit/issues/413), `KryptonRibbon` controls do not react to MouseWheel scolling.
 * Resolved [#2424](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2424), Fix `NoClipping` in `AccurateText`; `Ellipsis` conditional.
 * Resolved [#2406](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2406), Enhance `KryptonProgressBar` options and painting.
 * Implemented [#2418](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2418), Fixed `KryptonDataGridView` themed header painting.

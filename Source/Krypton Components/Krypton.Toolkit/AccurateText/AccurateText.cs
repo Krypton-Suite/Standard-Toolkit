@@ -303,20 +303,47 @@ public class AccurateText : GlobalId
                         // Convert from StringFormat to TextFormatFlags
                         var tff = StringFormatToFlags(memento.Format);
 
-                        // Conditional ellipsis: only allow if text would overflow the target rect
+                        // Precompute overflow once for both ellipsis and NoClipping logic
                         const TextFormatFlags ellipsisFlags = TextFormatFlags.EndEllipsis |
                                                               TextFormatFlags.WordEllipsis |
                                                               TextFormatFlags.PathEllipsis;
-                        if (((tff & ellipsisFlags) != 0) && (memento.Size.Width <= rect.Width))
-                        {
-                            tff &= ~ellipsisFlags;
-                        }
+                        bool textOverflows = memento.Size.Width > rect.Width;
 
-                        // IMPORTANT:
-                        // Do NOT set TextFormatFlags.NoClipping here.
-                        // The renderer relies on the Graphics clip region and displayRect to enforce clipping.
-                        // Forcing NoClipping at this layer would bypass upstream clipping.
-                        tff &= ~TextFormatFlags.NoClipping;
+                        if (textOverflows)
+                        {
+                            // If NoClipping is requested but text would overflow, enable clipping
+                            if ((tff & TextFormatFlags.NoClipping) != 0)
+                            {
+                                tff &= ~TextFormatFlags.NoClipping;
+                            }
+                        }
+                        else
+                        {
+                            // If ellipsis requested but text fits, remove ellipsis
+                            if ((tff & ellipsisFlags) != 0)
+                            {
+                                tff &= ~ellipsisFlags;
+                            }
+
+                            // Only inspect Graphics.Clip if NoClipping is still set and we did not
+                            // already decide to clip due to text overflow.
+                            if (((tff & TextFormatFlags.NoClipping) != 0))
+                            {
+                                // If the caller set a finite clip region, and the text would exceed
+                                // that clip width, clear NoClipping to respect upstream clipping.
+                                using (Region clip = g.Clip)
+                                {
+                                    if (!clip.IsInfinite(g))
+                                    {
+                                        var cb = g.ClipBounds;
+                                        if (memento.Size.Width > cb.Width - 0.5f)
+                                        {
+                                            tff &= ~TextFormatFlags.NoClipping;
+                                        }
+                                    }
+                                }
+                            }
+                        }
 
                         TextRenderer.DrawText(g, memento.Text, memento.Font!, rect, color, tff);
                     }
