@@ -15,12 +15,7 @@ namespace Krypton.Toolkit;
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public class ThemedSystemMenuItemCollection : ObservableCollection<ThemedSystemMenuItem>
 {
-    #region Events
-    /// <summary>
-    /// Occurs when the collection changes.
-    /// </summary>
-    public event EventHandler? CollectionChanged;
-    #endregion
+
 
     #region Identity
     /// <summary>
@@ -39,7 +34,6 @@ public class ThemedSystemMenuItemCollection : ObservableCollection<ThemedSystemM
     protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
     {
         base.OnCollectionChanged(e);
-        CollectionChanged?.Invoke(this, EventArgs.Empty);
     }
     #endregion
 
