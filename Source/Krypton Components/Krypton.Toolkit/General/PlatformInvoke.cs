@@ -102,6 +102,34 @@ namespace Krypton.Toolkit
         internal static readonly IntPtr HWND_BOTTOM = new IntPtr(1);
 
         internal const int BM_CLICK = 0x00F5;
+
+        // Menu item info mask constants
+        internal const uint MIIM_STATE = 0x00000001;
+        internal const uint MIIM_ID = 0x00000002;
+        internal const uint MIIM_SUBMENU = 0x00000004;
+        internal const uint MIIM_CHECKMARKS = 0x00000008;
+        internal const uint MIIM_TYPE = 0x00000010;
+        internal const uint MIIM_DATA = 0x00000020;
+        internal const uint MIIM_STRING = 0x00000040;
+        internal const uint MIIM_BITMAP = 0x00000080;
+        internal const uint MIIM_FTYPE = 0x00000100;
+
+        // Menu item type constants
+        internal const uint MFT_STRING = 0x00000000;
+        internal const uint MFT_BITMAP = 0x00000004;
+        internal const uint MFT_MENUBARBREAK = 0x00000020;
+        internal const uint MFT_MENUBREAK = 0x00000040;
+        internal const uint MFT_OWNERDRAW = 0x00000100;
+        internal const uint MFT_RADIOCHECK = 0x00000200;
+        internal const uint MFT_SEPARATOR = 0x00000800;
+        internal const uint MFT_RIGHTORDER = 0x00002000;
+
+        // Menu item state constants
+        internal const uint MFS_GRAYED = 0x00000003;
+        internal const uint MFS_DISABLED = 0x00000003;
+        internal const uint MFS_CHECKED = 0x00000008;
+        internal const uint MFS_HILITE = 0x00000080;
+        internal const uint MFS_DEFAULT = 0x00001000;
         #endregion
 
         internal delegate IntPtr WndProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
@@ -2799,6 +2827,10 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
 
         internal static int MAKEHIWORD(int value) => (value & 0xFFFF) << 0x10;
 
+        internal static int GET_X_LPARAM(IntPtr lParam) => (short)(lParam.ToInt32() & 0xFFFF);
+
+        internal static int GET_Y_LPARAM(IntPtr lParam) => (short)((lParam.ToInt32() >> 16) & 0xFFFF);
+
         internal static IntPtr MakeLParam(int LoWord, int HiWord) =>
             new IntPtr((long)((HiWord << 16) | (LoWord & 0xffff)));
 
@@ -3330,6 +3362,22 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern IntPtr RemoveMenu(IntPtr hMenu, uint nPosition, MF_ wFlags);
 
+        [DllImport("user32.dll")]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        internal static extern int GetMenuItemCount(IntPtr hMenu);
+
+        [DllImport("user32.dll")]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        internal static extern int GetMenuItemID(IntPtr hMenu, int nPos);
+
+        [DllImport("user32.dll")]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        internal static extern int GetMenuString(IntPtr hMenu, uint uIDItem, StringBuilder lpString, int nMaxCount, MF_ uFlag);
+
+        [DllImport("user32.dll")]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        internal static extern bool GetMenuItemInfo(IntPtr hMenu, uint uItem, bool fByPosition, ref MENUITEMINFO lpmii);
+
         [DllImport(Libraries.User32)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern int GetSystemMetrics(SM_ smIndex);
@@ -3396,6 +3444,28 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
                 Attribute = attribute;
                 Data = data;
                 SizeOfData = sizeOfData;
+            }
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct MENUITEMINFO
+        {
+            public uint cbSize;
+            public uint fMask;
+            public uint fType;
+            public uint fState;
+            public uint wID;
+            public IntPtr hSubMenu;
+            public IntPtr hbmpChecked;
+            public IntPtr hbmpUnchecked;
+            public IntPtr dwItemData;
+            public IntPtr dwTypeData;
+            public uint cch;
+            public IntPtr hbmpItem;
+
+            public MENUITEMINFO()
+            {
+                cbSize = (uint)Marshal.SizeOf(typeof(MENUITEMINFO));
             }
         }
 

@@ -142,6 +142,11 @@ namespace TestForm
             new GroupBoxTest().Show();
         }
 
+        private void kryptonButton13_Click(object sender, EventArgs e)
+        {
+            new ThemedSystemMenuTest().Show();
+        }
+
         private void kbtnExit_Click(object sender, EventArgs e)
         {
             Application.Exit();
