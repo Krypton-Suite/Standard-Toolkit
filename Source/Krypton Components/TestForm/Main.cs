@@ -400,4 +400,9 @@ public partial class Main : KryptonForm
     {
         new CheckedListBoxDemo().ShowDialog();
     }
+
+    private void kryptonButton18_Click(object sender, EventArgs e)
+    {
+        new ThemedSystemMenuTest().ShowDialog();
+    }
 }

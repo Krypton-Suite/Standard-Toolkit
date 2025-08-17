@@ -3,6 +3,7 @@
 ====
 
 ## 2025-11-xx - Build 2511 (V10 - alpha) - November 2025
+* Implemented [#648](https://github.com/Krypton-Suite/Standard-Toolkit/issues/648), SystemMenu to be theme related
 * Resolved [#2406](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2406), Enhance `KryptonProgressBar` options and painting.
 * Implemented [#2418](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2418), Fixed `KryptonDataGridView` themed header painting.
 * Resolved [#1971](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2416), `KryptonDataGridViewColumn` Drop-down arrow image incorrect for Sparkle themes.
