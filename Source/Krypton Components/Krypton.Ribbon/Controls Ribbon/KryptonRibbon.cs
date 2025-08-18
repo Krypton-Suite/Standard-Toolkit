@@ -1088,13 +1088,15 @@ public class KryptonRibbon : VisualSimple,
                         }
                     }
                     break;
+
                 case PI.WM_.MOUSEWHEEL:
-                    // Only interested if we are usable and not in minimized mode or keyboard mode
+                    // Only interested if we are usable and not a control on the tab has focus and not in minimized mode or keyboard mode
                     if (Visible && Enabled && !RealMinimizedMode && !KeyboardMode && !InDesignMode)
                     {
                         // Only interested is the owning form is usable and has the focus
-                        Form? ownerForm = FindForm();
-                        if (ownerForm is { Visible: true, Enabled: true, ContainsFocus: true })
+                        if (TabsArea is not null
+                            && FindForm() is Form ownerForm 
+                            && ownerForm is { Visible: true, Enabled: true, ContainsFocus: true })
                         {
                             // Extract the x and y mouse position from message
                             var pt = new Point
@@ -1103,11 +1105,11 @@ public class KryptonRibbon : VisualSimple,
                                 Y = PI.HIWORD((int)m.LParam)
                             };
 
-                            // Only interested if over the ribbon control
-                            if (ClientRectangle.Contains(PointToClient(pt)))
+                            // Only interested if over the tabs area
+                            if (TabsArea.ClientRectangle.Contains(PointToClient(pt)))
                             {
                                 var delta = (short)PI.HIWORD((int)m.WParam.ToInt64());
-                                TabsArea?.LayoutTabs.ProcessMouseWheel(delta < 0);
+                                TabsArea.LayoutTabs.ProcessMouseWheel(delta < 0);
                                 return true;
                             }
                         }
