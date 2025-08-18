@@ -333,3 +333,5 @@ Source/Krypton Components/Temp.txt
 Source/Krypton Components/Krypton.Ribbon/Temp.txt
 
 .cursor/
+Terminal.Gui/
+Scripts/ModernBuild/*.txt
