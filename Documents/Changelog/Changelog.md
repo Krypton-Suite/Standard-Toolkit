@@ -3,6 +3,7 @@
 ====
 
 ## 2025-11-xx - Build 2511 (V10 - alpha) - November 2025
+* Implemented [#2396](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2396), Added ModernBuild terminal.gui app to solution
 * Resolved [#1022](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1022), `Material - Dark` fixes for KDGV painting.
 * Resolved [#413](https://github.com/Krypton-Suite/Standard-Toolkit/issues/413), `KryptonRibbon` controls do not react to MouseWheel scolling.
 * Resolved [#2424](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2424), Fix `NoClipping` in `AccurateText`; `Ellipsis` conditional.
