@@ -231,6 +231,8 @@ public class KryptonForm : VisualForm,
 
     /// <summary>
     /// Determines whether the form-level sizing grip should be shown.
+    /// Issue: https://github.com/Krypton-Suite/Standard-Toolkit/issues/984
+    /// PR: https://github.com/Krypton-Suite/Standard-Toolkit/pull/2436
     /// </summary>
     private bool ShouldShowSizingGrip()
     {
@@ -391,28 +393,29 @@ public class KryptonForm : VisualForm,
         {
             return false;
         }
-        var scale1 = Math.Max(1f, GetDpiFactor());
-        int w1 = (int)Math.Round(themedGrip.Width * Math.Min(scale1, 1.25f));
-        int h1 = (int)Math.Round(themedGrip.Height * Math.Min(scale1, 1.25f));
-        int x = isRtl ? dest.Left : dest.Right - w1;
-        int y = dest.Bottom - h1;
-        var target1 = new Rectangle(x, y, w1, h1);
+
+        var dpi = GetDpiFactor();
+        int w = (int)Math.Ceiling(themedGrip.Width * dpi);
+        int h = (int)Math.Ceiling(themedGrip.Height * dpi);
+        using var scaled = CommonHelper.ScaleImageForSizedDisplay(themedGrip, w, h, true);
+        if (scaled is null)
+        {
+            return false;
+        }
+
+        int x = isRtl ? dest.Left : dest.Right - scaled.Width;
+        int y = dest.Bottom - scaled.Height;
 
         // Apply color-key transparency like legacy resources (top-left pixel)
-        Color key1 = Color.Magenta;
-        if (themedGrip is Bitmap bmpKey1)
-        {
-            try { key1 = bmpKey1.GetPixel(0, 0); } catch { /* ignore */ }
-        }
-        using var ia1 = new System.Drawing.Imaging.ImageAttributes();
-        ia1.SetColorKey(key1, key1);
+        Color key = Color.Magenta;
+        if (themedGrip is Bitmap b && b.Width > 0 && b.Height > 0)
+            key = b.GetPixel(0, 0);
 
-        var state1 = g.Save();
-        g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
-        g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
-        g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
-        g.DrawImage(themedGrip, target1, 0, 0, themedGrip.Width, themedGrip.Height, GraphicsUnit.Pixel, ia1);
-        g.Restore(state1);
+        using var ia1 = new System.Drawing.Imaging.ImageAttributes();
+        ia1.SetColorKey(key, key);
+
+        g.DrawImage(scaled, new Rectangle(x, y, scaled.Width, scaled.Height),
+                    0, 0, scaled.Width, scaled.Height, GraphicsUnit.Pixel, ia1);
         return true;
     }
 
