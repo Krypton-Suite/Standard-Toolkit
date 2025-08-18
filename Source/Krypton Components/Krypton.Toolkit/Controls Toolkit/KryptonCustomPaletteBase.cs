@@ -1284,6 +1284,17 @@ public class KryptonCustomPaletteBase : PaletteBase
         (expanded ? Images.TreeView.Minus : Images.TreeView.Plus) ?? _redirector.GetTreeViewImage(expanded);
 
     /// <summary>
+    /// Gets a sizing grip image appropriate for the provided orientation.
+    /// </summary>
+    /// <param name="isRtl">If true, request an RTL-oriented image; otherwise LTR.</param>
+    /// <returns>Appropriate image for drawing; otherwise null.</returns>
+    public override Image? GetSizeGripImage(bool isRtl)
+    {
+        // Currently no per-theme images exposed via Images; defer to base palette
+        return _redirector.GetSizeGripImage(isRtl);
+    }
+
+    /// <summary>
     /// Gets a check box image appropriate for the provided state.
     /// </summary>
     /// <param name="enabled">Is the check box enabled.</param>

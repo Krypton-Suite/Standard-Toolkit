@@ -384,92 +384,35 @@ public class KryptonForm : VisualForm,
 
     private bool TryDrawResourceGrip(Graphics g, Rectangle dest)
     {
-        // Map current theme name (if available) or palette mode to a resource bitmap
-        Bitmap? bmp = null;
-        string themeName = GetResolvedPalette().ThemeName ?? string.Empty;
-
-        if (!string.IsNullOrEmpty(themeName) && themeName.IndexOf("2003", StringComparison.OrdinalIgnoreCase) >= 0)
-            bmp = ResourceFiles.SizeGripStyles.SizeGripStyleResources.Office2003GripStyle;
-        else if (!string.IsNullOrEmpty(themeName) && themeName.IndexOf("2007", StringComparison.OrdinalIgnoreCase) >= 0)
-        {
-            if (themeName.IndexOf("Black", StringComparison.OrdinalIgnoreCase) >= 0)
-                bmp = ResourceFiles.SizeGripStyles.SizeGripStyleResources.Office2007BlackGripStyle;
-            else if (themeName.IndexOf("Blue", StringComparison.OrdinalIgnoreCase) >= 0)
-                bmp = ResourceFiles.SizeGripStyles.SizeGripStyleResources.Office2007BlueGripStyle;
-            else if (themeName.IndexOf("Silver", StringComparison.OrdinalIgnoreCase) >= 0)
-                bmp = ResourceFiles.SizeGripStyles.SizeGripStyleResources.Office2007SilverGripStyle;
-        }
-        else if (!string.IsNullOrEmpty(themeName) && themeName.IndexOf("2010", StringComparison.OrdinalIgnoreCase) >= 0)
-        {
-            if (themeName.IndexOf("Black", StringComparison.OrdinalIgnoreCase) >= 0)
-                bmp = ResourceFiles.SizeGripStyles.SizeGripStyleResources.Office2010BlackGripStyle;
-            else if (themeName.IndexOf("Blue", StringComparison.OrdinalIgnoreCase) >= 0)
-                bmp = ResourceFiles.SizeGripStyles.SizeGripStyleResources.Office2010BlueGripStyle;
-            else if (themeName.IndexOf("Silver", StringComparison.OrdinalIgnoreCase) >= 0)
-                bmp = ResourceFiles.SizeGripStyles.SizeGripStyleResources.Office2010SilverGripStyle;
-        }
-        else
-        {
-            switch (PaletteMode)
-            {
-                case PaletteMode.ProfessionalOffice2003:
-                    bmp = ResourceFiles.SizeGripStyles.SizeGripStyleResources.Office2003GripStyle;
-                    break;
-                case PaletteMode.Office2007Black:
-                case PaletteMode.Office2007BlackDarkMode:
-                    bmp = ResourceFiles.SizeGripStyles.SizeGripStyleResources.Office2007BlackGripStyle;
-                    break;
-                case PaletteMode.Office2007Blue:
-                case PaletteMode.Office2007BlueDarkMode:
-                case PaletteMode.Office2007BlueLightMode:
-                    bmp = ResourceFiles.SizeGripStyles.SizeGripStyleResources.Office2007BlueGripStyle;
-                    break;
-                case PaletteMode.Office2007Silver:
-                case PaletteMode.Office2007SilverDarkMode:
-                case PaletteMode.Office2007SilverLightMode:
-                    bmp = ResourceFiles.SizeGripStyles.SizeGripStyleResources.Office2007SilverGripStyle;
-                    break;
-                case PaletteMode.Office2010Black:
-                case PaletteMode.Office2010BlackDarkMode:
-                    bmp = ResourceFiles.SizeGripStyles.SizeGripStyleResources.Office2010BlackGripStyle;
-                    break;
-                case PaletteMode.Office2010Blue:
-                case PaletteMode.Office2010BlueDarkMode:
-                case PaletteMode.Office2010BlueLightMode:
-                    bmp = ResourceFiles.SizeGripStyles.SizeGripStyleResources.Office2010BlueGripStyle;
-                    break;
-                case PaletteMode.Office2010Silver:
-                case PaletteMode.Office2010SilverDarkMode:
-                case PaletteMode.Office2010SilverLightMode:
-                    bmp = ResourceFiles.SizeGripStyles.SizeGripStyleResources.Office2010SilverGripStyle;
-                    break;
-            }
-        }
-
-        if (bmp is null)
+        // First, ask the palette for a themed sizing grip image (RTL-aware)
+        bool isRtl = RightToLeftLayout;
+        Image? themedGrip = GetResolvedPalette().GetSizeGripImage(isRtl);
+        if (themedGrip is null)
         {
             return false;
         }
+        var scale1 = Math.Max(1f, GetDpiFactor());
+        int w1 = (int)Math.Round(themedGrip.Width * Math.Min(scale1, 1.25f));
+        int h1 = (int)Math.Round(themedGrip.Height * Math.Min(scale1, 1.25f));
+        int x = isRtl ? dest.Left : dest.Right - w1;
+        int y = dest.Bottom - h1;
+        var target1 = new Rectangle(x, y, w1, h1);
 
-        // Draw at 1:1 in the grip rect corner; scale lightly for high DPI with colorkey transparency
-        var scale = Math.Max(1f, GetDpiFactor());
-        int w = (int)Math.Round(bmp.Width * Math.Min(scale, 1.25f));
-        int h = (int)Math.Round(bmp.Height * Math.Min(scale, 1.25f));
-        Rectangle target = new Rectangle(dest.Right - w, dest.Bottom - h, w, h);
+        // Apply color-key transparency like legacy resources (top-left pixel)
+        Color key1 = Color.Magenta;
+        if (themedGrip is Bitmap bmpKey1)
+        {
+            try { key1 = bmpKey1.GetPixel(0, 0); } catch { /* ignore */ }
+        }
+        using var ia1 = new System.Drawing.Imaging.ImageAttributes();
+        ia1.SetColorKey(key1, key1);
 
-        // Use top-left pixel as color-key transparency (legacy resource convention)
-        Color key;
-        try { key = bmp.GetPixel(0, 0); } catch { key = Color.Magenta; }
-        using var ia = new System.Drawing.Imaging.ImageAttributes();
-        ia.SetColorKey(key, key);
-
-        var state = g.Save();
+        var state1 = g.Save();
         g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
         g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
         g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
-        g.DrawImage(bmp, target, 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, ia);
-        g.Restore(state);
-
+        g.DrawImage(themedGrip, target1, 0, 0, themedGrip.Width, themedGrip.Height, GraphicsUnit.Pixel, ia1);
+        g.Restore(state1);
         return true;
     }
 

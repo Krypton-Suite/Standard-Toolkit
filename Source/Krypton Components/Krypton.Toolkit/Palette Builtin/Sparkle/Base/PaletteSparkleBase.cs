@@ -3130,6 +3130,13 @@ public class PaletteSparkleBase : PaletteBase
     public override Image? GetTreeViewImage(bool expanded) => expanded ? _treeCollapseBlack : _treeExpandWhite;
 
     /// <summary>
+    /// Gets a sizing grip image appropriate for the provided orientation.
+    /// </summary>
+    /// <param name="isRtl">If true, request an RTL-oriented image; otherwise LTR.</param>
+    /// <returns>Appropriate image for drawing; otherwise null.</returns>
+    public override Image? GetSizeGripImage(bool isRtl) => null;
+
+    /// <summary>
     /// Gets a check box image appropriate for the provided state.
     /// </summary>
     /// <param name="enabled">Is the check box enabled.</param>
