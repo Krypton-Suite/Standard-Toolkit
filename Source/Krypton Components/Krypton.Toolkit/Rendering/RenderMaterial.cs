@@ -239,10 +239,8 @@ public sealed class RenderMaterial : RenderOffice2010
             throw new ArgumentNullException(nameof(palette));
         }
 
-        // Flatten to a solid fill using the primary back color
-        using var brush = new SolidBrush(palette.GetBackColor1(state));
-        context.Graphics.FillPath(brush, path);
-        return null;
+        // Respect palette color styles to allow controls (e.g., ProgressBar) to differentiate track vs. value areas
+        return base.DrawBack(context, rect, path, palette, orientation, state, memento);
     }
     #endregion
 
