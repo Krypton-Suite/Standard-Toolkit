@@ -76,4 +76,56 @@ public class PaletteMaterialDark : PaletteMaterialBase
     public override Color GetRibbonTabRowBackgroundGradientRaftingLight(PaletteState state) => _forward365.GetRibbonTabRowBackgroundGradientRaftingLight(state);
     public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) => _forward365.GetRibbonTabRowBackgroundSolidColor(state);
     public override float GetRibbonTabRowGradientRaftingAngle(PaletteState state) => _forward365.GetRibbonTabRowGradientRaftingAngle(state);
+
+    /// <summary>
+    /// Ensure grid lines use a neutral gray on dark surfaces instead of appearing white.
+    /// </summary>
+    public override Color GetBorderColor1(PaletteBorderStyle style, PaletteState state)
+    {
+        if (style == PaletteBorderStyle.GridDataCellList ||
+            style == PaletteBorderStyle.GridDataCellSheet ||
+            style == PaletteBorderStyle.GridDataCellCustom1 ||
+            style == PaletteBorderStyle.GridDataCellCustom2 ||
+            style == PaletteBorderStyle.GridDataCellCustom3 ||
+            style == PaletteBorderStyle.GridHeaderColumnList ||
+            style == PaletteBorderStyle.GridHeaderColumnSheet ||
+            style == PaletteBorderStyle.GridHeaderColumnCustom1 ||
+            style == PaletteBorderStyle.GridHeaderColumnCustom2 ||
+            style == PaletteBorderStyle.GridHeaderColumnCustom3 ||
+            style == PaletteBorderStyle.GridHeaderRowList ||
+            style == PaletteBorderStyle.GridHeaderRowSheet ||
+            style == PaletteBorderStyle.GridHeaderRowCustom1 ||
+            style == PaletteBorderStyle.GridHeaderRowCustom2 ||
+            style == PaletteBorderStyle.GridHeaderRowCustom3)
+        {
+            // Reuse the theme's input border neutral gray for grid lines
+            return BaseColors?.InputControlBorderNormal ?? Color.FromArgb(77, 77, 77);
+        }
+
+        return base.GetBorderColor1(style, state);
+    }
+
+    public override Color GetBorderColor2(PaletteBorderStyle style, PaletteState state)
+    {
+        if (style == PaletteBorderStyle.GridDataCellList ||
+            style == PaletteBorderStyle.GridDataCellSheet ||
+            style == PaletteBorderStyle.GridDataCellCustom1 ||
+            style == PaletteBorderStyle.GridDataCellCustom2 ||
+            style == PaletteBorderStyle.GridDataCellCustom3 ||
+            style == PaletteBorderStyle.GridHeaderColumnList ||
+            style == PaletteBorderStyle.GridHeaderColumnSheet ||
+            style == PaletteBorderStyle.GridHeaderColumnCustom1 ||
+            style == PaletteBorderStyle.GridHeaderColumnCustom2 ||
+            style == PaletteBorderStyle.GridHeaderColumnCustom3 ||
+            style == PaletteBorderStyle.GridHeaderRowList ||
+            style == PaletteBorderStyle.GridHeaderRowSheet ||
+            style == PaletteBorderStyle.GridHeaderRowCustom1 ||
+            style == PaletteBorderStyle.GridHeaderRowCustom2 ||
+            style == PaletteBorderStyle.GridHeaderRowCustom3)
+        {
+            return BaseColors?.InputControlBorderNormal ?? Color.FromArgb(77, 77, 77);
+        }
+
+        return base.GetBorderColor2(style, state);
+    }
 }

@@ -107,7 +107,7 @@ public sealed class RenderMaterial : RenderOffice2010
             var oldSmoothing = g.SmoothingMode;
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
 
-            using (var pen = new Pen(palette.GetBorderColor1(state), 1))
+            using (var pen = new Pen(palette.GetBorderColor1(state), Math.Max(1, palette.GetBorderWidth(state))))
             {
                 var left = rect.Left;
                 var right = rect.Right - 1;
@@ -239,10 +239,8 @@ public sealed class RenderMaterial : RenderOffice2010
             throw new ArgumentNullException(nameof(palette));
         }
 
-        // Flatten to a solid fill using the primary back color
-        using var brush = new SolidBrush(palette.GetBackColor1(state));
-        context.Graphics.FillPath(brush, path);
-        return null;
+        // Respect palette color styles to allow controls (e.g., ProgressBar) to differentiate track vs. value areas
+        return base.DrawBack(context, rect, path, palette, orientation, state, memento);
     }
     #endregion
 

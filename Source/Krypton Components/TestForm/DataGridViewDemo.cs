@@ -27,11 +27,46 @@ public partial class DataGridViewDemo : KryptonForm
 
         for (int i = 1; i <= 50; i++)
         {
-            kdgvMain.Rows.Add(i, $"Item {i}", i * 2, DateTime.Today.AddDays(i), i % 2 == 0);
+            // Columns: Id, Name, Quantity, Date, Active, Combo, Masked, Domain, Progress, Rating
+            kdgvMain.Rows.Add(
+                i,
+                $"Item {i}",
+                i * 2,
+                DateTime.Today.AddDays(i),
+                i % 2 == 0,
+                // Combo: basic choice set below in Initialize (ensure some defaults)
+                (i % 3 == 0) ? "C" : (i % 2 == 0 ? "B" : "A"),
+                // Masked: simple pattern like 2-digit + dash + 2-digit
+                string.Format(CultureInfo.InvariantCulture, "{0:00}-{1:00}", i % 100, (i * 2) % 100),
+                // DomainUpDown: pick from sample domain items
+                (i % 3 == 0) ? "High" : (i % 3 == 1 ? "Low" : "Medium"),
+                // Progress: value between 0 and 1
+                Math.Min(1m, (decimal)i / 50m),
+                // Rating: byte 0..10
+                (byte)(i % 11)
+            );
         }
 
         kdgvMain.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
         kcmbAutoSizeColumnsMode.SelectedItem = "AllCells";
+
+        // Seed column-specific settings/content for new demo columns
+        if (colCombo.Items.Count == 0)
+        {
+            colCombo.Items.AddRange(new object[] { "A", "B", "C" });
+        }
+        if (string.IsNullOrEmpty(colMasked.Mask))
+        {
+            colMasked.Mask = "00-00";
+        }
+        if (colDomain.Items.Count == 0)
+        {
+            colDomain.Items.AddRange(new string[] { "Low", "Medium", "High" });
+        }
+        if (colRating.RatingMaximum == 0)
+        {
+            colRating.RatingMaximum = 10;
+        }
 
         // Guard future column additions against incompatible SelectionMode
         kdgvMain.ColumnAdded += kdgvMain_ColumnAdded;
@@ -120,6 +155,18 @@ public partial class DataGridViewDemo : KryptonForm
     private void kchkEnableHeadersVisualStyles_CheckedChanged(object sender, EventArgs e)
     {
         kdgvMain.EnableHeadersVisualStyles = kchkEnableHeadersVisualStyles.Checked;
+    }
+
+    private void kchkShowGridLines_CheckedChanged(object sender, EventArgs e)
+    {
+        kdgvMain.StateCommon.DataCell.Border.DrawBorders =
+            kchkShowGridLines.Checked
+                ? PaletteDrawBorders.All
+                : PaletteDrawBorders.None;
+        kdgvMain.StateCommon.HeaderRow.Border.DrawBorders = kdgvMain.StateCommon.DataCell.Border.DrawBorders;
+        kdgvMain.StateCommon.HeaderColumn.Border.DrawBorders = kdgvMain.StateCommon.DataCell.Border.DrawBorders;
+
+        kdgvMain.HideOuterBorders = !kchkShowGridLines.Checked;
     }
 
     private void kcmbAutoSizeColumnsMode_SelectedIndexChanged(object sender, EventArgs e)
