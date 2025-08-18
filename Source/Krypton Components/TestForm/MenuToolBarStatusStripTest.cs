@@ -23,7 +23,6 @@ public partial class MenuToolBarStatusStripTest : KryptonForm
         _statusStripTimer.Interval = 50;
         _statusStripTimer.Tick += StatusStripTimer_Tick;
         KryptonManager.GlobalPaletteChanged += KryptonManager_GlobalPaletteChanged;
-        ApplyCustomMenuRenderer();
     }
 
     private void animateStatusStripToolStripMenuItem_Click(object? sender, EventArgs e)
@@ -106,9 +105,6 @@ public partial class MenuToolBarStatusStripTest : KryptonForm
             kss.StateCommon.ColorAngle = -1f;
             kss.Invalidate();
         }
-
-        // Re-apply custom renderer so File menu item borders remain customized across theme changes
-        ApplyCustomMenuRenderer();
     }
 
     /*
@@ -157,15 +153,5 @@ public partial class MenuToolBarStatusStripTest : KryptonForm
         return statusStrip1.BackColor.IsEmpty
             ? SystemColors.Control
             : statusStrip1.BackColor;
-    }
-
-    private void ApplyCustomMenuRenderer()
-    {
-        var ct = KryptonManager.CurrentGlobalPalette?.ColorTable;
-        if (ct is not null)
-        {
-            menuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            menuStrip1.Renderer = new FileMenuBorderTestRenderer(ct);
-        }
     }
 }

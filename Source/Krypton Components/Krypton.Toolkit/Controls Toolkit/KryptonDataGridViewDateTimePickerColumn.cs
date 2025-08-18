@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *
  */
 #endregion
 
@@ -118,7 +118,7 @@ public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconCo
                 var rowCount = dataGridViewRows.Count;
                 for (var rowIndex = 0; rowIndex < rowCount; rowIndex++)
                 {
-                    // Be careful not to unshare rows unnecessarily. 
+                    // Be careful not to unshare rows unnecessarily.
                     // This could have severe performance repercussions.
                     DataGridViewRow dataGridViewRow = dataGridViewRows.SharedRow(rowIndex);
                     if (dataGridViewRow.Cells[Index] is KryptonDataGridViewDateTimePickerCell dataGridViewCell)
@@ -158,7 +158,7 @@ public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconCo
                 var rowCount = dataGridViewRows.Count;
                 for (var rowIndex = 0; rowIndex < rowCount; rowIndex++)
                 {
-                    // Be careful not to unshare rows unnecessarily. 
+                    // Be careful not to unshare rows unnecessarily.
                     // This could have severe performance repercussions.
                     DataGridViewRow dataGridViewRow = dataGridViewRows.SharedRow(rowIndex);
                     if (dataGridViewRow.Cells[Index] is KryptonDataGridViewDateTimePickerCell dataGridViewCell)
@@ -199,7 +199,7 @@ public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconCo
                 var rowCount = dataGridViewRows.Count;
                 for (var rowIndex = 0; rowIndex < rowCount; rowIndex++)
                 {
-                    // Be careful not to unshare rows unnecessarily. 
+                    // Be careful not to unshare rows unnecessarily.
                     // This could have severe performance repercussions.
                     DataGridViewRow dataGridViewRow = dataGridViewRows.SharedRow(rowIndex);
                     if (dataGridViewRow.Cells[Index] is KryptonDataGridViewDateTimePickerCell dataGridViewCell)
@@ -239,7 +239,7 @@ public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconCo
                 var rowCount = dataGridViewRows.Count;
                 for (var rowIndex = 0; rowIndex < rowCount; rowIndex++)
                 {
-                    // Be careful not to unshare rows unnecessarily. 
+                    // Be careful not to unshare rows unnecessarily.
                     // This could have severe performance repercussions.
                     DataGridViewRow dataGridViewRow = dataGridViewRows.SharedRow(rowIndex);
                     if (dataGridViewRow.Cells[Index] is KryptonDataGridViewDateTimePickerCell dataGridViewCell)
@@ -279,7 +279,7 @@ public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconCo
                 var rowCount = dataGridViewRows.Count;
                 for (var rowIndex = 0; rowIndex < rowCount; rowIndex++)
                 {
-                    // Be careful not to unshare rows unnecessarily. 
+                    // Be careful not to unshare rows unnecessarily.
                     // This could have severe performance repercussions.
                     DataGridViewRow dataGridViewRow = dataGridViewRows.SharedRow(rowIndex);
                     if (dataGridViewRow.Cells[Index] is KryptonDataGridViewDateTimePickerCell dataGridViewCell)
@@ -321,7 +321,7 @@ public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconCo
                 var rowCount = dataGridViewRows.Count;
                 for (var rowIndex = 0; rowIndex < rowCount; rowIndex++)
                 {
-                    // Be careful not to unshare rows unnecessarily. 
+                    // Be careful not to unshare rows unnecessarily.
                     // This could have severe performance repercussions.
                     DataGridViewRow dataGridViewRow = dataGridViewRows.SharedRow(rowIndex);
                     if (dataGridViewRow.Cells[Index] is KryptonDataGridViewDateTimePickerCell dataGridViewCell)
@@ -363,7 +363,7 @@ public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconCo
                 var rowCount = dataGridViewRows.Count;
                 for (var rowIndex = 0; rowIndex < rowCount; rowIndex++)
                 {
-                    // Be careful not to unshare rows unnecessarily. 
+                    // Be careful not to unshare rows unnecessarily.
                     // This could have severe performance repercussions.
                     DataGridViewRow dataGridViewRow = dataGridViewRows.SharedRow(rowIndex);
                     if (dataGridViewRow.Cells[Index] is KryptonDataGridViewDateTimePickerCell dataGridViewCell)
@@ -402,7 +402,7 @@ public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconCo
                 var rowCount = dataGridViewRows.Count;
                 for (var rowIndex = 0; rowIndex < rowCount; rowIndex++)
                 {
-                    // Be careful not to unshare rows unnecessarily. 
+                    // Be careful not to unshare rows unnecessarily.
                     // This could have severe performance repercussions.
                     DataGridViewRow dataGridViewRow = dataGridViewRows.SharedRow(rowIndex);
                     if (dataGridViewRow.Cells[Index] is KryptonDataGridViewDateTimePickerCell dataGridViewCell)
@@ -450,7 +450,7 @@ public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconCo
                 var rowCount = dataGridViewRows.Count;
                 for (var rowIndex = 0; rowIndex < rowCount; rowIndex++)
                 {
-                    // Be careful not to unshare rows unnecessarily. 
+                    // Be careful not to unshare rows unnecessarily.
                     // This could have severe performance repercussions.
                     DataGridViewRow dataGridViewRow = dataGridViewRows.SharedRow(rowIndex);
                     if (dataGridViewRow.Cells[Index] is KryptonDataGridViewDateTimePickerCell dataGridViewCell)
@@ -474,7 +474,7 @@ public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconCo
     private void ResetMinDate() => MinDate = DateTime.MinValue;
 
     /// <summary>
-    /// Gets or sets the number of columns and rows of months Displayed. 
+    /// Gets or sets the number of columns and rows of months Displayed.
     /// </summary>
     [Category(@"MonthCalendar")]
     [Description(@"Specifies the number of rows and columns of months Displayed.")]
@@ -499,7 +499,7 @@ public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconCo
                 var rowCount = dataGridViewRows.Count;
                 for (var rowIndex = 0; rowIndex < rowCount; rowIndex++)
                 {
-                    // Be careful not to unshare rows unnecessarily. 
+                    // Be careful not to unshare rows unnecessarily.
                     // This could have severe performance repercussions.
                     DataGridViewRow dataGridViewRow = dataGridViewRows.SharedRow(rowIndex);
                     if (dataGridViewRow.Cells[Index] is KryptonDataGridViewDateTimePickerCell dataGridViewCell)
@@ -514,7 +514,7 @@ public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconCo
     }
 
     /// <summary>
-    /// Gets or sets the label text for todays text. 
+    /// Gets or sets the label text for todays text.
     /// </summary>
     [Category(@"MonthCalendar")]
     [Description(@"Text used as label for todays date.")]
@@ -541,7 +541,7 @@ public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconCo
                 var rowCount = dataGridViewRows.Count;
                 for (var rowIndex = 0; rowIndex < rowCount; rowIndex++)
                 {
-                    // Be careful not to unshare rows unnecessarily. 
+                    // Be careful not to unshare rows unnecessarily.
                     // This could have severe performance repercussions.
                     DataGridViewRow dataGridViewRow = dataGridViewRows.SharedRow(rowIndex);
                     if (dataGridViewRow.Cells[Index] is KryptonDataGridViewDateTimePickerCell dataGridViewCell)
@@ -586,7 +586,7 @@ public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconCo
                 var rowCount = dataGridViewRows.Count;
                 for (var rowIndex = 0; rowIndex < rowCount; rowIndex++)
                 {
-                    // Be careful not to unshare rows unnecessarily. 
+                    // Be careful not to unshare rows unnecessarily.
                     // This could have severe performance repercussions.
                     DataGridViewRow dataGridViewRow = dataGridViewRows.SharedRow(rowIndex);
                     if (dataGridViewRow.Cells[Index] is KryptonDataGridViewDateTimePickerCell dataGridViewCell)
@@ -626,7 +626,7 @@ public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconCo
                 var rowCount = dataGridViewRows.Count;
                 for (var rowIndex = 0; rowIndex < rowCount; rowIndex++)
                 {
-                    // Be careful not to unshare rows unnecessarily. 
+                    // Be careful not to unshare rows unnecessarily.
                     // This could have severe performance repercussions.
                     DataGridViewRow dataGridViewRow = dataGridViewRows.SharedRow(rowIndex);
                     if (dataGridViewRow.Cells[Index] is KryptonDataGridViewDateTimePickerCell dataGridViewCell)
@@ -666,7 +666,7 @@ public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconCo
                 var rowCount = dataGridViewRows.Count;
                 for (var rowIndex = 0; rowIndex < rowCount; rowIndex++)
                 {
-                    // Be careful not to unshare rows unnecessarily. 
+                    // Be careful not to unshare rows unnecessarily.
                     // This could have severe performance repercussions.
                     DataGridViewRow dataGridViewRow = dataGridViewRows.SharedRow(rowIndex);
                     if (dataGridViewRow.Cells[Index] is KryptonDataGridViewDateTimePickerCell dataGridViewCell)
@@ -706,7 +706,7 @@ public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconCo
                 var rowCount = dataGridViewRows.Count;
                 for (var rowIndex = 0; rowIndex < rowCount; rowIndex++)
                 {
-                    // Be careful not to unshare rows unnecessarily. 
+                    // Be careful not to unshare rows unnecessarily.
                     // This could have severe performance repercussions.
                     DataGridViewRow dataGridViewRow = dataGridViewRows.SharedRow(rowIndex);
                     if (dataGridViewRow.Cells[Index] is KryptonDataGridViewDateTimePickerCell dataGridViewCell)
@@ -746,7 +746,7 @@ public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconCo
                 var rowCount = dataGridViewRows.Count;
                 for (var rowIndex = 0; rowIndex < rowCount; rowIndex++)
                 {
-                    // Be careful not to unshare rows unnecessarily. 
+                    // Be careful not to unshare rows unnecessarily.
                     // This could have severe performance repercussions.
                     DataGridViewRow dataGridViewRow = dataGridViewRows.SharedRow(rowIndex);
                     if (dataGridViewRow.Cells[Index] is KryptonDataGridViewDateTimePickerCell dataGridViewCell)
@@ -785,7 +785,7 @@ public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconCo
                 var rowCount = dataGridViewRows.Count;
                 for (var rowIndex = 0; rowIndex < rowCount; rowIndex++)
                 {
-                    // Be careful not to unshare rows unnecessarily. 
+                    // Be careful not to unshare rows unnecessarily.
                     // This could have severe performance repercussions.
                     DataGridViewRow dataGridViewRow = dataGridViewRows.SharedRow(rowIndex);
                     if (dataGridViewRow.Cells[Index] is KryptonDataGridViewDateTimePickerCell dataGridViewCell)
@@ -832,7 +832,7 @@ public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconCo
     private void ResetCalendarAnnuallyBoldedDates() => CalendarAnnuallyBoldedDates = null;
 
     /// <summary>
-    /// Gets or sets the array of DateTime objects that determine which monthly days to bold. 
+    /// Gets or sets the array of DateTime objects that determine which monthly days to bold.
     /// </summary>
     [Category(@"MonthCalendar")]
     [Description(@"Indicates which monthly dates should be boldface.")]
@@ -904,6 +904,7 @@ public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconCo
     /// For internal use only.
     /// </summary>
     internal Image? CellIndicatorImage => _kryptonDataGridViewCellIndicatorImage.Image;
+    internal Image? GetIndicatorImageForSize(int size) => _kryptonDataGridViewCellIndicatorImage.GetOrCreate(size);
     #endregion Internal
 
     #region Protected
