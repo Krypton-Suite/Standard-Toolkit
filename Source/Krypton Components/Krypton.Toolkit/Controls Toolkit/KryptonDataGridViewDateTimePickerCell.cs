@@ -535,7 +535,21 @@ public class KryptonDataGridViewDateTimePickerCell : DataGridViewTextBoxCell
 
         if (value is DateTime dt)
         {
-            return _dtc.ConvertToInvariantString(dt);
+            string format = cellStyle?.Format;
+            if (string.IsNullOrEmpty(format))
+            {
+                format = _format switch
+                {
+                    DateTimePickerFormat.Long => CultureInfo.CurrentCulture.DateTimeFormat.LongDatePattern,
+                    DateTimePickerFormat.Short => CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern,
+                    DateTimePickerFormat.Time => CultureInfo.CurrentCulture.DateTimeFormat.LongTimePattern,
+                    DateTimePickerFormat.Custom => string.IsNullOrEmpty(_customFormat) ? "G" : CommonHelper.MakeCustomDateFormat(_customFormat),
+                    _ => "G"
+                };
+            }
+
+            var provider = (cellStyle?.FormatProvider as IFormatProvider) ?? CultureInfo.CurrentCulture;
+            return dt.ToString(format, provider);
         }
 
         return base.GetFormattedValue(value, rowIndex, ref cellStyle, valueTypeConverter, formattedValueTypeConverter, context);
@@ -623,7 +637,13 @@ public class KryptonDataGridViewDateTimePickerCell : DataGridViewTextBoxCell
                     && str.Length > 0
                     && DateTime.TryParse(str, out DateTime dt))
                 {
-                    formattedValue = dt.ToString(InheritedStyle.Format);
+                    string fmt = cellStyle?.Format ?? string.Empty;
+                    if (string.IsNullOrEmpty(fmt))
+                    {
+                        fmt = "G";
+                    }
+                    var provider = (cellStyle?.FormatProvider as IFormatProvider) ?? CultureInfo.CurrentCulture;
+                    formattedValue = dt.ToString(fmt, provider);
                 }
             }
             else
@@ -667,15 +687,58 @@ public class KryptonDataGridViewDateTimePickerCell : DataGridViewTextBoxCell
             return new Size(-1, -1);
         }
 
-        Size preferredSize = base.GetPreferredSize(graphics, cellStyle, rowIndex, constraintSize);
-        if (constraintSize.Width == 0)
+        if (rowIndex < 0)
         {
-            const int ButtonsWidth = 16; // Account for the width of the up/down buttons.
-            const int ButtonMargin = 8;  // Account for some blank pixels between the text and buttons.
-            preferredSize.Width += ButtonsWidth + ButtonMargin;
+            Size hdr = base.GetPreferredSize(graphics, cellStyle, rowIndex, constraintSize);
+            const int IndicatorWidth = 16;
+            const int IndicatorMargin = 3;
+            hdr.Width += IndicatorWidth + IndicatorMargin;
+            return hdr;
         }
 
-        return preferredSize;
+        const int IndicatorW = 16;
+        const int IndicatorGap = 3;
+
+        string format = cellStyle?.Format ?? string.Empty;
+        if (string.IsNullOrEmpty(format))
+        {
+            format = "G";
+        }
+
+        var provider = (cellStyle?.FormatProvider as IFormatProvider) ?? CultureInfo.CurrentCulture;
+
+        object? raw = GetValue(rowIndex);
+        string text;
+        if (raw is DateTime dt)
+        {
+            text = dt.ToString(format, provider);
+        }
+        else if (raw is string s && DateTime.TryParse(s, out DateTime parsed))
+        {
+            text = parsed.ToString(format, provider);
+        }
+        else
+        {
+            text = Convert.ToString(raw, CultureInfo.CurrentCulture) ?? string.Empty;
+        }
+
+        bool rtl = DataGridView.RightToLeft == RightToLeft.Yes;
+        TextFormatFlags flags = KryptonDataGridViewUtilities.ComputeTextFormatFlagsForCellStyleAlignment(rtl, cellStyle.Alignment, cellStyle.WrapMode);
+
+        Size textSize;
+        if ((constraintSize.Width > 0) && (cellStyle.WrapMode != DataGridViewTriState.False))
+        {
+            int availTextW = Math.Max(1, constraintSize.Width - IndicatorW - IndicatorGap - cellStyle.Padding.Horizontal);
+            textSize = TextRenderer.MeasureText(graphics, text, cellStyle.Font, new Size(availTextW, int.MaxValue), flags);
+        }
+        else
+        {
+            textSize = TextRenderer.MeasureText(graphics, text, cellStyle.Font, Size.Empty, flags);
+        }
+
+        int width = textSize.Width + cellStyle.Padding.Horizontal + IndicatorW + IndicatorGap + 1;
+        int height = Math.Max(textSize.Height + cellStyle.Padding.Vertical + 1, base.GetPreferredSize(graphics, cellStyle, rowIndex, constraintSize).Height);
+        return new Size(width, height);
     }
     #endregion
 
