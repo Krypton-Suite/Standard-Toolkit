@@ -3,6 +3,7 @@
 ====
 
 ## 2025-11-xx - Build 2511 (V10 - alpha) - November 2025
+* Resolved [#1022](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1022), `Material - Dark` fixes for KDGV painting
 * Resolved [#2103](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2103), Ensure that `KryptonForm` properly supports RTL
 * Resolved [#413](https://github.com/Krypton-Suite/Standard-Toolkit/issues/413), `KryptonRibbon` controls do not react to MouseWheel scolling
 * Resolved [#2424](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2424), Fix `NoClipping` in `AccurateText`; `Ellipsis` conditional
@@ -17,7 +18,7 @@
 * Implemented [#2048](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2048), `KryptonStatusStrip` control theming
 * Implemented [#2291](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2291), Add tooltips to `KryptonPictureBox`
 * Resolved [#2401](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2401), Fix `KryptonComboBox` event `OnEnabledChanged`
-* Resolved [#2397](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2397), `KryptonForm` throws and exception on CTRL+F1
+* Resolved [#2397](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2397), `KryptonForm` throws and exception on CTRL+F
 * Implemented [#2392](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2392), Fix `KryptonPropertyGrid` theme switching
 * Implemented [#2389](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2389), Transform private color arrays in base palettes
 * Implemented [#2377](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2377), Adds the `KryptonDataGridViewRatingColumn`
