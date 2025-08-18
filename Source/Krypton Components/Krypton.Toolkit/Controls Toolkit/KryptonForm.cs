@@ -1378,7 +1378,11 @@ public class KryptonForm : VisualForm,
 
         // Ensure the sizing grip reflects new theme immediately and after palette settles
         RecalcNonClient();
-        BeginInvoke(new System.Windows.Forms.MethodInvoker(RecalcNonClient));
+        // Deferred call for theme churning during toggle
+        if (IsHandleCreated)
+        {
+            BeginInvoke(new System.Windows.Forms.MethodInvoker(RecalcNonClient));
+        }
     }
 
     /// <summary>
@@ -2248,7 +2252,10 @@ public class KryptonForm : VisualForm,
 
             // Ensure sizing grip updates with theme
             RecalcNonClient();
-            BeginInvoke(new System.Windows.Forms.MethodInvoker(RecalcNonClient));
+            if (IsHandleCreated)
+            {
+                BeginInvoke(new System.Windows.Forms.MethodInvoker(RecalcNonClient));
+            }
         }
     }
 
