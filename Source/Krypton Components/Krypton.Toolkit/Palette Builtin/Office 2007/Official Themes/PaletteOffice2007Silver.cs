@@ -182,7 +182,7 @@ public class PaletteOffice2007Silver : PaletteOffice2007Base
 
     #region Images
     /// <inheritdoc />
-    public override Image? GetSizeGripImage(bool isRtl) => SizeGripStyleResources.Office2007SilverGripStyle;
+    public override Image? GetSizeGripImage(RightToLeft isRtl) => SizeGripStyleResources.Office2007SilverGripStyle;
     #endregion
 
     #region Tab Row Background

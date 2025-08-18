@@ -1286,9 +1286,9 @@ public class KryptonCustomPaletteBase : PaletteBase
     /// <summary>
     /// Gets a sizing grip image appropriate for the provided orientation.
     /// </summary>
-    /// <param name="isRtl">If true, request an RTL-oriented image; otherwise LTR.</param>
+    /// <param name="isRtl">If Yes, request an RTL-oriented image; otherwise LTR.</param>
     /// <returns>Appropriate image for drawing; otherwise null.</returns>
-    public override Image? GetSizeGripImage(bool isRtl)
+    public override Image? GetSizeGripImage(RightToLeft isRtl)
     {
         // Currently no per-theme images exposed via Images; defer to base palette
         return _redirector.GetSizeGripImage(isRtl);

@@ -65,7 +65,7 @@ public class PaletteOffice2007Black : PaletteOffice2007Base
 
     #region Images
     /// <inheritdoc />
-    public override Image? GetSizeGripImage(bool isRtl) => SizeGripStyleResources.Office2007BlackGripStyle;
+    public override Image? GetSizeGripImage(RightToLeft isRtl) => SizeGripStyleResources.Office2007BlackGripStyle;
     #endregion
 
     #region Identity

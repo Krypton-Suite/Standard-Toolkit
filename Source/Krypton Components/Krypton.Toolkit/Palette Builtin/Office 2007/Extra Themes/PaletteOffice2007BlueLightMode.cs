@@ -4007,7 +4007,7 @@ public abstract class PaletteOffice2007BlueLightModeBase : PaletteBase
     public override Image? GetTreeViewImage(bool expanded) => expanded ? _treeMinus : _treePlus;
 
     /// <inheritdoc />
-    public override Image? GetSizeGripImage(bool isRtl) => null;
+    public override Image? GetSizeGripImage(RightToLeft isRtl) => null;
 
     /// <summary>
     /// Gets a check box image appropriate for the provided state.

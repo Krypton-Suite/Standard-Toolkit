@@ -109,6 +109,8 @@ public class KryptonForm : VisualForm,
     private readonly KryptonPanel _internalKryptonPanel;
     // Compensate for Windows 11 outer accent border by shrinking the window region slightly
     private const int NON_CLIENT_REGION_INSET = 4;
+    private Rectangle _lastGripClientRect = Rectangle.Empty;
+    private Rectangle _lastGripWindowRect = Rectangle.Empty;
 
     #endregion
 
@@ -171,13 +173,14 @@ public class KryptonForm : VisualForm,
 
         // Create a null element that takes up all remaining space
         _layoutNull = new ViewLayoutNull();
-        // Create the internal panel used for containing content
+        // Create the internal panel used for containing content (custom panel draws sizing grip)
         _internalKryptonPanel = new KryptonPanel
         {
             Dock = DockStyle.Fill,
             Location = new Point(0, 0),
             Margin = new Padding(0),
             Name = "InternalKryptonPanel",
+            Padding = new Padding(0),
             Size = new Size(100, 100),
             TabStop = false,
         };
@@ -387,7 +390,7 @@ public class KryptonForm : VisualForm,
     private bool TryDrawResourceGrip(Graphics g, Rectangle dest)
     {
         // First, ask the palette for a themed sizing grip image (RTL-aware)
-        bool isRtl = RightToLeftLayout;
+        var isRtl = RightToLeftLayout ? RightToLeft.Yes : RightToLeft.No;
         Image? themedGrip = GetResolvedPalette().GetSizeGripImage(isRtl);
         if (themedGrip is null)
         {
@@ -403,7 +406,7 @@ public class KryptonForm : VisualForm,
             return false;
         }
 
-        int x = isRtl ? dest.Left : dest.Right - scaled.Width;
+        int x = RightToLeftLayout ? dest.Left : dest.Right - scaled.Width;
         int y = dest.Bottom - scaled.Height;
 
         // Apply color-key transparency like legacy resources (top-left pixel)
@@ -418,8 +421,6 @@ public class KryptonForm : VisualForm,
                     0, 0, scaled.Width, scaled.Height, GraphicsUnit.Pixel, ia1);
         return true;
     }
-
-    // InternalPanel_Paint and overlay were removed; painting now happens in OnNonClientPaint.
 
     /// <summary>
     /// Releases all resources used by the Control.
@@ -1376,7 +1377,7 @@ public class KryptonForm : VisualForm,
 
         ApplyMaterialFormChromeDefaultsIfNeeded();
 
-        // Ensure the sizing grip reflects new theme immediately and after palette settles
+        // Ensure the sizing grip reflects new theme immediately
         RecalcNonClient();
         // Deferred call for theme churning during toggle
         if (IsHandleCreated)
@@ -1401,6 +1402,7 @@ public class KryptonForm : VisualForm,
     protected override void WndProc(ref Message m)
     {
         const int WM_HELP = 0x0053;
+        const int WM_PAINT = 0x000F;
 
         if (m.Msg == WM_HELP)
         {
@@ -1425,46 +1427,81 @@ public class KryptonForm : VisualForm,
             return;
         }
 
+        // Let default processing run first
         base.WndProc(ref m);
+
+        // After the client has painted, draw our grip overlay last so it isn't erased
+        if (m.Msg == WM_PAINT)
+        {
+            DrawSizingGripOverlayIfNeeded();
+        }
+    }
+
+    private void DrawSizingGripOverlayIfNeeded()
+    {
+        if (!ShouldShowSizingGrip())
+        {
+            if (_lastGripClientRect != Rectangle.Empty)
+            {
+                var oldClient = new PI.RECT { left = _lastGripClientRect.Left, top = _lastGripClientRect.Top, right = _lastGripClientRect.Right, bottom = _lastGripClientRect.Bottom };
+                PI.RedrawWindow(Handle, ref oldClient, IntPtr.Zero, PI.RDW_INVALIDATE | PI.RDW_ALLCHILDREN | PI.RDW_UPDATENOW);
+                _lastGripClientRect = Rectangle.Empty;
+                _lastGripWindowRect = Rectangle.Empty;
+            }
+            return;
+        }
+
+        var (newRect, _) = GetGripRectAndRtl();
+        Padding bordersNow = RealWindowBorders;
+        var newClientRect = new Rectangle(Math.Max(0, newRect.X - bordersNow.Left), Math.Max(0, newRect.Y - bordersNow.Top), newRect.Width, newRect.Height);
+        if (_lastGripClientRect != Rectangle.Empty && _lastGripClientRect != newClientRect)
+        {
+            var oldClient = new PI.RECT { left = _lastGripClientRect.Left, top = _lastGripClientRect.Top, right = _lastGripClientRect.Right, bottom = _lastGripClientRect.Bottom };
+            PI.RedrawWindow(Handle, ref oldClient, IntPtr.Zero, PI.RDW_INVALIDATE | PI.RDW_ALLCHILDREN | PI.RDW_UPDATENOW);
+            _lastGripClientRect = Rectangle.Empty;
+            _lastGripWindowRect = Rectangle.Empty;
+        }
+
+        IntPtr hDC = PI.GetWindowDC(Handle);
+        if (hDC == IntPtr.Zero)
+        {
+            return;
+        }
+
+        try
+        {
+            // Restrict drawing strictly to the grip rectangle in window coordinates
+            PI.IntersectClipRect(hDC, newRect.Left, newRect.Top, newRect.Right, newRect.Bottom);
+            using (Graphics g = Graphics.FromHdc(hDC))
+            {
+                DrawSizingGrip(g, newRect);
+            }
+            _lastGripWindowRect = newRect;
+            _lastGripClientRect = newClientRect;
+        }
+        finally
+        {
+            PI.ReleaseDC(Handle, hDC);
+        }
     }
 
     /// <summary>
-    /// Draw after base non-client painting using a fresh window DC so we can overlay inside client area.
+    /// Draw after base non-client painting using a fresh window DC. We clip out the client area
+    /// so the sizing grip never paints over child controls.
     /// </summary>
     protected override void OnNonClientPaint(IntPtr hWnd)
     {
+        // Let the base draw the border/chrome; our grippie is drawn in WM_PAINT overlay only
         base.OnNonClientPaint(hWnd);
-        IntPtr hDC = PI.GetWindowDC(Handle);
-        if (hDC != IntPtr.Zero)
-        {
-            try
-            {
-                using (Graphics g = Graphics.FromHdc(hDC))
-                {
-                    var (gripRect, _) = GetGripRectAndRtl();
-                    if (ShouldShowSizingGrip())
-                    {
-                        DrawSizingGrip(g, gripRect);
-                    }
-                    else
-                    {
-                        // Request client repaint of the grip area to remove any previous drawing without overpainting client content
-                        Padding borders = RealWindowBorders;
-                        var clientWipe = new Rectangle(
-                            Math.Max(0, gripRect.X - borders.Left),
-                            Math.Max(0, gripRect.Y - borders.Top),
-                            gripRect.Width,
-                            gripRect.Height);
-                        _internalKryptonPanel.Invalidate(clientWipe);
-                        _internalKryptonPanel.Update();
-                    }
-                }
-            }
-            finally
-            {
-                PI.ReleaseDC(Handle, hDC);
-            }
-        }
+    }
+
+    private Rectangle GetGripClientRect()
+    {
+        var dpi = GetDpiFactor();
+        int size = Math.Max(16, (int)Math.Round(16 * dpi));
+        int x = RightToLeftLayout ? 0 : Math.Max(0, _internalKryptonPanel.ClientSize.Width - size);
+        int y = Math.Max(0, _internalKryptonPanel.ClientSize.Height - size);
+        return new Rectangle(x, y, size, size);
     }
 
     /// <summary>Ensures MDI logic runs correctly after form creation.</summary>

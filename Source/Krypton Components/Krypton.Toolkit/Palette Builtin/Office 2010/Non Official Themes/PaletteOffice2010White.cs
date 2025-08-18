@@ -128,7 +128,7 @@ public class PaletteOffice2010White : PaletteOffice2010Base
     #region Images
 
     /// <inheritdoc />
-    public override Image? GetSizeGripImage(bool isRtl) => SizeGripStyleResources.Office2010SilverGripStyle;
+    public override Image? GetSizeGripImage(RightToLeft isRtl) => SizeGripStyleResources.Office2010SilverGripStyle;
 
     /// <summary>
     /// Gets an image indicating a sub-menu on a context menu item.

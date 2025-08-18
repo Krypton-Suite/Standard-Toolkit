@@ -3536,7 +3536,7 @@ public abstract class PaletteOffice2010Base : PaletteBase
     public override Image? GetTreeViewImage(bool expanded) => expanded ? _treeCollapseBlack : _treeExpandWhite;
 
     /// <inheritdoc />
-    public override Image? GetSizeGripImage(bool isRtl) => null;
+    public override Image? GetSizeGripImage(RightToLeft isRtl) => null;
 
     /// <summary>
     /// Gets a check box image appropriate for the provided state.

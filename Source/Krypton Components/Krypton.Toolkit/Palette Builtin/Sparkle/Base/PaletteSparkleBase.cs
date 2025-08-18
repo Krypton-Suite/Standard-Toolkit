@@ -3134,7 +3134,7 @@ public class PaletteSparkleBase : PaletteBase
     /// </summary>
     /// <param name="isRtl">If true, request an RTL-oriented image; otherwise LTR.</param>
     /// <returns>Appropriate image for drawing; otherwise null.</returns>
-    public override Image? GetSizeGripImage(bool isRtl) => null;
+    public override Image? GetSizeGripImage(RightToLeft isRtl) => null;
 
     /// <summary>
     /// Gets a check box image appropriate for the provided state.

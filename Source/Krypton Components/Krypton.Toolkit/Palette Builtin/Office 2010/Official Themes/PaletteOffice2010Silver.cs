@@ -221,7 +221,7 @@ public class PaletteOffice2010Silver : PaletteOffice2010Base
     #region Images
 
     /// <inheritdoc />
-    public override Image? GetSizeGripImage(bool isRtl) => SizeGripStyleResources.Office2010SilverGripStyle;
+    public override Image? GetSizeGripImage(RightToLeft isRtl) => SizeGripStyleResources.Office2010SilverGripStyle;
 
     #endregion
 }

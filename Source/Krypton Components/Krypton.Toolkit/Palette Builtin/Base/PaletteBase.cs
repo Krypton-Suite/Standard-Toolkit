@@ -751,9 +751,9 @@ public abstract class PaletteBase : Component
     /// <summary>
     /// Gets a sizing grip image appropriate for the provided orientation.
     /// </summary>
-    /// <param name="isRtl">If true, request an RTL-oriented image; otherwise LTR.</param>
+    /// <param name="isRtl">If Yes, request an RTL-oriented image; otherwise LTR.</param>
     /// <returns>Appropriate image for drawing; otherwise null.</returns>
-    public abstract Image? GetSizeGripImage(bool isRtl);
+    public abstract Image? GetSizeGripImage(RightToLeft isRtl);
 
     /// <summary>
     /// Gets a check box image appropriate for the provided state.

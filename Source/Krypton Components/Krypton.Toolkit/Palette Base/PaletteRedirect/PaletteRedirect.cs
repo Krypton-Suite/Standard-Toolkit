@@ -658,7 +658,7 @@ public class PaletteRedirect : PaletteBase, IGlobalId
     /// </summary>
     /// <param name="isRtl">If true, request an RTL-oriented image; otherwise LTR.</param>
     /// <returns>Appropriate image for drawing; otherwise null.</returns>
-    public override Image? GetSizeGripImage(bool isRtl) => _target?.GetSizeGripImage(isRtl);
+    public override Image? GetSizeGripImage(RightToLeft isRtl) => _target?.GetSizeGripImage(isRtl);
 
     /// <summary>
     /// Gets a checkbox image appropriate for the provided state.

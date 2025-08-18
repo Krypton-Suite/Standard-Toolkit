@@ -244,7 +244,7 @@ public class PaletteOffice2010Black : PaletteOffice2010BlackBase
     #region Images
 
     /// <inheritdoc />
-    public override Image? GetSizeGripImage(bool isRtl) => SizeGripStyleResources.Office2010BlackGripStyle;
+    public override Image? GetSizeGripImage(RightToLeft isRtl) => SizeGripStyleResources.Office2010BlackGripStyle;
 
     #endregion
 }
