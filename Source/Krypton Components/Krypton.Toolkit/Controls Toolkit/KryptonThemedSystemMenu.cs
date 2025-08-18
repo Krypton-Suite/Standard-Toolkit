@@ -437,6 +437,14 @@ public class KryptonThemedSystemMenu : IKryptonThemedSystemMenu
                 {
                     menuItem.Image = GetSystemMenuIcon(SystemMenuIconType.Restore);
                 }
+                else if (text.StartsWith("Move"))
+                {
+                    menuItem.Image = GetSystemMenuIcon(SystemMenuIconType.Move);
+                }
+                else if (text.StartsWith("Size"))
+                {
+                    menuItem.Image = GetSystemMenuIcon(SystemMenuIconType.Size);
+                }
                 else if (text.StartsWith("Minimize"))
                 {
                     menuItem.Image = GetSystemMenuIcon(SystemMenuIconType.Minimize);

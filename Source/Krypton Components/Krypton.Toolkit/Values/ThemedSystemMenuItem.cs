@@ -22,6 +22,7 @@ public class ThemedSystemMenuItem : IComponent
     private bool _visible = true;
     private bool _insertBeforeClose = true;
     private Image? _image;
+    private KryptonCommand? _command;
     private ISite? _site;
     #endregion
 
@@ -175,6 +176,25 @@ public class ThemedSystemMenuItem : IComponent
             }
         }
     }
+
+    /// <summary>
+    /// Gets or sets the KryptonCommand associated with this menu item.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"The KryptonCommand that will be executed when this menu item is clicked.")]
+    [DefaultValue(null)]
+    public KryptonCommand? Command
+    {
+        get => _command;
+        set
+        {
+            if (_command != value)
+            {
+                _command = value;
+                OnPropertyChanged();
+            }
+        }
+    }
     #endregion
 
     #region IComponent
@@ -219,6 +239,12 @@ public class ThemedSystemMenuItem : IComponent
         item.Enabled = _enabled;
         item.Visible = _visible;
         item.Image = _image;
+        
+        // Set the command if provided
+        if (_command != null)
+        {
+            item.KryptonCommand = _command;
+        }
         
         return item;
     }

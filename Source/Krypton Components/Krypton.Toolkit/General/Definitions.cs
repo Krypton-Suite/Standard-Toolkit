@@ -3219,6 +3219,10 @@ public enum SystemMenuIconType
 {
     /// <summary>Restore icon (square with arrow)</summary>
     Restore,
+    /// <summary>Move icon (four-headed arrow)</summary>
+    Move,
+    /// <summary>Size icon (diagonal resize arrow)</summary>
+    Size,
     /// <summary>Minimize icon (horizontal line)</summary>
     Minimize,
     /// <summary>Maximize icon (square outline)</summary>
