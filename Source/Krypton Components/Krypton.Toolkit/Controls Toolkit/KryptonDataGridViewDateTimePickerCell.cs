@@ -499,7 +499,25 @@ public class KryptonDataGridViewDateTimePickerCell : DataGridViewTextBoxCell
             }
             else
             {
-                if (_dtc.ConvertFromInvariantString(initialFormattedValueStr) is DateTime dt)
+                var provider = (dataGridViewCellStyle?.FormatProvider as IFormatProvider) ?? CultureInfo.CurrentCulture;
+                var culture = provider as CultureInfo ?? CultureInfo.CurrentCulture;
+
+                string fmt = dataGridViewCellStyle?.Format ?? string.Empty;
+                if (string.IsNullOrEmpty(fmt))
+                {
+                    fmt = _format switch
+                    {
+                        DateTimePickerFormat.Long => culture.DateTimeFormat.LongDatePattern,
+                        DateTimePickerFormat.Short => culture.DateTimeFormat.ShortDatePattern,
+                        DateTimePickerFormat.Time => culture.DateTimeFormat.LongTimePattern,
+                        DateTimePickerFormat.Custom => string.IsNullOrEmpty(_customFormat) ? "G" : CommonHelper.MakeCustomDateFormat(_customFormat),
+                        _ => "G"
+                    };
+                }
+
+                if (DateTime.TryParseExact(initialFormattedValueStr, fmt, culture, DateTimeStyles.AllowWhiteSpaces, out DateTime dt)
+                    || DateTime.TryParse(initialFormattedValueStr, culture, DateTimeStyles.AllowWhiteSpaces, out dt)
+                    || DateTime.TryParse(initialFormattedValueStr, CultureInfo.InvariantCulture, DateTimeStyles.AllowWhiteSpaces, out dt))
                 {
                     dateTime.Value = dt;
                 }
@@ -572,10 +590,82 @@ public class KryptonDataGridViewDateTimePickerCell : DataGridViewTextBoxCell
         {
             return DBNull.Value;
         }
+
+        string stringValue = (string)formattedValue;
+        if (string.IsNullOrEmpty(stringValue))
+        {
+            return DBNull.Value;
+        }
+
+        var provider = (cellStyle?.FormatProvider as IFormatProvider) ?? CultureInfo.CurrentCulture;
+        var culture = provider as CultureInfo ?? CultureInfo.CurrentCulture;
+
+        string fmt = cellStyle?.Format ?? string.Empty;
+        if (string.IsNullOrEmpty(fmt))
+        {
+            fmt = _format switch
+            {
+                DateTimePickerFormat.Long => culture.DateTimeFormat.LongDatePattern,
+                DateTimePickerFormat.Short => culture.DateTimeFormat.ShortDatePattern,
+                DateTimePickerFormat.Time => culture.DateTimeFormat.LongTimePattern,
+                DateTimePickerFormat.Custom => string.IsNullOrEmpty(_customFormat) ? "G" : CommonHelper.MakeCustomDateFormat(_customFormat),
+                _ => "G"
+            };
+        }
+
+        if (DateTime.TryParseExact(stringValue, fmt, culture, DateTimeStyles.AllowWhiteSpaces, out DateTime dt)
+            || DateTime.TryParse(stringValue, culture, DateTimeStyles.AllowWhiteSpaces, out dt)
+            || DateTime.TryParse(stringValue, CultureInfo.InvariantCulture, DateTimeStyles.AllowWhiteSpaces, out dt))
+        {
+            return dt;
+        }
+
+        return _dtc.ConvertFromString(null, culture, stringValue)!;
+    }
+
+    /// <summary>
+    /// Ensure the editing control uses the full cell width (don't reserve dropdown space in edit mode).
+    /// </summary>
+    public override void PositionEditingControl(bool setLocation,
+        bool setSize,
+        Rectangle cellBounds,
+        Rectangle cellClip,
+        DataGridViewCellStyle cellStyle,
+        bool singleVerticalBorderAdded,
+        bool singleHorizontalBorderAdded,
+        bool isFirstDisplayedColumn,
+        bool isFirstDisplayedRow)
+    {
+        Rectangle editingControlBounds = PositionEditingPanel(cellBounds, cellClip, cellStyle,
+            singleVerticalBorderAdded, singleHorizontalBorderAdded, isFirstDisplayedColumn, isFirstDisplayedRow);
+
+        const int indicatorSize = 16;
+        const int indicatorGap = 3;
+        bool rtl = DataGridView?.RightToLeft == RightToLeft.Yes;
+        if (rtl)
+        {
+            int delta = Math.Min(indicatorSize + indicatorGap, editingControlBounds.X - cellBounds.X);
+            editingControlBounds.X -= delta;
+            editingControlBounds.Width += delta;
+        }
         else
         {
-            string stringValue = (string)formattedValue;
-            return string.IsNullOrEmpty(stringValue) ? DBNull.Value : _dtc.ConvertFromInvariantString(stringValue)!;
+            int available = cellBounds.Right - (editingControlBounds.X + editingControlBounds.Width);
+            int delta = Math.Min(indicatorSize + indicatorGap, available);
+            editingControlBounds.Width += delta;
+        }
+
+        editingControlBounds = GetAdjustedEditingControlBounds(editingControlBounds, cellStyle);
+        if (DataGridView?.EditingControl is not null)
+        {
+            if (setLocation)
+            {
+                DataGridView.EditingControl.Location = new Point(editingControlBounds.X, editingControlBounds.Y);
+            }
+            if (setSize)
+            {
+                DataGridView.EditingControl.Size = new Size(editingControlBounds.Width, editingControlBounds.Height);
+            }
         }
     }
     #endregion
@@ -592,8 +682,7 @@ public class KryptonDataGridViewDateTimePickerCell : DataGridViewTextBoxCell
             Rectangle textArea;
             var righToLeft = DataGridView.RightToLeft == RightToLeft.Yes;
 
-            int availableHeight = cellBounds.Height - cellStyle.Padding.Top - cellStyle.Padding.Bottom - 2;
-            int indicatorSize = Math.Max(12, availableHeight);
+            const int indicatorSize = 16;
 
             if (righToLeft)
             {
@@ -630,7 +719,8 @@ public class KryptonDataGridViewDateTimePickerCell : DataGridViewTextBoxCell
             if (ErrorText.Length == 0)
             {
                 var sized = KryptonOwningColumn?.GetIndicatorImageForSize(indicatorSize) ?? image;
-                graphics.DrawImage(sized, new Rectangle(pos, textArea.Top, indicatorSize, indicatorSize));
+                int y = textArea.Top + (textArea.Height - indicatorSize) / 2;
+                graphics.DrawImage(sized, new Rectangle(pos, y, indicatorSize, indicatorSize));
 
                 if (DataGridView.Rows.SharedRow(rowIndex).Index != -1
                     && formattedValue is string str
@@ -779,6 +869,30 @@ public class KryptonDataGridViewDateTimePickerCell : DataGridViewTextBoxCell
     private bool OwnsEditingDateTimePicker(int rowIndex) =>
         rowIndex != -1 && DataGridView is { EditingControl: KryptonDataGridViewDateTimePickerEditingControl control }
                        && (rowIndex == ((IDataGridViewEditingControl)control).EditingControlRowIndex);
+
+    private Rectangle GetAdjustedEditingControlBounds(Rectangle editingControlBounds,
+        DataGridViewCellStyle cellStyle)
+    {
+        var preferredHeight = DataGridView!.EditingControl!.GetPreferredSize(new Size(editingControlBounds.Width, 10000)).Height;
+        if (preferredHeight < editingControlBounds.Height)
+        {
+            switch (cellStyle.Alignment)
+            {
+                case DataGridViewContentAlignment.MiddleLeft:
+                case DataGridViewContentAlignment.MiddleCenter:
+                case DataGridViewContentAlignment.MiddleRight:
+                    editingControlBounds.Y += (editingControlBounds.Height - preferredHeight) / 2;
+                    break;
+                case DataGridViewContentAlignment.BottomLeft:
+                case DataGridViewContentAlignment.BottomCenter:
+                case DataGridViewContentAlignment.BottomRight:
+                    editingControlBounds.Y += editingControlBounds.Height - preferredHeight;
+                    break;
+            }
+        }
+
+        return editingControlBounds;
+    }
 
     #endregion
 

@@ -896,7 +896,6 @@ public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconCo
     private KryptonDataGridViewDateTimePickerCell? DateTimePickerCellTemplate => CellTemplate as KryptonDataGridViewDateTimePickerCell;
     // Cell indicator image instance
     private KryptonDataGridViewCellIndicatorImage _kryptonDataGridViewCellIndicatorImage;
-    private DataGridView? _subscribedGrid;
 
     private bool ShouldSerializeDefaultCellStyle()
     {
@@ -920,6 +919,13 @@ public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconCo
                || defaultCellStyle.WrapMode != DataGridViewTriState.NotSet
                || defaultCellStyle.Tag != null
                || !defaultCellStyle.Padding.Equals(Padding.Empty);
+    }
+
+    /// <inheritdoc/>
+    protected override void OnDataGridViewChanged()
+    {
+        _kryptonDataGridViewCellIndicatorImage.DataGridView = DataGridView as KryptonDataGridView;
+        base.OnDataGridViewChanged();
     }
     #endregion
 

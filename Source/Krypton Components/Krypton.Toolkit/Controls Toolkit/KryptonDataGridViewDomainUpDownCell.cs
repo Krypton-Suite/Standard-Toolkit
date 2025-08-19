@@ -116,8 +116,7 @@ public class KryptonDataGridViewDomainUpDownCell : DataGridViewTextBoxCell
             Rectangle textArea;
             var righToLeft = DataGridView.RightToLeft == RightToLeft.Yes;
 
-            int availableHeight = cellBounds.Height - cellStyle.Padding.Top - cellStyle.Padding.Bottom - 2;
-            int indicatorSize = Math.Max(12, availableHeight);
+            const int indicatorSize = 16;
 
             if (righToLeft)
             {
@@ -154,7 +153,8 @@ public class KryptonDataGridViewDomainUpDownCell : DataGridViewTextBoxCell
             if (ErrorText.Length == 0)
             {
                 var sized = KryptonOwningColumn?.GetIndicatorImageForSize(indicatorSize) ?? image;
-                graphics.DrawImage(sized, new Rectangle(pos, textArea.Top, indicatorSize, indicatorSize));
+                int y = textArea.Top + (textArea.Height - indicatorSize) / 2;
+                graphics.DrawImage(sized, new Rectangle(pos, y, indicatorSize, indicatorSize));
             }
             else
             {

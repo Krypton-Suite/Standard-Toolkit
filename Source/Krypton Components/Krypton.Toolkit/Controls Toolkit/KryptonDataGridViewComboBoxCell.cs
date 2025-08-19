@@ -373,9 +373,8 @@ public class KryptonDataGridViewComboBoxCell : DataGridViewTextBoxCell
             Rectangle textArea;
             var righToLeft = DataGridView.RightToLeft == RightToLeft.Yes;
 
-            // Scale the indicator to the available height, minimum 12px
-            int availableHeight = cellBounds.Height - cellStyle.Padding.Top - cellStyle.Padding.Bottom - 2;
-            int indicatorSize = Math.Max(12, availableHeight);
+            // Fixed-size crisp dropdown glyph
+            const int indicatorSize = 16;
 
             if (righToLeft)
             {
@@ -414,7 +413,8 @@ public class KryptonDataGridViewComboBoxCell : DataGridViewTextBoxCell
             {
                 // Use crisp cached glyph rendered by renderer if available
                 var sized = KryptonOwningColumn?.GetIndicatorImageForSize(indicatorSize) ?? image;
-                graphics.DrawImage(sized, new Rectangle(pos, textArea.Top, indicatorSize, indicatorSize));
+                int y = textArea.Top + (textArea.Height - indicatorSize) / 2;
+                graphics.DrawImage(sized, new Rectangle(pos, y, indicatorSize, indicatorSize));
                 text = _selectedItemText;
             }
             else
@@ -430,6 +430,64 @@ public class KryptonDataGridViewComboBoxCell : DataGridViewTextBoxCell
             TextRenderer.DrawText(graphics, text, cellStyle.Font, textArea, displayForeColor,
                 KryptonDataGridViewUtilities.ComputeTextFormatFlagsForCellStyleAlignment(righToLeft, cellStyle.Alignment, cellStyle.WrapMode));
         }
+    }
+
+    /// <summary>
+    /// Custom implementation to vertically center the editing control so the button glyph border isn't clipped.
+    /// </summary>
+    public override void PositionEditingControl(bool setLocation,
+        bool setSize,
+        Rectangle cellBounds,
+        Rectangle cellClip,
+        DataGridViewCellStyle cellStyle,
+        bool singleVerticalBorderAdded,
+        bool singleHorizontalBorderAdded,
+        bool isFirstDisplayedColumn,
+        bool isFirstDisplayedRow)
+    {
+        Rectangle editingControlBounds = PositionEditingPanel(cellBounds, cellClip, cellStyle,
+            singleVerticalBorderAdded, singleHorizontalBorderAdded,
+            isFirstDisplayedColumn, isFirstDisplayedRow);
+
+        // Match TextBox behavior: center by preferred height to avoid bottom clipping
+        editingControlBounds = GetAdjustedEditingControlBounds(editingControlBounds, cellStyle);
+
+        if (DataGridView?.EditingControl is not null)
+        {
+            if (setLocation)
+            {
+                DataGridView.EditingControl.Location = new Point(editingControlBounds.X, editingControlBounds.Y);
+            }
+            if (setSize)
+            {
+                DataGridView.EditingControl.Size = new Size(editingControlBounds.Width, editingControlBounds.Height);
+            }
+        }
+    }
+
+    private Rectangle GetAdjustedEditingControlBounds(Rectangle editingControlBounds,
+        DataGridViewCellStyle cellStyle)
+    {
+        var preferredHeight = DataGridView!.EditingControl!.GetPreferredSize(new Size(editingControlBounds.Width, 10000)).Height;
+        if (preferredHeight < editingControlBounds.Height)
+        {
+            switch (cellStyle.Alignment)
+            {
+                case DataGridViewContentAlignment.MiddleLeft:
+                case DataGridViewContentAlignment.MiddleCenter:
+                case DataGridViewContentAlignment.MiddleRight:
+                    editingControlBounds.Y += (editingControlBounds.Height - preferredHeight) / 2;
+                    break;
+                case DataGridViewContentAlignment.BottomLeft:
+                case DataGridViewContentAlignment.BottomCenter:
+                case DataGridViewContentAlignment.BottomRight:
+                    editingControlBounds.Y += editingControlBounds.Height - preferredHeight;
+                    break;
+            }
+            editingControlBounds.Height = preferredHeight;
+        }
+
+        return editingControlBounds;
     }
 
     /// <summary>
