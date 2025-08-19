@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
@@ -60,6 +60,7 @@ public class KryptonRibbonGroupColorButton : KryptonRibbonGroupItem
     private KryptonCommand? _command;
     private int _maxRecentColors;
     private readonly List<Color> _recentColors;
+    private Krypton.Toolkit.ThemeColorSortMode _themeColorSortMode;
 
     // Context menu items
     private readonly KryptonContextMenu? _kryptonContextMenu;
@@ -166,6 +167,9 @@ public class KryptonRibbonGroupColorButton : KryptonRibbonGroupItem
         _maxRecentColors = 10;
         _recentColors = [];
 
+        // Defaults for dynamic theme color mapping
+        _themeColorSortMode = Krypton.Toolkit.ThemeColorSortMode.OKLCH;
+
         // Create the context menu items
         _kryptonContextMenu = new KryptonContextMenu();
         _separatorTheme = new KryptonContextMenuSeparator();
@@ -192,10 +196,36 @@ public class KryptonRibbonGroupColorButton : KryptonRibbonGroupItem
             _separatorNoColor, _itemsNoColor,
             _separatorMoreColors, _itemsMoreColors
         ]);
+
+        // Listen for palette switches so we can refresh dynamic theme colors
+        Krypton.Toolkit.KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChangedForThemeColors;
     }
     #endregion
 
     #region Public
+    /// <summary>
+    /// Sorting used when generating the dynamic Theme Colors map from SchemeColors.
+    /// </summary>
+    [Category(@"Ribbon")]
+    [Description(@"Sorting used for dynamic Theme Colors map from SchemeColors.")]
+    [DefaultValue(Krypton.Toolkit.ThemeColorSortMode.RGB)]
+    public Krypton.Toolkit.ThemeColorSortMode ThemeColorSortMode
+    {
+        get => _themeColorSortMode;
+
+        set
+        {
+            if (_themeColorSortMode != value)
+            {
+                _themeColorSortMode = value;
+                if (_schemeThemes == ColorScheme.PaletteColors)
+                {
+                    RefreshThemeColorsFromActivePalette();
+                }
+                OnPropertyChanged(nameof(ThemeColorSortMode));
+            }
+        }
+    }
     /// <summary>
     /// Gets and sets the selected color.
     /// </summary>
@@ -962,7 +992,7 @@ public class KryptonRibbonGroupColorButton : KryptonRibbonGroupItem
 
                         var contextArgs = new ContextMenuArgs(_kryptonContextMenu);
 
-                        // Generate an event giving a chance for the krypton context menu strip to 
+                        // Generate an event giving a chance for the krypton context menu strip to
                         // be shown to be provided/modified or the action even to be cancelled
                         DropDown?.Invoke(this, contextArgs);
 
@@ -1042,7 +1072,7 @@ public class KryptonRibbonGroupColorButton : KryptonRibbonGroupItem
 
     internal override bool ProcessCmdKey(ref Message msg, Keys keyData)
     {
-        // Only interested in key processing if this button definition 
+        // Only interested in key processing if this button definition
         // is enabled and itself and all parents are also visible
         if (Enabled && ChainVisible)
         {
@@ -1124,7 +1154,7 @@ public class KryptonRibbonGroupColorButton : KryptonRibbonGroupItem
         // Do we need to update the recent colors collection?
         if (AutoRecentColors)
         {
-            // We do not add to recent colors if it is inside another color columns 
+            // We do not add to recent colors if it is inside another color columns
             foreach (var item in _kryptonContextMenu?.Items!)
             {
                 // Only interested in the non-recent colors color columns
@@ -1185,15 +1215,29 @@ public class KryptonRibbonGroupColorButton : KryptonRibbonGroupItem
         _itemsNoColor.Visible = _visibleNoColor;
         _itemsMoreColors.Visible = _visibleMoreColors;
 
+        var usingPaletteColors = _schemeThemes == ColorScheme.PaletteColors;
+
         // Define the display strings
-        _headingTheme.Text = KryptonManager.Strings.RibbonStrings.ThemeColors;
+        _headingTheme.Text = usingPaletteColors
+            ? KryptonManager.Strings.RibbonStrings.PaletteColors
+            : KryptonManager.Strings.RibbonStrings.ThemeColors;
         _headingStandard.Text = KryptonManager.Strings.RibbonStrings.StandardColors;
         _headingRecent.Text = KryptonManager.Strings.RibbonStrings.RecentColors;
         _itemNoColor.Text = KryptonManager.Strings.RibbonStrings.NoColor;
         _itemMoreColors.Text = KryptonManager.Strings.RibbonStrings.MoreColors;
 
         // Define the colors used in the first two color schemes
-        _colorsTheme.ColorScheme = SchemeThemes;
+        if (usingPaletteColors)
+        {
+            RefreshThemeColorsFromActivePalette();
+        }
+        else
+        {
+            _colorsTheme.SetCustomColors(null);
+            _colorsTheme.ColorScheme = ColorScheme.None;
+            _schemeThemes = ColorScheme.OfficeThemes;
+            _colorsTheme.ColorScheme = _schemeThemes;
+        }
         _colorsStandard.ColorScheme = SchemeStandard;
 
         // Define the recent colors
@@ -1217,6 +1261,33 @@ public class KryptonRibbonGroupColorButton : KryptonRibbonGroupItem
 
         // Should the no color entry be checked?
         _itemNoColor.Checked = _selectedColor.Equals(Color.Empty);
+    }
+
+    /// <summary>
+    /// Handle global palette changes to keep Theme Colors in sync when using SchemeColors.
+    /// </summary>
+    private void OnGlobalPaletteChangedForThemeColors(object? sender, EventArgs e)
+    {
+        if (_schemeThemes == ColorScheme.PaletteColors)
+        {
+            RefreshThemeColorsFromActivePalette();
+        }
+    }
+
+    /// <summary>
+    /// Refresh the Theme Colors grid from the active palette's SchemeColors.
+    /// </summary>
+    private void RefreshThemeColorsFromActivePalette()
+    {
+        var palette = Krypton.Toolkit.KryptonManager.CurrentGlobalPalette;
+        if (palette is null)
+        {
+            return;
+        }
+
+        var custom = Krypton.Toolkit.ThemeColorGridBuilder.BuildThemeColorColumns(palette.GetSchemeColors(), _themeColorSortMode, 16);
+        _colorsTheme.SetCustomColors(custom);
+        _colorsTheme.GroupNonFirstRows = true;
     }
 
     private void DecideOnVisible(KryptonContextMenuItemBase visible, KryptonContextMenuItemBase target)
@@ -1278,6 +1349,13 @@ public class KryptonRibbonGroupColorButton : KryptonRibbonGroupItem
                 SelectedColor = cd.Color;
             }
         }
+    }
+
+    private void OnClickPaletteColors(object? sender, EventArgs e)
+    {
+        _schemeThemes = _schemeThemes == ColorScheme.PaletteColors ? ColorScheme.OfficeThemes : ColorScheme.PaletteColors;
+        _kryptonContextMenu?.Close();
+        Ribbon?.BeginInvoke(new Action(() => PerformDropDown()));
     }
 
     private void OnKryptonContextMenuClosed(object? sender, EventArgs e)

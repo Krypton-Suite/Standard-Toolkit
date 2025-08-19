@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2024 - 2025. All rights reserved.
  *
  */
 #endregion
@@ -30,6 +30,7 @@ public class GeneralRibbonStrings : GlobalId
     private const string DEFAULT_SHOW_BELOW_RIBBON = @"&Show Below the Ribbon";
     private const string DEFAULT_STANDARD_COLORS = @"Standard Colors";
     private const string DEFAULT_THEME_COLORS = @"Theme Colors";
+    private const string DEFAULT_PALETTE_COLORS = @"Palette Colors";
 
     #endregion
 
@@ -73,6 +74,7 @@ public class GeneralRibbonStrings : GlobalId
                              ShowQATBelowRibbon.Equals(DEFAULT_SHOW_QAT_BELOW_RIBBON) &&
                              StandardColors.Equals(DEFAULT_STANDARD_COLORS) &&
                              ThemeColors.Equals(DEFAULT_THEME_COLORS) &&
+                             PaletteColors.Equals(DEFAULT_PALETTE_COLORS) &&
                              AppButtonText.Equals(DEFAULT_APPLICATION_BUTTON_TEXT);
 
     #endregion
@@ -222,6 +224,16 @@ public class GeneralRibbonStrings : GlobalId
     public string ThemeColors { get; set; }
 
     /// <summary>
+    /// Gets and sets the title for the palette colors section of the color button menu.
+    /// </summary>
+    [Localizable(true)]
+    [Category(@"Visuals")]
+    [Description(@"Title for palette colors section of the color button menu.")]
+    [DefaultValue(DEFAULT_PALETTE_COLORS)]
+    [RefreshProperties(RefreshProperties.All)]
+    public string PaletteColors { get; set; }
+
+    /// <summary>
     /// Gets and sets the button text for the app button.
     /// </summary>
     [Localizable(true)]
@@ -265,6 +277,8 @@ public class GeneralRibbonStrings : GlobalId
         StandardColors = DEFAULT_STANDARD_COLORS;
 
         ThemeColors = DEFAULT_THEME_COLORS;
+
+        PaletteColors = DEFAULT_PALETTE_COLORS;
     }
 
     #endregion

@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *
  */
 #endregion
 
@@ -24,6 +24,7 @@ public class PaletteColorButtonStrings : Storage
     private const string DEFAULT_RECENT_COLORS = "Recent Colors";
     private const string DEFAULT_STANDARD_COLORS = "Standard Colors";
     private const string DEFAULT_THEME_COLORS = "Theme Colors";
+    private const string DEFAULT_PALETTE_COLORS = "Palette Colors";
 
     #endregion
 
@@ -39,6 +40,7 @@ public class PaletteColorButtonStrings : Storage
         RecentColors = DEFAULT_RECENT_COLORS;
         StandardColors = DEFAULT_STANDARD_COLORS;
         ThemeColors = DEFAULT_THEME_COLORS;
+        PaletteColors = DEFAULT_PALETTE_COLORS;
     }
     #endregion
 
@@ -52,7 +54,8 @@ public class PaletteColorButtonStrings : Storage
                                       NoColor.Equals(DEFAULT_NO_COLOR) &&
                                       RecentColors.Equals(DEFAULT_RECENT_COLORS) &&
                                       StandardColors.Equals(DEFAULT_STANDARD_COLORS) &&
-                                      ThemeColors.Equals(DEFAULT_THEME_COLORS);
+                                      ThemeColors.Equals(DEFAULT_THEME_COLORS) &&
+                                      PaletteColors.Equals(DEFAULT_PALETTE_COLORS);
 
     #endregion
 
@@ -118,6 +121,19 @@ public class PaletteColorButtonStrings : Storage
     [DefaultValue("Theme Colors")]
     [RefreshProperties(RefreshProperties.All)]
     public string ThemeColors { get; set; }
+
+    #endregion
+
+    #region PaletteColors
+    /// <summary>
+    /// Gets and sets the title for the palette colors section of the color button menu.
+    /// </summary>
+    [Localizable(true)]
+    [Category(@"Visuals")]
+    [Description(@"Title for palette colors section of the color button menu.")]
+    [DefaultValue("Palette Colors")]
+    [RefreshProperties(RefreshProperties.All)]
+    public string PaletteColors { get; set; }
 
     #endregion
 }
