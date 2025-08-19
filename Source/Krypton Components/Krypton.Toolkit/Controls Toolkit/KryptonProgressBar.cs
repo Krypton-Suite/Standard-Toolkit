@@ -836,7 +836,7 @@ namespace Krypton.Toolkit
                         case VisualOrientation.Bottom:
                         {
                             Rectangle barRect = ClientRectangle;
-                            int gap = Math.Max(1, Math.Min(3, barRect.Height / 6));
+                            int gap = 1;//Math.Max(1, Math.Min(2, barRect.Height / 6));
                             int blockWidth = Math.Max(1, (barRect.Width - ((totalBlocks - 1) * gap)) / totalBlocks);
                             // Draw full blocks
                             for (int i = 0; i < fullBlocks; i++)
@@ -845,8 +845,7 @@ namespace Krypton.Toolkit
                                     ? barRect.Right - ((i + 1) * blockWidth) - (i * gap)
                                     : barRect.Left + (i * (blockWidth + gap));
                                 Rectangle block = new Rectangle(x, barRect.Y, blockWidth, barRect.Height);
-                                using (GraphicsPath path = renderer.RenderStandardBorder.GetBackPath(renderContext, block,
-                                        barPaletteState.PaletteBorder!, Orientation, barState))
+                                using (GraphicsPath path = CreateRectGraphicsPath(block))
                                 {
                                     using var gh = new GraphicsHint(renderContext.Graphics,
                                         barPaletteState.PaletteBorder.GetBorderGraphicsHint(PaletteState.Normal));
@@ -864,8 +863,7 @@ namespace Krypton.Toolkit
                                     : barRect.Left + (i * (blockWidth + gap));
                                 int x = rtl ? xBase + (blockWidth - fractionWidth) : xBase;
                                 Rectangle block = new Rectangle(x, barRect.Y, fractionWidth, barRect.Height);
-                                using (GraphicsPath path = renderer.RenderStandardBorder.GetBackPath(renderContext, block,
-                                        barPaletteState.PaletteBorder!, Orientation, barState))
+                                using (GraphicsPath path = CreateRectGraphicsPath(block))
                                 {
                                     using var gh = new GraphicsHint(renderContext.Graphics,
                                         barPaletteState.PaletteBorder.GetBorderGraphicsHint(PaletteState.Normal));
@@ -880,7 +878,7 @@ namespace Krypton.Toolkit
                         case VisualOrientation.Right:
                         {
                             Rectangle barRect = ClientRectangle;
-                            int gap = Math.Max(1, Math.Min(3, barRect.Width / 6));
+                            int gap = 1;//Math.Max(1, Math.Min(2, barRect.Width / 6));
                             int blockHeight = Math.Max(1, (barRect.Height - ((totalBlocks - 1) * gap)) / totalBlocks);
                             // Draw full blocks
                             for (int i = 0; i < fullBlocks; i++)
@@ -889,8 +887,7 @@ namespace Krypton.Toolkit
                                     ? barRect.Bottom - ((i + 1) * blockHeight) - (i * gap)
                                     : barRect.Top + (i * (blockHeight + gap));
                                 Rectangle block = new Rectangle(barRect.X, y, barRect.Width, blockHeight);
-                                using (GraphicsPath path = renderer.RenderStandardBorder.GetBackPath(renderContext, block,
-                                        barPaletteState.PaletteBorder!, Orientation, barState))
+                                using (GraphicsPath path = CreateRectGraphicsPath(block))
                                 {
                                     using var gh = new GraphicsHint(renderContext.Graphics,
                                         barPaletteState.PaletteBorder.GetBorderGraphicsHint(PaletteState.Normal));
@@ -908,8 +905,7 @@ namespace Krypton.Toolkit
                                     : barRect.Top + (i * (blockHeight + gap));
                                 int y = rtl ? yBase + (blockHeight - fractionHeight) : yBase;
                                 Rectangle block = new Rectangle(barRect.X, y, barRect.Width, fractionHeight);
-                                using (GraphicsPath path = renderer.RenderStandardBorder.GetBackPath(renderContext, block,
-                                        barPaletteState.PaletteBorder!, Orientation, barState))
+                                using (GraphicsPath path = CreateRectGraphicsPath(block))
                                 {
                                     using var gh = new GraphicsHint(renderContext.Graphics,
                                         barPaletteState.PaletteBorder.GetBorderGraphicsHint(PaletteState.Normal));
@@ -972,7 +968,7 @@ namespace Krypton.Toolkit
             {
                 // Use the exact short-text rectangle from the content memento to match DrawContent
                 var textRect = renderer.RenderStandardContent.GetContentShortTextRectangle(_mementoContent!);
-                var backRect = Rectangle.Inflate(textRect, 6, 2);
+                var backRect = Rectangle.Inflate(textRect, 2, 2);
 
                 using (GraphicsPath gp = new GraphicsPath())
                 {
@@ -1000,15 +996,6 @@ namespace Krypton.Toolkit
             if (_showTextShadow && !string.IsNullOrEmpty(Text))
             {
                 Rectangle shadowRect = renderer.RenderStandardContent.GetContentShortTextRectangle(_mementoContent!);
-                // Compensate for GDI+ rotation rounding when drawing vertical text shadows
-                if (Orientation == VisualOrientation.Left)
-                {
-                    shadowRect.Offset(1, 0);
-                }
-                else if (Orientation == VisualOrientation.Right)
-                {
-                    shadowRect.Offset(-1, 0);
-                }
 
                 var hAlign = barPaletteState.PaletteContent!.GetContentShortTextH(barState);
                 var vAlign = barPaletteState.PaletteContent!.GetContentShortTextV(barState);
