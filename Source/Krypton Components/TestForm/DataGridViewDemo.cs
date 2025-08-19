@@ -25,7 +25,7 @@ public partial class DataGridViewDemo : KryptonForm
 
         kdgvMain.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
 
-        for (int i = 1; i <= 50; i++)
+        for (int i = 1; i <= 100; i++)
         {
             // Columns: Id, Name, Quantity, Date, Active, Combo, Masked, Domain, Progress, Rating
             kdgvMain.Rows.Add(
@@ -47,8 +47,8 @@ public partial class DataGridViewDemo : KryptonForm
             );
         }
 
-        kdgvMain.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-        kcmbAutoSizeColumnsMode.SelectedItem = "AllCells";
+        kdgvMain.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+        kcmbAutoSizeColumnsMode.SelectedItem = "Fill";
 
         // Seed column-specific settings/content for new demo columns
         if (colCombo.Items.Count == 0)
