@@ -654,6 +654,13 @@ public class PaletteRedirect : PaletteBase, IGlobalId
     public override Image? GetTreeViewImage(bool expanded) => _target?.GetTreeViewImage(expanded);
 
     /// <summary>
+    /// Gets a sizing grip image appropriate for the provided orientation.
+    /// </summary>
+    /// <param name="isRtl">If true, request an RTL-oriented image; otherwise LTR.</param>
+    /// <returns>Appropriate image for drawing; otherwise null.</returns>
+    public override Image? GetSizeGripImage(RightToLeft isRtl) => _target?.GetSizeGripImage(isRtl);
+
+    /// <summary>
     /// Gets a checkbox image appropriate for the provided state.
     /// </summary>
     /// <param name="enabled">Is the checkbox enabled.</param>
