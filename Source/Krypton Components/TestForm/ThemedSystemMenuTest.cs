@@ -63,8 +63,53 @@ namespace TestForm
                                   "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 });
 
-                // Show the current menu item count
-                Text = $"Themed System Menu Test - {ThemedSystemMenu.MenuItemCount} items";
+                // Show the current menu item count and theme
+                UpdateFormTitle();
+                
+                // Debug icon generation
+                DebugIconGeneration();
+            }
+        }
+
+        /// <summary>
+        /// Updates the form title to show current menu information and theme.
+        /// </summary>
+        private void UpdateFormTitle()
+        {
+            if (ThemedSystemMenu != null)
+            {
+                var themeInfo = $"Theme: {ThemedSystemMenu.CurrentIconTheme}";
+                Text = $"Themed System Menu Test - {ThemedSystemMenu.MenuItemCount} items - {themeInfo}";
+                
+                // Also update the theme label
+                UpdateThemeLabel();
+            }
+        }
+
+        /// <summary>
+        /// Updates the theme label to show current theme information.
+        /// </summary>
+        private void UpdateThemeLabel()
+        {
+            if (ThemedSystemMenu != null)
+            {
+                var currentTheme = ThemedSystemMenu.CurrentIconTheme;
+                kryptonLabel3.Values.Text = $"Current Theme: {currentTheme} (Auto-detected)";
+            }
+        }
+        
+        /// <summary>
+        /// Debug method to check icon generation.
+        /// </summary>
+        private void DebugIconGeneration()
+        {
+            System.Diagnostics.Debug.WriteLine("=== DEBUG ICON GENERATION ===");
+            System.Diagnostics.Debug.WriteLine($"ThemedSystemMenu is null: {ThemedSystemMenu == null}");
+            
+            if (ThemedSystemMenu != null)
+            {
+                System.Diagnostics.Debug.WriteLine($"Menu item count: {ThemedSystemMenu.MenuItemCount}");
+                System.Diagnostics.Debug.WriteLine($"Current theme: {ThemedSystemMenu.CurrentIconTheme}");
             }
         }
 
@@ -106,9 +151,43 @@ namespace TestForm
                           $"Total Items: {ThemedSystemMenu.MenuItemCount}\n" +
                           $"Has Items: {ThemedSystemMenu.HasMenuItems}\n" +
                           $"Custom Items: {customItems.Count}\n" +
-                          $"Custom Items: {string.Join(", ", customItems)}";
+                          $"Custom Items: {string.Join(", ", customItems)}\n" +
+                          $"Current Icon Theme: {ThemedSystemMenu.CurrentIconTheme}";
 
                 MessageBox.Show(info, "Menu Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void kryptonButton3_Click(object sender, EventArgs e)
+        {
+            // Test theme switching and icon refreshing
+            if (ThemedSystemMenu != null)
+            {
+                // Get available themes
+                var availableThemes = new[] { "Office2013", "Office2010", "Office2007", "Sparkle", "Professional", "Microsoft365", "Office2003" };
+                
+                // Find current theme index
+                var currentTheme = ThemedSystemMenu.CurrentIconTheme;
+                var currentIndex = Array.IndexOf(availableThemes, currentTheme);
+                var nextIndex = (currentIndex + 1) % availableThemes.Length;
+                var nextTheme = availableThemes[nextIndex];
+                
+                // Set the next theme
+                ThemedSystemMenu.SetIconTheme(nextTheme);
+                
+                // Refresh the icons
+                ThemedSystemMenu.RefreshThemeIcons();
+                
+                // Update the form title and theme label
+                UpdateFormTitle();
+                
+                // Update the theme label to show the new theme
+                kryptonLabel3.Values.Text = $"Current Theme: {nextTheme} (Manually Set)";
+                
+                MessageBox.Show($"Switched to {nextTheme} theme and refreshed icons!\n" +
+                              $"Previous theme: {currentTheme}\n" +
+                              $"New theme: {nextTheme}",
+                              "Theme Changed", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
     }

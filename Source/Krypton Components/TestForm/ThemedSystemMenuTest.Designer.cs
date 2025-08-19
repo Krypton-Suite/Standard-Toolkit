@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
+            this.kryptonButton3 = new Krypton.Toolkit.KryptonButton();
             this.kryptonButton2 = new Krypton.Toolkit.KryptonButton();
             this.kryptonButton1 = new Krypton.Toolkit.KryptonButton();
             this.kryptonLabel2 = new Krypton.Toolkit.KryptonLabel();
@@ -36,12 +37,14 @@
             this.kryptonCheckBox2 = new Krypton.Toolkit.KryptonCheckBox();
             this.kryptonCheckBox1 = new Krypton.Toolkit.KryptonCheckBox();
             this.kryptonLabel1 = new Krypton.Toolkit.KryptonLabel();
+            this.kryptonLabel3 = new Krypton.Toolkit.KryptonLabel();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // kryptonPanel1
             // 
+            this.kryptonPanel1.Controls.Add(this.kryptonButton3);
             this.kryptonPanel1.Controls.Add(this.kryptonButton2);
             this.kryptonPanel1.Controls.Add(this.kryptonButton1);
             this.kryptonPanel1.Controls.Add(this.kryptonLabel2);
@@ -49,11 +52,22 @@
             this.kryptonPanel1.Controls.Add(this.kryptonCheckBox2);
             this.kryptonPanel1.Controls.Add(this.kryptonCheckBox1);
             this.kryptonPanel1.Controls.Add(this.kryptonLabel1);
+            this.kryptonPanel1.Controls.Add(this.kryptonLabel3);
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
             this.kryptonPanel1.Size = new System.Drawing.Size(526, 311);
             this.kryptonPanel1.TabIndex = 0;
+            // 
+            // kryptonButton3
+            // 
+            this.kryptonButton3.Location = new System.Drawing.Point(309, 208);
+            this.kryptonButton3.Name = "kryptonButton3";
+            this.kryptonButton3.Size = new System.Drawing.Size(129, 22);
+            this.kryptonButton3.TabIndex = 7;
+            this.kryptonButton3.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kryptonButton3.Values.Text = "Switch Theme";
+            this.kryptonButton3.Click += new System.EventHandler(this.kryptonButton3_Click);
             // 
             // kryptonButton2
             // 
@@ -83,6 +97,14 @@
             this.kryptonLabel2.TabIndex = 4;
             this.kryptonLabel2.Values.Text = "Try clicking on the title bar (left or right click) or press Alt+Space to see the" +
     " themed system menu in action!";
+            // 
+            // kryptonLabel3
+            // 
+            this.kryptonLabel3.Location = new System.Drawing.Point(17, 169);
+            this.kryptonLabel3.Name = "kryptonLabel3";
+            this.kryptonLabel3.Size = new System.Drawing.Size(593, 20);
+            this.kryptonLabel3.TabIndex = 8;
+            this.kryptonLabel3.Values.Text = "Current Theme: Office2013 (Auto-detected)";
             // 
             // kryptonCheckBox3
             // 
@@ -145,5 +167,7 @@
         private Krypton.Toolkit.KryptonLabel kryptonLabel2;
         private Krypton.Toolkit.KryptonButton kryptonButton1;
         private Krypton.Toolkit.KryptonButton kryptonButton2;
+        private Krypton.Toolkit.KryptonButton kryptonButton3;
+        private Krypton.Toolkit.KryptonLabel kryptonLabel3;
     }
 }

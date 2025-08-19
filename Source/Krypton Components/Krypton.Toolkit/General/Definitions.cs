@@ -826,6 +826,29 @@ public interface IKryptonThemedSystemMenu
     /// </summary>
     /// <returns>A list of custom menu item texts.</returns>
     List<string> GetCustomMenuItems();
+
+    /// <summary>
+    /// Gets the current theme name being used for system menu icons.
+    /// </summary>
+    string CurrentIconTheme { get; }
+
+    /// <summary>
+    /// Manually refreshes all icons to match the current theme.
+    /// Call this method when the application theme changes.
+    /// </summary>
+    void RefreshThemeIcons();
+
+    /// <summary>
+    /// Manually sets the theme for icon selection.
+    /// </summary>
+    /// <param name="themeName">The theme name to use for icons.</param>
+    void SetIconTheme(string themeName);
+
+    /// <summary>
+    /// Sets the theme based on specific theme types (Black, Blue, Silver).
+    /// </summary>
+    /// <param name="themeType">The theme type to use.</param>
+    void SetThemeType(ThemeType themeType);
 }
 
 #endregion
@@ -3229,6 +3252,31 @@ public enum SystemMenuIconType
     Maximize,
     /// <summary>Close icon (X)</summary>
     Close
+}
+
+#endregion
+
+#region Enum Theme Types
+
+/// <summary>
+/// Types of themes that can be applied to the system menu icons.
+/// </summary>
+public enum ThemeType
+{
+    /// <summary>Black theme variant</summary>
+    Black,
+    /// <summary>Blue theme variant</summary>
+    Blue,
+    /// <summary>Silver theme variant</summary>
+    Silver,
+    /// <summary>Dark Blue theme variant</summary>
+    DarkBlue,
+    /// <summary>Light Blue theme variant</summary>
+    LightBlue,
+    /// <summary>Warm Silver theme variant</summary>
+    WarmSilver,
+    /// <summary>Classic Silver theme variant</summary>
+    ClassicSilver
 }
 
 #endregion

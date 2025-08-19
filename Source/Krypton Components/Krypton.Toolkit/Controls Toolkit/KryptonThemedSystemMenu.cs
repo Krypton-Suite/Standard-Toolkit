@@ -19,7 +19,6 @@ public class KryptonThemedSystemMenu : IKryptonThemedSystemMenu
     #region Instance Fields
     private readonly Form _form;
     private readonly KryptonContextMenu _contextMenu;
-    private readonly List<SystemMenuItem> _menuItems;
     private ThemedSystemMenuItemCollection? _designerMenuItems;
     #endregion
 
@@ -32,7 +31,6 @@ public class KryptonThemedSystemMenu : IKryptonThemedSystemMenu
     {
         _form = form ?? throw new ArgumentNullException(nameof(form));
         _contextMenu = new KryptonContextMenu();
-        _menuItems = new List<SystemMenuItem>();
 
         BuildSystemMenu();
 
@@ -116,6 +114,15 @@ public class KryptonThemedSystemMenu : IKryptonThemedSystemMenu
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public bool ShowOnAltSpace { get; set; } = true;
+
+    /// <summary>
+    /// Gets the current theme name being used for icons.
+    /// </summary>
+    [Category(@"Appearance")]
+    [Description(@"The current theme name being used for system menu icons.")]
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public string CurrentIconTheme => GetCurrentTheme();
     #endregion
 
     #region Public Methods
@@ -172,7 +179,10 @@ public class KryptonThemedSystemMenu : IKryptonThemedSystemMenu
     /// <returns>True if the shortcut was handled; otherwise false.</returns>
     public bool HandleKeyboardShortcut(Keys keyData)
     {
-        if (!Enabled) return false;
+        if (!Enabled)
+        {
+            return false;
+        }
 
         // Handle Alt+F4 for Close
         if (keyData == (Keys.Alt | Keys.F4))
@@ -199,31 +209,60 @@ public class KryptonThemedSystemMenu : IKryptonThemedSystemMenu
     /// <param name="insertBeforeClose">If true, inserts the item before the Close item; otherwise adds it at the end.</param>
     public void AddCustomMenuItem(string text, EventHandler clickHandler, bool insertBeforeClose = true)
     {
-        if (string.IsNullOrEmpty(text) || clickHandler == null) return;
+        if (string.IsNullOrEmpty(text) || clickHandler == null)
+        {
+            return;
+        }
 
         var customItem = new KryptonContextMenuItem(text);
         customItem.Click += clickHandler;
 
         if (insertBeforeClose && _contextMenu.Items.Count > 0)
         {
-            // Find the Close item and insert before it
+            // Find the Close item and insert above the separator (above the Close item)
             for (int i = _contextMenu.Items.Count - 1; i >= 0; i--)
             {
-                if (_contextMenu.Items[i] is KryptonContextMenuItem menuItem &&
-                    menuItem.Text.StartsWith("Close"))
+                if (_contextMenu.Items[i] is KryptonContextMenuItem menuItem)
                 {
-                    _contextMenu.Items.Insert(i, customItem);
-                    return;
+                    // Get the text without keyboard shortcuts (remove tab and everything after)
+                    var itemText = menuItem.Text.Split('\t')[0];
+                    
+                    // Check if this is the Close item by comparing with the system menu string
+                    // Handle both "Close" and "C&lose" (with accelerator key)
+                    if (itemText.Equals(KryptonManager.Strings.SystemMenuStrings.Close, StringComparison.OrdinalIgnoreCase) ||
+                        itemText.Replace("&", "").Equals(KryptonManager.Strings.SystemMenuStrings.Close.Replace("&", ""), StringComparison.OrdinalIgnoreCase))
+                    {
+                        // Insert above the separator (above the Close item)
+                        // First, check if there's a separator above the Close item
+                        if (i > 0 && _contextMenu.Items[i - 1] is KryptonContextMenuSeparator)
+                        {
+                            _contextMenu.Items.Insert(i - 1, customItem);
+                        }
+                        else
+                        {
+                            // If no separator, add one above the Close item first
+                            _contextMenu.Items.Insert(i, new KryptonContextMenuSeparator());
+                            // Then insert the custom item above the separator
+                            _contextMenu.Items.Insert(i, customItem);
+                        }
+                        return;
+                    }
                 }
             }
         }
 
         // If we couldn't find the Close item or insertBeforeClose is false, add at the end
         _contextMenu.Items.Add(customItem);
+        
+        // Ensure there's a separator above custom items if we added at the end
+        if (!insertBeforeClose)
+        {
+            EnsureSeparatorAboveCustomItems();
+        }
     }
 
     /// <summary>
-    /// Adds a separator to the system menu.
+    /// Adds a separator to the themed system menu.
     /// </summary>
     /// <param name="insertBeforeClose">If true, inserts the separator before the Close item; otherwise adds it at the end.</param>
     public void AddSeparator(bool insertBeforeClose = true)
@@ -232,14 +271,33 @@ public class KryptonThemedSystemMenu : IKryptonThemedSystemMenu
 
         if (insertBeforeClose && _contextMenu.Items.Count > 0)
         {
-            // Find the Close item and insert before it
+            // Find the Close item and insert above the separator (above the Close item)
             for (int i = _contextMenu.Items.Count - 1; i >= 0; i--)
             {
-                if (_contextMenu.Items[i] is KryptonContextMenuItem menuItem &&
-                    menuItem.Text.StartsWith("Close"))
+                if (_contextMenu.Items[i] is KryptonContextMenuItem menuItem)
                 {
-                    _contextMenu.Items.Insert(i, separator);
-                    return;
+                    // Get the text without keyboard shortcuts (remove tab and everything after)
+                    var itemText = menuItem.Text.Split('\t')[0];
+                    
+                    // Check if this is the Close item by comparing with the system menu string
+                    // Handle both "Close" and "C&lose" (with accelerator key)
+                    if (itemText.Equals(KryptonManager.Strings.SystemMenuStrings.Close, StringComparison.OrdinalIgnoreCase) ||
+                        itemText.Replace("&", "").Equals(KryptonManager.Strings.SystemMenuStrings.Close.Replace("&", ""), StringComparison.OrdinalIgnoreCase))
+                    {
+                        // Insert above the separator (above the Close item)
+                        // First, check if there's already a separator above the Close item
+                        if (i > 0 && _contextMenu.Items[i - 1] is KryptonContextMenuSeparator)
+                        {
+                            // If separator already exists, insert above it
+                            _contextMenu.Items.Insert(i - 1, separator);
+                        }
+                        else
+                        {
+                            // If no separator, insert directly above the Close item
+                            _contextMenu.Items.Insert(i, separator);
+                        }
+                        return;
+                    }
                 }
             }
         }
@@ -263,16 +321,26 @@ public class KryptonThemedSystemMenu : IKryptonThemedSystemMenu
     public List<string> GetCustomMenuItems()
     {
         var customItems = new List<string>();
-        var standardItems = new[] { "Restore", "Move", "Size", "Minimize", "Maximize", "Close" };
+        var standardItems = new[]
+        {
+            KryptonManager.Strings.SystemMenuStrings.Restore, 
+            KryptonManager.Strings.SystemMenuStrings.Move,
+            KryptonManager.Strings.SystemMenuStrings.Size,
+            KryptonManager.Strings.SystemMenuStrings.Minimize,
+            KryptonManager.Strings.SystemMenuStrings.Maximize,
+            KryptonManager.Strings.SystemMenuStrings.Close
+        };
 
         foreach (var item in _contextMenu.Items)
         {
             if (item is KryptonContextMenuItem menuItem)
             {
-                var text = menuItem.Text.Split('\t')[0]; // Remove keyboard shortcuts
-                if (!standardItems.Any(standard => text.StartsWith(standard)))
+                var itemText = menuItem.Text.Split('\t')[0]; // Remove keyboard shortcuts
+                if (!standardItems.Any(standard => 
+                    itemText.Equals(standard, StringComparison.OrdinalIgnoreCase) ||
+                    itemText.Replace("&", "").Equals(standard.Replace("&", ""), StringComparison.OrdinalIgnoreCase)))
                 {
-                    customItems.Add(text);
+                    customItems.Add(itemText);
                 }
             }
         }
@@ -294,24 +362,32 @@ public class KryptonThemedSystemMenu : IKryptonThemedSystemMenu
             {
                 if (item is KryptonContextMenuItem menuItem)
                 {
+                    // Get the text without keyboard shortcuts (remove tab and everything after)
+                    var menuText = menuItem.Text.Split('\t')[0];
+                    
                     // Enable/disable items based on current window state
-                    if (menuItem.Text.StartsWith("Restore"))
+                    if (menuText.Equals(KryptonManager.Strings.SystemMenuStrings.Restore, StringComparison.OrdinalIgnoreCase) ||
+                        menuText.Replace("&", "").Equals(KryptonManager.Strings.SystemMenuStrings.Restore.Replace("&", ""), StringComparison.OrdinalIgnoreCase))
                     {
                         menuItem.Enabled = (windowState != FormWindowState.Normal);
                     }
-                    else if (menuItem.Text.StartsWith("Minimize"))
+                    else if (menuText.Equals(KryptonManager.Strings.SystemMenuStrings.Minimize, StringComparison.OrdinalIgnoreCase) ||
+                             menuText.Replace("&", "").Equals(KryptonManager.Strings.SystemMenuStrings.Minimize.Replace("&", ""), StringComparison.OrdinalIgnoreCase))
                     {
                         menuItem.Enabled = (windowState != FormWindowState.Minimized);
                     }
-                    else if (menuItem.Text.StartsWith("Maximize"))
+                    else if (menuText.Equals(KryptonManager.Strings.SystemMenuStrings.Maximize, StringComparison.OrdinalIgnoreCase) ||
+                             menuText.Replace("&", "").Equals(KryptonManager.Strings.SystemMenuStrings.Maximize.Replace("&", ""), StringComparison.OrdinalIgnoreCase))
                     {
                         menuItem.Enabled = (windowState != FormWindowState.Maximized);
                     }
-                    else if (menuItem.Text.StartsWith("Move"))
+                    else if (menuText.Equals(KryptonManager.Strings.SystemMenuStrings.Move, StringComparison.OrdinalIgnoreCase) ||
+                             menuText.Replace("&", "").Equals(KryptonManager.Strings.SystemMenuStrings.Move.Replace("&", ""), StringComparison.OrdinalIgnoreCase))
                     {
                         menuItem.Enabled = (windowState != FormWindowState.Normal);
                     }
-                    else if (menuItem.Text.StartsWith("Size"))
+                    else if (menuText.Equals(KryptonManager.Strings.SystemMenuStrings.Size, StringComparison.OrdinalIgnoreCase) ||
+                             menuText.Replace("&", "").Equals(KryptonManager.Strings.SystemMenuStrings.Size.Replace("&", ""), StringComparison.OrdinalIgnoreCase))
                     {
                         menuItem.Enabled = (windowState == FormWindowState.Normal);
                     }
@@ -324,11 +400,440 @@ public class KryptonThemedSystemMenu : IKryptonThemedSystemMenu
 
     #region Icon Generation
     /// <summary>
-    /// Generates a system menu icon based on the specified type.
+    /// Gets an appropriate system menu icon based on the icon type and current theme.
     /// </summary>
-    /// <param name="iconType">The type of icon to generate.</param>
+    /// <param name="iconType">The type of system menu icon to retrieve.</param>
     /// <returns>An Image representing the system menu icon.</returns>
     private Image? GetSystemMenuIcon(SystemMenuIconType iconType)
+    {
+        try
+        {
+            // Try to get the current theme to determine which resource set to use
+            var currentTheme = GetCurrentTheme();
+            
+            // Get the appropriate icon based on theme and icon type
+            var icon = GetThemeIcon(currentTheme, iconType);
+            if (icon != null)
+            {
+                // Log image information for debugging
+                LogImageInfo(icon, iconType, currentTheme);
+                
+                // Ensure proper transparency handling
+                var processedIcon = ProcessImageForTransparency(icon);
+                if (processedIcon != null)
+                {
+                    return processedIcon;
+                }
+                // If transparency processing fails, fall back to drawn icon
+            }
+            
+            // Fallback to the current drawn icons if theme icons aren't available
+            return GetDrawnIcon(iconType);
+        }
+        catch
+        {
+            // If icon retrieval fails, return null (no icon)
+            return null;
+        }
+    }
+    
+    /// <summary>
+    /// Processes an image to ensure proper transparency handling.
+    /// </summary>
+    /// <param name="originalImage">The original image that may have transparency issues.</param>
+    /// <returns>A processed image with proper transparency support.</returns>
+    private Image? ProcessImageForTransparency(Image originalImage)
+    {
+        if (originalImage == null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            // Check if the image already has proper transparency support
+            if (originalImage.PixelFormat == PixelFormat.Format32bppArgb)
+            {
+                return originalImage; // Already in correct format
+            }
+            
+            // Create a new bitmap with proper transparency support
+            var bitmap = new Bitmap(originalImage.Width, originalImage.Height, PixelFormat.Format32bppArgb);
+            using (var graphics = Graphics.FromImage(bitmap))
+            {
+                graphics.Clear(Color.Transparent);
+                graphics.DrawImage(originalImage, 0, 0);
+            }
+            return bitmap;
+        }
+        catch (Exception ex)
+        {
+            // Log the error for debugging (in production, you might want to remove this)
+            Debug.WriteLine($"Failed to process image transparency: {ex.Message}");
+            
+            // If processing fails, return the original image
+            return originalImage;
+        }
+        }
+    
+    /// <summary>
+    /// Logs information about an image for debugging purposes.
+    /// </summary>
+    /// <param name="image">The image to log information about.</param>
+    /// <param name="iconType">The type of icon being processed.</param>
+    /// <param name="theme">The theme being used.</param>
+    private void LogImageInfo(Image image, SystemMenuIconType iconType, string theme)
+    {
+        try
+        {
+            Debug.WriteLine($"Image Info - Type: {iconType}, Theme: {theme}, " +
+                                            $"Size: {image.Width}x{image.Height}, " +
+                                            $"PixelFormat: {image.PixelFormat}, " +
+                                            $"Flags: {image.Flags}");
+        }
+        catch
+        {
+            // Ignore logging errors
+        }
+    }
+    
+    /// <summary>
+    /// Determines the current theme based on the form's palette.
+    /// </summary>
+    /// <returns>The current theme name.</returns>
+    public string GetCurrentTheme()
+    {
+        try
+        {
+            // Try to get the current theme from the form's palette
+            if (_form is KryptonForm kryptonForm)
+            {
+                var palette = kryptonForm.GetResolvedPalette();
+                if (palette != null)
+                {
+                    // Detect theme based on palette characteristics
+                    // This is a simplified detection - you can enhance this logic
+                    var headerColor = palette.GetBackColor1(PaletteBackStyle.HeaderForm, PaletteState.Normal);
+                    
+                    // Office 2013 - typically white/light gray
+                    if (IsLightColor(headerColor))
+                    {
+                        return "Office2013";
+                    }
+                    
+                    // Office 2010 - typically blue tones
+                    if (IsBlueTone(headerColor))
+                    {
+                        return "Office2010";
+                    }
+                    
+                    // Office 2007 - typically darker blue
+                    if (IsDarkBlueTone(headerColor))
+                    {
+                        return "Office2007";
+                    }
+                    
+                    // Sparkle - typically vibrant colors
+                    if (IsVibrantColor(headerColor))
+                    {
+                        return "Sparkle";
+                    }
+                    
+                    // Professional - typically neutral tones
+                    if (IsNeutralTone(headerColor))
+                    {
+                        return "Professional";
+                    }
+                    
+                    // Microsoft 365 - typically modern colors
+                    if (IsModernColor(headerColor))
+                    {
+                        return "Microsoft365";
+                    }
+                    
+                    // Office 2003 - typically classic Windows colors
+                    if (IsClassicColor(headerColor))
+                    {
+                        return "Office2003";
+                    }
+                }
+            }
+        }
+        catch
+        {
+            // Fallback to default theme
+        }
+        
+        return "Office2013"; // Default theme
+    }
+
+    /// <summary>
+    /// Gets the appropriate icon for the specified theme and icon type.
+    /// </summary>
+    /// <param name="theme">The theme name.</param>
+    /// <param name="iconType">The icon type.</param>
+    /// <returns>The appropriate icon image or null if not available.</returns>
+    private Image? GetThemeIcon(string theme, SystemMenuIconType iconType)
+    {
+        try
+        {
+            switch (theme)
+            {
+                case "Office2013":
+                    return GetOffice2013Icon(iconType);
+                case "Office2010":
+                    return GetOffice2010Icon(iconType);
+                case "Office2007":
+                    return GetOffice2007Icon(iconType);
+                case "Sparkle":
+                    return GetSparkleIcon(iconType);
+                case "Professional":
+                    return GetProfessionalIcon(iconType);
+                case "Microsoft365":
+                    return GetMicrosoft365Icon(iconType);
+                case "Office2003":
+                    return GetOffice2003Icon(iconType);
+                default:
+                    return null;
+            }
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    /// <summary>
+    /// Gets Office 2013 themed icons.
+    /// </summary>
+    /// <param name="iconType">The icon type.</param>
+    /// <returns>The appropriate icon image or null if not available.</returns>
+    private Image? GetOffice2013Icon(SystemMenuIconType iconType)
+    {
+        try
+        {
+            switch (iconType)
+            {
+                case SystemMenuIconType.Restore:
+                    return Office2013ControlBoxResources.Office2013RestoreNormal;
+                case SystemMenuIconType.Minimize:
+                    return Office2013ControlBoxResources.Office2013MinimiseNormal;
+                case SystemMenuIconType.Maximize:
+                    return Office2013ControlBoxResources.Office2013MaximiseNormal;
+                case SystemMenuIconType.Close:
+                    return Office2013ControlBoxResources.Office2013CloseNormal;
+                case SystemMenuIconType.Move:
+                case SystemMenuIconType.Size:
+                    // These don't have specific icons in the resources, so return null
+                    return null;
+                default:
+                    return null;
+            }
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    /// <summary>
+    /// Gets Office 2010 themed icons.
+    /// </summary>
+    /// <param name="iconType">The icon type.</param>
+    /// <returns>The appropriate icon image or null if not available.</returns>
+    private Image? GetOffice2010Icon(SystemMenuIconType iconType)
+    {
+        try
+        {
+            switch (iconType)
+            {
+                case SystemMenuIconType.Restore:
+                    return Office2010ControlBoxResources.Office2010BlackRestoreNormal;
+                case SystemMenuIconType.Minimize:
+                    return Office2010ControlBoxResources.Office2010BlackMinimiseNormal;
+                case SystemMenuIconType.Maximize:
+                    return Office2010ControlBoxResources.Office2010BackMaximiseNormal;
+                case SystemMenuIconType.Close:
+                    return Office2010ControlBoxResources.Office2010BlackCloseNormal;
+                case SystemMenuIconType.Move:
+                case SystemMenuIconType.Size:
+                    return null;
+                default:
+                    return null;
+            }
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    /// <summary>
+    /// Gets Office 2007 themed icons.
+    /// </summary>
+    /// <param name="iconType">The icon type.</param>
+    /// <returns>The appropriate icon image or null if not available.</returns>
+    private Image? GetOffice2007Icon(SystemMenuIconType iconType)
+    {
+        try
+        {
+            switch (iconType)
+            {
+                case SystemMenuIconType.Restore:
+                    return Office2007ControlBoxResources.Office2007ControlBoxBlackRestoreNormal;
+                case SystemMenuIconType.Minimize:
+                    return Office2007ControlBoxResources.Office2007ControlBoxBlackMinimiseNormal;
+                case SystemMenuIconType.Maximize:
+                    return Office2007ControlBoxResources.Office2007ControlBoxBlackMaximiseNormal;
+                case SystemMenuIconType.Close:
+                    return Office2007ControlBoxResources.Office2007ControlBoxBlackCloseNormal;
+                case SystemMenuIconType.Move:
+                case SystemMenuIconType.Size:
+                    return null;
+                default:
+                    return null;
+            }
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    /// <summary>
+    /// Gets Sparkle themed icons.
+    /// </summary>
+    /// <param name="iconType">The icon type.</param>
+    /// <returns>The appropriate icon image or null if not available.</returns>
+    private Image? GetSparkleIcon(SystemMenuIconType iconType)
+    {
+        try
+        {
+            switch (iconType)
+            {
+                case SystemMenuIconType.Restore:
+                    return SparkleControlBoxResources.SparkleButtonRestoreNormal;
+                case SystemMenuIconType.Minimize:
+                    return SparkleControlBoxResources.SparkleButtonMinNormal;
+                case SystemMenuIconType.Maximize:
+                    return SparkleControlBoxResources.SparkleButtonMaxNormal;
+                case SystemMenuIconType.Close:
+                    return SparkleControlBoxResources.SparkleButtonCloseNormal;
+                case SystemMenuIconType.Move:
+                case SystemMenuIconType.Size:
+                    return null;
+                default:
+                    return null;
+            }
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    /// <summary>
+    /// Gets Professional themed icons.
+    /// </summary>
+    /// <param name="iconType">The icon type.</param>
+    /// <returns>The appropriate icon image or null if not available.</returns>
+    private Image? GetProfessionalIcon(SystemMenuIconType iconType)
+    {
+        try
+        {
+            switch (iconType)
+            {
+                case SystemMenuIconType.Restore:
+                    return ProfessionalControlBoxResources.ProfessionalButtonRestoreNormal;
+                case SystemMenuIconType.Minimize:
+                    return ProfessionalControlBoxResources.ProfessionalButtonMinNormal;
+                case SystemMenuIconType.Maximize:
+                    return ProfessionalControlBoxResources.ProfessionalButtonMaxNormal;
+                case SystemMenuIconType.Close:
+                    return ProfessionalControlBoxResources.ProfessionalButtonCloseNormal;
+                case SystemMenuIconType.Move:
+                case SystemMenuIconType.Size:
+                    return null;
+                default:
+                    return null;
+            }
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    /// <summary>
+    /// Gets Microsoft 365 themed icons.
+    /// </summary>
+    /// <param name="iconType">The icon type.</param>
+    /// <returns>The appropriate icon image or null if not available.</returns>
+    private Image? GetMicrosoft365Icon(SystemMenuIconType iconType)
+    {
+        try
+        {
+            switch (iconType)
+            {
+                case SystemMenuIconType.Restore:
+                    return Office2010ControlBoxResources.Office2010BlackRestoreNormal;
+                case SystemMenuIconType.Minimize:
+                    return Office2010ControlBoxResources.Office2010BlackMinimiseNormal;
+                case SystemMenuIconType.Maximize:
+                    return Office2010ControlBoxResources.Office2010BackMaximiseNormal;
+                case SystemMenuIconType.Close:
+                    return Office2010ControlBoxResources.Office2010BlackCloseNormal;
+                case SystemMenuIconType.Move:
+                case SystemMenuIconType.Size:
+                    return null;
+                default:
+                    return null;
+            }
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    /// <summary>
+    /// Gets Office 2003 themed icons.
+    /// </summary>
+    /// <param name="iconType">The icon type.</param>
+    /// <returns>The appropriate icon image or null if not available.</returns>
+    private Image? GetOffice2003Icon(SystemMenuIconType iconType)
+    {
+        try
+        {
+            switch (iconType)
+            {
+                case SystemMenuIconType.Restore:
+                    return ProfessionalControlBoxResources.ProfessionalButtonRestoreNormal;
+                case SystemMenuIconType.Minimize:
+                    return ProfessionalControlBoxResources.ProfessionalButtonMinNormal;
+                case SystemMenuIconType.Maximize:
+                    return ProfessionalControlBoxResources.ProfessionalButtonMaxNormal;
+                case SystemMenuIconType.Close:
+                    return ProfessionalControlBoxResources.ProfessionalButtonCloseNormal;
+                case SystemMenuIconType.Move:
+                case SystemMenuIconType.Size:
+                    return null;
+                default:
+                    return null;
+            }
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    /// <summary>
+    /// Gets the drawn icon as a fallback when theme icons are not available.
+    /// </summary>
+    /// <param name="iconType">The icon type.</param>
+    /// <returns>The drawn icon image.</returns>
+    private Image? GetDrawnIcon(SystemMenuIconType iconType)
     {
         try
         {
@@ -337,7 +842,7 @@ public class KryptonThemedSystemMenu : IKryptonThemedSystemMenu
             
             using (var graphics = Graphics.FromImage(bitmap))
             {
-                graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                graphics.SmoothingMode = SmoothingMode.AntiAlias;
                 graphics.Clear(Color.Transparent);
 
                 // Get theme-appropriate colors
@@ -427,38 +932,119 @@ public class KryptonThemedSystemMenu : IKryptonThemedSystemMenu
     /// </summary>
     private void RefreshIcons()
     {
-        foreach (var item in _contextMenu.Items)
+        try
         {
-            if (item is KryptonContextMenuItem menuItem)
+            // Refresh icons for all existing menu items
+            foreach (var item in _contextMenu.Items)
             {
-                var text = menuItem.Text.Split('\t')[0]; // Remove keyboard shortcuts
-                
-                if (text.StartsWith("Restore"))
+                if (item is KryptonContextMenuItem menuItem)
                 {
-                    menuItem.Image = GetSystemMenuIcon(SystemMenuIconType.Restore);
-                }
-                else if (text.StartsWith("Move"))
-                {
-                    menuItem.Image = GetSystemMenuIcon(SystemMenuIconType.Move);
-                }
-                else if (text.StartsWith("Size"))
-                {
-                    menuItem.Image = GetSystemMenuIcon(SystemMenuIconType.Size);
-                }
-                else if (text.StartsWith("Minimize"))
-                {
-                    menuItem.Image = GetSystemMenuIcon(SystemMenuIconType.Minimize);
-                }
-                else if (text.StartsWith("Maximize"))
-                {
-                    menuItem.Image = GetSystemMenuIcon(SystemMenuIconType.Maximize);
-                }
-                else if (text.StartsWith("Close"))
-                {
-                    menuItem.Image = GetSystemMenuIcon(SystemMenuIconType.Close);
+                    // Determine icon type based on menu item text
+                    var iconType = GetIconTypeFromText(menuItem.Text);
+                    if (iconType.HasValue)
+                    {
+                        menuItem.Image = GetSystemMenuIcon(iconType.Value);
+                    }
                 }
             }
         }
+        catch
+        {
+            // If icon refresh fails, continue without icons
+        }
+    }
+
+    /// <summary>
+    /// Manually refreshes all icons to match the current theme.
+    /// Call this method when the application theme changes.
+    /// </summary>
+    public void RefreshThemeIcons()
+    {
+        RefreshIcons();
+    }
+
+    /// <summary>
+    /// Manually sets the theme for icon selection.
+    /// </summary>
+    /// <param name="themeName">The theme name to use for icons.</param>
+    public void SetIconTheme(string themeName)
+    {
+        if (string.IsNullOrEmpty(themeName))
+        {
+            return;
+        }
+
+        // Force refresh of icons with the specified theme
+        RefreshIcons();
+    }
+
+    /// <summary>
+    /// Sets the theme based on specific theme types (Black, Blue, Silver).
+    /// </summary>
+    /// <param name="themeType">The theme type to use.</param>
+    public void SetThemeType(ThemeType themeType)
+    {
+        string themeName = themeType switch
+        {
+            ThemeType.Black => "Office2013", // Black theme uses Office 2013 icons
+            ThemeType.Blue => "Office2010",  // Blue theme uses Office 2010 icons
+            ThemeType.Silver => "Office2013", // Silver theme uses Office 2013 icons
+            ThemeType.DarkBlue => "Office2010", // Dark Blue theme uses Office 2010 icons
+            ThemeType.LightBlue => "Office2010", // Light Blue theme uses Office 2010 icons
+            ThemeType.WarmSilver => "Office2013", // Warm Silver theme uses Office 2013 icons
+            ThemeType.ClassicSilver => "Office2007", // Classic Silver theme uses Office 2007 icons
+            _ => "Office2013" // Default to Office 2013
+        };
+
+        // Set the icon theme and refresh
+        SetIconTheme(themeName);
+    }
+
+    /// <summary>
+    /// Determines the icon type based on the menu item text.
+    /// </summary>
+    /// <param name="text">The menu item text.</param>
+    /// <returns>The corresponding icon type or null if not found.</returns>
+    private SystemMenuIconType? GetIconTypeFromText(string text)
+    {
+        if (string.IsNullOrEmpty(text))
+        {
+            return null;
+        }
+
+        var normalizedText = text.ToLowerInvariant().Trim();
+        
+        if (normalizedText.StartsWith(KryptonManager.Strings.SystemMenuStrings.Restore.ToLower()))
+        {
+            return SystemMenuIconType.Restore;
+        }
+
+        if (normalizedText.StartsWith(KryptonManager.Strings.SystemMenuStrings.Minimize.ToLower()))
+        {
+            return SystemMenuIconType.Minimize;
+        }
+
+        if (normalizedText.StartsWith(KryptonManager.Strings.SystemMenuStrings.Maximize.ToLower()))
+        {
+            return SystemMenuIconType.Maximize;
+        }
+
+        if (normalizedText.StartsWith(KryptonManager.Strings.SystemMenuStrings.Close.ToLower()))
+        {
+            return SystemMenuIconType.Close;
+        }
+
+        if (normalizedText.StartsWith(KryptonManager.Strings.SystemMenuStrings.Move.ToLower()))
+        {
+            return SystemMenuIconType.Move;
+        }
+
+        if (normalizedText.StartsWith(KryptonManager.Strings.SystemMenuStrings.Size.ToLower()))
+        {
+            return SystemMenuIconType.Size;
+        }
+
+        return null;
     }
 
     /// <summary>
@@ -534,158 +1120,54 @@ public class KryptonThemedSystemMenu : IKryptonThemedSystemMenu
     #region Implementation
     private void BuildSystemMenu()
     {
+        // Clear existing items
         _contextMenu.Items.Clear();
-        _menuItems.Clear();
 
-        // Get the system menu handle
-        var hSystemMenu = PI.GetSystemMenu(_form.Handle, false);
-        if (hSystemMenu == IntPtr.Zero)
-        {
-            // If we can't get the system menu, create the basic menu
-            CreateBasicMenuItems();
-            return;
-        }
+        // Always use our custom menu items instead of trying to parse the native system menu
+        // This ensures consistent behavior and proper separator handling
+        CreateBasicMenuItems();
 
-        try
-        {
-            // Get the number of menu items
-            var itemCount = PI.GetMenuItemCount(hSystemMenu);
-
-            if (itemCount > 0)
-            {
-                // Try to parse the native system menu
-                for (int i = 0; i < itemCount; i++)
-                {
-                    var menuItem = CreateMenuItem(hSystemMenu, i);
-                    if (menuItem != null)
-                    {
-                        _menuItems.Add(menuItem);
-                        _contextMenu.Items.Add(menuItem.ContextMenuItem);
-                    }
-                }
-
-                // If we didn't get any items, fall back to basic menu
-                if (_contextMenu.Items.Count == 0)
-                {
-                    CreateBasicMenuItems();
-                }
-            }
-            else
-            {
-                // No items in native menu, create basic menu
-                CreateBasicMenuItems();
-            }
-        }
-        catch (Exception)
-        {
-            // If anything goes wrong, fall back to basic menu items
-            CreateBasicMenuItems();
-        }
-
-        // Add designer-configured menu items
-        AddDesignerMenuItems();
-    }
-
-    private SystemMenuItem? CreateMenuItem(IntPtr hMenu, int position)
-    {
-        try
-        {
-            var mii = new PI.MENUITEMINFO();
-            mii.fMask = (uint)(PI.MIIM_.ID | PI.MIIM_.ID | PI.MIIM_.ID | PI.MIIM_.TYPE);
-
-            if (PI.GetMenuItemInfo(hMenu, (uint)position, true, ref mii))
-            {
-                // Get the menu item text
-                var text = GetMenuItemText(hMenu, position);
-
-                // Create the context menu item
-                var contextMenuItem = new KryptonContextMenuItem(text);
-
-                // Set the enabled state
-                contextMenuItem.Enabled = (mii.fState & (uint)PI.MFS_.DISABLED) == 0;
-
-                // Handle click events
-                contextMenuItem.Click += (sender, e) => HandleMenuItemClick(mii.wID);
-
-                return new SystemMenuItem
-                {
-                    CommandId = mii.wID,
-                    Text = text,
-                    ContextMenuItem = contextMenuItem,
-                    Enabled = contextMenuItem.Enabled
-                };
-            }
-        }
-        catch (Exception)
-        {
-            // Ignore individual menu item errors
-        }
-
-        return null;
-    }
-
-    private string GetMenuItemText(IntPtr hMenu, int position)
-    {
-        try
-        {
-            var buffer = new StringBuilder(256);
-            var result = PI.GetMenuString(hMenu, (uint)position, buffer, buffer.Capacity, PI.MF_.BYPOSITION);
-
-            if (result > 0)
-            {
-                return buffer.ToString();
-            }
-        }
-        catch (Exception)
-        {
-            // Ignore text retrieval errors
-        }
-
-        return "Menu Item";
+        // Add designer-configured menu items above the Close item
+        AddDesignerMenuItemsAboveClose();
     }
 
             private void CreateBasicMenuItems()
         {
             // Create comprehensive system menu items matching the native Windows system menu
-            var restoreItem = new KryptonContextMenuItem("Restore");
+            var restoreItem = new KryptonContextMenuItem(KryptonManager.Strings.SystemMenuStrings.Restore);
             restoreItem.Image = GetSystemMenuIcon(SystemMenuIconType.Restore);
             restoreItem.Click += (sender, e) => ExecuteRestore();
             _contextMenu.Items.Add(restoreItem);
 
-            var moveItem = new KryptonContextMenuItem("Move");
+            var moveItem = new KryptonContextMenuItem(KryptonManager.Strings.SystemMenuStrings.Move);
             // Move doesn't typically have an icon in Windows
             moveItem.Click += (sender, e) => ExecuteMove();
             _contextMenu.Items.Add(moveItem);
 
-            var sizeItem = new KryptonContextMenuItem("Size");
+            var sizeItem = new KryptonContextMenuItem(KryptonManager.Strings.SystemMenuStrings.Size);
             // Size doesn't typically have an icon in Windows
             sizeItem.Click += (sender, e) => ExecuteSize();
             _contextMenu.Items.Add(sizeItem);
 
             _contextMenu.Items.Add(new KryptonContextMenuSeparator());
 
-            var minimizeItem = new KryptonContextMenuItem("Minimize");
+            var minimizeItem = new KryptonContextMenuItem(KryptonManager.Strings.SystemMenuStrings.Minimize);
             minimizeItem.Image = GetSystemMenuIcon(SystemMenuIconType.Minimize);
             minimizeItem.Click += (sender, e) => ExecuteMinimize();
             _contextMenu.Items.Add(minimizeItem);
 
-            var maximizeItem = new KryptonContextMenuItem("Maximize");
+            var maximizeItem = new KryptonContextMenuItem(KryptonManager.Strings.SystemMenuStrings.Maximize);
             maximizeItem.Image = GetSystemMenuIcon(SystemMenuIconType.Maximize);
             maximizeItem.Click += (sender, e) => ExecuteMaximize();
             _contextMenu.Items.Add(maximizeItem);
 
             _contextMenu.Items.Add(new KryptonContextMenuSeparator());
 
-            var closeItem = new KryptonContextMenuItem("Close\tAlt+F4");
+            var closeItem = new KryptonContextMenuItem($"{KryptonManager.Strings.SystemMenuStrings.Close}\tAlt+F4");
             closeItem.Image = GetSystemMenuIcon(SystemMenuIconType.Close);
             closeItem.Click += (sender, e) => ExecuteClose();
             _contextMenu.Items.Add(closeItem);
         }
-
-    private void HandleMenuItemClick(uint commandId)
-    {
-        SendSysCommand((PI.SC_)commandId);
-    }
 
     #region Action Execution Methods
 
@@ -887,7 +1369,9 @@ public class KryptonThemedSystemMenu : IKryptonThemedSystemMenu
     private void AddDesignerMenuItems()
     {
         if (_designerMenuItems == null || _designerMenuItems.Count == 0)
+        {
             return;
+        }
 
         // Add a separator before custom items if there are existing items
         if (_contextMenu.Items.Count > 0)
@@ -898,7 +1382,9 @@ public class KryptonThemedSystemMenu : IKryptonThemedSystemMenu
         foreach (var designerItem in _designerMenuItems)
         {
             if (!designerItem.Visible)
+            {
                 continue;
+            }
 
             var contextMenuItem = designerItem.CreateContextMenuItem();
             
@@ -910,17 +1396,131 @@ public class KryptonThemedSystemMenu : IKryptonThemedSystemMenu
                 // Find the Close item and insert before it
                 for (int i = _contextMenu.Items.Count - 1; i >= 0; i--)
                 {
-                    if (_contextMenu.Items[i] is KryptonContextMenuItem menuItem &&
-                        menuItem.Text.StartsWith("Close"))
+                    if (_contextMenu.Items[i] is KryptonContextMenuItem menuItem)
                     {
-                        _contextMenu.Items.Insert(i, contextMenuItem);
-                        break;
+                        // Get the text without keyboard shortcuts (remove tab and everything after)
+                        var itemText = menuItem.Text.Split('\t')[0];
+                        
+                        // Check if this is the Close item by comparing with the system menu string
+                        // Handle both "Close" and "C&lose" (with accelerator key)
+                        if (itemText.Equals(KryptonManager.Strings.SystemMenuStrings.Close, StringComparison.OrdinalIgnoreCase) ||
+                            itemText.Replace("&", "").Equals(KryptonManager.Strings.SystemMenuStrings.Close.Replace("&", ""), StringComparison.OrdinalIgnoreCase))
+                        {
+                            _contextMenu.Items.Insert(i, contextMenuItem);
+                            break;
+                        }
                     }
                 }
             }
             else
             {
                 _contextMenu.Items.Add(contextMenuItem);
+            }
+        }
+    }
+    
+    /// <summary>
+    /// Adds designer-configured menu items above the Close item, above the separator.
+    /// </summary>
+    private void AddDesignerMenuItemsAboveClose()
+    {
+        if (_designerMenuItems == null || _designerMenuItems.Count == 0)
+        {
+            return;
+        }
+
+        // Find the Close item to insert custom items above it
+        int closeItemIndex = -1;
+        for (int i = _contextMenu.Items.Count - 1; i >= 0; i--)
+        {
+            if (_contextMenu.Items[i] is KryptonContextMenuItem menuItem)
+            {
+                // Get the text without keyboard shortcuts (remove tab and everything after)
+                var itemText = menuItem.Text.Split('\t')[0];
+                
+                // Check if this is the Close item by comparing with the system menu string
+                // Handle both "Close" and "C&lose" (with accelerator key)
+                if (itemText.Equals(KryptonManager.Strings.SystemMenuStrings.Close, StringComparison.OrdinalIgnoreCase) ||
+                    itemText.Replace("&", "").Equals(KryptonManager.Strings.SystemMenuStrings.Close.Replace("&", ""), StringComparison.OrdinalIgnoreCase))
+                {
+                    closeItemIndex = i;
+                    break;
+                }
+            }
+        }
+
+        if (closeItemIndex >= 0)
+        {
+            // Always add a separator before custom items
+            _contextMenu.Items.Insert(closeItemIndex, new KryptonContextMenuSeparator());
+            
+            // Insert custom items above the separator (and above the Close item)
+            for (int i = _designerMenuItems.Count - 1; i >= 0; i--)
+            {
+                var designerItem = _designerMenuItems[i];
+                if (!designerItem.Visible)
+                {
+                    continue;
+                }
+
+                var contextMenuItem = designerItem.CreateContextMenuItem();
+                
+                // Add click handler for designer items
+                contextMenuItem.Click += (sender, e) => OnDesignerMenuItemClick(designerItem);
+                
+                // Insert above the separator
+                _contextMenu.Items.Insert(closeItemIndex, contextMenuItem);
+            }
+        }
+        else
+        {
+            // Fallback: if we can't find the Close item, add at the end
+            // Add a separator before custom items
+            _contextMenu.Items.Add(new KryptonContextMenuSeparator());
+            
+            foreach (var designerItem in _designerMenuItems)
+            {
+                if (!designerItem.Visible)
+                {
+                    continue;
+                }
+
+                var contextMenuItem = designerItem.CreateContextMenuItem();
+                contextMenuItem.Click += (sender, e) => OnDesignerMenuItemClick(designerItem);
+                _contextMenu.Items.Add(contextMenuItem);
+            }
+        }
+    }
+    
+    /// <summary>
+    /// Ensures there's a separator above the first custom item.
+    /// This method should be called after adding custom items to maintain consistent visual separation.
+    /// </summary>
+    private void EnsureSeparatorAboveCustomItems()
+    {
+        // Find the Close item
+        for (int i = _contextMenu.Items.Count - 1; i >= 0; i--)
+        {
+            if (_contextMenu.Items[i] is KryptonContextMenuItem menuItem)
+            {
+                var itemText = menuItem.Text.Split('\t')[0];
+                
+                if (itemText.Equals(KryptonManager.Strings.SystemMenuStrings.Close, StringComparison.OrdinalIgnoreCase) ||
+                    itemText.Replace("&", "").Equals(KryptonManager.Strings.SystemMenuStrings.Close.Replace("&", ""), StringComparison.OrdinalIgnoreCase))
+                {
+                    // Check if there's already a separator above the Close item
+                    if (i > 0 && _contextMenu.Items[i - 1] is KryptonContextMenuSeparator)
+                    {
+                        // Separator already exists, no action needed
+                        return;
+                    }
+                    else
+                    {
+                        // Add a separator above the Close item
+                        _contextMenu.Items.Insert(i, new KryptonContextMenuSeparator());
+                    }
+                    return;
+                }
             }
         }
     }
@@ -937,20 +1537,86 @@ public class KryptonThemedSystemMenu : IKryptonThemedSystemMenu
         // 3. Integrate with a command pattern
         
         // For now, we'll just log or handle it silently
-        System.Diagnostics.Debug.WriteLine($"Designer menu item clicked: {designerItem.Text}");
+        Debug.WriteLine($"Designer menu item clicked: {designerItem.Text}");
     }
     #endregion
 
-    #region Nested Classes
+    #region Color Detection Helper Methods
     /// <summary>
-    /// Represents a system menu item with its associated context menu item.
+    /// Determines if a color is light (suitable for Office 2013 theme).
     /// </summary>
-    private class SystemMenuItem
+    /// <param name="color">The color to test.</param>
+    /// <returns>True if the color is light.</returns>
+    private bool IsLightColor(Color color)
     {
-        public uint CommandId { get; set; }
-        public string Text { get; set; } = string.Empty;
-        public KryptonContextMenuItem ContextMenuItem { get; set; } = null!;
-        public bool Enabled { get; set; }
+        // Calculate perceived brightness
+        var brightness = (0.299 * color.R + 0.587 * color.G + 0.114 * color.B) / 255;
+        return brightness > 0.6;
+    }
+
+    /// <summary>
+    /// Determines if a color is a blue tone (suitable for Office 2010 theme).
+    /// </summary>
+    /// <param name="color">The color to test.</param>
+    /// <returns>True if the color is a blue tone.</returns>
+    private bool IsBlueTone(Color color)
+    {
+        return color.B > color.R && color.B > color.G && color.B > 100;
+    }
+
+    /// <summary>
+    /// Determines if a color is a dark blue tone (suitable for Office 2007 theme).
+    /// </summary>
+    /// <param name="color">The color to test.</param>
+    /// <returns>True if the color is a dark blue tone.</returns>
+    private bool IsDarkBlueTone(Color color)
+    {
+        return color.B > color.R && color.B > color.G && color.B < 100;
+    }
+
+    /// <summary>
+    /// Determines if a color is vibrant (suitable for Sparkle theme).
+    /// </summary>
+    /// <param name="color">The color to test.</param>
+    /// <returns>True if the color is vibrant.</returns>
+    private bool IsVibrantColor(Color color)
+    {
+        var saturation = Math.Max(color.R, Math.Max(color.G, color.B)) - Math.Min(color.R, Math.Min(color.G, color.B));
+        return saturation > 100;
+    }
+
+    /// <summary>
+    /// Determines if a color is neutral (suitable for Professional theme).
+    /// </summary>
+    /// <param name="color">The color to test.</param>
+    /// <returns>True if the color is neutral.</returns>
+    private bool IsNeutralTone(Color color)
+    {
+        var diff = Math.Abs(color.R - color.G) + Math.Abs(color.G - color.B) + Math.Abs(color.B - color.R);
+        return diff < 50;
+    }
+
+    /// <summary>
+    /// Determines if a color is modern (suitable for Microsoft 365 theme).
+    /// </summary>
+    /// <param name="color">The color to test.</param>
+    /// <returns>True if the color is modern.</returns>
+    private bool IsModernColor(Color color)
+    {
+        // Modern colors often have balanced RGB values with slight blue tint
+        return Math.Abs(color.R - color.G) < 30 && color.B > Math.Max(color.R, color.G);
+    }
+
+    /// <summary>
+    /// Determines if a color is classic (suitable for Office 2003 theme).
+    /// </summary>
+    /// <param name="color">The color to test.</param>
+    /// <returns>True if the color is classic.</returns>
+    private bool IsClassicColor(Color color)
+    {
+        // Classic Windows colors are often grayish
+        var grayish = Math.Abs(color.R - color.G) < 20 && Math.Abs(color.G - color.B) < 20;
+        return grayish && color.R < 200;
     }
     #endregion
 }
