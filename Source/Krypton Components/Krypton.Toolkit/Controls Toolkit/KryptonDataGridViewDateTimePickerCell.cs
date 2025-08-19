@@ -535,7 +535,7 @@ public class KryptonDataGridViewDateTimePickerCell : DataGridViewTextBoxCell
 
         if (value is DateTime dt)
         {
-            string format = cellStyle?.Format;
+            string? format = cellStyle?.Format;
             if (string.IsNullOrEmpty(format))
             {
                 format = _format switch
@@ -599,7 +599,7 @@ public class KryptonDataGridViewDateTimePickerCell : DataGridViewTextBoxCell
             {
                 pos = cellBounds.Left;
 
-                // The WinForms cell content always receives padding of one by default, custom padding is added tot that.
+                // The WinForms cell content always receives padding of one by default, custom padding is added to that.
                 textArea = new Rectangle(
                     1 + cellBounds.Left + cellStyle.Padding.Left + indicatorSize,
                     1 + cellBounds.Top + cellStyle.Padding.Top,
@@ -610,7 +610,7 @@ public class KryptonDataGridViewDateTimePickerCell : DataGridViewTextBoxCell
             {
                 pos = cellBounds.Right - indicatorSize;
 
-                // The WinForms cell content always receives padding of one by default, custom padding is added tot that.
+                // The WinForms cell content always receives padding of one by default, custom padding is added to that.
                 textArea = new Rectangle(
                     1 + cellBounds.Left + cellStyle.Padding.Left,
                     1 + cellBounds.Top + cellStyle.Padding.Top,
@@ -640,7 +640,14 @@ public class KryptonDataGridViewDateTimePickerCell : DataGridViewTextBoxCell
                     string fmt = cellStyle?.Format ?? string.Empty;
                     if (string.IsNullOrEmpty(fmt))
                     {
-                        fmt = "G";
+                        fmt = _format switch
+                        {
+                            DateTimePickerFormat.Long => CultureInfo.CurrentCulture.DateTimeFormat.LongDatePattern,
+                            DateTimePickerFormat.Short => CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern,
+                            DateTimePickerFormat.Time => CultureInfo.CurrentCulture.DateTimeFormat.LongTimePattern,
+                            DateTimePickerFormat.Custom => string.IsNullOrEmpty(_customFormat) ? "G" : CommonHelper.MakeCustomDateFormat(_customFormat),
+                            _ => "G"
+                        };
                     }
                     var provider = (cellStyle?.FormatProvider as IFormatProvider) ?? CultureInfo.CurrentCulture;
                     formattedValue = dt.ToString(fmt, provider);
@@ -652,8 +659,8 @@ public class KryptonDataGridViewDateTimePickerCell : DataGridViewTextBoxCell
             }
 
             var displayForeColor = (cellState & DataGridViewElementStates.Selected) != 0
-                ? cellStyle.SelectionForeColor
-                : cellStyle.ForeColor;
+                ? cellStyle!.SelectionForeColor
+                : cellStyle!.ForeColor;
 
             TextRenderer.DrawText(graphics, formattedValue?.ToString() ?? string.Empty, cellStyle.Font, textArea, displayForeColor,
                 KryptonDataGridViewUtilities.ComputeTextFormatFlagsForCellStyleAlignment(righToLeft, cellStyle.Alignment, cellStyle.WrapMode));
@@ -702,7 +709,14 @@ public class KryptonDataGridViewDateTimePickerCell : DataGridViewTextBoxCell
         string format = cellStyle?.Format ?? string.Empty;
         if (string.IsNullOrEmpty(format))
         {
-            format = "G";
+            format = _format switch
+            {
+                DateTimePickerFormat.Long => CultureInfo.CurrentCulture.DateTimeFormat.LongDatePattern,
+                DateTimePickerFormat.Short => CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern,
+                DateTimePickerFormat.Time => CultureInfo.CurrentCulture.DateTimeFormat.LongTimePattern,
+                DateTimePickerFormat.Custom => string.IsNullOrEmpty(_customFormat) ? "G" : CommonHelper.MakeCustomDateFormat(_customFormat),
+                _ => "G"
+            };
         }
 
         var provider = (cellStyle?.FormatProvider as IFormatProvider) ?? CultureInfo.CurrentCulture;
@@ -723,7 +737,7 @@ public class KryptonDataGridViewDateTimePickerCell : DataGridViewTextBoxCell
         }
 
         bool rtl = DataGridView.RightToLeft == RightToLeft.Yes;
-        TextFormatFlags flags = KryptonDataGridViewUtilities.ComputeTextFormatFlagsForCellStyleAlignment(rtl, cellStyle.Alignment, cellStyle.WrapMode);
+        TextFormatFlags flags = KryptonDataGridViewUtilities.ComputeTextFormatFlagsForCellStyleAlignment(rtl, cellStyle!.Alignment, cellStyle!.WrapMode);
 
         Size textSize;
         if ((constraintSize.Width > 0) && (cellStyle.WrapMode != DataGridViewTriState.False))

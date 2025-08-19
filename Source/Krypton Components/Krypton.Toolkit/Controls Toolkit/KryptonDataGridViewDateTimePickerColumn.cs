@@ -896,6 +896,31 @@ public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconCo
     private KryptonDataGridViewDateTimePickerCell? DateTimePickerCellTemplate => CellTemplate as KryptonDataGridViewDateTimePickerCell;
     // Cell indicator image instance
     private KryptonDataGridViewCellIndicatorImage _kryptonDataGridViewCellIndicatorImage;
+    private DataGridView? _subscribedGrid;
+
+    private bool ShouldSerializeDefaultCellStyle()
+    {
+        if (!HasDefaultCellStyle)
+        {
+            return false;
+        }
+
+        DataGridViewCellStyle defaultCellStyle = DefaultCellStyle!;
+
+        return !defaultCellStyle.BackColor.IsEmpty
+               || !defaultCellStyle.ForeColor.IsEmpty
+               || !defaultCellStyle.SelectionBackColor.IsEmpty
+               || !defaultCellStyle.SelectionForeColor.IsEmpty
+               || defaultCellStyle.Font != null
+               || !defaultCellStyle.IsNullValueDefault
+               || !defaultCellStyle.IsDataSourceNullValueDefault
+               || !string.IsNullOrEmpty(defaultCellStyle.Format)
+               || !defaultCellStyle.FormatProvider.Equals(CultureInfo.CurrentCulture)
+               || defaultCellStyle.Alignment != DataGridViewContentAlignment.NotSet
+               || defaultCellStyle.WrapMode != DataGridViewTriState.NotSet
+               || defaultCellStyle.Tag != null
+               || !defaultCellStyle.Padding.Equals(Padding.Empty);
+    }
     #endregion
 
     #region Internal
@@ -911,8 +936,64 @@ public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconCo
     /// <inheritdoc/>
     protected override void OnDataGridViewChanged()
     {
+        if (_subscribedGrid != null)
+        {
+            _subscribedGrid.AutoSizeColumnsModeChanged -= OnGridAutoSizeColumnsModeChanged;
+            _subscribedGrid.DataBindingComplete -= OnGridDataBindingComplete;
+            _subscribedGrid = null;
+        }
+
         _kryptonDataGridViewCellIndicatorImage.DataGridView = DataGridView as KryptonDataGridView;
+        // Do not force a default format here. Leaving the cell style format empty
+        // allows the cell to honor the column's Format/CustomFormat at runtime and
+        // avoids the designer serializing an unwanted "G".
+
+        if (DataGridView != null)
+        {
+            _subscribedGrid = DataGridView;
+            _subscribedGrid.AutoSizeColumnsModeChanged += OnGridAutoSizeColumnsModeChanged;
+            _subscribedGrid.DataBindingComplete += OnGridDataBindingComplete;
+            EnsureColumnWidthForContent();
+        }
+
         base.OnDataGridViewChanged();
+    }
+
+    private void OnGridAutoSizeColumnsModeChanged(object? sender, EventArgs e)
+    {
+        EnsureColumnWidthForContent();
+    }
+
+    private void OnGridDataBindingComplete(object? sender, DataGridViewBindingCompleteEventArgs e)
+    {
+        EnsureColumnWidthForContent();
+    }
+
+    private void EnsureColumnWidthForContent()
+    {
+        if (DataGridView == null)
+        {
+            return;
+        }
+
+        int preferred = GetPreferredWidth(DataGridViewAutoSizeColumnMode.AllCells, true);
+        if (DataGridView.AutoSizeColumnsMode == DataGridViewAutoSizeColumnsMode.None)
+        {
+            if (Width < preferred)
+            {
+                Width = preferred;
+            }
+        }
+        else if (DataGridView.AutoSizeColumnsMode == DataGridViewAutoSizeColumnsMode.Fill)
+        {
+            // Nudge FillWeight so this column receives at least its proportional share
+            // matching the ratio between preferred and current width
+            if (Width > 0)
+            {
+                double ratio = Math.Max(1.0, (double)preferred / Width);
+                FillWeight = (float)Math.Min(65535.0, FillWeight * ratio);
+            }
+        }
     }
     #endregion Protected
 }
