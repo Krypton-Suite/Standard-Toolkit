@@ -604,6 +604,15 @@ namespace Krypton.Toolkit
         [DefaultValue(null), Category(@"Visuals"), Description(@"Gets or sets the tool bar manager.")]
         public KryptonIntegratedToolBarManager? ToolBarManager { get; set; }
 
+        /// <summary>
+        /// Gets or sets the themed system menu service for this form.
+        /// This allows any form to optionally use themed system menu functionality.
+        /// </summary>
+        [Browsable(false)]
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public KryptonThemedSystemMenuService? ThemedSystemMenuService { get; set; }
+
         #endregion
 
         #region Public IKryptonDebug
@@ -1575,6 +1584,16 @@ namespace Krypton.Toolkit
         /// Gets and sets the need to layout the view.
         /// </summary>
         protected bool NeedLayout { get; set; }
+
+        /// <summary>
+        /// Handles themed system menu keyboard shortcuts if a service is attached.
+        /// </summary>
+        /// <param name="keyData">The key combination pressed.</param>
+        /// <returns>True if the shortcut was handled by the themed system menu service; otherwise false.</returns>
+        protected bool HandleThemedSystemMenuShortcut(Keys keyData)
+        {
+            return ThemedSystemMenuService?.HandleKeyboardShortcut(keyData) ?? false;
+        }
         // ReSharper restore VirtualMemberNeverOverridden.Global
         #endregion
 

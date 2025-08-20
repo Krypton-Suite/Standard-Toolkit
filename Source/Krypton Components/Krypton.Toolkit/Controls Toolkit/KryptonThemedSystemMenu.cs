@@ -12,7 +12,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Provides a themed system menu that replaces the native Windows system menu with a KryptonContextMenu.
     /// </summary>
-    public class KryptonThemedSystemMenu
+    public class KryptonThemedSystemMenu : IDisposable
     {
         #region Instance Fields
         private readonly Form _form;
@@ -45,7 +45,14 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the themed context menu.
         /// </summary>
-        public KryptonContextMenu ContextMenu => _contextMenu;
+        public KryptonContextMenu ContextMenu
+        {
+            get
+            {
+                ThrowIfDisposed();
+                return _contextMenu;
+            }
+        }
 
         /// <summary>
         /// Gets or sets whether the themed system menu is enabled.
@@ -55,12 +62,26 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the number of items in the themed system menu.
         /// </summary>
-        public int MenuItemCount => _contextMenu.Items.Count;
+        public int MenuItemCount
+        {
+            get
+            {
+                ThrowIfDisposed();
+                return _contextMenu.Items.Count;
+            }
+        }
 
         /// <summary>
         /// Gets whether the menu has been populated with items.
         /// </summary>
-        public bool HasMenuItems => _contextMenu.Items.Count > 0;
+        public bool HasMenuItems
+        {
+            get
+            {
+                ThrowIfDisposed();
+                return _contextMenu.Items.Count > 0;
+            }
+        }
         #endregion
 
         #region Public Methods
@@ -70,6 +91,7 @@ namespace Krypton.Toolkit
         /// <param name="screenLocation">The screen coordinates where to show the menu.</param>
         public void Show(Point screenLocation)
         {
+            ThrowIfDisposed();
             if (Enabled && _contextMenu.Items.Count > 0)
             {
                 // Adjust the position to ensure the menu is fully visible
@@ -83,6 +105,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public void ShowAtFormTopLeft()
         {
+            ThrowIfDisposed();
             if (Enabled && _contextMenu.Items.Count > 0)
             {
                 // Position at the top-left corner of the form, just like the native system menu
@@ -105,6 +128,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public void Refresh()
         {
+            ThrowIfDisposed();
             BuildSystemMenu();
             UpdateMenuItemsState();
         }
@@ -116,6 +140,7 @@ namespace Krypton.Toolkit
         /// <returns>True if the shortcut was handled; otherwise false.</returns>
         public bool HandleKeyboardShortcut(Keys keyData)
         {
+            ThrowIfDisposed();
             if (!Enabled) return false;
 
             // Handle Alt+F4 for Close
@@ -143,6 +168,7 @@ namespace Krypton.Toolkit
         /// <param name="insertBeforeClose">If true, inserts the item before the Close item; otherwise adds it at the end.</param>
         public void AddCustomMenuItem(string text, EventHandler clickHandler, bool insertBeforeClose = true)
         {
+            ThrowIfDisposed();
             if (string.IsNullOrEmpty(text) || clickHandler == null) return;
 
             var customItem = new KryptonContextMenuItem(text);
@@ -172,6 +198,7 @@ namespace Krypton.Toolkit
         /// <param name="insertBeforeClose">If true, inserts the separator before the Close item; otherwise adds it at the end.</param>
         public void AddSeparator(bool insertBeforeClose = true)
         {
+            ThrowIfDisposed();
             var separator = new KryptonContextMenuSeparator();
 
             if (insertBeforeClose && _contextMenu.Items.Count > 0)
@@ -197,6 +224,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public void ClearCustomItems()
         {
+            ThrowIfDisposed();
             BuildSystemMenu();
         }
 
@@ -206,6 +234,7 @@ namespace Krypton.Toolkit
         /// <returns>A list of custom menu item texts.</returns>
         public List<string> GetCustomMenuItems()
         {
+            ThrowIfDisposed();
             var customItems = new List<string>();
             var standardItems = new[] { "Restore", "Move", "Size", "Minimize", "Maximize", "Close" };
 
@@ -323,7 +352,7 @@ namespace Krypton.Toolkit
             try
             {
                 var mii = new PI.MENUITEMINFO();
-                mii.fMask = PI.MIIM_ID | PI.MIIM_STRING | PI.MIIM_STATE | PI.MIIM_TYPE;
+                mii.fMask = (uint)(PI.MenuItemInfoMask.MIIM_ID | PI.MenuItemInfoMask.MIIM_STRING | PI.MenuItemInfoMask.MIIM_STATE | PI.MenuItemInfoMask.MIIM_TYPE);
                 
                 if (PI.GetMenuItemInfo(hMenu, (uint)position, true, ref mii))
                 {
@@ -334,7 +363,7 @@ namespace Krypton.Toolkit
                     var contextMenuItem = new KryptonContextMenuItem(text);
                     
                     // Set the enabled state
-                    contextMenuItem.Enabled = (mii.fState & PI.MFS_DISABLED) == 0;
+                    contextMenuItem.Enabled = (mii.fState & (uint)PI.MenuItemState.MFS_DISABLED) == 0;
                     
                     // Handle click events
                     contextMenuItem.Click += (sender, e) => HandleMenuItemClick(mii.wID);
@@ -618,6 +647,56 @@ namespace Krypton.Toolkit
             public string Text { get; set; } = string.Empty;
             public KryptonContextMenuItem ContextMenuItem { get; set; } = null!;
             public bool Enabled { get; set; }
+        }
+        #endregion
+
+        #region IDisposable Implementation
+        private bool _disposed = false;
+
+        /// <summary>
+        /// Throws an ObjectDisposedException if the object has been disposed.
+        /// </summary>
+        private void ThrowIfDisposed()
+        {
+            if (_disposed)
+            {
+                throw new ObjectDisposedException(nameof(KryptonThemedSystemMenu));
+            }
+        }
+
+        /// <summary>
+        /// Releases all resources used by the KryptonThemedSystemMenu.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Releases the unmanaged resources used by the KryptonThemedSystemMenu and optionally releases the managed resources.
+        /// </summary>
+        /// <param name="disposing">True to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    // Dispose managed resources
+                    _contextMenu?.Dispose();
+                }
+
+                _disposed = true;
+            }
+        }
+
+        /// <summary>
+        /// Finalizer for KryptonThemedSystemMenu.
+        /// </summary>
+        ~KryptonThemedSystemMenu()
+        {
+            Dispose(false);
         }
         #endregion
     }

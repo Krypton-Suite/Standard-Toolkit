@@ -101,7 +101,7 @@ namespace Krypton.Toolkit
         private bool _mdiTransferred;
         private Control? _activeControl;
         private KryptonFormTitleStyle _titleStyle;
-        private KryptonThemedSystemMenu? _themedSystemMenu;
+        private readonly KryptonThemedSystemMenuService _themedSystemMenuService;
 
         #endregion
 
@@ -180,8 +180,11 @@ namespace Krypton.Toolkit
                                                        CreateToolStripRenderer,
                                                        OnNeedPaint);
 
-            // Create the themed system menu
-            _themedSystemMenu = new KryptonThemedSystemMenu(this);
+            // Create the themed system menu service
+            _themedSystemMenuService = new KryptonThemedSystemMenuService(this);
+            
+            // Attach the service to the base class for potential use by other forms
+            ThemedSystemMenuService = _themedSystemMenuService;
 
             // Create the manager for handling tooltips
             ToolTipManager = new ToolTipManager(new ToolTipValues(null, GetDpiFactor)); // use default, as each button "could" have different values ??!!??
@@ -242,6 +245,9 @@ namespace Krypton.Toolkit
                 ButtonSpecMin.Dispose();
                 ButtonSpecMax.Dispose();
                 ButtonSpecClose.Dispose();
+                
+                // Dispose of the themed system menu service
+                _themedSystemMenuService?.Dispose();
             }
 
             base.Dispose(disposing);
@@ -596,14 +602,8 @@ namespace Krypton.Toolkit
         [DefaultValue(true)]
         public bool UseThemedSystemMenu
         {
-            get => _themedSystemMenu?.Enabled ?? false;
-            set
-            {
-                if (_themedSystemMenu != null)
-                {
-                    _themedSystemMenu.Enabled = value;
-                }
-            }
+            get => _themedSystemMenuService.UseThemedSystemMenu;
+            set => _themedSystemMenuService.UseThemedSystemMenu = value;
         }
 
         /// <summary>
@@ -612,7 +612,11 @@ namespace Krypton.Toolkit
         [Category(@"Appearance")]
         [Description(@"Determines if left-click on title bar shows the themed system menu.")]
         [DefaultValue(true)]
-        public bool ShowThemedSystemMenuOnLeftClick { get; set; } = true;
+        public bool ShowThemedSystemMenuOnLeftClick
+        {
+            get => _themedSystemMenuService.ShowThemedSystemMenuOnLeftClick;
+            set => _themedSystemMenuService.ShowThemedSystemMenuOnLeftClick = value;
+        }
 
         /// <summary>
         /// Gets and sets a value indicating if right-click on title bar shows the themed system menu.
@@ -620,7 +624,11 @@ namespace Krypton.Toolkit
         [Category(@"Appearance")]
         [Description(@"Determines if right-click on title bar shows the themed system menu.")]
         [DefaultValue(true)]
-        public bool ShowThemedSystemMenuOnRightClick { get; set; } = true;
+        public bool ShowThemedSystemMenuOnRightClick
+        {
+            get => _themedSystemMenuService.ShowThemedSystemMenuOnRightClick;
+            set => _themedSystemMenuService.ShowThemedSystemMenuOnRightClick = value;
+        }
 
         /// <summary>
         /// Gets and sets a value indicating if Alt+Space shows the themed system menu.
@@ -628,7 +636,11 @@ namespace Krypton.Toolkit
         [Category(@"Appearance")]
         [Description(@"Determines if Alt+Space shows the themed system menu.")]
         [DefaultValue(true)]
-        public bool ShowThemedSystemMenuOnAltSpace { get; set; } = true;
+        public bool ShowThemedSystemMenuOnAltSpace
+        {
+            get => _themedSystemMenuService.ShowThemedSystemMenuOnAltSpace;
+            set => _themedSystemMenuService.ShowThemedSystemMenuOnAltSpace = value;
+        }
 
         /// <summary>
         /// Next time a layout occurs the min/max/close buttons need recreating.
@@ -642,7 +654,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public KryptonThemedSystemMenu? ThemedSystemMenu => _themedSystemMenu;
+        public KryptonThemedSystemMenu? ThemedSystemMenu => _themedSystemMenuService.ThemedSystemMenu;
 
         /// <summary>
         /// Gets access to the ToolTipManager used for displaying tool tips.
@@ -1022,23 +1034,10 @@ namespace Krypton.Toolkit
         /// <inheritdoc />
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            // Handle Alt+Space to show the themed system menu
-            if (UseThemedSystemMenu && ShowThemedSystemMenuOnAltSpace && _themedSystemMenu != null && 
-                keyData == (Keys.Alt | Keys.Space))
+            // Handle themed system menu keyboard shortcuts
+            if (_themedSystemMenuService.HandleKeyboardShortcut(keyData))
             {
-                // Show the themed system menu at the top-left of the form
-                _themedSystemMenu.ShowAtFormTopLeft();
                 return true;
-            }
-
-            // Handle Alt+F4 for close (integrate with themed system menu if enabled)
-            if (UseThemedSystemMenu && _themedSystemMenu != null && keyData == (Keys.Alt | Keys.F4))
-            {
-                // Let the themed system menu handle Alt+F4
-                if (_themedSystemMenu.HandleKeyboardShortcut(keyData))
-                {
-                    return true;
-                }
             }
 
             return base.ProcessCmdKey(ref msg, keyData);
@@ -1072,18 +1071,12 @@ namespace Krypton.Toolkit
             else if (m.Msg == PI.WM_.NCRBUTTONDOWN)
             {
                 // Handle right-click in non-client area (title bar)
-                if (UseThemedSystemMenu && ShowThemedSystemMenuOnRightClick && _themedSystemMenu != null)
+                var screenPoint = new Point(PI.GET_X_LPARAM(m.LParam), PI.GET_Y_LPARAM(m.LParam));
+                
+                if (_themedSystemMenuService.HandleRightClick(screenPoint, IsInTitleBarArea(screenPoint), IsOnControlButtons(screenPoint)))
                 {
-                    // Get the screen coordinates from the message
-                    var screenPoint = new Point(PI.GET_X_LPARAM(m.LParam), PI.GET_Y_LPARAM(m.LParam));
-                    
-                    // Check if the click is in the title bar area (but not on buttons)
-                    if (IsInTitleBarArea(screenPoint) && !IsOnControlButtons(screenPoint))
-                    {
-                        _themedSystemMenu.Show(screenPoint);
-                        m.Result = IntPtr.Zero;
-                        return;
-                    }
+                    m.Result = IntPtr.Zero;
+                    return;
                 }
             }
 
@@ -1306,14 +1299,9 @@ namespace Krypton.Toolkit
                 Point windowPoint = ScreenToWindow(screenPoint);
 
                 // Check if we should show the themed system menu
-                if (UseThemedSystemMenu && ShowThemedSystemMenuOnLeftClick && _themedSystemMenu != null)
+                if (_themedSystemMenuService.HandleLeftClick(screenPoint, IsInTitleBarArea(screenPoint), IsOnControlButtons(screenPoint)))
                 {
-                    // Only show the menu if clicking in the title bar area (but not on buttons)
-                    if (IsInTitleBarArea(screenPoint) && !IsOnControlButtons(screenPoint))
-                    {
-                        _themedSystemMenu.Show(screenPoint);
-                        return true;
-                    }
+                    return true;
                 }
             }
 
@@ -1484,7 +1472,7 @@ namespace Krypton.Toolkit
                         NeedLayout = true;
                         
                         // Refresh the themed system menu to reflect new state
-                        _themedSystemMenu?.Refresh();
+                        _themedSystemMenuService.Refresh();
                     }
 
                     // Text can change because of a minimized/maximized MDI child so need
