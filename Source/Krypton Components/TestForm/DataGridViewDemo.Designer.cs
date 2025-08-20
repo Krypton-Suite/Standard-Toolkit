@@ -45,16 +45,6 @@ namespace TestForm
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
             this.kdgvMain = new Krypton.Toolkit.KryptonDataGridView();
-            this.colId = new Krypton.Toolkit.KryptonDataGridViewTextBoxColumn();
-            this.colName = new Krypton.Toolkit.KryptonDataGridViewTextBoxColumn();
-            this.colQuantity = new Krypton.Toolkit.KryptonDataGridViewNumericUpDownColumn();
-            this.colDate = new Krypton.Toolkit.KryptonDataGridViewDateTimePickerColumn();
-            this.colActive = new Krypton.Toolkit.KryptonDataGridViewCheckBoxColumn();
-            this.colCombo = new Krypton.Toolkit.KryptonDataGridViewComboBoxColumn();
-            this.colMasked = new Krypton.Toolkit.KryptonDataGridViewMaskedTextBoxColumn();
-            this.colDomain = new Krypton.Toolkit.KryptonDataGridViewDomainUpDownColumn();
-            this.colProgress = new Krypton.Toolkit.KryptonDataGridViewProgressColumn();
-            this.colRating = new Krypton.Toolkit.KryptonDataGridViewRatingColumn();
             this.kryptonThemeComboBox1 = new Krypton.Toolkit.KryptonThemeComboBox();
             this.pnlOptions = new Krypton.Toolkit.KryptonPanel();
             this.klblColumnHeadersHeight = new Krypton.Toolkit.KryptonLabel();
@@ -81,6 +71,16 @@ namespace TestForm
             this.kchkAllowUserToResizeColumns = new Krypton.Toolkit.KryptonCheckBox();
             this.kchkAllowUserToDeleteRows = new Krypton.Toolkit.KryptonCheckBox();
             this.kchkAllowUserToAddRows = new Krypton.Toolkit.KryptonCheckBox();
+            this.colId = new Krypton.Toolkit.KryptonDataGridViewTextBoxColumn();
+            this.colName = new Krypton.Toolkit.KryptonDataGridViewTextBoxColumn();
+            this.colQuantity = new Krypton.Toolkit.KryptonDataGridViewNumericUpDownColumn();
+            this.colDate = new Krypton.Toolkit.KryptonDataGridViewDateTimePickerColumn();
+            this.colActive = new Krypton.Toolkit.KryptonDataGridViewCheckBoxColumn();
+            this.colCombo = new Krypton.Toolkit.KryptonDataGridViewComboBoxColumn();
+            this.colMasked = new Krypton.Toolkit.KryptonDataGridViewMaskedTextBoxColumn();
+            this.colDomain = new Krypton.Toolkit.KryptonDataGridViewDomainUpDownColumn();
+            this.colProgress = new Krypton.Toolkit.KryptonDataGridViewProgressColumn();
+            this.colRating = new Krypton.Toolkit.KryptonDataGridViewRatingColumn();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kdgvMain)).BeginInit();
@@ -102,7 +102,7 @@ namespace TestForm
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(1032, 610);
+            this.kryptonPanel1.Size = new System.Drawing.Size(1036, 598);
             this.kryptonPanel1.TabIndex = 0;
             // 
             // kdgvMain
@@ -125,102 +125,10 @@ namespace TestForm
             this.colRating});
             this.kdgvMain.Location = new System.Drawing.Point(12, 40);
             this.kdgvMain.Name = "kdgvMain";
-            this.kdgvMain.Size = new System.Drawing.Size(1008, 366);
+            this.kdgvMain.Size = new System.Drawing.Size(1012, 354);
             this.kdgvMain.TabIndex = 1;
             this.kdgvMain.ColumnHeadersHeightChanged += new System.EventHandler(this.kdgvMain_ColumnHeadersHeightChanged);
             this.kdgvMain.RowHeadersWidthChanged += new System.EventHandler(this.kdgvMain_RowHeadersWidthChanged);
-            // 
-            // colId
-            // 
-            this.colId.HeaderText = "Id";
-            iconSpec1.Alignment = Krypton.Toolkit.IconSpec.IconAlignment.Right;
-            iconSpec1.Icon = ((System.Drawing.Image)(resources.GetObject("iconSpec1.Icon")));
-            this.colId.IconSpecs.Add(iconSpec1);
-            this.colId.Name = "colId";
-            this.colId.Width = 46;
-            // 
-            // colName
-            // 
-            this.colName.HeaderText = "Name";
-            iconSpec2.Alignment = Krypton.Toolkit.IconSpec.IconAlignment.Right;
-            iconSpec2.Icon = ((System.Drawing.Image)(resources.GetObject("iconSpec2.Icon")));
-            this.colName.IconSpecs.Add(iconSpec2);
-            this.colName.Name = "colName";
-            this.colName.Width = 68;
-            // 
-            // colQuantity
-            // 
-            this.colQuantity.AllowDecimals = false;
-            this.colQuantity.HeaderText = "Quantity";
-            iconSpec3.Alignment = Krypton.Toolkit.IconSpec.IconAlignment.Right;
-            iconSpec3.Icon = ((System.Drawing.Image)(resources.GetObject("iconSpec3.Icon")));
-            this.colQuantity.IconSpecs.Add(iconSpec3);
-            this.colQuantity.Name = "colQuantity";
-            this.colQuantity.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.colQuantity.Width = 82;
-            // 
-            // colDate
-            // 
-            this.colDate.Checked = false;
-            this.colDate.CustomFormat = "dd.MM.yyyy";
-            dataGridViewCellStyle1.Padding = new System.Windows.Forms.Padding(0, 0, 17, 0);
-            this.colDate.DefaultCellStyle = dataGridViewCellStyle1;
-            this.colDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.colDate.HeaderText = "Date";
-            this.colDate.MinimumWidth = 19;
-            this.colDate.Name = "colDate";
-            this.colDate.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.colDate.Width = 60;
-            // 
-            // colActive
-            // 
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.NullValue = false;
-            this.colActive.DefaultCellStyle = dataGridViewCellStyle2;
-            this.colActive.FalseValue = null;
-            this.colActive.HeaderText = "Active";
-            this.colActive.IndeterminateValue = null;
-            this.colActive.Name = "colActive";
-            this.colActive.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.colActive.TrueValue = null;
-            this.colActive.Width = 69;
-            // 
-            // colCombo
-            // 
-            this.colCombo.DropDownWidth = 121;
-            this.colCombo.HeaderText = "Combo";
-            this.colCombo.Name = "colCombo";
-            this.colCombo.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.colCombo.Width = 76;
-            // 
-            // colMasked
-            // 
-            this.colMasked.HeaderText = "Masked";
-            this.colMasked.Name = "colMasked";
-            this.colMasked.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.colMasked.Width = 77;
-            // 
-            // colDomain
-            // 
-            this.colDomain.HeaderText = "Domain";
-            this.colDomain.Name = "colDomain";
-            this.colDomain.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.colDomain.Width = 78;
-            // 
-            // colProgress
-            // 
-            this.colProgress.HeaderText = "Progress";
-            this.colProgress.Name = "colProgress";
-            this.colProgress.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.colProgress.Width = 81;
-            // 
-            // colRating
-            // 
-            this.colRating.HeaderText = "Rating";
-            this.colRating.Name = "colRating";
-            this.colRating.RatingMaximum = ((byte)(0));
-            this.colRating.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.colRating.Width = 70;
             // 
             // kryptonThemeComboBox1
             // 
@@ -259,9 +167,9 @@ namespace TestForm
             this.pnlOptions.Controls.Add(this.kchkAllowUserToDeleteRows);
             this.pnlOptions.Controls.Add(this.kchkAllowUserToAddRows);
             this.pnlOptions.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlOptions.Location = new System.Drawing.Point(0, 430);
+            this.pnlOptions.Location = new System.Drawing.Point(0, 418);
             this.pnlOptions.Name = "pnlOptions";
-            this.pnlOptions.Size = new System.Drawing.Size(1032, 180);
+            this.pnlOptions.Size = new System.Drawing.Size(1036, 180);
             this.pnlOptions.TabIndex = 2;
             // 
             // klblColumnHeadersHeight
@@ -582,11 +490,103 @@ namespace TestForm
             this.kchkAllowUserToAddRows.Values.Text = "AllowUserToAddRows";
             this.kchkAllowUserToAddRows.CheckedChanged += new System.EventHandler(this.kchkAllowUserToAddRows_CheckedChanged);
             // 
+            // colId
+            // 
+            this.colId.HeaderText = "Id";
+            iconSpec1.Alignment = Krypton.Toolkit.IconSpec.IconAlignment.Right;
+            iconSpec1.Icon = ((System.Drawing.Image)(resources.GetObject("iconSpec1.Icon")));
+            this.colId.IconSpecs.Add(iconSpec1);
+            this.colId.Name = "colId";
+            this.colId.Width = 46;
+            // 
+            // colName
+            // 
+            this.colName.HeaderText = "Name";
+            iconSpec2.Alignment = Krypton.Toolkit.IconSpec.IconAlignment.Right;
+            iconSpec2.Icon = ((System.Drawing.Image)(resources.GetObject("iconSpec2.Icon")));
+            this.colName.IconSpecs.Add(iconSpec2);
+            this.colName.Name = "colName";
+            this.colName.Width = 68;
+            // 
+            // colQuantity
+            // 
+            this.colQuantity.AllowDecimals = false;
+            this.colQuantity.HeaderText = "Quantity";
+            iconSpec3.Alignment = Krypton.Toolkit.IconSpec.IconAlignment.Right;
+            iconSpec3.Icon = ((System.Drawing.Image)(resources.GetObject("iconSpec3.Icon")));
+            this.colQuantity.IconSpecs.Add(iconSpec3);
+            this.colQuantity.Name = "colQuantity";
+            this.colQuantity.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.colQuantity.Width = 82;
+            // 
+            // colDate
+            // 
+            this.colDate.Checked = false;
+            this.colDate.CustomFormat = "dd.MM.yyyy";
+            dataGridViewCellStyle1.Padding = new System.Windows.Forms.Padding(0, 0, 17, 0);
+            this.colDate.DefaultCellStyle = dataGridViewCellStyle1;
+            this.colDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.colDate.HeaderText = "Date";
+            this.colDate.MinimumWidth = 19;
+            this.colDate.Name = "colDate";
+            this.colDate.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.colDate.Width = 60;
+            // 
+            // colActive
+            // 
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.NullValue = false;
+            this.colActive.DefaultCellStyle = dataGridViewCellStyle2;
+            this.colActive.FalseValue = null;
+            this.colActive.HeaderText = "Active";
+            this.colActive.IndeterminateValue = null;
+            this.colActive.Name = "colActive";
+            this.colActive.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.colActive.TrueValue = null;
+            this.colActive.Width = 69;
+            // 
+            // colCombo
+            // 
+            this.colCombo.DropDownWidth = 121;
+            this.colCombo.HeaderText = "Combo";
+            this.colCombo.Name = "colCombo";
+            this.colCombo.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.colCombo.Width = 76;
+            // 
+            // colMasked
+            // 
+            this.colMasked.HeaderText = "Masked";
+            this.colMasked.Name = "colMasked";
+            this.colMasked.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.colMasked.Width = 77;
+            // 
+            // colDomain
+            // 
+            this.colDomain.HeaderText = "Domain";
+            this.colDomain.Name = "colDomain";
+            this.colDomain.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.colDomain.Width = 78;
+            // 
+            // colProgress
+            // 
+            this.colProgress.HeaderText = "Progress";
+            this.colProgress.Name = "colProgress";
+            this.colProgress.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.colProgress.Width = 81;
+            // 
+            // colRating
+            // 
+            this.colRating.HeaderText = "Rating";
+            this.colRating.Name = "colRating";
+            this.colRating.RatingMaximum = ((byte)(0));
+            this.colRating.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.colRating.Width = 70;
+            // 
             // DataGridViewDemo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1032, 610);
+            this.ClientSize = new System.Drawing.Size(1036, 598);
             this.Controls.Add(this.kryptonPanel1);
             this.Name = "DataGridViewDemo";
             this.Text = "KryptonDataGridView Demo";

@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *
  */
 #endregion
 
@@ -25,6 +25,10 @@ public class KryptonDataGridViewTextBoxCell : DataGridViewTextBoxCell
     #region Static Fields
     private static readonly Type _defaultEditType = typeof(KryptonDataGridViewTextBoxEditingControl);
     private static readonly Type _defaultValueType = typeof(string);
+
+    // Shared across several derivates that have a dropdown
+    protected const int IndicatorSize = 16;
+    protected const int IndicatorGap = 3;
 
     #endregion
 
@@ -77,10 +81,10 @@ public class KryptonDataGridViewTextBoxCell : DataGridViewTextBoxCell
     public override object Clone()
     {
         var cloned = (KryptonDataGridViewTextBoxCell)base.Clone();
- 
+
         cloned.Multiline = Multiline;
         cloned.MultilineStringEditor = MultilineStringEditor;
-            
+
         return cloned;
     }
 
@@ -137,8 +141,8 @@ public class KryptonDataGridViewTextBoxCell : DataGridViewTextBoxCell
     }
 
     /// <summary>
-    /// Custom implementation of the InitializeEditingControl function. This function is called by the DataGridView control 
-    /// at the beginning of an editing session. It makes sure that the properties of the KryptonNumericUpDown editing control are 
+    /// Custom implementation of the InitializeEditingControl function. This function is called by the DataGridView control
+    /// at the beginning of an editing session. It makes sure that the properties of the KryptonNumericUpDown editing control are
     /// set according to the cell properties.
     /// </summary>
     public override void InitializeEditingControl(int rowIndex,
@@ -194,16 +198,42 @@ public class KryptonDataGridViewTextBoxCell : DataGridViewTextBoxCell
             singleVerticalBorderAdded, singleHorizontalBorderAdded,
             isFirstDisplayedColumn, isFirstDisplayedRow);
 
+        // Allow derived cells to reclaim any space reserved in non-edit mode (e.g., indicator glyph)
+        int extra = GetReservedNonEditingSpacePixels(cellStyle);
+        if (extra > 0)
+        {
+            bool rtl = DataGridView?.RightToLeft == RightToLeft.Yes;
+            if (rtl)
+            {
+                int delta = Math.Min(extra, editingControlBounds.X - cellBounds.X);
+                editingControlBounds.X -= delta;
+                editingControlBounds.Width += delta;
+            }
+            else
+            {
+                int available = cellBounds.Right - (editingControlBounds.X + editingControlBounds.Width);
+                int delta = Math.Min(extra, available);
+                editingControlBounds.Width += delta;
+            }
+        }
+
         editingControlBounds = GetAdjustedEditingControlBounds(editingControlBounds, cellStyle);
         DataGridView!.EditingControl!.Location = new Point(editingControlBounds.X, editingControlBounds.Y);
         DataGridView.EditingControl.Size = new Size(editingControlBounds.Width, editingControlBounds.Height);
     }
+
+    /// <summary>
+    /// Returns pixels reserved by the cell for non-edit adornments that should be reclaimed in edit mode.
+    /// Default: 0. Derived cells can override to expand the editing control width (RTL-aware handled here).
+    /// </summary>
+    protected virtual int GetReservedNonEditingSpacePixels(DataGridViewCellStyle cellStyle) => 0;
+
     #endregion
 
     #region Protected
 
     /// <summary>
-    /// Customized implementation of the GetErrorIconBounds function in order to draw the potential 
+    /// Customized implementation of the GetErrorIconBounds function in order to draw the potential
     /// error icon next to the up/down buttons and not on top of them.
     /// </summary>
     protected override Rectangle GetErrorIconBounds(Graphics graphics, DataGridViewCellStyle cellStyle, int rowIndex)
@@ -219,8 +249,8 @@ public class KryptonDataGridViewTextBoxCell : DataGridViewTextBoxCell
     /// </summary>
     protected override Size GetPreferredSize(Graphics graphics, DataGridViewCellStyle cellStyle, int rowIndex, Size constraintSize)
     {
-        return DataGridView == null 
-            ? new Size(-1, -1) 
+        return DataGridView == null
+            ? new Size(-1, -1)
             : base.GetPreferredSize(graphics, cellStyle, rowIndex, constraintSize);
     }
 
@@ -228,7 +258,8 @@ public class KryptonDataGridViewTextBoxCell : DataGridViewTextBoxCell
 
     #region Private
 
-    private KryptonDataGridViewTextBoxEditingControl? EditingTextBox => DataGridView!.EditingControl as KryptonDataGridViewTextBoxEditingControl;
+    private KryptonDataGridViewTextBoxEditingControl? EditingTextBox =>
+        DataGridView!.EditingControl as KryptonDataGridViewTextBoxEditingControl;
 
     private Rectangle GetAdjustedEditingControlBounds(Rectangle editingControlBounds,
         DataGridViewCellStyle cellStyle)
@@ -275,7 +306,8 @@ public class KryptonDataGridViewTextBoxCell : DataGridViewTextBoxCell
         && DataGridView is { EditingControl: KryptonDataGridViewTextBoxEditingControl control }
         && (rowIndex == ((IDataGridViewEditingControl)control).EditingControlRowIndex);
 
-    private static bool PartPainted(DataGridViewPaintParts paintParts, DataGridViewPaintParts paintPart) => paintParts.HasFlag(paintPart);
+    private static bool PartPainted(DataGridViewPaintParts paintParts, DataGridViewPaintParts paintPart) =>
+        paintParts.HasFlag(paintPart);
 
     #endregion
 

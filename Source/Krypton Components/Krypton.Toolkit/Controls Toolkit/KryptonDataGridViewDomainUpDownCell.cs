@@ -15,7 +15,7 @@ namespace Krypton.Toolkit;
 /// <summary>
 /// Defines a KryptonDomainUpDown cell type for the KryptonDataGridView control
 /// </summary>
-public class KryptonDataGridViewDomainUpDownCell : DataGridViewTextBoxCell
+public class KryptonDataGridViewDomainUpDownCell : KryptonDataGridViewTextBoxCell
 {
     #region Static Fields
     private const DataGridViewContentAlignment ANY_RIGHT = DataGridViewContentAlignment.TopRight | DataGridViewContentAlignment.MiddleRight | DataGridViewContentAlignment.BottomRight;
@@ -41,6 +41,23 @@ public class KryptonDataGridViewDomainUpDownCell : DataGridViewTextBoxCell
     #endregion
 
     #region Public
+
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public new bool Multiline
+    {
+        get => base.Multiline;
+        set => base.Multiline = value;
+    }
+
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public new bool MultilineStringEditor
+    {
+        get => base.MultilineStringEditor;
+        set => base.MultilineStringEditor = value;
+    }
+
     /// <summary>
     /// Define the type of the cell's editing control
     /// </summary>
@@ -116,28 +133,26 @@ public class KryptonDataGridViewDomainUpDownCell : DataGridViewTextBoxCell
             Rectangle textArea;
             var righToLeft = DataGridView.RightToLeft == RightToLeft.Yes;
 
-            const int indicatorSize = 16;
-
             if (righToLeft)
             {
                 pos = cellBounds.Left;
 
                 // The WinForms cell content always receives padding of one by default, custom padding is added tot that.
                 textArea = new Rectangle(
-                    1 + cellBounds.Left + cellStyle.Padding.Left + indicatorSize,
+                    1 + cellBounds.Left + cellStyle.Padding.Left + IndicatorSize,
                     1 + cellBounds.Top + cellStyle.Padding.Top,
-                    cellBounds.Width - cellStyle.Padding.Left - cellStyle.Padding.Right - indicatorSize - 3,
+                    cellBounds.Width - cellStyle.Padding.Left - cellStyle.Padding.Right - IndicatorSize - 3,
                     cellBounds.Height - cellStyle.Padding.Top - cellStyle.Padding.Bottom - 2);
             }
             else
             {
-                pos = cellBounds.Right - indicatorSize;
+                pos = cellBounds.Right - IndicatorSize;
 
                 // The WinForms cell content always receives padding of one by default, custom padding is added tot that.
                 textArea = new Rectangle(
                     1 + cellBounds.Left + cellStyle.Padding.Left,
                     1 + cellBounds.Top + cellStyle.Padding.Top,
-                    cellBounds.Width - cellStyle.Padding.Left - cellStyle.Padding.Right - indicatorSize - 3,
+                    cellBounds.Width - cellStyle.Padding.Left - cellStyle.Padding.Right - IndicatorSize - 3,
                     cellBounds.Height - cellStyle.Padding.Top - cellStyle.Padding.Bottom - 2);
             }
 
@@ -152,9 +167,9 @@ public class KryptonDataGridViewDomainUpDownCell : DataGridViewTextBoxCell
             // If the ErrorText is set, only the error icon is shown. Otherwise both are painted on the same spot.
             if (ErrorText.Length == 0)
             {
-                var sized = KryptonOwningColumn?.GetIndicatorImageForSize(indicatorSize) ?? image;
-                int y = textArea.Top + (textArea.Height - indicatorSize) / 2;
-                graphics.DrawImage(sized, new Rectangle(pos, y, indicatorSize, indicatorSize));
+                var sized = KryptonOwningColumn?.GetIndicatorImageForSize(IndicatorSize) ?? image;
+                int y = textArea.Top + (textArea.Height - IndicatorSize) / 2;
+                graphics.DrawImage(sized, new Rectangle(pos, y, IndicatorSize, IndicatorSize));
             }
             else
             {
@@ -231,48 +246,8 @@ public class KryptonDataGridViewDomainUpDownCell : DataGridViewTextBoxCell
         bool isFirstDisplayedColumn,
         bool isFirstDisplayedRow)
     {
-        Rectangle editingControlBounds = PositionEditingPanel(cellBounds, cellClip, cellStyle,
-            singleVerticalBorderAdded, singleHorizontalBorderAdded,
-            isFirstDisplayedColumn, isFirstDisplayedRow);
-
-        editingControlBounds = GetAdjustedEditingControlBounds(editingControlBounds, cellStyle);
-
-        if (DataGridView?.EditingControl is not null)
-        {
-            if (setLocation)
-            {
-                DataGridView.EditingControl.Location = new Point(editingControlBounds.X, editingControlBounds.Y);
-            }
-            if (setSize)
-            {
-                DataGridView.EditingControl.Size = new Size(editingControlBounds.Width, editingControlBounds.Height);
-            }
-        }
-    }
-
-    private Rectangle GetAdjustedEditingControlBounds(Rectangle editingControlBounds,
-        DataGridViewCellStyle cellStyle)
-    {
-        var preferredHeight = DataGridView!.EditingControl!.GetPreferredSize(new Size(editingControlBounds.Width, 10000)).Height;
-        if (preferredHeight < editingControlBounds.Height)
-        {
-            switch (cellStyle.Alignment)
-            {
-                case DataGridViewContentAlignment.MiddleLeft:
-                case DataGridViewContentAlignment.MiddleCenter:
-                case DataGridViewContentAlignment.MiddleRight:
-                    editingControlBounds.Y += (editingControlBounds.Height - preferredHeight) / 2;
-                    break;
-                case DataGridViewContentAlignment.BottomLeft:
-                case DataGridViewContentAlignment.BottomCenter:
-                case DataGridViewContentAlignment.BottomRight:
-                    editingControlBounds.Y += editingControlBounds.Height - preferredHeight;
-                    break;
-            }
-            editingControlBounds.Height = preferredHeight;
-        }
-
-        return editingControlBounds;
+        base.PositionEditingControl(setLocation, setSize, cellBounds, cellClip, cellStyle,
+            singleVerticalBorderAdded, singleHorizontalBorderAdded, isFirstDisplayedColumn, isFirstDisplayedRow);
     }
 
     #region Internal

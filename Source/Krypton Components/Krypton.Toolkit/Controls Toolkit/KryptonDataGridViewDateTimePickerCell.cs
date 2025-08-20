@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
  *
  */
 #endregion
@@ -15,7 +15,7 @@ namespace Krypton.Toolkit;
 /// <summary>
 /// Defines a KryptonDateTimePicker cell type for the KryptonDataGridView control
 /// </summary>
-public class KryptonDataGridViewDateTimePickerCell : DataGridViewTextBoxCell
+public class KryptonDataGridViewDateTimePickerCell : KryptonDataGridViewTextBoxCell
 {
     #region Static Fields
     private static readonly DateTimeConverter _dtc = new DateTimeConverter();
@@ -86,6 +86,22 @@ public class KryptonDataGridViewDateTimePickerCell : DataGridViewTextBoxCell
     /// Returns the type of the cell's Value property
     /// </summary>
     public override Type ValueType => base.ValueType ?? _defaultValueType;
+
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public new bool Multiline
+    {
+        get => base.Multiline;
+        set => base.Multiline = value;
+    }
+
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public new bool MultilineStringEditor
+    {
+        get => base.MultilineStringEditor;
+        set => base.MultilineStringEditor = value;
+    }
 
     /// <summary>
     /// Clones a DataGridViewDateTimePickerCell cell, copies all the custom properties.
@@ -473,6 +489,7 @@ public class KryptonDataGridViewDateTimePickerCell : DataGridViewTextBoxCell
             {
                 dateTime.ShowCheckBox = ShowCheckBox;
                 dateTime.ShowUpDown = ShowUpDown;
+                dateTime.ShowAdornments = true;
                 dateTime.AutoShift = AutoShift;
                 dateTime.Checked = Checked;
                 dateTime.CustomFormat = CustomFormat;
@@ -623,51 +640,7 @@ public class KryptonDataGridViewDateTimePickerCell : DataGridViewTextBoxCell
         return _dtc.ConvertFromString(null, culture, stringValue)!;
     }
 
-    /// <summary>
-    /// Ensure the editing control uses the full cell width (don't reserve dropdown space in edit mode).
-    /// </summary>
-    public override void PositionEditingControl(bool setLocation,
-        bool setSize,
-        Rectangle cellBounds,
-        Rectangle cellClip,
-        DataGridViewCellStyle cellStyle,
-        bool singleVerticalBorderAdded,
-        bool singleHorizontalBorderAdded,
-        bool isFirstDisplayedColumn,
-        bool isFirstDisplayedRow)
-    {
-        Rectangle editingControlBounds = PositionEditingPanel(cellBounds, cellClip, cellStyle,
-            singleVerticalBorderAdded, singleHorizontalBorderAdded, isFirstDisplayedColumn, isFirstDisplayedRow);
-
-        const int indicatorSize = 16;
-        const int indicatorGap = 3;
-        bool rtl = DataGridView?.RightToLeft == RightToLeft.Yes;
-        if (rtl)
-        {
-            int delta = Math.Min(indicatorSize + indicatorGap, editingControlBounds.X - cellBounds.X);
-            editingControlBounds.X -= delta;
-            editingControlBounds.Width += delta;
-        }
-        else
-        {
-            int available = cellBounds.Right - (editingControlBounds.X + editingControlBounds.Width);
-            int delta = Math.Min(indicatorSize + indicatorGap, available);
-            editingControlBounds.Width += delta;
-        }
-
-        editingControlBounds = GetAdjustedEditingControlBounds(editingControlBounds, cellStyle);
-        if (DataGridView?.EditingControl is not null)
-        {
-            if (setLocation)
-            {
-                DataGridView.EditingControl.Location = new Point(editingControlBounds.X, editingControlBounds.Y);
-            }
-            if (setSize)
-            {
-                DataGridView.EditingControl.Size = new Size(editingControlBounds.Width, editingControlBounds.Height);
-            }
-        }
-    }
+    // Intentionally use base PositionEditingControl behavior to preserve indicator strip in edit mode.
     #endregion
 
     #region Protected
@@ -675,6 +648,52 @@ public class KryptonDataGridViewDateTimePickerCell : DataGridViewTextBoxCell
     protected override void Paint(Graphics graphics, Rectangle clipBounds, Rectangle cellBounds, int rowIndex, DataGridViewElementStates cellState, object? value,
         object? formattedValue, string? errorText, DataGridViewCellStyle cellStyle, DataGridViewAdvancedBorderStyle advancedBorderStyle, DataGridViewPaintParts paintParts)
     {
+        // Avoid drawing our own glyph/text while editing to prevent overlap with the editing control visuals.
+        // Also cover the reserved indicator area so KDGV background does not show as a tall blue band.
+        if (DataGridView is not null
+            && DataGridView.IsCurrentCellInEditMode
+            && DataGridView.CurrentCellAddress.X == ColumnIndex
+            && DataGridView.CurrentCellAddress.Y == rowIndex)
+        {
+            // Paint normal background/borders
+            base.Paint(graphics, clipBounds, cellBounds, rowIndex, cellState, null,
+                string.Empty, errorText, cellStyle, advancedBorderStyle, paintParts);
+
+            // Mask the indicator strip so the renderer background does not show full-height
+            bool rtl = DataGridView.RightToLeft == RightToLeft.Yes;
+            var maskRect = rtl
+                ? new Rectangle(1 + cellBounds.Left + cellStyle.Padding.Left,
+                                1 + cellBounds.Top + cellStyle.Padding.Top,
+                                IndicatorSize + IndicatorGap + 1,
+                                cellBounds.Height - cellStyle.Padding.Top - cellStyle.Padding.Bottom - 2)
+                : new Rectangle(cellBounds.Right - (IndicatorSize + IndicatorGap),
+                                1 + cellBounds.Top + cellStyle.Padding.Top,
+                                IndicatorSize + IndicatorGap + 1,
+                                cellBounds.Height - cellStyle.Padding.Top - cellStyle.Padding.Bottom - 2);
+            // Only mask outside the editing control bounds; keep the drop glyph area visible
+            Rectangle ecBounds = DataGridView.EditingControl?.Bounds ?? Rectangle.Empty;
+            // Translate EC bounds to cell-local coordinates
+            ecBounds.Offset(-cellBounds.X, -cellBounds.Y);
+            Rectangle[] regions = Rectangle.Intersect(maskRect, ecBounds).IsEmpty
+                ? new[] { maskRect }
+                : new[]
+                {
+                    new Rectangle(maskRect.X, maskRect.Y, Math.Max(0, ecBounds.X - maskRect.X), maskRect.Height),
+                    new Rectangle(ecBounds.Right, maskRect.Y, Math.Max(0, (maskRect.Right - ecBounds.Right)), maskRect.Height)
+                };
+            using (var b = new SolidBrush(cellStyle.BackColor))
+            {
+                foreach (var r in regions)
+                {
+                    if (r.Width > 0 && r.Height > 0)
+                    {
+                        graphics.FillRectangle(b, r);
+                    }
+                }
+            }
+            return;
+        }
+
         if (DataGridView is not null
             && KryptonOwningColumn?.CellIndicatorImage is Image image)
         {
@@ -682,28 +701,26 @@ public class KryptonDataGridViewDateTimePickerCell : DataGridViewTextBoxCell
             Rectangle textArea;
             var righToLeft = DataGridView.RightToLeft == RightToLeft.Yes;
 
-            const int indicatorSize = 16;
-
             if (righToLeft)
             {
                 pos = cellBounds.Left;
 
                 // The WinForms cell content always receives padding of one by default, custom padding is added to that.
                 textArea = new Rectangle(
-                    1 + cellBounds.Left + cellStyle.Padding.Left + indicatorSize,
+                    1 + cellBounds.Left + cellStyle.Padding.Left + IndicatorSize,
                     1 + cellBounds.Top + cellStyle.Padding.Top,
-                    cellBounds.Width - cellStyle.Padding.Left - cellStyle.Padding.Right - indicatorSize - 3,
+                    cellBounds.Width - cellStyle.Padding.Left - cellStyle.Padding.Right - IndicatorSize - 3,
                     cellBounds.Height - cellStyle.Padding.Top - cellStyle.Padding.Bottom - 2);
             }
             else
             {
-                pos = cellBounds.Right - indicatorSize;
+                pos = cellBounds.Right - IndicatorSize;
 
                 // The WinForms cell content always receives padding of one by default, custom padding is added to that.
                 textArea = new Rectangle(
                     1 + cellBounds.Left + cellStyle.Padding.Left,
                     1 + cellBounds.Top + cellStyle.Padding.Top,
-                    cellBounds.Width - cellStyle.Padding.Left - cellStyle.Padding.Right - indicatorSize - 3,
+                    cellBounds.Width - cellStyle.Padding.Left - cellStyle.Padding.Right - IndicatorSize - 3,
                     cellBounds.Height - cellStyle.Padding.Top - cellStyle.Padding.Bottom - 2);
             }
 
@@ -711,16 +728,17 @@ public class KryptonDataGridViewDateTimePickerCell : DataGridViewTextBoxCell
             // Afterwards we paint the text and drop down image.
             if (DataGridView is DataGridView)
             {
-                base.Paint(graphics, clipBounds, cellBounds, rowIndex, cellState, null, string.Empty, errorText, cellStyle, advancedBorderStyle, paintParts);
+                base.Paint(graphics, clipBounds, cellBounds, rowIndex, cellState, null,
+                    string.Empty, errorText, cellStyle, advancedBorderStyle, paintParts);
             }
 
             // Draw the drop down button, only if no ErrorText has been set.
             // If the ErrorText is set, only the error icon is shown. Otherwise both are painted on the same spot.
             if (ErrorText.Length == 0)
             {
-                var sized = KryptonOwningColumn?.GetIndicatorImageForSize(indicatorSize) ?? image;
-                int y = textArea.Top + (textArea.Height - indicatorSize) / 2;
-                graphics.DrawImage(sized, new Rectangle(pos, y, indicatorSize, indicatorSize));
+                var sized = KryptonOwningColumn?.GetIndicatorImageForSize(IndicatorSize) ?? image;
+                int y = textArea.Top + (textArea.Height - IndicatorSize) / 2;
+                graphics.DrawImage(sized, new Rectangle(pos, y, IndicatorSize, IndicatorSize));
 
                 if (DataGridView.Rows.SharedRow(rowIndex).Index != -1
                     && formattedValue is string str
@@ -763,13 +781,11 @@ public class KryptonDataGridViewDateTimePickerCell : DataGridViewTextBoxCell
     /// </summary>
     protected override Rectangle GetErrorIconBounds(Graphics graphics, DataGridViewCellStyle cellStyle, int rowIndex)
     {
-        const int ButtonsWidth = 16;
-
         Rectangle errorIconBounds = base.GetErrorIconBounds(graphics, cellStyle, rowIndex);
 
         errorIconBounds.X = DataGridView!.RightToLeft == RightToLeft.Yes
-            ? errorIconBounds.Left + ButtonsWidth
-            : errorIconBounds.Left - ButtonsWidth;
+            ? errorIconBounds.Left + IndicatorSize
+            : errorIconBounds.Left - IndicatorSize;
 
         return errorIconBounds;
     }
@@ -787,14 +803,9 @@ public class KryptonDataGridViewDateTimePickerCell : DataGridViewTextBoxCell
         if (rowIndex < 0)
         {
             Size hdr = base.GetPreferredSize(graphics, cellStyle, rowIndex, constraintSize);
-            const int IndicatorWidth = 16;
-            const int IndicatorMargin = 3;
-            hdr.Width += IndicatorWidth + IndicatorMargin;
+            hdr.Width += IndicatorSize + IndicatorGap;
             return hdr;
         }
-
-        const int IndicatorW = 16;
-        const int IndicatorGap = 3;
 
         string format = cellStyle?.Format ?? string.Empty;
         if (string.IsNullOrEmpty(format))
@@ -832,7 +843,7 @@ public class KryptonDataGridViewDateTimePickerCell : DataGridViewTextBoxCell
         Size textSize;
         if ((constraintSize.Width > 0) && (cellStyle.WrapMode != DataGridViewTriState.False))
         {
-            int availTextW = Math.Max(1, constraintSize.Width - IndicatorW - IndicatorGap - cellStyle.Padding.Horizontal);
+            int availTextW = Math.Max(1, constraintSize.Width - IndicatorSize - IndicatorGap - cellStyle.Padding.Horizontal);
             textSize = TextRenderer.MeasureText(graphics, text, cellStyle.Font, new Size(availTextW, int.MaxValue), flags);
         }
         else
@@ -840,7 +851,7 @@ public class KryptonDataGridViewDateTimePickerCell : DataGridViewTextBoxCell
             textSize = TextRenderer.MeasureText(graphics, text, cellStyle.Font, Size.Empty, flags);
         }
 
-        int width = textSize.Width + cellStyle.Padding.Horizontal + IndicatorW + IndicatorGap + 1;
+        int width = textSize.Width + cellStyle.Padding.Horizontal + IndicatorSize + IndicatorGap + 1;
         int height = Math.Max(textSize.Height + cellStyle.Padding.Vertical + 1, base.GetPreferredSize(graphics, cellStyle, rowIndex, constraintSize).Height);
         return new Size(width, height);
     }

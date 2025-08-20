@@ -17,7 +17,7 @@ namespace Krypton.Toolkit;
 /// <summary>
 /// Defines a KryptonComboBox cell type for the KryptonDataGridView control
 /// </summary>
-public class KryptonDataGridViewComboBoxCell : DataGridViewTextBoxCell
+public class KryptonDataGridViewComboBoxCell : KryptonDataGridViewTextBoxCell
 {
     #region Static Fields
     [ThreadStatic]
@@ -374,28 +374,26 @@ public class KryptonDataGridViewComboBoxCell : DataGridViewTextBoxCell
             var righToLeft = DataGridView.RightToLeft == RightToLeft.Yes;
 
             // Fixed-size crisp dropdown glyph
-            const int indicatorSize = 16;
-
             if (righToLeft)
             {
                 pos = cellBounds.Left;
 
-                // The WinForms cell content always receives padding of one by default, custom padding is added tot that.
+                // The WinForms cell content always receives padding of one by default, custom padding is added to that.
                 textArea = new Rectangle(
-                    1 + cellBounds.Left + cellStyle.Padding.Left + indicatorSize,
+                    1 + cellBounds.Left + cellStyle.Padding.Left + IndicatorSize,
                     1 + cellBounds.Top + cellStyle.Padding.Top,
-                    cellBounds.Width - cellStyle.Padding.Left - cellStyle.Padding.Right - indicatorSize - 3,
+                    cellBounds.Width - cellStyle.Padding.Left - cellStyle.Padding.Right - IndicatorSize - 3,
                     cellBounds.Height - cellStyle.Padding.Top - cellStyle.Padding.Bottom - 2);
             }
             else
             {
-                pos = cellBounds.Right - indicatorSize;
+                pos = cellBounds.Right - IndicatorSize;
 
-                // The WinForms cell content always receives padding of one by default, custom padding is added tot that.
+                // The WinForms cell content always receives padding of one by default, custom padding is added to that.
                 textArea = new Rectangle(
                     1 + cellBounds.Left + cellStyle.Padding.Left,
                     1 + cellBounds.Top + cellStyle.Padding.Top,
-                    cellBounds.Width - cellStyle.Padding.Left - cellStyle.Padding.Right - indicatorSize - 3,
+                    cellBounds.Width - cellStyle.Padding.Left - cellStyle.Padding.Right - IndicatorSize - 3,
                     cellBounds.Height - cellStyle.Padding.Top - cellStyle.Padding.Bottom - 2);
             }
 
@@ -412,9 +410,9 @@ public class KryptonDataGridViewComboBoxCell : DataGridViewTextBoxCell
             if (ErrorText.Length == 0)
             {
                 // Use crisp cached glyph rendered by renderer if available
-                var sized = KryptonOwningColumn?.GetIndicatorImageForSize(indicatorSize) ?? image;
-                int y = textArea.Top + (textArea.Height - indicatorSize) / 2;
-                graphics.DrawImage(sized, new Rectangle(pos, y, indicatorSize, indicatorSize));
+                var sized = KryptonOwningColumn?.GetIndicatorImageForSize(IndicatorSize) ?? image;
+                int y = textArea.Top + (textArea.Height - IndicatorSize) / 2;
+                graphics.DrawImage(sized, new Rectangle(pos, y, IndicatorSize, IndicatorSize));
                 text = _selectedItemText;
             }
             else
@@ -430,64 +428,6 @@ public class KryptonDataGridViewComboBoxCell : DataGridViewTextBoxCell
             TextRenderer.DrawText(graphics, text, cellStyle.Font, textArea, displayForeColor,
                 KryptonDataGridViewUtilities.ComputeTextFormatFlagsForCellStyleAlignment(righToLeft, cellStyle.Alignment, cellStyle.WrapMode));
         }
-    }
-
-    /// <summary>
-    /// Custom implementation to vertically center the editing control so the button glyph border isn't clipped.
-    /// </summary>
-    public override void PositionEditingControl(bool setLocation,
-        bool setSize,
-        Rectangle cellBounds,
-        Rectangle cellClip,
-        DataGridViewCellStyle cellStyle,
-        bool singleVerticalBorderAdded,
-        bool singleHorizontalBorderAdded,
-        bool isFirstDisplayedColumn,
-        bool isFirstDisplayedRow)
-    {
-        Rectangle editingControlBounds = PositionEditingPanel(cellBounds, cellClip, cellStyle,
-            singleVerticalBorderAdded, singleHorizontalBorderAdded,
-            isFirstDisplayedColumn, isFirstDisplayedRow);
-
-        // Match TextBox behavior: center by preferred height to avoid bottom clipping
-        editingControlBounds = GetAdjustedEditingControlBounds(editingControlBounds, cellStyle);
-
-        if (DataGridView?.EditingControl is not null)
-        {
-            if (setLocation)
-            {
-                DataGridView.EditingControl.Location = new Point(editingControlBounds.X, editingControlBounds.Y);
-            }
-            if (setSize)
-            {
-                DataGridView.EditingControl.Size = new Size(editingControlBounds.Width, editingControlBounds.Height);
-            }
-        }
-    }
-
-    private Rectangle GetAdjustedEditingControlBounds(Rectangle editingControlBounds,
-        DataGridViewCellStyle cellStyle)
-    {
-        var preferredHeight = DataGridView!.EditingControl!.GetPreferredSize(new Size(editingControlBounds.Width, 10000)).Height;
-        if (preferredHeight < editingControlBounds.Height)
-        {
-            switch (cellStyle.Alignment)
-            {
-                case DataGridViewContentAlignment.MiddleLeft:
-                case DataGridViewContentAlignment.MiddleCenter:
-                case DataGridViewContentAlignment.MiddleRight:
-                    editingControlBounds.Y += (editingControlBounds.Height - preferredHeight) / 2;
-                    break;
-                case DataGridViewContentAlignment.BottomLeft:
-                case DataGridViewContentAlignment.BottomCenter:
-                case DataGridViewContentAlignment.BottomRight:
-                    editingControlBounds.Y += editingControlBounds.Height - preferredHeight;
-                    break;
-            }
-            editingControlBounds.Height = preferredHeight;
-        }
-
-        return editingControlBounds;
     }
 
     /// <summary>
