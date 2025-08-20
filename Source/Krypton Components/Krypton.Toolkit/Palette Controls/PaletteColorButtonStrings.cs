@@ -131,7 +131,7 @@ public class PaletteColorButtonStrings : Storage
     [Localizable(true)]
     [Category(@"Visuals")]
     [Description(@"Title for palette colors section of the color button menu.")]
-    [DefaultValue("Palette Colors")]
+    [DefaultValue(DEFAULT_PALETTE_COLORS)]
     [RefreshProperties(RefreshProperties.All)]
     public string PaletteColors { get; set; }
 
