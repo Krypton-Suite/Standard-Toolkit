@@ -1164,39 +1164,67 @@ public class KryptonThemedSystemMenu : IKryptonThemedSystemMenu, IDisposable
             private void CreateBasicMenuItems()
         {
             // Create comprehensive system menu items matching the native Windows system menu
-            var restoreItem = new KryptonContextMenuItem(KryptonManager.Strings.SystemMenuStrings.Restore);
-            restoreItem.Image = GetSystemMenuIcon(SystemMenuIconType.Restore);
-            restoreItem.Click += (sender, e) => ExecuteRestore();
-            _contextMenu.Items.Add(restoreItem);
+            // Only add restore item if window is not in normal state and either minimize or maximize is enabled
+            if (_form.WindowState != FormWindowState.Normal && (_form.MinimizeBox || _form.MaximizeBox))
+            {
+                var restoreItem = new KryptonContextMenuItem(KryptonManager.Strings.SystemMenuStrings.Restore);
+                restoreItem.Image = GetSystemMenuIcon(SystemMenuIconType.Restore);
+                restoreItem.Click += (sender, e) => ExecuteRestore();
+                _contextMenu.Items.Add(restoreItem);
+            }
 
-            var moveItem = new KryptonContextMenuItem(KryptonManager.Strings.SystemMenuStrings.Move);
-            // Move doesn't typically have an icon in Windows
-            moveItem.Click += (sender, e) => ExecuteMove();
-            _contextMenu.Items.Add(moveItem);
+            // Only add move and size items if the window is resizable
+            if (_form.FormBorderStyle != FormBorderStyle.FixedSingle && _form.FormBorderStyle != FormBorderStyle.Fixed3D && _form.FormBorderStyle != FormBorderStyle.FixedDialog)
+            {
+                var moveItem = new KryptonContextMenuItem(KryptonManager.Strings.SystemMenuStrings.Move);
+                // Move doesn't typically have an icon in Windows
+                moveItem.Click += (sender, e) => ExecuteMove();
+                _contextMenu.Items.Add(moveItem);
 
-            var sizeItem = new KryptonContextMenuItem(KryptonManager.Strings.SystemMenuStrings.Size);
-            // Size doesn't typically have an icon in Windows
-            sizeItem.Click += (sender, e) => ExecuteSize();
-            _contextMenu.Items.Add(sizeItem);
+                var sizeItem = new KryptonContextMenuItem(KryptonManager.Strings.SystemMenuStrings.Size);
+                // Size doesn't typically have an icon in Windows
+                sizeItem.Click += (sender, e) => ExecuteSize();
+                _contextMenu.Items.Add(sizeItem);
+            }
 
-            _contextMenu.Items.Add(new KryptonContextMenuSeparator());
+            // Only add separator if we have items before it and either minimize or maximize is enabled
+            if (_contextMenu.Items.Count > 0 && (_form.MinimizeBox || _form.MaximizeBox))
+            {
+                _contextMenu.Items.Add(new KryptonContextMenuSeparator());
+            }
 
-            var minimizeItem = new KryptonContextMenuItem(KryptonManager.Strings.SystemMenuStrings.Minimize);
-            minimizeItem.Image = GetSystemMenuIcon(SystemMenuIconType.Minimize);
-            minimizeItem.Click += (sender, e) => ExecuteMinimize();
-            _contextMenu.Items.Add(minimizeItem);
+            // Only add minimize item if MinimizeBox is enabled
+            if (_form.MinimizeBox)
+            {
+                var minimizeItem = new KryptonContextMenuItem(KryptonManager.Strings.SystemMenuStrings.Minimize);
+                minimizeItem.Image = GetSystemMenuIcon(SystemMenuIconType.Minimize);
+                minimizeItem.Click += (sender, e) => ExecuteMinimize();
+                _contextMenu.Items.Add(minimizeItem);
+            }
 
-            var maximizeItem = new KryptonContextMenuItem(KryptonManager.Strings.SystemMenuStrings.Maximize);
-            maximizeItem.Image = GetSystemMenuIcon(SystemMenuIconType.Maximize);
-            maximizeItem.Click += (sender, e) => ExecuteMaximize();
-            _contextMenu.Items.Add(maximizeItem);
+            // Only add maximize item if MaximizeBox is enabled
+            if (_form.MaximizeBox)
+            {
+                var maximizeItem = new KryptonContextMenuItem(KryptonManager.Strings.SystemMenuStrings.Maximize);
+                maximizeItem.Image = GetSystemMenuIcon(SystemMenuIconType.Maximize);
+                maximizeItem.Click += (sender, e) => ExecuteMaximize();
+                _contextMenu.Items.Add(maximizeItem);
+            }
 
-            _contextMenu.Items.Add(new KryptonContextMenuSeparator());
+            // Only add separator if we have items before it
+            if (_contextMenu.Items.Count > 0)
+            {
+                _contextMenu.Items.Add(new KryptonContextMenuSeparator());
+            }
 
-            var closeItem = new KryptonContextMenuItem($"{KryptonManager.Strings.SystemMenuStrings.Close}\tAlt+F4");
-            closeItem.Image = GetSystemMenuIcon(SystemMenuIconType.Close);
-            closeItem.Click += (sender, e) => ExecuteClose();
-            _contextMenu.Items.Add(closeItem);
+            // Only add close item if ControlBox is enabled
+            if (_form.ControlBox)
+            {
+                var closeItem = new KryptonContextMenuItem($"{KryptonManager.Strings.SystemMenuStrings.Close}\tAlt+F4");
+                closeItem.Image = GetSystemMenuIcon(SystemMenuIconType.Close);
+                closeItem.Click += (sender, e) => ExecuteClose();
+                _contextMenu.Items.Add(closeItem);
+            }
         }
 
     #region Action Execution Methods

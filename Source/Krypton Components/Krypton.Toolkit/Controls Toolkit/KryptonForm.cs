@@ -967,6 +967,86 @@ public class KryptonForm : VisualForm,
         }
     }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether the form can be minimized.
+    /// </summary>
+    [Category(@"Window Style")]
+    [DefaultValue(true)]
+    [Description(@"Determines if the form can be minimized.")]
+    public new bool MinimizeBox
+    {
+        get => base.MinimizeBox;
+        set
+        {
+            if (base.MinimizeBox != value)
+            {
+                base.MinimizeBox = value;
+                // Refresh the themed system menu to reflect the new state
+                _themedSystemMenuService?.ThemedSystemMenu?.Refresh();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the form can be maximized.
+    /// </summary>
+    [Category(@"Window Style")]
+    [DefaultValue(true)]
+    [Description(@"Determines if the form can be maximized.")]
+    public new bool MaximizeBox
+    {
+        get => base.MaximizeBox;
+        set
+        {
+            if (base.MaximizeBox != value)
+            {
+                base.MaximizeBox = value;
+                // Refresh the themed system menu to reflect the new state
+                _themedSystemMenuService?.ThemedSystemMenu?.Refresh();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the form has a control box.
+    /// </summary>
+    [Category(@"Window Style")]
+    [DefaultValue(true)]
+    [Description(@"Determines if the form has a control box.")]
+    public new bool ControlBox
+    {
+        get => base.ControlBox;
+        set
+        {
+            if (base.ControlBox != value)
+            {
+                base.ControlBox = value;
+                // Refresh the themed system menu to reflect the new state
+                _themedSystemMenuService?.ThemedSystemMenu?.Refresh();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the border style of the form.
+    /// </summary>
+    [Category(@"Window Style")]
+    [DefaultValue(FormBorderStyle.Sizable)]
+    [Description(@"Determines the border style of the form.")]
+    public new FormBorderStyle FormBorderStyle
+    {
+        get => base.FormBorderStyle;
+        set
+        {
+            if (base.FormBorderStyle != value)
+            {
+                base.FormBorderStyle = value;
+                // Refresh the themed system menu to reflect the new state
+                _themedSystemMenuService?.ThemedSystemMenu?.Refresh();
+            }
+        }
+    }
+
     #endregion
 
     #region Public Chrome
@@ -1774,7 +1854,7 @@ public class KryptonForm : VisualForm,
                     NeedLayout = true;
 
                     // Refresh the themed system menu to reflect new state
-                    _themedSystemMenuService?.Refresh();
+                    _themedSystemMenuService?.ThemedSystemMenu?.Refresh();
                 }
 
                 // Text can change because of a minimized/maximized MDI child so need
@@ -2373,6 +2453,8 @@ public class KryptonForm : VisualForm,
     {
         if (UseThemedSystemMenu && _themedSystemMenuService != null)
         {
+            // Refresh the menu to ensure it reflects current form state
+            _themedSystemMenuService.ThemedSystemMenu.Refresh();
             _themedSystemMenuService.ThemedSystemMenu.Show(screenLocation);
         }
     }
@@ -2384,6 +2466,8 @@ public class KryptonForm : VisualForm,
     {
         if (UseThemedSystemMenu && _themedSystemMenuService != null)
         {
+            // Refresh the menu to ensure it reflects current form state
+            _themedSystemMenuService.ThemedSystemMenu.Refresh();
             _themedSystemMenuService.ThemedSystemMenu.ShowAtFormTopLeft();
         }
     }
