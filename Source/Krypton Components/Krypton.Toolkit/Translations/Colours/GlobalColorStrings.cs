@@ -1,9 +1,9 @@
 ﻿#region BSD License
 /*
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2025. All rights reserved. 
- *  
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2023 - 2025. All rights reserved.
+ *
  */
 #endregion
 
@@ -23,6 +23,7 @@ public class GlobalColorStrings : GlobalId
     private const string DEFAULT_COLORS = @"Colors";
     private const string DEFAULT_MORE_COLORS = @"More Colors ...";
     private const string DEFAULT_THEME_COLORS = @"Theme Colors";
+    private const string DEFAULT_PALETTE_COLORS = @"Palette Colors";
     private const string DEFAULT_STANDARD_COLORS = @"Standard Colors";
     private const string DEFAULT_RECENT_COLORS = @"Recent Colors";
     private const string DEFAULT_NO_COLOR = @"No Color";
@@ -54,6 +55,7 @@ public class GlobalColorStrings : GlobalId
                              Colors.Equals(DEFAULT_COLORS) &&
                              MoreColors.Equals(DEFAULT_MORE_COLORS) &&
                              ThemeColors.Equals(DEFAULT_THEME_COLORS) &&
+                             PaletteColors.Equals(DEFAULT_PALETTE_COLORS) &&
                              StandardColors.Equals(DEFAULT_STANDARD_COLORS) &&
                              RecentColors.Equals(DEFAULT_RECENT_COLORS) &&
                              NoColor.Equals(DEFAULT_NO_COLOR);
@@ -67,6 +69,7 @@ public class GlobalColorStrings : GlobalId
         Colors = DEFAULT_COLORS;
         MoreColors = DEFAULT_MORE_COLORS;
         ThemeColors = DEFAULT_THEME_COLORS;
+        PaletteColors = DEFAULT_PALETTE_COLORS;
         StandardColors = DEFAULT_STANDARD_COLORS;
         RecentColors = DEFAULT_RECENT_COLORS;
         NoColor = DEFAULT_NO_COLOR;
@@ -127,6 +130,14 @@ public class GlobalColorStrings : GlobalId
     [DefaultValue(DEFAULT_NO_COLOR)]
     [RefreshProperties(RefreshProperties.All)]
     public string NoColor { get; set; }
+
+    /// <summary>Gets or sets the palette colors string.</summary>
+    [Localizable(true)]
+    [Category(@"Visuals")]
+    [Description(@"Localised palette colors string.")]
+    [DefaultValue(DEFAULT_PALETTE_COLORS)]
+    [RefreshProperties(RefreshProperties.All)]
+    public string PaletteColors { get; set; }
 
     #endregion
 }

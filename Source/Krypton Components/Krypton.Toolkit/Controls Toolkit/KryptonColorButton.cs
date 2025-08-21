@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *
  */
 #endregion
 
@@ -44,6 +44,7 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
     private bool _allowFullOpen;
     private bool _clickOverriden;
     private KryptonColorButtonCustomColorPreviewShape _customColorPreviewShape;
+    private ThemeColorSortMode _themeColorSortMode;
 
     // Context menu items
     private readonly KryptonContextMenu? _kryptonContextMenu;
@@ -62,6 +63,7 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
     private readonly KryptonContextMenuSeparator _separatorMoreColors;
     private readonly KryptonContextMenuItems _itemsMoreColors;
     private readonly KryptonContextMenuItem _itemMoreColors;
+
     #endregion
 
     #region Events
@@ -214,6 +216,12 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
         ViewManager = new ViewManager(this, _drawButton);
 
         CustomColorPreviewShape = KryptonColorButtonCustomColorPreviewShape.None;
+
+        // Defaults for dynamic theme color mapping
+        _themeColorSortMode = ThemeColorSortMode.OKLCH;
+
+        // Listen for palette switches so we can refresh dynamic theme colors
+        KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChangedForThemeColors;
     }
     #endregion
 
@@ -267,7 +275,7 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
     }
 
     /// <summary>
-    /// Gets or sets the text associated with this control. 
+    /// Gets or sets the text associated with this control.
     /// </summary>
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [AllowNull]
@@ -360,6 +368,29 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
     [Description(@"Determine if the 'More Colors...' menu item is used.")]
     [DefaultValue(true)]
     public bool VisibleMoreColors { get; set; }
+
+    /// <summary>
+    /// Sorting used when generating the dynamic Theme Colors map from SchemeColors.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Sorting used for dynamic Theme Colors map from SchemeColors.")]
+    [DefaultValue(ThemeColorSortMode.OKLCH)]
+    public ThemeColorSortMode ThemeColorSortMode
+    {
+        get => _themeColorSortMode;
+
+        set
+        {
+            if (_themeColorSortMode != value)
+            {
+                _themeColorSortMode = value;
+                if (SchemeThemes == ColorScheme.PaletteColors)
+                {
+                    RefreshThemeColorsFromActivePalette();
+                }
+            }
+        }
+    }
 
     /// <summary>
     /// Gets and sets if the recent colors should be automatically updated.
@@ -711,7 +742,7 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
     }
 
     /// <summary>
-    /// Notifies a control that it is the default color button so that its appearance and behavior is adjusted accordingly. 
+    /// Notifies a control that it is the default color button so that its appearance and behavior is adjusted accordingly.
     /// </summary>
     /// <param name="value">true if the control should behave as a default color button; otherwise false.</param>
     public void NotifyDefault(bool value)
@@ -752,7 +783,7 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether an ampersand is included in the text of the control. 
+    /// Gets or sets a value indicating whether an ampersand is included in the text of the control.
     /// </summary>
     [Category(@"Appearance")]
     [Description(@"When true the first character after an ampersand will be used as a mnemonic.")]
@@ -876,6 +907,20 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
     /// Gets the default Input Method Editor (IME) mode supported by this control.
     /// </summary>
     protected override ImeMode DefaultImeMode => ImeMode.Disable;
+
+    /// <summary>
+    /// Clean up any resources being used.
+    /// </summary>
+    /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChangedForThemeColors;
+        }
+
+        base.Dispose(disposing);
+    }
 
     /// <summary>
     /// Raises the EnabledChanged event.
@@ -1128,6 +1173,33 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
     #region Implementation
     private void OnButtonTextChanged(object? sender, EventArgs e) => OnTextChanged(EventArgs.Empty);
 
+    /// <summary>
+    /// Handle global palette changes to keep Theme Colors in sync when using SchemeColors.
+    /// </summary>
+    private void OnGlobalPaletteChangedForThemeColors(object? sender, EventArgs e)
+    {
+        if (SchemeThemes == ColorScheme.PaletteColors)
+        {
+            RefreshThemeColorsFromActivePalette();
+        }
+    }
+
+    /// <summary>
+    /// Refresh the Theme Colors grid from the active palette's SchemeColors.
+    /// </summary>
+    private void RefreshThemeColorsFromActivePalette()
+    {
+        var palette = KryptonManager.CurrentGlobalPalette;
+        if (palette is null)
+        {
+            return;
+        }
+
+        var custom = ThemeColorGridBuilder.BuildThemeColorColumns(palette.GetSchemeColors(), _themeColorSortMode, 16);
+        _colorsTheme.SetCustomColors(custom);
+        _colorsTheme.GroupNonFirstRows = true;
+    }
+
     private void OnButtonClick(object? sender, MouseEventArgs e)
     {
         var showingContextMenu = false;
@@ -1298,7 +1370,7 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
     /// Add or update the recent colours to display.
     /// Notes:
     ///   - If number to display > MaxRecentColors(10) then the earliest ones will be removed
-    ///   - Colours will appear in reverse order to those passed in. 
+    ///   - Colours will appear in reverse order to those passed in.
     /// </summary>
     /// <param name="colors"></param>
     public void AddUpdateRecentColors(IList<Color> colors)
@@ -1323,7 +1395,7 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
         // Do we need to update the recent colors collection?
         if (AutoRecentColors)
         {
-            // We do not add to recent colors if it is inside another color columns 
+            // We do not add to recent colors if it is inside another color columns
             foreach (KryptonContextMenuItemBase item in _kryptonContextMenu!.Items)
             {
                 // Only interested in the non-recent colors, color columns
@@ -1384,15 +1456,31 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
         _itemsNoColor.Visible = VisibleNoColor;
         _itemsMoreColors.Visible = VisibleMoreColors;
 
+        var usingPaletteColors = SchemeThemes == ColorScheme.PaletteColors;
+
         // Define the display strings
-        _headingTheme.Text = Strings.ThemeColors;
+        // When using active palette scheme colors, show a more accurate heading
+        // using the localizable strings store.
+        _headingTheme.Text = usingPaletteColors
+            ? Strings.PaletteColors
+            : Strings.ThemeColors;
         _headingStandard.Text = Strings.StandardColors;
         _headingRecent.Text = Strings.RecentColors;
         _itemNoColor.Text = Strings.NoColor;
         _itemMoreColors.Text = Strings.MoreColors;
 
         // Define the colors used in the first two color schemes
-        _colorsTheme.ColorScheme = SchemeThemes;
+        if (usingPaletteColors)
+        {
+            RefreshThemeColorsFromActivePalette();
+        }
+        else
+        {
+            // Clear any custom map and force-refresh the built-in scheme
+            _colorsTheme.SetCustomColors(null);
+            _colorsTheme.ColorScheme = ColorScheme.None;
+            _colorsTheme.ColorScheme = SchemeThemes;
+        }
         _colorsStandard.ColorScheme = SchemeStandard;
 
         // Define the recent colors
