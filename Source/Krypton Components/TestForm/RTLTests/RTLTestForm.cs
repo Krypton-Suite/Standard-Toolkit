@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Krypton.Toolkit;
+using Krypton.Toolkit.TestForm;
 
 namespace TestForm.RTLTests;
 
@@ -89,5 +90,12 @@ public partial class RTLTestForm : KryptonForm
     private void kryptonButton1_Click(object sender, EventArgs e)
     {
         new KryptonPanelRTLTest().ShowDialog();
+
+        new RTLTestLauncher().ShowDialog();
+    }
+
+    private void kryptonPropertyGrid1_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+    {
+        klblRTL.Text = $"RTL: {RightToLeft}, RTL Layout: {RightToLeftLayout}";
     }
 }

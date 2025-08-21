@@ -5,52 +5,51 @@
  */
 #endregion
 
-namespace Krypton.Build
+namespace Krypton.Build;
+
+public enum ChannelType
 {
-    public enum ChannelType
-    {
-        Nightly,
-        Canary,
-        Stable }
+    Nightly,
+    Canary,
+    Stable }
 
-    public enum BuildAction
-    {
-        Build,
-        Rebuild,
-        Pack,
-        BuildPack,
-        Debug,
-        NuGetTools,
-        Installer
-    }
+public enum BuildAction
+{
+    Build,
+    Rebuild,
+    Pack,
+    BuildPack,
+    Debug,
+    NuGetTools,
+    Installer
+}
 
-    public enum PackMode
-    {
-        Pack,
-        PackLite,
-        PackAll
-    }
+public enum PackMode
+{
+    Pack,
+    PackLite,
+    PackAll
+}
 
-    public enum TasksPage
-    {
-        Ops,
-        NuGet
-    }
+public enum TasksPage
+{
+    Ops,
+    NuGet
+}
 
-    public enum NuGetAction
-    {
-        RebuildPack,
-        Push,
-        PackPush,
-        BuildPackPush,
-        Tools
-    }
+public enum NuGetAction
+{
+    RebuildPack,
+    Push,
+    PackPush,
+    BuildPackPush,
+    Tools
+}
 
-    public enum NuGetSource
-    {
-        Default,
-        NuGetOrg,
-        GitHub,
-        Custom
-    }
+public enum NuGetSource
+{
+    Default,
+    NuGetOrg,
+    GitHub,
+    Custom
 }

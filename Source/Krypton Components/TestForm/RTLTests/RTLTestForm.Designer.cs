@@ -36,12 +36,16 @@
             this.ktsRTL = new Krypton.Toolkit.KryptonToggleSwitch();
             this.buttonSpecAny1 = new Krypton.Toolkit.ButtonSpecAny();
             this.buttonSpecAny2 = new Krypton.Toolkit.ButtonSpecAny();
+            this.klblRTL = new Krypton.Toolkit.KryptonLabel();
+            this.klblRTLLayout = new Krypton.Toolkit.KryptonLabel();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // kryptonPanel1
             // 
+            this.kryptonPanel1.Controls.Add(this.klblRTLLayout);
+            this.kryptonPanel1.Controls.Add(this.klblRTL);
             this.kryptonPanel1.Controls.Add(this.kryptonCheckButton1);
             this.kryptonPanel1.Controls.Add(this.kryptonCheckBox1);
             this.kryptonPanel1.Controls.Add(this.kryptonButton1);
@@ -50,7 +54,7 @@
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(812, 414);
+            this.kryptonPanel1.Size = new System.Drawing.Size(814, 452);
             this.kryptonPanel1.TabIndex = 0;
             // 
             // kryptonCheckButton1
@@ -89,6 +93,7 @@
             this.kryptonPropertyGrid1.Size = new System.Drawing.Size(326, 413);
             this.kryptonPropertyGrid1.TabIndex = 1;
             this.kryptonPropertyGrid1.Text = "kryptonPropertyGrid1";
+            this.kryptonPropertyGrid1.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.kryptonPropertyGrid1_PropertyValueChanged);
             // 
             // ktsRTL
             // 
@@ -108,13 +113,31 @@
             this.buttonSpecAny2.Type = Krypton.Toolkit.PaletteButtonSpecStyle.ArrowLeft;
             this.buttonSpecAny2.UniqueName = "6707f9f6597349d1a4832a107cc5522b";
             // 
+            // klblRTL
+            // 
+            this.klblRTL.LabelStyle = Krypton.Toolkit.LabelStyle.BoldPanel;
+            this.klblRTL.Location = new System.Drawing.Point(565, 135);
+            this.klblRTL.Name = "klblRTL";
+            this.klblRTL.Size = new System.Drawing.Size(107, 20);
+            this.klblRTL.TabIndex = 5;
+            this.klblRTL.Values.Text = "Right to Left: {0}";
+            // 
+            // klblRTLLayout
+            // 
+            this.klblRTLLayout.LabelStyle = Krypton.Toolkit.LabelStyle.BoldPanel;
+            this.klblRTLLayout.Location = new System.Drawing.Point(565, 161);
+            this.klblRTLLayout.Name = "klblRTLLayout";
+            this.klblRTLLayout.Size = new System.Drawing.Size(150, 20);
+            this.klblRTLLayout.TabIndex = 6;
+            this.klblRTLLayout.Values.Text = "Right to Left Layout: {0}";
+            // 
             // RTLTestForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ButtonSpecs.Add(this.buttonSpecAny1);
             this.ButtonSpecs.Add(this.buttonSpecAny2);
-            this.ClientSize = new System.Drawing.Size(812, 414);
+            this.ClientSize = new System.Drawing.Size(814, 452);
             this.Controls.Add(this.kryptonPanel1);
             this.HelpButton = true;
             this.Name = "RTLTestForm";
@@ -136,5 +159,7 @@
         private KryptonButton kryptonButton1;
         private KryptonCheckBox kryptonCheckBox1;
         private KryptonCheckButton kryptonCheckButton1;
+        private KryptonLabel klblRTL;
+        private KryptonLabel klblRTLLayout;
     }
 }

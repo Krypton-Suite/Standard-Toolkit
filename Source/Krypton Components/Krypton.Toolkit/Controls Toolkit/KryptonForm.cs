@@ -281,7 +281,9 @@ public class KryptonForm : VisualForm,
     {
         var dpi = GetDpiFactor();
         int size = Math.Max(16, (int)Math.Round(16 * dpi));
-        bool isRtl = RightToLeftLayout;
+        // Only apply RTL sizing grip adjustments when both RTL and RTL Layout are enabled
+        // This ensures the grip is mirrored only when full RTL layout is requested
+        bool isRtl = RightToLeft == RightToLeft.Yes && RightToLeftLayout;
 
         // Use real window metrics instead of ClientSize to avoid stale client values after style toggles
         Padding borders = RealWindowBorders;
@@ -314,7 +316,9 @@ public class KryptonForm : VisualForm,
         int move = Math.Max(dot + 2, (int)Math.Round(4 * GetDpiFactor()));
         int lines = 3;
 
-        if (RightToLeftLayout)
+        // Only apply RTL sizing grip adjustments when both RTL and RTL Layout are enabled
+        // This ensures the grip is mirrored only when full RTL layout is requested
+        if (RightToLeft == RightToLeft.Yes && RightToLeftLayout)
         {
             int y = gripRect.Bottom - (dot * 2);
             for (int i = lines; i >= 1; i--)
@@ -412,7 +416,9 @@ public class KryptonForm : VisualForm,
             return false;
         }
 
-        int x = RightToLeftLayout ? dest.Left : dest.Right - scaled.Width;
+        // Only apply RTL positioning when both RTL and RTL Layout are enabled
+        // This ensures the grip is positioned RTL only when full RTL layout is requested
+        int x = (RightToLeft == RightToLeft.Yes && RightToLeftLayout) ? dest.Left : dest.Right - scaled.Width;
         int y = dest.Bottom - scaled.Height;
 
         // Apply color-key transparency like legacy resources (top-left pixel)
@@ -1242,6 +1248,7 @@ public class KryptonForm : VisualForm,
         private PaletteRelativeAlign GetRTLAdjustedAlignment(PaletteRelativeAlign originalAlignment)
         {
             // Only apply RTL adjustments when both RTL and RTL Layout are enabled
+            // This ensures the title bar is mirrored only when full RTL layout is requested
             if (_kryptonForm.RightToLeft == RightToLeft.Yes && _kryptonForm.RightToLeftLayout)
             {
                 return originalAlignment switch
@@ -1252,13 +1259,15 @@ public class KryptonForm : VisualForm,
                 };
             }
             
-            // When RTL Layout is disabled, return original alignment unchanged
+            // When RTL Layout is disabled (even if RTL is true), return original alignment unchanged
+            // This ensures the title bar maintains its original positioning while controls can still be RTL-aligned
             return originalAlignment;
         }
 
         private PaletteRelativeAlign GetRTLAdjustedImageAlignment(PaletteRelativeAlign titleAlignment)
         {
             // Only apply RTL adjustments when both RTL and RTL Layout are enabled
+            // This ensures the title bar icon is mirrored only when full RTL layout is requested
             if (_kryptonForm.RightToLeft == RightToLeft.Yes && _kryptonForm.RightToLeftLayout)
             {
                 return titleAlignment switch
@@ -1271,8 +1280,9 @@ public class KryptonForm : VisualForm,
             }
             else
             {
-                // In LTR mode or when RTL Layout is disabled, icon should be on the left (Near)
-                return PaletteRelativeAlign.Near;
+                // In LTR mode or when RTL Layout is disabled (even if RTL is true), maintain original alignment
+                // This ensures the title bar icon positioning remains unchanged while controls can still be RTL-aligned
+                return titleAlignment;
             }
         }
     }
@@ -1555,7 +1565,9 @@ public class KryptonForm : VisualForm,
     {
         var dpi = GetDpiFactor();
         int size = Math.Max(16, (int)Math.Round(16 * dpi));
-        int x = RightToLeftLayout ? 0 : Math.Max(0, _internalKryptonPanel.ClientSize.Width - size);
+        // Only apply RTL positioning when both RTL and RTL Layout are enabled
+        // This ensures the grip is positioned RTL only when full RTL layout is requested
+        int x = (RightToLeft == RightToLeft.Yes && RightToLeftLayout) ? 0 : Math.Max(0, _internalKryptonPanel.ClientSize.Width - size);
         int y = Math.Max(0, _internalKryptonPanel.ClientSize.Height - size);
         return new Rectangle(x, y, size, size);
     }
@@ -1582,7 +1594,8 @@ public class KryptonForm : VisualForm,
 
         // Apply any RTL settings that may have been set before the handle was created
         // This ensures that RTL properties set in the designer are properly applied
-        if (RightToLeft == RightToLeft.Yes || RightToLeftLayout)
+        // Apply RTL settings regardless of RTL Layout to ensure proper renderer selection
+        if (RightToLeft == RightToLeft.Yes)
         {
             ApplyRTLToButtonManager();
             // Delay the non-client recalculation to allow button manager to update first
@@ -2139,7 +2152,9 @@ public class KryptonForm : VisualForm,
         if (MdiParent == null)
         {
             // For RTL layout mode, disable region clipping to prevent border issues
-            if (RightToLeftLayout)
+            // Only when both RTL and RTL Layout are enabled
+            // This ensures region clipping is disabled only when full RTL layout is requested
+            if (RightToLeft == RightToLeft.Yes && RightToLeftLayout)
             {
                 SuspendPaint();
                 _regionWindowState = FormWindowState.Maximized;
@@ -2591,31 +2606,49 @@ public class KryptonForm : VisualForm,
     {
         if (_buttonManager != null)
         {
-            // Force recreation of buttons to apply RTL positioning
-            _buttonManager.RecreateButtons();
-            
-            // Force a layout update to ensure buttons are positioned correctly
-            PerformLayout();
-            
-            // Force a repaint to ensure the changes are visible
-            // Only invalidate if the handle is created
-            if (IsHandleCreated)
+            // Only apply RTL adjustments when both RTL and RTL Layout are enabled
+            // This ensures buttons are mirrored only when full RTL layout is requested
+            if (RightToLeft == RightToLeft.Yes && RightToLeftLayout)
             {
-                Invalidate();
+                // Force recreation of buttons to apply RTL positioning
+                _buttonManager.RecreateButtons();
+                
+                // Force a layout update to ensure buttons are positioned correctly
+                PerformLayout();
+                
+                // Force a repaint to ensure the changes are visible
+                // Only invalidate if the handle is created
+                if (IsHandleCreated)
+                {
+                    Invalidate();
+                }
+            }
+            else
+            {
+                // When RTL Layout is disabled (even if RTL is true), ensure buttons are in their default state
+                // This prevents any RTL-related positioning from affecting the layout while controls can still be RTL-aligned
+                _buttonManager.RecreateButtons();
+                PerformLayout();
             }
         }
     }
+
+
 
     /// <summary>
     /// Apply RTL settings to all child controls.
     /// </summary>
     protected void ApplyRTLToChildControls()
     {
+        // Only apply RTL settings when both RTL and RTL Layout are enabled
+        // This ensures child controls are mirrored only when full RTL layout is requested
         if (RightToLeft == RightToLeft.Yes && RightToLeftLayout)
         {
             // Apply RTL settings to all child controls recursively
             ApplyRTLToControlsRecursive(Controls);
         }
+        // When RTL Layout is disabled (even if RTL is true), child controls maintain their default positioning
+        // while individual controls can still be RTL-aligned
     }
 
     /// <summary>
@@ -2664,28 +2697,21 @@ public class KryptonForm : VisualForm,
         {
             var originalEdge = _baseRedirector.GetButtonSpecEdge(style);
             
-            // Check if RTL is enabled - this is the primary condition for RTL layout
-            if (_kryptonForm.RightToLeft == RightToLeft.Yes)
+            // Only apply RTL adjustments when both RTL and RTL Layout are enabled
+            // This ensures buttons are mirrored only when full RTL layout is requested
+            if (_kryptonForm.RightToLeft == RightToLeft.Yes && _kryptonForm.RightToLeftLayout)
             {
-                // If RTL Layout is also enabled, reverse the edge alignment for full mirroring
-                if (_kryptonForm.RightToLeftLayout)
+                // Reverse the edge alignment for full mirroring
+                return originalEdge switch
                 {
-                    return originalEdge switch
-                    {
-                        PaletteRelativeEdgeAlign.Near => PaletteRelativeEdgeAlign.Far,
-                        PaletteRelativeEdgeAlign.Far => PaletteRelativeEdgeAlign.Near,
-                        _ => originalEdge
-                    };
-                }
-                else
-                {
-                    // When RTL is enabled but RTL Layout is disabled,
-                    // maintain the original edge alignment but adjust positioning for RTL context
-                    // This ensures buttons are positioned correctly for RTL reading order
-                    return originalEdge;
-                }
+                    PaletteRelativeEdgeAlign.Near => PaletteRelativeEdgeAlign.Far,
+                    PaletteRelativeEdgeAlign.Far => PaletteRelativeEdgeAlign.Near,
+                    _ => originalEdge
+                };
             }
             
+            // When RTL Layout is disabled (even if RTL is true), return original edge alignment unchanged
+            // This ensures buttons maintain their original positioning while controls can still be RTL-aligned
             return originalEdge;
         }
     }
