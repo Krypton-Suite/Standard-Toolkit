@@ -404,12 +404,14 @@ public class KryptonThemedSystemMenu : IKryptonThemedSystemMenu, IDisposable
                     else if (menuText.Equals(KryptonManager.Strings.SystemMenuStrings.Minimize, StringComparison.OrdinalIgnoreCase) ||
                              menuText.Replace("&", "").Equals(KryptonManager.Strings.SystemMenuStrings.Minimize.Replace("&", ""), StringComparison.OrdinalIgnoreCase))
                     {
-                        menuItem.Enabled = (windowState != FormWindowState.Minimized);
+                        // Minimize item is enabled only if MinimizeBox is true and window is not already minimized
+                        menuItem.Enabled = _form.MinimizeBox && (windowState != FormWindowState.Minimized);
                     }
                     else if (menuText.Equals(KryptonManager.Strings.SystemMenuStrings.Maximize, StringComparison.OrdinalIgnoreCase) ||
                              menuText.Replace("&", "").Equals(KryptonManager.Strings.SystemMenuStrings.Maximize.Replace("&", ""), StringComparison.OrdinalIgnoreCase))
                     {
-                        menuItem.Enabled = (windowState != FormWindowState.Maximized);
+                        // Maximize item is enabled only if MaximizeBox is true and window is not already maximized
+                        menuItem.Enabled = _form.MaximizeBox && (windowState != FormWindowState.Maximized);
                     }
                     else if (menuText.Equals(KryptonManager.Strings.SystemMenuStrings.Move, StringComparison.OrdinalIgnoreCase) ||
                              menuText.Replace("&", "").Equals(KryptonManager.Strings.SystemMenuStrings.Move.Replace("&", ""), StringComparison.OrdinalIgnoreCase))
@@ -1193,23 +1195,17 @@ public class KryptonThemedSystemMenu : IKryptonThemedSystemMenu, IDisposable
                 _contextMenu.Items.Add(new KryptonContextMenuSeparator());
             }
 
-            // Only add minimize item if MinimizeBox is enabled
-            if (_form.MinimizeBox)
-            {
-                var minimizeItem = new KryptonContextMenuItem(KryptonManager.Strings.SystemMenuStrings.Minimize);
-                minimizeItem.Image = GetSystemMenuIcon(SystemMenuIconType.Minimize);
-                minimizeItem.Click += (sender, e) => ExecuteMinimize();
-                _contextMenu.Items.Add(minimizeItem);
-            }
+            // Always add minimize item, but it will be enabled/disabled based on MinimizeBox property and window state
+            var minimizeItem = new KryptonContextMenuItem(KryptonManager.Strings.SystemMenuStrings.Minimize);
+            minimizeItem.Image = GetSystemMenuIcon(SystemMenuIconType.Minimize);
+            minimizeItem.Click += (sender, e) => ExecuteMinimize();
+            _contextMenu.Items.Add(minimizeItem);
 
-            // Only add maximize item if MaximizeBox is enabled
-            if (_form.MaximizeBox)
-            {
-                var maximizeItem = new KryptonContextMenuItem(KryptonManager.Strings.SystemMenuStrings.Maximize);
-                maximizeItem.Image = GetSystemMenuIcon(SystemMenuIconType.Maximize);
-                maximizeItem.Click += (sender, e) => ExecuteMaximize();
-                _contextMenu.Items.Add(maximizeItem);
-            }
+            // Always add maximize item, but it will be enabled/disabled based on MaximizeBox property and window state
+            var maximizeItem = new KryptonContextMenuItem(KryptonManager.Strings.SystemMenuStrings.Maximize);
+            maximizeItem.Image = GetSystemMenuIcon(SystemMenuIconType.Maximize);
+            maximizeItem.Click += (sender, e) => ExecuteMaximize();
+            _contextMenu.Items.Add(maximizeItem);
 
             // Only add separator if we have items before it
             if (_contextMenu.Items.Count > 0)
@@ -1225,6 +1221,9 @@ public class KryptonThemedSystemMenu : IKryptonThemedSystemMenu, IDisposable
                 closeItem.Click += (sender, e) => ExecuteClose();
                 _contextMenu.Items.Add(closeItem);
             }
+
+            // Update the menu items state to enable/disable items based on form properties and current state
+            UpdateMenuItemsState();
         }
 
     #region Action Execution Methods
