@@ -129,6 +129,9 @@ public class PaletteOffice2007Blue : PaletteOffice2007Base
     /// <returns>Appropriate image for drawing; otherwise null.</returns>
     public override Image? GetContextMenuSubMenuImage() => _contextMenuSubMenu;
 
+    /// <inheritdoc />
+    public override Image? GetSizeGripImage(RightToLeft isRtl) => SizeGripStyleResources.Office2007BlueGripStyle;
+
     #endregion
 
     #region ButtonSpec

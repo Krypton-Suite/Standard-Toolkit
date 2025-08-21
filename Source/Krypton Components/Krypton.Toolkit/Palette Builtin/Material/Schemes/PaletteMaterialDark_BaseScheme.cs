@@ -190,7 +190,7 @@ public sealed class PaletteMaterialDark_BaseScheme : KryptonColorSchemeBase
     public override Color GridDataCellSelected             { get; set; } = Color.FromArgb(91, 91, 91);
     public override Color InputControlTextNormal           { get; set; } = Color.White;
     public override Color InputControlTextDisabled         { get; set; } = Color.FromArgb(172, 168, 153);
-    public override Color InputControlBorderNormal         { get; set; } = Color.FromArgb(137, 137, 137);
+    public override Color InputControlBorderNormal         { get; set; } = Color.FromArgb(77, 77, 77);
     public override Color InputControlBorderDisabled       { get; set; } = Color.FromArgb(204, 204, 204);
     public override Color InputControlBackNormal           { get; set; } = Color.FromArgb(31, 31, 31);
     public override Color InputControlBackDisabled         { get; set; } = SystemColors.Control;

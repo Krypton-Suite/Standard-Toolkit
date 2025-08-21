@@ -140,6 +140,8 @@ public class KryptonDataGridView : DataGridView
     private byte _oldLocation;
     private DataGridViewCell? _oldCell;
     private KryptonContextMenu? _kryptonContextMenu;
+    // When the glyph area of a combo cell is clicked, remember to open on edit
+    private Point _pendingOpenOnEditCell = new Point(-1, -1);
 
     //Seb
     private string _searchString;
@@ -1176,6 +1178,35 @@ public class KryptonDataGridView : DataGridView
     {
         _cellDown = new Point(e.ColumnIndex, e.RowIndex);
 
+        // Auto-open dropdown when clicking inside the glyph area of a combo box cell
+        if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+        {
+            var cell = this.Rows[e.RowIndex].Cells[e.ColumnIndex];
+            if (cell is KryptonDataGridViewComboBoxCell)
+            {
+                // Compute the glyph rectangle consistent with cell Paint
+                Rectangle rect = GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, false);
+                // Use the display rectangle height; event coordinates are relative to cell
+                DataGridViewCellStyle style = cell.InheritedStyle;
+                int availableHeight = rect.Height - style.Padding.Top - style.Padding.Bottom - 2;
+                int indicatorSize = Math.Max(12, availableHeight);
+                bool rtl = RightToLeftInternal;
+                int posRel = rtl ? 0 : rect.Width - indicatorSize;
+                Rectangle glyphRect = new Rectangle(posRel, 1 + style.Padding.Top, indicatorSize, indicatorSize);
+
+                // e.X/e.Y are relative to the cell
+                if (glyphRect.Contains(new Point(e.X, e.Y)))
+                {
+                    _pendingOpenOnEditCell = new Point(e.ColumnIndex, e.RowIndex);
+                    if (CurrentCell?.ColumnIndex != e.ColumnIndex || CurrentCell?.RowIndex != e.RowIndex)
+                    {
+                        CurrentCell = cell;
+                    }
+                    BeginEdit(false);
+                }
+            }
+        }
+
         // If mouse down over the columns or row headers then turn off double buffering,
         // because if the user is using the mouse to resize a header item then it will use
         // an XOR painting technique to draw the resizing bar and double buffering causes
@@ -1213,6 +1244,27 @@ public class KryptonDataGridView : DataGridView
     {
         // Prevent a tooltip from showing while the editing control is showing
         CellAreaMouseLeaveInternal();
+
+        // If a glyph click requested opening, and we are on that cell, open now
+        if (_pendingOpenOnEditCell.X == CurrentCellAddress.X && _pendingOpenOnEditCell.Y == CurrentCellAddress.Y)
+        {
+            if (e.Control is KryptonDataGridViewComboBoxEditingControl kcb)
+            {
+                // Defer until control is fully realized to avoid being cancelled by subsequent layout/focus changes
+                BeginInvoke(new System.Windows.Forms.MethodInvoker(() =>
+                {
+                    try
+                    {
+                        if (!kcb.IsDisposed && !kcb.DroppedDown)
+                        {
+                            kcb.DroppedDown = true;
+                        }
+                    }
+                    catch { }
+                }));
+            }
+            _pendingOpenOnEditCell = new Point(-1, -1);
+        }
         base.OnEditingControlShowing(e);
     }
 
