@@ -217,4 +217,11 @@ public class PaletteOffice2010Blue : PaletteOffice2010Base
     public override Color GetRibbonFileAppTabTextColor(PaletteState state) => _ribbonAppButtonTextColor;
 
     #endregion
+
+    #region Images
+
+    /// <inheritdoc />
+    public override Image? GetSizeGripImage(RightToLeft isRtl) => SizeGripStyleResources.Office2010BlueGripStyle;
+
+    #endregion
 }

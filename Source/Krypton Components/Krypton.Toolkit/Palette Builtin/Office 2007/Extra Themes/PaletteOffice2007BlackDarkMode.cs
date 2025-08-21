@@ -4229,6 +4229,9 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
     /// <returns>Appropriate image for drawing; otherwise null.</returns>
     public override Image? GetTreeViewImage(bool expanded) => expanded ? _treeMinus : _treePlus;
 
+    /// <inheritdoc />
+    public override Image? GetSizeGripImage(RightToLeft isRtl) => null;
+
     /// <summary>
     /// Gets a check box image appropriate for the provided state.
     /// </summary>
