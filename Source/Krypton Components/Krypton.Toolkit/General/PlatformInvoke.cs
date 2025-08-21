@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- *
+ * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- *
+ * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
- *
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025.. All rights reserved.
+ *  
  */
 #endregion
 
@@ -33,7 +33,8 @@ using Microsoft.Win32.SafeHandles;
 using static System.Runtime.InteropServices.Marshal;
 
 
-namespace Krypton.Toolkit;
+namespace Krypton.Toolkit
+{
     internal static class Libraries
     {
         public const string Comctl32 = "comctl32.dll";
@@ -104,47 +105,48 @@ namespace Krypton.Toolkit;
 
         // Menu item info mask constants
         [Flags]
-        internal enum MIIM_ : uint
+        public enum MenuItemInfoMask : uint
         {
-            STATE = 0x00000001,
-            ID = 0x00000002,
-            SUBMENU = 0x00000004,
-            CHECKMARKS = 0x00000008,
-            TYPE = 0x00000010,
-            DATA = 0x00000020,
-            STRING = 0x00000040,
-            BITMAP = 0x00000080,
-            FTYPE = 0x00000100
+            MIIM_STATE = 0x00000001,
+            MIIM_ID = 0x00000002,
+            MIIM_SUBMENU = 0x00000004,
+            MIIM_CHECKMARKS = 0x00000008,
+            MIIM_TYPE = 0x00000010,
+            MIIM_DATA = 0x00000020,
+            MIIM_STRING = 0x00000040,
+            MIIM_BITMAP = 0x00000080,
+            MIIM_FTYPE = 0x00000100
         }
 
         // Menu item type constants
         [Flags]
-        internal enum MFT_ : uint
+        public enum MenuItemType : uint
         {
-            STRING = 0x00000000,
-            BITMAP = 0x00000004,
-            MENUBARBREAK = 0x00000020,
-            MENUBREAK = 0x00000040,
-            OWNERDRAW = 0x00000100,
-            RADIOCHECK = 0x00000200,
-            SEPARATOR = 0x00000800,
-            RIGHTORDER = 0x00002000
+            MFT_STRING = 0x00000000,
+            MFT_BITMAP = 0x00000004,
+            MFT_MENUBARBREAK = 0x00000020,
+            MFT_MENUBREAK = 0x00000040,
+            MFT_OWNERDRAW = 0x00000100,
+            MFT_RADIOCHECK = 0x00000200,
+            MFT_SEPARATOR = 0x00000800,
+            MFT_RIGHTORDER = 0x00002000
         }
 
         // Menu item state constants
         [Flags]
-        internal enum MFS_ : uint
+        public enum MenuItemState : uint
         {
-            GRAYED = 0x00000003,
-            DISABLED = 0x00000003,
-            CHECKED = 0x00000008,
-            HILITE = 0x00000080,
-            DEFAULT = 0x00001000
+            MFS_GRAYED = 0x00000003,
+            MFS_DISABLED = 0x00000003,
+            MFS_CHECKED = 0x00000008,
+            MFS_HILITE = 0x00000080,
+            MFS_DEFAULT = 0x00001000
         }
 
-    #endregion
 
-    internal delegate IntPtr WndProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
+        #endregion
+
+        internal delegate IntPtr WndProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
 
         internal static object? PtrToStructure(IntPtr lparam, Type cls) => Marshal.PtrToStructure(lparam, cls);
         internal static void StructureToPtr(object cls, IntPtr lparam, bool deleteOld = false) => Marshal.StructureToPtr(cls, lparam, deleteOld);
@@ -692,7 +694,7 @@ namespace Krypton.Toolkit;
 
         /// <summary>
         /// Flags used with the Windows API (User32.dll):GetSystemMetrics(SystemMetric smIndex)
-        ///
+        ///   
         /// This Enum and declaration signature was written by Gabriel T. Sharp
         /// ai_productions@verizon.net or osirisgothra@hotmail.com
         /// Obtained on pinvoke.net, please contribute your code to support the wiki!
@@ -705,7 +707,7 @@ namespace Krypton.Toolkit;
             ARRANGE = 56,
 
             /// <summary>
-            /// The value that specifies how the system is started:
+            /// The value that specifies how the system is started: 
             /// 0 Normal boot
             /// 1 Fail-safe boot
             /// 2 Fail-safe with network boot
@@ -747,8 +749,8 @@ namespace Krypton.Toolkit;
             CXDOUBLECLK = 36,
 
             /// <summary>
-            /// The number of pixels on either side of a mouse-down point that the mouse pointer can move before a drag operation begins.
-            /// This allows the user to click and release the mouse button easily without unintentionally starting a drag operation.
+            /// The number of pixels on either side of a mouse-down point that the mouse pointer can move before a drag operation begins. 
+            /// This allows the user to click and release the mouse button easily without unintentionally starting a drag operation. 
             /// If this value is negative, it is subtracted from the left of the mouse-down point and added to the right of it.
             /// </summary>
             CXDRAG = 68,
@@ -766,8 +768,8 @@ namespace Krypton.Toolkit;
             CXFIXEDFRAME = 7,
 
             /// <summary>
-            /// The width of the left and right edges of the focus rectangle that the DrawFocusRectdraws.
-            /// This value is in pixels.
+            /// The width of the left and right edges of the focus rectangle that the DrawFocusRectdraws. 
+            /// This value is in pixels. 
             /// Windows 2000:  This value is not supported.
             /// </summary>
             CXFOCUSBORDER = 83,
@@ -778,8 +780,8 @@ namespace Krypton.Toolkit;
             CXFRAME = 32,
 
             /// <summary>
-            /// The width of the client area for a full-screen window on the primary display monitor, in pixels.
-            /// To get the coordinates of the portion of the screen that is not obscured by the system taskbar or by application desktop toolbars,
+            /// The width of the client area for a full-screen window on the primary display monitor, in pixels. 
+            /// To get the coordinates of the portion of the screen that is not obscured by the system taskbar or by application desktop toolbars, 
             /// call the SystemParametersInfofunction with the SPI_GETWORKAREA value.
             /// </summary>
             CXFULLSCREEN = 16,
@@ -795,13 +797,13 @@ namespace Krypton.Toolkit;
             CXHTHUMB = 10,
 
             /// <summary>
-            /// The default width of an icon, in pixels. The LoadIcon function can load only icons with the dimensions
+            /// The default width of an icon, in pixels. The LoadIcon function can load only icons with the dimensions 
             /// that SM_CXICON and SM_CYICON specifies.
             /// </summary>
             CXICON = 11,
 
             /// <summary>
-            /// The width of a grid cell for items in large icon view, in pixels. Each item fits into a rectangle of size
+            /// The width of a grid cell for items in large icon view, in pixels. Each item fits into a rectangle of size 
             /// SM_CXICONSPACING by SM_CYICONSPACING when arranged. This value is always greater than or equal to SM_CXICON.
             /// </summary>
             CXICONSPACING = 38,
@@ -812,8 +814,8 @@ namespace Krypton.Toolkit;
             CXMAXIMIZED = 61,
 
             /// <summary>
-            /// The default maximum width of a window that has a caption and sizing borders, in pixels.
-            /// This metric refers to the entire desktop. The user cannot drag the window frame to a size larger than these dimensions.
+            /// The default maximum width of a window that has a caption and sizing borders, in pixels. 
+            /// This metric refers to the entire desktop. The user cannot drag the window frame to a size larger than these dimensions. 
             /// A window can override this value by processing the WM_GETMINMAXINFO message.
             /// </summary>
             CXMAXTRACK = 59,
@@ -839,13 +841,13 @@ namespace Krypton.Toolkit;
             CXMINIMIZED = 57,
 
             /// <summary>
-            /// The width of a grid cell for a minimized window, in pixels. Each minimized window fits into a rectangle this size when arranged.
+            /// The width of a grid cell for a minimized window, in pixels. Each minimized window fits into a rectangle this size when arranged. 
             /// This value is always greater than or equal to SM_CXMINIMIZED.
             /// </summary>
             CXMINSPACING = 47,
 
             /// <summary>
-            /// The minimum tracking width of a window, in pixels. The user cannot drag the window frame to a size smaller than these dimensions.
+            /// The minimum tracking width of a window, in pixels. The user cannot drag the window frame to a size smaller than these dimensions. 
             /// A window can override this value by processing the WM_GETMINMAXINFO message.
             /// </summary>
             CXMINTRACK = 34,
@@ -856,7 +858,7 @@ namespace Krypton.Toolkit;
             CXPADDEDBORDER = 92,
 
             /// <summary>
-            /// The width of the screen of the primary display monitor, in pixels. This is the same value obtained by calling
+            /// The width of the screen of the primary display monitor, in pixels. This is the same value obtained by calling 
             /// GetDeviceCaps as follows: GetDeviceCaps( hdcPrimaryMonitor, HORZRES).
             /// </summary>
             CXSCREEN = 0,
@@ -867,8 +869,8 @@ namespace Krypton.Toolkit;
             CXSIZE = 30,
 
             /// <summary>
-            /// The thickness of the sizing border around the perimeter of a window that can be resized, in pixels.
-            /// SM_CXSIZEFRAME is the width of the horizontal border, and SM_CYSIZEFRAME is the height of the vertical border.
+            /// The thickness of the sizing border around the perimeter of a window that can be resized, in pixels. 
+            /// SM_CXSIZEFRAME is the width of the horizontal border, and SM_CYSIZEFRAME is the height of the vertical border. 
             /// This value is the same as SM_CXFRAME.
             /// </summary>
             CXSIZEFRAME = 32,
@@ -884,7 +886,7 @@ namespace Krypton.Toolkit;
             CXSMSIZE = 52,
 
             /// <summary>
-            /// The width of the virtual screen, in pixels. The virtual screen is the bounding rectangle of all display monitors.
+            /// The width of the virtual screen, in pixels. The virtual screen is the bounding rectangle of all display monitors. 
             /// The SM_XVIRTUALSCREEN metric is the coordinates for the left side of the virtual screen.
             /// </summary>
             CXVIRTUALSCREEN = 78,
@@ -915,16 +917,16 @@ namespace Krypton.Toolkit;
             CYDLGFRAME = 8,
 
             /// <summary>
-            /// The height of the rectangle around the location of a first click in a double-click sequence, in pixels.
-            /// The second click must occur within the rectangle defined by SM_CXDOUBLECLK and SM_CYDOUBLECLK for the system to consider
-            /// the two clicks a double-click. The two clicks must also occur within a specified time. To set the height of the double-click
+            /// The height of the rectangle around the location of a first click in a double-click sequence, in pixels. 
+            /// The second click must occur within the rectangle defined by SM_CXDOUBLECLK and SM_CYDOUBLECLK for the system to consider 
+            /// the two clicks a double-click. The two clicks must also occur within a specified time. To set the height of the double-click 
             /// rectangle, call SystemParametersInfo with SPI_SETDOUBLECLKHEIGHT.
             /// </summary>
             CYDOUBLECLK = 37,
 
             /// <summary>
-            /// The number of pixels above and below a mouse-down point that the mouse pointer can move before a drag operation begins.
-            /// This allows the user to click and release the mouse button easily without unintentionally starting a drag operation.
+            /// The number of pixels above and below a mouse-down point that the mouse pointer can move before a drag operation begins. 
+            /// This allows the user to click and release the mouse button easily without unintentionally starting a drag operation. 
             /// If this value is negative, it is subtracted from above the mouse-down point and added below it.
             /// </summary>
             CYDRAG = 69,
@@ -935,15 +937,15 @@ namespace Krypton.Toolkit;
             CYEDGE = 46,
 
             /// <summary>
-            /// The thickness of the frame around the perimeter of a window that has a caption but is not sizable, in pixels.
-            /// SM_CXFIXEDFRAME is the height of the horizontal border, and SM_CYFIXEDFRAME is the width of the vertical border.
+            /// The thickness of the frame around the perimeter of a window that has a caption but is not sizable, in pixels. 
+            /// SM_CXFIXEDFRAME is the height of the horizontal border, and SM_CYFIXEDFRAME is the width of the vertical border. 
             /// This value is the same as SM_CYDLGFRAME.
             /// </summary>
             CYFIXEDFRAME = 8,
 
             /// <summary>
-            /// The height of the top and bottom edges of the focus rectangle drawn byDrawFocusRect.
-            /// This value is in pixels.
+            /// The height of the top and bottom edges of the focus rectangle drawn byDrawFocusRect. 
+            /// This value is in pixels. 
             /// Windows 2000:  This value is not supported.
             /// </summary>
             CYFOCUSBORDER = 84,
@@ -954,7 +956,7 @@ namespace Krypton.Toolkit;
             CYFRAME = 33,
 
             /// <summary>
-            /// The height of the client area for a full-screen window on the primary display monitor, in pixels.
+            /// The height of the client area for a full-screen window on the primary display monitor, in pixels. 
             /// To get the coordinates of the portion of the screen not obscured by the system taskbar or by application desktop toolbars,
             /// call the SystemParametersInfo function with the SPI_GETWORKAREA value.
             /// </summary>
@@ -971,7 +973,7 @@ namespace Krypton.Toolkit;
             CYICON = 12,
 
             /// <summary>
-            /// The height of a grid cell for items in large icon view, in pixels. Each item fits into a rectangle of size
+            /// The height of a grid cell for items in large icon view, in pixels. Each item fits into a rectangle of size 
             /// SM_CXICONSPACING by SM_CYICONSPACING when arranged. This value is always greater than or equal to SM_CYICON.
             /// </summary>
             CYICONSPACING = 39,
@@ -987,8 +989,8 @@ namespace Krypton.Toolkit;
             CYMAXIMIZED = 62,
 
             /// <summary>
-            /// The default maximum height of a window that has a caption and sizing borders, in pixels. This metric refers to the entire desktop.
-            /// The user cannot drag the window frame to a size larger than these dimensions. A window can override this value by processing
+            /// The default maximum height of a window that has a caption and sizing borders, in pixels. This metric refers to the entire desktop. 
+            /// The user cannot drag the window frame to a size larger than these dimensions. A window can override this value by processing 
             /// the WM_GETMINMAXINFO message.
             /// </summary>
             CYMAXTRACK = 60,
@@ -1019,19 +1021,19 @@ namespace Krypton.Toolkit;
             CYMINIMIZED = 58,
 
             /// <summary>
-            /// The height of a grid cell for a minimized window, in pixels. Each minimized window fits into a rectangle this size when arranged.
+            /// The height of a grid cell for a minimized window, in pixels. Each minimized window fits into a rectangle this size when arranged. 
             /// This value is always greater than or equal to SM_CYMINIMIZED.
             /// </summary>
             CYMINSPACING = 48,
 
             /// <summary>
-            /// The minimum tracking height of a window, in pixels. The user cannot drag the window frame to a size smaller than these dimensions.
+            /// The minimum tracking height of a window, in pixels. The user cannot drag the window frame to a size smaller than these dimensions. 
             /// A window can override this value by processing the WM_GETMINMAXINFO message.
             /// </summary>
             CYMINTRACK = 35,
 
             /// <summary>
-            /// The height of the screen of the primary display monitor, in pixels. This is the same value obtained by calling
+            /// The height of the screen of the primary display monitor, in pixels. This is the same value obtained by calling 
             /// GetDeviceCaps as follows: GetDeviceCaps( hdcPrimaryMonitor, VERTRES).
             /// </summary>
             CYSCREEN = 1,
@@ -1042,8 +1044,8 @@ namespace Krypton.Toolkit;
             CYSIZE = 31,
 
             /// <summary>
-            /// The thickness of the sizing border around the perimeter of a window that can be resized, in pixels.
-            /// SM_CXSIZEFRAME is the width of the horizontal border, and SM_CYSIZEFRAME is the height of the vertical border.
+            /// The thickness of the sizing border around the perimeter of a window that can be resized, in pixels. 
+            /// SM_CXSIZEFRAME is the width of the horizontal border, and SM_CYSIZEFRAME is the height of the vertical border. 
             /// This value is the same as SM_CYFRAME.
             /// </summary>
             CYSIZEFRAME = 33,
@@ -1064,7 +1066,7 @@ namespace Krypton.Toolkit;
             CYSMSIZE = 53,
 
             /// <summary>
-            /// The height of the virtual screen, in pixels. The virtual screen is the bounding rectangle of all display monitors.
+            /// The height of the virtual screen, in pixels. The virtual screen is the bounding rectangle of all display monitors. 
             /// The SM_YVIRTUALSCREEN metric is the coordinates for the top of the virtual screen.
             /// </summary>
             CYVIRTUALSCREEN = 79,
@@ -1090,16 +1092,16 @@ namespace Krypton.Toolkit;
             DEBUG = 22,
 
             /// <summary>
-            /// Nonzero if the current operating system is Windows 7 or Windows Server 2008 R2 and the Tablet PC Input
-            /// service is started; otherwise, 0. The return value is a bitmask that specifies the type of digitizer input supported by the device.
-            /// For more information, see Remarks.
+            /// Nonzero if the current operating system is Windows 7 or Windows Server 2008 R2 and the Tablet PC Input 
+            /// service is started; otherwise, 0. The return value is a bitmask that specifies the type of digitizer input supported by the device. 
+            /// For more information, see Remarks. 
             /// Windows Server 2008, Windows Vista, and Windows XP/2000:  This value is not supported.
             /// </summary>
             DIGITIZER = 94,
 
             /// <summary>
-            /// Nonzero if Input Method Manager/Input Method Editor features are enabled; otherwise, 0.
-            /// SM_IMMENABLED indicates whether the system is ready to use a Unicode-based IME on a Unicode application.
+            /// Nonzero if Input Method Manager/Input Method Editor features are enabled; otherwise, 0. 
+            /// SM_IMMENABLED indicates whether the system is ready to use a Unicode-based IME on a Unicode application. 
             /// To ensure that a language-dependent IME works, check SM_DBCSENABLED and the system ANSI code page.
             /// Otherwise the ANSI-to-Unicode conversion may not be performed correctly, or some components like fonts
             /// or registry settings may not be present.
@@ -1107,9 +1109,9 @@ namespace Krypton.Toolkit;
             IMMENABLED = 82,
 
             /// <summary>
-            /// Nonzero if there are digitizers in the system; otherwise, 0. SM_MAXIMUMTOUCHES returns the aggregate maximum of the
-            /// maximum number of contacts supported by every digitizer in the system. If the system has only single-touch digitizers,
-            /// the return value is 1. If the system has multi-touch digitizers, the return value is the number of simultaneous contacts
+            /// Nonzero if there are digitizers in the system; otherwise, 0. SM_MAXIMUMTOUCHES returns the aggregate maximum of the 
+            /// maximum number of contacts supported by every digitizer in the system. If the system has only single-touch digitizers, 
+            /// the return value is 1. If the system has multi-touch digitizers, the return value is the number of simultaneous contacts 
             /// the hardware can provide. Windows Server 2008, Windows Vista, and Windows XP/2000:  This value is not supported.
             /// </summary>
             MAXIMUMTOUCHES = 95,
@@ -1130,7 +1132,7 @@ namespace Krypton.Toolkit;
             MIDEASTENABLED = 74,
 
             /// <summary>
-            /// Nonzero if a mouse is installed; otherwise, 0. This value is rarely zero, because of support for virtual mice and because
+            /// Nonzero if a mouse is installed; otherwise, 0. This value is rarely zero, because of support for virtual mice and because 
             /// some systems detect the presence of the port instead of the presence of a mouse.
             /// </summary>
             MOUSEPRESENT = 19,
@@ -1156,26 +1158,26 @@ namespace Krypton.Toolkit;
             PENWINDOWS = 41,
 
             /// <summary>
-            /// This system metric is used in a Terminal Services environment to determine if the current Terminal Server session is
-            /// being remotely controlled. Its value is nonzero if the current session is remotely controlled; otherwise, 0.
-            /// You can use terminal services management tools such as Terminal Services Manager (tsadmin.msc) and shadow.exe to
-            /// control a remote session. When a session is being remotely controlled, another user can view the contents of that session
+            /// This system metric is used in a Terminal Services environment to determine if the current Terminal Server session is 
+            /// being remotely controlled. Its value is nonzero if the current session is remotely controlled; otherwise, 0. 
+            /// You can use terminal services management tools such as Terminal Services Manager (tsadmin.msc) and shadow.exe to 
+            /// control a remote session. When a session is being remotely controlled, another user can view the contents of that session 
             /// and potentially interact with it.
             /// </summary>
             REMOTECONTROL = 0x2001,
 
             /// <summary>
-            /// This system metric is used in a Terminal Services environment. If the calling process is associated with a Terminal Services
-            /// client session, the return value is nonzero. If the calling process is associated with the Terminal Services console session,
-            /// the return value is 0.
-            /// Windows Server 2003 and Windows XP:  The console session is not necessarily the physical console.
+            /// This system metric is used in a Terminal Services environment. If the calling process is associated with a Terminal Services 
+            /// client session, the return value is nonzero. If the calling process is associated with the Terminal Services console session, 
+            /// the return value is 0. 
+            /// Windows Server 2003 and Windows XP:  The console session is not necessarily the physical console. 
             /// For more information, seeWTSGetActiveConsoleSessionId.
             /// </summary>
             REMOTESESSION = 0x1000,
 
             /// <summary>
-            /// Nonzero if all the display monitors have the same color format, otherwise, 0. Two displays can have the same bit depth,
-            /// but different color formats. For example, the red, green, and blue pixels can be encoded with different numbers of bits,
+            /// Nonzero if all the display monitors have the same color format, otherwise, 0. Two displays can have the same bit depth, 
+            /// but different color formats. For example, the red, green, and blue pixels can be encoded with different numbers of bits, 
             /// or those bits can be located in different places in a pixel color value.
             /// </summary>
             SAMEDISPLAYFORMAT = 81,
@@ -1191,7 +1193,7 @@ namespace Krypton.Toolkit;
             SERVERR2 = 89,
 
             /// <summary>
-            /// Nonzero if the user requires an application to present information visually in situations where it would otherwise present
+            /// Nonzero if the user requires an application to present information visually in situations where it would otherwise present 
             /// the information only in audible form; otherwise, 0.
             /// </summary>
             SHOWSOUNDS = 70,
@@ -1218,19 +1220,19 @@ namespace Krypton.Toolkit;
 
             /// <summary>
             /// Nonzero if the current operating system is the Windows XP Tablet PC edition or if the current operating system is Windows Vista
-            /// or Windows 7 and the Tablet PC Input service is started; otherwise, 0. The SM_DIGITIZER setting indicates the type of digitizer
+            /// or Windows 7 and the Tablet PC Input service is started; otherwise, 0. The SM_DIGITIZER setting indicates the type of digitizer 
             /// input supported by a device running Windows 7 or Windows Server 2008 R2. For more information, see Remarks.
             /// </summary>
             TABLETPC = 86,
 
             /// <summary>
-            /// The coordinates for the left side of the virtual screen. The virtual screen is the bounding rectangle of all display monitors.
+            /// The coordinates for the left side of the virtual screen. The virtual screen is the bounding rectangle of all display monitors. 
             /// The SM_CXVIRTUALSCREEN metric is the width of the virtual screen.
             /// </summary>
             XVIRTUALSCREEN = 76,
 
             /// <summary>
-            /// The coordinates for the top of the virtual screen. The virtual screen is the bounding rectangle of all display monitors.
+            /// The coordinates for the top of the virtual screen. The virtual screen is the bounding rectangle of all display monitors. 
             /// The SM_CYVIRTUALSCREEN metric is the height of the virtual screen.
             /// </summary>
             YVIRTUALSCREEN = 77
@@ -1255,7 +1257,7 @@ namespace Krypton.Toolkit;
             SW_SHOWMINIMIZED = 2,
             /// <summary>
             /// Activates the window and displays it as a maximized window.
-            /// </summary>
+            /// </summary>      
             SW_SHOWMAXIMIZED = 3,
             /// <summary>
             /// Displays a window in its most recent size and position. This value
@@ -1341,7 +1343,7 @@ namespace Krypton.Toolkit;
             SIZE = 0x0005,
             // <summary>
             // The WM_ACTIVATE message is sent to both the window being activated and the window being deactivated.
-            // If the windows use the same input queue, the message is sent synchronously, first to the window procedure of the top-level window being deactivated,
+            // If the windows use the same input queue, the message is sent synchronously, first to the window procedure of the top-level window being deactivated, 
             // then to the window procedure of the top-level window being activated. If the windows use different input queues, the message is sent asynchronously,
             // so the window is activated immediately.
             // </summary>
@@ -1816,7 +1818,7 @@ namespace Krypton.Toolkit;
             // </summary>
             COMMAND = 0x0111,
             // <summary>
-            // A window receives this message when the user chooses a command from the Window menu, clicks the maximize button, minimize button, restore button,
+            // A window receives this message when the user chooses a command from the Window menu, clicks the maximize button, minimize button, restore button, 
             // close button, or moves the form. You can stop the form from moving by filtering this out.
             // </summary>
             SYSCOMMAND = 0x0112,
@@ -2022,10 +2024,10 @@ namespace Krypton.Toolkit;
             MOUSELAST = 0x020E,
             // <summary>
             // The WM_PARENTNOTIFY message is sent to the parent of a child window when the child window is created or destroyed,
-            // or when the user clicks a mouse button while the cursor is over the child window. When the child window is being created,
-            // the system sends WM_PARENTNOTIFY just before the CreateWindow or CreateWindowEx function that creates the window returns.
+            // or when the user clicks a mouse button while the cursor is over the child window. When the child window is being created, 
+            // the system sends WM_PARENTNOTIFY just before the CreateWindow or CreateWindowEx function that creates the window returns. 
             // When the child window is being destroyed, the system sends the message before any processing to destroy the window takes place.
-            // This message is now extended to include the WM_POINTERDOWN event.
+            // This message is now extended to include the WM_POINTERDOWN event. 
             // </summary>
             PARENTNOTIFY = 0x0210,
             // <summary>
@@ -2335,7 +2337,7 @@ namespace Krypton.Toolkit;
             OCM_NOTIFY = 0x0204E,   // https://wiki.winehq.org/List_Of_Windows_Messages
 
 
-            // Following are the ShellProc messages via RegisterShellHookWindow
+            // Following are the ShellProc messages via RegisterShellHookWindow 
             // <summary>
             // The accessibility state has changed.
             // </summary>
@@ -2527,7 +2529,7 @@ namespace Krypton.Toolkit;
 
                 // <summary>
                 // The window is a control that can receive the keyboard focus when the user presses the TAB key.
-                // Pressing the TAB key changes the keyboard focus to the next control with the WS_TABSTOP style.
+                // Pressing the TAB key changes the keyboard focus to the next control with the WS_TABSTOP style.  
                 // You can turn this style on and off to change dialog box navigation. To change this style after a window has been created, use the SetWindowLong function.
                 // For user-created windows and modeless dialogs to work with tab stops, alter the message loop to call the IsDialogMessage function.
                 // </summary>
@@ -2781,9 +2783,9 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         }
 
         /// <summary>
-        /// https://msdn.microsoft.com/en-us/library/windows/desktop/ms644991(v=vs.85).aspx
+        /// https://msdn.microsoft.com/en-us/library/windows/desktop/ms644991(v=vs.85).aspx 
         /// </summary>
-        internal const int HSHELL_REDRAW = 6; // The title of a window in the task bar has been redrawn.
+        internal const int HSHELL_REDRAW = 6; // The title of a window in the task bar has been redrawn. 
 
         internal const int CURSOR_SHOWING = 0x00000001;
         internal const int VK_ESCAPE = 0x1B;
@@ -2794,9 +2796,9 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         internal const int MA_NOACTIVATE = 0x03;
         internal const int EM_FORMATRANGE = 0x0439;
         internal const int RDW_INVALIDATE = 0x0001;
-        internal const int RDW_ALLCHILDREN = 0x0080;
         internal const int RDW_UPDATENOW = 0x0100;
         internal const int RDW_FRAME = 0x0400;
+        internal const int RDW_ALLCHILDREN = 0x0080;
         internal const int DCX_WINDOW = 0x01;
         internal const int DCX_CACHE = 0x02;
         internal const int DCX_CLIPSIBLINGS = 0x10;
@@ -2844,7 +2846,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
 
         internal static int GET_Y_LPARAM(IntPtr lParam) => (short)((lParam.ToInt32() >> 16) & 0xFFFF);
 
-    internal static IntPtr MakeLParam(int LoWord, int HiWord) =>
+        internal static IntPtr MakeLParam(int LoWord, int HiWord) =>
             new IntPtr((long)((HiWord << 16) | (LoWord & 0xffff)));
 
         internal static IntPtr MakeWParam(int LoWord, int HiWord) =>
@@ -3391,7 +3393,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern bool GetMenuItemInfo(IntPtr hMenu, uint uItem, bool fByPosition, ref MENUITEMINFO lpmii);
 
-    [DllImport(Libraries.User32)]
+        [DllImport(Libraries.User32)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern int GetSystemMetrics(SM_ smIndex);
 
@@ -3482,7 +3484,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
             }
         }
 
-    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
         internal class LOGFONT
         {
             public int lfHeight;
@@ -3524,15 +3526,6 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
             }
         }
 
-        [DllImport(Libraries.User32)]
-        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-        private static extern int GetGuiResources(IntPtr hProcess, int uiFlags);
-
-        #endregion
-
-        #region nt.dll
-        [DllImport(Libraries.NtDll, SetLastError = true)]
-        internal static extern int RtlGetVersion(ref PI.OSVERSIONINFOEX lpVersionInformation);
         #endregion
 
         #region Static Gdi32
@@ -3657,6 +3650,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern bool RoundRect(IntPtr hdc, int nLeftRect, int nTopRect, int nRightRect, int nBottomRect, int nEllipseWidth, int nEllipseHeight);
 
+
         [DllImport(Libraries.Gdi32, CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern int SelectClipRgn(HandleRef hDC, HandleRef hRgn);
@@ -3693,14 +3687,11 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern bool Rectangle(IntPtr hdc, int nLeftRect, int nTopRect, int nRightRect, int nBottomRect);
 
-        [DllImport(Libraries.Gdi32)]
-        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-        private static extern IntPtr GetCurrentObject(IntPtr hdc, int objectType); // objectType 7 = OBJ_BITMAP
+        #endregion
 
-        [DllImport(Libraries.Gdi32)]
-        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-        private static extern bool GdiFlush();
-
+        #region nt.dll
+        [DllImport(Libraries.NtDll, SetLastError = true)]
+        internal static extern int RtlGetVersion(ref PI.OSVERSIONINFOEX lpVersionInformation);
         #endregion
 
         #region dwmapi
@@ -3771,12 +3762,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
                 PlaceHolder1,
                 PlaceHolder2,
                 PlaceHolder3,
-                AccentPolicy = 19,
-                // Windows 11 attributes (values per SDK headers)
-                SystemBackdropType = 38, // keep placeholders aligned; we only need Border/Caption/Text below but numbering must not collide
-                BorderColor = 34,
-                CaptionColor = 35,
-                TextColor = 36
+                AccentPolicy = 19
             }
 
             public enum DWMNCRENDERINGPOLICY : uint
@@ -3980,16 +3966,6 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
                 // Disable non-client area rendering on the window.
                 var result = DwmSetWindowAttribute(hWnd, DWMWINDOWATTRIBUTE.NCRenderingPolicy, ref ncrp,
                     sizeof(int));
-                return result == 0;
-            }
-
-            /// <summary>
-            /// Hide the DWM accent border around a window (Win11+). Equivalent to DWMWA_BORDER_COLOR = CLR_INVALID.
-            /// </summary>
-            public static bool WindowHideBorder(IntPtr hWnd)
-            {
-                int clrInvalid = -1; // CLR_INVALID
-                var result = DwmSetWindowAttribute(hWnd, DWMWINDOWATTRIBUTE.BorderColor, ref clrInvalid, sizeof(int));
                 return result == 0;
             }
         }
@@ -4261,6 +4237,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         #endregion Static Comdlg32
 
         #region Structures
+
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
         public struct LVFINDINFO
         {
@@ -4543,19 +4520,19 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         internal class MONITORINFO
         {
             /// <summary>
-            /// </summary>
+            /// </summary>            
             public int cbSize = SizeOf(typeof(MONITORINFO));
 
             /// <summary>
-            /// </summary>
+            /// </summary>            
             public RECT rcMonitor = new RECT();
 
             /// <summary>
-            /// </summary>
+            /// </summary>            
             public RECT rcWork = new RECT();
 
             /// <summary>
-            /// </summary>
+            /// </summary>            
             public int dwFlags = 0;
         }
 
@@ -4563,22 +4540,22 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         [StructLayout(LayoutKind.Sequential)]
         public struct ICONINFO
         {
-            public bool fIcon;         // Specifies whether this structure defines an icon or a cursor. A value of TRUE specifies
-            public int xHotspot;     // Specifies the x-coordinate of a cursor's hot spot. If this structure defines an icon, the hot
-            public int yHotspot;     // Specifies the y-coordinate of the cursor's hot spot. If this structure defines an icon, the hot
-            public IntPtr hbmMask;     // (HBITMAP) Specifies the icon bitmask bitmap. If this structure defines a black and white icon,
-            public IntPtr hbmColor;    // (HBITMAP) Handle to the icon color bitmap. This member can be optional if this
+            public bool fIcon;         // Specifies whether this structure defines an icon or a cursor. A value of TRUE specifies 
+            public int xHotspot;     // Specifies the x-coordinate of a cursor's hot spot. If this structure defines an icon, the hot 
+            public int yHotspot;     // Specifies the y-coordinate of the cursor's hot spot. If this structure defines an icon, the hot 
+            public IntPtr hbmMask;     // (HBITMAP) Specifies the icon bitmask bitmap. If this structure defines a black and white icon, 
+            public IntPtr hbmColor;    // (HBITMAP) Handle to the icon color bitmap. This member can be optional if this 
         }
 
         [StructLayout(LayoutKind.Sequential)]
         public struct CURSORINFO
         {
-            public int cbSize;        // Specifies the size, in bytes, of the structure.
+            public int cbSize;        // Specifies the size, in bytes, of the structure. 
             public int flags;         // Specifies the cursor state. This parameter can be one of the following values:
                                       //    0                 The cursor is hidden.
                                       //    CURSOR_SHOWING    The cursor is showing.
-            public IntPtr hCursor;      // Handle to the cursor.
-            public POINT ptScreenPos;   // A POINT structure that receives the screen coordinates of the cursor.
+            public IntPtr hCursor;      // Handle to the cursor. 
+            public POINT ptScreenPos;   // A POINT structure that receives the screen coordinates of the cursor. 
         }
 
         [StructLayout(LayoutKind.Sequential)]
@@ -4708,8 +4685,8 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         }
 
         /// <summary>
-        /// Contains operating system version information. The information includes major and minor version numbers, a build number, a platform identifier,
-        /// and information about product suites and the latest Service Pack installed on the system.
+        /// Contains operating system version information. The information includes major and minor version numbers, a build number, a platform identifier, 
+        /// and information about product suites and the latest Service Pack installed on the system. 
         /// This structure is used with the RtlGetVersion, GetVersionEx and VerifyVersionInfo functions.
         /// </summary>
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
@@ -4781,3 +4758,4 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         public static bool IsFalse(this PI.BOOL b) => b == PI.BOOL.FALSE;
         public static PI.BOOL ToBOOL(this bool b) => b ? PI.BOOL.TRUE : PI.BOOL.FALSE;
     }
+}

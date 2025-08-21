@@ -1655,6 +1655,14 @@ public abstract class VisualForm : Form,
     public virtual IKryptonThemedSystemMenu? ThemedSystemMenu => null;
 
     /// <summary>
+    /// Gets or sets the themed system menu service for managing themed system menu functionality.
+    /// </summary>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public virtual KryptonThemedSystemMenuService? ThemedSystemMenuService { get; set; }
+
+    /// <summary>
     /// Determines if the specified screen point is within the title bar area.
     /// </summary>
     /// <param name="screenPoint">The screen coordinates to test.</param>
@@ -1685,6 +1693,16 @@ public abstract class VisualForm : Form,
     /// <param name="keyData">The key data to process.</param>
     /// <returns>True if the shortcut was handled; otherwise false.</returns>
     protected virtual bool HandleThemedSystemMenuKeyboardShortcut(Keys keyData) => false;
+
+    /// <summary>
+    /// Helper method to handle themed system menu shortcuts using the service.
+    /// </summary>
+    /// <param name="keyData">The key data to process.</param>
+    /// <returns>True if the shortcut was handled by the service; otherwise false.</returns>
+    protected bool HandleThemedSystemMenuShortcut(Keys keyData)
+    {
+        return ThemedSystemMenuService?.HandleKeyboardShortcut(keyData) ?? false;
+    }
     #endregion
 
     #region Implementation

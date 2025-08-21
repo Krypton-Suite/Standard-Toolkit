@@ -56,7 +56,7 @@
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(526, 311);
+            this.kryptonPanel1.Size = new System.Drawing.Size(530, 299);
             this.kryptonPanel1.TabIndex = 0;
             // 
             // kryptonButton3
@@ -98,14 +98,6 @@
             this.kryptonLabel2.Values.Text = "Try clicking on the title bar (left or right click) or press Alt+Space to see the" +
     " themed system menu in action!";
             // 
-            // kryptonLabel3
-            // 
-            this.kryptonLabel3.Location = new System.Drawing.Point(17, 169);
-            this.kryptonLabel3.Name = "kryptonLabel3";
-            this.kryptonLabel3.Size = new System.Drawing.Size(593, 20);
-            this.kryptonLabel3.TabIndex = 8;
-            this.kryptonLabel3.Values.Text = "Current Theme: Office2013 (Auto-detected)";
-            // 
             // kryptonCheckBox3
             // 
             this.kryptonCheckBox3.Location = new System.Drawing.Point(17, 104);
@@ -141,11 +133,19 @@
             this.kryptonLabel1.TabIndex = 0;
             this.kryptonLabel1.Values.Text = "Themed System Menu Test";
             // 
+            // kryptonLabel3
+            // 
+            this.kryptonLabel3.Location = new System.Drawing.Point(17, 169);
+            this.kryptonLabel3.Name = "kryptonLabel3";
+            this.kryptonLabel3.Size = new System.Drawing.Size(247, 20);
+            this.kryptonLabel3.TabIndex = 8;
+            this.kryptonLabel3.Values.Text = "Current Theme: Office2013 (Auto-detected)";
+            // 
             // ThemedSystemMenuTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(526, 311);
+            this.ClientSize = new System.Drawing.Size(530, 299);
             this.Controls.Add(this.kryptonPanel1);
             this.Location = new System.Drawing.Point(0, 0);
             this.Name = "ThemedSystemMenuTest";

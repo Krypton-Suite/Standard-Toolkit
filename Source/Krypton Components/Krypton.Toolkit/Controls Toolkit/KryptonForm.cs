@@ -108,7 +108,7 @@ public class KryptonForm : VisualForm,
     private readonly KryptonPanel _internalKryptonPanel;
     // Compensate for Windows 11 outer accent border by shrinking the window region slightly
     private const int NON_CLIENT_REGION_INSET = 4;
-    private KryptonThemedSystemMenu? _themedSystemMenu;
+    private readonly KryptonThemedSystemMenuService _themedSystemMenuService;
     private ThemedSystemMenuValues? _themedSystemMenuValues;
 
     #endregion
@@ -202,16 +202,19 @@ public class KryptonForm : VisualForm,
             CreateToolStripRenderer,
             OnNeedPaint);
 
-        _themedSystemMenu = new KryptonThemedSystemMenu(this);
+        _themedSystemMenuService = new KryptonThemedSystemMenuService(this);
         _themedSystemMenuValues = new ThemedSystemMenuValues(OnNeedPaint);
         
-        // Synchronize the values with the themed system menu
-        _themedSystemMenu.ShowOnLeftClick = _themedSystemMenuValues.ShowOnLeftClick;
-        _themedSystemMenu.ShowOnRightClick = _themedSystemMenuValues.ShowOnRightClick;
-        _themedSystemMenu.ShowOnAltSpace = _themedSystemMenuValues.ShowOnAltSpace;
+        // Assign the service to the base class
+        ThemedSystemMenuService = _themedSystemMenuService;
+        
+        // Synchronize the values with the themed system menu service
+        _themedSystemMenuService.ShowThemedSystemMenuOnLeftClick = _themedSystemMenuValues.ShowOnLeftClick;
+        _themedSystemMenuService.ShowThemedSystemMenuOnRightClick = _themedSystemMenuValues.ShowOnRightClick;
+        _themedSystemMenuService.ShowThemedSystemMenuOnAltSpace = _themedSystemMenuValues.ShowOnAltSpace;
         
         // Connect designer menu items
-        _themedSystemMenu.DesignerMenuItems = _themedSystemMenuValues.CustomMenuItems;
+        _themedSystemMenuService.ThemedSystemMenu.DesignerMenuItems = _themedSystemMenuValues.CustomMenuItems;
         
         // Hook into value changes to keep them synchronized
         _themedSystemMenuValues.PropertyChanged += OnThemedSystemMenuValuesChanged;
@@ -276,6 +279,9 @@ public class KryptonForm : VisualForm,
             ButtonSpecMin.Dispose();
             ButtonSpecMax.Dispose();
             ButtonSpecClose.Dispose();
+
+            // Dispose the themed system menu service
+            _themedSystemMenuService?.Dispose();
         }
 
         base.Dispose(disposing);
@@ -868,12 +874,12 @@ public class KryptonForm : VisualForm,
                     _themedSystemMenuValues.PropertyChanged += OnThemedSystemMenuValuesChanged;
                 }
                 
-                // Synchronize with the themed system menu
-                if (_themedSystemMenu != null && _themedSystemMenuValues != null)
+                // Synchronize with the themed system menu service
+                if (_themedSystemMenuService != null && _themedSystemMenuValues != null)
                 {
-                    _themedSystemMenu.ShowOnLeftClick = _themedSystemMenuValues.ShowOnLeftClick;
-                    _themedSystemMenu.ShowOnRightClick = _themedSystemMenuValues.ShowOnRightClick;
-                    _themedSystemMenu.ShowOnAltSpace = _themedSystemMenuValues.ShowOnAltSpace;
+                    _themedSystemMenuService.ShowThemedSystemMenuOnLeftClick = _themedSystemMenuValues.ShowOnLeftClick;
+                    _themedSystemMenuService.ShowThemedSystemMenuOnRightClick = _themedSystemMenuValues.ShowOnRightClick;
+                    _themedSystemMenuService.ShowThemedSystemMenuOnAltSpace = _themedSystemMenuValues.ShowOnAltSpace;
                 }
                 
                 PerformNeedPaint(true);
@@ -898,7 +904,7 @@ public class KryptonForm : VisualForm,
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Advanced)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public override IKryptonThemedSystemMenu? ThemedSystemMenu => _themedSystemMenu;
+    public override IKryptonThemedSystemMenu? ThemedSystemMenu => _themedSystemMenuService?.ThemedSystemMenu;
 
     /// <summary>
     /// Gets access to the ToolTipManager used for displaying tool tips.
@@ -1287,8 +1293,8 @@ public class KryptonForm : VisualForm,
         else if (m.Msg == PI.WM_.NCRBUTTONDOWN)
         {
             // Handle right-click in non-client area (title bar)
-            if (UseThemedSystemMenu && _themedSystemMenuValues?.ShowOnRightClick == true && _themedSystemMenu != null &&
-                _themedSystemMenu.ShowOnRightClick)
+            if (UseThemedSystemMenu && _themedSystemMenuValues?.ShowOnRightClick == true && _themedSystemMenuService != null &&
+                _themedSystemMenuService.ShowThemedSystemMenuOnRightClick)
             {
                 // Get the screen coordinates from the message
                 var screenPoint = new Point(PI.GET_X_LPARAM(m.LParam), PI.GET_Y_LPARAM(m.LParam));
@@ -1551,8 +1557,8 @@ public class KryptonForm : VisualForm,
             //}
 
             // Check if we should show the themed system menu
-            if (UseThemedSystemMenu && _themedSystemMenuValues?.ShowOnLeftClick == true && _themedSystemMenu != null &&
-                _themedSystemMenu.ShowOnLeftClick)
+            if (UseThemedSystemMenu && _themedSystemMenuValues?.ShowOnLeftClick == true && _themedSystemMenuService != null &&
+                _themedSystemMenuService.ShowThemedSystemMenuOnLeftClick)
             {
                 // Only show the menu if clicking in the title bar area (but not on buttons)
                 if (IsInTitleBarArea(screenPoint) && !IsOnControlButtons(screenPoint))
@@ -1738,7 +1744,7 @@ public class KryptonForm : VisualForm,
                     NeedLayout = true;
 
                     // Refresh the themed system menu to reflect new state
-                    _themedSystemMenu?.Refresh();
+                    _themedSystemMenuService?.Refresh();
                 }
 
                 // Text can change because of a minimized/maximized MDI child so need
@@ -2118,24 +2124,24 @@ public class KryptonForm : VisualForm,
     /// <param name="e">An EventArgs containing event data.</param>
     private void OnThemedSystemMenuValuesChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if (_themedSystemMenu != null && _themedSystemMenuValues != null)
+        if (_themedSystemMenuService != null && _themedSystemMenuValues != null)
         {
             switch (e.PropertyName)
             {
                 case nameof(ThemedSystemMenuValues.Enabled):
-                    _themedSystemMenu.Enabled = _themedSystemMenuValues.Enabled;
+                    _themedSystemMenuService.UseThemedSystemMenu = _themedSystemMenuValues.Enabled;
                     break;
                 case nameof(ThemedSystemMenuValues.ShowOnLeftClick):
-                    _themedSystemMenu.ShowOnLeftClick = _themedSystemMenuValues.ShowOnLeftClick;
+                    _themedSystemMenuService.ShowThemedSystemMenuOnLeftClick = _themedSystemMenuValues.ShowOnLeftClick;
                     break;
                 case nameof(ThemedSystemMenuValues.ShowOnRightClick):
-                    _themedSystemMenu.ShowOnRightClick = _themedSystemMenuValues.ShowOnRightClick;
+                    _themedSystemMenuService.ShowThemedSystemMenuOnRightClick = _themedSystemMenuValues.ShowOnRightClick;
                     break;
                 case nameof(ThemedSystemMenuValues.ShowOnAltSpace):
-                    _themedSystemMenu.ShowOnAltSpace = _themedSystemMenuValues.ShowOnAltSpace;
+                    _themedSystemMenuService.ShowThemedSystemMenuOnAltSpace = _themedSystemMenuValues.ShowOnAltSpace;
                     break;
                 case nameof(ThemedSystemMenuValues.CustomMenuItems):
-                    _themedSystemMenu.DesignerMenuItems = _themedSystemMenuValues.CustomMenuItems;
+                    _themedSystemMenuService.ThemedSystemMenu.DesignerMenuItems = _themedSystemMenuValues.CustomMenuItems;
                     break;
             }
         }
@@ -2332,9 +2338,9 @@ public class KryptonForm : VisualForm,
     /// <param name="screenLocation">The screen coordinates where the menu should appear.</param>
     protected override void ShowThemedSystemMenu(Point screenLocation)
     {
-        if (UseThemedSystemMenu && _themedSystemMenu != null)
+        if (UseThemedSystemMenu && _themedSystemMenuService != null)
         {
-            _themedSystemMenu.Show(screenLocation);
+            _themedSystemMenuService.ThemedSystemMenu.Show(screenLocation);
         }
     }
 
@@ -2343,9 +2349,9 @@ public class KryptonForm : VisualForm,
     /// </summary>
     protected override void ShowThemedSystemMenuAtFormTopLeft()
     {
-        if (UseThemedSystemMenu && _themedSystemMenu != null)
+        if (UseThemedSystemMenu && _themedSystemMenuService != null)
         {
-            _themedSystemMenu.ShowAtFormTopLeft();
+            _themedSystemMenuService.ThemedSystemMenu.ShowAtFormTopLeft();
         }
     }
 
@@ -2356,12 +2362,12 @@ public class KryptonForm : VisualForm,
     /// <returns>True if the shortcut was handled; otherwise false.</returns>
     protected override bool HandleThemedSystemMenuKeyboardShortcut(Keys keyData)
     {
-        if (UseThemedSystemMenu && _themedSystemMenu != null)
+        if (UseThemedSystemMenu && _themedSystemMenuService != null)
         {
             // Handle Alt+F4 for close
             if (keyData == (Keys.Alt | Keys.F4))
             {
-                return _themedSystemMenu.HandleKeyboardShortcut(keyData);
+                return _themedSystemMenuService.ThemedSystemMenu.HandleKeyboardShortcut(keyData);
             }
         }
         return false;
