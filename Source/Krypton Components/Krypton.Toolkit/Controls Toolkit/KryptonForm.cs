@@ -619,6 +619,14 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
+        /// Gets and sets a value indicating if left-click on title bar icon shows the themed system menu.
+        /// </summary>
+        [Category(@"Appearance")]
+        [Description(@"Determines if left-click on title bar icon shows the themed system menu.")]
+        [DefaultValue(true)]
+        public bool ShowThemedSystemMenuOnIconClick { get; set; } = true;
+
+        /// <summary>
         /// Gets and sets a value indicating if right-click on title bar shows the themed system menu.
         /// </summary>
         [Category(@"Appearance")]
@@ -948,7 +956,23 @@ namespace Krypton.Toolkit
             base.OnLoad(e);
 
             // We only apply custom chrome when control is already created and positioned
-            UpdateUseThemeFormChromeBorderWidthDecision();
+            // Ensure we don't interfere with StartPosition by waiting until after positioning
+            if (IsHandleCreated)
+            {
+                UpdateUseThemeFormChromeBorderWidthDecision();
+            }
+        }
+
+        /// <summary>
+        /// Raises the Shown event.
+        /// </summary>
+        /// <param name="e">An EventArgs containing event data.</param>
+        protected override void OnShown(EventArgs e)
+        {
+            base.OnShown(e);
+            
+            // Ensure proper positioning after the form is shown and custom chrome is applied
+            EnsureProperFormPositioning();
         }
 
         /// <summary>
@@ -1035,7 +1059,7 @@ namespace Krypton.Toolkit
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             // Handle themed system menu keyboard shortcuts
-            if (_themedSystemMenuService.HandleKeyboardShortcut(keyData))
+            if (ShowThemedSystemMenuOnAltSpace && _themedSystemMenuService.HandleKeyboardShortcut(keyData))
             {
                 return true;
             }
@@ -1073,7 +1097,7 @@ namespace Krypton.Toolkit
                 // Handle right-click in non-client area (title bar)
                 var screenPoint = new Point(PI.GET_X_LPARAM(m.LParam), PI.GET_Y_LPARAM(m.LParam));
                 
-                if (_themedSystemMenuService.HandleRightClick(screenPoint, IsInTitleBarArea(screenPoint), IsOnControlButtons(screenPoint)))
+                if (ShowThemedSystemMenuOnRightClick && _themedSystemMenuService.HandleRightClick(screenPoint, IsInTitleBarArea(screenPoint), IsOnControlButtons(screenPoint)))
                 {
                     m.Result = IntPtr.Zero;
                     return;
@@ -1298,10 +1322,13 @@ namespace Krypton.Toolkit
                 // Convert to window coordinates
                 Point windowPoint = ScreenToWindow(screenPoint);
 
-                // Check if we should show the themed system menu
-                if (_themedSystemMenuService.HandleLeftClick(screenPoint, IsInTitleBarArea(screenPoint), IsOnControlButtons(screenPoint)))
+                // Only show themed system menu if clicking specifically on the icon area and it's enabled
+                if (ShowThemedSystemMenuOnIconClick && _drawContent.ImageRectangle(context).Contains(windowPoint))
                 {
-                    return true;
+                    if (_themedSystemMenuService.HandleLeftClick(screenPoint, IsInTitleBarArea(screenPoint), IsOnControlButtons(screenPoint)))
+                    {
+                        return true;
+                    }
                 }
             }
 
@@ -1659,6 +1686,12 @@ namespace Krypton.Toolkit
         {
             if (IsHandleCreated)
             {
+                // Ensure we don't interfere with StartPosition by waiting until the form has been positioned
+                if (StartPosition != FormStartPosition.Manual && Location == Point.Empty)
+                {
+                    return; // Wait until Windows has positioned the form
+                }
+
                 // Decide if we should have custom chrome applied
                 var needChrome = UseThemeFormChromeBorderWidth &&
                                  KryptonManager.UseThemeFormChromeBorderWidth &&
@@ -2009,5 +2042,91 @@ namespace Krypton.Toolkit
                    _buttonManager.GetButtonRectangle(ButtonSpecClose).Contains(windowPoint);
         }
         #endregion
+
+        /// <summary>
+        /// Ensures proper form positioning after custom chrome is applied.
+        /// This method respects the StartPosition property and centers the form if needed.
+        /// </summary>
+        private void EnsureProperFormPositioning()
+        {
+            // Only apply positioning logic if we're not in manual mode
+            if (StartPosition == FormStartPosition.Manual)
+            {
+                return;
+            }
+
+            // If the form hasn't been positioned yet, wait for Windows to handle it
+            if (Location == Point.Empty)
+            {
+                return;
+            }
+
+            // Check if the form is already properly positioned
+            var screen = Screen.PrimaryScreen ?? Screen.FromControl(this);
+            if (screen == null)
+            {
+                return;
+            }
+
+            bool needsRepositioning = false;
+
+            // Apply custom positioning based on StartPosition
+            switch (StartPosition)
+            {
+                case FormStartPosition.CenterScreen:
+                    // Check if already centered
+                    var expectedX = (screen.WorkingArea.Width - Width) / 2;
+                    var expectedY = (screen.WorkingArea.Height - Height) / 2;
+                    
+                    // Only reposition if significantly off-center (more than 10 pixels)
+                    if (Math.Abs(Location.X - expectedX) > 10 || Math.Abs(Location.Y - expectedY) > 10)
+                    {
+                        needsRepositioning = true;
+                        Location = new Point(expectedX, expectedY);
+                    }
+                    break;
+
+                case FormStartPosition.CenterParent:
+                    // Center relative to parent form
+                    if (Owner != null)
+                    {
+                        var x = Owner.Location.X + (Owner.Width - Width) / 2;
+                        var y = Owner.Location.Y + (Owner.Height - Height) / 2;
+                        Location = new Point(x, y);
+                    }
+                    break;
+
+                case FormStartPosition.WindowsDefaultLocation:
+                    // Let Windows handle the default positioning
+                    break;
+
+                case FormStartPosition.WindowsDefaultBounds:
+                    // Let Windows handle the default positioning and sizing
+                    break;
+            }
+
+            // If we repositioned, ensure the form is visible on screen
+            if (needsRepositioning)
+            {
+                // Ensure the form is fully visible on screen
+                var workingArea = screen.WorkingArea;
+                if (Right > workingArea.Right)
+                {
+                    Location = new Point(workingArea.Right - Width, Location.Y);
+                }
+                if (Bottom > workingArea.Bottom)
+                {
+                    Location = new Point(Location.X, workingArea.Bottom - Height);
+                }
+                if (Left < workingArea.Left)
+                {
+                    Location = new Point(workingArea.Left, Location.Y);
+                }
+                if (Top < workingArea.Top)
+                {
+                    Location = new Point(Location.X, workingArea.Top);
+                }
+            }
+        }
     }
 }
