@@ -16,9 +16,10 @@ public class ThemedSystemMenuValues : Storage, INotifyPropertyChanged
 {
     #region Static Fields
     private const bool DEFAULT_ENABLED = true;
-    private const bool DEFAULT_SHOW_ON_LEFT_CLICK = true;
+    private const bool DEFAULT_SHOW_ON_LEFT_CLICK = false;
     private const bool DEFAULT_SHOW_ON_RIGHT_CLICK = true;
     private const bool DEFAULT_SHOW_ON_ALT_SPACE = true;
+    private const bool DEFAULT_SHOW_ON_ICON_CLICK = true;
     #endregion
 
     #region Events
@@ -33,6 +34,7 @@ public class ThemedSystemMenuValues : Storage, INotifyPropertyChanged
     private bool _showOnLeftClick;
     private bool _showOnRightClick;
     private bool _showOnAltSpace;
+    private bool _showOnIconClick;
     private ThemedSystemMenuItemCollection? _customMenuItems;
     #endregion
 
@@ -51,6 +53,7 @@ public class ThemedSystemMenuValues : Storage, INotifyPropertyChanged
         _showOnLeftClick = DEFAULT_SHOW_ON_LEFT_CLICK;
         _showOnRightClick = DEFAULT_SHOW_ON_RIGHT_CLICK;
         _showOnAltSpace = DEFAULT_SHOW_ON_ALT_SPACE;
+        _showOnIconClick = DEFAULT_SHOW_ON_ICON_CLICK;
         
         // Initialize custom menu items collection
         _customMenuItems = new ThemedSystemMenuItemCollection();
@@ -68,6 +71,7 @@ public class ThemedSystemMenuValues : Storage, INotifyPropertyChanged
                                      (ShowOnLeftClick == DEFAULT_SHOW_ON_LEFT_CLICK) &&
                                      (ShowOnRightClick == DEFAULT_SHOW_ON_RIGHT_CLICK) &&
                                      (ShowOnAltSpace == DEFAULT_SHOW_ON_ALT_SPACE) &&
+                                     (ShowOnIconClick == DEFAULT_SHOW_ON_ICON_CLICK) &&
                                      (_customMenuItems == null || _customMenuItems.Count == 0);
     #endregion
 
@@ -192,6 +196,37 @@ public class ThemedSystemMenuValues : Storage, INotifyPropertyChanged
 
     #endregion
 
+    #region ShowOnIconClick
+    /// <summary>
+    /// Gets and sets whether left-click on title bar icon shows the themed system menu.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Determines if left-click on title bar icon shows the themed system menu.")]
+    [DefaultValue(DEFAULT_SHOW_ON_ICON_CLICK)]
+    public bool ShowOnIconClick
+    {
+        get => _showOnIconClick;
+
+        set
+        {
+            if (_showOnIconClick != value)
+            {
+                _showOnIconClick = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ShowOnIconClick)));
+                PerformNeedPaint(true);
+            }
+        }
+    }
+
+    private bool ShouldSerializeShowOnIconClick() => ShowOnIconClick != DEFAULT_SHOW_ON_ICON_CLICK;
+
+    /// <summary>
+    /// Resets the ShowOnIconClick property to its default value.
+    /// </summary>
+    public void ResetShowOnIconClick() => ShowOnIconClick = DEFAULT_SHOW_ON_ICON_CLICK;
+
+    #endregion
+
     #region CustomMenuItems
     /// <summary>
     /// Gets the collection of custom menu items for the themed system menu.
@@ -263,6 +298,7 @@ public class ThemedSystemMenuValues : Storage, INotifyPropertyChanged
         ResetShowOnLeftClick();
         ResetShowOnRightClick();
         ResetShowOnAltSpace();
+        ResetShowOnIconClick();
         ResetCustomMenuItems();
     }
 

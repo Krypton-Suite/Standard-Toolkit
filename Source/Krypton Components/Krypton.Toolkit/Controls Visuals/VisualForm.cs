@@ -1695,6 +1695,74 @@ public abstract class VisualForm : Form,
     protected virtual bool HandleThemedSystemMenuKeyboardShortcut(Keys keyData) => false;
 
     /// <summary>
+    /// Ensures proper form positioning based on StartPosition after custom chrome is applied.
+    /// </summary>
+    protected virtual void EnsureProperFormPositioning()
+    {
+        // Get the current screen
+        var screen = Screen.FromControl(this);
+        var needsRepositioning = false;
+
+        // Apply custom positioning based on StartPosition
+        switch (StartPosition)
+        {
+            case FormStartPosition.CenterScreen:
+                // Check if already centered
+                var expectedX = (screen.WorkingArea.Width - Width) / 2;
+                var expectedY = (screen.WorkingArea.Height - Height) / 2;
+
+                // Only reposition if significantly off-center (more than 10 pixels)
+                if (Math.Abs(Location.X - expectedX) > 10 || Math.Abs(Location.Y - expectedY) > 10)
+                {
+                    needsRepositioning = true;
+                    Location = new Point(expectedX, expectedY);
+                }
+                break;
+
+            case FormStartPosition.CenterParent:
+                // Center relative to parent form
+                if (Owner != null)
+                {
+                    var x = Owner.Location.X + (Owner.Width - Width) / 2;
+                    var y = Owner.Location.Y + (Owner.Height - Height) / 2;
+                    Location = new Point(x, y);
+                }
+                break;
+
+            case FormStartPosition.WindowsDefaultLocation:
+                // Let Windows handle the default positioning
+                break;
+
+            case FormStartPosition.WindowsDefaultBounds:
+                // Let Windows handle the default positioning and sizing
+                break;
+        }
+
+        // If we repositioned, ensure the form is visible on screen
+        if (needsRepositioning)
+        {
+            // Ensure the form is fully visible on screen
+            var workingArea = screen.WorkingArea;
+            if (Right > workingArea.Right)
+            {
+                Location = new Point(workingArea.Right - Width, Location.Y);
+            }
+            if (Bottom > workingArea.Bottom)
+            {
+                Location = new Point(Location.X, workingArea.Bottom - Height);
+            }
+            if (Left < workingArea.Left)
+            {
+                Location = new Point(workingArea.Left, Location.Y);
+            }
+            if (Top < workingArea.Top)
+            {
+                Location = new Point(Location.X, workingArea.Top);
+            }
+        }
+    }
+
+    /// <summary>
     /// Helper method to handle themed system menu shortcuts using the service.
     /// </summary>
     /// <param name="keyData">The key data to process.</param>

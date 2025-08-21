@@ -212,6 +212,7 @@ public class KryptonForm : VisualForm,
         _themedSystemMenuService.ShowThemedSystemMenuOnLeftClick = _themedSystemMenuValues.ShowOnLeftClick;
         _themedSystemMenuService.ShowThemedSystemMenuOnRightClick = _themedSystemMenuValues.ShowOnRightClick;
         _themedSystemMenuService.ShowThemedSystemMenuOnAltSpace = _themedSystemMenuValues.ShowOnAltSpace;
+        // Note: ShowOnIconClick is handled separately in click event handlers
         
         // Connect designer menu items
         _themedSystemMenuService.ThemedSystemMenu.DesignerMenuItems = _themedSystemMenuValues.CustomMenuItems;
@@ -847,6 +848,8 @@ public class KryptonForm : VisualForm,
 
     private void ResetUseThemedSystemMenu() => _themedSystemMenuValues?.ResetEnabled();
 
+
+
     /// <summary>
     /// Gets access to the themed system menu values for configuration.
     /// </summary>
@@ -880,6 +883,7 @@ public class KryptonForm : VisualForm,
                     _themedSystemMenuService.ShowThemedSystemMenuOnLeftClick = _themedSystemMenuValues.ShowOnLeftClick;
                     _themedSystemMenuService.ShowThemedSystemMenuOnRightClick = _themedSystemMenuValues.ShowOnRightClick;
                     _themedSystemMenuService.ShowThemedSystemMenuOnAltSpace = _themedSystemMenuValues.ShowOnAltSpace;
+                    // Note: ShowOnIconClick is handled separately in click event handlers
                 }
                 
                 PerformNeedPaint(true);
@@ -1177,6 +1181,24 @@ public class KryptonForm : VisualForm,
         UpdateUseThemeFormChromeBorderWidthDecision();
 
         ApplyMaterialFormChromeDefaultsIfNeeded();
+
+        // Ensure we don't interfere with StartPosition by waiting until after positioning
+        if (IsHandleCreated)
+        {
+            UpdateUseThemeFormChromeBorderWidthDecision();
+        }
+    }
+
+    /// <summary>
+    /// Raises the Shown event.
+    /// </summary>
+    /// <param name="e">An EventArgs containing event data.</param>
+    protected override void OnShown(EventArgs e)
+    {
+        base.OnShown(e);
+
+        // Ensure proper positioning after the form is shown and custom chrome is applied
+        EnsureProperFormPositioning();
     }
 
     /// <summary>
@@ -1309,6 +1331,7 @@ public class KryptonForm : VisualForm,
             }
         }
 
+
         base.WndProc(ref m);
     }
 
@@ -1417,6 +1440,13 @@ public class KryptonForm : VisualForm,
                 // Is the mouse over the image area
                 if (_drawContent.ImageRectangle(context).Contains(pt))
                 {
+                    // If themed system menu is enabled and icon click is enabled, treat as caption
+                    // so our custom OnWM_NCLBUTTONDOWN can handle it
+                    if (UseThemedSystemMenu && _themedSystemMenuValues?.ShowOnIconClick == true)
+                    {
+                        return new IntPtr(PI.HT.CAPTION);
+                    }
+                    // Otherwise, let Windows handle it with default system menu
                     return new IntPtr(PI.HT.MENU);
                 }
             }
@@ -1546,18 +1576,18 @@ public class KryptonForm : VisualForm,
             // Convert to window coordinates
             Point windowPoint = ScreenToWindow(screenPoint);
 
-            //// Is the mouse over the Application icon image area
-            //if (_drawContent.ImageRectangle(context).Contains(windowPoint))
-            //{
-            //    // TODO: Use `GetSystemMenu` to obtain the system menu and convert into a KryptonContextMenu with the correct theming !
-
-            //    // Make this work for the offset Application Icon when ButtonSpecs are left aligned
-            //    PI.PostMessage(Handle, PI.WM_.CONTEXTMENU, Handle, m.LParam);
-            //    return true;
-            //}
-
-            // Check if we should show the themed system menu
-            if (UseThemedSystemMenu && _themedSystemMenuValues?.ShowOnLeftClick == true && _themedSystemMenuService != null &&
+            // Check if the mouse is over the Application icon image area
+            if (_drawContent.ImageRectangle(context).Contains(windowPoint))
+            {
+                // Check if we should show the themed system menu on icon click
+                if (UseThemedSystemMenu && _themedSystemMenuValues?.ShowOnIconClick == true && _themedSystemMenuService != null)
+                {
+                    ShowThemedSystemMenu(screenPoint);
+                    return true;
+                }
+            }
+            // Check if we should show the themed system menu on general title bar left-click
+            else if (UseThemedSystemMenu && _themedSystemMenuValues?.ShowOnLeftClick == true && _themedSystemMenuService != null &&
                 _themedSystemMenuService.ShowThemedSystemMenuOnLeftClick)
             {
                 // Only show the menu if clicking in the title bar area (but not on buttons)
@@ -2140,6 +2170,9 @@ public class KryptonForm : VisualForm,
                 case nameof(ThemedSystemMenuValues.ShowOnAltSpace):
                     _themedSystemMenuService.ShowThemedSystemMenuOnAltSpace = _themedSystemMenuValues.ShowOnAltSpace;
                     break;
+                case nameof(ThemedSystemMenuValues.ShowOnIconClick):
+                    // Icon click is handled separately in the click event handlers
+                    break;
                 case nameof(ThemedSystemMenuValues.CustomMenuItems):
                     _themedSystemMenuService.ThemedSystemMenu.DesignerMenuItems = _themedSystemMenuValues.CustomMenuItems;
                     break;
@@ -2374,4 +2407,26 @@ public class KryptonForm : VisualForm,
     }
 
     #endregion
+
+    /// <summary>
+    /// Processes a command key.
+    /// </summary>
+    /// <param name="msg">A Message, passed by reference, that represents the Win32 message to process.</param>
+    /// <param name="keyData">One of the Keys values that represents the key to process.</param>
+    /// <returns>True if the character was processed by the control; otherwise, false.</returns>
+    protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+    {
+        // Handle themed system menu keyboard shortcuts
+        if (UseThemedSystemMenu && _themedSystemMenuService != null)
+        {
+            if (_themedSystemMenuService.HandleKeyboardShortcut(keyData))
+            {
+                return true;
+            }
+        }
+
+        return base.ProcessCmdKey(ref msg, keyData);
+    }
+
+
 }
