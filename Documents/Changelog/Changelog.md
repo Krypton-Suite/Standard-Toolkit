@@ -3,6 +3,47 @@
 ====
 
 ## 2025-11-xx - Build 2511 (V10 - alpha) - November 2025
+* Implemented [#984](https://github.com/Krypton-Suite/Standard-Toolkit/issues/984), `KryptonForm` using `SizeGripStyle` for grippie.
+	- **Note:** This has a breaking change for custom themes as a new abstract method is introduced in the `PaletteBase` class for sizegrip images!
+* Implemented [#2396](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2396), Added ModernBuild terminal.gui app to solution
+* Resolved [#1022](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1022), `Material - Dark` fixes for KDGV painting.
+* Resolved [#413](https://github.com/Krypton-Suite/Standard-Toolkit/issues/413), `KryptonRibbon` controls do not react to MouseWheel scolling.
+* Resolved [#2424](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2424), Fix `NoClipping` in `AccurateText`; `Ellipsis` conditional.
+* Resolved [#2406](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2406), Enhance `KryptonProgressBar` options and painting.
+* Implemented [#2418](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2418), Fixed `KryptonDataGridView` themed header painting.
+* Resolved [#1971](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2416), `KryptonDataGridViewColumn` Drop-down arrow image incorrect for Sparkle themes.
+* Implemented [#2416](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2416), Fix font sizing exception in `KryptonComboBox`.
+* Implemented [#1022](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1022), Introducing `Material` theme (dark/light).
+* Resolved [#2030](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2030), Fix drawing in `ViewDrawMenuImageColumn` for KContextMenu.
+* Resolved [#2411](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2411), Fixes for `VisualToastNotificationBasicForm` and `CommonDialogHandler`.
+* Resolved [#2125](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2125), Refactored `GetToastNotificationIconType`.
+* Implemented [#2048](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2048), `KryptonStatusStrip` control theming.
+* Implemented [#2291](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2291), Add tooltips to `KryptonPictureBox`.
+* Resolved [#2401](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2401), Fix `KryptonComboBox` event `OnEnabledChanged`.
+* Resolved [#2397](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2397), `KryptonForm` throws and exception on CTRL+F1.
+* Implemented [#2392](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2392), Fix `KryptonPropertyGrid` theme switching
+* Implemented [#2389](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2389), Transform private color arrays in base palettes.
+* Implemented [#2377](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2377), Adds the `KryptonDataGridViewRatingColumn`.
+* Implemented [#2386](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2386), Fix exceptions in `KryptonTextBox`, `KryptonMaskedTextBox` when disabled
+* Implemented [#2384](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2384), Fix TrackBar colors usage in palettes.
+* Implemented [#2368](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2368), Fix exception in `PaletteRedirectGrids.GetInheritBack` due to missing `BoldedOverride`.
+* Implemented [#2365](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2365), Fix exception in `KryptonCustomPaletteBase.GetPaletteBackGridHeaderColumn` for `BoldedOverride` state.
+* Implemented [#2349](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2349), Fix `KryptonListBox` shifting on visible item selection.
+* Implemented [#2354](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2354), `KryptonDataGridView.DoubleBuffered` property added.
+* Implemented [#2220](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2220), Enables limited support on multiple Krypton Controls for unicode surrogates.
+* Implemented [#2339](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2339), Add a emoji parser for future features
+* Implemented [#2338](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2338), Update specific pre-processor directives
+* Resolved [#2341](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2341), Fix exception in `RenderStandard.ContentFontForButtonForm` during teardown
+* Implemented [#2328](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2328), Set the baseline support to .NET Framework 4.7.2
+	- **Note:** This is a breaking change, as the minimum supported version of .NET Framework has been raised from 4.6.2 to 4.7.2.
+* Resolved [#2329](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2329), `AccurateText.StringFormatToFlags()` performs incorrect conversion to TextFormatFlags.
+* Resolved [#2324](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2324), Update `PlatformInvoke.cs` imports (see #2316)
+* Resolved [#2318](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2318), `KryptonForm` does not handle the `ControlRemoved` and `ControlAdded` event correctly.
+* Resolved [#2319](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2319), Enhance `KryptonContextMenuItem` and `KryptonCommand` functionality
+* Resolved [#2178](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2178), Fix `KryptonPropertyGrid` enabling logic for `Reset` menu-item
+* Resolved [#2312](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2312), (fix) correct GDI resource handling of components' WmPaint
+* Resolved [#2309](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2309), `KryptonDataGridViewImageColumn` causes lagging in grid refresh when a new row is auto added.
+* Resolved [#2294](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2294), Added ThemeGen assembly and kptheme CLI app.
 * Resolved [#2296](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2296), Fix `Visual Controls' components from showing blank content.
 * Resolved [#2299](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2299), Fix memory leak in PaletteBase
 * Resolved [#2235](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2235), `OSUtilities` Adds OsVersionInfo to the properties.

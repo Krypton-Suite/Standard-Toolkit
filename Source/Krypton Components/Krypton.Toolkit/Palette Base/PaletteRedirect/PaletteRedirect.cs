@@ -2,9 +2,9 @@
 /*
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
  */
 #endregion
 
@@ -18,6 +18,9 @@ public class PaletteRedirect : PaletteBase, IGlobalId
     #region Instance Fields
     private PaletteBase? _target;
     #endregion
+
+    /// <inheritdoc/>
+    protected override Color[] SchemeColors => _target?.GetSchemeColors() ?? Array.Empty<Color>();
 
     #region Identity
 
@@ -649,6 +652,13 @@ public class PaletteRedirect : PaletteBase, IGlobalId
     /// <param name="expanded">Is the node expanded</param>
     /// <returns>Appropriate image for drawing; otherwise null.</returns>
     public override Image? GetTreeViewImage(bool expanded) => _target?.GetTreeViewImage(expanded);
+
+    /// <summary>
+    /// Gets a sizing grip image appropriate for the provided orientation.
+    /// </summary>
+    /// <param name="isRtl">If true, request an RTL-oriented image; otherwise LTR.</param>
+    /// <returns>Appropriate image for drawing; otherwise null.</returns>
+    public override Image? GetSizeGripImage(RightToLeft isRtl) => _target?.GetSizeGripImage(isRtl);
 
     /// <summary>
     /// Gets a checkbox image appropriate for the provided state.

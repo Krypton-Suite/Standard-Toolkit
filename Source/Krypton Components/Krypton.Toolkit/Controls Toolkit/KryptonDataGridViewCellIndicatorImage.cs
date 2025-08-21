@@ -1,8 +1,8 @@
 ﻿#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *
  */
 #endregion
 
@@ -23,10 +23,12 @@ internal class KryptonDataGridViewCellIndicatorImage : IDisposable
     private KryptonDataGridView? _dataGridView;
     // State of disposal
     private bool _disposed = false;
-        
+
     // type and state of the image
     private PaletteRibbonGalleryButton _paletteRibbonGalleryButton = PaletteRibbonGalleryButton.Down;
     private PaletteState _paletteState = PaletteState.Normal;
+    // Cache of pre-rendered dropdown glyphs by size (square)
+    private readonly Dictionary<int, Image> _sizeToImageCache = new Dictionary<int, Image>();
     #endregion Fields
 
     #region Identity
@@ -49,7 +51,7 @@ internal class KryptonDataGridViewCellIndicatorImage : IDisposable
     /// Set this property via the column's 'protected override void OnDataGridViewChanged()'.
     /// </summary>
     public KryptonDataGridView? DataGridView
-    { 
+    {
         get => _dataGridView;
 
         set
@@ -66,12 +68,13 @@ internal class KryptonDataGridViewCellIndicatorImage : IDisposable
                 if (_dataGridView is not null)
                 {
                     _dataGridView.PaletteChanged += OnDataGridViewPaletteChanged;
+                    _sizeToImageCache.Clear();
                     UpdateCellIndicatorImage(false);
                 }
             }
         }
     }
-        
+
     /// <summary>
     /// Cell indicator image.
     /// </summary>
@@ -134,6 +137,7 @@ internal class KryptonDataGridViewCellIndicatorImage : IDisposable
             // Probably the case used most, so first to check.
             _image = KryptonManager.CurrentGlobalPalette.GetGalleryButtonImage(_paletteRibbonGalleryButton, _paletteState)!;
             ResizeCellIndicatorImage();
+            _sizeToImageCache.Clear();
         }
         else if (DataGridView is KryptonDataGridView dataGridView)
         {
@@ -151,6 +155,7 @@ internal class KryptonDataGridViewCellIndicatorImage : IDisposable
             }
 
             ResizeCellIndicatorImage();
+            _sizeToImageCache.Clear();
         }
     }
 
@@ -163,6 +168,47 @@ internal class KryptonDataGridViewCellIndicatorImage : IDisposable
         {
             _image = new Bitmap(_image, _size, _size);
         }
+    }
+
+    /// <summary>
+    /// Returns a cached dropdown glyph bitmap for the requested square size. Renders once per size/palette.
+    /// For use by non-selected, non-highlighted, non-editing cells.
+    /// </summary>
+    /// <param name="size">Desired square size in pixels.</param>
+    /// <returns>Bitmap image; null if renderer/palette not available.</returns>
+    internal Image? GetOrCreate(int size)
+    {
+        if (size <= 0)
+        {
+            return null;
+        }
+
+        if (_sizeToImageCache.TryGetValue(size, out var cached))
+        {
+            return cached;
+        }
+
+        if (_dataGridView is null || _dataGridView.Renderer is null)
+        {
+            return _image; // fallback to palette-provided image
+        }
+
+        // Create transparent bitmap and ask renderer to draw vector glyph
+        var bmp = new Bitmap(size, size, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+        using (var g = Graphics.FromImage(bmp))
+        {
+            var rc = new RenderContext(_dataGridView, g, new Rectangle(0, 0, size, size), _dataGridView.Renderer);
+            // Match the editing control by using an input-control button palette content
+            var triple = new PaletteTripleToPalette(_dataGridView.Redirector,
+                PaletteBackStyle.ButtonStandalone,
+                PaletteBorderStyle.ButtonStandalone,
+                PaletteContentStyle.ButtonStandalone);
+            triple.SetStyles(ButtonStyle.InputControl);
+            _dataGridView.Renderer.RenderGlyph.DrawInputControlDropDownGlyph(rc, new Rectangle(0, 0, size, size), triple.PaletteContent!, PaletteState.Normal);
+        }
+
+        _sizeToImageCache[size] = bmp;
+        return bmp;
     }
     #endregion Private
 }

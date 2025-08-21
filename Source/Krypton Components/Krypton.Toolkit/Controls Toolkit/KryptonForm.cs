@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *
  */
 #endregion
 
@@ -91,6 +91,7 @@ public class KryptonForm : VisualForm,
     private string? _textExtra;
     private string _oldText;
     private static bool _isInAdministratorMode;
+    private static bool _isInAdministratorModeKnown;
     private bool _allowFormChrome;
     private bool _allowStatusStripMerge;
     private bool _recreateButtons;
@@ -106,6 +107,10 @@ public class KryptonForm : VisualForm,
     private InheritBool _internalPanelState;
     private int _foundRibbonOffset = -1;
     private readonly KryptonPanel _internalKryptonPanel;
+    // Compensate for Windows 11 outer accent border by shrinking the window region slightly
+    private const int NON_CLIENT_REGION_INSET = 4;
+    private Rectangle _lastGripClientRect = Rectangle.Empty;
+    private Rectangle _lastGripWindowRect = Rectangle.Empty;
 
     #endregion
 
@@ -168,16 +173,20 @@ public class KryptonForm : VisualForm,
 
         // Create a null element that takes up all remaining space
         _layoutNull = new ViewLayoutNull();
-        // Create the internal panel used for containing content
+        // Create the internal panel used for containing content (custom panel draws sizing grip)
         _internalKryptonPanel = new KryptonPanel
         {
             Dock = DockStyle.Fill,
             Location = new Point(0, 0),
             Margin = new Padding(0),
             Name = "InternalKryptonPanel",
+            Padding = new Padding(0),
             Size = new Size(100, 100),
-            TabStop = false
+            TabStop = false,
         };
+        // B2318 - Since the introduction of the InternalPanel overrides for OnControlRemoved and OnControlAdded don't fire correctly.
+        _internalKryptonPanel.ControlRemoved += (s, e) => OnControlRemoved(e);
+        _internalKryptonPanel.ControlAdded += (s, e) => OnControlAdded(e);
 
         // Create the root element that contains the title bar and null filler
         _drawDocker = new ViewDrawForm(StateActive.Back, StateActive.Border)
@@ -221,17 +230,200 @@ public class KryptonForm : VisualForm,
         // END #1979 Temporary fix
     }
 
-    private float GetDpiFactor()
+    private float GetDpiFactor() => DeviceDpi / 96F;
+
+    /// <summary>
+    /// Determines whether the form-level sizing grip should be shown.
+    /// Issue: https://github.com/Krypton-Suite/Standard-Toolkit/issues/984
+    /// PR: https://github.com/Krypton-Suite/Standard-Toolkit/pull/2436
+    /// </summary>
+    private bool ShouldShowSizingGrip()
     {
-#if NET462
-            return PI.GetDpiForWindow(Handle) / 96F;
-#else
-        return DeviceDpi / 96F;
-#endif
+        // Respect SizeGripStyle
+        if (SizeGripStyle == SizeGripStyle.Hide)
+        {
+            return false;
+        }
+
+        // Only for sizable borders
+        if (FormBorderStyle is not FormBorderStyle.Sizable and not FormBorderStyle.SizableToolWindow)
+        {
+            return false;
+        }
+
+        // Hide when minimized or maximized
+        var state = GetWindowState();
+        if (state is FormWindowState.Maximized or FormWindowState.Minimized)
+        {
+            return false;
+        }
+
+        // If a StatusStrip is merged and will draw its own sizing grip, skip ours
+        if (StatusStripMerging && _statusStrip is { SizingGrip: true, Visible: true })
+        {
+            return false;
+        }
+
+        // Auto/Show both allow it when resizable and not maximized/minimized
+        return SizeGripStyle is SizeGripStyle.Auto or SizeGripStyle.Show;
     }
 
     /// <summary>
-    /// Releases all resources used by the Control. 
+    /// Computes the grip rectangle and RTL flag in window coordinates.
+    /// </summary>
+    private (Rectangle gripRect, bool isRtl) GetGripRectAndRtl()
+    {
+        var dpi = GetDpiFactor();
+        int size = Math.Max(16, (int)Math.Round(16 * dpi));
+        bool isRtl = RightToLeftLayout;
+
+        // Use real window metrics instead of ClientSize to avoid stale client values after style toggles
+        Padding borders = RealWindowBorders;
+        Rectangle windowBounds = RealWindowRectangle;
+
+        int x = isRtl ? borders.Left : Math.Max(borders.Left, windowBounds.Width - borders.Right - size);
+        int y = Math.Max(borders.Top, windowBounds.Height - borders.Bottom - size);
+
+        var windowRect = new Rectangle(x, y, size, size);
+        return (windowRect, isRtl);
+    }
+
+    /// <summary>
+    /// Draws the classic sizing grip glyph.
+    /// </summary>
+    private void DrawSizingGrip(Graphics g, Rectangle gripRect)
+    {
+        // Try themed bitmap resource first
+        if (TryDrawResourceGrip(g, gripRect))
+        {
+            return;
+        }
+
+        // Fallback: draw larger diagonal dots (2x2 px scaled by DPI) with theme-derived, contrast-checked color
+        Color dotColor = GetGripDotColor();
+
+        using var dotBrush = new SolidBrush(dotColor);
+
+        int dot = Math.Max(2, (int)Math.Round(2 * GetDpiFactor()));
+        int move = Math.Max(dot + 2, (int)Math.Round(4 * GetDpiFactor()));
+        int lines = 3;
+
+        if (RightToLeftLayout)
+        {
+            int y = gripRect.Bottom - (dot * 2);
+            for (int i = lines; i >= 1; i--)
+            {
+                int x = gripRect.Left + 1;
+                for (int j = 0; j < i; j++)
+                {
+                    g.FillRectangle(dotBrush, new Rectangle(x, y, dot, dot));
+                    x += move;
+                }
+                y -= move;
+            }
+        }
+        else
+        {
+            int y = gripRect.Bottom - (dot * 2);
+            for (int i = lines; i >= 1; i--)
+            {
+                int x = gripRect.Right - (dot * 2);
+                for (int j = 0; j < i; j++)
+                {
+                    g.FillRectangle(dotBrush, new Rectangle(x, y, dot, dot));
+                    x -= move;
+                }
+                y -= move;
+            }
+        }
+    }
+
+    private Color GetGripDotColor()
+    {
+        var palette = GetResolvedPalette();
+        Color back = palette.GetBackColor1(PaletteBackStyle.FormMain, PaletteState.Normal);
+        if (back == GlobalStaticValues.EMPTY_COLOR || back.IsEmpty)
+        {
+            back = BackColor;
+        }
+
+        Color candidate = palette.GetBorderColor1(PaletteBorderStyle.FormMain, PaletteState.Normal);
+        if (candidate == GlobalStaticValues.EMPTY_COLOR || candidate.IsEmpty)
+        {
+            candidate = StateActive.Border.Color1;
+        }
+
+        if (HasSufficientContrast(candidate, back))
+        {
+            return candidate;
+        }
+
+        // Try a typical text color from the palette which tends to be contrast-safe
+        Color text = palette.GetContentShortTextColor1(PaletteContentStyle.LabelNormalPanel, PaletteState.Normal);
+        if (!(text == GlobalStaticValues.EMPTY_COLOR || text.IsEmpty) && HasSufficientContrast(text, back))
+        {
+            return text;
+        }
+
+        // Final fallback: black/white based on background luminance
+        return Luminance(back) > 0.5f ? Color.White : Color.Black;
+    }
+
+    private static float Luminance(Color c) => (0.2126f * c.R + 0.7152f * c.G + 0.0722f * c.B) / 255f;
+
+    private static bool HasSufficientContrast(Color a, Color b)
+    {
+        // Simple luminance difference heuristic; tuned to be visible over palette backgrounds
+        float diff = Math.Abs(Luminance(a) - Luminance(b));
+        if (diff >= 0.35f)
+        {
+            return true;
+        }
+
+        // Also consider raw channel distance
+        int dr = Math.Abs(a.R - b.R);
+        int dg = Math.Abs(a.G - b.G);
+        int db = Math.Abs(a.B - b.B);
+        return (dr + dg + db) / (3f * 255f) >= 0.35f;
+    }
+
+    private bool TryDrawResourceGrip(Graphics g, Rectangle dest)
+    {
+        // First, ask the palette for a themed sizing grip image (RTL-aware)
+        var isRtl = RightToLeftLayout ? RightToLeft.Yes : RightToLeft.No;
+        Image? themedGrip = GetResolvedPalette().GetSizeGripImage(isRtl);
+        if (themedGrip is null)
+        {
+            return false;
+        }
+
+        var dpi = GetDpiFactor();
+        int w = (int)Math.Ceiling(themedGrip.Width * dpi);
+        int h = (int)Math.Ceiling(themedGrip.Height * dpi);
+        using var scaled = CommonHelper.ScaleImageForSizedDisplay(themedGrip, w, h, true);
+        if (scaled is null)
+        {
+            return false;
+        }
+
+        int x = RightToLeftLayout ? dest.Left : dest.Right - scaled.Width;
+        int y = dest.Bottom - scaled.Height;
+
+        // Apply color-key transparency like legacy resources (top-left pixel)
+        Color key = Color.Magenta;
+        if (themedGrip is Bitmap b && b.Width > 0 && b.Height > 0)
+            key = b.GetPixel(0, 0);
+
+        using var ia1 = new System.Drawing.Imaging.ImageAttributes();
+        ia1.SetColorKey(key, key);
+
+        g.DrawImage(scaled, new Rectangle(x, y, scaled.Width, scaled.Height),
+                    0, 0, scaled.Width, scaled.Height, GraphicsUnit.Pixel, ia1);
+        return true;
+    }
+
+    /// <summary>
+    /// Releases all resources used by the Control.
     /// </summary>
     /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
     protected override void Dispose(bool disposing)
@@ -825,7 +1017,7 @@ public class KryptonForm : VisualForm,
     [EditorBrowsable(EditorBrowsableState.Never)]
     public FormWindowState GetWindowState()
     {
-        // Get the current window style (cannot use the 
+        // Get the current window style (cannot use the
         // WindowState property as it can be slightly out of date)
         var style = PI.GetWindowLong(Handle, PI.GWL_.STYLE);
 
@@ -1052,6 +1244,7 @@ public class KryptonForm : VisualForm,
     /// Raises the ControlRemoved event.
     /// </summary>
     /// <param name="e">An EventArgs containing event data.</param>
+    //protected override void OnControlRemoved(ControlEventArgs e)
     protected override void OnControlRemoved(ControlEventArgs e)
     {
         // Is the cached reference being removed?
@@ -1063,6 +1256,8 @@ public class KryptonForm : VisualForm,
             // Recalc to test if status strip should be unintegrated
             RecalcNonClient();
         }
+
+        base.OnControlRemoved(e);
     }
 
     /// <summary>
@@ -1071,12 +1266,14 @@ public class KryptonForm : VisualForm,
     /// <param name="e">An EventArgs containing event data.</param>
     protected override void OnLoad(EventArgs e)
     {
-        // Let base class perform standard actions such as calculating the 
+        // Let base class perform standard actions such as calculating the
         // correct initial size and position of the window when first shown
         base.OnLoad(e);
 
         // We only apply custom chrome when control is already created and positioned
         UpdateUseThemeFormChromeBorderWidthDecision();
+
+        ApplyMaterialFormChromeDefaultsIfNeeded();
     }
 
     /// <summary>
@@ -1134,7 +1331,36 @@ public class KryptonForm : VisualForm,
 
         PerformNeedPaint(false);
 
+        // Grip visibility can change with active state in some themes
+        InvalidateNonClient();
+
         base.OnWindowActiveChanged();
+    }
+
+    /// <summary>
+    /// Ensure grippie redraw on border style changes.
+    /// </summary>
+    protected override void OnResizeEnd(EventArgs e)
+    {
+        base.OnResizeEnd(e);
+        InvalidateNonClient();
+    }
+
+    /// <summary>
+    /// When border style changes via property, force non-client repaint so grippie updates immediately.
+    /// </summary>
+    protected override void OnStyleChanged(EventArgs e)
+    {
+        base.OnStyleChanged(e);
+        // If the size grip is being hidden via SizeGripStyle, ensure any previously drawn overlay is cleared immediately
+        if (SizeGripStyle == SizeGripStyle.Hide)
+        {
+            RecalcNonClient();
+        }
+        else
+        {
+            InvalidateNonClient();
+        }
     }
 
     /// <summary>
@@ -1148,6 +1374,16 @@ public class KryptonForm : VisualForm,
 
         // Test if we need to change the custom chrome usage
         UpdateUseThemeFormChromeBorderWidthDecision();
+
+        ApplyMaterialFormChromeDefaultsIfNeeded();
+
+        // Ensure the sizing grip reflects new theme immediately
+        RecalcNonClient();
+        // Deferred call for theme churning during toggle
+        if (IsHandleCreated)
+        {
+            BeginInvoke(new System.Windows.Forms.MethodInvoker(RecalcNonClient));
+        }
     }
 
     /// <summary>
@@ -1155,14 +1391,18 @@ public class KryptonForm : VisualForm,
     /// </summary>
     /// <param name="sender">Source of the event.</param>
     /// <param name="e">An EventArgs containing the event data.</param>
-    protected override void OnUseThemeFormChromeBorderWidthChanged(object? sender, EventArgs e) =>
+    protected override void OnUseThemeFormChromeBorderWidthChanged(object? sender, EventArgs e)
+    {
         // Test if we need to change the custom chrome usage
         UpdateUseThemeFormChromeBorderWidthDecision();
+        RecalcNonClient();
+    }
 
     /// <inheritdoc />
     protected override void WndProc(ref Message m)
     {
         const int WM_HELP = 0x0053;
+        const int WM_PAINT = 0x000F;
 
         if (m.Msg == WM_HELP)
         {
@@ -1187,7 +1427,81 @@ public class KryptonForm : VisualForm,
             return;
         }
 
+        // Let default processing run first
         base.WndProc(ref m);
+
+        // After the client has painted, draw our grip overlay last so it isn't erased
+        if (m.Msg == WM_PAINT)
+        {
+            DrawSizingGripOverlayIfNeeded();
+        }
+    }
+
+    private void DrawSizingGripOverlayIfNeeded()
+    {
+        if (!ShouldShowSizingGrip())
+        {
+            if (_lastGripClientRect != Rectangle.Empty)
+            {
+                var oldClient = new PI.RECT { left = _lastGripClientRect.Left, top = _lastGripClientRect.Top, right = _lastGripClientRect.Right, bottom = _lastGripClientRect.Bottom };
+                PI.RedrawWindow(Handle, ref oldClient, IntPtr.Zero, PI.RDW_INVALIDATE | PI.RDW_ALLCHILDREN | PI.RDW_UPDATENOW);
+                _lastGripClientRect = Rectangle.Empty;
+                _lastGripWindowRect = Rectangle.Empty;
+            }
+            return;
+        }
+
+        var (newRect, _) = GetGripRectAndRtl();
+        Padding bordersNow = RealWindowBorders;
+        var newClientRect = new Rectangle(Math.Max(0, newRect.X - bordersNow.Left), Math.Max(0, newRect.Y - bordersNow.Top), newRect.Width, newRect.Height);
+        if (_lastGripClientRect != Rectangle.Empty && _lastGripClientRect != newClientRect)
+        {
+            var oldClient = new PI.RECT { left = _lastGripClientRect.Left, top = _lastGripClientRect.Top, right = _lastGripClientRect.Right, bottom = _lastGripClientRect.Bottom };
+            PI.RedrawWindow(Handle, ref oldClient, IntPtr.Zero, PI.RDW_INVALIDATE | PI.RDW_ALLCHILDREN | PI.RDW_UPDATENOW);
+            _lastGripClientRect = Rectangle.Empty;
+            _lastGripWindowRect = Rectangle.Empty;
+        }
+
+        IntPtr hDC = PI.GetWindowDC(Handle);
+        if (hDC == IntPtr.Zero)
+        {
+            return;
+        }
+
+        try
+        {
+            // Restrict drawing strictly to the grip rectangle in window coordinates
+            PI.IntersectClipRect(hDC, newRect.Left, newRect.Top, newRect.Right, newRect.Bottom);
+            using (Graphics g = Graphics.FromHdc(hDC))
+            {
+                DrawSizingGrip(g, newRect);
+            }
+            _lastGripWindowRect = newRect;
+            _lastGripClientRect = newClientRect;
+        }
+        finally
+        {
+            PI.ReleaseDC(Handle, hDC);
+        }
+    }
+
+    /// <summary>
+    /// Draw after base non-client painting using a fresh window DC. We clip out the client area
+    /// so the sizing grip never paints over child controls.
+    /// </summary>
+    protected override void OnNonClientPaint(IntPtr hWnd)
+    {
+        // Let the base draw the border/chrome; our grippie is drawn in WM_PAINT overlay only
+        base.OnNonClientPaint(hWnd);
+    }
+
+    private Rectangle GetGripClientRect()
+    {
+        var dpi = GetDpiFactor();
+        int size = Math.Max(16, (int)Math.Round(16 * dpi));
+        int x = RightToLeftLayout ? 0 : Math.Max(0, _internalKryptonPanel.ClientSize.Width - size);
+        int y = Math.Max(0, _internalKryptonPanel.ClientSize.Height - size);
+        return new Rectangle(x, y, size, size);
     }
 
     /// <summary>Ensures MDI logic runs correctly after form creation.</summary>
@@ -1205,11 +1519,13 @@ public class KryptonForm : VisualForm,
             {
                 base.Controls.Add(checkForRibbon[i]);
             }
-
         }
 
         // Register with the ActiveFormTracker
         ActiveFormTracker.Attach(this);
+
+        // Ensure Material defaults are applied as early as possible for new forms
+        ApplyMaterialFormChromeDefaultsIfNeeded();
     }
 
     #endregion
@@ -1229,6 +1545,9 @@ public class KryptonForm : VisualForm,
 
         // Need to perform a layout
         PerformNeedPaint(true);
+
+        // Make sure non-client is invalidated so the grip is drawn on start
+        InvalidateNonClient();
 
         base.WindowChromeStart();
     }
@@ -1298,7 +1617,30 @@ public class KryptonForm : VisualForm,
             }
         }
 
+        // Respect form sizing grip preferences before border checks
+        if (ShouldShowSizingGrip())
+        {
+            var (gripRect, isRtl) = GetGripRectAndRtl();
+            if (gripRect.Contains(pt))
+            {
+                return new IntPtr(isRtl ? PI.HT.BOTTOMLEFT : PI.HT.BOTTOMRIGHT);
+            }
+        }
+
         Padding borders = RealWindowBorders;
+
+        // Material: use a wider invisible hit band for easier resize while keeping flat, borderless visuals.
+        // RealWindowBorders can be 0 when the palette (e.g., Material) suppresses border width for drawing.
+        // Expanding the hit test band preserves resize affordance without adding visible chrome.
+        if (Renderer is RenderMaterial)
+        {
+            const int materialResizeThickness = 6;
+            borders = new Padding(
+                Math.Max(borders.Left, materialResizeThickness),
+                Math.Max(borders.Top, materialResizeThickness),
+                Math.Max(borders.Right, materialResizeThickness),
+                Math.Max(borders.Bottom, materialResizeThickness));
+        }
         // Restrict the top border to the same size as the left as we are using
         // the values for the size of the border hit testing for resizing the window
         // and not the size of the border for drawing purposes.
@@ -1576,9 +1918,17 @@ public class KryptonForm : VisualForm,
                     _headerStylePrev = _headerStyle;
                 }
 
-                // Update the heading to have a height matching the window requirements
-                Padding windowBorders = RealWindowBorders;
-                _headingFixedSize.FixedSize = new Size(windowBorders.Top, windowBorders.Top);
+                // Update the heading to enforce a fixed Material-like caption height when Material renderer is active
+                if (Renderer is RenderMaterial)
+                {
+                    const int materialCaptionHeight = 44; // px
+                    _headingFixedSize.FixedSize = new Size(materialCaptionHeight, materialCaptionHeight);
+                }
+                else
+                {
+                    Padding windowBorders = RealWindowBorders;
+                    _headingFixedSize.FixedSize = new Size(windowBorders.Top, windowBorders.Top);
+                }
 
                 // A change in window state since last time requires a layout
                 if (_lastWindowState != GetWindowState())
@@ -1782,7 +2132,7 @@ public class KryptonForm : VisualForm,
                 _firstCheckView = true;
                 UseThemeFormChromeBorderWidth = needChrome;
                 base.UseThemeFormChromeBorderWidth = true; // make sure "Form" buttons are drawn correctly
-                PerformNeedPaint(true);     // Force Layout size change 
+                PerformNeedPaint(true);     // Force Layout size change
             }
         }
     }
@@ -1895,6 +2245,20 @@ public class KryptonForm : VisualForm,
         _visualPopupToolTip = null;
     }
 
+    private void ApplyMaterialFormChromeDefaultsIfNeeded()
+    {
+        if (Renderer is RenderMaterial)
+        {
+            if (FormTitleAlign is PaletteRelativeAlign.Near or PaletteRelativeAlign.Inherit)
+            {
+                FormTitleAlign = PaletteRelativeAlign.Center;
+            }
+
+            // Hide the form icon by default for a cleaner Material header (user can still re-enable later)
+            AllowIconDisplay = false;
+        }
+    }
+
     private void OnStatusDockChanged(object? sender, EventArgs e)
     {
         if (StatusStripMerging)
@@ -1919,6 +2283,16 @@ public class KryptonForm : VisualForm,
         if (PaletteMode == PaletteMode.Global)
         {
             UpdateUseThemeFormChromeBorderWidthDecision();
+
+            // Apply Material defaults when global palette switches
+            ApplyMaterialFormChromeDefaultsIfNeeded();
+
+            // Ensure sizing grip updates with theme
+            RecalcNonClient();
+            if (IsHandleCreated)
+            {
+                BeginInvoke(new System.Windows.Forms.MethodInvoker(RecalcNonClient));
+            }
         }
     }
 
@@ -1960,7 +2334,8 @@ public class KryptonForm : VisualForm,
                 }
             }
 
-            control = control.Parent ?? throw new InvalidOperationException("Parent control is null.");
+            // If the parent is null then the caller did not find a help provider.
+            control = control.Parent;
         }
 
         return null;
@@ -2007,7 +2382,7 @@ public class KryptonForm : VisualForm,
     }
 
     /// <summary>
-    /// Example by juverpp 
+    /// Example by juverpp
     /// </summary>
     protected override CreateParams CreateParams
     {
@@ -2040,51 +2415,37 @@ public class KryptonForm : VisualForm,
     /// <returns></returns>
     public static bool GetHasCurrentInstanceGotAdministrativeRights()
     {
+        bool result = false;
         try
         {
             var principal = new WindowsPrincipal(WindowsIdentity.GetCurrent());
-
-            var hasAdministrativeRights = principal.IsInRole(WindowsBuiltInRole.Administrator);
-
-            if (hasAdministrativeRights)
-            {
-                SetIsInAdministratorMode(true);
-
-                return true;
-            }
-            else
-            {
-                SetIsInAdministratorMode(false);
-
-                return false;
-            }
+            result = principal.IsInRole(WindowsBuiltInRole.Administrator);
         }
-        catch
-        {
-            SetIsInAdministratorMode(false);
+        catch { }
 
-            return false;
-        }
+        SetIsInAdministratorMode(result);
+        return result;
     }
 
     /// <summary>Sets the is in administrator mode.</summary>
     /// <param name="value">if set to <c>true</c> [value].</param>
     public static void SetIsInAdministratorMode(bool value)
     {
-        //// TODO: @wagnerp: what is this supposed to be doing ?
-        //var form = new KryptonForm();
-
-        //form.IsInAdministratorMode = value;
+        _isInAdministratorMode = value;
+        _isInAdministratorModeKnown = true;
     }
 
     /// <summary>Gets the is in administrator mode.</summary>
     /// <returns>IsInAdministratorMode</returns>
     public static bool GetIsInAdministratorMode()
     {
-        // TODO: @wagnerp: what is this supposed to be doing ?
-        var form = new KryptonForm();
+        if (!_isInAdministratorModeKnown)
+        {
+            GetHasCurrentInstanceGotAdministrativeRights();
+            _isInAdministratorModeKnown = true;
+        }
 
-        return form.IsInAdministratorMode;
+        return _isInAdministratorMode;
     }
     #endregion
 

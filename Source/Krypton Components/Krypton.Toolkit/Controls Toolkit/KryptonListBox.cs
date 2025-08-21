@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *
  */
 #endregion
 
@@ -35,6 +35,8 @@ public class KryptonListBox : VisualControlBase,
         private readonly KryptonListBox _kryptonListBox;
         private readonly IntPtr _screenDC;
         private bool _mouseOver;
+        // Capture scroll position before user click
+        private int _preClickTopIndex;
 
         #endregion
 
@@ -77,10 +79,12 @@ public class KryptonListBox : VisualControlBase,
 
             // We need to create and cache a device context compatible with the display
             _screenDC = PI.CreateCompatibleDC(IntPtr.Zero);
+            // Track pre-click scroll
+            MouseDown += OnInternalListBoxMouseDown;
         }
 
         /// <summary>
-        /// Releases all resources used by the Control. 
+        /// Releases all resources used by the Control.
         /// </summary>
         /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
         protected override void Dispose(bool disposing)
@@ -182,7 +186,7 @@ public class KryptonListBox : VisualControlBase,
             switch (m.Msg)
             {
                 case PI.WM_.ERASEBKGND:
-                    // Do not draw the background here, always do it in the paint 
+                    // Do not draw the background here, always do it in the paint
                     // instead to prevent flicker because of a two stage drawing process
                     break;
                 case PI.WM_.PRINTCLIENT:
@@ -274,11 +278,13 @@ public class KryptonListBox : VisualControlBase,
                 // If we managed to get a compatible bitmap
                 if (hBitmap != IntPtr.Zero)
                 {
+                    // Must use the screen device context for the bitmap when drawing into the
+                    // bitmap otherwise the Opacity and RightToLeftLayout will not work correctly.
+                    // Select the new bitmap into the screen DC
+                    var oldBitmap = PI.SelectObject(_screenDC, hBitmap);
+
                     try
                     {
-                        // Must use the screen device context for the bitmap when drawing into the 
-                        // bitmap otherwise the Opacity and RightToLeftLayout will not work correctly.
-                        PI.SelectObject(_screenDC, hBitmap);
 
                         // Easier to draw using a graphics instance than a DC!
                         using (Graphics g = Graphics.FromHdc(_screenDC))
@@ -324,19 +330,75 @@ public class KryptonListBox : VisualControlBase,
                     }
                     finally
                     {
+                        // Restore the original bitmap
+                        PI.SelectObject(_screenDC, oldBitmap);
+
                         // Delete the temporary bitmap
                         PI.DeleteObject(hBitmap);
                     }
                 }
             }
 
-            // Do we need to match the original BeginPaint?
+            // Complete BeginPaint if we started one
             if (m.WParam == IntPtr.Zero)
             {
                 PI.EndPaint(Handle, ref ps);
             }
         }
         #endregion
+
+        protected override void OnSelectedIndexChanged(EventArgs e)
+        {
+            // Prevent ObjectDisposedException if handle is invalid
+            if (!IsHandleCreated || IsDisposed)
+            {
+                base.OnSelectedIndexChanged(e);
+                return;
+            }
+
+            // Prevent scrollbar flicker by disabling redraw
+            PI.SendMessage(Handle, PI.SETREDRAW, (IntPtr)0, IntPtr.Zero);
+            BeginUpdate();
+            try
+            {
+                // Let base update selection and possibly auto-scroll
+                base.OnSelectedIndexChanged(e);
+                // Only restore scroll if we clicked on a visible item
+                if (_preClickTopIndex >= 0)
+                {
+                    TopIndex = Math.Min(_preClickTopIndex, Items.Count - 1);
+                }
+            }
+            finally
+            {
+                EndUpdate();
+                // Re-enable redraw and repaint
+                PI.SendMessage(Handle, PI.SETREDRAW, (IntPtr)1, IntPtr.Zero);
+                Invalidate();
+            }
+        }
+
+        private void OnInternalListBoxMouseDown(object? sender, MouseEventArgs e)
+        {
+            // Only capture scroll position if the clicked item is already visible
+            int index = IndexFromPoint(e.Location);
+            if (index >= 0 && index < Items.Count)
+            {
+                // Check if the item is already visible
+                int visibleItems = ClientSize.Height / ItemHeight;
+                int bottomVisibleIndex = TopIndex + visibleItems - 1;
+
+                if (index >= TopIndex && index <= bottomVisibleIndex)
+                {
+                    _preClickTopIndex = TopIndex;
+                }
+                else
+                {
+                    // For non-visible items, don't capture - let normal scrolling happen
+                    _preClickTopIndex = -1;
+                }
+            }
+        }
     }
     #endregion
 
@@ -363,6 +425,8 @@ public class KryptonListBox : VisualControlBase,
     private bool _alwaysActive;
     private bool _forcedLayout;
     private bool _trackingMouseEnter;
+    // Captures the scroll position before a click/selection change
+    private int _preClickTopIndex;
     #endregion
 
     #region Events
@@ -381,7 +445,7 @@ public class KryptonListBox : VisualControlBase,
     public event EventHandler? DisplayMemberChanged;
 
     /// <summary>
-    /// Occurs when the property of a control is bound to a data value. 
+    /// Occurs when the property of a control is bound to a data value.
     /// </summary>
     [Description(@"Occurs when the property of a control is bound to a data value.")]
     [Category(@"Property Changed")]
@@ -610,7 +674,7 @@ public class KryptonListBox : VisualControlBase,
     // ReSharper restore RedundantBaseQualifier
 
     /// <summary>
-    /// Releases all resources used by the Control. 
+    /// Releases all resources used by the Control.
     /// </summary>
     /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
     protected override void Dispose(bool disposing)
@@ -804,7 +868,7 @@ public class KryptonListBox : VisualControlBase,
     private void ResetItemStyle() => ItemStyle = ButtonStyle.ListItem;
 
     /// <summary>
-    /// Gets or sets the width by which the horizontal scroll bar of a KryptonListBox can scroll. 
+    /// Gets or sets the width by which the horizontal scroll bar of a KryptonListBox can scroll.
     /// </summary>
     [Category(@"Behavior")]
     [Description(@"The width, in pixels, by which a list box can be scrolled horizontally. Only valid HorizontalScrollbar is true.")]
@@ -817,7 +881,7 @@ public class KryptonListBox : VisualControlBase,
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether a horizontal scroll bar is Displayed in the control. 
+    /// Gets or sets a value indicating whether a horizontal scroll bar is Displayed in the control.
     /// </summary>
     [Category(@"Behavior")]
     [Description(@"Indicates whether the KryptonListBox will display a horizontal scrollbar for items beyond the right edge of the KryptonListBox.")]
@@ -830,7 +894,7 @@ public class KryptonListBox : VisualControlBase,
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether the vertical scroll bar is shown at all times. 
+    /// Gets or sets a value indicating whether the vertical scroll bar is shown at all times.
     /// </summary>
     [Category(@"Behavior")]
     [Description(@"Indicates if the list box should always have a scroll bar present, regardless of how many items are present.")]
@@ -908,7 +972,7 @@ public class KryptonListBox : VisualControlBase,
     }
 
     /// <summary>
-    /// Gets the items of the KryptonListBox. 
+    /// Gets the items of the KryptonListBox.
     /// </summary>
     [Category(@"Data")]
     [Description(@"The items in the KryptonListBox.")]
@@ -1182,7 +1246,7 @@ public class KryptonListBox : VisualControlBase,
     public int IndexFromPoint(int x, int y) => _listBox.IndexFromPoint(x, y);
 
     /// <summary>
-    /// Selects or clears the selection for the specified item in a KryptonListBox. 
+    /// Selects or clears the selection for the specified item in a KryptonListBox.
     /// </summary>
     /// <param name="index">The zero-based index of the item in a KryptonListBox to select or clear the selection for.</param>
     /// <param name="value">true to select the specified item; otherwise, false.</param>
@@ -1201,7 +1265,7 @@ public class KryptonListBox : VisualControlBase,
     public void BeginUpdate() => _listBox.BeginUpdate();
 
     /// <summary>
-    /// Resumes painting the ListBox control after painting is suspended by the BeginUpdate method. 
+    /// Resumes painting the ListBox control after painting is suspended by the BeginUpdate method.
     /// </summary>
     public void EndUpdate() => _listBox.EndUpdate();
 
@@ -1315,9 +1379,27 @@ public class KryptonListBox : VisualControlBase,
     /// <param name="e">An EventArgs that contains the event data.</param>
     protected override void OnPaletteChanged(EventArgs e)
     {
-        _listBox.Recreate();
-        _listBox.RefreshItemSizes();
-        _listBox.Invalidate();
+        _listBox.BeginUpdate();
+        try
+        {
+            // Preserve scroll and selected index to avoid shifting when theme changes
+            int oldTopIndex = _listBox.TopIndex;
+            int oldSelectedIndex = _listBox.SelectedIndex;
+            _listBox.Recreate();
+            // Restore scroll position and selection
+            _listBox.TopIndex = Math.Min(oldTopIndex, _listBox.Items.Count - 1);
+            if ((oldSelectedIndex >= 0) &&
+                (oldSelectedIndex < _listBox.Items.Count))
+            {
+                _listBox.SelectedIndex = oldSelectedIndex;
+            }
+            _listBox.RefreshItemSizes();
+            _listBox.Invalidate();
+        }
+        finally
+        {
+            _listBox.EndUpdate();
+        }
         base.OnPaletteChanged(e);
     }
 
@@ -1583,7 +1665,7 @@ public class KryptonListBox : VisualControlBase,
             _overrideCheckedPressed.Apply = hasFocus;
         }
 
-        // Update the view with the calculated state
+        // Update view element state
         _drawButton.ElementState = buttonState;
 
         // Grab the raw device context for the graphics instance
@@ -1599,7 +1681,7 @@ public class KryptonListBox : VisualControlBase,
             {
                 try
                 {
-                    // Must use the screen device context for the bitmap when drawing into the 
+                    // Must use the screen device context for the bitmap when drawing into the
                     // bitmap otherwise the Opacity and RightToLeftLayout will not work correctly.
                     PI.SelectObject(_screenDC, hBitmap);
 
@@ -1680,11 +1762,18 @@ public class KryptonListBox : VisualControlBase,
         switch (_listBox.SelectionMode)
         {
             case SelectionMode.One:
+                // Restore scroll to pre-click position
+                int oldTopIndex = _preClickTopIndex;
                 if (_lastSelectedIndex != _listBox.SelectedIndex)
                 {
                     _lastSelectedIndex = _listBox.SelectedIndex;
                     UpdateStateAndPalettes();
                     _listBox.Invalidate();
+                    // Only restore scroll if we clicked on a visible item
+                    if (oldTopIndex >= 0)
+                    {
+                        _listBox.TopIndex = Math.Min(oldTopIndex, _listBox.Items.Count - 1);
+                    }
                     OnSelectedIndexChanged(e);
                 }
                 break;
@@ -1692,7 +1781,6 @@ public class KryptonListBox : VisualControlBase,
             case SelectionMode.MultiExtended:
                 if (SelectedIndicesChanged(_lastSelectedColl, _listBox.SelectedIndices))
                 {
-                    // Clone the selected index collection
                     _lastSelectedColl = new int[_listBox.SelectedIndices.Count];
                     _listBox.SelectedIndices.CopyTo(_lastSelectedColl, 0);
 

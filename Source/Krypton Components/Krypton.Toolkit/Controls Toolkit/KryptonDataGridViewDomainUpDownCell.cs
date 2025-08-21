@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *
  */
 #endregion
 
@@ -78,8 +78,8 @@ public class KryptonDataGridViewDomainUpDownCell : DataGridViewTextBoxCell
     }
 
     /// <summary>
-    /// Custom implementation of the InitializeEditingControl function. This function is called by the DataGridView control 
-    /// at the beginning of an editing session. It makes sure that the properties of the KryptonNumericUpDown editing control are 
+    /// Custom implementation of the InitializeEditingControl function. This function is called by the DataGridView control
+    /// at the beginning of an editing session. It makes sure that the properties of the KryptonNumericUpDown editing control are
     /// set according to the cell properties.
     /// </summary>
     public override void InitializeEditingControl(int rowIndex,
@@ -116,26 +116,29 @@ public class KryptonDataGridViewDomainUpDownCell : DataGridViewTextBoxCell
             Rectangle textArea;
             var righToLeft = DataGridView.RightToLeft == RightToLeft.Yes;
 
+            int availableHeight = cellBounds.Height - cellStyle.Padding.Top - cellStyle.Padding.Bottom - 2;
+            int indicatorSize = Math.Max(12, availableHeight);
+
             if (righToLeft)
             {
                 pos = cellBounds.Left;
 
                 // The WinForms cell content always receives padding of one by default, custom padding is added tot that.
                 textArea = new Rectangle(
-                    1 + cellBounds.Left + cellStyle.Padding.Left + image.Width,
+                    1 + cellBounds.Left + cellStyle.Padding.Left + indicatorSize,
                     1 + cellBounds.Top + cellStyle.Padding.Top,
-                    cellBounds.Width - cellStyle.Padding.Left - cellStyle.Padding.Right - image.Width - 3,
+                    cellBounds.Width - cellStyle.Padding.Left - cellStyle.Padding.Right - indicatorSize - 3,
                     cellBounds.Height - cellStyle.Padding.Top - cellStyle.Padding.Bottom - 2);
             }
             else
             {
-                pos = cellBounds.Right - image.Width;
+                pos = cellBounds.Right - indicatorSize;
 
                 // The WinForms cell content always receives padding of one by default, custom padding is added tot that.
                 textArea = new Rectangle(
                     1 + cellBounds.Left + cellStyle.Padding.Left,
                     1 + cellBounds.Top + cellStyle.Padding.Top,
-                    cellBounds.Width - cellStyle.Padding.Left - cellStyle.Padding.Right - image.Width - 3,
+                    cellBounds.Width - cellStyle.Padding.Left - cellStyle.Padding.Right - indicatorSize - 3,
                     cellBounds.Height - cellStyle.Padding.Top - cellStyle.Padding.Bottom - 2);
             }
 
@@ -150,20 +153,25 @@ public class KryptonDataGridViewDomainUpDownCell : DataGridViewTextBoxCell
             // If the ErrorText is set, only the error icon is shown. Otherwise both are painted on the same spot.
             if (ErrorText.Length == 0)
             {
-                graphics.DrawImage(image, new Point(pos, textArea.Top));
+                var sized = KryptonOwningColumn?.GetIndicatorImageForSize(indicatorSize) ?? image;
+                graphics.DrawImage(sized, new Rectangle(pos, textArea.Top, indicatorSize, indicatorSize));
             }
             else
             {
                 formattedValue = errorText;
             }
 
-            TextRenderer.DrawText(graphics, formattedValue?.ToString() ?? string.Empty, cellStyle.Font, textArea, cellStyle.ForeColor,
+            var displayForeColor = (cellState & DataGridViewElementStates.Selected) != 0
+                ? cellStyle.SelectionForeColor
+                : cellStyle.ForeColor;
+
+            TextRenderer.DrawText(graphics, formattedValue?.ToString() ?? string.Empty, cellStyle.Font, textArea, displayForeColor,
                 KryptonDataGridViewUtilities.ComputeTextFormatFlagsForCellStyleAlignment(righToLeft, cellStyle.Alignment, cellStyle.WrapMode));
         }
     }
 
     /// <summary>
-    /// Customized implementation of the GetErrorIconBounds function in order to draw the potential 
+    /// Customized implementation of the GetErrorIconBounds function in order to draw the potential
     /// error icon next to the up/down buttons and not on top of them.
     /// </summary>
     protected override Rectangle GetErrorIconBounds(Graphics graphics, DataGridViewCellStyle cellStyle, int rowIndex)
@@ -179,15 +187,15 @@ public class KryptonDataGridViewDomainUpDownCell : DataGridViewTextBoxCell
     /// </summary>
     protected override Size GetPreferredSize(Graphics graphics, DataGridViewCellStyle cellStyle, int rowIndex, Size constraintSize)
     {
-        return DataGridView == null 
-            ? new Size(-1, -1) 
+        return DataGridView == null
+            ? new Size(-1, -1)
             : base.GetPreferredSize(graphics, cellStyle, rowIndex, constraintSize);
     }
     #endregion
 
     #region Private
 
-    private KryptonDataGridViewDomainUpDownEditingControl EditingDomainUpDown => DataGridView!.EditingControl as KryptonDataGridViewDomainUpDownEditingControl 
+    private KryptonDataGridViewDomainUpDownEditingControl EditingDomainUpDown => DataGridView!.EditingControl as KryptonDataGridViewDomainUpDownEditingControl
         ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(DataGridView.EditingControl)));
 
     private void OnCommonChange()

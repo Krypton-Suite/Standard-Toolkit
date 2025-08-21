@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *
  */
 #endregion
 
@@ -56,6 +56,16 @@ public class KryptonComboBox : VisualControlBase,
             // Find the largest size of any child control
             foreach (Control c in Controls)
             {
+                // Avoid triggering framework font measurement path that can throw first-chance exceptions
+                // when asking ComboBox for its preferred size. We only need width here; height is computed
+                // from ItemHeight below.
+                if (c is ComboBox)
+                {
+                    maxSize.Width = Math.Max(maxSize.Width, c.Width);
+                    maxSize.Height = Math.Max(maxSize.Height, c.Height);
+                    continue;
+                }
+
                 try
                 {
                     Size cSize = c.GetPreferredSize(proposedSize);
@@ -82,6 +92,22 @@ public class KryptonComboBox : VisualControlBase,
         /// <param name="m">A Windows-based message.</param>
         protected override void WndProc(ref Message m)
         {
+            // Consolidated guard for theme swap or unstable handles
+            bool unstable = ThemeChangeCoordinator.InProgress || RecreatingHandle || !IsHandleCreated;
+            if (unstable)
+            {
+                switch (m.Msg)
+                {
+                    case PI.WM_.PAINT:
+                    case PI.WM_.PRINTCLIENT:
+                        base.WndProc(ref m);
+                        return;
+                    case PI.WM_.COMMAND:
+                        // Ignore spurious WM_COMMAND during handle churn to avoid native crashes
+                        return;
+                }
+            }
+
             switch (m.Msg)
             {
                 case PI.WM_.NCHITTEST:
@@ -94,6 +120,22 @@ public class KryptonComboBox : VisualControlBase,
                         base.WndProc(ref m);
                     }
 
+                    break;
+                case PI.WM_.COMMAND:
+                    // During theme swap, prevent selection-change commands on non-initiator forms from re-entering native routing.
+                    if (ThemeChangeCoordinator.InProgress && !ReferenceEquals(FindForm(), ThemeChangeCoordinator.Initiator))
+                    {
+                        int code = PI.HIWORD(m.WParam);
+                        // CBN_SELCHANGE (0x1), CBN_SELENDOK (0x9), CBN_SELENDCANCEL (0xA)
+                        if (code is 0x0001 or 0x0009 or 0x000A)
+                        {
+                            #if DEBUG
+                            DebugLogger.WriteLine("InternalPanel: Swallowing CBN_* on non-initiator during theme swap.");
+                            #endif
+                            return;
+                        }
+                    }
+                    base.WndProc(ref m);
                     break;
                 default:
                     base.WndProc(ref m);
@@ -216,8 +258,10 @@ public class KryptonComboBox : VisualControlBase,
         #region Protected
         protected override void OnEnabledChanged(EventArgs e)
         {
-            // Do not forward, to allow the correct Background for disabled state
-            // See https://github.com/Krypton-Suite/Standard-Toolkit/issues/662
+            if (Enabled)
+            {
+                base.OnEnabledChanged(e);
+            }
         }
 
         /// <summary>
@@ -236,6 +280,23 @@ public class KryptonComboBox : VisualControlBase,
         /// <param name="m">A Windows-based message.</param>
         protected override void WndProc(ref Message m)
         {
+            // Early guard for handle churn/theme swaps to avoid re-entrant faults on command routing
+            bool unstable = ThemeChangeCoordinator.InProgress || RecreatingHandle || IsDisposed || !IsHandleCreated;
+            if (unstable)
+            {
+                switch (m.Msg)
+                {
+                    case PI.WM_.PAINT:
+                    case PI.WM_.PRINTCLIENT:
+                        base.WndProc(ref m);
+                        return;
+                    case PI.WM_.COMMAND:
+                        // Ignore spurious WM_COMMAND during handle churn/theme swap to avoid native crashes
+                        //base.WndProc(ref m);
+                        return;
+                }
+            }
+
             switch (m.Msg)
             {
                 case PI.WM_.NCHITTEST:
@@ -308,7 +369,7 @@ public class KryptonComboBox : VisualControlBase,
                     var hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
 
                     //////////////////////////////////////////////////////
-                    // Following removed to allow the Draw to always happen, to allow centering etc  
+                    // Following removed to allow the Draw to always happen, to allow centering etc
                     //if (_kryptonComboBox.Enabled && _kryptonComboBox.DropDownStyle == ComboBoxStyle.DropDown)
                     //{
                     // Let base implementation draw the actual text area
@@ -337,7 +398,7 @@ public class KryptonComboBox : VisualControlBase,
                             : PaletteState.Disabled;
                         PaletteInputControlTripleStates states = _kryptonComboBox.GetComboBoxTripleState();
 
-                        // Drawn entire client area in the background color
+                        // Draw entire client area in the background color
                         using var backBrush = new SolidBrush(states.PaletteBack.GetBackColor1(state));
                         g.FillRectangle(backBrush, new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top));
 
@@ -367,7 +428,11 @@ public class KryptonComboBox : VisualControlBase,
                         }
 
                         // Exclude border from being drawn, we need to take off another 2 pixels from all edges
-                        PI.IntersectClipRect(hdc, rect.left + 2, rect.top, rect.right - 2, rect.bottom);
+                        // Guard: ensure rect is sane before clipping
+                        if (rect.right > rect.left && rect.bottom > rect.top)
+                        {
+                            PI.IntersectClipRect(hdc, rect.left + 2, rect.top, rect.right - 2, rect.bottom);
+                        }
                         var displayText = _kryptonComboBox.Text;
                         if (!string.IsNullOrWhiteSpace(_kryptonComboBox.CueHint.CueHintText)
                             && string.IsNullOrEmpty(displayText)
@@ -378,7 +443,7 @@ public class KryptonComboBox : VisualControlBase,
                         }
                         else
                             ////////////////////////////////////////////////////////
-                            //// Following commented out, to allow the Draw to always happen even tho the edit box will draw over afterwards  
+                            //// Following commented out, to allow the Draw to always happen even tho the edit box will draw over afterwards
                             //// Draw Over is tracked here
                             ////  https://github.com/Krypton-Suite/Standard-Toolkit/issues/179
                             //// If not enabled or not the dropDown Style then we can draw over the text area
@@ -410,10 +475,21 @@ public class KryptonComboBox : VisualControlBase,
                                     break;
                             }
 
-                            // Draw text using font defined by the control
-                            var rectangle = new Rectangle(rect.left, rect.top, rect.right - rect.left,
-                                rect.bottom - rect.top);
-                            rectangle = CommonHelper.ApplyPadding(VisualOrientation.Top, rectangle, states.Content.GetBorderContentPadding(null, state));
+                            // Draw text using font defined by the control; fall back to Text if display text empty
+                            var rectangle = new Rectangle(rect.left, rect.top,
+                                Math.Max(0, rect.right - rect.left),
+                                Math.Max(0, rect.bottom - rect.top));
+                            if (rectangle.Width == 0 || rectangle.Height == 0)
+                            {
+                                // Nothing to draw yet (can happen during theme switch)
+                                break;
+                            }
+                            rectangle = CommonHelper.ApplyPadding(VisualOrientation.Top, rectangle,
+                                states.Content.GetBorderContentPadding(null, state));
+                            if (rectangle.Width <= 0 || rectangle.Height <= 0)
+                            {
+                                break;
+                            }
                             // Find correct text color
                             Color textColor = states.Content.GetContentShortTextColor1(state);
                             Font? contentShortTextFont = states.Content.GetContentShortTextFont(state);
@@ -421,8 +497,9 @@ public class KryptonComboBox : VisualControlBase,
                             Color backColor = states.PaletteBack.GetBackColor1(state);
 
                             // TODO: Replace this with the graphic DrawString to get around some drawing looking Very Poor
+                            var toDraw = string.IsNullOrEmpty(displayText) ? Text ?? string.Empty : displayText;
                             TextRenderer.DrawText(g,
-                                Text, contentShortTextFont,
+                                toDraw, contentShortTextFont,
                                 rectangle,
                                 textColor, backColor,
                                 flags);
@@ -441,6 +518,9 @@ public class KryptonComboBox : VisualControlBase,
                         PI.EndPaint(Handle, ref ps);
                     }
                 }
+                    break;
+                case PI.WM_.COMMAND:
+                    base.WndProc(ref m);
                     break;
                 case PI.WM_.CONTEXTMENU:
                     // Only interested in overriding the behavior when we have a krypton context menu...
@@ -584,7 +664,7 @@ public class KryptonComboBox : VisualControlBase,
             //        //ItemHeight = Font.Height - 1;
 
             //        // #1455 - The lower part of the text can become clipped with chars like g, y, p, etc.
-            //        // when subtracting one from the font height. 
+            //        // when subtracting one from the font height.
             //        ItemHeight = Font.Height;
             //    }
             //    else
@@ -596,7 +676,7 @@ public class KryptonComboBox : VisualControlBase,
             //}
 
             // #1455 - The lower part of the text can become clipped with chars like g, y, p, etc.
-            // when subtracting one from the font height. 
+            // when subtracting one from the font height.
             ItemHeight = _osMajorVersion < 6
                 ? Font.Height + 1
                 : Font.Height;
@@ -1703,7 +1783,7 @@ public class KryptonComboBox : VisualControlBase,
 
         set
         {
-            // Do nothing, we set the ItemHeight internally to match the font 
+            // Do nothing, we set the ItemHeight internally to match the font
         }
     }
 
@@ -2052,7 +2132,7 @@ public class KryptonComboBox : VisualControlBase,
     public void BeginUpdate() => _comboBox.BeginUpdate();
 
     /// <summary>
-    /// Resumes painting the ComboBox control after painting is suspended by the BeginUpdate method. 
+    /// Resumes painting the ComboBox control after painting is suspended by the BeginUpdate method.
     /// </summary>
     public void EndUpdate() => _comboBox.EndUpdate();
 
@@ -2410,7 +2490,6 @@ public class KryptonComboBox : VisualControlBase,
             DropDownStyle = _deferredComboBoxStyle.Value;
             _deferredComboBoxStyle = null;
         }
-            
     }
 
     /// <summary>
@@ -2895,12 +2974,13 @@ public class KryptonComboBox : VisualControlBase,
                     // If we managed to get a compatible bitmap
                     if (hBitmap != IntPtr.Zero)
                     {
+                        // Must use the screen device context for the bitmap when drawing into the
+                        // bitmap otherwise the Opacity and RightToLeftLayout will not work correctly.
+                        // Select the new bitmap into the screen DC
+                        var oldBitmap = PI.SelectObject(_screenDC, hBitmap);
+
                         try
                         {
-                            // Must use the screen device context for the bitmap when drawing into the 
-                            // bitmap otherwise the Opacity and RightToLeftLayout will not work correctly.
-                            PI.SelectObject(_screenDC, hBitmap);
-
                             // Easier to draw using a graphics instance than a DC!
                             using Graphics g = Graphics.FromHdc(_screenDC);
                             // Ask the view element to layout in given space, needs this before a render call
@@ -2923,6 +3003,9 @@ public class KryptonComboBox : VisualControlBase,
                         }
                         finally
                         {
+                            // Restore the original bitmap
+                            PI.SelectObject(_screenDC, oldBitmap);
+
                             // Delete the temporary bitmap
                             PI.DeleteObject(hBitmap);
                         }

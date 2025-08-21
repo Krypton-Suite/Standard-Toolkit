@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *
  */
 #endregion
 
@@ -26,7 +26,7 @@ public class PaletteSparkleBase : PaletteBase
     private static readonly Padding _contentPaddingHeader2 = new Padding(3, 2, 2, 2);
     private static readonly Padding _contentPaddingHeader3 = new Padding(2, 1, 2, 1);
     private static readonly Padding _contentPaddingCalendar = new Padding(2);
-    //private static readonly Padding _contentPaddingHeaderForm = new Padding(owningForm!.RealWindowBorders.Left, owningForm!.RealWindowBorders.Bottom / 2, 0, 0);         
+    //private static readonly Padding _contentPaddingHeaderForm = new Padding(owningForm!.RealWindowBorders.Left, owningForm!.RealWindowBorders.Bottom / 2, 0, 0);
     private static readonly Padding _contentPaddingLabel = new Padding(3, 1, 3, 1);
     private static readonly Padding _contentPaddingLabel2 = new Padding(8, 2, 8, 2);
     private static readonly Padding _contentPaddingButtonInputControl = new Padding(0);
@@ -85,7 +85,7 @@ public class PaletteSparkleBase : PaletteBase
     private static readonly Image _buttonSpecRibbonMinimize = GenericWhiteImageResources.WhitePendantRibbonMinimize;
     private static readonly Image _buttonSpecRibbonExpand = GenericWhiteImageResources.WhitePendantRibbonExpand;
     private static readonly Image? _sparkleDropDownOutlineButton = GenericSparkleImageResources.SparkleDropDownOutlineButton;
-    private static readonly Image? _sparkleDropDownButton = GenericSparkleImageResources.SparkleDropDownButton;
+    private static readonly Image? _sparkleDropDownButton = GenericSparkleImageResources.SparkleDropDownButtonBlack;
     private static readonly Image? _sparkleDropUpButton = GenericSparkleImageResources.SparkleDropUpButton;
     private static readonly Image? _sparkleGalleryDropButton = GenericSparkleImageResources.SparkleGalleryDropButton;
     private static readonly Image _sparkleCloseA = SparkleControlBoxResources.SparkleButtonCloseNormal;
@@ -159,14 +159,9 @@ public class PaletteSparkleBase : PaletteBase
     private static readonly Color _contextMenuHeadingBorder = Color.FromArgb(197, 197, 197);
     private static readonly Color _contextMenuImageBackChecked = Color.FromArgb(255, 227, 149);
     private static readonly Color _contextMenuImageBorderChecked = Color.FromArgb(242, 149, 54);
-    private static readonly Color[] _ribbonGroupCollapsedBackContext = [Color.FromArgb(48, 255, 255, 255), Color.FromArgb(235, 235, 235)
-    ];
-    private static readonly Color[] _ribbonGroupCollapsedBackContextTracking = [Color.FromArgb(48, 255, 255, 255), Color.FromArgb(235, 235, 235)
-    ];
-    private static readonly Color[] _ribbonGroupCollapsedBorderContext = [Color.FromArgb(128, 199, 199, 199), Color.FromArgb(199, 199, 199), Color.FromArgb(48, 255, 255, 255), Color.FromArgb(235, 235, 235)
-    ];
-    private static readonly Color[] _trackBarColors = [Color.FromArgb(180, 180, 180), Color.FromArgb(33, 37, 50), Color.FromArgb(126, 131, 142), Color.FromArgb(99, 99, 99), Color.FromArgb(32, Color.White), Color.FromArgb(35, 35, 35)
-    ];
+    private static readonly Color[] _ribbonGroupCollapsedBackContext = [Color.FromArgb(48, 255, 255, 255), Color.FromArgb(235, 235, 235)];
+    private static readonly Color[] _ribbonGroupCollapsedBackContextTracking = [Color.FromArgb(48, 255, 255, 255), Color.FromArgb(235, 235, 235)];
+    private static readonly Color[] _ribbonGroupCollapsedBorderContext = [Color.FromArgb(128, 199, 199, 199), Color.FromArgb(199, 199, 199), Color.FromArgb(48, 255, 255, 255), Color.FromArgb(235, 235, 235)];
     private static readonly Color _inputControlTextDisabled = Color.FromArgb(120, 120, 120);
     private static readonly Color _colorDark00 = Color.Black;
     private static readonly Color _colorWhite119 = Color.FromArgb(119, 119, 119);
@@ -194,6 +189,10 @@ public class PaletteSparkleBase : PaletteBase
     #endregion
 
     #region Instance Fields
+    /// <inheritdoc/>
+    protected override Color[] SchemeColors => _ribbonColors;
+
+    protected readonly KryptonColorSchemeBase? BaseColors;
     private KryptonColorTableSparkle? _table;
     private readonly Color[] _ribbonColors;
     private readonly Color[] _sparkleColors;
@@ -217,6 +216,7 @@ public class PaletteSparkleBase : PaletteBase
     /// <param name="ribbonGroupCollapsedBorderContextTracking">Colors for tracking a collapsed group border.</param>
     /// <param name="checkBoxList">Images for check box controls.</param>
     /// <param name="radioButtonArray">Images for radio button controls.</param>
+    [System.Obsolete("Color[] constructor is deprecated and will be removed in V110. Use KryptonColorSchemeBase overload.", false)]
     public PaletteSparkleBase(Color[] ribbonColors,
         Color[] sparkleColors,
         Color[] appButtonNormal,
@@ -233,7 +233,6 @@ public class PaletteSparkleBase : PaletteBase
         {
             _ribbonColors = ribbonColors;
         }
-
         if (sparkleColors != null)
         {
             _sparkleColors = sparkleColors;
@@ -265,7 +264,79 @@ public class PaletteSparkleBase : PaletteBase
 
         // Get the font settings from the system
         DefineFonts();
+
+        SetTrackBarColors();
     }
+
+    /// <summary>
+    /// Overload that accepts a KryptonColorSchemeBase instance and forwards colours to the main constructor.
+    /// </summary>
+    public PaletteSparkleBase(
+        [DisallowNull] KryptonColorSchemeBase scheme,
+        [DisallowNull] Color[] sparkleColors,
+        [DisallowNull] Color[] appButtonNormal,
+        [DisallowNull] Color[] appButtonTrack,
+        [DisallowNull] Color[] appButtonPressed,
+        [DisallowNull] Color[] ribbonGroupCollapsedBorderContextTracking,
+        [DisallowNull] ImageList checkBoxList,
+        [DisallowNull] Image?[] radioButtonArray)
+    {
+        // Save colors for use in the color table
+        ThemeName = nameof(PaletteSparkleBase);
+
+        if (scheme != null)
+        {
+            _ribbonColors = scheme.ToArray();
+        }
+        if (sparkleColors != null)
+        {
+            _sparkleColors = sparkleColors;
+        }
+        if (appButtonNormal != null)
+        {
+            _appButtonNormal = appButtonNormal;
+        }
+        if (appButtonTrack != null)
+        {
+            _appButtonTrack = appButtonTrack;
+        }
+        if (appButtonPressed != null)
+        {
+            _appButtonPressed = appButtonPressed;
+        }
+        if (ribbonGroupCollapsedBorderContextTracking != null)
+        {
+            _ribbonGroupCollapsedBorderContextTracking = ribbonGroupCollapsedBorderContextTracking;
+        }
+        if (checkBoxList != null)
+        {
+            _checkBoxList = checkBoxList;
+        }
+        if (radioButtonArray != null)
+        {
+            _radioButtonArray = radioButtonArray;
+        }
+
+        // Get the font settings from the system
+        DefineFonts();
+
+        BaseColors = scheme;
+
+        SetTrackBarColors();
+    }
+
+    protected void SetTrackBarColors()
+    {
+        // Sparkle themes do NOT have own TrackBar colors in themes!
+        // Those are solely defined in this base class, so overwrite here:
+        _ribbonColors[(int)SchemeBaseColors.TrackBarTickMarks] = Color.FromArgb(180, 180, 180);
+        _ribbonColors[(int)SchemeBaseColors.TrackBarTopTrack] = Color.FromArgb(33, 37, 50);
+        _ribbonColors[(int)SchemeBaseColors.TrackBarBottomTrack] = Color.FromArgb(126, 131, 142);
+        _ribbonColors[(int)SchemeBaseColors.TrackBarFillTrack] = Color.FromArgb(99, 99, 99);
+        _ribbonColors[(int)SchemeBaseColors.TrackBarOutsidePosition] =  Color.FromArgb(32, Color.White);
+        _ribbonColors[(int)SchemeBaseColors.TrackBarBorderPosition] = Color.FromArgb(35, 35, 35);
+    }
+
     #endregion
 
     #region Renderer
@@ -2806,6 +2877,10 @@ public class PaletteSparkleBase : PaletteBase
                 return _contentPaddingGrid;
             case PaletteContentStyle.HeaderForm:
             {
+                if (owningForm == null)
+                {
+                    return new Padding();
+                }
                 Padding borders = owningForm!.RealWindowBorders;
                 return new Padding(borders.Left, borders.Bottom / 2, 0, 0);
             }
@@ -2922,6 +2997,10 @@ public class PaletteSparkleBase : PaletteBase
             case PaletteMetricInt.CheckButtonGap:
                 return 5;
             case PaletteMetricInt.HeaderButtonEdgeInsetForm:
+                if (owningForm == null)
+                {
+                    return 0;
+                }
                 return Math.Max(2, owningForm!.RealWindowBorders.Right);
             case PaletteMetricInt.HeaderButtonEdgeInsetInputControl:
                 return 1;
@@ -2994,6 +3073,10 @@ public class PaletteSparkleBase : PaletteBase
             case PaletteMetricPadding.BarPaddingOutside:
                 return _metricPaddingBarOutside;
             case PaletteMetricPadding.HeaderButtonPaddingForm:
+                if (owningForm == null)
+                {
+                    return new Padding();
+                }
                 return new Padding(0, owningForm!.RealWindowBorders.Right, 0, 0);
             case PaletteMetricPadding.RibbonButtonPadding:
                 return _metricPaddingRibbon;
@@ -3045,6 +3128,13 @@ public class PaletteSparkleBase : PaletteBase
     /// <param name="expanded">Is the node expanded</param>
     /// <returns>Appropriate image for drawing; otherwise null.</returns>
     public override Image? GetTreeViewImage(bool expanded) => expanded ? _treeCollapseBlack : _treeExpandWhite;
+
+    /// <summary>
+    /// Gets a sizing grip image appropriate for the provided orientation.
+    /// </summary>
+    /// <param name="isRtl">If true, request an RTL-oriented image; otherwise LTR.</param>
+    /// <returns>Appropriate image for drawing; otherwise null.</returns>
+    public override Image? GetSizeGripImage(RightToLeft isRtl) => null;
 
     /// <summary>
     /// Gets a check box image appropriate for the provided state.
@@ -4289,11 +4379,11 @@ public class PaletteSparkleBase : PaletteBase
         switch (element)
         {
             case PaletteElement.TrackBarTick:
-                return _trackBarColors[0];
+                return _ribbonColors![(int)SchemeBaseColors.TrackBarTickMarks];
             case PaletteElement.TrackBarTrack:
-                return _trackBarColors[1];
+                return _ribbonColors![(int)SchemeBaseColors.TrackBarTopTrack];
             case PaletteElement.TrackBarPosition:
-                return _trackBarColors[4];
+                return _ribbonColors![(int)SchemeBaseColors.TrackBarOutsidePosition];
             default:
                 // Should never happen!
                 Debug.Assert(false);
@@ -4320,9 +4410,9 @@ public class PaletteSparkleBase : PaletteBase
         switch (element)
         {
             case PaletteElement.TrackBarTick:
-                return _trackBarColors[0];
+                return _ribbonColors![(int)SchemeBaseColors.TrackBarTickMarks];
             case PaletteElement.TrackBarTrack:
-                return _trackBarColors[2];
+                return _ribbonColors![(int)SchemeBaseColors.TrackBarBottomTrack];
             case PaletteElement.TrackBarPosition:
                 return state switch
                 {
@@ -4356,9 +4446,9 @@ public class PaletteSparkleBase : PaletteBase
         switch (element)
         {
             case PaletteElement.TrackBarTick:
-                return _trackBarColors[0];
+                return _ribbonColors![(int)SchemeBaseColors.TrackBarTickMarks];
             case PaletteElement.TrackBarTrack:
-                return _trackBarColors[3];
+                return _ribbonColors![(int)SchemeBaseColors.TrackBarFillTrack];
             case PaletteElement.TrackBarPosition:
                 return state switch
                 {
@@ -4394,14 +4484,14 @@ public class PaletteSparkleBase : PaletteBase
                     return GlobalStaticValues.EMPTY_COLOR;
                 }
 
-                return _trackBarColors[0];
+                return _ribbonColors![(int)SchemeBaseColors.TrackBarTickMarks];
             case PaletteElement.TrackBarTrack:
                 if (CommonHelper.IsOverrideState(state))
                 {
                     return GlobalStaticValues.EMPTY_COLOR;
                 }
 
-                return _trackBarColors[3];
+                return _ribbonColors![(int)SchemeBaseColors.TrackBarFillTrack];
             case PaletteElement.TrackBarPosition:
                 if (CommonHelper.IsOverrideStateExclude(state, PaletteState.FocusOverride))
                 {
@@ -4437,10 +4527,10 @@ public class PaletteSparkleBase : PaletteBase
         switch (element)
         {
             case PaletteElement.TrackBarTick:
-                return CommonHelper.IsOverrideState(state) ? GlobalStaticValues.EMPTY_COLOR : _trackBarColors[0];
+                return CommonHelper.IsOverrideState(state) ? GlobalStaticValues.EMPTY_COLOR : BaseColors!.TrackBarTickMarks;
 
             case PaletteElement.TrackBarTrack:
-                return CommonHelper.IsOverrideState(state) ? GlobalStaticValues.EMPTY_COLOR : _trackBarColors[3];
+                return CommonHelper.IsOverrideState(state) ? GlobalStaticValues.EMPTY_COLOR : BaseColors!.TrackBarFillTrack;
 
             case PaletteElement.TrackBarPosition:
                 if (CommonHelper.IsOverrideStateExclude(state, PaletteState.FocusOverride))
@@ -4527,4 +4617,5 @@ public class PaletteSparkleBase : PaletteBase
     public override Color GetRibbonFileAppTabTextColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
 
     #endregion
+
 }

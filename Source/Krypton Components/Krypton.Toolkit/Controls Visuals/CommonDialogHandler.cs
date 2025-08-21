@@ -1,15 +1,15 @@
 ﻿#region BSD License
 /*
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2021 - 2025. All rights reserved. 
- *  
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2021 - 2025. All rights reserved.
+ *
  */
 #endregion
 
 #if NET8_0_OR_GREATER
 using MethodInvoker = System.Windows.Forms.MethodInvoker;
-#endif 
+#endif
 
 // ReSharper disable InconsistentNaming
 
@@ -18,6 +18,7 @@ namespace Krypton.Toolkit;
 internal class CommonDialogHandler
 {
     private readonly bool _embed;
+    internal bool ReturnHandledOnInitDialog { get; set; } = true;
 
     internal class Attributes
     {
@@ -163,6 +164,13 @@ internal class CommonDialogHandler
 
                         case @"button":
                         {
+                            // Only replace native button-like controls when embedding the dialog into a wrapper.
+                            // For non-embedded scenarios (e.g., system common dialogs shown modally),
+                            // avoid reparenting/hiding native controls to prevent blank dialogs and modality issues.
+                            if (!_embed)
+                            {
+                                break;
+                            }
                             if ((control.WinInfo.dwStyle & PI.WS_.VISIBLE) != PI.WS_.VISIBLE)
                             {
                                 break;
@@ -279,7 +287,10 @@ internal class CommonDialogHandler
                 if (_embed && !_embeddingDone)
                 {
                     PerformEmbedding(hWnd);
-                    return (true, new IntPtr(1));
+                    if (ReturnHandledOnInitDialog)
+                    {
+                        return (true, new IntPtr(1));
+                    }
                 }
             }
                 break;
@@ -292,43 +303,34 @@ internal class CommonDialogHandler
                 break;
 
             case PI.WM_.PAINT:
-                foreach (Attributes control in _controls)
+                if (_embed)
                 {
-                    if ((control.WinInfo.dwStyle & PI.WS_.VISIBLE) != PI.WS_.VISIBLE)
+                    foreach (Attributes control in _controls)
                     {
-                        continue;
-                    }
-
-                    if (control.ClassName != @"button")
-                    {
-                        continue;
-                    }
-
-                    if ((control.WinInfo.dwStyle & PI.BS_.GROUPBOX) == PI.BS_.GROUPBOX)
-                    {
-                        var ps = new PI.PAINTSTRUCT();
-
-                        // Do we need to BeginPaint or just take the given HDC?
-                        var hdc = PI.BeginPaint(control.hWnd, ref ps);
-                        if (hdc == IntPtr.Zero)
+                        if ((control.WinInfo.dwStyle & PI.WS_.VISIBLE) != PI.WS_.VISIBLE)
                         {
-                            break;
+                            continue;
                         }
 
-                        using (Graphics g = Graphics.FromHdc(hdc))
+                        if (control.ClassName != @"button")
                         {
-                            using var gh = new GraphicsHint(g, PaletteGraphicsHint.AntiAlias);
-                            var lineColor = KryptonManager.CurrentGlobalPalette.GetBorderColor1(PaletteBorderStyle.ControlGroupBox, PaletteState.Normal);
-                            DrawRoundedRectangle(g, new Pen(lineColor), new Point(0, 10),
-                                control.Size - new Size(1, 11), 5);
-                            var font = KryptonManager.CurrentGlobalPalette.GetContentShortTextFont(PaletteContentStyle.LabelNormalPanel, PaletteState.Normal);
-                            TextRenderer.DrawText(g, control.Text, font, new Point(4, 0), _defaultFontColour,
-                                _backColour,
-                                TextFormatFlags.HidePrefix | TextFormatFlags.NoClipping);
+                            continue;
                         }
 
-                        PI.EndPaint(control.hWnd, ref ps);
-                        PI.ReleaseDC(control.hWnd, hdc);
+                        if ((control.WinInfo.dwStyle & PI.BS_.GROUPBOX) == PI.BS_.GROUPBOX)
+                        {
+                            // Skip custom group box painting if not embedding native controls into a wrapper window.
+                            // This avoids stealing the paint cycle the dialog relies on for population.
+                            var ps = new PI.PAINTSTRUCT();
+
+                            var hdc = PI.BeginPaint(control.hWnd, ref ps);
+                            if (hdc == IntPtr.Zero)
+                            {
+                                break;
+                            }
+                            PI.EndPaint(control.hWnd, ref ps);
+                            PI.ReleaseDC(control.hWnd, hdc);
+                        }
                     }
                 }
                 break;
@@ -422,7 +424,8 @@ internal class CommonDialogHandler
             Text = text.ToString(),
             Location = new Point(winInfo.rcWindow.left, winInfo.rcWindow.top),
             Padding = new Padding(0),
-            TopMost = true
+            TopMost = true,
+            SizeGripStyle = SizeGripStyle.Hide
         };
 
         if (ShowIcon)
@@ -470,7 +473,7 @@ internal class CommonDialogHandler
                 AutoReset = false,
                 Enabled = true
             };
-            // Hook up the Elapsed event for the timer. 
+            // Hook up the Elapsed event for the timer.
             _resizeTimer.Elapsed += OnResizeTimedEvent;
         }
     }

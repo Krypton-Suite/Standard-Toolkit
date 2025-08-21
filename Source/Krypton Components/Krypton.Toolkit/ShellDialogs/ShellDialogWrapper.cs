@@ -87,12 +87,7 @@ public abstract class ShellDialogWrapper
 
         if (e.message == PI.WM_.INITDIALOG)
         {
-#if NET462
-                using var g  = _commonDialogHandler._wrapperForm!.CreateGraphics();
-                _scaleFactor = g.DpiX / 96.0f;
-#else
             _scaleFactor = _commonDialogHandler._wrapperForm!.DeviceDpi / 96.0f;
-#endif
             _commonDialogHandler._wrapperForm.Resize += FormResize;
             _commonDialogHandler._wrapperForm.MinimumSize = new SizeF(440 * _scaleFactor, 345 * _scaleFactor).ToSize();
         }
@@ -200,7 +195,7 @@ public abstract class ShellDialogWrapper
     [Description("Gets or sets the file dialog box Icon")]
     public Icon? Icon { get; set; }
 
-#if NET6_0_OR_GREATER
+#if NET8_0_OR_GREATER
         /// <summary>
         /// <para>
         /// Gets or sets the GUID to associate with this dialog state. Typically, state such

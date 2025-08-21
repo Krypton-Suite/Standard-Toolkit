@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFrameworks>net462;net47;net471;net472;net48;net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
+    <TargetFrameworks>net472;net48;net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
     <Nullable>enable</Nullable>
     <!--https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-messages/warning-waves-->
     <WarningLevel>8</WarningLevel>
@@ -56,6 +56,10 @@
       <Version>4.0.0.0</Version>
       <!-- Designers for the `TFMs != net4` are "Pulled in" via Visual studios ".nuget\packages\microsoft.windowsdesktop.app.ref" -->
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Cyotek.Windows.Forms.ColorPicker" Version="2.0.0-beta.7" />
   </ItemGroup>
 
 </Project>

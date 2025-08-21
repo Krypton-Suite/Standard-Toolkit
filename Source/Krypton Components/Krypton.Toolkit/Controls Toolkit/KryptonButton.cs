@@ -26,15 +26,6 @@ namespace Krypton.Toolkit;
 [Designer(typeof(KryptonButtonDesigner))]
 public class KryptonButton : KryptonDropButton
 {
-    #region Instance Fields
-    //private bool _skipNextOpen;
-    //private bool _showSplitOption;
-    //private bool _useOSUACShieldIcon;
-    private Size _customUACShieldSize;
-    private UACShieldIconSize _uacShieldIconSize;
-    #endregion
-
-
     #region Identity
     /// <summary>
     /// Initialize a new instance of the KryptonButton class.
@@ -47,14 +38,6 @@ public class KryptonButton : KryptonDropButton
 
         // Create a button controller to handle button style behaviour
         _buttonController.BecomesFixed = false;
-
-        _uacShieldIconSize = GlobalStaticValues.DEFAULT_UAC_SHIELD_ICON_SIZE;
-
-        //_useOSUACShieldIcon = false;
-
-        _customUACShieldSize = GlobalStaticValues.DEFAULT_UAC_SHIELD_ICON_CUSTOM_SIZE;
-
-        //_skipNextOpen = false;
     }
     #endregion
 
@@ -102,81 +85,5 @@ public class KryptonButton : KryptonDropButton
         get => base.Splitter;
         set => base.Splitter = value;
     }
-    //[Category(@"Visuals"), Description(@"UAC Shield Values"), DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-    //public UACShieldValues UACShieldValues { get; }
-
-    //private bool ShouldSerializeUACShieldValues() => !UACShieldValues.IsDefault;
     #endregion
-
-    #region Protected Overrides
-
-    /// <summary>
-    /// Raises the Click event.
-    /// </summary>
-    /// <param name="e">An EventArgs that contains the event data.</param>
-    protected override void OnClick(EventArgs e)
-    {
-        base.OnClick(e);
-
-        if (Values.UseAsUACElevationButton)
-        {
-            var rawUACShield = SystemIcons.Shield.ToBitmap();
-
-            // Resize rawUACShield down to 16 x 16 to make it fit
-            // TODO: Use the same size rect as the dropDown, as that is scaled to fit !
-            var resizedUACShield = new Bitmap(rawUACShield, new Size(16, 16));
-
-            if (Values.Image == null)
-            {
-                Values.Image = resizedUACShield;
-            }
-            else if (Values.Image != null)
-            {
-                // TODO: If Values.Image is set, and then image becomes null, to then display the UAC icon
-            }
-        }
-    }
-
-    /// <inheritdoc />
-    protected override void OnPaint(PaintEventArgs? e)
-    {
-        if (Values.UseAsADialogButton)
-        {
-            Text = DialogResult switch
-            {
-                DialogResult.Abort => KryptonManager.Strings.GeneralStrings.Abort,
-                DialogResult.Cancel => KryptonManager.Strings.GeneralStrings.Cancel,
-                DialogResult.OK => KryptonManager.Strings.GeneralStrings.OK,
-                DialogResult.Yes => KryptonManager.Strings.GeneralStrings.Yes,
-                DialogResult.No => KryptonManager.Strings.GeneralStrings.No,
-                DialogResult.Retry => KryptonManager.Strings.GeneralStrings.Retry,
-                DialogResult.Ignore => KryptonManager.Strings.GeneralStrings.Ignore,
-                _ => Text
-            };
-        }
-
-        if (Values.UseAsUACElevationButton)
-        {
-            switch (Values.UACShieldIconSize)
-            {
-                case UACShieldIconSize.ExtraSmall:
-                    break;
-                case UACShieldIconSize.Small:
-                    break;
-                case UACShieldIconSize.Medium:
-                    break;
-                case UACShieldIconSize.Large:
-                    break;
-                case UACShieldIconSize.ExtraLarge:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
-
-        base.OnPaint(e);
-    }
-
-    #endregion
-
 }

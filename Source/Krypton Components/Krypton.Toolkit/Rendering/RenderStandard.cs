@@ -2,9 +2,9 @@
 /*
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
  */
 #endregion
 
@@ -496,7 +496,7 @@ public class RenderStandard : RenderBase
         {
             var borderWidth = palette.GetBorderWidth(state);
 
-            // Divide the rounding effect by PI to get the actual pixel distance needed 
+            // Divide the rounding effect by PI to get the actual pixel distance needed
             // for offsetting. But add 2, so it starts indenting on a rounding of just 1.
             int roundPadding = Convert.ToInt16((palette.GetBorderRounding(state) + borderWidth + 2) / Math.PI);
 
@@ -510,7 +510,7 @@ public class RenderStandard : RenderBase
                 roundPadding += halfExtra;
             }
 
-            // Enforce the width of the border as the minimum to ensure 
+            // Enforce the width of the border as the minimum to ensure
             // it still works as expected for small values of rounding
             if (roundPadding < borderWidth)
             {
@@ -635,6 +635,12 @@ public class RenderStandard : RenderBase
         Debug.Assert(context.Control != null);
         Debug.Assert(!context.Control!.IsDisposed);
 
+        // Guard against invalid rectangles causing downstream GDI issues
+        if (rect.Width <= 0 || rect.Height <= 0)
+        {
+            return new GraphicsPath();
+        }
+
         // Use helper to create a border path in middle of the pen
         return CreateBorderBackPath(false,
             true,
@@ -677,6 +683,12 @@ public class RenderStandard : RenderBase
 
         Debug.Assert(context.Control != null);
         Debug.Assert(!context.Control!.IsDisposed);
+
+        // Guard against invalid rectangles causing downstream GDI issues
+        if (rect.Width <= 0 || rect.Height <= 0)
+        {
+            return new GraphicsPath();
+        }
 
         // Use helper to create a border path in middle of the pen
         var isForm = context.Control as KryptonForm;
@@ -1060,7 +1072,7 @@ public class RenderStandard : RenderBase
         Debug.Assert(context.Control != null);
         Debug.Assert(!context.Control!.IsDisposed);
 
-        // Provide a maximum sized rectangle for placing content into, in 
+        // Provide a maximum sized rectangle for placing content into, in
         // order to work out how much of the space is actually allocated
         var displayRect = new Rectangle(Point.Empty, new Size(int.MaxValue, int.MaxValue));
 
@@ -1252,7 +1264,7 @@ public class RenderStandard : RenderBase
         var col1 = col0 + colWidths[0];
 
         // Do we need to add a spacing gap after the first column?
-        if (((colWidths[0] > 0) && (colWidths[1] > 0)) 
+        if (((colWidths[0] > 0) && (colWidths[1] > 0))
             || ((colWidths[0] > 0) && (colWidths[1] == 0) && (colWidths[2] > 0))
            )
         {
@@ -1348,8 +1360,15 @@ public class RenderStandard : RenderBase
         if (standard.DrawShortText)
         {
             using var hint = new GraphicsTextHint(context.Graphics, standard.ShortTextHint);
+            // Constrain drawing to the provided display rectangle
+            Rectangle shortTextRectToDraw = Rectangle.Intersect(standard.ShortTextRect, displayRect);
+            if (shortTextRectToDraw.IsEmpty)
+            {
+                shortTextRectToDraw = standard.ShortTextRect;
+            }
+
             // Get the rectangle to use when dealing with gradients
-            Rectangle gradientRect = context.GetAlignedRectangle(palette.GetContentShortTextColorAlign(state), standard.ShortTextRect);
+            Rectangle gradientRect = context.GetAlignedRectangle(palette.GetContentShortTextColorAlign(state), shortTextRectToDraw);
 
             // Use standard helper routine to create appropriate color brush
             Color color1 = palette.GetContentShortTextColor1(state);
@@ -1363,7 +1382,7 @@ public class RenderStandard : RenderBase
             {
                 if (!AccurateText.DrawString(context.Graphics,
                         colorBrush,
-                        standard.ShortTextRect,
+                        shortTextRectToDraw,
                         context.Control.RightToLeft,
                         standard.Orientation,
                         state,
@@ -1375,7 +1394,7 @@ public class RenderStandard : RenderBase
                     // Try again using the new font
                     AccurateText.DrawString(context.Graphics,
                         colorBrush,
-                        standard.ShortTextRect,
+                        shortTextRectToDraw,
                         context.Control.RightToLeft,
                         standard.Orientation,
                         state,
@@ -1390,13 +1409,13 @@ public class RenderStandard : RenderBase
             if (ShouldDrawImage(shortImage))
             {
                 // Get the rectangle to use when dealing with gradients
-                Rectangle imageRect = context.GetAlignedRectangle(palette.GetContentShortTextImageAlign(state), standard.ShortTextRect);
+                Rectangle imageRect = context.GetAlignedRectangle(palette.GetContentShortTextImageAlign(state), shortTextRectToDraw);
 
                 // Use standard helper routine to create appropriate image brush
                 using Brush imageBrush = CreateImageBrush(imageRect, shortImage, shortImageStyle);
                 if (!AccurateText.DrawString(context.Graphics,
                         imageBrush,
-                        standard.ShortTextRect,
+                        shortTextRectToDraw,
                         context.Control.RightToLeft,
                         standard.Orientation,
                         state,
@@ -1407,7 +1426,7 @@ public class RenderStandard : RenderBase
 
                     AccurateText.DrawString(context.Graphics,
                         imageBrush,
-                        standard.ShortTextRect,
+                        shortTextRectToDraw,
                         context.Control.RightToLeft,
                         standard.Orientation,
                         state,
@@ -1419,8 +1438,15 @@ public class RenderStandard : RenderBase
         if (standard.DrawLongText)
         {
             using var hint = new GraphicsTextHint(context.Graphics, standard.LongTextHint);
+            // Constrain drawing to the provided display rectangle
+            Rectangle longTextRectToDraw = Rectangle.Intersect(standard.LongTextRect, displayRect);
+            if (longTextRectToDraw.IsEmpty)
+            {
+                longTextRectToDraw = standard.LongTextRect;
+            }
+
             // Get the rectangle to use when dealing with gradients
-            Rectangle gradientRect = context.GetAlignedRectangle(palette.GetContentLongTextColorAlign(state), standard.LongTextRect);
+            Rectangle gradientRect = context.GetAlignedRectangle(palette.GetContentLongTextColorAlign(state), longTextRectToDraw);
 
             // Use standard helper routine to create appropriate color brush
             Color color1 = palette.GetContentLongTextColor1(state);
@@ -1434,7 +1460,7 @@ public class RenderStandard : RenderBase
             {
                 if (!AccurateText.DrawString(context.Graphics,
                         colorBrush,
-                        standard.LongTextRect,
+                        longTextRectToDraw,
                         context.Control.RightToLeft,
                         standard.Orientation,
                         state,
@@ -1445,7 +1471,7 @@ public class RenderStandard : RenderBase
 
                     AccurateText.DrawString(context.Graphics,
                         colorBrush,
-                        standard.LongTextRect,
+                        longTextRectToDraw,
                         context.Control.RightToLeft,
                         standard.Orientation,
                         state,
@@ -1460,13 +1486,13 @@ public class RenderStandard : RenderBase
             if (ShouldDrawImage(longImage))
             {
                 // Get the rectangle to use when dealing with gradients
-                Rectangle imageRect = context.GetAlignedRectangle(palette.GetContentLongTextImageAlign(state), standard.LongTextRect);
+                Rectangle imageRect = context.GetAlignedRectangle(palette.GetContentLongTextImageAlign(state), longTextRectToDraw);
 
                 // Use standard helper routine to create appropriate image brush
                 using Brush imageBrush = CreateImageBrush(imageRect, longImage, longImageStyle);
                 if (!AccurateText.DrawString(context.Graphics,
                         imageBrush,
-                        standard.LongTextRect,
+                        longTextRectToDraw,
                         context.Control.RightToLeft,
                         standard.Orientation,
                         state,
@@ -1477,7 +1503,7 @@ public class RenderStandard : RenderBase
 
                     AccurateText.DrawString(context.Graphics,
                         imageBrush,
-                        standard.LongTextRect,
+                        longTextRectToDraw,
                         context.Control.RightToLeft,
                         standard.Orientation,
                         state,
@@ -2565,7 +2591,7 @@ public class RenderStandard : RenderBase
         switch (orientation)
         {
             case VisualOrientation.Bottom:
-                // Translate to opposite side of origin, so the rotate can 
+                // Translate to opposite side of origin, so the rotate can
                 // then bring it back to original position but mirror image
                 translateX = (displayRect.X * 2) + displayRect.Width;
                 translateY = (displayRect.Y * 2) + displayRect.Height;
@@ -2575,7 +2601,7 @@ public class RenderStandard : RenderBase
             case VisualOrientation.Left:
                 // Invert the dimensions of the rectangle for drawing upwards
                 displayRect = displayRect with { Width = displayRect.Height, Height = displayRect.Width };
-                // Translate back from a quarter left turn to the original place 
+                // Translate back from a quarter left turn to the original place
                 translateX = displayRect.X - displayRect.Y;
                 translateY = displayRect.X + displayRect.Y + displayRect.Width;
                 rotation = -90f;
@@ -2584,7 +2610,7 @@ public class RenderStandard : RenderBase
             case VisualOrientation.Right:
                 // Invert the dimensions of the rectangle for drawing upwards
                 displayRect = displayRect with { Width = displayRect.Height, Height = displayRect.Width };
-                // Translate back from a quarter right turn to the original place 
+                // Translate back from a quarter right turn to the original place
                 translateX = displayRect.X + displayRect.Y + displayRect.Height;
                 translateY = -(displayRect.X - displayRect.Y);
                 rotation = 90f;
@@ -3901,7 +3927,7 @@ public class RenderStandard : RenderBase
         {   // Deal with issues arrising within https://github.com/Krypton-Suite/Standard-Toolkit/issues/1871
             borderRounding = 0.1f;
         }
-            
+
         if (rect is { Width: > 0, Height: > 0 })
         {
             // Only use a rounding that will fit inside the rect
@@ -3910,7 +3936,7 @@ public class RenderStandard : RenderBase
 
             if (middle)
             {
-                // Shrink the rect by half the width of the pen, because the pen will 
+                // Shrink the rect by half the width of the pen, because the pen will
                 // draw half the distance overlapping each side of the centre anyway.
                 // Unless not drawing into the middle in which case give the outside.
                 int halfBorderWidthTL = (int)((borderWidth + .5f) / 2f);
@@ -4440,7 +4466,7 @@ public class RenderStandard : RenderBase
         // A zero size rectangle cannot be drawn, so return a null path
         if (rect is { Width: > 0, Height: > 0 })
         {
-            // Shrink the rect by half the width of the pen, because the pen will 
+            // Shrink the rect by half the width of the pen, because the pen will
             // draw half the distance overlapping each side of the centre anyway.
             var halfBorderWidth = borderWidth / 2;
 
@@ -5720,7 +5746,8 @@ public class RenderStandard : RenderBase
             if ((font!.Height > fontSpace) && (fontSpace > 5))
             {
                 // Find the point size from the pixel height required
-                var point = 72 / context.Graphics.DpiY * (fontSpace / 1.333f);
+                var dpiY = Math.Max(context.Graphics.DpiY, 1f);
+                var point = 72 / dpiY * (fontSpace / 1.333f);
 
                 // No point having a font smaller than 3 points
                 if (point > 3)
@@ -6127,7 +6154,7 @@ public class RenderStandard : RenderBase
             // Should we try and trim the text into the space?
             if (trim != PaletteTextTrim.Hide)
             {
-                // If there is some room available after taking 
+                // If there is some room available after taking
                 // into account the need for a spacing gap
                 if ((allocateWidth == requiredSize.Width) ||
                     ((allocateWidth > requiredSize.Width) && applyGap))
@@ -11166,7 +11193,7 @@ public class RenderStandard : RenderBase
     {
         if (rect is { Width: > 0, Height: > 0 })
         {
-            // Grab the colors needed for drawing                
+            // Grab the colors needed for drawing
             Color c1 = palette.GetRibbonBackColor1(state);
             Color c2 = palette.GetRibbonBackColor2(state);
             Color c3 = palette.GetRibbonBackColor3(state);

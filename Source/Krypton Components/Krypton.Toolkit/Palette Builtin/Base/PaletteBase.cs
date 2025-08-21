@@ -18,6 +18,12 @@ public abstract class PaletteBase : Component
 {
     #region Instance Fields
 
+    /// <summary>
+    /// Direct indexed access to the palette's backing color array.
+    /// </summary>
+    protected abstract Color[] SchemeColors { get; }
+    internal Color[] GetSchemeColors() => SchemeColors;
+
     private Padding? _inputControlPadding;
     private PaletteDragFeedback _dragFeedback;
     private Image[] _toolBarImages;
@@ -48,7 +54,7 @@ public abstract class PaletteBase : Component
 
     #endregion
 
-    #endregion
+    #endregion Instance Fields
 
     #region Events
     /// <summary>
@@ -75,6 +81,11 @@ public abstract class PaletteBase : Component
     /// Occurs when a button spec change occurs.
     /// </summary>
     public event EventHandler? ButtonSpecChanged;
+
+    /// <summary>
+    /// Occurs when a single scheme color is changed.
+    /// </summary>
+    public event EventHandler<SchemeColorChangedEventArgs>? SchemeColorChanged;
     #endregion
 
     #region Identity
@@ -120,6 +131,32 @@ public abstract class PaletteBase : Component
     private bool ShouldSerializeUseThemeFormChromeBorderWidth() => UseThemeFormChromeBorderWidth != InheritBool.True;
     #endregion
 
+    #region RippleEffect
+    private bool _rippleEffect;
+
+    /// <summary>
+    /// Gets or sets whether the Material renderer ripple overlay is enabled.
+    /// </summary>
+    [KryptonPersist(false)]
+    [Category(@"Visuals")]
+    [Description(@"Enable touch/click ripple overlay for Material renderer.")]
+    [DefaultValue(false)]
+    public virtual bool RippleEffect
+    {
+        get => _rippleEffect;
+
+        set
+        {
+            if (_rippleEffect != value)
+            {
+                _rippleEffect = value;
+                OnPalettePaint(this, new PaletteLayoutEventArgs(true, false));
+            }
+        }
+    }
+    private void ResetRippleEffect() => RippleEffect = false;
+    private bool ShouldSerializeRippleEffect() => RippleEffect != false;
+    #endregion
     #region Renderer
     /// <summary>
     /// Gets the renderer to use for this palette.
@@ -712,6 +749,13 @@ public abstract class PaletteBase : Component
     public abstract Image? GetTreeViewImage(bool expanded);
 
     /// <summary>
+    /// Gets a sizing grip image appropriate for the provided orientation.
+    /// </summary>
+    /// <param name="isRtl">If Yes, request an RTL-oriented image; otherwise LTR.</param>
+    /// <returns>Appropriate image for drawing; otherwise null.</returns>
+    public abstract Image? GetSizeGripImage(RightToLeft isRtl);
+
+    /// <summary>
     /// Gets a check box image appropriate for the provided state.
     /// </summary>
     /// <param name="enabled">Is the check box enabled.</param>
@@ -1144,6 +1188,7 @@ public abstract class PaletteBase : Component
             case PaletteButtonSpecStyle.ArrowLeft:
             case PaletteButtonSpecStyle.ArrowRight:
             case PaletteButtonSpecStyle.ArrowUp:
+            case PaletteButtonSpecStyle.ArrowDown:
             case PaletteButtonSpecStyle.DropDown:
             case PaletteButtonSpecStyle.PinVertical:
             case PaletteButtonSpecStyle.PinHorizontal:
@@ -1939,7 +1984,6 @@ public abstract class PaletteBase : Component
         // Convert to HSL space
         ColorHSL hsl = new ColorHSL(baseColor)
         {
-
             // Remove saturation and fix luminance
             Saturation = 0.0f,
             Luminance = 0.55f
@@ -2098,4 +2142,202 @@ public abstract class PaletteBase : Component
         base.Dispose(disposing);
     }
     #endregion
+
+    #region Palette Helpers
+
+    // GLOBAL lookup table that holds every colour previously kept in the old static Color[] arrays
+    // Key = (enum type that defines the slot, zero-based index)
+    private static readonly Dictionary<(Type Enum, int Index), Color> _colorLut = new Dictionary<(Type Enum, int Index), Color>();
+
+    /// <summary>
+    /// Called once from a family base static constructor to seed default colours for a particular enum slot.
+    /// </summary>
+    protected static void RegisterColor<TEnum>(TEnum slot, Color value) where TEnum : struct, Enum
+    {
+        _colorLut[(typeof(TEnum), Convert.ToInt32(slot))] = value;
+    }
+
+    /// <summary>
+    /// Retrieves a colour previously registered for <typeparamref name="TEnum"/>.
+    /// </summary>
+    public Color GetArrayColor<TEnum>(TEnum slot) where TEnum : struct, Enum
+    {
+        return _colorLut[(typeof(TEnum), Convert.ToInt32(slot))];
+    }
+
+    /// <summary>
+    /// Replaces a registered colour at run-time and triggers a repaint.
+    /// </summary>
+    public void SetArrayColor<TEnum>(TEnum slot, Color newColor) where TEnum : struct, Enum
+    {
+        _colorLut[(typeof(TEnum), Convert.ToInt32(slot))] = newColor;
+        // Inform listeners that colours have changed so UI repaints.
+        OnPalettePaint(this, new PaletteLayoutEventArgs(true, true));
+    }
+
+    private readonly object _colorLock = new();
+
+    /// <summary>
+    /// Resets <see cref="ColorTable"/> to be updated on next paint.
+    /// </summary>
+    protected virtual void InvalidateColorTable()
+    {
+        // Default implementation uses reflection as fallback
+        var tableField = GetType().GetField("_table", BindingFlags.Instance | BindingFlags.NonPublic)
+                         ?? GetType().GetField("Table", BindingFlags.Instance | BindingFlags.NonPublic);
+
+        if (tableField != null)
+        {
+            tableField.SetValue(this, null);
+            return;
+        }
+
+        // Try property approach
+        var tableProp = GetType().GetProperty("ColorTable", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+        if (tableProp != null && tableProp.CanWrite)
+        {
+            tableProp.SetValue(this, null);
+        }
+    }
+
+    /// <summary>
+    /// Updates scheme colors and invalidates the color table.
+    /// </summary>
+    protected void UpdateColorTable()
+    {
+        InvalidateColorTable();
+    }
+
+    /// <summary>
+    /// Discovers and returns every static <see cref="Color"/> field defined on this palette instance,
+    /// regardless of its declared visibility.
+    /// The method inspects the actual runtime type of the palette (including all base types)
+    /// and uses reflection with <see cref="BindingFlags.Static"/>,
+    /// <see cref="BindingFlags.NonPublic"/>, <see cref="BindingFlags.Public"/>,
+    /// and <see cref="BindingFlags.FlattenHierarchy"/> to locate all fields whose element type is <see cref="Color"/>.
+    /// </summary>
+    /// <returns>
+    /// An <see cref="IReadOnlyDictionary{String,Color}"/> where each key is the exact name of a static <see cref="Color"/>
+    /// field (including private, internal, protected and public), and each value is the corresponding <see cref="Color"/> instance
+    /// as initialized by the type’s static constructor.
+    /// This allows harvesting every palette color array in a fully automated, deterministic manner.
+    /// </returns>
+    public IReadOnlyDictionary<string, Color[]> GetStaticColorArrays()
+    {
+        // Look at this palette’s exact runtime type
+        var type   = GetType();
+        var result = new Dictionary<string, Color[]>();
+
+        // Grab every static field (public or non-public) on this type or its base types
+        var fields = type.GetFields(BindingFlags.Static
+                                | BindingFlags.NonPublic
+                                | BindingFlags.Public
+                                | BindingFlags.FlattenHierarchy);
+
+        // Filter down to only Color[] fields
+        foreach (var f in fields)
+        {
+            if (f.FieldType == typeof(Color[]))
+            {
+                // Read the array (private or not) and store it
+                var array = (Color[])f.GetValue(null)!;
+                result[f.Name] = array;
+            }
+        }
+
+        return result;
+    }
+
+    /// <summary>
+    /// Copies <paramref name="source"/> into <see cref="SchemeColors"/> and invalidates the color table.
+    /// <param name="source">Color array with all values.</param>
+    /// </summary>
+    public virtual void CopySchemeColors(Color[] source)
+    {
+        if (source == null)
+        {
+            throw new ArgumentNullException(nameof(source));
+        }
+
+        lock (_colorLock)
+        {
+            Array.Copy(source, SchemeColors, Math.Min(source.Length, SchemeColors.Length));
+            InvalidateColorTable();
+        }
+
+        OnPalettePaint(this, new PaletteLayoutEventArgs(true, true));
+    }
+
+    // Thread-safe single-color setter
+    public virtual void SetSchemeColor(SchemeBaseColors colorIndex, Color newColor)
+    {
+        lock (_colorLock)
+        {
+            if (SchemeColors[(int)colorIndex] == newColor)
+                return; // no change
+            SchemeColors[(int)colorIndex] = newColor;
+            InvalidateColorTable();
+        }
+        OnSchemeColorChanged(colorIndex, newColor);
+        SchemeColorChanged?.Invoke(this, new SchemeColorChangedEventArgs(colorIndex, newColor));
+        OnPalettePaint(this, new PaletteLayoutEventArgs(true, true));
+    }
+
+    // Thread-safe single-color getter
+    public virtual Color GetSchemeColor(SchemeBaseColors colorIndex)
+    {
+        lock (_colorLock)
+        {
+            return SchemeColors[(int)colorIndex];
+        }
+    }
+
+    // Thread-safe batch update
+    public virtual void UpdateSchemeColors(Dictionary<SchemeBaseColors, Color> colorUpdates)
+    {
+        if (colorUpdates is null) throw new ArgumentNullException(nameof(colorUpdates));
+        foreach (var kv in colorUpdates)
+            SetSchemeColor(kv.Key, kv.Value); // reuses events + paint
+    }
+
+    // Thread-safe full-scheme replacement
+    public void ApplyScheme(KryptonColorSchemeBase newScheme)
+    {
+        if (newScheme is null)
+        {
+            throw new ArgumentNullException(nameof(newScheme));
+        }
+
+        lock (_colorLock)
+        {
+            Array.Copy(newScheme.ToArray(), SchemeColors, SchemeColors.Length);
+            InvalidateColorTable();
+        }
+        // notify each index has changed
+        foreach (SchemeBaseColors idx in Enum.GetValues(typeof(SchemeBaseColors)))
+        {
+            SchemeColorChanged?.Invoke(this, new SchemeColorChangedEventArgs(idx, SchemeColors[(int)idx]));
+        }
+        OnPalettePaint(this, new PaletteLayoutEventArgs(true, true));
+    }
+
+    #endregion Palette Helpers
+
+    /// <summary>Hook for derived families to rebuild caches when a color changes.</summary>
+    protected virtual void OnSchemeColorChanged(SchemeBaseColors index, Color newColor) { }
+}
+
+/// <summary>
+/// Data for when one scheme color changes.
+/// </summary>
+public sealed class SchemeColorChangedEventArgs : EventArgs
+{
+    public SchemeBaseColors Index { get; }
+    public Color NewColor { get; }
+
+    public SchemeColorChangedEventArgs(SchemeBaseColors index, Color newColor)
+    {
+        Index = index;
+        NewColor = newColor;
+    }
 }

@@ -1,15 +1,15 @@
 ﻿#region BSD License
 /*
- *   BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2025. All rights reserved. 
- *  
+ *  BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2023 - 2025. All rights reserved. *
+ *
  */
 #endregion
 
 namespace Krypton.Toolkit;
 
 /// <summary>
-/// 
+///
 /// </summary>
 /// <seealso cref="KryptonProfessionalRenderer" />
 public class KryptonVisualStudio2010WithMicrosoft365Renderer : KryptonProfessionalRenderer
@@ -357,7 +357,7 @@ public class KryptonVisualStudio2010WithMicrosoft365Renderer : KryptonProfession
 
     #region OnRenderArrow
     /// <summary>
-    /// Raises the RenderArrow event. 
+    /// Raises the RenderArrow event.
     /// </summary>
     /// <param name="e">An ToolStripArrowRenderEventArgs containing the event data.</param>
     protected override void OnRenderArrow(ToolStripArrowRenderEventArgs e)
@@ -413,7 +413,7 @@ public class KryptonVisualStudio2010WithMicrosoft365Renderer : KryptonProfession
 
     #region OnRenderButtonBackground
     /// <summary>
-    /// Raises the RenderButtonBackground event. 
+    /// Raises the RenderButtonBackground event.
     /// </summary>
     /// <param name="e">An ToolStripItemRenderEventArgs containing the event data.</param>
     protected override void OnRenderButtonBackground(ToolStripItemRenderEventArgs e)
@@ -432,7 +432,7 @@ public class KryptonVisualStudio2010WithMicrosoft365Renderer : KryptonProfession
 
     #region OnRenderDropDownButtonBackground
     /// <summary>
-    /// Raises the RenderDropDownButtonBackground event. 
+    /// Raises the RenderDropDownButtonBackground event.
     /// </summary>
     /// <param name="e">An ToolStripItemRenderEventArgs containing the event data.</param>
     protected override void OnRenderDropDownButtonBackground(ToolStripItemRenderEventArgs e)
@@ -448,7 +448,7 @@ public class KryptonVisualStudio2010WithMicrosoft365Renderer : KryptonProfession
 
     #region OnRenderItemCheck
     /// <summary>
-    /// Raises the RenderItemCheck event. 
+    /// Raises the RenderItemCheck event.
     /// </summary>
     /// <param name="e">An ToolStripItemImageRenderEventArgs containing the event data.</param>
     protected override void OnRenderItemCheck(ToolStripItemImageRenderEventArgs e)
@@ -534,7 +534,7 @@ public class KryptonVisualStudio2010WithMicrosoft365Renderer : KryptonProfession
 
     #region OnRenderItemText
     /// <summary>
-    /// Raises the RenderItemText event. 
+    /// Raises the RenderItemText event.
     /// </summary>
     /// <param name="e">A ToolStripItemTextRenderEventArgs that contains the event data.</param>
     protected override void OnRenderItemText(ToolStripItemTextRenderEventArgs e)
@@ -609,7 +609,7 @@ public class KryptonVisualStudio2010WithMicrosoft365Renderer : KryptonProfession
 
     #region OnRenderItemImage
     /// <summary>
-    /// Raises the RenderItemImage event. 
+    /// Raises the RenderItemImage event.
     /// </summary>
     /// <param name="e">An ToolStripItemImageRenderEventArgs containing the event data.</param>
     protected override void OnRenderItemImage(ToolStripItemImageRenderEventArgs e)
@@ -644,11 +644,17 @@ public class KryptonVisualStudio2010WithMicrosoft365Renderer : KryptonProfession
 
     #region OnRenderMenuItemBackground
     /// <summary>
-    /// Raises the RenderMenuItemBackground event. 
+    /// Raises the RenderMenuItemBackground event.
     /// </summary>
     /// <param name="e">An ToolStripItemRenderEventArgs containing the event data.</param>
     protected override void OnRenderMenuItemBackground(ToolStripItemRenderEventArgs e)
     {
+        // Parity: per-item overrides via helper
+        if (TryRenderMenuItemOverride(e))
+        {
+            return;
+        }
+
         if ((e.ToolStrip is MenuStrip or ContextMenuStrip or ToolStripDropDownMenu))
         {
             if (e.Item.Pressed && (e.ToolStrip is MenuStrip))
@@ -707,7 +713,7 @@ public class KryptonVisualStudio2010WithMicrosoft365Renderer : KryptonProfession
 
     #region OnRenderSeparator
     /// <summary>
-    /// Raises the RenderSeparator event. 
+    /// Raises the RenderSeparator event.
     /// </summary>
     /// <param name="e">An ToolStripSeparatorRenderEventArgs containing the event data.</param>
     protected override void OnRenderSeparator(ToolStripSeparatorRenderEventArgs e)
@@ -727,7 +733,7 @@ public class KryptonVisualStudio2010WithMicrosoft365Renderer : KryptonProfession
 
     #region OnRenderSplitButtonBackground
     /// <summary>
-    /// Raises the RenderSplitButtonBackground event. 
+    /// Raises the RenderSplitButtonBackground event.
     /// </summary>
     /// <param name="e">An ToolStripItemRenderEventArgs containing the event data.</param>
     protected override void OnRenderSplitButtonBackground(ToolStripItemRenderEventArgs e)
@@ -761,7 +767,7 @@ public class KryptonVisualStudio2010WithMicrosoft365Renderer : KryptonProfession
 
     #region OnRenderStatusStripSizingGrip
     /// <summary>
-    /// Raises the RenderStatusStripSizingGrip event. 
+    /// Raises the RenderStatusStripSizingGrip event.
     /// </summary>
     /// <param name="e">An ToolStripRenderEventArgs containing the event data.</param>
     protected override void OnRenderStatusStripSizingGrip(ToolStripRenderEventArgs e)
@@ -799,7 +805,7 @@ public class KryptonVisualStudio2010WithMicrosoft365Renderer : KryptonProfession
 
     #region OnRenderToolStripContentPanelBackground
     /// <summary>
-    /// Raises the RenderToolStripContentPanelBackground event. 
+    /// Raises the RenderToolStripContentPanelBackground event.
     /// </summary>
     /// <param name="e">An ToolStripContentPanelRenderEventArgs containing the event data.</param>
     protected override void OnRenderToolStripContentPanelBackground(ToolStripContentPanelRenderEventArgs e)
@@ -819,7 +825,7 @@ public class KryptonVisualStudio2010WithMicrosoft365Renderer : KryptonProfession
 
     #region OnRenderToolStripBackground
     /// <summary>
-    /// Raises the RenderToolStripBackground event. 
+    /// Raises the RenderToolStripBackground event.
     /// </summary>
     /// <param name="e">An ToolStripRenderEventArgs containing the event data.</param>
     protected override void OnRenderToolStripBackground(ToolStripRenderEventArgs e)
@@ -846,6 +852,10 @@ public class KryptonVisualStudio2010WithMicrosoft365Renderer : KryptonProfession
             }
             case StatusStrip:
             {
+                if (TryRenderStatusStripOverride(e, e.Graphics))
+                {
+                    break;
+                }
                 // Make sure the font is current
                 if (e.ToolStrip.Font != KCT.StatusStripFont)
                 {
@@ -938,7 +948,7 @@ public class KryptonVisualStudio2010WithMicrosoft365Renderer : KryptonProfession
 
     #region OnRenderToolStripBorder
     /// <summary>
-    /// Raises the RenderToolStripBorder event. 
+    /// Raises the RenderToolStripBorder event.
     /// </summary>
     /// <param name="e">An ToolStripRenderEventArgs containing the event data.</param>
     protected override void OnRenderToolStripBorder(ToolStripRenderEventArgs e)
@@ -996,7 +1006,7 @@ public class KryptonVisualStudio2010WithMicrosoft365Renderer : KryptonProfession
 
     #region OnRenderImageMargin
     /// <summary>
-    /// Raises the RenderImageMargin event. 
+    /// Raises the RenderImageMargin event.
     /// </summary>
     /// <param name="e">An ToolStripRenderEventArgs containing the event data.</param>
     protected override void OnRenderImageMargin(ToolStripRenderEventArgs e)
@@ -1022,14 +1032,25 @@ public class KryptonVisualStudio2010WithMicrosoft365Renderer : KryptonProfession
                 marginRect.X += _marginInset / 2;
             }
 
-            using var marginPen = new Pen(Color.FromArgb(80, KCT.MenuBorder));
-            if (!rtl)
+            // Fill the margin and draw the standard two separator lines using the color table
+            using (var backBrush = new SolidBrush(KCT.ImageMarginGradientBegin))
             {
-                e.Graphics.DrawLine(marginPen, marginRect.Right, marginRect.Top, marginRect.Right, marginRect.Bottom);
+                e.Graphics.FillRectangle(backBrush, marginRect);
             }
-            else
+
+            using (Pen lightPen = new Pen(KCT.ImageMarginGradientEnd),
+                   darkPen  = new Pen(KCT.ImageMarginGradientMiddle))
             {
-                e.Graphics.DrawLine(marginPen, marginRect.Left - 1, marginRect.Top, marginRect.Left - 1, marginRect.Bottom);
+                if (!rtl)
+                {
+                    e.Graphics.DrawLine(lightPen, marginRect.Right, marginRect.Top, marginRect.Right, marginRect.Bottom);
+                    e.Graphics.DrawLine(darkPen,  marginRect.Right - 1, marginRect.Top, marginRect.Right - 1, marginRect.Bottom);
+                }
+                else
+                {
+                    e.Graphics.DrawLine(lightPen, marginRect.Left - 1, marginRect.Top, marginRect.Left - 1, marginRect.Bottom);
+                    e.Graphics.DrawLine(darkPen,  marginRect.Left,     marginRect.Top, marginRect.Left,     marginRect.Bottom);
+                }
             }
         }
         else

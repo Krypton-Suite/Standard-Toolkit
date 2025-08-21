@@ -42,7 +42,7 @@ internal static class Program
         Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
         Application.ThreadException += Application_ThreadException;
         AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-#if NET6_0_OR_GREATER
+#if NET8_0_OR_GREATER
         Application.SetHighDpiMode(HighDpiMode.SystemAware);
 #endif
         Application.Run(new StartScreen());

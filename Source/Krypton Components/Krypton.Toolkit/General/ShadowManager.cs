@@ -1,15 +1,15 @@
 ﻿#region BSD License
 /*
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2020 - 2025. All rights reserved. 
- *  
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2020 - 2025. All rights reserved.
+ *
  */
 #endregion
 
 #if NET8_0_OR_GREATER
 using MethodInvoker = System.Windows.Forms.MethodInvoker;
-#endif 
+#endif
 
 namespace Krypton.Toolkit;
 
@@ -55,7 +55,7 @@ internal class ShadowManager
                 PI.WINDOWPOS structure = (PI.WINDOWPOS)Marshal.PtrToStructure(m.LParam, typeof(PI.WINDOWPOS))!;
                 var move = !structure.flags.HasFlag(PI.SWP_.NOSIZE | PI.SWP_.NOMOVE);
                 PositionShadowForms(move);
-                    
+
                 if (!move)
                 {
                     ReCalcBrushes();
@@ -169,7 +169,7 @@ internal class ShadowManager
             return;
         }
 
-        // calculate the "whole" shadow
+        // calculate the "whole" shadow strictly outside the client area
         Rectangle clientRectangle = CommonHelper.RealClientRectangle(_parentForm.Handle);
         using Bitmap allShadow = DrawShadowBitmap(clientRectangle);
         foreach (VisualShadowBase shadowForm in _shadowForms)
@@ -198,9 +198,9 @@ internal class ShadowManager
         using Graphics g = Graphics.FromImage(bitmap);
         // fill background
         //g.FillRectangle(Brushes.Magenta, 0,0,w,h);
-        // +1 to fill the gap
+        // Draw the solid region strictly outside the client area (no +1 bleed!)
         g.FillRectangle(new SolidBrush(_shadowValues.Colour),
-            blurOffset, blurOffset, solidW + 1, solidH + 1);
+            blurOffset, blurOffset, solidW, solidH);
 
         // four dir gradient
         if (blurOffset > 0)
@@ -269,7 +269,7 @@ internal class ShadowManager
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <remarks>
     /// Move operations have to be done as a single operation to reduce flickering
@@ -359,12 +359,12 @@ internal static class FlashWindowExListener
         var processId = PI.GetCurrentThreadId();
         // create an instance of the delegate that
         // won't be garbage collected to avoid:
-        //   Managed Debugging Assistant 'CallbackOnCollectedDelegate' :** 
-        //   'A callback was made on a garbage collected delegate of type 
-        //   'WpfApp1!WpfApp1.MainWindow+NativeMethods+CBTProc::Invoke'. 
-        //   This may cause application crashes, corruption and data loss. 
-        //   When passing delegates to unmanaged code, they must be 
-        //   kept alive by the managed application until it is guaranteed 
+        //   Managed Debugging Assistant 'CallbackOnCollectedDelegate' :**
+        //   'A callback was made on a garbage collected delegate of type
+        //   'WpfApp1!WpfApp1.MainWindow+NativeMethods+CBTProc::Invoke'.
+        //   This may cause application crashes, corruption and data loss.
+        //   When passing delegates to unmanaged code, they must be
+        //   kept alive by the managed application until it is guaranteed
         //   that they will never be called.'
         _hookProc = ShellProc;
 
