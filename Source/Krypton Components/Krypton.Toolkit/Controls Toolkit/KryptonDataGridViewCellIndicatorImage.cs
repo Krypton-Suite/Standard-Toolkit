@@ -136,8 +136,6 @@ internal class KryptonDataGridViewCellIndicatorImage : IDisposable
         {
             // Probably the case used most, so first to check.
             _image = KryptonManager.CurrentGlobalPalette.GetGalleryButtonImage(_paletteRibbonGalleryButton, _paletteState)!;
-            ResizeCellIndicatorImage();
-            _sizeToImageCache.Clear();
         }
         else if (DataGridView is KryptonDataGridView dataGridView)
         {
@@ -153,10 +151,9 @@ internal class KryptonDataGridViewCellIndicatorImage : IDisposable
                     .GetPaletteForMode(dataGridView.PaletteMode)
                     .GetGalleryButtonImage(_paletteRibbonGalleryButton, _paletteState)!;
             }
-
-            ResizeCellIndicatorImage();
-            _sizeToImageCache.Clear();
         }
+        ResizeCellIndicatorImage();
+        _sizeToImageCache.Clear();
     }
 
     /// <summary>

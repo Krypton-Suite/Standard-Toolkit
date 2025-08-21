@@ -1205,6 +1205,28 @@ public class KryptonDataGridView : DataGridView
                     BeginEdit(false);
                 }
             }
+
+            // Mirror behavior for DateTimePicker: if click lands within the indicator glyph area, begin edit.
+            if (cell is KryptonDataGridViewDateTimePickerCell)
+            {
+                Rectangle rect = GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, false);
+                DataGridViewCellStyle style = cell.InheritedStyle;
+                int availableHeight = rect.Height - style.Padding.Top - style.Padding.Bottom - 2;
+                int indicatorSize = Math.Max(16, availableHeight);
+                bool rtl = RightToLeftInternal;
+                int posRel = rtl ? 0 : rect.Width - indicatorSize - 3;
+                Rectangle glyphRect = new Rectangle(posRel, 1 + style.Padding.Top, indicatorSize, indicatorSize);
+
+                if (glyphRect.Contains(new Point(e.X, e.Y)))
+                {
+                    _pendingOpenOnEditCell = new Point(e.ColumnIndex, e.RowIndex);
+                    if (CurrentCell?.ColumnIndex != e.ColumnIndex || CurrentCell?.RowIndex != e.RowIndex)
+                    {
+                        CurrentCell = cell;
+                    }
+                    BeginEdit(false);
+                }
+            }
         }
 
         // If mouse down over the columns or row headers then turn off double buffering,
@@ -1267,7 +1289,6 @@ public class KryptonDataGridView : DataGridView
         }
         base.OnEditingControlShowing(e);
     }
-
 
     /// <summary>
     /// Raises the CellPainting event.
@@ -1511,22 +1532,6 @@ public class KryptonDataGridView : DataGridView
                             // Blit the image onto the screen
                             e.Graphics?.DrawImage(tempBitmap, e.CellBounds.Location);
 
-                            // If editing a DateTimePicker cell, skip content painting entirely.
-                            // The editing control renders its own content and glyph; painting here would overdraw it.
-                            bool isCurrentDtpEditing = EditingControl != null
-                                && CurrentCellAddress.X == e.ColumnIndex
-                                && CurrentCellAddress.Y == e.RowIndex
-                                && Rows[e.RowIndex].Cells[e.ColumnIndex] is Krypton.Toolkit.KryptonDataGridViewDateTimePickerCell;
-
-                            // Also check if the editing control is a DateTimePicker editing control
-                            bool isDtpControlEditing = EditingControl is KryptonDataGridViewDateTimePickerEditingControl;
-
-                            if (isCurrentDtpEditing || isDtpControlEditing)
-                            {
-                                // Skip search highlight and content paint for this cell
-                                goto SkipContentPaint;
-                            }
-
                             //Seb Search highlight
                             //Empty _restrictColumnsSearch means highlight everywhere
                             if (!string.IsNullOrEmpty(_searchString)
@@ -1587,8 +1592,6 @@ public class KryptonDataGridView : DataGridView
                             }
                             // Let column do the painting
                             e.Paint(e.ClipBounds, e.PaintParts & (DataGridViewPaintParts.ContentForeground | DataGridViewPaintParts.ContentBackground));
-
-                        SkipContentPaint: ;
                         }
                         else
                         {
@@ -1723,7 +1726,7 @@ public class KryptonDataGridView : DataGridView
         Rectangle gridBounds)
     {
         // Are we not disposed and have a manager to use for painting?
-        if (IsDisposed || ViewManager == null)
+        if (IsDisposed || ViewManager is null)
         {
             return;
         }

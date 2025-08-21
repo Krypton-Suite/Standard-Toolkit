@@ -287,7 +287,6 @@ public class KryptonDataGridViewComboBoxCell : KryptonDataGridViewTextBoxCell
             _selectedItemText = string.Empty;
         }
 
-
         base.DetachEditingControl();
     }
 

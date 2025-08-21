@@ -202,8 +202,7 @@ public class KryptonDataGridViewTextBoxCell : DataGridViewTextBoxCell
         int extra = GetReservedNonEditingSpacePixels(cellStyle);
         if (extra > 0)
         {
-            bool rtl = DataGridView?.RightToLeft == RightToLeft.Yes;
-            if (rtl)
+            if (DataGridView?.RightToLeft == RightToLeft.Yes)
             {
                 int delta = Math.Min(extra, editingControlBounds.X - cellBounds.X);
                 editingControlBounds.X -= delta;
