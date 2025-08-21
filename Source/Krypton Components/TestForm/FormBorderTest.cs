@@ -1,9 +1,9 @@
 ﻿#region BSD License
 /*
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2025. All rights reserved. 
- *  
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2024 - 2025. All rights reserved.
+ *
  */
 #endregion
 
@@ -31,10 +31,26 @@ public partial class FormBorderTest : KryptonForm
         }
 
         kcmbBorderStyle.SelectedIndex = 4;
+
+        // Populate grip modes
+        kcmbGripMode.Items.Add(SizeGripStyle.Auto);
+        kcmbGripMode.Items.Add(SizeGripStyle.Hide);
+        kcmbGripMode.Items.Add(SizeGripStyle.Show);
+        kcmbGripMode.SelectedItem = SizeGripStyle.Auto;
     }
 
     private void kcmbBorderStyle_SelectedIndexChanged(object sender, EventArgs e)
     {
         ChangeBorderStyle((FormBorderStyle)Enum.Parse(typeof(FormBorderStyle), kcmbBorderStyle.Text));
+        RecalcNonClient();
+    }
+
+    private void kcmbGripMode_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (kcmbGripMode.SelectedItem is SizeGripStyle mode)
+        {
+            SizeGripStyle = mode;
+            RecalcNonClient();
+        }
     }
 }

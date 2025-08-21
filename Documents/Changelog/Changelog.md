@@ -5,6 +5,8 @@
 ## 2025-11-xx - Build 2511 (V10 - alpha) - November 2025
 * Resolved [#2103](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2103), Ensure that `KryptonForm` properly supports RTL
 * Resolved [#1022](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1022), `Material - Dark` fixes for KDGV painting
+* Implemented [#984](https://github.com/Krypton-Suite/Standard-Toolkit/issues/984), `KryptonForm` using `SizeGripStyle` for grippie
+	- **Note:** This has a breaking change for custom themes as a new abstract method is introduced in the `PaletteBase` class for sizegrip images!
 * Implemented [#2396](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2396), Added ModernBuild terminal.gui app to solution
 * Resolved [#413](https://github.com/Krypton-Suite/Standard-Toolkit/issues/413), `KryptonRibbon` controls do not react to MouseWheel scolling
 * Resolved [#2424](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2424), Fix `NoClipping` in `AccurateText`; `Ellipsis` conditional

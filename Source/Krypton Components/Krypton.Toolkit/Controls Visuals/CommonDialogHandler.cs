@@ -424,7 +424,8 @@ internal class CommonDialogHandler
             Text = text.ToString(),
             Location = new Point(winInfo.rcWindow.left, winInfo.rcWindow.top),
             Padding = new Padding(0),
-            TopMost = true
+            TopMost = true,
+            SizeGripStyle = SizeGripStyle.Hide
         };
 
         if (ShowIcon)
