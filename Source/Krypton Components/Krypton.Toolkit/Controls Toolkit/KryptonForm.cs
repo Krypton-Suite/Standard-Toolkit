@@ -1629,15 +1629,15 @@ public class KryptonForm : VisualForm,
         }
         else if (m.Msg == PI.WM_.NCRBUTTONDOWN)
         {
-            // Handle right-click in non-client area (title bar)
+            // Handle right-click in non-client area (title bar and control buttons)
             if (UseThemedSystemMenu && _themedSystemMenuValues?.ShowOnRightClick == true && _themedSystemMenuService != null &&
                 _themedSystemMenuService.ShowThemedSystemMenuOnRightClick)
             {
                 // Get the screen coordinates from the message
                 var screenPoint = new Point(PI.GET_X_LPARAM(m.LParam), PI.GET_Y_LPARAM(m.LParam));
 
-                // Check if the click is in the title bar area (but not on buttons)
-                if (IsInTitleBarArea(screenPoint) && !IsOnControlButtons(screenPoint))
+                // Check if the click is in the title bar area (including control buttons)
+                if (IsInTitleBarArea(screenPoint))
                 {
                     ShowThemedSystemMenu(screenPoint);
                     m.Result = IntPtr.Zero;
@@ -1992,8 +1992,8 @@ public class KryptonForm : VisualForm,
             else if (UseThemedSystemMenu && _themedSystemMenuValues?.ShowOnLeftClick == true && _themedSystemMenuService != null &&
                 _themedSystemMenuService.ShowThemedSystemMenuOnLeftClick)
             {
-                // Only show the menu if clicking in the title bar area (but not on buttons)
-                if (IsInTitleBarArea(screenPoint) && !IsOnControlButtons(screenPoint))
+                // Show the menu if clicking in the title bar area (including control buttons)
+                if (IsInTitleBarArea(screenPoint))
                 {
                     ShowThemedSystemMenu(screenPoint);
                     return true;
