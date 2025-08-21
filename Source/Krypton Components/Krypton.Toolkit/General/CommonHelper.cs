@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
- *  
+ *
  */
 #endregion
 
@@ -239,7 +239,7 @@ public static class CommonHelper
         // Ignore an empty padding value
         if (!padding.Equals(InheritPadding))
         {
-            // The orientation determines how the border padding is 
+            // The orientation determines how the border padding is
             // applied to the preferred size of the children
             switch (orientation)
             {
@@ -276,7 +276,7 @@ public static class CommonHelper
         // Ignore an empty padding value
         if (!padding.Equals(InheritPadding))
         {
-            // The orientation determines how the border padding is 
+            // The orientation determines how the border padding is
             // applied to the preferred size of the children
             switch (orientation)
             {
@@ -315,7 +315,7 @@ public static class CommonHelper
         // Ignore an empty padding value
         if (!padding.Equals(InheritPadding))
         {
-            // The orientation determines how the border padding is 
+            // The orientation determines how the border padding is
             // applied to the preferred size of the children
             switch (orientation)
             {
@@ -356,7 +356,7 @@ public static class CommonHelper
         // Ignore an empty padding value
         if (!padding.Equals(InheritPadding))
         {
-            // The orientation determines how the border padding is 
+            // The orientation determines how the border padding is
             // used to reduce the space available for children
             switch (orientation)
             {
@@ -1335,7 +1335,7 @@ public static class CommonHelper
     /// <returns>True if minimized; otherwise false.</returns>
     public static bool IsFormMinimized(Form f)
     {
-        // Get the current window style (cannot use the 
+        // Get the current window style (cannot use the
         // WindowState property as it can be slightly out of date)
         uint style = f.IsDisposed ? 0 : PI.GetWindowLong(f.Handle, PI.GWL_.STYLE);
 
@@ -1349,7 +1349,7 @@ public static class CommonHelper
     /// <returns>True if maximized; otherwise false.</returns>
     public static bool IsFormMaximized(Form f)
     {
-        // Get the current window style (cannot use the 
+        // Get the current window style (cannot use the
         // WindowState property as it can be slightly out of date)
         uint style = f.IsDisposed ? 0 : PI.GetWindowLong(f.Handle, PI.GWL_.STYLE);
 
@@ -1680,7 +1680,7 @@ public static class CommonHelper
             y = PI.HIWORD((int)m.LParam)
         };
 
-        // Negative positions are in the range 32767 -> 65535, 
+        // Negative positions are in the range 32767 -> 65535,
         // so convert to actual int values for the negative positions
         if (clientPt.x >= 32767)
         {
@@ -1725,7 +1725,7 @@ public static class CommonHelper
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="rect"></param>
     /// <param name="margins"></param>
@@ -1773,5 +1773,46 @@ public static class CommonHelper
         gr.DrawImage(src!, 0, 0, (int)trgtWidth, (int)trgtHeight);
 
         return newImage;
+    }
+
+    /// <summary>
+    /// Returns the effective format provider from a DataGridViewCellStyle or the current culture when not set.
+    /// </summary>
+    /// <param name="cellStyle">The DataGridView cell style that may specify a <see cref="DataGridViewCellStyle.FormatProvider"/>.</param>
+    /// <returns>The resolved <see cref="IFormatProvider"/>. Defaults to <see cref="CultureInfo.CurrentCulture"/> when none is provided.</returns>
+    public static IFormatProvider ResolveFormatProvider(DataGridViewCellStyle? cellStyle)
+    {
+        return (cellStyle?.FormatProvider as IFormatProvider) ?? CultureInfo.CurrentCulture;
+    }
+
+    /// <summary>
+    /// Extracts a <see cref="CultureInfo"/> from an <see cref="IFormatProvider"/>, falling back to the current culture.
+    /// </summary>
+    /// <param name="provider">The format provider to try to interpret as a <see cref="CultureInfo"/>.</param>
+    /// <returns>The extracted culture, or <see cref="CultureInfo.CurrentCulture"/> if the provider is not a culture.</returns>
+    public static CultureInfo ResolveCultureFromProvider(IFormatProvider provider)
+    {
+        return provider as CultureInfo ?? CultureInfo.CurrentCulture;
+    }
+
+    /// <summary>
+    /// Attempts to parse a <see cref="DateTime"/> using an exact format, then culture-aware fallbacks.
+    /// </summary>
+    /// <param name="input">The input string to parse.</param>
+    /// <param name="format">The preferred exact format string to try first.</param>
+    /// <param name="culture">The culture to apply for exact and culture-aware parsing.</param>
+    /// <param name="result">When this method returns, contains the parsed <see cref="DateTime"/> if parsing succeeded; otherwise the default value.</param>
+    /// <returns>True if parsing succeeded; otherwise false.</returns>
+    public static bool TryParseDateTimeWithFallback(string input, string format, CultureInfo culture, out DateTime result)
+    {
+        if (DateTime.TryParseExact(input, format, culture, DateTimeStyles.AllowWhiteSpaces, out result)
+            || DateTime.TryParse(input, culture, DateTimeStyles.AllowWhiteSpaces, out result)
+            || DateTime.TryParse(input, CultureInfo.InvariantCulture, DateTimeStyles.AllowWhiteSpaces, out result))
+        {
+            return true;
+        }
+
+        result = default;
+        return false;
     }
 }

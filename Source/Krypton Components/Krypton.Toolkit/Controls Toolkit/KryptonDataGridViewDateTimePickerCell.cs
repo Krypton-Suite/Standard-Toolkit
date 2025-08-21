@@ -513,35 +513,20 @@ public class KryptonDataGridViewDateTimePickerCell : KryptonDataGridViewTextBoxC
             if ((initialFormattedValue is not string initialFormattedValueStr) || string.IsNullOrEmpty(initialFormattedValueStr))
             {
                 dateTime.ValueNullable = null;
+                return;
+            }
+
+            var provider = CommonHelper.ResolveFormatProvider(dataGridViewCellStyle);
+            var culture = CommonHelper.ResolveCultureFromProvider(provider);
+            string fmt = ResolveDateTimeFormat(dataGridViewCellStyle?.Format, culture);
+
+            if (CommonHelper.TryParseDateTimeWithFallback(initialFormattedValueStr, fmt, culture, out DateTime dt))
+            {
+                dateTime.Value = dt;
             }
             else
             {
-                var provider = (dataGridViewCellStyle?.FormatProvider as IFormatProvider) ?? CultureInfo.CurrentCulture;
-                var culture = provider as CultureInfo ?? CultureInfo.CurrentCulture;
-
-                string fmt = dataGridViewCellStyle?.Format ?? string.Empty;
-                if (string.IsNullOrEmpty(fmt))
-                {
-                    fmt = _format switch
-                    {
-                        DateTimePickerFormat.Long => culture.DateTimeFormat.LongDatePattern,
-                        DateTimePickerFormat.Short => culture.DateTimeFormat.ShortDatePattern,
-                        DateTimePickerFormat.Time => culture.DateTimeFormat.LongTimePattern,
-                        DateTimePickerFormat.Custom => string.IsNullOrEmpty(_customFormat) ? "G" : CommonHelper.MakeCustomDateFormat(_customFormat),
-                        _ => "G"
-                    };
-                }
-
-                if (DateTime.TryParseExact(initialFormattedValueStr, fmt, culture, DateTimeStyles.AllowWhiteSpaces, out DateTime dt)
-                    || DateTime.TryParse(initialFormattedValueStr, culture, DateTimeStyles.AllowWhiteSpaces, out dt)
-                    || DateTime.TryParse(initialFormattedValueStr, CultureInfo.InvariantCulture, DateTimeStyles.AllowWhiteSpaces, out dt))
-                {
-                    dateTime.Value = dt;
-                }
-                else
-                {
-                    dateTime.Text = initialFormattedValueStr;
-                }
+                dateTime.Text = initialFormattedValueStr;
             }
         }
     }
@@ -570,20 +555,8 @@ public class KryptonDataGridViewDateTimePickerCell : KryptonDataGridViewTextBoxC
 
         if (value is DateTime dt)
         {
-            string? format = cellStyle?.Format;
-            if (string.IsNullOrEmpty(format))
-            {
-                format = _format switch
-                {
-                    DateTimePickerFormat.Long => CultureInfo.CurrentCulture.DateTimeFormat.LongDatePattern,
-                    DateTimePickerFormat.Short => CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern,
-                    DateTimePickerFormat.Time => CultureInfo.CurrentCulture.DateTimeFormat.LongTimePattern,
-                    DateTimePickerFormat.Custom => string.IsNullOrEmpty(_customFormat) ? "G" : CommonHelper.MakeCustomDateFormat(_customFormat),
-                    _ => "G"
-                };
-            }
-
-            var provider = (cellStyle?.FormatProvider as IFormatProvider) ?? CultureInfo.CurrentCulture;
+            var provider = CommonHelper.ResolveFormatProvider(cellStyle);
+            string format = ResolveDateTimeFormat(cellStyle?.Format, CultureInfo.CurrentCulture);
             return dt.ToString(format, provider);
         }
 
@@ -614,25 +587,11 @@ public class KryptonDataGridViewDateTimePickerCell : KryptonDataGridViewTextBoxC
             return DBNull.Value;
         }
 
-        var provider = (cellStyle?.FormatProvider as IFormatProvider) ?? CultureInfo.CurrentCulture;
-        var culture = provider as CultureInfo ?? CultureInfo.CurrentCulture;
+        var provider = CommonHelper.ResolveFormatProvider(cellStyle);
+        var culture = CommonHelper.ResolveCultureFromProvider(provider);
+        string fmt = ResolveDateTimeFormat(cellStyle?.Format, culture);
 
-        string fmt = cellStyle?.Format ?? string.Empty;
-        if (string.IsNullOrEmpty(fmt))
-        {
-            fmt = _format switch
-            {
-                DateTimePickerFormat.Long => culture.DateTimeFormat.LongDatePattern,
-                DateTimePickerFormat.Short => culture.DateTimeFormat.ShortDatePattern,
-                DateTimePickerFormat.Time => culture.DateTimeFormat.LongTimePattern,
-                DateTimePickerFormat.Custom => string.IsNullOrEmpty(_customFormat) ? "G" : CommonHelper.MakeCustomDateFormat(_customFormat),
-                _ => "G"
-            };
-        }
-
-        if (DateTime.TryParseExact(stringValue, fmt, culture, DateTimeStyles.AllowWhiteSpaces, out DateTime dt)
-            || DateTime.TryParse(stringValue, culture, DateTimeStyles.AllowWhiteSpaces, out dt)
-            || DateTime.TryParse(stringValue, CultureInfo.InvariantCulture, DateTimeStyles.AllowWhiteSpaces, out dt))
+        if (CommonHelper.TryParseDateTimeWithFallback(stringValue, fmt, culture, out DateTime dt))
         {
             return dt;
         }
@@ -742,23 +701,15 @@ public class KryptonDataGridViewDateTimePickerCell : KryptonDataGridViewTextBoxC
 
                 if (DataGridView.Rows.SharedRow(rowIndex).Index != -1
                     && formattedValue is string str
-                    && str.Length > 0
-                    && DateTime.TryParse(str, out DateTime dt))
+                    && str.Length > 0)
                 {
-                    string fmt = cellStyle?.Format ?? string.Empty;
-                    if (string.IsNullOrEmpty(fmt))
+                    var provider = CommonHelper.ResolveFormatProvider(cellStyle);
+                    var culture = CommonHelper.ResolveCultureFromProvider(provider);
+                    string fmt = ResolveDateTimeFormat(cellStyle?.Format, CultureInfo.CurrentCulture);
+                    if (CommonHelper.TryParseDateTimeWithFallback(str, fmt, culture, out DateTime dt))
                     {
-                        fmt = _format switch
-                        {
-                            DateTimePickerFormat.Long => CultureInfo.CurrentCulture.DateTimeFormat.LongDatePattern,
-                            DateTimePickerFormat.Short => CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern,
-                            DateTimePickerFormat.Time => CultureInfo.CurrentCulture.DateTimeFormat.LongTimePattern,
-                            DateTimePickerFormat.Custom => string.IsNullOrEmpty(_customFormat) ? "G" : CommonHelper.MakeCustomDateFormat(_customFormat),
-                            _ => "G"
-                        };
+                        formattedValue = dt.ToString(fmt, provider);
                     }
-                    var provider = (cellStyle?.FormatProvider as IFormatProvider) ?? CultureInfo.CurrentCulture;
-                    formattedValue = dt.ToString(fmt, provider);
                 }
             }
             else
@@ -807,20 +758,8 @@ public class KryptonDataGridViewDateTimePickerCell : KryptonDataGridViewTextBoxC
             return hdr;
         }
 
-        string format = cellStyle?.Format ?? string.Empty;
-        if (string.IsNullOrEmpty(format))
-        {
-            format = _format switch
-            {
-                DateTimePickerFormat.Long => CultureInfo.CurrentCulture.DateTimeFormat.LongDatePattern,
-                DateTimePickerFormat.Short => CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern,
-                DateTimePickerFormat.Time => CultureInfo.CurrentCulture.DateTimeFormat.LongTimePattern,
-                DateTimePickerFormat.Custom => string.IsNullOrEmpty(_customFormat) ? "G" : CommonHelper.MakeCustomDateFormat(_customFormat),
-                _ => "G"
-            };
-        }
-
-        var provider = (cellStyle?.FormatProvider as IFormatProvider) ?? CultureInfo.CurrentCulture;
+        var provider = CommonHelper.ResolveFormatProvider(cellStyle);
+        string format = ResolveDateTimeFormat(cellStyle?.Format, CultureInfo.CurrentCulture);
 
         object? raw = GetValue(rowIndex);
         string text;
@@ -903,6 +842,23 @@ public class KryptonDataGridViewDateTimePickerCell : KryptonDataGridViewTextBoxC
         }
 
         return editingControlBounds;
+    }
+
+    private string ResolveDateTimeFormat(string? styleFormat, CultureInfo culture)
+    {
+        if (!string.IsNullOrEmpty(styleFormat))
+        {
+            return styleFormat!;
+        }
+
+        return _format switch
+        {
+            DateTimePickerFormat.Long => culture.DateTimeFormat.LongDatePattern,
+            DateTimePickerFormat.Short => culture.DateTimeFormat.ShortDatePattern,
+            DateTimePickerFormat.Time => culture.DateTimeFormat.LongTimePattern,
+            DateTimePickerFormat.Custom => string.IsNullOrEmpty(_customFormat) ? "G" : CommonHelper.MakeCustomDateFormat(_customFormat),
+            _ => "G"
+        };
     }
 
     #endregion
