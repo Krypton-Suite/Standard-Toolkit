@@ -5,8 +5,8 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *
  */
 #endregion
 
@@ -629,27 +629,22 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
         if (owner is not null)
         {
             // Update owner with our dialog result setting
-            try
+            if (IsDialogResultValidForForm(DialogResult))
             {
                 owner.DialogResult = DialogResult;
             }
-            catch (InvalidEnumArgumentException)
+            else if (owner is VisualMessageBoxForm || owner is VisualMessageBoxRtlAwareForm)
             {
-                // Is it https://github.com/Krypton-Suite/Standard-Toolkit/issues/728
-                if (owner is VisualMessageBoxForm
-                    or VisualMessageBoxRtlAwareForm)
+                FieldInfo? fi = typeof(Form).GetField("dialogResult", BindingFlags.NonPublic | BindingFlags.Instance);
+                if (fi != null)
                 {
-                    // need to gain access to `dialogResult` and set it forcefully
-                    FieldInfo? fi = typeof(Form).GetField("dialogResult", BindingFlags.NonPublic | BindingFlags.Instance);
-                    if (fi != null)
-                    {
-                        fi.SetValue(owner, DialogResult);
-                    }
+                    fi.SetValue(owner, DialogResult);
+                    owner.Close();
                 }
-                else
-                {
-                    throw;
-                }
+            }
+            else
+            {
+                throw new InvalidEnumArgumentException(nameof(DialogResult), (int)DialogResult, typeof(DialogResult));
             }
         }
 
@@ -780,6 +775,12 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
     #endregion
 
     #region Implementation
+
+    private static bool IsDialogResultValidForForm(DialogResult value)
+    {
+        return Enum.IsDefined(typeof(DialogResult), value);
+    }
+
     private void OnButtonTextChanged(object? sender, EventArgs e) => OnTextChanged(EventArgs.Empty);
 
     private void OnButtonClick(object? sender, MouseEventArgs e)
