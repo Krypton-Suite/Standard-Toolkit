@@ -2,8 +2,13 @@
 
 =======
 
-# 2025-08-23 - Build 2508 (Patch 8) - August 2025
+# 2025-09-22 - Build 2509 (Patch 9) - September 2025
 * Implemented [#648](https://github.com/Krypton-Suite/Standard-Toolkit/issues/648), SystemMenu to be theme related
+
+=======
+
+# 2025-08-23 - Build 2508 (Patch 8) - August 2025
+* Implemented [#2406](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2406), `KryptonProgressBar` enhancements.
 * Resolved [#413](https://github.com/Krypton-Suite/Standard-Toolkit/issues/413), `KryptonRibbon` controls do not react to MouseWheel scolling.
 * Resolved [#1971](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2416), `KryptonDataGridViewColumn` Drop-down arrow image incorrect for Sparkle themes.
 * Resolved [#2397](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2397), `KryptonForm` throws and exception on CTRL+F1.

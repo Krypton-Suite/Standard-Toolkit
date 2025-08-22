@@ -121,7 +121,14 @@
   <data name="kcbtnProgressBarColour.Values.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
-        DwAACw8BkvkDpQAAAAd0SU1FB9gBEgI0L+a2mIYAAAATSURBVDhPYxgFo2AUjAIwYGAAAAQQAAGnRHxj
+        DAAACwwBP0AiyAAAAAd0SU1FB9gBEgI0L+a2mIYAAAATSURBVDhPYxgFo2AUjAIwYGAAAAQQAAGnRHxj
+        AAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="kcbtnBackdropColor.Values.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
+        DAAACwwBP0AiyAAAAAd0SU1FB9gBEgI0L+a2mIYAAAATSURBVDhPYxgFo2AUjAIwYGAAAAQQAAGnRHxj
         AAAAAElFTkSuQmCC
 </value>
   </data>
