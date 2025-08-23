@@ -4,6 +4,7 @@
 
 ## 2025-11-xx - Build 2511 (V10 - alpha) - November 2025
 * Resolved [#2439](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2439), Fix `KDGVDateTimePickerCell` auto-sizing and dropdown glyphs.
+* Resolved [#2448](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2448), `KryptonForm` does not display components without designer source.
 * Implemented [#2444](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2444), Add `AGENTS.md` file.
 * Fix [#1199](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1199), Fix exception in `KryptonDropButton` due to wrong DialogResult.
 * Implemented [#2442](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2442), `KryptonColorButton` and related components with `PaletteColors` mode.
