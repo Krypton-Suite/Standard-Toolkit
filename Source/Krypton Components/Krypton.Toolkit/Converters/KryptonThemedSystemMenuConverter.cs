@@ -64,9 +64,14 @@ public class KryptonThemedSystemMenuConverter : ExpandableObjectConverter
         {
             // Parse the string representation
             if (stringValue == "Enabled")
+            {
                 return true;
+            }
+
             if (stringValue == "Disabled")
+            {
                 return false;
+            }
         }
 
         return base.ConvertFrom(context, culture, value);

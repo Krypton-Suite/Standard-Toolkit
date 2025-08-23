@@ -774,13 +774,25 @@ public static class BuildUI
             {
                 ui.Tx4.Text = "Page      Ops (F4 to switch)";
             }
-            if (ui.Tx6 != null) ui.Tx6.Text = $"Tail      {state.TailLines}";
+            if (ui.Tx6 != null)
+            {
+                ui.Tx6.Text = $"Tail      {state.TailLines}";
+            }
+
             if (ui.Tx5 != null)
             {
                 ui.Tx5.Text = $"Run/Stop  {(state.IsRunning ? "Stop" : "Run")}";
             }
-            if (ui.Tx7 != null) ui.Tx7.Text = "Clean     Delete Bin/obj/Logs";
-            if (ui.Tx8 != null) ui.Tx8.Text = "Clear     Clear live output";
+            if (ui.Tx7 != null)
+            {
+                ui.Tx7.Text = "Clean     Delete Bin/obj/Logs";
+            }
+
+            if (ui.Tx8 != null)
+            {
+                ui.Tx8.Text = "Clear     Clear live output";
+            }
+
             if (ui.TxEsc != null)
             {
                 ui.TxEsc.Text = "Exit      Exit application";
@@ -803,7 +815,11 @@ public static class BuildUI
             {
                 if (ui.Tx9 != null) { ui.Tx9.Text = "PackMode  (Stable only)"; }
             }
-            if (ui.TestBtn != null) ui.TestBtn.Visible = false;
+            if (ui.TestBtn != null)
+            {
+                ui.TestBtn.Visible = false;
+            }
+
             if (ui.TxTest != null) { ui.TxTest.Visible = false; ui.TxTest.Text = string.Empty; }
             if (ui.Hint != null)
             {
@@ -843,8 +859,16 @@ public static class BuildUI
             {
                 ui.Tx5.Text = $"Run/Stop  {(state.IsRunning ? "Stop" : "Run")}";
             }
-            if (ui.Tx6 != null) ui.Tx6.Text = $"Symbols   {(state.NuGetIncludeSymbols ? "Yes" : "No")}";
-            if (ui.Tx7 != null) ui.Tx7.Text = $"SkipDup   {(state.NuGetSkipDuplicate ? "Yes" : "No")}";
+            if (ui.Tx6 != null)
+            {
+                ui.Tx6.Text = $"Symbols   {(state.NuGetIncludeSymbols ? "Yes" : "No")}";
+            }
+
+            if (ui.Tx7 != null)
+            {
+                ui.Tx7.Text = $"SkipDup   {(state.NuGetSkipDuplicate ? "Yes" : "No")}";
+            }
+
             if (ui.Tx8 != null)
             {
                 string src = FormatNuGetSource(state.NuGetSource, state.NuGetCustomSource);
@@ -855,7 +879,11 @@ public static class BuildUI
                 bool showZip = state.NuGetAction == NuGetAction.RebuildPack || state.NuGetAction == NuGetAction.PackPush || state.NuGetAction == NuGetAction.BuildPackPush;
                 ui.CreateZip.Visible = showZip;
             }
-            if (ui.TestBtn != null) ui.TestBtn.Visible = true;
+            if (ui.TestBtn != null)
+            {
+                ui.TestBtn.Visible = true;
+            }
+
             if (ui.TxTest != null) { ui.TxTest.Visible = true; ui.TxTest.Text = "Test      Preview commands"; }
             if (ui.Tx9 != null) { ui.Tx9.Text = "PackMode  (Stable only)"; }
             if (ui.TxEsc != null)

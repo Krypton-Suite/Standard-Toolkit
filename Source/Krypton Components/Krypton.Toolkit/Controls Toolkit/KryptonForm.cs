@@ -13,6 +13,7 @@
 // ReSharper disable InconsistentNaming
 
 using SolidBrush = System.Drawing.SolidBrush;
+using Timer = System.Windows.Forms.Timer;
 
 namespace Krypton.Toolkit;
 
@@ -113,6 +114,9 @@ public class KryptonForm : VisualForm,
     private ThemedSystemMenuValues? _themedSystemMenuValues;
     private Rectangle _lastGripClientRect = Rectangle.Empty;
     private Rectangle _lastGripWindowRect = Rectangle.Empty;
+    private Timer? _clickTimer;
+    private Point _lastClickPoint;
+    private bool _isDragging;
 
     #endregion
 
@@ -432,7 +436,9 @@ public class KryptonForm : VisualForm,
         // Apply color-key transparency like legacy resources (top-left pixel)
         Color key = Color.Magenta;
         if (themedGrip is Bitmap b && b.Width > 0 && b.Height > 0)
+        {
             key = b.GetPixel(0, 0);
+        }
 
         using var ia1 = new System.Drawing.Imaging.ImageAttributes();
         ia1.SetColorKey(key, key);
@@ -477,6 +483,9 @@ public class KryptonForm : VisualForm,
 
             // Dispose the themed system menu service
             _themedSystemMenuService?.Dispose();
+            
+            // Dispose the click timer
+            _clickTimer?.Dispose();
         }
 
         base.Dispose(disposing);
@@ -1604,6 +1613,7 @@ public class KryptonForm : VisualForm,
     {
         const int WM_HELP = 0x0053;
         const int WM_PAINT = 0x000F;
+        const int WM_CONTEXTMENU = 0x007B;
 
         if (m.Msg == WM_HELP)
         {
@@ -1626,6 +1636,21 @@ public class KryptonForm : VisualForm,
 
             m.Result = IntPtr.Zero;
             return;
+        }
+        else if (m.Msg == WM_CONTEXTMENU)
+        {
+            // Handle context menu request
+            if (ContextMenuStrip != null)
+            {
+                Point p;
+                p = (int)m.LParam == -1
+                    ? Cursor.Position
+                    : new Point((short)((int)m.LParam & 0xFFFF), (short)(((int)m.LParam >> 16) & 0xFFFF));
+
+                ContextMenuStrip.Show(p);
+                m.Result = IntPtr.Zero;
+                return;
+            }
         }
         else if (m.Msg == PI.WM_.NCRBUTTONDOWN)
         {
@@ -1995,8 +2020,9 @@ public class KryptonForm : VisualForm,
                 // Show the menu if clicking in the title bar area (including control buttons)
                 if (IsInTitleBarArea(screenPoint))
                 {
-                    ShowThemedSystemMenu(screenPoint);
-                    return true;
+                    // Start a timer to distinguish between click and drag
+                    StartClickTimer(screenPoint);
+                    return false; // Let the base class handle the message for potential drag
                 }
             }
         }
@@ -2022,6 +2048,22 @@ public class KryptonForm : VisualForm,
         }
 
         return ret;
+    }
+
+    /// <summary>
+    /// Override to handle form move events for drag detection.
+    /// </summary>
+    /// <param name="e">Event arguments.</param>
+    protected override void OnMove(EventArgs e)
+    {
+        base.OnMove(e);
+        
+        // If the form is being moved, cancel any pending click timer
+        if (_clickTimer != null && _clickTimer.Enabled)
+        {
+            _isDragging = true;
+            StopClickTimer();
+        }
     }
     #endregion
 
@@ -2587,6 +2629,97 @@ public class KryptonForm : VisualForm,
                     break;
             }
         }
+    }
+
+    /// <summary>
+    /// Starts a timer to distinguish between click and drag operations.
+    /// </summary>
+    /// <param name="clickPoint">The point where the click occurred.</param>
+    private void StartClickTimer(Point clickPoint)
+    {
+        _lastClickPoint = clickPoint;
+        _isDragging = false;
+        
+        // Create and start the timer if it doesn't exist
+        if (_clickTimer == null)
+        {
+            _clickTimer = new Timer
+            {
+                Interval = 200 // 200ms delay to distinguish click from drag
+            };
+            _clickTimer.Tick += OnClickTimerTick;
+        }
+        
+        _clickTimer.Start();
+    }
+
+    /// <summary>
+    /// Stops the click timer and cleans up.
+    /// </summary>
+    private void StopClickTimer()
+    {
+        if (_clickTimer != null)
+        {
+            _clickTimer.Stop();
+        }
+    }
+
+    /// <summary>
+    /// Handles the click timer tick event.
+    /// </summary>
+    /// <param name="sender">Source of the event.</param>
+    /// <param name="e">Event arguments.</param>
+    private void OnClickTimerTick(object? sender, EventArgs e)
+    {
+        StopClickTimer();
+        
+        // If we haven't started dragging, this was a simple click
+        if (!_isDragging && UseThemedSystemMenu && _themedSystemMenuValues?.ShowOnLeftClick == true && _themedSystemMenuService != null)
+        {
+            ShowThemedSystemMenu(_lastClickPoint);
+        }
+    }
+
+    /// <summary>
+    /// Override to handle form losing focus, which should cancel the click timer.
+    /// </summary>
+    /// <param name="e">Event arguments.</param>
+    protected override void OnLostFocus(EventArgs e)
+    {
+        base.OnLostFocus(e);
+        
+        // Cancel click timer when form loses focus
+        StopClickTimer();
+        _isDragging = false;
+    }
+
+    /// <summary>
+    /// Override to handle key down events for canceling click timer.
+    /// </summary>
+    /// <param name="e">Key event arguments.</param>
+    protected override void OnKeyDown(KeyEventArgs e)
+    {
+        base.OnKeyDown(e);
+        
+        // Cancel click timer on Escape key
+        if (e.KeyCode == Keys.Escape)
+        {
+            StopClickTimer();
+            _isDragging = false;
+        }
+    }
+
+    /// <summary>
+    /// Override to handle form resize events, which should cancel the click timer.
+    /// </summary>
+    /// <param name="e">Event arguments.</param>
+    protected override void OnResize(EventArgs e)
+    {
+        base.OnResize(e);
+        
+        // Cancel click timer when form is being resized
+        StopClickTimer();
+        _isDragging = false;
     }
 
     /// <summary>Finds the help provider.</summary>
