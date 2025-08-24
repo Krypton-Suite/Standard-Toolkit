@@ -1524,11 +1524,12 @@ public class KryptonForm : VisualForm,
                 }
             }
         }
-        else if (_internalPanelState == InheritBool.Inherit)
+        else if (_internalPanelState == InheritBool.Inherit && !DesignMode)
         {
             // #2448 | Work-around / fix | Only runs on non mdi containers
             // This happens when KForm is instantiated manually without designer source,
             // which runs the layout methods through InitializeComponent.
+            // This block is only to be executed at runtime.
             SuspendLayout();
             ResumeLayout(false);
         }
