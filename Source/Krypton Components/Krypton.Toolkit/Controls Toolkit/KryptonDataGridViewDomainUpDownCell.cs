@@ -110,6 +110,7 @@ public class KryptonDataGridViewDomainUpDownCell : KryptonDataGridViewTextBoxCel
             domainUpDown.Items.Clear();
             domainUpDown.ButtonSpecs.Clear();
             domainUpDown.ReadOnly = KryptonOwningColumn?.ReadOnlyItemsList ?? false;
+            domainUpDown.RightToLeft = DataGridView!.RightToLeft;
 
             if (KryptonOwningColumn is not null)
             {
@@ -146,7 +147,7 @@ public class KryptonDataGridViewDomainUpDownCell : KryptonDataGridViewTextBoxCel
                 int reserveLeft = Math.Max(reservedStrip - cellStyle.Padding.Left, 0);
                 textArea = new Rectangle(
                     cellBounds.Left + cellStyle.Padding.Left + reserveLeft,
-                    cellBounds.Top + cellStyle.Padding.Top,
+                    cellBounds.Top  + cellStyle.Padding.Top,
                     cellBounds.Width  - cellStyle.Padding.Left - cellStyle.Padding.Right  - reserveLeft,
                     cellBounds.Height - cellStyle.Padding.Top  - cellStyle.Padding.Bottom - 2);
             }
@@ -159,7 +160,7 @@ public class KryptonDataGridViewDomainUpDownCell : KryptonDataGridViewTextBoxCel
                 int reserveRight = Math.Max(reservedStrip - cellStyle.Padding.Right, 0);
                 textArea = new Rectangle(
                     cellBounds.Left + cellStyle.Padding.Left,
-                    cellBounds.Top + cellStyle.Padding.Top,
+                    cellBounds.Top  + cellStyle.Padding.Top,
                     cellBounds.Width  - cellStyle.Padding.Left - cellStyle.Padding.Right  - reserveRight,
                     cellBounds.Height - cellStyle.Padding.Top  - cellStyle.Padding.Bottom - 2);
             }

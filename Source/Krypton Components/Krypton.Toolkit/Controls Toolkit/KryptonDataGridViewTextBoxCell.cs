@@ -154,6 +154,7 @@ public class KryptonDataGridViewTextBoxCell : DataGridViewTextBoxCell
         if (DataGridView!.EditingControl is KryptonTextBox textBox)
         {
             textBox.Text = initialFormattedValue as string ?? string.Empty;
+            textBox.RightToLeft = DataGridView!.RightToLeft;
 
             DataGridViewTriState wrapMode = Style.WrapMode;
             if (wrapMode == DataGridViewTriState.NotSet)
@@ -202,8 +203,18 @@ public class KryptonDataGridViewTextBoxCell : DataGridViewTextBoxCell
             isFirstDisplayedColumn, isFirstDisplayedRow);
 
         editingControlBounds = GetAdjustedEditingControlBounds(editingControlBounds, padded);
-        editingControlBounds.X += IndicatorGap + 2;
-        editingControlBounds.Width -= IndicatorGap + 2;
+        bool rtl = DataGridView?.RightToLeft == RightToLeft.Yes;
+        if (rtl)
+        {
+            // Reserve IndicatorGap on the right for RTL without shifting left edge
+            editingControlBounds.Width -= IndicatorGap + 2;
+        }
+        else
+        {
+            // Preserve existing LTR behavior
+            editingControlBounds.X += IndicatorGap + 2;
+            editingControlBounds.Width -= IndicatorGap + 2;
+        }
 
         DataGridView!.EditingControl!.Location = new Point(editingControlBounds.X, editingControlBounds.Y + 1);
         DataGridView!.EditingControl!.Size = new Size(editingControlBounds.Width, editingControlBounds.Height - 1);

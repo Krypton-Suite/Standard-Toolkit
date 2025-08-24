@@ -291,6 +291,7 @@ public class KryptonDataGridViewNumericUpDownCell : KryptonDataGridViewTextBoxCe
 
         if (DataGridView!.EditingControl is KryptonNumericUpDown numericUpDown)
         {
+            numericUpDown.RightToLeft = DataGridView!.RightToLeft;
             numericUpDown.DecimalPlaces = DecimalPlaces;
             numericUpDown.Increment = Increment;
             numericUpDown.Maximum = Maximum;
@@ -351,7 +352,7 @@ public class KryptonDataGridViewNumericUpDownCell : KryptonDataGridViewTextBoxCe
                 int reserveLeft = Math.Max(reservedStrip - cellStyle.Padding.Left, 0);
                 textArea = new Rectangle(
                     cellBounds.Left + cellStyle.Padding.Left + reserveLeft,
-                    cellBounds.Top + cellStyle.Padding.Top,
+                    cellBounds.Top  + cellStyle.Padding.Top,
                     cellBounds.Width  - cellStyle.Padding.Left - cellStyle.Padding.Right  - reserveLeft,
                     cellBounds.Height - cellStyle.Padding.Top  - cellStyle.Padding.Bottom - 2);
             }
@@ -364,7 +365,7 @@ public class KryptonDataGridViewNumericUpDownCell : KryptonDataGridViewTextBoxCe
                 int reserveRight = Math.Max(reservedStrip - cellStyle.Padding.Right, 0);
                 textArea = new Rectangle(
                     cellBounds.Left + cellStyle.Padding.Left,
-                    cellBounds.Top + cellStyle.Padding.Top,
+                    cellBounds.Top  + cellStyle.Padding.Top,
                     cellBounds.Width  - cellStyle.Padding.Left - cellStyle.Padding.Right  - reserveRight,
                     cellBounds.Height - cellStyle.Padding.Top  - cellStyle.Padding.Bottom - 2);
             }

@@ -327,6 +327,8 @@ public class KryptonDataGridViewComboBoxCell : DataGridViewTextBoxCell
                 comboBox.AutoCompleteCustomSource.AddRange(autoAppend);
             }
 
+            // Ensure RTL-aware layout of the inner control (drops glyph to the left when RTL)
+            comboBox.RightToLeft = DataGridView!.RightToLeft;
             comboBox.DropDownStyle = DropDownStyle;
             comboBox.DropDownHeight = DropDownHeight;
             comboBox.DropDownWidth = DropDownWidth;
@@ -338,7 +340,7 @@ public class KryptonDataGridViewComboBoxCell : DataGridViewTextBoxCell
             comboBox.DataSource = KryptonOwningColumn?.DataSource;
 
             // Restore the state, if needed.
-            if (!(Value is DBNull || Value is null))
+            if (Value is not (DBNull or null))
             {
                 if (KryptonOwningColumn is not null
                     && KryptonOwningColumn.DataSource is not null
@@ -357,7 +359,7 @@ public class KryptonDataGridViewComboBoxCell : DataGridViewTextBoxCell
     }
 
     /// <summary>
-    /// Ensure the editing control is vertically aligned within the cell bounds.
+    /// Ensure the editing control is vertically aligned within the cell bounds and supports RTL.
     /// </summary>
     public override void PositionEditingControl(bool setLocation,
         bool setSize,
@@ -379,8 +381,11 @@ public class KryptonDataGridViewComboBoxCell : DataGridViewTextBoxCell
 
         if (DataGridView?.EditingControl is not null)
         {
-            DataGridView.EditingControl.Location = new Point(editingControlBounds.X + IndicatorGap, editingControlBounds.Y);
-            DataGridView.EditingControl.Size = new Size(editingControlBounds.Width - IndicatorGap, IndicatorSize - 2);
+            bool rtl = DataGridView.RightToLeft == RightToLeft.Yes;
+            int locX = rtl ? editingControlBounds.X + IndicatorGap : editingControlBounds.X;
+            int width = editingControlBounds.Width - IndicatorGap;
+            DataGridView.EditingControl.Location = new Point(locX, editingControlBounds.Y);
+            DataGridView.EditingControl.Size = new Size(width, IndicatorSize - 2);
         }
     }
 

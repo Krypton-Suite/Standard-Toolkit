@@ -474,6 +474,8 @@ public class KryptonDataGridViewDateTimePickerCell : DataGridViewTextBoxCell
         {
             if (OwningColumn is KryptonDataGridViewDateTimePickerColumn dateTimeColumn)
             {
+                // Ensure RTL-aware layout of the inner control (drops glyph to the left when RTL)
+                dateTime.RightToLeftLayout = DataGridView.RightToLeft == RightToLeft.Yes;
                 dateTime.ShowCheckBox = ShowCheckBox;
                 dateTime.ShowUpDown = ShowUpDown;
                 dateTime.ShowAdornments = true;
@@ -606,9 +608,10 @@ public class KryptonDataGridViewDateTimePickerCell : DataGridViewTextBoxCell
         int residualButton;
         if (rtl)
         {
-            int reclaim = Math.Max(padded.Padding.Left, buttonWidth);
-            residualButton = buttonWidth - reclaim;
-            padded.Padding = new Padding(padded.Padding.Left - reclaim, padded.Padding.Top, padded.Padding.Right, padded.Padding.Bottom);
+            // In RTL scenarios the DataGridView tends to apply the reserve via Right padding
+            int reclaim = Math.Min(padded.Padding.Right, buttonWidth);
+            residualButton = buttonWidth - reclaim; // always >= 0
+            padded.Padding = new Padding(padded.Padding.Left, padded.Padding.Top, padded.Padding.Right - reclaim, padded.Padding.Bottom);
         }
         else
         {
@@ -622,16 +625,15 @@ public class KryptonDataGridViewDateTimePickerCell : DataGridViewTextBoxCell
             isFirstDisplayedColumn, isFirstDisplayedRow);
 
         editingControlBounds = GetAdjustedEditingControlBounds(editingControlBounds, padded);
-        // Important: mirror the non-edit left inset (IndicatorGap):
-        // = 1px base + cellStyle left padding + 2px from DTP layout padding (_drawDockerOuter)!!!
-        editingControlBounds.X += IndicatorGap;
-        editingControlBounds.Width -= IndicatorGap;
-        // Then subtract only the residual BUTTON width from bounds (gap handled in paint/text area)
-        if (rtl)
+        // Nothing further here for RTL!
+        if (!rtl)
         {
-            editingControlBounds.X += residualButton;
+            // Important: mirror the non-edit left inset (IndicatorGap):
+            // = 1px base + cellStyle left padding + 2px from DTP layout padding (_drawDockerOuter)!!!
+            editingControlBounds.X += IndicatorGap;
+            editingControlBounds.Width -= IndicatorGap;
+            editingControlBounds.Width -= residualButton;
         }
-        editingControlBounds.Width -= residualButton;
 
         DataGridView!.EditingControl!.Location = new Point(editingControlBounds.X, editingControlBounds.Y);
         DataGridView!.EditingControl!.Size = new Size(editingControlBounds.Width, editingControlBounds.Height);
