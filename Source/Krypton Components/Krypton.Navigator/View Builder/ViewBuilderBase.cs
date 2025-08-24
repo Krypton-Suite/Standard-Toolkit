@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Gidua, Ahmed Abdelhameed, tobitege 2017 - 2025. All rights reserved.
  *  
  */
 #endregion
@@ -341,11 +341,12 @@ internal abstract class ViewBuilderBase
         var handled = false;
 
         // Check for shortcut key combinations
+        var palette = Navigator.GetResolvedPalette() ?? KryptonManager.CurrentGlobalPalette;
         if (keyData == Navigator.Button.CloseButtonShortcut)
         {
             // Can only invoke action if there is a close button that is enabled
-            if (Navigator.Button.CloseButton.GetVisible(Navigator.GetResolvedPalette()) &&
-                (Navigator.Button.CloseButton.GetEnabled(Navigator.GetResolvedPalette()) == ButtonEnabled.True))
+            if (Navigator.Button.CloseButton.GetVisible(palette) &&
+                (Navigator.Button.CloseButton.GetEnabled(palette) == ButtonEnabled.True))
             {
                 Navigator.PerformCloseAction();
                 handled = true;
@@ -354,8 +355,8 @@ internal abstract class ViewBuilderBase
         else if (keyData == Navigator.Button.ContextButtonShortcut)
         {
             // Can only invoke action if there is a context button that is enabled
-            if (Navigator.Button.ContextButton.GetVisible(Navigator.GetResolvedPalette()) &&
-                (Navigator.Button.ContextButton.GetEnabled(Navigator.GetResolvedPalette()) == ButtonEnabled.True))
+            if (Navigator.Button.ContextButton.GetVisible(palette) &&
+                (Navigator.Button.ContextButton.GetEnabled(palette) == ButtonEnabled.True))
             {
                 Navigator.PerformContextAction();
                 handled = true;
@@ -364,8 +365,8 @@ internal abstract class ViewBuilderBase
         else if (keyData == Navigator.Button.PreviousButtonShortcut)
         {
             // Can only invoke action if there is a previous button that is enabled
-            if (Navigator.Button.PreviousButton.GetVisible(Navigator.GetResolvedPalette()) &&
-                (Navigator.Button.PreviousButton.GetEnabled(Navigator.GetResolvedPalette()) == ButtonEnabled.True))
+            if (Navigator.Button.PreviousButton.GetVisible(palette) &&
+                (Navigator.Button.PreviousButton.GetEnabled(palette) == ButtonEnabled.True))
             {
                 Navigator.PerformPreviousAction();
                 handled = true;
@@ -374,8 +375,8 @@ internal abstract class ViewBuilderBase
         else if (keyData == Navigator.Button.NextButtonShortcut)
         {
             // Can only invoke action if there is a next button that is enabled
-            if (Navigator.Button.NextButton.GetVisible(Navigator.GetResolvedPalette()) &&
-                (Navigator.Button.NextButton.GetEnabled(Navigator.GetResolvedPalette()) == ButtonEnabled.True))
+            if (Navigator.Button.NextButton.GetVisible(palette) &&
+                (Navigator.Button.NextButton.GetEnabled(palette) == ButtonEnabled.True))
             {
                 Navigator.PerformNextAction();
                 handled = true;
