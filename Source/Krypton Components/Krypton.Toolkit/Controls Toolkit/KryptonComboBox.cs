@@ -416,7 +416,7 @@ public class KryptonComboBox : VisualControlBase,
                         // Update text and drop-down rects dependent on the right to left setting
                         if (_kryptonComboBox.RightToLeft == RightToLeft.Yes)
                         {
-                            dropRect = new Rectangle(rect.left + borderSize.Width + 1, rect.top + 1, dropDownWidth - 2, rect.bottom - rect.top - 2);
+                            dropRect = new Rectangle(rect.left + borderSize.Width, rect.top, dropDownWidth, rect.bottom - rect.top);
                             rect.left += borderSize.Width + dropDownWidth;
                             rect.right -= borderSize.Width;
                         }
@@ -424,7 +424,7 @@ public class KryptonComboBox : VisualControlBase,
                         {
                             rect.left += borderSize.Width;
                             rect.right -= borderSize.Width + dropDownWidth;
-                            dropRect = new Rectangle(rect.right + 1, rect.top + 1, dropDownWidth - 2, rect.bottom - rect.top - 2);
+                            dropRect = new Rectangle(rect.right, rect.top, dropDownWidth, rect.bottom - rect.top);
                         }
 
                         // Exclude border from being drawn, we need to take off another 2 pixels from all edges
@@ -2653,10 +2653,14 @@ public class KryptonComboBox : VisualControlBase,
                     && fillRect != _comboHolder.Bounds)
                 {
                     _comboHolder.SetBounds(fillRect.X, fillRect.Y, fillRect.Width, fillRect.Height);
-                    _comboBox.SetBounds(-(1 + _layoutPadding.Left), -1, fillRect.Width + 2 + _layoutPadding.Right, fillRect.Height);
+                    int innerLeft = -(1 + _layoutPadding.Left);
+                    int innerTop = -1 + _layoutPadding.Top;
+                    int innerWidth = fillRect.Width + 2 + _layoutPadding.Right;
+                    int innerHeight = Math.Max(1, fillRect.Height - (_layoutPadding.Top + _layoutPadding.Bottom));
+                    _comboBox.SetBounds(innerLeft, innerTop, innerWidth, innerHeight);
 
-                    // Always center the combo vertically
-                    _comboBox.Top = fillRect.Height / 2 - _comboBox.Height / 2;
+                    // Always center the combo vertically within adjusted height
+                    _comboBox.Top = fillRect.Height / 2 - _comboBox.Height / 2 + _layoutPadding.Top - _layoutPadding.Bottom / 2;
 
                     // IntegralHeight does not always work as it should when set to true (possibly in this case).
                     // Toggling it corrects the chopped off text and shows the item in full

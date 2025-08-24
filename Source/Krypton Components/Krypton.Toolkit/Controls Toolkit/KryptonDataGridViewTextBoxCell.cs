@@ -194,39 +194,20 @@ public class KryptonDataGridViewTextBoxCell : DataGridViewTextBoxCell
         bool isFirstDisplayedColumn,
         bool isFirstDisplayedRow)
     {
-        Rectangle editingControlBounds = PositionEditingPanel(cellBounds, cellClip, cellStyle,
+        var padded = cellStyle.Clone();
+        padded.Padding = new Padding(0);
+
+        Rectangle editingControlBounds = PositionEditingPanel(cellBounds, cellClip, padded,
             singleVerticalBorderAdded, singleHorizontalBorderAdded,
             isFirstDisplayedColumn, isFirstDisplayedRow);
 
-        // Allow derived cells to reclaim any space reserved in non-edit mode (e.g., indicator glyph)
-        int extra = GetReservedNonEditingSpacePixels(cellStyle);
-        if (extra > 0)
-        {
-            if (DataGridView?.RightToLeft == RightToLeft.Yes)
-            {
-                int delta = Math.Min(extra, editingControlBounds.X - cellBounds.X);
-                editingControlBounds.X -= delta;
-                editingControlBounds.Width += delta;
-            }
-            else
-            {
-                int available = cellBounds.Right - (editingControlBounds.X + editingControlBounds.Width);
-                int delta = Math.Min(extra, available);
-                editingControlBounds.Width += delta;
-            }
-        }
+        editingControlBounds = GetAdjustedEditingControlBounds(editingControlBounds, padded);
+        editingControlBounds.X += IndicatorGap + 2;
+        editingControlBounds.Width -= IndicatorGap + 2;
 
-        editingControlBounds = GetAdjustedEditingControlBounds(editingControlBounds, cellStyle);
-        DataGridView!.EditingControl!.Location = new Point(editingControlBounds.X, editingControlBounds.Y);
-        DataGridView.EditingControl.Size = new Size(editingControlBounds.Width, editingControlBounds.Height);
+        DataGridView!.EditingControl!.Location = new Point(editingControlBounds.X, editingControlBounds.Y + 1);
+        DataGridView!.EditingControl!.Size = new Size(editingControlBounds.Width, editingControlBounds.Height - 1);
     }
-
-    /// <summary>
-    /// Returns pixels reserved by the cell for non-edit adornments that should be reclaimed in edit mode.
-    /// Default: 0. Derived cells can override to expand the editing control width (RTL-aware handled here).
-    /// </summary>
-    protected virtual int GetReservedNonEditingSpacePixels(DataGridViewCellStyle cellStyle) => 0;
-
     #endregion
 
     #region Protected

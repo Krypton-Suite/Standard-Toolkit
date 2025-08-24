@@ -34,7 +34,7 @@ public class KryptonDataGridViewComboBoxEditingControl : KryptonComboBox,
         TabStop = false;
         StateCommon.ComboBox.Border.Width = 0;
         StateCommon.ComboBox.Border.Draw = InheritBool.False;
-        SetLayoutDisplayPadding(new Padding(0, 1, 1, 0));
+        SetLayoutDisplayPadding(new Padding(0, 1, 1, 2));
     }
     #endregion
 
