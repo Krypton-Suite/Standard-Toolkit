@@ -382,7 +382,7 @@ public class KryptonDataGridViewComboBoxCell : DataGridViewTextBoxCell
         if (DataGridView?.EditingControl is not null)
         {
             bool rtl = DataGridView.RightToLeft == RightToLeft.Yes;
-            int locX = rtl ? editingControlBounds.X + IndicatorGap : editingControlBounds.X;
+            int locX = rtl ? editingControlBounds.X : editingControlBounds.X + IndicatorGap;
             int width = editingControlBounds.Width - IndicatorGap;
             DataGridView.EditingControl.Location = new Point(locX, editingControlBounds.Y);
             DataGridView.EditingControl.Size = new Size(width, IndicatorSize - 2);
