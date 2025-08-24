@@ -4,6 +4,10 @@
 
 ## 2025-11-xx - Build 2511 (V10 - alpha) - November 2025
 * Resolved [#2103](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2103), Ensure that `KryptonForm` properly supports RTL
+* Resolved [#2448](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2448), `KryptonForm` does not display components without designer source
+* Implemented [#2444](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2444), Add `AGENTS.md` file
+* Fix [#1199](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1199), Fix exception in `KryptonDropButton` due to wrong DialogResult
+* Implemented [#2442](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2442), `KryptonColorButton` and related components with `PaletteColors` mode
 * Resolved [#1022](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1022), `Material - Dark` fixes for KDGV painting
 * Implemented [#984](https://github.com/Krypton-Suite/Standard-Toolkit/issues/984), `KryptonForm` using `SizeGripStyle` for grippie
 	- **Note:** This has a breaking change for custom themes as a new abstract method is introduced in the `PaletteBase` class for sizegrip images!
