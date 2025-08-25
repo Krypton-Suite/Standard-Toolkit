@@ -1,8 +1,8 @@
 ﻿#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2021 - 2025. All rights reserved. 
- *  
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2021 - 2025. All rights reserved.
+ *
  */
 #endregion
 
@@ -74,7 +74,8 @@ public class KryptonColorDialog : ColorDialog
         _alphaUpdateTimer = new System.Windows.Forms.Timer();
         _alphaUpdateTimer.Enabled = false;
         _alphaUpdateTimer.Tick += Timer1OnTick;
-        _commonDialogHandler = new CommonDialogHandler(true)
+        // No embedding or dialog will stall!
+        _commonDialogHandler = new CommonDialogHandler(false)
         {
             ClickCallback = ClickCallback,
             Icon = DialogImageResources.Colour_V10,
@@ -123,7 +124,7 @@ public class KryptonColorDialog : ColorDialog
     private bool _showAlphaSlider;
 
     /// <summary>
-    /// Allows an alpha slider to be displayed 
+    /// Allows an alpha slider to be displayed
     /// </summary>
     /// <remarks>
     /// Will force FullOpen to be true if set.
@@ -274,7 +275,7 @@ public class KryptonColorDialog : ColorDialog
                     //_commonDialogHandler._wrapperForm.ClientSize
                     _alphaSlider.Size = new Size(_commonDialogHandler._wrapperForm.ClientSize.Width - _alphaSlider.Location.X + 4, _blueEdit.ClientLocation.Y - _redEdit.ClientLocation.Y + _blueEdit.Size.Height);
                     _commonDialogHandler._wrapperForm.Controls[0].Controls.Add(_alphaSlider);
-                    // Find the Add button 
+                    // Find the Add button
                     var btnAdd = _commonDialogHandler.Controls.First(static ctl => ctl.DlgCtrlId == 0x00002C8);
                     btnAdd.Button!.Parent!.Width -= 16;
 

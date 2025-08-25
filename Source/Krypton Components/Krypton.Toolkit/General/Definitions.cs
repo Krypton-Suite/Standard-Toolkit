@@ -2,9 +2,9 @@
 /*
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Gidua, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
  */
 #endregion
 
@@ -1635,7 +1635,24 @@ public enum ColorScheme
     /// <summary>
     /// Specifies the Office set of 10 color themes.
     /// </summary>
-    OfficeThemes
+    OfficeThemes,
+
+    /// <summary>
+    /// Specifies dynamic colors sourced from the active palette's SchemeColors.
+    /// </summary>
+    PaletteColors
+}
+#endregion
+
+#region Enum ThemeColorSortMode
+/// <summary>
+/// Sorting options for dynamic Theme Colors generated from the active palette SchemeColors.
+/// </summary>
+public enum ThemeColorSortMode
+{
+    OKLCH,
+    HSB,
+    RGB
 }
 #endregion
 
@@ -1698,7 +1715,7 @@ public enum KryptonTaskDialogResult
     Yes = KryptonMessageBoxResult.Yes,
     /// <summary>The "No" button was selected.</summary>
     No = KryptonMessageBoxResult.No,
-    /// <summary>The "Retry" button was selected.</summary>b
+    /// <summary>The "Retry" button was selected.</summary>
     Retry = KryptonMessageBoxResult.Retry,
     /// <summary>The "Abort" button was selected.</summary>
     Abort = KryptonMessageBoxResult.Abort,
@@ -1856,7 +1873,7 @@ public enum PlacementMode
 }
 #endregion Enum PlacementMode
 
-#region MessageBox Definitions 
+#region MessageBox Definitions
 
 #region Enum MessageBoxContentAreaType
 
@@ -2514,7 +2531,7 @@ public enum InformationBoxDefaultButton
     Button1,
 
     /// <summary>
-    /// The second button on the message box is the default button. 
+    /// The second button on the message box is the default button.
     /// </summary>
     Button2,
 

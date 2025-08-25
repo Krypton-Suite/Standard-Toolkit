@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *
  */
 #endregion
 
@@ -55,7 +55,7 @@ public class KryptonContextMenuColorColumns : KryptonContextMenuItemBase
         [Color.Cyan,    Color.Teal],
         [Color.Blue,    Color.Navy],
         [Color.Fuchsia, Color.Purple]
-    ]; 
+    ];
 
     private static readonly Color[][] _officeStandardScheme =
     [
@@ -70,7 +70,7 @@ public class KryptonContextMenuColorColumns : KryptonContextMenuItemBase
         [Color.FromArgb(  0,  32,  96)],
         [Color.FromArgb(112,  48, 160)]
     ];
-    
+
     private static readonly Color[][] _officeThemeScheme =
     [
         [Color.White,                   Color.FromArgb(242, 242, 242), Color.FromArgb(216, 216, 216), Color.FromArgb(191, 191, 191), Color.FromArgb(165, 165, 165), Color.Gray
@@ -203,7 +203,7 @@ public class KryptonContextMenuColorColumns : KryptonContextMenuItemBase
     {
         get => _autoClose;
 
-        set 
+        set
         {
             if (_autoClose != value)
             {
@@ -267,7 +267,7 @@ public class KryptonContextMenuColorColumns : KryptonContextMenuItemBase
     {
         get => _blockSize;
 
-        set 
+        set
         {
             if (_blockSize != value)
             {
@@ -288,7 +288,7 @@ public class KryptonContextMenuColorColumns : KryptonContextMenuItemBase
     {
         get => _groupNonFirstRows;
 
-        set 
+        set
         {
             if (_groupNonFirstRows != value)
             {
@@ -390,8 +390,20 @@ public class KryptonContextMenuColorColumns : KryptonContextMenuItemBase
             ColorScheme.Basic16 => _basic16Scheme,
             ColorScheme.OfficeStandard => _officeStandardScheme,
             ColorScheme.OfficeThemes => _officeThemeScheme,
+            ColorScheme.PaletteColors => BuildPaletteColorsFallback(),
             _ => Colors
         };
+    }
+
+    private static Color[][] BuildPaletteColorsFallback()
+    {
+        var palette = KryptonManager.CurrentGlobalPalette;
+        if (palette == null)
+        {
+            return _officeStandardScheme;
+        }
+        var custom = ThemeColorGridBuilder.BuildThemeColorColumns(palette.GetSchemeColors(), ThemeColorSortMode.OKLCH, 16);
+        return custom.Length == 0 ? _noneScheme : custom;
     }
     #endregion
 }

@@ -14,6 +14,8 @@ public partial class ButtonsTest : KryptonForm
     public ButtonsTest()
     {
         InitializeComponent();
+        kcbColorScheme.SelectedItem = "OfficeThemes";
+        kcbSortMode.Enabled = false;
     }
 
     private void kcbtnDropDown_SelectedColorChanged(object sender, ColorEventArgs e)
@@ -39,5 +41,27 @@ public partial class ButtonsTest : KryptonForm
         var paramText = item?.CommandParameter is string s ? s : "<no param>";
 
         KryptonMessageBox.Show($"Command executed by:\nType: {typeName}\nParam: {paramText}", "Context Item Called");
+    }
+
+    private void kcbSortMode_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        var text = kcbSortMode.SelectedItem?.ToString();
+        if (!Enum.TryParse<Krypton.Toolkit.ThemeColorSortMode>(text, true, out var mode))
+        {
+            mode = Krypton.Toolkit.ThemeColorSortMode.OKLCH;
+        }
+        kcbtnDropDown.ThemeColorSortMode = mode;
+    }
+
+    private void kcbColorScheme_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        var text = kcbColorScheme.SelectedItem?.ToString();
+        if (!Enum.TryParse<Krypton.Toolkit.ColorScheme>(text, true, out var scheme))
+        {
+            scheme = Krypton.Toolkit.ColorScheme.OfficeThemes;
+        }
+
+        kcbtnDropDown.SchemeThemes = scheme;
+        kcbSortMode.Enabled = scheme == Krypton.Toolkit.ColorScheme.PaletteColors;
     }
 }
