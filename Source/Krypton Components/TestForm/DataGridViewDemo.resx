@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="iconSpec4.Icon" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="iconSpec1.Icon" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1
-        MAAA6mAAADqYAAAXb5JfxUYAAAAJcEhZcwAACxEAAAsRAX9kX5EAAAIUSURBVDhPpZPvT9JBAIdRt9S0
+        MAAA6mAAADqYAAAXb5JfxUYAAAAJcEhZcwAACwwAAAsMAT9AIsgAAAIUSURBVDhPpZPvT9JBAIdRt9S0
         EFqiVFPm1qwXbJWbrhzMfmCUWyROp/jFF2Aq6Fqm+EUNISBRbKVTKFPanM3oRQv/wae7L0mz9SLWbc/u
         dvd5PndvTgf8F3KcERgFTWUiHenqLvY8ynAKp6D3A3cFctZwZk9nBNKVBa223m1eqIUioQKzYn795huZ
         zAFZQTKV1/a0s3AxJx3pyoK2rp5NfIE8rqEc/SP7JOIpCkcL/BDkD8Icf10gtbrKgGcP12BOy0pHulrB
@@ -133,10 +133,10 @@
         cq3t/ZGTrizQC64LOstEOtLVVQlqBfVlIp2qv37RfwfdT1bZoR9UCy8cAAAAAElFTkSuQmCC
 </value>
   </data>
-  <data name="iconSpec5.Icon" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="iconSpec2.Icon" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1
-        MAAA6mAAADqYAAAXb5JfxUYAAAAJcEhZcwAACxEAAAsRAX9kX5EAAAHoSURBVDhPpZPLSxtRHIUDgiAI
+        MAAA6mAAADqYAAAXb5JfxUYAAAAJcEhZcwAACwwAAAsMAT9AIsgAAAHoSURBVDhPpZPLSxtRHIUDgiAI
         BaHgpiC46z/Qv0G66k4U0b5AgggtXVR8LGJ8NBW1TWloYq15uEhrfdv6ijODStRoaho7mqRV8NkqLrro
         +vR3bnHoIovGDnzcO3fOd+bODGMD8F/wyBeKhOIcoUPXdrUtFEc2nME/ZLtG6LKgxBHYQGg2rQgIA9Mp
         BGUcnM8oLtY4huYyKkeHLgtKW97E4J0w0RVO4PnwFt7q3+AZN9E3taMkjmHtK16MbqkMs3ToqoLH3ih6
@@ -148,10 +148,10 @@
         AABJRU5ErkJggg==
 </value>
   </data>
-  <data name="iconSpec6.Icon" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="iconSpec3.Icon" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1
-        MAAA6mAAADqYAAAXb5JfxUYAAAAJcEhZcwAACxEAAAsRAX9kX5EAAAD8SURBVDhPpZO/asJQHEYDgiCt
+        MAAA6mAAADqYAAAXb5JfxUYAAAAJcEhZcwAACwwAAAsMAT9AIsgAAAD8SURBVDhPpZO/asJQHEYDgiCt
         CKKpSEVRkOJQCQ5NHRIyOiXkFfIEyYMJbo7diji1W/0L0pfI9PX3hXpFcbjRwCHcm++cLQaAu+BTFKpC
         Iyd06Bp1z/NwC3QZ6DiOgziOtUiSJHvToctAz7ZtRFGEIAjO8H0/4/KeWzp0s4BlWQjDEK7rasEtHRX4
         eRnh15ngMBzj8Pp+4vL8D7d0VOCrPcC+2cf2oaEFt3RUYPHUxc7sYlMyteCWjgqsPppIN22kq7oesqWj

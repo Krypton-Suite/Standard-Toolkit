@@ -24,6 +24,9 @@ public class KryptonDataGridViewComboBoxCell : DataGridViewTextBoxCell
     private static readonly Type _defaultEditType = typeof(KryptonDataGridViewComboBoxEditingControl);
     private static readonly Type _defaultValueType = typeof(string);
     private static readonly Size _sizeLarge = new Size(10000, 10000);
+
+    protected static readonly int IndicatorSize = 16;
+    protected static readonly int IndicatorGap = 3;
     #endregion
 
     #region Instance Fields
@@ -287,7 +290,6 @@ public class KryptonDataGridViewComboBoxCell : DataGridViewTextBoxCell
             _selectedItemText = string.Empty;
         }
 
-
         base.DetachEditingControl();
     }
 
@@ -325,6 +327,8 @@ public class KryptonDataGridViewComboBoxCell : DataGridViewTextBoxCell
                 comboBox.AutoCompleteCustomSource.AddRange(autoAppend);
             }
 
+            // Ensure RTL-aware layout of the inner control (drops glyph to the left when RTL)
+            comboBox.RightToLeft = DataGridView!.RightToLeft;
             comboBox.DropDownStyle = DropDownStyle;
             comboBox.DropDownHeight = DropDownHeight;
             comboBox.DropDownWidth = DropDownWidth;
@@ -336,7 +340,7 @@ public class KryptonDataGridViewComboBoxCell : DataGridViewTextBoxCell
             comboBox.DataSource = KryptonOwningColumn?.DataSource;
 
             // Restore the state, if needed.
-            if (!(Value is DBNull || Value is null))
+            if (Value is not (DBNull or null))
             {
                 if (KryptonOwningColumn is not null
                     && KryptonOwningColumn.DataSource is not null
@@ -353,6 +357,38 @@ public class KryptonDataGridViewComboBoxCell : DataGridViewTextBoxCell
             _selectedItemText = comboBox.Text;
         }
     }
+
+    /// <summary>
+    /// Ensure the editing control is vertically aligned within the cell bounds and supports RTL.
+    /// </summary>
+    public override void PositionEditingControl(bool setLocation,
+        bool setSize,
+        Rectangle cellBounds,
+        Rectangle cellClip,
+        DataGridViewCellStyle cellStyle,
+        bool singleVerticalBorderAdded,
+        bool singleHorizontalBorderAdded,
+        bool isFirstDisplayedColumn,
+        bool isFirstDisplayedRow)
+    {
+        var padded = cellStyle.Clone();
+        padded.Padding = new Padding(0);
+
+        Rectangle editingControlBounds = PositionEditingPanel(cellBounds, cellClip, padded,
+            singleVerticalBorderAdded, singleHorizontalBorderAdded, isFirstDisplayedColumn, isFirstDisplayedRow);
+
+        editingControlBounds = GetAdjustedEditingControlBounds(editingControlBounds, padded);
+
+        if (DataGridView?.EditingControl is not null)
+        {
+            bool rtl = DataGridView.RightToLeft == RightToLeft.Yes;
+            int locX = rtl ? editingControlBounds.X : editingControlBounds.X + IndicatorGap;
+            int width = editingControlBounds.Width - IndicatorGap;
+            DataGridView.EditingControl.Location = new Point(locX, editingControlBounds.Y);
+            DataGridView.EditingControl.Size = new Size(width, IndicatorSize - 2);
+        }
+    }
+
     #endregion
 
     #region Protected
@@ -373,38 +409,43 @@ public class KryptonDataGridViewComboBoxCell : DataGridViewTextBoxCell
             Rectangle textArea;
             var righToLeft = DataGridView.RightToLeft == RightToLeft.Yes;
 
-            // Scale the indicator to the available height, minimum 12px
-            int availableHeight = cellBounds.Height - cellStyle.Padding.Top - cellStyle.Padding.Bottom - 2;
-            int indicatorSize = Math.Max(12, availableHeight);
+            // Use the same button width as the editor so renderer output matches
+            int buttonWidth = SystemInformation.VerticalScrollBarWidth - 2;
+            int reservedStrip = buttonWidth + IndicatorGap;
 
             if (righToLeft)
             {
                 pos = cellBounds.Left;
 
-                // The WinForms cell content always receives padding of one by default, custom padding is added tot that.
+                // The WinForms cell content always receives padding of one by default, custom padding is added to that.
+                // Reserve the indicator strip on the left; padding contributes first via reservedStrip semantics
+                int reserveLeft = Math.Max(reservedStrip - cellStyle.Padding.Left, 0);
                 textArea = new Rectangle(
-                    1 + cellBounds.Left + cellStyle.Padding.Left + indicatorSize,
-                    1 + cellBounds.Top + cellStyle.Padding.Top,
-                    cellBounds.Width - cellStyle.Padding.Left - cellStyle.Padding.Right - indicatorSize - 3,
-                    cellBounds.Height - cellStyle.Padding.Top - cellStyle.Padding.Bottom - 2);
+                    cellBounds.Left + cellStyle.Padding.Left + reserveLeft,
+                    cellBounds.Top + cellStyle.Padding.Top,
+                    cellBounds.Width  - cellStyle.Padding.Left - cellStyle.Padding.Right  - reserveLeft,
+                    cellBounds.Height - cellStyle.Padding.Top  - cellStyle.Padding.Bottom - 2);
             }
             else
             {
-                pos = cellBounds.Right - indicatorSize;
+                pos = cellBounds.Right - buttonWidth;
 
-                // The WinForms cell content always receives padding of one by default, custom padding is added tot that.
+                // The WinForms cell content always receives padding of one by default, custom padding is added to that.
+                // Reserve the indicator strip on the right; padding contributes first via reservedStrip semantics
+                int reserveRight = Math.Max(reservedStrip - cellStyle.Padding.Right, 0);
                 textArea = new Rectangle(
-                    1 + cellBounds.Left + cellStyle.Padding.Left,
-                    1 + cellBounds.Top + cellStyle.Padding.Top,
-                    cellBounds.Width - cellStyle.Padding.Left - cellStyle.Padding.Right - indicatorSize - 3,
-                    cellBounds.Height - cellStyle.Padding.Top - cellStyle.Padding.Bottom - 2);
+                    cellBounds.Left + cellStyle.Padding.Left,
+                    cellBounds.Top + cellStyle.Padding.Top,
+                    cellBounds.Width  - cellStyle.Padding.Left - cellStyle.Padding.Right  - reserveRight,
+                    cellBounds.Height - cellStyle.Padding.Top  - cellStyle.Padding.Bottom - 2);
             }
 
             // When the Krypton column is part of a WinForms DataGridView let the default paint routine paint the cell.
             // Afterwards we paint the text and drop down image.
             if (DataGridView is DataGridView)
             {
-                base.Paint(graphics, clipBounds, cellBounds, rowIndex, cellState, null, string.Empty, errorText, cellStyle, advancedBorderStyle, paintParts);
+                base.Paint(graphics, clipBounds, cellBounds, rowIndex, cellState, null,
+                    string.Empty, errorText, cellStyle, advancedBorderStyle, paintParts);
             }
 
             // Draw the drop down button, only if no ErrorText has been set.
@@ -412,9 +453,18 @@ public class KryptonDataGridViewComboBoxCell : DataGridViewTextBoxCell
             string text;
             if (ErrorText.Length == 0)
             {
+                var buttonRect = new Rectangle(
+                    righToLeft
+                        ? cellBounds.Left + IndicatorGap - 1
+                        : cellBounds.Right - buttonWidth - IndicatorGap + 1,
+                    textArea.Top + 1,
+                    buttonWidth,
+                    textArea.Height - 1);
+
                 // Use crisp cached glyph rendered by renderer if available
-                var sized = KryptonOwningColumn?.GetIndicatorImageForSize(indicatorSize) ?? image;
-                graphics.DrawImage(sized, new Rectangle(pos, textArea.Top, indicatorSize, indicatorSize));
+                var sized = KryptonOwningColumn?.GetIndicatorImageForSize(Math.Min(buttonRect.Width, buttonRect.Height)) ?? image;
+                int y = textArea.Top + (textArea.Height - buttonWidth) / 2;
+                graphics.DrawImage(sized, new Rectangle(buttonRect.X, y, buttonWidth, buttonWidth));
                 text = _selectedItemText;
             }
             else
@@ -478,6 +528,34 @@ public class KryptonDataGridViewComboBoxCell : DataGridViewTextBoxCell
         rowIndex != -1
         && DataGridView is { EditingControl: KryptonDataGridViewComboBoxEditingControl control }
         && (rowIndex == ((IDataGridViewEditingControl)control).EditingControlRowIndex);
+
+    private Rectangle GetAdjustedEditingControlBounds(Rectangle editingControlBounds,
+        DataGridViewCellStyle cellStyle)
+    {
+        // Compute final height that the editor should use and adjust Y for alignment
+        int available = editingControlBounds.Height;
+        var preferredHeight = DataGridView!.EditingControl!.GetPreferredSize(new Size(editingControlBounds.Width, 10000)).Height;
+        int finalHeight = Math.Min(preferredHeight, available);
+        if (finalHeight <= available)
+        {
+            switch (cellStyle.Alignment)
+            {
+                case DataGridViewContentAlignment.MiddleLeft:
+                case DataGridViewContentAlignment.MiddleCenter:
+                case DataGridViewContentAlignment.MiddleRight:
+                    editingControlBounds.Y += (available - finalHeight) / 2;
+                    break;
+                case DataGridViewContentAlignment.BottomLeft:
+                case DataGridViewContentAlignment.BottomCenter:
+                case DataGridViewContentAlignment.BottomRight:
+                    editingControlBounds.Y += available - finalHeight;
+                    break;
+            }
+            editingControlBounds.Height = finalHeight;
+        }
+
+        return editingControlBounds;
+    }
     #endregion
 
     #region Internal
