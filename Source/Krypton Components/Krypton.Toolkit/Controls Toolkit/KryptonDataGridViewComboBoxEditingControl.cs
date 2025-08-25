@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
- *  
+ *
  */
 #endregion
 
@@ -34,7 +34,7 @@ public class KryptonDataGridViewComboBoxEditingControl : KryptonComboBox,
         TabStop = false;
         StateCommon.ComboBox.Border.Width = 0;
         StateCommon.ComboBox.Border.Draw = InheritBool.False;
-        SetLayoutDisplayPadding(new Padding(0, 1, 1, 0));
+        SetLayoutDisplayPadding(new Padding(0, 1, 1, 2));
     }
     #endregion
 
@@ -64,7 +64,7 @@ public class KryptonDataGridViewComboBoxEditingControl : KryptonComboBox,
     /// </summary>
     [AllowNull]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public virtual object EditingControlFormattedValue 
+    public virtual object EditingControlFormattedValue
     {
         // [AllowNull] removes warning CS8767, but allows for null input, which is undesired.
         // The Text property is a non-nullable string and therefore null input
