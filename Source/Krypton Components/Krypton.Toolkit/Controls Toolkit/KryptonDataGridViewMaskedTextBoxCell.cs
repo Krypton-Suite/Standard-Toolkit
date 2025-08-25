@@ -457,6 +457,7 @@ public class KryptonDataGridViewMaskedTextBoxCell : DataGridViewTextBoxCell
 
         if (DataGridView!.EditingControl is KryptonMaskedTextBox maskedTextBox)
         {
+            maskedTextBox.RightToLeft = DataGridView!.RightToLeft;
             maskedTextBox.PromptChar = PromptChar;
             maskedTextBox.AllowPromptAsInput = AllowPromptAsInput;
             maskedTextBox.AsciiOnly = AsciiOnly;

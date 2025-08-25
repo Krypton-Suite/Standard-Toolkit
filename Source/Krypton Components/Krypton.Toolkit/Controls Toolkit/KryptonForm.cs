@@ -1754,16 +1754,29 @@ public class KryptonForm : VisualForm,
     {
         base.OnHandleCreated(e);
 
-        if (IsMdiContainer && !_mdiTransferred)
+        // Differ on MdiContainer first
+        if (IsMdiContainer)
         {
-            SetInheritedControlOverride();
-
-            Control.ControlCollection checkForRibbon = _internalKryptonPanel.Controls;
-
-            for (var i = checkForRibbon.Count - 1; i >= 0; i--)
+            if (!_mdiTransferred)
             {
-                base.Controls.Add(checkForRibbon[i]);
+                SetInheritedControlOverride();
+
+                Control.ControlCollection checkForRibbon = _internalKryptonPanel.Controls;
+
+                for (var i = checkForRibbon.Count - 1; i >= 0; i--)
+                {
+                    base.Controls.Add(checkForRibbon[i]);
+                }
             }
+        }
+        else if (_internalPanelState == InheritBool.Inherit && !DesignMode)
+        {
+            // #2448 | Work-around / fix | Only runs on non mdi containers
+            // This happens when KForm is instantiated manually without designer source,
+            // which runs the layout methods through InitializeComponent.
+            // This block is only to be executed at runtime.
+            SuspendLayout();
+            ResumeLayout(false);
         }
 
         // Register with the ActiveFormTracker
