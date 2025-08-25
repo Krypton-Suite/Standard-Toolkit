@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege 2017 - 2025. All rights reserved.
+ *
  */
 #endregion
 
@@ -34,7 +34,7 @@ public class KryptonDataGridViewNumericUpDownEditingControl : KryptonNumericUpDo
         TabStop = false;
         StateCommon.Border.Width = 0;
         StateCommon.Border.Draw = InheritBool.False;
-        SetLayoutDisplayPadding(new Padding(0, 0, 0, -1));
+        SetLayoutDisplayPadding(new Padding(0, 0, 0, 2));
     }
     #endregion
 
@@ -65,7 +65,7 @@ public class KryptonDataGridViewNumericUpDownEditingControl : KryptonNumericUpDo
     /// </summary>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [AllowNull]
-    public virtual object EditingControlFormattedValue 
+    public virtual object EditingControlFormattedValue
     {
         // [AllowNull] removes warning CS8767, but allows for null input, which is undesired.
         // The Text property is a non-nullable string and therefore null input
@@ -144,7 +144,7 @@ public class KryptonDataGridViewNumericUpDownEditingControl : KryptonNumericUpDo
             {
                 if (Controls[0].Controls[1] is TextBox textBox)
                 {
-                    // If the end of the selection is at the begining of the string or if the entire text is selected 
+                    // If the end of the selection is at the begining of the string or if the entire text is selected
                     // and we did not start editing, send this character to the dataGridView, else process the key message
                     if (((RightToLeft == RightToLeft.No) && !(textBox is { SelectionLength: 0, SelectionStart: 0 })) ||
                         ((RightToLeft == RightToLeft.Yes) && !((textBox.SelectionLength == 0) && (textBox.SelectionStart == textBox.Text.Length))))

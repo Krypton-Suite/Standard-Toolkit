@@ -896,6 +896,37 @@ public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconCo
     private KryptonDataGridViewDateTimePickerCell? DateTimePickerCellTemplate => CellTemplate as KryptonDataGridViewDateTimePickerCell;
     // Cell indicator image instance
     private KryptonDataGridViewCellIndicatorImage _kryptonDataGridViewCellIndicatorImage;
+
+    private bool ShouldSerializeDefaultCellStyle()
+    {
+        if (!HasDefaultCellStyle)
+        {
+            return false;
+        }
+
+        DataGridViewCellStyle defaultCellStyle = DefaultCellStyle!;
+
+        return !defaultCellStyle.BackColor.IsEmpty
+               || !defaultCellStyle.ForeColor.IsEmpty
+               || !defaultCellStyle.SelectionBackColor.IsEmpty
+               || !defaultCellStyle.SelectionForeColor.IsEmpty
+               || defaultCellStyle.Font != null
+               || !defaultCellStyle.IsNullValueDefault
+               || !defaultCellStyle.IsDataSourceNullValueDefault
+               || !string.IsNullOrEmpty(defaultCellStyle.Format)
+               || !defaultCellStyle.FormatProvider.Equals(CultureInfo.CurrentCulture)
+               || defaultCellStyle.Alignment != DataGridViewContentAlignment.NotSet
+               || defaultCellStyle.WrapMode != DataGridViewTriState.NotSet
+               || defaultCellStyle.Tag != null
+               || !defaultCellStyle.Padding.Equals(Padding.Empty);
+    }
+
+    /// <inheritdoc/>
+    protected override void OnDataGridViewChanged()
+    {
+        _kryptonDataGridViewCellIndicatorImage.DataGridView = DataGridView as KryptonDataGridView;
+        base.OnDataGridViewChanged();
+    }
     #endregion
 
     #region Internal
@@ -906,13 +937,4 @@ public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconCo
     internal Image? CellIndicatorImage => _kryptonDataGridViewCellIndicatorImage.Image;
     internal Image? GetIndicatorImageForSize(int size) => _kryptonDataGridViewCellIndicatorImage.GetOrCreate(size);
     #endregion Internal
-
-    #region Protected
-    /// <inheritdoc/>
-    protected override void OnDataGridViewChanged()
-    {
-        _kryptonDataGridViewCellIndicatorImage.DataGridView = DataGridView as KryptonDataGridView;
-        base.OnDataGridViewChanged();
-    }
-    #endregion Protected
 }
