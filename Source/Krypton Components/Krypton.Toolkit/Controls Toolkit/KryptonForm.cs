@@ -1640,7 +1640,7 @@ public class KryptonForm : VisualForm,
             }
         }
 
-        bool isResizable = FormBorderStyle == FormBorderStyle.Sizable || FormBorderStyle == FormBorderStyle.SizableToolWindow;
+        bool isResizable = FormBorderStyle is FormBorderStyle.Sizable or FormBorderStyle.SizableToolWindow;
         Padding borders = RealWindowBorders;
 
         // Material: use a wider invisible hit band for easier resize while keeping flat, borderless visuals.
@@ -1683,7 +1683,7 @@ public class KryptonForm : VisualForm,
             }
 
             // Is mouse over one of the borders?
-            if (mouseView == _drawDocker && isResizable)
+            if (isResizable && mouseView == _drawDocker)
             {
                 // Is point over the left border?
                 if ((borders.Left > 0) && (pt.X <= borders.Left))
