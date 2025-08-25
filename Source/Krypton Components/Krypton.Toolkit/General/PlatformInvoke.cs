@@ -4696,7 +4696,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct SHSTOCKICONINFO
     {
-        public int cbSize;
+        public uint cbSize;
         public IntPtr hIcon;
         public int iSysImageIndex;
         public int iIcon;
@@ -4704,7 +4704,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         public string szPath;
     }
 
-    [DllImport(Libraries.Shell32, CharSet = CharSet.Unicode, ExactSpelling = true, PreserveSig = false)]
+    [DllImport(Libraries.Shell32, CharSet = CharSet.Unicode, ExactSpelling = true)]
     public static extern int SHGetStockIconInfo(int siid, int uFlags, ref SHSTOCKICONINFO psii);
 
     [DllImport(Libraries.User32, SetLastError = true)]

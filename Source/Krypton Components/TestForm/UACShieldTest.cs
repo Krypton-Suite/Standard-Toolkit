@@ -34,10 +34,10 @@ public partial class UACShieldTest : KryptonForm
         {
             Text = "System UAC Shield",
             Location = new Point(20, 20),
-            Size = new Size(150, 40),
-            UseSystemShieldIcon = true,
-            UACShieldIconSize = UACShieldIconSize.Small
+            Size = new Size(150, 40)
         };
+        btnSystemShield.Values.UseSystemShieldIcon = true;
+        btnSystemShield.Values.UACShieldIconSize = UACShieldIconSize.Small;
         Controls.Add(btnSystemShield);
 
         // Test 2: UAC Shield with different sizes
@@ -45,10 +45,10 @@ public partial class UACShieldTest : KryptonForm
         {
             Text = "Large UAC Shield",
             Location = new Point(20, 80),
-            Size = new Size(150, 40),
-            UseSystemShieldIcon = true,
-            UACShieldIconSize = UACShieldIconSize.Large
+            Size = new Size(150, 40)
         };
+        btnLargeShield.Values.UseSystemShieldIcon = true;
+        btnLargeShield.Values.UACShieldIconSize = UACShieldIconSize.Large;
         Controls.Add(btnLargeShield);
 
         // Test 3: Legacy UAC elevation button
@@ -56,10 +56,10 @@ public partial class UACShieldTest : KryptonForm
         {
             Text = "Legacy UAC Button",
             Location = new Point(20, 140),
-            Size = new Size(150, 40),
-            UseAsUACElevationButton = true,
-            UACShieldIconSize = UACShieldIconSize.Medium
+            Size = new Size(150, 40)
         };
+        btnLegacyUAC.Values.UseAsUACElevationButton = true;
+        btnLegacyUAC.Values.UACShieldIconSize = UACShieldIconSize.Medium;
         Controls.Add(btnLegacyUAC);
 
         // Test 4: Extra small shield
@@ -67,10 +67,10 @@ public partial class UACShieldTest : KryptonForm
         {
             Text = "Extra Small Shield",
             Location = new Point(20, 200),
-            Size = new Size(150, 40),
-            UseSystemShieldIcon = true,
-            UACShieldIconSize = UACShieldIconSize.ExtraSmall
+            Size = new Size(150, 40)
         };
+        btnExtraSmall.Values.UseSystemShieldIcon = true;
+        btnExtraSmall.Values.UACShieldIconSize = UACShieldIconSize.ExtraSmall;
         Controls.Add(btnExtraSmall);
 
         // Test 5: Extra large shield
@@ -78,10 +78,10 @@ public partial class UACShieldTest : KryptonForm
         {
             Text = "Extra Large Shield",
             Location = new Point(20, 260),
-            Size = new Size(150, 40),
-            UseSystemShieldIcon = true,
-            UACShieldIconSize = UACShieldIconSize.ExtraLarge
+            Size = new Size(150, 40)
         };
+        btnExtraLarge.Values.UseSystemShieldIcon = true;
+        btnExtraLarge.Values.UACShieldIconSize = UACShieldIconSize.ExtraLarge;
         Controls.Add(btnExtraLarge);
 
         // Test 6: Dynamic size change
@@ -89,15 +89,15 @@ public partial class UACShieldTest : KryptonForm
         {
             Text = "Dynamic Shield",
             Location = new Point(200, 20),
-            Size = new Size(150, 40),
-            UseSystemShieldIcon = true,
-            UACShieldIconSize = UACShieldIconSize.Small
+            Size = new Size(150, 40)
         };
+        btnDynamic.Values.UseSystemShieldIcon = true;
+        btnDynamic.Values.UACShieldIconSize = UACShieldIconSize.Small;
         btnDynamic.Click += (sender, e) =>
         {
             // Cycle through different sizes
-            var currentSize = btnDynamic.UACShieldIconSize;
-            btnDynamic.UACShieldIconSize = currentSize switch
+            var currentSize = btnDynamic.Values.UACShieldIconSize;
+            btnDynamic.Values.UACShieldIconSize = currentSize switch
             {
                 UACShieldIconSize.ExtraSmall => UACShieldIconSize.Small,
                 UACShieldIconSize.Small => UACShieldIconSize.Medium,
@@ -114,22 +114,22 @@ public partial class UACShieldTest : KryptonForm
         {
             Text = "Toggle Shield Type",
             Location = new Point(200, 80),
-            Size = new Size(150, 40),
-            UseSystemShieldIcon = true,
-            UACShieldIconSize = UACShieldIconSize.Medium
+            Size = new Size(150, 40)
         };
+        btnToggle.Values.UseSystemShieldIcon = true;
+        btnToggle.Values.UACShieldIconSize = UACShieldIconSize.Medium;
         btnToggle.Click += (sender, e) =>
         {
-            if (btnToggle.UseSystemShieldIcon)
+            if (btnToggle.Values.UseSystemShieldIcon)
             {
-                btnToggle.UseSystemShieldIcon = false;
-                btnToggle.UseAsUACElevationButton = true;
+                btnToggle.Values.UseSystemShieldIcon = false;
+                btnToggle.Values.UseAsUACElevationButton = true;
                 btnToggle.Text = "Legacy UAC";
             }
             else
             {
-                btnToggle.UseAsUACElevationButton = false;
-                btnToggle.UseSystemShieldIcon = true;
+                btnToggle.Values.UseAsUACElevationButton = false;
+                btnToggle.Values.UseSystemShieldIcon = true;
                 btnToggle.Text = "System Shield";
             }
         };
@@ -144,8 +144,8 @@ public partial class UACShieldTest : KryptonForm
         };
         btnClear.Click += (sender, e) =>
         {
-            btnClear.UseSystemShieldIcon = false;
-            btnClear.UseAsUACElevationButton = false;
+            btnClear.Values.UseSystemShieldIcon = false;
+            btnClear.Values.UseAsUACElevationButton = false;
             btnClear.Text = "Shield Cleared";
         };
         Controls.Add(btnClear);
@@ -155,11 +155,11 @@ public partial class UACShieldTest : KryptonForm
         {
             Text = "Theme Aware Shield",
             Location = new Point(200, 200),
-            Size = new Size(150, 40),
-            UseSystemShieldIcon = true,
-            UACShieldIconSize = UACShieldIconSize.Medium,
-            UseThemeAwareShieldIcon = true
+            Size = new Size(150, 40)
         };
+        btnThemeAware.Values.UseSystemShieldIcon = true;
+        btnThemeAware.Values.UACShieldIconSize = UACShieldIconSize.Medium;
+        btnThemeAware.Values.UseThemeAwareShieldIcon = true;
         Controls.Add(btnThemeAware);
 
         // Test 10: Force light theme
@@ -167,11 +167,11 @@ public partial class UACShieldTest : KryptonForm
         {
             Text = "Light Theme Shield",
             Location = new Point(200, 260),
-            Size = new Size(150, 40),
-            UseSystemShieldIcon = true,
-            UACShieldIconSize = UACShieldIconSize.Medium,
-            ShieldIconThemeMode = ShieldIconThemeMode.Light
+            Size = new Size(150, 40)
         };
+        btnLightTheme.Values.UseSystemShieldIcon = true;
+        btnLightTheme.Values.UACShieldIconSize = UACShieldIconSize.Medium;
+        btnLightTheme.Values.ShieldIconThemeMode = ShieldIconThemeMode.Light;
         Controls.Add(btnLightTheme);
 
         // Test 11: Force dark theme
@@ -179,11 +179,11 @@ public partial class UACShieldTest : KryptonForm
         {
             Text = "Dark Theme Shield",
             Location = new Point(380, 20),
-            Size = new Size(150, 40),
-            UseSystemShieldIcon = true,
-            UACShieldIconSize = UACShieldIconSize.Medium,
-            ShieldIconThemeMode = ShieldIconThemeMode.Dark
+            Size = new Size(150, 40)
         };
+        btnDarkTheme.Values.UseSystemShieldIcon = true;
+        btnDarkTheme.Values.UACShieldIconSize = UACShieldIconSize.Medium;
+        btnDarkTheme.Values.ShieldIconThemeMode = ShieldIconThemeMode.Dark;
         Controls.Add(btnDarkTheme);
 
         // Test 12: System theme mode
@@ -191,11 +191,11 @@ public partial class UACShieldTest : KryptonForm
         {
             Text = "System Theme Shield",
             Location = new Point(380, 80),
-            Size = new Size(150, 40),
-            UseSystemShieldIcon = true,
-            UACShieldIconSize = UACShieldIconSize.Medium,
-            ShieldIconThemeMode = ShieldIconThemeMode.System
+            Size = new Size(150, 40)
         };
+        btnSystemTheme.Values.UseSystemShieldIcon = true;
+        btnSystemTheme.Values.UACShieldIconSize = UACShieldIconSize.Medium;
+        btnSystemTheme.Values.ShieldIconThemeMode = ShieldIconThemeMode.System;
         Controls.Add(btnSystemTheme);
 
         // Test 13: Show current OS info
@@ -246,7 +246,7 @@ public partial class UACShieldTest : KryptonForm
             // Force refresh of all shield icons
             foreach (Control control in Controls)
             {
-                if (control is KryptonButton btn && btn.UseSystemShieldIcon)
+                if (control is KryptonButton btn && btn.Values.UseSystemShieldIcon)
                 {
                     btn.PerformLayout();
                 }
@@ -279,7 +279,7 @@ public partial class UACShieldTest : KryptonForm
     {
         try
         {
-            var shieldIcon = KryptonDropButton.GetShieldIconStatic();
+            var shieldIcon = UacShieldIconHelper.GetShieldIcon();
             if (shieldIcon != null)
             {
                 return $"System Shield Icon Available: Yes\nIcon Size: {shieldIcon.Size.Width}x{shieldIcon.Size.Height}";

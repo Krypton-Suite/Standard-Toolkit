@@ -113,29 +113,3 @@ public class OsVersionInfo
 }
 
 
-public class UserAccountControlShieldHelper
-{
-   /* [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-    public struct SHSTOCKICONINFO
-    {
-        public uint cbSize;
-        public IntPtr hIcon;
-        public int iSysImageIndex;
-        public int iIcon;
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)]
-        public string szPath;
-    }
-
-    [DllImport(Libraries.Shell32, CharSet = CharSet.Unicode, SetLastError = false)]
-    public static extern int SHGetStockIconInfo(int siid, uint uFlags, ref SHSTOCKICONINFO psii);*/
-
-
-    /// <summary>
-    /// Gets a value indicating whether the user account control is enabled.
-    /// </summary>
-    /// <returns><c>true</c> if user account control is enabled; otherwise, <c>false</c>.</returns>
-    public static bool IsEnabled()
-    {
-        return Environment.OSVersion.Version.Major >= 6 && !new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator);
-    }
-}

@@ -521,8 +521,15 @@ public class ButtonValues : Storage,
             Image shield;
             if (_useSystemShieldIcon)
             {
-                Icon? shieldIcon = KryptonDropButton.GetShieldIconStatic();
-                shield = shieldIcon?.ToBitmap() ?? SystemIcons.Shield.ToBitmap();
+                var shieldIcon = UacShieldIconHelper.GetShieldIcon();
+                try
+                {
+                    shield = shieldIcon?.ToBitmap() ?? SystemIcons.Shield.ToBitmap();
+                }
+                finally
+                {
+                    shieldIcon?.Dispose();
+                }
             }
             else
             {
@@ -605,12 +612,12 @@ public class ButtonValues : Storage,
                 int targetSize = GetTargetSize(targetIconSize);
 
                 // Try to get a DPI-aware system shield icon at the exact size first
-                Icon? shieldIcon = KryptonDropButton.GetSystemShieldIconAtSize(targetSize);
+                Icon? shieldIcon = UacShieldIconHelper.GetSystemShieldIconAtSize(targetSize);
                 
                 if (shieldIcon == null)
                 {
                     // Fallback to the general system shield icon and scale it
-                    shieldIcon = KryptonDropButton.GetShieldIconStatic();
+                    shieldIcon = UacShieldIconHelper.GetShieldIcon();
                 }
 
                 if (shieldIcon != null)
@@ -661,28 +668,7 @@ public class ButtonValues : Storage,
     /// <returns>A scaled bitmap.</returns>
     private static Bitmap? ScaleIconWithQuality(Icon icon, int width, int height)
     {
-        try
-        {
-            using (var bitmap = new Bitmap(width, height))
-            using (var graphics = Graphics.FromImage(bitmap))
-            {
-                // Set high quality rendering
-                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                graphics.SmoothingMode = SmoothingMode.HighQuality;
-                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                graphics.CompositingQuality = CompositingQuality.HighQuality;
-
-                // Draw the icon with proper scaling
-                graphics.DrawIcon(icon, new Rectangle(0, 0, width, height));
-                
-                return new Bitmap(bitmap);
-            }
-        }
-        catch
-        {
-            // Fallback to basic scaling if high quality fails
-            return GraphicsExtensions.ScaleImage(icon.ToBitmap(), width, height);
-        }
+        return UacShieldIconHelper.ScaleIconWithQuality(icon, width, height);
     }
 
     /// <summary>

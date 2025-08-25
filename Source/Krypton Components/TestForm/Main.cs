@@ -365,8 +365,7 @@ public partial class Main : KryptonForm
 
     private void kryptonButton14_Click(object sender, EventArgs e)
     {
-        KryptonMessageBox.Show("question?", "title", KryptonMessageBoxButtons.YesNo,
-            KryptonMessageBoxIcon.Warning, KryptonMessageBoxDefaultButton.Button2);
+        new UACShieldTest().ShowDialog();
     }
 
     private void kryptonThemeComboBox1_SelectedIndexChanged(object sender, EventArgs e)
