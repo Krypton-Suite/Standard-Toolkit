@@ -389,10 +389,10 @@ public abstract class VisualControlBase : Control,
     /// </summary>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Advanced)]
-    public ToolStripRenderer CreateToolStripRenderer()
+    public ToolStripRenderer? CreateToolStripRenderer()
     {
         var palette = GetResolvedPalette() ?? KryptonManager.CurrentGlobalPalette;
-        return Renderer.RenderToolStrip(palette);
+        return Renderer?.RenderToolStrip(palette);
     }
 
     /// <summary>

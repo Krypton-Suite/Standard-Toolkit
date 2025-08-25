@@ -388,7 +388,7 @@ public abstract class VisualContainerControlBase : ContainerControl,
     public ToolStripRenderer? CreateToolStripRenderer()
     {
         var palette = GetResolvedPalette() ?? KryptonManager.CurrentGlobalPalette;
-        return Renderer.RenderToolStrip(palette);
+        return Renderer?.RenderToolStrip(palette);
     }
 
     /// <summary>
