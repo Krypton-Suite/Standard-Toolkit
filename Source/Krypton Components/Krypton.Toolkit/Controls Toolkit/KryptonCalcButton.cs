@@ -80,6 +80,8 @@ public class KryptonCalcButton : VisualSimpleBase, IButtonControl, IContentValue
         // Create content storage
         Values = CreateButtonValues(NeedPaintDelegate);
         Values.TextChanged += OnButtonTextChanged;
+        // Default calculator glyph
+        Values.Image = ResourceFiles.Generic.GenericKryptonImageResources.KryptonCalcButton;
 
         // Create the palette storage
         StateCommon = new PaletteTripleRedirect(Redirector, PaletteBackStyle.ButtonStandalone, PaletteBorderStyle.ButtonStandalone, PaletteContentStyle.ButtonStandalone, NeedPaintDelegate);
@@ -111,6 +113,23 @@ public class KryptonCalcButton : VisualSimpleBase, IButtonControl, IContentValue
             Splitter = true,
             TestForFocusCues = true
         };
+
+        // Replace default drop glyph with calculator icon
+        try
+        {
+            var calcBmp = ResourceFiles.Generic.GenericKryptonImageResources.KryptonCalcButton;
+            var ddField = typeof(ViewDrawButton).GetField("_drawDropDownButton", BindingFlags.NonPublic | BindingFlags.Instance);
+            if (ddField != null)
+            {
+                var ddButton = ddField.GetValue(_drawButton);
+                var prop = ddButton?.GetType().GetProperty("CustomGlyph", BindingFlags.Public | BindingFlags.Instance);
+                prop?.SetValue(ddButton, calcBmp, null);
+            }
+        }
+        catch
+        {
+            // ignore if internal shape changes in future
+        }
 
         // Create a button controller to handle button style behaviour
         _buttonController = new ButtonController(_drawButton, NeedPaintDelegate)
@@ -164,7 +183,7 @@ public class KryptonCalcButton : VisualSimpleBase, IButtonControl, IContentValue
     }
 
     /// <summary>
-    /// Gets or sets the text associated with this control. 
+    /// Gets or sets the text associated with this control.
     /// </summary>
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [AllowNull]
@@ -858,8 +877,9 @@ public class KryptonCalcButton : VisualSimpleBase, IButtonControl, IContentValue
         };
 
         var popupLocation = new Point(screenRect.X, screenRect.Bottom + 1);
-        var popupSize = new Size(280, 360);
-        _popupCalculator.Show(popupLocation, popupSize);
+        // Layout will size itself; give a sensible default
+        _popupCalculator.Size = new Size(280, 360);
+        _popupCalculator.Show(new Rectangle(popupLocation, _popupCalculator.Size));
 
         return true;
     }
@@ -925,6 +945,9 @@ public class KryptonCalcButton : VisualSimpleBase, IButtonControl, IContentValue
         public VisualPopupCalculator(decimal initial)
             : base(true)
         {
+            // Disable view-managed layout/painting; we host real WinForms/Krypton controls instead
+            ViewManager = null;
+
             _panel = new KryptonPanel
             {
                 Dock = DockStyle.Fill
