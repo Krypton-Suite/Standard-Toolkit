@@ -156,6 +156,13 @@ public class KryptonDataGridView : DataGridView
     [Category(@"Property Changed")]
     [Description(@"Occurs when the value of the Palette property is changed.")]
     public event EventHandler? PaletteChanged;
+
+    /// <summary>
+    /// Occurs when a ButtonSpec inside a cell's editing control is clicked.
+    /// </summary>
+    [Category(@"Action")]
+    [Description(@"Occurs when a button specification is clicked in a cell's editing control.")]
+    public event EventHandler<DataGridViewButtonSpecClickEventArgs>? EditingControlButtonSpecClick;
     #endregion
 
     #region Identity
@@ -2905,6 +2912,11 @@ public class KryptonDataGridView : DataGridView
     #endregion
 
     #region Menus
+    /// <summary>
+    /// Handles the opening of the assigned <see cref="ContextMenuStrip"/> to ensure the correct renderer is applied.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">A <see cref="CancelEventArgs"/> that contains the event data.</param>
     private void OnContextMenuStripOpening(object? sender, CancelEventArgs e)
     {
         // Get the actual strip instance
@@ -2984,4 +2996,50 @@ public class KryptonDataGridView : DataGridView
         base.WndProc(ref m);
     }
     #endregion menus
+
+    #region Column ButtonSpec wiring
+    /// <summary>
+    /// Wire column-specific ButtonSpec click events when a column is added.
+    /// </summary>
+    /// <param name="e">Column event args.</param>
+    protected override void OnColumnAdded(DataGridViewColumnEventArgs e)
+    {
+        base.OnColumnAdded(e);
+
+        if (e.Column is KryptonDataGridViewIconColumn iconCol)
+        {
+            iconCol.ButtonSpecClick += OnColumnButtonSpecClick;
+        }
+    }
+
+    /// <summary>
+    /// Unwire column-specific ButtonSpec click events when a column is removed.
+    /// </summary>
+    /// <param name="e">Column event args.</param>
+    protected override void OnColumnRemoved(DataGridViewColumnEventArgs e)
+    {
+        if (e.Column is KryptonDataGridViewIconColumn iconCol)
+        {
+            iconCol.ButtonSpecClick -= OnColumnButtonSpecClick;
+        }
+
+        base.OnColumnRemoved(e);
+    }
+
+    /// <summary>
+    /// Forwards column-level ButtonSpec click notifications to the grid-level
+    /// <see cref="EditingControlButtonSpecClick"/> event while guarding disposal.
+    /// </summary>
+    /// <param name="sender">The source column raising the event.</param>
+    /// <param name="e">Event arguments containing column, cell and ButtonSpec.</param>
+    private void OnColumnButtonSpecClick(object? sender, DataGridViewButtonSpecClickEventArgs e)
+    {
+        if (IsDisposed || Disposing)
+        {
+            return;
+        }
+
+        EditingControlButtonSpecClick?.Invoke(this, e);
+    }
+    #endregion
 }

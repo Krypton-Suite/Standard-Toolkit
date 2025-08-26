@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
  *  
  */
 #endregion
@@ -475,6 +475,18 @@ public class KryptonDataGridViewMaskedTextBoxCell : DataGridViewTextBoxCell
             maskedTextBox.TextMaskFormat = TextMaskFormat;
             maskedTextBox.UseSystemPasswordChar = UseSystemPasswordChar;
             maskedTextBox.Text = initialFormattedValue as string ?? string.Empty;
+
+            if (OwningColumn is KryptonDataGridViewMaskedTextBoxColumn maskedColumn)
+            {
+                KryptonDataGridViewUtilities.SyncEditorButtonSpecs(DataGridView as KryptonDataGridView, maskedColumn, maskedTextBox.ButtonSpecs);
+                foreach (var spec in maskedTextBox.ButtonSpecs.Enumerate().OfType<ButtonSpecAny>())
+                {
+                    spec.Click += (s, e) =>
+                        maskedColumn.RaiseButtonSpecClick(new DataGridViewButtonSpecClickEventArgs(maskedColumn, this, spec));
+                }
+                maskedTextBox.PerformLayout();
+                maskedTextBox.Invalidate();
+            }
         }
     }
 
