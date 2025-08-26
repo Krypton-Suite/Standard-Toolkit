@@ -340,7 +340,7 @@ public class KryptonForm : VisualForm,
 
     private Color GetGripDotColor()
     {
-        var palette = GetResolvedPalette();
+        var palette = GetResolvedPalette() ?? KryptonManager.CurrentGlobalPalette;
         Color back = palette.GetBackColor1(PaletteBackStyle.FormMain, PaletteState.Normal);
         if (back == GlobalStaticValues.EMPTY_COLOR || back.IsEmpty)
         {
@@ -391,7 +391,7 @@ public class KryptonForm : VisualForm,
     {
         // First, ask the palette for a themed sizing grip image (RTL-aware)
         var isRtl = RightToLeftLayout ? RightToLeft.Yes : RightToLeft.No;
-        Image? themedGrip = GetResolvedPalette().GetSizeGripImage(isRtl);
+        Image? themedGrip = (GetResolvedPalette() ?? KryptonManager.CurrentGlobalPalette).GetSizeGripImage(isRtl);
         if (themedGrip is null)
         {
             return false;
@@ -1195,7 +1195,7 @@ public class KryptonForm : VisualForm,
     /// Create the redirector instance.
     /// </summary>
     /// <returns>PaletteRedirect derived class.</returns>
-    protected override PaletteRedirect CreateRedirector() => new FormPaletteRedirect(GetResolvedPalette(), this);
+    protected override PaletteRedirect CreateRedirector() => new FormPaletteRedirect(GetResolvedPalette() ?? KryptonManager.CurrentGlobalPalette, this);
 
     internal class FormPaletteRedirect : PaletteRedirect
     {
@@ -2134,7 +2134,7 @@ public class KryptonForm : VisualForm,
             // Decide if we should have custom chrome applied
             var needChrome = UseThemeFormChromeBorderWidth &&
                              KryptonManager.UseThemeFormChromeBorderWidth &&
-                             (GetResolvedPalette().UseThemeFormChromeBorderWidth == InheritBool.True);
+                             ((GetResolvedPalette() ?? KryptonManager.CurrentGlobalPalette).UseThemeFormChromeBorderWidth == InheritBool.True);
 
             // Is there a change in custom chrome requirement?
             if (UseThemeFormChromeBorderWidth != needChrome
