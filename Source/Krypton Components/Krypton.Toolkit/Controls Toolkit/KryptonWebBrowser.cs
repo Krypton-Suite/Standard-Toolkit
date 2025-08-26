@@ -254,7 +254,7 @@ public class KryptonWebBrowser : WebBrowser
     public ToolStripRenderer? CreateToolStripRenderer()
     {
         var palette = GetResolvedPalette() ?? KryptonManager.CurrentGlobalPalette;
-        return Renderer?.RenderToolStrip(palette)!;
+        return _renderer?.RenderToolStrip(palette)!;
     }
 
     /// <summary>
