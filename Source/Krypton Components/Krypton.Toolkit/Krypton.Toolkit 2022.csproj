@@ -513,6 +513,7 @@
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonListBox.bmp" />
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonColorButton.bmp" />
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonDropButton.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonCalcButton.bmp" />
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonContextMenuColorColumns.bmp" />
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonMaskedTextBox.bmp" />
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonContextMenuItem.bmp" />
