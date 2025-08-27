@@ -98,18 +98,10 @@ internal static class IconHelper
             case InformationBoxIcon.Information:
                 return CreateIconFromImage(MessageBoxImageResources.GenericInformation, null);
             case InformationBoxIcon.Shield:
-                if (OSUtilities.IsAtLeastWindowsEleven)
-                {
-                    return CreateIconFromImage(UACShieldIconResources.UACShieldWindows11, null);
-                }
-                else if (OSUtilities.IsWindowsTen)
-                {
-                    return CreateIconFromImage(UACShieldIconResources.UACShieldWindows10, null);
-                }
-                else
-                {
-                    return CreateIconFromImage(UACShieldIconResources.UACShieldWindows7881, null);
-                }
+                // Use theme-aware approach instead of hardcoded OS detection
+                var currentPaletteMode = KryptonManager.CurrentGlobalPaletteMode;
+                var shieldIcon = UacShieldIconHelper.GetThemeAwareShieldIcon(currentPaletteMode);
+                return shieldIcon ?? SystemIcons.Shield;
             case InformationBoxIcon.WindowsLogo:
                 break;
             case InformationBoxIcon.Application:

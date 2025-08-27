@@ -340,17 +340,7 @@ public class ButtonValues : Storage,
 
     #endregion
 
-    #region ShieldIconThemeMode
-
-    /// <summary>
-    /// Specifies how the UAC shield icon should handle theme changes.
-    /// </summary>
-    [Category(@"Visuals")]
-    [DefaultValue(ShieldIconThemeMode.Automatic)]
-    [Description(@"Specifies how the UAC shield icon should handle theme changes.")]
-    public ShieldIconThemeMode ShieldIconThemeMode { get; set; } = ShieldIconThemeMode.Automatic;
-
-    #endregion
+    // ShieldIconThemeMode property removed - now using theme-aware approach
 
     #region CustomUACShieldSize
 
@@ -517,11 +507,13 @@ public class ButtonValues : Storage,
         {
             int h = height ?? 16, w = width ?? 16;
 
-            // Use OS-specific shield icon if requested, otherwise fall back to system icon
+            // Use theme-aware shield icon if requested, otherwise fall back to system icon
             Image shield;
             if (_useSystemShieldIcon)
             {
-                var shieldIcon = UacShieldIconHelper.GetShieldIcon();
+                // Get the current palette mode from the global manager
+                var currentPaletteMode = KryptonManager.CurrentGlobalPaletteMode;
+                var shieldIcon = UacShieldIconHelper.GetThemeAwareShieldIcon(currentPaletteMode, _uacShieldIconSize ?? UACShieldIconSize.ExtraSmall);
                 try
                 {
                     shield = shieldIcon?.ToBitmap() ?? SystemIcons.Shield.ToBitmap();
@@ -616,8 +608,9 @@ public class ButtonValues : Storage,
                 
                 if (shieldIcon == null)
                 {
-                    // Fallback to the general system shield icon and scale it
-                    shieldIcon = UacShieldIconHelper.GetShieldIcon();
+                    // Fallback to theme-aware shield icon
+                    var currentPaletteMode = KryptonManager.CurrentGlobalPaletteMode;
+                    shieldIcon = UacShieldIconHelper.GetThemeAwareShieldIcon(currentPaletteMode, _uacShieldIconSize ?? UACShieldIconSize.ExtraSmall);
                 }
 
                 if (shieldIcon != null)
@@ -668,7 +661,26 @@ public class ButtonValues : Storage,
     /// <returns>A scaled bitmap.</returns>
     private static Bitmap? ScaleIconWithQuality(Icon icon, int width, int height)
     {
-        return UacShieldIconHelper.ScaleIconWithQuality(icon, width, height);
+        try
+        {
+            using var bitmap = new Bitmap(width, height);
+            using var graphics = Graphics.FromImage(bitmap);
+            
+            // Set high quality interpolation
+            graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            graphics.SmoothingMode = SmoothingMode.HighQuality;
+            graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+            
+            // Draw the icon to the bitmap
+            graphics.DrawIcon(icon, new Rectangle(0, 0, width, height));
+            
+            // Return a copy of the bitmap
+            return new Bitmap(bitmap);
+        }
+        catch
+        {
+            return null;
+        }
     }
 
     /// <summary>

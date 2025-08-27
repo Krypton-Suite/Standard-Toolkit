@@ -365,6 +365,8 @@ public partial class Main : KryptonForm
 
     private void kryptonButton14_Click(object sender, EventArgs e)
     {
+        new UACShieldTestOld().ShowDialog();
+
         new UACShieldTest().ShowDialog();
     }
 

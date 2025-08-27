@@ -224,18 +224,10 @@ public static class GraphicsExtensions
             case KryptonMessageBoxIcon.Information:
                 return MessageBoxImageResources.GenericInformation;
             case KryptonMessageBoxIcon.Shield:
-                if (OSUtilities.IsAtLeastWindowsEleven)
-                {
-                    return UACShieldIconResources.UACShieldWindows11;
-                }
-                else if (OSUtilities.IsWindowsTen)
-                {
-                    return UACShieldIconResources.UACShieldWindows10;
-                }
-                else
-                {
-                    return UACShieldIconResources.UACShieldWindows7881;
-                }
+                // Use theme-aware approach instead of hardcoded OS detection
+                var currentPaletteMode = KryptonManager.CurrentGlobalPaletteMode;
+                var shieldIcon = UacShieldIconHelper.GetThemeAwareShieldIcon(currentPaletteMode);
+                return shieldIcon?.ToBitmap() ?? UACShieldIconResources.UACShieldWindows11;
             case KryptonMessageBoxIcon.WindowsLogo:
                 if (OSUtilities.IsAtLeastWindowsEleven)
                 {

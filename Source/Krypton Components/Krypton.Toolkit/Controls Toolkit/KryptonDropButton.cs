@@ -774,29 +774,6 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
     protected virtual ViewDrawButton ViewDrawButton => _drawButton;
     #endregion
 
-    #region UAC Shield Methods
-    /// <summary>
-    /// Gets the appropriate UAC shield icon for the current operating system using system APIs.
-    /// </summary>
-    /// <returns>An Icon representing the UAC shield for the current OS, or null if not available.</returns>
-    internal static Icon? GetShieldIconStatic()
-    {
-        return UacShieldIconHelper.GetShieldIcon();
-    }
-
-
-
-    /// <summary>
-    /// Gets a DPI-aware system shield icon at the specified size.
-    /// </summary>
-    /// <param name="size">The desired icon size.</param>
-    /// <returns>A DPI-aware system shield icon or null if not available.</returns>
-    internal static Icon? GetSystemShieldIconAtSize(int size)
-    {
-        return UacShieldIconHelper.GetSystemShieldIconAtSize(size);
-    }
-    #endregion
-
     #region Implementation
 
     private static bool IsDialogResultValidForForm(DialogResult value)

@@ -101,6 +101,12 @@ namespace Krypton.Toolkit;
         internal static readonly IntPtr HWND_BOTTOM = new IntPtr(1);
 
         internal const int BM_CLICK = 0x00F5;
+
+        public const int SIID_SHIELD = 77;
+        public const int SHGSI_ICON = 0x000000100;
+        public const int SHGSI_LARGEICON = 0x000000000;
+        public const int SHGSI_SMALLICON = 0x000000001;
+
         #endregion
 
         internal delegate IntPtr WndProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
