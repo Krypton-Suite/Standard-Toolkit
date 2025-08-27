@@ -30,7 +30,7 @@ public delegate object Operation(object? parameter);
 /// <summary>
 /// Signature of a method that returns a ToolStripRenderer instance.
 /// </summary>
-public delegate ToolStripRenderer GetToolStripRenderer();
+public delegate ToolStripRenderer? GetToolStripRenderer();
 #endregion
 
 /// <summary>
