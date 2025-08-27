@@ -1559,6 +1559,16 @@ public class KryptonCalcInput : VisualControlBase, IContainedInputControl
                 StateCommon = { Content = { Padding = new Padding(4, 6, 4, 6) } }
             };
 
+            // Close popup on ESC regardless of focus routing
+            _display.KeyDown += (_, e) =>
+            {
+                if (e.KeyCode == Keys.Escape)
+                {
+                    e.Handled = true;
+                    Dispose();
+                }
+            };
+
             // Ensure we can reliably select all once the textbox is actually shown/entered
             _display.HandleCreated += (_, _) => BeginInvoke((System.Windows.Forms.MethodInvoker)(PrimeSelectAllOnShow));
             _display.VisibleChanged += (_, _) => BeginInvoke((System.Windows.Forms.MethodInvoker)(PrimeSelectAllOnShow));
