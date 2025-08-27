@@ -65,11 +65,11 @@ public partial class ButtonsTest : KryptonForm
         kcbSortMode.Enabled = scheme == Krypton.Toolkit.ColorScheme.PaletteColors;
     }
 
-    private void kryptonCalcButton1_ButtonSpecClicked(object sender, ButtonSpecEventArgs e)
+    private void KryptonCalcInput1_ButtonSpecClicked(object sender, ButtonSpecEventArgs e)
     {
         if (e.ButtonSpec is ButtonSpecAny any && any.Type == PaletteButtonSpecStyle.Close)
         {
-            kryptonCalcButton1.Value = 0m;
+            KryptonCalcInput1.Value = 0m;
         }
     }
 }

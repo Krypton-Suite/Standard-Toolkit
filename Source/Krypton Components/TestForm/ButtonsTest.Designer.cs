@@ -39,7 +39,7 @@ namespace TestForm
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ButtonsTest));
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
-            this.kryptonCalcButton1 = new Krypton.Toolkit.KryptonCalcButton();
+            this.KryptonCalcInput1 = new Krypton.Toolkit.KryptonCalcInput();
             this.buttonSpecAny2 = new Krypton.Toolkit.ButtonSpecAny();
             this.kryptonLabel2 = new Krypton.Toolkit.KryptonLabel();
             this.kcbColorScheme = new Krypton.Toolkit.KryptonComboBox();
@@ -74,7 +74,7 @@ namespace TestForm
             // 
             // kryptonPanel1
             // 
-            this.kryptonPanel1.Controls.Add(this.kryptonCalcButton1);
+            this.kryptonPanel1.Controls.Add(this.KryptonCalcInput1);
             this.kryptonPanel1.Controls.Add(this.kryptonLabel2);
             this.kryptonPanel1.Controls.Add(this.kcbColorScheme);
             this.kryptonPanel1.Controls.Add(this.kryptonLabel1);
@@ -97,23 +97,23 @@ namespace TestForm
             this.kryptonPanel1.Size = new System.Drawing.Size(562, 318);
             this.kryptonPanel1.TabIndex = 0;
             // 
-            // kryptonCalcButton1
+            // KryptonCalcInput1
             // 
-            this.kryptonCalcButton1.AllowDecimals = true;
-            this.kryptonCalcButton1.ButtonSpecs.Add(this.buttonSpecAny2);
-            this.kryptonCalcButton1.DecimalPlaces = 2;
-            this.kryptonCalcButton1.DropDownWidth = 0;
-            this.kryptonCalcButton1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.kryptonCalcButton1.Location = new System.Drawing.Point(120, 270);
-            this.kryptonCalcButton1.Name = "kryptonCalcButton1";
-            this.kryptonCalcButton1.Size = new System.Drawing.Size(141, 24);
-            this.kryptonCalcButton1.TabIndex = 16;
-            this.kryptonCalcButton1.Value = new decimal(new int[] {
+            this.KryptonCalcInput1.AllowDecimals = true;
+            this.KryptonCalcInput1.ButtonSpecs.Add(this.buttonSpecAny2);
+            this.KryptonCalcInput1.DecimalPlaces = 2;
+            this.KryptonCalcInput1.DropDownWidth = 0;
+            this.KryptonCalcInput1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.KryptonCalcInput1.Location = new System.Drawing.Point(120, 270);
+            this.KryptonCalcInput1.Name = "KryptonCalcInput1";
+            this.KryptonCalcInput1.Size = new System.Drawing.Size(141, 24);
+            this.KryptonCalcInput1.TabIndex = 16;
+            this.KryptonCalcInput1.Value = new decimal(new int[] {
             0,
             0,
             0,
             0});
-            this.kryptonCalcButton1.ButtonSpecClicked += new System.EventHandler<Krypton.Toolkit.ButtonSpecEventArgs>(this.kryptonCalcButton1_ButtonSpecClicked);
+            this.KryptonCalcInput1.ButtonSpecClicked += new System.EventHandler<Krypton.Toolkit.ButtonSpecEventArgs>(this.KryptonCalcInput1_ButtonSpecClicked);
             // 
             // buttonSpecAny2
             // 
@@ -406,7 +406,7 @@ namespace TestForm
         private Krypton.Toolkit.KryptonLabel kryptonLabel1;
         private Krypton.Toolkit.KryptonComboBox kcbColorScheme;
         private Krypton.Toolkit.KryptonLabel kryptonLabel2;
-        private KryptonCalcButton kryptonCalcButton1;
+        private KryptonCalcInput KryptonCalcInput1;
         private ButtonSpecAny buttonSpecAny2;
     }
 }

@@ -9,22 +9,22 @@
 
 namespace Krypton.Toolkit;
 
-internal class KryptonCalcButtonActionList : DesignerActionList
+internal class KryptonCalcInputActionList : DesignerActionList
 {
     #region Instance Fields
-    private readonly KryptonCalcButton _calcButton;
+    private readonly KryptonCalcInput _calcButton;
     private readonly IComponentChangeService? _service;
     #endregion
 
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the KryptonCalcButtonActionList class.
+    /// Initialize a new instance of the KryptonCalcInputActionList class.
     /// </summary>
     /// <param name="owner">Designer that owns this action list instance.</param>
-    public KryptonCalcButtonActionList(KryptonCalcButtonDesigner owner)
+    public KryptonCalcInputActionList(KryptonCalcInputDesigner owner)
         : base(owner.Component)
     {
-        _calcButton = (owner.Component as KryptonCalcButton)!;
+        _calcButton = (owner.Component as KryptonCalcInput)!;
         _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
     }
     #endregion

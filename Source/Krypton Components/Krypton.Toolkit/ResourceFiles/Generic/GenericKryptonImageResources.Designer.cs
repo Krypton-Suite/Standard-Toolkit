@@ -113,9 +113,9 @@ namespace Krypton.Toolkit.ResourceFiles.Generic {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap KryptonCalcButton {
+        internal static System.Drawing.Bitmap KryptonCalcInput {
             get {
-                object obj = ResourceManager.GetObject("KryptonCalcButton", resourceCulture);
+                object obj = ResourceManager.GetObject("KryptonCalcInput", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

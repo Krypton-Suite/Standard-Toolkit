@@ -1,6 +1,6 @@
 # Python 3.10+
 # Creates a 16x16 24-bit BMP depicting a simple calculator.
-# Default output: Source\Krypton Components\Krypton.Toolkit\Resources\KryptonCalcButton.bmp
+# Default output: Source\Krypton Components\Krypton.Toolkit\Resources\KryptonCalcInput.bmp
 
 from __future__ import annotations
 
@@ -143,9 +143,9 @@ def write_bmp_24(path: Path, img: List[List[BGR]]) -> None:
 
 
 def default_output_path() -> Path:
-    # Scripts/make_calc_icon.py -> repo root -> Source/.../Resources/KryptonCalcButton.bmp
+    # Scripts/make_calc_icon.py -> repo root -> Source/.../Resources/KryptonCalcInput.bmp
     repo_root = Path(__file__).resolve().parents[1]
-    return repo_root / "Source" / "Krypton Components" / "Krypton.Toolkit" / "Resources" / "KryptonCalcButton.bmp"
+    return repo_root / "Source" / "Krypton Components" / "Krypton.Toolkit" / "Resources" / "KryptonCalcInput.bmp"
 
 
 def main(argv: list[str]) -> int:

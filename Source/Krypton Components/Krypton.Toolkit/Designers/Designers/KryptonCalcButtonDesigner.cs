@@ -9,13 +9,13 @@
 
 namespace Krypton.Toolkit;
 
-internal class KryptonCalcButtonDesigner : ControlDesigner
+internal class KryptonCalcInputDesigner : ControlDesigner
 {
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the KryptonCalcButtonDesigner class.
+    /// Initialize a new instance of the KryptonCalcInputDesigner class.
     /// </summary>
-    public KryptonCalcButtonDesigner() =>
+    public KryptonCalcInputDesigner() =>
         // The resizing handles around the control need to change depending on the
         // value of the AutoSize and AutoSizeMode properties. When in AutoSize you
         // do not get the resizing handles, otherwise you do.
@@ -35,7 +35,7 @@ internal class KryptonCalcButtonDesigner : ControlDesigner
             var actionLists = new DesignerActionListCollection
             {
                 // Add the calculator button specific list
-                new KryptonCalcButtonActionList(this)
+                new KryptonCalcInputActionList(this)
             };
 
             return actionLists;

@@ -13,14 +13,14 @@ namespace Krypton.Toolkit;
 /// Provides a numeric input control with a calculator dropdown.
 /// </summary>
 [ToolboxItem(true)]
-[ToolboxBitmap(typeof(KryptonCalcButton), "ToolboxBitmaps.KryptonCalcButton.bmp")]
+[ToolboxBitmap(typeof(KryptonCalcInput), "ToolboxBitmaps.KryptonCalcInput.bmp")]
 [DefaultEvent(nameof(ValueChanged))]
 [DefaultProperty(nameof(Value))]
 [DefaultBindingProperty(nameof(Value))]
-[Designer(typeof(KryptonCalcButtonDesigner))]
+[Designer(typeof(KryptonCalcInputDesigner))]
 [DesignerCategory(@"code")]
 [Description(@"Represents a numeric input control with integrated calculator dropdown.")]
-public class KryptonCalcButton : VisualControlBase, IContainedInputControl
+public class KryptonCalcInput : VisualControlBase, IContainedInputControl
 {
     #region Instance Fields
     private VisualPopupToolTip? _visualPopupToolTip;
@@ -125,9 +125,9 @@ public class KryptonCalcButton : VisualControlBase, IContainedInputControl
 
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the KryptonCalcButton class.
+    /// Initialize a new instance of the KryptonCalcInput class.
     /// </summary>
-    public KryptonCalcButton()
+    public KryptonCalcInput()
     {
         // Contains another control and needs marking as such for validation to work
         SetStyle(ControlStyles.ContainerControl, true);
@@ -225,7 +225,7 @@ public class KryptonCalcButton : VisualControlBase, IContainedInputControl
         // Set calculator icon for dropdown glyph
         try
         {
-            _dropDownGlyph.CustomGlyph = ResourceFiles.Generic.GenericKryptonImageResources.KryptonCalcButton;
+            _dropDownGlyph.CustomGlyph = ResourceFiles.Generic.GenericKryptonImageResources.KryptonCalcInput;
         }
         catch
         {
@@ -292,7 +292,7 @@ public class KryptonCalcButton : VisualControlBase, IContainedInputControl
         /// Initialize a new instance of the CalcButtonSpecCollection class.
         /// </summary>
         /// <param name="owner">Reference to owning object.</param>
-        public CalcButtonSpecCollection(KryptonCalcButton owner)
+        public CalcButtonSpecCollection(KryptonCalcInput owner)
             : base(owner)
         {
         }
