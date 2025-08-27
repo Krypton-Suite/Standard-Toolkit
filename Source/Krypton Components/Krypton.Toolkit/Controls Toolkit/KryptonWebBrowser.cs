@@ -251,10 +251,10 @@ public class KryptonWebBrowser : WebBrowser
     /// </summary>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Advanced)]
-    public ToolStripRenderer CreateToolStripRenderer()
+    public ToolStripRenderer? CreateToolStripRenderer()
     {
         var palette = GetResolvedPalette() ?? KryptonManager.CurrentGlobalPalette;
-        return _renderer!.RenderToolStrip(palette);
+        return _renderer?.RenderToolStrip(palette);
     }
 
     /// <summary>
