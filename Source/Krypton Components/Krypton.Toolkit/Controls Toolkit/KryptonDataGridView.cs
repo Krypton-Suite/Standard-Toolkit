@@ -2922,7 +2922,11 @@ public class KryptonDataGridView : DataGridView
     /// </summary>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Advanced)]
-    public ToolStripRenderer CreateToolStripRenderer() => Renderer?.RenderToolStrip(GetResolvedPalette()!)!;
+    public ToolStripRenderer? CreateToolStripRenderer()
+    {
+        var palette = GetResolvedPalette() ?? KryptonManager.CurrentGlobalPalette;
+        return Renderer?.RenderToolStrip(palette)!;
+    }
 
     private void OnKryptonContextMenuDisposed(object? sender, EventArgs e) =>
         // When the current krypton context menu is disposed, we should remove
