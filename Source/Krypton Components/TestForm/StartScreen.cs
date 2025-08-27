@@ -18,8 +18,10 @@ public partial class StartScreen : KryptonForm
 
     private void StartScreen_Load(object sender, EventArgs e)
     {
-        // TEMP: visualize whether remaining lines are button borders
+        // Dev note: visualize whether lines are button borders
+        // Keep this in for later test cases, it can be quite handy!
         // Use the real About button (kbtnAbout) shown at the top-left
+        /*
         kbtnAbout.StateCommon.Border.DrawBorders = PaletteDrawBorders.All;
         kbtnAbout.StateCommon.Border.Width = 2;
         kbtnAbout.StateCommon.Border.GraphicsHint = PaletteGraphicsHint.None;
@@ -66,18 +68,6 @@ public partial class StartScreen : KryptonForm
         kbtnAbout.OverrideDefault.Back.ColorStyle = PaletteColorStyle.Solid;
         kbtnAbout.OverrideDefault.Back.Color1 = Color.FromArgb(200, 0, 0);
         kbtnAbout.OverrideDefault.Back.Color2 = Color.FromArgb(200, 0, 0);
-
-        /*
-        // Automatic Material shadow defaults if wanted
-        if (ShadowValues.IsDefault)
-        {
-            ShadowValues.EnableShadows = true;
-            ShadowValues.Offset = new Point(2, 2);
-            ShadowValues.ExtraWidth = 6;
-            ShadowValues.BlurDistance = 40;
-            ShadowValues.Colour = Color.Black;
-            ShadowValues.Opacity = 40;
-        }
         */
     }
 
