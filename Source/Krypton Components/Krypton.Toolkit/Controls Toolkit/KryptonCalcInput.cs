@@ -33,7 +33,6 @@ public class KryptonCalcInput : VisualControlBase, IContainedInputControl
     private readonly ButtonController _buttonController;
     private InputControlStyle _inputControlStyle;
     private decimal _value;
-    private VisualPopupCalculator? _popupCalculator;
     private bool? _fixedActive;
     private bool _alwaysActive;
     private bool _mouseOver;
@@ -243,7 +242,7 @@ public class KryptonCalcInput : VisualControlBase, IContainedInputControl
         _buttonController = new ButtonController(glyphCenter, NeedPaintDelegate)
         {
             BecomesFixed = true,
-            ClickOnDown = true
+            ClickOnDown = false
         };
 
         // Assign the controller to the view element
@@ -1128,7 +1127,7 @@ public class KryptonCalcInput : VisualControlBase, IContainedInputControl
         switch (m.Msg)
         {
             case PI.WM_.NCHITTEST:
-                // Always treat clicks as client area to avoid click-through on transparent pixels
+                // Treat clicks as client area to avoid click-through on transparent pixels
                 base.WndProc(ref m);
                 m.Result = (IntPtr)PI.HT.CLIENT;
                 return;
@@ -1349,59 +1348,197 @@ public class KryptonCalcInput : VisualControlBase, IContainedInputControl
 
     private void ShowCalculator()
     {
-        // If an existing popup is still around, dispose it first (e.g., if not dismissed correctly)
-        if (_popupCalculator != null)
-        {
-            try { _popupCalculator.Dispose(); } catch { }
-            _popupCalculator = null;
-            _buttonController.RemoveFixed();
-        }
-
-        // Ensure owner form is active to prevent other windows (e.g., VS) jumping to foreground
+        // Ensure owner form is active and focus is correct
         var ownerForm = FindForm();
         ownerForm?.Activate();
         Focus();
         _textBox.Focus();
 
-        // Show the calculator popup below the control
-        Rectangle screenRect = RectangleToScreen(ClientRectangle);
+        // Create a new KryptonContextMenu each time
+        Rectangle dropScreenRect = RectangleToScreen(ClientRectangle);
+        var kcm = new CalcContextMenu(dropScreenRect);
 
-        _popupCalculator = new VisualPopupCalculator(Value, Font)
+        // Honor palette settings
+        if (PaletteMode != PaletteMode.Custom)
         {
-            DismissedDelegate = OnCalculatorDismissed
+            kcm.PaletteMode = PaletteMode;
+        }
+        else
+        {
+            kcm.LocalCustomPalette = LocalCustomPalette;
+        }
+
+        // Preview row using a disabled menu item (ensures reliable repaint on item clicks)
+        var culture = System.Globalization.CultureInfo.CurrentCulture;
+        string expr = Value.ToString(culture);
+        bool selectAllPrimed = true;
+        var displayItem = new KryptonContextMenuItem(expr)
+        {
+            AutoClose = false,
+            Enabled = false
+        };
+        displayItem.StateDisabled.ItemTextStandard.ShortText.Font = Font;
+        var palette = KryptonManager.CurrentGlobalPalette;
+        if (palette != null)
+        {
+            // Use a palette-derived text color that contrasts with context menu surfaces
+            var c = palette.GetContentShortTextColor1(PaletteContentStyle.ContextMenuItemTextStandard, PaletteState.Normal);
+            if (c != GlobalStaticValues.EMPTY_COLOR && !c.IsEmpty)
+            {
+                displayItem.StateDisabled.ItemTextStandard.ShortText.Color1 = c;
+                displayItem.StateDisabled.ItemTextStandard.ShortText.Color2 = c;
+            }
+        }
+        kcm.Items.Add(displayItem);
+
+        // Build a 5x4 grid as a single items block with 4 columns
+        var items = new KryptonContextMenuItems
+        {
+            ImageColumn = false
         };
 
-        // Enforce a sensible minimum width so all controls fit; give a temporary height
-        int minWidth = VisualPopupCalculator.GetMinimumWidth();
-        int baseWidth = _dropDownWidth > 0 ? _dropDownWidth : Width;
-        int targetWidth = Math.Max(baseWidth, minWidth);
-        _popupCalculator.Size = new Size(targetWidth, 360);
+        // Column definitions (top to bottom)
+        string[][] columns =
+        [
+            ["7","4","1","0","<-"] ,
+            ["8","5","2",".","(" ] ,
+            ["9","6","3","C",")" ] ,
+            ["/","*","-","+","=" ]
+        ];
 
-        Point popupLocation;
+        for (int c = 0; c < columns.Length; c++)
+        {
+            if (c > 0)
+            {
+                items.Items.Add(new KryptonContextMenuSeparator { Horizontal = false });
+            }
+
+            for (int r = 0; r < columns[c].Length; r++)
+            {
+                string token = columns[c][r];
+                var mi = new KryptonContextMenuItem(token, (_, __) =>
+                {
+                    switch (token)
+                    {
+                        case "C":
+                            expr = string.Empty;
+                            selectAllPrimed = false;
+                            displayItem.Text = expr;
+                            break;
+                        case "<-":
+                            if (!string.IsNullOrEmpty(expr))
+                            {
+                                expr = expr.Substring(0, expr.Length - 1);
+                            }
+                            selectAllPrimed = false;
+                            displayItem.Text = expr;
+                            break;
+                        case "=":
+                        {
+                            try
+                            {
+                                var dt = new System.Data.DataTable();
+                                string normalized = NormalizeExpressionForCompute(expr, culture);
+                                object? v = dt.Compute(normalized, null);
+                                if (v != null)
+                                {
+                                    decimal dec = Convert.ToDecimal(v, System.Globalization.CultureInfo.InvariantCulture);
+                                    Value = dec;
+                                }
+                            }
+                            catch { }
+                            break;
+                        }
+                        default:
+                        {
+                            if (selectAllPrimed)
+                            {
+                                if (IsDigitToken(token))
+                                {
+                                    expr = token;
+                                }
+                                else if (IsOperatorToken(token))
+                                {
+                                    expr += token;
+                                }
+                                else
+                                {
+                                    expr = token;
+                                }
+                                selectAllPrimed = false;
+                            }
+                            else
+                            {
+                                expr += token;
+                            }
+                            displayItem.Text = expr;
+                            break;
+                        }
+                    }
+                });
+                // Keep the menu open for all inputs except '=' which should compute and close
+                mi.AutoClose = token == "=";
+                items.Items.Add(mi);
+            }
+        }
+
+        kcm.Items.Add(items);
+
+        // Show relative to control with side preference and 1px gap like DTP
+        Rectangle screenRect = RectangleToScreen(ClientRectangle);
+        var posH = KryptonContextMenuPositionH.Left;
+        var posV = KryptonContextMenuPositionV.Below;
         switch (_popupSide)
         {
             case VisualOrientation.Top:
-                popupLocation = new Point(screenRect.X, screenRect.Top - 1 - _popupCalculator.Size.Height);
+                posV = KryptonContextMenuPositionV.Above;
                 break;
             case VisualOrientation.Left:
-                popupLocation = new Point(screenRect.Left - 1 - _popupCalculator.Size.Width, screenRect.Y);
+                posH = KryptonContextMenuPositionH.Before;
                 break;
             case VisualOrientation.Right:
-                popupLocation = new Point(screenRect.Right + 1, screenRect.Y);
-                break;
-            default:
-                popupLocation = new Point(screenRect.X, screenRect.Bottom + 1);
+                posH = KryptonContextMenuPositionH.After;
                 break;
         }
 
-        _popupCalculator.Show(new Rectangle(popupLocation, _popupCalculator.Size));
-        // Post-show: compute exact height and select all
-        _popupCalculator.BeginInvoke((System.Windows.Forms.MethodInvoker)(() =>
+        if (posV == KryptonContextMenuPositionV.Above)
         {
-            _popupCalculator.AdjustSquareSizing();
-            _popupCalculator.PrepareInitialSelection();
-        }));
-        _popupCalculator.PrepareInitialSelection();
+            screenRect.Y -= 1;
+        }
+        else if (posV == KryptonContextMenuPositionV.Below)
+        {
+            screenRect.Height += 1;
+        }
+
+        if (posH == KryptonContextMenuPositionH.Before)
+        {
+            screenRect.X -= 1;
+        }
+        else if (posH == KryptonContextMenuPositionH.After)
+        {
+            screenRect.Width += 1;
+        }
+
+        // Respect DropDownWidth as a minimum width
+        if (_dropDownWidth > 0)
+        {
+            // KryptonContextMenu measures itself; we nudge via an invisible padding item if needed
+            // Add a spacer heading with non-breaking spaces to reach desired width
+            int target = _dropDownWidth;
+            using (var g = CreateGraphics())
+            {
+                string pad = "\u00A0\u00A0\u00A0\u00A0";
+                while (TextRenderer.MeasureText(g, displayItem.Text + pad, Font).Width < target)
+                {
+                    pad += "\u00A0\u00A0";
+                }
+                // Temporarily extend heading to influence width
+                displayItem.Text = expr + pad;
+            }
+        }
+
+        kcm.Closed += OnKryptonCalcContextMenuClosed;
+        kcm.Show(this, screenRect, posH, posV);
     }
 
     private void OnShowToolTip(object? sender, ToolTipEventArgs e)
@@ -1480,6 +1617,16 @@ public class KryptonCalcInput : VisualControlBase, IContainedInputControl
         _visualPopupToolTip = null;
     }
 
+    private void OnKryptonCalcContextMenuClosed(object? sender, EventArgs e)
+    {
+        if (sender is KryptonContextMenu kcm)
+        {
+            kcm.Closed -= OnKryptonCalcContextMenuClosed;
+            _buttonController.RemoveFixed();
+            kcm.Dispose();
+        }
+    }
+
     private static string NormalizeExpressionForCompute(string expr, System.Globalization.CultureInfo culture)
     {
         var nf = culture.NumberFormat;
@@ -1500,401 +1647,38 @@ public class KryptonCalcInput : VisualControlBase, IContainedInputControl
 
         return s;
     }
-    #endregion
 
-    #region Calculator Popup
-    private void OnCalculatorDismissed(object? sender, EventArgs e)
+    private static bool IsDigitToken(string t) => t.Length == 1 && (char.IsDigit(t[0]) || t[0] == '.');
+
+    private static bool IsOperatorToken(string t)
     {
-        var calc = _popupCalculator;
-        _popupCalculator = null;
-        // Ensure the dropdown glyph leaves fixed-pressed state so it can be clicked again
-        _buttonController.RemoveFixed();
-        if (calc != null)
+        if (t.Length != 1)
         {
-            if (calc.Result.HasValue)
-            {
-                Value = calc.Result.Value;
-            }
-            calc.Dispose();
+            return false;
         }
-        ContextMenuClosed();
-    }
-
-    private sealed class VisualPopupCalculator : VisualPopup
-    {
-        private const int MIN_BUTTON_WIDTH = 16;
-        private const int MIN_BUTTON_MARGIN = 3;
-        private const int MIN_INNER_PADDING = 3;
-        private const float DIGIT_DARKEN = 0.92f;
-        private readonly KryptonTextBox _display;
-        private readonly System.Windows.Forms.TableLayoutPanel _layout;
-        private readonly KryptonPanel _panel;
-        private readonly KryptonButton[] _buttons;
-        private bool _inAdjust;
-        private bool _selectAllPrimed = true;
-
-        public decimal? Result { get; private set; }
-
-        public VisualPopupCalculator(decimal initial, Font popupFont)
-            : base(true)
-        {
-            // Disable view-managed layout/painting; we host real WinForms/Krypton controls instead
-            ViewManager = null;
-
-            // Ensure popup and children use the owner's font
-            Font = popupFont;
-
-            _panel = new KryptonPanel
-            {
-                Dock = DockStyle.Fill
-            };
-
-            _display = new KryptonTextBox
-            {
-                Dock = DockStyle.Top,
-                Text = initial.ToString(System.Globalization.CultureInfo.CurrentCulture),
-                ReadOnly = true,
-                TabStop = false,
-                Font = popupFont,
-                StateCommon = { Content = { Padding = new Padding(4, 6, 4, 6) } }
-            };
-
-            // Close popup on ESC regardless of focus routing
-            _display.KeyDown += (_, e) =>
-            {
-                if (e.KeyCode == Keys.Escape)
-                {
-                    e.Handled = true;
-                    Dispose();
-                }
-            };
-
-            // Ensure we can reliably select all once the textbox is actually shown/entered
-            _display.HandleCreated += (_, _) => BeginInvoke((System.Windows.Forms.MethodInvoker)(PrimeSelectAllOnShow));
-            _display.VisibleChanged += (_, _) => BeginInvoke((System.Windows.Forms.MethodInvoker)(PrimeSelectAllOnShow));
-            _display.Enter += (_, _) =>
-            {
-                if (_selectAllPrimed)
-                {
-                    _display.SelectAll();
-                }
-            };
-
-            _layout = new System.Windows.Forms.TableLayoutPanel
-            {
-                Dock = DockStyle.Fill,
-                ColumnCount = 4,
-                RowCount = 5,
-                Padding = new Padding(MIN_INNER_PADDING),
-                BackColor = Color.Transparent,
-                Margin = new Padding(0)
-            };
-
-            // Ensure each column/row expands evenly to fit the popup width/height
-            _layout.ColumnStyles.Clear();
-            for (int c = 0; c < 4; c++)
-            {
-                _layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25f));
-            }
-            _layout.RowStyles.Clear();
-            for (int r = 0; r < 5; r++)
-            {
-                _layout.RowStyles.Add(new RowStyle(SizeType.Percent, 20f));
-            }
-
-            _buttons = new KryptonButton[20];
-
-            string[] captions =
-            [
-                "7","8","9","/",
-                "4","5","6","*",
-                "1","2","3","-",
-                "0",".","C","+",
-                "<-","(",")","="
-            ];
-
-            for (int i = 0; i < captions.Length; i++)
-            {
-                var btn = new KryptonButton
-                {
-                    Dock = DockStyle.Fill,
-                    ButtonStyle = ButtonStyle.Standalone,
-                    Margin = new Padding(MIN_BUTTON_MARGIN),
-                    Font = popupFont,
-                    Values = { Text = captions[i] }
-                };
-                // Palette-driven differentiation for digit buttons: slight darken of active background
-                if (captions[i].Length == 1 && (char.IsDigit(captions[i][0]) || captions[i][0] == '.'))
-                {
-                    ApplyDigitTint(btn);
-                }
-                btn.StateCommon.Border.DrawBorders = PaletteDrawBorders.All;
-                btn.StateCommon.Border.Rounding = 6f;
-                btn.StateCommon.Border.Width = 1;
-                btn.Click += OnButtonClick;
-                _buttons[i] = btn;
-                _layout.Controls.Add(btn, i % 4, i / 4);
-            }
-
-            var container = new Panel { Dock = DockStyle.Fill, BackColor = Color.Transparent };
-            container.Controls.Add(_layout);
-            container.Controls.Add(_display);
-            _panel.Controls.Add(container);
-            Controls.Add(_panel);
-
-            // Keep square sizing if resized after creation
-            SizeChanged += (_, _) => AdjustSquareSizing();
-            _layout.SizeChanged += (_, _) => AdjustSquareSizing();
-        }
-
-        internal static int GetMinimumWidth()
-        {
-            // table padding left+right + 4 columns each with min button width and margins on both sides
-            return (MIN_INNER_PADDING * 2) + (4 * (MIN_BUTTON_WIDTH + (MIN_BUTTON_MARGIN * 2)));
-        }
-
-        internal void ConfigureForWidth(int width)
-        {
-            Size = new Size(width, Height);
-            AdjustSquareSizing();
-        }
-
-        internal void PrepareInitialSelection()
-        {
-            // Two stage pump to ensure the window is visible and activated for selection
-            BeginInvoke((System.Windows.Forms.MethodInvoker)(() =>
-            {
-                BeginInvoke((System.Windows.Forms.MethodInvoker)(() =>
-                {
-                    _display.Focus();
-                    PrimeSelectAllOnShow();
-                }));
-            }));
-        }
-
-        private void PrimeSelectAllOnShow()
-        {
-            _display.SelectAll();
-            _selectAllPrimed = true;
-        }
-
-        internal void AdjustSquareSizing()
-        {
-            if (_inAdjust)
-            {
-                return;
-            }
-            _inAdjust = true;
-            try
-            {
-                int availableWidth = Math.Max(0, _layout.ClientSize.Width - _layout.Padding.Horizontal);
-                if (availableWidth <= 0)
-                {
-                    return;
-                }
-
-                // Ensure 4 cells + margins fit exactly; calculate integer width per cell
-                int perCell = (availableWidth - (MIN_BUTTON_MARGIN * 2 * 4)) / 4; // subtract inner margins on both sides for each cell
-                int cellWidth = Math.Max(MIN_BUTTON_WIDTH, perCell);
-                int rowHeight = cellWidth;
-
-                _layout.SuspendLayout();
-                for (int r = 0; r < _layout.RowStyles.Count; r++)
-                {
-                    var style = _layout.RowStyles[r];
-                    style.SizeType = SizeType.Absolute;
-                    style.Height = rowHeight;
-                }
-                _layout.ResumeLayout(true);
-
-                // Lock the layout height so rows cannot stretch
-                int lockedLayoutHeight = _layout.Padding.Vertical + (rowHeight * 5);
-                if (_layout.MinimumSize.Height != lockedLayoutHeight || _layout.MaximumSize.Height != lockedLayoutHeight)
-                {
-                    _layout.MinimumSize = new Size(0, lockedLayoutHeight);
-                    _layout.MaximumSize = new Size(int.MaxValue, lockedLayoutHeight);
-                }
-
-                // Compute desired height from locked layout height
-                int displayHeight = Math.Max(_display.Height, _display.PreferredSize.Height);
-                int desiredHeight = displayHeight + lockedLayoutHeight;
-                if (Height != desiredHeight)
-                {
-                    Size = new Size(Width, desiredHeight);
-                }
-            }
-            finally
-            {
-                _inAdjust = false;
-            }
-        }
-
-        private static void ApplyDigitTint(KryptonButton btn)
-        {
-            var palette = KryptonManager.CurrentGlobalPalette;
-            Color baseNormal = palette?.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Normal) ?? SystemColors.Control;
-            Color baseTracking = palette?.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Tracking) ?? baseNormal;
-            Color basePressed = palette?.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Pressed) ?? baseTracking;
-
-            Color tintNormal = CommonHelper.BlackenColor(baseNormal, DIGIT_DARKEN, DIGIT_DARKEN, DIGIT_DARKEN);
-            Color tintTracking = CommonHelper.BlackenColor(baseTracking, DIGIT_DARKEN, DIGIT_DARKEN, DIGIT_DARKEN);
-            Color tintPressed = CommonHelper.BlackenColor(basePressed, DIGIT_DARKEN, DIGIT_DARKEN, DIGIT_DARKEN);
-
-            btn.StateCommon.Back.ColorStyle = PaletteColorStyle.Solid;
-            btn.StateCommon.Back.Color1 = tintNormal;
-            btn.StateCommon.Back.Color2 = tintNormal;
-            btn.StateTracking.Back.ColorStyle = PaletteColorStyle.Solid;
-            btn.StateTracking.Back.Color1 = tintTracking;
-            btn.StateTracking.Back.Color2 = tintTracking;
-            btn.StatePressed.Back.ColorStyle = PaletteColorStyle.Solid;
-            btn.StatePressed.Back.Color1 = tintPressed;
-            btn.StatePressed.Back.Color2 = tintPressed;
-        }
-
-        private void OnButtonClick(object? sender, EventArgs e)
-        {
-            if (sender is not KryptonButton kb)
-            {
-                return;
-            }
-
-            var t = kb.Values.Text;
-            switch (t)
-            {
-                case "C":
-                    _display.Text = string.Empty;
-                    _display.SelectionStart = 0;
-                    _display.SelectionLength = 0;
-                    _selectAllPrimed = false;
-                    break;
-                case "<-":
-                    if (_display.SelectionLength > 0)
-                    {
-                        _display.SelectedText = string.Empty;
-                    }
-                    else if (_display.Text.Length > 0)
-                    {
-                        _display.Text = _display.Text.Substring(0, _display.Text.Length - 1);
-                    }
-                    _display.SelectionStart = _display.Text.Length;
-                    _display.SelectionLength = 0;
-                    _selectAllPrimed = false;
-                    break;
-                case "=":
-                    TryComputeAndClose();
-                    break;
-                default:
-                    InsertToken(t);
-                    break;
-            }
-        }
-
-        private static bool IsDigitToken(string t) => t.Length == 1 && (char.IsDigit(t[0]) || t[0] == '.');
-
-        private static bool IsOperatorToken(string t)
-        {
-            if (t.Length != 1)
-            {
-                return false;
-            }
-            char ch = t[0];
-            return ch == '+' || ch == '-' || ch == '*' || ch == '/' || ch == '(' || ch == ')';
-        }
-
-        private void InsertToken(string t)
-        {
-            // If user manually selected, replace just the selection for any token
-            if (_display.SelectionLength > 0)
-            {
-                // Special case: full selection and operator should append, not replace
-                if (IsOperatorToken(t) && _display.SelectionLength == _display.TextLength && _selectAllPrimed)
-                {
-                    _display.SelectionStart = _display.TextLength;
-                    _display.SelectionLength = 0;
-                    _display.SelectedText = t;
-                }
-                else
-                {
-                    _display.SelectedText = t;
-                }
-            }
-            else if (_selectAllPrimed)
-            {
-                // First interaction after open with full selection
-                if (IsDigitToken(t))
-                {
-                    _display.Text = t;
-                }
-                else if (IsOperatorToken(t))
-                {
-                    _display.SelectionStart = _display.TextLength;
-                    _display.SelectionLength = 0;
-                    _display.SelectedText = t;
-                }
-                else
-                {
-                    _display.SelectedText = t;
-                }
-            }
-            else
-            {
-                _display.SelectionStart = _display.TextLength;
-                _display.SelectionLength = 0;
-                _display.SelectedText = t;
-            }
-
-            _display.SelectionStart = _display.TextLength;
-            _display.SelectionLength = 0;
-            _selectAllPrimed = false;
-        }
-
-        protected override bool ProcessDialogKey(Keys keyData)
-        {
-            if (keyData == Keys.Enter)
-            {
-                TryComputeAndClose();
-                return true;
-            }
-            if (keyData == Keys.Escape)
-            {
-                Dispose();
-                return true;
-            }
-            return base.ProcessDialogKey(keyData);
-        }
-
-        private void TryComputeAndClose()
-        {
-            var expr = _display.Text;
-            if (string.IsNullOrWhiteSpace(expr))
-            {
-                Result = null;
-                Dispose();
-                return;
-            }
-
-            try
-            {
-                var dt = new System.Data.DataTable();
-                string normalized = NormalizeExpressionForCompute(expr, System.Globalization.CultureInfo.CurrentCulture);
-                object? v = dt.Compute(normalized, null);
-                if (v != null)
-                {
-                    decimal dec = Convert.ToDecimal(v, System.Globalization.CultureInfo.InvariantCulture);
-                    Result = dec;
-                }
-            }
-            catch
-            {
-                Result = null;
-            }
-            finally
-            {
-                Dispose();
-            }
-        }
+        char ch = t[0];
+        return ch == '+' || ch == '-' || ch == '*' || ch == '/' || ch == '(' || ch == ')';
     }
     #endregion
+
+    [ToolboxItem(false)]
+    [DesignerCategory(@"code")]
+    private sealed class CalcContextMenu : KryptonContextMenu
+    {
+        private readonly Rectangle _dropScreenRect;
+
+        public CalcContextMenu(Rectangle dropScreenRect) => _dropScreenRect = dropScreenRect;
+
+        protected override VisualContextMenu CreateContextMenu(KryptonContextMenu kcm,
+            PaletteBase? palette,
+            PaletteMode paletteMode,
+            PaletteRedirect redirector,
+            PaletteRedirectContextMenu redirectorImages,
+            KryptonContextMenuCollection items,
+            bool enabled,
+            bool keyboardActivated) =>
+            new VisualContextMenuDTP(kcm, palette, paletteMode, redirector, redirectorImages, items, enabled, keyboardActivated, _dropScreenRect);
+    }
 
     #region ButtonSpec wiring
     private void OnButtonSpecInserted(object? sender, ButtonSpecEventArgs e)
