@@ -3,6 +3,7 @@
 ====
 
 ## 2025-11-xx - Build 2511 (V10 - alpha) - November 2025
+* Resolved [#2461](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2461), (feat) Add `KryptonCalcInput` edit+dropdown control.
 * Resolved [#2436](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2436), Guard GetResolvedPalette nulls; use CurrentGlobalPalette fallback.
 * Resolved [#2439](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2439), Fix `KDGVDateTimePickerCell` auto-sizing and dropdown glyphs.
 * Resolved [#2448](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2448), `KryptonForm` does not display components without designer source.
