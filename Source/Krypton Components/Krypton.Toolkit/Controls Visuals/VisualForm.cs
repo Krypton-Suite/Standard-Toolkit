@@ -485,7 +485,7 @@ public abstract class VisualForm : Form,
     /// </summary>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Advanced)]
-    public ToolStripRenderer? CreateToolStripRenderer() => Renderer?.RenderToolStrip(GetResolvedPalette());
+    public ToolStripRenderer CreateToolStripRenderer() => Renderer?.RenderToolStrip(GetResolvedPalette()) ?? new ToolStripProfessionalRenderer();
 
     /// <summary>
     /// Send the provided system command to the window for processing.

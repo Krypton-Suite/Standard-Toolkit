@@ -30,128 +30,16 @@ internal class KryptonCalcButtonActionList : DesignerActionList
     #endregion
 
     #region Public
-    public ButtonStyle ButtonStyle
+    public InputControlStyle InputControlStyle
     {
-        get => _calcButton.ButtonStyle;
+        get => _calcButton.InputControlStyle;
 
         set
         {
-            if (_calcButton.ButtonStyle != value)
+            if (_calcButton.InputControlStyle != value)
             {
-                _service?.OnComponentChanged(_calcButton, null, _calcButton.ButtonStyle, value);
-                _calcButton.ButtonStyle = value;
-            }
-        }
-    }
-
-    public VisualOrientation ButtonOrientation
-    {
-        get => _calcButton.ButtonOrientation;
-
-        set
-        {
-            if (_calcButton.ButtonOrientation != value)
-            {
-                _service?.OnComponentChanged(_calcButton, null, _calcButton.ButtonOrientation, value);
-                _calcButton.ButtonOrientation = value;
-            }
-        }
-    }
-
-    public VisualOrientation DropDownPosition
-    {
-        get => _calcButton.DropDownPosition;
-
-        set
-        {
-            if (_calcButton.DropDownPosition != value)
-            {
-                _service?.OnComponentChanged(_calcButton, null, _calcButton.DropDownPosition, value);
-                _calcButton.DropDownPosition = value;
-            }
-        }
-    }
-
-    public VisualOrientation DropDownOrientation
-    {
-        get => _calcButton.DropDownOrientation;
-
-        set
-        {
-            if (_calcButton.DropDownOrientation != value)
-            {
-                _service?.OnComponentChanged(_calcButton, null, _calcButton.DropDownOrientation, value);
-                _calcButton.DropDownOrientation = value;
-            }
-        }
-    }
-
-    public bool Splitter
-    {
-        get => _calcButton.Splitter;
-
-        set
-        {
-            if (_calcButton.Splitter != value)
-            {
-                _service?.OnComponentChanged(_calcButton, null, _calcButton.Splitter, value);
-                _calcButton.Splitter = value;
-            }
-        }
-    }
-
-    public string Text
-    {
-        get => _calcButton.Values.Text;
-
-        set
-        {
-            if (_calcButton.Values.Text != value)
-            {
-                _service?.OnComponentChanged(_calcButton, null, _calcButton.Values.Text, value);
-                _calcButton.Values.Text = value;
-            }
-        }
-    }
-
-    public string ExtraText
-    {
-        get => _calcButton.Values.ExtraText;
-
-        set
-        {
-            if (_calcButton.Values.ExtraText != value)
-            {
-                _service?.OnComponentChanged(_calcButton, null, _calcButton.Values.ExtraText, value);
-                _calcButton.Values.ExtraText = value;
-            }
-        }
-    }
-
-    public Image? Image
-    {
-        get => _calcButton.Values.Image;
-
-        set
-        {
-            if (_calcButton.Values.Image != value)
-            {
-                _service?.OnComponentChanged(_calcButton, null, _calcButton.Values.Image, value);
-                _calcButton.Values.Image = value;
-            }
-        }
-    }
-
-    public PaletteMode PaletteMode
-    {
-        get => _calcButton.PaletteMode;
-
-        set
-        {
-            if (_calcButton.PaletteMode != value)
-            {
-                _service?.OnComponentChanged(_calcButton, null, _calcButton.PaletteMode, value);
-                _calcButton.PaletteMode = value;
+                _service?.OnComponentChanged(_calcButton, null, _calcButton.InputControlStyle, value);
+                _calcButton.InputControlStyle = value;
             }
         }
     }
@@ -169,6 +57,90 @@ internal class KryptonCalcButtonActionList : DesignerActionList
             }
         }
     }
+
+    public int DecimalPlaces
+    {
+        get => _calcButton.DecimalPlaces;
+
+        set
+        {
+            if (_calcButton.DecimalPlaces != value)
+            {
+                _service?.OnComponentChanged(_calcButton, null, _calcButton.DecimalPlaces, value);
+                _calcButton.DecimalPlaces = value;
+            }
+        }
+    }
+
+    public bool AllowDecimals
+    {
+        get => _calcButton.AllowDecimals;
+
+        set
+        {
+            if (_calcButton.AllowDecimals != value)
+            {
+                _service?.OnComponentChanged(_calcButton, null, _calcButton.AllowDecimals, value);
+                _calcButton.AllowDecimals = value;
+            }
+        }
+    }
+
+    public int DropDownWidth
+    {
+        get => _calcButton.DropDownWidth;
+
+        set
+        {
+            if (_calcButton.DropDownWidth != value)
+            {
+                _service?.OnComponentChanged(_calcButton, null, _calcButton.DropDownWidth, value);
+                _calcButton.DropDownWidth = value;
+            }
+        }
+    }
+
+    public VisualOrientation PopupSide
+    {
+        get => _calcButton.PopupSide;
+
+        set
+        {
+            if (_calcButton.PopupSide != value)
+            {
+                _service?.OnComponentChanged(_calcButton, null, _calcButton.PopupSide, value);
+                _calcButton.PopupSide = value;
+            }
+        }
+    }
+
+    public string Text
+    {
+        get => _calcButton.Text;
+
+        set
+        {
+            if (_calcButton.Text != value)
+            {
+                _service?.OnComponentChanged(_calcButton, null, _calcButton.Text, value);
+                _calcButton.Text = value;
+            }
+        }
+    }
+
+    public PaletteMode PaletteMode
+    {
+        get => _calcButton.PaletteMode;
+
+        set
+        {
+            if (_calcButton.PaletteMode != value)
+            {
+                _service?.OnComponentChanged(_calcButton, null, _calcButton.PaletteMode, value);
+                _calcButton.PaletteMode = value;
+            }
+        }
+    }
     #endregion
 
     #region Public Override
@@ -179,17 +151,15 @@ internal class KryptonCalcButtonActionList : DesignerActionList
         if (_calcButton != null)
         {
             actions.Add(new DesignerActionHeaderItem(nameof(Appearance)));
-            actions.Add(new DesignerActionPropertyItem(nameof(Splitter), nameof(Splitter), nameof(Appearance), @"Splitter of DropDown"));
-            actions.Add(new DesignerActionPropertyItem(nameof(ButtonStyle), nameof(ButtonStyle), nameof(Appearance), @"Button style"));
-            actions.Add(new DesignerActionPropertyItem(nameof(ButtonOrientation), nameof(ButtonOrientation), nameof(Appearance), @"Button orientation"));
-            actions.Add(new DesignerActionPropertyItem(nameof(DropDownPosition), nameof(DropDownPosition), nameof(Appearance), @"DropDown position"));
-            actions.Add(new DesignerActionPropertyItem(nameof(DropDownOrientation), nameof(DropDownOrientation), nameof(Appearance), @"DropDown orientation"));
+            actions.Add(new DesignerActionPropertyItem(nameof(InputControlStyle), nameof(InputControlStyle), nameof(Appearance), @"Input control style"));
+            actions.Add(new DesignerActionPropertyItem(nameof(DecimalPlaces), nameof(DecimalPlaces), nameof(Appearance), @"Number of decimal places"));
+            actions.Add(new DesignerActionPropertyItem(nameof(AllowDecimals), nameof(AllowDecimals), nameof(Appearance), @"Allow decimal values"));
+            actions.Add(new DesignerActionHeaderItem(@"Layout"));
+            actions.Add(new DesignerActionPropertyItem(nameof(DropDownWidth), nameof(DropDownWidth), @"Layout", @"Default width of popup"));
+            actions.Add(new DesignerActionPropertyItem(nameof(PopupSide), nameof(PopupSide), @"Layout", @"Side where popup appears"));
             actions.Add(new DesignerActionHeaderItem(@"Values"));
-            actions.Add(new DesignerActionPropertyItem(nameof(Text), nameof(Text), @"Values", @"Button text"));
-            actions.Add(new DesignerActionPropertyItem(nameof(ExtraText), nameof(ExtraText), @"Values", @"Button extra text"));
-            actions.Add(new DesignerActionPropertyItem(nameof(Image), nameof(Image), @"Values", @"Button image"));
-            actions.Add(new DesignerActionHeaderItem(@"Behavior"));
-            actions.Add(new DesignerActionPropertyItem(nameof(Value), nameof(Value), @"Behavior", @"Numeric value"));
+            actions.Add(new DesignerActionPropertyItem(nameof(Text), nameof(Text), @"Values", @"Input text"));
+            actions.Add(new DesignerActionPropertyItem(nameof(Value), nameof(Value), @"Values", @"Numeric value"));
             actions.Add(new DesignerActionHeaderItem(@"Visuals"));
             actions.Add(new DesignerActionPropertyItem(nameof(PaletteMode), @"Palette", @"Visuals", @"Palette applied to drawing"));
         }
