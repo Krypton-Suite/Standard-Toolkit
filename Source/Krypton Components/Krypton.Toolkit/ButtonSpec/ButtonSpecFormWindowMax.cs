@@ -34,32 +34,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button visibility.</returns>
-        public override bool GetVisible(PaletteBase? palette)
-        {
-            // We do not show if the custom chrome is combined with composition,
-            // in which case the form buttons are handled by the composition
-            if (KryptonForm is { ApplyComposition: true, ApplyCustomChrome: true })
-            {
-                return false;
-            }
-
-            // The maximize button is never present on tool windows
-            switch (KryptonForm.FormBorderStyle)
-            {
-                case FormBorderStyle.FixedToolWindow:
-                case FormBorderStyle.SizableToolWindow:
-                    return false;
-            }
-
-            // Have all buttons been turned off?
-            if (!KryptonForm.ControlBox)
-            {
-                return false;
-            }
-
-            // Has the minimize/maximize buttons been turned off?
-            return KryptonForm.MinimizeBox || KryptonForm.MaximizeBox;
-        }
+        public override bool GetVisible(PaletteBase? palette) =>
+            KryptonForm.MaximizeBox;
 
         /// <summary>
         /// Gets the button enabled state.

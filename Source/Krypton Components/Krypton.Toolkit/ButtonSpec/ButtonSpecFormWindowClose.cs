@@ -60,18 +60,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button visibility.</returns>
-        public override bool GetVisible(PaletteBase? palette)
-        {
-            // We do not show if the custom chrome is combined with composition,
-            // in which case the form buttons are handled by the composition
-            if (KryptonForm is { ApplyComposition: true, ApplyCustomChrome: true })
-            {
-                return false;
-            }
-
-            // Have all buttons been turned off?
-            return KryptonForm is { ControlBox: true, CloseBox: true };
-        }
+        public override bool GetVisible(PaletteBase? palette) =>
+            KryptonForm.CloseBox;
 
         /// <summary>
         /// Gets the button enabled state.
