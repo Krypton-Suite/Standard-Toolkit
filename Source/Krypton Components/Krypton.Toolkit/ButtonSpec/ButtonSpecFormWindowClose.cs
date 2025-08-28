@@ -63,7 +63,7 @@ public class ButtonSpecFormWindowClose : ButtonSpecFormFixed
     public override bool GetVisible(PaletteBase palette)
     {
         // Have all buttons been turned off?
-        return KryptonForm is { ControlBox: true, CloseBox: true };
+        return KryptonForm.CloseBox;
     }
 
     /// <summary>
@@ -71,7 +71,8 @@ public class ButtonSpecFormWindowClose : ButtonSpecFormFixed
     /// </summary>
     /// <param name="palette">Palette to use for inheriting values.</param>
     /// <returns>Button enabled state.</returns>
-    public override ButtonEnabled GetEnabled(PaletteBase palette) => KryptonForm.CloseBox && Enabled ? ButtonEnabled.True : ButtonEnabled.False;
+    public override ButtonEnabled GetEnabled(PaletteBase palette) => 
+        KryptonForm.CloseBox && Enabled ? ButtonEnabled.True : ButtonEnabled.False;
 
     /// <summary>
     /// Gets the button checked state.

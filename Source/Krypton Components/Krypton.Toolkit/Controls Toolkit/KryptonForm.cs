@@ -657,7 +657,91 @@ public class KryptonForm : VisualForm,
 
     #endregion
 
-    #region Public
+    #region Public (new)
+    /// <summary>
+    /// Toggles display of the minimiz button.
+    /// </summary>
+    [DefaultValue(true)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public new bool MinimizeBox 
+    {
+        get => base.MinimizeBox;
+
+        set
+        {
+            if (base.MinimizeBox != value)
+            {
+                base.MinimizeBox = value;
+                _buttonManager.PerformNeedPaint(true);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Toggles display of the maximize button.
+    /// </summary>
+    [DefaultValue(true)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public new bool MaximizeBox 
+    {
+        get => base.MaximizeBox;
+
+        set
+        {
+            if (base.MaximizeBox != value)
+            {
+                base.MaximizeBox = value;
+                _buttonManager.PerformNeedPaint(true);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Toggles display of the Close button.
+    /// </summary>
+    [DefaultValue(true)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public new bool CloseBox 
+    {
+        get => base.CloseBox;
+
+        set
+        { 
+            if (base.CloseBox != value)
+            {
+                base.CloseBox = value;
+                _buttonManager.PerformNeedPaint(true);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Indicates the appearance and behavior of the border and title bar of the form.
+    /// </summary>
+    [Category("Appearance")]
+    [DefaultValue(FormBorderStyle.Sizable)]
+    [Description("Indicates the appearance and behavior of the border and title bar of the form.")]
+    public new FormBorderStyle FormBorderStyle
+    {
+        get => base.FormBorderStyle;
+
+        set
+        {
+            if (base.FormBorderStyle != value)
+            {
+                base.FormBorderStyle = value;
+                OnFormBorderStyleChanged();
+                _buttonManager.PerformNeedPaint(true);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Access to the Internal KryptonPanel.
+    /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public KryptonPanel InternalPanel => _internalKryptonPanel;
+
     /// <summary>
     /// Gets or sets the extra text associated with the control.
     /// </summary>
@@ -1801,6 +1885,42 @@ public class KryptonForm : VisualForm,
     #endregion
 
     #region Implementation
+    private void OnFormBorderStyleChanged()
+    {
+        // KryptonForm uses ButtonSpecs for Form control buttons.
+        // Those need synchronizing when the FormBorderStyle changes.
+        // Once the style has change the user can adjust the buttons to the liking.
+        // User configured buttons are changed once the FormBorderStyle changes.
+
+        switch (FormBorderStyle)
+        {
+            case FormBorderStyle.None:
+                ControlBox = false;
+                MinimizeBox = false;
+                MaximizeBox = false;
+                CloseBox = false;
+                break;
+
+            case FormBorderStyle.FixedSingle:
+            case FormBorderStyle.Fixed3D:
+            case FormBorderStyle.FixedDialog:
+            case FormBorderStyle.Sizable:
+                ControlBox = true;
+                MinimizeBox = true;
+                MaximizeBox = true;
+                CloseBox = true;
+                break;
+
+            case FormBorderStyle.FixedToolWindow:
+            case FormBorderStyle.SizableToolWindow:
+                ControlBox = false;
+                MinimizeBox = false;
+                MaximizeBox = false;
+                CloseBox = true;
+                break;
+        }
+    }
+
     private Icon? GetDefinedIcon()
     {
         // Are we allowed to try and show an icon?
@@ -2463,7 +2583,4 @@ public class KryptonForm : VisualForm,
     }
     #endregion
 
-    #region #1979 Temporary Fix
-    public KryptonPanel InternalPanel => _internalKryptonPanel;
-    #endregion #1979 Temporary Fix
 }
