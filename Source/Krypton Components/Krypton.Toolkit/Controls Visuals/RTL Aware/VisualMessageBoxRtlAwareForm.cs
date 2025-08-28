@@ -258,10 +258,7 @@ internal partial class VisualMessageBoxRtlAwareForm : KryptonForm
                     SystemSounds.Exclamation.Play();
                     break;
                 case KryptonMessageBoxIcon.Shield:
-                    // Use theme-aware approach instead of hardcoded OS detection
-                    var currentPaletteMode = KryptonManager.CurrentGlobalPaletteMode;
-                    var shieldIcon = UacShieldIconHelper.GetThemeAwareShieldIcon(currentPaletteMode);
-                    _messageIcon.Image = shieldIcon?.ToBitmap() ?? UACShieldIconResources.UAC_Shield_Windows_10;
+                    _messageIcon.Image = UacShieldIconHelper.GetThemeAwareShieldIconBitmap();
                     break;
                 case KryptonMessageBoxIcon.WindowsLogo:
                     _messageIcon.Image = OSUtilities.IsWindowsTen

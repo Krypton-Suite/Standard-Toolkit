@@ -9,11 +9,63 @@
 namespace Krypton.Toolkit;
 
 /// <summary>
-/// Centralized helper for retrieving and managing UAC shield icons through the theme system.
+/// Centralized helper for retrieving and managing system icons from imageres.dll through the theme system.
+/// 
+/// This class provides access to high-quality, native Windows system icons that automatically
+/// adapt to the current theme and DPI settings. It's the recommended way to get system icons
+/// instead of using hardcoded resources.
+/// 
+/// System icon constants are defined in <see cref="PI.SIID"/> enum (PlatformInvoke.cs).
+/// 
+/// Example usage:
+/// <code>
+/// // Get a shield icon for UAC elevation
+/// var shieldIcon = UacShieldIconHelper.GetSystemIcon(PI.SIID.SHIELD, 32);
+/// 
+/// // Get a theme-aware info icon
+/// var infoIcon = UacShieldIconHelper.GetThemeAwareSystemIcon(
+///     PI.SIID.INFO, 
+///     KryptonManager.CurrentGlobalPaletteMode, 
+///     UACShieldIconSize.Medium);
+/// 
+/// // Get any system icon at a specific size
+/// var warningIcon = UacShieldIconHelper.GetSystemIconAtSize(PI.SIID.WARNING, 64);
+/// 
+/// // Get icons at custom pixel sizes
+/// var customSizeIcon = UacShieldIconHelper.GetThemeAwareSystemIconAtSize(
+///     PI.SIID.INFO,
+///     KryptonManager.CurrentGlobalPaletteMode,
+///     48); // 48x48 pixels
+/// 
+/// // Get multiple sizes at once
+/// var multipleSizes = UacShieldIconHelper.GetSystemIconMultipleSizes(
+///     PI.SIID.SHIELD,
+///     KryptonManager.CurrentGlobalPaletteMode);
+/// 
+/// // Get specific custom pixel sizes
+/// var customPixelSizes = UacShieldIconHelper.GetSystemIconMultiplePixelSizes(
+///     PI.SIID.INFO,
+///     KryptonManager.CurrentGlobalPaletteMode,
+///     24, 48, 96, 192); // Multiple custom sizes
+/// </code>
 /// </summary>
 public static class UacShieldIconHelper
 {
     #region Public Methods
+
+    /// <summary>
+    /// Gets a theme-aware shield icon as a Bitmap, with fallback to Windows 10 shield resource.
+    /// This method centralizes the common pattern used throughout the codebase.
+    /// </summary>
+    /// <param name="size">Optional size for the shield icon. If null, uses default size.</param>
+    /// <returns>A Bitmap containing the theme-aware shield icon or fallback resource.</returns>
+    public static Bitmap GetThemeAwareShieldIconBitmap(UACShieldIconSize? size = null)
+    {
+        var currentPaletteMode = KryptonManager.CurrentGlobalPaletteMode;
+        var shieldIcon = GetThemeAwareShieldIcon(currentPaletteMode, size ?? UACShieldIconSize.Small);
+        return shieldIcon?.ToBitmap() ?? UACShieldIconResources.UAC_Shield_Windows_10;
+    }
+
 
     /// <summary>
     /// Gets the system UAC shield icon using Windows API calls.
@@ -33,8 +85,8 @@ public static class UacShieldIconHelper
             var shinfo = new PI.SHSTOCKICONINFO();
             shinfo.cbSize = (uint)Marshal.SizeOf(typeof(PI.SHSTOCKICONINFO));
 
-            int result = PI.SHGetStockIconInfo(PI.SIID_SHIELD, 
-                PI.SHGSI_ICON | PI.SHGSI_LARGEICON, ref shinfo);
+            int result = PI.SHGetStockIconInfo((int)PI.SIID.SHIELD, 
+                (int)(PI.SHGSI.ICON | PI.SHGSI.LARGEICON), ref shinfo);
             if (result == 0 && shinfo.hIcon != IntPtr.Zero)
             {
                 try 
@@ -48,8 +100,8 @@ public static class UacShieldIconHelper
             }
 
             // Try small icon if large failed
-            result = PI.SHGetStockIconInfo(PI.SIID_SHIELD, 
-                PI.SHGSI_ICON | PI.SHGSI_SMALLICON, ref shinfo);
+            result = PI.SHGetStockIconInfo((int)PI.SIID.SHIELD, 
+                (int)(PI.SHGSI.ICON | PI.SHGSI.SMALLICON), ref shinfo);
             if (result == 0 && shinfo.hIcon != IntPtr.Zero)
             {
                 try 
@@ -119,6 +171,171 @@ public static class UacShieldIconHelper
         }
     }
 
+    /// <summary>
+    /// Gets a system icon from imageres.dll using the specified stock icon ID.
+    /// </summary>
+    /// <param name="stockIconId">The stock icon ID to retrieve.</param>
+    /// <param name="largeIcon">The desired icon size (large or small).</param>
+    /// <returns>The system icon or null if not available.</returns>
+    public static Icon? GetSystemIcon(PI.SIID stockIconId, bool largeIcon = true)
+    {
+        try
+        {
+            // Check if we're on Windows Vista or later
+            if (Environment.OSVersion.Version.Major < 6)
+            {
+                return null;
+            }
+
+            var shinfo = new PI.SHSTOCKICONINFO();
+            shinfo.cbSize = (uint)Marshal.SizeOf(typeof(PI.SHSTOCKICONINFO));
+
+            var flags = (int)(PI.SHGSI.ICON | (largeIcon ? PI.SHGSI.LARGEICON : PI.SHGSI.SMALLICON));
+            int result = PI.SHGetStockIconInfo((int)stockIconId, flags, ref shinfo);
+            
+            if (result == 0 && shinfo.hIcon != IntPtr.Zero)
+            {
+                try 
+                { 
+                    return (Icon)Icon.FromHandle(shinfo.hIcon).Clone(); 
+                }
+                finally 
+                { 
+                    PI.DestroyIcon(shinfo.hIcon); 
+                }
+            }
+
+            return null;
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    /// <summary>
+    /// Gets a system icon from imageres.dll at the specified size.
+    /// </summary>
+    /// <param name="stockIconId">The stock icon ID to retrieve.</param>
+    /// <param name="targetSize">The target size in pixels.</param>
+    /// <returns>The system icon at the specified size or null if not available.</returns>
+    public static Icon? GetSystemIconAtSize(PI.SIID stockIconId, int targetSize)
+    {
+        try
+        {
+            var baseIcon = GetSystemIcon(stockIconId, targetSize >= 32);
+            if (baseIcon == null)
+            {
+                return null;
+            }
+
+            // If the icon is already the right size, return it
+            if (baseIcon.Size.Width == targetSize && baseIcon.Size.Height == targetSize)
+            {
+                return baseIcon;
+            }
+
+            // Scale the icon to the requested size with DPI awareness
+            using (var bitmap = new Bitmap(targetSize, targetSize))
+            using (var graphics = Graphics.FromImage(bitmap))
+            {
+                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                graphics.SmoothingMode = SmoothingMode.HighQuality;
+                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                graphics.DrawIcon(baseIcon, new Rectangle(0, 0, targetSize, targetSize));
+                return CreateIconFromBitmap(bitmap);
+            }
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    /// <summary>
+    /// Gets a theme-aware system icon that automatically adapts to the current theme.
+    /// </summary>
+    /// <param name="stockIconId">The stock icon ID to retrieve.</param>
+    /// <param name="paletteMode">The current palette mode for theme awareness.</param>
+    /// <param name="size">The desired icon size.</param>
+    /// <returns>A theme-aware system icon or null if not available.</returns>
+    public static Icon? GetThemeAwareSystemIcon(PI.SIID stockIconId, PaletteMode paletteMode, UACShieldIconSize size = UACShieldIconSize.Small)
+    {
+        // First try to get the system icon from imageres.dll
+        var systemIcon = GetSystemIcon(stockIconId, size >= UACShieldIconSize.Medium);
+        if (systemIcon != null)
+        {
+            return ScaleIconToSize(systemIcon, size);
+        }
+
+        // Fallback to theme-specific icons based on palette mode
+        return GetThemeSpecificIcon(stockIconId, paletteMode, size);
+    }
+
+    /// <summary>
+    /// Gets a theme-aware system icon at a specific pixel size.
+    /// </summary>
+    /// <param name="stockIconId">The stock icon ID to retrieve.</param>
+    /// <param name="paletteMode">The current palette mode for theme awareness.</param>
+    /// <param name="pixelSize">The desired icon size in pixels.</param>
+    /// <returns>A theme-aware system icon at the specified size or null if not available.</returns>
+    public static Icon? GetThemeAwareSystemIconAtSize(PI.SIID stockIconId, PaletteMode paletteMode, int pixelSize)
+    {
+        // First try to get the system icon from imageres.dll at the exact size
+        var systemIcon = GetSystemIconAtSize(stockIconId, pixelSize);
+        if (systemIcon != null)
+        {
+            return systemIcon;
+        }
+
+        // Fallback to theme-specific icons based on palette mode
+        var fallbackIcon = GetThemeSpecificIcon(stockIconId, paletteMode, GetUACShieldIconSizeFromPixels(pixelSize));
+        if (fallbackIcon != null)
+        {
+            // Scale the fallback icon to the exact pixel size
+            return ScaleIconToExactSize(fallbackIcon, pixelSize);
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    /// Gets multiple sizes of the same system icon for different UI contexts.
+    /// </summary>
+    /// <param name="stockIconId">The stock icon ID to retrieve.</param>
+    /// <param name="paletteMode">The current palette mode for theme awareness.</param>
+    /// <returns>A dictionary of icons at different sizes.</returns>
+    public static Dictionary<UACShieldIconSize, Icon?> GetSystemIconMultipleSizes(PI.SIID stockIconId, PaletteMode paletteMode)
+    {
+        var result = new Dictionary<UACShieldIconSize, Icon?>();
+        
+        foreach (UACShieldIconSize size in Enum.GetValues(typeof(UACShieldIconSize)))
+        {
+            result[size] = GetThemeAwareSystemIcon(stockIconId, paletteMode, size);
+        }
+        
+        return result;
+    }
+
+    /// <summary>
+    /// Gets multiple pixel sizes of the same system icon for different UI contexts.
+    /// </summary>
+    /// <param name="stockIconId">The stock icon ID to retrieve.</param>
+    /// <param name="paletteMode">The current palette mode for theme awareness.</param>
+    /// <param name="pixelSizes">Array of desired pixel sizes.</param>
+    /// <returns>A dictionary of icons at the specified pixel sizes.</returns>
+    public static Dictionary<int, Icon?> GetSystemIconMultiplePixelSizes(PI.SIID stockIconId, PaletteMode paletteMode, params int[] pixelSizes)
+    {
+        var result = new Dictionary<int, Icon?>();
+        
+        foreach (int pixelSize in pixelSizes)
+        {
+            result[pixelSize] = GetThemeAwareSystemIconAtSize(stockIconId, paletteMode, pixelSize);
+        }
+        
+        return result;
+    }
+
     #endregion
 
     #region Private Methods
@@ -141,7 +358,21 @@ public static class UacShieldIconHelper
         }
 
         // Ultimate fallback to system icon
-        return SystemIcons.Shield;
+        return GetShieldIcon();
+    }
+
+    /// <summary>
+    /// Gets a theme-specific icon based on the palette mode.
+    /// </summary>
+    /// <param name="stockIconId">The stock icon ID.</param>
+    /// <param name="paletteMode">The current palette mode.</param>
+    /// <param name="size">The desired icon size.</param>
+    /// <returns>A theme-specific icon.</returns>
+    private static Icon? GetThemeSpecificIcon(PI.SIID stockIconId, PaletteMode paletteMode, UACShieldIconSize size)
+    {
+        // For now, fall back to the system icon
+        // In the future, this could be enhanced to provide theme-specific versions
+        return GetSystemIcon(stockIconId, size >= UACShieldIconSize.Medium);
     }
 
     /// <summary>
@@ -206,6 +437,56 @@ public static class UacShieldIconHelper
         };
 
         return GetSystemShieldIconAtSize(targetSize);
+    }
+
+    /// <summary>
+    /// Scales an icon to an exact pixel size.
+    /// </summary>
+    /// <param name="icon">The icon to scale.</param>
+    /// <param name="pixelSize">The target size in pixels.</param>
+    /// <returns>A scaled icon.</returns>
+    private static Icon? ScaleIconToExactSize(Icon icon, int pixelSize)
+    {
+        try
+        {
+            // If the icon is already the right size, return it
+            if (icon.Size.Width == pixelSize && icon.Size.Height == pixelSize)
+            {
+                return icon;
+            }
+
+            // Scale the icon to the requested size with DPI awareness
+            using (var bitmap = new Bitmap(pixelSize, pixelSize))
+            using (var graphics = Graphics.FromImage(bitmap))
+            {
+                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                graphics.SmoothingMode = SmoothingMode.HighQuality;
+                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                graphics.DrawIcon(icon, new Rectangle(0, 0, pixelSize, pixelSize));
+                return CreateIconFromBitmap(bitmap);
+            }
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    /// <summary>
+    /// Converts a pixel size to the closest UACShieldIconSize enum value.
+    /// </summary>
+    /// <param name="pixelSize">The pixel size to convert.</param>
+    /// <returns>The closest UACShieldIconSize enum value.</returns>
+    private static UACShieldIconSize GetUACShieldIconSizeFromPixels(int pixelSize)
+    {
+        return pixelSize switch
+        {
+            <= 16 => UACShieldIconSize.ExtraSmall,
+            <= 32 => UACShieldIconSize.Small,
+            <= 64 => UACShieldIconSize.Medium,
+            <= 128 => UACShieldIconSize.Large,
+            _ => UACShieldIconSize.ExtraLarge
+        };
     }
 
     /// <summary>

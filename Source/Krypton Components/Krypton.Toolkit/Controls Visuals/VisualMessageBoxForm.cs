@@ -187,10 +187,7 @@ internal partial class VisualMessageBoxForm : KryptonForm
                     SystemSounds.Exclamation.Play();
                     break;
                 case KryptonMessageBoxIcon.Shield:
-                    // Use theme-aware approach instead of hardcoded Windows 11 resource
-                    var currentPaletteMode = KryptonManager.CurrentGlobalPaletteMode;
-                    var shieldIcon = UacShieldIconHelper.GetThemeAwareShieldIcon(currentPaletteMode);
-                    _messageIcon.Image = shieldIcon?.ToBitmap() ?? UACShieldIconResources.UAC_Shield_Windows_10;
+                    _messageIcon.Image = UacShieldIconHelper.GetThemeAwareShieldIconBitmap();
                     break;
                 case KryptonMessageBoxIcon.WindowsLogo:
                     // Because Windows 11 displays a generic application icon,
@@ -270,10 +267,7 @@ internal partial class VisualMessageBoxForm : KryptonForm
                     SystemSounds.Exclamation.Play();
                     break;
                 case KryptonMessageBoxIcon.Shield:
-                    // Use theme-aware approach instead of hardcoded OS detection
-                    var currentPaletteMode = KryptonManager.CurrentGlobalPaletteMode;
-                    var shieldIcon = UacShieldIconHelper.GetThemeAwareShieldIcon(currentPaletteMode);
-                    _messageIcon.Image = shieldIcon?.ToBitmap() ?? UACShieldIconResources.UAC_Shield_Windows_10;
+                    _messageIcon.Image = UacShieldIconHelper.GetThemeAwareShieldIconBitmap();
                     break;
                 case KryptonMessageBoxIcon.WindowsLogo:
                     _messageIcon.Image = OSUtilities.IsWindowsTen

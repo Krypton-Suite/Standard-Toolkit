@@ -12,7 +12,7 @@
 
 namespace Krypton.Workspace;
 
-internal class PI
+    public partial class PI
 {
     #region Constants
     internal const int WM_PAINT = 0x000F;

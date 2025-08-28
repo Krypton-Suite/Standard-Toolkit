@@ -13,7 +13,7 @@ namespace Krypton.Toolkit;
 
 internal partial class PI
 {
-    internal enum HRESULT : uint
+    public enum HRESULT : uint
     {
         S_OK = 0,
         S_FALSE = 1,

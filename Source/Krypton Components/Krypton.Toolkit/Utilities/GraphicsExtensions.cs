@@ -224,10 +224,7 @@ public static class GraphicsExtensions
             case KryptonMessageBoxIcon.Information:
                 return MessageBoxImageResources.GenericInformation;
             case KryptonMessageBoxIcon.Shield:
-                // Use theme-aware approach instead of hardcoded OS detection
-                var currentPaletteMode = KryptonManager.CurrentGlobalPaletteMode;
-                var shieldIcon = UacShieldIconHelper.GetThemeAwareShieldIcon(currentPaletteMode);
-                return shieldIcon?.ToBitmap() ?? UACShieldIconResources.UACShieldWindows11;
+                return UacShieldIconHelper.GetThemeAwareShieldIconBitmap();
             case KryptonMessageBoxIcon.WindowsLogo:
                 if (OSUtilities.IsAtLeastWindowsEleven)
                 {

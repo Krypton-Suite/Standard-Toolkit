@@ -512,8 +512,7 @@ public class ButtonValues : Storage,
             if (_useSystemShieldIcon)
             {
                 // Get the current palette mode from the global manager
-                var currentPaletteMode = KryptonManager.CurrentGlobalPaletteMode;
-                var shieldIcon = UacShieldIconHelper.GetThemeAwareShieldIcon(currentPaletteMode, _uacShieldIconSize ?? UACShieldIconSize.ExtraSmall);
+                var shieldIcon = UacShieldIconHelper.GetThemeAwareShieldIcon(KryptonManager.CurrentGlobalPaletteMode, _uacShieldIconSize ?? UACShieldIconSize.ExtraSmall);
                 try
                 {
                     shield = shieldIcon?.ToBitmap() ?? SystemIcons.Shield.ToBitmap();
@@ -609,8 +608,7 @@ public class ButtonValues : Storage,
                 if (shieldIcon == null)
                 {
                     // Fallback to theme-aware shield icon
-                    var currentPaletteMode = KryptonManager.CurrentGlobalPaletteMode;
-                    shieldIcon = UacShieldIconHelper.GetThemeAwareShieldIcon(currentPaletteMode, _uacShieldIconSize ?? UACShieldIconSize.ExtraSmall);
+                    shieldIcon = UacShieldIconHelper.GetThemeAwareShieldIcon(KryptonManager.CurrentGlobalPaletteMode, _uacShieldIconSize ?? UACShieldIconSize.ExtraSmall);
                 }
 
                 if (shieldIcon != null)

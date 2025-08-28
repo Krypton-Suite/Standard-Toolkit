@@ -98,10 +98,7 @@ internal static class IconHelper
             case InformationBoxIcon.Information:
                 return CreateIconFromImage(MessageBoxImageResources.GenericInformation, null);
             case InformationBoxIcon.Shield:
-                // Use theme-aware approach instead of hardcoded OS detection
-                var currentPaletteMode = KryptonManager.CurrentGlobalPaletteMode;
-                var shieldIcon = UacShieldIconHelper.GetThemeAwareShieldIcon(currentPaletteMode);
-                return shieldIcon ?? SystemIcons.Shield;
+                return UacShieldIconHelper.GetThemeAwareShieldIcon(KryptonManager.CurrentGlobalPaletteMode) ?? SystemIcons.Shield;
             case InformationBoxIcon.WindowsLogo:
                 break;
             case InformationBoxIcon.Application:
