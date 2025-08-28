@@ -4,6 +4,7 @@
 
 ## 2025-11-xx - Build 2511 (V10 - alpha) - November 2025
 * Implemented [#892](https://github.com/Krypton-Suite/Standard-Toolkit/issues/892), `KryptonButton` UAC Shield icons need to match the OS style
+* Resolved [#2452](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2452), Fix: prevent resizing on fixed borders; gate Material hit-band by FormBorderStyle
 * Resolved [#2436](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2436), Guard GetResolvedPalette nulls; use CurrentGlobalPalette fallback.
 * Resolved [#2424](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2424), Fix `NoClipping` in `AccurateText`; `Ellipsis` conditional
 * Resolved [#2439](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2439), Fix `KDGVDateTimePickerCell` auto-sizing and dropdown glyphs.
