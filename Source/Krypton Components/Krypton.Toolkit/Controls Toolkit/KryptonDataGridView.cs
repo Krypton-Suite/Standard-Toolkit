@@ -2937,7 +2937,7 @@ public class KryptonDataGridView : DataGridView
     public ToolStripRenderer? CreateToolStripRenderer()
     {
         var palette = GetResolvedPalette() ?? KryptonManager.CurrentGlobalPalette;
-        return Renderer?.RenderToolStrip(palette)!;
+        return Renderer?.RenderToolStrip(palette);
     }
 
     private void OnKryptonContextMenuDisposed(object? sender, EventArgs e) =>
