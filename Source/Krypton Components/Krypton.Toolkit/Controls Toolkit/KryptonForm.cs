@@ -659,9 +659,11 @@ public class KryptonForm : VisualForm,
 
     #region Public (new)
     /// <summary>
-    /// Toggles display of the minimiz button.
+    /// Toggles display of the minimize button.
     /// </summary>
     [DefaultValue(true)]
+    [Category("Window Style")]
+    [Description("Toggles display of the minimize button.")];
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public new bool MinimizeBox 
     {
@@ -681,6 +683,8 @@ public class KryptonForm : VisualForm,
     /// Toggles display of the maximize button.
     /// </summary>
     [DefaultValue(true)]
+    [Category("Window Style")]
+    [Description("Toggles display of the maximize button.")];
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public new bool MaximizeBox 
     {
@@ -700,6 +704,8 @@ public class KryptonForm : VisualForm,
     /// Toggles display of the Close button.
     /// </summary>
     [DefaultValue(true)]
+    [Category("Window Style")]
+    [Description("Toggles display of the close button.")];
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public new bool CloseBox 
     {
