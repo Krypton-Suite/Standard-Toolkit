@@ -1640,12 +1640,13 @@ public class KryptonForm : VisualForm,
             }
         }
 
+        bool isResizable = FormBorderStyle is FormBorderStyle.Sizable or FormBorderStyle.SizableToolWindow;
         Padding borders = RealWindowBorders;
 
         // Material: use a wider invisible hit band for easier resize while keeping flat, borderless visuals.
         // RealWindowBorders can be 0 when the palette (e.g., Material) suppresses border width for drawing.
         // Expanding the hit test band preserves resize affordance without adding visible chrome.
-        if (Renderer is RenderMaterial)
+        if (isResizable && Renderer is RenderMaterial)
         {
             const int materialResizeThickness = 6;
             borders = new Padding(
@@ -1682,7 +1683,7 @@ public class KryptonForm : VisualForm,
             }
 
             // Is mouse over one of the borders?
-            if (mouseView == _drawDocker)
+            if (isResizable && mouseView == _drawDocker)
             {
                 // Is point over the left border?
                 if ((borders.Left > 0) && (pt.X <= borders.Left))
