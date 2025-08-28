@@ -466,6 +466,11 @@
 	  <AutoGen>True</AutoGen>
 	  <DependentUpon>UACShieldIconResources.resx</DependentUpon>
 	</Compile>
+	<Compile Update="ResourceFiles\UAC\Windows11UACShieldIconResources.Designer.cs">
+	  <DesignTime>True</DesignTime>
+	  <AutoGen>True</AutoGen>
+	  <DependentUpon>Windows11UACShieldIconResources.resx</DependentUpon>
+	</Compile>
 	<Compile Update="ResourceFiles\VisualStudio\VisualStudioImageResources.Designer.cs">
 	  <DesignTime>True</DesignTime>
 	  <AutoGen>True</AutoGen>
@@ -886,6 +891,10 @@
 	<EmbeddedResource Update="ResourceFiles\UAC\UACShieldIconResources.resx">
 	  <Generator>ResXFileCodeGenerator</Generator>
 	  <LastGenOutput>UACShieldIconResources.Designer.cs</LastGenOutput>
+	</EmbeddedResource>
+	<EmbeddedResource Update="ResourceFiles\UAC\Windows11UACShieldIconResources.resx">
+	  <Generator>ResXFileCodeGenerator</Generator>
+	  <LastGenOutput>Windows11UACShieldIconResources.Designer.cs</LastGenOutput>
 	</EmbeddedResource>
 	<EmbeddedResource Update="ResourceFiles\VisualStudio\VisualStudioImageResources.resx">
 	  <Generator>ResXFileCodeGenerator</Generator>

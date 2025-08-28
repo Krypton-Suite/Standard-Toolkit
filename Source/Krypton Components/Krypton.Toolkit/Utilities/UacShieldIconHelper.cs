@@ -177,7 +177,7 @@ public static class UacShieldIconHelper
     /// <param name="stockIconId">The stock icon ID to retrieve.</param>
     /// <param name="largeIcon">The desired icon size (large or small).</param>
     /// <returns>The system icon or null if not available.</returns>
-    public static Icon? GetSystemIcon(PI.SIID stockIconId, bool largeIcon = true)
+    internal static Icon? GetSystemIcon(PI.SIID stockIconId, bool largeIcon = true)
     {
         try
         {
@@ -219,7 +219,7 @@ public static class UacShieldIconHelper
     /// <param name="stockIconId">The stock icon ID to retrieve.</param>
     /// <param name="targetSize">The target size in pixels.</param>
     /// <returns>The system icon at the specified size or null if not available.</returns>
-    public static Icon? GetSystemIconAtSize(PI.SIID stockIconId, int targetSize)
+    internal static Icon? GetSystemIconAtSize(PI.SIID stockIconId, int targetSize)
     {
         try
         {
@@ -259,7 +259,7 @@ public static class UacShieldIconHelper
     /// <param name="paletteMode">The current palette mode for theme awareness.</param>
     /// <param name="size">The desired icon size.</param>
     /// <returns>A theme-aware system icon or null if not available.</returns>
-    public static Icon? GetThemeAwareSystemIcon(PI.SIID stockIconId, PaletteMode paletteMode, UACShieldIconSize size = UACShieldIconSize.Small)
+    internal static Icon? GetThemeAwareSystemIcon(PI.SIID stockIconId, PaletteMode paletteMode, UACShieldIconSize size = UACShieldIconSize.Small)
     {
         // First try to get the system icon from imageres.dll
         var systemIcon = GetSystemIcon(stockIconId, size >= UACShieldIconSize.Medium);
@@ -279,7 +279,7 @@ public static class UacShieldIconHelper
     /// <param name="paletteMode">The current palette mode for theme awareness.</param>
     /// <param name="pixelSize">The desired icon size in pixels.</param>
     /// <returns>A theme-aware system icon at the specified size or null if not available.</returns>
-    public static Icon? GetThemeAwareSystemIconAtSize(PI.SIID stockIconId, PaletteMode paletteMode, int pixelSize)
+    internal static Icon? GetThemeAwareSystemIconAtSize(PI.SIID stockIconId, PaletteMode paletteMode, int pixelSize)
     {
         // First try to get the system icon from imageres.dll at the exact size
         var systemIcon = GetSystemIconAtSize(stockIconId, pixelSize);
@@ -305,7 +305,7 @@ public static class UacShieldIconHelper
     /// <param name="stockIconId">The stock icon ID to retrieve.</param>
     /// <param name="paletteMode">The current palette mode for theme awareness.</param>
     /// <returns>A dictionary of icons at different sizes.</returns>
-    public static Dictionary<UACShieldIconSize, Icon?> GetSystemIconMultipleSizes(PI.SIID stockIconId, PaletteMode paletteMode)
+    internal static Dictionary<UACShieldIconSize, Icon?> GetSystemIconMultipleSizes(PI.SIID stockIconId, PaletteMode paletteMode)
     {
         var result = new Dictionary<UACShieldIconSize, Icon?>();
         
@@ -324,7 +324,7 @@ public static class UacShieldIconHelper
     /// <param name="paletteMode">The current palette mode for theme awareness.</param>
     /// <param name="pixelSizes">Array of desired pixel sizes.</param>
     /// <returns>A dictionary of icons at the specified pixel sizes.</returns>
-    public static Dictionary<int, Icon?> GetSystemIconMultiplePixelSizes(PI.SIID stockIconId, PaletteMode paletteMode, params int[] pixelSizes)
+    internal static Dictionary<int, Icon?> GetSystemIconMultiplePixelSizes(PI.SIID stockIconId, PaletteMode paletteMode, params int[] pixelSizes)
     {
         var result = new Dictionary<int, Icon?>();
         
