@@ -602,15 +602,10 @@ public class ButtonValues : Storage,
                 UACShieldIconSize targetIconSize = iconSize ?? _uacShieldIconSize ?? UACShieldIconSize.ExtraSmall;
                 int targetSize = GetTargetSize(targetIconSize);
 
-                // Try to get a DPI-aware system shield icon at the exact size first
-                Icon? shieldIcon = UacShieldIconHelper.GetSystemShieldIconAtSize(targetSize);
+                // ALWAYS try to get the system shield icon directly from imageres.dll first
+                // This gives us the highest quality, most appropriate icon for the current OS
+                Icon? shieldIcon = UacShieldIconHelper.GetSystemIcon(PI.SIID.SHIELD, targetSize >= 32);
                 
-                if (shieldIcon == null)
-                {
-                    // Fallback to theme-aware shield icon
-                    shieldIcon = UacShieldIconHelper.GetThemeAwareShieldIcon(KryptonManager.CurrentGlobalPaletteMode, _uacShieldIconSize ?? UACShieldIconSize.ExtraSmall);
-                }
-
                 if (shieldIcon != null)
                 {
                     // Use the icon directly if it's the right size, otherwise scale it
@@ -625,17 +620,47 @@ public class ButtonValues : Storage,
                     }
                     
                     PerformNeedPaint(true);
+                    return; // Successfully got icon from imageres.dll, exit early
                 }
-                else
+
+                // If imageres.dll failed, try the DPI-aware system shield icon method
+                shieldIcon = UacShieldIconHelper.GetSystemShieldIconAtSize(targetSize);
+                
+                if (shieldIcon != null)
                 {
-                    // Final fallback: SystemIcons.Shield
-                    Image = ScaleIconWithQuality(SystemIcons.Shield, targetSize, targetSize);
+                    // Use the icon directly if it's the right size, otherwise scale it
+                    if (shieldIcon.Size.Width == targetSize && shieldIcon.Size.Height == targetSize)
+                    {
+                        Image = shieldIcon.ToBitmap();
+                    }
+                    else
+                    {
+                        // Scale the icon to the appropriate size with high quality
+                        Image = ScaleIconWithQuality(shieldIcon, targetSize, targetSize);
+                    }
+                    
                     PerformNeedPaint(true);
+                    return; // Successfully got icon from alternative system method, exit early
                 }
+
+                // If system methods failed, fallback to theme-aware shield icon
+                shieldIcon = UacShieldIconHelper.GetThemeAwareShieldIcon(KryptonManager.CurrentGlobalPaletteMode, _uacShieldIconSize ?? UACShieldIconSize.ExtraSmall);
+                
+                if (shieldIcon != null)
+                {
+                    // Scale the icon to the appropriate size with high quality
+                    Image = ScaleIconWithQuality(shieldIcon, targetSize, targetSize);
+                    PerformNeedPaint(true);
+                    return; // Successfully got theme-aware icon, exit early
+                }
+
+                // Final fallback: SystemIcons.Shield (Windows default)
+                Image = ScaleIconWithQuality(SystemIcons.Shield, targetSize, targetSize);
+                PerformNeedPaint(true);
             }
             catch
             {
-                // fallback: SystemIcons.Shield
+                // Ultimate fallback: SystemIcons.Shield with error handling
                 UACShieldIconSize targetIconSize = iconSize ?? _uacShieldIconSize ?? UACShieldIconSize.ExtraSmall;
                 int targetSize = GetTargetSize(targetIconSize);
                 Image = ScaleIconWithQuality(SystemIcons.Shield, targetSize, targetSize);
