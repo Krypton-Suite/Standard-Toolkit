@@ -2,8 +2,12 @@
 
 =======
 
-# 2025-08-25 - Build 2508 (Patch 8) - August 2025
+# 2025-10-25 - Build 2508 (Patch 9) - October 2025
 * Resolved [#2463](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2463), `KryptonForm` has incorrect title-bar button behaviour.
+
+=======
+
+# 2025-08-25 - Build 2508 (Patch 8) - August 2025
 * Implemented [#2406](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2406), `KryptonProgressBar` enhancements.
 * Resolved [#413](https://github.com/Krypton-Suite/Standard-Toolkit/issues/413), `KryptonRibbon` controls do not react to MouseWheel scolling.
 * Resolved [#1971](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2416), `KryptonDataGridViewColumn` Drop-down arrow image incorrect for Sparkle themes.
