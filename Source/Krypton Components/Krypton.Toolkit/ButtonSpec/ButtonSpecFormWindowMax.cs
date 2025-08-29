@@ -34,25 +34,9 @@ public class ButtonSpecFormWindowMax : ButtonSpecFormFixed
     /// </summary>
     /// <param name="palette">Palette to use for inheriting values.</param>
     /// <returns>Button visibility.</returns>
-    public override bool GetVisible(PaletteBase palette)
-    {
-        // The maximize button is never present on tool windows
-        switch (KryptonForm.FormBorderStyle)
-        {
-            case FormBorderStyle.FixedToolWindow:
-            case FormBorderStyle.SizableToolWindow:
-                return false;
-        }
-
-        // Have all buttons been turned off?
-        if (!KryptonForm.ControlBox)
-        {
-            return false;
-        }
-
-        // Has the minimize/maximize buttons been turned off?
-        return KryptonForm.MaximizeBox || KryptonForm.MinimizeBox;
-    }
+    public override bool GetVisible(PaletteBase palette) =>
+        // Return the ManimizeBox state
+        KryptonForm.MaximizeBox;
 
     /// <summary>
     /// Gets the button enabled state.
