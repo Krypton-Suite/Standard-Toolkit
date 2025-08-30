@@ -416,8 +416,7 @@ public class KryptonThemedSystemMenu : IKryptonThemedSystemMenu, IDisposable
                     else if (menuText.Equals(KryptonManager.Strings.SystemMenuStrings.Move, StringComparison.OrdinalIgnoreCase) ||
                              menuText.Replace("&", "").Equals(KryptonManager.Strings.SystemMenuStrings.Move.Replace("&", ""), StringComparison.OrdinalIgnoreCase))
                     {
-                        // Move is enabled when window is in Normal state (not maximized or minimized)
-                        menuItem.Enabled = (windowState == FormWindowState.Normal);
+                        menuItem.Enabled = (windowState != FormWindowState.Normal);
                     }
                     else if (menuText.Equals(KryptonManager.Strings.SystemMenuStrings.Size, StringComparison.OrdinalIgnoreCase) ||
                              menuText.Replace("&", "").Equals(KryptonManager.Strings.SystemMenuStrings.Size.Replace("&", ""), StringComparison.OrdinalIgnoreCase))
