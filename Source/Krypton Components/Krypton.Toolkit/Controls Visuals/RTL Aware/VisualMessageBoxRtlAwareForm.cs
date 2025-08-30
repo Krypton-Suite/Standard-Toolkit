@@ -178,7 +178,7 @@ internal partial class VisualMessageBoxRtlAwareForm : KryptonForm
                     SystemSounds.Exclamation.Play();
                     break;
                 case KryptonMessageBoxIcon.Shield:
-                    _messageIcon.Image = UACShieldIconResources.UAC_Shield_Windows_11;
+                    _messageIcon.Image = Windows11UACShieldIconResources.Windows_11_UAC_Shield_64_x_64;
                     break;
                 case KryptonMessageBoxIcon.WindowsLogo:
                     // Because Windows 11 displays a generic application icon,

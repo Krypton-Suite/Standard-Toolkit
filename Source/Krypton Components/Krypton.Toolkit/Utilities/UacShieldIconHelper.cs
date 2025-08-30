@@ -63,7 +63,7 @@ public static class UacShieldIconHelper
     {
         var currentPaletteMode = KryptonManager.CurrentGlobalPaletteMode;
         var shieldIcon = GetThemeAwareShieldIcon(currentPaletteMode, size ?? UACShieldIconSize.Small);
-        return shieldIcon?.ToBitmap() ?? UACShieldIconResources.UAC_Shield_Windows_10;
+        return shieldIcon?.ToBitmap() ?? Windows11UACShieldIconResources.Windows_11_UAC_Shield_16_x_16;
     }
 
 
@@ -394,7 +394,7 @@ public static class UacShieldIconHelper
                 PaletteMode.MaterialDark or PaletteMode.MaterialDarkRipple or PaletteMode.MaterialLight or PaletteMode.MaterialLightRipple or
             PaletteMode.SparkleBlue or PaletteMode.SparkleOrange or
             PaletteMode.SparklePurple  =>
-                UACShieldIconResources.UACShieldWindows11,
+                Windows11UACShieldIconResources.Windows_11_UAC_Shield_16_x_16,
 
             // Office 2010-2016 themes use Windows 10 style
             PaletteMode.Office2010Blue or PaletteMode.Office2010BlueDarkMode or
@@ -402,7 +402,7 @@ public static class UacShieldIconHelper
             PaletteMode.Office2010SilverDarkMode or PaletteMode.Office2010SilverLightMode or
             PaletteMode.Office2010White or PaletteMode.Office2010Black or
             PaletteMode.Office2010BlackDarkMode or PaletteMode.Office2013White  =>
-                UACShieldIconResources.UACShieldWindows10,
+                Windows10UACShieldIconResources.Windows_10_UAC_Shield_16_x_16,
 
             // Legacy themes (Office 2007, Professional) use Windows 7/8 style
             PaletteMode.Office2007Blue or PaletteMode.Office2007BlueDarkMode or
@@ -414,7 +414,7 @@ public static class UacShieldIconHelper
                 UACShieldIconResources.UACShieldWindows7881,
 
             // Default to Windows 11 style for unknown themes
-            _ => UACShieldIconResources.UACShieldWindows11
+            _ => Windows11UACShieldIconResources.Windows_11_UAC_Shield_16_x_16
         };
     }
 
