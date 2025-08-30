@@ -1970,6 +1970,13 @@ public class KryptonForm : VisualForm,
             // The title bar should be treated as a caption area for moving
             return new IntPtr(PI.HT.CAPTION);
         }
+        
+        // Additional check: if the mouse is in the top area of the form (title bar region)
+        // and we haven't identified a specific view, still allow moving
+        if (pt.Y < _drawHeading.ClientRectangle.Height)
+        {
+            return new IntPtr(PI.HT.CAPTION);
+        }
 
             // Is mouse over one of the borders?
             if (isResizable && mouseView == _drawDocker)
