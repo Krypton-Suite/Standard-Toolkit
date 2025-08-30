@@ -63,6 +63,166 @@ namespace Krypton.Toolkit.ResourceFiles.TaskDialog {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap DoubleChevronBlackDown_24x24 {
+            get {
+                object obj = ResourceManager.GetObject("DoubleChevronBlackDown_24x24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap DoubleChevronBlackUp_24x24 {
+            get {
+                object obj = ResourceManager.GetObject("DoubleChevronBlackUp_24x24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap DoubleChevronDown_20x20 {
+            get {
+                object obj = ResourceManager.GetObject("DoubleChevronDown_20x20", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap DoubleChevronDown_24x24 {
+            get {
+                object obj = ResourceManager.GetObject("DoubleChevronDown_24x24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap DoubleChevronSmallDown_20x20 {
+            get {
+                object obj = ResourceManager.GetObject("DoubleChevronSmallDown_20x20", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap DoubleChevronSmallUp_20x20 {
+            get {
+                object obj = ResourceManager.GetObject("DoubleChevronSmallUp_20x20", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap DoubleChevronUp_20x20 {
+            get {
+                object obj = ResourceManager.GetObject("DoubleChevronUp_20x20", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap DoubleChevronUp_24x24 {
+            get {
+                object obj = ResourceManager.GetObject("DoubleChevronUp_24x24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon KryptonLogoStable_Ico {
+            get {
+                object obj = ResourceManager.GetObject("KryptonLogoStable.Ico", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon shield_error_multi_icon {
+            get {
+                object obj = ResourceManager.GetObject("shield_error_multi_icon", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon shield_exclamation_warning_multi_icon {
+            get {
+                object obj = ResourceManager.GetObject("shield_exclamation_warning_multi_icon", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon shield_help_multi_icon {
+            get {
+                object obj = ResourceManager.GetObject("shield_help_multi_icon", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon shield_krypton_multi_icon {
+            get {
+                object obj = ResourceManager.GetObject("shield_krypton_multi_icon", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon shield_questionmark_multi_icon {
+            get {
+                object obj = ResourceManager.GetObject("shield_questionmark_multi_icon", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon shield_success_checked_multi_icon {
+            get {
+                object obj = ResourceManager.GetObject("shield_success_checked_multi_icon", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon shield_uac_multi_icon {
+            get {
+                object obj = ResourceManager.GetObject("shield_uac_multi_icon", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap TaskDialog_Windows_11_Logo {
             get {
                 object obj = ResourceManager.GetObject("TaskDialog_Windows_11_Logo", resourceCulture);
