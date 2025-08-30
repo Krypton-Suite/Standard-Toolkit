@@ -486,7 +486,11 @@ public abstract class VisualForm : Form,
     /// </summary>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Advanced)]
-    public ToolStripRenderer? CreateToolStripRenderer() => Renderer?.RenderToolStrip(GetResolvedPalette());
+    public ToolStripRenderer CreateToolStripRenderer()
+    {
+        var palette = GetResolvedPalette() ?? KryptonManager.CurrentGlobalPalette;
+        return Renderer.RenderToolStrip(palette);
+    }
 
     /// <summary>
     /// Send the provided system command to the window for processing.
