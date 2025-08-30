@@ -355,6 +355,18 @@ public class KryptonDataGridViewComboBoxCell : DataGridViewTextBoxCell
             }
 
             _selectedItemText = comboBox.Text;
+
+            if (KryptonOwningColumn is KryptonDataGridViewComboBoxColumn comboColumn)
+            {
+                KryptonDataGridViewUtilities.SyncEditorButtonSpecs(DataGridView as KryptonDataGridView, comboColumn, comboBox.ButtonSpecs);
+                foreach (var spec in comboBox.ButtonSpecs.Enumerate().OfType<ButtonSpecAny>())
+                {
+                    spec.Click += (s, e) =>
+                        comboColumn.RaiseButtonSpecClick(new DataGridViewButtonSpecClickEventArgs(comboColumn, this, spec));
+                }
+                comboBox.PerformLayout();
+                comboBox.Invalidate();
+            }
         }
     }
 
@@ -381,11 +393,9 @@ public class KryptonDataGridViewComboBoxCell : DataGridViewTextBoxCell
 
         if (DataGridView?.EditingControl is not null)
         {
-            bool rtl = DataGridView.RightToLeft == RightToLeft.Yes;
-            int locX = rtl ? editingControlBounds.X : editingControlBounds.X + IndicatorGap;
-            int width = editingControlBounds.Width - IndicatorGap;
-            DataGridView.EditingControl.Location = new Point(locX, editingControlBounds.Y);
-            DataGridView.EditingControl.Size = new Size(width, IndicatorSize - 2);
+            // Use full bounds during edit so the editor can layout its own adornments (drop button, ButtonSpecs)
+            DataGridView.EditingControl.Location = new Point(editingControlBounds.X, editingControlBounds.Y);
+            DataGridView.EditingControl.Size = new Size(editingControlBounds.Width, editingControlBounds.Height);
         }
     }
 

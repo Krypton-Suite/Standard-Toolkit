@@ -118,6 +118,18 @@ public class KryptonDataGridViewDomainUpDownCell : KryptonDataGridViewTextBoxCel
             }
 
             domainUpDown.Text = initialFormattedValue as string ?? string.Empty;
+
+            if (KryptonOwningColumn is KryptonDataGridViewDomainUpDownColumn dudColumn)
+            {
+                KryptonDataGridViewUtilities.SyncEditorButtonSpecs(DataGridView as KryptonDataGridView, dudColumn, domainUpDown.ButtonSpecs);
+                foreach (var spec in domainUpDown.ButtonSpecs.Enumerate().OfType<ButtonSpecAny>())
+                {
+                    spec.Click += (s, e) =>
+                        dudColumn.RaiseButtonSpecClick(new DataGridViewButtonSpecClickEventArgs(dudColumn, this, spec));
+                }
+                domainUpDown.PerformLayout();
+                domainUpDown.Invalidate();
+            }
         }
     }
 

@@ -301,6 +301,18 @@ public class KryptonDataGridViewNumericUpDownCell : KryptonDataGridViewTextBoxCe
             numericUpDown.Value = decimal.TryParse(Value?.ToString() ?? string.Empty, out decimal d)
                 ? d     // restore the cell value
                 : 0m;   // if the cell value was null set to zero
+
+            if (KryptonOwningColumn is KryptonDataGridViewNumericUpDownColumn nudColumn)
+            {
+                KryptonDataGridViewUtilities.SyncEditorButtonSpecs(DataGridView as KryptonDataGridView, nudColumn, numericUpDown.ButtonSpecs);
+                foreach (var spec in numericUpDown.ButtonSpecs.Enumerate().OfType<ButtonSpecAny>())
+                {
+                    spec.Click += (s, e) =>
+                        nudColumn.RaiseButtonSpecClick(new DataGridViewButtonSpecClickEventArgs(nudColumn, this, spec));
+                }
+                numericUpDown.PerformLayout();
+                numericUpDown.Invalidate();
+            }
         }
     }
 

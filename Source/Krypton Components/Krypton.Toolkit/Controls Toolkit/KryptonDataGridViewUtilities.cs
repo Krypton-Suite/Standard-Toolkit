@@ -1,7 +1,7 @@
 ﻿#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2024 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2024 - 2025. All rights reserved.
  *  
  */
 #endregion
@@ -123,6 +123,38 @@ internal class KryptonDataGridViewUtilities
             {
                 visualControlBase.PaletteMode = dataGridView.PaletteMode;
             }
+        }
+    }
+
+    /// <summary>
+    /// Clone column ButtonSpecs into a target editing control collection with RTL-aware edge and input-control style.
+    /// </summary>
+    /// <param name="grid">Owning grid (for RTL).</param>
+    /// <param name="column">Source column holding ColumnButtonSpecs.</param>
+    /// <param name="target">Target ButtonSpec collection on the editing control.</param>
+    internal static void SyncEditorButtonSpecs(KryptonDataGridView? grid,
+        KryptonDataGridViewIconColumn column,
+        ButtonSpecCollection<ButtonSpecAny> target)
+    {
+        target.Clear();
+
+        var alignEdge = grid?.RightToLeft == RightToLeft.Yes
+            ? PaletteRelativeEdgeAlign.Near
+            : PaletteRelativeEdgeAlign.Far;
+
+        foreach (var specDesign in column.ButtonSpecs)
+        {
+            var cloned = new ButtonSpecAny
+            {
+                Text = specDesign.Text ?? string.Empty,
+                ExtraText = specDesign.ExtraText ?? string.Empty,
+                Image = specDesign.Icon,
+                ImageTransparentColor = specDesign.ImageTransparentColor,
+                Type = specDesign.Type,
+                Style = PaletteButtonStyle.InputControl,
+                Edge = alignEdge
+            };
+            target.Add(cloned);
         }
     }
 }

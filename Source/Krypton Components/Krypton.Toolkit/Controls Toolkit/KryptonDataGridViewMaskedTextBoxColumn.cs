@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
  *  
  */
 #endregion
@@ -16,6 +16,7 @@ namespace Krypton.Toolkit;
 /// Hosts a collection of KryptonDataGridViewMaskedTextBoxCell cells.
 /// </summary>
 [ToolboxBitmap(typeof(KryptonDataGridViewMaskedTextBoxColumn), "ToolboxBitmaps.KryptonMaskedTextBox.bmp")]
+[Designer(typeof(KryptonMaskedTextBoxColumnDesigner))]
 public class KryptonDataGridViewMaskedTextBoxColumn : KryptonDataGridViewIconColumn
 {
     #region Identity
@@ -51,7 +52,7 @@ public class KryptonDataGridViewMaskedTextBoxColumn : KryptonDataGridViewIconCol
     public override object Clone()
     {
         var cloned = base.Clone() as KryptonDataGridViewMaskedTextBoxColumn ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("cloned"));
-
+        cloned.SyncEditorOnButtonSpecClick = SyncEditorOnButtonSpecClick;
         return cloned;
     }
     #endregion
@@ -73,6 +74,41 @@ public class KryptonDataGridViewMaskedTextBoxColumn : KryptonDataGridViewIconCol
             }
 
             base.CellTemplate = value;
+        }
+    }
+
+    /// <summary>
+    /// If true, synchronizes the editing control text from the cell Value after ButtonSpecClick handlers run.
+    /// </summary>
+    [Category(@"Behavior")]
+    [DefaultValue(true)]
+    [Description(@"If enabled, assigns the current cell Value to the active editor after ButtonSpec clicks.")]
+    public bool SyncEditorOnButtonSpecClick { get; set; } = true;
+
+    /// <inheritdoc/>
+    protected override void OnButtonSpecClickCore(DataGridViewButtonSpecClickEventArgs e)
+    {
+        base.OnButtonSpecClickCore(e);
+
+        if (!SyncEditorOnButtonSpecClick)
+        {
+            return;
+        }
+
+        var grid = e.Column.DataGridView;
+        if (grid is { IsDisposed: true } || grid?.Disposing == true)
+        {
+            return;
+        }
+        if (grid?.IsCurrentCellInEditMode == true
+            && ReferenceEquals(grid.CurrentCell, e.Cell)
+            && grid.EditingControl is Control editor)
+        {
+            var newText = Convert.ToString(e.Cell.Value, CultureInfo.CurrentCulture) ?? string.Empty;
+            if (!string.Equals(editor.Text, newText, StringComparison.Ordinal))
+            {
+                editor.Text = newText;
+            }
         }
     }
 

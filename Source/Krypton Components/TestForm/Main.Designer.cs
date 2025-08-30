@@ -118,7 +118,6 @@ namespace TestForm
             this.kryptonIntegratedToolbarPrintCommand1 = new Krypton.Toolkit.KryptonIntegratedToolbarPrintCommand();
             this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
             this.kryptonCheckSet1 = new Krypton.Toolkit.KryptonCheckSet(this.components);
-            this.kryptonTaskDialog1 = new Krypton.Toolkit.KryptonTaskDialog();
             this.kryptonInputBoxManager1 = new Krypton.Toolkit.KryptonInputBoxManager();
             this.kcmdOpenImage = new Krypton.Toolkit.KryptonCommand();
             this.kryptonDockingManager1 = new Krypton.Docking.KryptonDockingManager();
@@ -925,19 +924,6 @@ namespace TestForm
             this.kryptonManager1.ToolkitStrings.MessageBoxStrings.LessDetails = "L&ess Details...";
             this.kryptonManager1.ToolkitStrings.MessageBoxStrings.MoreDetails = "&More Details...";
             // 
-            // kryptonTaskDialog1
-            // 
-            this.kryptonTaskDialog1.CheckboxText = null;
-            this.kryptonTaskDialog1.Content = "Hello World";
-            this.kryptonTaskDialog1.DefaultRadioButton = null;
-            this.kryptonTaskDialog1.FooterHyperlink = null;
-            this.kryptonTaskDialog1.FooterText = null;
-            this.kryptonTaskDialog1.Icon = Krypton.Toolkit.KryptonMessageBoxIcon.WindowsLogo;
-            this.kryptonTaskDialog1.MainInstruction = "This is a test";
-            this.kryptonTaskDialog1.TextExtra = "Ctrl+C to copy";
-            this.kryptonTaskDialog1.UseNativeOSIcons = false;
-            this.kryptonTaskDialog1.WindowTitle = null;
-            // 
             // kcmdOpenImage
             // 
             this.kcmdOpenImage.Text = "&...";
@@ -1046,7 +1032,6 @@ namespace TestForm
         private Krypton.Toolkit.KryptonCheckButton kcbtnNone;
         private Krypton.Toolkit.KryptonButton kryptonButton8;
         private Krypton.Toolkit.KryptonButton kryptonButton5;
-        private Krypton.Toolkit.KryptonTaskDialog kryptonTaskDialog1;
         private Krypton.Toolkit.KryptonButton kryptonButton9;
         private Krypton.Toolkit.KryptonColorButton kryptonColorButton1;
         private Krypton.Toolkit.KryptonButton kryptonButton10;
