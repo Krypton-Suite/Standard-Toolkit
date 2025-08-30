@@ -49,7 +49,7 @@ namespace TestForm
                 ThemedSystemMenu.AddCustomMenuItem("About This Form", (sender, args) =>
                 {
                     MessageBox.Show("This is a test form demonstrating the themed system menu functionality!",
-                                  "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 });
 
                 // Add a separator
@@ -60,7 +60,7 @@ namespace TestForm
                 {
                     ThemedSystemMenu.Refresh();
                     MessageBox.Show("Menu refreshed! Current item count: " + ThemedSystemMenu.MenuItemCount,
-                                  "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 });
 
                 // Show the current menu item count and theme

@@ -808,7 +808,7 @@ public interface IKryptonThemedSystemMenu
     /// <param name="text">The text to display for the menu item.</param>
     /// <param name="clickHandler">The event handler for when the menu item is clicked.</param>
     /// <param name="insertBeforeClose">If true, inserts the item before the Close item; otherwise adds it at the end.</param>
-    void AddCustomMenuItem(string text, EventHandler clickHandler, bool insertBeforeClose = true);
+    void AddCustomMenuItem(string text, EventHandler? clickHandler, bool insertBeforeClose = true);
 
     /// <summary>
     /// Adds a separator to the themed system menu.

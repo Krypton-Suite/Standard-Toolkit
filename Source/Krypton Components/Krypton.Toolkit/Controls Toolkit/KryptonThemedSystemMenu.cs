@@ -233,7 +233,7 @@ public class KryptonThemedSystemMenu : IKryptonThemedSystemMenu, IDisposable
     /// <param name="text">The text to display for the menu item.</param>
     /// <param name="clickHandler">The action to execute when the item is clicked.</param>
     /// <param name="insertBeforeClose">If true, inserts the item before the Close item; otherwise adds it at the end.</param>
-    public void AddCustomMenuItem(string text, EventHandler clickHandler, bool insertBeforeClose = true)
+    public void AddCustomMenuItem(string text, EventHandler? clickHandler, bool insertBeforeClose = true)
     {
         ThrowIfDisposed();
         if (string.IsNullOrEmpty(text) || clickHandler == null)
@@ -474,7 +474,7 @@ public class KryptonThemedSystemMenu : IKryptonThemedSystemMenu, IDisposable
     /// </summary>
     /// <param name="originalImage">The original image that may have transparency issues.</param>
     /// <returns>A processed image with proper transparency support.</returns>
-    private Image? ProcessImageForTransparency(Image originalImage)
+    private Image? ProcessImageForTransparency(Image? originalImage)
     {
         if (originalImage == null)
         {
@@ -1171,7 +1171,7 @@ public class KryptonThemedSystemMenu : IKryptonThemedSystemMenu, IDisposable
             {
                 var restoreItem = new KryptonContextMenuItem(KryptonManager.Strings.SystemMenuStrings.Restore);
                 restoreItem.Image = GetSystemMenuIcon(SystemMenuIconType.Restore);
-                restoreItem.Click += (sender, e) => ExecuteRestore();
+                restoreItem.Click += OnRestoreItemOnClick;
                 _contextMenu.Items.Add(restoreItem);
             }
 
@@ -1198,13 +1198,13 @@ public class KryptonThemedSystemMenu : IKryptonThemedSystemMenu, IDisposable
             // Always add minimize item, but it will be enabled/disabled based on MinimizeBox property and window state
             var minimizeItem = new KryptonContextMenuItem(KryptonManager.Strings.SystemMenuStrings.Minimize);
             minimizeItem.Image = GetSystemMenuIcon(SystemMenuIconType.Minimize);
-            minimizeItem.Click += (sender, e) => ExecuteMinimize();
+            minimizeItem.Click += OnMinimizeItemOnClick;
             _contextMenu.Items.Add(minimizeItem);
 
             // Always add maximize item, but it will be enabled/disabled based on MaximizeBox property and window state
             var maximizeItem = new KryptonContextMenuItem(KryptonManager.Strings.SystemMenuStrings.Maximize);
             maximizeItem.Image = GetSystemMenuIcon(SystemMenuIconType.Maximize);
-            maximizeItem.Click += (sender, e) => ExecuteMaximize();
+            maximizeItem.Click += OnMaximizeItemOnClick;
             _contextMenu.Items.Add(maximizeItem);
 
             // Only add separator if we have items before it
@@ -1218,7 +1218,7 @@ public class KryptonThemedSystemMenu : IKryptonThemedSystemMenu, IDisposable
             {
                 var closeItem = new KryptonContextMenuItem($"{KryptonManager.Strings.SystemMenuStrings.Close}\tAlt+F4");
                 closeItem.Image = GetSystemMenuIcon(SystemMenuIconType.Close);
-                closeItem.Click += (sender, e) => ExecuteClose();
+                closeItem.Click += OnCloseItemOnClick;
                 _contextMenu.Items.Add(closeItem);
             }
 
@@ -1226,7 +1226,15 @@ public class KryptonThemedSystemMenu : IKryptonThemedSystemMenu, IDisposable
             UpdateMenuItemsState();
         }
 
-    #region Action Execution Methods
+        private void OnMaximizeItemOnClick(object? sender, EventArgs e) => ExecuteMaximize();
+
+        private void OnCloseItemOnClick(object? sender, EventArgs e) => ExecuteClose();
+
+        private void OnMinimizeItemOnClick(object? sender, EventArgs e) => ExecuteMinimize();
+
+        private void OnRestoreItemOnClick(object? sender, EventArgs e) => ExecuteRestore();
+
+        #region Action Execution Methods
 
     /// <summary>
     /// Executes the Restore action to restore the window to normal size.
@@ -1376,7 +1384,7 @@ public class KryptonThemedSystemMenu : IKryptonThemedSystemMenu, IDisposable
         else
         {
             // Fallback for non-KryptonForm forms using Win32 API
-            PI.PostMessage(_form.Handle, (uint)PI.WM_.SYSCOMMAND, (IntPtr)(uint)command, lParam);
+            PI.PostMessage(_form.Handle, PI.WM_.SYSCOMMAND, (IntPtr)(uint)command, lParam);
         }
     }
 
@@ -1444,9 +1452,8 @@ public class KryptonThemedSystemMenu : IKryptonThemedSystemMenu, IDisposable
             }
 
             var contextMenuItem = designerItem.CreateContextMenuItem();
-            
-            // Add click handler for designer items (placeholder - can be extended)
-            contextMenuItem.Click += (sender, e) => OnDesignerMenuItemClick(designerItem);
+
+            contextMenuItem.Click += OnContextMenuItemOnClick;
             
             if (designerItem.InsertBeforeClose)
             {
@@ -1473,6 +1480,11 @@ public class KryptonThemedSystemMenu : IKryptonThemedSystemMenu, IDisposable
             {
                 _contextMenu.Items.Add(contextMenuItem);
             }
+
+            continue;
+
+            // Add click handler for designer items (placeholder - can be extended)
+            void OnContextMenuItemOnClick(object? sender, EventArgs e) => OnDesignerMenuItemClick(designerItem);
         }
     }
     
@@ -1523,7 +1535,9 @@ public class KryptonThemedSystemMenu : IKryptonThemedSystemMenu, IDisposable
                 var contextMenuItem = designerItem.CreateContextMenuItem();
                 
                 // Add click handler for designer items
-                contextMenuItem.Click += (sender, e) => OnDesignerMenuItemClick(designerItem);
+                void OnContextMenuItemOnClick(object? sender, EventArgs e) => OnDesignerMenuItemClick(designerItem);
+
+                contextMenuItem.Click += OnContextMenuItemOnClick;
                 
                 // Insert above the separator
                 _contextMenu.Items.Insert(closeItemIndex, contextMenuItem);
@@ -1543,7 +1557,10 @@ public class KryptonThemedSystemMenu : IKryptonThemedSystemMenu, IDisposable
                 }
 
                 var contextMenuItem = designerItem.CreateContextMenuItem();
-                contextMenuItem.Click += (sender, e) => OnDesignerMenuItemClick(designerItem);
+
+                void OnContextMenuItemOnClick(object? sender, EventArgs e) => OnDesignerMenuItemClick(designerItem);
+
+                contextMenuItem.Click += OnContextMenuItemOnClick;
                 _contextMenu.Items.Add(contextMenuItem);
             }
         }
@@ -1697,7 +1714,7 @@ public class KryptonThemedSystemMenu : IKryptonThemedSystemMenu, IDisposable
         {
             if (disposing)
             {
-                _contextMenu?.Dispose();
+                _contextMenu.Dispose();
             }
             _disposed = true;
         }
