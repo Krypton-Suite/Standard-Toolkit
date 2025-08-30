@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
  *  
  */
 #endregion
@@ -100,6 +100,7 @@ public abstract class KryptonDataGridViewIconColumn : DataGridViewColumn, IIconC
         : base(cellTemplate)
     {
         IconSpecs = [];
+        ButtonSpecs = [];
     }
 
     #endregion
@@ -107,12 +108,14 @@ public abstract class KryptonDataGridViewIconColumn : DataGridViewColumn, IIconC
     protected override void OnDataGridViewChanged()
     {
         IconSpecs.CollectionChanged -= OnIconSpecsCollectionChanged;
+        ButtonSpecs.CollectionChanged -= OnButtonSpecsCollectionChanged;
 
         // KDGV needs a column refresh only
         if (DataGridView is KryptonDataGridView dataGridView)
         {
             _dataGridView = dataGridView;
             IconSpecs.CollectionChanged += OnIconSpecsCollectionChanged;
+            ButtonSpecs.CollectionChanged += OnButtonSpecsCollectionChanged;
         }
         else
         {
@@ -133,6 +136,14 @@ public abstract class KryptonDataGridViewIconColumn : DataGridViewColumn, IIconC
     }
 
     /// <summary>
+    /// Will inform the KGDV that the column needs a repaint when button specs change.
+    /// </summary>
+    private void OnButtonSpecsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        _dataGridView?.InvalidateColumn(this.Index);
+    }
+
+    /// <summary>
     /// Create a cloned copy of the column.
     /// </summary>
     /// <returns></returns>
@@ -145,6 +156,11 @@ public abstract class KryptonDataGridViewIconColumn : DataGridViewColumn, IIconC
             cloned.IconSpecs.Add((sp.Clone() as IconSpec)!);
         }
 
+        foreach (ColumnButtonSpec bsp in ButtonSpecs)
+        {
+            cloned.ButtonSpecs.Add((bsp.Clone() as ColumnButtonSpec)!);
+        }
+
         return cloned;
     }
 
@@ -155,5 +171,65 @@ public abstract class KryptonDataGridViewIconColumn : DataGridViewColumn, IIconC
     [Description(@"Set of extra icons to appear on the column header.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public ObservableCollection<IconSpec> IconSpecs { get; }
+
+    /// <summary>
+    /// Button specification for columns, reusing IconSpec mechanics.
+    /// </summary>
+    public class ColumnButtonSpec : IconSpec, ICloneable
+    {
+        public string? Text { get; set; }
+        public string? ExtraText { get; set; }
+        public Color ImageTransparentColor { get; set; }
+        public PaletteButtonSpecStyle Type { get; set; } = PaletteButtonSpecStyle.Generic;
+
+        public new object Clone()
+        {
+            return new ColumnButtonSpec
+            {
+                Icon = Icon?.Clone() as Image,
+                Alignment = Alignment,
+                Text = Text,
+                ExtraText = ExtraText,
+                ImageTransparentColor = ImageTransparentColor,
+                Type = Type
+            };
+        }
+    }
+
+    /// <summary>
+    /// Gets the collection of button specifications used by cell editing controls.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Button specifications for the cell editing control.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public ObservableCollection<ColumnButtonSpec> ButtonSpecs { get; }
+
+    private bool ShouldSerializeButtonSpecs() => ButtonSpecs.Count > 0;
+    private void ResetButtonSpecs() => ButtonSpecs.Clear();
+
+    /// <summary>
+    /// Raised when a ButtonSpec used by the editing control is clicked.
+    /// </summary>
+    [Category(@"Action")]
+    [Description(@"Occurs when a button specification is clicked in a cell's editing control.")]
+    public event EventHandler<DataGridViewButtonSpecClickEventArgs>? ButtonSpecClick;
+
+    /// <summary>
+    /// Internal raiser used by cells to notify the column of a ButtonSpec click.
+    /// </summary>
+    /// <param name="e">Event args.</param>
+    internal void RaiseButtonSpecClick(DataGridViewButtonSpecClickEventArgs e)
+    {
+        OnButtonSpecClickCore(e);
+    }
+
+    /// <summary>
+    /// Allows derived columns to react to ButtonSpec clicks after base handlers.
+    /// </summary>
+    /// <param name="e">Event args.</param>
+    protected virtual void OnButtonSpecClickCore(DataGridViewButtonSpecClickEventArgs e)
+    {
+        ButtonSpecClick?.Invoke(this, e);
+    }
 
 }

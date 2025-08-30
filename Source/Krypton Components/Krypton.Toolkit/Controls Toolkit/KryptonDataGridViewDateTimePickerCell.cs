@@ -497,6 +497,16 @@ public class KryptonDataGridViewDateTimePickerCell : DataGridViewTextBoxCell
                 dateTime.CalendarAnnuallyBoldedDates = dateTimeColumn.CalendarAnnuallyBoldedDates;
                 dateTime.CalendarMonthlyBoldedDates = dateTimeColumn.CalendarMonthlyBoldedDates;
                 dateTime.CalendarBoldedDates = dateTimeColumn.CalendarBoldedDates;
+
+                // Map ButtonSpecs from column to editor
+                KryptonDataGridViewUtilities.SyncEditorButtonSpecs(DataGridView as KryptonDataGridView, dateTimeColumn, dateTime.ButtonSpecs);
+                foreach (var spec in dateTime.ButtonSpecs.Enumerate().OfType<ButtonSpecAny>())
+                {
+                    spec.Click += (s, e) =>
+                        dateTimeColumn.RaiseButtonSpecClick(new DataGridViewButtonSpecClickEventArgs(dateTimeColumn, this, spec));
+                }
+                dateTime.PerformLayout();
+                dateTime.Invalidate();
             }
 
             if ((initialFormattedValue is not string initialFormattedValueStr) || string.IsNullOrEmpty(initialFormattedValueStr))

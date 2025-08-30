@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
  *  
  */
 #endregion
@@ -16,6 +16,7 @@ namespace Krypton.Toolkit;
 /// Defines the editing control for the DataGridViewTextBoxCell custom cell type.
 /// </summary>
 [ToolboxItem(false)]
+[Designer(typeof(KryptonTextBoxDesigner))]
 public class KryptonDataGridViewTextBoxEditingControl : KryptonTextBox,
     IDataGridViewEditingControl, IKryptonDataGridViewEditingControl
 {
@@ -39,6 +40,14 @@ public class KryptonDataGridViewTextBoxEditingControl : KryptonTextBox,
     #endregion
 
     #region Public
+    /// <summary>
+    /// Gets the collection of button specifications.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Collection of button specifications.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public new KryptonTextBox.TextBoxButtonSpecCollection ButtonSpecs => base.ButtonSpecs;
+
     /// <summary>
     /// Property which caches the grid that uses this editing control
     /// </summary>
