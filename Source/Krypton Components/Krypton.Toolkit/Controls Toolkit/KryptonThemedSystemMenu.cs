@@ -416,7 +416,8 @@ public class KryptonThemedSystemMenu : IKryptonThemedSystemMenu, IDisposable
                     else if (menuText.Equals(KryptonManager.Strings.SystemMenuStrings.Move, StringComparison.OrdinalIgnoreCase) ||
                              menuText.Replace("&", "").Equals(KryptonManager.Strings.SystemMenuStrings.Move.Replace("&", ""), StringComparison.OrdinalIgnoreCase))
                     {
-                        menuItem.Enabled = (windowState != FormWindowState.Normal);
+                        // Move is enabled when window is in Normal state (not maximized or minimized)
+                        menuItem.Enabled = (windowState == FormWindowState.Normal);
                     }
                     else if (menuText.Equals(KryptonManager.Strings.SystemMenuStrings.Size, StringComparison.OrdinalIgnoreCase) ||
                              menuText.Replace("&", "").Equals(KryptonManager.Strings.SystemMenuStrings.Size.Replace("&", ""), StringComparison.OrdinalIgnoreCase))
@@ -647,13 +648,13 @@ public class KryptonThemedSystemMenu : IKryptonThemedSystemMenu, IDisposable
             switch (iconType)
             {
                 case SystemMenuIconType.Restore:
-                    return Office2013ControlBoxResources.Office2013RestoreNormal;
+                    return SystemMenuImageResources.Microsoft365SystemMenuRestoreNormalSmall;
                 case SystemMenuIconType.Minimize:
-                    return Office2013ControlBoxResources.Office2013MinimiseNormal;
+                    return SystemMenuImageResources.Microsoft365SystemMenuMinimiseNormalSmall;
                 case SystemMenuIconType.Maximize:
-                    return Office2013ControlBoxResources.Office2013MaximiseNormal;
+                    return SystemMenuImageResources.Microsoft365SystemMenuMaximiseNormalSmall;
                 case SystemMenuIconType.Close:
-                    return Office2013ControlBoxResources.Office2013CloseNormal;
+                    return SystemMenuImageResources.Microsoft365SystemMenuCloseNormalSmall;
                 case SystemMenuIconType.Move:
                 case SystemMenuIconType.Size:
                     // These don't have specific icons in the resources, so return null
@@ -680,13 +681,13 @@ public class KryptonThemedSystemMenu : IKryptonThemedSystemMenu, IDisposable
             switch (iconType)
             {
                 case SystemMenuIconType.Restore:
-                    return Office2010ControlBoxResources.Office2010BlackRestoreNormal;
+                    return SystemMenuImageResources.Office2010SystemMenuBlackRestoreNormalSmall;
                 case SystemMenuIconType.Minimize:
-                    return Office2010ControlBoxResources.Office2010BlackMinimiseNormal;
+                    return SystemMenuImageResources.Office2010SystemMenuBlackMinimiseNormalSmall;
                 case SystemMenuIconType.Maximize:
-                    return Office2010ControlBoxResources.Office2010BackMaximiseNormal;
+                    return SystemMenuImageResources.Office2010SystemMenuBlackMaximiseNormalSmall;
                 case SystemMenuIconType.Close:
-                    return Office2010ControlBoxResources.Office2010BlackCloseNormal;
+                    return SystemMenuImageResources.Office2010SystemMenuBlackCloseNormalSmall;
                 case SystemMenuIconType.Move:
                 case SystemMenuIconType.Size:
                     return null;
@@ -712,13 +713,13 @@ public class KryptonThemedSystemMenu : IKryptonThemedSystemMenu, IDisposable
             switch (iconType)
             {
                 case SystemMenuIconType.Restore:
-                    return Office2007ControlBoxResources.Office2007ControlBoxBlackRestoreNormal;
+                    return SystemMenuImageResources.Office2007SystemMenuBlackRestoreNormalSmall;
                 case SystemMenuIconType.Minimize:
-                    return Office2007ControlBoxResources.Office2007ControlBoxBlackMinimiseNormal;
+                    return SystemMenuImageResources.Office2007SystemMenuBlackMinimiseNormalSmall;
                 case SystemMenuIconType.Maximize:
-                    return Office2007ControlBoxResources.Office2007ControlBoxBlackMaximiseNormal;
+                    return SystemMenuImageResources.Office2007SystemMenuBlackMaximiseNormalSmall;
                 case SystemMenuIconType.Close:
-                    return Office2007ControlBoxResources.Office2007ControlBoxBlackCloseNormal;
+                    return SystemMenuImageResources.Office2007SystemMenuBlackCloseNormalSmall;
                 case SystemMenuIconType.Move:
                 case SystemMenuIconType.Size:
                     return null;
@@ -744,13 +745,13 @@ public class KryptonThemedSystemMenu : IKryptonThemedSystemMenu, IDisposable
             switch (iconType)
             {
                 case SystemMenuIconType.Restore:
-                    return SparkleControlBoxResources.SparkleButtonRestoreNormal;
+                    return SystemMenuImageResources.SparkleSystemMenuRestoreNormalSmall;
                 case SystemMenuIconType.Minimize:
-                    return SparkleControlBoxResources.SparkleButtonMinNormal;
+                    return SystemMenuImageResources.SparkleSystemMenuMinimiseNormalSmall;
                 case SystemMenuIconType.Maximize:
-                    return SparkleControlBoxResources.SparkleButtonMaxNormal;
+                    return SystemMenuImageResources.SparkleSystemMenuMaximiseNormalSmall;
                 case SystemMenuIconType.Close:
-                    return SparkleControlBoxResources.SparkleButtonCloseNormal;
+                    return SystemMenuImageResources.SparkleSystemMenuCloseNormalSmall;
                 case SystemMenuIconType.Move:
                 case SystemMenuIconType.Size:
                     return null;
@@ -776,13 +777,13 @@ public class KryptonThemedSystemMenu : IKryptonThemedSystemMenu, IDisposable
             switch (iconType)
             {
                 case SystemMenuIconType.Restore:
-                    return ProfessionalControlBoxResources.ProfessionalButtonRestoreNormal;
+                    return SystemMenuImageResources.ProfessionalSystemMenuRestoreNormalSmall;
                 case SystemMenuIconType.Minimize:
-                    return ProfessionalControlBoxResources.ProfessionalButtonMinNormal;
+                    return SystemMenuImageResources.ProfessionalSystemMenuMinimiseNormalSmall;
                 case SystemMenuIconType.Maximize:
-                    return ProfessionalControlBoxResources.ProfessionalButtonMaxNormal;
+                    return SystemMenuImageResources.ProfessionalSystemMenuMaximiseNormalSmall;
                 case SystemMenuIconType.Close:
-                    return ProfessionalControlBoxResources.ProfessionalButtonCloseNormal;
+                    return SystemMenuImageResources.ProfessionalSystemMenuCloseNormalSmall;
                 case SystemMenuIconType.Move:
                 case SystemMenuIconType.Size:
                     return null;
@@ -808,13 +809,13 @@ public class KryptonThemedSystemMenu : IKryptonThemedSystemMenu, IDisposable
             switch (iconType)
             {
                 case SystemMenuIconType.Restore:
-                    return Office2010ControlBoxResources.Office2010BlackRestoreNormal;
+                    return SystemMenuImageResources.Office2010SystemMenuBlackRestoreNormalSmall;
                 case SystemMenuIconType.Minimize:
-                    return Office2010ControlBoxResources.Office2010BlackMinimiseNormal;
+                    return SystemMenuImageResources.Office2010SystemMenuBlackMinimiseNormalSmall;
                 case SystemMenuIconType.Maximize:
-                    return Office2010ControlBoxResources.Office2010BackMaximiseNormal;
+                    return SystemMenuImageResources.Office2010SystemMenuBlackMaximiseNormalSmall;
                 case SystemMenuIconType.Close:
-                    return Office2010ControlBoxResources.Office2010BlackCloseNormal;
+                    return SystemMenuImageResources.Office2010SystemMenuBlackCloseNormalSmall;
                 case SystemMenuIconType.Move:
                 case SystemMenuIconType.Size:
                     return null;
@@ -840,13 +841,13 @@ public class KryptonThemedSystemMenu : IKryptonThemedSystemMenu, IDisposable
             switch (iconType)
             {
                 case SystemMenuIconType.Restore:
-                    return ProfessionalControlBoxResources.ProfessionalButtonRestoreNormal;
+                    return SystemMenuImageResources.ProfessionalSystemMenuRestoreNormalSmall;
                 case SystemMenuIconType.Minimize:
-                    return ProfessionalControlBoxResources.ProfessionalButtonMinNormal;
+                    return SystemMenuImageResources.ProfessionalSystemMenuMinimiseNormalSmall;
                 case SystemMenuIconType.Maximize:
-                    return ProfessionalControlBoxResources.ProfessionalButtonMaxNormal;
+                    return SystemMenuImageResources.ProfessionalSystemMenuMaximiseNormalSmall;
                 case SystemMenuIconType.Close:
-                    return ProfessionalControlBoxResources.ProfessionalButtonCloseNormal;
+                    return SystemMenuImageResources.ProfessionalSystemMenuCloseNormalSmall;
                 case SystemMenuIconType.Move:
                 case SystemMenuIconType.Size:
                     return null;

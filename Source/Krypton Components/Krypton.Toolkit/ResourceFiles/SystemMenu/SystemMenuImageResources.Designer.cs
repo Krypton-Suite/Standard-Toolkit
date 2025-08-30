@@ -59,5 +59,365 @@ namespace Krypton.Toolkit.ResourceFiles.SystemMenu {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Microsoft365SystemMenuCloseNormalSmall {
+            get {
+                object obj = ResourceManager.GetObject("Microsoft365SystemMenuCloseNormalSmall", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Microsoft365SystemMenuMaximiseNormalSmall {
+            get {
+                object obj = ResourceManager.GetObject("Microsoft365SystemMenuMaximiseNormalSmall", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Microsoft365SystemMenuMinimiseNormalSmall {
+            get {
+                object obj = ResourceManager.GetObject("Microsoft365SystemMenuMinimiseNormalSmall", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Microsoft365SystemMenuRestoreNormalSmall {
+            get {
+                object obj = ResourceManager.GetObject("Microsoft365SystemMenuRestoreNormalSmall", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007SystemMenuBlackCloseNormalSmall {
+            get {
+                object obj = ResourceManager.GetObject("Office2007SystemMenuBlackCloseNormalSmall", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007SystemMenuBlackMaximiseNormalSmall {
+            get {
+                object obj = ResourceManager.GetObject("Office2007SystemMenuBlackMaximiseNormalSmall", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007SystemMenuBlackMinimiseNormalSmall {
+            get {
+                object obj = ResourceManager.GetObject("Office2007SystemMenuBlackMinimiseNormalSmall", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007SystemMenuBlackRestoreNormalSmall {
+            get {
+                object obj = ResourceManager.GetObject("Office2007SystemMenuBlackRestoreNormalSmall", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007SystemMenuBlueCloseNormalSmall {
+            get {
+                object obj = ResourceManager.GetObject("Office2007SystemMenuBlueCloseNormalSmall", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007SystemMenuBlueMaximiseNormalSmall {
+            get {
+                object obj = ResourceManager.GetObject("Office2007SystemMenuBlueMaximiseNormalSmall", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007SystemMenuBlueMinimiseNormalSmall {
+            get {
+                object obj = ResourceManager.GetObject("Office2007SystemMenuBlueMinimiseNormalSmall", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007SystemMenuBlueRestoreNormalSmall {
+            get {
+                object obj = ResourceManager.GetObject("Office2007SystemMenuBlueRestoreNormalSmall", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007SystemMenuSilverCloseNormalSmall {
+            get {
+                object obj = ResourceManager.GetObject("Office2007SystemMenuSilverCloseNormalSmall", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007SystemMenuSilverMaximiseNormalSmall {
+            get {
+                object obj = ResourceManager.GetObject("Office2007SystemMenuSilverMaximiseNormalSmall", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007SystemMenuSilverMinimiseNormalSmall {
+            get {
+                object obj = ResourceManager.GetObject("Office2007SystemMenuSilverMinimiseNormalSmall", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007SystemMenuSilverRestoreNormalSmall {
+            get {
+                object obj = ResourceManager.GetObject("Office2007SystemMenuSilverRestoreNormalSmall", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010SystemMenuBlackCloseNormalSmall {
+            get {
+                object obj = ResourceManager.GetObject("Office2010SystemMenuBlackCloseNormalSmall", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010SystemMenuBlackMaximiseNormalSmall {
+            get {
+                object obj = ResourceManager.GetObject("Office2010SystemMenuBlackMaximiseNormalSmall", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010SystemMenuBlackMinimiseNormalSmall {
+            get {
+                object obj = ResourceManager.GetObject("Office2010SystemMenuBlackMinimiseNormalSmall", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010SystemMenuBlackRestoreNormalSmall {
+            get {
+                object obj = ResourceManager.GetObject("Office2010SystemMenuBlackRestoreNormalSmall", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010SystemMenuBlueCloseNormalSmall {
+            get {
+                object obj = ResourceManager.GetObject("Office2010SystemMenuBlueCloseNormalSmall", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010SystemMenuBlueMaximiseNormalSmall {
+            get {
+                object obj = ResourceManager.GetObject("Office2010SystemMenuBlueMaximiseNormalSmall", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010SystemMenuBlueMinimiseNormalSmall {
+            get {
+                object obj = ResourceManager.GetObject("Office2010SystemMenuBlueMinimiseNormalSmall", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010SystemMenuBlueRestoreNormalSmall {
+            get {
+                object obj = ResourceManager.GetObject("Office2010SystemMenuBlueRestoreNormalSmall", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010SystemMenuSilverCloseNormalSmall {
+            get {
+                object obj = ResourceManager.GetObject("Office2010SystemMenuSilverCloseNormalSmall", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010SystemMenuSilverMaximiseNormalSmall {
+            get {
+                object obj = ResourceManager.GetObject("Office2010SystemMenuSilverMaximiseNormalSmall", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010SystemMenuSilverMinimiseNormalSmall {
+            get {
+                object obj = ResourceManager.GetObject("Office2010SystemMenuSilverMinimiseNormalSmall", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010SystemMenuSilverRestoreNormalSmall {
+            get {
+                object obj = ResourceManager.GetObject("Office2010SystemMenuSilverRestoreNormalSmall", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ProfessionalSystemMenuCloseNormalSmall {
+            get {
+                object obj = ResourceManager.GetObject("ProfessionalSystemMenuCloseNormalSmall", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ProfessionalSystemMenuMaximiseNormalSmall {
+            get {
+                object obj = ResourceManager.GetObject("ProfessionalSystemMenuMaximiseNormalSmall", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ProfessionalSystemMenuMinimiseNormalSmall {
+            get {
+                object obj = ResourceManager.GetObject("ProfessionalSystemMenuMinimiseNormalSmall", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ProfessionalSystemMenuRestoreNormalSmall {
+            get {
+                object obj = ResourceManager.GetObject("ProfessionalSystemMenuRestoreNormalSmall", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SparkleSystemMenuCloseNormalSmall {
+            get {
+                object obj = ResourceManager.GetObject("SparkleSystemMenuCloseNormalSmall", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SparkleSystemMenuMaximiseNormalSmall {
+            get {
+                object obj = ResourceManager.GetObject("SparkleSystemMenuMaximiseNormalSmall", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SparkleSystemMenuMinimiseNormalSmall {
+            get {
+                object obj = ResourceManager.GetObject("SparkleSystemMenuMinimiseNormalSmall", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SparkleSystemMenuRestoreNormalSmall {
+            get {
+                object obj = ResourceManager.GetObject("SparkleSystemMenuRestoreNormalSmall", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

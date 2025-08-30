@@ -707,6 +707,8 @@ public class KryptonForm : VisualForm,
             {
                 base.MinimizeBox = value;
                 _buttonManager.PerformNeedPaint(true);
+                // Refresh the themed system menu to reflect the new state
+                _themedSystemMenuService?.ThemedSystemMenu?.Refresh();
             }
         }
     }
@@ -728,6 +730,8 @@ public class KryptonForm : VisualForm,
             {
                 base.MaximizeBox = value;
                 _buttonManager.PerformNeedPaint(true);
+                // Refresh the themed system menu to reflect the new state
+                _themedSystemMenuService?.ThemedSystemMenu?.Refresh();
             }
         }
     }
@@ -770,6 +774,8 @@ public class KryptonForm : VisualForm,
                 base.FormBorderStyle = value;
                 OnFormBorderStyleChanged();
                 _buttonManager.PerformNeedPaint(true);
+                // Refresh the themed system menu to reflect the new state
+                _themedSystemMenuService?.ThemedSystemMenu?.Refresh();
             }
         }
     }
@@ -1260,45 +1266,9 @@ public class KryptonForm : VisualForm,
         }
     }
 
-    /// <summary>
-    /// Gets or sets a value indicating whether the form can be minimized.
-    /// </summary>
-    [Category(@"Window Style")]
-    [DefaultValue(true)]
-    [Description(@"Determines if the form can be minimized.")]
-    public new bool MinimizeBox
-    {
-        get => base.MinimizeBox;
-        set
-        {
-            if (base.MinimizeBox != value)
-            {
-                base.MinimizeBox = value;
-                // Refresh the themed system menu to reflect the new state
-                _themedSystemMenuService?.ThemedSystemMenu?.Refresh();
-            }
-        }
-    }
 
-    /// <summary>
-    /// Gets or sets a value indicating whether the form can be maximized.
-    /// </summary>
-    [Category(@"Window Style")]
-    [DefaultValue(true)]
-    [Description(@"Determines if the form can be maximized.")]
-    public new bool MaximizeBox
-    {
-        get => base.MaximizeBox;
-        set
-        {
-            if (base.MaximizeBox != value)
-            {
-                base.MaximizeBox = value;
-                // Refresh the themed system menu to reflect the new state
-                _themedSystemMenuService?.ThemedSystemMenu?.Refresh();
-            }
-        }
-    }
+
+
 
     /// <summary>
     /// Gets or sets a value indicating whether the form has a control box.
@@ -1320,25 +1290,7 @@ public class KryptonForm : VisualForm,
         }
     }
 
-    /// <summary>
-    /// Gets or sets the border style of the form.
-    /// </summary>
-    [Category(@"Window Style")]
-    [DefaultValue(FormBorderStyle.Sizable)]
-    [Description(@"Determines the border style of the form.")]
-    public new FormBorderStyle FormBorderStyle
-    {
-        get => base.FormBorderStyle;
-        set
-        {
-            if (base.FormBorderStyle != value)
-            {
-                base.FormBorderStyle = value;
-                // Refresh the themed system menu to reflect the new state
-                _themedSystemMenuService?.ThemedSystemMenu?.Refresh();
-            }
-        }
-    }
+
 
     #endregion
 
@@ -2011,18 +1963,13 @@ public class KryptonForm : VisualForm,
         // Scan up the view hierarchy until a recognized element is found
         while (mouseView != null)
         {
-            // Is mouse over the caption bar?
-            if (mouseView == _drawHeading)
-            {
-                // We give priority to the areas that are used to resize the window
-                if ((pt.X > borders.Left) &&
-                    (pt.X < (Width - borders.Right)) &&
-                    (pt.Y > borders.Top) &&
-                    (pt.Y < (Height - borders.Bottom)))
-                {
-                    return new IntPtr(PI.HT.CAPTION);
-                }
-            }
+                    // Is mouse over the caption bar?
+        if (mouseView == _drawHeading)
+        {
+            // Always allow moving when over the title bar area
+            // The title bar should be treated as a caption area for moving
+            return new IntPtr(PI.HT.CAPTION);
+        }
 
             // Is mouse over one of the borders?
             if (isResizable && mouseView == _drawDocker)
@@ -2997,9 +2944,7 @@ public class KryptonForm : VisualForm,
     }
     #endregion
     
-    #region #1979 Temporary Fix
-    public KryptonPanel InternalPanel => _internalKryptonPanel;
-    #endregion #1979 Temporary Fix
+
 
     #region System Menu
 
