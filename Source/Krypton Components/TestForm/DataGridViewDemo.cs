@@ -332,4 +332,20 @@ public partial class DataGridViewDemo : KryptonForm
     {
         kdgvMain.RightToLeft = kdgvMain.RightToLeft == RightToLeft.Yes ? RightToLeft.No : RightToLeft.Yes;
     }
+
+    private void kdgvMain_EditingControlButtonSpecClick(object sender, DataGridViewButtonSpecClickEventArgs e)
+    {
+        if (e.Cell is KryptonDataGridViewTextBoxCell textCell)
+        {
+            switch (e.ButtonSpec.Type)
+            {
+                case PaletteButtonSpecStyle.FormClose:
+                    if (textCell.Value is string cellValue)
+                    {
+                        textCell.Value = cellValue == "[redacted]" ? "" : "[redacted]";
+                    }
+                    break;
+            }
+        }
+    }
 }

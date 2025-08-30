@@ -16,6 +16,7 @@ namespace Krypton.Toolkit;
 /// Hosts a collection of KryptonDataGridViewNumericUpDownCell cells.
 /// </summary>
 [ToolboxBitmap(typeof(KryptonDataGridViewNumericUpDownColumn), "ToolboxBitmaps.KryptonNumericUpDown.bmp")]
+[Designer(typeof(KryptonNumericUpDownColumnDesigner))]
 public class KryptonDataGridViewNumericUpDownColumn : KryptonDataGridViewIconColumn
 {
     #region Fields
@@ -57,7 +58,7 @@ public class KryptonDataGridViewNumericUpDownColumn : KryptonDataGridViewIconCol
     public override object Clone()
     {
         var cloned = base.Clone() as KryptonDataGridViewNumericUpDownColumn ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("cloned"));
-
+        cloned.SyncEditorOnButtonSpecClick = SyncEditorOnButtonSpecClick;
         return cloned;
     }
     #endregion
@@ -79,6 +80,41 @@ public class KryptonDataGridViewNumericUpDownColumn : KryptonDataGridViewIconCol
             }
 
             base.CellTemplate = value;
+        }
+    }
+
+    /// <summary>
+    /// If true, synchronizes the editing control text from the cell Value after ButtonSpecClick handlers run.
+    /// </summary>
+    [Category(@"Behavior")]
+    [DefaultValue(true)]
+    [Description(@"If enabled, assigns the current cell Value to the active editor after ButtonSpec clicks.")]
+    public bool SyncEditorOnButtonSpecClick { get; set; } = true;
+
+    /// <inheritdoc/>
+    protected override void OnButtonSpecClickCore(DataGridViewButtonSpecClickEventArgs e)
+    {
+        base.OnButtonSpecClickCore(e);
+
+        if (!SyncEditorOnButtonSpecClick)
+        {
+            return;
+        }
+
+        var grid = e.Column.DataGridView;
+        if (grid is { IsDisposed: true } || grid?.Disposing == true)
+        {
+            return;
+        }
+        if (grid?.IsCurrentCellInEditMode == true
+            && ReferenceEquals(grid.CurrentCell, e.Cell)
+            && grid.EditingControl is Control editor)
+        {
+            var newText = Convert.ToString(e.Cell.FormattedValue, CultureInfo.CurrentCulture) ?? string.Empty;
+            if (!string.Equals(editor.Text, newText, StringComparison.Ordinal))
+            {
+                editor.Text = newText;
+            }
         }
     }
 

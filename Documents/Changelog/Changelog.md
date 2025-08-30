@@ -4,6 +4,9 @@
 
 ## 2025-11-xx - Build 2511 (V10 - alpha) - November 2025
 * Resolved [#2103](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2103), Ensure that `KryptonForm` properly supports RTL
+* Resolved [#2128](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2128), (feat) Add `ButtonSpecs` to `KDataGridView` cells when editing
+* Resolved [#2463](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2463), `KryptonForm` has incorrect title-bar button behaviour
+* Resolved [#2452](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2452), Fix: prevent resizing on fixed borders; gate Material hit-band by FormBorderStyle
 * Resolved [#2436](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2436), Guard GetResolvedPalette nulls; use CurrentGlobalPalette fallback
 * Resolved [#2439](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2439), Fix `KDGVDateTimePickerCell` auto-sizing and dropdown glyphs
 * Resolved [#2448](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2448), `KryptonForm` does not display components without designer source

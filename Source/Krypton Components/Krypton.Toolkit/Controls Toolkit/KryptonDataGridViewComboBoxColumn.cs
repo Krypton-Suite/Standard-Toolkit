@@ -18,6 +18,7 @@ namespace Krypton.Toolkit;
 /// Hosts a collection of KryptonDataGridViewComboBoxCell cells.
 /// </summary>
 [ToolboxBitmap(typeof(KryptonDataGridViewComboBoxColumn), "ToolboxBitmaps.KryptonComboBox.bmp")]
+[Designer(typeof(KryptonComboBoxColumnDesigner))]
 public partial class KryptonDataGridViewComboBoxColumn : KryptonDataGridViewIconColumn
 {
     #region Identity
@@ -74,6 +75,8 @@ public partial class KryptonDataGridViewComboBoxColumn : KryptonDataGridViewIcon
 
         cloned.AutoCompleteCustomSource.AddRange(strings);
 
+        cloned.SyncEditorOnButtonSpecClick = SyncEditorOnButtonSpecClick;
+
         return cloned;
     }
     #endregion
@@ -97,6 +100,41 @@ public partial class KryptonDataGridViewComboBoxColumn : KryptonDataGridViewIcon
             }
 
             base.CellTemplate = value;
+        }
+    }
+
+    /// <summary>
+    /// If true, synchronizes the editing control text from the cell Value after ButtonSpecClick handlers run.
+    /// </summary>
+    [Category(@"Behavior")]
+    [DefaultValue(true)]
+    [Description(@"If enabled, assigns the current cell Value to the active editor after ButtonSpec clicks.")]
+    public bool SyncEditorOnButtonSpecClick { get; set; } = true;
+
+    /// <inheritdoc/>
+    protected override void OnButtonSpecClickCore(DataGridViewButtonSpecClickEventArgs e)
+    {
+        base.OnButtonSpecClickCore(e);
+
+        if (!SyncEditorOnButtonSpecClick)
+        {
+            return;
+        }
+
+        var grid = e.Column.DataGridView;
+        if (grid is { IsDisposed: true } || grid?.Disposing == true)
+        {
+            return;
+        }
+        if (grid?.IsCurrentCellInEditMode == true
+            && ReferenceEquals(grid.CurrentCell, e.Cell)
+            && grid.EditingControl is Control editor)
+        {
+            var newText = Convert.ToString(e.Cell.FormattedValue, CultureInfo.CurrentCulture) ?? string.Empty;
+            if (!string.Equals(editor.Text, newText, StringComparison.Ordinal))
+            {
+                editor.Text = newText;
+            }
         }
     }
 
