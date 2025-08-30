@@ -421,7 +421,7 @@ public class KryptonThemedSystemMenu : IKryptonThemedSystemMenu, IDisposable
                     else if (menuText.Equals(KryptonManager.Strings.SystemMenuStrings.Size, StringComparison.OrdinalIgnoreCase) ||
                              menuText.Replace("&", "").Equals(KryptonManager.Strings.SystemMenuStrings.Size.Replace("&", ""), StringComparison.OrdinalIgnoreCase))
                     {
-                        menuItem.Enabled = (windowState != FormWindowState.Normal);
+                        menuItem.Enabled = (windowState != FormWindowState.Normal) || _form.FormBorderStyle == FormBorderStyle.Sizable || _form.FormBorderStyle == FormBorderStyle.SizableToolWindow;
                     }
                     // Close is always enabled
                 }
