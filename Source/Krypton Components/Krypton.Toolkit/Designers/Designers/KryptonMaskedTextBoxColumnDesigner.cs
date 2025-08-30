@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
  *  
  */
 #endregion
@@ -36,8 +36,24 @@ internal class KryptonMaskedTextBoxColumnDesigner : ComponentDesigner
 
         // Get access to the design services
         _changeService = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
+        if (_changeService != null)
+        {
+            _changeService.ComponentRemoving += OnComponentRemoving;
+        }
     }
     #endregion
 
+    #region Implementation
+    public override ICollection AssociatedComponents => base.AssociatedComponents;
 
+    private void OnComponentRemoving(object? sender, ComponentEventArgs e)
+    {
+        if ((_maskedTextBox != null) && Equals(e.Component, _maskedTextBox))
+        {
+            _changeService?.OnComponentChanging(_maskedTextBox, null);
+            _maskedTextBox.ButtonSpecs.Clear();
+            _changeService?.OnComponentChanged(_maskedTextBox, null, null, null);
+        }
+    }
+    #endregion
 }
