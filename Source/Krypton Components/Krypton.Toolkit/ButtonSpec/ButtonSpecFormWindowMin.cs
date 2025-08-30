@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
  *  
  */
 #endregion
@@ -34,25 +34,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button visibility.</returns>
-        public override bool GetVisible(PaletteBase palette)
-        {
-            // The minimize button is never present on tool windows
-            switch (KryptonForm.FormBorderStyle)
-            {
-                case FormBorderStyle.FixedToolWindow:
-                case FormBorderStyle.SizableToolWindow:
-                    return false;
-            }
-
-            // Have all buttons been turned off?
-            if (!KryptonForm.ControlBox)
-            {
-                return false;
-            }
-
-            // Has the minimize/maximize buttons been turned off?
-            return KryptonForm.MinimizeBox || KryptonForm.MaximizeBox;
-        }
+        public override bool GetVisible(PaletteBase palette) =>
+            KryptonForm.MinimizeBox;
 
         /// <summary>
         /// Gets the button enabled state.
@@ -61,7 +44,7 @@ namespace Krypton.Toolkit
         /// <returns>Button enabled state.</returns>
         public override ButtonEnabled GetEnabled(PaletteBase palette) =>
             // Has the minimize buttons been turned off?
-            !KryptonForm.MinimizeBox ? ButtonEnabled.False : ButtonEnabled.True;
+            KryptonForm.MinimizeBox ? ButtonEnabled.True : ButtonEnabled.False;
 
         /// <summary>
         /// Gets the button checked state.
