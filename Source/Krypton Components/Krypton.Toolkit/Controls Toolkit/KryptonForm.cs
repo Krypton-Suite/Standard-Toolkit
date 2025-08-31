@@ -1173,7 +1173,7 @@ public class KryptonForm : VisualForm,
 
     private void ResetSystemMenuValues() => _themedSystemMenuValues?.Reset();
 
-    /// <summary>
+    /*/// <summary>
     /// Gets or sets a value indicating if the themed system menu is enabled.
     /// </summary>
     [Category(@"Appearance")]
@@ -1199,7 +1199,7 @@ public class KryptonForm : VisualForm,
         {
             _themedSystemMenuValues.ResetUseThemedSystemMenu();
         }
-    }
+    }*/
 
 
     /// <summary>

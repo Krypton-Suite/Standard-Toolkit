@@ -16,8 +16,8 @@ public class ThemedSystemMenuValues : Storage, INotifyPropertyChanged
 {
     #region Static Fields
     private const bool DEFAULT_ENABLED = true;
-    private const bool DEFAULT_SHOW_ON_LEFT_CLICK = false;
-    private const bool DEFAULT_USE_THEMED_SYSTEM_MENU = true;
+    //private const bool DEFAULT_SHOW_ON_LEFT_CLICK = false;
+    //private const bool DEFAULT_USE_THEMED_SYSTEM_MENU = true;
     private const bool DEFAULT_SHOW_ON_RIGHT_CLICK = true;
     private const bool DEFAULT_SHOW_ON_ALT_SPACE = true;
     private const bool DEFAULT_SHOW_ON_ICON_CLICK = true;
@@ -33,7 +33,7 @@ public class ThemedSystemMenuValues : Storage, INotifyPropertyChanged
     #region Instance Fields
     private bool _enabled;
     //private bool _showOnLeftClick;
-    private bool _useThemedSystemMenu;
+    //private bool _useThemedSystemMenu;
     private bool _showOnRightClick;
     private bool _showOnAltSpace;
     private bool _showOnIconClick;
@@ -53,7 +53,7 @@ public class ThemedSystemMenuValues : Storage, INotifyPropertyChanged
         // Set initial values
         _enabled = DEFAULT_ENABLED;
         //_showOnLeftClick = DEFAULT_SHOW_ON_LEFT_CLICK;
-        _useThemedSystemMenu = DEFAULT_USE_THEMED_SYSTEM_MENU;
+        //_useThemedSystemMenu = DEFAULT_USE_THEMED_SYSTEM_MENU;
         _showOnRightClick = DEFAULT_SHOW_ON_RIGHT_CLICK;
         _showOnAltSpace = DEFAULT_SHOW_ON_ALT_SPACE;
         _showOnIconClick = DEFAULT_SHOW_ON_ICON_CLICK;
@@ -72,7 +72,7 @@ public class ThemedSystemMenuValues : Storage, INotifyPropertyChanged
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public override bool IsDefault => (Enabled == DEFAULT_ENABLED) &&
                                      //(ShowOnLeftClick == DEFAULT_SHOW_ON_LEFT_CLICK) &&
-                                     (UseThemedSystemMenu == DEFAULT_USE_THEMED_SYSTEM_MENU) &&
+                                     //(UseThemedSystemMenu == DEFAULT_USE_THEMED_SYSTEM_MENU) &&
                                      (ShowOnRightClick == DEFAULT_SHOW_ON_RIGHT_CLICK) &&
                                      (ShowOnAltSpace == DEFAULT_SHOW_ON_ALT_SPACE) &&
                                      (ShowOnIconClick == DEFAULT_SHOW_ON_ICON_CLICK) &&
@@ -141,7 +141,7 @@ public class ThemedSystemMenuValues : Storage, INotifyPropertyChanged
 
     #region UseThemedSystemMenu
 
-    /// <summary>
+    /*/// <summary>
     /// Gets and sets whether to use the themed system menu instead of the default system menu.
     /// </summary>
     [Category(@"Behavior")]
@@ -166,7 +166,7 @@ public class ThemedSystemMenuValues : Storage, INotifyPropertyChanged
     /// <summary>
     /// Resets the UseThemedSystemMenu property to its default value.
     /// </summary>
-    public void ResetUseThemedSystemMenu() => UseThemedSystemMenu = DEFAULT_USE_THEMED_SYSTEM_MENU;
+    public void ResetUseThemedSystemMenu() => UseThemedSystemMenu = DEFAULT_USE_THEMED_SYSTEM_MENU;*/
 
     #endregion
 
@@ -331,7 +331,7 @@ public class ThemedSystemMenuValues : Storage, INotifyPropertyChanged
     {
         ResetEnabled();
         //ResetShowOnLeftClick();
-        ResetUseThemedSystemMenu();
+        //ResetUseThemedSystemMenu();
         ResetShowOnRightClick();
         ResetShowOnAltSpace();
         ResetShowOnIconClick();
