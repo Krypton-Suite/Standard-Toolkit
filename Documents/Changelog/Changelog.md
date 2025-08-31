@@ -3,6 +3,7 @@
 ====
 
 ## 2025-11-xx - Build 2511 (V10 - alpha) - November 2025
+* Implemented [#1376](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1376),  **[Breaking Change]**  `KryptonTaskDialog` has had a full overhaul. Please refer to the ticket for full details, status and code sample to get started.
 * Resolved [#2128](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2128), (feat) Add `ButtonSpecs` to `KDataGridView` cells when editing.
 * Resolved [#2463](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2463), `KryptonForm` has incorrect title-bar button behaviour.
 * Resolved [#2452](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2452), Fix: prevent resizing on fixed borders; gate Material hit-band by FormBorderStyle.
