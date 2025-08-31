@@ -75,6 +75,19 @@ namespace Krypton.Toolkit
         /// <summary>Resets the general strings.</summary>
         public void ResetGeneralStrings() => GeneralToolkitStrings.Reset();
 
+        /// <summary>Gets the win32 system menu strings.</summary>
+        [Category(@"Visuals")]
+        [Description(@"Collection of win32 system menu strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public SystemMenuStrings SystemMenuStrings => Win32SystemMenuStrings;
+
+        private bool ShouldSerializeSystemMenuStrings() => !Win32SystemMenuStrings.IsDefault;
+
+        /// <summary>Resets the win32 system menu strings.</summary>
+        public void ResetSystemMenuStrings() => Win32SystemMenuStrings.ResetValues();
+
         /*/// <summary>Gets the data grid view style strings.</summary>
         /// <value>The data grid view style strings.</value>
         [Category(@"Visuals")]
@@ -424,6 +437,11 @@ namespace Krypton.Toolkit
 
         public static CustomToolkitStrings CustomToolkitStrings { get; } = new CustomToolkitStrings();
 
+        /// <summary>Gets the win32 system menu strings.</summary>
+        /// <value>The win32 system menu strings.</value>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public static SystemMenuStrings Win32SystemMenuStrings { get; } = new SystemMenuStrings();
+
         /// <summary>Gets the strings.</summary>
         /// <value>The strings.</value>
         public static GeneralToolkitStrings GeneralToolkitStrings
@@ -573,7 +591,8 @@ namespace Krypton.Toolkit
                                    //ShouldSerializeTabBorderStyleStrings() ||
                                    //ShouldSerializeTabStyleStrings() ||
                                    ShouldSerializeKryptonMiscellaneousThemeStrings() ||
-                                   ShouldSerializeKryptonScrollBarStrings());
+                                   ShouldSerializeKryptonScrollBarStrings() ||
+                                   ShouldSerializeSystemMenuStrings());
 
         /// <summary>Resets this instance.</summary>
         public void Reset()
@@ -631,6 +650,8 @@ namespace Krypton.Toolkit
             ResetKryptonMiscellaneousThemeStrings();
 
             ResetKryptonScrollBarStrings();
+
+            ResetSystemMenuStrings();
         }
 
         #endregion
