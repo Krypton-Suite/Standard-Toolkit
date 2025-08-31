@@ -1,0 +1,57 @@
+﻿#region BSD License
+/*
+ *
+ * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
+ * © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
+ *
+ * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ * Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2025 - 2025. All rights reserved.
+ *
+ */
+#endregion
+
+namespace Krypton.Toolkit;
+
+/// <summary>
+/// Derived class from KryptonForm for use in KryptonTaskDialog.
+/// </summary>
+public class KryptonTaskDialogKryptonForm : KryptonForm
+{
+    #region Static
+    private const Keys KEYS_ALT_F4 = Keys.Alt | Keys.F4;
+    #endregion
+
+    #region public
+    /// <summary>
+    /// Disable close on ALT+F4
+    /// </summary>
+    [DefaultValue(false)]
+    public bool IgnoreAltF4 { get; set; }
+    #endregion
+
+    #region Identity
+    public KryptonTaskDialogKryptonForm()
+    {
+        IgnoreAltF4 = false;
+    }
+    #endregion
+
+    #region Protected override
+    /// <inheritdoc/>>
+    protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+    {
+        if (IgnoreAltF4)
+        {
+            // Intercept ALT+F4
+            if ((keyData & KEYS_ALT_F4) == KEYS_ALT_F4)
+            {
+                // This will consume the keypress
+                return true;
+            }
+        }
+
+        // Call the base class method for other keys
+        return false;
+    }
+    #endregion
+}
