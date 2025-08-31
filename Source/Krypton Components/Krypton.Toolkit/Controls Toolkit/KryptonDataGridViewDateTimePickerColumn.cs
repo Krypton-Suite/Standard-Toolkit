@@ -16,6 +16,7 @@ namespace Krypton.Toolkit;
 /// Hosts a collection of KryptonDataGridViewDateTimePickerCell cells.
 /// </summary>
 [ToolboxBitmap(typeof(KryptonDataGridViewDateTimePickerColumn), "ToolboxBitmaps.KryptonDateTimePicker.bmp")]
+[Designer(typeof(KryptonDateTimePickerColumnDesigner))]
 public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconColumn
 {
     #region Instance Fields
@@ -66,6 +67,7 @@ public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconCo
         cloned.CalendarAnnuallyBoldedDates = CalendarAnnuallyBoldedDates;
         cloned.CalendarMonthlyBoldedDates = CalendarMonthlyBoldedDates;
         cloned.CalendarBoldedDates = CalendarBoldedDates;
+        cloned.SyncEditorOnButtonSpecClick = SyncEditorOnButtonSpecClick;
 
         return cloned;
     }
@@ -89,6 +91,41 @@ public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconCo
             }
 
             base.CellTemplate = value;
+        }
+    }
+
+    /// <summary>
+    /// If true, synchronizes the editing control text from the cell Value after ButtonSpecClick handlers run.
+    /// </summary>
+    [Category(@"Behavior")]
+    [DefaultValue(true)]
+    [Description(@"If enabled, assigns the current cell Value to the active editor after ButtonSpec clicks.")]
+    public bool SyncEditorOnButtonSpecClick { get; set; } = true;
+
+    /// <inheritdoc/>
+    protected override void OnButtonSpecClickCore(DataGridViewButtonSpecClickEventArgs e)
+    {
+        base.OnButtonSpecClickCore(e);
+
+        if (!SyncEditorOnButtonSpecClick)
+        {
+            return;
+        }
+
+        var grid = e.Column.DataGridView;
+        if (grid is { IsDisposed: true } || grid?.Disposing == true)
+        {
+            return;
+        }
+        if (grid?.IsCurrentCellInEditMode == true
+            && ReferenceEquals(grid.CurrentCell, e.Cell)
+            && grid.EditingControl is Control editor)
+        {
+            var newText = Convert.ToString(e.Cell.FormattedValue, CultureInfo.CurrentCulture) ?? string.Empty;
+            if (!string.Equals(editor.Text, newText, StringComparison.Ordinal))
+            {
+                editor.Text = newText;
+            }
         }
     }
 

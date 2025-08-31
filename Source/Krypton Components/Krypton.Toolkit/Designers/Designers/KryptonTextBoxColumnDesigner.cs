@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
  *  
  */
 #endregion
@@ -17,6 +17,7 @@ internal class KryptonTextBoxColumnDesigner : ComponentDesigner
     #region Instance Fields
     private KryptonDataGridViewTextBoxColumn? _textBox;
     private IComponentChangeService? _changeService;
+    private IDesignerHost? _designerHost;
     #endregion
 
     #region Public Overrides
@@ -36,8 +37,31 @@ internal class KryptonTextBoxColumnDesigner : ComponentDesigner
 
         // Get access to the design services
         _changeService = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
+        _designerHost = GetService(typeof(IDesignerHost)) as IDesignerHost;
+
+        // We need to know when we are being removed
+        if (_changeService != null)
+        {
+            _changeService.ComponentRemoving += OnComponentRemoving;
+        }
     }
 
+    /// <summary>
+    /// No extra associated components for column-level specs (serialized as content).
+    /// </summary>
+    public override ICollection AssociatedComponents => base.AssociatedComponents;
     #endregion
 
+    #region Implementation
+    private void OnComponentRemoving(object? sender, ComponentEventArgs e)
+    {
+        // If our column is being removed: clear content-serialized specs
+        if ((_textBox != null) && Equals(e.Component, _textBox))
+        {
+            _changeService?.OnComponentChanging(_textBox, null);
+            _textBox.ButtonSpecs.Clear();
+            _changeService?.OnComponentChanged(_textBox, null, null, null);
+        }
+    }
+    #endregion
 }
