@@ -17,6 +17,7 @@ public class ThemedSystemMenuValues : Storage, INotifyPropertyChanged
     #region Static Fields
     private const bool DEFAULT_ENABLED = true;
     private const bool DEFAULT_SHOW_ON_LEFT_CLICK = false;
+    private const bool DEFAULT_USE_THEMED_SYSTEM_MENU = true;
     private const bool DEFAULT_SHOW_ON_RIGHT_CLICK = true;
     private const bool DEFAULT_SHOW_ON_ALT_SPACE = true;
     private const bool DEFAULT_SHOW_ON_ICON_CLICK = true;
@@ -31,7 +32,8 @@ public class ThemedSystemMenuValues : Storage, INotifyPropertyChanged
 
     #region Instance Fields
     private bool _enabled;
-    private bool _showOnLeftClick;
+    //private bool _showOnLeftClick;
+    private bool _useThemedSystemMenu;
     private bool _showOnRightClick;
     private bool _showOnAltSpace;
     private bool _showOnIconClick;
@@ -50,7 +52,8 @@ public class ThemedSystemMenuValues : Storage, INotifyPropertyChanged
 
         // Set initial values
         _enabled = DEFAULT_ENABLED;
-        _showOnLeftClick = DEFAULT_SHOW_ON_LEFT_CLICK;
+        //_showOnLeftClick = DEFAULT_SHOW_ON_LEFT_CLICK;
+        _useThemedSystemMenu = DEFAULT_USE_THEMED_SYSTEM_MENU;
         _showOnRightClick = DEFAULT_SHOW_ON_RIGHT_CLICK;
         _showOnAltSpace = DEFAULT_SHOW_ON_ALT_SPACE;
         _showOnIconClick = DEFAULT_SHOW_ON_ICON_CLICK;
@@ -68,7 +71,8 @@ public class ThemedSystemMenuValues : Storage, INotifyPropertyChanged
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public override bool IsDefault => (Enabled == DEFAULT_ENABLED) &&
-                                     (ShowOnLeftClick == DEFAULT_SHOW_ON_LEFT_CLICK) &&
+                                     //(ShowOnLeftClick == DEFAULT_SHOW_ON_LEFT_CLICK) &&
+                                     (UseThemedSystemMenu == DEFAULT_USE_THEMED_SYSTEM_MENU) &&
                                      (ShowOnRightClick == DEFAULT_SHOW_ON_RIGHT_CLICK) &&
                                      (ShowOnAltSpace == DEFAULT_SHOW_ON_ALT_SPACE) &&
                                      (ShowOnIconClick == DEFAULT_SHOW_ON_ICON_CLICK) &&
@@ -106,7 +110,7 @@ public class ThemedSystemMenuValues : Storage, INotifyPropertyChanged
     #endregion
 
     #region ShowOnLeftClick
-    /// <summary>
+    /*/// <summary>
     /// Gets and sets whether left-click on title bar shows the themed system menu.
     /// </summary>
     [Category(@"Behavior")]
@@ -132,7 +136,38 @@ public class ThemedSystemMenuValues : Storage, INotifyPropertyChanged
     /// <summary>
     /// Resets the ShowOnLeftClick property to its default value.
     /// </summary>
-    public void ResetShowOnLeftClick() => ShowOnLeftClick = DEFAULT_SHOW_ON_LEFT_CLICK;
+    public void ResetShowOnLeftClick() => ShowOnLeftClick = DEFAULT_SHOW_ON_LEFT_CLICK;*/
+    #endregion
+
+    #region UseThemedSystemMenu
+
+    /// <summary>
+    /// Gets and sets whether to use the themed system menu instead of the default system menu.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Determines if the themed system menu is used instead of the default system menu.")]
+    [DefaultValue(DEFAULT_USE_THEMED_SYSTEM_MENU)]
+    public bool UseThemedSystemMenu
+    {
+        get => _useThemedSystemMenu;
+        set
+        {
+            if (_useThemedSystemMenu != value)
+            {
+                _useThemedSystemMenu = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UseThemedSystemMenu)));
+                PerformNeedPaint(true);
+            }
+        }
+    }
+
+    private bool ShouldSerializeUseThemedSystemMenu() => UseThemedSystemMenu != DEFAULT_USE_THEMED_SYSTEM_MENU;
+
+    /// <summary>
+    /// Resets the UseThemedSystemMenu property to its default value.
+    /// </summary>
+    public void ResetUseThemedSystemMenu() => UseThemedSystemMenu = DEFAULT_USE_THEMED_SYSTEM_MENU;
+
     #endregion
 
     #region ShowOnRightClick
@@ -295,7 +330,8 @@ public class ThemedSystemMenuValues : Storage, INotifyPropertyChanged
     public void Reset()
     {
         ResetEnabled();
-        ResetShowOnLeftClick();
+        //ResetShowOnLeftClick();
+        ResetUseThemedSystemMenu();
         ResetShowOnRightClick();
         ResetShowOnAltSpace();
         ResetShowOnIconClick();

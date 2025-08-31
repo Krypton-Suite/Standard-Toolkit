@@ -416,12 +416,15 @@ public class KryptonThemedSystemMenu : IKryptonThemedSystemMenu, IDisposable
                     else if (menuText.Equals(KryptonManager.Strings.SystemMenuStrings.Move, StringComparison.OrdinalIgnoreCase) ||
                              menuText.Replace("&", "").Equals(KryptonManager.Strings.SystemMenuStrings.Move.Replace("&", ""), StringComparison.OrdinalIgnoreCase))
                     {
-                        menuItem.Enabled = (windowState != FormWindowState.Normal);
+                        // Move is enabled when window is in Normal state (can be moved) or when minimized (can be restored)
+                        menuItem.Enabled = (windowState == FormWindowState.Normal) || (windowState == FormWindowState.Minimized);
                     }
                     else if (menuText.Equals(KryptonManager.Strings.SystemMenuStrings.Size, StringComparison.OrdinalIgnoreCase) ||
                              menuText.Replace("&", "").Equals(KryptonManager.Strings.SystemMenuStrings.Size.Replace("&", ""), StringComparison.OrdinalIgnoreCase))
                     {
-                        menuItem.Enabled = ((windowState != FormWindowState.Normal) && _form.FormBorderStyle == FormBorderStyle.Sizable) || _form.FormBorderStyle == FormBorderStyle.SizableToolWindow;
+                        // Size is enabled when window is in Normal state and form is sizable
+                        menuItem.Enabled = (windowState == FormWindowState.Normal) && 
+                                         (_form.FormBorderStyle == FormBorderStyle.Sizable || _form.FormBorderStyle == FormBorderStyle.SizableToolWindow);
                     }
                     // Close is always enabled
                 }
@@ -1603,7 +1606,7 @@ public class KryptonThemedSystemMenu : IKryptonThemedSystemMenu, IDisposable
     /// Handles clicks on designer-configured menu items.
     /// </summary>
     /// <param name="designerItem">The designer menu item that was clicked.</param>
-    private void OnDesignerMenuItemClick(ThemedSystemMenuItem designerItem)
+    private void OnDesignerMenuItemClick(ThemedSystemMenuItemValues designerItem)
     {
         // This is a placeholder - in a real implementation, you might want to:
         // 1. Raise a custom event that the form can handle

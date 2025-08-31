@@ -13,7 +13,7 @@ namespace Krypton.Toolkit;
 /// Collection of ThemedSystemMenuItem objects that supports designer serialization and change notifications.
 /// </summary>
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public class ThemedSystemMenuItemCollection : ObservableCollection<ThemedSystemMenuItem>
+public class ThemedSystemMenuItemCollection : ObservableCollection<ThemedSystemMenuItemValues>
 {
 
 
@@ -43,9 +43,9 @@ public class ThemedSystemMenuItemCollection : ObservableCollection<ThemedSystemM
     /// </summary>
     /// <param name="text">The text for the menu item.</param>
     /// <returns>The newly added menu item.</returns>
-    public ThemedSystemMenuItem Add(string text)
+    public ThemedSystemMenuItemValues Add(string text)
     {
-        var item = new ThemedSystemMenuItem(text);
+        var item = new ThemedSystemMenuItemValues(text);
         Add(item);
         return item;
     }
@@ -56,9 +56,9 @@ public class ThemedSystemMenuItemCollection : ObservableCollection<ThemedSystemM
     /// <param name="text">The text for the menu item.</param>
     /// <param name="shortcut">The keyboard shortcut text.</param>
     /// <returns>The newly added menu item.</returns>
-    public ThemedSystemMenuItem Add(string text, string shortcut)
+    public ThemedSystemMenuItemValues Add(string text, string shortcut)
     {
-        var item = new ThemedSystemMenuItem(text, shortcut);
+        var item = new ThemedSystemMenuItemValues(text, shortcut);
         Add(item);
         return item;
     }

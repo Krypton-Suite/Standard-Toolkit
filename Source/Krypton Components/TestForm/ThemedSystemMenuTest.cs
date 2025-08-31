@@ -28,9 +28,9 @@ namespace TestForm
             UseThemedSystemMenu = true;
 
             // Configure how the menu appears
-            ThemedSystemMenuValues.ShowOnLeftClick = true;   // Left-click on title bar
-            ThemedSystemMenuValues.ShowOnRightClick = true;  // Right-click on title bar
-            ThemedSystemMenuValues.ShowOnAltSpace = true;    // Alt+Space keyboard shortcut
+            //ThemedSystemMenu.ShowOnLeftClick = true;   // Left-click on title bar
+            SystemMenuValues.ShowOnRightClick = true;  // Right-click on title bar
+            SystemMenuValues.ShowOnAltSpace = true;    // Alt+Space keyboard shortcut
         }
 
         protected override void OnLoad(EventArgs e)
@@ -38,28 +38,28 @@ namespace TestForm
             base.OnLoad(e);
 
             // Initialize the checkboxes to match current settings
-            kryptonCheckBox1.Checked = ThemedSystemMenuValues.ShowOnLeftClick;
-            kryptonCheckBox2.Checked = ThemedSystemMenuValues.ShowOnRightClick;
-            kryptonCheckBox3.Checked = ThemedSystemMenuValues.ShowOnAltSpace;
+            //kryptonCheckBox1.Checked = ThemedSystemMenu.ShowOnLeftClick;
+            kryptonCheckBox2.Checked = SystemMenuValues.ShowOnRightClick;
+            kryptonCheckBox3.Checked = SystemMenuValues.ShowOnAltSpace;
 
             // Demonstrate the enhanced themed system menu features
-            if (ThemedSystemMenu != null)
+            if (KryptonSystemMenu != null)
             {
                 // Add a custom menu item using the new method
-                ThemedSystemMenu.AddCustomMenuItem("About This Form", (sender, args) =>
+                KryptonSystemMenu.AddCustomMenuItem("About This Form", (sender, args) =>
                 {
                     MessageBox.Show("This is a test form demonstrating the themed system menu functionality!",
                         "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 });
 
                 // Add a separator
-                ThemedSystemMenu.AddSeparator();
+                KryptonSystemMenu.AddSeparator();
 
                 // Add another custom item
-                ThemedSystemMenu.AddCustomMenuItem("Refresh Menu", (sender, args) =>
+                KryptonSystemMenu.AddCustomMenuItem("Refresh Menu", (sender, args) =>
                 {
-                    ThemedSystemMenu.Refresh();
-                    MessageBox.Show("Menu refreshed! Current item count: " + ThemedSystemMenu.MenuItemCount,
+                    KryptonSystemMenu.Refresh();
+                    MessageBox.Show("Menu refreshed! Current item count: " + KryptonSystemMenu.MenuItemCount,
                         "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 });
 
@@ -76,10 +76,10 @@ namespace TestForm
         /// </summary>
         private void UpdateFormTitle()
         {
-            if (ThemedSystemMenu != null)
+            if (KryptonSystemMenu != null)
             {
-                var themeInfo = $"Theme: {ThemedSystemMenu.CurrentIconTheme}";
-                Text = $"Themed System Menu Test - {ThemedSystemMenu.MenuItemCount} items - {themeInfo}";
+                var themeInfo = $"Theme: {KryptonSystemMenu.CurrentIconTheme}";
+                Text = $"Themed System Menu Test - {KryptonSystemMenu.MenuItemCount} items - {themeInfo}";
                 
                 // Also update the theme label
                 UpdateThemeLabel();
@@ -91,9 +91,9 @@ namespace TestForm
         /// </summary>
         private void UpdateThemeLabel()
         {
-            if (ThemedSystemMenu != null)
+            if (KryptonSystemMenu != null)
             {
-                var currentTheme = ThemedSystemMenu.CurrentIconTheme;
+                var currentTheme = KryptonSystemMenu.CurrentIconTheme;
                 kryptonLabel3.Values.Text = $"Current Theme: {currentTheme} (Auto-detected)";
             }
         }
@@ -104,55 +104,55 @@ namespace TestForm
         private void DebugIconGeneration()
         {
             System.Diagnostics.Debug.WriteLine("=== DEBUG ICON GENERATION ===");
-            System.Diagnostics.Debug.WriteLine($"ThemedSystemMenu is null: {ThemedSystemMenu == null}");
+            System.Diagnostics.Debug.WriteLine($"SystemMenu is null: {KryptonSystemMenu == null}");
             
-            if (ThemedSystemMenu != null)
+            if (KryptonSystemMenu != null)
             {
-                System.Diagnostics.Debug.WriteLine($"Menu item count: {ThemedSystemMenu.MenuItemCount}");
-                System.Diagnostics.Debug.WriteLine($"Current theme: {ThemedSystemMenu.CurrentIconTheme}");
+                System.Diagnostics.Debug.WriteLine($"Menu item count: {KryptonSystemMenu.MenuItemCount}");
+                System.Diagnostics.Debug.WriteLine($"Current theme: {KryptonSystemMenu.CurrentIconTheme}");
             }
         }
 
         private void kryptonCheckBox1_CheckedChanged(object sender, EventArgs e)
         {
-            ThemedSystemMenuValues.ShowOnLeftClick = kryptonCheckBox1.Checked;
+            //ThemedSystemMenu.ShowOnLeftClick = kryptonCheckBox1.Checked;
         }
 
         private void kryptonCheckBox2_CheckedChanged(object sender, EventArgs e)
         {
-            ThemedSystemMenuValues.ShowOnRightClick = kryptonCheckBox2.Checked;
+            SystemMenuValues.ShowOnRightClick = kryptonCheckBox2.Checked;
         }
 
         private void kryptonCheckBox3_CheckedChanged(object sender, EventArgs e)
         {
-            ThemedSystemMenuValues.ShowOnAltSpace = kryptonCheckBox3.Checked;
+            SystemMenuValues.ShowOnAltSpace = kryptonCheckBox3.Checked;
         }
 
         private void kryptonButton1_Click(object sender, EventArgs e)
         {
             // Clear custom menu items and restore default menu
-            if (ThemedSystemMenu != null)
+            if (KryptonSystemMenu != null)
             {
-                ThemedSystemMenu.ClearCustomItems();
+                KryptonSystemMenu.ClearCustomItems();
                 MessageBox.Show("Custom items cleared! Menu restored to default.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 // Update the title to show new item count
-                Text = $"Themed System Menu Test - {ThemedSystemMenu.MenuItemCount} items";
+                Text = $"Themed System Menu Test - {KryptonSystemMenu.MenuItemCount} items";
             }
         }
 
         private void kryptonButton2_Click(object sender, EventArgs e)
         {
             // Show information about the current menu
-            if (ThemedSystemMenu != null)
+            if (KryptonSystemMenu != null)
             {
-                var customItems = ThemedSystemMenu.GetCustomMenuItems();
+                var customItems = KryptonSystemMenu.GetCustomMenuItems();
                 var info = $"Menu Information:\n" +
-                          $"Total Items: {ThemedSystemMenu.MenuItemCount}\n" +
-                          $"Has Items: {ThemedSystemMenu.HasMenuItems}\n" +
+                          $"Total Items: {KryptonSystemMenu.MenuItemCount}\n" +
+                          $"Has Items: {KryptonSystemMenu.HasMenuItems}\n" +
                           $"Custom Items: {customItems.Count}\n" +
                           $"Custom Items: {string.Join(", ", customItems)}\n" +
-                          $"Current Icon Theme: {ThemedSystemMenu.CurrentIconTheme}";
+                          $"Current Icon Theme: {KryptonSystemMenu.CurrentIconTheme}";
 
                 MessageBox.Show(info, "Menu Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -161,22 +161,22 @@ namespace TestForm
         private void kryptonButton3_Click(object sender, EventArgs e)
         {
             // Test theme switching and icon refreshing
-            if (ThemedSystemMenu != null)
+            if (KryptonSystemMenu != null)
             {
                 // Get available themes
                 var availableThemes = new[] { "Office2013", "Office2010", "Office2007", "Sparkle", "Professional", "Microsoft365", "Office2003" };
                 
                 // Find current theme index
-                var currentTheme = ThemedSystemMenu.CurrentIconTheme;
+                var currentTheme = KryptonSystemMenu.CurrentIconTheme;
                 var currentIndex = Array.IndexOf(availableThemes, currentTheme);
                 var nextIndex = (currentIndex + 1) % availableThemes.Length;
                 var nextTheme = availableThemes[nextIndex];
                 
                 // Set the next theme
-                ThemedSystemMenu.SetIconTheme(nextTheme);
+                KryptonSystemMenu.SetIconTheme(nextTheme);
                 
                 // Refresh the icons
-                ThemedSystemMenu.RefreshThemeIcons();
+                KryptonSystemMenu.RefreshThemeIcons();
                 
                 // Update the form title and theme label
                 UpdateFormTitle();

@@ -22,9 +22,9 @@ public partial class DesignerMenuTest : KryptonForm
     {
         InitializeComponent();
         
-        // Configure the themed system menu
+        /*// Configure the themed system menu
         ThemedSystemMenuValues.Enabled = true;
-        ThemedSystemMenuValues.ShowOnLeftClick = true;
+        //ThemedSystemMenuValues.ShowOnLeftClick = true;
         ThemedSystemMenuValues.ShowOnRightClick = true;
         ThemedSystemMenuValues.ShowOnAltSpace = true;
         
@@ -36,7 +36,7 @@ public partial class DesignerMenuTest : KryptonForm
                 MessageBox.Show("This item was added programmatically!", "Programmatic Item", 
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
             });
-        }
+        }*/
     }
     #endregion
 
@@ -50,9 +50,9 @@ public partial class DesignerMenuTest : KryptonForm
         base.OnLoad(e);
         
         // Update the form title to show the current menu item count
-        if (ThemedSystemMenu != null)
+        if (KryptonSystemMenu != null)
         {
-            Text = $"Designer Menu Test - {ThemedSystemMenu.MenuItemCount} total items";
+            Text = $"Designer Menu Test - {KryptonSystemMenu.MenuItemCount} total items";
         }
     }
 
@@ -63,12 +63,12 @@ public partial class DesignerMenuTest : KryptonForm
     /// <param name="e">Event arguments.</param>
     private void kryptonButton1_Click(object? sender, EventArgs e)
     {
-        if (ThemedSystemMenu != null)
+        if (KryptonSystemMenu != null)
         {
             var info = $"Menu Information:\n" +
-                      $"Total Items: {ThemedSystemMenu.MenuItemCount}\n" +
-                      $"Has Items: {ThemedSystemMenu.HasMenuItems}\n" +
-                      $"Designer Items: {ThemedSystemMenuValues.CustomMenuItems.Count}\n\n" +
+                      $"Total Items: {KryptonSystemMenu.MenuItemCount}\n" +
+                      $"Has Items: {KryptonSystemMenu.HasMenuItems}\n" +
+                      $"Designer Items: {SystemMenuValues.CustomMenuItems.Count}\n\n" +
                       $"Right-click on the title bar or press Alt+Space to see the menu!";
             
             MessageBox.Show(info, "Menu Information", MessageBoxButtons.OK, MessageBoxIcon.Information);

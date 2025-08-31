@@ -13,7 +13,7 @@ namespace Krypton.Toolkit;
 /// Represents a custom menu item for the themed system menu that can be configured in the designer.
 /// </summary>
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public class ThemedSystemMenuItem : IComponent
+public class ThemedSystemMenuItemValues : IComponent
 {
     #region Instance Fields
     private string _text = string.Empty;
@@ -37,7 +37,7 @@ public class ThemedSystemMenuItem : IComponent
     /// <summary>
     /// Initialize a new instance of the ThemedSystemMenuItem class.
     /// </summary>
-    public ThemedSystemMenuItem()
+    public ThemedSystemMenuItemValues()
     {
     }
 
@@ -45,7 +45,7 @@ public class ThemedSystemMenuItem : IComponent
     /// Initialize a new instance of the ThemedSystemMenuItem class.
     /// </summary>
     /// <param name="text">The text to display for the menu item.</param>
-    public ThemedSystemMenuItem(string text)
+    public ThemedSystemMenuItemValues(string text)
     {
         _text = text ?? string.Empty;
     }
@@ -55,7 +55,7 @@ public class ThemedSystemMenuItem : IComponent
     /// </summary>
     /// <param name="text">The text to display for the menu item.</param>
     /// <param name="shortcut">The keyboard shortcut text.</param>
-    public ThemedSystemMenuItem(string text, string shortcut)
+    public ThemedSystemMenuItemValues(string text, string shortcut)
     {
         _text = text ?? string.Empty;
         _shortcut = shortcut ?? string.Empty;
@@ -237,7 +237,6 @@ public class ThemedSystemMenuItem : IComponent
         }
         
         item.Enabled = _enabled;
-        item.Visible = _visible;
         item.Image = _image;
         
         // Set the command if provided

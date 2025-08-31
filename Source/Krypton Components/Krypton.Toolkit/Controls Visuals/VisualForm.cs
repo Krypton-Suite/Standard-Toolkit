@@ -1643,20 +1643,12 @@ public abstract class VisualForm : Form,
 
     #region Themed System Menu
     /// <summary>
-    /// Gets or sets a value indicating if the themed system menu is enabled.
-    /// </summary>
-    [Category(@"Appearance")]
-    [Description(@"Enables or disables the themed system menu that replaces the native Windows system menu.")]
-    [DefaultValue(true)]
-    public virtual bool UseThemedSystemMenu { get; set; } = true;
-
-    /// <summary>
     /// Gets access to the themed system menu for advanced customization.
     /// </summary>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Advanced)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public virtual IKryptonThemedSystemMenu? ThemedSystemMenu => null;
+    public virtual IKryptonThemedSystemMenu? KryptonSystemMenu => null;
 
     /// <summary>
     /// Gets or sets the themed system menu service for managing themed system menu functionality.
@@ -1664,7 +1656,7 @@ public abstract class VisualForm : Form,
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Advanced)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public virtual KryptonThemedSystemMenuService? ThemedSystemMenuService { get; set; }
+    public virtual KryptonThemedSystemMenuService? SystemMenuService { get; set; }
 
     /// <summary>
     /// Determines if the specified screen point is within the title bar area.
@@ -1773,7 +1765,7 @@ public abstract class VisualForm : Form,
     /// <returns>True if the shortcut was handled by the service; otherwise false.</returns>
     protected bool HandleThemedSystemMenuShortcut(Keys keyData)
     {
-        return ThemedSystemMenuService?.HandleKeyboardShortcut(keyData) ?? false;
+        return SystemMenuService?.HandleKeyboardShortcut(keyData) ?? false;
     }
     #endregion
 
@@ -1892,7 +1884,7 @@ public abstract class VisualForm : Form,
     protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
     {
         // Handle basic themed system menu keyboard shortcuts if enabled
-        if (UseThemedSystemMenu)
+        if (SystemMenuService?.UseThemedSystemMenu == true)
         {
             // Handle Alt+Space to show the themed system menu
             if (keyData == (Keys.Alt | Keys.Space))

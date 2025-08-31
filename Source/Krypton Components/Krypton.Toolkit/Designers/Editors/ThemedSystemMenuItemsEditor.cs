@@ -32,9 +32,9 @@ public class ThemedSystemMenuItemsEditor : CollectionEditor
     /// <returns>A new instance of the specified type.</returns>
     protected override object CreateInstance(Type itemType)
     {
-        if (itemType == typeof(ThemedSystemMenuItem))
+        if (itemType == typeof(ThemedSystemMenuItemValues))
         {
-            return new ThemedSystemMenuItem("New Menu Item");
+            return new ThemedSystemMenuItemValues("New Menu Item");
         }
         
         return base.CreateInstance(itemType);
@@ -47,7 +47,7 @@ public class ThemedSystemMenuItemsEditor : CollectionEditor
     /// <returns>The display text for the item.</returns>
     protected override string GetDisplayText(object? value)
     {
-        if (value is ThemedSystemMenuItem menuItem)
+        if (value is ThemedSystemMenuItemValues menuItem)
         {
             return menuItem.ToString();
         }
