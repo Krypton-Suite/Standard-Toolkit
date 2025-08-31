@@ -1704,7 +1704,8 @@ public class KryptonForm : VisualForm,
         else if (m.Msg == PI.WM_.NCRBUTTONDOWN)
         {
             // Handle right-click in non-client area (title bar and control buttons)
-            if (_themedSystemMenuValues?.Enabled == true && _themedSystemMenuValues?.ShowOnRightClick == true && _themedSystemMenuService != null &&
+            // Only show themed system menu if ControlBox is true (same behavior as native system menu)
+            if (ControlBox && _themedSystemMenuValues?.Enabled == true && _themedSystemMenuValues?.ShowOnRightClick == true && _themedSystemMenuService != null &&
                 _themedSystemMenuService.ShowThemedSystemMenuOnRightClick)
             {
                 // Get the screen coordinates from the message
@@ -2071,12 +2072,13 @@ public class KryptonForm : VisualForm,
             // Check if the mouse is over the Application icon image area
             if (_drawContent.ImageRectangle(context).Contains(windowPoint))
             {
-                // Check if we should show the themed system menu on icon click
-                if (_themedSystemMenuValues?.Enabled == true && _themedSystemMenuValues?.ShowOnIconClick == true && _themedSystemMenuService != null)
-                {
-                    ShowThemedSystemMenu(screenPoint);
-                    return true;
-                }
+                            // Check if we should show the themed system menu on icon click
+            // Only show themed system menu if ControlBox is true (same behavior as native system menu)
+            if (ControlBox && _themedSystemMenuValues?.Enabled == true && _themedSystemMenuValues?.ShowOnIconClick == true && _themedSystemMenuService != null)
+            {
+                ShowThemedSystemMenu(screenPoint);
+                return true;
+            }
             }
             /*// Check if we should show the themed system menu on general title bar left-click
             else if (_themedSystemMenuValues?.Enabled == true && _themedSystemMenuValues?.ShowOnLeftClick == true && _themedSystemMenuService != null &&
@@ -3021,7 +3023,8 @@ public class KryptonForm : VisualForm,
     /// <returns>True if the shortcut was handled; otherwise false.</returns>
     protected override bool HandleThemedSystemMenuKeyboardShortcut(Keys keyData)
     {
-        if (_themedSystemMenuValues?.Enabled == true && _themedSystemMenuService != null)
+        // Only handle themed system menu shortcuts if ControlBox is true (same behavior as native system menu)
+        if (ControlBox && _themedSystemMenuValues?.Enabled == true && _themedSystemMenuService != null)
         {
             // Handle Alt+F4 for close
             if (keyData == (Keys.Alt | Keys.F4))
@@ -3043,7 +3046,8 @@ public class KryptonForm : VisualForm,
     protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
     {
         // Handle themed system menu keyboard shortcuts
-        if (_themedSystemMenuValues?.Enabled == true && _themedSystemMenuService != null)
+        // Only handle themed system menu shortcuts if ControlBox is true (same behavior as native system menu)
+        if (ControlBox && _themedSystemMenuValues?.Enabled == true && _themedSystemMenuService != null)
         {
             if (_themedSystemMenuService.HandleKeyboardShortcut(keyData))
             {

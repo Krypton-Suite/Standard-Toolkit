@@ -1884,7 +1884,8 @@ public abstract class VisualForm : Form,
     protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
     {
         // Handle basic themed system menu keyboard shortcuts if enabled
-        if (SystemMenuService?.UseThemedSystemMenu == true)
+        // Only handle themed system menu shortcuts if ControlBox is true (same behavior as native system menu)
+        if (ControlBox && SystemMenuService?.UseThemedSystemMenu == true)
         {
             // Handle Alt+Space to show the themed system menu
             if (keyData == (Keys.Alt | Keys.Space))
