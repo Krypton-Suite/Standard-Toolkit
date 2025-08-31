@@ -25,7 +25,7 @@ namespace TestForm
             StartPosition = FormStartPosition.CenterScreen;
 
             // Enable the themed system menu (enabled by default)
-            UseThemedSystemMenu = true;
+            //UseThemedSystemMenu = true;
 
             // Configure how the menu appears
             //ThemedSystemMenu.ShowOnLeftClick = true;   // Left-click on title bar
