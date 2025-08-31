@@ -40,18 +40,8 @@ public class KryptonTaskDialogKryptonForm : KryptonForm
     /// <inheritdoc/>>
     protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
     {
-        if (IgnoreAltF4)
-        {
-            // Intercept ALT+F4
-            if ((keyData & KEYS_ALT_F4) == KEYS_ALT_F4)
-            {
-                // This will consume the keypress
-                return true;
-            }
-        }
-
-        // Call the base class method for other keys
-        return false;
+        // Intercept ALT+F4
+        return IgnoreAltF4 && keyData == KEYS_ALT_F4;
     }
     #endregion
 }
