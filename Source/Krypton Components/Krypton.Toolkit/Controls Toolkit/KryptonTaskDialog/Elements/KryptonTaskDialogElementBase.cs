@@ -131,7 +131,7 @@ public abstract class KryptonTaskDialogElementBase :
         }
     }
 
-    public void OnVisibleChanged()
+    private void OnVisibleChanged()
     {
         VisibleChanged?.Invoke();
     }
