@@ -1,0 +1,4 @@
+var _i_krypton_task_dialog_element_event_size_changed_8cs =
+[
+    [ "Krypton.Toolkit.IKryptonTaskDialogElementEventSizeChanged", "interface_krypton_1_1_toolkit_1_1_i_krypton_task_dialog_element_event_size_changed.html", "interface_krypton_1_1_toolkit_1_1_i_krypton_task_dialog_element_event_size_changed" ]
+];
