@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *
  */
 #endregion
 
@@ -321,11 +321,30 @@ public class ButtonSpecView : GlobalId,
         // Get value from button spec passing inheritance redirector
         Image? baseImage = ButtonSpec.GetImage(_redirector, state);
 
+        if (baseImage == null)
+        {
+            return null;
+        }
+
+        // Default behavior: DPI scale other ButtonSpec styles
         float dpiFactor = _controller?.Target.FactorDpiX ?? 1f;
-        return (baseImage != null)
-            ? CommonHelper.ScaleImageForSizedDisplay(baseImage, baseImage.Width * dpiFactor,
-                baseImage.Height * dpiFactor, true)
-            : null;
+
+        // For InputControl buttons (editing controls), enforce a consistent 16px logical size (DPI-aware)
+        // to avoid dependency on layout timing where client rectangles can be 0 during early passes.
+        if (ButtonSpec.GetStyle(_redirector) == ButtonStyle.InputControl)
+        {
+            float target = 16f * dpiFactor;
+
+            // Preserve aspect ratio
+            float scale = Math.Min(target / baseImage.Width, target / baseImage.Height);
+            float targetW = Math.Max(1f, baseImage.Width * scale);
+            float targetH = Math.Max(1f, baseImage.Height * scale);
+
+            return CommonHelper.ScaleImageForSizedDisplay(baseImage, targetW, targetH, true);
+        }
+
+        return CommonHelper.ScaleImageForSizedDisplay(baseImage, baseImage.Width * dpiFactor,
+            baseImage.Height * dpiFactor, true);
     }
 
     /// <summary>

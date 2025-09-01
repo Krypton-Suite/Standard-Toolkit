@@ -16,6 +16,7 @@ namespace Krypton.Toolkit;
 /// Hosts a collection of KryptonDataGridViewDomainUpDownCell cells.
 /// </summary>
 [ToolboxBitmap(typeof(KryptonDataGridViewDomainUpDownColumn), "ToolboxBitmaps.KryptonDomainUpDown.bmp")]
+[Designer(typeof(KryptonDomainUpDownColumnDesigner))]
 public class KryptonDataGridViewDomainUpDownColumn : KryptonDataGridViewIconColumn
 {
     #region Fields
@@ -69,6 +70,7 @@ public class KryptonDataGridViewDomainUpDownColumn : KryptonDataGridViewIconColu
 
         cloned.Items.AddRange(strings);
         cloned.ReadOnlyItemsList = ReadOnlyItemsList;
+        cloned.SyncEditorOnButtonSpecClick = SyncEditorOnButtonSpecClick;
 
         return cloned;
     }
@@ -108,6 +110,41 @@ public class KryptonDataGridViewDomainUpDownColumn : KryptonDataGridViewIconColu
     [Description(@"Forces the user to select a value from the domain list if enabled. If not the user can select a value from the list or enter text which will be saved tot the cell.")]
     [DefaultValue(false)]
     public bool ReadOnlyItemsList { get; set; }
+
+    /// <summary>
+    /// If true, synchronizes the editing control text from the cell Value after ButtonSpecClick handlers run.
+    /// </summary>
+    [Category(@"Behavior")]
+    [DefaultValue(true)]
+    [Description(@"If enabled, assigns the current cell Value to the active editor after ButtonSpec clicks.")]
+    public bool SyncEditorOnButtonSpecClick { get; set; } = true;
+
+    /// <inheritdoc/>
+    protected override void OnButtonSpecClickCore(DataGridViewButtonSpecClickEventArgs e)
+    {
+        base.OnButtonSpecClickCore(e);
+
+        if (!SyncEditorOnButtonSpecClick)
+        {
+            return;
+        }
+
+        var grid = e.Column.DataGridView;
+        if (grid is { IsDisposed: true } || grid?.Disposing == true)
+        {
+            return;
+        }
+        if (grid?.IsCurrentCellInEditMode == true
+            && ReferenceEquals(grid.CurrentCell, e.Cell)
+            && grid.EditingControl is Control editor)
+        {
+            var newText = Convert.ToString(e.Cell.FormattedValue, CultureInfo.CurrentCulture) ?? string.Empty;
+            if (!string.Equals(editor.Text, newText, StringComparison.Ordinal))
+            {
+                editor.Text = newText;
+            }
+        }
+    }
     #endregion
 
     #region Private

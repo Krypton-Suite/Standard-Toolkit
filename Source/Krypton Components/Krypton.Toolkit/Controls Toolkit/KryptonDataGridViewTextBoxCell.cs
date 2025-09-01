@@ -168,6 +168,17 @@ public class KryptonDataGridViewTextBoxCell : DataGridViewTextBoxCell
             {
                 textBox.Multiline = textBoxColumn.Multiline;
                 textBox.MultilineStringEditor = textBoxColumn.MultilineStringEditor;
+
+                // Sync ButtonSpecs from column into the editing control (shared helper)
+                KryptonDataGridViewUtilities.SyncEditorButtonSpecs(DataGridView as KryptonDataGridView, textBoxColumn, textBox.ButtonSpecs);
+                foreach (var spec in textBox.ButtonSpecs.Enumerate().OfType<ButtonSpecAny>())
+                {
+                    spec.Click += (s, e) =>
+                        textBoxColumn.RaiseButtonSpecClick(new DataGridViewButtonSpecClickEventArgs(textBoxColumn, this, spec));
+                }
+                textBox.PerformLayout();
+                textBox.Invalidate();
+
                 if (!textBox.MultilineStringEditor)
                 {
                     if (textBoxColumn.Multiline
