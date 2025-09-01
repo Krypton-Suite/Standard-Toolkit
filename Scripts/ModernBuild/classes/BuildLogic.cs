@@ -784,7 +784,11 @@ internal static class BuildLogic
             var files = new List<string>();
             foreach (string f in GetCandidatePackageFolders(state))
             {
-                if (!Directory.Exists(f)) continue;
+                if (!Directory.Exists(f))
+                {
+                    continue;
+                }
+
                 files.AddRange(Directory.GetFiles(f, "*.nupkg", SearchOption.TopDirectoryOnly));
                 if (state.NuGetIncludeSymbols)
                 {
@@ -1002,11 +1006,17 @@ internal static class BuildLogic
         };
         state.Process.OutputDataReceived += (_, e) =>
         {
-            if (!string.IsNullOrEmpty(e.Data)) state.OnOutput?.Invoke(e.Data);
+            if (!string.IsNullOrEmpty(e.Data))
+            {
+                state.OnOutput?.Invoke(e.Data);
+            }
         };
         state.Process.ErrorDataReceived += (_, e) =>
         {
-            if (!string.IsNullOrEmpty(e.Data)) state.OnOutput?.Invoke(e.Data);
+            if (!string.IsNullOrEmpty(e.Data))
+            {
+                state.OnOutput?.Invoke(e.Data);
+            }
         };
         state.Process.Exited += (_, __) =>
         {
@@ -1040,7 +1050,11 @@ internal static class BuildLogic
             var files = new List<string>();
             foreach (string f in GetCandidatePackageFolders(state))
             {
-                if (!Directory.Exists(f)) continue;
+                if (!Directory.Exists(f))
+                {
+                    continue;
+                }
+
                 files.AddRange(Directory.GetFiles(f, "*.nupkg", SearchOption.TopDirectoryOnly));
                 if (state.NuGetIncludeSymbols)
                 {
@@ -1062,7 +1076,11 @@ internal static class BuildLogic
             foreach (string pkg in files)
             {
                 var cmd = new StringBuilder().Append("nuget.exe push \"").Append(pkg).Append("\" ");
-                if (state.NuGetSkipDuplicate) cmd.Append("-SkipDuplicate ");
+                if (state.NuGetSkipDuplicate)
+                {
+                    cmd.Append("-SkipDuplicate ");
+                }
+
                 cmd.Append("-NonInteractive ");
                 if (!string.IsNullOrWhiteSpace(resolvedSource))
                 {
