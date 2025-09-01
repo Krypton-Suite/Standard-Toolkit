@@ -227,7 +227,10 @@ public static class ThemeColorGridBuilder
 
         double C = Math.Sqrt(A * A + B * B);
         double H = Math.Atan2(B, A) * (180.0 / Math.PI);
-        if (H < 0) H += 360.0;
+        if (H < 0)
+        {
+            H += 360.0;
+        }
 
         return new OkLch { L = L, C = C, H = H };
     }

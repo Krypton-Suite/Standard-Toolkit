@@ -93,11 +93,15 @@ internal static class Exporter
             {
                 var part = p.Trim();
                 if (string.IsNullOrEmpty(part))
+                {
                     continue;
+                }
 
                 // Skip status annotations
                 if (part.StartsWith("(") || part.StartsWith("⚠"))
+                {
                     break;
+                }
 
                 significant.Add(part);
             }

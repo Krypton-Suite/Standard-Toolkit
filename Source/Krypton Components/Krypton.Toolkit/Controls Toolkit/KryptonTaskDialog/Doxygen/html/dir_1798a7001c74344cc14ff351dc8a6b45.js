@@ -1,0 +1,12 @@
+var dir_1798a7001c74344cc14ff351dc8a6b45 =
+[
+    [ "IKryptonTaskDialogElementBase.cs", "_i_krypton_task_dialog_element_base_8cs.html", "_i_krypton_task_dialog_element_base_8cs" ],
+    [ "IKryptonTaskDialogElementCommonButtons.cs", "_i_krypton_task_dialog_element_common_buttons_8cs.html", "_i_krypton_task_dialog_element_common_buttons_8cs" ],
+    [ "IKryptonTaskDialogElementContent.cs", "_i_krypton_task_dialog_element_content_8cs.html", "_i_krypton_task_dialog_element_content_8cs" ],
+    [ "IKryptonTaskDialogElementEventSizeChanged.cs", "_i_krypton_task_dialog_element_event_size_changed_8cs.html", "_i_krypton_task_dialog_element_event_size_changed_8cs" ],
+    [ "IKryptonTaskDialogElementFont.cs", "_i_krypton_task_dialog_element_font_8cs.html", "_i_krypton_task_dialog_element_font_8cs" ],
+    [ "IKryptonTaskDialogElementForeColor.cs", "_i_krypton_task_dialog_element_fore_color_8cs.html", "_i_krypton_task_dialog_element_fore_color_8cs" ],
+    [ "IKryptonTaskDialogElementIconType.cs", "_i_krypton_task_dialog_element_icon_type_8cs.html", "_i_krypton_task_dialog_element_icon_type_8cs" ],
+    [ "IKryptonTaskDialogElementText.cs", "_i_krypton_task_dialog_element_text_8cs.html", "_i_krypton_task_dialog_element_text_8cs" ],
+    [ "IKryptonTaskDialogElementTextAlignment.cs", "_i_krypton_task_dialog_element_text_alignment_8cs.html", "_i_krypton_task_dialog_element_text_alignment_8cs" ]
+];

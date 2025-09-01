@@ -34,9 +34,17 @@ public class WindowStateStore
         var dict = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
         foreach (var line in File.ReadAllLines(_filePath))
         {
-            if (string.IsNullOrWhiteSpace(line) || line.StartsWith(";") || line.StartsWith("#")) continue;
+            if (string.IsNullOrWhiteSpace(line) || line.StartsWith(";") || line.StartsWith("#"))
+            {
+                continue;
+            }
+
             var idx = line.IndexOf('=');
-            if (idx <= 0) continue;
+            if (idx <= 0)
+            {
+                continue;
+            }
+
             var key = line.Substring(0, idx).Trim();
             var value = line.Substring(idx + 1).Trim();
             dict[key] = value;

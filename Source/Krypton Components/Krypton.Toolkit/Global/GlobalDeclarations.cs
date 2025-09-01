@@ -41,19 +41,16 @@ global using System.Security;
 global using System.Security.Principal;
 global using System.Text;
 global using System.Text.RegularExpressions;
-global using System.Timers;
 global using System.Threading;
 global using System.Threading.Tasks;
+global using System.Timers;
 global using System.Windows.Forms;
 global using System.Windows.Forms.Design;
 global using System.Windows.Forms.Design.Behavior;
 global using System.Windows.Forms.VisualStyles;
 global using System.Xml;
-
 #endregion
-
 #region Internal Resources
-
 global using Krypton.Toolkit.Properties;
 global using Krypton.Toolkit.ResourceFiles.Arrows;
 global using Krypton.Toolkit.ResourceFiles.Buttons;
@@ -78,6 +75,8 @@ global using Krypton.Toolkit.ResourceFiles.Pin;
 global using Krypton.Toolkit.ResourceFiles.RadioButtons;
 global using Krypton.Toolkit.ResourceFiles.SizeGripStyles;
 global using Krypton.Toolkit.ResourceFiles.Sort;
+global using Krypton.Toolkit.ResourceFiles.Stars;
+global using Krypton.Toolkit.ResourceFiles.SystemMenu;
 global using Krypton.Toolkit.ResourceFiles.TaskDialog;
 global using Krypton.Toolkit.ResourceFiles.ToastNotification;
 global using Krypton.Toolkit.ResourceFiles.Toolbars;
