@@ -2274,7 +2274,10 @@ public abstract class PaletteBase : Component
         lock (_colorLock)
         {
             if (SchemeColors[(int)colorIndex] == newColor)
+            {
                 return; // no change
+            }
+
             SchemeColors[(int)colorIndex] = newColor;
             InvalidateColorTable();
         }
@@ -2295,7 +2298,11 @@ public abstract class PaletteBase : Component
     // Thread-safe batch update
     public virtual void UpdateSchemeColors(Dictionary<SchemeBaseColors, Color> colorUpdates)
     {
-        if (colorUpdates is null) throw new ArgumentNullException(nameof(colorUpdates));
+        if (colorUpdates is null)
+        {
+            throw new ArgumentNullException(nameof(colorUpdates));
+        }
+
         foreach (var kv in colorUpdates)
             SetSchemeColor(kv.Key, kv.Value); // reuses events + paint
     }
