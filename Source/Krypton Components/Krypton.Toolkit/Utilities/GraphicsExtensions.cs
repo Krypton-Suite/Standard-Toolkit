@@ -177,6 +177,39 @@ public static class GraphicsExtensions
         }
     }
 
+    /// <summary>Extracts an icon from imageres.dll using the specified icon ID and size.</summary>
+    /// <param name="iconId">The icon ID from ImageresIconID enum.</param>
+    /// <param name="iconSize">The size of the icon to extract. Defaults to MediumSmall (32x32).</param>
+    /// <returns>The extracted icon, or null if extraction fails.</returns>
+    public static Icon? ExtractIconFromImageres(PI.ImageresIconID iconId, UACShieldIconSize iconSize = UACShieldIconSize.MediumSmall)
+    {
+        var size = GetSizeFromUACShieldIconSize(iconSize);
+        var isLargeIcon = size.Width > 32; // Use large icon extraction for sizes larger than 32x32
+        
+        return ExtractIcon(Libraries.Imageres, (int)iconId, isLargeIcon);
+    }
+
+    /// <summary>Gets the pixel size corresponding to a UACShieldIconSize enum value.</summary>
+    /// <param name="iconSize">The UACShieldIconSize enum value.</param>
+    /// <returns>The corresponding pixel size.</returns>
+    private static Size GetSizeFromUACShieldIconSize(UACShieldIconSize iconSize)
+    {
+        return iconSize switch
+        {
+            UACShieldIconSize.Tiny => new Size(8, 8),
+            UACShieldIconSize.ExtraSmall => new Size(16, 16),
+            UACShieldIconSize.Small => new Size(24, 24),
+            UACShieldIconSize.MediumSmall => new Size(32, 32),
+            UACShieldIconSize.Medium => new Size(48, 48),
+            UACShieldIconSize.MediumLarge => new Size(64, 64),
+            UACShieldIconSize.Large => new Size(96, 96),
+            UACShieldIconSize.ExtraLarge => new Size(128, 128),
+            UACShieldIconSize.Huge => new Size(192, 192),
+            UACShieldIconSize.Maximum => new Size(256, 256),
+            _ => new Size(32, 32) // Default to MediumSmall
+        };
+    }
+
     /// <summary>Gets the size of the screen.</summary>
     /// <returns></returns>
     public static Size GetScreenSize() =>

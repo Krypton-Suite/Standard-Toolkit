@@ -77,6 +77,7 @@ namespace TestForm
             this.kryptonPanel1.Controls.Add(this.kryptonLabel1);
             this.kryptonPanel1.Controls.Add(this.kcbSortMode);
             this.kryptonPanel1.Controls.Add(this.kbtnButtonStyles);
+            this.kryptonPanel1.Controls.Add(this.kbtnTestOSSpecificUAC);
             this.kryptonPanel1.Controls.Add(this.kryptonThemeComboBox1);
             this.kryptonPanel1.Controls.Add(this.kryptonColorButton1);
             this.kryptonPanel1.Controls.Add(this.kcbtnDropDown);
@@ -154,6 +155,16 @@ namespace TestForm
             this.kbtnButtonStyles.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnButtonStyles.Values.Text = "Button Styles";
             this.kbtnButtonStyles.Click += new System.EventHandler(this.kbtnButtonStyles_Click);
+            // 
+            // kbtnTestOSSpecificUAC
+            // 
+            this.kbtnTestOSSpecificUAC.Location = new System.Drawing.Point(18, 270);
+            this.kbtnTestOSSpecificUAC.Name = "kbtnTestOSSpecificUAC";
+            this.kbtnTestOSSpecificUAC.Size = new System.Drawing.Size(243, 25);
+            this.kbtnTestOSSpecificUAC.TabIndex = 15;
+            this.kbtnTestOSSpecificUAC.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kbtnTestOSSpecificUAC.Values.Text = "Test OS-Specific UAC Shields";
+            this.kbtnTestOSSpecificUAC.Click += new System.EventHandler(this.kbtnTestOSSpecificUAC_Click);
             // 
             // kryptonThemeComboBox1
             // 
@@ -379,5 +390,6 @@ namespace TestForm
         private Krypton.Toolkit.KryptonLabel kryptonLabel1;
         private Krypton.Toolkit.KryptonComboBox kcbColorScheme;
         private Krypton.Toolkit.KryptonLabel kryptonLabel2;
+        private Krypton.Toolkit.KryptonButton kbtnTestOSSpecificUAC;
     }
 }

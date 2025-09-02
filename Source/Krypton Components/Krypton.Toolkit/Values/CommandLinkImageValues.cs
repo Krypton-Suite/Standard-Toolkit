@@ -49,20 +49,35 @@ public class CommandLinkImageValues : Storage, IContentValues
 
                 switch (_uacShieldIconSize)
                 {
+                    case UACShieldIconSize.Tiny:
+                        ShowUACShieldImage(value, UACShieldIconSize.Tiny);
+                        break;
                     case UACShieldIconSize.ExtraSmall:
                         ShowUACShieldImage(value, UACShieldIconSize.ExtraSmall);
                         break;
                     case UACShieldIconSize.Small:
                         ShowUACShieldImage(value, UACShieldIconSize.Small);
                         break;
+                    case UACShieldIconSize.MediumSmall:
+                        ShowUACShieldImage(value, UACShieldIconSize.MediumSmall);
+                        break;
                     case UACShieldIconSize.Medium:
                         ShowUACShieldImage(value, UACShieldIconSize.Medium);
+                        break;
+                    case UACShieldIconSize.MediumLarge:
+                        ShowUACShieldImage(value, UACShieldIconSize.MediumLarge);
                         break;
                     case UACShieldIconSize.Large:
                         ShowUACShieldImage(value, UACShieldIconSize.Large);
                         break;
                     case UACShieldIconSize.ExtraLarge:
                         ShowUACShieldImage(value, UACShieldIconSize.ExtraLarge);
+                        break;
+                    case UACShieldIconSize.Huge:
+                        ShowUACShieldImage(value, UACShieldIconSize.Huge);
+                        break;
+                    case UACShieldIconSize.Maximum:
+                        ShowUACShieldImage(value, UACShieldIconSize.Maximum);
                         break;
                     default:
                         ShowUACShieldImage(value, UACShieldIconSize.ExtraSmall);
@@ -193,7 +208,8 @@ public class CommandLinkImageValues : Storage, IContentValues
     {
         if (showUACShield)
         {
-            Image shield = SystemIcons.Shield.ToBitmap();
+            // Get OS-specific shield icon
+            Image shield = GetOSSpecificShieldIcon();
 
             switch (shieldIconSize)
             {
@@ -201,19 +217,34 @@ public class CommandLinkImageValues : Storage, IContentValues
                 //    {int h = height ?? 16, w = width ?? 16;
                 //    Values.Image = GraphicsExtensions.ScaleImage(shield, w, h);
                 //    }break;
+                case UACShieldIconSize.Tiny:
+                    Image = GraphicsExtensions.ScaleImage(shield, 8, 8);
+                    break;
                 case UACShieldIconSize.ExtraSmall:
                     Image = GraphicsExtensions.ScaleImage(shield, 16, 16);
                     break;
                 case UACShieldIconSize.Small:
+                    Image = GraphicsExtensions.ScaleImage(shield, 24, 24);
+                    break;
+                case UACShieldIconSize.MediumSmall:
                     Image = GraphicsExtensions.ScaleImage(shield, 32, 32);
                     break;
                 case UACShieldIconSize.Medium:
+                    Image = GraphicsExtensions.ScaleImage(shield, 48, 48);
+                    break;
+                case UACShieldIconSize.MediumLarge:
                     Image = GraphicsExtensions.ScaleImage(shield, 64, 64);
                     break;
                 case UACShieldIconSize.Large:
-                    Image = GraphicsExtensions.ScaleImage(shield, 128, 128);
+                    Image = GraphicsExtensions.ScaleImage(shield, 96, 96);
                     break;
                 case UACShieldIconSize.ExtraLarge:
+                    Image = GraphicsExtensions.ScaleImage(shield, 128, 128);
+                    break;
+                case UACShieldIconSize.Huge:
+                    Image = GraphicsExtensions.ScaleImage(shield, 192, 192);
+                    break;
+                case UACShieldIconSize.Maximum:
                     Image = GraphicsExtensions.ScaleImage(shield, 256, 256);
                     break;
                 case null:
@@ -229,6 +260,14 @@ public class CommandLinkImageValues : Storage, IContentValues
             // TODO: This should revert to the original image !
             //Image = null;
         }
+    }
+
+    /// <summary>Gets the OS-specific shield icon.</summary>
+    /// <returns>The appropriate shield icon for the current OS.</returns>
+    private Image GetOSSpecificShieldIcon()
+    {
+        // Use the new UACShieldHelper which tries imageres.dll first, then falls back to local resources
+        return UACShieldHelper.GetOSSpecificUACShieldIcon(_uacShieldIconSize);
     }
 
     /// <summary>Updates the UAC shield icon.</summary>

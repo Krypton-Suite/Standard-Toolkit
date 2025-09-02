@@ -34,6 +34,7 @@ public class ButtonValues : Storage,
     private Color? _dropDownArrowColor;
     private string? _text;
     private string _extraText;
+    private Size? _customUACShieldSize;
 
     #endregion
 
@@ -284,19 +285,26 @@ public class ButtonValues : Storage,
 
     #region CustomUACShieldSize
 
-    /*
-    [DefaultValue(null), Description(@"")]
-    public Size CustomUACShieldSize
+    /// <summary>Gets or sets the custom size of the UAC shield icon.</summary>
+    /// <value>The custom size of the UAC shield icon.</value>
+    [DefaultValue(null), Description(@"Custom size for the UAC shield icon. If set, this overrides UACShieldIconSize.")]
+    public Size? CustomUACShieldSize
     {
-    get => _customUACShieldSize;
+        get => _customUACShieldSize;
 
-    set
-    { _customUACShieldSize = value;
+        set
+        {
+            _customUACShieldSize = value;
 
-    ShowUACShield(_useAsUACElevationButton, UACShieldIconSize.Custom, value.Width, value.Height);
+            if (_useAsUACElevationButton)
+            {
+                ShowUACShieldImage(true, null, value?.Width, value?.Height);
+            }
+        }
     }
-    }
-    */
+
+    private bool ShouldSerializeCustomUACShieldSize() => _customUACShieldSize.HasValue;
+    private void ResetCustomUACShieldSize() => CustomUACShieldSize = null;
 
     #endregion
 
@@ -437,33 +445,79 @@ public class ButtonValues : Storage,
     {
         if (showUACShield)
         {
-            int h = height ?? 16, w = width ?? 16;
-
-            Image shield = SystemIcons.Shield.ToBitmap();
-
-            switch (shieldIconSize)
+            // Check if custom size is specified
+            if (_customUACShieldSize.HasValue)
             {
-                //case UACShieldIconSize.Custom:
-                //    Values.Image = GraphicsExtensions.ScaleImage(shield, w, h);
-                //    break;
-                case UACShieldIconSize.ExtraSmall:
-                    Image = GraphicsExtensions.ScaleImage(shield, 16, 16);
-                    break;
-                case UACShieldIconSize.Small:
-                    Image = GraphicsExtensions.ScaleImage(shield, 32, 32);
-                    break;
-                case UACShieldIconSize.Medium:
-                    Image = GraphicsExtensions.ScaleImage(shield, 64, 64);
-                    break;
-                case UACShieldIconSize.Large:
-                    Image = GraphicsExtensions.ScaleImage(shield, 128, 128);
-                    break;
-                case UACShieldIconSize.ExtraLarge:
-                    Image = GraphicsExtensions.ScaleImage(shield, 256, 256);
-                    break;
-                case null:
-                    Image = GraphicsExtensions.ScaleImage(shield, 16, 16);
-                    break;
+                var customSize = _customUACShieldSize.Value;
+                var shield = UACShieldHelper.GetUACShieldFromImageres(customSize);
+                if (shield != null)
+                {
+                    Image = shield;
+                }
+                else
+                {
+                    // Fallback to scaled version
+                    Image shieldFallback = GetOSSpecificShieldIcon();
+                    Image = GraphicsExtensions.ScaleImage(shieldFallback, customSize.Width, customSize.Height);
+                }
+            }
+            else if (width.HasValue && height.HasValue)
+            {
+                // Custom width/height specified
+                var customSize = new Size(width.Value, height.Value);
+                var shield = UACShieldHelper.GetUACShieldFromImageres(customSize);
+                if (shield != null)
+                {
+                    Image = shield;
+                }
+                else
+                {
+                    // Fallback to scaled version
+                    Image shieldFallback = GetOSSpecificShieldIcon();
+                    Image = GraphicsExtensions.ScaleImage(shieldFallback, width.Value, height.Value);
+                }
+            }
+            else
+            {
+                // Use predefined sizes
+                Image shield = GetOSSpecificShieldIcon();
+
+                switch (shieldIconSize)
+                {
+                    case UACShieldIconSize.Tiny:
+                        Image = GraphicsExtensions.ScaleImage(shield, 8, 8);
+                        break;
+                    case UACShieldIconSize.ExtraSmall:
+                        Image = GraphicsExtensions.ScaleImage(shield, 16, 16);
+                        break;
+                    case UACShieldIconSize.Small:
+                        Image = GraphicsExtensions.ScaleImage(shield, 24, 24);
+                        break;
+                    case UACShieldIconSize.MediumSmall:
+                        Image = GraphicsExtensions.ScaleImage(shield, 32, 32);
+                        break;
+                    case UACShieldIconSize.Medium:
+                        Image = GraphicsExtensions.ScaleImage(shield, 48, 48);
+                        break;
+                    case UACShieldIconSize.MediumLarge:
+                        Image = GraphicsExtensions.ScaleImage(shield, 64, 64);
+                        break;
+                    case UACShieldIconSize.Large:
+                        Image = GraphicsExtensions.ScaleImage(shield, 96, 96);
+                        break;
+                    case UACShieldIconSize.ExtraLarge:
+                        Image = GraphicsExtensions.ScaleImage(shield, 128, 128);
+                        break;
+                    case UACShieldIconSize.Huge:
+                        Image = GraphicsExtensions.ScaleImage(shield, 192, 192);
+                        break;
+                    case UACShieldIconSize.Maximum:
+                        Image = GraphicsExtensions.ScaleImage(shield, 256, 256);
+                        break;
+                    case null:
+                        Image = GraphicsExtensions.ScaleImage(shield, 16, 16);
+                        break;
+                }
             }
 
             // Force a repaint
@@ -475,24 +529,47 @@ public class ButtonValues : Storage,
         }
     }
 
+    /// <summary>Gets the OS-specific shield icon.</summary>
+    /// <returns>The appropriate shield icon for the current OS.</returns>
+    private Image GetOSSpecificShieldIcon()
+    {
+        // Use the new UACShieldHelper which tries imageres.dll first, then falls back to local resources
+        return UACShieldHelper.GetOSSpecificUACShieldIcon(_uacShieldIconSize ?? UACShieldIconSize.ExtraSmall);
+    }
+
     private void ShowUACShield(bool showShield, UACShieldIconSize? uacShieldIconSize)
     {
         switch (_uacShieldIconSize)
         {
+            case UACShieldIconSize.Tiny:
+                ShowUACShieldImage(showShield, UACShieldIconSize.Tiny);
+                break;
             case UACShieldIconSize.ExtraSmall:
                 ShowUACShieldImage(showShield, UACShieldIconSize.ExtraSmall);
                 break;
             case UACShieldIconSize.Small:
                 ShowUACShieldImage(showShield, UACShieldIconSize.Small);
                 break;
+            case UACShieldIconSize.MediumSmall:
+                ShowUACShieldImage(showShield, UACShieldIconSize.MediumSmall);
+                break;
             case UACShieldIconSize.Medium:
                 ShowUACShieldImage(showShield, UACShieldIconSize.Medium);
+                break;
+            case UACShieldIconSize.MediumLarge:
+                ShowUACShieldImage(showShield, UACShieldIconSize.MediumLarge);
                 break;
             case UACShieldIconSize.Large:
                 ShowUACShieldImage(showShield, UACShieldIconSize.Large);
                 break;
             case UACShieldIconSize.ExtraLarge:
                 ShowUACShieldImage(showShield, UACShieldIconSize.ExtraLarge);
+                break;
+            case UACShieldIconSize.Huge:
+                ShowUACShieldImage(showShield, UACShieldIconSize.Huge);
+                break;
+            case UACShieldIconSize.Maximum:
+                ShowUACShieldImage(showShield, UACShieldIconSize.Maximum);
                 break;
             case null:
                 ShowUACShieldImage(showShield, UACShieldIconSize.ExtraSmall);
