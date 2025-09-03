@@ -28,13 +28,14 @@ public class ButtonValues : Storage,
     private bool _useAsDialogButton;
     private bool _useAsUACElevationButton;
     private bool _showSplitOption;
-    private UACShieldIconSize? _uacShieldIconSize;
+    private IconSize? _iconSize;
+    private IconSelectionStrategy _iconSelectionStrategy;
     private Image? _image;
     private Color _transparent;
     private Color? _dropDownArrowColor;
     private string? _text;
     private string _extraText;
-    private Size? _customUACShieldSize;
+    private Size? _customIconSize;
 
     #endregion
 
@@ -64,7 +65,8 @@ public class ButtonValues : Storage,
         _useAsDialogButton = false;
         _useAsUACElevationButton = false;
         _showSplitOption = false;
-        _uacShieldIconSize = GlobalStaticValues.DEFAULT_UAC_SHIELD_ICON_SIZE;
+        _iconSize = IconSize.ExtraSmall; // Default to 16x16
+        _iconSelectionStrategy = IconSelectionStrategy.OSBased;
         ImageStates = CreateImageStates();
         ImageStates.NeedPaint = needPaint;
     }
@@ -258,7 +260,7 @@ public class ButtonValues : Storage,
         {
             _useAsUACElevationButton = value;
 
-            ShowUACShield(value, _uacShieldIconSize ?? UACShieldIconSize.ExtraSmall);
+            ShowUACShield(value, _iconSize ?? IconSize.ExtraSmall);
         }
     }
 
@@ -287,14 +289,14 @@ public class ButtonValues : Storage,
 
     /// <summary>Gets or sets the custom size of the UAC shield icon.</summary>
     /// <value>The custom size of the UAC shield icon.</value>
-    [DefaultValue(null), Description(@"Custom size for the UAC shield icon. If set, this overrides UACShieldIconSize.")]
-    public Size? CustomUACShieldSize
+    [DefaultValue(null), Description(@"Custom size for the UAC shield icon. If set, this overrides IconSize.")]
+    public Size? CustomIconSize
     {
-        get => _customUACShieldSize;
+        get => _customIconSize;
 
         set
         {
-            _customUACShieldSize = value;
+            _customIconSize = value;
 
             if (_useAsUACElevationButton)
             {
@@ -303,8 +305,8 @@ public class ButtonValues : Storage,
         }
     }
 
-    private bool ShouldSerializeCustomUACShieldSize() => _customUACShieldSize.HasValue;
-    private void ResetCustomUACShieldSize() => CustomUACShieldSize = null;
+    private bool ShouldSerializeCustomIconSize() => _customIconSize.HasValue;
+    private void ResetCustomIconSize() => CustomIconSize = null;
 
     #endregion
 
@@ -312,16 +314,38 @@ public class ButtonValues : Storage,
 
     /// <summary>Gets or sets the size of the UAC shield icon.</summary>
     /// <value>The size of the UAC shield icon.</value>
-    [DefaultValue(UACShieldIconSize.ExtraSmall), Description(@"The size of the UAC shield icon.")]
-    public UACShieldIconSize UACShieldIconSize
+    [DefaultValue(IconSize.ExtraSmall), Description(@"The size of the UAC shield icon.")]
+    public IconSize IconSize
     {
-        get => _uacShieldIconSize ?? UACShieldIconSize.ExtraSmall;
+        get => _iconSize ?? IconSize.ExtraSmall;
 
         set
         {
-            _uacShieldIconSize = value;
+            _iconSize = value;
 
             ShowUACShieldImage(_useAsUACElevationButton, value);
+        }
+    }
+
+    /// <summary>Gets or sets the strategy for selecting UAC shield icons.</summary>
+    /// <value>The strategy for selecting UAC shield icons.</value>
+    [DefaultValue(IconSelectionStrategy.OSBased), Description(@"The strategy for selecting UAC shield icons (OS-based or theme-based).")]
+    public IconSelectionStrategy IconSelectionStrategy
+    {
+        get => _iconSelectionStrategy;
+
+        set
+        {
+            if (_iconSelectionStrategy != value)
+            {
+                _iconSelectionStrategy = value;
+
+                // Refresh the UAC shield if it's currently enabled
+                if (_useAsUACElevationButton)
+                {
+                    ShowUACShieldImage(true, _iconSize);
+                }
+            }
         }
     }
 
@@ -438,21 +462,29 @@ public class ButtonValues : Storage,
 
     /// <summary>Shows the uac shield.</summary>
     /// <param name="showUACShield">if set to <c>true</c> [show uac shield].</param>
-    /// <param name="shieldIconSize">Size of the shield icon.</param>
+    /// <param name="iconSize">Size of the shield icon.</param>
     /// <param name="width">The width.</param>
     /// <param name="height">The height.</param>
-    private void ShowUACShieldImage(bool showUACShield, UACShieldIconSize? shieldIconSize = null, int? width = null, int? height = null)
+    private void ShowUACShieldImage(bool showUACShield, IconSize? iconSize = null, int? width = null, int? height = null)
     {
         if (showUACShield)
         {
             // Check if custom size is specified
-            if (_customUACShieldSize.HasValue)
+            if (_customIconSize.HasValue)
             {
-                var customSize = _customUACShieldSize.Value;
-                var shield = UACShieldHelper.GetUACShieldFromImageres(customSize);
-                if (shield != null)
+                var customSize = _customIconSize.Value;
+                
+                // Use our new theme-aware icon extraction system
+                var icon = GraphicsExtensions.ExtractIconFromImageres(
+                    (int)PI.ImageresIconID.Shield, 
+                    GetIconSizeFromSize(customSize), 
+                    _iconSelectionStrategy
+                );
+                
+                if (icon != null)
                 {
-                    Image = shield;
+                    Image = new Bitmap(icon.ToBitmap(), customSize);
+                    icon.Dispose();
                 }
                 else
                 {
@@ -465,10 +497,18 @@ public class ButtonValues : Storage,
             {
                 // Custom width/height specified
                 var customSize = new Size(width.Value, height.Value);
-                var shield = UACShieldHelper.GetUACShieldFromImageres(customSize);
-                if (shield != null)
+                
+                // Use our new theme-aware icon extraction system
+                var icon = GraphicsExtensions.ExtractIconFromImageres(
+                    (int)PI.ImageresIconID.Shield, 
+                    GetIconSizeFromSize(customSize), 
+                    _iconSelectionStrategy
+                );
+                
+                if (icon != null)
                 {
-                    Image = shield;
+                    Image = new Bitmap(icon.ToBitmap(), customSize);
+                    icon.Dispose();
                 }
                 else
                 {
@@ -479,44 +519,25 @@ public class ButtonValues : Storage,
             }
             else
             {
-                // Use predefined sizes
-                Image shield = GetOSSpecificShieldIcon();
-
-                switch (shieldIconSize)
+                // Use predefined sizes with theme-aware selection
+                var icon = GraphicsExtensions.ExtractIconFromImageres(
+                    (int)PI.ImageresIconID.Shield, 
+                    iconSize ?? IconSize.ExtraSmall, 
+                    _iconSelectionStrategy
+                );
+                
+                if (icon != null)
                 {
-                    case UACShieldIconSize.Tiny:
-                        Image = GraphicsExtensions.ScaleImage(shield, 8, 8);
-                        break;
-                    case UACShieldIconSize.ExtraSmall:
-                        Image = GraphicsExtensions.ScaleImage(shield, 16, 16);
-                        break;
-                    case UACShieldIconSize.Small:
-                        Image = GraphicsExtensions.ScaleImage(shield, 24, 24);
-                        break;
-                    case UACShieldIconSize.MediumSmall:
-                        Image = GraphicsExtensions.ScaleImage(shield, 32, 32);
-                        break;
-                    case UACShieldIconSize.Medium:
-                        Image = GraphicsExtensions.ScaleImage(shield, 48, 48);
-                        break;
-                    case UACShieldIconSize.MediumLarge:
-                        Image = GraphicsExtensions.ScaleImage(shield, 64, 64);
-                        break;
-                    case UACShieldIconSize.Large:
-                        Image = GraphicsExtensions.ScaleImage(shield, 96, 96);
-                        break;
-                    case UACShieldIconSize.ExtraLarge:
-                        Image = GraphicsExtensions.ScaleImage(shield, 128, 128);
-                        break;
-                    case UACShieldIconSize.Huge:
-                        Image = GraphicsExtensions.ScaleImage(shield, 192, 192);
-                        break;
-                    case UACShieldIconSize.Maximum:
-                        Image = GraphicsExtensions.ScaleImage(shield, 256, 256);
-                        break;
-                    case null:
-                        Image = GraphicsExtensions.ScaleImage(shield, 16, 16);
-                        break;
+                    var targetSize = GetSizeFromIconSize(iconSize ?? IconSize.ExtraSmall);
+                    Image = new Bitmap(icon.ToBitmap(), targetSize);
+                    icon.Dispose();
+                }
+                else
+                {
+                    // Fallback to old method for backward compatibility
+                    Image shield = GetOSSpecificShieldIcon();
+                    var targetSize = GetSizeFromIconSize(iconSize ?? IconSize.ExtraSmall);
+                    Image = GraphicsExtensions.ScaleImage(shield, targetSize);
                 }
             }
 
@@ -534,56 +555,47 @@ public class ButtonValues : Storage,
     private Image GetOSSpecificShieldIcon()
     {
         // Use the new UACShieldHelper which tries imageres.dll first, then falls back to local resources
-        return UACShieldHelper.GetOSSpecificUACShieldIcon(_uacShieldIconSize ?? UACShieldIconSize.ExtraSmall);
+        return UACShieldHelper.GetOSSpecificUACShieldIcon(_iconSize ?? IconSize.ExtraSmall);
     }
 
-    private void ShowUACShield(bool showShield, UACShieldIconSize? uacShieldIconSize)
+    /// <summary>Gets the icon size from a Size object.</summary>
+    /// <param name="size">The size to convert.</param>
+    /// <returns>The corresponding IconSize.</returns>
+    private static IconSize GetIconSizeFromSize(Size size)
     {
-        switch (_uacShieldIconSize)
+        return size.Width switch
         {
-            case UACShieldIconSize.Tiny:
-                ShowUACShieldImage(showShield, UACShieldIconSize.Tiny);
-                break;
-            case UACShieldIconSize.ExtraSmall:
-                ShowUACShieldImage(showShield, UACShieldIconSize.ExtraSmall);
-                break;
-            case UACShieldIconSize.Small:
-                ShowUACShieldImage(showShield, UACShieldIconSize.Small);
-                break;
-            case UACShieldIconSize.MediumSmall:
-                ShowUACShieldImage(showShield, UACShieldIconSize.MediumSmall);
-                break;
-            case UACShieldIconSize.Medium:
-                ShowUACShieldImage(showShield, UACShieldIconSize.Medium);
-                break;
-            case UACShieldIconSize.MediumLarge:
-                ShowUACShieldImage(showShield, UACShieldIconSize.MediumLarge);
-                break;
-            case UACShieldIconSize.Large:
-                ShowUACShieldImage(showShield, UACShieldIconSize.Large);
-                break;
-            case UACShieldIconSize.ExtraLarge:
-                ShowUACShieldImage(showShield, UACShieldIconSize.ExtraLarge);
-                break;
-            case UACShieldIconSize.Huge:
-                ShowUACShieldImage(showShield, UACShieldIconSize.Huge);
-                break;
-            case UACShieldIconSize.Maximum:
-                ShowUACShieldImage(showShield, UACShieldIconSize.Maximum);
-                break;
-            case null:
-                ShowUACShieldImage(showShield, UACShieldIconSize.ExtraSmall);
-                break;
-            default:
-                ShowUACShieldImage(showShield, UACShieldIconSize.ExtraSmall);
-                break;
-        }
+            8 => IconSize.Tiny,
+            16 => IconSize.ExtraSmall,
+            20 => IconSize.Small,
+            24 => IconSize.MediumSmall,
+            32 => IconSize.Medium,
+            40 => IconSize.MediumLarge,
+            48 => IconSize.Large,
+            64 => IconSize.ExtraLarge,
+            128 => IconSize.Huge,
+            256 => IconSize.Maximum,
+            _ => IconSize.Medium // Default to 32x32
+        };
+    }
+
+    /// <summary>Gets the Size from an IconSize enum value.</summary>
+    /// <param name="iconSize">The IconSize enum value.</param>
+    /// <returns>The corresponding Size.</returns>
+    private static Size GetSizeFromIconSize(IconSize iconSize)
+    {
+        return new Size((int)iconSize, (int)iconSize);
+    }
+
+    private void ShowUACShield(bool showShield, IconSize? iconSize)
+    {
+        ShowUACShieldImage(showShield, iconSize ?? IconSize.ExtraSmall);
     }
 
     /// <summary>Updates the UAC shield icon.</summary>
     /// <param name="iconSize">Size of the icon.</param>
     /// <param name="customSize">Size of the custom.</param>
-    private void UpdateOSUACShieldIcon(UACShieldIconSize? iconSize = null, Size? customSize = null)
+    private void UpdateOSUACShieldIcon(IconSize? iconSize = null, Size? customSize = null)
     {
         //if (OSUtilities.IsWindowsEleven)
         //{

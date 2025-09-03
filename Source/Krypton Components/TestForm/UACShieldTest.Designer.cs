@@ -56,7 +56,7 @@ namespace TestForm
             this.kryptonButton1.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kryptonButton1.Values.Image = ((System.Drawing.Image)(resources.GetObject("kryptonButton1.Values.Image")));
             this.kryptonButton1.Values.Text = "kryptonButton1";
-            this.kryptonButton1.Values.UseSystemShieldIcon = true;
+            this.kryptonButton1.Values.UseAsUACElevationButton = true;
             // 
             // kryptonButton2
             // 
@@ -67,8 +67,8 @@ namespace TestForm
             this.kryptonButton2.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kryptonButton2.Values.Image = ((System.Drawing.Image)(resources.GetObject("kryptonButton2.Values.Image")));
             this.kryptonButton2.Values.Text = "kryptonButton2";
-            this.kryptonButton2.Values.UACShieldIconSize = Krypton.Toolkit.UACShieldIconSize.Small;
-            this.kryptonButton2.Values.UseSystemShieldIcon = true;
+            this.kryptonButton2.Values.IconSize = Krypton.Toolkit.IconSize.Small;
+            this.kryptonButton2.Values.UseAsUACElevationButton = true;
             // 
             // kryptonButton3
             // 
@@ -79,8 +79,8 @@ namespace TestForm
             this.kryptonButton3.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kryptonButton3.Values.Image = ((System.Drawing.Image)(resources.GetObject("kryptonButton3.Values.Image")));
             this.kryptonButton3.Values.Text = "kryptonButton3";
-            this.kryptonButton3.Values.UACShieldIconSize = Krypton.Toolkit.UACShieldIconSize.Medium;
-            this.kryptonButton3.Values.UseSystemShieldIcon = true;
+            this.kryptonButton3.Values.IconSize = Krypton.Toolkit.IconSize.Medium;
+            this.kryptonButton3.Values.UseAsUACElevationButton = true;
             // 
             // kryptonButton4
             // 
@@ -91,8 +91,8 @@ namespace TestForm
             this.kryptonButton4.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kryptonButton4.Values.Image = ((System.Drawing.Image)(resources.GetObject("kryptonButton4.Values.Image")));
             this.kryptonButton4.Values.Text = "kryptonButton4";
-            this.kryptonButton4.Values.UACShieldIconSize = Krypton.Toolkit.UACShieldIconSize.Large;
-            this.kryptonButton4.Values.UseSystemShieldIcon = true;
+            this.kryptonButton4.Values.IconSize = Krypton.Toolkit.IconSize.Large;
+            this.kryptonButton4.Values.UseAsUACElevationButton = true;
             // 
             // kryptonButton5
             // 
@@ -103,8 +103,8 @@ namespace TestForm
             this.kryptonButton5.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kryptonButton5.Values.Image = ((System.Drawing.Image)(resources.GetObject("kryptonButton5.Values.Image")));
             this.kryptonButton5.Values.Text = "kryptonButton5";
-            this.kryptonButton5.Values.UACShieldIconSize = Krypton.Toolkit.UACShieldIconSize.ExtraLarge;
-            this.kryptonButton5.Values.UseSystemShieldIcon = true;
+            this.kryptonButton5.Values.IconSize = Krypton.Toolkit.IconSize.ExtraLarge;
+            this.kryptonButton5.Values.UseAsUACElevationButton = true;
             // 
             // UACShieldTest
             // 

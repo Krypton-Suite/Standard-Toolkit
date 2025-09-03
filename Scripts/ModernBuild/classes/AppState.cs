@@ -7,86 +7,85 @@
 
 using Krypton.Build;
 
-namespace Krypton.Build
+namespace Krypton.Build;
+
+public sealed class AppState
 {
-    public sealed class AppState
+    public ChannelType Channel { get; set; }
+    public BuildAction Action { get; set; }
+    public string Configuration { get; set; } = "Release";
+    public string RootPath { get; set; } = string.Empty;
+    public string MsBuildPath { get; set; } = string.Empty;
+
+    public string ProjectFile { get; set; } = string.Empty;
+    public string TextLogPath { get; set; } = string.Empty;
+    public string BinLogPath { get; set; } = string.Empty;
+
+    public TailBuffer Tail { get; } = new TailBuffer(200);
+    public int TailLines { get; set; }
+    public bool IsRunning { get; set; }
+    public int LastExitCode { get; set; }
+    public DateTime? StartTimeUtc { get; set; }
+    public int ErrorCount { get; set; }
+    public int WarningCount { get; set; }
+
+    public bool SummaryReady { get; set; }
+    public IReadOnlyList<string>? SummaryLines { get; set; }
+    public int SummaryOffset { get; set; }
+
+    public Action<string>? OnOutput { get; set; }
+    public Process? Process { get; set; }
+    public Queue<string>? PendingTargets { get; set; }
+    public PackMode PackMode { get; set; } = PackMode.Pack;
+    public Action? RequestRenderAll { get; set; }
+    public bool AutoScroll { get; set; } = true;
+
+    public Queue<string>? NuGetPushQueue { get; set; }
+    public TasksPage TasksPage { get; set; } = TasksPage.Ops;
+    public NuGetAction NuGetAction { get; set; } = NuGetAction.RebuildPack;
+    public NuGetSource NuGetSource { get; set; } = NuGetSource.Default;
+    public bool NuGetCreateZip { get; set; }
+    public string NuGetCustomSource { get; set; } = string.Empty;
+    public bool NuGetIncludeSymbols { get; set; }
+    public string? NuGetLastZipPath { get; set; }
+    public bool NuGetRunPushAfterMsBuild { get; set; }
+    public bool NuGetRunZipAfterMsBuild { get; set; }
+    public bool NuGetSkipDuplicate { get; set; } = true;
+    public string? LastCompletedTarget { get; set; }
+}
+
+public sealed class TailBuffer
+{
+    private int capacity;
+    private readonly LinkedList<string> lines = new LinkedList<string>();
+    private readonly object sync = new object();
+
+    public TailBuffer(int capacity)
     {
-        public ChannelType Channel { get; set; }
-        public BuildAction Action { get; set; }
-        public string Configuration { get; set; } = "Release";
-        public string RootPath { get; set; } = string.Empty;
-        public string MsBuildPath { get; set; } = string.Empty;
-
-        public string ProjectFile { get; set; } = string.Empty;
-        public string TextLogPath { get; set; } = string.Empty;
-        public string BinLogPath { get; set; } = string.Empty;
-
-        public TailBuffer Tail { get; } = new TailBuffer(200);
-        public int TailLines { get; set; }
-        public bool IsRunning { get; set; }
-        public int LastExitCode { get; set; }
-        public DateTime? StartTimeUtc { get; set; }
-        public int ErrorCount { get; set; }
-        public int WarningCount { get; set; }
-
-        public bool SummaryReady { get; set; }
-        public IReadOnlyList<string>? SummaryLines { get; set; }
-        public int SummaryOffset { get; set; }
-
-        public Action<string>? OnOutput { get; set; }
-        public Process? Process { get; set; }
-        public Queue<string>? PendingTargets { get; set; }
-        public PackMode PackMode { get; set; } = PackMode.Pack;
-        public Action? RequestRenderAll { get; set; }
-        public bool AutoScroll { get; set; } = true;
-
-        public Queue<string>? NuGetPushQueue { get; set; }
-        public TasksPage TasksPage { get; set; } = TasksPage.Ops;
-        public NuGetAction NuGetAction { get; set; } = NuGetAction.RebuildPack;
-        public NuGetSource NuGetSource { get; set; } = NuGetSource.Default;
-        public bool NuGetCreateZip { get; set; }
-        public string NuGetCustomSource { get; set; } = string.Empty;
-        public bool NuGetIncludeSymbols { get; set; }
-        public string? NuGetLastZipPath { get; set; }
-        public bool NuGetRunPushAfterMsBuild { get; set; }
-        public bool NuGetRunZipAfterMsBuild { get; set; }
-        public bool NuGetSkipDuplicate { get; set; } = true;
-        public string? LastCompletedTarget { get; set; }
+        this.capacity = capacity;
     }
 
-    public sealed class TailBuffer
+    public void SetCapacity(int newCapacity)
     {
-        private int capacity;
-        private readonly LinkedList<string> lines = new LinkedList<string>();
-        private readonly object sync = new object();
-
-        public TailBuffer(int capacity)
+        if (newCapacity <= 0)
         {
-            this.capacity = capacity;
+            return;
         }
-
-        public void SetCapacity(int newCapacity)
+        lock (sync)
         {
-            if (newCapacity <= 0)
+            capacity = newCapacity;
+            while (lines.Count > capacity)
             {
-                return;
-            }
-            lock (sync)
-            {
-                capacity = newCapacity;
-                while (lines.Count > capacity)
-                {
-                    lines.RemoveFirst();
-                }
+                lines.RemoveFirst();
             }
         }
+    }
 
-        public void Clear()
+    public void Clear()
+    {
+        lock (sync)
         {
-            lock (sync)
-            {
-                lines.Clear();
-            }
+            lines.Clear();
         }
     }
 }

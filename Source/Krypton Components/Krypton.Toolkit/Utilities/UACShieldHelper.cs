@@ -29,7 +29,7 @@ public static class UACShieldHelper
     /// </summary>
     /// <param name="size">The desired size of the shield icon.</param>
     /// <returns>The UAC shield icon as a Bitmap, or null if extraction fails.</returns>
-    public static Bitmap? GetUACShieldIcon(UACShieldIconSize size)
+    public static Bitmap? GetUACShieldIcon(IconSize size)
     {
         // Try to extract from imageres.dll first
         var icon = ExtractUACShieldFromImageres(size);
@@ -47,7 +47,7 @@ public static class UACShieldHelper
     /// </summary>
     /// <param name="size">The desired size of the shield icon.</param>
     /// <returns>The UAC shield icon as a Bitmap.</returns>
-    public static Bitmap GetOSSpecificUACShieldIcon(UACShieldIconSize size)
+    public static Bitmap GetOSSpecificUACShieldIcon(IconSize size)
     {
         // Try to extract from imageres.dll first
         var icon = ExtractUACShieldFromImageres(size);
@@ -59,15 +59,15 @@ public static class UACShieldHelper
         // Fallback to OS-specific local resources
         if (OSUtilities.IsAtLeastWindowsEleven)
         {
-            return ScaleImage(UACShieldIconResources.UACShieldWindows11, GetIconSize(size));
+            return ScaleImage(Windows11UACShieldIconResources.Windows_11_UAC_Shield_256_x_256, GetIconSize(size));
         }
         else if (OSUtilities.IsWindowsTen)
         {
-            return ScaleImage(UACShieldIconResources.UACShieldWindows10, GetIconSize(size));
+            return ScaleImage(Windows10UACShieldIconResources.Windows_10_UAC_Shield_256_x_256, GetIconSize(size));
         }
         else if (OSUtilities.IsWindowsEightPointOne || OSUtilities.IsWindowsEight || OSUtilities.IsWindowsSeven)
         {
-            return ScaleImage(UACShieldIconResources.UACShieldWindows7881, GetIconSize(size));
+            return ScaleImage(Windows7And8xUACShieldIconResources.Windows_7_and_8x_UAC_Shield_256_x_256, GetIconSize(size));
         }
         else
         {
@@ -149,7 +149,7 @@ public static class UACShieldHelper
     /// </summary>
     /// <param name="size">The desired size of the shield icon.</param>
     /// <returns>The UAC shield icon as a Bitmap, or null if extraction fails.</returns>
-    private static Bitmap? ExtractUACShieldFromImageres(UACShieldIconSize size)
+    private static Bitmap? ExtractUACShieldFromImageres(IconSize size)
     {
         var targetSize = GetIconSize(size);
         return GetUACShieldFromImageres(targetSize);
@@ -160,7 +160,7 @@ public static class UACShieldHelper
     /// </summary>
     /// <param name="size">The desired size of the shield icon.</param>
     /// <returns>The UAC shield icon as a Bitmap.</returns>
-    private static Bitmap GetFallbackUACShieldIcon(UACShieldIconSize size)
+    private static Bitmap GetFallbackUACShieldIcon(IconSize size)
     {
         // Use OS-specific local resources
         return GetOSSpecificUACShieldIcon(size);
@@ -171,20 +171,20 @@ public static class UACShieldHelper
     /// </summary>
     /// <param name="size">The UAC shield icon size.</param>
     /// <returns>The Size for the specified UAC shield icon size.</returns>
-    private static Size GetIconSize(UACShieldIconSize size)
+    private static Size GetIconSize(IconSize size)
     {
         return size switch
         {
-            UACShieldIconSize.Tiny => new Size(8, 8),
-            UACShieldIconSize.ExtraSmall => new Size(16, 16),
-            UACShieldIconSize.Small => new Size(24, 24),
-            UACShieldIconSize.MediumSmall => new Size(32, 32),
-            UACShieldIconSize.Medium => new Size(48, 48),
-            UACShieldIconSize.MediumLarge => new Size(64, 64),
-            UACShieldIconSize.Large => new Size(96, 96),
-            UACShieldIconSize.ExtraLarge => new Size(128, 128),
-            UACShieldIconSize.Huge => new Size(192, 192),
-            UACShieldIconSize.Maximum => new Size(256, 256),
+            IconSize.Tiny => new Size(8, 8),
+            IconSize.ExtraSmall => new Size(16, 16),
+            IconSize.Small => new Size(24, 24),
+            IconSize.MediumSmall => new Size(32, 32),
+            IconSize.Medium => new Size(48, 48),
+            IconSize.MediumLarge => new Size(64, 64),
+            IconSize.Large => new Size(96, 96),
+            IconSize.ExtraLarge => new Size(128, 128),
+            IconSize.Huge => new Size(192, 192),
+            IconSize.Maximum => new Size(256, 256),
             _ => new Size(16, 16)
         };
     }

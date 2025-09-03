@@ -33,8 +33,8 @@ using Microsoft.Win32.SafeHandles;
 using static System.Runtime.InteropServices.Marshal;
 
 
-namespace Krypton.Toolkit
-{
+namespace Krypton.Toolkit;
+
     internal static class Libraries
     {
         public const string Comctl32 = "comctl32.dll";
@@ -2831,7 +2831,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         /// Usage: Use with GraphicsExtensions.ExtractIconFromImageres() to extract icons at specific sizes.
         /// Example: var shieldIcon = GraphicsExtensions.ExtractIconFromImageres(ImageresIconID.Shield, UACShieldIconSize.Medium);
         /// </summary>
-        internal enum ImageresIconID : int
+        public enum ImageresIconID : int
         {
             #region System Icons (Security, Users, Files, Folders)
             
@@ -3390,7 +3390,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
             ActionDisplay = 336,
             ActionMinimize = 338,
             ActionMaximize = 339,
-            ActionRestore = 340,
+            ActionRestoreWindow = 340,
             ActionResize = 341,
             ActionScale = 342,
             ActionZoom = 343,
@@ -3540,10 +3540,10 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
             NavigationXi = 486,
             NavigationOmicron = 487,
             NavigationUpsilon = 488,
-            NavigationPhi = 489,
-            NavigationChi = 490,
-            NavigationPsi = 491,
-            NavigationOmega = 492,
+            NavigationPhiAlt = 489,
+            NavigationChiAlt = 490,
+            NavigationPsiAlt = 491,
+            NavigationOmegaAlt = 492,
 
             // Tool icons
             Tool = 493,
@@ -5810,4 +5810,4 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         public static bool IsFalse(this PI.BOOL b) => b == PI.BOOL.FALSE;
         public static PI.BOOL ToBOOL(this bool b) => b ? PI.BOOL.TRUE : PI.BOOL.FALSE;
     }
-}
+

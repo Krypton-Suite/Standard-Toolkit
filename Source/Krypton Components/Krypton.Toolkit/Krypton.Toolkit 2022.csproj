@@ -466,10 +466,25 @@
 	  <AutoGen>True</AutoGen>
 	  <DependentUpon>TreeItemImageResources.resx</DependentUpon>
 	</Compile>
-	<Compile Update="ResourceFiles\UAC\UACShieldIconResources.Designer.cs">
+	<Compile Update="ResourceFiles\UAC\Windows10UACShieldIconResources.Designer.cs">
 	  <DesignTime>True</DesignTime>
 	  <AutoGen>True</AutoGen>
-	  <DependentUpon>UACShieldIconResources.resx</DependentUpon>
+	  <DependentUpon>Windows10UACShieldIconResources.resx</DependentUpon>
+	</Compile>
+	<Compile Update="ResourceFiles\UAC\Windows11UACShieldIconResources.Designer.cs">
+	  <DesignTime>True</DesignTime>
+	  <AutoGen>True</AutoGen>
+	  <DependentUpon>Windows11UACShieldIconResources.resx</DependentUpon>
+	</Compile>
+	<Compile Update="ResourceFiles\UAC\Windows7And8xUACShieldIconResources.Designer.cs">
+	  <DesignTime>True</DesignTime>
+	  <AutoGen>True</AutoGen>
+	  <DependentUpon>Windows7And8xUACShieldIconResources.resx</DependentUpon>
+	</Compile>
+	<Compile Update="ResourceFiles\UAC\WindowsVistaUACShieldIconResources.Designer.cs">
+	  <DesignTime>True</DesignTime>
+	  <AutoGen>True</AutoGen>
+	  <DependentUpon>WindowsVistaUACShieldIconResources.resx</DependentUpon>
 	</Compile>
 	<Compile Update="ResourceFiles\VisualStudio\VisualStudioImageResources.Designer.cs">
 	  <DesignTime>True</DesignTime>
@@ -892,9 +907,21 @@
 	  <Generator>ResXFileCodeGenerator</Generator>
 	  <LastGenOutput>TreeItemImageResources.Designer.cs</LastGenOutput>
 	</EmbeddedResource>
-	<EmbeddedResource Update="ResourceFiles\UAC\UACShieldIconResources.resx">
+	<EmbeddedResource Update="ResourceFiles\UAC\Windows10UACShieldIconResources.resx">
 	  <Generator>ResXFileCodeGenerator</Generator>
-	  <LastGenOutput>UACShieldIconResources.Designer.cs</LastGenOutput>
+	  <LastGenOutput>Windows10UACShieldIconResources.Designer.cs</LastGenOutput>
+	</EmbeddedResource>
+	<EmbeddedResource Update="ResourceFiles\UAC\Windows11UACShieldIconResources.resx">
+	  <Generator>ResXFileCodeGenerator</Generator>
+	  <LastGenOutput>Windows11UACShieldIconResources.Designer.cs</LastGenOutput>
+	</EmbeddedResource>
+	<EmbeddedResource Update="ResourceFiles\UAC\Windows7And8xUACShieldIconResources.resx">
+	  <Generator>ResXFileCodeGenerator</Generator>
+	  <LastGenOutput>Windows7And8xUACShieldIconResources.Designer.cs</LastGenOutput>
+	</EmbeddedResource>
+	<EmbeddedResource Update="ResourceFiles\UAC\WindowsVistaUACShieldIconResources.resx">
+	  <Generator>ResXFileCodeGenerator</Generator>
+	  <LastGenOutput>WindowsVistaUACShieldIconResources.Designer.cs</LastGenOutput>
 	</EmbeddedResource>
 	<EmbeddedResource Update="ResourceFiles\VisualStudio\VisualStudioImageResources.resx">
 	  <Generator>ResXFileCodeGenerator</Generator>

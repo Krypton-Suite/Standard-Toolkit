@@ -34,7 +34,7 @@ public class GlobalStaticValues
     public const float DEFAULT_PRIMARY_CORNER_ROUNDING_VALUE = -1f;
 
     /// <summary>The default UAC shield icon size</summary>
-    public static UACShieldIconSize DEFAULT_UAC_SHIELD_ICON_SIZE = UACShieldIconSize.ExtraSmall;
+    public static IconSize DEFAULT_UAC_SHIELD_ICON_SIZE = IconSize.ExtraSmall;
 
     /// <summary>The default UAC shield icon custom size</summary>
     public static Size DEFAULT_UAC_SHIELD_ICON_CUSTOM_SIZE = new Size(16, 16);

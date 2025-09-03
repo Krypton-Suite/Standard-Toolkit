@@ -117,29 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="UACShieldWindows10" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\..\Resources\UACShieldWindows10.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="UACShieldWindows10Alternate" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\..\Resources\UACShieldWindows10Alternate.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="UACShieldWindows11" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\..\Resources\UACShieldWindows11.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="UACShieldWindows7881" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\..\Resources\UACShieldWindows7881.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="UACShieldWindowsVista" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\..\Resources\UACShieldWindowsVista.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="UAC_Shield_Windows_10" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\..\Resources\UAC_Shield_Windows_10.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="UAC_Shield_Windows_11" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\..\Resources\UAC_Shield_Windows_11.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="UAC_Shield_Windows_7" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\..\Resources\UAC_Shield_Windows_7.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
 </root>

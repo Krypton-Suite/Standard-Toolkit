@@ -86,7 +86,7 @@ public partial class ButtonsTest : KryptonForm
         // Test imageres.dll extraction and available sizes
         try
         {
-            var imageresIcon = UACShieldHelper.GetUACShieldIcon(UACShieldIconSize.Small);
+            var imageresIcon = UACShieldHelper.GetUACShieldIcon(IconSize.Small);
             if (imageresIcon != null)
             {
                 var availableSizes = UACShieldHelper.GetAvailableImageresSizes();
@@ -126,16 +126,16 @@ public partial class ButtonsTest : KryptonForm
         // Predefined sizes
         var predefinedButtons = new[]
         {
-            new { Text = "Tiny (8x8)", Size = UACShieldIconSize.Tiny },
-            new { Text = "Extra Small (16x16)", Size = UACShieldIconSize.ExtraSmall },
-            new { Text = "Small (24x24)", Size = UACShieldIconSize.Small },
-            new { Text = "Medium Small (32x32)", Size = UACShieldIconSize.MediumSmall },
-            new { Text = "Medium (48x48)", Size = UACShieldIconSize.Medium },
-            new { Text = "Medium Large (64x64)", Size = UACShieldIconSize.MediumLarge },
-            new { Text = "Large (96x96)", Size = UACShieldIconSize.Large },
-            new { Text = "Extra Large (128x128)", Size = UACShieldIconSize.ExtraLarge },
-            new { Text = "Huge (192x192)", Size = UACShieldIconSize.Huge },
-            new { Text = "Maximum (256x256)", Size = UACShieldIconSize.Maximum }
+            new { Text = "Tiny (8x8)", Size = IconSize.Tiny },
+            new { Text = "Extra Small (16x16)", Size = IconSize.ExtraSmall },
+            new { Text = "Small (24x24)", Size = IconSize.Small },
+            new { Text = "Medium Small (32x32)", Size = IconSize.MediumSmall },
+            new { Text = "Medium (48x48)", Size = IconSize.Medium },
+            new { Text = "Medium Large (64x64)", Size = IconSize.MediumLarge },
+            new { Text = "Large (96x96)", Size = IconSize.Large },
+            new { Text = "Extra Large (128x128)", Size = IconSize.ExtraLarge },
+            new { Text = "Huge (192x192)", Size = IconSize.Huge },
+            new { Text = "Maximum (256x256)", Size = IconSize.Maximum }
         };
 
         // Create two columns for predefined sizes
@@ -149,12 +149,12 @@ public partial class ButtonsTest : KryptonForm
                 Text = predefinedButtons[i].Text,
                 Location = new Point(10 + column * 260, 10 + row * 35),
                 Size = new Size(250, 30),
-                Values = { UseAsUACElevationButton = true, UACShieldIconSize = predefinedButtons[i].Size }
+                Values = { UseAsUACElevationButton = true, IconSize = predefinedButtons[i].Size }
             };
             panel.Controls.Add(button);
         }
 
-        // Custom sizes
+        /*// Custom sizes
         var customSizes = new[] { new Size(48, 48), new Size(96, 96), new Size(192, 192) };
         var customLabels = new[] { "Custom 48x48", "Custom 96x96", "Custom 192x192" };
 
@@ -168,7 +168,7 @@ public partial class ButtonsTest : KryptonForm
                 Values = { UseAsUACElevationButton = true, CustomUACShieldSize = customSizes[i] }
             };
             panel.Controls.Add(button);
-        }
+        }*/
 
         // Add labels explaining the test
         var label1 = new KryptonLabel
@@ -187,14 +187,14 @@ public partial class ButtonsTest : KryptonForm
         };
         panel.Controls.Add(label2);
 
-        var label3 = new KryptonLabel
+        /*var label3 = new KryptonLabel
         {
             Text = "All buttons try to extract exact sizes from imageres.dll first, then fall back to scaled local resources.",
             Location = new Point(10, 220),
             Size = new Size(770, 40),
             StateCommon = { Content = { LongText = { MultiLine = true } } }
         };
-        panel.Controls.Add(label3);
+        panel.Controls.Add(label3);*/
 
         testForm.Controls.Add(panel);
         testForm.ShowDialog(this);

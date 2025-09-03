@@ -3196,6 +3196,66 @@ public enum SystemMenuIconType
 
 #endregion
 
+#region Enum Icon Sizes
+
+/// <summary>
+/// Defines standard icon sizes for various UI elements.
+/// </summary>
+public enum IconSize
+{
+    /// <summary>The tiny icon size (8 x 8 pixels).</summary>
+    Tiny = 8,
+    /// <summary>The extra small icon size (16 x 16 pixels).</summary>
+    ExtraSmall = 16,
+    /// <summary>The small icon size (20 x 20 pixels).</summary>
+    Small = 20,
+    /// <summary>The medium small icon size (24 x 24 pixels).</summary>
+    MediumSmall = 24,
+    /// <summary>The medium icon size (32 x 32 pixels).</summary>
+    Medium = 32,
+    /// <summary>The medium large icon size (40 x 40 pixels).</summary>
+    MediumLarge = 40,
+    /// <summary>The large icon size (48 x 48 pixels).</summary>
+    Large = 48,
+    /// <summary>The extra large icon size (64 x 64 pixels).</summary>
+    ExtraLarge = 64,
+    /// <summary>The huge icon size (128 x 128 pixels).</summary>
+    Huge = 128,
+    /// <summary>The maximum icon size (256 x 256 pixels).</summary>
+    Maximum = 256
+}
+
+#endregion
+
+#region Enum Icon Selection Strategy
+
+/// <summary>
+/// Defines the strategy for selecting icons when multiple sources are available.
+/// </summary>
+public enum IconSelectionStrategy
+{
+    /// <summary>Use OS-based icon selection (default behavior).</summary>
+    /// <remarks>
+    /// Icons are selected based on the current Windows version:
+    /// - Windows 11: Windows 11 icon designs
+    /// - Windows 10: Windows 10 icon designs
+    /// - Windows 7/8.x: Windows 7/8.x icon designs
+    /// - Windows Vista: Windows Vista icon designs
+    /// </remarks>
+    OSBased = 0,
+
+    /// <summary>Use theme-based icon selection.</summary>
+    /// <remarks>
+    /// Icons are selected based on the current Krypton theme:
+    /// - Professional/Office 2007/Sparkle themes: Windows Vista icons
+    /// - Office 2010/2013 themes: Windows 7/8.x icons
+    /// - Microsoft 365/Material themes: Windows 10/11 icons
+    /// </remarks>
+    ThemeBased = 1
+}
+
+#endregion
+
 #region Enum Theme Types
 
 /// <summary>

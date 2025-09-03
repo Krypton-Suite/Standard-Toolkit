@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Krypton.Toolkit.ResourceFiles.ToastNotification {
+namespace Krypton.Toolkit.ResourceFiles.UAC {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace Krypton.Toolkit.ResourceFiles.ToastNotification {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class ToastNotificationImageResources {
+    internal class Windows11UACShieldIconResources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal ToastNotificationImageResources() {
+        internal Windows11UACShieldIconResources() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Krypton.Toolkit.ResourceFiles.ToastNotification {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Krypton.Toolkit.ResourceFiles.ToastNotification.ToastNotificationImageResources", typeof(ToastNotificationImageResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Krypton.Toolkit.ResourceFiles.UAC.Windows11UACShieldIconResources", typeof(Windows11UACShieldIconResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -63,9 +63,9 @@ namespace Krypton.Toolkit.ResourceFiles.ToastNotification {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Toast_Notification_Asterisk_128_x_128 {
+        internal static System.Drawing.Bitmap Windows_11_UAC_Shield_16_x_16 {
             get {
-                object obj = ResourceManager.GetObject("Toast_Notification_Asterisk_128_x_128", resourceCulture);
+                object obj = ResourceManager.GetObject("Windows 11 UAC Shield 16 x 16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -73,9 +73,9 @@ namespace Krypton.Toolkit.ResourceFiles.ToastNotification {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Toast_Notification_Critical_128_x_128 {
+        internal static System.Drawing.Bitmap Windows_11_UAC_Shield_20_x_20 {
             get {
-                object obj = ResourceManager.GetObject("Toast_Notification_Critical_128_x_128", resourceCulture);
+                object obj = ResourceManager.GetObject("Windows 11 UAC Shield 20 x 20", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -83,9 +83,9 @@ namespace Krypton.Toolkit.ResourceFiles.ToastNotification {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Toast_Notification_Hand_128_x_128 {
+        internal static System.Drawing.Bitmap Windows_11_UAC_Shield_24_x_24 {
             get {
-                object obj = ResourceManager.GetObject("Toast_Notification_Hand_128_x_128", resourceCulture);
+                object obj = ResourceManager.GetObject("Windows 11 UAC Shield 24 x 24", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -93,9 +93,9 @@ namespace Krypton.Toolkit.ResourceFiles.ToastNotification {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Toast_Notification_Information_128_x_128 {
+        internal static System.Drawing.Bitmap Windows_11_UAC_Shield_256_x_256 {
             get {
-                object obj = ResourceManager.GetObject("Toast_Notification_Information_128_x_128", resourceCulture);
+                object obj = ResourceManager.GetObject("Windows 11 UAC Shield 256 x 256", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -103,9 +103,9 @@ namespace Krypton.Toolkit.ResourceFiles.ToastNotification {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Toast_Notification_Ok_128_x_128 {
+        internal static System.Drawing.Bitmap Windows_11_UAC_Shield_32_x_32 {
             get {
-                object obj = ResourceManager.GetObject("Toast_Notification_Ok_128_x_128", resourceCulture);
+                object obj = ResourceManager.GetObject("Windows 11 UAC Shield 32 x 32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -113,9 +113,9 @@ namespace Krypton.Toolkit.ResourceFiles.ToastNotification {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Toast_Notification_Question_128_x_128 {
+        internal static System.Drawing.Bitmap Windows_11_UAC_Shield_40_x_40 {
             get {
-                object obj = ResourceManager.GetObject("Toast_Notification_Question_128_x_128", resourceCulture);
+                object obj = ResourceManager.GetObject("Windows 11 UAC Shield 40 x 40", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -123,9 +123,9 @@ namespace Krypton.Toolkit.ResourceFiles.ToastNotification {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Toast_Notification_Stop_128_x_128 {
+        internal static System.Drawing.Bitmap Windows_11_UAC_Shield_48_x_48 {
             get {
-                object obj = ResourceManager.GetObject("Toast_Notification_Stop_128_x_128", resourceCulture);
+                object obj = ResourceManager.GetObject("Windows 11 UAC Shield 48 x 48", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -133,29 +133,9 @@ namespace Krypton.Toolkit.ResourceFiles.ToastNotification {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Toast_Notification_Warning_128_x_115 {
+        internal static System.Drawing.Bitmap Windows_11_UAC_Shield_64_x_64 {
             get {
-                object obj = ResourceManager.GetObject("Toast_Notification_Warning_128_x_115", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Toast_Notification_Windows_10_128_x_121 {
-            get {
-                object obj = ResourceManager.GetObject("Toast_Notification_Windows_10_128_x_121", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Toast_Notification_Windows_11_128_x_128 {
-            get {
-                object obj = ResourceManager.GetObject("Toast_Notification_Windows_11_128_x_128", resourceCulture);
+                object obj = ResourceManager.GetObject("Windows 11 UAC Shield 64 x 64", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
