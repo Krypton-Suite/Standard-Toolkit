@@ -37,6 +37,9 @@ public partial class FormBorderTest : KryptonForm
         kcmbGripMode.Items.Add(SizeGripStyle.Hide);
         kcmbGripMode.Items.Add(SizeGripStyle.Show);
         kcmbGripMode.SelectedItem = SizeGripStyle.Auto;
+
+        // Initialize administrator suffix checkbox
+        kchkShowAdminSuffix.Checked = KryptonManager.UseAdministratorSuffix;
     }
 
     private void kcmbBorderStyle_SelectedIndexChanged(object sender, EventArgs e)
@@ -52,5 +55,10 @@ public partial class FormBorderTest : KryptonForm
             SizeGripStyle = mode;
             RecalcNonClient();
         }
+    }
+
+    private void kchkShowAdminSuffix_CheckedChanged(object sender, EventArgs e)
+    {
+        KryptonManager.UseAdministratorSuffix = kchkShowAdminSuffix.Checked;
     }
 }

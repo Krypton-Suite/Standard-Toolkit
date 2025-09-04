@@ -26,6 +26,7 @@ public sealed class KryptonManager : Component
     // Initialize the global state
     private static bool _globalApplyToolstrips = true;
     private static bool _globalUseThemeFormChromeBorderWidth = true;
+    private static bool _globalShowAdministratorSuffix = true;
     internal static bool _globalUseKryptonFileDialogs = true;
     private static Font? _baseFont;
 
@@ -212,6 +213,7 @@ public sealed class KryptonManager : Component
                                ShouldSerializeToolkitColors() ||
                                ShouldSerializeGlobalApplyToolstrips() ||
                                ShouldSerializeGlobalUseThemeFormChromeBorderWidth() ||
+                               ShouldSerializeShowAdministratorSuffix() ||
                                ShouldSerializeToolkitStrings() ||
                                ShouldSerializeUseKryptonFileDialogs() ||
                                ShouldSerializeBaseFont() ||
@@ -226,6 +228,7 @@ public sealed class KryptonManager : Component
         ResetToolkitColors();
         ResetGlobalApplyToolstrips();
         ResetGlobalUseThemeFormChromeBorderWidth();
+        ResetShowAdministratorSuffix();
         ResetToolkitStrings();
         ResetUseKryptonFileDialogs();
         ResetBaseFont();
@@ -381,6 +384,20 @@ public sealed class KryptonManager : Component
     private bool ShouldSerializeGlobalUseThemeFormChromeBorderWidth() => !GlobalUseThemeFormChromeBorderWidth;
     private void ResetGlobalUseThemeFormChromeBorderWidth() => GlobalUseThemeFormChromeBorderWidth = true;
 
+    /// <summary>
+    /// Gets or sets a value indicating if the administrator suffix should be shown in KryptonForm title bars.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Should the administrator suffix be shown in KryptonForm title bars when running with elevated privileges.")]
+    [DefaultValue(true)]
+    public bool ShowAdministratorSuffix
+    {
+        get => UseAdministratorSuffix;
+        set => UseAdministratorSuffix = value;
+    }
+    private bool ShouldSerializeShowAdministratorSuffix() => !UseAdministratorSuffix;
+    private void ResetShowAdministratorSuffix() => UseAdministratorSuffix = true;
+
     /// <summary>Gets the toolkit strings that can be localised.</summary>
     [Category(@"Data")]
     [Description(@"A collection of global toolkit strings that can be localised.")]
@@ -471,6 +488,27 @@ public sealed class KryptonManager : Component
 
                 // Fire change event
                 OnGlobalUseThemeFormChromeBorderWidthChanged(EventArgs.Empty);
+            }
+        }
+    }
+    #endregion
+
+    #region Static ShowAdministratorSuffix
+    /// <summary>
+    /// Gets and sets the global flag that decides if administrator suffix should be shown in KryptonForm title bars.
+    /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public static bool UseAdministratorSuffix
+    {
+        get => _globalShowAdministratorSuffix;
+
+        set
+        {
+            // Only interested if the value changes
+            if (_globalShowAdministratorSuffix != value)
+            {
+                // Use new value
+                _globalShowAdministratorSuffix = value;
             }
         }
     }

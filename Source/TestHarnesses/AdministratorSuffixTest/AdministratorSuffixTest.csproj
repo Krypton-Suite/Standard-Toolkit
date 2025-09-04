@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net472</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <AssemblyTitle>Administrator Suffix Test</AssemblyTitle>
+    <AssemblyDescription>Test harness for KryptonForm administrator suffix feature</AssemblyDescription>
+    <AssemblyCompany>Krypton Suite</AssemblyCompany>
+    <AssemblyProduct>Administrator Suffix Test</AssemblyProduct>
+    <AssemblyCopyright>Copyright © 2025</AssemblyCopyright>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Krypton Components\Krypton.Toolkit\Krypton.Toolkit.csproj" />
+  </ItemGroup>
+
+</Project>

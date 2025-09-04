@@ -45,6 +45,7 @@ namespace TestForm
             this.klblGripMode = new Krypton.Toolkit.KryptonLabel();
             this.kcmbBorderStyle = new Krypton.Toolkit.KryptonComboBox();
             this.kbtnExit = new Krypton.Toolkit.KryptonButton();
+            this.kchkShowAdminSuffix = new Krypton.Toolkit.KryptonCheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
@@ -61,10 +62,11 @@ namespace TestForm
             this.kryptonPanel1.Controls.Add(this.klblGripMode);
             this.kryptonPanel1.Controls.Add(this.kcmbBorderStyle);
             this.kryptonPanel1.Controls.Add(this.kbtnExit);
+            this.kryptonPanel1.Controls.Add(this.kchkShowAdminSuffix);
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(439, 204);
+            this.kryptonPanel1.Size = new System.Drawing.Size(443, 228);
             this.kryptonPanel1.TabIndex = 0;
             // 
             // kryptonLabel2
@@ -128,7 +130,7 @@ namespace TestForm
             // 
             this.kbtnExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.kbtnExit.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.kbtnExit.Location = new System.Drawing.Point(310, 154);
+            this.kbtnExit.Location = new System.Drawing.Point(314, 142);
             this.kbtnExit.Name = "kbtnExit";
             this.kbtnExit.Size = new System.Drawing.Size(90, 25);
             this.kbtnExit.TabIndex = 6;
@@ -136,16 +138,27 @@ namespace TestForm
             this.kbtnExit.Values.Text = "Exit";
             this.kbtnExit.Click += new System.EventHandler(this.kbtnExit_Click);
             // 
+            // kchkShowAdminSuffix
+            // 
+            this.kchkShowAdminSuffix.Location = new System.Drawing.Point(19, 150);
+            this.kchkShowAdminSuffix.Name = "kchkShowAdminSuffix";
+            this.kchkShowAdminSuffix.Size = new System.Drawing.Size(165, 20);
+            this.kchkShowAdminSuffix.TabIndex = 7;
+            this.kchkShowAdminSuffix.Values.Text = "Show Administrator Suffix";
+            this.kchkShowAdminSuffix.CheckedChanged += new System.EventHandler(this.kchkShowAdminSuffix_CheckedChanged);
+            // 
             // FormBorderTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.kbtnExit;
-            this.ClientSize = new System.Drawing.Size(439, 204);
+            this.ClientSize = new System.Drawing.Size(443, 228);
             this.Controls.Add(this.kryptonPanel1);
+            this.Location = new System.Drawing.Point(0, 0);
             this.Name = "FormBorderTest";
             this.Text = "Form Border Test";
             this.Load += new System.EventHandler(this.FormBorderTest_Load);
+            this.Controls.SetChildIndex(this.kryptonPanel1, 0);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
             this.kryptonPanel1.ResumeLayout(false);
             this.kryptonPanel1.PerformLayout();
@@ -166,5 +179,6 @@ namespace TestForm
         private KryptonLabel kryptonLabel1;
         private KryptonLabel kryptonLabel2;
         private KryptonThemeComboBox kryptonThemeComboBox1;
+        private KryptonCheckBox kchkShowAdminSuffix;
     }
 }
