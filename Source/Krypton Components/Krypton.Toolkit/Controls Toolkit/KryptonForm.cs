@@ -3152,9 +3152,9 @@ public class KryptonForm : VisualForm,
         return base.ProcessCmdKey(ref msg, keyData);
      }
         
-    #region #1979 Temporary Fix
+    /*#region #1979 Temporary Fix
     public KryptonPanel InternalPanel => _internalKryptonPanel;
-    #endregion #1979 Temporary Fix
+    #endregion #1979 Temporary Fix*/
 
     /// <summary>
     /// Gets and sets the RightToLeft property.
