@@ -3,6 +3,7 @@
 =======
 
 # 2025-10-25 - Build 2508 (Patch 9) - October 2025
+* Implemented [#648](https://github.com/Krypton-Suite/Standard-Toolkit/issues/648), SystemMenu to be theme related
 * Resolved [#2463](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2463), `KryptonForm` has incorrect title-bar button behaviour.
 
 * =======

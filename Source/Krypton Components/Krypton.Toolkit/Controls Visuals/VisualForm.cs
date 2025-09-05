@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2025. All rights reserved. 
  *  
  */
 #endregion
@@ -1814,6 +1814,134 @@ namespace Krypton.Toolkit
 
         #endregion
 
+        #region Themed System Menu
+        /// <summary>
+        /// Gets access to the themed system menu for advanced customization.
+        /// </summary>
+        [Browsable(false)]
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public virtual IKryptonThemedSystemMenu? KryptonSystemMenu => null;
+
+        /// <summary>
+        /// Gets or sets the themed system menu service for managing themed system menu functionality.
+        /// </summary>
+        [Browsable(false)]
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public virtual KryptonThemedSystemMenuService? SystemMenuService { get; set; }
+
+        /// <summary>
+        /// Determines if the specified screen point is within the title bar area.
+        /// </summary>
+        /// <param name="screenPoint">The screen coordinates to test.</param>
+        /// <returns>True if the point is in the title bar area; otherwise false.</returns>
+        protected virtual bool IsInTitleBarArea(Point screenPoint) => false;
+
+        /// <summary>
+        /// Determines if the specified screen point is over the control buttons (min/max/close).
+        /// </summary>
+        /// <param name="screenPoint">The screen coordinates to test.</param>
+        /// <returns>True if the point is over control buttons; otherwise false.</returns>
+        protected virtual bool IsOnControlButtons(Point screenPoint) => false;
+
+        /// <summary>
+        /// Shows the themed system menu at the specified screen location.
+        /// </summary>
+        /// <param name="screenLocation">The screen coordinates where the menu should appear.</param>
+        protected virtual void ShowThemedSystemMenu(Point screenLocation) { }
+
+        /// <summary>
+        /// Shows the themed system menu at the form's top-left position.
+        /// </summary>
+        protected virtual void ShowThemedSystemMenuAtFormTopLeft() { }
+
+        /// <summary>
+        /// Handles keyboard shortcuts for the themed system menu.
+        /// </summary>
+        /// <param name="keyData">The key data to process.</param>
+        /// <returns>True if the shortcut was handled; otherwise false.</returns>
+        protected virtual bool HandleThemedSystemMenuKeyboardShortcut(Keys keyData) => false;
+
+        /// <summary>
+        /// Ensures proper form positioning based on StartPosition after custom chrome is applied.
+        /// </summary>
+        protected virtual void EnsureProperFormPositioning()
+        {
+            // Get the current screen
+            var screen = Screen.FromControl(this);
+            var needsRepositioning = false;
+
+            // Apply custom positioning based on StartPosition
+            switch (StartPosition)
+            {
+                case FormStartPosition.CenterScreen:
+                    // Check if already centered
+                    var expectedX = (screen.WorkingArea.Width - Width) / 2;
+                    var expectedY = (screen.WorkingArea.Height - Height) / 2;
+
+                    // Only reposition if significantly off-center (more than 10 pixels)
+                    if (Math.Abs(Location.X - expectedX) > 10 || Math.Abs(Location.Y - expectedY) > 10)
+                    {
+                        needsRepositioning = true;
+                        Location = new Point(expectedX, expectedY);
+                    }
+                    break;
+
+                case FormStartPosition.CenterParent:
+                    // Center relative to parent form
+                    if (Owner != null)
+                    {
+                        var x = Owner.Location.X + (Owner.Width - Width) / 2;
+                        var y = Owner.Location.Y + (Owner.Height - Height) / 2;
+                        Location = new Point(x, y);
+                    }
+                    break;
+
+                case FormStartPosition.WindowsDefaultLocation:
+                    // Let Windows handle the default positioning
+                    break;
+
+                case FormStartPosition.WindowsDefaultBounds:
+                    // Let Windows handle the default positioning and sizing
+                    break;
+            }
+
+            // If we repositioned, ensure the form is visible on screen
+            if (needsRepositioning)
+            {
+                // Ensure the form is fully visible on screen
+                var workingArea = screen.WorkingArea;
+                if (Right > workingArea.Right)
+                {
+                    Location = new Point(workingArea.Right - Width, Location.Y);
+                }
+                if (Bottom > workingArea.Bottom)
+                {
+                    Location = new Point(Location.X, workingArea.Bottom - Height);
+                }
+                if (Left < workingArea.Left)
+                {
+                    Location = new Point(workingArea.Left, Location.Y);
+                }
+                if (Top < workingArea.Top)
+                {
+                    Location = new Point(Location.X, workingArea.Top);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Helper method to handle themed system menu shortcuts using the service.
+        /// </summary>
+        /// <param name="keyData">The key data to process.</param>
+        /// <returns>True if the shortcut was handled by the service; otherwise false.</returns>
+        protected bool HandleThemedSystemMenuShortcut(Keys keyData)
+        {
+            return SystemMenuService?.HandleKeyboardShortcut(keyData) ?? false;
+        }
+        #endregion
+
         #region Implementation
         private void UpdateComposition()
         {
@@ -1876,6 +2004,38 @@ namespace Krypton.Toolkit
 
                 _insideUpdateComposition = false;
             }
+        }
+
+        /// <summary>
+        /// Processes a command key.
+        /// </summary>
+        /// <param name="msg">A Message, passed by reference, that represents the window message to process.</param>
+        /// <param name="keyData">One of the Keys values that represents the key to process.</param>
+        /// <returns>True if the character was processed by the control; otherwise, false.</returns>
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            // Handle basic themed system menu keyboard shortcuts if enabled
+            // Only handle themed system menu shortcuts if ControlBox is true (same behavior as native system menu)
+            if (ControlBox && SystemMenuService is { UseThemedSystemMenu: true })
+            {
+                // Handle Alt+Space to show the themed system menu
+                if (keyData == (Keys.Alt | Keys.Space))
+                {
+                    ShowThemedSystemMenuAtFormTopLeft();
+                    return true;
+                }
+
+                // Handle Alt+F4 for close (let derived classes handle this)
+                if (keyData == (Keys.Alt | Keys.F4))
+                {
+                    if (HandleThemedSystemMenuKeyboardShortcut(keyData))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return base.ProcessCmdKey(ref msg, keyData);
         }
 
         private void OnGlobalPaletteChanged(object sender, EventArgs e)
