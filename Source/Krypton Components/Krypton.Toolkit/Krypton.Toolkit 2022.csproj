@@ -388,6 +388,11 @@
             <AutoGen>True</AutoGen>
             <DependentUpon>StarImageResources.resx</DependentUpon>
         </Compile>
+        <Compile Update="ResourceFiles\SystemMenu\SystemMenuImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>SystemMenuImageResources.resx</DependentUpon>
+        </Compile>
         <Compile Update="ResourceFiles\TaskDialog\TaskDialogImageResources.Designer.cs">
             <DesignTime>True</DesignTime>
             <AutoGen>True</AutoGen>
@@ -814,6 +819,10 @@
         <EmbeddedResource Update="ResourceFiles\Stars\StarImageResources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>StarImageResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="ResourceFiles\SystemMenu\SystemMenuImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>SystemMenuImageResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
         <EmbeddedResource Update="ResourceFiles\TaskDialog\TaskDialogImageResources.resx">
             <Generator>ResXFileCodeGenerator</Generator>

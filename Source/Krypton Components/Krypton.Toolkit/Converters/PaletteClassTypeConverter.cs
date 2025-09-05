@@ -1,15 +1,24 @@
-﻿namespace Krypton.Toolkit.Converters;
+﻿#region BSD License
+/*
+ * 
+ *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, tobitege, Lesandro, KamaniAR & Ahmed Abdelhameed et al. 2023 - 2025. All rights reserved.
+ *  
+ */
+#endregion
 
-/// <summary>
-/// Custom type converter so that PaletteBase Class type are converted to their appropriate mode type
-/// </summary>
-internal class PaletteClassTypeConverter : EnumConverter
+namespace Krypton.Toolkit.Converters
 {
-    #region Static Fields
+    /// <summary>
+    /// Custom type converter so that PaletteBase Class type are converted to their appropriate mode type
+    /// </summary>
+    internal class PaletteClassTypeConverter : EnumConverter
+    {
+        #region Static Fields
 
-    [Localizable(true)]
-    private static readonly BiDictionary<PaletteMode, Type> _pairs = new BiDictionary<PaletteMode, Type>
-    (new Dictionary<PaletteMode, Type>
+        [Localizable(true)]
+        private static readonly BiDictionary<PaletteMode, Type> _pairs = new BiDictionary<PaletteMode, Type>
+        (new Dictionary<PaletteMode, Type>
         {
             {PaletteMode.ProfessionalSystem, typeof(PaletteProfessionalSystem)},
             {PaletteMode.ProfessionalOffice2003, typeof(PaletteProfessionalOffice2003)},
@@ -62,67 +71,68 @@ internal class PaletteClassTypeConverter : EnumConverter
             //{PaletteMode.Custom, typeof(KryptonCustomPaletteBase)}
         });
 
-    #endregion
+        #endregion
 
-    #region Identity
-    /// <summary>
-    /// Initialize a new instance of the PaletteClassTypeConverter class.
-    /// </summary>
-    public PaletteClassTypeConverter()
-        : base(typeof(PaletteMode))
-    {
-    }
-    #endregion
-
-    #region Public
-    /// <summary>
-    /// Converts the given value object to the specified type, using the specified context and culture information.
-    /// </summary>
-    /// <param name="context">An ITypeDescriptorContext that provides a format context.</param>
-    /// <param name="culture">A CultureInfo object. If a null reference the current culture is assumed.</param>
-    /// <param name="value">The Object to convert.</param>
-    /// <param name="destinationType">The Type to convert the value parameter to.</param>
-    /// <returns>An Object that represents the converted value.</returns>
-    public override object? ConvertTo(ITypeDescriptorContext? context,
-                                     CultureInfo? culture,
-                                     object? value,
-                                     Type destinationType)
-    {
-        if (value is PaletteMode val)
+        #region Identity
+        /// <summary>
+        /// Initialize a new instance of the PaletteClassTypeConverter class.
+        /// </summary>
+        public PaletteClassTypeConverter()
+            : base(typeof(PaletteMode))
         {
-            // Search for a matching value
-            if (_pairs.FirstToSecond.TryGetValue(val, out var classType))
+        }
+        #endregion
+
+        #region Public
+        /// <summary>
+        /// Converts the given value object to the specified type, using the specified context and culture information.
+        /// </summary>
+        /// <param name="context">An ITypeDescriptorContext that provides a format context.</param>
+        /// <param name="culture">A CultureInfo object. If a null reference the current culture is assumed.</param>
+        /// <param name="value">The Object to convert.</param>
+        /// <param name="destinationType">The Type to convert the value parameter to.</param>
+        /// <returns>An Object that represents the converted value.</returns>
+        public override object? ConvertTo(ITypeDescriptorContext? context,
+            CultureInfo? culture,
+            object? value,
+            Type destinationType)
+        {
+            if (value is PaletteMode val)
             {
-                return classType;
+                // Search for a matching value
+                if (_pairs.FirstToSecond.TryGetValue(val, out var classType))
+                {
+                    return classType;
+                }
             }
+
+            // Let base class perform default conversion
+            return base.ConvertTo(context, culture, value, destinationType);
         }
 
-        // Let base class perform default conversion
-        return base.ConvertTo(context, culture, value, destinationType);
-    }
-
-    /// <summary>
-    /// Converts the given object to the type of this converter, using the specified context and culture information.
-    /// </summary>
-    /// <param name="context">An ITypeDescriptorContext that provides a format context.</param>
-    /// <param name="culture">The CultureInfo to use as the current culture.</param>
-    /// <param name="value">The Object to convert.</param>
-    /// <returns>An Object that represents the converted value.</returns>
-    public override object? ConvertFrom(ITypeDescriptorContext? context,
-        CultureInfo? culture,
-        object? value)
-    {
-        if (value is Type val)
+        /// <summary>
+        /// Converts the given object to the type of this converter, using the specified context and culture information.
+        /// </summary>
+        /// <param name="context">An ITypeDescriptorContext that provides a format context.</param>
+        /// <param name="culture">The CultureInfo to use as the current culture.</param>
+        /// <param name="value">The Object to convert.</param>
+        /// <returns>An Object that represents the converted value.</returns>
+        public override object? ConvertFrom(ITypeDescriptorContext? context,
+            CultureInfo? culture,
+            object? value)
         {
-            // Search for a matching Class
-            if( _pairs.SecondToFirst.TryGetValue(val, out var mode))
+            if (value is Type val)
             {
-                return mode;
+                // Search for a matching Class
+                if( _pairs.SecondToFirst.TryGetValue(val, out var mode))
+                {
+                    return mode;
+                }
             }
-        }
 
-        // Let base class perform default conversion
-        return base.ConvertFrom(context!, culture!, value!);
+            // Let base class perform default conversion
+            return base.ConvertFrom(context!, culture!, value!);
+        }
+        #endregion
     }
-    #endregion
 }

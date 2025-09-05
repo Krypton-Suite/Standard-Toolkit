@@ -30,6 +30,11 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public static CustomToolkitStrings CustomToolkitStrings { get; } = new CustomToolkitStrings();
 
+        /// <summary>Gets the win32 system menu strings.</summary>
+        /// <value>The win32 system menu strings.</value>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public static SystemMenuStrings Win32SystemMenuStrings { get; } = new SystemMenuStrings();
+
         /// <summary>Gets the general ribbon strings.</summary>
         /// <value>The general ribbon strings.</value>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -572,6 +577,19 @@ namespace Krypton.Toolkit
         /// <summary>Resets the krypton toast notification strings.</summary>
         public void ResetToastNotificationStrings() => KryptonToastNotificationStrings.Reset();
 
+        /// <summary>Gets the win32 system menu strings.</summary>
+        [Category(@"Visuals")]
+        [Description(@"Collection of win32 system menu strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public SystemMenuStrings SystemMenuStrings => Win32SystemMenuStrings;
+
+        private bool ShouldSerializeSystemMenuStrings() => !Win32SystemMenuStrings.IsDefault;
+
+        /// <summary>Resets the win32 system menu strings.</summary>
+        public void ResetSystemMenuStrings() => Win32SystemMenuStrings.ResetValues();
+
         #endregion
 
         #region Identity
@@ -610,7 +628,8 @@ namespace Krypton.Toolkit
                                    ShouldSerializeScrollBarStrings() || ShouldSerializeSeparatorStyleStrings() ||
                                    ShouldSerializeToastNotificationIconStrings() ||
                                    ShouldSerializeTabBorderStyleStrings() || ShouldSerializeTabStyleStrings() ||
-                                   ShouldSerializeToastNotificationStrings() || ShouldSerializeToolBarStrings());
+                                   ShouldSerializeToastNotificationStrings() || ShouldSerializeToolBarStrings() ||
+                                   ShouldSerializeSystemMenuStrings());
 
         /// <summary>Resets this instance.</summary>
         public void Reset()
@@ -649,6 +668,7 @@ namespace Krypton.Toolkit
             ResetToastNotificationIconStrings();
             ResetToastNotificationStrings();
             ResetToolBarStrings();
+            ResetSystemMenuStrings();
         }
 
         #endregion
