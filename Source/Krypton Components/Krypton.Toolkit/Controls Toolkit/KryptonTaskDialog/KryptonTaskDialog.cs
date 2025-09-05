@@ -143,7 +143,7 @@ public class KryptonTaskDialog : IDisposable
     /// Show the dialog modeless.<br/>
     /// The DialogResult can be obtained from this instance after the modeless dialog has been closed.
     /// </summary>
-    /// <param name="owner">The parent window Handle that launched this dialog.</param>
+    /// <param name="owner">The parent window that launched this dialog.</param>
     public void Show(IWin32Window? owner = null)
     {
         UpdateFormSizing();
@@ -163,7 +163,7 @@ public class KryptonTaskDialog : IDisposable
     /// Show as a modal dialog.<br/>
     /// The caller will wait until the dialog has been dismissed.
     /// </summary>
-    /// <param name="owner">The parent window Handle that launched this dialog.</param>
+    /// <param name="owner">The parent window that launched this dialog.</param>
     /// <returns>The DialogResult</returns>
     public DialogResult ShowDialog(IWin32Window? owner = null)
     {
@@ -260,12 +260,13 @@ public class KryptonTaskDialog : IDisposable
             {
                 switch (Dialog.Form.StartPosition)
                 {
-                    // Since owner is null we will default to center screen
+                    // Since owner is not null we will center on the parent
                     case FormStartPosition.CenterParent:
                         _form.StartPosition = FormStartPosition.Manual;
                         _form.Location = GetLocationCenterParent(owner);
                         break;
 
+                    // Center on the display the owner form is on or most of it.
                     case FormStartPosition.CenterScreen:
                         _form.StartPosition = FormStartPosition.Manual;
                         _form.Location = GetLocationCenterScreen(owner);
