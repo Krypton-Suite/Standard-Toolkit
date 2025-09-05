@@ -69,8 +69,8 @@ public class KryptonTaskDialogElementFooterBar : KryptonTaskDialogElementBase,
         _disposed = false;
 
         // default values
-        ExpanderExpandedText = "Expanded";
-        ExpanderCollapsedText = "Collapsed";
+        ExpanderExpandedText = "Expand";
+        ExpanderCollapsedText = "Collapse";
 
         // Expander button images
         _expanderExpandedImage = ResourceFiles.TaskDialog.TaskDialogImageResources.DoubleChevronSmallUp_20x20;
@@ -97,7 +97,6 @@ public class KryptonTaskDialogElementFooterBar : KryptonTaskDialogElementBase,
             _footNoteText.Text = value;
             _footNoteText.Invalidate();
         }
-
     }
 
     /// <inheritdoc/>
@@ -222,7 +221,6 @@ public class KryptonTaskDialogElementFooterBar : KryptonTaskDialogElementBase,
     {
         if (EnableExpanderControls)
         {
-            _expanderButton.StateCommon.Back.Image = null;
             _expanderButton.StateCommon.Back.Image = _expander.Visible
                 ? _expanderExpandedImage
                 : _expanderCollapsedImage;
@@ -254,12 +252,35 @@ public class KryptonTaskDialogElementFooterBar : KryptonTaskDialogElementBase,
 
     private void OnExpanderButtonClick(object? sender, EventArgs e)
     {
+        // briefly detach from the event
+        WireExpanderVisibleChanged(false);
+
         // change mode
         _expander.Visible = !_expander.Visible;
 
-        // change the button icon
+        // change the button icon & text
         UpdateExpanderImage();
         UpdateExpanderText();
+
+        // attach the event again
+        WireExpanderVisibleChanged(true);
+    }
+
+    private void OnExpanderVisibleChanged()
+    {
+        UpdateExpanderEnabledState();
+    }
+
+    private void WireExpanderVisibleChanged(bool wireEvent)
+    {
+        if (wireEvent)
+        {
+            _expander.VisibleChanged += OnExpanderVisibleChanged;
+        }
+        else
+        {
+            _expander.VisibleChanged -= OnExpanderVisibleChanged;
+        }
     }
 
     private void SetupPanel()
@@ -325,6 +346,9 @@ public class KryptonTaskDialogElementFooterBar : KryptonTaskDialogElementBase,
         _footNoteText.MaximumSize = _size_0_tableLayoutPanelHeight;
         _footNoteText.MinimumSize = _size_0_tableLayoutPanelHeight;
         _footNoteText.StateCommon.ShortText.TextV = PaletteRelativeAlign.Center;
+
+        // If the expander element changes visibility we need to react to that.
+        WireExpanderVisibleChanged(true);
     }
     #endregion
 
@@ -334,6 +358,8 @@ public class KryptonTaskDialogElementFooterBar : KryptonTaskDialogElementBase,
         if (!_disposed && disposing)
         {
             _expanderButton.Click -= OnExpanderButtonClick;
+            WireExpanderVisibleChanged(false);
+
             _iconController.Dispose();
 
             _disposed = true;

@@ -14,7 +14,7 @@ namespace Krypton.Toolkit;
 
 /// <summary>
 /// Abstract base class where all KryptonTaskDialogElementData components must be derived from.
-/// Derived elements can be extended through the use of IKryptonTaskDialogElementData interfaces to 
+/// Derived elements can be extended through the use of IKryptonTaskDialogElement interfaces to 
 /// guarantee correct and consistent definitions and naming of properties and methods.
 /// 
 /// The IDisposable pattern has been implemented by default so derived classes can override and implement if required
@@ -62,7 +62,11 @@ public abstract class KryptonTaskDialogElementBase :
     public virtual Color BackColor1 
     {
         get => Panel.StateCommon.Color1;
-        set => Panel.StateCommon.Color1 = value;
+        set
+        {
+            Panel.StateCommon.Color1 = value;
+            OnBackColorsChanged();
+        }
     }
 
     /// <inheritdoc/>
@@ -72,19 +76,7 @@ public abstract class KryptonTaskDialogElementBase :
         set
         {
             Panel.StateCommon.Color2 = value;
-
-            if (value != Color.Empty
-                && BackColor1 != Color.Empty)
-            {
-                //When both colors are assigned, the linear gradient is applied.
-                Panel.StateCommon.ColorStyle = PaletteColorStyle.Linear25;
-                Panel.StateCommon.ColorAngle = 1f;
-            }
-            else
-            {
-                Panel.StateCommon.ColorStyle = PaletteColorStyle.Inherit;
-                Panel.StateCommon.ColorAngle = -1;
-            }
+            OnBackColorsChanged();
         }
     }
 
@@ -123,7 +115,23 @@ public abstract class KryptonTaskDialogElementBase :
     #endregion
 
     #region Private
-    public void OnVisibleChanged()
+    private void OnBackColorsChanged()
+    {
+        if (BackColor1 != Color.Empty && BackColor2 != Color.Empty)
+        {
+            //When both colors are assigned, the linear gradient is applied.
+            Panel.StateCommon.ColorStyle = PaletteColorStyle.Linear25;
+            Panel.StateCommon.ColorAngle = 1f;
+        }
+        else
+        {
+            // in all other cases the gradient is turned off
+            Panel.StateCommon.ColorStyle = PaletteColorStyle.Inherit;
+            Panel.StateCommon.ColorAngle = -1;
+        }
+    }
+
+    private void OnVisibleChanged()
     {
         VisibleChanged?.Invoke();
     }
