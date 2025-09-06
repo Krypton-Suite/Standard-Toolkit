@@ -12,7 +12,7 @@ namespace Krypton.Toolkit;
 /// <summary>
 /// Storage for themed system menu value information.
 /// </summary>
-public class ThemedSystemMenuValues : Storage, INotifyPropertyChanged
+public class SystemMenuValues : Storage, INotifyPropertyChanged
 {
     #region Static Fields
     private const bool DEFAULT_ENABLED = true;
@@ -37,7 +37,7 @@ public class ThemedSystemMenuValues : Storage, INotifyPropertyChanged
     private bool _showOnRightClick;
     private bool _showOnAltSpace;
     private bool _showOnIconClick;
-    private ThemedSystemMenuItemCollection? _customMenuItems;
+    private SystemMenuItemCollection? _customMenuItems;
     #endregion
 
     #region Identity
@@ -45,7 +45,7 @@ public class ThemedSystemMenuValues : Storage, INotifyPropertyChanged
     /// Initialize a new instance of the ThemedSystemMenuValues class.
     /// </summary>
     /// <param name="needPaint">Delegate for notifying paint requests.</param>
-    public ThemedSystemMenuValues(NeedPaintHandler needPaint)
+    public SystemMenuValues(NeedPaintHandler needPaint)
     {
         // Store the provided paint notification delegate
         NeedPaint = needPaint;
@@ -59,7 +59,7 @@ public class ThemedSystemMenuValues : Storage, INotifyPropertyChanged
         _showOnIconClick = DEFAULT_SHOW_ON_ICON_CLICK;
         
         // Initialize custom menu items collection
-        _customMenuItems = new ThemedSystemMenuItemCollection();
+        _customMenuItems = new SystemMenuItemCollection();
         _customMenuItems.CollectionChanged += OnCustomMenuItemsChanged;
     }
     #endregion
@@ -269,10 +269,10 @@ public class ThemedSystemMenuValues : Storage, INotifyPropertyChanged
     [Category(@"Menu Items")]
     [Description(@"Custom menu items to display in the themed system menu.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-    [Editor(typeof(ThemedSystemMenuItemsEditor), typeof(UITypeEditor))]
-    public ThemedSystemMenuItemCollection CustomMenuItems
+    [Editor(typeof(KryptonSystemMenuItemsEditor), typeof(UITypeEditor))]
+    public SystemMenuItemCollection CustomMenuItems
     {
-        get => _customMenuItems ??= new ThemedSystemMenuItemCollection();
+        get => _customMenuItems ??= new SystemMenuItemCollection();
         set
         {
             if (_customMenuItems != value)

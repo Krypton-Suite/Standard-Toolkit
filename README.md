@@ -127,8 +127,8 @@ There are list of changes that have occurred during the development of the V100.
 
 * Implemented [#984](https://github.com/Krypton-Suite/Standard-Toolkit/issues/984), `KryptonForm` using `SizeGripStyle` for grippie.
   - **Note:** This contains a breaking change for **custom** themes as it introduces a new abstract method:
-    `public abstract Image? GetSizeGripImage(RightToLeft isRtl);`
-    so that themes can return a size grip image (or null).
+	`public abstract Image? GetSizeGripImage(RightToLeft isRtl);`
+	so that themes can return a size grip image (or null).
 - Implemented [#2328](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2328), Set the baseline support to .NET Framework 4.7.2
   - **Note:** This is a breaking change, as the minimum supported version of .NET Framework has been raised from 4.6.2 to 4.7.2.
 - Resolved [#240](https://github.com/Krypton-Suite/Standard-Toolkit/issues/240), **[Breaking Change]** `KryptonRichTextBox` Why is it not possible to have the `ButtonSpecs` aligned to the top of a control
@@ -139,6 +139,12 @@ There are list of changes that have occurred during the development of the V100.
   - Remove the `PaletteRedirectDropDownButton`
   - Remove `KryptonPaletteImagesDropDownButton`
   - **Breaking Change**: Remove `DropDownButtonImages` from designers
+- **[Breaking Change]** Removed support for .NET Framework 4.6.2 and 4.7.x
+  - The minimum supported version of .NET Framework is now 4.7.2
+  - If you are using .NET Framework 4.6.2 or 4.7.x, you will need to upgrade your project to at least .NET Framework 4.7.2 to use this version of the toolkit.
+- **[Breaking Change]** `KryptonThemedSystemMenu` has been renamed to `KryptonSystemMenu`
+  - All references to `KryptonThemedSystemMenu` in your code will need to be updated to `KryptonSystemMenu`.
+  - All references to associated API calls will also need to be updated.
 
 ## V95.00 (2025-02-01 - Build 2502 - February 2025)
 
