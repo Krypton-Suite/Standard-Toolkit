@@ -10,16 +10,25 @@
  */
 #endregion
 
+using System.Drawing;
+using System.Windows.Forms;
+
 namespace Krypton.Toolkit;
 
 public class KryptonTaskDialogElementCommonButtons : KryptonTaskDialogElementBase,
     IKryptonTaskDialogElementCommonButtons
 {
     #region Fields
-    private KryptonForm _form;
     private bool _disposed;
+    private KryptonForm _form;
+    private TableLayoutPanel _tlp;
+    // Button sizing
+    private Font _font;
+    private string _dummyText;
+    private Size _buttonSize;
+    // Buttons
+    private List<KryptonButton> _buttons;
     private KryptonTaskDialogCommonButtonTypes _commonButtons;
-    private TableLayoutPanel _tableLayoutPanel;
     private KryptonButton _btnOk;
     private KryptonButton _btnYes;
     private KryptonButton _btnNo;
@@ -30,56 +39,107 @@ public class KryptonTaskDialogElementCommonButtons : KryptonTaskDialogElementBas
     #endregion
 
     #region Identity
-    public KryptonTaskDialogElementCommonButtons(KryptonForm kryptonForm) 
+    public KryptonTaskDialogElementCommonButtons(KryptonTaskDialogDefaults taskDialogDefaults, KryptonForm kryptonForm) 
+        : base(taskDialogDefaults)
     {
-        // Standard button is 90 x 25 on creation
         _disposed = false;
         _form = kryptonForm;
+        _buttons = [];
+        RoundedCorners = false;
 
-        Panel.Height = 26 + KryptonTaskDialog.Defaults.PanelTop + KryptonTaskDialog.Defaults.PanelBottom;
-        Panel.Width = KryptonTaskDialog.Defaults.ClientWidth;
-
-        // A panel to arrange the buttons
-        _tableLayoutPanel = new()
-        {
-            Height = 26,
-            Width = KryptonTaskDialog.Defaults.ClientWidth - KryptonTaskDialog.Defaults.PanelTop - KryptonTaskDialog.Defaults.PanelLeft,
-            Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right,
-            Padding = new Padding(0),
-            Margin = new Padding(0),
-            Top = KryptonTaskDialog.Defaults.PanelTop,
-            Left = KryptonTaskDialog.Defaults.PanelLeft,
-            BackColor = Color.Transparent
-        };
-        _tableLayoutPanel.ColumnStyles.Clear();
-        _tableLayoutPanel.RowStyles.Clear();
-
-        _tableLayoutPanel.RowCount = 1;
-        _tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 26f));
-
-        _tableLayoutPanel.ColumnCount = 8;
+        Panel.Width = Defaults.ClientWidth;
+        Panel.Padding = Defaults.PanelPadding1;
         
-        // The first column and style will act as a filler and push the buttons to the right as there are buttons visible.
-        _tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-        // Add the column styles for each button
-        for (int i = 0; i < _tableLayoutPanel.ColumnCount - 1; i++)
-        {
-            _tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
-        }
+        SetupTableLayoutPanel();
+        Panel.Controls.Add(_tlp);
 
-        // Finally add the table layout panel to the panel
-        Panel.Controls.Add(_tableLayoutPanel);
-
+        // Button defaults
         CreateButtons();
-        
-        // Initial setting, OK Cancel
         Buttons = KryptonTaskDialogCommonButtonTypes.OK | KryptonTaskDialogCommonButtonTypes.Cancel;
         AcceptButton = KryptonTaskDialogCommonButtonTypes.OK;
         CancelButton = KryptonTaskDialogCommonButtonTypes.Cancel;
+
+        // Text sample to measure the string length
+        _dummyText = new string('B', _buttons.Max( b => b.Text.Length) + 1);
+        UpdateButtonSize();
+
+        // Request a layout before display
+        LayoutDirty = true;
+        PerformLayout();
+    }
+    #endregion
+
+    private void UpdateButtonSize()
+    {
+        // Obtain the current font.
+        _font = _btnOk!.StateCommon.Content.GetContentShortTextFont(PaletteState.Normal) ?? KryptonManager.CurrentGlobalPalette.BaseFont;
+        _buttonSize = AccurateText.MeasureString(Panel.CreateGraphics(), Panel.RightToLeft, _dummyText, _font, 
+            PaletteTextTrim.Character, PaletteRelativeAlign.Center, PaletteTextHotkeyPrefix.None, TextRenderingHint.AntiAlias, false).Size;
+
+        // KButton does always restrict itself to the MinimumSize
+        _buttonSize.Width = Math.Max(_buttonSize.Width, 75);
+        _buttonSize.Height = Math.Max(_buttonSize.Height, 24);
+        _buttons.ForEach(b => b.ClientSize = _buttonSize);
+    }
+
+    #region Protected/Internal
+    /// <inheritdoc/>
+    protected override void OnPalettePaint(object? sender, PaletteLayoutEventArgs e)
+    {
+        base.OnPalettePaint(sender, e);
+
+        // Update button size on change.
+        // Flag dirty, and if visible call OnSizeChanged, otherwise leave it deferred for a call from PerformLayout.
+        UpdateButtonSize();
+        LayoutDirty = true;
+        OnSizeChanged();
+    }
+
+    /// <inheritdoc/>
+    internal override void PerformLayout()
+    {
+        base.PerformLayout();
+        OnSizeChanged(true);
+    }
+
+    /// <inheritdoc/>
+    public override bool Visible 
+    {
+        get => base.Visible;
+
+        set
+        {
+            if (base.Visible != value)
+            {
+                base.Visible = value;
+                OnSizeChanged();
+            }
+        }
     }
     #endregion
 
     #region Public
+    /// <summary>
+    /// Rounds the button corners
+    /// </summary>
+    public bool RoundedCorners 
+    {
+        get => field;
+
+        set
+        {
+            if (field != value)
+            {
+                field = value;
+
+                int rounding = value ? 10 : -1;
+                _buttons.ForEach(b => b.StateCommon.Border.Rounding = rounding);
+                LayoutDirty = true;
+                OnSizeChanged();
+            }
+        }
+    }
+
     /// <inheritdoc/>
     public KryptonTaskDialogCommonButtonTypes Buttons 
     {
@@ -121,18 +181,58 @@ public class KryptonTaskDialogElementCommonButtons : KryptonTaskDialogElementBas
             }
         }
     }
-
-    /// <summary>
-    /// Not implemented
-    /// </summary>
-    /// <returns>String.Empty</returns>
-    public override string ToString()
-    {
-        return string.Empty;
-    }
     #endregion
 
     #region Private
+    private void OnSizeChanged(bool performLayout = false)
+    {
+        // Updates / changes are deferred if the element is not visible or until PerformLayout is called
+        if (LayoutDirty && (Visible || performLayout))
+        {
+            // Button size is set through UpdateButtonSize() called from the constructor and OnPalettePaint.
+            Panel.Height = _btnOk.Height + Defaults.PanelTop + Defaults.PanelBottom;
+
+            // Done
+            LayoutDirty = false;
+
+            // Tell everybody about it when visible.
+            if (!performLayout)
+            {
+                base.OnSizeChanged();
+            }
+        }
+    }
+
+    private void SetupTableLayoutPanel()
+    {
+        _tlp = new()
+        {
+            Dock = DockStyle.Top,
+            AutoSize = true,
+            AutoSizeMode = AutoSizeMode.GrowAndShrink,
+            Width = Defaults.TLP.StdMaxSize.Width,
+            Padding = Defaults.NullPadding,
+            Margin = Defaults.NullMargin,
+            BackColor = Color.Transparent,
+            CellBorderStyle = TableLayoutPanelCellBorderStyle.None
+        };
+        _tlp.ColumnStyles.Clear();
+        _tlp.RowStyles.Clear();
+
+        _tlp.RowCount = 1;
+        _tlp.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+
+        _tlp.ColumnCount = 8;
+
+        // The first column and style will act as a filler and push the buttons to the right as there are buttons visible.
+        _tlp.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+        // Add the column styles for each button
+        for (int i = 0; i < _tlp.ColumnCount - 1; i++)
+        {
+            _tlp.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+        }
+
+    }
     private void CreateButtons()
     {
         // Create and add the buttons to the table layout panel.
@@ -142,23 +242,34 @@ public class KryptonTaskDialogElementCommonButtons : KryptonTaskDialogElementBas
         _btnCancel = CreateButton("Cancel", DialogResult.Cancel, 4);
         _btnRetry = CreateButton("Retry", DialogResult.Retry, 5);
         _btnAbort = CreateButton("Abort", DialogResult.Abort, 6);
-        _btnIgnore = CreateButton("Ignore", DialogResult.Ignore, 6);
+        _btnIgnore = CreateButton("Ignore", DialogResult.Ignore, 7);
+
+        // Add them all to the list
+        _buttons.Add(_btnOk);
+        _buttons.Add(_btnYes);
+        _buttons.Add(_btnNo);
+        _buttons.Add(_btnCancel);
+        _buttons.Add(_btnRetry);
+        _buttons.Add(_btnAbort);
+        _buttons.Add(_btnIgnore);
     }
 
     private KryptonButton CreateButton(string text, DialogResult dialogResult, int index)
     {
         var button = new KryptonButton()
         {
+            AutoSize = false,
             Text = text,
             DialogResult = dialogResult,
-            Padding = new Padding(0),
-            Margin = new Padding(5, 0, 5, 0),
-            Height = 24,
-            Width = 75
+            Padding = Defaults.NullPadding,
+            Margin = new Padding(5, 0, 0, 0),
+            MinimumSize = new Size(75, 24)
         };
+        button.StateCommon.Content.ShortText.TextH = PaletteRelativeAlign.Center;
+        button.StateCommon.Content.ShortText.TextV = PaletteRelativeAlign.Center;
         button.Click += ButtonClick;
+        _tlp.Controls.Add(button, index, 0);
 
-        _tableLayoutPanel.Controls.Add(button, index, 0);
         return button;
     }
 
@@ -204,7 +315,7 @@ public class KryptonTaskDialogElementCommonButtons : KryptonTaskDialogElementBas
     }
     #endregion
 
-    #region Protected
+    #region IDispose
     protected override void Dispose(bool disposing)
     {
         if (!_disposed && disposing)
