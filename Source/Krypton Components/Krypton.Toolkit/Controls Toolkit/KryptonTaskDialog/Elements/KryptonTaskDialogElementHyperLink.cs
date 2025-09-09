@@ -10,11 +10,6 @@
  */
 #endregion
 
-using System.Windows.Forms;
-using System.Xml.Linq;
-
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-
 namespace Krypton.Toolkit;
 
 public class KryptonTaskDialogElementHyperLink : KryptonTaskDialogElementSingleLineControlBase,

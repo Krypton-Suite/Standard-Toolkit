@@ -10,7 +10,6 @@
  */
 #endregion
 
-
 namespace Krypton.Toolkit;
 
 /// <summary>

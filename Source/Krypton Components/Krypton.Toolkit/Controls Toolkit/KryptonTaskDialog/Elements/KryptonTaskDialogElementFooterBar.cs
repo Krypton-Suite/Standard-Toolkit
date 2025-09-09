@@ -10,8 +10,6 @@
  */
 #endregion
 
-using System.Windows.Forms;
-
 namespace Krypton.Toolkit;
 
 public class KryptonTaskDialogElementFooterBar : KryptonTaskDialogElementBase,
