@@ -355,6 +355,23 @@ public class KryptonTaskDialogElementFooterBar : KryptonTaskDialogElementBase,
         }
     }
 
+    private void OnExpanderVisibleChanged()
+    {
+        UpdateExpanderEnabledState();
+    }
+
+    private void WireExpanderVisibleChanged(bool wireEvent)
+    {
+        if (wireEvent)
+        {
+            _expander.VisibleChanged += OnExpanderVisibleChanged;
+        }
+        else
+        {
+            _expander.VisibleChanged -= OnExpanderVisibleChanged;
+        }
+    }
+
     private void SetupTableLayoutPanel()
     {
         _tlp = new()
@@ -413,6 +430,9 @@ public class KryptonTaskDialogElementFooterBar : KryptonTaskDialogElementBase,
         _footNoteText.AutoSize = true;
         _footNoteText.Margin = Defaults.NullPadding;
         _footNoteText.StateCommon.ShortText.TextV = PaletteRelativeAlign.Center;
+
+        // If the expander element changes visibility we need to react to that.
+        WireExpanderVisibleChanged(true);
     }
 
     private void SetupPanel()
