@@ -324,7 +324,10 @@ public partial class PaletteViewerForm : KryptonForm
 
         foreach (System.Windows.Forms.DataGridViewRow row in this.dataGridViewPalette.Rows)
         {
-            if (row.IsNewRow) continue;
+            if (row.IsNewRow)
+            {
+                continue;
+            }
 
             var cell = row.Cells.Count > 2 ? row.Cells[2] : null; // API column
             int lineCount = 1;
@@ -610,7 +613,11 @@ public partial class PaletteViewerForm : KryptonForm
                     if (idx >= 0 && idx < this.dataGridViewPalette.Rows.Count)
                     {
                         var c = this.dataGridViewPalette.Rows[idx].Cells[paletteColumnIndex];
-                        if (string.IsNullOrEmpty(c.ErrorText)) c.ErrorText = "Missing value";
+                        if (string.IsNullOrEmpty(c.ErrorText))
+                        {
+                            c.ErrorText = "Missing value";
+                        }
+
                         if (c.ToolTipText == null || !c.ToolTipText.Contains(c.ErrorText))
                         {
                             c.ToolTipText += " : " + c.ErrorText;
@@ -623,7 +630,11 @@ public partial class PaletteViewerForm : KryptonForm
                     if (idx >= 0 && idx < this.dataGridViewPalette.Rows.Count)
                     {
                         var c = this.dataGridViewPalette.Rows[idx].Cells[paletteColumnIndex];
-                        if (string.IsNullOrEmpty(c.ErrorText)) c.ErrorText = "Unmarked value";
+                        if (string.IsNullOrEmpty(c.ErrorText))
+                        {
+                            c.ErrorText = "Unmarked value";
+                        }
+
                         if (c.ToolTipText == null || !c.ToolTipText.Contains(c.ErrorText))
                         {
                             c.ToolTipText += " : " + c.ErrorText;
@@ -636,7 +647,11 @@ public partial class PaletteViewerForm : KryptonForm
                     if (idx >= 0 && idx < this.dataGridViewPalette.Rows.Count)
                     {
                         var c = this.dataGridViewPalette.Rows[idx].Cells[paletteColumnIndex];
-                        if (string.IsNullOrEmpty(c.ErrorText)) c.ErrorText = "Out-of-order";
+                        if (string.IsNullOrEmpty(c.ErrorText))
+                        {
+                            c.ErrorText = "Out-of-order";
+                        }
+
                         if (c.ToolTipText == null || !c.ToolTipText.Contains(c.ErrorText))
                         {
                             c.ToolTipText += " : " + c.ErrorText;
@@ -649,7 +664,11 @@ public partial class PaletteViewerForm : KryptonForm
                     if (idx >= 0 && idx < this.dataGridViewPalette.Rows.Count)
                     {
                         var c = this.dataGridViewPalette.Rows[idx].Cells[paletteColumnIndex];
-                        if (string.IsNullOrEmpty(c.ErrorText)) c.ErrorText = "Extra entry";
+                        if (string.IsNullOrEmpty(c.ErrorText))
+                        {
+                            c.ErrorText = "Extra entry";
+                        }
+
                         if (c.ToolTipText == null || !c.ToolTipText.Contains(c.ErrorText))
                         {
                             c.ToolTipText += " : " + c.ErrorText;
@@ -1395,7 +1414,11 @@ public partial class PaletteViewerForm : KryptonForm
                 if (idx >= 0 && idx < this.dataGridViewPalette.Rows.Count)
                 {
                     var c = this.dataGridViewPalette.Rows[idx].Cells[colIndex];
-                    if (string.IsNullOrEmpty(c.ErrorText)) c.ErrorText = "Missing value";
+                    if (string.IsNullOrEmpty(c.ErrorText))
+                    {
+                        c.ErrorText = "Missing value";
+                    }
+
                     if (c.ToolTipText == null || !c.ToolTipText.Contains(c.ErrorText))
                     {
                         c.ToolTipText += " : " + c.ErrorText;
@@ -1407,7 +1430,11 @@ public partial class PaletteViewerForm : KryptonForm
                 if (idx >= 0 && idx < this.dataGridViewPalette.Rows.Count)
                 {
                     var c = this.dataGridViewPalette.Rows[idx].Cells[colIndex];
-                    if (string.IsNullOrEmpty(c.ErrorText)) c.ErrorText = "Unmarked value";
+                    if (string.IsNullOrEmpty(c.ErrorText))
+                    {
+                        c.ErrorText = "Unmarked value";
+                    }
+
                     if (c.ToolTipText == null || !c.ToolTipText.Contains(c.ErrorText))
                     {
                         c.ToolTipText += " : " + c.ErrorText;
@@ -1419,7 +1446,11 @@ public partial class PaletteViewerForm : KryptonForm
                 if (idx >= 0 && idx < this.dataGridViewPalette.Rows.Count)
                 {
                     var c = this.dataGridViewPalette.Rows[idx].Cells[colIndex];
-                    if (string.IsNullOrEmpty(c.ErrorText)) c.ErrorText = "Out-of-order";
+                    if (string.IsNullOrEmpty(c.ErrorText))
+                    {
+                        c.ErrorText = "Out-of-order";
+                    }
+
                     if (c.ToolTipText == null || !c.ToolTipText.Contains(c.ErrorText))
                     {
                         c.ToolTipText += " : " + c.ErrorText;
@@ -1431,7 +1462,11 @@ public partial class PaletteViewerForm : KryptonForm
                 if (idx >= 0 && idx < this.dataGridViewPalette.Rows.Count)
                 {
                     var c = this.dataGridViewPalette.Rows[idx].Cells[colIndex];
-                    if (string.IsNullOrEmpty(c.ErrorText)) c.ErrorText = "Extra entry";
+                    if (string.IsNullOrEmpty(c.ErrorText))
+                    {
+                        c.ErrorText = "Extra entry";
+                    }
+
                     if (c.ToolTipText == null || !c.ToolTipText.Contains(c.ErrorText))
                     {
                         c.ToolTipText += " : " + c.ErrorText;
@@ -1704,7 +1739,11 @@ public partial class PaletteViewerForm : KryptonForm
     {
         foreach (DataGridViewRow row in this.dataGridViewPalette.Rows)
         {
-            if (row.IsNewRow) continue;
+            if (row.IsNewRow)
+            {
+                continue;
+            }
+
             row.Visible = predicate(row);
         }
     }
@@ -1813,7 +1852,10 @@ public partial class PaletteViewerForm : KryptonForm
     //-------------- Filter evaluation -------------------
     private bool RowPassesFilters(System.Windows.Forms.DataGridViewRow row)
     {
-        if (row.IsNewRow) return false;
+        if (row.IsNewRow)
+        {
+            return false;
+        }
 
         bool passesColour = true;
         if (_activeColourFilter.HasValue)
@@ -1843,7 +1885,11 @@ public partial class PaletteViewerForm : KryptonForm
     {
         foreach (System.Windows.Forms.DataGridViewRow row in this.dataGridViewPalette.Rows)
         {
-            if (row.IsNewRow) continue;
+            if (row.IsNewRow)
+            {
+                continue;
+            }
+
             row.Visible = RowPassesFilters(row);
         }
 

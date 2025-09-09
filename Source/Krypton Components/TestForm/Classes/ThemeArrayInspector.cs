@@ -113,7 +113,10 @@ internal static class ThemeArrayInspector
 
     private static void EnsureEnumNamesCached(string sourceRoot)
     {
-        if (_cachedEnumNames != null) return;
+        if (_cachedEnumNames != null)
+        {
+            return;
+        }
 
         string enumPath = Path.Combine(sourceRoot, EnumFileRelativePath.Replace('/', Path.DirectorySeparatorChar));
         if (!File.Exists(enumPath))
@@ -139,7 +142,11 @@ internal static class ThemeArrayInspector
         for (int i = 0; i < arrayNames.Count; i++)
         {
             var name = arrayNames[i];
-            if (string.IsNullOrEmpty(name)) continue;
+            if (string.IsNullOrEmpty(name))
+            {
+                continue;
+            }
+
             if (!arrayLookup.ContainsKey(name))
             {
                 arrayLookup[name] = i;
@@ -209,11 +216,17 @@ internal static class ThemeArrayInspector
             if (!inEnum)
             {
                 if (line.Contains($"enum {enumName}"))
+                {
                     inEnum = true;
+                }
             }
             else
             {
-                if (line.Contains("}")) break;
+                if (line.Contains("}"))
+                {
+                    break;
+                }
+
                 var match = Regex.Match(line, @"^\s*([A-Za-z0-9_]+)\s*(=\s*\d+)?\s*,?");
                 if (match.Success)
                 {
@@ -234,7 +247,9 @@ internal static class ThemeArrayInspector
             if (!inArray)
             {
                 if (line.Contains($"{arrayName} ="))
+                {
                     inArray = true;
+                }
             }
             else
             {
@@ -245,7 +260,10 @@ internal static class ThemeArrayInspector
                     continue;
                 }
 
-                if (line.Contains("];") || line.Contains("};")) break;
+                if (line.Contains("];") || line.Contains("};"))
+                {
+                    break;
+                }
 
                 int idx = line.LastIndexOf("//", StringComparison.Ordinal);
                 if (idx >= 0)
@@ -270,7 +288,10 @@ internal static class ThemeArrayInspector
 
     private static string Normalize(string token)
     {
-        if (string.IsNullOrWhiteSpace(token)) return token;
+        if (string.IsNullOrWhiteSpace(token))
+        {
+            return token;
+        }
 
         var aliases = new Dictionary<string, string>(StringComparer.Ordinal)
         {
