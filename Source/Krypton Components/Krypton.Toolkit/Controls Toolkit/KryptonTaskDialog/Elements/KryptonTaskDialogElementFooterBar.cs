@@ -355,23 +355,6 @@ public class KryptonTaskDialogElementFooterBar : KryptonTaskDialogElementBase,
         }
     }
 
-    private void OnExpanderVisibleChanged()
-    {
-        UpdateExpanderEnabledState();
-    }
-
-    private void WireExpanderVisibleChanged(bool wireEvent)
-    {
-        if (wireEvent)
-        {
-            _expander.VisibleChanged += OnExpanderVisibleChanged;
-        }
-        else
-        {
-            _expander.VisibleChanged -= OnExpanderVisibleChanged;
-        }
-    }
-
     private void SetupTableLayoutPanel()
     {
         _tlp = new()
