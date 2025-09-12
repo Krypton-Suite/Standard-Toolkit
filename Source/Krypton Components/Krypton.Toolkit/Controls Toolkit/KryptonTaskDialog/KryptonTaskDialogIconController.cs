@@ -96,7 +96,9 @@ public class KryptonTaskDialogIconController : IDisposable
         Image newImage = GetImageInternal(in imageItem);
         if (newImage.Size.Width != imageItem.Size || newImage.Size.Height != imageItem.Size)
         {
-            _imageCache.Add(imageItem, new Bitmap(newImage, imageItem.Size, imageItem.Size));
+            // Resize the image and cache it.
+            newImage = new Bitmap(newImage, imageItem.Size, imageItem.Size);
+            _imageCache.Add(imageItem, newImage);
         }
 
         return newImage;
