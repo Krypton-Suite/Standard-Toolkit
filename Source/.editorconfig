@@ -51,3 +51,12 @@ dotnet_diagnostic.CS8618.severity = None
 #Warning	CS8622	Nullability of reference types in type of parameter 'sender' of ####
 dotnet_diagnostic.CS8622.severity = None
 
+# Naming rules for private variables with underscore prefix
+
+dotnet_naming_rule.private_members_with_underscore.symbols = private_fields
+dotnet_naming_rule.private_members_with_underscore.style = prefix_underscore
+dotnet_naming_rule.private_members_with_underscore.severity = suggestion
+dotnet_naming_symbols.private_fields.applicable_kinds = field
+dotnet_naming_symbols.private_fields.applicable_accessibilities = private
+dotnet_naming_style.prefix_underscore.capitalization = camel_case
+dotnet_naming_style.prefix_underscore.required_prefix = _
