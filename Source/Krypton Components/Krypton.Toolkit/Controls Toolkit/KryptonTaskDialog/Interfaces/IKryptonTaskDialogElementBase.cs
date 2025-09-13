@@ -21,7 +21,7 @@ public interface IKryptonTaskDialogElementBase
     /// First background color and overrides the theme based color.
     /// </summary>
     [DefaultValue(null)]
-    [Description("First background color.")]
+    [Description("First background color and overrides the theme based color.")]
     public Color BackColor1 { get; set; }
 
     /// <summary>
@@ -41,7 +41,7 @@ public interface IKryptonTaskDialogElementBase
     /// Returns the height of the element.
     /// </summary>
     [DefaultValue(100)]
-    [Description("Show or hide the element in the KryptonTaskDialog.")]
+    [Description("Returns the height of the element.")]
     public int Height { get; }
 }
 

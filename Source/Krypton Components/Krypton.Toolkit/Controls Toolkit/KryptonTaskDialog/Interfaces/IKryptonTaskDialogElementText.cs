@@ -19,26 +19,3 @@ public interface IKryptonTaskDialogElementText
     /// </summary>
     public string Text { get; set; }
 }
-
-public interface IKryptonTaskDialogElementFooterBar
-{
-    /// <summary>
-    /// Footnote text element to display.
-    /// </summary>
-    public string FootNoteText { get; set; }
-
-    /// <summary>
-    /// Text shown when the Expander element is expanded.
-    /// </summary>
-    public string ExpanderExpandedText { get; set; }
-
-    /// <summary>
-    /// Text shown when the Expander element is collapsed.
-    /// </summary>
-    public string ExpanderCollapsedText { get; set; }
-
-    /// <summary>
-    /// When disabled, the user cannot control the expander element.
-    /// </summary>
-    public bool EnableExpanderControls { get; set; }
-}

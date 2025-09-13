@@ -10,8 +10,6 @@
  */
 #endregion
 
-using System.Windows.Forms;
-
 namespace Krypton.Toolkit;
 
 public class KryptonTaskDialogElementFooterBar : KryptonTaskDialogElementBase,
@@ -20,19 +18,14 @@ public class KryptonTaskDialogElementFooterBar : KryptonTaskDialogElementBase,
     IKryptonTaskDialogElementIconType
 {
     #region Fields
-    private const int _tableLayoutPanelHeight = 24;
-    // incoming expander instande
+    // incoming expander instance
     private KryptonTaskDialogElementContent _expander;
     // Panel to layout the controls
-    private TableLayoutPanel _tableLayoutPanel;
+    private TableLayoutPanel _tlp;
     // Expander button
     private KryptonButton _expanderButton;
     // Expander text
     private KryptonLabel _expanderText;
-    // Expander expanded image
-    private Image? _expanderExpandedImage;
-    // Expander collapsed image
-    private Image? _expanderCollapsedImage;
     // Image / Icon controller
     private KryptonTaskDialogIconController _iconController;
     // Footnote picturebox,
@@ -41,27 +34,18 @@ public class KryptonTaskDialogElementFooterBar : KryptonTaskDialogElementBase,
     private KryptonLabel _footNoteText;
     // Disposal
     protected bool _disposed;
-    // null padding preset
-    private Padding _nullPadding;
     // Margin on the right to evenly space controls
     private Padding _spacerPadding;
-    // used for control min and max sizes
-    private Size _size_0_tableLayoutPanelHeight;
-    // fixed control size
-    private Size _size_tableLayoutPanelHeight_tableLayoutPanelHeight;
     #endregion
-    
+
     #region Identity
-    public KryptonTaskDialogElementFooterBar(KryptonTaskDialogElementContent expander)
+    public KryptonTaskDialogElementFooterBar(KryptonTaskDialogDefaults taskDialogDefaults, KryptonTaskDialogElementContent expander) 
+        : base(taskDialogDefaults)
     {
-        _nullPadding = new(0);
-        _spacerPadding = new Padding(0, 0, KryptonTaskDialog.Defaults.ComponentSpace, 0);
-        _size_0_tableLayoutPanelHeight = new Size(0, _tableLayoutPanelHeight);
-        _size_tableLayoutPanelHeight_tableLayoutPanelHeight = new Size(_tableLayoutPanelHeight, _tableLayoutPanelHeight);
+        _spacerPadding = new Padding(0, 0, Defaults.ComponentSpace, 0);
 
         _iconController = new();
         _expander = expander;
-        _tableLayoutPanel = new();
         _expanderButton = new();
         _expanderText = new();
         _footNotePictureBox = new();
@@ -72,18 +56,20 @@ public class KryptonTaskDialogElementFooterBar : KryptonTaskDialogElementBase,
         ExpanderExpandedText = "Expand";
         ExpanderCollapsedText = "Collapse";
 
-        // Expander button images
-        _expanderExpandedImage = ResourceFiles.TaskDialog.TaskDialogImageResources.DoubleChevronSmallUp_20x20;
-        _expanderCollapsedImage = ResourceFiles.TaskDialog.TaskDialogImageResources.DoubleChevronSmallDown_20x20;
-
         // FootNote default IconType
         IconType = KryptonTaskDialogIconType.None;
 
         // init 
         SetupPanel();
 
-        // refresh the state
+        // Set the state
         UpdateExpanderEnabledState();
+        UpdateExpanderImage();
+        UpdateFootNoteIcon();
+        UpdateForeColor();
+
+        // Update at the next request
+        LayoutDirty = true;
     }
     #endregion
 
@@ -92,10 +78,15 @@ public class KryptonTaskDialogElementFooterBar : KryptonTaskDialogElementBase,
     public string FootNoteText 
     { 
         get => _footNoteText.Text;
+
         set
         {
-            _footNoteText.Text = value;
-            _footNoteText.Invalidate();
+            if (_footNoteText.Text != value)
+            {
+                _footNoteText.Text = value;
+                _footNoteText.Invalidate();
+                LayoutDirty = true;
+            }
         }
     }
 
@@ -103,10 +94,15 @@ public class KryptonTaskDialogElementFooterBar : KryptonTaskDialogElementBase,
     public string ExpanderExpandedText 
     {
         get => field;
+
         set
         {
-            field = value;
-            UpdateExpanderText();
+            if (field != value)
+            {
+                field = value;
+                LayoutDirty = true;
+                UpdateExpanderText();
+            }
         }
     }
 
@@ -114,10 +110,15 @@ public class KryptonTaskDialogElementFooterBar : KryptonTaskDialogElementBase,
     public string ExpanderCollapsedText 
     { 
         get => field;
+
         set
         {
-            field = value;
-            UpdateExpanderText();
+            if (field != value)
+            {
+                field = value;
+                LayoutDirty = true;
+                UpdateExpanderText();
+            }
         }
     }
 
@@ -133,42 +134,66 @@ public class KryptonTaskDialogElementFooterBar : KryptonTaskDialogElementBase,
             if ( field != value)
             {
                 field = value;
+                LayoutDirty = true;
                 UpdateFootNoteIcon();
             }
         }
     }
 
     /// <inheritdoc/>
-    public virtual Color ForeColor {
+    public virtual Color ForeColor 
+    {
         get => field;
 
         set
         {
-            field = value;
-            UpdateForeColor();
+            if (field != value)
+            {
+                field = value;
+                UpdateForeColor();
+            }
         }
     }
 
     /// <inheritdoc/>
-    public bool EnableExpanderControls {
+    public bool EnableExpanderControls 
+    {
         get => field;
 
         set
         {
-            field = value;
-            UpdateExpanderEnabledState();
+            if (field != value)
+            {
+                field = value;
+                LayoutDirty = true;
+                UpdateExpanderEnabledState();
+                OnSizeChanged();
+            }
         }
     }
     #endregion
 
     #region Overrides
-    /// <summary>
-    /// Not implemented
-    /// </summary>
-    /// <returns>String.Empty</returns>
-    public override string ToString()
+    /// <inheritdoc/>
+    internal override void PerformLayout()
     {
-        return string.Empty;
+        base.PerformLayout();
+        OnSizeChanged(true);
+    }
+
+    /// <inheritdoc/>
+    protected override void OnPalettePaint(object? sender, PaletteLayoutEventArgs e)
+    {
+        base.OnPalettePaint(sender, e);
+
+        // Flag dirty, and if visible call OnSizeChanged,
+        // otherwise leave it deferred for a call from PerformLayout.
+        LayoutDirty = true;
+
+        if (Visible)
+        {
+            OnSizeChanged();
+        }
     }
 
     /// <inheritdoc/>
@@ -201,11 +226,53 @@ public class KryptonTaskDialogElementFooterBar : KryptonTaskDialogElementBase,
     #endregion
 
     #region Private
+    private void OnSizeChanged(bool performLayout = false)
+    {
+        // Updates / changes are deferred if the element is not visible or until PerformLayout is called
+        if (LayoutDirty && (Visible || performLayout))
+        {
+            // First set the size to zero so the images don't interfere with the tlp height
+            _footNotePictureBox.Width  = 0;
+            _footNotePictureBox.Height = 0;
+            _expanderButton.Width      = 0;
+            _expanderButton.Height     = 0;
+
+            // update the images first to make them of the same size.
+            UpdateFootNoteIcon();
+            UpdateExpanderImage();
+
+            // and make'm visible
+            _footNotePictureBox.Width  = _tlp.Height;
+            _footNotePictureBox.Height = _tlp.Height;
+            _expanderButton.Width      = _tlp.Height;
+            _expanderButton.Height     = _tlp.Height;
+
+            // Size the panel. Add an extra PanelBottom to gie it some more space at the border
+            Panel.Height = _tlp.Height + Defaults.PanelTop + Defaults.PanelBottom + Defaults.PanelBottom;
+
+            // Tell everybody about it when visible.
+            if (!performLayout)
+            {
+                base.OnSizeChanged();
+            }
+
+            // Done
+            LayoutDirty = false;
+        }
+    }
+
     private void UpdateFootNoteIcon()
     {
-        _footNotePictureBox.Image = IconType != KryptonTaskDialogIconType.None
-            ? _iconController.GetImage(IconType, _footNotePictureBox.Size.Height)
-            : null;
+        if (IconType != KryptonTaskDialogIconType.None)
+        {
+            _footNotePictureBox.Image = _iconController.GetImage(IconType, _tlp.Height);
+            _footNotePictureBox.Visible = true;
+        }
+        else
+        {
+            _footNotePictureBox.Visible = false;
+            _footNotePictureBox.Image = null;
+        }
     }
 
     private void UpdateForeColor()
@@ -222,8 +289,8 @@ public class KryptonTaskDialogElementFooterBar : KryptonTaskDialogElementBase,
         if (EnableExpanderControls)
         {
             _expanderButton.StateCommon.Back.Image = _expander.Visible
-                ? _expanderExpandedImage
-                : _expanderCollapsedImage;
+                    ? _iconController.GetImage(KryptonTaskDialogIconType.ArrowGrayUp, _tlp.Height)
+                    : _iconController.GetImage(KryptonTaskDialogIconType.ArrowGrayDown, _tlp.Height);
 
             _expanderButton.Invalidate();
         }
@@ -246,8 +313,11 @@ public class KryptonTaskDialogElementFooterBar : KryptonTaskDialogElementBase,
         _expanderButton.Visible = EnableExpanderControls;
         _expanderText.Visible = EnableExpanderControls;
 
-        UpdateExpanderText();
-        UpdateExpanderImage();
+        if (EnableExpanderControls)
+        {
+            UpdateExpanderText();
+            UpdateExpanderImage();
+        }
     }
 
     private void OnExpanderButtonClick(object? sender, EventArgs e)
@@ -283,48 +353,48 @@ public class KryptonTaskDialogElementFooterBar : KryptonTaskDialogElementBase,
         }
     }
 
-    private void SetupPanel()
+    private void SetupTableLayoutPanel()
     {
-        // Panel height, and padding
-        Panel.Height = _tableLayoutPanelHeight + KryptonTaskDialog.Defaults.PanelTop + KryptonTaskDialog.Defaults.PanelBottom + 10;
-        Panel.Padding = new Padding(KryptonTaskDialog.Defaults.PanelLeft, KryptonTaskDialog.Defaults.PanelTop, KryptonTaskDialog.Defaults.PanelRight, KryptonTaskDialog.Defaults.PanelBottom);
-
-        // Layout panel setup
-        _tableLayoutPanel.Dock = DockStyle.Fill;
-        _tableLayoutPanel.Height = _tableLayoutPanelHeight;
-        _tableLayoutPanel.Margin = new Padding(0);
-        _tableLayoutPanel.Padding = new Padding(0);
+        _tlp = new()
+        {
+            Dock = DockStyle.Top,
+            AutoSize = true,
+            AutoSizeMode = AutoSizeMode.GrowAndShrink,
+            Width = Defaults.TLP.StdMaxSize.Width,
+            Padding = Defaults.NullPadding,
+            Margin = Defaults.NullMargin,
+            BackColor = Color.Transparent,
+            CellBorderStyle = TableLayoutPanelCellBorderStyle.None
+        };
 
         // 1 row
-        _tableLayoutPanel.RowCount = 1;
-        _tableLayoutPanel.ColumnStyles.Clear();
-        _tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, _tableLayoutPanelHeight));
+        _tlp.RowCount = 1;
+        _tlp.ColumnStyles.Clear();
+        _tlp.RowStyles.Add(new RowStyle(SizeType.AutoSize));
         // 4 columns 
-        _tableLayoutPanel.ColumnCount = 4;
-        _tableLayoutPanel.RowStyles.Clear();
+        _tlp.ColumnCount = 4;
+        _tlp.RowStyles.Clear();
         // expander button
-        _tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+        _tlp.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
         // expander text
-        _tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+        _tlp.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
         // footnote icon
-        _tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+        _tlp.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
         // footnote text
-        _tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+        _tlp.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
 
         // Add the controls to the layout
-        _tableLayoutPanel.Controls.Add(_expanderButton, 0, 0);
-        _tableLayoutPanel.Controls.Add(_expanderText, 1, 0);
-        _tableLayoutPanel.Controls.Add(_footNotePictureBox, 2, 0);
-        _tableLayoutPanel.Controls.Add(_footNoteText, 3, 0);
-        Panel.Controls.Add(_tableLayoutPanel);
+        _tlp.Controls.Add(_expanderButton, 0, 0);
+        _tlp.Controls.Add(_expanderText, 1, 0);
+        _tlp.Controls.Add(_footNotePictureBox, 2, 0);
+        _tlp.Controls.Add(_footNoteText, 3, 0);
+    }
 
+    private void SetupControls()
+    {
         // configure controls
         _expanderButton.AutoSize = false;
         _expanderButton.Margin = _spacerPadding;
-        _expanderButton.MaximumSize = _size_tableLayoutPanelHeight_tableLayoutPanelHeight;
-        _expanderButton.MinimumSize = _size_tableLayoutPanelHeight_tableLayoutPanelHeight;
-        _expanderButton.Width = _tableLayoutPanelHeight;
-        _expanderButton.Height = _tableLayoutPanelHeight;
         _expanderButton.StateCommon.Back.ImageStyle = PaletteImageStyle.CenterMiddle;
         _expanderButton.StateCommon.Back.Color1 = Color.WhiteSmoke;
         _expanderButton.Text = string.Empty;
@@ -332,20 +402,29 @@ public class KryptonTaskDialogElementFooterBar : KryptonTaskDialogElementBase,
 
         _expanderText.AutoSize = true;
         _expanderText.Margin = _spacerPadding;
-        _expanderText.MaximumSize = _size_0_tableLayoutPanelHeight;
-        _expanderText.MinimumSize = _size_0_tableLayoutPanelHeight;
         _expanderText.StateCommon.ShortText.TextV = PaletteRelativeAlign.Center;
 
-        _footNotePictureBox.Size = _size_tableLayoutPanelHeight_tableLayoutPanelHeight;
         _footNotePictureBox.Margin = _spacerPadding;
-        _footNotePictureBox.Padding = _nullPadding;
+        _footNotePictureBox.Padding = Defaults.NullPadding;
         _footNotePictureBox.SizeMode = PictureBoxSizeMode.CenterImage;
 
         _footNoteText.AutoSize = true;
-        _footNoteText.Margin = _nullPadding;
-        _footNoteText.MaximumSize = _size_0_tableLayoutPanelHeight;
-        _footNoteText.MinimumSize = _size_0_tableLayoutPanelHeight;
+        _footNoteText.Margin = Defaults.NullPadding;
         _footNoteText.StateCommon.ShortText.TextV = PaletteRelativeAlign.Center;
+
+        // If the expander element changes visibility we need to react to that.
+        WireExpanderVisibleChanged(true);
+    }
+
+    private void SetupPanel()
+    {
+        // Panel height, and padding
+        Panel.Width = Defaults.ClientWidth;
+        Panel.Padding = Defaults.PanelPadding1;
+        
+        SetupTableLayoutPanel();
+        SetupControls();
+        Panel.Controls.Add(_tlp);
 
         // If the expander element changes visibility we need to react to that.
         WireExpanderVisibleChanged(true);

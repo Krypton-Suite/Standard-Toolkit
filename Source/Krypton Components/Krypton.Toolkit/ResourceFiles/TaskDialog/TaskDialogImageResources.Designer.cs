@@ -61,6 +61,46 @@ namespace Krypton.Toolkit.ResourceFiles.TaskDialog {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon arrow_down_gray_multi_icon {
+            get {
+                object obj = ResourceManager.GetObject("arrow_down_gray_multi_icon", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon arrow_up_gray_multi_icon {
+            get {
+                object obj = ResourceManager.GetObject("arrow_up_gray_multi_icon", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon check_green_multi_icon {
+            get {
+                object obj = ResourceManager.GetObject("check_green_multi_icon", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon document__multi_icon {
+            get {
+                object obj = ResourceManager.GetObject("document__multi_icon", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap DoubleChevronBlackDown_24x24 {
@@ -143,9 +183,29 @@ namespace Krypton.Toolkit.ResourceFiles.TaskDialog {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
+        internal static System.Drawing.Icon gear__multi_icon {
+            get {
+                object obj = ResourceManager.GetObject("gear__multi_icon", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
         internal static System.Drawing.Icon KryptonLogoStable_Ico {
             get {
                 object obj = ResourceManager.GetObject("KryptonLogoStable.Ico", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon power_off_multi_icon {
+            get {
+                object obj = ResourceManager.GetObject("power_off_multi_icon", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
             }
         }
