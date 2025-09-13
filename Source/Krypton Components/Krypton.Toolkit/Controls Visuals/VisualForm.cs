@@ -902,6 +902,34 @@ public abstract class VisualForm : Form,
     //    */
     //    base.OnClosing(e);
     //}
+
+    /// <inheritdoc />
+    protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+    {
+        // Handle basic themed system menu keyboard shortcuts if enabled
+        // Only handle themed system menu shortcuts if ControlBox is true (same behavior as native system menu)
+        if (ControlBox && SystemMenuService is { UseSystemMenu: true })
+        {
+            // Handle Alt+Space to show the themed system menu
+            if (keyData == (Keys.Alt | Keys.Space))
+            {
+                ShowSystemMenuAtFormTopLeft();
+                return true;
+            }
+
+            // Handle Alt+F4 for close (let derived classes handle this)
+            if (keyData == (Keys.Alt | Keys.F4))
+            {
+                if (HandleSystemMenuKeyboardShortcut(keyData))
+                {
+                    return true;
+                }
+            }
+        }
+
+        return base.ProcessCmdKey(ref msg, keyData);
+    }
+
     #endregion
 
     #region Protected Virtual
@@ -1712,6 +1740,66 @@ public abstract class VisualForm : Form,
 #if !NET462
     private void OnDpiChanged(object? sender, DpiChangedEventArgs e) => UpdateDpiFactors();
 #endif
+    #endregion
+
+    #region Themed System Menu
+    /// <summary>
+    /// Gets access to the system menu for advanced customization.
+    /// </summary>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public virtual IKryptonSystemMenu? KryptonSystemMenu => null;
+
+    /// <summary>
+    /// Gets or sets the system menu service for managing themed system menu functionality.
+    /// </summary>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public virtual KryptonSystemMenuService? SystemMenuService { get; set; }
+
+    /// <summary>
+    /// Determines if the specified screen point is within the title bar area.
+    /// </summary>
+    /// <param name="screenPoint">The screen coordinates to test.</param>
+    /// <returns>True if the point is in the title bar area; otherwise false.</returns>
+    protected virtual bool IsInTitleBarArea(Point screenPoint) => false;
+
+    /// <summary>
+    /// Determines if the specified screen point is over the control buttons (min/max/close).
+    /// </summary>
+    /// <param name="screenPoint">The screen coordinates to test.</param>
+    /// <returns>True if the point is over control buttons; otherwise false.</returns>
+    protected virtual bool IsOnControlButtons(Point screenPoint) => false;
+
+    /// <summary>
+    /// Shows the themed system menu at the specified screen location.
+    /// </summary>
+    /// <param name="screenLocation">The screen coordinates where the menu should appear.</param>
+    protected virtual void ShowSystemMenu(Point screenLocation) { }
+
+    /// <summary>
+    /// Shows the themed system menu at the form's top-left position.
+    /// </summary>
+    protected virtual void ShowSystemMenuAtFormTopLeft() { }
+
+    /// <summary>
+    /// Handles keyboard shortcuts for the themed system menu.
+    /// </summary>
+    /// <param name="keyData">The key data to process.</param>
+    /// <returns>True if the shortcut was handled; otherwise false.</returns>
+    protected virtual bool HandleSystemMenuKeyboardShortcut(Keys keyData) => false;
+
+    /// <summary>
+    /// Helper method to handle themed system menu shortcuts using the service.
+    /// </summary>
+    /// <param name="keyData">The key data to process.</param>
+    /// <returns>True if the shortcut was handled by the service; otherwise false.</returns>
+    protected bool HandleSystemMenuShortcut(Keys keyData)
+    {
+        return SystemMenuService?.HandleKeyboardShortcut(keyData) ?? false;
+    }
     #endregion
 
     private void UpdateDpiFactors()
