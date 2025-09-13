@@ -110,8 +110,6 @@ public class KryptonForm : VisualForm,
     private readonly KryptonPanel _internalKryptonPanel;
     // Compensate for Windows 11 outer accent border by shrinking the window region slightly
     private const int NON_CLIENT_REGION_INSET = 4;
-    private readonly KryptonThemedSystemMenuService? _themedSystemMenuService;
-    private ThemedSystemMenuValues _themedSystemMenuValues;
     private Rectangle _lastGripClientRect = Rectangle.Empty;
     private Rectangle _lastGripWindowRect = Rectangle.Empty;
     private readonly KryptonSystemMenuService? _systemMenuService;
@@ -1491,9 +1489,6 @@ public class KryptonForm : VisualForm,
     protected override void OnShown(EventArgs e)
     {
         base.OnShown(e);
-
-        // Ensure proper positioning after the form is shown and custom chrome is applied
-        EnsureProperFormPositioning();
     }
 
     /// <summary>
@@ -2054,7 +2049,6 @@ public class KryptonForm : VisualForm,
                     ShowSystemMenu(screenPoint);
                     return true;
                 }
-            }
             }
         }
 
@@ -2660,40 +2654,7 @@ public class KryptonForm : VisualForm,
         }
     }
 
-    /// <summary>
-    /// Handles changes to the themed system menu values.
-    /// </summary>
-    /// <param name="sender">Source of the event.</param>
-    /// <param name="e">An EventArgs containing event data.</param>
-    private void OnThemedSystemMenuValuesChanged(object? sender, PropertyChangedEventArgs e)
-    {
-        if (_themedSystemMenuService != null && _themedSystemMenuValues != null)
-        {
-            switch (e.PropertyName)
-            {
-                case nameof(ThemedSystemMenuValues.Enabled):
-                    _themedSystemMenuService.UseThemedSystemMenu = _themedSystemMenuValues.Enabled;
-                    break;
-                /*case nameof(ThemedSystemMenuValues.ShowOnLeftClick):
-                    _themedSystemMenuService.ShowThemedSystemMenuOnLeftClick = _themedSystemMenuValues.ShowOnLeftClick;
-                    break;*/
-                case nameof(ThemedSystemMenuValues.ShowOnRightClick):
-                    _themedSystemMenuService.ShowThemedSystemMenuOnRightClick = _themedSystemMenuValues.ShowOnRightClick;
-                    break;
-                case nameof(ThemedSystemMenuValues.ShowOnAltSpace):
-                    _themedSystemMenuService.ShowThemedSystemMenuOnAltSpace = _themedSystemMenuValues.ShowOnAltSpace;
-                    break;
-                case nameof(ThemedSystemMenuValues.ShowOnIconClick):
-                    // Icon click is handled separately in the click event handlers
-                    break;
-                case nameof(ThemedSystemMenuValues.CustomMenuItems):
-                    _themedSystemMenuService.ThemedSystemMenu.DesignerMenuItems = _themedSystemMenuValues.CustomMenuItems;
-                    break;
-            }
-        }
-    }
-
-    /// <summary>
+    /*/// <summary>
     /// Starts a timer to distinguish between click and drag operations.
     /// </summary>
     /// <param name="clickPoint">The point where the click occurred.</param>
@@ -2723,7 +2684,7 @@ public class KryptonForm : VisualForm,
         {
             _clickTimer.Stop();
         }
-    }
+    }*
 
     /// <summary>
     /// Handles the click timer tick event.
@@ -2738,7 +2699,7 @@ public class KryptonForm : VisualForm,
                     /*if (!_isDragging && _themedSystemMenuValues?.Enabled && _themedSystemMenuValues?.ShowOnLeftClick && _themedSystemMenuService != null)
         {
             ShowThemedSystemMenu(_lastClickPoint);
-        }*/
+        }*
     }
 
     /// <summary>
@@ -2778,7 +2739,7 @@ public class KryptonForm : VisualForm,
         
         // Cancel click timer when form is being resized
         StopClickTimer();
-    }
+    }*/
 
     /// <summary>Finds the help provider.</summary>
     /// <param name="control">The control.</param>

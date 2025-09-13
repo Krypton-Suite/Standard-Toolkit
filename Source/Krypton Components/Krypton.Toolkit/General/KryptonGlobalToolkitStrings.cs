@@ -204,12 +204,7 @@ public class KryptonGlobalToolkitStrings : GlobalId
     /// <value>The krypton message box strings.</value>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public static MessageBoxStrings KryptonMessageBoxStrings { get; } = new MessageBoxStrings();
-
-    /// <summary>Gets the win32 system menu strings.</summary>
-    /// <value>The win32 system menu strings.</value>
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public static SystemMenuStrings Win32SystemMenuStrings { get; } = new SystemMenuStrings();
-
+    
     /// <summary>Gets the krypton search box strings.</summary>
     /// <value>The krypton search box strings.</value>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
