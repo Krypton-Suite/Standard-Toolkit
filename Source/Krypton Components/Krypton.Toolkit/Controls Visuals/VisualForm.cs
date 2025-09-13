@@ -149,7 +149,7 @@ public abstract class VisualForm : Form,
             // Must unhook from the palette paint events
             if (_palette != null!)
             {
-                _palette.PalettePaint -= OnNeedPaint;
+                _palette.PalettePaintInternal -= OnNeedPaint;
                 _palette.ButtonSpecChanged -= OnButtonSpecChanged;
                 _palette.UseThemeFormChromeBorderWidthChanged -= OnUseThemeFormChromeBorderWidthChanged;
                 _palette.BasePaletteChanged -= OnBaseChanged;
@@ -1811,7 +1811,7 @@ public abstract class VisualForm : Form,
             // Unhook from current palette events
             if (_palette != null!)  // Will be null on first set !
             {
-                _palette.PalettePaint -= OnNeedPaint;
+                _palette.PalettePaintInternal -= OnNeedPaint;
                 _palette.ButtonSpecChanged -= OnButtonSpecChanged;
                 _palette.UseThemeFormChromeBorderWidthChanged -= OnUseThemeFormChromeBorderWidthChanged;
                 _palette.BasePaletteChanged -= OnBaseChanged;
@@ -1825,7 +1825,7 @@ public abstract class VisualForm : Form,
             Renderer = _palette.GetRenderer();
 
             // Hook to new palette events
-            _palette.PalettePaint += OnNeedPaint;
+            _palette.PalettePaintInternal += OnNeedPaint;
             _palette.ButtonSpecChanged += OnButtonSpecChanged;
             _palette.UseThemeFormChromeBorderWidthChanged += OnUseThemeFormChromeBorderWidthChanged;
             _palette.BasePaletteChanged += OnBaseChanged;
