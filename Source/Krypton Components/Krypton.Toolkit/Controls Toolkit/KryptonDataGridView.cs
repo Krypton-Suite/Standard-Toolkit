@@ -217,7 +217,7 @@ public class KryptonDataGridView : DataGridView
             // Must unhook from the palette paint event
             if (_palette != null)
             {
-                _palette.PalettePaint -= OnNeedResyncPaint;
+                _palette.PalettePaintInternal -= OnNeedResyncPaint;
                 _palette.ButtonSpecChanged -= OnButtonSpecChanged;
             }
 
@@ -2805,7 +2805,7 @@ public class KryptonDataGridView : DataGridView
             // Unhook from current palette events
             if (_palette != null)
             {
-                _palette.PalettePaint -= OnNeedResyncPaint;
+                _palette.PalettePaintInternal -= OnNeedResyncPaint;
                 _palette.ButtonSpecChanged -= OnButtonSpecChanged;
             }
 
@@ -2818,7 +2818,7 @@ public class KryptonDataGridView : DataGridView
             // Hook to new palette events
             if (_palette != null)
             {
-                _palette.PalettePaint += OnNeedResyncPaint;
+                _palette.PalettePaintInternal += OnNeedResyncPaint;
                 _palette.ButtonSpecChanged += OnButtonSpecChanged;
             }
 

@@ -401,7 +401,7 @@ public class KryptonToggleSwitch : Control, IContentValues
 
             if (_palette != null)
             {
-                _palette.PalettePaint -= OnPalettePaint;
+                _palette.PalettePaintInternal -= OnPalettePaint;
 
                 _palette = null;
             }
@@ -689,7 +689,7 @@ public class KryptonToggleSwitch : Control, IContentValues
         // Unhook events from old palette
         if (_palette != null)
         {
-            _palette.PalettePaint -= OnPalettePaint;
+            _palette.PalettePaintInternal -= OnPalettePaint;
         }
 
         // Cache the new PaletteBase that is the global palette
@@ -699,7 +699,7 @@ public class KryptonToggleSwitch : Control, IContentValues
         // Hook into events for the new palette
         if (_palette != null)
         {
-            _palette.PalettePaint += OnPalettePaint;
+            _palette.PalettePaintInternal += OnPalettePaint;
         }
 
         // Change of palette means we should repaint to show any changes

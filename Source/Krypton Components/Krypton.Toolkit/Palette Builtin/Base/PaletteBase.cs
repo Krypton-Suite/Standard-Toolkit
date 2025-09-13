@@ -58,6 +58,12 @@ public abstract class PaletteBase : Component
 
     #region Events
     /// <summary>
+    /// Occurs when a palette change requires a repaint for a Krypton component or control.<br/>
+    /// Note: Only for components or controls to subscribe to.
+    /// </summary>
+    internal event EventHandler<PaletteLayoutEventArgs>? PalettePaintInternal;
+    
+    /// <summary>
     /// Occurs when a palette change requires a repaint.
     /// </summary>
     public event EventHandler<PaletteLayoutEventArgs>? PalettePaint;
@@ -2075,9 +2081,12 @@ public abstract class PaletteBase : Component
     /// </summary>
     /// <param name="sender">Source of the event.</param>
     /// <param name="e">An PaletteLayoutEventArgs containing event data.</param>
-    protected virtual void OnPalettePaint(object sender, PaletteLayoutEventArgs e) =>
+    protected virtual void OnPalettePaint(object sender, PaletteLayoutEventArgs e)
+    {
         // https://github.com/Krypton-Suite/Standard-Toolkit/issues/1023#issuecomment-1588810368
+        PalettePaintInternal?.Invoke(this, e);
         PalettePaint?.Invoke(this, e);
+    }
 
     #endregion
 
@@ -2274,7 +2283,10 @@ public abstract class PaletteBase : Component
         lock (_colorLock)
         {
             if (SchemeColors[(int)colorIndex] == newColor)
+            {
                 return; // no change
+            }
+
             SchemeColors[(int)colorIndex] = newColor;
             InvalidateColorTable();
         }
@@ -2295,7 +2307,11 @@ public abstract class PaletteBase : Component
     // Thread-safe batch update
     public virtual void UpdateSchemeColors(Dictionary<SchemeBaseColors, Color> colorUpdates)
     {
-        if (colorUpdates is null) throw new ArgumentNullException(nameof(colorUpdates));
+        if (colorUpdates is null)
+        {
+            throw new ArgumentNullException(nameof(colorUpdates));
+        }
+
         foreach (var kv in colorUpdates)
             SetSchemeColor(kv.Key, kv.Value); // reuses events + paint
     }

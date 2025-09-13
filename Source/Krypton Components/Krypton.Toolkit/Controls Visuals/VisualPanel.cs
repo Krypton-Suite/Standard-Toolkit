@@ -152,7 +152,7 @@ public abstract class VisualPanel : Panel,
             // Must unhook from the palette paint event
             if (_palette is not null)
             {
-                _palette.PalettePaint -= OnNeedPaint;
+                _palette.PalettePaintInternal -= OnNeedPaint;
                 _palette.ButtonSpecChanged -= OnButtonSpecChanged;
             }
 
@@ -1076,7 +1076,7 @@ public abstract class VisualPanel : Panel,
             // Unhook from current palette events
             if (_palette is not null)
             {
-                _palette.PalettePaint -= OnNeedPaint;
+                _palette.PalettePaintInternal -= OnNeedPaint;
                 _palette.ButtonSpecChanged -= OnButtonSpecChanged;
             }
 
@@ -1089,7 +1089,7 @@ public abstract class VisualPanel : Panel,
             // Hook to new palette events
             if (_palette is not null)
             {
-                _palette.PalettePaint += OnNeedPaint;
+                _palette.PalettePaintInternal += OnNeedPaint;
                 _palette.ButtonSpecChanged += OnButtonSpecChanged;
             }
         }

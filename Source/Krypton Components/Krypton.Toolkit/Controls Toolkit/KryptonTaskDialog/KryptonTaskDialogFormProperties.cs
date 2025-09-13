@@ -49,7 +49,6 @@ public class KryptonTaskDialogFormProperties
                 // When the form is visible the form's location is used.
                 // When the form is hidden the field value is used so the user
                 // can change the position before the form is shown.
-
                 return _form.Visible
                     ? _form.Location
                     : field;
@@ -57,7 +56,7 @@ public class KryptonTaskDialogFormProperties
 
             set
             {
-                // When the form is hidden only the position is recorded her.
+                // When the form is hidden only the position is recorded here.
                 // And used to position the window before the form is shown.
                 field = value;
 

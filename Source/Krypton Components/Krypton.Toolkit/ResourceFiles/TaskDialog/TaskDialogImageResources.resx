@@ -118,6 +118,18 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="arrow_down_gray_multi_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\arrow_down_gray_multi-icon.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="arrow_up_gray_multi_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\arrow_up_gray_multi-icon.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="check_green_multi_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\check_green_multi-icon.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="document__multi_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\document_,multi-icon.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="DoubleChevronBlackDown_24x24" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\..\Resources\DoubleChevronBlackDown-24x24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -142,8 +154,14 @@
   <data name="DoubleChevronUp_24x24" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\..\Resources\DoubleChevronUp-24x24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="gear__multi_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\gear_multi-icon.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="KryptonLogoStable.Ico" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\..\Krypton.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="power_off_multi_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\power_off_multi-icon.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="shield_error_multi_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\..\Resources\shield_error_multi-icon.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

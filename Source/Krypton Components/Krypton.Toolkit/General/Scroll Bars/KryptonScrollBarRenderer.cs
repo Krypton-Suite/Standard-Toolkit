@@ -74,7 +74,7 @@ internal static class KryptonScrollBarRenderer
         // add Palette Handler
         //if (_palette != null)
         //{
-        //    _palette.PalettePaint += OnPalettePaint;
+        //    _palette.PalettePaintInternal += OnPalettePaint;
         //}
 
         //KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged;
@@ -952,7 +952,7 @@ internal static class KryptonScrollBarRenderer
     {
         if (_palette != null)
         {
-            _palette.PalettePaint -= OnPalettePaint;
+            _palette.PalettePaintInternal -= OnPalettePaint;
         }
 
         _palette = KryptonManager.CurrentGlobalPalette;
@@ -960,7 +960,7 @@ internal static class KryptonScrollBarRenderer
 
         if (_palette != null)
         {
-            _palette.PalettePaint += OnPalettePaint;
+            _palette.PalettePaintInternal += OnPalettePaint;
             //repaint with new values
 
             InitColors();

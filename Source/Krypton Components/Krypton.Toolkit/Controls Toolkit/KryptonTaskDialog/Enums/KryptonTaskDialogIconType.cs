@@ -13,12 +13,18 @@ namespace Krypton.Toolkit;
 
 public enum KryptonTaskDialogIconType
 {
-    None        = 0,
-    Error       = 1,
-    Help        = 2,
-    Information = 3,
-    Krypton     = 4,
-    Success     = 5,
-    UacShield   = 6,
-    Warning     = 7
+    None = 0,
+    ArrowGrayDown,
+    ArrowGrayUp,
+    CheckGreen,
+    Document,
+    Gear,
+    PowerOff,
+    ShieldError,
+    ShieldHelp,
+    ShieldInformation,
+    ShieldKrypton,
+    ShieldSuccess,
+    ShieldUac,
+    ShieldWarning
 }

@@ -96,7 +96,9 @@ public class KryptonTaskDialogIconController : IDisposable
         Image newImage = GetImageInternal(in imageItem);
         if (newImage.Size.Width != imageItem.Size || newImage.Size.Height != imageItem.Size)
         {
-            _imageCache.Add(imageItem, new Bitmap(newImage, imageItem.Size, imageItem.Size));
+            // Resize the image and cache it.
+            newImage = new Bitmap(newImage, imageItem.Size, imageItem.Size);
+            _imageCache.Add(imageItem, newImage);
         }
 
         return newImage;
@@ -108,14 +110,19 @@ public class KryptonTaskDialogIconController : IDisposable
     {
         Icon icon = imageItem.IconType switch
         {
-            // TODO replace dummy code 
-            KryptonTaskDialogIconType.Error       => ResourceFiles.TaskDialog.TaskDialogImageResources.shield_error_multi_icon,
-            KryptonTaskDialogIconType.Help        => ResourceFiles.TaskDialog.TaskDialogImageResources.shield_help_multi_icon,
-            KryptonTaskDialogIconType.Information => ResourceFiles.TaskDialog.TaskDialogImageResources.shield_questionmark_multi_icon,
-            KryptonTaskDialogIconType.Krypton     => ResourceFiles.TaskDialog.TaskDialogImageResources.shield_krypton_multi_icon,
-            KryptonTaskDialogIconType.Success     => ResourceFiles.TaskDialog.TaskDialogImageResources.shield_success_checked_multi_icon,
-            KryptonTaskDialogIconType.UacShield   => ResourceFiles.TaskDialog.TaskDialogImageResources.shield_uac_multi_icon,
-            KryptonTaskDialogIconType.Warning     => ResourceFiles.TaskDialog.TaskDialogImageResources.shield_exclamation_warning_multi_icon,
+            KryptonTaskDialogIconType.ArrowGrayDown     => TaskDialogImageResources.arrow_down_gray_multi_icon,
+            KryptonTaskDialogIconType.ArrowGrayUp       => TaskDialogImageResources.arrow_up_gray_multi_icon,
+            KryptonTaskDialogIconType.CheckGreen        => TaskDialogImageResources.check_green_multi_icon,
+            KryptonTaskDialogIconType.Document          => TaskDialogImageResources.document__multi_icon,
+            KryptonTaskDialogIconType.Gear              => TaskDialogImageResources.gear__multi_icon,
+            KryptonTaskDialogIconType.PowerOff          => TaskDialogImageResources.power_off_multi_icon,
+            KryptonTaskDialogIconType.ShieldError       => TaskDialogImageResources.shield_error_multi_icon,
+            KryptonTaskDialogIconType.ShieldHelp        => TaskDialogImageResources.shield_help_multi_icon,
+            KryptonTaskDialogIconType.ShieldInformation => TaskDialogImageResources.shield_questionmark_multi_icon,
+            KryptonTaskDialogIconType.ShieldKrypton     => TaskDialogImageResources.shield_krypton_multi_icon,
+            KryptonTaskDialogIconType.ShieldSuccess     => TaskDialogImageResources.shield_success_checked_multi_icon,
+            KryptonTaskDialogIconType.ShieldUac         => TaskDialogImageResources.shield_uac_multi_icon,
+            KryptonTaskDialogIconType.ShieldWarning     => TaskDialogImageResources.shield_exclamation_warning_multi_icon,
 
             // KryptonTaskDialogIconType.None is not an image type and will also thrown an exception.
             _ => throw new ArgumentOutOfRangeException($"IconType {imageItem.IconType} is unknown or not an image type.")
