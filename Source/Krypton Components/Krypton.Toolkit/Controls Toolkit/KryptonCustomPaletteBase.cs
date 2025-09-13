@@ -101,7 +101,7 @@ public class KryptonCustomPaletteBase : PaletteBase
 
         // Hook to palette events
         ToolMenuStatus = new KryptonPaletteTMS(this, _basePalette.ColorTable, OnMenuToolStatusPaint);
-        _basePalette.PalettePaint += OnPalettePaint;
+        _basePalette.PalettePaintInternal += OnPalettePaint;
         _basePalette.ButtonSpecChanged += OnButtonSpecChanged;
         _basePalette.BasePaletteChanged += OnBasePaletteChanged;
         _basePalette.BaseRendererChanged += OnBaseRendererChanged;
@@ -136,7 +136,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             // Must unhook from the palette paint event
             if (_basePalette is not null)
             {
-                _basePalette.PalettePaint -= OnPalettePaint;
+                _basePalette.PalettePaintInternal -= OnPalettePaint;
                 _basePalette.ButtonSpecChanged -= OnButtonSpecChanged;
                 _basePalette.BasePaletteChanged -= OnBasePaletteChanged;
                 _basePalette.BaseRendererChanged -= OnBaseRendererChanged;
@@ -5736,7 +5736,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             // Unhook from current palette events
             if (_basePalette is not null)
             {
-                _basePalette.PalettePaint -= OnPalettePaint;
+                _basePalette.PalettePaintInternal -= OnPalettePaint;
                 _basePalette.ButtonSpecChanged -= OnButtonSpecChanged;
                 _basePalette.BasePaletteChanged -= OnBasePaletteChanged;
                 _basePalette.BaseRendererChanged -= OnBaseRendererChanged;
@@ -5754,7 +5754,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             // Hook to new palette events
             if (_basePalette != null)
             {
-                _basePalette.PalettePaint += OnPalettePaint;
+                _basePalette.PalettePaintInternal += OnPalettePaint;
                 _basePalette.ButtonSpecChanged += OnButtonSpecChanged;
                 _basePalette.BasePaletteChanged += OnBasePaletteChanged;
                 _basePalette.BaseRendererChanged += OnBaseRendererChanged;

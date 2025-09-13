@@ -9,22 +9,13 @@
  *
  */
 #endregion
+
 namespace Krypton.Toolkit;
 
-public enum KryptonTaskDialogIconType
+public interface IKryptonTaskDialogElementUrl
 {
-    None = 0,
-    ArrowGrayDown,
-    ArrowGrayUp,
-    CheckGreen,
-    Document,
-    Gear,
-    PowerOff,
-    ShieldError,
-    ShieldHelp,
-    ShieldInformation,
-    ShieldKrypton,
-    ShieldSuccess,
-    ShieldUac,
-    ShieldWarning
+    /// <summary>
+    /// Internet Unified resource locator.
+    /// </summary>
+    public string Url { get; set; }
 }

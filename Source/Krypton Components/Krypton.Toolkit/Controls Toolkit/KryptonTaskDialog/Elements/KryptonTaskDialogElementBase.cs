@@ -21,40 +21,115 @@ namespace Krypton.Toolkit;
 /// </summary>
 public abstract class KryptonTaskDialogElementBase : 
     IKryptonTaskDialogElementBase,
+    IKryptonTaskDialogElementEventSizeChanged,
     IDisposable
 {
     #region Fields
-    private bool _disposed = false;
+    private bool _disposed;
     private KryptonPanel _panel;
     private bool _panelVisible;
+    private KryptonTaskDialogDefaults _taskDialogDefaults;
     #endregion
 
     #region Events
+    /// <summary>
+    /// Subscribers will be notified when the visibility of the element has changed.
+    /// </summary>
     public event Action VisibleChanged;
+
+    /// <summary>
+    /// Subscribers will be notified when size of the element has changed.
+    /// </summary>
+    public event Action SizeChanged;
     #endregion
 
     #region Indentity
     /// <summary>
     /// Default constructor
     /// </summary>
-    public KryptonTaskDialogElementBase()
+    public KryptonTaskDialogElementBase(KryptonTaskDialogDefaults taskDialogDefaults)
     {
+        // Set the data
+        _taskDialogDefaults = taskDialogDefaults;
+
+        // Although OnGlobalPaletteChanged synchronizes palette changes with the elements,
+        // The initialisation is done here.
+        Palette = KryptonManager.CurrentGlobalPalette;
+        // Execute OnGlobalPaletteChanged once to set the initial palette and wire the PalettePaint event.
+        OnGlobalPaletteChanged(null!, null!);
+        // From there the event handler will take over.
+        KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged;
+
+        _disposed = false;
+
         _panel = new()
         {
             Margin = new Padding(0),
             Padding = new Padding(0),
             Visible = false
         };
-        _panelVisible = _panel.Visible;
-        
+        _panelVisible = false;
+
+        LayoutDirty = false;
     }
     #endregion
 
-    #region Internal
+    #region Protected
+    protected void OnSizeChanged()
+    {
+        SizeChanged?.Invoke();
+    }
+    #endregion
+
+    #region Protected (virtual)
+    /// <summary>
+    /// Will be connented to and fired from the active palette.
+    /// </summary>
+    /// <param name="sender">Source of the event.</param>
+    /// <param name="e">Event data.</param>
+    protected virtual void OnPalettePaint(object? sender, PaletteLayoutEventArgs e)
+    {
+    }
+
+    /// <summary>
+    /// Acts on Krypton Manager palette changes.
+    /// </summary>
+    /// <param name="sender">Source of the event.</param>
+    /// <param name="e">Event data.</param>
+    protected virtual void OnGlobalPaletteChanged(object? sender, EventArgs e)
+    {
+        if (Palette is not null)
+        {
+            Palette.PalettePaint -= OnPalettePaint;
+        }
+
+        Palette = KryptonManager.CurrentGlobalPalette;
+
+        if (Palette is not null)
+        {
+            Palette.PalettePaint += OnPalettePaint;
+        }
+    }
+    #endregion
+
+    #region Internal (virtual)
+    /// <summary>
+    /// Requests a layout of the element.<br/>
+    /// Practically this is used to update the element before it is shown.<br/>
+    /// </summary>
+    internal virtual void PerformLayout()
+    {
+    }
+
     /// <summary>
     /// Krypton panel that hosts the Element's controls and used for themed background coloring.
     /// </summary>
     internal KryptonPanel Panel => _panel;
+
+    /// <summary>
+    /// Access to the active global palette.
+    /// </summary>
+    internal PaletteBase Palette { get; private set; }
     #endregion
 
     #region Public virtual
@@ -85,7 +160,7 @@ public abstract class KryptonTaskDialogElementBase :
     {
         get => _panelVisible;
         set
-        {
+        {  
             if (_panelVisible != value)
             {
                 _panelVisible = value;
@@ -101,7 +176,7 @@ public abstract class KryptonTaskDialogElementBase :
     /// Not implemented
     /// </summary>
     /// <returns>String.Empty</returns>
-    public override string ToString()
+    public sealed override string ToString()
     {
         return string.Empty;
     }
@@ -109,9 +184,18 @@ public abstract class KryptonTaskDialogElementBase :
 
     #region Public
     /// <summary>
-    /// The height of the element.
+    /// Returns if the element's layout needs a refresh when visible or before the dialog will be displayed.
     /// </summary>
-    public int Height => Panel.Height;
+    internal bool LayoutDirty { get; set; }
+
+    /// <summary>
+    /// Return the height of the element when visible.<br/>
+    /// When not visible Height returns zero.
+    /// </summary>
+    public int Height => _panelVisible ? Panel.Height : 0;
+
+    /// <inheritdoc/>
+    internal KryptonTaskDialogDefaults Defaults => _taskDialogDefaults;
     #endregion
 
     #region Private
@@ -142,7 +226,15 @@ public abstract class KryptonTaskDialogElementBase :
     protected virtual void Dispose(bool disposing)
     {
         if (!_disposed && disposing)
-        { 
+        {
+            KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChanged;
+
+            if (Palette is not null)
+            {
+                Palette.PalettePaint -= OnPalettePaint;
+                Palette = null!;
+            }
+
             _disposed = true;
         }
     }

@@ -9,22 +9,18 @@
  *
  */
 #endregion
+
 namespace Krypton.Toolkit;
 
-public enum KryptonTaskDialogIconType
+public interface IKryptonTaskDialogElementDescription
 {
-    None = 0,
-    ArrowGrayDown,
-    ArrowGrayUp,
-    CheckGreen,
-    Document,
-    Gear,
-    PowerOff,
-    ShieldError,
-    ShieldHelp,
-    ShieldInformation,
-    ShieldKrypton,
-    ShieldSuccess,
-    ShieldUac,
-    ShieldWarning
+    /// <summary>
+    /// Description element to display.
+    /// </summary>
+    public string Description { get; set; }
+
+    /// <summary>
+    /// Show or hide the description.
+    /// </summary>
+    public bool ShowDescription { get; set; }
 }

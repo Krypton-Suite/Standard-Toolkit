@@ -99,7 +99,7 @@ public class KryptonWrapLabel : Label
             // Must unhook from the palette paint event
             if (_palette != null)
             {
-                _palette.PalettePaint -= OnPaletteNeedPaint;
+                _palette.PalettePaintInternal -= OnPaletteNeedPaint;
                 _palette.BasePaletteChanged -= OnBaseChanged;
                 _palette.BaseRendererChanged -= OnBaseChanged;
             }
@@ -800,7 +800,7 @@ public class KryptonWrapLabel : Label
             // Unhook from current palette events
             if (_palette is not null)
             {
-                _palette.PalettePaint -= OnPaletteNeedPaint;
+                _palette.PalettePaintInternal -= OnPaletteNeedPaint;
                 _palette.BasePaletteChanged -= OnBaseChanged;
                 _palette.BaseRendererChanged -= OnBaseChanged;
             }
@@ -814,7 +814,7 @@ public class KryptonWrapLabel : Label
             // Hook to new palette events
             if (_palette is not null)
             {
-                _palette.PalettePaint += OnPaletteNeedPaint;
+                _palette.PalettePaintInternal += OnPaletteNeedPaint;
                 _palette.BasePaletteChanged += OnBaseChanged;
                 _palette.BaseRendererChanged += OnBaseChanged;
             }

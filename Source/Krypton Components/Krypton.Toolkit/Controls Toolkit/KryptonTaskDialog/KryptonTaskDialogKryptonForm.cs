@@ -43,5 +43,22 @@ public class KryptonTaskDialogKryptonForm : KryptonForm
         // Intercept ALT+F4
         return IgnoreAltF4 && keyData == KEYS_ALT_F4;
     }
+
+    protected override void OnFormClosing(FormClosingEventArgs e)
+    {
+        // Always hide the form while the user operates it.
+        // Else let it close itself.
+        if (Visible && e.CloseReason == CloseReason.UserClosing)
+        {
+            e.Cancel = true;
+            Hide();
+        }
+        else
+        {
+            DialogResult = DialogResult.None;
+        }
+
+        base.OnFormClosing(e);
+    }  
     #endregion
 }

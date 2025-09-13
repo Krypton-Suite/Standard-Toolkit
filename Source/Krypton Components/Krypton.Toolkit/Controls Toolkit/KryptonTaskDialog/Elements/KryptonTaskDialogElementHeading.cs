@@ -22,57 +22,37 @@ public class KryptonTaskDialogElementHeading : KryptonTaskDialogElementBase,
     private KryptonPictureBox _pictureBox;
     private KryptonLabel _headingText;
     private KryptonTaskDialogIconController _iconController;
+    private TableLayoutPanel _tlp;
+    private int _height;
+    private bool _disposed;
     #endregion
 
     #region Identity
-    public KryptonTaskDialogElementHeading() 
+    public KryptonTaskDialogElementHeading(KryptonTaskDialogDefaults taskDialogDefaults) 
+        : base(taskDialogDefaults)
     {
-        Panel.Height = 48 + KryptonTaskDialog.Defaults.PanelTop + KryptonTaskDialog.Defaults.PanelBottom;
-        Panel.Width = KryptonTaskDialog.Defaults.ClientWidth;
-
+        _disposed = false;
+        _height         = 48;
+        Panel.Height    = _height + Defaults.PanelTop + Defaults.PanelBottom;
+        Panel.Width     = Defaults.ClientWidth;
         _iconController = new();
-        IconType = KryptonTaskDialogIconType.None;
+        IconType        = KryptonTaskDialogIconType.None;
 
-        _pictureBox = new();
-        _pictureBox.Size = new Size(48, 48);
-        _pictureBox.Padding = new(0);
-        _pictureBox.Margin = new(0);
-        _pictureBox.BorderStyle = BorderStyle.None;
-        _pictureBox.SizeMode = PictureBoxSizeMode.CenterImage;
-        _pictureBox.Location = new Point(KryptonTaskDialog.Defaults.PanelLeft, KryptonTaskDialog.Defaults.PanelTop);
-        _pictureBox.Anchor = AnchorStyles.Top | AnchorStyles.Left;
-
-        _headingText = new();
-        _headingText.AutoSize = false;
-        _headingText.Width = Panel.Width - KryptonTaskDialog.Defaults.PanelLeft - _pictureBox.Width - KryptonTaskDialog.Defaults.PanelRight - KryptonTaskDialog.Defaults.ComponentSpace;
-        _headingText.Height = 48;
-        _headingText.Left = KryptonTaskDialog.Defaults.PanelLeft + _pictureBox.Width + KryptonTaskDialog.Defaults.ComponentSpace;
-        _headingText.Top = KryptonTaskDialog.Defaults.PanelTop;
-        _headingText.StateCommon.ShortText.Font = new Font(KryptonManager.CurrentGlobalPalette.BaseFont.FontFamily, 20f, FontStyle.Bold);
-        _headingText.StateCommon.ShortText.TextV = PaletteRelativeAlign.Center;
-
-        Panel.Controls.Add(_pictureBox);
-        Panel.Controls.Add(_headingText);
-
-        Bitmap b = new Bitmap(48, 48);
-        using var g = Graphics.FromImage(b);
-        using Brush brush = new SolidBrush(Color.Red);
-        g.FillRectangle(brush, 0, 0, 48, 48);
-
-        _pictureBox.Image = b;
+        SetupPanel();
     }
     #endregion
 
     #region Public properties
     /// <inheritdoc/>
     public string Text 
-   {
+    {
         get => _headingText.Text;
         set => _headingText.Text = value;
     }
 
     /// <inheritdoc/>
-    public KryptonTaskDialogIconType IconType {
+    public KryptonTaskDialogIconType IconType 
+    {
         get => field;
 
         set
@@ -122,23 +102,86 @@ public class KryptonTaskDialogElementHeading : KryptonTaskDialogElementBase,
             _headingText.Invalidate();
         }
     }
-
-    /// <summary>
-    /// Not implemented
-    /// </summary>
-    /// <returns>String.Empty</returns>
-    public override string ToString()
-    {
-        return string.Empty;
-    }
     #endregion
 
     #region Private
+    private void SetupPanel()
+    {
+        SetupTableLayoutPanel();
+
+        _pictureBox             = new();
+        _pictureBox.Size        = new Size(_height, _height);
+        _pictureBox.Padding     = new(0);
+        _pictureBox.Margin      = new(0, 0, Defaults.ComponentSpace, 0);
+        _pictureBox.BorderStyle = BorderStyle.None;
+        _pictureBox.SizeMode    = PictureBoxSizeMode.CenterImage;
+        _pictureBox.Anchor      = AnchorStyles.Top | AnchorStyles.Left;
+
+        _headingText = new();
+        _headingText.AutoSize = false;
+        _headingText.Margin = new(0);
+        _headingText.Dock = DockStyle.Fill;
+
+        // theme based 
+        _headingText.StateCommon.ShortText.Font = new Font(KryptonManager.CurrentGlobalPalette.BaseFont.FontFamily, 20f, FontStyle.Bold);
+        _headingText.StateCommon.ShortText.TextV = PaletteRelativeAlign.Center;
+
+        _tlp.Controls.Add(_pictureBox, 0, 0);
+        _tlp.Controls.Add(_headingText, 1, 0);
+        
+        Panel.Controls.Add(_tlp);
+    }
+
+    private void SetupTableLayoutPanel()
+    {
+        _tlp = new()
+        {
+            AutoSize        = false,
+            Height          = _height,
+            Width           = Defaults.ClientWidth - Defaults.PanelLeft - Defaults.PanelRight,
+            Top             = Defaults.PanelTop,
+            Left            = Defaults.PanelLeft,
+            Padding         = new Padding(0),
+            RowCount        = 1,
+            ColumnCount     = 2,
+            CellBorderStyle = TableLayoutPanelCellBorderStyle.None,
+        };
+
+        _tlp.RowStyles.Clear();
+        _tlp.ColumnStyles.Clear();
+
+        _tlp.RowStyles.Add(new RowStyle(SizeType.Absolute, _height));
+        _tlp.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+        _tlp.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+
+    }
+
     private void UpdateHeaderIcon()
     {
-        _pictureBox.Image = IconType != KryptonTaskDialogIconType.None
-            ? _iconController.GetImage(IconType, _pictureBox.Size.Height)
-            : null;
+        if (IconType != KryptonTaskDialogIconType.None)
+        {
+            _pictureBox.Image = _iconController.GetImage(IconType, _pictureBox.Size.Height);
+            _pictureBox.Visible = true;
+        }
+        else
+        {
+            _pictureBox.Image = null;
+            _pictureBox.Visible = false;
+        }
+    }
+    #endregion
+
+    #region IDispose
+    protected override void Dispose(bool disposing)
+    {
+        if (!_disposed && disposing)
+        {
+            _iconController.Dispose();
+
+            _disposed = true;
+        }
+
+        base.Dispose(disposing);
     }
     #endregion
 }

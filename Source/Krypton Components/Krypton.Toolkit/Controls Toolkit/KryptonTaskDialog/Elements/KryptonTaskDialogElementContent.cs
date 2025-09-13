@@ -14,73 +14,115 @@ namespace Krypton.Toolkit;
 
 public class KryptonTaskDialogElementContent : KryptonTaskDialogElementBase,
     IKryptonTaskDialogElementContent,
-    IKryptonTaskDialogElementForeColor,
-    IKryptonTaskDialogElementEventSizeChanged
+    IKryptonTaskDialogElementForeColor
 {
     #region Fields
+    // default text format flags
+    private const TextFormatFlags textFormatFlags = TextFormatFlags.WordBreak | TextFormatFlags.NoPadding | TextFormatFlags.ExpandTabs;
+
     // Content text
     KryptonWrapLabel _textControl;
     // Ttextbox width
     int _textBoxWidth;
     #endregion
 
-    #region Events
-    /// <summary>
-    /// Subscribers will be notified when size of the element has changed.
-    /// </summary>
-    public event Action SizeChanged;
-    #endregion 
-
-    public KryptonTaskDialogElementContent()
+    #region Identity
+    public KryptonTaskDialogElementContent(KryptonTaskDialogDefaults taskDialogDefaults) 
+        : base(taskDialogDefaults)
     {
         Panel.Height = 120;
-        _textBoxWidth = KryptonTaskDialog.Defaults.ClientWidth - KryptonTaskDialog.Defaults.PanelLeft - KryptonTaskDialog.Defaults.PanelRight;
+        _textBoxWidth = Defaults.ClientWidth - Defaults.PanelLeft - Defaults.PanelRight;
 
         _textControl = new()
         {
-            AutoSize = false,
+            AutoSize = true,
             Width = _textBoxWidth,
             Height = 0,
             Padding = new Padding(0),
-            Margin = new Padding(0),
+            Margin = new Padding(3, 0, 0, 0),
             Location = new Point(10, 10),
-            Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom,
+            MaximumSize = new Size(_textBoxWidth, 0),
+            MinimumSize = new Size(_textBoxWidth, 0),
+            Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right,
         };
 
         Panel.Controls.Add(_textControl);
     }
+    #endregion
 
-    private void OnSizeChanged()
+    #region Protected/Internal
+    protected override void OnPalettePaint(object? sender, PaletteLayoutEventArgs e)
     {
-        Font font = _textControl.StateCommon.Font ?? KryptonManager.CurrentGlobalPalette.BaseFont;
+        base.OnPalettePaint(sender, e);
 
-        using Graphics g = Panel.CreateGraphics();
-        var factorDpiY = g.DpiY / 96f;
-
-        StringFormat sf = new();
-        sf.FormatFlags = StringFormatFlags.MeasureTrailingSpaces | StringFormatFlags.NoClip;
-
-        SizeF sizef = g.MeasureString(_textControl.Text, font, new SizeF(_textBoxWidth, float.MaxValue), sf);
-        int height = (int)Math.Floor((double)(sizef.Height * factorDpiY));
-
-        // Controls seem to need a little help here to stay within the correct bounds
-        Panel.Height = height + KryptonTaskDialog.Defaults.PanelTop + KryptonTaskDialog.Defaults.PanelBottom;
-        _textControl.Width = _textBoxWidth;
-        _textControl.Height = ((int)Math.Floor(((double)sizef.Height) * factorDpiY));
-
-        // Tell everybody about it
-        SizeChanged?.Invoke();
+        // Flag dirty, and if visible call OnSizeChanged,
+        // otherwise leave it deferred for a call from PerformLayout.
+        LayoutDirty = true;
+        if (Visible)
+        {
+            OnSizeChanged();
+        }
     }
 
+    internal override void PerformLayout()
+    {
+        base.PerformLayout();
+        OnSizeChanged(true);
+    }
+
+    public override bool Visible 
+    { 
+        get => base.Visible;
+
+        set
+        {
+            base.Visible = value;
+            OnSizeChanged();
+        }
+    }
+    #endregion
+
+    #region Private
+    private void OnSizeChanged(bool performLayout = false)
+    {
+        // Updates / changes are deferred if the element is not visible or until PerformLayout is called
+        if (LayoutDirty && (Visible || performLayout))
+        {
+            Font font = _textControl.StateCommon.Font
+                ?? Palette.GetContentShortTextFont(PaletteContentStyle.LabelNormalControl, PaletteState.Normal)
+                ?? KryptonManager.CurrentGlobalPalette.BaseFont;
+
+            int height = TextRenderer.MeasureText(_textControl.Text, font, new SizeF(_textBoxWidth, float.MaxValue).ToSize(), textFormatFlags).Height;
+
+            // Controls seem to need a little help here to stay within the correct bounds
+            Panel.Height = height + Defaults.PanelTop + Defaults.PanelBottom;
+            _textControl.Width = _textBoxWidth - Defaults.PanelLeft - Defaults.PanelRight;
+            _textControl.Height = height;
+
+            // Tell everybody about it when visible.
+            if (!performLayout)
+            {
+                base.OnSizeChanged();
+            }
+
+            // Done
+            LayoutDirty = false;
+        }
+    }
+    #endregion
+
+    #region Public
     /// <inheritdoc/>
     public string Text 
     {
         get => _textControl.Text;
+
         set
         {
-            if (value is not null && _textControl.Text != value)
+            if (_textControl.Text != value)
             {
-                _textControl.Text = CommonHelper.NormalizeLineBreaks(value);
+                _textControl.Text = CommonHelper.NormalizeLineBreaks(value) + Environment.NewLine;
+                LayoutDirty = true;
                 OnSizeChanged();
             }
         }
@@ -91,13 +133,5 @@ public class KryptonTaskDialogElementContent : KryptonTaskDialogElementBase,
         get => _textControl.StateCommon.TextColor;
         set => _textControl.StateCommon.TextColor = value;
     }
-
-    /// <summary>
-    /// Not implemented
-    /// </summary>
-    /// <returns>String.Empty</returns>
-    public override string ToString()
-    {
-        return string.Empty;
-    }
+    #endregion
 }

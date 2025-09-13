@@ -4,8 +4,9 @@
 
 ## 2025-11-xx - Build 2511 (V10 - alpha) - November 2025
 * Resolved [#2103](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2103), Ensure that `KryptonForm` properly supports RTL
-* Implemented [#2446](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2446), Add `build.yml` to `.github/workflows`
-* Implemented [#1376](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1376),  **[Breaking Change]**  `KryptonTaskDialog` has had a full overhaul. Please refer to the ticket for full details, status and code sample to get started
+* Resolved [#2487](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2487), `PaletteBase.PalettePaint` event is not synchronized toward the user.
+* Implemented [#2446](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2446), Add `build.yml` to `.github/workflows`.
+* Implemented [#1376](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1376),  **[Breaking Change]**  `KryptonTaskDialog` has had a full overhaul. Please refer to the ticket for full details, status and code sample to get started.
 * Implemented [#648](https://github.com/Krypton-Suite/Standard-Toolkit/issues/648), SystemMenu to be theme related
 * Resolved [#2128](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2128), (feat) Add `ButtonSpecs` to `KDataGridView` cells when editing
 * Resolved [#2463](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2463), `KryptonForm` has incorrect title-bar button behaviour
