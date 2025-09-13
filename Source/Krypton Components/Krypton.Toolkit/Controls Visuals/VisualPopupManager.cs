@@ -327,6 +327,13 @@ public class VisualPopupManager : IMessageFilter
     /// <returns>true to filter the message and stop it from being dispatched; false to allow the message to continue to the next filter or control.</returns>
     public bool PreFilterMessage(ref Message m)
     {
+        // Don't interfere with designer operations
+        // Check if any form in the application is in design mode
+        if (IsAnyFormInDesignMode())
+        {
+            return false;
+        }
+
         // If we have suspended operation....
         if (_suspended > 0)
         {
@@ -766,6 +773,31 @@ public class VisualPopupManager : IMessageFilter
             _cmsFinishDelegate(this, e);
             _cmsFinishDelegate = null;
         }
+    }
+
+    /// <summary>
+    /// Checks if any form in the application is currently in design mode.
+    /// </summary>
+    /// <returns>True if any form is in design mode; otherwise false.</returns>
+    private static bool IsAnyFormInDesignMode()
+    {
+        try
+        {
+            // Check all open forms to see if any are in design mode
+            foreach (Form form in Application.OpenForms)
+            {
+                if (form.Site?.DesignMode == true)
+                {
+                    return true;
+                }
+            }
+        }
+        catch
+        {
+            // If we can't check, assume not in design mode to avoid breaking functionality
+        }
+        
+        return false;
     }
     #endregion
 }

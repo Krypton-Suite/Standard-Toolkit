@@ -154,6 +154,13 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
     public void Show(Point screenLocation)
     {
         ThrowIfDisposed();
+        
+        // Don't interfere with designer operations
+        if (_form.Site?.DesignMode == true)
+        {
+            return;
+        }
+        
         if (Enabled && _contextMenu.Items.Count > 0)
         {
             // Adjust the position to ensure the menu is fully visible
@@ -168,6 +175,13 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
     public void ShowAtFormTopLeft()
     {
         ThrowIfDisposed();
+        
+        // Don't interfere with designer operations
+        if (_form.Site?.DesignMode == true)
+        {
+            return;
+        }
+        
         if (Enabled && _contextMenu.Items.Count > 0)
         {
             // Position at the top-left corner of the form, just like the native system menu
@@ -204,6 +218,13 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
     public bool HandleKeyboardShortcut(Keys keyData)
     {
         ThrowIfDisposed();
+        
+        // Don't interfere with designer operations
+        if (_form.Site?.DesignMode == true)
+        {
+            return false;
+        }
+        
         if (!Enabled)
         {
             return false;

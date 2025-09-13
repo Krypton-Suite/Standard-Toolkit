@@ -1999,10 +1999,16 @@ public class KryptonForm : VisualForm,
     /// <summary>
     /// Process the WM_NCLBUTTONDOWN message when overriding window chrome.
     /// </summary>
-    /// <param name="m">A Windows-based message.</param>4
+    /// <param name="m">A Windows-based message.</param>
     /// <returns>True if the message was processed; otherwise false.</returns>
     protected override bool OnWM_NCLBUTTONDOWN(ref Message m)
     {
+        // Don't interfere with designer operations
+        if (Site?.DesignMode == true)
+        {
+            return base.OnWM_NCLBUTTONDOWN(ref m);
+        }
+
         using var context = new ViewLayoutContext(this, Renderer);
         // Discover if the form icon is being Displayed
         if (_drawContent.IsImageDisplayed(context))
@@ -2957,6 +2963,12 @@ public class KryptonForm : VisualForm,
     /// <returns>True if the shortcut was handled; otherwise false.</returns>
     protected override bool HandleSystemMenuKeyboardShortcut(Keys keyData)
     {
+        // Don't interfere with designer operations
+        if (Site?.DesignMode == true)
+        {
+            return false;
+        }
+
         // Only handle themed system menu shortcuts if ControlBox is true (same behavior as native system menu)
         if (ControlBox && _systemMenuValues.Enabled && _systemMenuService != null)
         {
