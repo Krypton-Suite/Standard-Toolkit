@@ -1072,7 +1072,7 @@ public sealed class KryptonManager : Component
             // Unhook from current palette events
             if (CurrentGlobalPalette != null)
             {
-                CurrentGlobalPalette.PalettePaint -= OnPalettePaint;
+                CurrentGlobalPalette.PalettePaintInternal -= OnPalettePaint;
             }
 
             // Remember the new palette
@@ -1081,7 +1081,7 @@ public sealed class KryptonManager : Component
             // Hook to new palette events
             if (CurrentGlobalPalette != null)
             {
-                CurrentGlobalPalette.PalettePaint += OnPalettePaint;
+                CurrentGlobalPalette.PalettePaintInternal += OnPalettePaint;
             }
         }
     }

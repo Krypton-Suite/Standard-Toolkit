@@ -150,7 +150,7 @@ public abstract class VisualControlBase : Control,
             // Must unhook from the palette paint event
             if (_palette != null)
             {
-                _palette.PalettePaint -= OnPaletteNeedPaint;
+                _palette.PalettePaintInternal -= OnPaletteNeedPaint;
                 _palette.ButtonSpecChanged -= OnButtonSpecChanged;
                 _palette.BasePaletteChanged -= OnBaseChanged;
                 _palette.BaseRendererChanged -= OnBaseChanged;
@@ -1173,7 +1173,7 @@ public abstract class VisualControlBase : Control,
             // Unhook from current palette events
             if (_palette != null)
             {
-                _palette.PalettePaint -= OnPaletteNeedPaint;
+                _palette.PalettePaintInternal -= OnPaletteNeedPaint;
                 _palette.ButtonSpecChanged -= OnButtonSpecChanged;
                 _palette.BasePaletteChanged -= OnBaseChanged;
                 _palette.BaseRendererChanged -= OnBaseChanged;
@@ -1188,7 +1188,7 @@ public abstract class VisualControlBase : Control,
                 // Get the renderer associated with the palette
                 Renderer = _palette.GetRenderer();
 
-                _palette.PalettePaint += OnPaletteNeedPaint;
+                _palette.PalettePaintInternal += OnPaletteNeedPaint;
                 _palette.ButtonSpecChanged += OnButtonSpecChanged;
                 _palette.BasePaletteChanged += OnBaseChanged;
                 _palette.BaseRendererChanged += OnBaseChanged;

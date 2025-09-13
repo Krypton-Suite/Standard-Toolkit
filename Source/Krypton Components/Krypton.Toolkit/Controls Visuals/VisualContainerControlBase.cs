@@ -138,7 +138,7 @@ public abstract class VisualContainerControlBase : ContainerControl,
             // Must unhook from the palette paint event
             if (_palette != null)
             {
-                _palette.PalettePaint -= OnPaletteNeedPaint;
+                _palette.PalettePaintInternal -= OnPaletteNeedPaint;
                 _palette.ButtonSpecChanged -= OnButtonSpecChanged;
                 _palette.BasePaletteChanged -= OnBaseChanged;
                 _palette.BaseRendererChanged -= OnBaseChanged;
@@ -1089,7 +1089,7 @@ public abstract class VisualContainerControlBase : ContainerControl,
             // Unhook from current palette events
             if (_palette != null)
             {
-                _palette.PalettePaint -= OnPaletteNeedPaint;
+                _palette.PalettePaintInternal -= OnPaletteNeedPaint;
                 _palette.ButtonSpecChanged -= OnButtonSpecChanged;
                 _palette.BasePaletteChanged -= OnBaseChanged;
                 _palette.BaseRendererChanged -= OnBaseChanged;
@@ -1104,7 +1104,7 @@ public abstract class VisualContainerControlBase : ContainerControl,
             // Hook to new palette events
             if (_palette != null)
             {
-                _palette.PalettePaint += OnPaletteNeedPaint;
+                _palette.PalettePaintInternal += OnPaletteNeedPaint;
                 _palette.ButtonSpecChanged += OnButtonSpecChanged;
                 _palette.BasePaletteChanged += OnBaseChanged;
                 _palette.BaseRendererChanged += OnBaseChanged;
