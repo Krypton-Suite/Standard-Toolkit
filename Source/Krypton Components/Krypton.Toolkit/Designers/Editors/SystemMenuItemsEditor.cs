@@ -30,7 +30,7 @@ public class SystemMenuItemsEditor : CollectionEditor
     /// </summary>
     /// <param name="itemType">The type of item to create.</param>
     /// <returns>A new instance of the specified type.</returns>
-    protected override object? CreateInstance(Type itemType)
+    protected override object CreateInstance(Type itemType)
     {
         if (itemType == typeof(SystemMenuItemValues))
         {

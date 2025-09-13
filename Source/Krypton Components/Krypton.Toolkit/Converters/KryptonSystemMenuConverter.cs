@@ -74,7 +74,16 @@ public class KryptonSystemMenuConverter : ExpandableObjectConverter
             }
         }
 
-        return base.ConvertFrom(context!, culture!, value);
+        // Only call base if value is not null
+        if (value != null)
+        {
+            return base.ConvertFrom(context, culture, value);
+        }
+        else
+        {
+            // Handle null value appropriately, e.g. return null or throw
+            return null;
+        }
     }
 
     /// <summary>
@@ -116,7 +125,12 @@ public class KryptonSystemMenuConverter : ExpandableObjectConverter
     /// <returns>A PropertyDescriptorCollection with the properties that are exposed for this data type.</returns>
     public override PropertyDescriptorCollection GetProperties(ITypeDescriptorContext? context, object? value, Attribute[]? attributes)
     {
-        // Get the default properties
+        // Ensure 'value' is not null before passing to base
+        if (value == null)
+        {
+            return new PropertyDescriptorCollection([]);
+        }
+
         var properties = base.GetProperties(context, value, attributes!);
 
         // Filter and reorder the properties to show the most important ones first
@@ -153,5 +167,6 @@ public class KryptonSystemMenuConverter : ExpandableObjectConverter
 
         return new PropertyDescriptorCollection(filteredProperties.ToArray());
     }
+
     #endregion
 }
