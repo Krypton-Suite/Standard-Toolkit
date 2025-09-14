@@ -140,7 +140,6 @@ public class KryptonTaskDialogElementProgresBar : KryptonTaskDialogElementSingle
     #region Private
     protected override void OnSizeChanged(bool performLayout = false)
     {
-        Debug.Print("OnSizeChanged");
         // Updates / changes are deferred if the element is not visible or until PerformLayout is called
         if (LayoutDirty && (Visible || performLayout))
         {
