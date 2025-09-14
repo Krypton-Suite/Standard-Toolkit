@@ -10,6 +10,8 @@
  */
 #endregion
 
+using Microsoft.Web.WebView2.WinForms;
+
 namespace Krypton.Toolkit;
 
 /// <summary>
@@ -55,7 +57,7 @@ namespace Krypton.Toolkit;
 /// </para>
 /// </summary>
 [ToolboxItem(true)]
-[ToolboxBitmap(typeof(WebView2), "ToolboxBitmaps.WebView2.bmp")]
+[ToolboxBitmap(typeof(KryptonWebView2), "ToolboxBitmaps.WebView2.bmp")]
 [Designer(typeof(KryptonWebView2Designer))]
 [DesignerCategory(@"code")]
 [Description(@"Enables the user to browse web pages using the modern WebView2 engine with Krypton theming support.")]
