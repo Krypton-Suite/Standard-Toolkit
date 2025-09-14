@@ -57,6 +57,30 @@
 		<Reference Include="System.Net.Http" />
 	</ItemGroup>
 
+	<!-- WebView2 SDK References -->
+	<ItemGroup>
+		<Reference Include="Microsoft.Web.WebView2.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=2a8ab48044d2601e, processorArchitecture=MSIL" Condition="$(TargetFramework.StartsWith('net4'))">
+			<HintPath>..\..\..\WebView2SDK\Microsoft.Web.WebView2.Core.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="Microsoft.Web.WebView2.WinForms, Version=1.0.0.0, Culture=neutral, PublicKeyToken=2a8ab48044d2601e, processorArchitecture=MSIL" Condition="$(TargetFramework.StartsWith('net4'))">
+			<HintPath>..\..\..\WebView2SDK\Microsoft.Web.WebView2.WinForms.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+	</ItemGroup>
+
+	<!-- WebView2 SDK References for .NET 8+ -->
+	<ItemGroup Condition="!$(TargetFramework.StartsWith('net4'))">
+		<Reference Include="Microsoft.Web.WebView2.Core" Condition="!$(TargetFramework.StartsWith('net4'))">
+			<HintPath>..\..\..\WebView2SDK\Microsoft.Web.WebView2.Core.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="Microsoft.Web.WebView2.WinForms" Condition="!$(TargetFramework.StartsWith('net4'))">
+			<HintPath>..\..\..\WebView2SDK\Microsoft.Web.WebView2.WinForms.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+	</ItemGroup>
+
 
 	<PropertyGroup>
 	<PackageId>Krypton.Toolkit</PackageId>
@@ -535,6 +559,7 @@
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonGroupPanel.bmp" />
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonForm.bmp" />
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonLinkLabel.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\WebView2.bmp" />
   </ItemGroup>
   <ItemGroup>
 	<Compile Remove="Controls Toolkit\KryptonByteViewer.cs" />
