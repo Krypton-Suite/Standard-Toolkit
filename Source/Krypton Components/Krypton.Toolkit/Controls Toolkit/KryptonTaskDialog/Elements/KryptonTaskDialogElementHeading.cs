@@ -85,6 +85,7 @@ public class KryptonTaskDialogElementHeading : KryptonTaskDialogElementBase,
     public override Color BackColor1
     {
         get => base.BackColor1;
+
         set
         {
             base.BackColor1 = value;
@@ -96,6 +97,7 @@ public class KryptonTaskDialogElementHeading : KryptonTaskDialogElementBase,
     public override Color BackColor2 
     {
         get => base.BackColor2;
+        
         set
         {
             base.BackColor2 = value;

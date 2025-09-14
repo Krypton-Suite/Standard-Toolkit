@@ -27,8 +27,8 @@ public class KryptonTaskDialogElementCheckBox : KryptonTaskDialogElementSingleLi
 
         _checkBox = new();
         _checkBox.AutoSize = true;
-        _checkBox.Padding = new Padding(5, 0, 0, 0);
-        _checkBox.Margin = _nullMargin;
+        _checkBox.Padding = new Padding(Defaults.ComponentSpace, 0, 0, 0);
+        _checkBox.Margin = Defaults.NullMargin;
         _checkBox.CheckState = CheckState.Unchecked;
 
         _tlp.Controls.Add(_checkBox, 0, 0);
@@ -36,26 +36,22 @@ public class KryptonTaskDialogElementCheckBox : KryptonTaskDialogElementSingleLi
         LayoutDirty = true;
     }
 
-    #region Private
-    #endregion
-    private void OnSizeChanged(bool performLayout = false)
+    #region Protected/Internal
+    /// <inheritdoc/>
+    protected override void OnSizeChanged(bool performLayout = false)
     {
         // Updates / changes are deferred if the element is not visible or until PerformLayout is called
         if (LayoutDirty && (Visible || performLayout))
         {
             Panel.Height = _checkBox.Height + Defaults.PanelTop + Defaults.PanelBottom;
 
-            if (!performLayout)
-            {
-                base.OnSizeChanged();
-            }
+            base.OnSizeChanged(performLayout);
 
             LayoutDirty = false;
-
         }
     }
 
-    #region Protected/Internal
+    /// <inheritdoc/>
     protected override void OnPalettePaint(object? sender, PaletteLayoutEventArgs e)
     {
         base.OnPalettePaint(sender, e);
@@ -69,6 +65,7 @@ public class KryptonTaskDialogElementCheckBox : KryptonTaskDialogElementSingleLi
         }
     }
 
+    /// <inheritdoc/>
     internal override void PerformLayout()
     {
         base.PerformLayout();

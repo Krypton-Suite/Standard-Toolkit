@@ -20,8 +20,6 @@ public abstract class KryptonTaskDialogElementSingleLineControlBase : KryptonTas
     IKryptonTaskDialogElementForeColor
 {
     #region Fields
-    protected Padding _nullPadding = new(0);
-    protected Padding _nullMargin = new(0);
     protected TableLayoutPanel _tlp;
     #endregion
 
