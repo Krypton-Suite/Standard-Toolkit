@@ -75,9 +75,16 @@ public abstract class KryptonTaskDialogElementBase :
     #endregion
 
     #region Protected
-    protected void OnSizeChanged()
+    /// <summary>
+    /// Virtual method that invokes the SizeChanged event and notifies subscribers.
+    /// </summary>
+    /// <param name="performLayout">If a layout needs to be performed regardless of the element's visible state.</param>
+    protected virtual void OnSizeChanged(bool performLayout = false)
     {
-        SizeChanged?.Invoke();
+        if (!performLayout)
+        {
+            SizeChanged?.Invoke();
+        }
     }
     #endregion
 
@@ -215,7 +222,7 @@ public abstract class KryptonTaskDialogElementBase :
         }
     }
 
-    private void OnVisibleChanged()
+    protected virtual void OnVisibleChanged()
     {
         VisibleChanged?.Invoke();
     }

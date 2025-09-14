@@ -131,6 +131,8 @@ public class KryptonProgressBar : Control, IContentValues
         _textShadowColor = Color.Empty;
         _showTextBackdrop = false;
         _textBackdropColor = Color.Empty;
+
+        OnlayoutInternal();
     }
 
     /// <inheritdoc />
@@ -679,26 +681,7 @@ public class KryptonProgressBar : Control, IContentValues
     /// <inheritdoc />
     protected override void OnLayout(LayoutEventArgs e)
     {
-        if (_palette != null)
-        {
-            // We want the inner part of the control to draw like a button.
-            var (barPaletteState, barState) = GetBarPaletteState();
-
-            // Get the renderer associated with this palette
-            IRenderer renderer = _palette.GetRenderer();
-
-            // Create a layout context used to allow the renderer to layout the content
-            using var viewContext = new ViewLayoutContext(this, renderer);
-
-            // Cleanup resources by disposing of old memento instance
-            _mementoContent?.Dispose();
-
-            // Ask the renderer to work out how the Content values will be laid out and
-            // return a memento object that we cache for use when actually performing painting
-            _mementoContent = renderer.RenderStandardContent.LayoutContent(viewContext, ClientRectangle, barPaletteState.PaletteContent!,
-                this, Orientation, barState);
-        }
-
+        OnlayoutInternal(e);
         base.OnLayout(e);
     }
 
@@ -1060,6 +1043,29 @@ public class KryptonProgressBar : Control, IContentValues
     #endregion
 
     #region Implementation
+    private void OnlayoutInternal(LayoutEventArgs? e = null)
+    {
+        if (_palette != null)
+        {
+            // We want the inner part of the control to draw like a button.
+            var (barPaletteState, barState) = GetBarPaletteState();
+
+            // Get the renderer associated with this palette
+            IRenderer renderer = _palette.GetRenderer();
+
+            // Create a layout context used to allow the renderer to layout the content
+            using var viewContext = new ViewLayoutContext(this, renderer);
+
+            // Cleanup resources by disposing of old memento instance
+            _mementoContent?.Dispose();
+
+            // Ask the renderer to work out how the Content values will be laid out and
+            // return a memento object that we cache for use when actually performing painting
+            _mementoContent = renderer.RenderStandardContent.LayoutContent(viewContext, ClientRectangle, barPaletteState.PaletteContent!,
+                this, Orientation, barState);
+        }
+    }
+
     // Find the correct state when getting ProgressBar values
     private (IPaletteTriple barPaletteState, PaletteState barState) GetBarPaletteState()
     {
