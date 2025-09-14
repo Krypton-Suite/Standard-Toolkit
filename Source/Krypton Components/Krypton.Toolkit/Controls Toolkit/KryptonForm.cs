@@ -227,6 +227,9 @@ public class KryptonForm : VisualForm,
         // Hook into value changes to keep them synchronized
         _themedSystemMenuValues.PropertyChanged += OnThemedSystemMenuValuesChanged;
 
+        // Initialize administrator mode detection
+        _ = GetIsInAdministratorMode();
+
         // Create the manager for handling tooltips
         ToolTipManager = new ToolTipManager(new ToolTipValues(null, GetDpiFactor)); // use default, as each button "could" have different values ??!!??
         ToolTipManager.ShowToolTip += OnShowToolTip;
@@ -1417,9 +1420,19 @@ public class KryptonForm : VisualForm,
     /// Gets the short text used as the main caption title.
     /// </summary>
     /// <returns>Title string.</returns>
-    public string GetShortText() =>
-        // Return the existing form text property.
-        Text;
+    public string GetShortText()
+    {
+        // Get the base form text
+        string titleText = Text;
+
+        // Append administrator suffix if enabled and running with elevated privileges
+        if (KryptonManager.UseAdministratorSuffix && IsInAdministratorMode)
+        {
+            titleText += $" ({KryptonManager.Strings.GeneralStrings.Administrator})";
+        }
+
+        return titleText;
+    }
 
     /// <summary>
     /// Gets the long text used as the secondary caption title.

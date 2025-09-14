@@ -26,6 +26,7 @@ public sealed class KryptonManager : Component
     // Initialize the global state
     private static bool _globalApplyToolstrips = true;
     private static bool _globalUseThemeFormChromeBorderWidth = true;
+    private static bool _globalShowAdministratorSuffix = true;
     internal static bool _globalUseKryptonFileDialogs = true;
     private static Font? _baseFont;
 
@@ -212,6 +213,7 @@ public sealed class KryptonManager : Component
                                ShouldSerializeToolkitColors() ||
                                ShouldSerializeGlobalApplyToolstrips() ||
                                ShouldSerializeGlobalUseThemeFormChromeBorderWidth() ||
+                               ShouldSerializeShowAdministratorSuffix() ||
                                ShouldSerializeToolkitStrings() ||
                                ShouldSerializeUseKryptonFileDialogs() ||
                                ShouldSerializeBaseFont() ||
@@ -226,6 +228,7 @@ public sealed class KryptonManager : Component
         ResetToolkitColors();
         ResetGlobalApplyToolstrips();
         ResetGlobalUseThemeFormChromeBorderWidth();
+        ResetShowAdministratorSuffix();
         ResetToolkitStrings();
         ResetUseKryptonFileDialogs();
         ResetBaseFont();
@@ -403,6 +406,20 @@ public sealed class KryptonManager : Component
 
     private void ResetToolkitColors() => Colors.Reset();
 
+    /// <summary>
+    /// Gets or sets a value indicating if the administrator suffix should be shown in KryptonForm title bars.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Should the administrator suffix be shown in KryptonForm title bars when running with elevated privileges.")]
+    [DefaultValue(true)]
+    public bool ShowAdministratorSuffix
+    {
+        get => UseAdministratorSuffix;
+        set => UseAdministratorSuffix = value;
+    }
+    private bool ShouldSerializeShowAdministratorSuffix() => !UseAdministratorSuffix;
+    private void ResetShowAdministratorSuffix() => UseAdministratorSuffix = true;
+
     #endregion
 
     #region Static Properties
@@ -418,6 +435,27 @@ public sealed class KryptonManager : Component
     /// <summary>Gets the colors.</summary>
     /// <value>The colors.</value>
     public static KryptonColorStorage Colors { get; } = new KryptonColorStorage();
+
+    #region Static ShowAdministratorSuffix
+    /// <summary>
+    /// Gets and sets the global flag that decides if administrator suffix should be shown in KryptonForm title bars.
+    /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public static bool UseAdministratorSuffix
+    {
+        get => _globalShowAdministratorSuffix;
+
+        set
+        {
+            // Only interested if the value changes
+            if (_globalShowAdministratorSuffix != value)
+            {
+                // Use new value
+                _globalShowAdministratorSuffix = value;
+            }
+        }
+    }
+    #endregion
 
     #endregion
 
