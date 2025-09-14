@@ -12,36 +12,30 @@
 
 namespace Krypton.Toolkit;
 
-public class KryptonTaskDialogElementHyperLink : KryptonTaskDialogElementSingleLineControlBase,
-    IKryptonTaskDialogElementDescription,
-    IKryptonTaskDialogElementUrl
+public class KryptonTaskDialogElementProgresBar : KryptonTaskDialogElementSingleLineControlBase,
+    IKryptonTaskDialogElementDescription
 {
     #region Fields
     private KryptonWrapLabel _description;
-    private KryptonLinkLabel _linkLabel;
+    private KryptonProgressBar _progressBar;
     private bool _disposed;
     #endregion
 
-    #region Events
-    /// <summary>
-    /// Subscribe to be notifed when the user clicks the hyperlink.
-    /// </summary>
-    public event Action LinkClicked;
-    #endregion
-
     #region Identity
-    public KryptonTaskDialogElementHyperLink(KryptonTaskDialogDefaults taskDialogDefaults) 
+    public KryptonTaskDialogElementProgresBar(KryptonTaskDialogDefaults taskDialogDefaults) 
         : base(taskDialogDefaults, 2)
     {
         _disposed = false;
-
         _description = new();
-        _linkLabel = new();
+        _progressBar = new();
+
+        ProgressBar = new KryptonTaskDialogElementProgresBarProperties(_progressBar, OnSizeChanged, this);
+
         SetupPanel();
 
         ShowDescription = true;
         // Description will trigger theme/size changes 
-        // LinkLabel and OnPalettePaint don't react correct in this case.
+        // ProgressBar reacts to PalettePaint
         _description.SizeChanged += OnDescriptionSizeChanged;
 
         LayoutDirty = true;
@@ -50,28 +44,6 @@ public class KryptonTaskDialogElementHyperLink : KryptonTaskDialogElementSingleL
     #endregion
 
     #region Protected/Internal (override)
-    /// <inheritdoc/>
-    protected override void OnSizeChanged(bool performLayout = false)
-    {
-        // Updates / changes are deferred if the element is not visible or until PerformLayout is called
-        if (LayoutDirty && (Visible || performLayout))
-        {
-            // Get the description size
-            int height = ShowDescription
-                ? _description.Height + _description.Margin.Bottom
-                : 0;
-
-            // Size the panel
-            Panel.Height = Defaults.PanelTop + Defaults.PanelBottom + _linkLabel.Height + height;
-
-            // Tell everybody about it when visible.
-            base.OnSizeChanged(performLayout);
-
-            // Done
-            LayoutDirty = false;
-        }
-    }
-
     /// <inheritdoc/>
     internal override void PerformLayout()
     {
@@ -92,32 +64,28 @@ public class KryptonTaskDialogElementHyperLink : KryptonTaskDialogElementSingleL
         base.OnGlobalPaletteChanged(sender, e);
 
         // Safeguard against an "early" call from OnGlobalPaletteChanged()
-        if (_description is not null && _linkLabel is not null)
+        if (_description is not null && _progressBar is not null)
         {
-            UpdateLinkColors();
             LayoutDirty = true;
+            OnSizeChanged();
+        }
+    }
+
+    protected override void OnPalettePaint(object? sender, PaletteLayoutEventArgs e)
+    {
+        base.OnPalettePaint(sender, e);
+
+        // Flag dirty, and if visible call OnSizeChanged,
+        // otherwise leave it deferred for a call from PerformLayout.
+        LayoutDirty = true;
+        if (Visible)
+        {
             OnSizeChanged();
         }
     }
     #endregion
 
     #region Public (override)
-    /// <summary>
-    /// Hyperlink Url
-    /// </summary>
-    public string Url 
-    {
-        get => _linkLabel.Text;
-
-        set
-        {
-            if (_linkLabel.Text != value)
-            {
-                _linkLabel.Text = value;
-            }
-        }
-    }
-
     /// <inheritdoc/>
     public override Color ForeColor
     {
@@ -161,9 +129,37 @@ public class KryptonTaskDialogElementHyperLink : KryptonTaskDialogElementSingleL
             }
         }
     }
+
+    /// <summary>
+    /// Configure the ProgressBar.
+    /// </summary>
+    [TypeConverter(typeof(ExpandableObjectConverter))]
+    public KryptonTaskDialogElementProgresBarProperties ProgressBar { get; }
     #endregion
 
     #region Private
+    protected override void OnSizeChanged(bool performLayout = false)
+    {
+        Debug.Print("OnSizeChanged");
+        // Updates / changes are deferred if the element is not visible or until PerformLayout is called
+        if (LayoutDirty && (Visible || performLayout))
+        {
+            // Get the description size
+            int height = ShowDescription
+                ? _description.Height + _description.Margin.Bottom
+                : 0;
+
+            // Size the panel
+            Panel.Height = Defaults.PanelTop + Defaults.PanelBottom + _progressBar.Height + _progressBar.Margin.Bottom + height;
+
+            // Tell everybody about it when visible.
+            base.OnSizeChanged(performLayout);
+
+            // Done
+            LayoutDirty = false;
+        }
+    }
+
     private void SetupPanel()
     {
         // Label holds the description that goes with the hyperlink
@@ -172,28 +168,14 @@ public class KryptonTaskDialogElementHyperLink : KryptonTaskDialogElementSingleL
         _description.Margin = new Padding(0, 0, 0, Defaults.ComponentSpace);
 
         // The hyperlink
-        _linkLabel.AutoSize = true;
-        _linkLabel.Padding = Defaults.NullPadding;
-        _linkLabel.Margin = Defaults.NullPadding;
-        _linkLabel.LinkClicked += OnLinkClicked;
+        _progressBar.Width = Defaults.ClientWidth - Defaults.PanelLeft - Defaults.PanelRight;
+        _progressBar.Margin = new Padding(0, 0, 0, Defaults.ComponentSpace);
+        _progressBar.Padding = Defaults.NullPadding;
+        _progressBar.Margin = Defaults.NullMargin;
 
         // add the controls
         _tlp.Controls.Add(_description, 0, 0);
-        _tlp.Controls.Add(_linkLabel, 0, 1);
-    }
-
-    private void UpdateLinkColors()
-    {
-        Color linkColor = _linkLabel.StateCommon.GetContentShortTextColor1(PaletteState.LinkNotVisitedOverride);
-        _linkLabel.OverrideFocus.ShortText.Color1      = linkColor;
-        _linkLabel.OverrideNotVisited.ShortText.Color1 = linkColor;
-        _linkLabel.OverridePressed.ShortText.Color1    = linkColor;
-        _linkLabel.OverrideVisited.ShortText.Color1    = linkColor;
-    }
-
-    private void OnLinkClicked(object? sender, EventArgs e)
-    {
-        LinkClicked?.Invoke();
+        _tlp.Controls.Add(_progressBar, 0, 1);
     }
     #endregion
 
@@ -202,7 +184,6 @@ public class KryptonTaskDialogElementHyperLink : KryptonTaskDialogElementSingleL
     {
         if (!_disposed && disposing)
         {
-            _linkLabel.LinkClicked -= OnLinkClicked;
             _description.SizeChanged -= OnDescriptionSizeChanged;
             _disposed = true;
         }
@@ -211,4 +192,3 @@ public class KryptonTaskDialogElementHyperLink : KryptonTaskDialogElementSingleL
     }
     #endregion
 }
-

@@ -95,7 +95,7 @@ public class KryptonTaskDialogElementContentTest : KryptonTaskDialogElementBase,
         OnSizeChanged(true);
     }
 
-    private void OnSizeChanged(bool performLayout = false)
+    protected override void OnSizeChanged(bool performLayout = false)
     {
         if (Visible || performLayout)
         {
@@ -120,7 +120,7 @@ public class KryptonTaskDialogElementContentTest : KryptonTaskDialogElementBase,
             Panel.Height += _description.GetDesiredVisibility() ? height + _description.Margin.Top + _description.Margin.Bottom : 0;
 
             //// Tell everybody about it
-            base.OnSizeChanged();
+            base.OnSizeChanged(performLayout);
         }
     }
 
