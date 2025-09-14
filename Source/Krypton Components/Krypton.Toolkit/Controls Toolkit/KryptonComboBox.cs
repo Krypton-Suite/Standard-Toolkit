@@ -1838,7 +1838,7 @@ public class KryptonComboBox : VisualControlBase,
     /// </summary>
     [Category(@"Data")]
     [Description(@"The items in the KryptonComboBox.")]
-    [Editor(@"System.Windows.Forms.Design.ListControlStringCollectionEditor", typeof(UITypeEditor))]
+    [Editor("System.Windows.Forms.Design.ListControlStringCollectionEditor, System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     [MergableProperty(false)]
     [Localizable(true)]
@@ -2770,7 +2770,7 @@ public class KryptonComboBox : VisualControlBase,
     /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
     protected override void OnPaletteNeedPaint(object? sender, NeedLayoutEventArgs e)
     {
-        base.OnPaletteChanged(e);
+        base.OnPaletteNeedPaint(sender, e);
         _comboBox.Invalidate();
     }
 
