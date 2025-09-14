@@ -175,6 +175,39 @@ public class KryptonTaskDialogElementFooterBar : KryptonTaskDialogElementBase,
 
     #region Overrides
     /// <inheritdoc/>
+    protected override void OnSizeChanged(bool performLayout = false)
+    {
+        // Updates / changes are deferred if the element is not visible or until PerformLayout is called
+        if (LayoutDirty && (Visible || performLayout))
+        {
+            // First set the size to zero so the images don't interfere with the tlp height
+            _footNotePictureBox.Width = 0;
+            _footNotePictureBox.Height = 0;
+            _expanderButton.Width = 0;
+            _expanderButton.Height = 0;
+
+            // update the images first to make them of the same size.
+            UpdateFootNoteIcon();
+            UpdateExpanderImage();
+
+            // and make'm visible
+            _footNotePictureBox.Width = _tlp.Height;
+            _footNotePictureBox.Height = _tlp.Height;
+            _expanderButton.Width = _tlp.Height;
+            _expanderButton.Height = _tlp.Height;
+
+            // Size the panel. Add an extra PanelBottom to gie it some more space at the border
+            Panel.Height = _tlp.Height + Defaults.PanelTop + Defaults.PanelBottom + Defaults.PanelBottom;
+
+            // Tell everybody about it when visible.
+            base.OnSizeChanged(performLayout);
+            
+            // Done
+            LayoutDirty = false;
+        }
+    }
+
+    /// <inheritdoc/>
     internal override void PerformLayout()
     {
         base.PerformLayout();
@@ -226,41 +259,6 @@ public class KryptonTaskDialogElementFooterBar : KryptonTaskDialogElementBase,
     #endregion
 
     #region Private
-    private void OnSizeChanged(bool performLayout = false)
-    {
-        // Updates / changes are deferred if the element is not visible or until PerformLayout is called
-        if (LayoutDirty && (Visible || performLayout))
-        {
-            // First set the size to zero so the images don't interfere with the tlp height
-            _footNotePictureBox.Width  = 0;
-            _footNotePictureBox.Height = 0;
-            _expanderButton.Width      = 0;
-            _expanderButton.Height     = 0;
-
-            // update the images first to make them of the same size.
-            UpdateFootNoteIcon();
-            UpdateExpanderImage();
-
-            // and make'm visible
-            _footNotePictureBox.Width  = _tlp.Height;
-            _footNotePictureBox.Height = _tlp.Height;
-            _expanderButton.Width      = _tlp.Height;
-            _expanderButton.Height     = _tlp.Height;
-
-            // Size the panel. Add an extra PanelBottom to gie it some more space at the border
-            Panel.Height = _tlp.Height + Defaults.PanelTop + Defaults.PanelBottom + Defaults.PanelBottom;
-
-            // Tell everybody about it when visible.
-            if (!performLayout)
-            {
-                base.OnSizeChanged();
-            }
-
-            // Done
-            LayoutDirty = false;
-        }
-    }
-
     private void UpdateFootNoteIcon()
     {
         if (IconType != KryptonTaskDialogIconType.None)
