@@ -81,6 +81,23 @@ public class KryptonTaskDialogElementCommonButtons : KryptonTaskDialogElementBas
 
     #region Protected/Internal
     /// <inheritdoc/>
+    protected override void OnSizeChanged(bool performLayout = false)
+    {
+        // Updates / changes are deferred if the element is not visible or until PerformLayout is called
+        if (LayoutDirty && (Visible || performLayout))
+        {
+            // Button size is set through UpdateButtonSize() called from the constructor and OnPalettePaint.
+            Panel.Height = _btnOk.Height + Defaults.PanelTop + Defaults.PanelBottom;
+
+            // Done
+            LayoutDirty = false;
+
+            // Tell everybody about it when visible.
+            base.OnSizeChanged(performLayout);
+        }
+    }
+
+    /// <inheritdoc/>
     protected override void OnPalettePaint(object? sender, PaletteLayoutEventArgs e)
     {
         base.OnPalettePaint(sender, e);
@@ -181,25 +198,6 @@ public class KryptonTaskDialogElementCommonButtons : KryptonTaskDialogElementBas
     #endregion
 
     #region Private
-    private void OnSizeChanged(bool performLayout = false)
-    {
-        // Updates / changes are deferred if the element is not visible or until PerformLayout is called
-        if (LayoutDirty && (Visible || performLayout))
-        {
-            // Button size is set through UpdateButtonSize() called from the constructor and OnPalettePaint.
-            Panel.Height = _btnOk.Height + Defaults.PanelTop + Defaults.PanelBottom;
-
-            // Done
-            LayoutDirty = false;
-
-            // Tell everybody about it when visible.
-            if (!performLayout)
-            {
-                base.OnSizeChanged();
-            }
-        }
-    }
-
     private void SetupTableLayoutPanel()
     {
         _tlp = new()
