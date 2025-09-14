@@ -62,6 +62,23 @@ public class KryptonTaskDialogElementComboBox : KryptonTaskDialogElementSingleLi
 
     #region Override
     /// <inheritdoc/>
+    protected override void OnSizeChanged(bool performLayout = false)
+    {
+        if (LayoutDirty && (Visible || performLayout))
+        {
+            int height = ShowDescription
+                ? _description.Height + _description.Margin.Bottom :
+                0;
+
+            Panel.Height = Defaults.PanelTop + Defaults.PanelBottom + _comboBox.Height + height;
+
+            base.OnSizeChanged(performLayout);
+
+            LayoutDirty = false;
+        }
+    }
+
+    /// <inheritdoc/>
     internal override void PerformLayout()
     {
         base.PerformLayout();
@@ -182,7 +199,7 @@ public class KryptonTaskDialogElementComboBox : KryptonTaskDialogElementSingleLi
     {
         // the description that goes with the combobox
         _description.AutoSize = true;
-        _description.Padding = _nullPadding;
+        _description.Padding = Defaults.NullPadding;
         _description.Margin = new(0, 0, 0, Defaults.ComponentSpace);
 
         _comboBox.AutoSize = true;
@@ -204,25 +221,6 @@ public class KryptonTaskDialogElementComboBox : KryptonTaskDialogElementSingleLi
     {
         LayoutDirty = true;
         OnSizeChanged();
-    }
-
-    private void OnSizeChanged(bool performLayout = false)
-    {
-        if (LayoutDirty && (Visible || performLayout))
-        {
-            int height = ShowDescription 
-                ? _description.Height + _description.Margin.Bottom : 
-                0;
-
-            Panel.Height = Defaults.PanelTop + Defaults.PanelBottom + _comboBox.Height + height;
-                
-            if (!performLayout)
-            {
-                base.OnSizeChanged();
-            }
-
-            LayoutDirty = false;
-        }
     }
 
     private void OnSelectedIndexChanged(object? sender, EventArgs e)

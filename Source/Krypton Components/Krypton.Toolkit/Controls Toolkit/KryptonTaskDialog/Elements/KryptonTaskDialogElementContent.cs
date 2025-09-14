@@ -51,39 +51,8 @@ public class KryptonTaskDialogElementContent : KryptonTaskDialogElementBase,
     #endregion
 
     #region Protected/Internal
-    protected override void OnPalettePaint(object? sender, PaletteLayoutEventArgs e)
-    {
-        base.OnPalettePaint(sender, e);
-
-        // Flag dirty, and if visible call OnSizeChanged,
-        // otherwise leave it deferred for a call from PerformLayout.
-        LayoutDirty = true;
-        if (Visible)
-        {
-            OnSizeChanged();
-        }
-    }
-
-    internal override void PerformLayout()
-    {
-        base.PerformLayout();
-        OnSizeChanged(true);
-    }
-
-    public override bool Visible 
-    { 
-        get => base.Visible;
-
-        set
-        {
-            base.Visible = value;
-            OnSizeChanged();
-        }
-    }
-    #endregion
-
-    #region Private
-    private void OnSizeChanged(bool performLayout = false)
+    /// <inheritdoc/>
+    protected override void OnSizeChanged(bool performLayout = false)
     {
         // Updates / changes are deferred if the element is not visible or until PerformLayout is called
         if (LayoutDirty && (Visible || performLayout))
@@ -100,13 +69,42 @@ public class KryptonTaskDialogElementContent : KryptonTaskDialogElementBase,
             _textControl.Height = height;
 
             // Tell everybody about it when visible.
-            if (!performLayout)
-            {
-                base.OnSizeChanged();
-            }
+            base.OnSizeChanged(performLayout);
 
             // Done
             LayoutDirty = false;
+        }
+    }
+
+    protected override void OnPalettePaint(object? sender, PaletteLayoutEventArgs e)
+    {
+        base.OnPalettePaint(sender, e);
+
+        // Flag dirty, and if visible call OnSizeChanged,
+        // otherwise leave it deferred for a call from PerformLayout.
+        LayoutDirty = true;
+        if (Visible)
+        {
+            OnSizeChanged();
+        }
+    }
+
+    /// <inheritdoc/>
+    internal override void PerformLayout()
+    {
+        base.PerformLayout();
+        OnSizeChanged(true);
+    }
+
+    /// <inheritdoc/>
+    public override bool Visible 
+    { 
+        get => base.Visible;
+
+        set
+        {
+            base.Visible = value;
+            OnSizeChanged();
         }
     }
     #endregion
