@@ -543,7 +543,7 @@ Cannot add items to KryptonGroupBox in WinForms Designer
 * Complete [#827](https://github.com/Krypton-Suite/Standard-Toolkit/issues/827), **[Breaking Change]** Expose IPalette / PaletteBase as a public interface in KryptonManager
 * Resolved [#891](https://github.com/Krypton-Suite/Standard-Toolkit/issues/891), `LabelStyle` does not appear to have a default designer value
 * Implemented [#887](https://github.com/Krypton-Suite/Standard-Toolkit/issues/887), A 'LinkLabel' version of the `KryptonWrapLabel`
-ImageResourcesed the display of the initial selected theme in the "ThemeSelection ComboBox"
+* Fixed the display of the initial selected theme in the "ThemeSelection ComboBox"
 * Resolved [#876](https://github.com/Krypton-Suite/Standard-Toolkit/issues/876), `Office 365 - Black` does not display text correctly
 * Resolved [#874](https://github.com/Krypton-Suite/Standard-Toolkit/issues/874), 80.xx Canary NuGet text is incorrect
 * Implemented [#866](https://github.com/Krypton-Suite/Standard-Toolkit/issues/866), `KryptonMessageBox` Option to use system icons
@@ -620,7 +620,7 @@ ImageResourcesed the display of the initial selected theme in the "ThemeSelectio
 * Full/Lite NuGet packages - as support for .NET 5 ended in May, there are now 2 types of NuGet package.
 	- Full - Supports every framework from .NET Framework 4.6.2 to .NET 6
 	- Lite - Supports .NET Framework 4.8, .NET Core 3.1 and .NET 6
-ImageResourcesed grid cell selection colours for dark/light mode themes
+* Fixed grid cell selection colours for dark/light mode themes
 * Blue dark mode themes now have a darker alternate colour
 * Added new `GetPaletteModeManager()` method to the `ThemeManager` API, to return the current `PaletteModeManager` of the selected `KryptonManager`
 * Update documentation for `PaletteMode` and `PaletteModeManager`
@@ -862,7 +862,7 @@ ImageResourcesed grid cell selection colours for dark/light mode themes
 =======
 
 ## 2021-06-04 - Build 2106.1 - June 2021 (Update 1)
-ImageResources NuGet package descriptions
+* Fixed NuGet package descriptions
 * Disabled `KryptonListView`, `KryptonToolStrip` and `KryptonStatusStrip` - to return in a future update
 
 =======
