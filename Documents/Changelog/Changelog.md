@@ -4,6 +4,7 @@
 
 ## 2025-11-xx - Build 2511 (V10 - alpha) - November 2025
 * Resolved [#2480](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2480). `KryptonForm`'s 'InternalPanel' designer issues
+* Resolved [#2495](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2495), `KryptonProgressBar` private field `_mementoContent` can be null.
 * Resolved [#2490](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2490), `KryptonComboBox` uses an incorrect Items editor string.
 * Resolved [#2487](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2487), `PaletteBase.PalettePaint` event is not synchronized toward the user.
 * Implemented [#2446](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2446), Add `build.yml` to `.github/workflows`.
