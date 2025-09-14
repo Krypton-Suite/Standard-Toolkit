@@ -3,6 +3,7 @@
 ====
 
 ## 2025-11-xx - Build 2511 (V10 - alpha) - November 2025
+* Implemented [#892](https://github.com/Krypton-Suite/Standard-Toolkit/issues/892), `KryptonButton` UAC Shield icons need to match the OS style
 * Resolved [#2490](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2490), `KryptonComboBox` uses an incorrect Items editor string.
 * Resolved [#2487](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2487), `PaletteBase.PalettePaint` event is not synchronized toward the user.
 * Implemented [#2446](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2446), Add `build.yml` to `.github/workflows`.
@@ -15,7 +16,7 @@
 * Resolved [#2439](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2439), Fix `KDGVDateTimePickerCell` auto-sizing and dropdown glyphs.
 * Resolved [#2448](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2448), `KryptonForm` does not display components without designer source.
 * Implemented [#2444](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2444), Add `AGENTS.md` file.
-* Fix [#1199](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1199), Fix exception in `KryptonDropButton` due to wrong DialogResult.
+* Resolved [#1199](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1199), Fix exception in `KryptonDropButton` due to wrong DialogResult.
 * Implemented [#2442](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2442), `KryptonColorButton` and related components with `PaletteColors` mode.
 * Implemented [#2396](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2396), Added ModernBuild terminal.gui app to solution.
 * Implemented [#984](https://github.com/Krypton-Suite/Standard-Toolkit/issues/984), `KryptonForm` using `SizeGripStyle` for grippie.
@@ -542,7 +543,7 @@ Cannot add items to KryptonGroupBox in WinForms Designer
 * Complete [#827](https://github.com/Krypton-Suite/Standard-Toolkit/issues/827), **[Breaking Change]** Expose IPalette / PaletteBase as a public interface in KryptonManager
 * Resolved [#891](https://github.com/Krypton-Suite/Standard-Toolkit/issues/891), `LabelStyle` does not appear to have a default designer value
 * Implemented [#887](https://github.com/Krypton-Suite/Standard-Toolkit/issues/887), A 'LinkLabel' version of the `KryptonWrapLabel`
-* Fixed the display of the initial selected theme in the "ThemeSelection ComboBox"
+ImageResourcesed the display of the initial selected theme in the "ThemeSelection ComboBox"
 * Resolved [#876](https://github.com/Krypton-Suite/Standard-Toolkit/issues/876), `Office 365 - Black` does not display text correctly
 * Resolved [#874](https://github.com/Krypton-Suite/Standard-Toolkit/issues/874), 80.xx Canary NuGet text is incorrect
 * Implemented [#866](https://github.com/Krypton-Suite/Standard-Toolkit/issues/866), `KryptonMessageBox` Option to use system icons
@@ -619,7 +620,7 @@ Cannot add items to KryptonGroupBox in WinForms Designer
 * Full/Lite NuGet packages - as support for .NET 5 ended in May, there are now 2 types of NuGet package.
 	- Full - Supports every framework from .NET Framework 4.6.2 to .NET 6
 	- Lite - Supports .NET Framework 4.8, .NET Core 3.1 and .NET 6
-* Fixed grid cell selection colours for dark/light mode themes
+ImageResourcesed grid cell selection colours for dark/light mode themes
 * Blue dark mode themes now have a darker alternate colour
 * Added new `GetPaletteModeManager()` method to the `ThemeManager` API, to return the current `PaletteModeManager` of the selected `KryptonManager`
 * Update documentation for `PaletteMode` and `PaletteModeManager`
@@ -861,7 +862,7 @@ Cannot add items to KryptonGroupBox in WinForms Designer
 =======
 
 ## 2021-06-04 - Build 2106.1 - June 2021 (Update 1)
-* Fix NuGet package descriptions
+ImageResources NuGet package descriptions
 * Disabled `KryptonListView`, `KryptonToolStrip` and `KryptonStatusStrip` - to return in a future update
 
 =======

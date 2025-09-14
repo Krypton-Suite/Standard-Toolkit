@@ -98,18 +98,8 @@ internal static class IconHelper
             case InformationBoxIcon.Information:
                 return CreateIconFromImage(MessageBoxImageResources.GenericInformation, null);
             case InformationBoxIcon.Shield:
-                if (OSUtilities.IsAtLeastWindowsEleven)
-                {
-                    return CreateIconFromImage(UACShieldIconResources.UACShieldWindows11, null);
-                }
-                else if (OSUtilities.IsWindowsTen)
-                {
-                    return CreateIconFromImage(UACShieldIconResources.UACShieldWindows10, null);
-                }
-                else
-                {
-                    return CreateIconFromImage(UACShieldIconResources.UACShieldWindows7881, null);
-                }
+                var shieldIcon = GraphicsExtensions.ExtractIconFromImageres((int)ImageresIconID.Shield);
+                return CreateIconFromImage(shieldIcon?.ToBitmap()!, null);
             case InformationBoxIcon.WindowsLogo:
                 break;
             case InformationBoxIcon.Application:
