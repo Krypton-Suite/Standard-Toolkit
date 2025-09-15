@@ -4,6 +4,8 @@
 
 The KryptonWebView2 control requires the Microsoft WebView2 SDK assemblies to be available for compilation. This document explains how to set up the WebView2 SDK without using NuGet dependencies.
 
+**Quick Start**: Run `run.cmd` and select option 7 "Setup WebView2 SDK" for automated setup.
+
 ## Setup Options
 
 ### Option 1: Manual Download (Recommended)
@@ -47,17 +49,28 @@ If you want to quickly get the assemblies without manual download:
    dotnet remove package Microsoft.Web.WebView2
    ```
 
-### Option 3: Using Setup Script
+### Option 3: Using Setup Script (Recommended)
 
-Run the provided setup script:
+#### Method A: Through Build System Menu
+1. **Run the Build System**
+   ```cmd
+   run.cmd
+   ```
+2. **Select Option 7**: "Setup WebView2 SDK"
+3. **Follow the automated process**
+
+#### Method B: Direct Script Execution
+Run the provided setup script directly:
 ```cmd
 Setup-WebView2SDK.cmd
 ```
 
-This script will:
-- Create the WebView2SDK directory
-- Provide instructions for manual assembly copying
-- Guide you through the setup process
+Both methods will:
+- Check if WebView2 SDK is already installed
+- Automatically download and install WebView2 SDK via NuGet (if needed)
+- Copy required assemblies to the WebView2SDK directory
+- Clean up temporary NuGet references
+- Provide clear feedback on the setup status
 
 ## File Structure After Setup
 
@@ -69,11 +82,13 @@ Standard-Toolkit/
 │       └── Krypton.Toolkit/
 │           └── Controls Toolkit/
 │               └── KryptonWebView2.cs
-├── WebView2SDK/                    ← Created by you
+├── Scripts/
+│   └── Setup-WebView2SDK.cmd
+├── WebView2SDK/                    ← Created by setup script
 │   ├── Microsoft.Web.WebView2.Core.dll
 │   ├── Microsoft.Web.WebView2.WinForms.dll
 │   └── WebView2Loader.dll
-└── Setup-WebView2SDK.cmd
+└── run.cmd                         ← Updated with WebView2 SDK setup option
 ```
 
 ## Verification

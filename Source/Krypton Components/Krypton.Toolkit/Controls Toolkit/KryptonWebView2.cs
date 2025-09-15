@@ -10,6 +10,7 @@
  */
 #endregion
 
+// Do not remove this using statement, it is used for the WebView2 control
 using Microsoft.Web.WebView2.WinForms;
 
 namespace Krypton.Toolkit;
@@ -61,16 +62,20 @@ namespace Krypton.Toolkit;
 [Designer(typeof(KryptonWebView2Designer))]
 [DesignerCategory(@"code")]
 [Description(@"Enables the user to browse web pages using the modern WebView2 engine with Krypton theming support.")]
+[CLSCompliant(false)]
 public class KryptonWebView2 : WebView2
 {
     #region Instance Fields
+
     private PaletteBase _palette;
     private readonly PaletteMode _paletteMode = PaletteMode.Global;
     private KryptonContextMenu? _kryptonContextMenu;
     private IRenderer _renderer;
-    #endregion Instance Fields
+
+    #endregion
 
     #region Identity
+
     /// <summary>
     /// Initialize a new instance of the KryptonWebView2 class.
     /// </summary>
@@ -85,7 +90,7 @@ public class KryptonWebView2 : WebView2
     /// <item><description>Registers for global palette change notifications</description></item>
     /// </list>
     /// <para>
-    /// Note: The WebView2 engine itself is not initialized until <see cref="EnsureCoreWebView2Async()"/>
+    /// Note: The WebView2 engine itself is not initialized until EnsureCoreWebView2Async()
     /// is called. This allows for better error handling and async initialization.
     /// </para>
     /// </remarks>
@@ -147,11 +152,13 @@ public class KryptonWebView2 : WebView2
 
         base.Dispose(disposing);
     }
-    #endregion Identity
+
+    #endregion
 
     #region Public
+
     /// <summary>
-    /// Gets and sets the KryptonContextMenu to show when right clicked.
+    /// Gets and sets the KryptonContextMenu to show when right-clicked.
     /// </summary>
     /// <value>
     /// A <see cref="KryptonContextMenu"/> instance that will be displayed when the user right-clicks
@@ -206,6 +213,10 @@ public class KryptonWebView2 : WebView2
             }
         }
     }
+
+    #endregion
+
+    #region Protected Overrides
 
     /// <summary>
     /// Process Windows-based messages.
@@ -285,7 +296,7 @@ public class KryptonWebView2 : WebView2
         // because it has been disposed.
         KryptonContextMenu = null;
 
-    #endregion Public
+    #endregion
 
     #region Palette Controls
 
@@ -329,7 +340,7 @@ public class KryptonWebView2 : WebView2
     /// </summary>
     /// <param name="sender">Source of the event.</param>
     /// <param name="e">An EventArgs that contains the event data.</param>
-    protected virtual void OnGlobalPaletteChanged(object sender, EventArgs e)
+    protected virtual void OnGlobalPaletteChanged(object? sender, EventArgs e)
     {
         // We only care if we are using the global palette
         if (_paletteMode == PaletteMode.Global)
@@ -400,5 +411,5 @@ public class KryptonWebView2 : WebView2
     [EditorBrowsable(EditorBrowsableState.Never)]
     public PaletteBase GetResolvedPalette() => _palette;
 
-    #endregion Palette Controls
+    #endregion
 }

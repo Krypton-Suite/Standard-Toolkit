@@ -1,12 +1,10 @@
-:: Last updated: Wednesday 21st August, 2024 @ 19:00
-
 @echo off
 
 title Krypton Toolkit Build System
 
 cls
 
-@echo Welcome to the Krypton Toolkit Build system, version: 2.4. Please select an option below.
+@echo Welcome to the Krypton Toolkit Build system, version: 2.4a. Please select an option below.
 echo:
 @echo ==============================================================================================
 echo:
@@ -16,17 +14,18 @@ echo 3. Create NuGet packages
 echo 4. Build and Pack Toolkit
 echo 5. Debug project
 echo 6. NuGet Tools
-::echo 7. Miscellaneous tasks
-echo 7. End
+echo 7. Setup WebView2 SDK
+echo 8. End
 echo:
-set /p answer="Enter number (1 - 7): "
+set /p answer="Enter number (1 - 8): "
 if %answer%==1 (goto cleanproject)
 if %answer%==2 (goto buildproject)
 if %answer%==3 (goto createnugetpackages)
 if %answer%==4 (goto buildandpacktoolkit)
 if %answer%==5 (goto debugproject)
 if %answer%==6 (goto nugettools)
-if %answer%==7 (goto exitbuildsystem)
+if %answer%==7 (goto setupwebview2sdk)
+if %answer%==8 (goto exitbuildsystem)
 
 @echo Invalid input, please try again.
 
@@ -46,8 +45,8 @@ echo 3. Create NuGet packages
 echo 4. Build and Pack Toolkit
 echo 5. Debug project
 echo 6. NuGet Tools
-::echo 7. Miscellaneous tasks
-echo 7. End
+echo 7. Setup WebView2 SDK
+echo 8. End
 echo:
 set /p answer="Enter number (1 - 8): "
 if %answer%==1 (goto cleanproject)
@@ -56,8 +55,8 @@ if %answer%==3 (goto createnugetpackages)
 if %answer%==4 (goto buildandpacktoolkit)
 if %answer%==5 (goto debugproject)
 if %answer%==6 (goto nugettools)
-::if %answer%==7 (goto miscellaneoustasks)
-if %answer%==7 (goto exitbuildsystem)
+if %answer%==7 (goto setupwebview2sdk)
+if %answer%==8 (goto exitbuildsystem)
 
 @echo Invalid input, please try again.
 
@@ -508,6 +507,22 @@ cd Scripts
 build-stable.cmd Pack
 
 :: ===================================================================================================
+
+:setupwebview2sdk
+cls
+
+echo Setting up WebView2 SDK for KryptonWebView2 control...
+echo.
+
+cd Scripts
+
+Setup-WebView2SDK.cmd
+
+cd ..
+
+pause
+
+goto mainmenu
 
 :clearlogfiles
 

@@ -58,26 +58,26 @@
 	</ItemGroup>
 
 	<!-- WebView2 SDK References -->
-	<ItemGroup>
-		<Reference Include="Microsoft.Web.WebView2.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=2a8ab48044d2601e, processorArchitecture=MSIL" Condition="$(TargetFramework.StartsWith('net4'))">
+	<ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
+		<Reference Include="Microsoft.Web.WebView2.Core, Version=1.0.2478.35, Culture=neutral, PublicKeyToken=2a8ab48044d2601e, processorArchitecture=MSIL">
 			<HintPath>..\..\..\WebView2SDK\Microsoft.Web.WebView2.Core.dll</HintPath>
-			<Private>False</Private>
+			<Private>True</Private>
 		</Reference>
-		<Reference Include="Microsoft.Web.WebView2.WinForms, Version=1.0.0.0, Culture=neutral, PublicKeyToken=2a8ab48044d2601e, processorArchitecture=MSIL" Condition="$(TargetFramework.StartsWith('net4'))">
+		<Reference Include="Microsoft.Web.WebView2.WinForms, Version=1.0.2478.35, Culture=neutral, PublicKeyToken=2a8ab48044d2601e, processorArchitecture=MSIL">
 			<HintPath>..\..\..\WebView2SDK\Microsoft.Web.WebView2.WinForms.dll</HintPath>
-			<Private>False</Private>
+			<Private>True</Private>
 		</Reference>
 	</ItemGroup>
 
 	<!-- WebView2 SDK References for .NET 8+ -->
 	<ItemGroup Condition="!$(TargetFramework.StartsWith('net4'))">
-		<Reference Include="Microsoft.Web.WebView2.Core" Condition="!$(TargetFramework.StartsWith('net4'))">
+		<Reference Include="Microsoft.Web.WebView2.Core">
 			<HintPath>..\..\..\WebView2SDK\Microsoft.Web.WebView2.Core.dll</HintPath>
-			<Private>False</Private>
+			<Private>True</Private>
 		</Reference>
-		<Reference Include="Microsoft.Web.WebView2.WinForms" Condition="!$(TargetFramework.StartsWith('net4'))">
+		<Reference Include="Microsoft.Web.WebView2.WinForms">
 			<HintPath>..\..\..\WebView2SDK\Microsoft.Web.WebView2.WinForms.dll</HintPath>
-			<Private>False</Private>
+			<Private>True</Private>
 		</Reference>
 	</ItemGroup>
 
