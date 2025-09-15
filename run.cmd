@@ -14,7 +14,7 @@ echo 3. Create NuGet packages
 echo 4. Build and Pack Toolkit
 echo 5. Debug project
 echo 6. NuGet Tools
-echo 7. Setup WebView2 SDK
+echo 7. WebView2 SDK Tools
 echo 8. End
 echo:
 set /p answer="Enter number (1 - 8): "
@@ -24,7 +24,7 @@ if %answer%==3 (goto createnugetpackages)
 if %answer%==4 (goto buildandpacktoolkit)
 if %answer%==5 (goto debugproject)
 if %answer%==6 (goto nugettools)
-if %answer%==7 (goto setupwebview2sdk)
+if %answer%==7 (goto webview2tools)
 if %answer%==8 (goto exitbuildsystem)
 
 @echo Invalid input, please try again.
@@ -45,7 +45,7 @@ echo 3. Create NuGet packages
 echo 4. Build and Pack Toolkit
 echo 5. Debug project
 echo 6. NuGet Tools
-echo 7. Setup WebView2 SDK
+echo 7. WebView2 SDK Tools
 echo 8. End
 echo:
 set /p answer="Enter number (1 - 8): "
@@ -55,7 +55,7 @@ if %answer%==3 (goto createnugetpackages)
 if %answer%==4 (goto buildandpacktoolkit)
 if %answer%==5 (goto debugproject)
 if %answer%==6 (goto nugettools)
-if %answer%==7 (goto setupwebview2sdk)
+if %answer%==7 (goto webview2tools)
 if %answer%==8 (goto exitbuildsystem)
 
 @echo Invalid input, please try again.
@@ -508,10 +508,35 @@ build-stable.cmd Pack
 
 :: ===================================================================================================
 
+:webview2tools
+cls
+
+echo WebView2 SDK Tools
+echo.
+echo 1. Setup WebView2 SDK
+echo 2. Update WebView2 SDK
+echo 3. Check WebView2 Version
+echo 4. Go back to main menu
+echo:
+set /p answer="Enter number (1 - 4): "
+if %answer%==1 (goto setupwebview2sdk)
+if %answer%==2 (goto updatewebview2sdk)
+if %answer%==3 (goto checkwebview2version)
+if %answer%==4 (goto mainmenu)
+
+@echo Invalid input, please try again.
+
+pause
+
+goto webview2tools
+
+:: ===================================================================================================
+
 :setupwebview2sdk
 cls
 
 echo Setting up WebView2 SDK for KryptonWebView2 control...
+echo This will install the latest stable WebView2 SDK version.
 echo.
 
 cd Scripts
@@ -522,7 +547,44 @@ cd ..
 
 pause
 
-goto mainmenu
+goto webview2tools
+
+:: ===================================================================================================
+
+:updatewebview2sdk
+cls
+
+echo Updating WebView2 SDK to latest version...
+echo This will check for updates and install the newest stable version.
+echo.
+
+cd Scripts
+
+Update-WebView2SDK.cmd
+
+cd ..
+
+pause
+
+goto webview2tools
+
+:: ===================================================================================================
+
+:checkwebview2version
+cls
+
+echo Checking WebView2 SDK version...
+echo.
+
+cd Scripts
+
+Check-WebView2Version.cmd
+
+cd ..
+
+pause
+
+goto webview2tools
 
 :clearlogfiles
 

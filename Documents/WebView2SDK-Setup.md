@@ -4,7 +4,9 @@
 
 The KryptonWebView2 control requires the Microsoft WebView2 SDK assemblies to be available for compilation. This document explains how to set up the WebView2 SDK without using NuGet dependencies.
 
-**Quick Start**: Run `run.cmd` and select option 7 "Setup WebView2 SDK" for automated setup.
+**Quick Start**: Run `run.cmd` and select option 7 "WebView2 SDK Tools" → option 1 "Setup WebView2 SDK" for automated setup.
+
+**Latest Version**: The setup automatically detects and uses the latest stable WebView2 SDK version from NuGet.
 
 ## Setup Options
 
@@ -35,12 +37,12 @@ If you want to quickly get the assemblies without manual download:
 
 1. **Install NuGet Package**
    ```cmd
-   dotnet add package Microsoft.Web.WebView2 --version 1.0.2440.47
+   dotnet add package Microsoft.Web.WebView2
    ```
 
 2. **Copy Assemblies**
    - Find the NuGet packages folder (usually `%USERPROFILE%\.nuget\packages\`)
-   - Navigate to `microsoft.web.webview2\1.0.2440.47\lib\net45\`
+   - Navigate to the latest version folder (e.g., `microsoft.web.webview2\1.0.3485.44\lib\net45\`)
    - Copy the required DLLs to the `WebView2SDK` folder
    - Remove the NuGet package reference if desired
 
@@ -56,8 +58,9 @@ If you want to quickly get the assemblies without manual download:
    ```cmd
    run.cmd
    ```
-2. **Select Option 7**: "Setup WebView2 SDK"
-3. **Follow the automated process**
+2. **Select Option 7**: "WebView2 SDK Tools"
+3. **Select Option 1**: "Setup WebView2 SDK"
+4. **Follow the automated process**
 
 #### Method B: Direct Script Execution
 Run the provided setup script directly:
@@ -67,10 +70,38 @@ Setup-WebView2SDK.cmd
 
 Both methods will:
 - Check if WebView2 SDK is already installed
-- Automatically download and install WebView2 SDK via NuGet (if needed)
+- Automatically detect the latest stable WebView2 SDK version
+- Download and install WebView2 SDK via NuGet (if needed)
 - Copy required assemblies to the WebView2SDK directory
+- Update project file with the latest version information
 - Clean up temporary NuGet references
 - Provide clear feedback on the setup status
+
+### Option 4: Update to Latest Version
+
+If you already have WebView2 SDK installed and want to update to the latest version:
+
+#### Method A: Through Build System Menu
+1. **Run the Build System**
+   ```cmd
+   run.cmd
+   ```
+2. **Select Option 7**: "WebView2 SDK Tools"
+3. **Select Option 2**: "Update WebView2 SDK"
+4. **Follow the automated update process**
+
+#### Method B: Direct Script Execution
+Run the update script directly:
+```cmd
+Scripts\Update-WebView2SDK.cmd
+```
+
+Both methods will:
+- Detect the latest stable WebView2 SDK version
+- Download the latest assemblies
+- Update the WebView2SDK directory
+- Update project file references
+- Preserve your existing setup
 
 ## File Structure After Setup
 
@@ -83,12 +114,15 @@ Standard-Toolkit/
 │           └── Controls Toolkit/
 │               └── KryptonWebView2.cs
 ├── Scripts/
-│   └── Setup-WebView2SDK.cmd
+│   ├── Setup-WebView2SDK.cmd
+│   ├── Update-WebView2SDK.cmd
+│   ├── Get-LatestWebView2Version.ps1
+│   └── Update-WebView2ProjectVersion.ps1
 ├── WebView2SDK/                    ← Created by setup script
 │   ├── Microsoft.Web.WebView2.Core.dll
 │   ├── Microsoft.Web.WebView2.WinForms.dll
 │   └── WebView2Loader.dll
-└── run.cmd                         ← Updated with WebView2 SDK setup option
+└── run.cmd                         ← Updated with WebView2 SDK Tools submenu
 ```
 
 ## Verification

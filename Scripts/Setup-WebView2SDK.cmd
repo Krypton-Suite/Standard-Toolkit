@@ -30,25 +30,43 @@ echo.
 echo WebView2 SDK assemblies are missing. Setting up automatically...
 echo.
 
+REM Get the latest WebView2 SDK version
+echo Detecting latest WebView2 SDK version...
+powershell -ExecutionPolicy Bypass -File "%~dp0Get-LatestWebView2Version.ps1" > temp_version.txt 2>&1
+set /p WEBVIEW2_VERSION=<temp_version.txt
+del temp_version.txt
+
+if "%WEBVIEW2_VERSION%"=="" (
+    echo Failed to detect latest version, using fallback version 1.0.2478.35
+    set WEBVIEW2_VERSION=1.0.2478.35
+) else (
+    echo Using WebView2 SDK version: %WEBVIEW2_VERSION%
+)
+
 REM Try to download and setup WebView2 SDK automatically
 echo Attempting to install WebView2 SDK via NuGet...
-dotnet add "Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj" package Microsoft.Web.WebView2 --version 1.0.2478.35
+dotnet add "Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj" package Microsoft.Web.WebView2 --version %WEBVIEW2_VERSION%
 
 if %ERRORLEVEL% EQU 0 (
     echo.
     echo Copying WebView2 assemblies to WebView2SDK folder...
     
     REM Copy the assemblies from NuGet cache
-    copy "%USERPROFILE%\.nuget\packages\microsoft.web.webview2\1.0.2478.35\lib\net45\Microsoft.Web.WebView2.Core.dll" "WebView2SDK\" >nul 2>&1
-    copy "%USERPROFILE%\.nuget\packages\microsoft.web.webview2\1.0.2478.35\lib\net45\Microsoft.Web.WebView2.WinForms.dll" "WebView2SDK\" >nul 2>&1
-    copy "%USERPROFILE%\.nuget\packages\microsoft.web.webview2\1.0.2478.35\runtimes\win-x64\native\WebView2Loader.dll" "WebView2SDK\" >nul 2>&1
+    copy "%USERPROFILE%\.nuget\packages\microsoft.web.webview2\%WEBVIEW2_VERSION%\lib\net45\Microsoft.Web.WebView2.Core.dll" "WebView2SDK\" >nul 2>&1
+    copy "%USERPROFILE%\.nuget\packages\microsoft.web.webview2\%WEBVIEW2_VERSION%\lib\net45\Microsoft.Web.WebView2.WinForms.dll" "WebView2SDK\" >nul 2>&1
+    copy "%USERPROFILE%\.nuget\packages\microsoft.web.webview2\%WEBVIEW2_VERSION%\runtimes\win-x64\native\WebView2Loader.dll" "WebView2SDK\" >nul 2>&1
     
     REM Remove the NuGet package reference since we're using local assemblies
     dotnet remove "Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj" package Microsoft.Web.WebView2
     
+    REM Update project file with the latest version
+    echo Updating project file with latest version...
+    powershell -ExecutionPolicy Bypass -File "%~dp0Update-WebView2ProjectVersion.ps1"
+    
     echo.
     echo WebView2 SDK setup completed successfully!
     echo.
+    echo Installed version: %WEBVIEW2_VERSION%
     echo Files copied:
     dir WebView2SDK\*.dll
     echo.

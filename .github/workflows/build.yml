@@ -76,10 +76,18 @@ jobs:
         run: |
           # Create WebView2SDK directory
           mkdir WebView2SDK
+          # Get latest WebView2 SDK version
+          $packageId = "Microsoft.Web.WebView2"
+          $apiUrl = "https://api.nuget.org/v3-flatcontainer/$packageId/index.json"
+          $response = Invoke-RestMethod -Uri $apiUrl -Method Get
+          $versions = $response.versions | Sort-Object { [Version]$_ } -Descending
+          $stableVersions = $versions | Where-Object { $_ -notmatch '[-]' }
+          $latestVersion = $stableVersions[0]
+          Write-Host "Using WebView2 SDK version: $latestVersion"
           # Download WebView2 SDK assemblies using NuGet
-          dotnet add "Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj" package Microsoft.Web.WebView2 --version 1.0.2478.35 --no-restore
+          dotnet add "Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj" package Microsoft.Web.WebView2 --version $latestVersion --no-restore
           # Copy assemblies to WebView2SDK directory
-          $nugetPath = "$env:USERPROFILE\.nuget\packages\microsoft.web.webview2\1.0.2478.35\lib\net45"
+          $nugetPath = "$env:USERPROFILE\.nuget\packages\microsoft.web.webview2\$latestVersion\lib\net45"
           Copy-Item "$nugetPath\Microsoft.Web.WebView2.Core.dll" "WebView2SDK\"
           Copy-Item "$nugetPath\Microsoft.Web.WebView2.WinForms.dll" "WebView2SDK\"
           Copy-Item "$nugetPath\WebView2Loader.dll" "WebView2SDK\"
