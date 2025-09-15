@@ -22,6 +22,7 @@ public static class GraphicsExtensions
     public static Icon? LoadIcon(IconType type, Size size)
     {
         var hIcon = ImageNativeMethods.LoadImage(IntPtr.Zero, $"#{(int)type}", 1, size.Width, size.Height, 0);
+
         return hIcon == IntPtr.Zero ? null : Icon.FromHandle(hIcon);
     }
 
@@ -228,8 +229,10 @@ public static class GraphicsExtensions
             case KryptonMessageBoxIcon.Information:
                 return MessageBoxImageResources.GenericInformation;
             case KryptonMessageBoxIcon.Shield:
+            {
                 var messageBoxShieldIcon = ExtractIconFromImageresInternal(ImageresIconID.Shield);
                 return messageBoxShieldIcon?.ToBitmap();
+            }
             case KryptonMessageBoxIcon.WindowsLogo:
                 if (OSUtilities.IsAtLeastWindowsEleven)
                 {
@@ -291,8 +294,10 @@ public static class GraphicsExtensions
             case KryptonToastNotificationIcon.Information:
                 return ToastNotificationImageResources.Toast_Notification_Information_128_x_128;
             case KryptonToastNotificationIcon.Shield:
+            {
                 var messageBoxShieldIcon = ExtractIconFromImageresInternal(ImageresIconID.Shield, IconSize.Huge);
                 return messageBoxShieldIcon?.ToBitmap();
+            }
             case KryptonToastNotificationIcon.WindowsLogo:
                 if (OSUtilities.IsAtLeastWindowsEleven)
                 {
@@ -387,10 +392,7 @@ public static class GraphicsExtensions
     /// <summary>Gets the pixel size corresponding to an IconSize enum value.</summary>
     /// <param name="iconSize">The IconSize enum value.</param>
     /// <returns>The corresponding pixel size.</returns>
-    private static Size GetSizeFromIconSize(IconSize iconSize)
-    {
-        return new Size((int)iconSize, (int)iconSize);
-    }
+    private static Size GetSizeFromIconSize(IconSize iconSize) => new((int)iconSize, (int)iconSize);
 
     /// <summary>Gets a fallback icon from embedded resources when imageres.dll is not available.</summary>
     /// <param name="iconId">The icon ID that was requested.</param>
@@ -427,7 +429,7 @@ public static class GraphicsExtensions
     {
         try
         {
-            Image? shieldImage = null;
+            Image? shieldImage;
 
             if (selectionStrategy == IconSelectionStrategy.ThemeBased)
             {

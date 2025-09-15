@@ -13,15 +13,6 @@ namespace Krypton.Toolkit;
 /// </summary>
 public static class UACShieldHelper
 {
-    #region Constants
-
-    // UAC Shield icon IDs in imageres.dll
-    // These are the standard Windows UAC shield icon resource IDs
-    private const int UAC_SHIELD_ICON_ID = (int)ImageresIconID.Shield; // Standard UAC shield icon
-    private const int UAC_SHIELD_ICON_ID_ALT = (int)ImageresIconID.ShieldAlt; // Alternative UAC shield icon
-
-    #endregion
-
     #region Public Methods
 
     /// <summary>
@@ -89,16 +80,20 @@ public static class UACShieldHelper
             bool isLargeIcon = size.Width >= 32 || size.Height >= 32;
 
             // Try the primary UAC shield icon ID
-            var icon = GraphicsExtensions.ExtractIcon(Libraries.Imageres, UAC_SHIELD_ICON_ID, isLargeIcon);
+            var icon = GraphicsExtensions.ExtractIcon(Libraries.Imageres, GlobalStaticValues.UAC_SHIELD_ICON_ID, isLargeIcon);
+
             if (icon != null)
             {
                 var bitmap = new Bitmap(icon.ToBitmap(), size);
+
                 icon.Dispose();
+                
                 return bitmap;
             }
 
             // Try the alternative UAC shield icon ID
-            icon = GraphicsExtensions.ExtractIcon(Libraries.Imageres, UAC_SHIELD_ICON_ID_ALT, isLargeIcon);
+            icon = GraphicsExtensions.ExtractIcon(Libraries.Imageres, GlobalStaticValues.UAC_SHIELD_ICON_ID_ALT, isLargeIcon);
+
             if (icon != null)
             {
                 var bitmap = new Bitmap(icon.ToBitmap(), size);
@@ -129,10 +124,13 @@ public static class UACShieldHelper
         foreach (var dimension in commonSizes)
         {
             var size = new Size(dimension, dimension);
+
             var icon = GetUACShieldFromImageres(size);
+            
             if (icon != null)
             {
                 sizes.Add(size);
+            
                 icon.Dispose();
             }
         }
@@ -152,6 +150,7 @@ public static class UACShieldHelper
     private static Bitmap? ExtractUACShieldFromImageres(IconSize size)
     {
         var targetSize = GetIconSize(size);
+        
         return GetUACShieldFromImageres(targetSize);
     }
 
@@ -160,11 +159,9 @@ public static class UACShieldHelper
     /// </summary>
     /// <param name="size">The desired size of the shield icon.</param>
     /// <returns>The UAC shield icon as a Bitmap.</returns>
-    private static Bitmap GetFallbackUACShieldIcon(IconSize size)
-    {
+    private static Bitmap GetFallbackUACShieldIcon(IconSize size) =>
         // Use OS-specific local resources
-        return GetOSSpecificUACShieldIcon(size);
-    }
+        GetOSSpecificUACShieldIcon(size);
 
     /// <summary>
     /// Gets the size for the specified UAC shield icon size.
@@ -185,7 +182,7 @@ public static class UACShieldHelper
             IconSize.ExtraLarge => new Size(128, 128),
             IconSize.Huge => new Size(192, 192),
             IconSize.Maximum => new Size(256, 256),
-            _ => new Size(16, 16)
+            _ => new Size(32, 32)
         };
     }
 
@@ -198,6 +195,7 @@ public static class UACShieldHelper
     private static Bitmap ScaleImage(Image image, Size size)
     {
         var scaledImage = GraphicsExtensions.ScaleImage(image, size);
+        
         return scaledImage ?? new Bitmap(image, size);
     }
 

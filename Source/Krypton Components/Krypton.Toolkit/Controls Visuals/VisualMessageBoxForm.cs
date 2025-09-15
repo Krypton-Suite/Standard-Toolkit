@@ -187,8 +187,10 @@ internal partial class VisualMessageBoxForm : KryptonForm
                     SystemSounds.Exclamation.Play();
                     break;
                 case KryptonMessageBoxIcon.Shield:
+                {
                     var shieldIcon = GraphicsExtensions.ExtractIconFromImageres((int)ImageresIconID.Shield);
                     _messageIcon.Image = shieldIcon?.ToBitmap();
+                }
                     break;
                 case KryptonMessageBoxIcon.WindowsLogo:
                     // Because Windows 11 displays a generic application icon,
@@ -268,8 +270,10 @@ internal partial class VisualMessageBoxForm : KryptonForm
                     SystemSounds.Exclamation.Play();
                     break;
                 case KryptonMessageBoxIcon.Shield:
+                {
                     var shieldIcon = GraphicsExtensions.ExtractIconFromImageres((int)ImageresIconID.Shield);
                     _messageIcon.Image = shieldIcon?.ToBitmap();
+                }
                     break;
                 case KryptonMessageBoxIcon.WindowsLogo:
                     _messageIcon.Image = OSUtilities.IsWindowsTen
