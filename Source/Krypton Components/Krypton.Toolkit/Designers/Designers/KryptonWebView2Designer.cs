@@ -12,6 +12,7 @@
 
 namespace Krypton.Toolkit;
 
+#if WEBVIEW2_AVAILABLE
 internal class KryptonWebView2Designer : ControlDesigner
 {
     #region Public Overrides
@@ -34,3 +35,4 @@ internal class KryptonWebView2Designer : ControlDesigner
 
     #endregion Public Overrides
 }
+#endif

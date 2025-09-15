@@ -72,5 +72,19 @@ jobs:
       - name: Restore
         run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.sln"
 
+      - name: Setup WebView2 SDK
+        run: |
+          # Create WebView2SDK directory
+          mkdir WebView2SDK
+          # Download WebView2 SDK assemblies using NuGet
+          dotnet add "Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj" package Microsoft.Web.WebView2 --version 1.0.2478.35 --no-restore
+          # Copy assemblies to WebView2SDK directory
+          $nugetPath = "$env:USERPROFILE\.nuget\packages\microsoft.web.webview2\1.0.2478.35\lib\net45"
+          Copy-Item "$nugetPath\Microsoft.Web.WebView2.Core.dll" "WebView2SDK\"
+          Copy-Item "$nugetPath\Microsoft.Web.WebView2.WinForms.dll" "WebView2SDK\"
+          Copy-Item "$nugetPath\WebView2Loader.dll" "WebView2SDK\"
+          # Remove NuGet package reference
+          dotnet remove "Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj" package Microsoft.Web.WebView2
+
       - name: Build
         run: msbuild "Scripts/nightly.proj" /t:Rebuild /p:Configuration=Release /p:Platform="Any CPU"

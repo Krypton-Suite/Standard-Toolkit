@@ -10,11 +10,14 @@
  */
 #endregion
 
+#if WEBVIEW2_AVAILABLE
 // Do not remove this using statement, it is used for the WebView2 control
 using Microsoft.Web.WebView2.WinForms;
+#endif
 
 namespace Krypton.Toolkit;
 
+#if WEBVIEW2_AVAILABLE
 /// <summary>
 /// Provide a WebView2 control with Krypton styling applied.
 /// 
@@ -413,3 +416,4 @@ public class KryptonWebView2 : WebView2
 
     #endregion
 }
+#endif

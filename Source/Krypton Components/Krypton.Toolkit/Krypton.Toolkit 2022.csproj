@@ -57,8 +57,8 @@
 		<Reference Include="System.Net.Http" />
 	</ItemGroup>
 
-	<!-- WebView2 SDK References -->
-	<ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
+	<!-- WebView2 SDK References (Conditional) -->
+	<ItemGroup Condition="$(TargetFramework.StartsWith('net4')) And Exists('..\..\..\WebView2SDK\Microsoft.Web.WebView2.Core.dll')">
 		<Reference Include="Microsoft.Web.WebView2.Core, Version=1.0.2478.35, Culture=neutral, PublicKeyToken=2a8ab48044d2601e, processorArchitecture=MSIL">
 			<HintPath>..\..\..\WebView2SDK\Microsoft.Web.WebView2.Core.dll</HintPath>
 			<Private>True</Private>
@@ -69,8 +69,8 @@
 		</Reference>
 	</ItemGroup>
 
-	<!-- WebView2 SDK References for .NET 8+ -->
-	<ItemGroup Condition="!$(TargetFramework.StartsWith('net4'))">
+	<!-- WebView2 SDK References for .NET 8+ (Conditional) -->
+	<ItemGroup Condition="!$(TargetFramework.StartsWith('net4')) And Exists('..\..\..\WebView2SDK\Microsoft.Web.WebView2.Core.dll')">
 		<Reference Include="Microsoft.Web.WebView2.Core">
 			<HintPath>..\..\..\WebView2SDK\Microsoft.Web.WebView2.Core.dll</HintPath>
 			<Private>True</Private>
@@ -80,6 +80,11 @@
 			<Private>True</Private>
 		</Reference>
 	</ItemGroup>
+
+	<!-- Define WEBVIEW2_AVAILABLE symbol when WebView2 SDK is available -->
+	<PropertyGroup Condition="Exists('..\..\..\WebView2SDK\Microsoft.Web.WebView2.Core.dll')">
+		<DefineConstants>$(DefineConstants);WEBVIEW2_AVAILABLE</DefineConstants>
+	</PropertyGroup>
 
 
 	<PropertyGroup>
@@ -559,7 +564,7 @@
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonGroupPanel.bmp" />
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonForm.bmp" />
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonLinkLabel.bmp" />
-	<EmbeddedResource Include="ToolboxBitmaps\WebView2.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\WebView2.bmp" Condition="Exists('..\..\..\WebView2SDK\Microsoft.Web.WebView2.Core.dll')" />
   </ItemGroup>
   <ItemGroup>
 	<Compile Remove="Controls Toolkit\KryptonByteViewer.cs" />
