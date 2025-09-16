@@ -32,47 +32,104 @@
 using Microsoft.Win32.SafeHandles;
 using static System.Runtime.InteropServices.Marshal;
 
-
+/// <summary>
+/// Platform Invoke declarations and Windows API bindings for the Krypton Toolkit.
+/// This file contains P/Invoke declarations, Windows API constants, enums, structures,
+/// and utility methods required for native Windows functionality integration.
+/// 
+/// This file includes:
+/// - Windows API library references (user32.dll, gdi32.dll, etc.)
+/// - Platform Invoke method declarations for Windows APIs
+/// - Windows constants, enums, and structures
+/// - Device capability definitions and system metrics
+/// - Window management, drawing, and UI interaction APIs
+/// - DWM (Desktop Window Manager) and composition APIs
+/// - Utility methods for safe handle management and marshaling
+/// 
+/// The declarations in this file enable the Krypton Toolkit to access native Windows
+/// functionality for advanced UI rendering, window management, and system integration.
+/// </summary>
 namespace Krypton.Toolkit;
 
+/// <summary>
+/// Contains string constants for Windows API library names used in Platform Invoke declarations.
+/// These constants provide centralized references to Windows system DLLs and components.
+/// </summary>
 internal static class Libraries
 {
+    /// <summary>Common Controls library - provides advanced UI controls</summary>
     public const string Comctl32 = "comctl32.dll";
+    /// <summary>Common Dialog library - provides standard dialog boxes</summary>
     public const string Comdlg32 = "comdlg32.dll";
+    /// <summary>Desktop Window Manager API - provides window composition and effects</summary>
     public const string DWMApi = @"dwmapi.dll";
+    /// <summary>Graphics Device Interface - provides drawing and graphics functions</summary>
     public const string Gdi32 = "gdi32.dll";
+    /// <summary>GDI+ library - provides advanced 2D graphics capabilities</summary>
     public const string Gdiplus = "gdiplus.dll";
+    /// <summary>HTML Help Control - provides help system functionality</summary>
     public const string Hhctrl = "hhctrl.ocx";
+    /// <summary>Input Method Manager - provides input method editor support</summary>
     public const string Imm32 = "imm32.dll";
+    /// <summary>Kernel library - provides core system functions</summary>
     public const string Kernel32 = "kernel32.dll";
+    /// <summary>Native API library - provides low-level system functions</summary>
     public const string NtDll = "ntdll.dll";
+    /// <summary>OLE library - provides object linking and embedding support</summary>
     public const string Ole32 = "ole32.dll";
+    /// <summary>OLE Accessibility - provides accessibility support</summary>
     public const string Oleacc = "oleacc.dll";
+    /// <summary>OLE Automation - provides automation support</summary>
     public const string Oleaut32 = "oleaut32.dll";
+    /// <summary>Power Profile library - provides power management functions</summary>
     public const string Powrprof = "Powrprof.dll";
+    /// <summary>Property System library - provides property system support</summary>
     public const string Propsys = "Propsys.dll";
+    /// <summary>Rich Edit 4.1 control - provides rich text editing capabilities</summary>
     public const string RichEdit41 = "MsftEdit.DLL";
+    /// <summary>Shell Core library - provides shell functionality</summary>
     public const string SHCore = "SHCore.dll";
+    /// <summary>Shell library - provides shell and file system functions</summary>
     public const string Shell32 = "shell32.dll";
+    /// <summary>Shell Lightweight Utility API - provides shell utility functions</summary>
     public const string Shlwapi = "shlwapi.dll";
+    /// <summary>UI Automation Core - provides accessibility and automation support</summary>
     public const string UiaCore = "UIAutomationCore.dll";
+    /// <summary>User library - provides window management and user interface functions</summary>
     public const string User32 = "user32.dll";
+    /// <summary>Visual Styles library - provides theme and visual style support</summary>
     public const string UxTheme = "uxtheme.dll";
 }
 
+/// <summary>
+/// Provides a safe handle wrapper for Windows module handles (HMODULE).
+/// This class ensures proper cleanup of loaded library modules and prevents handle leaks.
+/// </summary>
 // inherits from SafeHandleZeroOrMinusOneIsInvalid, so IsInvalid is already implemented.
 internal sealed class SafeModuleHandle : SafeHandleZeroOrMinusOneIsInvalid
 {
-    // A default constructor is required for P/Invoke to instantiate the class
+    /// <summary>
+    /// Initializes a new instance of the SafeModuleHandle class.
+    /// A default constructor is required for P/Invoke to instantiate the class.
+    /// </summary>
     // ReSharper disable once ConvertToPrimaryConstructor
     public SafeModuleHandle()
         : base(true)
     {
     }
 
+    /// <summary>
+    /// Releases the module handle by calling FreeLibrary.
+    /// </summary>
+    /// <returns>True if the handle was successfully released; otherwise, false.</returns>
     protected override bool ReleaseHandle() => PI.FreeLibrary(handle);
 }
 
+/// <summary>
+/// Platform Invoke declarations and Windows API bindings.
+/// This class contains P/Invoke method declarations, Windows constants, enums, and structures
+/// required for native Windows functionality integration in the Krypton Toolkit.
+/// </summary>
 internal partial class PI
 {
     #region statics
@@ -103,58 +160,114 @@ internal partial class PI
 
     internal const int BM_CLICK = 0x00F5;
 
-    // Menu item info mask constants
+    /// <summary>
+    /// Menu item info mask constants used to specify which members of the MENUITEMINFO structure are valid.
+    /// These flags control which information is retrieved or set when working with menu items.
+    /// </summary>
     [Flags]
     public enum MenuItemInfoMask : uint
     {
+        /// <summary>State member is valid</summary>
         MIIM_STATE = 0x00000001,
+        /// <summary>ID member is valid</summary>
         MIIM_ID = 0x00000002,
+        /// <summary>Submenu handle member is valid</summary>
         MIIM_SUBMENU = 0x00000004,
+        /// <summary>Check mark bitmap members are valid</summary>
         MIIM_CHECKMARKS = 0x00000008,
+        /// <summary>Type member is valid</summary>
         MIIM_TYPE = 0x00000010,
+        /// <summary>Item data member is valid</summary>
         MIIM_DATA = 0x00000020,
+        /// <summary>String members are valid</summary>
         MIIM_STRING = 0x00000040,
+        /// <summary>Bitmap member is valid</summary>
         MIIM_BITMAP = 0x00000080,
+        /// <summary>FType member is valid</summary>
         MIIM_FTYPE = 0x00000100
     }
 
-    // Menu item type constants
+    /// <summary>
+    /// Menu item type constants that specify the appearance and behavior of menu items.
+    /// These flags control how menu items are displayed and function within menus.
+    /// </summary>
     [Flags]
     public enum MenuItemType : uint
     {
+        /// <summary>Menu item displays a text string</summary>
         MFT_STRING = 0x00000000,
+        /// <summary>Menu item displays a bitmap</summary>
         MFT_BITMAP = 0x00000004,
+        /// <summary>Menu item is placed on a new line in the menu bar or a new column in a submenu</summary>
         MFT_MENUBARBREAK = 0x00000020,
+        /// <summary>Menu item is placed on a new line in a submenu</summary>
         MFT_MENUBREAK = 0x00000040,
+        /// <summary>Menu item is owner-drawn</summary>
         MFT_OWNERDRAW = 0x00000100,
+        /// <summary>Menu item is a radio button (exclusive selection)</summary>
         MFT_RADIOCHECK = 0x00000200,
+        /// <summary>Menu item is a separator line</summary>
         MFT_SEPARATOR = 0x00000800,
+        /// <summary>Menu items are right-aligned in the menu bar</summary>
         MFT_RIGHTORDER = 0x00002000
     }
 
-    // Menu item state constants
+    /// <summary>
+    /// Menu item state constants that specify the current state of menu items.
+    /// These flags control the visual appearance and interaction behavior of menu items.
+    /// </summary>
     [Flags]
     public enum MenuItemState : uint
     {
+        /// <summary>Menu item is grayed (disabled)</summary>
         MFS_GRAYED = 0x00000003,
+        /// <summary>Menu item is disabled</summary>
         MFS_DISABLED = 0x00000003,
+        /// <summary>Menu item is checked (has a check mark)</summary>
         MFS_CHECKED = 0x00000008,
+        /// <summary>Menu item is highlighted (currently selected)</summary>
         MFS_HILITE = 0x00000080,
+        /// <summary>Menu item is the default item in the menu</summary>
         MFS_DEFAULT = 0x00001000
     }
 
 
     #endregion
 
+    /// <summary>
+    /// Represents the callback method for window procedures that process messages sent to a window.
+    /// This delegate is used for custom window procedures in Windows API interop scenarios.
+    /// </summary>
+    /// <param name="hWnd">Handle to the window that received the message</param>
+    /// <param name="msg">The message identifier</param>
+    /// <param name="wParam">Additional message-specific information</param>
+    /// <param name="lParam">Additional message-specific information</param>
+    /// <returns>The result of the message processing, dependent on the message sent</returns>
     internal delegate IntPtr WndProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
 
+    /// <summary>
+    /// Marshals data from an unmanaged block of memory to a newly allocated managed object of the specified type.
+    /// </summary>
+    /// <param name="lparam">A pointer to an unmanaged block of memory</param>
+    /// <param name="cls">The type of object to create</param>
+    /// <returns>A managed object containing the data pointed to by the lparam parameter</returns>
     internal static object? PtrToStructure(IntPtr lparam, Type cls) => Marshal.PtrToStructure(lparam, cls);
 
+    /// <summary>
+    /// Marshals data from a managed object to an unmanaged block of memory.
+    /// </summary>
+    /// <param name="cls">The object to marshal</param>
+    /// <param name="lparam">A pointer to an unmanaged block of memory</param>
+    /// <param name="deleteOld">True to call Marshal.DestroyStructure on the lparam parameter before copying the data</param>
     internal static void StructureToPtr(object cls, IntPtr lparam, bool deleteOld = false) =>
         Marshal.StructureToPtr(cls, lparam, deleteOld);
 
     #region Constants
 
+    /// <summary>
+    /// Device capability constants used with the GetDeviceCaps function to retrieve device-specific information.
+    /// These values specify the type of information to retrieve about a display device or printer.
+    /// </summary>
     public enum DeviceCap
     {
         /// <summary>
@@ -4929,9 +5042,30 @@ No 	                    No 	                    Show text only
     #endregion
 }
 
+/// <summary>
+/// Extension methods for working with the PI.BOOL type and standard boolean values.
+/// These methods provide convenient conversions between native Windows BOOL values and .NET bool values.
+/// </summary>
 internal static class BoolExtensions
 {
+    /// <summary>
+    /// Determines whether the BOOL value represents true.
+    /// </summary>
+    /// <param name="b">The BOOL value to check</param>
+    /// <returns>True if the BOOL value is not FALSE; otherwise, false</returns>
     public static bool IsTrue(this PI.BOOL b) => b != PI.BOOL.FALSE;
+    
+    /// <summary>
+    /// Determines whether the BOOL value represents false.
+    /// </summary>
+    /// <param name="b">The BOOL value to check</param>
+    /// <returns>True if the BOOL value is FALSE; otherwise, false</returns>
     public static bool IsFalse(this PI.BOOL b) => b == PI.BOOL.FALSE;
+    
+    /// <summary>
+    /// Converts a .NET boolean value to a Windows BOOL value.
+    /// </summary>
+    /// <param name="b">The boolean value to convert</param>
+    /// <returns>PI.BOOL.TRUE if the boolean is true; otherwise, PI.BOOL.FALSE</returns>
     public static PI.BOOL ToBOOL(this bool b) => b ? PI.BOOL.TRUE : PI.BOOL.FALSE;
 }
