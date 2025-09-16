@@ -128,17 +128,17 @@ public class CommandLinkImageValues : Storage, IContentValues
     {
         if (_displayUACShield)
         {
-            Size size = shieldIconSize switch
+            int size = shieldIconSize switch
             {
-                UACShieldIconSize.ExtraSmall => new Size(16, 16),
-                UACShieldIconSize.Small      => new Size(32, 32),
-                UACShieldIconSize.Medium     => new Size(64, 64),
-                UACShieldIconSize.Large      => new Size(128, 128),
-                UACShieldIconSize.ExtraLarge => new Size(256, 256),
-                _                            => new Size(16, 16)
+                UACShieldIconSize.ExtraSmall => 16,
+                UACShieldIconSize.Small      => 32,
+                UACShieldIconSize.Medium     => 64,
+                UACShieldIconSize.Large      => 128,
+                UACShieldIconSize.ExtraLarge => 256,
+                _                            => 32
             };
 
-            _image = GraphicsExtensions.ScaleImage(SystemIcons.Shield.ToBitmap(), size);
+            _image = GraphicsExtensions.ScaleImage(SystemIcons.Shield.ToBitmap(), new Size(size, size));
         }
         else
         {
