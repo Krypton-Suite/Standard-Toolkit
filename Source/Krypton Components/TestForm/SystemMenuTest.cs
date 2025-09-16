@@ -1,20 +1,20 @@
 ﻿namespace TestForm;
 
 /// <summary>
-/// Test form to demonstrate the themed system menu functionality.
+/// Test form to demonstrate the system menu functionality.
 /// </summary>
-public partial class ThemedSystemMenuTest : KryptonForm
+public partial class SystemMenuTest : KryptonForm
 {
-    public ThemedSystemMenuTest()
+    public SystemMenuTest()
     {
         InitializeComponent();
 
         // Set form properties
-        Text = "Themed System Menu Test";
+        Text = "System Menu Test";
         Size = new Size(600, 400);
         StartPosition = FormStartPosition.CenterScreen;
 
-        // Enable the themed system menu (enabled by default)
+        // Enable the system menu (enabled by default)
         //UseThemedSystemMenu = true;
 
         // Configure how the menu appears
@@ -32,14 +32,14 @@ public partial class ThemedSystemMenuTest : KryptonForm
         kryptonCheckBox2.Checked = SystemMenuValues.ShowOnRightClick;
         kryptonCheckBox3.Checked = SystemMenuValues.ShowOnAltSpace;
 
-        // Demonstrate the enhanced themed system menu features
+        // Demonstrate the enhanced system menu features
         if (KryptonSystemMenu != null)
         {
             // Add a custom menu item using the new method
             KryptonSystemMenu.AddCustomMenuItem("About This Form", (sender, args) =>
             {
-                MessageBox.Show("This is a test form demonstrating the themed system menu functionality!",
-                    "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                KryptonMessageBox.Show("This is a test form demonstrating the system menu functionality!",
+                    "About", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
             });
 
             // Add a separator
@@ -49,8 +49,8 @@ public partial class ThemedSystemMenuTest : KryptonForm
             KryptonSystemMenu.AddCustomMenuItem("Refresh Menu", (sender, args) =>
             {
                 KryptonSystemMenu.Refresh();
-                MessageBox.Show("Menu refreshed! Current item count: " + KryptonSystemMenu.MenuItemCount,
-                    "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                KryptonMessageBox.Show("Menu refreshed! Current item count: " + KryptonSystemMenu.MenuItemCount,
+                    "Info", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
             });
 
             // Show the current menu item count and theme
@@ -69,7 +69,7 @@ public partial class ThemedSystemMenuTest : KryptonForm
         if (KryptonSystemMenu != null)
         {
             var themeInfo = $"Theme: {KryptonSystemMenu.CurrentIconTheme}";
-            Text = $"Themed System Menu Test - {KryptonSystemMenu.MenuItemCount} items - {themeInfo}";
+            Text = $"System Menu Test - {KryptonSystemMenu.MenuItemCount} items - {themeInfo}";
                 
             // Also update the theme label
             UpdateThemeLabel();
@@ -124,10 +124,10 @@ public partial class ThemedSystemMenuTest : KryptonForm
         if (KryptonSystemMenu != null)
         {
             KryptonSystemMenu.ClearCustomItems();
-            MessageBox.Show("Custom items cleared! Menu restored to default.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            KryptonMessageBox.Show("Custom items cleared! Menu restored to default.", "Info", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
 
             // Update the title to show new item count
-            Text = $"Themed System Menu Test - {KryptonSystemMenu.MenuItemCount} items";
+            Text = $"System Menu Test - {KryptonSystemMenu.MenuItemCount} items";
         }
     }
 
@@ -144,7 +144,7 @@ public partial class ThemedSystemMenuTest : KryptonForm
                        $"Custom Items: {string.Join(", ", customItems)}\n" +
                        $"Current Icon Theme: {KryptonSystemMenu.CurrentIconTheme}";
 
-            MessageBox.Show(info, "Menu Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            KryptonMessageBox.Show(info, "Menu Info", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
         }
     }
 
@@ -173,11 +173,11 @@ public partial class ThemedSystemMenuTest : KryptonForm
                 
             // Update the theme label to show the new theme
             kryptonLabel3.Values.Text = $"Current Theme: {nextTheme} (Manually Set)";
-                
-            MessageBox.Show($"Switched to {nextTheme} theme and refreshed icons!\n" +
-                            $"Previous theme: {currentTheme}\n" +
-                            $"New theme: {nextTheme}",
-                "Theme Changed", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            KryptonMessageBox.Show($"Switched to {nextTheme} theme and refreshed icons!\n" +
+                                   $"Previous theme: {currentTheme}\n" +
+                                   $"New theme: {nextTheme}",
+                "Theme Changed", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
         }
     }
 }

@@ -11,7 +11,8 @@ public enum ChannelType
 {
     Nightly,
     Canary,
-    Stable
+    Stable,
+    LTS
 }
 
 public enum BuildAction
@@ -22,7 +23,9 @@ public enum BuildAction
     BuildPack,
     Debug,
     NuGetTools,
-    Installer
+    Installer,
+    CreateArchives,
+    Documentation,
 }
 
 public enum PackMode
