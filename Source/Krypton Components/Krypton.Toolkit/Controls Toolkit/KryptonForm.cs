@@ -179,7 +179,7 @@ public class KryptonForm : VisualForm,
         // Create a null element that takes up all remaining space
         _layoutNull = new ViewLayoutNull();
         // Create the internal panel used for containing content (custom panel draws sizing grip)
-        _internalKryptonPanel = new KryptonPanel
+        _internalKryptonPanel = new InternalKryptonPanel
         {
             Dock = DockStyle.Fill,
             Location = new Point(0, 0),
@@ -782,6 +782,7 @@ public class KryptonForm : VisualForm,
     /// <summary>
     /// Access to the Internal KryptonPanel.
     /// </summary>
+    [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public KryptonPanel InternalPanel => _internalKryptonPanel;
 
@@ -3088,4 +3089,38 @@ public class KryptonForm : VisualForm,
     }
 
     #endregion
+}
+
+/// <summary>
+/// Internal KryptonPanel that prevents designer selection to ensure clicks pass through to the parent KryptonForm.
+/// </summary>
+internal class InternalKryptonPanel : KryptonPanel
+{
+    protected override void WndProc(ref Message m)
+    {
+        // In designer mode, prevent this panel from being selected
+        // This ensures clicks pass through to the parent KryptonForm
+        if (Site?.DesignMode == true)
+        {
+            // For mouse messages, pass them to the parent form instead
+            if (m.Msg == PI.WM_.LBUTTONDOWN || m.Msg == PI.WM_.RBUTTONDOWN || 
+                m.Msg == PI.WM_.LBUTTONUP || m.Msg == PI.WM_.RBUTTONUP)
+            {
+                // Forward the message to the parent form using SendMessage
+                var parentForm = FindForm();
+                if (parentForm != null)
+                {
+                    var parentPoint = PointToScreen(new Point(m.LParam.ToInt32() & 0xFFFF, m.LParam.ToInt32() >> 16));
+                    var parentClientPoint = parentForm.PointToClient(parentPoint);
+                    var parentLParam = (parentClientPoint.Y << 16) | (parentClientPoint.X & 0xFFFF);
+                    
+                    // Send the message directly to the parent form's window handle
+                    PI.SendMessage(parentForm.Handle, m.Msg, m.WParam, new IntPtr(parentLParam));
+                    return;
+                }
+            }
+        }
+        
+        base.WndProc(ref m);
+    }
 }
