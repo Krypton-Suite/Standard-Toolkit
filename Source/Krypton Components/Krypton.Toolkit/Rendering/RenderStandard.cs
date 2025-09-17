@@ -1094,11 +1094,18 @@ public class RenderStandard : RenderBase
 
         // Drawing vertical means we can ignore right to left, otherwise get value from control
         RightToLeft rtl = vertical ? RightToLeft.No : context.Control.RightToLeft;
+        
+        // According to WinForms RTL behavior matrix, RTL layout should only be applied
+        // when both RightToLeft=Yes AND RightToLeftLayout=True
+        // RightToLeftLayout is only available on Form and some specific controls
+        var hasRightToLeftLayout = context.Control is Form form && form.RightToLeftLayout;
+        var shouldApplyRTL = rtl == RightToLeft.Yes && hasRightToLeftLayout;
+        var effectiveRTL = shouldApplyRTL ? RightToLeft.Yes : RightToLeft.No;
 
         // Allocate space for each required content in turn
-        AllocateImageSpace(memento, palette, values, state, displayRect, rtl, ref allocation);
-        AllocateShortTextSpace(context, context.Graphics, memento, palette, values, state, displayRect, rtl, spacingGap, ref allocation);
-        AllocateLongTextSpace(context, context.Graphics, memento, palette, values, state, displayRect, rtl, spacingGap, ref allocation);
+        AllocateImageSpace(memento, palette, values, state, displayRect, effectiveRTL, ref allocation);
+        AllocateShortTextSpace(context, context.Graphics, memento, palette, values, state, displayRect, effectiveRTL, spacingGap, ref allocation);
+        AllocateLongTextSpace(context, context.Graphics, memento, palette, values, state, displayRect, effectiveRTL, spacingGap, ref allocation);
 
         // Add up total allocated for rows and columns
         var allocatedWidth = AllocatedTotalWidth(allocation, -1, -1, spacingGap);
@@ -1233,11 +1240,18 @@ public class RenderStandard : RenderBase
 
         // Drawing vertical means we can ignore right to left, otherwise get value from control
         RightToLeft rtl = vertical ? RightToLeft.No : context.Control!.RightToLeft;
+        
+        // According to WinForms RTL behavior matrix, RTL layout should only be applied
+        // when both RightToLeft=Yes AND RightToLeftLayout=True
+        // RightToLeftLayout is only available on Form and some specific controls
+        var hasRightToLeftLayout = context.Control is Form form && form.RightToLeftLayout;
+        var shouldApplyRTL = rtl == RightToLeft.Yes && hasRightToLeftLayout;
+        var effectiveRTL = shouldApplyRTL ? RightToLeft.Yes : RightToLeft.No;
 
         // Allocate space for each required content in turn
-        AllocateImageSpace(memento, palette, values, state, availableRect, rtl, ref allocation);
-        AllocateShortTextSpace(context, context.Graphics, memento, palette, values, state, availableRect, rtl, spacingGap, ref allocation);
-        AllocateLongTextSpace(context, context.Graphics, memento, palette, values, state, availableRect, rtl, spacingGap, ref allocation);
+        AllocateImageSpace(memento, palette, values, state, availableRect, effectiveRTL, ref allocation);
+        AllocateShortTextSpace(context, context.Graphics, memento, palette, values, state, availableRect, effectiveRTL, spacingGap, ref allocation);
+        AllocateLongTextSpace(context, context.Graphics, memento, palette, values, state, availableRect, effectiveRTL, spacingGap, ref allocation);
 
         // Find the width of the columns and heights of the rows
         var colWidths = AllocatedColumnWidths(allocation, -1);

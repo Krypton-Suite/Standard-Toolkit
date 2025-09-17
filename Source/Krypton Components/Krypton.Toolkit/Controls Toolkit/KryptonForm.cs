@@ -1479,7 +1479,7 @@ public class KryptonForm : VisualForm,
                 or PaletteContentStyle.HeaderCalendar
                 or PaletteContentStyle.HeaderCustom1
                 or PaletteContentStyle.HeaderCustom2
-                or PaletteContentStyle.HeaderCustom3 => GetRTLAdjustedAlignment(_kryptonForm._formTitleAlign),
+                or PaletteContentStyle.HeaderCustom3 => GetRTLAdjustedTextAlignment(),
             _ => base.GetContentShortTextH(style, state)
         };
 
@@ -1493,14 +1493,63 @@ public class KryptonForm : VisualForm,
                 or PaletteContentStyle.HeaderCalendar
                 or PaletteContentStyle.HeaderCustom1
                 or PaletteContentStyle.HeaderCustom2
-                or PaletteContentStyle.HeaderCustom3 => GetRTLAdjustedAlignment(_kryptonForm._formTitleAlign),
+                or PaletteContentStyle.HeaderCustom3 => GetRTLAdjustedImageAlignment(),
             _ => base.GetContentImageH(style, state)
         };
 
+        private PaletteRelativeAlign GetRTLAdjustedTextAlignment()
+        {
+            // According to WinForms RTL behavior matrix:
+            // RTL=false, RTLLayout=false: LTR normal layout
+            // RTL=false, RTLLayout=true:  LTR normal layout  
+            // RTL=true,  RTLLayout=false: controls are aligned RTL, layout remains unchanged
+            // RTL=true,  RTLLayout=true:  controls are aligned RTL, controls are laid out RTL, including title bar
+            
+            // Get the current form title alignment setting
+            var currentAlignment = _kryptonForm._formTitleAlign;
+            
+            // CRITICAL FIX: When RTL=true and RTLLayout=false, we must FORCE Near alignment
+            // to counteract any automatic RTL transformations that might be applied elsewhere
+            if (_kryptonForm.RightToLeft == RightToLeft.Yes && !_kryptonForm.RightToLeftLayout)
+            {
+                // Force Near alignment to ensure title stays left-aligned
+                // This overrides any other RTL transformations
+                return PaletteRelativeAlign.Near;
+            }
+            
+            // Case 1 & 2: RTL=false (regardless of RTLLayout) - use normal alignment
+            if (_kryptonForm.RightToLeft != RightToLeft.Yes)
+            {
+                return currentAlignment;
+            }
+            
+            // Case 4: RTL=true, RTLLayout=true - apply full RTL layout including title bar
+            if (_kryptonForm.RightToLeft == RightToLeft.Yes && _kryptonForm.RightToLeftLayout)
+            {
+                return currentAlignment switch
+                {
+                    PaletteRelativeAlign.Near => PaletteRelativeAlign.Far,
+                    PaletteRelativeAlign.Far => PaletteRelativeAlign.Near,
+                    _ => currentAlignment
+                };
+            }
+            
+            // Fallback
+            return currentAlignment;
+        }
+        
         private PaletteRelativeAlign GetRTLAdjustedAlignment(PaletteRelativeAlign originalAlignment)
         {
-            // Only apply RTL adjustments when both RTL and RTL Layout are enabled
-            // This ensures the title bar is mirrored only when full RTL layout is requested
+            // According to WinForms RTL behavior matrix:
+            // RTL=false, RTLLayout=false: LTR normal layout
+            // RTL=false, RTLLayout=true:  LTR normal layout  
+            // RTL=true,  RTLLayout=false: controls are aligned RTL, layout remains unchanged
+            // RTL=true,  RTLLayout=true:  controls are aligned RTL, controls are laid out RTL, including title bar
+            //
+            // CRITICAL: When RTL=true and RTLLayout=false, we must NOT change the title bar layout
+            // This means we should return the original alignment unchanged
+            
+            // Only apply RTL layout changes when BOTH conditions are true
             if (_kryptonForm.RightToLeft == RightToLeft.Yes && _kryptonForm.RightToLeftLayout)
             {
                 return originalAlignment switch
@@ -1511,18 +1560,39 @@ public class KryptonForm : VisualForm,
                 };
             }
             
-            // When RTL Layout is disabled (even if RTL is true), return original alignment unchanged
-            // This ensures the title bar maintains its original positioning while controls can still be RTL-aligned
+            // IMPORTANT: In all other cases, including RTL=true with RTLLayout=false,
+            // we must return the original alignment to preserve standard WinForms behavior
             return originalAlignment;
         }
 
-        private PaletteRelativeAlign GetRTLAdjustedImageAlignment(PaletteRelativeAlign titleAlignment)
+        private PaletteRelativeAlign GetRTLAdjustedImageAlignment()
         {
-            // Only apply RTL adjustments when both RTL and RTL Layout are enabled
-            // This ensures the title bar icon is mirrored only when full RTL layout is requested
+            // According to WinForms RTL behavior matrix:
+            // RTL=false, RTLLayout=false: LTR normal layout
+            // RTL=false, RTLLayout=true:  LTR normal layout  
+            // RTL=true,  RTLLayout=false: controls are aligned RTL, layout remains unchanged
+            // RTL=true,  RTLLayout=true:  controls are aligned RTL, controls are laid out RTL, including title bar
+            
+            // Get the current form title alignment setting for icon positioning
+            var currentAlignment = _kryptonForm._formTitleAlign;
+            
+            // CRITICAL FIX: When RTL=true and RTLLayout=false, force Near alignment for icon too
+            if (_kryptonForm.RightToLeft == RightToLeft.Yes && !_kryptonForm.RightToLeftLayout)
+            {
+                // Force Near alignment to ensure icon stays in original position
+                return PaletteRelativeAlign.Near;
+            }
+            
+            // Case 1 & 2: RTL=false (regardless of RTLLayout) - use normal alignment
+            if (_kryptonForm.RightToLeft != RightToLeft.Yes)
+            {
+                return currentAlignment;
+            }
+            
+            // Case 4: RTL=true, RTLLayout=true - apply full RTL layout including icon
             if (_kryptonForm.RightToLeft == RightToLeft.Yes && _kryptonForm.RightToLeftLayout)
             {
-                return titleAlignment switch
+                return currentAlignment switch
                 {
                     PaletteRelativeAlign.Near => PaletteRelativeAlign.Far, // Icon on the right when text is on the left
                     PaletteRelativeAlign.Far => PaletteRelativeAlign.Near, // Icon on the left when text is on the right
@@ -1530,12 +1600,9 @@ public class KryptonForm : VisualForm,
                     _ => PaletteRelativeAlign.Far // Default to right side in RTL
                 };
             }
-            else
-            {
-                // In LTR mode or when RTL Layout is disabled (even if RTL is true), maintain original alignment
-                // This ensures the title bar icon positioning remains unchanged while controls can still be RTL-aligned
-                return titleAlignment;
-            }
+            
+            // Fallback
+            return currentAlignment;
         }
     }
 
@@ -3185,6 +3252,10 @@ public class KryptonForm : VisualForm,
             {
                 base.RightToLeft = value;
                 ApplyRTLToButtonManager();
+                
+                // Force a repaint of the title bar to apply RTL alignment changes
+                PerformNeedPaint(true);
+                
                 // Delay the non-client recalculation to allow button manager to update first
                 // Only call BeginInvoke if the handle is created
                 if (IsHandleCreated)
@@ -3211,6 +3282,10 @@ public class KryptonForm : VisualForm,
             {
                 base.RightToLeftLayout = value;
                 ApplyRTLToButtonManager();
+                
+                // Force a repaint of the title bar to apply RTL alignment changes
+                PerformNeedPaint(true);
+                
                 // Delay the non-client recalculation to allow button manager to update first
                 // Only call BeginInvoke if the handle is created
                 if (IsHandleCreated)
@@ -3319,11 +3394,15 @@ public class KryptonForm : VisualForm,
         {
             var originalEdge = _baseRedirector.GetButtonSpecEdge(style);
             
-            // Only apply RTL adjustments when both RTL and RTL Layout are enabled
-            // This ensures buttons are mirrored only when full RTL layout is requested
+            // According to WinForms RTL behavior matrix:
+            // RTL=false, RTLLayout=false: LTR normal layout
+            // RTL=false, RTLLayout=true:  LTR normal layout  
+            // RTL=true,  RTLLayout=false: controls are aligned RTL, layout remains unchanged
+            // RTL=true,  RTLLayout=true:  controls are aligned RTL, controls are laid out RTL, including title bar
+            //
+            // Therefore, button positioning changes ONLY when both RTL=true AND RTLLayout=true
             if (_kryptonForm.RightToLeft == RightToLeft.Yes && _kryptonForm.RightToLeftLayout)
             {
-                // Reverse the edge alignment for full mirroring
                 return originalEdge switch
                 {
                     PaletteRelativeEdgeAlign.Near => PaletteRelativeEdgeAlign.Far,
@@ -3332,8 +3411,7 @@ public class KryptonForm : VisualForm,
                 };
             }
             
-            // When RTL Layout is disabled (even if RTL is true), return original edge alignment unchanged
-            // This ensures buttons maintain their original positioning while controls can still be RTL-aligned
+            // In all other cases (including RTL=true, RTLLayout=false), return original edge alignment unchanged
             return originalEdge;
         }
     }

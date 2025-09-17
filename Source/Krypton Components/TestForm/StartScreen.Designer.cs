@@ -42,6 +42,7 @@ namespace TestForm
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StartScreen));
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
+            this.kbtnRTLTests = new Krypton.Toolkit.KryptonButton();
             this.kbtnAdvancedEmojiViewer = new Krypton.Toolkit.KryptonButton();
             this.kbtnBasicEmojiViewer = new Krypton.Toolkit.KryptonButton();
             this.kbtnBlurredForm = new Krypton.Toolkit.KryptonButton();
@@ -80,7 +81,6 @@ namespace TestForm
             this.kbtnBreadCrumb = new Krypton.Toolkit.KryptonButton();
             this.kbtnVisualControls = new Krypton.Toolkit.KryptonButton();
             this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
-            this.kbtnRTLTests = new Krypton.Toolkit.KryptonButton();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
@@ -129,8 +129,19 @@ namespace TestForm
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(407, 556);
+            this.kryptonPanel1.Size = new System.Drawing.Size(411, 544);
             this.kryptonPanel1.TabIndex = 0;
+            // 
+            // kbtnRTLTests
+            // 
+            this.kbtnRTLTests.Location = new System.Drawing.Point(223, 492);
+            this.kbtnRTLTests.Margin = new System.Windows.Forms.Padding(2);
+            this.kbtnRTLTests.Name = "kbtnRTLTests";
+            this.kbtnRTLTests.Size = new System.Drawing.Size(153, 20);
+            this.kbtnRTLTests.TabIndex = 37;
+            this.kbtnRTLTests.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kbtnRTLTests.Values.Text = "RTL Tests";
+            this.kbtnRTLTests.Click += new System.EventHandler(this.kbtnRTLTests_Click);
             // 
             // kbtnAdvancedEmojiViewer
             // 
@@ -365,7 +376,7 @@ namespace TestForm
             // 
             this.kbtnExit.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.kbtnExit.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.kbtnExit.Location = new System.Drawing.Point(117, 523);
+            this.kbtnExit.Location = new System.Drawing.Point(119, 511);
             this.kbtnExit.Margin = new System.Windows.Forms.Padding(2);
             this.kbtnExit.Name = "kbtnExit";
             this.kbtnExit.Size = new System.Drawing.Size(153, 22);
@@ -542,27 +553,15 @@ namespace TestForm
             this.kryptonManager1.ToolkitStrings.MessageBoxStrings.LessDetails = "L&ess Details...";
             this.kryptonManager1.ToolkitStrings.MessageBoxStrings.MoreDetails = "&More Details...";
             // 
-            // kbtnRTLTests
-            // 
-            this.kbtnRTLTests.Location = new System.Drawing.Point(223, 492);
-            this.kbtnRTLTests.Margin = new System.Windows.Forms.Padding(2);
-            this.kbtnRTLTests.Name = "kbtnRTLTests";
-            this.kbtnRTLTests.Size = new System.Drawing.Size(153, 20);
-            this.kbtnRTLTests.TabIndex = 37;
-            this.kbtnRTLTests.Values.DropDownArrowColor = System.Drawing.Color.Empty;
-            this.kbtnRTLTests.Values.Text = "RTL Tests";
-            this.kbtnRTLTests.Click += new System.EventHandler(this.kbtnRTLTests_Click);
-            // 
             // StartScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.CancelButton = this.kbtnExit;
-            this.ClientSize = new System.Drawing.Size(407, 556);
+            this.ClientSize = new System.Drawing.Size(411, 544);
             this.Controls.Add(this.kryptonPanel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Location = new System.Drawing.Point(0, 0);
             this.MaximizeBox = false;
             this.Name = "StartScreen";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

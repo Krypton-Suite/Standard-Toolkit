@@ -29,15 +29,15 @@
         private void InitializeComponent()
         {
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
-            this.kryptonButton1 = new Krypton.Toolkit.KryptonButton();
-            this.kryptonCheckBox1 = new Krypton.Toolkit.KryptonCheckBox();
-            this.kryptonToggleSwitch1 = new Krypton.Toolkit.KryptonToggleSwitch();
+            this.kbtnToggleRTL = new Krypton.Toolkit.KryptonButton();
+            this.ktsToggleRTL = new Krypton.Toolkit.KryptonToggleSwitch();
+            this.kryptonLabel1 = new Krypton.Toolkit.KryptonLabel();
             this.kryptonToggleSwitch2 = new Krypton.Toolkit.KryptonToggleSwitch();
             this.kryptonCheckBox2 = new Krypton.Toolkit.KryptonCheckBox();
             this.kryptonButton2 = new Krypton.Toolkit.KryptonButton();
-            this.kryptonLabel1 = new Krypton.Toolkit.KryptonLabel();
-            this.ktsToggleRTL = new Krypton.Toolkit.KryptonToggleSwitch();
-            this.kbtnToggleRTL = new Krypton.Toolkit.KryptonButton();
+            this.kryptonToggleSwitch1 = new Krypton.Toolkit.KryptonToggleSwitch();
+            this.kryptonCheckBox1 = new Krypton.Toolkit.KryptonCheckBox();
+            this.kryptonButton1 = new Krypton.Toolkit.KryptonButton();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -56,32 +56,34 @@
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(804, 438);
+            this.kryptonPanel1.Size = new System.Drawing.Size(806, 432);
             this.kryptonPanel1.TabIndex = 0;
             // 
-            // kryptonButton1
+            // kbtnToggleRTL
             // 
-            this.kryptonButton1.Location = new System.Drawing.Point(13, 13);
-            this.kryptonButton1.Name = "kryptonButton1";
-            this.kryptonButton1.Size = new System.Drawing.Size(169, 25);
-            this.kryptonButton1.TabIndex = 0;
-            this.kryptonButton1.Values.DropDownArrowColor = System.Drawing.Color.Empty;
-            this.kryptonButton1.Values.Text = "Left Button";
+            this.kbtnToggleRTL.Location = new System.Drawing.Point(372, 240);
+            this.kbtnToggleRTL.Name = "kbtnToggleRTL";
+            this.kbtnToggleRTL.Size = new System.Drawing.Size(90, 25);
+            this.kbtnToggleRTL.TabIndex = 8;
+            this.kbtnToggleRTL.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kbtnToggleRTL.Values.Text = "kryptonButton3";
+            this.kbtnToggleRTL.Click += new System.EventHandler(this.kbtnToggleRTL_Click);
             // 
-            // kryptonCheckBox1
+            // ktsToggleRTL
             // 
-            this.kryptonCheckBox1.Location = new System.Drawing.Point(13, 45);
-            this.kryptonCheckBox1.Name = "kryptonCheckBox1";
-            this.kryptonCheckBox1.Size = new System.Drawing.Size(100, 20);
-            this.kryptonCheckBox1.TabIndex = 1;
-            this.kryptonCheckBox1.Values.Text = "Left CheckBox";
+            this.ktsToggleRTL.Location = new System.Drawing.Point(372, 205);
+            this.ktsToggleRTL.Name = "ktsToggleRTL";
+            this.ktsToggleRTL.Size = new System.Drawing.Size(90, 28);
+            this.ktsToggleRTL.TabIndex = 7;
+            this.ktsToggleRTL.CheckedChanged += new System.EventHandler(this.ktsToggleRTL_CheckedChanged);
             // 
-            // kryptonToggleSwitch1
+            // kryptonLabel1
             // 
-            this.kryptonToggleSwitch1.Location = new System.Drawing.Point(13, 72);
-            this.kryptonToggleSwitch1.Name = "kryptonToggleSwitch1";
-            this.kryptonToggleSwitch1.Size = new System.Drawing.Size(169, 28);
-            this.kryptonToggleSwitch1.TabIndex = 2;
+            this.kryptonLabel1.Location = new System.Drawing.Point(285, 169);
+            this.kryptonLabel1.Name = "kryptonLabel1";
+            this.kryptonLabel1.Size = new System.Drawing.Size(248, 20);
+            this.kryptonLabel1.TabIndex = 6;
+            this.kryptonLabel1.Values.Text = "Controls should mirror when RTL is enabled";
             // 
             // kryptonToggleSwitch2
             // 
@@ -107,37 +109,35 @@
             this.kryptonButton2.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kryptonButton2.Values.Text = "Right Button";
             // 
-            // kryptonLabel1
+            // kryptonToggleSwitch1
             // 
-            this.kryptonLabel1.Location = new System.Drawing.Point(285, 169);
-            this.kryptonLabel1.Name = "kryptonLabel1";
-            this.kryptonLabel1.Size = new System.Drawing.Size(248, 20);
-            this.kryptonLabel1.TabIndex = 6;
-            this.kryptonLabel1.Values.Text = "Controls should mirror when RTL is enabled";
+            this.kryptonToggleSwitch1.Location = new System.Drawing.Point(13, 72);
+            this.kryptonToggleSwitch1.Name = "kryptonToggleSwitch1";
+            this.kryptonToggleSwitch1.Size = new System.Drawing.Size(169, 28);
+            this.kryptonToggleSwitch1.TabIndex = 2;
             // 
-            // ktsToggleRTL
+            // kryptonCheckBox1
             // 
-            this.ktsToggleRTL.Location = new System.Drawing.Point(372, 205);
-            this.ktsToggleRTL.Name = "ktsToggleRTL";
-            this.ktsToggleRTL.Size = new System.Drawing.Size(90, 28);
-            this.ktsToggleRTL.TabIndex = 7;
-            this.ktsToggleRTL.CheckedChanged += new System.EventHandler(this.ktsToggleRTL_CheckedChanged);
+            this.kryptonCheckBox1.Location = new System.Drawing.Point(13, 45);
+            this.kryptonCheckBox1.Name = "kryptonCheckBox1";
+            this.kryptonCheckBox1.Size = new System.Drawing.Size(100, 20);
+            this.kryptonCheckBox1.TabIndex = 1;
+            this.kryptonCheckBox1.Values.Text = "Left CheckBox";
             // 
-            // kbtnToggleRTL
+            // kryptonButton1
             // 
-            this.kbtnToggleRTL.Location = new System.Drawing.Point(372, 240);
-            this.kbtnToggleRTL.Name = "kbtnToggleRTL";
-            this.kbtnToggleRTL.Size = new System.Drawing.Size(90, 25);
-            this.kbtnToggleRTL.TabIndex = 8;
-            this.kbtnToggleRTL.Values.DropDownArrowColor = System.Drawing.Color.Empty;
-            this.kbtnToggleRTL.Values.Text = "kryptonButton3";
-            this.kbtnToggleRTL.Click += new System.EventHandler(this.kbtnToggleRTL_Click);
+            this.kryptonButton1.Location = new System.Drawing.Point(13, 13);
+            this.kryptonButton1.Name = "kryptonButton1";
+            this.kryptonButton1.Size = new System.Drawing.Size(169, 25);
+            this.kryptonButton1.TabIndex = 0;
+            this.kryptonButton1.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kryptonButton1.Values.Text = "Left Button";
             // 
             // RTLMirroringTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(804, 438);
+            this.ClientSize = new System.Drawing.Size(806, 432);
             this.Controls.Add(this.kryptonPanel1);
             this.Name = "RTLMirroringTest";
             this.Text = "RTL Mirroring Test - LTR Mode";

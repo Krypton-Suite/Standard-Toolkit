@@ -300,6 +300,8 @@ public partial class StartScreen : KryptonForm
 
     private void kbtnRTLTests_Click(object sender, EventArgs e)
     {
-        new RTLTests.RTLTestForm().Show();
+        //new RTLTests.RTLTestForm().Show();
+
+        new KryptonBasicRTLTestForm().Show();
     }
 }
