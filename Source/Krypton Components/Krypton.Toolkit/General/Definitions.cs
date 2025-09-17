@@ -11,6 +11,7 @@
 // ReSharper disable EventNeverSubscribedTo.Global
 // ReSharper disable UnusedMemberInSuper.Global
 
+#pragma warning disable CS1587 // XML comment is not placed on a valid language element
 /// <summary>
 /// Core definitions file for the Krypton Toolkit containing interfaces, enums, and type definitions
 /// used throughout the Krypton UI component library.
@@ -24,6 +25,7 @@
 /// The definitions in this file provide the foundational types and contracts that enable
 /// the flexible theming, styling, and behavior customization capabilities of the Krypton Toolkit.
 /// </summary>
+#pragma warning restore CS1587 // XML comment is not placed on a valid language element
 namespace Krypton.Toolkit;
 
 #region IContentValues
