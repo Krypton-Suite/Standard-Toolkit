@@ -106,14 +106,14 @@ internal class KryptonCommandLinkButtonActionList : DesignerActionList
     /// </summary>
     public Image? Image
     {
-        get => _button.CommandLinkImageValues.Image;
+        get => _button.CommandLinkTextValues.Image;
 
         set
         {
-            if (_button.CommandLinkImageValues.Image != value)
+            if (_button.CommandLinkTextValues.Image != value)
             {
-                _service?.OnComponentChanged(_button, null, _button.CommandLinkImageValues.Image, value);
-                _button.CommandLinkImageValues.Image = value;
+                _service?.OnComponentChanged(_button, null, _button.CommandLinkTextValues.Image, value);
+                _button.CommandLinkTextValues.Image = value;
             }
         }
     }

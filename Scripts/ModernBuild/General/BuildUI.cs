@@ -7,10 +7,25 @@
 
 namespace Krypton.Build;
 
+/// <summary>
+/// Provides the user interface for the Krypton Modern Build tool using Terminal.Gui.
+/// This class creates and manages the complete UI layout including task controls,
+/// live output display, build settings overview, and summary views.
+/// </summary>
 public static class BuildUI
 {
+    /// <summary>
+    /// The fixed width for the tasks area panel in the UI layout.
+    /// </summary>
     private static readonly byte TASKS_AREA_WIDTH = 40;
 
+    /// <summary>
+    /// Creates and configures the main UI for the Modern Build tool.
+    /// Sets up the complete layout with task controls, live output, build settings, and summary views.
+    /// Configures keyboard shortcuts, event handlers, and UI refresh timers.
+    /// </summary>
+    /// <param name="state">The application state containing build configuration and settings.</param>
+    /// <returns>The configured Toplevel UI container ready for display.</returns>
     internal static Toplevel Create(AppState state)
     {
         var top = new Toplevel
@@ -52,6 +67,13 @@ public static class BuildUI
             HotFocus  = new Terminal.Gui.Attribute(Terminal.Gui.Color.BrightYellow, Terminal.Gui.Color.Black)
         };
 
+        /// <summary>
+        /// Creates a hotkey button with consistent styling and behavior.
+        /// </summary>
+        /// <param name="key">The key text to display on the button.</param>
+        /// <param name="row">The row position for the button.</param>
+        /// <param name="onClick">The action to execute when the button is activated.</param>
+        /// <returns>A configured Button control with hotkey styling.</returns>
         Button MakeHK(string key, int row, Action onClick)
         {
             var b = new Button
@@ -71,6 +93,11 @@ public static class BuildUI
             return b;
         }
 
+        /// <summary>
+        /// Creates a text label with consistent positioning and styling.
+        /// </summary>
+        /// <param name="row">The row position for the label.</param>
+        /// <returns>A configured Label control for displaying text information.</returns>
         Label MakeText(int row)
         {
             return new Label
@@ -620,32 +647,130 @@ public static class BuildUI
         return top;
     }
 
+    /// <summary>
+    /// Contains references to all UI components used throughout the application.
+    /// This context object is passed to render methods to provide access to UI controls
+    /// for updating their content, visibility, and properties.
+    /// </summary>
     internal sealed class UIContext
     {
+        /// <summary>
+        /// The frame containing the task controls and hotkeys.
+        /// </summary>
         public FrameView? TasksFrame { get; set; }
+        
+        /// <summary>
+        /// The frame containing the build summary display.
+        /// </summary>
         public FrameView? SummaryFrame { get; set; }
+        
+        /// <summary>
+        /// The color scheme for regular UI panels.
+        /// </summary>
         public ColorScheme? PanelScheme { get; set; }
+        
+        /// <summary>
+        /// The color scheme for NuGet-related UI elements.
+        /// </summary>
         public ColorScheme? NugetScheme { get; set; }
+        
+        /// <summary>
+        /// The checkbox for enabling ZIP creation of NuGet packages.
+        /// </summary>
         public CheckBox? CreateZip { get; set; }
+        
+        /// <summary>
+        /// The status label showing build state and timing information.
+        /// </summary>
         public Label? Status { get; set; }
+        
+        /// <summary>
+        /// Text label for F1 hotkey (Channel information).
+        /// </summary>
         public Label? Tx1 { get; set; }
+        
+        /// <summary>
+        /// Text label for F2 hotkey (Action information).
+        /// </summary>
         public Label? Tx2 { get; set; }
+        
+        /// <summary>
+        /// Text label for F3 hotkey (Configuration information).
+        /// </summary>
         public Label? Tx3 { get; set; }
+        
+        /// <summary>
+        /// Text label for F4 hotkey (Page switching information).
+        /// </summary>
         public Label? Tx4 { get; set; }
+        
+        /// <summary>
+        /// Text label for F5 hotkey (Run/Stop information).
+        /// </summary>
         public Label? Tx5 { get; set; }
+        
+        /// <summary>
+        /// Text label for F6 hotkey (Tail size or symbols information).
+        /// </summary>
         public Label? Tx6 { get; set; }
+        
+        /// <summary>
+        /// Text label for F7 hotkey (Clean or skip duplicate information).
+        /// </summary>
         public Label? Tx7 { get; set; }
+        
+        /// <summary>
+        /// Text label for F8 hotkey (Clear output or source information).
+        /// </summary>
         public Label? Tx8 { get; set; }
+        
+        /// <summary>
+        /// Text label for F9 hotkey (Pack mode information).
+        /// </summary>
         public Label? Tx9 { get; set; }
+        
+        /// <summary>
+        /// Text label for ESC hotkey (Exit information).
+        /// </summary>
         public Label? TxEsc { get; set; }
+        
+        /// <summary>
+        /// The TEST button for previewing NuGet commands.
+        /// </summary>
         public Button? TestBtn { get; set; }
+        
+        /// <summary>
+        /// Text label for the TEST button.
+        /// </summary>
         public Label? TxTest { get; set; }
+        
+        /// <summary>
+        /// The hint label providing contextual help text.
+        /// </summary>
         public Label? Hint { get; set; }
+        
+        /// <summary>
+        /// The text view showing build settings overview.
+        /// </summary>
         public TextView? Overview { get; set; }
+        
+        /// <summary>
+        /// The text view showing build summary information.
+        /// </summary>
         public TextView? Summary { get; set; }
+        
+        /// <summary>
+        /// The list view displaying live build output.
+        /// </summary>
         public ListView? OutputList { get; set; }
     }
 
+    /// <summary>
+    /// Renders all UI components with current state information.
+    /// Updates status, tasks, overview, and summary displays.
+    /// </summary>
+    /// <param name="state">The application state containing current build information.</param>
+    /// <param name="ui">The UI context containing references to all UI components.</param>
     private static void RenderAll(AppState state, UIContext ui)
     {
         BuildLogic.EnsurePaths(state);
@@ -655,6 +780,12 @@ public static class BuildUI
         RenderSummary(state, ui);
     }
 
+    /// <summary>
+    /// Gets the next build action in the Ops page cycle, excluding NuGet-specific actions.
+    /// Provides a simplified cycle for the Ops page that skips NuGetTools and Installer actions.
+    /// </summary>
+    /// <param name="action">The current build action.</param>
+    /// <returns>The next build action in the Ops cycle (Build → Rebuild → Pack → BuildPack → Debug → Build).</returns>
     private static BuildAction NextOpsAction(BuildAction action)
     {
         // Same cycle as BuildLogic.NextAction but skipping NuGetTools
@@ -671,6 +802,12 @@ public static class BuildUI
         };
     }
 
+    /// <summary>
+    /// Gets the next NuGet action in the NuGet page cycle.
+    /// Cycles through different NuGet operations available in the NuGet page.
+    /// </summary>
+    /// <param name="action">The current NuGet action.</param>
+    /// <returns>The next NuGet action in the cycle (RebuildPack → Push → PackPush → BuildPackPush → Tools → RebuildPack).</returns>
     private static NuGetAction NextNuGetAction(NuGetAction action)
     {
         return action switch
@@ -683,6 +820,12 @@ public static class BuildUI
         };
     }
 
+    /// <summary>
+    /// Formats a NuGet action enum value into a user-friendly display string.
+    /// Converts enum values to readable descriptions for UI display.
+    /// </summary>
+    /// <param name="action">The NuGet action to format.</param>
+    /// <returns>A formatted string representation of the NuGet action.</returns>
     private static string FormatNuGetAction(NuGetAction action)
     {
         return action switch
@@ -696,6 +839,12 @@ public static class BuildUI
         };
     }
 
+    /// <summary>
+    /// Gets the next NuGet source in the NuGet source cycle.
+    /// Cycles through different NuGet package sources for pushing packages.
+    /// </summary>
+    /// <param name="source">The current NuGet source.</param>
+    /// <returns>The next NuGet source in the cycle (Default → NuGetOrg → GitHub → Custom → Default).</returns>
     private static NuGetSource NextNuGetSource(NuGetSource source)
     {
         return source switch
@@ -707,6 +856,13 @@ public static class BuildUI
         };
     }
 
+    /// <summary>
+    /// Formats a NuGet source enum value and custom URL into a user-friendly display string.
+    /// Handles special cases for custom sources and provides readable descriptions.
+    /// </summary>
+    /// <param name="source">The NuGet source enum value.</param>
+    /// <param name="custom">The custom source URL (used when source is Custom).</param>
+    /// <returns>A formatted string representation of the NuGet source.</returns>
     private static string FormatNuGetSource(NuGetSource source, string custom)
     {
         return source switch
@@ -719,6 +875,12 @@ public static class BuildUI
         };
     }
 
+    /// <summary>
+    /// Renders the status bar with build state, elapsed time, and error/warning counts.
+    /// Updates the status label with current build information and timestamp.
+    /// </summary>
+    /// <param name="state">The application state containing build status information.</param>
+    /// <param name="ui">The UI context containing the status label to update.</param>
     private static void RenderStatus(AppState state, UIContext ui)
     {
         string st = state.IsRunning ? "RUNNING" : (state.LastExitCode == 0 ? "DONE" : "IDLE");
@@ -739,7 +901,13 @@ public static class BuildUI
         }
     }
 
-        private static void RenderTasks(AppState state, UIContext ui)
+    /// <summary>
+    /// Renders the tasks panel with current settings and available actions.
+    /// Updates task descriptions based on the current page (Ops or NuGet) and build state.
+    /// </summary>
+    /// <param name="state">The application state containing task configuration.</param>
+    /// <param name="ui">The UI context containing task-related UI components.</param>
+    private static void RenderTasks(AppState state, UIContext ui)
     {
         if (state.TasksPage == TasksPage.Ops)
         {
@@ -897,6 +1065,12 @@ public static class BuildUI
         }
     }
 
+    /// <summary>
+    /// Renders the build settings overview panel.
+    /// Displays project file paths, MSBuild location, and log file paths in a formatted view.
+    /// </summary>
+    /// <param name="state">The application state containing build configuration and paths.</param>
+    /// <param name="ui">The UI context containing the overview text view.</param>
     private static void RenderOverview(AppState state, UIContext ui)
     {
         string prefix = state.Channel.ToString().ToLowerInvariant();
@@ -968,6 +1142,12 @@ public static class BuildUI
         }
     }
 
+    /// <summary>
+    /// Renders the build summary panel with paginated summary information.
+    /// Displays build results, errors, warnings, and timing information from completed builds.
+    /// </summary>
+    /// <param name="state">The application state containing summary information.</param>
+    /// <param name="ui">The UI context containing the summary text view.</param>
     private static void RenderSummary(AppState state, UIContext ui)
     {
         if (ui.Summary == null)
@@ -995,12 +1175,25 @@ public static class BuildUI
         ui.Summary.MoveEnd();
     }
 
+    /// <summary>
+    /// Removes color markup tags from a line of text for display in the UI.
+    /// Strips [red], [yellow], and [/] tags and normalizes spacing.
+    /// </summary>
+    /// <param name="line">The line of text containing color markup.</param>
+    /// <returns>The cleaned text without color markup tags.</returns>
     private static string Colorize(string line)
     {
         string text = line.Replace("[red]", string.Empty).Replace("[/]", string.Empty).Replace("[yellow]", string.Empty);
         return text.Replace("     ", "  ");
     }
 
+    /// <summary>
+    /// Performs soft text wrapping to fit text within a specified maximum width.
+    /// Breaks text at word boundaries when possible, or at character boundaries if necessary.
+    /// </summary>
+    /// <param name="text">The text to wrap.</param>
+    /// <param name="maxWidth">The maximum width for each line.</param>
+    /// <returns>An enumerable of wrapped text lines.</returns>
     private static IEnumerable<string> SoftWrap(string text, int maxWidth)
     {
         if (string.IsNullOrEmpty(text))
