@@ -210,7 +210,8 @@ public class KryptonForm : VisualForm,
             OnNeedPaint);
 
         // Only create system menu service if not in design mode
-        if (Site?.DesignMode != true)
+        // Use LicenseManager.UsageMode for more reliable design-time detection
+        if (LicenseManager.UsageMode != LicenseUsageMode.Designtime)
         {
             _systemMenuService = new KryptonSystemMenuService(this);
             _systemMenuValues = new SystemMenuValues(OnNeedPaint);
@@ -1191,7 +1192,18 @@ public class KryptonForm : VisualForm,
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Advanced)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public override IKryptonSystemMenu? KryptonSystemMenu => _systemMenuService?.SystemMenu;
+    public override IKryptonSystemMenu? KryptonSystemMenu => IsInDesignMode() ? null : _systemMenuService?.SystemMenu;
+
+    /// <summary>
+    /// Robust design mode detection that works both at design time and runtime.
+    /// </summary>
+    private bool IsInDesignMode()
+    {
+        // Multiple checks for robust designer mode detection
+        return LicenseManager.UsageMode == LicenseUsageMode.Designtime ||
+               Site?.DesignMode == true ||
+               (Site?.Container?.Components?.OfType<Control>().Any(c => c.Site?.DesignMode == true) == true);
+    }
 
     /// <summary>
     /// Gets access to the ToolTipManager used for displaying tool tips.
@@ -1671,7 +1683,7 @@ public class KryptonForm : VisualForm,
         {
             // Handle right-click in non-client area (title bar and control buttons)
             // Only show system menu if ControlBox is true and not in design mode
-            if (Site?.DesignMode != true && ControlBox && _systemMenuValues?.Enabled == true && 
+            if (!IsInDesignMode() && ControlBox && _systemMenuValues?.Enabled == true && 
                 _systemMenuValues.ShowOnRightClick && _systemMenuService != null &&
                 _systemMenuService.ShowSystemMenuOnRightClick)
             {
@@ -1845,7 +1857,7 @@ public class KryptonForm : VisualForm,
     protected override IntPtr WindowChromeHitTest(Point pt)
     {
         // Don't interfere with designer operations
-        if (Site?.DesignMode == true)
+        if (IsInDesignMode())
         {
             return base.WindowChromeHitTest(pt);
         }
@@ -2033,7 +2045,7 @@ public class KryptonForm : VisualForm,
     protected override bool OnWM_NCLBUTTONDOWN(ref Message m)
     {
         // Don't interfere with designer operations
-        if (Site?.DesignMode == true)
+        if (IsInDesignMode())
         {
             return base.OnWM_NCLBUTTONDOWN(ref m);
         }
@@ -2894,7 +2906,7 @@ public class KryptonForm : VisualForm,
     {
         // Handle themed system menu keyboard shortcuts
         // Only handle themed system menu shortcuts if ControlBox is true and not in design mode
-        if (Site?.DesignMode != true && ControlBox && _systemMenuValues?.Enabled == true && _systemMenuService != null)
+        if (!IsInDesignMode() && ControlBox && _systemMenuValues?.Enabled == true && _systemMenuService != null)
         {
             if (_systemMenuService.HandleKeyboardShortcut(keyData))
             {
@@ -3052,7 +3064,7 @@ public class KryptonForm : VisualForm,
     protected override void ShowSystemMenu(Point screenLocation)
     {
         // Only show system menu if not in design mode and service exists
-        if (Site?.DesignMode != true && _systemMenuValues?.Enabled == true && _systemMenuService != null)
+        if (!IsInDesignMode() && _systemMenuValues?.Enabled == true && _systemMenuService != null)
         {
             // Refresh the menu to ensure it reflects current form state
             _systemMenuService.SystemMenu.Refresh();
@@ -3066,7 +3078,7 @@ public class KryptonForm : VisualForm,
     protected override void ShowSystemMenuAtFormTopLeft()
     {
         // Only show system menu if not in design mode and service exists
-        if (Site?.DesignMode != true && _systemMenuValues?.Enabled == true && _systemMenuService != null)
+        if (!IsInDesignMode() && _systemMenuValues?.Enabled == true && _systemMenuService != null)
         {
             // Refresh the menu to ensure it reflects current form state
             _systemMenuService.SystemMenu.Refresh();
@@ -3082,7 +3094,7 @@ public class KryptonForm : VisualForm,
     protected override bool HandleSystemMenuKeyboardShortcut(Keys keyData)
     {
         // Only handle themed system menu shortcuts if ControlBox is true and not in design mode
-        if (Site?.DesignMode != true && ControlBox && _systemMenuValues?.Enabled == true && _systemMenuService != null)
+        if (!IsInDesignMode() && ControlBox && _systemMenuValues?.Enabled == true && _systemMenuService != null)
         {
             // Handle Alt+F4 for close
             if (keyData == (Keys.Alt | Keys.F4))
