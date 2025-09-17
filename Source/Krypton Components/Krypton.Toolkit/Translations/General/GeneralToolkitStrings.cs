@@ -16,6 +16,8 @@ namespace Krypton.Toolkit;
 public class GeneralToolkitStrings : GlobalId
 {
     #region Static Fields
+
+    private const string DEFAULT_ADMINISTRATOR = @"Administrator";
     private const string DEFAULT_OK = @"O&K"; // Accelerator key - K
     private const string DEFAULT_CANCEL = @"Cance&l"; // Accelerator key - L
     private const string DEFAULT_YES = @"&Yes"; // Accelerator key - Y
@@ -60,7 +62,8 @@ public class GeneralToolkitStrings : GlobalId
     /// </summary>
     /// <returns>True if all values are defaulted; otherwise false.</returns>
     [Browsable(false)]
-    public bool IsDefault => OK.Equals(DEFAULT_OK) &&
+    public bool IsDefault => Administrator.Equals(DEFAULT_ADMINISTRATOR) && 
+                             OK.Equals(DEFAULT_OK) &&
                              Cancel.Equals(DEFAULT_CANCEL) &&
                              Yes.Equals(DEFAULT_YES) &&
                              No.Equals(DEFAULT_NO) &&
@@ -82,6 +85,7 @@ public class GeneralToolkitStrings : GlobalId
     /// </summary>
     public void Reset()
     {
+        Administrator = DEFAULT_ADMINISTRATOR;
         OK = DEFAULT_OK;
         Cancel = DEFAULT_CANCEL;
         Yes = DEFAULT_YES;
@@ -105,6 +109,16 @@ public class GeneralToolkitStrings : GlobalId
         /*MoreDetails = DEFAULT_MORE_DETAILS;
         LessDetails = DEFAULT_LESS_DETAILS;*/
     }
+
+    /// <summary>
+    /// Gets and sets the Administrator string used in KryptonForm.
+    /// </summary>
+    [Localizable(true)]
+    [Category(@"Visuals")]
+    [Description(@"Administrator string used for KryptonForm.")]
+    [DefaultValue(DEFAULT_ADMINISTRATOR)]
+    [RefreshProperties(RefreshProperties.All)]
+    public string Administrator { get; set; }
 
     /// <summary>
     /// Gets and sets the OK string used in message box buttons.
