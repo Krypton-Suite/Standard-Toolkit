@@ -1,7 +1,16 @@
-using System;
-using System.Drawing;
-using System.Windows.Forms;
+namespace TestForm;
 
+/// <summary>
+/// Wrapper around Cyotek ColorPickerDialog that adds a bottom checkbox for enabling live theme updates and
+/// fires <see cref="LiveColorChanged"/> whenever the user changes the colour while the checkbox is checked.
+/// </summary>
+internal sealed class LiveColorPickerDialog : Cyotek.Windows.Forms.ColorPickerDialog
+{
+    private readonly CheckBox _chkLive;
+    private readonly FlowLayoutPanel _bottomPanel;
+    private readonly Button _btnReset;
+    private Color _initialColor;
+    private bool _panelAdded;
 namespace TestForm;
 
 /// <summary>
