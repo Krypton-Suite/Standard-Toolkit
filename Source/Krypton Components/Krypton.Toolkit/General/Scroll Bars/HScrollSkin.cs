@@ -68,7 +68,7 @@ public class HScrollSkin : Panel
         // add Palette Handler
         if (_palette != null)
         {
-            _palette.PalettePaint += OnPalettePaint;
+            _palette.PalettePaintInternal += OnPalettePaint;
         }
 
         KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged;
@@ -91,7 +91,7 @@ public class HScrollSkin : Panel
         // add Palette Handler
         if (_palette != null)
         {
-            _palette.PalettePaint += OnPalettePaint;
+            _palette.PalettePaintInternal += OnPalettePaint;
         }
 
         KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged;
@@ -529,7 +529,7 @@ public class HScrollSkin : Panel
         {
             if (_palette != null)
             {
-                _palette.PalettePaint -= OnPalettePaint;
+                _palette.PalettePaintInternal -= OnPalettePaint;
                 _palette = null;
             }
 
@@ -548,7 +548,7 @@ public class HScrollSkin : Panel
     {
         if (_palette != null)
         {
-            _palette.PalettePaint -= OnPalettePaint;
+            _palette.PalettePaintInternal -= OnPalettePaint;
         }
 
         _palette = KryptonManager.CurrentGlobalPalette;
@@ -556,7 +556,7 @@ public class HScrollSkin : Panel
 
         if (_palette != null)
         {
-            _palette.PalettePaint += OnPalettePaint;
+            _palette.PalettePaintInternal += OnPalettePaint;
         }
 
         Invalidate();

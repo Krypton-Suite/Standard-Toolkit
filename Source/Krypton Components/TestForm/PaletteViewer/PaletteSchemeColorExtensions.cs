@@ -1,7 +1,4 @@
-using System;
-using System.Drawing;
 using System.Reflection;
-using Krypton.Toolkit;
 
 namespace TestForm;
 

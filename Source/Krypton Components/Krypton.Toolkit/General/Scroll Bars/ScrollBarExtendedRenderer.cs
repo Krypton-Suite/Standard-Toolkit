@@ -74,7 +74,7 @@ internal static class ScrollBarExtendedRenderer
         // add Palette Handler
         if (_palette != null)
         {
-            _palette.PalettePaint += OnPalettePaint;
+            _palette.PalettePaintInternal += OnPalettePaint;
         }
 
         KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged;
@@ -933,7 +933,7 @@ internal static class ScrollBarExtendedRenderer
     {
         if (_palette != null)
         {
-            _palette.PalettePaint -= OnPalettePaint;
+            _palette.PalettePaintInternal -= OnPalettePaint;
         }
 
         _palette = KryptonManager.CurrentGlobalPalette;
@@ -941,7 +941,7 @@ internal static class ScrollBarExtendedRenderer
 
         if (_palette != null)
         {
-            _palette.PalettePaint += OnPalettePaint;
+            _palette.PalettePaintInternal += OnPalettePaint;
             //repaint with new values
 
             InitColours();

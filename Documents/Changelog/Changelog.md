@@ -4,6 +4,13 @@
 
 ## 2025-11-xx - Build 2511 (V10 - alpha) - November 2025
 * Resolved [#2461](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2461), (feat) Add `KryptonCalcInput` edit+dropdown control.
+* Resolved [#2492](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2492), `KryptonForm` does not display '(Administrator)' when elevated
+* Resolved [#2502](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2502), **[Breaking Change]** `KryptonCommandLinkButton` updates several properties and their behaviour. See issue for full details.
+* Resolved [#2495](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2495), `KryptonProgressBar` private field `_mementoContent` can be null.
+* Resolved [#2490](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2490), `KryptonComboBox` uses an incorrect Items editor string.
+* Resolved [#2487](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2487), `PaletteBase.PalettePaint` event is not synchronized toward the user.
+* Implemented [#2446](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2446), Add `build.yml` to `.github/workflows`.
+* Implemented [#1376](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1376),  **[Breaking Change]**  `KryptonTaskDialog` has had a full overhaul. Please refer to the ticket for full details, status and code sample to get started.
 * Implemented [#648](https://github.com/Krypton-Suite/Standard-Toolkit/issues/648), SystemMenu to be theme related
 * Resolved [#2128](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2128), (feat) Add `ButtonSpecs` to `KDataGridView` cells when editing.
 * Resolved [#2463](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2463), `KryptonForm` has incorrect title-bar button behaviour.
