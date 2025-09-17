@@ -333,5 +333,6 @@ Source/Krypton Components/Temp.txt
 Source/Krypton Components/Krypton.Ribbon/Temp.txt
 
 .cursor/
+.vscode/
 Terminal.Gui/
 Scripts/ModernBuild/*.txt
