@@ -92,8 +92,7 @@ public class KryptonCommandLinkButton : VisualSimpleBase, IButtonControl
         _useMnemonic = true;
 
         // Create content storage
-        CommandLinkImageValues = new CommandLinkImageValues(NeedPaintDelegate);
-        CommandLinkImageValues.Image = CommandLinkImageResources.Windows_11_CommandLink_Arrow;
+        UACShieldIcon = new CommandLinkImageValues(NeedPaintDelegate);
         CommandLinkTextValues = new CommandLinkTextValues(NeedPaintDelegate, GetDpiFactor);
 
         // Create the palette storage
@@ -129,7 +128,7 @@ public class KryptonCommandLinkButton : VisualSimpleBase, IButtonControl
             _overrideTracking,
             _overridePressed,
             new PaletteMetricRedirect(Redirector),
-            CommandLinkImageValues, CommandLinkTextValues,
+            UACShieldIcon, CommandLinkTextValues,
             Orientation,
             UseMnemonic)
         {
@@ -162,16 +161,20 @@ public class KryptonCommandLinkButton : VisualSimpleBase, IButtonControl
     /// <summary>
     /// Gets and sets the automatic resize of the control to fit contents.
     /// </summary>
-    [Browsable(false)]
+    [Browsable(true)]
     [Localizable(false)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [EditorBrowsable(EditorBrowsableState.Always)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public override bool AutoSize
     {
         get => base.AutoSize;
+
         set
         {
-            // Do nothing }
+            if (base.AutoSize != value)
+            {
+                base.AutoSize = value;
+            }
         }
     }
 
@@ -229,7 +232,6 @@ public class KryptonCommandLinkButton : VisualSimpleBase, IButtonControl
 
                 // Update the associated visual elements that are effected
                 _drawCommandLinkButton.Orientation = value;
-
                 PerformNeedPaint(true);
             }
         }
@@ -273,7 +275,7 @@ public class KryptonCommandLinkButton : VisualSimpleBase, IButtonControl
     [Category("CommandLink")]
     [Description("CommandLink Button Image")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-    public CommandLinkImageValues CommandLinkImageValues { get; }
+    public CommandLinkImageValues UACShieldIcon { get; }
 
     private bool ShouldSerializeValues() => false;
 
@@ -604,30 +606,14 @@ public class KryptonCommandLinkButton : VisualSimpleBase, IButtonControl
     /// <inheritdoc />
     protected override void OnPaint(PaintEventArgs? e)
     {
-        StateCommon.Content.LongText.Font = CommandLinkTextValues.DescriptionFont != null
-            ? CommandLinkTextValues.DescriptionFont
-            : null;
+        StateCommon.Content.LongText.Font = CommandLinkTextValues.DescriptionFont;
+        StateCommon.Content.ShortText.Font = CommandLinkTextValues.HeadingFont;
 
-        StateCommon.Content.ShortText.Font =
-            CommandLinkTextValues.HeadingFont != null
-                ? CommandLinkTextValues.HeadingFont
-                : null;
+        StateCommon.Content.LongText.TextH = CommandLinkTextValues.DescriptionTextHAlignment;
+        StateCommon.Content.LongText.TextV = CommandLinkTextValues.DescriptionTextVAlignment;
 
-        StateCommon.Content.LongText.TextH = CommandLinkTextValues.DescriptionTextHAlignment != null
-            ? CommandLinkTextValues.DescriptionTextHAlignment ?? PaletteRelativeAlign.Near
-            : PaletteRelativeAlign.Near;
-
-        StateCommon.Content.LongText.TextV = CommandLinkTextValues.DescriptionTextVAlignment != null
-            ? CommandLinkTextValues.DescriptionTextVAlignment ?? PaletteRelativeAlign.Far
-            : PaletteRelativeAlign.Far;
-
-        StateCommon.Content.ShortText.TextH = CommandLinkTextValues.HeadingTextHAlignment != null
-            ? CommandLinkTextValues.HeadingTextHAlignment ?? PaletteRelativeAlign.Near
-            : PaletteRelativeAlign.Near;
-
-        StateCommon.Content.ShortText.TextV = CommandLinkTextValues.HeadingTextVAlignment != null
-            ? CommandLinkTextValues.HeadingTextVAlignment ?? PaletteRelativeAlign.Center
-            : PaletteRelativeAlign.Center;
+        StateCommon.Content.ShortText.TextH = CommandLinkTextValues.HeadingTextHAlignment;
+        StateCommon.Content.ShortText.TextV = CommandLinkTextValues.HeadingTextVAlignment;
 
         base.OnPaint(e);
     }
