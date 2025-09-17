@@ -11,11 +11,25 @@
 // ReSharper disable EventNeverSubscribedTo.Global
 // ReSharper disable UnusedMemberInSuper.Global
 
+/// <summary>
+/// Core definitions file for the Krypton Toolkit containing interfaces, enums, and type definitions
+/// used throughout the Krypton UI component library.
+/// 
+/// This file contains:
+/// - Core interfaces for content values, button specifications, and context menu providers
+/// - Enumerations for UI states, orientations, styles, and behaviors
+/// - Type definitions for palette states, button styles, and layout specifications
+/// - Constants and enumerations for message boxes, icons, and theme types
+/// 
+/// The definitions in this file provide the foundational types and contracts that enable
+/// the flexible theming, styling, and behavior customization capabilities of the Krypton Toolkit.
+/// </summary>
 namespace Krypton.Toolkit;
 
 #region IContentValues
 /// <summary>
-/// Exposes access to content values.
+/// Defines the contract for providing content values including images, text, and styling information.
+/// This interface is used by UI elements that need to display content with support for different states.
 /// </summary>
 public interface IContentValues
 {
@@ -49,7 +63,8 @@ public interface IContentValues
 
 #region IButtonSpecValues
 /// <summary>
-/// Exposes access to button specification values.
+/// Defines the contract for providing button specification values including appearance, behavior, and state information.
+/// This interface is used by button specifications to provide dynamic content and styling based on palette and state.
 /// </summary>
 public interface IButtonSpecValues
 {
@@ -165,7 +180,8 @@ public interface IButtonSpecValues
 
 #region IContextMenuProvider
 /// <summary>
-/// Interface exposed by a context menu provider.
+/// Defines the contract for context menu providers that manage context menu lifecycle and events.
+/// This interface is used by controls that can display context menus and need to manage their creation, display, and disposal.
 /// </summary>
 public interface IContextMenuProvider
 {
@@ -1008,6 +1024,7 @@ public enum TabBorderStyle
 #region Enum ButtonEnabled
 /// <summary>
 /// Specifies the enabled state of a button specification.
+/// Controls whether a button is enabled, disabled, or inherits its state from the container.
 /// </summary>
 public enum ButtonEnabled
 {
@@ -1031,6 +1048,7 @@ public enum ButtonEnabled
 #region Enum ButtonOrientation
 /// <summary>
 /// Specifies the orientation of a button specification.
+/// Controls how buttons are positioned and oriented within their container.
 /// </summary>
 public enum ButtonOrientation
 {
@@ -2012,7 +2030,10 @@ public enum KryptonMessageBoxIcon
 
 #region Enum KryptonMessageBoxButtons
 
-/// <summary>Specifies constants defining which buttons to display on a <see cref="T:KryptonMessageBox" />.</summary>
+/// <summary>
+/// Specifies constants defining which buttons to display on a <see cref="T:KryptonMessageBox" />.
+/// Provides themed alternatives to the standard MessageBox buttons with consistent Krypton styling.
+/// </summary>
 public enum KryptonMessageBoxButtons
 {
     /// <summary>
@@ -3200,6 +3221,7 @@ public enum SystemMenuIconType
 
 /// <summary>
 /// Types of themes that can be applied to the system menu icons.
+/// Defines the available visual themes for customizing the appearance of system menu icons and elements.
 /// </summary>
 public enum ThemeType
 {
