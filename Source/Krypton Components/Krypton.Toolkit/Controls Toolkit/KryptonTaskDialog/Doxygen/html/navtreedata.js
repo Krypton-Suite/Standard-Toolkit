@@ -37,9 +37,10 @@ var NAVTREE =
       [ "Class Index", "classes.html", null ],
       [ "Class Hierarchy", "hierarchy.html", "hierarchy" ],
       [ "Class Members", "functions.html", [
-        [ "All", "functions.html", null ],
+        [ "All", "functions.html", "functions_dup" ],
         [ "Functions", "functions_func.html", null ],
         [ "Variables", "functions_vars.html", null ],
+        [ "Enumerations", "functions_enum.html", null ],
         [ "Properties", "functions_prop.html", null ],
         [ "Events", "functions_evnt.html", null ]
       ] ]
@@ -53,7 +54,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "_i_krypton_task_dialog_element_base_8cs.html",
-"functions_func.html"
+"class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_hyper_link.html#a11901780e26a9309177500d37458c5f1",
+"interface_krypton_1_1_toolkit_1_1_i_krypton_task_dialog_element_font.html#a744405d241ef56da2d9fb14cb7d4504f"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

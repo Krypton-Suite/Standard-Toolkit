@@ -51,6 +51,28 @@ public class KryptonTaskDialogElementHyperLink : KryptonTaskDialogElementSingleL
 
     #region Protected/Internal (override)
     /// <inheritdoc/>
+    protected override void OnSizeChanged(bool performLayout = false)
+    {
+        // Updates / changes are deferred if the element is not visible or until PerformLayout is called
+        if (LayoutDirty && (Visible || performLayout))
+        {
+            // Get the description size
+            int height = ShowDescription
+                ? _description.Height + _description.Margin.Bottom
+                : 0;
+
+            // Size the panel
+            Panel.Height = Defaults.PanelTop + Defaults.PanelBottom + _linkLabel.Height + height;
+
+            // Tell everybody about it when visible.
+            base.OnSizeChanged(performLayout);
+
+            // Done
+            LayoutDirty = false;
+        }
+    }
+
+    /// <inheritdoc/>
     internal override void PerformLayout()
     {
         base.PerformLayout();
@@ -69,7 +91,7 @@ public class KryptonTaskDialogElementHyperLink : KryptonTaskDialogElementSingleL
     {
         base.OnGlobalPaletteChanged(sender, e);
 
-        // Safegaurd against an "early" call from OnGlobalPaletteChanged()
+        // Safeguard against an "early" call from OnGlobalPaletteChanged()
         if (_description is not null && _linkLabel is not null)
         {
             UpdateLinkColors();
@@ -142,41 +164,17 @@ public class KryptonTaskDialogElementHyperLink : KryptonTaskDialogElementSingleL
     #endregion
 
     #region Private
-    private void OnSizeChanged(bool performLayout = false)
-    {
-        // Updates / changes are deferred if the element is not visible or until PerformLayout is called
-        if (LayoutDirty && (Visible || performLayout))
-        {
-            // Get the description size
-            int height = ShowDescription
-                ? _description.Height + _description.Margin.Bottom
-                : 0;
-
-            // Size the panel
-            Panel.Height = Defaults.PanelTop + Defaults.PanelBottom + _linkLabel.Height + height;
-
-            // Tell everybody about it when visible.
-            if (!performLayout)
-            {
-                base.OnSizeChanged();
-            }
-
-            // Done
-            LayoutDirty = false;
-        }
-    }
-
     private void SetupPanel()
     {
         // Label holds the description that goes with the hyperlink
         _description.AutoSize = true;
-        _description.Padding = _nullPadding;
+        _description.Padding = Defaults.NullPadding;
         _description.Margin = new Padding(0, 0, 0, Defaults.ComponentSpace);
 
         // The hyperlink
         _linkLabel.AutoSize = true;
-        _linkLabel.Padding = _nullPadding;
-        _linkLabel.Margin = _nullMargin;
+        _linkLabel.Padding = Defaults.NullPadding;
+        _linkLabel.Margin = Defaults.NullPadding;
         _linkLabel.LinkClicked += OnLinkClicked;
 
         // add the controls

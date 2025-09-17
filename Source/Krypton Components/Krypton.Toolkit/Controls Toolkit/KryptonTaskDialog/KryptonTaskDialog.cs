@@ -70,6 +70,7 @@ public class KryptonTaskDialog : IDisposable
         CheckBox      = new KryptonTaskDialogElementCheckBox(_defaults);
         HyperLink     = new KryptonTaskDialogElementHyperLink(_defaults);
         ComboBox      = new KryptonTaskDialogElementComboBox(_defaults);
+        ProgresBar    = new KryptonTaskDialogElementProgresBar(_defaults);
         CommonButtons = new KryptonTaskDialogElementCommonButtons(_defaults, _form);
         FooterBar     = new KryptonTaskDialogElementFooterBar(_defaults, Expander);
 
@@ -81,6 +82,7 @@ public class KryptonTaskDialog : IDisposable
         _elements.Add(CheckBox);
         _elements.Add(ComboBox);
         _elements.Add(HyperLink);
+        _elements.Add(ProgresBar);
         _elements.Add(CommonButtons);
         _elements.Add(FooterBar);
 
@@ -157,6 +159,13 @@ public class KryptonTaskDialog : IDisposable
     /// </summary>
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public KryptonTaskDialogElementHyperLink HyperLink { get; }
+
+    /// <summary>
+    /// Contains the properties for the ProgressBar element.<br/>
+    /// </summary>
+    [TypeConverter(typeof(ExpandableObjectConverter))]
+    public KryptonTaskDialogElementProgresBar ProgresBar{ get; }
+
     #endregion;
 
     #region Public methods
