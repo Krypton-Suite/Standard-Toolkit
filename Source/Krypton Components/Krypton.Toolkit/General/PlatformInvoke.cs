@@ -32,47 +32,104 @@
 using Microsoft.Win32.SafeHandles;
 using static System.Runtime.InteropServices.Marshal;
 
-
+/// <summary>
+/// Platform Invoke declarations and Windows API bindings for the Krypton Toolkit.
+/// This file contains P/Invoke declarations, Windows API constants, enums, structures,
+/// and utility methods required for native Windows functionality integration.
+/// 
+/// This file includes:
+/// - Windows API library references (user32.dll, gdi32.dll, etc.)
+/// - Platform Invoke method declarations for Windows APIs
+/// - Windows constants, enums, and structures
+/// - Device capability definitions and system metrics
+/// - Window management, drawing, and UI interaction APIs
+/// - DWM (Desktop Window Manager) and composition APIs
+/// - Utility methods for safe handle management and marshaling
+/// 
+/// The declarations in this file enable the Krypton Toolkit to access native Windows
+/// functionality for advanced UI rendering, window management, and system integration.
+/// </summary>
 namespace Krypton.Toolkit;
 
+/// <summary>
+/// Contains string constants for Windows API library names used in Platform Invoke declarations.
+/// These constants provide centralized references to Windows system DLLs and components.
+/// </summary>
 internal static class Libraries
 {
+    /// <summary>Common Controls library - provides advanced UI controls</summary>
     public const string Comctl32 = "comctl32.dll";
+    /// <summary>Common Dialog library - provides standard dialog boxes</summary>
     public const string Comdlg32 = "comdlg32.dll";
+    /// <summary>Desktop Window Manager API - provides window composition and effects</summary>
     public const string DWMApi = @"dwmapi.dll";
+    /// <summary>Graphics Device Interface - provides drawing and graphics functions</summary>
     public const string Gdi32 = "gdi32.dll";
+    /// <summary>GDI+ library - provides advanced 2D graphics capabilities</summary>
     public const string Gdiplus = "gdiplus.dll";
+    /// <summary>HTML Help Control - provides help system functionality</summary>
     public const string Hhctrl = "hhctrl.ocx";
+    /// <summary>Input Method Manager - provides input method editor support</summary>
     public const string Imm32 = "imm32.dll";
+    /// <summary>Kernel library - provides core system functions</summary>
     public const string Kernel32 = "kernel32.dll";
+    /// <summary>Native API library - provides low-level system functions</summary>
     public const string NtDll = "ntdll.dll";
+    /// <summary>OLE library - provides object linking and embedding support</summary>
     public const string Ole32 = "ole32.dll";
+    /// <summary>OLE Accessibility - provides accessibility support</summary>
     public const string Oleacc = "oleacc.dll";
+    /// <summary>OLE Automation - provides automation support</summary>
     public const string Oleaut32 = "oleaut32.dll";
+    /// <summary>Power Profile library - provides power management functions</summary>
     public const string Powrprof = "Powrprof.dll";
+    /// <summary>Property System library - provides property system support</summary>
     public const string Propsys = "Propsys.dll";
+    /// <summary>Rich Edit 4.1 control - provides rich text editing capabilities</summary>
     public const string RichEdit41 = "MsftEdit.DLL";
+    /// <summary>Shell Core library - provides shell functionality</summary>
     public const string SHCore = "SHCore.dll";
+    /// <summary>Shell library - provides shell and file system functions</summary>
     public const string Shell32 = "shell32.dll";
+    /// <summary>Shell Lightweight Utility API - provides shell utility functions</summary>
     public const string Shlwapi = "shlwapi.dll";
+    /// <summary>UI Automation Core - provides accessibility and automation support</summary>
     public const string UiaCore = "UIAutomationCore.dll";
+    /// <summary>User library - provides window management and user interface functions</summary>
     public const string User32 = "user32.dll";
+    /// <summary>Visual Styles library - provides theme and visual style support</summary>
     public const string UxTheme = "uxtheme.dll";
 }
 
+/// <summary>
+/// Provides a safe handle wrapper for Windows module handles (HMODULE).
+/// This class ensures proper cleanup of loaded library modules and prevents handle leaks.
+/// </summary>
 // inherits from SafeHandleZeroOrMinusOneIsInvalid, so IsInvalid is already implemented.
 internal sealed class SafeModuleHandle : SafeHandleZeroOrMinusOneIsInvalid
 {
-    // A default constructor is required for P/Invoke to instantiate the class
+    /// <summary>
+    /// Initializes a new instance of the SafeModuleHandle class.
+    /// A default constructor is required for P/Invoke to instantiate the class.
+    /// </summary>
     // ReSharper disable once ConvertToPrimaryConstructor
     public SafeModuleHandle()
         : base(true)
     {
     }
 
+    /// <summary>
+    /// Releases the module handle by calling FreeLibrary.
+    /// </summary>
+    /// <returns>True if the handle was successfully released; otherwise, false.</returns>
     protected override bool ReleaseHandle() => PI.FreeLibrary(handle);
 }
 
+/// <summary>
+/// Platform Invoke declarations and Windows API bindings.
+/// This class contains P/Invoke method declarations, Windows constants, enums, and structures
+/// required for native Windows functionality integration in the Krypton Toolkit.
+/// </summary>
 internal partial class PI
 {
     #region statics
@@ -103,57 +160,114 @@ internal partial class PI
 
     internal const int BM_CLICK = 0x00F5;
 
-    // Menu item info mask constants
+    /// <summary>
+    /// Menu item info mask constants used to specify which members of the MENUITEMINFO structure are valid.
+    /// These flags control which information is retrieved or set when working with menu items.
+    /// </summary>
     [Flags]
     public enum MenuItemInfoMask : uint
     {
+        /// <summary>State member is valid</summary>
         MIIM_STATE = 0x00000001,
+        /// <summary>ID member is valid</summary>
         MIIM_ID = 0x00000002,
+        /// <summary>Submenu handle member is valid</summary>
         MIIM_SUBMENU = 0x00000004,
+        /// <summary>Check mark bitmap members are valid</summary>
         MIIM_CHECKMARKS = 0x00000008,
+        /// <summary>Type member is valid</summary>
         MIIM_TYPE = 0x00000010,
+        /// <summary>Item data member is valid</summary>
         MIIM_DATA = 0x00000020,
+        /// <summary>String members are valid</summary>
         MIIM_STRING = 0x00000040,
+        /// <summary>Bitmap member is valid</summary>
         MIIM_BITMAP = 0x00000080,
+        /// <summary>FType member is valid</summary>
         MIIM_FTYPE = 0x00000100
     }
 
-    // Menu item type constants
+    /// <summary>
+    /// Menu item type constants that specify the appearance and behavior of menu items.
+    /// These flags control how menu items are displayed and function within menus.
+    /// </summary>
     [Flags]
     public enum MenuItemType : uint
     {
+        /// <summary>Menu item displays a text string</summary>
         MFT_STRING = 0x00000000,
+        /// <summary>Menu item displays a bitmap</summary>
         MFT_BITMAP = 0x00000004,
+        /// <summary>Menu item is placed on a new line in the menu bar or a new column in a submenu</summary>
         MFT_MENUBARBREAK = 0x00000020,
+        /// <summary>Menu item is placed on a new line in a submenu</summary>
         MFT_MENUBREAK = 0x00000040,
+        /// <summary>Menu item is owner-drawn</summary>
         MFT_OWNERDRAW = 0x00000100,
+        /// <summary>Menu item is a radio button (exclusive selection)</summary>
         MFT_RADIOCHECK = 0x00000200,
+        /// <summary>Menu item is a separator line</summary>
         MFT_SEPARATOR = 0x00000800,
+        /// <summary>Menu items are right-aligned in the menu bar</summary>
         MFT_RIGHTORDER = 0x00002000
     }
 
-    // Menu item state constants
+    /// <summary>
+    /// Menu item state constants that specify the current state of menu items.
+    /// These flags control the visual appearance and interaction behavior of menu items.
+    /// </summary>
     [Flags]
     public enum MenuItemState : uint
     {
+        /// <summary>Menu item is grayed (disabled)</summary>
         MFS_GRAYED = 0x00000003,
+        /// <summary>Menu item is disabled</summary>
         MFS_DISABLED = 0x00000003,
+        /// <summary>Menu item is checked (has a check mark)</summary>
         MFS_CHECKED = 0x00000008,
+        /// <summary>Menu item is highlighted (currently selected)</summary>
         MFS_HILITE = 0x00000080,
+        /// <summary>Menu item is the default item in the menu</summary>
         MFS_DEFAULT = 0x00001000
     }
 
+
     #endregion
 
+    /// <summary>
+    /// Represents the callback method for window procedures that process messages sent to a window.
+    /// This delegate is used for custom window procedures in Windows API interop scenarios.
+    /// </summary>
+    /// <param name="hWnd">Handle to the window that received the message</param>
+    /// <param name="msg">The message identifier</param>
+    /// <param name="wParam">Additional message-specific information</param>
+    /// <param name="lParam">Additional message-specific information</param>
+    /// <returns>The result of the message processing, dependent on the message sent</returns>
     internal delegate IntPtr WndProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
 
+    /// <summary>
+    /// Marshals data from an unmanaged block of memory to a newly allocated managed object of the specified type.
+    /// </summary>
+    /// <param name="lparam">A pointer to an unmanaged block of memory</param>
+    /// <param name="cls">The type of object to create</param>
+    /// <returns>A managed object containing the data pointed to by the lparam parameter</returns>
     internal static object? PtrToStructure(IntPtr lparam, Type cls) => Marshal.PtrToStructure(lparam, cls);
 
+    /// <summary>
+    /// Marshals data from a managed object to an unmanaged block of memory.
+    /// </summary>
+    /// <param name="cls">The object to marshal</param>
+    /// <param name="lparam">A pointer to an unmanaged block of memory</param>
+    /// <param name="deleteOld">True to call Marshal.DestroyStructure on the lparam parameter before copying the data</param>
     internal static void StructureToPtr(object cls, IntPtr lparam, bool deleteOld = false) =>
         Marshal.StructureToPtr(cls, lparam, deleteOld);
 
     #region Constants
 
+    /// <summary>
+    /// Device capability constants used with the GetDeviceCaps function to retrieve device-specific information.
+    /// These values specify the type of information to retrieve about a display device or printer.
+    /// </summary>
     public enum DeviceCap
     {
         /// <summary>
@@ -759,7 +873,7 @@ internal partial class PI
 
     /// <summary>
     /// Flags used with the Windows API (User32.dll):GetSystemMetrics(SystemMetric smIndex)
-    ///
+    ///   
     /// This Enum and declaration signature was written by Gabriel T. Sharp
     /// ai_productions@verizon.net or osirisgothra@hotmail.com
     /// Obtained on pinvoke.net, please contribute your code to support the wiki!
@@ -772,7 +886,7 @@ internal partial class PI
         ARRANGE = 56,
 
         /// <summary>
-        /// The value that specifies how the system is started:
+        /// The value that specifies how the system is started: 
         /// 0 Normal boot
         /// 1 Fail-safe boot
         /// 2 Fail-safe with network boot
@@ -814,8 +928,8 @@ internal partial class PI
         CXDOUBLECLK = 36,
 
         /// <summary>
-        /// The number of pixels on either side of a mouse-down point that the mouse pointer can move before a drag operation begins.
-        /// This allows the user to click and release the mouse button easily without unintentionally starting a drag operation.
+        /// The number of pixels on either side of a mouse-down point that the mouse pointer can move before a drag operation begins. 
+        /// This allows the user to click and release the mouse button easily without unintentionally starting a drag operation. 
         /// If this value is negative, it is subtracted from the left of the mouse-down point and added to the right of it.
         /// </summary>
         CXDRAG = 68,
@@ -833,8 +947,8 @@ internal partial class PI
         CXFIXEDFRAME = 7,
 
         /// <summary>
-        /// The width of the left and right edges of the focus rectangle that the DrawFocusRectdraws.
-        /// This value is in pixels.
+        /// The width of the left and right edges of the focus rectangle that the DrawFocusRectdraws. 
+        /// This value is in pixels. 
         /// Windows 2000:  This value is not supported.
         /// </summary>
         CXFOCUSBORDER = 83,
@@ -845,8 +959,8 @@ internal partial class PI
         CXFRAME = 32,
 
         /// <summary>
-        /// The width of the client area for a full-screen window on the primary display monitor, in pixels.
-        /// To get the coordinates of the portion of the screen that is not obscured by the system taskbar or by application desktop toolbars,
+        /// The width of the client area for a full-screen window on the primary display monitor, in pixels. 
+        /// To get the coordinates of the portion of the screen that is not obscured by the system taskbar or by application desktop toolbars, 
         /// call the SystemParametersInfofunction with the SPI_GETWORKAREA value.
         /// </summary>
         CXFULLSCREEN = 16,
@@ -862,13 +976,13 @@ internal partial class PI
         CXHTHUMB = 10,
 
         /// <summary>
-        /// The default width of an icon, in pixels. The LoadIcon function can load only icons with the dimensions
+        /// The default width of an icon, in pixels. The LoadIcon function can load only icons with the dimensions 
         /// that SM_CXICON and SM_CYICON specifies.
         /// </summary>
         CXICON = 11,
 
         /// <summary>
-        /// The width of a grid cell for items in large icon view, in pixels. Each item fits into a rectangle of size
+        /// The width of a grid cell for items in large icon view, in pixels. Each item fits into a rectangle of size 
         /// SM_CXICONSPACING by SM_CYICONSPACING when arranged. This value is always greater than or equal to SM_CXICON.
         /// </summary>
         CXICONSPACING = 38,
@@ -879,8 +993,8 @@ internal partial class PI
         CXMAXIMIZED = 61,
 
         /// <summary>
-        /// The default maximum width of a window that has a caption and sizing borders, in pixels.
-        /// This metric refers to the entire desktop. The user cannot drag the window frame to a size larger than these dimensions.
+        /// The default maximum width of a window that has a caption and sizing borders, in pixels. 
+        /// This metric refers to the entire desktop. The user cannot drag the window frame to a size larger than these dimensions. 
         /// A window can override this value by processing the WM_GETMINMAXINFO message.
         /// </summary>
         CXMAXTRACK = 59,
@@ -906,13 +1020,13 @@ internal partial class PI
         CXMINIMIZED = 57,
 
         /// <summary>
-        /// The width of a grid cell for a minimized window, in pixels. Each minimized window fits into a rectangle this size when arranged.
+        /// The width of a grid cell for a minimized window, in pixels. Each minimized window fits into a rectangle this size when arranged. 
         /// This value is always greater than or equal to SM_CXMINIMIZED.
         /// </summary>
         CXMINSPACING = 47,
 
         /// <summary>
-        /// The minimum tracking width of a window, in pixels. The user cannot drag the window frame to a size smaller than these dimensions.
+        /// The minimum tracking width of a window, in pixels. The user cannot drag the window frame to a size smaller than these dimensions. 
         /// A window can override this value by processing the WM_GETMINMAXINFO message.
         /// </summary>
         CXMINTRACK = 34,
@@ -923,7 +1037,7 @@ internal partial class PI
         CXPADDEDBORDER = 92,
 
         /// <summary>
-        /// The width of the screen of the primary display monitor, in pixels. This is the same value obtained by calling
+        /// The width of the screen of the primary display monitor, in pixels. This is the same value obtained by calling 
         /// GetDeviceCaps as follows: GetDeviceCaps( hdcPrimaryMonitor, HORZRES).
         /// </summary>
         CXSCREEN = 0,
@@ -934,8 +1048,8 @@ internal partial class PI
         CXSIZE = 30,
 
         /// <summary>
-        /// The thickness of the sizing border around the perimeter of a window that can be resized, in pixels.
-        /// SM_CXSIZEFRAME is the width of the horizontal border, and SM_CYSIZEFRAME is the height of the vertical border.
+        /// The thickness of the sizing border around the perimeter of a window that can be resized, in pixels. 
+        /// SM_CXSIZEFRAME is the width of the horizontal border, and SM_CYSIZEFRAME is the height of the vertical border. 
         /// This value is the same as SM_CXFRAME.
         /// </summary>
         CXSIZEFRAME = 32,
@@ -951,7 +1065,7 @@ internal partial class PI
         CXSMSIZE = 52,
 
         /// <summary>
-        /// The width of the virtual screen, in pixels. The virtual screen is the bounding rectangle of all display monitors.
+        /// The width of the virtual screen, in pixels. The virtual screen is the bounding rectangle of all display monitors. 
         /// The SM_XVIRTUALSCREEN metric is the coordinates for the left side of the virtual screen.
         /// </summary>
         CXVIRTUALSCREEN = 78,
@@ -982,16 +1096,16 @@ internal partial class PI
         CYDLGFRAME = 8,
 
         /// <summary>
-        /// The height of the rectangle around the location of a first click in a double-click sequence, in pixels.
-        /// The second click must occur within the rectangle defined by SM_CXDOUBLECLK and SM_CYDOUBLECLK for the system to consider
-        /// the two clicks a double-click. The two clicks must also occur within a specified time. To set the height of the double-click
+        /// The height of the rectangle around the location of a first click in a double-click sequence, in pixels. 
+        /// The second click must occur within the rectangle defined by SM_CXDOUBLECLK and SM_CYDOUBLECLK for the system to consider 
+        /// the two clicks a double-click. The two clicks must also occur within a specified time. To set the height of the double-click 
         /// rectangle, call SystemParametersInfo with SPI_SETDOUBLECLKHEIGHT.
         /// </summary>
         CYDOUBLECLK = 37,
 
         /// <summary>
-        /// The number of pixels above and below a mouse-down point that the mouse pointer can move before a drag operation begins.
-        /// This allows the user to click and release the mouse button easily without unintentionally starting a drag operation.
+        /// The number of pixels above and below a mouse-down point that the mouse pointer can move before a drag operation begins. 
+        /// This allows the user to click and release the mouse button easily without unintentionally starting a drag operation. 
         /// If this value is negative, it is subtracted from above the mouse-down point and added below it.
         /// </summary>
         CYDRAG = 69,
@@ -1002,15 +1116,15 @@ internal partial class PI
         CYEDGE = 46,
 
         /// <summary>
-        /// The thickness of the frame around the perimeter of a window that has a caption but is not sizable, in pixels.
-        /// SM_CXFIXEDFRAME is the height of the horizontal border, and SM_CYFIXEDFRAME is the width of the vertical border.
+        /// The thickness of the frame around the perimeter of a window that has a caption but is not sizable, in pixels. 
+        /// SM_CXFIXEDFRAME is the height of the horizontal border, and SM_CYFIXEDFRAME is the width of the vertical border. 
         /// This value is the same as SM_CYDLGFRAME.
         /// </summary>
         CYFIXEDFRAME = 8,
 
         /// <summary>
-        /// The height of the top and bottom edges of the focus rectangle drawn byDrawFocusRect.
-        /// This value is in pixels.
+        /// The height of the top and bottom edges of the focus rectangle drawn byDrawFocusRect. 
+        /// This value is in pixels. 
         /// Windows 2000:  This value is not supported.
         /// </summary>
         CYFOCUSBORDER = 84,
@@ -1021,7 +1135,7 @@ internal partial class PI
         CYFRAME = 33,
 
         /// <summary>
-        /// The height of the client area for a full-screen window on the primary display monitor, in pixels.
+        /// The height of the client area for a full-screen window on the primary display monitor, in pixels. 
         /// To get the coordinates of the portion of the screen not obscured by the system taskbar or by application desktop toolbars,
         /// call the SystemParametersInfo function with the SPI_GETWORKAREA value.
         /// </summary>
@@ -1038,7 +1152,7 @@ internal partial class PI
         CYICON = 12,
 
         /// <summary>
-        /// The height of a grid cell for items in large icon view, in pixels. Each item fits into a rectangle of size
+        /// The height of a grid cell for items in large icon view, in pixels. Each item fits into a rectangle of size 
         /// SM_CXICONSPACING by SM_CYICONSPACING when arranged. This value is always greater than or equal to SM_CYICON.
         /// </summary>
         CYICONSPACING = 39,
@@ -1054,8 +1168,8 @@ internal partial class PI
         CYMAXIMIZED = 62,
 
         /// <summary>
-        /// The default maximum height of a window that has a caption and sizing borders, in pixels. This metric refers to the entire desktop.
-        /// The user cannot drag the window frame to a size larger than these dimensions. A window can override this value by processing
+        /// The default maximum height of a window that has a caption and sizing borders, in pixels. This metric refers to the entire desktop. 
+        /// The user cannot drag the window frame to a size larger than these dimensions. A window can override this value by processing 
         /// the WM_GETMINMAXINFO message.
         /// </summary>
         CYMAXTRACK = 60,
@@ -1086,19 +1200,19 @@ internal partial class PI
         CYMINIMIZED = 58,
 
         /// <summary>
-        /// The height of a grid cell for a minimized window, in pixels. Each minimized window fits into a rectangle this size when arranged.
+        /// The height of a grid cell for a minimized window, in pixels. Each minimized window fits into a rectangle this size when arranged. 
         /// This value is always greater than or equal to SM_CYMINIMIZED.
         /// </summary>
         CYMINSPACING = 48,
 
         /// <summary>
-        /// The minimum tracking height of a window, in pixels. The user cannot drag the window frame to a size smaller than these dimensions.
+        /// The minimum tracking height of a window, in pixels. The user cannot drag the window frame to a size smaller than these dimensions. 
         /// A window can override this value by processing the WM_GETMINMAXINFO message.
         /// </summary>
         CYMINTRACK = 35,
 
         /// <summary>
-        /// The height of the screen of the primary display monitor, in pixels. This is the same value obtained by calling
+        /// The height of the screen of the primary display monitor, in pixels. This is the same value obtained by calling 
         /// GetDeviceCaps as follows: GetDeviceCaps( hdcPrimaryMonitor, VERTRES).
         /// </summary>
         CYSCREEN = 1,
@@ -1109,8 +1223,8 @@ internal partial class PI
         CYSIZE = 31,
 
         /// <summary>
-        /// The thickness of the sizing border around the perimeter of a window that can be resized, in pixels.
-        /// SM_CXSIZEFRAME is the width of the horizontal border, and SM_CYSIZEFRAME is the height of the vertical border.
+        /// The thickness of the sizing border around the perimeter of a window that can be resized, in pixels. 
+        /// SM_CXSIZEFRAME is the width of the horizontal border, and SM_CYSIZEFRAME is the height of the vertical border. 
         /// This value is the same as SM_CYFRAME.
         /// </summary>
         CYSIZEFRAME = 33,
@@ -1131,7 +1245,7 @@ internal partial class PI
         CYSMSIZE = 53,
 
         /// <summary>
-        /// The height of the virtual screen, in pixels. The virtual screen is the bounding rectangle of all display monitors.
+        /// The height of the virtual screen, in pixels. The virtual screen is the bounding rectangle of all display monitors. 
         /// The SM_YVIRTUALSCREEN metric is the coordinates for the top of the virtual screen.
         /// </summary>
         CYVIRTUALSCREEN = 79,
@@ -1157,16 +1271,16 @@ internal partial class PI
         DEBUG = 22,
 
         /// <summary>
-        /// Nonzero if the current operating system is Windows 7 or Windows Server 2008 R2 and the Tablet PC Input
-        /// service is started; otherwise, 0. The return value is a bitmask that specifies the type of digitizer input supported by the device.
-        /// For more information, see Remarks.
+        /// Nonzero if the current operating system is Windows 7 or Windows Server 2008 R2 and the Tablet PC Input 
+        /// service is started; otherwise, 0. The return value is a bitmask that specifies the type of digitizer input supported by the device. 
+        /// For more information, see Remarks. 
         /// Windows Server 2008, Windows Vista, and Windows XP/2000:  This value is not supported.
         /// </summary>
         DIGITIZER = 94,
 
         /// <summary>
-        /// Nonzero if Input Method Manager/Input Method Editor features are enabled; otherwise, 0.
-        /// SM_IMMENABLED indicates whether the system is ready to use a Unicode-based IME on a Unicode application.
+        /// Nonzero if Input Method Manager/Input Method Editor features are enabled; otherwise, 0. 
+        /// SM_IMMENABLED indicates whether the system is ready to use a Unicode-based IME on a Unicode application. 
         /// To ensure that a language-dependent IME works, check SM_DBCSENABLED and the system ANSI code page.
         /// Otherwise the ANSI-to-Unicode conversion may not be performed correctly, or some components like fonts
         /// or registry settings may not be present.
@@ -1174,9 +1288,9 @@ internal partial class PI
         IMMENABLED = 82,
 
         /// <summary>
-        /// Nonzero if there are digitizers in the system; otherwise, 0. SM_MAXIMUMTOUCHES returns the aggregate maximum of the
-        /// maximum number of contacts supported by every digitizer in the system. If the system has only single-touch digitizers,
-        /// the return value is 1. If the system has multi-touch digitizers, the return value is the number of simultaneous contacts
+        /// Nonzero if there are digitizers in the system; otherwise, 0. SM_MAXIMUMTOUCHES returns the aggregate maximum of the 
+        /// maximum number of contacts supported by every digitizer in the system. If the system has only single-touch digitizers, 
+        /// the return value is 1. If the system has multi-touch digitizers, the return value is the number of simultaneous contacts 
         /// the hardware can provide. Windows Server 2008, Windows Vista, and Windows XP/2000:  This value is not supported.
         /// </summary>
         MAXIMUMTOUCHES = 95,
@@ -1197,7 +1311,7 @@ internal partial class PI
         MIDEASTENABLED = 74,
 
         /// <summary>
-        /// Nonzero if a mouse is installed; otherwise, 0. This value is rarely zero, because of support for virtual mice and because
+        /// Nonzero if a mouse is installed; otherwise, 0. This value is rarely zero, because of support for virtual mice and because 
         /// some systems detect the presence of the port instead of the presence of a mouse.
         /// </summary>
         MOUSEPRESENT = 19,
@@ -1223,26 +1337,26 @@ internal partial class PI
         PENWINDOWS = 41,
 
         /// <summary>
-        /// This system metric is used in a Terminal Services environment to determine if the current Terminal Server session is
-        /// being remotely controlled. Its value is nonzero if the current session is remotely controlled; otherwise, 0.
-        /// You can use terminal services management tools such as Terminal Services Manager (tsadmin.msc) and shadow.exe to
-        /// control a remote session. When a session is being remotely controlled, another user can view the contents of that session
+        /// This system metric is used in a Terminal Services environment to determine if the current Terminal Server session is 
+        /// being remotely controlled. Its value is nonzero if the current session is remotely controlled; otherwise, 0. 
+        /// You can use terminal services management tools such as Terminal Services Manager (tsadmin.msc) and shadow.exe to 
+        /// control a remote session. When a session is being remotely controlled, another user can view the contents of that session 
         /// and potentially interact with it.
         /// </summary>
         REMOTECONTROL = 0x2001,
 
         /// <summary>
-        /// This system metric is used in a Terminal Services environment. If the calling process is associated with a Terminal Services
-        /// client session, the return value is nonzero. If the calling process is associated with the Terminal Services console session,
-        /// the return value is 0.
-        /// Windows Server 2003 and Windows XP:  The console session is not necessarily the physical console.
+        /// This system metric is used in a Terminal Services environment. If the calling process is associated with a Terminal Services 
+        /// client session, the return value is nonzero. If the calling process is associated with the Terminal Services console session, 
+        /// the return value is 0. 
+        /// Windows Server 2003 and Windows XP:  The console session is not necessarily the physical console. 
         /// For more information, seeWTSGetActiveConsoleSessionId.
         /// </summary>
         REMOTESESSION = 0x1000,
 
         /// <summary>
-        /// Nonzero if all the display monitors have the same color format, otherwise, 0. Two displays can have the same bit depth,
-        /// but different color formats. For example, the red, green, and blue pixels can be encoded with different numbers of bits,
+        /// Nonzero if all the display monitors have the same color format, otherwise, 0. Two displays can have the same bit depth, 
+        /// but different color formats. For example, the red, green, and blue pixels can be encoded with different numbers of bits, 
         /// or those bits can be located in different places in a pixel color value.
         /// </summary>
         SAMEDISPLAYFORMAT = 81,
@@ -1258,7 +1372,7 @@ internal partial class PI
         SERVERR2 = 89,
 
         /// <summary>
-        /// Nonzero if the user requires an application to present information visually in situations where it would otherwise present
+        /// Nonzero if the user requires an application to present information visually in situations where it would otherwise present 
         /// the information only in audible form; otherwise, 0.
         /// </summary>
         SHOWSOUNDS = 70,
@@ -1285,19 +1399,19 @@ internal partial class PI
 
         /// <summary>
         /// Nonzero if the current operating system is the Windows XP Tablet PC edition or if the current operating system is Windows Vista
-        /// or Windows 7 and the Tablet PC Input service is started; otherwise, 0. The SM_DIGITIZER setting indicates the type of digitizer
+        /// or Windows 7 and the Tablet PC Input service is started; otherwise, 0. The SM_DIGITIZER setting indicates the type of digitizer 
         /// input supported by a device running Windows 7 or Windows Server 2008 R2. For more information, see Remarks.
         /// </summary>
         TABLETPC = 86,
 
         /// <summary>
-        /// The coordinates for the left side of the virtual screen. The virtual screen is the bounding rectangle of all display monitors.
+        /// The coordinates for the left side of the virtual screen. The virtual screen is the bounding rectangle of all display monitors. 
         /// The SM_CXVIRTUALSCREEN metric is the width of the virtual screen.
         /// </summary>
         XVIRTUALSCREEN = 76,
 
         /// <summary>
-        /// The coordinates for the top of the virtual screen. The virtual screen is the bounding rectangle of all display monitors.
+        /// The coordinates for the top of the virtual screen. The virtual screen is the bounding rectangle of all display monitors. 
         /// The SM_CYVIRTUALSCREEN metric is the height of the virtual screen.
         /// </summary>
         YVIRTUALSCREEN = 77
@@ -1325,7 +1439,7 @@ internal partial class PI
 
         /// <summary>
         /// Activates the window and displays it as a maximized window.
-        /// </summary>
+        /// </summary>      
         SW_SHOWMAXIMIZED = 3,
 
         /// <summary>
@@ -2612,7 +2726,7 @@ internal partial class PI
 
             // <summary>
             // The window is a control that can receive the keyboard focus when the user presses the TAB key.
-            // Pressing the TAB key changes the keyboard focus to the next control with the WS_TABSTOP style.
+            // Pressing the TAB key changes the keyboard focus to the next control with the WS_TABSTOP style.  
             // You can turn this style on and off to change dialog box navigation. To change this style after a window has been created, use the SetWindowLong function.
             // For user-created windows and modeless dialogs to work with tab stops, alter the message loop to call the IsDialogMessage function.
             // </summary>
@@ -2889,9 +3003,9 @@ No 	                    No 	                    Show text only
     }
 
     /// <summary>
-    /// https://msdn.microsoft.com/en-us/library/windows/desktop/ms644991(v=vs.85).aspx
+    /// https://msdn.microsoft.com/en-us/library/windows/desktop/ms644991(v=vs.85).aspx 
     /// </summary>
-    internal const int HSHELL_REDRAW = 6; // The title of a window in the task bar has been redrawn.
+    internal const int HSHELL_REDRAW = 6; // The title of a window in the task bar has been redrawn. 
 
     internal const int CURSOR_SHOWING = 0x00000001;
     internal const int VK_ESCAPE = 0x1B;
@@ -2902,9 +3016,9 @@ No 	                    No 	                    Show text only
     internal const int MA_NOACTIVATE = 0x03;
     internal const int EM_FORMATRANGE = 0x0439;
     internal const int RDW_INVALIDATE = 0x0001;
-    internal const int RDW_ALLCHILDREN = 0x0080;
     internal const int RDW_UPDATENOW = 0x0100;
     internal const int RDW_FRAME = 0x0400;
+    internal const int RDW_ALLCHILDREN = 0x0080;
     internal const int DCX_WINDOW = 0x01;
     internal const int DCX_CACHE = 0x02;
     internal const int DCX_CLIPSIBLINGS = 0x10;
@@ -3589,6 +3703,28 @@ No 	                    No 	                    Show text only
         }
     }
 
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct MENUITEMINFO
+    {
+        public uint cbSize;
+        public uint fMask;
+        public uint fType;
+        public uint fState;
+        public uint wID;
+        public IntPtr hSubMenu;
+        public IntPtr hbmpChecked;
+        public IntPtr hbmpUnchecked;
+        public IntPtr dwItemData;
+        public IntPtr dwTypeData;
+        public uint cch;
+        public IntPtr hbmpItem;
+
+        public MENUITEMINFO()
+        {
+            cbSize = (uint)Marshal.SizeOf(typeof(MENUITEMINFO));
+        }
+    }
+
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
     internal class LOGFONT
     {
@@ -3631,39 +3767,6 @@ No 	                    No 	                    Show text only
             lfFaceName = lf.lfFaceName;
         }
     }
-
-    [DllImport(Libraries.User32)]
-    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-    private static extern int GetGuiResources(IntPtr hProcess, int uiFlags);
-
-    [StructLayout(LayoutKind.Sequential)]
-    internal struct MENUITEMINFO
-    {
-        public uint cbSize;
-        public uint fMask;
-        public uint fType;
-        public uint fState;
-        public uint wID;
-        public IntPtr hSubMenu;
-        public IntPtr hbmpChecked;
-        public IntPtr hbmpUnchecked;
-        public IntPtr dwItemData;
-        public IntPtr dwTypeData;
-        public uint cch;
-        public IntPtr hbmpItem;
-
-        public MENUITEMINFO()
-        {
-            cbSize = (uint)Marshal.SizeOf(typeof(MENUITEMINFO));
-        }
-    }
-
-    #endregion
-
-    #region nt.dll
-
-    [DllImport(Libraries.NtDll, SetLastError = true)]
-    internal static extern int RtlGetVersion(ref PI.OSVERSIONINFOEX lpVersionInformation);
 
     #endregion
 
@@ -3796,6 +3899,7 @@ No 	                    No 	                    Show text only
     internal static extern bool RoundRect(IntPtr hdc, int nLeftRect, int nTopRect, int nRightRect, int nBottomRect,
         int nEllipseWidth, int nEllipseHeight);
 
+
     [DllImport(Libraries.Gdi32, CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern int SelectClipRgn(HandleRef hDC, HandleRef hRgn);
@@ -3832,13 +3936,12 @@ No 	                    No 	                    Show text only
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern bool Rectangle(IntPtr hdc, int nLeftRect, int nTopRect, int nRightRect, int nBottomRect);
 
-    [DllImport(Libraries.Gdi32)]
-    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-    private static extern IntPtr GetCurrentObject(IntPtr hdc, int objectType); // objectType 7 = OBJ_BITMAP
+    #endregion
 
-    [DllImport(Libraries.Gdi32)]
-    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-    private static extern bool GdiFlush();
+    #region nt.dll
+
+    [DllImport(Libraries.NtDll, SetLastError = true)]
+    internal static extern int RtlGetVersion(ref PI.OSVERSIONINFOEX lpVersionInformation);
 
     #endregion
 
@@ -3913,14 +4016,7 @@ No 	                    No 	                    Show text only
             PlaceHolder1,
             PlaceHolder2,
             PlaceHolder3,
-            AccentPolicy = 19,
-
-            // Windows 11 attributes (values per SDK headers)
-            SystemBackdropType =
-                38, // keep placeholders aligned; we only need Border/Caption/Text below but numbering must not collide
-            BorderColor = 34,
-            CaptionColor = 35,
-            TextColor = 36
+            AccentPolicy = 19
         }
 
         public enum DWMNCRENDERINGPOLICY : uint
@@ -4131,16 +4227,6 @@ No 	                    No 	                    Show text only
             // Disable non-client area rendering on the window.
             var result = DwmSetWindowAttribute(hWnd, DWMWINDOWATTRIBUTE.NCRenderingPolicy, ref ncrp,
                 sizeof(int));
-            return result == 0;
-        }
-
-        /// <summary>
-        /// Hide the DWM accent border around a window (Win11+). Equivalent to DWMWA_BORDER_COLOR = CLR_INVALID.
-        /// </summary>
-        public static bool WindowHideBorder(IntPtr hWnd)
-        {
-            int clrInvalid = -1; // CLR_INVALID
-            var result = DwmSetWindowAttribute(hWnd, DWMWINDOWATTRIBUTE.BorderColor, ref clrInvalid, sizeof(int));
             return result == 0;
         }
     }
@@ -4713,19 +4799,19 @@ No 	                    No 	                    Show text only
     internal class MONITORINFO
     {
         /// <summary>
-        /// </summary>
+        /// </summary>            
         public int cbSize = SizeOf(typeof(MONITORINFO));
 
         /// <summary>
-        /// </summary>
+        /// </summary>            
         public RECT rcMonitor = new RECT();
 
         /// <summary>
-        /// </summary>
+        /// </summary>            
         public RECT rcWork = new RECT();
 
         /// <summary>
-        /// </summary>
+        /// </summary>            
         public int dwFlags = 0;
     }
 
@@ -4733,31 +4819,31 @@ No 	                    No 	                    Show text only
     [StructLayout(LayoutKind.Sequential)]
     public struct ICONINFO
     {
-        public bool fIcon; // Specifies whether this structure defines an icon or a cursor. A value of TRUE specifies
+        public bool fIcon; // Specifies whether this structure defines an icon or a cursor. A value of TRUE specifies 
 
         public int
-            xHotspot; // Specifies the x-coordinate of a cursor's hot spot. If this structure defines an icon, the hot
+            xHotspot; // Specifies the x-coordinate of a cursor's hot spot. If this structure defines an icon, the hot 
 
         public int
-            yHotspot; // Specifies the y-coordinate of the cursor's hot spot. If this structure defines an icon, the hot
+            yHotspot; // Specifies the y-coordinate of the cursor's hot spot. If this structure defines an icon, the hot 
 
         public IntPtr
-            hbmMask; // (HBITMAP) Specifies the icon bitmask bitmap. If this structure defines a black and white icon,
+            hbmMask; // (HBITMAP) Specifies the icon bitmask bitmap. If this structure defines a black and white icon, 
 
-        public IntPtr hbmColor; // (HBITMAP) Handle to the icon color bitmap. This member can be optional if this
+        public IntPtr hbmColor; // (HBITMAP) Handle to the icon color bitmap. This member can be optional if this 
     }
 
     [StructLayout(LayoutKind.Sequential)]
     public struct CURSORINFO
     {
-        public int cbSize; // Specifies the size, in bytes, of the structure.
+        public int cbSize; // Specifies the size, in bytes, of the structure. 
 
         public int flags; // Specifies the cursor state. This parameter can be one of the following values:
 
         //    0                 The cursor is hidden.
         //    CURSOR_SHOWING    The cursor is showing.
-        public IntPtr hCursor; // Handle to the cursor.
-        public POINT ptScreenPos; // A POINT structure that receives the screen coordinates of the cursor.
+        public IntPtr hCursor; // Handle to the cursor. 
+        public POINT ptScreenPos; // A POINT structure that receives the screen coordinates of the cursor. 
     }
 
     [StructLayout(LayoutKind.Sequential)]
@@ -4887,8 +4973,8 @@ No 	                    No 	                    Show text only
     }
 
     /// <summary>
-    /// Contains operating system version information. The information includes major and minor version numbers, a build number, a platform identifier,
-    /// and information about product suites and the latest Service Pack installed on the system.
+    /// Contains operating system version information. The information includes major and minor version numbers, a build number, a platform identifier, 
+    /// and information about product suites and the latest Service Pack installed on the system. 
     /// This structure is used with the RtlGetVersion, GetVersionEx and VerifyVersionInfo functions.
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
@@ -4956,9 +5042,30 @@ No 	                    No 	                    Show text only
     #endregion
 }
 
+/// <summary>
+/// Extension methods for working with the PI.BOOL type and standard boolean values.
+/// These methods provide convenient conversions between native Windows BOOL values and .NET bool values.
+/// </summary>
 internal static class BoolExtensions
-    {
-        public static bool IsTrue(this PI.BOOL b) => b != PI.BOOL.FALSE;
-        public static bool IsFalse(this PI.BOOL b) => b == PI.BOOL.FALSE;
-        public static PI.BOOL ToBOOL(this bool b) => b ? PI.BOOL.TRUE : PI.BOOL.FALSE;
-    }
+{
+    /// <summary>
+    /// Determines whether the BOOL value represents true.
+    /// </summary>
+    /// <param name="b">The BOOL value to check</param>
+    /// <returns>True if the BOOL value is not FALSE; otherwise, false</returns>
+    public static bool IsTrue(this PI.BOOL b) => b != PI.BOOL.FALSE;
+    
+    /// <summary>
+    /// Determines whether the BOOL value represents false.
+    /// </summary>
+    /// <param name="b">The BOOL value to check</param>
+    /// <returns>True if the BOOL value is FALSE; otherwise, false</returns>
+    public static bool IsFalse(this PI.BOOL b) => b == PI.BOOL.FALSE;
+    
+    /// <summary>
+    /// Converts a .NET boolean value to a Windows BOOL value.
+    /// </summary>
+    /// <param name="b">The boolean value to convert</param>
+    /// <returns>PI.BOOL.TRUE if the boolean is true; otherwise, PI.BOOL.FALSE</returns>
+    public static PI.BOOL ToBOOL(this bool b) => b ? PI.BOOL.TRUE : PI.BOOL.FALSE;
+}

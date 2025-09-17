@@ -4,6 +4,7 @@
 
 ## 2025-11-xx - Build 2511 (V10 - alpha) - November 2025
 * Resolved [#2480](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2480). `KryptonForm`'s 'InternalPanel' designer issues
+* Resolved [#2492](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2492), `KryptonForm` does not display '(Administrator)' when elevated
 * Resolved [#2502](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2502), **[Breaking Change]** `KryptonCommandLinkButton` updates several properties and their behaviour. See issue for full details.
 * Resolved [#2495](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2495), `KryptonProgressBar` private field `_mementoContent` can be null.
 * Resolved [#2490](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2490), `KryptonComboBox` uses an incorrect Items editor string.

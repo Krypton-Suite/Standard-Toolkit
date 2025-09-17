@@ -1,6 +1,6 @@
 ﻿namespace TestForm
 {
-    partial class ThemedSystemMenuTest
+    partial class SystemMenuTest
     {
         /// <summary>
         /// Required designer variable.

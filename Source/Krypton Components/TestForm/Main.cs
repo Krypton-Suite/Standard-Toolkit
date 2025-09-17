@@ -402,7 +402,7 @@ public partial class Main : KryptonForm
 
     private void kryptonButton18_Click(object sender, EventArgs e)
     {
-        new ThemedSystemMenuTest().ShowDialog();
+        new SystemMenuTest().ShowDialog();
     }
 
     private void kryptonButton19_Click(object sender, EventArgs e)
