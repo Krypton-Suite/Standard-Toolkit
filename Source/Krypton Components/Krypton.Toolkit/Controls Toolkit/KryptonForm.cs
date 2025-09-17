@@ -179,7 +179,7 @@ public class KryptonForm : VisualForm,
         // Create a null element that takes up all remaining space
         _layoutNull = new ViewLayoutNull();
         // Create the internal panel used for containing content (custom panel draws sizing grip)
-        _internalKryptonPanel = new InternalKryptonPanel
+        _internalKryptonPanel = new KryptonPanel
         {
             Dock = DockStyle.Fill,
             Location = new Point(0, 0),
@@ -209,20 +209,29 @@ public class KryptonForm : VisualForm,
             CreateToolStripRenderer,
             OnNeedPaint);
 
-        _systemMenuService = new KryptonSystemMenuService(this);
-        _systemMenuValues = new SystemMenuValues(OnNeedPaint);
+        // Only create system menu service if not in design mode
+        if (Site?.DesignMode != true)
+        {
+            _systemMenuService = new KryptonSystemMenuService(this);
+            _systemMenuValues = new SystemMenuValues(OnNeedPaint);
 
-        // Assign the service to the base class
-        SystemMenuService = _systemMenuService;
+            // Assign the service to the base class
+            SystemMenuService = _systemMenuService;
 
-        // Synchronize the values with the themed system menu service
-        //_systemMenuService.ShowSystemMenuOnLeftClick = _systemMenuValues.ShowOnLeftClick;
-        _systemMenuService.ShowSystemMenuOnRightClick = _systemMenuValues.ShowOnRightClick;
-        _systemMenuService.ShowSystemMenuOnAltSpace = _systemMenuValues.ShowOnAltSpace;
-        // Note: ShowOnIconClick is handled separately in click event handlers
+            // Synchronize the values with the themed system menu service
+            //_systemMenuService.ShowSystemMenuOnLeftClick = _systemMenuValues.ShowOnLeftClick;
+            _systemMenuService.ShowSystemMenuOnRightClick = _systemMenuValues.ShowOnRightClick;
+            _systemMenuService.ShowSystemMenuOnAltSpace = _systemMenuValues.ShowOnAltSpace;
+            // Note: ShowOnIconClick is handled separately in click event handlers
 
-        // Connect designer menu items
-        _systemMenuService.SystemMenu.DesignerMenuItems = _systemMenuValues.CustomMenuItems;
+            // Connect designer menu items
+            _systemMenuService.SystemMenu.DesignerMenuItems = _systemMenuValues.CustomMenuItems;
+        }
+        else
+        {
+            // In design mode, create minimal system menu values without the service
+            _systemMenuValues = new SystemMenuValues(OnNeedPaint);
+        }
 
         // Hook into value changes to keep them synchronized
         _systemMenuValues.PropertyChanged += OnSystemMenuValuesChanged;
@@ -1660,16 +1669,10 @@ public class KryptonForm : VisualForm,
         }
         else if (m.Msg == PI.WM_.NCRBUTTONDOWN)
         {
-            // Don't interfere with designer operations
-            if (Site?.DesignMode == true)
-            {
-                base.WndProc(ref m);
-                return;
-            }
-
             // Handle right-click in non-client area (title bar and control buttons)
-            // Only show system menu if ControlBox is true (same behavior as native system menu)
-            if (ControlBox && _systemMenuValues.Enabled && _systemMenuValues.ShowOnRightClick && _systemMenuService != null &&
+            // Only show system menu if ControlBox is true and not in design mode
+            if (Site?.DesignMode != true && ControlBox && _systemMenuValues?.Enabled == true && 
+                _systemMenuValues.ShowOnRightClick && _systemMenuService != null &&
                 _systemMenuService.ShowSystemMenuOnRightClick)
             {
                 // Get the screen coordinates from the message
@@ -1841,6 +1844,12 @@ public class KryptonForm : VisualForm,
     /// <returns></returns>
     protected override IntPtr WindowChromeHitTest(Point pt)
     {
+        // Don't interfere with designer operations
+        if (Site?.DesignMode == true)
+        {
+            return base.WindowChromeHitTest(pt);
+        }
+
         Point originalPt = pt;
         if (CustomCaptionArea.Contains(pt))
         {
@@ -2043,8 +2052,8 @@ public class KryptonForm : VisualForm,
             if (_drawContent.ImageRectangle(context).Contains(windowPoint))
             {
                 // Check if we should show the system menu on icon click
-                // Only show system menu if ControlBox is true (same behavior as native system menu)
-                if (ControlBox && _systemMenuValues.Enabled && _systemMenuValues.ShowOnIconClick &&
+                // Only show system menu if ControlBox is true and system menu service exists
+                if (ControlBox && _systemMenuValues?.Enabled == true && _systemMenuValues.ShowOnIconClick &&
                     _systemMenuService != null)
                 {
                     ShowSystemMenu(screenPoint);
@@ -2884,8 +2893,8 @@ public class KryptonForm : VisualForm,
     protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
     {
         // Handle themed system menu keyboard shortcuts
-        // Only handle themed system menu shortcuts if ControlBox is true (same behavior as native system menu)
-        if (ControlBox && _systemMenuValues.Enabled && _systemMenuService != null)
+        // Only handle themed system menu shortcuts if ControlBox is true and not in design mode
+        if (Site?.DesignMode != true && ControlBox && _systemMenuValues?.Enabled == true && _systemMenuService != null)
         {
             if (_systemMenuService.HandleKeyboardShortcut(keyData))
             {
@@ -3042,7 +3051,8 @@ public class KryptonForm : VisualForm,
     /// <param name="screenLocation">The screen coordinates where the menu should appear.</param>
     protected override void ShowSystemMenu(Point screenLocation)
     {
-        if (_systemMenuValues.Enabled && _systemMenuService != null)
+        // Only show system menu if not in design mode and service exists
+        if (Site?.DesignMode != true && _systemMenuValues?.Enabled == true && _systemMenuService != null)
         {
             // Refresh the menu to ensure it reflects current form state
             _systemMenuService.SystemMenu.Refresh();
@@ -3055,7 +3065,8 @@ public class KryptonForm : VisualForm,
     /// </summary>
     protected override void ShowSystemMenuAtFormTopLeft()
     {
-        if (_systemMenuValues.Enabled && _systemMenuService != null)
+        // Only show system menu if not in design mode and service exists
+        if (Site?.DesignMode != true && _systemMenuValues?.Enabled == true && _systemMenuService != null)
         {
             // Refresh the menu to ensure it reflects current form state
             _systemMenuService.SystemMenu.Refresh();
@@ -3070,14 +3081,8 @@ public class KryptonForm : VisualForm,
     /// <returns>True if the shortcut was handled; otherwise false.</returns>
     protected override bool HandleSystemMenuKeyboardShortcut(Keys keyData)
     {
-        // Don't interfere with designer operations
-        if (Site?.DesignMode == true)
-        {
-            return false;
-        }
-
-        // Only handle themed system menu shortcuts if ControlBox is true (same behavior as native system menu)
-        if (ControlBox && _systemMenuValues.Enabled && _systemMenuService != null)
+        // Only handle themed system menu shortcuts if ControlBox is true and not in design mode
+        if (Site?.DesignMode != true && ControlBox && _systemMenuValues?.Enabled == true && _systemMenuService != null)
         {
             // Handle Alt+F4 for close
             if (keyData == (Keys.Alt | Keys.F4))
