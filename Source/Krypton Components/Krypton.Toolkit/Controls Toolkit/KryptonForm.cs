@@ -211,22 +211,7 @@ public class KryptonForm : VisualForm,
 
         // CRITICAL: Only create system menu service if NOT in design mode
         // This prevents system menu interference with Visual Studio designer operations
-        // 
-        // DESIGN MODE BEHAVIOR:
-        // - System menu service = null (no interference with designer)
-        // - Minimal SystemMenuValues created (for property storage only)
-        // - No event handlers or message processing
-        // - Designer drag and drop works seamlessly
-        // 
-        // RUNTIME BEHAVIOR:
-        // - Full system menu service created and configured
-        // - Complete themed system menu functionality
-        // - All event handlers and message processing active
-        // - Right-click title bar shows themed menu
-        // - Keyboard shortcuts work (Alt+Space, Alt+F4)
-        //
-        // Uses LicenseManager.UsageMode for most reliable design-time detection
-        // during constructor execution when Site property is not yet available
+        // Uses LicenseManager.UsageMode for reliable design-time detection during constructor
         if (LicenseManager.UsageMode != LicenseUsageMode.Designtime)
         {
             // RUNTIME MODE: Create full system menu functionality
@@ -1210,86 +1195,104 @@ public class KryptonForm : VisualForm,
 
     /// <summary>
     /// Gets access to the system menu for advanced customization.
+    /// Returns null in design mode to prevent Visual Studio designer interference.
+    /// </summary>
+    /// <remarks>
+    /// <para><strong>IMPORTANT:</strong> This property returns NULL in design mode to prevent designer interference.</para>
+    /// <para>The system menu is only available at runtime to ensure Visual Studio designer
+    /// operations (drag and drop, control placement, form selection) work properly.</para>
     /// 
-    /// IMPORTANT: This property returns NULL in design mode to prevent designer interference.
-    /// The system menu is only available at runtime to ensure Visual Studio designer
-    /// operations (drag and drop, control placement, form selection) work properly.
+    /// <para><strong>DESIGN MODE:</strong> Returns null (no system menu functionality)</para>
+    /// <para><strong>RUNTIME MODE:</strong> Returns full IKryptonSystemMenu interface for customization</para>
     /// 
-    /// DESIGN MODE: Returns null (no system menu functionality)
-    /// RUNTIME MODE: Returns full IKryptonSystemMenu interface for customization
-    /// 
-    /// USAGE PATTERN:
+    /// <para><strong>USAGE PATTERN:</strong></para>
+    /// <code>
     /// var systemMenu = form.KryptonSystemMenu;
     /// if (systemMenu != null) // Always check for null!
     /// {
     ///     systemMenu.AddCustomMenuItem("Settings", OnSettings);
     ///     systemMenu.Refresh();
     /// }
-    /// </summary>
+    /// </code>
+    /// </remarks>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Advanced)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public override IKryptonSystemMenu? KryptonSystemMenu => IsInDesignMode() ? null : _systemMenuService?.SystemMenu;
 
     /// <summary>
-    /// Robust design mode detection that works both at design time and runtime.
-    /// 
-    /// This method is CRITICAL for preventing system menu interference with Visual Studio designer operations.
-    /// It uses a three-layer detection strategy to reliably determine if the form is running in the designer
-    /// versus actual application runtime.
-    /// 
-    /// WITHOUT this method:
-    /// - System menu would interfere with designer drag and drop operations
-    /// - Controls couldn't be dragged from toolbox to form
-    /// - Form selection would be problematic in designer
-    /// - Intermittent "hit and miss" behavior would occur
-    /// 
-    /// WITH this method:
-    /// - System menu service is only created at runtime (not in designer)
-    /// - Designer operations work seamlessly without interference
-    /// - Drag and drop works consistently
-    /// - Performance is optimized (no unnecessary service creation in designer)
-    /// 
-    /// DETECTION STRATEGY (in order of reliability):
-    /// 
-    /// 1. LicenseManager.UsageMode (PRIMARY - Most Reliable)
-    ///    - Available immediately during constructor execution
-    ///    - Works before Site property is available
-    ///    - Global application state, not dependent on individual control state
-    ///    - Microsoft-recommended approach for design-time detection
-    ///    - Consistent across all .NET versions
-    /// 
-    /// 2. Site?.DesignMode (SECONDARY - Standard Approach)
-    ///    - Standard .NET approach for design mode detection
-    ///    - Per-control basis, available after control is sited
-    ///    - Works when control is added to designer surface
-    ///    - Limitation: Not available during constructor (Site is null initially)
-    /// 
-    /// 3. Container Component Check (FALLBACK - Edge Cases)
-    ///    - Handles edge cases where direct detection fails
-    ///    - Container-level detection for complex designer scenarios
-    ///    - Comprehensive coverage for nested containers
-    ///    - Defensive programming safety net
-    /// 
-    /// PERFORMANCE CHARACTERISTICS:
-    /// - Uses short-circuit evaluation (stops at first true result)
-    /// - Typical execution: ~0.001ms (design mode) to ~0.002ms (runtime)
-    /// - Zero allocation in 95% of cases
-    /// - Minimal LINQ allocation only in complex edge cases
-    /// 
-    /// USAGE EXAMPLES:
-    /// - Constructor: Determines whether to create system menu service
-    /// - Runtime methods: Prevents system menu operations in designer
-    /// - Message handling: Skips system menu processing in designer
-    /// - Property access: Returns null for system menu in designer
+    /// Robust design mode detection that prevents system menu interference with Visual Studio designer.
+    /// Uses a three-layer detection strategy for reliable design-time vs runtime identification.
     /// </summary>
     /// <returns>
-    /// True if the form is currently running in the Visual Studio designer;
-    /// False if running in actual application runtime.
-    /// 
-    /// If detection fails or is ambiguous, returns False (assumes runtime) to ensure
-    /// application functionality is preserved over designer convenience.
+    /// True if running in Visual Studio designer; False if running at application runtime.
     /// </returns>
+    /// <remarks>
+    /// <para><strong>CRITICAL IMPORTANCE:</strong></para>
+    /// <para>This method is essential for preventing system menu interference with Visual Studio designer operations.</para>
+    /// 
+    /// <para><strong>WITHOUT this method:</strong></para>
+    /// <list type="bullet">
+    /// <item>System menu would interfere with designer drag and drop operations</item>
+    /// <item>Controls couldn't be dragged from toolbox to form</item>
+    /// <item>Form selection would be problematic in designer</item>
+    /// <item>Intermittent "hit and miss" behavior would occur</item>
+    /// </list>
+    /// 
+    /// <para><strong>WITH this method:</strong></para>
+    /// <list type="bullet">
+    /// <item>System menu service is only created at runtime (not in designer)</item>
+    /// <item>Designer operations work seamlessly without interference</item>
+    /// <item>Drag and drop works consistently</item>
+    /// <item>Performance is optimized (no unnecessary service creation in designer)</item>
+    /// </list>
+    /// 
+    /// <para><strong>DETECTION STRATEGY (in order of reliability):</strong></para>
+    /// 
+    /// <para><strong>1. LicenseManager.UsageMode (PRIMARY - Most Reliable)</strong></para>
+    /// <list type="bullet">
+    /// <item>Available immediately during constructor execution</item>
+    /// <item>Works before Site property is available</item>
+    /// <item>Global application state, not dependent on individual control state</item>
+    /// <item>Microsoft-recommended approach for design-time detection</item>
+    /// <item>Consistent across all .NET versions</item>
+    /// </list>
+    /// 
+    /// <para><strong>2. Site?.DesignMode (SECONDARY - Standard Approach)</strong></para>
+    /// <list type="bullet">
+    /// <item>Standard .NET approach for design mode detection</item>
+    /// <item>Per-control basis, available after control is sited</item>
+    /// <item>Works when control is added to designer surface</item>
+    /// <item>Limitation: Not available during constructor (Site is null initially)</item>
+    /// </list>
+    /// 
+    /// <para><strong>3. Container Component Check (FALLBACK - Edge Cases)</strong></para>
+    /// <list type="bullet">
+    /// <item>Handles edge cases where direct detection fails</item>
+    /// <item>Container-level detection for complex designer scenarios</item>
+    /// <item>Comprehensive coverage for nested containers</item>
+    /// <item>Defensive programming safety net</item>
+    /// </list>
+    /// 
+    /// <para><strong>PERFORMANCE CHARACTERISTICS:</strong></para>
+    /// <list type="bullet">
+    /// <item>Uses short-circuit evaluation (stops at first true result)</item>
+    /// <item>Typical execution: ~0.001ms (design mode) to ~0.002ms (runtime)</item>
+    /// <item>Zero allocation in 95% of cases</item>
+    /// <item>Minimal LINQ allocation only in complex edge cases</item>
+    /// </list>
+    /// 
+    /// <para><strong>USAGE EXAMPLES:</strong></para>
+    /// <list type="bullet">
+    /// <item>Constructor: Determines whether to create system menu service</item>
+    /// <item>Runtime methods: Prevents system menu operations in designer</item>
+    /// <item>Message handling: Skips system menu processing in designer</item>
+    /// <item>Property access: Returns null for system menu in designer</item>
+    /// </list>
+    /// 
+    /// <para>If detection fails or is ambiguous, returns False (assumes runtime) to ensure
+    /// application functionality is preserved over designer convenience.</para>
+    /// </remarks>
     private bool IsInDesignMode() =>
         // Layer 1: Primary detection - LicenseManager is most reliable and available immediately
         LicenseManager.UsageMode == LicenseUsageMode.Designtime ||
@@ -1785,9 +1788,7 @@ public class KryptonForm : VisualForm,
         else if (m.Msg == PI.WM_.NCRBUTTONDOWN)
         {
             // Handle right-click in non-client area (title bar and control buttons)
-            // DESIGN MODE PROTECTION: IsInDesignMode() check prevents system menu from
-            // interfering with Visual Studio designer right-click operations
-            // Only show system menu if ControlBox is true and not in design mode
+            // IsInDesignMode() prevents system menu interference with designer right-click operations
             if (!IsInDesignMode() && ControlBox && _systemMenuValues?.Enabled == true && 
                 _systemMenuValues.ShowOnRightClick && _systemMenuService != null &&
                 _systemMenuService.ShowSystemMenuOnRightClick)
@@ -1956,21 +1957,22 @@ public class KryptonForm : VisualForm,
 
     /// <summary>
     /// Perform hit testing to determine what part of the window the mouse is over.
-    /// 
-    /// DESIGN MODE PROTECTION: Uses IsInDesignMode() to prevent custom hit testing
-    /// from interfering with Visual Studio designer operations. In design mode,
-    /// delegates to base class for standard hit testing behavior.
-    /// 
-    /// RUNTIME BEHAVIOR: Custom hit testing for system menu, control buttons, borders
-    /// DESIGN MODE BEHAVIOR: Standard hit testing (no custom chrome interference)
+    /// Uses standard hit testing in design mode to prevent designer interference.
     /// </summary>
+    /// <remarks>
+    /// <para><strong>DESIGN MODE PROTECTION:</strong> Uses IsInDesignMode() to prevent custom hit testing
+    /// from interfering with Visual Studio designer operations. In design mode,
+    /// delegates to base class for standard hit testing behavior.</para>
+    /// 
+    /// <para><strong>RUNTIME BEHAVIOR:</strong> Custom hit testing for system menu, control buttons, borders</para>
+    /// <para><strong>DESIGN MODE BEHAVIOR:</strong> Standard hit testing (no custom chrome interference)</para>
+    /// </remarks>
     /// <param name="pt">Point in window coordinates.</param>
     /// <returns>Hit test result indicating what part of window the point is over</returns>
     protected override IntPtr WindowChromeHitTest(Point pt)
     {
         // DESIGN MODE PROTECTION: Prevent custom hit testing from interfering with designer
-        // IsInDesignMode() ensures Visual Studio designer can properly handle hit testing
-        // for drag and drop operations, control selection, and form manipulation
+        // IsInDesignMode() ensures proper designer hit testing for drag/drop and selection
         if (IsInDesignMode())
         {
             return base.WindowChromeHitTest(pt);
@@ -3173,14 +3175,16 @@ public class KryptonForm : VisualForm,
 
     /// <summary>
     /// Shows the themed system menu at the specified screen location.
-    /// 
-    /// DESIGN MODE PROTECTION: This method uses IsInDesignMode() to prevent
-    /// system menu from appearing in Visual Studio designer, ensuring designer
-    /// operations work without interference.
-    /// 
-    /// RUNTIME BEHAVIOR: Shows fully themed system menu with custom items
-    /// DESIGN MODE BEHAVIOR: No-op (returns immediately without showing menu)
+    /// Protected against designer interference - no-op in design mode.
     /// </summary>
+    /// <remarks>
+    /// <para><strong>DESIGN MODE PROTECTION:</strong> This method uses IsInDesignMode() to prevent
+    /// system menu from appearing in Visual Studio designer, ensuring designer
+    /// operations work without interference.</para>
+    /// 
+    /// <para><strong>RUNTIME BEHAVIOR:</strong> Shows fully themed system menu with custom items</para>
+    /// <para><strong>DESIGN MODE BEHAVIOR:</strong> No-op (returns immediately without showing menu)</para>
+    /// </remarks>
     /// <param name="screenLocation">The screen coordinates where the menu should appear.</param>
     protected override void ShowSystemMenu(Point screenLocation)
     {
@@ -3196,13 +3200,15 @@ public class KryptonForm : VisualForm,
 
     /// <summary>
     /// Shows the themed system menu at the form's top-left position.
-    /// 
-    /// DESIGN MODE PROTECTION: Uses IsInDesignMode() to prevent menu appearance
-    /// in Visual Studio designer, ensuring no interference with designer operations.
-    /// 
-    /// RUNTIME BEHAVIOR: Shows menu at top-left (Alt+Space behavior)
-    /// DESIGN MODE BEHAVIOR: No-op (returns immediately)
+    /// Protected against designer interference - no-op in design mode.
     /// </summary>
+    /// <remarks>
+    /// <para><strong>DESIGN MODE PROTECTION:</strong> Uses IsInDesignMode() to prevent menu appearance
+    /// in Visual Studio designer, ensuring no interference with designer operations.</para>
+    /// 
+    /// <para><strong>RUNTIME BEHAVIOR:</strong> Shows menu at top-left (Alt+Space behavior)</para>
+    /// <para><strong>DESIGN MODE BEHAVIOR:</strong> No-op (returns immediately)</para>
+    /// </remarks>
     protected override void ShowSystemMenuAtFormTopLeft()
     {
         // Only show system menu if not in design mode and service exists
