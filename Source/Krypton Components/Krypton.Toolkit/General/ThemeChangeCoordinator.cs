@@ -147,12 +147,6 @@ internal static class ThemeChangeCoordinator
     {
         public bool PreFilterMessage(ref Message m)
         {
-            // Don't interfere with designer operations
-            if (IsAnyFormInDesignMode())
-            {
-                return false;
-            }
-
             if (!InProgress)
             {
                 return false;
@@ -194,29 +188,5 @@ internal static class ThemeChangeCoordinator
             return false;
         }
 
-        /// <summary>
-        /// Checks if any form in the application is currently in design mode.
-        /// </summary>
-        /// <returns>True if any form is in design mode; otherwise false.</returns>
-        private static bool IsAnyFormInDesignMode()
-        {
-            try
-            {
-                // Check all open forms to see if any are in design mode
-                foreach (Form form in Application.OpenForms)
-                {
-                    if (form.Site?.DesignMode == true)
-                    {
-                        return true;
-                    }
-                }
-            }
-            catch
-            {
-                // If we can't check, assume not in design mode to avoid breaking functionality
-            }
-            
-            return false;
-        }
     }
 }

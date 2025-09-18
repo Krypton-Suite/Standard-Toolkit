@@ -131,13 +131,6 @@ public class KryptonSystemMenuService : IDisposable
     public bool HandleKeyboardShortcut(Keys keyData)
     {
         ThrowIfDisposed();
-
-        // Don't interfere with designer operations
-        if (_form.Site?.DesignMode == true)
-        {
-            return false;
-        }
-
         return _systemMenu.HandleKeyboardShortcut(keyData);
     }
 
@@ -151,12 +144,6 @@ public class KryptonSystemMenuService : IDisposable
     public bool HandleRightClick(Point screenPoint, bool isInTitleBarArea, bool isOnControlButtons)
     {
         ThrowIfDisposed();
-
-        // Don't interfere with designer operations
-        if (_form.Site?.DesignMode == true)
-        {
-            return false;
-        }
 
         if (UseSystemMenu && ShowSystemMenuOnRightClick && isInTitleBarArea && !isOnControlButtons)
         {
@@ -177,12 +164,6 @@ public class KryptonSystemMenuService : IDisposable
     public bool HandleLeftClick(Point screenPoint, bool isInTitleBarArea, bool isOnControlButtons)
     {
         ThrowIfDisposed();
-
-        // Don't interfere with designer operations
-        if (_form.Site?.DesignMode == true)
-        {
-            return false;
-        }
 
         if (UseSystemMenu && ShowSystemMenuOnLeftClick && isInTitleBarArea && !isOnControlButtons)
         {

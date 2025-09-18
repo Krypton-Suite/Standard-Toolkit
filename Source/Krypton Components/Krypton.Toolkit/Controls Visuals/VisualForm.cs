@@ -1251,12 +1251,6 @@ public abstract class VisualForm : Form,
     /// <returns>True if the message was processed; otherwise false.</returns>
     protected virtual bool OnWM_NCHITTEST(ref Message m)
     {
-        // Don't interfere with designer operations
-        if (Site?.DesignMode == true)
-        {
-            return false;
-        }
-
         // Extract the point in screen coordinates
         var screenPoint = new Point((int)m.LParam.ToInt64());
 
@@ -1322,12 +1316,6 @@ public abstract class VisualForm : Form,
     /// <returns>True if the message was processed; otherwise false.</returns>
     protected virtual bool OnWM_NCMOUSEMOVE(ref Message m)
     {
-        // Don't interfere with designer operations
-        if (Site?.DesignMode == true)
-        {
-            return false;
-        }
-
         // Extract the point in screen coordinates
         var screenPoint = new Point((int)m.LParam.ToInt64());
 
@@ -1374,12 +1362,6 @@ public abstract class VisualForm : Form,
     /// <returns>True if the message was processed; otherwise false.</returns>
     protected virtual bool OnWM_NCLBUTTONDOWN(ref Message m)
     {
-        // Don't interfere with designer operations
-        if (Site?.DesignMode == true)
-        {
-            return false;
-        }
-
         // Extract the point in screen coordinates
         var screenPoint = new Point((int)m.LParam.ToInt64());
 
@@ -1397,12 +1379,6 @@ public abstract class VisualForm : Form,
     /// <returns>True if the message was processed; otherwise false.</returns>
     protected virtual bool OnWM_NCLBUTTONUP(ref Message m)
     {
-        // Don't interfere with designer operations
-        if (Site?.DesignMode == true)
-        {
-            return false;
-        }
-
         // Extract the point in screen coordinates
         var screenPoint = new Point((int)m.LParam.ToInt64());
 
@@ -1420,12 +1396,6 @@ public abstract class VisualForm : Form,
     /// <returns>True if the message was processed; otherwise false.</returns>
     protected virtual bool OnWM_NCMOUSELEAVE(ref Message m)
     {
-        // Don't interfere with designer operations
-        if (Site?.DesignMode == true)
-        {
-            return false;
-        }
-
         _blurManager.TakeSnapshot();
         // Next time the mouse enters the window we need to track it leaving
         _trackingMouse = false;
@@ -1450,12 +1420,6 @@ public abstract class VisualForm : Form,
     /// <returns>True if the message was processed; otherwise false.</returns>
     protected virtual bool OnWM_MOUSEMOVE(ref Message m)
     {
-        // Don't interfere with designer operations
-        if (Site?.DesignMode == true)
-        {
-            return false;
-        }
-
         // Extract the point in client coordinates
         var clientPoint = new Point((int)m.LParam);
 
@@ -1478,12 +1442,6 @@ public abstract class VisualForm : Form,
     /// <returns>True if the message was processed; otherwise false.</returns>
     protected virtual bool OnWM_LBUTTONUP(ref Message m)
     {
-        // Don't interfere with designer operations
-        if (Site?.DesignMode == true)
-        {
-            return false;
-        }
-
         // Capture has now expired
         _captured = false;
         Capture = false;
@@ -1519,12 +1477,6 @@ public abstract class VisualForm : Form,
     /// <returns>True if the message was processed; otherwise false.</returns>
     protected virtual bool OnWM_NCLBUTTONDBLCLK(ref Message m)
     {
-        // Don't interfere with designer operations
-        if (Site?.DesignMode == true)
-        {
-            return false;
-        }
-
         // Extract the point in screen coordinates
         var screenPoint = new Point((int)m.LParam.ToInt64());
 
@@ -1678,16 +1630,7 @@ public abstract class VisualForm : Form,
     /// Perform non-client mouse movement processing.
     /// </summary>
     /// <param name="pt">Point in window coordinates.</param>
-    protected virtual void WindowChromeNonClientMouseMove(Point pt)
-    {
-        // Don't interfere with designer operations
-        if (Site?.DesignMode == true)
-        {
-            return;
-        }
-        
-        ViewManager?.MouseMove(new MouseEventArgs(MouseButtons.None, 0, pt.X, pt.Y, 0), pt);
-    }
+    protected virtual void WindowChromeNonClientMouseMove(Point pt) => ViewManager?.MouseMove(new MouseEventArgs(MouseButtons.None, 0, pt.X, pt.Y, 0), pt);
 
     /// <summary>
     /// Process the left mouse down event.
@@ -1696,12 +1639,6 @@ public abstract class VisualForm : Form,
     /// <returns>True if event is processed; otherwise false.</returns>
     protected virtual bool WindowChromeLeftMouseDown(Point windowPoint)
     {
-        // Don't interfere with designer operations
-        if (Site?.DesignMode == true)
-        {
-            return false;
-        }
-        
         ViewManager?.MouseDown(new MouseEventArgs(MouseButtons.Left, 1, windowPoint.X, windowPoint.Y, 0), windowPoint);
 
         // If we moused down on an active view element
@@ -1717,12 +1654,6 @@ public abstract class VisualForm : Form,
     /// <returns>True if event is processed; otherwise false.</returns>
     protected virtual bool WindowChromeLeftMouseUp(Point pt)
     {
-        // Don't interfere with designer operations
-        if (Site?.DesignMode == true)
-        {
-            return false;
-        }
-        
         ViewManager?.MouseUp(new MouseEventArgs(MouseButtons.Left, 0, pt.X, pt.Y, 0), pt);
 
         // By default, we have not handled the mouse up event
