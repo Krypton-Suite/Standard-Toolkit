@@ -1200,13 +1200,11 @@ public class KryptonForm : VisualForm,
     /// <summary>
     /// Robust design mode detection that works both at design time and runtime.
     /// </summary>
-    private bool IsInDesignMode()
-    {
+    private bool IsInDesignMode() =>
         // Multiple checks for robust designer mode detection
-        return LicenseManager.UsageMode == LicenseUsageMode.Designtime ||
-               Site?.DesignMode == true ||
-               (Site?.Container?.Components?.OfType<Control>().Any(c => c.Site?.DesignMode == true) == true);
-    }
+        LicenseManager.UsageMode == LicenseUsageMode.Designtime ||
+        Site?.DesignMode == true ||
+        (Site?.Container?.Components?.OfType<Control>().Any(c => c.Site?.DesignMode == true) == true);
 
     /// <summary>
     /// Gets access to the ToolTipManager used for displaying tool tips.
