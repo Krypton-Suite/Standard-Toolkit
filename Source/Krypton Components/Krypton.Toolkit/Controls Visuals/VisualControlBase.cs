@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege 2017 - 2025. All rights reserved.
+ *
  */
 #endregion
 
@@ -150,7 +150,7 @@ public abstract class VisualControlBase : Control,
             // Must unhook from the palette paint event
             if (_palette != null)
             {
-                _palette.PalettePaint -= OnPaletteNeedPaint;
+                _palette.PalettePaintInternal -= OnPaletteNeedPaint;
                 _palette.ButtonSpecChanged -= OnButtonSpecChanged;
                 _palette.BasePaletteChanged -= OnBaseChanged;
                 _palette.BaseRendererChanged -= OnBaseChanged;
@@ -289,7 +289,7 @@ public abstract class VisualControlBase : Control,
                 switch (value)
                 {
                     case PaletteMode.Custom:
-                        // Do nothing, you must assign a palette to the 
+                        // Do nothing, you must assign a palette to the
                         // 'Palette' property in order to get the custom mode
                         break;
                     default:
@@ -389,7 +389,11 @@ public abstract class VisualControlBase : Control,
     /// </summary>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Advanced)]
-    public ToolStripRenderer CreateToolStripRenderer() => Renderer.RenderToolStrip(GetResolvedPalette());
+    public ToolStripRenderer CreateToolStripRenderer()
+    {
+        var palette = GetResolvedPalette() ?? KryptonManager.CurrentGlobalPalette;
+        return Renderer.RenderToolStrip(palette);
+    }
 
     /// <summary>
     /// Gets or sets the background image displayed in the control.
@@ -519,7 +523,7 @@ public abstract class VisualControlBase : Control,
     /// Gets and sets the ViewManager instance.
     /// </summary>
     [Browsable(false)]  //  Hides the property from the Property Grid in the Visual Studio designer
-    [EditorBrowsable(EditorBrowsableState.Never)]   // Hides the property from IntelliSense and code completion. 
+    [EditorBrowsable(EditorBrowsableState.Never)]   // Hides the property from IntelliSense and code completion.
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)] //  Prevents the property from being serialized into the designer code.
     public ViewManager? ViewManager
     {
@@ -876,7 +880,7 @@ public abstract class VisualControlBase : Control,
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="e"></param>
     protected override void OnMouseEnter(EventArgs e)
@@ -1169,7 +1173,7 @@ public abstract class VisualControlBase : Control,
             // Unhook from current palette events
             if (_palette != null)
             {
-                _palette.PalettePaint -= OnPaletteNeedPaint;
+                _palette.PalettePaintInternal -= OnPaletteNeedPaint;
                 _palette.ButtonSpecChanged -= OnButtonSpecChanged;
                 _palette.BasePaletteChanged -= OnBaseChanged;
                 _palette.BaseRendererChanged -= OnBaseChanged;
@@ -1184,7 +1188,7 @@ public abstract class VisualControlBase : Control,
                 // Get the renderer associated with the palette
                 Renderer = _palette.GetRenderer();
 
-                _palette.PalettePaint += OnPaletteNeedPaint;
+                _palette.PalettePaintInternal += OnPaletteNeedPaint;
                 _palette.ButtonSpecChanged += OnButtonSpecChanged;
                 _palette.BasePaletteChanged += OnBaseChanged;
                 _palette.BaseRendererChanged += OnBaseChanged;
@@ -1269,8 +1273,8 @@ public abstract class VisualControlBase : Control,
     }
 
     private void OnKryptonContextMenuDisposed(object? sender, EventArgs e) =>
-        // When the current krypton context menu is disposed, we should remove 
-        // it to prevent it being used again, as that would just throw an exception 
+        // When the current krypton context menu is disposed, we should remove
+        // it to prevent it being used again, as that would just throw an exception
         // because it has been disposed.
         KryptonContextMenu = null;
 

@@ -15,7 +15,7 @@ namespace Krypton.Toolkit;
 /// <summary>
 /// Defines a KryptonDomainUpDown cell type for the KryptonDataGridView control
 /// </summary>
-public class KryptonDataGridViewDomainUpDownCell : DataGridViewTextBoxCell
+public class KryptonDataGridViewDomainUpDownCell : KryptonDataGridViewTextBoxCell
 {
     #region Static Fields
     private const DataGridViewContentAlignment ANY_RIGHT = DataGridViewContentAlignment.TopRight | DataGridViewContentAlignment.MiddleRight | DataGridViewContentAlignment.BottomRight;
@@ -41,6 +41,23 @@ public class KryptonDataGridViewDomainUpDownCell : DataGridViewTextBoxCell
     #endregion
 
     #region Public
+
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public new bool Multiline
+    {
+        get => base.Multiline;
+        set => base.Multiline = value;
+    }
+
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public new bool MultilineStringEditor
+    {
+        get => base.MultilineStringEditor;
+        set => base.MultilineStringEditor = value;
+    }
+
     /// <summary>
     /// Define the type of the cell's editing control
     /// </summary>
@@ -93,6 +110,7 @@ public class KryptonDataGridViewDomainUpDownCell : DataGridViewTextBoxCell
             domainUpDown.Items.Clear();
             domainUpDown.ButtonSpecs.Clear();
             domainUpDown.ReadOnly = KryptonOwningColumn?.ReadOnlyItemsList ?? false;
+            domainUpDown.RightToLeft = DataGridView!.RightToLeft;
 
             if (KryptonOwningColumn is not null)
             {
@@ -100,6 +118,18 @@ public class KryptonDataGridViewDomainUpDownCell : DataGridViewTextBoxCell
             }
 
             domainUpDown.Text = initialFormattedValue as string ?? string.Empty;
+
+            if (KryptonOwningColumn is KryptonDataGridViewDomainUpDownColumn dudColumn)
+            {
+                KryptonDataGridViewUtilities.SyncEditorButtonSpecs(DataGridView as KryptonDataGridView, dudColumn, domainUpDown.ButtonSpecs);
+                foreach (var spec in domainUpDown.ButtonSpecs.Enumerate().OfType<ButtonSpecAny>())
+                {
+                    spec.Click += (s, e) =>
+                        dudColumn.RaiseButtonSpecClick(new DataGridViewButtonSpecClickEventArgs(dudColumn, this, spec));
+                }
+                domainUpDown.PerformLayout();
+                domainUpDown.Invalidate();
+            }
         }
     }
 
@@ -116,45 +146,61 @@ public class KryptonDataGridViewDomainUpDownCell : DataGridViewTextBoxCell
             Rectangle textArea;
             var righToLeft = DataGridView.RightToLeft == RightToLeft.Yes;
 
-            int availableHeight = cellBounds.Height - cellStyle.Padding.Top - cellStyle.Padding.Bottom - 2;
-            int indicatorSize = Math.Max(12, availableHeight);
+            // Use the same button width as the editor so renderer output matches
+            int buttonWidth = SystemInformation.VerticalScrollBarWidth - 2;
+            int reservedStrip = buttonWidth + IndicatorGap;
 
             if (righToLeft)
             {
                 pos = cellBounds.Left;
 
-                // The WinForms cell content always receives padding of one by default, custom padding is added tot that.
+                // The WinForms cell content always receives padding of one by default, custom padding is added to that.
+                // Reserve the indicator strip on the left; padding contributes first via reservedStrip semantics
+                int reserveLeft = Math.Max(reservedStrip - cellStyle.Padding.Left, 0);
                 textArea = new Rectangle(
-                    1 + cellBounds.Left + cellStyle.Padding.Left + indicatorSize,
-                    1 + cellBounds.Top + cellStyle.Padding.Top,
-                    cellBounds.Width - cellStyle.Padding.Left - cellStyle.Padding.Right - indicatorSize - 3,
-                    cellBounds.Height - cellStyle.Padding.Top - cellStyle.Padding.Bottom - 2);
+                    cellBounds.Left + cellStyle.Padding.Left + reserveLeft,
+                    cellBounds.Top  + cellStyle.Padding.Top,
+                    cellBounds.Width  - cellStyle.Padding.Left - cellStyle.Padding.Right  - reserveLeft,
+                    cellBounds.Height - cellStyle.Padding.Top  - cellStyle.Padding.Bottom - 2);
             }
             else
             {
-                pos = cellBounds.Right - indicatorSize;
+                pos = cellBounds.Right - buttonWidth;
 
-                // The WinForms cell content always receives padding of one by default, custom padding is added tot that.
+                // The WinForms cell content always receives padding of one by default, custom padding is added to that.
+                // Reserve the indicator strip on the right; padding contributes first via reservedStrip semantics
+                int reserveRight = Math.Max(reservedStrip - cellStyle.Padding.Right, 0);
                 textArea = new Rectangle(
-                    1 + cellBounds.Left + cellStyle.Padding.Left,
-                    1 + cellBounds.Top + cellStyle.Padding.Top,
-                    cellBounds.Width - cellStyle.Padding.Left - cellStyle.Padding.Right - indicatorSize - 3,
-                    cellBounds.Height - cellStyle.Padding.Top - cellStyle.Padding.Bottom - 2);
+                    cellBounds.Left + cellStyle.Padding.Left,
+                    cellBounds.Top  + cellStyle.Padding.Top,
+                    cellBounds.Width  - cellStyle.Padding.Left - cellStyle.Padding.Right  - reserveRight,
+                    cellBounds.Height - cellStyle.Padding.Top  - cellStyle.Padding.Bottom - 2);
             }
 
             // When the Krypton column is part of a WinForms DataGridView let the default paint routine paint the cell.
             // Afterwards we paint the text and drop down image.
             if (DataGridView is DataGridView)
             {
-                base.Paint(graphics, clipBounds, cellBounds, rowIndex, cellState, null, string.Empty, errorText, cellStyle, advancedBorderStyle, paintParts);
+                base.Paint(graphics, clipBounds, cellBounds, rowIndex, cellState, null,
+                    string.Empty, errorText, cellStyle, advancedBorderStyle, paintParts);
             }
 
             // Draw the drop down button, only if no ErrorText has been set.
             // If the ErrorText is set, only the error icon is shown. Otherwise both are painted on the same spot.
             if (ErrorText.Length == 0)
             {
-                var sized = KryptonOwningColumn?.GetIndicatorImageForSize(indicatorSize) ?? image;
-                graphics.DrawImage(sized, new Rectangle(pos, textArea.Top, indicatorSize, indicatorSize));
+                var buttonRect = new Rectangle(
+                    righToLeft
+                        ? cellBounds.Left + IndicatorGap
+                        : cellBounds.Right - buttonWidth - IndicatorGap,
+                    textArea.Top,
+                    buttonWidth,
+                    textArea.Height);
+
+                // Use crisp cached glyph rendered by renderer if available
+                var sized = KryptonOwningColumn?.GetIndicatorImageForSize(Math.Min(buttonRect.Width, buttonRect.Height)) ?? image;
+                int y = textArea.Top + (textArea.Height - buttonWidth) / 2;
+                graphics.DrawImage(sized, new Rectangle(buttonRect.X, y, buttonWidth, buttonWidth));
             }
             else
             {

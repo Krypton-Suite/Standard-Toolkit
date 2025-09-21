@@ -156,6 +156,13 @@ public class KryptonDataGridView : DataGridView
     [Category(@"Property Changed")]
     [Description(@"Occurs when the value of the Palette property is changed.")]
     public event EventHandler? PaletteChanged;
+
+    /// <summary>
+    /// Occurs when a ButtonSpec inside a cell's editing control is clicked.
+    /// </summary>
+    [Category(@"Action")]
+    [Description(@"Occurs when a button specification is clicked in a cell's editing control.")]
+    public event EventHandler<DataGridViewButtonSpecClickEventArgs>? EditingControlButtonSpecClick;
     #endregion
 
     #region Identity
@@ -210,7 +217,7 @@ public class KryptonDataGridView : DataGridView
             // Must unhook from the palette paint event
             if (_palette != null)
             {
-                _palette.PalettePaint -= OnNeedResyncPaint;
+                _palette.PalettePaintInternal -= OnNeedResyncPaint;
                 _palette.ButtonSpecChanged -= OnButtonSpecChanged;
             }
 
@@ -1178,26 +1185,27 @@ public class KryptonDataGridView : DataGridView
     {
         _cellDown = new Point(e.ColumnIndex, e.RowIndex);
 
-        // Auto-open dropdown when clicking inside the glyph area of a combo box cell
+        // Auto-open edit when clicking inside the glyph area of supported drop-down/spin cells
         if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
         {
             var cell = this.Rows[e.RowIndex].Cells[e.ColumnIndex];
-            if (cell is KryptonDataGridViewComboBoxCell)
-            {
-                // Compute the glyph rectangle consistent with cell Paint
-                Rectangle rect = GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, false);
-                // Use the display rectangle height; event coordinates are relative to cell
-                DataGridViewCellStyle style = cell.InheritedStyle;
-                int availableHeight = rect.Height - style.Padding.Top - style.Padding.Bottom - 2;
-                int indicatorSize = Math.Max(12, availableHeight);
-                bool rtl = RightToLeftInternal;
-                int posRel = rtl ? 0 : rect.Width - indicatorSize;
-                Rectangle glyphRect = new Rectangle(posRel, 1 + style.Padding.Top, indicatorSize, indicatorSize);
+            bool isDropGlyphCell = cell is KryptonDataGridViewComboBoxCell
+                                    or KryptonDataGridViewDateTimePickerCell
+                                    or KryptonDataGridViewDomainUpDownCell
+                                    or KryptonDataGridViewNumericUpDownCell;
 
-                // e.X/e.Y are relative to the cell
+            if (isDropGlyphCell)
+            {
+                Rectangle rect = GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, false);
+                DataGridViewCellStyle style = cell.InheritedStyle;
+                Rectangle glyphRect = GetDropDownGlyphRect(rect, style, RightToLeftInternal);
+
                 if (glyphRect.Contains(new Point(e.X, e.Y)))
                 {
-                    _pendingOpenOnEditCell = new Point(e.ColumnIndex, e.RowIndex);
+                    if (cell is KryptonDataGridViewComboBoxCell || cell is KryptonDataGridViewDateTimePickerCell)
+                    {
+                        _pendingOpenOnEditCell = new Point(e.ColumnIndex, e.RowIndex);
+                    }
                     if (CurrentCell?.ColumnIndex != e.ColumnIndex || CurrentCell?.RowIndex != e.RowIndex)
                     {
                         CurrentCell = cell;
@@ -1217,6 +1225,16 @@ public class KryptonDataGridView : DataGridView
         }
 
         base.OnCellMouseDown(e);
+    }
+
+    private static Rectangle GetDropDownGlyphRect(Rectangle rect, DataGridViewCellStyle style, bool rtl)
+    {
+        const int indicatorGap = 3;
+        int buttonWidth = SystemInformation.VerticalScrollBarWidth - 2;
+        int contentHeight = rect.Height - style.Padding.Top - style.Padding.Bottom - 2;
+        int y = style.Padding.Top + Math.Max(0, (contentHeight - buttonWidth) / 2);
+        int x = rtl ? indicatorGap - 1 : rect.Width - buttonWidth - indicatorGap + 1;
+        return new Rectangle(x, y, buttonWidth, buttonWidth);
     }
 
     /// <summary>
@@ -1267,7 +1285,6 @@ public class KryptonDataGridView : DataGridView
         }
         base.OnEditingControlShowing(e);
     }
-
 
     /// <summary>
     /// Raises the CellPainting event.
@@ -1705,7 +1722,7 @@ public class KryptonDataGridView : DataGridView
         Rectangle gridBounds)
     {
         // Are we not disposed and have a manager to use for painting?
-        if (IsDisposed || ViewManager == null)
+        if (IsDisposed || ViewManager is null)
         {
             return;
         }
@@ -2788,7 +2805,7 @@ public class KryptonDataGridView : DataGridView
             // Unhook from current palette events
             if (_palette != null)
             {
-                _palette.PalettePaint -= OnNeedResyncPaint;
+                _palette.PalettePaintInternal -= OnNeedResyncPaint;
                 _palette.ButtonSpecChanged -= OnButtonSpecChanged;
             }
 
@@ -2801,7 +2818,7 @@ public class KryptonDataGridView : DataGridView
             // Hook to new palette events
             if (_palette != null)
             {
-                _palette.PalettePaint += OnNeedResyncPaint;
+                _palette.PalettePaintInternal += OnNeedResyncPaint;
                 _palette.ButtonSpecChanged += OnButtonSpecChanged;
             }
 
@@ -2895,6 +2912,11 @@ public class KryptonDataGridView : DataGridView
     #endregion
 
     #region Menus
+    /// <summary>
+    /// Handles the opening of the assigned <see cref="ContextMenuStrip"/> to ensure the correct renderer is applied.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">A <see cref="CancelEventArgs"/> that contains the event data.</param>
     private void OnContextMenuStripOpening(object? sender, CancelEventArgs e)
     {
         // Get the actual strip instance
@@ -2912,7 +2934,11 @@ public class KryptonDataGridView : DataGridView
     /// </summary>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Advanced)]
-    public ToolStripRenderer CreateToolStripRenderer() => Renderer?.RenderToolStrip(GetResolvedPalette()!)!;
+    public ToolStripRenderer? CreateToolStripRenderer()
+    {
+        var palette = GetResolvedPalette() ?? KryptonManager.CurrentGlobalPalette;
+        return Renderer?.RenderToolStrip(palette);
+    }
 
     private void OnKryptonContextMenuDisposed(object? sender, EventArgs e) =>
         // When the current krypton context menu is disposed, we should remove
@@ -2974,4 +3000,50 @@ public class KryptonDataGridView : DataGridView
         base.WndProc(ref m);
     }
     #endregion menus
+
+    #region Column ButtonSpec wiring
+    /// <summary>
+    /// Wire column-specific ButtonSpec click events when a column is added.
+    /// </summary>
+    /// <param name="e">Column event args.</param>
+    protected override void OnColumnAdded(DataGridViewColumnEventArgs e)
+    {
+        base.OnColumnAdded(e);
+
+        if (e.Column is KryptonDataGridViewIconColumn iconCol)
+        {
+            iconCol.ButtonSpecClick += OnColumnButtonSpecClick;
+        }
+    }
+
+    /// <summary>
+    /// Unwire column-specific ButtonSpec click events when a column is removed.
+    /// </summary>
+    /// <param name="e">Column event args.</param>
+    protected override void OnColumnRemoved(DataGridViewColumnEventArgs e)
+    {
+        if (e.Column is KryptonDataGridViewIconColumn iconCol)
+        {
+            iconCol.ButtonSpecClick -= OnColumnButtonSpecClick;
+        }
+
+        base.OnColumnRemoved(e);
+    }
+
+    /// <summary>
+    /// Forwards column-level ButtonSpec click notifications to the grid-level
+    /// <see cref="EditingControlButtonSpecClick"/> event while guarding disposal.
+    /// </summary>
+    /// <param name="sender">The source column raising the event.</param>
+    /// <param name="e">Event arguments containing column, cell and ButtonSpec.</param>
+    private void OnColumnButtonSpecClick(object? sender, DataGridViewButtonSpecClickEventArgs e)
+    {
+        if (IsDisposed || Disposing)
+        {
+            return;
+        }
+
+        EditingControlButtonSpecClick?.Invoke(this, e);
+    }
+    #endregion
 }

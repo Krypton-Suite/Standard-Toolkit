@@ -1,0 +1,38 @@
+var annotated_dup =
+[
+    [ "Krypton", "namespace_krypton.html", [
+      [ "Toolkit", "namespace_krypton_1_1_toolkit.html", [
+        [ "IKryptonTaskDialogElementBase", "interface_krypton_1_1_toolkit_1_1_i_krypton_task_dialog_element_base.html", "interface_krypton_1_1_toolkit_1_1_i_krypton_task_dialog_element_base" ],
+        [ "IKryptonTaskDialogElementCommonButtons", "interface_krypton_1_1_toolkit_1_1_i_krypton_task_dialog_element_common_buttons.html", "interface_krypton_1_1_toolkit_1_1_i_krypton_task_dialog_element_common_buttons" ],
+        [ "IKryptonTaskDialogElementContent", "interface_krypton_1_1_toolkit_1_1_i_krypton_task_dialog_element_content.html", "interface_krypton_1_1_toolkit_1_1_i_krypton_task_dialog_element_content" ],
+        [ "IKryptonTaskDialogElementDescription", "interface_krypton_1_1_toolkit_1_1_i_krypton_task_dialog_element_description.html", "interface_krypton_1_1_toolkit_1_1_i_krypton_task_dialog_element_description" ],
+        [ "IKryptonTaskDialogElementEventSizeChanged", "interface_krypton_1_1_toolkit_1_1_i_krypton_task_dialog_element_event_size_changed.html", "interface_krypton_1_1_toolkit_1_1_i_krypton_task_dialog_element_event_size_changed" ],
+        [ "IKryptonTaskDialogElementFont", "interface_krypton_1_1_toolkit_1_1_i_krypton_task_dialog_element_font.html", "interface_krypton_1_1_toolkit_1_1_i_krypton_task_dialog_element_font" ],
+        [ "IKryptonTaskDialogElementFooterBar", "interface_krypton_1_1_toolkit_1_1_i_krypton_task_dialog_element_footer_bar.html", "interface_krypton_1_1_toolkit_1_1_i_krypton_task_dialog_element_footer_bar" ],
+        [ "IKryptonTaskDialogElementForeColor", "interface_krypton_1_1_toolkit_1_1_i_krypton_task_dialog_element_fore_color.html", "interface_krypton_1_1_toolkit_1_1_i_krypton_task_dialog_element_fore_color" ],
+        [ "IKryptonTaskDialogElementIconType", "interface_krypton_1_1_toolkit_1_1_i_krypton_task_dialog_element_icon_type.html", "interface_krypton_1_1_toolkit_1_1_i_krypton_task_dialog_element_icon_type" ],
+        [ "IKryptonTaskDialogElementText", "interface_krypton_1_1_toolkit_1_1_i_krypton_task_dialog_element_text.html", "interface_krypton_1_1_toolkit_1_1_i_krypton_task_dialog_element_text" ],
+        [ "IKryptonTaskDialogElementTextAlignmentHorizontal", "interface_krypton_1_1_toolkit_1_1_i_krypton_task_dialog_element_text_alignment_horizontal.html", "interface_krypton_1_1_toolkit_1_1_i_krypton_task_dialog_element_text_alignment_horizontal" ],
+        [ "IKryptonTaskDialogElementTextAlignmentVertical", "interface_krypton_1_1_toolkit_1_1_i_krypton_task_dialog_element_text_alignment_vertical.html", "interface_krypton_1_1_toolkit_1_1_i_krypton_task_dialog_element_text_alignment_vertical" ],
+        [ "IKryptonTaskDialogElementUrl", "interface_krypton_1_1_toolkit_1_1_i_krypton_task_dialog_element_url.html", "interface_krypton_1_1_toolkit_1_1_i_krypton_task_dialog_element_url" ],
+        [ "KryptonTaskDialog", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog.html", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog" ],
+        [ "KryptonTaskDialogDefaults", "struct_krypton_1_1_toolkit_1_1_krypton_task_dialog_defaults.html", "struct_krypton_1_1_toolkit_1_1_krypton_task_dialog_defaults" ],
+        [ "KryptonTaskDialogDefaultsTLP", "struct_krypton_1_1_toolkit_1_1_krypton_task_dialog_defaults_t_l_p.html", "struct_krypton_1_1_toolkit_1_1_krypton_task_dialog_defaults_t_l_p" ],
+        [ "KryptonTaskDialogElementBase", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_base.html", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_base" ],
+        [ "KryptonTaskDialogElementCheckBox", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_check_box.html", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_check_box" ],
+        [ "KryptonTaskDialogElementComboBox", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_combo_box.html", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_combo_box" ],
+        [ "KryptonTaskDialogElementCommonButtons", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_common_buttons.html", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_common_buttons" ],
+        [ "KryptonTaskDialogElementContent", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_content.html", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_content" ],
+        [ "KryptonTaskDialogElementContentTest", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_content_test.html", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_content_test" ],
+        [ "KryptonTaskDialogElementFooterBar", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_footer_bar.html", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_footer_bar" ],
+        [ "KryptonTaskDialogElementHeading", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_heading.html", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_heading" ],
+        [ "KryptonTaskDialogElementHyperLink", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_hyper_link.html", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_hyper_link" ],
+        [ "KryptonTaskDialogElementProgresBar", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_progres_bar.html", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_progres_bar" ],
+        [ "KryptonTaskDialogElementProgresBarProperties", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_progres_bar_properties.html", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_progres_bar_properties" ],
+        [ "KryptonTaskDialogElementSingleLineControlBase", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_single_line_control_base.html", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_single_line_control_base" ],
+        [ "KryptonTaskDialogFormProperties", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_form_properties.html", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_form_properties" ],
+        [ "KryptonTaskDialogIconController", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_icon_controller.html", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_icon_controller" ],
+        [ "KryptonTaskDialogKryptonForm", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_krypton_form.html", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_krypton_form" ]
+      ] ]
+    ] ]
+];

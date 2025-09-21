@@ -87,28 +87,10 @@ public partial class VisualControlsTest : KryptonForm
 
     private void kbtnVisualTaskDialogForm_Click(object sender, EventArgs e)
     {
-        var td = new KryptonTaskDialog
-        {
-            WindowTitle = "Demo TaskDialogForm",
-            MainInstruction = "Hello from TaskDialogForm",
-            Content = "This is a demo of VisualTaskDialogForm.",
-            Icon = KryptonMessageBoxIcon.Information
-        };
-
-        ShowFormByName("VisualTaskDialogForm", td);
     }
 
     private void kbtnVisualTaskDialog_Click(object sender, EventArgs e)
     {
-        var td = new KryptonTaskDialog
-        {
-            WindowTitle = "Demo VisualTaskDialog",
-            MainInstruction = "Hello from VisualTaskDialog",
-            Content = "This is a demo of VisualTaskDialog window.",
-            Icon = KryptonMessageBoxIcon.Information
-        };
-
-        ShowFormByName("VisualTaskDialog", td);
     }
 
     private void kbtnVisualThemeBrowser_Click(object sender, EventArgs e)

@@ -97,7 +97,7 @@ public class KryptonLinkWrapLabel : LinkLabel
             // Must unhook from the palette paint event
             if (_palette != null)
             {
-                _palette.PalettePaint -= OnPaletteNeedPaint;
+                _palette.PalettePaintInternal -= OnPaletteNeedPaint;
                 _palette.BasePaletteChanged -= OnBaseChanged;
                 _palette.BaseRendererChanged -= OnBaseChanged;
             }
@@ -794,7 +794,7 @@ public class KryptonLinkWrapLabel : LinkLabel
             // Unhook from current palette events
             if (_palette != null)
             {
-                _palette.PalettePaint -= OnPaletteNeedPaint;
+                _palette.PalettePaintInternal -= OnPaletteNeedPaint;
                 _palette.BasePaletteChanged -= OnBaseChanged;
                 _palette.BaseRendererChanged -= OnBaseChanged;
             }
@@ -808,7 +808,7 @@ public class KryptonLinkWrapLabel : LinkLabel
             // Hook to new palette events
             if (_palette != null)
             {
-                _palette.PalettePaint += OnPaletteNeedPaint;
+                _palette.PalettePaintInternal += OnPaletteNeedPaint;
                 _palette.BasePaletteChanged += OnBaseChanged;
                 _palette.BaseRendererChanged += OnBaseChanged;
             }

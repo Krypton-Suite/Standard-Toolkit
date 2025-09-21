@@ -312,7 +312,6 @@ public partial class Main : KryptonForm
 
     private void kryptonButton5_Click(object sender, EventArgs e)
     {
-        kryptonTaskDialog1.ShowDialog();
     }
 
     private void kryptonButton9_Click(object sender, EventArgs e)
@@ -399,5 +398,15 @@ public partial class Main : KryptonForm
     private void kryptonButton17_Click(object sender, EventArgs e)
     {
         new CheckedListBoxDemo().ShowDialog();
+    }
+
+    private void kryptonButton18_Click(object sender, EventArgs e)
+    {
+        new SystemMenuTest().ShowDialog();
+    }
+
+    private void kryptonButton19_Click(object sender, EventArgs e)
+    {
+        new DesignerMenuTest().ShowDialog();
     }
 }

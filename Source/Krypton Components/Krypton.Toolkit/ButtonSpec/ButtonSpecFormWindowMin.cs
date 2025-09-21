@@ -34,25 +34,9 @@ public class ButtonSpecFormWindowMin : ButtonSpecFormFixed
     /// </summary>
     /// <param name="palette">Palette to use for inheriting values.</param>
     /// <returns>Button visibility.</returns>
-    public override bool GetVisible(PaletteBase palette)
-    {
-        // The minimize button is never present on tool windows
-        switch (KryptonForm.FormBorderStyle)
-        {
-            case FormBorderStyle.FixedToolWindow:
-            case FormBorderStyle.SizableToolWindow:
-                return false;
-        }
-
-        // Have all buttons been turned off?
-        if (!KryptonForm.ControlBox)
-        {
-            return false;
-        }
-
-        // Has the minimize/maximize buttons been turned off?
-        return KryptonForm.MinimizeBox || KryptonForm.MaximizeBox;
-    }
+    public override bool GetVisible(PaletteBase palette) =>
+        // Return the MinimizeBox state
+        KryptonForm.MinimizeBox;
 
     /// <summary>
     /// Gets the button enabled state.
@@ -61,7 +45,7 @@ public class ButtonSpecFormWindowMin : ButtonSpecFormFixed
     /// <returns>Button enabled state.</returns>
     public override ButtonEnabled GetEnabled(PaletteBase palette) =>
         // Has the minimize buttons been turned off?
-        !KryptonForm.MinimizeBox ? ButtonEnabled.False : ButtonEnabled.True;
+        KryptonForm.MinimizeBox ? ButtonEnabled.True : ButtonEnabled.False;
 
     /// <summary>
     /// Gets the button checked state.

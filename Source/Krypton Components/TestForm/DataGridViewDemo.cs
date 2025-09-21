@@ -25,30 +25,52 @@ public partial class DataGridViewDemo : KryptonForm
 
         kdgvMain.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
 
-        for (int i = 1; i <= 50; i++)
+        // Fill grid with test data **dynamically** so the order doesn't matter.
+        // This allows to add/edit columns in designer without changing below code!
+        var textBoxCols = new List<int>();
+        var datePickerCols = new List<int>();
+        var comboBoxCols = new List<int>();
+        var numericUpDownCols = new List<int>();
+        var domainUpDownCols = new List<int>();
+        var checkBoxCols = new List<int>();
+        var maskedTextBoxCols = new List<int>();
+        var progressCols = new List<int>();
+        var ratingCols = new List<int>();
+
+        for (int ci = 0; ci < kdgvMain.Columns.Count; ci++)
         {
-            // Columns: Id, Name, Quantity, Date, Active, Combo, Masked, Domain, Progress, Rating
-            kdgvMain.Rows.Add(
-                i,
-                $"Item {i}",
-                i * 2,
-                DateTime.Today.AddDays(i),
-                i % 2 == 0,
-                // Combo: basic choice set below in Initialize (ensure some defaults)
-                (i % 3 == 0) ? "C" : (i % 2 == 0 ? "B" : "A"),
-                // Masked: simple pattern like 2-digit + dash + 2-digit
-                string.Format(CultureInfo.InvariantCulture, "{0:00}-{1:00}", i % 100, (i * 2) % 100),
-                // DomainUpDown: pick from sample domain items
-                (i % 3 == 0) ? "High" : (i % 3 == 1 ? "Low" : "Medium"),
-                // Progress: value between 0 and 1
-                Math.Min(1m, (decimal)i / 50m),
-                // Rating: byte 0..10
-                (byte)(i % 11)
-            );
+            var c = kdgvMain.Columns[ci];
+            if (c is KryptonDataGridViewTextBoxColumn) { textBoxCols.Add(ci); continue; }
+            if (c is KryptonDataGridViewDateTimePickerColumn) { datePickerCols.Add(ci); continue; }
+            if (c is KryptonDataGridViewComboBoxColumn) { comboBoxCols.Add(ci); continue; }
+            if (c is KryptonDataGridViewNumericUpDownColumn) { numericUpDownCols.Add(ci); continue; }
+            if (c is KryptonDataGridViewDomainUpDownColumn) { domainUpDownCols.Add(ci); continue; }
+            if (c is KryptonDataGridViewCheckBoxColumn) { checkBoxCols.Add(ci); continue; }
+            if (c is KryptonDataGridViewMaskedTextBoxColumn) { maskedTextBoxCols.Add(ci); continue; }
+            if (c is KryptonDataGridViewProgressColumn) { progressCols.Add(ci); continue; }
+            if (c is KryptonDataGridViewRatingColumn) { ratingCols.Add(ci); continue; }
         }
 
-        kdgvMain.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-        kcmbAutoSizeColumnsMode.SelectedItem = "AllCells";
+        for (int i = 1; i <= 100; i++)
+        {
+            var values = new object[kdgvMain.Columns.Count];
+
+            if (textBoxCols.Count > 0) values[textBoxCols[0]] = i;                       // Id
+            if (textBoxCols.Count > 1) values[textBoxCols[1]] = $"Item {i}";             // Name
+            if (numericUpDownCols.Count > 0) values[numericUpDownCols[0]] = i * 2;       // Quantity
+            if (datePickerCols.Count > 0) values[datePickerCols[0]] = DateTime.Today.AddDays(i); // Date
+            if (checkBoxCols.Count > 0) values[checkBoxCols[0]] = i % 2 == 0;            // Active
+            if (comboBoxCols.Count > 0) values[comboBoxCols[0]] = (i % 3 == 0) ? "C" : (i % 2 == 0 ? "B" : "A"); // Combo
+            if (maskedTextBoxCols.Count > 0) values[maskedTextBoxCols[0]] = string.Format(CultureInfo.InvariantCulture, "{0:00}-{1:00}", i % 100, (i * 2) % 100); // Masked
+            if (domainUpDownCols.Count > 0) values[domainUpDownCols[0]] = (i % 3 == 0) ? "High" : (i % 3 == 1 ? "Low" : "Medium"); // Domain
+            if (progressCols.Count > 0) values[progressCols[0]] = Math.Min(1m, (decimal)i / 50m); // Progress
+            if (ratingCols.Count > 0) values[ratingCols[0]] = (byte)(i % 11);            // Rating
+
+            kdgvMain.Rows.Add(values);
+        }
+
+        kdgvMain.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+        kcmbAutoSizeColumnsMode.SelectedItem = "Fill";
 
         // Seed column-specific settings/content for new demo columns
         if (colCombo.Items.Count == 0)
@@ -302,6 +324,27 @@ public partial class DataGridViewDemo : KryptonForm
                 kdgvMain.RowHeadersVisible = true;
                 kchkRowHeadersVisible.Checked = true;
                 _suppressOptionSync = false;
+            }
+        }
+    }
+
+    private void kcbGridRtl_CheckedChanged(object sender, EventArgs e)
+    {
+        kdgvMain.RightToLeft = kdgvMain.RightToLeft == RightToLeft.Yes ? RightToLeft.No : RightToLeft.Yes;
+    }
+
+    private void kdgvMain_EditingControlButtonSpecClick(object sender, DataGridViewButtonSpecClickEventArgs e)
+    {
+        if (e.Cell is KryptonDataGridViewTextBoxCell textCell)
+        {
+            switch (e.ButtonSpec.Type)
+            {
+                case PaletteButtonSpecStyle.FormClose:
+                    if (textCell.Value is string cellValue)
+                    {
+                        textCell.Value = cellValue == "[redacted]" ? "" : "[redacted]";
+                    }
+                    break;
             }
         }
     }
