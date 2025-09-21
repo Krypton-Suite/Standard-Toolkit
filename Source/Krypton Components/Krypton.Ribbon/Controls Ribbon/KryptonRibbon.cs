@@ -96,6 +96,12 @@ public class KryptonRibbon : VisualSimple,
     private PaletteBackStyle _backInactiveStyle;
     private KryptonRibbonTab? _minSelectedTab;
     private KryptonRibbonTab? _selectedTab;
+    
+    // Backstage fields
+    private VisualPopupBackstage? _backstagePopup;
+    private KryptonRibbonBackstagePage? _selectedBackstagePage;
+    private bool _backstageVisible;
+    private PaletteRibbonBackstage? _backstage;
     #endregion
 
     #region Events
@@ -170,6 +176,41 @@ public class KryptonRibbon : VisualSimple,
     [EditorBrowsable(EditorBrowsableState.Never)]
     [Browsable(false)]
     public event EventHandler? DesignTimeAddTab;
+
+    /// <summary>
+    /// Occurs when the backstage view is opening.
+    /// </summary>
+    [Category(@"Ribbon")]
+    [Description(@"Occurs when the backstage view is opening.")]
+    public event CancelEventHandler? BackstageOpening;
+
+    /// <summary>
+    /// Occurs when the backstage view has been opened.
+    /// </summary>
+    [Category(@"Ribbon")]
+    [Description(@"Occurs when the backstage view has been opened.")]
+    public event EventHandler? BackstageOpened;
+
+    /// <summary>
+    /// Occurs when the backstage view is closing.
+    /// </summary>
+    [Category(@"Ribbon")]
+    [Description(@"Occurs when the backstage view is closing.")]
+    public event CancelEventHandler? BackstageClosing;
+
+    /// <summary>
+    /// Occurs when the backstage view has been closed.
+    /// </summary>
+    [Category(@"Ribbon")]
+    [Description(@"Occurs when the backstage view has been closed.")]
+    public event EventHandler? BackstageClosed;
+
+    /// <summary>
+    /// Occurs when the selected backstage page changes.
+    /// </summary>
+    [Category(@"Ribbon")]
+    [Description(@"Occurs when the selected backstage page changes.")]
+    public event EventHandler<BackstagePageEventArgs>? BackstagePageSelected;
     #endregion
 
     #region Identity
@@ -568,6 +609,63 @@ public class KryptonRibbon : VisualSimple,
     [MergableProperty(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public KryptonRibbonTabCollection RibbonTabs { get; private set; }
+
+    /// <summary>
+    /// Gets the collection of backstage pages.
+    /// </summary>
+    [Category(@"Data")]
+    [Description(@"Collection of ribbon backstage pages.")]
+    [MergableProperty(false)]
+    [Editor(typeof(KryptonRibbonBackstagePageCollectionEditor), typeof(UITypeEditor))]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    [Browsable(false)]
+    public KryptonRibbonBackstagePageCollection BackstagePages { get; private set; }
+
+    /// <summary>
+    /// Gets and sets the currently selected backstage page.
+    /// </summary>
+    [Category(@"Values")]
+    [Description(@"Currently selected backstage page.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    [Browsable(false)]
+    public KryptonRibbonBackstagePage? SelectedBackstagePage
+    {
+        get => _selectedBackstagePage;
+        set
+        {
+            if (_selectedBackstagePage != value)
+            {
+                _selectedBackstagePage = value;
+                OnBackstagePageSelected(new BackstagePageEventArgs(value));
+                PerformNeedPaint(true);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets a value indicating whether the backstage view is currently visible.
+    /// </summary>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public bool BackstageVisible => _backstageVisible;
+
+    /// <summary>
+    /// Gets the backstage configuration and properties.
+    /// </summary>
+    [Category(@"Ribbon")]
+    [Description(@"Access to backstage view configuration and properties.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public PaletteRibbonBackstage BackstageValues => _backstage ??= new PaletteRibbonBackstage(this);
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the application button should show the backstage view instead of the traditional app menu.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Determines whether the application button shows backstage view or traditional app menu.")]
+    [DefaultValue(true)]
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public bool UseBackstageForAppButton { get; set; } = true;
 
     /// <summary>
     /// Gets and sets the currently selected tab.
@@ -1196,6 +1294,264 @@ public class KryptonRibbon : VisualSimple,
             return ViewManager?.ComponentFromPoint(pt);
         }
     }
+
+    /// <summary>
+    /// Show the ribbon backstage view.
+    /// </summary>
+    public void ShowBackstage()
+    {
+        ShowBackstage(false);
+    }
+
+    /// <summary>
+    /// Show the ribbon backstage view.
+    /// </summary>
+    /// <param name="keyboardActivated">Was the backstage activated by keyboard.</param>
+    public void ShowBackstage(bool keyboardActivated)
+    {
+        if (_backstageVisible || BackstagePages.Count == 0)
+        {
+            return;
+        }
+
+        // Ensure any existing backstage is properly cleaned up
+        if (_backstagePopup != null)
+        {
+            var parentForm = FindForm();
+            if (parentForm != null && parentForm.Controls.Contains(_backstagePopup))
+            {
+                parentForm.Controls.Remove(_backstagePopup);
+            }
+            _backstagePopup.Dispose();
+            _backstagePopup = null;
+        }
+
+        // Fire the opening event
+        var cancelArgs = new CancelEventArgs();
+        OnBackstageOpening(cancelArgs);
+        
+        if (cancelArgs.Cancel)
+        {
+            return;
+        }
+
+        try
+        {
+            _backstageVisible = true;
+
+            // Get the parent form
+            Form? parentForm = FindForm();
+            if (parentForm == null)
+            {
+                _backstageVisible = false;
+                return;
+            }
+
+            // Get the client rectangle of the parent form
+            Rectangle ownerBounds = parentForm.ClientRectangle;
+
+            // Create the backstage panel
+            _backstagePopup = new VisualPopupBackstage(this, null, PaletteMode,
+                Redirector, ownerBounds, keyboardActivated);
+
+            // Set initial selected page
+            if (SelectedBackstagePage == null && BackstagePages.Count > 0)
+            {
+                SelectedBackstagePage = BackstagePages[0];
+            }
+
+            _backstagePopup.SelectedPage = SelectedBackstagePage;
+
+            // Position the backstage to fill the entire form area
+            _backstagePopup.Dock = DockStyle.Fill;
+
+            // Add the backstage panel to the parent form
+            parentForm.Controls.Add(_backstagePopup);
+            _backstagePopup.BringToFront();
+
+            // Fire the opened event
+            OnBackstageOpened(EventArgs.Empty);
+        }
+        catch
+        {
+            _backstageVisible = false;
+            throw;
+        }
+    }
+
+    /// <summary>
+    /// Hide the ribbon backstage view.
+    /// </summary>
+    public void HideBackstage()
+    {
+        if (!_backstageVisible || _backstagePopup == null)
+        {
+            return;
+        }
+
+        // Fire the closing event
+        var cancelArgs = new CancelEventArgs();
+        OnBackstageClosing(cancelArgs);
+        
+        if (cancelArgs.Cancel)
+        {
+            return;
+        }
+
+        try
+        {
+            // Remove the backstage panel from its parent
+            if (_backstagePopup.Parent != null)
+            {
+                _backstagePopup.Parent.Controls.Remove(_backstagePopup);
+            }
+            
+            // Dispose the backstage popup
+            _backstagePopup.Dispose();
+            _backstagePopup = null;
+            _backstageVisible = false;
+
+            // Remove the fixed 'pressed' state from the application button
+            CaptionArea?.AppButtonController?.RemoveFixed();
+
+            // Fire the closed event
+            OnBackstageClosed(EventArgs.Empty);
+        }
+        catch
+        {
+            _backstageVisible = false;
+            _backstagePopup = null;
+            throw;
+        }
+    }
+
+    /// <summary>
+    /// Toggle the ribbon backstage view visibility.
+    /// </summary>
+    public void ToggleBackstage()
+    {
+        System.Diagnostics.Debug.WriteLine($"ToggleBackstage called: _backstageVisible = {_backstageVisible}, _backstagePopup = {_backstagePopup != null}");
+        
+        if (_backstageVisible)
+        {
+            System.Diagnostics.Debug.WriteLine("Calling HideBackstage");
+            HideBackstage();
+        }
+        else
+        {
+            System.Diagnostics.Debug.WriteLine("Calling ShowBackstage");
+            ShowBackstage();
+        }
+        
+        System.Diagnostics.Debug.WriteLine($"After toggle: _backstageVisible = {_backstageVisible}");
+    }
+
+    /// <summary>
+    /// Refresh the backstage navigation when pages are added or removed dynamically.
+    /// </summary>
+    public void RefreshBackstageNavigation()
+    {
+        _backstagePopup?.RefreshNavigation();
+    }
+
+    /// <summary>
+    /// Add a new backstage page and refresh the navigation if backstage is visible.
+    /// </summary>
+    /// <param name="text">The text to display on the navigation button.</param>
+    /// <returns>The created KryptonRibbonBackstagePage.</returns>
+    public KryptonRibbonBackstagePage AddBackstagePage(string text)
+    {
+        var page = BackstagePages.Add(text);
+        RefreshBackstageNavigation();
+        return page;
+    }
+
+    /// <summary>
+    /// Add a new backstage page with a UserControl and refresh the navigation if backstage is visible.
+    /// </summary>
+    /// <param name="text">The text to display on the navigation button.</param>
+    /// <param name="userControl">The UserControl to display as page content.</param>
+    /// <returns>The created KryptonRibbonBackstagePage.</returns>
+    public KryptonRibbonBackstagePage AddBackstagePage(string text, UserControl userControl)
+    {
+        var page = BackstagePages.Add(text, userControl);
+        RefreshBackstageNavigation();
+        return page;
+    }
+
+    /// <summary>
+    /// Add a new backstage page with any Control and refresh the navigation if backstage is visible.
+    /// </summary>
+    /// <param name="text">The text to display on the navigation button.</param>
+    /// <param name="control">The Control to display as page content.</param>
+    /// <returns>The created KryptonRibbonBackstagePage.</returns>
+    public KryptonRibbonBackstagePage AddBackstagePage(string text, Control control)
+    {
+        var page = BackstagePages.Add(text, control);
+        RefreshBackstageNavigation();
+        return page;
+    }
+
+    /// <summary>
+    /// Add a new backstage page with title and description and refresh the navigation if backstage is visible.
+    /// </summary>
+    /// <param name="text">The text to display on the navigation button.</param>
+    /// <param name="title">The title to display in the content area.</param>
+    /// <param name="description">The description to display in the content area.</param>
+    /// <returns>The created KryptonRibbonBackstagePage.</returns>
+    public KryptonRibbonBackstagePage AddBackstagePage(string text, string title, string description)
+    {
+        var page = BackstagePages.Add(text, title, description);
+        RefreshBackstageNavigation();
+        return page;
+    }
+
+    /// <summary>
+    /// Remove a backstage page and refresh the navigation if backstage is visible.
+    /// </summary>
+    /// <param name="page">The page to remove.</param>
+    /// <returns>True if the page was found and removed, false otherwise.</returns>
+    public bool RemoveBackstagePage(KryptonRibbonBackstagePage page)
+    {
+        var result = BackstagePages.Remove(page);
+        if (result)
+        {
+            RefreshBackstageNavigation();
+            
+            // If the removed page was selected, select the first available page
+            if (SelectedBackstagePage == page && BackstagePages.Count > 0)
+            {
+                SelectedBackstagePage = BackstagePages[0];
+            }
+        }
+        return result;
+    }
+
+    /// <summary>
+    /// Remove a backstage page by its text and refresh the navigation if backstage is visible.
+    /// </summary>
+    /// <param name="text">The text of the page to remove.</param>
+    /// <returns>True if the page was found and removed, false otherwise.</returns>
+    public bool RemoveBackstagePage(string text)
+    {
+        for (int i = 0; i < BackstagePages.Count; i++)
+        {
+            if (BackstagePages[i].Text == text)
+            {
+                return RemoveBackstagePage(BackstagePages[i]);
+            }
+        }
+        return false;
+    }
+
+    /// <summary>
+    /// Determines whether the backstage should be shown instead of the traditional app menu.
+    /// </summary>
+    /// <returns>True if backstage should be shown; otherwise false.</returns>
+    public bool ShouldShowBackstage()
+    {
+        return UseBackstageForAppButton && BackstagePages.Count > 0;
+    }
     #endregion
 
     #region Protected
@@ -1699,6 +2055,110 @@ public class KryptonRibbon : VisualSimple,
     /// </summary>
     /// <param name="e">An ToolStripDropDownClosedEventArgs containing the event data.</param>
     protected internal virtual void OnAppButtonMenuClosed(ToolStripDropDownClosedEventArgs e) => AppButtonMenuClosed?.Invoke(this, e);
+
+    /// <summary>
+    /// Raises the BackstageOpening event.
+    /// </summary>
+    /// <param name="e">A CancelEventArgs containing the event data.</param>
+    protected virtual void OnBackstageOpening(CancelEventArgs e) => BackstageOpening?.Invoke(this, e);
+
+    /// <summary>
+    /// Raises the BackstageOpened event.
+    /// </summary>
+    /// <param name="e">An EventArgs containing the event data.</param>
+    protected virtual void OnBackstageOpened(EventArgs e) => BackstageOpened?.Invoke(this, e);
+
+    /// <summary>
+    /// Raises the BackstageClosing event.
+    /// </summary>
+    /// <param name="e">A CancelEventArgs containing the event data.</param>
+    protected virtual void OnBackstageClosing(CancelEventArgs e) => BackstageClosing?.Invoke(this, e);
+
+    /// <summary>
+    /// Raises the BackstageClosed event.
+    /// </summary>
+    /// <param name="e">An EventArgs containing the event data.</param>
+    protected virtual void OnBackstageClosed(EventArgs e) => BackstageClosed?.Invoke(this, e);
+
+    /// <summary>
+    /// Raises the BackstagePageSelected event.
+    /// </summary>
+    /// <param name="e">A BackstagePageEventArgs containing the event data.</param>
+    protected virtual void OnBackstagePageSelected(BackstagePageEventArgs e) => BackstagePageSelected?.Invoke(this, e);
+
+    /// <summary>
+    /// Internal method called when backstage is closing.
+    /// </summary>
+    internal void OnBackstageClosing()
+    {
+        if (!_backstageVisible)
+        {
+            return;
+        }
+
+        var cancelArgs = new CancelEventArgs();
+        BackstageClosing?.Invoke(this, cancelArgs);
+        
+        if (!cancelArgs.Cancel)
+        {
+            _backstageVisible = false;
+            _backstagePopup = null;
+            OnBackstageClosed(EventArgs.Empty);
+        }
+    }
+
+    /// <summary>
+    /// Internal method to reset backstage state.
+    /// </summary>
+    internal void ResetBackstageState()
+    {
+        // Fire closing event
+        var cancelArgs = new CancelEventArgs();
+        BackstageClosing?.Invoke(this, cancelArgs);
+        
+        if (!cancelArgs.Cancel)
+        {
+            _backstageVisible = false;
+            _backstagePopup = null;
+            OnBackstageClosed(EventArgs.Empty);
+        }
+    }
+
+    /// <summary>
+    /// Internal method to force close backstage without events.
+    /// </summary>
+    internal void ForceCloseBackstage()
+    {
+        // Clean up the backstage popup
+        if (_backstagePopup != null)
+        {
+            try
+            {
+                // Remove from parent if still attached
+                if (_backstagePopup.Parent != null)
+                {
+                    _backstagePopup.Parent.Controls.Remove(_backstagePopup);
+                }
+                
+                // Dispose the popup
+                _backstagePopup.Dispose();
+            }
+            catch
+            {
+                // Ignore disposal errors
+            }
+        }
+        
+        
+        // Reset state
+        _backstageVisible = false;
+        _backstagePopup = null;
+        
+        // Remove the fixed 'pressed' state from the application button
+        CaptionArea?.AppButtonController?.RemoveFixed();
+        
+        OnBackstageClosed(EventArgs.Empty);
+    }
 
     /// <summary>
     /// Raises the MinimizedModeChanged event.
@@ -2582,6 +3042,8 @@ public class KryptonRibbon : VisualSimple,
         QATButtons.Cleared += OnRibbonQATButtonsCleared;
         QATButtons.Inserted += OnRibbonQATButtonsInserted;
         QATButtons.Removed += OnRibbonQATButtonsRemoved;
+
+        BackstagePages = new KryptonRibbonBackstagePageCollection(this);
     }
 
     private void CreateButtonSpecs() => ButtonSpecs = new RibbonButtonSpecAnyCollection(this);
@@ -2996,6 +3458,72 @@ public class KryptonRibbon : VisualSimple,
 
         // Display not updated until a layout occurs
         PerformNeedPaint(true);
+    }
+
+    internal void OnBackstagePageInserting(TypedCollectionEventArgs<KryptonRibbonBackstagePage> e)
+    {
+        // Nothing to do by default
+    }
+
+    internal void OnBackstagePageInserted(TypedCollectionEventArgs<KryptonRibbonBackstagePage> e)
+    {
+        // Setup the back reference from page to ribbon control
+        e.Item!.PropertyChanged += OnBackstagePagePropertyChanged;
+
+        // Display not updated until a layout occurs
+        PerformNeedPaint(true);
+    }
+
+    internal void OnBackstagePageRemoving(TypedCollectionEventArgs<KryptonRibbonBackstagePage> e)
+    {
+        // Nothing to do by default
+    }
+
+    internal void OnBackstagePageRemoved(TypedCollectionEventArgs<KryptonRibbonBackstagePage> e)
+    {
+        // Unhook from page property change event
+        e.Item!.PropertyChanged -= OnBackstagePagePropertyChanged;
+
+        // Do not remember a page that is now removed
+        if (_selectedBackstagePage == e.Item)
+        {
+            _selectedBackstagePage = null;
+        }
+
+        // Display not updated until a layout occurs
+        PerformNeedPaint(true);
+    }
+
+    internal void OnBackstagePageClearing(EventArgs e)
+    {
+        // Remove all the back references
+        foreach (KryptonRibbonBackstagePage page in BackstagePages)
+        {
+            page.PropertyChanged -= OnBackstagePagePropertyChanged;
+        }
+
+        // Clear selected page
+        _selectedBackstagePage = null;
+
+        // Display not updated until a layout occurs
+        PerformNeedPaint(true);
+    }
+
+    internal void OnBackstagePageCleared(EventArgs e)
+    {
+        // Display not updated until a layout occurs
+        PerformNeedPaint(true);
+    }
+
+    private void OnBackstagePagePropertyChanged(string propertyName)
+    {
+        switch (propertyName)
+        {
+            case nameof(KryptonRibbonBackstagePage.Visible):
+                // Display not updated until a layout occurs
+                PerformNeedPaint(true);
+                break;
+        }
     }
 
     private void OnTabPropertyChanged(object? sender, PropertyChangedEventArgs e)
