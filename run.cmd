@@ -263,8 +263,6 @@ build-nightly.cmd
 
 cd ..
 
-goto buildmenu
-
 :buildcanary
 cls
 
@@ -274,18 +272,17 @@ build-canary.cmd
 
 cd ..
 
-goto buildmenu
-
 :buildinstaller
 cls
 
 cd Scripts
 
 build-installer.cmd
+cls
+
+cd Scripts
 
 cd ..
-
-goto buildmenu
 
 :buildstable
 cls
@@ -296,8 +293,6 @@ build-stable.cmd
 
 cd ..
 
-goto buildmenu
-
 :: ===================================================================================================
 
 :packnightly
@@ -307,10 +302,6 @@ cd Scripts
 
 build-nightly.cmd Pack
 
-cd ..
-
-goto packmenu
-
 :packcanary
 cls
 
@@ -318,20 +309,12 @@ cd Scripts
 
 build-canary.cmd Pack
 
-cd ..
-
-goto packmenu
-
 :packinstaller
 cls
 
 cd Scripts
 
 build-installer.cmd Pack
-
-cd ..
-
-goto packmenu
 
 :packstable
 cls
@@ -362,10 +345,6 @@ cd Scripts
 
 build-stable.cmd PackLite
 
-cd ..
-
-goto packmenu
-
 :packstablefull
 cls
 
@@ -373,20 +352,12 @@ cd Scripts
 
 build-stable.cmd PackAll
 
-cd ..
-
-goto packmenu
-
 :packstableboth
 cls
 
 cd Scripts
 
 build-stable.cmd Pack
-
-cd ..
-
-goto packmenu
 
 :: ===================================================================================================
 
@@ -421,10 +392,6 @@ cd Scripts
 
 build-nightly.cmd
 
-cd ..
-
-goto debugmenu
-
 :: ===================================================================================================
 
 :nugettools
@@ -457,7 +424,7 @@ if %answer%==5 (goto mainmenu)
 
 pause
 
-goto buildandcreatenugetpackages
+:: ===================================================================================================
 
 :buildnightlypackages
 cls
@@ -504,7 +471,7 @@ build-nightly-custom.cmd Pack
 
 pause
 
-goto buildandcreatenugetpackages
+:: ===================================================================================================
 
 :rebuildproject
 cls
@@ -512,10 +479,6 @@ cls
 cd Scripts
 
 rebuild-build-nightly.cmd
-
-cd ..
-
-goto buildmenu
 
 :: ===================================================================================================
 
@@ -530,10 +493,6 @@ cd Scripts
 
 build-nightly.cmd Pack
 
-cd ..
-
-goto buildandpacktoolkitmenu
-
 :buildandpackcanary
 cls
 
@@ -541,20 +500,12 @@ cd Scripts
 
 build-canary.cmd Pack
 
-cd ..
-
-goto buildandpacktoolkitmenu
-
 :buildandpackstable
 cls
 
 cd Scripts
 
 build-stable.cmd Pack
-
-cd ..
-
-goto buildandpacktoolkitmenu
 
 :: ===================================================================================================
 
