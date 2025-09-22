@@ -11,22 +11,21 @@
 // ReSharper disable EventNeverSubscribedTo.Global
 // ReSharper disable UnusedMemberInSuper.Global
 
-#pragma warning disable CS1587 // XML comment is not placed on a valid language element
-/// <summary>
-/// Core definitions file for the Krypton Toolkit containing interfaces, enums, and type definitions
-/// used throughout the Krypton UI component library.
-/// 
-/// This file contains:
-/// - Core interfaces for content values, button specifications, and context menu providers
-/// - Enumerations for UI states, orientations, styles, and behaviors
-/// - Type definitions for palette states, button styles, and layout specifications
-/// - Constants and enumerations for message boxes, icons, and theme types
-/// 
-/// The definitions in this file provide the foundational types and contracts that enable
-/// the flexible theming, styling, and behavior customization capabilities of the Krypton Toolkit.
-/// </summary>
-#pragma warning restore CS1587 // XML comment is not placed on a valid language element
 namespace Krypton.Toolkit;
+
+/*
+ * Core definitions file for the Krypton Toolkit containing interfaces, enums, and type definitions
+ * used throughout the Krypton UI component library.
+ * 
+ * This file contains:
+ *  - Core interfaces for content values, button specifications, and context menu providers
+ *  - Enumerations for UI states, orientations, styles, and behaviors
+ *  - Type definitions for palette states, button styles, and layout specifications
+ *  - Constants and enumerations for message boxes, icons, and theme types
+ * 
+ *  The definitions in this file provide the foundational types and contracts that enable
+ *  the flexible theming, styling, and behavior customization capabilities of the Krypton Toolkit.
+ */
 
 #region IContentValues
 /// <summary>
