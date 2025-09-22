@@ -133,6 +133,7 @@ public class KryptonTaskDialogElementProgresBar : KryptonTaskDialogElementSingle
     /// <summary>
     /// Configure the ProgressBar.
     /// </summary>
+    [Browsable(true)]
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public KryptonTaskDialogElementProgresBarProperties ProgressBar { get; }
     #endregion

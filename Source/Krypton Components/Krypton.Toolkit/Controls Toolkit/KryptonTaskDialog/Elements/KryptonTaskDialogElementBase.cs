@@ -29,6 +29,8 @@ public abstract class KryptonTaskDialogElementBase :
     private KryptonPanel _panel;
     private bool _panelVisible;
     private KryptonTaskDialogDefaults _taskDialogDefaults;
+    private Bitmap _separator;
+    private (int FontMinValue, int FontMaxValue, int Adjust75, int Adjust50, int Adjust25) _separatorValues;
     #endregion
 
     #region Events
@@ -51,24 +53,32 @@ public abstract class KryptonTaskDialogElementBase :
     {
         // Set the data
         _taskDialogDefaults = taskDialogDefaults;
+        _disposed = false;
+
+        _separatorValues.FontMinValue = 50;
+        _separatorValues.FontMaxValue = 255 - 50;
+        _separatorValues.Adjust75 = 75;
+        _separatorValues.Adjust50 = 50;
+        _separatorValues.Adjust25 = 25;
 
         // Although OnGlobalPaletteChanged synchronizes palette changes with the elements,
         // The initialisation is done here.
         Palette = KryptonManager.CurrentGlobalPalette;
-        // Execute OnGlobalPaletteChanged once to set the initial palette and wire the PalettePaint event.
-        OnGlobalPaletteChanged(null!, null!);
         // From there the event handler will take over.
         KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged;
 
-        _disposed = false;
-
         _panel = new()
         {
-            Margin = new Padding(0),
-            Padding = new Padding(0),
+            Margin = _taskDialogDefaults.NullPadding,
+            Padding = _taskDialogDefaults.NullMargin,
             Visible = false
+
         };
-        _panelVisible = false;
+
+        _panelVisible =  false;
+        _separator    =  CreateSeparator();
+        _panel.Paint += OnPanelPaint;
+        Palette.PalettePaint += OnPalettePaint;
 
         LayoutDirty = false;
     }
@@ -115,6 +125,7 @@ public abstract class KryptonTaskDialogElementBase :
         if (Palette is not null)
         {
             Palette.PalettePaint += OnPalettePaint;
+            _separator = CreateSeparator();
         }
     }
     #endregion
@@ -191,6 +202,23 @@ public abstract class KryptonTaskDialogElementBase :
 
     #region Public
     /// <summary>
+    /// Displays a separator line at the top of the element.
+    /// </summary>
+    public bool ShowSeparator
+    {
+        get => field;
+
+        set
+        {
+            if (field != value)
+            {
+                field = value;
+                _panel.Invalidate();
+            }
+        }
+    }
+
+    /// <summary>
     /// Returns if the element's layout needs a refresh when visible or before the dialog will be displayed.
     /// </summary>
     internal bool LayoutDirty { get; set; }
@@ -206,6 +234,11 @@ public abstract class KryptonTaskDialogElementBase :
     #endregion
 
     #region Private
+    private void OnPanelPaint(object? sender, PaintEventArgs e)
+    {
+        PaintSeparator();
+    }
+
     private void OnBackColorsChanged()
     {
         if (BackColor1 != Color.Empty && BackColor2 != Color.Empty)
@@ -228,6 +261,78 @@ public abstract class KryptonTaskDialogElementBase :
     }
     #endregion
 
+    #region Private Separator
+    private Bitmap CreateSeparator()
+    {
+        (Color color1, Color color2) colors = GetSeparatorColors();
+
+        int width = Defaults.ClientWidth - Defaults.PanelLeft - Defaults.PanelRight;
+        Rectangle rectangle = new Rectangle(0, 0, width, 2);
+        Rectangle rectangleTop = new Rectangle(0, 0, width, 1);
+        Rectangle rectangleBottom = new Rectangle(0, 1, width, 1);
+
+        using Bitmap bitmap = new Bitmap(rectangle.Width, rectangle.Height);
+        using Brush brush1 = new SolidBrush(colors.color1);
+        using Brush brush2 = new SolidBrush(colors.color2);
+        using Graphics graphics = Graphics.FromImage(bitmap);
+
+        graphics.FillRectangle(brush1, rectangleTop);
+        graphics.FillRectangle(brush2, rectangleBottom);
+
+        return bitmap.Clone(rectangle, bitmap.PixelFormat);
+    }
+
+    private void PaintSeparator()
+    {
+        if (ShowSeparator)
+        {
+            using Graphics graphics = Panel.CreateGraphics();
+            graphics.DrawImage(_separator, Defaults.PanelLeft, 0);
+        }
+    }
+
+    private (Color, Color) GetSeparatorColors()
+    {
+        Color color1;
+        Color color2;
+
+        // If BackColor1 has been set use this for the separator, otherwise fall back to theme colours.
+        Color tmp = this.BackColor1 != Color.Empty
+            ? this.BackColor1
+            : Panel.GetResolvedPalette().GetBackColor1(PaletteBackStyle.PanelClient, PaletteState.Normal);
+
+        if (tmp.R > _separatorValues.FontMaxValue && tmp.G > _separatorValues.FontMaxValue && tmp.B > _separatorValues.FontMaxValue)
+        {
+            // If the colour reaches an upper bound it can't be made lighter.
+            color1 = Color.FromArgb(tmp.R - _separatorValues.Adjust75, tmp.G - _separatorValues.Adjust75, tmp.B - _separatorValues.Adjust75);
+            color2 = Color.White;
+        }
+        else if (tmp.R < _separatorValues.FontMinValue && tmp.G < _separatorValues.FontMinValue && tmp.B < _separatorValues.FontMinValue)
+        {
+            // If the colour reaches a lower bound, it can't be made darker.
+            color2 = ControlPaint.Light(tmp);
+            color1 = ControlPaint.Light(Color.LightSlateGray);
+        }
+        else if (tmp.R > 150 && tmp.G > 150 && tmp.B > 150)
+        {
+            // Colours that are somewhere in the middle need different handling
+            int r = Math.Min(tmp.R - _separatorValues.Adjust50, 255);
+            int g = Math.Min(tmp.G - _separatorValues.Adjust50, 255);
+            int b = Math.Min(tmp.B - _separatorValues.Adjust50, 255);
+
+            color1 = Color.FromArgb(r, g, b);
+            color2 = Color.LightGray;
+        }
+        else
+        {
+            color1 = ControlPaint.Dark(tmp);
+            color2 = ControlPaint.Light(tmp);
+        }
+
+        return (color1, color2);
+    }
+    #endregion
+
     #region IDispose
     /// <inheritdoc/>
     protected virtual void Dispose(bool disposing)
@@ -235,6 +340,7 @@ public abstract class KryptonTaskDialogElementBase :
         if (!_disposed && disposing)
         {
             KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChanged;
+            _panel.Paint -= OnPanelPaint;
 
             if (Palette is not null)
             {

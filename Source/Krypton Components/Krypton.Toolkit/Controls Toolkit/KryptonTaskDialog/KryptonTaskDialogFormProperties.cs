@@ -214,6 +214,12 @@ public class KryptonTaskDialogFormProperties
         {
             return string.Empty;
         }
+
+        public AutoScaleMode AutoScaleMode
+        {
+            get => _form.AutoScaleMode;
+            set => _form.AutoScaleMode = value;
+        }
         #endregion
     }
 
