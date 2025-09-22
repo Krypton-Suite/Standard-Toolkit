@@ -32,6 +32,7 @@
 using Microsoft.Win32.SafeHandles;
 using static System.Runtime.InteropServices.Marshal;
 
+#pragma warning disable CS1587 // XML comment is not placed on a valid language element
 /// <summary>
 /// Platform Invoke declarations and Windows API bindings for the Krypton Toolkit.
 /// This file contains P/Invoke declarations, Windows API constants, enums, structures,
@@ -49,6 +50,7 @@ using static System.Runtime.InteropServices.Marshal;
 /// The declarations in this file enable the Krypton Toolkit to access native Windows
 /// functionality for advanced UI rendering, window management, and system integration.
 /// </summary>
+#pragma warning restore CS1587 // XML comment is not placed on a valid language element
 namespace Krypton.Toolkit;
 
 /// <summary>
@@ -71,6 +73,8 @@ internal static class Libraries
     public const string Hhctrl = "hhctrl.ocx";
     /// <summary>Input Method Manager - provides input method editor support</summary>
     public const string Imm32 = "imm32.dll";
+    /// <summary>Image Resource library - provides access to system image resources</summary>
+    public const string Imageres = "imageres.dll";
     /// <summary>Kernel library - provides core system functions</summary>
     public const string Kernel32 = "kernel32.dll";
     /// <summary>Native API library - provides low-level system functions</summary>
