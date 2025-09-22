@@ -22,14 +22,14 @@ namespace Krypton.Toolkit.ResourceFiles.UAC {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class UACShieldIconResources {
+    internal class Windows11UACShieldImageResources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal UACShieldIconResources() {
+        internal Windows11UACShieldImageResources() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Krypton.Toolkit.ResourceFiles.UAC {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Krypton.Toolkit.ResourceFiles.UAC.UACShieldIconResources", typeof(UACShieldIconResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Krypton.Toolkit.ResourceFiles.UAC.Windows11UACShieldImageResources", typeof(Windows11UACShieldImageResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -63,9 +63,9 @@ namespace Krypton.Toolkit.ResourceFiles.UAC {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap UAC_Shield_Windows_10 {
+        internal static System.Drawing.Bitmap Windows_11_UAC_Shield_16_x_16 {
             get {
-                object obj = ResourceManager.GetObject("UAC_Shield_Windows_10", resourceCulture);
+                object obj = ResourceManager.GetObject("Windows 11 UAC Shield 16 x 16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -73,9 +73,9 @@ namespace Krypton.Toolkit.ResourceFiles.UAC {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap UAC_Shield_Windows_11 {
+        internal static System.Drawing.Bitmap Windows_11_UAC_Shield_20_x_20 {
             get {
-                object obj = ResourceManager.GetObject("UAC_Shield_Windows_11", resourceCulture);
+                object obj = ResourceManager.GetObject("Windows 11 UAC Shield 20 x 20", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -83,9 +83,9 @@ namespace Krypton.Toolkit.ResourceFiles.UAC {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap UAC_Shield_Windows_7 {
+        internal static System.Drawing.Bitmap Windows_11_UAC_Shield_24_x_24 {
             get {
-                object obj = ResourceManager.GetObject("UAC_Shield_Windows_7", resourceCulture);
+                object obj = ResourceManager.GetObject("Windows 11 UAC Shield 24 x 24", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -93,9 +93,9 @@ namespace Krypton.Toolkit.ResourceFiles.UAC {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap UACShieldWindows10 {
+        internal static System.Drawing.Bitmap Windows_11_UAC_Shield_256_x_256 {
             get {
-                object obj = ResourceManager.GetObject("UACShieldWindows10", resourceCulture);
+                object obj = ResourceManager.GetObject("Windows 11 UAC Shield 256 x 256", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -103,9 +103,9 @@ namespace Krypton.Toolkit.ResourceFiles.UAC {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap UACShieldWindows10Alternate {
+        internal static System.Drawing.Bitmap Windows_11_UAC_Shield_32_x_32 {
             get {
-                object obj = ResourceManager.GetObject("UACShieldWindows10Alternate", resourceCulture);
+                object obj = ResourceManager.GetObject("Windows 11 UAC Shield 32 x 32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -113,9 +113,9 @@ namespace Krypton.Toolkit.ResourceFiles.UAC {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap UACShieldWindows11 {
+        internal static System.Drawing.Bitmap Windows_11_UAC_Shield_40_x_40 {
             get {
-                object obj = ResourceManager.GetObject("UACShieldWindows11", resourceCulture);
+                object obj = ResourceManager.GetObject("Windows 11 UAC Shield 40 x 40", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -123,9 +123,9 @@ namespace Krypton.Toolkit.ResourceFiles.UAC {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap UACShieldWindows7881 {
+        internal static System.Drawing.Bitmap Windows_11_UAC_Shield_48_x_48 {
             get {
-                object obj = ResourceManager.GetObject("UACShieldWindows7881", resourceCulture);
+                object obj = ResourceManager.GetObject("Windows 11 UAC Shield 48 x 48", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -133,9 +133,9 @@ namespace Krypton.Toolkit.ResourceFiles.UAC {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap UACShieldWindowsVista {
+        internal static System.Drawing.Bitmap Windows_11_UAC_Shield_64_x_64 {
             get {
-                object obj = ResourceManager.GetObject("UACShieldWindowsVista", resourceCulture);
+                object obj = ResourceManager.GetObject("Windows 11 UAC Shield 64 x 64", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

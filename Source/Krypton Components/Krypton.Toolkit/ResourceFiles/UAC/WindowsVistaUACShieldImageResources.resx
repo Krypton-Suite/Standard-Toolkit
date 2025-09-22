@@ -118,34 +118,25 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Toast_Notification_Asterisk_128_x_128" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\..\Resources\Toast_Notification_Asterisk_128_x_128.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Windows Vista UAC Shield 8 x 8" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\Windows Vista UAC Shield 8 x 8.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Toast_Notification_Critical_128_x_128" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\..\Resources\Toast_Notification_Critical_128_x_128.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Windows Vista UAC Shield 16 x 16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\Windows Vista UAC Shield 16 x 16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Toast_Notification_Hand_128_x_128" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\..\Resources\Toast_Notification_Hand_128_x_128.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Windows Vista UAC Shield 24 x 24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\Windows Vista UAC Shield 24 x 24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Toast_Notification_Information_128_x_128" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\..\Resources\Toast_Notification_Information_128_x_128.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Windows Vista UAC Shield 32 x 32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\Windows Vista UAC Shield 32 x 32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Toast_Notification_Ok_128_x_128" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\..\Resources\Toast_Notification_Ok_128_x_128.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Windows Vista UAC Shield 48 x 48" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\Windows Vista UAC Shield 48 x 48.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Toast_Notification_Question_128_x_128" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\..\Resources\Toast_Notification_Question_128_x_128.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Windows Vista UAC Shield 128 x 128" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\Windows Vista UAC Shield 128 x 128.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Toast_Notification_Stop_128_x_128" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\..\Resources\Toast_Notification_Stop_128_x_128.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Toast_Notification_Warning_128_x_115" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\..\Resources\Toast_Notification_Warning_128_x_115.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Toast_Notification_Windows_10_128_x_121" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\..\Resources\Toast_Notification_Windows_10_128_x_121.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Toast_Notification_Windows_11_128_x_128" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\..\Resources\Toast_Notification_Windows_11_128_x_128.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Windows Vista UAC Shield 256 x 256" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\Windows Vista UAC Shield 256 x 256.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
