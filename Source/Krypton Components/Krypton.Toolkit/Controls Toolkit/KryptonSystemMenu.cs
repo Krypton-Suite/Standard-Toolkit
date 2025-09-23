@@ -20,6 +20,14 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
     private readonly KryptonContextMenu _contextMenu;
     private SystemMenuItemCollection? _designerMenuItems;
     private bool _disposed;
+
+    // Standard menu item references for direct access
+    private KryptonContextMenuItem? _menuItemRestore;
+    private KryptonContextMenuItem? _menuItemMove;
+    private KryptonContextMenuItem? _menuItemSize;
+    private KryptonContextMenuItem? _menuItemMinimize;
+    private KryptonContextMenuItem? _menuItemMaximize;
+    private KryptonContextMenuItem? _menuItemClose;
     #endregion
 
     #region Identity
@@ -243,37 +251,26 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
         var customItem = new KryptonContextMenuItem(text);
         customItem.Click += clickHandler;
 
-        if (insertBeforeClose && _contextMenu.Items.Count > 0)
+        if (insertBeforeClose && _menuItemClose != null)
         {
-            // Find the Close item and insert above the separator (above the Close item)
-            for (int i = _contextMenu.Items.Count - 1; i >= 0; i--)
+            // Find the Close item index and insert above the separator (above the Close item)
+            int closeItemIndex = _contextMenu.Items.IndexOf(_menuItemClose);
+            if (closeItemIndex >= 0)
             {
-                if (_contextMenu.Items[i] is KryptonContextMenuItem menuItem)
+                // Insert above the separator (above the Close item)
+                // First, check if there's a separator above the Close item
+                if (closeItemIndex > 0 && _contextMenu.Items[closeItemIndex - 1] is KryptonContextMenuSeparator)
                 {
-                    // Get the text without keyboard shortcuts (remove tab and everything after)
-                    var itemText = menuItem.Text.Split('\t')[0];
-
-                    // Check if this is the Close item by comparing with the system menu string
-                    // Handle both "Close" and "C&lose" (with accelerator key)
-                    if (itemText.Equals(KryptonManager.Strings.SystemMenuStrings.Close, StringComparison.OrdinalIgnoreCase) ||
-                        itemText.Replace("&", "").Equals(KryptonManager.Strings.SystemMenuStrings.Close.Replace("&", ""), StringComparison.OrdinalIgnoreCase))
-                    {
-                        // Insert above the separator (above the Close item)
-                        // First, check if there's a separator above the Close item
-                        if (i > 0 && _contextMenu.Items[i - 1] is KryptonContextMenuSeparator)
-                        {
-                            _contextMenu.Items.Insert(i - 1, customItem);
-                        }
-                        else
-                        {
-                            // If no separator, add one above the Close item first
-                            _contextMenu.Items.Insert(i, new KryptonContextMenuSeparator());
-                            // Then insert the custom item above the separator
-                            _contextMenu.Items.Insert(i, customItem);
-                        }
-                        return;
-                    }
+                    _contextMenu.Items.Insert(closeItemIndex - 1, customItem);
                 }
+                else
+                {
+                    // If no separator, add one above the Close item first
+                    _contextMenu.Items.Insert(closeItemIndex, new KryptonContextMenuSeparator());
+                    // Then insert the custom item above the separator
+                    _contextMenu.Items.Insert(closeItemIndex, customItem);
+                }
+                return;
             }
         }
 
@@ -296,36 +293,25 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
         ThrowIfDisposed();
         var separator = new KryptonContextMenuSeparator();
 
-        if (insertBeforeClose && _contextMenu.Items.Count > 0)
+        if (insertBeforeClose && _menuItemClose != null)
         {
-            // Find the Close item and insert above the separator (above the Close item)
-            for (int i = _contextMenu.Items.Count - 1; i >= 0; i--)
+            // Find the Close item index and insert above the separator (above the Close item)
+            int closeItemIndex = _contextMenu.Items.IndexOf(_menuItemClose);
+            if (closeItemIndex >= 0)
             {
-                if (_contextMenu.Items[i] is KryptonContextMenuItem menuItem)
+                // Insert above the separator (above the Close item)
+                // First, check if there's already a separator above the Close item
+                if (closeItemIndex > 0 && _contextMenu.Items[closeItemIndex - 1] is KryptonContextMenuSeparator)
                 {
-                    // Get the text without keyboard shortcuts (remove tab and everything after)
-                    var itemText = menuItem.Text.Split('\t')[0];
-
-                    // Check if this is the Close item by comparing with the system menu string
-                    // Handle both "Close" and "C&lose" (with accelerator key)
-                    if (itemText.Equals(KryptonManager.Strings.SystemMenuStrings.Close, StringComparison.OrdinalIgnoreCase) ||
-                        itemText.Replace("&", "").Equals(KryptonManager.Strings.SystemMenuStrings.Close.Replace("&", ""), StringComparison.OrdinalIgnoreCase))
-                    {
-                        // Insert above the separator (above the Close item)
-                        // First, check if there's already a separator above the Close item
-                        if (i > 0 && _contextMenu.Items[i - 1] is KryptonContextMenuSeparator)
-                        {
-                            // If separator already exists, insert above it
-                            _contextMenu.Items.Insert(i - 1, separator);
-                        }
-                        else
-                        {
-                            // If no separator, insert directly above the Close item
-                            _contextMenu.Items.Insert(i, separator);
-                        }
-                        return;
-                    }
+                    // If separator already exists, insert above it
+                    _contextMenu.Items.Insert(closeItemIndex - 1, separator);
                 }
+                else
+                {
+                    // If no separator, insert directly above the Close item
+                    _contextMenu.Items.Insert(closeItemIndex, separator);
+                }
+                return;
             }
         }
 
@@ -386,48 +372,38 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
         {
             var windowState = kryptonForm.GetWindowState();
 
-            // Update menu items based on current state
-            foreach (var item in _contextMenu.Items)
+            // Update menu items based on current state using direct field references
+            if (_menuItemRestore != null)
             {
-                if (item is KryptonContextMenuItem menuItem)
-                {
-                    // Get the text without keyboard shortcuts (remove tab and everything after)
-                    var menuText = menuItem.Text.Split('\t')[0];
-
-                    // Enable/disable items based on current window state
-                    if (menuText.Equals(KryptonManager.Strings.SystemMenuStrings.Restore, StringComparison.OrdinalIgnoreCase) ||
-                        menuText.Replace("&", "").Equals(KryptonManager.Strings.SystemMenuStrings.Restore.Replace("&", ""), StringComparison.OrdinalIgnoreCase))
-                    {
-                        menuItem.Enabled = (windowState != FormWindowState.Normal);
-                    }
-                    else if (menuText.Equals(KryptonManager.Strings.SystemMenuStrings.Minimize, StringComparison.OrdinalIgnoreCase) ||
-                             menuText.Replace("&", "").Equals(KryptonManager.Strings.SystemMenuStrings.Minimize.Replace("&", ""), StringComparison.OrdinalIgnoreCase))
-                    {
-                        // Minimize item is enabled only if MinimizeBox is true and window is not already minimized
-                        menuItem.Enabled = _form.MinimizeBox && (windowState != FormWindowState.Minimized);
-                    }
-                    else if (menuText.Equals(KryptonManager.Strings.SystemMenuStrings.Maximize, StringComparison.OrdinalIgnoreCase) ||
-                             menuText.Replace("&", "").Equals(KryptonManager.Strings.SystemMenuStrings.Maximize.Replace("&", ""), StringComparison.OrdinalIgnoreCase))
-                    {
-                        // Maximize item is enabled only if MaximizeBox is true and window is not already maximized
-                        menuItem.Enabled = _form.MaximizeBox && (windowState != FormWindowState.Maximized);
-                    }
-                    else if (menuText.Equals(KryptonManager.Strings.SystemMenuStrings.Move, StringComparison.OrdinalIgnoreCase) ||
-                             menuText.Replace("&", "").Equals(KryptonManager.Strings.SystemMenuStrings.Move.Replace("&", ""), StringComparison.OrdinalIgnoreCase))
-                    {
-                        // Move is enabled when window is in Normal state (can be moved) or when minimized (can be restored)
-                        menuItem.Enabled = (windowState == FormWindowState.Normal) || (windowState == FormWindowState.Minimized);
-                    }
-                    else if (menuText.Equals(KryptonManager.Strings.SystemMenuStrings.Size, StringComparison.OrdinalIgnoreCase) ||
-                             menuText.Replace("&", "").Equals(KryptonManager.Strings.SystemMenuStrings.Size.Replace("&", ""), StringComparison.OrdinalIgnoreCase))
-                    {
-                        // Size is enabled when window is in Normal state and form is sizable
-                        menuItem.Enabled = (windowState == FormWindowState.Normal) &&
-                                         (_form.FormBorderStyle == FormBorderStyle.Sizable || _form.FormBorderStyle == FormBorderStyle.SizableToolWindow);
-                    }
-                    // Close is always enabled
-                }
+                _menuItemRestore.Enabled = (windowState != FormWindowState.Normal);
             }
+
+            if (_menuItemMinimize != null)
+            {
+                // Minimize item is enabled only if MinimizeBox is true and window is not already minimized
+                _menuItemMinimize.Enabled = _form.MinimizeBox && (windowState != FormWindowState.Minimized);
+            }
+
+            if (_menuItemMaximize != null)
+            {
+                // Maximize item is enabled only if MaximizeBox is true and window is not already maximized
+                _menuItemMaximize.Enabled = _form.MaximizeBox && (windowState != FormWindowState.Maximized);
+            }
+
+            if (_menuItemMove != null)
+            {
+                // Move is enabled when window is in Normal state (can be moved) or when minimized (can be restored)
+                _menuItemMove.Enabled = (windowState == FormWindowState.Normal) || (windowState == FormWindowState.Minimized);
+            }
+
+            if (_menuItemSize != null)
+            {
+                // Size is enabled when window is in Normal state and form is sizable
+                _menuItemSize.Enabled = (windowState == FormWindowState.Normal) &&
+                                       (_form.FormBorderStyle == FormBorderStyle.Sizable || _form.FormBorderStyle == FormBorderStyle.SizableToolWindow);
+            }
+
+            // Close is always enabled (no need to check _menuItemClose as it's always enabled)
         }
     }
     #endregion
@@ -449,9 +425,6 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
             var icon = GetThemeIcon(currentTheme, iconType);
             if (icon != null)
             {
-                // Log image information for debugging
-                LogImageInfo(icon, iconType, currentTheme);
-
                 // Ensure proper transparency handling
                 var processedIcon = ProcessImageForTransparency(icon);
                 if (processedIcon != null)
@@ -507,27 +480,6 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
 
             // If processing fails, return the original image
             return originalImage;
-        }
-    }
-
-    /// <summary>
-    /// Logs information about an image for debugging purposes.
-    /// </summary>
-    /// <param name="image">The image to log information about.</param>
-    /// <param name="iconType">The type of icon being processed.</param>
-    /// <param name="theme">The theme being used.</param>
-    private void LogImageInfo(Image image, SystemMenuIconType iconType, string theme)
-    {
-        try
-        {
-            Debug.WriteLine($"Image Info - Type: {iconType}, Theme: {theme}, " +
-                                            $"Size: {image.Width}x{image.Height}, " +
-                                            $"PixelFormat: {image.PixelFormat}, " +
-                                            $"Flags: {image.Flags}");
-        }
-        catch
-        {
-            // Ignore logging errors
         }
     }
 
@@ -968,19 +920,28 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
     {
         try
         {
-            // Refresh icons for all existing menu items
-            foreach (var item in _contextMenu.Items)
+            // Refresh icons for standard menu items using direct field references
+            if (_menuItemRestore != null)
             {
-                if (item is KryptonContextMenuItem menuItem)
-                {
-                    // Determine icon type based on menu item text
-                    var iconType = GetIconTypeFromText(menuItem.Text);
-                    if (iconType.HasValue)
-                    {
-                        menuItem.Image = GetSystemMenuIcon(iconType.Value);
-                    }
-                }
+                _menuItemRestore.Image = GetSystemMenuIcon(SystemMenuIconType.Restore);
             }
+
+            if (_menuItemMinimize != null)
+            {
+                _menuItemMinimize.Image = GetSystemMenuIcon(SystemMenuIconType.Minimize);
+            }
+
+            if (_menuItemMaximize != null)
+            {
+                _menuItemMaximize.Image = GetSystemMenuIcon(SystemMenuIconType.Maximize);
+            }
+
+            if (_menuItemClose != null)
+            {
+                _menuItemClose.Image = GetSystemMenuIcon(SystemMenuIconType.Close);
+            }
+
+            // Move and Size items don't typically have icons in Windows, so no need to refresh them
         }
         catch
         {
@@ -1171,24 +1132,24 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
         // Only add restore item if window is not in normal state and either minimize or maximize is enabled
         if (_form.WindowState != FormWindowState.Normal && (_form.MinimizeBox || _form.MaximizeBox))
         {
-            var restoreItem = new KryptonContextMenuItem(KryptonManager.Strings.SystemMenuStrings.Restore);
-            restoreItem.Image = GetSystemMenuIcon(SystemMenuIconType.Restore);
-            restoreItem.Click += OnRestoreItemOnClick;
-            _contextMenu.Items.Add(restoreItem);
+            _menuItemRestore = new KryptonContextMenuItem(KryptonManager.Strings.SystemMenuStrings.Restore);
+            _menuItemRestore.Image = GetSystemMenuIcon(SystemMenuIconType.Restore);
+            _menuItemRestore.Click += OnRestoreItemOnClick;
+            _contextMenu.Items.Add(_menuItemRestore);
         }
 
         // Only add move and size items if the window is resizable
         if (_form.FormBorderStyle != FormBorderStyle.FixedSingle && _form.FormBorderStyle != FormBorderStyle.Fixed3D && _form.FormBorderStyle != FormBorderStyle.FixedDialog)
         {
-            var moveItem = new KryptonContextMenuItem(KryptonManager.Strings.SystemMenuStrings.Move);
+            _menuItemMove = new KryptonContextMenuItem(KryptonManager.Strings.SystemMenuStrings.Move);
             // Move doesn't typically have an icon in Windows
-            moveItem.Click += (sender, e) => ExecuteMove();
-            _contextMenu.Items.Add(moveItem);
+            _menuItemMove.Click += (sender, e) => ExecuteMove();
+            _contextMenu.Items.Add(_menuItemMove);
 
-            var sizeItem = new KryptonContextMenuItem(KryptonManager.Strings.SystemMenuStrings.Size);
+            _menuItemSize = new KryptonContextMenuItem(KryptonManager.Strings.SystemMenuStrings.Size);
             // Size doesn't typically have an icon in Windows
-            sizeItem.Click += (sender, e) => ExecuteSize();
-            _contextMenu.Items.Add(sizeItem);
+            _menuItemSize.Click += (sender, e) => ExecuteSize();
+            _contextMenu.Items.Add(_menuItemSize);
         }
 
         // Only add separator if we have items before it and either minimize or maximize is enabled
@@ -1198,16 +1159,16 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
         }
 
         // Always add minimize item, but it will be enabled/disabled based on MinimizeBox property and window state
-        var minimizeItem = new KryptonContextMenuItem(KryptonManager.Strings.SystemMenuStrings.Minimize);
-        minimizeItem.Image = GetSystemMenuIcon(SystemMenuIconType.Minimize);
-        minimizeItem.Click += OnMinimizeItemOnClick;
-        _contextMenu.Items.Add(minimizeItem);
+        _menuItemMinimize = new KryptonContextMenuItem(KryptonManager.Strings.SystemMenuStrings.Minimize);
+        _menuItemMinimize.Image = GetSystemMenuIcon(SystemMenuIconType.Minimize);
+        _menuItemMinimize.Click += OnMinimizeItemOnClick;
+        _contextMenu.Items.Add(_menuItemMinimize);
 
         // Always add maximize item, but it will be enabled/disabled based on MaximizeBox property and window state
-        var maximizeItem = new KryptonContextMenuItem(KryptonManager.Strings.SystemMenuStrings.Maximize);
-        maximizeItem.Image = GetSystemMenuIcon(SystemMenuIconType.Maximize);
-        maximizeItem.Click += OnMaximizeItemOnClick;
-        _contextMenu.Items.Add(maximizeItem);
+        _menuItemMaximize = new KryptonContextMenuItem(KryptonManager.Strings.SystemMenuStrings.Maximize);
+        _menuItemMaximize.Image = GetSystemMenuIcon(SystemMenuIconType.Maximize);
+        _menuItemMaximize.Click += OnMaximizeItemOnClick;
+        _contextMenu.Items.Add(_menuItemMaximize);
 
         // Only add separator if we have items before it
         if (_contextMenu.Items.Count > 0)
@@ -1218,10 +1179,10 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
         // Only add close item if ControlBox is enabled
         if (_form.ControlBox)
         {
-            var closeItem = new KryptonContextMenuItem($"{KryptonManager.Strings.SystemMenuStrings.Close}\tAlt+F4");
-            closeItem.Image = GetSystemMenuIcon(SystemMenuIconType.Close);
-            closeItem.Click += OnCloseItemOnClick;
-            _contextMenu.Items.Add(closeItem);
+            _menuItemClose = new KryptonContextMenuItem($"{KryptonManager.Strings.SystemMenuStrings.Close}\tAlt+F4");
+            _menuItemClose.Image = GetSystemMenuIcon(SystemMenuIconType.Close);
+            _menuItemClose.Click += OnCloseItemOnClick;
+            _contextMenu.Items.Add(_menuItemClose);
         }
 
         // Update the menu items state to enable/disable items based on form properties and current state
@@ -1431,66 +1392,6 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
     }
 
     /// <summary>
-    /// Adds designer-configured menu items to the context menu.
-    /// </summary>
-    private void AddDesignerMenuItems()
-    {
-        if (_designerMenuItems == null || _designerMenuItems.Count == 0)
-        {
-            return;
-        }
-
-        // Add a separator before custom items if there are existing items
-        if (_contextMenu.Items.Count > 0)
-        {
-            _contextMenu.Items.Add(new KryptonContextMenuSeparator());
-        }
-
-        foreach (var designerItem in _designerMenuItems)
-        {
-            if (!designerItem.Visible)
-            {
-                continue;
-            }
-
-            var contextMenuItem = designerItem.CreateContextMenuItem();
-
-            contextMenuItem.Click += OnContextMenuItemOnClick;
-
-            if (designerItem.InsertBeforeClose)
-            {
-                // Find the Close item and insert before it
-                for (int i = _contextMenu.Items.Count - 1; i >= 0; i--)
-                {
-                    if (_contextMenu.Items[i] is KryptonContextMenuItem menuItem)
-                    {
-                        // Get the text without keyboard shortcuts (remove tab and everything after)
-                        var itemText = menuItem.Text.Split('\t')[0];
-
-                        // Check if this is the Close item by comparing with the system menu string
-                        // Handle both "Close" and "C&lose" (with accelerator key)
-                        if (itemText.Equals(KryptonManager.Strings.SystemMenuStrings.Close, StringComparison.OrdinalIgnoreCase) ||
-                            itemText.Replace("&", "").Equals(KryptonManager.Strings.SystemMenuStrings.Close.Replace("&", ""), StringComparison.OrdinalIgnoreCase))
-                        {
-                            _contextMenu.Items.Insert(i, contextMenuItem);
-                            break;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                _contextMenu.Items.Add(contextMenuItem);
-            }
-
-            continue;
-
-            // Add click handler for designer items (placeholder - can be extended)
-            void OnContextMenuItemOnClick(object? sender, EventArgs e) => OnDesignerMenuItemClick(designerItem);
-        }
-    }
-
-    /// <summary>
     /// Adds designer-configured menu items above the Close item, above the separator.
     /// </summary>
     private void AddDesignerMenuItemsAboveClose()
@@ -1501,24 +1402,7 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
         }
 
         // Find the Close item to insert custom items above it
-        int closeItemIndex = -1;
-        for (int i = _contextMenu.Items.Count - 1; i >= 0; i--)
-        {
-            if (_contextMenu.Items[i] is KryptonContextMenuItem menuItem)
-            {
-                // Get the text without keyboard shortcuts (remove tab and everything after)
-                var itemText = menuItem.Text.Split('\t')[0];
-
-                // Check if this is the Close item by comparing with the system menu string
-                // Handle both "Close" and "C&lose" (with accelerator key)
-                if (itemText.Equals(KryptonManager.Strings.SystemMenuStrings.Close, StringComparison.OrdinalIgnoreCase) ||
-                    itemText.Replace("&", "").Equals(KryptonManager.Strings.SystemMenuStrings.Close.Replace("&", ""), StringComparison.OrdinalIgnoreCase))
-                {
-                    closeItemIndex = i;
-                    break;
-                }
-            }
-        }
+        int closeItemIndex = _menuItemClose != null ? _contextMenu.Items.IndexOf(_menuItemClose) : -1;
 
         if (closeItemIndex >= 0)
         {
@@ -1574,28 +1458,22 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
     /// </summary>
     private void EnsureSeparatorAboveCustomItems()
     {
-        // Find the Close item
-        for (int i = _contextMenu.Items.Count - 1; i >= 0; i--)
+        // Find the Close item using direct reference
+        if (_menuItemClose != null)
         {
-            if (_contextMenu.Items[i] is KryptonContextMenuItem menuItem)
+            int closeItemIndex = _contextMenu.Items.IndexOf(_menuItemClose);
+            if (closeItemIndex >= 0)
             {
-                var itemText = menuItem.Text.Split('\t')[0];
-
-                if (itemText.Equals(KryptonManager.Strings.SystemMenuStrings.Close, StringComparison.OrdinalIgnoreCase) ||
-                    itemText.Replace("&", "").Equals(KryptonManager.Strings.SystemMenuStrings.Close.Replace("&", ""), StringComparison.OrdinalIgnoreCase))
+                // Check if there's already a separator above the Close item
+                if (closeItemIndex > 0 && _contextMenu.Items[closeItemIndex - 1] is KryptonContextMenuSeparator)
                 {
-                    // Check if there's already a separator above the Close item
-                    if (i > 0 && _contextMenu.Items[i - 1] is KryptonContextMenuSeparator)
-                    {
-                        // Separator already exists, no action needed
-                        return;
-                    }
-                    else
-                    {
-                        // Add a separator above the Close item
-                        _contextMenu.Items.Insert(i, new KryptonContextMenuSeparator());
-                    }
+                    // Separator already exists, no action needed
                     return;
+                }
+                else
+                {
+                    // Add a separator above the Close item
+                    _contextMenu.Items.Insert(closeItemIndex, new KryptonContextMenuSeparator());
                 }
             }
         }

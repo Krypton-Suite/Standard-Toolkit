@@ -17,7 +17,7 @@ public class KryptonSystemMenuService : IDisposable
 {
     #region Instance Fields
 
-    private readonly Form _form;
+    private readonly KryptonForm _form;
     private readonly KryptonSystemMenu _systemMenu;
     private bool _disposed = false;
 
@@ -29,7 +29,7 @@ public class KryptonSystemMenuService : IDisposable
     /// Initialize a new instance of the KryptonSystemMenuService class.
     /// </summary>
     /// <param name="form">The form to attach the system menu to.</param>
-    public KryptonSystemMenuService(Form form)
+    public KryptonSystemMenuService(KryptonForm form)
     {
         _form = form ?? throw new ArgumentNullException(nameof(form));
         _systemMenu = new KryptonSystemMenu(form);
