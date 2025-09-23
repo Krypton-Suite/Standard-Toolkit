@@ -367,34 +367,34 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
         var windowState = _form.GetWindowState();
 
         // Update menu items based on current state using direct field references
-        if (_menuItemRestore != null)
+        if (_menuItemRestore != null) 
         {
             _menuItemRestore.Enabled = (windowState != FormWindowState.Normal);
         }
-
-        if (_menuItemMinimize != null)
+        
+        // Minimize item is enabled only if MinimizeBox is true and window is not already minimized
+        if (_menuItemMinimize != null) 
         {
-            // Minimize item is enabled only if MinimizeBox is true and window is not already minimized
             _menuItemMinimize.Enabled = _form.MinimizeBox && (windowState != FormWindowState.Minimized);
         }
 
+        // Maximize item is enabled only if MaximizeBox is true and window is not already maximized
         if (_menuItemMaximize != null)
         {
-            // Maximize item is enabled only if MaximizeBox is true and window is not already maximized
             _menuItemMaximize.Enabled = _form.MaximizeBox && (windowState != FormWindowState.Maximized);
         }
-
+        
+        // Move is enabled when window is in Normal state (can be moved) or when minimized (can be restored)
         if (_menuItemMove != null)
         {
-            // Move is enabled when window is in Normal state (can be moved) or when minimized (can be restored)
             _menuItemMove.Enabled = (windowState == FormWindowState.Normal) || (windowState == FormWindowState.Minimized);
         }
-
+        
+        // Size is enabled when window is in Normal state and form is sizable
         if (_menuItemSize != null)
         {
-            // Size is enabled when window is in Normal state and form is sizable
             _menuItemSize.Enabled = (windowState == FormWindowState.Normal) &&
-                                   (_form.FormBorderStyle == FormBorderStyle.Sizable || _form.FormBorderStyle == FormBorderStyle.SizableToolWindow);
+                                     (_form.FormBorderStyle == FormBorderStyle.Sizable || _form.FormBorderStyle == FormBorderStyle.SizableToolWindow);
         }
 
         // Close is always enabled (no need to check _menuItemClose as it's always enabled)
@@ -492,47 +492,18 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
                 // This is a simplified detection - you can enhance this logic
                 var headerColor = palette.GetBackColor1(PaletteBackStyle.HeaderForm, PaletteState.Normal);
 
-                // Office 2013 - typically white/light gray
-                if (IsLightColor(headerColor))
+                // Determine theme based on header color characteristics
+                return headerColor switch
                 {
-                    return "Office2013";
-                }
-
-                // Office 2010 - typically blue tones
-                if (IsBlueTone(headerColor))
-                {
-                    return "Office2010";
-                }
-
-                // Office 2007 - typically darker blue
-                if (IsDarkBlueTone(headerColor))
-                {
-                    return "Office2007";
-                }
-
-                // Sparkle - typically vibrant colors
-                if (IsVibrantColor(headerColor))
-                {
-                    return "Sparkle";
-                }
-
-                // Professional - typically neutral tones
-                if (IsNeutralTone(headerColor))
-                {
-                    return "Professional";
-                }
-
-                // Microsoft 365 - typically modern colors
-                if (IsModernColor(headerColor))
-                {
-                    return "Microsoft365";
-                }
-
-                // Office 2003 - typically classic Windows colors
-                if (IsClassicColor(headerColor))
-                {
-                    return "Office2003";
-                }
+                    var color when IsLightColor(color) => "Office2013",        // typically white/light gray
+                    var color when IsBlueTone(color) => "Office2010",          // typically blue tones
+                    var color when IsDarkBlueTone(color) => "Office2007",      // typically darker blue
+                    var color when IsVibrantColor(color) => "Sparkle",         // typically vibrant colors
+                    var color when IsNeutralTone(color) => "Professional",     // typically neutral tones
+                    var color when IsModernColor(color) => "Microsoft365",     // typically modern colors
+                    var color when IsClassicColor(color) => "Office2003",      // typically classic Windows colors
+                    _ => "Office2013" // default fallback
+                };
             }
         }
         catch
