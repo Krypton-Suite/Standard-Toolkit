@@ -27,8 +27,8 @@ public class KryptonTaskDialogElementFooterBarFooterProperties :
     private bool _enableExpanderControls;
     private Action<bool> _onSizeChanged;
     private Action _updateExpanderText;
-    Action _updateExpanderEnabledState;
-    Action _updateFootNoteIcon;
+    private Action _updateExpanderEnabledState;
+    private Action _updateFootNoteIcon;
     #endregion
 
     #region Identity
