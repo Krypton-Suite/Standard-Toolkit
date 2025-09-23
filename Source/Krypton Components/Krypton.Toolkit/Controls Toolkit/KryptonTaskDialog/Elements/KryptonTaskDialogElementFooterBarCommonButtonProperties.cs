@@ -61,6 +61,7 @@ public class KryptonTaskDialogElementFooterBarCommonButtonProperties
     public KryptonTaskDialogCommonButtonTypes Buttons
     {
         get => _commonButtons;
+
         set
         {
             if (_commonButtons != value)
@@ -75,6 +76,7 @@ public class KryptonTaskDialogElementFooterBarCommonButtonProperties
     public KryptonTaskDialogCommonButtonTypes AcceptButton
     {
         get => field;
+
         set
         {
             if (field != value)
@@ -89,6 +91,7 @@ public class KryptonTaskDialogElementFooterBarCommonButtonProperties
     public KryptonTaskDialogCommonButtonTypes CancelButton
     {
         get => field;
+
         set
         {
             if (field != value)
