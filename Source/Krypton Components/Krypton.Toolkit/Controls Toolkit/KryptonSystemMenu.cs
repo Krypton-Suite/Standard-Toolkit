@@ -16,7 +16,7 @@ namespace Krypton.Toolkit;
 public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
 {
     #region Instance Fields
-    private readonly Form _form;
+    private readonly KryptonForm _form;
     private readonly KryptonContextMenu _contextMenu;
     private SystemMenuItemCollection? _designerMenuItems;
     private bool _disposed;
@@ -35,7 +35,7 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
     /// Initialize a new instance of the KryptonSystemMenu class.
     /// </summary>
     /// <param name="form">The form to attach the themed system menu to.</param>
-    public KryptonSystemMenu(Form form)
+    public KryptonSystemMenu(KryptonForm form)
     {
         _form = form ?? throw new ArgumentNullException(nameof(form));
         _contextMenu = new KryptonContextMenu();
@@ -181,13 +181,9 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
             // Position at the top-left corner of the form, just like the native system menu
             var screenLocation = _form.PointToScreen(new Point(0, 0));
 
-            // Adjust for the title bar height to position it properly
-            if (_form is KryptonForm kryptonForm)
-            {
-                // Get the title bar height from the form's non-client area
-                var titleBarHeight = kryptonForm.RealWindowBorders.Top;
-                screenLocation.Y += titleBarHeight;
-            }
+            // Get the title bar height from the form's non-client area
+            var titleBarHeight = _form.RealWindowBorders.Top;
+            screenLocation.Y += titleBarHeight;
 
             _contextMenu.Show(_form, screenLocation);
         }
@@ -368,43 +364,40 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
     /// </summary>
     private void UpdateMenuItemsState()
     {
-        if (_form is KryptonForm kryptonForm)
+        var windowState = _form.GetWindowState();
+
+        // Update menu items based on current state using direct field references
+        if (_menuItemRestore != null)
         {
-            var windowState = kryptonForm.GetWindowState();
-
-            // Update menu items based on current state using direct field references
-            if (_menuItemRestore != null)
-            {
-                _menuItemRestore.Enabled = (windowState != FormWindowState.Normal);
-            }
-
-            if (_menuItemMinimize != null)
-            {
-                // Minimize item is enabled only if MinimizeBox is true and window is not already minimized
-                _menuItemMinimize.Enabled = _form.MinimizeBox && (windowState != FormWindowState.Minimized);
-            }
-
-            if (_menuItemMaximize != null)
-            {
-                // Maximize item is enabled only if MaximizeBox is true and window is not already maximized
-                _menuItemMaximize.Enabled = _form.MaximizeBox && (windowState != FormWindowState.Maximized);
-            }
-
-            if (_menuItemMove != null)
-            {
-                // Move is enabled when window is in Normal state (can be moved) or when minimized (can be restored)
-                _menuItemMove.Enabled = (windowState == FormWindowState.Normal) || (windowState == FormWindowState.Minimized);
-            }
-
-            if (_menuItemSize != null)
-            {
-                // Size is enabled when window is in Normal state and form is sizable
-                _menuItemSize.Enabled = (windowState == FormWindowState.Normal) &&
-                                       (_form.FormBorderStyle == FormBorderStyle.Sizable || _form.FormBorderStyle == FormBorderStyle.SizableToolWindow);
-            }
-
-            // Close is always enabled (no need to check _menuItemClose as it's always enabled)
+            _menuItemRestore.Enabled = (windowState != FormWindowState.Normal);
         }
+
+        if (_menuItemMinimize != null)
+        {
+            // Minimize item is enabled only if MinimizeBox is true and window is not already minimized
+            _menuItemMinimize.Enabled = _form.MinimizeBox && (windowState != FormWindowState.Minimized);
+        }
+
+        if (_menuItemMaximize != null)
+        {
+            // Maximize item is enabled only if MaximizeBox is true and window is not already maximized
+            _menuItemMaximize.Enabled = _form.MaximizeBox && (windowState != FormWindowState.Maximized);
+        }
+
+        if (_menuItemMove != null)
+        {
+            // Move is enabled when window is in Normal state (can be moved) or when minimized (can be restored)
+            _menuItemMove.Enabled = (windowState == FormWindowState.Normal) || (windowState == FormWindowState.Minimized);
+        }
+
+        if (_menuItemSize != null)
+        {
+            // Size is enabled when window is in Normal state and form is sizable
+            _menuItemSize.Enabled = (windowState == FormWindowState.Normal) &&
+                                   (_form.FormBorderStyle == FormBorderStyle.Sizable || _form.FormBorderStyle == FormBorderStyle.SizableToolWindow);
+        }
+
+        // Close is always enabled (no need to check _menuItemClose as it's always enabled)
     }
     #endregion
 
@@ -491,57 +484,54 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
     {
         try
         {
-            // Try to get the current theme from the form's palette
-            if (_form is KryptonForm kryptonForm)
+            // Get the current theme from the form's palette
+            var palette = _form.GetResolvedPalette();
+            if (palette != null)
             {
-                var palette = kryptonForm.GetResolvedPalette();
-                if (palette != null)
+                // Detect theme based on palette characteristics
+                // This is a simplified detection - you can enhance this logic
+                var headerColor = palette.GetBackColor1(PaletteBackStyle.HeaderForm, PaletteState.Normal);
+
+                // Office 2013 - typically white/light gray
+                if (IsLightColor(headerColor))
                 {
-                    // Detect theme based on palette characteristics
-                    // This is a simplified detection - you can enhance this logic
-                    var headerColor = palette.GetBackColor1(PaletteBackStyle.HeaderForm, PaletteState.Normal);
+                    return "Office2013";
+                }
 
-                    // Office 2013 - typically white/light gray
-                    if (IsLightColor(headerColor))
-                    {
-                        return "Office2013";
-                    }
+                // Office 2010 - typically blue tones
+                if (IsBlueTone(headerColor))
+                {
+                    return "Office2010";
+                }
 
-                    // Office 2010 - typically blue tones
-                    if (IsBlueTone(headerColor))
-                    {
-                        return "Office2010";
-                    }
+                // Office 2007 - typically darker blue
+                if (IsDarkBlueTone(headerColor))
+                {
+                    return "Office2007";
+                }
 
-                    // Office 2007 - typically darker blue
-                    if (IsDarkBlueTone(headerColor))
-                    {
-                        return "Office2007";
-                    }
+                // Sparkle - typically vibrant colors
+                if (IsVibrantColor(headerColor))
+                {
+                    return "Sparkle";
+                }
 
-                    // Sparkle - typically vibrant colors
-                    if (IsVibrantColor(headerColor))
-                    {
-                        return "Sparkle";
-                    }
+                // Professional - typically neutral tones
+                if (IsNeutralTone(headerColor))
+                {
+                    return "Professional";
+                }
 
-                    // Professional - typically neutral tones
-                    if (IsNeutralTone(headerColor))
-                    {
-                        return "Professional";
-                    }
+                // Microsoft 365 - typically modern colors
+                if (IsModernColor(headerColor))
+                {
+                    return "Microsoft365";
+                }
 
-                    // Microsoft 365 - typically modern colors
-                    if (IsModernColor(headerColor))
-                    {
-                        return "Microsoft365";
-                    }
-
-                    // Office 2003 - typically classic Windows colors
-                    if (IsClassicColor(headerColor))
-                    {
-                        return "Office2003";
-                    }
+                // Office 2003 - typically classic Windows colors
+                if (IsClassicColor(headerColor))
+                {
+                    return "Office2003";
                 }
             }
         }
@@ -869,14 +859,11 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
     {
         try
         {
-            // Try to get the color from the current palette
-            if (_form is KryptonForm kryptonForm)
+            // Get the color from the current palette
+            var palette = _form.GetResolvedPalette();
+            if (palette != null)
             {
-                var palette = kryptonForm.GetResolvedPalette();
-                if (palette != null)
-                {
-                    return palette.GetContentShortTextColor1(PaletteContentStyle.HeaderForm, PaletteState.Normal);
-                }
+                return palette.GetContentShortTextColor1(PaletteContentStyle.HeaderForm, PaletteState.Normal);
             }
         }
         catch
@@ -895,14 +882,11 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
     {
         try
         {
-            // Try to get the color from the current palette
-            if (_form is KryptonForm kryptonForm)
+            // Get the color from the current palette
+            var palette = _form.GetResolvedPalette();
+            if (palette != null)
             {
-                var palette = kryptonForm.GetResolvedPalette();
-                if (palette != null)
-                {
-                    return palette.GetBackColor1(PaletteBackStyle.HeaderForm, PaletteState.Normal);
-                }
+                return palette.GetBackColor1(PaletteBackStyle.HeaderForm, PaletteState.Normal);
             }
         }
         catch
@@ -1312,17 +1296,8 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
     {
         try
         {
-            // Try to close the form gracefully first
-            if (_form is KryptonForm kryptonForm)
-            {
-                // Use the KryptonForm's close mechanism
-                kryptonForm.Close();
-            }
-            else
-            {
-                // Fallback to standard form close
-                _form.Close();
-            }
+            // Use the KryptonForm's close mechanism
+            _form.Close();
         }
         catch
         {
@@ -1339,16 +1314,8 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
         var screenPos = Control.MousePosition;
         var lParam = (IntPtr)(PI.MAKELOWORD(screenPos.X) | PI.MAKEHIWORD(screenPos.Y));
 
-        // Send the system command - try KryptonForm first, fallback to Win32 API
-        if (_form is KryptonForm kryptonForm)
-        {
-            kryptonForm.SendSysCommand(command, lParam);
-        }
-        else
-        {
-            // Fallback for non-KryptonForm forms using Win32 API
-            PI.PostMessage(_form.Handle, PI.WM_.SYSCOMMAND, (IntPtr)(uint)command, lParam);
-        }
+        // Send the system command using KryptonForm's method
+        _form.SendSysCommand(command, lParam);
     }
 
     /// <summary>
