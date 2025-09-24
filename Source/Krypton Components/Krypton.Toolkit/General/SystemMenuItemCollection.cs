@@ -71,5 +71,14 @@ public class SystemMenuItemCollection : ObservableCollection<SystemMenuItemValue
     {
         return Count == 0 ? "No custom menu items" : $"{Count} custom menu item(s)";
     }
+
+    /// <summary>
+    /// Gets a value indicating if any items should be serialized.
+    /// </summary>
+    /// <returns>True if any items should be serialized; otherwise false.</returns>
+    public bool ShouldSerialize()
+    {
+        return Count > 0;
+    }
     #endregion
 }

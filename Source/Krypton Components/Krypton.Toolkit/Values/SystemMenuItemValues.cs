@@ -260,6 +260,21 @@ public class SystemMenuItemValues : IComponent
         }
         return _text;
     }
+
+    /// <summary>
+    /// Gets a value indicating if any properties should be serialized.
+    /// </summary>
+    /// <returns>True if any properties should be serialized; otherwise false.</returns>
+    public bool ShouldSerialize()
+    {
+        return !string.IsNullOrEmpty(_text) || 
+               !string.IsNullOrEmpty(_shortcut) || 
+               !_enabled || 
+               !_visible || 
+               !_insertBeforeClose || 
+               _image != null || 
+               _command != null;
+    }
     #endregion
 
     #region Protected Methods
