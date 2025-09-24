@@ -911,11 +911,15 @@ public abstract class VisualForm : Form,
         // Only handle themed system menu shortcuts if ControlBox is true (same behavior as native system menu)
         if (ControlBox && SystemMenuService is { UseSystemMenu: true })
         {
-            // Handle Alt+Space to show the themed system menu
+            // Handle Alt+Space to show the themed system menu (only if enabled)
             if (keyData == (Keys.Alt | Keys.Space))
             {
-                ShowSystemMenuAtFormTopLeft();
-                return true;
+                // Check if Alt+Space is enabled through the system menu service
+                if (SystemMenuService.ShowSystemMenuOnAltSpace)
+                {
+                    ShowSystemMenuAtFormTopLeft();
+                    return true;
+                }
             }
 
             // Handle Alt+F4 for close (let derived classes handle this)

@@ -220,8 +220,8 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
             return true;
         }
 
-        // Handle Alt+Space for showing the menu
-        if (keyData == (Keys.Alt | Keys.Space))
+        // Handle Alt+Space for showing the menu (only if enabled)
+        if (keyData == (Keys.Alt | Keys.Space) && ShowOnAltSpace)
         {
             ShowAtFormTopLeft();
             return true;
