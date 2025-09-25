@@ -1161,7 +1161,12 @@ public class KryptonForm : VisualForm,
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public SystemMenuValues SystemMenuValues
     {
-        get => _systemMenuValues;
+        get
+        {
+            // Ensure we always return a valid instance
+            _systemMenuValues ??= new SystemMenuValues(OnNeedPaint);
+            return _systemMenuValues;
+        }
         set
         {
             if (_systemMenuValues != value)
@@ -1183,12 +1188,7 @@ public class KryptonForm : VisualForm,
         }
     }
 
-    private bool ShouldSerializeSystemMenuValues()
-    {
-        var shouldSerialize = _systemMenuValues.ShouldSerialize();
-        System.Diagnostics.Debug.WriteLine($"ShouldSerializeSystemMenuValues: {shouldSerialize} (CustomMenuItems: {_systemMenuValues.CustomMenuItems.Count})");
-        return shouldSerialize;
-    }
+    private bool ShouldSerializeSystemMenuValues() => !SystemMenuValues.IsDefault;
 
     private void ResetSystemMenuValues() => _systemMenuValues.Reset();
     

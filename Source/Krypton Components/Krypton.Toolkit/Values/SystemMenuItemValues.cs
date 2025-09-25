@@ -280,6 +280,20 @@ public class SystemMenuItemValues : IComponent, INotifyPropertyChanged
                _image != null || 
                _command != null;
     }
+
+    /// <summary>
+    /// Resets all properties to their default values.
+    /// </summary>
+    public void Reset()
+    {
+        Text = string.Empty;
+        Shortcut = string.Empty;
+        Enabled = true;
+        Visible = true;
+        InsertBeforeClose = true;
+        Image = null;
+        Command = null;
+    }
     #endregion
 
     #region Protected Methods

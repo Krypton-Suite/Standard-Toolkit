@@ -38,7 +38,7 @@ public class SystemMenuValues : Storage, INotifyPropertyChanged
     private bool _showOnRightClick;
     private bool _showOnAltSpace;
     private bool _showOnIconClick;
-    private SystemMenuItemCollection _customMenuItems;
+    private SystemMenuItemCollection? _customMenuItems;
     #endregion
 
     #region Identity
@@ -86,7 +86,7 @@ public class SystemMenuValues : Storage, INotifyPropertyChanged
                                      (ShowOnRightClick == DEFAULT_SHOW_ON_RIGHT_CLICK) &&
                                      (ShowOnAltSpace == DEFAULT_SHOW_ON_ALT_SPACE) &&
                                      (ShowOnIconClick == DEFAULT_SHOW_ON_ICON_CLICK) &&
-                                     (_customMenuItems.Count == 0);
+                                     (_customMenuItems?.Count == 0);
     #endregion
 
     #region Enabled
@@ -280,18 +280,19 @@ public class SystemMenuValues : Storage, INotifyPropertyChanged
     [Description(@"Custom menu items to display in the system menu.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     [Editor(typeof(SystemMenuItemsEditor), typeof(UITypeEditor))]
-    public SystemMenuItemCollection CustomMenuItems
+    public SystemMenuItemCollection? CustomMenuItems
     {
         get => _customMenuItems;
+
         set
         {
             if (_customMenuItems != value)
             {
-                _customMenuItems.CollectionChanged -= OnCustomMenuItemsChanged;
+                _customMenuItems?.CollectionChanged -= OnCustomMenuItemsChanged;
 
                 _customMenuItems = value;
 
-                _customMenuItems.CollectionChanged += OnCustomMenuItemsChanged;
+                _customMenuItems?.CollectionChanged += OnCustomMenuItemsChanged;
 
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CustomMenuItems)));
                 PerformNeedPaint(true);
@@ -299,15 +300,17 @@ public class SystemMenuValues : Storage, INotifyPropertyChanged
         }
     }
 
-    private bool ShouldSerializeCustomMenuItems() => _customMenuItems.Count > 0;
+    private bool ShouldSerializeCustomMenuItems()
+    {
+        var shouldSerialize = _customMenuItems is { Count: > 0 };
+        return shouldSerialize;
+    }
 
     /// <summary>
     /// Resets the CustomMenuItems collection to its default value.
     /// </summary>
-    public void ResetCustomMenuItems()
-    {
-        _customMenuItems.Clear();
-    }
+    public void ResetCustomMenuItems() => _customMenuItems?.Clear();
+
     #endregion
 
     #region Private Methods
@@ -346,7 +349,6 @@ public class SystemMenuValues : Storage, INotifyPropertyChanged
     public bool ShouldSerialize()
     {
         var shouldSerialize = !IsDefault;
-        System.Diagnostics.Debug.WriteLine($"SystemMenuValues.ShouldSerialize: {shouldSerialize} (IsDefault: {IsDefault}, CustomMenuItems: {_customMenuItems.Count})");
         return shouldSerialize;
     }
 

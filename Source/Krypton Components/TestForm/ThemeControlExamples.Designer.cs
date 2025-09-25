@@ -58,22 +58,23 @@ namespace TestForm
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(802, 444);
+            this.kryptonPanel1.Size = new System.Drawing.Size(808, 426);
             this.kryptonPanel1.TabIndex = 0;
             // 
             // kryptonThemeListBox1
             // 
             this.kryptonThemeListBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.kryptonThemeListBox1.DefaultPalette = Krypton.Toolkit.PaletteMode.Microsoft365Blue;
             this.kryptonThemeListBox1.Location = new System.Drawing.Point(141, 40);
             this.kryptonThemeListBox1.Name = "kryptonThemeListBox1";
-            this.kryptonThemeListBox1.Size = new System.Drawing.Size(334, 350);
+            this.kryptonThemeListBox1.Size = new System.Drawing.Size(334, 332);
             this.kryptonThemeListBox1.TabIndex = 4;
             // 
             // kbtnThemeBrowser
             // 
             this.kbtnThemeBrowser.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.kbtnThemeBrowser.Location = new System.Drawing.Point(13, 407);
+            this.kbtnThemeBrowser.Location = new System.Drawing.Point(13, 389);
             this.kbtnThemeBrowser.Name = "kbtnThemeBrowser";
             this.kbtnThemeBrowser.Size = new System.Drawing.Size(173, 25);
             this.kbtnThemeBrowser.TabIndex = 3;
@@ -113,7 +114,7 @@ namespace TestForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(802, 444);
+            this.ClientSize = new System.Drawing.Size(808, 426);
             this.Controls.Add(this.kryptonPanel1);
             this.Name = "ThemeControlExamples";
             this.Text = "ThemeControlExamples";

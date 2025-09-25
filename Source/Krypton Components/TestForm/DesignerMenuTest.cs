@@ -65,13 +65,16 @@ public partial class DesignerMenuTest : KryptonForm
     {
         if (KryptonSystemMenu != null)
         {
-            var info = $"Menu Information:\n" +
-                      $"Total Items: {KryptonSystemMenu.MenuItemCount}\n" +
-                      $"Has Items: {KryptonSystemMenu.HasMenuItems}\n" +
-                      $"Designer Items: {SystemMenuValues.CustomMenuItems.Count}\n\n" +
-                      $"Right-click on the title bar or press Alt+Space to see the menu!";
+            if (SystemMenuValues.CustomMenuItems != null)
+            {
+                var info = $"Menu Information:\n" +
+                           $"Total Items: {KryptonSystemMenu.MenuItemCount}\n" +
+                           $"Has Items: {KryptonSystemMenu.HasMenuItems}\n" +
+                           $"Designer Items: {SystemMenuValues.CustomMenuItems.Count}\n\n" +
+                           $"Right-click on the title bar or press Alt+Space to see the menu!";
             
-            MessageBox.Show(info, "Menu Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(info, "Menu Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
     }
     #endregion
