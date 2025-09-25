@@ -1,8 +1,5 @@
-﻿#region BSD License
+#region BSD License
 /*
- *
- * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- * © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  * Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2025 - 2025. All rights reserved.
@@ -50,13 +47,13 @@ public class KryptonTaskDialog : IDisposable
         _fillerPanel = new KryptonPanel() { Height = _fillerPanelOffset, Dock = DockStyle.Top };
         _disposed = false;
         _elements = [];
-        _form = new();
+        _form = new() { AutoScaleMode = AutoScaleMode.Font };
 
         // Border-Fixes: Stop the form from growing unintentionally when it is moved
         _form.ResizeBegin += (sender, e) => _clientRectangle = _form.ClientRectangle;
         _form.ResizeEnd += (sender, e) => _form.ClientSize = _clientRectangle.Size;
 
-        // Initial form size.
+        // Initial form size. The width is fixed upon instantiation. The height given here is tentative.
         _clientRectangle = new(0, 0, _defaults.ClientWidth, _defaults.ClientHeight);
 
         // Instantiate the Dialog form properties
@@ -71,8 +68,7 @@ public class KryptonTaskDialog : IDisposable
         HyperLink     = new KryptonTaskDialogElementHyperLink(_defaults);
         ComboBox      = new KryptonTaskDialogElementComboBox(_defaults);
         ProgresBar    = new KryptonTaskDialogElementProgresBar(_defaults);
-        CommonButtons = new KryptonTaskDialogElementCommonButtons(_defaults, _form);
-        FooterBar     = new KryptonTaskDialogElementFooterBar(_defaults, Expander);
+        FooterBar     = new KryptonTaskDialogElementFooterBar(_defaults, Expander, _form);
 
         // Add all elements in order of display (top down) to the list
         _elements.Add(Heading);
@@ -83,7 +79,6 @@ public class KryptonTaskDialog : IDisposable
         _elements.Add(ComboBox);
         _elements.Add(HyperLink);
         _elements.Add(ProgresBar);
-        _elements.Add(CommonButtons);
         _elements.Add(FooterBar);
 
         // Initialise the dialog form & sets-up the elements
@@ -110,13 +105,6 @@ public class KryptonTaskDialog : IDisposable
     /// </summary>
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public KryptonTaskDialogElementHeading Heading { get; }
-
-    /// <summary>
-    /// Contains the properties for the CommonButtons Elements panel, like OK, Cancel etc.
-    /// If you do not want to use the panel, set the Visible property to false.
-    /// </summary>
-    [TypeConverter(typeof(ExpandableObjectConverter))]
-    public KryptonTaskDialogElementCommonButtons CommonButtons { get; }
 
     /// <summary>
     /// Contains the properties for the Contents panel.<br/>

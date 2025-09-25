@@ -22,6 +22,7 @@ public static class GraphicsExtensions
     public static Icon? LoadIcon(IconType type, Size size)
     {
         var hIcon = ImageNativeMethods.LoadImage(IntPtr.Zero, $"#{(int)type}", 1, size.Width, size.Height, 0);
+
         return hIcon == IntPtr.Zero ? null : Icon.FromHandle(hIcon);
     }
 
@@ -35,7 +36,9 @@ public static class GraphicsExtensions
         try
         {
             if (executablePath != null)
-            { result = Icon.ExtractAssociatedIcon(executablePath); }
+            {
+                result = Icon.ExtractAssociatedIcon(executablePath);
+            }
         }
         catch (Exception e)
         {
@@ -136,6 +139,7 @@ public static class GraphicsExtensions
         {
             throw new ArgumentNullException(nameof(filePath));
         }
+
         var hIconEx = new IntPtr[] { IntPtr.Zero };
         try
         {
@@ -192,7 +196,8 @@ public static class GraphicsExtensions
     /// <param name="customImage">The custom image.</param>
     /// <returns>The image, based on the type chosen.</returns>
     /// <exception cref="System.ArgumentOutOfRangeException">iconType - null</exception>
-    public static Image? GetKryptonMessageBoxImageType(KryptonMessageBoxIcon iconType, Size? imageSize, Image? customImage = null)
+    public static Image? GetKryptonMessageBoxImageType(KryptonMessageBoxIcon iconType, Size? imageSize,
+        Image? customImage = null)
     {
         var newSize = imageSize ?? new Size(32, 32);
 
@@ -224,18 +229,10 @@ public static class GraphicsExtensions
             case KryptonMessageBoxIcon.Information:
                 return MessageBoxImageResources.GenericInformation;
             case KryptonMessageBoxIcon.Shield:
-                if (OSUtilities.IsAtLeastWindowsEleven)
-                {
-                    return UACShieldIconResources.UACShieldWindows11;
-                }
-                else if (OSUtilities.IsWindowsTen)
-                {
-                    return UACShieldIconResources.UACShieldWindows10;
-                }
-                else
-                {
-                    return UACShieldIconResources.UACShieldWindows7881;
-                }
+            {
+                var messageBoxShieldIcon = ExtractIconFromImageresInternal(ImageresIconID.Shield);
+                return messageBoxShieldIcon?.ToBitmap();
+            }
             case KryptonMessageBoxIcon.WindowsLogo:
                 if (OSUtilities.IsAtLeastWindowsEleven)
                 {
@@ -297,22 +294,10 @@ public static class GraphicsExtensions
             case KryptonToastNotificationIcon.Information:
                 return ToastNotificationImageResources.Toast_Notification_Information_128_x_128;
             case KryptonToastNotificationIcon.Shield:
-                if (OSUtilities.IsAtLeastWindowsEleven)
-                {
-                    return ToastNotificationImageResources.Toast_Notification_UAC_Shield_Windows_11_128_x_128;
-                }
-                else if (OSUtilities.IsWindowsTen)
-                {
-                    return ToastNotificationImageResources.Toast_Notification_UAC_Shield_Windows_10_128_x_128;
-                }
-                else if (OSUtilities.IsWindowsEightPointOne || OSUtilities.IsWindowsEight || OSUtilities.IsWindowsSeven)
-                {
-                    return ToastNotificationImageResources.Toast_Notification_UAC_Shield_Windows_7_and_8_128_x_128;
-                }
-                else
-                {
-                    return ScaleImage(SystemIcons.Shield.ToBitmap(), newSize);
-                }
+            {
+                var messageBoxShieldIcon = ExtractIconFromImageresInternal(ImageresIconID.Shield, IconSize.Huge);
+                return messageBoxShieldIcon?.ToBitmap();
+            }
             case KryptonToastNotificationIcon.WindowsLogo:
                 if (OSUtilities.IsAtLeastWindowsEleven)
                 {
@@ -328,7 +313,8 @@ public static class GraphicsExtensions
                 }
             case KryptonToastNotificationIcon.Application:
                 return customImage != null
-                    ? ScaleImage(customImage, newSize) : ScaleImage(SystemIcons.Application.ToBitmap(), newSize);
+                    ? ScaleImage(customImage, newSize)
+                    : ScaleImage(SystemIcons.Application.ToBitmap(), newSize);
             case KryptonToastNotificationIcon.SystemApplication:
                 return ScaleImage(SystemIcons.Application.ToBitmap(), newSize);
             case KryptonToastNotificationIcon.Ok:
@@ -374,5 +360,332 @@ public static class GraphicsExtensions
 
         return resolved as Bitmap ?? new Bitmap(resolved);
     }
+
+    /// <summary>Extracts an icon from imageres.dll using the specified icon ID and size.</summary>
+    /// <param name="iconId">The icon ID from ImageresIconID enum.</param>
+    /// <param name="iconSize">The size of the icon to extract. Defaults to Medium (32x32).</param>
+    /// <param name="selectionStrategy">The strategy for selecting fallback icons. Defaults to OS-based selection.</param>
+    /// <returns>The extracted icon, or null if extraction fails.</returns>
+    public static Icon? ExtractIconFromImageres(int iconId, IconSize iconSize = IconSize.Medium, IconSelectionStrategy selectionStrategy = IconSelectionStrategy.OSBased) => ExtractIconFromImageresInternal((ImageresIconID)iconId, iconSize, selectionStrategy);
+
+    /// <summary>Extracts an icon from imageres.dll using the specified icon ID and size.</summary>
+    /// <param name="iconId">The icon ID from ImageresIconID enum.</param>
+    /// <param name="iconSize">The size of the icon to extract. Defaults to Medium (32x32).</param>
+    /// <param name="selectionStrategy">The strategy for selecting fallback icons. Defaults to OS-based selection.</param>
+    /// <returns>The extracted icon, or null if extraction fails.</returns>
+    internal static Icon? ExtractIconFromImageresInternal(ImageresIconID iconId, IconSize iconSize = IconSize.Medium, IconSelectionStrategy selectionStrategy = IconSelectionStrategy.OSBased)
+    {
+        var size = GetSizeFromIconSize(iconSize);
+        var isLargeIcon = size.Width > 32; // Use large icon extraction for sizes larger than 32x32
+
+        // Try to extract from imageres.dll first
+        var icon = ExtractIcon(Libraries.Imageres, (int)iconId, isLargeIcon);
+        if (icon != null)
+        {
+            return icon;
+        }
+
+        // Fallback to embedded resources for specific icons
+        return GetFallbackIconFromResources(iconId, size, selectionStrategy);
+    }
+
+    /// <summary>Gets the pixel size corresponding to an IconSize enum value.</summary>
+    /// <param name="iconSize">The IconSize enum value.</param>
+    /// <returns>The corresponding pixel size.</returns>
+    private static Size GetSizeFromIconSize(IconSize iconSize) => new((int)iconSize, (int)iconSize);
+
+    /// <summary>Gets a fallback icon from embedded resources when imageres.dll is not available.</summary>
+    /// <param name="iconId">The icon ID that was requested.</param>
+    /// <param name="targetSize">The target size for the icon.</param>
+    /// <param name="selectionStrategy">The strategy for selecting fallback icons.</param>
+    /// <returns>The fallback icon, or null if no suitable fallback is available.</returns>
+    private static Icon? GetFallbackIconFromResources(ImageresIconID iconId, Size targetSize, IconSelectionStrategy selectionStrategy)
+    {
+        try
+        {
+            // Only provide fallbacks for specific icons that we have embedded resources for
+            switch (iconId)
+            {
+                case ImageresIconID.Shield:
+                case ImageresIconID.ShieldAlt:
+                    return GetUACShieldFallbackIcon(targetSize, selectionStrategy);
+                default:
+                    // For other icons, we don't have embedded fallbacks
+                    return null;
+            }
+        }
+        catch (Exception)
+        {
+            // If fallback fails, return null
+            return null;
+        }
+    }
+
+    /// <summary>Gets a UAC shield icon from embedded resources based on the current OS or theme.</summary>
+    /// <param name="targetSize">The target size for the icon.</param>
+    /// <param name="selectionStrategy">The strategy for selecting the icon.</param>
+    /// <returns>The UAC shield icon, or null if extraction fails.</returns>
+    private static Icon? GetUACShieldFallbackIcon(Size targetSize, IconSelectionStrategy selectionStrategy)
+    {
+        try
+        {
+            Image? shieldImage;
+
+            if (selectionStrategy == IconSelectionStrategy.ThemeBased)
+            {
+                // Use theme-based selection
+                shieldImage = GetThemeBasedShieldImage(targetSize);
+            }
+            else
+            {
+                // Use OS-based selection (default behavior)
+                shieldImage = GetOSBasedShieldImage(targetSize);
+            }
+
+            if (shieldImage != null)
+            {
+                // Convert to icon
+                using var bitmap = new Bitmap(shieldImage);
+                var iconHandle = bitmap.GetHicon();
+                return Icon.FromHandle(iconHandle);
+            }
+
+            return null;
+        }
+        catch (Exception)
+        {
+            return null;
+        }
+    }
+
+    /// <summary>Gets a Windows 11 UAC shield image at the specified size.</summary>
+    /// <param name="targetSize">The target size.</param>
+    /// <returns>The shield image, or null if not available.</returns>
+    private static Image? GetWindows11ShieldImage(Size targetSize)
+    {
+        return targetSize.Width switch
+        {
+            8 => Windows11UACShieldImageResources.Windows_11_UAC_Shield_16_x_16, // Use 16x16 for 8x8
+            16 => Windows11UACShieldImageResources.Windows_11_UAC_Shield_16_x_16,
+            20 => Windows11UACShieldImageResources.Windows_11_UAC_Shield_20_x_20,
+            24 => Windows11UACShieldImageResources.Windows_11_UAC_Shield_24_x_24,
+            32 => Windows11UACShieldImageResources.Windows_11_UAC_Shield_32_x_32,
+            40 => Windows11UACShieldImageResources.Windows_11_UAC_Shield_40_x_40,
+            48 => Windows11UACShieldImageResources.Windows_11_UAC_Shield_48_x_48,
+            64 => Windows11UACShieldImageResources.Windows_11_UAC_Shield_64_x_64,
+            96 => Windows11UACShieldImageResources.Windows_11_UAC_Shield_64_x_64, // Use 64x64 for 96x96
+            128 => Windows11UACShieldImageResources.Windows_11_UAC_Shield_64_x_64, // Use 64x64 for 128x128
+            192 => Windows11UACShieldImageResources.Windows_11_UAC_Shield_256_x_256, // Use 256x256 for 192x192
+            256 => Windows11UACShieldImageResources.Windows_11_UAC_Shield_256_x_256,
+            _ => Windows11UACShieldImageResources.Windows_11_UAC_Shield_32_x_32 // Default to 32x32
+        };
+    }
+
+    /// <summary>Gets a Windows 10 UAC shield image at the specified size.</summary>
+    /// <param name="targetSize">The target size.</param>
+    /// <returns>The shield image, or null if not available.</returns>
+    private static Image? GetWindows10ShieldImage(Size targetSize)
+    {
+        return targetSize.Width switch
+        {
+            8 => Windows10UACShieldImageResources.Windows_10_UAC_Shield_16_x_16, // Use 16x16 for 8x8
+            16 => Windows10UACShieldImageResources.Windows_10_UAC_Shield_16_x_16,
+            20 => Windows10UACShieldImageResources.Windows_10_UAC_Shield_20_x_20,
+            24 => Windows10UACShieldImageResources.Windows_10_UAC_Shield_24_x_24,
+            32 => Windows10UACShieldImageResources.Windows_10_UAC_Shield_32_x_32,
+            40 => Windows10UACShieldImageResources.Windows_10_UAC_Shield_40_x_40,
+            48 => Windows10UACShieldImageResources.Windows_10_UAC_Shield_48_x_48,
+            64 => Windows10UACShieldImageResources.Windows_10_UAC_Shield_64_x_64,
+            96 => Windows10UACShieldImageResources.Windows_10_UAC_Shield_64_x_64, // Use 64x64 for 96x96
+            128 => Windows10UACShieldImageResources.Windows_10_UAC_Shield_64_x_64, // Use 64x64 for 128x128
+            192 => Windows10UACShieldImageResources.Windows_10_UAC_Shield_256_x_256, // Use 256x256 for 192x192
+            256 => Windows10UACShieldImageResources.Windows_10_UAC_Shield_256_x_256,
+            _ => Windows10UACShieldImageResources.Windows_10_UAC_Shield_32_x_32 // Default to 32x32
+        };
+    }
+
+    /// <summary>Gets a Windows 7/8.x UAC shield image at the specified size.</summary>
+    /// <param name="targetSize">The target size.</param>
+    /// <returns>The shield image, or null if not available.</returns>
+    private static Image? GetWindows7And8xShieldImage(Size targetSize)
+    {
+        return targetSize.Width switch
+        {
+            8 => Windows7And8xUACShieldImageResources.Windows_7_and_8x_UAC_Shield_8_x_8,
+            16 => Windows7And8xUACShieldImageResources.Windows_7_and_8x_UAC_Shield_16_x_16,
+            24 => Windows7And8xUACShieldImageResources.Windows_7_and_8x_UAC_Shield_24_x_24,
+            32 => Windows7And8xUACShieldImageResources.Windows_7_and_8x_UAC_Shield_32_x_32,
+            48 => Windows7And8xUACShieldImageResources.Windows_7_and_8x_UAC_Shield_48_x_48,
+            64 => Windows7And8xUACShieldImageResources.Windows_7_and_8x_UAC_Shield_64_x_64,
+            96 => Windows7And8xUACShieldImageResources.Windows_7_and_8x_UAC_Shield_64_x_64, // Use 64x64 for 96x96
+            128 => Windows7And8xUACShieldImageResources.Windows_7_and_8x_UAC_Shield_128_x_128,
+            192 => Windows7And8xUACShieldImageResources.Windows_7_and_8x_UAC_Shield_256_x_256, // Use 256x256 for 192x192
+            256 => Windows7And8xUACShieldImageResources.Windows_7_and_8x_UAC_Shield_256_x_256,
+            _ => Windows7And8xUACShieldImageResources.Windows_7_and_8x_UAC_Shield_32_x_32 // Default to 32x32
+        };
+    }
+
+    /// <summary>Gets a UAC shield image based on the current Krypton theme.</summary>
+    /// <param name="targetSize">The target size.</param>
+    /// <returns>The shield image, or null if not available.</returns>
+    private static Image? GetThemeBasedShieldImage(Size targetSize)
+    {
+        var currentTheme = KryptonManager.CurrentGlobalPaletteMode;
+
+        // Map themes to appropriate Windows versions
+        if (IsVistaCompatibleTheme(currentTheme))
+        {
+            return GetWindowsVistaShieldImage(targetSize);
+        }
+        else if (IsWindows7CompatibleTheme(currentTheme))
+        {
+            return GetWindows7And8xShieldImage(targetSize);
+        }
+        else if (IsWindows10CompatibleTheme(currentTheme))
+        {
+            // Prefer Windows 11 icons for modern themes, fallback to Windows 10
+            if (OSUtilities.IsAtLeastWindowsEleven)
+            {
+                return GetWindows11ShieldImage(targetSize);
+            }
+            else
+            {
+                return GetWindows10ShieldImage(targetSize);
+            }
+        }
+        else
+        {
+            // Default to OS-based selection for unknown themes
+            return GetOSBasedShieldImage(targetSize);
+        }
+    }
+
+    /// <summary>Gets a UAC shield image based on the current OS.</summary>
+    /// <param name="targetSize">The target size.</param>
+    /// <returns>The shield image, or null if not available.</returns>
+    private static Image? GetOSBasedShieldImage(Size targetSize)
+    {
+        // Get the appropriate shield image based on OS
+        if (OSUtilities.IsAtLeastWindowsEleven)
+        {
+            return GetWindows11ShieldImage(targetSize);
+        }
+        else if (OSUtilities.IsWindowsTen)
+        {
+            return GetWindows10ShieldImage(targetSize);
+        }
+        else if (OSUtilities.IsWindowsEightPointOne || OSUtilities.IsWindowsEight || OSUtilities.IsWindowsSeven)
+        {
+            return GetWindows7And8xShieldImage(targetSize);
+        }
+        else
+        {
+            return GetWindowsVistaShieldImage(targetSize);
+        }
+    }
+
+    /// <summary>Determines if a theme is compatible with Windows Vista icon style.</summary>
+    /// <param name="theme">The theme to check.</param>
+    /// <returns>True if the theme should use Windows Vista icons.</returns>
+    private static bool IsVistaCompatibleTheme(PaletteMode theme)
+    {
+        return theme switch
+        {
+            PaletteMode.ProfessionalSystem => true,
+            PaletteMode.ProfessionalOffice2003 => true,
+            PaletteMode.Office2007Blue => true,
+            PaletteMode.Office2007BlueDarkMode => true,
+            PaletteMode.Office2007BlueLightMode => true,
+            PaletteMode.Office2007Silver => true,
+            PaletteMode.Office2007SilverDarkMode => true,
+            PaletteMode.Office2007SilverLightMode => true,
+            PaletteMode.Office2007White => true,
+            PaletteMode.Office2007Black => true,
+            PaletteMode.Office2007BlackDarkMode => true,
+            PaletteMode.SparkleBlue => true,
+            PaletteMode.SparkleBlueDarkMode => true,
+            PaletteMode.SparkleBlueLightMode => true,
+            PaletteMode.SparkleOrange => true,
+            PaletteMode.SparkleOrangeDarkMode => true,
+            PaletteMode.SparkleOrangeLightMode => true,
+            PaletteMode.SparklePurple => true,
+            PaletteMode.SparklePurpleDarkMode => true,
+            PaletteMode.SparklePurpleLightMode => true,
+            _ => false
+        };
+    }
+
+    /// <summary>Determines if a theme is compatible with Windows 7/8.x icon style.</summary>
+    /// <param name="theme">The theme to check.</param>
+    /// <returns>True if the theme should use Windows 7/8.x icons.</returns>
+    private static bool IsWindows7CompatibleTheme(PaletteMode theme)
+    {
+        return theme switch
+        {
+            PaletteMode.Office2010Blue => true,
+            PaletteMode.Office2010BlueDarkMode => true,
+            PaletteMode.Office2010BlueLightMode => true,
+            PaletteMode.Office2010Silver => true,
+            PaletteMode.Office2010SilverDarkMode => true,
+            PaletteMode.Office2010SilverLightMode => true,
+            PaletteMode.Office2010White => true,
+            PaletteMode.Office2010Black => true,
+            PaletteMode.Office2010BlackDarkMode => true,
+            PaletteMode.Office2013White => true,
+            PaletteMode.VisualStudio2010Render2007 => true,
+            PaletteMode.VisualStudio2010Render2010 => true,
+            PaletteMode.VisualStudio2010Render2013 => true,
+            PaletteMode.VisualStudio2010Render365 => true,
+            _ => false
+        };
+    }
+
+    /// <summary>Determines if a theme is compatible with Windows 10/11 icon style.</summary>
+    /// <param name="theme">The theme to check.</param>
+    /// <returns>True if the theme should use Windows 10/11 icons.</returns>
+    private static bool IsWindows10CompatibleTheme(PaletteMode theme)
+    {
+        return theme switch
+        {
+            PaletteMode.Microsoft365Blue => true,
+            PaletteMode.Microsoft365BlueDarkMode => true,
+            PaletteMode.Microsoft365BlueLightMode => true,
+            PaletteMode.Microsoft365Silver => true,
+            PaletteMode.Microsoft365SilverDarkMode => true,
+            PaletteMode.Microsoft365SilverLightMode => true,
+            PaletteMode.Microsoft365White => true,
+            PaletteMode.Microsoft365Black => true,
+            PaletteMode.Microsoft365BlackDarkMode => true,
+            PaletteMode.Microsoft365BlackDarkModeAlternate => true,
+            PaletteMode.MaterialLight => true,
+            PaletteMode.MaterialDark => true,
+            PaletteMode.MaterialLightRipple => true,
+            PaletteMode.MaterialDarkRipple => true,
+            _ => false
+        };
+    }
+
+    /// <summary>Gets a Windows Vista UAC shield image at the specified size.</summary>
+    /// <param name="targetSize">The target size.</param>
+    /// <returns>The shield image, or null if not available.</returns>
+    private static Image? GetWindowsVistaShieldImage(Size targetSize)
+    {
+        return targetSize.Width switch
+        {
+            8 => WindowsVistaUACShieldImageResources.Windows_Vista_UAC_Shield_8_x_8,
+            16 => WindowsVistaUACShieldImageResources.Windows_Vista_UAC_Shield_16_x_16,
+            24 => WindowsVistaUACShieldImageResources.Windows_Vista_UAC_Shield_24_x_24,
+            32 => WindowsVistaUACShieldImageResources.Windows_Vista_UAC_Shield_32_x_32,
+            48 => WindowsVistaUACShieldImageResources.Windows_Vista_UAC_Shield_48_x_48,
+            64 => WindowsVistaUACShieldImageResources.Windows_Vista_UAC_Shield_32_x_32, // Use 32x32 for 64x64
+            96 => WindowsVistaUACShieldImageResources.Windows_Vista_UAC_Shield_128_x_128, // Use 128x128 for 96x96
+            128 => WindowsVistaUACShieldImageResources.Windows_Vista_UAC_Shield_128_x_128,
+            192 => WindowsVistaUACShieldImageResources.Windows_Vista_UAC_Shield_256_x_256, // Use 256x256 for 192x192
+            256 => WindowsVistaUACShieldImageResources.Windows_Vista_UAC_Shield_256_x_256,
+            _ => WindowsVistaUACShieldImageResources.Windows_Vista_UAC_Shield_32_x_32 // Default to 32x32
+        };
+    }
+
+
+    #endregion
 }
-#endregion
