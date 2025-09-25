@@ -12,6 +12,7 @@ namespace Krypton.Toolkit;
 /// <summary>
 /// Storage for system menu value information.
 /// </summary>
+[TypeConverter(typeof(ExpandableObjectConverter))]
 public class SystemMenuValues : Storage, INotifyPropertyChanged
 {
     #region Static Fields
@@ -61,6 +62,15 @@ public class SystemMenuValues : Storage, INotifyPropertyChanged
         // Initialize custom menu items collection
         _customMenuItems = new SystemMenuItemCollection();
         _customMenuItems.CollectionChanged += OnCustomMenuItemsChanged;
+    }
+
+    /// <summary>
+    /// Initialize a new instance of the SystemMenuValues class for designer serialization.
+    /// </summary>
+    public SystemMenuValues() : this(null!)
+    {
+        // This constructor is required for designer serialization
+        // The NeedPaint delegate will be set later by the designer
     }
     #endregion
 
@@ -333,7 +343,12 @@ public class SystemMenuValues : Storage, INotifyPropertyChanged
     /// Gets a value indicating if any properties should be serialized.
     /// </summary>
     /// <returns>True if any properties should be serialized; otherwise false.</returns>
-    public bool ShouldSerialize() => !IsDefault;
+    public bool ShouldSerialize()
+    {
+        var shouldSerialize = !IsDefault;
+        System.Diagnostics.Debug.WriteLine($"SystemMenuValues.ShouldSerialize: {shouldSerialize} (IsDefault: {IsDefault}, CustomMenuItems: {_customMenuItems.Count})");
+        return shouldSerialize;
+    }
 
     #endregion
 }

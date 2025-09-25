@@ -179,11 +179,9 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
         if (Enabled && _contextMenu.Items.Count > 0)
         {
             // Position at the top-left corner of the form, just like the native system menu
-            var screenLocation = _form.PointToScreen(new Point(0, 0));
-
-            // Get the title bar height from the form's non-client area
-            var titleBarHeight = _form.RealWindowBorders.Top;
-            screenLocation.Y += titleBarHeight;
+            // The native system menu appears at the very top-left corner of the form window
+            var formLocation = _form.Location;
+            var screenLocation = new Point(formLocation.X, formLocation.Y);
 
             _contextMenu.Show(_form, screenLocation);
         }

@@ -54,5 +54,17 @@ public class SystemMenuItemsEditor : CollectionEditor
 
         return base.GetDisplayText(value);
     }
+
+    /// <summary>
+    /// Destroys the specified instance of the object.
+    /// </summary>
+    /// <param name="instance">The object to destroy.</param>
+    protected override void DestroyInstance(object instance)
+    {
+        if (instance is IDisposable disposable)
+        {
+            disposable.Dispose();
+        }
+    }
     #endregion
 }

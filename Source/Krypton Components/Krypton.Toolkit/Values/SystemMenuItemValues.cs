@@ -13,7 +13,7 @@ namespace Krypton.Toolkit;
 /// Represents a custom menu item for the system menu that can be configured in the designer.
 /// </summary>
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public class SystemMenuItemValues : IComponent
+public class SystemMenuItemValues : IComponent, INotifyPropertyChanged
 {
     #region Instance Fields
     private string _text = string.Empty;
@@ -31,6 +31,11 @@ public class SystemMenuItemValues : IComponent
     /// Occurs when the component is disposed.
     /// </summary>
     public event EventHandler? Disposed;
+
+    /// <summary>
+    /// Occurs when a property value changes.
+    /// </summary>
+    public event PropertyChangedEventHandler? PropertyChanged;
     #endregion
 
     #region Identity
@@ -281,9 +286,10 @@ public class SystemMenuItemValues : IComponent
     /// <summary>
     /// Raises the PropertyChanged event.
     /// </summary>
-    protected virtual void OnPropertyChanged()
+    /// <param name="propertyName">The name of the property that changed.</param>
+    protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
     {
-        // This can be extended to raise PropertyChanged events if needed
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
     #endregion
 

@@ -113,7 +113,7 @@ public class KryptonForm : VisualForm,
     private Rectangle _lastGripClientRect = Rectangle.Empty;
     private Rectangle _lastGripWindowRect = Rectangle.Empty;
     private readonly KryptonSystemMenuService? _systemMenuService;
-    private readonly SystemMenuValues _systemMenuValues;
+    private SystemMenuValues _systemMenuValues;
     private Timer? _clickTimer;
     private Point _lastClickPoint;
 
@@ -216,7 +216,12 @@ public class KryptonForm : VisualForm,
         {
             // RUNTIME MODE: Create full system menu functionality
             _systemMenuService = new KryptonSystemMenuService(this);
-            _systemMenuValues = new SystemMenuValues(OnNeedPaint);
+            
+            // Only create SystemMenuValues if it doesn't already exist (i.e., not set by designer)
+            if (_systemMenuValues == null)
+            {
+                _systemMenuValues = new SystemMenuValues(OnNeedPaint);
+            }
 
             // Assign the service to the base class
             SystemMenuService = _systemMenuService;
@@ -235,11 +240,17 @@ public class KryptonForm : VisualForm,
             // DESIGN MODE: Create minimal system menu values without the service
             // This provides property storage for designer serialization without functionality
             // that would interfere with Visual Studio designer operations
-            _systemMenuValues = new SystemMenuValues(OnNeedPaint);
+            if (_systemMenuValues == null)
+            {
+                _systemMenuValues = new SystemMenuValues(OnNeedPaint);
+            }
         }
 
         // Hook into value changes to keep them synchronized
-        _systemMenuValues.PropertyChanged += OnSystemMenuValuesChanged;
+        if (_systemMenuValues != null)
+        {
+            _systemMenuValues.PropertyChanged += OnSystemMenuValuesChanged;
+        }
 
         // Initialize administrator mode detection
         _ = GetIsInAdministratorMode();
@@ -1151,9 +1162,33 @@ public class KryptonForm : VisualForm,
     public SystemMenuValues SystemMenuValues
     {
         get => _systemMenuValues;
+        set
+        {
+            if (_systemMenuValues != value)
+            {
+                // Unsubscribe from old instance
+                if (_systemMenuValues != null)
+                {
+                    _systemMenuValues.PropertyChanged -= OnSystemMenuValuesChanged;
+                }
+                
+                _systemMenuValues = value;
+                
+                // Subscribe to new instance
+                if (_systemMenuValues != null)
+                {
+                    _systemMenuValues.PropertyChanged += OnSystemMenuValuesChanged;
+                }
+            }
+        }
     }
 
-    private bool ShouldSerializeSystemMenuValues() => _systemMenuValues.ShouldSerialize();
+    private bool ShouldSerializeSystemMenuValues()
+    {
+        var shouldSerialize = _systemMenuValues.ShouldSerialize();
+        System.Diagnostics.Debug.WriteLine($"ShouldSerializeSystemMenuValues: {shouldSerialize} (CustomMenuItems: {_systemMenuValues.CustomMenuItems.Count})");
+        return shouldSerialize;
+    }
 
     private void ResetSystemMenuValues() => _systemMenuValues.Reset();
     
