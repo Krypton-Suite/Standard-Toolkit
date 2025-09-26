@@ -26,6 +26,7 @@ public record struct KryptonTaskDialogDefaults
 
         PanelPadding1 = new Padding(PanelLeft, PanelTop, PanelRight, PanelBottom);
 
+        CornerRoundingRatio = 10;
         //Expander 
 
         TLP = new KryptonTaskDialogDefaultsTLP()
@@ -48,6 +49,8 @@ public record struct KryptonTaskDialogDefaults
     public Padding NullPadding { get; }
     public Padding NullMargin { get; }
 
+    public int CornerRoundingRatio { get; }
+
     /// <summary>
     /// Panel padding that centers it's contents relative to :<br/>
     /// PanelLeft, PanelTop, PanelRight, PanelBottom
@@ -58,6 +61,11 @@ public record struct KryptonTaskDialogDefaults
     /// Default for TableLayoutPanels
     /// </summary>
     public KryptonTaskDialogDefaultsTLP TLP { get; }
+
+    public int GetCornerRouding( bool roundingEnabled)
+    {
+        return roundingEnabled ? CornerRoundingRatio : -1;
+    }
 }
 
 public record struct KryptonTaskDialogDefaultsTLP

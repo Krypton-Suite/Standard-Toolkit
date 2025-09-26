@@ -10,7 +10,8 @@
 namespace Krypton.Toolkit;
 
 public class KryptonTaskDialogElementComboBox : KryptonTaskDialogElementSingleLineControlBase,
-    IKryptonTaskDialogElementDescription
+    IKryptonTaskDialogElementDescription,
+    IKryptonTaskDialogElementRoundedCorners
 {
     #region Enum
     // Used internally only
@@ -57,6 +58,15 @@ public class KryptonTaskDialogElementComboBox : KryptonTaskDialogElementSingleLi
     }
     #endregion
 
+    public bool RoundedCorners
+    {
+        get => field;
+        set
+        {
+            field = value;
+            _comboBox.StateCommon.ComboBox.Border.Rounding = Defaults.GetCornerRouding(value);
+        }
+    }
     #region Override
     /// <inheritdoc/>
     protected override void OnSizeChanged(bool performLayout = false)
