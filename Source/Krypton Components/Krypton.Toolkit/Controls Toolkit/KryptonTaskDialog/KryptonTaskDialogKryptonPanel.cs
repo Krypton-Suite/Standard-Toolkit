@@ -50,7 +50,7 @@ public class KryptonTaskDialogKryptonPanel : KryptonPanel
     #endregion
 
     #region Override
-    /// <!<inheritdoc/>
+    /// <inheritdoc/>
     protected override void OnPaint(PaintEventArgs e)
     {
         base.OnPaint(e);
