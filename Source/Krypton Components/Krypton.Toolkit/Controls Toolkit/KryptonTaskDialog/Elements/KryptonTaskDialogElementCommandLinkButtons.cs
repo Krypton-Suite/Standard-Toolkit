@@ -209,7 +209,7 @@ public partial class KryptonTaskDialogElementCommandLinkButtons : KryptonTaskDia
 
         _btnFlowDirection.AutoSize = true;
         _btnFlowDirection.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-        _btnFlowDirection.Margin = new Padding(Defaults.ComponentSpace, 0, 0, 0);
+        _btnFlowDirection.Margin = new Padding(Defaults.ComponentSpace, Defaults.ComponentSpace, 0, 0);
         _btnFlowDirection.Text = _flp.FlowDirection.ToString();
         _btnFlowDirection.Orientation = VisualOrientation.Left;
         _btnFlowDirection.ButtonOrientation = VisualOrientation.Left;
@@ -233,6 +233,7 @@ public partial class KryptonTaskDialogElementCommandLinkButtons : KryptonTaskDia
             _                         => FlowDirection.LeftToRight
         };
 
+        _btnFlowDirection.Text = $"{_flp.FlowDirection}";
         LayoutDirty = true;
         OnSizeChanged();
     }
