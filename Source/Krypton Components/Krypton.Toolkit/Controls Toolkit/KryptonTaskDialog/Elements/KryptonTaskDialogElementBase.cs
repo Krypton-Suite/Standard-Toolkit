@@ -23,7 +23,6 @@ public abstract class KryptonTaskDialogElementBase :
 {
     #region Fields
     private bool _disposed;
-    //private KryptonPanel _panel;
     private KryptonTaskDialogKryptonPanel _panel;
     private bool _panelVisible;
     private KryptonTaskDialogDefaults _taskDialogDefaults;

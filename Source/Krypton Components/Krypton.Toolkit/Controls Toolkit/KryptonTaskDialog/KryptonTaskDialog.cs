@@ -71,7 +71,7 @@ public class KryptonTaskDialog : IDisposable
         ComboBox           = new KryptonTaskDialogElementComboBox(_taskDialogDefaults);
         ProgresBar         = new KryptonTaskDialogElementProgresBar(_taskDialogDefaults);
         FooterBar          = new KryptonTaskDialogElementFooterBar(_taskDialogDefaults, Expander, _form);
-        ElementEmpty       = new KryptonTaskDialogElementEmpty(_taskDialogDefaults);
+        //ElementEmpty       = new KryptonTaskDialogElementEmpty(_taskDialogDefaults);
 
 
         // Add all elements in order of display (top down) to the list
@@ -81,7 +81,7 @@ public class KryptonTaskDialog : IDisposable
         _elements.Add(Expander);
         _elements.Add(RichTextBox);
 
-        _elements.Add(ElementEmpty);
+        //_elements.Add(ElementEmpty);
 
         _elements.Add(CommandLinkButtons);
         _elements.Add(CheckBox);
@@ -108,8 +108,9 @@ public class KryptonTaskDialog : IDisposable
     //[TypeConverter(typeof(ExpandableObjectConverter))]
     //public KryptonTaskDialogElementContentTest ContentTest { get; }
 
-    [TypeConverter(typeof(ExpandableObjectConverter))]
-    public KryptonTaskDialogElementEmpty ElementEmpty { get; }
+    //[TypeConverter(typeof(ExpandableObjectConverter))]
+    //public KryptonTaskDialogElementEmpty ElementEmpty { get; }
+
     /// <summary>
     /// Contains the properties for the dialog Heading<br/>
     /// If you do not want to use the panel, set the Visible property to false.
