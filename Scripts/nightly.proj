@@ -31,7 +31,7 @@
 	
 	<Target Name="CleanPackages">
 		<ItemGroup>
-			<NugetPkgs Include="..\Bin\Nightly\*.nupkg" />
+			<NugetPkgs Include="..\Bin\Packages\Nightly\*.nupkg" />
 		</ItemGroup>
 		<Delete Files="@(NugetPkgs)" />
 	</Target>
@@ -56,7 +56,7 @@
 	
 	<Target Name="Push">
 		<ItemGroup>
-			<NugetPkgs Include="..\Bin\Nightly\*.$(LibraryVersion).nupkg" />
+			<NugetPkgs Include="..\Bin\Packages\Nightly\*.$(LibraryVersion).nupkg" />
 		</ItemGroup>
 		<Exec Command="nuget.exe push %(NugetPkgs.Identity)" />
 	</Target>
