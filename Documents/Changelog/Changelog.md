@@ -3,6 +3,7 @@
 ====
 
 ## 2025-11-xx - Build 2511 (V10 - alpha) - November 2025
+* Implemented [#2503](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2503), Add the ability to create zip files for binaries
 * Implemented [#952](https://github.com/Krypton-Suite/Standard-Toolkit/issues/952), Place built NuGet packages into separate directory
 * Implemented [#892](https://github.com/Krypton-Suite/Standard-Toolkit/issues/892), `KryptonButton` UAC Shield icons need to match the OS style
 * Resolved [#2514](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2514), `KryptonPanel.OnPaint` does not call base.
