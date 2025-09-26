@@ -12,8 +12,10 @@ namespace Krypton.Toolkit;
 /// <summary>
 /// Represents a custom menu item for the system menu that can be configured in the designer.
 /// </summary>
+[ToolboxItem(false)]
+[DesignTimeVisible(false)]
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public class SystemMenuItemValues : IComponent, INotifyPropertyChanged
+public class SystemMenuItemValues : Component, INotifyPropertyChanged
 {
     #region Instance Fields
     private string _text = string.Empty;
@@ -23,15 +25,9 @@ public class SystemMenuItemValues : IComponent, INotifyPropertyChanged
     private bool _insertBeforeClose = true;
     private Image? _image;
     private KryptonCommand? _command;
-    private ISite? _site;
     #endregion
 
     #region Events
-    /// <summary>
-    /// Occurs when the component is disposed.
-    /// </summary>
-    public event EventHandler? Disposed;
-
     /// <summary>
     /// Occurs when a property value changes.
     /// </summary>
@@ -47,24 +43,34 @@ public class SystemMenuItemValues : IComponent, INotifyPropertyChanged
     }
 
     /// <summary>
-    /// Initialize a new instance of the SystemMenuItem class.
+    /// Initialize a new instance of the SystemMenuItemValues class with the specified text.
     /// </summary>
-    /// <param name="text">The text to display for the menu item.</param>
+    /// <param name="text">The text for the menu item.</param>
     public SystemMenuItemValues(string text)
     {
-        _text = text ?? string.Empty;
+        Text = text;
     }
 
     /// <summary>
-    /// Initialize a new instance of the SystemMenuItem class.
+    /// Initialize a new instance of the SystemMenuItemValues class with the specified text and shortcut.
     /// </summary>
-    /// <param name="text">The text to display for the menu item.</param>
+    /// <param name="text">The text for the menu item.</param>
     /// <param name="shortcut">The keyboard shortcut text.</param>
     public SystemMenuItemValues(string text, string shortcut)
     {
-        _text = text ?? string.Empty;
-        _shortcut = shortcut ?? string.Empty;
+        Text = text;
+        Shortcut = shortcut;
     }
+
+    /// <summary>
+    /// Initialize a new instance of the SystemMenuItemValues class with the specified container.
+    /// </summary>
+    /// <param name="container">The container to add the component to.</param>
+    public SystemMenuItemValues(IContainer container) : this()
+    {
+        container?.Add(this);
+    }
+
     #endregion
 
     #region Public Properties
@@ -202,25 +208,6 @@ public class SystemMenuItemValues : IComponent, INotifyPropertyChanged
     }
     #endregion
 
-    #region IComponent
-    /// <summary>
-    /// Gets or sets the ISite associated with the IComponent.
-    /// </summary>
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public ISite? Site
-    {
-        get => _site;
-        set => _site = value;
-    }
-
-    /// <summary>
-    /// Gets a value indicating whether the component can raise an event.
-    /// </summary>
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public bool DesignMode => _site?.DesignMode ?? false;
-    #endregion
 
     #region Public Methods
     /// <summary>
@@ -311,7 +298,7 @@ public class SystemMenuItemValues : IComponent, INotifyPropertyChanged
     /// <summary>
     /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
     /// </summary>
-    public void Dispose()
+    public new void Dispose()
     {
         Dispose(true);
         GC.SuppressFinalize(this);
@@ -321,13 +308,13 @@ public class SystemMenuItemValues : IComponent, INotifyPropertyChanged
     /// Releases unmanaged and - optionally - managed resources.
     /// </summary>
     /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-    protected virtual void Dispose(bool disposing)
+    protected override void Dispose(bool disposing)
     {
         if (disposing)
         {
             _image?.Dispose();
-            Disposed?.Invoke(this, EventArgs.Empty);
         }
+        base.Dispose(disposing);
     }
     #endregion
 }

@@ -12,7 +12,8 @@ namespace Krypton.Toolkit;
 /// <summary>
 /// Storage for system menu value information.
 /// </summary>
-[TypeConverter(typeof(ExpandableObjectConverter))]
+[ToolboxItem(false)]
+[DesignerCategory(@"code")]
 public class SystemMenuValues : Storage, INotifyPropertyChanged
 {
     #region Static Fields
@@ -61,7 +62,9 @@ public class SystemMenuValues : Storage, INotifyPropertyChanged
 
         // Initialize custom menu items collection
         _customMenuItems = new SystemMenuItemCollection();
-        _customMenuItems.CollectionChanged += OnCustomMenuItemsChanged;
+        _customMenuItems.Inserted += OnCustomMenuItemsChanged;
+        _customMenuItems.Removed += OnCustomMenuItemsChanged;
+        _customMenuItems.Cleared += OnCustomMenuItemsChanged;
     }
 
     /// <summary>
@@ -80,13 +83,11 @@ public class SystemMenuValues : Storage, INotifyPropertyChanged
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public override bool IsDefault => (Enabled == DEFAULT_ENABLED) &&
-                                     //(ShowOnLeftClick == DEFAULT_SHOW_ON_LEFT_CLICK) &&
-                                     //(UseSystemMenu == DEFAULT_USE__SYSTEM_MENU) &&
-                                     (ShowOnRightClick == DEFAULT_SHOW_ON_RIGHT_CLICK) &&
-                                     (ShowOnAltSpace == DEFAULT_SHOW_ON_ALT_SPACE) &&
-                                     (ShowOnIconClick == DEFAULT_SHOW_ON_ICON_CLICK) &&
-                                     (_customMenuItems?.Count == 0);
+    public override bool IsDefault => !ShouldSerializeEnabled() &&
+                                     !ShouldSerializeShowOnRightClick() &&
+                                     !ShouldSerializeShowOnAltSpace() &&
+                                     !ShouldSerializeShowOnIconClick() &&
+                                     !ShouldSerializeCustomMenuItems();
     #endregion
 
     #region Enabled
@@ -288,11 +289,21 @@ public class SystemMenuValues : Storage, INotifyPropertyChanged
         {
             if (_customMenuItems != value)
             {
-                _customMenuItems?.CollectionChanged -= OnCustomMenuItemsChanged;
+                if (_customMenuItems != null)
+                {
+                    _customMenuItems.Inserted -= OnCustomMenuItemsChanged;
+                    _customMenuItems.Removed -= OnCustomMenuItemsChanged;
+                    _customMenuItems.Cleared -= OnCustomMenuItemsChanged;
+                }
 
                 _customMenuItems = value;
 
-                _customMenuItems?.CollectionChanged += OnCustomMenuItemsChanged;
+                if (_customMenuItems != null)
+                {
+                    _customMenuItems.Inserted += OnCustomMenuItemsChanged;
+                    _customMenuItems.Removed += OnCustomMenuItemsChanged;
+                    _customMenuItems.Cleared += OnCustomMenuItemsChanged;
+                }
 
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CustomMenuItems)));
                 PerformNeedPaint(true);
@@ -316,6 +327,17 @@ public class SystemMenuValues : Storage, INotifyPropertyChanged
     #region Private Methods
     /// <summary>
     /// Handles changes to the custom menu items collection.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">Event arguments.</param>
+    private void OnCustomMenuItemsChanged(object? sender, TypedCollectionEventArgs<SystemMenuItemValues> e)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CustomMenuItems)));
+        PerformNeedPaint(true);
+    }
+
+    /// <summary>
+    /// Handles clearing of the custom menu items collection.
     /// </summary>
     /// <param name="sender">The source of the event.</param>
     /// <param name="e">Event arguments.</param>
@@ -348,8 +370,11 @@ public class SystemMenuValues : Storage, INotifyPropertyChanged
     /// <returns>True if any properties should be serialized; otherwise false.</returns>
     public bool ShouldSerialize()
     {
-        var shouldSerialize = !IsDefault;
-        return shouldSerialize;
+        return ShouldSerializeEnabled() ||
+               ShouldSerializeShowOnRightClick() ||
+               ShouldSerializeShowOnAltSpace() ||
+               ShouldSerializeShowOnIconClick() ||
+               ShouldSerializeCustomMenuItems();
     }
 
     #endregion
