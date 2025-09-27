@@ -83,7 +83,7 @@ public partial class KryptonTaskDialogElementCommandLinkButtons : KryptonTaskDia
             if (field != value)
             {
                 field = value;
-                SetButtonsRoundedCorners();
+                SetRoundedCorners();
             }
         }
     }
@@ -163,9 +163,11 @@ public partial class KryptonTaskDialogElementCommandLinkButtons : KryptonTaskDia
     #endregion
 
     #region Private
-    private void SetButtonsRoundedCorners()
+    private void SetRoundedCorners()
     {
-        foreach( KryptonCommandLinkButton button in _buttons)
+        _btnFlowDirection.StateCommon.Border.Rounding = Defaults.GetCornerRouding(RoundedCorners);
+
+        foreach ( KryptonCommandLinkButton button in _buttons)
         {
             SetButtonRoundedCorners(button);
         }
@@ -209,6 +211,8 @@ public partial class KryptonTaskDialogElementCommandLinkButtons : KryptonTaskDia
 
         _btnFlowDirection.AutoSize = true;
         _btnFlowDirection.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+        _btnFlowDirection.Size = Defaults.ButtonSize_24x75;
+        _btnFlowDirection.MinimumSize = Defaults.ButtonSize_24x75;
         _btnFlowDirection.Margin = new Padding(Defaults.ComponentSpace, Defaults.ComponentSpace, 0, 0);
         _btnFlowDirection.Text = _flp.FlowDirection.ToString();
         _btnFlowDirection.Orientation = VisualOrientation.Left;
