@@ -7,6 +7,7 @@
  */
 #endregion
 
+
 namespace Krypton.Toolkit;
 
 /// <summary>
@@ -17,19 +18,23 @@ public class KryptonTaskDialogFormProperties
     #region Fields
     private KryptonTaskDialogKryptonForm _form;
     private List<KryptonTaskDialogElementBase> _elements;
+    KryptonTaskDialogDefaults _taskDialogDefaults;
     #endregion
 
     #region Types
-    public class FormInstance
+    public class FormInstance :
+        IKryptonTaskDialogElementRoundedCorners
     {
         #region Fields
         KryptonTaskDialogKryptonForm _form;
-        #endregion
+        KryptonTaskDialogDefaults _taskDialogDefaults;
+            #endregion
 
         #region Identity
-        public FormInstance(KryptonTaskDialogKryptonForm form)
+        public FormInstance(KryptonTaskDialogKryptonForm form, KryptonTaskDialogDefaults taskDialogDefaults)
         {
             _form = form;
+            _taskDialogDefaults = taskDialogDefaults;
         }
         #endregion
 
@@ -187,7 +192,7 @@ public class KryptonTaskDialogFormProperties
                 if (field != value && _form.StateCommon is not null)
                 {
                     field = value;
-                    _form.StateCommon.Border.Rounding = value ? 10 : -1;
+                    _form.StateCommon.Border.Rounding = _taskDialogDefaults.GetCornerRouding(value);
                 }
             }
         }
@@ -220,20 +225,40 @@ public class KryptonTaskDialogFormProperties
         #endregion
     }
 
-    public class GlobalInstance
+    public class GlobalInstance :
+        IKryptonTaskDialogElementRoundedCorners
     {
         #region Fields
         private List<KryptonTaskDialogElementBase> _elements;
+        private FormInstance _formInstance;
         #endregion
 
         #region Identity
-        public GlobalInstance(List<KryptonTaskDialogElementBase> elements)
+        public GlobalInstance(List<KryptonTaskDialogElementBase> elements, FormInstance formInstance)
         {
             _elements = elements;
+            _formInstance = formInstance;
         }
         #endregion
 
         #region Public
+        /// <summary>
+        /// Rounds the button corners.
+        /// </summary>
+        public bool RoundedCorners
+        {
+            get => field;
+
+            set
+            {
+                if (field != value)
+                {
+                    field = value;
+                    UpdateRoundedCorners();
+                }
+            }
+        }
+
         /// <summary>
         /// Sets the BackColor1 property for all elements in the dialog
         /// </summary>
@@ -292,17 +317,34 @@ public class KryptonTaskDialogFormProperties
             return string.Empty;
         }
         #endregion
+
+        #region Private
+        private void UpdateRoundedCorners()
+        {
+            // Forms instance is treated separate.
+            _formInstance.RoundedCorners = RoundedCorners;
+
+            // Update all elements on a global corner rouding toggle.
+            _elements.ForEach( element => 
+            {
+                if (element is IKryptonTaskDialogElementRoundedCorners e)
+                {
+                    e.RoundedCorners = RoundedCorners;
+                }
+            });
+        }
+        #endregion
     }
     #endregion
 
     #region Identity
-    public KryptonTaskDialogFormProperties(KryptonTaskDialogKryptonForm kryptonForm, List<KryptonTaskDialogElementBase> elements)
+    public KryptonTaskDialogFormProperties(KryptonTaskDialogKryptonForm kryptonForm, List<KryptonTaskDialogElementBase> elements, KryptonTaskDialogDefaults taskDialogDefaults)
     {
         _form = kryptonForm;
         _elements = elements;
-        
-        Form = new(_form);
-        Globals = new(_elements);
+        _taskDialogDefaults = taskDialogDefaults;
+        Form = new(_form, _taskDialogDefaults);
+        Globals = new(_elements, Form);
 
         Form.ShowInTaskBar = true;
         Form.Text = "Krypton Task Dialog";

@@ -26,7 +26,7 @@ public class KryptonTaskDialog : IDisposable
     // Form ClientSize with initial values
     private Rectangle _clientRectangle;
     // Defaults
-    private KryptonTaskDialogDefaults _defaults;
+    private KryptonTaskDialogDefaults _taskDialogDefaults;
     // Border-Fixes: Kpanel to compendate for the border problems 
     private KryptonPanel _fillerPanel;
     private int _fillerPanelOffset;
@@ -40,7 +40,7 @@ public class KryptonTaskDialog : IDisposable
     /// </summary>
     public KryptonTaskDialog(int dialogWidth = 0)
     {
-        _defaults = new(dialogWidth);
+        _taskDialogDefaults = new(dialogWidth);
 
         // Border-Fixes: filler panel to compensate for the border problems 
         _fillerPanelOffset = 6;
@@ -54,27 +54,36 @@ public class KryptonTaskDialog : IDisposable
         _form.ResizeEnd += (sender, e) => _form.ClientSize = _clientRectangle.Size;
 
         // Initial form size. The width is fixed upon instantiation. The height given here is tentative.
-        _clientRectangle = new(0, 0, _defaults.ClientWidth, _defaults.ClientHeight);
+        _clientRectangle = new(0, 0, _taskDialogDefaults.ClientWidth, _taskDialogDefaults.ClientHeight);
 
         // Instantiate the Dialog form properties
-        Dialog = new KryptonTaskDialogFormProperties(_form, _elements);
+        Dialog = new KryptonTaskDialogFormProperties(_form, _elements, _taskDialogDefaults);
 
         // Instantiante all elements
-        Heading       = new KryptonTaskDialogElementHeading(_defaults);
-        Content       = new KryptonTaskDialogElementContent(_defaults);
-        //ContentTest   = new KryptonTaskDialogElementContentTest((_defaults);
-        Expander      = new KryptonTaskDialogElementContent(_defaults);
-        CheckBox      = new KryptonTaskDialogElementCheckBox(_defaults);
-        HyperLink     = new KryptonTaskDialogElementHyperLink(_defaults);
-        ComboBox      = new KryptonTaskDialogElementComboBox(_defaults);
-        ProgresBar    = new KryptonTaskDialogElementProgresBar(_defaults);
-        FooterBar     = new KryptonTaskDialogElementFooterBar(_defaults, Expander, _form);
+        Heading            = new KryptonTaskDialogElementHeading(_taskDialogDefaults);
+        Content            = new KryptonTaskDialogElementContent(_taskDialogDefaults);
+        //ContentTest   = new KryptonTaskDialogElementContentTest((_taskDialogDefaults);
+        Expander           = new KryptonTaskDialogElementContent(_taskDialogDefaults);
+        RichTextBox        = new KryptonTaskDialogElementRichTextBox(_taskDialogDefaults);
+        CommandLinkButtons = new KryptonTaskDialogElementCommandLinkButtons(_taskDialogDefaults);
+        CheckBox           = new KryptonTaskDialogElementCheckBox(_taskDialogDefaults);
+        HyperLink          = new KryptonTaskDialogElementHyperLink(_taskDialogDefaults);
+        ComboBox           = new KryptonTaskDialogElementComboBox(_taskDialogDefaults);
+        ProgresBar         = new KryptonTaskDialogElementProgresBar(_taskDialogDefaults);
+        FooterBar          = new KryptonTaskDialogElementFooterBar(_taskDialogDefaults, Expander, _form);
+        //ElementEmpty       = new KryptonTaskDialogElementEmpty(_taskDialogDefaults);
+
 
         // Add all elements in order of display (top down) to the list
         _elements.Add(Heading);
         _elements.Add(Content);
         //_elements.Add(ContentTest);
         _elements.Add(Expander);
+        _elements.Add(RichTextBox);
+
+        //_elements.Add(ElementEmpty);
+
+        _elements.Add(CommandLinkButtons);
         _elements.Add(CheckBox);
         _elements.Add(ComboBox);
         _elements.Add(HyperLink);
@@ -99,6 +108,9 @@ public class KryptonTaskDialog : IDisposable
     //[TypeConverter(typeof(ExpandableObjectConverter))]
     //public KryptonTaskDialogElementContentTest ContentTest { get; }
 
+    //[TypeConverter(typeof(ExpandableObjectConverter))]
+    //public KryptonTaskDialogElementEmpty ElementEmpty { get; }
+
     /// <summary>
     /// Contains the properties for the dialog Heading<br/>
     /// If you do not want to use the panel, set the Visible property to false.
@@ -121,6 +133,20 @@ public class KryptonTaskDialog : IDisposable
     /// </summary>
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public KryptonTaskDialogElementContent Expander { get; }
+
+    /// <summary>
+    /// Contains the properties for the RichTextBox element.
+    /// </summary>
+    [TypeConverter(typeof(ExpandableObjectConverter))]
+    public KryptonTaskDialogElementRichTextBox RichTextBox { get; }
+
+    /// <summary>
+    /// Contains the properties for the CommandLinkButtons element.<br/>
+    /// This element enables you to add your own instances of KryptonCommandLinkButtons.<br/>
+    /// If you want one of these buttons to close the dialog, then set it's DialogResult property.<br/>
+    /// </summary>
+    [TypeConverter(typeof(ExpandableObjectConverter))]
+    public KryptonTaskDialogElementCommandLinkButtons CommandLinkButtons { get; }
 
     /// <summary>
     /// Contains the properties for the FooterBar element.<br/>
@@ -207,7 +233,7 @@ public class KryptonTaskDialog : IDisposable
     /// Will close the dialog window.<br/>
     /// Can be use with a modeless dialog that is controlled and updated from code.
     /// </summary>
-    public void Close()
+    public void CloseDialog()
     {
         if (_form.Visible)
         {
@@ -336,7 +362,7 @@ public class KryptonTaskDialog : IDisposable
     {
         // Border-Fixes: the filler offset enlarges the client height to compensate for the part
         // of the internal panel that slides under the border.
-        _form.ClientSize = new Size(_defaults.ClientWidth, GetVisibleElementsHeight() + _fillerPanelOffset);
+        _form.ClientSize = new Size(_taskDialogDefaults.ClientWidth, GetVisibleElementsHeight() + _fillerPanelOffset);
     }
 
     /// <summary>
@@ -365,7 +391,7 @@ public class KryptonTaskDialog : IDisposable
         
         element.Panel.Top = 0;
         element.Panel.Left = 0;
-        element.Panel.Width = _defaults.ClientWidth;
+        element.Panel.Width = _taskDialogDefaults.ClientWidth;
         element.Panel.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right | AnchorStyles.Bottom;
 
         // wire events
@@ -410,7 +436,7 @@ public class KryptonTaskDialog : IDisposable
         //_tableLayoutPanel.Size = new Size(10, 10);
         _tableLayoutPanel.AutoSize = true;
         _tableLayoutPanel.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-        //_tableLayoutPanel.MaximumSize = new Size(_defaults.ClientWidth, 0);
+        //_tableLayoutPanel.MaximumSize = new Size(_taskDialogDefaults.ClientWidth, 0);
         _tableLayoutPanel.Padding = new Padding(0);
         _tableLayoutPanel.Location = new Point(0, 0);
         _tableLayoutPanel.CellBorderStyle = TableLayoutPanelCellBorderStyle.None;

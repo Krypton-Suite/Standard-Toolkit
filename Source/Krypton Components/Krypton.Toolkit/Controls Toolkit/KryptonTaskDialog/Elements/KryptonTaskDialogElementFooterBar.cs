@@ -10,7 +10,8 @@
 namespace Krypton.Toolkit;
 
 public class KryptonTaskDialogElementFooterBar : KryptonTaskDialogElementBase,
-    IKryptonTaskDialogElementForeColor
+    IKryptonTaskDialogElementForeColor,
+    IKryptonTaskDialogElementRoundedCorners
 {
     #region Fields
     // default text format flags
@@ -69,8 +70,8 @@ public class KryptonTaskDialogElementFooterBar : KryptonTaskDialogElementBase,
         _footNoteText = new();
         _disposed = false;
 
-        CommonButtons = new KryptonTaskDialogElementFooterBarCommonButtonProperties(this, _buttons, OnSizeChanged);
-        CommonButtons.RoundedCorners = false;
+        CommonButtons = new KryptonTaskDialogElementFooterBarCommonButtonProperties(this);
+        RoundedCorners = false;
 
         // default values
         Footer = new KryptonTaskDialogElementFooterBarFooterProperties(this, _footNoteText, OnSizeChanged, UpdateExpanderText, UpdateExpanderEnabledState, UpdateFootNoteIcon);
@@ -502,6 +503,26 @@ public class KryptonTaskDialogElementFooterBar : KryptonTaskDialogElementBase,
             // labels need a little help
             _expanderText.Invalidate();
             _footNoteText.Invalidate();
+        }
+    }
+
+    /// <summary>
+    /// Rounds the button corners.
+    /// </summary>
+    public bool RoundedCorners
+    {
+        get => field;
+
+        set
+        { 
+            if (field != value)
+            {
+                field = value;
+                int rounding = Defaults.GetCornerRouding(value);
+                _buttons.ForEach(b => b.StateCommon.Border.Rounding = rounding);
+                LayoutDirty = true;
+                OnSizeChanged();
+            }
         }
     }
     #endregion

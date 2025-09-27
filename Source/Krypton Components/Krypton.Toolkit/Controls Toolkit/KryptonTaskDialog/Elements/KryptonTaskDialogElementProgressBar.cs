@@ -10,7 +10,8 @@
 namespace Krypton.Toolkit;
 
 public class KryptonTaskDialogElementProgresBar : KryptonTaskDialogElementSingleLineControlBase,
-    IKryptonTaskDialogElementDescription
+    IKryptonTaskDialogElementDescription,
+    IKryptonTaskDialogElementRoundedCorners
 {
     #region Fields
     private KryptonWrapLabel _description;
@@ -92,7 +93,7 @@ public class KryptonTaskDialogElementProgresBar : KryptonTaskDialogElementSingle
             if (field != value)
             {
                 field = value;
-                _description.StateCommon.TextColor = ForeColor;
+                _description.StateCommon.TextColor = value;
             }
         }
     }
@@ -133,6 +134,23 @@ public class KryptonTaskDialogElementProgresBar : KryptonTaskDialogElementSingle
     [Browsable(true)]
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public KryptonTaskDialogElementProgresBarProperties ProgressBar { get; }
+
+    /// <summary>
+    /// Rounds the progressbar corners.
+    /// </summary>
+    public bool RoundedCorners 
+    {
+        get => field;
+        
+        set
+        {
+            if (field != value)
+            {
+                field = value;
+                _progressBar.StateCommon.Border.Rounding = Defaults.GetCornerRouding(value);
+            }
+        }
+    }
     #endregion
 
     #region Private
