@@ -11,6 +11,7 @@ namespace Krypton.Toolkit;
 
 internal static class Extensions
 {
+    #region Control.InDesignMode & Component.InDesignMode
     /// <summary>
     /// Returns if the control is in desigmode.
     /// </summary>
@@ -30,5 +31,50 @@ internal static class Extensions
     {
         return component.Site?.DesignMode ?? false;
     }
+    #endregion
+
+    #region Control.DoubleBuffered
+    /// <summary>
+    /// Enable or disable double buffering on the given control.<br/>
+    /// Note: Some classes derived from Control expose their own DoubleBuffered property.
+    /// </summary>
+    /// <param name="control">The instance to operate on.</param>
+    /// <param name="enableDoubleBuffering">Enable or disable double buffering.</param>
+    /// <exception cref="NullReferenceException">When the property was not found.</exception>
+    internal static void SetDoubleBuffered(this Control control, bool enableDoubleBuffering)
+    {
+        PropertyInfo? propertyInfo = typeof(Control).GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic);
+        if (propertyInfo is not null)
+        {
+            propertyInfo.SetValue(control, enableDoubleBuffering);
+        }
+        else
+        {
+            throw new NullReferenceException(nameof(propertyInfo));
+        }
+    }
+
+    /// <summary>
+    /// Return the state of the control's DoubleBuffered property.<br/>
+    /// Note: Some classes derived from Control expose their own DoubleBuffered property.
+    /// </summary>
+    /// <param name="control">The instance to operate on.</param>
+    /// <returns>The current state.</returns>
+    /// <exception cref="NullReferenceException">When the property was not found.</exception>
+    internal static bool GetDoubleBuffered(this Control control)
+    {
+        PropertyInfo? propertyInfo = typeof(Control).GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic);
+        if (propertyInfo is not null)
+        {
+            return propertyInfo.GetValue(control) is bool result
+                ? result
+                : false;
+        }
+        else
+        {
+            throw new NullReferenceException(nameof(propertyInfo));
+        }
+    }
+    #endregion
 }
 
