@@ -177,6 +177,7 @@ public partial class KryptonTaskDialogElementCommandLinkButtons : KryptonTaskDia
         Panel.Width = Defaults.ClientWidth;
 
         _tlp.AutoSize = true;
+        _tlp.Left = Defaults.PanelLeft;
         _tlp.AutoSizeMode = AutoSizeMode.GrowAndShrink;
         _tlp.MinimumSize = Defaults.TLP.StdMinSize;
         _tlp.MaximumSize = Defaults.TLP.StdMaxSize;
@@ -209,7 +210,7 @@ public partial class KryptonTaskDialogElementCommandLinkButtons : KryptonTaskDia
         _btnFlowDirection.AutoSizeMode = AutoSizeMode.GrowAndShrink;
         _btnFlowDirection.Size = Defaults.ButtonSize_24x75;
         _btnFlowDirection.MinimumSize = Defaults.ButtonSize_24x75;
-        _btnFlowDirection.Margin = new Padding(Defaults.ComponentSpace, Defaults.ComponentSpace + 2, 0, 0);
+        _btnFlowDirection.Margin = new Padding(0, Defaults.ComponentSpace + 2, Defaults.ComponentSpace, 0);
         _btnFlowDirection.Text = _flp.FlowDirection.ToString();
         _btnFlowDirection.Orientation = VisualOrientation.Left;
         _btnFlowDirection.ButtonOrientation = VisualOrientation.Left;

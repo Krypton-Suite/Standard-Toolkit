@@ -17,6 +17,7 @@ public partial class KryptonTaskDialogElementCommandLinkButtons
     /// <summary>
     /// The standard FlowLayoutPanel does not provide access to the DoubleBuffered property.
     /// </summary>
+    [ToolboxItem(false)]
     internal class FlowLayoutPanelDoubleBuffered : System.Windows.Forms.FlowLayoutPanel
     {
         public FlowLayoutPanelDoubleBuffered() : base()
