@@ -20,7 +20,7 @@ namespace Krypton.Toolkit;
 [DefaultEvent(nameof(LinkClicked))]
 [DefaultProperty(nameof(Text))]
 [DefaultBindingProperty(nameof(Text))]
-[Designer(typeof(KryptonLinkLabelDesigner))]
+[Designer(typeof(KryptonLinkLabelExtensibilityDesigner))]
 [DesignerCategory(@"code")]
 [Description(@"Displays descriptive information as a hyperlink.")]
 public class KryptonLinkLabel : KryptonLabel

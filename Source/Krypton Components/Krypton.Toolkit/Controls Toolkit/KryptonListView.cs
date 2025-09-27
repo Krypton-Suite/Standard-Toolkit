@@ -17,7 +17,7 @@ namespace Krypton.Toolkit;
 /// <seealso cref="ListView" />
 [ToolboxItem(true)]
 [ToolboxBitmap(typeof(ListView))]
-[Designer(typeof(KryptonListViewDesigner))]
+[Designer(typeof(KryptonListViewExtensibilityDesigner))]
 [DesignerCategory(@"code")]
 [Description(@"A Kryptonised listview.")]
 public class KryptonListView : VisualControlBase,

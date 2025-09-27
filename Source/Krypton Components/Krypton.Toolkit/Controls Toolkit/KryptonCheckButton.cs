@@ -19,7 +19,7 @@ namespace Krypton.Toolkit;
 [ToolboxBitmap(typeof(KryptonCheckButton), "ToolboxBitmaps.KryptonCheckButton.bmp")]
 [DefaultEvent(nameof(Click))]
 [DefaultProperty(nameof(Text))]
-[Designer(typeof(KryptonCheckButtonDesigner))]
+[Designer(typeof(KryptonCheckButtonExtensibilityDesigner))]
 [DesignerCategory(@"code")]
 [Description(@"Toggles checked state when user clicks button.")]
 public class KryptonCheckButton : KryptonButton

@@ -20,7 +20,7 @@ namespace Krypton.Toolkit;
 [DefaultEvent(nameof(TextChanged))]
 [DefaultProperty(nameof(Text))]
 [DefaultBindingProperty(nameof(Text))]
-[Designer(typeof(KryptonTextBoxDesigner))]
+[Designer(typeof(KryptonTextBoxExtensibilityDesigner))]
 [DesignerCategory(@"code")]
 [Description(@"Enables the user to enter text, and provides multiline editing and password character masking.")]
 public class KryptonTextBox : VisualControlBase,

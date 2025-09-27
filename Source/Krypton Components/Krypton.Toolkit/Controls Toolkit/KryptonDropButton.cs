@@ -19,7 +19,7 @@ namespace Krypton.Toolkit;
 [ToolboxBitmap(typeof(KryptonDropButton), "ToolboxBitmaps.KryptonDropButton.bmp")]
 [DefaultEvent(nameof(Click))]
 [DefaultProperty(nameof(Text))]
-[Designer(typeof(KryptonDropButtonDesigner))]
+[Designer(typeof(KryptonDropButtonExtensibilityDesigner))]
 [DesignerCategory(@"code")]
 [Description(@"Raises an event when the user clicks it.")]
 public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValues

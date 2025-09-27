@@ -26,6 +26,7 @@ namespace Krypton.Docking;
 [DefaultProperty(nameof(Strings))]
 [DesignerCategory("code")]
 [Description("Docking management component.")]
+[Designer(typeof(KryptonDockingManagerExtensibilityDesigner))]
 public class KryptonDockingManager : DockingElementOpenCollection
 {
     #region Events

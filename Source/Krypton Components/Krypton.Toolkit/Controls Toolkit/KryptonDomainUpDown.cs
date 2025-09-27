@@ -20,7 +20,7 @@ namespace Krypton.Toolkit;
 [DefaultEvent(nameof(SelectedItemChanged))]
 [DefaultProperty(nameof(Items))]
 [DefaultBindingProperty(nameof(SelectedItem))]
-[Designer(typeof(KryptonDomainUpDownDesigner))]
+[Designer(typeof(KryptonDomainUpDownExtensibilityDesigner))]
 [DesignerCategory(@"code")]
 [Description(@"Represents a Windows spin box (also known as an up-down control) that displays string values.")]
 public class KryptonDomainUpDown : VisualControlBase,

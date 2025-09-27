@@ -20,7 +20,7 @@ namespace Krypton.Toolkit;
 [DefaultEvent(nameof(SplitterMoved))]
 [DefaultProperty(nameof(Orientation))]
 [DesignerCategory(@"code")]
-[Designer(typeof(KryptonSplitContainerDesigner))]
+[Designer(typeof(KryptonSplitContainerExtensibilityDesigner))]
 [Description(@"Divide the container inside two resizable panels.")]
 [Docking(DockingBehavior.AutoDock)]
 public class KryptonSplitContainer : VisualControlContainment,

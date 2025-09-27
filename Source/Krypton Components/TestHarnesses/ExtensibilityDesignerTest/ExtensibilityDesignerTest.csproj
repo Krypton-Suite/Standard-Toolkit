@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
+    <ProjectReference Include="..\..\Krypton.Docking\Krypton.Docking 2022.csproj" />
+    <ProjectReference Include="..\..\Krypton.Navigator\Krypton.Navigator 2022.csproj" />
+    <ProjectReference Include="..\..\Krypton.Ribbon\Krypton.Ribbon 2022.csproj" />
+    <ProjectReference Include="..\..\Krypton.Workspace\Krypton.Workspace 2022.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -18,7 +18,7 @@ namespace Krypton.Toolkit;
 [DefaultBindingProperty("Value")]
 [DesignerCategory(@"code")]
 [Description(@"Represents a Krypton progress bar control.")]
-//[Designer(typeof(KryptonButtonDesigner))]
+[Designer(typeof(KryptonProgressBarExtensibilityDesigner))]
 public class KryptonProgressBar : Control, IContentValues
 {
     // Progressbar designer is incorrect.

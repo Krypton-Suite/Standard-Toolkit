@@ -20,7 +20,7 @@ namespace Krypton.Toolkit;
 [DefaultEvent(nameof(SelectedIndexChanged))]
 [DefaultProperty(nameof(Items))]
 [DefaultBindingProperty(nameof(SelectedValue))]
-[Designer(typeof(KryptonCheckedListBoxDesigner))]
+[Designer(typeof(KryptonCheckedListBoxExtensibilityDesigner))]
 [DesignerCategory(@"code")]
 [Description(@"Represents a checked list box control that allows single or multiple item selection.")]
 public class KryptonCheckedListBox : VisualControlBase,

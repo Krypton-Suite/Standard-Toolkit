@@ -23,7 +23,7 @@ namespace Krypton.Toolkit;
 [DefaultProperty(nameof(Text))]
 [DesignerCategory(@"code")]
 [Description(@"Raises an event when the user clicks it.")]
-[Designer(typeof(KryptonButtonDesigner))]
+[Designer(typeof(KryptonButtonExtensibilityDesigner))]
 public class KryptonButton : KryptonDropButton
 {
     #region Identity

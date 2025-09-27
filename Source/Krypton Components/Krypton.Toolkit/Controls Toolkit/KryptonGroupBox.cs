@@ -19,7 +19,7 @@ namespace Krypton.Toolkit;
 [ToolboxBitmap(typeof(KryptonGroupBox), "ToolboxBitmaps.KryptonGroupBox.bmp")]
 [DefaultEvent(nameof(Paint))]
 [DefaultProperty("ValuesPrimary")]
-[Designer(typeof(KryptonGroupBoxDesigner))]
+[Designer(typeof(KryptonGroupBoxExtensibilityDesigner))]
 [DesignerCategory(@"code")]
 [Description(@"Display frame around a group of related controls with an optional caption.")]
 [Docking(DockingBehavior.Ask)]

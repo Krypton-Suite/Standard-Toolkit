@@ -17,7 +17,7 @@ namespace Krypton.Toolkit;
 /// </summary>
 [ToolboxItem(true)]
 [ToolboxBitmap(typeof(WebBrowser), "ToolboxBitmaps.WebBrowser.bmp")]
-[Designer(typeof(KryptonWebBrowserDesigner))]
+[Designer(typeof(KryptonWebBrowserExtensibilityDesigner))]
 [DesignerCategory(@"code")]
 [Description(@"Enables the user to browse web page, inside your form. Mainly to be used as a Rich Text Editor")]
 public class KryptonWebBrowser : WebBrowser

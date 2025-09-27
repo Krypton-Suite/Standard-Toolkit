@@ -20,7 +20,7 @@ namespace Krypton.Toolkit;
 [DefaultEvent(nameof(CheckedChanged))]
 [DefaultProperty(nameof(Text))]
 [DefaultBindingProperty(nameof(CheckState))]
-[Designer(typeof(KryptonCheckBoxDesigner))]
+[Designer(typeof(KryptonCheckBoxExtensibilityDesigner))]
 [DesignerCategory(@"code")]
 [Description(@"Allow user to set or clear the associated option.")]
 public class KryptonCheckBox : VisualSimpleBase, IContentValues
