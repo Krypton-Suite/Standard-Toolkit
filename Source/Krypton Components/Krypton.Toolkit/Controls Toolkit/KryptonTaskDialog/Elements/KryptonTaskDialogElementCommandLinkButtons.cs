@@ -7,7 +7,6 @@
  */
 #endregion
 
-
 namespace Krypton.Toolkit;
 
 public partial class KryptonTaskDialogElementCommandLinkButtons : KryptonTaskDialogElementBase,
@@ -20,7 +19,7 @@ public partial class KryptonTaskDialogElementCommandLinkButtons : KryptonTaskDia
 
     private readonly ObservableCollection<KryptonCommandLinkButton> _buttons;
     private readonly TableLayoutPanel _tlp;
-    private readonly FlowLayoutPanel _flp;
+    private readonly FlowLayoutPanelDoubleBuffered _flp;
     private readonly KryptonButton _btnFlowDirection;
     private bool _disposed;
     #endregion
@@ -65,11 +64,6 @@ public partial class KryptonTaskDialogElementCommandLinkButtons : KryptonTaskDia
     /// </summary>
     [Editor(typeof(KryptonTaskDialogElementCommandLinkButtons.ButtonsCollectionEditor), typeof(UITypeEditor))]
     public ObservableCollection<KryptonCommandLinkButton> Buttons => _buttons;
-
-    /// <summary>
-    /// FlowLayoutPanel that contains the buttons.
-    /// </summary>
-    public FlowLayoutPanel FlowLayoutPanel => _flp;
 
     /// <summary>
     /// Rounds the button corners.
@@ -205,6 +199,8 @@ public partial class KryptonTaskDialogElementCommandLinkButtons : KryptonTaskDia
         _flp.AutoSizeMode = AutoSizeMode.GrowAndShrink;
         _flp.Top = 0;
         _flp.Left = 0;
+        _flp.Margin = Defaults.NullMargin;
+        _flp.Padding = new Padding(0, Defaults.ComponentSpace, 0, 0);
         _flp.Width = Panel.Width - Defaults.PanelLeft - Defaults.PanelRight - 20;
         _flp.MaximumSize = new Size(_flp.Width, 0);
         _flp.BackColor = Color.Transparent;
@@ -213,7 +209,7 @@ public partial class KryptonTaskDialogElementCommandLinkButtons : KryptonTaskDia
         _btnFlowDirection.AutoSizeMode = AutoSizeMode.GrowAndShrink;
         _btnFlowDirection.Size = Defaults.ButtonSize_24x75;
         _btnFlowDirection.MinimumSize = Defaults.ButtonSize_24x75;
-        _btnFlowDirection.Margin = new Padding(Defaults.ComponentSpace, Defaults.ComponentSpace, 0, 0);
+        _btnFlowDirection.Margin = new Padding(Defaults.ComponentSpace, Defaults.ComponentSpace + 2, 0, 0);
         _btnFlowDirection.Text = _flp.FlowDirection.ToString();
         _btnFlowDirection.Orientation = VisualOrientation.Left;
         _btnFlowDirection.ButtonOrientation = VisualOrientation.Left;
