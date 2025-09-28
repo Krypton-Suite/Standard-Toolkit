@@ -68,8 +68,10 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
     /// <summary>
     /// Gets or sets the designer-configured menu items.
     /// </summary>
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [Category(@"Menu Items")]
+    [Description(@"Custom menu items to display in the system menu.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    [Editor(typeof(SystemMenuItemsEditor), typeof(UITypeEditor))]
     public SystemMenuItemCollection? DesignerMenuItems
     {
         get => _designerMenuItems;
@@ -152,6 +154,23 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public string CurrentIconTheme => GetCurrentTheme();
+
+    /// <summary>
+    /// Gets a value indicating if the DesignerMenuItems property should be serialized.
+    /// </summary>
+    /// <returns>True if the property should be serialized; otherwise false.</returns>
+    private bool ShouldSerializeDesignerMenuItems()
+    {
+        return _designerMenuItems != null && _designerMenuItems.ShouldSerialize();
+    }
+
+    /// <summary>
+    /// Resets the DesignerMenuItems property to its default value.
+    /// </summary>
+    private void ResetDesignerMenuItems()
+    {
+        _designerMenuItems?.Reset();
+    }
     #endregion
 
     #region Public Methods
