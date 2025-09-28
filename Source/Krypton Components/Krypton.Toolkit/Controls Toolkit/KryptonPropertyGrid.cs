@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2021 - 2025. All rights reserved.
@@ -10,7 +10,11 @@ namespace Krypton.Toolkit;
 ///<summary>A property grid control that supports the Krypton render.</summary>
 /// /// <seealso cref="PropertyGrid" />
 [Description(@"A property grid control that supports the Krypton render.")]
+#if NET8_0_OR_GREATER
+[Designer(typeof(KryptonPropertyGridSimpleDesigner))]
+#else
 [Designer(typeof(KryptonPropertyGridExtensibilityDesigner))]
+#endif
 [ToolboxBitmap(typeof(PropertyGrid), "ToolboxBitmaps.KryptonPropertyGridVersion2.bmp")]
 [ToolboxItem(true)]
 public class KryptonPropertyGrid : VisualControlBase,

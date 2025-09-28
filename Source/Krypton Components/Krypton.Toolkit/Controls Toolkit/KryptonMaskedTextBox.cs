@@ -1,8 +1,8 @@
-ï»¿#region BSD License
+#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  Â© Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
@@ -20,7 +20,11 @@ namespace Krypton.Toolkit;
 [DefaultEvent(nameof(MaskInputRejected))]
 [DefaultProperty(nameof(Mask))]
 [DefaultBindingProperty(nameof(Text))]
+#if NET8_0_OR_GREATER
+[Designer(typeof(KryptonMaskedTextBoxSimpleDesigner))]
+#else
 [Designer(typeof(KryptonMaskedTextBoxExtensibilityDesigner))]
+#endif
 [DesignerCategory(@"code")]
 [Description(@"Uses a mask to distinguish between proper and improper user input.")]
 public class KryptonMaskedTextBox : VisualControlBase,
@@ -223,7 +227,7 @@ public class KryptonMaskedTextBox : VisualControlBase,
                             // Draw using a solid brush
                             var drawText = MaskedTextProvider?.ToDisplayString() ?? Text;
 
-                            // Define the font to use for disabled painting â€“ always query the palette first.
+                            // Define the font to use for disabled painting – always query the palette first.
                             // Avoids exception - magnitudes faster than another repaint AND try/catch.
                             var disabledFont = _kryptonMaskedTextBox
                                                    .GetTripleState()

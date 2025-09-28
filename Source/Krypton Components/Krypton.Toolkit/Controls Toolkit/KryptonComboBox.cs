@@ -1,8 +1,8 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
+ *  � Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
@@ -21,7 +21,11 @@ namespace Krypton.Toolkit;
 [DefaultProperty(nameof(Text))]
 [DefaultBindingProperty(nameof(Text))]
 [LookupBindingProperties(nameof(DataSource), nameof(DisplayMember), nameof(ValueMember), nameof(SelectedValue))]
+#if NET8_0_OR_GREATER
+[Designer(typeof(KryptonComboBoxSimpleDesigner))]
+#else
 [Designer(typeof(KryptonComboBoxExtensibilityDesigner))]
+#endif
 //[Designer(@"Krypton.Toolkit.KryptonContextMenuDesigner, Krypton.Toolkit")]
 [DesignerCategory(@"code")]
 [Description(@"Displays an editable textbox with a drop-down list of permitted values.")]

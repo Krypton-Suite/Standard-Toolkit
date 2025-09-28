@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -17,7 +17,11 @@ namespace Krypton.Toolkit;
 [ToolboxBitmap(typeof(KryptonButton), "ToolboxBitmaps.KryptonButton.bmp")]
 [DesignerCategory(@"code")]
 [Description(@"A button that displays the Krypton Toolkit branding and provides information about the toolkit version.")]
+#if NET8_0_OR_GREATER
+[Designer(typeof(KryptonPoweredByButtonSimpleDesigner))]
+#else
 [Designer(typeof(KryptonPoweredByButtonExtensibilityDesigner))]
+#endif
 public class KryptonPoweredByButton : KryptonButton
 {
     #region Instance Fields

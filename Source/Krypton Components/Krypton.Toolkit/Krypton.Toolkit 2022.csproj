@@ -43,6 +43,48 @@
 	<!--https://learn.microsoft.com/en-us/visualstudio/designers/disable-dpi-awareness?view=vs-2022-->
 	<ForceDesignerDPIUnaware>true</ForceDesignerDPIUnaware>
 	<ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
+	<!-- Fix for .NET Framework resource compilation errors -->
+	<GenerateResourceUsePreserializedResources Condition="$(TargetFramework.StartsWith('net4'))">true</GenerateResourceUsePreserializedResources>
+	<!-- Fix for .NET 8+ duplicate assembly attributes -->
+	<GenerateAssemblyInfo Condition="$(TargetFramework.StartsWith('net8'))">false</GenerateAssemblyInfo>
+	<GenerateAssemblyInfo Condition="$(TargetFramework.StartsWith('net9'))">false</GenerateAssemblyInfo>
+	<GenerateAssemblyInfo Condition="$(TargetFramework.StartsWith('net10'))">false</GenerateAssemblyInfo>
+	<GenerateTargetFrameworkAttribute Condition="$(TargetFramework.StartsWith('net8'))">false</GenerateTargetFrameworkAttribute>
+	<GenerateTargetFrameworkAttribute Condition="$(TargetFramework.StartsWith('net9'))">false</GenerateTargetFrameworkAttribute>
+	<GenerateTargetFrameworkAttribute Condition="$(TargetFramework.StartsWith('net10'))">false</GenerateTargetFrameworkAttribute>
+	<GenerateAssemblyConfigurationAttribute Condition="$(TargetFramework.StartsWith('net8'))">false</GenerateAssemblyConfigurationAttribute>
+	<GenerateAssemblyConfigurationAttribute Condition="$(TargetFramework.StartsWith('net9'))">false</GenerateAssemblyConfigurationAttribute>
+	<GenerateAssemblyConfigurationAttribute Condition="$(TargetFramework.StartsWith('net10'))">false</GenerateAssemblyConfigurationAttribute>
+	<GenerateAssemblyCompanyAttribute Condition="$(TargetFramework.StartsWith('net8'))">false</GenerateAssemblyCompanyAttribute>
+	<GenerateAssemblyCompanyAttribute Condition="$(TargetFramework.StartsWith('net9'))">false</GenerateAssemblyCompanyAttribute>
+	<GenerateAssemblyCompanyAttribute Condition="$(TargetFramework.StartsWith('net10'))">false</GenerateAssemblyCompanyAttribute>
+	<GenerateAssemblyCopyrightAttribute Condition="$(TargetFramework.StartsWith('net8'))">false</GenerateAssemblyCopyrightAttribute>
+	<GenerateAssemblyCopyrightAttribute Condition="$(TargetFramework.StartsWith('net9'))">false</GenerateAssemblyCopyrightAttribute>
+	<GenerateAssemblyCopyrightAttribute Condition="$(TargetFramework.StartsWith('net10'))">false</GenerateAssemblyCopyrightAttribute>
+	<GenerateAssemblyDescriptionAttribute Condition="$(TargetFramework.StartsWith('net8'))">false</GenerateAssemblyDescriptionAttribute>
+	<GenerateAssemblyDescriptionAttribute Condition="$(TargetFramework.StartsWith('net9'))">false</GenerateAssemblyDescriptionAttribute>
+	<GenerateAssemblyDescriptionAttribute Condition="$(TargetFramework.StartsWith('net10'))">false</GenerateAssemblyDescriptionAttribute>
+	<GenerateAssemblyFileVersionAttribute Condition="$(TargetFramework.StartsWith('net8'))">false</GenerateAssemblyFileVersionAttribute>
+	<GenerateAssemblyFileVersionAttribute Condition="$(TargetFramework.StartsWith('net9'))">false</GenerateAssemblyFileVersionAttribute>
+	<GenerateAssemblyFileVersionAttribute Condition="$(TargetFramework.StartsWith('net10'))">false</GenerateAssemblyFileVersionAttribute>
+	<GenerateAssemblyInformationalVersionAttribute Condition="$(TargetFramework.StartsWith('net8'))">false</GenerateAssemblyInformationalVersionAttribute>
+	<GenerateAssemblyInformationalVersionAttribute Condition="$(TargetFramework.StartsWith('net9'))">false</GenerateAssemblyInformationalVersionAttribute>
+	<GenerateAssemblyInformationalVersionAttribute Condition="$(TargetFramework.StartsWith('net10'))">false</GenerateAssemblyInformationalVersionAttribute>
+	<GenerateAssemblyProductAttribute Condition="$(TargetFramework.StartsWith('net8'))">false</GenerateAssemblyProductAttribute>
+	<GenerateAssemblyProductAttribute Condition="$(TargetFramework.StartsWith('net9'))">false</GenerateAssemblyProductAttribute>
+	<GenerateAssemblyProductAttribute Condition="$(TargetFramework.StartsWith('net10'))">false</GenerateAssemblyProductAttribute>
+	<GenerateAssemblyTitleAttribute Condition="$(TargetFramework.StartsWith('net8'))">false</GenerateAssemblyTitleAttribute>
+	<GenerateAssemblyTitleAttribute Condition="$(TargetFramework.StartsWith('net9'))">false</GenerateAssemblyTitleAttribute>
+	<GenerateAssemblyTitleAttribute Condition="$(TargetFramework.StartsWith('net10'))">false</GenerateAssemblyTitleAttribute>
+	<GenerateAssemblyVersionAttribute Condition="$(TargetFramework.StartsWith('net8'))">false</GenerateAssemblyVersionAttribute>
+	<GenerateAssemblyVersionAttribute Condition="$(TargetFramework.StartsWith('net9'))">false</GenerateAssemblyVersionAttribute>
+	<GenerateAssemblyVersionAttribute Condition="$(TargetFramework.StartsWith('net10'))">false</GenerateAssemblyVersionAttribute>
+	<GenerateNeutralResourcesLanguageAttribute Condition="$(TargetFramework.StartsWith('net8'))">false</GenerateNeutralResourcesLanguageAttribute>
+	<GenerateNeutralResourcesLanguageAttribute Condition="$(TargetFramework.StartsWith('net9'))">false</GenerateNeutralResourcesLanguageAttribute>
+	<GenerateNeutralResourcesLanguageAttribute Condition="$(TargetFramework.StartsWith('net10'))">false</GenerateNeutralResourcesLanguageAttribute>
+	<GenerateTargetPlatformAttribute Condition="$(TargetFramework.StartsWith('net8'))">false</GenerateTargetPlatformAttribute>
+	<GenerateTargetPlatformAttribute Condition="$(TargetFramework.StartsWith('net9'))">false</GenerateTargetPlatformAttribute>
+	<GenerateTargetPlatformAttribute Condition="$(TargetFramework.StartsWith('net10'))">false</GenerateTargetPlatformAttribute>
   </PropertyGroup>
 
   <ItemGroup>
@@ -934,6 +976,11 @@
   </ItemGroup>
   <ItemGroup>
 	<None Update="../../../Assets/PNG/NuGet Package Icons/Krypton Stable.png" Link="Krypton Stable.png" />
+  </ItemGroup>
+  
+  <!-- Add System.Resources.Extensions for .NET Framework -->
+  <ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
+	<PackageReference Include="System.Resources.Extensions" Version="7.0.0" />
   </ItemGroup>
   <ItemGroup>
 	<Folder Include="Storage\Images\Generic\" />

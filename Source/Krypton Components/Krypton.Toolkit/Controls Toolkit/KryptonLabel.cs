@@ -20,7 +20,11 @@ namespace Krypton.Toolkit;
 [DefaultEvent(nameof(Click))]
 [DefaultProperty(nameof(Text))]
 [DefaultBindingProperty(nameof(Text))]
+#if NET8_0_OR_GREATER
+[Designer(typeof(KryptonLabelSimpleDesigner))]
+#else
 [Designer(typeof(KryptonLabelExtensibilityDesigner))]
+#endif
 [DesignerCategory(@"code")]
 [Description(@"Displays descriptive information.")]
 public class KryptonLabel : VisualSimpleBase, IContentValues

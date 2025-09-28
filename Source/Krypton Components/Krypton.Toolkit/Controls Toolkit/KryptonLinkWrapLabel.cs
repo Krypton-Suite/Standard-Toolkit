@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -18,7 +18,11 @@ namespace Krypton.Toolkit;
 [DefaultEvent(nameof(LinkClicked))]
 [DefaultProperty(nameof(Text))]
 [DefaultBindingProperty(nameof(Text))]
+#if NET8_0_OR_GREATER
+[Designer(typeof(KryptonLinkWrapLabelSimpleDesigner))]
+#else
 [Designer(typeof(KryptonLinkWrapLabelExtensibilityDesigner))]
+#endif
 [DesignerCategory(@"code")]
 [Description(@"Displays descriptive information.")]
 public class KryptonLinkWrapLabel : LinkLabel

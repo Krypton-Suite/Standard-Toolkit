@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -12,7 +12,11 @@ namespace Krypton.Toolkit;
 
 /// <summary>Allows the user to change themes using a <see cref="KryptonListBox"/>.</summary>
 /// <seealso cref="KryptonListBox" />
+#if NET8_0_OR_GREATER
+[Designer(typeof(KryptonThemeListBoxSimpleDesigner))]
+#else
 [Designer(typeof(KryptonStubDesigner))]
+#endif
 public class KryptonThemeListBox : KryptonListBox, IKryptonThemeSelectorBase
 {
     #region Instance Fields

@@ -1,8 +1,8 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
+ *  � Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
@@ -19,7 +19,11 @@ namespace Krypton.Toolkit;
 [ToolboxBitmap(typeof(KryptonTreeView), "ToolboxBitmaps.KryptonTreeView.bmp")]
 [DefaultEvent(nameof(AfterSelect))]
 [DefaultProperty(nameof(Nodes))]
+#if NET8_0_OR_GREATER
+[Designer(typeof(KryptonTreeViewSimpleDesigner))]
+#else
 [Designer(typeof(KryptonTreeViewExtensibilityDesigner))]
+#endif
 [DesignerCategory(@"code")]
 [Description(@"Displays a hierarchical collection of labeled items, each represented by a TreeNode")]
 [Docking(DockingBehavior.Ask)]

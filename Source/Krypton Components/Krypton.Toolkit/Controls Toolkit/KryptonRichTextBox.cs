@@ -1,8 +1,8 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
+ *  � Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
@@ -20,7 +20,11 @@ namespace Krypton.Toolkit;
 [DefaultEvent(nameof(TextChanged))]
 [DefaultProperty(nameof(Text))]
 [DefaultBindingProperty(nameof(Text))]
+#if NET8_0_OR_GREATER
+[Designer(typeof(KryptonRichTextBoxSimpleDesigner))]
+#else
 [Designer(typeof(KryptonRichTextBoxExtensibilityDesigner))]
+#endif
 [DesignerCategory(@"code")]
 [Description(@"Enables the user to enter text, and provides multi-line editing and password character masking.")]
 public class KryptonRichTextBox : VisualControlBase,

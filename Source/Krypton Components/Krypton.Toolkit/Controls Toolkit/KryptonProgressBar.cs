@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2022 - 2025. All rights reserved.
@@ -18,7 +18,11 @@ namespace Krypton.Toolkit;
 [DefaultBindingProperty("Value")]
 [DesignerCategory(@"code")]
 [Description(@"Represents a Krypton progress bar control.")]
+#if NET8_0_OR_GREATER
+[Designer(typeof(KryptonProgressBarSimpleDesigner))]
+#else
 [Designer(typeof(KryptonProgressBarExtensibilityDesigner))]
+#endif
 public class KryptonProgressBar : Control, IContentValues
 {
     // Progressbar designer is incorrect.

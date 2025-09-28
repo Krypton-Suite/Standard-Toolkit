@@ -1,8 +1,8 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
+ *  � Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
@@ -19,7 +19,11 @@ namespace Krypton.Toolkit;
 [ToolboxBitmap(typeof(KryptonHeaderGroup), "ToolboxBitmaps.KryptonHeaderGroup.bmp")]
 [DefaultEvent(nameof(Paint))]
 [DefaultProperty(nameof(ValuesPrimary))]
+#if NET8_0_OR_GREATER
+[Designer(typeof(KryptonHeaderGroupSimpleDesigner))]
+#else
 [Designer(typeof(KryptonHeaderGroupExtensibilityDesigner))]
+#endif
 [DesignerCategory(@"code")]
 [Description(@"Group a collection of controls with a descriptive caption.")]
 [Docking(DockingBehavior.Ask)]

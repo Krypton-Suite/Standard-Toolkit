@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2021 - 2025. All rights reserved.
@@ -17,7 +17,11 @@ namespace Krypton.Toolkit;
 /// <seealso cref="ListView" />
 [ToolboxItem(true)]
 [ToolboxBitmap(typeof(ListView))]
+#if NET8_0_OR_GREATER
+[Designer(typeof(KryptonListViewSimpleDesigner))]
+#else
 [Designer(typeof(KryptonListViewExtensibilityDesigner))]
+#endif
 [DesignerCategory(@"code")]
 [Description(@"A Kryptonised listview.")]
 public class KryptonListView : VisualControlBase,

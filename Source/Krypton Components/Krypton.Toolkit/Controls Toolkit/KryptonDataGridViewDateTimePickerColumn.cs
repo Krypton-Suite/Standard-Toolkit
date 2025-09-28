@@ -1,8 +1,8 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
+ *  � Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
@@ -16,7 +16,11 @@ namespace Krypton.Toolkit;
 /// Hosts a collection of KryptonDataGridViewDateTimePickerCell cells.
 /// </summary>
 [ToolboxBitmap(typeof(KryptonDataGridViewDateTimePickerColumn), "ToolboxBitmaps.KryptonDateTimePicker.bmp")]
+#if NET8_0_OR_GREATER
+[Designer(typeof(KryptonDataGridViewDateTimePickerColumnSimpleDesigner))]
+#else
 [Designer(typeof(KryptonDateTimePickerColumnDesigner))]
+#endif
 public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconColumn
 {
     #region Instance Fields
