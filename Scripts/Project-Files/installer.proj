@@ -29,7 +29,7 @@
 	
 	<Target Name="CleanPackages">
 		<ItemGroup>
-			<NugetPkgs Include="..\..\..\Bin\Installer\*.nupkg" />
+			<NugetPkgs Include="..\..\..\Bin\Packages\Installer\*.nupkg" />
 		</ItemGroup>
 		<Delete Files="@(NugetPkgs)" />
 	</Target>
@@ -54,7 +54,7 @@
 	
 	<Target Name="Push">
 		<ItemGroup>
-			<NugetPkgs Include="..\..\..\Bin\Installer\*.$(LibraryVersion).nupkg" />
+			<NugetPkgs Include="..\..\..\Bin\Packages\Installer\*.$(LibraryVersion).nupkg" />
 		</ItemGroup>
 		<Exec Command="nuget.exe push %(NugetPkgs.Identity)" />
 	</Target>
