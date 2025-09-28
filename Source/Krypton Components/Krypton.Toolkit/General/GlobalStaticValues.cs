@@ -34,10 +34,16 @@ public class GlobalStaticValues
     public const float DEFAULT_PRIMARY_CORNER_ROUNDING_VALUE = -1f;
 
     /// <summary>The default UAC shield icon size</summary>
-    public static UACShieldIconSize DEFAULT_UAC_SHIELD_ICON_SIZE = UACShieldIconSize.ExtraSmall;
+    public static IconSize DEFAULT_UAC_SHIELD_ICON_SIZE = IconSize.ExtraSmall;
 
     /// <summary>The default UAC shield icon custom size</summary>
     public static Size DEFAULT_UAC_SHIELD_ICON_CUSTOM_SIZE = new Size(16, 16);
+
+    /// <summary>The standard UAC shield icon ID in imageres.dll</summary>
+    public const int UAC_SHIELD_ICON_ID = (int)ImageresIconID.Shield;
+
+    /// <summary>The alternative UAC shield icon ID in imageres.dll</summary>
+    public const int UAC_SHIELD_ICON_ID_ALT = (int)ImageresIconID.ShieldAlt;
 
     /// <summary>The global button padding</summary>
     public const int GLOBAL_BUTTON_PADDING = 10;

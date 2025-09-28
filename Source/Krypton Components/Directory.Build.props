@@ -20,6 +20,11 @@
 		<Version>$(LibraryVersion)</Version>
 	</PropertyGroup>
 
+	<!-- Configure NuGet package output to separate directory for easier management -->
+	<PropertyGroup>
+		<PackageOutputPath>$(MSBuildThisFileDirectory)..\..\Bin\Packages\$(Configuration)\</PackageOutputPath>
+	</PropertyGroup>
+
 	<Choose>
 		<When Condition="'$(Configuration)' == 'Canary'">
 			<ItemGroup>

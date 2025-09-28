@@ -1,8 +1,5 @@
-﻿#region BSD License
+#region BSD License
 /*
- *
- * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- * © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  * Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2025 - 2025. All rights reserved.
@@ -29,7 +26,10 @@ public record struct KryptonTaskDialogDefaults
 
         PanelPadding1 = new Padding(PanelLeft, PanelTop, PanelRight, PanelBottom);
 
-        //Expander 
+        CornerRoundingRatio = 10;
+
+        ButtonSize_75x24 = new Size(75, 24);
+        ButtonSize_24x75 = new Size(24, 75);
 
         TLP = new KryptonTaskDialogDefaultsTLP()
         {
@@ -37,9 +37,9 @@ public record struct KryptonTaskDialogDefaults
             StdMaxSize = new Size(ClientWidth - PanelLeft - PanelRight, 0),
             AnchorTopLeftRight = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right,
         };
-
     }
 
+    #region Properties
     public int ClientWidth { get; }
     public int ClientHeight { get; }
     public int PanelLeft { get; }
@@ -47,9 +47,20 @@ public record struct KryptonTaskDialogDefaults
     public int PanelBottom { get; }
     public int PanelRight { get; }
     public int ComponentSpace { get; }
+    public int CornerRoundingRatio { get; }
 
     public Padding NullPadding { get; }
     public Padding NullMargin { get; }
+
+    /// <summary>
+    /// Standard button size: 75 x 24;
+    /// </summary>
+    public Size ButtonSize_75x24 { get; }
+
+    /// <summary>
+    /// Standard button size for vertical use: 24 x 75;
+    /// </summary>
+    public Size ButtonSize_24x75 { get; }
 
     /// <summary>
     /// Panel padding that centers it's contents relative to :<br/>
@@ -61,6 +72,12 @@ public record struct KryptonTaskDialogDefaults
     /// Default for TableLayoutPanels
     /// </summary>
     public KryptonTaskDialogDefaultsTLP TLP { get; }
+
+    public int GetCornerRouding( bool roundingEnabled)
+    {
+        return roundingEnabled ? CornerRoundingRatio : -1;
+    }
+    #endregion
 }
 
 public record struct KryptonTaskDialogDefaultsTLP

@@ -3,6 +3,11 @@
 ====
 
 ## 2025-11-xx - Build 2511 (V10 - alpha) - November 2025
+* Resolved [#2512](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2512), Added borders with straight corners (`LinearBorder2`) and adjusted the colors in the `KryptonRibbon` in the `Microsoft365` themes. Adjusted the design of the `RibbonQATButton`
+* Implemented [#2503](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2503), Add the ability to create zip files for binaries
+* Implemented [#952](https://github.com/Krypton-Suite/Standard-Toolkit/issues/952), Place built NuGet packages into separate directory
+* Implemented [#892](https://github.com/Krypton-Suite/Standard-Toolkit/issues/892), `KryptonButton` UAC Shield icons need to match the OS style
+* Resolved [#2514](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2514), `KryptonPanel.OnPaint` does not call base.
 * Resolved [#2508](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2508), Add internal `InDesignMode()` extension methods to both `Control` and `Component` classes.
 * Resolved [#2492](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2492), `KryptonForm` does not display '(Administrator)' when elevated
 * Resolved [#2502](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2502), **[Breaking Change]** `KryptonCommandLinkButton` updates several properties and their behaviour. See issue for full details.
@@ -19,7 +24,7 @@
 * Resolved [#2439](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2439), Fix `KDGVDateTimePickerCell` auto-sizing and dropdown glyphs.
 * Resolved [#2448](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2448), `KryptonForm` does not display components without designer source.
 * Implemented [#2444](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2444), Add `AGENTS.md` file.
-* Fix [#1199](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1199), Fix exception in `KryptonDropButton` due to wrong DialogResult.
+* Resolved [#1199](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1199), Fix exception in `KryptonDropButton` due to wrong DialogResult.
 * Implemented [#2442](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2442), `KryptonColorButton` and related components with `PaletteColors` mode.
 * Implemented [#2396](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2396), Added ModernBuild terminal.gui app to solution.
 * Implemented [#984](https://github.com/Krypton-Suite/Standard-Toolkit/issues/984), `KryptonForm` using `SizeGripStyle` for grippie.
@@ -865,7 +870,7 @@ Cannot add items to KryptonGroupBox in WinForms Designer
 =======
 
 ## 2021-06-04 - Build 2106.1 - June 2021 (Update 1)
-* Fix NuGet package descriptions
+* Fixed NuGet package descriptions
 * Disabled `KryptonListView`, `KryptonToolStrip` and `KryptonStatusStrip` - to return in a future update
 
 =======

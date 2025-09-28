@@ -32,6 +32,7 @@
 using Microsoft.Win32.SafeHandles;
 using static System.Runtime.InteropServices.Marshal;
 
+
 namespace Krypton.Toolkit;
 
 /// <summary>
@@ -72,6 +73,8 @@ internal static class Libraries
     public const string Hhctrl = "hhctrl.ocx";
     /// <summary>Input Method Manager - provides input method editor support</summary>
     public const string Imm32 = "imm32.dll";
+    /// <summary>Image Resource library - provides access to system image resources</summary>
+    public const string Imageres = "imageres.dll";
     /// <summary>Kernel library - provides core system functions</summary>
     public const string Kernel32 = "kernel32.dll";
     /// <summary>Native API library - provides low-level system functions</summary>

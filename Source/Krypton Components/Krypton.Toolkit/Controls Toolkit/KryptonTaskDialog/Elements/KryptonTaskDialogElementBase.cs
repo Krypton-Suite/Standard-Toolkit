@@ -1,8 +1,5 @@
-﻿#region BSD License
+#region BSD License
 /*
- *
- * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- * © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  * Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2025 - 2025. All rights reserved.
@@ -17,7 +14,7 @@ namespace Krypton.Toolkit;
 /// Derived elements can be extended through the use of IKryptonTaskDialogElement interfaces to 
 /// guarantee correct and consistent definitions and naming of properties and methods.
 /// 
-/// The IDisposable pattern has been implemented by default so derived classes can override and implement if required
+/// The IDisposable pattern has been implemented by default so derived classes can override and implement if required.
 /// </summary>
 public abstract class KryptonTaskDialogElementBase : 
     IKryptonTaskDialogElementBase,
@@ -26,7 +23,7 @@ public abstract class KryptonTaskDialogElementBase :
 {
     #region Fields
     private bool _disposed;
-    private KryptonPanel _panel;
+    private KryptonTaskDialogKryptonPanel _panel;
     private bool _panelVisible;
     private KryptonTaskDialogDefaults _taskDialogDefaults;
     #endregion
@@ -51,25 +48,23 @@ public abstract class KryptonTaskDialogElementBase :
     {
         // Set the data
         _taskDialogDefaults = taskDialogDefaults;
+        _disposed = false;
 
         // Although OnGlobalPaletteChanged synchronizes palette changes with the elements,
-        // The initialisation is done here.
+        // The initialisation is done here
         Palette = KryptonManager.CurrentGlobalPalette;
-        // Execute OnGlobalPaletteChanged once to set the initial palette and wire the PalettePaint event.
-        OnGlobalPaletteChanged(null!, null!);
         // From there the event handler will take over.
         KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged;
 
-        _disposed = false;
-
-        _panel = new()
+        _panel = new(_taskDialogDefaults)
         {
-            Margin = new Padding(0),
-            Padding = new Padding(0),
+            Margin = _taskDialogDefaults.NullPadding,
+            Padding = _taskDialogDefaults.NullMargin,
             Visible = false
         };
-        _panelVisible = false;
 
+        _panelVisible =  false;
+        Palette.PalettePaint += OnPalettePaint;
         LayoutDirty = false;
     }
     #endregion
@@ -191,12 +186,21 @@ public abstract class KryptonTaskDialogElementBase :
 
     #region Public
     /// <summary>
+    /// Displays a separator line at the top of the element.
+    /// </summary>
+    public bool ShowSeparator
+    {
+        get => _panel.ShowSeparator;
+        set => _panel.ShowSeparator = value;
+    }
+
+    /// <summary>
     /// Returns if the element's layout needs a refresh when visible or before the dialog will be displayed.
     /// </summary>
     internal bool LayoutDirty { get; set; }
 
     /// <summary>
-    /// Return the height of the element when visible.<br/>
+    /// Returns the height of the element when visible.<br/>
     /// When not visible Height returns zero.
     /// </summary>
     public int Height => _panelVisible ? Panel.Height : 0;
@@ -255,3 +259,4 @@ public abstract class KryptonTaskDialogElementBase :
     }
     #endregion
 }
+

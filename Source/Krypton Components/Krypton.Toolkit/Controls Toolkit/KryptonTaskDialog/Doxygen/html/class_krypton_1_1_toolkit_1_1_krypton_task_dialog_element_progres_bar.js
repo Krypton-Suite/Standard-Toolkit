@@ -8,5 +8,6 @@ var class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_progres_bar =
     [ "Description", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_progres_bar.html#a426532e7a8b32f3f2c3652cd131a4cfc", null ],
     [ "ForeColor", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_progres_bar.html#af70f781f7cbe015b4111da1e083627f1", null ],
     [ "ProgressBar", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_progres_bar.html#a98b775409e409124a3ec0c3fcf223971", null ],
+    [ "RoundedCorners", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_progres_bar.html#a8d1faf3abe233449933151365dab2f92", null ],
     [ "ShowDescription", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_progres_bar.html#a9862bd9af87517b4fff77c95cdc8f7e1", null ]
 ];
