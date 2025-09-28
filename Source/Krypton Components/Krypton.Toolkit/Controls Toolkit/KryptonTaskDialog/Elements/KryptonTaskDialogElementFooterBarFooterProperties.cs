@@ -14,43 +14,30 @@ namespace Krypton.Toolkit;
 /// </summary>
 public class KryptonTaskDialogElementFooterBarFooterProperties :
     IKryptonTaskDialogElementFooterBar,
-    IKryptonTaskDialogElementIconType
+    IKryptonTaskDialogElementIconType,
+    IKryptonTaskDialogElementPropertyChanged<KryptonTaskDialogElementFooterBar.FooterBarProperties>
 {
-    #region Fields
-    private KryptonTaskDialogElementFooterBar _footerBar;
-    private KryptonWrapLabel _footNoteText;
-    private string _expanderExpandedText;
-    private string _expanderCollapsedText;
-    private bool _enableExpanderControls;
-    private Action<bool> _onSizeChanged;
-    private Action _updateExpanderText;
-    private Action _updateExpanderEnabledState;
-    private Action _updateFootNoteIcon;
+    #region Events
+    /// <inheritdoc/>
+    public event Action<KryptonTaskDialogElementFooterBar.FooterBarProperties>? PropertyChanged;
     #endregion
 
     #region Identity
     /// <summary>
     /// Default constructor.
     /// </summary>
-    /// <param name="footerBar">FooterBar instance</param>
-    /// <param name="footNoteText">KryptonWarpLabel instance.</param>
-    /// <param name="onSizeChanged">FooterBar OnsizeChanged callback.</param>
-    /// <param name="updateExpanderText">FooterBar updateExpanderText callback.</param>
-    /// <param name="updateExpanderEnabledState">FooterBar updateExpanderEnabledState callback.</param>
-    /// <param name="updateFootNoteIcon">FooterBar updateFootNoteIcon callback.</param>
-    public KryptonTaskDialogElementFooterBarFooterProperties(KryptonTaskDialogElementFooterBar footerBar, KryptonWrapLabel footNoteText, 
-        Action<bool> onSizeChanged, Action updateExpanderText, Action updateExpanderEnabledState, Action updateFootNoteIcon
-        )
+    public KryptonTaskDialogElementFooterBarFooterProperties()
     {
-        _footerBar                  = footerBar;
-        _footNoteText               = footNoteText;
-        _onSizeChanged              = onSizeChanged;
-        _updateExpanderText         = updateExpanderText;
-        _updateExpanderEnabledState = updateExpanderEnabledState;
-        _updateFootNoteIcon         = updateFootNoteIcon;
-        _expanderCollapsedText      = string.Empty;
-        _expanderExpandedText       = string.Empty;
-        _enableExpanderControls     = false;
+        FootNoteText = string.Empty;
+        ExpanderExpandedText = string.Empty;
+        ExpanderCollapsedText = string.Empty;
+    }
+    #endregion
+
+    #region Private
+    private void OnPropertyChanged(KryptonTaskDialogElementFooterBar.FooterBarProperties property)
+    {
+        PropertyChanged?.Invoke(property);
     }
     #endregion
 
@@ -58,16 +45,14 @@ public class KryptonTaskDialogElementFooterBarFooterProperties :
     /// <inheritdoc/>
     public string FootNoteText
     {
-        get => _footNoteText.Text;
+        get => field;
 
         set
         {
-            if (_footNoteText.Text != value)
+            if (field != value)
             {
-                _footNoteText.Text = value;
-                _footNoteText.Invalidate();
-                _footerBar.LayoutDirty = true;
-                _onSizeChanged(false);
+                field = value;
+                OnPropertyChanged(KryptonTaskDialogElementFooterBar.FooterBarProperties.FootNoteText);
             }
         }
     }
@@ -75,15 +60,14 @@ public class KryptonTaskDialogElementFooterBarFooterProperties :
     /// <inheritdoc/>
     public string ExpanderExpandedText
     {
-        get => _expanderExpandedText;
+        get => field;
 
         set
         {
-            if (_expanderExpandedText != value)
+            if (field != value)
             {
-                _expanderExpandedText = value;
-                _footerBar.LayoutDirty = true;
-                _updateExpanderText();
+                field = value;
+                OnPropertyChanged(KryptonTaskDialogElementFooterBar.FooterBarProperties.ExpanderExpandedText);
             }
         }
     }
@@ -91,15 +75,14 @@ public class KryptonTaskDialogElementFooterBarFooterProperties :
     /// <inheritdoc/>
     public string ExpanderCollapsedText
     {
-        get => _expanderCollapsedText;
+        get => field;
 
         set
         {
-            if (_expanderCollapsedText != value)
+            if (field != value)
             {
-                _expanderCollapsedText = value;
-                _footerBar.LayoutDirty = true;
-                _updateExpanderText();
+                field = value;
+                OnPropertyChanged(KryptonTaskDialogElementFooterBar.FooterBarProperties.ExpanderCollapsedText);
             }
         }
     }
@@ -116,8 +99,7 @@ public class KryptonTaskDialogElementFooterBarFooterProperties :
             if (field != value)
             {
                 field = value;
-                _footerBar.LayoutDirty = true;
-                _updateFootNoteIcon();
+                OnPropertyChanged(KryptonTaskDialogElementFooterBar.FooterBarProperties.IconType);
             }
         }
     }
@@ -125,16 +107,14 @@ public class KryptonTaskDialogElementFooterBarFooterProperties :
     /// <inheritdoc/>
     public bool EnableExpanderControls
     {
-        get => _enableExpanderControls;
+        get => field;
 
         set
         {
-            if (_enableExpanderControls != value)
+            if (field != value)
             {
-                _enableExpanderControls = value;
-                _footerBar.LayoutDirty = true;
-                _updateExpanderEnabledState();
-                _onSizeChanged(false);
+                field = value;
+                OnPropertyChanged(KryptonTaskDialogElementFooterBar.FooterBarProperties.EnableExpanderControls);
             }
         }
     }
