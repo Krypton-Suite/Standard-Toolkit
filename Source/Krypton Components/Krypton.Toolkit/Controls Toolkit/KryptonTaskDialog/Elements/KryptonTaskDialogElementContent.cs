@@ -7,8 +7,6 @@
  */
 #endregion
 
-using System.Windows.Forms;
-
 namespace Krypton.Toolkit;
 
 public partial class KryptonTaskDialogElementContent : KryptonTaskDialogElementBase,
@@ -83,7 +81,7 @@ public partial class KryptonTaskDialogElementContent : KryptonTaskDialogElementB
         _tlp.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
     }
 
-    private void SetupTextBox()
+    private void SetupControls()
     {
         _textBox.AutoSize = false;
         _textBox.Height = 100;
@@ -96,7 +94,7 @@ public partial class KryptonTaskDialogElementContent : KryptonTaskDialogElementB
     private void SetupPanel()
     {
         SetupPictureBox();
-        SetupTextBox();
+        SetupControls();
         SetupTableLayoutPanel();
             
         // Put it together
