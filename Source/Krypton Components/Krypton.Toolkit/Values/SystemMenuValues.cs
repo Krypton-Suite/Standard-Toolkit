@@ -39,7 +39,6 @@ public class SystemMenuValues : Storage, INotifyPropertyChanged
     private bool _showOnRightClick;
     private bool _showOnAltSpace;
     private bool _showOnIconClick;
-    private SystemMenuItemCollection? _customMenuItems;
     #endregion
 
     #region Identity
@@ -60,11 +59,6 @@ public class SystemMenuValues : Storage, INotifyPropertyChanged
         _showOnAltSpace = DEFAULT_SHOW_ON_ALT_SPACE;
         _showOnIconClick = DEFAULT_SHOW_ON_ICON_CLICK;
 
-        // Initialize custom menu items collection
-        _customMenuItems = new SystemMenuItemCollection();
-        _customMenuItems.Inserted += OnCustomMenuItemsChanged;
-        _customMenuItems.Removed += OnCustomMenuItemsChanged;
-        _customMenuItems.Cleared += OnCustomMenuItemsChanged;
     }
 
     /// <summary>
@@ -86,8 +80,7 @@ public class SystemMenuValues : Storage, INotifyPropertyChanged
     public override bool IsDefault => !ShouldSerializeEnabled() &&
                                      !ShouldSerializeShowOnRightClick() &&
                                      !ShouldSerializeShowOnAltSpace() &&
-                                     !ShouldSerializeShowOnIconClick() &&
-                                     !ShouldSerializeCustomMenuItems();
+                                     !ShouldSerializeShowOnIconClick();
     #endregion
 
     #region Enabled
@@ -273,80 +266,7 @@ public class SystemMenuValues : Storage, INotifyPropertyChanged
 
     #endregion
 
-    #region CustomMenuItems
-    /// <summary>
-    /// Gets the collection of custom menu items for the system menu.
-    /// </summary>
-    [Category(@"Menu Items")]
-    [Description(@"Custom menu items to display in the system menu.")]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-    [Editor(typeof(SystemMenuItemsEditor), typeof(UITypeEditor))]
-    public SystemMenuItemCollection? CustomMenuItems
-    {
-        get => _customMenuItems;
 
-        set
-        {
-            if (_customMenuItems != value)
-            {
-                if (_customMenuItems != null)
-                {
-                    _customMenuItems.Inserted -= OnCustomMenuItemsChanged;
-                    _customMenuItems.Removed -= OnCustomMenuItemsChanged;
-                    _customMenuItems.Cleared -= OnCustomMenuItemsChanged;
-                }
-
-                _customMenuItems = value;
-
-                if (_customMenuItems != null)
-                {
-                    _customMenuItems.Inserted += OnCustomMenuItemsChanged;
-                    _customMenuItems.Removed += OnCustomMenuItemsChanged;
-                    _customMenuItems.Cleared += OnCustomMenuItemsChanged;
-                }
-
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CustomMenuItems)));
-                PerformNeedPaint(true);
-            }
-        }
-    }
-
-    private bool ShouldSerializeCustomMenuItems()
-    {
-        var shouldSerialize = _customMenuItems is { Count: > 0 };
-        return shouldSerialize;
-    }
-
-    /// <summary>
-    /// Resets the CustomMenuItems collection to its default value.
-    /// </summary>
-    public void ResetCustomMenuItems() => _customMenuItems?.Clear();
-
-    #endregion
-
-    #region Private Methods
-    /// <summary>
-    /// Handles changes to the custom menu items collection.
-    /// </summary>
-    /// <param name="sender">The source of the event.</param>
-    /// <param name="e">Event arguments.</param>
-    private void OnCustomMenuItemsChanged(object? sender, TypedCollectionEventArgs<SystemMenuItemValues> e)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CustomMenuItems)));
-        PerformNeedPaint(true);
-    }
-
-    /// <summary>
-    /// Handles clearing of the custom menu items collection.
-    /// </summary>
-    /// <param name="sender">The source of the event.</param>
-    /// <param name="e">Event arguments.</param>
-    private void OnCustomMenuItemsChanged(object? sender, EventArgs e)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CustomMenuItems)));
-        PerformNeedPaint(true);
-    }
-    #endregion
 
     #region Reset and Serialization
 
@@ -361,7 +281,6 @@ public class SystemMenuValues : Storage, INotifyPropertyChanged
         ResetShowOnRightClick();
         ResetShowOnAltSpace();
         ResetShowOnIconClick();
-        ResetCustomMenuItems();
     }
 
     /// <summary>
@@ -373,8 +292,7 @@ public class SystemMenuValues : Storage, INotifyPropertyChanged
         return ShouldSerializeEnabled() ||
                ShouldSerializeShowOnRightClick() ||
                ShouldSerializeShowOnAltSpace() ||
-               ShouldSerializeShowOnIconClick() ||
-               ShouldSerializeCustomMenuItems();
+               ShouldSerializeShowOnIconClick();
     }
 
     #endregion

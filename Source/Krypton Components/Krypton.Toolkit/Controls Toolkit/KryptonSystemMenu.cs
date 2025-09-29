@@ -12,13 +12,11 @@ namespace Krypton.Toolkit;
 /// <summary>
 /// Provides a themed system menu that replaces the native Windows system menu with a KryptonContextMenu.
 /// </summary>
-[TypeConverter(typeof(KryptonSystemMenuConverter))]
 public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
 {
     #region Instance Fields
     private readonly KryptonForm _form;
     private readonly KryptonContextMenu _contextMenu;
-    private SystemMenuItemCollection? _designerMenuItems;
     private bool _disposed;
 
     // Standard menu item references for direct access
@@ -65,25 +63,6 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
         }
     }
 
-    /// <summary>
-    /// Gets or sets the designer-configured menu items.
-    /// </summary>
-    [Category(@"Menu Items")]
-    [Description(@"Custom menu items to display in the system menu.")]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-    [Editor(typeof(SystemMenuItemsEditor), typeof(UITypeEditor))]
-    public SystemMenuItemCollection? DesignerMenuItems
-    {
-        get => _designerMenuItems;
-        set
-        {
-            if (_designerMenuItems != value)
-            {
-                _designerMenuItems = value;
-                Refresh();
-            }
-        }
-    }
 
     /// <summary>
     /// Gets or sets whether the themed system menu is enabled.
@@ -155,22 +134,6 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public string CurrentIconTheme => GetCurrentTheme();
 
-    /// <summary>
-    /// Gets a value indicating if the DesignerMenuItems property should be serialized.
-    /// </summary>
-    /// <returns>True if the property should be serialized; otherwise false.</returns>
-    private bool ShouldSerializeDesignerMenuItems()
-    {
-        return _designerMenuItems != null && _designerMenuItems.ShouldSerialize();
-    }
-
-    /// <summary>
-    /// Resets the DesignerMenuItems property to its default value.
-    /// </summary>
-    private void ResetDesignerMenuItems()
-    {
-        _designerMenuItems?.Reset();
-    }
     #endregion
 
     #region Public Methods
@@ -247,147 +210,6 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
         return false;
     }
 
-    /// <summary>
-    /// Adds a custom menu item to the system menu.
-    /// </summary>
-    /// <param name="text">The text to display for the menu item.</param>
-    /// <param name="clickHandler">The action to execute when the item is clicked.</param>
-    /// <param name="insertBeforeClose">If true, inserts the item before the Close item; otherwise adds it at the end.</param>
-    public void AddCustomMenuItem(string text, EventHandler? clickHandler, bool insertBeforeClose = true)
-    {
-        ThrowIfDisposed();
-        if (string.IsNullOrEmpty(text))
-        {
-            throw new ArgumentException("Text cannot be null or empty.", nameof(text));
-        }
-        
-        if (clickHandler == null)
-        {
-            throw new ArgumentNullException(nameof(clickHandler));
-        }
-
-        try
-        {
-            var customItem = new KryptonContextMenuItem(text);
-            customItem.Click += clickHandler;
-
-            if (insertBeforeClose && _menuItemClose != null)
-            {
-                // Find the Close item index and insert above the separator (above the Close item)
-                int closeItemIndex = _contextMenu.Items.IndexOf(_menuItemClose);
-                if (closeItemIndex >= 0)
-                {
-                    // Insert above the separator (above the Close item)
-                    // First, check if there's a separator above the Close item
-                    if (closeItemIndex > 0 && _contextMenu.Items[closeItemIndex - 1] is KryptonContextMenuSeparator)
-                    {
-                        _contextMenu.Items.Insert(closeItemIndex - 1, customItem);
-                    }
-                    else
-                    {
-                        // If no separator, add one above the Close item first
-                        _contextMenu.Items.Insert(closeItemIndex, new KryptonContextMenuSeparator());
-                        // Then insert the custom item above the separator
-                        _contextMenu.Items.Insert(closeItemIndex, customItem);
-                    }
-                    return;
-                }
-            }
-
-            // If we couldn't find the Close item or insertBeforeClose is false, add at the end
-            _contextMenu.Items.Add(customItem);
-
-            // Ensure there's a separator above custom items if we added at the end
-            if (!insertBeforeClose)
-            {
-                EnsureSeparatorAboveCustomItems();
-            }
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine($"Error adding custom menu item: {ex.Message}");
-            throw;
-        }
-    }
-
-    /// <summary>
-    /// Adds a separator to the themed system menu.
-    /// </summary>
-    /// <param name="insertBeforeClose">If true, inserts the separator before the Close item; otherwise adds it at the end.</param>
-    public void AddSeparator(bool insertBeforeClose = true)
-    {
-        ThrowIfDisposed();
-        var separator = new KryptonContextMenuSeparator();
-
-        if (insertBeforeClose && _menuItemClose != null)
-        {
-            // Find the Close item index and insert above the separator (above the Close item)
-            int closeItemIndex = _contextMenu.Items.IndexOf(_menuItemClose);
-            if (closeItemIndex >= 0)
-            {
-                // Insert above the separator (above the Close item)
-                // First, check if there's already a separator above the Close item
-                if (closeItemIndex > 0 && _contextMenu.Items[closeItemIndex - 1] is KryptonContextMenuSeparator)
-                {
-                    // If separator already exists, insert above it
-                    _contextMenu.Items.Insert(closeItemIndex - 1, separator);
-                }
-                else
-                {
-                    // If no separator, insert directly above the Close item
-                    _contextMenu.Items.Insert(closeItemIndex, separator);
-                }
-                return;
-            }
-        }
-
-        // If we couldn't find the Close item or insertBeforeClose is false, add at the end
-        _contextMenu.Items.Add(separator);
-    }
-
-    /// <summary>
-    /// Clears all custom menu items and restores the default system menu.
-    /// </summary>
-    public void ClearCustomItems()
-    {
-        ThrowIfDisposed();
-        BuildSystemMenu();
-    }
-
-    /// <summary>
-    /// Gets a list of all custom menu items (non-standard system menu items).
-    /// </summary>
-    /// <returns>A list of custom menu item texts.</returns>
-    public List<string> GetCustomMenuItems()
-    {
-        ThrowIfDisposed();
-        var customItems = new List<string>();
-        var standardItems = new[]
-        {
-            KryptonManager.Strings.SystemMenuStrings.Restore,
-            KryptonManager.Strings.SystemMenuStrings.Move,
-            KryptonManager.Strings.SystemMenuStrings.Size,
-            KryptonManager.Strings.SystemMenuStrings.Minimize,
-            KryptonManager.Strings.SystemMenuStrings.Maximize,
-            KryptonManager.Strings.SystemMenuStrings.Close
-        };
-
-        foreach (var item in _contextMenu.Items)
-        {
-            if (item is KryptonContextMenuItem menuItem)
-            {
-                var itemText = menuItem.Text.Split('\t')[0]; // Remove keyboard shortcuts
-                if (!standardItems.Any(standard =>
-                    itemText.Equals(standard, StringComparison.OrdinalIgnoreCase) ||
-                    itemText.Replace("&", "").Equals(standard.Replace("&", ""), StringComparison.OrdinalIgnoreCase)))
-                {
-                    customItems.Add(itemText);
-                }
-            }
-        }
-
-        return customItems;
-    }
 
     /// <summary>
     /// Updates the enabled state of menu items based on current form state.
@@ -1105,12 +927,8 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
             // Clear existing items
             _contextMenu.Items.Clear();
 
-            // Always use our custom menu items instead of trying to parse the native system menu
-            // This ensures consistent behavior and proper separator handling
+            // Create standard system menu items
             CreateBasicMenuItems();
-
-            // Add designer-configured menu items respecting their positioning preferences
-            AddDesignerMenuItemsAboveClose();
         }
         catch (Exception ex)
         {
@@ -1373,160 +1191,6 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
         return originalLocation;
     }
 
-    /// <summary>
-    /// Adds designer-configured menu items respecting their InsertBeforeClose property.
-    /// </summary>
-    private void AddDesignerMenuItemsAboveClose()
-    {
-        if (_designerMenuItems == null || _designerMenuItems.Count == 0)
-        {
-            return;
-        }
-
-        // Separate items by their InsertBeforeClose property
-        var itemsBeforeClose = new List<SystemMenuItemValues>();
-        var itemsAfterClose = new List<SystemMenuItemValues>();
-
-        foreach (var designerItem in _designerMenuItems)
-        {
-            if (!designerItem.Visible)
-            {
-                continue;
-            }
-
-            if (designerItem.InsertBeforeClose)
-            {
-                itemsBeforeClose.Add(designerItem);
-            }
-            else
-            {
-                itemsAfterClose.Add(designerItem);
-            }
-        }
-
-        // Add items that should be inserted before Close
-        if (itemsBeforeClose.Count > 0)
-        {
-            AddDesignerMenuItemsBeforeClose(itemsBeforeClose);
-        }
-
-        // Add items that should be inserted after Close
-        if (itemsAfterClose.Count > 0)
-        {
-            AddDesignerMenuItemsAfterClose(itemsAfterClose);
-        }
-    }
-
-    /// <summary>
-    /// Adds designer menu items before the Close item.
-    /// </summary>
-    private void AddDesignerMenuItemsBeforeClose(List<SystemMenuItemValues> items)
-    {
-        // Find the Close item to insert custom items above it
-        int closeItemIndex = _menuItemClose != null ? _contextMenu.Items.IndexOf(_menuItemClose) : -1;
-
-        if (closeItemIndex >= 0)
-        {
-            // Always add a separator before custom items
-            _contextMenu.Items.Insert(closeItemIndex, new KryptonContextMenuSeparator());
-
-            // Insert custom items above the separator (and above the Close item)
-            for (int i = items.Count - 1; i >= 0; i--)
-            {
-                var designerItem = items[i];
-                var contextMenuItem = designerItem.CreateContextMenuItem();
-
-                // Add click handler for designer items
-                void OnContextMenuItemOnClick(object? sender, EventArgs e) => OnDesignerMenuItemClick(designerItem);
-
-                contextMenuItem.Click += OnContextMenuItemOnClick;
-
-                // Insert above the separator
-                _contextMenu.Items.Insert(closeItemIndex, contextMenuItem);
-            }
-        }
-        else
-        {
-            // Fallback: if we can't find the Close item, add at the end
-            AddDesignerMenuItemsAfterClose(items);
-        }
-    }
-
-    /// <summary>
-    /// Adds designer menu items after the Close item.
-    /// </summary>
-    private void AddDesignerMenuItemsAfterClose(List<SystemMenuItemValues> items)
-    {
-        // Add a separator before custom items if we're adding at the end
-        _contextMenu.Items.Add(new KryptonContextMenuSeparator());
-
-        foreach (var designerItem in items)
-        {
-            var contextMenuItem = designerItem.CreateContextMenuItem();
-
-            void OnContextMenuItemOnClick(object? sender, EventArgs e) => OnDesignerMenuItemClick(designerItem);
-
-            contextMenuItem.Click += OnContextMenuItemOnClick;
-            _contextMenu.Items.Add(contextMenuItem);
-        }
-    }
-
-    /// <summary>
-    /// Ensures there's a separator above the first custom item.
-    /// This method should be called after adding custom items to maintain consistent visual separation.
-    /// </summary>
-    private void EnsureSeparatorAboveCustomItems()
-    {
-        // Find the Close item using direct reference
-        if (_menuItemClose != null)
-        {
-            int closeItemIndex = _contextMenu.Items.IndexOf(_menuItemClose);
-            if (closeItemIndex >= 0)
-            {
-                // Check if there's already a separator above the Close item
-                if (closeItemIndex > 0 && _contextMenu.Items[closeItemIndex - 1] is KryptonContextMenuSeparator)
-                {
-                    // Separator already exists, no action needed
-                    return;
-                }
-                else
-                {
-                    // Add a separator above the Close item
-                    _contextMenu.Items.Insert(closeItemIndex, new KryptonContextMenuSeparator());
-                }
-            }
-        }
-    }
-
-    /// <summary>
-    /// Handles clicks on designer-configured menu items.
-    /// </summary>
-    /// <param name="designerItem">The designer menu item that was clicked.</param>
-    private void OnDesignerMenuItemClick(SystemMenuItemValues designerItem)
-    {
-        try
-        {
-            // Execute the associated command if one is set
-            if (designerItem.Command != null)
-            {
-                designerItem.Command.PerformExecute();
-                return;
-            }
-
-            // This is a placeholder - in a real implementation, you might want to:
-            // 1. Raise a custom event that the form can handle
-            // 2. Use a callback mechanism
-            // 3. Integrate with a command pattern
-
-            // For now, we'll just log or handle it silently
-            Debug.WriteLine($"Designer menu item clicked: {designerItem.Text}");
-        }
-        catch (Exception ex)
-        {
-            // Log the error and continue
-            Debug.WriteLine($"Error handling designer menu item click: {ex.Message}");
-        }
-    }
     #endregion
 
     #region Color Detection Helper Methods

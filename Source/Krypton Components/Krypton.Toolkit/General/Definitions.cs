@@ -819,30 +819,7 @@ public interface IKryptonThemedSystemMenu
     /// <returns>True if the shortcut was handled; otherwise false.</returns>
     bool HandleKeyboardShortcut(Keys keyData);
 
-    /// <summary>
-    /// Adds a custom menu item to the themed system menu.
-    /// </summary>
-    /// <param name="text">The text to display for the menu item.</param>
-    /// <param name="clickHandler">The event handler for when the menu item is clicked.</param>
-    /// <param name="insertBeforeClose">If true, inserts the item before the Close item; otherwise adds it at the end.</param>
-    void AddCustomMenuItem(string text, EventHandler? clickHandler, bool insertBeforeClose = true);
 
-    /// <summary>
-    /// Adds a separator to the themed system menu.
-    /// </summary>
-    /// <param name="insertBeforeClose">If true, inserts the separator before the Close item; otherwise adds it at the end.</param>
-    void AddSeparator(bool insertBeforeClose = true);
-
-    /// <summary>
-    /// Clears all custom items from the themed system menu.
-    /// </summary>
-    void ClearCustomItems();
-
-    /// <summary>
-    /// Gets a list of custom menu item texts.
-    /// </summary>
-    /// <returns>A list of custom menu item texts.</returns>
-    List<string> GetCustomMenuItems();
 
     /// <summary>
     /// Gets the current theme name being used for system menu icons.
@@ -3255,30 +3232,6 @@ public interface IKryptonSystemMenu
     /// <returns>True if the shortcut was handled; otherwise false.</returns>
     bool HandleKeyboardShortcut(Keys keyData);
 
-    /// <summary>
-    /// Adds a custom menu item to the system menu.
-    /// </summary>
-    /// <param name="text">The text to display for the menu item.</param>
-    /// <param name="clickHandler">The event handler for when the menu item is clicked.</param>
-    /// <param name="insertBeforeClose">If true, inserts the item before the Close item; otherwise adds it at the end.</param>
-    void AddCustomMenuItem(string text, EventHandler? clickHandler, bool insertBeforeClose = true);
-
-    /// <summary>
-    /// Adds a separator to the system menu.
-    /// </summary>
-    /// <param name="insertBeforeClose">If true, inserts the separator before the Close item; otherwise adds it at the end.</param>
-    void AddSeparator(bool insertBeforeClose = true);
-
-    /// <summary>
-    /// Clears all custom items from the system menu.
-    /// </summary>
-    void ClearCustomItems();
-
-    /// <summary>
-    /// Gets a list of custom menu item texts.
-    /// </summary>
-    /// <returns>A list of custom menu item texts.</returns>
-    List<string> GetCustomMenuItems();
 
     /// <summary>
     /// Gets the current theme name being used for system menu icons.

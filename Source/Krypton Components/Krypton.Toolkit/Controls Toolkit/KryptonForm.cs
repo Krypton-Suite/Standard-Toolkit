@@ -231,9 +231,6 @@ public class KryptonForm : VisualForm,
             _systemMenuService.ShowSystemMenuOnRightClick = _systemMenuValues.ShowOnRightClick;
             _systemMenuService.ShowSystemMenuOnAltSpace = _systemMenuValues.ShowOnAltSpace;
             // Note: ShowOnIconClick is handled separately in click event handlers
-
-            // Connect designer menu items
-            _systemMenuService.SystemMenu.DesignerMenuItems = _systemMenuValues.CustomMenuItems;
         }
         else
         {
@@ -1215,7 +1212,7 @@ public class KryptonForm : VisualForm,
     /// var systemMenu = form.KryptonSystemMenu;
     /// if (systemMenu != null) // Always check for null!
     /// {
-    ///     systemMenu.AddCustomMenuItem("Settings", OnSettings);
+    ///     // Custom menu items are not supported in this version
     ///     systemMenu.Refresh();
     /// }
     /// </code>
@@ -2888,9 +2885,6 @@ public class KryptonForm : VisualForm,
                     break;
                 case nameof(SystemMenuValues.ShowOnIconClick):
                     // Icon click is handled separately in the click event handlers
-                    break;
-                case nameof(SystemMenuValues.CustomMenuItems):
-                    _systemMenuService.SystemMenu.DesignerMenuItems = _systemMenuValues.CustomMenuItems;
                     break;
             }
         }
