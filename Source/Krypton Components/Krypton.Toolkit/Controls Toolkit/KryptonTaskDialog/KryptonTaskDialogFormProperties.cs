@@ -240,11 +240,8 @@ public class KryptonTaskDialogFormProperties
 
             set
             {
-                if (field != value)
-                {
-                    field = value;
-                    UpdateRoundedCorners();
-                }
+                field = value;
+                UpdateRoundedCorners();
             }
         }
 
