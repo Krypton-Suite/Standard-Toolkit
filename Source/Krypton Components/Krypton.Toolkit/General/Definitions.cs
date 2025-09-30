@@ -1799,7 +1799,22 @@ public enum CheckedSelectionMode
     /// <summary>
     /// Only one item can be selected.
     /// </summary>
-    One = 1
+    One = 1,
+
+    /// <summary>
+    /// Multiple items can be selected with simple click selection.
+    /// </summary>
+    MultiSimple = 2,
+
+    /// <summary>
+    /// Multiple items can be selected with extended selection (Ctrl/Shift keys).
+    /// </summary>
+    MultiExtended = 3,
+
+    /// <summary>
+    /// Only one item can be checked at a time (radio button behavior).
+    /// </summary>
+    Radio = 4
 }
 #endregion
 
