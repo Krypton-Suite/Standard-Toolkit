@@ -63,19 +63,6 @@ public partial class DesignerMenuTest : KryptonForm
     /// <param name="e">Event arguments.</param>
     private void kryptonButton1_Click(object? sender, EventArgs e)
     {
-        if (KryptonSystemMenu != null)
-        {
-            if (SystemMenuValues.CustomMenuItems != null)
-            {
-                var info = $"Menu Information:\n" +
-                           $"Total Items: {KryptonSystemMenu.MenuItemCount}\n" +
-                           $"Has Items: {KryptonSystemMenu.HasMenuItems}\n" +
-                           $"Designer Items: {SystemMenuValues.CustomMenuItems.Count}\n\n" +
-                           $"Right-click on the title bar or press Alt+Space to see the menu!";
-            
-                MessageBox.Show(info, "Menu Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-        }
     }
     #endregion
 }

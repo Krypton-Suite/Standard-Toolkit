@@ -35,24 +35,6 @@ public partial class SystemMenuTest : KryptonForm
         // Demonstrate the enhanced system menu features
         if (KryptonSystemMenu != null)
         {
-            // Add a custom menu item using the new method
-            KryptonSystemMenu.AddCustomMenuItem("About This Form", (sender, args) =>
-            {
-                KryptonMessageBox.Show("This is a test form demonstrating the system menu functionality!",
-                    "About", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
-            });
-
-            // Add a separator
-            KryptonSystemMenu.AddSeparator();
-
-            // Add another custom item
-            KryptonSystemMenu.AddCustomMenuItem("Refresh Menu", (sender, args) =>
-            {
-                KryptonSystemMenu.Refresh();
-                KryptonMessageBox.Show("Menu refreshed! Current item count: " + KryptonSystemMenu.MenuItemCount,
-                    "Info", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
-            });
-
             // Show the current menu item count and theme
             UpdateFormTitle();
                 
@@ -120,32 +102,11 @@ public partial class SystemMenuTest : KryptonForm
 
     private void kryptonButton1_Click(object sender, EventArgs e)
     {
-        // Clear custom menu items and restore default menu
-        if (KryptonSystemMenu != null)
-        {
-            KryptonSystemMenu.ClearCustomItems();
-            KryptonMessageBox.Show("Custom items cleared! Menu restored to default.", "Info", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
-
-            // Update the title to show new item count
-            Text = $"System Menu Test - {KryptonSystemMenu.MenuItemCount} items";
-        }
     }
 
     private void kryptonButton2_Click(object sender, EventArgs e)
     {
-        // Show information about the current menu
-        if (KryptonSystemMenu != null)
-        {
-            var customItems = KryptonSystemMenu.GetCustomMenuItems();
-            var info = $"Menu Information:\n" +
-                       $"Total Items: {KryptonSystemMenu.MenuItemCount}\n" +
-                       $"Has Items: {KryptonSystemMenu.HasMenuItems}\n" +
-                       $"Custom Items: {customItems.Count}\n" +
-                       $"Custom Items: {string.Join(", ", customItems)}\n" +
-                       $"Current Icon Theme: {KryptonSystemMenu.CurrentIconTheme}";
-
-            KryptonMessageBox.Show(info, "Menu Info", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
-        }
+        
     }
 
     private void kryptonButton3_Click(object sender, EventArgs e)
