@@ -67,6 +67,7 @@ $(function(){initNavTree('struct_krypton_1_1_toolkit_1_1_krypton_task_dialog_def
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a5d5bf6fe981f064e48a7807e35da5095" id="r_a5d5bf6fe981f064e48a7807e35da5095"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5d5bf6fe981f064e48a7807e35da5095">KryptonTaskDialogDefaults</a> (int clientWidth)</td></tr>
+<tr class="memitem:a7c0513f6e21a5f050c28087f2bcfe519" id="r_a7c0513f6e21a5f050c28087f2bcfe519"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7c0513f6e21a5f050c28087f2bcfe519">GetCornerRouding</a> (bool roundingEnabled)</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-properties" class="groupheader"><a id="properties" name="properties"></a>
 Properties</h2></td></tr>
@@ -77,8 +78,13 @@ Properties</h2></td></tr>
 <tr class="memitem:aafccdd55157049280472d414cbbbd086" id="r_aafccdd55157049280472d414cbbbd086"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aafccdd55157049280472d414cbbbd086">PanelBottom</a><code> [get]</code></td></tr>
 <tr class="memitem:aa150e265800cf25c36d469ce8e8fce2c" id="r_aa150e265800cf25c36d469ce8e8fce2c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa150e265800cf25c36d469ce8e8fce2c">PanelRight</a><code> [get]</code></td></tr>
 <tr class="memitem:a95cabf6f7edf01bb1e2c5e67887085b7" id="r_a95cabf6f7edf01bb1e2c5e67887085b7"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a95cabf6f7edf01bb1e2c5e67887085b7">ComponentSpace</a><code> [get]</code></td></tr>
+<tr class="memitem:af56a2062a02dd859d80f294b29e9ebfc" id="r_af56a2062a02dd859d80f294b29e9ebfc"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af56a2062a02dd859d80f294b29e9ebfc">CornerRoundingRatio</a><code> [get]</code></td></tr>
 <tr class="memitem:a4603d2c84d63947db1eb92c1b6bf3ffb" id="r_a4603d2c84d63947db1eb92c1b6bf3ffb"><td class="memItemLeft" align="right" valign="top">Padding&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4603d2c84d63947db1eb92c1b6bf3ffb">NullPadding</a><code> [get]</code></td></tr>
 <tr class="memitem:a7fb02e875d22efb7b902565fe18f4975" id="r_a7fb02e875d22efb7b902565fe18f4975"><td class="memItemLeft" align="right" valign="top">Padding&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7fb02e875d22efb7b902565fe18f4975">NullMargin</a><code> [get]</code></td></tr>
+<tr class="memitem:ad86758aac9a100bd960dab057d17f646" id="r_ad86758aac9a100bd960dab057d17f646"><td class="memItemLeft" align="right" valign="top">Size&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad86758aac9a100bd960dab057d17f646">ButtonSize_75x24</a><code> [get]</code></td></tr>
+<tr class="memdesc:ad86758aac9a100bd960dab057d17f646"><td class="mdescLeft">&#160;</td><td class="mdescRight">Standard button size: 75 x 24;.  <br /></td></tr>
+<tr class="memitem:a9bb46d82b6101a0976beffd6b94edf92" id="r_a9bb46d82b6101a0976beffd6b94edf92"><td class="memItemLeft" align="right" valign="top">Size&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9bb46d82b6101a0976beffd6b94edf92">ButtonSize_24x75</a><code> [get]</code></td></tr>
+<tr class="memdesc:a9bb46d82b6101a0976beffd6b94edf92"><td class="mdescLeft">&#160;</td><td class="mdescRight">Standard button size for vertical use: 24 x 75;.  <br /></td></tr>
 <tr class="memitem:a34f68e0440fab87588f120b882ecc10c" id="r_a34f68e0440fab87588f120b882ecc10c"><td class="memItemLeft" align="right" valign="top">Padding&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a34f68e0440fab87588f120b882ecc10c">PanelPadding1</a><code> [get]</code></td></tr>
 <tr class="memdesc:a34f68e0440fab87588f120b882ecc10c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Panel padding that centers it's contents relative to :<br  />
  PanelLeft, PanelTop, PanelRight, PanelBottom.  <br /></td></tr>
@@ -103,7 +109,73 @@ Properties</h2></td></tr>
 
 </div>
 </div>
+<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
+<a id="a7c0513f6e21a5f050c28087f2bcfe519" name="a7c0513f6e21a5f050c28087f2bcfe519"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c0513f6e21a5f050c28087f2bcfe519">&#9670;&#160;</a></span>GetCornerRouding()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Krypton.Toolkit.KryptonTaskDialogDefaults.GetCornerRouding </td>
+          <td>(</td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>roundingEnabled</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a name="doc-property-members" id="doc-property-members"></a><h2 id="header-doc-property-members" class="groupheader">Property Documentation</h2>
+<a id="a9bb46d82b6101a0976beffd6b94edf92" name="a9bb46d82b6101a0976beffd6b94edf92"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9bb46d82b6101a0976beffd6b94edf92">&#9670;&#160;</a></span>ButtonSize_24x75</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Size Krypton.Toolkit.KryptonTaskDialogDefaults.ButtonSize_24x75</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel get">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Standard button size for vertical use: 24 x 75;. </p>
+
+</div>
+</div>
+<a id="ad86758aac9a100bd960dab057d17f646" name="ad86758aac9a100bd960dab057d17f646"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad86758aac9a100bd960dab057d17f646">&#9670;&#160;</a></span>ButtonSize_75x24</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Size Krypton.Toolkit.KryptonTaskDialogDefaults.ButtonSize_75x24</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel get">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Standard button size: 75 x 24;. </p>
+
+</div>
+</div>
 <a id="a438b1e3721be81bb853d2a4d1ec643d0" name="a438b1e3721be81bb853d2a4d1ec643d0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a438b1e3721be81bb853d2a4d1ec643d0">&#9670;&#160;</a></span>ClientHeight</h2>
 
@@ -159,6 +231,28 @@ Properties</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">int Krypton.Toolkit.KryptonTaskDialogDefaults.ComponentSpace</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel get">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af56a2062a02dd859d80f294b29e9ebfc" name="af56a2062a02dd859d80f294b29e9ebfc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af56a2062a02dd859d80f294b29e9ebfc">&#9670;&#160;</a></span>CornerRoundingRatio</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Krypton.Toolkit.KryptonTaskDialogDefaults.CornerRoundingRatio</td>
         </tr>
       </table>
   </td>

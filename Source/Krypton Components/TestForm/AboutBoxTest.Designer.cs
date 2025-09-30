@@ -38,16 +38,18 @@ namespace TestForm
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AboutBoxTest));
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
             this.kbtnShow = new Krypton.Toolkit.KryptonButton();
             this.kryptonButton1 = new Krypton.Toolkit.KryptonButton();
             this.kryptonBorderEdge1 = new Krypton.Toolkit.KryptonBorderEdge();
             this.kryptonPanel2 = new Krypton.Toolkit.KryptonPanel();
             this.kryptonTextBox4 = new Krypton.Toolkit.KryptonTextBox();
+            this.bsaBrowseMainImage = new Krypton.Toolkit.ButtonSpecAny();
             this.kryptonTextBox3 = new Krypton.Toolkit.KryptonTextBox();
+            this.bsaBrowseHeaderImage = new Krypton.Toolkit.ButtonSpecAny();
             this.kryptonTextBox2 = new Krypton.Toolkit.KryptonTextBox();
             this.kryptonTextBox1 = new Krypton.Toolkit.KryptonTextBox();
+            this.bsaAssemblyBrowse = new Krypton.Toolkit.ButtonSpecAny();
             this.kchkUseRtlLayout = new Krypton.Toolkit.KryptonCheckBox();
             this.kchkUseFullBuiltOnDate = new Krypton.Toolkit.KryptonCheckBox();
             this.kchkShowToolkitInformation = new Krypton.Toolkit.KryptonCheckBox();
@@ -56,9 +58,6 @@ namespace TestForm
             this.kryptonLabel2 = new Krypton.Toolkit.KryptonLabel();
             this.kryptonLabel1 = new Krypton.Toolkit.KryptonLabel();
             this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
-            this.bsaAssemblyBrowse = new Krypton.Toolkit.ButtonSpecAny();
-            this.bsaBrowseHeaderImage = new Krypton.Toolkit.ButtonSpecAny();
-            this.bsaBrowseMainImage = new Krypton.Toolkit.ButtonSpecAny();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel2)).BeginInit();
@@ -70,16 +69,16 @@ namespace TestForm
             this.kryptonPanel1.Controls.Add(this.kbtnShow);
             this.kryptonPanel1.Controls.Add(this.kryptonButton1);
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.kryptonPanel1.Location = new System.Drawing.Point(0, 212);
+            this.kryptonPanel1.Location = new System.Drawing.Point(0, 194);
             this.kryptonPanel1.Name = "kryptonPanel1";
             this.kryptonPanel1.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelAlternate;
-            this.kryptonPanel1.Size = new System.Drawing.Size(800, 50);
+            this.kryptonPanel1.Size = new System.Drawing.Size(806, 50);
             this.kryptonPanel1.TabIndex = 0;
             // 
             // kbtnShow
             // 
             this.kbtnShow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.kbtnShow.Location = new System.Drawing.Point(602, 13);
+            this.kbtnShow.Location = new System.Drawing.Point(608, 13);
             this.kbtnShow.Name = "kbtnShow";
             this.kbtnShow.Size = new System.Drawing.Size(90, 25);
             this.kbtnShow.TabIndex = 1;
@@ -91,7 +90,7 @@ namespace TestForm
             // 
             this.kryptonButton1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.kryptonButton1.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.kryptonButton1.Location = new System.Drawing.Point(698, 13);
+            this.kryptonButton1.Location = new System.Drawing.Point(704, 13);
             this.kryptonButton1.Name = "kryptonButton1";
             this.kryptonButton1.Size = new System.Drawing.Size(90, 25);
             this.kryptonButton1.TabIndex = 0;
@@ -104,9 +103,9 @@ namespace TestForm
             // 
             this.kryptonBorderEdge1.BorderStyle = Krypton.Toolkit.PaletteBorderStyle.HeaderPrimary;
             this.kryptonBorderEdge1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.kryptonBorderEdge1.Location = new System.Drawing.Point(0, 211);
+            this.kryptonBorderEdge1.Location = new System.Drawing.Point(0, 193);
             this.kryptonBorderEdge1.Name = "kryptonBorderEdge1";
-            this.kryptonBorderEdge1.Size = new System.Drawing.Size(800, 1);
+            this.kryptonBorderEdge1.Size = new System.Drawing.Size(806, 1);
             this.kryptonBorderEdge1.Text = "kryptonBorderEdge1";
             // 
             // kryptonPanel2
@@ -125,7 +124,7 @@ namespace TestForm
             this.kryptonPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel2.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel2.Name = "kryptonPanel2";
-            this.kryptonPanel2.Size = new System.Drawing.Size(800, 211);
+            this.kryptonPanel2.Size = new System.Drawing.Size(806, 193);
             this.kryptonPanel2.TabIndex = 2;
             // 
             // kryptonTextBox4
@@ -137,6 +136,12 @@ namespace TestForm
             this.kryptonTextBox4.TabIndex = 10;
             this.kryptonTextBox4.Text = "kryptonTextBox4";
             // 
+            // bsaBrowseMainImage
+            // 
+            this.bsaBrowseMainImage.Text = ".&..";
+            this.bsaBrowseMainImage.UniqueName = "0773a389882641feb79629815f46d5e5";
+            this.bsaBrowseMainImage.Click += new System.EventHandler(this.bsaBrowseMainImage_Click);
+            // 
             // kryptonTextBox3
             // 
             this.kryptonTextBox3.ButtonSpecs.Add(this.bsaBrowseHeaderImage);
@@ -145,6 +150,12 @@ namespace TestForm
             this.kryptonTextBox3.Size = new System.Drawing.Size(649, 26);
             this.kryptonTextBox3.TabIndex = 9;
             this.kryptonTextBox3.Text = "kryptonTextBox3";
+            // 
+            // bsaBrowseHeaderImage
+            // 
+            this.bsaBrowseHeaderImage.Text = ".&..";
+            this.bsaBrowseHeaderImage.UniqueName = "ba7f76ebadf64157adeab2b8fc7658f3";
+            this.bsaBrowseHeaderImage.Click += new System.EventHandler(this.bsaBrowseHeaderImage_Click);
             // 
             // kryptonTextBox2
             // 
@@ -162,6 +173,12 @@ namespace TestForm
             this.kryptonTextBox1.Size = new System.Drawing.Size(649, 26);
             this.kryptonTextBox1.TabIndex = 7;
             this.kryptonTextBox1.Text = "kryptonTextBox1";
+            // 
+            // bsaAssemblyBrowse
+            // 
+            this.bsaAssemblyBrowse.Text = ".&..";
+            this.bsaAssemblyBrowse.UniqueName = "8b78c231307c42499bad24c53a26eeb2";
+            this.bsaAssemblyBrowse.Click += new System.EventHandler(this.bsaAssemblyBrowse_Click);
             // 
             // kchkUseRtlLayout
             // 
@@ -225,36 +242,25 @@ namespace TestForm
             // 
             // kryptonManager1
             // 
+            this.kryptonManager1.BaseFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.kryptonManager1.GlobalPaletteMode = Krypton.Toolkit.PaletteMode.ProfessionalSystem;
-            // 
-            // bsaAssemblyBrowse
-            // 
-            this.bsaAssemblyBrowse.Text = ".&..";
-            this.bsaAssemblyBrowse.UniqueName = "8b78c231307c42499bad24c53a26eeb2";
-            this.bsaAssemblyBrowse.Click += new System.EventHandler(this.bsaAssemblyBrowse_Click);
-            // 
-            // bsaBrowseHeaderImage
-            // 
-            this.bsaBrowseHeaderImage.Text = ".&..";
-            this.bsaBrowseHeaderImage.UniqueName = "ba7f76ebadf64157adeab2b8fc7658f3";
-            this.bsaBrowseHeaderImage.Click += new System.EventHandler(this.bsaBrowseHeaderImage_Click);
-            // 
-            // bsaBrowseMainImage
-            // 
-            this.bsaBrowseMainImage.Text = ".&..";
-            this.bsaBrowseMainImage.UniqueName = "0773a389882641feb79629815f46d5e5";
-            this.bsaBrowseMainImage.Click += new System.EventHandler(this.bsaBrowseMainImage_Click);
+            this.kryptonManager1.ToolkitStrings.MessageBoxStrings.LessDetails = "L&ess Details...";
+            this.kryptonManager1.ToolkitStrings.MessageBoxStrings.MoreDetails = "&More Details...";
             // 
             // AboutBoxTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 262);
+            this.ClientSize = new System.Drawing.Size(806, 244);
             this.Controls.Add(this.kryptonPanel2);
             this.Controls.Add(this.kryptonBorderEdge1);
             this.Controls.Add(this.kryptonPanel1);
+            this.Location = new System.Drawing.Point(0, 0);
             this.Name = "AboutBoxTest";
             this.Text = "AboutBoxTest";
+            this.Controls.SetChildIndex(this.kryptonPanel1, 0);
+            this.Controls.SetChildIndex(this.kryptonBorderEdge1, 0);
+            this.Controls.SetChildIndex(this.kryptonPanel2, 0);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
             this.kryptonPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel2)).EndInit();

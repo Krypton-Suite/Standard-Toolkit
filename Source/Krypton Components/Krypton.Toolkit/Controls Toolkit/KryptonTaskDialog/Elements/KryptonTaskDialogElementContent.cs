@@ -1,8 +1,5 @@
-﻿#region BSD License
+#region BSD License
 /*
- *
- * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- * © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  * Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2025 - 2025. All rights reserved.
@@ -12,7 +9,7 @@
 
 namespace Krypton.Toolkit;
 
-public class KryptonTaskDialogElementContent : KryptonTaskDialogElementBase,
+public partial class KryptonTaskDialogElementContent : KryptonTaskDialogElementBase,
     IKryptonTaskDialogElementContent,
     IKryptonTaskDialogElementForeColor
 {
@@ -20,33 +17,128 @@ public class KryptonTaskDialogElementContent : KryptonTaskDialogElementBase,
     // default text format flags
     private const TextFormatFlags textFormatFlags = TextFormatFlags.WordBreak | TextFormatFlags.NoPadding | TextFormatFlags.ExpandTabs;
 
-    // Content text
-    KryptonWrapLabel _textControl;
-    // Ttextbox width
-    int _textBoxWidth;
+    private KryptonWrapLabel _textBox;
+    private TableLayoutPanel _tlp;
+    private KryptonPictureBox _pictureBox;
+    private bool _disposed;
     #endregion
 
     #region Identity
     public KryptonTaskDialogElementContent(KryptonTaskDialogDefaults taskDialogDefaults) 
         : base(taskDialogDefaults)
     {
+        _disposed = false;
+
         Panel.Height = 120;
-        _textBoxWidth = Defaults.ClientWidth - Defaults.PanelLeft - Defaults.PanelRight;
+        Panel.Padding = Defaults.PanelPadding1;
 
-        _textControl = new()
+        ContentImage = new ContentImageStorage();
+        ContentImage.PositionedLeft = true;
+        ContentImage.PropertyChanged += OnContentImagePropertyChanged;
+
+        _pictureBox = new();
+        _tlp = new();
+        _textBox = new();
+
+        SetupPanel();
+
+        LayoutDirty = true;
+        OnSizeChanged();
+    }
+    #endregion
+
+    #region Private
+    private void SetupPictureBox()
+    {
+        _pictureBox.Visible = false;
+        _pictureBox.Margin = new Padding(0, 0, Defaults.ComponentSpace, 0);
+        _pictureBox.Padding = Defaults.NullPadding;
+        _pictureBox.BorderStyle = BorderStyle.None;
+        _pictureBox.SizeMode = PictureBoxSizeMode.CenterImage;
+        _pictureBox.Anchor = AnchorStyles.Top | AnchorStyles.Left;
+    }
+
+    private void SetupTableLayoutPanel()
+    {
+        _tlp.Left = Defaults.PanelLeft;
+        _tlp.Top = Defaults.PanelTop;
+        _tlp.AutoSize = true;
+        _tlp.Margin = Defaults.PanelPadding1;
+        _tlp.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+        _tlp.MaximumSize = Defaults.TLP.StdMaxSize;
+        _tlp.MinimumSize = Defaults.TLP.StdMinSize;
+        
+        // Partition the tlp.
+        _tlp.RowStyles.Clear();
+        _tlp.ColumnStyles.Clear();
+        
+        _tlp.RowCount = 1;
+        _tlp.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+        
+        _tlp.ColumnCount = 3;
+        _tlp.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+        _tlp.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+        _tlp.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+    }
+
+    private void SetupControls()
+    {
+        _textBox.AutoSize = false;
+        _textBox.Height = 100;
+        _textBox.Padding = new Padding(0);
+        _textBox.Margin = new Padding(0, 0, 0, 0);
+        _textBox.Location = new Point(10, 10);
+        _textBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+    }
+
+    private void SetupPanel()
+    {
+        SetupPictureBox();
+        SetupControls();
+        SetupTableLayoutPanel();
+            
+        // Put it together
+        _tlp.Controls.Add(_textBox, 1, 0);
+        _tlp.Controls.Add(_pictureBox, 0, 0);
+        Panel.Controls.Add(_tlp);
+    }
+
+    private void OnContentImagePropertyChanged(ContentImageStorageProperties property)
+    {
+        if (property is ContentImageStorageProperties.Image or ContentImageStorageProperties.Size)
         {
-            AutoSize = true,
-            Width = _textBoxWidth,
-            Height = 0,
-            Padding = new Padding(0),
-            Margin = new Padding(3, 0, 0, 0),
-            Location = new Point(10, 10),
-            MaximumSize = new Size(_textBoxWidth, 0),
-            MinimumSize = new Size(_textBoxWidth, 0),
-            Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right,
-        };
+            if (ContentImage.Image is not null)
+            {
+                // If the user has set width or height to zero the raw image size is used, whatever that may be.
+                _pictureBox.Size = (ContentImage.Size.Width == 0 || ContentImage.Size.Height == 0)
+                    ? ContentImage.Image.Size
+                    : ContentImage.Size;
 
-        Panel.Controls.Add(_textControl);
+                _pictureBox.Image = new Bitmap(ContentImage.Image, _pictureBox.Size);
+            }
+            else
+            {
+                ContentImage.Visible = false;
+            }
+        }
+        else if (property == ContentImageStorageProperties.Visible)
+        {
+            _pictureBox.Visible = ContentImage.Image is not null && ContentImage.Visible;
+        }
+        else if (property == ContentImageStorageProperties.Position)
+        {
+            int columnIndex = ContentImage.PositionedLeft ? 0 : 2;
+
+            _tlp.Controls.Remove(_pictureBox);
+            _tlp.Controls.Add(_pictureBox, columnIndex, 0);
+        }
+        else
+        {
+            throw new ArgumentOutOfRangeException($"Unknown ContentImageStorageProperties member: {property}");
+        }
+
+        LayoutDirty = true;
+        OnSizeChanged();
     }
     #endregion
 
@@ -57,16 +149,17 @@ public class KryptonTaskDialogElementContent : KryptonTaskDialogElementBase,
         // Updates / changes are deferred if the element is not visible or until PerformLayout is called
         if (LayoutDirty && (Visible || performLayout))
         {
-            Font font = _textControl.StateCommon.Font
+            Font font = _textBox.StateCommon.Font
                 ?? Palette.GetContentShortTextFont(PaletteContentStyle.LabelNormalControl, PaletteState.Normal)
                 ?? KryptonManager.CurrentGlobalPalette.BaseFont;
 
-            int height = TextRenderer.MeasureText(_textControl.Text, font, new SizeF(_textBoxWidth, float.MaxValue).ToSize(), textFormatFlags).Height;
+            _textBox.Width = _pictureBox.Visible
+                ? _tlp.MaximumSize.Width - _pictureBox.Width - _pictureBox.Margin.Horizontal
+                : _tlp.MaximumSize.Width;
 
-            // Controls seem to need a little help here to stay within the correct bounds
-            Panel.Height = height + Defaults.PanelTop + Defaults.PanelBottom;
-            _textControl.Width = _textBoxWidth - Defaults.PanelLeft - Defaults.PanelRight;
-            _textControl.Height = height;
+            _textBox.Height = TextRenderer.MeasureText(_textBox.Text, font, new SizeF(_textBox.Width, float.MaxValue).ToSize(), textFormatFlags).Height;
+
+            Panel.Height = _tlp.Height + Defaults.PanelTop + Defaults.PanelBottom;
 
             // Tell everybody about it when visible.
             base.OnSizeChanged(performLayout);
@@ -107,19 +200,37 @@ public class KryptonTaskDialogElementContent : KryptonTaskDialogElementBase,
             OnSizeChanged();
         }
     }
+
+    protected override void Dispose(bool disposing)
+    {
+        if (!_disposed && disposing)
+        {
+            ContentImage.PropertyChanged -= OnContentImagePropertyChanged;
+        
+            _disposed = true;
+        }
+
+        base.Dispose(disposing);
+    }
     #endregion
 
     #region Public
+    /// <summary>
+    /// Image to display together with the content.
+    /// </summary>
+    [TypeConverter(typeof(ExpandableObjectConverter))]
+    public KryptonTaskDialogElementContent.ContentImageStorage ContentImage { get; }
+
     /// <inheritdoc/>
     public string Text 
     {
-        get => _textControl.Text;
+        get => _textBox.Text;
 
         set
         {
-            if (_textControl.Text != value)
+            if (_textBox.Text != value)
             {
-                _textControl.Text = CommonHelper.NormalizeLineBreaks(value) + Environment.NewLine;
+                _textBox.Text = CommonHelper.NormalizeLineBreaks(value) + Environment.NewLine;
                 LayoutDirty = true;
                 OnSizeChanged();
             }
@@ -128,8 +239,8 @@ public class KryptonTaskDialogElementContent : KryptonTaskDialogElementBase,
 
     public Color ForeColor 
     {
-        get => _textControl.StateCommon.TextColor;
-        set => _textControl.StateCommon.TextColor = value;
+        get => _textBox.StateCommon.TextColor;
+        set => _textBox.StateCommon.TextColor = value;
     }
     #endregion
 }

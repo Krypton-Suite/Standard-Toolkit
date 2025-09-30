@@ -1,10 +1,12 @@
+:: Last updated: Saturday 16th August, 2025 @ 19:00
+
 @echo off
 
 title Krypton Toolkit Build System
 
 cls
 
-@echo Welcome to the Krypton Toolkit Build system, version: 2.4a. Please select an option below.
+@echo Welcome to the Krypton Toolkit Build system, version: 3.0. Please select an option below.
 echo:
 @echo ==============================================================================================
 echo:
@@ -15,9 +17,11 @@ echo 4. Build and Pack Toolkit
 echo 5. Debug project
 echo 6. NuGet Tools
 echo 7. WebView2 SDK Tools
-echo 8. End
+echo 8. Create Archives (ZIP/TAR)
+::echo 8. Miscellaneous tasks
+echo 9. End
 echo:
-set /p answer="Enter number (1 - 8): "
+set /p answer="Enter number (1 - 9): "
 if %answer%==1 (goto cleanproject)
 if %answer%==2 (goto buildproject)
 if %answer%==3 (goto createnugetpackages)
@@ -25,7 +29,8 @@ if %answer%==4 (goto buildandpacktoolkit)
 if %answer%==5 (goto debugproject)
 if %answer%==6 (goto nugettools)
 if %answer%==7 (goto webview2tools)
-if %answer%==8 (goto exitbuildsystem)
+if %answer%==8 (goto createarchives)
+if %answer%==9 (goto exitbuildsystem)
 
 @echo Invalid input, please try again.
 
@@ -46,9 +51,11 @@ echo 4. Build and Pack Toolkit
 echo 5. Debug project
 echo 6. NuGet Tools
 echo 7. WebView2 SDK Tools
-echo 8. End
+echo 8. Create Archives (ZIP/TAR)
+::echo 8. Miscellaneous tasks
+echo 9. End
 echo:
-set /p answer="Enter number (1 - 8): "
+set /p answer="Enter number (1 - 9): "
 if %answer%==1 (goto cleanproject)
 if %answer%==2 (goto buildproject)
 if %answer%==3 (goto createnugetpackages)
@@ -56,7 +63,9 @@ if %answer%==4 (goto buildandpacktoolkit)
 if %answer%==5 (goto debugproject)
 if %answer%==6 (goto nugettools)
 if %answer%==7 (goto webview2tools)
-if %answer%==8 (goto exitbuildsystem)
+if %answer%==8 (goto createarchives)
+::if %answer%==8 (goto miscellaneoustasks)
+if %answer%==9 (goto exitbuildsystem)
 
 @echo Invalid input, please try again.
 
@@ -236,7 +245,181 @@ goto packmenu
 goto debugmenu
 
 :nugettools
-goto nugettools
+goto createarchives
+
+:createarchives
+cls
+
+echo 1. Create ZIP archive (Nightly)
+echo 2. Create TAR archive (Nightly)
+echo 3. Create both ZIP and TAR archives (Nightly)
+echo 4. Create ZIP archive (Canary)
+echo 5. Create TAR archive (Canary)
+echo 6. Create both ZIP and TAR archives (Canary)
+echo 7. Create ZIP archive (Stable)
+echo 8. Create TAR archive (Stable)
+echo 9. Create both ZIP and TAR archives (Stable)
+echo 10. Update NuGet tools
+echo 11. Go back to main menu
+echo:
+set /p answer="Enter number (1 - 11): "
+if %answer%==1 (goto createzipnightly)
+if %answer%==2 (goto createtarnightly)
+if %answer%==3 (goto createallarchivesnightly)
+if %answer%==4 (goto createzipcanary)
+if %answer%==5 (goto createtarcanary)
+if %answer%==6 (goto createallarchivescanary)
+if %answer%==7 (goto createzipstable)
+if %answer%==8 (goto createtarstable)
+if %answer%==9 (goto createallarchivesstable)
+if %answer%==10 (goto updatenuget)
+if %answer%==11 (goto mainmenu)
+
+@echo Invalid input, please try again.
+
+pause
+
+goto createarchives
+
+:: ===================================================================================================
+
+:updatenuget
+cls
+
+cd Scripts
+
+update-nuget.cmd
+
+cd ..
+
+pause
+
+goto mainmenu
+
+:: ===================================================================================================
+
+:createzipnightly
+cls
+
+cd Scripts
+
+build-nightly.cmd CreateNightlyZip
+
+cd ..
+
+pause
+
+goto mainmenu
+
+:createtarnightly
+cls
+
+cd Scripts
+
+build-nightly.cmd CreateNightlyTar
+
+cd ..
+
+pause
+
+goto mainmenu
+
+:createallarchivesnightly
+cls
+
+cd Scripts
+
+build-nightly.cmd CreateAllArchives
+
+cd ..
+
+pause
+
+goto mainmenu
+
+:: ===================================================================================================
+
+:createzipcanary
+cls
+
+cd Scripts
+
+build-canary.cmd CreateCanaryZip
+
+cd ..
+
+pause
+
+goto mainmenu
+
+:createtarcanary
+cls
+
+cd Scripts
+
+build-canary.cmd CreateCanaryTar
+
+cd ..
+
+pause
+
+goto mainmenu
+
+:createallarchivescanary
+cls
+
+cd Scripts
+
+build-canary.cmd CreateAllCanaryArchives
+
+cd ..
+
+pause
+
+goto mainmenu
+
+:: ===================================================================================================
+
+:createzipstable
+cls
+
+cd Scripts
+
+build-stable.cmd CreateReleaseZip
+
+cd ..
+
+pause
+
+goto mainmenu
+
+:createtarstable
+cls
+
+cd Scripts
+
+build-stable.cmd CreateReleaseTar
+
+cd ..
+
+pause
+
+goto mainmenu
+
+:createallarchivesstable
+cls
+
+cd Scripts
+
+build-stable.cmd CreateAllReleaseArchives
+
+cd ..
+
+pause
+
+goto mainmenu
+
+:: ===================================================================================================
 
 :buildandpacktoolkit
 goto buildandpacktoolkitmenu
