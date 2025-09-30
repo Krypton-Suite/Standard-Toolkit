@@ -12,18 +12,20 @@ namespace Krypton.Toolkit;
 /// <summary>
 /// Used internally by KryptonTaskDialogElementFooterBar
 /// </summary>
-public class KryptonTaskDialogElementFooterBarCommonButtonProperties 
+public class KryptonTaskDialogElementFooterBarCommonButtonProperties :
+        IKryptonTaskDialogElementPropertyChanged<KryptonTaskDialogElementFooterBar.CommonButtonsProperties>
 {
     #region Fields
-    private KryptonTaskDialogElementFooterBar _footerBar;
-    private KryptonTaskDialogCommonButtonTypes _commonButtons;
+    #endregion
+
+    #region Events
+    /// <inheritdoc/>
+    public event Action<KryptonTaskDialogElementFooterBar.CommonButtonsProperties>? PropertyChanged;
     #endregion
 
     #region Identity
-    public KryptonTaskDialogElementFooterBarCommonButtonProperties(KryptonTaskDialogElementFooterBar footerBar)
+    public KryptonTaskDialogElementFooterBarCommonButtonProperties()
     {
-        _footerBar = footerBar;
-        _commonButtons = KryptonTaskDialogCommonButtonTypes.None;
     }
     #endregion
 
@@ -31,14 +33,14 @@ public class KryptonTaskDialogElementFooterBarCommonButtonProperties
     /// <inheritdoc/>
     public KryptonTaskDialogCommonButtonTypes Buttons
     {
-        get => _commonButtons;
+        get => field;
 
         set
         {
-            if (_commonButtons != value)
+            if (field != value)
             {
-                _commonButtons = value;
-                _footerBar.OnCommonButtonsChanged();
+                field = value;
+                OnPropertyChanged(KryptonTaskDialogElementFooterBar.CommonButtonsProperties.Buttons);
             }
         }
     }
@@ -53,7 +55,7 @@ public class KryptonTaskDialogElementFooterBarCommonButtonProperties
             if (field != value)
             {
                 field = value;
-                _footerBar.OnCommonButtonsChanged();
+                OnPropertyChanged(KryptonTaskDialogElementFooterBar.CommonButtonsProperties.AcceptButton);
             }
         }
     }
@@ -68,7 +70,7 @@ public class KryptonTaskDialogElementFooterBarCommonButtonProperties
             if (field != value)
             {
                 field = value;
-                _footerBar.OnCommonButtonsChanged();
+                OnPropertyChanged(KryptonTaskDialogElementFooterBar.CommonButtonsProperties.CancelButton);
             }
         }
     }
@@ -84,4 +86,12 @@ public class KryptonTaskDialogElementFooterBarCommonButtonProperties
         return string.Empty;
     }
     #endregion
+
+    #region Private
+    private void OnPropertyChanged(KryptonTaskDialogElementFooterBar.CommonButtonsProperties property)
+    {
+        PropertyChanged?.Invoke(property);
+    }
+    #endregion
+
 }
