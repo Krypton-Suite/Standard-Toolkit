@@ -72,7 +72,7 @@ public class KryptonTaskDialogElementContentTest : KryptonTaskDialogElementBase,
 
         Panel.Controls.Add(_tlp);
         //Panel.Controls.Add(_description);
-        //Panel.Controls.Add(_textControl);
+        //Panel.Controls.Add(_textBox);
 
         _tlp.Controls.Add(_description, 0, 0);
         _tlp.Controls.Add(_textControl, 0, 1);
