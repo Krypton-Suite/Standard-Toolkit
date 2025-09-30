@@ -44,10 +44,19 @@ public class KryptonTaskDialog : IDisposable
 
         // Border-Fixes: filler panel to compensate for the border problems 
         _fillerPanelOffset = 6;
-        _fillerPanel = new KryptonPanel() { Height = _fillerPanelOffset, Dock = DockStyle.Top };
+        _fillerPanel = new KryptonPanel()
+        {
+            Height = _fillerPanelOffset,
+            Dock = DockStyle.Top
+        };
+
         _disposed = false;
         _elements = [];
-        _form = new() { AutoScaleMode = AutoScaleMode.Font };
+
+        _form = new()
+        {
+            AutoScaleMode = AutoScaleMode.Font
+        };
 
         // Border-Fixes: Stop the form from growing unintentionally when it is moved
         _form.ResizeBegin += (sender, e) => _clientRectangle = _form.ClientRectangle;
@@ -65,6 +74,7 @@ public class KryptonTaskDialog : IDisposable
         //ContentTest   = new KryptonTaskDialogElementContentTest((_taskDialogDefaults);
         Expander           = new KryptonTaskDialogElementContent(_taskDialogDefaults);
         RichTextBox        = new KryptonTaskDialogElementRichTextBox(_taskDialogDefaults);
+        FreeWheeler        = new KryptonTaskDialogElementFreeWheeler(_taskDialogDefaults);
         CommandLinkButtons = new KryptonTaskDialogElementCommandLinkButtons(_taskDialogDefaults);
         CheckBox           = new KryptonTaskDialogElementCheckBox(_taskDialogDefaults);
         HyperLink          = new KryptonTaskDialogElementHyperLink(_taskDialogDefaults);
@@ -80,6 +90,7 @@ public class KryptonTaskDialog : IDisposable
         //_elements.Add(ContentTest);
         _elements.Add(Expander);
         _elements.Add(RichTextBox);
+        _elements.Add(FreeWheeler);
 
         //_elements.Add(ElementEmpty);
 
@@ -139,6 +150,12 @@ public class KryptonTaskDialog : IDisposable
     /// </summary>
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public KryptonTaskDialogElementRichTextBox RichTextBox { get; }
+
+    /// <summary>
+    /// The FreeWheeler element exposes only a FlowLayoutPanel (and all it's properties) to which you can add and configure your own set of controls.<br/>
+    /// </summary>
+    [TypeConverter(typeof(ExpandableObjectConverter))]
+    public KryptonTaskDialogElementFreeWheeler FreeWheeler { get; }
 
     /// <summary>
     /// Contains the properties for the CommandLinkButtons element.<br/>
@@ -285,7 +302,9 @@ public class KryptonTaskDialog : IDisposable
     {
         if (Dialog.Form.StartPosition == FormStartPosition.Manual)
         {
+            // 1. Change the startposition
             _form.StartPosition = Dialog.Form.StartPosition;
+            // 2. Change the location to position the form
             _form.Location = Dialog.Form.Location;
         }
         else if (Screen.PrimaryScreen is not null)
@@ -405,13 +424,13 @@ public class KryptonTaskDialog : IDisposable
     }
 
     /// <summary>
-    /// Setup the initial form
+    /// Setup the dialog form
     /// </summary>
     private void SetupForm()
     {
         // Form behaviour
         _form.FormBorderStyle = FormBorderStyle.FixedToolWindow;
-        _form.Padding = new Padding(0);
+        _form.Padding = _taskDialogDefaults.NullPadding;
         _form.MaximizeBox = false;
         _form.ControlBox = true;
 
@@ -432,12 +451,15 @@ public class KryptonTaskDialog : IDisposable
     private void SetupTableLayoutPanel()
     {
         _tableLayoutPanel = new();
-        // A small size. size will do the rest
-        //_tableLayoutPanel.Size = new Size(10, 10);
+        _tableLayoutPanel.SetDoubleBuffered(true);
         _tableLayoutPanel.AutoSize = true;
         _tableLayoutPanel.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-        //_tableLayoutPanel.MaximumSize = new Size(_taskDialogDefaults.ClientWidth, 0);
-        _tableLayoutPanel.Padding = new Padding(0);
+        
+        _tableLayoutPanel.MinimumSize = new Size(_taskDialogDefaults.ClientWidth, 0);
+        _tableLayoutPanel.MaximumSize = new Size(_taskDialogDefaults.ClientWidth, 0);
+
+        _tableLayoutPanel.Padding = _taskDialogDefaults.NullPadding;
+        _tableLayoutPanel.Margin = _taskDialogDefaults.NullPadding;
         _tableLayoutPanel.Location = new Point(0, 0);
         _tableLayoutPanel.CellBorderStyle = TableLayoutPanelCellBorderStyle.None;
         _tableLayoutPanel.BackColor = Color.Transparent;

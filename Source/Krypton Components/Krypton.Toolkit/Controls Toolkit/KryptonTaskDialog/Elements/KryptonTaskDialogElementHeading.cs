@@ -135,16 +135,14 @@ public class KryptonTaskDialogElementHeading : KryptonTaskDialogElementBase,
         };
     }
 
-    private void SetupPanel()
+    private void SetupControls()
     {
-        SetupTableLayoutPanel();
-
-        _pictureBox.Size        = new Size(_height, _height);
-        _pictureBox.Padding     = new(0);
-        _pictureBox.Margin      = new(0, 0, Defaults.ComponentSpace, 0);
+        _pictureBox.Size = new Size( _height, _height );
+        _pictureBox.Padding = new( 0 );
+        _pictureBox.Margin = new( 0, 0, Defaults.ComponentSpace, 0 );
         _pictureBox.BorderStyle = BorderStyle.None;
-        _pictureBox.SizeMode    = PictureBoxSizeMode.CenterImage;
-        _pictureBox.Visible     = false;
+        _pictureBox.SizeMode = PictureBoxSizeMode.CenterImage;
+        _pictureBox.Visible = false;
 
         _headingText.AutoSize = false;
         _headingText.Margin = Defaults.NullMargin;
@@ -154,8 +152,14 @@ public class KryptonTaskDialogElementHeading : KryptonTaskDialogElementBase,
         //_headingText.StateCommon.ShortText.Font = new Font(KryptonManager.CurrentGlobalPalette.BaseFont.FontFamily, 20f, FontStyle.Bold);
         //_headingText.StateCommon.ShortText.TextV = PaletteRelativeAlign.Center;
 
-        _headingText.StateCommon.Font = new Font(KryptonManager.CurrentGlobalPalette.BaseFont.FontFamily, 20f, FontStyle.Bold);
+        _headingText.StateCommon.Font = new Font( KryptonManager.CurrentGlobalPalette.BaseFont.FontFamily, 20f, FontStyle.Bold );
         _headingText.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+    }
+
+    private void SetupPanel()
+    {
+        SetupTableLayoutPanel();
+        SetupControls();
 
         _tlp.Controls.Add(_pictureBox, 0, 0);
         _tlp.Controls.Add(_headingText, 1, 0);
@@ -165,6 +169,7 @@ public class KryptonTaskDialogElementHeading : KryptonTaskDialogElementBase,
 
     private void SetupTableLayoutPanel()
     {
+        _tlp.SetDoubleBuffered(true);
         _tlp.AutoSize        = false;
         _tlp.Height          = _height;
         _tlp.Width           = Defaults.ClientWidth - Defaults.PanelLeft - Defaults.PanelRight;

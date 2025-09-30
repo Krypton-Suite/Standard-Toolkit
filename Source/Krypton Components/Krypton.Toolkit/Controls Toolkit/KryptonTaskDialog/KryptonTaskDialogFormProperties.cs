@@ -83,20 +83,9 @@ public class KryptonTaskDialogFormProperties
         }
 
         /// <summary>
-        /// <b>(Experimental and might be removed)</b><br/>
-        /// Intercepts all mouse and keystrokes to the form.<br/>
-        /// Testing if this can be used to display a modeless window that is updated as a 
-        /// progres or status dialog to the user while some process is running.
-        /// </summary>
-        public bool InertForm 
-        {
-            get => _form.InertForm;
-            set => _form.InertForm = value;
-        }
-
-        /// <summary>
         /// Disables close by ALT+F4.<br/>
-        /// To force the user to respond to the dialog through the buttons set CloseBox to false when using IgnoreAltF4.
+        /// To force the user to respond to the dialog through the buttons.<br/>
+        /// Set CloseBox to false when using IgnoreAltF4.
         /// </summary>
         public bool IgnoreAltF4 
         {
@@ -152,9 +141,9 @@ public class KryptonTaskDialogFormProperties
         /// <summary>
         /// Shows a Taskbar Button when the Dialog is shown.<br/>
         /// Note: <br/>
-        /// - Make sure to set the caption, otherwise the taskbar button will only show and icon.<br/>
+        /// - Make sure to set the caption, otherwise the taskbar button will only show an icon.<br/>
         /// - Note: ShowInTaskBar only works when used with Show() or Show(owner).<br/>
-        /// - ShowDialog is a modal dialog and will not display a taskbar button, even when this is set to true.<br/>
+        /// - ShowDialog is a modal dialog and will not display a taskbar button, even when this is set to true.>
         /// </summary>
         public bool ShowInTaskBar 
         {
@@ -354,7 +343,7 @@ public class KryptonTaskDialogFormProperties
     /// <summary>
     /// TODO Will be removed in the final version
     /// </summary>
-    public KryptonTaskDialogKryptonForm KryptonForm => _form;
+    //public KryptonTaskDialogKryptonForm KryptonForm => _form;
 
     #region Public properties
     /// <summary>
@@ -376,20 +365,11 @@ public class KryptonTaskDialogFormProperties
 
     /// <summary>
     /// The last dialog result after the window was closed.<br/>
-    /// Note: When showing the dialog modeless using Show(...) the result is updated after the window has been closed.
+    /// Note: When showing the dialog modeless using Show(...) this property is updated after the window has been closed.
     /// </summary>
     public DialogResult DialogResult 
     {
         get => _form.DialogResult;
-    }
-
-    /// <summary>
-    /// TODO: Will be removed in the final version
-    /// </summary>
-    public FormBorderStyle FormBorderStyle 
-    {
-        get => _form.FormBorderStyle;
-        set => _form.FormBorderStyle = value;
     }
     #endregion
 
