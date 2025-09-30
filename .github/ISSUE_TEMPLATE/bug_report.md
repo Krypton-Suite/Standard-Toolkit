@@ -26,7 +26,7 @@ If applicable, add screenshots to help explain your problem.
 **Desktop (please complete the following information):**
  - OS: [e.g. Windows 11]
  - Version: [e.g. 10.0.26200]
- - Framework/.NET Version: [e.g. 4.8.1 or 10] 
+ - Framework/.NET Version: [e.g. 4.7.2 - 4.8.1 or 8 - 10] 
  - Toolkit Version: [e.g. 100.25.12.365]
 
 **Additional context**
