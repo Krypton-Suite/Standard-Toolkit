@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -10,112 +10,119 @@
 namespace Krypton.Toolkit;
 
 /// <summary>
-/// Service class that manages the themed system menu functionality for forms.
+/// Service class that manages the system menu functionality for forms.
 /// Implements IDisposable to ensure proper cleanup of resources.
 /// </summary>
-public class KryptonThemedSystemMenuService : IDisposable
+public class KryptonSystemMenuService : IDisposable
 {
     #region Instance Fields
-    private readonly Form _form;
-    private readonly KryptonThemedSystemMenu _themedSystemMenu;
+
+    private readonly KryptonForm _form;
+    private readonly KryptonSystemMenu _systemMenu;
     private bool _disposed = false;
+
     #endregion
 
     #region Identity
+
     /// <summary>
-    /// Initialize a new instance of the KryptonThemedSystemMenuService class.
+    /// Initialize a new instance of the KryptonSystemMenuService class.
     /// </summary>
-    /// <param name="form">The form to attach the themed system menu to.</param>
-    public KryptonThemedSystemMenuService(Form form)
+    /// <param name="form">The form to attach the system menu to.</param>
+    public KryptonSystemMenuService(KryptonForm form)
     {
         _form = form ?? throw new ArgumentNullException(nameof(form));
-        _themedSystemMenu = new KryptonThemedSystemMenu(form);
+        _systemMenu = new KryptonSystemMenu(form);
     }
+
     #endregion
 
     #region Public Properties
+
     /// <summary>
-    /// Gets or sets whether the themed system menu is enabled.
+    /// Gets or sets whether the system menu is enabled.
     /// </summary>
-    public bool UseThemedSystemMenu
+    public bool UseSystemMenu
     {
         get
         {
             ThrowIfDisposed();
-            return _themedSystemMenu.Enabled;
+            return _systemMenu.Enabled;
         }
         set
         {
             ThrowIfDisposed();
-            _themedSystemMenu.Enabled = value;
+            _systemMenu.Enabled = value;
         }
     }
 
     /// <summary>
-    /// Gets or sets whether to show the themed system menu on left click.
+    /// Gets or sets whether to show the system menu on left click.
     /// </summary>
-    public bool ShowThemedSystemMenuOnLeftClick
+    public bool ShowSystemMenuOnLeftClick
     {
         get
         {
             ThrowIfDisposed();
-            return _themedSystemMenu.ShowOnLeftClick;
+            return _systemMenu.ShowOnLeftClick;
         }
         set
         {
             ThrowIfDisposed();
-            _themedSystemMenu.ShowOnLeftClick = value;
+            _systemMenu.ShowOnLeftClick = value;
         }
     }
 
     /// <summary>
-    /// Gets or sets whether to show the themed system menu on right click.
+    /// Gets or sets whether to show the system menu on right click.
     /// </summary>
-    public bool ShowThemedSystemMenuOnRightClick
+    public bool ShowSystemMenuOnRightClick
     {
         get
         {
             ThrowIfDisposed();
-            return _themedSystemMenu.ShowOnRightClick;
+            return _systemMenu.ShowOnRightClick;
         }
         set
         {
             ThrowIfDisposed();
-            _themedSystemMenu.ShowOnRightClick = value;
+            _systemMenu.ShowOnRightClick = value;
         }
     }
 
     /// <summary>
-    /// Gets or sets whether to show the themed system menu on Alt+Space.
+    /// Gets or sets whether to show the system menu on Alt+Space.
     /// </summary>
-    public bool ShowThemedSystemMenuOnAltSpace
+    public bool ShowSystemMenuOnAltSpace
     {
         get
         {
             ThrowIfDisposed();
-            return _themedSystemMenu.ShowOnAltSpace;
+            return _systemMenu.ShowOnAltSpace;
         }
         set
         {
             ThrowIfDisposed();
-            _themedSystemMenu.ShowOnAltSpace = value;
+            _systemMenu.ShowOnAltSpace = value;
         }
     }
 
     /// <summary>
-    /// Gets the underlying themed system menu instance.
+    /// Gets the underlying system menu instance.
     /// </summary>
-    public KryptonThemedSystemMenu ThemedSystemMenu
+    public KryptonSystemMenu SystemMenu
     {
         get
         {
             ThrowIfDisposed();
-            return _themedSystemMenu;
+            return _systemMenu;
         }
     }
+
     #endregion
 
     #region Public Methods
+
     /// <summary>
     /// Handles keyboard shortcuts for system menu actions.
     /// </summary>
@@ -124,11 +131,11 @@ public class KryptonThemedSystemMenuService : IDisposable
     public bool HandleKeyboardShortcut(Keys keyData)
     {
         ThrowIfDisposed();
-        return _themedSystemMenu.HandleKeyboardShortcut(keyData);
+        return _systemMenu.HandleKeyboardShortcut(keyData);
     }
 
     /// <summary>
-    /// Handles right-click events for showing the themed system menu.
+    /// Handles right-click events for showing the system menu.
     /// </summary>
     /// <param name="screenPoint">The screen coordinates of the click.</param>
     /// <param name="isInTitleBarArea">Whether the click is in the title bar area.</param>
@@ -137,18 +144,18 @@ public class KryptonThemedSystemMenuService : IDisposable
     public bool HandleRightClick(Point screenPoint, bool isInTitleBarArea, bool isOnControlButtons)
     {
         ThrowIfDisposed();
-            
-        if (UseThemedSystemMenu && ShowThemedSystemMenuOnRightClick && isInTitleBarArea && !isOnControlButtons)
+
+        if (UseSystemMenu && ShowSystemMenuOnRightClick && isInTitleBarArea && !isOnControlButtons)
         {
-            _themedSystemMenu.Show(screenPoint);
+            _systemMenu.Show(screenPoint);
             return true;
         }
-            
+
         return false;
     }
 
     /// <summary>
-    /// Handles left-click events for showing the themed system menu.
+    /// Handles left-click events for showing the system menu.
     /// </summary>
     /// <param name="screenPoint">The screen coordinates of the click.</param>
     /// <param name="isInTitleBarArea">Whether the click is in the title bar area.</param>
@@ -157,27 +164,29 @@ public class KryptonThemedSystemMenuService : IDisposable
     public bool HandleLeftClick(Point screenPoint, bool isInTitleBarArea, bool isOnControlButtons)
     {
         ThrowIfDisposed();
-            
-        if (UseThemedSystemMenu && ShowThemedSystemMenuOnLeftClick && isInTitleBarArea && !isOnControlButtons)
+
+        if (UseSystemMenu && ShowSystemMenuOnLeftClick && isInTitleBarArea && !isOnControlButtons)
         {
-            _themedSystemMenu.Show(screenPoint);
+            _systemMenu.Show(screenPoint);
             return true;
         }
-            
+
         return false;
     }
 
     /// <summary>
-    /// Refreshes the themed system menu.
+    /// Refreshes the system menu.
     /// </summary>
     public void Refresh()
     {
         ThrowIfDisposed();
-        _themedSystemMenu.Refresh();
+        _systemMenu.Refresh();
     }
+
     #endregion
 
     #region IDisposable Implementation
+
     /// <summary>
     /// Throws an ObjectDisposedException if the object has been disposed.
     /// </summary>
@@ -185,12 +194,12 @@ public class KryptonThemedSystemMenuService : IDisposable
     {
         if (_disposed)
         {
-            throw new ObjectDisposedException(nameof(KryptonThemedSystemMenuService));
+            throw new ObjectDisposedException(nameof(KryptonSystemMenuService));
         }
     }
 
     /// <summary>
-    /// Releases all resources used by the KryptonThemedSystemMenuService.
+    /// Releases all resources used by the KryptonSystemMenuService.
     /// </summary>
     public void Dispose()
     {
@@ -199,7 +208,7 @@ public class KryptonThemedSystemMenuService : IDisposable
     }
 
     /// <summary>
-    /// Releases the unmanaged resources used by the KryptonThemedSystemMenuService and optionally releases the managed resources.
+    /// Releases the unmanaged resources used by the KryptonSystemMenuService and optionally releases the managed resources.
     /// </summary>
     /// <param name="disposing">True to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
     protected virtual void Dispose(bool disposing)
@@ -209,7 +218,7 @@ public class KryptonThemedSystemMenuService : IDisposable
             if (disposing)
             {
                 // Dispose managed resources
-                _themedSystemMenu?.Dispose();
+                _systemMenu?.Dispose();
             }
 
             _disposed = true;
@@ -217,11 +226,12 @@ public class KryptonThemedSystemMenuService : IDisposable
     }
 
     /// <summary>
-    /// Finalizer for KryptonThemedSystemMenuService.
+    /// Finalizer for KryptonSystemMenuService.
     /// </summary>
-    ~KryptonThemedSystemMenuService()
+    ~KryptonSystemMenuService()
     {
         Dispose(false);
     }
+
     #endregion
 }

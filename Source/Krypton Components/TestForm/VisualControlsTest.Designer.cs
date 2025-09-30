@@ -56,17 +56,15 @@ namespace TestForm
             this.kryptonPanel1.Controls.Add(this.kbtnModalWaitDialog);
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
-            this.kryptonPanel1.Margin = new System.Windows.Forms.Padding(4);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(378, 363);
+            this.kryptonPanel1.Size = new System.Drawing.Size(290, 277);
             this.kryptonPanel1.TabIndex = 0;
             // 
             // kbtnVisualToastNotification
             // 
-            this.kbtnVisualToastNotification.Location = new System.Drawing.Point(18, 278);
-            this.kbtnVisualToastNotification.Margin = new System.Windows.Forms.Padding(4);
+            this.kbtnVisualToastNotification.Location = new System.Drawing.Point(14, 226);
             this.kbtnVisualToastNotification.Name = "kbtnVisualToastNotification";
-            this.kbtnVisualToastNotification.Size = new System.Drawing.Size(347, 31);
+            this.kbtnVisualToastNotification.Size = new System.Drawing.Size(260, 25);
             this.kbtnVisualToastNotification.TabIndex = 8;
             this.kbtnVisualToastNotification.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnVisualToastNotification.Values.Text = "VisualToastNotificationBasicForm";
@@ -74,10 +72,9 @@ namespace TestForm
             // 
             // kbtnVisualThemeBrowserRtlAware
             // 
-            this.kbtnVisualThemeBrowserRtlAware.Location = new System.Drawing.Point(18, 239);
-            this.kbtnVisualThemeBrowserRtlAware.Margin = new System.Windows.Forms.Padding(4);
+            this.kbtnVisualThemeBrowserRtlAware.Location = new System.Drawing.Point(14, 194);
             this.kbtnVisualThemeBrowserRtlAware.Name = "kbtnVisualThemeBrowserRtlAware";
-            this.kbtnVisualThemeBrowserRtlAware.Size = new System.Drawing.Size(347, 31);
+            this.kbtnVisualThemeBrowserRtlAware.Size = new System.Drawing.Size(260, 25);
             this.kbtnVisualThemeBrowserRtlAware.TabIndex = 7;
             this.kbtnVisualThemeBrowserRtlAware.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnVisualThemeBrowserRtlAware.Values.Text = "VisualThemeBrowserFormRtlAware";
@@ -85,10 +82,9 @@ namespace TestForm
             // 
             // kbtnVisualThemeBrowser
             // 
-            this.kbtnVisualThemeBrowser.Location = new System.Drawing.Point(18, 200);
-            this.kbtnVisualThemeBrowser.Margin = new System.Windows.Forms.Padding(4);
+            this.kbtnVisualThemeBrowser.Location = new System.Drawing.Point(14, 162);
             this.kbtnVisualThemeBrowser.Name = "kbtnVisualThemeBrowser";
-            this.kbtnVisualThemeBrowser.Size = new System.Drawing.Size(347, 31);
+            this.kbtnVisualThemeBrowser.Size = new System.Drawing.Size(260, 25);
             this.kbtnVisualThemeBrowser.TabIndex = 6;
             this.kbtnVisualThemeBrowser.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnVisualThemeBrowser.Values.Text = "VisualThemeBrowserForm";
@@ -96,10 +92,9 @@ namespace TestForm
             // 
             // kbtnVisualTaskDialog
             // 
-            this.kbtnVisualTaskDialog.Location = new System.Drawing.Point(18, 161);
-            this.kbtnVisualTaskDialog.Margin = new System.Windows.Forms.Padding(4);
+            this.kbtnVisualTaskDialog.Location = new System.Drawing.Point(14, 131);
             this.kbtnVisualTaskDialog.Name = "kbtnVisualTaskDialog";
-            this.kbtnVisualTaskDialog.Size = new System.Drawing.Size(347, 31);
+            this.kbtnVisualTaskDialog.Size = new System.Drawing.Size(260, 25);
             this.kbtnVisualTaskDialog.TabIndex = 4;
             this.kbtnVisualTaskDialog.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnVisualTaskDialog.Values.Text = "VisualTaskDialog";
@@ -107,10 +102,9 @@ namespace TestForm
             // 
             // kbtnVisualTaskDialogForm
             // 
-            this.kbtnVisualTaskDialogForm.Location = new System.Drawing.Point(18, 124);
-            this.kbtnVisualTaskDialogForm.Margin = new System.Windows.Forms.Padding(4);
+            this.kbtnVisualTaskDialogForm.Location = new System.Drawing.Point(14, 101);
             this.kbtnVisualTaskDialogForm.Name = "kbtnVisualTaskDialogForm";
-            this.kbtnVisualTaskDialogForm.Size = new System.Drawing.Size(347, 31);
+            this.kbtnVisualTaskDialogForm.Size = new System.Drawing.Size(260, 25);
             this.kbtnVisualTaskDialogForm.TabIndex = 3;
             this.kbtnVisualTaskDialogForm.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnVisualTaskDialogForm.Values.Text = "VisualTaskDialogForm";
@@ -118,10 +112,9 @@ namespace TestForm
             // 
             // kbtnVisualSplashScreen
             // 
-            this.kbtnVisualSplashScreen.Location = new System.Drawing.Point(18, 87);
-            this.kbtnVisualSplashScreen.Margin = new System.Windows.Forms.Padding(4);
+            this.kbtnVisualSplashScreen.Location = new System.Drawing.Point(14, 71);
             this.kbtnVisualSplashScreen.Name = "kbtnVisualSplashScreen";
-            this.kbtnVisualSplashScreen.Size = new System.Drawing.Size(347, 31);
+            this.kbtnVisualSplashScreen.Size = new System.Drawing.Size(260, 25);
             this.kbtnVisualSplashScreen.TabIndex = 2;
             this.kbtnVisualSplashScreen.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnVisualSplashScreen.Values.Text = "VisualSplashScreenForm";
@@ -129,10 +122,9 @@ namespace TestForm
             // 
             // kbtnVisualMultilineStringEditorForm
             // 
-            this.kbtnVisualMultilineStringEditorForm.Location = new System.Drawing.Point(18, 50);
-            this.kbtnVisualMultilineStringEditorForm.Margin = new System.Windows.Forms.Padding(4);
+            this.kbtnVisualMultilineStringEditorForm.Location = new System.Drawing.Point(14, 41);
             this.kbtnVisualMultilineStringEditorForm.Name = "kbtnVisualMultilineStringEditorForm";
-            this.kbtnVisualMultilineStringEditorForm.Size = new System.Drawing.Size(347, 31);
+            this.kbtnVisualMultilineStringEditorForm.Size = new System.Drawing.Size(260, 25);
             this.kbtnVisualMultilineStringEditorForm.TabIndex = 1;
             this.kbtnVisualMultilineStringEditorForm.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnVisualMultilineStringEditorForm.Values.Text = "VisualMultilineStringEditorForm";
@@ -140,10 +132,9 @@ namespace TestForm
             // 
             // kbtnVisualInformationBoxForm
             // 
-            this.kbtnVisualInformationBoxForm.Location = new System.Drawing.Point(18, 13);
-            this.kbtnVisualInformationBoxForm.Margin = new System.Windows.Forms.Padding(4);
+            this.kbtnVisualInformationBoxForm.Location = new System.Drawing.Point(14, 11);
             this.kbtnVisualInformationBoxForm.Name = "kbtnVisualInformationBoxForm";
-            this.kbtnVisualInformationBoxForm.Size = new System.Drawing.Size(347, 31);
+            this.kbtnVisualInformationBoxForm.Size = new System.Drawing.Size(260, 25);
             this.kbtnVisualInformationBoxForm.TabIndex = 0;
             this.kbtnVisualInformationBoxForm.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnVisualInformationBoxForm.Values.Text = "VisualInformationBoxForm";
@@ -151,9 +142,10 @@ namespace TestForm
             // 
             // kbtnModalWaitDialog
             // 
-            this.kbtnModalWaitDialog.Location = new System.Drawing.Point(18, 316);
+            this.kbtnModalWaitDialog.Location = new System.Drawing.Point(14, 257);
+            this.kbtnModalWaitDialog.Margin = new System.Windows.Forms.Padding(2);
             this.kbtnModalWaitDialog.Name = "kbtnModalWaitDialog";
-            this.kbtnModalWaitDialog.Size = new System.Drawing.Size(347, 30);
+            this.kbtnModalWaitDialog.Size = new System.Drawing.Size(260, 24);
             this.kbtnModalWaitDialog.TabIndex = 5;
             this.kbtnModalWaitDialog.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnModalWaitDialog.Values.Text = "ModalWaitDialog";
@@ -161,17 +153,18 @@ namespace TestForm
             // 
             // VisualControlsTest
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(378, 363);
+            this.ClientSize = new System.Drawing.Size(290, 277);
             this.Controls.Add(this.kryptonPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Margin = new System.Windows.Forms.Padding(4);
+            this.Location = new System.Drawing.Point(0, 0);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "VisualControlsTest";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Visual Controls Test";
+            this.Controls.SetChildIndex(this.kryptonPanel1, 0);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
             this.kryptonPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
