@@ -1247,6 +1247,7 @@ namespace Krypton.Toolkit
             }
 
             var rtl = RightToLeftInternal;
+            bool? isHeaderCell = null;
 
             // Use an offscreen bitmap to draw onto before blitting it to the screen
             var tempCellBounds = e.CellBounds with { X = 0, Y = 0 };
@@ -1256,6 +1257,9 @@ namespace Krypton.Toolkit
                 {
                     using (var renderContext = new RenderContext(this, tempG, tempCellBounds, Renderer!))
                     {
+                        isHeaderCell = e.RowIndex == -1 && e.ColumnIndex >= 0;
+                        Rectangle headerContentBounds = Rectangle.Empty;
+
                         // Force the border to have a specified maximum border edge
                         _borderForced.SetInherit(paletteBorder);
                         _borderForced.MaxBorderEdges = GetCellMaxBorderEdges(e.CellBounds, e.ColumnIndex, e.RowIndex);
@@ -1524,7 +1528,7 @@ namespace Krypton.Toolkit
                                 if (e.FormattedValue != null)
                                 {
                                     // Use the display value of the header cell
-                                    _shortTextValue.ShortText = e.FormattedValue.ToString();
+                                    _shortTextValue.ShortText = e.FormattedValue.ToString() ?? string.Empty;
 
                                     using var layoutContext = new ViewLayoutContext(this, Renderer);
                                     // If a column header cell...
@@ -1548,19 +1552,51 @@ namespace Krypton.Toolkit
                                         }
                                     }
 
-                                    // Find the correct layout for the header content
-                                    using IDisposable memento = Renderer.RenderStandardContent.LayoutContent(layoutContext, tempCellBounds,
-                                        _contentInherit, _shortTextValue,
-                                        VisualOrientation.Top, state, false, false);
-                                    // Perform actual drawing of the content
-                                    Renderer.RenderStandardContent.DrawContent(renderContext, tempCellBounds,
-                                        _contentInherit, memento,
-                                        VisualOrientation.Top,
-                                        state, false, false, true);
+                                    if (isHeaderCell is not null && !isHeaderCell.Value)
+                                    {
+                                        Debug.Print("NOT HeaderCell");
+                                        // Non-header: let renderer draw content
+                                        using IDisposable tmpMemento = Renderer.RenderStandardContent.LayoutContent(
+                                            layoutContext, tempCellBounds,
+                                            _contentInherit, _shortTextValue,
+                                            VisualOrientation.Top, state, false, false);
+                                        Renderer.RenderStandardContent.DrawContent(renderContext, tempCellBounds,
+                                            _contentInherit, tmpMemento,
+                                            VisualOrientation.Top,
+                                            state, false, false, true);
+                                    }
                                 }
 
                                 // Blit the image onto the screen
                                 e.Graphics?.DrawImage(tempBitmap, e.CellBounds.Location);
+
+                                // Column header text: draw with GDI TextRenderer directly to final DC with strict clipping
+                                if (isHeaderCell is not null  && isHeaderCell.Value)
+                                {
+                                    string text = e.FormattedValue?.ToString() ?? string.Empty;
+                                    if (!string.IsNullOrEmpty(text))
+                                    {
+                                        Rectangle constrainedContentBounds = headerContentBounds;
+                                        Rectangle colDisplayRect = GetColumnDisplayRectangle(e.ColumnIndex, false);
+                                        if (colDisplayRect.Width > 0)
+                                        {
+                                            // Translate display rect into cell-local coords
+                                            colDisplayRect.Offset(-e.CellBounds.X, -e.CellBounds.Y);
+                                            constrainedContentBounds = Rectangle.Intersect(constrainedContentBounds, colDisplayRect);
+                                        }
+
+                                        Color textColor = _contentInherit.GetContentShortTextColor1(state);
+                                        Font textFont = _contentInherit.GetContentShortTextFont(state) ?? SystemFonts.DefaultFont;
+                                        var tff = KryptonDataGridViewUtilities.ComputeTextFormatFlagsForCellStyleAlignment(
+                                            rtl,
+                                            e.CellStyle!.Alignment,
+                                            e.CellStyle.WrapMode);
+                                        TextRenderer.DrawText(e.Graphics!, text, textFont,
+                                            new Rectangle(e.CellBounds.Location + (Size)constrainedContentBounds.Location, constrainedContentBounds.Size),
+                                            textColor, tff);    
+                                    }
+                                }
+
                             }
                         }
                         else
@@ -1571,7 +1607,6 @@ namespace Krypton.Toolkit
                     }
                 }
             }
-
             if (e != null && (e.PaintParts & DataGridViewPaintParts.Focus) == DataGridViewPaintParts.Focus)
             {
                 // Only consider drawing the focus rectangle if the control has focus wants to show the cues
@@ -1601,7 +1636,7 @@ namespace Krypton.Toolkit
             }
 
             // Prevent base class from doing the standard drawing
-            e!.Handled = true;
+            e!.Handled = isHeaderCell is null || !isHeaderCell.Value;
 
             base.OnCellPainting(e);
         }
@@ -1613,38 +1648,37 @@ namespace Krypton.Toolkit
         /// <param name="clipBounds">A Rectangle that represents the area of the DataGridView that needs to be painted.</param>
         /// <param name="gridBounds">A Rectangle that represents the area in which cells are drawn.</param>
         protected override void PaintBackground(Graphics graphics,
-                                                Rectangle clipBounds,
-                                                Rectangle gridBounds)
+            Rectangle clipBounds,
+            Rectangle gridBounds)
         {
-            if (!IsDisposed)
+            // Are we not disposed and have a manager to use for painting?
+            if (IsDisposed || ViewManager is null)
             {
-                // Do we have a manager to use for painting?
-                if (ViewManager != null)
-                {
-                    // If the layout is dirty, or the size of the control has changed 
-                    // without a layout being performed, then perform a layout now
-                    if (_layoutDirty && (!Size.Equals(_lastLayoutSize)))
-                    {
-                        ViewManagerLayout();
-                    }
-
-                    // Do not currently clip because it causes issues when the scroll bars are not showing and the user
-                    // scrolls by using the keyboard or by sorting the columns. So it does cause a little flicker
-                    //   using (Clipping clip = new Clipping(graphics, GetBackgroundClipRect(), true))
-                    {
-                        // Draw the background as transparent, by drawing parent
-                        PaintTransparentBackground(graphics, clipBounds);
-
-                        // Use the view manager to paint the view panel that fills the entire areas as the background
-                        using var context = new RenderContext(this, graphics, clipBounds, Renderer!);
-                        ViewManager.Paint(context);
-                    }
-
-                    // Request for a refresh has been serviced
-                    _refresh = false;
-                    _refreshAll = false;
-                }
+                return;
             }
+
+            // If the layout is dirty, or the size of the control has changed
+            // without a layout being performed, then perform a layout now
+            if (_layoutDirty && (!Size.Equals(_lastLayoutSize)))
+            {
+                ViewManagerLayout();
+            }
+
+            // Do not currently clip because it causes issues when the scroll bars are not showing and the user
+            // scrolls by using the keyboard or by sorting the columns. So it does cause a little flicker
+            //   using (Clipping clip = new Clipping(graphics, GetBackgroundClipRect(), true))
+            {
+                // Draw the background as transparent, by drawing parent
+                PaintTransparentBackground(graphics, clipBounds);
+
+                // Use the view manager to paint the view panel that fills the entire areas as the background
+                using var context = new RenderContext(this, graphics, clipBounds, Renderer!);
+                ViewManager.Paint(context);
+            }
+
+            // Request for a refresh has been serviced
+            _refresh = false;
+            _refreshAll = false;
         }
 
         /// <summary>
