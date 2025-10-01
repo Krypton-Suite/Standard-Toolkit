@@ -11,15 +11,15 @@
 namespace Krypton.Toolkit
 {
     /// <summary>
-    /// Provides a type converter to convert KryptonThemedSystemMenuConverter objects to and from various other representations.
+    /// Provides a type converter to convert KryptonSystemMenuConverter objects to and from various other representations.
     /// </summary>
-    public class KryptonThemedSystemMenuConverter : ExpandableObjectConverter
+    public class KryptonSystemMenuConverter : ExpandableObjectConverter
     {
         #region Identity
         /// <summary>
-        /// Initialize a new instance of the KryptonThemedSystemMenuConverter class.
+        /// Initialize a new instance of the KryptonSystemMenuConverter class.
         /// </summary>
-        public KryptonThemedSystemMenuConverter()
+        public KryptonSystemMenuConverter()
             : base()
         {
         }
@@ -91,7 +91,7 @@ namespace Krypton.Toolkit
             if (destinationType == typeof(string) && value != null)
             {
                 // Return a descriptive string
-                if (value is KryptonThemedSystemMenu themedSystemMenu)
+                if (value is KryptonSystemMenu themedSystemMenu)
                 {
                     if (themedSystemMenu.Enabled)
                     {
