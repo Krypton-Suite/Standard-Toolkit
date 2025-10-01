@@ -1884,68 +1884,68 @@ namespace Krypton.Toolkit
 
     #endregion
 
-    #region IKryptonThemedSystemMenu
+    #region IKryptonSystemMenu
 
     /// <summary>
-    /// Defines the interface for themed system menu functionality.
+    /// Defines the interface for system menu functionality.
     /// </summary>
-    public interface IKryptonThemedSystemMenu
+    public interface IKryptonSystemMenu
     {
         /// <summary>
-        /// Gets or sets whether the themed system menu is enabled.
+        /// Gets or sets whether the system menu is enabled.
         /// </summary>
         bool Enabled { get; set; }
 
         /// <summary>
-        /// Gets or sets whether left-click on title bar shows the themed system menu.
+        /// Gets or sets whether left-click on title bar shows the system menu.
         /// </summary>
         bool ShowOnLeftClick { get; set; }
 
         /// <summary>
-        /// Gets or sets whether right-click on title bar shows the themed system menu.
+        /// Gets or sets whether right-click on title bar shows the system menu.
         /// </summary>
         bool ShowOnRightClick { get; set; }
 
         /// <summary>
-        /// Gets or sets whether Alt+Space shows the themed system menu.
+        /// Gets or sets whether Alt+Space shows the system menu.
         /// </summary>
         bool ShowOnAltSpace { get; set; }
 
         /// <summary>
-        /// Gets the number of items currently in the themed system menu.
+        /// Gets the number of items currently in the system menu.
         /// </summary>
         int MenuItemCount { get; }
 
         /// <summary>
-        /// Gets whether the themed system menu contains any items.
+        /// Gets whether the system menu contains any items.
         /// </summary>
         bool HasMenuItems { get; }
 
         /// <summary>
-        /// Shows the themed system menu at the specified screen location.
+        /// Shows the system menu at the specified screen location.
         /// </summary>
         /// <param name="screenLocation">The screen coordinates where the menu should appear.</param>
         void Show(Point screenLocation);
 
         /// <summary>
-        /// Shows the themed system menu at the form's top-left position.
+        /// Shows the system menu at the form's top-left position.
         /// </summary>
         void ShowAtFormTopLeft();
 
         /// <summary>
-        /// Refreshes the themed system menu.
+        /// Refreshes the system menu.
         /// </summary>
         void Refresh();
 
         /// <summary>
-        /// Handles keyboard shortcuts for the themed system menu.
+        /// Handles keyboard shortcuts for the system menu.
         /// </summary>
         /// <param name="keyData">The key data to process.</param>
         /// <returns>True if the shortcut was handled; otherwise false.</returns>
         bool HandleKeyboardShortcut(Keys keyData);
 
         /// <summary>
-        /// Adds a custom menu item to the themed system menu.
+        /// Adds a custom menu item to the system menu.
         /// </summary>
         /// <param name="text">The text to display for the menu item.</param>
         /// <param name="clickHandler">The event handler for when the menu item is clicked.</param>
@@ -1953,13 +1953,13 @@ namespace Krypton.Toolkit
         void AddCustomMenuItem(string text, EventHandler? clickHandler, bool insertBeforeClose = true);
 
         /// <summary>
-        /// Adds a separator to the themed system menu.
+        /// Adds a separator to the system menu.
         /// </summary>
         /// <param name="insertBeforeClose">If true, inserts the separator before the Close item; otherwise adds it at the end.</param>
         void AddSeparator(bool insertBeforeClose = true);
 
         /// <summary>
-        /// Clears all custom items from the themed system menu.
+        /// Clears all custom items from the system menu.
         /// </summary>
         void ClearCustomItems();
 
