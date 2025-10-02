@@ -1652,22 +1652,22 @@ namespace Krypton.Toolkit
 
         #endregion
 
-        #region Themed System Menu
+        #region System Menu
         /// <summary>
-        /// Gets access to the themed system menu for advanced customization.
+        /// Gets access to the system menu for advanced customization.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public virtual IKryptonThemedSystemMenu? KryptonSystemMenu => null;
+        public virtual IKryptonSystemMenu? KryptonSystemMenu => null;
 
         /// <summary>
-        /// Gets or sets the themed system menu service for managing themed system menu functionality.
+        /// Gets or sets the system menu service for managing system menu functionality.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public virtual KryptonThemedSystemMenuService? SystemMenuService { get; set; }
+        public virtual KryptonSystemMenuService? SystemMenuService { get; set; }
 
         /// <summary>
         /// Determines if the specified screen point is within the title bar area.
@@ -1684,22 +1684,22 @@ namespace Krypton.Toolkit
         protected virtual bool IsOnControlButtons(Point screenPoint) => false;
 
         /// <summary>
-        /// Shows the themed system menu at the specified screen location.
+        /// Shows the system menu at the specified screen location.
         /// </summary>
         /// <param name="screenLocation">The screen coordinates where the menu should appear.</param>
-        protected virtual void ShowThemedSystemMenu(Point screenLocation) { }
+        protected virtual void ShowSystemMenu(Point screenLocation) { }
 
         /// <summary>
-        /// Shows the themed system menu at the form's top-left position.
+        /// Shows the system menu at the form's top-left position.
         /// </summary>
-        protected virtual void ShowThemedSystemMenuAtFormTopLeft() { }
+        protected virtual void ShowSystemMenuAtFormTopLeft() { }
 
         /// <summary>
-        /// Handles keyboard shortcuts for the themed system menu.
+        /// Handles keyboard shortcuts for the system menu.
         /// </summary>
         /// <param name="keyData">The key data to process.</param>
         /// <returns>True if the shortcut was handled; otherwise false.</returns>
-        protected virtual bool HandleThemedSystemMenuKeyboardShortcut(Keys keyData) => false;
+        protected virtual bool HandleSystemMenuKeyboardShortcut(Keys keyData) => false;
 
         /// <summary>
         /// Ensures proper form positioning based on StartPosition after custom chrome is applied.
@@ -1770,7 +1770,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Helper method to handle themed system menu shortcuts using the service.
+        /// Helper method to handle system menu shortcuts using the service.
         /// </summary>
         /// <param name="keyData">The key data to process.</param>
         /// <returns>True if the shortcut was handled by the service; otherwise false.</returns>
@@ -1894,21 +1894,21 @@ namespace Krypton.Toolkit
         /// <returns>True if the character was processed by the control; otherwise, false.</returns>
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            // Handle basic themed system menu keyboard shortcuts if enabled
-            // Only handle themed system menu shortcuts if ControlBox is true (same behavior as native system menu)
-            if (ControlBox && SystemMenuService is { UseThemedSystemMenu: true })
+            // Handle basic system menu keyboard shortcuts if enabled
+            // Only handle system menu shortcuts if ControlBox is true (same behavior as native system menu)
+            if (ControlBox && SystemMenuService is { UseSystemMenu: true })
             {
-                // Handle Alt+Space to show the themed system menu
+                // Handle Alt+Space to show the system menu
                 if (keyData == (Keys.Alt | Keys.Space))
                 {
-                    ShowThemedSystemMenuAtFormTopLeft();
+                    ShowSystemMenuAtFormTopLeft();
                     return true;
                 }
 
                 // Handle Alt+F4 for close (let derived classes handle this)
                 if (keyData == (Keys.Alt | Keys.F4))
                 {
-                    if (HandleThemedSystemMenuKeyboardShortcut(keyData))
+                    if (HandleSystemMenuKeyboardShortcut(keyData))
                     {
                         return true;
                     }
