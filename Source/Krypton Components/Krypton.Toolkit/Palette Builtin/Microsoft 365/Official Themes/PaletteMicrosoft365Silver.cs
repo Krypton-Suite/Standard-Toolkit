@@ -207,8 +207,8 @@ namespace Krypton.Toolkit
             Color.FromArgb(59, 59, 59), // RibbonTabTextNormal
             Color.FromArgb(76, 83, 92), // RibbonTabTextChecked
             Color.FromArgb(182, 186, 191), // RibbonTabSelected1
-            Color.White, // RibbonTabSelected2
-            Color.FromArgb(246, 249, 251), // RibbonTabSelected3
+            Color.FromArgb(246, 249, 251), // RibbonTabSelected2
+            Color.FromArgb(226, 229, 231), // RibbonTabSelected3
             Color.White, // RibbonTabSelected4
             Color.White, // RibbonTabSelected5
             Color.FromArgb(237, 201, 88), // RibbonTabTracking1

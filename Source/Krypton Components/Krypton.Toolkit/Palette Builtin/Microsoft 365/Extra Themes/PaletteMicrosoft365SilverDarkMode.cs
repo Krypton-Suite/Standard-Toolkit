@@ -200,8 +200,8 @@ namespace Krypton.Toolkit
             Color.FromArgb(76, 83, 92), // RibbonTabTextNormal
             Color.FromArgb(255, 255, 255), // RibbonTabTextChecked
             Color.FromArgb(190, 190, 190), // RibbonTabSelected1
-            Color.FromArgb(130, 140, 178), // RibbonTabSelected2
-            Color.FromArgb(118, 131, 160), // RibbonTabSelected3
+            Color.FromArgb(153, 159, 200), // RibbonTabSelected2
+            Color.FromArgb(119, 132, 161), // RibbonTabSelected3
             Color.FromArgb(245, 245, 247), // RibbonTabSelected4
             Color.FromArgb(239, 234, 241), // RibbonTabSelected5
             Color.FromArgb(163, 179, 220), // RibbonTabTracking1
@@ -273,8 +273,8 @@ namespace Krypton.Toolkit
             Color.FromArgb(223, 224, 228), // RibbonQATMini3I
             Color.FromArgb(10, Color.White), // RibbonQATMini4I
             Color.FromArgb(32, Color.White), // RibbonQATMini5I
-            Color.FromArgb(84, 101, 138), // RibbonQATFullbar1
-            Color.FromArgb(84, 101, 138), // RibbonQATFullbar2
+            Color.FromArgb(119, 132, 161), // RibbonQATFullbar1
+            Color.FromArgb(119, 132, 161), // RibbonQATFullbar2
             Color.FromArgb(210, 210, 210), // RibbonQATFullbar3
             Color.FromArgb(210, 210, 210), // RibbonQATButtonDark
             Color.FromArgb(163, 179, 220), // RibbonQATButtonLight

@@ -274,8 +274,8 @@ namespace Krypton.Toolkit
                                                                 Color.FromArgb(198, 210, 226),    // RibbonQATMini3I
                                                                 Color.FromArgb(128, Color.White), // RibbonQATMini4I
                                                                 Color.FromArgb(72, Color.White),  // RibbonQATMini5I
-                                                                Color.FromArgb(213, 228, 245),    // RibbonQATFullbar1
-                                                                Color.FromArgb(213, 228, 245),    // RibbonQATFullbar2
+                                                                Color.FromArgb(229, 238, 248),    // RibbonQATFullbar1
+                                                                Color.FromArgb(229, 238, 248),    // RibbonQATFullbar2
                                                                 Color.FromArgb(134, 179, 236),    // RibbonQATFullbar3
                                                                 Color.FromArgb(134, 179, 236),    // RibbonQATButtonDark
                                                                 Color.FromArgb(188, 213, 239),    // RibbonQATButtonLight

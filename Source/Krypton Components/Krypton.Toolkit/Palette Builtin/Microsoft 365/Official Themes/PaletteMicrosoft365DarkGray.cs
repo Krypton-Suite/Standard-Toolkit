@@ -212,7 +212,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(175, 176, 179), // RibbonTabSeparatorColor
             Color.FromArgb(141, 141, 141), // RibbonGroupsArea1
             Color.FromArgb(160, 160, 160), // RibbonGroupsArea2
-            Color.FromArgb(181, 181, 181), // RibbonGroupsArea3
+            Color.FromArgb(221, 221, 221), // RibbonGroupsArea3
             Color.FromArgb(135, 135, 135), // RibbonGroupsArea4
             Color.FromArgb(130, 130, 130), // RibbonGroupsArea5
             Color.Empty, // RibbonGroupBorder1
@@ -271,8 +271,8 @@ namespace Krypton.Toolkit
             Color.FromArgb(223, 224, 228), // RibbonQATMini3I
             Color.FromArgb(10, Color.White), // RibbonQATMini4I
             Color.FromArgb(32, Color.White), // RibbonQATMini5I
-            Color.FromArgb(215, 214,214), // RibbonQATFullbar1
-            Color.FromArgb(215, 214,214), // RibbonQATFullbar2
+            Color.FromArgb(190, 187, 184), // RibbonQATFullbar1
+            Color.FromArgb(190, 187, 184), // RibbonQATFullbar2
             Color.FromArgb(160, 160, 160), // RibbonQATFullbar3
             Color.FromArgb(153, 153, 153), // RibbonQATButtonDark
             Color.FromArgb(225, 225, 225), // RibbonQATButtonLight
