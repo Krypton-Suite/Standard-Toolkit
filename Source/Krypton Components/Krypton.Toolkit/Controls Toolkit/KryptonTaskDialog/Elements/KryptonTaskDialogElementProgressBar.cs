@@ -175,18 +175,23 @@ public class KryptonTaskDialogElementProgresBar : KryptonTaskDialogElementSingle
         }
     }
 
-    private void SetupPanel()
+    private void SetupControls()
     {
         // Label holds the description that goes with the hyperlink
         _description.AutoSize = true;
         _description.Padding = Defaults.NullPadding;
-        _description.Margin = new Padding(0, 0, 0, Defaults.ComponentSpace);
+        _description.Margin = new Padding( 0, 0, 0, Defaults.ComponentSpace );
 
         // The hyperlink
         _progressBar.Width = Defaults.ClientWidth - Defaults.PanelLeft - Defaults.PanelRight;
-        _progressBar.Margin = new Padding(0, 0, 0, Defaults.ComponentSpace);
+        _progressBar.Margin = new Padding( 0, 0, 0, Defaults.ComponentSpace );
         _progressBar.Padding = Defaults.NullPadding;
         _progressBar.Margin = Defaults.NullMargin;
+    }
+
+    private void SetupPanel()
+    {
+        SetupControls();
 
         // add the controls
         _tlp.Controls.Add(_description, 0, 0);
