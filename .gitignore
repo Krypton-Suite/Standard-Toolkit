@@ -326,3 +326,4 @@ Source\Miscellaneous Toolkit Items\Krypton Toolkit Documentation\Help
 *.bak
 Source/Krypton Components/Temp.txt
 /Logs
+.vscode/

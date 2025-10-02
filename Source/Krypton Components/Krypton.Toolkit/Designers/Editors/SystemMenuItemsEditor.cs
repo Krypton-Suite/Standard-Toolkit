@@ -12,14 +12,14 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Collection editor for ThemedSystemMenuItem objects that provides a user-friendly interface in the designer.
     /// </summary>
-    public class ThemedSystemMenuItemsEditor : CollectionEditor
+    public class SystemMenuItemsEditor : CollectionEditor
     {
         #region Identity
         /// <summary>
         /// Initialize a new instance of the ThemedSystemMenuItemsEditor class.
         /// </summary>
         /// <param name="type">The type of collection to edit.</param>
-        public ThemedSystemMenuItemsEditor(Type type) : base(type)
+        public SystemMenuItemsEditor(Type type) : base(type)
         {
         }
         #endregion
@@ -32,9 +32,9 @@ namespace Krypton.Toolkit
         /// <returns>A new instance of the specified type.</returns>
         protected override object CreateInstance(Type itemType)
         {
-            if (itemType == typeof(ThemedSystemMenuItemValues))
+            if (itemType == typeof(SystemMenuItemValues))
             {
-                return new ThemedSystemMenuItemValues("New Menu Item");
+                return new SystemMenuItemValues("New Menu Item");
             }
 
             return base.CreateInstance(itemType);
@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
         /// <returns>The display text for the item.</returns>
         protected override string GetDisplayText(object? value)
         {
-            if (value is ThemedSystemMenuItemValues menuItem)
+            if (value is SystemMenuItemValues menuItem)
             {
                 return menuItem.ToString();
             }
