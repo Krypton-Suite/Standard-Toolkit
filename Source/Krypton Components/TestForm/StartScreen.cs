@@ -7,68 +7,187 @@
  */
 #endregion
 
+using System.Diagnostics.CodeAnalysis;
+
 namespace TestForm;
 
 public partial class StartScreen : KryptonForm
 {
+    private readonly List<KryptonCommandLinkButton> _buttons;
+    private readonly IComparer<KryptonCommandLinkButton> _headingComparer;
+    private readonly Timer _filterTimer;
+    private int _panelWidth;
+    private Size _sizeAtStartup;
+
     public StartScreen()
     {
         InitializeComponent();
+
+        // Init & basic settings
+        _buttons = [];
+        _headingComparer = new ButtonHeadingComparer();
+        _panelWidth = tlpMain.Width;
+        _filterTimer = new();
+        _sizeAtStartup = new Size(1360, 633);
+
+        btnDockTopRight.Click += OnBtnDockTopRightClick;
+        btnRestoreSize.Click += OnBtnRestoreSizeClick;
+
+        SetupFilterBox();
+        SetupTableLayoutPanel();
+        AddButtons();
+        SortButtons();
+        AddButtonsToTlpMain();
+
+        this.Size = _sizeAtStartup;
     }
 
-    private void StartScreen_Load(object sender, EventArgs e)
+    /// <summary>
+    /// Buttons to be displayed in the list can be added / removed or altered here.
+    /// </summary>
+    private void AddButtons()
     {
-        // Dev note: visualize whether lines are button borders
-        // Keep this in for later test cases, it can be quite handy!
-        // Use the real About button (kbtnAbout) shown at the top-left
-        /*
-        kbtnAbout.StateCommon.Border.DrawBorders = PaletteDrawBorders.All;
-        kbtnAbout.StateCommon.Border.Width = 2;
-        kbtnAbout.StateCommon.Border.GraphicsHint = PaletteGraphicsHint.None;
-        kbtnAbout.StateCommon.Border.ColorStyle = PaletteColorStyle.Solid;
-        kbtnAbout.StateCommon.Border.Color1 = Color.Lime;
-        kbtnAbout.StateCommon.Border.Color2 = Color.Lime;
+        CreateButton("AboutBox", "Try this About Box for a change", typeof(AboutBoxTest));
+        CreateButton("Buttons Test", "All the buttons you want to test.", typeof(ButtonsTest));
+        CreateButton("CommandLink Buttons", "No comment", typeof(CommandLinkButtons));
+        CreateButton("Control Styles", "", typeof(ControlStylesForm));
+        CreateButton("DateTime Example", "", typeof(DateTimeExample));
+        CreateButton("FormBorder Test", "", typeof(FormBorderTest));
+        CreateButton("Header Examples", "", typeof(HeaderExamples));
+        CreateButton("Menu/Tool/Status Strips", "", typeof(MenuToolBarStatusStripTest));
+        CreateButton("Powered By Button", "", typeof(PoweredByButtonForm));
+        CreateButton("ProgressBar", "", typeof(ProgressBarTest));
 
-        kbtnAbout.StateNormal.Border.DrawBorders = PaletteDrawBorders.All;
-        kbtnAbout.StateNormal.Border.Width = 2;
-        kbtnAbout.StateNormal.Border.ColorStyle = PaletteColorStyle.Solid;
-        kbtnAbout.StateNormal.Border.Color1 = Color.Lime;
-        kbtnAbout.StateNormal.Border.Color2 = Color.Lime;
+        CreateButton("CommandLink Buttons", "", typeof(CommandLinkButtons));
+        CreateButton("CommandLink Buttons", "", typeof(CommandLinkButtons));
+        CreateButton("CommandLink Buttons", "", typeof(CommandLinkButtons));
+        CreateButton("CommandLink Buttons", "", typeof(CommandLinkButtons));
 
-        kbtnAbout.StateDisabled.Border.DrawBorders = PaletteDrawBorders.All;
-        kbtnAbout.StateDisabled.Border.Width = 2;
-        kbtnAbout.StateDisabled.Border.ColorStyle = PaletteColorStyle.Solid;
-        kbtnAbout.StateDisabled.Border.Color1 = Color.Lime;
-        kbtnAbout.StateDisabled.Border.Color2 = Color.Lime;
+    }
 
-        kbtnAbout.StateTracking.Border.DrawBorders = PaletteDrawBorders.All;
-        kbtnAbout.StateTracking.Border.Width = 2;
-        kbtnAbout.StateTracking.Border.ColorStyle = PaletteColorStyle.Solid;
-        kbtnAbout.StateTracking.Border.Color1 = Color.Lime;
-        kbtnAbout.StateTracking.Border.Color2 = Color.Lime;
+    private void CreateButton(string heading, string description, Type formType, Image? image = null )
+    {
+        KryptonCommandLinkButton button = new();
+        
+        if (!typeof(Form).IsAssignableFrom(formType))
+        {
+            throw new InvalidCastException("Parameter formType is not of type Form or derived from Form.");
+        }
 
-        kbtnAbout.StatePressed.Border.DrawBorders = PaletteDrawBorders.All;
-        kbtnAbout.StatePressed.Border.Width = 2;
-        kbtnAbout.StatePressed.Border.ColorStyle = PaletteColorStyle.Solid;
-        kbtnAbout.StatePressed.Border.Color1 = Color.Lime;
-        kbtnAbout.StatePressed.Border.Color2 = Color.Lime;
+        button.CommandLinkTextValues.Heading         = heading;
+        button.CommandLinkTextValues.Description     = description;
+        button.AutoSize                              = false;
+        button.Size                                  = new Size(_panelWidth - 10, 60);
+        button.Click                                 += (_, _) => OnCommandLinkTestButtonClick(formType);
 
-        kbtnAbout.OverrideDefault.Border.DrawBorders = PaletteDrawBorders.All;
-        kbtnAbout.OverrideDefault.Border.Width = 2;
-        kbtnAbout.OverrideDefault.Border.GraphicsHint = PaletteGraphicsHint.None;
-        kbtnAbout.OverrideDefault.Border.ColorStyle = PaletteColorStyle.Solid;
-        kbtnAbout.OverrideDefault.Border.Color1 = Color.Lime;
-        kbtnAbout.OverrideDefault.Border.Color2 = Color.Lime;
+        if (image is not null)
+        {
+            button.CommandLinkTextValues.UseDefaultImage = false;
+            button.CommandLinkTextValues.Image = new Bitmap(image, 48, 48);
+        }
 
-        // Also color the button background to detect any 1px interior gaps vs parent background
-        kbtnAbout.StateCommon.Back.Draw = InheritBool.True;
-        kbtnAbout.StateCommon.Back.ColorStyle = PaletteColorStyle.Solid;
-        kbtnAbout.StateCommon.Back.Color1 = Color.FromArgb(200, 0, 0); // red fill
-        kbtnAbout.StateCommon.Back.Color2 = Color.FromArgb(200, 0, 0);
-        kbtnAbout.OverrideDefault.Back.ColorStyle = PaletteColorStyle.Solid;
-        kbtnAbout.OverrideDefault.Back.Color1 = Color.FromArgb(200, 0, 0);
-        kbtnAbout.OverrideDefault.Back.Color2 = Color.FromArgb(200, 0, 0);
-        */
+        _buttons.Add(button);
+    }
+
+    private void SetupFilterBox()
+    {
+        tbFilter.Clear();
+
+        FontFamily family = KryptonManager.CurrentGlobalPalette.GetContentShortTextFont(PaletteContentStyle.InputControlStandalone, PaletteState.Normal)!.FontFamily;
+        tbFilter.StateCommon.Content.Font = new Font(family, 14F, FontStyle.Regular);
+        tbFilter.TextChanged += OnFilterChanged;
+        btnClearFilter.Click += (_, _) => tbFilter.Clear();
+
+        _filterTimer.Interval = 200;
+        _filterTimer.Tick += OnFilterChangedPerformFilter;
+    }
+
+    private void OnBtnRestoreSizeClick(object? sender, EventArgs e)
+    {
+        this.Size = _sizeAtStartup;
+    }
+
+    private void OnBtnDockTopRightClick(object? sender, EventArgs e)
+    {
+        this.Location = new Point(Screen.FromControl(this).Bounds.Width - this.Width, 0);
+    }
+
+    private void OnCommandLinkTestButtonClick(Type formType ) 
+    {
+        Form? form = Activator.CreateInstance(formType) as Form;
+        form?.Show();
+    }
+
+    private void SortButtons()
+    {
+        _buttons.Sort(_headingComparer);
+    }
+
+    private void SetupTableLayoutPanel()
+    {
+        tlpMain.RowCount = 0;
+        tlpMain.ColumnCount = 1;
+
+        tlpMain.AutoSize     = false;
+        tlpMain.MaximumSize  = new Size(_panelWidth, 0);
+        tlpMain.MinimumSize  = new Size(_panelWidth, 464);
+        tlpMain.BackColor    = Color.Transparent;
+        tlpMain.Padding      = new Padding(0);
+        tlpMain.Margin       = new Padding(0);
+        tlpMain.AutoScroll   = true;
+
+        tlpMain.RowStyles.Clear();
+        tlpMain.ColumnStyles.Clear();
+        tlpMain.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
+    }
+
+    private void AddButtonsToTlpMain()
+    {
+        _buttons.ForEach(button => {
+            tlpMain.RowCount += 1;
+            tlpMain.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+            tlpMain.Controls.Add(button, 0, tlpMain.RowCount - 1);
+        });
+    }
+
+    private void OnFilterChanged(object? sender, EventArgs e)
+    {
+        _filterTimer.Stop();
+        _filterTimer.Start();
+    }
+
+    private void OnFilterChangedPerformFilter(object? sender, EventArgs e)
+    {
+        _filterTimer.Stop();
+
+        if (tbFilter.Text.Length > 0)
+        {
+            _buttons.ForEach(button => button.Visible = button.CommandLinkTextValues.Heading.IndexOf(tbFilter.Text, StringComparison.OrdinalIgnoreCase) >= 0);
+        }
+        else
+        {
+            _buttons.ForEach(button => button.Visible = true);
+        }
+    }
+    private class ButtonHeadingComparer : IComparer<KryptonCommandLinkButton>
+    {
+        /// <summary>
+        /// Compares the command link buttons case insensitive by their Heading string.
+        /// </summary>
+        /// <param name="x">A valid reference to the first button.</param>
+        /// <param name="y">A valid reference to the second button.</param>
+        /// <returns>
+        /// 0 : Heading x and y equal.<br/>
+        /// 1 : Heading x is greater than y.<br/>
+        /// -1: Heading y is greater than x.
+        /// </returns>
+        /// <exception cref="NullReferenceException">Is thrown when at least x or y is null.</exception>
+        public int Compare(KryptonCommandLinkButton? x, KryptonCommandLinkButton? y)
+        {
+            return (x is not null && y is not null)
+                ? x.CommandLinkTextValues.Heading.ToLower().CompareTo(y.CommandLinkTextValues.Heading.ToLower())
+                : throw new NullReferenceException($"ButtonHeadingComparer: make sure that parameter x and y both are valid references to a KryptonCommandLinkButton instance.");
+        }
     }
 
     private void kbtnAboutBox_Click(object sender, EventArgs e)
@@ -257,7 +376,7 @@ public partial class StartScreen : KryptonForm
 
     private void kbtnControlStyles_Click(object sender, EventArgs e)
     {
-        new ControlStyles().Show();
+        new ControlStylesForm().Show();
     }
 
     private void kbtnSplashScreen_Click(object sender, EventArgs e)
