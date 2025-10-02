@@ -1485,18 +1485,6 @@ namespace Krypton.Toolkit
                                             hl_rect.Width = s2.Width - 6;
                                         }
 
-                                        //Original
-                                        //if (s1.Width > 5)
-                                        //{
-                                        //    hl_rect.X = e.CellBounds.X + s1.Width - 5;
-                                        //    hl_rect.Width = s2.Width - 6;
-                                        //}
-                                        //else
-                                        //{
-                                        //    hl_rect.X = e.CellBounds.X + 2;
-                                        //    hl_rect.Width = s2.Width - 6;
-                                        //}
-
                                         var hl_brush =
                                             (e.State & DataGridViewElementStates.Selected) !=
                                             DataGridViewElementStates.None
@@ -1568,27 +1556,24 @@ namespace Krypton.Toolkit
                                 if (isHeaderCell)
                                 {
                                     string text = e.FormattedValue?.ToString() ?? string.Empty;
-                                    if (!string.IsNullOrEmpty(text))
+                                    Rectangle constrainedContentBounds = headerContentBounds;
+                                    Rectangle colDisplayRect = GetColumnDisplayRectangle(e.ColumnIndex, false);
+                                    if (colDisplayRect.Width > 0)
                                     {
-                                        Rectangle constrainedContentBounds = headerContentBounds;
-                                        Rectangle colDisplayRect = GetColumnDisplayRectangle(e.ColumnIndex, false);
-                                        if (colDisplayRect.Width > 0)
-                                        {
-                                            // Translate display rect into cell-local coords
-                                            colDisplayRect.Offset(-e.CellBounds.X, -e.CellBounds.Y);
-                                            constrainedContentBounds = Rectangle.Intersect(constrainedContentBounds, colDisplayRect);
-                                        }
-
-                                        Color textColor = _contentInherit.GetContentShortTextColor1(state);
-                                        Font textFont = _contentInherit.GetContentShortTextFont(state) ?? SystemFonts.DefaultFont;
-                                        var tff = KryptonDataGridViewUtilities.ComputeTextFormatFlagsForCellStyleAlignment(
-                                            rtl,
-                                            e.CellStyle!.Alignment,
-                                            e.CellStyle.WrapMode);
-                                        TextRenderer.DrawText(e.Graphics!, text, textFont,
-                                            new Rectangle(e.CellBounds.Location + (Size)constrainedContentBounds.Location, constrainedContentBounds.Size),
-                                            textColor, tff);
+                                        // Translate display rect into cell-local coords
+                                        colDisplayRect.Offset(-e.CellBounds.X, -e.CellBounds.Y);
+                                        constrainedContentBounds = Rectangle.Intersect(constrainedContentBounds, colDisplayRect);
                                     }
+
+                                    Color textColor = _contentInherit.GetContentShortTextColor1(state);
+                                    Font textFont = _contentInherit.GetContentShortTextFont(state) ?? SystemFonts.DefaultFont;
+                                    var tff = KryptonDataGridViewUtilities.ComputeTextFormatFlagsForCellStyleAlignment(
+                                        rtl,
+                                        e.CellStyle!.Alignment,
+                                        e.CellStyle.WrapMode);
+                                    TextRenderer.DrawText(e.Graphics!, text, textFont,
+                                        new Rectangle(e.CellBounds.Location + (Size)constrainedContentBounds.Location, constrainedContentBounds.Size),
+                                        textColor, tff);
                                 }
                             }
                         }
