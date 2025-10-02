@@ -701,6 +701,13 @@ public class KryptonForm : VisualForm,
     {
         get
         {
+            // DESIGN MODE: Return base.Controls to allow proper designer operations
+            // This ensures controls can be dropped directly onto the form in designer
+            if (IsInDesignMode())
+            {
+                return base.Controls;
+            }
+
             if (_internalKryptonPanel.Controls.Count == 0)
             {
                 _internalKryptonPanel.ClientSize = ClientSize;
