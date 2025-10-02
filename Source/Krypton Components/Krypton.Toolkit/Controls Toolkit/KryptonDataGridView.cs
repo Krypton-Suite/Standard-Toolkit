@@ -1492,18 +1492,6 @@ namespace Krypton.Toolkit
                                             hl_rect.Width = s2.Width - 6;
                                         }
 
-                                        //Original
-                                        //if (s1.Width > 5)
-                                        //{
-                                        //    hl_rect.X = e.CellBounds.X + s1.Width - 5;
-                                        //    hl_rect.Width = s2.Width - 6;
-                                        //}
-                                        //else
-                                        //{
-                                        //    hl_rect.X = e.CellBounds.X + 2;
-                                        //    hl_rect.Width = s2.Width - 6;
-                                        //}
-
                                         var hl_brush =
                                             (e.State & DataGridViewElementStates.Selected) !=
                                             DataGridViewElementStates.None
