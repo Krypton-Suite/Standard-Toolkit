@@ -1568,33 +1568,30 @@ namespace Krypton.Toolkit
                                 }
 
                                 // Blit the image onto the screen
-                                e.Graphics?.DrawImage(tempBitmap, e.CellBounds.Location);
+                                e.Graphics.DrawImage(tempBitmap, e.CellBounds.Location);
 
                                 // Column header text: draw with GDI TextRenderer directly to final DC with strict clipping
                                 if (isHeaderCell is not null  && isHeaderCell.Value)
                                 {
                                     string text = e.FormattedValue?.ToString() ?? string.Empty;
-                                    if (!string.IsNullOrEmpty(text))
+                                    Rectangle constrainedContentBounds = headerContentBounds;
+                                    Rectangle colDisplayRect = GetColumnDisplayRectangle(e.ColumnIndex, false);
+                                    if (colDisplayRect.Width > 0)
                                     {
-                                        Rectangle constrainedContentBounds = headerContentBounds;
-                                        Rectangle colDisplayRect = GetColumnDisplayRectangle(e.ColumnIndex, false);
-                                        if (colDisplayRect.Width > 0)
-                                        {
-                                            // Translate display rect into cell-local coords
-                                            colDisplayRect.Offset(-e.CellBounds.X, -e.CellBounds.Y);
-                                            constrainedContentBounds = Rectangle.Intersect(constrainedContentBounds, colDisplayRect);
-                                        }
-
-                                        Color textColor = _contentInherit.GetContentShortTextColor1(state);
-                                        Font textFont = _contentInherit.GetContentShortTextFont(state) ?? SystemFonts.DefaultFont;
-                                        var tff = KryptonDataGridViewUtilities.ComputeTextFormatFlagsForCellStyleAlignment(
-                                            rtl,
-                                            e.CellStyle!.Alignment,
-                                            e.CellStyle.WrapMode);
-                                        TextRenderer.DrawText(e.Graphics!, text, textFont,
-                                            new Rectangle(e.CellBounds.Location + (Size)constrainedContentBounds.Location, constrainedContentBounds.Size),
-                                            textColor, tff);    
+                                        // Translate display rect into cell-local coords
+                                        colDisplayRect.Offset(-e.CellBounds.X, -e.CellBounds.Y);
+                                        constrainedContentBounds = Rectangle.Intersect(constrainedContentBounds, colDisplayRect);
                                     }
+
+                                    Color textColor = _contentInherit.GetContentShortTextColor1(state);
+                                    Font textFont = _contentInherit.GetContentShortTextFont(state) ?? SystemFonts.DefaultFont;
+                                    var tff = KryptonDataGridViewUtilities.ComputeTextFormatFlagsForCellStyleAlignment(
+                                        rtl,
+                                        e.CellStyle!.Alignment,
+                                        e.CellStyle.WrapMode);
+                                    TextRenderer.DrawText(e.Graphics!, text, textFont,
+                                        new Rectangle(e.CellBounds.Location + (Size)constrainedContentBounds.Location, constrainedContentBounds.Size),
+                                        textColor, tff);    
                                 }
 
                             }
