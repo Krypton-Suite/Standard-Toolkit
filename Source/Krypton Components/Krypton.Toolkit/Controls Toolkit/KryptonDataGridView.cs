@@ -1554,7 +1554,6 @@ namespace Krypton.Toolkit
 
                                     if (isHeaderCell is not null && !isHeaderCell.Value)
                                     {
-                                        Debug.Print("NOT HeaderCell");
                                         // Non-header: let renderer draw content
                                         using IDisposable tmpMemento = Renderer.RenderStandardContent.LayoutContent(
                                             layoutContext, tempCellBounds,
