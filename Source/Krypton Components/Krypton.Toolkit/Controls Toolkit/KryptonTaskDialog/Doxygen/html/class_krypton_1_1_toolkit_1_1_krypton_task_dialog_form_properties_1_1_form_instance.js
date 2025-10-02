@@ -1,7 +1,8 @@
 var class_krypton_1_1_toolkit_1_1_krypton_task_dialog_form_properties_1_1_form_instance =
 [
-    [ "FormInstance", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_form_properties_1_1_form_instance.html#addb6fc6c3711a9e3bfbc5f47fc9526ba", null ],
+    [ "FormInstance", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_form_properties_1_1_form_instance.html#a574b37ca6db5b1783704ea99d6da1232", null ],
     [ "ToString", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_form_properties_1_1_form_instance.html#ab204334205c7c7c8230bdae5b7286163", null ],
+    [ "AutoScaleMode", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_form_properties_1_1_form_instance.html#a8a565bc90de841737b689f26b6d8f596", null ],
     [ "CloseBox", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_form_properties_1_1_form_instance.html#a7c9c89804bb4dc29c0e5bf0ca5f83ad5", null ],
     [ "ControlBox", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_form_properties_1_1_form_instance.html#a98e20b2b98b3adbf1c469c0b6bf9208d", null ],
     [ "FormTitleAlign", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_form_properties_1_1_form_instance.html#a4d6a05075b8034193343e566461eb686", null ],

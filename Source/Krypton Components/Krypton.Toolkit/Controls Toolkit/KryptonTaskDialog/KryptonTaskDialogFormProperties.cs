@@ -1,14 +1,12 @@
-﻿#region BSD License
+#region BSD License
 /*
- *
- * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- * © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  * Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2025 - 2025. All rights reserved.
  *
  */
 #endregion
+
 
 namespace Krypton.Toolkit;
 
@@ -20,19 +18,23 @@ public class KryptonTaskDialogFormProperties
     #region Fields
     private KryptonTaskDialogKryptonForm _form;
     private List<KryptonTaskDialogElementBase> _elements;
+    KryptonTaskDialogDefaults _taskDialogDefaults;
     #endregion
 
     #region Types
-    public class FormInstance
+    public class FormInstance :
+        IKryptonTaskDialogElementRoundedCorners
     {
         #region Fields
         KryptonTaskDialogKryptonForm _form;
-        #endregion
+        KryptonTaskDialogDefaults _taskDialogDefaults;
+            #endregion
 
         #region Identity
-        public FormInstance(KryptonTaskDialogKryptonForm form)
+        public FormInstance(KryptonTaskDialogKryptonForm form, KryptonTaskDialogDefaults taskDialogDefaults)
         {
             _form = form;
+            _taskDialogDefaults = taskDialogDefaults;
         }
         #endregion
 
@@ -81,20 +83,9 @@ public class KryptonTaskDialogFormProperties
         }
 
         /// <summary>
-        /// <b>(Experimental and might be removed)</b><br/>
-        /// Intercepts all mouse and keystrokes to the form.<br/>
-        /// Testing if this can be used to display a modeless window that is updated as a 
-        /// progres or status dialog to the user while some process is running.
-        /// </summary>
-        public bool InertForm 
-        {
-            get => _form.InertForm;
-            set => _form.InertForm = value;
-        }
-
-        /// <summary>
         /// Disables close by ALT+F4.<br/>
-        /// To force the user to respond to the dialog through the buttons set CloseBox to false when using IgnoreAltF4.
+        /// To force the user to respond to the dialog through the buttons.<br/>
+        /// Set CloseBox to false when using IgnoreAltF4.
         /// </summary>
         public bool IgnoreAltF4 
         {
@@ -150,9 +141,9 @@ public class KryptonTaskDialogFormProperties
         /// <summary>
         /// Shows a Taskbar Button when the Dialog is shown.<br/>
         /// Note: <br/>
-        /// - Make sure to set the caption, otherwise the taskbar button will only show and icon.<br/>
+        /// - Make sure to set the caption, otherwise the taskbar button will only show an icon.<br/>
         /// - Note: ShowInTaskBar only works when used with Show() or Show(owner).<br/>
-        /// - ShowDialog is a modal dialog and will not display a taskbar button, even when this is set to true.<br/>
+        /// - ShowDialog is a modal dialog and will not display a taskbar button, even when this is set to true.>
         /// </summary>
         public bool ShowInTaskBar 
         {
@@ -190,7 +181,7 @@ public class KryptonTaskDialogFormProperties
                 if (field != value && _form.StateCommon is not null)
                 {
                     field = value;
-                    _form.StateCommon.Border.Rounding = value ? 10 : -1;
+                    _form.StateCommon.Border.Rounding = _taskDialogDefaults.GetCornerRouding(value);
                 }
             }
         }
@@ -214,23 +205,46 @@ public class KryptonTaskDialogFormProperties
         {
             return string.Empty;
         }
+
+        public AutoScaleMode AutoScaleMode
+        {
+            get => _form.AutoScaleMode;
+            set => _form.AutoScaleMode = value;
+        }
         #endregion
     }
 
-    public class GlobalInstance
+    public class GlobalInstance :
+        IKryptonTaskDialogElementRoundedCorners
     {
         #region Fields
         private List<KryptonTaskDialogElementBase> _elements;
+        private FormInstance _formInstance;
         #endregion
 
         #region Identity
-        public GlobalInstance(List<KryptonTaskDialogElementBase> elements)
+        public GlobalInstance(List<KryptonTaskDialogElementBase> elements, FormInstance formInstance)
         {
             _elements = elements;
+            _formInstance = formInstance;
         }
         #endregion
 
         #region Public
+        /// <summary>
+        /// Rounds the button corners.
+        /// </summary>
+        public bool RoundedCorners
+        {
+            get => field;
+
+            set
+            {
+                field = value;
+                UpdateRoundedCorners();
+            }
+        }
+
         /// <summary>
         /// Sets the BackColor1 property for all elements in the dialog
         /// </summary>
@@ -289,17 +303,34 @@ public class KryptonTaskDialogFormProperties
             return string.Empty;
         }
         #endregion
+
+        #region Private
+        private void UpdateRoundedCorners()
+        {
+            // Forms instance is treated separate.
+            _formInstance.RoundedCorners = RoundedCorners;
+
+            // Update all elements on a global corner rouding toggle.
+            _elements.ForEach( element => 
+            {
+                if (element is IKryptonTaskDialogElementRoundedCorners e)
+                {
+                    e.RoundedCorners = RoundedCorners;
+                }
+            });
+        }
+        #endregion
     }
     #endregion
 
     #region Identity
-    public KryptonTaskDialogFormProperties(KryptonTaskDialogKryptonForm kryptonForm, List<KryptonTaskDialogElementBase> elements)
+    public KryptonTaskDialogFormProperties(KryptonTaskDialogKryptonForm kryptonForm, List<KryptonTaskDialogElementBase> elements, KryptonTaskDialogDefaults taskDialogDefaults)
     {
         _form = kryptonForm;
         _elements = elements;
-        
-        Form = new(_form);
-        Globals = new(_elements);
+        _taskDialogDefaults = taskDialogDefaults;
+        Form = new(_form, _taskDialogDefaults);
+        Globals = new(_elements, Form);
 
         Form.ShowInTaskBar = true;
         Form.Text = "Krypton Task Dialog";
@@ -309,7 +340,7 @@ public class KryptonTaskDialogFormProperties
     /// <summary>
     /// TODO Will be removed in the final version
     /// </summary>
-    public KryptonTaskDialogKryptonForm KryptonForm => _form;
+    //public KryptonTaskDialogKryptonForm KryptonForm => _form;
 
     #region Public properties
     /// <summary>
@@ -331,20 +362,11 @@ public class KryptonTaskDialogFormProperties
 
     /// <summary>
     /// The last dialog result after the window was closed.<br/>
-    /// Note: When showing the dialog modeless using Show(...) the result is updated after the window has been closed.
+    /// Note: When showing the dialog modeless using Show(...) this property is updated after the window has been closed.
     /// </summary>
     public DialogResult DialogResult 
     {
         get => _form.DialogResult;
-    }
-
-    /// <summary>
-    /// TODO: Will be removed in the final version
-    /// </summary>
-    public FormBorderStyle FormBorderStyle 
-    {
-        get => _form.FormBorderStyle;
-        set => _form.FormBorderStyle = value;
     }
     #endregion
 

@@ -71,6 +71,7 @@ Inheritance diagram for Krypton.Toolkit.KryptonTaskDialogElementProgresBar:</div
   <map id="Krypton_2EToolkit_2EKryptonTaskDialogElementProgresBar_map" name="Krypton_2EToolkit_2EKryptonTaskDialogElementProgresBar_map">
 <area href="class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_single_line_control_base.html" title="Base class that has boilerplate code for an element that hosts a control that occupies a single line...." alt="Krypton.Toolkit.KryptonTaskDialogElementSingleLineControlBase" shape="rect" coords="582,112,960,136"/>
 <area href="interface_krypton_1_1_toolkit_1_1_i_krypton_task_dialog_element_description.html" alt="Krypton.Toolkit.IKryptonTaskDialogElementDescription" shape="rect" coords="970,112,1348,136"/>
+<area href="interface_krypton_1_1_toolkit_1_1_i_krypton_task_dialog_element_rounded_corners.html" alt="Krypton.Toolkit.IKryptonTaskDialogElementRoundedCorners" shape="rect" coords="1358,112,1736,136"/>
 <area href="class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_base.html" title="Abstract base class where all KryptonTaskDialogElementData components must be derived from...." alt="Krypton.Toolkit.KryptonTaskDialogElementBase" shape="rect" coords="388,56,766,80"/>
 <area href="interface_krypton_1_1_toolkit_1_1_i_krypton_task_dialog_element_fore_color.html" alt="Krypton.Toolkit.IKryptonTaskDialogElementForeColor" shape="rect" coords="776,56,1154,80"/>
 <area href="interface_krypton_1_1_toolkit_1_1_i_krypton_task_dialog_element_base.html" title="Base and top interface for the KryptonTaskDialogElementBase abstract base class." alt="Krypton.Toolkit.IKryptonTaskDialogElementBase" shape="rect" coords="0,0,378,24"/>
@@ -120,6 +121,8 @@ Properties</h2></td></tr>
 <tr class="memdesc:a9862bd9af87517b4fff77c95cdc8f7e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Show or hide the description.  <br /></td></tr>
 <tr class="memitem:a98b775409e409124a3ec0c3fcf223971" id="r_a98b775409e409124a3ec0c3fcf223971"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_progres_bar_properties.html">KryptonTaskDialogElementProgresBarProperties</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a98b775409e409124a3ec0c3fcf223971">ProgressBar</a><code> [get]</code></td></tr>
 <tr class="memdesc:a98b775409e409124a3ec0c3fcf223971"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure the ProgressBar.  <br /></td></tr>
+<tr class="memitem:a8d1faf3abe233449933151365dab2f92" id="r_a8d1faf3abe233449933151365dab2f92"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8d1faf3abe233449933151365dab2f92">RoundedCorners</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:a8d1faf3abe233449933151365dab2f92"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rounds the progressbar corners.  <br /></td></tr>
 <tr class="inherit_header properties_class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_single_line_control_base"><td colspan="2" onclick="javascript:dynsection.toggleInherit('properties_class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_single_line_control_base')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Properties inherited from <a class="el" href="class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_single_line_control_base.html">Krypton.Toolkit.KryptonTaskDialogElementSingleLineControlBase</a></td></tr>
 <tr class="memitem:a82f24c9a01b52dbda1d4268eee311e74 inherit properties_class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_single_line_control_base" id="r_a82f24c9a01b52dbda1d4268eee311e74"><td class="memItemLeft" align="right" valign="top">virtual Color&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_single_line_control_base.html#a82f24c9a01b52dbda1d4268eee311e74">ForeColor</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a82f24c9a01b52dbda1d4268eee311e74 inherit properties_class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_single_line_control_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Foreground color and overrides the theme based color.  <br /></td></tr>
@@ -134,8 +137,10 @@ Properties</h2></td></tr>
 <tr class="memdesc:afd5ed09400d8baa2b388c97f19c1255e inherit properties_class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Second background color used for the gradient and overrides the theme based color.  <br /></td></tr>
 <tr class="memitem:a94d593cbf5709e9f2af88078590410a4 inherit properties_class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_base" id="r_a94d593cbf5709e9f2af88078590410a4"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_base.html#a94d593cbf5709e9f2af88078590410a4">Visible</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a94d593cbf5709e9f2af88078590410a4 inherit properties_class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Show or hide the element in the <a class="el" href="class_krypton_1_1_toolkit_1_1_krypton_task_dialog.html" title="KryptonTaskDialog is a Dialog that resembles the functionality of the Winforms TaskDialog although im...">KryptonTaskDialog</a>.  <br /></td></tr>
+<tr class="memitem:a05a102d7fed578d0ae61cded8f175705 inherit properties_class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_base" id="r_a05a102d7fed578d0ae61cded8f175705"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_base.html#a05a102d7fed578d0ae61cded8f175705">ShowSeparator</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:a05a102d7fed578d0ae61cded8f175705 inherit properties_class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Displays a separator line at the top of the element.  <br /></td></tr>
 <tr class="memitem:a6e5f697c5889f1912bc48e7fc4bdcd6a inherit properties_class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_base" id="r_a6e5f697c5889f1912bc48e7fc4bdcd6a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_base.html#a6e5f697c5889f1912bc48e7fc4bdcd6a">Height</a><code> [get]</code></td></tr>
-<tr class="memdesc:a6e5f697c5889f1912bc48e7fc4bdcd6a inherit properties_class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the height of the element when visible.<br  />
+<tr class="memdesc:a6e5f697c5889f1912bc48e7fc4bdcd6a inherit properties_class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the height of the element when visible.<br  />
  When not visible Height returns zero.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-inherited" class="groupheader"><a id="inherited" name="inherited"></a>
@@ -388,6 +393,32 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Configure the ProgressBar. </p>
+
+</div>
+</div>
+<a id="a8d1faf3abe233449933151365dab2f92" name="a8d1faf3abe233449933151365dab2f92"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8d1faf3abe233449933151365dab2f92">&#9670;&#160;</a></span>RoundedCorners</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Krypton.Toolkit.KryptonTaskDialogElementProgresBar.RoundedCorners</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel get">get</span><span class="mlabel set">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Rounds the progressbar corners. </p>
+
+<p>Implements <a class="el" href="interface_krypton_1_1_toolkit_1_1_i_krypton_task_dialog_element_rounded_corners.html#a60954578f5f3287e2cc2b501d9c08371">Krypton.Toolkit.IKryptonTaskDialogElementRoundedCorners</a>.</p>
 
 </div>
 </div>

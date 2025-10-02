@@ -42,7 +42,7 @@ namespace Krypton.Toolkit
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(435, 166);
+            this.kryptonPanel1.Size = new System.Drawing.Size(439, 154);
             this.kryptonPanel1.TabIndex = 0;
             // 
             // kryptonButton1
@@ -68,12 +68,10 @@ namespace Krypton.Toolkit
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(435, 166);
+            this.ClientSize = new System.Drawing.Size(439, 154);
             this.Controls.Add(this.kryptonPanel1);
-            this.Location = new System.Drawing.Point(0, 0);
             this.Name = "DesignerMenuTest";
             this.Text = "Designer Menu Test";
-            this.Controls.SetChildIndex(this.kryptonPanel1, 0);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
             this.kryptonPanel1.ResumeLayout(false);
             this.kryptonPanel1.PerformLayout();

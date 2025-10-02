@@ -1,8 +1,5 @@
-﻿#region BSD License
+#region BSD License
 /*
- *
- * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- * © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  * Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2025 - 2025. All rights reserved.
@@ -23,19 +20,29 @@ public class KryptonTaskDialogElementCheckBox : KryptonTaskDialogElementSingleLi
     public KryptonTaskDialogElementCheckBox(KryptonTaskDialogDefaults taskDialogDefaults) 
         : base(taskDialogDefaults, 1)
     {
-        Panel.Width = Defaults.ClientWidth;
-
-        _checkBox = new();
-        _checkBox.AutoSize = true;
-        _checkBox.Padding = new Padding(Defaults.ComponentSpace, 0, 0, 0);
-        _checkBox.Margin = Defaults.NullMargin;
-        _checkBox.CheckState = CheckState.Unchecked;
-
-        _tlp.Controls.Add(_checkBox, 0, 0);
+        SetupPanel();
 
         LayoutDirty = true;
     }
 
+    #region Private
+    private void SetupControls()
+    {
+        _checkBox = new();
+        _checkBox.AutoSize = true;
+        _checkBox.Padding = new Padding( Defaults.ComponentSpace, 0, 0, 0 );
+        _checkBox.Margin = Defaults.NullMargin;
+        _checkBox.CheckState = CheckState.Unchecked;
+    }
+
+    private void SetupPanel()
+    {
+        Panel.Width = Defaults.ClientWidth;
+        SetupControls();
+
+        _tlp.Controls.Add( _checkBox, 0, 0 );
+    }
+    #endregion
     #region Protected/Internal
     /// <inheritdoc/>
     protected override void OnSizeChanged(bool performLayout = false)

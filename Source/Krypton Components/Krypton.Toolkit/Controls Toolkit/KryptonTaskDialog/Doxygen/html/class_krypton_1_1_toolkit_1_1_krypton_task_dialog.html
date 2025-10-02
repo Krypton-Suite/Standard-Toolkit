@@ -86,8 +86,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a8b1d0f95b0f81fbdf01a32290d135b7e" id="r_a8b1d0f95b0f81fbdf01a32290d135b7e"><td class="memItemLeft" align="right" valign="top">DialogResult&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8b1d0f95b0f81fbdf01a32290d135b7e">ShowDialog</a> (IWin32Window? owner=null)</td></tr>
 <tr class="memdesc:a8b1d0f95b0f81fbdf01a32290d135b7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Show as a modal dialog.<br  />
  The caller will wait until the dialog has been dismissed.  <br /></td></tr>
-<tr class="memitem:affd456344e6e0041447dd2b8ca74648b" id="r_affd456344e6e0041447dd2b8ca74648b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#affd456344e6e0041447dd2b8ca74648b">Close</a> ()</td></tr>
-<tr class="memdesc:affd456344e6e0041447dd2b8ca74648b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Will close the dialog window.<br  />
+<tr class="memitem:af5436caea515d635129ebd984243bf71" id="r_af5436caea515d635129ebd984243bf71"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af5436caea515d635129ebd984243bf71">CloseDialog</a> ()</td></tr>
+<tr class="memdesc:af5436caea515d635129ebd984243bf71"><td class="mdescLeft">&#160;</td><td class="mdescRight">Will close the dialog window.<br  />
  Can be use with a modeless dialog that is controlled and updated from code.  <br /></td></tr>
 <tr class="memitem:a3280d7cef18972d7ef52ec49c5b4c0d5" id="r_a3280d7cef18972d7ef52ec49c5b4c0d5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3280d7cef18972d7ef52ec49c5b4c0d5">Dispose</a> ()</td></tr>
 </table><table class="memberdecls">
@@ -101,8 +101,6 @@ Properties</h2></td></tr>
 <tr class="memitem:afbd1f05a506f35a6fdd6b2050d5d5ce4" id="r_afbd1f05a506f35a6fdd6b2050d5d5ce4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_heading.html">KryptonTaskDialogElementHeading</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afbd1f05a506f35a6fdd6b2050d5d5ce4">Heading</a><code> [get]</code></td></tr>
 <tr class="memdesc:afbd1f05a506f35a6fdd6b2050d5d5ce4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contains the properties for the dialog Heading<br  />
  If you do not want to use the panel, set the Visible property to false.  <br /></td></tr>
-<tr class="memitem:a5c4b17dea183b4b1d4d150ffd045516b" id="r_a5c4b17dea183b4b1d4d150ffd045516b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_common_buttons.html">KryptonTaskDialogElementCommonButtons</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5c4b17dea183b4b1d4d150ffd045516b">CommonButtons</a><code> [get]</code></td></tr>
-<tr class="memdesc:a5c4b17dea183b4b1d4d150ffd045516b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contains the properties for the CommonButtons Elements panel, like OK, Cancel etc. If you do not want to use the panel, set the Visible property to false.  <br /></td></tr>
 <tr class="memitem:a9da1fdb9664139620c9e6ff9c8d4157f" id="r_a9da1fdb9664139620c9e6ff9c8d4157f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_content.html">KryptonTaskDialogElementContent</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9da1fdb9664139620c9e6ff9c8d4157f">Content</a><code> [get]</code></td></tr>
 <tr class="memdesc:a9da1fdb9664139620c9e6ff9c8d4157f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contains the properties for the Contents panel.<br  />
  If you do not want to use the panel, set the Visible property to false.  <br /></td></tr>
@@ -111,6 +109,13 @@ Properties</h2></td></tr>
  The expander is user controllable through the Footer element by enabling the Expander button.<br  />
  There also custom text can be set for the expanded button and collapsed state.<br  />
  If you do not want to use the panel, set the Visible property to false.  <br /></td></tr>
+<tr class="memitem:a871f8efe27d727f5d3e31b81c589c40c" id="r_a871f8efe27d727f5d3e31b81c589c40c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_rich_text_box.html">KryptonTaskDialogElementRichTextBox</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a871f8efe27d727f5d3e31b81c589c40c">RichTextBox</a><code> [get]</code></td></tr>
+<tr class="memdesc:a871f8efe27d727f5d3e31b81c589c40c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contains the properties for the RichTextBox element.  <br /></td></tr>
+<tr class="memitem:a6f8caf6e06af30aed86ba5315d10faef" id="r_a6f8caf6e06af30aed86ba5315d10faef"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_command_link_buttons.html">KryptonTaskDialogElementCommandLinkButtons</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6f8caf6e06af30aed86ba5315d10faef">CommandLinkButtons</a><code> [get]</code></td></tr>
+<tr class="memdesc:a6f8caf6e06af30aed86ba5315d10faef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contains the properties for the CommandLinkButtons element.<br  />
+ This element enables you to add your own instances of KryptonCommandLinkButtons.<br  />
+ If you want one of these buttons to close the dialog, then set it's DialogResult property.<br  />
+  <br /></td></tr>
 <tr class="memitem:abb83034bfa1a65e688d05842452bb95f" id="r_abb83034bfa1a65e688d05842452bb95f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_footer_bar.html">KryptonTaskDialogElementFooterBar</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abb83034bfa1a65e688d05842452bb95f">FooterBar</a><code> [get]</code></td></tr>
 <tr class="memdesc:abb83034bfa1a65e688d05842452bb95f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contains the properties for the FooterBar element.<br  />
  The footer enables the use to control the Expander element.  <br /></td></tr>
@@ -151,14 +156,14 @@ Properties</h2></td></tr>
 </div>
 </div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
-<a id="affd456344e6e0041447dd2b8ca74648b" name="affd456344e6e0041447dd2b8ca74648b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#affd456344e6e0041447dd2b8ca74648b">&#9670;&#160;</a></span>Close()</h2>
+<a id="af5436caea515d635129ebd984243bf71" name="af5436caea515d635129ebd984243bf71"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af5436caea515d635129ebd984243bf71">&#9670;&#160;</a></span>CloseDialog()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void Krypton.Toolkit.KryptonTaskDialog.Close </td>
+          <td class="memname">void Krypton.Toolkit.KryptonTaskDialog.CloseDialog </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -336,8 +341,8 @@ Properties</h2></td></tr>
 
 </div>
 </div>
-<a id="a5c4b17dea183b4b1d4d150ffd045516b" name="a5c4b17dea183b4b1d4d150ffd045516b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5c4b17dea183b4b1d4d150ffd045516b">&#9670;&#160;</a></span>CommonButtons</h2>
+<a id="a6f8caf6e06af30aed86ba5315d10faef" name="a6f8caf6e06af30aed86ba5315d10faef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f8caf6e06af30aed86ba5315d10faef">&#9670;&#160;</a></span>CommandLinkButtons</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -346,7 +351,7 @@ Properties</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_common_buttons.html">KryptonTaskDialogElementCommonButtons</a> Krypton.Toolkit.KryptonTaskDialog.CommonButtons</td>
+          <td class="memname"><a class="el" href="class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_command_link_buttons.html">KryptonTaskDialogElementCommandLinkButtons</a> Krypton.Toolkit.KryptonTaskDialog.CommandLinkButtons</td>
         </tr>
       </table>
   </td>
@@ -356,7 +361,10 @@ Properties</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Contains the properties for the CommonButtons Elements panel, like OK, Cancel etc. If you do not want to use the panel, set the Visible property to false. </p>
+<p>Contains the properties for the CommandLinkButtons element.<br  />
+ This element enables you to add your own instances of KryptonCommandLinkButtons.<br  />
+ If you want one of these buttons to close the dialog, then set it's DialogResult property.<br  />
+ </p>
 
 </div>
 </div>
@@ -531,6 +539,30 @@ Properties</h2></td></tr>
 
 <p>Contains the properties for the ProgressBar element.<br  />
  </p>
+
+</div>
+</div>
+<a id="a871f8efe27d727f5d3e31b81c589c40c" name="a871f8efe27d727f5d3e31b81c589c40c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a871f8efe27d727f5d3e31b81c589c40c">&#9670;&#160;</a></span>RichTextBox</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_rich_text_box.html">KryptonTaskDialogElementRichTextBox</a> Krypton.Toolkit.KryptonTaskDialog.RichTextBox</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel get">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Contains the properties for the RichTextBox element. </p>
 
 </div>
 </div>

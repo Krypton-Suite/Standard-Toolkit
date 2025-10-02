@@ -64,7 +64,7 @@ namespace TestForm
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(439, 204);
+            this.kryptonPanel1.Size = new System.Drawing.Size(441, 198);
             this.kryptonPanel1.TabIndex = 0;
             // 
             // kryptonLabel2
@@ -128,7 +128,7 @@ namespace TestForm
             // 
             this.kbtnExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.kbtnExit.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.kbtnExit.Location = new System.Drawing.Point(310, 154);
+            this.kbtnExit.Location = new System.Drawing.Point(312, 148);
             this.kbtnExit.Name = "kbtnExit";
             this.kbtnExit.Size = new System.Drawing.Size(90, 25);
             this.kbtnExit.TabIndex = 6;
@@ -141,11 +141,13 @@ namespace TestForm
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.kbtnExit;
-            this.ClientSize = new System.Drawing.Size(439, 204);
+            this.ClientSize = new System.Drawing.Size(441, 198);
             this.Controls.Add(this.kryptonPanel1);
+            this.Location = new System.Drawing.Point(0, 0);
             this.Name = "FormBorderTest";
             this.Text = "Form Border Test";
             this.Load += new System.EventHandler(this.FormBorderTest_Load);
+            this.Controls.SetChildIndex(this.kryptonPanel1, 0);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
             this.kryptonPanel1.ResumeLayout(false);
             this.kryptonPanel1.PerformLayout();
