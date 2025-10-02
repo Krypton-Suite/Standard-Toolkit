@@ -24,8 +24,8 @@ public abstract class KryptonTaskDialogElementSingleLineControlBase : KryptonTas
     /// <summary>
     /// Default constructor.
     /// </summary>
-    /// <param name="rowCount">The number of rows the internal layout panel will have.</param>
     /// <param name="taskDialogDefaults">Dialog defaults.</param>
+    /// <param name="rowCount">The number of rows the internal layout panel will have.</param>
     public KryptonTaskDialogElementSingleLineControlBase(KryptonTaskDialogDefaults taskDialogDefaults, int rowCount) 
         : base(taskDialogDefaults)
     {
@@ -34,48 +34,41 @@ public abstract class KryptonTaskDialogElementSingleLineControlBase : KryptonTas
         Panel.Padding = Defaults.PanelPadding1;
 
         // A panel to arrange the controls
-        _tlp = new()
-        {
-            Dock = DockStyle.Top,
-            AutoSize = true,
-            AutoSizeMode = AutoSizeMode.GrowAndShrink,
-            MinimumSize = Defaults.TLP.StdMinSize,
-            MaximumSize = Defaults.TLP.StdMaxSize,
-            Padding = Defaults.NullPadding,
-            Margin = Defaults.NullMargin,
-            BackColor = Color.Transparent
-        };
+        _tlp = new();
+        SetupTableLayoutPanel(rowCount);
+
+        Panel.Controls.Add(_tlp);
+    }
+    #endregion
+
+    #region Private
+    private void SetupTableLayoutPanel(int rowCount)
+    {
+        _tlp.SetDoubleBuffered(true);
+        _tlp.Dock = DockStyle.Top;
+        _tlp.AutoSize = true;
+        _tlp.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+        _tlp.MinimumSize = Defaults.TLP.StdMinSize;
+        _tlp.MaximumSize = Defaults.TLP.StdMaxSize;
+        _tlp.Padding = Defaults.NullPadding;
+        _tlp.Margin = Defaults.NullMargin;
+        _tlp.BackColor = Color.Transparent;
 
         _tlp.ColumnStyles.Clear();
         _tlp.RowStyles.Clear();
 
-        _tlp.RowCount = rowCount;
-        for ( int i = 0; i < rowCount; i++)
+        for (int i = 0; i < rowCount; i++)
         {
             _tlp.RowStyles.Add(new RowStyle(SizeType.AutoSize));
         }
 
         _tlp.ColumnCount = 1;
         _tlp.RowStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-
-        Panel.Controls.Add(_tlp);
     }
     #endregion
 
     #region Public virtual
     /// <inheritdoc/>
     public virtual Color ForeColor { get; set; }
-    #endregion
-
-    #region Protected
-    /// <summary>
-    /// Layout panel row count
-    /// </summary>
-    protected int RowCount { get; }
-
-    /// <summary>
-    /// Layout panel row height
-    /// </summary>
-    protected int RowHeight { get; }
     #endregion
 }
