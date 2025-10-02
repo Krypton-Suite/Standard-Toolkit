@@ -11,6 +11,9 @@ public class RegistryAccess
     private readonly string _registryPath;
     private const string _rvLastFilterString = "LastFilterString";
     private const string _rvDockTopRight = "DockTopRight";
+    private const string _rvFormWidth = "FormWidth";
+    private const string _rvFormHeight = "FormHeight";
+    private const string _rvSize = "FormSize";
 
     /// <summary>
     /// Default constructor
@@ -21,6 +24,35 @@ public class RegistryAccess
         _registryPath = @"Software\Krypton-Suite\Standard-ToolKit\TestForm";
         _registryKey = Registry.CurrentUser.CreateSubKey(_registryPath)
             ?? throw new Exception("Registry.CurrentUser.CreateSubKey() returned null.");
+    }
+
+    public int FormWidth
+    {
+        get => int.TryParse(_registryKey.GetValue(_rvFormWidth, -1).ToString(), out int width)
+            ? width
+            : -1;
+
+        set => _registryKey.SetValue(_rvFormWidth, value);
+    }
+
+    public int FormHeight
+    {
+        get => int.TryParse(_registryKey.GetValue(_rvFormHeight, -1).ToString(), out int height)
+            ? height
+            : -1;
+
+        set => _registryKey.SetValue(_rvFormHeight, value);
+    }
+
+    public Size FormSize
+    {
+        get => new Size(FormWidth, FormHeight);
+        
+        set
+        {
+            FormWidth = value.Width;
+            FormHeight = value.Height;
+        }
     }
 
     public string LastFilterString

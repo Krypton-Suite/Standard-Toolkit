@@ -45,12 +45,6 @@ public partial class StartScreen : KryptonForm
         RestoreSettings();
     }
 
-    private void OnFormClosed(object? sender, FormClosedEventArgs e)
-    {
-        _registryAccess.LastFilterString = tbFilter.Text;
-        _registryAccess.DockTopRight = _dockTopRight;
-    }
-
     /// <summary>
     /// Buttons to be displayed in the list can be added / removed or altered here.
     /// </summary>
@@ -92,10 +86,21 @@ public partial class StartScreen : KryptonForm
         CreateButton("Palette Viewer", "", typeof(PaletteViewerForm));
     }
 
+    private void OnFormClosed(object? sender, FormClosedEventArgs e)
+    {
+        _registryAccess.LastFilterString = tbFilter.Text;
+        _registryAccess.DockTopRight = FormIsDockedTopRight();
+        _registryAccess.FormSize = this.Size;
+    }
+
+    private bool FormIsDockedTopRight()
+    {
+        return this.Top == 0 && this.Left == (Screen.FromControl(this).Bounds.Width - this.Size.Width);
+    }
+
     private void RestoreSettings()
     {
         _dockTopRight = _registryAccess.DockTopRight;
-        System.Diagnostics.Debug.Print($"_dockTopRight : {_dockTopRight}");
         if (_dockTopRight)
         {
             OnBtnDockTopRightClick(null, EventArgs.Empty);
@@ -105,6 +110,12 @@ public partial class StartScreen : KryptonForm
         if (lastFilter.Length > 0)
         {
             tbFilter.Text = lastFilter;
+        }
+
+        Size size = _registryAccess.FormSize;
+        if (size.Width > 0 && size.Height > 0)
+        {
+            this.Size = _registryAccess.FormSize;
         }
     }
 
