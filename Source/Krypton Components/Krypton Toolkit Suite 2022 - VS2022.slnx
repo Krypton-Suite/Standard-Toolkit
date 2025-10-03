@@ -100,4 +100,9 @@
     <BuildType Solution="Installer|*" Project="Debug" />
     <BuildType Solution="Nightly|*" Project="Debug" />
   </Project>
+  <Project Path="TestFormDotNet/TestFormDotNet.csproj" Id="ae5ba69e-dad5-4289-84c0-fbd702144145">
+    <BuildType Solution="Canary|*" Project="Release" />
+    <BuildType Solution="Installer|*" Project="Debug" />
+    <BuildType Solution="Nightly|*" Project="Release" />
+  </Project>
 </Solution>

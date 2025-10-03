@@ -19,6 +19,7 @@ namespace Krypton.Toolkit;
 
 /// <summary>
 /// Draws the window chrome using a Krypton palette.
+/// Enhanced for .NET Designer compatibility.
 /// </summary>
 [ToolboxItem(false)]
 [ToolboxBitmap(typeof(KryptonForm), "ToolboxBitmaps.KryptonForm.bmp")]
@@ -701,9 +702,14 @@ public class KryptonForm : VisualForm,
     {
         get
         {
+            // ENHANCED DESIGN MODE DETECTION: Multiple layers for both .NET Framework and .NET designers
             // DESIGN MODE: Return base.Controls to allow proper designer operations
             // This ensures controls can be dropped directly onto the form in designer
-            if (IsInDesignMode())
+            if (IsInDesignMode() || 
+                // Additional .NET designer checks
+                LicenseManager.UsageMode == LicenseUsageMode.Designtime ||
+                Site?.DesignMode == true ||
+                DesignModeHelper.IsInDesignMode)
             {
                 return base.Controls;
             }
@@ -1260,7 +1266,12 @@ public class KryptonForm : VisualForm,
         // Layer 2: Secondary detection - Site.DesignMode when available after siting
         Site?.DesignMode == true ||
         // Layer 3: Fallback detection - Container component check for edge cases
-        Site?.Container?.Components?.OfType<Control>().Any(c => c.Site?.DesignMode == true) == true;
+        Site?.Container?.Components?.OfType<Control>().Any(c => c.Site?.DesignMode == true) == true ||
+        // Layer 4: .NET Designer compatibility - Check for ProcessName "devenv" or "DesignerHost"
+        DesignModeHelper.IsInDesignMode ||
+        // Layer 5: Additional .NET designer detection via Process name patterns
+        Process.GetCurrentProcess().ProcessName.Contains("devenv") ||
+        Process.GetCurrentProcess().ProcessName.Contains("DesignerHost");
 
     /// <summary>
     /// Gets access to the ToolTipManager used for displaying tool tips.
@@ -2990,6 +3001,7 @@ public class KryptonForm : VisualForm,
 
         return base.ProcessCmdKey(ref msg, keyData);
     }
+
 
     #endregion
 
