@@ -190,14 +190,14 @@ namespace Krypton.Toolkit
             Color.FromArgb(147, 154, 163), // ToolStripBorder
             Color.FromArgb(101, 109, 117), // FormBorderActive
             Color.FromArgb(134, 139, 145), // FormBorderInactive
-            Color.FromArgb(228, 230, 232), // FormBorderActiveLight
-            Color.FromArgb(255, 255, 255), // FormBorderActiveDark
+            Color.FromArgb(227, 230, 232), // FormBorderActiveLight
+            Color.FromArgb(227, 230, 232), // FormBorderActiveDark
             Color.FromArgb(248, 247, 247), // FormBorderInactiveLight
             Color.FromArgb(248, 247, 247), // FormBorderInactiveDark
             Color.FromArgb(101, 109, 117), // FormBorderHeaderActive
             Color.FromArgb(134, 139, 145), // FormBorderHeaderInactive
-            Color.FromArgb(235, 237, 240), // FormBorderHeaderActive1
-            Color.FromArgb(228, 230, 232), // FormBorderHeaderActive2
+            Color.FromArgb(227, 230, 232), // FormBorderHeaderActive1
+            Color.FromArgb(227, 230, 232), // FormBorderHeaderActive2
             Color.FromArgb(248, 247, 247), // FormBorderHeaderInctive1
             Color.FromArgb(248, 247, 247), // FormBorderHeaderInctive2
             Color.FromArgb(59, 59, 59), // FormHeaderShortActive
@@ -224,11 +224,11 @@ namespace Krypton.Toolkit
             Color.FromArgb(76, 83, 92), // RibbonTabTextChecked
             Color.FromArgb(182, 186, 191), // RibbonTabSelected1
             Color.White, // RibbonTabSelected2
-            Color.White, // RibbonTabSelected3
+            Color.FromArgb(227, 230, 232), // RibbonTabSelected3
             Color.White, // RibbonTabSelected4
             Color.White, // RibbonTabSelected5
-            Color.FromArgb(177, 181, 186), // RibbonTabTracking1
-            Color.FromArgb(248, 249, 249), // RibbonTabTracking2
+            Color.FromArgb(237, 201, 88), // RibbonTabTracking1
+            Color.FromArgb(248, 225, 135), // RibbonTabTracking2
             Color.FromArgb(182, 186, 191), // RibbonTabHighlight1
             Color.White, // RibbonTabHighlight2
             Color.White, // RibbonTabHighlight3
@@ -240,16 +240,16 @@ namespace Krypton.Toolkit
             Color.FromArgb(255, 255, 255), // RibbonGroupsArea3
             Color.FromArgb(255, 255, 255), // RibbonGroupsArea4
             Color.FromArgb(229, 233, 238), // RibbonGroupsArea5
-            Color.FromArgb(255, 255, 255), // RibbonGroupBorder1
-            Color.FromArgb(253, 253, 253), // RibbonGroupBorder2
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupBorder1
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupBorder2
             GlobalStaticValues.EMPTY_COLOR, // RibbonGroupTitle1
             GlobalStaticValues.EMPTY_COLOR, // RibbonGroupTitle2
             GlobalStaticValues.EMPTY_COLOR, // RibbonGroupBorderContext1
             GlobalStaticValues.EMPTY_COLOR, // RibbonGroupBorderContext2
             GlobalStaticValues.EMPTY_COLOR, // RibbonGroupTitleContext1
             GlobalStaticValues.EMPTY_COLOR, // RibbonGroupTitleContext2
-            Color.FromArgb(148, 149, 152), // RibbonGroupDialogDark
-            Color.FromArgb(180, 182, 183), // RibbonGroupDialogLight
+            Color.FromArgb(76, 83, 92), // RibbonGroupDialogDark
+            Color.FromArgb(227, 230, 232), // RibbonGroupDialogLight
             GlobalStaticValues.EMPTY_COLOR, // RibbonGroupTitleTracking1
             GlobalStaticValues.EMPTY_COLOR, // RibbonGroupTitleTracking2
             Color.FromArgb(139, 144, 151), // RibbonMinimizeBarDark
@@ -286,9 +286,9 @@ namespace Krypton.Toolkit
             Color.FromArgb(149, 154, 160), // FormButtonBorderCheck
             Color.FromArgb(147, 156, 164), // FormButtonBack1CheckTrack
             Color.FromArgb(237, 245, 250), // FormButtonBack2CheckTrack
-            Color.FromArgb(180, 180, 180), // RibbonQATMini1
-            Color.FromArgb(210, 215, 221), // RibbonQATMini2
-            Color.FromArgb(195, 200, 206), // RibbonQATMini3
+            Color.FromArgb(182, 186, 191), // RibbonQATMini1
+            Color.FromArgb(227, 230, 232), // RibbonQATMini2
+            Color.FromArgb(227, 230, 232), // RibbonQATMini3
             Color.FromArgb(10, Color.White), // RibbonQATMini4
             Color.FromArgb(32, Color.White), // RibbonQATMini5
             Color.FromArgb(200, 200, 200), // RibbonQATMini1I
@@ -296,15 +296,15 @@ namespace Krypton.Toolkit
             Color.FromArgb(223, 224, 228), // RibbonQATMini3I
             Color.FromArgb(10, Color.White), // RibbonQATMini4I
             Color.FromArgb(32, Color.White), // RibbonQATMini5I
-            Color.FromArgb(223, 227, 234), // RibbonQATFullbar1
-            Color.FromArgb(213, 217, 222), // RibbonQATFullbar2
+            Color.FromArgb(227, 230, 232), // RibbonQATFullbar1
+            Color.FromArgb(227, 230, 232), // RibbonQATFullbar2
             Color.FromArgb(135, 140, 146), // RibbonQATFullbar3
-            Color.FromArgb(90, 90, 90), // RibbonQATButtonDark
+            Color.FromArgb(166, 172, 179), // RibbonQATButtonDark
             Color.FromArgb(210, 212, 215), // RibbonQATButtonLight
             Color.FromArgb(233, 237, 241), // RibbonQATOverflow1
             Color.FromArgb(138, 144, 150), // RibbonQATOverflow2
-            Color.FromArgb(191, 195, 199), // RibbonGroupSeparatorDark
-            Color.FromArgb(255, 255, 255), // RibbonGroupSeparatorLight
+            Color.FromArgb(182, 186, 191), // RibbonGroupSeparatorDark
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupSeparatorLight
             Color.FromArgb(231, 234, 238), // ButtonClusterButtonBack1
             Color.FromArgb(241, 243, 243), // ButtonClusterButtonBack2
             Color.FromArgb(197, 198, 199), // ButtonClusterButtonBorder1
@@ -356,13 +356,13 @@ namespace Krypton.Toolkit
             Color.FromArgb(255, 255, 255), // RibbonGalleryBackNormal
             Color.FromArgb(255, 255, 255), // RibbonGalleryBackTracking
             Color.FromArgb(250, 250, 250), // RibbonGalleryBack1
-            Color.FromArgb(228, 231, 235), // RibbonGalleryBack2 //Color.FromArgb(177, 181, 186),    // RibbonTabTracking1
-            Color.FromArgb(229, 231, 235), // RibbonTabTracking3
+            Color.FromArgb(228, 231, 235), // RibbonGalleryBack2 
+            Color.FromArgb(251, 248, 224), // RibbonTabTracking3
             Color.FromArgb(231, 233, 235), // RibbonTabTracking4
-            Color.FromArgb(176, 182, 188), // RibbonGroupBorder3
-            Color.FromArgb(246, 247, 248), // RibbonGroupBorder4
-            Color.FromArgb(249, 250, 250), // RibbonGroupBorder5
-            Color.FromArgb(102, 109, 124), // RibbonGroupTitleText
+            Color.FromArgb(182, 186, 191), // RibbonGroupBorder3
+            Color.FromArgb(182, 186, 191), // RibbonGroupBorder4
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupBorder5
+            Color.FromArgb(59, 59, 59), // RibbonGroupTitleText
             Color.FromArgb(151, 156, 163), // RibbonDropArrowLight
             Color.FromArgb(39, 49, 60), // RibbonDropArrowDark
             Color.FromArgb(237, 242, 248), // HeaderDockInactiveBack1
