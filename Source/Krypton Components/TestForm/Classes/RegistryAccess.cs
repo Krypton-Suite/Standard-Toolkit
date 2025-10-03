@@ -1,4 +1,13 @@
-﻿namespace TestForm;
+﻿#region BSD License
+/*
+ *
+ *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2024 - 2025. All rights reserved.
+ *
+ */
+#endregion
+
+namespace TestForm;
 
 using Microsoft.Win32;
 /// <summary>
@@ -8,12 +17,11 @@ public class RegistryAccess
 {
     // Registry access
     private RegistryKey _registryKey;
-    private readonly string _registryPath;
+    private const string _registryPath = @"Software\Krypton-Suite\Standard-ToolKit\TestForm";
     private const string _rvLastFilterString = "LastFilterString";
     private const string _rvDockTopRight = "DockTopRight";
     private const string _rvFormWidth = "FormWidth";
     private const string _rvFormHeight = "FormHeight";
-    private const string _rvSize = "FormSize";
 
     /// <summary>
     /// Default constructor
@@ -21,7 +29,6 @@ public class RegistryAccess
     /// <exception cref="Exception">Throws an Exception when the registry key cannot be opened.</exception>
     public RegistryAccess()
     {
-        _registryPath = @"Software\Krypton-Suite\Standard-ToolKit\TestForm";
         _registryKey = Registry.CurrentUser.CreateSubKey(_registryPath)
             ?? throw new Exception("Registry.CurrentUser.CreateSubKey() returned null.");
     }
