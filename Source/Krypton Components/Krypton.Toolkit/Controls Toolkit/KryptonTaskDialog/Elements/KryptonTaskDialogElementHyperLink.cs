@@ -161,19 +161,22 @@ public class KryptonTaskDialogElementHyperLink : KryptonTaskDialogElementSingleL
     #endregion
 
     #region Private
-    private void SetupPanel()
+    private void SetupControls()
     {
         // Label holds the description that goes with the hyperlink
         _description.AutoSize = true;
         _description.Padding = Defaults.NullPadding;
-        _description.Margin = new Padding(0, 0, 0, Defaults.ComponentSpace);
+        _description.Margin = new Padding( 0, 0, 0, Defaults.ComponentSpace );
 
         // The hyperlink
         _linkLabel.AutoSize = true;
         _linkLabel.Padding = Defaults.NullPadding;
         _linkLabel.Margin = Defaults.NullPadding;
         _linkLabel.LinkClicked += OnLinkClicked;
+    }
 
+    private void SetupPanel()
+    {
         // add the controls
         _tlp.Controls.Add(_description, 0, 0);
         _tlp.Controls.Add(_linkLabel, 0, 1);
