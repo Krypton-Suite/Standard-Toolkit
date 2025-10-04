@@ -41,9 +41,44 @@ if %ERRORLEVEL% EQU 0 (
     echo Copying updated WebView2 assemblies...
     
     REM Copy the assemblies from NuGet cache
-    copy "%USERPROFILE%\.nuget\packages\microsoft.web.webview2\%WEBVIEW2_VERSION%\lib\net45\Microsoft.Web.WebView2.Core.dll" "WebView2SDK\" >nul 2>&1
-    copy "%USERPROFILE%\.nuget\packages\microsoft.web.webview2\%WEBVIEW2_VERSION%\lib\net45\Microsoft.Web.WebView2.WinForms.dll" "WebView2SDK\" >nul 2>&1
-    copy "%USERPROFILE%\.nuget\packages\microsoft.web.webview2\%WEBVIEW2_VERSION%\runtimes\win-x64\native\WebView2Loader.dll" "WebView2SDK\" >nul 2>&1
+    echo Searching for WebView2 assemblies in NuGet cache...
+    set "NUGET_PATH=%USERPROFILE%\.nuget\packages\microsoft.web.webview2\%WEBVIEW2_VERSION%"
+
+    REM Find and copy Core DLL
+    for /f "delims=" %%i in ('powershell -Command "Get-ChildItem -Path '%NUGET_PATH%' -Recurse -Name 'Microsoft.Web.WebView2.Core.dll' | Select-Object -First 1"') do (
+        set "CORE_DLL=%%i"
+    )
+    if defined CORE_DLL (
+        copy "%NUGET_PATH%\%CORE_DLL%" "WebView2SDK\" >nul 2>&1
+        echo Copied Microsoft.Web.WebView2.Core.dll
+    ) else (
+        echo ERROR: Microsoft.Web.WebView2.Core.dll not found in package
+        exit /b 1
+    )
+
+    REM Find and copy WinForms DLL
+    for /f "delims=" %%i in ('powershell -Command "Get-ChildItem -Path '%NUGET_PATH%' -Recurse -Name 'Microsoft.Web.WebView2.WinForms.dll' | Select-Object -First 1"') do (
+        set "WINFORMS_DLL=%%i"
+    )
+    if defined WINFORMS_DLL (
+        copy "%NUGET_PATH%\%WINFORMS_DLL%" "WebView2SDK\" >nul 2>&1
+        echo Copied Microsoft.Web.WebView2.WinForms.dll
+    ) else (
+        echo ERROR: Microsoft.Web.WebView2.WinForms.dll not found in package
+        exit /b 1
+    )
+
+    REM Find and copy WebView2Loader DLL
+    for /f "delims=" %%i in ('powershell -Command "Get-ChildItem -Path '%NUGET_PATH%' -Recurse -Name 'WebView2Loader.dll' | Select-Object -First 1"') do (
+        set "LOADER_DLL=%%i"
+    )
+    if defined LOADER_DLL (
+        copy "%NUGET_PATH%\%LOADER_DLL%" "WebView2SDK\" >nul 2>&1
+        echo Copied WebView2Loader.dll
+    ) else (
+        echo ERROR: WebView2Loader.dll not found in package
+        exit /b 1
+    )
     
     REM Remove the NuGet package reference
     dotnet remove "Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj" package Microsoft.Web.WebView2

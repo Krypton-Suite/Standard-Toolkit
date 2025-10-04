@@ -86,11 +86,47 @@ jobs:
           Write-Host "Using WebView2 SDK version: $latestVersion"
           # Download WebView2 SDK assemblies using NuGet
           dotnet add "Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj" package Microsoft.Web.WebView2 --version $latestVersion --no-restore
-          # Copy assemblies to WebView2SDK directory
-          $nugetPath = "$env:USERPROFILE\.nuget\packages\microsoft.web.webview2\$latestVersion\lib\net45"
-          Copy-Item "$nugetPath\Microsoft.Web.WebView2.Core.dll" "WebView2SDK\"
-          Copy-Item "$nugetPath\Microsoft.Web.WebView2.WinForms.dll" "WebView2SDK\"
-          Copy-Item "$nugetPath\WebView2Loader.dll" "WebView2SDK\"
+          # Find and copy assemblies dynamically
+          $nugetBasePath = "$env:USERPROFILE\.nuget\packages\microsoft.web.webview2\$latestVersion"
+          Write-Host "Searching for WebView2 assemblies in: $nugetBasePath"
+          
+          # Find Core DLL
+          $coreDll = Get-ChildItem -Path $nugetBasePath -Recurse -Name "Microsoft.Web.WebView2.Core.dll" | Select-Object -First 1
+          if ($coreDll) {
+            $corePath = Join-Path $nugetBasePath $coreDll
+            Copy-Item $corePath "WebView2SDK\"
+            Write-Host "Copied Microsoft.Web.WebView2.Core.dll from: $corePath"
+          } else {
+            Write-Error "Microsoft.Web.WebView2.Core.dll not found in package"
+            exit 1
+          }
+          
+          # Find WinForms DLL
+          $winFormsDll = Get-ChildItem -Path $nugetBasePath -Recurse -Name "Microsoft.Web.WebView2.WinForms.dll" | Select-Object -First 1
+          if ($winFormsDll) {
+            $winFormsPath = Join-Path $nugetBasePath $winFormsDll
+            Copy-Item $winFormsPath "WebView2SDK\"
+            Write-Host "Copied Microsoft.Web.WebView2.WinForms.dll from: $winFormsPath"
+          } else {
+            Write-Error "Microsoft.Web.WebView2.WinForms.dll not found in package"
+            exit 1
+          }
+          
+          # Find WebView2Loader DLL
+          $loaderDll = Get-ChildItem -Path $nugetBasePath -Recurse -Name "WebView2Loader.dll" | Select-Object -First 1
+          if ($loaderDll) {
+            $loaderPath = Join-Path $nugetBasePath $loaderDll
+            Copy-Item $loaderPath "WebView2SDK\"
+            Write-Host "Copied WebView2Loader.dll from: $loaderPath"
+          } else {
+            Write-Error "WebView2Loader.dll not found in package"
+            exit 1
+          }
+          
+          # Verify all files were copied
+          Write-Host "WebView2 SDK setup completed. Files copied:"
+          Get-ChildItem "WebView2SDK\*.dll" | ForEach-Object { Write-Host "  - $($_.Name)" }
+          
           # Remove NuGet package reference
           dotnet remove "Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj" package Microsoft.Web.WebView2
 

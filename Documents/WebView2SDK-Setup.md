@@ -42,8 +42,12 @@ If you want to quickly get the assemblies without manual download:
 
 2. **Copy Assemblies**
    - Find the NuGet packages folder (usually `%USERPROFILE%\.nuget\packages\`)
-   - Navigate to the latest version folder (e.g., `microsoft.web.webview2\1.0.3485.44\lib\net45\`)
-   - Copy the required DLLs to the `WebView2SDK` folder
+   - Navigate to the latest version folder (e.g., `microsoft.web.webview2\1.0.3485.44\`)
+   - Search for the required DLLs recursively in the package folder:
+     - `Microsoft.Web.WebView2.Core.dll`
+     - `Microsoft.Web.WebView2.WinForms.dll`
+     - `WebView2Loader.dll`
+   - Copy the found DLLs to the `WebView2SDK` folder
    - Remove the NuGet package reference if desired
 
 3. **Clean Up**
@@ -72,10 +76,11 @@ Both methods will:
 - Check if WebView2 SDK is already installed
 - Automatically detect the latest stable WebView2 SDK version
 - Download and install WebView2 SDK via NuGet (if needed)
-- Copy required assemblies to the WebView2SDK directory
+- Dynamically locate and copy required assemblies to the WebView2SDK directory (handles different package structures)
 - Update project file with the latest version information
 - Clean up temporary NuGet references
 - Provide clear feedback on the setup status
+- Handle package structure changes automatically
 
 ### Option 4: Update to Latest Version
 
@@ -99,9 +104,10 @@ Scripts\Update-WebView2SDK.cmd
 Both methods will:
 - Detect the latest stable WebView2 SDK version
 - Download the latest assemblies
-- Update the WebView2SDK directory
+- Dynamically locate and copy assemblies to the WebView2SDK directory (handles different package structures)
 - Update project file references
 - Preserve your existing setup
+- Handle package structure changes automatically
 
 ## File Structure After Setup
 
@@ -156,6 +162,13 @@ After setup, verify that the KryptonWebView2 control compiles:
 - Reset the Visual Studio toolbox
 - Close and reopen Visual Studio
 - Ensure the control compiles without errors first
+
+### GitHub Actions Build Failures
+If you encounter WebView2 SDK setup failures in GitHub Actions:
+- The workflow now uses dynamic assembly discovery to handle different package structures
+- Ensure the workflow has internet access to download the latest WebView2 SDK
+- Check that the NuGet cache is properly restored before the WebView2 setup step
+- The setup will automatically find assemblies regardless of their location within the package
 
 ## Runtime Requirements
 
