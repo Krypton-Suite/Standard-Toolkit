@@ -80,7 +80,7 @@ jobs:
           $packageId = "Microsoft.Web.WebView2"
           $apiUrl = "https://api.nuget.org/v3-flatcontainer/$packageId/index.json"
           $response = Invoke-RestMethod -Uri $apiUrl -Method Get
-          $versions = $response.versions | Sort-Object { [Version]$_ } -Descending
+          $versions = $response.versions | Sort-Object { [System.Version]($_ -replace '-.*','') } -Descending
           $stableVersions = $versions | Where-Object { $_ -notmatch '[-]' }
           $latestVersion = $stableVersions[0]
           Write-Host "Using WebView2 SDK version: $latestVersion"
