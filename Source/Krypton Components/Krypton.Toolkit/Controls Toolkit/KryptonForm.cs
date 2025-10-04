@@ -194,6 +194,38 @@ public class KryptonForm : VisualForm,
         _internalKryptonPanel.ControlRemoved += (s, e) => OnControlRemoved(e);
         _internalKryptonPanel.ControlAdded += (s, e) => OnControlAdded(e);
 
+        // DESIGN MODE COMPATIBILITY: For .NET projects, don't use internal panel in design mode
+        // But ensure it's added at runtime for proper KryptonForm styling
+        bool isNetProject = RuntimeInformation.FrameworkDescription.Contains(".NET") && 
+                           !RuntimeInformation.FrameworkDescription.Contains(".NET Framework");
+        
+        if (!isNetProject)
+        {
+            // .NET FRAMEWORK PROJECTS: Use existing logic with design mode detection
+            // DESIGN MODE COMPATIBILITY: Ensure internal panel is added at runtime
+            Load += (sender, e) =>
+            {
+                if (LicenseManager.UsageMode != LicenseUsageMode.Designtime && 
+                    !base.Controls.Contains(_internalKryptonPanel))
+                {
+                    base.Controls.Add(_internalKryptonPanel);
+                }
+            };
+        }
+        else
+        {
+            // .NET PROJECTS: Add internal panel at runtime only (not in design mode)
+            // This ensures proper KryptonForm styling at runtime while maintaining designer compatibility
+            Load += (sender, e) =>
+            {
+                if (LicenseManager.UsageMode != LicenseUsageMode.Designtime && 
+                    !base.Controls.Contains(_internalKryptonPanel))
+                {
+                    base.Controls.Add(_internalKryptonPanel);
+                }
+            };
+        }
+
         // Create the root element that contains the title bar and null filler
         _drawDocker = new ViewDrawForm(StateActive.Back, StateActive.Border)
         {
@@ -213,9 +245,11 @@ public class KryptonForm : VisualForm,
         // CRITICAL: Only create system menu service if NOT in design mode
         // This prevents system menu interference with Visual Studio designer operations
         // Uses LicenseManager.UsageMode for reliable design-time detection during constructor
-        if (LicenseManager.UsageMode != LicenseUsageMode.Designtime)
+        // DESIGN MODE COMPATIBILITY: For .NET projects, completely disable system menu
+        // This prevents any interference with .NET designer operations
+        if (LicenseManager.UsageMode != LicenseUsageMode.Designtime && !IsNetProject())
         {
-            // RUNTIME MODE: Create full system menu functionality
+            // RUNTIME MODE: Create full system menu functionality (only for .NET Framework)
             _systemMenuService = new KryptonSystemMenuService(this);
             
             // Only create SystemMenuValues if it doesn't already exist (i.e., not set by designer)
@@ -235,7 +269,7 @@ public class KryptonForm : VisualForm,
         }
         else
         {
-            // DESIGN MODE: Create minimal system menu values without the service
+            // DESIGN MODE OR .NET PROJECT: Create minimal system menu values without the service
             // This provides property storage for designer serialization without functionality
             // that would interfere with Visual Studio designer operations
             if (_systemMenuValues == null)
@@ -671,7 +705,11 @@ public class KryptonForm : VisualForm,
 
             if (_foundRibbonOffset == -1)
             {
-                base.Controls.Add(_internalKryptonPanel);
+                // DESIGN MODE COMPATIBILITY: Only add internal panel at runtime
+                if (LicenseManager.UsageMode != LicenseUsageMode.Designtime)
+                {
+                    base.Controls.Add(_internalKryptonPanel);
+                }
                 ((ISupportInitialize)(this._internalKryptonPanel)).EndInit();
                 _internalKryptonPanel.ResumeLayout(false);
                 _internalKryptonPanel.PerformLayout();
@@ -694,6 +732,10 @@ public class KryptonForm : VisualForm,
         base.ResumeLayout(performLayout);
     }
 
+    /// <summary>
+    /// Override the Controls property to provide .NET designer compatibility.
+    /// This is critical for .NET designer vs .NET Framework designer differences.
+    /// </summary>
     /// <inheritdoc cref="Form" />
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
@@ -702,18 +744,22 @@ public class KryptonForm : VisualForm,
     {
         get
         {
-            // ENHANCED DESIGN MODE DETECTION: Multiple layers for both .NET Framework and .NET designers
-            // DESIGN MODE: Return base.Controls to allow proper designer operations
+            // DESIGN MODE: Always return base.Controls for both .NET and .NET Framework
             // This ensures controls can be dropped directly onto the form in designer
             if (IsInDesignMode() || 
-                // Additional .NET designer checks
                 LicenseManager.UsageMode == LicenseUsageMode.Designtime ||
                 Site?.DesignMode == true ||
-                DesignModeHelper.IsInDesignMode)
+                DesignModeHelper.IsInDesignMode ||
+                // Additional .NET designer detection
+                Process.GetCurrentProcess().ProcessName.Contains("devenv") ||
+                Process.GetCurrentProcess().ProcessName.Contains("DesignerHost") ||
+                // Check if we're in a designer context by looking for designer-specific assemblies
+                AppDomain.CurrentDomain.GetAssemblies().Any(a => a.FullName?.Contains("Microsoft.VisualStudio.Designer") == true))
             {
                 return base.Controls;
             }
 
+            // RUNTIME MODE: Use internal panel for both .NET and .NET Framework
             if (_internalKryptonPanel.Controls.Count == 0)
             {
                 _internalKryptonPanel.ClientSize = ClientSize;
@@ -1233,7 +1279,19 @@ public class KryptonForm : VisualForm,
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Advanced)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public override IKryptonSystemMenu? KryptonSystemMenu => IsInDesignMode() ? null : _systemMenuService?.SystemMenu;
+    public override IKryptonSystemMenu? KryptonSystemMenu => 
+        IsInDesignMode() || IsNetProject() 
+            ? null 
+            : _systemMenuService?.SystemMenu;
+
+    /// <summary>
+    /// Determines if the current runtime is .NET (not .NET Framework).
+    /// This is used to disable certain features that interfere with .NET designer.
+    /// </summary>
+    /// <returns>True if running on .NET; false if running on .NET Framework.</returns>
+    private static bool IsNetProject() => 
+        RuntimeInformation.FrameworkDescription.Contains(".NET") && 
+        !RuntimeInformation.FrameworkDescription.Contains(".NET Framework");
 
     /// <summary>
     /// Robust design mode detection that prevents system menu interference with Visual Studio designer.
@@ -1523,10 +1581,25 @@ public class KryptonForm : VisualForm,
 
     /// <summary>
     /// Raises the ControlAdded event.
+    /// Enhanced for .NET designer compatibility.
     /// </summary>
     /// <param name="e">An EventArgs containing event data.</param>
     protected override void OnControlAdded(ControlEventArgs e)
     {
+        // DESIGN MODE COMPATIBILITY: In design mode, ensure controls are added to base.Controls
+        // This is critical for both .NET and .NET Framework designer compatibility
+        if (IsInDesignMode() || 
+            LicenseManager.UsageMode == LicenseUsageMode.Designtime ||
+            Site?.DesignMode == true ||
+            DesignModeHelper.IsInDesignMode)
+        {
+            // In design mode, controls should be added to base.Controls, not internal panel
+            // This ensures proper designer functionality
+            base.OnControlAdded(e);
+            return;
+        }
+
+        // RUNTIME MODE: Handle StatusStrip monitoring for both .NET and .NET Framework
         // Is this the type of control we need to watch?
         if (e.Control is StatusStrip strip)
         {
@@ -1761,7 +1834,8 @@ public class KryptonForm : VisualForm,
         {
             // Handle right-click in non-client area (title bar and control buttons)
             // IsInDesignMode() prevents system menu interference with designer right-click operations
-            if (!IsInDesignMode() && ControlBox && _systemMenuValues.Enabled && 
+            // For .NET projects, completely disable system menu to prevent designer interference
+            if (!IsInDesignMode() && !IsNetProject() && ControlBox && _systemMenuValues.Enabled && 
                 _systemMenuValues.ShowOnRightClick && _systemMenuService != null &&
                 _systemMenuService.ShowSystemMenuOnRightClick)
             {
@@ -2991,7 +3065,8 @@ public class KryptonForm : VisualForm,
     {
         // Handle themed system menu keyboard shortcuts
         // Only handle themed system menu shortcuts if ControlBox is true and not in design mode
-        if (!IsInDesignMode() && ControlBox && _systemMenuValues.Enabled && _systemMenuService != null)
+        // For .NET projects, completely disable system menu to prevent designer interference
+        if (!IsInDesignMode() && !IsNetProject() && ControlBox && _systemMenuValues.Enabled && _systemMenuService != null)
         {
             if (_systemMenuService.HandleKeyboardShortcut(keyData))
             {

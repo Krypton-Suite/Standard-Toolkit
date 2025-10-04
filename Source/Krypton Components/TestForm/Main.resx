@@ -134,19 +134,17 @@
   <data name="kryptonButton2.Values.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAK+SURBVDhPrZJbSJNhGMefbxusudxm4VJTZ07TLEwTupDA
-        iyi8sIsor7wXojuNuhzdjDxmoYE1nacWM1JSswTL8rQ5T2ubcy41N9xwit+XR0j0+8cWCA6qm37w8D68
-        7/N7eE9Ef+F2VZVkQK86Fj7/T7Ib7TfSDIHuXOPUms96YmV/lnrXB4X54XWH5OqGI7NrJ1WZ9ZO3Mpvd
-        hox2P9Q9B8jpXsKuJwpYI+w7GWyYmPaVfuHNQIdYbW4lWUjO0+iPXWhyOTOMvs10ox9pXTtQv15DvGEd
-        We2zYJ1RgJuABQKWGRw4BPhpY7bZLwIXgscrKK6PONs0v63u2kGycRVJL/1IavMjrmUNmQYnOIcCcBF4
-        ZzCYUA4vYXtUsDOgiT4eapCqm1tXGdehavXxiS3LSGxehlIfwPnWGbBWBTBD4O3E83YGvI2AOcLWoIDr
-        KyUpFRRrIhKfubmYtg0oGwK8UhdAtG4FsnoW6kYXtqalgIOCIg8rAV8JmCXsDhDbV3pKSoWFhcLsuiHX
-        OcM80vUOpDfakdZgQ/ILF3L0I/CaEsBNyMFZ5ODGgiHDD6scnl7FnCaPRKGL/P7uZNOmKwrsuAKsRcGz
-        Y6ERntF4XHo+iMQ6B9R100iuncKZ2imk6tzIetjZdviMW2/oGsYIsBH4CeIxQeAnid8xSRD/1A5RRQCS
-        Si8kFV6Iq1eg0LoRfefj9cMGQVY7RM2wCwALA5gYwEzghmRQ1UxCXOZBZNk3SCsWoXjsQ3zJh5YjcpBp
-        jVzBdgqHYQvKDDBC4D7LkVA5DpF2CZJHC4is9iPmXv/I5SLN708UjrVCqgwYRT0wB3dC4D7JEFtmAWn9
-        kGkXEVvS9z6jsDwm3DvCk/wUsV8v1O52097ekBxxlXZI7k/vn777tjw/JUUcXv9HfDV0xdEYa774wDio
-        LHp1NXz9v/EL/YSqQjqcEQUAAAAASUVORK5CYII=
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJWSURBVDhPtZLdS1NxHId/v52NQFZzFWimbq7ozTT/g/bH
+        RFRE1o0E3dRFktXIRDBt8ygma9XYpDKhYpnvmjt25pT24mnu5RhSKwq80L6fOEdSJ9FVPfBcne/nuTj8
+        GPsfHPfMnazzyKE6t5z/MiHg86ghpIaYfftdASdEqbi6TXLWts+INW4ZR3pTdMinYi3OaSXCKT9qxPIb
+        QVRfCk4lwIoLxjUd7/O1bhnVnigd7YrjoDcHh1clh1cFxRgoxrEWZVgJc+SHjFh+JWBpQMhvBtokOLw5
+        fVDVm9O19WR1aZ7pYp6DoowoykCzDOpzIzYC1S1TsD9YH1R2Z6iyO4OKrgwqxLR+jFkGinBQhBEiDCRz
+        yvVtCRxzja0PujIo70xjvyeNMrfmIiAzQOagGU40w0CSLmX9ps3A4abhfHmHgrL7i7r7OlIoaU+h5N5H
+        QOKgMCeEGTRpmtPqOEfaZ9r8B2qfIfDjrQHQ6trxNAOmOegdw95WBXtaFrBb8+4CrM0LKG0Mw9HQH9gI
+        pB8Lzk9BI/2c4ERTDDTFiSYZYZLB2pyE9U4SFleCLK4kLLcTsDcM0IH6p86NgEbWJ4hf+wWicQYa44Qx
+        Bk2LK4Fdt+LYeTNO5qY4Sq8MoepCUCwYaygiK17sEaRvzwTQCCeMcNAw10fmGzEUNcao5PIgqs77JVt9
+        oPAh/UaLpDqNoSWvkVZfc9Agp6LrH2C+FkHZpRewn3sSstWLfx5vRWkXrqY7TfgeNMDaMEyVZ/2wnXl4
+        cfvdX1HadtiTrSbFftoXsp16VLf9+z/jF9G1kGWCriLIAAAAAElFTkSuQmCC
 </value>
   </data>
   <metadata name="kryptonContextMenu1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
