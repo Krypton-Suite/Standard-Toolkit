@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <Choose>
 	<When Condition="'$(Configuration)' == 'Nightly' Or '$(Configuration)' == 'Canary' Or '$(Configuration)' == 'Debug'">
@@ -59,7 +59,7 @@
 
 	<!-- WebView2 SDK References (Conditional) -->
 	<ItemGroup Condition="$(TargetFramework.StartsWith('net4')) And Exists('..\..\..\WebView2SDK\Microsoft.Web.WebView2.Core.dll')">
-		<Reference Include="Microsoft.Web.WebView2.Core, Version=1.0.2478.35, Culture=neutral, PublicKeyToken=2a8ab48044d2601e, processorArchitecture=MSIL">
+		<Reference Include="Microsoft.Web.WebView2.Core, Version=1.0.3485.44, Culture=neutral, PublicKeyToken=2a8ab48044d2601e, processorArchitecture=MSIL">
 			<HintPath>..\..\..\WebView2SDK\Microsoft.Web.WebView2.Core.dll</HintPath>
 			<Private>True</Private>
 		</Reference>

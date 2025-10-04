@@ -76,28 +76,69 @@ jobs:
         run: |
           # Create WebView2SDK directory
           mkdir WebView2SDK
+          
           # Get latest WebView2 SDK version
           $packageId = "Microsoft.Web.WebView2"
           $apiUrl = "https://api.nuget.org/v3-flatcontainer/$packageId/index.json"
-          $response = Invoke-RestMethod -Uri $apiUrl -Method Get
-          $versions = $response.versions | Sort-Object { [System.Version]($_ -replace '-.*','') } -Descending
-          $stableVersions = $versions | Where-Object { $_ -notmatch '[-]' }
-          $latestVersion = $stableVersions[0]
-          Write-Host "Using WebView2 SDK version: $latestVersion"
-          # Download WebView2 SDK assemblies using NuGet
-          dotnet add "Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj" package Microsoft.Web.WebView2 --version $latestVersion --no-restore
+          Write-Host "Fetching WebView2 package information from: $apiUrl"
+          
+          try {
+            $response = Invoke-RestMethod -Uri $apiUrl -Method Get
+            $versions = $response.versions | Sort-Object { [System.Version]($_ -replace '-.*','') } -Descending
+            $stableVersions = $versions | Where-Object { $_ -notmatch '[-]' }
+            $latestVersion = $stableVersions[0]
+            Write-Host "Using WebView2 SDK version: $latestVersion"
+          } catch {
+            Write-Error "Failed to fetch WebView2 package information: $($_.Exception.Message)"
+            Write-Host "Using fallback version: 1.0.2478.35"
+            $latestVersion = "1.0.2478.35"
+          }
+          
+          # Add WebView2 package to project
+          Write-Host "Adding WebView2 package to project..."
+          dotnet add "Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj" package Microsoft.Web.WebView2 --version $latestVersion
+          
+          if ($LASTEXITCODE -ne 0) {
+            Write-Error "Failed to add WebView2 package to project"
+            exit 1
+          }
+          
+          # Restore packages to ensure they're downloaded
+          Write-Host "Restoring NuGet packages..."
+          dotnet restore "Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj"
+          
+          if ($LASTEXITCODE -ne 0) {
+            Write-Error "Failed to restore NuGet packages"
+            exit 1
+          }
+          
           # Find and copy assemblies dynamically
           $nugetBasePath = "$env:USERPROFILE\.nuget\packages\microsoft.web.webview2\$latestVersion"
           Write-Host "Searching for WebView2 assemblies in: $nugetBasePath"
+          
+          # Verify the package directory exists
+          if (-not (Test-Path $nugetBasePath)) {
+            Write-Error "NuGet package directory not found: $nugetBasePath"
+            Write-Host "Available packages:"
+            Get-ChildItem "$env:USERPROFILE\.nuget\packages\microsoft.web.webview2" -ErrorAction SilentlyContinue | ForEach-Object { Write-Host "  - $($_.Name)" }
+            exit 1
+          }
           
           # Find Core DLL
           $coreDll = Get-ChildItem -Path $nugetBasePath -Recurse -Name "Microsoft.Web.WebView2.Core.dll" | Select-Object -First 1
           if ($coreDll) {
             $corePath = Join-Path $nugetBasePath $coreDll
-            Copy-Item $corePath "WebView2SDK\"
-            Write-Host "Copied Microsoft.Web.WebView2.Core.dll from: $corePath"
+            if (Test-Path $corePath) {
+              Copy-Item $corePath "WebView2SDK\"
+              Write-Host "Copied Microsoft.Web.WebView2.Core.dll from: $corePath"
+            } else {
+              Write-Error "Core DLL file not found at: $corePath"
+              exit 1
+            }
           } else {
             Write-Error "Microsoft.Web.WebView2.Core.dll not found in package"
+            Write-Host "Available files in package:"
+            Get-ChildItem -Path $nugetBasePath -Recurse | ForEach-Object { Write-Host "  - $($_.FullName)" }
             exit 1
           }
           
@@ -105,8 +146,13 @@ jobs:
           $winFormsDll = Get-ChildItem -Path $nugetBasePath -Recurse -Name "Microsoft.Web.WebView2.WinForms.dll" | Select-Object -First 1
           if ($winFormsDll) {
             $winFormsPath = Join-Path $nugetBasePath $winFormsDll
-            Copy-Item $winFormsPath "WebView2SDK\"
-            Write-Host "Copied Microsoft.Web.WebView2.WinForms.dll from: $winFormsPath"
+            if (Test-Path $winFormsPath) {
+              Copy-Item $winFormsPath "WebView2SDK\"
+              Write-Host "Copied Microsoft.Web.WebView2.WinForms.dll from: $winFormsPath"
+            } else {
+              Write-Error "WinForms DLL file not found at: $winFormsPath"
+              exit 1
+            }
           } else {
             Write-Error "Microsoft.Web.WebView2.WinForms.dll not found in package"
             exit 1
@@ -116,8 +162,13 @@ jobs:
           $loaderDll = Get-ChildItem -Path $nugetBasePath -Recurse -Name "WebView2Loader.dll" | Select-Object -First 1
           if ($loaderDll) {
             $loaderPath = Join-Path $nugetBasePath $loaderDll
-            Copy-Item $loaderPath "WebView2SDK\"
-            Write-Host "Copied WebView2Loader.dll from: $loaderPath"
+            if (Test-Path $loaderPath) {
+              Copy-Item $loaderPath "WebView2SDK\"
+              Write-Host "Copied WebView2Loader.dll from: $loaderPath"
+            } else {
+              Write-Error "Loader DLL file not found at: $loaderPath"
+              exit 1
+            }
           } else {
             Write-Error "WebView2Loader.dll not found in package"
             exit 1
@@ -128,6 +179,7 @@ jobs:
           Get-ChildItem "WebView2SDK\*.dll" | ForEach-Object { Write-Host "  - $($_.Name)" }
           
           # Remove NuGet package reference
+          Write-Host "Removing temporary NuGet package reference..."
           dotnet remove "Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj" package Microsoft.Web.WebView2
 
       - name: Build

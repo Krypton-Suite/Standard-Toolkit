@@ -12,9 +12,9 @@ if not exist "WebView2SDK" (
 
 REM Get the latest WebView2 SDK version
 echo Detecting latest WebView2 SDK version...
-powershell -ExecutionPolicy Bypass -File "%~dp0Get-LatestWebView2Version.ps1" > temp_version.txt 2>&1
-set /p WEBVIEW2_VERSION=<temp_version.txt
-del temp_version.txt
+for /f "delims=" %%i in ('powershell -ExecutionPolicy Bypass -File "%~dp0Get-LatestWebView2Version.ps1"') do (
+    set "WEBVIEW2_VERSION=%%i"
+)
 
 if "%WEBVIEW2_VERSION%"=="" (
     echo Failed to detect latest version, using fallback version 1.0.2478.35
@@ -38,21 +38,46 @@ dotnet add "Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.cspro
 
 if %ERRORLEVEL% EQU 0 (
     echo.
+    echo Restoring NuGet packages to ensure WebView2 SDK is downloaded...
+    dotnet restore "Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj"
+    
+    if %ERRORLEVEL% NEQ 0 (
+        echo ERROR: Failed to restore NuGet packages
+        exit /b 1
+    )
+    
     echo Copying updated WebView2 assemblies...
     
     REM Copy the assemblies from NuGet cache
     echo Searching for WebView2 assemblies in NuGet cache...
-    set "NUGET_PATH=%USERPROFILE%\.nuget\packages\microsoft.web.webview2\%WEBVIEW2_VERSION%"
+    for /f "usebackq tokens=*" %%i in (`powershell -Command "Write-Output $env:USERPROFILE"`) do set "USER_PROFILE=%%i"
+    set "NUGET_PATH=%USER_PROFILE%\.nuget\packages\microsoft.web.webview2\%WEBVIEW2_VERSION%"
+    echo NuGet path: %NUGET_PATH%
+
+    REM Verify the package directory exists
+    if not exist "%NUGET_PATH%" (
+        echo ERROR: NuGet package directory not found: %NUGET_PATH%
+        echo Available packages:
+        dir "%USERPROFILE%\.nuget\packages\microsoft.web.webview2" /b 2>nul
+        exit /b 1
+    )
 
     REM Find and copy Core DLL
     for /f "delims=" %%i in ('powershell -Command "Get-ChildItem -Path '%NUGET_PATH%' -Recurse -Name 'Microsoft.Web.WebView2.Core.dll' | Select-Object -First 1"') do (
         set "CORE_DLL=%%i"
     )
     if defined CORE_DLL (
-        copy "%NUGET_PATH%\%CORE_DLL%" "WebView2SDK\" >nul 2>&1
-        echo Copied Microsoft.Web.WebView2.Core.dll
+        if exist "%NUGET_PATH%\%CORE_DLL%" (
+            copy "%NUGET_PATH%\%CORE_DLL%" "WebView2SDK\" >nul 2>&1
+            echo Copied Microsoft.Web.WebView2.Core.dll
+        ) else (
+            echo ERROR: Core DLL file not found at: %NUGET_PATH%\%CORE_DLL%
+            exit /b 1
+        )
     ) else (
         echo ERROR: Microsoft.Web.WebView2.Core.dll not found in package
+        echo Available files in package:
+        dir "%NUGET_PATH%" /s /b
         exit /b 1
     )
 
@@ -61,8 +86,13 @@ if %ERRORLEVEL% EQU 0 (
         set "WINFORMS_DLL=%%i"
     )
     if defined WINFORMS_DLL (
-        copy "%NUGET_PATH%\%WINFORMS_DLL%" "WebView2SDK\" >nul 2>&1
-        echo Copied Microsoft.Web.WebView2.WinForms.dll
+        if exist "%NUGET_PATH%\%WINFORMS_DLL%" (
+            copy "%NUGET_PATH%\%WINFORMS_DLL%" "WebView2SDK\" >nul 2>&1
+            echo Copied Microsoft.Web.WebView2.WinForms.dll
+        ) else (
+            echo ERROR: WinForms DLL file not found at: %NUGET_PATH%\%WINFORMS_DLL%
+            exit /b 1
+        )
     ) else (
         echo ERROR: Microsoft.Web.WebView2.WinForms.dll not found in package
         exit /b 1
@@ -73,8 +103,13 @@ if %ERRORLEVEL% EQU 0 (
         set "LOADER_DLL=%%i"
     )
     if defined LOADER_DLL (
-        copy "%NUGET_PATH%\%LOADER_DLL%" "WebView2SDK\" >nul 2>&1
-        echo Copied WebView2Loader.dll
+        if exist "%NUGET_PATH%\%LOADER_DLL%" (
+            copy "%NUGET_PATH%\%LOADER_DLL%" "WebView2SDK\" >nul 2>&1
+            echo Copied WebView2Loader.dll
+        ) else (
+            echo ERROR: Loader DLL file not found at: %NUGET_PATH%\%LOADER_DLL%
+            exit /b 1
+        )
     ) else (
         echo ERROR: WebView2Loader.dll not found in package
         exit /b 1
