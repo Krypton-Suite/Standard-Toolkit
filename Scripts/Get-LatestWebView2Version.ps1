@@ -13,6 +13,7 @@ try {
     Write-Host "Fetching latest version information for $packageId..." -ForegroundColor Green
     
     # Get package versions
+    try {
         $response = Invoke-RestMethod -Uri $apiUrl -Method Get
         
         if ($Prerelease) {
@@ -26,6 +27,22 @@ try {
                              Sort-Object { [Version]$_ } -Descending
             $latestVersion = $stableVersions[0]
         }
+    } catch {
+        Write-Host "Primary API failed: $($_.Exception.Message)" -ForegroundColor Yellow
+        Write-Host "Trying alternative search API..." -ForegroundColor Yellow
+        
+        # Try alternative approach using NuGet search API
+        $searchUrl = "https://azuresearch-usnc.nuget.org/query?q=$packageId&prerelease=false&semVerLevel=2.0.0"
+        $searchResponse = Invoke-RestMethod -Uri $searchUrl -Method Get
+        
+        if ($searchResponse.data -and $searchResponse.data.Count -gt 0) {
+            $packageData = $searchResponse.data[0]
+            $latestVersion = $packageData.version
+            Write-Host "Found version using search API: $latestVersion" -ForegroundColor Green
+        } else {
+            throw "No package data found in search results"
+        }
+    }
     
     if ($latestVersion) {
         Write-Host "Latest version: $latestVersion" -ForegroundColor Yellow
