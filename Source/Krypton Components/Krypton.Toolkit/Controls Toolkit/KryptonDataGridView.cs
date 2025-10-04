@@ -1247,7 +1247,7 @@ namespace Krypton.Toolkit
             }
 
             var rtl = RightToLeftInternal;
-            bool? isHeaderCell = null;
+            bool isHandled = true;
 
             // Use an offscreen bitmap to draw onto before blitting it to the screen
             var tempCellBounds = e.CellBounds with { X = 0, Y = 0 };
@@ -1257,7 +1257,9 @@ namespace Krypton.Toolkit
                 {
                     using (var renderContext = new RenderContext(this, tempG, tempCellBounds, Renderer!))
                     {
-                        isHeaderCell = e.RowIndex == -1 && e.ColumnIndex >= 0;
+                        bool isHeaderCell = e.RowIndex == -1 && e.ColumnIndex >= 0;
+                        isHandled = !isHeaderCell;
+
                         Rectangle headerContentBounds = Rectangle.Empty;
 
                         // Force the border to have a specified maximum border edge
@@ -1540,7 +1542,7 @@ namespace Krypton.Toolkit
                                         }
                                     }
 
-                                    if (isHeaderCell is not null && !isHeaderCell.Value)
+                                    if (!isHeaderCell)
                                     {
                                         // Non-header: let renderer draw content
                                         using IDisposable tmpMemento = Renderer.RenderStandardContent.LayoutContent(
@@ -1558,7 +1560,7 @@ namespace Krypton.Toolkit
                                 e.Graphics.DrawImage(tempBitmap, e.CellBounds.Location);
 
                                 // Column header text: draw with GDI TextRenderer directly to final DC with strict clipping
-                                if (isHeaderCell is not null  && isHeaderCell.Value)
+                                if (isHeaderCell)
                                 {
                                     string text = e.FormattedValue?.ToString() ?? string.Empty;
                                     Rectangle constrainedContentBounds = headerContentBounds;
@@ -1620,7 +1622,7 @@ namespace Krypton.Toolkit
             }
 
             // Prevent base class from doing the standard drawing
-            e!.Handled = isHeaderCell is null || !isHeaderCell.Value;
+            e!.Handled = isHandled;
 
             base.OnCellPainting(e);
         }
