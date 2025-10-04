@@ -1552,6 +1552,9 @@ public class KryptonForm : VisualForm,
         // correct initial size and position of the window when first shown
         base.OnLoad(e);
 
+        // Ensure title bar visibility is correctly set based on FormBorderStyle
+        OnFormBorderStyleChanged();
+
         // We only apply custom chrome when control is already created and positioned
         UpdateUseThemeFormChromeBorderWidthDecision();
 
@@ -2194,6 +2197,8 @@ public class KryptonForm : VisualForm,
                 MinimizeBox = false;
                 MaximizeBox = false;
                 CloseBox = false;
+                // Hide the title bar completely when FormBorderStyle is None
+                _headingFixedSize.Visible = false;
                 break;
 
             case FormBorderStyle.FixedSingle:
@@ -2204,6 +2209,8 @@ public class KryptonForm : VisualForm,
                 MinimizeBox = true;
                 MaximizeBox = true;
                 CloseBox = true;
+                // Show the title bar for all other border styles
+                _headingFixedSize.Visible = true;
                 break;
 
             case FormBorderStyle.FixedToolWindow:
@@ -2212,6 +2219,8 @@ public class KryptonForm : VisualForm,
                 MinimizeBox = false;
                 MaximizeBox = false;
                 CloseBox = true;
+                // Show the title bar for tool window styles
+                _headingFixedSize.Visible = true;
                 break;
         }
     }
