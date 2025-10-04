@@ -19,7 +19,7 @@ public partial class KryptonTaskDialogElementCommandLinkButtons : KryptonTaskDia
 
     private readonly ObservableCollection<KryptonCommandLinkButton> _buttons;
     private readonly TableLayoutPanel _tlp;
-    private readonly FlowLayoutPanelDoubleBuffered _flp;
+    private readonly FlowLayoutPanel _flp;
     private readonly KryptonButton _btnFlowDirection;
     private bool _disposed;
     #endregion
@@ -172,10 +172,9 @@ public partial class KryptonTaskDialogElementCommandLinkButtons : KryptonTaskDia
         button.StateCommon.Border.Rounding = Defaults.GetCornerRouding(RoundedCorners);
     }
 
-    private void SetupPanel()
+    private void SetupTableLayoutPanel()
     {
-        Panel.Width = Defaults.ClientWidth;
-
+        _tlp.SetDoubleBuffered(true);
         _tlp.AutoSize = true;
         _tlp.Left = Defaults.PanelLeft;
         _tlp.AutoSizeMode = AutoSizeMode.GrowAndShrink;
@@ -185,37 +184,52 @@ public partial class KryptonTaskDialogElementCommandLinkButtons : KryptonTaskDia
         _tlp.Margin = Defaults.NullMargin;
         _tlp.BackColor = Color.Transparent;
 
-        _tlp.RowCount =  1;
+        _tlp.RowCount = 1;
         _tlp.ColumnCount = 2;
-        
+
         _tlp.RowStyles.Clear();
         _tlp.ColumnStyles.Clear();
-        _tlp.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-        _tlp.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
-        _tlp.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+        _tlp.RowStyles.Add( new RowStyle( SizeType.AutoSize ) );
+        _tlp.ColumnStyles.Add( new ColumnStyle( SizeType.AutoSize ) );
+        _tlp.ColumnStyles.Add( new ColumnStyle( SizeType.AutoSize ) );
+    }
 
-
+    private void SetupFlowLayoutPanel()
+    {
         // Note: do not dock the flow layout panel as that changes the behaviour of the flow direction.
         _flp.AutoSize = true;
+        _flp.SetDoubleBuffered( true );
         _flp.AutoSizeMode = AutoSizeMode.GrowAndShrink;
         _flp.Top = 0;
         _flp.Left = 0;
         _flp.Margin = Defaults.NullMargin;
-        _flp.Padding = new Padding(0, Defaults.ComponentSpace, 0, 0);
+        _flp.Padding = new Padding( 0, Defaults.ComponentSpace, 0, 0 );
         _flp.Width = Panel.Width - Defaults.PanelLeft - Defaults.PanelRight - 20;
-        _flp.MaximumSize = new Size(_flp.Width, 0);
+        _flp.MaximumSize = new Size( _flp.Width, 0 );
         _flp.BackColor = Color.Transparent;
+    }
 
+    private void SetupControls()
+    {
         _btnFlowDirection.AutoSize = true;
         _btnFlowDirection.AutoSizeMode = AutoSizeMode.GrowAndShrink;
         _btnFlowDirection.Size = Defaults.ButtonSize_24x75;
         _btnFlowDirection.MinimumSize = Defaults.ButtonSize_24x75;
-        _btnFlowDirection.Margin = new Padding(0, Defaults.ComponentSpace + 2, Defaults.ComponentSpace, 0);
+        _btnFlowDirection.Margin = new Padding( 0, Defaults.ComponentSpace + 2, Defaults.ComponentSpace, 0 );
         _btnFlowDirection.Text = _flp.FlowDirection.ToString();
         _btnFlowDirection.Orientation = VisualOrientation.Left;
         _btnFlowDirection.ButtonOrientation = VisualOrientation.Left;
         _btnFlowDirection.Visible = false;
         _btnFlowDirection.Click += OnBtnFlowDirectionClick;
+    }
+
+    private void SetupPanel()
+    {
+        Panel.Width = Defaults.ClientWidth;
+
+        SetupTableLayoutPanel();
+        SetupFlowLayoutPanel();
+        SetupControls();
 
         // Assemble the controls
         Panel.Controls.Add(_tlp);

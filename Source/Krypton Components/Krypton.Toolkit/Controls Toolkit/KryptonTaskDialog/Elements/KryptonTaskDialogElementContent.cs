@@ -24,7 +24,7 @@ public partial class KryptonTaskDialogElementContent : KryptonTaskDialogElementB
     #endregion
 
     #region Identity
-    public KryptonTaskDialogElementContent(KryptonTaskDialogDefaults taskDialogDefaults) 
+    public KryptonTaskDialogElementContent(KryptonTaskDialogDefaults taskDialogDefaults)         
         : base(taskDialogDefaults)
     {
         _disposed = false;
@@ -48,18 +48,9 @@ public partial class KryptonTaskDialogElementContent : KryptonTaskDialogElementB
     #endregion
 
     #region Private
-    private void SetupPictureBox()
-    {
-        _pictureBox.Visible = false;
-        _pictureBox.Margin = new Padding(0, 0, Defaults.ComponentSpace, 0);
-        _pictureBox.Padding = Defaults.NullPadding;
-        _pictureBox.BorderStyle = BorderStyle.None;
-        _pictureBox.SizeMode = PictureBoxSizeMode.CenterImage;
-        _pictureBox.Anchor = AnchorStyles.Top | AnchorStyles.Left;
-    }
-
     private void SetupTableLayoutPanel()
     {
+        _tlp.SetDoubleBuffered(true);
         _tlp.Left = Defaults.PanelLeft;
         _tlp.Top = Defaults.PanelTop;
         _tlp.AutoSize = true;
@@ -83,6 +74,13 @@ public partial class KryptonTaskDialogElementContent : KryptonTaskDialogElementB
 
     private void SetupControls()
     {
+        _pictureBox.Visible = false;
+        _pictureBox.Margin = new Padding(0, 0, Defaults.ComponentSpace, 0);
+        _pictureBox.Padding = Defaults.NullPadding;
+        _pictureBox.BorderStyle = BorderStyle.None;
+        _pictureBox.SizeMode = PictureBoxSizeMode.CenterImage;
+        _pictureBox.Anchor = AnchorStyles.Top | AnchorStyles.Left;
+
         _textBox.AutoSize = false;
         _textBox.Height = 100;
         _textBox.Padding = new Padding(0);
@@ -93,7 +91,6 @@ public partial class KryptonTaskDialogElementContent : KryptonTaskDialogElementB
 
     private void SetupPanel()
     {
-        SetupPictureBox();
         SetupControls();
         SetupTableLayoutPanel();
             

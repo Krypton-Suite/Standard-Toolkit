@@ -202,18 +202,22 @@ public class KryptonTaskDialogElementComboBox : KryptonTaskDialogElementSingleLi
     #endregion
 
     #region Private
-    private void SetupPanel()
+    private void SetupControls()
     {
-        // the description that goes with the combobox
         _description.AutoSize = true;
         _description.Padding = Defaults.NullPadding;
-        _description.Margin = new(0, 0, 0, Defaults.ComponentSpace);
+        _description.Margin = new( 0, 0, 0, Defaults.ComponentSpace );
 
         _comboBox.AutoSize = true;
         _comboBox.Padding = Defaults.NullPadding;
         _comboBox.Margin = Defaults.NullMargin;
         _comboBox.Width = 250;
         DropDownStyle = InternalComboBoxStyle.DropDownList;
+    }
+
+    private void SetupPanel()
+    {
+        SetupControls();
 
         // add the controls
         _tlp.Controls.Add(_description, 0, 0);
