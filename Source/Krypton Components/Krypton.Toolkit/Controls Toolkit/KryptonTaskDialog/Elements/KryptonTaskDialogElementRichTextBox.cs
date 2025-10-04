@@ -79,6 +79,16 @@ public class KryptonTaskDialogElementRichTextBox : KryptonTaskDialogElementBase,
     #endregion
 
     #region Private
+    private void SetupRichTextBox()
+    {
+        _richTextBox.Dock = DockStyle.Fill;
+        _richTextBox.DetectUrls = false;
+        _richTextBox.ShortcutsEnabled = false;
+        _richTextBox.WordWrap = true;
+        _richTextBox.Rtf = "";
+        _richTextBox.Text = "";
+    }
+
     private void SetupPanel()
     {
         Panel.Width = Defaults.ClientWidth;
@@ -86,18 +96,24 @@ public class KryptonTaskDialogElementRichTextBox : KryptonTaskDialogElementBase,
         Panel.Padding = Defaults.PanelPadding1;
 
         Panel.Controls.Add(_richTextBox);
-        _richTextBox.Dock = DockStyle.Fill;
+        SetupRichTextBox();
     }
 
     private void SetupContextMenu()
     {
+        // Images are assigned static for now.
+        // The contextmenu grays them when disabled so there's no need for switching images. They also work well among all themes.
+        // Can be revisited if these will be integrated in the themes
+        _kcmiCopy.Image = ResourceFiles.Toolbars.Office2013ToolbarImageResources.Office2013ToolbarCopyNormal;
+        _kcmiCut.Image = ResourceFiles.Toolbars.Office2013ToolbarImageResources.Office2013ToolbarCutNormal;
+        _kcmiPaste.Image = ResourceFiles.Toolbars.Office2013ToolbarImageResources.Office2013ToolbarPasteNormal;
+
         var items = new KryptonContextMenuItems();
         items.Items.Add(_kcmiCopy);
         items.Items.Add(_kcmiCut);
         items.Items.Add(_kcmiPaste);
-
         _contextMenu.Items.Add(items);
-
+        
         _contextMenu.Opening += OnContextMenuOpening;
         _kcmiCopy.Click += OnContextMenuCopyClick;
         _kcmiCut.Click += OnContextMenuCutClick;

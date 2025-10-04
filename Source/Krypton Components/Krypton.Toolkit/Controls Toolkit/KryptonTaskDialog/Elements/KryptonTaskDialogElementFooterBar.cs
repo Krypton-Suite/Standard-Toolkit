@@ -386,6 +386,7 @@ public partial class KryptonTaskDialogElementFooterBar : KryptonTaskDialogElemen
             BackColor = Color.Transparent,
             CellBorderStyle = TableLayoutPanelCellBorderStyle.None
         };
+        _tlp.SetDoubleBuffered(true);
 
         // 1 row
         _tlp.RowCount = 1;
