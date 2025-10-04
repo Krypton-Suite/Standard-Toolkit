@@ -39,6 +39,8 @@ namespace TestForm
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ButtonsTest));
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
+            this.KryptonCalcInput1 = new Krypton.Toolkit.KryptonCalcInput();
+            this.buttonSpecAny2 = new Krypton.Toolkit.ButtonSpecAny();
             this.kryptonLabel2 = new Krypton.Toolkit.KryptonLabel();
             this.kcbColorScheme = new Krypton.Toolkit.KryptonComboBox();
             this.kryptonLabel1 = new Krypton.Toolkit.KryptonLabel();
@@ -72,6 +74,7 @@ namespace TestForm
             // 
             // kryptonPanel1
             // 
+            this.kryptonPanel1.Controls.Add(this.KryptonCalcInput1);
             this.kryptonPanel1.Controls.Add(this.kryptonLabel2);
             this.kryptonPanel1.Controls.Add(this.kcbColorScheme);
             this.kryptonPanel1.Controls.Add(this.kryptonLabel1);
@@ -91,8 +94,32 @@ namespace TestForm
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(559, 305);
+            this.kryptonPanel1.Size = new System.Drawing.Size(562, 318);
             this.kryptonPanel1.TabIndex = 0;
+            // 
+            // KryptonCalcInput1
+            // 
+            this.KryptonCalcInput1.AllowDecimals = true;
+            this.KryptonCalcInput1.ButtonSpecs.Add(this.buttonSpecAny2);
+            this.KryptonCalcInput1.DecimalPlaces = 2;
+            this.KryptonCalcInput1.DropDownWidth = 0;
+            this.KryptonCalcInput1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.KryptonCalcInput1.Location = new System.Drawing.Point(120, 270);
+            this.KryptonCalcInput1.Name = "KryptonCalcInput1";
+            this.KryptonCalcInput1.Size = new System.Drawing.Size(141, 24);
+            this.KryptonCalcInput1.TabIndex = 16;
+            this.KryptonCalcInput1.Value = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
+            this.KryptonCalcInput1.ButtonSpecClicked += new System.EventHandler<Krypton.Toolkit.ButtonSpecEventArgs>(this.KryptonCalcInput1_ButtonSpecClicked);
+            // 
+            // buttonSpecAny2
+            // 
+            this.buttonSpecAny2.Image = ((System.Drawing.Image)(resources.GetObject("buttonSpecAny2.Image")));
+            this.buttonSpecAny2.Type = Krypton.Toolkit.PaletteButtonSpecStyle.Close;
+            this.buttonSpecAny2.UniqueName = "f71d42b1cecb4ded8a08ee132c851ffe";
             // 
             // kryptonLabel2
             // 
@@ -149,7 +176,7 @@ namespace TestForm
             // 
             this.kbtnButtonStyles.Location = new System.Drawing.Point(278, 270);
             this.kbtnButtonStyles.Name = "kbtnButtonStyles";
-            this.kbtnButtonStyles.Size = new System.Drawing.Size(243, 25);
+            this.kbtnButtonStyles.Size = new System.Drawing.Size(243, 24);
             this.kbtnButtonStyles.TabIndex = 10;
             this.kbtnButtonStyles.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnButtonStyles.Values.Text = "Button Styles";
@@ -332,7 +359,7 @@ namespace TestForm
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ButtonSpecs.Add(this.buttonSpecAny1);
-            this.ClientSize = new System.Drawing.Size(559, 305);
+            this.ClientSize = new System.Drawing.Size(562, 318);
             this.Controls.Add(this.kryptonPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -379,5 +406,7 @@ namespace TestForm
         private Krypton.Toolkit.KryptonLabel kryptonLabel1;
         private Krypton.Toolkit.KryptonComboBox kcbColorScheme;
         private Krypton.Toolkit.KryptonLabel kryptonLabel2;
+        private KryptonCalcInput KryptonCalcInput1;
+        private ButtonSpecAny buttonSpecAny2;
     }
 }
