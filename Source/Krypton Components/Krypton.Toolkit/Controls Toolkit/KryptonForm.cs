@@ -108,8 +108,6 @@ public class KryptonForm : VisualForm,
     private InheritBool _internalPanelState;
     private int _foundRibbonOffset = -1;
     private readonly KryptonPanel _internalKryptonPanel;
-    // Compensate for Windows 11 outer accent border by shrinking the window region slightly
-    private const int NON_CLIENT_REGION_INSET = 4;
     private Rectangle _lastGripClientRect = Rectangle.Empty;
     private Rectangle _lastGripWindowRect = Rectangle.Empty;
     private readonly KryptonSystemMenuService? _systemMenuService;
@@ -701,7 +699,8 @@ public class KryptonForm : VisualForm,
     {
         get
         {
-            if (_internalKryptonPanel.Controls.Count == 0)
+            // Don't modify internal panel size during designer operations to prevent dimension drift
+            if (_internalKryptonPanel.Controls.Count == 0 && !DesignMode)
             {
                 _internalKryptonPanel.ClientSize = ClientSize;
             }
@@ -856,9 +855,13 @@ public class KryptonForm : VisualForm,
                     formBorder.UseThemeFormChromeBorderWidth = value;
                 }
 
-                // Do we want to switch on/off the custom chrome?
-                UpdateUseThemeFormChromeBorderWidthDecision();
-                RecalcNonClient();
+                // Don't update chrome during design mode to prevent dimension changes
+                if (!DesignMode)
+                {
+                    // Do we want to switch on/off the custom chrome?
+                    UpdateUseThemeFormChromeBorderWidthDecision();
+                    RecalcNonClient();
+                }
             }
         }
     }
@@ -1515,8 +1518,11 @@ public class KryptonForm : VisualForm,
             // Start monitoring the status strip change in state
             MonitorStatusStrip(strip);
 
-            // Recalc to test if status strip should be integrated
-            RecalcNonClient();
+            // Recalc to test if status strip should be integrated (only at runtime)
+            if (!DesignMode)
+            {
+                RecalcNonClient();
+            }
         }
 
         base.OnControlAdded(e);
@@ -1535,8 +1541,11 @@ public class KryptonForm : VisualForm,
             // Unhook from status strip events
             UnMonitorStatusStrip();
 
-            // Recalc to test if status strip should be unintegrated
-            RecalcNonClient();
+            // Recalc to test if status strip should be unintegrated (only at runtime)
+            if (!DesignMode)
+            {
+                RecalcNonClient();
+            }
         }
 
         base.OnControlRemoved(e);
@@ -1690,9 +1699,13 @@ public class KryptonForm : VisualForm,
     /// <param name="e">An EventArgs containing the event data.</param>
     protected override void OnUseThemeFormChromeBorderWidthChanged(object? sender, EventArgs e)
     {
-        // Test if we need to change the custom chrome usage
-        UpdateUseThemeFormChromeBorderWidthDecision();
-        RecalcNonClient();
+        // Don't update chrome during design mode to prevent dimension changes
+        if (!DesignMode)
+        {
+            // Test if we need to change the custom chrome usage
+            UpdateUseThemeFormChromeBorderWidthDecision();
+            RecalcNonClient();
+        }
     }
 
     /// <inheritdoc />
@@ -2355,8 +2368,10 @@ public class KryptonForm : VisualForm,
                 }
                 else
                 {
-                    Padding windowBorders = RealWindowBorders;
-                    _headingFixedSize.FixedSize = new Size(windowBorders.Top, windowBorders.Top);
+                    // Use a stable border calculation that doesn't change during designer operations
+                    // This prevents dimension drift when the designer saves/reopens forms
+                    const int stableBorderHeight = 32; // Use a fixed height instead of dynamic calculation
+                    _headingFixedSize.FixedSize = new Size(0, stableBorderHeight);
                 }
 
                 // A change in window state since last time requires a layout
@@ -2548,7 +2563,8 @@ public class KryptonForm : VisualForm,
     private bool _hasUseThemeFormChromeBorderWidthFirstRun;
     private void UpdateUseThemeFormChromeBorderWidthDecision()
     {
-        if (IsHandleCreated)
+        // Don't update chrome border width during design mode to prevent dimension changes
+        if (IsHandleCreated && !DesignMode)
         {
             // Decide if we should have custom chrome applied
             var needChrome = UseThemeFormChromeBorderWidth &&

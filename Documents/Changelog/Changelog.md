@@ -3,6 +3,7 @@
 ====
 
 ## 2025-11-xx - Build 2511 (V10 - alpha) - November 2025
+* Resolved [#2525](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2525), `KryptonForm` dimensions
 * Resolved [#2461](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2461), (feat) Add `KryptonCalcInput` edit+dropdown control.
 * Resolved [#2480](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2480). `KryptonForm`'s 'InternalPanel' designer issues
 * Resolved [#2512](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2512), Added borders with straight corners (`LinearBorder2`) and adjusted the colors in the `KryptonRibbon` in the `Microsoft365` themes. Adjusted the design of the `RibbonQATButton`

@@ -516,7 +516,20 @@ public abstract class VisualForm : Form,
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public Padding RealWindowBorders => CommonHelper.GetWindowBorders(CreateParams, this as KryptonForm);
+    public Padding RealWindowBorders
+    {
+        get
+        {
+            // During design mode, use stable border values to prevent dimension changes
+            if (DesignMode)
+            {
+                // Use standard Windows form border values for design mode stability
+                return new Padding(8, 31, 8, 8); // Standard Windows form borders
+            }
+            
+            return CommonHelper.GetWindowBorders(CreateParams, this as KryptonForm);
+        }
+    }
 
     /// <summary>
     /// Gets a count of the number of paints that have occurred.
