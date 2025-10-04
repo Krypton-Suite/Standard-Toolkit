@@ -3386,9 +3386,7 @@ namespace Krypton.Toolkit
                 case PaletteRibbonBackStyle.RibbonAppMenuOuter:
                     return PaletteRibbonColorStyle.RibbonAppMenuOuter;
                 case PaletteRibbonBackStyle.RibbonQATMinibar:
-                    return state == PaletteState.CheckedNormal
-                        ? PaletteRibbonColorStyle.RibbonQATMinibarDouble
-                        : PaletteRibbonColorStyle.RibbonQATMinibarSingle;
+                    return PaletteRibbonColorStyle.RibbonQATMinibarDouble;
 
                 case PaletteRibbonBackStyle.RibbonQATFullbar:
                     return PaletteRibbonColorStyle.RibbonQATFullbarSquare;
@@ -3426,6 +3424,7 @@ namespace Krypton.Toolkit
                     {
                         case PaletteState.Normal:
                         case PaletteState.CheckedNormal:
+                            return PaletteRibbonColorStyle.LinearBorder2;
                         case PaletteState.ContextNormal:
                         case PaletteState.ContextCheckedNormal:
                             return PaletteRibbonColorStyle.Empty;
@@ -3502,7 +3501,7 @@ namespace Krypton.Toolkit
                 case PaletteRibbonBackStyle.RibbonAppMenuOuter:
                     return _ribbonColours[(int)SchemeOfficeColors.AppButtonOuter1];
                 case PaletteRibbonBackStyle.RibbonQATMinibar:
-                    return state == PaletteState.Normal
+                    return state == PaletteState.CheckedNormal
                         ? _ribbonColours[(int)SchemeOfficeColors.RibbonQATMini1]
                         : _ribbonColours[(int)SchemeOfficeColors.RibbonQATMini1I];
 
@@ -3599,7 +3598,7 @@ namespace Krypton.Toolkit
                 case PaletteRibbonBackStyle.RibbonAppMenuOuter:
                     return _ribbonColours[(int)SchemeOfficeColors.AppButtonOuter2];
                 case PaletteRibbonBackStyle.RibbonQATMinibar:
-                    return state == PaletteState.Normal
+                    return state == PaletteState.CheckedNormal
                         ? _ribbonColours[(int)SchemeOfficeColors.RibbonQATMini2]
                         : _ribbonColours[(int)SchemeOfficeColors.RibbonQATMini2I];
 
@@ -3711,7 +3710,7 @@ namespace Krypton.Toolkit
                 case PaletteRibbonBackStyle.RibbonAppMenuOuter:
                     return _ribbonColours[(int)SchemeOfficeColors.AppButtonOuter3];
                 case PaletteRibbonBackStyle.RibbonQATMinibar:
-                    return state == PaletteState.Normal
+                    return state == PaletteState.CheckedNormal
                         ? _ribbonColours[(int)SchemeOfficeColors.RibbonQATMini3]
                         : _ribbonColours[(int)SchemeOfficeColors.RibbonQATMini3I];
 
@@ -3790,7 +3789,7 @@ namespace Krypton.Toolkit
             switch (style)
             {
                 case PaletteRibbonBackStyle.RibbonQATMinibar:
-                    return state == PaletteState.Normal
+                    return state == PaletteState.CheckedNormal
                         ? _ribbonColours[(int)SchemeOfficeColors.RibbonQATMini4]
                         : _ribbonColours[(int)SchemeOfficeColors.RibbonQATMini4I];
 
@@ -3884,7 +3883,7 @@ namespace Krypton.Toolkit
                 case PaletteRibbonBackStyle.RibbonGroupCollapsedBorder:
                     return _ribbonColours[(int)SchemeOfficeColors.RibbonGroupBorder5];
                 case PaletteRibbonBackStyle.RibbonQATMinibar:
-                    return state == PaletteState.Normal
+                    return state == PaletteState.CheckedNormal
                         ? _ribbonColours[(int)SchemeOfficeColors.RibbonQATMini5]
                         : _ribbonColours[(int)SchemeOfficeColors.RibbonQATMini5I];
 
