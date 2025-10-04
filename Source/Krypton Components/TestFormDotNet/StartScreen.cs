@@ -10,5 +10,10 @@ namespace TestFormDotNet
             Text = "KryptonForm .NET Designer Test";
             Size = new System.Drawing.Size(400, 300);
         }
+
+        private void InitializeComponent()
+        {
+
+        }
     }
 }
