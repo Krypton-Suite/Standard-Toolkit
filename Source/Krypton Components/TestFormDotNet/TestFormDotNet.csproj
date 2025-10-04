@@ -9,11 +9,201 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Content Include="invoices.xml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Cyotek.Windows.Forms.ColorPicker" Version="2.0.0-beta.7" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<ProjectReference Include="..\Krypton.Docking\Krypton.Docking 2022.csproj" />
 		<ProjectReference Include="..\Krypton.Navigator\Krypton.Navigator 2022.csproj" />
 		<ProjectReference Include="..\Krypton.Ribbon\Krypton.Ribbon 2022.csproj" />
 		<ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
 		<ProjectReference Include="..\Krypton.Workspace\Krypton.Workspace 2022.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="ColorTestimonials\ColorTestimonials.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="PaletteViewer\PaletteViewerForm.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="Properties\Resources.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>Resources.resx</DependentUpon>
+	  </Compile>
+	  <Compile Update="TestBench\AboutBoxTest.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="TestBench\AdvancedEmojiViewerForm.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="TestBench\BasicEmojiViewerForm.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="TestBench\BasicToastNotificationTest.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="TestBench\BlurExampleForm.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="TestBench\BreadCrumbTest.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="TestBench\Bug833Test.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="TestBench\ButtonsTest.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="TestBench\ButtonStyleExamples.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="TestBench\CalendarTest.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="TestBench\CheckBoxStyleExamples.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="TestBench\CheckedListBoxDemo.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="TestBench\CommandLinkButtons.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="TestBench\ControlsTest.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="TestBench\ControlStyles.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="TestBench\CustomMessageBoxTest.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="TestBench\CustomPaletteTest.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="TestBench\DataGridViewDemo.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="TestBench\DateTimeExample.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="TestBench\DesignerMenuTest.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="TestBench\FadeFormTest.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="TestBench\FormBorderTest.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="TestBench\GroupBoxTest.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="TestBench\HeaderExamples.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="TestBench\InputBoxTest.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="TestBench\KryptonDialogExamples.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="TestBench\LabelsTest.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="TestBench\LabelStyleExamples.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="TestBench\LiveColorPickerDialog.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="TestBench\Main.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="TestBench\MenuToolBarStatusStripTest.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="TestBench\MessageBoxTest.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="TestBench\PanelForm.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="TestBench\PanelStyleExamples.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="TestBench\PoweredByButtonForm.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="TestBench\ProgressBarTest.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="TestBench\PropertyGridTest.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="TestBench\RadioButtonStyleExamples.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="TestBench\RibbonNavigatorWorkspaceTest.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="TestBench\RibbonTest.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="TestBench\SplashScreenExample.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="TestBench\SystemMenuTest.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="TestBench\TextBoxEventTest.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="TestBench\ThemeControlExamples.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="TestBench\ToastNotificationQuickTestForm.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="TestBench\ToastNotificationTestChoice.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="TestBench\ToggleSwitchTest.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="TestBench\ToolStripTest.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="TestBench\TreeViewExample.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="TestBench\TreeViewTestForm.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="TestBench\UserInputToastNotificationTest.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="TestBench\VisualControlsTest.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="TestBench\Workspace.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Update="Properties\Resources.resx">
+	    <Generator>ResXFileCodeGenerator</Generator>
+	    <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
 	</ItemGroup>
 
 </Project>
