@@ -48,7 +48,8 @@ public class KryptonTaskDialogElementFreeWheeler2 : KryptonTaskDialogElementSing
 
         _tlpExposed.RowStyles.Clear();
         _tlpExposed.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-        _tlpExposed.RowStyles.Clear();
+
+        _tlpExposed.ColumnStyles.Clear();
         _tlpExposed.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
     }
     #endregion
