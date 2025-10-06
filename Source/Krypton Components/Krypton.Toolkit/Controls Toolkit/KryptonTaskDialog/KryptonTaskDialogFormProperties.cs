@@ -337,9 +337,9 @@ public class KryptonTaskDialogFormProperties
     }
     #endregion
 
-    /// <summary>
-    /// TODO Will be removed in the final version
-    /// </summary>
+    ///// <summary>
+    ///// TODO Will be removed in the final version
+    ///// </summary>
     //public KryptonTaskDialogKryptonForm KryptonForm => _form;
 
     #region Public properties
