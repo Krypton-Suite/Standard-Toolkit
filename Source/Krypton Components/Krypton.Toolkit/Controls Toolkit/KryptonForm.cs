@@ -194,38 +194,10 @@ public class KryptonForm : VisualForm,
         _internalKryptonPanel.ControlRemoved += (s, e) => OnControlRemoved(e);
         _internalKryptonPanel.ControlAdded += (s, e) => OnControlAdded(e);
 
-        // OPTIMAL SOLUTION: Enable internal panel for .NET projects but keep system menu disabled
-        // Counter test proved that system menu was the culprit, not internal panel
-        if (!IsNetProject())
+        // Add internal panel for control hosting
+        if (!base.Controls.Contains(_internalKryptonPanel))
         {
-            // .NET Framework projects: Use existing logic with design mode detection
-            Load += (sender, e) =>
-            {
-                if (LicenseManager.UsageMode != LicenseUsageMode.Designtime && 
-                    !base.Controls.Contains(_internalKryptonPanel))
-                {
-                    base.Controls.Add(_internalKryptonPanel);
-                }
-            };
-        }
-        else
-        {
-            // .NET projects: Add internal panel at runtime AND in design mode
-            // This provides full theming support while maintaining designer compatibility
-            Load += (sender, e) =>
-            {
-                if (LicenseManager.UsageMode != LicenseUsageMode.Designtime && 
-                    !base.Controls.Contains(_internalKryptonPanel))
-                {
-                    base.Controls.Add(_internalKryptonPanel);
-                }
-            };
-            
-            // Add internal panel in design mode for .NET projects
-            if (LicenseManager.UsageMode == LicenseUsageMode.Designtime)
-            {
-                base.Controls.Add(_internalKryptonPanel);
-            }
+            base.Controls.Add(_internalKryptonPanel);
         }
 
         // Create the root element that contains the title bar and null filler
@@ -723,8 +695,7 @@ public class KryptonForm : VisualForm,
     }
 
     /// <summary>
-    /// Override the Controls property to provide optimal .NET designer compatibility.
-    /// Counter test proved that system menu was the culprit, not internal panel.
+    /// Override the Controls property to provide .NET designer compatibility.
     /// </summary>
     /// <inheritdoc cref="Form" />
     [Browsable(false)]
@@ -734,37 +705,7 @@ public class KryptonForm : VisualForm,
     {
         get
         {
-            // OPTIMAL SOLUTION: For .NET projects, always use internal panel (even in design mode)
-            // Counter test proved that system menu was the real problem, not internal panel
-            if (IsNetProject())
-            {
-                // Always use internal panel for .NET projects (design mode and runtime)
-                // This provides full theming support while maintaining designer compatibility
-                if (_internalKryptonPanel.Controls.Count == 0)
-                {
-                    _internalKryptonPanel.ClientSize = ClientSize;
-                }
-                return base.IsMdiContainer ? base.Controls : _internalKryptonPanel.Controls;
-            }
-
-            // .NET Framework projects: Use existing logic with design mode detection
-            if (IsInDesignMode() || 
-                LicenseManager.UsageMode == LicenseUsageMode.Designtime ||
-                Site?.DesignMode == true ||
-                DesignModeHelper.IsInDesignMode ||
-                Process.GetCurrentProcess().ProcessName.Contains("devenv") ||
-                Process.GetCurrentProcess().ProcessName.Contains("DesignerHost") ||
-                AppDomain.CurrentDomain.GetAssemblies().Any(a => a.FullName?.Contains("Microsoft.VisualStudio.Designer") == true))
-            {
-                return base.Controls;
-            }
-
-            // Runtime mode: Use internal panel for .NET Framework
-            if (_internalKryptonPanel.Controls.Count == 0)
-            {
-                _internalKryptonPanel.ClientSize = ClientSize;
-            }
-
+            // Always use internal panel for control hosting
             return base.IsMdiContainer ? base.Controls : _internalKryptonPanel.Controls;
         }
     }
@@ -1285,12 +1226,12 @@ public class KryptonForm : VisualForm,
 
     /// <summary>
     /// Determines if the current runtime is .NET (not .NET Framework).
-    /// Used to disable certain features that interfere with .NET designer.
     /// </summary>
     /// <returns>True if running on .NET; false if running on .NET Framework.</returns>
     private static bool IsNetProject() => 
         RuntimeInformation.FrameworkDescription.Contains(".NET") && 
         !RuntimeInformation.FrameworkDescription.Contains(".NET Framework");
+
 
     /// <summary>
     /// Robust design mode detection that prevents system menu interference with Visual Studio designer.
@@ -1580,22 +1521,10 @@ public class KryptonForm : VisualForm,
 
     /// <summary>
     /// Raises the ControlAdded event.
-    /// Enhanced for .NET designer compatibility.
     /// </summary>
     /// <param name="e">An EventArgs containing event data.</param>
     protected override void OnControlAdded(ControlEventArgs e)
     {
-        // Design mode: Ensure controls are added to base.Controls for both .NET and .NET Framework
-        if (IsInDesignMode() || 
-            LicenseManager.UsageMode == LicenseUsageMode.Designtime ||
-            Site?.DesignMode == true ||
-            DesignModeHelper.IsInDesignMode)
-        {
-            base.OnControlAdded(e);
-            return;
-        }
-
-        // Runtime mode: Handle StatusStrip monitoring for both .NET and .NET Framework
         if (e.Control is StatusStrip strip)
         {
             MonitorStatusStrip(strip);

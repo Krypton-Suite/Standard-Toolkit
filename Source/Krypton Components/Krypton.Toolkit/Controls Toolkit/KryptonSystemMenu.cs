@@ -263,28 +263,21 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
     {
         try
         {
-            // Try to get the current theme to determine which resource set to use
             var currentTheme = GetCurrentTheme();
-
-            // Get the appropriate icon based on theme and icon type
             var icon = GetThemeIcon(currentTheme, iconType);
             if (icon != null)
             {
-                // Ensure proper transparency handling
                 var processedIcon = ProcessImageForTransparency(icon);
                 if (processedIcon != null)
                 {
                     return processedIcon;
                 }
-                // If transparency processing fails, fall back to drawn icon
             }
 
-            // Fallback to the current drawn icons if theme icons aren't available
             return GetDrawnIcon(iconType);
         }
         catch
         {
-            // If icon retrieval fails, return null (no icon)
             return null;
         }
     }
@@ -303,13 +296,11 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
 
         try
         {
-            // Check if the image already has proper transparency support
             if (originalImage.PixelFormat == PixelFormat.Format32bppArgb)
             {
-                return originalImage; // Already in correct format
+                return originalImage;
             }
 
-            // Create a new bitmap with proper transparency support
             var bitmap = new Bitmap(originalImage.Width, originalImage.Height, PixelFormat.Format32bppArgb);
             using (var graphics = Graphics.FromImage(bitmap))
             {
@@ -320,10 +311,7 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
         }
         catch (Exception ex)
         {
-            // Log the error for debugging (in production, you might want to remove this)
             Debug.WriteLine($"Failed to process image transparency: {ex.Message}");
-
-            // If processing fails, return the original image
             return originalImage;
         }
     }
@@ -336,25 +324,21 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
     {
         try
         {
-            // Get the current theme from the form's palette
             var palette = _form.GetResolvedPalette();
             if (palette != null)
             {
-                // Detect theme based on palette characteristics
-                // This is a simplified detection - you can enhance this logic
                 var headerColor = palette.GetBackColor1(PaletteBackStyle.HeaderForm, PaletteState.Normal);
 
-                // Determine theme based on header color characteristics
                 return headerColor switch
                 {
-                    var color when IsLightColor(color) => "Office2013",        // typically white/light gray
-                    var color when IsBlueTone(color) => "Office2010",          // typically blue tones
-                    var color when IsDarkBlueTone(color) => "Office2007",      // typically darker blue
-                    var color when IsVibrantColor(color) => "Sparkle",         // typically vibrant colors
-                    var color when IsNeutralTone(color) => "Professional",     // typically neutral tones
-                    var color when IsModernColor(color) => "Microsoft365",     // typically modern colors
-                    var color when IsClassicColor(color) => "Office2003",      // typically classic Windows colors
-                    _ => "Office2013" // default fallback
+                    var color when IsLightColor(color) => "Office2013",
+                    var color when IsBlueTone(color) => "Office2010",
+                    var color when IsDarkBlueTone(color) => "Office2007",
+                    var color when IsVibrantColor(color) => "Sparkle",
+                    var color when IsNeutralTone(color) => "Professional",
+                    var color when IsModernColor(color) => "Microsoft365",
+                    var color when IsClassicColor(color) => "Office2003",
+                    _ => "Office2013"
                 };
             }
         }
@@ -363,7 +347,7 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
             // Fallback to default theme
         }
 
-        return "Office2013"; // Default theme
+        return "Office2013";
     }
 
     /// <summary>
@@ -636,7 +620,7 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
     {
         try
         {
-            const int iconSize = 16; // Standard system menu icon size
+            const int iconSize = 16;
             var bitmap = new Bitmap(iconSize, iconSize);
 
             using (var graphics = Graphics.FromImage(bitmap))
@@ -644,7 +628,6 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
                 graphics.SmoothingMode = SmoothingMode.AntiAlias;
                 graphics.Clear(Color.Transparent);
 
-                // Get theme-appropriate colors
                 var foregroundColor = GetThemeForegroundColor();
                 var backgroundColor = GetThemeBackgroundColor();
 
@@ -669,7 +652,6 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
         }
         catch
         {
-            // If icon generation fails, return null (no icon)
             return null;
         }
     }
@@ -727,7 +709,6 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
     {
         try
         {
-            // Refresh icons for standard menu items using direct field references
             if (_menuItemRestore != null)
             {
                 _menuItemRestore.Image = GetSystemMenuIcon(SystemMenuIconType.Restore);
@@ -747,8 +728,6 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
             {
                 _menuItemClose.Image = GetSystemMenuIcon(SystemMenuIconType.Close);
             }
-
-            // Move and Size items don't typically have icons in Windows, so no need to refresh them
         }
         catch
         {
@@ -788,17 +767,16 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
     {
         string themeName = themeType switch
         {
-            ThemeType.Black => "Office2013", // Black theme uses Office 2013 icons
-            ThemeType.Blue => "Office2010",  // Blue theme uses Office 2010 icons
-            ThemeType.Silver => "Office2013", // Silver theme uses Office 2013 icons
-            ThemeType.DarkBlue => "Office2010", // Dark Blue theme uses Office 2010 icons
-            ThemeType.LightBlue => "Office2010", // Light Blue theme uses Office 2010 icons
-            ThemeType.WarmSilver => "Office2013", // Warm Silver theme uses Office 2013 icons
-            ThemeType.ClassicSilver => "Office2007", // Classic Silver theme uses Office 2007 icons
-            _ => "Office2013" // Default to Office 2013
+            ThemeType.Black => "Office2013",
+            ThemeType.Blue => "Office2010",
+            ThemeType.Silver => "Office2013",
+            ThemeType.DarkBlue => "Office2010",
+            ThemeType.LightBlue => "Office2010",
+            ThemeType.WarmSilver => "Office2013",
+            ThemeType.ClassicSilver => "Office2007",
+            _ => "Office2013"
         };
 
-        // Set the icon theme and refresh
         SetIconTheme(themeName);
     }
 
@@ -924,18 +902,13 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
     {
         try
         {
-            // Clear existing items
             _contextMenu.Items.Clear();
-
-            // Create standard system menu items
             CreateBasicMenuItems();
         }
         catch (Exception ex)
         {
-            // Log the error and ensure we have at least a basic menu
             Debug.WriteLine($"Error building system menu: {ex.Message}");
             
-            // Ensure we have a basic menu even if there's an error
             if (_contextMenu.Items.Count == 0)
             {
                 CreateBasicMenuItems();
@@ -945,8 +918,6 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
 
     private void CreateBasicMenuItems()
     {
-        // Create comprehensive system menu items matching the native Windows system menu
-        // Only add restore item if window is not in normal state and either minimize or maximize is enabled
         if (_form.WindowState != FormWindowState.Normal && (_form.MinimizeBox || _form.MaximizeBox))
         {
             _menuItemRestore = new KryptonContextMenuItem(KryptonManager.Strings.SystemMenuStrings.Restore);
@@ -955,45 +926,37 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
             _contextMenu.Items.Add(_menuItemRestore);
         }
 
-        // Only add move and size items if the window is resizable
         if (_form.FormBorderStyle != FormBorderStyle.FixedSingle && _form.FormBorderStyle != FormBorderStyle.Fixed3D && _form.FormBorderStyle != FormBorderStyle.FixedDialog)
         {
             _menuItemMove = new KryptonContextMenuItem(KryptonManager.Strings.SystemMenuStrings.Move);
-            // Move doesn't typically have an icon in Windows
             _menuItemMove.Click += (sender, e) => ExecuteMove();
             _contextMenu.Items.Add(_menuItemMove);
 
             _menuItemSize = new KryptonContextMenuItem(KryptonManager.Strings.SystemMenuStrings.Size);
-            // Size doesn't typically have an icon in Windows
             _menuItemSize.Click += (sender, e) => ExecuteSize();
             _contextMenu.Items.Add(_menuItemSize);
         }
 
-        // Only add separator if we have items before it and either minimize or maximize is enabled
         if (_contextMenu.Items.Count > 0 && (_form.MinimizeBox || _form.MaximizeBox))
         {
             _contextMenu.Items.Add(new KryptonContextMenuSeparator());
         }
 
-        // Always add minimize item, but it will be enabled/disabled based on MinimizeBox property and window state
         _menuItemMinimize = new KryptonContextMenuItem(KryptonManager.Strings.SystemMenuStrings.Minimize);
         _menuItemMinimize.Image = GetSystemMenuIcon(SystemMenuIconType.Minimize);
         _menuItemMinimize.Click += OnMinimizeItemOnClick;
         _contextMenu.Items.Add(_menuItemMinimize);
 
-        // Always add maximize item, but it will be enabled/disabled based on MaximizeBox property and window state
         _menuItemMaximize = new KryptonContextMenuItem(KryptonManager.Strings.SystemMenuStrings.Maximize);
         _menuItemMaximize.Image = GetSystemMenuIcon(SystemMenuIconType.Maximize);
         _menuItemMaximize.Click += OnMaximizeItemOnClick;
         _contextMenu.Items.Add(_menuItemMaximize);
 
-        // Only add separator if we have items before it
         if (_contextMenu.Items.Count > 0)
         {
             _contextMenu.Items.Add(new KryptonContextMenuSeparator());
         }
 
-        // Only add close item if ControlBox is enabled
         if (_form.ControlBox)
         {
             _menuItemClose = new KryptonContextMenuItem($"{KryptonManager.Strings.SystemMenuStrings.Close}\tAlt+F4");
@@ -1002,7 +965,6 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
             _contextMenu.Items.Add(_menuItemClose);
         }
 
-        // Update the menu items state to enable/disable items based on form properties and current state
         UpdateMenuItemsState();
     }
 
@@ -1029,13 +991,11 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
             }
             else
             {
-                // Fallback to system command if direct property change doesn't work
                 SendSysCommand(PI.SC_.RESTORE);
             }
         }
         catch
         {
-            // Fallback to system command
             SendSysCommand(PI.SC_.RESTORE);
         }
     }
@@ -1047,12 +1007,10 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
     {
         try
         {
-            // For Move, we need to use the system command as it's a special Windows behavior
             SendSysCommand(PI.SC_.MOVE);
         }
         catch
         {
-            // Fallback to system command
             SendSysCommand(PI.SC_.MOVE);
         }
     }
@@ -1064,12 +1022,10 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
     {
         try
         {
-            // For Size, we need to use the system command as it's a special Windows behavior
             SendSysCommand(PI.SC_.SIZE);
         }
         catch
         {
-            // Fallback to system command
             SendSysCommand(PI.SC_.SIZE);
         }
     }
@@ -1087,13 +1043,11 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
             }
             else
             {
-                // Fallback to system command if direct property change doesn't work
                 SendSysCommand(PI.SC_.MINIMIZE);
             }
         }
         catch
         {
-            // Fallback to system command
             SendSysCommand(PI.SC_.MINIMIZE);
         }
     }
@@ -1111,13 +1065,11 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
             }
             else
             {
-                // Fallback to system command if direct property change doesn't work
                 SendSysCommand(PI.SC_.MAXIMIZE);
             }
         }
         catch
         {
-            // Fallback to system command
             SendSysCommand(PI.SC_.MAXIMIZE);
         }
     }
@@ -1129,12 +1081,10 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
     {
         try
         {
-            // Use the KryptonForm's close mechanism
             _form.Close();
         }
         catch
         {
-            // Fallback to system command if close fails
             SendSysCommand(PI.SC_.CLOSE);
         }
     }
@@ -1143,11 +1093,8 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
 
     private void SendSysCommand(PI.SC_ command)
     {
-        // Convert screen position to LPARAM format of WM_SYSCOMMAND message
         var screenPos = Control.MousePosition;
         var lParam = (IntPtr)(PI.MAKELOWORD(screenPos.X) | PI.MAKEHIWORD(screenPos.Y));
-
-        // Send the system command using KryptonForm's method
         _form.SendSysCommand(command, lParam);
     }
 
@@ -1158,26 +1105,20 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
     /// <returns>The adjusted screen location.</returns>
     private Point AdjustMenuPosition(Point originalLocation)
     {
-        // Get the screen bounds
         var screenBounds = Screen.FromControl(_form).Bounds;
-
-        // Estimate menu size (this is approximate)
         var estimatedMenuWidth = 200;
-        var estimatedMenuHeight = _contextMenu.Items.Count * 25; // Approximate height per item
+        var estimatedMenuHeight = _contextMenu.Items.Count * 25;
 
-        // Check if menu would go off the right edge
         if (originalLocation.X + estimatedMenuWidth > screenBounds.Right)
         {
             originalLocation.X = screenBounds.Right - estimatedMenuWidth;
         }
 
-        // Check if menu would go off the bottom edge
         if (originalLocation.Y + estimatedMenuHeight > screenBounds.Bottom)
         {
             originalLocation.Y = screenBounds.Bottom - estimatedMenuHeight;
         }
 
-        // Ensure menu doesn't go off the left or top edges
         if (originalLocation.X < screenBounds.Left)
         {
             originalLocation.X = screenBounds.Left;
@@ -1201,7 +1142,6 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
     /// <returns>True if the color is light.</returns>
     private bool IsLightColor(Color color)
     {
-        // Calculate perceived brightness
         var brightness = (0.299 * color.R + 0.587 * color.G + 0.114 * color.B) / 255;
         return brightness > 0.6;
     }
@@ -1255,7 +1195,6 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
     /// <returns>True if the color is modern.</returns>
     private bool IsModernColor(Color color)
     {
-        // Modern colors often have balanced RGB values with slight blue tint
         return Math.Abs(color.R - color.G) < 30 && color.B > Math.Max(color.R, color.G);
     }
 
@@ -1266,7 +1205,6 @@ public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
     /// <returns>True if the color is classic.</returns>
     private bool IsClassicColor(Color color)
     {
-        // Classic Windows colors are often grayish
         var grayish = Math.Abs(color.R - color.G) < 20 && Math.Abs(color.G - color.B) < 20;
         return grayish && color.R < 200;
     }
