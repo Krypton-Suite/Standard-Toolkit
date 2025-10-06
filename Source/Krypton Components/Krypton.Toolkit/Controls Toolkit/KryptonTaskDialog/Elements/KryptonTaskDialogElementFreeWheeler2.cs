@@ -55,7 +55,7 @@ public class KryptonTaskDialogElementFreeWheeler2 : KryptonTaskDialogElementSing
 
     #region Public
     /// <summary>
-    /// The internal FlowLayoutPanel to add your controls to.
+    /// The internal TableLayoutPanel to add your controls to.
     /// </summary>
     public TableLayoutPanel TableLayoutPanel => _tlpExposed;
 
