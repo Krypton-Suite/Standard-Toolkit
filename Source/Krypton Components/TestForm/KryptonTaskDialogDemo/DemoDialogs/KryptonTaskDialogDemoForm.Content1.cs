@@ -24,10 +24,8 @@ namespace TestForm
             taskDialog.Content.ContentImage.Visible = true;
             taskDialog.Content.ContentImage.PositionedLeft = true;
             taskDialog.Content.Visible = true;
-
             taskDialog.Content.Text = text;
 
-            propGridKtd.SelectedObject = taskDialog;
             taskDialog.Show(this);
         }
     }

@@ -49,17 +49,6 @@ public partial class KryptonTaskDialogDemoForm
         taskDialog.FreeWheeler2.TableLayoutPanel.Visible = true;
         taskDialog.FreeWheeler2.TableLayoutPanel.Controls.Add(kdgv);
 
-        taskDialog.FreeWheeler2.SizeChanged += () => FreeWheeler_SizeChanged(taskDialog, dialogWidth, kdgv);
-       
         taskDialog.Show(this);
-        //FreeWheeler_SizeChanged(taskDialog, _dialogWidth, kdgv);
-    }
-
-    private void FreeWheeler_SizeChanged(KryptonTaskDialog taskDialog, int dialogWidth, KryptonDataGridView kdgv)
-    {
-        //kdgv.Width = _dialogWidth - 20;
-        //kdgv.Left = 0;
-        //kdgv.Top = 0;
-        //kdgv.Height = taskDialog.FreeWheeler2.ElementHeight - 20;
     }
 }

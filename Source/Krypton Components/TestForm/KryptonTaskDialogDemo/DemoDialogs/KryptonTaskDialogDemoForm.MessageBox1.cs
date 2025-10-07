@@ -23,7 +23,6 @@ public partial class KryptonTaskDialogDemoForm
         taskDialog.Dialog.Form.ControlBox = true;
         taskDialog.Dialog.Form.CloseBox   = false;
         taskDialog.Dialog.Form.Text       = string.Empty;
-        taskDialog.Dialog.Form.Text       = string.Empty;
 
         taskDialog.Heading.IconType = KryptonTaskDialogIconType.ShieldWarning;
         taskDialog.Heading.Text     = message;
