@@ -12,7 +12,7 @@ namespace Krypton.Toolkit;
 /// <summary>
 /// Provides a themed system menu that replaces the native Windows system menu with a KryptonContextMenu.
 /// </summary>
-public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
+internal class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
 {
     #region Instance Fields
     private readonly KryptonForm _form;

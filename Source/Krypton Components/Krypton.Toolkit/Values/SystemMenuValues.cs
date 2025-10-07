@@ -14,7 +14,7 @@ namespace Krypton.Toolkit;
 /// </summary>
 [ToolboxItem(false)]
 [DesignerCategory(@"code")]
-public class SystemMenuValues : Storage, INotifyPropertyChanged
+internal class SystemMenuValues : Storage, INotifyPropertyChanged
 {
     #region Static Fields
     private const bool DEFAULT_ENABLED = true;
