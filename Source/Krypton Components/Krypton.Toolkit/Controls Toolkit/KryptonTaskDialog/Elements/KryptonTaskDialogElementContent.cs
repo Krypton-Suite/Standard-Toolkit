@@ -113,10 +113,6 @@ public partial class KryptonTaskDialogElementContent : KryptonTaskDialogElementB
 
                 _pictureBox.Image = new Bitmap(ContentImage.Image, _pictureBox.Size);
             }
-            else
-            {
-                ContentImage.Visible = false;
-            }
         }
         else if (property == ContentImageStorageProperties.Visible)
         {
@@ -150,7 +146,7 @@ public partial class KryptonTaskDialogElementContent : KryptonTaskDialogElementB
                 ?? Palette.GetContentShortTextFont(PaletteContentStyle.LabelNormalControl, PaletteState.Normal)
                 ?? KryptonManager.CurrentGlobalPalette.BaseFont;
 
-            _textBox.Width = _pictureBox.Visible
+            _textBox.Width = _pictureBox.GetDesiredVisibility()
                 ? _tlp.MaximumSize.Width - _pictureBox.Width - _pictureBox.Margin.Horizontal
                 : _tlp.MaximumSize.Width;
 
