@@ -7,8 +7,6 @@
  */
 #endregion
 
-using System.Diagnostics;
-
 namespace TestForm;
 
 public partial class KryptonTaskDialogDemoForm : KryptonForm
