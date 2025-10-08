@@ -113,7 +113,7 @@ public class KryptonForm : VisualForm,
     private Rectangle _lastGripClientRect = Rectangle.Empty;
     private Rectangle _lastGripWindowRect = Rectangle.Empty;
     private Timer? _clickTimer;
-    private KryptonSystemMenu? _kryptonFormSystemMenu;
+    private KryptonSystemMenu? _kryptonSystemMenu;
     #endregion
 
     #region Identity
@@ -235,7 +235,7 @@ public class KryptonForm : VisualForm,
         // END #1979 Temporary fix
 
         // Init only here. Must instantiate in OnHandleCreated
-        _kryptonFormSystemMenu = null;
+        _kryptonSystemMenu = null;
     }
 
     private float GetDpiFactor() => DeviceDpi / 96F;
@@ -1705,7 +1705,7 @@ public class KryptonForm : VisualForm,
         // At runtime only, hookup the system menu.
         if (!DesignMode)
         {
-            _kryptonFormSystemMenu = new(this, _drawHeading);
+            _kryptonSystemMenu = new(this, _drawHeading);
         }
 
         // Ensure Material defaults are applied as early as possible for new forms
