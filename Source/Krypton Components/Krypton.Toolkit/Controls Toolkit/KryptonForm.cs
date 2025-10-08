@@ -112,10 +112,7 @@ public class KryptonForm : VisualForm,
     private const int NON_CLIENT_REGION_INSET = 4;
     private Rectangle _lastGripClientRect = Rectangle.Empty;
     private Rectangle _lastGripWindowRect = Rectangle.Empty;
-    private readonly KryptonSystemMenuService? _systemMenuService;
-    private SystemMenuValues _systemMenuValues;
     private Timer? _clickTimer;
-    private Point _lastClickPoint;
 
     #endregion
 
@@ -208,46 +205,6 @@ public class KryptonForm : VisualForm,
             [PaletteMetricPadding.HeaderButtonPaddingForm],
             CreateToolStripRenderer,
             OnNeedPaint);
-
-        // CRITICAL: Only create system menu service if NOT in design mode
-        // This prevents system menu interference with Visual Studio designer operations
-        // Uses LicenseManager.UsageMode for reliable design-time detection during constructor
-        if (LicenseManager.UsageMode != LicenseUsageMode.Designtime)
-        {
-            // RUNTIME MODE: Create full system menu functionality
-            _systemMenuService = new KryptonSystemMenuService(this);
-            
-            // Only create SystemMenuValues if it doesn't already exist (i.e., not set by designer)
-            if (_systemMenuValues == null)
-            {
-                _systemMenuValues = new SystemMenuValues(OnNeedPaint);
-            }
-
-            // Assign the service to the base class
-            SystemMenuService = _systemMenuService;
-
-            // Synchronize the values with the themed system menu service
-            //_systemMenuService.ShowSystemMenuOnLeftClick = _systemMenuValues.ShowOnLeftClick;
-            _systemMenuService.ShowSystemMenuOnRightClick = _systemMenuValues.ShowOnRightClick;
-            _systemMenuService.ShowSystemMenuOnAltSpace = _systemMenuValues.ShowOnAltSpace;
-            // Note: ShowOnIconClick is handled separately in click event handlers
-        }
-        else
-        {
-            // DESIGN MODE: Create minimal system menu values without the service
-            // This provides property storage for designer serialization without functionality
-            // that would interfere with Visual Studio designer operations
-            if (_systemMenuValues == null)
-            {
-                _systemMenuValues = new SystemMenuValues(OnNeedPaint);
-            }
-        }
-
-        // Hook into value changes to keep them synchronized
-        if (_systemMenuValues != null)
-        {
-            _systemMenuValues.PropertyChanged += OnSystemMenuValuesChanged;
-        }
 
         // Initialize administrator mode detection
         _ = GetIsInAdministratorMode();
@@ -505,9 +462,6 @@ public class KryptonForm : VisualForm,
             ButtonSpecMax.Dispose();
             ButtonSpecClose.Dispose();
 
-            // Dispose the system menu service
-            _systemMenuService?.Dispose();
-
             // Dispose the click timer
             _clickTimer?.Dispose();
         }
@@ -731,8 +685,6 @@ public class KryptonForm : VisualForm,
             {
                 base.MinimizeBox = value;
                 _buttonManager.PerformNeedPaint(true);
-                // Refresh the system menu to reflect the new state
-                _systemMenuService?.SystemMenu?.Refresh();
             }
         }
     }
@@ -754,8 +706,6 @@ public class KryptonForm : VisualForm,
             {
                 base.MaximizeBox = value;
                 _buttonManager.PerformNeedPaint(true);
-                // Refresh the system menu to reflect the new state
-                _systemMenuService?.SystemMenu?.Refresh();
             }
         }
     }
@@ -798,8 +748,6 @@ public class KryptonForm : VisualForm,
                 base.FormBorderStyle = value;
                 OnFormBorderStyleChanged();
                 _buttonManager.PerformNeedPaint(true);
-                // Refresh the system menu to reflect the new state
-                _systemMenuService?.SystemMenu?.Refresh();
             }
         }
     }
@@ -1151,109 +1099,10 @@ public class KryptonForm : VisualForm,
     public bool AllowIconDisplay { get; set; }
 
     /// <summary>
-    /// Gets access to the system menu values for configuration.
-    /// </summary>
-    [Category(@"Appearance")]
-    [Description(@"Configuration values for the themed system menu.")]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-    public SystemMenuValues SystemMenuValues
-    {
-        get
-        {
-            // Ensure we always return a valid instance
-            _systemMenuValues ??= new SystemMenuValues(OnNeedPaint);
-            return _systemMenuValues;
-        }
-        set
-        {
-            if (_systemMenuValues != value)
-            {
-                // Unsubscribe from old instance
-                if (_systemMenuValues != null)
-                {
-                    _systemMenuValues.PropertyChanged -= OnSystemMenuValuesChanged;
-                }
-                
-                _systemMenuValues = value;
-                
-                // Subscribe to new instance
-                if (_systemMenuValues != null)
-                {
-                    _systemMenuValues.PropertyChanged += OnSystemMenuValuesChanged;
-                }
-            }
-        }
-    }
-
-    private bool ShouldSerializeSystemMenuValues() => !SystemMenuValues.IsDefault;
-
-    private void ResetSystemMenuValues() => _systemMenuValues.Reset();
-    
-    /// <summary>
     /// Next time a layout occurs the min/max/close buttons need recreating.
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public void RecreateMinMaxCloseButtons() => _recreateButtons = true;
-
-    /// <summary>
-    /// Gets access to the system menu for advanced customization.
-    /// Returns null in design mode to prevent Visual Studio designer interference.
-    /// </summary>
-    /// <remarks>
-    /// <para><strong>IMPORTANT:</strong> This property returns NULL in design mode to prevent designer interference.</para>
-    /// <para>The system menu is only available at runtime to ensure Visual Studio designer
-    /// operations (drag and drop, control placement, form selection) work properly.</para>
-    /// 
-    /// <para><strong>DESIGN MODE:</strong> Returns null (no system menu functionality)</para>
-    /// <para><strong>RUNTIME MODE:</strong> Returns full IKryptonSystemMenu interface for customization</para>
-    /// 
-    /// <para><strong>USAGE PATTERN:</strong></para>
-    /// <code>
-    /// var systemMenu = form.KryptonSystemMenu;
-    /// if (systemMenu != null) // Always check for null!
-    /// {
-    ///     // Custom menu items are not supported in this version
-    ///     systemMenu.Refresh();
-    /// }
-    /// </code>
-    /// </remarks>
-    [Browsable(false)]
-    [EditorBrowsable(EditorBrowsableState.Advanced)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public override IKryptonSystemMenu? KryptonSystemMenu => IsInDesignMode() ? null : _systemMenuService?.SystemMenu;
-
-    /// <summary>
-    /// Robust design mode detection that prevents system menu interference with Visual Studio designer.
-    /// Uses a three-layer detection strategy for reliable design-time vs runtime identification.
-    /// </summary>
-    /// <returns>
-    /// True if running in Visual Studio designer; False if running at application runtime.
-    /// </returns>
-    /// <remarks>
-    /// <para>This method is essential for preventing system menu interference with Visual Studio designer operations.</para>
-    /// 
-    /// <para><strong>Why This Method Exists:</strong></para>
-    /// <para>Without this method, the system menu would interfere with designer drag and drop operations, 
-    /// preventing controls from being dragged from toolbox to form and causing intermittent behavior.</para>
-    /// 
-    /// <para><strong>Detection Strategy (in order of reliability):</strong></para>
-    /// <para>1. LicenseManager.UsageMode (PRIMARY) - Available immediately during constructor execution</para>
-    /// <para>2. Site?.DesignMode (SECONDARY) - Standard .NET approach, available after control is sited</para>
-    /// <para>3. Container Component Check (FALLBACK) - Handles edge cases where direct detection fails</para>
-    /// 
-    /// <para><strong>Performance:</strong> Uses short-circuit evaluation, typical execution ~0.001-0.002ms, 
-    /// zero allocation in 95% of cases.</para>
-    /// 
-    /// <para>If detection fails or is ambiguous, returns False (assumes runtime) to ensure
-    /// application functionality is preserved over designer convenience.</para>
-    /// </remarks>
-    private bool IsInDesignMode() =>
-        // Layer 1: Primary detection - LicenseManager is most reliable and available immediately
-        LicenseManager.UsageMode == LicenseUsageMode.Designtime ||
-        // Layer 2: Secondary detection - Site.DesignMode when available after siting
-        Site?.DesignMode == true ||
-        // Layer 3: Fallback detection - Container component check for edge cases
-        Site?.Container?.Components?.OfType<Control>().Any(c => c.Site?.DesignMode == true) == true;
 
     /// <summary>
     /// Gets access to the ToolTipManager used for displaying tool tips.
@@ -1326,8 +1175,6 @@ public class KryptonForm : VisualForm,
             if (base.ControlBox != value)
             {
                 base.ControlBox = value;
-                // Refresh the system menu to reflect the new state
-                _systemMenuService?.SystemMenu?.Refresh();
             }
         }
     }
@@ -1739,26 +1586,6 @@ public class KryptonForm : VisualForm,
                 return;
             }
         }
-        else if (m.Msg == PI.WM_.NCRBUTTONDOWN)
-        {
-            // Handle right-click in non-client area (title bar and control buttons)
-            // IsInDesignMode() prevents system menu interference with designer right-click operations
-            if (!IsInDesignMode() && ControlBox && _systemMenuValues.Enabled && 
-                _systemMenuValues.ShowOnRightClick && _systemMenuService != null &&
-                _systemMenuService.ShowSystemMenuOnRightClick)
-            {
-                // Get the screen coordinates from the message
-                var screenPoint = new Point(PI.GET_X_LPARAM(m.LParam), PI.GET_Y_LPARAM(m.LParam));
-
-                // Check if the click is in the title bar area (including control buttons)
-                if (IsInTitleBarArea(screenPoint))
-                {
-                    ShowSystemMenu(screenPoint);
-                    m.Result = IntPtr.Zero;
-                    return;
-                }
-            }
-        }
 
         // Let default processing run first
         base.WndProc(ref m);
@@ -1925,14 +1752,8 @@ public class KryptonForm : VisualForm,
     /// <returns>Hit test result indicating what part of window the point is over</returns>
     protected override IntPtr WindowChromeHitTest(Point pt)
     {
-        // DESIGN MODE PROTECTION: Prevent custom hit testing from interfering with designer
-        // IsInDesignMode() ensures proper designer hit testing for drag/drop and selection
-        if (IsInDesignMode())
-        {
-            return base.WindowChromeHitTest(pt);
-        }
-
         Point originalPt = pt;
+
         if (CustomCaptionArea.Contains(pt))
         {
             return new IntPtr(PI.HT.CAPTION);
@@ -1974,13 +1795,6 @@ public class KryptonForm : VisualForm,
                 // Is the mouse over the image area
                 if (_drawContent.ImageRectangle(context).Contains(pt))
                 {
-                    // If system menu is enabled and icon click is enabled, treat as caption
-                    // so our custom OnWM_NCLBUTTONDOWN can handle it
-                    if (_systemMenuValues.Enabled && _systemMenuValues.ShowOnIconClick)
-                    {
-                        return new IntPtr(PI.HT.CAPTION);
-                    }
-                    
                     // Otherwise, let Windows handle it with default system menu
                     return new IntPtr(PI.HT.MENU);
                 }
@@ -2114,12 +1928,6 @@ public class KryptonForm : VisualForm,
     /// <returns>True if the message was processed; otherwise false.</returns>
     protected override bool OnWM_NCLBUTTONDOWN(ref Message m)
     {
-        // Don't interfere with designer operations
-        if (IsInDesignMode())
-        {
-            return base.OnWM_NCLBUTTONDOWN(ref m);
-        }
-
         using var context = new ViewLayoutContext(this, Renderer);
         // Discover if the form icon is being Displayed
         if (_drawContent.IsImageDisplayed(context))
@@ -2133,14 +1941,14 @@ public class KryptonForm : VisualForm,
             // Check if the mouse is over the Application icon image area
             if (_drawContent.ImageRectangle(context).Contains(windowPoint))
             {
-                // Check if we should show the system menu on icon click
+                /*// Check if we should show the system menu on icon click
                 // Only show system menu if ControlBox is true and system menu service exists
                 if (ControlBox && _systemMenuValues.Enabled && _systemMenuValues.ShowOnIconClick &&
                     _systemMenuService != null)
                 {
                     ShowSystemMenu(screenPoint);
                     return true;
-                }
+                }*/
             }
         }
 
@@ -2170,11 +1978,6 @@ public class KryptonForm : VisualForm,
     protected override void OnMove(EventArgs e)
     {
         base.OnMove(e);
-      
-        if (_clickTimer != null && _clickTimer.Enabled)
-        {
-            StopClickTimer();
-        }
     }
 
     #endregion
@@ -2364,9 +2167,6 @@ public class KryptonForm : VisualForm,
                 {
                     _lastWindowState = GetWindowState();
                     NeedLayout = true;
-
-                    // Refresh the system menu to reflect new state
-                    _systemMenuService?.SystemMenu?.Refresh();
                 }
 
                 // Text can change because of a minimized/maximized MDI child so need
@@ -2860,127 +2660,9 @@ public class KryptonForm : VisualForm,
         return null;
     }
 
-    /// <summary>
-    /// Handles changes to the themed system menu values.
-    /// </summary>
-    /// <param name="sender">Source of the event.</param>
-    /// <param name="e">An EventArgs containing event data.</param>
-    private void OnSystemMenuValuesChanged(object? sender, PropertyChangedEventArgs e)
-    {
-        if (_systemMenuService != null)
-        {
-            switch (e.PropertyName)
-            {
-                case nameof(SystemMenuValues.Enabled):
-                    _systemMenuService.UseSystemMenu = _systemMenuValues.Enabled;
-                    break;
-                /*case nameof(SystemMenuValues.ShowOnLeftClick):
-                    _systemMenuService.ShowSystemMenuOnLeftClick = _systemMenuValues.ShowOnLeftClick;
-                    break;*/
-                case nameof(SystemMenuValues.ShowOnRightClick):
-                    _systemMenuService.ShowSystemMenuOnRightClick = _systemMenuValues.ShowOnRightClick;
-                    break;
-                case nameof(SystemMenuValues.ShowOnAltSpace):
-                    _systemMenuService.ShowSystemMenuOnAltSpace = _systemMenuValues.ShowOnAltSpace;
-                    break;
-                case nameof(SystemMenuValues.ShowOnIconClick):
-                    // Icon click is handled separately in the click event handlers
-                    break;
-            }
-        }
-    }
-
-    /// <summary>
-    /// Starts a timer to distinguish between click and drag operations.
-    /// </summary>
-    /// <param name="clickPoint">The point where the click occurred.</param>
-    private void StartClickTimer(Point clickPoint)
-    {
-        _lastClickPoint = clickPoint;
-
-        // Create and start the timer if it doesn't exist
-        if (_clickTimer == null)
-        {
-            _clickTimer = new Timer
-            {
-                Interval = 200 // 200ms delay to distinguish click from drag
-            };
-            _clickTimer.Tick += OnClickTimerTick;
-        }
-
-        _clickTimer.Start();
-    }
-
-    /// <summary>
-    /// Stops the click timer and cleans up.
-    /// </summary>
-    private void StopClickTimer()
-    {
-        if (_clickTimer != null)
-        {
-            _clickTimer.Stop();
-        }
-    }
-
-    /// <summary>
-    /// Handles the click timer tick event.
-    /// </summary>
-    /// <param name="sender">Source of the event.</param>
-    /// <param name="e">Event arguments.</param>
-    private void OnClickTimerTick(object? sender, EventArgs e) => StopClickTimer();
-
-    /// <summary>
-    /// Override to handle form losing focus, which should cancel the click timer.
-    /// </summary>
-    /// <param name="e">Event arguments.</param>
-    protected override void OnLostFocus(EventArgs e)
-    {
-        base.OnLostFocus(e);
-
-        // Cancel click timer when form loses focus
-        StopClickTimer();
-    }
-
-    /// <summary>
-    /// Override to handle key down events for canceling click timer.
-    /// </summary>
-    /// <param name="e">Key event arguments.</param>
-    protected override void OnKeyDown(KeyEventArgs e)
-    {
-        base.OnKeyDown(e);
-
-        // Cancel click timer on Escape key
-        if (e.KeyCode == Keys.Escape)
-        {
-            StopClickTimer();
-        }
-    }
-
-    /// <summary>
-    /// Override to handle form resize events, which should cancel the click timer.
-    /// </summary>
-    /// <param name="e">Event arguments.</param>
-    protected override void OnResize(EventArgs e)
-    {
-        base.OnResize(e);
-
-        // Cancel click timer when form is being resized
-        StopClickTimer();
-    }
-
     /// <inheritdoc />
     protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
     {
-        // Handle themed system menu keyboard shortcuts
-        // Only handle themed system menu shortcuts if ControlBox is true and not in design mode
-        if (!IsInDesignMode() && ControlBox && _systemMenuValues.Enabled && _systemMenuService != null)
-        {
-            if (_systemMenuService.HandleKeyboardShortcut(keyData))
-            {
-                return true;
-            }
-        }
-
         return base.ProcessCmdKey(ref msg, keyData);
     }
 
@@ -3090,106 +2772,5 @@ public class KryptonForm : VisualForm,
 
         return _isInAdministratorMode;
     }
-    #endregion
-
-    #region System Menu
-
-    /// <summary>
-    /// Determines if the specified screen point is within the title bar area.
-    /// </summary>
-    /// <param name="screenPoint">The screen coordinates to test.</param>
-    /// <returns>True if the point is in the title bar area; otherwise false.</returns>
-    protected override bool IsInTitleBarArea(Point screenPoint)
-    {
-        // Convert screen coordinates to window coordinates
-        var windowPoint = ScreenToWindow(screenPoint);
-
-        // Check if the point is in the title bar area (above the client area)
-        return windowPoint.Y < _drawHeading.ClientRectangle.Height;
-    }
-
-    /// <summary>
-    /// Determines if the specified screen point is over the control buttons (min/max/close).
-    /// </summary>
-    /// <param name="screenPoint">The screen coordinates to test.</param>
-    /// <returns>True if the point is over control buttons; otherwise false.</returns>
-    protected override bool IsOnControlButtons(Point screenPoint)
-    {
-        // Convert screen coordinates to window coordinates
-        var windowPoint = ScreenToWindow(screenPoint);
-
-        // Check if the point is over any of the control buttons
-        return _buttonManager.GetButtonRectangle(ButtonSpecMin).Contains(windowPoint) ||
-               _buttonManager.GetButtonRectangle(ButtonSpecMax).Contains(windowPoint) ||
-               _buttonManager.GetButtonRectangle(ButtonSpecClose).Contains(windowPoint);
-    }
-
-    /// <summary>
-    /// Shows the themed system menu at the specified screen location.
-    /// Protected against designer interference - no-op in design mode.
-    /// </summary>
-    /// <remarks>
-    /// <para><strong>DESIGN MODE PROTECTION:</strong> This method uses IsInDesignMode() to prevent
-    /// system menu from appearing in Visual Studio designer, ensuring designer
-    /// operations work without interference.</para>
-    /// 
-    /// <para><strong>RUNTIME BEHAVIOR:</strong> Shows fully themed system menu with custom items</para>
-    /// <para><strong>DESIGN MODE BEHAVIOR:</strong> No-op (returns immediately without showing menu)</para>
-    /// </remarks>
-    /// <param name="screenLocation">The screen coordinates where the menu should appear.</param>
-    protected override void ShowSystemMenu(Point screenLocation)
-    {
-        // Only show system menu if not in design mode and service exists
-        // IsInDesignMode() prevents designer interference - see method documentation for details
-        if (!IsInDesignMode() && _systemMenuValues.Enabled && _systemMenuService != null)
-        {
-            // Refresh the menu to ensure it reflects current form state
-            _systemMenuService.SystemMenu.Refresh();
-            _systemMenuService.SystemMenu.Show(screenLocation);
-        }
-    }
-
-    /// <summary>
-    /// Shows the themed system menu at the form's top-left position.
-    /// Protected against designer interference - no-op in design mode.
-    /// </summary>
-    /// <remarks>
-    /// <para><strong>DESIGN MODE PROTECTION:</strong> Uses IsInDesignMode() to prevent menu appearance
-    /// in Visual Studio designer, ensuring no interference with designer operations.</para>
-    /// 
-    /// <para><strong>RUNTIME BEHAVIOR:</strong> Shows menu at top-left (Alt+Space behavior)</para>
-    /// <para><strong>DESIGN MODE BEHAVIOR:</strong> No-op (returns immediately)</para>
-    /// </remarks>
-    protected override void ShowSystemMenuAtFormTopLeft()
-    {
-        // Only show system menu if not in design mode and service exists
-        // IsInDesignMode() prevents designer interference - see method documentation for details
-        if (!IsInDesignMode() && _systemMenuValues.Enabled && _systemMenuService != null)
-        {
-            // Refresh the menu to ensure it reflects current form state
-            _systemMenuService.SystemMenu.Refresh();
-            _systemMenuService.SystemMenu.ShowAtFormTopLeft();
-        }
-    }
-
-    /// <summary>
-    /// Handles keyboard shortcuts for the themed system menu.
-    /// </summary>
-    /// <param name="keyData">The key data to process.</param>
-    /// <returns>True if the shortcut was handled; otherwise false.</returns>
-    protected override bool HandleSystemMenuKeyboardShortcut(Keys keyData)
-    {
-        // Only handle themed system menu shortcuts if ControlBox is true and not in design mode
-        if (!IsInDesignMode() && ControlBox && _systemMenuValues.Enabled && _systemMenuService != null)
-        {
-            // Handle Alt+F4 for close
-            if (keyData == (Keys.Alt | Keys.F4))
-            {
-                return _systemMenuService.SystemMenu.HandleKeyboardShortcut(keyData);
-            }
-        }
-        return false;
-    }
-
     #endregion
 }

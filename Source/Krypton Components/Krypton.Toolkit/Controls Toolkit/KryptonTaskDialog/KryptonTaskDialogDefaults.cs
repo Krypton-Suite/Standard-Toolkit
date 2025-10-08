@@ -16,8 +16,8 @@ public record struct KryptonTaskDialogDefaults
         ClientWidth = clientWidth;
         ClientHeight = 600;
         PanelLeft = 10;
-        PanelTop = 5;
-        PanelBottom = 5;
+        PanelTop = 10;
+        PanelBottom = 10;
         PanelRight = 10;
         ComponentSpace = 10;
 

@@ -13,7 +13,7 @@ namespace Krypton.Toolkit;
 /// Service class that manages the system menu functionality for forms.
 /// Implements IDisposable to ensure proper cleanup of resources.
 /// </summary>
-public class KryptonSystemMenuService : IDisposable
+internal class KryptonSystemMenuService : IDisposable
 {
     #region Instance Fields
 

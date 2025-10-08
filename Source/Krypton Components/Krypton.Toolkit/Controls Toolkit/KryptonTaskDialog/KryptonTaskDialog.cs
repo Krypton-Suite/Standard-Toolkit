@@ -40,6 +40,10 @@ public class KryptonTaskDialog : IDisposable
     /// </summary>
     public KryptonTaskDialog(int dialogWidth = 0)
     {
+        if (dialogWidth <= 0)
+        {
+            dialogWidth = 600;
+        }
         _taskDialogDefaults = new(dialogWidth);
 
         // Border-Fixes: filler panel to compensate for the border problems 
@@ -68,13 +72,17 @@ public class KryptonTaskDialog : IDisposable
         // Instantiate the Dialog form properties
         Dialog = new KryptonTaskDialogFormProperties(_form, _elements, _taskDialogDefaults);
 
+        // Default to center screen 
+        Dialog.Form.StartPosition = FormStartPosition.CenterScreen;
+
         // Instantiante all elements
-        Heading            = new KryptonTaskDialogElementHeading(_taskDialogDefaults);
+        Heading = new KryptonTaskDialogElementHeading(_taskDialogDefaults);
         Content            = new KryptonTaskDialogElementContent(_taskDialogDefaults);
         //ContentTest   = new KryptonTaskDialogElementContentTest((_taskDialogDefaults);
         Expander           = new KryptonTaskDialogElementContent(_taskDialogDefaults);
         RichTextBox        = new KryptonTaskDialogElementRichTextBox(_taskDialogDefaults);
-        FreeWheeler        = new KryptonTaskDialogElementFreeWheeler(_taskDialogDefaults);
+        FreeWheeler1       = new KryptonTaskDialogElementFreeWheeler1(_taskDialogDefaults);
+        FreeWheeler2       = new KryptonTaskDialogElementFreeWheeler2(_taskDialogDefaults);
         CommandLinkButtons = new KryptonTaskDialogElementCommandLinkButtons(_taskDialogDefaults);
         CheckBox           = new KryptonTaskDialogElementCheckBox(_taskDialogDefaults);
         HyperLink          = new KryptonTaskDialogElementHyperLink(_taskDialogDefaults);
@@ -90,7 +98,8 @@ public class KryptonTaskDialog : IDisposable
         //_elements.Add(ContentTest);
         _elements.Add(Expander);
         _elements.Add(RichTextBox);
-        _elements.Add(FreeWheeler);
+        _elements.Add(FreeWheeler1);
+        _elements.Add(FreeWheeler2);
 
         //_elements.Add(ElementEmpty);
 
@@ -152,10 +161,19 @@ public class KryptonTaskDialog : IDisposable
     public KryptonTaskDialogElementRichTextBox RichTextBox { get; }
 
     /// <summary>
-    /// The FreeWheeler element exposes only a FlowLayoutPanel (and all it's properties) to which you can add and configure your own set of controls.<br/>
+    /// The FreeWheeler1 element exposes only a FlowLayoutPanel (and all it's properties) to which you can add and configure your own set of controls.<br/>
+    /// Here you can host a choice of controls within KryptonTaskDialog.<br/>
+    /// Note: Some controls do not work well with a FlowLayoutPanel, for those use KryptonTaskDialogElementFreeWheeler2 which exposes TableLayoutPanel.
     /// </summary>
     [TypeConverter(typeof(ExpandableObjectConverter))]
-    public KryptonTaskDialogElementFreeWheeler FreeWheeler { get; }
+    public KryptonTaskDialogElementFreeWheeler1 FreeWheeler1 { get; }
+
+    /// <summary>
+    /// The FreeWheeler2 element exposes only a TableLayoutPanel (and all it's properties) to which you can add and configure your own set of controls.<br/>
+    /// Here you can host a choice of controls within KryptonTaskDialog.<br/>
+    /// </summary>
+    [TypeConverter(typeof(ExpandableObjectConverter))]
+    public KryptonTaskDialogElementFreeWheeler2 FreeWheeler2 { get; }
 
     /// <summary>
     /// Contains the properties for the CommandLinkButtons element.<br/>
@@ -215,17 +233,33 @@ public class KryptonTaskDialog : IDisposable
     /// <param name="owner">The parent window that launched this dialog.</param>
     public void Show(IWin32Window? owner = null)
     {
-        UpdateFormSizing();
-        UpdateFormPosition(owner);
-        ResetFormDialogResult();
-
-        if (owner is not null)
+        if (!Dialog.Visible)
         {
-            _form.Show(owner);
+            UpdateFormSizing();
+            UpdateFormPosition(owner);
+            ResetFormDialogResult();
+
+            if (owner is not null)
+            {
+                _form.Show(owner);
+            }
+            else
+            {
+                _form.Show();
+            }
         }
         else
         {
-            _form.Show();
+            KryptonMessageBox.Show(
+                "The form is already visible and Show() cannot be called again.",
+                "KryptonTaskDialog",
+                KryptonMessageBoxButtons.OK,
+                KryptonMessageBoxIcon.Exclamation);
+
+            if (!_form.TopMost)
+            {
+                _form.BringToFront();
+            }
         }
     }
 
