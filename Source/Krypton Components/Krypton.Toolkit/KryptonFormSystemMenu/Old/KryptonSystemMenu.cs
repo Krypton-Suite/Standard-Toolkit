@@ -12,7 +12,7 @@ namespace Krypton.Toolkit;
 /// <summary>
 /// Provides a themed system menu that replaces the native Windows system menu with a KryptonContextMenu.
 /// </summary>
-internal class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
+internal class KryptonSystemMenu2 : IKryptonSystemMenu, IDisposable
 {
     #region Instance Fields
     private readonly KryptonForm _form;
@@ -33,7 +33,7 @@ internal class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
     /// Initialize a new instance of the KryptonSystemMenu class.
     /// </summary>
     /// <param name="form">The form to attach the themed system menu to.</param>
-    public KryptonSystemMenu(KryptonForm form)
+    public KryptonSystemMenu2(KryptonForm form)
     {
         _form = form ?? throw new ArgumentNullException(nameof(form));
         _contextMenu = new KryptonContextMenu();
@@ -1301,7 +1301,7 @@ internal class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
     /// <summary>
     /// Finalizer for KryptonSystemMenu.
     /// </summary>
-    ~KryptonSystemMenu()
+    ~KryptonSystemMenu2()
     {
         Dispose(false);
     }

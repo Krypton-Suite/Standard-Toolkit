@@ -31,8 +31,8 @@ internal class KryptonSystemMenuService : IDisposable
     /// <param name="form">The form to attach the system menu to.</param>
     public KryptonSystemMenuService(KryptonForm form)
     {
-        _form = form ?? throw new ArgumentNullException(nameof(form));
-        _systemMenu = new KryptonSystemMenu(form);
+        //_form = form ?? throw new ArgumentNullException(nameof(form));
+        //_systemMenu = new KryptonSystemMenu(form);
     }
 
     #endregion
@@ -47,12 +47,12 @@ internal class KryptonSystemMenuService : IDisposable
         get
         {
             ThrowIfDisposed();
-            return _systemMenu.Enabled;
+            return false; //_systemMenu.Enabled;
         }
         set
         {
             ThrowIfDisposed();
-            _systemMenu.Enabled = value;
+            //_systemMenu.Enabled = value;
         }
     }
 
@@ -64,12 +64,12 @@ internal class KryptonSystemMenuService : IDisposable
         get
         {
             ThrowIfDisposed();
-            return _systemMenu.ShowOnLeftClick;
+            return false; //return _systemMenu.ShowOnLeftClick;
         }
         set
         {
             ThrowIfDisposed();
-            _systemMenu.ShowOnLeftClick = value;
+            //_systemMenu.ShowOnLeftClick = value;
         }
     }
 
@@ -81,12 +81,12 @@ internal class KryptonSystemMenuService : IDisposable
         get
         {
             ThrowIfDisposed();
-            return _systemMenu.ShowOnRightClick;
+            return false; ////return _systemMenu.ShowOnRightClick;
         }
         set
         {
             ThrowIfDisposed();
-            _systemMenu.ShowOnRightClick = value;
+            //_systemMenu.ShowOnRightClick = value;
         }
     }
 
@@ -98,12 +98,12 @@ internal class KryptonSystemMenuService : IDisposable
         get
         {
             ThrowIfDisposed();
-            return _systemMenu.ShowOnAltSpace;
+            return false; ////return _systemMenu.ShowOnAltSpace;
         }
         set
         {
             ThrowIfDisposed();
-            _systemMenu.ShowOnAltSpace = value;
+            //_systemMenu.ShowOnAltSpace = value;
         }
     }
 
@@ -131,7 +131,7 @@ internal class KryptonSystemMenuService : IDisposable
     public bool HandleKeyboardShortcut(Keys keyData)
     {
         ThrowIfDisposed();
-        return _systemMenu.HandleKeyboardShortcut(keyData);
+        return false; //return _systemMenu.HandleKeyboardShortcut(keyData);
     }
 
     /// <summary>
@@ -147,7 +147,7 @@ internal class KryptonSystemMenuService : IDisposable
 
         if (UseSystemMenu && ShowSystemMenuOnRightClick && isInTitleBarArea && !isOnControlButtons)
         {
-            _systemMenu.Show(screenPoint);
+            //_systemMenu.Show(screenPoint);
             return true;
         }
 
@@ -167,7 +167,7 @@ internal class KryptonSystemMenuService : IDisposable
 
         if (UseSystemMenu && ShowSystemMenuOnLeftClick && isInTitleBarArea && !isOnControlButtons)
         {
-            _systemMenu.Show(screenPoint);
+            //_systemMenu.Show(screenPoint);
             return true;
         }
 
@@ -180,7 +180,7 @@ internal class KryptonSystemMenuService : IDisposable
     public void Refresh()
     {
         ThrowIfDisposed();
-        _systemMenu.Refresh();
+        //_systemMenu.Refresh();
     }
 
     #endregion
@@ -218,7 +218,7 @@ internal class KryptonSystemMenuService : IDisposable
             if (disposing)
             {
                 // Dispose managed resources
-                _systemMenu?.Dispose();
+                //_systemMenu?.Dispose();
             }
 
             _disposed = true;

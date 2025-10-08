@@ -113,7 +113,7 @@ public class KryptonForm : VisualForm,
     private Rectangle _lastGripClientRect = Rectangle.Empty;
     private Rectangle _lastGripWindowRect = Rectangle.Empty;
     private Timer? _clickTimer;
-
+    private KryptonSystemMenu? _kryptonFormSystemMenu;
     #endregion
 
     #region Identity
@@ -233,6 +233,9 @@ public class KryptonForm : VisualForm,
         // #1979 Temporary fix
         base.PaletteChanged += (s, e) => _internalKryptonPanel.PaletteMode = PaletteMode;
         // END #1979 Temporary fix
+
+        // Init only here. Must instantiate in OnHandleCreated
+        _kryptonFormSystemMenu = null;
     }
 
     private float GetDpiFactor() => DeviceDpi / 96F;
@@ -1655,6 +1658,8 @@ public class KryptonForm : VisualForm,
         base.OnNonClientPaint(hWnd);
     }
 
+
+    // TODO: is stale but is it usable
     private Rectangle GetGripClientRect()
     {
         var dpi = GetDpiFactor();
@@ -1696,6 +1701,12 @@ public class KryptonForm : VisualForm,
 
         // Register with the ActiveFormTracker
         ActiveFormTracker.Attach(this);
+
+        // At runtime only, hookup the system menu.
+        if (!DesignMode)
+        {
+            _kryptonFormSystemMenu = new(this, _drawHeading);
+        }
 
         // Ensure Material defaults are applied as early as possible for new forms
         ApplyMaterialFormChromeDefaultsIfNeeded();
