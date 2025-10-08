@@ -11,24 +11,24 @@
 namespace Krypton.Toolkit
 {
     /// <summary>
-    /// Provides a themed system menu that replaces the native Windows system menu with a KryptonContextMenu.
+    /// Provides a system menu that replaces the native Windows system menu with a KryptonContextMenu.
     /// </summary>
-    [TypeConverter(typeof(KryptonThemedSystemMenuConverter))]
-    public class KryptonThemedSystemMenu : IKryptonThemedSystemMenu, IDisposable
+    [TypeConverter(typeof(KryptonSystemMenuConverter))]
+    public class KryptonSystemMenu : IKryptonSystemMenu, IDisposable
     {
         #region Instance Fields
         private readonly Form _form;
         private readonly KryptonContextMenu _contextMenu;
-        private ThemedSystemMenuItemCollection? _designerMenuItems;
+        private SystemMenuItemCollection? _designerMenuItems;
         private bool _disposed;
         #endregion
 
         #region Identity
         /// <summary>
-        /// Initialize a new instance of the KryptonThemedSystemMenu class.
+        /// Initialize a new instance of the KryptonSystemMenu class.
         /// </summary>
-        /// <param name="form">The form to attach the themed system menu to.</param>
-        public KryptonThemedSystemMenu(Form form)
+        /// <param name="form">The form to attach the system menu to.</param>
+        public KryptonSystemMenu(Form form)
         {
             _form = form ?? throw new ArgumentNullException(nameof(form));
             _contextMenu = new KryptonContextMenu();
@@ -45,7 +45,7 @@ namespace Krypton.Toolkit
 
         #region Public Properties
         /// <summary>
-        /// Gets the themed context menu.
+        /// Gets the context menu.
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -63,7 +63,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public ThemedSystemMenuItemCollection? DesignerMenuItems
+        public SystemMenuItemCollection? DesignerMenuItems
         {
             get => _designerMenuItems;
             set
@@ -77,18 +77,18 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets or sets whether the themed system menu is enabled.
+        /// Gets or sets whether the system menu is enabled.
         /// </summary>
         [Category(@"Behavior")]
-        [Description(@"Enables or disables the themed system menu.")]
+        [Description(@"Enables or disables the system menu.")]
         [DefaultValue(true)]
         public bool Enabled { get; set; } = true;
 
         /// <summary>
-        /// Gets the number of items in the themed system menu.
+        /// Gets the number of items in the system menu.
         /// </summary>
         [Category(@"Appearance")]
-        [Description(@"The number of items currently in the themed system menu.")]
+        [Description(@"The number of items currently in the system menu.")]
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int MenuItemCount
@@ -104,7 +104,7 @@ namespace Krypton.Toolkit
         /// Gets whether the menu has been populated with items.
         /// </summary>
         [Category(@"Appearance")]
-        [Description(@"Indicates whether the themed system menu contains any items.")]
+        [Description(@"Indicates whether the system menu contains any items.")]
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool HasMenuItems
@@ -117,21 +117,21 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets or sets whether left-click on title bar shows the themed system menu.
+        /// Gets or sets whether left-click on title bar shows the system menu.
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool ShowOnLeftClick { get; set; } = true;
 
         /// <summary>
-        /// Gets or sets whether right-click on title bar shows the themed system menu.
+        /// Gets or sets whether right-click on title bar shows the system menu.
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool ShowOnRightClick { get; set; } = true;
 
         /// <summary>
-        /// Gets or sets whether Alt+Space shows the themed system menu.
+        /// Gets or sets whether Alt+Space shows the system menu.
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -149,7 +149,7 @@ namespace Krypton.Toolkit
 
         #region Public Methods
         /// <summary>
-        /// Shows the themed system menu at the specified location.
+        /// Shows the system menu at the specified location.
         /// </summary>
         /// <param name="screenLocation">The screen coordinates where to show the menu.</param>
         public void Show(Point screenLocation)
@@ -164,7 +164,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Shows the themed system menu at the top-left corner of the form.
+        /// Shows the system menu at the top-left corner of the form.
         /// </summary>
         public void ShowAtFormTopLeft()
         {
@@ -289,7 +289,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Adds a separator to the themed system menu.
+        /// Adds a separator to the system menu.
         /// </summary>
         /// <param name="insertBeforeClose">If true, inserts the separator before the Close item; otherwise adds it at the end.</param>
         public void AddSeparator(bool insertBeforeClose = true)
@@ -450,9 +450,6 @@ namespace Krypton.Toolkit
                 var icon = GetThemeIcon(currentTheme, iconType);
                 if (icon != null)
                 {
-                    // Log image information for debugging
-                    LogImageInfo(icon, iconType, currentTheme);
-
                     // Ensure proper transparency handling
                     var processedIcon = ProcessImageForTransparency(icon);
                     if (processedIcon != null)
@@ -508,27 +505,6 @@ namespace Krypton.Toolkit
 
                 // If processing fails, return the original image
                 return originalImage;
-            }
-        }
-
-        /// <summary>
-        /// Logs information about an image for debugging purposes.
-        /// </summary>
-        /// <param name="image">The image to log information about.</param>
-        /// <param name="iconType">The type of icon being processed.</param>
-        /// <param name="theme">The theme being used.</param>
-        private void LogImageInfo(Image image, SystemMenuIconType iconType, string theme)
-        {
-            try
-            {
-                Debug.WriteLine($"Image Info - Type: {iconType}, Theme: {theme}, " +
-                                $"Size: {image.Width}x{image.Height}, " +
-                                $"PixelFormat: {image.PixelFormat}, " +
-                                $"Flags: {image.Flags}");
-            }
-            catch
-            {
-                // Ignore logging errors
             }
         }
 
@@ -639,7 +615,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets Office 2013 themed icons.
+        /// Gets Office 2013 icons.
         /// </summary>
         /// <param name="iconType">The icon type.</param>
         /// <returns>The appropriate icon image or null if not available.</returns>
@@ -672,7 +648,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets Office 2010 themed icons.
+        /// Gets Office 2010 icons.
         /// </summary>
         /// <param name="iconType">The icon type.</param>
         /// <returns>The appropriate icon image or null if not available.</returns>
@@ -704,7 +680,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets Office 2007 themed icons.
+        /// Gets Office 2007 icons.
         /// </summary>
         /// <param name="iconType">The icon type.</param>
         /// <returns>The appropriate icon image or null if not available.</returns>
@@ -736,7 +712,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets Sparkle themed icons.
+        /// Gets Sparkle icons.
         /// </summary>
         /// <param name="iconType">The icon type.</param>
         /// <returns>The appropriate icon image or null if not available.</returns>
@@ -768,7 +744,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets Professional themed icons.
+        /// Gets Professional icons.
         /// </summary>
         /// <param name="iconType">The icon type.</param>
         /// <returns>The appropriate icon image or null if not available.</returns>
@@ -800,7 +776,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets Microsoft 365 themed icons.
+        /// Gets Microsoft 365 icons.
         /// </summary>
         /// <param name="iconType">The icon type.</param>
         /// <returns>The appropriate icon image or null if not available.</returns>
@@ -832,7 +808,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets Office 2003 themed icons.
+        /// Gets Office 2003 icons.
         /// </summary>
         /// <param name="iconType">The icon type.</param>
         /// <returns>The appropriate icon image or null if not available.</returns>
@@ -1606,7 +1582,7 @@ namespace Krypton.Toolkit
         /// Handles clicks on designer-configured menu items.
         /// </summary>
         /// <param name="designerItem">The designer menu item that was clicked.</param>
-        private void OnDesignerMenuItemClick(ThemedSystemMenuItemValues designerItem)
+        private void OnDesignerMenuItemClick(SystemMenuItemValues designerItem)
         {
             // This is a placeholder - in a real implementation, you might want to:
             // 1. Raise a custom event that the form can handle
@@ -1699,7 +1675,7 @@ namespace Krypton.Toolkit
 
         #region IDisposable Implementation
         /// <summary>
-        /// Releases all resources used by the KryptonThemedSystemMenu.
+        /// Releases all resources used by the KryptonSystemMenu.
         /// </summary>
         public void Dispose()
         {
@@ -1708,7 +1684,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Releases the unmanaged resources used by the KryptonThemedSystemMenu and optionally releases the managed resources.
+        /// Releases the unmanaged resources used by the KryptonSystemMenu and optionally releases the managed resources.
         /// </summary>
         /// <param name="disposing">True to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
         protected virtual void Dispose(bool disposing)
@@ -1724,9 +1700,9 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Finalizer for KryptonThemedSystemMenu.
+        /// Finalizer for KryptonSystemMenu.
         /// </summary>
-        ~KryptonThemedSystemMenu()
+        ~KryptonSystemMenu()
         {
             Dispose(false);
         }
@@ -1738,7 +1714,7 @@ namespace Krypton.Toolkit
         {
             if (_disposed)
             {
-                throw new ObjectDisposedException(nameof(KryptonThemedSystemMenu));
+                throw new ObjectDisposedException(nameof(KryptonSystemMenu));
             }
         }
         #endregion

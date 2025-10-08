@@ -2055,6 +2055,8 @@ namespace Krypton.Toolkit
                     return DrawRibbonLinear(context, rect, state, palette, memento);
                 case PaletteRibbonColorStyle.LinearBorder:
                     return DrawRibbonLinearBorder(context, rect, state, palette, memento);
+                case PaletteRibbonColorStyle.LinearBorder2:
+                    return DrawRibbonLinearBorder2(context, rect, state, palette, memento);
                 case PaletteRibbonColorStyle.RibbonAppMenuInner:
                     return DrawRibbonAppMenuInner(context, rect, state, palette, memento);
                 case PaletteRibbonColorStyle.RibbonAppMenuOuter:
@@ -2978,20 +2980,20 @@ namespace Krypton.Toolkit
             // TODO: WagnerP - please provide a better way of doing this for Various themes and dpi's
             if (shape == PaletteRibbonShape.Office2010)
             {
-                context.Graphics.DrawLine(darkPen, displayRect.Left - 1, displayRect.Top, displayRect.Right + 1, displayRect.Top);
-                context.Graphics.DrawLine(lightPen, displayRect.Left - 1, displayRect.Top + 1, displayRect.Right + 1, displayRect.Top + 1);
-            }
-            else
-            {
-                context.Graphics.DrawLine(darkPen, displayRect.Left, displayRect.Top, displayRect.Right, displayRect.Top);
-                context.Graphics.DrawLine(lightPen, displayRect.Left, displayRect.Top + 1, displayRect.Right, displayRect.Top + 1);
-            }
+                context.Graphics.DrawLine(darkPen, displayRect.Left - 1, displayRect.Top, displayRect.Right, displayRect.Top);
+            context.Graphics.DrawLine(lightPen, displayRect.Left - 1, displayRect.Top + 1, displayRect.Right, displayRect.Top + 1);
+        }
+        else
+        {
+            context.Graphics.DrawLine(darkPen, displayRect.Left, displayRect.Top, displayRect.Right - 1 , displayRect.Top);
+            context.Graphics.DrawLine(lightPen, displayRect.Left, displayRect.Top + 1, displayRect.Right - 1, displayRect.Top + 1);
+        }
 
-            context.Graphics.DrawLine(darkPen, displayRect.Left, displayRect.Top + 3, displayRect.Right, displayRect.Top + 3);
-            context.Graphics.DrawLine(darkPen, displayRect.Right - 1, displayRect.Top + 4, displayRect.Left + displayRect.Width / 2, displayRect.Bottom - 4);
-            context.Graphics.DrawLine(darkPen, displayRect.Left + displayRect.Width / 2, displayRect.Bottom - 4, displayRect.Left, displayRect.Top + 3);
-            context.Graphics.DrawLine(lightPen, displayRect.Left + 1, displayRect.Top + 5, displayRect.Left + displayRect.Width / 2 - 1, displayRect.Bottom - 5);
-            context.Graphics.DrawLine(lightPen, displayRect.Left + displayRect.Width / 2 + 1, displayRect.Bottom - 5, displayRect.Right - 1, displayRect.Top + 5);
+        context.Graphics.DrawLine(darkPen, displayRect.Left, displayRect.Top + 3, displayRect.Right -1, displayRect.Top + 3);
+        context.Graphics.DrawLine(darkPen, displayRect.Right - 2, displayRect.Top + 4, displayRect.Left + displayRect.Width / 2, displayRect.Bottom - 5);
+        context.Graphics.DrawLine(darkPen, displayRect.Left + displayRect.Width / 2, displayRect.Bottom - 5, displayRect.Left + 1, displayRect.Top + 4);
+        context.Graphics.DrawLine(lightPen, displayRect.Left + 7, displayRect.Top + 5, displayRect.Left + displayRect.Width / 2, displayRect.Bottom - 4);
+        context.Graphics.DrawLine(lightPen, displayRect.Left + displayRect.Width / 2, displayRect.Bottom - 4, displayRect.Right - 8, displayRect.Top + 5);
         }
 
         /// <summary>
@@ -11742,6 +11744,58 @@ namespace Krypton.Toolkit
                     borderPath.AddLine(rect.Left + 2, rect.Bottom - 1, rect.Left, rect.Bottom - 3);
                     borderPath.AddLine(rect.Left, rect.Bottom - 3, rect.Left, rect.Top + 2);
                     borderPath.AddLine(rect.Left, rect.Top + 2, rect.Left + 2, rect.Top);
+                    cache.BorderPath = borderPath;
+                }
+
+                context.Graphics.DrawPath(cache.LinearPen!, cache.BorderPath!);
+            }
+
+            return memento;
+        }
+
+        /// <summary>
+        /// Internal rendering method.
+        /// </summary>
+        protected virtual IDisposable? DrawRibbonLinearBorder2(RenderContext context,
+                                                             Rectangle rect,
+                                                             PaletteState state,
+                                                             IPaletteRibbonBack palette,
+                                                             IDisposable? memento)
+        {
+            if (rect is { Width: > 0, Height: > 0 })
+            {
+                Color c1 = palette.GetRibbonBackColor1(state);
+                Color c2 = palette.GetRibbonBackColor2(state);
+
+                var generate = true;
+                MementoRibbonLinearBorder cache;
+
+                // Access a cache instance and decide if cache resources need generating
+                if (memento is MementoRibbonLinearBorder border)
+                {
+                    cache = border;
+                    generate = !cache.UseCachedValues(rect, c1, c2);
+                }
+                else
+                {
+                    memento?.Dispose();
+
+                    cache = new MementoRibbonLinearBorder(rect, c1, c2);
+                    memento = cache;
+                }
+
+                // Do we need to generate the contents of the cache?
+                if (generate)
+                {
+                    // Dispose of existing values
+                    cache.Dispose();
+
+                    cache.LinearBrush = new LinearGradientBrush(new RectangleF(rect.X - 1, rect.Y - 1, rect.Width + 2, rect.Height + 1), c1, c2, 90f);
+                    cache.LinearPen = new Pen(cache.LinearBrush);
+
+                    // Create the complete border
+                    var borderPath = new GraphicsPath();
+                    borderPath.AddRectangle(new Rectangle(rect.X, rect.Y, rect.Width, rect.Height - 1));
                     cache.BorderPath = borderPath;
                 }
 

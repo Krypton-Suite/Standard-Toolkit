@@ -10,9 +10,9 @@
 namespace Krypton.Toolkit
 {
     /// <summary>
-    /// Storage for themed system menu value information.
+    /// Storage for system menu value information.
     /// </summary>
-    public class ThemedSystemMenuValues : Storage, INotifyPropertyChanged
+    public class SystemMenuValues : Storage, INotifyPropertyChanged
     {
         #region Static Fields
         private const bool DEFAULT_ENABLED = true;
@@ -33,19 +33,19 @@ namespace Krypton.Toolkit
         #region Instance Fields
         private bool _enabled;
         //private bool _showOnLeftClick;
-        //private bool _useThemedSystemMenu;
+        //private bool _useSystemMenu;
         private bool _showOnRightClick;
         private bool _showOnAltSpace;
         private bool _showOnIconClick;
-        private ThemedSystemMenuItemCollection? _customMenuItems;
+        private SystemMenuItemCollection? _customMenuItems;
         #endregion
 
         #region Identity
         /// <summary>
-        /// Initialize a new instance of the ThemedSystemMenuValues class.
+        /// Initialize a new instance of the SystemMenuValues class.
         /// </summary>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ThemedSystemMenuValues(NeedPaintHandler needPaint)
+        public SystemMenuValues(NeedPaintHandler needPaint)
         {
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
@@ -53,13 +53,13 @@ namespace Krypton.Toolkit
             // Set initial values
             _enabled = DEFAULT_ENABLED;
             //_showOnLeftClick = DEFAULT_SHOW_ON_LEFT_CLICK;
-            //_useThemedSystemMenu = DEFAULT_USE_THEMED_SYSTEM_MENU;
+            //_useSystemMenu = DEFAULT_USE_THEMED_SYSTEM_MENU;
             _showOnRightClick = DEFAULT_SHOW_ON_RIGHT_CLICK;
             _showOnAltSpace = DEFAULT_SHOW_ON_ALT_SPACE;
             _showOnIconClick = DEFAULT_SHOW_ON_ICON_CLICK;
 
             // Initialize custom menu items collection
-            _customMenuItems = new ThemedSystemMenuItemCollection();
+            _customMenuItems = new SystemMenuItemCollection();
             _customMenuItems.CollectionChanged += OnCustomMenuItemsChanged;
         }
         #endregion
@@ -72,7 +72,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => (Enabled == DEFAULT_ENABLED) &&
                                           //(ShowOnLeftClick == DEFAULT_SHOW_ON_LEFT_CLICK) &&
-                                          //(UseThemedSystemMenu == DEFAULT_USE_THEMED_SYSTEM_MENU) &&
+                                          //(UseSystemMenu == DEFAULT_USE_THEMED_SYSTEM_MENU) &&
                                           (ShowOnRightClick == DEFAULT_SHOW_ON_RIGHT_CLICK) &&
                                           (ShowOnAltSpace == DEFAULT_SHOW_ON_ALT_SPACE) &&
                                           (ShowOnIconClick == DEFAULT_SHOW_ON_ICON_CLICK) &&
@@ -81,10 +81,10 @@ namespace Krypton.Toolkit
 
         #region Enabled
         /// <summary>
-        /// Gets and sets whether the themed system menu is enabled.
+        /// Gets and sets whether the system menu is enabled.
         /// </summary>
         [Category(@"Behavior")]
-        [Description(@"Enables or disables the themed system menu.")]
+        [Description(@"Enables or disables the system menu.")]
         [DefaultValue(DEFAULT_ENABLED)]
         public bool Enabled
         {
@@ -111,10 +111,10 @@ namespace Krypton.Toolkit
 
         #region ShowOnLeftClick
         /*/// <summary>
-        /// Gets and sets whether left-click on title bar shows the themed system menu.
+        /// Gets and sets whether left-click on title bar shows the system menu.
         /// </summary>
         [Category(@"Behavior")]
-        [Description(@"Determines if left-click on title bar shows the themed system menu.")]
+        [Description(@"Determines if left-click on title bar shows the system menu.")]
         [DefaultValue(DEFAULT_SHOW_ON_LEFT_CLICK)]
         public bool ShowOnLeftClick
         {
@@ -139,43 +139,43 @@ namespace Krypton.Toolkit
         public void ResetShowOnLeftClick() => ShowOnLeftClick = DEFAULT_SHOW_ON_LEFT_CLICK;*/
         #endregion
 
-        #region UseThemedSystemMenu
+        #region UseSystemMenu
 
         /*/// <summary>
-        /// Gets and sets whether to use the themed system menu instead of the default system menu.
+        /// Gets and sets whether to use the system menu instead of the default system menu.
         /// </summary>
         [Category(@"Behavior")]
-        [Description(@"Determines if the themed system menu is used instead of the default system menu.")]
+        [Description(@"Determines if the system menu is used instead of the default system menu.")]
         [DefaultValue(DEFAULT_USE_THEMED_SYSTEM_MENU)]
-        public bool UseThemedSystemMenu
+        public bool UseSystemMenu
         {
-            get => _useThemedSystemMenu;
+            get => _useSystemMenu;
             set
             {
-                if (_useThemedSystemMenu != value)
+                if (_useSystemMenu != value)
                 {
-                    _useThemedSystemMenu = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UseThemedSystemMenu)));
+                    _useSystemMenu = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UseSystemMenu)));
                     PerformNeedPaint(true);
                 }
             }
         }
 
-        private bool ShouldSerializeUseThemedSystemMenu() => UseThemedSystemMenu != DEFAULT_USE_THEMED_SYSTEM_MENU;
+        private bool ShouldSerializeUseSystemMenu() => UseSystemMenu != DEFAULT_USE_THEMED_SYSTEM_MENU;
 
         /// <summary>
-        /// Resets the UseThemedSystemMenu property to its default value.
+        /// Resets the UseSystemMenu property to its default value.
         /// </summary>
-        public void ResetUseThemedSystemMenu() => UseThemedSystemMenu = DEFAULT_USE_THEMED_SYSTEM_MENU;*/
+        public void ResetUseSystemMenu() => UseSystemMenu = DEFAULT_USE_THEMED_SYSTEM_MENU;*/
 
         #endregion
 
         #region ShowOnRightClick
         /// <summary>
-        /// Gets and sets whether right-click on title bar shows the themed system menu.
+        /// Gets and sets whether right-click on title bar shows the system menu.
         /// </summary>
         [Category(@"Behavior")]
-        [Description(@"Determines if right-click on title bar shows the themed system menu.")]
+        [Description(@"Determines if right-click on title bar shows the system menu.")]
         [DefaultValue(DEFAULT_SHOW_ON_RIGHT_CLICK)]
         public bool ShowOnRightClick
         {
@@ -202,10 +202,10 @@ namespace Krypton.Toolkit
 
         #region ShowOnAltSpace
         /// <summary>
-        /// Gets and sets whether Alt+Space shows the themed system menu.
+        /// Gets and sets whether Alt+Space shows the system menu.
         /// </summary>
         [Category(@"Behavior")]
-        [Description(@"Determines if Alt+Space shows the themed system menu.")]
+        [Description(@"Determines if Alt+Space shows the system menu.")]
         [DefaultValue(DEFAULT_SHOW_ON_ALT_SPACE)]
         public bool ShowOnAltSpace
         {
@@ -233,10 +233,10 @@ namespace Krypton.Toolkit
 
         #region ShowOnIconClick
         /// <summary>
-        /// Gets and sets whether left-click on title bar icon shows the themed system menu.
+        /// Gets and sets whether left-click on title bar icon shows the system menu.
         /// </summary>
         [Category(@"Behavior")]
-        [Description(@"Determines if left-click on title bar icon shows the themed system menu.")]
+        [Description(@"Determines if left-click on title bar icon shows the system menu.")]
         [DefaultValue(DEFAULT_SHOW_ON_ICON_CLICK)]
         public bool ShowOnIconClick
         {
@@ -264,15 +264,15 @@ namespace Krypton.Toolkit
 
         #region CustomMenuItems
         /// <summary>
-        /// Gets the collection of custom menu items for the themed system menu.
+        /// Gets the collection of custom menu items for the system menu.
         /// </summary>
         [Category(@"Menu Items")]
-        [Description(@"Custom menu items to display in the themed system menu.")]
+        [Description(@"Custom menu items to display in the system menu.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        [Editor(typeof(ThemedSystemMenuItemsEditor), typeof(UITypeEditor))]
-        public ThemedSystemMenuItemCollection CustomMenuItems
+        [Editor(typeof(SystemMenuItemsEditor), typeof(UITypeEditor))]
+        public SystemMenuItemCollection CustomMenuItems
         {
-            get => _customMenuItems ??= new ThemedSystemMenuItemCollection();
+            get => _customMenuItems ??= new SystemMenuItemCollection();
             set
             {
                 if (_customMenuItems != value)
@@ -331,7 +331,7 @@ namespace Krypton.Toolkit
         {
             ResetEnabled();
             //ResetShowOnLeftClick();
-            //ResetUseThemedSystemMenu();
+            //ResetUseSystemMenu();
             ResetShowOnRightClick();
             ResetShowOnAltSpace();
             ResetShowOnIconClick();

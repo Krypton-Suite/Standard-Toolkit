@@ -102,8 +102,8 @@ namespace Krypton.Toolkit
         private bool _mdiTransferred;
         private Control? _activeControl;
         private KryptonFormTitleStyle _titleStyle;
-        private readonly KryptonThemedSystemMenuService? _themedSystemMenuService;
-        private ThemedSystemMenuValues _themedSystemMenuValues;
+        private readonly KryptonSystemMenuService? _systemMenuService;
+        private SystemMenuValues _systemMenuValues;
         private Timer? _clickTimer;
         private Point _lastClickPoint;
 
@@ -184,22 +184,22 @@ namespace Krypton.Toolkit
                                                        CreateToolStripRenderer,
                                                        OnNeedPaint);
 
-            _themedSystemMenuService = new KryptonThemedSystemMenuService(this);
-            _themedSystemMenuValues = new ThemedSystemMenuValues(OnNeedPaint);
+            _systemMenuService = new KryptonSystemMenuService(this);
+            _systemMenuValues = new SystemMenuValues(OnNeedPaint);
 
             // Assign the service to the base class
-            SystemMenuService = _themedSystemMenuService;
+            SystemMenuService = _systemMenuService;
 
-            // Synchronize the values with the themed system menu service
-            _themedSystemMenuService.ShowThemedSystemMenuOnRightClick = _themedSystemMenuValues.ShowOnRightClick;
-            _themedSystemMenuService.ShowThemedSystemMenuOnAltSpace = _themedSystemMenuValues.ShowOnAltSpace;
+            // Synchronize the values with the system menu service
+            _systemMenuService.ShowSystemMenuOnRightClick = _systemMenuValues.ShowOnRightClick;
+            _systemMenuService.ShowSystemMenuOnAltSpace = _systemMenuValues.ShowOnAltSpace;
             // Note: ShowOnIconClick is handled separately in click event handlers
 
             // Connect designer menu items
-            _themedSystemMenuService.ThemedSystemMenu.DesignerMenuItems = _themedSystemMenuValues.CustomMenuItems;
+            _systemMenuService.SystemMenu.DesignerMenuItems = _systemMenuValues.CustomMenuItems;
 
             // Hook into value changes to keep them synchronized
-            _themedSystemMenuValues.PropertyChanged += OnThemedSystemMenuValuesChanged;
+            _systemMenuValues.PropertyChanged += OnSystemMenuValuesChanged;
 
             // Create the manager for handling tooltips
             ToolTipManager = new ToolTipManager(new ToolTipValues(null, GetDpiFactor)); // use default, as each button "could" have different values ??!!??
@@ -261,8 +261,8 @@ namespace Krypton.Toolkit
                 ButtonSpecMax.Dispose();
                 ButtonSpecClose.Dispose();
 
-                // Dispose the themed system menu service
-                _themedSystemMenuService?.Dispose();
+                // Dispose the system menu service
+                _systemMenuService?.Dispose();
 
                 // Dispose the click timer
                 _clickTimer?.Dispose();
@@ -697,38 +697,38 @@ namespace Krypton.Toolkit
         public bool AllowIconDisplay { get; set; }
 
         /// <summary>
-        /// Gets access to the themed system menu values for configuration.
+        /// Gets access to the system menu values for configuration.
         /// </summary>
         [Category(@"Appearance")]
-        [Description(@"Configuration values for the themed system menu.")]
+        [Description(@"Configuration values for the system menu.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public ThemedSystemMenuValues SystemMenuValues
+        public SystemMenuValues SystemMenuValues
         {
-            get => _themedSystemMenuValues ??= new ThemedSystemMenuValues(OnNeedPaint);
+            get => _systemMenuValues ??= new SystemMenuValues(OnNeedPaint);
             set
             {
-                if (_themedSystemMenuValues != value)
+                if (_systemMenuValues != value)
                 {
                     // Unhook from old values
-                    if (_themedSystemMenuValues != null)
+                    if (_systemMenuValues != null)
                     {
-                        _themedSystemMenuValues.PropertyChanged -= OnThemedSystemMenuValuesChanged;
+                        _systemMenuValues.PropertyChanged -= OnSystemMenuValuesChanged;
                     }
 
-                    _themedSystemMenuValues = value;
+                    _systemMenuValues = value;
 
                     // Hook into new values
-                    if (_themedSystemMenuValues != null)
+                    if (_systemMenuValues != null)
                     {
-                        _themedSystemMenuValues.PropertyChanged += OnThemedSystemMenuValuesChanged;
+                        _systemMenuValues.PropertyChanged += OnSystemMenuValuesChanged;
                     }
 
-                    // Synchronize with the themed system menu service
-                    if (_themedSystemMenuService != null && _themedSystemMenuValues != null)
+                    // Synchronize with the system menu service
+                    if (_systemMenuService != null && _systemMenuValues != null)
                     {
-                        //_themedSystemMenuService.ShowThemedSystemMenuOnLeftClick = _themedSystemMenuValues.ShowOnLeftClick;
-                        _themedSystemMenuService.ShowThemedSystemMenuOnRightClick = _themedSystemMenuValues.ShowOnRightClick;
-                        _themedSystemMenuService.ShowThemedSystemMenuOnAltSpace = _themedSystemMenuValues.ShowOnAltSpace;
+                        //_themedSystemMenuService.ShowSystemMenuOnLeftClick = _themedSystemMenuValues.ShowOnLeftClick;
+                        _systemMenuService.ShowSystemMenuOnRightClick = _systemMenuValues.ShowOnRightClick;
+                        _systemMenuService.ShowSystemMenuOnAltSpace = _systemMenuValues.ShowOnAltSpace;
                         // Note: ShowOnIconClick is handled separately in click event handlers
                     }
 
@@ -737,9 +737,9 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeSystemMenuValues() => _themedSystemMenuValues?.ShouldSerialize() == true;
+        private bool ShouldSerializeSystemMenuValues() => _systemMenuValues?.ShouldSerialize() == true;
 
-        private void ResetSystemMenuValues() => _themedSystemMenuValues?.Reset();
+        private void ResetSystemMenuValues() => _systemMenuValues?.Reset();
 
         /// <summary>
         /// Next time a layout occurs the min/max/close buttons need recreating.
@@ -748,12 +748,12 @@ namespace Krypton.Toolkit
         public void RecreateMinMaxCloseButtons() => _recreateButtons = true;
 
         /// <summary>
-        /// Gets access to the themed system menu for advanced customization.
+        /// Gets access to the system menu for advanced customization.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override IKryptonThemedSystemMenu? KryptonSystemMenu => _themedSystemMenuService?.ThemedSystemMenu;
+        public override IKryptonSystemMenu? KryptonSystemMenu => _systemMenuService?.SystemMenu;
 
         /// <summary>
         /// Gets access to the ToolTipManager used for displaying tool tips.
@@ -829,8 +829,8 @@ namespace Krypton.Toolkit
                 if (base.ControlBox != value)
                 {
                     base.ControlBox = value;
-                    // Refresh the themed system menu to reflect the new state
-                    _themedSystemMenuService?.ThemedSystemMenu?.Refresh();
+                    // Refresh the system menu to reflect the new state
+                    _systemMenuService?.SystemMenu?.Refresh();
                 }
             }
         }
@@ -1194,9 +1194,9 @@ namespace Krypton.Toolkit
             else if (m.Msg == PI.WM_.NCRBUTTONDOWN)
             {
                 // Handle right-click in non-client area (title bar and control buttons)
-                // Only show themed system menu if ControlBox is true (same behavior as native system menu)
-                if (ControlBox && _themedSystemMenuValues.Enabled && _themedSystemMenuValues.ShowOnRightClick && _themedSystemMenuService != null &&
-                    _themedSystemMenuService.ShowThemedSystemMenuOnRightClick)
+                // Only show system menu if ControlBox is true (same behavior as native system menu)
+                if (ControlBox && _systemMenuValues.Enabled && _systemMenuValues.ShowOnRightClick && _systemMenuService != null &&
+                    _systemMenuService.ShowSystemMenuOnRightClick)
                 {
                     // Get the screen coordinates from the message
                     var screenPoint = new Point(PI.GET_X_LPARAM(m.LParam), PI.GET_Y_LPARAM(m.LParam));
@@ -1204,7 +1204,7 @@ namespace Krypton.Toolkit
                     // Check if the click is in the title bar area (including control buttons)
                     if (IsInTitleBarArea(screenPoint))
                     {
-                        ShowThemedSystemMenu(screenPoint);
+                        ShowSystemMenu(screenPoint);
                         m.Result = IntPtr.Zero;
                         return;
                     }
@@ -1313,9 +1313,9 @@ namespace Krypton.Toolkit
                     // Is the mouse over the image area
                     if (_drawContent.ImageRectangle(context).Contains(pt))
                     {
-                        // If themed system menu is enabled and icon click is enabled, treat as caption
+                        // If system menu is enabled and icon click is enabled, treat as caption
                         // so our custom OnWM_NCLBUTTONDOWN can handle it
-                        if (_themedSystemMenuValues.Enabled && _themedSystemMenuValues.ShowOnIconClick)
+                        if (_systemMenuValues.Enabled && _systemMenuValues.ShowOnIconClick)
                         {
                             return new IntPtr(PI.HT.CAPTION);
                         }
@@ -1442,12 +1442,12 @@ namespace Krypton.Toolkit
                 // Is the mouse over the Application icon image area
                 if (_drawContent.ImageRectangle(context).Contains(windowPoint))
                 {
-                    // Check if we should show the themed system menu on icon click
-                    // Only show themed system menu if ControlBox is true (same behavior as native system menu)
-                    if (ControlBox && _themedSystemMenuValues.Enabled && _themedSystemMenuValues.ShowOnIconClick &&
-                        _themedSystemMenuService != null)
+                    // Check if we should show the system menu on icon click
+                    // Only show system menu if ControlBox is true (same behavior as native system menu)
+                    if (ControlBox && _systemMenuValues.Enabled && _systemMenuValues.ShowOnIconClick &&
+                        _systemMenuService != null)
                     {
-                        ShowThemedSystemMenu(screenPoint);
+                        ShowSystemMenu(screenPoint);
 
                         return true;
                     }
@@ -1673,8 +1673,8 @@ namespace Krypton.Toolkit
                         _lastWindowState = GetWindowState();
                         NeedLayout = true;
 
-                        // Refresh the themed system menu to reflect new state
-                        _themedSystemMenuService?.ThemedSystemMenu?.Refresh();
+                        // Refresh the system menu to reflect new state
+                        _systemMenuService?.SystemMenu?.Refresh();
                     }
 
                     // Text can change because of a minimized/maximized MDI child so need
@@ -2034,33 +2034,33 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Handles changes to the themed system menu values.
+        /// Handles changes to the system menu values.
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing event data.</param>
-        private void OnThemedSystemMenuValuesChanged(object? sender, PropertyChangedEventArgs e)
+        private void OnSystemMenuValuesChanged(object? sender, PropertyChangedEventArgs e)
         {
-            if (_themedSystemMenuService != null && _themedSystemMenuValues != null)
+            if (_systemMenuService != null && _systemMenuValues != null)
             {
                 switch (e.PropertyName)
                 {
-                    case nameof(ThemedSystemMenuValues.Enabled):
-                        _themedSystemMenuService.UseThemedSystemMenu = _themedSystemMenuValues.Enabled;
+                    case nameof(Toolkit.SystemMenuValues.Enabled):
+                        _systemMenuService.UseSystemMenu = _systemMenuValues.Enabled;
                         break;
-                    /*case nameof(ThemedSystemMenuValues.ShowOnLeftClick):
-                        _themedSystemMenuService.ShowThemedSystemMenuOnLeftClick = _themedSystemMenuValues.ShowOnLeftClick;
+                    /*case nameof(SystemMenuValues.ShowOnLeftClick):
+                        _themedSystemMenuService.ShowSystemMenuOnLeftClick = _themedSystemMenuValues.ShowOnLeftClick;
                         break;*/
-                    case nameof(ThemedSystemMenuValues.ShowOnRightClick):
-                        _themedSystemMenuService.ShowThemedSystemMenuOnRightClick = _themedSystemMenuValues.ShowOnRightClick;
+                    case nameof(SystemMenuValues.ShowOnRightClick):
+                        _systemMenuService.ShowSystemMenuOnRightClick = _systemMenuValues.ShowOnRightClick;
                         break;
-                    case nameof(ThemedSystemMenuValues.ShowOnAltSpace):
-                        _themedSystemMenuService.ShowThemedSystemMenuOnAltSpace = _themedSystemMenuValues.ShowOnAltSpace;
+                    case nameof(SystemMenuValues.ShowOnAltSpace):
+                        _systemMenuService.ShowSystemMenuOnAltSpace = _systemMenuValues.ShowOnAltSpace;
                         break;
-                    case nameof(ThemedSystemMenuValues.ShowOnIconClick):
+                    case nameof(SystemMenuValues.ShowOnIconClick):
                         // Icon click is handled separately in the click event handlers
                         break;
-                    case nameof(ThemedSystemMenuValues.CustomMenuItems):
-                        _themedSystemMenuService.ThemedSystemMenu.DesignerMenuItems = _themedSystemMenuValues.CustomMenuItems;
+                    case nameof(SystemMenuValues.CustomMenuItems):
+                        _systemMenuService.SystemMenu.DesignerMenuItems = _systemMenuValues.CustomMenuItems;
                         break;
                 }
             }
@@ -2110,7 +2110,7 @@ namespace Krypton.Toolkit
             // If we haven't started dragging, this was a simple click
             /*if (!_isDragging && _themedSystemMenuValues?.Enabled && _themedSystemMenuValues?.ShowOnLeftClick && _themedSystemMenuService != null)
 {
-    ShowThemedSystemMenu(_lastClickPoint);
+    ShowSystemMenu(_lastClickPoint);
 }*/
         }
 
@@ -2189,11 +2189,11 @@ namespace Krypton.Toolkit
         /// <returns>True if the character was processed by the control; otherwise, false.</returns>
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            // Handle themed system menu keyboard shortcuts
-            // Only handle themed system menu shortcuts if ControlBox is true (same behavior as native system menu)
-            if (ControlBox && _themedSystemMenuValues.Enabled && _themedSystemMenuService != null)
+            // Handle system menu keyboard shortcuts
+            // Only handle system menu shortcuts if ControlBox is true (same behavior as native system menu)
+            if (ControlBox && _systemMenuValues.Enabled && _systemMenuService != null)
             {
-                if (_themedSystemMenuService.HandleKeyboardShortcut(keyData))
+                if (_systemMenuService.HandleKeyboardShortcut(keyData))
                 {
                     return true;
                 }
@@ -2357,46 +2357,46 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Shows the themed system menu at the specified screen location.
+        /// Shows the system menu at the specified screen location.
         /// </summary>
         /// <param name="screenLocation">The screen coordinates where the menu should appear.</param>
-        protected override void ShowThemedSystemMenu(Point screenLocation)
+        protected override void ShowSystemMenu(Point screenLocation)
         {
-            if (_themedSystemMenuValues.Enabled && _themedSystemMenuService != null)
+            if (_systemMenuValues.Enabled && _systemMenuService != null)
             {
                 // Refresh the menu to ensure it reflects current form state
-                _themedSystemMenuService.ThemedSystemMenu.Refresh();
-                _themedSystemMenuService.ThemedSystemMenu.Show(screenLocation);
+                _systemMenuService.SystemMenu.Refresh();
+                _systemMenuService.SystemMenu.Show(screenLocation);
             }
         }
 
         /// <summary>
-        /// Shows the themed system menu at the form's top-left position.
+        /// Shows the system menu at the form's top-left position.
         /// </summary>
-        protected override void ShowThemedSystemMenuAtFormTopLeft()
+        protected override void ShowSystemMenuAtFormTopLeft()
         {
-            if (_themedSystemMenuValues.Enabled && _themedSystemMenuService != null)
+            if (_systemMenuValues.Enabled && _systemMenuService != null)
             {
                 // Refresh the menu to ensure it reflects current form state
-                _themedSystemMenuService.ThemedSystemMenu.Refresh();
-                _themedSystemMenuService.ThemedSystemMenu.ShowAtFormTopLeft();
+                _systemMenuService.SystemMenu.Refresh();
+                _systemMenuService.SystemMenu.ShowAtFormTopLeft();
             }
         }
 
         /// <summary>
-        /// Handles keyboard shortcuts for the themed system menu.
+        /// Handles keyboard shortcuts for the system menu.
         /// </summary>
         /// <param name="keyData">The key data to process.</param>
         /// <returns>True if the shortcut was handled; otherwise false.</returns>
-        protected override bool HandleThemedSystemMenuKeyboardShortcut(Keys keyData)
+        protected override bool HandleSystemMenuKeyboardShortcut(Keys keyData)
         {
-            // Only handle themed system menu shortcuts if ControlBox is true (same behavior as native system menu)
-            if (ControlBox && _themedSystemMenuValues.Enabled && _themedSystemMenuService != null)
+            // Only handle system menu shortcuts if ControlBox is true (same behavior as native system menu)
+            if (ControlBox && _systemMenuValues.Enabled && _systemMenuService != null)
             {
                 // Handle Alt+F4 for close
                 if (keyData == (Keys.Alt | Keys.F4))
                 {
-                    return _themedSystemMenuService.ThemedSystemMenu.HandleKeyboardShortcut(keyData);
+                    return _systemMenuService.SystemMenu.HandleKeyboardShortcut(keyData);
                 }
             }
             return false;
