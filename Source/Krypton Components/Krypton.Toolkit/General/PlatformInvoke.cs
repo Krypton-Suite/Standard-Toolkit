@@ -103,6 +103,28 @@ internal static class Libraries
     public const string User32 = "user32.dll";
     /// <summary>Visual Styles library - provides theme and visual style support</summary>
     public const string UxTheme = "uxtheme.dll";
+    
+    // Icon Resource Libraries
+    /// <summary>Internet Explorer Frame - contains Internet Explorer and web-related icons</summary>
+    public const string IeFrame = "ieframe.dll";
+    /// <summary>Composite UI library - contains printer, device, and UI component icons</summary>
+    public const string CompStui = "compstui.dll";
+    /// <summary>More Icons library - contains miscellaneous system icons</summary>
+    public const string MoreIcons = "moricons.dll";
+    /// <summary>MMC Node Manager - contains Microsoft Management Console icons</summary>
+    public const string MmcNdMgr = "mmcndmgr.dll";
+    /// <summary>PIF Manager - contains legacy program icons for DOS and Windows 3.x compatibility</summary>
+    public const string PifMgr = "pifmgr.dll";
+    /// <summary>Setup API - contains setup, installation, and device icons</summary>
+    public const string SetupApi = "setupapi.dll";
+    /// <summary>Windows Media Player Localization - contains media player icons</summary>
+    public const string WmpLoc = "wmploc.dll";
+    /// <summary>DirectDraw Resources - contains additional system icons</summary>
+    public const string DdoRes = "ddores.dll";
+    /// <summary>Access Control library - contains security and permission icons</summary>
+    public const string AccessCpl = "accessibilitycpl.dll";
+    /// <summary>Network Shell - contains network-related icons</summary>
+    public const string NetShell = "netshell.dll";
 }
 
 /// <summary>
