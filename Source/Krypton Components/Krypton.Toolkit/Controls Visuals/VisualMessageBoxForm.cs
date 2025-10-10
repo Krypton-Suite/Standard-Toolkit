@@ -147,7 +147,7 @@ internal partial class VisualMessageBoxForm : KryptonForm
                     SystemSounds.Hand.Play();
                     break;
                 case KryptonMessageBoxIcon.Question:
-                    _messageIcon.Image = MessageBoxImageResources.Question_Windows_11;
+                    _messageIcon.Image = GraphicsExtensions.ExtractIconFromShell32(24, IconSize.Large)?.ToBitmap();
                     SystemSounds.Question.Play();
                     break;
                 case KryptonMessageBoxIcon.SystemQuestion:
@@ -155,7 +155,7 @@ internal partial class VisualMessageBoxForm : KryptonForm
                     SystemSounds.Question.Play();
                     break;
                 case KryptonMessageBoxIcon.Exclamation:
-                    _messageIcon.Image = MessageBoxImageResources.Warning_Windows_11;
+                    _messageIcon.Image = GraphicsExtensions.ExtractIconFromShell32(161, IconSize.Large)?.ToBitmap();
                     SystemSounds.Exclamation.Play();
                     break;
                 case KryptonMessageBoxIcon.SystemExclamation:
@@ -163,7 +163,7 @@ internal partial class VisualMessageBoxForm : KryptonForm
                     SystemSounds.Exclamation.Play();
                     break;
                 case KryptonMessageBoxIcon.Asterisk:
-                    _messageIcon.Image = MessageBoxImageResources.Asterisk_Windows_11;
+                    _messageIcon.Image = GraphicsExtensions.ExtractIconFromShell32(200, IconSize.Large)?.ToBitmap();
                     SystemSounds.Asterisk.Play();
                     break;
                 case KryptonMessageBoxIcon.SystemAsterisk:
