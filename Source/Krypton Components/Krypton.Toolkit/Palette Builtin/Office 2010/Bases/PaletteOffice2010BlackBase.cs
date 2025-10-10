@@ -3642,6 +3642,7 @@ public abstract class PaletteOffice2010BlackBase : PaletteBase
                 {
                     case PaletteState.Normal:
                     case PaletteState.CheckedNormal:
+                        return PaletteRibbonColorStyle.RibbonGroupAreaBorder3;
                     case PaletteState.ContextNormal:
                     case PaletteState.ContextCheckedNormal:
                         return PaletteRibbonColorStyle.Empty;
