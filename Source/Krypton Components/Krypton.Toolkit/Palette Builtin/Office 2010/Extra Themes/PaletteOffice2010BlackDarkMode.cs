@@ -523,6 +523,9 @@ public class PaletteOffice2010BlackDarkMode : PaletteOffice2010BlackDarkModeBase
             case PaletteRibbonBackStyle.RibbonGroupArea:
                 switch (state)
                 {
+                    case PaletteState.Normal:
+                    case PaletteState.CheckedNormal:
+                        return PaletteRibbonColorStyle.RibbonGroupAreaBorder3;
                     case PaletteState.Tracking:
                     case PaletteState.ContextTracking:
                         return PaletteRibbonColorStyle.RibbonGroupNormalTrackingDark;
@@ -4552,7 +4555,13 @@ public abstract class PaletteOffice2010BlackDarkModeBase : PaletteBase
                 }
                 break;
             case PaletteRibbonBackStyle.RibbonGroupArea:
-                return BaseColors!.RibbonGroupsArea3;
+                switch (state)
+                    {
+                        case PaletteState.Tracking:
+                            return BaseColors!.RibbonGroupBorder1; 
+                        default:
+                            return BaseColors!.RibbonGroupsArea3;
+                    }
             case PaletteRibbonBackStyle.RibbonTab:
                 switch (state)
                 {
