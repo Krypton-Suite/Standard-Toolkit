@@ -2,7 +2,7 @@
 
 =======
 
-# 2025-10-25 - Build 2508 (Patch 9) - October 2025
+# 2025-10-20 - Build 2508 (Patch 9) - October 2025
 
 * Resolved [#2548](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2548), Fixed color assignment for `GroupSeparatorLight`, `QATButtonDarkColor` and `QATButtonLightColor` in `PopulateFromBase`.
 * Resolved [#2460](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2460) `KryptonDataGridView` column headers are always bold.
