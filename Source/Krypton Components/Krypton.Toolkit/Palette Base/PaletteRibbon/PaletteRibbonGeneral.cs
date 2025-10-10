@@ -145,8 +145,8 @@ namespace Krypton.Toolkit
             TabSeparatorContextColor = GetRibbonTabSeparatorContextColor(PaletteState.Normal);
             TextFont = GetRibbonTextFont(PaletteState.Normal);
             TextHint = GetRibbonTextHint(PaletteState.Normal);
-            QATButtonDarkColor = GetRibbonGroupDialogDark(PaletteState.Normal);
-            QATButtonLightColor = GetRibbonGroupDialogLight(PaletteState.Normal);
+            QATButtonDarkColor = GetRibbonQATButtonDark(PaletteState.Normal);
+            QATButtonLightColor = GetRibbonQATButtonLight(PaletteState.Normal);
         }
         #endregion
 
@@ -562,7 +562,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the GroupSeparatorLight property to its default value.
         /// </summary>
-        public void ResetGroupSeparatorLight() => GroupDialogLight = Color.Empty;
+        public void ResetGroupSeparatorLight() => GroupSeparatorLight = Color.Empty;
 
         /// <summary>
         /// Gets the color for the dialog launcher light.
