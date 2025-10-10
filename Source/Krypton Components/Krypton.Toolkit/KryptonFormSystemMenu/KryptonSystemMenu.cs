@@ -1,8 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿#region BSD License
+/*
+ *
+ *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2025 - 2025. All rights reserved.
+ *
+ */
+#endregion
 
 namespace Krypton.Toolkit
 {
@@ -10,13 +13,53 @@ namespace Krypton.Toolkit
     {
         private KryptonForm _form;
         private ViewDrawDocker _drawHeading;
-        private KryptonSystemMenuListener _kryptonFormSystemMenuListener;
+        private KryptonSystemMenuListener _listener;
+        private KryptonContextMenu _contextMenu;
 
-        public KryptonSystemMenu(KryptonForm kryptonForm, ViewDrawDocker drawHeading)
+        public KryptonSystemMenu(KryptonForm kryptonForm, ViewDrawDocker drawHeading, KryptonContextMenu contextMenu)
         {
             _form = kryptonForm;
+            _contextMenu = contextMenu;
             _drawHeading = drawHeading;
-            _kryptonFormSystemMenuListener = new(_form, _drawHeading);
+
+            // Instantiate the listener
+            _listener = new(_form, _drawHeading);
+
+            // Subscribe to enabled changed events
+            _form.SystemMenuValues.PropertyChanged += OnMenuValuesPropertyChanged;
         }
+
+        /// <summary>
+        /// Stop listening for mouse and keyboard events that trigger the system menu.
+        /// </summary>
+        public void DisableListener()
+        {
+            _listener.DisableListener();
+        }
+
+        /// <summary>
+        /// Enable listening for mouse and keyboard events that trigger the system menu.
+        /// </summary>
+        public void EnableListener()
+        {
+            _listener.EnableListener();
+        }
+
+        #region Private
+        private void OnMenuValuesPropertyChanged(object? sender, PropertyChangedEventArgs eventArgs)
+        {
+            if (eventArgs.PropertyName == nameof(_form.SystemMenuValues.Enabled))
+            {
+                if (_form.SystemMenuValues.Enabled)
+                {
+                    EnableListener();
+                }
+                else
+                {
+                    DisableListener();
+                }
+            }
+        }
+        #endregion
     }
 }

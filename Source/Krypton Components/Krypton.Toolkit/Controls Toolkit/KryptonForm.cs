@@ -114,6 +114,7 @@ public class KryptonForm : VisualForm,
     private Rectangle _lastGripWindowRect = Rectangle.Empty;
     private Timer? _clickTimer;
     private KryptonSystemMenu? _kryptonSystemMenu;
+    private KryptonContextMenu _systemMenuContextMenu;
     #endregion
 
     #region Identity
@@ -234,10 +235,35 @@ public class KryptonForm : VisualForm,
         base.PaletteChanged += (s, e) => _internalKryptonPanel.PaletteMode = PaletteMode;
         // END #1979 Temporary fix
 
+        //
+        _systemMenuContextMenu = new();
+        SystemMenuValues = new(OnNeedPaint, _systemMenuContextMenu);
+
         // Init only here. Must instantiate in OnHandleCreated
         _kryptonSystemMenu = null;
     }
+    #endregion
 
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public SystemMenuValues SystemMenuValues { get; }
+
+    #region Private
+    private void SetupSystemMenu() 
+    {
+        if (!DesignMode)
+        {
+            _kryptonSystemMenu = new(this, _drawHeading, _systemMenuContextMenu);
+
+            // When the _kryptonSystemMenu is instantiated the listener is not enable by default.
+            if (SystemMenuValues.Enabled)
+            {
+                _kryptonSystemMenu.EnableListener();
+            }
+        } 
+    }
+    #endregion
+
+    #region Private SizeGrip
     private float GetDpiFactor() => DeviceDpi / 96F;
 
     /// <summary>
@@ -431,7 +457,9 @@ public class KryptonForm : VisualForm,
                     0, 0, scaled.Width, scaled.Height, GraphicsUnit.Pixel, ia1);
         return true;
     }
+    #endregion
 
+    #region IDispose
     /// <summary>
     /// Releases all resources used by the Control.
     /// </summary>
@@ -1703,10 +1731,7 @@ public class KryptonForm : VisualForm,
         ActiveFormTracker.Attach(this);
 
         // At runtime only, hookup the system menu.
-        if (!DesignMode)
-        {
-            _kryptonSystemMenu = new(this, _drawHeading);
-        }
+        SetupSystemMenu();
 
         // Ensure Material defaults are applied as early as possible for new forms
         ApplyMaterialFormChromeDefaultsIfNeeded();

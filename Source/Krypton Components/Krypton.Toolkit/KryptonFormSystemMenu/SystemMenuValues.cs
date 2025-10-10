@@ -14,7 +14,7 @@ namespace Krypton.Toolkit;
 /// </summary>
 [ToolboxItem(false)]
 [DesignerCategory(@"code")]
-internal class SystemMenuValues : Storage, INotifyPropertyChanged
+public class SystemMenuValues : Storage, INotifyPropertyChanged
 {
     #region Static Fields
     private const bool DEFAULT_ENABLED = true;
@@ -34,11 +34,10 @@ internal class SystemMenuValues : Storage, INotifyPropertyChanged
 
     #region Instance Fields
     private bool _enabled;
-    //private bool _showOnLeftClick;
-    //private bool _useSystemMenu;
     private bool _showOnRightClick;
     private bool _showOnAltSpace;
     private bool _showOnIconClick;
+    private KryptonContextMenu _contextMenu;
     #endregion
 
     #region Identity
@@ -46,29 +45,30 @@ internal class SystemMenuValues : Storage, INotifyPropertyChanged
     /// Initialize a new instance of the SystemMenuValues class.
     /// </summary>
     /// <param name="needPaint">Delegate for notifying paint requests.</param>
-    public SystemMenuValues(NeedPaintHandler needPaint)
+    /// <param name="contextMenu">A valid KryptonContextMenu instance.</param>
+    public SystemMenuValues(NeedPaintHandler needPaint, KryptonContextMenu contextMenu)
     {
         // Store the provided paint notification delegate
         NeedPaint = needPaint;
+        _contextMenu = contextMenu;
 
         // Set initial values
         _enabled = DEFAULT_ENABLED;
-        //_showOnLeftClick = DEFAULT_SHOW_ON_LEFT_CLICK;
-        //_useSystemMenu = DEFAULT_USE__SYSTEM_MENU;
         _showOnRightClick = DEFAULT_SHOW_ON_RIGHT_CLICK;
         _showOnAltSpace = DEFAULT_SHOW_ON_ALT_SPACE;
         _showOnIconClick = DEFAULT_SHOW_ON_ICON_CLICK;
 
     }
+    #endregion
 
+    #region MenuItems
     /// <summary>
-    /// Initialize a new instance of the SystemMenuValues class for designer serialization.
+    /// Acces to the System menu item collection.<br/>
+    /// Note: Be careful with the default items, as those are present as well.
     /// </summary>
-    public SystemMenuValues() : this(null!)
-    {
-        // This constructor is required for designer serialization
-        // The NeedPaint delegate will be set later by the designer
-    }
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public KryptonContextMenuCollection MenuItems => _contextMenu.Items;
     #endregion
 
     #region IsDefault
@@ -77,10 +77,10 @@ internal class SystemMenuValues : Storage, INotifyPropertyChanged
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public override bool IsDefault => !ShouldSerializeEnabled() &&
-                                     !ShouldSerializeShowOnRightClick() &&
-                                     !ShouldSerializeShowOnAltSpace() &&
-                                     !ShouldSerializeShowOnIconClick();
+    public override bool IsDefault => !ShouldSerializeEnabled()
+        && !ShouldSerializeShowOnRightClick()
+        && !ShouldSerializeShowOnAltSpace()
+        && !ShouldSerializeShowOnIconClick();
     #endregion
 
     #region Enabled
@@ -113,67 +113,6 @@ internal class SystemMenuValues : Storage, INotifyPropertyChanged
     public void ResetEnabled() => Enabled = DEFAULT_ENABLED;
     #endregion
 
-    #region ShowOnLeftClick
-    /*/// <summary>
-    /// Gets and sets whether left-click on title bar shows the system menu.
-    /// </summary>
-    [Category(@"Behavior")]
-    [Description(@"Determines if left-click on title bar shows the system menu.")]
-    [DefaultValue(DEFAULT_SHOW_ON_LEFT_CLICK)]
-    public bool ShowOnLeftClick
-    {
-        get => _showOnLeftClick;
-
-        set
-        {
-            if (_showOnLeftClick != value)
-            {
-                _showOnLeftClick = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ShowOnLeftClick)));
-                PerformNeedPaint(true);
-            }
-        }
-    }
-
-    private bool ShouldSerializeShowOnLeftClick() => ShowOnLeftClick != DEFAULT_SHOW_ON_LEFT_CLICK;
-
-    /// <summary>
-    /// Resets the ShowOnLeftClick property to its default value.
-    /// </summary>
-    public void ResetShowOnLeftClick() => ShowOnLeftClick = DEFAULT_SHOW_ON_LEFT_CLICK;*/
-    #endregion
-
-    #region UseSystemMenu
-
-    /*/// <summary>
-    /// Gets and sets whether to use the system menu instead of the default system menu.
-    /// </summary>
-    [Category(@"Behavior")]
-    [Description(@"Determines if the system menu is used instead of the default system menu.")]
-    [DefaultValue(DEFAULT_USE__SYSTEM_MENU)]
-    public bool UseSystemMenu
-    {
-        get => _useSystemMenu;
-        set
-        {
-            if (_useSystemMenu != value)
-            {
-                _useSystemMenu = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UseSystemMenu)));
-                PerformNeedPaint(true);
-            }
-        }
-    }
-
-    private bool ShouldSerializeUseSystemMenu() => UseSystemMenu != DEFAULT_USE__SYSTEM_MENU;
-
-    /// <summary>
-    /// Resets the UseSystemMenu property to its default value.
-    /// </summary>
-    public void ResetUseSystemMenu() => UseSystemMenu = DEFAULT_USE__SYSTEM_MENU;*/
-
-    #endregion
-
     #region ShowOnRightClick
     /// <summary>
     /// Gets and sets whether right-click on title bar shows the system menu.
@@ -190,8 +129,7 @@ internal class SystemMenuValues : Storage, INotifyPropertyChanged
             if (_showOnRightClick != value)
             {
                 _showOnRightClick = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ShowOnRightClick)));
-                PerformNeedPaint(true);
+                OnPropertyChanged(nameof(ShowOnRightClick));
             }
         }
     }
@@ -220,8 +158,7 @@ internal class SystemMenuValues : Storage, INotifyPropertyChanged
             if (_showOnAltSpace != value)
             {
                 _showOnAltSpace = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ShowOnAltSpace)));
-                PerformNeedPaint(true);
+                OnPropertyChanged(nameof(ShowOnAltSpace));
             }
         }
     }
@@ -251,8 +188,7 @@ internal class SystemMenuValues : Storage, INotifyPropertyChanged
             if (_showOnIconClick != value)
             {
                 _showOnIconClick = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ShowOnIconClick)));
-                PerformNeedPaint(true);
+                OnPropertyChanged(nameof(ShowOnIconClick));
             }
         }
     }
@@ -266,7 +202,12 @@ internal class SystemMenuValues : Storage, INotifyPropertyChanged
 
     #endregion
 
-
+    #region Private
+    private void OnPropertyChanged(string propertyName)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+    #endregion
 
     #region Reset and Serialization
 

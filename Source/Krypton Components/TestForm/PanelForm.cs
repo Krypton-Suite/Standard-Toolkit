@@ -35,7 +35,7 @@ public partial class PanelForm : KryptonForm
         kryptonDataGridView1.DataSource = dt;
 
         propertyGrid1.SelectedObject = null;
-        propertyGrid1.SelectedObject = Column12;
+        propertyGrid1.SelectedObject = this;
 
     }
 
