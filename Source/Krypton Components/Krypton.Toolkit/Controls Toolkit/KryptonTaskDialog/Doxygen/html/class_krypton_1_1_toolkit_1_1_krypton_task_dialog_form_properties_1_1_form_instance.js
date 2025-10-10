@@ -8,7 +8,6 @@ var class_krypton_1_1_toolkit_1_1_krypton_task_dialog_form_properties_1_1_form_i
     [ "FormTitleAlign", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_form_properties_1_1_form_instance.html#a4d6a05075b8034193343e566461eb686", null ],
     [ "Icon", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_form_properties_1_1_form_instance.html#a1e7019ddf29f973534f1efd7fa8eefcb", null ],
     [ "IgnoreAltF4", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_form_properties_1_1_form_instance.html#a60852039538c79e0457ffa5ec0a61664", null ],
-    [ "InertForm", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_form_properties_1_1_form_instance.html#a4bcad747953c8f18d57d7312f500bfe1", null ],
     [ "Location", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_form_properties_1_1_form_instance.html#aad0cb939a350d0834da70c241e268237", null ],
     [ "MaximizeBox", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_form_properties_1_1_form_instance.html#a04fed65feb1db35f6d523842274e8839", null ],
     [ "MinimizeBox", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_form_properties_1_1_form_instance.html#a8c0a1b6107c1fab3e28a203ceb71f9f5", null ],

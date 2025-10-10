@@ -14,6 +14,8 @@ var class_krypton_1_1_toolkit_1_1_krypton_task_dialog =
     [ "Dialog", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog.html#a0db571c43b768efadf21475b67ff2d6a", null ],
     [ "Expander", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog.html#a74305f00e09961e5266c2affe84474ec", null ],
     [ "FooterBar", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog.html#abb83034bfa1a65e688d05842452bb95f", null ],
+    [ "FreeWheeler1", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog.html#a85c366c4c869877a946c409c1de36bd9", null ],
+    [ "FreeWheeler2", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog.html#ac471460646cf3483e065e39f50cc8003", null ],
     [ "Heading", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog.html#afbd1f05a506f35a6fdd6b2050d5d5ce4", null ],
     [ "HyperLink", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog.html#a037c6f396a2039689db4d97ed8dacf7f", null ],
     [ "ProgresBar", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog.html#a293d3e2a2d7946513dd08bf75d28127e", null ],
