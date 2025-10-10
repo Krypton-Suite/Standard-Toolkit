@@ -14,7 +14,8 @@ namespace Krypton.Toolkit;
 /// </summary>
 [ToolboxItem(false)]
 [DesignerCategory(@"code")]
-public class SystemMenuValues : Storage, INotifyPropertyChanged
+[TypeConverter(typeof(ExpandableObjectConverter))]
+public class SystemMenuValues : INotifyPropertyChanged
 {
     #region Static Fields
     private const bool DEFAULT_ENABLED = true;
@@ -44,12 +45,10 @@ public class SystemMenuValues : Storage, INotifyPropertyChanged
     /// <summary>
     /// Initialize a new instance of the SystemMenuValues class.
     /// </summary>
-    /// <param name="needPaint">Delegate for notifying paint requests.</param>
     /// <param name="contextMenu">A valid KryptonContextMenu instance.</param>
-    public SystemMenuValues(NeedPaintHandler needPaint, KryptonContextMenu contextMenu)
+    public SystemMenuValues(KryptonContextMenu contextMenu)
     {
         // Store the provided paint notification delegate
-        NeedPaint = needPaint;
         _contextMenu = contextMenu;
 
         // Set initial values
@@ -57,7 +56,6 @@ public class SystemMenuValues : Storage, INotifyPropertyChanged
         _showOnRightClick = DEFAULT_SHOW_ON_RIGHT_CLICK;
         _showOnAltSpace = DEFAULT_SHOW_ON_ALT_SPACE;
         _showOnIconClick = DEFAULT_SHOW_ON_ICON_CLICK;
-
     }
     #endregion
 
@@ -77,7 +75,7 @@ public class SystemMenuValues : Storage, INotifyPropertyChanged
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public override bool IsDefault => !ShouldSerializeEnabled()
+    public bool IsDefault => !ShouldSerializeEnabled()
         && !ShouldSerializeShowOnRightClick()
         && !ShouldSerializeShowOnAltSpace()
         && !ShouldSerializeShowOnIconClick();
@@ -99,8 +97,7 @@ public class SystemMenuValues : Storage, INotifyPropertyChanged
             if (_enabled != value)
             {
                 _enabled = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Enabled)));
-                PerformNeedPaint(true);
+                OnPropertyChanged(nameof(Enabled));
             }
         }
     }
@@ -206,6 +203,17 @@ public class SystemMenuValues : Storage, INotifyPropertyChanged
     private void OnPropertyChanged(string propertyName)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+    #endregion
+
+    #region Public override
+    /// <summary>
+    /// Not implemented / used internally.
+    /// </summary>
+    /// <returns>string.Empty</returns>
+    public override string ToString()
+    {
+        return IsDefault ? string.Empty : "Modified";
     }
     #endregion
 

@@ -7,59 +7,70 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+public class KryptonSystemMenu
 {
-    public class KryptonSystemMenu
+    private KryptonForm _form;
+    private ViewDrawDocker _drawHeading;
+    private KryptonSystemMenuListener _listener;
+    private KryptonContextMenu _contextMenu;
+
+    public KryptonSystemMenu(KryptonForm kryptonForm, ViewDrawDocker drawHeading, KryptonContextMenu contextMenu)
     {
-        private KryptonForm _form;
-        private ViewDrawDocker _drawHeading;
-        private KryptonSystemMenuListener _listener;
-        private KryptonContextMenu _contextMenu;
+        _form = kryptonForm;
+        _contextMenu = contextMenu;
+        _drawHeading = drawHeading;
 
-        public KryptonSystemMenu(KryptonForm kryptonForm, ViewDrawDocker drawHeading, KryptonContextMenu contextMenu)
+        // Instantiate the listener
+        _listener = new(_form, _drawHeading);
+
+        // Subscribe to enabled changed events
+        _form.SystemMenuValues.PropertyChanged += OnMenuValuesPropertyChanged;
+    }
+
+    /// <summary>
+    /// Stop listening for mouse and keyboard events that trigger the system menu.
+    /// </summary>
+    public void DisableListener()
+    {
+        _listener.DisableListener();
+    }
+
+    /// <summary>
+    /// Enable listening for mouse and keyboard events that trigger the system menu.
+    /// </summary>
+    public void EnableListener()
+    {
+        _listener.EnableListener();
+    }
+
+    #region Private
+    private void OnMenuValuesPropertyChanged(object? sender, PropertyChangedEventArgs eventArgs)
+    {
+        if (eventArgs.PropertyName == nameof(_form.SystemMenuValues.Enabled))
         {
-            _form = kryptonForm;
-            _contextMenu = contextMenu;
-            _drawHeading = drawHeading;
-
-            // Instantiate the listener
-            _listener = new(_form, _drawHeading);
-
-            // Subscribe to enabled changed events
-            _form.SystemMenuValues.PropertyChanged += OnMenuValuesPropertyChanged;
-        }
-
-        /// <summary>
-        /// Stop listening for mouse and keyboard events that trigger the system menu.
-        /// </summary>
-        public void DisableListener()
-        {
-            _listener.DisableListener();
-        }
-
-        /// <summary>
-        /// Enable listening for mouse and keyboard events that trigger the system menu.
-        /// </summary>
-        public void EnableListener()
-        {
-            _listener.EnableListener();
-        }
-
-        #region Private
-        private void OnMenuValuesPropertyChanged(object? sender, PropertyChangedEventArgs eventArgs)
-        {
-            if (eventArgs.PropertyName == nameof(_form.SystemMenuValues.Enabled))
+            if (_form.SystemMenuValues.Enabled)
             {
-                if (_form.SystemMenuValues.Enabled)
-                {
-                    EnableListener();
-                }
-                else
-                {
-                    DisableListener();
-                }
+                EnableListener();
+            }
+            else
+            {
+                DisableListener();
             }
         }
-        #endregion
+        else if (eventArgs.PropertyName == nameof(_form.SystemMenuValues.ShowOnAltSpace))
+        {
+            //OnMenuValuesEnabledChanged();
+        }
+        else if (eventArgs.PropertyName == nameof(_form.SystemMenuValues.ShowOnIconClick))
+        {
+            //OnMenuValuesEnabledChanged();
+        }
+        else if (eventArgs.PropertyName == nameof(_form.SystemMenuValues.ShowOnRightClick))
+        {
+           //OnMenuValuesEnabledChanged();
+        }
     }
+#endregion
 }

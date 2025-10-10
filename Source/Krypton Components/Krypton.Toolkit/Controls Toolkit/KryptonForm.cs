@@ -237,7 +237,7 @@ public class KryptonForm : VisualForm,
 
         //
         _systemMenuContextMenu = new();
-        SystemMenuValues = new(OnNeedPaint, _systemMenuContextMenu);
+        SystemMenuValues = new(_systemMenuContextMenu);
 
         // Init only here. Must instantiate in OnHandleCreated
         _kryptonSystemMenu = null;
@@ -246,6 +246,8 @@ public class KryptonForm : VisualForm,
 
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public SystemMenuValues SystemMenuValues { get; }
+    public bool ShouldSerializeSystemMenuValues() => !SystemMenuValues.IsDefault;
+    public void ResetSystemMenuValues() => SystemMenuValues.Reset();
 
     #region Private
     private void SetupSystemMenu() 

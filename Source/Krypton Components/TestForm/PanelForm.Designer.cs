@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.kryptonButton1 = new Krypton.Toolkit.KryptonButton();
             this.kryptonDataGridView1 = new Krypton.Toolkit.KryptonDataGridView();
             this.Column12 = new Krypton.Toolkit.KryptonDataGridViewRatingColumn();
@@ -66,8 +66,8 @@
             // 
             // Column12
             // 
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.Column12.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.Column12.DefaultCellStyle = dataGridViewCellStyle1;
             this.Column12.HeaderText = "Column12";
             this.Column12.MinimumWidth = 6;
             this.Column12.Name = "Column12";
@@ -83,7 +83,7 @@
             this.kryptonPropertyGrid1.Name = "kryptonPropertyGrid1";
             this.kryptonPropertyGrid1.PropertySort = System.Windows.Forms.PropertySort.Alphabetical;
             this.kryptonPropertyGrid1.SelectedObject = this.kryptonDataGridView1;
-            this.kryptonPropertyGrid1.Size = new System.Drawing.Size(392, 512);
+            this.kryptonPropertyGrid1.Size = new System.Drawing.Size(392, 506);
             this.kryptonPropertyGrid1.TabIndex = 6;
             // 
             // propertyGrid1
@@ -94,7 +94,7 @@
             this.propertyGrid1.Name = "propertyGrid1";
             this.propertyGrid1.PropertySort = System.Windows.Forms.PropertySort.Alphabetical;
             this.propertyGrid1.SelectedObject = this.Column12;
-            this.propertyGrid1.Size = new System.Drawing.Size(392, 512);
+            this.propertyGrid1.Size = new System.Drawing.Size(392, 506);
             this.propertyGrid1.TabIndex = 8;
             // 
             // kryptonButton2
@@ -111,7 +111,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1350, 476);
+            this.ClientSize = new System.Drawing.Size(1356, 458);
             this.Controls.Add(this.kryptonButton2);
             this.Controls.Add(this.propertyGrid1);
             this.Controls.Add(this.kryptonPropertyGrid1);

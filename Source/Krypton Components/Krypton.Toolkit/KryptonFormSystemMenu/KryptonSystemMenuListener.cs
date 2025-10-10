@@ -7,178 +7,145 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+internal class KryptonSystemMenuListener : NativeWindow
 {
-    internal class KryptonSystemMenuListener : NativeWindow
+    /*
+     * What needs to be intercepted
+     *      Right Mouse click in the title bar (the menu shows on the position of the mouse cursor)
+     *      Left Mouse click on the ControlBox (the menu shows on the position of the ControlBox)
+     *      ALT + Space (the menu shows on the position of the ControlBox)
+     */
+
+    #region Events
+    public event Action? KeyAltSpaceDown;
+    public event Action? NCRightMouseButtonDown;
+    public event Action? NCLeftMouseButtonDown;
+    #endregion
+
+    #region Fields
+    private readonly KryptonForm _form;
+    private ViewDrawDocker _drawHeading;
+    #endregion
+
+    #region Identity
+    /// <summary>
+    /// Default constructor.
+    /// </summary>
+    /// <param name="kryptonForm">The instance the KryptonSystemMenu is operating on.</param>
+    /// <param name="drawHeading">Heading component for title bar detection.</param>
+    public KryptonSystemMenuListener(KryptonForm kryptonForm, ViewDrawDocker drawHeading)
     {
-        /*
-         * What needs to be intercepted
-         *      Right Mouse click in the title bar (the menu shows on the position of the mouse cursor)
-         *      Left Mouse click on the ControlBox (the menu shows on the position of the ControlBox)
-         *      ALT + Space (the menu shows on the position of the ControlBox)
-         */
+        _form = kryptonForm;
+        _drawHeading = drawHeading;
+    }
+    #endregion
 
-        #region Events
-        public event Action? KeyAltSpaceDown;
-        public event Action? NCRightMouseButtonDown;
-        public event Action? NCLeftMouseButtonDown;
-        #endregion
-
-        #region Fields
-        private readonly KryptonForm _form;
-        private ViewDrawDocker _drawHeading;
-        #endregion
-
-        #region Identity
-        /// <summary>
-        /// Default constructor.
-        /// </summary>
-        /// <param name="kryptonForm">The instance the KryptonSystemMenu is operating on.</param>
-        /// <param name="drawHeading">Heading component for title bar detection.</param>
-        public KryptonSystemMenuListener(KryptonForm kryptonForm, ViewDrawDocker drawHeading)
+    #region Public
+    /// <summary>
+    /// Stop listening for mouse and keyboard events that trigger the system menu.
+    /// </summary>
+    public void DisableListener()
+    {
+        if (Handle != IntPtr.Zero)
         {
-            _form = kryptonForm;
-            _drawHeading = drawHeading;
+            ReleaseHandle();
         }
-        #endregion
+    }
 
-        #region Public
-        /// <summary>
-        /// Stop listening for mouse and keyboard events that trigger the system menu.
-        /// </summary>
-        public void DisableListener()
+    /// <summary>
+    /// Enable listening for mouse and keyboard events that trigger the system menu.
+    /// </summary>
+    public void EnableListener()
+    {
+        if (Handle == IntPtr.Zero)
         {
-            if (Handle != IntPtr.Zero)
+            AssignHandle(_form.Handle);
+        }
+    }
+
+    /// <inheritdoc/>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public override void ReleaseHandle()
+    {
+        // Retain default behaviour, but hide this method from the editor
+
+        base.ReleaseHandle();
+    }
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public new void AssignHandle(IntPtr handle)
+    {
+        // Retain default behaviour, but hide this method from the editor
+
+        base.AssignHandle(handle);
+    }
+    #endregion
+
+    #region Protected (override)
+    protected override void WndProc(ref Message m)
+    {
+        if (m.Msg == PI.WM_.NCRBUTTONDOWN)
+        {
+            // Intercept Non Client Area Right Mouse Down
+            // But it needs to know if the click happens on the title bar, otherwise
+            // the message must be forwarded.
+            
+            //if (some where in the title bar)
             {
-                ReleaseHandle();
+
+                OnNCRightMouseButtonDown();
+
+                // eat the message....????
+                return;
             }
         }
-
-        /// <summary>
-        /// Enable listening for mouse and keyboard events that trigger the system menu.
-        /// </summary>
-        public void EnableListener()
+        else if (m.Msg == PI.WM_.NCLBUTTONDOWN)
         {
-            if (Handle == IntPtr.Zero)
+            // Intercept Non Client Area Left Mouse Down.
+            // But it needs to know if the ControlBox is Clicked
+            //if (_form.SystemMenuValues.)
             {
-                AssignHandle(_form.Handle);
+                OnNCLeftMouseButtonDown();
             }
         }
-
-        /// <inheritdoc/>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public override void ReleaseHandle()
+        else if ((m.Msg & PI.WM_.SYSKEYDOWN) == PI.WM_.SYSKEYDOWN || (m.WParam.ToInt32() & PI.WM_.KEYDOWN) == PI.WM_.KEYDOWN)
         {
-            // Retain default behaviour, but hide this method from the editor
-
-            base.ReleaseHandle();
-        }
-
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public new void AssignHandle(IntPtr handle)
-        {
-            // Retain default behaviour, but hide this method from the editor
-
-            base.AssignHandle(handle);
-        }
-        #endregion
-
-        #region Protected (override)
-        protected override void WndProc(ref Message m)
-        {
-            if (m.Msg == PI.WM_.NCRBUTTONDOWN)
+            if ((Control.ModifierKeys & Keys.Alt) == Keys.Alt)
             {
-                // Intercept Non Client Area Right Mouse Down
-                // But it needs to know if the click happens on the title bar, otherwise
-                // the message must be forwarded.
-                
-                //if (some where in the title bar)
+                if (m.WParam.ToInt32() == (int)Keys.Space)
                 {
+                    // Intercept ALT + SPACE
+                    OnKeyAltSpaceDown();
 
-                    OnNCRightMouseButtonDown();
-
-                    // eat the message....????
+                    // eat the message
                     return;
                 }
             }
-            else if (m.Msg == PI.WM_.NCLBUTTONDOWN)
-            {
-                // Intercept Non Client Area Left Mouse Down.
-                // But it needs to know if the ControlBox is Clicked
-                //if (_form.SystemMenuValues.)
-                {
-                    OnNCLeftMouseButtonDown();
-                }
-            }
-            else if ((m.Msg & PI.WM_.SYSKEYDOWN) == PI.WM_.SYSKEYDOWN || (m.WParam.ToInt32() & PI.WM_.KEYDOWN) == PI.WM_.KEYDOWN)
-            {
-                if ((Control.ModifierKeys & Keys.Alt) == Keys.Alt)
-                {
-                    if (m.WParam.ToInt32() == (int)Keys.Space)
-                    {
-                        // Intercept ALT + SPACE
-                        OnKeyAltSpaceDown();
-
-                        // eat the message
-                        return;
-                    }
-                }
-            }
-
-            base.WndProc(ref m);
-        }
-        #endregion
-
-        #region Private
-        private void OnNCLeftMouseButtonDown()
-        {
-            Debug.Print($"OnNCLeftMouseButtonDown");
-            NCLeftMouseButtonDown?.Invoke();
         }
 
-        private void OnNCRightMouseButtonDown()
-        {
-            Debug.Print($"OnNCRightMouseButtonDown");
-            NCRightMouseButtonDown?.Invoke();
-        }
-
-        private void OnKeyAltSpaceDown()
-        {
-            Debug.Print($"OnKeyAltSpaceDown");
-            KeyAltSpaceDown?.Invoke();
-        }
-
-        private void OnMenuValuesPropertyChanged(PropertyChangedEventArgs eventArgs)
-        {
-            if (eventArgs.PropertyName == nameof(_form.SystemMenuValues.Enabled))
-            {
-                OnMenuValuesEnabledChanged();
-            }
-            else if (eventArgs.PropertyName == nameof(_form.SystemMenuValues.ShowOnAltSpace))
-            {
-                //OnMenuValuesEnabledChanged();
-            }
-            else if (eventArgs.PropertyName == nameof(_form.SystemMenuValues.ShowOnIconClick))
-            {
-                //OnMenuValuesEnabledChanged();
-            }
-            else if (eventArgs.PropertyName == nameof(_form.SystemMenuValues.ShowOnRightClick))
-            {
-               //OnMenuValuesEnabledChanged();
-            }
-        }
-
-        private void OnMenuValuesEnabledChanged()
-        {
-            if (_form.SystemMenuValues.Enabled)
-            {
-                EnableListener();
-            }
-            else
-            {
-                DisableListener();
-            }
-        }
-        #endregion
+        base.WndProc(ref m);
     }
+    #endregion
+
+    #region Private
+    private void OnNCLeftMouseButtonDown()
+    {
+        Debug.Print($"OnNCLeftMouseButtonDown");
+        NCLeftMouseButtonDown?.Invoke();
+    }
+
+    private void OnNCRightMouseButtonDown()
+    {
+        Debug.Print($"OnNCRightMouseButtonDown");
+        NCRightMouseButtonDown?.Invoke();
+    }
+
+    private void OnKeyAltSpaceDown()
+    {
+        Debug.Print($"OnKeyAltSpaceDown");
+        KeyAltSpaceDown?.Invoke();
+    }
+    #endregion
 }
