@@ -15,7 +15,7 @@ public class CommandLinkTextValues : CaptionValues
     #region Static Fields
     private const string DEFAULT_HEADING = @"Krypton Command Link Button";
     private const string DEFAULT_DESCRIPTION = @"Krypton Command Link Button ""Note Text""";
-    private static readonly Image? DEFAULT_IMAGE = GraphicsExtensions.ExtractIconFromShell32(16805, IconSize.Medium)?.ToBitmap();
+    private static readonly Image? DEFAULT_IMAGE = GraphicsExtensions.ExtractIconFromShell32(16805)?.ToBitmap();
     #endregion
 
     #region Instance Fields
