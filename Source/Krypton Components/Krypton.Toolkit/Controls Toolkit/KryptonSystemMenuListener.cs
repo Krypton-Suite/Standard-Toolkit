@@ -7,8 +7,6 @@
  */
 #endregion
 
-using System.Windows.Forms;
-
 namespace Krypton.Toolkit;
 
 internal class KryptonSystemMenuListener : NativeWindow
