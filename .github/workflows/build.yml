@@ -39,7 +39,7 @@ jobs:
           dotnet-version: 10.0.x
           dotnet-quality: preview
 
-      # global.json dynamisch erzeugen
+      # global.json dynamically generate
       - name: Force .NET 10 SDK via global.json
         run: |
           $sdkVersion = (dotnet --list-sdks | Select-String "10.0").ToString().Split(" ")[0]
@@ -97,7 +97,7 @@ jobs:
           dotnet-version: 10.0.x
           dotnet-quality: preview
 
-      # global.json dynamisch erzeugen
+      # global.json dynamically generate
       - name: Force .NET 10 SDK via global.json
         run: |
           $sdkVersion = (dotnet --list-sdks | Select-String "10.0").ToString().Split(" ")[0]

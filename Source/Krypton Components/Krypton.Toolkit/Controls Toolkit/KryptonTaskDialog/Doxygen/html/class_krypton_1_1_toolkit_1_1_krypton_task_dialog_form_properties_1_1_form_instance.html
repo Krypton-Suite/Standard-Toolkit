@@ -88,13 +88,10 @@ Properties</h2></td></tr>
 <tr class="memitem:a019f14ad8c1b7bc0b65269237c4047b7" id="r_a019f14ad8c1b7bc0b65269237c4047b7"><td class="memItemLeft" align="right" valign="top">FormStartPosition&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a019f14ad8c1b7bc0b65269237c4047b7">StartPosition</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a019f14ad8c1b7bc0b65269237c4047b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines the position of the dialog to appear.<br  />
  Set StartPosition to Manual and use the Location property to display the dialog at any custom screen position.  <br /></td></tr>
-<tr class="memitem:a4bcad747953c8f18d57d7312f500bfe1" id="r_a4bcad747953c8f18d57d7312f500bfe1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4bcad747953c8f18d57d7312f500bfe1">InertForm</a><code> [get, set]</code></td></tr>
-<tr class="memdesc:a4bcad747953c8f18d57d7312f500bfe1"><td class="mdescLeft">&#160;</td><td class="mdescRight"><b>(Experimental and might be removed)</b><br  />
- Intercepts all mouse and keystrokes to the form.<br  />
- Testing if this can be used to display a modeless window that is updated as a progres or status dialog to the user while some process is running.  <br /></td></tr>
 <tr class="memitem:a60852039538c79e0457ffa5ec0a61664" id="r_a60852039538c79e0457ffa5ec0a61664"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a60852039538c79e0457ffa5ec0a61664">IgnoreAltF4</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a60852039538c79e0457ffa5ec0a61664"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disables close by ALT+F4.<br  />
- To force the user to respond to the dialog through the buttons set CloseBox to false when using IgnoreAltF4.  <br /></td></tr>
+ To force the user to respond to the dialog through the buttons.<br  />
+ Set CloseBox to false when using IgnoreAltF4.  <br /></td></tr>
 <tr class="memitem:a98e20b2b98b3adbf1c469c0b6bf9208d" id="r_a98e20b2b98b3adbf1c469c0b6bf9208d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a98e20b2b98b3adbf1c469c0b6bf9208d">ControlBox</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a98e20b2b98b3adbf1c469c0b6bf9208d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Toggles the systemmenu button.  <br /></td></tr>
 <tr class="memitem:a7c9c89804bb4dc29c0e5bf0ca5f83ad5" id="r_a7c9c89804bb4dc29c0e5bf0ca5f83ad5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7c9c89804bb4dc29c0e5bf0ca5f83ad5">CloseBox</a><code> [get, set]</code></td></tr>
@@ -302,33 +299,8 @@ Properties</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Disables close by ALT+F4.<br  />
- To force the user to respond to the dialog through the buttons set CloseBox to false when using IgnoreAltF4. </p>
-
-</div>
-</div>
-<a id="a4bcad747953c8f18d57d7312f500bfe1" name="a4bcad747953c8f18d57d7312f500bfe1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4bcad747953c8f18d57d7312f500bfe1">&#9670;&#160;</a></span>InertForm</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool Krypton.Toolkit.KryptonTaskDialogFormProperties.FormInstance.InertForm</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel get">get</span><span class="mlabel set">set</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p><b>(Experimental and might be removed)</b><br  />
- Intercepts all mouse and keystrokes to the form.<br  />
- Testing if this can be used to display a modeless window that is updated as a progres or status dialog to the user while some process is running. </p>
+ To force the user to respond to the dialog through the buttons.<br  />
+ Set CloseBox to false when using IgnoreAltF4. </p>
 
 </div>
 </div>
@@ -459,12 +431,11 @@ Properties</h2></td></tr>
  Note: <br  />
  </p>
 <ul>
-<li>Make sure to set the caption, otherwise the taskbar button will only show and icon.<br  />
+<li>Make sure to set the caption, otherwise the taskbar button will only show an icon.<br  />
 </li>
 <li>Note: ShowInTaskBar only works when used with Show() or Show(owner).<br  />
 </li>
-<li>ShowDialog is a modal dialog and will not display a taskbar button, even when this is set to true.<br  />
- </li>
+<li>ShowDialog is a modal dialog and will not display a taskbar button, even when this is set to true.&gt; </li>
 </ul>
 
 </div>
