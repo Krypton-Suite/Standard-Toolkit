@@ -35,6 +35,10 @@
             this.kryptonPropertyGrid1 = new System.Windows.Forms.PropertyGrid();
             this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
             this.kryptonButton2 = new Krypton.Toolkit.KryptonButton();
+            this.kryptonContextMenuItem1 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItem2 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItem3 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItems2 = new Krypton.Toolkit.KryptonContextMenuItems();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonDataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -55,7 +59,7 @@
             this.kryptonDataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.kryptonDataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column12});
-            this.kryptonDataGridView1.Location = new System.Drawing.Point(263, 12);
+            this.kryptonDataGridView1.Location = new System.Drawing.Point(266, 12);
             this.kryptonDataGridView1.Name = "kryptonDataGridView1";
             this.kryptonDataGridView1.Size = new System.Drawing.Size(240, 150);
             this.kryptonDataGridView1.TabIndex = 4;
@@ -79,7 +83,7 @@
             this.kryptonPropertyGrid1.Name = "kryptonPropertyGrid1";
             this.kryptonPropertyGrid1.PropertySort = System.Windows.Forms.PropertySort.Alphabetical;
             this.kryptonPropertyGrid1.SelectedObject = this.kryptonDataGridView1;
-            this.kryptonPropertyGrid1.Size = new System.Drawing.Size(392, 432);
+            this.kryptonPropertyGrid1.Size = new System.Drawing.Size(392, 494);
             this.kryptonPropertyGrid1.TabIndex = 6;
             // 
             // propertyGrid1
@@ -90,7 +94,7 @@
             this.propertyGrid1.Name = "propertyGrid1";
             this.propertyGrid1.PropertySort = System.Windows.Forms.PropertySort.Alphabetical;
             this.propertyGrid1.SelectedObject = this.Column12;
-            this.propertyGrid1.Size = new System.Drawing.Size(392, 432);
+            this.propertyGrid1.Size = new System.Drawing.Size(392, 494);
             this.propertyGrid1.TabIndex = 8;
             // 
             // kryptonButton2
@@ -107,7 +111,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1324, 450);
+            this.ClientSize = new System.Drawing.Size(1362, 440);
             this.Controls.Add(this.kryptonButton2);
             this.Controls.Add(this.propertyGrid1);
             this.Controls.Add(this.kryptonPropertyGrid1);
@@ -116,15 +120,9 @@
             this.FormTitleAlign = Krypton.Toolkit.PaletteRelativeAlign.Inherit;
             this.GroupBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelClient;
             this.ImageStyle = Krypton.Toolkit.PaletteImageStyle.TopLeft;
-            this.Location = new System.Drawing.Point(0, 0);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "PanelForm";
             this.Text = "PanelForm";
-            this.Controls.SetChildIndex(this.kryptonButton1, 0);
-            this.Controls.SetChildIndex(this.kryptonDataGridView1, 0);
-            this.Controls.SetChildIndex(this.kryptonPropertyGrid1, 0);
-            this.Controls.SetChildIndex(this.propertyGrid1, 0);
-            this.Controls.SetChildIndex(this.kryptonButton2, 0);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonDataGridView1)).EndInit();
             this.ResumeLayout(false);
 
@@ -138,5 +136,9 @@
         private PropertyGrid propertyGrid1;
         private KryptonDataGridViewRatingColumn Column12;
         private KryptonButton kryptonButton2;
+        private KryptonContextMenuItem kryptonContextMenuItem1;
+        private KryptonContextMenuItem kryptonContextMenuItem2;
+        private KryptonContextMenuItem kryptonContextMenuItem3;
+        private KryptonContextMenuItems kryptonContextMenuItems2;
     }
 }
