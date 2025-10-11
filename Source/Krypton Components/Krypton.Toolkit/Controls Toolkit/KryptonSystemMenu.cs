@@ -109,7 +109,10 @@ public class KryptonSystemMenu : IDisposable
         if (!_disposed && disposing)
         { 
             _form.SystemMenuValues.PropertyChanged -= OnMenuValuesPropertyChanged;
-            
+
+            // Stop the listener wihch also will release the assigned handle
+            _listener.DisableListener();
+
             _disposed = true;
         }
     }

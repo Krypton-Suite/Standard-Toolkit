@@ -344,7 +344,7 @@ public class KryptonForm : VisualForm,
         // Move is enabled when window is in Normal state (can be moved) or when minimized (can be restored)
         _systemMenuContextMenuItemMove.Enabled = (windowState == FormWindowState.Normal) || (windowState == FormWindowState.Minimized);
 
-        // Size is enabled when window is in Normal state and form is sizable
+        // Size is enabled when the window is in Normal state and form is sizable
         _systemMenuContextMenuItemSize.Enabled = (windowState == FormWindowState.Normal) 
             && this.FormBorderStyle is FormBorderStyle.Sizable or FormBorderStyle.SizableToolWindow;
     }
@@ -372,14 +372,14 @@ public class KryptonForm : VisualForm,
             _systemMenuContextMenuItemClose.Text = KryptonManager.Strings.SystemMenuStrings.Close;
             _systemMenuContextMenuItemClose.Click += OnSystemMenuContextMenuItemCloseClick;
 
-            // Insert the items from the top in case something is in already.
-            items.Items.Insert(0, _systemMenuContextMenuItemRestore);
-            items.Items.Insert(1, _systemMenuContextMenuItemMove);
-            items.Items.Insert(2, _systemMenuContextMenuItemSize);
-            items.Items.Insert(3, _systemMenuContextMenuItemMinimize);
-            items.Items.Insert(4, _systemMenuContextMenuItemMaximize);
-            items.Items.Insert(5, new KryptonContextMenuSeparator());
-            items.Items.Insert(6, _systemMenuContextMenuItemClose);
+            // Add the items in the order of the default system menu
+            items.Items.Add(_systemMenuContextMenuItemRestore);
+            items.Items.Add(_systemMenuContextMenuItemMove);
+            items.Items.Add(_systemMenuContextMenuItemSize);
+            items.Items.Add(_systemMenuContextMenuItemMinimize);
+            items.Items.Add(_systemMenuContextMenuItemMaximize);
+            items.Items.Add(new KryptonContextMenuSeparator());
+            items.Items.Add(_systemMenuContextMenuItemClose);
             _systemMenuContextMenu.Items.Insert(0, items);
 
             _kryptonSystemMenu = new(this, _drawContent, _systemMenuContextMenu);
@@ -627,6 +627,9 @@ public class KryptonForm : VisualForm,
             _systemMenuContextMenuItemMinimize.Click -= OnSystemMenuContextMenuItemMinimizeClick;
             _systemMenuContextMenuItemMaximize.Click -= OnSystemMenuContextMenuItemMaximizeClick;
             _systemMenuContextMenuItemClose.Click -= OnSystemMenuContextMenuItemCloseClick;
+
+            // Dispose of the system menu, which will in turn release any open handle in the listener
+            _kryptonSystemMenu?.Dispose();
 
             ButtonSpecMin.Dispose();
             ButtonSpecMax.Dispose();
