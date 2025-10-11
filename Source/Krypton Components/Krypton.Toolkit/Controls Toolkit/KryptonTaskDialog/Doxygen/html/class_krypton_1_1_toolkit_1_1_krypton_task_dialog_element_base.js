@@ -11,6 +11,7 @@ var class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_base =
     [ "BackColor1", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_base.html#a39721e8cbc3d3a633ec5aec58b9fb05a", null ],
     [ "BackColor2", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_base.html#afd5ed09400d8baa2b388c97f19c1255e", null ],
     [ "Height", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_base.html#a6e5f697c5889f1912bc48e7fc4bdcd6a", null ],
+    [ "ShowSeparator", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_base.html#a05a102d7fed578d0ae61cded8f175705", null ],
     [ "Visible", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_base.html#a94d593cbf5709e9f2af88078590410a4", null ],
     [ "SizeChanged", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_base.html#a11764763b6db3503ab7a78200fcd7646", null ],
     [ "VisibleChanged", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_base.html#ab25d3c4ae501f28e6907a810d6ceb4f2", null ]

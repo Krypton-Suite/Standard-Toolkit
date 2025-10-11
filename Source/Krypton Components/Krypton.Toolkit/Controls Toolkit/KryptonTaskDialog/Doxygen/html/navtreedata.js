@@ -53,9 +53,10 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"_i_krypton_task_dialog_element_base_8cs.html",
-"class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_hyper_link.html#a11901780e26a9309177500d37458c5f1",
-"interface_krypton_1_1_toolkit_1_1_i_krypton_task_dialog_element_font.html#a744405d241ef56da2d9fb14cb7d4504f"
+"_elements_2_krypton_task_dialog_element_footer_bar_8cs.html",
+"class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_content_test.html#a417fd1059d94f65688e74167a4614014",
+"class_krypton_1_1_toolkit_1_1_krypton_task_dialog_form_properties_1_1_form_instance.html#a1e7019ddf29f973534f1efd7fa8eefcb",
+"namespace_krypton_1_1_toolkit.html#a52198d178c6a38a3cdc3108804439f83ae0aa021e21dddbd6d8cecec71e9cf564"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

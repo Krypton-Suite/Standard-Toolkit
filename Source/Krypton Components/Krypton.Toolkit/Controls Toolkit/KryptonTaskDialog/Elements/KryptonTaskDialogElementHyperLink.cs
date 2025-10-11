@@ -1,8 +1,5 @@
-﻿#region BSD License
+#region BSD License
 /*
- *
- * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- * © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  * Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2025 - 2025. All rights reserved.
@@ -164,19 +161,22 @@ public class KryptonTaskDialogElementHyperLink : KryptonTaskDialogElementSingleL
     #endregion
 
     #region Private
-    private void SetupPanel()
+    private void SetupControls()
     {
         // Label holds the description that goes with the hyperlink
         _description.AutoSize = true;
         _description.Padding = Defaults.NullPadding;
-        _description.Margin = new Padding(0, 0, 0, Defaults.ComponentSpace);
+        _description.Margin = new Padding( 0, 0, 0, Defaults.ComponentSpace );
 
         // The hyperlink
         _linkLabel.AutoSize = true;
         _linkLabel.Padding = Defaults.NullPadding;
         _linkLabel.Margin = Defaults.NullPadding;
         _linkLabel.LinkClicked += OnLinkClicked;
+    }
 
+    private void SetupPanel()
+    {
         // add the controls
         _tlp.Controls.Add(_description, 0, 0);
         _tlp.Controls.Add(_linkLabel, 0, 1);

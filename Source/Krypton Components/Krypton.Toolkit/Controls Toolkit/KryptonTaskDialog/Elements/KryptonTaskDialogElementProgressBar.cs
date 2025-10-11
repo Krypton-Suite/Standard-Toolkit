@@ -1,8 +1,5 @@
-﻿#region BSD License
+#region BSD License
 /*
- *
- * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- * © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  * Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2025 - 2025. All rights reserved.
@@ -13,7 +10,8 @@
 namespace Krypton.Toolkit;
 
 public class KryptonTaskDialogElementProgresBar : KryptonTaskDialogElementSingleLineControlBase,
-    IKryptonTaskDialogElementDescription
+    IKryptonTaskDialogElementDescription,
+    IKryptonTaskDialogElementRoundedCorners
 {
     #region Fields
     private KryptonWrapLabel _description;
@@ -95,7 +93,7 @@ public class KryptonTaskDialogElementProgresBar : KryptonTaskDialogElementSingle
             if (field != value)
             {
                 field = value;
-                _description.StateCommon.TextColor = ForeColor;
+                _description.StateCommon.TextColor = value;
             }
         }
     }
@@ -133,8 +131,26 @@ public class KryptonTaskDialogElementProgresBar : KryptonTaskDialogElementSingle
     /// <summary>
     /// Configure the ProgressBar.
     /// </summary>
+    [Browsable(true)]
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public KryptonTaskDialogElementProgresBarProperties ProgressBar { get; }
+
+    /// <summary>
+    /// Rounds the progressbar corners.
+    /// </summary>
+    public bool RoundedCorners 
+    {
+        get => field;
+        
+        set
+        {
+            if (field != value)
+            {
+                field = value;
+                _progressBar.StateCommon.Border.Rounding = Defaults.GetCornerRouding(value);
+            }
+        }
+    }
     #endregion
 
     #region Private
@@ -159,18 +175,23 @@ public class KryptonTaskDialogElementProgresBar : KryptonTaskDialogElementSingle
         }
     }
 
-    private void SetupPanel()
+    private void SetupControls()
     {
         // Label holds the description that goes with the hyperlink
         _description.AutoSize = true;
         _description.Padding = Defaults.NullPadding;
-        _description.Margin = new Padding(0, 0, 0, Defaults.ComponentSpace);
+        _description.Margin = new Padding( 0, 0, 0, Defaults.ComponentSpace );
 
         // The hyperlink
         _progressBar.Width = Defaults.ClientWidth - Defaults.PanelLeft - Defaults.PanelRight;
-        _progressBar.Margin = new Padding(0, 0, 0, Defaults.ComponentSpace);
+        _progressBar.Margin = new Padding( 0, 0, 0, Defaults.ComponentSpace );
         _progressBar.Padding = Defaults.NullPadding;
         _progressBar.Margin = Defaults.NullMargin;
+    }
+
+    private void SetupPanel()
+    {
+        SetupControls();
 
         // add the controls
         _tlp.Controls.Add(_description, 0, 0);

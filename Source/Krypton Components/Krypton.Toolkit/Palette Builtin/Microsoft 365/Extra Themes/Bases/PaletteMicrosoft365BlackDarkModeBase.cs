@@ -175,7 +175,7 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
     private static readonly Color _buttonTextTracking = Color.Black;
     private static readonly Color _gridTextColor = Color.White;
     private static readonly Color _disabledText2 = Color.FromArgb(166, 166, 166);
-    private static readonly Color _disabledText = Color.FromArgb(32, 32, 32);
+    private static readonly Color _disabledText = Color.FromArgb(51, 51, 51);
     private static readonly Color _disabledBack = Color.FromArgb(102, 102, 102);
     private static readonly Color _disabledBack2 = Color.FromArgb(128, 128, 128);
     private static readonly Color _disabledBorder = Color.FromArgb(212, 212, 212);
@@ -3595,9 +3595,7 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
             case PaletteRibbonBackStyle.RibbonAppMenuOuter:
                 return PaletteRibbonColorStyle.RibbonAppMenuOuter;
             case PaletteRibbonBackStyle.RibbonQATMinibar:
-                return state == PaletteState.CheckedNormal
-                    ? PaletteRibbonColorStyle.RibbonQATMinibarDouble
-                    : PaletteRibbonColorStyle.RibbonQATMinibarSingle;
+                return PaletteRibbonColorStyle.RibbonQATMinibarDouble;
 
             case PaletteRibbonBackStyle.RibbonQATFullbar:
                 return PaletteRibbonColorStyle.RibbonQATFullbarSquare;
@@ -3636,6 +3634,7 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
                 {
                     case PaletteState.Normal:
                     case PaletteState.CheckedNormal:
+                         return PaletteRibbonColorStyle.LinearBorder2;
                     case PaletteState.ContextNormal:
                     case PaletteState.ContextCheckedNormal:
                         return PaletteRibbonColorStyle.Empty;
@@ -3719,7 +3718,7 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
             case PaletteRibbonBackStyle.RibbonAppMenuOuter:
                 return BaseColors.AppButtonOuter1;
             case PaletteRibbonBackStyle.RibbonQATMinibar:
-                return state == PaletteState.Normal
+                return state == PaletteState.CheckedNormal
                     ? BaseColors.RibbonQATMini1
                     : BaseColors.RibbonQATMini1I;
 
@@ -3820,7 +3819,7 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
             case PaletteRibbonBackStyle.RibbonAppMenuOuter:
                 return BaseColors.AppButtonOuter2;
             case PaletteRibbonBackStyle.RibbonQATMinibar:
-                return state == PaletteState.Normal
+                return state == PaletteState.CheckedNormal
                     ? BaseColors.RibbonQATMini2
                     : BaseColors.RibbonQATMini2I;
 
@@ -3937,7 +3936,7 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
             case PaletteRibbonBackStyle.RibbonAppMenuOuter:
                 return BaseColors.AppButtonOuter3;
             case PaletteRibbonBackStyle.RibbonQATMinibar:
-                return state == PaletteState.Normal
+                return state == PaletteState.CheckedNormal
                     ? BaseColors.RibbonQATMini3
                     : BaseColors.RibbonQATMini3I;
 
@@ -4019,7 +4018,7 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
         switch (style)
         {
             case PaletteRibbonBackStyle.RibbonQATMinibar:
-                return state == PaletteState.Normal
+                return state == PaletteState.CheckedNormal
                     ? BaseColors.RibbonQATMini4
                     : BaseColors.RibbonQATMini4I;
 
@@ -4116,7 +4115,7 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
             case PaletteRibbonBackStyle.RibbonGroupCollapsedBorder:
                 return BaseColors.RibbonGroupBorder5;
             case PaletteRibbonBackStyle.RibbonQATMinibar:
-                return state == PaletteState.Normal
+                return state == PaletteState.CheckedNormal
                     ? BaseColors.RibbonQATMini5
                     : BaseColors.RibbonQATMini5I;
 

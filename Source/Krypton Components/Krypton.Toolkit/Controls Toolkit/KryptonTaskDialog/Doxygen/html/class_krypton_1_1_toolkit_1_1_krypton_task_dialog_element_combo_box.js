@@ -13,6 +13,7 @@ var class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_combo_box =
     [ "DropDownWidth", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_combo_box.html#a74730dc408c8347e0abab14af02d69d2", null ],
     [ "ForeColor", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_combo_box.html#acc1993203cb5dc9398220ca17f106a29", null ],
     [ "Items", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_combo_box.html#aff0c072d49201c72ae9c849058c1fd95", null ],
+    [ "RoundedCorners", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_combo_box.html#a4a804a8b9e0a94a066e3d8edb413411d", null ],
     [ "SelectedIndex", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_combo_box.html#ac9e27a1e86f6d4e424831d4822da8350", null ],
     [ "SelectedItem", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_combo_box.html#ac069a2b036e638e42c67f8e4e7bbc6a9", null ],
     [ "ShowDescription", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_combo_box.html#ab3cf685d7565ca200efa49690dd1bf62", null ],

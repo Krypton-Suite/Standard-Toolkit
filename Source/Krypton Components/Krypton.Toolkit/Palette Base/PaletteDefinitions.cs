@@ -3976,6 +3976,11 @@ public enum PaletteRibbonColorStyle
     LinearBorder,
 
     /// <summary>
+     /// Specifies linear gradient border from first to second color.
+    /// </summary>
+    LinearBorder2,
+
+    /// <summary>
     /// Specifies using colors to draw a application menu inner area.
     /// </summary>
     RibbonAppMenuInner,
