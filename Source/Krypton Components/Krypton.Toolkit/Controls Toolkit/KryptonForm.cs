@@ -2097,7 +2097,7 @@ public class KryptonForm : VisualForm,
     /// <summary>
     /// Process the WM_NCLBUTTONDOWN message when overriding window chrome.
     /// </summary>
-    /// <param name="m">A Windows-based message.</param>4
+    /// <param name="m">A Windows-based message.</param>
     /// <returns>True if the message was processed; otherwise false.</returns>
     protected override bool OnWM_NCLBUTTONDOWN(ref Message m)
     {
