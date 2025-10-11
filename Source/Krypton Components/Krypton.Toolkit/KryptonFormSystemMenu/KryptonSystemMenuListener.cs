@@ -19,14 +19,15 @@ internal class KryptonSystemMenuListener : NativeWindow
      */
 
     #region Events
-    public event Action? KeyAltSpaceDown;
-    public event Action? NCRightMouseButtonDown;
-    public event Action? NCLeftMouseButtonDown;
+    public event Action<Point>? KeyAltSpaceDown;
+    public event Action<Point>? NCRightMouseButtonDown;
+    public event Action<Point>? NCLeftMouseButtonDown;
     #endregion
 
     #region Fields
     private readonly KryptonForm _form;
     private ViewDrawDocker _drawHeading;
+    private ViewDrawContent _drawContent;
     #endregion
 
     #region Identity
@@ -35,10 +36,11 @@ internal class KryptonSystemMenuListener : NativeWindow
     /// </summary>
     /// <param name="kryptonForm">The instance the KryptonSystemMenu is operating on.</param>
     /// <param name="drawHeading">Heading component for title bar detection.</param>
-    public KryptonSystemMenuListener(KryptonForm kryptonForm, ViewDrawDocker drawHeading)
+    public KryptonSystemMenuListener(KryptonForm kryptonForm, ViewDrawDocker drawHeading, ViewDrawContent drawContent)
     {
         _form = kryptonForm;
         _drawHeading = drawHeading;
+        _drawContent = drawContent;
     }
     #endregion
 
@@ -86,7 +88,7 @@ internal class KryptonSystemMenuListener : NativeWindow
     #region Protected (override)
     protected override void WndProc(ref Message m)
     {
-        if (m.Msg == PI.WM_.NCRBUTTONDOWN)
+        if (_form.SystemMenuValues.ShowOnRightClick && m.Msg == PI.WM_.NCRBUTTONDOWN)
         {
             // Intercept Non Client Area Right Mouse Down
             // But it needs to know if the click happens on the title bar, otherwise
@@ -94,33 +96,60 @@ internal class KryptonSystemMenuListener : NativeWindow
             
             //if (some where in the title bar)
             {
+                // Get the screen coordinates from the message
 
-                OnNCRightMouseButtonDown();
+                Point screenPoint = GetScreenPointFromLParam(m.LParam);
+                if (_form.IsInTitleBarArea(screenPoint))
+                {
+                    OnNCRightMouseButtonDown(screenPoint);
+                    // Eat the message
+                    return;
+                }
 
-                // eat the message....????
-                return;
+
             }
         }
-        else if (m.Msg == PI.WM_.NCLBUTTONDOWN)
+        else if (_form.SystemMenuValues.ShowOnIconClick && m.Msg == PI.WM_.NCLBUTTONDOWN)
         {
-            // Intercept Non Client Area Left Mouse Down.
-            // But it needs to know if the ControlBox is Clicked
-            //if (_form.SystemMenuValues.)
+            Point screenPoint = GetScreenPointFromLParam(m.LParam);
+            if (_form.IsInTitleBarArea(screenPoint) && !_form.IsOnControlButtons(screenPoint))
             {
-                OnNCLeftMouseButtonDown();
+                // Discover if the form icon is being Displayed
+                using var context = GetLayoutContext();
+
+                if (_drawContent.IsImageDisplayed(context))
+                {
+                    // Convert to window coordinates
+                    Point windowPoint = ScreenToWindow(screenPoint);
+
+                    // Check if the mouse is over the Application icon image area
+                    if (_drawContent.ImageRectangle(context).Contains(windowPoint))
+                    {
+                        OnNCLeftMouseButtonDown(screenPoint);
+                        // Eat the message
+                        return;
+                    }
+                }
             }
         }
-        else if ((m.Msg & PI.WM_.SYSKEYDOWN) == PI.WM_.SYSKEYDOWN || (m.WParam.ToInt32() & PI.WM_.KEYDOWN) == PI.WM_.KEYDOWN)
+        else if (_form.SystemMenuValues.ShowOnAltSpace
+            && (m.Msg & PI.WM_.SYSKEYDOWN) == PI.WM_.SYSKEYDOWN || (m.WParam.ToInt32() & PI.WM_.KEYDOWN) == PI.WM_.KEYDOWN)
         {
             if ((Control.ModifierKeys & Keys.Alt) == Keys.Alt)
             {
-                if (m.WParam.ToInt32() == (int)Keys.Space)
+                if (m.WParam.ToInt32() == (nint)Keys.Space)
                 {
-                    // Intercept ALT + SPACE
-                    OnKeyAltSpaceDown();
+                    // Discover if the form icon is being Displayed
+                    using var context = GetLayoutContext();
 
-                    // eat the message
-                    return;
+                    // Check if the mouse is over the Application icon image area
+                    if (_drawContent.IsImageDisplayed(context))
+                    {
+                        OnKeyAltSpaceDown(_drawContent.ImageRectangle(context).Location);
+
+                        // Eat the message
+                        return;
+                    }
                 }
             }
         }
@@ -130,22 +159,43 @@ internal class KryptonSystemMenuListener : NativeWindow
     #endregion
 
     #region Private
-    private void OnNCLeftMouseButtonDown()
+    private ViewLayoutContext GetLayoutContext()
+    {
+        return new ViewLayoutContext(_form, _form.Renderer);
+    }
+
+    private Point ScreenToWindow(Point screenPoint)
+    {
+        // First of all convert to client coordinates
+        Point clientPoint = _form.PointToClient(screenPoint);
+
+        // Now adjust to take into account the top and left borders
+        clientPoint.Offset(_form.RealWindowBorders.Left, _form.RealWindowBorders.Top);
+
+        return clientPoint;
+    }
+
+    private Point GetScreenPointFromLParam(IntPtr LParam)
+    {
+        return new Point(PI.GET_X_LPARAM(LParam), PI.GET_Y_LPARAM(LParam));
+    }
+
+    private void OnNCLeftMouseButtonDown(Point screenPoint)
     {
         Debug.Print($"OnNCLeftMouseButtonDown");
-        NCLeftMouseButtonDown?.Invoke();
+        NCLeftMouseButtonDown?.Invoke(screenPoint);
     }
 
-    private void OnNCRightMouseButtonDown()
+    private void OnNCRightMouseButtonDown(Point screenPoint)
     {
         Debug.Print($"OnNCRightMouseButtonDown");
-        NCRightMouseButtonDown?.Invoke();
+        NCRightMouseButtonDown?.Invoke(screenPoint);
     }
 
-    private void OnKeyAltSpaceDown()
+    private void OnKeyAltSpaceDown(Point screenPoint)
     {
         Debug.Print($"OnKeyAltSpaceDown");
-        KeyAltSpaceDown?.Invoke();
+        KeyAltSpaceDown?.Invoke(screenPoint);
     }
     #endregion
 }

@@ -7,28 +7,42 @@
  */
 #endregion
 
+using System.Windows.Forms;
+
 namespace Krypton.Toolkit;
 
-public class KryptonSystemMenu
+public class KryptonSystemMenu : IDisposable
 {
+    #region Fields
     private KryptonForm _form;
     private ViewDrawDocker _drawHeading;
+    private ViewDrawContent _drawContent;
     private KryptonSystemMenuListener _listener;
     private KryptonContextMenu _contextMenu;
+    private bool _disposed;
+    #endregion
 
-    public KryptonSystemMenu(KryptonForm kryptonForm, ViewDrawDocker drawHeading, KryptonContextMenu contextMenu)
+    #region Identity
+    public KryptonSystemMenu(KryptonForm kryptonForm, ViewDrawDocker drawHeading, ViewDrawContent drawContent, KryptonContextMenu contextMenu)
     {
         _form = kryptonForm;
         _contextMenu = contextMenu;
         _drawHeading = drawHeading;
+        _drawContent = drawContent;
 
         // Instantiate the listener
-        _listener = new(_form, _drawHeading);
+        _listener = new(_form, _drawHeading, _drawContent);
 
-        // Subscribe to enabled changed events
+        // Subscribe to property changed events
         _form.SystemMenuValues.PropertyChanged += OnMenuValuesPropertyChanged;
-    }
 
+        _listener.NCRightMouseButtonDown += OnListenerNCRightMouseButtonDown;
+        _listener.NCLeftMouseButtonDown += OnListenerNCLeftMouseButtonDown;
+        _listener.KeyAltSpaceDown += OnListenerKeyAltSpaceDown;
+    }
+    #endregion
+
+    #region Public
     /// <summary>
     /// Stop listening for mouse and keyboard events that trigger the system menu.
     /// </summary>
@@ -44,8 +58,27 @@ public class KryptonSystemMenu
     {
         _listener.EnableListener();
     }
+    #endregion
 
     #region Private
+    private void OnListenerKeyAltSpaceDown(Point screenPoint)
+    {
+        _form.UpdateSystemMenuItemState();
+        _contextMenu.Show(_form, screenPoint);
+    }
+
+    private void OnListenerNCLeftMouseButtonDown(Point screenPoint)
+    {
+        _form.UpdateSystemMenuItemState();
+        _contextMenu.Show(_form, screenPoint);
+    }
+
+    private void OnListenerNCRightMouseButtonDown(Point screenPoint)
+    {
+        _form.UpdateSystemMenuItemState();
+        _contextMenu.Show(_form, screenPoint);
+    }
+
     private void OnMenuValuesPropertyChanged(object? sender, PropertyChangedEventArgs eventArgs)
     {
         if (eventArgs.PropertyName == nameof(_form.SystemMenuValues.Enabled))
@@ -72,5 +105,28 @@ public class KryptonSystemMenu
            //OnMenuValuesEnabledChanged();
         }
     }
-#endregion
+    #endregion
+
+    #region IDisposable
+    /// <inheritdoc/>
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!_disposed && disposing)
+        { 
+            _form.SystemMenuValues.PropertyChanged -= OnMenuValuesPropertyChanged;
+            
+            _disposed = true;
+        }
+    }
+
+    /// <summary>
+    /// Cleanup and dispose the instance.
+    /// </summary>
+    public void Dispose()
+    {
+        // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
+    }
+    #endregion
 }

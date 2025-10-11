@@ -12,6 +12,8 @@
 
 // ReSharper disable InconsistentNaming
 
+using System.Windows.Forms;
+
 using SolidBrush = System.Drawing.SolidBrush;
 using Timer = System.Windows.Forms.Timer;
 
@@ -28,6 +30,32 @@ public class KryptonForm : VisualForm,
     IContentValues
 {
     #region Type Definitions
+
+    internal class FormPaletteRedirect : PaletteRedirect
+    {
+        private readonly KryptonForm _kryptonForm;
+
+        public FormPaletteRedirect(PaletteBase palette, KryptonForm kryptonForm)
+            : base(palette)
+        {
+            _kryptonForm = kryptonForm;
+        }
+
+        public override PaletteRelativeAlign GetContentShortTextH(PaletteContentStyle style, PaletteState state) => style switch
+        {
+            PaletteContentStyle.HeaderForm
+                or PaletteContentStyle.HeaderPrimary
+                or PaletteContentStyle.HeaderDockInactive
+                or PaletteContentStyle.HeaderDockActive
+                or PaletteContentStyle.HeaderSecondary
+                or PaletteContentStyle.HeaderCustom1
+                or PaletteContentStyle.HeaderCustom2
+                or PaletteContentStyle.HeaderCustom3 => _kryptonForm._formTitleAlign != PaletteRelativeAlign.Inherit
+                    ? _kryptonForm._formTitleAlign
+                    : base.GetContentShortTextH(style, state),
+            _ => base.GetContentShortTextH(style, state)
+        };
+    }
 
     /// <summary>
     /// Collection for managing ButtonSpecAny instances.
@@ -109,12 +137,17 @@ public class KryptonForm : VisualForm,
     private int _foundRibbonOffset = -1;
     private readonly KryptonPanel _internalKryptonPanel;
     // Compensate for Windows 11 outer accent border by shrinking the window region slightly
-    private const int NON_CLIENT_REGION_INSET = 4;
     private Rectangle _lastGripClientRect = Rectangle.Empty;
-    private Rectangle _lastGripWindowRect = Rectangle.Empty;
     private Timer? _clickTimer;
     private KryptonSystemMenu? _kryptonSystemMenu;
+    // SystemMenu context menu components
     private KryptonContextMenu _systemMenuContextMenu;
+    private KryptonContextMenuItem _systemMenuContextMenuItemRestore;
+    private KryptonContextMenuItem _systemMenuContextMenuItemMove;
+    private KryptonContextMenuItem _systemMenuContextMenuItemSize;
+    private KryptonContextMenuItem _systemMenuContextMenuItemMinimize;
+    private KryptonContextMenuItem _systemMenuContextMenuItemMaximize;
+    private KryptonContextMenuItem _systemMenuContextMenuItemClose;
     #endregion
 
     #region Identity
@@ -235,9 +268,16 @@ public class KryptonForm : VisualForm,
         base.PaletteChanged += (s, e) => _internalKryptonPanel.PaletteMode = PaletteMode;
         // END #1979 Temporary fix
 
-        //
+        // Instantiate system menu items only to keep the compiler happy
         _systemMenuContextMenu = new();
-        SystemMenuValues = new(_systemMenuContextMenu);
+        _systemMenuContextMenuItemRestore = new(); 
+        _systemMenuContextMenuItemMove = new(); 
+        _systemMenuContextMenuItemSize = new(); 
+        _systemMenuContextMenuItemMinimize = new(); 
+        _systemMenuContextMenuItemMaximize = new(); 
+        _systemMenuContextMenuItemClose = new(); 
+
+        SystemMenuValues = new (_systemMenuContextMenu);
 
         // Init only here. Must instantiate in OnHandleCreated
         _kryptonSystemMenu = null;
@@ -250,18 +290,107 @@ public class KryptonForm : VisualForm,
     public void ResetSystemMenuValues() => SystemMenuValues.Reset();
 
     #region Private
+    private void OnSystemMenuContextMenuItemRestoreClick(object? sender, EventArgs e)
+    {
+        if (this.WindowState != FormWindowState.Normal)
+        {
+            this.WindowState = FormWindowState.Normal;
+        }
+    }
+
+    private void OnSystemMenuContextMenuItemMoveClick(object? sender, EventArgs e)
+    {
+        SendSysCommand(PI.SC_.MOVE);
+    }
+
+    private void OnSystemMenuContextMenuItemSizeClick(object? sender, EventArgs e)
+    {
+        SendSysCommand(PI.SC_.SIZE);
+    }
+
+    private void OnSystemMenuContextMenuItemMinimizeClick(object? sender, EventArgs e)
+    {
+        if (this.WindowState != FormWindowState.Minimized)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+    }
+    private void OnSystemMenuContextMenuItemMaximizeClick(object? sender, EventArgs e)
+    {
+        if (this.WindowState != FormWindowState.Maximized)
+        {
+            this.WindowState = FormWindowState.Maximized;
+        }
+    }
+
+    private void OnSystemMenuContextMenuItemCloseClick(object? sender, EventArgs e)
+    {
+        this.Close();
+    }
+    
+    internal void UpdateSystemMenuItemState()
+    {
+        var windowState = this.GetWindowState();
+
+        // Update menu items based on current state using direct field references
+        _systemMenuContextMenuItemRestore.Enabled = (windowState != FormWindowState.Normal);
+
+        // Minimize item is enabled only if MinimizeBox is true and window is not already minimized
+        _systemMenuContextMenuItemMinimize.Enabled = this.MinimizeBox && (windowState != FormWindowState.Minimized);
+
+        // Maximize item is enabled only if MaximizeBox is true and window is not already maximized
+        _systemMenuContextMenuItemMaximize.Enabled = this.MaximizeBox && (windowState != FormWindowState.Maximized);
+
+        // Move is enabled when window is in Normal state (can be moved) or when minimized (can be restored)
+        _systemMenuContextMenuItemMove.Enabled = (windowState == FormWindowState.Normal) || (windowState == FormWindowState.Minimized);
+
+        // Size is enabled when window is in Normal state and form is sizable
+        _systemMenuContextMenuItemSize.Enabled = (windowState == FormWindowState.Normal) 
+            && this.FormBorderStyle is FormBorderStyle.Sizable or FormBorderStyle.SizableToolWindow;
+    }
+
     private void SetupSystemMenu() 
     {
         if (!DesignMode)
         {
-            _kryptonSystemMenu = new(this, _drawHeading, _systemMenuContextMenu);
+            KryptonContextMenuItems items = new();
+            _systemMenuContextMenuItemRestore.Text = KryptonManager.Strings.SystemMenuStrings.Restore;
+            _systemMenuContextMenuItemRestore.Click += OnSystemMenuContextMenuItemRestoreClick;
 
-            // When the _kryptonSystemMenu is instantiated the listener is not enable by default.
+            _systemMenuContextMenuItemMove.Text = KryptonManager.Strings.SystemMenuStrings.Move;
+            _systemMenuContextMenuItemMove.Click += OnSystemMenuContextMenuItemMoveClick;
+
+            _systemMenuContextMenuItemSize.Text = KryptonManager.Strings.SystemMenuStrings.Size;
+            _systemMenuContextMenuItemSize.Click += OnSystemMenuContextMenuItemSizeClick;
+
+            _systemMenuContextMenuItemMinimize.Text = KryptonManager.Strings.SystemMenuStrings.Minimize;
+            _systemMenuContextMenuItemMinimize.Click += OnSystemMenuContextMenuItemMinimizeClick;
+
+            _systemMenuContextMenuItemMaximize.Text = KryptonManager.Strings.SystemMenuStrings.Maximize;
+            _systemMenuContextMenuItemMaximize.Click += OnSystemMenuContextMenuItemMaximizeClick;
+
+            _systemMenuContextMenuItemClose.Text = KryptonManager.Strings.SystemMenuStrings.Close;
+            _systemMenuContextMenuItemClose.Click += OnSystemMenuContextMenuItemCloseClick;
+
+            // Insert the items from the top in case something is in already.
+            items.Items.Insert(0, _systemMenuContextMenuItemRestore);
+            items.Items.Insert(1, _systemMenuContextMenuItemMove);
+            items.Items.Insert(2, _systemMenuContextMenuItemSize);
+            items.Items.Insert(3, _systemMenuContextMenuItemMinimize);
+            items.Items.Insert(4, _systemMenuContextMenuItemMaximize);
+            items.Items.Insert(5, new KryptonContextMenuSeparator());
+            items.Items.Insert(6, _systemMenuContextMenuItemClose);
+            _systemMenuContextMenu.Items.Insert(0, items);
+
+            _kryptonSystemMenu = new(this, _drawHeading, _drawContent, _systemMenuContextMenu);
+
+            // When the _kryptonSystemMenu is instantiated the listener is not enabled by default.
+            // From there SystemMenuValues.Enabled will trigger and control if the listener to be active or not.
             if (SystemMenuValues.Enabled)
             {
                 _kryptonSystemMenu.EnableListener();
             }
-        } 
+        }
     }
     #endregion
 
@@ -490,6 +619,14 @@ public class KryptonForm : VisualForm,
                 _cacheBitmap.Dispose();
                 _cacheBitmap = null;
             }
+
+            // System menu
+            _systemMenuContextMenuItemRestore.Click -= OnSystemMenuContextMenuItemRestoreClick;
+            _systemMenuContextMenuItemMove.Click -= OnSystemMenuContextMenuItemMoveClick;
+            _systemMenuContextMenuItemSize.Click -= OnSystemMenuContextMenuItemSizeClick;
+            _systemMenuContextMenuItemMinimize.Click -= OnSystemMenuContextMenuItemMinimizeClick;
+            _systemMenuContextMenuItemMaximize.Click -= OnSystemMenuContextMenuItemMaximizeClick;
+            _systemMenuContextMenuItemClose.Click -= OnSystemMenuContextMenuItemCloseClick;
 
             ButtonSpecMin.Dispose();
             ButtonSpecMax.Dispose();
@@ -1352,36 +1489,34 @@ public class KryptonForm : VisualForm,
 
     #endregion
 
-    #region Protected Override
+    #region Protected/Internal Override
+    /// <inheritdoc/>
+    internal override bool IsOnControlButtons(Point screenPoint)
+    {
+        // Convert screen coordinates to window coordinates
+        var windowPoint = ScreenToWindow(screenPoint);
+
+        // Check if the point is over any of the control buttons
+        return _buttonManager.GetButtonRectangle(ButtonSpecMin).Contains(windowPoint) ||
+               _buttonManager.GetButtonRectangle(ButtonSpecMax).Contains(windowPoint) ||
+               _buttonManager.GetButtonRectangle(ButtonSpecClose).Contains(windowPoint);
+    }
+
+    /// <inheritdoc/>
+    internal override bool IsInTitleBarArea(Point screenPoint)
+    {
+        // Convert screen coordinates to window coordinates
+        var windowPoint = ScreenToWindow(screenPoint);
+
+        // Check if the point is in the title bar area (above the client area)
+        return windowPoint.Y < _drawHeading.ClientRectangle.Height;
+    }
+
     /// <summary>
     /// Create the redirector instance.
     /// </summary>
     /// <returns>PaletteRedirect derived class.</returns>
     protected override PaletteRedirect CreateRedirector() => new FormPaletteRedirect(GetResolvedPalette() ?? KryptonManager.CurrentGlobalPalette, this);
-
-    internal class FormPaletteRedirect : PaletteRedirect
-    {
-        private readonly KryptonForm _kryptonForm;
-
-        public FormPaletteRedirect(PaletteBase palette, KryptonForm kryptonForm)
-            : base(palette) =>
-            _kryptonForm = kryptonForm;
-
-        public override PaletteRelativeAlign GetContentShortTextH(PaletteContentStyle style, PaletteState state) => style switch
-        {
-            PaletteContentStyle.HeaderForm
-                or PaletteContentStyle.HeaderPrimary
-                or PaletteContentStyle.HeaderDockInactive
-                or PaletteContentStyle.HeaderDockActive
-                or PaletteContentStyle.HeaderSecondary
-                or PaletteContentStyle.HeaderCustom1
-                or PaletteContentStyle.HeaderCustom2
-                or PaletteContentStyle.HeaderCustom3 => _kryptonForm._formTitleAlign != PaletteRelativeAlign.Inherit
-                    ? _kryptonForm._formTitleAlign
-                    : base.GetContentShortTextH(style, state),
-            _ => base.GetContentShortTextH(style, state)
-        };
-    }
 
     /// <summary>
     /// Raises the ControlAdded event.
@@ -1639,7 +1774,6 @@ public class KryptonForm : VisualForm,
                 var oldClient = new PI.RECT { left = _lastGripClientRect.Left, top = _lastGripClientRect.Top, right = _lastGripClientRect.Right, bottom = _lastGripClientRect.Bottom };
                 PI.RedrawWindow(Handle, ref oldClient, IntPtr.Zero, PI.RDW_INVALIDATE | PI.RDW_ALLCHILDREN | PI.RDW_UPDATENOW);
                 _lastGripClientRect = Rectangle.Empty;
-                _lastGripWindowRect = Rectangle.Empty;
             }
             return;
         }
@@ -1652,7 +1786,6 @@ public class KryptonForm : VisualForm,
             var oldClient = new PI.RECT { left = _lastGripClientRect.Left, top = _lastGripClientRect.Top, right = _lastGripClientRect.Right, bottom = _lastGripClientRect.Bottom };
             PI.RedrawWindow(Handle, ref oldClient, IntPtr.Zero, PI.RDW_INVALIDATE | PI.RDW_ALLCHILDREN | PI.RDW_UPDATENOW);
             _lastGripClientRect = Rectangle.Empty;
-            _lastGripWindowRect = Rectangle.Empty;
         }
 
         IntPtr hDC = PI.GetWindowDC(Handle);
@@ -1669,7 +1802,6 @@ public class KryptonForm : VisualForm,
             {
                 DrawSizingGrip(g, newRect);
             }
-            _lastGripWindowRect = newRect;
             _lastGripClientRect = newClientRect;
         }
         finally
@@ -1962,7 +2094,7 @@ public class KryptonForm : VisualForm,
     /// <summary>
     /// Process the WM_NCLBUTTONDOWN message when overriding window chrome.
     /// </summary>
-    /// <param name="m">A Windows-based message.</param>
+    /// <param name="m">A Windows-based message.</param>4
     /// <returns>True if the message was processed; otherwise false.</returns>
     protected override bool OnWM_NCLBUTTONDOWN(ref Message m)
     {
@@ -1976,17 +2108,15 @@ public class KryptonForm : VisualForm,
             // Convert to window coordinates
             Point windowPoint = ScreenToWindow(screenPoint);
 
-            // Check if the mouse is over the Application icon image area
+            // Is the mouse over the Application icon image area
             if (_drawContent.ImageRectangle(context).Contains(windowPoint))
             {
-                /*// Check if we should show the system menu on icon click
-                // Only show system menu if ControlBox is true and system menu service exists
-                if (ControlBox && _systemMenuValues.Enabled && _systemMenuValues.ShowOnIconClick &&
-                    _systemMenuService != null)
+                if (!SystemMenuValues.Enabled || !SystemMenuValues.ShowOnIconClick)
                 {
-                    ShowSystemMenu(screenPoint);
+                    // Make this work for the offset Application Icon when ButtonSpecs are left aligned
+                    PI.PostMessage(Handle, PI.WM_.CONTEXTMENU, Handle, m.LParam);
                     return true;
-                }*/
+                }
             }
         }
 

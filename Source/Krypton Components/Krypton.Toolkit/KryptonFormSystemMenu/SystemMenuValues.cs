@@ -19,8 +19,6 @@ public class SystemMenuValues : INotifyPropertyChanged
 {
     #region Static Fields
     private const bool DEFAULT_ENABLED = true;
-    //private const bool DEFAULT_SHOW_ON_LEFT_CLICK = false;
-    //private const bool DEFAULT_USE__SYSTEM_MENU = true;
     private const bool DEFAULT_SHOW_ON_RIGHT_CLICK = true;
     private const bool DEFAULT_SHOW_ON_ALT_SPACE = true;
     private const bool DEFAULT_SHOW_ON_ICON_CLICK = true;
@@ -48,7 +46,7 @@ public class SystemMenuValues : INotifyPropertyChanged
     /// <param name="contextMenu">A valid KryptonContextMenu instance.</param>
     public SystemMenuValues(KryptonContextMenu contextMenu)
     {
-        // Store the provided paint notification delegate
+        // The System menu context menu
         _contextMenu = contextMenu;
 
         // Set initial values
@@ -61,7 +59,7 @@ public class SystemMenuValues : INotifyPropertyChanged
 
     #region MenuItems
     /// <summary>
-    /// Acces to the System menu item collection.<br/>
+    /// Acces to the System menu items collection.<br/>
     /// Note: Be careful with the default items, as those are present as well.
     /// </summary>
     [Browsable(false)]
@@ -225,8 +223,6 @@ public class SystemMenuValues : INotifyPropertyChanged
     public void Reset()
     {
         ResetEnabled();
-        //ResetShowOnLeftClick();
-        //ResetUseSystemMenu();
         ResetShowOnRightClick();
         ResetShowOnAltSpace();
         ResetShowOnIconClick();
@@ -243,6 +239,5 @@ public class SystemMenuValues : INotifyPropertyChanged
                ShouldSerializeShowOnAltSpace() ||
                ShouldSerializeShowOnIconClick();
     }
-
     #endregion
 }

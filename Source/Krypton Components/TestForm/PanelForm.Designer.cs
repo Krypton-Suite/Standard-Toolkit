@@ -59,7 +59,7 @@
             this.kryptonDataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.kryptonDataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column12});
-            this.kryptonDataGridView1.Location = new System.Drawing.Point(263, 12);
+            this.kryptonDataGridView1.Location = new System.Drawing.Point(266, 12);
             this.kryptonDataGridView1.Name = "kryptonDataGridView1";
             this.kryptonDataGridView1.Size = new System.Drawing.Size(240, 150);
             this.kryptonDataGridView1.TabIndex = 4;
@@ -83,7 +83,7 @@
             this.kryptonPropertyGrid1.Name = "kryptonPropertyGrid1";
             this.kryptonPropertyGrid1.PropertySort = System.Windows.Forms.PropertySort.Alphabetical;
             this.kryptonPropertyGrid1.SelectedObject = this.kryptonDataGridView1;
-            this.kryptonPropertyGrid1.Size = new System.Drawing.Size(392, 506);
+            this.kryptonPropertyGrid1.Size = new System.Drawing.Size(392, 494);
             this.kryptonPropertyGrid1.TabIndex = 6;
             // 
             // propertyGrid1
@@ -94,7 +94,7 @@
             this.propertyGrid1.Name = "propertyGrid1";
             this.propertyGrid1.PropertySort = System.Windows.Forms.PropertySort.Alphabetical;
             this.propertyGrid1.SelectedObject = this.Column12;
-            this.propertyGrid1.Size = new System.Drawing.Size(392, 506);
+            this.propertyGrid1.Size = new System.Drawing.Size(392, 494);
             this.propertyGrid1.TabIndex = 8;
             // 
             // kryptonButton2
@@ -111,7 +111,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1356, 458);
+            this.ClientSize = new System.Drawing.Size(1362, 440);
             this.Controls.Add(this.kryptonButton2);
             this.Controls.Add(this.propertyGrid1);
             this.Controls.Add(this.kryptonPropertyGrid1);
