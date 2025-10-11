@@ -12,8 +12,6 @@
 
 // ReSharper disable InconsistentNaming
 
-using System.Windows.Forms;
-
 using SolidBrush = System.Drawing.SolidBrush;
 using Timer = System.Windows.Forms.Timer;
 
