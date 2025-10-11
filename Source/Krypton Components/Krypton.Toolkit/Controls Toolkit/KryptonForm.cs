@@ -382,7 +382,7 @@ public class KryptonForm : VisualForm,
             items.Items.Insert(6, _systemMenuContextMenuItemClose);
             _systemMenuContextMenu.Items.Insert(0, items);
 
-            _kryptonSystemMenu = new(this, _drawHeading, _drawContent, _systemMenuContextMenu);
+            _kryptonSystemMenu = new(this, _drawContent, _systemMenuContextMenu);
 
             // When the _kryptonSystemMenu is instantiated the listener is not enabled by default.
             // From there SystemMenuValues.Enabled will trigger and control if the listener to be active or not.
@@ -2111,7 +2111,7 @@ public class KryptonForm : VisualForm,
             // Is the mouse over the Application icon image area
             if (_drawContent.ImageRectangle(context).Contains(windowPoint))
             {
-                if (!SystemMenuValues.Enabled || !SystemMenuValues.ShowOnIconClick)
+                if (!SystemMenuValues.Enabled)
                 {
                     // Make this work for the offset Application Icon when ButtonSpecs are left aligned
                     PI.PostMessage(Handle, PI.WM_.CONTEXTMENU, Handle, m.LParam);

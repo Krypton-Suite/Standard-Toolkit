@@ -19,9 +19,6 @@ public class SystemMenuValues : INotifyPropertyChanged
 {
     #region Static Fields
     private const bool DEFAULT_ENABLED = true;
-    private const bool DEFAULT_SHOW_ON_RIGHT_CLICK = true;
-    private const bool DEFAULT_SHOW_ON_ALT_SPACE = true;
-    private const bool DEFAULT_SHOW_ON_ICON_CLICK = true;
     #endregion
 
     #region Events
@@ -33,9 +30,6 @@ public class SystemMenuValues : INotifyPropertyChanged
 
     #region Instance Fields
     private bool _enabled;
-    private bool _showOnRightClick;
-    private bool _showOnAltSpace;
-    private bool _showOnIconClick;
     private KryptonContextMenu _contextMenu;
     #endregion
 
@@ -51,9 +45,6 @@ public class SystemMenuValues : INotifyPropertyChanged
 
         // Set initial values
         _enabled = DEFAULT_ENABLED;
-        _showOnRightClick = DEFAULT_SHOW_ON_RIGHT_CLICK;
-        _showOnAltSpace = DEFAULT_SHOW_ON_ALT_SPACE;
-        _showOnIconClick = DEFAULT_SHOW_ON_ICON_CLICK;
     }
     #endregion
 
@@ -73,10 +64,7 @@ public class SystemMenuValues : INotifyPropertyChanged
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public bool IsDefault => !ShouldSerializeEnabled()
-        && !ShouldSerializeShowOnRightClick()
-        && !ShouldSerializeShowOnAltSpace()
-        && !ShouldSerializeShowOnIconClick();
+    public bool IsDefault => !ShouldSerializeEnabled();
     #endregion
 
     #region Enabled
@@ -108,95 +96,6 @@ public class SystemMenuValues : INotifyPropertyChanged
     public void ResetEnabled() => Enabled = DEFAULT_ENABLED;
     #endregion
 
-    #region ShowOnRightClick
-    /// <summary>
-    /// Gets and sets whether right-click on title bar shows the system menu.
-    /// </summary>
-    [Category(@"Behavior")]
-    [Description(@"Determines if right-click on title bar shows the system menu.")]
-    [DefaultValue(DEFAULT_SHOW_ON_RIGHT_CLICK)]
-    public bool ShowOnRightClick
-    {
-        get => _showOnRightClick;
-
-        set
-        {
-            if (_showOnRightClick != value)
-            {
-                _showOnRightClick = value;
-                OnPropertyChanged(nameof(ShowOnRightClick));
-            }
-        }
-    }
-
-    private bool ShouldSerializeShowOnRightClick() => ShowOnRightClick != DEFAULT_SHOW_ON_RIGHT_CLICK;
-
-    /// <summary>
-    /// Resets the ShowOnRightClick property to its default value.
-    /// </summary>
-    public void ResetShowOnRightClick() => ShowOnRightClick = DEFAULT_SHOW_ON_RIGHT_CLICK;
-    #endregion
-
-    #region ShowOnAltSpace
-    /// <summary>
-    /// Gets and sets whether Alt+Space shows the system menu.
-    /// </summary>
-    [Category(@"Behavior")]
-    [Description(@"Determines if Alt+Space shows the system menu.")]
-    [DefaultValue(DEFAULT_SHOW_ON_ALT_SPACE)]
-    public bool ShowOnAltSpace
-    {
-        get => _showOnAltSpace;
-
-        set
-        {
-            if (_showOnAltSpace != value)
-            {
-                _showOnAltSpace = value;
-                OnPropertyChanged(nameof(ShowOnAltSpace));
-            }
-        }
-    }
-
-    private bool ShouldSerializeShowOnAltSpace() => ShowOnAltSpace != DEFAULT_SHOW_ON_ALT_SPACE;
-
-    /// <summary>
-    /// Resets the ShowOnAltSpace property to its default value.
-    /// </summary>
-    public void ResetShowOnAltSpace() => ShowOnAltSpace = DEFAULT_SHOW_ON_ALT_SPACE;
-
-    #endregion
-
-    #region ShowOnIconClick
-    /// <summary>
-    /// Gets and sets whether left-click on title bar icon shows the system menu.
-    /// </summary>
-    [Category(@"Behavior")]
-    [Description(@"Determines if left-click on title bar icon shows the system menu.")]
-    [DefaultValue(DEFAULT_SHOW_ON_ICON_CLICK)]
-    public bool ShowOnIconClick
-    {
-        get => _showOnIconClick;
-
-        set
-        {
-            if (_showOnIconClick != value)
-            {
-                _showOnIconClick = value;
-                OnPropertyChanged(nameof(ShowOnIconClick));
-            }
-        }
-    }
-
-    private bool ShouldSerializeShowOnIconClick() => ShowOnIconClick != DEFAULT_SHOW_ON_ICON_CLICK;
-
-    /// <summary>
-    /// Resets the ShowOnIconClick property to its default value.
-    /// </summary>
-    public void ResetShowOnIconClick() => ShowOnIconClick = DEFAULT_SHOW_ON_ICON_CLICK;
-
-    #endregion
-
     #region Private
     private void OnPropertyChanged(string propertyName)
     {
@@ -223,9 +122,6 @@ public class SystemMenuValues : INotifyPropertyChanged
     public void Reset()
     {
         ResetEnabled();
-        ResetShowOnRightClick();
-        ResetShowOnAltSpace();
-        ResetShowOnIconClick();
     }
 
     /// <summary>
@@ -234,10 +130,7 @@ public class SystemMenuValues : INotifyPropertyChanged
     /// <returns>True if any properties should be serialized; otherwise false.</returns>
     public bool ShouldSerialize()
     {
-        return ShouldSerializeEnabled() ||
-               ShouldSerializeShowOnRightClick() ||
-               ShouldSerializeShowOnAltSpace() ||
-               ShouldSerializeShowOnIconClick();
+        return ShouldSerializeEnabled();
     }
     #endregion
 }

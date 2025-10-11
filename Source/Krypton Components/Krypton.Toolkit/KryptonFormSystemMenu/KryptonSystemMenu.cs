@@ -15,7 +15,6 @@ public class KryptonSystemMenu : IDisposable
 {
     #region Fields
     private KryptonForm _form;
-    private ViewDrawDocker _drawHeading;
     private ViewDrawContent _drawContent;
     private KryptonSystemMenuListener _listener;
     private KryptonContextMenu _contextMenu;
@@ -23,15 +22,14 @@ public class KryptonSystemMenu : IDisposable
     #endregion
 
     #region Identity
-    public KryptonSystemMenu(KryptonForm kryptonForm, ViewDrawDocker drawHeading, ViewDrawContent drawContent, KryptonContextMenu contextMenu)
+    public KryptonSystemMenu(KryptonForm kryptonForm, ViewDrawContent drawContent, KryptonContextMenu contextMenu)
     {
         _form = kryptonForm;
         _contextMenu = contextMenu;
-        _drawHeading = drawHeading;
         _drawContent = drawContent;
 
         // Instantiate the listener
-        _listener = new(_form, _drawHeading, _drawContent);
+        _listener = new(_form, _drawContent);
 
         // Subscribe to property changed events
         _form.SystemMenuValues.PropertyChanged += OnMenuValuesPropertyChanged;
@@ -100,18 +98,6 @@ public class KryptonSystemMenu : IDisposable
             {
                 DisableListener();
             }
-        }
-        else if (eventArgs.PropertyName == nameof(_form.SystemMenuValues.ShowOnAltSpace))
-        {
-            //OnMenuValuesEnabledChanged();
-        }
-        else if (eventArgs.PropertyName == nameof(_form.SystemMenuValues.ShowOnIconClick))
-        {
-            //OnMenuValuesEnabledChanged();
-        }
-        else if (eventArgs.PropertyName == nameof(_form.SystemMenuValues.ShowOnRightClick))
-        {
-           //OnMenuValuesEnabledChanged();
         }
     }
     #endregion
