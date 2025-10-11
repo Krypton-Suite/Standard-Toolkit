@@ -63,20 +63,29 @@ public class KryptonSystemMenu : IDisposable
     #region Private
     private void OnListenerKeyAltSpaceDown(Point screenPoint)
     {
-        _form.UpdateSystemMenuItemState();
-        _contextMenu.Show(_form, screenPoint);
+        if (_form.ControlBox)
+        {
+            _form.UpdateSystemMenuItemState();
+            _contextMenu.Show(_form, screenPoint);
+        }
     }
 
     private void OnListenerNCLeftMouseButtonDown(Point screenPoint)
     {
-        _form.UpdateSystemMenuItemState();
-        _contextMenu.Show(_form, screenPoint);
+        if (_form.ControlBox)
+        {
+            _form.UpdateSystemMenuItemState();
+            _contextMenu.Show(_form, screenPoint);
+        }
     }
 
     private void OnListenerNCRightMouseButtonDown(Point screenPoint)
     {
-        _form.UpdateSystemMenuItemState();
-        _contextMenu.Show(_form, screenPoint);
+        if (_form.ControlBox)
+        {
+            _form.UpdateSystemMenuItemState();
+            _contextMenu.Show(_form, screenPoint);
+        }
     }
 
     private void OnMenuValuesPropertyChanged(object? sender, PropertyChangedEventArgs eventArgs)
