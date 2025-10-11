@@ -3177,7 +3177,7 @@ public enum KryptonEmojiListType
 /// <summary>
 /// Defines the interface for system menu functionality.
 /// </summary>
-public interface IKryptonSystemMenu
+internal interface IKryptonSystemMenu
 {
     /// <summary>
     /// Gets or sets whether the system menu is enabled.

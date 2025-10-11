@@ -7448,9 +7448,9 @@ public class RenderStandard : RenderBase
                 cache.BorderRect = innerRect;
                 cache.BorderPoints =
                 [
-                    new Point(innerRect.X, rect.Y),
-                    new Point(innerRect.X, innerRect.Bottom), new Point(innerRect.Right, innerRect.Bottom),
-                    new Point(innerRect.Right, innerRect.Top)
+                    new Point(innerRect.X + 1, rect.Y),
+                    new Point(innerRect.X + 1, innerRect.Bottom), new Point(innerRect.Right - 1, innerRect.Bottom),
+                    new Point(innerRect.Right - 1, innerRect.Top)
                 ];
                 cache.BackRect1 = new Rectangle(innerRect.X, innerRect.Y, rect.Width, halfHeight);
                 cache.BackRect2 = innerRect with { Y = innerRect.Y + halfHeight, Height = innerRect.Height - halfHeight };

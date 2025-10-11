@@ -58,8 +58,8 @@ public partial class StartScreen : KryptonForm
         CreateButton("FormBorder Test", string.Empty, typeof(FormBorderTest));
         CreateButton("Header Examples", string.Empty, typeof(HeaderExamples));
         CreateButton("Menu/Tool/Status Strips", string.Empty, typeof(MenuToolBarStatusStripTest));
-        CreateButton("Powered By Button", string.Empty, typeof(PoweredByButtonForm));
-        CreateButton("ProgressBar", string.Empty, typeof(ProgressBarTest));
+        //CreateButton("Powered By Button", string.Empty, typeof(PoweredByButtonForm));
+        CreateButton("ProgressBar", "Checkout if progress has been made.", typeof(ProgressBarTest));
         CreateButton("Ribbon / Navigator / Workspace", string.Empty, typeof(RibbonNavigatorWorkspaceTest));
         CreateButton("Splash Screen", string.Empty, typeof(SplashScreenExample));
         CreateButton("Theme Controls", string.Empty, typeof(ThemeControlExamples));
@@ -84,18 +84,21 @@ public partial class StartScreen : KryptonForm
         CreateButton("TreeView", string.Empty, typeof(TreeViewExample));
         CreateButton("Panel Form", string.Empty, typeof(PanelForm));
         CreateButton("Palette Viewer", string.Empty, typeof(PaletteViewerForm));
+        CreateButton("Powered By Button", string.Empty, typeof(PoweredByButtonExample));
+        CreateButton("Krypton Task Dialog Demo", string.Empty, typeof(KryptonTaskDialogDemoForm));
     }
 
     private void OnFormClosed(object? sender, FormClosedEventArgs e)
     {
         _registryAccess.LastFilterString = tbFilter.Text;
-        _registryAccess.DockTopRight = FormIsDockedTopRight();
+        _registryAccess.DockTopRight = IsFormDockedTopRight();
         _registryAccess.FormSize = this.Size;
     }
 
-    private bool FormIsDockedTopRight()
+    private bool IsFormDockedTopRight()
     {
-        return this.Top == 0 && this.Left == (Screen.FromControl(this).Bounds.Width - this.Size.Width);
+        return this.Top == 0 
+            && this.Left == Screen.FromControl(this).Bounds.Width - this.Size.Width;
     }
 
     private void RestoreSettings()
@@ -252,17 +255,24 @@ public partial class StartScreen : KryptonForm
         /// <param name="x">A valid reference to the first button.</param>
         /// <param name="y">A valid reference to the second button.</param>
         /// <returns>
-        /// 0 : Heading x and y equal.<br/>
+        /// 0 : Heading x and y are equal.<br/>
         /// 1 : Heading x is greater than y.<br/>
         /// -1: Heading y is greater than x.
         /// </returns>
         /// <exception cref="NullReferenceException">Is thrown when at least x or y is null.</exception>
         public int Compare(KryptonCommandLinkButton? x, KryptonCommandLinkButton? y)
         {
-            return (x is not null && y is not null)
-                ? x.CommandLinkTextValues.Heading.ToLower().CompareTo(y.CommandLinkTextValues.Heading.ToLower())
-                : throw new NullReferenceException($"ButtonHeadingComparer: make sure that parameter x and y both are valid references to a KryptonCommandLinkButton instance.");
+            if (x is not null && y is not null)
+            {
+                string headingX = x.CommandLinkTextValues.Heading.ToLower(CultureInfo.InvariantCulture);
+                string headingY = y.CommandLinkTextValues.Heading.ToLower(CultureInfo.InvariantCulture);
+
+                return headingX.CompareTo(headingY);
+            }
+            else
+            {
+                throw new NullReferenceException($"ButtonHeadingComparer: make sure that parameter x and y both are valid references to a KryptonCommandLinkButton instance.");
+            }
         }
     }
-
 }

@@ -9,7 +9,12 @@
 
 namespace Krypton.Toolkit;
 
-public class KryptonTaskDialogElementFreeWheeler : KryptonTaskDialogElementSingleLineControlBase,
+/// <summary>
+/// KryptonTaskDialogElementFreeWheeler1 exposes a FlowLayoutPanel with full access to it's properties.<br/>
+/// Here you can host a choice of controls within KryptonTaskDialog.<br/>
+/// Note: Some controls do not work well with a FlowLayoutPanel. For those use KryptonTaskDialogElementFreeWheeler2 which exposes TableLayoutPanel.
+/// </summary>
+public class KryptonTaskDialogElementFreeWheeler1 : KryptonTaskDialogElementSingleLineControlBase,
     IKryptonTaskDialogElementHeight
 {
     #region Fields
@@ -17,7 +22,7 @@ public class KryptonTaskDialogElementFreeWheeler : KryptonTaskDialogElementSingl
     #endregion
 
     #region Identity
-    public KryptonTaskDialogElementFreeWheeler(KryptonTaskDialogDefaults taskDialogDefaults) : base(taskDialogDefaults, 1)
+    public KryptonTaskDialogElementFreeWheeler1(KryptonTaskDialogDefaults taskDialogDefaults) : base(taskDialogDefaults, 1)
     {
         _flp = new();
         SetupPanel();
@@ -37,11 +42,11 @@ public class KryptonTaskDialogElementFreeWheeler : KryptonTaskDialogElementSingl
         _flp.SetDoubleBuffered(true);
         _flp.Padding = Defaults.NullPadding;
         _flp.Margin = Defaults.NullMargin;
-        _tlp.Dock = DockStyle.Fill;
         _flp.Size = _tlp.Size;
         _flp.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right | AnchorStyles.Bottom;
     }
     #endregion
+
     #region Public
     /// <summary>
     /// The internal FlowLayoutPanel to add your controls to.
