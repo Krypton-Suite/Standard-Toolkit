@@ -906,7 +906,21 @@ public abstract class VisualForm : Form,
 
     #endregion
 
-    #region Protected Virtual
+    #region Protected/Internal Virtual
+    /// <summary>
+    /// Determines if the specified screen point is within the title bar area.
+    /// </summary>
+    /// <param name="screenPoint">The screen coordinates to test.</param>
+    /// <returns>True if the point is in the title bar area; otherwise false.</returns>
+    internal virtual bool IsInTitleBarArea(Point screenPoint) => false;
+
+    /// <summary>
+    /// Determines if the specified screen point is over the control buttons (min/max/close).
+    /// </summary>
+    /// <param name="screenPoint">The screen coordinates to test.</param>
+    /// <returns>True if the point is over control buttons; otherwise false.</returns>
+    internal virtual bool IsOnControlButtons(Point screenPoint) => false;
+
     // ReSharper disable VirtualMemberNeverOverridden.Global
     /// <summary>
     /// Suspend processing of non-client painting.

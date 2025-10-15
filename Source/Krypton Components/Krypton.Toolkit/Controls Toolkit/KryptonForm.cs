@@ -29,6 +29,32 @@ public class KryptonForm : VisualForm,
 {
     #region Type Definitions
 
+    internal class FormPaletteRedirect : PaletteRedirect
+    {
+        private readonly KryptonForm _kryptonForm;
+
+        public FormPaletteRedirect(PaletteBase palette, KryptonForm kryptonForm)
+            : base(palette)
+        {
+            _kryptonForm = kryptonForm;
+        }
+
+        public override PaletteRelativeAlign GetContentShortTextH(PaletteContentStyle style, PaletteState state) => style switch
+        {
+            PaletteContentStyle.HeaderForm
+                or PaletteContentStyle.HeaderPrimary
+                or PaletteContentStyle.HeaderDockInactive
+                or PaletteContentStyle.HeaderDockActive
+                or PaletteContentStyle.HeaderSecondary
+                or PaletteContentStyle.HeaderCustom1
+                or PaletteContentStyle.HeaderCustom2
+                or PaletteContentStyle.HeaderCustom3 => _kryptonForm._formTitleAlign != PaletteRelativeAlign.Inherit
+                    ? _kryptonForm._formTitleAlign
+                    : base.GetContentShortTextH(style, state),
+            _ => base.GetContentShortTextH(style, state)
+        };
+    }
+
     /// <summary>
     /// Collection for managing ButtonSpecAny instances.
     /// </summary>
@@ -109,11 +135,11 @@ public class KryptonForm : VisualForm,
     private int _foundRibbonOffset = -1;
     private readonly KryptonPanel _internalKryptonPanel;
     // Compensate for Windows 11 outer accent border by shrinking the window region slightly
-    private const int NON_CLIENT_REGION_INSET = 4;
     private Rectangle _lastGripClientRect = Rectangle.Empty;
-    private Rectangle _lastGripWindowRect = Rectangle.Empty;
     private Timer? _clickTimer;
-
+    private KryptonSystemMenu? _kryptonSystemMenu;
+    // SystemMenu context menu components
+    private KryptonContextMenu _systemMenuContextMenu;
     #endregion
 
     #region Identity
@@ -239,8 +265,40 @@ public class KryptonForm : VisualForm,
         // #1979 Temporary fix
         base.PaletteChanged += (s, e) => _internalKryptonPanel.PaletteMode = PaletteMode;
         // END #1979 Temporary fix
-    }
 
+        // Instantiate system menu items only to keep the compiler happy
+        _systemMenuContextMenu = new();
+
+        SystemMenuValues = new (_systemMenuContextMenu);
+
+        // Init only here. Must instantiate in OnHandleCreated
+        _kryptonSystemMenu = null;
+    }
+    #endregion
+
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public SystemMenuValues SystemMenuValues { get; }
+    public bool ShouldSerializeSystemMenuValues() => !SystemMenuValues.IsDefault;
+    public void ResetSystemMenuValues() => SystemMenuValues.Reset();
+
+    #region Private
+    private void SetupSystemMenu() 
+    {
+        if (!DesignMode)
+        {
+            _kryptonSystemMenu = new(this, _drawContent, _systemMenuContextMenu);
+
+            // When the _kryptonSystemMenu is instantiated the listener is not enabled by default.
+            // From there SystemMenuValues.Enabled will trigger and control if the listener to be active or not.
+            if (SystemMenuValues.Enabled)
+            {
+                _kryptonSystemMenu.EnableListener();
+            }
+        }
+    }
+    #endregion
+
+    #region Private SizeGrip
     private float GetDpiFactor() => DeviceDpi / 96F;
 
     /// <summary>
@@ -440,7 +498,9 @@ public class KryptonForm : VisualForm,
                     0, 0, scaled.Width, scaled.Height, GraphicsUnit.Pixel, ia1);
         return true;
     }
+    #endregion
 
+    #region IDispose
     /// <summary>
     /// Releases all resources used by the Control.
     /// </summary>
@@ -469,6 +529,9 @@ public class KryptonForm : VisualForm,
                 _cacheBitmap.Dispose();
                 _cacheBitmap = null;
             }
+
+            // Dispose of the system menu, which will in turn release any open handle in the listener
+            _kryptonSystemMenu?.Dispose();
 
             ButtonSpecMin.Dispose();
             ButtonSpecMax.Dispose();
@@ -1331,7 +1394,29 @@ public class KryptonForm : VisualForm,
 
     #endregion
 
-    #region Protected Override
+    #region Protected/Internal Override
+    /// <inheritdoc/>
+    internal override bool IsOnControlButtons(Point screenPoint)
+    {
+        // Convert screen coordinates to window coordinates
+        var windowPoint = ScreenToWindow(screenPoint);
+
+        // Check if the point is over any of the control buttons
+        return _buttonManager.GetButtonRectangle(ButtonSpecMin).Contains(windowPoint) ||
+               _buttonManager.GetButtonRectangle(ButtonSpecMax).Contains(windowPoint) ||
+               _buttonManager.GetButtonRectangle(ButtonSpecClose).Contains(windowPoint);
+    }
+
+    /// <inheritdoc/>
+    internal override bool IsInTitleBarArea(Point screenPoint)
+    {
+        // Convert screen coordinates to window coordinates
+        var windowPoint = ScreenToWindow(screenPoint);
+
+        // Check if the point is in the title bar area (above the client area)
+        return windowPoint.Y < _drawHeading.ClientRectangle.Height;
+    }
+
     /// <summary>
     /// Create the redirector instance.
     /// </summary>
@@ -1739,7 +1824,6 @@ public class KryptonForm : VisualForm,
                 var oldClient = new PI.RECT { left = _lastGripClientRect.Left, top = _lastGripClientRect.Top, right = _lastGripClientRect.Right, bottom = _lastGripClientRect.Bottom };
                 PI.RedrawWindow(Handle, ref oldClient, IntPtr.Zero, PI.RDW_INVALIDATE | PI.RDW_ALLCHILDREN | PI.RDW_UPDATENOW);
                 _lastGripClientRect = Rectangle.Empty;
-                _lastGripWindowRect = Rectangle.Empty;
             }
             return;
         }
@@ -1752,7 +1836,6 @@ public class KryptonForm : VisualForm,
             var oldClient = new PI.RECT { left = _lastGripClientRect.Left, top = _lastGripClientRect.Top, right = _lastGripClientRect.Right, bottom = _lastGripClientRect.Bottom };
             PI.RedrawWindow(Handle, ref oldClient, IntPtr.Zero, PI.RDW_INVALIDATE | PI.RDW_ALLCHILDREN | PI.RDW_UPDATENOW);
             _lastGripClientRect = Rectangle.Empty;
-            _lastGripWindowRect = Rectangle.Empty;
         }
 
         IntPtr hDC = PI.GetWindowDC(Handle);
@@ -1769,7 +1852,6 @@ public class KryptonForm : VisualForm,
             {
                 DrawSizingGrip(g, newRect);
             }
-            _lastGripWindowRect = newRect;
             _lastGripClientRect = newClientRect;
         }
         finally
@@ -1788,6 +1870,8 @@ public class KryptonForm : VisualForm,
         base.OnNonClientPaint(hWnd);
     }
 
+
+    // TODO: is stale but is it usable
     private Rectangle GetGripClientRect()
     {
         var dpi = GetDpiFactor();
@@ -1842,6 +1926,9 @@ public class KryptonForm : VisualForm,
             BeginInvoke(new Action(() => RecalcNonClient()));
         }
         
+        // At runtime only, hookup the system menu.
+        SetupSystemMenu();
+
         // Ensure Material defaults are applied as early as possible for new forms
         ApplyMaterialFormChromeDefaultsIfNeeded();
     }
@@ -2083,17 +2170,15 @@ public class KryptonForm : VisualForm,
             // Convert to window coordinates
             Point windowPoint = ScreenToWindow(screenPoint);
 
-            // Check if the mouse is over the Application icon image area
+            // Is the mouse over the Application icon image area
             if (_drawContent.ImageRectangle(context).Contains(windowPoint))
             {
-                /*// Check if we should show the system menu on icon click
-                // Only show system menu if ControlBox is true and system menu service exists
-                if (ControlBox && _systemMenuValues.Enabled && _systemMenuValues.ShowOnIconClick &&
-                    _systemMenuService != null)
+                if (!SystemMenuValues.Enabled)
                 {
-                    ShowSystemMenu(screenPoint);
+                    // Make this work for the offset Application Icon when ButtonSpecs are left aligned
+                    PI.PostMessage(Handle, PI.WM_.CONTEXTMENU, Handle, m.LParam);
                     return true;
-                }*/
+                }
             }
         }
 
