@@ -3,6 +3,7 @@
 ====
 
 ## 2025-11-xx - Build 2511 (V10 - alpha) - November 2025
+* Implemented [#2575](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2575), **[Breaking Change]** `CommonHelper.DesignMode()` behaviour changed, see issue for details.
 * Implemented [#331](https://github.com/Krypton-Suite/Standard-Toolkit/issues/331), Make the "No Tab in a ribbon Solution" An Actual Designer Tool
 * Resolved [#2331](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2331), Correction of edges, 3D effect and color adjustment in `KryptonRibbon` in Office 2010 themes.
 * Resolved [#2548](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2548), Fixed color assignment for `GroupSeparatorLight`, `QATButtonDarkColor` and `QATButtonLightColor` in `PopulateFromBase`.
