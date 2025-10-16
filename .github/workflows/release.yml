@@ -1,0 +1,365 @@
+# New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+# Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2025 - 2025. All rights reserved.
+
+name: Release
+
+on:
+  push:
+    branches:
+      - master
+      - alpha
+      - canary
+      - V85-LTS
+
+jobs:
+  release-master:
+    runs-on: windows-2022
+    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      # .NET 9 (GA)
+      - name: Setup .NET 9
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+
+      # .NET 10 (Preview)
+      - name: Setup .NET 10 (preview)
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+          dotnet-quality: preview
+
+      # global.json dynamically generate
+      - name: Force .NET 10 SDK via global.json
+        run: |
+          $sdkVersion = (dotnet --list-sdks | Select-String "10.0").ToString().Split(" ")[0]
+          Write-Output "Using SDK $sdkVersion"
+          @"
+          {
+            "sdk": {
+              "version": "$sdkVersion",
+              "rollForward": "latestFeature"
+            }
+          }
+          "@ | Out-File -Encoding utf8 global.json
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+        with:
+          msbuild-architecture: x64
+
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v1.2.0
+
+      - name: Cache NuGet
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Restore
+        run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.sln"
+
+      - name: Build Release
+        run: msbuild "Scripts/build.proj" /t:Build /p:Configuration=Release /p:Platform="Any CPU"
+
+      - name: Pack Release
+        run: msbuild "Scripts/build.proj" /t:Pack /p:Configuration=Release /p:Platform="Any CPU"
+
+      - name: Push NuGet Packages to nuget.org
+        run: |
+          # Find all .nupkg files in the Packages/Release directory
+          $packages = Get-ChildItem "Bin/Packages/Release/*.nupkg" -ErrorAction SilentlyContinue
+          
+          if ($packages) {
+            foreach ($package in $packages) {
+              Write-Output "Pushing package: $($package.Name)"
+              dotnet nuget push "$($package.FullName)" --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+            }
+          } else {
+            Write-Output "No NuGet packages found to push"
+          }
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+
+      - name: Create Release Archives
+        run: msbuild "Scripts/build.proj" /t:CreateAllReleaseArchives /p:Configuration=Release /p:Platform="Any CPU"
+
+      - name: Get Version
+        id: get_version
+        run: |
+          $version = (dotnet build "Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj" --no-restore --verbosity quiet | Select-String "Version" | ForEach-Object { $_.Line.Split('=')[1].Trim() })
+          if (-not $version) {
+            $version = "100.25.1.1"  # Fallback version
+          }
+          echo "version=$version" >> $env:GITHUB_OUTPUT
+          echo "tag=v$version" >> $env:GITHUB_OUTPUT
+
+      - name: Create Release
+        run: |
+          $releaseBody = @"
+          ## Krypton Toolkit Suite Release ${{ steps.get_version.outputs.version }}
+          
+          This release includes:
+          - All Krypton Toolkit components
+          - NuGet packages for multiple target frameworks
+          - Release archives (ZIP and TAR.GZ formats)
+          
+          ### Downloads
+          - **ZIP Archive**: `Krypton-Release_*.zip`
+          - **TAR.GZ Archive**: `Krypton-Release_*.tar.gz`
+          
+          ### Target Frameworks
+          - .NET Framework 4.8
+          - .NET Framework 4.8.1
+          - .NET 8.0 Windows
+          - .NET 9.0 Windows
+          - .NET 10.0 Windows
+          "@
+          
+          gh release create ${{ steps.get_version.outputs.tag }} `
+            --title "Release ${{ steps.get_version.outputs.version }}" `
+            --notes "$releaseBody" `
+            --latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Release Assets
+        run: |
+          $zipFile = Get-ChildItem "Bin/Release/Zips/Krypton-Release_*.zip" | Select-Object -First 1
+          $tarFile = Get-ChildItem "Bin/Release/Zips/Krypton-Release_*.tar.gz" | Select-Object -First 1
+          
+          if ($zipFile) {
+            gh release upload ${{ steps.get_version.outputs.tag }} "$($zipFile.FullName)" --clobber
+          }
+          if ($tarFile) {
+            gh release upload ${{ steps.get_version.outputs.tag }} "$($tarFile.FullName)" --clobber
+          }
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  release-v85-lts:
+    runs-on: windows-2022
+    if: github.ref == 'refs/heads/V85-LTS' && github.event_name == 'push'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      # .NET 6 (LTS) - needed for net6.0-windows target
+      - name: Setup .NET 6
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 6.0.x
+
+      # .NET 7 - needed for net7.0-windows target
+      - name: Setup .NET 7
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 7.0.x
+
+      # .NET 8 (LTS) - needed for net8.0-windows target and to build all framework targets
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+        with:
+          msbuild-architecture: x64
+
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v1.2.0
+
+      - name: Cache NuGet
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Restore
+        run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.sln"
+
+      - name: Build LTS Release
+        run: msbuild "Scripts/longtermstable.proj" /t:Build /p:Configuration=Release /p:Platform="Any CPU"
+
+      - name: Pack LTS Release
+        run: msbuild "Scripts/longtermstable.proj" /t:Pack /p:Configuration=Release /p:Platform="Any CPU"
+
+      - name: Push NuGet Packages to nuget.org
+        run: |
+          # Find all .nupkg files in the Packages/Release directory (with LTS package names)
+          $packages = Get-ChildItem "Bin/Packages/Release/*.nupkg" -ErrorAction SilentlyContinue
+          
+          if ($packages) {
+            foreach ($package in $packages) {
+              Write-Output "Pushing LTS package: $($package.Name)"
+              dotnet nuget push "$($package.FullName)" --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+            }
+          } else {
+            Write-Output "No NuGet packages found to push"
+          }
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+
+  release-canary:
+    runs-on: windows-2022
+    if: github.ref == 'refs/heads/canary' && github.event_name == 'push'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      # .NET 9 (GA)
+      - name: Setup .NET 9
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+
+      # .NET 10 (Preview)
+      - name: Setup .NET 10 (preview)
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+          dotnet-quality: preview
+
+      # global.json dynamically generate
+      - name: Force .NET 10 SDK via global.json
+        run: |
+          $sdkVersion = (dotnet --list-sdks | Select-String "10.0").ToString().Split(" ")[0]
+          Write-Output "Using SDK $sdkVersion"
+          @"
+          {
+            "sdk": {
+              "version": "$sdkVersion",
+              "rollForward": "latestFeature"
+            }
+          }
+          "@ | Out-File -Encoding utf8 global.json
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+        with:
+          msbuild-architecture: x64
+
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v1.2.0
+
+      - name: Cache NuGet
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Restore
+        run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.sln"
+
+      - name: Build Canary
+        run: msbuild "Scripts/canary.proj" /t:Build /p:Configuration=Canary /p:Platform="Any CPU"
+
+      - name: Pack Canary
+        run: msbuild "Scripts/canary.proj" /t:Pack /p:Configuration=Canary /p:Platform="Any CPU"
+
+      - name: Push NuGet Packages to nuget.org
+        run: |
+          # Find all .nupkg files in the Packages/Canary directory
+          $packages = Get-ChildItem "Bin/Packages/Canary/*.nupkg" -ErrorAction SilentlyContinue
+          
+          if ($packages) {
+            foreach ($package in $packages) {
+              Write-Output "Pushing package: $($package.Name)"
+              dotnet nuget push "$($package.FullName)" --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+            }
+          } else {
+            Write-Output "No NuGet packages found to push"
+          }
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+
+  release-alpha:
+    runs-on: windows-2022
+    if: github.ref == 'refs/heads/alpha' && github.event_name == 'push'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      # .NET 9 (GA)
+      - name: Setup .NET 9
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+
+      # .NET 10 (Preview)
+      - name: Setup .NET 10 (preview)
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+          dotnet-quality: preview
+
+      # global.json dynamically generate
+      - name: Force .NET 10 SDK via global.json
+        run: |
+          $sdkVersion = (dotnet --list-sdks | Select-String "10.0").ToString().Split(" ")[0]
+          Write-Output "Using SDK $sdkVersion"
+          @"
+          {
+            "sdk": {
+              "version": "$sdkVersion",
+              "rollForward": "latestFeature"
+            }
+          }
+          "@ | Out-File -Encoding utf8 global.json
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+        with:
+          msbuild-architecture: x64
+
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v1.2.0
+
+      - name: Cache NuGet
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Restore
+        run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.sln"
+
+      - name: Build Alpha
+        run: msbuild "Scripts/nightly.proj" /t:Build /p:Configuration=Nightly /p:Platform="Any CPU"
+
+      - name: Pack Alpha
+        run: msbuild "Scripts/nightly.proj" /t:Pack /p:Configuration=Nightly /p:Platform="Any CPU"
+
+      - name: Push NuGet Packages to nuget.org
+        run: |
+          # Find all .nupkg files in the Packages/Nightly directory
+          $packages = Get-ChildItem "Bin/Packages/Nightly/*.nupkg" -ErrorAction SilentlyContinue
+          
+          if ($packages) {
+            foreach ($package in $packages) {
+              Write-Output "Pushing package: $($package.Name)"
+              dotnet nuget push "$($package.FullName)" --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+            }
+          } else {
+            Write-Output "No NuGet packages found to push"
+          }
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+

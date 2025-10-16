@@ -75,6 +75,10 @@
     <File Path="../../.github/ISSUE_TEMPLATE/other-issues.md" />
     <File Path="../../.github/ISSUE_TEMPLATE/post-a-question.md" />
   </Folder>
+  <Folder Name="/Solution Items/Documentation/GitHub/Workflows/">
+    <File Path="../../.github/workflows/build.yml" />
+    <File Path="../../.github/workflows/release.yml" />
+  </Folder>
   <Folder Name="/Solution Items/Documentation/Help/">
     <File Path="../../Documents/Help/Designer-Fix.md" />
   </Folder>
