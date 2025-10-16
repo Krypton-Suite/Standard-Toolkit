@@ -11,17 +11,7 @@ namespace Krypton.Toolkit;
 
 internal static class Extensions
 {
-    #region Control.InDesignMode & Component.InDesignMode
-    /// <summary>
-    /// Returns if the control is in desigmode.
-    /// </summary>
-    /// <param name="control">The control instance to operate on.</param>
-    /// <returns></returns>
-    internal static bool InDesignMode(this Control control)
-    {
-        return control.Site?.DesignMode ?? false;
-    }
-
+    #region Component.InDesignMode
     /// <summary>
     /// Returns if the component is in desigmode.
     /// </summary>
