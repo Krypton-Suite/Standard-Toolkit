@@ -465,13 +465,13 @@ jobs:
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
 
-      - name: Announce Alpha Release on Discord
+      - name: Announce Nightly Release on Discord
         run: |
           $payload = @{
             embeds = @(
               @{
-                title = "🚀 Krypton Toolkit Alpha Release ${{ steps.get_version.outputs.version }}"
-                description = "A new alpha nightly build is now available for bleeding-edge testing!"
+                title = "🚀 Krypton Toolkit Nightly Release ${{ steps.get_version.outputs.version }}"
+                description = "A new nightly build is now available for bleeding-edge testing!"
                 color = 10181046
                 fields = @(
                   @{
