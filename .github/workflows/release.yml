@@ -391,7 +391,7 @@ jobs:
                   }
                   @{
                     name = "🔗 Link"
-                    value = "[NuGet Gallery](https://www.nuget.org/packages/Krypton.Toolkit)"
+                    value = "[NuGet Gallery](https://www.nuget.org/packages/Krypton.Toolkit.Canary)"
                     inline = $false
                   }
                 )
@@ -506,7 +506,7 @@ jobs:
                   }
                   @{
                     name = "🔗 Link"
-                    value = "[NuGet Gallery](https://www.nuget.org/packages/Krypton.Toolkit)"
+                    value = "[NuGet Gallery](https://www.nuget.org/packages/Krypton.Toolkit.Nightly)"
                     inline = $false
                   }
                 )
