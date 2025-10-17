@@ -144,6 +144,40 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Announce Release on Discord
+        run: |
+          $payload = @{
+            embeds = @(
+              @{
+                title = "🎉 Krypton Toolkit Release ${{ steps.get_version.outputs.version }}"
+                description = "A new stable release is now available!"
+                color = 3447003
+                fields = @(
+                  @{
+                    name = "📦 NuGet Packages"
+                    value = "- Krypton.Toolkit`n- Krypton.Ribbon`n- Krypton.Navigator`n- Krypton.Workspace`n- Krypton.Docking"
+                    inline = $false
+                  }
+                  @{
+                    name = "🎯 Target Frameworks"
+                    value = ".NET 4.7.2, 4.8, 4.8.1, 8.0, 9.0, 10.0"
+                    inline = $false
+                  }
+                  @{
+                    name = "🔗 Links"
+                    value = "[NuGet Gallery](https://www.nuget.org/packages/Krypton.Toolkit) • [GitHub Release](https://github.com/${{ github.repository }}/releases/tag/${{ steps.get_version.outputs.tag }})"
+                    inline = $false
+                  }
+                )
+                timestamp = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ")
+              }
+            )
+          } | ConvertTo-Json -Depth 10
+          
+          Invoke-RestMethod -Uri "${{ secrets.DISCORD_WEBHOOK_MASTER }}" -Method Post -Body $payload -ContentType "application/json"
+        env:
+          DISCORD_WEBHOOK_MASTER: ${{ secrets.DISCORD_WEBHOOK_MASTER }}
+
   release-v85-lts:
     runs-on: windows-2022
     if: github.ref == 'refs/heads/V85-LTS' && github.event_name == 'push'
@@ -210,6 +244,40 @@ jobs:
           }
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+
+      - name: Announce LTS Release on Discord
+        run: |
+          $payload = @{
+            embeds = @(
+              @{
+                title = "🛡️ Krypton Toolkit LTS Release ${{ steps.get_version.outputs.version }}"
+                description = "A new Long-Term Support release is now available!"
+                color = 15105570
+                fields = @(
+                  @{
+                    name = "📦 NuGet Packages"
+                    value = "- Krypton.Toolkit.LTS`n- Krypton.Ribbon.LTS`n- Krypton.Navigator.LTS`n- Krypton.Workspace.LTS`n- Krypton.Docking.LTS"
+                    inline = $false
+                  }
+                  @{
+                    name = "🎯 Target Frameworks"
+                    value = ".NET 4.6.2, 4.7, 4.7.1, 4.7.2, 4.8, 4.8.1, 6.0, 7.0, 8.0"
+                    inline = $false
+                  }
+                  @{
+                    name = "🔗 Link"
+                    value = "[NuGet Gallery](https://www.nuget.org/packages/Krypton.Toolkit.LTS)"
+                    inline = $false
+                  }
+                )
+                timestamp = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ")
+              }
+            )
+          } | ConvertTo-Json -Depth 10
+          
+          Invoke-RestMethod -Uri "${{ secrets.DISCORD_WEBHOOK_LTS }}" -Method Post -Body $payload -ContentType "application/json"
+        env:
+          DISCORD_WEBHOOK_LTS: ${{ secrets.DISCORD_WEBHOOK_LTS }}
 
   release-canary:
     runs-on: windows-2022
@@ -287,6 +355,40 @@ jobs:
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
 
+      - name: Announce Canary Release on Discord
+        run: |
+          $payload = @{
+            embeds = @(
+              @{
+                title = "🐤 Krypton Toolkit Canary Release ${{ steps.get_version.outputs.version }}"
+                description = "A new canary pre-release is now available for early testing!"
+                color = 16776960
+                fields = @(
+                  @{
+                    name = "📦 NuGet Packages"
+                    value = "- Krypton.Toolkit`n- Krypton.Ribbon`n- Krypton.Navigator`n- Krypton.Workspace`n- Krypton.Docking"
+                    inline = $false
+                  }
+                  @{
+                    name = "🎯 Target Frameworks"
+                    value = ".NET 4.7.2, 4.8, 4.8.1, 8.0, 9.0, 10.0"
+                    inline = $false
+                  }
+                  @{
+                    name = "🔗 Link"
+                    value = "[NuGet Gallery](https://www.nuget.org/packages/Krypton.Toolkit)"
+                    inline = $false
+                  }
+                )
+                timestamp = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ")
+              }
+            )
+          } | ConvertTo-Json -Depth 10
+          
+          Invoke-RestMethod -Uri "${{ secrets.DISCORD_WEBHOOK_CANARY }}" -Method Post -Body $payload -ContentType "application/json"
+        env:
+          DISCORD_WEBHOOK_CANARY: ${{ secrets.DISCORD_WEBHOOK_CANARY }}
+
   release-alpha:
     runs-on: windows-2022
     if: github.ref == 'refs/heads/alpha' && github.event_name == 'push'
@@ -362,4 +464,38 @@ jobs:
           }
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+
+      - name: Announce Nightly Release on Discord
+        run: |
+          $payload = @{
+            embeds = @(
+              @{
+                title = "🚀 Krypton Toolkit Nightly Release ${{ steps.get_version.outputs.version }}"
+                description = "A new nightly build is now available for bleeding-edge testing!"
+                color = 10181046
+                fields = @(
+                  @{
+                    name = "📦 NuGet Packages"
+                    value = "- Krypton.Toolkit`n- Krypton.Ribbon`n- Krypton.Navigator`n- Krypton.Workspace`n- Krypton.Docking"
+                    inline = $false
+                  }
+                  @{
+                    name = "🎯 Target Frameworks"
+                    value = ".NET 4.7.2, 4.8, 4.8.1, 8.0, 9.0, 10.0"
+                    inline = $false
+                  }
+                  @{
+                    name = "🔗 Link"
+                    value = "[NuGet Gallery](https://www.nuget.org/packages/Krypton.Toolkit)"
+                    inline = $false
+                  }
+                )
+                timestamp = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ")
+              }
+            )
+          } | ConvertTo-Json -Depth 10
+          
+          Invoke-RestMethod -Uri "${{ secrets.DISCORD_WEBHOOK_NIGHTLY }}" -Method Post -Body $payload -ContentType "application/json"
+        env:
+          DISCORD_WEBHOOK_NIGHTLY: ${{ secrets.DISCORD_WEBHOOK_NIGHTLY }}
 

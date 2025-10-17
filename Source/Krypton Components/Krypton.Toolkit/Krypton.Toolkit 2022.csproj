@@ -61,7 +61,12 @@
 	<PropertyGroup>
 	<PackageId>Krypton.Toolkit</PackageId>
 	<Description>This is the core toolkit module.</Description>
+	<PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
+
+  <ItemGroup>
+	<None Include="..\..\..\README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
 
   <ItemGroup>
 	<Compile Update="ButtonSpec\ButtonSpecFormFixed.cs">
