@@ -1903,23 +1903,8 @@ public class KryptonForm : VisualForm,
         // Scan up the view hierarchy until a recognized element is found
         while (mouseView != null)
         {
-            // Is mouse over the caption bar?
-            if (mouseView == _drawHeading)
-            {
-                // Always allow moving when over the title bar area
-                // The title bar should be treated as a caption area for moving
-                return new IntPtr(PI.HT.CAPTION);
-            }
-
-            // Additional check: if the mouse is in the top area of the form (title bar region)
-            // and we haven't identified a specific view, still allow moving
-            if (pt.Y < _drawHeading.ClientRectangle.Height)
-            {
-                return new IntPtr(PI.HT.CAPTION);
-            }
-
             // Is mouse over one of the borders?
-            if (isResizable && mouseView == _drawDocker)
+            if (isResizable && (mouseView == _drawDocker || pt.Y < _drawHeading.ClientRectangle.Height))
             {
                 // Is point over the left border?
                 if ((borders.Left > 0) && (pt.X <= borders.Left))
@@ -1964,6 +1949,13 @@ public class KryptonForm : VisualForm,
 
                     return pt.X >= (Width - HT_CORNER) ? new IntPtr(PI.HT.TOPRIGHT) : new IntPtr(PI.HT.TOP);
                 }
+            }
+
+            // Additional check: if the mouse is in the top area of the form (title bar region)
+            // and we haven't identified a specific view, still allow moving
+            if (mouseView == _drawHeading || pt.Y < _drawHeading.ClientRectangle.Height)
+            {
+                return new IntPtr(PI.HT.CAPTION);
             }
 
             // Mouse up another level
