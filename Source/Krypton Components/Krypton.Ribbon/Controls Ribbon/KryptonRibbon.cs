@@ -1553,7 +1553,7 @@ public class KryptonRibbon : VisualSimple,
         {
             newFocus = TabsArea?.LayoutTabs.GetViewForRibbonTab(SelectedTab);
         }
-        else if (!RealMinimizedMode && ShowTabs)
+        else if (!RealMinimizedMode /*&& ShowTabs*/)
         {
             // Only try to focus first tab if tabs are visible
             newFocus = TabsArea?.LayoutTabs.GetViewForFirstRibbonTab();
@@ -2604,7 +2604,7 @@ public class KryptonRibbon : VisualSimple,
         MinimizedMode = false;
         ScrollerStyle = ButtonStyle.Standalone;
         ShowMinimizeButton = true;
-        ShowTabs = true;
+        //ShowTabs = true;
         QATLocation = QATLocation.Above;
         QATUserChange = true;
         LostFocusLosesKeyboard = true;
@@ -2837,7 +2837,7 @@ public class KryptonRibbon : VisualSimple,
         KryptonRibbonTab? newSelection = null;
 
         // If tabs are hidden (toolbar mode), don't auto-select any tab
-        if (!ShowTabs)
+        /*if (!ShowTabs)
         {
             // In toolbar mode, we allow SelectedTab to remain null
             // Only validate if there's a selected tab that's no longer valid
@@ -2851,7 +2851,7 @@ public class KryptonRibbon : VisualSimple,
                 newSelection = SelectedTab; // Keep current selection (including null)
             }
         }
-        else if (!RealMinimizedMode)
+        else*/ if (!RealMinimizedMode)
         {
             if ((SelectedTab == null) ||                            // If there is no selection...
                 (!SelectedTab.Visible && !InDesignHelperMode) ||    // Or the selection is no longer visible
