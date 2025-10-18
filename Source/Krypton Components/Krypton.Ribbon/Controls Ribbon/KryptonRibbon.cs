@@ -83,7 +83,8 @@ public class KryptonRibbon : VisualSimple,
     // Properties
     private bool _minimizedMode;
     private bool _showMinimizeButton;
-    private bool _showTabs;
+    // ToDo: Reinvestigate for #331 in the future
+    //private bool _showTabs;
     private string _selectedContext;
     private Size _hideRibbonSize;
     private QATLocation _qatLocation;
@@ -901,7 +902,8 @@ public class KryptonRibbon : VisualSimple,
     /// </summary>
     public void ResetQATUserChange() => QATUserChange = true;
 
-    /// <summary>
+    // ToDo: Reinvestigate for #331 in the future
+    /*/// <summary>
     /// Gets and sets a value indicating if ribbon tabs are visible.
     /// </summary>
     [Category(@"Values")]
@@ -925,7 +927,7 @@ public class KryptonRibbon : VisualSimple,
     /// <summary>
     /// Resets the ShowTabs property to its default value.
     /// </summary>
-    public void ResetShowTabs() => ShowTabs = true;
+    public void ResetShowTabs() => ShowTabs = true;*/
 
     /// <summary>
     /// Gets and sets a value indicating if a minimize/expand button appears on the ribbon tab ara.
@@ -1837,8 +1839,9 @@ public class KryptonRibbon : VisualSimple,
             return;
         }
 
-        if (_showTabs)
-        {
+        // ToDo: Reinvestigate for #331 in the future
+        //if (_showTabs)
+        //{
             // Add tabs area if not already present
             if (!_ribbonDocker.Contains(TabsArea))
             {
@@ -1850,7 +1853,7 @@ public class KryptonRibbon : VisualSimple,
             {
                 _ribbonDocker.Add(CaptionArea, ViewDockStyle.Top);
             }
-        }
+        /*}
         else
         {
             // Remove tabs area if present
@@ -1864,7 +1867,7 @@ public class KryptonRibbon : VisualSimple,
             {
                 _ribbonDocker.Remove(CaptionArea);
             }
-        }
+        }*/
     }
 
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -2727,12 +2730,13 @@ public class KryptonRibbon : VisualSimple,
         _ribbonDocker.Add(_minimizeBar, ViewDockStyle.Bottom);
         _ribbonDocker.Add(_qatBelowRibbon, ViewDockStyle.Bottom);
         
+        // ToDo: Reinvestigate for #331 in the future
         // Add tabs area and caption area only if tabs are visible
-        if (_showTabs)
+        /*if (_showTabs)
         {
             _ribbonDocker.Add(TabsArea, ViewDockStyle.Top);
             _ribbonDocker.Add(CaptionArea, ViewDockStyle.Top);
-        }
+        }*/
 
         // The root contains the top and fills out with the panel areas
         _rootDocker.Add(MainPanel, ViewDockStyle.Fill);
