@@ -24,8 +24,9 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
     private DesignerVerb _clearTabsVerb;
     private DesignerVerb _noTabVerb;
     private DesignerVerb _setTabVerb;
-    private DesignerVerb _hideTabsVerb;
-    private DesignerVerb _showTabsVerb;
+    // Disabled ShowTabs feature temporarily due to rendering issues with KryptonRibbonContext
+    // private DesignerVerb _hideTabsVerb;
+    // private DesignerVerb _showTabsVerb;
     private bool _lastHitTest;
 
     #endregion
@@ -147,9 +148,10 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
                 _clearTabsVerb = new DesignerVerb(@"Clear Tabs", OnClearTabs);
                 _noTabVerb = new DesignerVerb(@"Clear Tab Selection", OnNoTab);
                 _setTabVerb = new DesignerVerb(@"Select First Tab", OnSetTab);
-                _hideTabsVerb = new DesignerVerb(@"Hide Tab Headers", OnHideTabs);
-                _showTabsVerb = new DesignerVerb(@"Show Tab Headers", OnShowTabs);
-                _verbs.AddRange(new[] { _toggleHelpersVerb, _addTabVerb, _clearTabsVerb, _noTabVerb, _setTabVerb, _hideTabsVerb, _showTabsVerb });
+                // Disabled ShowTabs feature temporarily due to rendering issues with KryptonRibbonContext
+                // _hideTabsVerb = new DesignerVerb(@"Hide Tab Headers", OnHideTabs);
+                // _showTabsVerb = new DesignerVerb(@"Show Tab Headers", OnShowTabs);
+                _verbs.AddRange(new[] { _toggleHelpersVerb, _addTabVerb, _clearTabsVerb, _noTabVerb, _setTabVerb /*, _hideTabsVerb, _showTabsVerb*/ });
             }
 
             UpdateVerbStatus();
@@ -279,17 +281,18 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
                 _setTabVerb.Enabled = false;
             }
             
+            // Disabled ShowTabs feature temporarily due to rendering issues with KryptonRibbonContext
             // Update the Hide Tabs / Show Tabs verbs based on current state
-            if (_ribbon.ShowTabs)
-            {
-                _hideTabsVerb.Enabled = true;
-                _showTabsVerb.Enabled = false;
-            }
-            else
-            {
-                _hideTabsVerb.Enabled = false;
-                _showTabsVerb.Enabled = true;
-            }
+            // if (_ribbon.ShowTabs)
+            // {
+            //     _hideTabsVerb.Enabled = true;
+            //     _showTabsVerb.Enabled = false;
+            // }
+            // else
+            // {
+            //     _hideTabsVerb.Enabled = false;
+            //     _showTabsVerb.Enabled = true;
+            // }
         }
     }
 
@@ -455,79 +458,81 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
         }
     }
 
-    /// <summary>
-    /// Handles the "Hide Tabs" designer verb click.
-    /// Hides the ribbon tabs to create a toolbar-like interface.
-    /// </summary>
-    /// <param name="sender">The source of the event.</param>
-    /// <param name="e">An EventArgs that contains the event data.</param>
-    private void OnHideTabs(object? sender, EventArgs e)
-    {
-        if (_ribbon is null)
-        {
-            throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_ribbon)));
-        }
+    // Disabled ShowTabs feature temporarily due to rendering issues with KryptonRibbonContext
+    // /// <summary>
+    // /// Handles the "Hide Tabs" designer verb click.
+    // /// Hides the ribbon tabs to create a toolbar-like interface.
+    // /// </summary>
+    // /// <param name="sender">The source of the event.</param>
+    // /// <param name="e">An EventArgs that contains the event data.</param>
+    // private void OnHideTabs(object? sender, EventArgs e)
+    // {
+    //     if (_ribbon is null)
+    //     {
+    //         throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_ribbon)));
+    //     }
+    //
+    //     // Use a transaction to support undo/redo actions
+    //     DesignerTransaction transaction = _designerHost!.CreateTransaction(@"KryptonRibbon HideTabs");
+    //
+    //     try
+    //     {
+    //         // Get access to the ShowTabs property
+    //         MemberDescriptor? propertyShowTabs = TypeDescriptor.GetProperties(_ribbon)[@"ShowTabs"];
+    //
+    //         RaiseComponentChanging(propertyShowTabs);
+    //
+    //         // Hide the tabs
+    //         _ribbon.ShowTabs = false;
+    //
+    //         RaiseComponentChanged(propertyShowTabs, null, null);
+    //     }
+    //     finally
+    //     {
+    //         // If we managed to create the transaction, then do it
+    //         transaction?.Commit();
+    //
+    //         UpdateVerbStatus();
+    //     }
+    // }
 
-        // Use a transaction to support undo/redo actions
-        DesignerTransaction transaction = _designerHost!.CreateTransaction(@"KryptonRibbon HideTabs");
-
-        try
-        {
-            // Get access to the ShowTabs property
-            MemberDescriptor? propertyShowTabs = TypeDescriptor.GetProperties(_ribbon)[@"ShowTabs"];
-
-            RaiseComponentChanging(propertyShowTabs);
-
-            // Hide the tabs
-            _ribbon.ShowTabs = false;
-
-            RaiseComponentChanged(propertyShowTabs, null, null);
-        }
-        finally
-        {
-            // If we managed to create the transaction, then do it
-            transaction?.Commit();
-
-            UpdateVerbStatus();
-        }
-    }
-
-    /// <summary>
-    /// Handles the "Show Tabs" designer verb click.
-    /// Shows the ribbon tabs to restore normal ribbon interface.
-    /// </summary>
-    /// <param name="sender">The source of the event.</param>
-    /// <param name="e">An EventArgs that contains the event data.</param>
-    private void OnShowTabs(object? sender, EventArgs e)
-    {
-        if (_ribbon is null)
-        {
-            throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_ribbon)));
-        }
-
-        // Use a transaction to support undo/redo actions
-        DesignerTransaction transaction = _designerHost!.CreateTransaction(@"KryptonRibbon ShowTabs");
-
-        try
-        {
-            // Get access to the ShowTabs property
-            MemberDescriptor? propertyShowTabs = TypeDescriptor.GetProperties(_ribbon)[@"ShowTabs"];
-
-            RaiseComponentChanging(propertyShowTabs);
-
-            // Show the tabs
-            _ribbon.ShowTabs = true;
-
-            RaiseComponentChanged(propertyShowTabs, null, null);
-        }
-        finally
-        {
-            // If we managed to create the transaction, then do it
-            transaction?.Commit();
-
-            UpdateVerbStatus();
-        }
-    }
+    // Disabled ShowTabs feature temporarily due to rendering issues with KryptonRibbonContext
+    // /// <summary>
+    // /// Handles the "Show Tabs" designer verb click.
+    // /// Shows the ribbon tabs to restore normal ribbon interface.
+    // /// </summary>
+    // /// <param name="sender">The source of the event.</param>
+    // /// <param name="e">An EventArgs that contains the event data.</param>
+    // private void OnShowTabs(object? sender, EventArgs e)
+    // {
+    //     if (_ribbon is null)
+    //     {
+    //         throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_ribbon)));
+    //     }
+    //
+    //     // Use a transaction to support undo/redo actions
+    //     DesignerTransaction transaction = _designerHost!.CreateTransaction(@"KryptonRibbon ShowTabs");
+    //
+    //     try
+    //     {
+    //         // Get access to the ShowTabs property
+    //         MemberDescriptor? propertyShowTabs = TypeDescriptor.GetProperties(_ribbon)[@"ShowTabs"];
+    //
+    //         RaiseComponentChanging(propertyShowTabs);
+    //
+    //         // Show the tabs
+    //         _ribbon.ShowTabs = true;
+    //
+    //         RaiseComponentChanged(propertyShowTabs, null, null);
+    //     }
+    //     finally
+    //     {
+    //         // If we managed to create the transaction, then do it
+    //         transaction?.Commit();
+    //
+    //         UpdateVerbStatus();
+    //     }
+    // }
 
     private void OnRibbonMouseUp(object? sender, MouseEventArgs e)
     {
