@@ -149,10 +149,15 @@ jobs:
           $payload = @{
             embeds = @(
               @{
-                title = "🎉 Krypton Toolkit Release ${{ steps.get_version.outputs.version }}"
+                title = "🎉 Krypton Toolkit Stable Release"
                 description = "A new stable release is now available!"
                 color = 3447003
                 fields = @(
+                  @{
+                    name = "📌 Version"
+                    value = "``${{ steps.get_version.outputs.version }}``"
+                    inline = $true
+                  }
                   @{
                     name = "📦 NuGet Packages"
                     value = "- Krypton.Toolkit`n- Krypton.Ribbon`n- Krypton.Navigator`n- Krypton.Workspace`n- Krypton.Docking"
@@ -250,10 +255,15 @@ jobs:
           $payload = @{
             embeds = @(
               @{
-                title = "🛡️ Krypton Toolkit LTS Release ${{ steps.get_version.outputs.version }}"
+                title = "🛡️ Krypton Toolkit LTS Release"
                 description = "A new Long-Term Support release is now available!"
                 color = 15105570
                 fields = @(
+                  @{
+                    name = "📌 Version"
+                    value = "``${{ steps.get_version.outputs.version }}``"
+                    inline = $true
+                  }
                   @{
                     name = "📦 NuGet Packages"
                     value = "- Krypton.Toolkit.LTS`n- Krypton.Ribbon.LTS`n- Krypton.Navigator.LTS`n- Krypton.Workspace.LTS`n- Krypton.Docking.LTS"
@@ -360,10 +370,15 @@ jobs:
           $payload = @{
             embeds = @(
               @{
-                title = "🐤 Krypton Toolkit Canary Release ${{ steps.get_version.outputs.version }}"
+                title = "🐤 Krypton Toolkit Canary Release"
                 description = "A new canary pre-release is now available for early testing!"
                 color = 16776960
                 fields = @(
+                  @{
+                    name = "📌 Version"
+                    value = "``${{ steps.get_version.outputs.version }}``"
+                    inline = $true
+                  }
                   @{
                     name = "📦 NuGet Packages"
                     value = "- Krypton.Toolkit`n- Krypton.Ribbon`n- Krypton.Navigator`n- Krypton.Workspace`n- Krypton.Docking"
@@ -376,7 +391,7 @@ jobs:
                   }
                   @{
                     name = "🔗 Link"
-                    value = "[NuGet Gallery](https://www.nuget.org/packages/Krypton.Toolkit)"
+                    value = "[NuGet Gallery](https://www.nuget.org/packages/Krypton.Toolkit.Canary)"
                     inline = $false
                   }
                 )
@@ -470,10 +485,15 @@ jobs:
           $payload = @{
             embeds = @(
               @{
-                title = "🚀 Krypton Toolkit Nightly Release ${{ steps.get_version.outputs.version }}"
+                title = "🚀 Krypton Toolkit Nightly Release"
                 description = "A new nightly build is now available for bleeding-edge testing!"
                 color = 10181046
                 fields = @(
+                  @{
+                    name = "📌 Version"
+                    value = "``${{ steps.get_version.outputs.version }}``"
+                    inline = $true
+                  }
                   @{
                     name = "📦 NuGet Packages"
                     value = "- Krypton.Toolkit`n- Krypton.Ribbon`n- Krypton.Navigator`n- Krypton.Workspace`n- Krypton.Docking"
@@ -486,7 +506,7 @@ jobs:
                   }
                   @{
                     name = "🔗 Link"
-                    value = "[NuGet Gallery](https://www.nuget.org/packages/Krypton.Toolkit)"
+                    value = "[NuGet Gallery](https://www.nuget.org/packages/Krypton.Toolkit.Nightly)"
                     inline = $false
                   }
                 )
