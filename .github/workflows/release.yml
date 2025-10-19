@@ -10,9 +10,6 @@ on:
       - alpha
       - canary
       - V85-LTS
-  schedule:
-    # Run alpha/nightly build automatically at midnight UTC every day
-    - cron: '0 0 * * *'
 
 jobs:
   release-master:
@@ -172,19 +169,11 @@ jobs:
                     inline = $false
                   }
                   @{
-                    name = "🔗 NuGet Packages"
-                    value = "[Toolkit](https://www.nuget.org/packages/Krypton.Toolkit) • [Ribbon](https://www.nuget.org/packages/Krypton.Ribbon) • [Navigator](https://www.nuget.org/packages/Krypton.Navigator) • [Workspace](https://www.nuget.org/packages/Krypton.Workspace) • [Docking](https://www.nuget.org/packages/Krypton.Docking)"
-                    inline = $false
-                  }
-                  @{
-                    name = "📥 GitHub Release"
-                    value = "[Download Archives](https://github.com/${{ github.repository }}/releases/tag/${{ steps.get_version.outputs.tag }})"
+                    name = "🔗 Links"
+                    value = "[NuGet Gallery](https://www.nuget.org/packages/Krypton.Toolkit) • [GitHub Release](https://github.com/${{ github.repository }}/releases/tag/${{ steps.get_version.outputs.tag }})"
                     inline = $false
                   }
                 )
-                footer = @{
-                  text = "Released"
-                }
                 timestamp = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ")
               }
             )
@@ -261,16 +250,6 @@ jobs:
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
 
-      - name: Get Version
-        id: get_version
-        run: |
-          $version = (dotnet build "Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj" --no-restore --verbosity quiet | Select-String "Version" | ForEach-Object { $_.Line.Split('=')[1].Trim() })
-          if (-not $version) {
-            $version = "85.25.1.1"  # Fallback version for LTS
-          }
-          echo "version=$version" >> $env:GITHUB_OUTPUT
-          echo "tag=v$version-lts" >> $env:GITHUB_OUTPUT
-
       - name: Announce LTS Release on Discord
         run: |
           $payload = @{
@@ -296,14 +275,11 @@ jobs:
                     inline = $false
                   }
                   @{
-                    name = "🔗 NuGet Packages"
-                    value = "[Toolkit.LTS](https://www.nuget.org/packages/Krypton.Toolkit.LTS) • [Ribbon.LTS](https://www.nuget.org/packages/Krypton.Ribbon.LTS) • [Navigator.LTS](https://www.nuget.org/packages/Krypton.Navigator.LTS) • [Workspace.LTS](https://www.nuget.org/packages/Krypton.Workspace.LTS) • [Docking.LTS](https://www.nuget.org/packages/Krypton.Docking.LTS)"
+                    name = "🔗 Link"
+                    value = "[NuGet Gallery](https://www.nuget.org/packages/Krypton.Toolkit.LTS)"
                     inline = $false
                   }
                 )
-                footer = @{
-                  text = "Released"
-                }
                 timestamp = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ")
               }
             )
@@ -389,16 +365,6 @@ jobs:
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
 
-      - name: Get Version
-        id: get_version
-        run: |
-          $version = (dotnet build "Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj" --no-restore --verbosity quiet | Select-String "Version" | ForEach-Object { $_.Line.Split('=')[1].Trim() })
-          if (-not $version) {
-            $version = "100.25.1.1"  # Fallback version
-          }
-          echo "version=$version" >> $env:GITHUB_OUTPUT
-          echo "tag=v$version-canary" >> $env:GITHUB_OUTPUT
-
       - name: Announce Canary Release on Discord
         run: |
           $payload = @{
@@ -424,14 +390,11 @@ jobs:
                     inline = $false
                   }
                   @{
-                    name = "🔗 NuGet Packages"
-                    value = "[Toolkit](https://www.nuget.org/packages/Krypton.Toolkit) • [Ribbon](https://www.nuget.org/packages/Krypton.Ribbon) • [Navigator](https://www.nuget.org/packages/Krypton.Navigator) • [Workspace](https://www.nuget.org/packages/Krypton.Workspace) • [Docking](https://www.nuget.org/packages/Krypton.Docking)"
+                    name = "🔗 Link"
+                    value = "[NuGet Gallery](https://www.nuget.org/packages/Krypton.Toolkit.Canary)"
                     inline = $false
                   }
                 )
-                footer = @{
-                  text = "Released"
-                }
                 timestamp = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ")
               }
             )
@@ -443,13 +406,11 @@ jobs:
 
   release-alpha:
     runs-on: windows-2022
-    if: (github.ref == 'refs/heads/alpha' && github.event_name == 'push') || github.event_name == 'schedule'
+    if: github.ref == 'refs/heads/alpha' && github.event_name == 'push'
 
     steps:
       - name: Checkout
         uses: actions/checkout@v5
-        with:
-          ref: alpha
 
       # .NET 9 (GA)
       - name: Setup .NET 9
@@ -519,16 +480,6 @@ jobs:
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
 
-      - name: Get Version
-        id: get_version
-        run: |
-          $version = (dotnet build "Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj" --no-restore --verbosity quiet | Select-String "Version" | ForEach-Object { $_.Line.Split('=')[1].Trim() })
-          if (-not $version) {
-            $version = "100.25.1.1"  # Fallback version
-          }
-          echo "version=$version" >> $env:GITHUB_OUTPUT
-          echo "tag=v$version-nightly" >> $env:GITHUB_OUTPUT
-
       - name: Announce Nightly Release on Discord
         run: |
           $payload = @{
@@ -554,14 +505,11 @@ jobs:
                     inline = $false
                   }
                   @{
-                    name = "🔗 NuGet Packages"
-                    value = "[Toolkit](https://www.nuget.org/packages/Krypton.Toolkit) • [Ribbon](https://www.nuget.org/packages/Krypton.Ribbon) • [Navigator](https://www.nuget.org/packages/Krypton.Navigator) • [Workspace](https://www.nuget.org/packages/Krypton.Workspace) • [Docking](https://www.nuget.org/packages/Krypton.Docking)"
+                    name = "🔗 Link"
+                    value = "[NuGet Gallery](https://www.nuget.org/packages/Krypton.Toolkit.Nightly)"
                     inline = $false
                   }
                 )
-                footer = @{
-                  text = "Released"
-                }
                 timestamp = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ")
               }
             )
@@ -570,4 +518,3 @@ jobs:
           Invoke-RestMethod -Uri "${{ secrets.DISCORD_WEBHOOK_NIGHTLY }}" -Method Post -Body $payload -ContentType "application/json"
         env:
           DISCORD_WEBHOOK_NIGHTLY: ${{ secrets.DISCORD_WEBHOOK_NIGHTLY }}
-
