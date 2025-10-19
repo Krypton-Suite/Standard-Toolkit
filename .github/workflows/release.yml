@@ -518,4 +518,3 @@ jobs:
           Invoke-RestMethod -Uri "${{ secrets.DISCORD_WEBHOOK_NIGHTLY }}" -Method Post -Body $payload -ContentType "application/json"
         env:
           DISCORD_WEBHOOK_NIGHTLY: ${{ secrets.DISCORD_WEBHOOK_NIGHTLY }}
-

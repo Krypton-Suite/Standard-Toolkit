@@ -24,8 +24,12 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
     private DesignerVerb _clearTabsVerb;
     private DesignerVerb _noTabVerb;
     private DesignerVerb _setTabVerb;
-    private DesignerVerb _hideTabsVerb;
-    private DesignerVerb _showTabsVerb;
+
+    // ToDo: Reinvestigate for #331 in the future, see https://github.com/Krypton-Suite/Standard-Toolkit/issues/331 & https://github.com/Krypton-Suite/Standard-Toolkit/issues/2584 for more information
+    // Disabled ShowTabs feature temporarily due to rendering issues with KryptonRibbonContext
+    // private DesignerVerb _hideTabsVerb;
+    // private DesignerVerb _showTabsVerb;
+
     private bool _lastHitTest;
 
     #endregion
@@ -147,9 +151,12 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
                 _clearTabsVerb = new DesignerVerb(@"Clear Tabs", OnClearTabs);
                 _noTabVerb = new DesignerVerb(@"Clear Tab Selection", OnNoTab);
                 _setTabVerb = new DesignerVerb(@"Select First Tab", OnSetTab);
-                _hideTabsVerb = new DesignerVerb(@"Hide Tab Headers", OnHideTabs);
-                _showTabsVerb = new DesignerVerb(@"Show Tab Headers", OnShowTabs);
-                _verbs.AddRange(new[] { _toggleHelpersVerb, _addTabVerb, _clearTabsVerb, _noTabVerb, _setTabVerb, _hideTabsVerb, _showTabsVerb });
+
+                // ToDo: Reinvestigate for #331 in the future, see https://github.com/Krypton-Suite/Standard-Toolkit/issues/331 & https://github.com/Krypton-Suite/Standard-Toolkit/issues/2584 for more information
+                // Disabled ShowTabs feature temporarily due to rendering issues with KryptonRibbonContext
+                // _hideTabsVerb = new DesignerVerb(@"Hide Tab Headers", OnHideTabs);
+                // _showTabsVerb = new DesignerVerb(@"Show Tab Headers", OnShowTabs);
+                _verbs.AddRange(new[] { _toggleHelpersVerb, _addTabVerb, _clearTabsVerb, _noTabVerb, _setTabVerb /*, _hideTabsVerb, _showTabsVerb*/ });
             }
 
             UpdateVerbStatus();
@@ -278,9 +285,11 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
                 _noTabVerb.Enabled = true;
                 _setTabVerb.Enabled = false;
             }
-            
+
+            // ToDo: Reinvestigate for #331 in the future, see https://github.com/Krypton-Suite/Standard-Toolkit/issues/331 & https://github.com/Krypton-Suite/Standard-Toolkit/issues/2584 for more information
+            // Disabled ShowTabs feature temporarily due to rendering issues with KryptonRibbonContext
             // Update the Hide Tabs / Show Tabs verbs based on current state
-            if (_ribbon.ShowTabs)
+            /*if (_ribbon.ShowTabs)
             {
                 _hideTabsVerb.Enabled = true;
                 _showTabsVerb.Enabled = false;
@@ -289,7 +298,7 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
             {
                 _hideTabsVerb.Enabled = false;
                 _showTabsVerb.Enabled = true;
-            }
+            }*/
         }
     }
 
@@ -455,13 +464,15 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
         }
     }
 
-    /// <summary>
-    /// Handles the "Hide Tabs" designer verb click.
-    /// Hides the ribbon tabs to create a toolbar-like interface.
-    /// </summary>
-    /// <param name="sender">The source of the event.</param>
-    /// <param name="e">An EventArgs that contains the event data.</param>
-    private void OnHideTabs(object? sender, EventArgs e)
+    // ToDo: Reinvestigate for #331 in the future, see https://github.com/Krypton-Suite/Standard-Toolkit/issues/331 & https://github.com/Krypton-Suite/Standard-Toolkit/issues/2584 for more information
+    /*//Disabled ShowTabs feature temporarily due to rendering issues with KryptonRibbonContext
+     /// <summary>
+     /// Handles the "Hide Tabs" designer verb click.
+     /// Hides the ribbon tabs to create a toolbar-like interface.
+     /// </summary>
+     /// <param name="sender">The source of the event.</param>
+     /// <param name="e">An EventArgs that contains the event data.</param>
+     private void OnHideTabs(object? sender, EventArgs e)
     {
         if (_ribbon is null)
         {
@@ -492,13 +503,14 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
         }
     }
 
-    /// <summary>
-    /// Handles the "Show Tabs" designer verb click.
-    /// Shows the ribbon tabs to restore normal ribbon interface.
-    /// </summary>
-    /// <param name="sender">The source of the event.</param>
-    /// <param name="e">An EventArgs that contains the event data.</param>
-    private void OnShowTabs(object? sender, EventArgs e)
+     // Disabled ShowTabs feature temporarily due to rendering issues with KryptonRibbonContext
+     /// <summary>
+     /// Handles the "Show Tabs" designer verb click.
+     /// Shows the ribbon tabs to restore normal ribbon interface.
+     /// </summary>
+     /// <param name="sender">The source of the event.</param>
+     /// <param name="e">An EventArgs that contains the event data.</param>
+     private void OnShowTabs(object? sender, EventArgs e)
     {
         if (_ribbon is null)
         {
@@ -527,7 +539,7 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
 
             UpdateVerbStatus();
         }
-    }
+    }*/
 
     private void OnRibbonMouseUp(object? sender, MouseEventArgs e)
     {
