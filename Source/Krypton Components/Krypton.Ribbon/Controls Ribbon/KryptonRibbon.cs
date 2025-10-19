@@ -83,8 +83,10 @@ public class KryptonRibbon : VisualSimple,
     // Properties
     private bool _minimizedMode;
     private bool _showMinimizeButton;
-    // ToDo: Reinvestigate for #331 in the future
+
+    // ToDo: Reinvestigate for #331 in the future, see https://github.com/Krypton-Suite/Standard-Toolkit/issues/331 & https://github.com/Krypton-Suite/Standard-Toolkit/issues/2584 for more information
     //private bool _showTabs;
+
     private string _selectedContext;
     private Size _hideRibbonSize;
     private QATLocation _qatLocation;
@@ -902,7 +904,7 @@ public class KryptonRibbon : VisualSimple,
     /// </summary>
     public void ResetQATUserChange() => QATUserChange = true;
 
-    // ToDo: Reinvestigate for #331 in the future
+    // ToDo: Reinvestigate for #331 in the future, see https://github.com/Krypton-Suite/Standard-Toolkit/issues/331 & https://github.com/Krypton-Suite/Standard-Toolkit/issues/2584 for more information
     /*/// <summary>
     /// Gets and sets a value indicating if ribbon tabs are visible.
     /// </summary>
@@ -1829,7 +1831,8 @@ public class KryptonRibbon : VisualSimple,
         }
     }
 
-    /// <summary>
+    // ToDo: Reinvestigate for #331 in the future, see https://github.com/Krypton-Suite/Standard-Toolkit/issues/331 & https://github.com/Krypton-Suite/Standard-Toolkit/issues/2584 for more information
+    /*/// <summary>
     /// Updates the visibility of the tabs area and caption area based on the ShowTabs property.
     /// </summary>
     private void UpdateTabVisibility()
@@ -1839,9 +1842,8 @@ public class KryptonRibbon : VisualSimple,
             return;
         }
 
-        // ToDo: Reinvestigate for #331 in the future
-        //if (_showTabs)
-        //{
+        if (_showTabs)
+        {
             // Add tabs area if not already present
             if (!_ribbonDocker.Contains(TabsArea))
             {
@@ -1853,7 +1855,7 @@ public class KryptonRibbon : VisualSimple,
             {
                 _ribbonDocker.Add(CaptionArea, ViewDockStyle.Top);
             }
-        /*}
+        }
         else
         {
             // Remove tabs area if present
@@ -1867,8 +1869,8 @@ public class KryptonRibbon : VisualSimple,
             {
                 _ribbonDocker.Remove(CaptionArea);
             }
-        }*/
-    }
+        }
+    }*/
 
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     internal ButtonStyle ScrollerStyle
@@ -2729,8 +2731,8 @@ public class KryptonRibbon : VisualSimple,
         _ribbonDocker.Add(GroupsArea, ViewDockStyle.Fill);
         _ribbonDocker.Add(_minimizeBar, ViewDockStyle.Bottom);
         _ribbonDocker.Add(_qatBelowRibbon, ViewDockStyle.Bottom);
-        
-        // ToDo: Reinvestigate for #331 in the future
+
+        // ToDo: Reinvestigate for #331 in the future, see https://github.com/Krypton-Suite/Standard-Toolkit/issues/331 & https://github.com/Krypton-Suite/Standard-Toolkit/issues/2584 for more information
         // Add tabs area and caption area only if tabs are visible
         /*if (_showTabs)
         {
