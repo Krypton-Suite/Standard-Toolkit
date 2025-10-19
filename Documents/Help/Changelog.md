@@ -3,11 +3,12 @@
 =======
 
 # 2025-10-20 - Build 2508 (Patch 9) - October 2025
+* Resolved [#2542](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2542), `KryptonForm` cannot be resized by dragging upper corners.
 * Resolved [#2548](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2548), Fixed color assignment for `GroupSeparatorLight`, `QATButtonDarkColor` and `QATButtonLightColor` in `PopulateFromBase`.
-* Resolved [#2460](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2460) `KryptonDataGridView` column headers are always bold.
+* Resolved [#2460](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2460), `KryptonDataGridView` column headers are always bold.
 * Resolved [#2512](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2512), Added borders with straight corners (`LinearBorder2`) and adjusted the colors in the `KryptonRibbon` in the `Microsoft365` themes. Adjusted the design of the `RibbonQATButton`
-* Resolved [#2524](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2524) `KryptonRibbon` tab title malformed when using long strings.
-* Implemented [#648](https://github.com/Krypton-Suite/Standard-Toolkit/issues/648), SystemMenu to be theme related
+* Resolved [#2524](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2524), `KryptonRibbon` tab title malformed when using long strings.
+* Implemented [#648](https://github.com/Krypton-Suite/Standard-Toolkit/issues/648), SystemMenu to be theme related.
 * Resolved [#2463](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2463), `KryptonForm` has incorrect title-bar button behaviour.
 
 * =======
