@@ -76,14 +76,24 @@ jobs:
         run: msbuild "Scripts/build.proj" /t:Pack /p:Configuration=Release /p:Platform="Any CPU"
 
       - name: Push NuGet Packages to nuget.org
+        shell: pwsh
         run: |
-          # Find all .nupkg files in the Packages/Release directory
+          $ErrorActionPreference = 'Stop'
+          if (-not $env:NUGET_API_KEY) {
+            Write-Warning "NUGET_API_KEY not set - skipping NuGet push"
+            exit 0
+          }
+          
           $packages = Get-ChildItem "Bin/Packages/Release/*.nupkg" -ErrorAction SilentlyContinue
           
           if ($packages) {
             foreach ($package in $packages) {
               Write-Output "Pushing package: $($package.Name)"
-              dotnet nuget push "$($package.FullName)" --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+              try {
+                dotnet nuget push "$($package.FullName)" --api-key $env:NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
+              } catch {
+                Write-Warning "Failed to push $($package.Name): $_"
+              }
             }
           } else {
             Write-Output "No NuGet packages found to push"
@@ -96,18 +106,69 @@ jobs:
 
       - name: Get Version
         id: get_version
+        shell: pwsh
         run: |
-          $version = (dotnet build "Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj" --no-restore --verbosity quiet | Select-String "Version" | ForEach-Object { $_.Line.Split('=')[1].Trim() })
-          if (-not $version) {
-            $version = "100.25.1.1"  # Fallback version
+          $ErrorActionPreference = 'Stop'
+          $version = $null
+          
+          # Try to get version from the built assembly (most reliable)
+          try {
+            $dllPath = Get-ChildItem "Bin/Release/net48/Krypton.Toolkit.dll" -ErrorAction Stop
+            $assemblyVersion = [System.Reflection.AssemblyName]::GetAssemblyName($dllPath.FullName).Version
+            $version = $assemblyVersion.ToString()
+            Write-Host "Got version from assembly: $version"
+          } catch {
+            Write-Host "Could not read version from assembly: $_"
           }
+          
+          # Fallback: Try to read from csproj XML
+          if (-not $version) {
+            try {
+              $proj = 'Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj'
+              [xml]$projXml = Get-Content $proj
+              $versionNode = $projXml.SelectSingleNode("//Version")
+              if ($versionNode) {
+                $version = $versionNode.InnerText.Trim()
+                Write-Host "Got version from csproj: $version"
+              }
+            } catch {
+              Write-Host "Could not read version from csproj: $_"
+            }
+          }
+          
+          # Last resort fallback
+          if (-not $version) {
+            Write-Warning "Version not found, using fallback."
+            $version = "100.25.1.1"
+          }
+          
+          Write-Host "Final determined version: $version"
           echo "version=$version" >> $env:GITHUB_OUTPUT
           echo "tag=v$version" >> $env:GITHUB_OUTPUT
 
-      - name: Create Release
+      - name: Diagnostics - List Artifacts
+        shell: pwsh
         run: |
+          Write-Host "=== Files in Bin/Packages/Release ==="
+          Get-ChildItem -Path Bin/Packages/Release -Recurse -ErrorAction SilentlyContinue | ForEach-Object { Write-Host $_.FullName }
+          Write-Host "`n=== Files in Bin/Release/Zips ==="
+          Get-ChildItem -Path Bin/Release/Zips -Recurse -ErrorAction SilentlyContinue | ForEach-Object { Write-Host $_.FullName }
+          Write-Host "`n=== Secrets Check ==="
+          Write-Host "GITHUB_TOKEN present: $(if ($env:GITHUB_TOKEN) { 'yes' } else { 'no' })"
+          Write-Host "NUGET_API_KEY present: $(if ($env:NUGET_API_KEY) { 'yes' } else { 'no' })"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+
+      - name: Create or Update Release
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $version = "${{ steps.get_version.outputs.version }}"
+          $tag = "v$version"
+          $releaseTitle = "Release $version"
           $releaseBody = @"
-          ## Krypton Toolkit Suite Release ${{ steps.get_version.outputs.version }}
+          ## Krypton Toolkit Suite Release $version
           
           This release includes:
           - All Krypton Toolkit components
@@ -119,6 +180,7 @@ jobs:
           - **TAR.GZ Archive**: `Krypton-Release_*.tar.gz`
           
           ### Target Frameworks
+          - .NET Framework 4.7.2
           - .NET Framework 4.8
           - .NET Framework 4.8.1
           - .NET 8.0 Windows
@@ -126,23 +188,53 @@ jobs:
           - .NET 10.0 Windows
           "@
           
-          gh release create ${{ steps.get_version.outputs.tag }} `
-            --title "Release ${{ steps.get_version.outputs.version }}" `
-            --notes "$releaseBody" `
-            --latest
+          Write-Host "Preparing to create or update release $tag"
+          
+          # Check if release exists
+          $releaseExists = $false
+          gh release view $tag 2>&1 | Out-Null
+          if ($LASTEXITCODE -eq 0) {
+            $releaseExists = $true
+          }
+          
+          if ($releaseExists) {
+            Write-Host "Release $tag exists - updating"
+            gh release edit $tag --title $releaseTitle --notes "$releaseBody"
+          } else {
+            Write-Host "Creating release $tag"
+            gh release create $tag --title $releaseTitle --notes "$releaseBody" --latest
+          }
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload Release Assets
+        shell: pwsh
         run: |
-          $zipFile = Get-ChildItem "Bin/Release/Zips/Krypton-Release_*.zip" | Select-Object -First 1
-          $tarFile = Get-ChildItem "Bin/Release/Zips/Krypton-Release_*.tar.gz" | Select-Object -First 1
+          $ErrorActionPreference = 'Stop'
+          $tag = "${{ steps.get_version.outputs.tag }}"
+          $zipFile = Get-ChildItem "Bin/Release/Zips/Krypton-Release_*.zip" -ErrorAction SilentlyContinue | Select-Object -First 1
+          $tarFile = Get-ChildItem "Bin/Release/Zips/Krypton-Release_*.tar.gz" -ErrorAction SilentlyContinue | Select-Object -First 1
           
           if ($zipFile) {
-            gh release upload ${{ steps.get_version.outputs.tag }} "$($zipFile.FullName)" --clobber
+            Write-Host "Uploading $($zipFile.Name)"
+            try {
+              gh release upload $tag "$($zipFile.FullName)" --clobber
+            } catch {
+              Write-Warning "Failed to upload ZIP: $_"
+            }
+          } else {
+            Write-Warning "ZIP release archive not found; skipping upload."
           }
+          
           if ($tarFile) {
-            gh release upload ${{ steps.get_version.outputs.tag }} "$($tarFile.FullName)" --clobber
+            Write-Host "Uploading $($tarFile.Name)"
+            try {
+              gh release upload $tag "$($tarFile.FullName)" --clobber
+            } catch {
+              Write-Warning "Failed to upload TAR.GZ: $_"
+            }
+          } else {
+            Write-Warning "TAR.GZ release archive not found; skipping upload."
           }
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -246,14 +338,24 @@ jobs:
         run: msbuild "Scripts/longtermstable.proj" /t:Pack /p:Configuration=Release /p:Platform="Any CPU"
 
       - name: Push NuGet Packages to nuget.org
+        shell: pwsh
         run: |
-          # Find all .nupkg files in the Packages/Release directory (with LTS package names)
+          $ErrorActionPreference = 'Stop'
+          if (-not $env:NUGET_API_KEY) {
+            Write-Warning "NUGET_API_KEY not set - skipping NuGet push"
+            exit 0
+          }
+          
           $packages = Get-ChildItem "Bin/Packages/Release/*.nupkg" -ErrorAction SilentlyContinue
           
           if ($packages) {
             foreach ($package in $packages) {
               Write-Output "Pushing LTS package: $($package.Name)"
-              dotnet nuget push "$($package.FullName)" --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+              try {
+                dotnet nuget push "$($package.FullName)" --api-key $env:NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
+              } catch {
+                Write-Warning "Failed to push $($package.Name): $_"
+              }
             }
           } else {
             Write-Output "No NuGet packages found to push"
@@ -263,11 +365,43 @@ jobs:
 
       - name: Get Version
         id: get_version
+        shell: pwsh
         run: |
-          $version = (dotnet build "Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj" --no-restore --verbosity quiet | Select-String "Version" | ForEach-Object { $_.Line.Split('=')[1].Trim() })
-          if (-not $version) {
-            $version = "85.25.1.1"  # Fallback version for LTS
+          $ErrorActionPreference = 'Stop'
+          $version = $null
+          
+          # Try to get version from the built assembly (most reliable)
+          try {
+            $dllPath = Get-ChildItem "Bin/Release/net48/Krypton.Toolkit.dll" -ErrorAction Stop
+            $assemblyVersion = [System.Reflection.AssemblyName]::GetAssemblyName($dllPath.FullName).Version
+            $version = $assemblyVersion.ToString()
+            Write-Host "Got version from assembly: $version"
+          } catch {
+            Write-Host "Could not read version from assembly: $_"
           }
+          
+          # Fallback: Try to read from csproj XML
+          if (-not $version) {
+            try {
+              $proj = 'Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj'
+              [xml]$projXml = Get-Content $proj
+              $versionNode = $projXml.SelectSingleNode("//Version")
+              if ($versionNode) {
+                $version = $versionNode.InnerText.Trim()
+                Write-Host "Got version from csproj: $version"
+              }
+            } catch {
+              Write-Host "Could not read version from csproj: $_"
+            }
+          }
+          
+          # Last resort fallback
+          if (-not $version) {
+            Write-Warning "Version not found, using fallback."
+            $version = "85.25.1.1"
+          }
+          
+          Write-Host "Final determined version: $version"
           echo "version=$version" >> $env:GITHUB_OUTPUT
           echo "tag=v$version-lts" >> $env:GITHUB_OUTPUT
 
@@ -374,14 +508,24 @@ jobs:
         run: msbuild "Scripts/canary.proj" /t:Pack /p:Configuration=Canary /p:Platform="Any CPU"
 
       - name: Push NuGet Packages to nuget.org
+        shell: pwsh
         run: |
-          # Find all .nupkg files in the Packages/Canary directory
+          $ErrorActionPreference = 'Stop'
+          if (-not $env:NUGET_API_KEY) {
+            Write-Warning "NUGET_API_KEY not set - skipping NuGet push"
+            exit 0
+          }
+          
           $packages = Get-ChildItem "Bin/Packages/Canary/*.nupkg" -ErrorAction SilentlyContinue
           
           if ($packages) {
             foreach ($package in $packages) {
               Write-Output "Pushing package: $($package.Name)"
-              dotnet nuget push "$($package.FullName)" --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+              try {
+                dotnet nuget push "$($package.FullName)" --api-key $env:NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
+              } catch {
+                Write-Warning "Failed to push $($package.Name): $_"
+              }
             }
           } else {
             Write-Output "No NuGet packages found to push"
@@ -391,11 +535,43 @@ jobs:
 
       - name: Get Version
         id: get_version
+        shell: pwsh
         run: |
-          $version = (dotnet build "Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj" --no-restore --verbosity quiet | Select-String "Version" | ForEach-Object { $_.Line.Split('=')[1].Trim() })
-          if (-not $version) {
-            $version = "100.25.1.1"  # Fallback version
+          $ErrorActionPreference = 'Stop'
+          $version = $null
+          
+          # Try to get version from the built assembly (most reliable)
+          try {
+            $dllPath = Get-ChildItem "Bin/Canary/net48/Krypton.Toolkit.dll" -ErrorAction Stop
+            $assemblyVersion = [System.Reflection.AssemblyName]::GetAssemblyName($dllPath.FullName).Version
+            $version = $assemblyVersion.ToString()
+            Write-Host "Got version from assembly: $version"
+          } catch {
+            Write-Host "Could not read version from assembly: $_"
           }
+          
+          # Fallback: Try to read from csproj XML
+          if (-not $version) {
+            try {
+              $proj = 'Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj'
+              [xml]$projXml = Get-Content $proj
+              $versionNode = $projXml.SelectSingleNode("//Version")
+              if ($versionNode) {
+                $version = $versionNode.InnerText.Trim()
+                Write-Host "Got version from csproj: $version"
+              }
+            } catch {
+              Write-Host "Could not read version from csproj: $_"
+            }
+          }
+          
+          # Last resort fallback
+          if (-not $version) {
+            Write-Warning "Version not found, using fallback."
+            $version = "100.25.1.1"
+          }
+          
+          Write-Host "Final determined version: $version"
           echo "version=$version" >> $env:GITHUB_OUTPUT
           echo "tag=v$version-canary" >> $env:GITHUB_OUTPUT
 
@@ -504,14 +680,24 @@ jobs:
         run: msbuild "Scripts/nightly.proj" /t:Pack /p:Configuration=Nightly /p:Platform="Any CPU"
 
       - name: Push NuGet Packages to nuget.org
+        shell: pwsh
         run: |
-          # Find all .nupkg files in the Packages/Nightly directory
+          $ErrorActionPreference = 'Stop'
+          if (-not $env:NUGET_API_KEY) {
+            Write-Warning "NUGET_API_KEY not set - skipping NuGet push"
+            exit 0
+          }
+          
           $packages = Get-ChildItem "Bin/Packages/Nightly/*.nupkg" -ErrorAction SilentlyContinue
           
           if ($packages) {
             foreach ($package in $packages) {
               Write-Output "Pushing package: $($package.Name)"
-              dotnet nuget push "$($package.FullName)" --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+              try {
+                dotnet nuget push "$($package.FullName)" --api-key $env:NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
+              } catch {
+                Write-Warning "Failed to push $($package.Name): $_"
+              }
             }
           } else {
             Write-Output "No NuGet packages found to push"
@@ -521,11 +707,43 @@ jobs:
 
       - name: Get Version
         id: get_version
+        shell: pwsh
         run: |
-          $version = (dotnet build "Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj" --no-restore --verbosity quiet | Select-String "Version" | ForEach-Object { $_.Line.Split('=')[1].Trim() })
-          if (-not $version) {
-            $version = "100.25.1.1"  # Fallback version
+          $ErrorActionPreference = 'Stop'
+          $version = $null
+          
+          # Try to get version from the built assembly (most reliable)
+          try {
+            $dllPath = Get-ChildItem "Bin/Nightly/net48/Krypton.Toolkit.dll" -ErrorAction Stop
+            $assemblyVersion = [System.Reflection.AssemblyName]::GetAssemblyName($dllPath.FullName).Version
+            $version = $assemblyVersion.ToString()
+            Write-Host "Got version from assembly: $version"
+          } catch {
+            Write-Host "Could not read version from assembly: $_"
           }
+          
+          # Fallback: Try to read from csproj XML
+          if (-not $version) {
+            try {
+              $proj = 'Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj'
+              [xml]$projXml = Get-Content $proj
+              $versionNode = $projXml.SelectSingleNode("//Version")
+              if ($versionNode) {
+                $version = $versionNode.InnerText.Trim()
+                Write-Host "Got version from csproj: $version"
+              }
+            } catch {
+              Write-Host "Could not read version from csproj: $_"
+            }
+          }
+          
+          # Last resort fallback
+          if (-not $version) {
+            Write-Warning "Version not found, using fallback."
+            $version = "100.25.1.1"
+          }
+          
+          Write-Host "Final determined version: $version"
           echo "version=$version" >> $env:GITHUB_OUTPUT
           echo "tag=v$version-nightly" >> $env:GITHUB_OUTPUT
 
