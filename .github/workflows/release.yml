@@ -10,9 +10,6 @@ on:
       - alpha
       - canary
       - V85-LTS
-  schedule:
-    # Run alpha/nightly build automatically at midnight UTC every day
-    - cron: '0 0 * * *'
 
 jobs:
   release-master:
@@ -76,21 +73,32 @@ jobs:
         run: msbuild "Scripts/build.proj" /t:Pack /p:Configuration=Release /p:Platform="Any CPU"
 
       - name: Push NuGet Packages to nuget.org
+        id: push_nuget
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
           if (-not $env:NUGET_API_KEY) {
             Write-Warning "NUGET_API_KEY not set - skipping NuGet push"
+            echo "packages_published=false" >> $env:GITHUB_OUTPUT
             exit 0
           }
           
           $packages = Get-ChildItem "Bin/Packages/Release/*.nupkg" -ErrorAction SilentlyContinue
+          $publishedAny = $false
           
           if ($packages) {
             foreach ($package in $packages) {
               Write-Output "Pushing package: $($package.Name)"
               try {
-                dotnet nuget push "$($package.FullName)" --api-key $env:NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
+                $output = dotnet nuget push "$($package.FullName)" --api-key $env:NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate 2>&1 | Out-String
+                Write-Output $output
+                # Check if package was actually pushed (not skipped)
+                if ($output -notmatch "already exists" -and $output -notmatch "was not pushed") {
+                  $publishedAny = $true
+                  Write-Host "Package $($package.Name) was published"
+                } else {
+                  Write-Host "Package $($package.Name) already exists - skipped"
+                }
               } catch {
                 Write-Warning "Failed to push $($package.Name): $_"
               }
@@ -98,6 +106,8 @@ jobs:
           } else {
             Write-Output "No NuGet packages found to push"
           }
+          
+          echo "packages_published=$publishedAny" >> $env:GITHUB_OUTPUT
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
 
@@ -240,7 +250,14 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Announce Release on Discord
+        if: steps.push_nuget.outputs.packages_published == 'True'
+        shell: pwsh
         run: |
+          if (-not $env:DISCORD_WEBHOOK_MASTER) {
+            Write-Warning "DISCORD_WEBHOOK_MASTER not set - skipping Discord notification"
+            exit 0
+          }
+          
           $payload = @{
             embeds = @(
               @{
@@ -265,7 +282,7 @@ jobs:
                   }
                   @{
                     name = "🔗 NuGet Packages"
-                    value = "[Toolkit](https://www.nuget.org/packages/Krypton.Toolkit) • [Ribbon](https://www.nuget.org/packages/Krypton.Ribbon) • [Navigator](https://www.nuget.org/packages/Krypton.Navigator) • [Workspace](https://www.nuget.org/packages/Krypton.Workspace) • [Docking](https://www.nuget.org/packages/Krypton.Docking)"
+                    value = "[Toolkit](https://www.nuget.org/packages/Krypton.Toolkit)n- [Ribbon](https://www.nuget.org/packages/Krypton.Ribbon)n- [Navigator](https://www.nuget.org/packages/Krypton.Navigator)n- [Workspace](https://www.nuget.org/packages/Krypton.Workspace)n- [Docking](https://www.nuget.org/packages/Krypton.Docking)"
                     inline = $false
                   }
                   @{
@@ -338,21 +355,32 @@ jobs:
         run: msbuild "Scripts/longtermstable.proj" /t:Pack /p:Configuration=Release /p:Platform="Any CPU"
 
       - name: Push NuGet Packages to nuget.org
+        id: push_nuget
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
           if (-not $env:NUGET_API_KEY) {
             Write-Warning "NUGET_API_KEY not set - skipping NuGet push"
+            echo "packages_published=false" >> $env:GITHUB_OUTPUT
             exit 0
           }
           
           $packages = Get-ChildItem "Bin/Packages/Release/*.nupkg" -ErrorAction SilentlyContinue
+          $publishedAny = $false
           
           if ($packages) {
             foreach ($package in $packages) {
               Write-Output "Pushing LTS package: $($package.Name)"
               try {
-                dotnet nuget push "$($package.FullName)" --api-key $env:NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
+                $output = dotnet nuget push "$($package.FullName)" --api-key $env:NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate 2>&1 | Out-String
+                Write-Output $output
+                # Check if package was actually pushed (not skipped)
+                if ($output -notmatch "already exists" -and $output -notmatch "was not pushed") {
+                  $publishedAny = $true
+                  Write-Host "Package $($package.Name) was published"
+                } else {
+                  Write-Host "Package $($package.Name) already exists - skipped"
+                }
               } catch {
                 Write-Warning "Failed to push $($package.Name): $_"
               }
@@ -360,6 +388,8 @@ jobs:
           } else {
             Write-Output "No NuGet packages found to push"
           }
+          
+          echo "packages_published=$publishedAny" >> $env:GITHUB_OUTPUT
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
 
@@ -406,7 +436,14 @@ jobs:
           echo "tag=v$version-lts" >> $env:GITHUB_OUTPUT
 
       - name: Announce LTS Release on Discord
+        if: steps.push_nuget.outputs.packages_published == 'True'
+        shell: pwsh
         run: |
+          if (-not $env:DISCORD_WEBHOOK_LTS) {
+            Write-Warning "DISCORD_WEBHOOK_LTS not set - skipping Discord notification"
+            exit 0
+          }
+          
           $payload = @{
             embeds = @(
               @{
@@ -431,7 +468,7 @@ jobs:
                   }
                   @{
                     name = "🔗 NuGet Packages"
-                    value = "[Toolkit.LTS](https://www.nuget.org/packages/Krypton.Toolkit.LTS) • [Ribbon.LTS](https://www.nuget.org/packages/Krypton.Ribbon.LTS) • [Navigator.LTS](https://www.nuget.org/packages/Krypton.Navigator.LTS) • [Workspace.LTS](https://www.nuget.org/packages/Krypton.Workspace.LTS) • [Docking.LTS](https://www.nuget.org/packages/Krypton.Docking.LTS)"
+                    value = "[Toolkit.LTS](https://www.nuget.org/packages/Krypton.Toolkit.LTS)n- [Ribbon.LTS](https://www.nuget.org/packages/Krypton.Ribbon.LTS)n- [Navigator.LTS](https://www.nuget.org/packages/Krypton.Navigator.LTS)n- [Workspace.LTS](https://www.nuget.org/packages/Krypton.Workspace.LTS)n- [Docking.LTS](https://www.nuget.org/packages/Krypton.Docking.LTS)"
                     inline = $false
                   }
                 )
@@ -508,21 +545,32 @@ jobs:
         run: msbuild "Scripts/canary.proj" /t:Pack /p:Configuration=Canary /p:Platform="Any CPU"
 
       - name: Push NuGet Packages to nuget.org
+        id: push_nuget
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
           if (-not $env:NUGET_API_KEY) {
             Write-Warning "NUGET_API_KEY not set - skipping NuGet push"
+            echo "packages_published=false" >> $env:GITHUB_OUTPUT
             exit 0
           }
           
           $packages = Get-ChildItem "Bin/Packages/Canary/*.nupkg" -ErrorAction SilentlyContinue
+          $publishedAny = $false
           
           if ($packages) {
             foreach ($package in $packages) {
               Write-Output "Pushing package: $($package.Name)"
               try {
-                dotnet nuget push "$($package.FullName)" --api-key $env:NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
+                $output = dotnet nuget push "$($package.FullName)" --api-key $env:NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate 2>&1 | Out-String
+                Write-Output $output
+                # Check if package was actually pushed (not skipped)
+                if ($output -notmatch "already exists" -and $output -notmatch "was not pushed") {
+                  $publishedAny = $true
+                  Write-Host "Package $($package.Name) was published"
+                } else {
+                  Write-Host "Package $($package.Name) already exists - skipped"
+                }
               } catch {
                 Write-Warning "Failed to push $($package.Name): $_"
               }
@@ -530,6 +578,8 @@ jobs:
           } else {
             Write-Output "No NuGet packages found to push"
           }
+          
+          echo "packages_published=$publishedAny" >> $env:GITHUB_OUTPUT
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
 
@@ -576,7 +626,14 @@ jobs:
           echo "tag=v$version-canary" >> $env:GITHUB_OUTPUT
 
       - name: Announce Canary Release on Discord
+        if: steps.push_nuget.outputs.packages_published == 'True'
+        shell: pwsh
         run: |
+          if (-not $env:DISCORD_WEBHOOK_CANARY) {
+            Write-Warning "DISCORD_WEBHOOK_CANARY not set - skipping Discord notification"
+            exit 0
+          }
+          
           $payload = @{
             embeds = @(
               @{
@@ -601,7 +658,7 @@ jobs:
                   }
                   @{
                     name = "🔗 NuGet Packages"
-                    value = "[Toolkit](https://www.nuget.org/packages/Krypton.Toolkit) • [Ribbon](https://www.nuget.org/packages/Krypton.Ribbon) • [Navigator](https://www.nuget.org/packages/Krypton.Navigator) • [Workspace](https://www.nuget.org/packages/Krypton.Workspace) • [Docking](https://www.nuget.org/packages/Krypton.Docking)"
+                    value = "[Toolkit](https://www.nuget.org/packages/Krypton.Toolkit)n- [Ribbon](https://www.nuget.org/packages/Krypton.Ribbon)n- [Navigator](https://www.nuget.org/packages/Krypton.Navigator)n- [Workspace](https://www.nuget.org/packages/Krypton.Workspace)n- [Docking](https://www.nuget.org/packages/Krypton.Docking)"
                     inline = $false
                   }
                 )
@@ -619,13 +676,11 @@ jobs:
 
   release-alpha:
     runs-on: windows-2022
-    if: (github.ref == 'refs/heads/alpha' && github.event_name == 'push') || github.event_name == 'schedule'
+    if: github.ref == 'refs/heads/alpha' && github.event_name == 'push'
 
     steps:
       - name: Checkout
         uses: actions/checkout@v5
-        with:
-          ref: alpha
 
       # .NET 9 (GA)
       - name: Setup .NET 9
@@ -680,21 +735,32 @@ jobs:
         run: msbuild "Scripts/nightly.proj" /t:Pack /p:Configuration=Nightly /p:Platform="Any CPU"
 
       - name: Push NuGet Packages to nuget.org
+        id: push_nuget
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
           if (-not $env:NUGET_API_KEY) {
             Write-Warning "NUGET_API_KEY not set - skipping NuGet push"
+            echo "packages_published=false" >> $env:GITHUB_OUTPUT
             exit 0
           }
           
           $packages = Get-ChildItem "Bin/Packages/Nightly/*.nupkg" -ErrorAction SilentlyContinue
+          $publishedAny = $false
           
           if ($packages) {
             foreach ($package in $packages) {
               Write-Output "Pushing package: $($package.Name)"
               try {
-                dotnet nuget push "$($package.FullName)" --api-key $env:NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
+                $output = dotnet nuget push "$($package.FullName)" --api-key $env:NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate 2>&1 | Out-String
+                Write-Output $output
+                # Check if package was actually pushed (not skipped)
+                if ($output -notmatch "already exists" -and $output -notmatch "was not pushed") {
+                  $publishedAny = $true
+                  Write-Host "Package $($package.Name) was published"
+                } else {
+                  Write-Host "Package $($package.Name) already exists - skipped"
+                }
               } catch {
                 Write-Warning "Failed to push $($package.Name): $_"
               }
@@ -702,6 +768,8 @@ jobs:
           } else {
             Write-Output "No NuGet packages found to push"
           }
+          
+          echo "packages_published=$publishedAny" >> $env:GITHUB_OUTPUT
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
 
@@ -748,7 +816,14 @@ jobs:
           echo "tag=v$version-nightly" >> $env:GITHUB_OUTPUT
 
       - name: Announce Nightly Release on Discord
+        if: steps.push_nuget.outputs.packages_published == 'True'
+        shell: pwsh
         run: |
+          if (-not $env:DISCORD_WEBHOOK_NIGHTLY) {
+            Write-Warning "DISCORD_WEBHOOK_NIGHTLY not set - skipping Discord notification"
+            exit 0
+          }
+          
           $payload = @{
             embeds = @(
               @{
@@ -773,7 +848,7 @@ jobs:
                   }
                   @{
                     name = "🔗 NuGet Packages"
-                    value = "[Toolkit](https://www.nuget.org/packages/Krypton.Toolkit) • [Ribbon](https://www.nuget.org/packages/Krypton.Ribbon) • [Navigator](https://www.nuget.org/packages/Krypton.Navigator) • [Workspace](https://www.nuget.org/packages/Krypton.Workspace) • [Docking](https://www.nuget.org/packages/Krypton.Docking)"
+                    value = "[Toolkit](https://www.nuget.org/packages/Krypton.Toolkit)n- [Ribbon](https://www.nuget.org/packages/Krypton.Ribbon)n- [Navigator](https://www.nuget.org/packages/Krypton.Navigator)n- [Workspace](https://www.nuget.org/packages/Krypton.Workspace)n- [Docking](https://www.nuget.org/packages/Krypton.Docking)"
                     inline = $false
                   }
                 )
@@ -785,6 +860,6 @@ jobs:
             )
           } | ConvertTo-Json -Depth 10
           
-          Invoke-RestMethod -Uri "${{ secrets.DISCORD_WEBHOOK_NIGHTLY }}" -Method Post -Body $payload -ContentType "application/json"
+          Invoke-RestMethod -Uri $env:DISCORD_WEBHOOK_NIGHTLY -Method Post -Body $payload -ContentType "application/json"
         env:
           DISCORD_WEBHOOK_NIGHTLY: ${{ secrets.DISCORD_WEBHOOK_NIGHTLY }}
