@@ -19,31 +19,13 @@ jobs:
         with:
           ref: alpha
 
-      # .NET 6 (LTS) - needed for V85-LTS branch
-      - name: Setup .NET 6
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 6.0.x
-
-      # .NET 7 - needed for V85-LTS branch
-      - name: Setup .NET 7
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 7.0.x
-
-      # .NET 8 (LTS) - needed for all branches
-      - name: Setup .NET 8
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 8.0.x
-
-      # .NET 9 (GA) - needed for master, canary, alpha branches
+      # .NET 9 (GA)
       - name: Setup .NET 9
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 9.0.x
 
-      # .NET 10 (Preview) - needed for master, canary, alpha branches
+      # .NET 10 (Preview)
       - name: Setup .NET 10 (preview)
         uses: actions/setup-dotnet@v4
         with:
