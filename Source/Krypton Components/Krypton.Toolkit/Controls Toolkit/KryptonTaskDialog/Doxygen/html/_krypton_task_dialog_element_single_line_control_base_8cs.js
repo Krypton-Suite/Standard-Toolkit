@@ -1,4 +1,0 @@
-var _krypton_task_dialog_element_single_line_control_base_8cs =
-[
-    [ "Krypton.Toolkit.KryptonTaskDialogElementSingleLineControlBase", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_single_line_control_base.html", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_single_line_control_base" ]
-];
