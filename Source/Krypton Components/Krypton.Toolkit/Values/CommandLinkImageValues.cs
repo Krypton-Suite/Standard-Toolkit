@@ -16,7 +16,7 @@ public class CommandLinkImageValues : Storage, IContentValues
     private bool _displayUACShield;
     private Color _transparencyKey;
     private Image? _image;
-    private UACShieldIconSize _uacShieldIconSize;
+    private IconSize _uacShieldIconSize;
     #endregion
 
     #region Identity
@@ -25,7 +25,7 @@ public class CommandLinkImageValues : Storage, IContentValues
     public CommandLinkImageValues(NeedPaintHandler needPaint)
     {
         NeedPaint = needPaint;
-        _uacShieldIconSize = UACShieldIconSize.Small;
+        _uacShieldIconSize = IconSize.Small;
     }
     #endregion
 
@@ -79,9 +79,9 @@ public class CommandLinkImageValues : Storage, IContentValues
         get => _image;
     }
 
-    [DefaultValue(UACShieldIconSize.Small)]
+    [DefaultValue(IconSize.Small)]
     [Description("UAC Shield icon size")]
-    public UACShieldIconSize UACShieldIconSize
+    public IconSize UACShieldIconSize
     {
         get => _uacShieldIconSize;
 
@@ -91,8 +91,8 @@ public class CommandLinkImageValues : Storage, IContentValues
             ShowUACShieldImage(value);
         }
     }
-    private bool ShouldSerializeUACShieldIconSize() => _uacShieldIconSize != UACShieldIconSize.Small;
-    private void ResetUACShieldIconSize() => UACShieldIconSize = UACShieldIconSize.Small;
+    private bool ShouldSerializeUACShieldIconSize() => _uacShieldIconSize != IconSize.Small;
+    private void ResetUACShieldIconSize() => UACShieldIconSize = IconSize.Small;
 
     #endregion
 
@@ -124,18 +124,18 @@ public class CommandLinkImageValues : Storage, IContentValues
 
     /// <summary>Shows the uac shield.</summary>
     /// <param name="shieldIconSize">Size of the shield icon.</param>
-    private void ShowUACShieldImage(UACShieldIconSize shieldIconSize)
+    private void ShowUACShieldImage(IconSize shieldIconSize)
     {
         if (_displayUACShield)
         {
             int size = shieldIconSize switch
             {
-                UACShieldIconSize.ExtraSmall => 16,
-                UACShieldIconSize.Small      => 32,
-                UACShieldIconSize.Medium     => 64,
-                UACShieldIconSize.Large      => 128,
-                UACShieldIconSize.ExtraLarge => 256,
-                _                            => 32
+                IconSize.ExtraSmall => 16,
+                IconSize.Small      => 32,
+                IconSize.Medium     => 64,
+                IconSize.Large      => 128,
+                IconSize.ExtraLarge => 256,
+                _                   => 32
             };
 
             _image = GraphicsExtensions.ScaleImage(SystemIcons.Shield.ToBitmap(), new Size(size, size));

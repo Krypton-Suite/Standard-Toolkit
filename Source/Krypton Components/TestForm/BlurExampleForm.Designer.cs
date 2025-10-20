@@ -40,7 +40,7 @@
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(804, 438);
+            this.kryptonPanel1.Size = new System.Drawing.Size(806, 432);
             this.kryptonPanel1.TabIndex = 0;
             // 
             // kryptonWrapLabel1
@@ -50,7 +50,7 @@
             this.kryptonWrapLabel1.LabelStyle = Krypton.Toolkit.LabelStyle.TitleControl;
             this.kryptonWrapLabel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonWrapLabel1.Name = "kryptonWrapLabel1";
-            this.kryptonWrapLabel1.Size = new System.Drawing.Size(804, 438);
+            this.kryptonWrapLabel1.Size = new System.Drawing.Size(806, 432);
             this.kryptonWrapLabel1.Text = "This text will be blurred";
             this.kryptonWrapLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -59,10 +59,12 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BlurValues.BlurWhenFocusLost = true;
-            this.ClientSize = new System.Drawing.Size(804, 438);
+            this.ClientSize = new System.Drawing.Size(806, 432);
             this.Controls.Add(this.kryptonPanel1);
+            this.Location = new System.Drawing.Point(0, 0);
             this.Name = "BlurExampleForm";
             this.Text = "BlurExampleForm";
+            this.Controls.SetChildIndex(this.kryptonPanel1, 0);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
             this.kryptonPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
