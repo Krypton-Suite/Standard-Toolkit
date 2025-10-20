@@ -1,12 +1,12 @@
-﻿#region BSD License
+#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025.. All rights reserved.
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *
  */
 #endregion
 
@@ -32,6 +32,7 @@
 using Microsoft.Win32.SafeHandles;
 using static System.Runtime.InteropServices.Marshal;
 
+#pragma warning disable CS1587 // XML comment is not placed on a valid language element
 /// <summary>
 /// Platform Invoke declarations and Windows API bindings for the Krypton Toolkit.
 /// This file contains P/Invoke declarations, Windows API constants, enums, structures,
@@ -49,6 +50,7 @@ using static System.Runtime.InteropServices.Marshal;
 /// The declarations in this file enable the Krypton Toolkit to access native Windows
 /// functionality for advanced UI rendering, window management, and system integration.
 /// </summary>
+#pragma warning restore CS1587 // XML comment is not placed on a valid language element
 namespace Krypton.Toolkit;
 
 /// <summary>
@@ -71,6 +73,8 @@ internal static class Libraries
     public const string Hhctrl = "hhctrl.ocx";
     /// <summary>Input Method Manager - provides input method editor support</summary>
     public const string Imm32 = "imm32.dll";
+    /// <summary>Image Resource library - provides access to system image resources</summary>
+    public const string Imageres = "imageres.dll";
     /// <summary>Kernel library - provides core system functions</summary>
     public const string Kernel32 = "kernel32.dll";
     /// <summary>Native API library - provides low-level system functions</summary>
@@ -1533,7 +1537,7 @@ internal partial class PI
             SIZE = 0x0005,
             // <summary>
             // The WM_ACTIVATE message is sent to both the window being activated and the window being deactivated.
-            // If the windows use the same input queue, the message is sent synchronously, first to the window procedure of the top-level window being deactivated, 
+            // If the windows use the same input queue, the message is sent synchronously, first to the window procedure of the top-level window being deactivated,
             // then to the window procedure of the top-level window being activated. If the windows use different input queues, the message is sent asynchronously,
             // so the window is activated immediately.
             // </summary>
@@ -2009,7 +2013,7 @@ internal partial class PI
             // </summary>
             COMMAND = 0x0111,
             // <summary>
-            // A window receives this message when the user chooses a command from the Window menu, clicks the maximize button, minimize button, restore button, 
+            // A window receives this message when the user chooses a command from the Window menu, clicks the maximize button, minimize button, restore button,
             // close button, or moves the form. You can stop the form from moving by filtering this out.
             // </summary>
             SYSCOMMAND = 0x0112,
@@ -2215,10 +2219,10 @@ internal partial class PI
             MOUSELAST = 0x020E,
             // <summary>
             // The WM_PARENTNOTIFY message is sent to the parent of a child window when the child window is created or destroyed,
-            // or when the user clicks a mouse button while the cursor is over the child window. When the child window is being created, 
-            // the system sends WM_PARENTNOTIFY just before the CreateWindow or CreateWindowEx function that creates the window returns. 
+            // or when the user clicks a mouse button while the cursor is over the child window. When the child window is being created,
+            // the system sends WM_PARENTNOTIFY just before the CreateWindow or CreateWindowEx function that creates the window returns.
             // When the child window is being destroyed, the system sends the message before any processing to destroy the window takes place.
-            // This message is now extended to include the WM_POINTERDOWN event. 
+            // This message is now extended to include the WM_POINTERDOWN event.
             // </summary>
             PARENTNOTIFY = 0x0210,
             // <summary>
@@ -2528,7 +2532,7 @@ internal partial class PI
             OCM_NOTIFY = 0x0204E, // https://wiki.winehq.org/List_Of_Windows_Messages
 
 
-            // Following are the ShellProc messages via RegisterShellHookWindow 
+            // Following are the ShellProc messages via RegisterShellHookWindow
             // <summary>
             // The accessibility state has changed.
             // </summary>

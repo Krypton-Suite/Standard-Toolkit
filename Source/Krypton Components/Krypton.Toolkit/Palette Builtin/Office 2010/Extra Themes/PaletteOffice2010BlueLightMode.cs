@@ -30,9 +30,9 @@ public class PaletteOffice2010BlueLightMode : PaletteOffice2010BlueLightModeBase
 
     #region Ribbon Specific Colors
 
-    private static readonly Color _ribbonAppButtonDarkColor = Color.FromArgb(135, 145, 157);
+    private static readonly Color _ribbonAppButtonDarkColor = Color.FromArgb(61, 112, 221);
 
-    private static readonly Color _ribbonAppButtonLightColor = Color.FromArgb(179, 193, 208);
+    private static readonly Color _ribbonAppButtonLightColor = Color.FromArgb(84, 178, 253);
 
     private static readonly Color _ribbonAppButtonTextColor = SystemColors.Control;
 
@@ -3827,6 +3827,7 @@ public abstract class PaletteOffice2010BlueLightModeBase : PaletteBase
                 {
                     case PaletteState.Normal:
                     case PaletteState.CheckedNormal:
+                        return PaletteRibbonColorStyle.RibbonGroupAreaBorder3;
                     case PaletteState.ContextNormal:
                     case PaletteState.ContextCheckedNormal:
                         return PaletteRibbonColorStyle.Empty;

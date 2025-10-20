@@ -3524,9 +3524,7 @@ public abstract class PaletteMicrosoft365BlackDarkModeAlternateBase : PaletteBas
             case PaletteRibbonBackStyle.RibbonAppMenuOuter:
                 return PaletteRibbonColorStyle.RibbonAppMenuOuter;
             case PaletteRibbonBackStyle.RibbonQATMinibar:
-                return state == PaletteState.CheckedNormal
-                    ? PaletteRibbonColorStyle.RibbonQATMinibarDouble
-                    : PaletteRibbonColorStyle.RibbonQATMinibarSingle;
+                return PaletteRibbonColorStyle.RibbonQATMinibarDouble;
 
             case PaletteRibbonBackStyle.RibbonQATFullbar:
                 return PaletteRibbonColorStyle.RibbonQATFullbarSquare;
@@ -3565,6 +3563,7 @@ public abstract class PaletteMicrosoft365BlackDarkModeAlternateBase : PaletteBas
                 {
                     case PaletteState.Normal:
                     case PaletteState.CheckedNormal:
+                         return PaletteRibbonColorStyle.LinearBorder2;
                     case PaletteState.ContextNormal:
                     case PaletteState.ContextCheckedNormal:
                         return PaletteRibbonColorStyle.Empty;
@@ -3648,7 +3647,7 @@ public abstract class PaletteMicrosoft365BlackDarkModeAlternateBase : PaletteBas
             case PaletteRibbonBackStyle.RibbonAppMenuOuter:
                 return BaseColors.AppButtonOuter1;
             case PaletteRibbonBackStyle.RibbonQATMinibar:
-                return state == PaletteState.Normal
+                return state == PaletteState.CheckedNormal
                     ? BaseColors.RibbonQATMini1
                     : BaseColors.RibbonQATMini1I;
 
@@ -3749,7 +3748,7 @@ public abstract class PaletteMicrosoft365BlackDarkModeAlternateBase : PaletteBas
             case PaletteRibbonBackStyle.RibbonAppMenuOuter:
                 return BaseColors.AppButtonOuter2;
             case PaletteRibbonBackStyle.RibbonQATMinibar:
-                return state == PaletteState.Normal
+                return state == PaletteState.CheckedNormal
                     ? BaseColors.RibbonQATMini2
                     : BaseColors.RibbonQATMini2I;
 
@@ -3866,7 +3865,7 @@ public abstract class PaletteMicrosoft365BlackDarkModeAlternateBase : PaletteBas
             case PaletteRibbonBackStyle.RibbonAppMenuOuter:
                 return BaseColors.AppButtonOuter3;
             case PaletteRibbonBackStyle.RibbonQATMinibar:
-                return state == PaletteState.Normal
+                return state == PaletteState.CheckedNormal
                     ? BaseColors.RibbonQATMini3
                     : BaseColors.RibbonQATMini3I;
 
@@ -3948,7 +3947,7 @@ public abstract class PaletteMicrosoft365BlackDarkModeAlternateBase : PaletteBas
         switch (style)
         {
             case PaletteRibbonBackStyle.RibbonQATMinibar:
-                return state == PaletteState.Normal
+                return state == PaletteState.CheckedNormal
                     ? BaseColors.RibbonQATMini4
                     : BaseColors.RibbonQATMini4I;
 
@@ -4045,7 +4044,7 @@ public abstract class PaletteMicrosoft365BlackDarkModeAlternateBase : PaletteBas
             case PaletteRibbonBackStyle.RibbonGroupCollapsedBorder:
                 return BaseColors.RibbonGroupBorder5;
             case PaletteRibbonBackStyle.RibbonQATMinibar:
-                return state == PaletteState.Normal
+                return state == PaletteState.CheckedNormal
                     ? BaseColors.RibbonQATMini5
                     : BaseColors.RibbonQATMini5I;
 

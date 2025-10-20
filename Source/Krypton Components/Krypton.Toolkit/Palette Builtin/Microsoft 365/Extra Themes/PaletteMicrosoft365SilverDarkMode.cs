@@ -25,9 +25,9 @@ public class PaletteMicrosoft365SilverDarkMode : PaletteMicrosoft365SilverDarkMo
 
     #region Ribbon Specific Colors
 
-    private static readonly Color _ribbonAppButtonDarkColor = Color.FromArgb(84, 96, 125);
+    private static readonly Color _ribbonAppButtonDarkColor = Color.FromArgb(84, 158, 243);
 
-    private static readonly Color _ribbonAppButtonLightColor = Color.FromArgb(109, 125, 163);
+    private static readonly Color _ribbonAppButtonLightColor = Color.FromArgb(31, 72, 161);
 
     private static readonly Color _ribbonAppButtonTextColor = Color.White;
 
