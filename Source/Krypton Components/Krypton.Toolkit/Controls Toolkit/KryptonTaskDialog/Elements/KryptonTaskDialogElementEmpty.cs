@@ -9,10 +9,12 @@
 
 namespace Krypton.Toolkit;
 
-public interface IKryptonTaskDialogElementEventSizeChanged
+public class KryptonTaskDialogElementEmpty : KryptonTaskDialogElementBase
 {
-    /// <summary>
-    /// Event and corresponding action that is used to notify subscribers that the size of the element has changed.
-    /// </summary>
-    public event Action SizeChanged;
+    public KryptonTaskDialogElementEmpty(KryptonTaskDialogDefaults taskDialogDefaults) 
+        : base(taskDialogDefaults)
+    {
+        Panel.Width = Defaults.ClientWidth;
+        Panel.Height = 100;
+    }
 }

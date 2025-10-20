@@ -9,10 +9,10 @@
 
 namespace Krypton.Toolkit;
 
-public interface IKryptonTaskDialogElementEventSizeChanged
+public interface IKryptonTaskDialogElementPropertyChanged<T> where T : Enum
 {
     /// <summary>
-    /// Event and corresponding action that is used to notify subscribers that the size of the element has changed.
+    /// Subscribe to be notfied when a property has changed.
     /// </summary>
-    public event Action SizeChanged;
+    public event Action<T>? PropertyChanged;
 }

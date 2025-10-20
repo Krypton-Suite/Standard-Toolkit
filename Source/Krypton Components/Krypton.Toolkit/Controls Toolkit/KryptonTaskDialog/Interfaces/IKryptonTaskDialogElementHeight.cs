@@ -9,10 +9,10 @@
 
 namespace Krypton.Toolkit;
 
-public interface IKryptonTaskDialogElementEventSizeChanged
+public interface IKryptonTaskDialogElementHeight
 {
     /// <summary>
-    /// Event and corresponding action that is used to notify subscribers that the size of the element has changed.
+    /// Get or set the height of the element.
     /// </summary>
-    public event Action SizeChanged;
+    public int ElementHeight { get; set; }
 }

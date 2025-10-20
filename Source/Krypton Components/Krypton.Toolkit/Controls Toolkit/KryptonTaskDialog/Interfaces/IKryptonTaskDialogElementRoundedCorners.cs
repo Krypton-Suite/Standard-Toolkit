@@ -9,10 +9,10 @@
 
 namespace Krypton.Toolkit;
 
-public interface IKryptonTaskDialogElementEventSizeChanged
+public interface IKryptonTaskDialogElementRoundedCorners
 {
     /// <summary>
-    /// Event and corresponding action that is used to notify subscribers that the size of the element has changed.
+    /// If the affected control has rounded corners.<br/>
     /// </summary>
-    public event Action SizeChanged;
+    public bool RoundedCorners { get; set; }
 }

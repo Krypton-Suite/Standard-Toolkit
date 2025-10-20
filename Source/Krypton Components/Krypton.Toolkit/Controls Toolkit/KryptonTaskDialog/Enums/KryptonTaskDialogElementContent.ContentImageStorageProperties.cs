@@ -9,10 +9,15 @@
 
 namespace Krypton.Toolkit;
 
-public interface IKryptonTaskDialogElementEventSizeChanged
+public partial class KryptonTaskDialogElementContent
 {
-    /// <summary>
-    /// Event and corresponding action that is used to notify subscribers that the size of the element has changed.
-    /// </summary>
-    public event Action SizeChanged;
+    public enum ContentImageStorageProperties
+    {
+        None = 0,
+        Size,
+        Image,
+        Visible,
+        Position
+    }
 }
+
