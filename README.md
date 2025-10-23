@@ -1,54 +1,54 @@
-# <img src="https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Krypton.png?raw=true"> Standard Toolkit
+# ![Krypton Logo](https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Krypton.png?raw=true) Standard Toolkit
 
 <!-- Start Document Outline -->
 
 - [Standard Toolkit](#-standard-toolkit)
 - [NuGet Information](#nuget-information)
 - [Build Status](#build-status)
-	- [Documentation](#documentation)
-			- [Contributing to the Standard Toolkit](#contributing-to-the-standard-toolkit)
-	- [Package Support Information](#package-support-information)
-		- [Release Cadence](#release-cadence)
-		- [Package Descriptions](#package-descriptions)
-		- [Installing Pre-Release Versions](#installing-pre-release-versions)
-	- [Supporters](#supporters)
-	- [Toolkit Example images](#toolkit-example-images)
+  - [Documentation](#documentation)
+  - [Contributing to the Standard Toolkit](#contributing-to-the-standard-toolkit)
+  - [Package Support Information](#package-support-information)
+    - [Release Cadence](#release-cadence)
+    - [Package Descriptions](#package-descriptions)
+    - [Installing Pre-Release Versions](#installing-pre-release-versions)
+  - [Supporters](#supporters)
+  - [Toolkit Example images](#toolkit-example-images)
 - [Discord Server](#discord-server)
-	- [Version History](#version-history)
-	- [Breaking Changes](#breaking-changes)
-	- [V100.00 (2025-11-xx - Build 2511 - November 2025)](#v10000-2025-11-xx---build-2511---november-2025)
-	- [V95.00 (2025-02-01 - Build 2502 - February 2025)](#v9500-2025-02-01---build-2502---february-2025)
-	- [V90.00 (2024-11-12 - Build 2411 - November 2024)](#v9000-2024-11-12---build-2411---november-2024)
-		- [Support for .NET 6/7](#support-for-net-67)
-		- [`KryptonButton` Properties](#kryptonbutton-properties)
-		- [API Changes](#api-changes)
-		- [`KryptonInputBox`](#kryptoninputbox)
-		- [Building the Toolkit](#building-the-toolkit)
-	- [V85.00 (2025-02-01 - Build 2502 (Patch 5) - February 2025)](#v8500-2025-02-01---build-2502-patch-5---february-2025)
-	- [V85.00 (2024-06-24 - Build 2406 - June 2024)](#v8500-2024-06-24---build-2406---june-2024)
-	- [V80.00 (2023-11-14 - Build 2311 - November 2023)](#v8000-2023-11-14---build-2311---november-2023)
-		- [Support for .NET Core 3.1 and .NET 5](#support-for-net-core-31-and-net-5)
-		- [KryptonMessageBoxButtons](#kryptonmessageboxbuttons)
-		- [Palette usages](#palette-usages)
-		- [Depreciation of `KryptonManager.Strings`](#depreciation-of-kryptonmanagerstrings)
-	- [Known Issues \& Workarounds](#known-issues--workarounds)
-	- [Introduction](#introduction)
-	- [What is this Repository About?](#what-is-this-repository-about)
-	- [Contributing to this project](#contributing-to-this-project)
-	- [Individual Components](#individual-components)
-		- [Krypton Toolkit](#krypton-toolkit)
-		- [Krypton Ribbon](#krypton-ribbon)
-		- [Krypton Navigator](#krypton-navigator)
-		- [Krypton Workspace](#krypton-workspace)
-		- [Krypton Docking](#krypton-docking)
+  - [Version History](#version-history)
+  - [Breaking Changes](#breaking-changes)
+  - [V100.00 (2025-11-xx - Build 2511 - November 2025)](#v10000-2025-11-xx---build-2511---november-2025)
+  - [V95.00 (2025-02-01 - Build 2502 - February 2025)](#v9500-2025-02-01---build-2502---february-2025)
+  - [V90.00 (2024-11-12 - Build 2411 - November 2024)](#v9000-2024-11-12---build-2411---november-2024)
+    - [Support for .NET 6/7](#support-for-net-67)
+    - [`KryptonButton` Properties](#kryptonbutton-properties)
+    - [API Changes](#api-changes)
+    - [`KryptonInputBox`](#kryptoninputbox)
+    - [Building the Toolkit](#building-the-toolkit)
+  - [V85.00 (2025-02-01 - Build 2502 (Patch 5) - February 2025)](#v8500-2025-02-01---build-2502-patch-5---february-2025)
+  - [V85.00 (2024-06-24 - Build 2406 - June 2024)](#v8500-2024-06-24---build-2406---june-2024)
+  - [V80.00 (2023-11-14 - Build 2311 - November 2023)](#v8000-2023-11-14---build-2311---november-2023)
+    - [Support for .NET Core 3.1 and .NET 5](#support-for-net-core-31-and-net-5)
+    - [KryptonMessageBoxButtons](#kryptonmessageboxbuttons)
+    - [Palette usages](#palette-usages)
+    - [Depreciation of `KryptonManager.Strings`](#depreciation-of-kryptonmanagerstrings)
+  - [Known Issues \& Workarounds](#known-issues--workarounds)
+  - [Introduction](#introduction)
+  - [What is this Repository About?](#what-is-this-repository-about)
+  - [Contributing to this project](#contributing-to-this-project)
+  - [Individual Components](#individual-components)
+    - [Krypton Toolkit](#krypton-toolkit)
+    - [Krypton Ribbon](#krypton-ribbon)
+    - [Krypton Navigator](#krypton-navigator)
+    - [Krypton Workspace](#krypton-workspace)
+    - [Krypton Docking](#krypton-docking)
 
 <!-- End Document Outline -->
 
-<hr/>
+=======
 
 # NuGet Information
 
-View package version details [here](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Support/Krypton%20Toolkit%20Suite%20Standard%20Modules.html).
+View [package version details and supported frameworks](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Support/Krypton%20Toolkit%20Suite%20Standard%20Modules.html).
 
 =======
 
@@ -69,33 +69,33 @@ View package version details [here](https://krypton-suite.github.io/Standard-Too
 
 The online help will give an overview of what the toolkit is capable of.
 
-<a href="https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/index.html"><img src="https://img.shields.io/badge/Documentation-Online Help-9cf.svg?style=flat-square" alt="Online Help" /></a>
+[![Online Help](https://img.shields.io/badge/Documentation-Online%20Help-9cf.svg?style=flat-square)](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/index.html)
 
 If you require the full API reference, you can download the latest version by clicking the link below.
 
-<a href="https://github.com/Krypton-Suite/Help-Files/releases"><img src="https://img.shields.io/badge/Documentation-API Reference-9cf.svg?style=flat-square" alt="API Reference" /></a>
+[![API Reference](https://img.shields.io/badge/Documentation-API%20Reference-9cf.svg?style=flat-square)](https://github.com/Krypton-Suite/Help-Files/releases)
 
-#### Contributing to the Standard Toolkit
+### Contributing to the Standard Toolkit
 
-If you are interested in contributing to the Standard Toolkit, please read this [article](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Contributing/Contributing-Guidelines.html) first.
+If you are interested in contributing to the Standard Toolkit, please read this [article](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Contributing/ContributingGuidelines.html) first.
 
 =======
 
 ## Package Support Information
 
-Full information about support can be found [here](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Support/Package%20Support%20Information.html)
+Full information about support can be found in the [Package Support Information](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Support/PackageSupportInformation.html).
 
 ### Release Cadence
 
-See [Krypton Toolkit release cadence](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Support/Package%20Version%20Descriptions.html)
+See [Krypton Toolkit release cadence](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Support/PackageVersionDescriptions.html)
 
 ### Package Descriptions
 
-To find out more about the differences between `Nightly`, `Canary` and `Stable` packages, please read this [article](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Support/Package%20Version%20Descriptions.html).
+To find out more about the differences between `Nightly`, `Canary` and `Stable` packages, please read this [article](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Support/PackageVersionDescriptions.html).
 
 ### Installing Pre-Release Versions
 
-To find out how to install either `Canary` or `Nightly` versions, please check out this [article](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Support/How%20to%20Install%20Pre%20Release%20Packages.html).
+To find out how to install either `Canary` or `Nightly` versions, please check out this [article](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Support/HowtoInstallPreReleasePackages.html).
 
 =======
 
@@ -105,7 +105,7 @@ Development of the Krypton Standard Toolkit is supported by these generous organ
 
 | [![JetBrains logo.](https://resources.jetbrains.com/storage/products/company/brand/logos/jetbrains.svg)](https://jb.gg/OpenSource)       | [![YourKit logo](https://github.com/Krypton-Suite/Documentation/blob/main/Assets/Supporter-Logos/yourkit-logo.png?raw=true)](https://www.yourkit.com/)       |
 |----------------|----------------|
-| JetBrains provides cutting-edge IDE and developer productivity tools. | YourKit provides a market-leading intelligent <a href="https://www.yourkit.com/features/">Java Profiler</a> and <a href="https://www.yourkit.com/dotnet/features/">.NET Profiler</a>. |
+| JetBrains provides cutting-edge IDE and developer productivity tools. | YourKit provides a market-leading intelligent [Java Profiler](https://www.yourkit.com/features/) and [.NET Profiler](https://www.yourkit.com/dotnet/features/). |
 
 =======
 
@@ -115,9 +115,9 @@ Follow the links to see the different objects and layouts that this framework al
 
 =======
 
-# Discord Server
+## Discord Server
 
-<a href="https://discord.gg/CRjF6fY" alt="Join our Krypton Toolkit community Discord server"><img src="https://img.shields.io/badge/Discord-Join%20our%20server-7289DA?logo=discord&style=flat-square" /></a>
+[![Join our Krypton Toolkit community Discord server](https://img.shields.io/badge/Discord-Join%20our%20server-7289DA?logo=discord&style=flat-square)](https://discord.gg/CRjF6fY)
 
 =======
 
@@ -129,7 +129,7 @@ Follow the links to see the different objects and layouts that this framework al
 
 ## Version History
 
-<a href="https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Documents/Changelog/Changelog.md"><img src="https://img.shields.io/badge/Version History-Changelog-brightgreen.svg?style=flat-square" /></a>
+[![Version History - Changelog](https://img.shields.io/badge/Version%20History-Changelog-brightgreen.svg?style=flat-square)](https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Documents/Changelog/Changelog.md)
 
 =======
 
@@ -139,10 +139,11 @@ Follow the links to see the different objects and layouts that this framework al
 
 There are list of changes that have occurred during the development of the V100.00 version
 
-* Implemented [#984](https://github.com/Krypton-Suite/Standard-Toolkit/issues/984), `KryptonForm` using `SizeGripStyle` for grippie.
+- Implemented [#984](https://github.com/Krypton-Suite/Standard-Toolkit/issues/984), `KryptonForm` using `SizeGripStyle` for grippie.
   - **Note:** This contains a breaking change for **custom** themes as it introduces a new abstract method:
     `public abstract Image? GetSizeGripImage(RightToLeft isRtl);`
     so that themes can return a size grip image (or null).
+
 - Implemented [#2328](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2328), Set the baseline support to .NET Framework 4.7.2
   - **Note:** This is a breaking change, as the minimum supported version of .NET Framework has been raised from 4.6.2 to 4.7.2.
 - Resolved [#240](https://github.com/Krypton-Suite/Standard-Toolkit/issues/240), **[Breaking Change]** `KryptonRichTextBox` Why is it not possible to have the `ButtonSpecs` aligned to the top of a control
@@ -219,7 +220,7 @@ The `KryptonInputBox` now uses the new `KryptonInputBoxData` API, to handle data
 
 ### Building the Toolkit
 
-As of V90.00 support for longer path names **will** need to be enabled if you want to build the toolkit yourself. For more details on how to do this, please follow the instructions [here](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Contributing/Allowing-for-Longer-Path-and-File-Names.html).
+As of V90.00 support for longer path names **will** need to be enabled if you want to build the toolkit yourself. For more details on how to do this, please follow the instructions in the [long path names configuration guide](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Contributing/AllowingforLongerPathandFileNames.html).
 
 ## V85.00 (2025-02-01 - Build 2502 (Patch 5) - February 2025)
 
@@ -273,11 +274,11 @@ In a effort to support translations, `KryptonManager.Strings` is now obsolete. A
   - Some controls can display `Jagged text` when drawing. (i.e. ComboBox contents / PropertyGrid / Extended controls )
   This is due to the usage of the Legacy API `Application.SetCompatibleTextRenderingDefault` having a value of `true`. Please set it to false.
 
-- [#665](https://github.com/Krypton-Suite/Standard-Toolkit/issues/665) - Workaround add `net48` or `net481` to your `<TargetFrameworks>` if using .NET 6 or 7
+- [#665](https://github.com/Krypton-Suite/Standard-Toolkit/issues/665) - Workaround add `net48` or `net481` to your `<TargetFrameworks>` if using .NET 8 or newer.
 
-- .NET 6/7 Designer issues - If you are experiencing designer issues with your project, please refer to [this](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Support/Designer%20Fix.html) for more information
+- .NET 6/7 Designer issues - If you are experiencing designer issues with your project, please refer to [this](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Support/DesignerFix.html) for more information
 
-- ***URGENT:*** If anyone experiences "Double events" such as the one found [here](https://github.com/Krypton-Suite/Standard-Toolkit/issues/666), please can you report it ASAP, so that they can be investigated. Thanks!
+- ***URGENT:*** If anyone experiences "Double events" such as the one found in [issue #666 about double events](https://github.com/Krypton-Suite/Standard-Toolkit/issues/666), please can you report it ASAP, so that they can be investigated. Thanks!
 
 =======
 
@@ -289,11 +290,11 @@ The Krypton Suite contains user interface components designed to make it quick a
 
 - Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, tobitege &
 Ahmed-Abdelhameed have been fixing and adding more capabilities to this toolkit.
-- There is also an Extensions project, which takes these base controls and add more useful complete controls (Currently outside the scope of this help). To find out more, please head to this [link](https://github.com/Krypton-Suite/Extended-Toolkit)
-- All .Net Versions from 4.6.2 are catered for (interim releases, i.e. releases in-between Long Term Support (LTS) versions of .NET will **only** be supported for the duration of that particular version, usually 24 months.)
-- New versions of NuGet packages can be obtained via this [link](https://www.nuget.org/profiles/Krypton_Suite), or via your package manager by searching `Krypton.`.
+- There is also an Extensions project, which takes these base controls and add more useful complete controls (Currently outside the scope of this help). To find out more about the Extended Toolkit, please visit the [Extended Toolkit repository](https://github.com/Krypton-Suite/Extended-Toolkit)
+- All .Net Versions from 4.8.2 are catered for (interim releases, i.e. releases in-between Long Term Support (LTS) versions of .NET will **only** be supported for the duration of that particular version, usually 24 months.)
+- New versions of NuGet packages can be obtained via the [Krypton Suite NuGet profile page](https://www.nuget.org/profiles/Krypton_Suite), or via your package manager by searching `Krypton.`.
 - New, major versions are released annually, with patches if needed released throughout that period. Version 100 is expected to release in November 2025.
-- For tips on how to build the toolkit for yourself, please read the following [article](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Contributing/How-to-Build.html).
+- For tips on how to build the toolkit for yourself, please read the following [article](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Contributing/HowtoBuild.html).
 
 ## Contributing to this project
 
@@ -305,32 +306,32 @@ If you want to contribute to this project, please follow [these](https://krypton
 
 The Krypton Toolkit provides a set of basic user interface components for free. You can distribute the signed Krypton Toolkit assembly without charge or royalty with your own products. The Krypton Toolkit is great resource for speeding up development of professional looking applications. It works in tandem with the **MenuStrip**, **StatusStrip** and **ToolStrip** controls that come with .NET Framework controls. Using the Krypton Toolkit you can create a great looking application in just minutes.
 
-<center><img src="https://github.com/Krypton-Suite/Documentation/blob/main/Assets/Standard-Toolkit/KryptonToolkitExampleForm.gif?raw=true" /></center>
+![Example of Krypton Toolkit Form](https://github.com/Krypton-Suite/Documentation/blob/main/Assets/Standard-Toolkit/KryptonToolkitExampleForm.gif?raw=true)
 
-<center><img src="https://github.com/Krypton-Suite/Documentation/blob/main/Assets/Standard-Toolkit/KryptonToolkitExampleGroup.gif?raw=true" /></center>
+![Example of Krypton Toolkit Group](https://github.com/Krypton-Suite/Documentation/blob/main/Assets/Standard-Toolkit/KryptonToolkitExampleGroup.gif?raw=true)
 
-<center><img src="https://github.com/Krypton-Suite/Documentation/blob/main/Assets/Standard-Toolkit/KryptonToolkitProgressBarExample.gif?raw=true" /></center>
+![Example of Krypton Toolkit Progress Bar](https://github.com/Krypton-Suite/Documentation/blob/main/Assets/Standard-Toolkit/KryptonToolkitProgressBarExample.gif?raw=true)
 
 ### Krypton Ribbon
 
 The Krypton Ribbon is designed to mimic the look, feel and operation of the ribbon control seen in the Microsoft Office `2007/2010/2013/365` applications such as Word and Excel. It provides advanced capabilities including the quick access toolbar, contextual tabs and auto shrinking groups. With rich design time support and sample code you can be up and running with the ribbon in no time at all. It integrates with the Krypton Toolkit architecture to ensure a consistent look and feel.
 
-<center><img src="https://github.com/Krypton-Suite/Documentation/blob/main/Assets/Standard-Toolkit/KryptonRibbonExample.gif?raw=true" /></center>
+![Example of Krypton Ribbon](https://github.com/Krypton-Suite/Documentation/blob/main/Assets/Standard-Toolkit/KryptonRibbonExample.gif?raw=true)
 
 ### Krypton Navigator
 
 The Krypton Navigator is a user interface control that provides the user with a variety of ways to navigate around a set of pages. Think of it as a traditional TabControl on steroids. It has many different modes of operation allowing you to achieve exactly the right operation for your application. It integrates with the Krypton Toolkit architecture to ensure a consistent look and feel.
 
-<center><img src="https://github.com/Krypton-Suite/Documentation/blob/main/Assets/Standard-Toolkit/KryptonNavigatorExample.gif?raw=true" /></center>
+![Example of Krypton Navigator](https://github.com/Krypton-Suite/Documentation/blob/main/Assets/Standard-Toolkit/KryptonNavigatorExample.gif?raw=true)
 
 ### Krypton Workspace
 
 The Krypton Workspace allows a document area to be created that the user can customise by dragging and dropping pages into new positions. Similar to the Visual Studio document area but with far greater flexibility and functionality. Each cell within the workspace uses an instance of the Krypton Navigator allowing a wide range of options for organising and displaying pages. It integrates with the Krypton Toolkit architecture to ensure a consistent look and feel.
 
-<center><img src="https://github.com/Krypton-Suite/Documentation/blob/main/Assets/Standard-Toolkit/KryptonWorkspaceExample.gif?raw=true" /></center>
+![Example of Krypton Workspace](https://github.com/Krypton-Suite/Documentation/blob/main/Assets/Standard-Toolkit/KryptonWorkspaceExample.gif?raw=true)
 
 ### Krypton Docking
 
 The Krypton Docking set of components allow the user to drag and drop docking pages into new locations in order to customise the organisation of the application content. It allows this in a way similar to that of Visual Studio 2008/2010. Each docking area uses an instance of the Krypton Workspace allowing a wide range of options for organising and displaying pages. It integrates with the Krypton Toolkit architecture to ensure a consistent look and feel.
 
-<center><img src="https://github.com/Krypton-Suite/Documentation/blob/main/Assets/Standard-Toolkit/KryptonDockingExampleCustomised.gif?raw=true" /></center>
+![Example of Krypton Docking](https://github.com/Krypton-Suite/Documentation/blob/main/Assets/Standard-Toolkit/KryptonDockingExampleCustomised.gif?raw=true)
