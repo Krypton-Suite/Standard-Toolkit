@@ -112,7 +112,7 @@ internal class KryptonSystemMenuListener : NativeWindow
                 }
             }
         }
-        else if ((m.Msg & PI.WM_.SYSKEYDOWN) == PI.WM_.SYSKEYDOWN || (m.WParam.ToInt32() & PI.WM_.KEYDOWN) == PI.WM_.KEYDOWN)
+        else if (m.Msg == PI.WM_.SYSKEYDOWN || m.Msg == PI.WM_.KEYDOWN)
         {
             if ((Control.ModifierKeys & Keys.Alt) == Keys.Alt)
             {
