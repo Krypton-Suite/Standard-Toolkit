@@ -2,8 +2,9 @@
 
 <!-- Start Document Outline -->
 
-- [ Standard Toolkit](#-standard-toolkit)
+- [Standard Toolkit](#-standard-toolkit)
 - [NuGet Information](#nuget-information)
+- [Build Status](#build-status)
 	- [Documentation](#documentation)
 			- [Contributing to the Standard Toolkit](#contributing-to-the-standard-toolkit)
 	- [Package Support Information](#package-support-information)
@@ -48,6 +49,19 @@
 # NuGet Information
 
 View package version details [here](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Support/Krypton%20Toolkit%20Suite%20Standard%20Modules.html).
+
+=======
+
+## Build Status
+
+| Workflow | Status |
+|----------|--------|
+| Build (Master)   | [![Build](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/build.yml/badge.svg)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/build.yml) |
+| Release (Master)  | [![Release](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/release.yml/badge.svg)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/release.yml) |
+| Build (Canary)    | [![Build](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/build.yml/badge.svg?branch=canary)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/build.yml) |
+| Release (Canary)  | [![Release](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/release.yml/badge.svg?branch=canary)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/release.yml) |
+| Build (Alpha)     | [![Build](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/build.yml/badge.svg?branch=alpha)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/build.yml) |
+| Release (Alpha) | [![Release](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/nightly.yml/badge.svg?branch=alpha)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/nightly.yml) |
 
 =======
 
