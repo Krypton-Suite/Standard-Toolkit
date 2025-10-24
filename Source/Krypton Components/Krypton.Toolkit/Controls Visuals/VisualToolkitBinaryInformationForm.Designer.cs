@@ -65,10 +65,10 @@
             this.kryptonPanel1.Controls.Add(this.kryptonTableLayoutPanel1);
             this.kryptonPanel1.Controls.Add(this.kryptonBorderEdge1);
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.kryptonPanel1.Location = new System.Drawing.Point(0, 214);
+            this.kryptonPanel1.Location = new System.Drawing.Point(0, 227);
             this.kryptonPanel1.Name = "kryptonPanel1";
             this.kryptonPanel1.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelAlternate;
-            this.kryptonPanel1.Size = new System.Drawing.Size(778, 50);
+            this.kryptonPanel1.Size = new System.Drawing.Size(814, 50);
             this.kryptonPanel1.TabIndex = 0;
             // 
             // kryptonTableLayoutPanel1
@@ -86,7 +86,7 @@
             this.kryptonTableLayoutPanel1.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelAlternate;
             this.kryptonTableLayoutPanel1.RowCount = 1;
             this.kryptonTableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.kryptonTableLayoutPanel1.Size = new System.Drawing.Size(778, 49);
+            this.kryptonTableLayoutPanel1.Size = new System.Drawing.Size(814, 49);
             this.kryptonTableLayoutPanel1.TabIndex = 5;
             // 
             // kbtnChangelog
@@ -105,7 +105,7 @@
             // 
             this.kbtnOk.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.kbtnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.kbtnOk.Location = new System.Drawing.Point(678, 12);
+            this.kbtnOk.Location = new System.Drawing.Point(714, 12);
             this.kbtnOk.Margin = new System.Windows.Forms.Padding(10);
             this.kbtnOk.Name = "kbtnOk";
             this.kbtnOk.Size = new System.Drawing.Size(90, 25);
@@ -133,7 +133,7 @@
             this.kryptonBorderEdge1.Dock = System.Windows.Forms.DockStyle.Top;
             this.kryptonBorderEdge1.Location = new System.Drawing.Point(0, 0);
             this.kryptonBorderEdge1.Name = "kryptonBorderEdge1";
-            this.kryptonBorderEdge1.Size = new System.Drawing.Size(778, 1);
+            this.kryptonBorderEdge1.Size = new System.Drawing.Size(814, 1);
             this.kryptonBorderEdge1.Text = "kryptonBorderEdge1";
             // 
             // kryptonPanel2
@@ -142,7 +142,7 @@
             this.kryptonPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel2.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel2.Name = "kryptonPanel2";
-            this.kryptonPanel2.Size = new System.Drawing.Size(778, 214);
+            this.kryptonPanel2.Size = new System.Drawing.Size(814, 227);
             this.kryptonPanel2.TabIndex = 2;
             // 
             // tlpContent
@@ -172,18 +172,18 @@
             this.tlpContent.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlpContent.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlpContent.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlpContent.Size = new System.Drawing.Size(778, 214);
+            this.tlpContent.Size = new System.Drawing.Size(814, 227);
             this.tlpContent.TabIndex = 0;
             // 
             // kwlblDockingTitle
             // 
             this.kwlblDockingTitle.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kwlblDockingTitle.LabelStyle = Krypton.Toolkit.LabelStyle.BoldControl;
-            this.kwlblDockingTitle.Location = new System.Drawing.Point(5, 44);
+            this.kwlblDockingTitle.Location = new System.Drawing.Point(5, 57);
             this.kwlblDockingTitle.Margin = new System.Windows.Forms.Padding(5);
             this.kwlblDockingTitle.Name = "kwlblDockingTitle";
             this.kwlblDockingTitle.Padding = new System.Windows.Forms.Padding(5);
-            this.kwlblDockingTitle.Size = new System.Drawing.Size(379, 25);
+            this.kwlblDockingTitle.Size = new System.Drawing.Size(397, 25);
             this.kwlblDockingTitle.Text = "kryptonWrapLabel2";
             this.kwlblDockingTitle.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -191,11 +191,11 @@
             // 
             this.kwlblDockingFileInformation.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kwlblDockingFileInformation.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
-            this.kwlblDockingFileInformation.Location = new System.Drawing.Point(394, 44);
+            this.kwlblDockingFileInformation.Location = new System.Drawing.Point(412, 57);
             this.kwlblDockingFileInformation.Margin = new System.Windows.Forms.Padding(5);
             this.kwlblDockingFileInformation.Name = "kwlblDockingFileInformation";
             this.kwlblDockingFileInformation.Padding = new System.Windows.Forms.Padding(5);
-            this.kwlblDockingFileInformation.Size = new System.Drawing.Size(379, 25);
+            this.kwlblDockingFileInformation.Size = new System.Drawing.Size(397, 25);
             this.kwlblDockingFileInformation.Text = "kryptonWrapLabel3";
             this.kwlblDockingFileInformation.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -203,11 +203,11 @@
             // 
             this.kwlblNavigatorTitle.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kwlblNavigatorTitle.LabelStyle = Krypton.Toolkit.LabelStyle.BoldControl;
-            this.kwlblNavigatorTitle.Location = new System.Drawing.Point(5, 79);
+            this.kwlblNavigatorTitle.Location = new System.Drawing.Point(5, 92);
             this.kwlblNavigatorTitle.Margin = new System.Windows.Forms.Padding(5);
             this.kwlblNavigatorTitle.Name = "kwlblNavigatorTitle";
             this.kwlblNavigatorTitle.Padding = new System.Windows.Forms.Padding(5);
-            this.kwlblNavigatorTitle.Size = new System.Drawing.Size(379, 25);
+            this.kwlblNavigatorTitle.Size = new System.Drawing.Size(397, 25);
             this.kwlblNavigatorTitle.Text = "kryptonWrapLabel4";
             this.kwlblNavigatorTitle.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -215,11 +215,11 @@
             // 
             this.kwlblNavigatorFileInformation.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kwlblNavigatorFileInformation.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
-            this.kwlblNavigatorFileInformation.Location = new System.Drawing.Point(394, 79);
+            this.kwlblNavigatorFileInformation.Location = new System.Drawing.Point(412, 92);
             this.kwlblNavigatorFileInformation.Margin = new System.Windows.Forms.Padding(5);
             this.kwlblNavigatorFileInformation.Name = "kwlblNavigatorFileInformation";
             this.kwlblNavigatorFileInformation.Padding = new System.Windows.Forms.Padding(5);
-            this.kwlblNavigatorFileInformation.Size = new System.Drawing.Size(379, 25);
+            this.kwlblNavigatorFileInformation.Size = new System.Drawing.Size(397, 25);
             this.kwlblNavigatorFileInformation.Text = "kryptonWrapLabel5";
             this.kwlblNavigatorFileInformation.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -227,11 +227,11 @@
             // 
             this.kwlblRibbonTitle.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kwlblRibbonTitle.LabelStyle = Krypton.Toolkit.LabelStyle.BoldControl;
-            this.kwlblRibbonTitle.Location = new System.Drawing.Point(5, 114);
+            this.kwlblRibbonTitle.Location = new System.Drawing.Point(5, 127);
             this.kwlblRibbonTitle.Margin = new System.Windows.Forms.Padding(5);
             this.kwlblRibbonTitle.Name = "kwlblRibbonTitle";
             this.kwlblRibbonTitle.Padding = new System.Windows.Forms.Padding(5);
-            this.kwlblRibbonTitle.Size = new System.Drawing.Size(379, 25);
+            this.kwlblRibbonTitle.Size = new System.Drawing.Size(397, 25);
             this.kwlblRibbonTitle.Text = "kryptonWrapLabel6";
             this.kwlblRibbonTitle.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -239,11 +239,11 @@
             // 
             this.kwlblRibbonFileInformation.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kwlblRibbonFileInformation.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
-            this.kwlblRibbonFileInformation.Location = new System.Drawing.Point(394, 114);
+            this.kwlblRibbonFileInformation.Location = new System.Drawing.Point(412, 127);
             this.kwlblRibbonFileInformation.Margin = new System.Windows.Forms.Padding(5);
             this.kwlblRibbonFileInformation.Name = "kwlblRibbonFileInformation";
             this.kwlblRibbonFileInformation.Padding = new System.Windows.Forms.Padding(5);
-            this.kwlblRibbonFileInformation.Size = new System.Drawing.Size(379, 25);
+            this.kwlblRibbonFileInformation.Size = new System.Drawing.Size(397, 25);
             this.kwlblRibbonFileInformation.Text = "kryptonWrapLabel7";
             this.kwlblRibbonFileInformation.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -251,11 +251,11 @@
             // 
             this.kwlblToolkitTitle.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kwlblToolkitTitle.LabelStyle = Krypton.Toolkit.LabelStyle.BoldControl;
-            this.kwlblToolkitTitle.Location = new System.Drawing.Point(5, 149);
+            this.kwlblToolkitTitle.Location = new System.Drawing.Point(5, 162);
             this.kwlblToolkitTitle.Margin = new System.Windows.Forms.Padding(5);
             this.kwlblToolkitTitle.Name = "kwlblToolkitTitle";
             this.kwlblToolkitTitle.Padding = new System.Windows.Forms.Padding(5);
-            this.kwlblToolkitTitle.Size = new System.Drawing.Size(379, 25);
+            this.kwlblToolkitTitle.Size = new System.Drawing.Size(397, 25);
             this.kwlblToolkitTitle.Text = "kryptonWrapLabel8";
             this.kwlblToolkitTitle.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -263,11 +263,11 @@
             // 
             this.kwlblToolkitFileInformation.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kwlblToolkitFileInformation.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
-            this.kwlblToolkitFileInformation.Location = new System.Drawing.Point(394, 149);
+            this.kwlblToolkitFileInformation.Location = new System.Drawing.Point(412, 162);
             this.kwlblToolkitFileInformation.Margin = new System.Windows.Forms.Padding(5);
             this.kwlblToolkitFileInformation.Name = "kwlblToolkitFileInformation";
             this.kwlblToolkitFileInformation.Padding = new System.Windows.Forms.Padding(5);
-            this.kwlblToolkitFileInformation.Size = new System.Drawing.Size(379, 25);
+            this.kwlblToolkitFileInformation.Size = new System.Drawing.Size(397, 25);
             this.kwlblToolkitFileInformation.Text = "kryptonWrapLabel9";
             this.kwlblToolkitFileInformation.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -275,11 +275,11 @@
             // 
             this.kwlblWorkspaceTitle.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kwlblWorkspaceTitle.LabelStyle = Krypton.Toolkit.LabelStyle.BoldControl;
-            this.kwlblWorkspaceTitle.Location = new System.Drawing.Point(5, 184);
+            this.kwlblWorkspaceTitle.Location = new System.Drawing.Point(5, 197);
             this.kwlblWorkspaceTitle.Margin = new System.Windows.Forms.Padding(5);
             this.kwlblWorkspaceTitle.Name = "kwlblWorkspaceTitle";
             this.kwlblWorkspaceTitle.Padding = new System.Windows.Forms.Padding(5);
-            this.kwlblWorkspaceTitle.Size = new System.Drawing.Size(379, 25);
+            this.kwlblWorkspaceTitle.Size = new System.Drawing.Size(397, 25);
             this.kwlblWorkspaceTitle.Text = "kryptonWrapLabel10";
             this.kwlblWorkspaceTitle.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -287,11 +287,11 @@
             // 
             this.kwlblWorkspaceFileInformation.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kwlblWorkspaceFileInformation.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
-            this.kwlblWorkspaceFileInformation.Location = new System.Drawing.Point(394, 184);
+            this.kwlblWorkspaceFileInformation.Location = new System.Drawing.Point(412, 197);
             this.kwlblWorkspaceFileInformation.Margin = new System.Windows.Forms.Padding(5);
             this.kwlblWorkspaceFileInformation.Name = "kwlblWorkspaceFileInformation";
             this.kwlblWorkspaceFileInformation.Padding = new System.Windows.Forms.Padding(5);
-            this.kwlblWorkspaceFileInformation.Size = new System.Drawing.Size(379, 25);
+            this.kwlblWorkspaceFileInformation.Size = new System.Drawing.Size(397, 25);
             this.kwlblWorkspaceFileInformation.Text = "kryptonWrapLabel11";
             this.kwlblWorkspaceFileInformation.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -303,7 +303,7 @@
             this.kryptonPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel3.Location = new System.Drawing.Point(3, 3);
             this.kryptonPanel3.Name = "kryptonPanel3";
-            this.kryptonPanel3.Size = new System.Drawing.Size(772, 33);
+            this.kryptonPanel3.Size = new System.Drawing.Size(808, 46);
             this.kryptonPanel3.TabIndex = 11;
             // 
             // kwlblTitle
@@ -314,7 +314,7 @@
             this.kwlblTitle.Location = new System.Drawing.Point(48, 0);
             this.kwlblTitle.Margin = new System.Windows.Forms.Padding(5);
             this.kwlblTitle.Name = "kwlblTitle";
-            this.kwlblTitle.Size = new System.Drawing.Size(724, 33);
+            this.kwlblTitle.Size = new System.Drawing.Size(760, 46);
             this.kwlblTitle.Text = "kryptonWrapLabel1";
             this.kwlblTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -323,7 +323,7 @@
             this.pbxIcon.Dock = System.Windows.Forms.DockStyle.Left;
             this.pbxIcon.Location = new System.Drawing.Point(0, 0);
             this.pbxIcon.Name = "pbxIcon";
-            this.pbxIcon.Size = new System.Drawing.Size(48, 33);
+            this.pbxIcon.Size = new System.Drawing.Size(48, 46);
             this.pbxIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pbxIcon.TabIndex = 0;
             this.pbxIcon.TabStop = false;
@@ -333,7 +333,7 @@
             this.AcceptButton = this.kbtnOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(778, 264);
+            this.ClientSize = new System.Drawing.Size(814, 277);
             this.Controls.Add(this.kryptonPanel2);
             this.Controls.Add(this.kryptonPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;

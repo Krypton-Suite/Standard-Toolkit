@@ -1,6 +1,6 @@
 ﻿namespace TestForm
 {
-    partial class ControlStyles
+    partial class ControlStylesForm
     {
         /// <summary>
         /// Required designer variable.
@@ -101,7 +101,7 @@
             this.kbtnLabelStyles.Values.Text = "Label Styles";
             this.kbtnLabelStyles.Click += new System.EventHandler(this.kbtnLabelStyles_Click);
             // 
-            // ControlStyles
+            // ControlStylesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -109,7 +109,7 @@
             this.Controls.Add(this.kryptonPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.MaximizeBox = false;
-            this.Name = "ControlStyles";
+            this.Name = "ControlStylesForm";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Control  Styles";

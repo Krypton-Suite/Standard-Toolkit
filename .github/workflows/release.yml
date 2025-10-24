@@ -1,0 +1,790 @@
+# New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+# Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2025 - 2025. All rights reserved.
+
+name: Release
+
+on:
+  push:
+    branches:
+      - master
+      - alpha
+      - canary
+      - V85-LTS
+  schedule:
+    # Run alpha/nightly build automatically at midnight UTC every day
+    - cron: '0 0 * * *'
+
+jobs:
+  release-master:
+    runs-on: windows-2022
+    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      # .NET 9 (GA)
+      - name: Setup .NET 9
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+
+      # .NET 10 (Preview)
+      - name: Setup .NET 10 (preview)
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+          dotnet-quality: preview
+
+      # global.json dynamically generate
+      - name: Force .NET 10 SDK via global.json
+        run: |
+          $sdkVersion = (dotnet --list-sdks | Select-String "10.0").ToString().Split(" ")[0]
+          Write-Output "Using SDK $sdkVersion"
+          @"
+          {
+            "sdk": {
+              "version": "$sdkVersion",
+              "rollForward": "latestFeature"
+            }
+          }
+          "@ | Out-File -Encoding utf8 global.json
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+        with:
+          msbuild-architecture: x64
+
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v1.2.0
+
+      - name: Cache NuGet
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Restore
+        run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.sln"
+
+      - name: Build Release
+        run: msbuild "Scripts/build.proj" /t:Build /p:Configuration=Release /p:Platform="Any CPU"
+
+      - name: Pack Release
+        run: msbuild "Scripts/build.proj" /t:Pack /p:Configuration=Release /p:Platform="Any CPU"
+
+      - name: Push NuGet Packages to nuget.org
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          if (-not $env:NUGET_API_KEY) {
+            Write-Warning "NUGET_API_KEY not set - skipping NuGet push"
+            exit 0
+          }
+          
+          $packages = Get-ChildItem "Bin/Packages/Release/*.nupkg" -ErrorAction SilentlyContinue
+          
+          if ($packages) {
+            foreach ($package in $packages) {
+              Write-Output "Pushing package: $($package.Name)"
+              try {
+                dotnet nuget push "$($package.FullName)" --api-key $env:NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
+              } catch {
+                Write-Warning "Failed to push $($package.Name): $_"
+              }
+            }
+          } else {
+            Write-Output "No NuGet packages found to push"
+          }
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+
+      - name: Create Release Archives
+        run: msbuild "Scripts/build.proj" /t:CreateAllReleaseArchives /p:Configuration=Release /p:Platform="Any CPU"
+
+      - name: Get Version
+        id: get_version
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $version = $null
+          
+          # Try to get version from the built assembly (most reliable)
+          try {
+            $dllPath = Get-ChildItem "Bin/Release/net48/Krypton.Toolkit.dll" -ErrorAction Stop
+            $assemblyVersion = [System.Reflection.AssemblyName]::GetAssemblyName($dllPath.FullName).Version
+            $version = $assemblyVersion.ToString()
+            Write-Host "Got version from assembly: $version"
+          } catch {
+            Write-Host "Could not read version from assembly: $_"
+          }
+          
+          # Fallback: Try to read from csproj XML
+          if (-not $version) {
+            try {
+              $proj = 'Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj'
+              [xml]$projXml = Get-Content $proj
+              $versionNode = $projXml.SelectSingleNode("//Version")
+              if ($versionNode) {
+                $version = $versionNode.InnerText.Trim()
+                Write-Host "Got version from csproj: $version"
+              }
+            } catch {
+              Write-Host "Could not read version from csproj: $_"
+            }
+          }
+          
+          # Last resort fallback
+          if (-not $version) {
+            Write-Warning "Version not found, using fallback."
+            $version = "100.25.1.1"
+          }
+          
+          Write-Host "Final determined version: $version"
+          echo "version=$version" >> $env:GITHUB_OUTPUT
+          echo "tag=v$version" >> $env:GITHUB_OUTPUT
+
+      - name: Diagnostics - List Artifacts
+        shell: pwsh
+        run: |
+          Write-Host "=== Files in Bin/Packages/Release ==="
+          Get-ChildItem -Path Bin/Packages/Release -Recurse -ErrorAction SilentlyContinue | ForEach-Object { Write-Host $_.FullName }
+          Write-Host "`n=== Files in Bin/Release/Zips ==="
+          Get-ChildItem -Path Bin/Release/Zips -Recurse -ErrorAction SilentlyContinue | ForEach-Object { Write-Host $_.FullName }
+          Write-Host "`n=== Secrets Check ==="
+          Write-Host "GITHUB_TOKEN present: $(if ($env:GITHUB_TOKEN) { 'yes' } else { 'no' })"
+          Write-Host "NUGET_API_KEY present: $(if ($env:NUGET_API_KEY) { 'yes' } else { 'no' })"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+
+      - name: Create or Update Release
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $version = "${{ steps.get_version.outputs.version }}"
+          $tag = "v$version"
+          $releaseTitle = "Release $version"
+          $releaseBody = @"
+          ## Krypton Toolkit Suite Release $version
+          
+          This release includes:
+          - All Krypton Toolkit components
+          - NuGet packages for multiple target frameworks
+          - Release archives (ZIP and TAR.GZ formats)
+          
+          ### Downloads
+          - **ZIP Archive**: `Krypton-Release_*.zip`
+          - **TAR.GZ Archive**: `Krypton-Release_*.tar.gz`
+          
+          ### Target Frameworks
+          - .NET Framework 4.7.2
+          - .NET Framework 4.8
+          - .NET Framework 4.8.1
+          - .NET 8.0 Windows
+          - .NET 9.0 Windows
+          - .NET 10.0 Windows
+          "@
+          
+          Write-Host "Preparing to create or update release $tag"
+          
+          # Check if release exists
+          $releaseExists = $false
+          gh release view $tag 2>&1 | Out-Null
+          if ($LASTEXITCODE -eq 0) {
+            $releaseExists = $true
+          }
+          
+          if ($releaseExists) {
+            Write-Host "Release $tag exists - updating"
+            gh release edit $tag --title $releaseTitle --notes "$releaseBody"
+          } else {
+            Write-Host "Creating release $tag"
+            gh release create $tag --title $releaseTitle --notes "$releaseBody" --latest
+          }
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Release Assets
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $tag = "${{ steps.get_version.outputs.tag }}"
+          $zipFile = Get-ChildItem "Bin/Release/Zips/Krypton-Release_*.zip" -ErrorAction SilentlyContinue | Select-Object -First 1
+          $tarFile = Get-ChildItem "Bin/Release/Zips/Krypton-Release_*.tar.gz" -ErrorAction SilentlyContinue | Select-Object -First 1
+          
+          if ($zipFile) {
+            Write-Host "Uploading $($zipFile.Name)"
+            try {
+              gh release upload $tag "$($zipFile.FullName)" --clobber
+            } catch {
+              Write-Warning "Failed to upload ZIP: $_"
+            }
+          } else {
+            Write-Warning "ZIP release archive not found; skipping upload."
+          }
+          
+          if ($tarFile) {
+            Write-Host "Uploading $($tarFile.Name)"
+            try {
+              gh release upload $tag "$($tarFile.FullName)" --clobber
+            } catch {
+              Write-Warning "Failed to upload TAR.GZ: $_"
+            }
+          } else {
+            Write-Warning "TAR.GZ release archive not found; skipping upload."
+          }
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Announce Release on Discord
+        run: |
+          $payload = @{
+            embeds = @(
+              @{
+                title = "🎉 Krypton Toolkit Stable Release"
+                description = "A new stable release is now available!"
+                color = 3447003
+                fields = @(
+                  @{
+                    name = "📌 Version"
+                    value = "``${{ steps.get_version.outputs.version }}``"
+                    inline = $true
+                  }
+                  @{
+                    name = "📦 NuGet Packages"
+                    value = "- Krypton.Toolkit`n- Krypton.Ribbon`n- Krypton.Navigator`n- Krypton.Workspace`n- Krypton.Docking"
+                    inline = $false
+                  }
+                  @{
+                    name = "🎯 Target Frameworks"
+                    value = ".NET 4.7.2, 4.8, 4.8.1, 8.0, 9.0, 10.0"
+                    inline = $false
+                  }
+                  @{
+                    name = "🔗 NuGet Packages"
+                    value = "[Toolkit](https://www.nuget.org/packages/Krypton.Toolkit) • [Ribbon](https://www.nuget.org/packages/Krypton.Ribbon) • [Navigator](https://www.nuget.org/packages/Krypton.Navigator) • [Workspace](https://www.nuget.org/packages/Krypton.Workspace) • [Docking](https://www.nuget.org/packages/Krypton.Docking)"
+                    inline = $false
+                  }
+                  @{
+                    name = "📥 GitHub Release"
+                    value = "[Download Archives](https://github.com/${{ github.repository }}/releases/tag/${{ steps.get_version.outputs.tag }})"
+                    inline = $false
+                  }
+                )
+                footer = @{
+                  text = "Released"
+                }
+                timestamp = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ")
+              }
+            )
+          } | ConvertTo-Json -Depth 10
+          
+          Invoke-RestMethod -Uri "${{ secrets.DISCORD_WEBHOOK_MASTER }}" -Method Post -Body $payload -ContentType "application/json"
+        env:
+          DISCORD_WEBHOOK_MASTER: ${{ secrets.DISCORD_WEBHOOK_MASTER }}
+
+  release-v85-lts:
+    runs-on: windows-2022
+    if: github.ref == 'refs/heads/V85-LTS' && github.event_name == 'push'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      # .NET 6 (LTS) - needed for net6.0-windows target
+      - name: Setup .NET 6
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 6.0.x
+
+      # .NET 7 - needed for net7.0-windows target
+      - name: Setup .NET 7
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 7.0.x
+
+      # .NET 8 (LTS) - needed for net8.0-windows target and to build all framework targets
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+        with:
+          msbuild-architecture: x64
+
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v1.2.0
+
+      - name: Cache NuGet
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Restore
+        run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.sln"
+
+      - name: Build LTS Release
+        run: msbuild "Scripts/longtermstable.proj" /t:Build /p:Configuration=Release /p:Platform="Any CPU"
+
+      - name: Pack LTS Release
+        run: msbuild "Scripts/longtermstable.proj" /t:Pack /p:Configuration=Release /p:Platform="Any CPU"
+
+      - name: Push NuGet Packages to nuget.org
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          if (-not $env:NUGET_API_KEY) {
+            Write-Warning "NUGET_API_KEY not set - skipping NuGet push"
+            exit 0
+          }
+          
+          $packages = Get-ChildItem "Bin/Packages/Release/*.nupkg" -ErrorAction SilentlyContinue
+          
+          if ($packages) {
+            foreach ($package in $packages) {
+              Write-Output "Pushing LTS package: $($package.Name)"
+              try {
+                dotnet nuget push "$($package.FullName)" --api-key $env:NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
+              } catch {
+                Write-Warning "Failed to push $($package.Name): $_"
+              }
+            }
+          } else {
+            Write-Output "No NuGet packages found to push"
+          }
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+
+      - name: Get Version
+        id: get_version
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $version = $null
+          
+          # Try to get version from the built assembly (most reliable)
+          try {
+            $dllPath = Get-ChildItem "Bin/Release/net48/Krypton.Toolkit.dll" -ErrorAction Stop
+            $assemblyVersion = [System.Reflection.AssemblyName]::GetAssemblyName($dllPath.FullName).Version
+            $version = $assemblyVersion.ToString()
+            Write-Host "Got version from assembly: $version"
+          } catch {
+            Write-Host "Could not read version from assembly: $_"
+          }
+          
+          # Fallback: Try to read from csproj XML
+          if (-not $version) {
+            try {
+              $proj = 'Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj'
+              [xml]$projXml = Get-Content $proj
+              $versionNode = $projXml.SelectSingleNode("//Version")
+              if ($versionNode) {
+                $version = $versionNode.InnerText.Trim()
+                Write-Host "Got version from csproj: $version"
+              }
+            } catch {
+              Write-Host "Could not read version from csproj: $_"
+            }
+          }
+          
+          # Last resort fallback
+          if (-not $version) {
+            Write-Warning "Version not found, using fallback."
+            $version = "85.25.1.1"
+          }
+          
+          Write-Host "Final determined version: $version"
+          echo "version=$version" >> $env:GITHUB_OUTPUT
+          echo "tag=v$version-lts" >> $env:GITHUB_OUTPUT
+
+      - name: Announce LTS Release on Discord
+        run: |
+          $payload = @{
+            embeds = @(
+              @{
+                title = "🛡️ Krypton Toolkit LTS Release"
+                description = "A new Long-Term Support release is now available!"
+                color = 15105570
+                fields = @(
+                  @{
+                    name = "📌 Version"
+                    value = "``${{ steps.get_version.outputs.version }}``"
+                    inline = $true
+                  }
+                  @{
+                    name = "📦 NuGet Packages"
+                    value = "- Krypton.Toolkit.LTS`n- Krypton.Ribbon.LTS`n- Krypton.Navigator.LTS`n- Krypton.Workspace.LTS`n- Krypton.Docking.LTS"
+                    inline = $false
+                  }
+                  @{
+                    name = "🎯 Target Frameworks"
+                    value = ".NET 4.6.2, 4.7, 4.7.1, 4.7.2, 4.8, 4.8.1, 6.0, 7.0, 8.0"
+                    inline = $false
+                  }
+                  @{
+                    name = "🔗 NuGet Packages"
+                    value = "[Toolkit.LTS](https://www.nuget.org/packages/Krypton.Toolkit.LTS) • [Ribbon.LTS](https://www.nuget.org/packages/Krypton.Ribbon.LTS) • [Navigator.LTS](https://www.nuget.org/packages/Krypton.Navigator.LTS) • [Workspace.LTS](https://www.nuget.org/packages/Krypton.Workspace.LTS) • [Docking.LTS](https://www.nuget.org/packages/Krypton.Docking.LTS)"
+                    inline = $false
+                  }
+                )
+                footer = @{
+                  text = "Released"
+                }
+                timestamp = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ")
+              }
+            )
+          } | ConvertTo-Json -Depth 10
+          
+          Invoke-RestMethod -Uri "${{ secrets.DISCORD_WEBHOOK_LTS }}" -Method Post -Body $payload -ContentType "application/json"
+        env:
+          DISCORD_WEBHOOK_LTS: ${{ secrets.DISCORD_WEBHOOK_LTS }}
+
+  release-canary:
+    runs-on: windows-2022
+    if: github.ref == 'refs/heads/canary' && github.event_name == 'push'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      # .NET 9 (GA)
+      - name: Setup .NET 9
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+
+      # .NET 10 (Preview)
+      - name: Setup .NET 10 (preview)
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+          dotnet-quality: preview
+
+      # global.json dynamically generate
+      - name: Force .NET 10 SDK via global.json
+        run: |
+          $sdkVersion = (dotnet --list-sdks | Select-String "10.0").ToString().Split(" ")[0]
+          Write-Output "Using SDK $sdkVersion"
+          @"
+          {
+            "sdk": {
+              "version": "$sdkVersion",
+              "rollForward": "latestFeature"
+            }
+          }
+          "@ | Out-File -Encoding utf8 global.json
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+        with:
+          msbuild-architecture: x64
+
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v1.2.0
+
+      - name: Cache NuGet
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Restore
+        run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.sln"
+
+      - name: Build Canary
+        run: msbuild "Scripts/canary.proj" /t:Build /p:Configuration=Canary /p:Platform="Any CPU"
+
+      - name: Pack Canary
+        run: msbuild "Scripts/canary.proj" /t:Pack /p:Configuration=Canary /p:Platform="Any CPU"
+
+      - name: Push NuGet Packages to nuget.org
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          if (-not $env:NUGET_API_KEY) {
+            Write-Warning "NUGET_API_KEY not set - skipping NuGet push"
+            exit 0
+          }
+          
+          $packages = Get-ChildItem "Bin/Packages/Canary/*.nupkg" -ErrorAction SilentlyContinue
+          
+          if ($packages) {
+            foreach ($package in $packages) {
+              Write-Output "Pushing package: $($package.Name)"
+              try {
+                dotnet nuget push "$($package.FullName)" --api-key $env:NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
+              } catch {
+                Write-Warning "Failed to push $($package.Name): $_"
+              }
+            }
+          } else {
+            Write-Output "No NuGet packages found to push"
+          }
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+
+      - name: Get Version
+        id: get_version
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $version = $null
+          
+          # Try to get version from the built assembly (most reliable)
+          try {
+            $dllPath = Get-ChildItem "Bin/Canary/net48/Krypton.Toolkit.dll" -ErrorAction Stop
+            $assemblyVersion = [System.Reflection.AssemblyName]::GetAssemblyName($dllPath.FullName).Version
+            $version = $assemblyVersion.ToString()
+            Write-Host "Got version from assembly: $version"
+          } catch {
+            Write-Host "Could not read version from assembly: $_"
+          }
+          
+          # Fallback: Try to read from csproj XML
+          if (-not $version) {
+            try {
+              $proj = 'Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj'
+              [xml]$projXml = Get-Content $proj
+              $versionNode = $projXml.SelectSingleNode("//Version")
+              if ($versionNode) {
+                $version = $versionNode.InnerText.Trim()
+                Write-Host "Got version from csproj: $version"
+              }
+            } catch {
+              Write-Host "Could not read version from csproj: $_"
+            }
+          }
+          
+          # Last resort fallback
+          if (-not $version) {
+            Write-Warning "Version not found, using fallback."
+            $version = "100.25.1.1"
+          }
+          
+          Write-Host "Final determined version: $version"
+          echo "version=$version" >> $env:GITHUB_OUTPUT
+          echo "tag=v$version-canary" >> $env:GITHUB_OUTPUT
+
+      - name: Announce Canary Release on Discord
+        run: |
+          $payload = @{
+            embeds = @(
+              @{
+                title = "🐤 Krypton Toolkit Canary Release"
+                description = "A new canary pre-release is now available for early testing!"
+                color = 16776960
+                fields = @(
+                  @{
+                    name = "📌 Version"
+                    value = "``${{ steps.get_version.outputs.version }}``"
+                    inline = $true
+                  }
+                  @{
+                    name = "📦 NuGet Packages"
+                    value = "- Krypton.Toolkit`n- Krypton.Ribbon`n- Krypton.Navigator`n- Krypton.Workspace`n- Krypton.Docking"
+                    inline = $false
+                  }
+                  @{
+                    name = "🎯 Target Frameworks"
+                    value = ".NET 4.7.2, 4.8, 4.8.1, 8.0, 9.0, 10.0"
+                    inline = $false
+                  }
+                  @{
+                    name = "🔗 NuGet Packages"
+                    value = "[Toolkit](https://www.nuget.org/packages/Krypton.Toolkit) • [Ribbon](https://www.nuget.org/packages/Krypton.Ribbon) • [Navigator](https://www.nuget.org/packages/Krypton.Navigator) • [Workspace](https://www.nuget.org/packages/Krypton.Workspace) • [Docking](https://www.nuget.org/packages/Krypton.Docking)"
+                    inline = $false
+                  }
+                )
+                footer = @{
+                  text = "Released"
+                }
+                timestamp = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ")
+              }
+            )
+          } | ConvertTo-Json -Depth 10
+          
+          Invoke-RestMethod -Uri "${{ secrets.DISCORD_WEBHOOK_CANARY }}" -Method Post -Body $payload -ContentType "application/json"
+        env:
+          DISCORD_WEBHOOK_CANARY: ${{ secrets.DISCORD_WEBHOOK_CANARY }}
+
+  release-alpha:
+    runs-on: windows-2022
+    if: (github.ref == 'refs/heads/alpha' && github.event_name == 'push') || github.event_name == 'schedule'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          ref: alpha
+
+      # .NET 9 (GA)
+      - name: Setup .NET 9
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+
+      # .NET 10 (Preview)
+      - name: Setup .NET 10 (preview)
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+          dotnet-quality: preview
+
+      # global.json dynamically generate
+      - name: Force .NET 10 SDK via global.json
+        run: |
+          $sdkVersion = (dotnet --list-sdks | Select-String "10.0").ToString().Split(" ")[0]
+          Write-Output "Using SDK $sdkVersion"
+          @"
+          {
+            "sdk": {
+              "version": "$sdkVersion",
+              "rollForward": "latestFeature"
+            }
+          }
+          "@ | Out-File -Encoding utf8 global.json
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+        with:
+          msbuild-architecture: x64
+
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v1.2.0
+
+      - name: Cache NuGet
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Restore
+        run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.sln"
+
+      - name: Build Alpha
+        run: msbuild "Scripts/nightly.proj" /t:Build /p:Configuration=Nightly /p:Platform="Any CPU"
+
+      - name: Pack Alpha
+        run: msbuild "Scripts/nightly.proj" /t:Pack /p:Configuration=Nightly /p:Platform="Any CPU"
+
+      - name: Push NuGet Packages to nuget.org
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          if (-not $env:NUGET_API_KEY) {
+            Write-Warning "NUGET_API_KEY not set - skipping NuGet push"
+            exit 0
+          }
+          
+          $packages = Get-ChildItem "Bin/Packages/Nightly/*.nupkg" -ErrorAction SilentlyContinue
+          
+          if ($packages) {
+            foreach ($package in $packages) {
+              Write-Output "Pushing package: $($package.Name)"
+              try {
+                dotnet nuget push "$($package.FullName)" --api-key $env:NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
+              } catch {
+                Write-Warning "Failed to push $($package.Name): $_"
+              }
+            }
+          } else {
+            Write-Output "No NuGet packages found to push"
+          }
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+
+      - name: Get Version
+        id: get_version
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $version = $null
+          
+          # Try to get version from the built assembly (most reliable)
+          try {
+            $dllPath = Get-ChildItem "Bin/Nightly/net48/Krypton.Toolkit.dll" -ErrorAction Stop
+            $assemblyVersion = [System.Reflection.AssemblyName]::GetAssemblyName($dllPath.FullName).Version
+            $version = $assemblyVersion.ToString()
+            Write-Host "Got version from assembly: $version"
+          } catch {
+            Write-Host "Could not read version from assembly: $_"
+          }
+          
+          # Fallback: Try to read from csproj XML
+          if (-not $version) {
+            try {
+              $proj = 'Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj'
+              [xml]$projXml = Get-Content $proj
+              $versionNode = $projXml.SelectSingleNode("//Version")
+              if ($versionNode) {
+                $version = $versionNode.InnerText.Trim()
+                Write-Host "Got version from csproj: $version"
+              }
+            } catch {
+              Write-Host "Could not read version from csproj: $_"
+            }
+          }
+          
+          # Last resort fallback
+          if (-not $version) {
+            Write-Warning "Version not found, using fallback."
+            $version = "100.25.1.1"
+          }
+          
+          Write-Host "Final determined version: $version"
+          echo "version=$version" >> $env:GITHUB_OUTPUT
+          echo "tag=v$version-nightly" >> $env:GITHUB_OUTPUT
+
+      - name: Announce Nightly Release on Discord
+        run: |
+          $payload = @{
+            embeds = @(
+              @{
+                title = "🚀 Krypton Toolkit Nightly Release"
+                description = "A new nightly build is now available for bleeding-edge testing!"
+                color = 10181046
+                fields = @(
+                  @{
+                    name = "📌 Version"
+                    value = "``${{ steps.get_version.outputs.version }}``"
+                    inline = $true
+                  }
+                  @{
+                    name = "📦 NuGet Packages"
+                    value = "- Krypton.Toolkit`n- Krypton.Ribbon`n- Krypton.Navigator`n- Krypton.Workspace`n- Krypton.Docking"
+                    inline = $false
+                  }
+                  @{
+                    name = "🎯 Target Frameworks"
+                    value = ".NET 4.7.2, 4.8, 4.8.1, 8.0, 9.0, 10.0"
+                    inline = $false
+                  }
+                  @{
+                    name = "🔗 NuGet Packages"
+                    value = "[Toolkit](https://www.nuget.org/packages/Krypton.Toolkit) • [Ribbon](https://www.nuget.org/packages/Krypton.Ribbon) • [Navigator](https://www.nuget.org/packages/Krypton.Navigator) • [Workspace](https://www.nuget.org/packages/Krypton.Workspace) • [Docking](https://www.nuget.org/packages/Krypton.Docking)"
+                    inline = $false
+                  }
+                )
+                footer = @{
+                  text = "Released"
+                }
+                timestamp = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ")
+              }
+            )
+          } | ConvertTo-Json -Depth 10
+          
+          Invoke-RestMethod -Uri "${{ secrets.DISCORD_WEBHOOK_NIGHTLY }}" -Method Post -Body $payload -ContentType "application/json"
+        env:
+          DISCORD_WEBHOOK_NIGHTLY: ${{ secrets.DISCORD_WEBHOOK_NIGHTLY }}

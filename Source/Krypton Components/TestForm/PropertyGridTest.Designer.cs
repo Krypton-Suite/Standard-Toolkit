@@ -52,7 +52,7 @@
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
             this.kryptonPanel1.Padding = new System.Windows.Forms.Padding(5);
-            this.kryptonPanel1.Size = new System.Drawing.Size(425, 634);
+            this.kryptonPanel1.Size = new System.Drawing.Size(427, 628);
             this.kryptonPanel1.TabIndex = 0;
             // 
             // kryptonGroupBox1
@@ -63,7 +63,7 @@
             // kryptonGroupBox1.Panel
             // 
             this.kryptonGroupBox1.Panel.Controls.Add(this.tableLayoutPanel1);
-            this.kryptonGroupBox1.Size = new System.Drawing.Size(415, 624);
+            this.kryptonGroupBox1.Size = new System.Drawing.Size(417, 618);
             this.kryptonGroupBox1.TabIndex = 0;
             this.kryptonGroupBox1.Values.Heading = "Property Grid";
             // 
@@ -84,7 +84,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(411, 600);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(413, 594);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // kpgExample
@@ -94,7 +94,7 @@
             this.kpgExample.Name = "kpgExample";
             this.kpgExample.Padding = new System.Windows.Forms.Padding(1);
             this.kpgExample.SelectedObject = this;
-            this.kpgExample.Size = new System.Drawing.Size(405, 504);
+            this.kpgExample.Size = new System.Drawing.Size(407, 498);
             this.kpgExample.TabIndex = 0;
             // 
             // kryptonThemeComboBox1
@@ -104,9 +104,9 @@
             this.kryptonThemeComboBox1.DefaultPalette = Krypton.Toolkit.PaletteMode.Microsoft365Blue;
             this.kryptonThemeComboBox1.DropDownWidth = 276;
             this.kryptonThemeComboBox1.IntegralHeight = false;
-            this.kryptonThemeComboBox1.Location = new System.Drawing.Point(3, 513);
+            this.kryptonThemeComboBox1.Location = new System.Drawing.Point(3, 507);
             this.kryptonThemeComboBox1.Name = "kryptonThemeComboBox1";
-            this.kryptonThemeComboBox1.Size = new System.Drawing.Size(405, 22);
+            this.kryptonThemeComboBox1.Size = new System.Drawing.Size(407, 22);
             this.kryptonThemeComboBox1.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kryptonThemeComboBox1.TabIndex = 1;
             // 
@@ -114,9 +114,9 @@
             // 
             this.kbtnStressTest.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.kbtnStressTest.Location = new System.Drawing.Point(3, 541);
+            this.kbtnStressTest.Location = new System.Drawing.Point(3, 535);
             this.kbtnStressTest.Name = "kbtnStressTest";
-            this.kbtnStressTest.Size = new System.Drawing.Size(405, 25);
+            this.kbtnStressTest.Size = new System.Drawing.Size(407, 25);
             this.kbtnStressTest.TabIndex = 2;
             this.kbtnStressTest.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnStressTest.Values.Text = "Run Drawing Stress Test (After Fix)";
@@ -126,9 +126,9 @@
             // 
             this.kbtnStressTestBeforeFix.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.kbtnStressTestBeforeFix.Location = new System.Drawing.Point(3, 572);
+            this.kbtnStressTestBeforeFix.Location = new System.Drawing.Point(3, 566);
             this.kbtnStressTestBeforeFix.Name = "kbtnStressTestBeforeFix";
-            this.kbtnStressTestBeforeFix.Size = new System.Drawing.Size(405, 25);
+            this.kbtnStressTestBeforeFix.Size = new System.Drawing.Size(407, 25);
             this.kbtnStressTestBeforeFix.TabIndex = 3;
             this.kbtnStressTestBeforeFix.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnStressTestBeforeFix.Values.Text = "Run Drawing Stress Test (Before Fix)";
@@ -138,12 +138,14 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(425, 634);
+            this.ClientSize = new System.Drawing.Size(427, 628);
             this.Controls.Add(this.kryptonPanel1);
+            this.Location = new System.Drawing.Point(0, 0);
             this.MinimumSize = new System.Drawing.Size(310, 350);
             this.Name = "PropertyGridTest";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "PropertyGridTest";
+            this.Controls.SetChildIndex(this.kryptonPanel1, 0);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
             this.kryptonPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1.Panel)).EndInit();

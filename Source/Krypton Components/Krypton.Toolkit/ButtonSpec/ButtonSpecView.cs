@@ -380,7 +380,7 @@ public class ButtonSpecView : GlobalId,
     {
         var performFinishDelegate = true;
         // Never show a context menu in design mode
-        if (!CommonHelper.DesignMode(Manager.Control))
+        if (!CommonHelper.DesignMode())
         {
             // ButtonSpec's used to drop menu's if they had a context menu;
             // BUT; Disable default action, if this is a drop button and it is clicked

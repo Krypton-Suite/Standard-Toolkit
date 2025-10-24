@@ -35,7 +35,19 @@ public partial class PanelForm : KryptonForm
         kryptonDataGridView1.DataSource = dt;
 
         propertyGrid1.SelectedObject = null;
-        propertyGrid1.SelectedObject = Column12;
+        propertyGrid1.SelectedObject = this;
+
+        var items = new KryptonContextMenuItems();
+        items.Items.Add(new KryptonContextMenuSeparator());
+        var file = new KryptonContextMenuItem("File");
+        items.Items.Add(file);
+        SystemMenuValues.MenuItems.Add(items);
+
+        items = new KryptonContextMenuItems();
+        items.Items.Add(new KryptonContextMenuItem("Open"));
+        items.Items.Add(new KryptonContextMenuItem("Close"));
+        items.Items.Add(new KryptonContextMenuItem("Delete"));
+        file.Items.Add(items);
 
     }
 

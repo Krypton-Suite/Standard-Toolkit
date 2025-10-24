@@ -187,5 +187,6 @@ internal static class ThemeChangeCoordinator
 
             return false;
         }
+
     }
 }

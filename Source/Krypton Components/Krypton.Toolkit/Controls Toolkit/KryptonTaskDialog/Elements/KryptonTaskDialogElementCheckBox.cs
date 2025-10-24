@@ -20,19 +20,29 @@ public class KryptonTaskDialogElementCheckBox : KryptonTaskDialogElementSingleLi
     public KryptonTaskDialogElementCheckBox(KryptonTaskDialogDefaults taskDialogDefaults) 
         : base(taskDialogDefaults, 1)
     {
-        Panel.Width = Defaults.ClientWidth;
-
-        _checkBox = new();
-        _checkBox.AutoSize = true;
-        _checkBox.Padding = new Padding(Defaults.ComponentSpace, 0, 0, 0);
-        _checkBox.Margin = Defaults.NullMargin;
-        _checkBox.CheckState = CheckState.Unchecked;
-
-        _tlp.Controls.Add(_checkBox, 0, 0);
+        SetupPanel();
 
         LayoutDirty = true;
     }
 
+    #region Private
+    private void SetupControls()
+    {
+        _checkBox = new();
+        _checkBox.AutoSize = true;
+        _checkBox.Padding = new Padding( Defaults.ComponentSpace, 0, 0, 0 );
+        _checkBox.Margin = Defaults.NullMargin;
+        _checkBox.CheckState = CheckState.Unchecked;
+    }
+
+    private void SetupPanel()
+    {
+        Panel.Width = Defaults.ClientWidth;
+        SetupControls();
+
+        _tlp.Controls.Add( _checkBox, 0, 0 );
+    }
+    #endregion
     #region Protected/Internal
     /// <inheritdoc/>
     protected override void OnSizeChanged(bool performLayout = false)

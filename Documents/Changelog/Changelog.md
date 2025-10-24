@@ -2,7 +2,15 @@
 
 ====
 
-## 2025-11-xx - Build 2511 (V10 - alpha) - November 2025
+## 2025-11-11 - Build 2511 (V10 RTM) - November 2025
+
+* Resolved [#2542](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2542), `KryptonForm` cannot be resized by dragging upper corners.
+* Implemented [#2575](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2575), **[Breaking Change]** `CommonHelper.DesignMode()` behaviour changed, see issue for details.
+* Implemented [#2559](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2559), Allow `release.yml` to automatically push packages
+* Resolved [#2331](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2331), Correction of edges, 3D effect and color adjustment in `KryptonRibbon` in Office 2010 themes.
+* Resolved [#2548](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2548), Fixed color assignment for `GroupSeparatorLight`, `QATButtonDarkColor` and `QATButtonLightColor` in `PopulateFromBase`.
+* Resolved [#2461](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2461), (feat) Add `KryptonCalcInput` edit+dropdown control.
+* Resolved [#2480](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2480). `KryptonForm`'s 'InternalPanel' designer issues
 * Resolved [#2512](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2512), Added borders with straight corners (`LinearBorder2`) and adjusted the colors in the `KryptonRibbon` in the `Microsoft365` themes. Adjusted the design of the `RibbonQATButton`
 * Implemented [#2503](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2503), Add the ability to create zip files for binaries
 * Implemented [#952](https://github.com/Krypton-Suite/Standard-Toolkit/issues/952), Place built NuGet packages into separate directory
@@ -12,11 +20,10 @@
 * Resolved [#2492](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2492), `KryptonForm` does not display '(Administrator)' when elevated
 * Resolved [#2502](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2502), **[Breaking Change]** `KryptonCommandLinkButton` updates several properties and their behaviour. See issue for full details.
 * Resolved [#2495](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2495), `KryptonProgressBar` private field `_mementoContent` can be null.
-* Resolved [#2490](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2490), `KryptonComboBox` uses an incorrect Items editor string.
+* Resolved [#2490](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2490), `KryptonComboBox`, `KCheckListBox`, `KryptonListBox` & `KryptonDomainUpDown` use an incorrect Items editor string.
 * Resolved [#2487](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2487), `PaletteBase.PalettePaint` event is not synchronized toward the user.
 * Implemented [#2446](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2446), Add `build.yml` to `.github/workflows`.
 * Implemented [#1376](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1376),  **[Breaking Change]**  `KryptonTaskDialog` has had a full overhaul. Please refer to the ticket for full details, status and code sample to get started.
-* Implemented [#648](https://github.com/Krypton-Suite/Standard-Toolkit/issues/648), SystemMenu to be theme related
 * Resolved [#2128](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2128), (feat) Add `ButtonSpecs` to `KDataGridView` cells when editing.
 * Resolved [#2463](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2463), `KryptonForm` has incorrect title-bar button behaviour.
 * Resolved [#2452](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2452), Fix: prevent resizing on fixed borders; gate Material hit-band by FormBorderStyle.

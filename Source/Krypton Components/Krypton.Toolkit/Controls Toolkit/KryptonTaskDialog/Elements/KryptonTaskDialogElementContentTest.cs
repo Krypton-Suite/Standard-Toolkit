@@ -40,7 +40,7 @@ public class KryptonTaskDialogElementContentTest : KryptonTaskDialogElementBase,
             Size = new Size(_tlpWidth, 0),
             Location = new Point(Defaults.PanelLeft, Defaults.PanelTop)
         };
-
+        _tlp.SetDoubleBuffered(true);
         _tlp.RowStyles.Clear();
         _tlp.ColumnStyles.Clear();
 
@@ -72,7 +72,7 @@ public class KryptonTaskDialogElementContentTest : KryptonTaskDialogElementBase,
 
         Panel.Controls.Add(_tlp);
         //Panel.Controls.Add(_description);
-        //Panel.Controls.Add(_textControl);
+        //Panel.Controls.Add(_textBox);
 
         _tlp.Controls.Add(_description, 0, 0);
         _tlp.Controls.Add(_textControl, 0, 1);

@@ -29,6 +29,32 @@ public class KryptonForm : VisualForm,
 {
     #region Type Definitions
 
+    internal class FormPaletteRedirect : PaletteRedirect
+    {
+        private readonly KryptonForm _kryptonForm;
+
+        public FormPaletteRedirect(PaletteBase palette, KryptonForm kryptonForm)
+            : base(palette)
+        {
+            _kryptonForm = kryptonForm;
+        }
+
+        public override PaletteRelativeAlign GetContentShortTextH(PaletteContentStyle style, PaletteState state) => style switch
+        {
+            PaletteContentStyle.HeaderForm
+                or PaletteContentStyle.HeaderPrimary
+                or PaletteContentStyle.HeaderDockInactive
+                or PaletteContentStyle.HeaderDockActive
+                or PaletteContentStyle.HeaderSecondary
+                or PaletteContentStyle.HeaderCustom1
+                or PaletteContentStyle.HeaderCustom2
+                or PaletteContentStyle.HeaderCustom3 => _kryptonForm._formTitleAlign != PaletteRelativeAlign.Inherit
+                    ? _kryptonForm._formTitleAlign
+                    : base.GetContentShortTextH(style, state),
+            _ => base.GetContentShortTextH(style, state)
+        };
+    }
+
     /// <summary>
     /// Collection for managing ButtonSpecAny instances.
     /// </summary>
@@ -109,14 +135,11 @@ public class KryptonForm : VisualForm,
     private int _foundRibbonOffset = -1;
     private readonly KryptonPanel _internalKryptonPanel;
     // Compensate for Windows 11 outer accent border by shrinking the window region slightly
-    private const int NON_CLIENT_REGION_INSET = 4;
-    private readonly KryptonThemedSystemMenuService? _themedSystemMenuService;
-    private ThemedSystemMenuValues _themedSystemMenuValues;
     private Rectangle _lastGripClientRect = Rectangle.Empty;
-    private Rectangle _lastGripWindowRect = Rectangle.Empty;
     private Timer? _clickTimer;
-    private Point _lastClickPoint;
-
+    private KryptonSystemMenu? _kryptonSystemMenu;
+    // SystemMenu context menu components
+    private KryptonContextMenu _systemMenuContextMenu;
     #endregion
 
     #region Identity
@@ -209,24 +232,6 @@ public class KryptonForm : VisualForm,
             CreateToolStripRenderer,
             OnNeedPaint);
 
-        _themedSystemMenuService = new KryptonThemedSystemMenuService(this);
-        _themedSystemMenuValues = new ThemedSystemMenuValues(OnNeedPaint);
-        
-        // Assign the service to the base class
-        SystemMenuService = _themedSystemMenuService;
-        
-        // Synchronize the values with the themed system menu service
-        //_themedSystemMenuService.ShowThemedSystemMenuOnLeftClick = _themedSystemMenuValues.ShowOnLeftClick;
-        _themedSystemMenuService.ShowThemedSystemMenuOnRightClick = _themedSystemMenuValues.ShowOnRightClick;
-        _themedSystemMenuService.ShowThemedSystemMenuOnAltSpace = _themedSystemMenuValues.ShowOnAltSpace;
-        // Note: ShowOnIconClick is handled separately in click event handlers
-        
-        // Connect designer menu items
-        _themedSystemMenuService.ThemedSystemMenu.DesignerMenuItems = _themedSystemMenuValues.CustomMenuItems;
-        
-        // Hook into value changes to keep them synchronized
-        _themedSystemMenuValues.PropertyChanged += OnThemedSystemMenuValuesChanged;
-
         // Initialize administrator mode detection
         _ = GetIsInAdministratorMode();
 
@@ -254,8 +259,40 @@ public class KryptonForm : VisualForm,
         // #1979 Temporary fix
         base.PaletteChanged += (s, e) => _internalKryptonPanel.PaletteMode = PaletteMode;
         // END #1979 Temporary fix
-    }
 
+        // Instantiate system menu items only to keep the compiler happy
+        _systemMenuContextMenu = new();
+
+        SystemMenuValues = new (_systemMenuContextMenu);
+
+        // Init only here. Must instantiate in OnHandleCreated
+        _kryptonSystemMenu = null;
+    }
+    #endregion
+
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public SystemMenuValues SystemMenuValues { get; }
+    public bool ShouldSerializeSystemMenuValues() => !SystemMenuValues.IsDefault;
+    public void ResetSystemMenuValues() => SystemMenuValues.Reset();
+
+    #region Private
+    private void SetupSystemMenu() 
+    {
+        if (!DesignMode)
+        {
+            _kryptonSystemMenu = new(this, _drawContent, _systemMenuContextMenu);
+
+            // When the _kryptonSystemMenu is instantiated the listener is not enabled by default.
+            // From there SystemMenuValues.Enabled will trigger and control if the listener to be active or not.
+            if (SystemMenuValues.Enabled)
+            {
+                _kryptonSystemMenu.EnableListener();
+            }
+        }
+    }
+    #endregion
+
+    #region Private SizeGrip
     private float GetDpiFactor() => DeviceDpi / 96F;
 
     /// <summary>
@@ -449,7 +486,9 @@ public class KryptonForm : VisualForm,
                     0, 0, scaled.Width, scaled.Height, GraphicsUnit.Pixel, ia1);
         return true;
     }
+    #endregion
 
+    #region IDispose
     /// <summary>
     /// Releases all resources used by the Control.
     /// </summary>
@@ -479,13 +518,13 @@ public class KryptonForm : VisualForm,
                 _cacheBitmap = null;
             }
 
+            // Dispose of the system menu, which will in turn release any open handle in the listener
+            _kryptonSystemMenu?.Dispose();
+
             ButtonSpecMin.Dispose();
             ButtonSpecMax.Dispose();
             ButtonSpecClose.Dispose();
 
-            // Dispose the themed system menu service
-            _themedSystemMenuService?.Dispose();
-            
             // Dispose the click timer
             _clickTimer?.Dispose();
         }
@@ -709,8 +748,6 @@ public class KryptonForm : VisualForm,
             {
                 base.MinimizeBox = value;
                 _buttonManager.PerformNeedPaint(true);
-                // Refresh the themed system menu to reflect the new state
-                _themedSystemMenuService?.ThemedSystemMenu?.Refresh();
             }
         }
     }
@@ -732,8 +769,6 @@ public class KryptonForm : VisualForm,
             {
                 base.MaximizeBox = value;
                 _buttonManager.PerformNeedPaint(true);
-                // Refresh the themed system menu to reflect the new state
-                _themedSystemMenuService?.ThemedSystemMenu?.Refresh();
             }
         }
     }
@@ -776,8 +811,6 @@ public class KryptonForm : VisualForm,
                 base.FormBorderStyle = value;
                 OnFormBorderStyleChanged();
                 _buttonManager.PerformNeedPaint(true);
-                // Refresh the themed system menu to reflect the new state
-                _themedSystemMenuService?.ThemedSystemMenu?.Refresh();
             }
         }
     }
@@ -785,6 +818,7 @@ public class KryptonForm : VisualForm,
     /// <summary>
     /// Access to the Internal KryptonPanel.
     /// </summary>
+    [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public KryptonPanel InternalPanel => _internalKryptonPanel;
 
@@ -1127,97 +1161,11 @@ public class KryptonForm : VisualForm,
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public bool AllowIconDisplay { get; set; }
 
-
-
-
-
-    /// <summary>
-    /// Gets access to the themed system menu values for configuration.
-    /// </summary>
-    [Category(@"Appearance")]
-    [Description(@"Configuration values for the themed system menu.")]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-    public ThemedSystemMenuValues SystemMenuValues
-    {
-        get => _themedSystemMenuValues ??= new ThemedSystemMenuValues(OnNeedPaint);
-        set
-        {
-            if (_themedSystemMenuValues != value)
-            {
-                // Unhook from old values
-                if (_themedSystemMenuValues != null)
-                {
-                    _themedSystemMenuValues.PropertyChanged -= OnThemedSystemMenuValuesChanged;
-                }
-                
-                _themedSystemMenuValues = value;
-                
-                // Hook into new values
-                if (_themedSystemMenuValues != null)
-                {
-                    _themedSystemMenuValues.PropertyChanged += OnThemedSystemMenuValuesChanged;
-                }
-                
-                // Synchronize with the themed system menu service
-                if (_themedSystemMenuService != null && _themedSystemMenuValues != null)
-                {
-                    //_themedSystemMenuService.ShowThemedSystemMenuOnLeftClick = _themedSystemMenuValues.ShowOnLeftClick;
-                    _themedSystemMenuService.ShowThemedSystemMenuOnRightClick = _themedSystemMenuValues.ShowOnRightClick;
-                    _themedSystemMenuService.ShowThemedSystemMenuOnAltSpace = _themedSystemMenuValues.ShowOnAltSpace;
-                    // Note: ShowOnIconClick is handled separately in click event handlers
-                }
-                
-                PerformNeedPaint(true);
-            }
-        }
-    }
-
-    private bool ShouldSerializeSystemMenuValues() => _themedSystemMenuValues?.ShouldSerialize() == true;
-
-    private void ResetSystemMenuValues() => _themedSystemMenuValues?.Reset();
-
-    /*/// <summary>
-    /// Gets or sets a value indicating if the themed system menu is enabled.
-    /// </summary>
-    [Category(@"Appearance")]
-    [Description(@"Enables or disables the themed system menu that replaces the native Windows system menu.")]
-    [DefaultValue(true)]
-    public bool UseThemedSystemMenu
-    {
-        get => _themedSystemMenuValues?.Enabled ?? true;
-        set
-        {
-            if (_themedSystemMenuValues != null)
-            {
-                _themedSystemMenuValues.Enabled = value;
-            }
-        }
-    }
-
-    private bool ShouldSerializeUseThemedSystemMenu() => _themedSystemMenuValues?.Enabled != true;
-
-    private void ResetUseThemedSystemMenu()
-    {
-        if (_themedSystemMenuValues != null)
-        {
-            _themedSystemMenuValues.ResetUseThemedSystemMenu();
-        }
-    }*/
-
-
     /// <summary>
     /// Next time a layout occurs the min/max/close buttons need recreating.
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public void RecreateMinMaxCloseButtons() => _recreateButtons = true;
-
-    /// <summary>
-    /// Gets access to the themed system menu for advanced customization.
-    /// </summary>
-    [Browsable(false)]
-    [EditorBrowsable(EditorBrowsableState.Advanced)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public override IKryptonThemedSystemMenu? KryptonSystemMenu => _themedSystemMenuService?.ThemedSystemMenu;
 
     /// <summary>
     /// Gets access to the ToolTipManager used for displaying tool tips.
@@ -1275,11 +1223,7 @@ public class KryptonForm : VisualForm,
             UpdateTitleStyle(value);
         }
     }
-
-
-
-
-
+    
     /// <summary>
     /// Gets or sets a value indicating whether the form has a control box.
     /// </summary>
@@ -1294,14 +1238,10 @@ public class KryptonForm : VisualForm,
             if (base.ControlBox != value)
             {
                 base.ControlBox = value;
-                // Refresh the themed system menu to reflect the new state
-                _themedSystemMenuService?.ThemedSystemMenu?.Refresh();
             }
         }
     }
-
-
-
+    
     #endregion
 
     #region Public Chrome
@@ -1442,36 +1382,34 @@ public class KryptonForm : VisualForm,
 
     #endregion
 
-    #region Protected Override
+    #region Protected/Internal Override
+    /// <inheritdoc/>
+    internal override bool IsOnControlButtons(Point screenPoint)
+    {
+        // Convert screen coordinates to window coordinates
+        var windowPoint = ScreenToWindow(screenPoint);
+
+        // Check if the point is over any of the control buttons
+        return _buttonManager.GetButtonRectangle(ButtonSpecMin).Contains(windowPoint) ||
+               _buttonManager.GetButtonRectangle(ButtonSpecMax).Contains(windowPoint) ||
+               _buttonManager.GetButtonRectangle(ButtonSpecClose).Contains(windowPoint);
+    }
+
+    /// <inheritdoc/>
+    internal override bool IsInTitleBarArea(Point screenPoint)
+    {
+        // Convert screen coordinates to window coordinates
+        var windowPoint = ScreenToWindow(screenPoint);
+
+        // Check if the point is in the title bar area (above the client area)
+        return windowPoint.Y < _drawHeading.ClientRectangle.Height;
+    }
+
     /// <summary>
     /// Create the redirector instance.
     /// </summary>
     /// <returns>PaletteRedirect derived class.</returns>
     protected override PaletteRedirect CreateRedirector() => new FormPaletteRedirect(GetResolvedPalette() ?? KryptonManager.CurrentGlobalPalette, this);
-
-    internal class FormPaletteRedirect : PaletteRedirect
-    {
-        private readonly KryptonForm _kryptonForm;
-
-        public FormPaletteRedirect(PaletteBase palette, KryptonForm kryptonForm)
-            : base(palette) =>
-            _kryptonForm = kryptonForm;
-
-        public override PaletteRelativeAlign GetContentShortTextH(PaletteContentStyle style, PaletteState state) => style switch
-        {
-            PaletteContentStyle.HeaderForm
-                or PaletteContentStyle.HeaderPrimary
-                or PaletteContentStyle.HeaderDockInactive
-                or PaletteContentStyle.HeaderDockActive
-                or PaletteContentStyle.HeaderSecondary
-                or PaletteContentStyle.HeaderCustom1
-                or PaletteContentStyle.HeaderCustom2
-                or PaletteContentStyle.HeaderCustom3 => _kryptonForm._formTitleAlign != PaletteRelativeAlign.Inherit
-                    ? _kryptonForm._formTitleAlign
-                    : base.GetContentShortTextH(style, state),
-            _ => base.GetContentShortTextH(style, state)
-        };
-    }
 
     /// <summary>
     /// Raises the ControlAdded event.
@@ -1541,9 +1479,6 @@ public class KryptonForm : VisualForm,
     protected override void OnShown(EventArgs e)
     {
         base.OnShown(e);
-
-        // Ensure proper positioning after the form is shown and custom chrome is applied
-        EnsureProperFormPositioning();
     }
 
     /// <summary>
@@ -1668,8 +1603,6 @@ public class KryptonForm : VisualForm,
         RecalcNonClient();
     }
 
-
-
     /// <inheritdoc />
     protected override void WndProc(ref Message m)
     {
@@ -1714,26 +1647,6 @@ public class KryptonForm : VisualForm,
                 return;
             }
         }
-        else if (m.Msg == PI.WM_.NCRBUTTONDOWN)
-        {
-            // Handle right-click in non-client area (title bar and control buttons)
-            // Only show themed system menu if ControlBox is true (same behavior as native system menu)
-            if (ControlBox && _themedSystemMenuValues.Enabled  && _themedSystemMenuValues.ShowOnRightClick && _themedSystemMenuService != null &&
-                _themedSystemMenuService.ShowThemedSystemMenuOnRightClick)
-            {
-                // Get the screen coordinates from the message
-                var screenPoint = new Point(PI.GET_X_LPARAM(m.LParam), PI.GET_Y_LPARAM(m.LParam));
-
-                // Check if the click is in the title bar area (including control buttons)
-                if (IsInTitleBarArea(screenPoint))
-                {
-                    ShowThemedSystemMenu(screenPoint);
-                    m.Result = IntPtr.Zero;
-                    return;
-                }
-            }
-        }
-
 
         // Let default processing run first
         base.WndProc(ref m);
@@ -1754,7 +1667,6 @@ public class KryptonForm : VisualForm,
                 var oldClient = new PI.RECT { left = _lastGripClientRect.Left, top = _lastGripClientRect.Top, right = _lastGripClientRect.Right, bottom = _lastGripClientRect.Bottom };
                 PI.RedrawWindow(Handle, ref oldClient, IntPtr.Zero, PI.RDW_INVALIDATE | PI.RDW_ALLCHILDREN | PI.RDW_UPDATENOW);
                 _lastGripClientRect = Rectangle.Empty;
-                _lastGripWindowRect = Rectangle.Empty;
             }
             return;
         }
@@ -1767,7 +1679,6 @@ public class KryptonForm : VisualForm,
             var oldClient = new PI.RECT { left = _lastGripClientRect.Left, top = _lastGripClientRect.Top, right = _lastGripClientRect.Right, bottom = _lastGripClientRect.Bottom };
             PI.RedrawWindow(Handle, ref oldClient, IntPtr.Zero, PI.RDW_INVALIDATE | PI.RDW_ALLCHILDREN | PI.RDW_UPDATENOW);
             _lastGripClientRect = Rectangle.Empty;
-            _lastGripWindowRect = Rectangle.Empty;
         }
 
         IntPtr hDC = PI.GetWindowDC(Handle);
@@ -1784,7 +1695,6 @@ public class KryptonForm : VisualForm,
             {
                 DrawSizingGrip(g, newRect);
             }
-            _lastGripWindowRect = newRect;
             _lastGripClientRect = newClientRect;
         }
         finally
@@ -1803,6 +1713,8 @@ public class KryptonForm : VisualForm,
         base.OnNonClientPaint(hWnd);
     }
 
+
+    // TODO: is stale but is it usable
     private Rectangle GetGripClientRect()
     {
         var dpi = GetDpiFactor();
@@ -1845,6 +1757,9 @@ public class KryptonForm : VisualForm,
         // Register with the ActiveFormTracker
         ActiveFormTracker.Attach(this);
 
+        // At runtime only, hookup the system menu.
+        SetupSystemMenu();
+
         // Ensure Material defaults are applied as early as possible for new forms
         ApplyMaterialFormChromeDefaultsIfNeeded();
     }
@@ -1885,13 +1800,23 @@ public class KryptonForm : VisualForm,
     }
 
     /// <summary>
-    /// Perform hit testing.
+    /// Perform hit testing to determine what part of the window the mouse is over.
+    /// Uses standard hit testing in design mode to prevent designer interference.
     /// </summary>
+    /// <remarks>
+    /// <para><strong>DESIGN MODE PROTECTION:</strong> Uses IsInDesignMode() to prevent custom hit testing
+    /// from interfering with Visual Studio designer operations. In design mode,
+    /// delegates to base class for standard hit testing behavior.</para>
+    /// 
+    /// <para><strong>RUNTIME BEHAVIOR:</strong> Custom hit testing for system menu, control buttons, borders</para>
+    /// <para><strong>DESIGN MODE BEHAVIOR:</strong> Standard hit testing (no custom chrome interference)</para>
+    /// </remarks>
     /// <param name="pt">Point in window coordinates.</param>
-    /// <returns></returns>
+    /// <returns>Hit test result indicating what part of window the point is over</returns>
     protected override IntPtr WindowChromeHitTest(Point pt)
     {
         Point originalPt = pt;
+
         if (CustomCaptionArea.Contains(pt))
         {
             return new IntPtr(PI.HT.CAPTION);
@@ -1933,12 +1858,6 @@ public class KryptonForm : VisualForm,
                 // Is the mouse over the image area
                 if (_drawContent.ImageRectangle(context).Contains(pt))
                 {
-                    // If themed system menu is enabled and icon click is enabled, treat as caption
-                    // so our custom OnWM_NCLBUTTONDOWN can handle it
-                    if (_themedSystemMenuValues.Enabled && _themedSystemMenuValues.ShowOnIconClick)
-                    {
-                        return new IntPtr(PI.HT.CAPTION);
-                    }
                     // Otherwise, let Windows handle it with default system menu
                     return new IntPtr(PI.HT.MENU);
                 }
@@ -1984,23 +1903,8 @@ public class KryptonForm : VisualForm,
         // Scan up the view hierarchy until a recognized element is found
         while (mouseView != null)
         {
-                    // Is mouse over the caption bar?
-        if (mouseView == _drawHeading)
-        {
-            // Always allow moving when over the title bar area
-            // The title bar should be treated as a caption area for moving
-            return new IntPtr(PI.HT.CAPTION);
-        }
-        
-        // Additional check: if the mouse is in the top area of the form (title bar region)
-        // and we haven't identified a specific view, still allow moving
-        if (pt.Y < _drawHeading.ClientRectangle.Height)
-        {
-            return new IntPtr(PI.HT.CAPTION);
-        }
-
             // Is mouse over one of the borders?
-            if (isResizable && mouseView == _drawDocker)
+            if (isResizable && (mouseView == _drawDocker || pt.Y < _drawHeading.ClientRectangle.Height))
             {
                 // Is point over the left border?
                 if ((borders.Left > 0) && (pt.X <= borders.Left))
@@ -2047,6 +1951,13 @@ public class KryptonForm : VisualForm,
                 }
             }
 
+            // Additional check: if the mouse is in the top area of the form (title bar region)
+            // and we haven't identified a specific view, still allow moving
+            if (mouseView == _drawHeading || pt.Y < _drawHeading.ClientRectangle.Height)
+            {
+                return new IntPtr(PI.HT.CAPTION);
+            }
+
             // Mouse up another level
             mouseView = mouseView.Parent;
         }
@@ -2082,29 +1993,16 @@ public class KryptonForm : VisualForm,
             // Convert to window coordinates
             Point windowPoint = ScreenToWindow(screenPoint);
 
-            // Check if the mouse is over the Application icon image area
+            // Is the mouse over the Application icon image area
             if (_drawContent.ImageRectangle(context).Contains(windowPoint))
             {
-                            // Check if we should show the themed system menu on icon click
-            // Only show themed system menu if ControlBox is true (same behavior as native system menu)
-            if (ControlBox && _themedSystemMenuValues.Enabled && _themedSystemMenuValues.ShowOnIconClick && _themedSystemMenuService != null)
-            {
-                ShowThemedSystemMenu(screenPoint);
-                return true;
-            }
-            }
-            /*// Check if we should show the themed system menu on general title bar left-click
-            else if (_themedSystemMenuValues?.Enabled == true && _themedSystemMenuValues?.ShowOnLeftClick == true && _themedSystemMenuService != null &&
-                _themedSystemMenuService.ShowThemedSystemMenuOnLeftClick)
-            {
-                // Show the menu if clicking in the title bar area (including control buttons)
-                if (IsInTitleBarArea(screenPoint))
+                if (!SystemMenuValues.Enabled)
                 {
-                    // Start a timer to distinguish between click and drag
-                    StartClickTimer(screenPoint);
-                    return false; // Let the base class handle the message for potential drag
+                    // Make this work for the offset Application Icon when ButtonSpecs are left aligned
+                    PI.PostMessage(Handle, PI.WM_.CONTEXTMENU, Handle, m.LParam);
+                    return true;
                 }
-            }*/
+            }
         }
 
         return base.OnWM_NCLBUTTONDOWN(ref m);
@@ -2130,20 +2028,11 @@ public class KryptonForm : VisualForm,
         return ret;
     }
 
-    /// <summary>
-    /// Override to handle form move events for drag detection.
-    /// </summary>
-    /// <param name="e">Event arguments.</param>
     protected override void OnMove(EventArgs e)
     {
         base.OnMove(e);
-        
-        // If the form is being moved, cancel any pending click timer
-        if (_clickTimer != null && _clickTimer.Enabled)
-        {
-            StopClickTimer();
-        }
     }
+
     #endregion
 
     #region Implementation
@@ -2331,9 +2220,6 @@ public class KryptonForm : VisualForm,
                 {
                     _lastWindowState = GetWindowState();
                     NeedLayout = true;
-
-                    // Refresh the themed system menu to reflect new state
-                    _themedSystemMenuService?.ThemedSystemMenu?.Refresh();
                 }
 
                 // Text can change because of a minimized/maximized MDI child so need
@@ -2713,40 +2599,7 @@ public class KryptonForm : VisualForm,
         }
     }
 
-    /// <summary>
-    /// Handles changes to the themed system menu values.
-    /// </summary>
-    /// <param name="sender">Source of the event.</param>
-    /// <param name="e">An EventArgs containing event data.</param>
-    private void OnThemedSystemMenuValuesChanged(object? sender, PropertyChangedEventArgs e)
-    {
-        if (_themedSystemMenuService != null && _themedSystemMenuValues != null)
-        {
-            switch (e.PropertyName)
-            {
-                case nameof(ThemedSystemMenuValues.Enabled):
-                    _themedSystemMenuService.UseThemedSystemMenu = _themedSystemMenuValues.Enabled;
-                    break;
-                /*case nameof(ThemedSystemMenuValues.ShowOnLeftClick):
-                    _themedSystemMenuService.ShowThemedSystemMenuOnLeftClick = _themedSystemMenuValues.ShowOnLeftClick;
-                    break;*/
-                case nameof(ThemedSystemMenuValues.ShowOnRightClick):
-                    _themedSystemMenuService.ShowThemedSystemMenuOnRightClick = _themedSystemMenuValues.ShowOnRightClick;
-                    break;
-                case nameof(ThemedSystemMenuValues.ShowOnAltSpace):
-                    _themedSystemMenuService.ShowThemedSystemMenuOnAltSpace = _themedSystemMenuValues.ShowOnAltSpace;
-                    break;
-                case nameof(ThemedSystemMenuValues.ShowOnIconClick):
-                    // Icon click is handled separately in the click event handlers
-                    break;
-                case nameof(ThemedSystemMenuValues.CustomMenuItems):
-                    _themedSystemMenuService.ThemedSystemMenu.DesignerMenuItems = _themedSystemMenuValues.CustomMenuItems;
-                    break;
-            }
-        }
-    }
-
-    /// <summary>
+    /*/// <summary>
     /// Starts a timer to distinguish between click and drag operations.
     /// </summary>
     /// <param name="clickPoint">The point where the click occurred.</param>
@@ -2776,7 +2629,7 @@ public class KryptonForm : VisualForm,
         {
             _clickTimer.Stop();
         }
-    }
+    }*
 
     /// <summary>
     /// Handles the click timer tick event.
@@ -2791,7 +2644,7 @@ public class KryptonForm : VisualForm,
                     /*if (!_isDragging && _themedSystemMenuValues?.Enabled && _themedSystemMenuValues?.ShowOnLeftClick && _themedSystemMenuService != null)
         {
             ShowThemedSystemMenu(_lastClickPoint);
-        }*/
+        }*
     }
 
     /// <summary>
@@ -2831,7 +2684,7 @@ public class KryptonForm : VisualForm,
         
         // Cancel click timer when form is being resized
         StopClickTimer();
-    }
+    }*/
 
     /// <summary>Finds the help provider.</summary>
     /// <param name="control">The control.</param>
@@ -2858,6 +2711,12 @@ public class KryptonForm : VisualForm,
         }
 
         return null;
+    }
+
+    /// <inheritdoc />
+    protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+    {
+        return base.ProcessCmdKey(ref msg, keyData);
     }
 
     #endregion
@@ -2967,107 +2826,4 @@ public class KryptonForm : VisualForm,
         return _isInAdministratorMode;
     }
     #endregion
-    
-
-
-    #region System Menu
-
-    /// <summary>
-    /// Determines if the specified screen point is within the title bar area.
-    /// </summary>
-    /// <param name="screenPoint">The screen coordinates to test.</param>
-    /// <returns>True if the point is in the title bar area; otherwise false.</returns>
-    protected override bool IsInTitleBarArea(Point screenPoint)
-    {
-        // Convert screen coordinates to window coordinates
-        var windowPoint = ScreenToWindow(screenPoint);
-
-        // Check if the point is in the title bar area (above the client area)
-        return windowPoint.Y < _drawHeading.ClientRectangle.Height;
-    }
-
-    /// <summary>
-    /// Determines if the specified screen point is over the control buttons (min/max/close).
-    /// </summary>
-    /// <param name="screenPoint">The screen coordinates to test.</param>
-    /// <returns>True if the point is over control buttons; otherwise false.</returns>
-    protected override bool IsOnControlButtons(Point screenPoint)
-    {
-        // Convert screen coordinates to window coordinates
-        var windowPoint = ScreenToWindow(screenPoint);
-
-        // Check if the point is over any of the control buttons
-        return _buttonManager.GetButtonRectangle(ButtonSpecMin).Contains(windowPoint) ||
-               _buttonManager.GetButtonRectangle(ButtonSpecMax).Contains(windowPoint) ||
-               _buttonManager.GetButtonRectangle(ButtonSpecClose).Contains(windowPoint);
-    }
-
-    /// <summary>
-    /// Shows the themed system menu at the specified screen location.
-    /// </summary>
-    /// <param name="screenLocation">The screen coordinates where the menu should appear.</param>
-    protected override void ShowThemedSystemMenu(Point screenLocation)
-    {
-        if (_themedSystemMenuValues.Enabled && _themedSystemMenuService != null)
-        {
-            // Refresh the menu to ensure it reflects current form state
-            _themedSystemMenuService.ThemedSystemMenu.Refresh();
-            _themedSystemMenuService.ThemedSystemMenu.Show(screenLocation);
-        }
-    }
-
-    /// <summary>
-    /// Shows the themed system menu at the form's top-left position.
-    /// </summary>
-    protected override void ShowThemedSystemMenuAtFormTopLeft()
-    {
-        if (_themedSystemMenuValues.Enabled && _themedSystemMenuService != null)
-        {
-            // Refresh the menu to ensure it reflects current form state
-            _themedSystemMenuService.ThemedSystemMenu.Refresh();
-            _themedSystemMenuService.ThemedSystemMenu.ShowAtFormTopLeft();
-        }
-    }
-
-    /// <summary>
-    /// Handles keyboard shortcuts for the themed system menu.
-    /// </summary>
-    /// <param name="keyData">The key data to process.</param>
-    /// <returns>True if the shortcut was handled; otherwise false.</returns>
-    protected override bool HandleThemedSystemMenuKeyboardShortcut(Keys keyData)
-    {
-        // Only handle themed system menu shortcuts if ControlBox is true (same behavior as native system menu)
-        if (ControlBox && _themedSystemMenuValues.Enabled && _themedSystemMenuService != null)
-        {
-            // Handle Alt+F4 for close
-            if (keyData == (Keys.Alt | Keys.F4))
-            {
-                return _themedSystemMenuService.ThemedSystemMenu.HandleKeyboardShortcut(keyData);
-            }
-        }
-        return false;
-    }
-
-    #endregion
-
-    /// <summary>
-    /// Processes a command key.
-    /// </summary>
-    /// <param name="msg">A Message, passed by reference, that represents the Win32 message to process.</param>
-    /// <param name="keyData">One of the Keys values that represents the key to process.</param>
-    /// <returns>True if the character was processed by the control; otherwise, false.</returns>
-    protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
-    {
-        // Handle themed system menu keyboard shortcuts
-        // Only handle themed system menu shortcuts if ControlBox is true (same behavior as native system menu)
-        if (ControlBox && _themedSystemMenuValues.Enabled && _themedSystemMenuService != null)
-        {
-            if (_themedSystemMenuService.HandleKeyboardShortcut(keyData))
-            {
-                return true;
-            }
-        }
-
-        return base.ProcessCmdKey(ref msg, keyData);
-    }
 }

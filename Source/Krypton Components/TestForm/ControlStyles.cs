@@ -9,9 +9,9 @@
 
 namespace TestForm;
 
-public partial class ControlStyles : KryptonForm
+public partial class ControlStylesForm : KryptonForm
 {
-    public ControlStyles()
+    public ControlStylesForm()
     {
         InitializeComponent();
     }
