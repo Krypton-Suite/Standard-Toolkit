@@ -5,23 +5,23 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
  *  
  */
 #endregion
 
-namespace Krypton.Toolkit
-{
-    /// <summary>
-    /// Custom type converter so that PaletteButtonSpecStyle values appear as neat text at design time.
-    /// </summary>
-    internal class PaletteButtonSpecStyleConverter : StringLookupConverter<PaletteButtonSpecStyle>
-    {
-        #region Static Fields
+namespace Krypton.Toolkit;
 
-        [Localizable(true)]
-        private static readonly BiDictionary<PaletteButtonSpecStyle, string> _pairs = new BiDictionary<PaletteButtonSpecStyle, string>(
-            new Dictionary<PaletteButtonSpecStyle, string>
+/// <summary>
+/// Custom type converter so that PaletteButtonSpecStyle values appear as neat text at design time.
+/// </summary>
+internal class PaletteButtonSpecStyleConverter : StringLookupConverter<PaletteButtonSpecStyle>
+{
+    #region Static Fields
+
+    [Localizable(true)]
+    private static readonly BiDictionary<PaletteButtonSpecStyle, string> _pairs = new BiDictionary<PaletteButtonSpecStyle, string>(
+        new Dictionary<PaletteButtonSpecStyle, string>
         {
             {PaletteButtonSpecStyle.Close, DesignTimeUtilities.DEFAULT_PALETTE_BUTTON_SPEC_STYLE_CLOSE},
             {PaletteButtonSpecStyle.Context, DesignTimeUtilities.DEFAULT_PALETTE_BUTTON_SPEC_STYLE_CONTEXT},
@@ -63,16 +63,15 @@ namespace Krypton.Toolkit
             {PaletteButtonSpecStyle.QuickPrint, DesignTimeUtilities.DEFAULT_PALETTE_BUTTON_SPEC_STYLE_QUICK_PRINT}
         });
 
-        #endregion
+    #endregion
 
-        #region Protected
+    #region Protected
 
-        /// <summary>
-        /// Gets an array of lookup pairs.
-        /// </summary>
-        protected override IReadOnlyDictionary<PaletteButtonSpecStyle /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
-        protected override IReadOnlyDictionary<string /*Display*/, PaletteButtonSpecStyle /*Enum*/ > PairsStringToEnum => _pairs.SecondToFirst;
+    /// <summary>
+    /// Gets an array of lookup pairs.
+    /// </summary>
+    protected override IReadOnlyDictionary<PaletteButtonSpecStyle /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
+    protected override IReadOnlyDictionary<string /*Display*/, PaletteButtonSpecStyle /*Enum*/ > PairsStringToEnum => _pairs.SecondToFirst;
 
-        #endregion
-    }
+    #endregion
 }

@@ -2,32 +2,31 @@
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2024. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2025. All rights reserved. 
  *  
  */
 #endregion
 
-namespace TestForm
+namespace TestForm;
+
+public partial class ThemeControlExamples : KryptonForm
 {
-    public partial class ThemeControlExamples : KryptonForm
+    public ThemeControlExamples()
     {
-        public ThemeControlExamples()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
+    }
 
-        private void kbtnThemeBrowser_Click(object sender, EventArgs e)
+    private void kbtnThemeBrowser_Click(object sender, EventArgs e)
+    {
+        var data = new KryptonThemeBrowserData()
         {
-            var data = new KryptonThemeBrowserData()
-            {
-                ShowImportButton = true,
-                ShowSilentOption = true,
-                StartIndex = GlobalStaticValues.GLOBAL_DEFAULT_THEME_INDEX,
-                StartPosition = FormStartPosition.CenterScreen,
-                WindowTitle = KryptonManager.Strings.MiscellaneousThemeStrings.ThemeBrowserWindowTitle
-            };
+            ShowImportButton = true,
+            ShowSilentOption = true,
+            StartIndex = GlobalStaticValues.GLOBAL_DEFAULT_THEME_INDEX,
+            StartPosition = FormStartPosition.CenterScreen,
+            WindowTitle = KryptonManager.Strings.MiscellaneousThemeStrings.ThemeBrowserWindowTitle
+        };
 
-            KryptonThemeBrowser.Show(data);
-        }
+        KryptonThemeBrowser.Show(data);
     }
 }

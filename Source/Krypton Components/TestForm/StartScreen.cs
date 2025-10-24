@@ -1,213 +1,278 @@
 ﻿#region BSD License
 /*
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2024. All rights reserved. 
- *  
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2024 - 2025. All rights reserved.
+ *
  */
 #endregion
 
-namespace TestForm
+namespace TestForm;
+
+public partial class StartScreen : KryptonForm
 {
-    public partial class StartScreen : KryptonForm
+    private readonly List<KryptonCommandLinkButton> _buttons;
+    private readonly IComparer<KryptonCommandLinkButton> _headingComparer;
+    private readonly Timer _filterTimer;
+    private int _panelWidth;
+    private Size _sizeAtStartup;
+    private RegistryAccess _registryAccess;
+    private bool _dockTopRight;
+
+    public StartScreen()
     {
-        public StartScreen()
+        InitializeComponent();
+
+        // Init & basic settings
+        _registryAccess = new();
+        _dockTopRight = false;
+        _buttons = [];
+        _headingComparer = new ButtonHeadingComparer();
+        _panelWidth = tlpMain.Width;
+        _filterTimer = new();
+        _sizeAtStartup = new Size(902, 633);
+        this.Size = _sizeAtStartup;
+        this.FormClosed += OnFormClosed;
+
+        btnDockTopRight.Click += OnBtnDockTopRightClick;
+        btnRestoreSize.Click += OnBtnRestoreSizeClick;
+
+        SetupFilterBox();
+        SetupTableLayoutPanel();
+        AddButtons();
+        SortButtons();
+        AddButtonsToTlpMain();
+        RestoreSettings();
+    }
+
+    /// <summary>
+    /// Buttons to be displayed in the list can be added / removed or altered here.
+    /// </summary>
+    private void AddButtons()
+    {
+        CreateButton("AboutBox", "Try this About Box for a change", typeof(AboutBoxTest));
+        CreateButton("Buttons Test", "All the buttons you want to test.", typeof(ButtonsTest));
+        CreateButton("CommandLink Buttons", "No comment", typeof(CommandLinkButtons));
+        CreateButton("Control Styles", string.Empty, typeof(ControlStylesForm));
+        CreateButton("DateTime Example", string.Empty, typeof(DateTimeExample));
+        CreateButton("FormBorder Test", string.Empty, typeof(FormBorderTest));
+        CreateButton("Header Examples", string.Empty, typeof(HeaderExamples));
+        CreateButton("Menu/Tool/Status Strips", string.Empty, typeof(MenuToolBarStatusStripTest));
+        //CreateButton("Powered By Button", string.Empty, typeof(PoweredByButtonForm));
+        CreateButton("ProgressBar", "Checkout if progress has been made.", typeof(ProgressBarTest));
+        CreateButton("Ribbon / Navigator / Workspace", string.Empty, typeof(RibbonNavigatorWorkspaceTest));
+        CreateButton("Splash Screen", string.Empty, typeof(SplashScreenExample));
+        CreateButton("Theme Controls", string.Empty, typeof(ThemeControlExamples));
+        CreateButton("Toast", "For breakfast....?", typeof(ToastNotificationTestChoice));
+        CreateButton("WorkspaceTest", string.Empty, typeof(WorkspaceTest));
+        CreateButton("Blur Example", string.Empty, typeof(BlurExampleForm));
+        CreateButton("Visual Controls", string.Empty, typeof(VisualControlsTest));
+        CreateButton("EmojiViewer Basic", string.Empty, typeof(BasicEmojiViewerForm));
+        CreateButton("EmojiViewer Advanced", "Only hardcore devs can handle this one!", typeof(AdvancedEmojiViewerForm));
+        CreateButton("BreadCrumb", "Follow the breadcrumbs and find the treasure...", typeof(BreadCrumbTest));
+        CreateButton("Calendar", string.Empty, typeof(CalendarTest));
+        CreateButton("Controls Test", string.Empty, typeof(ControlsTest));
+        CreateButton("KryptonDataGridView Demo", string.Empty, typeof(DataGridViewDemo));
+        CreateButton("FadeForm", string.Empty, typeof(FadeFormTest));
+        CreateButton("GroupBox", string.Empty, typeof(GroupBoxTest));
+        CreateButton("InputBox", string.Empty, typeof(InputBoxTest));
+        CreateButton("MessageBox", string.Empty, typeof(MessageBoxTest));
+        CreateButton("Old Style Main: Fullscreen", string.Empty, typeof(Main));
+        CreateButton("PropertyGridTest", string.Empty, typeof(PropertyGridTest));
+        CreateButton("Ribbon", string.Empty, typeof(RibbonTest));
+        CreateButton("TextBox", string.Empty, typeof(TextBoxEventTest));
+        CreateButton("TreeView", string.Empty, typeof(TreeViewExample));
+        CreateButton("Panel Form", string.Empty, typeof(PanelForm));
+        CreateButton("Palette Viewer", string.Empty, typeof(PaletteViewerForm));
+        CreateButton("Powered By Button", string.Empty, typeof(PoweredByButtonExample));
+        CreateButton("Krypton Task Dialog Demo", string.Empty, typeof(KryptonTaskDialogDemoForm));
+    }
+
+    private void OnFormClosed(object? sender, FormClosedEventArgs e)
+    {
+        _registryAccess.LastFilterString = tbFilter.Text;
+        _registryAccess.DockTopRight = IsFormDockedTopRight();
+        _registryAccess.FormSize = this.Size;
+    }
+
+    private bool IsFormDockedTopRight()
+    {
+        return this.Top == 0 
+            && this.Left == Screen.FromControl(this).Bounds.Width - this.Size.Width;
+    }
+
+    private void RestoreSettings()
+    {
+        _dockTopRight = _registryAccess.DockTopRight;
+        if (_dockTopRight)
         {
-            InitializeComponent();
+            OnBtnDockTopRightClick(null, EventArgs.Empty);
         }
 
-        private void StartScreen_Load(object sender, EventArgs e)
+        string lastFilter = _registryAccess.LastFilterString;
+        if (lastFilter.Length > 0)
         {
-
+            tbFilter.Text = lastFilter;
         }
 
-        private void kbtnAboutBox_Click(object sender, EventArgs e)
+        Size size = _registryAccess.FormSize;
+        if (size.Width > 0 && size.Height > 0)
         {
-            var main = new Main();
-            main.Show();
+            this.Size = _registryAccess.FormSize;
+        }
+    }
+
+    private void CreateButton(string heading, string description, Type formType, Image? image = null )
+    {
+        KryptonCommandLinkButton button = new();
+        
+        if (!typeof(Form).IsAssignableFrom(formType))
+        {
+            throw new InvalidCastException("Parameter formType is not of type Form or derived from Form.");
         }
 
-        private void kbtnBreadCrumb_Click(object sender, EventArgs e)
-        {
-            var breadCrumb = new BreadCrumbTest();
+        button.CommandLinkTextValues.Heading         = heading;
+        button.CommandLinkTextValues.Description     = description;
+        button.AutoSize                              = false;
+        button.Size                                  = new Size(_panelWidth - 10, 60);
+        button.Click                                 += (_, _) => OnCommandLinkTestButtonClick(formType);
 
-            breadCrumb.Show();
+        if (image is not null)
+        {
+            button.CommandLinkTextValues.UseDefaultImage = false;
+            button.CommandLinkTextValues.Image = new Bitmap(image, 48, 48);
         }
 
-        private void kbtnButtons_Click(object sender, EventArgs e)
-        {
-            var buttons = new ButtonsTest();
+        _buttons.Add(button);
+    }
 
-            buttons.Show();
+    private void SetupFilterBox()
+    {
+        tbFilter.Clear();
+
+        FontFamily family = KryptonManager.CurrentGlobalPalette.GetContentShortTextFont(PaletteContentStyle.InputControlStandalone, PaletteState.Normal)!.FontFamily;
+        tbFilter.StateCommon.Content.Font = new Font(family, 14F, FontStyle.Regular);
+        tbFilter.TextChanged += OnFilterChanged;
+        btnClearFilter.Click += (_, _) => tbFilter.Clear();
+
+        _filterTimer.Interval = 200;
+        _filterTimer.Tick += OnFilterChangedPerformFilter;
+    }
+
+    private void OnBtnRestoreSizeClick(object? sender, EventArgs e)
+    {
+        this.Size = _sizeAtStartup;
+    }
+
+    private void OnBtnDockTopRightClick(object? sender, EventArgs e)
+    {
+        _dockTopRight = true;
+        this.Location = new Point(Screen.FromControl(this).Bounds.Width - this.Width, 0);
+    }
+
+    private void OnCommandLinkTestButtonClick(Type formType)
+    {
+        // This one needs a special handling
+        if (formType == typeof(PaletteViewerForm)
+            && Activator.CreateInstance(formType) is PaletteViewerForm paletteViewerForm)
+        {
+            paletteViewerForm.AttachKryptonManager(kryptonManager1);
+            paletteViewerForm.Show();
+        }
+        else if (Activator.CreateInstance(formType) is Form form)
+        {
+            form.Show();
+        }
+    }
+
+    private void SortButtons()
+    {
+        _buttons.Sort(_headingComparer);
+    }
+
+    private void SetupTableLayoutPanel()
+    {
+        tlpMain.RowCount = 0;
+        tlpMain.ColumnCount = 1;
+
+        tlpMain.AutoSize     = false;
+        tlpMain.MaximumSize  = new Size(_panelWidth, 0);
+        tlpMain.MinimumSize  = new Size(_panelWidth, 464);
+        tlpMain.BackColor    = Color.Transparent;
+        tlpMain.Padding      = new Padding(0);
+        tlpMain.Margin       = new Padding(0);
+        tlpMain.AutoScroll   = true;
+
+        tlpMain.RowStyles.Clear();
+        tlpMain.ColumnStyles.Clear();
+        tlpMain.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
+    }
+
+    private void AddButtonsToTlpMain()
+    {
+        _buttons.ForEach(button => {
+            tlpMain.RowCount += 1;
+            tlpMain.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+            tlpMain.Controls.Add(button, 0, tlpMain.RowCount - 1);
+        });
+    }
+
+    private void OnFilterChanged(object? sender, EventArgs e)
+    {
+        _filterTimer.Stop();
+        _filterTimer.Start();
+    }
+
+    private void OnFilterChangedPerformFilter(object? sender, EventArgs e)
+    {
+        _filterTimer.Stop();
+
+        if (tbFilter.Text.Length > 0)
+        {
+            _buttons.ForEach(button => button.Visible = button.CommandLinkTextValues.Heading.IndexOf(tbFilter.Text, StringComparison.OrdinalIgnoreCase) >= 0);
+        }
+        else
+        {
+            _buttons.ForEach(button => button.Visible = true);
         }
 
-        private void kbtnCommandLinkButtons_Click(object sender, EventArgs e)
+        if (tlpMain.Controls.Count > 0)
         {
-            var commandLinkButtons = new CommandLinkButtons();
-
-            commandLinkButtons.Show();
+            tlpMain.ScrollControlIntoView(tlpMain.Controls[0]);
         }
+    }
 
-        private void kbtnFadeForm_Click(object sender, EventArgs e)
+    private void kbtnExit_Click(object? sender, EventArgs e)
+    {
+        this.Close();
+    }
+
+    private class ButtonHeadingComparer : IComparer<KryptonCommandLinkButton>
+    {
+        /// <summary>
+        /// Compares the command link buttons case insensitive by their Heading string.
+        /// </summary>
+        /// <param name="x">A valid reference to the first button.</param>
+        /// <param name="y">A valid reference to the second button.</param>
+        /// <returns>
+        /// 0 : Heading x and y are equal.<br/>
+        /// 1 : Heading x is greater than y.<br/>
+        /// -1: Heading y is greater than x.
+        /// </returns>
+        /// <exception cref="NullReferenceException">Is thrown when at least x or y is null.</exception>
+        public int Compare(KryptonCommandLinkButton? x, KryptonCommandLinkButton? y)
         {
-            var fadeForm = new FadeFormTest();
+            if (x is not null && y is not null)
+            {
+                string headingX = x.CommandLinkTextValues.Heading.ToLower(CultureInfo.InvariantCulture);
+                string headingY = y.CommandLinkTextValues.Heading.ToLower(CultureInfo.InvariantCulture);
 
-            fadeForm.Show();
-        }
-
-        private void kbtnFormBorder_Click(object sender, EventArgs e)
-        {
-            var formBorder = new FormBorderTest();
-
-            formBorder.Show();
-        }
-
-        private void kbtnGroupBox_Click(object sender, EventArgs e)
-        {
-            var groupBox = new GroupBoxTest();
-
-            groupBox.Show();
-        }
-
-        private void kbtnMenuToolStatusStrips_Click(object sender, EventArgs e)
-        {
-            var menuToolBarStatusStrip = new MenuToolBarStatusStripTest();
-
-            menuToolBarStatusStrip.Show();
-        }
-
-        private void kbtnMessageBox_Click(object sender, EventArgs e)
-        {
-            var messageBox = new MessageBoxTest();
-
-            messageBox.Show();
-        }
-
-        private void kbtnProgressBar_Click(object sender, EventArgs e)
-        {
-            var progressBar = new ProgressBarTest();
-
-            progressBar.Show();
-        }
-
-        private void kbtnRibbon_Click(object sender, EventArgs e)
-        {
-            var ribbon = new RibbonTest();
-
-            ribbon.Show();
-        }
-
-        private void kbtnTextBox_Click(object sender, EventArgs e)
-        {
-            var textBoxEvent = new TextBoxEventTest();
-
-            textBoxEvent.Show();
-        }
-
-        private void kbtnTheme_Click(object sender, EventArgs e)
-        {
-            var theme = new ThemeTest();
-
-            theme.Show();
-        }
-
-        private void kbtnToast_Click(object sender, EventArgs e)
-        {
-            var toastNotification = new ToastNotificationTestChoice();
-
-            toastNotification.Show();
-        }
-
-        private void kbtnExit_Click(object sender, EventArgs e)
-        {
-            DialogResult = DialogResult.Cancel;
-
-            Close();
-        }
-
-        private void kbtnTreeView_Click(object sender, EventArgs e)
-        {
-            var treeViewExample = new TreeViewExample();
-
-            treeViewExample.Show();
-        }
-
-        private void kbtnOutlookGrid_Click(object sender, EventArgs e)
-        {
-            var outlookGridTest = new OutlookGridTest();
-
-            outlookGridTest.Show();
-        }
-
-        private void kbtnCalendar_Click(object sender, EventArgs e)
-        {
-            var calendarTest = new CalendarTest();
-
-            calendarTest.Show();
-        }
-
-        private void kbtnWorkspace_Click(object sender, EventArgs e)
-        {
-            var workspaceTest = new WorkspaceTest();
-
-            workspaceTest.Show();
-        }
-
-        private void kbtnThemeControls_Click(object sender, EventArgs e)
-        {
-            var themeControls = new ThemeControlExamples();
-
-            themeControls.Show();
-        }
-
-        private void kbtnControlsTest_Click(object sender, EventArgs e)
-        {
-            var controlsTest = new ControlsTest();
-
-            controlsTest.Show();
-        }
-
-        private void kbtnDataGrid_Click(object sender, EventArgs e)
-        {
-            var dataGrid = new DataGridViewTest();
-
-            dataGrid.Show();
-        }
-
-        private void kbtnHeaderExamples_Click(object sender, EventArgs e)
-        {
-            var headerExamples = new HeaderExamples();
-
-            headerExamples.Show();
-        }
-
-        private void kbtnInputBox_Click(object sender, EventArgs e)
-        {
-            var inputBox = new InputBoxTest();
-
-            inputBox.Show();
-        }
-
-        private void kbtnAbout_Click(object sender, EventArgs e)
-        {
-            var aboutBox = new AboutBoxTest();
-
-            aboutBox.Show();
-        }
-
-        private void btnColourTestimonials_Click(object sender, EventArgs e)
-        {
-            new ColorTestimonials().Show();
-        }
-
-        private void kbtnRibbonNavigatorWorkspace_Click(object sender, EventArgs e)
-        {
-            new RibbonNavigatorWorkspaceTest().Show();
-        }
-
-        private void kbtnPropertyGrid_Click(object sender, EventArgs e)
-        {
-            new PropertyGridTest().Show();
+                return headingX.CompareTo(headingY);
+            }
+            else
+            {
+                throw new NullReferenceException($"ButtonHeadingComparer: make sure that parameter x and y both are valid references to a KryptonCommandLinkButton instance.");
+            }
         }
     }
 }

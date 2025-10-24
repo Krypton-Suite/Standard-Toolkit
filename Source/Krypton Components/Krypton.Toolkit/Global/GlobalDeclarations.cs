@@ -1,7 +1,7 @@
 ﻿#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2021 - 2024. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2021 - 2025. All rights reserved. 
  */
 #endregion
 
@@ -27,6 +27,9 @@ global using System.Drawing.Text;
 global using System.Globalization;
 global using System.IO;
 global using System.Linq;
+#if NET8_0_OR_GREATER
+global using System.Text.Json.Nodes;
+#endif
 global using System.Media;
 global using System.Reflection;
 global using System.Resources;
@@ -38,21 +41,19 @@ global using System.Security;
 global using System.Security.Principal;
 global using System.Text;
 global using System.Text.RegularExpressions;
-global using System.Timers;
 global using System.Threading;
 global using System.Threading.Tasks;
+global using System.Timers;
 global using System.Windows.Forms;
 global using System.Windows.Forms.Design;
 global using System.Windows.Forms.Design.Behavior;
 global using System.Windows.Forms.VisualStyles;
 global using System.Xml;
-
 #endregion
-
 #region Internal Resources
-
 global using Krypton.Toolkit.Properties;
 global using Krypton.Toolkit.ResourceFiles.Arrows;
+global using Krypton.Toolkit.ResourceFiles.Buttons;
 global using Krypton.Toolkit.ResourceFiles.ButtonSpecs;
 global using Krypton.Toolkit.ResourceFiles.CheckBoxes;
 global using Krypton.Toolkit.ResourceFiles.CommandLink;
@@ -74,9 +75,12 @@ global using Krypton.Toolkit.ResourceFiles.Pin;
 global using Krypton.Toolkit.ResourceFiles.RadioButtons;
 global using Krypton.Toolkit.ResourceFiles.SizeGripStyles;
 global using Krypton.Toolkit.ResourceFiles.Sort;
+global using Krypton.Toolkit.ResourceFiles.Stars;
+global using Krypton.Toolkit.ResourceFiles.SystemMenu;
 global using Krypton.Toolkit.ResourceFiles.TaskDialog;
 global using Krypton.Toolkit.ResourceFiles.ToastNotification;
 global using Krypton.Toolkit.ResourceFiles.Toolbars;
+global using Krypton.Toolkit.ResourceFiles.ToolkitLogos;
 global using Krypton.Toolkit.ResourceFiles.TreeItems;
 global using Krypton.Toolkit.ResourceFiles.UAC;
 global using Krypton.Toolkit.ResourceFiles.VisualStudio;

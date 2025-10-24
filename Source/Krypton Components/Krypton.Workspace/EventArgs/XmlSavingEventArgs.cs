@@ -5,43 +5,42 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
  *  
  */
 #endregion
 
-namespace Krypton.Workspace
+namespace Krypton.Workspace;
+
+/// <summary>
+/// Event data for persisting extra data for a workspace.
+/// </summary>
+public class XmlSavingEventArgs : EventArgs
 {
+    #region Identity
     /// <summary>
-    /// Event data for persisting extra data for a workspace.
+    /// Initialize a new instance of the XmlSavingEventArgs class.
     /// </summary>
-    public class XmlSavingEventArgs : EventArgs
+    /// <param name="workspace">Reference to owning workspace control.</param>
+    /// <param name="xmlWriter">Xml writer for persisting custom data.</param>
+    public XmlSavingEventArgs(KryptonWorkspace workspace,
+        XmlWriter xmlWriter)
     {
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the XmlSavingEventArgs class.
-        /// </summary>
-        /// <param name="workspace">Reference to owning workspace control.</param>
-        /// <param name="xmlWriter">Xml writer for persisting custom data.</param>
-        public XmlSavingEventArgs(KryptonWorkspace workspace,
-                                  XmlWriter xmlWriter)
-        {
-            Workspace = workspace;
-            XmlWriter = xmlWriter;
-        }
-        #endregion
-
-        #region Public
-        /// <summary>
-        /// Gets the workspace reference.
-        /// </summary>
-        public KryptonWorkspace Workspace { get; }
-
-        /// <summary>
-        /// Gets the xml writer.
-        /// </summary>
-        public XmlWriter XmlWriter { get; }
-
-        #endregion
+        Workspace = workspace;
+        XmlWriter = xmlWriter;
     }
+    #endregion
+
+    #region Public
+    /// <summary>
+    /// Gets the workspace reference.
+    /// </summary>
+    public KryptonWorkspace Workspace { get; }
+
+    /// <summary>
+    /// Gets the xml writer.
+    /// </summary>
+    public XmlWriter XmlWriter { get; }
+
+    #endregion
 }

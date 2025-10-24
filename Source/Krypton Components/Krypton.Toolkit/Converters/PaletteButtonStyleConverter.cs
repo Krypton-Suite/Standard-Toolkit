@@ -5,23 +5,23 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
  *  
  */
 #endregion
 
-namespace Krypton.Toolkit
-{
-    /// <summary>
-    /// Custom type converter so that PaletteButtonStyle values appear as neat text at design time.
-    /// </summary>
-    internal class PaletteButtonStyleConverter : StringLookupConverter<PaletteButtonStyle>
-    {
-        #region Static Fields
+namespace Krypton.Toolkit;
 
-        [Localizable(true)]
-        private static readonly BiDictionary<PaletteButtonStyle, string> _pairs = new BiDictionary<PaletteButtonStyle, string>(
-            new Dictionary<PaletteButtonStyle, string>
+/// <summary>
+/// Custom type converter so that PaletteButtonStyle values appear as neat text at design time.
+/// </summary>
+internal class PaletteButtonStyleConverter : StringLookupConverter<PaletteButtonStyle>
+{
+    #region Static Fields
+
+    [Localizable(true)]
+    private static readonly BiDictionary<PaletteButtonStyle, string> _pairs = new BiDictionary<PaletteButtonStyle, string>(
+        new Dictionary<PaletteButtonStyle, string>
         {
             {PaletteButtonStyle.Inherit, DesignTimeUtilities.DEFAULT_PALETTE_BUTTON_STYLE_INHERIT},
             {PaletteButtonStyle.Standalone, DesignTimeUtilities.DEFAULT_PALETTE_BUTTON_STYLE_STANDALONE},
@@ -43,15 +43,14 @@ namespace Krypton.Toolkit
             {PaletteButtonStyle.Custom3, DesignTimeUtilities.DEFAULT_PALETTE_BUTTON_STYLE_CUSTOM3}
         });
 
-        #endregion
+    #endregion
 
-        #region Protected
-        /// <summary>
-        /// Gets an array of lookup pairs.
-        /// </summary>
-        protected override IReadOnlyDictionary<PaletteButtonStyle /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
-        protected override IReadOnlyDictionary<string /*Display*/, PaletteButtonStyle /*Enum*/ > PairsStringToEnum => _pairs.SecondToFirst;
+    #region Protected
+    /// <summary>
+    /// Gets an array of lookup pairs.
+    /// </summary>
+    protected override IReadOnlyDictionary<PaletteButtonStyle /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
+    protected override IReadOnlyDictionary<string /*Display*/, PaletteButtonStyle /*Enum*/ > PairsStringToEnum => _pairs.SecondToFirst;
 
-        #endregion
-    }
+    #endregion
 }

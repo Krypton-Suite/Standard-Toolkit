@@ -5,20 +5,20 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
  *  
  */
 #endregion
 
-namespace Krypton.Toolkit
-{
-    internal class PlacementModeConverter : StringLookupConverter<PlacementMode>
-    {
-        #region Static Fields
+namespace Krypton.Toolkit;
 
-        [Localizable(true)]
-        private static readonly BiDictionary<PlacementMode, string> _pairs = new BiDictionary<PlacementMode, string>(
-            new Dictionary<PlacementMode, string>
+internal class PlacementModeConverter : StringLookupConverter<PlacementMode>
+{
+    #region Static Fields
+
+    [Localizable(true)]
+    private static readonly BiDictionary<PlacementMode, string> _pairs = new BiDictionary<PlacementMode, string>(
+        new Dictionary<PlacementMode, string>
         {
             {PlacementMode.Absolute, DesignTimeUtilities.DEFAULT_PLACEMENT_MODE_ABSOLUTE},
             {PlacementMode.AbsolutePoint, DesignTimeUtilities.DEFAULT_PLACEMENT_MODE_ABSOLUTE_POINT},
@@ -33,13 +33,12 @@ namespace Krypton.Toolkit
             {PlacementMode.Top, DesignTimeUtilities.DEFAULT_PLACEMENT_MODE_TOP}
         });
 
-        #endregion
+    #endregion
 
-        #region Protected
+    #region Protected
 
-        protected override IReadOnlyDictionary<PlacementMode /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
-        protected override IReadOnlyDictionary<string /*Display*/, PlacementMode /*Enum*/ > PairsStringToEnum => _pairs.SecondToFirst;
+    protected override IReadOnlyDictionary<PlacementMode /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
+    protected override IReadOnlyDictionary<string /*Display*/, PlacementMode /*Enum*/ > PairsStringToEnum => _pairs.SecondToFirst;
 
-        #endregion
-    }
+    #endregion
 }

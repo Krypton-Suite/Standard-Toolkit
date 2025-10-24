@@ -72,7 +72,6 @@
             // 
             // kryptonThemeComboBox1
             // 
-            this.kryptonThemeComboBox1.DefaultPalette = Krypton.Toolkit.PaletteMode.Microsoft365Blue;
             this.kryptonThemeComboBox1.DropDownWidth = 378;
             this.kryptonThemeComboBox1.IntegralHeight = false;
             this.kryptonThemeComboBox1.Location = new System.Drawing.Point(13, 13);
@@ -84,7 +83,6 @@
             // kryptonGroupBox1
             // 
             this.kryptonGroupBox1.Location = new System.Drawing.Point(13, 42);
-            this.kryptonGroupBox1.Name = "kryptonGroupBox1";
             // 
             // kryptonGroupBox1.Panel
             // 
@@ -147,7 +145,7 @@
             // 
             this.kryptonRadioButton2.Enabled = false;
             this.kryptonRadioButton2.Location = new System.Drawing.Point(89, 45);
-            this.kryptonRadioButton2.Margin = new System.Windows.Forms.Padding(2);
+            this.kryptonRadioButton2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.kryptonRadioButton2.Name = "kryptonRadioButton2";
             this.kryptonRadioButton2.Size = new System.Drawing.Size(70, 20);
             this.kryptonRadioButton2.TabIndex = 45;
@@ -156,7 +154,7 @@
             // kryptonRadioButton1
             // 
             this.kryptonRadioButton1.Location = new System.Drawing.Point(14, 45);
-            this.kryptonRadioButton1.Margin = new System.Windows.Forms.Padding(2);
+            this.kryptonRadioButton1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.kryptonRadioButton1.Name = "kryptonRadioButton1";
             this.kryptonRadioButton1.Size = new System.Drawing.Size(66, 20);
             this.kryptonRadioButton1.TabIndex = 44;
@@ -182,7 +180,6 @@
             // kryptonGroupBox2
             // 
             this.kryptonGroupBox2.Location = new System.Drawing.Point(395, 42);
-            this.kryptonGroupBox2.Name = "kryptonGroupBox2";
             // 
             // kryptonGroupBox2.Panel
             // 
@@ -207,10 +204,9 @@
             this.kryptonNavigator1.ControlKryptonFormFeatures = false;
             this.kryptonNavigator1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonNavigator1.Location = new System.Drawing.Point(0, 0);
-            this.kryptonNavigator1.Name = "kryptonNavigator1";
             this.kryptonNavigator1.NavigatorMode = Krypton.Navigator.NavigatorMode.BarTabGroup;
             this.kryptonNavigator1.Owner = null;
-            this.kryptonNavigator1.PageBackStyle = Krypton.Toolkit.PaletteBackStyle.ControlClient;
+            this.kryptonNavigator1.PageBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelClient;
             this.kryptonNavigator1.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
             this.kryptonPage1});
             this.kryptonNavigator1.SelectedIndex = 0;
@@ -276,7 +272,7 @@
             // 
             this.kryptonRadioButton3.Enabled = false;
             this.kryptonRadioButton3.Location = new System.Drawing.Point(90, 50);
-            this.kryptonRadioButton3.Margin = new System.Windows.Forms.Padding(2);
+            this.kryptonRadioButton3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.kryptonRadioButton3.Name = "kryptonRadioButton3";
             this.kryptonRadioButton3.Size = new System.Drawing.Size(70, 20);
             this.kryptonRadioButton3.TabIndex = 45;
@@ -285,7 +281,7 @@
             // kryptonRadioButton4
             // 
             this.kryptonRadioButton4.Location = new System.Drawing.Point(15, 50);
-            this.kryptonRadioButton4.Margin = new System.Windows.Forms.Padding(2);
+            this.kryptonRadioButton4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.kryptonRadioButton4.Name = "kryptonRadioButton4";
             this.kryptonRadioButton4.Size = new System.Drawing.Size(66, 20);
             this.kryptonRadioButton4.TabIndex = 44;
@@ -315,20 +311,25 @@
             this.kryptonPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel2.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel2.Name = "kryptonPanel2";
-            this.kryptonPanel2.Size = new System.Drawing.Size(783, 436);
+            this.kryptonPanel2.Size = new System.Drawing.Size(804, 420);
             this.kryptonPanel2.TabIndex = 3;
             // 
             // Bug833Test
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(783, 436);
+            this.ClientSize = new System.Drawing.Size(804, 420);
             this.Controls.Add(this.kryptonThemeComboBox1);
             this.Controls.Add(this.kryptonPanel2);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.Location = new System.Drawing.Point(0, 0);
             this.MaximizeBox = false;
             this.Name = "Bug833Test";
+            this.StateCommon.Border.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.StateCommon.Border.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.Text = "Bug833Test";
+            this.Controls.SetChildIndex(this.kryptonPanel2, 0);
+            this.Controls.SetChildIndex(this.kryptonThemeComboBox1, 0);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1.Panel)).EndInit();
             this.kryptonGroupBox1.Panel.ResumeLayout(false);
