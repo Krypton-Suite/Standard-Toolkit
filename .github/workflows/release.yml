@@ -277,12 +277,12 @@ jobs:
                   }
                   @{
                     name = "🎯 Target Frameworks"
-                    value = ".NET 4.7.2, 4.8, 4.8.1, 8.0, 9.0, 10.0"
+                    value = "• .NET Framework 4.7.2`n• .NET Framework 4.8`n• .NET Framework 4.8.1`n• .NET 8.0`n• .NET 9.0`n• .NET 10.0"
                     inline = $false
                   }
                   @{
                     name = "🔗 NuGet Packages"
-                    value = "[Toolkit](https://www.nuget.org/packages/Krypton.Toolkit)n- [Ribbon](https://www.nuget.org/packages/Krypton.Ribbon)n- [Navigator](https://www.nuget.org/packages/Krypton.Navigator)n- [Workspace](https://www.nuget.org/packages/Krypton.Workspace)n- [Docking](https://www.nuget.org/packages/Krypton.Docking)"
+                    value = "• [Toolkit](https://www.nuget.org/packages/Krypton.Toolkit)`n• [Ribbon](https://www.nuget.org/packages/Krypton.Ribbon)`n• [Navigator](https://www.nuget.org/packages/Krypton.Navigator)`n• [Workspace](https://www.nuget.org/packages/Krypton.Workspace)`n• [Docking](https://www.nuget.org/packages/Krypton.Docking)"
                     inline = $false
                   }
                   @{
@@ -463,12 +463,12 @@ jobs:
                   }
                   @{
                     name = "🎯 Target Frameworks"
-                    value = ".NET 4.6.2, 4.7, 4.7.1, 4.7.2, 4.8, 4.8.1, 6.0, 7.0, 8.0"
+                    value = "• .NET Framework 4.6.2`n• .NET Framework 4.7`n• .NET Framework 4.7.1`n• .NET Framework 4.7.2`n• .NET Framework 4.8`n• .NET Framework 4.8.1`n• .NET 6.0`n• .NET 7.0`n• .NET 8.0"
                     inline = $false
                   }
                   @{
                     name = "🔗 NuGet Packages"
-                    value = "[Toolkit.LTS](https://www.nuget.org/packages/Krypton.Toolkit.LTS)n- [Ribbon.LTS](https://www.nuget.org/packages/Krypton.Ribbon.LTS)n- [Navigator.LTS](https://www.nuget.org/packages/Krypton.Navigator.LTS)n- [Workspace.LTS](https://www.nuget.org/packages/Krypton.Workspace.LTS)n- [Docking.LTS](https://www.nuget.org/packages/Krypton.Docking.LTS)"
+                    value = "• [Toolkit.LTS](https://www.nuget.org/packages/Krypton.Toolkit.LTS)`n• [Ribbon.LTS](https://www.nuget.org/packages/Krypton.Ribbon.LTS)`n• [Navigator.LTS](https://www.nuget.org/packages/Krypton.Navigator.LTS)`n• [Workspace.LTS](https://www.nuget.org/packages/Krypton.Workspace.LTS)`n• [Docking.LTS](https://www.nuget.org/packages/Krypton.Docking.LTS)"
                     inline = $false
                   }
                 )
@@ -653,12 +653,12 @@ jobs:
                   }
                   @{
                     name = "🎯 Target Frameworks"
-                    value = ".NET 4.7.2, 4.8, 4.8.1, 8.0, 9.0, 10.0"
+                    value = "• .NET Framework 4.7.2`n• .NET Framework 4.8`n• .NET Framework 4.8.1`n• .NET 8.0`n• .NET 9.0`n• .NET 10.0"
                     inline = $false
                   }
                   @{
                     name = "🔗 NuGet Packages"
-                    value = "[Toolkit](https://www.nuget.org/packages/Krypton.Toolkit)n- [Ribbon](https://www.nuget.org/packages/Krypton.Ribbon)n- [Navigator](https://www.nuget.org/packages/Krypton.Navigator)n- [Workspace](https://www.nuget.org/packages/Krypton.Workspace)n- [Docking](https://www.nuget.org/packages/Krypton.Docking)"
+                    value = "• [Toolkit](https://www.nuget.org/packages/Krypton.Toolkit)`n• [Ribbon](https://www.nuget.org/packages/Krypton.Ribbon)`n• [Navigator](https://www.nuget.org/packages/Krypton.Navigator)`n• [Workspace](https://www.nuget.org/packages/Krypton.Workspace)`n• [Docking](https://www.nuget.org/packages/Krypton.Docking)"
                     inline = $false
                   }
                 )
@@ -843,12 +843,12 @@ jobs:
                   }
                   @{
                     name = "🎯 Target Frameworks"
-                    value = ".NET 4.7.2, 4.8, 4.8.1, 8.0, 9.0, 10.0"
+                    value = "• .NET Framework 4.7.2`n• .NET Framework 4.8`n• .NET Framework 4.8.1`n• .NET 8.0`n• .NET 9.0`n• .NET 10.0"
                     inline = $false
                   }
                   @{
                     name = "🔗 NuGet Packages"
-                    value = "[Toolkit](https://www.nuget.org/packages/Krypton.Toolkit)n- [Ribbon](https://www.nuget.org/packages/Krypton.Ribbon)n- [Navigator](https://www.nuget.org/packages/Krypton.Navigator)n- [Workspace](https://www.nuget.org/packages/Krypton.Workspace)n- [Docking](https://www.nuget.org/packages/Krypton.Docking)"
+                    value = "• [Toolkit](https://www.nuget.org/packages/Krypton.Toolkit)`n• [Ribbon](https://www.nuget.org/packages/Krypton.Ribbon)`n• [Navigator](https://www.nuget.org/packages/Krypton.Navigator)`n• [Workspace](https://www.nuget.org/packages/Krypton.Workspace)`n• [Docking](https://www.nuget.org/packages/Krypton.Docking)"
                     inline = $false
                   }
                 )
