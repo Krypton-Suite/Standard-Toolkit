@@ -50,15 +50,14 @@ public static class CommonHelper
     private static int _nextId = 1000;
     //private static readonly DateTime _baseDate = new(2000, 1, 1);
     private static PropertyInfo? _cachedShortcutPI;
-    private static PropertyInfo? _cachedDesignModePI;
     private static MethodInfo? _cachedShortcutMI;
     private static NullContentValues? _nullContentValues;
+    private static bool? _cachedDesignMode = null;
     private static readonly DoubleConverter _dc = new DoubleConverter();
     private static readonly SizeConverter _sc = new SizeConverter();
     private static readonly PointConverter _pc = new PointConverter();
     private static readonly BooleanConverter _bc = new BooleanConverter();
     private static readonly ColorConverter _cc = new ColorConverter();
-
     #endregion
 
     /// <summary>
@@ -1572,22 +1571,48 @@ public static class CommonHelper
     }
 
     /// <summary>
+    /// Checks if we are inside the Visual Studio IDE.
+    /// </summary>
+    /// <returns>True if in design mode; otherwise false.</returns>
+    public static bool DesignMode()
+    {
+        if (!_cachedDesignMode.HasValue)
+        {
+            string exceptionMessage = "CommonHelper.DesignMode() could not establish the DesignMode.";
+
+            try
+            {
+                // Preferred method first
+                _cachedDesignMode = LicenseManager.UsageMode == LicenseUsageMode.Designtime;
+            }
+            catch
+            {
+                try
+                {
+                    // Process check. (This only works with VStudio. Rider should report something different.
+                    // When a Form is shown in the designer in .NET it's process is DesignToolsServer.exe
+                    _cachedDesignMode = Process.GetCurrentProcess().ProcessName.IndexOf("devenv", StringComparison.OrdinalIgnoreCase) > -1
+                        || Process.GetCurrentProcess().ProcessName.IndexOf("DesignToolsServer", StringComparison.OrdinalIgnoreCase) > -1;
+                }
+                catch
+                {
+                    throw new Exception(exceptionMessage);
+                }
+            }
+        }
+
+        return _cachedDesignMode.Value;
+    }
+
+    /// <summary>
     /// Discover if the component is in design mode.
     /// </summary>
     /// <param name="c">Component to test.</param>
     /// <returns>True if in design mode; otherwise false.</returns>
+    [Obsolete("This method will be removed from V110 and onward. Use CommonHelper.DesignMode() instead.")]
     public static bool DesignMode(Component? c)
     {
-        // Cache the info needed to sneak access to the component protected property
-        if (_cachedDesignModePI == null)
-        {
-            _cachedDesignModePI = typeof(ToolStrip).GetProperty(nameof(DesignMode),
-                BindingFlags.Instance |
-                BindingFlags.GetProperty |
-                BindingFlags.NonPublic);
-        }
-
-        return (bool)_cachedDesignModePI!.GetValue(c, null)!;
+        return CommonHelper.DesignMode();
     }
 
     /// <summary>

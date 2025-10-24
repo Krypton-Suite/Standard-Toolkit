@@ -83,7 +83,10 @@ public class KryptonRibbon : VisualSimple,
     // Properties
     private bool _minimizedMode;
     private bool _showMinimizeButton;
-    private bool _showTabs;
+
+    // ToDo: Reinvestigate for #331 in the future, see https://github.com/Krypton-Suite/Standard-Toolkit/issues/331 & https://github.com/Krypton-Suite/Standard-Toolkit/issues/2584 for more information
+    //private bool _showTabs;
+
     private string _selectedContext;
     private Size _hideRibbonSize;
     private QATLocation _qatLocation;
@@ -901,7 +904,8 @@ public class KryptonRibbon : VisualSimple,
     /// </summary>
     public void ResetQATUserChange() => QATUserChange = true;
 
-    /// <summary>
+    // ToDo: Reinvestigate for #331 in the future, see https://github.com/Krypton-Suite/Standard-Toolkit/issues/331 & https://github.com/Krypton-Suite/Standard-Toolkit/issues/2584 for more information
+    /*/// <summary>
     /// Gets and sets a value indicating if ribbon tabs are visible.
     /// </summary>
     [Category(@"Values")]
@@ -925,7 +929,7 @@ public class KryptonRibbon : VisualSimple,
     /// <summary>
     /// Resets the ShowTabs property to its default value.
     /// </summary>
-    public void ResetShowTabs() => ShowTabs = true;
+    public void ResetShowTabs() => ShowTabs = true;*/
 
     /// <summary>
     /// Gets and sets a value indicating if a minimize/expand button appears on the ribbon tab ara.
@@ -1551,7 +1555,7 @@ public class KryptonRibbon : VisualSimple,
         {
             newFocus = TabsArea?.LayoutTabs.GetViewForRibbonTab(SelectedTab);
         }
-        else if (!RealMinimizedMode && ShowTabs)
+        else if (!RealMinimizedMode /*&& ShowTabs*/)
         {
             // Only try to focus first tab if tabs are visible
             newFocus = TabsArea?.LayoutTabs.GetViewForFirstRibbonTab();
@@ -1827,7 +1831,8 @@ public class KryptonRibbon : VisualSimple,
         }
     }
 
-    /// <summary>
+    // ToDo: Reinvestigate for #331 in the future, see https://github.com/Krypton-Suite/Standard-Toolkit/issues/331 & https://github.com/Krypton-Suite/Standard-Toolkit/issues/2584 for more information
+    /*/// <summary>
     /// Updates the visibility of the tabs area and caption area based on the ShowTabs property.
     /// </summary>
     private void UpdateTabVisibility()
@@ -1865,7 +1870,7 @@ public class KryptonRibbon : VisualSimple,
                 _ribbonDocker.Remove(CaptionArea);
             }
         }
-    }
+    }*/
 
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     internal ButtonStyle ScrollerStyle
@@ -2601,7 +2606,7 @@ public class KryptonRibbon : VisualSimple,
         MinimizedMode = false;
         ScrollerStyle = ButtonStyle.Standalone;
         ShowMinimizeButton = true;
-        ShowTabs = true;
+        //ShowTabs = true;
         QATLocation = QATLocation.Above;
         QATUserChange = true;
         LostFocusLosesKeyboard = true;
@@ -2726,13 +2731,14 @@ public class KryptonRibbon : VisualSimple,
         _ribbonDocker.Add(GroupsArea, ViewDockStyle.Fill);
         _ribbonDocker.Add(_minimizeBar, ViewDockStyle.Bottom);
         _ribbonDocker.Add(_qatBelowRibbon, ViewDockStyle.Bottom);
-        
+
+        // ToDo: Reinvestigate for #331 in the future, see https://github.com/Krypton-Suite/Standard-Toolkit/issues/331 & https://github.com/Krypton-Suite/Standard-Toolkit/issues/2584 for more information
         // Add tabs area and caption area only if tabs are visible
-        if (_showTabs)
+        /*if (_showTabs)
         {
             _ribbonDocker.Add(TabsArea, ViewDockStyle.Top);
             _ribbonDocker.Add(CaptionArea, ViewDockStyle.Top);
-        }
+        }*/
 
         // The root contains the top and fills out with the panel areas
         _rootDocker.Add(MainPanel, ViewDockStyle.Fill);
@@ -2833,7 +2839,7 @@ public class KryptonRibbon : VisualSimple,
         KryptonRibbonTab? newSelection = null;
 
         // If tabs are hidden (toolbar mode), don't auto-select any tab
-        if (!ShowTabs)
+        /*if (!ShowTabs)
         {
             // In toolbar mode, we allow SelectedTab to remain null
             // Only validate if there's a selected tab that's no longer valid
@@ -2847,7 +2853,7 @@ public class KryptonRibbon : VisualSimple,
                 newSelection = SelectedTab; // Keep current selection (including null)
             }
         }
-        else if (!RealMinimizedMode)
+        else*/ if (!RealMinimizedMode)
         {
             if ((SelectedTab == null) ||                            // If there is no selection...
                 (!SelectedTab.Visible && !InDesignHelperMode) ||    // Or the selection is no longer visible
