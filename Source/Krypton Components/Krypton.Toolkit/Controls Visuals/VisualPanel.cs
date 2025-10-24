@@ -869,11 +869,14 @@ public abstract class VisualPanel : Panel,
     /// Raises the Paint event.
     /// </summary>
     /// <param name="e">A PaintEventArgs that contains the event data.</param>
-    protected override void OnPaint(PaintEventArgs? e)
+    protected override void OnPaint(PaintEventArgs e)
     {
         // Cannot process a message for a disposed control
         if (!IsDisposed)
         {
+            // Call base first
+            base.OnPaint(e);
+
             // Do we have a manager to use for painting?
             if (ViewManager is not null)
             {

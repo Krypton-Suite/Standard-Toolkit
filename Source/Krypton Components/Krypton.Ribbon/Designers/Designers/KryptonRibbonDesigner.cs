@@ -13,6 +13,7 @@ namespace Krypton.Ribbon;
 internal class KryptonRibbonDesigner : ParentControlDesigner
 {
     #region Instance Fields
+
     private KryptonRibbon? _ribbon;
     private IDesignerHost? _designerHost;
     private ISelectionService? _selectionService;
@@ -21,10 +22,20 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
     private DesignerVerb _toggleHelpersVerb;
     private DesignerVerb _addTabVerb;
     private DesignerVerb _clearTabsVerb;
+    private DesignerVerb _noTabVerb;
+    private DesignerVerb _setTabVerb;
+
+    // ToDo: Reinvestigate for #331 in the future, see https://github.com/Krypton-Suite/Standard-Toolkit/issues/331 & https://github.com/Krypton-Suite/Standard-Toolkit/issues/2584 for more information
+    // Disabled ShowTabs feature temporarily due to rendering issues with KryptonRibbonContext
+    // private DesignerVerb _hideTabsVerb;
+    // private DesignerVerb _showTabsVerb;
+
     private bool _lastHitTest;
+
     #endregion
 
     #region Identity
+
     /// <summary>
     /// Initialize a new instance of the KryptonRibbonDesigner class.
     /// </summary>
@@ -37,6 +48,7 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
     #endregion
 
     #region Public
+    
     /// <summary>
     /// Initializes the designer with the specified component.
     /// </summary>
@@ -137,16 +149,25 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
                 _toggleHelpersVerb = new DesignerVerb(@"Toggle Helpers", OnToggleHelpers);
                 _addTabVerb = new DesignerVerb(@"Add Tab", OnAddTab);
                 _clearTabsVerb = new DesignerVerb(@"Clear Tabs", OnClearTabs);
-                _verbs.AddRange(new[] { _toggleHelpersVerb, _addTabVerb, _clearTabsVerb });
+                _noTabVerb = new DesignerVerb(@"Clear Tab Selection", OnNoTab);
+                _setTabVerb = new DesignerVerb(@"Select First Tab", OnSetTab);
+
+                // ToDo: Reinvestigate for #331 in the future, see https://github.com/Krypton-Suite/Standard-Toolkit/issues/331 & https://github.com/Krypton-Suite/Standard-Toolkit/issues/2584 for more information
+                // Disabled ShowTabs feature temporarily due to rendering issues with KryptonRibbonContext
+                // _hideTabsVerb = new DesignerVerb(@"Hide Tab Headers", OnHideTabs);
+                // _showTabsVerb = new DesignerVerb(@"Show Tab Headers", OnShowTabs);
+                _verbs.AddRange(new[] { _toggleHelpersVerb, _addTabVerb, _clearTabsVerb, _noTabVerb, _setTabVerb /*, _hideTabsVerb, _showTabsVerb*/ });
             }
 
             UpdateVerbStatus();
             return _verbs;
         }
     }
+    
     #endregion
 
     #region Protected
+    
     /// <summary>
     /// Releases all resources used by the component. 
     /// </summary>
@@ -244,11 +265,40 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
         RaiseComponentChanged(propertyTab, null, null);
     }
 
+    /// <summary>
+    /// Updates the enabled state of designer verbs based on current ribbon state.
+    /// </summary>
     private void UpdateVerbStatus()
     {
         if (_verbs.Count != 0 && _ribbon is not null)
         {
             _clearTabsVerb.Enabled = _ribbon.RibbonTabs.Count > 0;
+            
+            // Update the No Tab / Set Tab verbs based on current state
+            if (_ribbon.SelectedTab == null)
+            {
+                _noTabVerb.Enabled = false;
+                _setTabVerb.Enabled = _ribbon.RibbonTabs.Count > 0;
+            }
+            else
+            {
+                _noTabVerb.Enabled = true;
+                _setTabVerb.Enabled = false;
+            }
+
+            // ToDo: Reinvestigate for #331 in the future, see https://github.com/Krypton-Suite/Standard-Toolkit/issues/331 & https://github.com/Krypton-Suite/Standard-Toolkit/issues/2584 for more information
+            // Disabled ShowTabs feature temporarily due to rendering issues with KryptonRibbonContext
+            // Update the Hide Tabs / Show Tabs verbs based on current state
+            /*if (_ribbon.ShowTabs)
+            {
+                _hideTabsVerb.Enabled = true;
+                _showTabsVerb.Enabled = false;
+            }
+            else
+            {
+                _hideTabsVerb.Enabled = false;
+                _showTabsVerb.Enabled = true;
+            }*/
         }
     }
 
@@ -337,6 +387,160 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
         }
     }
 
+    /// <summary>
+    /// Handles the "Set No Tab" designer verb click.
+    /// Sets the ribbon to toolbar mode by clearing the selected tab.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">An EventArgs that contains the event data.</param>
+    private void OnNoTab(object? sender, EventArgs e)
+    {
+        if (_ribbon is null)
+        {
+            throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_ribbon)));
+        }
+
+        // Use a transaction to support undo/redo actions
+        DesignerTransaction transaction = _designerHost!.CreateTransaction(@"KryptonRibbon SetNoTab");
+
+        try
+        {
+            // Get access to the SelectedTab property
+            MemberDescriptor? propertySelectedTab = TypeDescriptor.GetProperties(_ribbon)[@"SelectedTab"];
+
+            RaiseComponentChanging(propertySelectedTab);
+
+            // Clear the selected tab to enable "no tab" mode
+            _ribbon.SelectedTab = null;
+
+            RaiseComponentChanged(propertySelectedTab, null, null);
+        }
+        finally
+        {
+            // If we managed to create the transaction, then do it
+            transaction?.Commit();
+
+            UpdateVerbStatus();
+        }
+    }
+
+    /// <summary>
+    /// Handles the "Set Tab" designer verb click.
+    /// Sets the first available tab as selected, exiting toolbar mode.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">An EventArgs that contains the event data.</param>
+    private void OnSetTab(object? sender, EventArgs e)
+    {
+        if (_ribbon is null)
+        {
+            throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_ribbon)));
+        }
+
+        // Use a transaction to support undo/redo actions
+        DesignerTransaction transaction = _designerHost!.CreateTransaction(@"KryptonRibbon SetTab");
+
+        try
+        {
+            // Get access to the SelectedTab property
+            MemberDescriptor? propertySelectedTab = TypeDescriptor.GetProperties(_ribbon)[@"SelectedTab"];
+
+            RaiseComponentChanging(propertySelectedTab);
+
+            // Set to first available tab
+            if (_ribbon.RibbonTabs.Count > 0)
+            {
+                _ribbon.SelectedTab = _ribbon.RibbonTabs[0];
+            }
+
+            RaiseComponentChanged(propertySelectedTab, null, null);
+        }
+        finally
+        {
+            // If we managed to create the transaction, then do it
+            transaction?.Commit();
+
+            UpdateVerbStatus();
+        }
+    }
+
+    // ToDo: Reinvestigate for #331 in the future, see https://github.com/Krypton-Suite/Standard-Toolkit/issues/331 & https://github.com/Krypton-Suite/Standard-Toolkit/issues/2584 for more information
+    /*//Disabled ShowTabs feature temporarily due to rendering issues with KryptonRibbonContext
+     /// <summary>
+     /// Handles the "Hide Tabs" designer verb click.
+     /// Hides the ribbon tabs to create a toolbar-like interface.
+     /// </summary>
+     /// <param name="sender">The source of the event.</param>
+     /// <param name="e">An EventArgs that contains the event data.</param>
+     private void OnHideTabs(object? sender, EventArgs e)
+    {
+        if (_ribbon is null)
+        {
+            throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_ribbon)));
+        }
+
+        // Use a transaction to support undo/redo actions
+        DesignerTransaction transaction = _designerHost!.CreateTransaction(@"KryptonRibbon HideTabs");
+
+        try
+        {
+            // Get access to the ShowTabs property
+            MemberDescriptor? propertyShowTabs = TypeDescriptor.GetProperties(_ribbon)[@"ShowTabs"];
+
+            RaiseComponentChanging(propertyShowTabs);
+
+            // Hide the tabs
+            _ribbon.ShowTabs = false;
+
+            RaiseComponentChanged(propertyShowTabs, null, null);
+        }
+        finally
+        {
+            // If we managed to create the transaction, then do it
+            transaction?.Commit();
+
+            UpdateVerbStatus();
+        }
+    }
+
+     // Disabled ShowTabs feature temporarily due to rendering issues with KryptonRibbonContext
+     /// <summary>
+     /// Handles the "Show Tabs" designer verb click.
+     /// Shows the ribbon tabs to restore normal ribbon interface.
+     /// </summary>
+     /// <param name="sender">The source of the event.</param>
+     /// <param name="e">An EventArgs that contains the event data.</param>
+     private void OnShowTabs(object? sender, EventArgs e)
+    {
+        if (_ribbon is null)
+        {
+            throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_ribbon)));
+        }
+
+        // Use a transaction to support undo/redo actions
+        DesignerTransaction transaction = _designerHost!.CreateTransaction(@"KryptonRibbon ShowTabs");
+
+        try
+        {
+            // Get access to the ShowTabs property
+            MemberDescriptor? propertyShowTabs = TypeDescriptor.GetProperties(_ribbon)[@"ShowTabs"];
+
+            RaiseComponentChanging(propertyShowTabs);
+
+            // Show the tabs
+            _ribbon.ShowTabs = true;
+
+            RaiseComponentChanged(propertyShowTabs, null, null);
+        }
+        finally
+        {
+            // If we managed to create the transaction, then do it
+            transaction?.Commit();
+
+            UpdateVerbStatus();
+        }
+    }*/
+
     private void OnRibbonMouseUp(object? sender, MouseEventArgs e)
     {
         // Get any component associated with the current mouse position
@@ -415,5 +619,6 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
             }
         }
     }
+ 
     #endregion
 }

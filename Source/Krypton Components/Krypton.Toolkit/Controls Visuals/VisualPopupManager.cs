@@ -767,5 +767,6 @@ public class VisualPopupManager : IMessageFilter
             _cmsFinishDelegate = null;
         }
     }
+
     #endregion
 }

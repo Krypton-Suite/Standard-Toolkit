@@ -133,36 +133,6 @@ namespace Krypton.Toolkit.ResourceFiles.ToastNotification {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Toast_Notification_UAC_Shield_Windows_10_128_x_128 {
-            get {
-                object obj = ResourceManager.GetObject("Toast_Notification_UAC_Shield_Windows_10_128_x_128", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Toast_Notification_UAC_Shield_Windows_11_128_x_128 {
-            get {
-                object obj = ResourceManager.GetObject("Toast_Notification_UAC_Shield_Windows_11_128_x_128", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Toast_Notification_UAC_Shield_Windows_7_and_8_128_x_128 {
-            get {
-                object obj = ResourceManager.GetObject("Toast_Notification_UAC_Shield_Windows_7_and_8_128_x_128", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap Toast_Notification_Warning_128_x_115 {
             get {
                 object obj = ResourceManager.GetObject("Toast_Notification_Warning_128_x_115", resourceCulture);

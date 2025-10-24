@@ -16,7 +16,7 @@ public class UserAccountControlShieldValues : NullContentValues
 
     private bool _useOSStyleImage;
 
-    private UACShieldIconSize _iconSize;
+    private IconSize _iconSize;
 
     private Size _customImageSize;
 
@@ -30,7 +30,7 @@ public class UserAccountControlShieldValues : NullContentValues
 
         _useOSStyleImage = true;
 
-        _iconSize = UACShieldIconSize.Small;
+        _iconSize = IconSize.Small;
     }
 
     #endregion
@@ -41,7 +41,7 @@ public class UserAccountControlShieldValues : NullContentValues
 
     public bool UseOSStyleImage { get => _useOSStyleImage; set => _useOSStyleImage = value; }
 
-    public UACShieldIconSize ShieldIconSize { get => _iconSize; set => _iconSize = value; }
+    public IconSize ShieldIconSize { get => _iconSize; set => _iconSize = value; }
 
     public Size CustomImageSize { get => _customImageSize; set => _customImageSize = value; }
 
