@@ -16,12 +16,12 @@ public class KryptonSystemMenu : IDisposable
     private ViewDrawContent _drawContent;
     private KryptonSystemMenuListener _listener;
     private KryptonContextMenu _contextMenu;
-    private KryptonContextMenuItem _systemMenuContextMenuItemRestore;
-    private KryptonContextMenuItem _systemMenuContextMenuItemMove;
-    private KryptonContextMenuItem _systemMenuContextMenuItemSize;
-    private KryptonContextMenuItem _systemMenuContextMenuItemMinimize;
-    private KryptonContextMenuItem _systemMenuContextMenuItemMaximize;
-    private KryptonContextMenuItem _systemMenuContextMenuItemClose;
+    private KryptonContextMenuItem _contextMenuItemRestore;
+    private KryptonContextMenuItem _contextMenuItemMove;
+    private KryptonContextMenuItem _contextMenuItemSize;
+    private KryptonContextMenuItem _contextMenuItemMinimize;
+    private KryptonContextMenuItem _cntextMenuItemMaximize;
+    private KryptonContextMenuItem _contextMenuItemClose;
     private bool _disposed;
     #endregion
 
@@ -69,32 +69,38 @@ public class KryptonSystemMenu : IDisposable
     {
         KryptonContextMenuItems items = new();
 
-        _systemMenuContextMenuItemRestore = new(KryptonManager.Strings.SystemMenuStrings.Restore);
-        _systemMenuContextMenuItemRestore.Click += OnSystemMenuContextMenuItemRestoreClick;
+        _contextMenuItemRestore = new(KryptonManager.Strings.SystemMenuStrings.Restore);
+        _contextMenuItemRestore.Image = SystemMenuImageResources.Microsoft365SystemMenuRestoreNormalSmall;
+        _contextMenuItemRestore.Click += OnContextMenuItemRestoreClick;
 
-        _systemMenuContextMenuItemMove = new(KryptonManager.Strings.SystemMenuStrings.Move);
-        _systemMenuContextMenuItemMove.Click += OnSystemMenuContextMenuItemMoveClick;
+        _contextMenuItemMove = new(KryptonManager.Strings.SystemMenuStrings.Move);
+        _contextMenuItemMove.Image = ResourceFiles.Toolbars.Office2013ToolbarImageResources.Office2013ToolbarCopyNormal;
+        _contextMenuItemMove.Click += OnContextMenuItemMoveClick;
 
-        _systemMenuContextMenuItemSize = new(KryptonManager.Strings.SystemMenuStrings.Size);
-        _systemMenuContextMenuItemSize.Click += OnSystemMenuContextMenuItemSizeClick;
+        _contextMenuItemSize = new(KryptonManager.Strings.SystemMenuStrings.Size);
+        _contextMenuItemSize.Image = ResourceFiles.Toolbars.Office2013ToolbarImageResources.Office2013ToolbarPageSetupNormal;
+        _contextMenuItemSize.Click += OnContextMenuItemSizeClick;
 
-        _systemMenuContextMenuItemMinimize = new(KryptonManager.Strings.SystemMenuStrings.Minimize);
-        _systemMenuContextMenuItemMinimize.Click += OnSystemMenuContextMenuItemMinimizeClick;
+        _contextMenuItemMinimize = new(KryptonManager.Strings.SystemMenuStrings.Minimize);
+        _contextMenuItemMinimize.Image = SystemMenuImageResources.Microsoft365SystemMenuMinimiseNormalSmall;
+        _contextMenuItemMinimize.Click += OnContextMenuItemMinimizeClick;
 
-        _systemMenuContextMenuItemMaximize = new(KryptonManager.Strings.SystemMenuStrings.Maximize);
-        _systemMenuContextMenuItemMaximize.Click += OnSystemMenuContextMenuItemMaximizeClick;
+        _cntextMenuItemMaximize = new(KryptonManager.Strings.SystemMenuStrings.Maximize);
+        _cntextMenuItemMaximize.Image = SystemMenuImageResources.Microsoft365SystemMenuMaximiseNormalSmall;
+        _cntextMenuItemMaximize.Click += OnContextMenuItemMaximizeClick;
 
-        _systemMenuContextMenuItemClose = new(KryptonManager.Strings.SystemMenuStrings.Close);
-        _systemMenuContextMenuItemClose.Click += OnSystemMenuContextMenuItemCloseClick;
+        _contextMenuItemClose = new(KryptonManager.Strings.SystemMenuStrings.Close);
+        _contextMenuItemClose.Image = SystemMenuImageResources.Microsoft365SystemMenuCloseNormalSmall;
+        _contextMenuItemClose.Click += OnContextMenuItemCloseClick;
 
         // Add the items in the order of the default system menu
-        items.Items.Add(_systemMenuContextMenuItemRestore);
-        items.Items.Add(_systemMenuContextMenuItemMove);
-        items.Items.Add(_systemMenuContextMenuItemSize);
-        items.Items.Add(_systemMenuContextMenuItemMinimize);
-        items.Items.Add(_systemMenuContextMenuItemMaximize);
+        items.Items.Add(_contextMenuItemRestore);
+        items.Items.Add(_contextMenuItemMove);
+        items.Items.Add(_contextMenuItemSize);
+        items.Items.Add(_contextMenuItemMinimize);
+        items.Items.Add(_cntextMenuItemMaximize);
         items.Items.Add(new KryptonContextMenuSeparator());
-        items.Items.Add(_systemMenuContextMenuItemClose);
+        items.Items.Add(_contextMenuItemClose);
         _contextMenu.Items.Insert(0, items);
     }
 
@@ -103,23 +109,23 @@ public class KryptonSystemMenu : IDisposable
         var windowState = _form.GetWindowState();
 
         // Update menu items based on current state using direct field references
-        _systemMenuContextMenuItemRestore.Enabled = (windowState != FormWindowState.Normal);
+        _contextMenuItemRestore.Enabled = (windowState != FormWindowState.Normal);
 
         // Minimize item is enabled only if MinimizeBox is true and window is not already minimized
-        _systemMenuContextMenuItemMinimize.Enabled = _form.MinimizeBox && (windowState != FormWindowState.Minimized);
+        _contextMenuItemMinimize.Enabled = _form.MinimizeBox && (windowState != FormWindowState.Minimized);
 
         // Maximize item is enabled only if MaximizeBox is true and window is not already maximized
-        _systemMenuContextMenuItemMaximize.Enabled = _form.MaximizeBox && (windowState != FormWindowState.Maximized);
+        _cntextMenuItemMaximize.Enabled = _form.MaximizeBox && (windowState != FormWindowState.Maximized);
 
         // Move is enabled when window is in Normal state (can be moved) or when minimized (can be restored)
-        _systemMenuContextMenuItemMove.Enabled = (windowState == FormWindowState.Normal) || (windowState == FormWindowState.Minimized);
+        _contextMenuItemMove.Enabled = (windowState == FormWindowState.Normal) || (windowState == FormWindowState.Minimized);
 
         // Size is enabled when the window is in Normal state and form is sizable
-        _systemMenuContextMenuItemSize.Enabled = (windowState == FormWindowState.Normal)
+        _contextMenuItemSize.Enabled = (windowState == FormWindowState.Normal)
             && _form.FormBorderStyle is FormBorderStyle.Sizable or FormBorderStyle.SizableToolWindow;
     }
 
-    private void OnSystemMenuContextMenuItemRestoreClick(object? sender, EventArgs e)
+    private void OnContextMenuItemRestoreClick(object? sender, EventArgs e)
     {
         if (_form.WindowState != FormWindowState.Normal)
         {
@@ -127,24 +133,24 @@ public class KryptonSystemMenu : IDisposable
         }
     }
 
-    private void OnSystemMenuContextMenuItemMoveClick(object? sender, EventArgs e)
+    private void OnContextMenuItemMoveClick(object? sender, EventArgs e)
     {
         _form.SendSysCommand(PI.SC_.MOVE);
     }
 
-    private void OnSystemMenuContextMenuItemSizeClick(object? sender, EventArgs e)
+    private void OnContextMenuItemSizeClick(object? sender, EventArgs e)
     {
         _form.SendSysCommand(PI.SC_.SIZE);
     }
 
-    private void OnSystemMenuContextMenuItemMinimizeClick(object? sender, EventArgs e)
+    private void OnContextMenuItemMinimizeClick(object? sender, EventArgs e)
     {
         if (_form.WindowState != FormWindowState.Minimized)
         {
             _form.WindowState = FormWindowState.Minimized;
         }
     }
-    private void OnSystemMenuContextMenuItemMaximizeClick(object? sender, EventArgs e)
+    private void OnContextMenuItemMaximizeClick(object? sender, EventArgs e)
     {
         if (_form.WindowState != FormWindowState.Maximized)
         {
@@ -152,7 +158,7 @@ public class KryptonSystemMenu : IDisposable
         }
     }
 
-    private void OnSystemMenuContextMenuItemCloseClick(object? sender, EventArgs e)
+    private void OnContextMenuItemCloseClick(object? sender, EventArgs e)
     {
         _form.Close();
     }
@@ -212,12 +218,12 @@ public class KryptonSystemMenu : IDisposable
             _listener.DisableListener();
 
             // System menu
-            _systemMenuContextMenuItemRestore.Click -= OnSystemMenuContextMenuItemRestoreClick;
-            _systemMenuContextMenuItemMove.Click -= OnSystemMenuContextMenuItemMoveClick;
-            _systemMenuContextMenuItemSize.Click -= OnSystemMenuContextMenuItemSizeClick;
-            _systemMenuContextMenuItemMinimize.Click -= OnSystemMenuContextMenuItemMinimizeClick;
-            _systemMenuContextMenuItemMaximize.Click -= OnSystemMenuContextMenuItemMaximizeClick;
-            _systemMenuContextMenuItemClose.Click -= OnSystemMenuContextMenuItemCloseClick;
+            _contextMenuItemRestore.Click -= OnContextMenuItemRestoreClick;
+            _contextMenuItemMove.Click -= OnContextMenuItemMoveClick;
+            _contextMenuItemSize.Click -= OnContextMenuItemSizeClick;
+            _contextMenuItemMinimize.Click -= OnContextMenuItemMinimizeClick;
+            _cntextMenuItemMaximize.Click -= OnContextMenuItemMaximizeClick;
+            _contextMenuItemClose.Click -= OnContextMenuItemCloseClick;
 
             _disposed = true;
         }
