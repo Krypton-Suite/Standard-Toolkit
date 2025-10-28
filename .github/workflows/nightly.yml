@@ -52,14 +52,14 @@ jobs:
       # .NET 9 (GA)
       - name: Setup .NET 9
         if: steps.check_changes.outputs.has_changes == 'true'
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 9.0.x
 
       # .NET 10 (GA)
       - name: Setup .NET 10
         if: steps.check_changes.outputs.has_changes == 'true'
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 10.0.x
         continue-on-error: true
@@ -67,7 +67,7 @@ jobs:
       # .NET 11 (will auto-upgrade from preview to GA when available)
       - name: Setup .NET 11
         if: steps.check_changes.outputs.has_changes == 'true'
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 11.0.x
         continue-on-error: true

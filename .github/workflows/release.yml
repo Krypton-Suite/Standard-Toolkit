@@ -22,20 +22,20 @@ jobs:
 
       # .NET 9 (GA)
       - name: Setup .NET 9
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 9.0.x
 
       # .NET 10 (GA)
       - name: Setup .NET 10
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 10.0.x
         continue-on-error: true
 
       # .NET 11 (will auto-upgrade from preview to GA when available)
       - name: Setup .NET 11
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 11.0.x
         continue-on-error: true
@@ -320,19 +320,19 @@ jobs:
 
       # .NET 6 (LTS) - needed for net6.0-windows target
       - name: Setup .NET 6
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 6.0.x
 
       # .NET 7 - needed for net7.0-windows target
       - name: Setup .NET 7
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 7.0.x
 
       # .NET 8 (LTS) - needed for net8.0-windows target and to build all framework targets
       - name: Setup .NET 8
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 8.0.x
 
@@ -501,13 +501,13 @@ jobs:
 
       # .NET 9 (GA)
       - name: Setup .NET 9
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 9.0.x
 
       # .NET 10 (Preview)
       - name: Setup .NET 10 (preview)
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 10.0.x
           dotnet-quality: preview
@@ -691,13 +691,13 @@ jobs:
 
       # .NET 9 (GA)
       - name: Setup .NET 9
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 9.0.x
 
       # .NET 10 (Preview)
       - name: Setup .NET 10 (preview)
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 10.0.x
           dotnet-quality: preview
