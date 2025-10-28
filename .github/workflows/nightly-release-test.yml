@@ -25,15 +25,43 @@ jobs:
         uses: actions/checkout@v5
         with:
           ref: alpha
+          fetch-depth: 0
+
+      - name: Check for changes in last 24 hours
+        id: check_changes
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          
+          # Get commits from last 24 hours on alpha branch
+          $yesterday = (Get-Date).AddDays(-1).ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss")
+          $commitCount = git rev-list --count --since="$yesterday" alpha
+          
+          Write-Host "Commits in last 24 hours: $commitCount"
+          
+          if ([int]$commitCount -gt 0) {
+            Write-Host "Changes detected - proceeding with nightly build"
+            echo "has_changes=true" >> $env:GITHUB_OUTPUT
+          } else {
+            Write-Host "No changes detected - skipping nightly build"
+            echo "has_changes=false" >> $env:GITHUB_OUTPUT
+          }
+
+      - name: Skip notification
+        if: steps.check_changes.outputs.has_changes == 'false'
+        run: |
+          Write-Host "::notice::No commits in the last 24 hours. Skipping nightly build and publish."
 
       # .NET 9 (GA)
       - name: Setup .NET 9
+        if: steps.check_changes.outputs.has_changes == 'true'
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 9.0.x
 
       # .NET 10 (Preview)
       - name: Setup .NET 10 (preview)
+        if: steps.check_changes.outputs.has_changes == 'true'
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 10.0.x
@@ -41,6 +69,7 @@ jobs:
 
       # global.json dynamically generate (use latest SDK available)
       - name: Force .NET 10 SDK via global.json
+        if: steps.check_changes.outputs.has_changes == 'true'
         run: |
           $sdkVersion = (dotnet --list-sdks | Select-String "10.0").ToString().Split(" ")[0]
           if (-not $sdkVersion) {
@@ -58,14 +87,17 @@ jobs:
           "@ | Out-File -Encoding utf8 global.json
 
       - name: Setup MSBuild
+        if: steps.check_changes.outputs.has_changes == 'true'
         uses: microsoft/setup-msbuild@v2
         with:
           msbuild-architecture: x64
 
       - name: Setup NuGet
+        if: steps.check_changes.outputs.has_changes == 'true'
         uses: NuGet/setup-nuget@v1.2.0
 
       - name: Cache NuGet
+        if: steps.check_changes.outputs.has_changes == 'true'
         uses: actions/cache@v4
         with:
           path: ~/.nuget/packages
@@ -74,15 +106,19 @@ jobs:
             ${{ runner.os }}-nuget-
 
       - name: Restore
+        if: steps.check_changes.outputs.has_changes == 'true'
         run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.sln"
 
       - name: Build Nightly
+        if: steps.check_changes.outputs.has_changes == 'true'
         run: msbuild "Scripts/nightly.proj" /t:Build /p:Configuration=Nightly /p:Platform="Any CPU"
 
       - name: Pack Nightly
+        if: steps.check_changes.outputs.has_changes == 'true'
         run: msbuild "Scripts/nightly.proj" /t:Pack /p:Configuration=Nightly /p:Platform="Any CPU"
 
       - name: Push NuGet Packages to nuget.org
+        if: steps.check_changes.outputs.has_changes == 'true'
         id: push_nuget
         shell: pwsh
         run: |
