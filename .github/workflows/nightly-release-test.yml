@@ -12,7 +12,6 @@ on:
 jobs:
   nightly:
     runs-on: windows-2022
-    retention-days: 30
 
     # Ensure this only runs for the alpha branch, even if the workflow is in main
     if: github.ref == 'refs/heads/alpha'
