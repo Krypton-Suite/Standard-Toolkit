@@ -1,6 +1,6 @@
 # <img src="https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Krypton.png?raw=true"> Standard Toolkit - ChangeLog
 
-====
+=======
 
 ## 2025-11-11 - Build 2511 (V100 RTM) - November 2025
 
@@ -167,6 +167,7 @@
 =======
 
 # 2025-10-20 - Build 2508 (V95 Patch 9) - October 2025
+
 * Resolved [#2542](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2542), `KryptonForm` cannot be resized by dragging upper corners.
 * Resolved [#2548](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2548), Fixed color assignment for `GroupSeparatorLight`, `QATButtonDarkColor` and `QATButtonLightColor` in `PopulateFromBase`.
 * Resolved [#2460](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2460), `KryptonDataGridView` column headers are always bold.
@@ -178,6 +179,7 @@
 =======
 
 # 2025-08-25 - Build 2508 (V95 Patch 8) - August 2025
+
 * Implemented [#2406](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2406), `KryptonProgressBar` enhancements.
 * Resolved [#413](https://github.com/Krypton-Suite/Standard-Toolkit/issues/413), `KryptonRibbon` controls do not react to MouseWheel scolling.
 * Resolved [#1971](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2416), `KryptonDataGridViewColumn` Drop-down arrow image incorrect for Sparkle themes.
@@ -202,6 +204,7 @@
 =======
 
 # 2025-06-23 - Build 2506 (V95 Patch 7) - June 2025
+
 * Resolved [#2200](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2200), `KryptonAutoHiddenSlidePanel.PreFilterMessage` will now use the ActiveFormTracker.
 * Resolved [#2260](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2260), `KryptonBreadCrumb` Items designer lacks the cancel button.
 * Implemented [#2251](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2251), Implements the `ActiveFormTracker` static class and integrates the tracker into the `KryptonForm`.
@@ -215,7 +218,7 @@
 * Resolved [#2166](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2166), Form with Krypton Ribbon, when maximized, cuts off the right, left and bottom edges.
 
 
-====
+=======
 
 # 2025-04-21 - Build 2504 (Version 95 - Patch 6) - April 2025
 * Resolved [#2112](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2112), MdiContainer and KForm
