@@ -311,7 +311,7 @@ jobs:
           DISCORD_WEBHOOK_MASTER: ${{ secrets.DISCORD_WEBHOOK_MASTER }}
 
   release-v85-lts:
-    runs-on: windows-2022
+    runs-on: windows-2025
     if: github.ref == 'refs/heads/V85-LTS' && github.event_name == 'push'
 
     steps:
@@ -492,7 +492,7 @@ jobs:
           DISCORD_WEBHOOK_LTS: ${{ secrets.DISCORD_WEBHOOK_LTS }}
 
   release-canary:
-    runs-on: windows-2022
+    runs-on: windows-2025
     if: github.ref == 'refs/heads/canary' && github.event_name == 'push'
 
     steps:
@@ -682,7 +682,7 @@ jobs:
           DISCORD_WEBHOOK_CANARY: ${{ secrets.DISCORD_WEBHOOK_CANARY }}
 
   release-alpha:
-    runs-on: windows-2022
+    runs-on: windows-2025
     if: github.ref == 'refs/heads/alpha' && github.event_name == 'push'
 
     steps:
