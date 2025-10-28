@@ -112,19 +112,23 @@ internal class KryptonSystemMenuListener : NativeWindow
                 }
             }
         }
-        else if ((m.Msg & PI.WM_.SYSKEYDOWN) == PI.WM_.SYSKEYDOWN || (m.WParam.ToInt32() & PI.WM_.KEYDOWN) == PI.WM_.KEYDOWN)
+        else if ((m.Msg & PI.WM_.SYSKEYDOWN) == PI.WM_.SYSKEYDOWN || (m.WParam.ToInt64() & PI.WM_.KEYDOWN) == PI.WM_.KEYDOWN)
         {
             if ((Control.ModifierKeys & Keys.Alt) == Keys.Alt)
             {
-                if (m.WParam.ToInt32() == (nint)Keys.Space)
+                if (m.WParam.ToInt64() == (int)Keys.Space)
                 {
                     // Discover if the form icon is being Displayed
                     using var context = GetLayoutContext();
 
-                    // Check if the mouse is over the Application icon image area
                     if (_drawContent.IsImageDisplayed(context))
                     {
-                        OnKeyAltSpaceDown(_drawContent.ImageRectangle(context).Location);
+                        // PointToScreen maps to the form's client area
+                        var screenPoint = _form.PointToScreen(_drawContent.ImageRectangle(context).Location);
+                        // Subtract the titlebar's height to move the position up to the image.
+                        screenPoint.Y -= _drawContent.ClientHeight;
+
+                        OnKeyAltSpaceDown(screenPoint);
                         // Eat the message
                         return;
                     }
