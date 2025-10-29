@@ -14,9 +14,30 @@ on:
 jobs:
   release-master:
     runs-on: windows-latest
+    environment: production  # Requires approval before publishing
     if: github.ref == 'refs/heads/master' && github.event_name == 'push'
 
     steps:
+      - name: Security - Verify Repository
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          if ($env:GITHUB_REPOSITORY -ne 'Krypton-Suite/Standard-Toolkit') {
+            Write-Error "Security: Invalid repository '$env:GITHUB_REPOSITORY'. This workflow should only run on Krypton-Suite/Standard-Toolkit"
+            exit 1
+          }
+          Write-Host "✓ Repository verified: $env:GITHUB_REPOSITORY"
+
+      - name: Security - Verify Branch
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          if ($env:GITHUB_REF -ne 'refs/heads/master') {
+            Write-Error "Security: Invalid branch '$env:GITHUB_REF'. This job should only run on master"
+            exit 1
+          }
+          Write-Host "✓ Branch verified: $env:GITHUB_REF"
+
       - name: Checkout
         uses: actions/checkout@v5
 
@@ -312,9 +333,30 @@ jobs:
 
   release-v85-lts:
     runs-on: windows-latest
+    environment: production  # Requires approval before publishing
     if: github.ref == 'refs/heads/V85-LTS' && github.event_name == 'push'
 
     steps:
+      - name: Security - Verify Repository
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          if ($env:GITHUB_REPOSITORY -ne 'Krypton-Suite/Standard-Toolkit') {
+            Write-Error "Security: Invalid repository '$env:GITHUB_REPOSITORY'. This workflow should only run on Krypton-Suite/Standard-Toolkit"
+            exit 1
+          }
+          Write-Host "✓ Repository verified: $env:GITHUB_REPOSITORY"
+
+      - name: Security - Verify Branch
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          if ($env:GITHUB_REF -ne 'refs/heads/V85-LTS') {
+            Write-Error "Security: Invalid branch '$env:GITHUB_REF'. This job should only run on V85-LTS"
+            exit 1
+          }
+          Write-Host "✓ Branch verified: $env:GITHUB_REF"
+
       - name: Checkout
         uses: actions/checkout@v5
 
@@ -493,9 +535,30 @@ jobs:
 
   release-canary:
     runs-on: windows-latest
+    environment: production  # Requires approval before publishing
     if: github.ref == 'refs/heads/canary' && github.event_name == 'push'
 
     steps:
+      - name: Security - Verify Repository
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          if ($env:GITHUB_REPOSITORY -ne 'Krypton-Suite/Standard-Toolkit') {
+            Write-Error "Security: Invalid repository '$env:GITHUB_REPOSITORY'. This workflow should only run on Krypton-Suite/Standard-Toolkit"
+            exit 1
+          }
+          Write-Host "✓ Repository verified: $env:GITHUB_REPOSITORY"
+
+      - name: Security - Verify Branch
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          if ($env:GITHUB_REF -ne 'refs/heads/canary') {
+            Write-Error "Security: Invalid branch '$env:GITHUB_REF'. This job should only run on canary"
+            exit 1
+          }
+          Write-Host "✓ Branch verified: $env:GITHUB_REF"
+
       - name: Checkout
         uses: actions/checkout@v5
 
@@ -683,9 +746,30 @@ jobs:
 
   release-alpha:
     runs-on: windows-latest
+    environment: production  # Requires approval before publishing
     if: github.ref == 'refs/heads/alpha' && github.event_name == 'push'
 
     steps:
+      - name: Security - Verify Repository
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          if ($env:GITHUB_REPOSITORY -ne 'Krypton-Suite/Standard-Toolkit') {
+            Write-Error "Security: Invalid repository '$env:GITHUB_REPOSITORY'. This workflow should only run on Krypton-Suite/Standard-Toolkit"
+            exit 1
+          }
+          Write-Host "✓ Repository verified: $env:GITHUB_REPOSITORY"
+
+      - name: Security - Verify Branch
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          if ($env:GITHUB_REF -ne 'refs/heads/alpha') {
+            Write-Error "Security: Invalid branch '$env:GITHUB_REF'. This job should only run on alpha"
+            exit 1
+          }
+          Write-Host "✓ Branch verified: $env:GITHUB_REF"
+
       - name: Checkout
         uses: actions/checkout@v5
 

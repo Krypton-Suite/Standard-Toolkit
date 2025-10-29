@@ -12,12 +12,35 @@ on:
 jobs:
   nightly:
     runs-on: windows-latest
+    environment: production  # Requires approval before publishing
 
     concurrency:
       group: nightly-alpha
       cancel-in-progress: true
 
     steps:
+      - name: Security - Verify Repository
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          if ($env:GITHUB_REPOSITORY -ne 'Krypton-Suite/Standard-Toolkit') {
+            Write-Error "Security: Invalid repository '$env:GITHUB_REPOSITORY'. This workflow should only run on Krypton-Suite/Standard-Toolkit"
+            exit 1
+          }
+          Write-Host "✓ Repository verified: $env:GITHUB_REPOSITORY"
+
+      - name: Security - Verify Branch
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          # This workflow checks out alpha, so verify we're authorized to do so
+          $allowedRefs = @('refs/heads/alpha', 'refs/heads/master', 'refs/heads/main')
+          if ($env:GITHUB_REF -notin $allowedRefs) {
+            Write-Error "Security: Workflow triggered from unauthorized branch '$env:GITHUB_REF'"
+            exit 1
+          }
+          Write-Host "✓ Branch verified: $env:GITHUB_REF"
+
       - name: Checkout
         uses: actions/checkout@v5
         with:
