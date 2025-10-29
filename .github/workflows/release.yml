@@ -9,6 +9,8 @@ on:
       - master
       - alpha
       - canary
+      - V100-LTS
+      - V105-LTS
       - V85-LTS
 
 jobs:
