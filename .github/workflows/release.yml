@@ -13,7 +13,7 @@ on:
 
 jobs:
   release-master:
-    runs-on: windows-2025
+    runs-on: windows-latest
     if: github.ref == 'refs/heads/master' && github.event_name == 'push'
 
     steps:
@@ -60,7 +60,7 @@ jobs:
           msbuild-architecture: x64
 
       - name: Setup NuGet
-        uses: NuGet/setup-nuget@v1.2.0
+        uses: NuGet/setup-nuget@v2
 
       - name: Cache NuGet
         uses: actions/cache@v4
@@ -311,7 +311,7 @@ jobs:
           DISCORD_WEBHOOK_MASTER: ${{ secrets.DISCORD_WEBHOOK_MASTER }}
 
   release-v85-lts:
-    runs-on: windows-2025
+    runs-on: windows-latest
     if: github.ref == 'refs/heads/V85-LTS' && github.event_name == 'push'
 
     steps:
@@ -342,7 +342,7 @@ jobs:
           msbuild-architecture: x64
 
       - name: Setup NuGet
-        uses: NuGet/setup-nuget@v1.2.0
+        uses: NuGet/setup-nuget@v2
 
       - name: Cache NuGet
         uses: actions/cache@v4
@@ -492,7 +492,7 @@ jobs:
           DISCORD_WEBHOOK_LTS: ${{ secrets.DISCORD_WEBHOOK_LTS }}
 
   release-canary:
-    runs-on: windows-2025
+    runs-on: windows-latest
     if: github.ref == 'refs/heads/canary' && github.event_name == 'push'
 
     steps:
@@ -532,7 +532,7 @@ jobs:
           msbuild-architecture: x64
 
       - name: Setup NuGet
-        uses: NuGet/setup-nuget@v1.2.0
+        uses: NuGet/setup-nuget@v2
 
       - name: Cache NuGet
         uses: actions/cache@v4
@@ -682,7 +682,7 @@ jobs:
           DISCORD_WEBHOOK_CANARY: ${{ secrets.DISCORD_WEBHOOK_CANARY }}
 
   release-alpha:
-    runs-on: windows-2025
+    runs-on: windows-latest
     if: github.ref == 'refs/heads/alpha' && github.event_name == 'push'
 
     steps:
@@ -695,12 +695,19 @@ jobs:
         with:
           dotnet-version: 9.0.x
 
-      # .NET 10 (Preview)
-      - name: Setup .NET 10 (preview)
+      # .NET 10 (GA)
+      - name: Setup .NET 10
         uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 10.0.x
-          dotnet-quality: preview
+        continue-on-error: true
+
+      # .NET 11 (will auto-upgrade from preview to GA when available)
+      - name: Setup .NET 11
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 11.0.x
+        continue-on-error: true
 
       # global.json dynamically generate
       - name: Force .NET 10 SDK via global.json
@@ -722,7 +729,7 @@ jobs:
           msbuild-architecture: x64
 
       - name: Setup NuGet
-        uses: NuGet/setup-nuget@v1.2.0
+        uses: NuGet/setup-nuget@v2
 
       - name: Cache NuGet
         uses: actions/cache@v4

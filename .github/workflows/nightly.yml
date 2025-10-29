@@ -11,7 +11,7 @@ on:
 
 jobs:
   nightly:
-    runs-on: windows-2025
+    runs-on: windows-latest
 
     concurrency:
       group: nightly-alpha
@@ -99,7 +99,7 @@ jobs:
 
       - name: Setup NuGet
         if: steps.check_changes.outputs.has_changes == 'true'
-        uses: NuGet/setup-nuget@v1.2.0
+        uses: NuGet/setup-nuget@v2
 
       - name: Cache NuGet
         if: steps.check_changes.outputs.has_changes == 'true'
