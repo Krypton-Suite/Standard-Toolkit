@@ -89,11 +89,17 @@ jobs:
 
       # .NET 11 (will auto-upgrade from preview to GA when available)
       - name: Setup .NET 11
+        id: setup_dotnet_11
         if: steps.check_changes.outputs.has_changes == 'true'
         uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 11.0.x
         continue-on-error: true
+      
+      - name: Note .NET 11 Status
+        if: steps.check_changes.outputs.has_changes == 'true' && steps.setup_dotnet_11.outcome == 'failure'
+        run: |
+          Write-Host "::notice::.NET 11 is not yet available - falling back to .NET 10 (this is expected)"
 
       # global.json dynamically generate (use latest SDK available)
       - name: Force .NET 10 SDK via global.json
@@ -251,17 +257,12 @@ jobs:
                   }
                   @{
                     name = "📦 NuGet Packages"
-                    value = "- Krypton.Toolkit`n- Krypton.Ribbon`n- Krypton.Navigator`n- Krypton.Workspace`n- Krypton.Docking"
+                    value = "• [Toolkit](https://www.nuget.org/packages/Krypton.Toolkit.Nightly)`n• [Ribbon](https://www.nuget.org/packages/Krypton.Ribbon.Nightly)`n• [Navigator](https://www.nuget.org/packages/Krypton.Navigator.Nightly)`n• [Workspace](https://www.nuget.org/packages/Krypton.Workspace.Nightly)`n• [Docking](https://www.nuget.org/packages/Krypton.Docking.Nightly)"
                     inline = $false
                   }
                   @{
                     name = "🎯 Target Frameworks"
                     value = "• .NET Framework 4.7.2`n• .NET Framework 4.8`n• .NET Framework 4.8.1`n• .NET 8.0`n• .NET 9.0`n• .NET 10.0"
-                    inline = $false
-                  }
-                  @{
-                    name = "🔗 NuGet Packages"
-                    value = "• [Toolkit](https://www.nuget.org/packages/Krypton.Toolkit)`n• [Ribbon](https://www.nuget.org/packages/Krypton.Ribbon)`n• [Navigator](https://www.nuget.org/packages/Krypton.Navigator)`n• [Workspace](https://www.nuget.org/packages/Krypton.Workspace)`n• [Docking](https://www.nuget.org/packages/Krypton.Docking)"
                     inline = $false
                   }
                 )
