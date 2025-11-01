@@ -308,7 +308,7 @@ jobs:
                   }
                   @{
                     name = "📦 NuGet Packages"
-                    value = "• [Toolkit](https://www.nuget.org/packages/Krypton.Toolkit)`n• [Ribbon](https://www.nuget.org/packages/Krypton.Ribbon)`n• [Navigator](https://www.nuget.org/packages/Krypton.Navigator)`n• [Workspace](https://www.nuget.org/packages/Krypton.Workspace)`n• [Docking](https://www.nuget.org/packages/Krypton.Docking)"
+                    value = "• [Krypton.Toolkit](https://www.nuget.org/packages/Krypton.Toolkit)`n• [Krypton.Ribbon](https://www.nuget.org/packages/Krypton.Ribbon)`n• [Krypton.Navigator](https://www.nuget.org/packages/Krypton.Navigator)`n• [Krypton.Workspace](https://www.nuget.org/packages/Krypton.Workspace)`n• [Krypton.Docking](https://www.nuget.org/packages/Krypton.Docking)"
                     inline = $false
                   }
                   @{
@@ -510,7 +510,7 @@ jobs:
                   }
                   @{
                     name = "📦 NuGet Packages"
-                    value = "• [Toolkit.LTS](https://www.nuget.org/packages/Krypton.Toolkit.LTS)`n• [Ribbon.LTS](https://www.nuget.org/packages/Krypton.Ribbon.LTS)`n• [Navigator.LTS](https://www.nuget.org/packages/Krypton.Navigator.LTS)`n• [Workspace.LTS](https://www.nuget.org/packages/Krypton.Workspace.LTS)`n• [Docking.LTS](https://www.nuget.org/packages/Krypton.Docking.LTS)"
+                    value = "• [Krypton.Toolkit.LTS](https://www.nuget.org/packages/Krypton.Toolkit.LTS)`n• [Krypton.Ribbon.LTS](https://www.nuget.org/packages/Krypton.Ribbon.LTS)`n• [Krypton.Navigator.LTS](https://www.nuget.org/packages/Krypton.Navigator.LTS)`n• [Krypton.Workspace.LTS](https://www.nuget.org/packages/Krypton.Workspace.LTS)`n• [Krypton.Docking.LTS](https://www.nuget.org/packages/Krypton.Docking.LTS)"
                     inline = $false
                   }
                   @{
@@ -956,7 +956,7 @@ jobs:
                   }
                   @{
                     name = "📦 NuGet Packages"
-                    value = "• [Toolkit.LTS](https://www.nuget.org/packages/Krypton.Toolkit.LTS)`n• [Ribbon.LTS](https://www.nuget.org/packages/Krypton.Ribbon.LTS)`n• [Navigator.LTS](https://www.nuget.org/packages/Krypton.Navigator.LTS)`n• [Workspace.LTS](https://www.nuget.org/packages/Krypton.Workspace.LTS)`n• [Docking.LTS](https://www.nuget.org/packages/Krypton.Docking.LTS)"
+                    value = "• [Krypton.Toolkit.LTS](https://www.nuget.org/packages/Krypton.Toolkit.LTS)`n• [Krypton.Ribbon.LTS](https://www.nuget.org/packages/Krypton.Ribbon.LTS)`n• [Krypton.Navigator.LTS](https://www.nuget.org/packages/Krypton.Navigator.LTS)`n• [Krypton.Workspace.LTS](https://www.nuget.org/packages/Krypton.Workspace.LTS)`n• [Krypton.Docking.LTS](https://www.nuget.org/packages/Krypton.Docking.LTS)"
                     inline = $false
                   }
                   @{
@@ -1162,7 +1162,7 @@ jobs:
                   }
                   @{
                     name = "📦 NuGet Packages"
-                    value = "• [Toolkit](https://www.nuget.org/packages/Krypton.Toolkit.Canary)`n• [Ribbon](https://www.nuget.org/packages/Krypton.Ribbon.Canary)`n• [Navigator](https://www.nuget.org/packages/Krypton.Navigator.Canary)`n• [Workspace](https://www.nuget.org/packages/Krypton.Workspace.Canary)`n• [Docking](https://www.nuget.org/packages/Krypton.Docking.Canary)"
+                    value = "• [Krypton.Toolkit.Canary](https://www.nuget.org/packages/Krypton.Toolkit.Canary)`n• [Krypton.Ribbon.Canary](https://www.nuget.org/packages/Krypton.Ribbon.Canary)`n• [Krypton.Navigator.Canary](https://www.nuget.org/packages/Krypton.Navigator.Canary)`n• [Krypton.Workspace.Canary](https://www.nuget.org/packages/Krypton.Workspace.Canary)`n• [Krypton.Docking.Canary](https://www.nuget.org/packages/Krypton.Docking.Canary)"
                     inline = $false
                   }
                   @{
