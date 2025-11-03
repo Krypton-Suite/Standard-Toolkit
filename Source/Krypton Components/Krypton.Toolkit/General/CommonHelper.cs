@@ -1232,16 +1232,18 @@ public static class CommonHelper
     /// <param name="cp">Window style parameters.</param>
     /// <param name="form">Optional VisualForm base to detect usage of Chrome drawing</param>
     /// <returns>Border sizing.</returns>
-    public static Padding GetWindowBorders(CreateParams cp, KryptonForm? form)
+    public static Padding GetWindowBorders(CreateParams cp, KryptonForm form)
     {
         int xOffset = 0;
         int yOffset = 0;
         uint dwStyle = (uint)cp.Style;
         bool useAdjust = false;
-        if (form is { StateCommon.Border: PaletteFormBorder formBorder } kryptonForm)
+        
+        if (form.StateCommon!.Border is PaletteFormBorder formBorder)
         {
             useAdjust = true;
-            var (xOffset1, yOffset1) = formBorder.BorderWidths(kryptonForm.FormBorderStyle);
+            var (xOffset1, yOffset1) = formBorder.BorderWidths(form.FormBorderStyle);
+
             xOffset = Math.Max(0, xOffset1);
             yOffset = Math.Max(0, yOffset1);
         }
@@ -1252,66 +1254,66 @@ public static class CommonHelper
             top = -yOffset,
             bottom = yOffset
         };
+
         if (useAdjust)
         {
             // Adjust rectangle to add on the borders required
             PI.AdjustWindowRectEx(ref rect, dwStyle, false, cp.ExStyle);
-            PaletteBase? resolvedPalette = form?.GetResolvedPalette();
+            PaletteBase? resolvedPalette = form.GetResolvedPalette();
             if (resolvedPalette == null)
             {
                 // Need to breakout when the form is closing
                 return new Padding(-rect.left, -rect.top, rect.right, rect.bottom);
             }
 
-            if (!CommonHelper.IsFormMaximized(form!))
+            if (!CommonHelper.IsFormMaximized(form))
             {
-                // Set the values determined by the formBorder.BorderWidths etc.
-                rect.left = -xOffset;
-                rect.right = xOffset;
-                rect.bottom = yOffset;
-
-                switch (form!.StateCommon!.Border.GetBorderDrawBorders(PaletteState.Normal))
+                switch (form.StateCommon!.Border.GetBorderDrawBorders(PaletteState.Normal))
                 {
                     case PaletteDrawBorders.None:
                         rect.left = 0;
                         rect.right = 0;
                         rect.bottom = 0;
                         break;
+
                     case PaletteDrawBorders.Bottom:
                     case PaletteDrawBorders.TopBottom:
                         rect.left = 0;
                         rect.right = 0;
                         break;
+
                     case PaletteDrawBorders.Left:
                     case PaletteDrawBorders.TopLeft:
                         rect.right = 0;
                         rect.bottom = 0;
                         break;
+
                     case PaletteDrawBorders.BottomLeft:
                     case PaletteDrawBorders.TopBottomLeft:
                         rect.right = 0;
                         break;
+
                     case PaletteDrawBorders.Right:
                     case PaletteDrawBorders.TopRight:
                         rect.left = 0;
                         rect.bottom = 0;
                         break;
+
                     case PaletteDrawBorders.BottomRight:
                     case PaletteDrawBorders.TopBottomRight:
                         rect.left = 0;
                         break;
+
                     case PaletteDrawBorders.LeftRight:
                     case PaletteDrawBorders.TopLeftRight:
                         rect.bottom = 0;
                         break;
-                    //case PaletteDrawBorders.Inherit:
-                    //case PaletteDrawBorders.BottomLeftRight:
-                    //case PaletteDrawBorders.All:
+
                     default:
                         break;
                 }
             }
-            else if (form?.IsMdiChild ?? false)
+            else if (form.IsMdiChild)
             {
                 rect.top = 0;
                 rect.bottom = 0;
