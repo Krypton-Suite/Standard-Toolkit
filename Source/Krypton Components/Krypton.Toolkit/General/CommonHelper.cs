@@ -1239,7 +1239,7 @@ public static class CommonHelper
         uint dwStyle = (uint)cp.Style;
         bool useAdjust = false;
         
-        if (form.StateCommon!.Border is PaletteFormBorder formBorder)
+        if (form.StateCommon is {Border: PaletteFormBorder formBorder })
         {
             useAdjust = true;
             var (xOffset1, yOffset1) = formBorder.BorderWidths(form.FormBorderStyle);

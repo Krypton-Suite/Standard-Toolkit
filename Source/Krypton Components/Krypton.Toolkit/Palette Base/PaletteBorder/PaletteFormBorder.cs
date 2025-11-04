@@ -72,7 +72,7 @@ public class PaletteFormBorder : PaletteBorder
     /// <returns>Border rounding.</returns>
     public override float GetBorderRounding(PaletteState state)
     {
-        if (Draw == InheritBool.False)
+        if (Draw == InheritBool.False || Rounding == -1F)
         {
             return 0;
         }
@@ -84,13 +84,12 @@ public class PaletteFormBorder : PaletteBorder
     /// Gets the graphics hint for drawing the border.
     /// </summary>
     [KryptonPersist(false)]
-    [Browsable(true)]
-    [EditorBrowsable(EditorBrowsableState.Always)]
+    [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [DefaultValue(PaletteGraphicsHint.None)]
     public override PaletteGraphicsHint GraphicsHint
     {
-        // #1757
+        // #1757: Make sure that the little transparency elements on the curves do not show up for Form Borders
         get => PaletteGraphicsHint.None;
 
         set

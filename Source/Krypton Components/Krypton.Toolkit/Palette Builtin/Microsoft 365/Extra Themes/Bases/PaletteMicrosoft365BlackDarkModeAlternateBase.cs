@@ -96,7 +96,7 @@ public abstract class PaletteMicrosoft365BlackDarkModeAlternateBase : PaletteBas
     private static readonly Padding _metricPaddingRibbon = new Padding(0, 1, 1, 1);
     private static readonly Padding _metricPaddingRibbonAppButton = new Padding(3, 0, 3, 0);
     private static readonly Padding _metricPaddingHeader = new Padding(0, 3, 1, 3);
-    private static readonly Padding _metricPaddingHeaderForm = new Padding(0);
+    private static readonly Padding _metricPaddingHeaderForm = new Padding(3, 0, 0, 0);
     private static readonly Padding _metricPaddingInputControl = new Padding(0, 1, 0, 1);
     private static readonly Padding _metricPaddingBarInside = new Padding(3);
     private static readonly Padding _metricPaddingBarTabs = new Padding(0);
