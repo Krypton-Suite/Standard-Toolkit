@@ -117,7 +117,7 @@
             this.contextGreen2});
             this.kryptonRibbon.SelectedContext = "Red,Green";
             this.kryptonRibbon.SelectedTab = this.tabHome;
-            this.kryptonRibbon.Size = new System.Drawing.Size(930, 115);
+            this.kryptonRibbon.Size = new System.Drawing.Size(926, 115);
             this.kryptonRibbon.StateCommon.RibbonAppButton.BackColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.kryptonRibbon.StateCommon.RibbonAppButton.BackColor2 = System.Drawing.Color.Yellow;
             this.kryptonRibbon.StateCommon.RibbonAppButton.BackColor3 = System.Drawing.Color.Lime;
@@ -186,7 +186,7 @@
             this.labelOffice2007Styles.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelOffice2007Styles.Location = new System.Drawing.Point(0, 115);
             this.labelOffice2007Styles.Name = "labelOffice2007Styles";
-            this.labelOffice2007Styles.Size = new System.Drawing.Size(930, 489);
+            this.labelOffice2007Styles.Size = new System.Drawing.Size(926, 501);
             this.labelOffice2007Styles.TabIndex = 2;
             // 
             // groupOffice2007Styles
@@ -467,7 +467,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(930, 604);
+            this.ClientSize = new System.Drawing.Size(926, 616);
             this.CloseBox = false;
             this.Controls.Add(this.labelOffice2007Styles);
             this.Controls.Add(this.kryptonRibbon);
