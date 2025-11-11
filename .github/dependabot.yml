@@ -9,4 +9,11 @@ updates:
     schedule:
       interval: "weekly"
     target-branch: "alpha"
-
+    reviewers:
+      - "PWagner1"
+      - "Smurf-IV"
+      - "tobitege"
+      - "giduac"
+      - "lesandrog"
+    labels:
+      - "workflow:dependancies"
