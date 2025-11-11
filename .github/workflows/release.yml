@@ -9,11 +9,13 @@ on:
       - master
       - alpha
       - canary
+      - V100-LTS
+      - V105-LTS
       - V85-LTS
 
 jobs:
   release-master:
-    runs-on: windows-2022
+    runs-on: windows-2025
     if: github.ref == 'refs/heads/master' && github.event_name == 'push'
 
     steps:
@@ -22,16 +24,15 @@ jobs:
 
       # .NET 9 (GA)
       - name: Setup .NET 9
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 9.0.x
 
-      # .NET 10 (Preview)
-      - name: Setup .NET 10 (preview)
-        uses: actions/setup-dotnet@v4
+      # .NET 10
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 10.0.x
-          dotnet-quality: preview
 
       # global.json dynamically generate
       - name: Force .NET 10 SDK via global.json
@@ -304,7 +305,7 @@ jobs:
           DISCORD_WEBHOOK_MASTER: ${{ secrets.DISCORD_WEBHOOK_MASTER }}
 
   release-v85-lts:
-    runs-on: windows-2022
+    runs-on: windows-2025
     if: github.ref == 'refs/heads/V85-LTS' && github.event_name == 'push'
 
     steps:
@@ -313,19 +314,19 @@ jobs:
 
       # .NET 6 (LTS) - needed for net6.0-windows target
       - name: Setup .NET 6
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 6.0.x
 
       # .NET 7 - needed for net7.0-windows target
       - name: Setup .NET 7
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 7.0.x
 
       # .NET 8 (LTS) - needed for net8.0-windows target and to build all framework targets
       - name: Setup .NET 8
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 8.0.x
 
@@ -485,7 +486,7 @@ jobs:
           DISCORD_WEBHOOK_LTS: ${{ secrets.DISCORD_WEBHOOK_LTS }}
 
   release-canary:
-    runs-on: windows-2022
+    runs-on: windows-2025
     if: github.ref == 'refs/heads/canary' && github.event_name == 'push'
 
     steps:
@@ -494,16 +495,15 @@ jobs:
 
       # .NET 9 (GA)
       - name: Setup .NET 9
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 9.0.x
 
-      # .NET 10 (Preview)
-      - name: Setup .NET 10 (preview)
-        uses: actions/setup-dotnet@v4
+      # .NET 10 (GA)
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 10.0.x
-          dotnet-quality: preview
 
       # global.json dynamically generate
       - name: Force .NET 10 SDK via global.json
@@ -658,7 +658,7 @@ jobs:
                   }
                   @{
                     name = "🔗 NuGet Packages"
-                    value = "• [Toolkit](https://www.nuget.org/packages/Krypton.Toolkit)`n• [Ribbon](https://www.nuget.org/packages/Krypton.Ribbon)`n• [Navigator](https://www.nuget.org/packages/Krypton.Navigator)`n• [Workspace](https://www.nuget.org/packages/Krypton.Workspace)`n• [Docking](https://www.nuget.org/packages/Krypton.Docking)"
+                    value = "• [Toolkit](https://www.nuget.org/packages/Krypton.Toolkit.Canary)`n• [Ribbon](https://www.nuget.org/packages/Krypton.Ribbon.Canary)`n• [Navigator](https://www.nuget.org/packages/Krypton.Navigator.Canary)`n• [Workspace](https://www.nuget.org/packages/Krypton.Workspace.Canary)`n• [Docking](https://www.nuget.org/packages/Krypton.Docking.Canary)"
                     inline = $false
                   }
                 )
@@ -675,7 +675,7 @@ jobs:
           DISCORD_WEBHOOK_CANARY: ${{ secrets.DISCORD_WEBHOOK_CANARY }}
 
   release-alpha:
-    runs-on: windows-2022
+    runs-on: windows-2025
     if: github.ref == 'refs/heads/alpha' && github.event_name == 'push'
 
     steps:
@@ -684,16 +684,15 @@ jobs:
 
       # .NET 9 (GA)
       - name: Setup .NET 9
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 9.0.x
 
-      # .NET 10 (Preview)
-      - name: Setup .NET 10 (preview)
-        uses: actions/setup-dotnet@v4
+      # .NET 10 (GA)
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 10.0.x
-          dotnet-quality: preview
 
       # global.json dynamically generate
       - name: Force .NET 10 SDK via global.json
@@ -827,7 +826,7 @@ jobs:
           $payload = @{
             embeds = @(
               @{
-                title = "🚀 Krypton Toolkit Nightly Release"
+                title = "🌙 Krypton Toolkit Nightly Release"
                 description = "A new nightly build is now available for bleeding-edge testing!"
                 color = 10181046
                 fields = @(
@@ -848,7 +847,7 @@ jobs:
                   }
                   @{
                     name = "🔗 NuGet Packages"
-                    value = "• [Toolkit](https://www.nuget.org/packages/Krypton.Toolkit)`n• [Ribbon](https://www.nuget.org/packages/Krypton.Ribbon)`n• [Navigator](https://www.nuget.org/packages/Krypton.Navigator)`n• [Workspace](https://www.nuget.org/packages/Krypton.Workspace)`n• [Docking](https://www.nuget.org/packages/Krypton.Docking)"
+                    value = "• [Toolkit](https://www.nuget.org/packages/Krypton.Toolkit.Nightly)`n• [Ribbon](https://www.nuget.org/packages/Krypton.Ribbon.Nightly)`n• [Navigator](https://www.nuget.org/packages/Krypton.Navigator.Nightly)`n• [Workspace](https://www.nuget.org/packages/Krypton.Workspace.Nightly)`n• [Docking](https://www.nuget.org/packages/Krypton.Docking.Nightly)"
                     inline = $false
                   }
                 )

@@ -11,7 +11,7 @@ on:
 
 jobs:
   nightly:
-    runs-on: windows-2022
+    runs-on: windows-2025
 
     steps:
       - name: Checkout
@@ -21,16 +21,15 @@ jobs:
 
       # .NET 9 (GA)
       - name: Setup .NET 9
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 9.0.x
 
-      # .NET 10 (Preview)
-      - name: Setup .NET 10 (preview)
-        uses: actions/setup-dotnet@v4
+      # .NET 10 (GA)
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 10.0.x
-          dotnet-quality: preview
 
       # global.json dynamically generate (use latest SDK available)
       - name: Force .NET 10 SDK via global.json
@@ -168,7 +167,7 @@ jobs:
           $payload = @{
             embeds = @(
               @{
-                title = "🚀 Krypton Toolkit Nightly Release"
+                title = "🌙 Krypton Toolkit Nightly Release"
                 description = "A new nightly build is now available for bleeding-edge testing!"
                 color = 10181046
                 fields = @(
@@ -189,7 +188,7 @@ jobs:
                   }
                   @{
                     name = "🔗 NuGet Packages"
-                    value = "• [Toolkit](https://www.nuget.org/packages/Krypton.Toolkit)`n• [Ribbon](https://www.nuget.org/packages/Krypton.Ribbon)`n• [Navigator](https://www.nuget.org/packages/Krypton.Navigator)`n• [Workspace](https://www.nuget.org/packages/Krypton.Workspace)`n• [Docking](https://www.nuget.org/packages/Krypton.Docking)"
+                    value = "• [Toolkit](https://www.nuget.org/packages/Krypton.Toolkit.Nightly)`n• [Ribbon](https://www.nuget.org/packages/Krypton.Ribbon.Nightly)`n• [Navigator](https://www.nuget.org/packages/Krypton.Navigator.Nightly)`n• [Workspace](https://www.nuget.org/packages/Krypton.Workspace.Nightly)`n• [Docking](https://www.nuget.org/packages/Krypton.Docking.Nightly)"
                     inline = $false
                   }
                 )
