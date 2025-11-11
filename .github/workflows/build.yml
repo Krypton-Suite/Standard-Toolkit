@@ -33,7 +33,7 @@ jobs:
         with:
           dotnet-version: 9.0.x
 
-      # .NET 10
+      # .NET 10 (GA)
       - name: Setup .NET 10
         uses: actions/setup-dotnet@v5
         with:
@@ -90,7 +90,7 @@ jobs:
         with:
           dotnet-version: 9.0.x
 
-      # .NET 10
+      # .NET 10 (GA)
       - name: Setup .NET 10
         uses: actions/setup-dotnet@v5
         with:
