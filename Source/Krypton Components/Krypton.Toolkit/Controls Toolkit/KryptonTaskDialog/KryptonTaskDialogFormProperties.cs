@@ -366,7 +366,7 @@ public class KryptonTaskDialogFormProperties
     /// </summary>
     public DialogResult DialogResult 
     {
-        get => _form.DialogResult;
+        get => _form.DialogResultInternal;
     }
     #endregion
 

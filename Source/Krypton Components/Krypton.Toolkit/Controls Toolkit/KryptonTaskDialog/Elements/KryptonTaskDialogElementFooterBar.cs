@@ -198,7 +198,7 @@ public partial class KryptonTaskDialogElementFooterBar : KryptonTaskDialogElemen
         if (sender is KryptonButton button)
         {
             _form.DialogResult = button.DialogResult;
-            _form.Hide();
+            _form.Close();
         }
     }
 
