@@ -47,7 +47,7 @@ public class KryptonTaskDialogKryptonForm : KryptonForm
         // Else let it close itself.
         if (Visible && e.CloseReason == CloseReason.UserClosing)
         {
-            e.Cancel = true;
+            e.Cancel = false;
             Hide();
         }
         else

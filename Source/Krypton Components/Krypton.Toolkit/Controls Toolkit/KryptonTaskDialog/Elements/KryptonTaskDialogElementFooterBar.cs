@@ -497,7 +497,7 @@ public partial class KryptonTaskDialogElementFooterBar : KryptonTaskDialogElemen
             _footNoteText.Height = height;
 
             // Size the panel. Add an extra PanelBottom to give it some more space at the border
-            Panel.Height = Math.Max(_tlp.Height, height) + Defaults.PanelTop + Defaults.PanelBottom + Defaults.PanelBottom;
+            Panel.Height = Math.Max(_tlp.Height, height) + Defaults.PanelTop + Defaults.PanelBottom;
 
             // Tell everybody about it when visible.
             base.OnSizeChanged(performLayout);
