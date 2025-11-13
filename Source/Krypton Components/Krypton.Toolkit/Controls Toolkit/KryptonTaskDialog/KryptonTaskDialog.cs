@@ -260,9 +260,18 @@ public class KryptonTaskDialog : IDisposable
         UpdateFormPosition(owner);
         ResetFormDialogResult();
 
-        return owner is not null
-            ? _form.ShowDialog(owner)
-            : _form.ShowDialog();
+        // The standard form's DialogResult property always returns Cancel when e.Cancel is set to true.<br/>
+        // Before that happens the DialogResult is stored in DialogResultInternal.
+        if (owner is not null)
+        {
+            _form.ShowDialog(owner);
+        }
+        else
+        {
+            _form.ShowDialog();
+        }
+
+        return Dialog.DialogResult;
     }
 
     /// <summary>
@@ -446,6 +455,7 @@ public class KryptonTaskDialog : IDisposable
         _form.Padding = _taskDialogDefaults.NullPadding;
         _form.MaximizeBox = false;
         _form.ControlBox = true;
+        _form.SystemMenuValues.Enabled = false;
 
         SetupTableLayoutPanel();
 
@@ -459,6 +469,7 @@ public class KryptonTaskDialog : IDisposable
     private void ResetFormDialogResult()
     {
         _form.DialogResult = DialogResult.None;
+        _form.DialogResultInternal = DialogResult.None;
     }
 
     private void SetupTableLayoutPanel()
