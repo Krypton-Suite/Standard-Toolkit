@@ -4,6 +4,8 @@
 
 ## 2025-11-24 - Build 2511 (V100 RTM) - November 2025
 
+* Implemented [#2621](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2621), Add `dependabot.yml` for maintenance tasks
+* Implemented [#2620](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2620), Add `CODEOWNERS` file
 * Resolved [#2608](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2608), Discord push notifications incorrectly link to the wrong NuGet packages
 * Resolved [#2307](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2304), `KryptonForm` border issues. See issue for details as this solves several tickets connected to this one.
 * Resolved [#2593](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2593), Scrolling over `KryptonForm` results in OverflowException in `KryptonSystemMenuListener`
