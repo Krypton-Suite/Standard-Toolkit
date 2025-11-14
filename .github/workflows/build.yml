@@ -13,7 +13,6 @@ on:
       - alpha
       - canary
       - gold
-      - V100-LTS
       - V105-LTS
       - V85-LTS
     paths-ignore: ['.git*', '.vscode']

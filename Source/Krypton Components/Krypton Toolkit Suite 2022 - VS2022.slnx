@@ -68,10 +68,7 @@
     <File Path="../../Documents/Development/How-to-Build.md" />
     <File Path="Themed-System-Menu.md" />
   </Folder>
-  <Folder Name="/Solution Items/Documentation/GitHub/">
-    <File Path="../../.github/CODEOWNERS" />
-    <File Path="../../.github/dependabot.yml" />
-  </Folder>
+  <Folder Name="/Solution Items/Documentation/GitHub/" />
   <Folder Name="/Solution Items/Documentation/GitHub/Issue Templates/">
     <File Path="../../.github/ISSUE_TEMPLATE/bug_report.md" />
     <File Path="../../.github/ISSUE_TEMPLATE/feature_request.md" />
@@ -79,7 +76,6 @@
     <File Path="../../.github/ISSUE_TEMPLATE/post-a-question.md" />
   </Folder>
   <Folder Name="/Solution Items/Documentation/GitHub/Workflows/">
-    <File Path="../../.github/dependabot.yml" />
     <File Path="../../.github/workflows/build.yml" />
     <File Path="../../.github/workflows/release.yml" />
   </Folder>
