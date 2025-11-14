@@ -13,7 +13,7 @@ on:
       - alpha
       - canary
       - gold
-      - V95
+      - V105-LTS
       - V85-LTS
     paths-ignore: ['.git*', '.vscode']
 
@@ -28,16 +28,15 @@ jobs:
 
       # .NET 9 (GA)
       - name: Setup .NET 9
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 9.0.x
 
-      # .NET 10 (Preview)
-      - name: Setup .NET 10 (preview)
-        uses: actions/setup-dotnet@v4
+      # .NET 10 (GA)
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 10.0.x
-          dotnet-quality: preview
 
       # global.json dynamically generate
       - name: Force .NET 10 SDK via global.json
@@ -76,7 +75,7 @@ jobs:
         run: msbuild "Scripts/nightly.proj" /t:Rebuild /p:Configuration=Release /p:Platform="Any CPU"
 
   release:
-    runs-on: windows-2022
+    runs-on: windows-2025
     if: github.ref == 'refs/heads/master' && github.event_name == 'push'
     needs: build
 
@@ -86,16 +85,15 @@ jobs:
 
       # .NET 9 (GA)
       - name: Setup .NET 9
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 9.0.x
 
-      # .NET 10 (Preview)
-      - name: Setup .NET 10 (preview)
-        uses: actions/setup-dotnet@v4
+      # .NET 10 (GA)
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 10.0.x
-          dotnet-quality: preview
 
       # global.json dynamically generate
       - name: Force .NET 10 SDK via global.json
