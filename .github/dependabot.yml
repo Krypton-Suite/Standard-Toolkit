@@ -1,0 +1,16 @@
+# The purpose of this file is to configure Dependabot to automatically check for updates, i.e. new versions of dependencies, on a weekly basis (github-actions).
+# This helps to keep the project dependencies up-to-date and secure.
+# For more information, visit: https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot-yml-file
+
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    target-branch: "alpha"
+    reviewers:
+      - "Krypton-Suite/reviewers"
+    labels:
+      - "workflow:dependancies"
+      

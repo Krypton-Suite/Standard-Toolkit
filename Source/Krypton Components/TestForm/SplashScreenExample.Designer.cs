@@ -33,7 +33,6 @@
             this.kbtnCancel = new Krypton.Toolkit.KryptonButton();
             this.kryptonBorderEdge1 = new Krypton.Toolkit.KryptonBorderEdge();
             this.kryptonPanel2 = new Krypton.Toolkit.KryptonPanel();
-            this.kchkShowApplicationName = new Krypton.Toolkit.KryptonCheckBox();
             this.kcbShowCloseButton = new Krypton.Toolkit.KryptonCheckBox();
             this.kcbShowMinimizeButton = new Krypton.Toolkit.KryptonCheckBox();
             this.ktxtLogo = new Krypton.Toolkit.KryptonTextBox();
@@ -49,6 +48,7 @@
             this.ktxtAssembly = new Krypton.Toolkit.KryptonTextBox();
             this.kryptonLabel1 = new Krypton.Toolkit.KryptonLabel();
             this.kcmdChosenAssembly = new Krypton.Toolkit.KryptonCommand();
+            this.kchkShowApplicationName = new Krypton.Toolkit.KryptonCheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel2)).BeginInit();
@@ -61,17 +61,17 @@
             this.kryptonPanel1.Controls.Add(this.kbtnCancel);
             this.kryptonPanel1.Controls.Add(this.kryptonBorderEdge1);
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.kryptonPanel1.Location = new System.Drawing.Point(0, 188);
+            this.kryptonPanel1.Location = new System.Drawing.Point(0, 192);
             this.kryptonPanel1.Name = "kryptonPanel1";
             this.kryptonPanel1.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelAlternate;
-            this.kryptonPanel1.Size = new System.Drawing.Size(395, 50);
+            this.kryptonPanel1.Size = new System.Drawing.Size(389, 50);
             this.kryptonPanel1.TabIndex = 0;
             // 
             // kbtnShow
             // 
             this.kbtnShow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.kbtnShow.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.kbtnShow.Location = new System.Drawing.Point(197, 13);
+            this.kbtnShow.Location = new System.Drawing.Point(191, 13);
             this.kbtnShow.Name = "kbtnShow";
             this.kbtnShow.Size = new System.Drawing.Size(90, 25);
             this.kbtnShow.TabIndex = 2;
@@ -83,7 +83,7 @@
             // 
             this.kbtnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.kbtnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.kbtnCancel.Location = new System.Drawing.Point(293, 13);
+            this.kbtnCancel.Location = new System.Drawing.Point(287, 13);
             this.kbtnCancel.Name = "kbtnCancel";
             this.kbtnCancel.Size = new System.Drawing.Size(90, 25);
             this.kbtnCancel.TabIndex = 1;
@@ -97,7 +97,7 @@
             this.kryptonBorderEdge1.Dock = System.Windows.Forms.DockStyle.Top;
             this.kryptonBorderEdge1.Location = new System.Drawing.Point(0, 0);
             this.kryptonBorderEdge1.Name = "kryptonBorderEdge1";
-            this.kryptonBorderEdge1.Size = new System.Drawing.Size(395, 1);
+            this.kryptonBorderEdge1.Size = new System.Drawing.Size(389, 1);
             this.kryptonBorderEdge1.Text = "kryptonBorderEdge1";
             // 
             // kryptonPanel2
@@ -118,16 +118,8 @@
             this.kryptonPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel2.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel2.Name = "kryptonPanel2";
-            this.kryptonPanel2.Size = new System.Drawing.Size(395, 188);
+            this.kryptonPanel2.Size = new System.Drawing.Size(389, 192);
             this.kryptonPanel2.TabIndex = 1;
-            // 
-            // kchkShowApplicationName
-            // 
-            this.kchkShowApplicationName.Location = new System.Drawing.Point(205, 127);
-            this.kchkShowApplicationName.Name = "kchkShowApplicationName";
-            this.kchkShowApplicationName.Size = new System.Drawing.Size(155, 20);
-            this.kchkShowApplicationName.TabIndex = 14;
-            this.kchkShowApplicationName.Values.Text = "Show Application Name";
             // 
             // kcbShowCloseButton
             // 
@@ -266,21 +258,26 @@
             this.kcmdChosenAssembly.Text = ".&..";
             this.kcmdChosenAssembly.Execute += new System.EventHandler(this.kcmdChosenAssembly_Execute);
             // 
+            // kchkShowApplicationName
+            // 
+            this.kchkShowApplicationName.Location = new System.Drawing.Point(205, 127);
+            this.kchkShowApplicationName.Name = "kchkShowApplicationName";
+            this.kchkShowApplicationName.Size = new System.Drawing.Size(155, 20);
+            this.kchkShowApplicationName.TabIndex = 14;
+            this.kchkShowApplicationName.Values.Text = "Show Application Name";
+            // 
             // SplashScreenExample
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(395, 238);
+            this.ClientSize = new System.Drawing.Size(389, 242);
             this.Controls.Add(this.kryptonPanel2);
             this.Controls.Add(this.kryptonPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
-            this.Location = new System.Drawing.Point(0, 0);
             this.MaximizeBox = false;
             this.Name = "SplashScreenExample";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SplashScreenExample";
-            this.Controls.SetChildIndex(this.kryptonPanel1, 0);
-            this.Controls.SetChildIndex(this.kryptonPanel2, 0);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
             this.kryptonPanel1.ResumeLayout(false);
             this.kryptonPanel1.PerformLayout();

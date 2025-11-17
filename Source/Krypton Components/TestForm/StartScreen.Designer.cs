@@ -53,10 +53,12 @@ namespace TestForm
             // 
             // kbtnExit
             // 
-            this.kbtnExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.kbtnExit.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.kbtnExit.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.kbtnExit.Location = new System.Drawing.Point(12, 490);
+            this.kbtnExit.Location = new System.Drawing.Point(12, 691);
             this.kbtnExit.Margin = new System.Windows.Forms.Padding(2);
+            this.kbtnExit.MinimumSize = new System.Drawing.Size(0, 30);
             this.kbtnExit.Name = "kbtnExit";
             this.kbtnExit.Size = new System.Drawing.Size(526, 30);
             this.kbtnExit.TabIndex = 15;
@@ -72,8 +74,9 @@ namespace TestForm
             // 
             // tlpMain
             // 
-            this.tlpMain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.tlpMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tlpMain.ColumnCount = 1;
             this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tlpMain.Location = new System.Drawing.Point(12, 51);
@@ -81,14 +84,16 @@ namespace TestForm
             this.tlpMain.RowCount = 2;
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlpMain.Size = new System.Drawing.Size(526, 428);
+            this.tlpMain.Size = new System.Drawing.Size(526, 629);
             this.tlpMain.TabIndex = 2;
             // 
             // tbFilter
             // 
+            this.tbFilter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tbFilter.ButtonSpecs.Add(this.btnClearFilter);
             this.tbFilter.Location = new System.Drawing.Point(12, 12);
-            this.tbFilter.MinimumSize = new System.Drawing.Size(526, 30);
+            this.tbFilter.MinimumSize = new System.Drawing.Size(0, 30);
             this.tbFilter.Name = "tbFilter";
             this.tbFilter.Size = new System.Drawing.Size(526, 30);
             this.tbFilter.StateCommon.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
@@ -102,11 +107,11 @@ namespace TestForm
             // kryptonThemeListBox1
             // 
             this.kryptonThemeListBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.kryptonThemeListBox1.DefaultPalette = Krypton.Toolkit.PaletteMode.Microsoft365Blue;
-            this.kryptonThemeListBox1.Location = new System.Drawing.Point(559, 12);
+            this.kryptonThemeListBox1.Location = new System.Drawing.Point(551, 12);
             this.kryptonThemeListBox1.Name = "kryptonThemeListBox1";
-            this.kryptonThemeListBox1.Size = new System.Drawing.Size(313, 520);
+            this.kryptonThemeListBox1.Size = new System.Drawing.Size(313, 709);
             this.kryptonThemeListBox1.TabIndex = 17;
             // 
             // btnDockTopRight
@@ -124,12 +129,12 @@ namespace TestForm
             // 
             // StartScreen
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ButtonSpecs.Add(this.btnRestoreSize);
             this.ButtonSpecs.Add(this.btnDockTopRight);
             this.CancelButton = this.kbtnExit;
-            this.ClientSize = new System.Drawing.Size(900, 540);
+            this.ClientSize = new System.Drawing.Size(876, 729);
             this.Controls.Add(this.kryptonThemeListBox1);
             this.Controls.Add(this.tbFilter);
             this.Controls.Add(this.tlpMain);
