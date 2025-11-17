@@ -1,34 +1,34 @@
 @echo off
 
-if exist "%ProgramFiles%\Microsoft Visual Studio\2022\Preview\MSBuild\Current\Bin" goto vs17prev
-if exist "%ProgramFiles%\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin" goto vs17ent
-if exist "%ProgramFiles%\Microsoft Visual Studio\2022\Professional\MSBuild\Current\Bin" goto vs17pro
-if exist "%ProgramFiles%\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin" goto vs17com
-if exist "%ProgramFiles%\Microsoft Visual Studio\2022\BuildTools\MSBuild\Current\Bin" goto vs17build
+if exist "%ProgramFiles%\Microsoft Visual Studio\2026\Preview\MSBuild\Current\Bin" goto vs18prev
+if exist "%ProgramFiles%\Microsoft Visual Studio\2026\Enterprise\MSBuild\Current\Bin" goto vs18ent
+if exist "%ProgramFiles%\Microsoft Visual Studio\2026\Professional\MSBuild\Current\Bin" goto vs18pro
+if exist "%ProgramFiles%\Microsoft Visual Studio\2026\Community\MSBuild\Current\Bin" goto vs18com
+if exist "%ProgramFiles%\Microsoft Visual Studio\2026\BuildTools\MSBuild\Current\Bin" goto vs18build
 
-echo "Unable to detect suitable environment. Check if VS 2022 is installed."
+echo "Unable to detect suitable environment. Check if VS 2026 is installed."
 
 pause
 goto exitbatch
 
-:vs17prev
-set msbuildpath=%ProgramFiles%\Microsoft Visual Studio\2022\Preview\MSBuild\Current\Bin
+:vs18prev
+set msbuildpath=%ProgramFiles%\Microsoft Visual Studio\2026\Preview\MSBuild\Current\Bin
 goto build
 
-:vs17ent
-set msbuildpath=%ProgramFiles%\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin
+:vs18ent
+set msbuildpath=%ProgramFiles%\Microsoft Visual Studio\2026\Enterprise\MSBuild\Current\Bin
 goto build
 
-:vs17pro
-set msbuildpath=%ProgramFiles%\Microsoft Visual Studio\2022\Professional\MSBuild\Current\Bin
+:vs18pro
+set msbuildpath=%ProgramFiles%\Microsoft Visual Studio\2026\Professional\MSBuild\Current\Bin
 goto build
 
-:vs17com
-set msbuildpath=%ProgramFiles%\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin
+:vs18com
+set msbuildpath=%ProgramFiles%\Microsoft Visual Studio\2026\Community\MSBuild\Current\Bin
 goto build
 
-:vs17build
-set msbuildpath=%ProgramFiles%\Microsoft Visual Studio\2022\BuildTools\MSBuild\Current\Bin
+:vs18build
+set msbuildpath=%ProgramFiles%\Microsoft Visual Studio\2026\BuildTools\MSBuild\Current\Bin
 goto build
 
 :build

@@ -1,0 +1,128 @@
+<Project>
+	<Import Project="..\Directory.Build.props" />
+
+	<PropertyGroup>
+		<RootFolder>$(MSBuildProjectDirectory)</RootFolder>
+		<Configuration>Release</Configuration>
+		<ReleaseBuildPath>..\Bin\Release\Zips</ReleaseBuildPath>
+		<ReleaseZipName>Krypton-Release</ReleaseZipName>
+	</PropertyGroup>
+
+	<Target Name="Clean">
+		<ItemGroup>
+			<Projects Include="..\Source\Krypton Components\Krypton.*\*.csproj" />
+		</ItemGroup>
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" Targets="Clean" />
+	</Target>
+
+	<Target Name="Restore">
+		<ItemGroup>
+			<Projects Include="..\Source\Krypton Components\Krypton.*\*.csproj" />
+		</ItemGroup>
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" Targets="Restore" />
+	</Target>
+
+	<Target Name="Build" DependsOnTargets="Restore">
+		<ItemGroup>
+			<Projects Include="..\Source\Krypton Components\Krypton.*\*.csproj" />
+		</ItemGroup>
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" />
+	</Target>
+
+	<Target Name="CleanPackages">
+		<ItemGroup>
+			<NugetPkgs Include="..\Bin\Packages\Release\*.nupkg" />
+		</ItemGroup>
+		<Delete Files="@(NugetPkgs)" />
+	</Target>
+
+	<Target Name="PackLite">
+		<ItemGroup>
+			<Projects Include="..\Source\Krypton Components\Krypton.*\*.csproj" />
+		</ItemGroup>
+		<ItemGroup>
+			<NugetAssets Include="..\Source\Krypton Components\Krypton.*\obj\*.json" />
+			<NugetAssets Include="..\Source\Krypton Components\Krypton.*\obj\*.cache" />
+			<NugetAssets Include="..\Source\Krypton Components\Krypton.*\obj\*.g.targets" />
+			<NugetAssets Include="..\Source\Krypton Components\Krypton.*\obj\*.g.props" />
+		</ItemGroup>
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" Targets="Clean" />
+		<Delete Files="@(NugetAssets)" />
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=lite" Targets="Restore" />
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=lite" Targets="Pack" />
+	</Target>
+
+	<Target Name="PackAll">
+		<ItemGroup>
+			<Projects Include="..\Source\Krypton Components\Krypton.*\*.csproj" />
+		</ItemGroup>
+		<ItemGroup>
+			<NugetAssets Include="..\Source\Krypton Components\Krypton.*\obj\*.json" />
+			<NugetAssets Include="..\Source\Krypton Components\Krypton.*\obj\*.cache" />
+			<NugetAssets Include="..\Source\Krypton Components\Krypton.*\obj\*.g.targets" />
+			<NugetAssets Include="..\Source\Krypton Components\Krypton.*\obj\*.g.props" />
+		</ItemGroup>
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" Targets="Clean" />
+		<Delete Files="@(NugetAssets)" />
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" Targets="Restore" />
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" Targets="Pack" />
+	</Target>
+
+	<Target Name="Pack" DependsOnTargets="CleanPackages;PackLite;PackAll" />
+
+	<Target Name="Push">
+		<ItemGroup>
+			<NugetPkgs Include="..\Bin\Packages\Release\*.$(LibraryVersion).nupkg" />
+		</ItemGroup>
+		<Exec Command="nuget.exe push %(NugetPkgs.Identity)" />
+	</Target>
+
+	<Target Name="CreateReleaseZip">
+		<PropertyGroup>
+			<StringDate>$([System.DateTime]::Now.ToString('yyyyMMdd'))</StringDate>
+		</PropertyGroup>
+		<ItemGroup>
+			<DebugApplicationFiles Include="..\Bin\Release\**\*.*" Exclude="..\Bin\Release\*vshost.exe*;..\Bin\Release\**\*.json;..\Bin\Release\**\*.pdb" />
+		</ItemGroup>
+		<MakeDir Directories="$(ReleaseBuildPath)"/>
+
+		<!-- Using 7-Zip for ZIP creation (compatible with all MSBuild versions) -->
+		<Exec Command="7z.exe a -tzip &quot;$(ReleaseBuildPath)\$(ReleaseZipName)_$(StringDate).zip&quot; &quot;..\Bin\Release\*&quot; -x!*.json -x!*.pdb"
+		      Condition="Exists('C:\Program Files\7-Zip\7z.exe')"
+		      WorkingDirectory="$(ReleaseBuildPath)" />
+
+		<!-- Fallback: Using PowerShell Compress-Archive if 7-Zip not available -->
+		<Exec Command="powershell.exe -Command &quot;Get-ChildItem '..\Bin\Release\*' -Recurse | Where-Object {$_.Extension -notin '.json','.pdb'} | Compress-Archive -DestinationPath '$(ReleaseBuildPath)\$(ReleaseZipName)_$(StringDate).zip' -Force&quot;"
+		      Condition="!Exists('C:\Program Files\7z.exe')" />
+	</Target>
+
+	<Target Name="CreateReleaseTar">
+		<PropertyGroup>
+			<StringDate>$([System.DateTime]::Now.ToString('yyyyMMdd'))</StringDate>
+		</PropertyGroup>
+		<ItemGroup>
+			<DebugApplicationFiles Include="..\Bin\Release\**\*.*" Exclude="..\Bin\Release\*vshost.exe*;..\Bin\Release\**\*.json;..\Bin\Release\**\*.pdb" />
+		</ItemGroup>
+		<MakeDir Directories="$(ReleaseBuildPath)"/>
+
+		<!-- Method 1: Using 7-Zip if available (recommended for Windows) -->
+		<Exec Command="7z.exe a -ttar &quot;$(ReleaseBuildPath)\$(ReleaseZipName)_$(StringDate).tar&quot; &quot;..\Bin\Release\*&quot; -x!*.json -x!*.pdb"
+		      Condition="Exists('C:\Program Files\7-Zip\7z.exe')"
+		      WorkingDirectory="$(ReleaseBuildPath)" />
+		<Exec Command="7z.exe a -tgzip &quot;$(ReleaseBuildPath)\$(ReleaseZipName)_$(StringDate).tar.gz&quot; &quot;$(ReleaseBuildPath)\$(ReleaseZipName)_$(StringDate).tar&quot;"
+		      Condition="Exists('C:\Program Files\7-Zip\7z.exe')"
+		      WorkingDirectory="$(ReleaseBuildPath)" />
+		<Delete Files="$(ReleaseBuildPath)\$(ReleaseZipName)_$(StringDate).tar"
+		        Condition="Exists('C:\Program Files\7-Zip\7z.exe')" />
+
+		<!-- Method 2: Using PowerShell tar command (Windows 10/11) -->
+		<Exec Command="powershell.exe -Command tar -czf &quot;$(ReleaseBuildPath)\$(ReleaseZipName)_$(StringDate)_ps.tar.gz&quot; -C &quot;..\Bin\Release&quot; . --exclude=*.json --exclude=*.pdb"
+		      Condition="Exists('C:\Windows\System32\tar.exe')" />
+
+		<!-- Method 3: Using Git Bash tar if available -->
+		<Exec Command="&quot;C:\Program Files\Git\bin\bash.exe&quot; -c &quot;cd ../Bin/Release &amp;&amp; tar -czf &quot;$(ReleaseBuildPath)/$(ReleaseZipName)_$(StringDate)_git.tar.gz&quot; * --exclude=*.json --exclude=*.pdb&quot;"
+		      Condition="Exists('C:\Program Files\Git\bin\bash.exe')" />
+	</Target>
+
+	<Target Name="CreateAllReleaseArchives" DependsOnTargets="CreateReleaseZip;CreateReleaseTar" />
+</Project>
