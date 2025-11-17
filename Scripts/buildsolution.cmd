@@ -1,10 +1,10 @@
 echo off
 
-echo Do you want to build using Visual Studio 2019 or 2026? (2019/2026)
+echo Do you want to build using Visual Studio 2019 or 2022? (2019/2022)
 set INPUT=
-set /P INPUT=Type 2019 or 2026: %=%
+set /P INPUT=Type 2019 or 2022: %=%
 if /I "%INPUT%"=="2019" goto vs2019build
-if /I "%INPUT%"=="2026" goto vs2026build
+if /I "%INPUT%"=="2022" goto vs2022build
 
 :vs2019build
 if exist "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Preview\MSBuild\Current\Bin" goto vs16prev
@@ -46,38 +46,38 @@ set targets=Build
 if not "%~1" == "" set targets=%~1
 "%msbuildpath%\msbuild.exe" /t:%targets% build.proj /fl /flp:logfile=../Logs/solution-build-log.log /bl:solution-build-log.binlog /clp:Summary;ShowTimestamp /v:quiet
 
-:vs2026build
-if exist "%ProgramFiles%\Microsoft Visual Studio\2026\Preview\MSBuild\Current\Bin" goto vs18prev
-if exist "%ProgramFiles%\Microsoft Visual Studio\2026\Enterprise\MSBuild\Current\Bin" goto vs18ent
-if exist "%ProgramFiles%\Microsoft Visual Studio\2026\Professional\MSBuild\Current\Bin" goto vs18pro
-if exist "%ProgramFiles%\Microsoft Visual Studio\2026\Community\MSBuild\Current\Bin" goto vs18com
-if exist "%ProgramFiles%\Microsoft Visual Studio\2026\BuildTools\MSBuild\Current\Bin" goto vs18build
+:vs2022build
+if exist "%ProgramFiles%\Microsoft Visual Studio\2022\Preview\MSBuild\Current\Bin" goto vs17prev
+if exist "%ProgramFiles%\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin" goto vs17ent
+if exist "%ProgramFiles%\Microsoft Visual Studio\2022\Professional\MSBuild\Current\Bin" goto vs17pro
+if exist "%ProgramFiles%\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin" goto vs17com
+if exist "%ProgramFiles%\Microsoft Visual Studio\2022\BuildTools\MSBuild\Current\Bin" goto vs17build
 
-echo "Unable to detect suitable environment. Check if VS 2026 is installed."
+echo "Unable to detect suitable environment. Check if VS 2022 is installed."
 goto exitbatch
 pause
 
-:vs18prev
-set msbuildpath=%ProgramFiles%\Microsoft Visual Studio\2026\Preview\MSBuild\Current\Bin
-goto build2026
+:vs17prev
+set msbuildpath=%ProgramFiles%\Microsoft Visual Studio\2022\Preview\MSBuild\Current\Bin
+goto build2022
 
-:vs18ent
-set msbuildpath=%ProgramFiles%\Microsoft Visual Studio\2026\Enterprise\MSBuild\Current\Bin
-goto build2026
+:vs17ent
+set msbuildpath=%ProgramFiles%\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin
+goto build2022
 
-:vs18pro
-set msbuildpath=%ProgramFiles%\Microsoft Visual Studio\2026\Professional\MSBuild\Current\Bin
-goto build2026
+:vs17pro
+set msbuildpath=%ProgramFiles%\Microsoft Visual Studio\2022\Professional\MSBuild\Current\Bin
+goto build2022
 
-:vs18com
-set msbuildpath=%ProgramFiles%\Microsoft Visual Studio\2026\Community\MSBuild\Current\Bin
-goto build2026
+:vs17com
+set msbuildpath=%ProgramFiles%\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin
+goto build2022
 
-:vs18build
-set msbuildpath=%ProgramFiles%\Microsoft Visual Studio\2026\BuildTools\MSBuild\Current\Bin
-goto build2026
+:vs17build
+set msbuildpath=%ProgramFiles%\Microsoft Visual Studio\2022\BuildTools\MSBuild\Current\Bin
+goto build2022
 
-:build2026
+:build2022
 set targets=Build
 if not "%~1" == "" set targets=%~1
 "%msbuildpath%\msbuild.exe" /t:%targets% build.proj /fl /flp:logfile=build.log
@@ -89,19 +89,19 @@ if /I "%INPUT%"=="y" goto createpackages
 if /I "%INPUT%"=="n" goto break
 
 :createpackages
-echo Do you want to pack using Visual Studio 2019 or 2026? (2019/2026)
+echo Do you want to pack using Visual Studio 2019 or 2022? (2019/2022)
 set INPUT=
-set /P INPUT=Type 2019 or 2026: %=%
+set /P INPUT=Type 2019 or 2022: %=%
 if /I "%INPUT%"=="2019" goto vs2019pack
-if /I "%INPUT%"=="2026" goto vs2026pack
+if /I "%INPUT%"=="2022" goto vs2022pack
 
 :vs2019pack
 build-2019.cmd Pack
 
 @echo Build Completed: %date% %time%
 
-:vs2026pack
-build-2026.cmd Pack
+:vs2022pack
+build-2022.cmd Pack
 
 @echo Build Completed: %date% %time%
 
