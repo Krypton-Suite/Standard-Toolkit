@@ -516,7 +516,7 @@ public abstract class VisualForm : Form,
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public Padding RealWindowBorders => CommonHelper.GetWindowBorders(CreateParams, this as KryptonForm);
+    public Padding RealWindowBorders => CommonHelper.GetWindowBorders(CreateParams);
 
     /// <summary>
     /// Gets a count of the number of paints that have occurred.
@@ -678,8 +678,7 @@ public abstract class VisualForm : Form,
     /// </summary>
     /// <param name="invalidRect">Area to invalidate.</param>
     /// <param name="excludeClientArea">Should client area be excluded.</param>
-    protected void InvalidateNonClient(Rectangle invalidRect,
-        bool excludeClientArea)
+    protected void InvalidateNonClient(Rectangle invalidRect, bool excludeClientArea)
     {
         if (IsDisposed || Disposing || !IsHandleCreated)
         {
@@ -692,7 +691,7 @@ public abstract class VisualForm : Form,
             {
                 Padding realWindowBorders = RealWindowBorders;
                 Rectangle realWindowRectangle = RealWindowRectangle;
-
+                
                 invalidRect = realWindowRectangle with
                 {
                     X = -realWindowBorders.Left,
@@ -744,7 +743,7 @@ public abstract class VisualForm : Form,
             // Create rectangle that encloses the entire window
             return new Rectangle(0, 0,
                 windowRect.right - windowRect.left,
-                windowRect.bottom - windowRect.top);
+               windowRect.bottom - windowRect.top);
         }
     }
     #endregion
@@ -998,7 +997,6 @@ public abstract class VisualForm : Form,
         {
             NeedLayout = true;
         }
-
         InvalidateNonClient();
     }
 
@@ -1488,7 +1486,6 @@ public abstract class VisualForm : Form,
     {
         // Create rectangle that encloses the entire window
         Rectangle windowBounds = RealWindowRectangle;
-
         // We can only draw a window that has some size
         if (windowBounds is { Width: > 0, Height: > 0 })
         {

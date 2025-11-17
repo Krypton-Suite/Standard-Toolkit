@@ -49,7 +49,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
     private static readonly Padding _metricPaddingRibbon = new Padding(0, 1, 1, 1);
     private static readonly Padding _metricPaddingRibbonAppButton = new Padding(3, 0, 3, 0);
     private static readonly Padding _metricPaddingHeader = new Padding(0, 3, 1, 3);
-    //private static readonly Padding _metricPaddingHeaderForm = new Padding(0, owningForm!.RealWindowBorders.Right, 0, 0);//, 3, 0, -3); // Move the Maximised Form buttons down a bit
+    private static readonly Padding _metricPaddingHeaderForm = new Padding(3, 0, 0, 0);
     private static readonly Padding _metricPaddingInputControl = new Padding(0, 1, 0, 1);
     private static readonly Padding _metricPaddingBarInside = new Padding(3);
     private static readonly Padding _metricPaddingBarTabs = new Padding(0);
@@ -2920,11 +2920,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
             case PaletteMetricPadding.BarPaddingOutside:
                 return _metricPaddingBarOutside;
             case PaletteMetricPadding.HeaderButtonPaddingForm:
-                if (owningForm == null)
-                {
-                    return new Padding();
-                }
-                return new Padding(0, owningForm!.RealWindowBorders.Right, 0, 0);
+                return _metricPaddingHeaderForm;
             case PaletteMetricPadding.RibbonButtonPadding:
                 return _metricPaddingRibbon;
             case PaletteMetricPadding.RibbonAppButton:
@@ -3184,10 +3180,13 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                 return _buttonSpecRibbonMinimize;
             case PaletteButtonSpecStyle.RibbonExpand:
                 return _buttonSpecRibbonExpand;
+
+            case PaletteButtonSpecStyle.Undo:
             case PaletteButtonSpecStyle.Generic:
                 return null;
             default:
                 // Should never happen!
+                MessageBox.Show($"Style: {style}");
                 Debug.Assert(false);
                 throw DebugTools.NotImplemented(style.ToString());
         }

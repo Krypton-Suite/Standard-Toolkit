@@ -27,9 +27,6 @@ public class KryptonTaskDialog : IDisposable
     private Rectangle _clientRectangle;
     // Defaults
     private KryptonTaskDialogDefaults _taskDialogDefaults;
-    // Border-Fixes: Kpanel to compendate for the border problems 
-    private KryptonPanel _fillerPanel;
-    private int _fillerPanelOffset;
     // Are we disposed
     private bool _disposed;
     #endregion
@@ -46,14 +43,6 @@ public class KryptonTaskDialog : IDisposable
         }
         _taskDialogDefaults = new(dialogWidth);
 
-        // Border-Fixes: filler panel to compensate for the border problems 
-        _fillerPanelOffset = 6;
-        _fillerPanel = new KryptonPanel()
-        {
-            Height = _fillerPanelOffset,
-            Dock = DockStyle.Top
-        };
-
         _disposed = false;
         _elements = [];
 
@@ -61,10 +50,6 @@ public class KryptonTaskDialog : IDisposable
         {
             AutoScaleMode = AutoScaleMode.Font
         };
-
-        // Border-Fixes: Stop the form from growing unintentionally when it is moved
-        _form.ResizeBegin += (sender, e) => _clientRectangle = _form.ClientRectangle;
-        _form.ResizeEnd += (sender, e) => _form.ClientSize = _clientRectangle.Size;
 
         // Initial form size. The width is fixed upon instantiation. The height given here is tentative.
         _clientRectangle = new(0, 0, _taskDialogDefaults.ClientWidth, _taskDialogDefaults.ClientHeight);
@@ -275,9 +260,18 @@ public class KryptonTaskDialog : IDisposable
         UpdateFormPosition(owner);
         ResetFormDialogResult();
 
-        return owner is not null
-            ? _form.ShowDialog(owner)
-            : _form.ShowDialog();
+        // The standard form's DialogResult property always returns Cancel when e.Cancel is set to true.<br/>
+        // Before that happens the DialogResult is stored in DialogResultInternal.
+        if (owner is not null)
+        {
+            _form.ShowDialog(owner);
+        }
+        else
+        {
+            _form.ShowDialog();
+        }
+
+        return Dialog.DialogResult;
     }
 
     /// <summary>
@@ -415,7 +409,7 @@ public class KryptonTaskDialog : IDisposable
     {
         // Border-Fixes: the filler offset enlarges the client height to compensate for the part
         // of the internal panel that slides under the border.
-        _form.ClientSize = new Size(_taskDialogDefaults.ClientWidth, GetVisibleElementsHeight() + _fillerPanelOffset);
+        _form.ClientSize = new Size(_taskDialogDefaults.ClientWidth, GetVisibleElementsHeight());
     }
 
     /// <summary>
@@ -424,12 +418,6 @@ public class KryptonTaskDialog : IDisposable
     private void SetupElements()
     {
         _elements.ForEach(e => AddElement(e));
-
-        // Border-Fixes: When all elements have been added a filler is added to the bottom to
-        // compensate for the border problems e.g. until a fix for this is implemented
-        _tableLayoutPanel.RowCount += 1;
-        _tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-        _tableLayoutPanel.Controls.Add(_fillerPanel, 0, _tableLayoutPanel.RowCount - 1);
     }
 
     /// <summary>
@@ -467,6 +455,7 @@ public class KryptonTaskDialog : IDisposable
         _form.Padding = _taskDialogDefaults.NullPadding;
         _form.MaximizeBox = false;
         _form.ControlBox = true;
+        _form.SystemMenuValues.Enabled = false;
 
         SetupTableLayoutPanel();
 
@@ -480,6 +469,7 @@ public class KryptonTaskDialog : IDisposable
     private void ResetFormDialogResult()
     {
         _form.DialogResult = DialogResult.None;
+        _form.DialogResultInternal = DialogResult.None;
     }
 
     private void SetupTableLayoutPanel()
