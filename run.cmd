@@ -1,40 +1,68 @@
-:: Last updated: Saturday 16th August, 2025 @ 19:00
+﻿:: Last updated: Thursday 20th November, 2025 @ 16:00
 
 @echo off
 
+setlocal EnableExtensions
+
 title Krypton Toolkit Build System
 
+set "VS_VERSION="
+set "VS_SCRIPTS_DIR="
+
+goto selectvsversion
+
+:: ===================================================================================================
+
+:selectvsversion
 cls
 
-@echo Welcome to the Krypton Toolkit Build system, version: 3.0. Please select an option below.
+@echo Welcome to the Krypton Toolkit Build system, version: 3.1.
+@echo Please select the Visual Studio toolset to target.
 echo:
 @echo ==============================================================================================
 echo:
-echo 1. Clean project
-echo 2. Build Krypton Toolkit
-echo 3. Create NuGet packages
-echo 4. Build and Pack Toolkit
-echo 5. Debug project
-echo 6. NuGet Tools
-echo 7. Create Archives (ZIP/TAR)
-::echo 8. Miscellaneous tasks
-echo 8. End
+echo 1. Visual Studio 2022 (Scripts\VS2022)
+echo 2. Visual Studio 2026 (Scripts\VS2026)
+echo 3. End
 echo:
-set /p answer="Enter number (1 - 8): "
-if %answer%==1 (goto cleanproject)
-if %answer%==2 (goto buildproject)
-if %answer%==3 (goto createnugetpackages)
-if %answer%==4 (goto buildandpacktoolkit)
-if %answer%==5 (goto debugproject)
-if %answer%==6 (goto nugettools)
-if %answer%==7 (goto createarchives)
-if %answer%==8 (goto exitbuildsystem)
+set /p answer="Enter number (1 - 3): "
+if "%answer%"=="1" (goto usevs2022)
+if "%answer%"=="2" (goto usevs2026)
+if "%answer%"=="3" (goto exitbuildsystem)
 
 @echo Invalid input, please try again.
 
 pause
 
+goto selectvsversion
+
+:usevs2022
+call :configurevsversion VS2022
+if errorlevel 1 (goto selectvsversion)
 goto mainmenu
+
+:usevs2026
+call :configurevsversion VS2026
+if errorlevel 1 (goto selectvsversion)
+goto mainmenu
+
+:configurevsversion
+set "VS_VERSION=%~1"
+set "VS_SCRIPTS_DIR=Scripts\%~1"
+if not exist "%VS_SCRIPTS_DIR%" (
+    echo.
+    echo ERROR: Could not find "%VS_SCRIPTS_DIR%".
+    echo Please ensure the scripts are available before continuing.
+    echo.
+    pause
+    set "VS_VERSION="
+    set "VS_SCRIPTS_DIR="
+    exit /b 1
+)
+echo.
+echo Using %VS_VERSION% scripts located at "%VS_SCRIPTS_DIR%".
+echo.
+exit /b 0
 
 :: ===================================================================================================
 
@@ -42,6 +70,11 @@ goto mainmenu
 
 cls
 
+if "%VS_SCRIPTS_DIR%"=="" (goto selectvsversion)
+
+echo Current Visual Studio target: %VS_VERSION%
+echo Script directory..........: %VS_SCRIPTS_DIR%
+echo:
 echo 1. Clean project
 echo 2. Build Krypton Toolkit
 echo 3. Create NuGet packages
@@ -49,19 +82,19 @@ echo 4. Build and Pack Toolkit
 echo 5. Debug project
 echo 6. NuGet Tools
 echo 7. Create Archives (ZIP/TAR)
-::echo 8. Miscellaneous tasks
-echo 8. End
+echo 8. Change Visual Studio target
+echo 9. End
 echo:
-set /p answer="Enter number (1 - 8): "
-if %answer%==1 (goto cleanproject)
-if %answer%==2 (goto buildproject)
-if %answer%==3 (goto createnugetpackages)
-if %answer%==4 (goto buildandpacktoolkit)
-if %answer%==5 (goto debugproject)
-if %answer%==6 (goto nugettools)
-if %answer%==7 (goto createarchives)
-::if %answer%==8 (goto miscellaneoustasks)
-if %answer%==8 (goto exitbuildsystem)
+set /p answer="Enter number (1 - 9): "
+if "%answer%"=="1" (goto cleanproject)
+if "%answer%"=="2" (goto buildproject)
+if "%answer%"=="3" (goto createnugetpackages)
+if "%answer%"=="4" (goto buildandpacktoolkit)
+if "%answer%"=="5" (goto debugproject)
+if "%answer%"=="6" (goto nugettools)
+if "%answer%"=="7" (goto createarchives)
+if "%answer%"=="8" (goto selectvsversion)
+if "%answer%"=="9" (goto exitbuildsystem)
 
 @echo Invalid input, please try again.
 
@@ -282,11 +315,9 @@ goto createarchives
 :updatenuget
 cls
 
-cd Scripts
 
-update-nuget.cmd
+call "%VS_SCRIPTS_DIR%\update-nuget.cmd"
 
-cd ..
 
 pause
 
@@ -297,11 +328,9 @@ goto mainmenu
 :createzipnightly
 cls
 
-cd Scripts
 
-build-nightly.cmd CreateNightlyZip
+call "%VS_SCRIPTS_DIR%\build-nightly.cmd" CreateNightlyZip
 
-cd ..
 
 pause
 
@@ -310,11 +339,9 @@ goto mainmenu
 :createtarnightly
 cls
 
-cd Scripts
 
-build-nightly.cmd CreateNightlyTar
+call "%VS_SCRIPTS_DIR%\build-nightly.cmd" CreateNightlyTar
 
-cd ..
 
 pause
 
@@ -323,11 +350,9 @@ goto mainmenu
 :createallarchivesnightly
 cls
 
-cd Scripts
 
-build-nightly.cmd CreateAllArchives
+call "%VS_SCRIPTS_DIR%\build-nightly.cmd" CreateAllArchives
 
-cd ..
 
 pause
 
@@ -338,11 +363,9 @@ goto mainmenu
 :createzipcanary
 cls
 
-cd Scripts
 
-build-canary.cmd CreateCanaryZip
+call "%VS_SCRIPTS_DIR%\build-canary.cmd" CreateCanaryZip
 
-cd ..
 
 pause
 
@@ -351,11 +374,9 @@ goto mainmenu
 :createtarcanary
 cls
 
-cd Scripts
 
-build-canary.cmd CreateCanaryTar
+call "%VS_SCRIPTS_DIR%\build-canary.cmd" CreateCanaryTar
 
-cd ..
 
 pause
 
@@ -364,11 +385,9 @@ goto mainmenu
 :createallarchivescanary
 cls
 
-cd Scripts
 
-build-canary.cmd CreateAllCanaryArchives
+call "%VS_SCRIPTS_DIR%\build-canary.cmd" CreateAllCanaryArchives
 
-cd ..
 
 pause
 
@@ -379,11 +398,9 @@ goto mainmenu
 :createzipstable
 cls
 
-cd Scripts
 
-build-stable.cmd CreateReleaseZip
+call "%VS_SCRIPTS_DIR%\build-stable.cmd" CreateReleaseZip
 
-cd ..
 
 pause
 
@@ -392,11 +409,9 @@ goto mainmenu
 :createtarstable
 cls
 
-cd Scripts
 
-build-stable.cmd CreateReleaseTar
+call "%VS_SCRIPTS_DIR%\build-stable.cmd" CreateReleaseTar
 
-cd ..
 
 pause
 
@@ -405,11 +420,9 @@ goto mainmenu
 :createallarchivesstable
 cls
 
-cd Scripts
 
-build-stable.cmd CreateAllReleaseArchives
+call "%VS_SCRIPTS_DIR%\build-stable.cmd" CreateAllReleaseArchives
 
-cd ..
 
 pause
 
@@ -435,64 +448,51 @@ exit
 :buildnightly
 cls
 
-cd Scripts
 
-build-nightly.cmd
+call "%VS_SCRIPTS_DIR%\build-nightly.cmd"
 
-cd ..
 
 :buildcanary
 cls
 
-cd Scripts
 
-build-canary.cmd
+call "%VS_SCRIPTS_DIR%\build-canary.cmd"
 
-cd ..
 
 :buildinstaller
 cls
 
-cd Scripts
 
-build-installer.cmd
+call "%VS_SCRIPTS_DIR%\build-installer.cmd"
 cls
 
-cd Scripts
-
-cd ..
 
 :buildstable
 cls
 
-cd Scripts
 
-build-stable.cmd
+call "%VS_SCRIPTS_DIR%\build-stable.cmd"
 
-cd ..
 
 :: ===================================================================================================
 
 :packnightly
 cls
 
-cd Scripts
 
-build-nightly.cmd Pack
+call "%VS_SCRIPTS_DIR%\build-nightly.cmd" Pack
 
 :packcanary
 cls
 
-cd Scripts
 
-build-canary.cmd Pack
+call "%VS_SCRIPTS_DIR%\build-canary.cmd" Pack
 
 :packinstaller
 cls
 
-cd Scripts
 
-build-installer.cmd Pack
+call "%VS_SCRIPTS_DIR%\build-installer.cmd" Pack
 
 :packstable
 cls
@@ -519,23 +519,20 @@ goto packstable
 :packstablelite
 cls
 
-cd Scripts
 
-build-stable.cmd PackLite
+call "%VS_SCRIPTS_DIR%\build-stable.cmd" PackLite
 
 :packstablefull
 cls
 
-cd Scripts
 
-build-stable.cmd PackAll
+call "%VS_SCRIPTS_DIR%\build-stable.cmd" PackAll
 
 :packstableboth
 cls
 
-cd Scripts
 
-build-stable.cmd Pack
+call "%VS_SCRIPTS_DIR%\build-stable.cmd" Pack
 
 :: ===================================================================================================
 
@@ -566,20 +563,16 @@ echo Deleted the 'build.log' file
 
 cls
 
-cd Scripts
 
-build-nightly.cmd
+call "%VS_SCRIPTS_DIR%\build-nightly.cmd"
 
 :: ===================================================================================================
 
 :nugettools
 cls
 
-cd Scripts
 
-:: ===================================================================================================
-
-update-nuget.cmd
+call "%VS_SCRIPTS_DIR%\update-nuget.cmd"
 
 :buildandcreatenugetpackages
 cls
@@ -635,9 +628,8 @@ cls
 
 echo Step 2: Build
 
-cd Scripts
 
-build-nightly-custom.cmd
+call "%VS_SCRIPTS_DIR%\build-nightly-custom.cmd"
 
 pause
 
@@ -645,7 +637,7 @@ cls
 
 echo Step 3: Pack
 
-build-nightly-custom.cmd Pack
+call "%VS_SCRIPTS_DIR%\build-nightly-custom.cmd" Pack
 
 pause
 
@@ -654,9 +646,8 @@ pause
 :rebuildproject
 cls
 
-cd Scripts
 
-rebuild-build-nightly.cmd
+call "%VS_SCRIPTS_DIR%\rebuild-build-nightly.cmd"
 
 :: ===================================================================================================
 
@@ -665,25 +656,22 @@ cls
 
 :: goto clearproject
 
-cd Scripts
 
 :: build-nightly.cmd
 
-build-nightly.cmd Pack
+call "%VS_SCRIPTS_DIR%\build-nightly.cmd" Pack
 
 :buildandpackcanary
 cls
 
-cd Scripts
 
-build-canary.cmd Pack
+call "%VS_SCRIPTS_DIR%\build-canary.cmd" Pack
 
 :buildandpackstable
 cls
 
-cd Scripts
 
-build-stable.cmd Pack
+call "%VS_SCRIPTS_DIR%\build-stable.cmd" Pack
 
 :: ===================================================================================================
 

@@ -67,10 +67,10 @@ jobs:
         run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.sln"
 
       - name: Build Release
-        run: msbuild "Scripts/build.proj" /t:Build /p:Configuration=Release /p:Platform="Any CPU"
+        run: msbuild "Scripts/VS2026/build.proj" /t:Build /p:Configuration=Release /p:Platform="Any CPU"
 
       - name: Pack Release
-        run: msbuild "Scripts/build.proj" /t:Pack /p:Configuration=Release /p:Platform="Any CPU"
+        run: msbuild "Scripts/VS2026/build.proj" /t:Pack /p:Configuration=Release /p:Platform="Any CPU"
 
       - name: Push NuGet Packages to nuget.org
         id: push_nuget
@@ -112,7 +112,7 @@ jobs:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
 
       - name: Create Release Archives
-        run: msbuild "Scripts/build.proj" /t:CreateAllReleaseArchives /p:Configuration=Release /p:Platform="Any CPU"
+        run: msbuild "Scripts/VS2026/build.proj" /t:CreateAllReleaseArchives /p:Configuration=Release /p:Platform="Any CPU"
 
       - name: Get Version
         id: get_version
@@ -349,10 +349,10 @@ jobs:
         run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.sln"
 
       - name: Build LTS Release
-        run: msbuild "Scripts/longtermstable.proj" /t:Build /p:Configuration=Release /p:Platform="Any CPU"
+        run: msbuild "Scripts/VS2026/longtermstable.proj" /t:Build /p:Configuration=Release /p:Platform="Any CPU"
 
       - name: Pack LTS Release
-        run: msbuild "Scripts/longtermstable.proj" /t:Pack /p:Configuration=Release /p:Platform="Any CPU"
+        run: msbuild "Scripts/VS2026/longtermstable.proj" /t:Pack /p:Configuration=Release /p:Platform="Any CPU"
 
       - name: Push NuGet Packages to nuget.org
         id: push_nuget
@@ -538,10 +538,10 @@ jobs:
         run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.sln"
 
       - name: Build Canary
-        run: msbuild "Scripts/canary.proj" /t:Build /p:Configuration=Canary /p:Platform="Any CPU"
+        run: msbuild "Scripts/VS2026/canary.proj" /t:Build /p:Configuration=Canary /p:Platform="Any CPU"
 
       - name: Pack Canary
-        run: msbuild "Scripts/canary.proj" /t:Pack /p:Configuration=Canary /p:Platform="Any CPU"
+        run: msbuild "Scripts/VS2026/canary.proj" /t:Pack /p:Configuration=Canary /p:Platform="Any CPU"
 
       - name: Push NuGet Packages to nuget.org
         id: push_nuget
@@ -727,10 +727,10 @@ jobs:
         run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.sln"
 
       - name: Build Alpha
-        run: msbuild "Scripts/nightly.proj" /t:Build /p:Configuration=Nightly /p:Platform="Any CPU"
+        run: msbuild "Scripts/VS2026/nightly.proj" /t:Build /p:Configuration=Nightly /p:Platform="Any CPU"
 
       - name: Pack Alpha
-        run: msbuild "Scripts/nightly.proj" /t:Pack /p:Configuration=Nightly /p:Platform="Any CPU"
+        run: msbuild "Scripts/VS2026/nightly.proj" /t:Pack /p:Configuration=Nightly /p:Platform="Any CPU"
 
       - name: Push NuGet Packages to nuget.org
         id: push_nuget

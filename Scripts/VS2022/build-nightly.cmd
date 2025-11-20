@@ -1,4 +1,6 @@
 @echo off
+setlocal EnableExtensions
+set "SCRIPT_DIR=%~dp0"
 
 if exist "%ProgramFiles%\Microsoft Visual Studio\2022\Preview\MSBuild\Current\Bin" goto vs17prev
 if exist "%ProgramFiles%\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin" goto vs17ent
@@ -42,7 +44,7 @@ for /f "tokens=* usebackq" %%A in (`tzutil /g`) do (
 @echo:
 set targets=Build
 if not "%~1" == "" set targets=%~1
-"%msbuildpath%\msbuild.exe" -t:%targets% nightly.proj /fl /flp:logfile=../Logs/nightly-build-log.log /bl:../Logs/nightly-build-log.binlog  /clp:Summary;ShowTimestamp /v:quiet
+"%msbuildpath%\msbuild.exe" -t:%targets% "%SCRIPT_DIR%nightly.proj" /fl /flp:logfile="%SCRIPT_DIR%..\..\Logs\nightly-build-log.log" /bl:"%SCRIPT_DIR%..\..\Logs\nightly-build-log.binlog"  /clp:Summary;ShowTimestamp /v:quiet
 @echo:
 :: -t:rebuild
 
@@ -50,7 +52,7 @@ if not "%~1" == "" set targets=%~1
 
 @echo Nightly release build completed: %date% %time% %zone%
 @echo:
-@echo You can find the build Logs in ../Logs
+@echo You can find the build Logs in ..\..\Logs
 @echo:
 pause
 
@@ -65,4 +67,4 @@ if %answer%==n exit
 @echo Invalid input, please try again.
 
 :run
-main-menu.cmd
+call "%SCRIPT_DIR%main-menu.cmd"
