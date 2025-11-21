@@ -72,7 +72,7 @@ jobs:
         run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.sln"
 
       - name: Build
-        run: msbuild "Scripts/GitHub-Workflow-Build/nightly.proj" /t:Rebuild /p:Configuration=Release /p:Platform="Any CPU"
+        run: msbuild "Scripts/VS2026/nightly.proj" /t:Rebuild /p:Configuration=Release /p:Platform="Any CPU"
 
   release:
     runs-on: windows-2025
@@ -129,13 +129,13 @@ jobs:
         run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.sln"
 
       - name: Build Release
-        run: msbuild "Scripts/GitHub-Workflow-Build/build.proj" /t:Build /p:Configuration=Release /p:Platform="Any CPU"
+        run: msbuild "Scripts/VS2026/build.proj" /t:Build /p:Configuration=Release /p:Platform="Any CPU"
 
       - name: Pack Release
-        run: msbuild "Scripts/GitHub-Workflow-Build/build.proj" /t:Pack /p:Configuration=Release /p:Platform="Any CPU"
+        run: msbuild "Scripts/VS2026/build.proj" /t:Pack /p:Configuration=Release /p:Platform="Any CPU"
 
       - name: Create Release Archives
-        run: msbuild "Scripts/GitHub-Workflow-Build/build.proj" /t:CreateAllReleaseArchives /p:Configuration=Release /p:Platform="Any CPU"
+        run: msbuild "Scripts/VS2026/build.proj" /t:CreateAllReleaseArchives /p:Configuration=Release /p:Platform="Any CPU"
 
       - name: Get Version
         id: get_version
