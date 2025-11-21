@@ -1,4 +1,4 @@
-﻿:: Last updated: Thursday 20th November, 2025 @ 16:00
+﻿:: Last updated: Saturday 16th August, 2025 @ 19:00
 
 @echo off
 
@@ -16,7 +16,7 @@ goto selectvsversion
 :selectvsversion
 cls
 
-@echo Welcome to the Krypton Toolkit Build system, version: 3.1.
+@echo Welcome to the Krypton Toolkit Build system, version: 3.0.
 @echo Please select the Visual Studio toolset to target.
 echo:
 @echo ==============================================================================================
@@ -450,6 +450,7 @@ cls
 
 
 call "%VS_SCRIPTS_DIR%\build-nightly.cmd"
+goto buildmenu
 
 
 :buildcanary
@@ -457,6 +458,7 @@ cls
 
 
 call "%VS_SCRIPTS_DIR%\build-canary.cmd"
+goto buildmenu
 
 
 :buildinstaller
@@ -465,6 +467,7 @@ cls
 
 call "%VS_SCRIPTS_DIR%\build-installer.cmd"
 cls
+goto buildmenu
 
 
 :buildstable
@@ -472,6 +475,7 @@ cls
 
 
 call "%VS_SCRIPTS_DIR%\build-stable.cmd"
+goto buildmenu
 
 
 :: ===================================================================================================
@@ -481,18 +485,21 @@ cls
 
 
 call "%VS_SCRIPTS_DIR%\build-nightly.cmd" Pack
+goto packmenu
 
 :packcanary
 cls
 
 
 call "%VS_SCRIPTS_DIR%\build-canary.cmd" Pack
+goto packmenu
 
 :packinstaller
 cls
 
 
 call "%VS_SCRIPTS_DIR%\build-installer.cmd" Pack
+goto packmenu
 
 :packstable
 cls
@@ -521,18 +528,21 @@ cls
 
 
 call "%VS_SCRIPTS_DIR%\build-stable.cmd" PackLite
+goto packmenu
 
 :packstablefull
 cls
 
 
 call "%VS_SCRIPTS_DIR%\build-stable.cmd" PackAll
+goto packmenu
 
 :packstableboth
 cls
 
 
 call "%VS_SCRIPTS_DIR%\build-stable.cmd" Pack
+goto packmenu
 
 :: ===================================================================================================
 

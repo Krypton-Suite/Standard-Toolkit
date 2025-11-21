@@ -1,6 +1,7 @@
 @echo off
 setlocal EnableExtensions
 set "SCRIPT_DIR=%~dp0"
+pushd "%SCRIPT_DIR%"
 
 if exist "%ProgramFiles%\Microsoft Visual Studio\2022\Preview\MSBuild\Current\Bin" goto vs17prev
 if exist "%ProgramFiles%\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin" goto vs17ent
@@ -56,15 +57,20 @@ if not "%~1" == "" set targets=%~1
 @echo:
 pause
 
+:prompt
 @echo Do you want to return to complete another task? (Y/N)
 @echo:
 set /p answer="Enter input: "
-if %answer%==Y (goto run)
-if %answer%==y (goto run)
-if %answer%==N exit
-if %answer%==n exit
-
+if /i "%answer%"=="Y" goto run
+if /i "%answer%"=="N" goto exitbatch
 @echo Invalid input, please try again.
+goto prompt
 
 :run
-call "%SCRIPT_DIR%main-menu.cmd"
+popd
+"%SCRIPT_DIR%..\main-menu.cmd"
+exit /b
+
+:exitbatch
+popd
+exit /b

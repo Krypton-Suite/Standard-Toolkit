@@ -36,19 +36,22 @@ for /f "tokens=* usebackq" %%A in (`tzutil /g`) do (
     set "zone=%%A"
 )
 
-@echo Rebuild Started: %date% %time% %zone%
-@echo
-set targets=Rebuild
+@echo Started to build Canary release
+@echo:
+@echo Started: %date% %time% %zone%
+@echo:
+set targets=Build
 if not "%~1" == "" set targets=%~1
-"%msbuildpath%\msbuild.exe" -t:%targets% nightly.proj /fl /flp:logfile=../Logs/nightly-build-log.log /bl:../Logs/nightly-build-log.binlog  /clp:Summary;ShowTimestamp /v:quiet
-
-:: -t:rebuild
-
-@echo Build Completed: %date% %time% %zone%
-
+"%msbuildpath%\msbuild.exe" /t:%targets% canary.proj /fl /flp:logfile=../Logs/canary-build-log.log /bl:../Logs/canary-build-log.binlog /clp:Summary;ShowTimestamp /v:quiet
+@echo:
+@echo Canary release build completed: %date% %time% %zone%
+@echo:
+@echo You can find the build Logs in ../Logs
+@echo:
 pause
 
 @echo Do you want to return to complete another task? (Y/N)
+@echo:
 set /p answer="Enter input: "
 if %answer%==Y (goto run)
 if %answer%==y (goto run)
@@ -58,8 +61,6 @@ if %answer%==n exit
 @echo Invalid input, please try again.
 
 :run
-cd ../..
+cd ..
 
-run.cmd
-
-:exitbatch
+main-menu.cmd
