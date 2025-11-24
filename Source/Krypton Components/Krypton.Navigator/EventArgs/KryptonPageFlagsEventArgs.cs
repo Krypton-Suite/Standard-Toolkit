@@ -5,35 +5,34 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
  *  
  */
 #endregion
 
-namespace Krypton.Navigator
+namespace Krypton.Navigator;
+
+/// <summary>
+/// Provide a KryptonPageFlags enumeration with event details.
+/// </summary>
+public class KryptonPageFlagsEventArgs : EventArgs
 {
+    #region Identity
     /// <summary>
-    /// Provide a KryptonPageFlags enumeration with event details.
+    /// Initialize a new instance of the KryptonPageFlagsEventArgs class.
     /// </summary>
-    public class KryptonPageFlagsEventArgs : EventArgs
-    {
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the KryptonPageFlagsEventArgs class.
-        /// </summary>
-        /// <param name="flags">KryptonPageFlags enumeration.</param>
-        public KryptonPageFlagsEventArgs(KryptonPageFlags flags) =>
-            // Remember parameter details
-            Flags = flags;
+    /// <param name="flags">KryptonPageFlags enumeration.</param>
+    public KryptonPageFlagsEventArgs(KryptonPageFlags flags) =>
+        // Remember parameter details
+        Flags = flags;
 
-        #endregion
+    #endregion
 
-        #region Public
-        /// <summary>
-        /// Gets the KryptonPageFlags enumeration value.
-        /// </summary>
-        public KryptonPageFlags Flags { get; }
+    #region Public
+    /// <summary>
+    /// Gets the KryptonPageFlags enumeration value.
+    /// </summary>
+    public KryptonPageFlags Flags { get; }
 
-        #endregion
-    }
+    #endregion
 }

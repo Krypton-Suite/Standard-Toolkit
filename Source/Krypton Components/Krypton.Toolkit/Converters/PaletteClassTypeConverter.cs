@@ -1,4 +1,13 @@
-﻿namespace Krypton.Toolkit.Converters;
+﻿#region BSD License
+/*
+ *
+ *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2023 - 2025. All rights reserved.
+ *
+ */
+#endregion
+
+namespace Krypton.Toolkit.Converters;
 
 /// <summary>
 /// Custom type converter so that PaletteBase Class type are converted to their appropriate mode type
@@ -58,7 +67,11 @@ internal class PaletteClassTypeConverter : EnumConverter
             {PaletteMode.VisualStudio2010Render2007, typeof(PaletteVisualStudio2010Office2007Variation)},
             {PaletteMode.VisualStudio2010Render2010, typeof(PaletteVisualStudio2010Office2010Variation)},
             {PaletteMode.VisualStudio2010Render2013, typeof(PaletteVisualStudio2010Office2013Variation)},
-            {PaletteMode.VisualStudio2010Render365, typeof(PaletteVisualStudio2010Microsoft365Variation)}
+            {PaletteMode.VisualStudio2010Render365, typeof(PaletteVisualStudio2010Microsoft365Variation)},
+            {PaletteMode.MaterialLight, typeof(PaletteMaterialLight)},
+            {PaletteMode.MaterialDark, typeof(PaletteMaterialDark)},
+            {PaletteMode.MaterialLightRipple, typeof(PaletteMaterialLightRipple)},
+            {PaletteMode.MaterialDarkRipple, typeof(PaletteMaterialDarkRipple)}
             //{PaletteMode.Custom, typeof(KryptonCustomPaletteBase)}
         });
 

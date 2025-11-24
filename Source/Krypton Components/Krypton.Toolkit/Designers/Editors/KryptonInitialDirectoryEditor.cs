@@ -2,14 +2,13 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-namespace System.Windows.Forms.Design
+namespace System.Windows.Forms.Design;
+
+internal class KryptonInitialDirectoryEditor : FolderNameEditor
 {
-    internal class KryptonInitialDirectoryEditor : FolderNameEditor
+    protected override void InitializeDialog(FolderBrowser folderBrowser)
     {
-        protected override void InitializeDialog(FolderBrowser folderBrowser)
-        {
-            folderBrowser.Description = //SR.InitialDirectoryEditorLabel;
-                @"Select the directory that will initially be opened in the dialog.";
-        }
+        folderBrowser.Description = //SR.InitialDirectoryEditorLabel;
+            @"Select the directory that will initially be opened in the dialog.";
     }
 }

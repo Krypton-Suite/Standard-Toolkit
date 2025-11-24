@@ -139,15 +139,6 @@
   <data name="Toast_Notification_Stop_128_x_128" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\..\Resources\Toast_Notification_Stop_128_x_128.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Toast_Notification_UAC_Shield_Windows_10_128_x_128" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\..\Resources\Toast_Notification_UAC_Shield_Windows_10_128_x_128.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Toast_Notification_UAC_Shield_Windows_11_128_x_128" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\..\Resources\Toast_Notification_UAC_Shield_Windows_11_128_x_128.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Toast_Notification_UAC_Shield_Windows_7_and_8_128_x_128" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\..\Resources\Toast_Notification_UAC_Shield_Windows_7_and_8_128_x_128.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="Toast_Notification_Warning_128_x_115" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\..\Resources\Toast_Notification_Warning_128_x_115.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

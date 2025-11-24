@@ -36,6 +36,11 @@
             this.contextDefGreen = new Krypton.Ribbon.KryptonRibbonContext();
             this.kryptonContextMenuItem2 = new Krypton.Toolkit.KryptonContextMenuItem();
             this.tabHome = new Krypton.Ribbon.KryptonRibbonTab();
+            this.kryptonRibbonGroup1 = new Krypton.Ribbon.KryptonRibbonGroup();
+            this.kryptonRibbonGroupTriple1 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
+            this.kryptonRibbonGroupButton1 = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupButton2 = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupColorButton1 = new Krypton.Ribbon.KryptonRibbonGroupColorButton();
             this.contextRed = new Krypton.Ribbon.KryptonRibbonTab();
             this.contextGreen1 = new Krypton.Ribbon.KryptonRibbonTab();
             this.contextGreen2 = new Krypton.Ribbon.KryptonRibbonTab();
@@ -68,11 +73,6 @@
             this.buttonSelectedApply = new Krypton.Toolkit.KryptonButton();
             this.textBoxSelectedContexts = new Krypton.Toolkit.KryptonTextBox();
             this.labelContextsInstructions = new Krypton.Toolkit.KryptonLabel();
-            this.kryptonRibbonGroup1 = new Krypton.Ribbon.KryptonRibbonGroup();
-            this.kryptonRibbonGroupTriple1 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
-            this.kryptonRibbonGroupButton1 = new Krypton.Ribbon.KryptonRibbonGroupButton();
-            this.kryptonRibbonGroupButton2 = new Krypton.Ribbon.KryptonRibbonGroupButton();
-            this.krgbtnTest1715 = new Krypton.Ribbon.KryptonRibbonGroupButton();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonRibbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.labelOffice2007Styles)).BeginInit();
             this.labelOffice2007Styles.SuspendLayout();
@@ -95,16 +95,13 @@
             // 
             this.kryptonContextMenuItems1.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
             this.kryptonContextMenuItem1});
-            this.kryptonContextMenuItems1.Text = "";
             // 
             // kryptonContextMenuItem1
             // 
             this.kryptonContextMenuItem1.Image = ((System.Drawing.Image)(resources.GetObject("kryptonContextMenuItem1.Image")));
-            this.kryptonContextMenuItem1.Text = "Menu Item";
             // 
             // kryptonRibbon
             // 
-            this.kryptonRibbon.InDesignHelperMode = true;
             this.kryptonRibbon.Name = "kryptonRibbon";
             this.kryptonRibbon.RibbonContexts.AddRange(new Krypton.Ribbon.KryptonRibbonContext[] {
             this.contextDefRed,
@@ -112,6 +109,7 @@
             this.kryptonRibbon.RibbonFileAppButton.AppButtonMenuItems.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
             this.kryptonContextMenuItem2});
             this.kryptonRibbon.RibbonFileAppButton.AppButtonShowRecentDocs = false;
+            this.kryptonRibbon.RibbonFileAppButton.AppButtonToolTipStyle = Krypton.Toolkit.LabelStyle.SuperTip;
             this.kryptonRibbon.RibbonTabs.AddRange(new Krypton.Ribbon.KryptonRibbonTab[] {
             this.tabHome,
             this.contextRed,
@@ -119,7 +117,7 @@
             this.contextGreen2});
             this.kryptonRibbon.SelectedContext = "Red,Green";
             this.kryptonRibbon.SelectedTab = this.tabHome;
-            this.kryptonRibbon.Size = new System.Drawing.Size(922, 115);
+            this.kryptonRibbon.Size = new System.Drawing.Size(926, 115);
             this.kryptonRibbon.StateCommon.RibbonAppButton.BackColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.kryptonRibbon.StateCommon.RibbonAppButton.BackColor2 = System.Drawing.Color.Yellow;
             this.kryptonRibbon.StateCommon.RibbonAppButton.BackColor3 = System.Drawing.Color.Lime;
@@ -141,13 +139,29 @@
             // kryptonContextMenuItem2
             // 
             this.kryptonContextMenuItem2.Image = ((System.Drawing.Image)(resources.GetObject("kryptonContextMenuItem2.Image")));
-            this.kryptonContextMenuItem2.Text = "E&xit";
             // 
             // tabHome
             // 
             this.tabHome.Groups.AddRange(new Krypton.Ribbon.KryptonRibbonGroup[] {
             this.kryptonRibbonGroup1});
             this.tabHome.Text = "Home";
+            // 
+            // kryptonRibbonGroup1
+            // 
+            this.kryptonRibbonGroup1.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupContainer[] {
+            this.kryptonRibbonGroupTriple1});
+            // 
+            // kryptonRibbonGroupTriple1
+            // 
+            this.kryptonRibbonGroupTriple1.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
+            this.kryptonRibbonGroupButton1,
+            this.kryptonRibbonGroupButton2,
+            this.kryptonRibbonGroupColorButton1});
+            // 
+            // kryptonRibbonGroupColorButton1
+            // 
+            this.kryptonRibbonGroupColorButton1.RecentColors = new System.Drawing.Color[0];
+            this.kryptonRibbonGroupColorButton1.ThemeColorSortMode = Krypton.Toolkit.ThemeColorSortMode.OKLCH;
             // 
             // contextRed
             // 
@@ -172,14 +186,13 @@
             this.labelOffice2007Styles.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelOffice2007Styles.Location = new System.Drawing.Point(0, 115);
             this.labelOffice2007Styles.Name = "labelOffice2007Styles";
-            this.labelOffice2007Styles.Size = new System.Drawing.Size(922, 513);
+            this.labelOffice2007Styles.Size = new System.Drawing.Size(926, 501);
             this.labelOffice2007Styles.TabIndex = 2;
             // 
             // groupOffice2007Styles
             // 
             this.groupOffice2007Styles.GroupBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelAlternate;
             this.groupOffice2007Styles.Location = new System.Drawing.Point(448, 16);
-            this.groupOffice2007Styles.Name = "groupOffice2007Styles";
             // 
             // groupOffice2007Styles.Panel
             // 
@@ -300,7 +313,6 @@
             // 
             this.groupAddContext.GroupBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelAlternate;
             this.groupAddContext.Location = new System.Drawing.Point(16, 160);
-            this.groupAddContext.Name = "groupAddContext";
             // 
             // groupAddContext.Panel
             // 
@@ -340,7 +352,7 @@
             this.buttonEditColor.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.buttonEditColor.Location = new System.Drawing.Point(231, 81);
             this.buttonEditColor.Name = "buttonEditColor";
-            this.buttonEditColor.Size = new System.Drawing.Size(79, 24);
+            this.buttonEditColor.Size = new System.Drawing.Size(77, 22);
             this.buttonEditColor.TabIndex = 8;
             this.buttonEditColor.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.buttonEditColor.Values.Text = "Define Color";
@@ -404,7 +416,6 @@
             // 
             this.groupSelectedContexts.GroupBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelAlternate;
             this.groupSelectedContexts.Location = new System.Drawing.Point(16, 16);
-            this.groupSelectedContexts.Name = "groupSelectedContexts";
             // 
             // groupSelectedContexts.Panel
             // 
@@ -430,7 +441,7 @@
             this.buttonSelectedApply.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.buttonSelectedApply.Location = new System.Drawing.Point(311, 35);
             this.buttonSelectedApply.Name = "buttonSelectedApply";
-            this.buttonSelectedApply.Size = new System.Drawing.Size(42, 24);
+            this.buttonSelectedApply.Size = new System.Drawing.Size(40, 22);
             this.buttonSelectedApply.TabIndex = 3;
             this.buttonSelectedApply.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.buttonSelectedApply.Values.Text = "Apply";
@@ -452,34 +463,19 @@
             this.labelContextsInstructions.Values.Text = "Use a common separated list of context names and then\r\npress the \'Apply\' button. " +
     "To remove all contextual tabs\r\njust remove all the text and press \'Apply\'.";
             // 
-            // kryptonRibbonGroup1
-            // 
-            this.kryptonRibbonGroup1.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupContainer[] {
-            this.kryptonRibbonGroupTriple1});
-            // 
-            // kryptonRibbonGroupTriple1
-            // 
-            this.kryptonRibbonGroupTriple1.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
-            this.kryptonRibbonGroupButton1,
-            this.kryptonRibbonGroupButton2,
-            this.krgbtnTest1715});
-            // 
-            // krgbtnTest1715
-            // 
-            this.krgbtnTest1715.TextLine1 = "Test";
-            this.krgbtnTest1715.TextLine2 = "#1715";
-            this.krgbtnTest1715.Click += new System.EventHandler(this.krgbtnTest1715_Click);
-            // 
             // RibbonTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(922, 628);
+            this.ClientSize = new System.Drawing.Size(926, 616);
             this.CloseBox = false;
             this.Controls.Add(this.labelOffice2007Styles);
             this.Controls.Add(this.kryptonRibbon);
+            this.Location = new System.Drawing.Point(0, 0);
             this.Name = "RibbonTest";
             this.Text = "RibbonTest";
+            this.Controls.SetChildIndex(this.kryptonRibbon, 0);
+            this.Controls.SetChildIndex(this.labelOffice2007Styles, 0);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonRibbon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.labelOffice2007Styles)).EndInit();
             this.labelOffice2007Styles.ResumeLayout(false);
@@ -519,7 +515,6 @@
         private Krypton.Ribbon.KryptonRibbonGroupTriple kryptonRibbonGroupTriple1;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButton1;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButton2;
-        private Krypton.Ribbon.KryptonRibbonGroupButton krgbtnTest1715;
         private KryptonPanel labelOffice2007Styles;
         private KryptonGroup groupOffice2007Styles;
         private KryptonRadioButton radioOffice2010Black;
@@ -549,5 +544,6 @@
         private KryptonButton buttonSelectedApply;
         private KryptonTextBox textBoxSelectedContexts;
         private KryptonLabel labelContextsInstructions;
+        private Krypton.Ribbon.KryptonRibbonGroupColorButton kryptonRibbonGroupColorButton1;
     }
 }

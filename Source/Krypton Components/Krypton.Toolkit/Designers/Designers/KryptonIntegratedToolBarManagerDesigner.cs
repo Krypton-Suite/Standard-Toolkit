@@ -1,22 +1,21 @@
-﻿namespace Krypton.Toolkit
+﻿namespace Krypton.Toolkit;
+
+internal class KryptonIntegratedToolBarManagerDesigner : ComponentDesigner
 {
-    internal class KryptonIntegratedToolBarManagerDesigner : ComponentDesigner
-    {
-        #region Public Overrides
+    #region Public Overrides
 
-        //public override DesignerActionListCollection ActionLists
-        //{
-        //    get
-        //    {
-        //        var actionList = new DesignerActionItemCollection
-        //        {
-        //            new KryptonIntegratedToolBarManagerActionList(this)
-        //        };
+    //public override DesignerActionListCollection ActionLists
+    //{
+    //    get
+    //    {
+    //        var actionList = new DesignerActionItemCollection
+    //        {
+    //            new KryptonIntegratedToolBarManagerActionList(this)
+    //        };
 
-        //        return actionList;
-        //    }
-        //}
+    //        return actionList;
+    //    }
+    //}
 
-        #endregion
-    }
+    #endregion
 }

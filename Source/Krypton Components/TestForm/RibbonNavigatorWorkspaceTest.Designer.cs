@@ -186,7 +186,7 @@
             // 
             // kryptonManager
             // 
-            this.kryptonManager.GlobalPaletteMode = Krypton.Toolkit.PaletteMode.Office2007Silver;
+            this.kryptonManager.GlobalPaletteMode = Krypton.Toolkit.PaletteMode.Global;
             // 
             // panelFill
             // 
@@ -323,7 +323,7 @@
             this.kryptonWorkspaceCell1.Name = "kryptonWorkspaceCell1";
             this.kryptonWorkspaceCell1.NavigatorMode = Krypton.Navigator.NavigatorMode.BarTabGroup;
             this.kryptonWorkspaceCell1.Owner = null;
-            this.kryptonWorkspaceCell1.PageBackStyle = Krypton.Toolkit.PaletteBackStyle.ControlClient;
+            this.kryptonWorkspaceCell1.PageBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelClient;
             this.kryptonWorkspaceCell1.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
             this.kryptonPage1,
             this.kryptonPage3,
@@ -401,7 +401,7 @@
             this.kryptonWorkspaceCell3.Name = "kryptonWorkspaceCell3";
             this.kryptonWorkspaceCell3.NavigatorMode = Krypton.Navigator.NavigatorMode.BarTabGroup;
             this.kryptonWorkspaceCell3.Owner = null;
-            this.kryptonWorkspaceCell3.PageBackStyle = Krypton.Toolkit.PaletteBackStyle.ControlClient;
+            this.kryptonWorkspaceCell3.PageBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelClient;
             this.kryptonWorkspaceCell3.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
             this.kryptonPage4,
             this.kryptonPage5,
@@ -470,7 +470,7 @@
             this.kryptonWorkspaceCell4.Name = "kryptonWorkspaceCell4";
             this.kryptonWorkspaceCell4.NavigatorMode = Krypton.Navigator.NavigatorMode.BarTabGroup;
             this.kryptonWorkspaceCell4.Owner = null;
-            this.kryptonWorkspaceCell4.PageBackStyle = Krypton.Toolkit.PaletteBackStyle.ControlClient;
+            this.kryptonWorkspaceCell4.PageBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelClient;
             this.kryptonWorkspaceCell4.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
             this.kryptonPage6,
             this.kryptonPage11});
@@ -544,7 +544,7 @@
             this.navigatorOutlook.Name = "navigatorOutlook";
             this.navigatorOutlook.NavigatorMode = Krypton.Navigator.NavigatorMode.OutlookFull;
             this.navigatorOutlook.Owner = null;
-            this.navigatorOutlook.PageBackStyle = Krypton.Toolkit.PaletteBackStyle.ControlClient;
+            this.navigatorOutlook.PageBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelClient;
             this.navigatorOutlook.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
             this.pageGlobalPalettes,
             this.kryptonDisplayMode});
@@ -590,7 +590,7 @@
             // 
             // kryptonThemeComboBox1
             // 
-            this.kryptonThemeComboBox1.DefaultPalette = Krypton.Toolkit.PaletteMode.Office2007Silver;
+            this.kryptonThemeComboBox1.DefaultPalette = Krypton.Toolkit.PaletteMode.Global;
             this.kryptonThemeComboBox1.DropDownWidth = 121;
             this.kryptonThemeComboBox1.IntegralHeight = false;
             this.kryptonThemeComboBox1.Location = new System.Drawing.Point(13, 311);
@@ -1029,7 +1029,7 @@
             // 
             // kryptonRibbonGroupThemeComboBox1
             // 
-            this.kryptonRibbonGroupThemeComboBox1.DefaultPalette = Krypton.Toolkit.PaletteMode.Office2007Silver;
+            this.kryptonRibbonGroupThemeComboBox1.DefaultPalette = Krypton.Toolkit.PaletteMode.Global;
             this.kryptonRibbonGroupThemeComboBox1.DropDownWidth = 200;
             this.kryptonRibbonGroupThemeComboBox1.FormattingEnabled = false;
             this.kryptonRibbonGroupThemeComboBox1.ItemHeight = 16;

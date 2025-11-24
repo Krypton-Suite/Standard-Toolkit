@@ -1,9 +1,8 @@
-﻿namespace Krypton.Toolkit
+﻿namespace Krypton.Toolkit;
+
+internal class KryptonIntegratedToolBarManagerActionList : DesignerActionList
 {
-    internal class KryptonIntegratedToolBarManagerActionList : DesignerActionList
+    public KryptonIntegratedToolBarManagerActionList(KryptonIntegratedToolBarManager owner) : base(owner)
     {
-        public KryptonIntegratedToolBarManagerActionList(KryptonIntegratedToolBarManager owner) : base(owner)
-        {
-        }
     }
 }

@@ -5,23 +5,23 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
  *  
  */
 #endregion
 
-namespace Krypton.Toolkit
-{
-    /// <summary>
-    /// Custom type converter so that LabelStyle values appear as neat text at design time.
-    /// </summary>
-    internal class LabelStyleConverter : StringLookupConverter<LabelStyle>
-    {
-        #region Static Fields
+namespace Krypton.Toolkit;
 
-        [Localizable(true)]
-        private static readonly BiDictionary<LabelStyle, string> _pairs = new BiDictionary<LabelStyle, string>(
-            new Dictionary<LabelStyle, string>
+/// <summary>
+/// Custom type converter so that LabelStyle values appear as neat text at design time.
+/// </summary>
+internal class LabelStyleConverter : StringLookupConverter<LabelStyle>
+{
+    #region Static Fields
+
+    [Localizable(true)]
+    private static readonly BiDictionary<LabelStyle, string> _pairs = new BiDictionary<LabelStyle, string>(
+        new Dictionary<LabelStyle, string>
         {
             {LabelStyle.AlternateControl, DesignTimeUtilities.DEFAULT_LABEL_STYLE_ALTERNATE_CONTROL},
             {LabelStyle.NormalControl, DesignTimeUtilities.DEFAULT_LABEL_STYLE_NORMAL_CONTROL},
@@ -42,16 +42,15 @@ namespace Krypton.Toolkit
             {LabelStyle.Custom3, DesignTimeUtilities.DEFAULT_LABEL_STYLE_CUSTOM_THREE}
         });
 
-        #endregion
+    #endregion
 
-        #region Protected
+    #region Protected
 
-        /// <summary>
-        /// Gets an array of lookup pairs.
-        /// </summary>
-        protected override IReadOnlyDictionary<LabelStyle /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
-        protected override IReadOnlyDictionary<string /*Display*/, LabelStyle /*Enum*/ > PairsStringToEnum => _pairs.SecondToFirst;
+    /// <summary>
+    /// Gets an array of lookup pairs.
+    /// </summary>
+    protected override IReadOnlyDictionary<LabelStyle /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
+    protected override IReadOnlyDictionary<string /*Display*/, LabelStyle /*Enum*/ > PairsStringToEnum => _pairs.SecondToFirst;
 
-        #endregion
-    }
+    #endregion
 }
