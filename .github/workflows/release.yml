@@ -111,9 +111,6 @@ jobs:
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
 
-      - name: Create Release Archives
-        run: msbuild "Scripts/build.proj" /t:CreateAllReleaseArchives /p:Configuration=Release /p:Platform="Any CPU"
-
       - name: Get Version
         id: get_version
         shell: pwsh
@@ -155,99 +152,6 @@ jobs:
           Write-Host "Final determined version: $version"
           echo "version=$version" >> $env:GITHUB_OUTPUT
           echo "tag=v$version" >> $env:GITHUB_OUTPUT
-
-      - name: Diagnostics - List Artifacts
-        shell: pwsh
-        run: |
-          Write-Host "=== Files in Bin/Packages/Release ==="
-          Get-ChildItem -Path Bin/Packages/Release -Recurse -ErrorAction SilentlyContinue | ForEach-Object { Write-Host $_.FullName }
-          Write-Host "`n=== Files in Bin/Release/Zips ==="
-          Get-ChildItem -Path Bin/Release/Zips -Recurse -ErrorAction SilentlyContinue | ForEach-Object { Write-Host $_.FullName }
-          Write-Host "`n=== Secrets Check ==="
-          Write-Host "GITHUB_TOKEN present: $(if ($env:GITHUB_TOKEN) { 'yes' } else { 'no' })"
-          Write-Host "NUGET_API_KEY present: $(if ($env:NUGET_API_KEY) { 'yes' } else { 'no' })"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
-
-      - name: Create or Update Release
-        shell: pwsh
-        run: |
-          $ErrorActionPreference = 'Stop'
-          $version = "${{ steps.get_version.outputs.version }}"
-          $tag = "v$version"
-          $releaseTitle = "Release $version"
-          $releaseBody = @"
-          ## Krypton Toolkit Suite Release $version
-          
-          This release includes:
-          - All Krypton Toolkit components
-          - NuGet packages for multiple target frameworks
-          - Release archives (ZIP and TAR.GZ formats)
-          
-          ### Downloads
-          - **ZIP Archive**: `Krypton-Release_*.zip`
-          - **TAR.GZ Archive**: `Krypton-Release_*.tar.gz`
-          
-          ### Target Frameworks
-          - .NET Framework 4.7.2
-          - .NET Framework 4.8
-          - .NET Framework 4.8.1
-          - .NET 8.0 Windows
-          - .NET 9.0 Windows
-          - .NET 10.0 Windows
-          "@
-          
-          Write-Host "Preparing to create or update release $tag"
-          
-          # Check if release exists
-          $releaseExists = $false
-          gh release view $tag 2>&1 | Out-Null
-          if ($LASTEXITCODE -eq 0) {
-            $releaseExists = $true
-          }
-          
-          if ($releaseExists) {
-            Write-Host "Release $tag exists - updating"
-            gh release edit $tag --title $releaseTitle --notes "$releaseBody"
-          } else {
-            Write-Host "Creating release $tag"
-            gh release create $tag --title $releaseTitle --notes "$releaseBody" --latest
-          }
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Upload Release Assets
-        shell: pwsh
-        run: |
-          $ErrorActionPreference = 'Stop'
-          $tag = "${{ steps.get_version.outputs.tag }}"
-          $zipFile = Get-ChildItem "Bin/Release/Zips/Krypton-Release_*.zip" -ErrorAction SilentlyContinue | Select-Object -First 1
-          $tarFile = Get-ChildItem "Bin/Release/Zips/Krypton-Release_*.tar.gz" -ErrorAction SilentlyContinue | Select-Object -First 1
-          
-          if ($zipFile) {
-            Write-Host "Uploading $($zipFile.Name)"
-            try {
-              gh release upload $tag "$($zipFile.FullName)" --clobber
-            } catch {
-              Write-Warning "Failed to upload ZIP: $_"
-            }
-          } else {
-            Write-Warning "ZIP release archive not found; skipping upload."
-          }
-          
-          if ($tarFile) {
-            Write-Host "Uploading $($tarFile.Name)"
-            try {
-              gh release upload $tag "$($tarFile.FullName)" --clobber
-            } catch {
-              Write-Warning "Failed to upload TAR.GZ: $_"
-            }
-          } else {
-            Write-Warning "TAR.GZ release archive not found; skipping upload."
-          }
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Announce Release on Discord
         if: steps.push_nuget.outputs.packages_published == 'True'
