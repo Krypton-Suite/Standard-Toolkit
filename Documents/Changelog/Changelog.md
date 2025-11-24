@@ -2,6 +2,13 @@
 
 ====
 
+## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
+
+* Support for .NET 11
+* Version bump `105.xx.xx.xx` -> `110.xx.xx.xx`
+
+=======
+
 ## 2025-11-24 - Build 2511 (V100 RTM) - November 2025
 
 * Implemented [#2621](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2621), Add `dependabot.yml` for maintenance tasks
@@ -166,7 +173,7 @@
 * Implemented [#1184](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1184), A proper `SplashScreen` item
 * Implemented [#1236](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1236), Backport `StockIconId` feature
 * Support for .NET 10
-* Version bump `90.xx.xx.xx` -> `100.xx.xx.xx`
+* Version bump `95.xx.xx.xx` -> `100.xx.xx.xx`
 
 =======
 
