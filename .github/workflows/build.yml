@@ -24,7 +24,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       # .NET 9 (GA)
       - name: Setup .NET 9
@@ -81,7 +81,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       # .NET 9 (GA)
       - name: Setup .NET 9
