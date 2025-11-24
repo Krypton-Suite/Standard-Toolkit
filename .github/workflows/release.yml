@@ -202,6 +202,195 @@ jobs:
         env:
           DISCORD_WEBHOOK_MASTER: ${{ secrets.DISCORD_WEBHOOK_MASTER }}
 
+  release-v105-lts:
+    runs-on: windows-2025
+    if: github.ref == 'refs/heads/V105-LTS' && github.event_name == 'push'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      # .NET 9 (GA)
+      - name: Setup .NET 9
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 9.0.x
+
+      # .NET 10
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.0.x
+
+      # global.json dynamically generate
+      - name: Force .NET 10 SDK via global.json
+        run: |
+          $sdkVersion = (dotnet --list-sdks | Select-String "10.0").ToString().Split(" ")[0]
+          Write-Output "Using SDK $sdkVersion"
+          @"
+          {
+            "sdk": {
+              "version": "$sdkVersion",
+              "rollForward": "latestFeature"
+            }
+          }
+          "@ | Out-File -Encoding utf8 global.json
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+        with:
+          msbuild-architecture: x64
+
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v1.2.0
+
+      - name: Cache NuGet
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Restore
+        run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.sln"
+
+      - name: Build Release
+        run: msbuild "Scripts/build.proj" /t:Build /p:Configuration=Release /p:Platform="Any CPU"
+
+      - name: Pack Release
+        run: msbuild "Scripts/build.proj" /t:Pack /p:Configuration=Release /p:Platform="Any CPU"
+
+      - name: Push NuGet Packages to nuget.org
+        id: push_nuget
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          if (-not $env:NUGET_API_KEY) {
+            Write-Warning "NUGET_API_KEY not set - skipping NuGet push"
+            echo "packages_published=false" >> $env:GITHUB_OUTPUT
+            exit 0
+          }
+          
+          $packages = Get-ChildItem "Bin/Packages/Release/*.nupkg" -ErrorAction SilentlyContinue
+          $publishedAny = $false
+          
+          if ($packages) {
+            foreach ($package in $packages) {
+              Write-Output "Pushing package: $($package.Name)"
+              try {
+                $output = dotnet nuget push "$($package.FullName)" --api-key $env:NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate 2>&1 | Out-String
+                Write-Output $output
+                # Check if package was actually pushed (not skipped)
+                if ($output -notmatch "already exists" -and $output -notmatch "was not pushed") {
+                  $publishedAny = $true
+                  Write-Host "Package $($package.Name) was published"
+                } else {
+                  Write-Host "Package $($package.Name) already exists - skipped"
+                }
+              } catch {
+                Write-Warning "Failed to push $($package.Name): $_"
+              }
+            }
+          } else {
+            Write-Output "No NuGet packages found to push"
+          }
+          
+          echo "packages_published=$publishedAny" >> $env:GITHUB_OUTPUT
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+
+      - name: Get Version
+        id: get_version
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $version = $null
+          
+          # Try to get version from the built assembly (most reliable)
+          try {
+            $dllPath = Get-ChildItem "Bin/Release/net48/Krypton.Toolkit.dll" -ErrorAction Stop
+            $assemblyVersion = [System.Reflection.AssemblyName]::GetAssemblyName($dllPath.FullName).Version
+            $version = $assemblyVersion.ToString()
+            Write-Host "Got version from assembly: $version"
+          } catch {
+            Write-Host "Could not read version from assembly: $_"
+          }
+          
+          # Fallback: Try to read from csproj XML
+          if (-not $version) {
+            try {
+              $proj = 'Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj'
+              [xml]$projXml = Get-Content $proj
+              $versionNode = $projXml.SelectSingleNode("//Version")
+              if ($versionNode) {
+                $version = $versionNode.InnerText.Trim()
+                Write-Host "Got version from csproj: $version"
+              }
+            } catch {
+              Write-Host "Could not read version from csproj: $_"
+            }
+          }
+          
+          # Last resort fallback
+          if (-not $version) {
+            Write-Warning "Version not found, using fallback."
+            $version = "100.25.1.1"
+          }
+          
+          Write-Host "Final determined version: $version"
+          echo "version=$version" >> $env:GITHUB_OUTPUT
+          echo "tag=v$version" >> $env:GITHUB_OUTPUT
+
+      - name: Announce Release on Discord
+        if: steps.push_nuget.outputs.packages_published == 'True'
+        shell: pwsh
+        run: |
+          if (-not $env:DISCORD_WEBHOOK_MASTER) {
+            Write-Warning "DISCORD_WEBHOOK_MASTER not set - skipping Discord notification"
+            exit 0
+          }
+          
+          $payload = @{
+            embeds = @(
+              @{
+                title = "🎉 Krypton Toolkit Stable Release"
+                description = "A new stable release is now available!"
+                color = 3447003
+                fields = @(
+                  @{
+                    name = "📌 Version"
+                    value = "``${{ steps.get_version.outputs.version }}``"
+                    inline = $true
+                  }
+                  @{
+                    name = "📦 NuGet Packages"
+                    value = "- Krypton.Toolkit`n- Krypton.Ribbon`n- Krypton.Navigator`n- Krypton.Workspace`n- Krypton.Docking"
+                    inline = $false
+                  }
+                  @{
+                    name = "🎯 Target Frameworks"
+                    value = "• .NET Framework 4.7.2`n• .NET Framework 4.8`n• .NET Framework 4.8.1`n• .NET 8.0`n• .NET 9.0`n• .NET 10.0"
+                    inline = $false
+                  }
+                  @{
+                    name = "🔗 NuGet Packages"
+                    value = "• [Toolkit](https://www.nuget.org/packages/Krypton.Toolkit)`n• [Ribbon](https://www.nuget.org/packages/Krypton.Ribbon)`n• [Navigator](https://www.nuget.org/packages/Krypton.Navigator)`n• [Workspace](https://www.nuget.org/packages/Krypton.Workspace)`n• [Docking](https://www.nuget.org/packages/Krypton.Docking)"
+                    inline = $false
+                  }
+                )
+                footer = @{
+                  text = "Released"
+                }
+                timestamp = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ")
+              }
+            )
+          } | ConvertTo-Json -Depth 10
+          
+          Invoke-RestMethod -Uri "${{ secrets.DISCORD_WEBHOOK_MASTER }}" -Method Post -Body $payload -ContentType "application/json"
+        env:
+          DISCORD_WEBHOOK_MASTER: ${{ secrets.DISCORD_WEBHOOK_MASTER }}
+
   release-v85-lts:
     runs-on: windows-2025
     if: github.ref == 'refs/heads/V85-LTS' && github.event_name == 'push'
