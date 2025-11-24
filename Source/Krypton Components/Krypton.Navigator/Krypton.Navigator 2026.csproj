@@ -17,8 +17,8 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <RootNamespace>Krypton.Workspace</RootNamespace>
-    <AssemblyName>Krypton.Workspace</AssemblyName>
+    <RootNamespace>Krypton.Navigator</RootNamespace>
+    <AssemblyName>Krypton.Navigator</AssemblyName>
     <!-- Set the CheckEolTargetFramework property to false to fix the warning -->
     <CheckEolTargetFramework>false</CheckEolTargetFramework>
     <SignAssembly>True</SignAssembly>
@@ -42,8 +42,8 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <PackageId>Krypton.Workspace</PackageId>
-    <Description>This is the workspace module.</Description>
+    <PackageId>Krypton.Navigator</PackageId>
+    <Description>This is the navigator module.</Description>
   </PropertyGroup>
 
   <ItemGroup>
@@ -55,27 +55,22 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="Krypton.ico" Pack="false" />
-    <EmbeddedResource Include="ToolboxBitmaps\KryptonWorkspaceSequence.bmp" />
-    <EmbeddedResource Include="ToolboxBitmaps\KryptonWorkspaceCell.bmp" />
-    <EmbeddedResource Include="ToolboxBitmaps\KryptonWorkspace.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Krypton.Navigator\Krypton.Navigator 2022.csproj" />
-    <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="Palette Demo\WorkspacePageMenuBase.cs" />
-    <Compile Remove="Palette Install\WorkspacePageMenuBase.cs" />
-  </ItemGroup>
-  <ItemGroup>
+    <Compile Include="..\Krypton.Toolkit\General\GlobalSuppressions.cs" Link="General\GlobalSuppressions.cs" />
+    <Compile Include="..\Krypton.Toolkit\General\PlatformInvoke.cs">
+      <Link>General\PlatformInvoke.cs</Link>
+    </Compile>
     <Compile Include="..\Krypton.Toolkit\Utilities\AllowNullAttribute.cs" Link="General\AllowNullAttribute.cs" />
-  </ItemGroup>
-  <ItemGroup>
+    <Compile Update="ButtonSpecs\ButtonSpecNavigator.cs" />
+    <Compile Update="ButtonSpecs\ButtonSpecNavFixed.cs" />
+    <Compile Update="ButtonSpecs\ButtonSpecNavClose.cs" />
+    <Compile Update="ButtonSpecs\ButtonSpecNavPrevious.cs" />
+    <Compile Update="ButtonSpecs\ButtonSpecNavNext.cs" />
+    <Compile Update="ButtonSpecs\ButtonSpecNavContext.cs" />
+    <Compile Update="Resources\CursorResources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>CursorResources.resx</DependentUpon>
+    </Compile>
     <Compile Update="Resources\GeneralImageResources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -83,6 +78,23 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ToolboxBitmaps\KryptonNavigator.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Krypton.ico" Pack="false" />
+    <EmbeddedResource Include="ToolboxBitmaps\KryptonPage.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Palette\PaletteNavigatorOtherOverride.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2026.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\CursorResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>CursorResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="Resources\GeneralImageResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>GeneralImageResources.Designer.cs</LastGenOutput>
@@ -95,6 +107,7 @@
   <PropertyGroup>
     <NoWarn>1701;1702</NoWarn>
   </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)'!='Debug'">
     <Optimize>True</Optimize>
   </PropertyGroup>

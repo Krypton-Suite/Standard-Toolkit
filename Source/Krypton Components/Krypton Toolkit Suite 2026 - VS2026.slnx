@@ -90,11 +90,11 @@
     <File Path="../../LICENSE" />
   </Folder>
   <Folder Name="/Source/">
-    <Project Path="Krypton.Docking/Krypton.Docking 2022.csproj" />
-    <Project Path="Krypton.Navigator/Krypton.Navigator 2022.csproj" />
-    <Project Path="Krypton.Ribbon/Krypton.Ribbon 2022.csproj" />
-    <Project Path="Krypton.Toolkit/Krypton.Toolkit 2022.csproj" />
-    <Project Path="Krypton.Workspace/Krypton.Workspace 2022.csproj" />
+    <Project Path="Krypton.Docking/Krypton.Docking 2026.csproj" />
+    <Project Path="Krypton.Navigator/Krypton.Navigator 2026.csproj" />
+    <Project Path="Krypton.Ribbon/Krypton.Ribbon 2026.csproj" />
+    <Project Path="Krypton.Toolkit/Krypton.Toolkit 2026.csproj" />
+    <Project Path="Krypton.Workspace/Krypton.Workspace 2026.csproj" />
   </Folder>
   <Project Path="../TestHarnesses/ThemeSwapRepro/ThemeSwapRepro.csproj">
     <BuildType Solution="Canary|*" Project="Release" />
@@ -102,7 +102,7 @@
     <BuildType Solution="Nightly|*" Project="Release" />
   </Project>
   <Project Path="TestForm/TestForm.csproj">
-    <BuildDependency Project="Krypton.Navigator/Krypton.Navigator 2022.csproj" />
+    <BuildDependency Project="Krypton.Navigator/Krypton.Navigator 2026.csproj" />
     <BuildType Solution="Canary|*" Project="Debug" />
     <BuildType Solution="Installer|*" Project="Debug" />
     <BuildType Solution="Nightly|*" Project="Debug" />

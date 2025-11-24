@@ -118,7 +118,7 @@
     <Compile Remove="View Layout Install\ViewLayoutRibbonAppTab.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
+    <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2026.csproj" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="Resources\GenericImageResources.resx">

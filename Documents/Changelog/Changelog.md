@@ -4,6 +4,8 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#2543](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2543), Update references from `2022` -> `2026`
+* Removed support for .NET 8 and 9
 * Support for .NET 11
 * Version bump `105.xx.xx.xx` -> `110.xx.xx.xx`
 
