@@ -189,11 +189,6 @@ jobs:
                     value = "• [Toolkit](https://www.nuget.org/packages/Krypton.Toolkit)`n• [Ribbon](https://www.nuget.org/packages/Krypton.Ribbon)`n• [Navigator](https://www.nuget.org/packages/Krypton.Navigator)`n• [Workspace](https://www.nuget.org/packages/Krypton.Workspace)`n• [Docking](https://www.nuget.org/packages/Krypton.Docking)"
                     inline = $false
                   }
-                  @{
-                    name = "📥 GitHub Release"
-                    value = "[Download Archives](https://github.com/${{ github.repository }}/releases/tag/${{ steps.get_version.outputs.tag }})"
-                    inline = $false
-                  }
                 )
                 footer = @{
                   text = "Released"
