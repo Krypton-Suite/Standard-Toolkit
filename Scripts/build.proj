@@ -84,7 +84,7 @@
 		<ItemGroup>
 			<DebugApplicationFiles Include="..\Bin\Release\**\*.*" Exclude="..\Bin\Release\*vshost.exe*;..\Bin\Release\**\*.json;..\Bin\Release\**\*.pdb" />
 		</ItemGroup>
-		<MakeDir Directories="$(ReleaseBuildPath)"/>
+		<MakeDir Directories="..\Bin\Release;$(ReleaseBuildPath)"/>
 
 		<!-- Using 7-Zip for ZIP creation (compatible with all MSBuild versions) -->
 		<Exec Command="7z.exe a -tzip &quot;$(ReleaseBuildPath)\$(ReleaseZipName)_$(StringDate).zip&quot; &quot;..\Bin\Release\*&quot; -x!*.json -x!*.pdb"
@@ -103,7 +103,7 @@
 		<ItemGroup>
 			<DebugApplicationFiles Include="..\Bin\Release\**\*.*" Exclude="..\Bin\Release\*vshost.exe*;..\Bin\Release\**\*.json;..\Bin\Release\**\*.pdb" />
 		</ItemGroup>
-		<MakeDir Directories="$(ReleaseBuildPath)"/>
+		<MakeDir Directories="..\Bin\Release;$(ReleaseBuildPath)"/>
 
 		<!-- Method 1: Using 7-Zip if available (recommended for Windows) -->
 		<Exec Command="7z.exe a -ttar &quot;$(ReleaseBuildPath)\$(ReleaseZipName)_$(StringDate).tar&quot; &quot;..\Bin\Release\*&quot; -x!*.json -x!*.pdb"
