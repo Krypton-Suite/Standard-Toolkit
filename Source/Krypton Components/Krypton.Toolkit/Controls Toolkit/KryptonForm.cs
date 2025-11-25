@@ -262,17 +262,12 @@ public class KryptonForm : VisualForm,
 
         // Instantiate system menu items only to keep the compiler happy
         _systemMenuContextMenu = new();
-        SystemMenuValues = new (_systemMenuContextMenu);
 
-        // Init only here. Must instantiate in OnHandleCreated
+        // KryptonSystemMenu
+        SystemMenuValues = new(_systemMenuContextMenu);
         _kryptonSystemMenu = GetSystemMenu();
     }
     #endregion
-
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-    public SystemMenuValues SystemMenuValues { get; }
-    public bool ShouldSerializeSystemMenuValues() => !SystemMenuValues.IsDefault;
-    public void ResetSystemMenuValues() => SystemMenuValues.Reset();
 
     #region Private
     private KryptonSystemMenu? GetSystemMenu() 
@@ -723,6 +718,11 @@ public class KryptonForm : VisualForm,
     #endregion
 
     #region Public (new)
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public SystemMenuValues SystemMenuValues { get; }
+    public bool ShouldSerializeSystemMenuValues() => !SystemMenuValues.IsDefault;
+    public void ResetSystemMenuValues() => SystemMenuValues.Reset();
+
     /// <summary>
     /// Toggles display of the minimize button.
     /// </summary>
