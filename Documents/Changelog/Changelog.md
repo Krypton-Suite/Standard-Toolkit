@@ -2,6 +2,12 @@
 
 ====
 
+# 2026-02-30 - Build 2502 (Version 105-LTS - Patch 1) - February 2026
+* Resolves [#2649]https://github.com/Krypton-Suite/Standard-Toolkit/issues/2649), `KryptonSytemMenu` duplicates menu entries.
+* Support for .NET 11
+
+====
+
 ## 2025-11-24 - Build 2511 (V100 RTM) - November 2025
 
 * Implemented [#2621](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2621), Add `dependabot.yml` for maintenance tasks
