@@ -20,7 +20,7 @@ public class KryptonSystemMenu : IDisposable
     private KryptonContextMenuItem _contextMenuItemMove;
     private KryptonContextMenuItem _contextMenuItemSize;
     private KryptonContextMenuItem _contextMenuItemMinimize;
-    private KryptonContextMenuItem _cntextMenuItemMaximize;
+    private KryptonContextMenuItem _contextMenuItemMaximize;
     private KryptonContextMenuItem _contextMenuItemClose;
     private bool _disposed;
     #endregion
@@ -86,9 +86,9 @@ public class KryptonSystemMenu : IDisposable
         _contextMenuItemMinimize.Image = SystemMenuImageResources.Microsoft365SystemMenuMinimiseNormalSmall;
         _contextMenuItemMinimize.Click += OnContextMenuItemMinimizeClick;
 
-        _cntextMenuItemMaximize = new(KryptonManager.Strings.SystemMenuStrings.Maximize);
-        _cntextMenuItemMaximize.Image = SystemMenuImageResources.Microsoft365SystemMenuMaximiseNormalSmall;
-        _cntextMenuItemMaximize.Click += OnContextMenuItemMaximizeClick;
+        _contextMenuItemMaximize = new(KryptonManager.Strings.SystemMenuStrings.Maximize);
+        _contextMenuItemMaximize.Image = SystemMenuImageResources.Microsoft365SystemMenuMaximiseNormalSmall;
+        _contextMenuItemMaximize.Click += OnContextMenuItemMaximizeClick;
 
         _contextMenuItemClose = new(KryptonManager.Strings.SystemMenuStrings.Close);
         _contextMenuItemClose.Image = SystemMenuImageResources.Microsoft365SystemMenuCloseNormalSmall;
@@ -99,7 +99,7 @@ public class KryptonSystemMenu : IDisposable
         items.Items.Add(_contextMenuItemMove);
         items.Items.Add(_contextMenuItemSize);
         items.Items.Add(_contextMenuItemMinimize);
-        items.Items.Add(_cntextMenuItemMaximize);
+        items.Items.Add(_contextMenuItemMaximize);
         items.Items.Add(new KryptonContextMenuSeparator());
         items.Items.Add(_contextMenuItemClose);
         _contextMenu.Items.Insert(0, items);
@@ -116,7 +116,7 @@ public class KryptonSystemMenu : IDisposable
         _contextMenuItemMinimize.Enabled = _form.MinimizeBox && (windowState != FormWindowState.Minimized);
 
         // Maximize item is enabled only if MaximizeBox is true and window is not already maximized
-        _cntextMenuItemMaximize.Enabled = _form.MaximizeBox && (windowState != FormWindowState.Maximized);
+        _contextMenuItemMaximize.Enabled = _form.MaximizeBox && (windowState != FormWindowState.Maximized);
 
         // Move is enabled when window is in Normal state (can be moved) or when minimized (can be restored)
         _contextMenuItemMove.Enabled = (windowState == FormWindowState.Normal) || (windowState == FormWindowState.Minimized);
@@ -236,7 +236,7 @@ public class KryptonSystemMenu : IDisposable
             _contextMenuItemMove.Click -= OnContextMenuItemMoveClick;
             _contextMenuItemSize.Click -= OnContextMenuItemSizeClick;
             _contextMenuItemMinimize.Click -= OnContextMenuItemMinimizeClick;
-            _cntextMenuItemMaximize.Click -= OnContextMenuItemMaximizeClick;
+            _contextMenuItemMaximize.Click -= OnContextMenuItemMaximizeClick;
             _contextMenuItemClose.Click -= OnContextMenuItemCloseClick;
 
             _disposed = true;
