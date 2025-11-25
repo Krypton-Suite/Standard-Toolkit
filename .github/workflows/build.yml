@@ -134,9 +134,6 @@ jobs:
       - name: Pack Release
         run: msbuild "Scripts/build.proj" /t:Pack /p:Configuration=Release /p:Platform="Any CPU"
 
-      - name: Create Release Archives
-        run: msbuild "Scripts/build.proj" /t:CreateAllReleaseArchives /p:Configuration=Release /p:Platform="Any CPU"
-
       - name: Get Version
         id: get_version
         run: |
@@ -146,47 +143,3 @@ jobs:
           }
           echo "version=$version" >> $env:GITHUB_OUTPUT
           echo "tag=v$version" >> $env:GITHUB_OUTPUT
-
-      - name: Create Release
-        run: |
-          $releaseBody = @"
-          ## Krypton Toolkit Suite Release ${{ steps.get_version.outputs.version }}
-          
-          This release includes:
-          - All Krypton Toolkit components
-          - NuGet packages for multiple target frameworks
-          - Release archives (ZIP and TAR.GZ formats)
-          
-          ### Downloads
-          - **ZIP Archive**: `Krypton-Release_*.zip`
-          - **TAR.GZ Archive**: `Krypton-Release_*.tar.gz`
-          
-          ### Target Frameworks
-          - .NET Framework 4.7.2
-          - .NET Framework 4.8
-          - .NET Framework 4.8.1
-          - .NET 8.0 Windows
-          - .NET 9.0 Windows
-          - .NET 10.0 Windows
-          "@
-          
-          gh release create ${{ steps.get_version.outputs.tag }} `
-            --title "Release ${{ steps.get_version.outputs.version }}" `
-            --notes "$releaseBody" `
-            --latest
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Upload Release Assets
-        run: |
-          $zipFile = Get-ChildItem "Bin/Release/Zips/Krypton-Release_*.zip" | Select-Object -First 1
-          $tarFile = Get-ChildItem "Bin/Release/Zips/Krypton-Release_*.tar.gz" | Select-Object -First 1
-          
-          if ($zipFile) {
-            gh release upload ${{ steps.get_version.outputs.tag }} "$($zipFile.FullName)" --clobber
-          }
-          if ($tarFile) {
-            gh release upload ${{ steps.get_version.outputs.tag }} "$($tarFile.FullName)" --clobber
-          }
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
