@@ -260,10 +260,8 @@ public class KryptonForm : VisualForm,
         base.PaletteChanged += (s, e) => _internalKryptonPanel.PaletteMode = PaletteMode;
         // END #1979 Temporary fix
 
-        // Instantiate system menu items only to keep the compiler happy
-        _systemMenuContextMenu = new();
-
         // KryptonSystemMenu
+        _systemMenuContextMenu = new();
         SystemMenuValues = new(_systemMenuContextMenu);
         _kryptonSystemMenu = GetSystemMenu();
     }
