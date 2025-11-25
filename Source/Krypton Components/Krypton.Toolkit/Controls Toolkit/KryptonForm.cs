@@ -262,11 +262,10 @@ public class KryptonForm : VisualForm,
 
         // Instantiate system menu items only to keep the compiler happy
         _systemMenuContextMenu = new();
-
         SystemMenuValues = new (_systemMenuContextMenu);
 
         // Init only here. Must instantiate in OnHandleCreated
-        _kryptonSystemMenu = null;
+        _kryptonSystemMenu = GetSystemMenu();
     }
     #endregion
 
@@ -276,19 +275,12 @@ public class KryptonForm : VisualForm,
     public void ResetSystemMenuValues() => SystemMenuValues.Reset();
 
     #region Private
-    private void SetupSystemMenu() 
+    private KryptonSystemMenu? GetSystemMenu() 
     {
-        if (!DesignMode)
-        {
-            _kryptonSystemMenu = new(this, _drawContent, _systemMenuContextMenu);
-
-            // When the _kryptonSystemMenu is instantiated the listener is not enabled by default.
-            // From there SystemMenuValues.Enabled will trigger and control if the listener to be active or not.
-            if (SystemMenuValues.Enabled)
-            {
-                _kryptonSystemMenu.EnableListener();
-            }
-        }
+        // Only assign the menu at runtime
+        return CommonHelper.DesignMode()
+            ? null
+            : new(this, _drawContent, _systemMenuContextMenu);
     }
     #endregion
 
@@ -1757,9 +1749,6 @@ public class KryptonForm : VisualForm,
 
         // Register with the ActiveFormTracker
         ActiveFormTracker.Attach(this);
-
-        // At runtime only, hookup the system menu.
-        SetupSystemMenu();
 
         // Ensure Material defaults are applied as early as possible for new forms
         ApplyMaterialFormChromeDefaultsIfNeeded();

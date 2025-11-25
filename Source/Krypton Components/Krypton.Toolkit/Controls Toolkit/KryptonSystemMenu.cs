@@ -37,12 +37,13 @@ public class KryptonSystemMenu : IDisposable
 
         // Subscribe to property changed events
         _form.SystemMenuValues.PropertyChanged += OnMenuValuesPropertyChanged;
-
         _listener.NCRightMouseButtonDown += OnListenerNCRightMouseButtonDown;
         _listener.NCLeftMouseButtonDown += OnListenerNCLeftMouseButtonDown;
         _listener.KeyAltSpaceDown += OnListenerKeyAltSpaceDown;
 
         SetupContextMenu();
+
+        _form.HandleCreated += OnFormHandleCreated;
     }
     #endregion
 
@@ -123,6 +124,18 @@ public class KryptonSystemMenu : IDisposable
         // Size is enabled when the window is in Normal state and form is sizable
         _contextMenuItemSize.Enabled = (windowState == FormWindowState.Normal)
             && _form.FormBorderStyle is FormBorderStyle.Sizable or FormBorderStyle.SizableToolWindow;
+    }
+
+    private void OnFormHandleCreated(object? sender, EventArgs e)
+    {
+        // When the form has been hidden and shown again the handle is recreated and therefore
+        // invalidates the previous handle registered with the listner.
+        // Only when the menu is enabled, re-enable the listener handle.
+        if (_form.SystemMenuValues.Enabled)
+        {
+            DisableListener();
+            EnableListener();
+        }
     }
 
     private void OnContextMenuItemRestoreClick(object? sender, EventArgs e)
@@ -211,13 +224,14 @@ public class KryptonSystemMenu : IDisposable
     protected virtual void Dispose(bool disposing)
     {
         if (!_disposed && disposing)
-        { 
-            _form.SystemMenuValues.PropertyChanged -= OnMenuValuesPropertyChanged;
-
+        {
             // Stop the listener which also will release the assigned handle
             _listener.DisableListener();
 
-            // System menu
+            // Unwire event handlers
+            _form.HandleCreated -= OnFormHandleCreated;
+            _form.SystemMenuValues.PropertyChanged -= OnMenuValuesPropertyChanged;
+
             _contextMenuItemRestore.Click -= OnContextMenuItemRestoreClick;
             _contextMenuItemMove.Click -= OnContextMenuItemMoveClick;
             _contextMenuItemSize.Click -= OnContextMenuItemSizeClick;
