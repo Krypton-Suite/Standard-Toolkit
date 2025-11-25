@@ -19,7 +19,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       # .NET 9 (GA)
       - name: Setup .NET 9
@@ -53,7 +53,7 @@ jobs:
           msbuild-architecture: x64
 
       - name: Setup NuGet
-        uses: NuGet/setup-nuget@v1.2.0
+        uses: NuGet/setup-nuget@v2.0.1
 
       - name: Cache NuGet
         uses: actions/cache@v4
@@ -208,7 +208,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       # .NET 9 (GA)
       - name: Setup .NET 9
@@ -242,7 +242,7 @@ jobs:
           msbuild-architecture: x64
 
       - name: Setup NuGet
-        uses: NuGet/setup-nuget@v1.2.0
+        uses: NuGet/setup-nuget@v2.0.1
 
       - name: Cache NuGet
         uses: actions/cache@v4
@@ -397,7 +397,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       # .NET 6 (LTS) - needed for net6.0-windows target
       - name: Setup .NET 6
@@ -423,7 +423,7 @@ jobs:
           msbuild-architecture: x64
 
       - name: Setup NuGet
-        uses: NuGet/setup-nuget@v1.2.0
+        uses: NuGet/setup-nuget@v2.0.1
 
       - name: Cache NuGet
         uses: actions/cache@v4
@@ -578,7 +578,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       # .NET 9 (GA)
       - name: Setup .NET 9
@@ -612,7 +612,7 @@ jobs:
           msbuild-architecture: x64
 
       - name: Setup NuGet
-        uses: NuGet/setup-nuget@v1.2.0
+        uses: NuGet/setup-nuget@v2.0.1
 
       - name: Cache NuGet
         uses: actions/cache@v4
@@ -767,7 +767,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       # .NET 9 (GA)
       - name: Setup .NET 9
@@ -801,7 +801,7 @@ jobs:
           msbuild-architecture: x64
 
       - name: Setup NuGet
-        uses: NuGet/setup-nuget@v1.2.0
+        uses: NuGet/setup-nuget@v2.0.1
 
       - name: Cache NuGet
         uses: actions/cache@v4
