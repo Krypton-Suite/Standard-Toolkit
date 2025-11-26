@@ -194,6 +194,18 @@ public class KryptonTaskDialogFormProperties
             get => _form.Icon;
             set => _form.Icon = value;
         }
+
+        public bool KryptonSystemMenu
+        {
+            get => _form.SystemMenuValues.Enabled;
+            set
+            {
+                if (_form.SystemMenuValues.Enabled != value)
+                {
+                    _form.SystemMenuValues.Enabled = value;
+                }
+            }
+        }
         #endregion
 
         #region Public override
@@ -210,18 +222,6 @@ public class KryptonTaskDialogFormProperties
         {
             get => _form.AutoScaleMode;
             set => _form.AutoScaleMode = value;
-        }
-
-        public bool KryptonSystemMenu
-        {
-            get => _form.SystemMenuValues.Enabled;
-            set
-            {
-                if (_form.SystemMenuValues.Enabled != value)
-                {
-                    _form.SystemMenuValues.Enabled = value;
-                }
-            }
         }
         #endregion
     }
