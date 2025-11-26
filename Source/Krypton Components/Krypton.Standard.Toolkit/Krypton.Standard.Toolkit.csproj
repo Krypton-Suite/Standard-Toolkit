@@ -81,6 +81,11 @@
 		-->
 		<IncludeBuildOutput>false</IncludeBuildOutput>
 	</PropertyGroup>
+	<ItemGroup>
+	  <Content Include="Krypton.ico">
+	    <Pack>false</Pack>
+	  </Content>
+	</ItemGroup>
 
 	<ItemGroup>
 		<Reference Include="System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net4'))">
