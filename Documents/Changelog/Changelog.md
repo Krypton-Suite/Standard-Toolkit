@@ -3,7 +3,9 @@
 ====
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
-* Resolves [#2649]https://github.com/Krypton-Suite/Standard-Toolkit/issues/2649), `KryptonSytemMenu` duplicates menu entries.
+
+* Implemented [#2586](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2586), One combined NuGet package
+* Resolves [#2649](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2649), `KryptonSytemMenu` duplicates menu entries.
 * Resolved [#2641](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2641), `KryptonForm` based minimised MDI Child Windows do not react when hosted in a `KryptonForm` parent container.
 * Support for .NET 11
 * Version bump `100.xx.xx.xx` -> `110.xx.xx.xx`
