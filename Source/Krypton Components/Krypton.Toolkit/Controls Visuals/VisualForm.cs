@@ -1010,7 +1010,9 @@ public abstract class VisualForm : Form,
 
         // We do not process the message if on an MDI child, because doing so prevents the
         // LayoutMdi call on the parent from working and cascading/tiling the children
-        if (_themedApp && MdiParent is null)
+        if (_themedApp
+            && !CommonHelper.IsFormMaximized(this)
+            && (MdiParent is null || UseThemeFormChromeBorderWidth))
         {
             switch (m.Msg)
             {

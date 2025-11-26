@@ -2,6 +2,11 @@
 
 ====
 
+# 2026-02-30 - Build 2502 (Version 105-LTS - Patch 1) - February 2026
+* Resolved [#2641](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2641), `KryptonForm` based minimised MDI Child Windows do not react when hosted in a `KryptonForm` parent container.
+
+====
+
 ## 2025-11-24 - Build 2511 (V100 RTM) - November 2025
 
 * Implemented [#2621](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2621), Add `dependabot.yml` for maintenance tasks
