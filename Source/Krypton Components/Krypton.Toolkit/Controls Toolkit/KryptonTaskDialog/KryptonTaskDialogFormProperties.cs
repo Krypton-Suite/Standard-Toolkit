@@ -211,6 +211,18 @@ public class KryptonTaskDialogFormProperties
             get => _form.AutoScaleMode;
             set => _form.AutoScaleMode = value;
         }
+
+        public bool KryptonSystemMenu
+        {
+            get => _form.SystemMenuValues.Enabled;
+            set
+            {
+                if (_form.SystemMenuValues.Enabled != value)
+                {
+                    _form.SystemMenuValues.Enabled = value;
+                }
+            }
+        }
         #endregion
     }
 
