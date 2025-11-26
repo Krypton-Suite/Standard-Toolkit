@@ -19,7 +19,7 @@ on:
 
 jobs:
   build:
-    runs-on: windows-2025
+    runs-on: windows-latest
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
 
     steps:
@@ -71,7 +71,7 @@ jobs:
         run: msbuild "Scripts/nightly.proj" /t:Rebuild /p:Configuration=Release /p:Platform="Any CPU"
 
   release:
-    runs-on: windows-2025
+    runs-on: windows-latest
     if: github.ref == 'refs/heads/master' && github.event_name == 'push'
     needs: build
 
