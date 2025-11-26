@@ -20,7 +20,7 @@ public class KryptonSystemMenu : IDisposable
     private KryptonContextMenuItem _contextMenuItemMove;
     private KryptonContextMenuItem _contextMenuItemSize;
     private KryptonContextMenuItem _contextMenuItemMinimize;
-    private KryptonContextMenuItem _cntextMenuItemMaximize;
+    private KryptonContextMenuItem _contextMenuItemMaximize;
     private KryptonContextMenuItem _contextMenuItemClose;
     private bool _disposed;
     #endregion
@@ -37,12 +37,13 @@ public class KryptonSystemMenu : IDisposable
 
         // Subscribe to property changed events
         _form.SystemMenuValues.PropertyChanged += OnMenuValuesPropertyChanged;
-
         _listener.NCRightMouseButtonDown += OnListenerNCRightMouseButtonDown;
         _listener.NCLeftMouseButtonDown += OnListenerNCLeftMouseButtonDown;
         _listener.KeyAltSpaceDown += OnListenerKeyAltSpaceDown;
 
         SetupContextMenu();
+
+        _form.HandleCreated += OnFormHandleCreated;
     }
     #endregion
 
@@ -85,9 +86,9 @@ public class KryptonSystemMenu : IDisposable
         _contextMenuItemMinimize.Image = SystemMenuImageResources.Microsoft365SystemMenuMinimiseNormalSmall;
         _contextMenuItemMinimize.Click += OnContextMenuItemMinimizeClick;
 
-        _cntextMenuItemMaximize = new(KryptonManager.Strings.SystemMenuStrings.Maximize);
-        _cntextMenuItemMaximize.Image = SystemMenuImageResources.Microsoft365SystemMenuMaximiseNormalSmall;
-        _cntextMenuItemMaximize.Click += OnContextMenuItemMaximizeClick;
+        _contextMenuItemMaximize = new(KryptonManager.Strings.SystemMenuStrings.Maximize);
+        _contextMenuItemMaximize.Image = SystemMenuImageResources.Microsoft365SystemMenuMaximiseNormalSmall;
+        _contextMenuItemMaximize.Click += OnContextMenuItemMaximizeClick;
 
         _contextMenuItemClose = new(KryptonManager.Strings.SystemMenuStrings.Close);
         _contextMenuItemClose.Image = SystemMenuImageResources.Microsoft365SystemMenuCloseNormalSmall;
@@ -98,7 +99,7 @@ public class KryptonSystemMenu : IDisposable
         items.Items.Add(_contextMenuItemMove);
         items.Items.Add(_contextMenuItemSize);
         items.Items.Add(_contextMenuItemMinimize);
-        items.Items.Add(_cntextMenuItemMaximize);
+        items.Items.Add(_contextMenuItemMaximize);
         items.Items.Add(new KryptonContextMenuSeparator());
         items.Items.Add(_contextMenuItemClose);
         _contextMenu.Items.Insert(0, items);
@@ -115,7 +116,7 @@ public class KryptonSystemMenu : IDisposable
         _contextMenuItemMinimize.Enabled = _form.MinimizeBox && (windowState != FormWindowState.Minimized);
 
         // Maximize item is enabled only if MaximizeBox is true and window is not already maximized
-        _cntextMenuItemMaximize.Enabled = _form.MaximizeBox && (windowState != FormWindowState.Maximized);
+        _contextMenuItemMaximize.Enabled = _form.MaximizeBox && (windowState != FormWindowState.Maximized);
 
         // Move is enabled when window is in Normal state (can be moved) or when minimized (can be restored)
         _contextMenuItemMove.Enabled = (windowState == FormWindowState.Normal) || (windowState == FormWindowState.Minimized);
@@ -123,6 +124,18 @@ public class KryptonSystemMenu : IDisposable
         // Size is enabled when the window is in Normal state and form is sizable
         _contextMenuItemSize.Enabled = (windowState == FormWindowState.Normal)
             && _form.FormBorderStyle is FormBorderStyle.Sizable or FormBorderStyle.SizableToolWindow;
+    }
+
+    private void OnFormHandleCreated(object? sender, EventArgs e)
+    {
+        // When the form has been hidden and shown again the handle is recreated and therefore
+        // invalidates the previous handle registered with the listner.
+        // Only when the menu is enabled, re-enable the listener handle.
+        if (_form.SystemMenuValues.Enabled)
+        {
+            DisableListener();
+            EnableListener();
+        }
     }
 
     private void OnContextMenuItemRestoreClick(object? sender, EventArgs e)
@@ -211,18 +224,19 @@ public class KryptonSystemMenu : IDisposable
     protected virtual void Dispose(bool disposing)
     {
         if (!_disposed && disposing)
-        { 
-            _form.SystemMenuValues.PropertyChanged -= OnMenuValuesPropertyChanged;
-
+        {
             // Stop the listener which also will release the assigned handle
             _listener.DisableListener();
 
-            // System menu
+            // Unwire event handlers
+            _form.HandleCreated -= OnFormHandleCreated;
+            _form.SystemMenuValues.PropertyChanged -= OnMenuValuesPropertyChanged;
+
             _contextMenuItemRestore.Click -= OnContextMenuItemRestoreClick;
             _contextMenuItemMove.Click -= OnContextMenuItemMoveClick;
             _contextMenuItemSize.Click -= OnContextMenuItemSizeClick;
             _contextMenuItemMinimize.Click -= OnContextMenuItemMinimizeClick;
-            _cntextMenuItemMaximize.Click -= OnContextMenuItemMaximizeClick;
+            _contextMenuItemMaximize.Click -= OnContextMenuItemMaximizeClick;
             _contextMenuItemClose.Click -= OnContextMenuItemCloseClick;
 
             _disposed = true;
