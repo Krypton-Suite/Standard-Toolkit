@@ -40,21 +40,15 @@ jobs:
         if: steps.release_kill_switch.outputs.enabled == 'true'
         uses: actions/checkout@v6
 
-      # .NET 9 (GA)
-      - name: Setup .NET 9
+      # .NET 9 and 10
+      - name: Setup .NET
         # Kill switch check
         if: steps.release_kill_switch.outputs.enabled == 'true'
         uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: 9.0.x
-
-      # .NET 10
-      - name: Setup .NET 10
-        # Kill switch check
-        if: steps.release_kill_switch.outputs.enabled == 'true'
-        uses: actions/setup-dotnet@v5
-        with:
-          dotnet-version: 10.0.x
+          dotnet-version: |
+            9.0.x
+            10.0.x
 
       # global.json dynamically generate
       - name: Force .NET 10 SDK via global.json
@@ -271,21 +265,15 @@ jobs:
         if: steps.release_kill_switch.outputs.enabled == 'true'
         uses: actions/checkout@v6
 
-      # .NET 9 (GA)
-      - name: Setup .NET 9
+      # .NET 9 and 10
+      - name: Setup .NET
         # Kill switch check
         if: steps.release_kill_switch.outputs.enabled == 'true'
         uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: 9.0.x
-
-      # .NET 10
-      - name: Setup .NET 10
-        # Kill switch check
-        if: steps.release_kill_switch.outputs.enabled == 'true'
-        uses: actions/setup-dotnet@v5
-        with:
-          dotnet-version: 10.0.x
+          dotnet-version: |
+            9.0.x
+            10.0.x
 
       # global.json dynamically generate
       - name: Force .NET 10 SDK via global.json
@@ -502,29 +490,16 @@ jobs:
         if: steps.lts_release_kill_switch.outputs.enabled == 'true'
         uses: actions/checkout@v6
 
-      # .NET 6 (LTS) - needed for net6.0-windows target
-      - name: Setup .NET 6
+      # .NET 6, 7 and 8 - needed for net6.0-windows, net7.0-windows and net8.0-windows targets
+      - name: Setup .NET 6, 7 and 8
         # Kill switch check
         if: steps.lts_release_kill_switch.outputs.enabled == 'true'
         uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: 6.0.x
-
-      # .NET 7 - needed for net7.0-windows target
-      - name: Setup .NET 7
-        # Kill switch check
-        if: steps.lts_release_kill_switch.outputs.enabled == 'true'
-        uses: actions/setup-dotnet@v5
-        with:
-          dotnet-version: 7.0.x
-
-      # .NET 8 (LTS) - needed for net8.0-windows target and to build all framework targets
-      - name: Setup .NET 8
-        # Kill switch check
-        if: steps.lts_release_kill_switch.outputs.enabled == 'true'
-        uses: actions/setup-dotnet@v5
-        with:
-          dotnet-version: 8.0.x
+          dotnet-version: |
+            6.0.x
+            7.0.x
+            8.0.x
 
       - name: Setup MSBuild
         # Kill switch check
@@ -725,21 +700,15 @@ jobs:
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         uses: actions/checkout@v6
 
-      # .NET 9 (GA)
-      - name: Setup .NET 9
+      # .NET 9 and 10
+      - name: Setup .NET
         # Kill switch check
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: 9.0.x
-
-      # .NET 10 (GA)
-      - name: Setup .NET 10
-        # Kill switch check
-        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
-        uses: actions/setup-dotnet@v5
-        with:
-          dotnet-version: 10.0.x
+          dotnet-version: |
+            9.0.x
+            10.0.x
 
       # global.json dynamically generate
       - name: Force .NET 10 SDK via global.json
@@ -956,21 +925,15 @@ jobs:
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
         uses: actions/checkout@v6
 
-      # .NET 9 (GA)
-      - name: Setup .NET 9
+      # .NET 9 and 10
+      - name: Setup .NET
         # Kill switch check
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
         uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: 9.0.x
-
-      # .NET 10 (GA)
-      - name: Setup .NET 10
-        # Kill switch check
-        if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
-        uses: actions/setup-dotnet@v5
-        with:
-          dotnet-version: 10.0.x
+          dotnet-version: |
+            9.0.x
+            10.0.x
 
       # global.json dynamically generate
       - name: Force .NET 10 SDK via global.json
