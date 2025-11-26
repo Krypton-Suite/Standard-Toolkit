@@ -103,11 +103,11 @@
 		The referenced DLLs must be explicitly included in the package using the AddReferencedAssembliesToPackage target below.
 	-->
 	<ItemGroup>
-		<ProjectReference Include="..\Krypton.Docking\Krypton.Docking 2022.csproj" />
-		<ProjectReference Include="..\Krypton.Navigator\Krypton.Navigator 2022.csproj" />
-		<ProjectReference Include="..\Krypton.Ribbon\Krypton.Ribbon 2022.csproj" />
-		<ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
-		<ProjectReference Include="..\Krypton.Workspace\Krypton.Workspace 2022.csproj" />
+	  <ProjectReference Include="..\Krypton.Docking\Krypton.Docking 2022.csproj" />
+	  <ProjectReference Include="..\Krypton.Navigator\Krypton.Navigator 2022.csproj" />
+	  <ProjectReference Include="..\Krypton.Ribbon\Krypton.Ribbon 2022.csproj" />
+	  <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
+	  <ProjectReference Include="..\Krypton.Workspace\Krypton.Workspace 2022.csproj" />
 	</ItemGroup>
 
 	<!--
