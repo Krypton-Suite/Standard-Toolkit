@@ -207,11 +207,6 @@ internal interface IKryptonThemeSelectorBase
     /// Gets or sets the default palette mode.
     /// </summary>
     PaletteMode DefaultPalette { get; set; }
-
-    /// <summary>
-    /// Gets or sets the user defined custom palette.
-    /// </summary>
-    KryptonCustomPaletteBase? KryptonCustomPalette { get; set; }
 }
 
 #endregion
