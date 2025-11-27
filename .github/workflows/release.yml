@@ -14,27 +14,46 @@ on:
 
 jobs:
   release-master:
-    runs-on: windows-2025
+    runs-on: windows-latest
     if: github.ref == 'refs/heads/master' && github.event_name == 'push'
 
     steps:
+      # Release kill switch
+      - name: Release Kill Switch Check
+        id: release_kill_switch
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $disabled = '${{ vars.RELEASE_DISABLED }}'
+
+          if ($disabled -eq 'true') {
+            Write-Host "::warning:: Release workflow is currently DISABLED via kill switch (RELEASE_DISABLED=true)"
+            Write-Host "To re-enable: Go to Repository Settings -> Secrets and Variables -> Actions -> Variables -> Set RELEASE_DISABLED to 'false'."
+            echo "enabled=false" >> $env:GITHUB_OUTPUT
+          } else {
+            Write-Host "Release kill switch check has passed, continuing..."
+            echo "enabled=true" >> $env:GITHUB_OUTPUT
+          }
+
       - name: Checkout
+        # Kill switch check
+        if: steps.release_kill_switch.outputs.enabled == 'true'
         uses: actions/checkout@v6
 
-      # .NET 9 (GA)
-      - name: Setup .NET 9
+      # .NET 9 and 10
+      - name: Setup .NET
+        # Kill switch check
+        if: steps.release_kill_switch.outputs.enabled == 'true'
         uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: 9.0.x
-
-      # .NET 10
-      - name: Setup .NET 10
-        uses: actions/setup-dotnet@v5
-        with:
-          dotnet-version: 10.0.x
+          dotnet-version: |
+            9.0.x
+            10.0.x
 
       # global.json dynamically generate
       - name: Force .NET 10 SDK via global.json
+        # Kill switch check
+        if: steps.release_kill_switch.outputs.enabled == 'true'
         run: |
           $sdkVersion = (dotnet --list-sdks | Select-String "10.0").ToString().Split(" ")[0]
           Write-Output "Using SDK $sdkVersion"
@@ -48,14 +67,20 @@ jobs:
           "@ | Out-File -Encoding utf8 global.json
 
       - name: Setup MSBuild
+        # Kill switch check
+        if: steps.release_kill_switch.outputs.enabled == 'true'
         uses: microsoft/setup-msbuild@v2
         with:
           msbuild-architecture: x64
 
-      - name: Setup NuGet
+      - name: Setup 
+        # Kill switch check
+        if: steps.release_kill_switch.outputs.enabled == 'true'
         uses: NuGet/setup-nuget@v2.0.1
 
       - name: Cache NuGet
+        # Kill switch check
+        if: steps.release_kill_switch.outputs.enabled == 'true'
         uses: actions/cache@v4
         with:
           path: ~/.nuget/packages
@@ -64,15 +89,23 @@ jobs:
             ${{ runner.os }}-nuget-
 
       - name: Restore
+        # Kill switch check
+        if: steps.release_kill_switch.outputs.enabled == 'true'
         run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.sln"
 
       - name: Build Release
+        # Kill switch check
+        if: steps.release_kill_switch.outputs.enabled == 'true'
         run: msbuild "Scripts/build.proj" /t:Build /p:Configuration=Release /p:Platform="Any CPU"
 
       - name: Pack Release
+        # Kill switch check
+        if: steps.release_kill_switch.outputs.enabled == 'true'
         run: msbuild "Scripts/build.proj" /t:Pack /p:Configuration=Release /p:Platform="Any CPU"
 
       - name: Push NuGet Packages to nuget.org
+        # Kill switch check
+        if: steps.release_kill_switch.outputs.enabled == 'true'
         id: push_nuget
         shell: pwsh
         run: |
@@ -112,6 +145,8 @@ jobs:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
 
       - name: Get Version
+        # Kill switch check
+        if: steps.release_kill_switch.outputs.enabled == 'true'
         id: get_version
         shell: pwsh
         run: |
@@ -154,7 +189,233 @@ jobs:
           echo "tag=v$version" >> $env:GITHUB_OUTPUT
 
       - name: Announce Release on Discord
-        if: steps.push_nuget.outputs.packages_published == 'True'
+        # Kill switch check
+        if: steps.release_kill_switch.outputs.enabled == 'true' && steps.push_nuget.outputs.packages_published == 'True'
+        shell: pwsh
+        run: |
+          if (-not $env:DISCORD_WEBHOOK_MASTER) {
+            Write-Warning "DISCORD_WEBHOOK_MASTER not set - skipping Discord notification"
+            exit 0
+          }
+          
+          $payload = @{
+            embeds = @(
+              @{
+                title = "🎉 Krypton Toolkit Stable Release"
+                description = "A new stable release is now available!"
+                color = 3447003
+                fields = @(
+                  @{
+                    name = "📌 Version"
+                    value = "``${{ steps.get_version.outputs.version }}``"
+                    inline = $true
+                  }
+                  @{
+                    name = "📦 NuGet Packages"
+                    value = "- Krypton.Toolkit`n- Krypton.Ribbon`n- Krypton.Navigator`n- Krypton.Workspace`n- Krypton.Docking"
+                    inline = $false
+                  }
+                  @{
+                    name = "🎯 Target Frameworks"
+                    value = "• .NET Framework 4.7.2`n• .NET Framework 4.8`n• .NET Framework 4.8.1`n• .NET 8.0`n• .NET 9.0`n• .NET 10.0"
+                    inline = $false
+                  }
+                  @{
+                    name = "🔗 NuGet Packages"
+                    value = "• [Toolkit](https://www.nuget.org/packages/Krypton.Toolkit)`n• [Ribbon](https://www.nuget.org/packages/Krypton.Ribbon)`n• [Navigator](https://www.nuget.org/packages/Krypton.Navigator)`n• [Workspace](https://www.nuget.org/packages/Krypton.Workspace)`n• [Docking](https://www.nuget.org/packages/Krypton.Docking)"
+                    inline = $false
+                  }
+                )
+                footer = @{
+                  text = "Released"
+                }
+                timestamp = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ")
+              }
+            )
+          } | ConvertTo-Json -Depth 10
+          
+          Invoke-RestMethod -Uri "${{ secrets.DISCORD_WEBHOOK_MASTER }}" -Method Post -Body $payload -ContentType "application/json"
+        env:
+          DISCORD_WEBHOOK_MASTER: ${{ secrets.DISCORD_WEBHOOK_MASTER }}
+
+  release-v105-lts:
+    runs-on: windows-latest
+    if: github.ref == 'refs/heads/V105-LTS' && github.event_name == 'push'
+
+    steps:
+      # V105 Release kill switch
+      - name: V105 Release Kill Switch Check
+        id: release_kill_switch
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $disabled = '${{ vars.RELEASE_DISABLED }}'
+
+          if ($disabled -eq 'true') {
+            Write-Host "::warning:: Release workflow is currently DISABLED via kill switch (RELEASE_DISABLED=true)"
+            Write-Host "To re-enable: Go to Repository Settings -> Secrets and Variables -> Actions -> Variables -> Set RELEASE_DISABLED to 'false'."
+            echo "enabled=false" >> $env:GITHUB_OUTPUT
+          } else {
+            Write-Host "Release kill switch check has passed, continuing..."
+            echo "enabled=true" >> $env:GITHUB_OUTPUT
+          }
+
+      - name: Checkout
+        # Kill switch check
+        if: steps.release_kill_switch.outputs.enabled == 'true'
+        uses: actions/checkout@v6
+
+      # .NET 9 and 10
+      - name: Setup .NET
+        # Kill switch check
+        if: steps.release_kill_switch.outputs.enabled == 'true'
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: |
+            9.0.x
+            10.0.x
+
+      # global.json dynamically generate
+      - name: Force .NET 10 SDK via global.json
+        # Kill switch check
+        if: steps.release_kill_switch.outputs.enabled == 'true'
+        run: |
+          $sdkVersion = (dotnet --list-sdks | Select-String "10.0").ToString().Split(" ")[0]
+          Write-Output "Using SDK $sdkVersion"
+          @"
+          {
+            "sdk": {
+              "version": "$sdkVersion",
+              "rollForward": "latestFeature"
+            }
+          }
+          "@ | Out-File -Encoding utf8 global.json
+
+      - name: Setup MSBuild
+        # Kill switch check
+        if: steps.release_kill_switch.outputs.enabled == 'true'
+        uses: microsoft/setup-msbuild@v2
+        with:
+          msbuild-architecture: x64
+
+      - name: Setup NuGet
+        # Kill switch check
+        if: steps.release_kill_switch.outputs.enabled == 'true'
+        uses: NuGet/setup-nuget@v2.0.1
+
+      - name: Cache NuGet
+        # Kill switch check
+        if: steps.release_kill_switch.outputs.enabled == 'true'
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Restore
+        # Kill switch check
+        if: steps.release_kill_switch.outputs.enabled == 'true'
+        run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.sln"
+
+      - name: Build Release
+        # Kill switch check
+        if: steps.release_kill_switch.outputs.enabled == 'true'
+        run: msbuild "Scripts/build.proj" /t:Build /p:Configuration=Release /p:Platform="Any CPU"
+
+      - name: Pack Release
+        # Kill switch check
+        if: steps.release_kill_switch.outputs.enabled == 'true'
+        run: msbuild "Scripts/build.proj" /t:Pack /p:Configuration=Release /p:Platform="Any CPU"
+
+      - name: Push NuGet Packages to nuget.org
+        # Kill switch check
+        if: steps.release_kill_switch.outputs.enabled == 'true'
+        id: push_nuget
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          if (-not $env:NUGET_API_KEY) {
+            Write-Warning "NUGET_API_KEY not set - skipping NuGet push"
+            echo "packages_published=false" >> $env:GITHUB_OUTPUT
+            exit 0
+          }
+          
+          $packages = Get-ChildItem "Bin/Packages/Release/*.nupkg" -ErrorAction SilentlyContinue
+          $publishedAny = $false
+          
+          if ($packages) {
+            foreach ($package in $packages) {
+              Write-Output "Pushing package: $($package.Name)"
+              try {
+                $output = dotnet nuget push "$($package.FullName)" --api-key $env:NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate 2>&1 | Out-String
+                Write-Output $output
+                # Check if package was actually pushed (not skipped)
+                if ($output -notmatch "already exists" -and $output -notmatch "was not pushed") {
+                  $publishedAny = $true
+                  Write-Host "Package $($package.Name) was published"
+                } else {
+                  Write-Host "Package $($package.Name) already exists - skipped"
+                }
+              } catch {
+                Write-Warning "Failed to push $($package.Name): $_"
+              }
+            }
+          } else {
+            Write-Output "No NuGet packages found to push"
+          }
+          
+          echo "packages_published=$publishedAny" >> $env:GITHUB_OUTPUT
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+
+      - name: Get Version
+        # Kill switch check
+        if: steps.release_kill_switch.outputs.enabled == 'true'
+        id: get_version
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $version = $null
+          
+          # Try to get version from the built assembly (most reliable)
+          try {
+            $dllPath = Get-ChildItem "Bin/Release/net48/Krypton.Toolkit.dll" -ErrorAction Stop
+            $assemblyVersion = [System.Reflection.AssemblyName]::GetAssemblyName($dllPath.FullName).Version
+            $version = $assemblyVersion.ToString()
+            Write-Host "Got version from assembly: $version"
+          } catch {
+            Write-Host "Could not read version from assembly: $_"
+          }
+          
+          # Fallback: Try to read from csproj XML
+          if (-not $version) {
+            try {
+              $proj = 'Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj'
+              [xml]$projXml = Get-Content $proj
+              $versionNode = $projXml.SelectSingleNode("//Version")
+              if ($versionNode) {
+                $version = $versionNode.InnerText.Trim()
+                Write-Host "Got version from csproj: $version"
+              }
+            } catch {
+              Write-Host "Could not read version from csproj: $_"
+            }
+          }
+          
+          # Last resort fallback
+          if (-not $version) {
+            Write-Warning "Version not found, using fallback."
+            $version = "100.25.1.1"
+          }
+          
+          Write-Host "Final determined version: $version"
+          echo "version=$version" >> $env:GITHUB_OUTPUT
+          echo "tag=v$version" >> $env:GITHUB_OUTPUT
+
+      - name: Announce Release on Discord
+        # Kill switch check
+        if: steps.release_kill_switch.outputs.enabled == 'true' && steps.push_nuget.outputs.packages_published == 'True'
         shell: pwsh
         run: |
           if (-not $env:DISCORD_WEBHOOK_MASTER) {
@@ -203,40 +464,58 @@ jobs:
           DISCORD_WEBHOOK_MASTER: ${{ secrets.DISCORD_WEBHOOK_MASTER }}
 
   release-v85-lts:
-    runs-on: windows-2025
+    runs-on: windows-latest
     if: github.ref == 'refs/heads/V85-LTS' && github.event_name == 'push'
 
     steps:
+      # V85 Release kill switch
+      - name: V85 Release Kill Switch Check
+        id: lts_release_kill_switch
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $disabled = '${{ vars.LTS_DISABLED }}'
+
+          if ($disabled -eq 'true') {
+            Write-Host "::warning:: LTS Release workflow is currently DISABLED via kill switch (LTS_DISABLED=true)"
+            Write-Host "To re-enable: Go to Repository Settings -> Secrets and Variables -> Actions -> Variables -> Set LTS_DISABLED to 'false'."
+            echo "enabled=false" >> $env:GITHUB_OUTPUT
+          } else {
+            Write-Host "LTS Release kill switch check has passed, continuing..."
+            echo "enabled=true" >> $env:GITHUB_OUTPUT
+          }
+
       - name: Checkout
+        # Kill switch check
+        if: steps.lts_release_kill_switch.outputs.enabled == 'true'
         uses: actions/checkout@v6
 
-      # .NET 6 (LTS) - needed for net6.0-windows target
-      - name: Setup .NET 6
+      # .NET 6, 7 and 8 - needed for net6.0-windows, net7.0-windows and net8.0-windows targets
+      - name: Setup .NET 6, 7 and 8
+        # Kill switch check
+        if: steps.lts_release_kill_switch.outputs.enabled == 'true'
         uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: 6.0.x
-
-      # .NET 7 - needed for net7.0-windows target
-      - name: Setup .NET 7
-        uses: actions/setup-dotnet@v5
-        with:
-          dotnet-version: 7.0.x
-
-      # .NET 8 (LTS) - needed for net8.0-windows target and to build all framework targets
-      - name: Setup .NET 8
-        uses: actions/setup-dotnet@v5
-        with:
-          dotnet-version: 8.0.x
+          dotnet-version: |
+            6.0.x
+            7.0.x
+            8.0.x
 
       - name: Setup MSBuild
+        # Kill switch check
+        if: steps.lts_release_kill_switch.outputs.enabled == 'true'
         uses: microsoft/setup-msbuild@v2
         with:
           msbuild-architecture: x64
 
       - name: Setup NuGet
+        # Kill switch check
+        if: steps.lts_release_kill_switch.outputs.enabled == 'true'
         uses: NuGet/setup-nuget@v2.0.1
 
       - name: Cache NuGet
+        # Kill switch check
+        if: steps.lts_release_kill_switch.outputs.enabled == 'true'
         uses: actions/cache@v4
         with:
           path: ~/.nuget/packages
@@ -245,15 +524,23 @@ jobs:
             ${{ runner.os }}-nuget-
 
       - name: Restore
+        # Kill switch check
+        if: steps.lts_release_kill_switch.outputs.enabled == 'true'
         run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.sln"
 
       - name: Build LTS Release
+        # Kill switch check
+        if: steps.lts_release_kill_switch.outputs.enabled == 'true'
         run: msbuild "Scripts/longtermstable.proj" /t:Build /p:Configuration=Release /p:Platform="Any CPU"
 
       - name: Pack LTS Release
+        # Kill switch check
+        if: steps.lts_release_kill_switch.outputs.enabled == 'true'
         run: msbuild "Scripts/longtermstable.proj" /t:Pack /p:Configuration=Release /p:Platform="Any CPU"
 
       - name: Push NuGet Packages to nuget.org
+        # Kill switch check
+        if: steps.lts_release_kill_switch.outputs.enabled == 'true'
         id: push_nuget
         shell: pwsh
         run: |
@@ -293,6 +580,8 @@ jobs:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
 
       - name: Get Version
+        # Kill switch check
+        if: steps.lts_release_kill_switch.outputs.enabled == 'true'
         id: get_version
         shell: pwsh
         run: |
@@ -335,7 +624,8 @@ jobs:
           echo "tag=v$version-lts" >> $env:GITHUB_OUTPUT
 
       - name: Announce LTS Release on Discord
-        if: steps.push_nuget.outputs.packages_published == 'True'
+        # Kill switch check
+        if: steps.lts_release_kill_switch.outputs.enabled == 'true' && steps.push_nuget.outputs.packages_published == 'True'
         shell: pwsh
         run: |
           if (-not $env:DISCORD_WEBHOOK_LTS) {
@@ -384,27 +674,46 @@ jobs:
           DISCORD_WEBHOOK_LTS: ${{ secrets.DISCORD_WEBHOOK_LTS }}
 
   release-canary:
-    runs-on: windows-2025
+    runs-on: windows-latest
     if: github.ref == 'refs/heads/canary' && github.event_name == 'push'
 
     steps:
+      # Canary Release kill switch
+      - name: Canary Release Kill Switch Check
+        id: canary_release_kill_switch
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $disabled = '${{ vars.CANARY_DISABLED }}'
+
+          if ($disabled -eq 'true') {
+            Write-Host "::warning:: Canary Release workflow is currently DISABLED via kill switch (CANARY_DISABLED=true)"
+            Write-Host "To re-enable: Go to Repository Settings -> Secrets and Variables -> Actions -> Variables -> Set LTS_DISABLED to 'false'."
+            echo "enabled=false" >> $env:GITHUB_OUTPUT
+          } else {
+            Write-Host "Canary Release kill switch check has passed, continuing..."
+            echo "enabled=true" >> $env:GITHUB_OUTPUT
+          }
+
       - name: Checkout
+        # Kill switch check
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         uses: actions/checkout@v6
 
-      # .NET 9 (GA)
-      - name: Setup .NET 9
+      # .NET 9 and 10
+      - name: Setup .NET
+        # Kill switch check
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: 9.0.x
-
-      # .NET 10 (GA)
-      - name: Setup .NET 10
-        uses: actions/setup-dotnet@v5
-        with:
-          dotnet-version: 10.0.x
+          dotnet-version: |
+            9.0.x
+            10.0.x
 
       # global.json dynamically generate
       - name: Force .NET 10 SDK via global.json
+        # Kill switch check
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         run: |
           $sdkVersion = (dotnet --list-sdks | Select-String "10.0").ToString().Split(" ")[0]
           Write-Output "Using SDK $sdkVersion"
@@ -418,14 +727,20 @@ jobs:
           "@ | Out-File -Encoding utf8 global.json
 
       - name: Setup MSBuild
+        # Kill switch check
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         uses: microsoft/setup-msbuild@v2
         with:
           msbuild-architecture: x64
 
       - name: Setup NuGet
+        # Kill switch check
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         uses: NuGet/setup-nuget@v2.0.1
 
       - name: Cache NuGet
+        # Kill switch check
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         uses: actions/cache@v4
         with:
           path: ~/.nuget/packages
@@ -434,15 +749,23 @@ jobs:
             ${{ runner.os }}-nuget-
 
       - name: Restore
+        # Kill switch check
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.sln"
 
       - name: Build Canary
+        # Kill switch check
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         run: msbuild "Scripts/canary.proj" /t:Build /p:Configuration=Canary /p:Platform="Any CPU"
 
       - name: Pack Canary
+        # Kill switch check
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         run: msbuild "Scripts/canary.proj" /t:Pack /p:Configuration=Canary /p:Platform="Any CPU"
 
       - name: Push NuGet Packages to nuget.org
+        # Kill switch check
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         id: push_nuget
         shell: pwsh
         run: |
@@ -482,6 +805,8 @@ jobs:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
 
       - name: Get Version
+        # Kill switch check
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         id: get_version
         shell: pwsh
         run: |
@@ -524,7 +849,8 @@ jobs:
           echo "tag=v$version-canary" >> $env:GITHUB_OUTPUT
 
       - name: Announce Canary Release on Discord
-        if: steps.push_nuget.outputs.packages_published == 'True'
+        # Kill switch check
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true' && steps.push_nuget.outputs.packages_published == 'True'
         shell: pwsh
         run: |
           if (-not $env:DISCORD_WEBHOOK_CANARY) {
@@ -573,27 +899,46 @@ jobs:
           DISCORD_WEBHOOK_CANARY: ${{ secrets.DISCORD_WEBHOOK_CANARY }}
 
   release-alpha:
-    runs-on: windows-2025
+    runs-on: windows-latest
     if: github.ref == 'refs/heads/alpha' && github.event_name == 'push'
 
     steps:
+      # Nightly Release kill switch
+      - name: Nightly Release Kill Switch Check
+        id: nightly_release_kill_switch
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $disabled = '${{ vars.NIGHTLY_DISABLED }}'
+
+          if ($disabled -eq 'true') {
+            Write-Host "::warning:: Nightly Release workflow is currently DISABLED via kill switch (NIGHTLY_DISABLED=true)"
+            Write-Host "To re-enable: Go to Repository Settings -> Secrets and Variables -> Actions -> Variables -> Set NIGHTLY_DISABLED to 'false'."
+            echo "enabled=false" >> $env:GITHUB_OUTPUT
+          } else {
+            Write-Host "Nightly Release kill switch check has passed, continuing..."
+            echo "enabled=true" >> $env:GITHUB_OUTPUT
+          }
+
       - name: Checkout
+        # Kill switch check
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
         uses: actions/checkout@v6
 
-      # .NET 9 (GA)
-      - name: Setup .NET 9
+      # .NET 9 and 10
+      - name: Setup .NET
+        # Kill switch check
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
         uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: 9.0.x
-
-      # .NET 10 (GA)
-      - name: Setup .NET 10
-        uses: actions/setup-dotnet@v5
-        with:
-          dotnet-version: 10.0.x
+          dotnet-version: |
+            9.0.x
+            10.0.x
 
       # global.json dynamically generate
       - name: Force .NET 10 SDK via global.json
+        # Kill switch check
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
         run: |
           $sdkVersion = (dotnet --list-sdks | Select-String "10.0").ToString().Split(" ")[0]
           Write-Output "Using SDK $sdkVersion"
@@ -607,14 +952,20 @@ jobs:
           "@ | Out-File -Encoding utf8 global.json
 
       - name: Setup MSBuild
+        # Kill switch check
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
         uses: microsoft/setup-msbuild@v2
         with:
           msbuild-architecture: x64
 
       - name: Setup NuGet
+        # Kill switch check
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
         uses: NuGet/setup-nuget@v2.0.1
 
       - name: Cache NuGet
+        # Kill switch check
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
         uses: actions/cache@v4
         with:
           path: ~/.nuget/packages
@@ -623,15 +974,23 @@ jobs:
             ${{ runner.os }}-nuget-
 
       - name: Restore
+        # Kill switch check
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
         run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.sln"
 
       - name: Build Alpha
+        # Kill switch check
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
         run: msbuild "Scripts/nightly.proj" /t:Build /p:Configuration=Nightly /p:Platform="Any CPU"
 
       - name: Pack Alpha
+        # Kill switch check
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
         run: msbuild "Scripts/nightly.proj" /t:Pack /p:Configuration=Nightly /p:Platform="Any CPU"
 
       - name: Push NuGet Packages to nuget.org
+        # Kill switch check
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
         id: push_nuget
         shell: pwsh
         run: |
@@ -671,6 +1030,8 @@ jobs:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
 
       - name: Get Version
+        # Kill switch check
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
         id: get_version
         shell: pwsh
         run: |
@@ -713,7 +1074,8 @@ jobs:
           echo "tag=v$version-nightly" >> $env:GITHUB_OUTPUT
 
       - name: Announce Nightly Release on Discord
-        if: steps.push_nuget.outputs.packages_published == 'True'
+        # Kill switch check
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.push_nuget.outputs.packages_published == 'True'
         shell: pwsh
         run: |
           if (-not $env:DISCORD_WEBHOOK_NIGHTLY) {
