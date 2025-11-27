@@ -445,51 +445,6 @@ public abstract class PaletteOffice2007SilverLightModeBase : PaletteBase
 
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the PaletteOffice2007SilverLightModeBase class.
-    /// </summary>
-    /// <param name="schemeColors">Array of palette specific colors.</param>
-    /// <param name="checkBoxList">List of images for check box.</param>
-    /// <param name="galleryButtonList">List of images for gallery buttons.</param>
-    /// <param name="radioButtonArray">Array of images for radio button.</param>
-    /// <param name="trackBarColors">Array of track bar specific colors.</param>
-    [System.Obsolete("Color[] constructor is deprecated and will be removed in V110. Use KryptonColorSchemeBase overload.", false)]
-    protected PaletteOffice2007SilverLightModeBase([DisallowNull] Color[] schemeColors,
-        [DisallowNull] ImageList checkBoxList,
-        [DisallowNull] ImageList galleryButtonList,
-        [DisallowNull] Image?[] radioButtonArray,
-        Color[] trackBarColors)
-    {
-        Debug.Assert(schemeColors != null);
-        Debug.Assert(checkBoxList != null);
-        Debug.Assert(galleryButtonList != null);
-        Debug.Assert(radioButtonArray != null);
-
-        // Remember incoming sets of values
-        ThemeName = nameof(PaletteOffice2007SilverLightModeBase);
-
-        if (schemeColors != null)
-        {
-            _ribbonColors = schemeColors;
-        }
-
-        if (checkBoxList != null)
-        {
-            _checkBoxList = checkBoxList;
-        }
-        if (galleryButtonList != null)
-        {
-            _galleryButtonList = galleryButtonList;
-        }
-        if (radioButtonArray != null)
-        {
-            _radioButtonArray = radioButtonArray;
-        }
-
-        // Get the font settings from the system
-        DefineFonts();
-    }
-
-    /// <summary>
     /// Overload that accepts a KryptonColorSchemeBase instance and forwards colours to the main constructor.
     /// </summary>
     // TODO this should be merged into main constructor once all palettes

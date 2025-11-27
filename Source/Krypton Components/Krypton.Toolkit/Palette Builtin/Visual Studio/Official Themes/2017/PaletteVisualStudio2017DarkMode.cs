@@ -11,7 +11,6 @@ namespace Krypton.Toolkit;
 
 public abstract class PaletteVisualStudio2017DarkMode : PaletteVisualStudioBase
 {
-    [System.Obsolete("Color[] constructor is deprecated and will be removed in V110. Use KryptonColorSchemeBase overload.", false)]
     protected PaletteVisualStudio2017DarkMode(Color[] schemeColors, ImageList checkBoxList, ImageList galleryButtonList, Image?[] radioButtonArray, Color[] trackBarColors)
         : base(schemeColors, checkBoxList, galleryButtonList, radioButtonArray, trackBarColors)
     {
