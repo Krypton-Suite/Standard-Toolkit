@@ -1,5 +1,5 @@
 # New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
-# Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2025 - 2025. All rights reserved.
+# Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2025 - 2026. All rights reserved.
 
 name: Release
 
@@ -203,7 +203,7 @@ jobs:
               @{
                 title = "🎉 Krypton Toolkit Stable Release"
                 description = "A new stable release is now available!"
-                color = 3447003
+                color = 77dd76
                 fields = @(
                   @{
                     name = "📌 Version"
@@ -212,7 +212,7 @@ jobs:
                   }
                   @{
                     name = "📦 NuGet Packages"
-                    value = "- Krypton.Toolkit`n- Krypton.Ribbon`n- Krypton.Navigator`n- Krypton.Workspace`n- Krypton.Docking"
+                    value = "• [Krypton.Toolkit](https://www.nuget.org/packages/Krypton.Toolkit)`n• [Krypton.Ribbon](https://www.nuget.org/packages/Krypton.Ribbon)`n• [Krypton.Navigator](https://www.nuget.org/packages/Krypton.Navigator)`n• [Krypton.Workspace](https://www.nuget.org/packages/Krypton.Workspace)`n• [Krypton.Docking](https://www.nuget.org/packages/Krypton.Docking)`n• [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit)"
                     inline = $false
                   }
                   @{
@@ -221,8 +221,8 @@ jobs:
                     inline = $false
                   }
                   @{
-                    name = "🔗 NuGet Packages"
-                    value = "• [Toolkit](https://www.nuget.org/packages/Krypton.Toolkit)`n• [Ribbon](https://www.nuget.org/packages/Krypton.Ribbon)`n• [Navigator](https://www.nuget.org/packages/Krypton.Navigator)`n• [Workspace](https://www.nuget.org/packages/Krypton.Workspace)`n• [Docking](https://www.nuget.org/packages/Krypton.Docking)"
+                    name = "📄 Release Notes"
+                    value = "[View Changelog](https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Documents/Changelog/Changelog.md)"
                     inline = $false
                   }
                 )
@@ -428,7 +428,7 @@ jobs:
               @{
                 title = "🎉 Krypton Toolkit Stable Release"
                 description = "A new stable release is now available!"
-                color = 3447003
+                color = 77dd76
                 fields = @(
                   @{
                     name = "📌 Version"
@@ -437,7 +437,7 @@ jobs:
                   }
                   @{
                     name = "📦 NuGet Packages"
-                    value = "- Krypton.Toolkit`n- Krypton.Ribbon`n- Krypton.Navigator`n- Krypton.Workspace`n- Krypton.Docking"
+                    value = "• [Krypton.Toolkit](https://www.nuget.org/packages/Krypton.Toolkit)`n• [Krypton.Ribbon](https://www.nuget.org/packages/Krypton.Ribbon)`n• [Krypton.Navigator](https://www.nuget.org/packages/Krypton.Navigator)`n• [Krypton.Workspace](https://www.nuget.org/packages/Krypton.Workspace)`n• [Krypton.Docking](https://www.nuget.org/packages/Krypton.Docking)`n• [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit)"
                     inline = $false
                   }
                   @{
@@ -446,8 +446,8 @@ jobs:
                     inline = $false
                   }
                   @{
-                    name = "🔗 NuGet Packages"
-                    value = "• [Toolkit](https://www.nuget.org/packages/Krypton.Toolkit)`n• [Ribbon](https://www.nuget.org/packages/Krypton.Ribbon)`n• [Navigator](https://www.nuget.org/packages/Krypton.Navigator)`n• [Workspace](https://www.nuget.org/packages/Krypton.Workspace)`n• [Docking](https://www.nuget.org/packages/Krypton.Docking)"
+                    name = "📄 Release Notes"
+                    value = "[View Changelog](https://github.com/Krypton-Suite/Standard-Toolkit/blob/V105-LTS/Documents/Changelog/Changelog.md)"
                     inline = $false
                   }
                 )
@@ -638,7 +638,7 @@ jobs:
               @{
                 title = "🛡️ Krypton Toolkit LTS Release"
                 description = "A new Long-Term Support release is now available!"
-                color = 15105570
+                color = 0094ff
                 fields = @(
                   @{
                     name = "📌 Version"
@@ -647,7 +647,7 @@ jobs:
                   }
                   @{
                     name = "📦 NuGet Packages"
-                    value = "- Krypton.Toolkit.LTS`n- Krypton.Ribbon.LTS`n- Krypton.Navigator.LTS`n- Krypton.Workspace.LTS`n- Krypton.Docking.LTS"
+                    value = "• [Krypton.Toolkit.LTS](https://www.nuget.org/packages/Krypton.Toolkit.LTS)`n• [Krypton.Ribbon.LTS](https://www.nuget.org/packages/Krypton.Ribbon.LTS)`n• [Krypton.Navigator.LTS](https://www.nuget.org/packages/Krypton.Navigator.LTS)`n• [Krypton.Workspace.LTS](https://www.nuget.org/packages/Krypton.Workspace.LTS)`n• [Krypton.Docking.LTS](https://www.nuget.org/packages/Krypton.Docking.LTS)"
                     inline = $false
                   }
                   @{
@@ -656,8 +656,8 @@ jobs:
                     inline = $false
                   }
                   @{
-                    name = "🔗 NuGet Packages"
-                    value = "• [Toolkit.LTS](https://www.nuget.org/packages/Krypton.Toolkit.LTS)`n• [Ribbon.LTS](https://www.nuget.org/packages/Krypton.Ribbon.LTS)`n• [Navigator.LTS](https://www.nuget.org/packages/Krypton.Navigator.LTS)`n• [Workspace.LTS](https://www.nuget.org/packages/Krypton.Workspace.LTS)`n• [Docking.LTS](https://www.nuget.org/packages/Krypton.Docking.LTS)"
+                    name = "📄 Release Notes"
+                    value = "[View Changelog](https://github.com/Krypton-Suite/Standard-Toolkit/blob/V85-LTS/Documents/Help/Changelog.md)"
                     inline = $false
                   }
                 )
@@ -872,7 +872,7 @@ jobs:
                   }
                   @{
                     name = "📦 NuGet Packages"
-                    value = "- Krypton.Toolkit`n- Krypton.Ribbon`n- Krypton.Navigator`n- Krypton.Workspace`n- Krypton.Docking"
+                    value = "• [Krypton.Toolkit.Canary](https://www.nuget.org/packages/Krypton.Toolkit.Canary)`n• [Krypton.Ribbon.Canary](https://www.nuget.org/packages/Krypton.Ribbon.Canary)`n• [Krypton.Navigator.Canary](https://www.nuget.org/packages/Krypton.Navigator.Canary)`n• [Krypton.Workspace.Canary](https://www.nuget.org/packages/Krypton.Workspace.Canary)`n• [Krypton.Docking.Canary](https://www.nuget.org/packages/Krypton.Docking.Canary)`n• [Krypton.Standard.Toolkit.Canary](https://www.nuget.org/packages/Krypton.Standard.Toolkit.Canary)"
                     inline = $false
                   }
                   @{
@@ -881,8 +881,8 @@ jobs:
                     inline = $false
                   }
                   @{
-                    name = "🔗 NuGet Packages"
-                    value = "• [Toolkit](https://www.nuget.org/packages/Krypton.Toolkit.Canary)`n• [Ribbon](https://www.nuget.org/packages/Krypton.Ribbon.Canary)`n• [Navigator](https://www.nuget.org/packages/Krypton.Navigator.Canary)`n• [Workspace](https://www.nuget.org/packages/Krypton.Workspace.Canary)`n• [Docking](https://www.nuget.org/packages/Krypton.Docking.Canary)"
+                    name = "📄 Release Notes"
+                    value = "[View Changelog](https://github.com/Krypton-Suite/Standard-Toolkit/blob/canary/Documents/Changelog/Changelog.md)"
                     inline = $false
                   }
                 )
@@ -1097,7 +1097,7 @@ jobs:
                   }
                   @{
                     name = "📦 NuGet Packages"
-                    value = "- Krypton.Toolkit`n- Krypton.Ribbon`n- Krypton.Navigator`n- Krypton.Workspace`n- Krypton.Docking"
+                    value = "• [Krypton.Toolkit.Nightly](https://www.nuget.org/packages/Krypton.Toolkit.Nightly)`n• [Krypton.Ribbon.Nightly](https://www.nuget.org/packages/Krypton.Ribbon.Nightly)`n• [Krypton.Navigator.Nightly](https://www.nuget.org/packages/Krypton.Navigator.Nightly)`n• [Krypton.Workspace.Nightly](https://www.nuget.org/packages/Krypton.Workspace.Nightly)`n• [Krypton.Docking.Nightly](https://www.nuget.org/packages/Krypton.Docking.Nightly)`n• [Krypton.Standard.Toolkit.Nightly](https://www.nuget.org/packages/Krypton.Standard.Toolkit.Nightly)"
                     inline = $false
                   }
                   @{
@@ -1106,8 +1106,8 @@ jobs:
                     inline = $false
                   }
                   @{
-                    name = "🔗 NuGet Packages"
-                    value = "• [Toolkit](https://www.nuget.org/packages/Krypton.Toolkit.Nightly)`n• [Ribbon](https://www.nuget.org/packages/Krypton.Ribbon.Nightly)`n• [Navigator](https://www.nuget.org/packages/Krypton.Navigator.Nightly)`n• [Workspace](https://www.nuget.org/packages/Krypton.Workspace.Nightly)`n• [Docking](https://www.nuget.org/packages/Krypton.Docking.Nightly)"
+                    name = "📄 Release Notes"
+                    value = "[View Changelog](https://github.com/Krypton-Suite/Standard-Toolkit/blob/alpha/Documents/Changelog/Changelog.md)"
                     inline = $false
                   }
                 )
