@@ -50,21 +50,6 @@ public class KryptonThemeComboBox : KryptonComboBox, IKryptonThemeSelectorBase
 
     /// <inheritdoc/>
     [Category(@"Visuals")]
-    [Description(@"The custom assigned palette mode.")]
-    [DefaultValue(null)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-    [Obsolete("Deprecated and will be removed in V110. Set a global custom palette through 'ThemeManager.ApplyTheme(...)'.")]
-    public KryptonCustomPaletteBase? KryptonCustomPalette
-    {
-        get => _kryptonCustomPalette;
-        set => _kryptonCustomPalette = value;
-    }
-
-    private void ResetKryptonCustomPalette() => _kryptonCustomPalette = null;
-    private bool ShouldSerializeKryptonCustomPalette() => _kryptonCustomPalette is not null;
-
-    /// <inheritdoc/>
-    [Category(@"Visuals")]
     [Description(@"The default palette mode.")]
     [DefaultValue(PaletteMode.Global)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]

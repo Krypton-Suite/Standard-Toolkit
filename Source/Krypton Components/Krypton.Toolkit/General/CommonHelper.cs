@@ -1523,17 +1523,6 @@ public static class CommonHelper
     }
 
     /// <summary>
-    /// Discover if the component is in design mode.
-    /// </summary>
-    /// <param name="c">Component to test.</param>
-    /// <returns>True if in design mode; otherwise false.</returns>
-    [Obsolete("This method will be removed from V110 and onward. Use CommonHelper.DesignMode() instead.")]
-    public static bool DesignMode(Component? c)
-    {
-        return CommonHelper.DesignMode();
-    }
-
-    /// <summary>
     /// Convert a double to a culture invariant string value.
     /// </summary>
     /// <param name="d">Double to convert.</param>
