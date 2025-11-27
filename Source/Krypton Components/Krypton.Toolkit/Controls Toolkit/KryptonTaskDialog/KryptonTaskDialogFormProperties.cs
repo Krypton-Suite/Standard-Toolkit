@@ -194,6 +194,21 @@ public class KryptonTaskDialogFormProperties
             get => _form.Icon;
             set => _form.Icon = value;
         }
+
+        /// <summary>
+        /// Enable/disable the themed Krypton system menu.
+        /// </summary>
+        public bool KryptonSystemMenu
+        {
+            get => _form.SystemMenuValues.Enabled;
+            set
+            {
+                if (_form.SystemMenuValues.Enabled != value)
+                {
+                    _form.SystemMenuValues.Enabled = value;
+                }
+            }
+        }
         #endregion
 
         #region Public override
