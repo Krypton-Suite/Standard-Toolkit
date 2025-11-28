@@ -44,7 +44,7 @@ public class PaletteFormBorder : PaletteBorder
     [Description(@"Should the border be drawn.")]
     [DefaultValue(InheritBool.Inherit)]
     [RefreshProperties(RefreshProperties.All)]
-    public new InheritBool Draw
+    public override InheritBool Draw
     {
         get
         {
