@@ -709,6 +709,7 @@ public partial class KryptonContextMenuCollectionEditor
 
             _treeView.Nodes.Clear();
         }
+
         private void buttonOK_Click(object? sender, EventArgs e)
         {
             // Create an array with all the root items
