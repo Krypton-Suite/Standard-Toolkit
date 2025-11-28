@@ -19,24 +19,20 @@ on:
 
 jobs:
   build:
-    runs-on: windows-2022
+    runs-on: windows-latest
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
-      # .NET 9 (GA)
-      - name: Setup .NET 9
+      # .NET 9 and 10
+      - name: Setup .NET
         uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: 9.0.x
-
-      # .NET 10 (GA)
-      - name: Setup .NET 10
-        uses: actions/setup-dotnet@v5
-        with:
-          dotnet-version: 10.0.x
+          dotnet-version: |
+            9.0.x
+            10.0.x
 
       # global.json dynamically generate
       - name: Force .NET 10 SDK via global.json
@@ -58,7 +54,7 @@ jobs:
           msbuild-architecture: x64
 
       - name: Setup NuGet
-        uses: NuGet/setup-nuget@v1.2.0
+        uses: NuGet/setup-nuget@v2.0.1
 
       - name: Cache NuGet
         uses: actions/cache@v4
@@ -75,25 +71,21 @@ jobs:
         run: msbuild "Scripts/nightly.proj" /t:Rebuild /p:Configuration=Release /p:Platform="Any CPU"
 
   release:
-    runs-on: windows-2025
+    runs-on: windows-latest
     if: github.ref == 'refs/heads/master' && github.event_name == 'push'
     needs: build
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
-      # .NET 9 (GA)
-      - name: Setup .NET 9
+      # .NET 9 and 10
+      - name: Setup .NET
         uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: 9.0.x
-
-      # .NET 10 (GA)
-      - name: Setup .NET 10
-        uses: actions/setup-dotnet@v5
-        with:
-          dotnet-version: 10.0.x
+          dotnet-version: |
+            9.0.x
+            10.0.x
 
       # global.json dynamically generate
       - name: Force .NET 10 SDK via global.json
@@ -115,7 +107,7 @@ jobs:
           msbuild-architecture: x64
 
       - name: Setup NuGet
-        uses: NuGet/setup-nuget@v1.2.0
+        uses: NuGet/setup-nuget@v2.0.1
 
       - name: Cache NuGet
         uses: actions/cache@v4
