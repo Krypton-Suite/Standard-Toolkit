@@ -4,6 +4,8 @@
 
 # 2026-02-30 - Build 2502 (Version 105-LTS - Patch 1) - February 2026
 
+* Implemented [#2622](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2622), Automatically assign users to new pull requests
+* Implemented [#2617](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2617), Move GitHub templates to YAML
 * Implemented [#2653](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2653), Adds a property to `KryptonTaskDialog` to toggle the `KryptonSystemMenu`.
 * Resolves [#2649](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2649), `KryptonSytemMenu` duplicates menu entries.
 * Resolved [#2641](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2641), `KryptonForm` based minimised MDI Child Windows do not react when hosted in a `KryptonForm` parent container.
