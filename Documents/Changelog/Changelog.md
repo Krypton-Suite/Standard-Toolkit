@@ -3,7 +3,7 @@
 ====
 
 # 2026-02-30 - Build 2502 (Version 105-LTS - Patch 1) - February 2026
-
+* Resolved [#2629](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2629), `KryptonToggleSwitch` text repaint fails when the `Checked` property is toggled.
 * Implemented [#2622](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2622), Automatically assign users to new pull requests
 * Implemented [#2617](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2617), Move GitHub templates to YAML
 * Implemented [#2653](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2653), Adds a property to `KryptonTaskDialog` to toggle the `KryptonSystemMenu`.
