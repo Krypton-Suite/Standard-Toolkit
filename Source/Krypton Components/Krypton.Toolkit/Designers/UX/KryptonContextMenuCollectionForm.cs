@@ -701,9 +701,14 @@ public partial class KryptonContextMenuCollectionEditor
 
         private void buttonCancel_Click(object? sender, EventArgs e)
         {
+            // Inform designer of changes in component items
+            SynchronizeCollections(_beforeItems, _beforeItems, Context!);
+
+            // Notify container that the value has been changed
+            Context!.OnComponentChanged();
+
             _treeView.Nodes.Clear();
         }
-
         private void buttonOK_Click(object? sender, EventArgs e)
         {
             // Create an array with all the root items
