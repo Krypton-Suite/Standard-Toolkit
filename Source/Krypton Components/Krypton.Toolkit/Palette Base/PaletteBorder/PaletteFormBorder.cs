@@ -35,6 +35,34 @@ public class PaletteFormBorder : PaletteBorder
     #region Width
     internal bool UseThemeFormChromeBorderWidth { get; set; } = true;
 
+
+    /// <summary>
+    /// Gets a value indicating if border should be drawn.
+    /// </summary>
+    [KryptonPersist(false)]
+    [Category(@"Visuals")]
+    [Description(@"Should the border be drawn.")]
+    [DefaultValue(InheritBool.Inherit)]
+    [RefreshProperties(RefreshProperties.All)]
+    public override InheritBool Draw
+    {
+        get
+        {
+            return _ownerForm.FormBorderStyle != FormBorderStyle.None
+                ? base.Draw
+                : InheritBool.False;
+        }
+
+        set
+        {
+            if (base.Draw != value)
+            {
+                base.Draw = value;
+            }
+        }
+    }
+
+
     /// <summary>
     /// Gets and sets the border width.
     /// </summary>
