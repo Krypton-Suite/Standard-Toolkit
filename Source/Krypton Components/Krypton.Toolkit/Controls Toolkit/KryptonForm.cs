@@ -2254,16 +2254,12 @@ namespace Krypton.Toolkit
                 // a drop shadow around the form
                 CreateParams cp = base.CreateParams;
 
-#pragma warning disable CS0618 // Type or member is obsolete
+                #pragma warning disable CS0618 // Type or member is obsolete
                 if (UseDropShadow)
                 {
                     cp.ClassStyle |= CS_DROPSHADOW;
                 }
-#pragma warning restore CS0618 // Type or member is obsolete
-                if (!CloseBox)
-                {
-                    cp.ClassStyle |= CP_NOCLOSE_BUTTON;
-                }
+                #pragma warning restore CS0618 // Type or member is obsolete
 
                 return cp;
             }
