@@ -4,6 +4,7 @@
 
 # 2026-02-30 - Build 2502 (Version 105-LTS - Patch 1) - February 2026
 * Resolved [#2631](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2604), `KryptonContextMenu` items editor does not restore items when cancelled.
+* Resolved [#2631](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2682), `KryptonForm` does not close when `FormBorderStyle` is set to none at design time.
 * Resolved [#2629](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2629), `KryptonToggleSwitch` text repaint fails when the `Checked` property is toggled.
 * Implemented [#2622](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2622), Automatically assign users to new pull requests
 * Implemented [#2617](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2617), Move GitHub templates to YAML
