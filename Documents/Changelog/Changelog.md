@@ -3,6 +3,8 @@
 ====
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
+
+* Implemented [#2689](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2689), `KryptonMenuStrip` - Part of #2658
 * Resolved [#2681](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2681), `KryptonDataGridView` column headers do repaint correctly on horizontal mouse scroll.
 * Resolved [#2631](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2682), `KryptonForm` does not close when `FormBorderStyle` is set to none at design time.
 * Resolved [#2631](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2604), `KryptonContextMenu` items editor does not restore items when cancelled.
@@ -14,7 +16,7 @@
 * Implemented [#2653](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2653), Adds a property to `KryptonTaskDialog` to toggle the `KryptonSystemMenu`.
 * Implemented [#2586](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2586), One combined NuGet package
 * Implemented [#2585](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2585), Remove obsolete code from V110
-* Resolves [#2649](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2649), `KryptonSytemMenu` duplicates menu entries.
+* Resolved [#2649](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2649), `KryptonSytemMenu` duplicates menu entries.
 * Resolved [#2641](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2641), `KryptonForm` based minimised MDI Child Windows do not react when hosted in a `KryptonForm` parent container.
 * Support for .NET 11
 * Version bump `100.xx.xx.xx` -> `110.xx.xx.xx`
