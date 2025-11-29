@@ -1782,6 +1782,21 @@ public class KryptonDataGridView : DataGridView
         // Let base class layout child controls
         base.OnLayout(levent);
     }
+
+    protected override void OnScroll(ScrollEventArgs e)
+    {
+        // #2681 - Columns headers do not repaint correctly on horizontal scrollbar move by the mouse.
+        if (((MouseButtons & MouseButtons.Left) == MouseButtons.Left || (MouseButtons & MouseButtons.Right) == MouseButtons.Right)
+            && e.ScrollOrientation == ScrollOrientation.HorizontalScroll)
+        {
+            for (int i = 0; i < Columns.Count; i++)
+            {
+                InvalidateCell(Columns[i].HeaderCell);
+            }
+        }
+
+        base.OnScroll(e);
+    }
     #endregion
 
     #region Internal
