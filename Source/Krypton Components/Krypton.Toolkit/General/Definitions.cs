@@ -4363,6 +4363,775 @@ public enum ImageresIconID : int
 
 #endregion
 
+#region Enum Shell32IconID
+
+/// <summary>
+/// Icon resource IDs found in shell32.dll
+/// 
+/// This enum provides access to the comprehensive collection of system icons stored in Windows' shell32.dll.
+/// These are the traditional Windows icons that have been part of the operating system since early versions
+/// and provide familiar visual metaphors for files, folders, devices, and system functions.
+/// 
+/// Note: Icon availability and appearance may vary across different Windows versions (95/98/NT/2000/XP/Vista/7/8/10/11).
+/// Some icons may appear different or be replaced in newer Windows versions.
+/// 
+/// Usage: Use with GraphicsExtensions.ExtractIconFromShell32() to extract icons at specific sizes.
+/// Example: var folderIcon = GraphicsExtensions.ExtractIconFromShell32(Shell32IconID.Folder, IconSize.Medium);
+/// </summary>
+public enum Shell32IconID : int
+{
+    #region Basic File and Folder Icons (0-4)
+
+    /// <summary>Unknown/Generic file type icon</summary>
+    UnknownFile = 0,
+    /// <summary>Default document icon</summary>
+    Document = 1,
+    /// <summary>Application/Executable (EXE) icon</summary>
+    Application = 2,
+    /// <summary>Folder (closed) icon</summary>
+    Folder = 3,
+    /// <summary>Folder (open) icon</summary>
+    FolderOpen = 4,
+
+    #endregion
+
+    #region Drive and Storage Icons (5-12)
+
+    /// <summary>5.25" floppy disk drive icon</summary>
+    Floppy525 = 5,
+    /// <summary>3.5" floppy disk drive icon</summary>
+    Floppy35 = 6,
+    /// <summary>Removable drive icon</summary>
+    RemovableDrive = 7,
+    /// <summary>Hard disk drive icon</summary>
+    HardDrive = 8,
+    /// <summary>Network drive (connected) icon</summary>
+    NetworkDrive = 9,
+    /// <summary>Network drive (disconnected) icon</summary>
+    NetworkDriveOffline = 10,
+    /// <summary>CD-ROM/DVD drive icon</summary>
+    CDRom = 11,
+    /// <summary>RAM disk icon</summary>
+    RAMDisk = 12,
+
+    #endregion
+
+    #region Network and Computer Icons (13-21)
+
+    /// <summary>Entire network icon / World icon</summary>
+    EntireNetwork = 13,
+    /// <summary>Network workgroup/domain icon</summary>
+    NetworkWorkgroup = 14,
+    /// <summary>Computer/Workstation icon</summary>
+    Computer = 15,
+    /// <summary>Printer icon</summary>
+    Printer = 16,
+    /// <summary>Network neighborhood icon / My Network Places</summary>
+    NetworkNeighborhood = 17,
+    /// <summary>Network icon (generic)</summary>
+    Network = 18,
+    /// <summary>Workgroup/Domain icon (alternative)</summary>
+    Workgroup = 19,
+    /// <summary>Network with globe icon</summary>
+    NetworkGlobe = 20,
+    /// <summary>Server icon</summary>
+    Server = 21,
+
+    #endregion
+
+    #region System Utility Icons (22-30)
+
+    /// <summary>Search/Find icon</summary>
+    Search = 22,
+    /// <summary>Help/Question mark icon</summary>
+    Help = 23,
+    /// <summary>Run/Execute icon</summary>
+    Run = 24,
+    /// <summary>Sleep/Standby icon</summary>
+    Sleep = 25,
+    /// <summary>Dock laptop icon</summary>
+    Dock = 26,
+    /// <summary>Shutdown/Turn off icon</summary>
+    Shutdown = 27,
+    /// <summary>Shared folder/Network share icon</summary>
+    SharedFolder = 28,
+    /// <summary>Shortcut arrow overlay</summary>
+    Shortcut = 29,
+    /// <summary>Link overlay arrow</summary>
+    LinkOverlay = 30,
+
+    #endregion
+
+    #region Recycle Bin and Desktop (31-44)
+
+    /// <summary>Recycle Bin (empty) icon</summary>
+    RecycleBinEmpty = 31,
+    /// <summary>Recycle Bin (full) icon</summary>
+    RecycleBinFull = 32,
+    /// <summary>Dial-up networking icon</summary>
+    DialUp = 33,
+    /// <summary>Desktop icon</summary>
+    Desktop = 34,
+    /// <summary>Control Panel icon</summary>
+    ControlPanel = 35,
+    /// <summary>Program Folder icon / Start Menu Programs</summary>
+    ProgramFolder = 36,
+    /// <summary>Printers folder icon</summary>
+    Printers = 37,
+    /// <summary>Fonts folder icon</summary>
+    Fonts = 38,
+    /// <summary>Taskbar icon</summary>
+    Taskbar = 39,
+    /// <summary>Audio CD icon / Music CD</summary>
+    AudioCD = 40,
+    /// <summary>Tree/Folder tree view icon</summary>
+    Tree = 41,
+    /// <summary>Folder with gear/Settings folder icon</summary>
+    SettingsFolder = 42,
+    /// <summary>Favorites icon / Star</summary>
+    Favorites = 43,
+    /// <summary>Log off icon</summary>
+    LogOff = 44,
+
+    #endregion
+
+    #region System Icons (45-60)
+
+    /// <summary>Update/Sync icon</summary>
+    Update = 45,
+    /// <summary>Lock/Padlock icon</summary>
+    Lock = 47,
+    /// <summary>Security/Shield icon (classic)</summary>
+    Security = 48,
+    /// <summary>Command Prompt/DOS icon</summary>
+    CommandPrompt = 49,
+    /// <summary>System/Configuration icon</summary>
+    System = 50,
+    /// <summary>Briefcase icon</summary>
+    Briefcase = 51,
+    /// <summary>Notepad/Text editor icon</summary>
+    Notepad = 70,
+    /// <summary>System file icon</summary>
+    SystemFile = 151,
+
+    #endregion
+
+    #region Hardware and Devices (61-99)
+
+    /// <summary>Hardware/Device icon</summary>
+    Hardware = 73,
+    /// <summary>Keyboard icon</summary>
+    Keyboard = 78,
+    /// <summary>Mouse icon</summary>
+    Mouse = 79,
+    /// <summary>Modem icon</summary>
+    Modem = 80,
+    /// <summary>Monitor icon</summary>
+    Monitor = 81,
+    /// <summary>Speakers icon</summary>
+    Speakers = 82,
+    /// <summary>Camera icon</summary>
+    Camera = 83,
+    /// <summary>Scanner icon</summary>
+    Scanner = 84,
+    /// <summary>Game controller icon</summary>
+    GameController = 85,
+    /// <summary>CD/DVD disc icon</summary>
+    Disc = 86,
+    /// <summary>Fax icon</summary>
+    Fax = 87,
+    /// <summary>Telephone icon</summary>
+    Telephone = 88,
+    /// <summary>Mobile device icon</summary>
+    MobileDevice = 89,
+    /// <summary>PDA icon</summary>
+    PDA = 90,
+    /// <summary>Battery icon</summary>
+    Battery = 91,
+    /// <summary>Laptop icon</summary>
+    Laptop = 109,
+
+    #endregion
+
+    #region Media and Entertainment (100-119)
+
+    /// <summary>Media/Entertainment icon</summary>
+    Media = 100,
+    /// <summary>Video file icon</summary>
+    VideoFile = 101,
+    /// <summary>Audio file icon</summary>
+    AudioFile = 102,
+    /// <summary>Image file icon</summary>
+    ImageFile = 103,
+    /// <summary>Media player icon</summary>
+    MediaPlayer = 116,
+    /// <summary>Music folder icon</summary>
+    MusicFolder = 108,
+    /// <summary>Pictures folder icon</summary>
+    PicturesFolder = 238,
+    /// <summary>Videos folder icon</summary>
+    VideosFolder = 239,
+
+    #endregion
+
+    #region Internet and Communication (120-149)
+
+    /// <summary>Internet Explorer icon</summary>
+    InternetExplorer = 220,
+    /// <summary>Email/Mail icon</summary>
+    Mail = 147,
+    /// <summary>Address book icon</summary>
+    AddressBook = 121,
+    /// <summary>Calendar icon</summary>
+    Calendar = 122,
+    /// <summary>News/RSS feed icon</summary>
+    News = 123,
+    /// <summary>Download icon</summary>
+    Download = 124,
+    /// <summary>Upload icon</summary>
+    Upload = 125,
+    /// <summary>Web page icon</summary>
+    WebPage = 126,
+    /// <summary>HTML file icon</summary>
+    HtmlFile = 127,
+    /// <summary>FTP folder icon</summary>
+    FtpFolder = 128,
+    /// <summary>Certificate icon</summary>
+    Certificate = 129,
+
+    #endregion
+
+    #region Search and Navigation (130-149)
+
+    /// <summary>Search folder icon</summary>
+    SearchFolder = 130,
+    /// <summary>Find files icon (binoculars)</summary>
+    FindFiles = 134,
+    /// <summary>Find computer icon</summary>
+    FindComputer = 135,
+    /// <summary>History icon</summary>
+    History = 133,
+    /// <summary>Back arrow icon</summary>
+    Back = 136,
+    /// <summary>Forward arrow icon</summary>
+    Forward = 137,
+    /// <summary>Up folder icon</summary>
+    UpFolder = 138,
+    /// <summary>Home icon</summary>
+    Home = 139,
+    /// <summary>Refresh icon</summary>
+    Refresh = 140,
+    /// <summary>Stop icon</summary>
+    Stop = 141,
+    /// <summary>Go icon</summary>
+    Go = 142,
+
+    #endregion
+
+    #region System Folders (150-179)
+
+    /// <summary>Recent documents icon</summary>
+    Recent = 152,
+    /// <summary>Windows folder icon</summary>
+    WindowsFolder = 153,
+    /// <summary>System32 folder icon</summary>
+    System32Folder = 154,
+    /// <summary>Program Files folder icon</summary>
+    ProgramFilesFolder = 155,
+    /// <summary>Temporary folder icon</summary>
+    TempFolder = 156,
+    /// <summary>Documents folder icon</summary>
+    DocumentsFolder = 235,
+    /// <summary>My Documents icon</summary>
+    MyDocuments = 235,
+    /// <summary>My Pictures icon</summary>
+    MyPictures = 236,
+    /// <summary>My Music icon</summary>
+    MyMusic = 237,
+    /// <summary>My Videos icon</summary>
+    MyVideos = 238,
+
+    #endregion
+
+    #region Actions and Operations (160-189)
+
+    /// <summary>Cut icon (scissors)</summary>
+    Cut = 160,
+    /// <summary>Copy icon</summary>
+    Copy = 165,
+    /// <summary>Paste icon</summary>
+    Paste = 166,
+    /// <summary>Delete icon (X)</summary>
+    Delete = 161,
+    /// <summary>Rename icon</summary>
+    Rename = 162,
+    /// <summary>Properties icon (hand with card)</summary>
+    Properties = 165,
+    /// <summary>Undo icon</summary>
+    Undo = 167,
+    /// <summary>New folder icon</summary>
+    NewFolder = 168,
+    /// <summary>Map network drive icon</summary>
+    MapNetworkDrive = 169,
+    /// <summary>Disconnect network drive icon</summary>
+    DisconnectNetworkDrive = 170,
+    /// <summary>Print icon</summary>
+    Print = 171,
+    /// <summary>Preview icon</summary>
+    Preview = 172,
+    /// <summary>Send to icon</summary>
+    SendTo = 173,
+    /// <summary>Move icon</summary>
+    Move = 174,
+    /// <summary>Open with icon</summary>
+    OpenWith = 175,
+
+    #endregion
+
+    #region File Types (180-219)
+
+    /// <summary>ZIP file icon / Archive</summary>
+    ZipFile = 185,
+    /// <summary>Cabinet file (.cab) icon</summary>
+    CabFile = 186,
+    /// <summary>INF file icon</summary>
+    InfFile = 187,
+    /// <summary>INI file icon</summary>
+    IniFile = 188,
+    /// <summary>Configuration file icon</summary>
+    ConfigFile = 189,
+    /// <summary>Registry file icon</summary>
+    RegistryFile = 190,
+    /// <summary>Batch file (.bat) icon</summary>
+    BatchFile = 191,
+    /// <summary>Command file (.cmd) icon</summary>
+    CommandFile = 192,
+    /// <summary>Script file icon</summary>
+    ScriptFile = 193,
+    /// <summary>DLL file icon</summary>
+    DllFile = 194,
+    /// <summary>Font file icon</summary>
+    FontFile = 195,
+    /// <summary>Cursor file icon</summary>
+    CursorFile = 196,
+    /// <summary>Icon file (.ico) icon</summary>
+    IconFile = 197,
+    /// <summary>Bitmap file (.bmp) icon</summary>
+    BitmapFile = 198,
+
+    #endregion
+
+    #region User Accounts and Profiles (220-234)
+
+    /// <summary>User account icon</summary>
+    UserAccount = 220,
+    /// <summary>Guest account icon</summary>
+    Guest = 221,
+    /// <summary>Administrator account icon</summary>
+    Administrator = 222,
+    /// <summary>Limited user icon</summary>
+    LimitedUser = 223,
+    /// <summary>User profile icon</summary>
+    UserProfile = 224,
+    /// <summary>Family safety icon</summary>
+    FamilySafety = 225,
+    /// <summary>Parental controls icon</summary>
+    ParentalControls = 226,
+    /// <summary>User group icon</summary>
+    UserGroup = 227,
+
+    #endregion
+
+    #region Windows Features (240-269)
+
+    /// <summary>Windows Update icon</summary>
+    WindowsUpdate = 146,
+    /// <summary>Windows Defender icon</summary>
+    WindowsDefender = 240,
+    /// <summary>Windows Firewall icon</summary>
+    WindowsFirewall = 241,
+    /// <summary>Windows Explorer icon</summary>
+    WindowsExplorer = 242,
+    /// <summary>Windows components icon</summary>
+    WindowsComponents = 243,
+    /// <summary>Add/Remove programs icon</summary>
+    AddRemovePrograms = 244,
+    /// <summary>Programs and Features icon</summary>
+    ProgramsFeatures = 245,
+    /// <summary>Device Manager icon</summary>
+    DeviceManager = 246,
+    /// <summary>Disk Management icon</summary>
+    DiskManagement = 247,
+    /// <summary>System Properties icon</summary>
+    SystemProperties = 248,
+    /// <summary>Performance icon</summary>
+    Performance = 249,
+    /// <summary>Services icon</summary>
+    Services = 250,
+    /// <summary>Event Viewer icon</summary>
+    EventViewer = 251,
+    /// <summary>Task Scheduler icon</summary>
+    TaskScheduler = 252,
+
+    #endregion
+
+    #region Accessibility and Ease of Access (270-289)
+
+    /// <summary>Accessibility icon</summary>
+    Accessibility = 270,
+    /// <summary>Magnifier icon</summary>
+    Magnifier = 271,
+    /// <summary>On-screen keyboard icon</summary>
+    OnScreenKeyboard = 272,
+    /// <summary>Narrator icon</summary>
+    Narrator = 273,
+    /// <summary>Speech recognition icon</summary>
+    SpeechRecognition = 274,
+
+    #endregion
+
+    #region Additional System Icons (290-305)
+
+    /// <summary>Power options icon</summary>
+    PowerOptions = 290,
+    /// <summary>Display settings icon</summary>
+    DisplaySettings = 291,
+    /// <summary>Sound settings icon</summary>
+    SoundSettings = 292,
+    /// <summary>Network settings icon</summary>
+    NetworkSettings = 293,
+    /// <summary>Date and time icon</summary>
+    DateTime = 294,
+    /// <summary>Regional settings icon</summary>
+    RegionalSettings = 295,
+    /// <summary>Backup icon</summary>
+    Backup = 296,
+    /// <summary>Restore icon</summary>
+    Restore = 297,
+    /// <summary>Sync Center icon</summary>
+    SyncCenter = 298,
+    /// <summary>Offline files icon</summary>
+    OfflineFiles = 299,
+    /// <summary>Indexing options icon</summary>
+    IndexingOptions = 300,
+    /// <summary>Recovery icon</summary>
+    Recovery = 301,
+    /// <summary>Action Center icon</summary>
+    ActionCenter = 302,
+    /// <summary>Troubleshooting icon</summary>
+    Troubleshooting = 303,
+    /// <summary>BitLocker icon</summary>
+    BitLocker = 304,
+    /// <summary>Credential Manager icon</summary>
+    CredentialManager = 305,
+
+    #endregion
+
+    // Note: This enum contains 300+ icons from shell32.dll covering most common system icons.
+    // Icon appearance may vary across Windows versions (95/98/NT/2000/XP/Vista/7/8/10/11).
+    // Some indices may point to different icons or be unavailable in certain Windows versions.
+    // For exact icon appearance, test on your target Windows version.
+    // 
+    // Usage Examples:
+    // var folderIcon = GraphicsExtensions.ExtractIconFromShell32(Shell32IconID.Folder, IconSize.Medium);
+    // var printerIcon = GraphicsExtensions.ExtractIconFromShell32(Shell32IconID.Printer, IconSize.Large);
+    // var recycleBinIcon = GraphicsExtensions.ExtractIconFromShell32(Shell32IconID.RecycleBinEmpty, IconSize.Small);
+    // var userIcon = GraphicsExtensions.ExtractIconFromShell32(Shell32IconID.UserAccount, IconSize.ExtraLarge);
+    // 
+    // To access any icon by index directly:
+    // var customIcon = GraphicsExtensions.ExtractIconFromShell32(150, IconSize.Medium);
+}
+
+#endregion
+
+#region Enum MoreIconsIconID
+
+/// <summary>
+/// Icon resource IDs found in moricons.dll
+/// 
+/// This DLL contains miscellaneous system icons including various document types,
+/// DOS/Windows 3.x legacy icons, and other system graphics.
+/// 
+/// Usage: Use with GraphicsExtensions.ExtractIconFromMoreIcons() to extract icons at specific sizes.
+/// Example: var icon = GraphicsExtensions.ExtractIconFromMoreIcons(MoreIconsIconID.MsDosIcon, IconSize.Medium);
+/// </summary>
+public enum MoreIconsIconID : int
+{
+    /// <summary>MS-DOS icon - classic DOS prompt icon</summary>
+    MsDosIcon = 0,
+    /// <summary>Windows 3.x icon - legacy Windows logo</summary>
+    Windows3xIcon = 1,
+    /// <summary>Text document icon</summary>
+    TextDocument = 2,
+    /// <summary>Batch file icon</summary>
+    BatchFile = 3,
+    /// <summary>Configuration file icon</summary>
+    ConfigFile = 4,
+    /// <summary>INI file icon</summary>
+    IniFile = 5,
+    /// <summary>Help file icon</summary>
+    HelpFile = 6,
+    /// <summary>Font file icon</summary>
+    FontFile = 7,
+    /// <summary>TrueType font icon</summary>
+    TrueTypeFont = 8,
+    /// <summary>Archive/ZIP file icon</summary>
+    ArchiveFile = 9,
+    /// <summary>Cabinet file icon</summary>
+    CabinetFile = 10,
+    /// <summary>Setup/Installer icon</summary>
+    SetupIcon = 11,
+    /// <summary>Database icon</summary>
+    DatabaseIcon = 12,
+    /// <summary>Spreadsheet icon</summary>
+    SpreadsheetIcon = 13,
+    /// <summary>Presentation icon</summary>
+    PresentationIcon = 14,
+    /// <summary>Graphics file icon</summary>
+    GraphicsFile = 15,
+    /// <summary>Video file icon</summary>
+    VideoFile = 16,
+    /// <summary>Audio file icon</summary>
+    AudioFile = 17,
+    /// <summary>MIDI file icon</summary>
+    MidiFile = 18,
+    /// <summary>Web page icon</summary>
+    WebPage = 19,
+    /// <summary>Internet shortcut icon</summary>
+    InternetShortcut = 20,
+
+    // Note: moricons.dll typically contains 100+ icons
+    // This enum lists the most commonly used ones
+    // Access any icon by index using: GraphicsExtensions.ExtractIconFromMoreIcons(index, IconSize.Medium)
+}
+
+#endregion
+
+#region Enum IeFrameIconID
+
+/// <summary>
+/// Icon resource IDs found in ieframe.dll
+/// 
+/// This DLL contains Internet Explorer and web-related icons including browsers,
+/// security, navigation, and internet functionality icons.
+/// 
+/// Usage: Use with GraphicsExtensions.ExtractIconFromIeFrame() to extract icons at specific sizes.
+/// Example: var icon = GraphicsExtensions.ExtractIconFromIeFrame(IeFrameIconID.InternetExplorer, IconSize.Medium);
+/// </summary>
+public enum IeFrameIconID : int
+{
+    /// <summary>Internet Explorer icon</summary>
+    InternetExplorer = 0,
+    /// <summary>Web browser icon</summary>
+    WebBrowser = 1,
+    /// <summary>Home page icon</summary>
+    HomePage = 2,
+    /// <summary>Favorites/Bookmarks icon</summary>
+    Favorites = 3,
+    /// <summary>History icon</summary>
+    History = 4,
+    /// <summary>Search icon</summary>
+    Search = 5,
+    /// <summary>Refresh/Reload icon</summary>
+    Refresh = 6,
+    /// <summary>Stop loading icon</summary>
+    Stop = 7,
+    /// <summary>Forward navigation icon</summary>
+    Forward = 8,
+    /// <summary>Back navigation icon</summary>
+    Back = 9,
+    /// <summary>Print page icon</summary>
+    Print = 10,
+    /// <summary>Mail icon</summary>
+    Mail = 11,
+    /// <summary>Offline icon</summary>
+    Offline = 12,
+    /// <summary>Secure connection/SSL icon</summary>
+    SecureConnection = 13,
+    /// <summary>Download icon</summary>
+    Download = 14,
+    /// <summary>Upload icon</summary>
+    Upload = 15,
+    /// <summary>Web feed/RSS icon</summary>
+    WebFeed = 16,
+    /// <summary>Add to favorites icon</summary>
+    AddToFavorites = 17,
+    /// <summary>Import/Export icon</summary>
+    ImportExport = 18,
+    /// <summary>Settings/Options icon</summary>
+    Settings = 19,
+    /// <summary>Privacy icon</summary>
+    Privacy = 20,
+    /// <summary>Security zones icon</summary>
+    SecurityZones = 21,
+    /// <summary>Content advisor icon</summary>
+    ContentAdvisor = 22,
+    /// <summary>Certificates icon</summary>
+    Certificates = 23,
+    /// <summary>Internet properties icon</summary>
+    InternetProperties = 24,
+
+    // Note: ieframe.dll contains 200+ icons
+    // This enum lists the most commonly used ones
+    // Access any icon by index using: GraphicsExtensions.ExtractIconFromIeFrame(index, IconSize.Medium)
+}
+
+#endregion
+
+#region Enum CompStuiIconID
+
+/// <summary>
+/// Icon resource IDs found in compstui.dll
+/// 
+/// This DLL contains composite UI icons including printer, device configuration,
+/// and common dialog icons used throughout Windows.
+/// 
+/// Usage: Use with GraphicsExtensions.ExtractIconFromCompStui() to extract icons at specific sizes.
+/// Example: var icon = GraphicsExtensions.ExtractIconFromCompStui(CompStuiIconID.Printer, IconSize.Medium);
+/// </summary>
+public enum CompStuiIconID : int
+{
+    /// <summary>Printer icon</summary>
+    Printer = 0,
+    /// <summary>Printer properties icon</summary>
+    PrinterProperties = 1,
+    /// <summary>Print queue icon</summary>
+    PrintQueue = 2,
+    /// <summary>Document icon</summary>
+    Document = 3,
+    /// <summary>Paper icon</summary>
+    Paper = 4,
+    /// <summary>Orientation icon</summary>
+    Orientation = 5,
+    /// <summary>Quality icon</summary>
+    Quality = 6,
+    /// <summary>Color icon</summary>
+    Color = 7,
+    /// <summary>Duplex icon</summary>
+    Duplex = 8,
+    /// <summary>Staple icon</summary>
+    Staple = 9,
+    /// <summary>Collate icon</summary>
+    Collate = 10,
+    /// <summary>Device settings icon</summary>
+    DeviceSettings = 11,
+    /// <summary>Advanced settings icon</summary>
+    AdvancedSettings = 12,
+    /// <summary>Default icon</summary>
+    Default = 13,
+    /// <summary>Warning icon</summary>
+    Warning = 14,
+    /// <summary>Error icon</summary>
+    Error = 15,
+    /// <summary>Information icon</summary>
+    Information = 16,
+    /// <summary>Help icon</summary>
+    Help = 17,
+
+    // Note: compstui.dll contains 100+ icons
+    // This enum lists the most commonly used ones
+    // Access any icon by index using: GraphicsExtensions.ExtractIconFromCompStui(index, IconSize.Medium)
+}
+
+#endregion
+
+#region Enum SetupApiIconID
+
+/// <summary>
+/// Icon resource IDs found in setupapi.dll
+/// 
+/// This DLL contains setup, installation, device, and hardware configuration icons.
+/// 
+/// Usage: Use with GraphicsExtensions.ExtractIconFromSetupApi() to extract icons at specific sizes.
+/// Example: var icon = GraphicsExtensions.ExtractIconFromSetupApi(SetupApiIconID.HardwareDevice, IconSize.Medium);
+/// </summary>
+public enum SetupApiIconID : int
+{
+    /// <summary>Hardware device icon</summary>
+    HardwareDevice = 0,
+    /// <summary>Unknown device icon</summary>
+    UnknownDevice = 1,
+    /// <summary>Computer icon</summary>
+    Computer = 2,
+    /// <summary>Disk drive icon</summary>
+    DiskDrive = 3,
+    /// <summary>Network adapter icon</summary>
+    NetworkAdapter = 4,
+    /// <summary>Display adapter icon</summary>
+    DisplayAdapter = 5,
+    /// <summary>Sound device icon</summary>
+    SoundDevice = 6,
+    /// <summary>Modem icon</summary>
+    Modem = 7,
+    /// <summary>Port (COM/LPT) icon</summary>
+    Port = 8,
+    /// <summary>USB device icon</summary>
+    UsbDevice = 9,
+    /// <summary>PCI device icon</summary>
+    PciDevice = 10,
+    /// <summary>System device icon</summary>
+    SystemDevice = 11,
+    /// <summary>Legacy device icon</summary>
+    LegacyDevice = 12,
+    /// <summary>Device manager icon</summary>
+    DeviceManager = 13,
+    /// <summary>Driver icon</summary>
+    Driver = 14,
+    /// <summary>Update driver icon</summary>
+    UpdateDriver = 15,
+
+    // Note: setupapi.dll contains 60+ icons
+    // This enum lists the most commonly used ones
+    // Access any icon by index using: GraphicsExtensions.ExtractIconFromSetupApi(index, IconSize.Medium)
+}
+
+#endregion
+
+#region Enum NetShellIconID
+
+/// <summary>
+/// Icon resource IDs found in netshell.dll
+/// 
+/// This DLL contains network-related icons including connections, adapters, and network settings.
+/// 
+/// Usage: Use with GraphicsExtensions.ExtractIconFromNetShell() to extract icons at specific sizes.
+/// Example: var icon = GraphicsExtensions.ExtractIconFromNetShell(NetShellIconID.NetworkConnection, IconSize.Medium);
+/// </summary>
+public enum NetShellIconID : int
+{
+    /// <summary>Network connection icon</summary>
+    NetworkConnection = 0,
+    /// <summary>Network adapter icon</summary>
+    NetworkAdapter = 1,
+    /// <summary>LAN connection icon</summary>
+    LanConnection = 2,
+    /// <summary>Wireless network icon</summary>
+    WirelessNetwork = 3,
+    /// <summary>Internet connection icon</summary>
+    InternetConnection = 4,
+    /// <summary>Disconnected network icon</summary>
+    Disconnected = 5,
+    /// <summary>Network bridge icon</summary>
+    NetworkBridge = 6,
+    /// <summary>Dial-up connection icon</summary>
+    DialupConnection = 7,
+    /// <summary>VPN connection icon</summary>
+    VpnConnection = 8,
+    /// <summary>Network settings icon</summary>
+    NetworkSettings = 9,
+    /// <summary>Network troubleshoot icon</summary>
+    Troubleshoot = 10,
+    /// <summary>Firewall icon</summary>
+    Firewall = 11,
+    /// <summary>Shared connection icon</summary>
+    SharedConnection = 12,
+
+    // Note: netshell.dll contains 40+ icons
+    // Access any icon by index using: GraphicsExtensions.ExtractIconFromNetShell(index, IconSize.Medium)
+}
+
+#endregion
+
 #region Enum Icon Sizes
 
 /// <summary>

@@ -686,6 +686,110 @@ public static class GraphicsExtensions
         };
     }
 
+    /// <summary>Extracts an icon from shell32.dll using the specified icon ID and size.</summary>
+    /// <param name="iconId">The icon ID from Shell32IconID enum.</param>
+    /// <param name="iconSize">The size of the icon to extract. Defaults to Medium (32x32).</param>
+    /// <returns>The extracted icon, or null if extraction fails.</returns>
+    public static Icon? ExtractIconFromShell32(int iconId, IconSize iconSize = IconSize.Medium) => ExtractIconFromShell32Internal((Shell32IconID)iconId, iconSize);
+
+    /// <summary>Extracts an icon from shell32.dll using the specified icon ID and size.</summary>
+    /// <param name="iconId">The icon ID from Shell32IconID enum.</param>
+    /// <param name="iconSize">The size of the icon to extract. Defaults to Medium (32x32).</param>
+    /// <returns>The extracted icon, or null if extraction fails.</returns>
+    internal static Icon? ExtractIconFromShell32Internal(Shell32IconID iconId, IconSize iconSize = IconSize.Medium)
+    {
+        var size = GetSizeFromIconSize(iconSize);
+        var isLargeIcon = size.Width > 32; // Use large icon extraction for sizes larger than 32x32
+
+        // Extract from shell32.dll
+        return ExtractIcon(Libraries.Shell32, (int)iconId, isLargeIcon);
+    }
+
+    /// <summary>Extracts an icon from moricons.dll using the specified icon ID and size.</summary>
+    /// <param name="iconId">The icon ID from MoreIconsIconID enum.</param>
+    /// <param name="iconSize">The size of the icon to extract. Defaults to Medium (32x32).</param>
+    /// <returns>The extracted icon, or null if extraction fails.</returns>
+    public static Icon? ExtractIconFromMoreIcons(int iconId, IconSize iconSize = IconSize.Medium) => ExtractIconFromMoreIconsInternal((MoreIconsIconID)iconId, iconSize);
+
+    /// <summary>Extracts an icon from moricons.dll using the specified icon ID and size.</summary>
+    /// <param name="iconId">The icon ID from MoreIconsIconID enum.</param>
+    /// <param name="iconSize">The size of the icon to extract. Defaults to Medium (32x32).</param>
+    /// <returns>The extracted icon, or null if extraction fails.</returns>
+    internal static Icon? ExtractIconFromMoreIconsInternal(MoreIconsIconID iconId, IconSize iconSize = IconSize.Medium)
+    {
+        var size = GetSizeFromIconSize(iconSize);
+        var isLargeIcon = size.Width > 32;
+        return ExtractIcon(Libraries.MoreIcons, (int)iconId, isLargeIcon);
+    }
+
+    /// <summary>Extracts an icon from ieframe.dll using the specified icon ID and size.</summary>
+    /// <param name="iconId">The icon ID from IeFrameIconID enum.</param>
+    /// <param name="iconSize">The size of the icon to extract. Defaults to Medium (32x32).</param>
+    /// <returns>The extracted icon, or null if extraction fails.</returns>
+    public static Icon? ExtractIconFromIeFrame(int iconId, IconSize iconSize = IconSize.Medium) => ExtractIconFromIeFrameInternal((IeFrameIconID)iconId, iconSize);
+
+    /// <summary>Extracts an icon from ieframe.dll using the specified icon ID and size.</summary>
+    /// <param name="iconId">The icon ID from IeFrameIconID enum.</param>
+    /// <param name="iconSize">The size of the icon to extract. Defaults to Medium (32x32).</param>
+    /// <returns>The extracted icon, or null if extraction fails.</returns>
+    internal static Icon? ExtractIconFromIeFrameInternal(IeFrameIconID iconId, IconSize iconSize = IconSize.Medium)
+    {
+        var size = GetSizeFromIconSize(iconSize);
+        var isLargeIcon = size.Width > 32;
+        return ExtractIcon(Libraries.IeFrame, (int)iconId, isLargeIcon);
+    }
+
+    /// <summary>Extracts an icon from compstui.dll using the specified icon ID and size.</summary>
+    /// <param name="iconId">The icon ID from CompStuiIconID enum.</param>
+    /// <param name="iconSize">The size of the icon to extract. Defaults to Medium (32x32).</param>
+    /// <returns>The extracted icon, or null if extraction fails.</returns>
+    public static Icon? ExtractIconFromCompStui(int iconId, IconSize iconSize = IconSize.Medium) => ExtractIconFromCompStuiInternal((CompStuiIconID)iconId, iconSize);
+
+    /// <summary>Extracts an icon from compstui.dll using the specified icon ID and size.</summary>
+    /// <param name="iconId">The icon ID from CompStuiIconID enum.</param>
+    /// <param name="iconSize">The size of the icon to extract. Defaults to Medium (32x32).</param>
+    /// <returns>The extracted icon, or null if extraction fails.</returns>
+    internal static Icon? ExtractIconFromCompStuiInternal(CompStuiIconID iconId, IconSize iconSize = IconSize.Medium)
+    {
+        var size = GetSizeFromIconSize(iconSize);
+        var isLargeIcon = size.Width > 32;
+        return ExtractIcon(Libraries.CompStui, (int)iconId, isLargeIcon);
+    }
+
+    /// <summary>Extracts an icon from setupapi.dll using the specified icon ID and size.</summary>
+    /// <param name="iconId">The icon ID from SetupApiIconID enum.</param>
+    /// <param name="iconSize">The size of the icon to extract. Defaults to Medium (32x32).</param>
+    /// <returns>The extracted icon, or null if extraction fails.</returns>
+    public static Icon? ExtractIconFromSetupApi(int iconId, IconSize iconSize = IconSize.Medium) => ExtractIconFromSetupApiInternal((SetupApiIconID)iconId, iconSize);
+
+    /// <summary>Extracts an icon from setupapi.dll using the specified icon ID and size.</summary>
+    /// <param name="iconId">The icon ID from SetupApiIconID enum.</param>
+    /// <param name="iconSize">The size of the icon to extract. Defaults to Medium (32x32).</param>
+    /// <returns>The extracted icon, or null if extraction fails.</returns>
+    internal static Icon? ExtractIconFromSetupApiInternal(SetupApiIconID iconId, IconSize iconSize = IconSize.Medium)
+    {
+        var size = GetSizeFromIconSize(iconSize);
+        var isLargeIcon = size.Width > 32;
+        return ExtractIcon(Libraries.SetupApi, (int)iconId, isLargeIcon);
+    }
+
+    /// <summary>Extracts an icon from netshell.dll using the specified icon ID and size.</summary>
+    /// <param name="iconId">The icon ID from NetShellIconID enum.</param>
+    /// <param name="iconSize">The size of the icon to extract. Defaults to Medium (32x32).</param>
+    /// <returns>The extracted icon, or null if extraction fails.</returns>
+    public static Icon? ExtractIconFromNetShell(int iconId, IconSize iconSize = IconSize.Medium) => ExtractIconFromNetShellInternal((NetShellIconID)iconId, iconSize);
+
+    /// <summary>Extracts an icon from netshell.dll using the specified icon ID and size.</summary>
+    /// <param name="iconId">The icon ID from NetShellIconID enum.</param>
+    /// <param name="iconSize">The size of the icon to extract. Defaults to Medium (32x32).</param>
+    /// <returns>The extracted icon, or null if extraction fails.</returns>
+    internal static Icon? ExtractIconFromNetShellInternal(NetShellIconID iconId, IconSize iconSize = IconSize.Medium)
+    {
+        var size = GetSizeFromIconSize(iconSize);
+        var isLargeIcon = size.Width > 32;
+        return ExtractIcon(Libraries.NetShell, (int)iconId, isLargeIcon);
+    }
+
 
     #endregion
 }
