@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -129,50 +129,6 @@ public class ThemeManager
     /// <param name="paletteMode">The palette mode.</param>
     /// <returns>The theme name</returns>
     public static string ReturnPaletteModeAsString(PaletteMode paletteMode) => new PaletteModeConverter().ConvertToString(paletteMode)!;
-
-    /// <summary>
-    /// Loads the custom theme.
-    /// </summary>
-    /// <param name="palette">The palette.</param>
-    /// <param name="manager">The manager.</param>
-    /// <param name="themeFile">A custom theme file.</param>
-    /// <param name="silent">if set to <c>true</c> [silent].</param>
-    [Obsolete("Deprecated and will be removed in V110. Set a global custom palette through 'ThemeManager.ApplyTheme(...)'.")]
-    public static void LoadCustomTheme(KryptonCustomPaletteBase palette, KryptonManager manager, string themeFile = "", bool silent = false)
-    {
-        // Until removal pass the call to the new ApplyTheme method.
-        ApplyTheme(themeFile, silent, manager ?? new KryptonManager());
-            
-        //try
-        //{
-        //    // Declare new instances (no need for locking if these are local to the method)
-        //    palette = new KryptonCustomPaletteBase();
-        //    manager = new KryptonManager();
-
-        //    // TODO: Add silent option
-        //    if (silent)
-        //    {
-        //        if (themeFile is not ("" and ""))
-        //        {
-        //            palette.Import(themeFile, silent);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        palette.Import();
-        //    }
-
-        //    // Set manager
-        //    manager.GlobalCustomPalette = palette;
-
-        //    ApplyTheme(PaletteMode.Custom, manager);
-        //}
-        //catch (Exception exc)
-        //{
-        //    KryptonExceptionHandler.CaptureException(exc,
-        //        showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
-        //}
-    }
 
     /// <summary>
     /// Returns the themes PaletteMode from the theme's name.

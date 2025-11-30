@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -1781,6 +1781,21 @@ public class KryptonDataGridView : DataGridView
 
         // Let base class layout child controls
         base.OnLayout(levent);
+    }
+
+    protected override void OnScroll(ScrollEventArgs e)
+    {
+        // #2681 - Columns headers do not repaint correctly on horizontal scrollbar move by the mouse.
+        if (((MouseButtons & MouseButtons.Left) == MouseButtons.Left || (MouseButtons & MouseButtons.Right) == MouseButtons.Right)
+            && e.ScrollOrientation == ScrollOrientation.HorizontalScroll)
+        {
+            for (int i = 0; i < Columns.Count; i++)
+            {
+                InvalidateCell(Columns[i].HeaderCell);
+            }
+        }
+
+        base.OnScroll(e);
     }
     #endregion
 
