@@ -4,6 +4,7 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#2628](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2628), Improve build system
 * Implemented [#2612](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2612), Implement a 'nightly' workflow
 * Implemented [#2689](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2689), `KryptonMenuStrip` - Part of #2658
 * Resolved [#2681](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2681), `KryptonDataGridView` column headers do repaint correctly on horizontal mouse scroll.
