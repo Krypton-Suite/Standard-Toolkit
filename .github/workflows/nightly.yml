@@ -16,12 +16,12 @@ on:
 jobs:
   nightly:
     runs-on: windows-latest
-    # environment: production  # Requires approval before publishing, disabled for auto updates
+    environment: production  # Requires approval before publishing
 
-  concurrency:
+    concurrency:
       group: nightly-alpha
       cancel-in-progress: true
-
+    
     steps:
       # Nightly Release kill switch
       - name: Nightly Release Kill Switch Check
