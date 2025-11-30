@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Nullable>enable</Nullable>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
+    <StartupObject>BackstageDemo.Program</StartupObject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Krypton Components\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
+    <ProjectReference Include="..\Krypton Components\Krypton.Ribbon\Krypton.Ribbon 2022.csproj" />
+  </ItemGroup>
+
+</Project>

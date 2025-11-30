@@ -679,6 +679,14 @@ internal class ViewLayoutRibbonTabsArea : ViewLayoutDocker
         }
         else
         {
+            // Check if we should show backstage instead of traditional app menu
+            if (_ribbon.ShouldShowBackstage())
+            {
+                // Toggle the backstage view (show if hidden, hide if visible)
+                _ribbon.ToggleBackstage();
+                return;
+            }
+
             // Give event handler a change to cancel the open request
             var cea = new CancelEventArgs();
             _ribbon.OnAppButtonMenuOpening(cea);

@@ -64,6 +64,56 @@ internal class KryptonRibbonActionList : DesignerActionList
             }
         }
     }
+
+    /// <summary>
+    /// Gets and sets whether the app button shows backstage.
+    /// </summary>
+    public bool UseBackstageForAppButton
+    {
+        get => _ribbon.UseBackstageForAppButton;
+        set
+        {
+            if (_ribbon.UseBackstageForAppButton != value)
+            {
+                _service?.OnComponentChanged(_ribbon, null, _ribbon.UseBackstageForAppButton, value);
+                _ribbon.UseBackstageForAppButton = value;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets information about the backstage pages.
+    /// </summary>
+    public string BackstageInfo
+    {
+        get
+        {
+            var pageCount = _ribbon.BackstagePages.Count;
+            var visibleCount = 0;
+            for (int i = 0; i < pageCount; i++)
+            {
+                if (_ribbon.BackstagePages[i].Visible)
+                    visibleCount++;
+            }
+            return $"{pageCount} pages ({visibleCount} visible)";
+        }
+    }
+
+    /// <summary>
+    /// Gets and sets the backstage navigation width.
+    /// </summary>
+    public int BackstageNavigationWidth
+    {
+        get => _ribbon.BackstageValues.NavigationWidth;
+        set
+        {
+            if (_ribbon.BackstageValues.NavigationWidth != value)
+            {
+                _service?.OnComponentChanged(_ribbon, null, _ribbon.BackstageValues.NavigationWidth, value);
+                _ribbon.BackstageValues.NavigationWidth = value;
+            }
+        }
+    }
     #endregion
 
     #region Public Override
@@ -79,9 +129,15 @@ internal class KryptonRibbonActionList : DesignerActionList
         // This can be null when deleting a control instance at design time
         if (_ribbon != null)
         {
-            // Add the list of button specific actions
+            // Add the list of ribbon specific actions
             actions.Add(new DesignerActionHeaderItem("Design"));
             actions.Add(new DesignerActionPropertyItem(nameof(InDesignHelperMode), "Design Helpers", "Design", "Show design time helpers for creating items."));
+            
+            actions.Add(new DesignerActionHeaderItem("Backstage"));
+            actions.Add(new DesignerActionPropertyItem(nameof(UseBackstageForAppButton), "Use Backstage for App Button", "Backstage", "Show backstage view when app button is clicked."));
+            actions.Add(new DesignerActionPropertyItem(nameof(BackstageInfo), "Pages Info", "Backstage", "Information about backstage pages."));
+            actions.Add(new DesignerActionPropertyItem(nameof(BackstageNavigationWidth), "Navigation Width", "Backstage", "Width of the backstage navigation panel."));
+            
             actions.Add(new DesignerActionHeaderItem("Visuals"));
             actions.Add(new DesignerActionPropertyItem(nameof(PaletteMode), "Palette", "Visuals", "Palette applied to drawing"));
         }

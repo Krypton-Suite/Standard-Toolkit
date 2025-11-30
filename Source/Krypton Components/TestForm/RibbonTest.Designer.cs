@@ -115,6 +115,7 @@
             this.contextRed,
             this.contextGreen1,
             this.contextGreen2});
+            this.kryptonRibbon.SelectedBackstagePage = null;
             this.kryptonRibbon.SelectedContext = "Red,Green";
             this.kryptonRibbon.SelectedTab = this.tabHome;
             this.kryptonRibbon.Size = new System.Drawing.Size(926, 115);

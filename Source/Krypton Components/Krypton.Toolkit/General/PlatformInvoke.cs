@@ -32,7 +32,9 @@
 using Microsoft.Win32.SafeHandles;
 using static System.Runtime.InteropServices.Marshal;
 
-#pragma warning disable CS1587 // XML comment is not placed on a valid language element
+
+namespace Krypton.Toolkit;
+
 /// <summary>
 /// Platform Invoke declarations and Windows API bindings for the Krypton Toolkit.
 /// This file contains P/Invoke declarations, Windows API constants, enums, structures,
@@ -50,8 +52,6 @@ using static System.Runtime.InteropServices.Marshal;
 /// The declarations in this file enable the Krypton Toolkit to access native Windows
 /// functionality for advanced UI rendering, window management, and system integration.
 /// </summary>
-#pragma warning restore CS1587 // XML comment is not placed on a valid language element
-namespace Krypton.Toolkit;
 
 /// <summary>
 /// Contains string constants for Windows API library names used in Platform Invoke declarations.
