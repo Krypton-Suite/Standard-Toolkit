@@ -101,10 +101,10 @@ public class KryptonMenuStrip : MenuStrip
         Invalidate();
     }
 
-    /// <summary>
+    /*/// <summary>
     /// Gets or sets the font of the text displayed by the control.
     /// </summary>
-    /*[Browsable(false)]
+    [Browsable(false)]
     [Bindable(false)]
     [AmbientValue(null)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
