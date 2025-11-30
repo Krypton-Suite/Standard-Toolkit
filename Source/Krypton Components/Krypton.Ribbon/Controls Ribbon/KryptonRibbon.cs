@@ -17,7 +17,7 @@ namespace Krypton.Ribbon;
 [ToolboxBitmap(typeof(KryptonRibbon), "ToolboxBitmaps.KryptonRibbon.bmp")]
 [DefaultEvent(nameof(SelectedTabChanged))]
 [DefaultProperty(nameof(RibbonTabs))]
-[Designer(typeof(KryptonRibbonDesigner))]
+[Designer(typeof(KryptonRibbonExtensibilityDesigner))]
 [DesignerCategory(@"code")]
 [Description(@"Ribbon control presents a tabbed set of user options.")]
 [Docking(DockingBehavior.Never)]

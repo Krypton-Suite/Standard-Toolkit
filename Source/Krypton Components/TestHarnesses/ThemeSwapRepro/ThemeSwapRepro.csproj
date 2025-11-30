@@ -12,10 +12,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Krypton Components\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
+    <None Include="README.md" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="README.md" CopyToOutputDirectory="PreserveNewest" />
+    <ProjectReference Include="..\..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
   </ItemGroup>
 </Project>

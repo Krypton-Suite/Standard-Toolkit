@@ -20,7 +20,7 @@ namespace Krypton.Navigator;
 [ToolboxBitmap(typeof(KryptonPage), "ToolboxBitmaps.KryptonPage.bmp")]
 [DefaultEvent(nameof(Click))]
 [DefaultProperty(nameof(Text))]
-[Designer(typeof(KryptonPageDesigner))]
+[Designer(typeof(KryptonPageExtensibilityDesigner))]
 [DesignerCategory(@"code")]
 [DesignTimeVisible(false)]
 public class KryptonPage : VisualPanel

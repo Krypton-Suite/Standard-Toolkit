@@ -39,6 +39,8 @@
     <!--https://learn.microsoft.com/en-us/visualstudio/designers/disable-dpi-awareness?view=vs-2022-->
     <ForceDesignerDPIUnaware>true</ForceDesignerDPIUnaware>
     <ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
+    <!-- Fix for .NET Framework resource compilation errors -->
+    <GenerateResourceUsePreserializedResources Condition="$(TargetFramework.StartsWith('net4'))">true</GenerateResourceUsePreserializedResources>
   </PropertyGroup>
 
   <PropertyGroup>

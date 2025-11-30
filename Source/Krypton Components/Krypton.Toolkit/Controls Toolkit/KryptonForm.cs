@@ -23,7 +23,7 @@ namespace Krypton.Toolkit;
 [ToolboxItem(false)]
 [ToolboxBitmap(typeof(KryptonForm), "ToolboxBitmaps.KryptonForm.bmp")]
 [Description(@"Draws the window chrome using a Krypton palette.")]
-[Designer(typeof(KryptonFormDesigner))]
+[Designer(typeof(KryptonFormExtensibilityDesigner))]
 public class KryptonForm : VisualForm,
     IContentValues
 {
