@@ -4,6 +4,7 @@
 
 # 2026-02-30 - Build 2502 (Version 105-LTS - Patch 1) - February 2026
 * Resolved [#2681](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2704), Add a missing case statement to `KryptonCustomPaletteBase`.
+* Resolved [#2455](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2455), `KryptonForm` does not close when the system icon is double clicked.
 * Resolved [#2681](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2681), `KryptonDataGridView` column headers do repaint correctly on horizontal mouse scroll.
 * Resolved [#2631](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2604), `KryptonContextMenu` items editor does not restore items when cancelled.
 * Resolved [#2631](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2682), `KryptonForm` does not close when `FormBorderStyle` is set to none at design time.

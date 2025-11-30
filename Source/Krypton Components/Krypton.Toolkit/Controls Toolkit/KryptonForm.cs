@@ -1649,6 +1649,31 @@ public class KryptonForm : VisualForm,
         }
     }
 
+    protected override bool OnWM_NCLBUTTONDBLCLK(ref Message m)
+    {
+        using var context = new ViewLayoutContext(this, Renderer);
+
+        // Discover if the form icon is being Displayed
+        if (_drawContent.IsImageDisplayed(context))
+        {
+            // Extract the point in screen coordinates
+            var screenPoint = new Point((int)m.LParam.ToInt64());
+
+            // Convert to window coordinates
+            Point windowPoint = ScreenToWindow(screenPoint);
+
+            // Is the mouse over the image area
+            if (_drawContent.ImageRectangle(context).Contains(windowPoint))
+            {
+                // Double click on the system menu icon (ControlBox) should close the window
+                SendSysCommand(PI.SC_.CLOSE);
+                return true;
+            }
+        }
+
+        return base.OnWM_NCLBUTTONDBLCLK(ref m);
+    }
+
     private void DrawSizingGripOverlayIfNeeded()
     {
         if (!ShouldShowSizingGrip())
