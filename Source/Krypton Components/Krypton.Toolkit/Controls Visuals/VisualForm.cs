@@ -1083,6 +1083,7 @@ public abstract class VisualForm : Form,
                 case PI.WM_.NCLBUTTONDBLCLK:
                     processed = OnWM_NCLBUTTONDBLCLK(ref m);
                     break;
+
                 case PI.WM_.SYSCOMMAND:
                 {
                     var sc = (PI.SC_)m.WParam.ToInt64();
