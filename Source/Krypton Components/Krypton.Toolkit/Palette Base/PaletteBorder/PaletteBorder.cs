@@ -157,7 +157,7 @@ public class PaletteBorder : Storage,
     [Description(@"Should border be drawn.")]
     [DefaultValue(InheritBool.Inherit)]
     [RefreshProperties(RefreshProperties.All)]
-    public InheritBool Draw
+    public virtual InheritBool Draw
     {
         get => _storage?.BorderDraw ?? InheritBool.Inherit;
 
