@@ -59,7 +59,7 @@ public partial class InternalSearchableExceptionTreeView : UserControl
 
         kwlblSearchResults.Text = KryptonManager.Strings.ExceptionDialogStrings.TypeToSearch;
 
-        bsaClearSearch.ToolTipTitle = KryptonManager.Strings.SearchBoxStrings.ClearSearchBoxToolTip;
+        bsaClearSearch.ToolTipTitle = KryptonManager.Strings.SearchBoxStrings.ClearButtonToolTipTitle;
 
         bsaClearSearch.ToolTipBody = KryptonManager.Strings.SearchBoxStrings.ClearSearchBoxToolTipDescription;
     }

@@ -73,6 +73,7 @@ global using Krypton.Toolkit.ResourceFiles.PaletteSchemas;
 global using Krypton.Toolkit.ResourceFiles.Pendants;
 global using Krypton.Toolkit.ResourceFiles.Pin;
 global using Krypton.Toolkit.ResourceFiles.RadioButtons;
+global using Krypton.Toolkit.ResourceFiles.SearchBox;
 global using Krypton.Toolkit.ResourceFiles.SizeGripStyles;
 global using Krypton.Toolkit.ResourceFiles.Sort;
 global using Krypton.Toolkit.ResourceFiles.Stars;
