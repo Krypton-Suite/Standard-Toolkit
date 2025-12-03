@@ -16,12 +16,12 @@ on:
 jobs:
   nightly:
     runs-on: windows-latest
-    # environment: production  # Requires approval before publishing, disabled for auto updates
+    environment: production  # Requires approval before publishing
 
-  concurrency:
+    concurrency:
       group: nightly-alpha
       cancel-in-progress: true
-
+    
     steps:
       # Nightly Release kill switch
       - name: Nightly Release Kill Switch Check
@@ -167,11 +167,11 @@ jobs:
 
       - name: Build Nightly
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
-        run: msbuild "Scripts/nightly.proj" /t:Build /p:Configuration=Nightly /p:Platform="Any CPU"
+        run: msbuild "Scripts/Build/nightly.proj" /t:Build /p:Configuration=Nightly /p:Platform="Any CPU"
 
       - name: Pack Nightly
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
-        run: msbuild "Scripts/nightly.proj" /t:Pack /p:Configuration=Nightly /p:Platform="Any CPU"
+        run: msbuild "Scripts/Build/nightly.proj" /t:Pack /p:Configuration=Nightly /p:Platform="Any CPU"
 
       - name: Push NuGet Packages to nuget.org
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
