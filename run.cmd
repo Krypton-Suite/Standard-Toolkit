@@ -82,10 +82,11 @@ echo 4. Build and Pack Toolkit
 echo 5. Debug project
 echo 6. NuGet Tools
 echo 7. Create Archives (ZIP/TAR)
-echo 8. Change Visual Studio target
-echo 9. End
+echo 8. WebView2 SDK Tools
+echo 9. Change Visual Studio target
+echo 10. End
 echo:
-set /p answer="Enter number (1 - 9): "
+set /p answer="Enter number (1 - 10): "
 if "%answer%"=="1" (goto cleanproject)
 if "%answer%"=="2" (goto buildproject)
 if "%answer%"=="3" (goto createnugetpackages)
@@ -93,8 +94,9 @@ if "%answer%"=="4" (goto buildandpacktoolkit)
 if "%answer%"=="5" (goto debugproject)
 if "%answer%"=="6" (goto nugettools)
 if "%answer%"=="7" (goto createarchives)
-if "%answer%"=="8" (goto selectvsversion)
-if "%answer%"=="9" (goto exitbuildsystem)
+if "%answer%"=="8" (goto webview2menu)
+if "%answer%"=="9" (goto selectvsversion)
+if "%answer%"=="10" (goto exitbuildsystem)
 
 @echo Invalid input, please try again.
 
@@ -311,6 +313,16 @@ pause
 goto createarchives
 
 :: ===================================================================================================
+
+:webview2menu
+
+cls
+
+cd Scripts/WebVew2/
+
+WebView2Setup.cmd
+
+:; ===================================================================================================
 
 :updatenuget
 cls
