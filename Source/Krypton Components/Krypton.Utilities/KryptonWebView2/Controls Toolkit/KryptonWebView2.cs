@@ -1,11 +1,8 @@
 #region BSD License
 /*
  *
- * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2025 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2026 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -15,7 +12,10 @@
 using Microsoft.Web.WebView2.WinForms;
 #endif
 
-namespace Krypton.Toolkit;
+namespace Krypton.Utilities;
+
+#if WEBVIEW2_AVAILABLE
+#endif
 
 #if WEBVIEW2_AVAILABLE
 /// <summary>
@@ -61,7 +61,7 @@ namespace Krypton.Toolkit;
 /// </para>
 /// </summary>
 [ToolboxItem(true)]
-[ToolboxBitmap(typeof(KryptonWebView2), "ToolboxBitmaps.WebView2.bmp")]
+[ToolboxBitmap(typeof(KryptonWebView2), "KryptonWebView2.ToolboxBitmaps.WebView2.bmp")]
 [Designer(typeof(KryptonWebView2Designer))]
 [DesignerCategory(@"code")]
 [Description(@"Enables the user to browse web pages using the modern WebView2 engine with Krypton theming support.")]
@@ -251,14 +251,14 @@ public class KryptonWebView2 : WebView2
     /// </remarks>
     protected override void WndProc(ref Message m)
     {
-        if ((m.Msg == PI.WM_.CONTEXTMENU) || 
-            (m.Msg == PI.WM_.PARENTNOTIFY && PI.LOWORD(m.WParam) == PI.WM_.RBUTTONDOWN))
+        if ((m.Msg == WebView2MessageHelper.WM_.CONTEXTMENU) || 
+            (m.Msg == WebView2MessageHelper.WM_.PARENTNOTIFY && WebView2MessageHelper.LOWORD(m.WParam) == WebView2MessageHelper.WM_.RBUTTONDOWN))
         {
             // Only interested in overriding the behavior when we have a krypton context menu
             if (KryptonContextMenu != null)
             {
                 // Extract the screen mouse position (if might not actually be provided)
-                var mousePt = new Point(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
+                var mousePt = new Point(WebView2MessageHelper.LOWORD(m.LParam), WebView2MessageHelper.HIWORD(m.LParam));
 
                 // If keyboard activated, the menu position is centered
                 if (((int)(long)m.LParam) == -1)
@@ -267,7 +267,7 @@ public class KryptonWebView2 : WebView2
                 }
                 else
                 {
-                    if (m.Msg == PI.WM_.CONTEXTMENU)
+                    if (m.Msg == WebView2MessageHelper.WM_.CONTEXTMENU)
                     {
                         mousePt = PointToClient(mousePt);
                     }
@@ -417,3 +417,4 @@ public class KryptonWebView2 : WebView2
     #endregion
 }
 #endif
+

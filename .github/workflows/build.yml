@@ -67,215 +67,8 @@ jobs:
       - name: Restore
         run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.sln"
 
-      - name: Setup WebView2 SDK
-        run: |
-          # Create WebView2SDK directory
-          mkdir WebView2SDK
-          
-          # Get latest WebView2 SDK version using multiple API methods
-          $packageId = "Microsoft.Web.WebView2"
-          Write-Host "Fetching latest stable WebView2 version using multiple API methods..." -ForegroundColor Cyan
-          
-          $latestVersion = $null
-          
-          # Method 1: Try the search API first (most reliable for latest versions)
-          try {
-            Write-Host "Trying search API (most reliable)..." -ForegroundColor Cyan
-            $searchUrl = "https://azuresearch-usnc.nuget.org/query?q=$packageId&prerelease=false&semVerLevel=2.0.0&take=1"
-            $searchResponse = Invoke-RestMethod -Uri $searchUrl -Method Get
-            
-            if ($searchResponse.data -and $searchResponse.data.Count -gt 0) {
-              $packageData = $searchResponse.data[0]
-              $latestVersion = $packageData.version
-              Write-Host "Found latest stable version via search API: $latestVersion" -ForegroundColor Green
-            }
-          } catch {
-            Write-Host "Search API failed: $($_.Exception.Message)" -ForegroundColor Yellow
-          }
-          
-          # Method 2: Try alternative search endpoint if primary failed
-          if (-not $latestVersion) {
-            try {
-              Write-Host "Trying alternative search endpoint..." -ForegroundColor Cyan
-              $altSearchUrl = "https://azuresearch-ussc.nuget.org/query?q=$packageId&prerelease=false&semVerLevel=2.0.0&take=1"
-              $altSearchResponse = Invoke-RestMethod -Uri $altSearchUrl -Method Get
-              
-              if ($altSearchResponse.data -and $altSearchResponse.data.Count -gt 0) {
-                $packageData = $altSearchResponse.data[0]
-                $latestVersion = $packageData.version
-                Write-Host "Found latest stable version via alternative search API: $latestVersion" -ForegroundColor Green
-              }
-            } catch {
-              Write-Host "Alternative search API failed: $($_.Exception.Message)" -ForegroundColor Yellow
-            }
-          }
-          
-          # Method 3: Try the flatcontainer API (may have stale data)
-          if (-not $latestVersion) {
-            try {
-              $apiUrl = "https://api.nuget.org/v3-flatcontainer/$packageId/index.json"
-              Write-Host "Trying flatcontainer API (may have stale data)..." -ForegroundColor Cyan
-              $response = Invoke-RestMethod -Uri $apiUrl -Method Get
-              
-              if ($response.versions) {
-                # Filter for stable versions only (no prerelease identifiers)
-                $stableVersions = $response.versions | Where-Object { $_ -notmatch '[-]' -and $_ -match '^\d+\.\d+\.\d+$' }
-                if ($stableVersions) {
-                  # Sort by version number and get the latest
-                  $latestVersion = $stableVersions | Sort-Object { [System.Version]$_ } -Descending | Select-Object -First 1
-                  Write-Host "Found latest stable version via flatcontainer API: $latestVersion" -ForegroundColor Green
-                }
-              }
-            } catch {
-              Write-Host "Flatcontainer API failed: $($_.Exception.Message)" -ForegroundColor Yellow
-            }
-          }
-          
-          # Method 4: Try registration API (with better error handling)
-          if (-not $latestVersion) {
-            try {
-              Write-Host "Trying registration API..." -ForegroundColor Cyan
-              $regUrl = "https://api.nuget.org/v3/registration5-semver1/$($packageId.ToLower())/index.json"
-              $regResponse = Invoke-RestMethod -Uri $regUrl -Method Get
-              
-              if ($regResponse.items -and $regResponse.items.Count -gt 0) {
-                # Filter out prerelease versions and sort by version
-                $stableItems = $regResponse.items | Where-Object { 
-                  $_.upper -notmatch '[-]' -and $_.upper -match '^\d+\.\d+\.\d+$' 
-                }
-                if ($stableItems) {
-                  $latestItem = $stableItems | Sort-Object { [System.Version]$_.upper } -Descending | Select-Object -First 1
-                  if ($latestItem.items -and $latestItem.items.Count -gt 0) {
-                    $latestVersion = $latestItem.items[0].catalogEntry.version
-                    Write-Host "Found latest stable version via registration API: $latestVersion" -ForegroundColor Green
-                  }
-                }
-              }
-            } catch {
-              Write-Host "Registration API failed: $($_.Exception.Message)" -ForegroundColor Yellow
-            }
-          }
-          
-          # Final fallback
-          if (-not $latestVersion) {
-            Write-Host "All API methods failed, using hardcoded fallback version: 1.0.3485.44" -ForegroundColor Red
-            $latestVersion = "1.0.3485.44"
-          }
-          
-          Write-Host "Using WebView2 SDK version: $latestVersion" -ForegroundColor Green
-          
-          # Add WebView2 package to project
-          Write-Host "Adding WebView2 package to project..."
-          Write-Host "Attempting to install version: $latestVersion"
-          
-          # Verify the package version exists by trying to get package info
-          try {
-            $packageInfoUrl = "https://api.nuget.org/v3-flatcontainer/$packageId/$latestVersion/$packageId.$latestVersion.nupkg"
-            $packageCheck = Invoke-WebRequest -Uri $packageInfoUrl -Method Head -UseBasicParsing
-            Write-Host "Package version $latestVersion verified as available" -ForegroundColor Green
-          } catch {
-            Write-Host "Package version $latestVersion not found, trying latest available..." -ForegroundColor Yellow
-            # Try to get the latest available version
-            try {
-              $searchUrl = "https://azuresearch-usnc.nuget.org/query?q=$packageId&prerelease=false&semVerLevel=2.0.0&take=1"
-              $searchResponse = Invoke-RestMethod -Uri $searchUrl -Method Get
-              if ($searchResponse.data -and $searchResponse.data.Count -gt 0) {
-                $latestVersion = $searchResponse.data[0].version
-                Write-Host "Using verified latest version: $latestVersion" -ForegroundColor Green
-              }
-            } catch {
-              Write-Host "Could not verify package version, proceeding with $latestVersion" -ForegroundColor Yellow
-            }
-          }
-          
-          dotnet add "Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj" package Microsoft.Web.WebView2 --version $latestVersion
-          
-          if ($LASTEXITCODE -ne 0) {
-            Write-Error "Failed to add WebView2 package to project"
-            exit 1
-          }
-          
-          # Restore packages to ensure they're downloaded
-          Write-Host "Restoring NuGet packages..."
-          dotnet restore "Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj"
-          
-          if ($LASTEXITCODE -ne 0) {
-            Write-Error "Failed to restore NuGet packages"
-            exit 1
-          }
-          
-          # Find and copy assemblies dynamically
-          $nugetBasePath = "$env:USERPROFILE\.nuget\packages\microsoft.web.webview2\$latestVersion"
-          Write-Host "Searching for WebView2 assemblies in: $nugetBasePath"
-          
-          # Verify the package directory exists
-          if (-not (Test-Path $nugetBasePath)) {
-            Write-Error "NuGet package directory not found: $nugetBasePath"
-            Write-Host "Available packages:"
-            Get-ChildItem "$env:USERPROFILE\.nuget\packages\microsoft.web.webview2" -ErrorAction SilentlyContinue | ForEach-Object { Write-Host "  - $($_.Name)" }
-            exit 1
-          }
-          
-          # Find Core DLL
-          $coreDll = Get-ChildItem -Path $nugetBasePath -Recurse -Name "Microsoft.Web.WebView2.Core.dll" | Select-Object -First 1
-          if ($coreDll) {
-            $corePath = Join-Path $nugetBasePath $coreDll
-            if (Test-Path $corePath) {
-              Copy-Item $corePath "WebView2SDK\"
-              Write-Host "Copied Microsoft.Web.WebView2.Core.dll from: $corePath"
-            } else {
-              Write-Error "Core DLL file not found at: $corePath"
-              exit 1
-            }
-          } else {
-            Write-Error "Microsoft.Web.WebView2.Core.dll not found in package"
-            Write-Host "Available files in package:"
-            Get-ChildItem -Path $nugetBasePath -Recurse | ForEach-Object { Write-Host "  - $($_.FullName)" }
-            exit 1
-          }
-          
-          # Find WinForms DLL
-          $winFormsDll = Get-ChildItem -Path $nugetBasePath -Recurse -Name "Microsoft.Web.WebView2.WinForms.dll" | Select-Object -First 1
-          if ($winFormsDll) {
-            $winFormsPath = Join-Path $nugetBasePath $winFormsDll
-            if (Test-Path $winFormsPath) {
-              Copy-Item $winFormsPath "WebView2SDK\"
-              Write-Host "Copied Microsoft.Web.WebView2.WinForms.dll from: $winFormsPath"
-            } else {
-              Write-Error "WinForms DLL file not found at: $winFormsPath"
-              exit 1
-            }
-          } else {
-            Write-Error "Microsoft.Web.WebView2.WinForms.dll not found in package"
-            exit 1
-          }
-          
-          # Find WebView2Loader DLL
-          $loaderDll = Get-ChildItem -Path $nugetBasePath -Recurse -Name "WebView2Loader.dll" | Select-Object -First 1
-          if ($loaderDll) {
-            $loaderPath = Join-Path $nugetBasePath $loaderDll
-            if (Test-Path $loaderPath) {
-              Copy-Item $loaderPath "WebView2SDK\"
-              Write-Host "Copied WebView2Loader.dll from: $loaderPath"
-            } else {
-              Write-Error "Loader DLL file not found at: $loaderPath"
-              exit 1
-            }
-          } else {
-            Write-Error "WebView2Loader.dll not found in package"
-            exit 1
-          }
-          
-          # Verify all files were copied
-          Write-Host "WebView2 SDK setup completed. Files copied:"
-          Get-ChildItem "WebView2SDK\*.dll" | ForEach-Object { Write-Host "  - $($_.Name)" }
-          
-          # Remove NuGet package reference
-          Write-Host "Removing temporary NuGet package reference..."
-          dotnet remove "Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj" package Microsoft.Web.WebView2
-
       - name: Build
-        run: msbuild "Scripts/Build/nightly.proj" /t:Rebuild /p:Configuration=Release /p:Platform="Any CPU"
+        run: msbuild "Scripts/nightly.proj" /t:Rebuild /p:Configuration=Release /p:Platform="Any CPU"
 
   release:
     runs-on: windows-latest
@@ -324,14 +117,51 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
 
+      - name: Setup WebView2 SDK
+        shell: pwsh
+        run: |
+          if (-not (Test-Path "WebView2SDK")) { mkdir WebView2SDK }
+          $packageId = "Microsoft.Web.WebView2"
+          $latestVersion = $null
+          try {
+            $searchUrl = "https://azuresearch-usnc.nuget.org/query?q=$packageId&prerelease=false&semVerLevel=2.0.0&take=1"
+            $searchResponse = Invoke-RestMethod -Uri $searchUrl -Method Get
+            if ($searchResponse.data -and $searchResponse.data.Count -gt 0) {
+              $latestVersion = $searchResponse.data[0].version
+            }
+          } catch {
+            try {
+              $apiUrl = "https://api.nuget.org/v3-flatcontainer/$packageId/index.json"
+              $response = Invoke-RestMethod -Uri $apiUrl -Method Get
+              if ($response.versions) {
+                $stableVersions = $response.versions | Where-Object { $_ -notmatch '[-]' -and $_ -match '^\d+\.\d+\.\d+$' }
+                if ($stableVersions) {
+                  $latestVersion = $stableVersions | Sort-Object { [System.Version]$_ } -Descending | Select-Object -First 1
+                }
+              }
+            } catch {}
+          }
+          if (-not $latestVersion) { $latestVersion = "1.0.3595.46" }
+          Write-Host "Using WebView2 SDK version: $latestVersion"
+          dotnet add "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj" package Microsoft.Web.WebView2 --version $latestVersion
+          dotnet restore "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj"
+          $nugetBasePath = "$env:USERPROFILE\.nuget\packages\microsoft.web.webview2\$latestVersion"
+          $coreDll = Get-ChildItem -Path $nugetBasePath -Recurse -Name "Microsoft.Web.WebView2.Core.dll" | Select-Object -First 1
+          Copy-Item (Join-Path $nugetBasePath $coreDll) "WebView2SDK\"
+          $winFormsDll = Get-ChildItem -Path $nugetBasePath -Recurse -Name "Microsoft.Web.WebView2.WinForms.dll" | Select-Object -First 1
+          Copy-Item (Join-Path $nugetBasePath $winFormsDll) "WebView2SDK\"
+          $loaderDll = Get-ChildItem -Path $nugetBasePath -Recurse -Name "WebView2Loader.dll" | Select-Object -First 1
+          Copy-Item (Join-Path $nugetBasePath $loaderDll) "WebView2SDK\"
+          dotnet remove "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj" package Microsoft.Web.WebView2
+
       - name: Restore
         run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.sln"
 
       - name: Build Release
-        run: msbuild "Scripts/Build/build.proj" /t:Build /p:Configuration=Release /p:Platform="Any CPU"
+        run: msbuild "Scripts/build.proj" /t:Build /p:Configuration=Release /p:Platform="Any CPU"
 
       - name: Pack Release
-        run: msbuild "Scripts/Build/build.proj" /t:Pack /p:Configuration=Release /p:Platform="Any CPU"
+        run: msbuild "Scripts/build.proj" /t:Pack /p:Configuration=Release /p:Platform="Any CPU"
 
       - name: Get Version
         id: get_version

@@ -10,7 +10,7 @@
  */
 #endregion
 
-namespace Krypton.Toolkit;
+namespace Krypton.Utilities;
 
 #if WEBVIEW2_AVAILABLE
 internal class KryptonWebView2Designer : ControlDesigner
@@ -36,3 +36,4 @@ internal class KryptonWebView2Designer : ControlDesigner
     #endregion Public Overrides
 }
 #endif
+

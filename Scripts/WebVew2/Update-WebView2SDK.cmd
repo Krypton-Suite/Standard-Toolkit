@@ -1,4 +1,7 @@
 @echo off
+REM Change to repository root directory (go up two levels from Scripts/WebVew2/)
+cd /d "%~dp0..\.."
+
 echo Updating to latest WebView2 SDK version...
 echo.
 
