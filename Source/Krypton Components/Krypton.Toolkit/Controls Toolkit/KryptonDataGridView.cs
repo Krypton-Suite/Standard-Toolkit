@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -1317,6 +1317,7 @@ public class KryptonDataGridView : DataGridView
         }
 
         var rtl = RightToLeftInternal;
+        bool isHandled = true;
 
         // Use an offscreen bitmap to draw onto before blitting it to the screen
         var tempCellBounds = e.CellBounds with { X = 0, Y = 0 };
@@ -1327,6 +1328,8 @@ public class KryptonDataGridView : DataGridView
                 using (var renderContext = new RenderContext(this, tempG, tempCellBounds, Renderer!))
                 {
                     bool isHeaderCell = e.RowIndex == -1 && e.ColumnIndex >= 0;
+                    isHandled = !isHeaderCell;
+
                     Rectangle headerContentBounds = Rectangle.Empty;
 
                     // Force the border to have a specified maximum border edge
@@ -1706,7 +1709,7 @@ public class KryptonDataGridView : DataGridView
         }
 
         // Prevent base class from doing the standard drawing
-        e!.Handled = true;
+        e!.Handled = isHandled;
 
         base.OnCellPainting(e);
     }

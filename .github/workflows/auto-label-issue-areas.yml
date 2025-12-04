@@ -1,0 +1,229 @@
+# New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+# Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2025 - 2026. All rights reserved.
+
+name: Auto-label issue areas
+
+on:
+  issues:
+    types:
+      - opened
+      - edited
+
+permissions:
+  issues: write
+
+jobs:
+  label-areas:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Extract and apply area labels
+        uses: actions/github-script@v8
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { owner, repo } = context.repo;
+            const issue = context.payload.issue;
+            const issueBody = issue.body || '';
+            const issueTitle = issue.title || '';
+            
+            // Extract labels once for reuse
+            const labels = (issue.labels || []).map(
+              label => typeof label === 'string' ? label : label.name
+            );
+            
+            // Auto-prefix issue titles based on template type
+            // Only do this for newly opened issues (not edits)
+            if (context.payload.action === 'opened') {
+              
+              let titlePrefix = null;
+              
+              // Check for Bug Report template
+              const hasBugLabel = labels.includes('bug');
+              const hasBugReportFields = issueBody.includes('### Steps to Reproduce');
+              if ((hasBugLabel || hasBugReportFields) && !issueTitle.startsWith('[Bug]: ')) {
+                titlePrefix = '[Bug]: ';
+              }
+              // Check for Feature Request template
+              else if ((labels.includes('enhancement') || labels.includes('new feature') || labels.includes('suggestion') || 
+                       issueBody.includes('### Feature Description')) && 
+                       !issueTitle.startsWith('[Feature Request]: ')) {
+                titlePrefix = '[Feature Request]: ';
+              }
+              // Check for Other Issues template
+              else if ((labels.includes('discussion') || labels.includes('other') || 
+                       issueBody.includes('### Please describe your issue')) && 
+                       !issueTitle.startsWith('[Other Issues]: ')) {
+                titlePrefix = '[Other Issues]: ';
+              }
+              // Check for Post a Question template
+              else if ((labels.includes('question') || 
+                       issueBody.includes('### What do you want to ask?')) && 
+                       !issueTitle.startsWith('[Question]: ')) {
+                titlePrefix = '[Question]: ';
+              }
+              
+              if (titlePrefix) {
+                const newTitle = `${titlePrefix}${issueTitle}`;
+                try {
+                  await github.rest.issues.update({
+                    owner,
+                    repo,
+                    issue_number: issue.number,
+                    title: newTitle,
+                  });
+                  console.log(`Updated issue title to: ${newTitle}`);
+                } catch (error) {
+                  console.warn(`Failed to update issue title: ${error.message}`);
+                }
+              }
+            }
+            
+            // Map area names to label names
+            const areaToLabel = {
+              'Docking': 'area:docking',
+              'Navigator': 'area:navigator',
+              'Ribbon': 'area:ribbon',
+              'Toolkit': 'area:toolkit',
+              'Workspace': 'area:workspace'
+            };
+            
+            // Extract "Areas Affected" field from issue body (only for bug reports)
+            // GitHub issue forms store dropdown selections as markdown lists
+            // Pattern matches: ### Areas Affected followed by bulleted list items
+            const isBugReport = labels.includes('bug') || issueBody.includes('### Steps to Reproduce');
+            
+            if (!isBugReport) {
+              console.log('Not a bug report - skipping area label assignment.');
+              return;
+            }
+            
+            // Try multiple patterns to find "Areas Affected" field
+            // GitHub formats dropdowns differently - try various patterns
+            let areasAffectedMatch = null;
+            const patterns = [
+              /###\s+Areas Affected\s*\n+([\s\S]*?)(?=\n###|$)/i,
+              /###\s+Areas Affected\s*([\s\S]*?)(?=\n###|$)/i,
+              /Areas Affected\s*\n+([\s\S]*?)(?=\n###|$)/i,
+              /Areas Affected\s*([\s\S]*?)(?=\n###|$)/i
+            ];
+            
+            for (const pattern of patterns) {
+              areasAffectedMatch = issueBody.match(pattern);
+              if (areasAffectedMatch) {
+                console.log(`Matched pattern: ${pattern}`);
+                break;
+              }
+            }
+            
+            if (!areasAffectedMatch) {
+              console.log('No "Areas Affected" field found in issue body.');
+              console.log('Issue body preview:', issueBody.substring(0, 500));
+              return;
+            }
+            
+            const areasText = areasAffectedMatch[1].trim();
+            console.log(`Raw areas text: "${areasText}"`);
+            
+            // Check if field is empty or indicates no selection
+            if (!areasText || 
+                areasText.toLowerCase() === 'no selection' || 
+                areasText.toLowerCase() === 'none' ||
+                areasText === '_No response_' ||
+                areasText === '') {
+              console.log('No areas selected (field is empty).');
+              return;
+            }
+            
+            // Extract bullet list items (lines starting with - or *)
+            // Handle both single and multiple selections
+            let selectedAreas = [];
+            
+            // First, try splitting by newlines (for multiple selections)
+            const lines = areasText.split(/\r?\n/);
+            console.log(`Split into ${lines.length} lines`);
+            
+            for (const line of lines) {
+              // Remove bullet markers (-, *, •) and trim
+              let cleaned = line.replace(/^[-*•]\s*/, '').trim();
+              
+              // Also handle cases where there might be extra whitespace or formatting
+              cleaned = cleaned.replace(/^-\s*/, '').trim();
+              
+              console.log(`Processing line: "${line}" -> "${cleaned}"`);
+              
+              // Check if this is a valid area
+              if (cleaned.length > 0 && 
+                  !cleaned.match(/^<!--/) && 
+                  !cleaned.match(/^###/) &&
+                  areaToLabel[cleaned] !== undefined) {
+                console.log(`Found valid area: ${cleaned}`);
+                selectedAreas.push(cleaned);
+              }
+            }
+            
+            // If no areas found from splitting, check if the whole text is a single area
+            if (selectedAreas.length === 0) {
+              const trimmed = areasText.trim();
+              console.log(`No areas from splitting, checking whole text: "${trimmed}"`);
+              if (areaToLabel[trimmed] !== undefined) {
+                console.log(`Found single area: ${trimmed}`);
+                selectedAreas.push(trimmed);
+              }
+            }
+            
+            if (!selectedAreas.length) {
+              console.log('No areas selected.');
+              return;
+            }
+            
+            console.log(`Found selected areas: ${selectedAreas.join(', ')}`);
+            
+            // Map areas to labels
+            const labelsToAdd = selectedAreas
+              .map(area => areaToLabel[area] || area)
+              .filter(label => label); // Remove any undefined/null values
+            
+            if (!labelsToAdd.length) {
+              console.log('No valid labels to add.');
+              return;
+            }
+            
+            // Get existing labels on the issue (reuse already extracted labels)
+            const existingLabels = labels;
+            
+            // Only add labels that aren't already present
+            const newLabels = labelsToAdd.filter(label => !existingLabels.includes(label));
+            
+            if (!newLabels.length) {
+              console.log('All area labels are already present on the issue.');
+              return;
+            }
+            
+            console.log(`Adding labels: ${newLabels.join(', ')}`);
+            
+            try {
+              await github.rest.issues.addLabels({
+                owner,
+                repo,
+                issue_number: issue.number,
+                labels: newLabels,
+              });
+              console.log(`Successfully added ${newLabels.length} label(s) to issue #${issue.number}`);
+            } catch (error) {
+              console.error(`Failed to add labels: ${error.message}`);
+              // If some labels don't exist, try adding them one by one
+              for (const label of newLabels) {
+                try {
+                  await github.rest.issues.addLabels({
+                    owner,
+                    repo,
+                    issue_number: issue.number,
+                    labels: [label],
+                  });
+                  console.log(`Added label: ${label}`);
+                } catch (labelError) {
+                  console.warn(`Failed to add label "${label}": ${labelError.message}`);
+                }
+              }
+            }
+

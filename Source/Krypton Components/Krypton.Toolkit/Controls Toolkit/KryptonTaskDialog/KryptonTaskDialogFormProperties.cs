@@ -2,7 +2,7 @@
 /*
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- * Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2025 - 2025. All rights reserved.
+ * Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2025 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -194,6 +194,21 @@ public class KryptonTaskDialogFormProperties
             get => _form.Icon;
             set => _form.Icon = value;
         }
+
+        /// <summary>
+        /// Enable/disable the themed Krypton system menu.
+        /// </summary>
+        public bool KryptonSystemMenu
+        {
+            get => _form.SystemMenuValues.Enabled;
+            set
+            {
+                if (_form.SystemMenuValues.Enabled != value)
+                {
+                    _form.SystemMenuValues.Enabled = value;
+                }
+            }
+        }
         #endregion
 
         #region Public override
@@ -366,7 +381,7 @@ public class KryptonTaskDialogFormProperties
     /// </summary>
     public DialogResult DialogResult 
     {
-        get => _form.DialogResult;
+        get => _form.DialogResultInternal;
     }
     #endregion
 

@@ -1,5 +1,9 @@
 # New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
-# Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2025 - 2025. All rights reserved.
+# Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, tobitege et al. 2026 - 2026. All rights reserved.
+#
+# KILL-SWITCH: To disable this workflow, set repository variable NIGHTLY_DISABLED=true
+# Location: Repository Settings → Secrets and variables → Actions → Variables tab
+# To re-enable: Set NIGHTLY_DISABLED=false or delete the variable
 
 name: Nightly Release
 
@@ -11,29 +15,117 @@ on:
 
 jobs:
   nightly:
-    runs-on: windows-2022
+    runs-on: windows-latest
+    environment: production  # Requires approval before publishing
 
+    concurrency:
+      group: nightly-alpha
+      cancel-in-progress: true
+    
     steps:
+      # Nightly Release kill switch
+      - name: Nightly Release Kill Switch Check
+        id: nightly_release_kill_switch
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $disabled = '${{ vars.NIGHTLY_DISABLED }}'
+
+          if ($disabled -eq 'true') {
+            Write-Host "::warning:: Nightly Release workflow is currently DISABLED via kill switch (NIGHTLY_DISABLED=true)"
+            Write-Host "To re-enable: Go to Repository Settings -> Secrets and Variables -> Actions -> Variables -> Set NIGHTLY_DISABLED to 'false'."
+            echo "enabled=false" >> $env:GITHUB_OUTPUT
+          } else {
+            Write-Host "Nightly Release kill switch check has passed, continuing..."
+            echo "enabled=true" >> $env:GITHUB_OUTPUT
+          }
+
+      - name: Security - Verify Repository
+        # Kill switch check
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          if ($env:GITHUB_REPOSITORY -ne 'Krypton-Suite/Standard-Toolkit') {
+            Write-Error "Security: Invalid repository '$env:GITHUB_REPOSITORY'. This workflow should only run on Krypton-Suite/Standard-Toolkit"
+            exit 1
+          }
+          Write-Host "✓ Repository verified: $env:GITHUB_REPOSITORY"
+
+      - name: Security - Verify Branch
+        # Kill switch check
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          # This workflow checks out alpha, so verify we're authorized to do so
+          $allowedRefs = @('refs/heads/alpha', 'refs/heads/master', 'refs/heads/main')
+          if ($env:GITHUB_REF -notin $allowedRefs) {
+            Write-Error "Security: Workflow triggered from unauthorized branch '$env:GITHUB_REF'"
+            exit 1
+          }
+          Write-Host "✓ Branch verified: $env:GITHUB_REF"
+
       - name: Checkout
-        uses: actions/checkout@v5
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
+        uses: actions/checkout@v6
         with:
           ref: alpha
+          fetch-depth: 0
 
-      # .NET 9 (GA)
-      - name: Setup .NET 9
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 9.0.x
+      - name: Check for changes in last 24 hours
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
+        id: check_changes
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          
+          # Get commits from last 24 hours on alpha branch
+          $yesterday = (Get-Date).AddDays(-1).ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss")
+          $commitCount = git rev-list --count --since="$yesterday" alpha
+          
+          Write-Host "Commits in last 24 hours: $commitCount"
+          
+          if ([int]$commitCount -gt 0) {
+            Write-Host "Changes detected - proceeding with nightly build"
+            echo "has_changes=true" >> $env:GITHUB_OUTPUT
+          } else {
+            Write-Host "No changes detected - skipping nightly build"
+            echo "has_changes=false" >> $env:GITHUB_OUTPUT
+          }
 
-      # .NET 10 (Preview)
-      - name: Setup .NET 10 (preview)
-        uses: actions/setup-dotnet@v4
+      - name: Skip notification
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'false'
+        run: |
+          Write-Host "::notice::No commits in the last 24 hours. Skipping nightly build and publish."
+
+      # .NET 9 and 10
+      - name: Setup .NET
+        # Kill switch check
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
+        uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: 10.0.x
-          dotnet-quality: preview
+          dotnet-version: |
+            9.0.x
+            10.0.x
+
+      # .NET 11 (will auto-upgrade from preview to GA when available)
+      - name: Setup .NET 11
+        id: setup_dotnet_11
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 11.0.x
+        continue-on-error: true
+      
+      - name: Note .NET 11 Status
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true' && steps.setup_dotnet_11.outcome == 'failure'
+        run: |
+          Write-Host "::notice::.NET 11 is not yet available - falling back to .NET 10 (this is expected)"
 
       # global.json dynamically generate (use latest SDK available)
       - name: Force .NET 10 SDK via global.json
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
         run: |
           $sdkVersion = (dotnet --list-sdks | Select-String "10.0").ToString().Split(" ")[0]
           if (-not $sdkVersion) {
@@ -51,14 +143,17 @@ jobs:
           "@ | Out-File -Encoding utf8 global.json
 
       - name: Setup MSBuild
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
         uses: microsoft/setup-msbuild@v2
         with:
           msbuild-architecture: x64
 
       - name: Setup NuGet
-        uses: NuGet/setup-nuget@v1.2.0
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
+        uses: NuGet/setup-nuget@v2
 
       - name: Cache NuGet
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
         uses: actions/cache@v4
         with:
           path: ~/.nuget/packages
@@ -67,15 +162,19 @@ jobs:
             ${{ runner.os }}-nuget-
 
       - name: Restore
-        run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.sln"
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
+        run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnx"
 
       - name: Build Nightly
-        run: msbuild "Scripts/nightly.proj" /t:Build /p:Configuration=Nightly /p:Platform="Any CPU"
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
+        run: msbuild "Scripts/Build/nightly.proj" /t:Build /p:Configuration=Nightly /p:Platform="Any CPU"
 
       - name: Pack Nightly
-        run: msbuild "Scripts/nightly.proj" /t:Pack /p:Configuration=Nightly /p:Platform="Any CPU"
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
+        run: msbuild "Scripts/Build/nightly.proj" /t:Pack /p:Configuration=Nightly /p:Platform="Any CPU"
 
       - name: Push NuGet Packages to nuget.org
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
         id: push_nuget
         shell: pwsh
         run: |
@@ -115,6 +214,7 @@ jobs:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
 
       - name: Get Version
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
         id: get_version
         shell: pwsh
         run: |
@@ -134,7 +234,7 @@ jobs:
           # Fallback: Try to read from csproj XML
           if (-not $version) {
             try {
-              $proj = 'Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj'
+              $proj = 'Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit.csproj'
               [xml]$projXml = Get-Content $proj
               $versionNode = $projXml.SelectSingleNode("//Version")
               if ($versionNode) {
@@ -157,7 +257,7 @@ jobs:
           echo "tag=v$version-nightly" >> $env:GITHUB_OUTPUT
 
       - name: Announce Nightly Release on Discord
-        if: steps.push_nuget.outputs.packages_published == 'True'
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.push_nuget.outputs.packages_published == 'True'
         shell: pwsh
         run: |
           if (-not $env:DISCORD_WEBHOOK_NIGHTLY) {
@@ -179,7 +279,7 @@ jobs:
                   }
                   @{
                     name = "📦 NuGet Packages"
-                    value = "- Krypton.Toolkit`n- Krypton.Ribbon`n- Krypton.Navigator`n- Krypton.Workspace`n- Krypton.Docking"
+                    value = "• [Krypton.Toolkit.Nightly](https://www.nuget.org/packages/Krypton.Toolkit.Nightly)`n• [Krypton.Ribbon.Nightly](https://www.nuget.org/packages/Krypton.Ribbon.Nightly)`n• [Krypton.Navigator.Nightly](https://www.nuget.org/packages/Krypton.Navigator.Nightly)`n• [Krypton.Workspace.Nightly](https://www.nuget.org/packages/Krypton.Workspace.Nightly)`n• [Krypton.Docking.Nightly](https://www.nuget.org/packages/Krypton.Docking.Nightly)`n• [Krypton.Standard.Toolkit.Nightly](https://www.nuget.org/packages/Krypton.Standard.Toolkit.Nightly)"
                     inline = $false
                   }
                   @{
@@ -188,8 +288,8 @@ jobs:
                     inline = $false
                   }
                   @{
-                    name = "🔗 NuGet Packages"
-                    value = "• [Toolkit](https://www.nuget.org/packages/Krypton.Toolkit)`n• [Ribbon](https://www.nuget.org/packages/Krypton.Ribbon)`n• [Navigator](https://www.nuget.org/packages/Krypton.Navigator)`n• [Workspace](https://www.nuget.org/packages/Krypton.Workspace)`n• [Docking](https://www.nuget.org/packages/Krypton.Docking)"
+                    name = "📄 Changelog"
+                    value = "• [Latest Changelog](https://github.com/Krypton-Suite/Standard-Toolkit/blob/alpha/Documents/Changelog/Changelog.md)"
                     inline = $false
                   }
                 )
@@ -204,4 +304,3 @@ jobs:
           Invoke-RestMethod -Uri $env:DISCORD_WEBHOOK_NIGHTLY -Method Post -Body $payload -ContentType "application/json"
         env:
           DISCORD_WEBHOOK_NIGHTLY: ${{ secrets.DISCORD_WEBHOOK_NIGHTLY }}
-

@@ -8,8 +8,37 @@
 
 =======
 
-## 2025-11-30 - Build 2511 (V100 RTM) - November 2025
+## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#2628](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2628), Improve build system
+* Resolved [#2638](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2638), `KryptonButton` with rouding, draws incorrect background when pressed.
+* Resolved [#2455](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2455), `KryptonForm` does not close when the system icon is double clicked.
+* Resolved [#2681](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2704), Add a missing case statement to `KryptonCustomPaletteBase`.
+* * Implemented [#2612](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2612), Implement a 'nightly' workflow
+* Implemented [#2689](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2689), `KryptonMenuStrip` - Part of #2658
+* Resolved [#2681](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2681), `KryptonDataGridView` column headers do repaint correctly on horizontal mouse scroll.
+* Resolved [#2631](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2682), `KryptonForm` does not close when `FormBorderStyle` is set to none at design time.
+* Resolved [#2631](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2604), `KryptonContextMenu` items editor does not restore items when cancelled.
+* Resolved [#2631](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2631), `KryptonFrom` draws the custom border when `FormBorderStyle` is `None`.
+* Resolved [#2629](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2629), `KryptonToggleSwitch` text repaint fails when the `Checked` property is toggled.
+* Implemented [#2658](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2658), Achieve 100% parity with WinForms controls
+* Implemented [#2673](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2673), `KryptonToolStripContainer` - Part of #2658
+* Implemented [#2609](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2609), Improve the layout of Discord push notifications
+* Implemented [#2653](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2653), Adds a property to `KryptonTaskDialog` to toggle the `KryptonSystemMenu`.
+* Implemented [#2586](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2586), One combined NuGet package
+* Implemented [#2585](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2585), Remove obsolete code from V110
+* Resolved [#2649](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2649), `KryptonSytemMenu` duplicates menu entries.
+* Resolved [#2641](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2641), `KryptonForm` based minimised MDI Child Windows do not react when hosted in a `KryptonForm` parent container.
+* Support for .NET 11
+* Version bump `100.xx.xx.xx` -> `110.xx.xx.xx`
+
+=======
+
+## 2025-11-24 - Build 2511 (V100 RTM) - November 2025
+
+* Implemented [#2621](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2621), Add `dependabot.yml` for maintenance tasks
+* Implemented [#2620](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2620), Add `CODEOWNERS` file
+* Resolved [#2608](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2608), Discord push notifications incorrectly link to the wrong NuGet packages
 * Resolved [#2307](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2304), `KryptonForm` border issues. See issue for details as this solves several tickets connected to this one.
 * Resolved [#2593](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2593), Scrolling over `KryptonForm` results in OverflowException in `KryptonSystemMenuListener`
 * Resolved [#2542](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2542), `KryptonForm` cannot be resized by dragging upper corners.
@@ -169,7 +198,7 @@
 * Implemented [#1184](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1184), A proper `SplashScreen` item
 * Implemented [#1236](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1236), Backport `StockIconId` feature
 * Support for .NET 10
-* Version bump `90.xx.xx.xx` -> `100.xx.xx.xx`
+* Version bump `95.xx.xx.xx` -> `100.xx.xx.xx`
 
 =======
 
