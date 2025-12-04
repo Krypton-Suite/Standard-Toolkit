@@ -8,9 +8,6 @@
 #endregion
 
 #if WEBVIEW2_AVAILABLE
-// Do not remove this using statement, it is used for the WebView2 control
-#endif
-
 namespace Krypton.Utilities;
 
 /// <summary>
