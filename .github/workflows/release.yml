@@ -1,5 +1,5 @@
 # New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
-# Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2025 - 2025. All rights reserved.
+# Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2025 - 2026. All rights reserved.
 
 name: Release
 
@@ -130,7 +130,7 @@ jobs:
       - name: Restore
         # Kill switch check
         if: steps.release_kill_switch.outputs.enabled == 'true'
-        run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.sln"
+        run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnx"
 
       - name: Build Release
         # Kill switch check
@@ -355,7 +355,7 @@ jobs:
       - name: Restore
         # Kill switch check
         if: steps.release_kill_switch.outputs.enabled == 'true'
-        run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.sln"
+        run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnx"
 
       - name: Build Release
         # Kill switch check
@@ -565,7 +565,7 @@ jobs:
       - name: Restore
         # Kill switch check
         if: steps.lts_release_kill_switch.outputs.enabled == 'true'
-        run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.sln"
+        run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnx"
 
       - name: Build LTS Release
         # Kill switch check
@@ -829,7 +829,7 @@ jobs:
       - name: Restore
         # Kill switch check
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
-        run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.sln"
+        run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnx"
 
       - name: Build Canary
         # Kill switch check
@@ -1093,7 +1093,7 @@ jobs:
       - name: Restore
         # Kill switch check
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
-        run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.sln"
+        run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnx"
 
       - name: Build Alpha
         # Kill switch check
