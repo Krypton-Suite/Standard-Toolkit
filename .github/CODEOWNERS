@@ -1,0 +1,4 @@
+# GitHub reads this file to decide who must review changes that touch matching paths.
+# Patterns follow .gitignore-style syntax, with the first match taking precedence.
+# Default owners for all files in the repository
+* @Krypton-Suite/reviewers
