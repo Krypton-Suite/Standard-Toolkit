@@ -109,14 +109,16 @@ echo 1. Build nightly version
 echo    a. Rebuild project
 echo 2. Build canary version
 echo 3. Build stable version
-echo 4. Go back to main menu
+echo 4. Build long term stable version (LTS)
+echo 5. Go back to main menu
 echo:
-set /p answer="Enter number or letter (1 - 4, a - *): "
+set /p answer="Enter number or letter (1 - 5, a - *): "
 if %answer%==1 (goto buildnightly)
 if %answer%==a (goto rebuildproject)
 if %answer%==2 (goto buildcanary)
 if %answer%==3 (goto buildstable)
-if %answer%==4 (goto mainmenu)
+if %answer%==4 (goto buildlts)
+if %answer%==5 (goto mainmenu)
 
 @echo Invalid input, please try again.
 
@@ -130,13 +132,15 @@ cls
 echo 1. Pack nightly version
 echo 2. Pack canary version
 echo 3. Pack stable version
-echo 4. Go back to main menu
+echo 4. Pack long term stable version (LTS)
+echo 5. Go back to main menu
 echo:
-set /p answer="Enter number (1 - 4): "
+set /p answer="Enter number (1 - 5): "
 if %answer%==1 (goto packnightly)
 if %answer%==2 (goto packcanary)
 if %answer%==3 (goto packstable)
-if %answer%==4 (goto mainmenu)
+if %answer%==4 (goto packlts)
+if %answer%==5 (goto mainmenu)
 
 @echo Invalid input, please try again.
 
@@ -167,13 +171,15 @@ cls
 echo 1. Build and pack nightly
 echo 2. Build and pack canary
 echo 3. Build and pack stable
-echo 4. Go to main mainmenu
+echo 4. Build and pack long term stable (LTS)
+echo 5. Go to main mainmenu
 echo:
-set /p answer="Enter number (1 - 4): "
+set /p answer="Enter number (1 - 5): "
 if %answer%==1 (goto buildandpacknightly)
 if %answer%==2 (goto buildandpackcanary)
 if %answer%==3 (goto buildandpackstable)
-if %answer%==4 (goto mainmenu)
+if %answer%==4 (goto buildandpacklts)
+if %answer%==5 (goto mainmenu)
 
 @echo Invalid input, please try again.
 
@@ -477,6 +483,12 @@ cls
 call "%VS_SCRIPTS_DIR%\build-stable.cmd"
 goto buildmenu
 
+:buildlts
+cls
+
+call "%VS_SCRIPTS_DIR%\build-lts.cmd"
+goto buildmenu
+
 
 :: ===================================================================================================
 
@@ -521,6 +533,29 @@ pause
 
 goto packstable
 
+:packltsmenu
+
+cls
+
+echo 1. Produce 'Lite' LTS packages
+echo 2. Produce 'full' LTS packages
+echo 3. Produce 'full/lite' LTS packages
+echo 4. Go back to main menu
+
+echo:
+set /p answer="Enter number (1 - 4): "
+
+if %answer%==1 (goto packltslite)
+if %answer%==2 (goto packltsfull)
+if %answer%==3 (goto packltsboth)
+if %answer%==4 (goto mainmenu)
+
+@echo Invalid input, please try again.
+
+pause
+
+goto packltsmenu
+
 :: ===================================================================================================
 
 :packstablelite
@@ -543,6 +578,24 @@ cls
 
 call "%VS_SCRIPTS_DIR%\build-stable.cmd" Pack
 goto packmenu
+
+:packltslite
+cls
+
+call "%VS_SCRIPTS_DIR%\build-lts.cmd" PackLite
+goto packltsmenu
+
+:packltsfull
+cls
+
+call "%VS_SCRIPTS_DIR%\build-lts.cmd" PackAll
+goto packltsmenu
+
+:packltsboth
+cls
+
+call "%VS_SCRIPTS_DIR%\build-lts.cmd" Pack
+goto packltsmenu
 
 :: ===================================================================================================
 
@@ -591,15 +644,17 @@ echo 1. Build nightly packages
 echo 2. Build canary packages
 echo 3. Build stable packages
 echo 4. Build stable (lite) packages
-echo 5. Go back to main menu
+echo 5. Build LTS packages
+echo 6. Go back to main menu
 echo:
-set /p answer="Enter number (1 - 5): "
+set /p answer="Enter number (1 - 6): "
 
 if %answer%==1 (goto buildnightlypackages)
 if %answer%==2 (goto buildcanarypackages)
 if %answer%==3 (goto buildstablepackages)
 if %answer%==4 (goto buildstablelitepackages)
-if %answer%==5 (goto mainmenu)
+if %answer%==5 (goto buildltspackages)
+if %answer%==6 (goto mainmenu)
 
 @echo Invalid input, please try again.
 
