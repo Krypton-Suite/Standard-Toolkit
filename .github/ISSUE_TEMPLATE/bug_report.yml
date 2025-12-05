@@ -1,0 +1,120 @@
+# New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+# Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2025 - 2026. All rights reserved.
+
+name: "🪲 Bug Report"
+description: "Create a report to help us improve the project."
+type: Bug
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report an issue! Please fill out the template below to help us understand and address the problem. Please make sure to [search for existing issues](https://github.com/Krypton-Suite/Standard-Toolkit/issues) before filing a new one!
+
+  - type: input
+    id: summary
+    attributes:
+      label: "Summary"
+      description: "A brief summary of the bug."
+      placeholder: "Crash when clicking the save button"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: "Description"
+      description: "Describe the bug in detail."
+      placeholder: "e.g., 'When I click the save button, the application crashes with an error message.'"
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps_to_reproduce
+    attributes:
+      label: "Steps to Reproduce"
+      description: "List the steps to reproduce the bug."
+      placeholder: |
+        1. Go to '...'
+        2. Click on '...'
+        3. Scroll down to '...'
+        4. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected_behavior
+    attributes:
+      label: "Expected Behavior"
+      description: "What you expected to happen."
+      placeholder: "e.g., 'The application should save my changes without crashing.'"
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual_behavior
+    attributes:
+      label: "Actual Behavior"
+      description: "What actually happened."
+      placeholder: "e.g., 'The application crashes and shows an error message.'"
+    validations:
+      required: true
+
+  - type: input
+    id: os
+    attributes:
+      label: "Operating System"
+      description: "Your operating system."
+      placeholder: "e.g., Windows 11"
+    validations:
+      required: false
+
+  - type: input
+    id: os_version
+    attributes:
+      label: "OS Version"
+      description: "Your operating system version."
+      placeholder: "e.g., 10.0.26200"
+    validations:
+      required: false
+
+  - type: input
+    id: framework_version
+    attributes:
+      label: "Framework/.NET Version"
+      description: "The .NET Framework or .NET version you're using."
+      placeholder: "e.g., 4.7.2 - 4.8.1 or 8 - 10"
+    validations:
+      required: false
+
+  - type: input
+    id: toolkit_version
+    attributes:
+      label: "Toolkit Version"
+      description: "The version of the Krypton Toolkit you're using."
+      placeholder: "e.g., 100.25.12.365"
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional_information
+    attributes:
+      label: "Additional Information"
+      description: "Any other information that might be helpful."
+      placeholder: "e.g., 'Screenshots, logs, or other context.'"
+    validations:
+      required: false
+
+  - type: dropdown
+    id: areas_affected
+    attributes:
+      label: Areas Affected
+      description: Select all that apply.
+      multiple: false
+      options:
+        - Docking
+        - Navigator
+        - Ribbon
+        - Toolkit
+        - Workspace
