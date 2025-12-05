@@ -1,40 +1,68 @@
-:: Last updated: Saturday 16th August, 2025 @ 19:00
+﻿:: Last updated: Saturday 16th August, 2025 @ 19:00
 
 @echo off
 
+setlocal EnableExtensions
+
 title Krypton Toolkit Build System
 
+set "VS_VERSION="
+set "VS_SCRIPTS_DIR="
+
+goto selectvsversion
+
+:: ===================================================================================================
+
+:selectvsversion
 cls
 
-@echo Welcome to the Krypton Toolkit Build system, version: 3.0. Please select an option below.
+@echo Welcome to the Krypton Toolkit Build system, version: 3.0.
+@echo Please select the Visual Studio toolset to target.
 echo:
 @echo ==============================================================================================
 echo:
-echo 1. Clean project
-echo 2. Build Krypton Toolkit
-echo 3. Create NuGet packages
-echo 4. Build and Pack Toolkit
-echo 5. Debug project
-echo 6. NuGet Tools
-echo 7. Create Archives (ZIP/TAR)
-::echo 8. Miscellaneous tasks
-echo 8. End
+echo 1. Visual Studio 2022 (Scripts\VS2022)
+echo 2. Visual Studio 2026 (Scripts\Current)
+echo 3. End
 echo:
-set /p answer="Enter number (1 - 8): "
-if %answer%==1 (goto cleanproject)
-if %answer%==2 (goto buildproject)
-if %answer%==3 (goto createnugetpackages)
-if %answer%==4 (goto buildandpacktoolkit)
-if %answer%==5 (goto debugproject)
-if %answer%==6 (goto nugettools)
-if %answer%==7 (goto createarchives)
-if %answer%==8 (goto exitbuildsystem)
+set /p answer="Enter number (1 - 3): "
+if "%answer%"=="1" (goto usevs2022)
+if "%answer%"=="2" (goto usevscurrent)
+if "%answer%"=="3" (goto exitbuildsystem)
 
 @echo Invalid input, please try again.
 
 pause
 
+goto selectvsversion
+
+:usevs2022
+call :configurevsversion VS2022
+if errorlevel 1 (goto selectvsversion)
 goto mainmenu
+
+:usevscurrent
+call :configurevsversion Current
+if errorlevel 1 (goto selectvsversion)
+goto mainmenu
+
+:configurevsversion
+set "VS_VERSION=%~1"
+set "VS_SCRIPTS_DIR=Scripts\%~1"
+if not exist "%VS_SCRIPTS_DIR%" (
+    echo.
+    echo ERROR: Could not find "%VS_SCRIPTS_DIR%".
+    echo Please ensure the scripts are available before continuing.
+    echo.
+    pause
+    set "VS_VERSION="
+    set "VS_SCRIPTS_DIR="
+    exit /b 1
+)
+echo.
+echo Using %VS_VERSION% scripts located at "%VS_SCRIPTS_DIR%".
+echo.
+exit /b 0
 
 :: ===================================================================================================
 
@@ -42,6 +70,11 @@ goto mainmenu
 
 cls
 
+if "%VS_SCRIPTS_DIR%"=="" (goto selectvsversion)
+
+echo Current Visual Studio target: %VS_VERSION%
+echo Script directory..........: %VS_SCRIPTS_DIR%
+echo:
 echo 1. Clean project
 echo 2. Build Krypton Toolkit
 echo 3. Create NuGet packages
@@ -49,19 +82,19 @@ echo 4. Build and Pack Toolkit
 echo 5. Debug project
 echo 6. NuGet Tools
 echo 7. Create Archives (ZIP/TAR)
-::echo 8. Miscellaneous tasks
-echo 8. End
+echo 8. Change Visual Studio target
+echo 9. End
 echo:
-set /p answer="Enter number (1 - 8): "
-if %answer%==1 (goto cleanproject)
-if %answer%==2 (goto buildproject)
-if %answer%==3 (goto createnugetpackages)
-if %answer%==4 (goto buildandpacktoolkit)
-if %answer%==5 (goto debugproject)
-if %answer%==6 (goto nugettools)
-if %answer%==7 (goto createarchives)
-::if %answer%==8 (goto miscellaneoustasks)
-if %answer%==8 (goto exitbuildsystem)
+set /p answer="Enter number (1 - 9): "
+if "%answer%"=="1" (goto cleanproject)
+if "%answer%"=="2" (goto buildproject)
+if "%answer%"=="3" (goto createnugetpackages)
+if "%answer%"=="4" (goto buildandpacktoolkit)
+if "%answer%"=="5" (goto debugproject)
+if "%answer%"=="6" (goto nugettools)
+if "%answer%"=="7" (goto createarchives)
+if "%answer%"=="8" (goto selectvsversion)
+if "%answer%"=="9" (goto exitbuildsystem)
 
 @echo Invalid input, please try again.
 
@@ -76,14 +109,16 @@ echo 1. Build nightly version
 echo    a. Rebuild project
 echo 2. Build canary version
 echo 3. Build stable version
-echo 4. Go back to main menu
+echo 4. Build long term stable version (LTS)
+echo 5. Go back to main menu
 echo:
-set /p answer="Enter number or letter (1 - 4, a - *): "
+set /p answer="Enter number or letter (1 - 5, a - *): "
 if %answer%==1 (goto buildnightly)
 if %answer%==a (goto rebuildproject)
 if %answer%==2 (goto buildcanary)
 if %answer%==3 (goto buildstable)
-if %answer%==4 (goto mainmenu)
+if %answer%==4 (goto buildlts)
+if %answer%==5 (goto mainmenu)
 
 @echo Invalid input, please try again.
 
@@ -97,13 +132,15 @@ cls
 echo 1. Pack nightly version
 echo 2. Pack canary version
 echo 3. Pack stable version
-echo 4. Go back to main menu
+echo 4. Pack long term stable version (LTS)
+echo 5. Go back to main menu
 echo:
-set /p answer="Enter number (1 - 4): "
+set /p answer="Enter number (1 - 5): "
 if %answer%==1 (goto packnightly)
 if %answer%==2 (goto packcanary)
 if %answer%==3 (goto packstable)
-if %answer%==4 (goto mainmenu)
+if %answer%==4 (goto packlts)
+if %answer%==5 (goto mainmenu)
 
 @echo Invalid input, please try again.
 
@@ -134,13 +171,15 @@ cls
 echo 1. Build and pack nightly
 echo 2. Build and pack canary
 echo 3. Build and pack stable
-echo 4. Go to main mainmenu
+echo 4. Build and pack long term stable (LTS)
+echo 5. Go to main mainmenu
 echo:
-set /p answer="Enter number (1 - 4): "
+set /p answer="Enter number (1 - 5): "
 if %answer%==1 (goto buildandpacknightly)
 if %answer%==2 (goto buildandpackcanary)
 if %answer%==3 (goto buildandpackstable)
-if %answer%==4 (goto mainmenu)
+if %answer%==4 (goto buildandpacklts)
+if %answer%==5 (goto mainmenu)
 
 @echo Invalid input, please try again.
 
@@ -282,11 +321,9 @@ goto createarchives
 :updatenuget
 cls
 
-cd Scripts
 
-update-nuget.cmd
+call "%VS_SCRIPTS_DIR%\update-nuget.cmd"
 
-cd ..
 
 pause
 
@@ -297,11 +334,9 @@ goto mainmenu
 :createzipnightly
 cls
 
-cd Scripts
 
-build-nightly.cmd CreateNightlyZip
+call "%VS_SCRIPTS_DIR%\build-nightly.cmd" CreateNightlyZip
 
-cd ..
 
 pause
 
@@ -310,11 +345,9 @@ goto mainmenu
 :createtarnightly
 cls
 
-cd Scripts
 
-build-nightly.cmd CreateNightlyTar
+call "%VS_SCRIPTS_DIR%\build-nightly.cmd" CreateNightlyTar
 
-cd ..
 
 pause
 
@@ -323,11 +356,9 @@ goto mainmenu
 :createallarchivesnightly
 cls
 
-cd Scripts
 
-build-nightly.cmd CreateAllArchives
+call "%VS_SCRIPTS_DIR%\build-nightly.cmd" CreateAllArchives
 
-cd ..
 
 pause
 
@@ -338,11 +369,9 @@ goto mainmenu
 :createzipcanary
 cls
 
-cd Scripts
 
-build-canary.cmd CreateCanaryZip
+call "%VS_SCRIPTS_DIR%\build-canary.cmd" CreateCanaryZip
 
-cd ..
 
 pause
 
@@ -351,11 +380,9 @@ goto mainmenu
 :createtarcanary
 cls
 
-cd Scripts
 
-build-canary.cmd CreateCanaryTar
+call "%VS_SCRIPTS_DIR%\build-canary.cmd" CreateCanaryTar
 
-cd ..
 
 pause
 
@@ -364,11 +391,9 @@ goto mainmenu
 :createallarchivescanary
 cls
 
-cd Scripts
 
-build-canary.cmd CreateAllCanaryArchives
+call "%VS_SCRIPTS_DIR%\build-canary.cmd" CreateAllCanaryArchives
 
-cd ..
 
 pause
 
@@ -379,11 +404,9 @@ goto mainmenu
 :createzipstable
 cls
 
-cd Scripts
 
-build-stable.cmd CreateReleaseZip
+call "%VS_SCRIPTS_DIR%\build-stable.cmd" CreateReleaseZip
 
-cd ..
 
 pause
 
@@ -392,11 +415,9 @@ goto mainmenu
 :createtarstable
 cls
 
-cd Scripts
 
-build-stable.cmd CreateReleaseTar
+call "%VS_SCRIPTS_DIR%\build-stable.cmd" CreateReleaseTar
 
-cd ..
 
 pause
 
@@ -405,11 +426,9 @@ goto mainmenu
 :createallarchivesstable
 cls
 
-cd Scripts
 
-build-stable.cmd CreateAllReleaseArchives
+call "%VS_SCRIPTS_DIR%\build-stable.cmd" CreateAllReleaseArchives
 
-cd ..
 
 pause
 
@@ -435,64 +454,64 @@ exit
 :buildnightly
 cls
 
-cd Scripts
 
-build-nightly.cmd
+call "%VS_SCRIPTS_DIR%\build-nightly.cmd"
+goto buildmenu
 
-cd ..
 
 :buildcanary
 cls
 
-cd Scripts
 
-build-canary.cmd
+call "%VS_SCRIPTS_DIR%\build-canary.cmd"
+goto buildmenu
 
-cd ..
 
 :buildinstaller
 cls
 
-cd Scripts
 
-build-installer.cmd
+call "%VS_SCRIPTS_DIR%\build-installer.cmd"
 cls
+goto buildmenu
 
-cd Scripts
-
-cd ..
 
 :buildstable
 cls
 
-cd Scripts
 
-build-stable.cmd
+call "%VS_SCRIPTS_DIR%\build-stable.cmd"
+goto buildmenu
 
-cd ..
+:buildlts
+cls
+
+call "%VS_SCRIPTS_DIR%\build-lts.cmd"
+goto buildmenu
+
 
 :: ===================================================================================================
 
 :packnightly
 cls
 
-cd Scripts
 
-build-nightly.cmd Pack
+call "%VS_SCRIPTS_DIR%\build-nightly.cmd" Pack
+goto packmenu
 
 :packcanary
 cls
 
-cd Scripts
 
-build-canary.cmd Pack
+call "%VS_SCRIPTS_DIR%\build-canary.cmd" Pack
+goto packmenu
 
 :packinstaller
 cls
 
-cd Scripts
 
-build-installer.cmd Pack
+call "%VS_SCRIPTS_DIR%\build-installer.cmd" Pack
+goto packmenu
 
 :packstable
 cls
@@ -514,28 +533,69 @@ pause
 
 goto packstable
 
+:packltsmenu
+
+cls
+
+echo 1. Produce 'Lite' LTS packages
+echo 2. Produce 'full' LTS packages
+echo 3. Produce 'full/lite' LTS packages
+echo 4. Go back to main menu
+
+echo:
+set /p answer="Enter number (1 - 4): "
+
+if %answer%==1 (goto packltslite)
+if %answer%==2 (goto packltsfull)
+if %answer%==3 (goto packltsboth)
+if %answer%==4 (goto mainmenu)
+
+@echo Invalid input, please try again.
+
+pause
+
+goto packltsmenu
+
 :: ===================================================================================================
 
 :packstablelite
 cls
 
-cd Scripts
 
-build-stable.cmd PackLite
+call "%VS_SCRIPTS_DIR%\build-stable.cmd" PackLite
+goto packmenu
 
 :packstablefull
 cls
 
-cd Scripts
 
-build-stable.cmd PackAll
+call "%VS_SCRIPTS_DIR%\build-stable.cmd" PackAll
+goto packmenu
 
 :packstableboth
 cls
 
-cd Scripts
 
-build-stable.cmd Pack
+call "%VS_SCRIPTS_DIR%\build-stable.cmd" Pack
+goto packmenu
+
+:packltslite
+cls
+
+call "%VS_SCRIPTS_DIR%\build-lts.cmd" PackLite
+goto packltsmenu
+
+:packltsfull
+cls
+
+call "%VS_SCRIPTS_DIR%\build-lts.cmd" PackAll
+goto packltsmenu
+
+:packltsboth
+cls
+
+call "%VS_SCRIPTS_DIR%\build-lts.cmd" Pack
+goto packltsmenu
 
 :: ===================================================================================================
 
@@ -566,20 +626,16 @@ echo Deleted the 'build.log' file
 
 cls
 
-cd Scripts
 
-build-nightly.cmd
+call "%VS_SCRIPTS_DIR%\build-nightly.cmd"
 
 :: ===================================================================================================
 
 :nugettools
 cls
 
-cd Scripts
 
-:: ===================================================================================================
-
-update-nuget.cmd
+call "%VS_SCRIPTS_DIR%\update-nuget.cmd"
 
 :buildandcreatenugetpackages
 cls
@@ -588,15 +644,17 @@ echo 1. Build nightly packages
 echo 2. Build canary packages
 echo 3. Build stable packages
 echo 4. Build stable (lite) packages
-echo 5. Go back to main menu
+echo 5. Build LTS packages
+echo 6. Go back to main menu
 echo:
-set /p answer="Enter number (1 - 5): "
+set /p answer="Enter number (1 - 6): "
 
 if %answer%==1 (goto buildnightlypackages)
 if %answer%==2 (goto buildcanarypackages)
 if %answer%==3 (goto buildstablepackages)
 if %answer%==4 (goto buildstablelitepackages)
-if %answer%==5 (goto mainmenu)
+if %answer%==5 (goto buildltspackages)
+if %answer%==6 (goto mainmenu)
 
 @echo Invalid input, please try again.
 
@@ -635,9 +693,8 @@ cls
 
 echo Step 2: Build
 
-cd Scripts
 
-build-nightly-custom.cmd
+call "%VS_SCRIPTS_DIR%\build-nightly-custom.cmd"
 
 pause
 
@@ -645,7 +702,7 @@ cls
 
 echo Step 3: Pack
 
-build-nightly-custom.cmd Pack
+call "%VS_SCRIPTS_DIR%\build-nightly-custom.cmd" Pack
 
 pause
 
@@ -654,9 +711,8 @@ pause
 :rebuildproject
 cls
 
-cd Scripts
 
-rebuild-build-nightly.cmd
+call "%VS_SCRIPTS_DIR%\rebuild-build-nightly.cmd"
 
 :: ===================================================================================================
 
@@ -665,25 +721,22 @@ cls
 
 :: goto clearproject
 
-cd Scripts
 
 :: build-nightly.cmd
 
-build-nightly.cmd Pack
+call "%VS_SCRIPTS_DIR%\build-nightly.cmd" Pack
 
 :buildandpackcanary
 cls
 
-cd Scripts
 
-build-canary.cmd Pack
+call "%VS_SCRIPTS_DIR%\build-canary.cmd" Pack
 
 :buildandpackstable
 cls
 
-cd Scripts
 
-build-stable.cmd Pack
+call "%VS_SCRIPTS_DIR%\build-stable.cmd" Pack
 
 :: ===================================================================================================
 
