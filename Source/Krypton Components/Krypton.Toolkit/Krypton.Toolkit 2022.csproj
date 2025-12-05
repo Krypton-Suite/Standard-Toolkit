@@ -376,6 +376,11 @@
 	  <AutoGen>True</AutoGen>
 	  <DependentUpon>VisualStudioRadioButtonImageResources.resx</DependentUpon>
 	</Compile>
+	<Compile Update="ResourceFiles\SearchBox\SearchBoxImageResources.Designer.cs">
+	  <DesignTime>True</DesignTime>
+	  <AutoGen>True</AutoGen>
+	  <DependentUpon>SearchBoxImageResources.resx</DependentUpon>
+	</Compile>
 	<Compile Update="ResourceFiles\SizeGripStyles\SizeGripStyleResources.Designer.cs">
 	  <DesignTime>True</DesignTime>
 	  <AutoGen>True</AutoGen>
@@ -835,6 +840,10 @@
 	<EmbeddedResource Update="ResourceFiles\RadioButtons\VisualStudioRadioButtonImageResources.resx">
 	  <Generator>ResXFileCodeGenerator</Generator>
 	  <LastGenOutput>VisualStudioRadioButtonImageResources.Designer.cs</LastGenOutput>
+	</EmbeddedResource>
+	<EmbeddedResource Update="ResourceFiles\SearchBox\SearchBoxImageResources.resx">
+	  <Generator>ResXFileCodeGenerator</Generator>
+	  <LastGenOutput>SearchBoxImageResources.Designer.cs</LastGenOutput>
 	</EmbeddedResource>
 	<EmbeddedResource Update="ResourceFiles\SizeGripStyles\SizeGripStyleResources.resx">
 	  <Generator>ResXFileCodeGenerator</Generator>

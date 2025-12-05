@@ -4422,3 +4422,23 @@ public enum IconSelectionStrategy
 }
 
 #endregion
+
+#region Enum Search Suggestion Display Type
+
+/// <summary>
+/// Specifies the type of control used to display suggestions.
+/// </summary>
+public enum SearchSuggestionDisplayType
+{
+    /// <summary>
+    /// Display suggestions using a KryptonListBox.
+    /// </summary>
+    ListBox,
+
+    /// <summary>
+    /// Display suggestions using a KryptonDataGridView.
+    /// </summary>
+    DataGridView
+}
+
+#endregion
