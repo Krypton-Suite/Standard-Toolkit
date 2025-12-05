@@ -1,6 +1,12 @@
 # <img src="https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Krypton.png?raw=true"> Standard Toolkit - ChangeLog
 
-====
+=======
+
+## 2026-11-xx - Build 2611 (V110 - alpha) - November 2026
+
+* Implemented [#1026](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1026), Krypton version of `WebView2`
+
+=======
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 

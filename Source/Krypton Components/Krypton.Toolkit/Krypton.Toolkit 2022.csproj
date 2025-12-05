@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <Choose>
 	<When Condition="'$(Configuration)' == 'Nightly' Or '$(Configuration)' == 'Canary' Or '$(Configuration)' == 'Debug'">
@@ -56,6 +56,7 @@
 	<ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
 		<Reference Include="System.Net.Http" />
 	</ItemGroup>
+
 
 
 	<PropertyGroup>
