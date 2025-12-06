@@ -1073,25 +1073,6 @@ public class KryptonDataGridView : DataGridView
 
 
     #region Protected Override
-    protected override void OnScroll(ScrollEventArgs e)
-    {
-        base.OnScroll(e);
-
-        // #2681 - work-around
-        // Headers not correctly repainted on horizontal mouse scroll
-        if (e.ScrollOrientation == ScrollOrientation.HorizontalScroll
-            && (MouseButtons & MouseButtons.Left) == MouseButtons.Left)
-        {
-            for (int i = 0; i < Columns.Count; i++)
-            {
-                if (Columns[i].Displayed)
-                {
-                    InvalidateCell(Columns[i].HeaderCell);
-                }
-            }
-        }
-    }
-
     /// <inheritdoc/>
     protected override void OnDataBindingComplete(DataGridViewBindingCompleteEventArgs e)
     {
@@ -1336,6 +1317,7 @@ public class KryptonDataGridView : DataGridView
         }
 
         var rtl = RightToLeftInternal;
+        bool isHandled = true;
 
         // Use an offscreen bitmap to draw onto before blitting it to the screen
         var tempCellBounds = e.CellBounds with { X = 0, Y = 0 };
@@ -1346,6 +1328,7 @@ public class KryptonDataGridView : DataGridView
                 using (var renderContext = new RenderContext(this, tempG, tempCellBounds, Renderer!))
                 {
                     bool isHeaderCell = e.RowIndex == -1 && e.ColumnIndex >= 0;
+                    isHandled = !isHeaderCell;
 
                     Rectangle headerContentBounds = Rectangle.Empty;
 
@@ -1726,7 +1709,7 @@ public class KryptonDataGridView : DataGridView
         }
 
         // Prevent base class from doing the standard drawing
-        e!.Handled = true;
+        e!.Handled = isHandled;
 
         base.OnCellPainting(e);
     }
