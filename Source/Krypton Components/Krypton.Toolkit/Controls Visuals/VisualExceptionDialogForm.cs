@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp), Simon Coghlan(aka Smurf-IV), Giduac, et al. 2024 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp), Simon Coghlan(aka Smurf-IV), Giduac, et al. 2024 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -17,6 +17,8 @@ public partial class VisualExceptionDialogForm : KryptonForm
 
     private readonly bool? _showSearchBox;
 
+    private readonly Color? _highlightColor;
+
     private readonly Exception? _exception;
 
     private List<TreeNode> _originalNodes = new List<TreeNode>();
@@ -25,17 +27,22 @@ public partial class VisualExceptionDialogForm : KryptonForm
 
     #region Identity
 
-    public VisualExceptionDialogForm(bool? showCopyButton, bool? showSearchBox, Exception exception)
+    public VisualExceptionDialogForm(bool? showCopyButton, bool? showSearchBox, Color? highlightColor, Exception exception)
     {
         InitializeComponent();
 
         SetInheritedControlOverride();
 
-        _showCopyButton = showCopyButton;
+        _showCopyButton = showCopyButton ?? false;
 
-        _showSearchBox = showSearchBox;
+        _showSearchBox = showSearchBox ?? false;
+
+        _highlightColor = highlightColor ?? Color.LightYellow;
 
         _exception = exception;
+
+        // Set highlight color
+        isbSearchArea.HighlightColor = (Color)_highlightColor;
 
         SetupUI();
     }
@@ -85,15 +92,13 @@ public partial class VisualExceptionDialogForm : KryptonForm
 
     private void kbtnOk_Click(object sender, EventArgs e) => DialogResult = DialogResult.OK;
 
-    private void rtbExceptionDetails_TextChanged(object sender, EventArgs e) => kbtnCopy.Enabled = !string.IsNullOrEmpty(rtbExceptionDetails.Text);
-
     #endregion
 
     #region Show
 
-    internal static void Show(Exception exception, bool? showCopyButton, bool? showSearchBox)
+    internal static void Show(Exception exception, Color? highlightColor, bool? showCopyButton, bool? showSearchBox)
     {
-        using var ved = new VisualExceptionDialogForm(showCopyButton, showSearchBox, exception);
+        using var ved = new VisualExceptionDialogForm(showCopyButton, showSearchBox, highlightColor, exception);
 
         ved.ShowDialog();
     }
@@ -115,5 +120,10 @@ public partial class VisualExceptionDialogForm : KryptonForm
                 ? FormatExceptionDetails(selectedException)
                 : e.Node.Text;
         }
+    }
+
+    private void rtbExceptionDetails_TextChanged(object sender, EventArgs e)
+    {
+        kbtnCopy.Enabled = !string.IsNullOrEmpty(rtbExceptionDetails.Text);
     }
 }
