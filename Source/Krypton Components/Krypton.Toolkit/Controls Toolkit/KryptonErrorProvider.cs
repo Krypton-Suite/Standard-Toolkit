@@ -21,7 +21,7 @@ namespace Krypton.Toolkit;
 public class KryptonErrorProvider : Component, IExtenderProvider
 {
     #region Instance Fields
-
+    
     private ErrorProvider? _errorProvider;
     private ContainerControl? _containerControl;
     private KryptonErrorBlinkStyle _blinkStyle;
@@ -30,13 +30,13 @@ public class KryptonErrorProvider : Component, IExtenderProvider
     private Icon? _icon;
     private PaletteBase? _palette;
     private PaletteMode _paletteMode;
-
+    
     #endregion
 
     #region Identity
-
+    
     /// <summary>
-    /// Initializes a new instance of the <see cref="KryptonErrorProvider"/> class.
+    /// Initialize a new instance of the KryptonErrorProvider class.
     /// </summary>
     public KryptonErrorProvider()
     {
@@ -94,7 +94,7 @@ public class KryptonErrorProvider : Component, IExtenderProvider
 
         base.Dispose(disposing);
     }
-
+    
     #endregion
 
     #region Public
@@ -258,7 +258,11 @@ public class KryptonErrorProvider : Component, IExtenderProvider
                     _icon.Dispose();
                 }
                 _icon = value;
-                _errorProvider?.Icon = value;
+                // Only assign to ErrorProvider if value is not null (ErrorProvider.Icon is non-nullable)
+                if (_errorProvider != null && value != null)
+                {
+                    _errorProvider.Icon = value;
+                }
             }
         }
     }
@@ -377,13 +381,13 @@ public class KryptonErrorProvider : Component, IExtenderProvider
     /// <param name="extendee">The Object to receive the extender properties.</param>
     /// <returns>true if this object can provide extender properties to the specified object; otherwise, false.</returns>
     public bool CanExtend(object extendee) => _errorProvider?.CanExtend(extendee) ?? false;
-
+    
     #endregion
-
+    
     #endregion
 
     #region Implementation
-
+    
     private void UpdateIcon()
     {
         // For now, use the standard error icon
@@ -457,6 +461,6 @@ public class KryptonErrorProvider : Component, IExtenderProvider
             UpdateIcon();
         }
     }
-    
+
     #endregion
 }
