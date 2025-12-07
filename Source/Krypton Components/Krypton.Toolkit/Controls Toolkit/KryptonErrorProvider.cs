@@ -174,7 +174,6 @@ public class KryptonErrorProvider : Component, IExtenderProvider
     private void ResetPalette()
     {
         PaletteMode = PaletteMode.Global;
-        _palette = null;
     }
 
     /// <summary>
@@ -302,7 +301,19 @@ public class KryptonErrorProvider : Component, IExtenderProvider
     /// </summary>
     /// <param name="control">The control to set the error description string for.</param>
     /// <param name="value">The error description string, or null or empty string to remove the error.</param>
-    public void SetError(Control control, string value) => _errorProvider?.SetError(control, value);
+    public void SetError(Control control, string value)
+    {
+        if (_errorProvider != null)
+        {
+            // Apply stored IconAlignment and IconPadding when setting a non-empty error
+            if (!string.IsNullOrEmpty(value))
+            {
+                _errorProvider.SetIconAlignment(control, ConvertIconAlignment(_iconAlignment));
+                _errorProvider.SetIconPadding(control, _iconPadding);
+            }
+            _errorProvider.SetError(control, value);
+        }
+    }
 
     /// <summary>
     /// Gets the error description string for the specified control.
