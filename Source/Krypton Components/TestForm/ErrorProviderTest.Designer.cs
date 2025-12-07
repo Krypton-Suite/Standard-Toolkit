@@ -320,7 +320,7 @@ namespace TestForm
             this.ktxtAge.Name = "ktxtAge";
             this.ktxtAge.Size = new System.Drawing.Size(100, 23);
             this.ktxtAge.TabIndex = 5;
-            this.ktxtAge.Validating += new System.ComponentModel.CancelEventHandler(this.ktxtTestControl_Validating);
+            this.ktxtAge.Validating += new System.ComponentModel.CancelEventHandler(this.ktxtAge_Validating);
             // 
             // klblAge
             // 

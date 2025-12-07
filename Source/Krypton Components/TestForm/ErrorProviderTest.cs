@@ -219,6 +219,21 @@ public partial class ErrorProviderTest : KryptonForm
         UpdateErrorInfo();
     }
 
+    private void ktxtAge_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+    {
+        if (string.IsNullOrWhiteSpace(ktxtAge.Text) || !int.TryParse(ktxtAge.Text, out int age) || age < 18 || age > 100)
+        {
+            kryptonErrorProvider1.SetError(ktxtAge, "Age must be a number between 18 and 100");
+            e.Cancel = true;
+        }
+        else
+        {
+            kryptonErrorProvider1.SetError(ktxtAge, string.Empty);
+        }
+        
+        UpdateErrorInfo();
+    }
+
     private void ktxtEmail_Validating(object sender, System.ComponentModel.CancelEventArgs e)
     {
         if (!string.IsNullOrWhiteSpace(ktxtEmail.Text) && !ktxtEmail.Text.Contains("@"))
