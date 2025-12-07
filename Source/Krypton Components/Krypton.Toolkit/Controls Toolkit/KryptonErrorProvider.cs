@@ -1,9 +1,9 @@
 ﻿#region BSD License
 /*
- *
+ * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2026 - 2026. All rights reserved.
- *
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & tobitege et al. 2026 - 2026. All rights reserved.
+ *  
  */
 #endregion
 
@@ -33,7 +33,7 @@ public class KryptonErrorProvider : Component, IExtenderProvider
 
     #endregion
 
-    #region Identity    
+    #region Identity
 
     /// <summary>
     /// Initializes a new instance of the <see cref="KryptonErrorProvider"/> class.
@@ -83,7 +83,11 @@ public class KryptonErrorProvider : Component, IExtenderProvider
             // Dispose the underlying ErrorProvider
             _errorProvider?.Dispose();
             _errorProvider = null;
-            _icon?.Dispose();
+            // Only dispose if we own the icon (not a SystemIcons shared instance)
+            if (_icon != null && !IsSystemIcon(_icon))
+            {
+                _icon.Dispose();
+            }
             _icon = null;
             _palette = null;
         }
@@ -188,7 +192,10 @@ public class KryptonErrorProvider : Component, IExtenderProvider
             if (_blinkStyle != value)
             {
                 _blinkStyle = value;
-                _errorProvider?.BlinkStyle = (ErrorBlinkStyle)value;
+                if (_errorProvider != null)
+                {
+                    _errorProvider.BlinkStyle = (ErrorBlinkStyle)value;
+                }
             }
         }
     }
@@ -245,14 +252,13 @@ public class KryptonErrorProvider : Component, IExtenderProvider
         {
             if (_icon != value)
             {
-                _icon?.Dispose();
-                _icon = value;
-                if (_errorProvider != null)
+                // Only dispose if we own the icon (not a SystemIcons shared instance)
+                if (_icon != null && !IsSystemIcon(_icon))
                 {
-#pragma warning disable CS8601 // ErrorProvider.Icon accepts null at runtime despite being declared as non-nullable
-                    _errorProvider.Icon = value;
-#pragma warning restore CS8601
+                    _icon.Dispose();
                 }
+                _icon = value;
+                _errorProvider?.Icon = value;
             }
         }
     }
@@ -272,7 +278,10 @@ public class KryptonErrorProvider : Component, IExtenderProvider
             if (_containerControl != value)
             {
                 _containerControl = value;
-                _errorProvider?.ContainerControl = value;
+                if (_errorProvider != null)
+                {
+                    _errorProvider.ContainerControl = value;
+                }
             }
         }
     }
@@ -314,11 +323,17 @@ public class KryptonErrorProvider : Component, IExtenderProvider
     }
 
     /// <summary>
-    /// Sets the location where the error icon should be placed relative to the control.
+    /// Sets the Error, ErrorText, and ErrorIconAlignment for the specified control to the specified values at design time.
     /// </summary>
-    /// <param name="control">The control to set the icon alignment for.</param>
+    /// <param name="control">The control to set the error description string for.</param>
     /// <param name="alignment">The alignment of the error icon relative to the control.</param>
-    public void SetIconAlignment(Control control, KryptonErrorIconAlignment alignment) => _errorProvider?.SetIconAlignment(control, ConvertIconAlignment(alignment));
+    public void SetIconAlignment(Control control, KryptonErrorIconAlignment alignment)
+    {
+        if (_errorProvider != null)
+        {
+            _errorProvider.SetIconAlignment(control, ConvertIconAlignment(alignment));
+        }
+    }
 
     /// <summary>
     /// Gets the location where the error icon should be placed relative to the control.
@@ -362,25 +377,26 @@ public class KryptonErrorProvider : Component, IExtenderProvider
     /// <param name="extendee">The Object to receive the extender properties.</param>
     /// <returns>true if this object can provide extender properties to the specified object; otherwise, false.</returns>
     public bool CanExtend(object extendee) => _errorProvider?.CanExtend(extendee) ?? false;
-    
+
     #endregion
-    
+
     #endregion
 
     #region Implementation
-    
+
     private void UpdateIcon()
     {
         // For now, use the standard error icon
         // In the future, this could be customized based on the palette
-        // Use the standard system error icon
-        _icon ??= SystemIcons.Error;
+        if (_icon == null)
+        {
+            // Use the standard system error icon
+            _icon = SystemIcons.Error;
+        }
 
         if (_errorProvider != null)
         {
-#pragma warning disable CS8601 // ErrorProvider.Icon accepts null at runtime despite being declared as non-nullable
             _errorProvider.Icon = _icon;
-#pragma warning restore CS8601
         }
     }
 
@@ -406,6 +422,32 @@ public class KryptonErrorProvider : Component, IExtenderProvider
         _ => KryptonErrorIconAlignment.MiddleRight
     };
 
+    /// <summary>
+    /// Determines if the specified icon is a SystemIcons shared instance that must not be disposed.
+    /// </summary>
+    /// <param name="icon">The icon to check.</param>
+    /// <returns>True if the icon is a SystemIcons instance; otherwise, false.</returns>
+    private static bool IsSystemIcon(Icon icon)
+    {
+        if (icon == null)
+        {
+            return false;
+        }
+
+        // Check if the icon reference matches any of the SystemIcons properties
+        // SystemIcons properties return shared static instances that must not be disposed
+        return ReferenceEquals(icon, SystemIcons.Application) ||
+               ReferenceEquals(icon, SystemIcons.Asterisk) ||
+               ReferenceEquals(icon, SystemIcons.Error) ||
+               ReferenceEquals(icon, SystemIcons.Exclamation) ||
+               ReferenceEquals(icon, SystemIcons.Hand) ||
+               ReferenceEquals(icon, SystemIcons.Information) ||
+               ReferenceEquals(icon, SystemIcons.Question) ||
+               ReferenceEquals(icon, SystemIcons.Shield) ||
+               ReferenceEquals(icon, SystemIcons.Warning) ||
+               ReferenceEquals(icon, SystemIcons.WinLogo);
+    }
+
     private void OnGlobalPaletteChanged(object? sender, EventArgs e)
     {
         // Only update if we're using the global palette
@@ -415,6 +457,6 @@ public class KryptonErrorProvider : Component, IExtenderProvider
             UpdateIcon();
         }
     }
-
+    
     #endregion
 }
