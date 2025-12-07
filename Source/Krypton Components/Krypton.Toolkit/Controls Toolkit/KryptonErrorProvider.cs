@@ -14,7 +14,6 @@ namespace Krypton.Toolkit;
 /// </summary>
 [ToolboxItem(true)]
 [ToolboxBitmap(typeof(ErrorProvider))]
-[DefaultEvent(nameof(SetError))]
 [DefaultProperty(nameof(BlinkStyle))]
 [DesignerCategory(@"code")]
 [Description(@"Provides a user interface for indicating that a control on a form has an error associated with it.")]
@@ -252,16 +251,21 @@ public class KryptonErrorProvider : Component, IExtenderProvider
         {
             if (_icon != value)
             {
-                // Only dispose if we own the icon (not a SystemIcons shared instance)
-                if (_icon != null && !IsSystemIcon(_icon))
-                {
-                    _icon.Dispose();
-                }
+                // Store reference to old icon before updating
+                Icon? oldIcon = _icon;
                 _icon = value;
-                // Only assign to ErrorProvider if value is not null (ErrorProvider.Icon is non-nullable)
-                if (_errorProvider != null && value != null)
+                
+                // Update ErrorProvider.Icon before disposing old icon to avoid ObjectDisposedException
+                // ErrorProvider.Icon is non-nullable, so use SystemIcons.Error as default when value is null
+                if (_errorProvider != null)
                 {
-                    _errorProvider.Icon = value;
+                    _errorProvider.Icon = value ?? SystemIcons.Error;
+                }
+                
+                // Only dispose if we own the icon (not a SystemIcons shared instance)
+                if (oldIcon != null && !IsSystemIcon(oldIcon))
+                {
+                    oldIcon.Dispose();
                 }
             }
         }
