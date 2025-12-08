@@ -171,24 +171,24 @@ internal partial class VisualMultilineStringEditorForm : KryptonForm
     {
         if (_useRichTextBox)
         {
-            foreach (var line in krtbContents.Lines)
+            var lines = krtbContents.Lines;
+
+            _contents = new string[lines.Length];
+
+            for (int i = 0; i < lines.Length; i++)
             {
-                // TODO: This is not right.. It will only have the last line it !
-                _contents =
-                [
-                    line
-                ];
+                _contents[i] = lines[i];
             }
         }
         else
         {
-            foreach (var line in ktxtStringCollection.Lines)
+            var lines = ktxtStringCollection.Lines;
+
+            _contents = new string[lines.Length];
+
+            for (int i = 0; i < lines.Length; i++)
             {
-                // TODO: This is not right.. It will only have the last line it !
-                _contents =
-                [
-                    line
-                ];
+                _contents[i] = lines[i];
             }
         }
     }
