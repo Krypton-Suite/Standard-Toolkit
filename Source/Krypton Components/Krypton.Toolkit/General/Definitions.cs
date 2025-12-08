@@ -4422,3 +4422,28 @@ public enum IconSelectionStrategy
 }
 
 #endregion
+
+#region Enum Error Provider Icon Types
+
+/// <summary>
+/// Defines the icon types supported by the error provider border helper.
+/// </summary>
+public enum ErrorProviderIconType
+{
+    /// <summary>
+    /// Error icon type (red border).
+    /// </summary>
+    Error = 0,
+
+    /// <summary>
+    /// Warning icon type (yellow/orange border).
+    /// </summary>
+    Warning = 1,
+
+    /// <summary>
+    /// Information icon type (blue border).
+    /// </summary>
+    Information = 2
+}
+
+#endregion

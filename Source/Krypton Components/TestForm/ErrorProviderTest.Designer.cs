@@ -420,6 +420,7 @@ namespace TestForm
             // 
             // kcmbPaletteMode
             // 
+            this.kcmbPaletteMode.DropDownWidth = 150;
             this.kcmbPaletteMode.Items.AddRange(new object[] {
             Krypton.Toolkit.PaletteMode.Global,
             Krypton.Toolkit.PaletteMode.ProfessionalSystem,
@@ -539,6 +540,7 @@ namespace TestForm
             // 
             // kcmbIconAlignment
             // 
+            this.kcmbIconAlignment.DropDownWidth = 150;
             this.kcmbIconAlignment.Items.AddRange(new object[] {
             Krypton.Toolkit.KryptonErrorIconAlignment.TopLeft,
             Krypton.Toolkit.KryptonErrorIconAlignment.TopRight,
@@ -563,6 +565,7 @@ namespace TestForm
             // 
             // kcmbBlinkStyle
             // 
+            this.kcmbBlinkStyle.DropDownWidth = 150;
             this.kcmbBlinkStyle.Items.AddRange(new object[] {
             Krypton.Toolkit.KryptonErrorBlinkStyle.BlinkIfDifferentError,
             Krypton.Toolkit.KryptonErrorBlinkStyle.AlwaysBlink,

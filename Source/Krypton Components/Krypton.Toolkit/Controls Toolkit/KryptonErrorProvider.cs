@@ -18,6 +18,8 @@ namespace Krypton.Toolkit;
 [DefaultProperty(nameof(BlinkStyle))]
 [DesignerCategory(@"code")]
 [Description(@"Provides a user interface for indicating that a control on a form has an error associated with it.")]
+[ProvideProperty("Error", typeof(Control))]
+[ProvideProperty("ChangeBorderColorOnError", typeof(Control))]
 public class KryptonErrorProvider : Component, IExtenderProvider
 {
     #region Instance Fields
@@ -30,6 +32,8 @@ public class KryptonErrorProvider : Component, IExtenderProvider
     private Icon? _icon;
     private PaletteBase? _palette;
     private PaletteMode _paletteMode;
+    private bool _changeBorderColor;
+    private readonly Dictionary<Control, bool> _changeBorderColorOnControl;
     
     #endregion
 
@@ -45,6 +49,8 @@ public class KryptonErrorProvider : Component, IExtenderProvider
         _iconPadding = 0;
         _paletteMode = PaletteMode.Global;
         _palette = KryptonManager.CurrentGlobalPalette;
+        _changeBorderColor = true;
+        _changeBorderColorOnControl = new Dictionary<Control, bool>();
 
         // Create the underlying ErrorProvider
         _errorProvider = new ErrorProvider
@@ -268,6 +274,18 @@ public class KryptonErrorProvider : Component, IExtenderProvider
     }
 
     /// <summary>
+    /// Gets or sets a value indicating whether the border color of Krypton controls should be changed based on the icon type.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Indicates whether the border color of Krypton controls should be changed based on the icon type (red for error, yellow for warning, blue for information).")]
+    [DefaultValue(true)]
+    public bool ChangeBorderColor
+    {
+        get => _changeBorderColor;
+        set => _changeBorderColor = value;
+    }
+
+    /// <summary>
     /// Gets or sets the ContainerControl that this ErrorProvider is bound to.
     /// </summary>
     [Category(@"Behavior")]
@@ -298,20 +316,6 @@ public class KryptonErrorProvider : Component, IExtenderProvider
     public ErrorProvider? ErrorProvider => _errorProvider;
 
     /// <summary>
-    /// Sets the error description string for the specified control.
-    /// </summary>
-    /// <param name="control">The control to set the error description string for.</param>
-    /// <param name="value">The error description string, or null or empty string to remove the error.</param>
-    public void SetError(Control control, string value) => _errorProvider?.SetError(control, value);
-
-    /// <summary>
-    /// Gets the error description string for the specified control.
-    /// </summary>
-    /// <param name="control">The control to get the error description string for.</param>
-    /// <returns>The error description string for the specified control.</returns>
-    public string GetError(Control control) => _errorProvider?.GetError(control) ?? string.Empty;
-
-    /// <summary>
     /// Sets the error description string for the specified control at the specified location.
     /// </summary>
     /// <param name="control">The control to set the error description string for.</param>
@@ -323,6 +327,21 @@ public class KryptonErrorProvider : Component, IExtenderProvider
         {
             _errorProvider.SetIconAlignment(control, ConvertIconAlignment(alignment));
             _errorProvider.SetError(control, value);
+
+            if (ShouldChangeBorderColor(control) && control != null)
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    // Clear border color when error is removed
+                    ErrorProviderBorderHelper.ClearBorderColor(control);
+                }
+                else
+                {
+                    // Set border color based on icon type
+                    var iconType = ErrorProviderBorderHelper.GetIconType(_icon);
+                    ErrorProviderBorderHelper.SetBorderColor(control, iconType);
+                }
+            }
         }
     }
 
@@ -371,7 +390,37 @@ public class KryptonErrorProvider : Component, IExtenderProvider
     /// <summary>
     /// Clears all errors associated with this component.
     /// </summary>
-    public void Clear() => _errorProvider?.Clear();
+    public void Clear()
+    {
+        if (_changeBorderColor && _errorProvider != null && _containerControl != null)
+        {
+            // Clear border colors on all controls recursively
+            ClearBorderColorsRecursive(_containerControl);
+        }
+
+        // Clear control-specific settings
+        _changeBorderColorOnControl.Clear();
+
+        _errorProvider?.Clear();
+    }
+
+    private void ClearBorderColorsRecursive(Control parent)
+    {
+        foreach (Control control in parent.Controls)
+        {
+            // Clear border color if this control has an error
+            if (!string.IsNullOrEmpty(_errorProvider?.GetError(control)))
+            {
+                ErrorProviderBorderHelper.ClearBorderColor(control);
+            }
+
+            // Recurse into child controls
+            if (control.HasChildren)
+            {
+                ClearBorderColorsRecursive(control);
+            }
+        }
+    }
 
     #region IExtenderProvider
 
@@ -381,6 +430,122 @@ public class KryptonErrorProvider : Component, IExtenderProvider
     /// <param name="extendee">The Object to receive the extender properties.</param>
     /// <returns>true if this object can provide extender properties to the specified object; otherwise, false.</returns>
     public bool CanExtend(object extendee) => _errorProvider?.CanExtend(extendee) ?? false;
+
+    /// <summary>
+    /// Gets the error description string for the specified control (extender property).
+    /// </summary>
+    /// <param name="control">The control to get the error description string for.</param>
+    /// <returns>The error description string for the specified control.</returns>
+    [ExtenderProvidedProperty]
+    [Category(@"Validation")]
+    [Description(@"Gets or sets the error description string for this control.")]
+    [DefaultValue("")]
+    [Localizable(true)]
+    public string GetError(Control control) => _errorProvider?.GetError(control) ?? string.Empty;
+
+    /// <summary>
+    /// Sets the error description string for the specified control (extender property).
+    /// </summary>
+    /// <param name="control">The control to set the error description string for.</param>
+    /// <param name="value">The error description string, or null or empty string to remove the error.</param>
+    public void SetError(Control control, string value)
+    {
+        _errorProvider?.SetError(control, value);
+
+        if (ShouldChangeBorderColor(control) && control != null)
+        {
+            if (string.IsNullOrEmpty(value))
+            {
+                // Clear border color when error is removed
+                ErrorProviderBorderHelper.ClearBorderColor(control);
+            }
+            else
+            {
+                // Set border color based on icon type
+                var iconType = ErrorProviderBorderHelper.GetIconType(_icon);
+                ErrorProviderBorderHelper.SetBorderColor(control, iconType);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets a value indicating whether the border color should be changed for the specified control when an error is set.
+    /// </summary>
+    /// <param name="control">The control to check.</param>
+    /// <returns>True if border color should be changed; otherwise, false.</returns>
+    [ExtenderProvidedProperty]
+    [Category(@"Validation")]
+    [Description(@"Gets or sets a value indicating whether the border color of this control should be changed when an error is set.")]
+    [DefaultValue(true)]
+    public bool GetChangeBorderColorOnError(Control control)
+    {
+        if (control == null)
+        {
+            return true;
+        }
+
+        return _changeBorderColorOnControl.TryGetValue(control, out bool value) ? value : _changeBorderColor;
+    }
+
+    /// <summary>
+    /// Sets a value indicating whether the border color should be changed for the specified control when an error is set.
+    /// </summary>
+    /// <param name="control">The control to set the value for.</param>
+    /// <param name="value">True to change border color; otherwise, false.</param>
+    public void SetChangeBorderColorOnError(Control control, bool value)
+    {
+        if (control == null)
+        {
+            return;
+        }
+
+        if (value == _changeBorderColor)
+        {
+            // If value matches the global setting, remove the control-specific override
+            _changeBorderColorOnControl.Remove(control);
+        }
+        else
+        {
+            // Store control-specific setting
+            _changeBorderColorOnControl[control] = value;
+        }
+
+        // Update border color if control currently has an error
+        if (!string.IsNullOrEmpty(_errorProvider?.GetError(control)))
+        {
+            if (ShouldChangeBorderColor(control))
+            {
+                var iconType = ErrorProviderBorderHelper.GetIconType(_icon);
+                ErrorProviderBorderHelper.SetBorderColor(control, iconType);
+            }
+            else
+            {
+                ErrorProviderBorderHelper.ClearBorderColor(control);
+            }
+        }
+    }
+
+    private bool ShouldChangeBorderColor(Control control)
+    {
+        if (!_changeBorderColor)
+        {
+            return false;
+        }
+
+        if (control == null)
+        {
+            return false;
+        }
+
+        // Check if there's a control-specific override
+        if (_changeBorderColorOnControl.TryGetValue(control, out bool value))
+        {
+            return value;
+        }
+
+        // Use global setting
+        return _changeBorderColor;
+    }
     
     #endregion
     
@@ -440,14 +605,14 @@ public class KryptonErrorProvider : Component, IExtenderProvider
 
         // Check if the icon reference matches any of the SystemIcons properties
         // SystemIcons properties return shared static instances that must not be disposed
-        return ReferenceEquals(icon, SystemIcons.Application) ||
+        return ReferenceEquals(icon, GraphicsExtensions.ExtractIconFromImageres((int)ImageresIconID.Application, IconSize.ExtraSmall) /*SystemIcons.Application*/) ||
                ReferenceEquals(icon, SystemIcons.Asterisk) ||
                ReferenceEquals(icon, SystemIcons.Error) ||
-               ReferenceEquals(icon, SystemIcons.Exclamation) ||
+               ReferenceEquals(icon, GraphicsExtensions.ExtractIconFromImageres((int)ImageresIconID.ApplicationWarning, IconSize.ExtraSmall) /*SystemIcons.Exclamation*/) ||
                ReferenceEquals(icon, SystemIcons.Hand) ||
                ReferenceEquals(icon, SystemIcons.Information) ||
                ReferenceEquals(icon, SystemIcons.Question) ||
-               ReferenceEquals(icon, SystemIcons.Shield) ||
+               ReferenceEquals(icon, GraphicsExtensions.ExtractIconFromImageres((int)ImageresIconID.Shield, IconSize.ExtraSmall) /*SystemIcons.Shield*/) ||
                ReferenceEquals(icon, SystemIcons.Warning) ||
                ReferenceEquals(icon, SystemIcons.WinLogo);
     }
