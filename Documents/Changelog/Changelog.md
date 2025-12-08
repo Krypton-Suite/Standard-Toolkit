@@ -2,7 +2,9 @@
 
 ====
 
-# 2026-02-30 - Build 2502 (Version 105-LTS - Patch 1) - February 2026
+# 2026-02-28 - Build 2502 (Version 105-LTS - Patch 1) - February 2026
+
+* Resolved [#2745](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2745b), `VisualMultilineStringEditorForm` only saving last line
 * Resolved [#2638](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2638), `KryptonButton` with rouding, draws incorrect background when pressed.
 * Resolved [#2631](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2631), `KryptonFrom` draws the custom border when `FormBorderStyle` is `None`.
 * Resolved [#2681](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2704), Add a missing case statement to `KryptonCustomPaletteBase`.
