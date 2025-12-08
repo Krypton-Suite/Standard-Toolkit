@@ -16,8 +16,15 @@ internal class TimedCache<TKey, TItem>(TimeSpan expirationTime) where TKey : not
 
     public void Remove(TKey key)
     {
-        // TODO: Should use concurrency !
-        _cache.Remove(key);
+        try
+        {
+            Monitor.Enter(_cacheLock);
+            _cache.Remove(key);
+        }
+        finally
+        {
+            Monitor.Exit(_cacheLock);
+        }
     }
 
     public TItem GetOrCreate(TKey key, Func<TItem> createItem)
@@ -76,7 +83,7 @@ internal class TimedCache<TKey, TItem>(TimeSpan expirationTime) where TKey : not
             {
                 (DateTime expiresAt, _) = kvp.Value;
 
-                // TODO: Should use concurrency !
+                // Safe to access _cache directly since we're already inside the lock
                 if (expiresAt < _lastExpirationScan)
                 {
                     _cache.Remove(kvp.Key);
