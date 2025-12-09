@@ -176,31 +176,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void kbtnOk_Click(object sender, EventArgs e)
-        {
-            if (_useRichTextBox)
-            {
-                var lines = krtbContents.Lines;
-
-                _contents = new string[lines.Length];
-
-                for (int i = 0; i < lines.Length; i++)
-                {
-                    _contents[i] = lines[i];
-                }
-            }
-            else
-            {
-                var lines = ktxtStringCollection.Lines;
-
-                _contents = new string[lines.Length];
-
-                for (int i = 0; i < lines.Length; i++)
-                {
-                    _contents[i] = lines[i];
-                }
-            }
-        }
+        private void kbtnOk_Click(object sender, EventArgs e) => _contents = _useRichTextBox ? [.. krtbContents.Lines] : [.. ktxtStringCollection.Lines];
 
         private void kcRichTextBoxCut_Execute(object sender, EventArgs e) => krtbContents.Cut();
 
