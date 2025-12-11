@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -7,73 +7,32 @@
  */
 #endregion
 
-namespace Krypton.Utilities;
-
+namespace Krypton.Toolkit;
 /// <summary>
-/// Groups file system tree view specific properties for display in the PropertyGrid.
+/// Groups system tree view specific properties for display in the PropertyGrid.
 /// </summary>
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public class FileSystemTreeViewValues : Storage
+internal class SystemTreeViewValues : Storage
 {
     #region Instance Fields
 
-    private FileSystemRootMode _rootMode = FileSystemRootMode.Drives;
-    private string _rootPath = string.Empty;
     private bool _showFiles = true;
     private bool _showHiddenFiles = false;
     private bool _showSystemFiles = false;
     private string _fileFilter = "*.*";
-    private bool _showSpecialFolders = true;
+    private bool _useLargeIcons = false;
 
-    private readonly KryptonFileSystemTreeView _owner;
+    private readonly InternalKryptonSystemTreeView _owner;
 
     #endregion
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="FileSystemTreeViewValues"/> class.
+    /// Initializes a new instance of the <see cref="SystemTreeViewValues"/> class.
     /// </summary>
     /// <param name="owner">The owner.</param>
-    internal FileSystemTreeViewValues(KryptonFileSystemTreeView owner)
+    internal SystemTreeViewValues(InternalKryptonSystemTreeView owner)
     {
         _owner = owner;
-    }
-
-    /// <summary>
-    /// Gets or sets the root mode for the tree view.
-    /// </summary>
-    [Category(@"Behavior")]
-    [Description(@"Determines the root display mode: Desktop (Explorer-style with special folders), Computer (drives only), Drives (all drives), or CustomPath (use RootPath).")]
-    [DefaultValue(FileSystemRootMode.Drives)]
-    public FileSystemRootMode RootMode
-    {
-        get => _rootMode;
-        set
-        {
-            if (_rootMode != value)
-            {
-                _rootMode = value;
-                _owner.Reload();
-            }
-        }
-    }
-
-    /// <summary>
-    /// Gets or sets the root directory path to display in the tree view (used when RootMode is CustomPath).
-    /// </summary>
-    [Category(@"Behavior")]
-    [Description(@"The root directory path to display in the tree view (used when RootMode is CustomPath).")]
-    [DefaultValue("")]
-    public string RootPath
-    {
-        get => _rootPath;
-        set
-        {
-            if (_rootPath != value)
-            {
-                _rootPath = value ?? string.Empty;
-                _owner.Reload();
-            }
-        }
     }
 
     /// <summary>
@@ -156,21 +115,31 @@ public class FileSystemTreeViewValues : Storage
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether special folders (Desktop, Computer, Network, Recycle Bin, etc.) should be displayed when RootMode is Desktop.
+    /// Gets or sets a value indicating whether to use large icons (32x32) instead of small icons (16x16).
     /// </summary>
-    [Category(@"Behavior")]
-    [Description(@"Indicates whether special folders (Desktop, Computer, Network, Recycle Bin, etc.) should be displayed when RootMode is Desktop.")]
-    [DefaultValue(true)]
-    public bool ShowSpecialFolders
+    [Category(@"Appearance")]
+    [Description(@"Indicates whether to use large icons (32x32) instead of small icons (16x16).")]
+    [DefaultValue(false)]
+    public bool UseLargeIcons
     {
-        get => _showSpecialFolders;
+        get => _useLargeIcons;
         set
         {
-            if (_showSpecialFolders != value)
+            if (_useLargeIcons != value)
             {
-                _showSpecialFolders = value;
-                if (_rootMode == FileSystemRootMode.Desktop)
+                _useLargeIcons = value;
+
+                // Update ImageList size
+                Size newSize = value ? new Size(32, 32) : new Size(16, 16);
+                if (_owner.ImageList?.ImageSize != newSize)
                 {
+                    _owner.ImageList?.ImageSize = newSize;
+
+                    // Clear cache and reload
+                    _owner.IconCache.Clear();
+                    _owner.ImageList?.Images.Clear();
+                    _owner.AddDefaultIcon();
+
                     _owner.Reload();
                 }
             }
