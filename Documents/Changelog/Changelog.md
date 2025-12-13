@@ -4,8 +4,9 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#2739](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2739), Add a file system list view
 * Implemented [#2735](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2735), `KryptonErrorProvider` - Part of #2658
-* Implemented [#2738](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2738), Add file system tree view
+* Implemented [#2738](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2738), Add a file system tree view
 * Resolved [#2745](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2745b), `VisualMultilineStringEditorForm` only saving last line
 * Implemented [#2728](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2728), Ability for developers to set the highlight colour
 * Implemented [#2628](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2628), Improve build system
