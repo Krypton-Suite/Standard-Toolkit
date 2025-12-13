@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -605,14 +605,14 @@ public class KryptonErrorProvider : Component, IExtenderProvider
 
         // Check if the icon reference matches any of the SystemIcons properties
         // SystemIcons properties return shared static instances that must not be disposed
-        return ReferenceEquals(icon, GraphicsExtensions.ExtractIconFromImageres((int)ImageresIconID.Application, IconSize.ExtraSmall) /*SystemIcons.Application*/) ||
+        return ReferenceEquals(icon, SystemIcons.Application) ||
                ReferenceEquals(icon, SystemIcons.Asterisk) ||
                ReferenceEquals(icon, SystemIcons.Error) ||
-               ReferenceEquals(icon, GraphicsExtensions.ExtractIconFromImageres((int)ImageresIconID.ApplicationWarning, IconSize.ExtraSmall) /*SystemIcons.Exclamation*/) ||
+               ReferenceEquals(icon, SystemIcons.Exclamation) ||
                ReferenceEquals(icon, SystemIcons.Hand) ||
                ReferenceEquals(icon, SystemIcons.Information) ||
                ReferenceEquals(icon, SystemIcons.Question) ||
-               ReferenceEquals(icon, GraphicsExtensions.ExtractIconFromImageres((int)ImageresIconID.Shield, IconSize.ExtraSmall) /*SystemIcons.Shield*/) ||
+               ReferenceEquals(icon, SystemIcons.Shield) ||
                ReferenceEquals(icon, SystemIcons.Warning) ||
                ReferenceEquals(icon, SystemIcons.WinLogo);
     }
