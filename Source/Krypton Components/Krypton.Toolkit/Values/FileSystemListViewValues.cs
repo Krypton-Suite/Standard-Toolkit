@@ -1,4 +1,4 @@
-﻿namespace Krypton.Toolkit;
+namespace Krypton.Toolkit;
 
 /// <summary>
 /// Groups file system list view specific properties for display in the PropertyGrid.
@@ -8,7 +8,7 @@ public class FileSystemListViewValues : Storage
 {
     #region Instance Fields
 
-    private string _currentPath = string.Empty;
+    private string _currentPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
     private bool _showFiles = true;
     private bool _showHiddenFiles = false;
     private bool _showSystemFiles = false;
