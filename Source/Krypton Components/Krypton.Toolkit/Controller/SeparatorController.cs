@@ -163,12 +163,7 @@ public class SeparatorController : ButtonController,
     #endregion
 
     #region Static Fields
-    // TODO: Should be scaled
     private static readonly Point _nullPoint = new Point(-1, -1);
-    private static readonly Cursor _cursorHSplit = Cursors.HSplit;
-    private static readonly Cursor _cursorVSplit = Cursors.VSplit;
-    private static readonly Cursor _cursorHMove = Cursors.SizeNS;
-    private static readonly Cursor _cursorVMove = Cursors.SizeWE;
     #endregion
 
     #region Instance Fields
@@ -182,6 +177,10 @@ public class SeparatorController : ButtonController,
     private SeparatorMessageFilter? _filter;
     private readonly ISeparatorSource _source;
     private SeparatorIndicator? _indicator;
+    private Cursor? _cursorHSplit;
+    private Cursor? _cursorVSplit;
+    private Cursor? _cursorHMove;
+    private Cursor? _cursorVMove;
 
     #endregion
 
@@ -206,6 +205,8 @@ public class SeparatorController : ButtonController,
         _source = source ?? throw new ArgumentNullException(nameof(source));
         _splitCursors = splitCursors;
         _drawIndicator = drawIndicator;
+        
+        InitializeCursors();
     }
 
     /// <summary>
@@ -243,11 +244,11 @@ public class SeparatorController : ButtonController,
             // Cursor depends on orientation direction
             if (_source.SeparatorOrientation == Orientation.Vertical)
             {
-                _source.SeparatorControl.Cursor = _splitCursors ? _cursorVSplit : _cursorVMove;
+                _source.SeparatorControl.Cursor = _splitCursors ? _cursorVSplit! : _cursorVMove!;
             }
             else
             {
-                _source.SeparatorControl.Cursor = _splitCursors ? _cursorHSplit : _cursorHMove;
+                _source.SeparatorControl.Cursor = _splitCursors ? _cursorHSplit! : _cursorHMove!;
             }
         }
 
@@ -656,6 +657,23 @@ public class SeparatorController : ButtonController,
             Application.RemoveMessageFilter(_filter);
             _filter = null;
         }
+    }
+
+    private void InitializeCursors()
+    {
+        // Initialize cursors with DPI awareness
+        // Standard Windows cursors (Cursors.HSplit, etc.) are automatically scaled by Windows
+        // for DPI awareness, so we use them directly. Accessing Target.FactorDpiX/Y ensures
+        // DPI factors are initialized and available if custom DPI-aware cursors are needed
+        // in the future (e.g., custom cursor bitmaps scaled using these factors).
+        _ = Target.FactorDpiX;
+        _ = Target.FactorDpiY;
+        
+        // Standard system cursors - Windows handles DPI scaling automatically
+        _cursorHSplit = Cursors.HSplit;
+        _cursorVSplit = Cursors.VSplit;
+        _cursorHMove = Cursors.SizeNS;
+        _cursorVMove = Cursors.SizeWE;
     }
     #endregion
 

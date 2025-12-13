@@ -1,7 +1,7 @@
 ﻿#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2022 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2022 - 2025. All rights reserved.
  *
  */
 #endregion
@@ -167,31 +167,7 @@ internal partial class VisualMultilineStringEditorForm : KryptonForm
         }
     }
 
-    private void kbtnOk_Click(object sender, EventArgs e)
-    {
-        if (_useRichTextBox)
-        {
-            foreach (var line in krtbContents.Lines)
-            {
-                // TODO: This is not right.. It will only have the last line it !
-                _contents =
-                [
-                    line
-                ];
-            }
-        }
-        else
-        {
-            foreach (var line in ktxtStringCollection.Lines)
-            {
-                // TODO: This is not right.. It will only have the last line it !
-                _contents =
-                [
-                    line
-                ];
-            }
-        }
-    }
+    private void kbtnOk_Click(object sender, EventArgs e) => _contents = _useRichTextBox ? [.. krtbContents.Lines] : [.. ktxtStringCollection.Lines];
 
     private void kcRichTextBoxCut_Execute(object sender, EventArgs e) => krtbContents.Cut();
 
