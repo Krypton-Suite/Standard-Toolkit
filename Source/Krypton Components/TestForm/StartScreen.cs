@@ -34,8 +34,9 @@ public partial class StartScreen : KryptonForm
         _panelWidth = tlpMain.Width;
         _filterTimer = new();
         _sizeAtStartup = new Size(902, 633);
+        
         this.Size = _sizeAtStartup;
-        this.FormClosed += OnFormClosed;
+        this.FormClosing += OnFormClosing;
 
         btnDockTopRight.Click += OnBtnDockTopRightClick;
         btnRestoreSize.Click += OnBtnRestoreSizeClick;
@@ -93,11 +94,9 @@ public partial class StartScreen : KryptonForm
         CreateButton("Krypton MDI Window", "KryptonForm MDI Container with both KForm and WForm children", typeof(MdiWindow));
     }
 
-    private void OnFormClosed(object? sender, FormClosedEventArgs e)
+    private void OnFormClosing(object? sender, FormClosingEventArgs e)
     {
-        _registryAccess.LastFilterString = tbFilter.Text;
-        _registryAccess.DockTopRight = IsFormDockedTopRight();
-        _registryAccess.FormSize = this.Size;
+        SaveSettings();
     }
 
     private bool IsFormDockedTopRight()
@@ -106,20 +105,41 @@ public partial class StartScreen : KryptonForm
             && this.Left == Screen.FromControl(this).Bounds.Width - this.Size.Width;
     }
 
+    private void SaveSettings()
+    {
+        _registryAccess.LastFilterString = tbFilter.Text;
+        _registryAccess.DockTopRight = IsFormDockedTopRight();
+        _registryAccess.FormSize = this.Size;
+    }
+
     private void RestoreSettings()
+    {
+        RestoreFormSize();
+        RestoreLastFilter();
+        RestoreFormLocation();
+    }
+
+    private void RestoreFormLocation()
     {
         _dockTopRight = _registryAccess.DockTopRight;
         if (_dockTopRight)
         {
+            System.Diagnostics.Debug.Print("docktoppppppp");
             OnBtnDockTopRightClick(null, EventArgs.Empty);
         }
+    }
 
+    private void RestoreLastFilter()
+    {
         string lastFilter = _registryAccess.LastFilterString;
         if (lastFilter.Length > 0)
         {
             tbFilter.Text = lastFilter;
         }
+    }
 
+    private void RestoreFormSize()
+    {
         Size size = _registryAccess.FormSize;
         if (size.Width > 0 && size.Height > 0)
         {
