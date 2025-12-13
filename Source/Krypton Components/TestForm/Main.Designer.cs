@@ -40,6 +40,7 @@ namespace TestForm
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
+            this.kbtnErrorProviderTest = new Krypton.Toolkit.KryptonButton();
             this.kryptonButton17 = new Krypton.Toolkit.KryptonButton();
             this.kryptonCheckedListBox1 = new Krypton.Toolkit.KryptonCheckedListBox();
             this.kryptonButton16 = new Krypton.Toolkit.KryptonButton();
@@ -144,6 +145,7 @@ namespace TestForm
             // 
             // kryptonPanel1
             // 
+            this.kryptonPanel1.Controls.Add(this.kbtnErrorProviderTest);
             this.kryptonPanel1.Controls.Add(this.kryptonButton17);
             this.kryptonPanel1.Controls.Add(this.kryptonCheckedListBox1);
             this.kryptonPanel1.Controls.Add(this.kryptonButton16);
@@ -206,6 +208,16 @@ namespace TestForm
             this.kryptonPanel1.Name = "kryptonPanel1";
             this.kryptonPanel1.Size = new System.Drawing.Size(1320, 740);
             this.kryptonPanel1.TabIndex = 0;
+            // 
+            // kbtnErrorProviderTest
+            // 
+            this.kbtnErrorProviderTest.Location = new System.Drawing.Point(11, 620);
+            this.kbtnErrorProviderTest.Name = "kbtnErrorProviderTest";
+            this.kbtnErrorProviderTest.Size = new System.Drawing.Size(133, 25);
+            this.kbtnErrorProviderTest.TabIndex = 85;
+            this.kbtnErrorProviderTest.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kbtnErrorProviderTest.Values.Text = "ErrorProvider";
+            this.kbtnErrorProviderTest.Click += new System.EventHandler(this.kbtnErrorProviderTest_Click);
             // 
             // kryptonButton17
             // 
@@ -1075,5 +1087,6 @@ namespace TestForm
         private KryptonButton kryptonButton16;
         private KryptonCheckedListBox kryptonCheckedListBox1;
         private KryptonButton kryptonButton17;
+        private KryptonButton kbtnErrorProviderTest;
     }
 }
