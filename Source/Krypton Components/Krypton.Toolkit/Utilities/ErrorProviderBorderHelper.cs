@@ -79,16 +79,16 @@ public static class ErrorProviderBorderHelper
             return ErrorProviderIconType.Error;
         }
 
-        var message = errorMessage.ToLowerInvariant();
+        var message = errorMessage?.ToLowerInvariant();
 
         // Check for warning keywords
-        if (message.Contains("warning") || message.Contains("caution") || message.Contains("attention"))
+        if (message != null && (message.Contains("warning") || message.Contains("caution") || message.Contains("attention")))
         {
             return ErrorProviderIconType.Warning;
         }
 
         // Check for information keywords
-        if (message.Contains("info") || message.Contains("information") || message.Contains("note") || message.Contains("tip"))
+        if (message != null && (message.Contains("info") || message.Contains("information") || message.Contains("note") || message.Contains("tip")))
         {
             return ErrorProviderIconType.Information;
         }
@@ -107,7 +107,7 @@ public static class ErrorProviderBorderHelper
     /// <param name="control">The control to modify.</param>
     /// <param name="iconType">The icon type determining the border color.</param>
     /// <returns>True if the border color was successfully set; otherwise, false.</returns>
-    public static bool SetBorderColor(Control control, ErrorProviderIconType iconType)
+    public static bool SetBorderColor(Control? control, ErrorProviderIconType iconType)
     {
         if (control == null)
         {
@@ -131,7 +131,7 @@ public static class ErrorProviderBorderHelper
     /// <param name="control">The control to modify.</param>
     /// <param name="borderColor">The border color to apply.</param>
     /// <returns>True if the border color was successfully set; otherwise, false.</returns>
-    public static bool SetBorderColor(Control control, Color borderColor)
+    public static bool SetBorderColor(Control? control, Color borderColor)
     {
         if (control == null)
         {
