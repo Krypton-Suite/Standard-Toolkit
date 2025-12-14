@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -38,15 +38,15 @@ internal class InternalExceptionTreeView : KryptonTreeView
 
         if (exception is not null)
         {
-            TreeNode rootNode = CreateNodeFromException(exception);
+            KryptonTreeNode rootNode = CreateNodeFromException(exception);
             Nodes.Add(rootNode);
             ExpandAll();
         }
     }
 
-    private TreeNode CreateNodeFromException(Exception exception)
+    private KryptonTreeNode CreateNodeFromException(Exception exception)
     {
-        var rootNode = new TreeNode($"{exception.GetType().Name}: {exception.Message}")
+        var rootNode = new KryptonTreeNode($"{exception.GetType().Name}: {exception.Message}")
         {
             Tag = exception
         };
@@ -54,7 +54,7 @@ internal class InternalExceptionTreeView : KryptonTreeView
         // Stack trace
         if (!string.IsNullOrWhiteSpace(exception.StackTrace))
         {
-            TreeNode stackTraceNode = new TreeNode(KryptonManager.Strings.ExceptionDialogStrings.StackTrace);
+            KryptonTreeNode stackTraceNode = new KryptonTreeNode(KryptonManager.Strings.ExceptionDialogStrings.StackTrace);
             var stackTrace = new StackTrace(exception, true);
 
             var frames = stackTrace.GetFrames();
@@ -73,7 +73,7 @@ internal class InternalExceptionTreeView : KryptonTreeView
                         frameInfo += $" in {fileName}:line {lineNumber}";
                     }
 
-                    stackTraceNode.Nodes.Add(new TreeNode(frameInfo));
+                    stackTraceNode.Nodes.Add(new KryptonTreeNode(frameInfo));
                 }
             }
 
@@ -83,7 +83,7 @@ internal class InternalExceptionTreeView : KryptonTreeView
         // Inner exception
         if (exception.InnerException is not null)
         {
-            var innerNode = new TreeNode(KryptonManager.Strings.ExceptionDialogStrings.InnerException)
+            var innerNode = new KryptonTreeNode(KryptonManager.Strings.ExceptionDialogStrings.InnerException)
             {
                 Nodes = { CreateNodeFromException(exception.InnerException) }
             };
@@ -93,10 +93,10 @@ internal class InternalExceptionTreeView : KryptonTreeView
         // Exception.Data
         if (exception.Data is { Count: > 0 })
         {
-            var dataNode = new TreeNode(KryptonManager.Strings.ExceptionDialogStrings.Data);
+            var dataNode = new KryptonTreeNode(KryptonManager.Strings.ExceptionDialogStrings.Data);
             foreach (var key in exception.Data.Keys)
             {
-                dataNode.Nodes.Add(new TreeNode($"{key}: {exception.Data[key]}"));
+                dataNode.Nodes.Add(new KryptonTreeNode($"{key}: {exception.Data[key]}"));
             }
             rootNode.Nodes.Add(dataNode);
         }

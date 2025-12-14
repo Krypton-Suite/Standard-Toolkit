@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -21,7 +21,7 @@ public partial class VisualExceptionDialogForm : KryptonForm
 
     private readonly Exception? _exception;
 
-    private List<TreeNode> _originalNodes = new List<TreeNode>();
+    private List<KryptonTreeNode> _originalNodes = new List<KryptonTreeNode>();
 
     #endregion
 
@@ -66,11 +66,12 @@ public partial class VisualExceptionDialogForm : KryptonForm
         {
             isbSearchArea.Populate(_exception);
 
-            foreach (TreeNode node in isbSearchArea.Tree.Nodes)
+            foreach (KryptonTreeNode node in isbSearchArea.Tree.Nodes)
             {
-                _originalNodes.Add((TreeNode)node.Clone());
+                _originalNodes.Add((KryptonTreeNode)node.Clone());
             }
         }
+
         if (GeneralToolkitUtilities.GetCurrentScreenSize() == new Point(1080, 720))
         {
             GeneralToolkitUtilities.AdjustFormDimensions(this, 900, 650);
@@ -88,9 +89,28 @@ public partial class VisualExceptionDialogForm : KryptonForm
         $"{KryptonManager.Strings.ExceptionDialogStrings.StackTrace}:\n{exception.StackTrace}\n\n" +
         $"{KryptonManager.Strings.ExceptionDialogStrings.InnerException}:\n{(exception.InnerException != null ? exception.InnerException.Message : $"{KryptonManager.Strings.ExceptionDialogStrings.None}")}\n";
 
-    private void kbtnCopy_Click(object sender, EventArgs e) => Clipboard.SetText(rtbExceptionDetails.Text);
+    private void kbtnCopy_Click(object sender, EventArgs e) => Clipboard.SetText(krtbExceptionDetails.Text);
 
     private void kbtnOk_Click(object sender, EventArgs e) => DialogResult = DialogResult.OK;
+
+    private void isbSearchArea_NodeSelected(object sender, TreeViewEventArgs e)
+    {
+        var selectedException = isbSearchArea.SelectedException;
+
+        if (e.Node!.Text == KryptonManager.Strings.ExceptionDialogStrings.InnerException ||
+            e.Node.Text == KryptonManager.Strings.ExceptionDialogStrings.StackTrace)
+        {
+            krtbExceptionDetails.Text = KryptonManager.Strings.ExceptionDialogStrings.MoreDetails;
+        }
+        else
+        {
+            krtbExceptionDetails.Text = selectedException != null
+                ? FormatExceptionDetails(selectedException)
+                : e.Node.Text;
+        }
+    }
+
+    private void krtbExceptionDetails_TextChanged(object sender, EventArgs e) => kbtnCopy.Enabled = !string.IsNullOrEmpty(krtbExceptionDetails.Text);
 
     #endregion
 
@@ -104,26 +124,4 @@ public partial class VisualExceptionDialogForm : KryptonForm
     }
 
     #endregion
-
-    private void isbSearchArea_NodeSelected(object sender, TreeViewEventArgs e)
-    {
-        var selectedException = isbSearchArea.SelectedException;
-
-        if (e.Node!.Text == KryptonManager.Strings.ExceptionDialogStrings.InnerException ||
-            e.Node.Text == KryptonManager.Strings.ExceptionDialogStrings.StackTrace)
-        {
-            rtbExceptionDetails.Text = KryptonManager.Strings.ExceptionDialogStrings.MoreDetails;
-        }
-        else
-        {
-            rtbExceptionDetails.Text = selectedException != null
-                ? FormatExceptionDetails(selectedException)
-                : e.Node.Text;
-        }
-    }
-
-    private void rtbExceptionDetails_TextChanged(object sender, EventArgs e)
-    {
-        kbtnCopy.Enabled = !string.IsNullOrEmpty(rtbExceptionDetails.Text);
-    }
 }
