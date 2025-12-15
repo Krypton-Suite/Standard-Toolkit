@@ -3,7 +3,7 @@
 ====
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
-
+* Implemented [#2753](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2753), Adds helper class that aids in closing menus at will, which don't repsond to losing focus.
 * Implemented [#2735](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2735), `KryptonErrorProvider` - Part of #2658
 * Implemented [#2738](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2738), Add file system tree view
 * Resolved [#2745](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2745b), `VisualMultilineStringEditorForm` only saving last line
