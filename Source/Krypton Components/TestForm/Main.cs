@@ -399,4 +399,9 @@ public partial class Main : KryptonForm
     {
         new CheckedListBoxDemo().ShowDialog();
     }
+
+    private void kbtnErrorProviderTest_Click(object sender, EventArgs e)
+    {
+        new ErrorProviderTest().ShowDialog();
+    }
 }
