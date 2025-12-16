@@ -174,14 +174,9 @@ public partial class DockingConfigSaveLoadTest : KryptonForm
             _savedConfig = kryptonDockingManager1.SaveConfigToArray();
             var pageCountAfter = GetTotalPageCount();
 
-            if (pageCountBefore == pageCountAfter)
-            {
-                UpdateStatus($"Configuration saved successfully! {pageCountBefore} pages saved. Size: {_savedConfig.Length} bytes");
-            }
-            else
-            {
-                UpdateStatus($"WARNING: Page count changed during save! Before: {pageCountBefore}, After: {pageCountAfter}");
-            }
+            UpdateStatus(pageCountBefore == pageCountAfter
+                ? $"Configuration saved successfully! {pageCountBefore} pages saved. Size: {_savedConfig.Length} bytes"
+                : $"WARNING: Page count changed during save! Before: {pageCountBefore}, After: {pageCountAfter}");
 
             btnLoadConfig.Enabled = _savedConfig != null && _savedConfig.Length > 0;
         }

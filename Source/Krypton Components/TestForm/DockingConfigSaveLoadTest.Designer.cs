@@ -50,7 +50,6 @@
             this.btnCreateChartPage = new Krypton.Toolkit.KryptonButton();
             this.kryptonGroupBoxStatus = new Krypton.Toolkit.KryptonGroupBox();
             this.kryptonTextBoxStatus = new Krypton.Toolkit.KryptonTextBox();
-            this.kryptonLabel1 = new Krypton.Toolkit.KryptonLabel();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonDockableWorkspace1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControls)).BeginInit();
@@ -60,11 +59,13 @@
             this.kryptonGroupBoxEdgeDocking.Panel.SuspendLayout();
             this.kryptonGroupBoxEdgeDocking.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel2)).BeginInit();
+            this.kryptonPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBoxPageCreation)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBoxPageCreation.Panel)).BeginInit();
             this.kryptonGroupBoxPageCreation.Panel.SuspendLayout();
             this.kryptonGroupBoxPageCreation.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel3)).BeginInit();
+            this.kryptonPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBoxStatus)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBoxStatus.Panel)).BeginInit();
             this.kryptonGroupBoxStatus.Panel.SuspendLayout();
@@ -76,22 +77,31 @@
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(800, 450);
+            this.kryptonPanel1.Size = new System.Drawing.Size(650, 606);
             this.kryptonPanel1.TabIndex = 0;
             // 
             // kryptonDockableWorkspace1
             // 
-            this.kryptonDockableWorkspace1.CompactFlags = ((Krypton.Workspace.CompactFlags)(((Krypton.Workspace.CompactFlags.RemoveEmptyCells | Krypton.Workspace.CompactFlags.RemoveEmptySequences)
+            this.kryptonDockableWorkspace1.ActivePage = null;
+            this.kryptonDockableWorkspace1.CompactFlags = ((Krypton.Workspace.CompactFlags)(((Krypton.Workspace.CompactFlags.RemoveEmptyCells | Krypton.Workspace.CompactFlags.RemoveEmptySequences) 
             | Krypton.Workspace.CompactFlags.PromoteLeafs)));
+            this.kryptonDockableWorkspace1.ContainerBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelClient;
             this.kryptonDockableWorkspace1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonDockableWorkspace1.Location = new System.Drawing.Point(0, 0);
             this.kryptonDockableWorkspace1.Name = "kryptonDockableWorkspace1";
-            this.kryptonDockableWorkspace1.Size = new System.Drawing.Size(800, 450);
+            // 
+            // 
+            // 
+            this.kryptonDockableWorkspace1.Root.UniqueName = "6a481df63c0d459d96b73538ca8abc63";
+            this.kryptonDockableWorkspace1.SeparatorStyle = Krypton.Toolkit.SeparatorStyle.LowProfile;
+            this.kryptonDockableWorkspace1.ShowMaximizeButton = false;
+            this.kryptonDockableWorkspace1.Size = new System.Drawing.Size(650, 606);
+            this.kryptonDockableWorkspace1.SplitterWidth = 5;
             this.kryptonDockableWorkspace1.TabIndex = 1;
+            this.kryptonDockableWorkspace1.TabStop = true;
             // 
             // panelControls
             // 
-            this.panelControls.Controls.Add(this.kryptonLabel1);
             this.panelControls.Controls.Add(this.btnTestIssue2516);
             this.panelControls.Controls.Add(this.btnClearAll);
             this.panelControls.Controls.Add(this.btnLoadConfig);
@@ -102,24 +112,28 @@
             this.panelControls.Dock = System.Windows.Forms.DockStyle.Right;
             this.panelControls.Location = new System.Drawing.Point(650, 0);
             this.panelControls.Name = "panelControls";
-            this.panelControls.Size = new System.Drawing.Size(250, 450);
+            this.panelControls.Size = new System.Drawing.Size(250, 606);
             this.panelControls.TabIndex = 2;
             // 
             // btnTestIssue2516
             // 
-            this.btnTestIssue2516.Location = new System.Drawing.Point(10, 470);
+            this.btnTestIssue2516.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnTestIssue2516.Location = new System.Drawing.Point(10, 564);
             this.btnTestIssue2516.Name = "btnTestIssue2516";
             this.btnTestIssue2516.Size = new System.Drawing.Size(230, 30);
             this.btnTestIssue2516.TabIndex = 6;
+            this.btnTestIssue2516.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.btnTestIssue2516.Values.Text = "Test Issue #2516 Scenario";
             this.btnTestIssue2516.Click += new System.EventHandler(this.BtnTestIssue2516_Click);
             // 
             // btnClearAll
             // 
-            this.btnClearAll.Location = new System.Drawing.Point(10, 435);
+            this.btnClearAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnClearAll.Location = new System.Drawing.Point(10, 529);
             this.btnClearAll.Name = "btnClearAll";
             this.btnClearAll.Size = new System.Drawing.Size(230, 30);
             this.btnClearAll.TabIndex = 5;
+            this.btnClearAll.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.btnClearAll.Values.Text = "Clear All Pages";
             this.btnClearAll.Click += new System.EventHandler(this.BtnClearAll_Click);
             // 
@@ -130,6 +144,7 @@
             this.btnLoadConfig.Name = "btnLoadConfig";
             this.btnLoadConfig.Size = new System.Drawing.Size(115, 30);
             this.btnLoadConfig.TabIndex = 4;
+            this.btnLoadConfig.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.btnLoadConfig.Values.Text = "Load Config";
             this.btnLoadConfig.Click += new System.EventHandler(this.BtnLoadConfig_Click);
             // 
@@ -139,13 +154,13 @@
             this.btnSaveConfig.Name = "btnSaveConfig";
             this.btnSaveConfig.Size = new System.Drawing.Size(115, 30);
             this.btnSaveConfig.TabIndex = 3;
+            this.btnSaveConfig.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.btnSaveConfig.Values.Text = "Save Config";
             this.btnSaveConfig.Click += new System.EventHandler(this.BtnSaveConfig_Click);
             // 
             // kryptonGroupBoxEdgeDocking
             // 
             this.kryptonGroupBoxEdgeDocking.Location = new System.Drawing.Point(10, 170);
-            this.kryptonGroupBoxEdgeDocking.Name = "kryptonGroupBoxEdgeDocking";
             // 
             // kryptonGroupBoxEdgeDocking.Panel
             // 
@@ -173,6 +188,7 @@
             this.btnDockToBottom.Name = "btnDockToBottom";
             this.btnDockToBottom.Size = new System.Drawing.Size(104, 25);
             this.btnDockToBottom.TabIndex = 3;
+            this.btnDockToBottom.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.btnDockToBottom.Values.Text = "Bottom";
             this.btnDockToBottom.Click += new System.EventHandler(this.BtnDockToBottom_Click);
             // 
@@ -182,6 +198,7 @@
             this.btnDockToTop.Name = "btnDockToTop";
             this.btnDockToTop.Size = new System.Drawing.Size(104, 25);
             this.btnDockToTop.TabIndex = 2;
+            this.btnDockToTop.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.btnDockToTop.Values.Text = "Top";
             this.btnDockToTop.Click += new System.EventHandler(this.BtnDockToTop_Click);
             // 
@@ -191,6 +208,7 @@
             this.btnDockToRight.Name = "btnDockToRight";
             this.btnDockToRight.Size = new System.Drawing.Size(104, 25);
             this.btnDockToRight.TabIndex = 1;
+            this.btnDockToRight.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.btnDockToRight.Values.Text = "Right";
             this.btnDockToRight.Click += new System.EventHandler(this.BtnDockToRight_Click);
             // 
@@ -200,13 +218,13 @@
             this.btnDockToLeft.Name = "btnDockToLeft";
             this.btnDockToLeft.Size = new System.Drawing.Size(104, 25);
             this.btnDockToLeft.TabIndex = 0;
+            this.btnDockToLeft.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.btnDockToLeft.Values.Text = "Left";
             this.btnDockToLeft.Click += new System.EventHandler(this.BtnDockToLeft_Click);
             // 
             // kryptonGroupBoxPageCreation
             // 
             this.kryptonGroupBoxPageCreation.Location = new System.Drawing.Point(10, 10);
-            this.kryptonGroupBoxPageCreation.Name = "kryptonGroupBoxPageCreation";
             // 
             // kryptonGroupBoxPageCreation.Panel
             // 
@@ -234,6 +252,7 @@
             this.btnCreateGenericPage.Name = "btnCreateGenericPage";
             this.btnCreateGenericPage.Size = new System.Drawing.Size(216, 25);
             this.btnCreateGenericPage.TabIndex = 3;
+            this.btnCreateGenericPage.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.btnCreateGenericPage.Values.Text = "Create Generic Page";
             this.btnCreateGenericPage.Click += new System.EventHandler(this.BtnCreateGenericPage_Click);
             // 
@@ -243,6 +262,7 @@
             this.btnCreateDeviceLogPage.Name = "btnCreateDeviceLogPage";
             this.btnCreateDeviceLogPage.Size = new System.Drawing.Size(216, 25);
             this.btnCreateDeviceLogPage.TabIndex = 2;
+            this.btnCreateDeviceLogPage.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.btnCreateDeviceLogPage.Values.Text = "Create DeviceLog Page";
             this.btnCreateDeviceLogPage.Click += new System.EventHandler(this.BtnCreateDeviceLogPage_Click);
             // 
@@ -252,6 +272,7 @@
             this.btnCreateLoggingPage.Name = "btnCreateLoggingPage";
             this.btnCreateLoggingPage.Size = new System.Drawing.Size(216, 25);
             this.btnCreateLoggingPage.TabIndex = 1;
+            this.btnCreateLoggingPage.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.btnCreateLoggingPage.Values.Text = "Create Logging Page";
             this.btnCreateLoggingPage.Click += new System.EventHandler(this.BtnCreateLoggingPage_Click);
             // 
@@ -261,13 +282,13 @@
             this.btnCreateChartPage.Name = "btnCreateChartPage";
             this.btnCreateChartPage.Size = new System.Drawing.Size(216, 25);
             this.btnCreateChartPage.TabIndex = 0;
+            this.btnCreateChartPage.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.btnCreateChartPage.Values.Text = "Create Chart Page";
             this.btnCreateChartPage.Click += new System.EventHandler(this.BtnCreateChartPage_Click);
             // 
             // kryptonGroupBoxStatus
             // 
             this.kryptonGroupBoxStatus.Location = new System.Drawing.Point(10, 291);
-            this.kryptonGroupBoxStatus.Name = "kryptonGroupBoxStatus";
             // 
             // kryptonGroupBoxStatus.Panel
             // 
@@ -286,45 +307,33 @@
             this.kryptonTextBoxStatus.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.kryptonTextBoxStatus.Size = new System.Drawing.Size(226, 51);
             this.kryptonTextBoxStatus.TabIndex = 0;
-            this.kryptonTextBoxStatus.Text = "";
-            // 
-            // kryptonLabel1
-            // 
-            this.kryptonLabel1.Location = new System.Drawing.Point(10, 375);
-            this.kryptonLabel1.Name = "kryptonLabel1";
-            this.kryptonLabel1.Size = new System.Drawing.Size(230, 20);
-            this.kryptonLabel1.TabIndex = 7;
-            this.kryptonLabel1.Values.Text = "Fix for Issue #2516";
-            this.kryptonLabel1.Values.ExtraText = "Save/Load Config Test";
             // 
             // DockingConfigSaveLoadTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(900, 450);
+            this.ClientSize = new System.Drawing.Size(900, 606);
             this.Controls.Add(this.kryptonDockableWorkspace1);
             this.Controls.Add(this.kryptonPanel1);
             this.Controls.Add(this.panelControls);
             this.Name = "DockingConfigSaveLoadTest";
             this.Text = "Docking Configuration Save/Load Test - Issue #2516";
-            this.Controls.SetChildIndex(this.panelControls, 0);
-            this.Controls.SetChildIndex(this.kryptonPanel1, 0);
-            this.Controls.SetChildIndex(this.kryptonDockableWorkspace1, 0);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonDockableWorkspace1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControls)).EndInit();
             this.panelControls.ResumeLayout(false);
-            this.panelControls.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBoxEdgeDocking.Panel)).EndInit();
             this.kryptonGroupBoxEdgeDocking.Panel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBoxEdgeDocking)).EndInit();
             this.kryptonGroupBoxEdgeDocking.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel2)).EndInit();
+            this.kryptonPanel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBoxPageCreation.Panel)).EndInit();
             this.kryptonGroupBoxPageCreation.Panel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBoxPageCreation)).EndInit();
             this.kryptonGroupBoxPageCreation.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel3)).EndInit();
+            this.kryptonPanel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBoxStatus.Panel)).EndInit();
             this.kryptonGroupBoxStatus.Panel.ResumeLayout(false);
             this.kryptonGroupBoxStatus.Panel.PerformLayout();
@@ -358,6 +367,5 @@
         private Krypton.Toolkit.KryptonButton btnLoadConfig;
         private Krypton.Toolkit.KryptonButton btnClearAll;
         private Krypton.Toolkit.KryptonButton btnTestIssue2516;
-        private Krypton.Toolkit.KryptonLabel kryptonLabel1;
     }
 }
