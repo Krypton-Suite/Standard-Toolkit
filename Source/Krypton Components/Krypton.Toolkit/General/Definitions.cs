@@ -4422,3 +4422,28 @@ public enum IconSelectionStrategy
 }
 
 #endregion
+
+#region IFocusLostMenuItem
+/// <summary>
+/// This interface can be implemented by any (derived) control or component that needs focus handling via the FocusLostMenuHelper.
+/// </summary>
+public interface IFocusLostMenuItem
+{
+    /// <summary>
+    /// Adds the item to the register.
+    /// </summary>
+    /// <param name="item">A valid instance of the item to register.</param>
+    void Register(IFocusLostMenuItem item);
+
+    /// <summary>
+    /// Removes the item from the register.
+    /// </summary>
+    /// <param name="item">A valid instance of the item to deregister.</param>
+    void Deregister(IFocusLostMenuItem item);
+
+    /// <summary>
+    /// ProcessItem is called from the FocusLostMenuHelper and lets the object react to the request in its own way.
+    /// </summary>
+    void ProcessItem();
+}
+#endregion
