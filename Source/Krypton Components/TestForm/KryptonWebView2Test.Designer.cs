@@ -12,6 +12,7 @@
 
 namespace TestForm
 {
+#if WEBVIEW2_AVAILABLE
     partial class KryptonWebView2Test
     {
         /// <summary>
@@ -42,7 +43,7 @@ namespace TestForm
         {
             this.components = new System.ComponentModel.Container();
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
-            this.kryptonWebView21 = new Krypton.Toolkit.KryptonWebView2();
+            this.kryptonWebView21 = new Krypton.Utilities.KryptonWebView2();
             this.kryptonLabel1 = new Krypton.Toolkit.KryptonLabel();
             this.kryptonPanel2 = new Krypton.Toolkit.KryptonPanel();
             this.kbtnRefresh = new Krypton.Toolkit.KryptonButton();
@@ -183,7 +184,7 @@ namespace TestForm
         #endregion
 
         private Krypton.Toolkit.KryptonPanel kryptonPanel1;
-        private Krypton.Toolkit.KryptonWebView2 kryptonWebView21;
+        private Krypton.Utilities.KryptonWebView2 kryptonWebView21;
         private Krypton.Toolkit.KryptonLabel kryptonLabel1;
         private Krypton.Toolkit.KryptonPanel kryptonPanel2;
         private Krypton.Toolkit.KryptonButton kbtnRefresh;
@@ -193,4 +194,5 @@ namespace TestForm
         private Krypton.Toolkit.KryptonTextBox kryptonTextBox1;
         private Krypton.Toolkit.KryptonLabel kryptonLabel2;
     }
+#endif
 }

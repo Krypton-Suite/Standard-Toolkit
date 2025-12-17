@@ -10,10 +10,13 @@
  */
 #endregion
 
+#if WEBVIEW2_AVAILABLE
 using Microsoft.Web.WebView2.Core;
+#endif
 
 namespace TestForm;
 
+#if WEBVIEW2_AVAILABLE
 /// <summary>
 /// Test form demonstrating the KryptonWebView2 control functionality.
 /// 
@@ -169,7 +172,7 @@ public partial class KryptonWebView2Test : KryptonForm
     /// On successful navigation, the address bar is updated with the current URL.
     /// This provides visual feedback to the user about the current page location.
     /// </remarks>
-    private void kryptonWebView21_NavigationCompleted(object sender, CoreWebView2NavigationCompletedEventArgs e)
+    private void kryptonWebView21_NavigationCompleted(object sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationCompletedEventArgs e)
     {
         // Update the address bar with the current URL
         if (e.IsSuccess && kryptonWebView21.CoreWebView2 != null)
@@ -178,3 +181,4 @@ public partial class KryptonWebView2Test : KryptonForm
         }
     }
 }
+#endif

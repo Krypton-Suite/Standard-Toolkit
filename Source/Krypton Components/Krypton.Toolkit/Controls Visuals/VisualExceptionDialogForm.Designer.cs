@@ -30,6 +30,7 @@
         {
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
             this.kbtnCopy = new Krypton.Toolkit.KryptonButton();
+            this.kbtnReportBug = new Krypton.Toolkit.KryptonButton();
             this.kbtnOk = new Krypton.Toolkit.KryptonButton();
             this.kryptonBorderEdge1 = new Krypton.Toolkit.KryptonBorderEdge();
             this.kryptonPanel2 = new Krypton.Toolkit.KryptonPanel();
@@ -50,6 +51,7 @@
             // kryptonPanel1
             // 
             this.kryptonPanel1.Controls.Add(this.kbtnCopy);
+            this.kryptonPanel1.Controls.Add(this.kbtnReportBug);
             this.kryptonPanel1.Controls.Add(this.kbtnOk);
             this.kryptonPanel1.Controls.Add(this.kryptonBorderEdge1);
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -63,13 +65,24 @@
             // 
             this.kbtnCopy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.kbtnCopy.Enabled = false;
-            this.kbtnCopy.Location = new System.Drawing.Point(939, 13);
+            this.kbtnCopy.Location = new System.Drawing.Point(843, 13);
             this.kbtnCopy.Name = "kbtnCopy";
             this.kbtnCopy.Size = new System.Drawing.Size(90, 25);
-            this.kbtnCopy.TabIndex = 2;
+            this.kbtnCopy.TabIndex = 3;
             this.kbtnCopy.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnCopy.Values.Text = "kryptonButton1";
             this.kbtnCopy.Click += new System.EventHandler(this.kbtnCopy_Click);
+            // 
+            // kbtnReportBug
+            // 
+            this.kbtnReportBug.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.kbtnReportBug.Location = new System.Drawing.Point(939, 13);
+            this.kbtnReportBug.Name = "kbtnReportBug";
+            this.kbtnReportBug.Size = new System.Drawing.Size(90, 25);
+            this.kbtnReportBug.TabIndex = 2;
+            this.kbtnReportBug.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kbtnReportBug.Values.Text = "Report Bug";
+            this.kbtnReportBug.Visible = false;
             // 
             // kbtnOk
             // 
@@ -205,6 +218,7 @@
 
         private KryptonPanel kryptonPanel1;
         private KryptonButton kbtnCopy;
+        private KryptonButton kbtnReportBug;
         private KryptonButton kbtnOk;
         private KryptonBorderEdge kryptonBorderEdge1;
         private KryptonPanel kryptonPanel2;
