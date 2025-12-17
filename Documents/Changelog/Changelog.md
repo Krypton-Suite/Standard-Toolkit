@@ -1,8 +1,10 @@
 # <img src="https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Krypton.png?raw=true"> Standard Toolkit - ChangeLog
 
-====
+=======
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
+
+* Implemented [#1026](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1026), Krypton version of `WebView2`
 * Implemented [#2753](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2753), Adds helper class that aids in closing menus at will, which don't repsond to losing focus.
 * Implemented [#2739](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2739), Add a file system list view
 * Implemented [#2735](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2735), `KryptonErrorProvider` - Part of #2658

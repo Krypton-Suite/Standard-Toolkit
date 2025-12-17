@@ -66,6 +66,55 @@
 	  </Content>
 	</ItemGroup>
 
+	<!-- System.Design reference for designer support -->
+	<ItemGroup>
+		<Reference Include="System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net4'))">
+			<SpecificVersion>True</SpecificVersion>
+			<Version>4.0.0.0</Version>
+		</Reference>
+	</ItemGroup>
+
+	<!-- WebView2 SDK Path -->
+	<PropertyGroup>
+		<WebView2SDKPath>$(MSBuildProjectDirectory)\..\..\..\WebView2SDK</WebView2SDKPath>
+		<WebView2CoreDll>$(WebView2SDKPath)\Microsoft.Web.WebView2.Core.dll</WebView2CoreDll>
+		<WebView2WinFormsDll>$(WebView2SDKPath)\Microsoft.Web.WebView2.WinForms.dll</WebView2WinFormsDll>
+	</PropertyGroup>
+
+	<!-- WebView2 SDK References (Conditional) -->
+	<ItemGroup Condition="$(TargetFramework.StartsWith('net4')) And Exists('$(WebView2CoreDll)')">
+		<Reference Include="Microsoft.Web.WebView2.Core, Version=1.0.3595.46, Culture=neutral, PublicKeyToken=2a8ab48044d2601e, processorArchitecture=MSIL">
+			<HintPath>$(WebView2CoreDll)</HintPath>
+			<Private>True</Private>
+		</Reference>
+		<Reference Include="Microsoft.Web.WebView2.WinForms, Version=1.0.3595.46, Culture=neutral, PublicKeyToken=2a8ab48044d2601e, processorArchitecture=MSIL">
+			<HintPath>$(WebView2WinFormsDll)</HintPath>
+			<Private>True</Private>
+		</Reference>
+	</ItemGroup>
+
+	<!-- WebView2 SDK References for .NET 8+ (Conditional) -->
+	<ItemGroup Condition="!$(TargetFramework.StartsWith('net4')) And Exists('$(WebView2CoreDll)')">
+		<Reference Include="Microsoft.Web.WebView2.Core">
+			<HintPath>$(WebView2CoreDll)</HintPath>
+			<Private>True</Private>
+		</Reference>
+		<Reference Include="Microsoft.Web.WebView2.WinForms">
+			<HintPath>$(WebView2WinFormsDll)</HintPath>
+			<Private>True</Private>
+		</Reference>
+	</ItemGroup>
+
+	<!-- Define WEBVIEW2_AVAILABLE symbol when WebView2 SDK is available -->
+	<PropertyGroup Condition="Exists('$(WebView2CoreDll)')">
+		<DefineConstants>$(DefineConstants);WEBVIEW2_AVAILABLE</DefineConstants>
+	</PropertyGroup>
+
+	<!-- WebView2 Toolbox Bitmap -->
+	<ItemGroup Condition="Exists('$(WebView2CoreDll)')">
+		<EmbeddedResource Include="KryptonWebView2\ToolboxBitmaps\WebView2.bmp" />
+	</ItemGroup>
+
 	<ItemGroup>
 	  <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
 	</ItemGroup>
