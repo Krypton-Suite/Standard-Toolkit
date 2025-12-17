@@ -1753,16 +1753,10 @@ public class KryptonRibbon : VisualSimple,
     #region WIN32 Calls
     public static class MouseControlFinder
     {
-        [DllImport(Libraries.User32, CharSet = CharSet.Unicode)]
-        private static extern IntPtr WindowFromPoint(Point point);
-
-        [DllImport(Libraries.User32, CharSet = CharSet.Unicode)]
-        private static extern IntPtr GetParent(IntPtr hWnd);
-
         // Returns the HWND under the current mouse cursor (screen coordinates).
         public static IntPtr HwndUnderMouse()
         {
-            return WindowFromPoint(Cursor.Position);
+            return PI.WindowFromPoint(Cursor.Position);
         }
 
         // Returns the WinForms Control under the mouse or null if none found.
@@ -1776,7 +1770,7 @@ public class KryptonRibbon : VisualSimple,
                 {
                     return control;
                 }
-                hwnd = GetParent(hwnd);
+                hwnd = PI.GetParent(hwnd);
             }
             return null;
         }
