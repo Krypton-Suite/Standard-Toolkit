@@ -124,16 +124,22 @@ public static class FocusLostMenuHelper
         ProcessWinformsContextMenus();
         ProcessWinformsToolStrips();
     }
-    
+
     private static void ProcessStandardItems()
     {
         // Only process items implementing IFocusLostMenuItem
-        _items.ForEach(item => item?.ProcessItem());
+        for (int i = 0; i < _items.Count; i++)
+        {
+            _items[i]?.ProcessItem();
+        }
     }
 
     private static void ProcessWinformsContextMenus()
     {
-        _winformsContextMenus.ForEach(item => item?.Close(ToolStripDropDownCloseReason.AppFocusChange));
+        for (int i = 0; i < _winformsContextMenus.Count; i++)
+        {
+            _winformsContextMenus[i]?.Close(ToolStripDropDownCloseReason.AppFocusChange);
+        }
     }
 
     private static void ProcessWinformsToolStrips()
