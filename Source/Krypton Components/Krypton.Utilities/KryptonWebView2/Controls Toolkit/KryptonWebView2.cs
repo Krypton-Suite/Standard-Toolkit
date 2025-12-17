@@ -10,9 +10,14 @@
 namespace Krypton.Utilities;
 
 #if WEBVIEW2_AVAILABLE && NET8_0_OR_GREATER
+
+#region Using Directives
 using Microsoft.Web.WebView2.WinForms;
+
 // Use a using alias to avoid namespace resolution issues
 using WebView2Base = Microsoft.Web.WebView2.WinForms.WebView2;
+
+#endregion
 
 /// <summary>
 /// Provide a WebView2 control with Krypton styling applied.
@@ -65,7 +70,7 @@ public class KryptonWebView2 : WebView2Base
 {
     #region Instance Fields
 
-    private PaletteBase _palette;
+    private PaletteBase? _palette;
     private readonly PaletteMode _paletteMode = PaletteMode.Global;
     private KryptonContextMenu? _kryptonContextMenu;
     private IRenderer _renderer;
@@ -230,7 +235,7 @@ public class KryptonWebView2 : WebView2Base
     [Category(@"Behavior")]
     [Description(@"Indicates whether the control allows external drag and drop operations.")]
     [DefaultValue(false)]
-    public bool AllowExternalDrop
+    public new bool AllowExternalDrop
     {
         get
         {
@@ -276,7 +281,7 @@ public class KryptonWebView2 : WebView2Base
     [Category(@"Behavior")]
     [Description(@"Gets or sets the creation properties for the WebView2 control.")]
     [DefaultValue(null)]
-    public object? CreationProperties
+    public new object? CreationProperties
     {
         get
         {
@@ -318,7 +323,8 @@ public class KryptonWebView2 : WebView2Base
     /// </remarks>
     [Category(@"Appearance")]
     [Description(@"Gets or sets the default background color for the WebView2 control.")]
-    public Color DefaultBackgroundColor
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public new Color DefaultBackgroundColor
     {
         get
         {
@@ -363,7 +369,7 @@ public class KryptonWebView2 : WebView2Base
     [Category(@"Behavior")]
     [Description(@"Gets or sets the zoom factor for the WebView2 control.")]
     [DefaultValue(1.0)]
-    public double ZoomFactor
+    public new double ZoomFactor
     {
         get
         {
@@ -481,11 +487,11 @@ public class KryptonWebView2 : WebView2Base
                 var mousePt = new Point(WebView2MessageHelper.LOWORD(m.LParam), WebView2MessageHelper.HIWORD(m.LParam));
 
                 // If keyboard activated, the menu position is centered
-                if (((int)(long)m.LParam) == -1)
+                if (((int)m.LParam) == -1)
                 {
                     // Use reflection to access Size property since it may not be directly accessible
                     var sizeProperty = typeof(Control).GetProperty("Size", BindingFlags.Public | BindingFlags.Instance);
-                    if (sizeProperty != null && sizeProperty.GetValue(this) is System.Drawing.Size size)
+                    if (sizeProperty != null && sizeProperty.GetValue(this) is Size size)
                     {
                         mousePt = new Point(size.Width / 2, size.Height / 2);
                     }
@@ -493,7 +499,7 @@ public class KryptonWebView2 : WebView2Base
                     {
                         // Fallback: use ClientSize if available
                         var clientSizeProperty = typeof(Control).GetProperty("ClientSize", BindingFlags.Public | BindingFlags.Instance);
-                        if (clientSizeProperty != null && clientSizeProperty.GetValue(this) is System.Drawing.Size clientSize)
+                        if (clientSizeProperty != null && clientSizeProperty.GetValue(this) is Size clientSize)
                         {
                             mousePt = new Point(clientSize.Width / 2, clientSize.Height / 2);
                         }
@@ -594,7 +600,7 @@ public class KryptonWebView2 : WebView2Base
     /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
     private void OnBaseChanged(object? sender, EventArgs e) =>
         // Change in base renderer or base palette require we fetch the latest renderer
-        _renderer = _palette.GetRenderer();
+        _renderer = _palette!.GetRenderer();
 
     /// <summary>
     /// Occurs when the global palette has been changed.
@@ -655,7 +661,7 @@ public class KryptonWebView2 : WebView2Base
     /// </summary>
     /// <returns>
     /// A <see cref="PaletteBase"/> instance that represents the currently active palette
-    /// for this control.
+    /// for this control, or null if no palette is set.
     /// </returns>
     /// <remarks>
     /// <para>
@@ -670,7 +676,7 @@ public class KryptonWebView2 : WebView2Base
     /// </remarks>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public PaletteBase GetResolvedPalette() => _palette;
+    public PaletteBase? GetResolvedPalette() => _palette;
 
     #endregion
 }
