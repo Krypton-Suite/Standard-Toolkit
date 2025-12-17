@@ -7,12 +7,12 @@
  */
 #endregion
 
-namespace Krypton.Toolkit;
+namespace Krypton.Utilities;
 
 /// <summary>The public interface to the <see cref="VisualExceptionDialogForm"/> class.</summary>
 [ToolboxItem(false)]
 [DesignerCategory(@"code")]
-internal static class KryptonExceptionDialog
+public static class KryptonExceptionDialog
 {
     #region Public
 

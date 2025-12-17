@@ -10,6 +10,8 @@
 using System.Diagnostics;
 using System.Reflection;
 
+using KryptonExceptionDialog = Krypton.Utilities.KryptonExceptionDialog;
+
 namespace TestForm;
 
 public partial class Main : KryptonForm

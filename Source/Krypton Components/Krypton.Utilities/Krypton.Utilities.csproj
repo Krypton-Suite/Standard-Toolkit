@@ -58,6 +58,7 @@
 		<!--<Compile Include="..\Krypton.Toolkit\General\Definitions.cs" Link="General\Definitions.cs" />-->
 		<Compile Include="..\Krypton.Toolkit\General\PlatformInvoke.cs" Link="General\PlatformInvoke.cs" />
 		<Compile Include="..\Krypton.Toolkit\Utilities\FileSystemIconHelper.cs" Link="KryptonFileSystemTreeView\Utilities\FileSystemIconHelper.cs" />
+		<Compile Include="..\Krypton.Toolkit\Tooling\GeneralToolkitUtilities.cs" Link="Tooling\GeneralToolkitUtilities.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -117,6 +118,12 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="KryptonExceptionDialog\Controls Visuals\VisualExceptionDialogForm.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
 	</ItemGroup>
 
 </Project>
