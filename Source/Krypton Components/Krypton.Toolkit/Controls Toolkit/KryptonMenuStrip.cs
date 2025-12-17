@@ -16,7 +16,8 @@ namespace Krypton.Toolkit;
 [Description(@"A Krypton based menu strip.")]
 [DesignerCategory(@"code")]
 [ToolboxItem(true)]
-public class KryptonMenuStrip : MenuStrip
+public class KryptonMenuStrip : MenuStrip,
+    IFocusLostMenuItem
 {
     #region Instance Fields
     private PaletteBase? _palette;
@@ -27,6 +28,7 @@ public class KryptonMenuStrip : MenuStrip
     private readonly PaletteBack _stateCommon;
     private readonly PaletteBack _stateDisabled;
     private readonly PaletteBack _stateNormal;
+    private bool _disposed;
     #endregion
 
     #region Constructor
@@ -59,6 +61,9 @@ public class KryptonMenuStrip : MenuStrip
 
         // Set initial font from palette
         UpdateFont();
+
+        // Register with the FocusLostMenuHelper
+        Register(this);
     }
 
     /// <summary>
@@ -67,8 +72,11 @@ public class KryptonMenuStrip : MenuStrip
     /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
     protected override void Dispose(bool disposing)
     {
-        if (disposing)
+        if (!_disposed && disposing)
         {
+            // Deregister from the FocusLostMenuHelper
+            Deregister(this);
+
             // Unhook from events
             KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChanged;
 
@@ -83,6 +91,8 @@ public class KryptonMenuStrip : MenuStrip
             {
                 _hookedGlobalPalette.PalettePaintInternal -= OnGlobalPalettePaint;
             }
+
+            _disposed = true;
         }
 
         base.Dispose(disposing);
@@ -386,7 +396,39 @@ public class KryptonMenuStrip : MenuStrip
             }
         }
     }
-#endregion
+    #endregion
+
+    #region IFocusLostMenuItem
+    /// <inheritdoc/>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public void ProcessItem()
+    {
+        for (int i = 0; i < Items.Count; i++)
+        {
+            if (Items[i] is ToolStripMenuItem dropDownItem
+                && dropDownItem.DropDown.Visible)
+            {
+                dropDownItem.DropDown.Close(ToolStripDropDownCloseReason.AppFocusChange);
+                return;
+            }
+        }
+    }
+
+    /// <inheritdoc/>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public void Register(IFocusLostMenuItem item)
+    {
+        FocusLostMenuHelper.Register(item);
+    }
+
+    /// <inheritdoc/>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public void Deregister(IFocusLostMenuItem item)
+    {
+        FocusLostMenuHelper.Deregister(item);
+    }
+    #endregion
+
 }
 
 

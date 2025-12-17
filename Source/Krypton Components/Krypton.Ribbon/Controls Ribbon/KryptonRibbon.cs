@@ -1652,6 +1652,9 @@ public class KryptonRibbon : VisualSimple,
     /// <param name="e">An EventArgs containing event data.</param>
     protected virtual void OnSelectedTabChanged(EventArgs e)
     {
+        // Request item processing from the focus lost helper
+        FocusLostMenuHelper.ProcessItems();
+        
         // Need to recalculate anything relying on the palette
         DirtyPaletteCounter++;
 
