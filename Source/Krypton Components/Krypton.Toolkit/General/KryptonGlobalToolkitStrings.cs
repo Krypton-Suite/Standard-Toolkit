@@ -46,6 +46,11 @@ public class KryptonGlobalToolkitStrings : GlobalId
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public static DataGridViewStyleStrings DataGridViewStyles { get; } = new DataGridViewStyleStrings();
 
+    /// <summary>Gets the file system list view strings.</summary>
+    /// <value>The file system list view strings.</value>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public static KryptonFileSystemListViewStrings KryptonFileSystemListViewStrings { get; } = new KryptonFileSystemListViewStrings();
+
     /// <summary>Gets the style strings.</summary>
     /// <value>The style strings.</value>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -328,6 +333,17 @@ public class KryptonGlobalToolkitStrings : GlobalId
     public GeneralToolkitStrings GeneralStrings => GeneralToolkitStrings;
     private bool ShouldSerializeGeneralStrings() => !GeneralToolkitStrings.IsDefault;
     private void ResetGeneralStrings() => GeneralToolkitStrings.Reset();
+
+    [Category(@"Visuals")]
+    [Description(@"Collection of file system list view strings.")]
+    [MergableProperty(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    [Localizable(true)]
+    public KryptonFileSystemListViewStrings FileSystemListViewStrings => KryptonFileSystemListViewStrings;
+
+    private bool ShouldSerializeFileSystemListViewStrings() => !KryptonFileSystemListViewStrings.IsDefault;
+
+    private void ResetFileSystemListViewStrings() => KryptonFileSystemListViewStrings.Reset();
 
     /// <summary>Gets the integrated toolbar button strings.</summary>
     /// <value>The integrated toolbar button strings.</value>
@@ -694,7 +710,7 @@ public class KryptonGlobalToolkitStrings : GlobalId
                                ShouldSerializeBackStyleStrings() || ShouldSerializeBorderStyleStrings() ||
                                ShouldSerializeButtonOrientationStrings() ||
                                ShouldSerializeButtonSpecStyleStrings() || ShouldSerializeButtonStyleStrings() ||
-                               ShouldSerializeColorStrings() || ShouldSerializeCustomStrings() ||
+                               ShouldSerializeColorStrings() || ShouldSerializeCustomStrings() || ShouldSerializeFileSystemListViewStrings() ||
                                ShouldSerializeGeneralRibbonStrings() || ShouldSerializeGeneralStrings() ||
                                ShouldSerializeGridStyleStrings() || ShouldSerializeGridViewStyleStrings() ||
                                ShouldSerializeHeaderGroupCollapsedTargetStrings() ||
@@ -726,6 +742,7 @@ public class KryptonGlobalToolkitStrings : GlobalId
         ResetButtonStyleStrings();
         ResetColorStrings();
         ResetCustomStrings();
+        ResetFileSystemListViewStrings();
         ResetGeneralRibbonStrings();
         ResetGeneralStrings();
         ResetGridStyleStrings();
