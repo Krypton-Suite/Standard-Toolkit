@@ -23,7 +23,7 @@ internal static class KryptonExceptionDialog
     /// present error information without customizing the dialog's appearance or behavior.</remarks>
     /// <param name="exception">The exception to display. Cannot be null.</param>
     public static void Show(Exception exception) =>
-        ShowCore(exception, null, null, null);
+        ShowCore(exception, null, null, null, null);
 
     /// <summary>
     /// Displays the specified exception in a user interface dialog, optionally highlighting the dialog with a custom color.
@@ -31,7 +31,7 @@ internal static class KryptonExceptionDialog
     /// <param name="exception">The exception to display. Cannot be null.</param>
     /// <param name="highlightColor">An optional color used to highlight the dialog. If null, the default highlight color is used.</param>
     public static void Show(Exception exception, Color? highlightColor) =>
-        ShowCore(exception, highlightColor, null, null);
+        ShowCore(exception, highlightColor, null, null, null);
 
     /// <summary>
     /// Displays a dialog showing details of the specified exception, with optional controls for copying the error information and searching for solutions.
@@ -44,7 +44,7 @@ internal static class KryptonExceptionDialog
     /// langword="true"/>, the search box is displayed; if <see langword="false"/>, it is hidden; if <see
     /// langword="null"/>, the default behavior is used.</param>
     public static void Show(Exception exception, bool? showCopyButton, bool? showSearchBox) =>
-        ShowCore(exception, null, showCopyButton, showSearchBox);
+        ShowCore(exception, null, showCopyButton, showSearchBox, null);
 
     /// <summary>
     /// Displays a dialog that presents details about the specified exception, with optional UI features such as highlighting and copy/search controls.
@@ -55,7 +55,18 @@ internal static class KryptonExceptionDialog
     /// <param name="showCopyButton">An optional value indicating whether to show a button that allows users to copy exception details. If null, the default behavior is applied.</param>
     /// <param name="showSearchBox">An optional value indicating whether to show a search box for filtering exception details. If null, the default behavior is applied.</param>
     public static void Show(Exception exception, Color? highlightColor, bool? showCopyButton, bool? showSearchBox) =>
-        ShowCore(exception, highlightColor, showCopyButton, showSearchBox);
+        ShowCore(exception, highlightColor, showCopyButton, showSearchBox, null);
+
+    /// <summary>
+    /// Displays a dialog that presents details about the specified exception, with optional UI features and bug reporting capability.
+    /// </summary>
+    /// <param name="exception">The exception to display in the dialog. Cannot be null.</param>
+    /// <param name="highlightColor">An optional color used to highlight key information in the dialog. If null, the default highlight color is used.</param>
+    /// <param name="showCopyButton">An optional value indicating whether to show a button that allows users to copy exception details. If null, the default behavior is applied.</param>
+    /// <param name="showSearchBox">An optional value indicating whether to show a search box for filtering exception details. If null, the default behavior is applied.</param>
+    /// <param name="bugReportCallback">An optional callback that will be invoked when the user clicks the "Report Bug" button. If provided, a "Report Bug" button will be shown.</param>
+    public static void Show(Exception exception, Color? highlightColor, bool? showCopyButton, bool? showSearchBox, Action<Exception>? bugReportCallback) =>
+        ShowCore(exception, highlightColor, showCopyButton, showSearchBox, bugReportCallback);
 
     #endregion
 
@@ -68,8 +79,9 @@ internal static class KryptonExceptionDialog
     /// <param name="highlightColor">An optional color used to highlight elements in the dialog. If null, the default highlight color is used.</param>
     /// <param name="showCopyButton">An optional value indicating whether to show a button for copying exception details. If null, the default behavior is used.</param>
     /// <param name="showSearchBox">An optional value indicating whether to show a search box for filtering exception details. If null, the default behavior is used.</param>
-    private static void ShowCore(Exception exception, Color? highlightColor, bool? showCopyButton, bool? showSearchBox) =>
-        VisualExceptionDialogForm.Show(exception, highlightColor, showCopyButton, showSearchBox);
+    /// <param name="bugReportCallback">An optional callback that will be invoked when the user clicks the "Report Bug" button.</param>
+    private static void ShowCore(Exception exception, Color? highlightColor, bool? showCopyButton, bool? showSearchBox, Action<Exception>? bugReportCallback) =>
+        VisualExceptionDialogForm.Show(exception, highlightColor, showCopyButton, showSearchBox, bugReportCallback);
 
     #endregion
 }
