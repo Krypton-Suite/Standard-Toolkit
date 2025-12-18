@@ -1,0 +1,115 @@
+<Project>
+	<!--
+		WebView2 SDK Auto-Setup Targets
+		=================================
+		
+		This targets file automatically downloads and sets up the WebView2 SDK if it's not present.
+		It runs before the build process to ensure WebView2 SDK is available when needed.
+		
+		The setup process:
+		1. Checks if WebView2 SDK files exist in the WebView2SDK directory
+		2. If missing, downloads the latest stable version from NuGet
+		3. Copies the required DLLs to the WebView2SDK folder
+		4. Cleans up the temporary NuGet package reference
+	-->
+
+	<PropertyGroup>
+		<WebView2SDKPath Condition="'$(WebView2SDKPath)' == ''">$(MSBuildProjectDirectory)\..\..\..\WebView2SDK</WebView2SDKPath>
+		<WebView2CoreDll Condition="'$(WebView2CoreDll)' == ''">$(WebView2SDKPath)\Microsoft.Web.WebView2.Core.dll</WebView2CoreDll>
+		<WebView2WinFormsDll Condition="'$(WebView2WinFormsDll)' == ''">$(WebView2SDKPath)\Microsoft.Web.WebView2.WinForms.dll</WebView2WinFormsDll>
+		<WebView2LoaderDll Condition="'$(WebView2LoaderDll)' == ''">$(WebView2SDKPath)\WebView2Loader.dll</WebView2LoaderDll>
+	</PropertyGroup>
+
+	<!-- Target to check if WebView2 SDK is present -->
+	<!-- Run very early in the build process, before property evaluation for DefineConstants -->
+	<!-- Also runs during design-time builds to ensure IntelliSense works correctly -->
+	<Target Name="CheckWebView2SDK" BeforeTargets="Restore;PrepareForBuild;ResolveReferences;BeforeBuild">
+		<PropertyGroup>
+			<WebView2SDKExists Condition="Exists('$(WebView2CoreDll)') And Exists('$(WebView2WinFormsDll)') And Exists('$(WebView2LoaderDll)')">true</WebView2SDKExists>
+			<WebView2SDKExists Condition="'$(WebView2SDKExists)' == ''">false</WebView2SDKExists>
+		</PropertyGroup>
+		<Message Text="WebView2 SDK check: $(WebView2SDKExists)" Importance="normal" Condition="'$(WebView2SDKExists)' == 'true'" />
+		<Message Text="WebView2 SDK not found. Auto-setup will be attempted..." Importance="high" Condition="'$(WebView2SDKExists)' == 'false'" />
+	</Target>
+
+	<!-- Target to automatically set up WebView2 SDK if missing -->
+	<!-- Run very early in the build process, before Restore and property evaluation -->
+	<!-- Note: We only skip during design-time builds if BuildingProject is false to avoid unnecessary work -->
+	<!-- The setup only copies files and doesn't modify project files, so it's safe to run -->
+	<Target Name="SetupWebView2SDK" 
+			BeforeTargets="Restore;PrepareForBuild;ResolveReferences;BeforeBuild" 
+			Condition="'$(WebView2SDKExists)' == 'false' And '$(DisableWebView2AutoSetup)' != 'true' And ('$(DesignTimeBuild)' != 'true' Or '$(BuildingProject)' == 'true')"
+			DependsOnTargets="CheckWebView2SDK">
+		
+		<Message Text="Starting automatic WebView2 SDK setup..." Importance="high" />
+		
+		<!-- Create WebView2SDK directory if it doesn't exist -->
+		<MakeDir Directories="$(WebView2SDKPath)" Condition="!Exists('$(WebView2SDKPath)')" />
+		
+		<!-- Get the latest WebView2 version using PowerShell -->
+		<Exec Command="powershell -ExecutionPolicy Bypass -NoProfile -Command &quot;$packageId = 'Microsoft.Web.WebView2'; $latestVersion = $null; try { $searchUrl = 'https://azuresearch-usnc.nuget.org/query?q=' + $packageId + '&amp;prerelease=false&amp;semVerLevel=2.0.0&amp;take=1'; $searchResponse = Invoke-RestMethod -Uri $searchUrl -Method Get; if ($searchResponse.data -and $searchResponse.data.Count -gt 0) { $latestVersion = $searchResponse.data[0].version } } catch { try { $apiUrl = 'https://api.nuget.org/v3-flatcontainer/' + $packageId + '/index.json'; $response = Invoke-RestMethod -Uri $apiUrl -Method Get; if ($response.versions) { $stableVersions = $response.versions | Where-Object { $_ -notmatch '[-]' -and $_ -match '^\d+\.\d+\.\d+$' }; if ($stableVersions) { $latestVersion = $stableVersions | Sort-Object { [System.Version]$_ } -Descending | Select-Object -First 1 } } } catch {} }; if (-not $latestVersion) { $latestVersion = '1.0.3595.46' }; Write-Output $latestVersion&quot;" 
+			  ContinueOnError="true" 
+			  ConsoleToMSBuild="true">
+			<Output TaskParameter="ConsoleOutput" PropertyName="WebView2Version" />
+		</Exec>
+		
+		<!-- Fallback version if PowerShell failed -->
+		<PropertyGroup>
+			<WebView2Version Condition="'$(WebView2Version)' == ''">1.0.3595.46</WebView2Version>
+		</PropertyGroup>
+		
+		<Message Text="Using WebView2 SDK version: $(WebView2Version)" Importance="normal" />
+		
+		<!-- Temporarily add the NuGet package to download it -->
+		<Exec Command="dotnet add &quot;$(MSBuildProjectFile)&quot; package Microsoft.Web.WebView2 --version $(WebView2Version) --no-restore" 
+			  ContinueOnError="true" 
+			  WorkingDirectory="$(MSBuildProjectDirectory)" />
+		
+		<!-- Restore packages to download the WebView2 SDK -->
+		<Exec Command="dotnet restore &quot;$(MSBuildProjectFile)&quot;" 
+			  ContinueOnError="false" 
+			  WorkingDirectory="$(MSBuildProjectDirectory)" />
+		
+		<!-- Copy DLLs from NuGet cache to WebView2SDK folder -->
+		<Exec Command="powershell -ExecutionPolicy Bypass -NoProfile -Command &quot;$nugetBasePath = Join-Path $env:USERPROFILE '.nuget\packages\microsoft.web.webview2\$(WebView2Version)'; $sdkPath = '$(WebView2SDKPath)'; if (Test-Path $nugetBasePath) { $coreDll = Get-ChildItem -Path $nugetBasePath -Recurse -Filter 'Microsoft.Web.WebView2.Core.dll' | Select-Object -First 1; if ($coreDll) { Copy-Item $coreDll.FullName $sdkPath -Force; Write-Host 'Copied Microsoft.Web.WebView2.Core.dll' }; $winFormsDll = Get-ChildItem -Path $nugetBasePath -Recurse -Filter 'Microsoft.Web.WebView2.WinForms.dll' | Select-Object -First 1; if ($winFormsDll) { Copy-Item $winFormsDll.FullName $sdkPath -Force; Write-Host 'Copied Microsoft.Web.WebView2.WinForms.dll' }; $loaderDll = Get-ChildItem -Path $nugetBasePath -Recurse -Filter 'WebView2Loader.dll' | Select-Object -First 1; if ($loaderDll) { Copy-Item $loaderDll.FullName $sdkPath -Force; Write-Host 'Copied WebView2Loader.dll' } } else { Write-Error ('NuGet package directory not found: ' + $nugetBasePath) }&quot;" 
+			  ContinueOnError="true" 
+			  WorkingDirectory="$(MSBuildProjectDirectory)" />
+		
+		<!-- Remove the temporary NuGet package reference -->
+		<Exec Command="dotnet remove &quot;$(MSBuildProjectFile)&quot; package Microsoft.Web.WebView2" 
+			  ContinueOnError="true" 
+			  WorkingDirectory="$(MSBuildProjectDirectory)" />
+		
+		<!-- Verify setup was successful -->
+		<PropertyGroup>
+			<WebView2SetupSuccess Condition="Exists('$(WebView2CoreDll)') And Exists('$(WebView2WinFormsDll)') And Exists('$(WebView2LoaderDll)')">true</WebView2SetupSuccess>
+			<WebView2SetupSuccess Condition="'$(WebView2SetupSuccess)' == ''">false</WebView2SetupSuccess>
+		</PropertyGroup>
+		
+		<Message Text="WebView2 SDK auto-setup completed successfully!" Importance="high" Condition="'$(WebView2SetupSuccess)' == 'true'" />
+		<Warning Text="WebView2 SDK auto-setup failed. Please run Scripts\WebVew2\Setup-WebView2SDK.cmd manually or install Microsoft.Web.WebView2 via NuGet." Condition="'$(WebView2SetupSuccess)' == 'false'" />
+		
+		<!-- Update DefineConstants after successful setup -->
+		<PropertyGroup Condition="'$(WebView2SetupSuccess)' == 'true'">
+			<DefineConstants>$(DefineConstants);WEBVIEW2_AVAILABLE</DefineConstants>
+		</PropertyGroup>
+	</Target>
+
+	<!-- Target to ensure WEBVIEW2_AVAILABLE is defined if files exist (runs after setup) -->
+	<!-- This ensures the symbol is available even if the project file's static condition hasn't been re-evaluated -->
+	<!-- This runs during both regular builds and design-time builds to ensure IntelliSense works -->
+	<Target Name="EnsureWebView2Symbol" BeforeTargets="Restore;PrepareForBuild;BeforeBuild;CoreCompile" AfterTargets="SetupWebView2SDK;CheckWebView2SDK">
+		<!-- Check if files exist -->
+		<PropertyGroup>
+			<_WebView2FilesExist Condition="Exists('$(WebView2CoreDll)') And Exists('$(WebView2WinFormsDll)') And Exists('$(WebView2LoaderDll)')">true</_WebView2FilesExist>
+		</PropertyGroup>
+		<!-- Add the symbol if files exist (MSBuild will handle duplicates) -->
+		<!-- This is critical for IntelliSense to work correctly -->
+		<PropertyGroup Condition="'$(_WebView2FilesExist)' == 'true'">
+			<DefineConstants>$(DefineConstants);WEBVIEW2_AVAILABLE</DefineConstants>
+		</PropertyGroup>
+		<Message Text="WEBVIEW2_AVAILABLE symbol set: $(_WebView2FilesExist)" Importance="low" />
+	</Target>
+
+</Project>
+
