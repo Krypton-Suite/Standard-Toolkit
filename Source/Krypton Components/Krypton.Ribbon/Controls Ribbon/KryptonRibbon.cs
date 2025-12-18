@@ -83,7 +83,6 @@ public class KryptonRibbon : VisualSimple,
     // Properties
     private bool _minimizedMode;
     private bool _showMinimizeButton;
-    private bool _scrollTabGroupArea;
     private string _selectedContext;
     private Size _hideRibbonSize;
     private QATLocation _qatLocation;
@@ -922,25 +921,6 @@ public class KryptonRibbon : VisualSimple,
     }
 
     /// <summary>
-    /// Gets and sets a value indicating whether scrolling over the RibbonGroupArea changes the ribbon tab.
-    /// </summary>
-    [Category(@"Values")]
-    [Description(@"Does scrolling over the RibbonGroupArea change the ribbon tab.")]
-    [DefaultValue(true)]
-    public bool ScrollTabGroupArea
-    {
-        get => _scrollTabGroupArea;
-
-        set
-        {
-            if (_scrollTabGroupArea != value)
-            {
-                _scrollTabGroupArea = value;
-            }
-        }
-    }
-
-    /// <summary>
     /// Resets the ShowMinimizeButton property to its default value.
     /// </summary>
     public void ResetShowMinimizeButton() => ShowMinimizeButton = true;
@@ -1126,33 +1106,11 @@ public class KryptonRibbon : VisualSimple,
                             };
 
                             // Only interested if over the tabs area
-                            if (TabsArea.ClientRectangle.Contains(PointToClient(pt)) || (_scrollTabGroupArea && GroupsArea.ClientRectangle.Contains(PointToClient(pt))))
+                            if (TabsArea.ClientRectangle.Contains(PointToClient(pt)))
                             {
-                                if (MouseControlFinder.ControlUnderMouse() is Control control && control.Enabled)
-                                {
-                                    if (control is ComboBox or KryptonTrackBar or VisualPopupAppMenu or VisualContextMenu || control.Parent is DomainUpDown or NumericUpDown)
-                                    {
-                                        return false;
-                                    }
-                                    else if (control is TextBox textBox
-                                        && textBox.Multiline
-                                        && textBox.ScrollBars is ScrollBars.Both or ScrollBars.Vertical or ScrollBars.Horizontal)
-                                    {
-                                        return false;
-                                    }
-                                    else if (control is RichTextBox richTextBox
-                                        && richTextBox.Multiline
-                                        && richTextBox.ScrollBars is RichTextBoxScrollBars.Vertical or RichTextBoxScrollBars.ForcedVertical or RichTextBoxScrollBars.Both or RichTextBoxScrollBars.ForcedBoth)
-                                    {
-                                        return false;
-                                    }
-                                    else
-                                    {
-                                        var delta = (short)PI.HIWORD((int)m.WParam.ToInt64());
-                                        TabsArea.LayoutTabs.ProcessMouseWheel(delta < 0);
-                                        return true;
-                                    }
-                                }
+                                var delta = (short)PI.HIWORD((int)m.WParam.ToInt64());
+                                TabsArea.LayoutTabs.ProcessMouseWheel(delta < 0);
+                                return true;
                             }
                         }
                     }
@@ -1748,33 +1706,6 @@ public class KryptonRibbon : VisualSimple,
     /// <param name="e">An EventArgs containing event data.</param>
     protected virtual void OnMinimizedModeChanged(EventArgs e) => MinimizedModeChanged?.Invoke(this, e);
 
-    #endregion
-
-    #region WIN32 Calls
-    public static class MouseControlFinder
-    {
-        // Returns the HWND under the current mouse cursor (screen coordinates).
-        public static IntPtr HwndUnderMouse()
-        {
-            return PI.WindowFromPoint(Cursor.Position);
-        }
-
-        // Returns the WinForms Control under the mouse or null if none found.
-        public static Control? ControlUnderMouse()
-        {
-            IntPtr hwnd = HwndUnderMouse();
-            while (hwnd != IntPtr.Zero)
-            {
-                Control? control = FromHandle(hwnd);
-                if (control != null)
-                {
-                    return control;
-                }
-                hwnd = PI.GetParent(hwnd);
-            }
-            return null;
-        }
-    }
     #endregion
 
     #region Internal
@@ -2601,7 +2532,6 @@ public class KryptonRibbon : VisualSimple,
         MinimizedMode = false;
         ScrollerStyle = ButtonStyle.Standalone;
         ShowMinimizeButton = true;
-        ScrollTabGroupArea = true;
         QATLocation = QATLocation.Above;
         QATUserChange = true;
         LostFocusLosesKeyboard = true;
