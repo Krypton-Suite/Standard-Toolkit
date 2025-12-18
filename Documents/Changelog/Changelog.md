@@ -5,6 +5,7 @@
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
 * Implemented [#2762](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2762), **[Breaking Change]** Move the public facing version of `KryptonExceptionDialog` to `Krypton.Utilities`
+* Implemented [#2570](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2570), Added Tab scrolling with mouse over Ribbon's GroupsArea - ScrollTabGroupArea for #331.
 * Implemented [#2749](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2749), Usage of native Krypton controls, i.e. TreeView & RichTextBox - Part of #2720
 * Implemented [#1026](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1026), Krypton version of `WebView2`
 * Implemented [#2753](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2753), Adds helper class that aids in closing menus at will, which don't repsond to losing focus.

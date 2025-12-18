@@ -13,12 +13,68 @@
 namespace Krypton.Toolkit;
 
 [ToolboxBitmap(typeof(ToolStrip)), Description(@"A standard tool strip equipped with the Krypton theme."), ToolboxItem(true)]
-public class KryptonToolStrip : ToolStrip
+public class KryptonToolStrip : ToolStrip,
+    IFocusLostMenuItem
 {
+    #region Fields
+    private bool _disposed;
+    #endregion
+
     #region Constructor
-    public KryptonToolStrip() =>
+    public KryptonToolStrip()
+    {
+        _disposed = false;
+
         // Use Krypton
         RenderMode = ToolStripRenderMode.ManagerRenderMode;
 
+        // Register with the FocusLostMenuHelper
+        Register(this);
+    }
     #endregion
+
+    #region Override
+    protected override void Dispose(bool disposing)
+    {
+        if (!_disposed && disposing)
+        {
+            // Deregister from the FocusLostMenuHelper
+            Deregister(this);
+        }
+
+        base.Dispose(disposing);
+    }
+    #endregion
+
+    #region IFocusLostMenuItem
+    /// <inheritdoc/>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public void ProcessItem()
+    {
+        for (int i = 0; i < Items.Count; i++)
+        {
+            if (Items[i] is ToolStripDropDownButton dropDownItem
+                && dropDownItem.DropDown.Visible)
+            {
+                dropDownItem.DropDown.Close(ToolStripDropDownCloseReason.AppFocusChange);
+                return;
+            }
+        }
+    }
+
+    /// <inheritdoc/>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public void Register(IFocusLostMenuItem item)
+    {
+        FocusLostMenuHelper.Register(item);
+    }
+
+    /// <inheritdoc/>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public void Deregister(IFocusLostMenuItem item)
+    {
+        FocusLostMenuHelper.Deregister(item);
+    }
+    #endregion
+
 }
