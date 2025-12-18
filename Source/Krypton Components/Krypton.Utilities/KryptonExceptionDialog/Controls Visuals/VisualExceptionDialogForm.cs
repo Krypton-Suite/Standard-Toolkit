@@ -9,7 +9,7 @@
 
 namespace Krypton.Utilities;
 
-public partial class VisualExceptionDialogForm : KryptonForm
+internal partial class VisualExceptionDialogForm : KryptonForm
 {
     #region Instance Fields
 
@@ -17,9 +17,13 @@ public partial class VisualExceptionDialogForm : KryptonForm
 
     private readonly bool? _showSearchBox;
 
+    private readonly bool? _showSubmitBugReportButton;
+
     private readonly Color? _highlightColor;
 
     private readonly Exception? _exception;
+
+    private readonly Action<Exception>? _bugReportCallback;
 
     private List<KryptonTreeNode> _originalNodes = new List<KryptonTreeNode>();
 
@@ -27,7 +31,7 @@ public partial class VisualExceptionDialogForm : KryptonForm
 
     #region Identity
 
-    public VisualExceptionDialogForm(bool? showCopyButton, bool? showSearchBox, Color? highlightColor, Exception exception)
+    public VisualExceptionDialogForm(bool? showCopyButton, bool? showSearchBox, bool? showSubmitBugReportButton, Color? highlightColor, Exception exception, Action<Exception>? bugReportCallback = null)
     {
         InitializeComponent();
 
@@ -37,9 +41,13 @@ public partial class VisualExceptionDialogForm : KryptonForm
 
         _showSearchBox = showSearchBox ?? false;
 
+        _showSubmitBugReportButton = showSubmitBugReportButton ?? false;
+
         _highlightColor = highlightColor ?? Color.LightYellow;
 
         _exception = exception;
+
+        _bugReportCallback = bugReportCallback;
 
         // Set highlight color
         isbSearchArea.HighlightColor = (Color)_highlightColor;
@@ -59,7 +67,19 @@ public partial class VisualExceptionDialogForm : KryptonForm
         kbtnCopy.Text = KryptonManager.Strings.GeneralStrings.Copy;
         kbtnOk.Text = KryptonManager.Strings.GeneralStrings.OK;
         kbtnCopy.Visible = _showCopyButton ?? true;
+        kbtnCopy.Visible = _showSubmitBugReportButton ?? true;
         isbSearchArea.ShowSearchFeatures = _showSearchBox ?? true;
+
+        if (_bugReportCallback != null && _exception != null)
+        {
+            kbtnReportBug.Visible = true;
+            kbtnReportBug.Text = KryptonManager.Strings.BugReportingDialogStrings.ReportBugButtonText;
+            kbtnReportBug.Click += KbtnReportBug_Click;
+        }
+        else
+        {
+            kbtnReportBug.Visible = false;
+        }
 
         isbSearchArea.SearchBox.CueHint.CueHintText = KryptonManager.Strings.ExceptionDialogStrings.SearchBoxCueText;
         if (_exception is not null)
@@ -112,13 +132,21 @@ public partial class VisualExceptionDialogForm : KryptonForm
 
     private void krtbExceptionDetails_TextChanged(object sender, EventArgs e) => kbtnCopy.Enabled = !string.IsNullOrEmpty(krtbExceptionDetails.Text);
 
+    private void KbtnReportBug_Click(object? sender, EventArgs e)
+    {
+        if (_exception != null && _bugReportCallback != null)
+        {
+            _bugReportCallback(_exception);
+        }
+    }
+
     #endregion
 
     #region Show
 
-    internal static void Show(Exception exception, Color? highlightColor, bool? showCopyButton, bool? showSearchBox)
+    internal static void Show(Exception exception, Color? highlightColor, bool? showCopyButton, bool? showSubmitBugReportButton, bool? showSearchBox, Action<Exception>? bugReportCallback = null)
     {
-        using var ved = new VisualExceptionDialogForm(showCopyButton, showSearchBox, highlightColor, exception);
+        using var ved = new VisualExceptionDialogForm(showCopyButton, showSearchBox, showSubmitBugReportButton, highlightColor, exception, bugReportCallback);
 
         ved.ShowDialog();
     }

@@ -9,7 +9,7 @@
 
 namespace Krypton.Toolkit;
 
-public partial class VisualExceptionDialogForm : KryptonForm
+internal partial class VisualExceptionDialogForm : KryptonForm
 {
     #region Instance Fields
 

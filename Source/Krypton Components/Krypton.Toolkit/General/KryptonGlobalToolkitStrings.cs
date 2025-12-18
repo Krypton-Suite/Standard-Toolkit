@@ -173,6 +173,11 @@ public class KryptonGlobalToolkitStrings : GlobalId
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public static KryptonAboutBoxStrings KryptonAboutBoxStrings { get; } = new KryptonAboutBoxStrings();
 
+    /// <summary>Gets the bug reporting dialog strings.</summary>
+    /// <value>The bug reporting dialog strings.</value>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public static KryptonBugReportingDialogStrings KryptonBugReportingDialogStrings { get; } = new KryptonBugReportingDialogStrings();
+
     /// <summary>Gets the exception dialog strings.</summary>
     /// <value>The exception dialog strings.</value>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -513,6 +518,20 @@ public class KryptonGlobalToolkitStrings : GlobalId
     private bool ShouldSerializeAboutBoxStrings() => !KryptonAboutBoxStrings.IsDefault;
     private void ResetAboutBoxStrings() => KryptonAboutBoxStrings.Reset();
 
+    /// <summary>Gets the krypton bug reporting dialog strings.</summary>
+    /// <value>The krypton bug reporting dialog strings.</value>
+    [Category(@"Visuals")]
+    [Description(@"Collection of bug reporting dialog strings.")]
+    [MergableProperty(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    [Localizable(true)]
+    public KryptonBugReportingDialogStrings BugReportingDialogStrings => KryptonBugReportingDialogStrings;
+
+    private bool ShouldSerializeBugReportingDialogStrings() => !KryptonBugReportingDialogStrings.IsDefault;
+
+    /// <summary>Resets the krypton bug reporting dialog strings.</summary>
+    private void ResetBugReportingDialogStrings() => KryptonBugReportingDialogStrings.Reset();
+
     /// <summary>Gets the krypton exception dialog strings.</summary>
     /// <value>The krypton exception dialog strings.</value>
     [Category(@"Visuals")]
@@ -706,6 +725,7 @@ public class KryptonGlobalToolkitStrings : GlobalId
     [EditorBrowsable(EditorBrowsableState.Never)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public bool IsDefault => !(ShouldSerializeAboutBoxBasicStrings() || ShouldSerializeAboutBoxStrings() ||
+                               ShouldSerializeBugReportingDialogStrings() ||
                                ShouldSerializeExceptionDialogStrings() ||
                                ShouldSerializeBackStyleStrings() || ShouldSerializeBorderStyleStrings() ||
                                ShouldSerializeButtonOrientationStrings() ||
@@ -734,6 +754,7 @@ public class KryptonGlobalToolkitStrings : GlobalId
     {
         ResetAboutBoxBasicStrings();
         ResetAboutBoxStrings();
+        ResetBugReportingDialogStrings();
         ResetExceptionDialogStrings();
         ResetBackStyleStrings();
         ResetBorderStyleStrings();

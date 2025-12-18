@@ -7,7 +7,7 @@
  */
 #endregion
 
-namespace Krypton.Utilities;
+namespace Krypton.Toolkit;
 
 /// <summary>Exposes a general set of strings that are used within the Krypton bug reporting dialog, and are localisable.</summary>
 /// <seealso cref="GlobalId" />
@@ -33,6 +33,7 @@ public class KryptonBugReportingDialogStrings : GlobalId
     private const string DEFAULT_BUG_REPORTING_DIALOG_ERROR_MESSAGE = @"An error occurred while sending the bug report. Please try again later.";
     private const string DEFAULT_BUG_REPORTING_DIALOG_INVALID_EMAIL = @"Please enter a valid email address.";
     private const string DEFAULT_BUG_REPORTING_DIALOG_REQUIRED_FIELDS = @"Please fill in all required fields.";
+    private const string DEFAULT_REPORT_BUG_BUTTON_TEXT = @"Report Bug";
 
     #endregion
 
@@ -73,7 +74,8 @@ public class KryptonBugReportingDialogStrings : GlobalId
                              ErrorTitle.Equals(DEFAULT_BUG_REPORTING_DIALOG_ERROR_TITLE) &&
                              ErrorMessage.Equals(DEFAULT_BUG_REPORTING_DIALOG_ERROR_MESSAGE) &&
                              InvalidEmail.Equals(DEFAULT_BUG_REPORTING_DIALOG_INVALID_EMAIL) &&
-                             RequiredFields.Equals(DEFAULT_BUG_REPORTING_DIALOG_REQUIRED_FIELDS);
+                             RequiredFields.Equals(DEFAULT_BUG_REPORTING_DIALOG_REQUIRED_FIELDS) &&
+                             ReportBugButtonText.Equals(DEFAULT_REPORT_BUG_BUTTON_TEXT);
 
     #endregion
 
@@ -232,6 +234,15 @@ public class KryptonBugReportingDialogStrings : GlobalId
     [RefreshProperties(RefreshProperties.All)]
     public string RequiredFields { get; set; }
 
+    /// <summary>Gets or sets the report bug button text.</summary>
+    /// <value>The report bug button text.</value>
+    [Localizable(true)]
+    [Category(@"Values")]
+    [Description(@"The report bug button text.")]
+    [DefaultValue(DEFAULT_REPORT_BUG_BUTTON_TEXT)]
+    [RefreshProperties(RefreshProperties.All)]
+    public string ReportBugButtonText { get; set; }
+
     #endregion
 
     #region Implementation
@@ -256,8 +267,8 @@ public class KryptonBugReportingDialogStrings : GlobalId
         ErrorMessage = DEFAULT_BUG_REPORTING_DIALOG_ERROR_MESSAGE;
         InvalidEmail = DEFAULT_BUG_REPORTING_DIALOG_INVALID_EMAIL;
         RequiredFields = DEFAULT_BUG_REPORTING_DIALOG_REQUIRED_FIELDS;
+        ReportBugButtonText = DEFAULT_REPORT_BUG_BUTTON_TEXT;
     }
 
     #endregion
 }
-
