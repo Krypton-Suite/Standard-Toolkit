@@ -105,8 +105,13 @@
 		</Reference>
 	</ItemGroup>
 
-	<!-- Define WEBVIEW2_AVAILABLE symbol when WebView2 SDK is available -->
-	<PropertyGroup Condition="Exists('$(WebView2CoreDll)')">
+	<!-- Define WEBVIEW2_AVAILABLE symbol when WebView2 SDK is available and references are added -->
+	<!-- For .NET Framework targets -->
+	<PropertyGroup Condition="$(TargetFramework.StartsWith('net4')) And Exists('$(WebView2CoreDll)')">
+		<DefineConstants>$(DefineConstants);WEBVIEW2_AVAILABLE</DefineConstants>
+	</PropertyGroup>
+	<!-- For .NET 8+ targets -->
+	<PropertyGroup Condition="!$(TargetFramework.StartsWith('net4')) And Exists('$(WebView2CoreDll)')">
 		<DefineConstants>$(DefineConstants);WEBVIEW2_AVAILABLE</DefineConstants>
 	</PropertyGroup>
 

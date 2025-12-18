@@ -21,13 +21,15 @@ public partial class VisualExceptionDialogForm : KryptonForm
 
     private readonly Exception? _exception;
 
+    private readonly Action<Exception>? _bugReportCallback;
+
     private List<KryptonTreeNode> _originalNodes = new List<KryptonTreeNode>();
 
     #endregion
 
     #region Identity
 
-    public VisualExceptionDialogForm(bool? showCopyButton, bool? showSearchBox, Color? highlightColor, Exception exception)
+    public VisualExceptionDialogForm(bool? showCopyButton, bool? showSearchBox, Color? highlightColor, Exception exception, Action<Exception>? bugReportCallback = null)
     {
         InitializeComponent();
 
@@ -40,6 +42,8 @@ public partial class VisualExceptionDialogForm : KryptonForm
         _highlightColor = highlightColor ?? Color.LightYellow;
 
         _exception = exception;
+
+        _bugReportCallback = bugReportCallback;
 
         // Set highlight color
         isbSearchArea.HighlightColor = (Color)_highlightColor;
@@ -60,6 +64,17 @@ public partial class VisualExceptionDialogForm : KryptonForm
         kbtnOk.Text = KryptonManager.Strings.GeneralStrings.OK;
         kbtnCopy.Visible = _showCopyButton ?? true;
         isbSearchArea.ShowSearchFeatures = _showSearchBox ?? true;
+
+        if (_bugReportCallback != null && _exception != null)
+        {
+            kbtnReportBug.Visible = true;
+            kbtnReportBug.Text = "Report Bug";
+            kbtnReportBug.Click += KbtnReportBug_Click;
+        }
+        else
+        {
+            kbtnReportBug.Visible = false;
+        }
 
         isbSearchArea.SearchBox.CueHint.CueHintText = KryptonManager.Strings.ExceptionDialogStrings.SearchBoxCueText;
         if (_exception is not null)
@@ -112,13 +127,21 @@ public partial class VisualExceptionDialogForm : KryptonForm
 
     private void krtbExceptionDetails_TextChanged(object sender, EventArgs e) => kbtnCopy.Enabled = !string.IsNullOrEmpty(krtbExceptionDetails.Text);
 
+    private void KbtnReportBug_Click(object? sender, EventArgs e)
+    {
+        if (_exception != null && _bugReportCallback != null)
+        {
+            _bugReportCallback(_exception);
+        }
+    }
+
     #endregion
 
     #region Show
 
-    internal static void Show(Exception exception, Color? highlightColor, bool? showCopyButton, bool? showSearchBox)
+    internal static void Show(Exception exception, Color? highlightColor, bool? showCopyButton, bool? showSearchBox, Action<Exception>? bugReportCallback = null)
     {
-        using var ved = new VisualExceptionDialogForm(showCopyButton, showSearchBox, highlightColor, exception);
+        using var ved = new VisualExceptionDialogForm(showCopyButton, showSearchBox, highlightColor, exception, bugReportCallback);
 
         ved.ShowDialog();
     }

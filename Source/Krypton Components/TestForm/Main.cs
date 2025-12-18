@@ -404,4 +404,9 @@ public partial class Main : KryptonForm
     {
         new ErrorProviderTest().ShowDialog();
     }
+
+    private void kbtnBugReportingDialogTest_Click(object sender, EventArgs e)
+    {
+        new BugReportingDialogTest().ShowDialog();
+    }
 }
