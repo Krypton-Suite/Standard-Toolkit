@@ -430,5 +430,3 @@ public class KryptonMenuStrip : MenuStrip,
     #endregion
 
 }
-
-
