@@ -1128,9 +1128,9 @@ public class KryptonRibbon : VisualSimple,
                             // Only interested if over the tabs area
                             if (TabsArea.ClientRectangle.Contains(PointToClient(pt)) || (_scrollTabGroupArea && GroupsArea.ClientRectangle.Contains(PointToClient(pt))))
                             {
-                                if (MouseControlFinder.ControlUnderMouse() is Control control && control.Enabled)
+                                if (MouseControlFinder.ControlUnderMouse(pt) is Control control && control.Enabled)
                                 {
-                                    if (control is ComboBox or KryptonTrackBar or VisualPopupAppMenu or VisualContextMenu || control.Parent is DomainUpDown or NumericUpDown)
+                                    if (control is ComboBox or KryptonTrackBar or KryptonDateTimePicker or VisualPopupAppMenu or VisualContextMenu || control.Parent is DomainUpDown or NumericUpDown)
                                     {
                                         return false;
                                     }
@@ -1751,33 +1751,6 @@ public class KryptonRibbon : VisualSimple,
     /// <param name="e">An EventArgs containing event data.</param>
     protected virtual void OnMinimizedModeChanged(EventArgs e) => MinimizedModeChanged?.Invoke(this, e);
 
-    #endregion
-
-    #region WIN32 Calls
-    public static class MouseControlFinder
-    {
-        // Returns the HWND under the current mouse cursor (screen coordinates).
-        public static IntPtr HwndUnderMouse()
-        {
-            return PI.WindowFromPoint(Cursor.Position);
-        }
-
-        // Returns the WinForms Control under the mouse or null if none found.
-        public static Control? ControlUnderMouse()
-        {
-            IntPtr hwnd = HwndUnderMouse();
-            while (hwnd != IntPtr.Zero)
-            {
-                Control? control = FromHandle(hwnd);
-                if (control != null)
-                {
-                    return control;
-                }
-                hwnd = PI.GetParent(hwnd);
-            }
-            return null;
-        }
-    }
     #endregion
 
     #region Internal
