@@ -1,10 +1,9 @@
-﻿#region BSD License
+#region BSD License
 /*
- * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  *
- *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2026. All rights reserved.
+ * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ * Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege, lesandrog et al. 2025 - 2026. All rights reserved.
+ *
  */
 #endregion
 
@@ -19,7 +18,10 @@ public static class MouseControlFinder
     /// Returns the HWND under the current mouse cursor (screen coordinates).
     /// </summary>
     /// <param name="screenPoint">The screen coordinates</param>
-    /// <returns></returns>
+    /// <returns>
+    ///     The return value is a handle to the window that contains the point. If no window exists at the given point, the return value is null. 
+    ///     If the point is over a static text control, the return value is a handle to the window under the static text control.
+    /// </returns>
     public static IntPtr HwndUnderMouse(Point screenPoint)
     {
         return PI.WindowFromPoint(screenPoint);
@@ -29,7 +31,7 @@ public static class MouseControlFinder
     /// Returns the WinForms Control under the mouse or null if none found.
     /// </summary>
     /// <param name="screenPoint">The screen coordinates</param>
-    /// <returns></returns>
+    /// <returns>Returns the control under the screenPoint or if none was found, null.</returns>
     public static Control? ControlUnderMouse(Point screenPoint)
     {
         IntPtr hwnd = HwndUnderMouse(screenPoint);
@@ -42,6 +44,7 @@ public static class MouseControlFinder
             }
             hwnd = PI.GetParent(hwnd);
         }
+
         return null;
     }
 }
