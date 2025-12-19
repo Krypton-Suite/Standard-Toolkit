@@ -4,7 +4,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Gidua, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Gidua, Ahmed Abdelhameed, tobitege et al. 2017 - 2026. All rights reserved.
  */
 #endregion
 
@@ -4422,3 +4422,84 @@ public enum IconSelectionStrategy
 }
 
 #endregion
+
+#region Enum Error Provider Icon Types
+
+/// <summary>
+/// Defines the icon types supported by the error provider border helper.
+/// </summary>
+public enum ErrorProviderIconType
+{
+    /// <summary>
+    /// Error icon type (red border).
+    /// </summary>
+    Error = 0,
+
+    /// <summary>
+    /// Warning icon type (yellow/orange border).
+    /// </summary>
+    Warning = 1,
+
+    /// <summary>
+    /// Information icon type (blue border).
+    /// </summary>
+    Information = 2
+}
+
+#endregion
+
+#region Enum File System Root Mode
+
+/// <summary>
+/// Specifies the root display mode for the file system tree view.
+/// </summary>
+public enum FileSystemRootMode
+{
+    /// <summary>
+    /// Displays Desktop as root with special folders (Computer, Network, Recycle Bin, etc.) and drives, similar to Windows Explorer.
+    /// </summary>
+    Desktop,
+
+    /// <summary>
+    /// Displays Computer as root with all drives.
+    /// </summary>
+    Computer,
+
+    /// <summary>
+    /// Displays all drives directly as root nodes.
+    /// </summary>
+    Drives,
+
+    /// <summary>
+    /// Uses the custom RootPath property to determine the root directory.
+    /// </summary>
+    CustomPath
+}
+
+#endregion
+
+#region IFocusLostMenuItem
+/// <summary>
+/// This interface can be implemented by any (derived) control or component that needs focus handling via the FocusLostMenuHelper.
+/// </summary>
+public interface IFocusLostMenuItem
+{
+    /// <summary>
+    /// Adds the item to the register.
+    /// </summary>
+    /// <param name="item">A valid instance of the item to register.</param>
+    void Register(IFocusLostMenuItem item);
+
+    /// <summary>
+    /// Removes the item from the register.
+    /// </summary>
+    /// <param name="item">A valid instance of the item to deregister.</param>
+    void Deregister(IFocusLostMenuItem item);
+
+    /// <summary>
+    /// ProcessItem is called from the FocusLostMenuHelper and lets the object react to the request in its own way.
+    /// </summary>
+    void ProcessItem();
+}
+#endregion
+

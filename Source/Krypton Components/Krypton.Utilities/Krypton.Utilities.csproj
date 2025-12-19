@@ -1,0 +1,127 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<!-- Target Framework Selection: Determines which .NET versions to build for based on configuration -->
+	<Choose>
+		<!-- Nightly, Canary, and Debug configurations build for all target frameworks -->
+		<When Condition="'$(Configuration)' == 'Nightly' Or '$(Configuration)' == 'Canary' Or '$(Configuration)' == 'Debug'">
+			<PropertyGroup>
+				<TargetFrameworks>net472;net48;net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
+			</PropertyGroup>
+		</When>
+		<!-- When SkipNetFramework is true, only build for .NET 8+ (used for testing/CI scenarios) -->
+		<When Condition="'$(SkipNetFramework)' == 'true'">
+			<PropertyGroup>
+				<TargetFrameworks>net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
+			</PropertyGroup>
+		</When>
+		<!-- Otherwise, build for .NET Framework 4.8+ and .NET 8+ (default) -->
+		<Otherwise>
+			<PropertyGroup>
+				<TargetFrameworks>net48;net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
+				<!-- When TFMs=all, include .NET Framework 4.7.2 as well -->
+				<TargetFrameworks Condition="'$(TFMs)' == 'all'">net472;net48;net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
+			</PropertyGroup>
+		</Otherwise>
+	</Choose>
+
+	<PropertyGroup>
+		<OutputType>Library</OutputType>
+		<RootNamespace>Krypton.Utilities</RootNamespace>
+		<AssemblyName>Krypton.Utilities</AssemblyName>
+		<IsPackable>false</IsPackable>
+		<!-- Set the CheckEolTargetFramework property to false to fix the warning -->
+		<CheckEolTargetFramework>false</CheckEolTargetFramework>
+		<SignAssembly>True</SignAssembly>
+		<AssemblyOriginatorKeyFile>StrongKrypton.snk</AssemblyOriginatorKeyFile>
+		<ApplicationIcon>Krypton.ico</ApplicationIcon>
+		<DelaySign>false</DelaySign>
+		<UseWindowsForms>true</UseWindowsForms>
+		<PlatformTarget>AnyCPU</PlatformTarget>
+		<EnableNETAnalyzers>true</EnableNETAnalyzers>
+		<NeutralLanguage>en</NeutralLanguage>
+		<DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
+		<Configurations>Debug;Release;Installer;Nightly;Canary</Configurations>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<Nullable>enable</Nullable>
+		<!--https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-messages/warning-waves-->
+		<WarningLevel>8</WarningLevel>
+		<AnalysisLevel>latest</AnalysisLevel>
+		<AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
+		<!--https://learn.microsoft.com/en-us/visualstudio/designers/disable-dpi-awareness?view=vs-2022-->
+		<ForceDesignerDPIUnaware>true</ForceDesignerDPIUnaware>
+		<ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
+		<OutputPath>..\..\..\Bin\$(Configuration)\</OutputPath>
+		<NoWarn>1701;1702</NoWarn>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<!--<Compile Include="..\Krypton.Toolkit\General\Definitions.cs" Link="General\Definitions.cs" />-->
+		<Compile Include="..\Krypton.Toolkit\General\PlatformInvoke.cs" Link="General\PlatformInvoke.cs" />
+		<Compile Include="..\Krypton.Toolkit\Utilities\FileSystemIconHelper.cs" Link="KryptonFileSystemTreeView\Utilities\FileSystemIconHelper.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="Krypton.ico">
+	    <Pack>false</Pack>
+	  </Content>
+	</ItemGroup>
+
+	<!-- System.Design reference for designer support -->
+	<ItemGroup>
+		<Reference Include="System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net4'))">
+			<SpecificVersion>True</SpecificVersion>
+			<Version>4.0.0.0</Version>
+		</Reference>
+	</ItemGroup>
+
+	<!-- WebView2 SDK Path -->
+	<PropertyGroup>
+		<WebView2SDKPath>$(MSBuildProjectDirectory)\..\..\..\WebView2SDK</WebView2SDKPath>
+		<WebView2CoreDll>$(WebView2SDKPath)\Microsoft.Web.WebView2.Core.dll</WebView2CoreDll>
+		<WebView2WinFormsDll>$(WebView2SDKPath)\Microsoft.Web.WebView2.WinForms.dll</WebView2WinFormsDll>
+	</PropertyGroup>
+
+	<!-- WebView2 SDK References (Conditional) -->
+	<ItemGroup Condition="$(TargetFramework.StartsWith('net4')) And Exists('$(WebView2CoreDll)')">
+		<Reference Include="Microsoft.Web.WebView2.Core, Version=1.0.3595.46, Culture=neutral, PublicKeyToken=2a8ab48044d2601e, processorArchitecture=MSIL">
+			<HintPath>$(WebView2CoreDll)</HintPath>
+			<Private>True</Private>
+		</Reference>
+		<Reference Include="Microsoft.Web.WebView2.WinForms, Version=1.0.3595.46, Culture=neutral, PublicKeyToken=2a8ab48044d2601e, processorArchitecture=MSIL">
+			<HintPath>$(WebView2WinFormsDll)</HintPath>
+			<Private>True</Private>
+		</Reference>
+	</ItemGroup>
+
+	<!-- WebView2 SDK References for .NET 8+ (Conditional) -->
+	<ItemGroup Condition="!$(TargetFramework.StartsWith('net4')) And Exists('$(WebView2CoreDll)')">
+		<Reference Include="Microsoft.Web.WebView2.Core">
+			<HintPath>$(WebView2CoreDll)</HintPath>
+			<Private>True</Private>
+		</Reference>
+		<Reference Include="Microsoft.Web.WebView2.WinForms">
+			<HintPath>$(WebView2WinFormsDll)</HintPath>
+			<Private>True</Private>
+		</Reference>
+	</ItemGroup>
+
+	<!-- Define WEBVIEW2_AVAILABLE symbol when WebView2 SDK is available and references are added -->
+	<!-- For .NET Framework targets -->
+	<PropertyGroup Condition="$(TargetFramework.StartsWith('net4')) And Exists('$(WebView2CoreDll)')">
+		<DefineConstants>$(DefineConstants);WEBVIEW2_AVAILABLE</DefineConstants>
+	</PropertyGroup>
+	<!-- For .NET 8+ targets -->
+	<PropertyGroup Condition="!$(TargetFramework.StartsWith('net4')) And Exists('$(WebView2CoreDll)')">
+		<DefineConstants>$(DefineConstants);WEBVIEW2_AVAILABLE</DefineConstants>
+	</PropertyGroup>
+
+	<!-- WebView2 Toolbox Bitmap -->
+	<ItemGroup Condition="Exists('$(WebView2CoreDll)')">
+		<EmbeddedResource Include="KryptonWebView2\ToolboxBitmaps\WebView2.bmp" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
+	</ItemGroup>
+
+</Project>

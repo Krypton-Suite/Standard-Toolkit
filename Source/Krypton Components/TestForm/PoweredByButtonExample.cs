@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2025 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2025 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -40,7 +40,7 @@ public partial class PoweredByButtonExample : KryptonForm
 
     private void kryptonComboBox1_SelectedIndexChanged(object sender, EventArgs e)
     {
-        ToolkitSupportType support = (ToolkitSupportType)kryptonComboBox1.SelectedItem;
+        ToolkitSupportType support = (ToolkitSupportType)kryptonComboBox1.SelectedItem!;
 
         kryptonPoweredByButton1.ButtonValues.ToolkitSupportType = support;
     }

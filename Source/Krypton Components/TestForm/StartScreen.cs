@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2024 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2024 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -34,8 +34,9 @@ public partial class StartScreen : KryptonForm
         _panelWidth = tlpMain.Width;
         _filterTimer = new();
         _sizeAtStartup = new Size(902, 633);
+        
         this.Size = _sizeAtStartup;
-        this.FormClosed += OnFormClosed;
+        this.FormClosing += OnFormClosing;
 
         btnDockTopRight.Click += OnBtnDockTopRightClick;
         btnRestoreSize.Click += OnBtnRestoreSizeClick;
@@ -56,9 +57,11 @@ public partial class StartScreen : KryptonForm
     {
         CreateButton("AboutBox", "Try this About Box for a change", typeof(AboutBoxTest));
         CreateButton("Buttons Test", "All the buttons you want to test.", typeof(ButtonsTest));
+        CreateButton("BugReportingTool", "Easily report bugs with this tool.", typeof(BugReportingDialogTest));
         CreateButton("CommandLink Buttons", "No comment", typeof(CommandLinkButtons));
         CreateButton("Control Styles", string.Empty, typeof(ControlStylesForm));
         CreateButton("DateTime Example", string.Empty, typeof(DateTimeExample));
+        CreateButton("ErrorProvider", string.Empty, typeof(ErrorProviderTest));
         CreateButton("FormBorder Test", string.Empty, typeof(FormBorderTest));
         CreateButton("Header Examples", string.Empty, typeof(HeaderExamples));
         CreateButton("Menu/Tool/Status Strips", string.Empty, typeof(MenuToolBarStatusStripTest));
@@ -89,13 +92,12 @@ public partial class StartScreen : KryptonForm
         CreateButton("Palette Viewer", string.Empty, typeof(PaletteViewerForm));
         CreateButton("Powered By Button", string.Empty, typeof(PoweredByButtonExample));
         CreateButton("Krypton Task Dialog Demo", string.Empty, typeof(KryptonTaskDialogDemoForm));
+        CreateButton("Krypton MDI Window", "KryptonForm MDI Container with both KForm and WForm children", typeof(MdiWindow));
     }
 
-    private void OnFormClosed(object? sender, FormClosedEventArgs e)
+    private void OnFormClosing(object? sender, FormClosingEventArgs e)
     {
-        _registryAccess.LastFilterString = tbFilter.Text;
-        _registryAccess.DockTopRight = IsFormDockedTopRight();
-        _registryAccess.FormSize = this.Size;
+        SaveSettings();
     }
 
     private bool IsFormDockedTopRight()
@@ -104,20 +106,41 @@ public partial class StartScreen : KryptonForm
             && this.Left == Screen.FromControl(this).Bounds.Width - this.Size.Width;
     }
 
+    private void SaveSettings()
+    {
+        _registryAccess.LastFilterString = tbFilter.Text;
+        _registryAccess.DockTopRight = IsFormDockedTopRight();
+        _registryAccess.FormSize = this.Size;
+    }
+
     private void RestoreSettings()
+    {
+        RestoreFormSize();
+        RestoreLastFilter();
+        RestoreFormLocation();
+    }
+
+    private void RestoreFormLocation()
     {
         _dockTopRight = _registryAccess.DockTopRight;
         if (_dockTopRight)
         {
+            System.Diagnostics.Debug.Print("docktoppppppp");
             OnBtnDockTopRightClick(null, EventArgs.Empty);
         }
+    }
 
+    private void RestoreLastFilter()
+    {
         string lastFilter = _registryAccess.LastFilterString;
         if (lastFilter.Length > 0)
         {
             tbFilter.Text = lastFilter;
         }
+    }
 
+    private void RestoreFormSize()
+    {
         Size size = _registryAccess.FormSize;
         if (size.Width > 0 && size.Height > 0)
         {

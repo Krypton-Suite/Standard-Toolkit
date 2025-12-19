@@ -1,6 +1,42 @@
 # <img src="https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Krypton.png?raw=true"> Standard Toolkit - ChangeLog
 
-====
+=======
+
+## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
+
+* Implemented [#2764](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2764), Bug reporting tool
+* Implemented [#2570](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2570), Added Tab scrolling with mouse over Ribbon's GroupsArea - ScrollTabGroupArea for #331.
+* Implemented [#2749](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2749), Usage of native Krypton controls, i.e. TreeView & RichTextBox - Part of #2720
+* Implemented [#1026](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1026), Krypton version of `WebView2`
+* Implemented [#2753](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2753), Adds helper class that aids in closing menus at will, which don't repsond to losing focus.
+* Implemented [#2739](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2739), Add a file system list view
+* Implemented [#2735](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2735), `KryptonErrorProvider` - Part of #2658
+* Implemented [#2738](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2738), Add a file system tree view
+* Resolved [#2745](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2745b), `VisualMultilineStringEditorForm` only saving last line
+* Implemented [#2728](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2728), Ability for developers to set the highlight colour
+* Implemented [#2628](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2628), Improve build system
+* Resolved [#2638](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2638), `KryptonButton` with rouding, draws incorrect background when pressed.
+* Resolved [#2455](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2455), `KryptonForm` does not close when the system icon is double clicked.
+* Resolved [#2681](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2704), Add a missing case statement to `KryptonCustomPaletteBase`.
+* Implemented [#2612](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2612), Implement a 'nightly' workflow
+* Implemented [#2689](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2689), `KryptonMenuStrip` - Part of #2658
+* Resolved [#2681](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2681), `KryptonDataGridView` column headers do repaint correctly on horizontal mouse scroll.
+* Resolved [#2631](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2682), `KryptonForm` does not close when `FormBorderStyle` is set to none at design time.
+* Resolved [#2631](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2604), `KryptonContextMenu` items editor does not restore items when cancelled.
+* Resolved [#2631](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2631), `KryptonFrom` draws the custom border when `FormBorderStyle` is `None`.
+* Resolved [#2629](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2629), `KryptonToggleSwitch` text repaint fails when the `Checked` property is toggled.
+* Implemented [#2658](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2658), Achieve 100% parity with WinForms controls
+* Implemented [#2673](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2673), `KryptonToolStripContainer` - Part of #2658
+* Implemented [#2609](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2609), Improve the layout of Discord push notifications
+* Implemented [#2653](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2653), Adds a property to `KryptonTaskDialog` to toggle the `KryptonSystemMenu`.
+* Implemented [#2586](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2586), One combined NuGet package
+* Implemented [#2585](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2585), Remove obsolete code from V110
+* Resolved [#2649](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2649), `KryptonSytemMenu` duplicates menu entries.
+* Resolved [#2641](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2641), `KryptonForm` based minimised MDI Child Windows do not react when hosted in a `KryptonForm` parent container.
+* Support for .NET 11
+* Version bump `100.xx.xx.xx` -> `110.xx.xx.xx`
+
+=======
 
 ## 2025-11-24 - Build 2511 (V100 RTM) - November 2025
 
@@ -166,7 +202,7 @@
 * Implemented [#1184](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1184), A proper `SplashScreen` item
 * Implemented [#1236](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1236), Backport `StockIconId` feature
 * Support for .NET 10
-* Version bump `90.xx.xx.xx` -> `100.xx.xx.xx`
+* Version bump `95.xx.xx.xx` -> `100.xx.xx.xx`
 
 =======
 

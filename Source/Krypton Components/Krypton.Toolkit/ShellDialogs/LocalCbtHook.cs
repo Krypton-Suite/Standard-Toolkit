@@ -5,7 +5,7 @@
 // Assembly location: Z:\Samples\MessageBoxCallbacks\MsgBoxCbtHook\bin\Debug\CbtHook.dll
 // Original from http://msdn.microsoft.com/msdnmag/issues/02/10/cuttingedge
 /*
- * Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2025. All rights reserved.
+ * Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2026. All rights reserved.
  */
 
 using Krypton.Toolkit;

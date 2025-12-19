@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -3431,6 +3431,10 @@ No 	                    No 	                    Show text only
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern bool ShowCaret(IntPtr hWnd);
 
+    [DllImport(Libraries.User32, SetLastError = true)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static extern bool DestroyIcon(IntPtr hIcon);
+
     [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern ushort GetKeyState(int virtKey);
@@ -4301,6 +4305,83 @@ No 	                    No 	                    Show text only
     [DllImport(Libraries.Ole32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern void CoCreateGuid(ref GUIDSTRUCT guid);
+
+    #endregion
+
+    #region Static Shell32
+
+    /// <summary>
+    /// Flags used with SHGetFileInfo to specify what information to retrieve.
+    /// </summary>
+    [Flags]
+    internal enum SHGFI_ : uint
+    {
+        /// <summary>Get icon</summary>
+        ICON = 0x000000100,
+        /// <summary>Get display name</summary>
+        DISPLAYNAME = 0x000000200,
+        /// <summary>Get type name</summary>
+        TYPENAME = 0x000000400,
+        /// <summary>Get attributes</summary>
+        ATTRIBUTES = 0x000000800,
+        /// <summary>Get icon location</summary>
+        ICONLOCATION = 0x000001000,
+        /// <summary>Return exe type</summary>
+        EXETYPE = 0x000002000,
+        /// <summary>Get system icon index</summary>
+        SYSICONINDEX = 0x000004000,
+        /// <summary>Put a link overlay on icon</summary>
+        LINKOVERLAY = 0x000008000,
+        /// <summary>Show icon in selected state</summary>
+        SELECTED = 0x000010000,
+        /// <summary>Get only specified attributes</summary>
+        ATTR_SPECIFIED = 0x000020000,
+        /// <summary>Get large icon</summary>
+        LARGEICON = 0x000000000,
+        /// <summary>Get small icon</summary>
+        SMALLICON = 0x000000001,
+        /// <summary>Get open icon</summary>
+        OPENICON = 0x000000002,
+        /// <summary>Get shell size icon</summary>
+        SHELLICONSIZE = 0x000000004,
+        /// <summary>pszPath is a PIDL</summary>
+        PIDL = 0x000000008,
+        /// <summary>Use passed dwFileAttribute</summary>
+        USEFILEATTRIBUTES = 0x000000010,
+        /// <summary>Apply the appropriate overlays</summary>
+        ADDOVERLAYS = 0x000000020,
+        /// <summary>Get the index of the overlay</summary>
+        OVERLAYINDEX = 0x000000040
+    }
+
+    /// <summary>
+    /// Contains information about a file object.
+    /// </summary>
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
+    internal struct SHFILEINFO
+    {
+        /// <summary>A handle to the icon that represents the file</summary>
+        public IntPtr hIcon;
+        /// <summary>The index of the icon image within the system image list</summary>
+        public int iIcon;
+        /// <summary>An array of values that indicates the attributes of the file object</summary>
+        public uint dwAttributes;
+        /// <summary>A string that contains the name of the file as it appears in the Windows Shell, or the path and file name of the file that contains the icon representing the file</summary>
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)]
+        public string szDisplayName;
+        /// <summary>A string that describes the type of file</summary>
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 80)]
+        public string szTypeName;
+    }
+
+    [DllImport(Libraries.Shell32, CharSet = CharSet.Auto, SetLastError = true)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static extern IntPtr SHGetFileInfo(
+        string pszPath,
+        uint dwFileAttributes,
+        ref SHFILEINFO psfi,
+        uint cbSizeFileInfo,
+        uint uFlags);
 
     #endregion
 
