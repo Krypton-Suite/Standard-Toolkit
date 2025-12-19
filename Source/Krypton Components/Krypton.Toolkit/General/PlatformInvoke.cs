@@ -509,6 +509,17 @@ internal partial class PI
         INDETERMINATE = 0x0002
     }
 
+    internal struct DTM_
+    {
+        public const int
+            // <summary>
+            // Closes a date and time picker (DTP) control. Send this message explicitly or by using the DateTime\_CloseMonthCal macro.
+            // </summary>
+            // <returns>Returns zero.</returns>
+            // <remarks>Destroys the control and sends a [DTN\_CLOSEUP](dtn-closeup.md) notification that the control is closing as opposed to the control is opening (dropping-down as in the [DTN\_DROPDOWN](dtn-dropdown.md) notification) to the control's parent.</remarks>
+            CLOSEMONTHCAL = 0x100D;
+    }
+
     #region ScrollBar
 
     internal const int SETREDRAW = 11;
