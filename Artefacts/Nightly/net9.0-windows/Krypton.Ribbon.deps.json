@@ -1,0 +1,52 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v9.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v9.0": {
+      "Krypton.Ribbon/110.25.12.353": {
+        "dependencies": {
+          "Krypton.Toolkit.Nightly": "110.25.12.353-alpha",
+          "Krypton.Toolkit": "110.25.12.353"
+        },
+        "runtime": {
+          "Krypton.Ribbon.dll": {}
+        }
+      },
+      "Krypton.Toolkit.Nightly/110.25.12.353-alpha": {
+        "runtime": {
+          "Krypton.Toolkit.dll": {
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "Krypton.Toolkit/110.25.12.353": {
+        "runtime": {
+          "Krypton.Toolkit.dll": {
+            "assemblyVersion": "110.25.12.353",
+            "fileVersion": "110.25.12.353"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Krypton.Ribbon/110.25.12.353": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Krypton.Toolkit.Nightly/110.25.12.353-alpha": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Krypton.Toolkit/110.25.12.353": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

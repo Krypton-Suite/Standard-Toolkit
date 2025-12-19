@@ -54,7 +54,9 @@
 		</Exec>
 		
 		<!-- Fallback version if PowerShell failed -->
+		<!-- Use WebView2SdkVersion property if defined in project, otherwise use default -->
 		<PropertyGroup>
+			<WebView2Version Condition="'$(WebView2Version)' == '' And '$(WebView2SdkVersion)' != ''">$(WebView2SdkVersion)</WebView2Version>
 			<WebView2Version Condition="'$(WebView2Version)' == ''">1.0.3595.46</WebView2Version>
 		</PropertyGroup>
 		
@@ -87,7 +89,7 @@
 		</PropertyGroup>
 		
 		<Message Text="WebView2 SDK auto-setup completed successfully!" Importance="high" Condition="'$(WebView2SetupSuccess)' == 'true'" />
-		<Warning Text="WebView2 SDK auto-setup failed. Please run Scripts\WebVew2\Setup-WebView2SDK.cmd manually or install Microsoft.Web.WebView2 via NuGet." Condition="'$(WebView2SetupSuccess)' == 'false'" />
+		<Warning Text="WebView2 SDK auto-setup failed. Please install Microsoft.Web.WebView2 via NuGet Package Manager or add it to your project file." Condition="'$(WebView2SetupSuccess)' == 'false'" />
 		
 		<!-- Update DefineConstants after successful setup -->
 		<PropertyGroup Condition="'$(WebView2SetupSuccess)' == 'true'">

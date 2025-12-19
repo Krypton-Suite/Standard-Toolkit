@@ -18,11 +18,17 @@
 	<PropertyGroup>
 		<!-- common project data -->
 		<Version>$(LibraryVersion)</Version>
+		
+		<!-- WebView2 SDK Version -->
+		<!-- Update this property when a new version of Microsoft.Web.WebView2 is released -->
+		<!-- Check for latest version at: https://www.nuget.org/packages/Microsoft.Web.WebView2 -->
+		<!-- This version is used by Krypton.Utilities and Krypton.Standard.Toolkit projects -->
+		<WebView2SdkVersion>1.0.3595.46</WebView2SdkVersion>
 	</PropertyGroup>
 
 	<!-- Configure NuGet package output to separate directory for easier management -->
 	<PropertyGroup>
-		<PackageOutputPath>$(MSBuildThisFileDirectory)..\..\Bin\Packages\$(Configuration)\</PackageOutputPath>
+		<PackageOutputPath>$(MSBuildThisFileDirectory)..\..\Artefacts\Packages\$(Configuration)\</PackageOutputPath>
 	</PropertyGroup>
 
 	<Choose>

@@ -50,24 +50,12 @@
 		<!--https://learn.microsoft.com/en-us/visualstudio/designers/disable-dpi-awareness?view=vs-2022-->
 		<ForceDesignerDPIUnaware>true</ForceDesignerDPIUnaware>
 		<ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
-		<OutputPath>..\..\..\Bin\$(Configuration)\</OutputPath>
+		<OutputPath>..\..\..\Artefacts\$(Configuration)\</OutputPath>
 		<NoWarn>1701;1702</NoWarn>
 	</PropertyGroup>
 
-	<!-- Import WebView2 SDK auto-setup targets -->
-	<!-- This must be imported before other targets to ensure it runs early -->
-	<Import Project="KryptonWebView2\WebView2AutoSetup.targets" Condition="'$(DisableWebView2AutoSetup)' != 'true'" />
-	
-	<!-- Ensure WebView2 symbol definition runs as initial target (runs before everything else) -->
-	<!-- This ensures the symbol is available even during design-time builds for IntelliSense -->
-	<PropertyGroup>
-		<!-- Always define symbol if files exist, regardless of auto-setup setting -->
-		<InitialTargets>$(InitialTargets);DefineWebView2AvailableSymbol</InitialTargets>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(DisableWebView2AutoSetup)' != 'true'">
-		<!-- Also run auto-setup targets if enabled -->
-		<InitialTargets>$(InitialTargets);CheckWebView2SDK;SetupWebView2SDK;EnsureWebView2Symbol</InitialTargets>
-	</PropertyGroup>
+	<!-- Note: WebView2 SDK is now handled via NuGet PackageReference above -->
+	<!-- The auto-setup targets are no longer needed when using NuGet packages -->
 
 	<ItemGroup>
 		<!--<Compile Include="..\Krypton.Toolkit\General\Definitions.cs" Link="General\Definitions.cs" />-->
@@ -89,78 +77,43 @@
 		</Reference>
 	</ItemGroup>
 
-	<!-- WebView2 SDK Path -->
+	<!-- WebView2 SDK Version -->
+	<!-- Update this property when a new version of Microsoft.Web.WebView2 is released -->
+	<!-- Check for latest version at: https://www.nuget.org/packages/Microsoft.Web.WebView2 -->
 	<PropertyGroup>
-		<WebView2SDKPath>$(MSBuildProjectDirectory)\..\..\..\WebView2SDK</WebView2SDKPath>
-		<WebView2CoreDll>$(WebView2SDKPath)\Microsoft.Web.WebView2.Core.dll</WebView2CoreDll>
-		<WebView2WinFormsDll>$(WebView2SDKPath)\Microsoft.Web.WebView2.WinForms.dll</WebView2WinFormsDll>
-		<WebView2LoaderDll>$(WebView2SDKPath)\WebView2Loader.dll</WebView2LoaderDll>
+		<WebView2SdkVersion Condition="'$(WebView2SdkVersion)' == ''">1.0.3595.46</WebView2SdkVersion>
 	</PropertyGroup>
-	
-	<!-- Check if WebView2 SDK files exist using a target that runs very early -->
-	<!-- This sets a property that can be used in PropertyGroup conditions -->
-	<!-- Runs during both regular builds and design-time builds for IntelliSense -->
-	<Target Name="CheckWebView2FilesExist" BeforeTargets="BeforeBuild;PrepareForBuild" Returns="$(WebView2FilesExist)">
-		<PropertyGroup>
-			<WebView2FilesExist Condition="Exists('$(WebView2CoreDll)') And Exists('$(WebView2WinFormsDll)') And Exists('$(WebView2LoaderDll)')">true</WebView2FilesExist>
-			<WebView2FilesExist Condition="'$(WebView2FilesExist)' == ''">false</WebView2FilesExist>
-		</PropertyGroup>
-		<!-- Set DefineConstants directly here as well -->
-		<PropertyGroup Condition="'$(WebView2FilesExist)' == 'true'">
-			<DefineConstants>$(DefineConstants);WEBVIEW2_AVAILABLE</DefineConstants>
-		</PropertyGroup>
-	</Target>
 
-	<!-- WebView2 SDK References (Conditional) -->
-	<ItemGroup Condition="$(TargetFramework.StartsWith('net4')) And Exists('$(WebView2CoreDll)')">
-		<Reference Include="Microsoft.Web.WebView2.Core, Version=1.0.3595.46, Culture=neutral, PublicKeyToken=2a8ab48044d2601e, processorArchitecture=MSIL">
-			<HintPath>$(WebView2CoreDll)</HintPath>
-			<Private>True</Private>
-		</Reference>
-		<Reference Include="Microsoft.Web.WebView2.WinForms, Version=1.0.3595.46, Culture=neutral, PublicKeyToken=2a8ab48044d2601e, processorArchitecture=MSIL">
-			<HintPath>$(WebView2WinFormsDll)</HintPath>
-			<Private>True</Private>
-		</Reference>
+	<!-- WebView2 SDK NuGet Package Reference -->
+	<!-- Using NuGet package is much simpler and more reliable than manual DLL references -->
+	<!-- The package automatically handles framework-specific references and dependencies -->
+	<ItemGroup Condition="'$(DisableWebView2AutoSetup)' != 'true'">
+		<PackageReference Include="Microsoft.Web.WebView2" Version="$(WebView2SdkVersion)" Condition="'$(TargetFramework)' == 'net472' Or '$(TargetFramework)' == 'net48' Or '$(TargetFramework)' == 'net481' Or '$(TargetFramework)' == 'net8.0-windows' Or '$(TargetFramework)' == 'net9.0-windows' Or '$(TargetFramework)' == 'net10.0-windows'" />
 	</ItemGroup>
-
-	<!-- WebView2 SDK References for .NET 8+ (Conditional) -->
-	<ItemGroup Condition="!$(TargetFramework.StartsWith('net4')) And Exists('$(WebView2CoreDll)')">
-		<Reference Include="Microsoft.Web.WebView2.Core">
-			<HintPath>$(WebView2CoreDll)</HintPath>
-			<Private>True</Private>
-		</Reference>
-		<Reference Include="Microsoft.Web.WebView2.WinForms">
-			<HintPath>$(WebView2WinFormsDll)</HintPath>
-			<Private>True</Private>
-		</Reference>
-	</ItemGroup>
-
-	<!-- Define WEBVIEW2_AVAILABLE symbol when WebView2 SDK files exist -->
-	<!-- Try multiple approaches to ensure it works for both IntelliSense and builds -->
 	
-	<!-- Approach 1: PropertyGroup with Exists() - evaluated at project load time -->
-	<!-- This should work for IntelliSense if Visual Studio evaluates it correctly -->
-	<PropertyGroup Condition="Exists('$(WebView2CoreDll)') And Exists('$(WebView2WinFormsDll)')">
-		<DefineConstants>$(DefineConstants);WEBVIEW2_AVAILABLE</DefineConstants>
-	</PropertyGroup>
-	
-	<!-- Approach 2: Target-based - runs during builds and design-time builds -->
-	<!-- This ensures the symbol is set even if PropertyGroup doesn't evaluate correctly -->
-	<Target Name="DefineWebView2AvailableSymbol" BeforeTargets="BeforeBuild;CoreCompile;PrepareForBuild;ResolveReferences;GetTargetPath" Returns="$(DefineConstants)">
-		<!-- Use ItemGroup to check file existence (more reliable than Exists() in some cases) -->
+	<!-- Explicitly exclude WPF DLL reference to prevent WindowsBase version conflicts -->
+	<!-- This must run after the package's build targets have added references -->
+	<Target Name="RemoveWebView2WpfReference" AfterTargets="ResolveReferences" Condition="'$(DisableWebView2AutoSetup)' != 'true' And ('$(TargetFramework)' == 'net472' Or '$(TargetFramework)' == 'net48' Or '$(TargetFramework)' == 'net481' Or '$(TargetFramework)' == 'net8.0-windows' Or '$(TargetFramework)' == 'net9.0-windows' Or '$(TargetFramework)' == 'net10.0-windows')">
 		<ItemGroup>
-			<_WebView2CoreFile Include="$(WebView2CoreDll)" Condition="Exists('$(WebView2CoreDll)')" />
-			<_WebView2WinFormsFile Include="$(WebView2WinFormsDll)" Condition="Exists('$(WebView2WinFormsDll)')" />
+			<Reference Remove="Microsoft.Web.WebView2.Wpf" />
 		</ItemGroup>
-		<!-- Set symbol if both files were found -->
-		<PropertyGroup Condition="@(_WebView2CoreFile->Count()) > 0 And @(_WebView2WinFormsFile->Count()) > 0">
-			<DefineConstants>$(DefineConstants);WEBVIEW2_AVAILABLE</DefineConstants>
-		</PropertyGroup>
 	</Target>
+	
+	<!-- Suppress MSB3277 warning for WPF DLL - we explicitly exclude it -->
+	<PropertyGroup Condition="'$(TargetFramework)' == 'net472' Or '$(TargetFramework)' == 'net48' Or '$(TargetFramework)' == 'net481' Or '$(TargetFramework)' == 'net8.0-windows' Or '$(TargetFramework)' == 'net9.0-windows' Or '$(TargetFramework)' == 'net10.0-windows'">
+		<NoWarn Condition="'$(DisableWebView2AutoSetup)' != 'true'">$(NoWarn);MSB3277</NoWarn>
+	</PropertyGroup>
+
+	<!-- Define WEBVIEW2_AVAILABLE symbol when WebView2 package is referenced -->
+	<!-- Much simpler: just check if we're targeting a framework that supports WebView2 -->
+	<PropertyGroup Condition="'$(TargetFramework)' == 'net472' Or '$(TargetFramework)' == 'net48' Or '$(TargetFramework)' == 'net481' Or '$(TargetFramework)' == 'net8.0-windows' Or '$(TargetFramework)' == 'net9.0-windows' Or '$(TargetFramework)' == 'net10.0-windows'">
+		<DefineConstants Condition="'$(DisableWebView2AutoSetup)' != 'true'">$(DefineConstants);WEBVIEW2_AVAILABLE</DefineConstants>
+	</PropertyGroup>
 
 	<!-- WebView2 Toolbox Bitmap -->
-	<ItemGroup Condition="Exists('$(WebView2CoreDll)')">
-		<EmbeddedResource Include="KryptonWebView2\ToolboxBitmaps\WebView2.bmp" />
+	<!-- Include when WebView2 is available (same condition as DefineConstants above) -->
+	<ItemGroup Condition="'$(TargetFramework)' == 'net472' Or '$(TargetFramework)' == 'net48' Or '$(TargetFramework)' == 'net481' Or '$(TargetFramework)' == 'net8.0-windows' Or '$(TargetFramework)' == 'net9.0-windows' Or '$(TargetFramework)' == 'net10.0-windows'">
+		<EmbeddedResource Include="KryptonWebView2\ToolboxBitmaps\WebView2.bmp" Condition="'$(DisableWebView2AutoSetup)' != 'true'" />
 	</ItemGroup>
 
 	<ItemGroup>

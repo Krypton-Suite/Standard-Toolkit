@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v10.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v10.0": {
+      "Krypton.Toolkit/110.25.12.353": {
+        "runtime": {
+          "Krypton.Toolkit.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Krypton.Toolkit/110.25.12.353": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v9.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v9.0": {
+      "Krypton.Docking/110.25.12.353": {
+        "dependencies": {
+          "Krypton.Navigator.Nightly": "110.25.12.353-alpha",
+          "Krypton.Toolkit.Nightly": "110.25.12.353-alpha",
+          "Krypton.Workspace.Nightly": "110.25.12.353-alpha",
+          "Krypton.Navigator": "110.25.12.353",
+          "Krypton.Toolkit": "110.25.12.353",
+          "Krypton.Workspace": "110.25.12.353"
+        },
+        "runtime": {
+          "Krypton.Docking.dll": {}
+        }
+      },
+      "Krypton.Navigator.Nightly/110.25.12.353-alpha": {
+        "dependencies": {
+          "Krypton.Toolkit.Nightly": "110.25.12.353-alpha"
+        },
+        "runtime": {
+          "Krypton.Navigator.dll": {
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "Krypton.Toolkit.Nightly/110.25.12.353-alpha": {
+        "runtime": {
+          "Krypton.Toolkit.dll": {
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "Krypton.Workspace.Nightly/110.25.12.353-alpha": {
+        "dependencies": {
+          "Krypton.Navigator.Nightly": "110.25.12.353-alpha",
+          "Krypton.Toolkit.Nightly": "110.25.12.353-alpha"
+        },
+        "runtime": {
+          "Krypton.Workspace.dll": {
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "Krypton.Navigator/110.25.12.353": {
+        "runtime": {
+          "Krypton.Navigator.dll": {
+            "assemblyVersion": "110.25.12.353",
+            "fileVersion": "110.25.12.353"
+          }
+        }
+      },
+      "Krypton.Toolkit/110.25.12.353": {
+        "runtime": {
+          "Krypton.Toolkit.dll": {
+            "assemblyVersion": "110.25.12.353",
+            "fileVersion": "110.25.12.353"
+          }
+        }
+      },
+      "Krypton.Workspace/110.25.12.353": {
+        "runtime": {
+          "Krypton.Workspace.dll": {
+            "assemblyVersion": "110.25.12.353",
+            "fileVersion": "110.25.12.353"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Krypton.Docking/110.25.12.353": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Krypton.Navigator.Nightly/110.25.12.353-alpha": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Krypton.Toolkit.Nightly/110.25.12.353-alpha": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Krypton.Workspace.Nightly/110.25.12.353-alpha": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Krypton.Navigator/110.25.12.353": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Krypton.Toolkit/110.25.12.353": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Krypton.Workspace/110.25.12.353": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

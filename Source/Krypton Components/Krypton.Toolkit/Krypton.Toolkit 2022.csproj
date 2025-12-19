@@ -33,7 +33,7 @@
 	<NoWarn>1701;1702</NoWarn>
 	<Configurations>Debug;Release;Installer;Nightly;Canary</Configurations>
 	<GenerateDocumentationFile>true</GenerateDocumentationFile>
-	<OutputPath>..\..\..\Bin\$(Configuration)\</OutputPath>
+	<OutputPath>..\..\..\Artefacts\$(Configuration)\</OutputPath>
 	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	<Nullable>enable</Nullable>
 	<!--https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-messages/warning-waves-->

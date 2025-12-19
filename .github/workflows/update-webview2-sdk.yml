@@ -1,0 +1,128 @@
+# New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+# Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2026 - 2026. All rights reserved.
+
+name: Update WebView2 SDK Version
+
+on:
+  schedule:
+    # Check for updates weekly on Monday at 9 AM UTC
+    - cron: '0 9 * * 1'
+  workflow_dispatch:  # Allow manual triggering
+
+jobs:
+  check-and-update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Get Current WebView2 SDK Version
+        id: current_version
+        run: |
+          # Extract current version from Directory.Build.props
+          CURRENT_VERSION=$(grep -oP '<WebView2SdkVersion>\K[^<]+' "Source/Krypton Components/Directory.Build.props" || echo "")
+          if [ -z "$CURRENT_VERSION" ]; then
+            echo "Error: Could not find WebView2SdkVersion in Directory.Build.props"
+            exit 1
+          fi
+          echo "current=$CURRENT_VERSION" >> $GITHUB_OUTPUT
+          echo "Current WebView2 SDK Version: $CURRENT_VERSION"
+
+      - name: Get Latest WebView2 SDK Version from NuGet
+        id: latest_version
+        run: |
+          # Query NuGet API for latest stable version
+          LATEST_VERSION=$(curl -s "https://api.nuget.org/v3-flatcontainer/microsoft.web.webview2/index.json" | \
+            grep -oP '"versions"\s*:\s*\[.*?\]' | \
+            grep -oP '"[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+"' | \
+            grep -v '-' | \
+            sort -V | \
+            tail -1 | \
+            tr -d '"')
+          
+          if [ -z "$LATEST_VERSION" ]; then
+            echo "Failed to fetch latest version"
+            exit 1
+          fi
+          
+          echo "latest=$LATEST_VERSION" >> $GITHUB_OUTPUT
+          echo "Latest WebView2 SDK Version: $LATEST_VERSION"
+
+      - name: Check if Update is Needed
+        id: check_update
+        run: |
+          CURRENT="${{ steps.current_version.outputs.current }}"
+          LATEST="${{ steps.latest_version.outputs.latest }}"
+          
+          if [ "$CURRENT" != "$LATEST" ]; then
+            echo "update_needed=true" >> $GITHUB_OUTPUT
+            echo "Update needed: $CURRENT -> $LATEST"
+          else
+            echo "update_needed=false" >> $GITHUB_OUTPUT
+            echo "Already on latest version: $CURRENT"
+          fi
+
+      - name: Update Directory.Build.props
+        if: steps.check_update.outputs.update_needed == 'true'
+        run: |
+          # Update the version in Directory.Build.props using sed
+          # Escape special characters in version strings
+          CURRENT_ESC=$(echo "${{ steps.current_version.outputs.current }}" | sed 's/\./\\./g')
+          LATEST_ESC=$(echo "${{ steps.latest_version.outputs.latest }}" | sed 's/\./\\./g')
+          
+          sed -i "s/<WebView2SdkVersion>$CURRENT_ESC<\/WebView2SdkVersion>/<WebView2SdkVersion>${{ steps.latest_version.outputs.latest }}<\/WebView2SdkVersion>/" \
+            "Source/Krypton Components/Directory.Build.props"
+          
+          # Verify the update
+          UPDATED_VERSION=$(grep -oP '<WebView2SdkVersion>\K[^<]+' "Source/Krypton Components/Directory.Build.props")
+          if [ "$UPDATED_VERSION" != "${{ steps.latest_version.outputs.latest }}" ]; then
+            echo "Error: Version update failed. Expected ${{ steps.latest_version.outputs.latest }}, got $UPDATED_VERSION"
+            exit 1
+          fi
+          
+          echo "✓ Updated WebView2 SDK version from ${{ steps.current_version.outputs.current }} to ${{ steps.latest_version.outputs.latest }}"
+
+      - name: Create Pull Request
+        if: steps.check_update.outputs.update_needed == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: dependabot/update-webview2-sdk
+          title: "chore: Update WebView2 SDK to ${{ steps.latest_version.outputs.latest }}"
+          body: |
+            ## WebView2 SDK Version Update
+            
+            This PR updates the WebView2 SDK version from `${{ steps.current_version.outputs.current }}` to `${{ steps.latest_version.outputs.latest }}`.
+            
+            ### Changes
+            - Updated `WebView2SdkVersion` property in `Directory.Build.props`
+            
+            ### Verification
+            - [ ] Build passes
+            - [ ] Tests pass
+            - [ ] WebView2 functionality verified
+            
+            ### Related
+            - NuGet Package: [Microsoft.Web.WebView2](https://www.nuget.org/packages/Microsoft.Web.WebView2)
+            - Latest Version: [${{ steps.latest_version.outputs.latest }}](https://www.nuget.org/packages/Microsoft.Web.WebView2/${{ steps.latest_version.outputs.latest }})
+            
+            ---
+            *This PR was automatically created by the Update WebView2 SDK workflow*
+          commit-message: "chore: Update WebView2 SDK to ${{ steps.latest_version.outputs.latest }}"
+          signoff: false
+          delete-branch: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Skip if No Update Needed
+        if: steps.check_update.outputs.update_needed == 'false'
+        run: |
+          echo "No update needed. Current version (${{ steps.current_version.outputs.current }}) is already the latest."
+

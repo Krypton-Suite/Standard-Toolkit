@@ -128,7 +128,7 @@
   </ItemGroup>
   <PropertyGroup>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <OutputPath>..\..\..\Bin\$(Configuration)\</OutputPath>
+    <OutputPath>..\..\..\Artefacts\$(Configuration)\</OutputPath>
   </PropertyGroup>
   <PropertyGroup>
     <NoWarn>1701;1702</NoWarn>

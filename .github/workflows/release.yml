@@ -88,45 +88,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
 
-      - name: Setup WebView2 SDK
-        # Kill switch check
-        if: steps.release_kill_switch.outputs.enabled == 'true'
-        shell: pwsh
-        run: |
-          if (-not (Test-Path "WebView2SDK")) { mkdir WebView2SDK }
-          $packageId = "Microsoft.Web.WebView2"
-          $latestVersion = $null
-          try {
-            $searchUrl = "https://azuresearch-usnc.nuget.org/query?q=$packageId&prerelease=false&semVerLevel=2.0.0&take=1"
-            $searchResponse = Invoke-RestMethod -Uri $searchUrl -Method Get
-            if ($searchResponse.data -and $searchResponse.data.Count -gt 0) {
-              $latestVersion = $searchResponse.data[0].version
-            }
-          } catch {
-            try {
-              $apiUrl = "https://api.nuget.org/v3-flatcontainer/$packageId/index.json"
-              $response = Invoke-RestMethod -Uri $apiUrl -Method Get
-              if ($response.versions) {
-                $stableVersions = $response.versions | Where-Object { $_ -notmatch '[-]' -and $_ -match '^\d+\.\d+\.\d+$' }
-                if ($stableVersions) {
-                  $latestVersion = $stableVersions | Sort-Object { [System.Version]$_ } -Descending | Select-Object -First 1
-                }
-              }
-            } catch {}
-          }
-          if (-not $latestVersion) { $latestVersion = "1.0.3595.46" }
-          Write-Host "Using WebView2 SDK version: $latestVersion"
-          dotnet add "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj" package Microsoft.Web.WebView2 --version $latestVersion
-          dotnet restore "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj"
-          $nugetBasePath = "$env:USERPROFILE\.nuget\packages\microsoft.web.webview2\$latestVersion"
-          $coreDll = Get-ChildItem -Path $nugetBasePath -Recurse -Name "Microsoft.Web.WebView2.Core.dll" | Select-Object -First 1
-          Copy-Item (Join-Path $nugetBasePath $coreDll) "WebView2SDK\"
-          $winFormsDll = Get-ChildItem -Path $nugetBasePath -Recurse -Name "Microsoft.Web.WebView2.WinForms.dll" | Select-Object -First 1
-          Copy-Item (Join-Path $nugetBasePath $winFormsDll) "WebView2SDK\"
-          $loaderDll = Get-ChildItem -Path $nugetBasePath -Recurse -Name "WebView2Loader.dll" | Select-Object -First 1
-          Copy-Item (Join-Path $nugetBasePath $loaderDll) "WebView2SDK\"
-          dotnet remove "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj" package Microsoft.Web.WebView2
-
       - name: Restore
         # Kill switch check
         if: steps.release_kill_switch.outputs.enabled == 'true'
@@ -155,7 +116,7 @@ jobs:
             exit 0
           }
           
-          $packages = Get-ChildItem "Bin/Packages/Release/*.nupkg" -ErrorAction SilentlyContinue
+          $packages = Get-ChildItem "Artefacts/Packages/Release/*.nupkg" -ErrorAction SilentlyContinue
           $publishedAny = $false
           
           if ($packages) {
@@ -194,7 +155,7 @@ jobs:
           
           # Try to get version from the built assembly (most reliable)
           try {
-            $dllPath = Get-ChildItem "Bin/Release/net48/Krypton.Toolkit.dll" -ErrorAction Stop
+            $dllPath = Get-ChildItem "Artefacts/Release/net48/Krypton.Toolkit.dll" -ErrorAction Stop
             $assemblyVersion = [System.Reflection.AssemblyName]::GetAssemblyName($dllPath.FullName).Version
             $version = $assemblyVersion.ToString()
             Write-Host "Got version from assembly: $version"
@@ -380,7 +341,7 @@ jobs:
             exit 0
           }
           
-          $packages = Get-ChildItem "Bin/Packages/Release/*.nupkg" -ErrorAction SilentlyContinue
+          $packages = Get-ChildItem "Artefacts/Packages/Release/*.nupkg" -ErrorAction SilentlyContinue
           $publishedAny = $false
           
           if ($packages) {
@@ -419,7 +380,7 @@ jobs:
           
           # Try to get version from the built assembly (most reliable)
           try {
-            $dllPath = Get-ChildItem "Bin/Release/net48/Krypton.Toolkit.dll" -ErrorAction Stop
+            $dllPath = Get-ChildItem "Artefacts/Release/net48/Krypton.Toolkit.dll" -ErrorAction Stop
             $assemblyVersion = [System.Reflection.AssemblyName]::GetAssemblyName($dllPath.FullName).Version
             $version = $assemblyVersion.ToString()
             Write-Host "Got version from assembly: $version"
@@ -590,7 +551,7 @@ jobs:
             exit 0
           }
           
-          $packages = Get-ChildItem "Bin/Packages/Release/*.nupkg" -ErrorAction SilentlyContinue
+          $packages = Get-ChildItem "Artefacts/Packages/Release/*.nupkg" -ErrorAction SilentlyContinue
           $publishedAny = $false
           
           if ($packages) {
@@ -629,7 +590,7 @@ jobs:
           
           # Try to get version from the built assembly (most reliable)
           try {
-            $dllPath = Get-ChildItem "Bin/Release/net48/Krypton.Toolkit.dll" -ErrorAction Stop
+            $dllPath = Get-ChildItem "Artefacts/Release/net48/Krypton.Toolkit.dll" -ErrorAction Stop
             $assemblyVersion = [System.Reflection.AssemblyName]::GetAssemblyName($dllPath.FullName).Version
             $version = $assemblyVersion.ToString()
             Write-Host "Got version from assembly: $version"
@@ -787,45 +748,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
 
-      - name: Setup WebView2 SDK
-        # Kill switch check
-        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
-        shell: pwsh
-        run: |
-          if (-not (Test-Path "WebView2SDK")) { mkdir WebView2SDK }
-          $packageId = "Microsoft.Web.WebView2"
-          $latestVersion = $null
-          try {
-            $searchUrl = "https://azuresearch-usnc.nuget.org/query?q=$packageId&prerelease=false&semVerLevel=2.0.0&take=1"
-            $searchResponse = Invoke-RestMethod -Uri $searchUrl -Method Get
-            if ($searchResponse.data -and $searchResponse.data.Count -gt 0) {
-              $latestVersion = $searchResponse.data[0].version
-            }
-          } catch {
-            try {
-              $apiUrl = "https://api.nuget.org/v3-flatcontainer/$packageId/index.json"
-              $response = Invoke-RestMethod -Uri $apiUrl -Method Get
-              if ($response.versions) {
-                $stableVersions = $response.versions | Where-Object { $_ -notmatch '[-]' -and $_ -match '^\d+\.\d+\.\d+$' }
-                if ($stableVersions) {
-                  $latestVersion = $stableVersions | Sort-Object { [System.Version]$_ } -Descending | Select-Object -First 1
-                }
-              }
-            } catch {}
-          }
-          if (-not $latestVersion) { $latestVersion = "1.0.3595.46" }
-          Write-Host "Using WebView2 SDK version: $latestVersion"
-          dotnet add "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj" package Microsoft.Web.WebView2 --version $latestVersion
-          dotnet restore "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj"
-          $nugetBasePath = "$env:USERPROFILE\.nuget\packages\microsoft.web.webview2\$latestVersion"
-          $coreDll = Get-ChildItem -Path $nugetBasePath -Recurse -Name "Microsoft.Web.WebView2.Core.dll" | Select-Object -First 1
-          Copy-Item (Join-Path $nugetBasePath $coreDll) "WebView2SDK\"
-          $winFormsDll = Get-ChildItem -Path $nugetBasePath -Recurse -Name "Microsoft.Web.WebView2.WinForms.dll" | Select-Object -First 1
-          Copy-Item (Join-Path $nugetBasePath $winFormsDll) "WebView2SDK\"
-          $loaderDll = Get-ChildItem -Path $nugetBasePath -Recurse -Name "WebView2Loader.dll" | Select-Object -First 1
-          Copy-Item (Join-Path $nugetBasePath $loaderDll) "WebView2SDK\"
-          dotnet remove "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj" package Microsoft.Web.WebView2
-
       - name: Restore
         # Kill switch check
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
@@ -854,7 +776,7 @@ jobs:
             exit 0
           }
           
-          $packages = Get-ChildItem "Bin/Packages/Canary/*.nupkg" -ErrorAction SilentlyContinue
+          $packages = Get-ChildItem "Artefacts/Packages/Canary/*.nupkg" -ErrorAction SilentlyContinue
           $publishedAny = $false
           
           if ($packages) {
@@ -893,7 +815,7 @@ jobs:
           
           # Try to get version from the built assembly (most reliable)
           try {
-            $dllPath = Get-ChildItem "Bin/Canary/net48/Krypton.Toolkit.dll" -ErrorAction Stop
+            $dllPath = Get-ChildItem "Artefacts/Canary/net48/Krypton.Toolkit.dll" -ErrorAction Stop
             $assemblyVersion = [System.Reflection.AssemblyName]::GetAssemblyName($dllPath.FullName).Version
             $version = $assemblyVersion.ToString()
             Write-Host "Got version from assembly: $version"
@@ -1050,45 +972,6 @@ jobs:
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
           restore-keys: |
             ${{ runner.os }}-nuget-
-
-      - name: Setup WebView2 SDK
-        # Kill switch check
-        if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
-        shell: pwsh
-        run: |
-          if (-not (Test-Path "WebView2SDK")) { mkdir WebView2SDK }
-          $packageId = "Microsoft.Web.WebView2"
-          $latestVersion = $null
-          try {
-            $searchUrl = "https://azuresearch-usnc.nuget.org/query?q=$packageId&prerelease=false&semVerLevel=2.0.0&take=1"
-            $searchResponse = Invoke-RestMethod -Uri $searchUrl -Method Get
-            if ($searchResponse.data -and $searchResponse.data.Count -gt 0) {
-              $latestVersion = $searchResponse.data[0].version
-            }
-          } catch {
-            try {
-              $apiUrl = "https://api.nuget.org/v3-flatcontainer/$packageId/index.json"
-              $response = Invoke-RestMethod -Uri $apiUrl -Method Get
-              if ($response.versions) {
-                $stableVersions = $response.versions | Where-Object { $_ -notmatch '[-]' -and $_ -match '^\d+\.\d+\.\d+$' }
-                if ($stableVersions) {
-                  $latestVersion = $stableVersions | Sort-Object { [System.Version]$_ } -Descending | Select-Object -First 1
-                }
-              }
-            } catch {}
-          }
-          if (-not $latestVersion) { $latestVersion = "1.0.3595.46" }
-          Write-Host "Using WebView2 SDK version: $latestVersion"
-          dotnet add "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj" package Microsoft.Web.WebView2 --version $latestVersion
-          dotnet restore "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj"
-          $nugetBasePath = "$env:USERPROFILE\.nuget\packages\microsoft.web.webview2\$latestVersion"
-          $coreDll = Get-ChildItem -Path $nugetBasePath -Recurse -Name "Microsoft.Web.WebView2.Core.dll" | Select-Object -First 1
-          Copy-Item (Join-Path $nugetBasePath $coreDll) "WebView2SDK\"
-          $winFormsDll = Get-ChildItem -Path $nugetBasePath -Recurse -Name "Microsoft.Web.WebView2.WinForms.dll" | Select-Object -First 1
-          Copy-Item (Join-Path $nugetBasePath $winFormsDll) "WebView2SDK\"
-          $loaderDll = Get-ChildItem -Path $nugetBasePath -Recurse -Name "WebView2Loader.dll" | Select-Object -First 1
-          Copy-Item (Join-Path $nugetBasePath $loaderDll) "WebView2SDK\"
-          dotnet remove "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj" package Microsoft.Web.WebView2
 
       - name: Restore
         # Kill switch check

@@ -29,7 +29,7 @@
 	
 	<Target Name="CleanPackages">
 		<ItemGroup>
-			<NugetPkgs Include="..\Bin\Packages\Installer\*.nupkg" />
+			<NugetPkgs Include="..\Artefacts\Packages\Installer\*.nupkg" />
 		</ItemGroup>
 		<Delete Files="@(NugetPkgs)" />
 	</Target>
@@ -54,7 +54,7 @@
 	
 	<Target Name="Push">
 		<ItemGroup>
-			<NugetPkgs Include="..\Bin\Packages\Installer\*.$(LibraryVersion).nupkg" />
+			<NugetPkgs Include="..\Artefacts\Packages\Installer\*.$(LibraryVersion).nupkg" />
 		</ItemGroup>
 		<Exec Command="nuget.exe push %(NugetPkgs.Identity)" />
 	</Target>
@@ -64,11 +64,11 @@
 			<StringDate>$([System.DateTime]::Now.ToString('yyyyMMdd'))</StringDate>
 		</PropertyGroup>
 		<ItemGroup>
-			<DebugApplicationFiles Include="..\Bin\Installer\**\*.*" Exclude="..\Bin\Installer\*vshost.exe*" />
+			<DebugApplicationFiles Include="..\Artefacts\Installer\**\*.*" Exclude="..\Artefacts\Installer\*vshost.exe*" />
 		</ItemGroup>
 		<MakeDir Directories="$(NightlyBuildPath)"/>
 		<Zip Files="@(DebugApplicationFiles)"
-		     WorkingDirectory="..\Bin\Installer"
+		     WorkingDirectory="..\Artefacts\Installer"
 		     ZipFileName="$(NightlyBuildPath)\$(StringDate)_$(NightlyZipName).zip"
 		     ZipLevel="9" />
 	</Target>
