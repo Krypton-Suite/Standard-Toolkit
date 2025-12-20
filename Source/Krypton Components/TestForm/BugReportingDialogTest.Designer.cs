@@ -190,6 +190,7 @@
             this.ktbSmtpServer.Name = "ktbSmtpServer";
             this.ktbSmtpServer.Size = new System.Drawing.Size(426, 23);
             this.ktbSmtpServer.TabIndex = 1;
+            this.ktbSmtpServer.TextChanged += new System.EventHandler(this.ktbSmtpServer_TextChanged);
             // 
             // kwlblSmtpPort
             // 
@@ -255,6 +256,7 @@
             this.ktbToEmail.Name = "ktbToEmail";
             this.ktbToEmail.Size = new System.Drawing.Size(426, 23);
             this.ktbToEmail.TabIndex = 5;
+            this.ktbToEmail.TextChanged += new System.EventHandler(this.ktbToEmail_TextChanged);
             // 
             // kwlblUsername
             // 

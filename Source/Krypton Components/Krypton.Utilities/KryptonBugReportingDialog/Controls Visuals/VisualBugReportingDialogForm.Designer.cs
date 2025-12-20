@@ -65,7 +65,7 @@ namespace Krypton.Utilities
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 526);
             this.kryptonPanel1.Name = "kryptonPanel1";
             this.kryptonPanel1.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelAlternate;
-            this.kryptonPanel1.Size = new System.Drawing.Size(800, 50);
+            this.kryptonPanel1.Size = new System.Drawing.Size(1000, 50);
             this.kryptonPanel1.TabIndex = 0;
             // 
             // tableLayoutPanel2
@@ -87,7 +87,7 @@ namespace Krypton.Utilities
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(800, 49);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(1000, 49);
             this.tableLayoutPanel2.TabIndex = 3;
             // 
             // kbtnAddFile
@@ -109,7 +109,7 @@ namespace Krypton.Utilities
             this.kbtnSend.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.kbtnSend.AutoSize = true;
             this.kbtnSend.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.kbtnSend.Location = new System.Drawing.Point(649, 13);
+            this.kbtnSend.Location = new System.Drawing.Point(849, 13);
             this.kbtnSend.Margin = new System.Windows.Forms.Padding(10);
             this.kbtnSend.Name = "kbtnSend";
             this.kbtnSend.Size = new System.Drawing.Size(76, 22);
@@ -123,7 +123,7 @@ namespace Krypton.Utilities
             this.kbtnCancel.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.kbtnCancel.AutoSize = true;
             this.kbtnCancel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.kbtnCancel.Location = new System.Drawing.Point(745, 13);
+            this.kbtnCancel.Location = new System.Drawing.Point(945, 13);
             this.kbtnCancel.Margin = new System.Windows.Forms.Padding(10);
             this.kbtnCancel.Name = "kbtnCancel";
             this.kbtnCancel.Size = new System.Drawing.Size(45, 22);
@@ -167,7 +167,7 @@ namespace Krypton.Utilities
             this.kryptonBorderEdge1.Dock = System.Windows.Forms.DockStyle.Top;
             this.kryptonBorderEdge1.Location = new System.Drawing.Point(0, 0);
             this.kryptonBorderEdge1.Name = "kryptonBorderEdge1";
-            this.kryptonBorderEdge1.Size = new System.Drawing.Size(800, 1);
+            this.kryptonBorderEdge1.Size = new System.Drawing.Size(1000, 1);
             this.kryptonBorderEdge1.Text = "kryptonBorderEdge1";
             // 
             // kryptonPanel2
@@ -176,7 +176,7 @@ namespace Krypton.Utilities
             this.kryptonPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel2.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel2.Name = "kryptonPanel2";
-            this.kryptonPanel2.Size = new System.Drawing.Size(800, 526);
+            this.kryptonPanel2.Size = new System.Drawing.Size(1000, 526);
             this.kryptonPanel2.TabIndex = 1;
             // 
             // tableLayoutPanel1
@@ -202,7 +202,7 @@ namespace Krypton.Utilities
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(800, 526);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1000, 526);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // kwlblEmailAddress
@@ -221,7 +221,7 @@ namespace Krypton.Utilities
             this.ktbEmailAddress.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ktbEmailAddress.Location = new System.Drawing.Point(163, 13);
             this.ktbEmailAddress.Name = "ktbEmailAddress";
-            this.ktbEmailAddress.Size = new System.Drawing.Size(624, 23);
+            this.ktbEmailAddress.Size = new System.Drawing.Size(824, 23);
             this.ktbEmailAddress.TabIndex = 1;
             this.ktbEmailAddress.TextChanged += new System.EventHandler(this.ktbEmailAddress_TextChanged);
             // 
@@ -240,7 +240,7 @@ namespace Krypton.Utilities
             this.krtbBugDescription.Dock = System.Windows.Forms.DockStyle.Fill;
             this.krtbBugDescription.Location = new System.Drawing.Point(163, 48);
             this.krtbBugDescription.Name = "krtbBugDescription";
-            this.krtbBugDescription.Size = new System.Drawing.Size(624, 182);
+            this.krtbBugDescription.Size = new System.Drawing.Size(824, 182);
             this.krtbBugDescription.TabIndex = 2;
             this.krtbBugDescription.Text = "";
             this.krtbBugDescription.TextChanged += new System.EventHandler(this.krtbBugDescription_TextChanged);
@@ -260,7 +260,7 @@ namespace Krypton.Utilities
             this.krtbStepsToReproduce.Dock = System.Windows.Forms.DockStyle.Fill;
             this.krtbStepsToReproduce.Location = new System.Drawing.Point(163, 236);
             this.krtbStepsToReproduce.Name = "krtbStepsToReproduce";
-            this.krtbStepsToReproduce.Size = new System.Drawing.Size(624, 182);
+            this.krtbStepsToReproduce.Size = new System.Drawing.Size(824, 182);
             this.krtbStepsToReproduce.TabIndex = 3;
             this.krtbStepsToReproduce.Text = "";
             // 
@@ -280,7 +280,7 @@ namespace Krypton.Utilities
             this.kryptonPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel3.Location = new System.Drawing.Point(163, 424);
             this.kryptonPanel3.Name = "kryptonPanel3";
-            this.kryptonPanel3.Size = new System.Drawing.Size(624, 89);
+            this.kryptonPanel3.Size = new System.Drawing.Size(824, 89);
             this.kryptonPanel3.TabIndex = 4;
             // 
             // flpAttachments
@@ -290,7 +290,7 @@ namespace Krypton.Utilities
             this.flpAttachments.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flpAttachments.Location = new System.Drawing.Point(0, 0);
             this.flpAttachments.Name = "flpAttachments";
-            this.flpAttachments.Size = new System.Drawing.Size(624, 89);
+            this.flpAttachments.Size = new System.Drawing.Size(824, 89);
             this.flpAttachments.TabIndex = 0;
             this.flpAttachments.WrapContents = false;
             // 
@@ -298,7 +298,7 @@ namespace Krypton.Utilities
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 576);
+            this.ClientSize = new System.Drawing.Size(1000, 576);
             this.Controls.Add(this.kryptonPanel2);
             this.Controls.Add(this.kryptonPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
