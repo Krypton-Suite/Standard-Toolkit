@@ -16,10 +16,10 @@ namespace Krypton.Toolkit;
 public static class FocusLostMenuHelper
 {
     #region Private fields
-    private static List<IFocusLostMenuItem> _items = [];
-    private static List<ContextMenuStrip> _winformsContextMenus = [];
-    private static List<ToolStrip> _winformsToolStrips = [];
-    private static List<DateTimePicker> _winformsDateTimePickers = [];
+    private static ConcurrentSimpleList<IFocusLostMenuItem> _items                   = new();
+    private static ConcurrentSimpleList<ContextMenuStrip>   _winformsContextMenus    = new();
+    private static ConcurrentSimpleList<ToolStrip>          _winformsToolStrips      = new();
+    private static ConcurrentSimpleList<DateTimePicker>     _winformsDateTimePickers = new();
     #endregion
 
     #region Register
