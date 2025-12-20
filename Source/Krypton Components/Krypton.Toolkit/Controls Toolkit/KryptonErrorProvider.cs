@@ -9,6 +9,8 @@
 
 namespace Krypton.Toolkit;
 
+using Timer = System.Windows.Forms.Timer;
+
 /// <summary>
 /// Provides a user interface for indicating that a control on a form has an error associated with it.
 /// </summary>
@@ -41,7 +43,7 @@ public class KryptonErrorProvider : Component, IExtenderProvider
     private PaletteRedirect? _redirector;
     private IRenderer? _renderer;
     private Control? _currentHoverControl;
-    private System.Windows.Forms.Timer? _toolTipTimer;
+    private Timer? _toolTipTimer;
     private readonly Dictionary<Control, string> _errorMessages;
     private const int DEFAULT_ICON_SIZE = 16;
     
