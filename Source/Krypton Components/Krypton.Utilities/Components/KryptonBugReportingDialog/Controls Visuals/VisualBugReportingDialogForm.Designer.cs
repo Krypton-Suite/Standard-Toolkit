@@ -347,4 +347,3 @@ namespace Krypton.Utilities
         private TableLayoutPanel tableLayoutPanel2;
     }
 }
-

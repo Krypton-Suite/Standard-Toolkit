@@ -118,13 +118,13 @@ public partial class VisualBugReportingDialogForm : KryptonForm
     private void UpdateAttachmentList()
     {
         flpAttachments.Controls.Clear();
-        
+
         foreach (var path in _attachmentPaths)
         {
             var thumbnailPanel = CreateThumbnailPanel(path);
             flpAttachments.Controls.Add(thumbnailPanel);
         }
-        
+
         kbtnRemove.Enabled = _attachmentPaths.Count > 0;
     }
 
@@ -232,7 +232,7 @@ public partial class VisualBugReportingDialogForm : KryptonForm
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show($"Unable to open file: {ex.Message}", "Error", 
+                KryptonMessageBox.Show($"Unable to open file: {ex.Message}", "Error",
                     KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Error);
             }
         }
@@ -636,4 +636,3 @@ public partial class VisualBugReportingDialogForm : KryptonForm
 
     #endregion
 }
-

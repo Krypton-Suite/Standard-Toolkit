@@ -55,9 +55,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<!--<Compile Include="..\Krypton.Toolkit\General\Definitions.cs" Link="General\Definitions.cs" />-->
 		<Compile Include="..\Krypton.Toolkit\General\PlatformInvoke.cs" Link="General\PlatformInvoke.cs" />
-		<Compile Include="..\Krypton.Toolkit\Utilities\FileSystemIconHelper.cs" Link="KryptonFileSystemTreeView\Utilities\FileSystemIconHelper.cs" />
+		<Compile Include="..\Krypton.Toolkit\Utilities\FileSystemIconHelper.cs" Link="Components\KryptonFileSystemTreeView\Utilities\FileSystemIconHelper.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -117,11 +116,31 @@
 
 	<!-- WebView2 Toolbox Bitmap -->
 	<ItemGroup Condition="Exists('$(WebView2CoreDll)')">
-		<EmbeddedResource Include="KryptonWebView2\ToolboxBitmaps\WebView2.bmp" />
+		<EmbeddedResource Include="Components\KryptonWebView2\ToolboxBitmaps\WebView2.bmp" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Update="Components\KryptonSearchBox\Resource Files\SearchBoxImageResources.resx">
+	    <Generator>ResXFileCodeGenerator</Generator>
+	    <CustomToolNamespace>Krypton.Utilities</CustomToolNamespace>
+	    <LastGenOutput>SearchBoxImageResources.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Resources\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Components\KryptonSearchBox\Resource Files\SearchBoxImageResources.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>SearchBoxImageResources.resx</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 </Project>
