@@ -1,15 +1,15 @@
 @echo off
 
-echo You are about to delete the Bin folder; do you want to continue? (Y/N)
+echo You are about to delete the Artefacts folder; do you want to continue? (Y/N)
 set INPUT=
 set /P INPUT=Type input: %=%
 if /I "%INPUT%"=="y" goto yes
 if /I "%INPUT%"=="n" goto no
 
 :yes
-echo Deleting the 'Bin' folder
-rd /s /q "..\..\Bin"
-echo Deleted the 'Bin' folder
+echo Deleting the 'Artefacts' folder
+rd /s /q "..\..\Artefacts"
+echo Deleted the 'Artefacts' folder
 echo Deleting the 'Krypton.Docking\obj' folder
 rd /s /q "..\..\Source\Krypton Components\Krypton.Docking\obj"
 echo Deleted the 'Krypton.Docking\obj' folder

@@ -64,7 +64,7 @@
 		<!--https://learn.microsoft.com/en-us/visualstudio/designers/disable-dpi-awareness?view=vs-2022-->
 		<ForceDesignerDPIUnaware>true</ForceDesignerDPIUnaware>
 		<ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
-		<OutputPath>..\..\..\Bin\$(Configuration)\</OutputPath>
+		<OutputPath>..\..\..\Artefacts\$(Configuration)\</OutputPath>
 		<NoWarn>1701;1702</NoWarn>
 	</PropertyGroup>
 
@@ -116,6 +116,26 @@
 		<ProjectReference Include="..\Krypton.Workspace\Krypton.Workspace 2022.csproj" />
 	</ItemGroup>
 
+	<!-- WebView2 SDK Package Reference -->
+	<!-- This package is referenced to bundle its DLLs in the NuGet package -->
+	<!-- The DLLs will be included in the package via the AddReferencedAssembliesToPackage target -->
+	<!-- Note: PrivateAssets=All prevents this from being a dependency for consumers, but we can still access the DLLs during pack -->
+	<ItemGroup Condition="'$(TargetFramework)' == 'net472' Or '$(TargetFramework)' == 'net48' Or '$(TargetFramework)' == 'net481' Or '$(TargetFramework)' == 'net8.0-windows' Or '$(TargetFramework)' == 'net9.0-windows' Or '$(TargetFramework)' == 'net10.0-windows'">
+		<PackageReference Include="Microsoft.Web.WebView2" Version="$(WebView2SdkVersion)">
+			<!-- PrivateAssets=All means this won't be a dependency for consumers -->
+			<!-- We bundle the DLLs directly in our package so consumers don't need a separate WebView2 reference -->
+			<PrivateAssets>All</PrivateAssets>
+			<!-- Exclude WPF DLL - we only need WinForms DLL for this WinForms toolkit -->
+			<!-- ExcludeAssets prevents automatic reference resolution, but we can still access DLLs from package cache -->
+			<ExcludeAssets>runtime;build;native;content;analyzers</ExcludeAssets>
+		</PackageReference>
+	</ItemGroup>
+	
+	<!-- Suppress MSB3277 warning for WPF DLL - we explicitly control which WebView2 DLLs to include -->
+	<PropertyGroup Condition="'$(TargetFramework)' == 'net472' Or '$(TargetFramework)' == 'net48' Or '$(TargetFramework)' == 'net481' Or '$(TargetFramework)' == 'net8.0-windows' Or '$(TargetFramework)' == 'net9.0-windows' Or '$(TargetFramework)' == 'net10.0-windows'">
+		<NoWarn>$(NoWarn);MSB3277</NoWarn>
+	</PropertyGroup>
+
 	<!--
 		NuGet Package Content Inclusion
 		================================
@@ -148,7 +168,7 @@
 		  This mapping is required because NuGet packages use a specific version string format for .NET Core/5+ Windows TFMs
 		  Example: net10.0-windows -> net10.0-windows7.0 in the package lib folder
 	
-		The files are located in: Bin\$(Configuration)\$(TargetFramework)\
+		The files are located in: Artefacts\$(Configuration)\$(TargetFramework)\
 		And are placed in the package at: lib\$(_LibFolderName)\
 	
 		All files are conditionally included only if they exist, ensuring the build succeeds even if some files are missing.
@@ -164,66 +184,111 @@
 			<_LibFolderName Condition="'$(_LibFolderName)' == ''">$(TargetFramework)</_LibFolderName>
 		</PropertyGroup>
 
+		<!-- Map target framework to WebView2 package lib folder name -->
+		<!-- WebView2 package uses net472/net48/net481 for .NET Framework and net8.0-windows7.0 format for .NET 8+ -->
+		<PropertyGroup>
+			<_WebView2LibFolder Condition="'$(TargetFramework)' == 'net472'">net472</_WebView2LibFolder>
+			<_WebView2LibFolder Condition="'$(TargetFramework)' == 'net48'">net48</_WebView2LibFolder>
+			<_WebView2LibFolder Condition="'$(TargetFramework)' == 'net481'">net481</_WebView2LibFolder>
+			<_WebView2LibFolder Condition="'$(TargetFramework)' == 'net8.0-windows'">net8.0-windows7.0</_WebView2LibFolder>
+			<_WebView2LibFolder Condition="'$(TargetFramework)' == 'net9.0-windows'">net9.0-windows7.0</_WebView2LibFolder>
+			<_WebView2LibFolder Condition="'$(TargetFramework)' == 'net10.0-windows'">net10.0-windows7.0</_WebView2LibFolder>
+		</PropertyGroup>
+
+		<!-- Determine WebView2 package cache path -->
+		<!-- Use NuGetPackageRoot if available, otherwise fall back to UserProfile -->
+		<!-- Handle trailing backslash in NuGetPackageRoot -->
+		<PropertyGroup Condition="'$(TargetFramework)' == 'net472' Or '$(TargetFramework)' == 'net48' Or '$(TargetFramework)' == 'net481' Or '$(TargetFramework)' == 'net8.0-windows' Or '$(TargetFramework)' == 'net9.0-windows' Or '$(TargetFramework)' == 'net10.0-windows'">
+			<_NuGetPackageRootNormalized Condition="'$(NuGetPackageRoot)' != ''">$([MSBuild]::NormalizeDirectory('$(NuGetPackageRoot)'))</_NuGetPackageRootNormalized>
+			<_WebView2PackagePath Condition="'$(_NuGetPackageRootNormalized)' != ''">$(_NuGetPackageRootNormalized)microsoft.web.webview2\$(WebView2SdkVersion)</_WebView2PackagePath>
+			<_WebView2PackagePath Condition="'$(_WebView2PackagePath)' == ''">$(UserProfile)\.nuget\packages\microsoft.web.webview2\$(WebView2SdkVersion)</_WebView2PackagePath>
+		</PropertyGroup>
+		
+		<!-- Debug: Log the WebView2 package path (can be removed after verification) -->
+		<Message Text="WebView2 Package Path: $(_WebView2PackagePath)" Condition="'$(_WebView2PackagePath)' != ''" Importance="normal" />
+		<Message Text="WebView2 Lib Folder: $(_WebView2LibFolder)" Condition="'$(_WebView2LibFolder)' != ''" Importance="normal" />
+
 		<!-- Include referenced DLL files for all referenced projects -->
 		<ItemGroup>
 			<!-- Include DLL files -->
-			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Docking.dll" Condition="Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Docking.dll')">
+			<TfmSpecificPackageFile Include="..\..\..\Artefacts\$(Configuration)\$(TargetFramework)\Krypton.Docking.dll" Condition="Exists('..\..\..\Artefacts\$(Configuration)\$(TargetFramework)\Krypton.Docking.dll')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
-			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Navigator.dll" Condition="Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Navigator.dll')">
+			<TfmSpecificPackageFile Include="..\..\..\Artefacts\$(Configuration)\$(TargetFramework)\Krypton.Navigator.dll" Condition="Exists('..\..\..\Artefacts\$(Configuration)\$(TargetFramework)\Krypton.Navigator.dll')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
-			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Ribbon.dll" Condition="Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Ribbon.dll')">
+			<TfmSpecificPackageFile Include="..\..\..\Artefacts\$(Configuration)\$(TargetFramework)\Krypton.Ribbon.dll" Condition="Exists('..\..\..\Artefacts\$(Configuration)\$(TargetFramework)\Krypton.Ribbon.dll')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
-			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.dll" Condition="Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.dll')">
+			<TfmSpecificPackageFile Include="..\..\..\Artefacts\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.dll" Condition="Exists('..\..\..\Artefacts\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.dll')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
-			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Utilities.dll" Condition="Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Utilities.dll')">
+			<TfmSpecificPackageFile Include="..\..\..\Artefacts\$(Configuration)\$(TargetFramework)\Krypton.Utilities.dll" Condition="Exists('..\..\..\Artefacts\$(Configuration)\$(TargetFramework)\Krypton.Utilities.dll')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
-			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Workspace.dll" Condition="Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Workspace.dll')">
+			<TfmSpecificPackageFile Include="..\..\..\Artefacts\$(Configuration)\$(TargetFramework)\Krypton.Workspace.dll" Condition="Exists('..\..\..\Artefacts\$(Configuration)\$(TargetFramework)\Krypton.Workspace.dll')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
 
 			<!-- Include XML documentation files for IntelliSense support -->
-			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Docking.xml" Condition="Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Docking.xml')">
+			<TfmSpecificPackageFile Include="..\..\..\Artefacts\$(Configuration)\$(TargetFramework)\Krypton.Docking.xml" Condition="Exists('..\..\..\Artefacts\$(Configuration)\$(TargetFramework)\Krypton.Docking.xml')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
-			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Navigator.xml" Condition="Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Navigator.xml')">
+			<TfmSpecificPackageFile Include="..\..\..\Artefacts\$(Configuration)\$(TargetFramework)\Krypton.Navigator.xml" Condition="Exists('..\..\..\Artefacts\$(Configuration)\$(TargetFramework)\Krypton.Navigator.xml')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
-			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Ribbon.xml" Condition="Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Ribbon.xml')">
+			<TfmSpecificPackageFile Include="..\..\..\Artefacts\$(Configuration)\$(TargetFramework)\Krypton.Ribbon.xml" Condition="Exists('..\..\..\Artefacts\$(Configuration)\$(TargetFramework)\Krypton.Ribbon.xml')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
-			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.xml" Condition="Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.xml')">
+			<TfmSpecificPackageFile Include="..\..\..\Artefacts\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.xml" Condition="Exists('..\..\..\Artefacts\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.xml')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
-			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Utilities.xml" Condition="Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Utilities.xml')">
+			<TfmSpecificPackageFile Include="..\..\..\Artefacts\$(Configuration)\$(TargetFramework)\Krypton.Utilities.xml" Condition="Exists('..\..\..\Artefacts\$(Configuration)\$(TargetFramework)\Krypton.Utilities.xml')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
-			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Workspace.xml" Condition="Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Workspace.xml')">
+			<TfmSpecificPackageFile Include="..\..\..\Artefacts\$(Configuration)\$(TargetFramework)\Krypton.Workspace.xml" Condition="Exists('..\..\..\Artefacts\$(Configuration)\$(TargetFramework)\Krypton.Workspace.xml')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
 
 			<!-- Include PDB symbol files (only when IncludeSymbols is true, e.g., for Nightly/Canary configurations) -->
-			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Docking.pdb" Condition="'$(IncludeSymbols)' == 'true' And Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Docking.pdb')">
+			<TfmSpecificPackageFile Include="..\..\..\Artefacts\$(Configuration)\$(TargetFramework)\Krypton.Docking.pdb" Condition="'$(IncludeSymbols)' == 'true' And Exists('..\..\..\Artefacts\$(Configuration)\$(TargetFramework)\Krypton.Docking.pdb')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
-			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Navigator.pdb" Condition="'$(IncludeSymbols)' == 'true' And Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Navigator.pdb')">
+			<TfmSpecificPackageFile Include="..\..\..\Artefacts\$(Configuration)\$(TargetFramework)\Krypton.Navigator.pdb" Condition="'$(IncludeSymbols)' == 'true' And Exists('..\..\..\Artefacts\$(Configuration)\$(TargetFramework)\Krypton.Navigator.pdb')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
-			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Ribbon.pdb" Condition="'$(IncludeSymbols)' == 'true' And Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Ribbon.pdb')">
+			<TfmSpecificPackageFile Include="..\..\..\Artefacts\$(Configuration)\$(TargetFramework)\Krypton.Ribbon.pdb" Condition="'$(IncludeSymbols)' == 'true' And Exists('..\..\..\Artefacts\$(Configuration)\$(TargetFramework)\Krypton.Ribbon.pdb')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
-			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.pdb" Condition="'$(IncludeSymbols)' == 'true' And Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.pdb')">
+			<TfmSpecificPackageFile Include="..\..\..\Artefacts\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.pdb" Condition="'$(IncludeSymbols)' == 'true' And Exists('..\..\..\Artefacts\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.pdb')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
-			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Utilities.pdb" Condition="'$(IncludeSymbols)' == 'true' And Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Utilities.pdb')">
+			<TfmSpecificPackageFile Include="..\..\..\Artefacts\$(Configuration)\$(TargetFramework)\Krypton.Utilities.pdb" Condition="'$(IncludeSymbols)' == 'true' And Exists('..\..\..\Artefacts\$(Configuration)\$(TargetFramework)\Krypton.Utilities.pdb')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
-			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Workspace.pdb" Condition="'$(IncludeSymbols)' == 'true' And Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Workspace.pdb')">
+			<TfmSpecificPackageFile Include="..\..\..\Artefacts\$(Configuration)\$(TargetFramework)\Krypton.Workspace.pdb" Condition="'$(IncludeSymbols)' == 'true' And Exists('..\..\..\Artefacts\$(Configuration)\$(TargetFramework)\Krypton.Workspace.pdb')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
+
+			<!-- Include WebView2 SDK DLLs from NuGet package cache -->
+			<!-- These DLLs are bundled directly in the package so consumers don't need a separate WebView2 package reference -->
+			<!-- Include WebView2 Core and WinForms DLLs -->
+			<TfmSpecificPackageFile Include="$(_WebView2PackagePath)\lib\$(_WebView2LibFolder)\Microsoft.Web.WebView2.Core.dll" Condition="'$(_WebView2LibFolder)' != '' And '$(_WebView2PackagePath)' != '' And Exists('$(_WebView2PackagePath)\lib\$(_WebView2LibFolder)\Microsoft.Web.WebView2.Core.dll')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(_WebView2PackagePath)\lib\$(_WebView2LibFolder)\Microsoft.Web.WebView2.WinForms.dll" Condition="'$(_WebView2LibFolder)' != '' And '$(_WebView2PackagePath)' != '' And Exists('$(_WebView2PackagePath)\lib\$(_WebView2LibFolder)\Microsoft.Web.WebView2.WinForms.dll')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
+			
+			<!-- Include WebView2Loader.dll from runtimes folder (architecture-specific native DLLs) -->
+			<TfmSpecificPackageFile Include="$(_WebView2PackagePath)\runtimes\win-x64\native\WebView2Loader.dll" Condition="'$(_WebView2LibFolder)' != '' And '$(_WebView2PackagePath)' != '' And Exists('$(_WebView2PackagePath)\runtimes\win-x64\native\WebView2Loader.dll')">
+				<PackagePath>runtimes\win-x64\native\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(_WebView2PackagePath)\runtimes\win-x86\native\WebView2Loader.dll" Condition="'$(_WebView2LibFolder)' != '' And '$(_WebView2PackagePath)' != '' And Exists('$(_WebView2PackagePath)\runtimes\win-x86\native\WebView2Loader.dll')">
+				<PackagePath>runtimes\win-x86\native\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(_WebView2PackagePath)\runtimes\win-arm64\native\WebView2Loader.dll" Condition="'$(_WebView2LibFolder)' != '' And '$(_WebView2PackagePath)' != '' And Exists('$(_WebView2PackagePath)\runtimes\win-arm64\native\WebView2Loader.dll')">
+				<PackagePath>runtimes\win-arm64\native\</PackagePath>
 			</TfmSpecificPackageFile>
 		</ItemGroup>
 	</Target>

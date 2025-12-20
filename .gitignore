@@ -22,6 +22,7 @@
 *.userprefs
 
 # Build results
+[Aa]rtefacts/
 [Dd]ebug/
 [Dd]ebugPublic/
 [Rr]elease/

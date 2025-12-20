@@ -22,7 +22,7 @@ It uses `Terminal.Gui` for the UI and drives `MSBuild.exe` and `nuget.exe` under
   - `Scripts/build.proj` (used for Stable) or `Scripts/Project-Files/build.proj`
   - `Scripts/installer.proj` or `Scripts/Project-Files/installer.proj` (not exposed via Ops page)
 - Logs are written to `Logs/`
-- Packages are produced into `Bin/Release/`
+- Packages are produced into `Artefacts/Release/`
 
 ### Build and run
 - Build (optional):
@@ -63,7 +63,7 @@ Tip: Run ModernBuild from the repository root so it can auto-detect the correct 
   - Debug: runs a clean, switches to Nightly, then executes `Rebuild`
 - F3 Config: toggles Release/Debug (Nightly may auto-switch to Debug)
 - F6 Tail: cycles live-output buffer size 200 → 500 → 1000 lines
-- F7 Clean: deletes `Bin/`, component `obj/`, and `Logs/`
+- F7 Clean: deletes `Artefacts/`, component `obj/`, and `Logs/`
 - F8 Clear: clears the live output and resets horizontal scroll
 - F9 PackMode: only visible on Stable when Action is Pack or BuildPack; cycles Pack → PackLite → PackAll
 
@@ -85,14 +85,14 @@ Tip: Run ModernBuild from the repository root so it can auto-detect the correct 
     - Set once: `nuget.exe setapikey <KEY> -Source https://api.nuget.org/v3/index.json`
   - GitHub: ensure a source named `github` exists (e.g., `nuget.exe sources add -Name github -Source https://nuget.pkg.github.com/<OWNER>/index.json`)
   - Custom: not configurable via UI in this version; if selected with no URL set, ModernBuild will emit an error
-- Create ZIP: when visible, creates `Bin/<yyyyMMdd>_NuGet_Packages.zip` after packing
+- Create ZIP: when visible, creates `Artefacts/<yyyyMMdd>_NuGet_Packages.zip` after packing
 - TEST: previews the exact `nuget.exe push` commands in the Summary panel
 
 ### Outputs and logs
 - Text summary: `Logs/<channel>-build-summary.log`
 - Binary log: `Logs/<channel>-build.binlog`
-- Packages: `Bin/Release/*.nupkg` (and optionally `*.snupkg`)
-- Optional ZIP: `Bin/<yyyyMMdd>_NuGet_Packages.zip`
+- Packages: `Artefacts/Release/*.nupkg` (and optionally `*.snupkg`)
+- Optional ZIP: `Artefacts/<yyyyMMdd>_NuGet_Packages.zip`
 
 ### Status and navigation
 - Status bar shows: RUNNING/DONE/FAILED, elapsed time, and running counts of errors/warnings
@@ -116,7 +116,7 @@ Tip: Run ModernBuild from the repository root so it can auto-detect the correct 
 - Build succeeds with no observable work
   - ModernBuild will note this in output; verify your Configuration and the `.proj` target frameworks so targets aren’t skipped
 - No packages found to push
-  - Ensure packages exist in `Bin/Release/` for the chosen channel/config
+  - Ensure packages exist in `Artefacts/Release/` for the chosen channel/config
 - Custom NuGet source
   - Not settable via UI in this version; selecting Custom without a URL will cause validation to fail
 

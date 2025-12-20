@@ -756,7 +756,7 @@ internal static class BuildLogic
 
     /// <summary>
     /// Starts an asynchronous clean operation that removes build artifacts and temporary files.
-    /// Deletes Bin directory, object files, and logs to prepare for a fresh build.
+    /// Deletes Artefacts directory, object files, and logs to prepare for a fresh build.
     /// </summary>
     /// <param name="state">The application state to update during the clean operation.</param>
     /// <param name="onCompleted">Optional callback to execute when the clean operation completes.</param>
@@ -792,7 +792,7 @@ internal static class BuildLogic
                     state.WarningCount++;
                 }
             }
-            DelDir("Bin");
+            DelDir("Artefacts");
             DelDir(Path.Combine("Source", "Krypton Components", "Krypton.Docking", "obj"));
             DelDir(Path.Combine("Source", "Krypton Components", "Krypton.Navigator", "obj"));
             DelDir(Path.Combine("Source", "Krypton Components", "Krypton.Ribbon", "obj"));
@@ -934,14 +934,14 @@ internal static class BuildLogic
 
     /// <summary>
     /// Attempts to create a ZIP archive containing all NuGet packages from the build output.
-    /// Creates a timestamped ZIP file in the Bin directory with all .nupkg files.
+    /// Creates a timestamped ZIP file in the Artefacts directory with all .nupkg files.
     /// </summary>
     /// <param name="state">The application state to update with the ZIP file path.</param>
     private static void TryCreateNuGetZip(AppState state)
     {
         try
         {
-            string bin = Path.Combine(state.RootPath, "Bin", "Release");
+            string bin = Path.Combine(state.RootPath, "Artefacts", "Release");
             if (!Directory.Exists(bin))
             {
                 state.OnOutput?.Invoke($"ZIP: folder not found: {bin}");
@@ -949,7 +949,7 @@ internal static class BuildLogic
             }
             string date = DateTime.Now.ToString("yyyyMMdd");
             string name = $"{date}_NuGet_Packages.zip";
-            string zipPath = Path.Combine(state.RootPath, "Bin", name);
+            string zipPath = Path.Combine(state.RootPath, "Artefacts", name);
             if (File.Exists(zipPath))
             {
                 try { File.Delete(zipPath); } catch { }
@@ -1238,7 +1238,7 @@ internal static class BuildLogic
 
     /// <summary>
     /// Gets the list of candidate directories that may contain NuGet packages.
-    /// Currently returns only the Bin/Release directory regardless of channel.
+    /// Currently returns only the Artefacts/Release directory regardless of channel.
     /// </summary>
     /// <param name="state">The application state containing build configuration.</param>
     /// <returns>A list of directory paths to search for NuGet packages.</returns>
@@ -1246,7 +1246,7 @@ internal static class BuildLogic
     {
         /*
         // Should packages ever be expected in their own channel output bin folders:
-        string bin = Path.Combine(state.RootPath, "Bin");
+        string bin = Path.Combine(state.RootPath, "Artefacts");
         var list = new List<string>(5);
         switch (state.Channel)
         {
@@ -1266,8 +1266,8 @@ internal static class BuildLogic
         list.Add(Path.Combine(bin, "Debug"));
         return list.Distinct(StringComparer.OrdinalIgnoreCase).ToList();
         */
-        // Packages are always produced into Bin/Release regardless of channel
-        string binRelease = Path.Combine(state.RootPath, "Bin", "Release");
+        // Packages are always produced into Artefacts/Release regardless of channel
+        string binRelease = Path.Combine(state.RootPath, "Artefacts", "Release");
         return new[] { binRelease };
     }
 
