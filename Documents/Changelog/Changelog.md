@@ -4,6 +4,8 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented ribbon merging functionality - Added `KryptonRibbonMerger` class and extension methods to enable dynamic merging and unmerging of ribbon tabs, groups, contexts, and items between multiple `KryptonRibbon` instances. Supports plugin architectures where modules can dynamically add their own ribbon tabs. See `Documents/KryptonRibbonMerger/` for documentation.
+* Implemented UserControl hosting support for `KryptonRibbon` - `KryptonRibbon` can now be hosted on `UserControl` instances, enabling plugin architectures where modules can define their own ribbon UI alongside their content. See `Documents/KryptonRibbonMerger/UserControlHosting.md` for documentation.
 * Implemented [#2764](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2764), Bug reporting tool
 * Implemented [#2570](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2570), Added Tab scrolling with mouse over Ribbon's GroupsArea - ScrollTabGroupArea for #331.
 * Implemented [#2749](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2749), Usage of native Krypton controls, i.e. TreeView & RichTextBox - Part of #2720

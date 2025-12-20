@@ -75,6 +75,12 @@ public partial class Main : KryptonForm
         form3.ShowDialog();
     }
 
+    private void kbtnRibbonMergerDemo_Click(object sender, EventArgs e)
+    {
+        var demo = new RibbonMergerDemo();
+        demo.ShowDialog();
+    }
+
     private void kbtnTestMessagebox_Click(object sender, EventArgs e)
     {
         KryptonMessageBox.Show(this, @"This is a test!", @"Testing", KryptonMessageBoxButtons.OK,
