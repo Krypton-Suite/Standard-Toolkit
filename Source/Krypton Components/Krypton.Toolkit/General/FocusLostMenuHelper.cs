@@ -20,8 +20,6 @@ public static class FocusLostMenuHelper
     private static ConcurrentSimpleList<ContextMenuStrip>   _winformsContextMenus    = new();
     private static ConcurrentSimpleList<ToolStrip>          _winformsToolStrips      = new();
     private static ConcurrentSimpleList<DateTimePicker>     _winformsDateTimePickers = new();
-
-    private static ReaderWriterLockSlim _rwLock = new(LockRecursionPolicy.SupportsRecursion);
     #endregion
 
     #region Register
