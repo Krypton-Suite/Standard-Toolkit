@@ -16,10 +16,12 @@ namespace Krypton.Toolkit;
 public static class FocusLostMenuHelper
 {
     #region Private fields
-    private static List<IFocusLostMenuItem> _items                   = [];
-    private static List<ContextMenuStrip>   _winformsContextMenus    = [];
-    private static List<ToolStrip>          _winformsToolStrips      = [];
-    private static List<DateTimePicker>     _winformsDateTimePickers = [];
+    private static ConcurrentSimpleList<IFocusLostMenuItem> _items                   = new();
+    private static ConcurrentSimpleList<ContextMenuStrip>   _winformsContextMenus    = new();
+    private static ConcurrentSimpleList<ToolStrip>          _winformsToolStrips      = new();
+    private static ConcurrentSimpleList<DateTimePicker>     _winformsDateTimePickers = new();
+
+    private static ReaderWriterLockSlim _rwLock = new(LockRecursionPolicy.SupportsRecursion);
     #endregion
 
     #region Register
@@ -85,6 +87,7 @@ public static class FocusLostMenuHelper
     /// <param name="item">A valid IFocusLostMenuItem object instance.</param>
     public static void Deregister(IFocusLostMenuItem item)
     {
+
         _items.Remove(item);
     }
 
@@ -94,6 +97,7 @@ public static class FocusLostMenuHelper
     /// <param name="item">A valid ContextMenuStrip instance.</param>
     public static void Deregister(ContextMenuStrip item)
     {
+
         _winformsContextMenus.Remove(item);
     }
 
