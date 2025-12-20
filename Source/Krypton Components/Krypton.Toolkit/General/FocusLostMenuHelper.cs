@@ -87,7 +87,6 @@ public static class FocusLostMenuHelper
     /// <param name="item">A valid IFocusLostMenuItem object instance.</param>
     public static void Deregister(IFocusLostMenuItem item)
     {
-
         _items.Remove(item);
     }
 
@@ -97,7 +96,6 @@ public static class FocusLostMenuHelper
     /// <param name="item">A valid ContextMenuStrip instance.</param>
     public static void Deregister(ContextMenuStrip item)
     {
-
         _winformsContextMenus.Remove(item);
     }
 
