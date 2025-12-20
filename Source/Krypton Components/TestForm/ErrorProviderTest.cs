@@ -22,6 +22,15 @@ public partial class ErrorProviderTest : KryptonForm
         kryptonErrorProvider1.ContainerControl = this;
         kryptonErrorProvider1.BlinkStyle = KryptonErrorBlinkStyle.BlinkIfDifferentError;
         
+        // Configure Krypton tooltip settings
+        // Tooltips will automatically appear when hovering over error icons
+        // The tooltips use Krypton styling and can be customized via ToolTipValues
+        kryptonErrorProvider1.ToolTipValues.EnableToolTips = true;
+        kryptonErrorProvider1.ToolTipValues.ToolTipStyle = LabelStyle.ToolTip;
+        kryptonErrorProvider1.ToolTipValues.ToolTipShadow = true;
+        kryptonErrorProvider1.ToolTipValues.ShowIntervalDelay = 500;
+        kryptonErrorProvider1.ToolTipValues.CloseIntervalDelay = 5000;
+        
         UpdateBlinkStyleDisplay();
         UpdateIconAlignmentDisplay();
         UpdateIconPaddingDisplay();
@@ -125,6 +134,21 @@ public partial class ErrorProviderTest : KryptonForm
     private void kbtnSetQuestionIcon_Click(object sender, EventArgs e)
     {
         kryptonErrorProvider1.Icon = SystemIcons.Question;
+    }
+
+    private void kbtnSetIconSize16_Click(object sender, EventArgs e)
+    {
+        kryptonErrorProvider1.IconSize = new Size(16, 16);
+    }
+
+    private void kbtnSetIconSize32_Click(object sender, EventArgs e)
+    {
+        kryptonErrorProvider1.IconSize = new Size(32, 32);
+    }
+
+    private void kbtnSetIconSize48_Click(object sender, EventArgs e)
+    {
+        kryptonErrorProvider1.IconSize = new Size(48, 48);
     }
 
     private void kcmbPaletteMode_SelectedIndexChanged(object sender, EventArgs e)
