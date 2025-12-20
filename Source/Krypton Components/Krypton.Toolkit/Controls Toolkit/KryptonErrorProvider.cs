@@ -9,6 +9,8 @@
 
 namespace Krypton.Toolkit;
 
+using Timer = System.Windows.Forms.Timer;
+
 /// <summary>
 /// Provides a user interface for indicating that a control on a form has an error associated with it.
 /// </summary>
@@ -30,10 +32,20 @@ public class KryptonErrorProvider : Component, IExtenderProvider
     private KryptonErrorIconAlignment _iconAlignment;
     private int _iconPadding;
     private Icon? _icon;
+    private Icon? _resizedIcon;
+    private Size _iconSize;
     private PaletteBase? _palette;
     private PaletteMode _paletteMode;
     private bool _changeBorderColor;
     private readonly Dictionary<Control, bool> _changeBorderColorOnControl;
+    private ToolTipValues? _toolTipValues;
+    private VisualPopupToolTip? _visualPopupToolTip;
+    private PaletteRedirect? _redirector;
+    private IRenderer? _renderer;
+    private Control? _currentHoverControl;
+    private Timer? _toolTipTimer;
+    private readonly Dictionary<Control, string> _errorMessages;
+    private const int DEFAULT_ICON_SIZE = 16;
     
     #endregion
 
@@ -47,10 +59,12 @@ public class KryptonErrorProvider : Component, IExtenderProvider
         _blinkStyle = KryptonErrorBlinkStyle.BlinkIfDifferentError;
         _iconAlignment = KryptonErrorIconAlignment.MiddleRight;
         _iconPadding = 0;
+        _iconSize = new Size(DEFAULT_ICON_SIZE, DEFAULT_ICON_SIZE);
         _paletteMode = PaletteMode.Global;
         _palette = KryptonManager.CurrentGlobalPalette;
         _changeBorderColor = true;
         _changeBorderColorOnControl = new Dictionary<Control, bool>();
+        _errorMessages = new Dictionary<Control, string>();
 
         // Create the underlying ErrorProvider
         _errorProvider = new ErrorProvider
@@ -60,6 +74,9 @@ public class KryptonErrorProvider : Component, IExtenderProvider
 
         // Set default Krypton-themed icon
         UpdateIcon();
+
+        // Initialize tooltip system
+        InitializeToolTipSystem();
 
         // Hook into global palette changes
         KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged;
@@ -86,6 +103,12 @@ public class KryptonErrorProvider : Component, IExtenderProvider
             // Unhook from events
             KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChanged;
 
+            // Clean up tooltip system
+            CleanupToolTipSystem();
+
+            // Unhook container control events
+            UnhookContainerControlEvents();
+
             // Dispose the underlying ErrorProvider
             _errorProvider?.Dispose();
             _errorProvider = null;
@@ -95,6 +118,11 @@ public class KryptonErrorProvider : Component, IExtenderProvider
                 _icon.Dispose();
             }
             _icon = null;
+            if (_resizedIcon != null && !IsSystemIcon(_resizedIcon))
+            {
+                _resizedIcon.Dispose();
+            }
+            _resizedIcon = null;
             _palette = null;
         }
 
@@ -245,6 +273,34 @@ public class KryptonErrorProvider : Component, IExtenderProvider
     }
 
     /// <summary>
+    /// Gets or sets the size of the error icon.
+    /// </summary>
+    [Category(@"Appearance")]
+    [Description(@"The size of the error icon in pixels (width and height).")]
+    [DefaultValue(typeof(Size), "16, 16")]
+    public Size IconSize
+    {
+        get => _iconSize;
+
+        set
+        {
+            if (_iconSize != value)
+            {
+                _iconSize = value;
+                // Recreate resized icon if we have an icon set
+                if (_icon != null)
+                {
+                    UpdateResizedIcon();
+                }
+            }
+        }
+    }
+
+    private bool ShouldSerializeIconSize() => _iconSize.Width != DEFAULT_ICON_SIZE || _iconSize.Height != DEFAULT_ICON_SIZE;
+
+    private void ResetIconSize() => IconSize = new Size(DEFAULT_ICON_SIZE, DEFAULT_ICON_SIZE);
+
+    /// <summary>
     /// Gets or sets the Icon to display next to a control when an error description string has been set.
     /// </summary>
     [Category(@"Appearance")]
@@ -263,11 +319,16 @@ public class KryptonErrorProvider : Component, IExtenderProvider
                 {
                     _icon.Dispose();
                 }
+                if (_resizedIcon != null && !IsSystemIcon(_resizedIcon))
+                {
+                    _resizedIcon.Dispose();
+                }
                 _icon = value;
-                // Only assign to ErrorProvider if value is not null (ErrorProvider.Icon is non-nullable)
+                _resizedIcon = null;
+                // Create resized icon if needed and assign to ErrorProvider
                 if (_errorProvider != null && value != null)
                 {
-                    _errorProvider.Icon = value;
+                    UpdateResizedIcon();
                 }
             }
         }
@@ -299,14 +360,35 @@ public class KryptonErrorProvider : Component, IExtenderProvider
         {
             if (_containerControl != value)
             {
+                UnhookContainerControlEvents();
                 _containerControl = value;
                 if (_errorProvider != null)
                 {
                     _errorProvider.ContainerControl = value;
                 }
+                HookContainerControlEvents();
             }
         }
     }
+
+    /// <summary>
+    /// Gets the tooltip values.
+    /// </summary>
+    [Category(@"Appearance")]
+    [Description(@"Tooltip appearance and behavior settings.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public ToolTipValues ToolTipValues
+    {
+        get
+        {
+            _toolTipValues ??= new ToolTipValues(null, () => 96F / 96F);
+            return _toolTipValues;
+        }
+    }
+
+    private bool ShouldSerializeToolTipValues() => _toolTipValues != null && !_toolTipValues.IsDefault;
+
+    private void ResetToolTipValues() => _toolTipValues?.Reset();
 
     /// <summary>
     /// Gets the underlying ErrorProvider instance.
@@ -326,7 +408,17 @@ public class KryptonErrorProvider : Component, IExtenderProvider
         if (_errorProvider != null)
         {
             _errorProvider.SetIconAlignment(control, ConvertIconAlignment(alignment));
-            _errorProvider.SetError(control, value);
+            // Store actual error message for Krypton tooltips
+            if (string.IsNullOrEmpty(value))
+            {
+                _errorMessages.Remove(control);
+            }
+            else
+            {
+                _errorMessages[control] = value;
+            }
+            // Set empty tooltip text to disable standard tooltip (we'll use Krypton tooltips)
+            _errorProvider.SetError(control, string.IsNullOrEmpty(value) ? string.Empty : " ");
 
             if (ShouldChangeBorderColor(control) && control != null)
             {
@@ -400,6 +492,7 @@ public class KryptonErrorProvider : Component, IExtenderProvider
 
         // Clear control-specific settings
         _changeBorderColorOnControl.Clear();
+        _errorMessages.Clear();
 
         _errorProvider?.Clear();
     }
@@ -409,7 +502,7 @@ public class KryptonErrorProvider : Component, IExtenderProvider
         foreach (Control control in parent.Controls)
         {
             // Clear border color if this control has an error
-            if (!string.IsNullOrEmpty(_errorProvider?.GetError(control)))
+            if (_errorMessages.TryGetValue(control, out string? errorText) && !string.IsNullOrEmpty(errorText))
             {
                 ErrorProviderBorderHelper.ClearBorderColor(control);
             }
@@ -441,7 +534,7 @@ public class KryptonErrorProvider : Component, IExtenderProvider
     [Description(@"Gets or sets the error description string for this control.")]
     [DefaultValue("")]
     [Localizable(true)]
-    public string GetError(Control control) => _errorProvider?.GetError(control) ?? string.Empty;
+    public string GetError(Control control) => _errorMessages.TryGetValue(control, out string? value) ? value : string.Empty;
 
     /// <summary>
     /// Sets the error description string for the specified control (extender property).
@@ -450,7 +543,17 @@ public class KryptonErrorProvider : Component, IExtenderProvider
     /// <param name="value">The error description string, or null or empty string to remove the error.</param>
     public void SetError(Control control, string value)
     {
-        _errorProvider?.SetError(control, value);
+        // Store actual error message for Krypton tooltips
+        if (string.IsNullOrEmpty(value))
+        {
+            _errorMessages.Remove(control);
+        }
+        else
+        {
+            _errorMessages[control] = value;
+        }
+        // Set empty tooltip text to disable standard tooltip (we'll use Krypton tooltips)
+        _errorProvider?.SetError(control, string.IsNullOrEmpty(value) ? string.Empty : " ");
 
         if (ShouldChangeBorderColor(control) && control != null)
         {
@@ -511,7 +614,7 @@ public class KryptonErrorProvider : Component, IExtenderProvider
         }
 
         // Update border color if control currently has an error
-        if (!string.IsNullOrEmpty(_errorProvider?.GetError(control)))
+        if (_errorMessages.TryGetValue(control, out string? errorText) && !string.IsNullOrEmpty(errorText))
         {
             if (ShouldChangeBorderColor(control))
             {
@@ -565,7 +668,68 @@ public class KryptonErrorProvider : Component, IExtenderProvider
 
         if (_errorProvider != null)
         {
+            UpdateResizedIcon();
+        }
+    }
+
+    private void UpdateResizedIcon()
+    {
+        if (_icon == null || _errorProvider == null)
+        {
+            return;
+        }
+
+        // Dispose previous resized icon if we own it
+        if (_resizedIcon != null && !IsSystemIcon(_resizedIcon))
+        {
+            _resizedIcon.Dispose();
+            _resizedIcon = null;
+        }
+
+        // Check if icon needs resizing
+        if (_icon.Size == _iconSize)
+        {
+            // Icon is already the correct size, use it directly
             _errorProvider.Icon = _icon;
+        }
+        else
+        {
+            // Create a resized version of the icon
+            try
+            {
+                using (Bitmap sourceBitmap = _icon.ToBitmap())
+                {
+                    Bitmap? resizedBitmap = GraphicsExtensions.ScaleImage(sourceBitmap, _iconSize);
+                    if (resizedBitmap != null)
+                    {
+                        // Create icon from resized bitmap and clone it to own the handle
+                        IntPtr hIcon = resizedBitmap.GetHicon();
+                        try
+                        {
+                            Icon tempIcon = Icon.FromHandle(hIcon);
+                            // Clone the icon to create an owned copy
+                            _resizedIcon = (Icon)tempIcon.Clone();
+                        }
+                        finally
+                        {
+                            // Destroy the temporary handle
+                            ImageNativeMethods.DestroyIcon(hIcon);
+                        }
+                        resizedBitmap.Dispose();
+                        _errorProvider.Icon = _resizedIcon;
+                    }
+                    else
+                    {
+                        // Fallback to original icon if resize fails
+                        _errorProvider.Icon = _icon;
+                    }
+                }
+            }
+            catch
+            {
+                // Fallback to original icon if resize fails
+                _errorProvider.Icon = _icon;
+            }
         }
     }
 
@@ -624,7 +788,251 @@ public class KryptonErrorProvider : Component, IExtenderProvider
         {
             _palette = KryptonManager.CurrentGlobalPalette;
             UpdateIcon();
+            UpdateToolTipSystem();
         }
+    }
+
+    private void InitializeToolTipSystem()
+    {
+        if (_palette != null)
+        {
+            _redirector = new PaletteRedirect(_palette);
+            _renderer = _palette.GetRenderer();
+        }
+    }
+
+    private void UpdateToolTipSystem()
+    {
+        if (_palette != null)
+        {
+            _redirector = new PaletteRedirect(_palette);
+            _renderer = _palette.GetRenderer();
+        }
+    }
+
+    private void CleanupToolTipSystem()
+    {
+        HideToolTip();
+        _toolTipTimer?.Stop();
+        _toolTipTimer?.Dispose();
+        _toolTipTimer = null;
+        _visualPopupToolTip?.Dispose();
+        _visualPopupToolTip = null;
+    }
+
+    private void HookContainerControlEvents()
+    {
+        if (_containerControl != null)
+        {
+            _containerControl.MouseMove += OnContainerControlMouseMove;
+            _containerControl.MouseLeave += OnContainerControlMouseLeave;
+        }
+    }
+
+    private void UnhookContainerControlEvents()
+    {
+        if (_containerControl != null)
+        {
+            _containerControl.MouseMove -= OnContainerControlMouseMove;
+            _containerControl.MouseLeave -= OnContainerControlMouseLeave;
+        }
+    }
+
+    private void OnContainerControlMouseMove(object? sender, MouseEventArgs e)
+    {
+        if (_containerControl == null || _errorProvider == null || _palette == null)
+        {
+            return;
+        }
+
+        // Check all controls with errors to see if mouse is over their error icon
+        Control? hoverControl = null;
+        foreach (var kvp in _errorMessages)
+        {
+            Control control = kvp.Key;
+            if (control != null && control.Visible && !string.IsNullOrEmpty(kvp.Value))
+            {
+                Rectangle iconBounds = GetErrorIconBounds(control);
+                if (!iconBounds.IsEmpty && iconBounds.Contains(e.Location))
+                {
+                    hoverControl = control;
+                    break;
+                }
+            }
+        }
+
+        if (hoverControl != null)
+        {
+            if (_currentHoverControl != hoverControl)
+            {
+                _currentHoverControl = hoverControl;
+                if (_errorMessages.TryGetValue(hoverControl, out string? errorText))
+                {
+                    StartToolTipTimer(hoverControl, errorText, e.Location);
+                }
+            }
+        }
+        else
+        {
+            // Mouse not over error icon
+            if (_currentHoverControl != null)
+            {
+                _currentHoverControl = null;
+                HideToolTip();
+            }
+        }
+    }
+
+    private void OnContainerControlMouseLeave(object? sender, EventArgs e)
+    {
+        _currentHoverControl = null;
+        HideToolTip();
+    }
+
+
+    private Rectangle GetErrorIconBounds(Control control)
+    {
+        if (_errorProvider == null || control == null || !control.Visible || _containerControl == null)
+        {
+            return Rectangle.Empty;
+        }
+
+        // Get control bounds relative to its parent
+        Rectangle controlBounds = control.Bounds;
+        ErrorIconAlignment alignment = _errorProvider.GetIconAlignment(control);
+        int padding = _errorProvider.GetIconPadding(control);
+        int iconWidth = _iconSize.Width;
+        int iconHeight = _iconSize.Height;
+
+        int iconX, iconY;
+
+        switch (alignment)
+        {
+            case ErrorIconAlignment.TopLeft:
+                iconX = controlBounds.Left - iconWidth - padding;
+                iconY = controlBounds.Top;
+                break;
+            case ErrorIconAlignment.TopRight:
+                iconX = controlBounds.Right + padding;
+                iconY = controlBounds.Top;
+                break;
+            case ErrorIconAlignment.MiddleLeft:
+                iconX = controlBounds.Left - iconWidth - padding;
+                iconY = controlBounds.Top + (controlBounds.Height - iconHeight) / 2;
+                break;
+            case ErrorIconAlignment.MiddleRight:
+                iconX = controlBounds.Right + padding;
+                iconY = controlBounds.Top + (controlBounds.Height - iconHeight) / 2;
+                break;
+            case ErrorIconAlignment.BottomLeft:
+                iconX = controlBounds.Left - iconWidth - padding;
+                iconY = controlBounds.Bottom - iconHeight;
+                break;
+            case ErrorIconAlignment.BottomRight:
+                iconX = controlBounds.Right + padding;
+                iconY = controlBounds.Bottom - iconHeight;
+                break;
+            default:
+                iconX = controlBounds.Right + padding;
+                iconY = controlBounds.Top + (controlBounds.Height - iconHeight) / 2;
+                break;
+        }
+
+        // Convert icon position from control's parent coordinates to container coordinates
+        Point iconPointInParent = new Point(iconX, iconY);
+        Point screenPoint = control.Parent?.PointToScreen(iconPointInParent) ?? control.PointToScreen(iconPointInParent);
+        Point containerPoint = _containerControl.PointToClient(screenPoint);
+        return new Rectangle(containerPoint.X, containerPoint.Y, iconWidth, iconHeight);
+    }
+
+    private void StartToolTipTimer(Control control, string errorText, Point mouseLocation)
+    {
+        HideToolTip();
+
+        _toolTipTimer?.Stop();
+        _toolTipTimer?.Dispose();
+
+        _toolTipTimer = new System.Windows.Forms.Timer
+        {
+            Interval = ToolTipValues.ShowIntervalDelay
+        };
+
+        _toolTipTimer.Tick += (sender, e) =>
+        {
+            _toolTipTimer?.Stop();
+            ShowToolTip(control, errorText, mouseLocation);
+        };
+
+        _toolTipTimer.Start();
+    }
+
+    private void ShowToolTip(Control control, string errorText, Point mouseLocation)
+    {
+        if (_redirector == null || _renderer == null || _palette == null || _containerControl == null)
+        {
+            return;
+        }
+
+        HideToolTip();
+
+        // Create tooltip content values
+        var toolTipContent = new ErrorToolTipContent(errorText);
+
+        // Create tooltip popup
+        _visualPopupToolTip = new VisualPopupToolTip(
+            _redirector,
+            toolTipContent,
+            _renderer,
+            PaletteBackStyle.ControlToolTip,
+            PaletteBorderStyle.ControlToolTip,
+            CommonHelper.ContentStyleFromLabelStyle(ToolTipValues.ToolTipStyle),
+            ToolTipValues.ToolTipShadow);
+
+        _visualPopupToolTip.Disposed += OnVisualPopupToolTipDisposed;
+
+        // Calculate icon position in screen coordinates
+        Rectangle iconBounds = GetErrorIconBounds(control);
+        if (!iconBounds.IsEmpty && _containerControl != null)
+        {
+            Point screenPoint = _containerControl.PointToScreen(new Point(iconBounds.X + _iconSize.Width / 2, iconBounds.Y + _iconSize.Height / 2));
+            _visualPopupToolTip.ShowCalculatingSize(screenPoint);
+        }
+    }
+
+    private void HideToolTip()
+    {
+        _visualPopupToolTip?.Dispose();
+        _visualPopupToolTip = null;
+    }
+
+    private void OnVisualPopupToolTipDisposed(object? sender, EventArgs e)
+    {
+        if (sender is VisualPopupToolTip popupToolTip)
+        {
+            popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
+        }
+    }
+
+    private class ErrorToolTipContent : IContentValues
+    {
+        private readonly string _errorText;
+
+        public ErrorToolTipContent(string errorText)
+        {
+            _errorText = errorText;
+        }
+
+        public bool HasContent => !string.IsNullOrEmpty(_errorText);
+
+        public Image? GetImage(PaletteState state) => null;
+
+        public Color GetImageTransparentColor(PaletteState state) => Color.Empty;
+
+        public string GetShortText() => _errorText;
+
+        public string GetLongText() => string.Empty;
+
+        public string GetDescription() => string.Empty;
     }
 
     #endregion
