@@ -121,10 +121,11 @@ public class ExplorerBrowserValues : Storage
 
     #region IsDefault
 
+    /// <inheritdoc />
     [Browsable(false)]
-    public override bool IsDefault => ShowFiles.Equals(true) && 
-                                      ShowHiddenFiles.Equals(false) && 
-                                      ShowSystemFiles.Equals(false) && 
+    public override bool IsDefault => ShowFiles.Equals(true) &&
+                                      ShowHiddenFiles.Equals(false) &&
+                                      ShowSystemFiles.Equals(false) &&
                                       FileFilter.Equals("*.*");
 
     #endregion

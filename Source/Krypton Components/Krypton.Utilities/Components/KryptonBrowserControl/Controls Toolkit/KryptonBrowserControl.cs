@@ -138,10 +138,12 @@ public class KryptonBrowserControl : KryptonPanel
                 {
                     _treeView.FileSystemTreeViewValues.ShowFiles = value;
                 }
+
                 if (_listView != null)
                 {
                     _listView.FileSystemListViewValues.ShowFiles = value;
                 }
+
                 RefreshListView();
             }
         }
@@ -165,10 +167,12 @@ public class KryptonBrowserControl : KryptonPanel
                 {
                     _treeView.FileSystemTreeViewValues.ShowHiddenFiles = value;
                 }
+
                 if (_listView != null)
                 {
                     _listView.FileSystemListViewValues.ShowHiddenFiles = value;
                 }
+
                 RefreshListView();
             }
         }
@@ -192,10 +196,12 @@ public class KryptonBrowserControl : KryptonPanel
                 {
                     _treeView.FileSystemTreeViewValues.ShowSystemFiles = value;
                 }
+
                 if (_listView != null)
                 {
                     _listView.FileSystemListViewValues.ShowSystemFiles = value;
                 }
+
                 RefreshListView();
             }
         }
@@ -219,10 +225,12 @@ public class KryptonBrowserControl : KryptonPanel
                 {
                     _treeView.FileSystemTreeViewValues.FileFilter = _fileFilter;
                 }
+
                 if (_listView != null)
                 {
                     _listView.FileSystemListViewValues.FileFilter = _fileFilter;
                 }
+
                 RefreshListView();
             }
         }
@@ -305,14 +313,14 @@ public class KryptonBrowserControl : KryptonPanel
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public string? SelectedPath => _listView?.SelectedPath;
+    public string? SelectedPath => _listView?.FileSystemListViewValues.SelectedPath;
 
     /// <summary>
     /// Gets an array of selected file paths.
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public string[] SelectedPaths => _listView?.SelectedPaths ?? Array.Empty<string>();
+    public string[] SelectedPaths => _listView?.FileSystemListViewValues.SelectedPaths ?? Array.Empty<string>();
 
     #endregion
 
@@ -395,7 +403,8 @@ public class KryptonBrowserControl : KryptonPanel
 
         if (!Directory.Exists(path))
         {
-            OnFileSystemError(new FileSystemErrorEventArgs(path, new DirectoryNotFoundException($"Directory not found: {path}")));
+            OnFileSystemError(new FileSystemErrorEventArgs(path,
+                new DirectoryNotFoundException($"Directory not found: {path}")));
             return;
         }
 
@@ -411,7 +420,7 @@ public class KryptonBrowserControl : KryptonPanel
         // Update list view
         if (_listView != null)
         {
-            _listView.CurrentPath = path;
+            _listView.FileSystemListViewValues.CurrentPath = path;
         }
         else
         {
@@ -430,6 +439,7 @@ public class KryptonBrowserControl : KryptonPanel
         {
             _treeView.Reload();
         }
+
         RefreshListView();
         base.Refresh();
     }
@@ -703,7 +713,7 @@ public class KryptonBrowserControl : KryptonPanel
     {
         if (_listView is KryptonFileSystemListView fsListView)
         {
-            string newPath = fsListView.CurrentPath;
+            string newPath = fsListView.FileSystemListViewValues.CurrentPath;
             if (_currentPath != newPath)
             {
                 _currentPath = newPath;
@@ -713,6 +723,7 @@ public class KryptonBrowserControl : KryptonPanel
                     _treeView.FileSystemTreeViewValues.RootPath = newPath;
                     _treeView.NavigateToPath(newPath);
                 }
+
                 OnPathChanged(EventArgs.Empty);
             }
         }

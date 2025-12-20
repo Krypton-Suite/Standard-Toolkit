@@ -144,14 +144,14 @@ public class KryptonExplorerBrowser : KryptonPanel
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public string? SelectedPath => _listView?.SelectedPath;
+    public string? SelectedPath => _listView?.FileSystemListViewValues.SelectedPath;
 
     /// <summary>
     /// Gets an array of selected file paths.
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public string[] SelectedPaths => _listView?.SelectedPaths ?? Array.Empty<string>();
+    public string[] SelectedPaths => _listView?.FileSystemListViewValues.SelectedPaths ?? Array.Empty<string>();
 
     #endregion
 
@@ -193,7 +193,7 @@ public class KryptonExplorerBrowser : KryptonPanel
         }
 
         // Update list view
-        _listView?.CurrentPath = path;
+        _listView?.FileSystemListViewValues.CurrentPath = path;
 
         // Update address bar
         ktxtAddressBar?.Text = path;
@@ -340,7 +340,7 @@ public class KryptonExplorerBrowser : KryptonPanel
             Size = new Size(32, 32),
             Location = new Point(40, 4)
         };
-        
+
         kbtnForward.Click += kbtnForward_Click;
 
         kbtnUp = new KryptonButton
@@ -349,7 +349,7 @@ public class KryptonExplorerBrowser : KryptonPanel
             Size = new Size(32, 32),
             Location = new Point(76, 4)
         };
-        
+
         kbtnUp.Click += kbtnUp_Click;
 
         kbtnRefresh = new KryptonButton
@@ -358,7 +358,7 @@ public class KryptonExplorerBrowser : KryptonPanel
             Size = new Size(32, 32),
             Location = new Point(112, 4)
         };
-        
+
         kbtnRefresh.Click += kbtnRefresh_Click;
 
         // Create view buttons
@@ -368,7 +368,7 @@ public class KryptonExplorerBrowser : KryptonPanel
             Size = new Size(60, 32),
             Location = new Point(152, 4)
         };
-        
+
         kbtnViewDetails.Click += kbtnViewDetails_Click;
 
         kbtnViewList = new KryptonButton
@@ -377,7 +377,7 @@ public class KryptonExplorerBrowser : KryptonPanel
             Size = new Size(60, 32),
             Location = new Point(216, 4)
         };
-        
+
         kbtnViewList.Click += kbtnViewList_Click;
 
         kbtnViewLargeIcons = new KryptonButton
@@ -386,7 +386,7 @@ public class KryptonExplorerBrowser : KryptonPanel
             Size = new Size(60, 32),
             Location = new Point(280, 4)
         };
-        
+
         kbtnViewLargeIcons.Click += kbtnViewLargeIcons_Click;
 
         kbtnViewSmallIcons = new KryptonButton
@@ -395,7 +395,7 @@ public class KryptonExplorerBrowser : KryptonPanel
             Size = new Size(60, 32),
             Location = new Point(344, 4)
         };
-        
+
         kbtnViewSmallIcons.Click += kbtnViewSmallIcons_Click;
 
         // Create address bar
@@ -405,7 +405,7 @@ public class KryptonExplorerBrowser : KryptonPanel
             Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right,
             Width = _toolbarPanel.Width - 8
         };
-        
+
         ktxtAddressBar.KeyDown += ktxtAddressBar_KeyDown;
 
         // Create search box
@@ -526,7 +526,7 @@ public class KryptonExplorerBrowser : KryptonPanel
             _listView.FileSystemListViewValues.ShowHiddenFiles = _explorerValues.ShowHiddenFiles;
             _listView.FileSystemListViewValues.ShowSystemFiles = _explorerValues.ShowSystemFiles;
             _listView.FileSystemListViewValues.FileFilter = _explorerValues.FileFilter;
-            _listView.CurrentPath = _currentPath;
+            _listView.FileSystemListViewValues.CurrentPath = _currentPath;
         }
 
         // Configure UI visibility
@@ -678,7 +678,7 @@ public class KryptonExplorerBrowser : KryptonPanel
     {
         if (_listView is KryptonFileSystemListView fsListView)
         {
-            string newPath = fsListView.CurrentPath;
+            string newPath = fsListView.FileSystemListViewValues.CurrentPath;
             if (_currentPath != newPath)
             {
                 NavigateTo(newPath);

@@ -24,7 +24,7 @@ public class NavigationValues : Storage
 
     #endregion
 
-#region Identity
+    #region Identity
 
     /// <summary>
     /// Initializes a new instance of the <see cref="NavigationValues"/> class.
@@ -78,6 +78,7 @@ public class NavigationValues : Storage
 
     #endregion
 
+    /// <inheritdoc />
     [Browsable(false)]
     public override bool IsDefault => CurrentPath.Equals(string.Empty) &&
                                       MaxHistorySize == 50;

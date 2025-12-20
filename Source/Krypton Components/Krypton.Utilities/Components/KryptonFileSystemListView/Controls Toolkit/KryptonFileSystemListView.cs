@@ -100,7 +100,7 @@ public class KryptonFileSystemListView : KryptonListView
     /// </value>
     public FileSystemListViewValues FileSystemListViewValues => _fileSystemValues;
 
-    /// <summary>
+    /*/// <summary>
     /// Gets or sets the current directory path.
     /// </summary>
     [Category(@"Behavior")]
@@ -155,7 +155,7 @@ public class KryptonFileSystemListView : KryptonListView
             }
             return Array.Empty<string>();
         }
-    }
+    }*/
 
     internal Dictionary<string, int> IconCache => _iconCache;
 

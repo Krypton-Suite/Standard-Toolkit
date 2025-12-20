@@ -156,6 +156,7 @@ public class DisplayValues : Storage
 
     #region IsDefault
 
+    /// <inheritdoc />
     [Browsable(false)]
     public override bool IsDefault => ViewMode.Equals(View.Details) &&
                                       SelectionMode.Equals(SelectionMode.One) &&
