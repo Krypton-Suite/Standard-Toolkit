@@ -43,7 +43,14 @@ public class KryptonRibbonMerger
     /// <exception cref="ArgumentNullException">Thrown when the <paramref name="targetRibbon"/> is <b>null</b>.</exception>
     public KryptonRibbonMerger(KryptonRibbon targetRibbon)
     {
+#if NET6_0_OR_GREATER
         ArgumentNullException.ThrowIfNull(targetRibbon);
+#else
+        if (targetRibbon == null)
+        {
+            throw new ArgumentNullException(nameof(targetRibbon));
+        }
+#endif
         TargetRibbon = targetRibbon;
     }
 

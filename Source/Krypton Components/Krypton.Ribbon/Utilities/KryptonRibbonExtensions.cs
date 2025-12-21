@@ -30,7 +30,14 @@ public static class KryptonRibbonExtensions
     /// </remarks>
     public static void Merge(this KryptonRibbon targetRibbon, KryptonRibbon? sourceRibbon)
     {
+#if NET6_0_OR_GREATER
         ArgumentNullException.ThrowIfNull(targetRibbon);
+#else
+        if (targetRibbon == null)
+        {
+            throw new ArgumentNullException(nameof(targetRibbon));
+        }
+#endif
 
         if (sourceRibbon == null)
         {
@@ -53,7 +60,14 @@ public static class KryptonRibbonExtensions
     /// </remarks>
     public static void Unmerge(this KryptonRibbon targetRibbon, KryptonRibbon? sourceRibbon)
     {
+#if NET6_0_OR_GREATER
         ArgumentNullException.ThrowIfNull(targetRibbon);
+#else
+        if (targetRibbon == null)
+        {
+            throw new ArgumentNullException(nameof(targetRibbon));
+        }
+#endif
 
         if (sourceRibbon == null)
         {
@@ -76,7 +90,14 @@ public static class KryptonRibbonExtensions
     /// </remarks>
     public static KryptonRibbonMerger CreateMerger(this KryptonRibbon targetRibbon)
     {
+#if NET6_0_OR_GREATER
         ArgumentNullException.ThrowIfNull(targetRibbon);
+#else
+        if (targetRibbon == null)
+        {
+            throw new ArgumentNullException(nameof(targetRibbon));
+        }
+#endif
 
         return new KryptonRibbonMerger(targetRibbon);
     }
