@@ -80,6 +80,7 @@ public partial class StartScreen : KryptonForm
         CreateButton("Calendar", string.Empty, typeof(CalendarTest));
         CreateButton("Controls Test", string.Empty, typeof(ControlsTest));
         CreateButton("KryptonDataGridView Demo", string.Empty, typeof(DataGridViewDemo));
+        CreateButton("KryptonBindingNavigator Demo", "Comprehensive example of KryptonBindingNavigator with data binding", typeof(BindingNavigatorDemo));
         CreateButton("FadeForm", string.Empty, typeof(FadeFormTest));
         CreateButton("GroupBox", string.Empty, typeof(GroupBoxTest));
         CreateButton("InputBox", string.Empty, typeof(InputBoxTest));
