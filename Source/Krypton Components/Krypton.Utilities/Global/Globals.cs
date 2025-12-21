@@ -15,5 +15,4 @@ global using System.Drawing;
 global using System.Windows.Forms;
 global using System.Windows.Forms.Design;
 
-global using Krypton.Ribbon;
 global using Krypton.Toolkit;

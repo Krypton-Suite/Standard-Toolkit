@@ -1,44 +1,21 @@
-﻿#region Original MIT License
-
-/*
- * Copyright(C) 2018 Michael Winsor
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- *
- * Created: September 28, 2018 9:03:32 PM
- */
-
-#endregion
-
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2026 - 2026. All rights reserved.
  *
  */
 #endregion
 
 namespace Krypton.Ribbon;
 
-/// <summary>Merges a krypton ribbon with another ribbon.</summary>
+/// <summary>
+/// Merges a Krypton ribbon with another ribbon.
+/// </summary>
 /// <remarks>
-/// <para>To affect the order of the merged groups and tabs, set the Tag property to a value from 0 to n, where n is the count of the target group minus 1.</para>
+/// <para>
+/// To affect the order of the merged groups and tabs, set the Tag property to a value from 0 to n, where n is the count of the target group minus 1.
+/// </para>
 /// </remarks>
 public class KryptonRibbonMerger
 {
@@ -48,26 +25,23 @@ public class KryptonRibbonMerger
 
     #endregion
 
-    #region Public
+    #region Public Properties
 
     /// <summary>
-    /// Property to return the target ribbon that will receive the merged items.
+    /// Gets the target ribbon that will receive the merged items.
     /// </summary>
-    public KryptonRibbon TargetRibbon
-    {
-        get;
-    }
+    public KryptonRibbon TargetRibbon { get; }
 
     #endregion
 
     #region Identity
 
     /// <summary>
-    /// Merges a krypton ribbon with another ribbon.
+    /// Initializes a new instance of the <see cref="KryptonRibbonMerger"/> class.
     /// </summary>
-    /// <param name="targetRibbon">The ribbon to merge with.</param>
-    /// <exception cref="ArgumentNullException">Will be thrown if the parameter targetRibbon is null.</exception>
-    public KryptonRibbonMerger([DisallowNull ]KryptonRibbon targetRibbon)
+    /// <param name="targetRibbon">The target ribbon that will receive the items from the merged ribbon.</param>
+    /// <exception cref="ArgumentNullException">Thrown when the <paramref name="targetRibbon"/> is <b>null</b>.</exception>
+    public KryptonRibbonMerger(KryptonRibbon targetRibbon)
     {
         TargetRibbon = targetRibbon ?? throw new ArgumentNullException(nameof(targetRibbon));
     }
@@ -82,20 +56,34 @@ public class KryptonRibbonMerger
     /// <param name="tagValue">The value for the tag.</param>
     /// <param name="maxValue">The maximum value for the items.</param>
     /// <returns>The sorting index.</returns>
-    private int GetSortIndexFromTag(object tagValue, int maxValue)
+    private int GetSortIndexFromTag(object? tagValue, int maxValue)
     {
         if (maxValue < 0)
         {
             return 0;
         }
 
-        return tagValue switch
+        if (tagValue == null)
         {
-            null => maxValue,
-            string when int.TryParse(tagValue.ToString(), NumberStyles.Integer, CultureInfo.CurrentCulture,
-                out int parsedValue) => parsedValue.Max(0).Min(maxValue),
-            _ => (int)Convert.ChangeType(tagValue, typeof(int))
-        };
+            return maxValue;
+        }
+
+        if (tagValue is string tagString)
+        {
+            if (int.TryParse(tagString, NumberStyles.Integer, CultureInfo.CurrentCulture, out int parsedValue))
+            {
+                return Math.Max(0, Math.Min(parsedValue, maxValue));
+            }
+        }
+
+        try
+        {
+            return (int)Convert.ChangeType(tagValue, typeof(int));
+        }
+        catch
+        {
+            return maxValue;
+        }
     }
 
     /// <summary>
@@ -137,7 +125,7 @@ public class KryptonRibbonMerger
             }
 
             sourceItems.Remove(sourceItem);
-            int index = GetSortIndexFromTag(sourceItem.Tag!, targetItems.Count);
+            int index = GetSortIndexFromTag(sourceItem.Tag, targetItems.Count);
             targetItems.Insert(index, sourceItem);
 
             if (!_mergedItems.Contains(sourceItem))
@@ -161,9 +149,9 @@ public class KryptonRibbonMerger
             if (!_mergedItems.Contains(grp))
             {
                 KryptonRibbonGroup? existingGroup = sourceGroups.FirstOrDefault(item => (string.Equals(item.TextLine1, grp.TextLine1, StringComparison.CurrentCulture))
-                    && (string.Equals(item.TextLine2, grp.TextLine2, StringComparison.CurrentCulture)));
+                                                                                    && (string.Equals(item.TextLine2, grp.TextLine2, StringComparison.CurrentCulture)));
 
-                if (existingGroup is not null)
+                if (existingGroup != null)
                 {
                     UnmergeGroupItems(existingGroup.Items, grp.Items);
                 }
@@ -189,13 +177,13 @@ public class KryptonRibbonMerger
         foreach (KryptonRibbonGroup sourceGroup in groups)
         {
             KryptonRibbonGroup? existingGroup = targetGroups.FirstOrDefault(item => (string.Equals(item.TextLine1, sourceGroup.TextLine1, StringComparison.CurrentCulture))
-                && (string.Equals(item.TextLine2, sourceGroup.TextLine2, StringComparison.CurrentCulture)));
+                                                                                && (string.Equals(item.TextLine2, sourceGroup.TextLine2, StringComparison.CurrentCulture)));
 
-            if ((existingGroup is null) && (!targetGroups.Contains(sourceGroup)))
+            if ((existingGroup == null) && (!targetGroups.Contains(sourceGroup)))
             {
                 sourceGroups.Remove(sourceGroup);
 
-                int index = GetSortIndexFromTag(sourceGroup.Tag!, targetGroups.Count);
+                int index = GetSortIndexFromTag(sourceGroup.Tag, targetGroups.Count);
                 targetGroups.Insert(index, sourceGroup);
                 if (!_mergedItems.Contains(sourceGroup))
                 {
@@ -214,20 +202,20 @@ public class KryptonRibbonMerger
     /// </summary>
     /// <param name="sourceRibbon">The ribbon to merge.</param>
     /// <param name="targetRibbon">The ribbon to be merged into.</param>
-    private void MergeTabs(KryptonRibbon? sourceRibbon, KryptonRibbon targetRibbon)
+    private void MergeTabs(KryptonRibbon sourceRibbon, KryptonRibbon targetRibbon)
     {
-        IEnumerable<KryptonRibbonTab> sourceTabs = sourceRibbon!.RibbonTabs.ToArray();
+        IEnumerable<KryptonRibbonTab> sourceTabs = sourceRibbon.RibbonTabs.ToArray();
 
         foreach (KryptonRibbonTab tab in sourceTabs)
         {
             KryptonRibbonTab? existingTab = targetRibbon.RibbonTabs.FirstOrDefault(item => string.Equals(item.Text, tab.Text, StringComparison.CurrentCulture));
 
             // The tab doesn't exist, so just add it
-            if ((existingTab is null) && (!targetRibbon.RibbonTabs.Contains(tab)))
+            if ((existingTab == null) && (!targetRibbon.RibbonTabs.Contains(tab)))
             {
                 sourceRibbon.RibbonTabs.Remove(tab);
 
-                int index = GetSortIndexFromTag(tab.Tag!, targetRibbon.RibbonTabs.Count);
+                int index = GetSortIndexFromTag(tab.Tag, targetRibbon.RibbonTabs.Count);
 
                 targetRibbon.RibbonTabs.Insert(index, tab);
                 if (!_mergedItems.Contains(tab))
@@ -260,8 +248,8 @@ public class KryptonRibbonMerger
 
             KryptonRibbonContext? existing = sourceRibbon.RibbonContexts.FirstOrDefault(item => string.Equals(item.ContextTitle, context.ContextTitle, StringComparison.CurrentCulture));
 
-            // The tab doesn't exist, so just add it
-            if ((existing is not null) || (sourceRibbon.RibbonContexts.Contains(context)))
+            // The context doesn't exist in source, so just remove it
+            if ((existing != null) || (sourceRibbon.RibbonContexts.Contains(context)))
             {
                 continue;
             }
@@ -277,23 +265,23 @@ public class KryptonRibbonMerger
     /// </summary>
     /// <param name="sourceRibbon">The ribbon to merge.</param>
     /// <param name="targetRibbon">The ribbon to be merged into.</param>
-    private void MergeContexts(KryptonRibbon? sourceRibbon, KryptonRibbon targetRibbon)
+    private void MergeContexts(KryptonRibbon sourceRibbon, KryptonRibbon targetRibbon)
     {
-        IEnumerable<KryptonRibbonContext> contexts = sourceRibbon!.RibbonContexts.ToArray();
+        IEnumerable<KryptonRibbonContext> contexts = sourceRibbon.RibbonContexts.ToArray();
 
         foreach (KryptonRibbonContext context in contexts)
         {
             KryptonRibbonContext? existing = targetRibbon.RibbonContexts.FirstOrDefault(item => string.Equals(item.ContextTitle, context.ContextTitle, StringComparison.CurrentCulture));
 
-            // The tab doesn't exist, so just add it
-            if ((existing is not null) || (targetRibbon.RibbonContexts.Contains(context)))
+            // The context already exists, so skip it
+            if ((existing != null) || (targetRibbon.RibbonContexts.Contains(context)))
             {
                 continue;
             }
 
             sourceRibbon.RibbonContexts.Remove(context);
 
-            int index = GetSortIndexFromTag(context.Tag!, targetRibbon.RibbonContexts.Count);
+            int index = GetSortIndexFromTag(context.Tag, targetRibbon.RibbonContexts.Count);
 
             targetRibbon.RibbonContexts.Insert(index, context);
             if (!_mergedItems.Contains(context))
@@ -318,7 +306,7 @@ public class KryptonRibbonMerger
             {
                 KryptonRibbonTab? existingTab = sourceRibbon.RibbonTabs.FirstOrDefault(item => string.Equals(item.Text, tab.Text, StringComparison.CurrentCulture));
 
-                if (existingTab is not null)
+                if (existingTab != null)
                 {
                     UnmergeGroups(existingTab.Groups, tab.Groups);
                 }
@@ -337,7 +325,7 @@ public class KryptonRibbonMerger
     /// <param name="ribbon">The ribbon to merge.</param>
     public void Merge(KryptonRibbon? ribbon)
     {
-        if (ribbon is null)
+        if (ribbon == null)
         {
             return;
         }
@@ -349,8 +337,10 @@ public class KryptonRibbonMerger
         MergeContexts(ribbon, TargetRibbon);
 
         // Ensure that the layout is refreshed.
-        TargetRibbon.CheckPerformLayout();
-        ribbon.CheckPerformLayout();
+        TargetRibbon.PerformLayout();
+        TargetRibbon.Invalidate();
+        ribbon.PerformLayout();
+        ribbon.Invalidate();
 
         // Restore the selected tab.
         TargetRibbon.SelectedContext = selectedContext;
@@ -363,9 +353,9 @@ public class KryptonRibbonMerger
     /// Function to unmerge the specified ribbon from the target ribbon.
     /// </summary>
     /// <param name="ribbon">The ribbon to unmerge.</param>
-    public void UnMerge(KryptonRibbon? ribbon)
+    public void Unmerge(KryptonRibbon? ribbon)
     {
-        if (ribbon is null)
+        if (ribbon == null)
         {
             return;
         }
@@ -376,8 +366,10 @@ public class KryptonRibbonMerger
         UnmergeTabs(ribbon, TargetRibbon);
 
         // Ensure that the layout is refreshed.
-        TargetRibbon.CheckPerformLayout();
-        ribbon.CheckPerformLayout();
+        TargetRibbon.PerformLayout();
+        TargetRibbon.Invalidate();
+        ribbon.PerformLayout();
+        ribbon.Invalidate();
 
         // Restore the selected tab.
         if (TargetRibbon.RibbonTabs.Contains(selected))
@@ -395,17 +387,20 @@ public class KryptonRibbonMerger
     /// </summary>
     public void FixGroupWidths()
     {
-        using var g = Graphics.FromHwnd(TargetRibbon.Parent!.Handle);
+        Control? parent = TargetRibbon.Parent;
+        if (parent == null)
+        {
+            return;
+        }
+
+        using Graphics g = Graphics.FromHwnd(parent.Handle);
         double dpi = g.DpiY / 96.0;
 
         foreach (KryptonRibbonTab tab in TargetRibbon.RibbonTabs)
         {
             foreach (KryptonRibbonGroup grp in tab.Groups)
             {
-                Size size = TextRenderer.MeasureText(g, grp.TextLine1 + (string.IsNullOrWhiteSpace(grp.TextLine2) 
-                        ? $" {grp.TextLine2}"
-                        : string.Empty), 
-                    TargetRibbon.Parent.Font);
+                Size size = TextRenderer.MeasureText(g, grp.TextLine1 + (string.IsNullOrWhiteSpace(grp.TextLine2) ? " " + grp.TextLine2 : string.Empty), parent.Font);
                 grp.MinimumWidth = size.Width + (int)(8 * dpi);
             }
         }

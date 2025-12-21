@@ -7,7 +7,7 @@
  */
 #endregion
 
-namespace Krypton.Utilities;
+namespace Krypton.Ribbon;
 
 /// <summary>
 /// Extension methods for KryptonRibbon to provide built-in merge/unmerge functionality.
@@ -30,10 +30,7 @@ public static class KryptonRibbonExtensions
     /// </remarks>
     public static void Merge(this KryptonRibbon targetRibbon, KryptonRibbon? sourceRibbon)
     {
-        if (targetRibbon == null)
-        {
-            throw new ArgumentNullException(nameof(targetRibbon));
-        }
+        ArgumentNullException.ThrowIfNull(targetRibbon);
 
         if (sourceRibbon == null)
         {
@@ -56,10 +53,7 @@ public static class KryptonRibbonExtensions
     /// </remarks>
     public static void Unmerge(this KryptonRibbon targetRibbon, KryptonRibbon? sourceRibbon)
     {
-        if (targetRibbon == null)
-        {
-            throw new ArgumentNullException(nameof(targetRibbon));
-        }
+        ArgumentNullException.ThrowIfNull(targetRibbon);
 
         if (sourceRibbon == null)
         {
@@ -82,10 +76,7 @@ public static class KryptonRibbonExtensions
     /// </remarks>
     public static KryptonRibbonMerger CreateMerger(this KryptonRibbon targetRibbon)
     {
-        if (targetRibbon == null)
-        {
-            throw new ArgumentNullException(nameof(targetRibbon));
-        }
+        ArgumentNullException.ThrowIfNull(targetRibbon);
 
         return new KryptonRibbonMerger(targetRibbon);
     }
