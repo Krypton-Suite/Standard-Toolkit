@@ -20,10 +20,13 @@ public class BadgeValues : Storage
     private const string DEFAULT_TEXT = "";
     private static readonly Color _defaultBadgeColor = Color.Red;
     private static readonly Color _defaultTextColor = Color.White;
-    private static readonly Font? _defaultFont = null;
+    private static readonly Font? _defaultFont = new Font(KryptonManager.CurrentGlobalPalette.BaseFont.FontFamily, 7.5f, FontStyle.Bold, GraphicsUnit.Point);
     private static readonly Color _defaultBadgeBorderColor = Color.Empty;
     private const int DEFAULT_BADGE_BORDER_SIZE = 0;
     private const int DEFAULT_BADGE_DIAMETER = 0; // 0 means auto-size
+    private const int DEFAULT_MAX_BADGE_VALUE = 99;
+    private const string DEFAULT_OVERFLOW_TEXT = "+";
+    private const bool DEFAULT_AUTO_SHOW_HIDE_BADGE = false;
 
     #endregion
 
@@ -42,6 +45,9 @@ public class BadgeValues : Storage
     private Color _badgeBorderColor;
     private int _badgeBorderSize;
     private int _badgeDiameter;
+    private string _overflowText;
+    private int _maxBadgeValue;
+    private bool _autoShowHideBadge;
 
     #endregion
 
@@ -80,13 +86,15 @@ public class BadgeValues : Storage
                                       (Animation == BadgeAnimation.None) &&
                                       (BadgeBorderColor == _defaultBadgeBorderColor) &&
                                       (BadgeBorderSize == DEFAULT_BADGE_BORDER_SIZE) &&
-                                      (BadgeDiameter == DEFAULT_BADGE_DIAMETER);
+                                      (BadgeDiameter == DEFAULT_BADGE_DIAMETER) &&
+                                      (OverflowText == DEFAULT_OVERFLOW_TEXT) &&
+                                      (MaxBadgeValue == DEFAULT_MAX_BADGE_VALUE) &&
+                                      (AutoShowHideBadge == DEFAULT_AUTO_SHOW_HIDE_BADGE);
 
 
     #endregion
 
     #region Text
-
     /// <summary>
     /// Gets and sets the badge text.
     /// </summary>
@@ -103,6 +111,13 @@ public class BadgeValues : Storage
             if (_text != value)
             {
                 _text = value;
+
+                // Update visibility if auto-show/hide is enabled
+                if (_autoShowHideBadge)
+                {
+                    UpdateVisibilityFromContent();
+                }
+
                 PerformNeedPaint(true);
             }
         }
@@ -114,11 +129,73 @@ public class BadgeValues : Storage
     /// Resets the Text property to its default value.
     /// </summary>
     public void ResetText() => Text = DEFAULT_TEXT;
-    
+    #endregion
+
+    #region BadgeImage
+
+    /// <summary>
+    /// Gets and sets the badge image.
+    /// </summary>
+    [Localizable(true)]
+    [Category(@"Visuals")]
+    [Description(@"The image to display on the badge. If set, the image will be displayed instead of text.")]
+    [RefreshProperties(RefreshProperties.All)]
+    [DefaultValue(null)]
+    public Image? BadgeImage
+    {
+        get => _badgeImage;
+        set
+        {
+            if (_badgeImage != value)
+            {
+                _badgeImage = value;
+
+                // Update visibility if auto-show/hide is enabled
+                if (_autoShowHideBadge)
+                {
+                    UpdateVisibilityFromContent();
+                }
+
+                PerformNeedPaint(true);
+            }
+        }
+    }
+
+    private bool ShouldSerializeBadgeImage() => BadgeImage != null;
+
+    #endregion
+
+    #region BadgeImagePadding
+
+    /// <summary>
+    /// Gets and sets the padding around the badge image.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"The padding around the badge image.")]
+    [RefreshProperties(RefreshProperties.All)]
+    [DefaultValue(4)]
+    public int BadgeImagePadding
+    {
+        get => _badgeImagePadding;
+        set
+        {
+            if (value < 0)
+            {
+                value = 0;
+            }
+            if (_badgeImagePadding != value)
+            {
+                _badgeImagePadding = value;
+                PerformNeedPaint(true);
+            }
+        }
+    }
+
+    private bool ShouldSerializeBadgeImagePadding() => BadgeImagePadding != 4;
+
     #endregion
 
     #region BadgeColor
-    
     /// <summary>
     /// Gets and sets the badge background color.
     /// </summary>
@@ -145,11 +222,9 @@ public class BadgeValues : Storage
     /// Resets the BadgeColor property to its default value.
     /// </summary>
     public void ResetBadgeColor() => BadgeColor = _defaultBadgeColor;
-    
     #endregion
 
     #region TextColor
-    
     /// <summary>
     /// Gets and sets the badge text color.
     /// </summary>
@@ -176,11 +251,9 @@ public class BadgeValues : Storage
     /// Resets the TextColor property to its default value.
     /// </summary>
     public void ResetTextColor() => TextColor = _defaultTextColor;
-    
     #endregion
 
     #region Position
-    
     /// <summary>
     /// Gets and sets the badge position on the button.
     /// </summary>
@@ -207,11 +280,9 @@ public class BadgeValues : Storage
     /// Resets the Position property to its default value.
     /// </summary>
     public void ResetPosition() => Position = BadgePosition.TopRight;
-    
     #endregion
 
     #region Visible
-    
     /// <summary>
     /// Gets and sets whether the badge is visible.
     /// </summary>
@@ -224,6 +295,13 @@ public class BadgeValues : Storage
         get => _visible;
         set
         {
+            // If AutoShowHideBadge is enabled, ignore manual changes to Visible
+            // Visibility is automatically managed based on content
+            if (_autoShowHideBadge)
+            {
+                return;
+            }
+
             if (_visible != value)
             {
                 _visible = value;
@@ -238,74 +316,9 @@ public class BadgeValues : Storage
     /// Resets the Visible property to its default value.
     /// </summary>
     public void ResetVisible() => Visible = false;
-
-    #endregion
-
-    #region BadgeImage
-
-    /// <summary>
-    /// Gets and sets the badge image.
-    /// </summary>
-    [Localizable(true)]
-    [Category(@"Visuals")]
-    [Description(@"The image to display on the badge. If set, the image will be displayed instead of text.")]
-    [RefreshProperties(RefreshProperties.All)]
-    [DefaultValue(null)]
-    public Image? BadgeImage
-    {
-        get => _badgeImage;
-        set
-        {
-            if (_badgeImage != value)
-            {
-                _badgeImage = value;
-                PerformNeedPaint(true);
-            }
-        }
-    }
-
-    private bool ShouldSerializeImage() => BadgeImage != null;
-
-    /// <summary>
-    /// Resets the Image property to its default value.
-    /// </summary>
-    public void ResetImage() => BadgeImage = null;
-
-    #endregion
-
-    #region BadgeImagePadding
-
-    /// <summary>
-    /// Gets and sets the padding around the badge image.
-    /// </summary>
-    [Category(@"Visuals")]
-    [Description(@"The padding around the badge image.")]
-    [RefreshProperties(RefreshProperties.All)]
-    [DefaultValue(4)]
-    public int BadgeImagePadding
-    {
-        get => _badgeImagePadding;
-        set
-        {
-            if (_badgeImagePadding != value)
-            {
-                _badgeImagePadding = value;
-                PerformNeedPaint(true);
-            }
-        }
-    }
-
-    private bool ShouldSerializeBadgeImagePadding() => BadgeImagePadding != 4;
-
-    /// <summary>
-    /// Resets the BadgeImagePadding property to its default value.
-    /// </summary>
-    public void ResetBadgeImagePadding() => BadgeImagePadding = 4;
-
     #endregion
 
     #region Font
-
     /// <summary>
     /// Gets and sets the badge text font.
     /// </summary>
@@ -333,11 +346,9 @@ public class BadgeValues : Storage
     /// Resets the Font property to its default value.
     /// </summary>
     public void ResetFont() => Font = null;
-    
     #endregion
 
     #region Shape
-    
     /// <summary>
     /// Gets and sets the badge shape.
     /// </summary>
@@ -364,11 +375,9 @@ public class BadgeValues : Storage
     /// Resets the Shape property to its default value.
     /// </summary>
     public void ResetShape() => Shape = BadgeShape.Circle;
-    
     #endregion
 
     #region Animation
-    
     /// <summary>
     /// Gets and sets the badge animation type.
     /// </summary>
@@ -395,11 +404,9 @@ public class BadgeValues : Storage
     /// Resets the Animation property to its default value.
     /// </summary>
     public void ResetAnimation() => Animation = BadgeAnimation.None;
-    
     #endregion
 
     #region BadgeBorderColor
-
     /// <summary>
     /// Gets and sets the badge border color.
     /// </summary>
@@ -426,11 +433,9 @@ public class BadgeValues : Storage
     /// Resets the BadgeBorderColor property to its default value.
     /// </summary>
     public void ResetBadgeBorderColor() => BadgeBorderColor = _defaultBadgeBorderColor;
-    
     #endregion
 
     #region BadgeBorderSize
-    
     /// <summary>
     /// Gets and sets the badge border size (thickness in pixels).
     /// </summary>
@@ -462,11 +467,9 @@ public class BadgeValues : Storage
     /// Resets the BadgeBorderSize property to its default value.
     /// </summary>
     public void ResetBadgeBorderSize() => BadgeBorderSize = DEFAULT_BADGE_BORDER_SIZE;
-    
     #endregion
 
     #region BadgeDiameter
-    
     /// <summary>
     /// Gets and sets the badge diameter (for circle shape only). 0 means auto-size based on content.
     /// </summary>
@@ -498,7 +501,116 @@ public class BadgeValues : Storage
     /// Resets the BadgeDiameter property to its default value.
     /// </summary>
     public void ResetBadgeDiameter() => BadgeDiameter = DEFAULT_BADGE_DIAMETER;
+    #endregion
 
+    #region OverflowText
+    /// <summary>
+    /// Gets and sets the text to display when the badge value exceeds OverflowNumber.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"The text to display when the badge numeric value exceeds OverflowNumber (e.g., '99+').")]
+    [RefreshProperties(RefreshProperties.All)]
+    [DefaultValue("99+")]
+    public string OverflowText
+    {
+        get => _overflowText ?? GlobalStaticValues.DEFAULT_EMPTY_STRING;
+        set
+        {
+            if (_overflowText != value)
+            {
+                _overflowText = value;
+                PerformNeedPaint(true);
+            }
+        }
+    }
+
+    private bool ShouldSerializeOverflowText() => OverflowText != DEFAULT_OVERFLOW_TEXT;
+
+    /// <summary>
+    /// Resets the OverflowText property to its default value.
+    /// </summary>
+    public void ResetOverflowText() => OverflowText = DEFAULT_OVERFLOW_TEXT;
+    #endregion
+
+    #region OverflowNumber
+    /// <summary>
+    /// Gets and sets the threshold number. If the badge text value (as a number) exceeds this value, OverflowText is displayed instead.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"The threshold number. If the badge text value (as a number) exceeds this value, OverflowText is displayed instead. Set to 0 to disable overflow checking.")]
+    [RefreshProperties(RefreshProperties.All)]
+    [DefaultValue(99)]
+    public int MaxBadgeValue
+    {
+        get => _maxBadgeValue;
+        set
+        {
+            if (value < 0)
+            {
+                value = 0;
+            }
+
+            if (_maxBadgeValue != value)
+            {
+                _maxBadgeValue = value;
+                PerformNeedPaint(true);
+            }
+        }
+    }
+
+    private bool ShouldSerializeMaxBadgeValue() => MaxBadgeValue != DEFAULT_MAX_BADGE_VALUE;
+
+    #endregion
+
+    #region AutoShowHideBadge
+    /// <summary>
+    /// Gets and sets whether the badge should automatically show when it has content (text or image) and hide when empty.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"When enabled, the badge automatically shows when it has content (text or image) and hides when empty.")]
+    [RefreshProperties(RefreshProperties.All)]
+    [DefaultValue(false)]
+    public bool AutoShowHideBadge
+    {
+        get => _autoShowHideBadge;
+        set
+        {
+            if (_autoShowHideBadge != value)
+            {
+                _autoShowHideBadge = value;
+
+                // If enabled, update visibility based on current content
+                if (value)
+                {
+                    UpdateVisibilityFromContent();
+                }
+
+                PerformNeedPaint(true);
+            }
+        }
+    }
+
+    private bool ShouldSerializeAutoShowHideBadge() => AutoShowHideBadge != DEFAULT_AUTO_SHOW_HIDE_BADGE;
+
+    /// <summary>
+    /// Resets the AutoShowHideBadge property to its default value.
+    /// </summary>
+    public void ResetAutoShowHideBadge() => AutoShowHideBadge = DEFAULT_AUTO_SHOW_HIDE_BADGE;
+
+    /// <summary>
+    /// Updates the Visible property based on whether the badge has content.
+    /// </summary>
+    private void UpdateVisibilityFromContent()
+    {
+        bool hasContent = !string.IsNullOrEmpty(Text) || BadgeImage != null;
+
+        // Use the property setter to ensure proper notification
+        if (_visible != hasContent)
+        {
+            _visible = hasContent;
+            // Don't call PerformNeedPaint here to avoid recursion - it will be called by the property setter that triggered this update
+        }
+    }
     #endregion
 
     #region Reset
@@ -519,6 +631,9 @@ public class BadgeValues : Storage
         _badgeBorderColor = _defaultBadgeBorderColor;
         _badgeBorderSize = DEFAULT_BADGE_BORDER_SIZE;
         _badgeDiameter = DEFAULT_BADGE_DIAMETER;
+        _overflowText = DEFAULT_OVERFLOW_TEXT;
+        _maxBadgeValue = DEFAULT_MAX_BADGE_VALUE;
+        _autoShowHideBadge = DEFAULT_AUTO_SHOW_HIDE_BADGE;
     }
 
     #endregion

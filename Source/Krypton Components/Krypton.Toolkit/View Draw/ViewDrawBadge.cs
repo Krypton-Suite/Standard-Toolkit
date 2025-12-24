@@ -115,6 +115,7 @@ public class ViewDrawBadge : ViewLeaf
         UpdateAnimationTimer();
 
         // Only layout if badge is visible and has content (text or image)
+        // Note: If AutoShowHideBadge is enabled, visibility is automatically managed in the Text/Image property setters
         if (!_badgeValues.Visible || (string.IsNullOrEmpty(_badgeValues.Text) && _badgeValues.BadgeImage == null))
         {
             ClientRectangle = Rectangle.Empty;
@@ -173,7 +174,7 @@ public class ViewDrawBadge : ViewLeaf
         }
 
         // Otherwise calculate based on text
-        string text = _badgeValues.Text ?? "";
+        string text = GetDisplayText();
 
         if (string.IsNullOrEmpty(text))
         {
@@ -189,7 +190,7 @@ public class ViewDrawBadge : ViewLeaf
 
         // Use the badge font or default font for measurement
         // Only dispose fonts we create ourselves, not fonts from BadgeValues
-        Font measureFont = _badgeValues.Font ?? new Font("Segoe UI", 7.5f, FontStyle.Bold, GraphicsUnit.Point);
+        Font measureFont = _badgeValues.Font ?? new Font(KryptonManager.CurrentGlobalPalette.BaseFont.FontFamily, 7.5f, FontStyle.Bold, GraphicsUnit.Point);
         bool createdFont = _badgeValues.Font == null;
 
         try
@@ -355,11 +356,11 @@ public class ViewDrawBadge : ViewLeaf
             DrawBadgeBorder(g, drawRect, opacity);
 
             // Draw the badge text
-            string text = _badgeValues.Text ?? "";
+            string text = GetDisplayText();
             if (!string.IsNullOrEmpty(text))
             {
                 // Only dispose fonts we create ourselves, not fonts from BadgeValues
-                Font textFont = _badgeValues.Font ?? new Font("Segoe UI", 7.5f, FontStyle.Bold, GraphicsUnit.Point);
+                Font textFont = _badgeValues.Font ?? new Font(KryptonManager.CurrentGlobalPalette.BaseFont.FontFamily, 7.5f, FontStyle.Bold, GraphicsUnit.Point);
                 bool createdFont = _badgeValues.Font == null;
                 Color textColor = _badgeValues.TextColor;
                 if (opacity < 1.0f)
@@ -416,6 +417,27 @@ public class ViewDrawBadge : ViewLeaf
             path.CloseAllFigures();
             g.DrawPath(pen, path);
         }
+    }
+
+    private string GetDisplayText()
+    {
+        string text = _badgeValues.Text ?? string.Empty;
+
+        // Check for overflow if enabled (OverflowNumber > 0)
+        if (_badgeValues.MaxBadgeValue > 0 && !string.IsNullOrEmpty(text))
+        {
+            // Try to parse the text as an integer
+            if (int.TryParse(text, out int numericValue))
+            {
+                // If the value exceeds the overflow threshold, return overflow text
+                if (numericValue > _badgeValues.MaxBadgeValue)
+                {
+                    return _badgeValues.OverflowText;
+                }
+            }
+        }
+
+        return text;
     }
 
     private void DrawBadgeBorder(Graphics g, Rectangle drawRect, float opacity)
