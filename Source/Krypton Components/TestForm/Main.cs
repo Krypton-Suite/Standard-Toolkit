@@ -10,6 +10,8 @@
 using System.Diagnostics;
 using System.Reflection;
 
+using Krypton.Utilities;
+
 namespace TestForm;
 
 public partial class Main : KryptonForm
