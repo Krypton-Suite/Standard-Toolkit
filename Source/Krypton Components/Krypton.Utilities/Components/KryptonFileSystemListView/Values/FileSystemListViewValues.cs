@@ -169,6 +169,48 @@
             }
         }
 
+        /// <summary>
+        /// Gets the full path of the currently selected file or folder.
+        /// </summary>
+        [Category("Selection")]
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public string? SelectedPath
+        {
+            get
+            {
+                if (_owner.SelectedItems.Count > 0)
+                {
+                    return _owner.SelectedItems[0].Tag as string;
+                }
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Gets an array of selected file paths.
+        /// </summary>
+        [Category("Selection")]
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public string[] SelectedPaths
+        {
+            get
+            {
+                if (_owner.SelectedItems.Count > 0)
+                {
+                    var paths = new string[_owner.SelectedItems.Count];
+
+                    for (int i = 0; i < _owner.SelectedItems.Count; i++)
+                    {
+                        paths[i] = _owner.SelectedItems[i].Tag as string ?? string.Empty;
+                    }
+                    return paths;
+                }
+                return Array.Empty<string>();
+            }
+        }
+
         public override bool IsDefault => throw new NotImplementedException();
 
         /// <summary>
