@@ -73,26 +73,20 @@
 		</Reference>
 	</ItemGroup>
 
-	<!-- WebView2 SDK Path -->
+	<!-- WebView2 SDK Path (for .NET 8+ file-based references, if needed) -->
 	<PropertyGroup>
 		<WebView2SDKPath>$(MSBuildProjectDirectory)\..\..\..\WebView2SDK</WebView2SDKPath>
 		<WebView2CoreDll>$(WebView2SDKPath)\Microsoft.Web.WebView2.Core.dll</WebView2CoreDll>
 		<WebView2WinFormsDll>$(WebView2SDKPath)\Microsoft.Web.WebView2.WinForms.dll</WebView2WinFormsDll>
 	</PropertyGroup>
 
-	<!-- WebView2 SDK References (Conditional) -->
-	<ItemGroup Condition="$(TargetFramework.StartsWith('net4')) And Exists('$(WebView2CoreDll)')">
-		<Reference Include="Microsoft.Web.WebView2.Core, Version=1.0.3595.46, Culture=neutral, PublicKeyToken=2a8ab48044d2601e, processorArchitecture=MSIL">
-			<HintPath>$(WebView2CoreDll)</HintPath>
-			<Private>True</Private>
-		</Reference>
-		<Reference Include="Microsoft.Web.WebView2.WinForms, Version=1.0.3595.46, Culture=neutral, PublicKeyToken=2a8ab48044d2601e, processorArchitecture=MSIL">
-			<HintPath>$(WebView2WinFormsDll)</HintPath>
-			<Private>True</Private>
-		</Reference>
+	<!-- WebView2 NuGet Package Reference for .NET Framework targets (4.7.2+) -->
+	<!-- Uses floating version to automatically resolve to latest 1.0.x version -->
+	<ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
+		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.*" />
 	</ItemGroup>
 
-	<!-- WebView2 SDK References for .NET 8+ (Conditional) -->
+	<!-- WebView2 SDK References for .NET 8+ (using file-based references if available, otherwise NuGet) -->
 	<ItemGroup Condition="!$(TargetFramework.StartsWith('net4')) And Exists('$(WebView2CoreDll)')">
 		<Reference Include="Microsoft.Web.WebView2.Core">
 			<HintPath>$(WebView2CoreDll)</HintPath>
@@ -104,18 +98,24 @@
 		</Reference>
 	</ItemGroup>
 
-	<!-- Define WEBVIEW2_AVAILABLE symbol when WebView2 SDK is available and references are added -->
-	<!-- For .NET Framework targets -->
-	<PropertyGroup Condition="$(TargetFramework.StartsWith('net4')) And Exists('$(WebView2CoreDll)')">
+	<!-- Fallback to NuGet package for .NET 8+ if file-based references are not available -->
+	<!-- Uses floating version to automatically resolve to latest 1.0.x version -->
+	<ItemGroup Condition="!$(TargetFramework.StartsWith('net4')) And !Exists('$(WebView2CoreDll)')">
+		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.*" />
+	</ItemGroup>
+
+	<!-- Define WEBVIEW2_AVAILABLE symbol for all targets when WebView2 is available -->
+	<!-- For .NET Framework: always available via NuGet package -->
+	<PropertyGroup Condition="$(TargetFramework.StartsWith('net4'))">
 		<DefineConstants>$(DefineConstants);WEBVIEW2_AVAILABLE</DefineConstants>
 	</PropertyGroup>
-	<!-- For .NET 8+ targets -->
-	<PropertyGroup Condition="!$(TargetFramework.StartsWith('net4')) And Exists('$(WebView2CoreDll)')">
+	<!-- For .NET 8+: available if SDK files exist or NuGet package is referenced -->
+	<PropertyGroup Condition="!$(TargetFramework.StartsWith('net4'))">
 		<DefineConstants>$(DefineConstants);WEBVIEW2_AVAILABLE</DefineConstants>
 	</PropertyGroup>
 
 	<!-- WebView2 Toolbox Bitmap -->
-	<ItemGroup Condition="Exists('$(WebView2CoreDll)')">
+	<ItemGroup>
 		<EmbeddedResource Include="Components\KryptonWebView2\ToolboxBitmaps\WebView2.bmp" />
 	</ItemGroup>
 
