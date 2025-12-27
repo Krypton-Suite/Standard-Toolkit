@@ -227,4 +227,69 @@ public partial class BasicToastNotificationTest : KryptonForm
     {
         _titleAlignmentV = (PaletteRelativeAlign)Enum.Parse(typeof(PaletteRelativeAlign), kcmbToastTitleAlignmentV.Text);
     }
+
+    /// <summary>
+    /// Demonstrates all three features from issue #1282:
+    /// 1. Custom checkbox text (OptionalCheckBoxText)
+    /// 2. TriState support (UseDoNotShowAgainOptionThreeState and DoNotShowAgainOptionCheckState)
+    /// 3. Getting the state when closed (using return value methods)
+    /// </summary>
+    private void kbtnDemoFeatures_Click(object sender, EventArgs e)
+    {
+        DemonstrateDoNotShowAgainFeatures();
+    }
+
+    /// <summary>
+    /// Demonstrates all three features from issue #1282:
+    /// 1. Custom checkbox text (OptionalCheckBoxText)
+    /// 2. TriState support (UseDoNotShowAgainOptionThreeState and DoNotShowAgainOptionCheckState)
+    /// 3. Getting the state when closed (using return value methods)
+    /// </summary>
+    private void DemonstrateDoNotShowAgainFeatures()
+    {
+        // Example 1: Basic notification with custom checkbox text and boolean return
+        var dataWithCustomText = new KryptonBasicToastNotificationData()
+        {
+            NotificationTitle = @"Feature Demo",
+            NotificationContent = @"This demonstrates custom checkbox text.",
+            NotificationIcon = KryptonToastNotificationIcon.Information,
+            ShowDoNotShowAgainOption = true,
+            OptionalCheckBoxText = @"Don't remind me about this feature", // Feature 1: Custom text
+            CountDownSeconds = 0
+        };
+
+        bool result = KryptonToastNotification.ShowBasicNotificationWithBooleanReturnValue(dataWithCustomText);
+        KryptonMessageBox.Show($"Checkbox was checked: {result}", @"Result", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
+
+        // Example 2: Notification with TriState support and CheckState return
+        var dataWithTriState = new KryptonBasicToastNotificationData()
+        {
+            NotificationTitle = @"TriState Demo",
+            NotificationContent = @"This demonstrates TriState checkbox support.",
+            NotificationIcon = KryptonToastNotificationIcon.Warning,
+            ShowDoNotShowAgainOption = true,
+            OptionalCheckBoxText = @"Remember my choice", // Feature 1: Custom text
+            UseDoNotShowAgainOptionThreeState = true, // Feature 2: Enable TriState
+            DoNotShowAgainOptionCheckState = CheckState.Indeterminate, // Feature 2: Set initial state
+            CountDownSeconds = 0
+        };
+
+        CheckState checkStateResult = KryptonToastNotification.ShowBasicNotificationWithCheckStateReturnValue(dataWithTriState);
+        KryptonMessageBox.Show($"Checkbox state: {checkStateResult}", @"Result", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
+
+        // Example 3: Progress bar notification with all features
+        var dataWithProgressBar = new KryptonBasicToastNotificationData()
+        {
+            NotificationTitle = @"Complete Feature Demo",
+            NotificationContent = @"This demonstrates all features together with a progress bar.",
+            NotificationIcon = KryptonToastNotificationIcon.Information,
+            ShowDoNotShowAgainOption = true,
+            OptionalCheckBoxText = @"Skip this notification in the future", // Feature 1: Custom text
+            UseDoNotShowAgainOptionThreeState = true, // Feature 2: Enable TriState
+            CountDownSeconds = 30
+        };
+
+        CheckState finalState = KryptonToastNotification.ShowBasicProgressBarNotificationWithCheckStateReturnValue(dataWithProgressBar);
+        KryptonMessageBox.Show($"Final checkbox state: {finalState}", @"Result", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
+    }
 }
