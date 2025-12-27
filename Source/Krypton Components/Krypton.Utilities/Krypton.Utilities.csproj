@@ -57,6 +57,7 @@
 	<ItemGroup>
 		<Compile Include="..\Krypton.Toolkit\General\PlatformInvoke.cs" Link="General\PlatformInvoke.cs" />
 		<Compile Include="..\Krypton.Toolkit\Utilities\FileSystemIconHelper.cs" Link="Components\KryptonFileSystemTreeView\Utilities\FileSystemIconHelper.cs" />
+		<Compile Include="..\Krypton.Toolkit\Tooling\GeneralToolkitUtilities.cs" Link="Tooling\GeneralToolkitUtilities.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
