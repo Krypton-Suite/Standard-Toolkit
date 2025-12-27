@@ -38,13 +38,13 @@ jobs:
               let titlePrefix = null;
               
               // Check for Bug Report template
-              const hasBugLabel = labels.includes('bug');
+              const hasBugLabel = labels.includes('🪲 bug');
               const hasBugReportFields = issueBody.includes('### Steps to Reproduce');
               if ((hasBugLabel || hasBugReportFields) && !issueTitle.startsWith('[Bug]: ')) {
                 titlePrefix = '[Bug]: ';
               }
               // Check for Feature Request template
-              else if ((labels.includes('enhancement') || labels.includes('new feature') || labels.includes('suggestion') || 
+              else if ((labels.includes('enhancement') || labels.includes('✨ new feature') || labels.includes('💡 suggestion') || 
                        issueBody.includes('### Feature Description')) && 
                        !issueTitle.startsWith('[Feature Request]: ')) {
                 titlePrefix = '[Feature Request]: ';
@@ -56,7 +56,7 @@ jobs:
                 titlePrefix = '[Other Issues]: ';
               }
               // Check for Post a Question template
-              else if ((labels.includes('question') || 
+              else if ((labels.includes('❔ question') || 
                        issueBody.includes('### What do you want to ask?')) && 
                        !issueTitle.startsWith('[Question]: ')) {
                 titlePrefix = '[Question]: ';
