@@ -116,7 +116,7 @@ public class ViewDrawBadge : ViewLeaf
 
         // Only layout if badge is visible and has content (text or image)
         // Note: If AutoShowHideBadge is enabled, visibility is automatically managed in the Text/Image property setters
-        if (!_badgeValues.Visible || (string.IsNullOrEmpty(_badgeValues.Text) && _badgeValues.BadgeImage == null))
+        if (!_badgeValues.BadgeContentValues.Visible || (string.IsNullOrEmpty(_badgeValues.BadgeContentValues.Text) && _badgeValues.BadgeContentValues.BadgeImage == null))
         {
             ClientRectangle = Rectangle.Empty;
             return;
@@ -145,7 +145,7 @@ public class ViewDrawBadge : ViewLeaf
         Debug.Assert(context != null);
 
         // Only render if visible and has content (text or image)
-        if (!Visible || !_badgeValues.Visible || (string.IsNullOrEmpty(_badgeValues.Text) && _badgeValues.BadgeImage == null))
+        if (!Visible || !_badgeValues.BadgeContentValues.Visible || (string.IsNullOrEmpty(_badgeValues.BadgeContentValues.Text) && _badgeValues.BadgeContentValues.BadgeImage == null))
         {
             return;
         }
@@ -158,17 +158,17 @@ public class ViewDrawBadge : ViewLeaf
     private Size CalculateBadgeSize(ViewLayoutContext context)
     {
         // If shape is Circle and BadgeDiameter is specified, use it
-        if (_badgeValues.Shape == BadgeShape.Circle && _badgeValues.BadgeDiameter > 0)
+        if (_badgeValues.BadgeContentValues.Shape == BadgeShape.Circle && _badgeValues.BadgeContentValues.BadgeDiameter > 0)
         {
-            return new Size(_badgeValues.BadgeDiameter, _badgeValues.BadgeDiameter);
+            return new Size(_badgeValues.BadgeContentValues.BadgeDiameter, _badgeValues.BadgeContentValues.BadgeDiameter);
         }
 
         // If image is provided, use image size with padding
-        if (_badgeValues.BadgeImage != null)
+        if (_badgeValues.BadgeContentValues.BadgeImage != null)
         {
-            int padding = _badgeValues.BadgeImagePadding; // Padding around image
+            int padding = _badgeValues.BadgeContentValues.BadgeImagePadding; // Padding around image
             // For images, use a reasonable badge size based on the image
-            int imageMax = Math.Max(_badgeValues.BadgeImage.Width, _badgeValues.BadgeImage.Height);
+            int imageMax = Math.Max(_badgeValues.BadgeContentValues.BadgeImage.Width, _badgeValues.BadgeContentValues.BadgeImage.Height);
             int size = Math.Max(BADGE_MIN_SIZE, Math.Min(imageMax + padding, 32)); // Cap at 32px for reasonable badge size
             return new Size(size, size);
         }
@@ -190,15 +190,15 @@ public class ViewDrawBadge : ViewLeaf
 
         // Use the badge font or default font for measurement
         // Only dispose fonts we create ourselves, not fonts from BadgeValues
-        Font measureFont = _badgeValues.Font ?? new Font(KryptonManager.CurrentGlobalPalette.BaseFont.FontFamily, 7.5f, FontStyle.Bold, GraphicsUnit.Point);
-        bool createdFont = _badgeValues.Font == null;
+        Font measureFont = _badgeValues.BadgeContentValues.Font ?? new Font(KryptonManager.CurrentGlobalPalette.BaseFont.FontFamily, 7.5f, FontStyle.Bold, GraphicsUnit.Point);
+        bool createdFont = _badgeValues.BadgeContentValues.Font == null;
 
         try
         {
             SizeF textSize = g.MeasureString(text, measureFont);
 
             // For non-circle shapes, we might want different sizing
-            int padding = _badgeValues.Shape == BadgeShape.Circle ? 8 : 6;
+            int padding = _badgeValues.BadgeContentValues.Shape == BadgeShape.Circle ? 8 : 6;
             int diameter = Math.Max(BADGE_MIN_SIZE, (int)Math.Max(textSize.Width, textSize.Height) + padding);
             return new Size(diameter, diameter);
         }
@@ -218,7 +218,7 @@ public class ViewDrawBadge : ViewLeaf
         int offset = BADGE_OFFSET;
         Point location;
 
-        switch (_badgeValues.Position)
+        switch (_badgeValues.BadgeContentValues.Position)
         {
             case BadgePosition.TopRight:
                 location = new Point(parentRect.Right - badgeSize.Width - offset, parentRect.Top + offset);
@@ -257,7 +257,7 @@ public class ViewDrawBadge : ViewLeaf
 
         // Apply animation scale if pulsing
         Rectangle drawRect = badgeRect;
-        if (_badgeValues.Animation == BadgeAnimation.Pulse && _animationScale != 1.0f)
+        if (_badgeValues.BadgeContentValues.Animation == BadgeAnimation.Pulse && _animationScale != 1.0f)
         {
             int scaledWidth = (int)(badgeRect.Width * _animationScale);
             int scaledHeight = (int)(badgeRect.Height * _animationScale);
@@ -270,7 +270,7 @@ public class ViewDrawBadge : ViewLeaf
         float opacity = GetAnimationOpacity();
 
         // Draw image if provided, otherwise draw text
-        if (_badgeValues.BadgeImage != null)
+        if (_badgeValues.BadgeContentValues.BadgeImage != null)
         {
             // Calculate opacity for image
             ColorMatrix? colorMatrix = null;
@@ -290,12 +290,12 @@ public class ViewDrawBadge : ViewLeaf
             }
 
             // Scale image to fit within badge with padding
-            int padding = _badgeValues.BadgeImagePadding;
+            int padding = _badgeValues.BadgeContentValues.BadgeImagePadding;
             int maxImageSize = Math.Min(drawRect.Width, drawRect.Height) - padding;
 
             // Calculate scaled size maintaining aspect ratio
-            int imageWidth = _badgeValues.BadgeImage.Width;
-            int imageHeight = _badgeValues.BadgeImage.Height;
+            int imageWidth = _badgeValues.BadgeContentValues.BadgeImage.Width;
+            int imageHeight = _badgeValues.BadgeContentValues.BadgeImage.Height;
             float scale = Math.Min((float)maxImageSize / imageWidth, (float)maxImageSize / imageHeight);
             int scaledWidth = (int)(imageWidth * scale);
             int scaledHeight = (int)(imageHeight * scale);
@@ -311,13 +311,13 @@ public class ViewDrawBadge : ViewLeaf
 
             if (imageAttributes != null)
             {
-                g.DrawImage(_badgeValues.BadgeImage, imageRect, 0, 0, imageWidth, imageHeight, GraphicsUnit.Pixel, imageAttributes);
+                g.DrawImage(_badgeValues.BadgeContentValues.BadgeImage, imageRect, 0, 0, imageWidth, imageHeight, GraphicsUnit.Pixel, imageAttributes);
                 imageAttributes.Dispose();
                 colorMatrix = null;
             }
             else
             {
-                g.DrawImage(_badgeValues.BadgeImage, imageRect);
+                g.DrawImage(_badgeValues.BadgeContentValues.BadgeImage, imageRect);
             }
 
             g.InterpolationMode = InterpolationMode.Default;
@@ -329,7 +329,7 @@ public class ViewDrawBadge : ViewLeaf
         else
         {
             // Draw the badge background for text badges (no background for image badges)
-            Color badgeColor = _badgeValues.BadgeColor;
+            Color badgeColor = _badgeValues.BadgeColorValues.BadgeColor;
             if (opacity < 1.0f)
             {
                 badgeColor = Color.FromArgb((int)(opacity * 255), badgeColor.R, badgeColor.G, badgeColor.B);
@@ -337,7 +337,7 @@ public class ViewDrawBadge : ViewLeaf
 
             using (var badgeBrush = new SolidBrush(badgeColor))
             {
-                switch (_badgeValues.Shape)
+                switch (_badgeValues.BadgeContentValues.Shape)
                 {
                     case BadgeShape.Circle:
                         g.FillEllipse(badgeBrush, drawRect);
@@ -360,9 +360,9 @@ public class ViewDrawBadge : ViewLeaf
             if (!string.IsNullOrEmpty(text))
             {
                 // Only dispose fonts we create ourselves, not fonts from BadgeValues
-                Font textFont = _badgeValues.Font ?? new Font(KryptonManager.CurrentGlobalPalette.BaseFont.FontFamily, 7.5f, FontStyle.Bold, GraphicsUnit.Point);
-                bool createdFont = _badgeValues.Font == null;
-                Color textColor = _badgeValues.TextColor;
+                Font textFont = _badgeValues.BadgeContentValues.Font ?? new Font(KryptonManager.CurrentGlobalPalette.BaseFont.FontFamily, 7.5f, FontStyle.Bold, GraphicsUnit.Point);
+                bool createdFont = _badgeValues.BadgeContentValues.Font == null;
+                Color textColor = _badgeValues.BadgeColorValues.TextColor;
                 if (opacity < 1.0f)
                 {
                     textColor = Color.FromArgb((int)(opacity * 255), textColor.R, textColor.G, textColor.B);
@@ -421,18 +421,18 @@ public class ViewDrawBadge : ViewLeaf
 
     private string GetDisplayText()
     {
-        string text = _badgeValues.Text ?? string.Empty;
+        string text = _badgeValues.BadgeContentValues.Text ?? string.Empty;
 
         // Check for overflow if enabled (OverflowNumber > 0)
-        if (_badgeValues.MaxBadgeValue > 0 && !string.IsNullOrEmpty(text))
+        if (_badgeValues.BadgeContentValues.MaxBadgeValue > 0 && !string.IsNullOrEmpty(text))
         {
             // Try to parse the text as an integer
             if (int.TryParse(text, out int numericValue))
             {
                 // If the value exceeds the overflow threshold, return overflow text
-                if (numericValue > _badgeValues.MaxBadgeValue)
+                if (numericValue > _badgeValues.BadgeContentValues.MaxBadgeValue)
                 {
-                    return _badgeValues.OverflowText;
+                    return _badgeValues.BadgeOverflowValues.OverflowText;
                 }
             }
         }
@@ -442,44 +442,194 @@ public class ViewDrawBadge : ViewLeaf
 
     private void DrawBadgeBorder(Graphics g, Rectangle drawRect, float opacity)
     {
-        if (_badgeValues.BadgeBorderSize > 0 && _badgeValues.BadgeBorderColor != Color.Empty)
+        if (_badgeValues.BadgeBorderValues.BadgeBorderSize > 0 && _badgeValues.BadgeColorValues.BadgeBorderColor != Color.Empty)
         {
-            Color borderColor = _badgeValues.BadgeBorderColor;
+            Color borderColor = _badgeValues.BadgeColorValues.BadgeBorderColor;
             if (opacity < 1.0f)
             {
                 borderColor = Color.FromArgb((int)(opacity * 255), borderColor.R, borderColor.G, borderColor.B);
             }
 
             // Adjust rectangle to account for pen width (pen draws centered on edge)
-            int halfBorder = _badgeValues.BadgeBorderSize / 2;
+            int halfBorder = _badgeValues.BadgeBorderValues.BadgeBorderSize / 2;
             Rectangle borderRect = new Rectangle(
                 drawRect.X + halfBorder,
                 drawRect.Y + halfBorder,
-                drawRect.Width - _badgeValues.BadgeBorderSize,
-                drawRect.Height - _badgeValues.BadgeBorderSize);
+                drawRect.Width - _badgeValues.BadgeBorderValues.BadgeBorderSize,
+                drawRect.Height - _badgeValues.BadgeBorderValues.BadgeBorderSize);
 
-            using (var borderPen = new Pen(borderColor, _badgeValues.BadgeBorderSize))
+            // If bevel is enabled, draw border with bevel effect
+            if (_badgeValues.BadgeBorderValues.BadgeBorderBevel != BadgeBevelType.None)
             {
-                switch (_badgeValues.Shape)
+                DrawBevelBorder(g, borderRect, borderColor, opacity);
+            }
+            else
+            {
+                // Standard border without bevel
+                using (var borderPen = new Pen(borderColor, _badgeValues.BadgeBorderValues.BadgeBorderSize))
                 {
-                    case BadgeShape.Circle:
-                        g.DrawEllipse(borderPen, borderRect);
-                        break;
-                    case BadgeShape.Square:
-                        g.DrawRectangle(borderPen, borderRect);
-                        break;
-                    case BadgeShape.RoundedRectangle:
-                        int borderRadius = Math.Min(borderRect.Width, borderRect.Height) / 4;
-                        DrawRoundedRectangle(g, borderPen, borderRect, borderRadius);
-                        break;
+                    switch (_badgeValues.BadgeContentValues.Shape)
+                    {
+                        case BadgeShape.Circle:
+                            g.DrawEllipse(borderPen, borderRect);
+                            break;
+                        case BadgeShape.Square:
+                            g.DrawRectangle(borderPen, borderRect);
+                            break;
+                        case BadgeShape.RoundedRectangle:
+                            int borderRadius = Math.Min(borderRect.Width, borderRect.Height) / 4;
+                            DrawRoundedRectangle(g, borderPen, borderRect, borderRadius);
+                            break;
+                    }
                 }
             }
         }
     }
 
+    private void DrawBevelBorder(Graphics g, Rectangle borderRect, Color baseColor, float opacity)
+    {
+        // Create lighter and darker colors for bevel effect
+        Color lightColor = ControlPaint.Light(baseColor);
+        Color darkColor = ControlPaint.Dark(baseColor);
+
+        if (opacity < 1.0f)
+        {
+            lightColor = Color.FromArgb((int)(opacity * 255), lightColor.R, lightColor.G, lightColor.B);
+            darkColor = Color.FromArgb((int)(opacity * 255), darkColor.R, darkColor.G, darkColor.B);
+        }
+
+        int borderSize = _badgeValues.BadgeBorderValues.BadgeBorderSize;
+
+        // For Raised bevel: light top/left, dark bottom/right
+        // For Inset bevel: dark top/left, light bottom/right (reversed)
+        Pen topLeftPen;
+        Pen bottomRightPen;
+
+        if (_badgeValues.BadgeBorderValues.BadgeBorderBevel == BadgeBevelType.Raised)
+        {
+            topLeftPen = new Pen(lightColor, borderSize);
+            bottomRightPen = new Pen(darkColor, borderSize);
+        }
+        else // Inset
+        {
+            topLeftPen = new Pen(darkColor, borderSize);
+            bottomRightPen = new Pen(lightColor, borderSize);
+        }
+
+        using (topLeftPen)
+        using (bottomRightPen)
+        {
+            switch (_badgeValues.BadgeContentValues.Shape)
+            {
+                case BadgeShape.Circle:
+                    DrawBevelCircle(g, borderRect, topLeftPen, bottomRightPen);
+                    break;
+                case BadgeShape.Square:
+                    DrawBevelSquare(g, borderRect, topLeftPen, bottomRightPen);
+                    break;
+                case BadgeShape.RoundedRectangle:
+                    int borderRadius = Math.Min(borderRect.Width, borderRect.Height) / 4;
+                    DrawBevelRoundedRectangle(g, borderRect, borderRadius, topLeftPen, bottomRightPen);
+                    break;
+            }
+        }
+    }
+
+    private void DrawBevelCircle(Graphics g, Rectangle rect, Pen lightPen, Pen darkPen)
+    {
+        // For circle, draw top-left half with light color, bottom-right half with dark color
+        // Top-left arc (180 degrees from 135 to 315)
+        using (var path = new GraphicsPath())
+        {
+            path.AddArc(rect.X, rect.Y, rect.Width, rect.Height, 135, 180);
+            g.DrawPath(lightPen, path);
+        }
+
+        // Bottom-right arc (180 degrees from 315 to 135, wrapping around)
+        using (var path = new GraphicsPath())
+        {
+            path.AddArc(rect.X, rect.Y, rect.Width, rect.Height, 315, 180);
+            g.DrawPath(darkPen, path);
+        }
+    }
+
+    private void DrawBevelSquare(Graphics g, Rectangle rect, Pen lightPen, Pen darkPen)
+    {
+        int borderSize = _badgeValues.BadgeBorderValues.BadgeBorderSize;
+        int halfBorder = borderSize / 2;
+
+        // Top edge (light)
+        g.DrawLine(lightPen, rect.Left + halfBorder, rect.Top + halfBorder, rect.Right - halfBorder, rect.Top + halfBorder);
+
+        // Left edge (light)
+        g.DrawLine(lightPen, rect.Left + halfBorder, rect.Top + halfBorder, rect.Left + halfBorder, rect.Bottom - halfBorder);
+
+        // Bottom edge (dark)
+        g.DrawLine(darkPen, rect.Left + halfBorder, rect.Bottom - halfBorder, rect.Right - halfBorder, rect.Bottom - halfBorder);
+
+        // Right edge (dark)
+        g.DrawLine(darkPen, rect.Right - halfBorder, rect.Top + halfBorder, rect.Right - halfBorder, rect.Bottom - halfBorder);
+    }
+
+    private void DrawBevelRoundedRectangle(Graphics g, Rectangle rect, int radius, Pen lightPen, Pen darkPen)
+    {
+        int borderSize = _badgeValues.BadgeBorderValues.BadgeBorderSize;
+        int halfBorder = borderSize / 2;
+
+        // Top-left arc (light)
+        using (var path = new GraphicsPath())
+        {
+            path.AddArc(rect.X + halfBorder, rect.Y + halfBorder, radius * 2, radius * 2, 180, 90);
+            g.DrawPath(lightPen, path);
+        }
+
+        // Top edge (light)
+        g.DrawLine(lightPen, rect.Left + radius + halfBorder, rect.Top + halfBorder, rect.Right - radius - halfBorder, rect.Top + halfBorder);
+
+        // Top-right arc - split: top half light, right half dark
+        using (var path = new GraphicsPath())
+        {
+            path.AddArc(rect.Right - radius * 2 - halfBorder, rect.Y + halfBorder, radius * 2, radius * 2, 270, 45);
+            g.DrawPath(lightPen, path);
+        }
+        using (var path = new GraphicsPath())
+        {
+            path.AddArc(rect.Right - radius * 2 - halfBorder, rect.Y + halfBorder, radius * 2, radius * 2, 315, 45);
+            g.DrawPath(darkPen, path);
+        }
+
+        // Right edge (dark)
+        g.DrawLine(darkPen, rect.Right - halfBorder, rect.Top + radius + halfBorder, rect.Right - halfBorder, rect.Bottom - radius - halfBorder);
+
+        // Bottom-right arc (dark)
+        using (var path = new GraphicsPath())
+        {
+            path.AddArc(rect.Right - radius * 2 - halfBorder, rect.Bottom - radius * 2 - halfBorder, radius * 2, radius * 2, 0, 90);
+            g.DrawPath(darkPen, path);
+        }
+
+        // Bottom edge (dark)
+        g.DrawLine(darkPen, rect.Left + radius + halfBorder, rect.Bottom - halfBorder, rect.Right - radius - halfBorder, rect.Bottom - halfBorder);
+
+        // Bottom-left arc - split: bottom half dark, left half light
+        using (var path = new GraphicsPath())
+        {
+            path.AddArc(rect.X + halfBorder, rect.Bottom - radius * 2 - halfBorder, radius * 2, radius * 2, 90, 45);
+            g.DrawPath(darkPen, path);
+        }
+        using (var path = new GraphicsPath())
+        {
+            path.AddArc(rect.X + halfBorder, rect.Bottom - radius * 2 - halfBorder, radius * 2, radius * 2, 135, 45);
+            g.DrawPath(lightPen, path);
+        }
+
+        // Left edge (light)
+        g.DrawLine(lightPen, rect.Left + halfBorder, rect.Top + radius + halfBorder, rect.Left + halfBorder, rect.Bottom - radius - halfBorder);
+    }
+
     private float GetAnimationOpacity()
     {
-        return _badgeValues.Animation switch
+        return _badgeValues.BadgeContentValues.Animation switch
         {
             BadgeAnimation.FadeInOut => _animationOpacity,
             BadgeAnimation.Pulse => _animationOpacity,
@@ -499,7 +649,7 @@ public class ViewDrawBadge : ViewLeaf
         }
 
         // Start new timer if animation is enabled
-        if (_badgeValues.Animation != BadgeAnimation.None && _badgeValues.Visible)
+        if (_badgeValues.BadgeContentValues.Animation != BadgeAnimation.None && _badgeValues.BadgeContentValues.Visible)
         {
             _animationTimer = new Timer
             {
@@ -508,7 +658,7 @@ public class ViewDrawBadge : ViewLeaf
             _animationTimer.Tick += OnAnimationTick;
 
             // Reset animation state
-            _animationOpacity = _badgeValues.Animation == BadgeAnimation.FadeInOut ? FADE_MIN_OPACITY : PULSE_MAX_OPACITY;
+            _animationOpacity = _badgeValues.BadgeContentValues.Animation == BadgeAnimation.FadeInOut ? FADE_MIN_OPACITY : PULSE_MAX_OPACITY;
             _animationScale = PULSE_MAX_SCALE;
             _animationDirection = true;
 
@@ -518,7 +668,7 @@ public class ViewDrawBadge : ViewLeaf
 
     private void OnAnimationTick(object? sender, EventArgs e)
     {
-        if (_badgeValues.Animation == BadgeAnimation.None || !_badgeValues.Visible)
+        if (_badgeValues.BadgeContentValues.Animation == BadgeAnimation.None || !_badgeValues.BadgeContentValues.Visible)
         {
             UpdateAnimationTimer();
             return;
@@ -526,7 +676,7 @@ public class ViewDrawBadge : ViewLeaf
 
         bool needsUpdate = false;
 
-        switch (_badgeValues.Animation)
+        switch (_badgeValues.BadgeContentValues.Animation)
         {
             case BadgeAnimation.FadeInOut:
                 if (_animationDirection)

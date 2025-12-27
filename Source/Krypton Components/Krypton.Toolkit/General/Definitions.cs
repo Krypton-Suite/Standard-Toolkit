@@ -1160,6 +1160,29 @@ public enum BadgeAnimation
 
 #endregion
 
+#region Enum BadgeBevelType
+/// <summary>
+/// Specifies the type of bevel effect for badge borders.
+/// </summary>
+public enum BadgeBevelType
+{
+    /// <summary>
+    /// No bevel effect.
+    /// </summary>
+    None,
+
+    /// <summary>
+    /// Raised bevel effect (light top/left edges, dark bottom/right edges).
+    /// </summary>
+    Raised,
+
+    /// <summary>
+    /// Inset/embedded bevel effect (dark top/left edges, light bottom/right edges).
+    /// </summary>
+    Inset
+}
+#endregion
+
 #region Enum RelativeEdgeAlign
 /// <summary>
 /// Specifies a relative edge alignment position.
