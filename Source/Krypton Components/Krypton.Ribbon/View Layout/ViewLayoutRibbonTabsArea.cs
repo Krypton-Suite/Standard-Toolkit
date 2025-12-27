@@ -503,7 +503,7 @@ internal class ViewLayoutRibbonTabsArea : ViewLayoutDocker
         if (_appTabController != null)
         {
             _appTabController.Target1 = LayoutAppTab.AppTab;
-            _appTabController.Click += OnAppButtonClicked;
+            _appTabController.Click += OnAppTabClicked;
             _appTabController.MouseReleased += OnAppButtonReleased;
             LayoutAppTab.MouseController = _appTabController;
             LayoutAppTab.SourceController = _appTabController;
@@ -679,72 +679,102 @@ internal class ViewLayoutRibbonTabsArea : ViewLayoutDocker
         }
         else
         {
-            // Give event handler a change to cancel the open request
-            var cea = new CancelEventArgs();
-            _ribbon.OnAppButtonMenuOpening(cea);
+            ShowAppButtonMenu(_appButtonController?.Keyboard ?? false);
+        }
+    }
 
-            if (cea.Cancel)
+    private void OnAppTabClicked(object? sender, EventArgs e)
+    {
+        // We do not operate the application tab at design time
+        if (_ribbon.InDesignMode)
+        {
+            OnAppMenuDisposed(this, EventArgs.Empty);
+            return;
+        }
+
+        // Prefer backstage view when configured, fallback to the default app menu popup
+        if (_ribbon.TryToggleBackstageView())
+        {
+            return;
+        }
+
+        ShowAppButtonMenu(_appTabController?.Keyboard ?? false);
+    }
+
+    private void ShowAppButtonMenu(bool keyboardActivated)
+    {
+        // Give event handler a chance to cancel the open request
+        var cea = new CancelEventArgs();
+        _ribbon.OnAppButtonMenuOpening(cea);
+
+        if (cea.Cancel)
+        {
+            OnAppMenuDisposed(this, EventArgs.Empty);
+            return;
+        }
+
+        // Remove any minimized popup window from display
+        if (_ribbon.RealMinimizedMode)
+        {
+            _ribbon.KillMinimizedPopup();
+        }
+
+        // Give popups a chance to cleanup
+        Application.DoEvents();
+
+        if (_ribbon is { InDesignMode: false, IsDisposed: false })
+        {
+            Rectangle appRectTop;
+            Rectangle appRectBottom;
+            Rectangle appRectShow;
+
+            if (_ribbon.RibbonShape == PaletteRibbonShape.Office2007)
             {
-                OnAppMenuDisposed(this, EventArgs.Empty);
+                // Find screen location of the application button lower half
+                Rectangle appButtonRect = _ribbon.RectangleToScreen(LayoutAppButton.AppButton.ClientRectangle);
+                var localHalf = (int)(21 * FactorDpiY);
+                appRectBottom = appButtonRect with { Y = appButtonRect.Y + localHalf, Height = appButtonRect.Height - localHalf };
+                appRectTop = appRectBottom with { Y = appRectBottom.Y - localHalf, Height = localHalf };
+                appRectShow = appRectBottom;
             }
             else
             {
-                // Remove any minimized popup window from display
-                if (_ribbon.RealMinimizedMode)
-                {
-                    _ribbon.KillMinimizedPopup();
-                }
-
-                // Give popups a change to cleanup
-                Application.DoEvents();
-
-                if (_ribbon is { InDesignMode: false, IsDisposed: false })
-                {
-                    Rectangle appRectTop;
-                    Rectangle appRectBottom;
-                    Rectangle appRectShow;
-
-                    if (_ribbon.RibbonShape == PaletteRibbonShape.Office2007)
-                    {
-                        // Find screen location of the application button lower half
-                        Rectangle appButtonRect = _ribbon.RectangleToScreen(LayoutAppButton.AppButton.ClientRectangle);
-                        var localHalf = (int)(21 * FactorDpiY);
-                        appRectBottom = appButtonRect with { Y = appButtonRect.Y + localHalf, Height = appButtonRect.Height - localHalf };
-                        appRectTop = appRectBottom with { Y = appRectBottom.Y - localHalf, Height = localHalf };
-                        appRectShow = appRectBottom;
-                    }
-                    else
-                    {
-                        // Find screen location of the application tab lower half
-                        Rectangle appButtonRect = _ribbon.RectangleToScreen(LayoutAppTab.AppTab.ClientRectangle);
-                        appRectBottom = Rectangle.Empty;
-                        appRectTop = appButtonRect;
-                        appRectShow = appButtonRect with { Y = appButtonRect.Bottom - 1, Height = 0 };
-                    }
-
-                    // Create the actual control used to show the context menu
-                    _appMenu = new VisualPopupAppMenu(_ribbon,
-                        _ribbon.LocalCustomPalette, _ribbon.PaletteMode,
-                        _ribbon.GetRedirector(),
-                        appRectTop, appRectBottom,
-                        _appButtonController!.Keyboard);
-
-                    // Need to know when the visual control is removed
-                    _appMenu.Disposed += OnAppMenuDisposed;
-
-                    // Adjust the screen rect of the app button/tab, so we show half-way down the button
-                    appRectShow.X -= 3;
-                    appRectShow.Height = 0;
-
-                    // Request the menu be shown immediately
-                    _appMenu.Show(appRectShow);
-
-                    // Indicate the context menu is fully constructed and displayed
-                    _ribbon.OnAppButtonMenuOpened(EventArgs.Empty);
-                }
+                // Find screen location of the application tab lower half
+                Rectangle appButtonRect = _ribbon.RectangleToScreen(LayoutAppTab.AppTab.ClientRectangle);
+                appRectBottom = Rectangle.Empty;
+                appRectTop = appButtonRect;
+                appRectShow = appButtonRect with { Y = appButtonRect.Bottom - 1, Height = 0 };
             }
+
+            // Create the actual control used to show the context menu
+            _appMenu = new VisualPopupAppMenu(_ribbon,
+                _ribbon.LocalCustomPalette, _ribbon.PaletteMode,
+                _ribbon.GetRedirector(),
+                appRectTop, appRectBottom,
+                keyboardActivated);
+
+            // Need to know when the visual control is removed
+            _appMenu.Disposed += OnAppMenuDisposed;
+
+            // Adjust the screen rect of the app button/tab, so we show half-way down the button
+            appRectShow.X -= 3;
+            appRectShow.Height = 0;
+
+            // Request the menu be shown immediately
+            _appMenu.Show(appRectShow);
+
+            // Indicate the context menu is fully constructed and displayed
+            _ribbon.OnAppButtonMenuOpened(EventArgs.Empty);
         }
     }
+
+    internal void DismissAppButtonMenu()
+    {
+        // Close any open app menu popup (will trigger OnAppMenuDisposed cleanup)
+        _appMenu?.Dispose();
+    }
+
+    internal void RemoveFixedAppTab() => _appTabController?.RemoveFixed();
 
     private void OnAppMenuDisposed(object? sender, EventArgs e)
     {
@@ -809,96 +839,96 @@ internal class ViewLayoutRibbonTabsArea : ViewLayoutDocker
                 {
                     case ViewLayoutRibbonAppButton:
                     case ViewLayoutRibbonAppTab:
-                    {
-                        // Create a content that recovers values from the ribbon for the app button/tab
-                        var appButtonContent = new AppButtonToolTipToContent(_ribbon);
-
-                        // Is there actually anything to show for the tooltip
-                        if (appButtonContent.HasContent)
                         {
-                            sourceContent = appButtonContent;
+                            // Create a content that recovers values from the ribbon for the app button/tab
+                            var appButtonContent = new AppButtonToolTipToContent(_ribbon);
 
-                            // Grab the style from the app button settings
-                            toolTipStyle = _ribbon.RibbonFileAppButton.AppButtonToolTipStyle;
-                            shadow = _ribbon.RibbonFileAppButton.ToolTipShadow;
+                            // Is there actually anything to show for the tooltip
+                            if (appButtonContent.HasContent)
+                            {
+                                sourceContent = appButtonContent;
 
-                            // Display below the mouse cursor
-                            screenRect.Height += SystemInformation.CursorSize.Height / 3 * 2;
+                                // Grab the style from the app button settings
+                                toolTipStyle = _ribbon.RibbonFileAppButton.AppButtonToolTipStyle;
+                                shadow = _ribbon.RibbonFileAppButton.ToolTipShadow;
+
+                                // Display below the mouse cursor
+                                screenRect.Height += SystemInformation.CursorSize.Height / 3 * 2;
+                            }
                         }
-                    }
                         break;
                     case ViewDrawRibbonQATButton viewElement1:
-                    {
-                        // If the target is a QAT button
-                        // Cast to correct type
-
-                        // Create a content that recovers values from a IQuickAccessToolbarButton
-                        var qatButtonContent = new QATButtonToolTipToContent(viewElement1.QATButton);
-
-                        // Is there actually anything to show for the tooltip
-                        if (qatButtonContent.HasContent)
                         {
-                            sourceContent = qatButtonContent;
+                            // If the target is a QAT button
+                            // Cast to correct type
 
-                            // Grab the style from the QAT button settings
-                            toolTipStyle = viewElement1.QATButton.GetToolTipStyle();
-                            shadow = viewElement1.QATButton.GetToolTipShadow();
+                            // Create a content that recovers values from a IQuickAccessToolbarButton
+                            var qatButtonContent = new QATButtonToolTipToContent(viewElement1.QATButton);
 
-                            // Display below the mouse cursor
-                            screenRect.Height += SystemInformation.CursorSize.Height / 3 * 2;
+                            // Is there actually anything to show for the tooltip
+                            if (qatButtonContent.HasContent)
+                            {
+                                sourceContent = qatButtonContent;
+
+                                // Grab the style from the QAT button settings
+                                toolTipStyle = viewElement1.QATButton.GetToolTipStyle();
+                                shadow = viewElement1.QATButton.GetToolTipShadow();
+
+                                // Display below the mouse cursor
+                                screenRect.Height += SystemInformation.CursorSize.Height / 3 * 2;
+                            }
                         }
-                    }
                         break;
                     default:
-                    {
-                        // Find the button spec associated with the tooltip request
-                        ButtonSpec? buttonSpec = ButtonSpecManager?.ButtonSpecFromView(e.Target);
-
-                        // If the tooltip is for a button spec
-                        if (buttonSpec != null)
                         {
-                            // Are we allowed to show page related tooltips
-                            if (_ribbon.AllowButtonSpecToolTips)
+                            // Find the button spec associated with the tooltip request
+                            ButtonSpec? buttonSpec = ButtonSpecManager?.ButtonSpecFromView(e.Target);
+
+                            // If the tooltip is for a button spec
+                            if (buttonSpec != null)
                             {
-                                // Create a helper object to provide tooltip values
-                                var buttonSpecMapping = new ButtonSpecToContent(_ribbon.GetRedirector(), buttonSpec);
-
-                                // Is there actually anything to show for the tooltip
-                                if (buttonSpecMapping.HasContent)
+                                // Are we allowed to show page related tooltips
+                                if (_ribbon.AllowButtonSpecToolTips)
                                 {
-                                    sourceContent = buttonSpecMapping;
+                                    // Create a helper object to provide tooltip values
+                                    var buttonSpecMapping = new ButtonSpecToContent(_ribbon.GetRedirector(), buttonSpec);
 
-                                    // Grab the style from the button spec settings
-                                    toolTipStyle = buttonSpec.ToolTipStyle;
-                                    shadow = buttonSpec.ToolTipShadow;
+                                    // Is there actually anything to show for the tooltip
+                                    if (buttonSpecMapping.HasContent)
+                                    {
+                                        sourceContent = buttonSpecMapping;
 
-                                    // Display below the mouse cursor
-                                    screenRect.Height += SystemInformation.CursorSize.Height / 3 * 2;
+                                        // Grab the style from the button spec settings
+                                        toolTipStyle = buttonSpec.ToolTipStyle;
+                                        shadow = buttonSpec.ToolTipShadow;
+
+                                        // Display below the mouse cursor
+                                        screenRect.Height += SystemInformation.CursorSize.Height / 3 * 2;
+                                    }
                                 }
                             }
-                        }
-                        else
-                        {
-                            // Cast to correct type
-                            if (e.Target.Parent is { Component: IRibbonGroupItem { ToolTipValues.EnableToolTips: true } groupItem })
-                                // Is there actually anything to show for the tooltip
+                            else
                             {
-                                sourceContent = groupItem.ToolTipValues;
+                                // Cast to correct type
+                                if (e.Target.Parent is { Component: IRibbonGroupItem { ToolTipValues.EnableToolTips: true } groupItem })
+                                // Is there actually anything to show for the tooltip
+                                {
+                                    sourceContent = groupItem.ToolTipValues;
 
-                                // Grab the style from the group radio button settings
-                                toolTipStyle = groupItem.ToolTipValues.ToolTipStyle;
-                                shadow = groupItem.ToolTipValues.ToolTipShadow;
+                                    // Grab the style from the group radio button settings
+                                    toolTipStyle = groupItem.ToolTipValues.ToolTipStyle;
+                                    shadow = groupItem.ToolTipValues.ToolTipShadow;
 
-                                // Display below the bottom of the ribbon control
-                                Rectangle ribbonScreenRect = _ribbon.ToolTipScreenRectangle;
-                                screenRect.Y = ribbonScreenRect.Y;
-                                screenRect.Height = ribbonScreenRect.Height;
-                                screenRect.X = ribbonScreenRect.X + e.Target.Parent.ClientLocation.X;
-                                screenRect.Width = e.Target.Parent.ClientWidth;
+                                    // Display below the bottom of the ribbon control
+                                    Rectangle ribbonScreenRect = _ribbon.ToolTipScreenRectangle;
+                                    screenRect.Y = ribbonScreenRect.Y;
+                                    screenRect.Height = ribbonScreenRect.Height;
+                                    screenRect.X = ribbonScreenRect.X + e.Target.Parent.ClientLocation.X;
+                                    screenRect.Width = e.Target.Parent.ClientWidth;
+                                }
                             }
-                        }
 
-                    }
+                        }
                         break;
                 }
 
