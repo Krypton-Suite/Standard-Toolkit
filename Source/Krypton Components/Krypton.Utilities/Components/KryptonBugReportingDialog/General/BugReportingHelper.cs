@@ -21,11 +21,12 @@ public static class BugReportingHelper
     /// <param name="emailConfig">The email configuration for bug reporting.</param>
     /// <param name="highlightColor">Optional highlight color for the exception dialog.</param>
     /// <param name="showCopyButton">Optional flag to show the copy button.</param>
+    /// <param name="showSubmitBugReportButton">Optional flag to show the submit bug report button.</param>
     /// <param name="showSearchBox">Optional flag to show the search box.</param>
     public static void ShowExceptionWithBugReporting(Exception exception, BugReportEmailConfig emailConfig, 
-        Color? highlightColor = null, bool? showCopyButton = null, bool? showSearchBox = null)
+        Color? highlightColor = null, bool? showCopyButton = null, bool? showSubmitBugReportButton = null, bool? showSearchBox = null)
     {
-        Krypton.Toolkit.KryptonExceptionDialog.Show(exception, highlightColor, showCopyButton, showSearchBox, 
+        KryptonExceptionDialog.Show(exception, highlightColor, showCopyButton, showSubmitBugReportButton, showSearchBox, 
             ex => KryptonBugReportingDialog.Show(ex, emailConfig));
     }
 }
