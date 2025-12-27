@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -7,15 +7,8 @@
  */
 #endregion
 
-namespace Krypton.Toolkit;
+namespace Krypton.Utilities;
 
-/// <summary>
-/// Represents a modal dialog form that displays detailed information about an exception, including its message, stack trace, and inner exceptions, with options for copying details, searching, and reporting bugs.
-/// </summary>
-/// <remarks>Use this form to present exception details to users or developers in a structured and interactive
-/// way. The dialog can be configured to show or hide copy and search features, highlight exception details, and provide
-/// a callback for custom bug reporting. This form is intended for internal use within applications that utilize the
-/// Krypton Toolkit UI framework.</remarks>
 internal partial class VisualExceptionDialogForm : KryptonForm
 {
     #region Instance Fields
@@ -23,6 +16,8 @@ internal partial class VisualExceptionDialogForm : KryptonForm
     private readonly bool? _showCopyButton;
 
     private readonly bool? _showSearchBox;
+
+    private readonly bool? _showSubmitBugReportButton;
 
     private readonly Color? _highlightColor;
 
@@ -36,7 +31,7 @@ internal partial class VisualExceptionDialogForm : KryptonForm
 
     #region Identity
 
-    public VisualExceptionDialogForm(bool? showCopyButton, bool? showSearchBox, Color? highlightColor, Exception exception, Action<Exception>? bugReportCallback = null)
+    public VisualExceptionDialogForm(bool? showCopyButton, bool? showSearchBox, bool? showSubmitBugReportButton, Color? highlightColor, Exception exception, Action<Exception>? bugReportCallback = null)
     {
         InitializeComponent();
 
@@ -45,6 +40,8 @@ internal partial class VisualExceptionDialogForm : KryptonForm
         _showCopyButton = showCopyButton ?? false;
 
         _showSearchBox = showSearchBox ?? false;
+
+        _showSubmitBugReportButton = showSubmitBugReportButton ?? false;
 
         _highlightColor = highlightColor ?? Color.LightYellow;
 
@@ -70,12 +67,13 @@ internal partial class VisualExceptionDialogForm : KryptonForm
         kbtnCopy.Text = KryptonManager.Strings.GeneralStrings.Copy;
         kbtnOk.Text = KryptonManager.Strings.GeneralStrings.OK;
         kbtnCopy.Visible = _showCopyButton ?? true;
+        kbtnCopy.Visible = _showSubmitBugReportButton ?? true;
         isbSearchArea.ShowSearchFeatures = _showSearchBox ?? true;
 
         if (_bugReportCallback != null && _exception != null)
         {
             kbtnReportBug.Visible = true;
-            kbtnReportBug.Text = "Report Bug";
+            kbtnReportBug.Text = KryptonManager.Strings.BugReportingDialogStrings.ReportBugButtonText;
             kbtnReportBug.Click += KbtnReportBug_Click;
         }
         else
@@ -146,9 +144,9 @@ internal partial class VisualExceptionDialogForm : KryptonForm
 
     #region Show
 
-    internal static void Show(Exception exception, Color? highlightColor, bool? showCopyButton, bool? showSearchBox, Action<Exception>? bugReportCallback = null)
+    internal static void Show(Exception exception, Color? highlightColor, bool? showCopyButton, bool? showSubmitBugReportButton, bool? showSearchBox, Action<Exception>? bugReportCallback = null)
     {
-        using var ved = new VisualExceptionDialogForm(showCopyButton, showSearchBox, highlightColor, exception, bugReportCallback);
+        using var ved = new VisualExceptionDialogForm(showCopyButton, showSearchBox, showSubmitBugReportButton, highlightColor, exception, bugReportCallback);
 
         ved.ShowDialog();
     }
