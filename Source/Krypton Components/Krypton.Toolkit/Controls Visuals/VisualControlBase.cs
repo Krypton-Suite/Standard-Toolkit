@@ -845,10 +845,15 @@ public abstract class VisualControlBase : Control,
     /// <param name="e">An EventArgs that contains the event data.</param>
     protected override void OnValidated(EventArgs e)
     {
-        // If we're not forwarding validation from a child control and this control is marked as a
-        // ContainerControl, this is the container control validation being triggered. Since child
-        // controls already handle validation and forward it to us via ForwardValidated, we suppress
-        // this duplicate validation call from the container control mechanism.
+        // Root cause fix: When ContainerControl style is set, Windows Forms validation mechanism treats
+        // this control as a container and validates it separately from its children. Since these
+        // controls are wrapper controls that forward validation from their child controls via
+        // ForwardValidating(), we suppress container control validation to prevent duplicate events.
+        //
+        // The fix: When we receive a Validating event that is NOT from a forwarded child control
+        // (indicated by _isForwardingValidationFromChild flag), and this control has ContainerControl
+        // style set, this is the container control validation being triggered. We suppress it because
+        // child controls already handle validation and forward it to us via ForwardValidating().
         if (!_isForwardingValidationFromChild && GetStyle(ControlStyles.ContainerControl))
         {
             // This is container control validation - suppress it to prevent duplicate events
@@ -865,10 +870,15 @@ public abstract class VisualControlBase : Control,
     /// <param name="e">A CancelEventArgs that contains the event data. Setting the Cancel property to <see langword="true"/> will prevent the control from losing focus.</param>
     protected override void OnValidating(CancelEventArgs e)
     {
-        // If we're not forwarding validation from a child control and this control is marked as a
-        // ContainerControl, this is the container control validation being triggered. Since child
-        // controls already handle validation and forward it to us via ForwardValidating, we suppress
-        // this duplicate validation call from the container control mechanism.
+        // Root cause fix: When ContainerControl style is set, Windows Forms validation mechanism treats
+        // this control as a container and validates it separately from its children. Since these
+        // controls are wrapper controls that forward validation from their child controls via
+        // ForwardValidated(), we suppress container control validation to prevent duplicate events.
+        //
+        // The fix: When we receive a Validated event that is NOT from a forwarded child control
+        // (indicated by _isForwardingValidationFromChild flag), and this control has ContainerControl
+        // style set, this is the container control validation being triggered. We suppress it because
+        // child controls already handle validation and forward it to us via ForwardValidated().
         if (!_isForwardingValidationFromChild && GetStyle(ControlStyles.ContainerControl))
         {
             // This is container control validation - suppress it to prevent duplicate events
