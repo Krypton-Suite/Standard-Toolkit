@@ -4,6 +4,8 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#2156](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2156), Native support for Font Awesome
+	- To use, download the `Krypton.Standard.Toolkit` NuGet package, as the feature is part of the `Krypton.Utilities` assembly.
 * Implemented [#2762](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2762), **[Breaking Change]** Move the public facing version of `KryptonExceptionDialog` to `Krypton.Utilities`
 * Implemented [#2740](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2740), Browser control
 * Implemented [#2230](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2230), A `KryptonSearchBox` control

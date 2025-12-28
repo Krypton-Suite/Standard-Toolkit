@@ -72,6 +72,10 @@
 			<SpecificVersion>True</SpecificVersion>
 			<Version>4.0.0.0</Version>
 		</Reference>
+		<Reference Include="System.Web.Extensions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Condition="$(TargetFramework.StartsWith('net4'))">
+			<SpecificVersion>True</SpecificVersion>
+			<Version>4.0.0.0</Version>
+		</Reference>
 	</ItemGroup>
 
 	<!-- WebView2 SDK Path (for .NET 8+ file-based references, if needed) -->
@@ -121,7 +125,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\Krypton.Navigator\Krypton.Navigator 2022.csproj" />
+	  <ProjectReference Include="..\Krypton.Ribbon\Krypton.Ribbon 2022.csproj" />
 	  <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
+	  <ProjectReference Include="..\Krypton.Workspace\Krypton.Workspace 2022.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
