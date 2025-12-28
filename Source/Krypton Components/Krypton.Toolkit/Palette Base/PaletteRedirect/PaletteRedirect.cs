@@ -1197,11 +1197,11 @@ public class PaletteRedirect : PaletteBase, IGlobalId
             {
                 var hashCode = FontFamilyName.GetHashCode();
                 // Round to match Equals tolerance (0.001f)
-                hashCode = (hashCode * 397) ^ ((int)(Size * 1000)).GetHashCode();
+                hashCode = (hashCode * 397) ^ ((int)Math.Round(Size * 1000)).GetHashCode();
                 hashCode = (hashCode * 397) ^ Style.GetHashCode();
                 hashCode = (hashCode * 397) ^ Unit.GetHashCode();
                 // Round to match Equals tolerance (0.001f)
-                hashCode = (hashCode * 397) ^ ((int)(ScaleFactor * 1000)).GetHashCode();
+                hashCode = (hashCode * 397) ^ ((int)Math.Round(ScaleFactor * 1000)).GetHashCode();
                 return hashCode;
             }
         }
