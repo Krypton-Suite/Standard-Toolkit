@@ -36,8 +36,8 @@ public class TouchscreenSettingValues : GlobalId
         get => KryptonManager.UseTouchscreenSupport;
         set => KryptonManager.UseTouchscreenSupport = value;
     }
-    private bool ShouldSerializeEnabled() => TouchscreenModeEnabled;
-    private void ResetEnabled() => TouchscreenModeEnabled = false;
+    private bool ShouldSerializeTouchscreenModeEnabled() => TouchscreenModeEnabled;
+    private void ResetTouchscreenModeEnabled() => TouchscreenModeEnabled = false;
 
     /// <summary>
     /// Gets or sets the scale factor applied to controls when touchscreen support is enabled.
@@ -117,7 +117,7 @@ public class TouchscreenSettingValues : GlobalId
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public bool IsDefault => !(ShouldSerializeEnabled() ||
+    public bool IsDefault => !(ShouldSerializeTouchscreenModeEnabled() ||
                                ShouldSerializeControlScaleFactor() ||
                                ShouldSerializeFontScalingEnabled() ||
                                ShouldSerializeFontScaleFactor());
@@ -128,7 +128,7 @@ public class TouchscreenSettingValues : GlobalId
 
     public void Reset()
     {
-        ResetEnabled();
+        ResetTouchscreenModeEnabled();
         ResetControlScaleFactor();
         ResetFontScalingEnabled();
         ResetFontScaleFactor();
