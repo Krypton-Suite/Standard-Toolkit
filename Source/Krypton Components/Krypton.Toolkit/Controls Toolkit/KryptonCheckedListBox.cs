@@ -2496,9 +2496,9 @@ public class KryptonCheckedListBox : VisualControlBase,
 
     private void OnListBoxKeyDown(object? sender, KeyEventArgs e) => OnKeyDown(e);
 
-    private void OnListBoxValidated(object? sender, EventArgs e) => OnValidated(e);
+    private void OnListBoxValidated(object? sender, EventArgs e) => ForwardValidated(e);
 
-    private void OnListBoxValidating(object? sender, CancelEventArgs e) => OnValidating(e);
+    private void OnListBoxValidating(object? sender, CancelEventArgs e) => ForwardValidating(e);
 
     private void OnListBoxPreviewKeyDown(object? sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 

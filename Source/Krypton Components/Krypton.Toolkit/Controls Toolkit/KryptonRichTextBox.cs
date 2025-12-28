@@ -2105,9 +2105,9 @@ public class KryptonRichTextBox : VisualControlBase,
 
     private void OnRichTextBoxLinkClicked(object? sender, LinkClickedEventArgs e) => OnLinkClicked(e);
 
-    private void OnRichTextBoxValidated(object? sender, EventArgs e) => OnValidated(e);
+    private void OnRichTextBoxValidated(object? sender, EventArgs e) => ForwardValidated(e);
 
-    private void OnRichTextBoxValidating(object? sender, CancelEventArgs e) => OnValidating(e);
+    private void OnRichTextBoxValidating(object? sender, CancelEventArgs e) => ForwardValidating(e);
 
     private void OnShowToolTip(object? sender, ToolTipEventArgs e)
     {

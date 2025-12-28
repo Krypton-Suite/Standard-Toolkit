@@ -107,6 +107,7 @@
             this.ktxtTextBox2.Name = "ktxtTextBox2";
             this.ktxtTextBox2.Size = new System.Drawing.Size(220, 23);
             this.ktxtTextBox2.TabIndex = 2;
+            this.ktxtTextBox2.Validated += new System.EventHandler(this.ktxtTextBox2_Validated);
             this.ktxtTextBox2.Validating += new System.ComponentModel.CancelEventHandler(this.ktxtTextBox2_Validating);
             // 
             // klblTextBox1
@@ -123,6 +124,7 @@
             this.ktxtTextBox1.Name = "ktxtTextBox1";
             this.ktxtTextBox1.Size = new System.Drawing.Size(220, 23);
             this.ktxtTextBox1.TabIndex = 1;
+            this.ktxtTextBox1.Validated += new System.EventHandler(this.ktxtTextBox1_Validated);
             this.ktxtTextBox1.Validating += new System.ComponentModel.CancelEventHandler(this.ktxtTextBox1_Validating);
             // 
             // klblInstructions

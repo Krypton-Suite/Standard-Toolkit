@@ -2099,9 +2099,9 @@ public class KryptonNumericUpDown : VisualControlBase,
 
     private void OnNumericUpDownPreviewKeyDown(object? sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-    private void OnNumericUpDownValidated(object? sender, EventArgs e) => OnValidated(e);
+    private void OnNumericUpDownValidated(object? sender, EventArgs e) => ForwardValidated(e);
 
-    private void OnNumericUpDownValidating(object? sender, CancelEventArgs e) => OnValidating(e);
+    private void OnNumericUpDownValidating(object? sender, CancelEventArgs e) => ForwardValidating(e);
 
     private void OnShowToolTip(object? sender, ToolTipEventArgs e)
     {

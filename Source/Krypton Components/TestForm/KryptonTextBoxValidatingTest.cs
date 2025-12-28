@@ -17,6 +17,8 @@ public partial class KryptonTextBoxValidatingTest : KryptonForm
 {
     private int _textBox1ValidatingCount;
     private int _textBox2ValidatingCount;
+    private int _textBox1ValidatedCount;
+    private int _textBox2ValidatedCount;
 
     public KryptonTextBoxValidatingTest()
     {
@@ -29,12 +31,14 @@ public partial class KryptonTextBoxValidatingTest : KryptonForm
     {
         _textBox1ValidatingCount = 0;
         _textBox2ValidatingCount = 0;
+        _textBox1ValidatedCount = 0;
+        _textBox2ValidatedCount = 0;
     }
 
     private void UpdateCountLabels()
     {
-        klblTextBox1Count.Values.Text = $"Validating events: {_textBox1ValidatingCount}";
-        klblTextBox2Count.Values.Text = $"Validating events: {_textBox2ValidatingCount}";
+        klblTextBox1Count.Values.Text = $"Validating: {_textBox1ValidatingCount} | Validated: {_textBox1ValidatedCount}";
+        klblTextBox2Count.Values.Text = $"Validating: {_textBox2ValidatingCount} | Validated: {_textBox2ValidatedCount}";
     }
 
     private void ktxtTextBox1_Validating(object sender, CancelEventArgs e)
@@ -43,7 +47,7 @@ public partial class KryptonTextBoxValidatingTest : KryptonForm
         UpdateCountLabels();
 
         // Show message box to visually confirm the event (as described in the bug report)
-        MessageBox.Show("TextBox1 Validating event fired", "Validation Test", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        KryptonMessageBox.Show("TextBox1 Validating event fired", "Validation Test", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
     }
 
     private void ktxtTextBox2_Validating(object sender, CancelEventArgs e)
@@ -52,7 +56,19 @@ public partial class KryptonTextBoxValidatingTest : KryptonForm
         UpdateCountLabels();
 
         // Show message box to visually confirm the event (as described in the bug report)
-        MessageBox.Show("TextBox2 Validating event fired", "Validation Test", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        KryptonMessageBox.Show("TextBox2 Validating event fired", "Validation Test", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
+    }
+
+    private void ktxtTextBox1_Validated(object sender, EventArgs e)
+    {
+        _textBox1ValidatedCount++;
+        UpdateCountLabels();
+    }
+
+    private void ktxtTextBox2_Validated(object sender, EventArgs e)
+    {
+        _textBox2ValidatedCount++;
+        UpdateCountLabels();
     }
 
     private void kbtnResetCounts_Click(object sender, EventArgs e)
@@ -65,24 +81,24 @@ public partial class KryptonTextBoxValidatingTest : KryptonForm
     {
         string instructions = @"Test Instructions:
 
-1. Click in TextBox1, then press Tab or click in TextBox2
-   → You should see ONE message box, not two
+            1. Click in TextBox1, then press Tab or click in TextBox2
+               → You should see ONE Validating message box, not two
 
-2. Click in TextBox2, then press Tab or click in TextBox1
-   → You should see ONE message box, not two
+            2. Click in TextBox2, then press Tab or click in TextBox1
+               → You should see ONE Validating message box, not two
 
-3. Check the event count labels - each should increment by 1 per focus change
+            3. Check the event count labels - both Validating and Validated should increment by 1 per focus change
 
-Expected Behavior:
-- Validating event should fire ONCE per control when it loses focus
-- Each textbox should show exactly 1 message box per focus change
-- Event counts should match the number of focus changes
+            Expected Behavior:
+            - Validating event should fire ONCE per control when it loses focus
+            - Validated event should fire ONCE per control when it loses focus
+            - Each textbox should show exactly 1 message box per focus change (for Validating)
+            - Event counts should match the number of focus changes
 
-Bug #2801:
-- Before fix: Each textbox raised Validating TWICE, so 4 message boxes total
-- After fix: Each textbox raises Validating ONCE, so 2 message boxes total";
+            Bug #2801:
+            - Before fix: Each textbox raised Validating TWICE and Validated TWICE
+            - After fix: Each textbox raises Validating ONCE and Validated ONCE, matching standard WinForms behavior";
 
-        MessageBox.Show(instructions, "Test Instructions", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        KryptonMessageBox.Show(instructions, "Test Instructions", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
     }
 }
-

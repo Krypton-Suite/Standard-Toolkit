@@ -25,6 +25,7 @@ public abstract class VisualControlBase : Control,
     #endregion
 
     #region Instance Fields
+
     private bool _layoutDirty;
     private bool _refresh;
     private bool _refreshAll;
@@ -39,6 +40,8 @@ public abstract class VisualControlBase : Control,
     private KryptonContextMenu? _kryptonContextMenu;
     protected VisualPopupToolTip? visualBasePopupToolTip;
     private readonly ToolTipManager _toolTipManager;
+    private bool _isForwardingValidationFromChild;
+
     #endregion
 
     #region Events
@@ -769,6 +772,50 @@ public abstract class VisualControlBase : Control,
     protected virtual PaletteRedirect CreateRedirector() => new PaletteRedirect(_palette);
 
     /// <summary>
+    /// Forward a Validating event from a child control. This method should be called by derived classes
+    /// when forwarding validation events from internal controls to prevent duplicate validation events
+    /// when the control is marked as a ContainerControl.
+    /// </summary>
+    /// <param name="e">A CancelEventArgs that contains the event data.</param>
+    protected void ForwardValidating(CancelEventArgs e)
+    {
+        // Indicate that we are forwarding a validation event
+        _isForwardingValidationFromChild = true;
+
+        try
+        {
+            OnValidating(e);
+        }
+        finally
+        {
+            // Clear forwarding indication
+            _isForwardingValidationFromChild = false;
+        }
+    }
+
+    /// <summary>
+    /// Forward a Validated event from a child control. This method should be called by derived classes
+    /// when forwarding validation events from internal controls to prevent duplicate validation events
+    /// when the control is marked as a ContainerControl.
+    /// </summary>
+    /// <param name="e">An EventArgs that contains the event data.</param>
+    protected void ForwardValidated(EventArgs e)
+    {
+        // Indicate that we are forwarding a validation event
+        _isForwardingValidationFromChild = true;
+
+        try
+        {
+            OnValidated(e);
+        }
+        finally
+        {
+            // Clear forwarding indication
+            _isForwardingValidationFromChild = false;
+        }
+    }
+
+    /// <summary>
     /// Update global event attachments.
     /// </summary>
     /// <param name="attach">True if attaching; otherwise false.</param>
@@ -789,6 +836,49 @@ public abstract class VisualControlBase : Control,
     #endregion
 
     #region Protected Overrides
+
+    /// <summary>
+    /// Raises the Validated event when the control is finished validating.
+    /// </summary>
+    /// <remarks>Override this method to perform additional actions when the control is validated. Be sure to
+    /// call the base implementation to ensure the Validated event is raised.</remarks>
+    /// <param name="e">An EventArgs that contains the event data.</param>
+    protected override void OnValidated(EventArgs e)
+    {
+        // If we're not forwarding validation from a child control and this control is marked as a
+        // ContainerControl, this is the container control validation being triggered. Since child
+        // controls already handle validation and forward it to us via ForwardValidated, we suppress
+        // this duplicate validation call from the container control mechanism.
+        if (!_isForwardingValidationFromChild && GetStyle(ControlStyles.ContainerControl))
+        {
+            // This is container control validation - suppress it to prevent duplicate events
+            return;
+        }
+
+        // This is either validation from a child control (forwarded) or normal validation
+        base.OnValidated(e);
+    }
+
+    /// <summary>
+    /// Raises the Validating event, allowing validation logic to be performed before the control loses focus.
+    /// </summary>
+    /// <param name="e">A CancelEventArgs that contains the event data. Setting the Cancel property to <see langword="true"/> will prevent the control from losing focus.</param>
+    protected override void OnValidating(CancelEventArgs e)
+    {
+        // If we're not forwarding validation from a child control and this control is marked as a
+        // ContainerControl, this is the container control validation being triggered. Since child
+        // controls already handle validation and forward it to us via ForwardValidating, we suppress
+        // this duplicate validation call from the container control mechanism.
+        if (!_isForwardingValidationFromChild && GetStyle(ControlStyles.ContainerControl))
+        {
+            // This is container control validation - suppress it to prevent duplicate events
+            return;
+        }
+
+        // This is either validation from a child control (forwarded) or normal validation
+        base.OnValidating(e);
+    }
+
     /// <summary>
     /// Raises the RightToLeftChanged event.
     /// </summary>

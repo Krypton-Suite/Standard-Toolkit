@@ -2410,9 +2410,9 @@ public class KryptonTreeView : VisualControlBase,
 
     private void OnTreeViewPreviewKeyDown(object? sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-    private void OnTreeViewValidated(object? sender, EventArgs e) => OnValidated(e);
+    private void OnTreeViewValidated(object? sender, EventArgs e) => ForwardValidated(e);
 
-    private void OnTreeViewValidating(object? sender, CancelEventArgs e) => OnValidating(e);
+    private void OnTreeViewValidating(object? sender, CancelEventArgs e) => ForwardValidating(e);
 
     private void OnTreeViewNodeMouseHover(object? sender, TreeNodeMouseHoverEventArgs e) => OnNodeMouseHover(e);
 

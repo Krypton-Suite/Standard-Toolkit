@@ -3160,9 +3160,9 @@ public class KryptonComboBox : VisualControlBase,
 
     private void OnComboBoxPreviewKeyDown(object? sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-    private void OnComboBoxValidated(object? sender, EventArgs e) => OnValidated(e);
+    private void OnComboBoxValidated(object? sender, EventArgs e) => ForwardValidated(e);
 
-    private void OnComboBoxValidating(object? sender, CancelEventArgs e) => OnValidating(e);
+    private void OnComboBoxValidating(object? sender, CancelEventArgs e) => ForwardValidating(e);
 
     private void OnComboBoxFormat(object? sender, ListControlConvertEventArgs e) => OnFormat(e);
 
