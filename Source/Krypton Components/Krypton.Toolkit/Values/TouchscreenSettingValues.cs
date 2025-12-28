@@ -31,13 +31,13 @@ public class TouchscreenSettingValues : GlobalId
     [Category(@"Visuals")]
     [Description(@"Should touchscreen support be enabled, making controls larger for easier touch interaction.")]
     [DefaultValue(false)]
-    public bool Enabled
+    public bool TouchscreenModeEnabled
     {
         get => KryptonManager.UseTouchscreenSupport;
         set => KryptonManager.UseTouchscreenSupport = value;
     }
-    private bool ShouldSerializeEnabled() => Enabled;
-    private void ResetEnabled() => Enabled = false;
+    private bool ShouldSerializeEnabled() => TouchscreenModeEnabled;
+    private void ResetEnabled() => TouchscreenModeEnabled = false;
 
     /// <summary>
     /// Gets or sets the scale factor applied to controls when touchscreen support is enabled.

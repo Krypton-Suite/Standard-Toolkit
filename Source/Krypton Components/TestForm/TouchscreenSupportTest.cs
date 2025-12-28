@@ -170,7 +170,7 @@ public partial class TouchscreenSupportTest : KryptonForm
 
         try
         {
-            KryptonManager.TouchscreenSettingsValues.Enabled = chkEnableTouchscreen.Checked;
+            KryptonManager.TouchscreenSettingsValues.TouchscreenModeEnabled = chkEnableTouchscreen.Checked;
             UpdateStatus();
         }
         catch (Exception ex)
@@ -205,7 +205,7 @@ public partial class TouchscreenSupportTest : KryptonForm
         try
         {
             KryptonManager.TouchscreenSettingsValues.FontScalingEnabled = chkEnableFontScaling.Checked;
-            trackFontScaleFactor.Enabled = KryptonManager.TouchscreenSettingsValues.Enabled && chkEnableFontScaling.Checked;
+            trackFontScaleFactor.Enabled = KryptonManager.TouchscreenSettingsValues.TouchscreenModeEnabled && chkEnableFontScaling.Checked;
             UpdateStatus();
         }
         catch (Exception ex)
@@ -268,7 +268,7 @@ public partial class TouchscreenSupportTest : KryptonForm
     {
         try
         {
-            KryptonManager.TouchscreenSettingsValues.Enabled = true;
+            KryptonManager.TouchscreenSettingsValues.TouchscreenModeEnabled = true;
             KryptonManager.TouchscreenSettingsValues.ControlScaleFactor = scaleFactor;
             KryptonManager.TouchscreenSettingsValues.FontScaleFactor = scaleFactor; // Match font scale to control scale
             UpdateUIFromSettings();
@@ -287,7 +287,7 @@ public partial class TouchscreenSupportTest : KryptonForm
     {
         try
         {
-            KryptonManager.TouchscreenSettingsValues.Enabled = !KryptonManager.UseTouchscreenSupport;
+            KryptonManager.TouchscreenSettingsValues.TouchscreenModeEnabled = !KryptonManager.UseTouchscreenSupport;
             UpdateUIFromSettings();
             UpdateStatus();
         }
@@ -320,7 +320,7 @@ public partial class TouchscreenSupportTest : KryptonForm
         {
             var settings = KryptonManager.TouchscreenSettingsValues;
 
-            chkEnableTouchscreen.Checked = settings.Enabled;
+            chkEnableTouchscreen.Checked = settings.TouchscreenModeEnabled;
 
             // Convert control scale factor (1.0 - 3.0) to trackbar value (0-200)
             float controlScaleFactor = settings.ControlScaleFactor;
@@ -340,7 +340,7 @@ public partial class TouchscreenSupportTest : KryptonForm
             lblFontScaleValue.Text = $"{fontScaleFactor:F2}x ({(fontScaleFactor * 100 - 100):F1}% larger)";
 
             // Enable/disable font scaling controls based on touchscreen support
-            bool touchscreenEnabled = settings.Enabled;
+            bool touchscreenEnabled = settings.TouchscreenModeEnabled;
             chkEnableFontScaling.Enabled = touchscreenEnabled;
             bool fontScalingEnabled = touchscreenEnabled && settings.FontScalingEnabled;
             trackFontScaleFactor.Enabled = fontScalingEnabled;
@@ -356,7 +356,7 @@ public partial class TouchscreenSupportTest : KryptonForm
     private void UpdateStatus()
     {
         var settings = KryptonManager.TouchscreenSettingsValues;
-        bool isEnabled = settings.Enabled;
+        bool isEnabled = settings.TouchscreenModeEnabled;
         float controlScaleFactor = KryptonManager.TouchscreenScaleFactor;
         bool fontScalingEnabled = settings.FontScalingEnabled && isEnabled;
         float fontScaleFactor = KryptonManager.TouchscreenFontScaleFactor;

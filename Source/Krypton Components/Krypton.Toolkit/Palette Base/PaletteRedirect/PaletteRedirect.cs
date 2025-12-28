@@ -1240,7 +1240,6 @@ public class PaletteRedirect : PaletteBase, IGlobalId
         var cacheKey = new FontCacheKey(font, scaleFactor);
         if (_scaledFontCache.TryGetValue(cacheKey, out var cachedFont))
         {
-            font.Dispose();
             return cachedFont;
         }
 
@@ -1249,7 +1248,6 @@ public class PaletteRedirect : PaletteBase, IGlobalId
         {
             var scaledFont = new Font(font.FontFamily, font.Size * scaleFactor, font.Style, font.Unit);
             _scaledFontCache[cacheKey] = scaledFont;
-            font.Dispose();
             return scaledFont;
         }
         catch
