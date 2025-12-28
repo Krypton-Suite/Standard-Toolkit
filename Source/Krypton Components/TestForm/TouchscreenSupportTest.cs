@@ -7,6 +7,9 @@
  */
 #endregion
 
+using Krypton.Navigator;
+using Krypton.Workspace;
+
 namespace TestForm;
 
 /// <summary>
@@ -38,6 +41,8 @@ public partial class TouchscreenSupportTest : KryptonForm
         // Setup event handlers
         chkEnableTouchscreen.CheckedChanged += ChkEnableTouchscreen_CheckedChanged;
         trackScaleFactor.ValueChanged += TrackScaleFactor_ValueChanged;
+        chkEnableFontScaling.CheckedChanged += ChkEnableFontScaling_CheckedChanged;
+        trackFontScaleFactor.ValueChanged += TrackFontScaleFactor_ValueChanged;
         btnResetScale.Click += BtnResetScale_Click;
         btnApplyPreset25.Click += BtnApplyPreset25_Click;
         btnApplyPreset50.Click += BtnApplyPreset50_Click;
@@ -75,7 +80,7 @@ public partial class TouchscreenSupportTest : KryptonForm
 
         // Text input examples
         txtInput.Text = "Sample text input";
-        txtInput.Watermark.Text = "Enter text here...";
+        txtInput.CueHint.CueHintText = "Enter text here...";
         txtNumeric.Value = 42;
 
         // ComboBox example
@@ -84,12 +89,12 @@ public partial class TouchscreenSupportTest : KryptonForm
 
         // Progress bar
         progressBar.Value = 65;
-        progressBar.StateCommon.LongText.Color1 = Color.Blue;
+        progressBar.StateCommon.Content.LongText.Color1 = Color.Blue;
 
         // Track bar
-        trackBar.Value = 50;
         trackBar.Minimum = 0;
         trackBar.Maximum = 100;
+        trackBar.Value = 50;
         trackBar.TickFrequency = 10;
 
         // Label examples
@@ -99,6 +104,64 @@ public partial class TouchscreenSupportTest : KryptonForm
         // Link label
         linkLabel.Text = "Click this link";
         linkLabel.LinkClicked += (s, e) => KryptonMessageBox.Show("Link clicked!", "Touchscreen Test");
+
+        // Setup Navigator
+        SetupNavigator();
+
+        // Setup Workspace
+        SetupWorkspace();
+    }
+
+    private void SetupNavigator()
+    {
+        // Create pages for navigator
+        var page1 = new KryptonPage { Text = "Page 1", TextTitle = "First Page" };
+        var label1 = new KryptonLabel { Text = "Navigator Page 1 - Touchscreen scaling applies to tabs and buttons", Dock = DockStyle.Fill };
+        label1.StateCommon.ShortText.TextH = PaletteRelativeAlign.Center;
+        label1.StateCommon.ShortText.TextV = PaletteRelativeAlign.Center;
+        page1.Controls.Add(label1);
+
+        var page2 = new KryptonPage { Text = "Page 2", TextTitle = "Second Page" };
+        var label2 = new KryptonLabel { Text = "Navigator Page 2 - All controls scale when touchscreen support is enabled", Dock = DockStyle.Fill };
+        label2.StateCommon.ShortText.TextH = PaletteRelativeAlign.Center;
+        label2.StateCommon.ShortText.TextV = PaletteRelativeAlign.Center;
+        page2.Controls.Add(label2);
+
+        var page3 = new KryptonPage { Text = "Page 3", TextTitle = "Third Page" };
+        var label3 = new KryptonLabel { Text = "Navigator Page 3 - Try adjusting the scale factor to see the effect", Dock = DockStyle.Fill };
+        label3.StateCommon.ShortText.TextH = PaletteRelativeAlign.Center;
+        label3.StateCommon.ShortText.TextV = PaletteRelativeAlign.Center;
+        page3.Controls.Add(label3);
+
+        navigator.Pages.AddRange(new[] { page1, page2, page3 });
+        navigator.SelectedPage = page1;
+    }
+
+    private void SetupWorkspace()
+    {
+        // Create workspace cells with pages
+        // Note: KryptonWorkspaceCell inherits from KryptonNavigator, so it automatically
+        // gets touchscreen scaling support
+        var cell1 = new KryptonWorkspaceCell();
+        var page1 = new KryptonPage { Text = "Workspace Cell 1", TextTitle = "Cell 1" };
+        var label1 = new KryptonLabel { Text = "Workspace Cell 1 - Workspace cells and their tabs scale with touchscreen support", Dock = DockStyle.Fill };
+        label1.StateCommon.ShortText.TextH = PaletteRelativeAlign.Center;
+        label1.StateCommon.ShortText.TextV = PaletteRelativeAlign.Center;
+        page1.Controls.Add(label1);
+        cell1.Pages.Add(page1);
+        cell1.SelectedPage = page1;
+
+        var cell2 = new KryptonWorkspaceCell();
+        var page2 = new KryptonPage { Text = "Workspace Cell 2", TextTitle = "Cell 2" };
+        var label2 = new KryptonLabel { Text = "Workspace Cell 2 - Navigator, Ribbon, Workspace, and Docking all support touchscreen scaling", Dock = DockStyle.Fill };
+        label2.StateCommon.ShortText.TextH = PaletteRelativeAlign.Center;
+        label2.StateCommon.ShortText.TextV = PaletteRelativeAlign.Center;
+        page2.Controls.Add(label2);
+        cell2.Pages.Add(page2);
+        cell2.SelectedPage = page2;
+
+        workspace.Root.Children.Add(cell1);
+        workspace.Root.Children.Add(cell2);
     }
 
     private void ChkEnableTouchscreen_CheckedChanged(object? sender, EventArgs e)
@@ -107,12 +170,13 @@ public partial class TouchscreenSupportTest : KryptonForm
 
         try
         {
-            KryptonManager.GlobalTouchscreenSupport = chkEnableTouchscreen.Checked;
+            KryptonManager.TouchscreenSettingsValues.Enabled = chkEnableTouchscreen.Checked;
             UpdateStatus();
         }
         catch (Exception ex)
         {
-            KryptonMessageBox.Show($"Error: {ex.Message}", "Touchscreen Support", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            KryptonMessageBox.Show($"Error: {ex.Message}", "Touchscreen Support", KryptonMessageBoxButtons.OK,
+                KryptonMessageBoxIcon.Error);
         }
     }
 
@@ -124,12 +188,48 @@ public partial class TouchscreenSupportTest : KryptonForm
         {
             // Convert trackbar value (0-200) to scale factor (1.0 - 3.0)
             float scaleFactor = 1.0f + (trackScaleFactor.Value / 100f);
-            KryptonManager.GlobalTouchscreenScaleFactor = scaleFactor;
+            KryptonManager.TouchscreenSettingsValues.ControlScaleFactor = scaleFactor;
             UpdateStatus();
         }
         catch (Exception ex)
         {
-            KryptonMessageBox.Show($"Error: {ex.Message}", "Touchscreen Support", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            KryptonMessageBox.Show($"Error: {ex.Message}", "Touchscreen Support", KryptonMessageBoxButtons.OK,
+                KryptonMessageBoxIcon.Error);
+        }
+    }
+
+    private void ChkEnableFontScaling_CheckedChanged(object? sender, EventArgs e)
+    {
+        if (_updatingFromEvent) return;
+
+        try
+        {
+            KryptonManager.TouchscreenSettingsValues.FontScalingEnabled = chkEnableFontScaling.Checked;
+            trackFontScaleFactor.Enabled = KryptonManager.TouchscreenSettingsValues.Enabled && chkEnableFontScaling.Checked;
+            UpdateStatus();
+        }
+        catch (Exception ex)
+        {
+            KryptonMessageBox.Show($"Error: {ex.Message}", "Touchscreen Support", KryptonMessageBoxButtons.OK,
+                KryptonMessageBoxIcon.Error);
+        }
+    }
+
+    private void TrackFontScaleFactor_ValueChanged(object? sender, EventArgs e)
+    {
+        if (_updatingFromEvent) return;
+
+        try
+        {
+            // Convert trackbar value (0-200) to scale factor (1.0 - 3.0)
+            float scaleFactor = 1.0f + (trackFontScaleFactor.Value / 100f);
+            KryptonManager.TouchscreenSettingsValues.FontScaleFactor = scaleFactor;
+            UpdateStatus();
+        }
+        catch (Exception ex)
+        {
+            KryptonMessageBox.Show($"Error: {ex.Message}", "Touchscreen Support", KryptonMessageBoxButtons.OK,
+                KryptonMessageBoxIcon.Error);
         }
     }
 
@@ -137,13 +237,15 @@ public partial class TouchscreenSupportTest : KryptonForm
     {
         try
         {
-            KryptonManager.GlobalTouchscreenScaleFactor = 1.25f; // Default 25% larger
+            KryptonManager.TouchscreenSettingsValues.ControlScaleFactor = 1.25f; // Default 25% larger
+            KryptonManager.TouchscreenSettingsValues.FontScaleFactor = 1.25f; // Default 25% larger
             UpdateUIFromSettings();
             UpdateStatus();
         }
         catch (Exception ex)
         {
-            KryptonMessageBox.Show($"Error: {ex.Message}", "Touchscreen Support", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            KryptonMessageBox.Show($"Error: {ex.Message}", "Touchscreen Support", KryptonMessageBoxButtons.OK,
+                KryptonMessageBoxIcon.Error);
         }
     }
 
@@ -166,15 +268,18 @@ public partial class TouchscreenSupportTest : KryptonForm
     {
         try
         {
-            KryptonManager.GlobalTouchscreenSupport = true;
-            KryptonManager.GlobalTouchscreenScaleFactor = scaleFactor;
+            KryptonManager.TouchscreenSettingsValues.Enabled = true;
+            KryptonManager.TouchscreenSettingsValues.ControlScaleFactor = scaleFactor;
+            KryptonManager.TouchscreenSettingsValues.FontScaleFactor = scaleFactor; // Match font scale to control scale
             UpdateUIFromSettings();
             UpdateStatus();
-            KryptonMessageBox.Show($"Applied preset: {description}", "Touchscreen Support", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            KryptonMessageBox.Show($"Applied preset: {description}", "Touchscreen Support", KryptonMessageBoxButtons.OK,
+                KryptonMessageBoxIcon.Information);
         }
         catch (Exception ex)
         {
-            KryptonMessageBox.Show($"Error: {ex.Message}", "Touchscreen Support", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            KryptonMessageBox.Show($"Error: {ex.Message}", "Touchscreen Support", KryptonMessageBoxButtons.OK,
+                KryptonMessageBoxIcon.Error);
         }
     }
 
@@ -182,13 +287,14 @@ public partial class TouchscreenSupportTest : KryptonForm
     {
         try
         {
-            KryptonManager.GlobalTouchscreenSupport = !KryptonManager.UseTouchscreenSupport;
+            KryptonManager.TouchscreenSettingsValues.Enabled = !KryptonManager.UseTouchscreenSupport;
             UpdateUIFromSettings();
             UpdateStatus();
         }
         catch (Exception ex)
         {
-            KryptonMessageBox.Show($"Error: {ex.Message}", "Touchscreen Support", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            KryptonMessageBox.Show($"Error: {ex.Message}", "Touchscreen Support", KryptonMessageBoxButtons.OK,
+                KryptonMessageBoxIcon.Error);
         }
     }
 
@@ -212,15 +318,34 @@ public partial class TouchscreenSupportTest : KryptonForm
         _updatingFromEvent = true;
         try
         {
-            chkEnableTouchscreen.Checked = KryptonManager.UseTouchscreenSupport;
+            var settings = KryptonManager.TouchscreenSettingsValues;
 
-            // Convert scale factor (1.0 - 3.0) to trackbar value (0-200)
-            float scaleFactor = KryptonManager.TouchscreenScaleFactorValue;
-            int trackValue = (int)Math.Round((scaleFactor - 1.0f) * 100f);
+            chkEnableTouchscreen.Checked = settings.Enabled;
+
+            // Convert control scale factor (1.0 - 3.0) to trackbar value (0-200)
+            float controlScaleFactor = settings.ControlScaleFactor;
+            int trackValue = (int)Math.Round((controlScaleFactor - 1.0f) * 100f);
             trackValue = Math.Max(0, Math.Min(200, trackValue)); // Clamp to valid range
             trackScaleFactor.Value = trackValue;
+            lblScaleValue.Text = $"{controlScaleFactor:F2}x ({(controlScaleFactor * 100 - 100):F1}% larger)";
 
-            lblScaleValue.Text = $"{scaleFactor:F2}x ({(scaleFactor * 100 - 100):F1}% larger)";
+            // Font scaling controls
+            chkEnableFontScaling.Checked = settings.FontScalingEnabled;
+
+            // Convert font scale factor (1.0 - 3.0) to trackbar value (0-200)
+            float fontScaleFactor = settings.FontScaleFactor;
+            int fontTrackValue = (int)Math.Round((fontScaleFactor - 1.0f) * 100f);
+            fontTrackValue = Math.Max(0, Math.Min(200, fontTrackValue)); // Clamp to valid range
+            trackFontScaleFactor.Value = fontTrackValue;
+            lblFontScaleValue.Text = $"{fontScaleFactor:F2}x ({(fontScaleFactor * 100 - 100):F1}% larger)";
+
+            // Enable/disable font scaling controls based on touchscreen support
+            bool touchscreenEnabled = settings.Enabled;
+            chkEnableFontScaling.Enabled = touchscreenEnabled;
+            bool fontScalingEnabled = touchscreenEnabled && settings.FontScalingEnabled;
+            trackFontScaleFactor.Enabled = fontScalingEnabled;
+            lblFontScaleFactor.Enabled = touchscreenEnabled;
+            lblFontScaleValue.Enabled = touchscreenEnabled;
         }
         finally
         {
@@ -230,13 +355,32 @@ public partial class TouchscreenSupportTest : KryptonForm
 
     private void UpdateStatus()
     {
-        bool isEnabled = KryptonManager.UseTouchscreenSupport;
-        float scaleFactor = KryptonManager.TouchscreenScaleFactor;
+        var settings = KryptonManager.TouchscreenSettingsValues;
+        bool isEnabled = settings.Enabled;
+        float controlScaleFactor = KryptonManager.TouchscreenScaleFactor;
+        bool fontScalingEnabled = settings.FontScalingEnabled && isEnabled;
+        float fontScaleFactor = KryptonManager.TouchscreenFontScaleFactor;
 
-        lblStatus.Text = isEnabled
-            ? $"Touchscreen Support: ENABLED - Scale Factor: {scaleFactor:F2}x ({(scaleFactor * 100 - 100):F1}% larger)"
-            : "Touchscreen Support: DISABLED - Controls at normal size";
+        string statusText;
+        if (isEnabled)
+        {
+            statusText =
+                $"Touchscreen Support: ENABLED - Control Scale: {controlScaleFactor:F2}x ({(controlScaleFactor * 100 - 100):F1}% larger)";
+            if (fontScalingEnabled)
+            {
+                statusText += $" | Font Scale: {fontScaleFactor:F2}x ({(fontScaleFactor * 100 - 100):F1}% larger)";
+            }
+            else
+            {
+                statusText += " | Font Scaling: DISABLED";
+            }
+        }
+        else
+        {
+            statusText = "Touchscreen Support: DISABLED - Controls at normal size";
+        }
 
+        lblStatus.Text = statusText;
         lblStatus.StateCommon.ShortText.Color1 = isEnabled ? Color.Green : Color.Gray;
 
         // Update button text
@@ -250,4 +394,3 @@ public partial class TouchscreenSupportTest : KryptonForm
         base.OnFormClosed(e);
     }
 }
-

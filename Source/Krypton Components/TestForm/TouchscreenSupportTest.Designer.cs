@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             this.grpControls = new Krypton.Toolkit.KryptonGroupBox();
+            this.grpAdvancedControls = new Krypton.Toolkit.KryptonGroupBox();
+            this.workspace = new Krypton.Workspace.KryptonWorkspace();
+            this.navigator = new Krypton.Navigator.KryptonNavigator();
             this.grpInputControls = new Krypton.Toolkit.KryptonGroupBox();
             this.txtInput = new Krypton.Toolkit.KryptonTextBox();
             this.txtNumeric = new Krypton.Toolkit.KryptonNumericUpDown();
@@ -61,6 +64,10 @@
             this.lblScaleFactor = new Krypton.Toolkit.KryptonLabel();
             this.chkEnableTouchscreen = new Krypton.Toolkit.KryptonCheckBox();
             this.lblStatus = new Krypton.Toolkit.KryptonLabel();
+            this.chkEnableFontScaling = new Krypton.Toolkit.KryptonCheckBox();
+            this.lblFontScaleFactor = new Krypton.Toolkit.KryptonLabel();
+            this.trackFontScaleFactor = new Krypton.Toolkit.KryptonTrackBar();
+            this.lblFontScaleValue = new Krypton.Toolkit.KryptonLabel();
             ((System.ComponentModel.ISupportInitialize)(this.grpControls)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grpControls.Panel)).BeginInit();
             this.grpControls.Panel.SuspendLayout();
@@ -97,11 +104,13 @@
             this.grpControls.Location = new System.Drawing.Point(0, 0);
             this.grpControls.Name = "grpControls";
             this.grpControls.Size = new System.Drawing.Size(884, 561);
+            this.grpControls.Panel.AutoScroll = true;
             this.grpControls.TabIndex = 0;
             this.grpControls.Values.Heading = "Control Examples (These will scale when touchscreen support is enabled)";
             // 
             // grpControls.Panel
             // 
+            this.grpControls.Panel.Controls.Add(this.grpAdvancedControls);
             this.grpControls.Panel.Controls.Add(this.grpOtherControls);
             this.grpControls.Panel.Controls.Add(this.grpRadioButtons);
             this.grpControls.Panel.Controls.Add(this.grpCheckboxes);
@@ -267,6 +276,42 @@
             this.grpOtherControls.TabIndex = 4;
             this.grpOtherControls.Values.Heading = "Other Controls";
             // 
+            // grpAdvancedControls
+            // 
+            this.grpAdvancedControls.Location = new System.Drawing.Point(15, 430);
+            this.grpAdvancedControls.Name = "grpAdvancedControls";
+            this.grpAdvancedControls.Size = new System.Drawing.Size(845, 120);
+            this.grpAdvancedControls.TabIndex = 5;
+            this.grpAdvancedControls.Values.Heading = "Advanced Controls (Navigator & Workspace - These scale automatically)";
+            // 
+            // grpAdvancedControls.Panel
+            // 
+            this.grpAdvancedControls.Panel.Controls.Add(this.workspace);
+            this.grpAdvancedControls.Panel.Controls.Add(this.navigator);
+            // 
+            // navigator
+            // 
+            this.navigator.Bar.BarFirstItemInset = 0;
+            this.navigator.Bar.BarLastItemInset = 0;
+            this.navigator.Bar.BarMinimumHeight = 0;
+            this.navigator.Bar.TabStyle = Krypton.Toolkit.TabStyle.StandardProfile;
+            this.navigator.Button.ButtonDisplayLogic = Krypton.Navigator.ButtonDisplayLogic.None;
+            this.navigator.Button.ContextButtonAction = Krypton.Navigator.ContextButtonAction.None;
+            this.navigator.Dock = System.Windows.Forms.DockStyle.Left;
+            this.navigator.Location = new System.Drawing.Point(15, 20);
+            this.navigator.Name = "navigator";
+            this.navigator.NavigatorMode = Krypton.Navigator.NavigatorMode.BarTabGroup;
+            this.navigator.Size = new System.Drawing.Size(250, 80);
+            this.navigator.TabIndex = 0;
+            // 
+            // workspace
+            // 
+            this.workspace.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.workspace.Location = new System.Drawing.Point(265, 20);
+            this.workspace.Name = "workspace";
+            this.workspace.Size = new System.Drawing.Size(565, 80);
+            this.workspace.TabIndex = 1;
+            // 
             // grpOtherControls.Panel
             // 
             this.grpOtherControls.Panel.Controls.Add(this.lblInfo);
@@ -311,7 +356,7 @@
             this.grpSettings.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.grpSettings.Location = new System.Drawing.Point(0, 561);
             this.grpSettings.Name = "grpSettings";
-            this.grpSettings.Size = new System.Drawing.Size(884, 200);
+            this.grpSettings.Size = new System.Drawing.Size(884, 350);
             this.grpSettings.TabIndex = 1;
             this.grpSettings.Values.Heading = "Touchscreen Support Settings";
             // 
@@ -327,6 +372,10 @@
             this.grpSettings.Panel.Controls.Add(this.trackScaleFactor);
             this.grpSettings.Panel.Controls.Add(this.lblScaleFactor);
             this.grpSettings.Panel.Controls.Add(this.chkEnableTouchscreen);
+            this.grpSettings.Panel.Controls.Add(this.chkEnableFontScaling);
+            this.grpSettings.Panel.Controls.Add(this.lblFontScaleFactor);
+            this.grpSettings.Panel.Controls.Add(this.trackFontScaleFactor);
+            this.grpSettings.Panel.Controls.Add(this.lblFontScaleValue);
             // 
             // chkEnableTouchscreen
             // 
@@ -403,9 +452,44 @@
             this.btnToggle.TabIndex = 8;
             this.btnToggle.Values.Text = "Toggle Support";
             // 
+            // chkEnableFontScaling
+            // 
+            this.chkEnableFontScaling.Location = new System.Drawing.Point(15, 180);
+            this.chkEnableFontScaling.Name = "chkEnableFontScaling";
+            this.chkEnableFontScaling.Size = new System.Drawing.Size(200, 20);
+            this.chkEnableFontScaling.TabIndex = 9;
+            this.chkEnableFontScaling.Values.Text = "Enable Font Scaling";
+            // 
+            // lblFontScaleFactor
+            // 
+            this.lblFontScaleFactor.Location = new System.Drawing.Point(15, 210);
+            this.lblFontScaleFactor.Name = "lblFontScaleFactor";
+            this.lblFontScaleFactor.Size = new System.Drawing.Size(200, 20);
+            this.lblFontScaleFactor.TabIndex = 10;
+            this.lblFontScaleFactor.Values.Text = "Font Scale Factor (1.0x - 3.0x):";
+            // 
+            // trackFontScaleFactor
+            // 
+            this.trackFontScaleFactor.Location = new System.Drawing.Point(15, 235);
+            this.trackFontScaleFactor.Maximum = 200;
+            this.trackFontScaleFactor.Minimum = 0;
+            this.trackFontScaleFactor.Name = "trackFontScaleFactor";
+            this.trackFontScaleFactor.Size = new System.Drawing.Size(400, 45);
+            this.trackFontScaleFactor.TabIndex = 11;
+            this.trackFontScaleFactor.TickFrequency = 25;
+            this.trackFontScaleFactor.Value = 25;
+            // 
+            // lblFontScaleValue
+            // 
+            this.lblFontScaleValue.Location = new System.Drawing.Point(430, 235);
+            this.lblFontScaleValue.Name = "lblFontScaleValue";
+            this.lblFontScaleValue.Size = new System.Drawing.Size(200, 20);
+            this.lblFontScaleValue.TabIndex = 12;
+            this.lblFontScaleValue.Values.Text = "1.25x (25.0% larger)";
+            // 
             // lblStatus
             // 
-            this.lblStatus.Location = new System.Drawing.Point(650, 130);
+            this.lblStatus.Location = new System.Drawing.Point(15, 290);
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(220, 50);
             this.lblStatus.TabIndex = 9;
@@ -444,6 +528,10 @@
             this.grpOtherControls.Panel.ResumeLayout(false);
             this.grpOtherControls.Panel.PerformLayout();
             this.grpOtherControls.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.grpAdvancedControls)).EndInit();
+            this.grpAdvancedControls.Panel.ResumeLayout(false);
+            this.grpAdvancedControls.Panel.PerformLayout();
+            this.grpAdvancedControls.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.grpSettings)).EndInit();
             this.grpSettings.Panel.ResumeLayout(false);
             this.grpSettings.Panel.PerformLayout();
@@ -455,6 +543,9 @@
         #endregion
 
         private Krypton.Toolkit.KryptonGroupBox grpControls;
+        private Krypton.Toolkit.KryptonGroupBox grpAdvancedControls;
+        private Krypton.Navigator.KryptonNavigator navigator;
+        private Krypton.Workspace.KryptonWorkspace workspace;
         private Krypton.Toolkit.KryptonGroupBox grpInputControls;
         private Krypton.Toolkit.KryptonTextBox txtInput;
         private Krypton.Toolkit.KryptonNumericUpDown txtNumeric;
@@ -487,5 +578,9 @@
         private Krypton.Toolkit.KryptonButton btnApplyPreset75;
         private Krypton.Toolkit.KryptonButton btnToggle;
         private Krypton.Toolkit.KryptonLabel lblStatus;
+        private Krypton.Toolkit.KryptonCheckBox chkEnableFontScaling;
+        private Krypton.Toolkit.KryptonLabel lblFontScaleFactor;
+        private Krypton.Toolkit.KryptonTrackBar trackFontScaleFactor;
+        private Krypton.Toolkit.KryptonLabel lblFontScaleValue;
     }
 }

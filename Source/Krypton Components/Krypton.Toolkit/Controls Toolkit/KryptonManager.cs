@@ -10,6 +10,8 @@
  */
 #endregion
 
+using System.Runtime;
+
 namespace Krypton.Toolkit;
 
 /// <summary>
@@ -30,6 +32,8 @@ public sealed class KryptonManager : Component
     internal static bool _globalUseKryptonFileDialogs = true;
     private static bool _globalTouchscreenMode = false;
     private static float _globalTouchscreenScaleFactor = 1.25f;
+    private static bool _globalTouchscreenFontScaling = true;
+    private static float _globalTouchscreenFontScaleFactor = 1.25f;
     private static Font? _baseFont;
 
     // Initialize the default modes
@@ -227,8 +231,7 @@ public sealed class KryptonManager : Component
                                ShouldSerializeUseKryptonFileDialogs() ||
                                ShouldSerializeBaseFont() ||
                                ShouldSerializeGlobalPaletteMode() ||
-                               ShouldSerializeGlobalTouchscreenSupport() ||
-                               ShouldSerializeGlobalTouchscreenScaleFactor());
+                               ShouldSerializeTouchscreenSettings());
 
     /// <summary>
     /// Reset All values
@@ -244,8 +247,7 @@ public sealed class KryptonManager : Component
         ResetUseKryptonFileDialogs();
         ResetBaseFont();
         ResetGlobalPaletteMode();
-        ResetGlobalTouchscreenSupport();
-        ResetGlobalTouchscreenScaleFactor();
+        ResetTouchscreenSettings();
     }
 
     /// <summary>
@@ -434,42 +436,16 @@ public sealed class KryptonManager : Component
     private void ResetShowAdministratorSuffix() => UseAdministratorSuffix = true;
 
     /// <summary>
-    /// Gets or sets a value indicating if touchscreen support is enabled, making controls larger based on the scale factor.
+    /// Gets the touchscreen support settings.
     /// </summary>
     [Category(@"Visuals")]
-    [Description(@"Should touchscreen support be enabled, making controls larger for easier touch interaction.")]
-    [DefaultValue(false)]
-    public bool GlobalTouchscreenSupport
-    {
-        get => UseTouchscreenSupport;
-        set => UseTouchscreenSupport = value;
-    }
-    private bool ShouldSerializeGlobalTouchscreenSupport() => GlobalTouchscreenSupport;
-    private void ResetGlobalTouchscreenSupport() => GlobalTouchscreenSupport = false;
+    [Description(@"Settings for touchscreen support, including control and font scaling.")]
+    [MergableProperty(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public TouchscreenSettingValues TouchscreenSettings => TouchscreenSettingsValues;
+    private bool ShouldSerializeTouchscreenSettings() => !TouchscreenSettingsValues.IsDefault;
+    private void ResetTouchscreenSettings() => TouchscreenSettingsValues.Reset();
 
-    /// <summary>
-    /// Gets or sets the scale factor applied to controls when touchscreen support is enabled.
-    /// </summary>
-    /// <remarks>
-    /// A value of 1.25 means controls will be 25% larger. Must be greater than 0.
-    /// </remarks>
-    [Category(@"Visuals")]
-    [Description(@"The scale factor applied to controls when touchscreen support is enabled. Default is 1.25 (25% larger).")]
-    [DefaultValue(1.25f)]
-    public float GlobalTouchscreenScaleFactor
-    {
-        get => TouchscreenScaleFactorValue;
-        set
-        {
-            if (value <= 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(value), value, @"Scale factor must be greater than 0.");
-            }
-            TouchscreenScaleFactorValue = value; 
-        }
-    }
-    private bool ShouldSerializeGlobalTouchscreenScaleFactor() => Math.Abs(GlobalTouchscreenScaleFactor - 1.25f) > 0.001f;
-    private void ResetGlobalTouchscreenScaleFactor() => GlobalTouchscreenScaleFactor = 1.25f;
 
     #endregion
 
@@ -486,6 +462,10 @@ public sealed class KryptonManager : Component
     /// <summary>Gets the colors.</summary>
     /// <value>The colors.</value>
     public static KryptonColorStorage Colors { get; } = new KryptonColorStorage();
+
+    /// <summary>Gets the touchscreen support settings.</summary>
+    /// <value>The touchscreen support settings.</value>
+    public static TouchscreenSettingValues TouchscreenSettingsValues { get; } = new TouchscreenSettingValues();
 
     #region Static ShowAdministratorSuffix
     /// <summary>
@@ -625,6 +605,69 @@ public sealed class KryptonManager : Component
     /// Gets the touchscreen scale factor. Returns the configured scale factor when touchscreen support is enabled, otherwise 1.0.
     /// </summary>
     public static float TouchscreenScaleFactor => UseTouchscreenSupport ? _globalTouchscreenScaleFactor : 1.0f;
+
+    /// <summary>
+    /// Gets and sets the global flag that decides if font scaling is enabled when touchscreen support is enabled.
+    /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public static bool UseTouchscreenFontScaling
+    {
+        get => _globalTouchscreenFontScaling;
+
+        set
+        {
+            // Only interested if the value changes
+            if (_globalTouchscreenFontScaling != value)
+            {
+                // Use new value (volatile write ensures visibility across threads)
+                _globalTouchscreenFontScaling = value;
+
+                // Fire change event to notify controls to refresh (only if touchscreen support is enabled)
+                if (_globalTouchscreenMode)
+                {
+                    OnGlobalTouchscreenSupportChanged(EventArgs.Empty);
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets and sets the global font scale factor applied to fonts when font scaling is enabled.
+    /// </summary>
+    /// <remarks>
+    /// A value of 1.25 means fonts will be 25% larger. Must be greater than 0.
+    /// </remarks>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public static float TouchscreenFontScaleFactorValue
+    {
+        get => _globalTouchscreenFontScaleFactor;
+
+        set
+        {
+            if (value <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(value), value, @"Font scale factor must be greater than 0.");
+            }
+
+            // Only interested if the value changes
+            if (Math.Abs(_globalTouchscreenFontScaleFactor - value) > 0.001f)
+            {
+                // Use new value (volatile write ensures visibility across threads)
+                _globalTouchscreenFontScaleFactor = value;
+
+                // Fire change event to notify controls to refresh (only if touchscreen support and font scaling are enabled)
+                if (_globalTouchscreenMode && _globalTouchscreenFontScaling)
+                {
+                    OnGlobalTouchscreenSupportChanged(EventArgs.Empty);
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets the touchscreen font scale factor. Returns the configured font scale factor when touchscreen support and font scaling are enabled, otherwise 1.0.
+    /// </summary>
+    public static float TouchscreenFontScaleFactor => (UseTouchscreenSupport && UseTouchscreenFontScaling) ? _globalTouchscreenFontScaleFactor : 1.0f;
     #endregion
 
     #region Static Palette
