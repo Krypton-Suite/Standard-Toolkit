@@ -777,11 +777,13 @@ public abstract class VisualControlBase : Control,
         if (attach)
         {
             KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged;
+            KryptonManager.GlobalTouchscreenSupportChanged += OnGlobalTouchscreenSupportChanged;
             SystemEvents.UserPreferenceChanged += OnUserPreferenceChanged;
         }
         else
         {
             KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChanged;
+            KryptonManager.GlobalTouchscreenSupportChanged -= OnGlobalTouchscreenSupportChanged;
             SystemEvents.UserPreferenceChanged -= OnUserPreferenceChanged;
         }
     }
@@ -1078,6 +1080,21 @@ public abstract class VisualControlBase : Control,
 
             GlobalPaletteChanged?.Invoke(sender, e);
         }
+    }
+
+    /// <summary>
+    /// Occurs when the global touchscreen support setting has been changed.
+    /// </summary>
+    /// <param name="sender">Source of the event.</param>
+    /// <param name="e">An EventArgs that contains the event data.</param>
+    protected virtual void OnGlobalTouchscreenSupportChanged(object? sender, EventArgs e)
+    {
+        // Touchscreen support affects control sizing, so we need to relayout
+        // Need to recalculate anything relying on sizing
+        DirtyPaletteCounter++;
+
+        // A change in touchscreen support means we need to layout and redraw
+        OnNeedPaint(LocalCustomPalette, new NeedLayoutEventArgs(true));
     }
 
     /// <summary>

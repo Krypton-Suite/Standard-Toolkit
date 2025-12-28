@@ -181,6 +181,15 @@ public class ViewManager : GlobalId,
             retSize = Root.GetPreferredSize(context);
         }
 
+        // Apply touchscreen scaling if enabled
+        if (KryptonManager.UseTouchscreenSupport)
+        {
+            var scaleFactor = KryptonManager.TouchscreenScaleFactor;
+            retSize = new Size(
+                (int)Math.Round(retSize.Width * scaleFactor),
+                (int)Math.Round(retSize.Height * scaleFactor));
+        }
+
         if (OutputDebug)
         {
             Console.WriteLine(@"Id:{0} GetPreferredSize Type:{1} Ret:{2} Proposed:{3}",
