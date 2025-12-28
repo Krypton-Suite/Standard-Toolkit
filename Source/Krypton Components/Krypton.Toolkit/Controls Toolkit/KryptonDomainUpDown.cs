@@ -1996,9 +1996,9 @@ public class KryptonDomainUpDown : VisualControlBase,
 
     private void OnDomainUpDownPreviewKeyDown(object? sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-    private void OnDomainUpDownValidated(object? sender, EventArgs e) => OnValidated(e);
+    private void OnDomainUpDownValidated(object? sender, EventArgs e) => ForwardValidated(e);
 
-    private void OnDomainUpDownValidating(object? sender, CancelEventArgs e) => OnValidating(e);
+    private void OnDomainUpDownValidating(object? sender, CancelEventArgs e) => ForwardValidating(e);
 
     private void OnShowToolTip(object? sender, ToolTipEventArgs e)
     {

@@ -1850,9 +1850,9 @@ public class KryptonListBox : VisualControlBase,
 
     private void OnListBoxPreviewKeyDown(object? sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-    private void OnListBoxValidated(object? sender, EventArgs e) => OnValidated(e);
+    private void OnListBoxValidated(object? sender, EventArgs e) => ForwardValidated(e);
 
-    private void OnListBoxValidating(object? sender, CancelEventArgs e) => OnValidating(e);
+    private void OnListBoxValidating(object? sender, CancelEventArgs e) => ForwardValidating(e);
 
     private void OnListBoxMouseChange(object? sender, EventArgs e)
     {

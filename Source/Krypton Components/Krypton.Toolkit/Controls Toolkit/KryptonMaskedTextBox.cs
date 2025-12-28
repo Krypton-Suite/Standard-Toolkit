@@ -1843,9 +1843,9 @@ public class KryptonMaskedTextBox : VisualControlBase,
 
     private void OnMaskedTextBoxPreviewKeyDown(object? sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-    private void OnMaskedTextBoxValidated(object? sender, EventArgs e) => OnValidated(e);
+    private void OnMaskedTextBoxValidated(object? sender, EventArgs e) => ForwardValidated(e);
 
-    private void OnMaskedTextBoxValidating(object? sender, CancelEventArgs e) => OnValidating(e);
+    private void OnMaskedTextBoxValidating(object? sender, CancelEventArgs e) => ForwardValidating(e);
 
     private void OnShowToolTip(object? sender, ToolTipEventArgs e)
     {
