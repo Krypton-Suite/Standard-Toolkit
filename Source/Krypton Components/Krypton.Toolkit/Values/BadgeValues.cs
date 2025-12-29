@@ -50,8 +50,10 @@ public class BadgeValues : Storage
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public override bool IsDefault => (ShouldSerializeBadgeBorderValues() || ShouldSerializeBadgeColorValues() ||
-                                       ShouldSerializeBadgeContentValues() || ShouldSerializeBadgeOverflowValues());
+    public override bool IsDefault => BadgeBorderValues.IsDefault &&
+                                       BadgeColorValues.IsDefault &&
+                                       BadgeContentValues.IsDefault &&
+                                       BadgeOverflowValues.IsDefault;
 
 
     #endregion

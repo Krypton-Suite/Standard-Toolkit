@@ -368,7 +368,7 @@ public class BadgeContentValues : Storage
     public override bool IsDefault => Text.Equals(DEFAULT_TEXT) &&
                                       Position.Equals(BadgePosition.TopRight) &&
                                       Visible.Equals(false) &&
-                                      Font.Equals(null) &&
+                                      Font == null &&
                                       Shape.Equals(BadgeShape.Circle) &&
                                       Animation.Equals(BadgeAnimation.None) &&
                                       BadgeDiameter.Equals(DEFAULT_BADGE_DIAMETER) &&

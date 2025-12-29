@@ -46,7 +46,7 @@ public class BadgeOverflowValues : Storage
     [Category(@"Visuals")]
     [Description(@"The text to display when the badge numeric value exceeds OverflowNumber (e.g., '99+').")]
     [RefreshProperties(RefreshProperties.All)]
-    [DefaultValue("99+")]
+    [DefaultValue("+")]
     public string OverflowText
     {
         get => _overflowText ?? GlobalStaticValues.DEFAULT_EMPTY_STRING;

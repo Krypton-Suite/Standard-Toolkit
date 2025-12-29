@@ -29,8 +29,6 @@ public class BadgeColorValues : Storage
     private Color _textColor;
     private Color _badgeBorderColor;
 
-    private readonly NeedPaintHandler? _needPaint;
-
     #endregion
 
     #region Identity
@@ -41,7 +39,7 @@ public class BadgeColorValues : Storage
     /// <param name="needPaint">A delegate that is invoked when a property value changes and a repaint is required. Can be null if no notification is needed.</param>
     public BadgeColorValues(NeedPaintHandler? needPaint)
     {
-        _needPaint = needPaint;
+        NeedPaint = needPaint;
 
         Reset();
     }

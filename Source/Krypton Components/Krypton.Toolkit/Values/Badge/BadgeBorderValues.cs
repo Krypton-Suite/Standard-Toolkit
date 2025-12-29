@@ -28,15 +28,13 @@ public class BadgeBorderValues : Storage
     private int _badgeBorderSize;
     private BadgeBevelType _badgeBorderBevel;
 
-    private readonly NeedPaintHandler? _needPaint;
-
     #endregion
 
     #region Identity
 
     public BadgeBorderValues(NeedPaintHandler? needPaint)
     {
-        _needPaint = needPaint;
+        NeedPaint = needPaint;
         
         Reset();
     }
