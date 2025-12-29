@@ -290,16 +290,16 @@ public static class FontAwesomeHelper
                         totalBytesRead += bytesRead;
                     }
 
-                    fontPtr = Marshal.AllocCoTaskMem(totalBytesRead);
-                    Marshal.Copy(fontData, 0, fontPtr, totalBytesRead);
+                    fontPtr = Marshal.AllocCoTaskMem(fontData.Length);
+                    Marshal.Copy(fontData, 0, fontPtr, fontData.Length);
 
                     privateFontCollection = new PrivateFontCollection();
-                    privateFontCollection.AddMemoryFont(fontPtr, totalBytesRead);
+                    privateFontCollection.AddMemoryFont(fontPtr, fontData.Length);
 
                     if (privateFontCollection.Families.Length > 0)
                     {
                         fontFamily = privateFontCollection.Families[0];
-                        var cacheEntry = new FontCacheEntry(fontFamily, privateFontCollection, fontPtr, totalBytesRead);
+                        var cacheEntry = new FontCacheEntry(fontFamily, privateFontCollection, fontPtr, fontData.Length);
                         if (_fontCache.TryAdd(fontKey, cacheEntry))
                         {
                             privateFontCollection = null; // Ownership transferred to cache entry
