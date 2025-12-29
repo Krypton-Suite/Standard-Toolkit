@@ -320,12 +320,13 @@ public static class FontAwesomeIconMetadataLoader
             LoadMetadata();
         }
 
-        if (_iconMetadata == null)
+        var metadataDict = _iconMetadata;
+        if (metadataDict == null)
         {
             return 0;
         }
 
-        if (_iconMetadata.TryGetValue(iconName, out var styleDict) &&
+        if (metadataDict.TryGetValue(iconName, out var styleDict) &&
             styleDict.TryGetValue(style, out var metadata))
         {
             return metadata.UnicodeInt;
@@ -345,7 +346,8 @@ public static class FontAwesomeIconMetadataLoader
             LoadMetadata();
         }
 
-        return _iconMetadata?.Keys.ToList() ?? new List<string>();
+        var metadata = _iconMetadata;
+        return metadata?.Keys.ToList() ?? new List<string>();
     }
 
     /// <summary>
@@ -360,12 +362,13 @@ public static class FontAwesomeIconMetadataLoader
             LoadMetadata();
         }
 
-        if (_iconMetadata == null)
+        var metadata = _iconMetadata;
+        if (metadata == null)
         {
             return new List<FontAwesomeStyle>();
         }
 
-        if (_iconMetadata.TryGetValue(iconName, out var styleDict))
+        if (metadata.TryGetValue(iconName, out var styleDict))
         {
             return styleDict.Keys.ToList();
         }
