@@ -71,6 +71,7 @@ public partial class StartScreen : KryptonForm
         CreateButton("Ribbon / Navigator / Workspace", string.Empty, typeof(RibbonNavigatorWorkspaceTest));
         CreateButton("Splash Screen", string.Empty, typeof(SplashScreenExample));
         CreateButton("Theme Controls", string.Empty, typeof(ThemeControlExamples));
+        CreateButton("TextBox Validating Test", "Tests fix for Validating event duplication bug #2801", typeof(KryptonTextBoxValidatingTest));
         CreateButton("Toast", "For breakfast....?", typeof(ToastNotificationTestChoice));
         CreateButton("WorkspaceTest", string.Empty, typeof(WorkspaceTest));
         CreateButton("Blur Example", string.Empty, typeof(BlurExampleForm));
