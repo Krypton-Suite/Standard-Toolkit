@@ -208,6 +208,11 @@ public static class FontAwesomeIconMetadataLoader
 #else
                 var serializer = new JavaScriptSerializer();
                 var iconsDict = serializer.Deserialize<Dictionary<string, object>>(jsonContent);
+                if (iconsDict == null)
+                {
+                    return false;
+                }
+
                 _iconMetadata = new Dictionary<string, Dictionary<FontAwesomeStyle, FontAwesomeIconMetadata>>(System.StringComparer.OrdinalIgnoreCase);
 
                 foreach (var iconEntry in iconsDict)
