@@ -28,6 +28,8 @@ public class ViewDrawBadge : ViewLeaf
     private float _animationOpacity = 1.0f;
     private float _animationScale = 1.0f;
     private bool _animationDirection = true; // true = increasing, false = decreasing
+    private BadgeAnimation _lastAnimation = BadgeAnimation.None;
+    private bool _lastVisible;
     private const int DEFAULT_BADGE_SIZE = 18;
     private const int BADGE_MIN_SIZE = 16;
     private const int BADGE_OFFSET = 3;
@@ -54,9 +56,13 @@ public class ViewDrawBadge : ViewLeaf
         _animationOpacity = 1.0f;
         _animationScale = 1.0f;
         _animationDirection = true;
+        _lastAnimation = BadgeAnimation.None;
+        _lastVisible = false;
 
         // Setup animation timer if needed
         UpdateAnimationTimer();
+        _lastAnimation = _badgeValues.BadgeContentValues.Animation;
+        _lastVisible = _badgeValues.BadgeContentValues.Visible;
     }
 
     /// <summary>
@@ -111,8 +117,15 @@ public class ViewDrawBadge : ViewLeaf
     {
         Debug.Assert(context != null);
 
-        // Update animation timer if needed
-        UpdateAnimationTimer();
+        // Only update animation timer if animation state has changed
+        BadgeAnimation currentAnimation = _badgeValues.BadgeContentValues.Animation;
+        bool currentVisible = _badgeValues.BadgeContentValues.Visible;
+        if (currentAnimation != _lastAnimation || currentVisible != _lastVisible || _animationTimer == null)
+        {
+            UpdateAnimationTimer();
+            _lastAnimation = currentAnimation;
+            _lastVisible = currentVisible;
+        }
 
         // Only layout if badge is visible and has content (text or image)
         // Note: If AutoShowHideBadge is enabled, visibility is automatically managed in the Text/Image property setters
@@ -671,6 +684,8 @@ public class ViewDrawBadge : ViewLeaf
         if (_badgeValues.BadgeContentValues.Animation == BadgeAnimation.None || !_badgeValues.BadgeContentValues.Visible)
         {
             UpdateAnimationTimer();
+            _lastAnimation = _badgeValues.BadgeContentValues.Animation;
+            _lastVisible = _badgeValues.BadgeContentValues.Visible;
             return;
         }
 
