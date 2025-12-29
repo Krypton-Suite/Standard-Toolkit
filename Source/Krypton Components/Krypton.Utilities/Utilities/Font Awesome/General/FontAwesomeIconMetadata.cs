@@ -143,7 +143,7 @@ public static class FontAwesomeIconMetadataLoader
             {
                 // Parse JSON - Font Awesome icons.json is a dictionary where keys are icon names
 #if NET8_0_OR_GREATER
-                var jsonDoc = JsonDocument.Parse(jsonContent);
+                using var jsonDoc = JsonDocument.Parse(jsonContent);
                 _iconMetadata = new Dictionary<string, Dictionary<FontAwesomeStyle, FontAwesomeIconMetadata>>(System.StringComparer.OrdinalIgnoreCase);
 
                 foreach (var iconProperty in jsonDoc.RootElement.EnumerateObject())

@@ -339,25 +339,42 @@ public static class FontAwesomeHelper
         // Try to load from file path if specified
         if (!string.IsNullOrEmpty(FontFilePath) && File.Exists(FontFilePath))
         {
+            PrivateFontCollection? privateFontCollection = null;
             try
             {
-                var privateFontCollection = new PrivateFontCollection();
+                privateFontCollection = new PrivateFontCollection();
                 privateFontCollection.AddFontFile(FontFilePath);
                 if (privateFontCollection.Families.Length > 0)
                 {
                     fontFamily = privateFontCollection.Families[0];
                     var cacheEntry = new FontCacheEntry(fontFamily, privateFontCollection, IntPtr.Zero, 0);
-                    _fontCache.TryAdd(fontKey, cacheEntry);
-                    return fontFamily;
-                }
-                else
-                {
-                    privateFontCollection.Dispose();
+                    if (_fontCache.TryAdd(fontKey, cacheEntry))
+                    {
+                        privateFontCollection = null; // Ownership transferred to cache entry
+                        return fontFamily;
+                    }
+                    else
+                    {
+                        // Another thread already added the font, use the cached one and clean up our resources
+                        if (_fontCache.TryGetValue(fontKey, out var existingEntry))
+                        {
+                            cacheEntry.Dispose();
+                            return existingEntry.FontFamily;
+                        }
+                        cacheEntry.Dispose();
+                    }
                 }
             }
             catch
             {
                 // Fall through to system font lookup
+            }
+            finally
+            {
+                if (privateFontCollection != null)
+                {
+                    privateFontCollection.Dispose();
+                }
             }
         }
 
