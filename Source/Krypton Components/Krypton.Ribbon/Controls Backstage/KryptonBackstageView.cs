@@ -69,12 +69,12 @@ public class KryptonBackstageView : KryptonPanel
         _pages = new KryptonBackstagePageCollection();
         _pages.Inserted += OnPagesInserted;
         _pages.Removed += OnPagesRemoved;
-        _pages.Cleared += OnPagesCleared;
+        _pages.Clearing += OnPagesCleared;
 
         _commands = new KryptonBackstageCommandCollection();
         _commands.Inserted += OnCommandsInserted;
         _commands.Removed += OnCommandsRemoved;
-        _commands.Cleared += OnCommandsCleared;
+        _commands.Clearing += OnCommandsCleared;
 
         // Initialize colors object
         _colorValues = new BackStageViewColorValues(OnColorsNeedPaint);
@@ -186,7 +186,7 @@ public class KryptonBackstageView : KryptonPanel
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public BackStageViewColorValues BackStageViewColors => _colorValues;
 
-    private bool ShouldSerializeColors() => !_colorValues.IsDefault;
+    private bool ShouldSerializeBackStageViewColors() => !_colorValues.IsDefault;
 
     /// <summary>
     /// Gets and sets the overlay coverage mode.

@@ -349,7 +349,7 @@ internal class BackstageNavigationList : Control
             // Use slightly larger font for large items
             var fontSize = itemSize == BackstageItemSize.Large ? Font.Size * 1.1f : Font.Size;
             using var font = new Font(Font.FontFamily, fontSize, FontStyle.Regular);
-            var format = new StringFormat
+            using var format = new StringFormat
             {
                 Alignment = StringAlignment.Near,
                 LineAlignment = StringAlignment.Center,
