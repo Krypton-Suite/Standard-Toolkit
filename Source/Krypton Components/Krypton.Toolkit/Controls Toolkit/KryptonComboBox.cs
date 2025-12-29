@@ -3160,9 +3160,11 @@ public class KryptonComboBox : VisualControlBase,
 
     private void OnComboBoxPreviewKeyDown(object? sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-    private void OnComboBoxValidated(object? sender, EventArgs e) => OnValidated(e);
+    // TODO: Workaround for issue where ContainerControl style causes duplicate validation events. See issue https://github.com/Krypton-Suite/Standard-Toolkit/issues/2801 for details.
+    private void OnComboBoxValidated(object? sender, EventArgs e) => ForwardValidated(e);
 
-    private void OnComboBoxValidating(object? sender, CancelEventArgs e) => OnValidating(e);
+    // TODO: Workaround for issue where ContainerControl style causes duplicate validation events. See issue https://github.com/Krypton-Suite/Standard-Toolkit/issues/2801 for details.
+    private void OnComboBoxValidating(object? sender, CancelEventArgs e) => ForwardValidating(e);
 
     private void OnComboBoxFormat(object? sender, ListControlConvertEventArgs e) => OnFormat(e);
 
