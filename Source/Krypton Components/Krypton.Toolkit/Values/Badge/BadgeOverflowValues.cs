@@ -73,7 +73,7 @@ public class BadgeOverflowValues : Storage
 
     #region Reset
 
-    public void Reset() => OverflowText = DEFAULT_OVERFLOW_TEXT;
+    public void Reset() => _overflowText = DEFAULT_OVERFLOW_TEXT;
 
     #endregion
 }
