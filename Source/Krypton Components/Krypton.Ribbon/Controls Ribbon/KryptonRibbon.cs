@@ -1880,7 +1880,7 @@ public class KryptonRibbon : VisualSimple,
             overlayMode = RibbonFileAppTab.BackstageView.OverlayMode;
         }
 
-        _backstageOverlay = new VisualBackstageOverlayForm(topForm);
+        _backstageOverlay = new VisualBackstageOverlayForm(topForm, overlayMode, this);
         _backstageOverlay.SetContent(RibbonFileAppTab.BackstageContent);
         _backstageOverlay.BackRequested += OnBackstageBackRequested;
         _backstageOverlay.Disposed += OnBackstageOverlayDisposed;

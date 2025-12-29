@@ -157,6 +157,41 @@ public class KryptonBackstageViewDesigner : ParentControlDesigner
     }
     #endregion
 
+    #region Protected
+    /// <summary>
+    /// Releases all resources used by the component. 
+    /// </summary>
+    /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
+    protected override void Dispose(bool disposing)
+    {
+        try
+        {
+            if (disposing)
+            {
+                if (BackstageView != null)
+                {
+                    // Unhook from events
+                    BackstageView.Pages.Inserted -= OnPageInserted;
+                    BackstageView.Pages.Removed -= OnPageRemoved;
+                    BackstageView.Pages.Cleared -= OnPagesCleared;
+                    BackstageView.SelectedPageChanged -= OnSelectedPageChanged;
+                }
+
+                if (_changeService != null)
+                {
+                    // Unhook from events
+                    _changeService.ComponentRemoving -= OnComponentRemoving;
+                }
+            }
+        }
+        finally
+        {
+            // Must let base class do standard stuff
+            base.Dispose(disposing);
+        }
+    }
+    #endregion
+
     #region Implementation
     private void OnAddPage(object? sender, EventArgs e)
     {
@@ -281,12 +316,6 @@ public class KryptonBackstageViewDesigner : ParentControlDesigner
             {
                 BackstageView.Pages.Remove(page);
             }
-        }
-
-        // If removing the view itself, unhook
-        if (ReferenceEquals(e.Component, BackstageView))
-        {
-            _changeService.ComponentRemoving -= OnComponentRemoving;
         }
     }
     #endregion
