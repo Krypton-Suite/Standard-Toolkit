@@ -48,12 +48,12 @@ if "%WEBVIEW2_VERSION%"=="" (
 
 REM Try to download and setup WebView2 SDK automatically
 echo Attempting to install WebView2 SDK via NuGet...
-dotnet add "Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj" package Microsoft.Web.WebView2 --version %WEBVIEW2_VERSION%
+dotnet add "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj" package Microsoft.Web.WebView2 --version %WEBVIEW2_VERSION%
 
 if %ERRORLEVEL% EQU 0 (
     echo.
     echo Restoring NuGet packages to ensure WebView2 SDK is downloaded...
-    dotnet restore "Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj"
+    dotnet restore "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj"
     
     if %ERRORLEVEL% NEQ 0 (
         echo ERROR: Failed to restore NuGet packages
@@ -71,7 +71,8 @@ REM Use PowerShell to find and copy the assemblies
 powershell -Command "& { $nugetPath = \"$env:USERPROFILE\.nuget\packages\microsoft.web.webview2\%WEBVIEW2_VERSION%\"; Write-Host \"NuGet path: $nugetPath\"; if (Test-Path $nugetPath) { Write-Host \"Package directory found\"; $coreDll = Get-ChildItem -Path $nugetPath -Recurse -Name 'Microsoft.Web.WebView2.Core.dll' | Select-Object -First 1; if ($coreDll) { $corePath = Join-Path $nugetPath $coreDll; Copy-Item $corePath 'WebView2SDK\'; Write-Host \"Copied Microsoft.Web.WebView2.Core.dll\" } else { Write-Error \"Core DLL not found\" }; $winFormsDll = Get-ChildItem -Path $nugetPath -Recurse -Name 'Microsoft.Web.WebView2.WinForms.dll' | Select-Object -First 1; if ($winFormsDll) { $winFormsPath = Join-Path $nugetPath $winFormsDll; Copy-Item $winFormsPath 'WebView2SDK\'; Write-Host \"Copied Microsoft.Web.WebView2.WinForms.dll\" } else { Write-Error \"WinForms DLL not found\" }; $loaderDll = Get-ChildItem -Path $nugetPath -Recurse -Name 'WebView2Loader.dll' | Select-Object -First 1; if ($loaderDll) { $loaderPath = Join-Path $nugetPath $loaderDll; Copy-Item $loaderPath 'WebView2SDK\'; Write-Host \"Copied WebView2Loader.dll\" } else { Write-Error \"Loader DLL not found\" } } else { Write-Error \"Package directory not found: $nugetPath\" } }"
     
     REM Remove the NuGet package reference since we're using local assemblies
-    dotnet remove "Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj" package Microsoft.Web.WebView2
+    REM Note: This only removes it if it was added temporarily. .NET Framework targets use floating versions (1.0.*) via NuGet.
+    dotnet remove "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj" package Microsoft.Web.WebView2
     
     REM Update project file with the latest version
     echo Updating project file with latest version...

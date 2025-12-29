@@ -9,7 +9,7 @@
 
 namespace Krypton.Utilities;
 
-#if WEBVIEW2_AVAILABLE && NET8_0_OR_GREATER
+#if WEBVIEW2_AVAILABLE
 
 #region Using Directives
 using Microsoft.Web.WebView2.WinForms;
