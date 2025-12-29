@@ -441,7 +441,7 @@ public class KryptonBindingNavigator : UserControl
         x += ButtonWidth + Spacing * 2; // Extra spacing before position
 
         // Position textbox
-        _positionTextBox.Location = new Point(x, y);
+        _positionTextBox.Location = new Point(x, y + (ButtonHeight - _positionTextBox.Height) / 2);
         x += _positionTextBox.Width + Spacing;
 
         // Count label
