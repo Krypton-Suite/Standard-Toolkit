@@ -546,7 +546,7 @@ public static class FontAwesomeHelper
                 "arrowdown" => 0xF063,
                 "arrowleft" => 0xF060,
                 "arrowright" => 0xF061,
-                "info" or "info-circle" => 0xF05A,
+                "info" or "infocircle" => 0xF05A,
                 "warning" or "exclamationtriangle" => 0xF071,
                 "error" or "timescircle" or "xmarkcircle" => 0xF057,
                 "question" or "questioncircle" => 0xF059,
