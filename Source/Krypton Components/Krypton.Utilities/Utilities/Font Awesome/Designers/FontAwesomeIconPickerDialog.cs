@@ -181,13 +181,13 @@ public class FontAwesomeIconPickerDialog : KryptonForm
                 // In a full implementation, you could filter by available styles from metadata
                 if (matchesSearch)
                 {
+                    var unicode = FontAwesomeHelper.GetUnicodeForIcon(icon.ToString().ToLowerInvariant(), FontAwesomeStyle.Solid);
                     var item = new ListViewItem(icon.ToString())
                     {
                         Tag = icon,
                         SubItems =
                         {
-                            icon.ToString(),
-                            $"0x{FontAwesomeHelper.GetUnicodeForIcon(icon.ToString().ToLowerInvariant(), FontAwesomeStyle.Solid):X4}"
+                            $"0x{unicode:X4}"
                         }
                     };
 

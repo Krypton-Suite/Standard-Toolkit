@@ -63,7 +63,7 @@ public class FontAwesomeIconEditor : UITypeEditor
             }
         }
 
-        if (dialog.ShowDialog() == DialogResult.OK)
+        if (editorService.ShowDialog(dialog) == DialogResult.OK)
         {
             // Notify that the value has changed
             context.OnComponentChanged();

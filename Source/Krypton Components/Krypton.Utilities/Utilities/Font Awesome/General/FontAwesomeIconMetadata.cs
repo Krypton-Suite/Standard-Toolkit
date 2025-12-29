@@ -36,7 +36,7 @@ public class FontAwesomeIconMetadata
     /// <summary>
     /// Gets or sets the styles in which this icon is available.
     /// </summary>
-    public List<string?> Styles { get; set; }
+    public List<string?> Styles { get; set; } = new();
 
     /// <summary>
     /// Gets the Unicode value as an integer.

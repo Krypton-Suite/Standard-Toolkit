@@ -432,12 +432,13 @@ public static class FontAwesomeHelper
 
     private static Bitmap? RenderIconInternal(FontFamily fontFamily, int unicode, int size, Color color)
     {
+        Bitmap? bitmap = null;
         try
         {
             // Create a bitmap with padding for better rendering
             var padding = Math.Max(2, size / 8);
             var bitmapSize = size + (padding * 2);
-            var bitmap = new Bitmap(bitmapSize, bitmapSize, PixelFormat.Format32bppArgb);
+            bitmap = new Bitmap(bitmapSize, bitmapSize, PixelFormat.Format32bppArgb);
 
             using (var graphics = Graphics.FromImage(bitmap))
             {
@@ -466,6 +467,7 @@ public static class FontAwesomeHelper
         }
         catch
         {
+            bitmap?.Dispose();
             return null;
         }
     }
