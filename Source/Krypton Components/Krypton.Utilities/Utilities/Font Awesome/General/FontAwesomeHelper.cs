@@ -117,10 +117,13 @@ public static class FontAwesomeHelper
         // Create cache key
         var cacheKey = $"{iconName}_{size}_{iconColor.ToArgb()}_{iconStyle}";
 
-        // Check cache
-        if (_imageCache.TryGetValue(cacheKey, out var cachedBitmap))
+        // Check cache (synchronized to prevent race condition with ClearCache)
+        lock (_lockObject)
         {
-            return CloneBitmap(cachedBitmap);
+            if (_imageCache.TryGetValue(cacheKey, out var cachedBitmap))
+            {
+                return CloneBitmap(cachedBitmap);
+            }
         }
 
         // Get Unicode character for icon
@@ -141,8 +144,15 @@ public static class FontAwesomeHelper
         var bitmap = RenderIconInternal(fontFamily, unicode, size, iconColor);
         if (bitmap != null)
         {
-            // Cache the bitmap
-            _imageCache.TryAdd(cacheKey, CloneBitmap(bitmap));
+            // Cache the bitmap (synchronized to prevent race condition with ClearCache)
+            lock (_lockObject)
+            {
+                // Double-check pattern: another thread might have added it while we were rendering
+                if (!_imageCache.TryGetValue(cacheKey, out _))
+                {
+                    _imageCache.TryAdd(cacheKey, CloneBitmap(bitmap));
+                }
+            }
         }
 
         return bitmap;
@@ -247,18 +257,28 @@ public static class FontAwesomeHelper
                         totalBytesRead += bytesRead;
                     }
 
-                    var fontPtr = Marshal.AllocCoTaskMem(fontData.Length);
-                    Marshal.Copy(fontData, 0, fontPtr, fontData.Length);
-
-                    var privateFontCollection = new PrivateFontCollection();
-                    privateFontCollection.AddMemoryFont(fontPtr, fontData.Length);
-
-                    if (privateFontCollection.Families.Length > 0)
+                    var fontPtr = IntPtr.Zero;
+                    try
                     {
-                        fontFamily = privateFontCollection.Families[0];
-                        _fontCache.TryAdd(fontKey, fontFamily);
-                        // Note: fontPtr is not freed here as PrivateFontCollection manages it
-                        return fontFamily;
+                        fontPtr = Marshal.AllocCoTaskMem(fontData.Length);
+                        Marshal.Copy(fontData, 0, fontPtr, fontData.Length);
+
+                        var privateFontCollection = new PrivateFontCollection();
+                        privateFontCollection.AddMemoryFont(fontPtr, fontData.Length);
+
+                        if (privateFontCollection.Families.Length > 0)
+                        {
+                            fontFamily = privateFontCollection.Families[0];
+                            _fontCache.TryAdd(fontKey, fontFamily);
+                            return fontFamily;
+                        }
+                    }
+                    finally
+                    {
+                        if (fontPtr != IntPtr.Zero)
+                        {
+                            Marshal.FreeCoTaskMem(fontPtr);
+                        }
                     }
                 }
             }

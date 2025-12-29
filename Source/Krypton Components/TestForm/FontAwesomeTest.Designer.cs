@@ -274,22 +274,13 @@
             this.grpUtilities.Panel.Controls.Add(this.btnDirectRender);
             this.grpUtilities.Panel.Controls.Add(this.btnSetFontPath);
             this.grpUtilities.Panel.Controls.Add(this.btnClearCache);
-            // 
-            // btnIconPickerDemo
-            // 
-            this.btnIconPickerDemo = new Krypton.Toolkit.KryptonButton();
-            this.btnIconPickerDemo.Location = new System.Drawing.Point(10, 10);
-            this.btnIconPickerDemo.Name = "btnIconPickerDemo";
-            this.btnIconPickerDemo.Size = new System.Drawing.Size(380, 40);
-            this.btnIconPickerDemo.TabIndex = 1;
-            this.btnIconPickerDemo.Values.Text = "Icon Picker Demo (Click Icon Picker button to select)";
             this.grpUtilities.Size = new System.Drawing.Size(300, 250);
             this.grpUtilities.TabIndex = 4;
             this.grpUtilities.Values.Heading = "Utilities";
             // 
             // btnDirectRender
             // 
-            this.btnDirectRender.Location = new System.Drawing.Point(10, 180);
+            this.btnDirectRender.Location = new System.Drawing.Point(10, 220);
             this.btnDirectRender.Name = "btnDirectRender";
             this.btnDirectRender.Size = new System.Drawing.Size(270, 35);
             this.btnDirectRender.TabIndex = 2;
@@ -298,13 +289,11 @@
             // 
             // btnIconPickerDemo
             // 
-            this.btnIconPickerDemo = new Krypton.Toolkit.KryptonButton();
             this.btnIconPickerDemo.Location = new System.Drawing.Point(10, 10);
             this.btnIconPickerDemo.Name = "btnIconPickerDemo";
             this.btnIconPickerDemo.Size = new System.Drawing.Size(380, 40);
             this.btnIconPickerDemo.TabIndex = 1;
             this.btnIconPickerDemo.Values.Text = "Icon Picker Demo (Click Icon Picker button to select)";
-            this.grpNavigatorExamples.Panel.Controls.Add(this.btnIconPickerDemo);
             // 
             // btnSetFontPath
             // 
@@ -326,7 +315,7 @@
             // 
             // btnLoadIconsJson
             // 
-            this.btnLoadIconsJson.Location = new System.Drawing.Point(10, 60);
+            this.btnLoadIconsJson.Location = new System.Drawing.Point(10, 100);
             this.btnLoadIconsJson.Name = "btnLoadIconsJson";
             this.btnLoadIconsJson.Size = new System.Drawing.Size(270, 35);
             this.btnLoadIconsJson.TabIndex = 3;
@@ -334,7 +323,7 @@
             // 
             // btnShowIconMetadata
             // 
-            this.btnShowIconMetadata.Location = new System.Drawing.Point(10, 100);
+            this.btnShowIconMetadata.Location = new System.Drawing.Point(10, 140);
             this.btnShowIconMetadata.Name = "btnShowIconMetadata";
             this.btnShowIconMetadata.Size = new System.Drawing.Size(270, 35);
             this.btnShowIconMetadata.TabIndex = 4;
@@ -343,7 +332,7 @@
             // 
             // btnIconPicker
             // 
-            this.btnIconPicker.Location = new System.Drawing.Point(10, 140);
+            this.btnIconPicker.Location = new System.Drawing.Point(10, 180);
             this.btnIconPicker.Name = "btnIconPicker";
             this.btnIconPicker.Size = new System.Drawing.Size(270, 35);
             this.btnIconPicker.TabIndex = 5;
