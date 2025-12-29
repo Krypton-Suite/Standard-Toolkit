@@ -309,6 +309,7 @@ namespace TestForm
             this.kdgvMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.kdgvMain.AutoGenerateColumns = false;
             this.kdgvMain.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.kdgvMain.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colId,
@@ -323,27 +324,32 @@ namespace TestForm
             // 
             // colId
             // 
+            this.colId.DataPropertyName = "Id";
             this.colId.HeaderText = "ID";
             this.colId.Name = "colId";
             this.colId.ReadOnly = true;
             // 
             // colFirstName
             // 
+            this.colFirstName.DataPropertyName = "FirstName";
             this.colFirstName.HeaderText = "First Name";
             this.colFirstName.Name = "colFirstName";
             // 
             // colLastName
             // 
+            this.colLastName.DataPropertyName = "LastName";
             this.colLastName.HeaderText = "Last Name";
             this.colLastName.Name = "colLastName";
             // 
             // colEmail
             // 
+            this.colEmail.DataPropertyName = "Email";
             this.colEmail.HeaderText = "Email";
             this.colEmail.Name = "colEmail";
             // 
             // colAge
             // 
+            this.colAge.DataPropertyName = "Age";
             this.colAge.HeaderText = "Age";
             this.colAge.Name = "colAge";
             // 
