@@ -88,8 +88,6 @@
             this.kceEditor.Location = new System.Drawing.Point(0, 98);
             this.kceEditor.Name = "kceEditor";
             this.kceEditor.Size = new System.Drawing.Size(857, 489);
-            this.kceEditor.StateCommon.Color1 = System.Drawing.Color.Red;
-            this.kceEditor.StateCommon.Color2 = System.Drawing.Color.Red;
             this.kceEditor.TabIndex = 1;
             // 
             // kpnlTop

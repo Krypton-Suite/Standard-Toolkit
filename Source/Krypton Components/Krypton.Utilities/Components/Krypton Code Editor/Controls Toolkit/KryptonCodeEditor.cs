@@ -22,7 +22,7 @@ namespace Krypton.Utilities;
 [Designer(typeof(KryptonCodeEditorDesigner))]
 [DesignerCategory(@"code")]
 [Description(@"Provides a native code editor with syntax highlighting, line numbering, code folding, and Krypton theming.")]
-public class KryptonCodeEditor : VisualControlBase,
+public class KryptonCodeEditor : VisualPanel,
     IContainedInputControl
 {
     #region Instance Fields
@@ -52,10 +52,6 @@ public class KryptonCodeEditor : VisualControlBase,
 
     #region Instance Fields - State Properties
 
-    private readonly PaletteDoubleRedirect _stateCommon;
-    private readonly PaletteDouble _stateDisabled;
-    private readonly PaletteDouble _stateNormal;
-
     // Line number margin state properties (using Triple for Back + Content)
     private readonly PaletteTripleRedirect _lineNumberMarginStateCommon;
     private readonly PaletteTriple _lineNumberMarginStateDisabled;
@@ -79,18 +75,13 @@ public class KryptonCodeEditor : VisualControlBase,
         _editorFont = new Font("Consolas", 10F);
         _foldBlocks = new List<FoldBlock>();
 
-        // Create the palette storage
-        _stateCommon = new PaletteDoubleRedirect(Redirector, PaletteBackStyle.PanelClient, PaletteBorderStyle.ControlClient, NeedPaintDelegate);
-        _stateDisabled = new PaletteDouble(_stateCommon, NeedPaintDelegate);
-        _stateNormal = new PaletteDouble(_stateCommon, NeedPaintDelegate);
-
         // Create line number margin palette storage (Back + Content for text color)
-        _lineNumberMarginStateCommon = new PaletteTripleRedirect(Redirector, PaletteBackStyle.PanelAlternate, PaletteBorderStyle.ControlClient, PaletteContentStyle.LabelNormalPanel, NeedPaintDelegate);
+        _lineNumberMarginStateCommon = new PaletteTripleRedirect(Redirector!, PaletteBackStyle.PanelAlternate, PaletteBorderStyle.ControlClient, PaletteContentStyle.LabelNormalPanel, NeedPaintDelegate);
         _lineNumberMarginStateDisabled = new PaletteTriple(_lineNumberMarginStateCommon, NeedPaintDelegate);
         _lineNumberMarginStateNormal = new PaletteTriple(_lineNumberMarginStateCommon, NeedPaintDelegate);
 
         // Create folding margin palette storage (Back + Content for indicator colors)
-        _foldingMarginStateCommon = new PaletteTripleRedirect(Redirector, PaletteBackStyle.PanelClient, PaletteBorderStyle.ControlClient, PaletteContentStyle.LabelNormalPanel, NeedPaintDelegate);
+        _foldingMarginStateCommon = new PaletteTripleRedirect(Redirector!, PaletteBackStyle.PanelClient, PaletteBorderStyle.ControlClient, PaletteContentStyle.LabelNormalPanel, NeedPaintDelegate);
         _foldingMarginStateDisabled = new PaletteTriple(_foldingMarginStateCommon, NeedPaintDelegate);
         _foldingMarginStateNormal = new PaletteTriple(_foldingMarginStateCommon, NeedPaintDelegate);
 
@@ -160,8 +151,12 @@ public class KryptonCodeEditor : VisualControlBase,
         // Set default size
         Size = new Size(300, 200);
 
-        // Initialize background color from state
-        base.BackColor = StateNormal.GetBackColor1(PaletteState.Normal);
+        // Initialize background color from palette
+        var palette = GetResolvedPalette();
+        if (palette != null)
+        {
+            base.BackColor = palette.GetBackColor1(PaletteBackStyle.PanelClient, PaletteState.Normal);
+        }
 
         // Update line number margin visibility
         UpdateLineNumberMargin();
@@ -354,6 +349,46 @@ public class KryptonCodeEditor : VisualControlBase,
     public Control ContainedControl => RichTextBox;
 
     /// <summary>
+    /// Gets access to the common RichTextBox appearance that other states can override.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Overrides for defining common RichTextBox appearance that other states can override.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public PaletteInputControlTripleRedirect RichTextBoxStateCommon => _richTextBox.StateCommon;
+
+    private bool ShouldSerializeRichTextBoxStateCommon() => !_richTextBox.StateCommon.IsDefault;
+
+    /// <summary>
+    /// Gets access to the disabled RichTextBox appearance.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Overrides for defining disabled RichTextBox appearance.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public PaletteInputControlTripleStates RichTextBoxStateDisabled => _richTextBox.StateDisabled;
+
+    private bool ShouldSerializeRichTextBoxStateDisabled() => !_richTextBox.StateDisabled.IsDefault;
+
+    /// <summary>
+    /// Gets access to the normal RichTextBox appearance.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Overrides for defining normal RichTextBox appearance.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public PaletteInputControlTripleStates RichTextBoxStateNormal => _richTextBox.StateNormal;
+
+    private bool ShouldSerializeRichTextBoxStateNormal() => !_richTextBox.StateNormal.IsDefault;
+
+    /// <summary>
+    /// Gets access to the active RichTextBox appearance.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Overrides for defining active RichTextBox appearance.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public PaletteInputControlTripleStates RichTextBoxStateActive => _richTextBox.StateActive;
+
+    private bool ShouldSerializeRichTextBoxStateActive() => !_richTextBox.StateActive.IsDefault;
+
+    /// <summary>
     /// Gets or sets the selected text.
     /// </summary>
     [Browsable(false)]
@@ -394,39 +429,13 @@ public class KryptonCodeEditor : VisualControlBase,
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public override Color BackColor
     {
-        get => StateNormal.GetBackColor1(PaletteState.Normal);
+        get
+        {
+            var palette = GetResolvedPalette();
+            return palette?.GetBackColor1(PaletteBackStyle.PanelClient, PaletteState.Normal) ?? base.BackColor;
+        }
         set => base.BackColor = value;
     }
-
-    /// <summary>
-    /// Gets access to the common code editor appearance that other states can override.
-    /// </summary>
-    [Category(@"Visuals")]
-    [Description(@"Overrides for defining common code editor appearance that other states can override.")]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-    public PaletteBack StateCommon => _stateCommon.Back;
-
-    private bool ShouldSerializeStateCommon() => !_stateCommon.Back.IsDefault;
-
-    /// <summary>
-    /// Gets access to the disabled code editor appearance.
-    /// </summary>
-    [Category(@"Visuals")]
-    [Description(@"Overrides for defining disabled code editor appearance.")]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-    public PaletteBack StateDisabled => _stateDisabled.Back;
-
-    private bool ShouldSerializeStateDisabled() => !_stateDisabled.Back.IsDefault;
-
-    /// <summary>
-    /// Gets access to the normal code editor appearance.
-    /// </summary>
-    [Category(@"Visuals")]
-    [Description(@"Overrides for defining normal code editor appearance.")]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-    public PaletteBack StateNormal => _stateNormal.Back;
-
-    private bool ShouldSerializeStateNormal() => !_stateNormal.Back.IsDefault;
 
     /// <summary>
     /// Gets access to the common line number margin appearance that other states can override.
@@ -509,8 +518,12 @@ public class KryptonCodeEditor : VisualControlBase,
     {
         base.OnPaletteChanged(e);
 
-        // Update the background color to match the state
-        base.BackColor = StateNormal.GetBackColor1(PaletteState.Normal);
+        // Update the background color from palette
+        var palette = GetResolvedPalette();
+        if (palette != null)
+        {
+            base.BackColor = palette.GetBackColor1(PaletteBackStyle.PanelClient, PaletteState.Normal);
+        }
 
         // Invalidate line number margin and folding margin to refresh their colors
         _lineNumberMargin?.Invalidate();
@@ -1780,3 +1793,4 @@ public class KryptonCodeEditor : VisualControlBase,
 
     #endregion
 }
+
