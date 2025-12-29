@@ -49,25 +49,84 @@ public static class FontAwesomeHelper
     private const int REGULAR_BASE = 0xF400;
     private const int BRANDS_BASE = 0xF200;
 
-    // Common Font Awesome font family names
-    private static readonly string[] FontFamilyNames = {
-        "Font Awesome 6 Free",
-        "Font Awesome 6 Pro",
-        "Font Awesome 5 Free",
-        "Font Awesome 5 Pro",
-        "FontAwesome"
-    };
+    // Supported Font Awesome versions (newest first for priority)
+    private static readonly int[] SupportedVersions = { 7, 6, 5 };
 
-    // Font Awesome Pro style-specific font family names
-    private static readonly Dictionary<FontAwesomeStyle, string[]> ProFontFamilyNames = new()
+    // Legacy font family name (Font Awesome 4 and earlier)
+    private static readonly string[] LegacyFontFamilyNames = { "FontAwesome" };
+
+    // Common Font Awesome font family names (generated dynamically)
+    private static readonly string[] FontFamilyNames = GenerateFontFamilyNames();
+
+    // Font Awesome Pro style-specific font family names (generated dynamically)
+    private static readonly Dictionary<FontAwesomeStyle, string[]> ProFontFamilyNames = GenerateProFontFamilyNames();
+
+    private static string[] GenerateFontFamilyNames()
     {
-        { FontAwesomeStyle.Solid, new[] { "Font Awesome 6 Pro Solid", "Font Awesome 6 Free Solid", "Font Awesome 5 Pro Solid", "Font Awesome 5 Free Solid" } },
-        { FontAwesomeStyle.Regular, new[] { "Font Awesome 6 Pro Regular", "Font Awesome 6 Free Regular", "Font Awesome 5 Pro Regular", "Font Awesome 5 Free Regular" } },
-        { FontAwesomeStyle.Brands, new[] { "Font Awesome 6 Brands", "Font Awesome 5 Brands" } },
-        { FontAwesomeStyle.Light, new[] { "Font Awesome 6 Pro Light" } },
-        { FontAwesomeStyle.Thin, new[] { "Font Awesome 6 Pro Thin" } },
-        { FontAwesomeStyle.Duotone, new[] { "Font Awesome 6 Pro Duotone" } }
-    };
+        var names = new List<string>();
+        foreach (var version in SupportedVersions)
+        {
+            names.Add($"Font Awesome {version} Free");
+            names.Add($"Font Awesome {version} Pro");
+        }
+        names.AddRange(LegacyFontFamilyNames);
+        return names.ToArray();
+    }
+
+    private static Dictionary<FontAwesomeStyle, string[]> GenerateProFontFamilyNames()
+    {
+        var result = new Dictionary<FontAwesomeStyle, List<string>>();
+
+        foreach (var version in SupportedVersions)
+        {
+            // Solid style
+            if (!result.ContainsKey(FontAwesomeStyle.Solid))
+            {
+                result[FontAwesomeStyle.Solid] = new List<string>();
+            }
+            result[FontAwesomeStyle.Solid].Add($"Font Awesome {version} Pro Solid");
+            result[FontAwesomeStyle.Solid].Add($"Font Awesome {version} Free Solid");
+
+            // Regular style
+            if (!result.ContainsKey(FontAwesomeStyle.Regular))
+            {
+                result[FontAwesomeStyle.Regular] = new List<string>();
+            }
+            result[FontAwesomeStyle.Regular].Add($"Font Awesome {version} Pro Regular");
+            result[FontAwesomeStyle.Regular].Add($"Font Awesome {version} Free Regular");
+
+            // Brands style
+            if (!result.ContainsKey(FontAwesomeStyle.Brands))
+            {
+                result[FontAwesomeStyle.Brands] = new List<string>();
+            }
+            result[FontAwesomeStyle.Brands].Add($"Font Awesome {version} Brands");
+
+            // Pro-only styles (Light, Thin, Duotone)
+            if (version >= 6)
+            {
+                if (!result.ContainsKey(FontAwesomeStyle.Light))
+                {
+                    result[FontAwesomeStyle.Light] = new List<string>();
+                }
+                result[FontAwesomeStyle.Light].Add($"Font Awesome {version} Pro Light");
+
+                if (!result.ContainsKey(FontAwesomeStyle.Thin))
+                {
+                    result[FontAwesomeStyle.Thin] = new List<string>();
+                }
+                result[FontAwesomeStyle.Thin].Add($"Font Awesome {version} Pro Thin");
+
+                if (!result.ContainsKey(FontAwesomeStyle.Duotone))
+                {
+                    result[FontAwesomeStyle.Duotone] = new List<string>();
+                }
+                result[FontAwesomeStyle.Duotone].Add($"Font Awesome {version} Pro Duotone");
+            }
+        }
+
+        return result.ToDictionary(kvp => kvp.Key, kvp => kvp.Value.ToArray());
+    }
 
     #endregion
 
