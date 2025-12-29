@@ -114,6 +114,7 @@ public class FontAwesomeIconPickerDialog : KryptonForm
             Size = new Size(75, 25),
             Anchor = AnchorStyles.Bottom | AnchorStyles.Right
         };
+        okButton.Click += OkButton_Click;
 
         var cancelButton = new KryptonButton
         {
@@ -201,6 +202,15 @@ public class FontAwesomeIconPickerDialog : KryptonForm
         finally
         {
             _iconListView.EndUpdate();
+        }
+    }
+
+    private void OkButton_Click(object? sender, EventArgs e)
+    {
+        if (_iconListView.SelectedItems.Count > 0 &&
+            _iconListView.SelectedItems[0].Tag is FontAwesomeIcon icon)
+        {
+            _selectedIcon = icon;
         }
     }
 

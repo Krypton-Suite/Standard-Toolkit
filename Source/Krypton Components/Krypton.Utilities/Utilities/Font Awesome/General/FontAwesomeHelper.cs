@@ -14,7 +14,32 @@ public static class FontAwesomeHelper
 {
     #region Static Fields
 
-    private static readonly ConcurrentDictionary<string, FontFamily> _fontCache = new();
+    private sealed class FontCacheEntry
+    {
+        public FontFamily FontFamily { get; }
+        public PrivateFontCollection? PrivateFontCollection { get; }
+        public IntPtr MemoryPtr { get; }
+        public int MemorySize { get; }
+
+        public FontCacheEntry(FontFamily fontFamily, PrivateFontCollection? privateFontCollection, IntPtr memoryPtr, int memorySize)
+        {
+            FontFamily = fontFamily;
+            PrivateFontCollection = privateFontCollection;
+            MemoryPtr = memoryPtr;
+            MemorySize = memorySize;
+        }
+
+        public void Dispose()
+        {
+            PrivateFontCollection?.Dispose();
+            if (MemoryPtr != IntPtr.Zero)
+            {
+                Marshal.FreeCoTaskMem(MemoryPtr);
+            }
+        }
+    }
+
+    private static readonly ConcurrentDictionary<string, FontCacheEntry> _fontCache = new();
     private static readonly ConcurrentDictionary<string, Bitmap> _imageCache = new();
     private static readonly object _lockObject = new();
 
@@ -81,7 +106,7 @@ public static class FontAwesomeHelper
     public static Color DefaultColor { get; set; } = Color.Black;
 
     /// <summary>
-    /// Clears the image cache.
+    /// Clears the image and font cache.
     /// </summary>
     public static void ClearCache()
     {
@@ -92,6 +117,12 @@ public static class FontAwesomeHelper
                 bitmap?.Dispose();
             }
             _imageCache.Clear();
+
+            foreach (var fontEntry in _fontCache.Values)
+            {
+                fontEntry?.Dispose();
+            }
+            _fontCache.Clear();
         }
     }
 
@@ -227,9 +258,9 @@ public static class FontAwesomeHelper
     {
         var fontKey = GetFontKey(style);
 
-        if (_fontCache.TryGetValue(fontKey, out var cachedFamily))
+        if (_fontCache.TryGetValue(fontKey, out var cachedEntry))
         {
-            return cachedFamily;
+            return cachedEntry.FontFamily;
         }
 
         FontFamily? fontFamily;
@@ -237,6 +268,8 @@ public static class FontAwesomeHelper
         // Try to load from embedded resource if specified
         if (!string.IsNullOrEmpty(FontResourceName))
         {
+            IntPtr fontPtr = IntPtr.Zero;
+            PrivateFontCollection? privateFontCollection = null;
             try
             {
                 var assembly = FontResourceAssembly ?? Assembly.GetExecutingAssembly();
@@ -257,27 +290,31 @@ public static class FontAwesomeHelper
                         totalBytesRead += bytesRead;
                     }
 
-                    var fontPtr = IntPtr.Zero;
-                    try
+                    fontPtr = Marshal.AllocCoTaskMem(fontData.Length);
+                    Marshal.Copy(fontData, 0, fontPtr, fontData.Length);
+
+                    privateFontCollection = new PrivateFontCollection();
+                    privateFontCollection.AddMemoryFont(fontPtr, fontData.Length);
+
+                    if (privateFontCollection.Families.Length > 0)
                     {
-                        fontPtr = Marshal.AllocCoTaskMem(fontData.Length);
-                        Marshal.Copy(fontData, 0, fontPtr, fontData.Length);
-
-                        var privateFontCollection = new PrivateFontCollection();
-                        privateFontCollection.AddMemoryFont(fontPtr, fontData.Length);
-
-                        if (privateFontCollection.Families.Length > 0)
+                        fontFamily = privateFontCollection.Families[0];
+                        var cacheEntry = new FontCacheEntry(fontFamily, privateFontCollection, fontPtr, fontData.Length);
+                        if (_fontCache.TryAdd(fontKey, cacheEntry))
                         {
-                            fontFamily = privateFontCollection.Families[0];
-                            _fontCache.TryAdd(fontKey, fontFamily);
+                            privateFontCollection = null; // Ownership transferred to cache entry
+                            fontPtr = IntPtr.Zero; // Ownership transferred to cache entry
                             return fontFamily;
                         }
-                    }
-                    finally
-                    {
-                        if (fontPtr != IntPtr.Zero)
+                        else
                         {
-                            Marshal.FreeCoTaskMem(fontPtr);
+                            // Another thread already added the font, use the cached one and clean up our resources
+                            if (_fontCache.TryGetValue(fontKey, out var existingEntry))
+                            {
+                                cacheEntry.Dispose();
+                                return existingEntry.FontFamily;
+                            }
+                            cacheEntry.Dispose();
                         }
                     }
                 }
@@ -285,6 +322,17 @@ public static class FontAwesomeHelper
             catch
             {
                 // Fall through to other loading methods
+            }
+            finally
+            {
+                if (privateFontCollection != null)
+                {
+                    privateFontCollection.Dispose();
+                }
+                if (fontPtr != IntPtr.Zero)
+                {
+                    Marshal.FreeCoTaskMem(fontPtr);
+                }
             }
         }
 
@@ -298,8 +346,13 @@ public static class FontAwesomeHelper
                 if (privateFontCollection.Families.Length > 0)
                 {
                     fontFamily = privateFontCollection.Families[0];
-                    _fontCache.TryAdd(fontKey, fontFamily);
+                    var cacheEntry = new FontCacheEntry(fontFamily, privateFontCollection, IntPtr.Zero, 0);
+                    _fontCache.TryAdd(fontKey, cacheEntry);
                     return fontFamily;
+                }
+                else
+                {
+                    privateFontCollection.Dispose();
                 }
             }
             catch
@@ -320,7 +373,8 @@ public static class FontAwesomeHelper
                     if (family.Name.Equals(familyName, StringComparison.OrdinalIgnoreCase))
                     {
                         fontFamily = family;
-                        _fontCache.TryAdd(fontKey, family);
+                        var cacheEntry = new FontCacheEntry(family, null, IntPtr.Zero, 0);
+                        _fontCache.TryAdd(fontKey, cacheEntry);
                         return fontFamily;
                     }
                 }
@@ -337,7 +391,8 @@ public static class FontAwesomeHelper
                     if (family.Name.Equals(familyName, StringComparison.OrdinalIgnoreCase))
                     {
                         fontFamily = family;
-                        _fontCache.TryAdd(fontKey, family);
+                        var cacheEntry = new FontCacheEntry(family, null, IntPtr.Zero, 0);
+                        _fontCache.TryAdd(fontKey, cacheEntry);
                         return fontFamily;
                     }
                 }
@@ -458,7 +513,7 @@ public static class FontAwesomeHelper
                 "last" or "fastforward" => 0xF050,
                 "expand" => 0xF065,
                 "collapse" or "compress" => 0xF066,
-                "chevronup" or "chevronup" => 0xF077,
+                "chevronup" => 0xF077,
                 "chevrondown" => 0xF078,
                 "chevronleft" => 0xF053,
                 "chevronright" => 0xF054,
@@ -613,7 +668,7 @@ public static class FontAwesomeHelper
                 "reddit" => 0xF1A1,
                 "pinterest" => 0xF0D2,
                 "snapchat" => 0xF2AB,
-                "tiktok" => 0xF07B,
+                "tiktok" => 0xE07B,
                 "whatsapp" => 0xF232,
                 "telegram" => 0xF2C6,
                 "skype" => 0xF17E,
