@@ -510,7 +510,17 @@ public class KryptonBindingNavigator : UserControl
             {
                 // Convert from 1-based to 0-based
                 position = Math.Max(1, Math.Min(position, _bindingSource.Count));
+                int oldPosition = _bindingSource.Position;
                 _bindingSource.Position = position - 1;
+                
+                // If Count is 0, BindingSource ignores Position changes (documented behavior),
+                // so PositionChanged never fires and RefreshItemsInternal() is not called.
+                // Manually refresh the display to show "0" instead of stale user input.
+                // Also refresh if the position didn't change for any other reason.
+                if (_bindingSource.Count == 0 || _bindingSource.Position == oldPosition)
+                {
+                    RefreshItemsInternal();
+                }
             }
             else
             {
