@@ -247,7 +247,7 @@ public static class FontAwesomeHelper
             _ => SOLID_BASE
         };
 
-        return baseOffset + (Math.Abs(iconHash) % 0x1000);
+        return baseOffset + ((uint)iconHash % 0x1000);
     }
 
     #endregion
@@ -312,9 +312,13 @@ public static class FontAwesomeHelper
                             if (_fontCache.TryGetValue(fontKey, out var existingEntry))
                             {
                                 cacheEntry.Dispose();
+                                privateFontCollection = null; // Already disposed by cacheEntry
+                                fontPtr = IntPtr.Zero; // Already freed by cacheEntry
                                 return existingEntry.FontFamily;
                             }
                             cacheEntry.Dispose();
+                            privateFontCollection = null; // Already disposed by cacheEntry
+                            fontPtr = IntPtr.Zero; // Already freed by cacheEntry
                         }
                     }
                 }
@@ -359,9 +363,11 @@ public static class FontAwesomeHelper
                         if (_fontCache.TryGetValue(fontKey, out var existingEntry))
                         {
                             cacheEntry.Dispose();
+                            privateFontCollection = null; // Already disposed by cacheEntry
                             return existingEntry.FontFamily;
                         }
                         cacheEntry.Dispose();
+                        privateFontCollection = null; // Already disposed by cacheEntry
                     }
                 }
             }
