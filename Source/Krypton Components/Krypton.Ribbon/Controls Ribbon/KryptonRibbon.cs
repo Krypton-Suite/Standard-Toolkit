@@ -1848,8 +1848,7 @@ public class KryptonRibbon : VisualSimple,
 
         if (_backstageOverlay != null)
         {
-            CloseBackstageView();
-            return true;
+            return CloseBackstageView();
         }
 
         // Give event handler a chance to cancel the open request
@@ -1892,11 +1891,11 @@ public class KryptonRibbon : VisualSimple,
         return true;
     }
 
-    public void CloseBackstageView()
+    public bool CloseBackstageView()
     {
         if (_backstageOverlay is null)
         {
-            return;
+            return false;
         }
 
         // Give event handler a chance to cancel the close request
@@ -1905,11 +1904,12 @@ public class KryptonRibbon : VisualSimple,
 
         if (cea.Cancel)
         {
-            return;
+            return false;
         }
 
         // Close triggers disposal and centralized cleanup
         _backstageOverlay.Close();
+        return true;
     }
 
     private void OnBackstageBackRequested(object? sender, EventArgs e) => CloseBackstageView();
