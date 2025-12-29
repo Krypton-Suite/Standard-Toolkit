@@ -19,7 +19,6 @@ public class BadgeContentValues : Storage
 
     private const string DEFAULT_TEXT = "";
     private const bool DEFAULT_AUTO_SHOW_HIDE_BADGE = false; 
-    private static readonly Font? _defaultFont = new Font(KryptonManager.CurrentGlobalPalette.BaseFont.FontFamily, 7.5f, FontStyle.Bold, GraphicsUnit.Point);
     private const int DEFAULT_BADGE_DIAMETER = 0; // 0 means auto-size
     private const int DEFAULT_MAX_BADGE_VALUE = 99;
 
@@ -373,7 +372,9 @@ public class BadgeContentValues : Storage
                                       Animation.Equals(BadgeAnimation.None) &&
                                       BadgeDiameter.Equals(DEFAULT_BADGE_DIAMETER) &&
                                       MaxBadgeValue.Equals(DEFAULT_MAX_BADGE_VALUE) &&
-                                      AutoShowHideBadge.Equals(DEFAULT_AUTO_SHOW_HIDE_BADGE);
+                                      AutoShowHideBadge.Equals(DEFAULT_AUTO_SHOW_HIDE_BADGE) &&
+                                      BadgeImage == null &&
+                                      BadgeImagePadding.Equals(4);
 
     #endregion
 

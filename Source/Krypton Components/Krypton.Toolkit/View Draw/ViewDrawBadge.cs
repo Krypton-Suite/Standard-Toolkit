@@ -291,7 +291,7 @@ public class ViewDrawBadge : ViewLeaf
 
             // Scale image to fit within badge with padding
             int padding = _badgeValues.BadgeContentValues.BadgeImagePadding;
-            int maxImageSize = Math.Min(drawRect.Width, drawRect.Height) - padding;
+            int maxImageSize = Math.Max(1, Math.Min(drawRect.Width, drawRect.Height) - padding);
 
             // Calculate scaled size maintaining aspect ratio
             int imageWidth = _badgeValues.BadgeContentValues.BadgeImage.Width;
