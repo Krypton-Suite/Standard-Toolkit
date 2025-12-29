@@ -390,6 +390,9 @@ public class KryptonBindingNavigator : UserControl
 
         // Update count label
         _countLabel?.Text = $@"of {count}";
+        
+        // Trigger layout to reposition controls after count label width changes
+        PerformLayout();
 
         // Update button states
         bool canMovePrevious = _bindingSource.Position > 0;
@@ -523,11 +526,9 @@ public class KryptonBindingNavigator : UserControl
     {
         if (_positionTextBox != null && _bindingSource != null)
         {
-            // Restore current position if invalid
-            if (!int.TryParse(_positionTextBox.Text, out int position) || position < 1 || position > _bindingSource.Count)
-            {
-                _positionTextBox.Text = (_bindingSource.Position + 1).ToString();
-            }
+            // Restore current position since navigation only occurs on Enter key
+            // This ensures the textbox always reflects the actual binding source position
+            _positionTextBox.Text = (_bindingSource.Position + 1).ToString();
         }
     }
 
