@@ -47,11 +47,11 @@ internal class VisualAutoTextSuggestPopup : VisualPopup
         };
 
         // Set the Control property on ViewManager before setting Root
-        ViewManager.Control = this;
-        ViewManager.AlignControl = this;
+        ViewManager!.Control = this;
+        ViewManager!.AlignControl = this;
 
         // Set the root view for the ViewManager
-        ViewManager.Root = layoutDocker;
+        ViewManager!.Root = layoutDocker;
 
         // Add the control to the popup
         Controls.Add(_listBox);
