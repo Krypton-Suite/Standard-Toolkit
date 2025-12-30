@@ -89,6 +89,7 @@ public partial class StartScreen : KryptonForm
         CreateButton("PropertyGridTest", string.Empty, typeof(PropertyGridTest));
         CreateButton("Ribbon", string.Empty, typeof(RibbonTest));
         CreateButton("TextBox", string.Empty, typeof(TextBoxEventTest));
+        CreateButton("TextSuggestion", string.Empty, typeof(TextSuggestionDemo));
         CreateButton("TreeView", string.Empty, typeof(TreeViewExample));
         CreateButton("Panel Form", string.Empty, typeof(PanelForm));
         CreateButton("Palette Viewer", string.Empty, typeof(PaletteViewerForm));
