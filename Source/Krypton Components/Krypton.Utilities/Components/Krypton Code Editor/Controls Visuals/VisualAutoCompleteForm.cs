@@ -155,8 +155,8 @@ internal class VisualAutoCompleteForm : KryptonForm
                 var rtb = _editor.RichTextBox;
                 var startPos = rtb.SelectionStart - _currentWordPrefix.Length;
                 rtb.Select(startPos, _currentWordPrefix.Length);
-                rtb.SelectedText = selected!;
-                rtb.SelectionStart = startPos + selected!.Length;
+                rtb.SelectedText = selected;
+                rtb.SelectionStart = startPos + selected.Length;
                 Hide();
             }
         }
