@@ -1764,6 +1764,12 @@ public class KryptonCodeEditor : VisualPanel,
     #region Designer Support
 
     /// <summary>
+    /// Gets the ViewManager instance for designer support.
+    /// </summary>
+    /// <returns>ViewManager instance or null.</returns>
+    public ViewManager? GetViewManager() => ViewManager;
+
+    /// <summary>
     /// Gets a component from the given point.
     /// </summary>
     /// <param name="pt">Point in client coordinates.</param>
