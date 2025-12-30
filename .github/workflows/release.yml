@@ -11,11 +11,12 @@ on:
       - canary
       - V105-LTS
       - V85-LTS
+    workflow_dispatch:
 
 jobs:
   release-master:
     runs-on: windows-latest
-    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+    if: github.ref == 'refs/heads/master' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
 
     steps:
       # Release kill switch
@@ -279,7 +280,7 @@ jobs:
 
   release-v105-lts:
     runs-on: windows-latest
-    if: github.ref == 'refs/heads/V105-LTS' && github.event_name == 'push'
+    if: github.ref == 'refs/heads/V105-LTS' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
 
     steps:
       # V105 Release kill switch
@@ -504,7 +505,7 @@ jobs:
 
   release-v85-lts:
     runs-on: windows-latest
-    if: github.ref == 'refs/heads/V85-LTS' && github.event_name == 'push'
+    if: github.ref == 'refs/heads/V85-LTS' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
 
     steps:
       # V85 Release kill switch
@@ -714,7 +715,7 @@ jobs:
 
   release-canary:
     runs-on: windows-latest
-    if: github.ref == 'refs/heads/canary' && github.event_name == 'push'
+    if: github.ref == 'refs/heads/canary' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
 
     steps:
       # Canary Release kill switch
@@ -978,7 +979,7 @@ jobs:
 
   release-alpha:
     runs-on: windows-latest
-    if: github.ref == 'refs/heads/alpha' && github.event_name == 'push'
+    if: github.ref == 'refs/heads/alpha' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
 
     steps:
       # Nightly Release kill switch
