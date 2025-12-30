@@ -12,7 +12,7 @@ namespace Krypton.Utilities;
 /// <summary>
 /// Auto-complete popup form.
 /// </summary>
-internal class VisualAutoCompleteForm : Form
+internal class VisualAutoCompleteForm : KryptonForm
 {
     private readonly KryptonListBox _listBox;
     private readonly KryptonCodeEditor _editor;
@@ -155,8 +155,8 @@ internal class VisualAutoCompleteForm : Form
                 var rtb = _editor.RichTextBox;
                 var startPos = rtb.SelectionStart - _currentWordPrefix.Length;
                 rtb.Select(startPos, _currentWordPrefix.Length);
-                rtb.SelectedText = selected;
-                rtb.SelectionStart = startPos + selected.Length;
+                rtb.SelectedText = selected!;
+                rtb.SelectionStart = startPos + selected!.Length;
                 Hide();
             }
         }

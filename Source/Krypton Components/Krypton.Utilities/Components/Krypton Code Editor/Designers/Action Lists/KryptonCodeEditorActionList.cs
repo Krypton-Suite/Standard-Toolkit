@@ -12,11 +12,14 @@ namespace Krypton.Utilities;
 internal class KryptonCodeEditorActionList : DesignerActionList
 {
     #region Instance Fields
+
     private readonly KryptonCodeEditor _codeEditor;
     private readonly IComponentChangeService? _service;
+    
     #endregion
 
     #region Identity
+    
     /// <summary>
     /// Initialize a new instance of the KryptonCodeEditorActionList class.
     /// </summary>
@@ -30,9 +33,11 @@ internal class KryptonCodeEditorActionList : DesignerActionList
         // Cache service used to notify when a property has changed
         _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
     }
+    
     #endregion
 
     #region Public
+    
     /// <summary>Gets or sets the Krypton Context Menu.</summary>
     /// <value>The Krypton Context Menu.</value>
     public KryptonContextMenu? KryptonContextMenu
@@ -144,16 +149,18 @@ internal class KryptonCodeEditorActionList : DesignerActionList
 
         set
         {
-            if (_codeEditor.EditorFont != value)
+            if (!Equals(_codeEditor.EditorFont, value))
             {
                 _service?.OnComponentChanged(_codeEditor, null, _codeEditor.EditorFont, value);
                 _codeEditor.EditorFont = value;
             }
         }
     }
+    
     #endregion
 
     #region Public Override
+
     /// <summary>
     /// Returns the collection of DesignerActionItem objects contained in the list.
     /// </summary>
@@ -164,7 +171,7 @@ internal class KryptonCodeEditorActionList : DesignerActionList
         var actions = new DesignerActionItemCollection();
 
         // This can be null when deleting a control instance at design time
-        if (_codeEditor != null)
+        if (_codeEditor is not null)
         {
             // Add the list of code editor specific actions
             actions.Add(new DesignerActionHeaderItem(nameof(Appearance)));
@@ -181,5 +188,6 @@ internal class KryptonCodeEditorActionList : DesignerActionList
 
         return actions;
     }
+    
     #endregion
 }

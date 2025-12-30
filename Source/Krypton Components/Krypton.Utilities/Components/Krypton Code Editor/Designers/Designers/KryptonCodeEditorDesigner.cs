@@ -12,12 +12,15 @@ namespace Krypton.Utilities;
 internal class KryptonCodeEditorDesigner : ControlDesigner
 {
     #region Instance Fields
+
     private KryptonCodeEditor? _codeEditor;
     private IDesignerHost? _designerHost;
     private ISelectionService? _selectionService;
+
     #endregion
 
     #region Public Overrides
+    
     /// <summary>
     /// Initializes the designer with the specified component.
     /// </summary>
@@ -37,15 +40,12 @@ internal class KryptonCodeEditorDesigner : ControlDesigner
         // Cast to correct type
         _codeEditor = component as KryptonCodeEditor;
 
-        if (_codeEditor != null)
+        // Hook into code editor events
+        var viewManager = _codeEditor?.GetViewManager();
+        if (viewManager != null)
         {
-            // Hook into code editor events
-            var viewManager = _codeEditor.GetViewManager();
-            if (viewManager != null)
-            {
-                viewManager.MouseUpProcessed += OnCodeEditorMouseUp;
-                viewManager.DoubleClickProcessed += OnCodeEditorDoubleClick;
-            }
+            viewManager.MouseUpProcessed += OnCodeEditorMouseUp;
+            viewManager.DoubleClickProcessed += OnCodeEditorDoubleClick;
         }
 
         // Get access to the design services
@@ -95,9 +95,11 @@ internal class KryptonCodeEditorDesigner : ControlDesigner
 
         base.OnMouseLeave();
     }
+    
     #endregion
 
     #region Implementation
+    
     private void OnCodeEditorMouseUp(object? sender, MouseEventArgs e)
     {
         if ((_codeEditor != null) && (e.Button == MouseButtons.Left))
@@ -134,5 +136,6 @@ internal class KryptonCodeEditorDesigner : ControlDesigner
             designer?.DoDefaultAction();
         }
     }
+    
     #endregion
 }

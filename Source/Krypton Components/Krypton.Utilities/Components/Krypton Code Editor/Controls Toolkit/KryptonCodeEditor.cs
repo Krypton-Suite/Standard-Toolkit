@@ -40,7 +40,6 @@ public class KryptonCodeEditor : VisualPanel,
     private bool _isApplyingSyntaxHighlighting;
     private readonly Timer _highlightTimer;
     private int _lineNumberMarginWidth = 50;
-    private int _lastHighlightedLine = -1;
     private readonly int _foldingMarginWidth = 20;
     private VisualAutoCompleteForm? _autoCompleteForm;
     private List<string> _autoCompleteKeywords;
@@ -96,7 +95,6 @@ public class KryptonCodeEditor : VisualPanel,
         {
             Dock = DockStyle.Left,
             Width = _foldingMarginWidth,
-            BackColor = SystemColors.Control,
             Visible = false
         };
 
@@ -104,8 +102,7 @@ public class KryptonCodeEditor : VisualPanel,
         _marginPanel = new Panel
         {
             Dock = DockStyle.Left,
-            Width = _lineNumberMarginWidth,
-            BackColor = SystemColors.Control
+            Width = _lineNumberMarginWidth
         };
 
         // Create line number margin
@@ -156,6 +153,8 @@ public class KryptonCodeEditor : VisualPanel,
         if (palette != null)
         {
             base.BackColor = palette.GetBackColor1(PaletteBackStyle.PanelClient, PaletteState.Normal);
+            _marginPanel.BackColor = palette.GetBackColor1(PaletteBackStyle.PanelAlternate, PaletteState.Normal);
+            _foldingMargin.BackColor = palette.GetBackColor1(PaletteBackStyle.PanelClient, PaletteState.Normal);
         }
 
         // Update line number margin visibility
@@ -175,6 +174,7 @@ public class KryptonCodeEditor : VisualPanel,
     [EditorBrowsable(EditorBrowsableState.Always)]
     [DefaultValue("")]
     [Localizable(true)]
+    [AllowNull]
     public override string Text
     {
         get => _richTextBox.Text;
@@ -505,7 +505,7 @@ public class KryptonCodeEditor : VisualPanel,
     /// Raises the TextChanged event.
     /// </summary>
     /// <param name="e">An EventArgs that contains the event data.</param>
-    protected virtual void OnTextChanged(EventArgs e)
+    protected override void OnTextChanged(EventArgs e)
     {
         TextChanged?.Invoke(this, e);
     }
@@ -523,6 +523,8 @@ public class KryptonCodeEditor : VisualPanel,
         if (palette != null)
         {
             base.BackColor = palette.GetBackColor1(PaletteBackStyle.PanelClient, PaletteState.Normal);
+            _marginPanel.BackColor = palette.GetBackColor1(PaletteBackStyle.PanelAlternate, PaletteState.Normal);
+            _foldingMargin.BackColor = palette.GetBackColor1(PaletteBackStyle.PanelClient, PaletteState.Normal);
         }
 
         // Invalidate line number margin and folding margin to refresh their colors
@@ -796,7 +798,6 @@ public class KryptonCodeEditor : VisualPanel,
         var combinedPattern = patternBuilder.ToString();
 
         // Tokenize using a state machine approach
-        int currentIndex = 0;
         var processedRanges = new List<(int Start, int End, TokenType Type)>();
 
         // Find all matches for each pattern type
@@ -920,8 +921,6 @@ public class KryptonCodeEditor : VisualPanel,
     {
         var keywords = @"\b(abstract|as|base|bool|break|byte|case|catch|char|checked|class|const|continue|decimal|default|delegate|do|double|else|enum|event|explicit|extern|false|finally|fixed|float|for|foreach|goto|if|implicit|in|int|interface|internal|is|lock|long|namespace|new|null|object|operator|out|override|params|private|protected|public|readonly|ref|return|sbyte|sealed|short|sizeof|stackalloc|static|string|struct|switch|this|throw|true|try|typeof|uint|ulong|unchecked|unsafe|ushort|using|virtual|void|volatile|while|async|await|get|set|value|yield|var|let|from|select|where|orderby|group|by|into|join|on|equals|ascending|descending)\b";
         var types = @"\b(bool|byte|char|decimal|double|float|int|long|object|sbyte|short|string|uint|ulong|ushort|void|dynamic|var)\b";
-        var classes = @"\b(class|struct|interface|enum|namespace)\s+(\w+)";
-        var functions = @"\b(\w+)\s*\([^)]*\)\s*\{";
         var strings = @"""[^""]*""|'[^']*'|@""[^""]*""";
         var verbatimStrings = @"@""(?:[^""]|"""")*""";
         var comments = @"//.*?$|/\*[\s\S]*?\*/";
@@ -1148,7 +1147,6 @@ public class KryptonCodeEditor : VisualPanel,
         var strings = @"`[^`]*`|""[^""]*""";
         var comments = @"//.*?$|/\*[\s\S]*?\*/";
         var numbers = @"\b\d+\.?\d*\b|0x[0-9a-fA-F]+|0o[0-7]+";
-        var functions = @"\bfunc\s+(\w+)";
 
         return new List<(string, TokenType)>
         {
@@ -1378,7 +1376,7 @@ public class KryptonCodeEditor : VisualPanel,
     private Color GetColorForTokenType(TokenType type)
     {
         // Use theme colors if available, otherwise fall back to legacy keyword colors
-        if (_theme != null)
+        if (_theme is not null )
         {
             return _theme.GetTokenColor(type);
         }
@@ -1497,33 +1495,26 @@ public class KryptonCodeEditor : VisualPanel,
 
         char charAtPos = text[pos];
         char? matchingChar = null;
-        bool forward = false;
 
         switch (charAtPos)
         {
             case '{':
                 matchingChar = '}';
-                forward = true;
                 break;
             case '}':
                 matchingChar = '{';
-                forward = false;
                 break;
             case '(':
                 matchingChar = ')';
-                forward = true;
                 break;
             case ')':
                 matchingChar = '(';
-                forward = false;
                 break;
             case '[':
                 matchingChar = ']';
-                forward = true;
                 break;
             case ']':
                 matchingChar = '[';
-                forward = false;
                 break;
         }
 
