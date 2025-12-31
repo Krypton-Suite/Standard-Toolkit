@@ -347,7 +347,7 @@ public class PaletteRedirect : PaletteBase, IGlobalId
     {
         var font = _target?.GetContentShortTextNewFont(style, state);
 
-        return ScaleFontIfNeeded(font);
+        return ScaleFontIfNeededForNewFont(font);
     }
 
     /// <summary>
@@ -493,7 +493,7 @@ public class PaletteRedirect : PaletteBase, IGlobalId
     {
         var font = _target?.GetContentLongTextNewFont(style, state);
 
-        return ScaleFontIfNeeded(font);
+        return ScaleFontIfNeededForNewFont(font);
     }
 
     /// <summary>
@@ -1258,17 +1258,75 @@ public class PaletteRedirect : PaletteBase, IGlobalId
     }
 
     /// <summary>
-    /// Clears the scaled font cache and disposes all cached fonts.
+    /// Scales a font if touchscreen support and font scaling are enabled.
+    /// Returns a new font instance that callers own and can dispose.
+    /// Uses cached fonts as templates but always returns a clone to prevent disposal issues.
+    /// </summary>
+    /// <param name="font">The font to scale, or null.</param>
+    /// <returns>A new scaled font instance, or the original font if scaling is not needed or font is null.</returns>
+    private Font? ScaleFontIfNeededForNewFont(Font? font)
+    {
+        if (font == null || !KryptonManager.UseTouchscreenSupport || !KryptonManager.UseTouchscreenFontScaling)
+        {
+            return font;
+        }
+
+        var scaleFactor = KryptonManager.TouchscreenFontScaleFactor;
+        if (Math.Abs(scaleFactor - 1.0f) < 0.001f)
+        {
+            return font;
+        }
+
+        // Clear cache if scale factor changed
+        if (Math.Abs(_lastScaleFactor - scaleFactor) > 0.001f)
+        {
+            ClearScaledFontCache();
+            _lastScaleFactor = scaleFactor;
+        }
+
+        // Initialize cache if needed
+        _scaledFontCache ??= new Dictionary<FontCacheKey, Font>();
+
+        // Check cache
+        var cacheKey = new FontCacheKey(font, scaleFactor);
+        if (_scaledFontCache.TryGetValue(cacheKey, out var cachedFont))
+        {
+            // Return a clone of the cached font so callers can dispose it without affecting the cache
+            try
+            {
+                return new Font(cachedFont.FontFamily, cachedFont.Size, cachedFont.Style, cachedFont.Unit);
+            }
+            catch
+            {
+                // If cloning fails, return original font to avoid returning a cached font that could be disposed
+                return font;
+            }
+        }
+
+        // Create and cache new scaled font, then return a clone
+        try
+        {
+            var scaledFont = new Font(font.FontFamily, font.Size * scaleFactor, font.Style, font.Unit);
+            _scaledFontCache[cacheKey] = scaledFont;
+            // Return a clone so callers can dispose it without affecting the cache
+            return new Font(scaledFont.FontFamily, scaledFont.Size, scaledFont.Style, scaledFont.Unit);
+        }
+        catch
+        {
+            // If font creation fails, return original font
+            return font;
+        }
+    }
+
+    /// <summary>
+    /// Clears the scaled font cache without disposing fonts.
+    /// Fonts may still be referenced by components that obtained them via font getter methods.
+    /// Fonts will be disposed when this PaletteRedirect instance is disposed.
     /// </summary>
     private void ClearScaledFontCache()
     {
         if (_scaledFontCache != null)
         {
-            foreach (var cachedFont in _scaledFontCache.Values)
-            {
-                cachedFont?.Dispose();
-            }
-
             _scaledFontCache.Clear();
         }
     }
@@ -1285,7 +1343,15 @@ public class PaletteRedirect : PaletteBase, IGlobalId
     {
         if (disposing)
         {
-            ClearScaledFontCache();
+            if (_scaledFontCache != null)
+            {
+                foreach (var cachedFont in _scaledFontCache.Values)
+                {
+                    cachedFont?.Dispose();
+                }
+
+                _scaledFontCache.Clear();
+            }
         }
 
         base.Dispose(disposing);
