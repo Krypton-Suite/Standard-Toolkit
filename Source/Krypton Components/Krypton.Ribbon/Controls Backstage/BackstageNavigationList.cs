@@ -396,7 +396,8 @@ internal class BackstageNavigationList : Control
         var itemSize = GetItemSize(item);
         var image = GetItemImage(item);
         var text = GetItemText(item);
-        var imageSize = itemSize == BackstageItemSize.Large ? 32 : 16;
+        var baseImageSize = itemSize == BackstageItemSize.Large ? 32 : 16;
+        var imageSize = (int)(baseImageSize * GetDpiFactorX());
         var imagePadding = (int)(12 * GetDpiFactorX());
         var textPadding = image != null ? imageSize + imagePadding * 2 : imagePadding;
 
