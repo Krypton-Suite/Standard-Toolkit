@@ -217,7 +217,8 @@ public sealed class KryptonManager : Component
                                ShouldSerializeToolkitStrings() ||
                                ShouldSerializeUseKryptonFileDialogs() ||
                                ShouldSerializeBaseFont() ||
-                               ShouldSerializeGlobalPaletteMode());
+                               ShouldSerializeGlobalPaletteMode() ||
+                               ShouldSerializeAcrylicTrackingValues());
 
     /// <summary>
     /// Reset All values
@@ -233,6 +234,7 @@ public sealed class KryptonManager : Component
         ResetUseKryptonFileDialogs();
         ResetBaseFont();
         ResetGlobalPaletteMode();
+        ResetAcrylicTrackingValues();
     }
 
     /// <summary>
@@ -420,6 +422,16 @@ public sealed class KryptonManager : Component
     private bool ShouldSerializeShowAdministratorSuffix() => !UseAdministratorSuffix;
     private void ResetShowAdministratorSuffix() => UseAdministratorSuffix = true;
 
+    /// <summary>
+    /// Gets the Acrylic tracking effect settings.
+    /// </summary>
+    [Category(@"Acrylic Tracking")]
+    [Description(@"Settings for Acrylic tracking effects on interactive elements.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public AcrylicTrackingValues AcrylicTrackingValues => AcrylicTrackingValuesStatic;
+    private bool ShouldSerializeAcrylicTrackingValues() => !AcrylicTrackingValuesStatic.IsDefault;
+    private void ResetAcrylicTrackingValues() => AcrylicTrackingValuesStatic.Reset();
+
     #endregion
 
     #region Static Properties
@@ -435,6 +447,9 @@ public sealed class KryptonManager : Component
     /// <summary>Gets the colors.</summary>
     /// <value>The colors.</value>
     public static KryptonColorStorage Colors { get; } = new KryptonColorStorage();
+
+    /// <summary>Gets the Acrylic tracking effect settings.</summary>
+    public static AcrylicTrackingValues AcrylicTrackingValuesStatic { get; } = new AcrylicTrackingValues();
 
     #region Static ShowAdministratorSuffix
     /// <summary>

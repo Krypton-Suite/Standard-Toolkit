@@ -382,6 +382,28 @@ public class ViewManager : GlobalId,
             // Create a render context for drawing the view
             using var context = new RenderContext(this,
                 Control, AlignControl, e.Graphics, e.ClipRectangle, renderer);
+
+            // Set mouse position for Acrylic tracking effects
+            if (Control != null && !Control.IsDisposed)
+            {
+                try
+                {
+                    // Get mouse position in control coordinates
+                    var mousePos = Control.PointToClient(Control.MousePosition);
+
+                    // Only set if inside the control area
+                    if (Control.ClientRectangle.Contains(mousePos))
+                    {
+                        // Mouse is inside the control
+                        context.MousePosition = mousePos;
+                    }
+                }
+                catch
+                {
+                    // Eat any exceptions that occur during mouse position retrieval
+                }
+            }
+
             Paint(context);
         }
     }

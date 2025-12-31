@@ -766,10 +766,26 @@ public class RenderStandard : RenderBase
 
                 // Use standard helper routine to create appropriate color brush
                 PaletteColorStyle colorStyle = paletteBorder.GetBorderColorStyle(state);
+                Color borderColor1 = paletteBorder.GetBorderColor1(state);
+                Color borderColor2 = paletteBorder.GetBorderColor2(state);
+
+                // Apply Acrylic effect: darker border under cursor when tracking
+                var settings = KryptonManager.AcrylicTrackingValuesStatic;
+                if (settings.Enabled &&
+                    state == PaletteState.Tracking &&
+                    context.MousePosition.HasValue &&
+                    rect.Contains(context.MousePosition.Value))
+                {
+                    // Make border darker near cursor position, scaled by intensity
+                    float darkenFactor = 0.2f * settings.Intensity;
+                    borderColor1 = ControlPaint.Dark(borderColor1, darkenFactor);
+                    borderColor2 = ControlPaint.Dark(borderColor2, darkenFactor);
+                }
+
                 using (var borderPen =
                        new Pen(
-                           CreateColorBrush(gradientRect, paletteBorder.GetBorderColor1(state),
-                               paletteBorder.GetBorderColor2(state), colorStyle, paletteBorder.GetBorderColorAngle(state),
+                           CreateColorBrush(gradientRect, borderColor1,
+                               borderColor2, colorStyle, paletteBorder.GetBorderColorAngle(state),
                                orientation), borderWidth))
                 {
                     if (colorStyle == PaletteColorStyle.Dashed)
@@ -1006,11 +1022,23 @@ public class RenderStandard : RenderBase
                     backColorStyle, backColorAngle, orientation, path);
                 break;
             default:
-                // Use standard helper routine to create appropriate color brush
-                using (Brush backBrush = CreateColorBrush(gradientRect, backColor1, backColor2,
-                           backColorStyle, backColorAngle, orientation))
+                // Apply Acrylic hover effect when tracking and mouse position is available
+                var settings = KryptonManager.AcrylicTrackingValuesStatic;
+                if (settings.Enabled &&
+                    state == PaletteState.Tracking &&
+                    context.MousePosition.HasValue &&
+                    rect.Contains(context.MousePosition.Value))
                 {
-                    context.Graphics.FillPath(backBrush, path);
+                    DrawBackAcrylicTracking(context, rect, backColor1, backColor2, backColorStyle, backColorAngle, orientation, path, context.MousePosition.Value);
+                }
+                else
+                {
+                    // Use standard helper routine to create appropriate color brush
+                    using (Brush backBrush = CreateColorBrush(gradientRect, backColor1, backColor2,
+                               backColorStyle, backColorAngle, orientation))
+                    {
+                        context.Graphics.FillPath(backBrush, path);
+                    }
                 }
                 break;
         }
@@ -2835,58 +2863,58 @@ public class RenderStandard : RenderBase
         {
             default:
             case PaletteRibbonShape.Office2007:
-            {
-                using var darkPen = new Pen(paletteGeneral.GetRibbonGroupDialogDark(state));
-                using var lightPen = new Pen(paletteGeneral.GetRibbonGroupDialogLight(state));
-                context.Graphics.DrawLine(darkPen, displayRect.Left, displayRect.Top + 5, displayRect.Left,
-                    displayRect.Top);
-                context.Graphics.DrawLine(darkPen, displayRect.Left, displayRect.Top, displayRect.Left + 5,
-                    displayRect.Top);
-                context.Graphics.DrawLine(lightPen, displayRect.Left + 1, displayRect.Top + 5,
-                    displayRect.Left + 1, displayRect.Top + 1);
-                context.Graphics.DrawLine(lightPen, displayRect.Left + 1, displayRect.Top + 1,
-                    displayRect.Left + 5, displayRect.Top + 1);
-                context.Graphics.DrawLine(lightPen, displayRect.Right - 1, displayRect.Bottom - 5,
-                    displayRect.Right - 1, displayRect.Bottom - 1);
-                context.Graphics.DrawLine(lightPen, displayRect.Right - 1, displayRect.Bottom - 1,
-                    displayRect.Right - 4, displayRect.Bottom - 1);
-                context.Graphics.DrawLine(lightPen, displayRect.Right - 1, displayRect.Bottom - 1,
-                    displayRect.Right - 4, displayRect.Bottom - 5);
-                context.Graphics.DrawLine(darkPen, displayRect.Right - 5, displayRect.Bottom - 2,
-                    displayRect.Right - 2, displayRect.Bottom - 2);
-                context.Graphics.DrawLine(darkPen, displayRect.Right - 4, displayRect.Bottom - 3,
-                    displayRect.Right - 3, displayRect.Bottom - 3);
-                context.Graphics.DrawLine(darkPen, displayRect.Right - 2, displayRect.Bottom - 2,
-                    displayRect.Right - 2, displayRect.Bottom - 5);
-                context.Graphics.DrawLine(darkPen, displayRect.Right - 3, displayRect.Bottom - 3,
-                    displayRect.Right - 3, displayRect.Bottom - 4);
-                context.Graphics.DrawLine(darkPen, displayRect.Right - 5, displayRect.Bottom - 5,
-                    displayRect.Right - 3, displayRect.Bottom - 3);
-            }
+                {
+                    using var darkPen = new Pen(paletteGeneral.GetRibbonGroupDialogDark(state));
+                    using var lightPen = new Pen(paletteGeneral.GetRibbonGroupDialogLight(state));
+                    context.Graphics.DrawLine(darkPen, displayRect.Left, displayRect.Top + 5, displayRect.Left,
+                        displayRect.Top);
+                    context.Graphics.DrawLine(darkPen, displayRect.Left, displayRect.Top, displayRect.Left + 5,
+                        displayRect.Top);
+                    context.Graphics.DrawLine(lightPen, displayRect.Left + 1, displayRect.Top + 5,
+                        displayRect.Left + 1, displayRect.Top + 1);
+                    context.Graphics.DrawLine(lightPen, displayRect.Left + 1, displayRect.Top + 1,
+                        displayRect.Left + 5, displayRect.Top + 1);
+                    context.Graphics.DrawLine(lightPen, displayRect.Right - 1, displayRect.Bottom - 5,
+                        displayRect.Right - 1, displayRect.Bottom - 1);
+                    context.Graphics.DrawLine(lightPen, displayRect.Right - 1, displayRect.Bottom - 1,
+                        displayRect.Right - 4, displayRect.Bottom - 1);
+                    context.Graphics.DrawLine(lightPen, displayRect.Right - 1, displayRect.Bottom - 1,
+                        displayRect.Right - 4, displayRect.Bottom - 5);
+                    context.Graphics.DrawLine(darkPen, displayRect.Right - 5, displayRect.Bottom - 2,
+                        displayRect.Right - 2, displayRect.Bottom - 2);
+                    context.Graphics.DrawLine(darkPen, displayRect.Right - 4, displayRect.Bottom - 3,
+                        displayRect.Right - 3, displayRect.Bottom - 3);
+                    context.Graphics.DrawLine(darkPen, displayRect.Right - 2, displayRect.Bottom - 2,
+                        displayRect.Right - 2, displayRect.Bottom - 5);
+                    context.Graphics.DrawLine(darkPen, displayRect.Right - 3, displayRect.Bottom - 3,
+                        displayRect.Right - 3, displayRect.Bottom - 4);
+                    context.Graphics.DrawLine(darkPen, displayRect.Right - 5, displayRect.Bottom - 5,
+                        displayRect.Right - 3, displayRect.Bottom - 3);
+                }
                 break;
             case PaletteRibbonShape.Office2010:
-            {
-                var dialogBrush = new LinearGradientBrush(
-                    new RectangleF(displayRect.X - 1, displayRect.Y - 1, displayRect.Width + 2,
-                        displayRect.Height + 2), paletteGeneral.GetRibbonGroupDialogLight(state),
-                    paletteGeneral.GetRibbonGroupDialogDark(state), 45f);
+                {
+                    var dialogBrush = new LinearGradientBrush(
+                        new RectangleF(displayRect.X - 1, displayRect.Y - 1, displayRect.Width + 2,
+                            displayRect.Height + 2), paletteGeneral.GetRibbonGroupDialogLight(state),
+                        paletteGeneral.GetRibbonGroupDialogDark(state), 45f);
 
-                using var dialogPen = new Pen(dialogBrush);
-                context.Graphics.DrawLine(dialogPen, displayRect.Left, displayRect.Top + 5, displayRect.Left,
-                    displayRect.Top);
-                context.Graphics.DrawLine(dialogPen, displayRect.Left, displayRect.Top, displayRect.Left + 5,
-                    displayRect.Top);
-                context.Graphics.DrawLine(dialogPen, displayRect.Right - 5, displayRect.Bottom - 2,
-                    displayRect.Right - 2, displayRect.Bottom - 2);
-                context.Graphics.DrawLine(dialogPen, displayRect.Right - 4, displayRect.Bottom - 3,
-                    displayRect.Right - 3, displayRect.Bottom - 3);
-                context.Graphics.DrawLine(dialogPen, displayRect.Right - 2, displayRect.Bottom - 2,
-                    displayRect.Right - 2, displayRect.Bottom - 5);
-                context.Graphics.DrawLine(dialogPen, displayRect.Right - 3, displayRect.Bottom - 3,
-                    displayRect.Right - 3, displayRect.Bottom - 4);
-                context.Graphics.DrawLine(dialogPen, displayRect.Right - 5, displayRect.Bottom - 5,
-                    displayRect.Right - 3, displayRect.Bottom - 3);
-            }
+                    using var dialogPen = new Pen(dialogBrush);
+                    context.Graphics.DrawLine(dialogPen, displayRect.Left, displayRect.Top + 5, displayRect.Left,
+                        displayRect.Top);
+                    context.Graphics.DrawLine(dialogPen, displayRect.Left, displayRect.Top, displayRect.Left + 5,
+                        displayRect.Top);
+                    context.Graphics.DrawLine(dialogPen, displayRect.Right - 5, displayRect.Bottom - 2,
+                        displayRect.Right - 2, displayRect.Bottom - 2);
+                    context.Graphics.DrawLine(dialogPen, displayRect.Right - 4, displayRect.Bottom - 3,
+                        displayRect.Right - 3, displayRect.Bottom - 3);
+                    context.Graphics.DrawLine(dialogPen, displayRect.Right - 2, displayRect.Bottom - 2,
+                        displayRect.Right - 2, displayRect.Bottom - 5);
+                    context.Graphics.DrawLine(dialogPen, displayRect.Right - 3, displayRect.Bottom - 3,
+                        displayRect.Right - 3, displayRect.Bottom - 4);
+                    context.Graphics.DrawLine(dialogPen, displayRect.Right - 5, displayRect.Bottom - 5,
+                        displayRect.Right - 3, displayRect.Bottom - 3);
+                }
                 break;
         }
     }
@@ -2930,34 +2958,34 @@ public class RenderStandard : RenderBase
         {
             default:
             case PaletteRibbonShape.Office2007:
-            {
-                using var darkPen = new Pen(darkColor);
-                using var lightPen = new Pen(lightColor);
-                context.Graphics.DrawLine(darkPen, displayRect.Left, displayRect.Top, displayRect.Left + 4,
-                    displayRect.Top);
-                context.Graphics.DrawLine(darkPen, displayRect.Left + 1, displayRect.Top + 1,
-                    displayRect.Left + 3, displayRect.Top + 1);
-                context.Graphics.DrawLine(darkPen, displayRect.Left + 2, displayRect.Top + 1,
-                    displayRect.Left + 2, displayRect.Top + 2);
-                context.Graphics.DrawLine(lightPen, displayRect.Left, displayRect.Top + 1, displayRect.Left + 2,
-                    displayRect.Top + 3);
-                context.Graphics.DrawLine(lightPen, displayRect.Left + 2, displayRect.Top + 3,
-                    displayRect.Left + 4, displayRect.Top + 1);
-            }
+                {
+                    using var darkPen = new Pen(darkColor);
+                    using var lightPen = new Pen(lightColor);
+                    context.Graphics.DrawLine(darkPen, displayRect.Left, displayRect.Top, displayRect.Left + 4,
+                        displayRect.Top);
+                    context.Graphics.DrawLine(darkPen, displayRect.Left + 1, displayRect.Top + 1,
+                        displayRect.Left + 3, displayRect.Top + 1);
+                    context.Graphics.DrawLine(darkPen, displayRect.Left + 2, displayRect.Top + 1,
+                        displayRect.Left + 2, displayRect.Top + 2);
+                    context.Graphics.DrawLine(lightPen, displayRect.Left, displayRect.Top + 1, displayRect.Left + 2,
+                        displayRect.Top + 3);
+                    context.Graphics.DrawLine(lightPen, displayRect.Left + 2, displayRect.Top + 3,
+                        displayRect.Left + 4, displayRect.Top + 1);
+                }
                 break;
 
             case PaletteRibbonShape.Office2010:
-            {
-                using var fillBrush = new LinearGradientBrush(
-                    new RectangleF(displayRect.X - 1, displayRect.Y - 1, displayRect.Width + 2,
-                        displayRect.Height + 2), lightColor, darkColor, 45f);
-                context.Graphics.FillPolygon(fillBrush, new[]
                 {
+                    using var fillBrush = new LinearGradientBrush(
+                        new RectangleF(displayRect.X - 1, displayRect.Y - 1, displayRect.Width + 2,
+                            displayRect.Height + 2), lightColor, darkColor, 45f);
+                    context.Graphics.FillPolygon(fillBrush, new[]
+                    {
                     new Point(displayRect.Left - 1, displayRect.Top - 1),
                     new Point(displayRect.Left + 2, displayRect.Top + 3),
                     new Point(displayRect.Left + 5, displayRect.Top)
                 });
-            }
+                }
                 break;
         }
     }
@@ -3011,12 +3039,12 @@ public class RenderStandard : RenderBase
         }
         else
         {
-            context.Graphics.DrawLine(darkPen, displayRect.Left, displayRect.Top, displayRect.Right - 1 , displayRect.Top);
+            context.Graphics.DrawLine(darkPen, displayRect.Left, displayRect.Top, displayRect.Right - 1, displayRect.Top);
             context.Graphics.DrawLine(lightPen, displayRect.Left, displayRect.Top + 1, displayRect.Right - 1, displayRect.Top + 1);
         }
 
-        context.Graphics.DrawLine(darkPen, displayRect.Left, displayRect.Top + 3, displayRect.Right -1, displayRect.Top + 3);
-		
+        context.Graphics.DrawLine(darkPen, displayRect.Left, displayRect.Top + 3, displayRect.Right - 1, displayRect.Top + 3);
+
         context.Graphics.DrawLine(darkPen, displayRect.Right - 2, displayRect.Top + 4, displayRect.Left + displayRect.Width / 2, displayRect.Bottom - 5);
         context.Graphics.DrawLine(darkPen, displayRect.Left + displayRect.Width / 2, displayRect.Bottom - 5, displayRect.Left + 1, displayRect.Top + 4);
         context.Graphics.DrawLine(lightPen, displayRect.Left + 7, displayRect.Top + 5, displayRect.Left + displayRect.Width / 2, displayRect.Bottom - 4);
@@ -3119,30 +3147,30 @@ public class RenderStandard : RenderBase
         {
             default:
             case PaletteRibbonShape.Office2007:
-            {
-                using var darkPen = new Pen(darkColor);
-                using var lightPen = new Pen(lightColor);
-                context.Graphics.DrawLine(lightPen, x, displayRect.Top + 2, x, displayRect.Bottom - 3);
-                context.Graphics.DrawLine(darkPen, x + 1, displayRect.Top + 2, x + 1, displayRect.Bottom - 3);
-            }
+                {
+                    using var darkPen = new Pen(darkColor);
+                    using var lightPen = new Pen(lightColor);
+                    context.Graphics.DrawLine(lightPen, x, displayRect.Top + 2, x, displayRect.Bottom - 3);
+                    context.Graphics.DrawLine(darkPen, x + 1, displayRect.Top + 2, x + 1, displayRect.Bottom - 3);
+                }
                 break;
 
             case PaletteRibbonShape.Office2010:
-            {
-                using var darkBrush = new LinearGradientBrush(
-                    new Rectangle(displayRect.X, displayRect.Y - 1, displayRect.Width,
-                        displayRect.Height + 2), Color.FromArgb(72, darkColor), darkColor, 90f);
-                using var lightBrush = new LinearGradientBrush(
-                    new Rectangle(displayRect.X - 1, displayRect.Y - 1,
-                        displayRect.Width + 2, displayRect.Height + 2),
-                    Color.FromArgb(128, lightColor), lightColor, 90f);
-                darkBrush.SetSigmaBellShape(0.5f);
-                lightBrush.SetSigmaBellShape(0.5f);
+                {
+                    using var darkBrush = new LinearGradientBrush(
+                        new Rectangle(displayRect.X, displayRect.Y - 1, displayRect.Width,
+                            displayRect.Height + 2), Color.FromArgb(72, darkColor), darkColor, 90f);
+                    using var lightBrush = new LinearGradientBrush(
+                        new Rectangle(displayRect.X - 1, displayRect.Y - 1,
+                            displayRect.Width + 2, displayRect.Height + 2),
+                        Color.FromArgb(128, lightColor), lightColor, 90f);
+                    darkBrush.SetSigmaBellShape(0.5f);
+                    lightBrush.SetSigmaBellShape(0.5f);
 
-                using var darkPen = new Pen(darkBrush);
-                context.Graphics.FillRectangle(lightBrush, x, displayRect.Top, 3, displayRect.Height);
-                context.Graphics.DrawLine(darkPen, x + 1, displayRect.Top, x + 1, displayRect.Bottom - 1);
-            }
+                    using var darkPen = new Pen(darkBrush);
+                    context.Graphics.FillRectangle(lightBrush, x, displayRect.Top, 3, displayRect.Height);
+                    context.Graphics.DrawLine(darkPen, x + 1, displayRect.Top, x + 1, displayRect.Bottom - 1);
+                }
                 break;
         }
     }
@@ -4585,29 +4613,29 @@ public class RenderStandard : RenderBase
                 AddSlantBothPath(borderPath, orientation, rect, forBorder);
                 break;
             case TabBorderStyle.OneNote:
-            {
-                // Is the current tab selected?
-                var selected = state is PaletteState.CheckedNormal or PaletteState.CheckedPressed
-                    or PaletteState.CheckedTracking;
-
-                // The right padding depends on the selected state
-                var rp = selected ? SPACING_TAB_ONE_NOTE_RPS : SPACING_TAB_ONE_NOTE_RPI;
-
-                // If not selected then need to make the tab shorter
-                if (!selected)
                 {
-                    rect = AdjustOneNoteTab(rect, orientation);
-                }
+                    // Is the current tab selected?
+                    var selected = state is PaletteState.CheckedNormal or PaletteState.CheckedPressed
+                        or PaletteState.CheckedTracking;
 
-                if (rtl && orientation is VisualOrientation.Top or VisualOrientation.Bottom)
-                {
-                    AddOneNoteReversePath(borderPath, orientation, rect, forBorder, rp);
+                    // The right padding depends on the selected state
+                    var rp = selected ? SPACING_TAB_ONE_NOTE_RPS : SPACING_TAB_ONE_NOTE_RPI;
+
+                    // If not selected then need to make the tab shorter
+                    if (!selected)
+                    {
+                        rect = AdjustOneNoteTab(rect, orientation);
+                    }
+
+                    if (rtl && orientation is VisualOrientation.Top or VisualOrientation.Bottom)
+                    {
+                        AddOneNoteReversePath(borderPath, orientation, rect, forBorder, rp);
+                    }
+                    else
+                    {
+                        AddOneNotePath(borderPath, orientation, rect, forBorder, rp);
+                    }
                 }
-                else
-                {
-                    AddOneNotePath(borderPath, orientation, rect, forBorder, rp);
-                }
-            }
                 break;
             case TabBorderStyle.SmoothEqual:
             case TabBorderStyle.SmoothOutsize:
@@ -5677,7 +5705,7 @@ public class RenderStandard : RenderBase
         context.Graphics.FillPath(backBrush, path);
     }
 
-    private void DrawBackLinearShadow(RenderContext context,
+    protected virtual void DrawBackLinearShadow(RenderContext context,
         Rectangle rect,
         Rectangle gradientRect,
         Color backColor1,
@@ -5703,6 +5731,204 @@ public class RenderStandard : RenderBase
         borderBrush.CenterColor = backColor1;
         borderBrush.SurroundColors = [backColor2];
         context.Graphics.FillPath(borderBrush, path);
+    }
+
+    /// <summary>
+    /// Draw background with Acrylic hover effect: Windows 10-style spotlight that follows the cursor.
+    /// Creates a bright highlight under the cursor that fades smoothly outward.
+    /// </summary>
+    protected virtual void DrawBackAcrylicTracking(RenderContext context,
+        Rectangle rect,
+        Color backColor1,
+        Color backColor2,
+        PaletteColorStyle backColorStyle,
+        float backColorAngle,
+        VisualOrientation orientation,
+        GraphicsPath path,
+        Point mousePosition)
+    {
+        // Get settings
+        var settings = KryptonManager.AcrylicTrackingValuesStatic;
+
+        // Get the rectangle to use when dealing with gradients
+        Rectangle gradientRect = context.GetAlignedRectangle(PaletteRectangleAlign.Local, rect);
+
+        // STEP 1: Draw the base background first (standard rendering)
+        using (Brush backBrush = CreateColorBrush(gradientRect, backColor1, backColor2,
+                   backColorStyle, backColorAngle, orientation))
+        {
+            context.Graphics.FillPath(backBrush, path);
+        }
+
+        // STEP 2: Create the Acrylic spotlight overlay effect
+        // The spotlight should be a bright highlight that follows the cursor
+        int centerX = mousePosition.X;
+        int centerY = mousePosition.Y;
+
+        // Calculate spotlight size - should be proportional to control size but not too large
+        int rectWidth = rect.Width;
+        int rectHeight = rect.Height;
+        float spotlightRadius = Math.Min(rectWidth, rectHeight) * 0.6f; // 60% of smaller dimension
+
+        // Ensure minimum and maximum radius for visibility
+        spotlightRadius = Math.Max(30f, Math.Min(spotlightRadius, 150f));
+
+        // Calculate the bright highlight color
+        // Windows 10 Acrylic uses a bright white/light highlight that's noticeably brighter than base
+        Color baseColor = backColor1;
+        Color highlightColor;
+
+        if (settings.LightColor.HasValue)
+        {
+            highlightColor = settings.LightColor.Value;
+        }
+        else
+        {
+            // Create a bright highlight by significantly lightening the base color
+            // Windows 10 Acrylic uses a very bright, almost white highlight
+            highlightColor = ControlPaint.LightLight(baseColor);
+
+            // Further lighten by blending with white to ensure visibility
+            // The highlight should be noticeably brighter than the base
+            float baseLuminance = GetLuminance(baseColor);
+            if (baseLuminance < 0.5f)
+            {
+                // Dark base - use more white for contrast
+                highlightColor = CommonHelper.MergeColors(highlightColor, 0.3f, Color.White, 0.7f);
+            }
+            else
+            {
+                // Light base - still add some white for visibility
+                highlightColor = CommonHelper.MergeColors(highlightColor, 0.5f, Color.White, 0.5f);
+            }
+        }
+
+        // Apply intensity to control how bright the highlight is
+        float intensityFactor = Math.Min(2.0f, Math.Max(0.0f, settings.Intensity));
+        if (intensityFactor != 1.0f)
+        {
+            if (intensityFactor < 1.0f)
+            {
+                // Blend toward base color for lower intensity
+                highlightColor = CommonHelper.MergeColors(baseColor, 1.0f - intensityFactor, highlightColor, intensityFactor);
+            }
+            else
+            {
+                // Blend toward white for higher intensity
+                float extraIntensity = (intensityFactor - 1.0f) * 0.4f;
+                highlightColor = CommonHelper.MergeColors(highlightColor, 1.0f - extraIntensity, Color.White, extraIntensity);
+            }
+        }
+
+        // Create a circular path for the spotlight centered at cursor
+        // Make the spotlight smaller and more focused
+        float actualRadius = Math.Min(spotlightRadius, Math.Min(rectWidth, rectHeight) * 0.4f);
+        actualRadius = Math.Max(20f, Math.Min(actualRadius, 100f));
+
+        RectangleF spotlightRect = new RectangleF(
+            centerX - actualRadius,
+            centerY - actualRadius,
+            actualRadius * 2,
+            actualRadius * 2);
+
+        using var spotlightPath = new GraphicsPath();
+        spotlightPath.AddEllipse(spotlightRect);
+
+        // Use PathGradientBrush for true radial spotlight effect
+        // The key is to fade to TRANSPARENT at edges, not to a color
+        using var pathGradient = new PathGradientBrush(spotlightPath);
+        pathGradient.CenterPoint = new PointF(centerX, centerY);
+
+        // Center should be bright highlight with alpha
+        // Calculate alpha based on intensity
+        int centerAlpha = (int)(200 * Math.Min(2.0f, Math.Max(0.5f, settings.Intensity)));
+        centerAlpha = Math.Min(255, Math.Max(100, centerAlpha));
+        Color centerColorWithAlpha = Color.FromArgb(centerAlpha, highlightColor);
+        pathGradient.CenterColor = centerColorWithAlpha;
+
+        // Surround should be TRANSPARENT to create proper spotlight fade
+        pathGradient.SurroundColors = new[] { Color.Transparent };
+
+        // Set focus scales for tighter, more focused spotlight
+        // Smaller values = tighter focus (more concentrated at center)
+        float focusScale = settings.TrackingQuality switch
+        {
+            AcrylicTrackingQuality.HighQuality => 0.05f,  // Very tight, focused spotlight
+            AcrylicTrackingQuality.Balanced => 0.12f,
+            AcrylicTrackingQuality.Performance => 0.2f,
+            _ => 0.12f
+        };
+        pathGradient.FocusScales = new PointF(focusScale, focusScale);
+
+        // Create smooth color blend that fades from bright center to transparent
+        // This is critical - must fade to transparent, not to a color
+        float[] positions = settings.TrackingQuality switch
+        {
+            AcrylicTrackingQuality.HighQuality => new[] { 0.0f, 0.1f, 0.25f, 0.45f, 0.7f, 1.0f },
+            AcrylicTrackingQuality.Balanced => new[] { 0.0f, 0.15f, 0.3f, 0.55f, 1.0f },
+            AcrylicTrackingQuality.Performance => new[] { 0.0f, 0.2f, 0.45f, 1.0f },
+            _ => new[] { 0.0f, 0.15f, 0.3f, 0.55f, 1.0f }
+        };
+
+        Color[] colors = new Color[positions.Length];
+        colors[0] = centerColorWithAlpha; // Bright at center
+
+        // Create smooth fade from highlight to TRANSPARENT
+        for (int i = 1; i < positions.Length - 1; i++)
+        {
+            float t = positions[i];
+            // Exponential falloff for natural spotlight
+            float alphaFactor = 1.0f - (t * t * t); // Cubic falloff for smoother fade
+            int alpha = (int)(centerAlpha * alphaFactor);
+            colors[i] = Color.FromArgb(alpha, highlightColor);
+        }
+        colors[positions.Length - 1] = Color.Transparent; // Fully transparent at edges
+
+        var blend = new ColorBlend(positions.Length)
+        {
+            Colors = colors,
+            Positions = positions
+        };
+        pathGradient.InterpolationColors = blend;
+
+        // Save graphics state
+        var graphicsState = context.Graphics.Save();
+        try
+        {
+            // Set high quality rendering for smooth spotlight
+            context.Graphics.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceOver;
+            context.Graphics.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
+            context.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+
+            // Clip to the original control path to keep spotlight within bounds
+            using var clip = new Clipping(context.Graphics, path);
+
+            // Draw the spotlight overlay using the spotlight path
+            // This creates a bright highlight that fades to transparent
+            context.Graphics.FillPath(pathGradient, spotlightPath);
+        }
+        finally
+        {
+            context.Graphics.Restore(graphicsState);
+        }
+    }
+
+    /// <summary>
+    /// Calculate the luminance (brightness) of a color.
+    /// </summary>
+    private static float GetLuminance(Color color)
+    {
+        // Using relative luminance formula
+        float r = color.R / 255f;
+        float g = color.G / 255f;
+        float b = color.B / 255f;
+
+        // Apply gamma correction
+        r = r <= 0.03928f ? r / 12.92f : (float)Math.Pow((r + 0.055f) / 1.055f, 2.4f);
+        g = g <= 0.03928f ? g / 12.92f : (float)Math.Pow((g + 0.055f) / 1.055f, 2.4f);
+        b = b <= 0.03928f ? b / 12.92f : (float)Math.Pow((b + 0.055f) / 1.055f, 2.4f);
+
+        return 0.2126f * r + 0.7152f * g + 0.0722f * b;
     }
     #endregion
 

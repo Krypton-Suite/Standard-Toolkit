@@ -77,6 +77,11 @@ public class RenderContext : ViewContext
     public Rectangle ClipRect { get; }
 
     /// <summary>
+    /// Gets or sets the mouse position relative to the control for Acrylic tracking effects.
+    /// </summary>
+    public Point? MousePosition { get; set; }
+
+    /// <summary>
     /// Calculate a rectangle in control coordinates that is aligned for gradient drawing.
     /// </summary>
     /// <param name="align">How to align the gradient.</param>

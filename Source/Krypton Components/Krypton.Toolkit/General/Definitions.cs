@@ -4503,3 +4503,27 @@ public interface IFocusLostMenuItem
 }
 #endregion
 
+#region Enum Acrylic Tracking Quality
+
+/// <summary>
+/// Defines performance profiles for Acrylic tracking effects.
+/// </summary>
+public enum AcrylicTrackingQuality
+{
+    /// <summary>
+    /// High quality rendering with full gradient effects.
+    /// </summary>
+    HighQuality,
+
+    /// <summary>
+    /// Balanced quality and performance.
+    /// </summary>
+    Balanced,
+
+    /// <summary>
+    /// Performance optimized with simplified effects.
+    /// </summary>
+    Performance
+}
+
+#endregion

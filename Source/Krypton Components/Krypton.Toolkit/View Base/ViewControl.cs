@@ -162,6 +162,25 @@ public class ViewControl : Control
             // Create a render context for drawing the view
             using var context = new RenderContext(GetViewManager(), this, RootInstance, e.Graphics,
                 e.ClipRectangle, Renderer!);
+
+            // Set mouse position for Acrylic tracking effects
+            try
+            {
+                // Convert from screen to control coordinates
+                var mousePos = PointToClient(MousePosition);
+
+                // Only set if inside our client area
+                if (ClientRectangle.Contains(mousePos))
+                {
+                    // Update the context with mouse position
+                    context.MousePosition = mousePos;
+                }
+            }
+            catch
+            {
+                // Eat any errors from invalid mouse position
+            }
+
             // Ask the view to paint itself
             ViewLayoutControl.ChildView?.Render(context);
         }

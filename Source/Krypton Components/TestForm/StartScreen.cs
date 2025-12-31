@@ -56,6 +56,7 @@ public partial class StartScreen : KryptonForm
     private void AddButtons()
     {
         CreateButton("AboutBox", "Try this About Box for a change", typeof(AboutBoxTest));
+        CreateButton("Acrylic Hover Renderer", "Comprehensive demonstration of Acrylic hover effects with configurable intensity, colors, quality profiles, and animation settings.", typeof(AcrylicHoverRendererTest));
         CreateButton("Buttons Test", "All the buttons you want to test.", typeof(ButtonsTest));
         CreateButton("BugReportingTool", "Easily report bugs with this tool.", typeof(BugReportingDialogTest));
         CreateButton("CommandLink Buttons", "No comment", typeof(CommandLinkButtons));
