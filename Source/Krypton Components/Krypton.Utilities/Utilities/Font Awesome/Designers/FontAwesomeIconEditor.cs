@@ -65,6 +65,8 @@ public class FontAwesomeIconEditor : UITypeEditor
 
         if (editorService.ShowDialog(dialog) == DialogResult.OK)
         {
+            // Notify that the value is about to change (for undo/redo support)
+            context.OnComponentChanging();
             // Notify that the value has changed
             context.OnComponentChanged();
             return dialog.SelectedIcon;

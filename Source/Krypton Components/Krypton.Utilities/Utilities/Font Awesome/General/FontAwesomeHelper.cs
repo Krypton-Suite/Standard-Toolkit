@@ -317,9 +317,13 @@ public static class FontAwesomeHelper
     {
         var fontKey = GetFontKey(style);
 
-        if (_fontCache.TryGetValue(fontKey, out var cachedEntry))
+        // Synchronized cache read to prevent race condition with ClearCache
+        lock (_lockObject)
         {
-            return cachedEntry.FontFamily;
+            if (_fontCache.TryGetValue(fontKey, out var cachedEntry))
+            {
+                return cachedEntry.FontFamily;
+            }
         }
 
         FontFamily? fontFamily;
@@ -359,26 +363,30 @@ public static class FontAwesomeHelper
                     {
                         fontFamily = privateFontCollection.Families[0];
                         var cacheEntry = new FontCacheEntry(fontFamily, privateFontCollection, fontPtr, fontData.Length);
-                        if (_fontCache.TryAdd(fontKey, cacheEntry))
+                        // Synchronized cache write to prevent race condition with ClearCache
+                        lock (_lockObject)
                         {
-                            privateFontCollection = null; // Ownership transferred to cache entry
-                            fontPtr = IntPtr.Zero; // Ownership transferred to cache entry
-                            return fontFamily;
-                        }
-                        else
-                        {
-                            // Another thread already added the font, use the cached one and clean up our resources
-                            if (_fontCache.TryGetValue(fontKey, out var existingEntry))
+                            if (_fontCache.TryAdd(fontKey, cacheEntry))
                             {
-                                cacheEntry.Dispose();
-                                privateFontCollection = null; // Already disposed by cacheEntry
-                                fontPtr = IntPtr.Zero; // Already freed by cacheEntry
-                                return existingEntry.FontFamily;
+                                privateFontCollection = null; // Ownership transferred to cache entry
+                                fontPtr = IntPtr.Zero; // Ownership transferred to cache entry
+                                return fontFamily;
                             }
-                            cacheEntry.Dispose();
-                            privateFontCollection = null; // Already disposed by cacheEntry
-                            fontPtr = IntPtr.Zero; // Already freed by cacheEntry
+                            else
+                            {
+                                // Another thread already added the font, use the cached one and clean up our resources
+                                if (_fontCache.TryGetValue(fontKey, out var existingEntry))
+                                {
+                                    cacheEntry.Dispose();
+                                    privateFontCollection = null; // Already disposed by cacheEntry
+                                    fontPtr = IntPtr.Zero; // Already freed by cacheEntry
+                                    return existingEntry.FontFamily;
+                                }
+                            }
                         }
+                        cacheEntry.Dispose();
+                        privateFontCollection = null; // Already disposed by cacheEntry
+                        fontPtr = IntPtr.Zero; // Already freed by cacheEntry
                     }
                 }
             }
@@ -411,23 +419,27 @@ public static class FontAwesomeHelper
                 {
                     fontFamily = privateFontCollection.Families[0];
                     var cacheEntry = new FontCacheEntry(fontFamily, privateFontCollection, IntPtr.Zero, 0);
-                    if (_fontCache.TryAdd(fontKey, cacheEntry))
+                    // Synchronized cache write to prevent race condition with ClearCache
+                    lock (_lockObject)
                     {
-                        privateFontCollection = null; // Ownership transferred to cache entry
-                        return fontFamily;
-                    }
-                    else
-                    {
-                        // Another thread already added the font, use the cached one and clean up our resources
-                        if (_fontCache.TryGetValue(fontKey, out var existingEntry))
+                        if (_fontCache.TryAdd(fontKey, cacheEntry))
                         {
-                            cacheEntry.Dispose();
-                            privateFontCollection = null; // Already disposed by cacheEntry
-                            return existingEntry.FontFamily;
+                            privateFontCollection = null; // Ownership transferred to cache entry
+                            return fontFamily;
                         }
-                        cacheEntry.Dispose();
-                        privateFontCollection = null; // Already disposed by cacheEntry
+                        else
+                        {
+                            // Another thread already added the font, use the cached one and clean up our resources
+                            if (_fontCache.TryGetValue(fontKey, out var existingEntry))
+                            {
+                                cacheEntry.Dispose();
+                                privateFontCollection = null; // Already disposed by cacheEntry
+                                return existingEntry.FontFamily;
+                            }
+                        }
                     }
+                    cacheEntry.Dispose();
+                    privateFontCollection = null; // Already disposed by cacheEntry
                 }
             }
             catch
@@ -456,7 +468,11 @@ public static class FontAwesomeHelper
                     {
                         fontFamily = family;
                         var cacheEntry = new FontCacheEntry(family, null, IntPtr.Zero, 0);
-                        _fontCache.TryAdd(fontKey, cacheEntry);
+                        // Synchronized cache write to prevent race condition with ClearCache
+                        lock (_lockObject)
+                        {
+                            _fontCache.TryAdd(fontKey, cacheEntry);
+                        }
                         return fontFamily;
                     }
                 }
@@ -474,7 +490,11 @@ public static class FontAwesomeHelper
                     {
                         fontFamily = family;
                         var cacheEntry = new FontCacheEntry(family, null, IntPtr.Zero, 0);
-                        _fontCache.TryAdd(fontKey, cacheEntry);
+                        // Synchronized cache write to prevent race condition with ClearCache
+                        lock (_lockObject)
+                        {
+                            _fontCache.TryAdd(fontKey, cacheEntry);
+                        }
                         return fontFamily;
                     }
                 }
