@@ -698,6 +698,12 @@ internal class ViewLayoutRibbonTabsArea : ViewLayoutDocker
             return;
         }
 
+        // Don't show app menu if backstage is still visible (close was cancelled)
+        if (_ribbon.BackstageVisible)
+        {
+            return;
+        }
+
         ShowAppButtonMenu(_appTabController?.Keyboard ?? false);
     }
 

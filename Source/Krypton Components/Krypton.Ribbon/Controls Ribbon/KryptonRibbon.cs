@@ -1869,6 +1869,12 @@ public class KryptonRibbon : VisualSimple,
         // Close any existing app menu popup before showing backstage
         TabsArea?.DismissAppButtonMenu();
 
+        // Remove any minimized popup window from display
+        if (RealMinimizedMode)
+        {
+            KillMinimizedPopup();
+        }
+
         // Remember the currently selected tab so we can restore it on close
         _backstageRestoreTab = SelectedTab;
 
