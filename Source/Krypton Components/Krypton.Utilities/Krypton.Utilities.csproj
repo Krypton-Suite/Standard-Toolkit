@@ -92,7 +92,7 @@
 
 	<!-- WebView2 NuGet Package Reference for .NET Framework targets (4.7.2+) -->
 	<!-- Uses minimum version with floating patch to automatically resolve to latest 1.0.x version -->
-	<!-- Separate ItemGroup entries for each TFM to ensure reliable package restore in CI -->
+	<!-- Separate ItemGroup per TFM to ensure reliable package restore in MSBuild/CI -->
 	<ItemGroup Condition="'$(TargetFramework)' == 'net472'">
 		<PackageReference Include="Microsoft.Web.WebView2" Version="[1.0.0,2.0.0)" />
 	</ItemGroup>
@@ -139,6 +139,7 @@
 
 	<!-- Always use NuGet package for .NET 8+ (required for CI builds where file-based references may not exist) -->
 	<!-- Uses minimum version with floating patch to automatically resolve to latest 1.0.x version -->
+	<!-- Separate ItemGroup per TFM to ensure reliable package restore in MSBuild/CI -->
 	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0-windows'">
 		<PackageReference Include="Microsoft.Web.WebView2" Version="[1.0.0,2.0.0)" />
 	</ItemGroup>
