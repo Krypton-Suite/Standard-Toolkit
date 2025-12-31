@@ -210,7 +210,7 @@
             // 
             // grpStateExamples
             // 
-            this.grpStateExamples.Location = new System.Drawing.Point(430, 220);
+            this.grpStateExamples.Location = new System.Drawing.Point(430, 280);
             this.grpStateExamples.Name = "grpStateExamples";
             // 
             // grpStateExamples.Panel
@@ -263,7 +263,7 @@
             // 
             // grpUtilities
             // 
-            this.grpUtilities.Location = new System.Drawing.Point(430, 340);
+            this.grpUtilities.Location = new System.Drawing.Point(430, 440);
             this.grpUtilities.Name = "grpUtilities";
             // 
             // grpUtilities.Panel
@@ -274,7 +274,7 @@
             this.grpUtilities.Panel.Controls.Add(this.btnDirectRender);
             this.grpUtilities.Panel.Controls.Add(this.btnSetFontPath);
             this.grpUtilities.Panel.Controls.Add(this.btnClearCache);
-            this.grpUtilities.Size = new System.Drawing.Size(300, 250);
+            this.grpUtilities.Size = new System.Drawing.Size(300, 300);
             this.grpUtilities.TabIndex = 4;
             this.grpUtilities.Values.Heading = "Utilities";
             // 
