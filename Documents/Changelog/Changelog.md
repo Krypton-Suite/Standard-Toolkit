@@ -6,6 +6,7 @@
 
 * Implemented ribbon merging functionality - Added `KryptonRibbonMerger` class and extension methods to enable dynamic merging and unmerging of ribbon tabs, groups, contexts, and items between multiple `KryptonRibbon` instances. Supports plugin architectures where modules can dynamically add their own ribbon tabs
 * Implemented UserControl hosting support for `KryptonRibbon` - `KryptonRibbon` can now be hosted on `UserControl` instances, enabling plugin architectures where modules can define their own ribbon UI alongside their content
+* Resolved [#2818](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2818), Unable to find package `Krypton.Utilities`
 * Resolved [#2801](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2801), `KryptonTextBox` Validating event fires twice
 * Implemented [#2762](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2762), **[Breaking Change]** Move the public facing version of `KryptonExceptionDialog` to `Krypton.Utilities`
 * Implemented [#2740](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2740), Browser control
