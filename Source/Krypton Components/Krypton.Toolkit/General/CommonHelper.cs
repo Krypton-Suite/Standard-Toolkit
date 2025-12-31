@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -50,15 +50,14 @@ public static class CommonHelper
     private static int _nextId = 1000;
     //private static readonly DateTime _baseDate = new(2000, 1, 1);
     private static PropertyInfo? _cachedShortcutPI;
-    private static PropertyInfo? _cachedDesignModePI;
     private static MethodInfo? _cachedShortcutMI;
     private static NullContentValues? _nullContentValues;
+    private static bool? _cachedDesignMode = null;
     private static readonly DoubleConverter _dc = new DoubleConverter();
     private static readonly SizeConverter _sc = new SizeConverter();
     private static readonly PointConverter _pc = new PointConverter();
     private static readonly BooleanConverter _bc = new BooleanConverter();
     private static readonly ColorConverter _cc = new ColorConverter();
-
     #endregion
 
     /// <summary>
@@ -1227,102 +1226,20 @@ public static class CommonHelper
         }
     }
 
-    /// <summary>
-    /// Gets the size of the borders requested by the real window.
-    /// </summary>
-    /// <param name="cp">Window style parameters.</param>
-    /// <param name="form">Optional VisualForm base to detect usage of Chrome drawing</param>
-    /// <returns>Border sizing.</returns>
-    public static Padding GetWindowBorders(CreateParams cp, KryptonForm? form)
-    {
-        int xOffset = 0;
-        int yOffset = 0;
-        uint dwStyle = (uint)cp.Style;
-        bool useAdjust = false;
-        if (form is { StateCommon.Border: PaletteFormBorder formBorder } kryptonForm)
-        {
-            useAdjust = true;
-            var (xOffset1, yOffset1) = formBorder.BorderWidths(kryptonForm.FormBorderStyle);
-            xOffset = Math.Max(0, xOffset1);
-            yOffset = Math.Max(0, yOffset1);
-        }
 
+    public static Padding GetWindowBorders(CreateParams createParams)
+    {
         var rect = new PI.RECT
         {
             // Start with a zero sized rectangle
-            top = -yOffset,
-            bottom = yOffset
+            left = 0,
+            right = 0,
+            top = 0,
+            bottom = 0
         };
-        if (useAdjust)
-        {
-            // Adjust rectangle to add on the borders required
-            PI.AdjustWindowRectEx(ref rect, dwStyle, false, cp.ExStyle);
-            PaletteBase? resolvedPalette = form?.GetResolvedPalette();
-            if (resolvedPalette == null)
-            {
-                // Need to breakout when the form is closing
-                return new Padding(-rect.left, -rect.top, rect.right, rect.bottom);
-            }
 
-            if (!CommonHelper.IsFormMaximized(form!))
-            {
-                // Set the values determined by the formBorder.BorderWidths etc.
-                rect.left = -xOffset;
-                rect.right = xOffset;
-                rect.bottom = yOffset;
-
-                switch (form!.StateCommon!.Border.GetBorderDrawBorders(PaletteState.Normal))
-                {
-                    case PaletteDrawBorders.None:
-                        rect.left = 0;
-                        rect.right = 0;
-                        rect.bottom = 0;
-                        break;
-                    case PaletteDrawBorders.Bottom:
-                    case PaletteDrawBorders.TopBottom:
-                        rect.left = 0;
-                        rect.right = 0;
-                        break;
-                    case PaletteDrawBorders.Left:
-                    case PaletteDrawBorders.TopLeft:
-                        rect.right = 0;
-                        rect.bottom = 0;
-                        break;
-                    case PaletteDrawBorders.BottomLeft:
-                    case PaletteDrawBorders.TopBottomLeft:
-                        rect.right = 0;
-                        break;
-                    case PaletteDrawBorders.Right:
-                    case PaletteDrawBorders.TopRight:
-                        rect.left = 0;
-                        rect.bottom = 0;
-                        break;
-                    case PaletteDrawBorders.BottomRight:
-                    case PaletteDrawBorders.TopBottomRight:
-                        rect.left = 0;
-                        break;
-                    case PaletteDrawBorders.LeftRight:
-                    case PaletteDrawBorders.TopLeftRight:
-                        rect.bottom = 0;
-                        break;
-                    //case PaletteDrawBorders.Inherit:
-                    //case PaletteDrawBorders.BottomLeftRight:
-                    //case PaletteDrawBorders.All:
-                    default:
-                        break;
-                }
-            }
-            else if (form?.IsMdiChild ?? false)
-            {
-                rect.top = 0;
-                rect.bottom = 0;
-            }
-            else
-            {
-                rect.bottom -= yOffset;
-                rect.top -= rect.bottom;
-            }
-        }
+        // Adjust rectangle to add on the borders required
+        PI.AdjustWindowRectEx(ref rect, (uint)createParams.Style, false, createParams.ExStyle);
 
         // Return the per side border values
         return new Padding(-rect.left, -rect.top, rect.right, rect.bottom);
@@ -1572,22 +1489,37 @@ public static class CommonHelper
     }
 
     /// <summary>
-    /// Discover if the component is in design mode.
+    /// Checks if we are inside the Visual Studio IDE.
     /// </summary>
-    /// <param name="c">Component to test.</param>
     /// <returns>True if in design mode; otherwise false.</returns>
-    public static bool DesignMode(Component? c)
+    public static bool DesignMode()
     {
-        // Cache the info needed to sneak access to the component protected property
-        if (_cachedDesignModePI == null)
+        if (!_cachedDesignMode.HasValue)
         {
-            _cachedDesignModePI = typeof(ToolStrip).GetProperty(nameof(DesignMode),
-                BindingFlags.Instance |
-                BindingFlags.GetProperty |
-                BindingFlags.NonPublic);
+            string exceptionMessage = "CommonHelper.DesignMode() could not establish the DesignMode.";
+
+            try
+            {
+                // Preferred method first
+                _cachedDesignMode = LicenseManager.UsageMode == LicenseUsageMode.Designtime;
+            }
+            catch
+            {
+                try
+                {
+                    // Process check. (This only works with VStudio. Rider should report something different.
+                    // When a Form is shown in the designer in .NET it's process is DesignToolsServer.exe
+                    _cachedDesignMode = Process.GetCurrentProcess().ProcessName.IndexOf("devenv", StringComparison.OrdinalIgnoreCase) > -1
+                        || Process.GetCurrentProcess().ProcessName.IndexOf("DesignToolsServer", StringComparison.OrdinalIgnoreCase) > -1;
+                }
+                catch
+                {
+                    throw new Exception(exceptionMessage);
+                }
+            }
         }
 
-        return (bool)_cachedDesignModePI!.GetValue(c, null)!;
+        return _cachedDesignMode.Value;
     }
 
     /// <summary>

@@ -2,7 +2,7 @@
 /*
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- * Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2025 - 2025. All rights reserved.
+ * Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2025 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -33,6 +33,15 @@ public class KryptonTaskDialogKryptonForm : KryptonForm
     }
     #endregion
 
+    #region Internal
+    /// <summary>
+    /// The standard form's DialogResult property always returns Cancel when e.Cancel is set to true.<br/>
+    /// Before that happens the DialogResult is stored in DialogResultInternal.
+    /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    internal DialogResult DialogResultInternal { get; set; }
+    #endregion
+
     #region Protected override
     /// <inheritdoc/>>
     protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -47,12 +56,11 @@ public class KryptonTaskDialogKryptonForm : KryptonForm
         // Else let it close itself.
         if (Visible && e.CloseReason == CloseReason.UserClosing)
         {
+            // The standard form's DialogResult property always returns Cancel when e.Cancel is set to true.<br/>
+            // Before that happens the DialogResult is stored in DialogResultInternal.
+            DialogResultInternal = DialogResult;
             e.Cancel = true;
             Hide();
-        }
-        else
-        {
-            DialogResult = DialogResult.None;
         }
 
         base.OnFormClosing(e);

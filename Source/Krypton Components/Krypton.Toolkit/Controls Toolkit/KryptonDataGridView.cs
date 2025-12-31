@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -1071,8 +1071,27 @@ public class KryptonDataGridView : DataGridView
     }
     #endregion
 
-
     #region Protected Override
+    /// <inheritdoc/>
+    protected override void OnScroll(ScrollEventArgs e)
+    {
+        base.OnScroll(e);
+
+        // #2681 - work-around
+        // Headers not correctly repainted on horizontal mouse scroll
+        if (e.ScrollOrientation == ScrollOrientation.HorizontalScroll
+            && (MouseButtons & MouseButtons.Left) == MouseButtons.Left)
+        {
+            for (int i = 0; i < Columns.Count; i++)
+            {
+                if (Columns[i].Displayed)
+                {
+                    InvalidateCell(Columns[i].HeaderCell);
+                }
+            }
+        }
+    }
+
     /// <inheritdoc/>
     protected override void OnDataBindingComplete(DataGridViewBindingCompleteEventArgs e)
     {
@@ -1327,6 +1346,7 @@ public class KryptonDataGridView : DataGridView
                 using (var renderContext = new RenderContext(this, tempG, tempCellBounds, Renderer!))
                 {
                     bool isHeaderCell = e.RowIndex == -1 && e.ColumnIndex >= 0;
+
                     Rectangle headerContentBounds = Rectangle.Empty;
 
                     // Force the border to have a specified maximum border edge

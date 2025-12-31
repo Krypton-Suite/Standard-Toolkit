@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2024 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2024 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -63,5 +63,13 @@ public partial class ButtonsTest : KryptonForm
 
         kcbtnDropDown.SchemeThemes = scheme;
         kcbSortMode.Enabled = scheme == Krypton.Toolkit.ColorScheme.PaletteColors;
+    }
+
+    private void KryptonCalcInput1_ButtonSpecClicked(object sender, ButtonSpecEventArgs e)
+    {
+        if (e.ButtonSpec is ButtonSpecAny any && any.Type == PaletteButtonSpecStyle.Close)
+        {
+            KryptonCalcInput1.Value = 0m;
+        }
     }
 }

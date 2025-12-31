@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege, et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege, et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -99,7 +99,7 @@ public abstract class PaletteOffice2013WhiteBase : PaletteBase
     private static readonly Padding _metricPaddingRibbon = new Padding(0, 1, 1, 1);
     private static readonly Padding _metricPaddingRibbonAppButton = new Padding(3, 0, 3, 0);
     private static readonly Padding _metricPaddingHeader = new Padding(0, 3, 1, 3);
-    //private static readonly Padding _metricPaddingHeaderForm = new Padding(0, owningForm!.RealWindowBorders.Right, 0, 0);//, 3, 0, -3); // Move the Maximised Form buttons down a bit
+    private static readonly Padding _metricPaddingHeaderForm = new Padding(3, 0, 0, 0);
     private static readonly Padding _metricPaddingInputControl = new Padding(0, 1, 0, 1);
     private static readonly Padding _metricPaddingBarInside = new Padding(3);
     private static readonly Padding _metricPaddingBarTabs = new Padding(0);
@@ -232,38 +232,6 @@ public abstract class PaletteOffice2013WhiteBase : PaletteBase
     #endregion Instance Fields
 
     #region Identity
-
-    /// <summary>
-    /// Initialize a new instance of the PaletteOffice2013WhiteBase class.
-    /// </summary>
-    /// <param name="schemeColors">Array of palette specific colors.</param>
-    /// <param name="checkBoxList">List of images for check box.</param>
-    /// <param name="galleryButtonList">List of images for gallery buttons.</param>
-    /// <param name="radioButtonArray">Array of images for radio button.</param>
-    /// <param name="trackBarColors">Array of track bar specific colors.</param>
-    [System.Obsolete("Color[] constructor is deprecated and will be removed in V110. Use KryptonColorSchemeBase overload.", false)]
-    protected PaletteOffice2013WhiteBase([DisallowNull] Color[] schemeColors,
-        [DisallowNull] ImageList checkBoxList,
-        [DisallowNull] ImageList galleryButtonList,
-        [DisallowNull] Image?[] radioButtonArray,
-        Color[] trackBarColors)
-    {
-        Debug.Assert(schemeColors is not null);
-        Debug.Assert(checkBoxList is not null);
-        Debug.Assert(galleryButtonList is not null);
-        Debug.Assert(radioButtonArray is not null);
-
-        // Remember incoming sets of values
-        ThemeName = nameof(PaletteOffice2013WhiteBase);
-        _ribbonColors = schemeColors ?? throw new ArgumentNullException(nameof(schemeColors));
-        _checkBoxList = checkBoxList ?? throw new ArgumentNullException(nameof(CheckedListBox));
-        _galleryButtonList = galleryButtonList ?? throw new ArgumentNullException(nameof(galleryButtonList));
-        _radioButtonArray = radioButtonArray ?? throw new ArgumentNullException(nameof(radioButtonArray));
-
-        // Get the font settings from the system
-        DefineFonts();
-    }
-
     /// <summary>
     /// Overload that accepts a KryptonColorSchemeBase instance and forwards colours to the main constructor.
     /// </summary>
@@ -3016,11 +2984,7 @@ public abstract class PaletteOffice2013WhiteBase : PaletteBase
             case PaletteMetricPadding.BarPaddingOutside:
                 return _metricPaddingBarOutside;
             case PaletteMetricPadding.HeaderButtonPaddingForm:
-                if (owningForm == null)
-                {
-                    return new Padding();
-                }
-                return new Padding(0, owningForm!.RealWindowBorders.Right, 0, 0);
+                return _metricPaddingHeaderForm;
             case PaletteMetricPadding.RibbonButtonPadding:
                 return _metricPaddingRibbon;
             case PaletteMetricPadding.RibbonAppButton:

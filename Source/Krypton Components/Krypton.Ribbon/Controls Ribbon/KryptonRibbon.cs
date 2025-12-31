@@ -4,7 +4,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2026. All rights reserved.
  */
 #endregion
 
@@ -83,6 +83,7 @@ public class KryptonRibbon : VisualSimple,
     // Properties
     private bool _minimizedMode;
     private bool _showMinimizeButton;
+    private bool _scrollTabGroupArea;
     private string _selectedContext;
     private Size _hideRibbonSize;
     private QATLocation _qatLocation;
@@ -921,6 +922,25 @@ public class KryptonRibbon : VisualSimple,
     }
 
     /// <summary>
+    /// Gets and sets a value indicating whether scrolling over the RibbonGroupArea changes the ribbon tab.
+    /// </summary>
+    [Category(@"Values")]
+    [Description(@"Does scrolling over the RibbonGroupArea change the ribbon tab.")]
+    [DefaultValue(true)]
+    public bool ScrollTabGroupArea
+    {
+        get => _scrollTabGroupArea;
+
+        set
+        {
+            if (_scrollTabGroupArea != value)
+            {
+                _scrollTabGroupArea = value;
+            }
+        }
+    }
+
+    /// <summary>
     /// Resets the ShowMinimizeButton property to its default value.
     /// </summary>
     public void ResetShowMinimizeButton() => ShowMinimizeButton = true;
@@ -1106,11 +1126,33 @@ public class KryptonRibbon : VisualSimple,
                             };
 
                             // Only interested if over the tabs area
-                            if (TabsArea.ClientRectangle.Contains(PointToClient(pt)))
+                            if (TabsArea.ClientRectangle.Contains(PointToClient(pt)) || (_scrollTabGroupArea && GroupsArea.ClientRectangle.Contains(PointToClient(pt))))
                             {
-                                var delta = (short)PI.HIWORD((int)m.WParam.ToInt64());
-                                TabsArea.LayoutTabs.ProcessMouseWheel(delta < 0);
-                                return true;
+                                if (MouseControlFinder.ControlUnderMouse(pt) is Control control && control.Enabled)
+                                {
+                                    if (control is ComboBox or KryptonTrackBar or KryptonDateTimePicker or VisualPopupAppMenu or VisualContextMenu || control.Parent is DomainUpDown or NumericUpDown)
+                                    {
+                                        return false;
+                                    }
+                                    else if (control is TextBox textBox
+                                        && textBox.Multiline
+                                        && textBox.ScrollBars is ScrollBars.Both or ScrollBars.Vertical or ScrollBars.Horizontal)
+                                    {
+                                        return false;
+                                    }
+                                    else if (control is RichTextBox richTextBox
+                                        && richTextBox.Multiline
+                                        && richTextBox.ScrollBars is RichTextBoxScrollBars.Vertical or RichTextBoxScrollBars.ForcedVertical or RichTextBoxScrollBars.Both or RichTextBoxScrollBars.ForcedBoth)
+                                    {
+                                        return false;
+                                    }
+                                    else
+                                    {
+                                        var delta = (short)PI.HIWORD((int)m.WParam.ToInt64());
+                                        TabsArea.LayoutTabs.ProcessMouseWheel(delta < 0);
+                                        return true;
+                                    }
+                                }
                             }
                         }
                     }
@@ -1652,6 +1694,9 @@ public class KryptonRibbon : VisualSimple,
     /// <param name="e">An EventArgs containing event data.</param>
     protected virtual void OnSelectedTabChanged(EventArgs e)
     {
+        // Request item processing from the focus lost helper
+        FocusLostMenuHelper.ProcessItems();
+        
         // Need to recalculate anything relying on the palette
         DirtyPaletteCounter++;
 
@@ -2532,6 +2577,7 @@ public class KryptonRibbon : VisualSimple,
         MinimizedMode = false;
         ScrollerStyle = ButtonStyle.Standalone;
         ShowMinimizeButton = true;
+		ScrollTabGroupArea = true;
         QATLocation = QATLocation.Above;
         QATUserChange = true;
         LostFocusLosesKeyboard = true;

@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2025 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2025 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -82,27 +82,27 @@ public sealed class PaletteOffice2010BlackDarkMode_BaseScheme : KryptonColorSche
     public override Color LinkPressedOverridePanel         { get; set; } = Color.FromArgb(255, 90, 90);
     public override Color TextLabelPanel                   { get; set; } = Color.White;
     public override Color RibbonTabTextNormal              { get; set; } = Color.FromArgb(255, 255, 255);
-    public override Color RibbonTabTextChecked             { get; set; } = Color.FromArgb(41, 41, 41);
-    public override Color RibbonTabSelected1               { get; set; } = Color.FromArgb(190, 190, 190);
-    public override Color RibbonTabSelected2               { get; set; } = Color.FromArgb(199, 250, 254);
-    public override Color RibbonTabSelected3               { get; set; } = Color.FromArgb(238, 239, 241);
-    public override Color RibbonTabSelected4               { get; set; } = Color.FromArgb(241, 241, 241);
+    public override Color RibbonTabTextChecked             { get; set; } = Color.FromArgb(255, 255, 255);
+    public override Color RibbonTabSelected1               { get; set; } = Color.FromArgb(128, 128, 128);
+    public override Color RibbonTabSelected2               { get; set; } = Color.FromArgb(20, 20, 20);
+    public override Color RibbonTabSelected3               { get; set; } = Color.FromArgb(0, 0, 0);
+    public override Color RibbonTabSelected4               { get; set; } = Color.FromArgb(0, 0, 0);
     public override Color RibbonTabSelected5               { get; set; } = Color.FromArgb(213, 217, 223);
-    public override Color RibbonTabTracking1               { get; set; } = Color.FromArgb(159, 156, 150);
-    public override Color RibbonTabTracking2               { get; set; } = Color.FromArgb(79, 79, 85);
+    public override Color RibbonTabTracking1               { get; set; } = Color.FromArgb(185, 185, 185);
+    public override Color RibbonTabTracking2               { get; set; } = Color.FromArgb(80, 80, 80);
     public override Color RibbonTabHighlight1              { get; set; } = Color.FromArgb(219, 219, 237);
     public override Color RibbonTabHighlight2              { get; set; } = Color.FromArgb(184, 184, 199);
     public override Color RibbonTabHighlight3              { get; set; } = Color.FromArgb(149, 149, 161);
     public override Color RibbonTabHighlight4              { get; set; } = Color.FromArgb(114, 114, 123);
     public override Color RibbonTabHighlight5              { get; set; } = Color.FromArgb(123, 111, 68);
     public override Color RibbonTabSeparatorColor          { get; set; } = Color.FromArgb(54, 54, 54);
-    public override Color RibbonGroupsArea1                { get; set; } = Color.FromArgb(78, 78, 80);
-    public override Color RibbonGroupsArea2                { get; set; } = Color.FromArgb(115, 115, 118);
-    public override Color RibbonGroupsArea3                { get; set; } = Color.FromArgb(152, 152, 156);
-    public override Color RibbonGroupsArea4                { get; set; } = Color.FromArgb(189, 189, 194);
-    public override Color RibbonGroupsArea5                { get; set; } = Color.FromArgb(226, 226, 232);
-    public override Color RibbonGroupBorder1               { get; set; } = Color.FromArgb(174, 176, 180);
-    public override Color RibbonGroupBorder2               { get; set; } = Color.FromArgb(132, 132, 132);
+    public override Color RibbonGroupsArea1                { get; set; } = Color.FromArgb(185, 185, 185);
+    public override Color RibbonGroupsArea2                { get; set; } = Color.FromArgb(169, 169, 169);
+    public override Color RibbonGroupsArea3                { get; set; } = Color.FromArgb(0, 0, 0);
+    public override Color RibbonGroupsArea4                { get; set; } = Color.FromArgb(20, 20, 20);
+    public override Color RibbonGroupsArea5                { get; set; } = Color.FromArgb(10, 10, 10);
+    public override Color RibbonGroupBorder1               { get; set; } = Color.FromArgb(50, 50, 50);
+    public override Color RibbonGroupBorder2               { get; set; } = Color.FromArgb(0, 0, 0);
     public override Color RibbonGroupTitle1                { get; set; } = Color.FromArgb(182, 184, 184);
     public override Color RibbonGroupTitle2                { get; set; } = Color.FromArgb(159, 160, 160);
     public override Color RibbonGroupBorderContext1        { get; set; } = Color.FromArgb(183, 183, 183);
@@ -158,15 +158,15 @@ public sealed class PaletteOffice2010BlackDarkMode_BaseScheme : KryptonColorSche
     public override Color RibbonQATMini3I                  { get; set; } = Color.FromArgb(140, 140, 140);
     public override Color RibbonQATMini4I                  { get; set; } = Color.FromArgb(12, Color.White);
     public override Color RibbonQATMini5I                  { get; set; } = Color.FromArgb(14, Color.White);
-    public override Color RibbonQATFullbar1                { get; set; } = Color.FromArgb(141, 144, 147);
-    public override Color RibbonQATFullbar2                { get; set; } = Color.FromArgb(133, 135, 137);
-    public override Color RibbonQATFullbar3                { get; set; } = Color.FromArgb(93, 96, 100);
+    public override Color RibbonQATFullbar1                { get; set; } = Color.FromArgb(20, 20, 20);
+    public override Color RibbonQATFullbar2                { get; set; } = Color.FromArgb(10, 10, 10);
+    public override Color RibbonQATFullbar3                { get; set; } = Color.FromArgb(169, 169, 169);
     public override Color RibbonQATButtonDark              { get; set; } = Color.FromArgb(103, 103, 103);
     public override Color RibbonQATButtonLight             { get; set; } = Color.FromArgb(225, 225, 225);
     public override Color RibbonQATOverflow1               { get; set; } = Color.FromArgb(118, 128, 142);
     public override Color RibbonQATOverflow2               { get; set; } = Color.FromArgb(55, 60, 67);
     public override Color RibbonGroupSeparatorDark         { get; set; } = Color.FromArgb(163, 168, 170);
-    public override Color RibbonGroupSeparatorLight        { get; set; } = Color.FromArgb(230, 233, 235);
+    public override Color RibbonGroupSeparatorLight        { get; set; } = Color.FromArgb(0, 0, 0);
     public override Color ButtonClusterButtonBack1         { get; set; } = Color.FromArgb(210, 217, 219);
     public override Color ButtonClusterButtonBack2         { get; set; } = Color.FromArgb(214, 222, 223);
     public override Color ButtonClusterButtonBorder1       { get; set; } = Color.FromArgb(179, 188, 191);
@@ -219,12 +219,12 @@ public sealed class PaletteOffice2010BlackDarkMode_BaseScheme : KryptonColorSche
     public override Color RibbonGalleryBackTracking        { get; set; } = Color.FromArgb(247, 247, 247);
     public override Color RibbonGalleryBack1               { get; set; } = Color.FromArgb(195, 200, 209);
     public override Color RibbonGalleryBack2               { get; set; } = Color.FromArgb(217, 220, 224);
-    public override Color RibbonTabTracking3               { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonTabTracking4               { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonGroupBorder3               { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonGroupBorder4               { get; set; } = GlobalStaticValues.EMPTY_COLOR;
+    public override Color RibbonTabTracking3               { get; set; } = Color.FromArgb(89, 89, 89);
+    public override Color RibbonTabTracking4               { get; set; } = Color.FromArgb(120, 120, 120);
+    public override Color RibbonGroupBorder3               { get; set; } = Color.FromArgb(128, 128, 128);
+    public override Color RibbonGroupBorder4               { get; set; } = Color.FromArgb(0, 0, 0);
     public override Color RibbonGroupBorder5               { get; set; } = GlobalStaticValues.EMPTY_COLOR; // missing value
-    public override Color RibbonGroupTitleText             { get; set; } = GlobalStaticValues.EMPTY_COLOR; // missing value
+    public override Color RibbonGroupTitleText             { get; set; } = Color.FromArgb(225, 225, 225);
     public override Color RibbonDropArrowLight             { get; set; } = Color.FromArgb(225, 225, 225);
     public override Color RibbonDropArrowDark              { get; set; } = Color.FromArgb(103, 103, 103);
     public override Color HeaderDockInactiveBack1          { get; set; } = Color.FromArgb(137, 137, 137);

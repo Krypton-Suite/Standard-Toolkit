@@ -1,12 +1,12 @@
-﻿#region BSD License
+#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025.. All rights reserved.
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2026. All rights reserved.
+ *
  */
 #endregion
 
@@ -507,6 +507,12 @@ internal partial class PI
         UNCHECKED = 0x0000,
         CHECKED = 0x0001,
         INDETERMINATE = 0x0002
+    }
+    
+    internal struct DTM_
+    {
+        // Closes a date and time picker (DTP) control. Send this message explicitly or by using the DateTime\_CloseMonthCal macro.
+        public const int CLOSEMONTHCAL = 0x100D;
     }
 
     #region ScrollBar
@@ -1537,7 +1543,7 @@ internal partial class PI
             SIZE = 0x0005,
             // <summary>
             // The WM_ACTIVATE message is sent to both the window being activated and the window being deactivated.
-            // If the windows use the same input queue, the message is sent synchronously, first to the window procedure of the top-level window being deactivated, 
+            // If the windows use the same input queue, the message is sent synchronously, first to the window procedure of the top-level window being deactivated,
             // then to the window procedure of the top-level window being activated. If the windows use different input queues, the message is sent asynchronously,
             // so the window is activated immediately.
             // </summary>
@@ -2013,7 +2019,7 @@ internal partial class PI
             // </summary>
             COMMAND = 0x0111,
             // <summary>
-            // A window receives this message when the user chooses a command from the Window menu, clicks the maximize button, minimize button, restore button, 
+            // A window receives this message when the user chooses a command from the Window menu, clicks the maximize button, minimize button, restore button,
             // close button, or moves the form. You can stop the form from moving by filtering this out.
             // </summary>
             SYSCOMMAND = 0x0112,
@@ -2219,10 +2225,10 @@ internal partial class PI
             MOUSELAST = 0x020E,
             // <summary>
             // The WM_PARENTNOTIFY message is sent to the parent of a child window when the child window is created or destroyed,
-            // or when the user clicks a mouse button while the cursor is over the child window. When the child window is being created, 
-            // the system sends WM_PARENTNOTIFY just before the CreateWindow or CreateWindowEx function that creates the window returns. 
+            // or when the user clicks a mouse button while the cursor is over the child window. When the child window is being created,
+            // the system sends WM_PARENTNOTIFY just before the CreateWindow or CreateWindowEx function that creates the window returns.
             // When the child window is being destroyed, the system sends the message before any processing to destroy the window takes place.
-            // This message is now extended to include the WM_POINTERDOWN event. 
+            // This message is now extended to include the WM_POINTERDOWN event.
             // </summary>
             PARENTNOTIFY = 0x0210,
             // <summary>
@@ -2532,7 +2538,7 @@ internal partial class PI
             OCM_NOTIFY = 0x0204E, // https://wiki.winehq.org/List_Of_Windows_Messages
 
 
-            // Following are the ShellProc messages via RegisterShellHookWindow 
+            // Following are the ShellProc messages via RegisterShellHookWindow
             // <summary>
             // The accessibility state has changed.
             // </summary>
@@ -3431,6 +3437,10 @@ No 	                    No 	                    Show text only
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern bool ShowCaret(IntPtr hWnd);
 
+    [DllImport(Libraries.User32, SetLastError = true)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static extern bool DestroyIcon(IntPtr hIcon);
+
     [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern ushort GetKeyState(int virtKey);
@@ -4301,6 +4311,83 @@ No 	                    No 	                    Show text only
     [DllImport(Libraries.Ole32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern void CoCreateGuid(ref GUIDSTRUCT guid);
+
+    #endregion
+
+    #region Static Shell32
+
+    /// <summary>
+    /// Flags used with SHGetFileInfo to specify what information to retrieve.
+    /// </summary>
+    [Flags]
+    internal enum SHGFI_ : uint
+    {
+        /// <summary>Get icon</summary>
+        ICON = 0x000000100,
+        /// <summary>Get display name</summary>
+        DISPLAYNAME = 0x000000200,
+        /// <summary>Get type name</summary>
+        TYPENAME = 0x000000400,
+        /// <summary>Get attributes</summary>
+        ATTRIBUTES = 0x000000800,
+        /// <summary>Get icon location</summary>
+        ICONLOCATION = 0x000001000,
+        /// <summary>Return exe type</summary>
+        EXETYPE = 0x000002000,
+        /// <summary>Get system icon index</summary>
+        SYSICONINDEX = 0x000004000,
+        /// <summary>Put a link overlay on icon</summary>
+        LINKOVERLAY = 0x000008000,
+        /// <summary>Show icon in selected state</summary>
+        SELECTED = 0x000010000,
+        /// <summary>Get only specified attributes</summary>
+        ATTR_SPECIFIED = 0x000020000,
+        /// <summary>Get large icon</summary>
+        LARGEICON = 0x000000000,
+        /// <summary>Get small icon</summary>
+        SMALLICON = 0x000000001,
+        /// <summary>Get open icon</summary>
+        OPENICON = 0x000000002,
+        /// <summary>Get shell size icon</summary>
+        SHELLICONSIZE = 0x000000004,
+        /// <summary>pszPath is a PIDL</summary>
+        PIDL = 0x000000008,
+        /// <summary>Use passed dwFileAttribute</summary>
+        USEFILEATTRIBUTES = 0x000000010,
+        /// <summary>Apply the appropriate overlays</summary>
+        ADDOVERLAYS = 0x000000020,
+        /// <summary>Get the index of the overlay</summary>
+        OVERLAYINDEX = 0x000000040
+    }
+
+    /// <summary>
+    /// Contains information about a file object.
+    /// </summary>
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
+    internal struct SHFILEINFO
+    {
+        /// <summary>A handle to the icon that represents the file</summary>
+        public IntPtr hIcon;
+        /// <summary>The index of the icon image within the system image list</summary>
+        public int iIcon;
+        /// <summary>An array of values that indicates the attributes of the file object</summary>
+        public uint dwAttributes;
+        /// <summary>A string that contains the name of the file as it appears in the Windows Shell, or the path and file name of the file that contains the icon representing the file</summary>
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)]
+        public string szDisplayName;
+        /// <summary>A string that describes the type of file</summary>
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 80)]
+        public string szTypeName;
+    }
+
+    [DllImport(Libraries.Shell32, CharSet = CharSet.Auto, SetLastError = true)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static extern IntPtr SHGetFileInfo(
+        string pszPath,
+        uint dwFileAttributes,
+        ref SHFILEINFO psfi,
+        uint cbSizeFileInfo,
+        uint uFlags);
 
     #endregion
 

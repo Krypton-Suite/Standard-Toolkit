@@ -2,14 +2,14 @@
 /*
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- * Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2025 - 2025. All rights reserved.
+ * Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2025 - 2026. All rights reserved.
  *
  */
 #endregion
 
 namespace Krypton.Toolkit;
 
-public class KryptonTaskDialogElementFooterBar : KryptonTaskDialogElementBase,
+public partial class KryptonTaskDialogElementFooterBar : KryptonTaskDialogElementBase,
     IKryptonTaskDialogElementForeColor,
     IKryptonTaskDialogElementRoundedCorners
 {
@@ -70,11 +70,13 @@ public class KryptonTaskDialogElementFooterBar : KryptonTaskDialogElementBase,
         _footNoteText = new();
         _disposed = false;
 
-        CommonButtons = new KryptonTaskDialogElementFooterBarCommonButtonProperties(this);
+        CommonButtons = new KryptonTaskDialogElementFooterBarCommonButtonProperties();
+        CommonButtons.PropertyChanged += OnCommonButtonsPropertyChanged;
         RoundedCorners = false;
 
         // default values
-        Footer = new KryptonTaskDialogElementFooterBarFooterProperties(this, _footNoteText, OnSizeChanged, UpdateExpanderText, UpdateExpanderEnabledState, UpdateFootNoteIcon);
+        Footer = new KryptonTaskDialogElementFooterBarFooterProperties();
+        Footer.PropertyChanged += OnFooterBarPropertyChanged;
         Footer.ExpanderExpandedText = "Expand";
         Footer.ExpanderCollapsedText = "Collapse";
 
@@ -196,7 +198,7 @@ public class KryptonTaskDialogElementFooterBar : KryptonTaskDialogElementBase,
         if (sender is KryptonButton button)
         {
             _form.DialogResult = button.DialogResult;
-            _form.Hide();
+            _form.Close();
         }
     }
 
@@ -234,6 +236,54 @@ public class KryptonTaskDialogElementFooterBar : KryptonTaskDialogElementBase,
     #endregion
 
     #region Private
+    private void OnFooterBarPropertyChanged(FooterBarProperties property)
+    {
+        if (property == FooterBarProperties.FootNoteText)
+        {
+            UpdateFootNoteText();
+        }
+        else if (property is  FooterBarProperties.ExpanderExpandedText or FooterBarProperties.ExpanderCollapsedText)
+        {
+            UpdateExpanderText();
+        }
+        else if (property == FooterBarProperties.EnableExpanderControls)
+        {
+            UpdateExpanderEnabledState();
+        }
+        else if (property == FooterBarProperties.IconType)
+        {
+            UpdateFootNoteIcon();
+        }
+        else
+        {
+            throw new ArgumentOutOfRangeException($"Unknown FooterBarProperties member: {property}");
+        }
+
+        LayoutDirty = true;
+        OnSizeChanged();
+    }
+
+    private void OnCommonButtonsPropertyChanged(CommonButtonsProperties property)
+    {
+        if (property is CommonButtonsProperties.Buttons or CommonButtonsProperties.AcceptButton or CommonButtonsProperties.CancelButton)
+        {
+            OnCommonButtonsChanged();
+        }
+        else
+        {
+            throw new ArgumentOutOfRangeException($"Unknown CommonButtonsProperties member: {property}");
+        }
+
+        LayoutDirty = true;
+        OnSizeChanged();
+    }
+
+    private void UpdateFootNoteText()
+    {
+        _footNoteText.Text = Footer.FootNoteText;
+        _footNoteText.Invalidate();
+    }
+
     private void UpdateFootNoteIcon()
     {
         if (Footer.IconType != KryptonTaskDialogIconType.None)
@@ -336,6 +386,7 @@ public class KryptonTaskDialogElementFooterBar : KryptonTaskDialogElementBase,
             BackColor = Color.Transparent,
             CellBorderStyle = TableLayoutPanelCellBorderStyle.None
         };
+        _tlp.SetDoubleBuffered(true);
 
         // 1 row
         _tlp.RowCount = 1;
@@ -378,6 +429,7 @@ public class KryptonTaskDialogElementFooterBar : KryptonTaskDialogElementBase,
         _expanderText.AutoSize = true;
         _expanderText.Margin = _spacerPadding;
         _expanderText.StateCommon.ShortText.TextV = PaletteRelativeAlign.Center;
+        _expanderText.StateCommon.ShortText.TextH = PaletteRelativeAlign.Near;
 
         _footNotePictureBox.Margin = _spacerPadding;
         _footNotePictureBox.Padding = Defaults.NullPadding;
@@ -386,6 +438,7 @@ public class KryptonTaskDialogElementFooterBar : KryptonTaskDialogElementBase,
         _footNoteText.AutoSize = true;
         _footNoteText.Dock = DockStyle.Fill;
         _footNoteText.Margin = Defaults.NullPadding;
+        _footNoteText.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 
         // If the expander element changes visibility we need to react to that.
         WireExpanderVisibleChanged(true);
@@ -444,7 +497,7 @@ public class KryptonTaskDialogElementFooterBar : KryptonTaskDialogElementBase,
             _footNoteText.Height = height;
 
             // Size the panel. Add an extra PanelBottom to give it some more space at the border
-            Panel.Height = Math.Max(_tlp.Height, height) + Defaults.PanelTop + Defaults.PanelBottom + Defaults.PanelBottom;
+            Panel.Height = Math.Max(_tlp.Height, height) + Defaults.PanelTop + Defaults.PanelBottom;
 
             // Tell everybody about it when visible.
             base.OnSizeChanged(performLayout);
@@ -532,6 +585,8 @@ public class KryptonTaskDialogElementFooterBar : KryptonTaskDialogElementBase,
     {
         if (!_disposed && disposing)
         {
+            CommonButtons.PropertyChanged -= OnCommonButtonsPropertyChanged;
+            Footer.PropertyChanged -= OnFooterBarPropertyChanged;
             _expanderButton.Click -= OnExpanderButtonClick;
             WireExpanderVisibleChanged(false);
 

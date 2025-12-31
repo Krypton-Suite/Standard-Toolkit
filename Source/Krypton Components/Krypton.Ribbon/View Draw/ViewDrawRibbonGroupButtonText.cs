@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2026. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -135,8 +135,8 @@ internal class ViewDrawRibbonGroupButtonText : ViewLeaf,
             _heightExtra = (_ribbon.CalculatedValues.DrawFontHeight - _ribbon.CalculatedValues.RawFontHeight) * 2;
             _preferredSize.Height -= _heightExtra;
 
-            // Reduce width by a fixed 1 pixel as Graphics.DrawString always measures longer than needed
-            _preferredSize.Width -= 1;
+            // Increase by 1 pixel so the text isn't cut off
+            _preferredSize.Width += 1;
 
             // If the text is actually empty, then force it to be zero width
             if (string.IsNullOrEmpty(GetShortText()))

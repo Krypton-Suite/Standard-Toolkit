@@ -4,7 +4,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2026. All rights reserved.
  */
 #endregion
 
@@ -161,8 +161,8 @@ public class PaletteRibbonGeneral : Storage,
         TabSeparatorContextColor = GetRibbonTabSeparatorContextColor(PaletteState.Normal);
         TextFont = GetRibbonTextFont(PaletteState.Normal);
         TextHint = GetRibbonTextHint(PaletteState.Normal);
-        QATButtonDarkColor = GetRibbonGroupDialogDark(PaletteState.Normal);
-        QATButtonLightColor = GetRibbonGroupDialogLight(PaletteState.Normal);
+        QATButtonDarkColor = GetRibbonQATButtonDark(PaletteState.Normal);
+        QATButtonLightColor = GetRibbonQATButtonLight(PaletteState.Normal);
     }
     #endregion
 
@@ -535,8 +535,8 @@ public class PaletteRibbonGeneral : Storage,
             }
         }
     }
-    private void ResetGroupSeparatorLight() => GroupDialogLight = GlobalStaticValues.EMPTY_COLOR;
-    private bool ShouldSerializeGroupSeparatorLight() => GroupDialogLight != GlobalStaticValues.EMPTY_COLOR;
+    private void ResetGroupSeparatorLight() => GroupSeparatorLight = GlobalStaticValues.EMPTY_COLOR;
+    private bool ShouldSerializeGroupSeparatorLight() => GroupSeparatorLight != GlobalStaticValues.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the color for the dialog launcher light.
