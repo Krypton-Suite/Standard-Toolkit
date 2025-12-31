@@ -348,7 +348,7 @@ internal class BackstageNavigationList : Control
         var rowsPerColumn = (int)Math.Ceiling((double)_items.Count / _columns);
 
         // Calculate row heights to find which row we're in
-        var currentY = 0;
+        var rowY = 0;
         for (var row = 0; row < rowsPerColumn; row++)
         {
             var maxHeight = 0;
@@ -362,7 +362,7 @@ internal class BackstageNavigationList : Control
                 }
             }
 
-            if (point.Y >= currentY && point.Y < currentY + maxHeight)
+            if (point.Y >= rowY && point.Y < rowY + maxHeight)
             {
                 // Found the row, now get the item index for this column and row
                 var index = row * _columns + column;
@@ -372,7 +372,7 @@ internal class BackstageNavigationList : Control
                 }
                 return -1;
             }
-            currentY += maxHeight;
+            rowY += maxHeight;
         }
         return -1;
     }
