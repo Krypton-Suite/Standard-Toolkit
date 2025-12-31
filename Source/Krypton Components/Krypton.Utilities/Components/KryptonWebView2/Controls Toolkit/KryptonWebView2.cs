@@ -7,17 +7,13 @@
  */
 #endregion
 
-// TODO: Needs to be looked at again for .NET Framework 4.7.2+
-
 namespace Krypton.Utilities;
 
 #if WEBVIEW2_AVAILABLE
 
 #region Using Directives
+using Krypton.Toolkit;
 using Microsoft.Web.WebView2.WinForms;
-
-// Use a using alias to avoid namespace resolution issues
-using WebView2Base = Microsoft.Web.WebView2.WinForms.WebView2;
 
 #endregion
 
@@ -68,11 +64,11 @@ using WebView2Base = Microsoft.Web.WebView2.WinForms.WebView2;
 [Designer(typeof(KryptonWebView2Designer))]
 [DesignerCategory(@"code")]
 [Description(@"Enables the user to browse web pages using the modern WebView2 engine with Krypton theming support.")]
-public class KryptonWebView2 : WebView2Base
+public class KryptonWebView2 : Microsoft.Web.WebView2.WinForms.WebView2
 {
     #region Instance Fields
 
-    private PaletteBase? _palette;
+    private PaletteBase _palette;
     private readonly PaletteMode _paletteMode = PaletteMode.Global;
     private KryptonContextMenu? _kryptonContextMenu;
     private IRenderer _renderer;
@@ -111,21 +107,15 @@ public class KryptonWebView2 : WebView2Base
     public KryptonWebView2()
     {
         // We use double buffering to reduce drawing flicker
-        // Use reflection to call SetStyle since it may not be directly accessible in all WebView2 versions
-        var setStyleMethod = typeof(Control).GetMethod("SetStyle", BindingFlags.NonPublic | BindingFlags.Instance, null, new[] { typeof(ControlStyles), typeof(bool) }, null);
-        if (setStyleMethod != null)
-        {
-            setStyleMethod.Invoke(this, new object[] { ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint, true });
-            setStyleMethod.Invoke(this, new object[] { ControlStyles.ResizeRedraw, true });
-        }
+        SetStyle(ControlStyles.OptimizedDoubleBuffer |
+                 ControlStyles.AllPaintingInWmPaint |
+                 ControlStyles.UserPaint, true);
+
+        // We need to repaint entire control whenever resized
+        SetStyle(ControlStyles.ResizeRedraw, true);
 
         // Yes, we want to be drawn double buffered by default
-        // Use reflection to set DoubleBuffered property since it may not be directly accessible in all WebView2 versions
-        var doubleBufferedProperty = typeof(Control).GetProperty("DoubleBuffered", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-        if (doubleBufferedProperty != null && doubleBufferedProperty.CanWrite)
-        {
-            doubleBufferedProperty.SetValue(this, true);
-        }
+        DoubleBuffered = true;
 
         SetPalette(KryptonManager.CurrentGlobalPalette);
 
@@ -225,226 +215,6 @@ public class KryptonWebView2 : WebView2Base
         }
     }
 
-    /// <summary>
-    /// Gets or sets a value indicating whether the control allows external drag and drop operations.
-    /// </summary>
-    /// <value>
-    /// <c>true</c> if external drag and drop is allowed; otherwise, <c>false</c>.
-    /// </value>
-    /// <remarks>
-    /// This property forwards to the base WebView2 AllowExternalDrop property.
-    /// </remarks>
-    [Category(@"Behavior")]
-    [Description(@"Indicates whether the control allows external drag and drop operations.")]
-    [DefaultValue(false)]
-    public new bool AllowExternalDrop
-    {
-        get
-        {
-            // Use reflection to access the base class property since it may not be directly accessible in all WebView2 versions
-            // Use GetType().BaseType instead of typeof(WebView2) to avoid compile-time type dependency
-            var baseType = this.GetType().BaseType;
-            if (baseType != null)
-            {
-                var property = baseType.GetProperty("AllowExternalDrop", BindingFlags.Public | BindingFlags.Instance);
-                if (property != null && property.CanRead)
-                {
-                    var value = property.GetValue(this);
-                    return value is bool boolValue && boolValue;
-                }
-            }
-            return false;
-        }
-        set
-        {
-            // Use reflection to set the base class property since it may not be directly accessible in all WebView2 versions
-            // Use GetType().BaseType instead of typeof(WebView2) to avoid compile-time type dependency
-            var baseType = this.GetType().BaseType;
-            if (baseType != null)
-            {
-                var property = baseType.GetProperty("AllowExternalDrop", BindingFlags.Public | BindingFlags.Instance);
-                if (property != null && property.CanWrite)
-                {
-                    property.SetValue(this, value);
-                }
-            }
-        }
-    }
-
-    /// <summary>
-    /// Gets or sets the creation properties for the WebView2 control.
-    /// </summary>
-    /// <value>
-    /// The creation properties, or null to use default properties.
-    /// </value>
-    /// <remarks>
-    /// This property forwards to the base WebView2 CreationProperties property.
-    /// </remarks>
-    [Category(@"Behavior")]
-    [Description(@"Gets or sets the creation properties for the WebView2 control.")]
-    [DefaultValue(null)]
-    public new object? CreationProperties
-    {
-        get
-        {
-            // Use reflection to access the base class property since it may not be directly accessible in all WebView2 versions
-            var baseType = this.GetType().BaseType;
-            if (baseType != null)
-            {
-                var property = baseType.GetProperty("CreationProperties", BindingFlags.Public | BindingFlags.Instance);
-                if (property != null && property.CanRead)
-                {
-                    return property.GetValue(this);
-                }
-            }
-            return null;
-        }
-        set
-        {
-            // Use reflection to set the base class property since it may not be directly accessible in all WebView2 versions
-            var baseType = this.GetType().BaseType;
-            if (baseType != null)
-            {
-                var property = baseType.GetProperty("CreationProperties", BindingFlags.Public | BindingFlags.Instance);
-                if (property != null && property.CanWrite)
-                {
-                    property.SetValue(this, value);
-                }
-            }
-        }
-    }
-
-    /// <summary>
-    /// Gets or sets the default background color for the WebView2 control.
-    /// </summary>
-    /// <value>
-    /// The default background color.
-    /// </value>
-    /// <remarks>
-    /// This property forwards to the base WebView2 DefaultBackgroundColor property.
-    /// </remarks>
-    [Category(@"Appearance")]
-    [Description(@"Gets or sets the default background color for the WebView2 control.")]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public new Color DefaultBackgroundColor
-    {
-        get
-        {
-            var baseType = this.GetType().BaseType;
-            if (baseType != null)
-            {
-                var property = baseType.GetProperty("DefaultBackgroundColor", BindingFlags.Public | BindingFlags.Instance);
-                if (property != null && property.CanRead)
-                {
-                    var value = property.GetValue(this);
-                    if (value is Color color)
-                    {
-                        return color;
-                    }
-                }
-            }
-            return Color.White;
-        }
-        set
-        {
-            var baseType = this.GetType().BaseType;
-            if (baseType != null)
-            {
-                var property = baseType.GetProperty("DefaultBackgroundColor", BindingFlags.Public | BindingFlags.Instance);
-                if (property != null && property.CanWrite)
-                {
-                    property.SetValue(this, value);
-                }
-            }
-        }
-    }
-
-    /// <summary>
-    /// Gets or sets the zoom factor for the WebView2 control.
-    /// </summary>
-    /// <value>
-    /// The zoom factor (1.0 = 100%).
-    /// </value>
-    /// <remarks>
-    /// This property forwards to the base WebView2 ZoomFactor property.
-    /// </remarks>
-    [Category(@"Behavior")]
-    [Description(@"Gets or sets the zoom factor for the WebView2 control.")]
-    [DefaultValue(1.0)]
-    public new double ZoomFactor
-    {
-        get
-        {
-            var baseType = this.GetType().BaseType;
-            if (baseType != null)
-            {
-                var property = baseType.GetProperty("ZoomFactor", BindingFlags.Public | BindingFlags.Instance);
-                if (property != null && property.CanRead)
-                {
-                    var value = property.GetValue(this);
-                    if (value is double zoomFactor)
-                    {
-                        return zoomFactor;
-                    }
-                }
-            }
-            return 1.0;
-        }
-        set
-        {
-            var baseType = this.GetType().BaseType;
-            if (baseType != null)
-            {
-                var property = baseType.GetProperty("ZoomFactor", BindingFlags.Public | BindingFlags.Instance);
-                if (property != null && property.CanWrite)
-                {
-                    property.SetValue(this, value);
-                }
-            }
-        }
-    }
-
-    /// <summary>
-    /// Gets or sets which edge of the parent container a control is docked to.
-    /// </summary>
-    /// <value>
-    /// One of the <see cref="DockStyle"/> values. The default is <see cref="DockStyle.None"/>.
-    /// </value>
-    /// <remarks>
-    /// This property forwards to the base Control Dock property.
-    /// </remarks>
-    [Category(@"Layout")]
-    [Description(@"Gets or sets which edge of the parent container a control is docked to.")]
-    [DefaultValue(DockStyle.None)]
-    public new DockStyle Dock
-    {
-        get
-        {
-            // Use reflection to access the base Control Dock property
-            var controlType = typeof(Control);
-            var property = controlType.GetProperty("Dock", BindingFlags.Public | BindingFlags.Instance);
-            if (property != null && property.CanRead)
-            {
-                var value = property.GetValue(this);
-                if (value is DockStyle dockStyle)
-                {
-                    return dockStyle;
-                }
-            }
-            return DockStyle.None;
-        }
-        set
-        {
-            // Use reflection to set the base Control Dock property
-            var controlType = typeof(Control);
-            var property = controlType.GetProperty("Dock", BindingFlags.Public | BindingFlags.Instance);
-            if (property != null && property.CanWrite)
-            {
-                property.SetValue(this, value);
-            }
-        }
-    }
-
     #endregion
 
     #region Protected Overrides
@@ -479,49 +249,25 @@ public class KryptonWebView2 : WebView2Base
     /// </remarks>
     protected override void WndProc(ref Message m)
     {
-        if ((m.Msg == WebView2MessageHelper.WM_.CONTEXTMENU) || 
-            (m.Msg == WebView2MessageHelper.WM_.PARENTNOTIFY && WebView2MessageHelper.LOWORD(m.WParam) == WebView2MessageHelper.WM_.RBUTTONDOWN))
+        if ((m.Msg == PI.WM_.CONTEXTMENU) ||
+            (m.Msg == PI.WM_.PARENTNOTIFY && PI.LOWORD(m.WParam) == PI.WM_.RBUTTONDOWN))
         {
             // Only interested in overriding the behavior when we have a krypton context menu
             if (KryptonContextMenu != null)
             {
                 // Extract the screen mouse position (if might not actually be provided)
-                var mousePt = new Point(WebView2MessageHelper.LOWORD(m.LParam), WebView2MessageHelper.HIWORD(m.LParam));
+                var mousePt = new Point(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
                 // If keyboard activated, the menu position is centered
-                if (((int)m.LParam) == -1)
+                if (((int)(long)m.LParam) == -1)
                 {
-                    // Use reflection to access Size property since it may not be directly accessible
-                    var sizeProperty = typeof(Control).GetProperty("Size", BindingFlags.Public | BindingFlags.Instance);
-                    if (sizeProperty != null && sizeProperty.GetValue(this) is Size size)
-                    {
-                        mousePt = new Point(size.Width / 2, size.Height / 2);
-                    }
-                    else
-                    {
-                        // Fallback: use ClientSize if available
-                        var clientSizeProperty = typeof(Control).GetProperty("ClientSize", BindingFlags.Public | BindingFlags.Instance);
-                        if (clientSizeProperty != null && clientSizeProperty.GetValue(this) is Size clientSize)
-                        {
-                            mousePt = new Point(clientSize.Width / 2, clientSize.Height / 2);
-                        }
-                        else
-                        {
-                            // Last resort: default to a reasonable center point
-                            mousePt = new Point(100, 100);
-                        }
-                    }
+                    mousePt = new Point(Width / 2, Height / 2);
                 }
                 else
                 {
-                    if (m.Msg == WebView2MessageHelper.WM_.CONTEXTMENU)
+                    if (m.Msg == PI.WM_.CONTEXTMENU)
                     {
-                        // Use reflection to call PointToClient since it may not be directly accessible
-                        var pointToClientMethod = typeof(Control).GetMethod("PointToClient", BindingFlags.Public | BindingFlags.Instance, null, new[] { typeof(Point) }, null);
-                        if (pointToClientMethod != null)
-                        {
-                            mousePt = (Point)pointToClientMethod.Invoke(this, new object[] { mousePt })!;
-                        }
+                        mousePt = PointToClient(mousePt);
                     }
 
                     // Mouse point up and left 1 pixel so that the mouse overlaps the top left corner
@@ -531,24 +277,10 @@ public class KryptonWebView2 : WebView2Base
                 }
 
                 // If the mouse position is within our client area
-                // Use reflection to access ClientRectangle since it may not be directly accessible
-                var clientRectangleProperty = typeof(Control).GetProperty("ClientRectangle", BindingFlags.Public | BindingFlags.Instance);
-                var clientRect = clientRectangleProperty?.GetValue(this) as Rectangle?;
-                if (clientRect.HasValue && clientRect.Value.Contains(mousePt))
+                if (ClientRectangle.Contains(mousePt))
                 {
                     // Show the context menu
-                    // Use reflection to call PointToScreen since it may not be directly accessible
-                    var pointToScreenMethod = typeof(Control).GetMethod("PointToScreen", BindingFlags.Public | BindingFlags.Instance, null, new[] { typeof(Point) }, null);
-                    if (pointToScreenMethod != null)
-                    {
-                        var screenPoint = (Point)pointToScreenMethod.Invoke(this, new object[] { mousePt })!;
-                        KryptonContextMenu.Show(this, screenPoint);
-                    }
-                    else
-                    {
-                        // Fallback: show at mouse position if PointToScreen is not available
-                        KryptonContextMenu.Show(this, mousePt);
-                    }
+                    KryptonContextMenu.Show(this, PointToScreen(mousePt));
 
                     // We eat the message!
                     return;
@@ -602,7 +334,7 @@ public class KryptonWebView2 : WebView2Base
     /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
     private void OnBaseChanged(object? sender, EventArgs e) =>
         // Change in base renderer or base palette require we fetch the latest renderer
-        _renderer = _palette!.GetRenderer();
+        _renderer = _palette.GetRenderer();
 
     /// <summary>
     /// Occurs when the global palette has been changed.
