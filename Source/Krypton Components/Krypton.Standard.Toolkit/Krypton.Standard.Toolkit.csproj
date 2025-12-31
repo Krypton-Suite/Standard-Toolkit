@@ -9,6 +9,7 @@
 		- Krypton.Navigator
 		- Krypton.Ribbon
 		- Krypton.Toolkit
+		- Krypton.Utilities
 		- Krypton.Workspace
 	
 		All referenced DLLs, XML documentation files, and PDB symbol files are included in the package
@@ -71,7 +72,7 @@
 	<!-- NuGet Package Metadata -->
 	<PropertyGroup>
 		<PackageId>Krypton.Standard.Toolkit</PackageId>
-		<Description>Aggregate package containing Krypton.Docking, Krypton.Navigator, Krypton.Ribbon, Krypton.Toolkit, and Krypton.Workspace with all reference binaries included.</Description>
+		<Description>Aggregate package containing Krypton.Docking, Krypton.Navigator, Krypton.Ribbon, Krypton.Toolkit, Krypton.Utilities, and Krypton.Workspace with all reference binaries included.</Description>
 		<!-- Additional package metadata (version, authors, license, etc.) is defined in Directory.Build.props and Directory.Build.targets -->
 
 		<!--
@@ -112,7 +113,9 @@
 		<ProjectReference Include="..\Krypton.Navigator\Krypton.Navigator 2022.csproj" />
 		<ProjectReference Include="..\Krypton.Ribbon\Krypton.Ribbon 2022.csproj" />
 		<ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
-		<ProjectReference Include="..\Krypton.Utilities\Krypton.Utilities.csproj" />
+		<ProjectReference Include="..\Krypton.Utilities\Krypton.Utilities.csproj">
+			<PrivateAssets>All</PrivateAssets>
+		</ProjectReference>
 		<ProjectReference Include="..\Krypton.Workspace\Krypton.Workspace 2022.csproj" />
 	</ItemGroup>
 
@@ -138,7 +141,7 @@
 		============================================
 	
 		This target runs for each target framework during the Pack operation and includes:
-		1. All referenced DLL files (Krypton.Docking, Krypton.Navigator, Krypton.Ribbon, Krypton.Toolkit, Krypton.Workspace)
+		1. All referenced DLL files (Krypton.Docking, Krypton.Navigator, Krypton.Ribbon, Krypton.Toolkit, Krypton.Utilities, Krypton.Workspace)
 		2. XML documentation files for IntelliSense support
 		3. PDB symbol files (only when IncludeSymbols is true, for Nightly/Canary configurations)
 	
