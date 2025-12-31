@@ -187,6 +187,7 @@ public class FontAwesomeIconPickerDialog : KryptonForm
                         Tag = icon,
                         SubItems =
                         {
+                            icon.ToString(),
                             $"0x{unicode:X4}"
                         }
                     };
