@@ -185,7 +185,7 @@ internal class BackstageNavigationList : Control
         }
 
         // Calculate column width
-        var columnWidth = _columns > 1 ? Width / _columns : Width;
+        var columnWidth = _columns > 1 ? Math.Max(Width / _columns, 1) : Width;
         var rowsPerColumn = (int)Math.Ceiling((double)_items.Count / _columns);
 
         _itemHeights.Clear();
@@ -343,7 +343,7 @@ internal class BackstageNavigationList : Control
 
         // Multi-column: calculate row and column from position
         // Items fill row-major: across rows first (index 0,1,2 in row 0, then 3,4,5 in row 1, etc.)
-        var columnWidth = Width / _columns;
+        var columnWidth = Math.Max(Width / _columns, 1);
         var column = Math.Min(point.X / columnWidth, _columns - 1);
         var rowsPerColumn = (int)Math.Ceiling((double)_items.Count / _columns);
 
