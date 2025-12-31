@@ -21,6 +21,7 @@ internal class BackstageNavigationList : Control
     private int _updateCount;
     private readonly KryptonBackstageView? _parentView;
     private readonly Dictionary<int, int> _itemHeights; // Cache item heights by index
+    private int _columns;
     #endregion
 
     #region Identity
@@ -42,6 +43,7 @@ internal class BackstageNavigationList : Control
         _selectedIndex = -1;
         _hoverIndex = -1;
         _itemHeights = new Dictionary<int, int>();
+        _columns = 1;
 
         UpdateBackColor();
     }
@@ -112,6 +114,22 @@ internal class BackstageNavigationList : Control
     }
 
     /// <summary>
+    /// Gets and sets the number of columns for displaying items.
+    /// </summary>
+    public int Columns
+    {
+        get => _columns;
+        set
+        {
+            if (_columns != value && value > 0)
+            {
+                _columns = value;
+                Invalidate();
+            }
+        }
+    }
+
+    /// <summary>
     /// Begins a batch update operation.
     /// </summary>
     public void BeginUpdate()
@@ -166,19 +184,49 @@ internal class BackstageNavigationList : Control
             return;
         }
 
-        var y = 0;
+        // Calculate column width
+        var columnWidth = _columns > 1 ? Width / _columns : Width;
+        var rowsPerColumn = (int)Math.Ceiling((double)_items.Count / _columns);
+
         _itemHeights.Clear();
-        for (var i = 0; i < _items.Count; i++)
+        
+        // First pass: calculate all item heights and row heights
+        // Items fill row-major: across rows first (index 0,1,2 in row 0, then 3,4,5 in row 1, etc.)
+        var rowHeights = new List<int>();
+        for (var row = 0; row < rowsPerColumn; row++)
         {
-            var itemHeight = GetItemHeight(_items[i]);
-            _itemHeights[i] = itemHeight;
-            var itemRect = new Rectangle(0, y, Width, itemHeight);
-            var isSelected = i == _selectedIndex;
-            var isHover = i == _hoverIndex && !isSelected;
+            var maxHeight = 0;
+            for (var col = 0; col < _columns; col++)
+            {
+                var index = row * _columns + col;
+                if (index < _items.Count)
+                {
+                    var itemHeight = GetItemHeight(_items[index]);
+                    _itemHeights[index] = itemHeight;
+                    maxHeight = Math.Max(maxHeight, itemHeight);
+                }
+            }
+            rowHeights.Add(maxHeight);
+        }
 
-            DrawItem(g, itemRect, _items[i], isSelected, isHover);
+        // Second pass: draw items in grid layout
+        var currentY = 0;
+        for (var row = 0; row < rowsPerColumn; row++)
+        {
+            var rowHeight = rowHeights[row];
+            for (var col = 0; col < _columns; col++)
+            {
+                var index = row * _columns + col;
+                if (index < _items.Count)
+                {
+                    var itemRect = new Rectangle(col * columnWidth, currentY, columnWidth, rowHeight);
+                    var isSelected = index == _selectedIndex;
+                    var isHover = index == _hoverIndex && !isSelected;
 
-            y += itemHeight;
+                    DrawItem(g, itemRect, _items[index], isSelected, isHover);
+                }
+            }
+            currentY += rowHeight;
         }
     }
 
@@ -189,7 +237,7 @@ internal class BackstageNavigationList : Control
     {
         base.OnMouseMove(e);
 
-        var newHoverIndex = GetItemIndexAtY(e.Y);
+        var newHoverIndex = GetItemIndexAtPoint(e.Location);
         if (newHoverIndex >= 0 && newHoverIndex < _items.Count)
         {
             if (_hoverIndex != newHoverIndex)
@@ -228,7 +276,7 @@ internal class BackstageNavigationList : Control
 
         if (e.Button == MouseButtons.Left)
         {
-            var clickedIndex = GetItemIndexAtY(e.Y);
+            var clickedIndex = GetItemIndexAtPoint(e.Location);
             if (clickedIndex >= 0 && clickedIndex < _items.Count)
             {
                 SelectedIndex = clickedIndex;
@@ -275,17 +323,56 @@ internal class BackstageNavigationList : Control
         return null;
     }
 
-    private int GetItemIndexAtY(int y)
+    private int GetItemIndexAtPoint(Point point)
     {
-        var currentY = 0;
-        for (var i = 0; i < _items.Count; i++)
+        if (_columns <= 1)
         {
-            var itemHeight = _itemHeights.TryGetValue(i, out var height) ? height : GetItemHeight(_items[i]);
-            if (y >= currentY && y < currentY + itemHeight)
+            // Single column: use original logic
+            var currentY = 0;
+            for (var i = 0; i < _items.Count; i++)
             {
-                return i;
+                var itemHeight = _itemHeights.TryGetValue(i, out var height) ? height : GetItemHeight(_items[i]);
+                if (point.Y >= currentY && point.Y < currentY + itemHeight)
+                {
+                    return i;
+                }
+                currentY += itemHeight;
             }
-            currentY += itemHeight;
+            return -1;
+        }
+
+        // Multi-column: calculate row and column from position
+        // Items fill row-major: across rows first (index 0,1,2 in row 0, then 3,4,5 in row 1, etc.)
+        var columnWidth = Width / _columns;
+        var column = Math.Min(point.X / columnWidth, _columns - 1);
+        var rowsPerColumn = (int)Math.Ceiling((double)_items.Count / _columns);
+
+        // Calculate row heights to find which row we're in
+        var currentY = 0;
+        for (var row = 0; row < rowsPerColumn; row++)
+        {
+            var maxHeight = 0;
+            for (var col = 0; col < _columns; col++)
+            {
+                var index = row * _columns + col;
+                if (index < _items.Count)
+                {
+                    var itemHeight = _itemHeights.TryGetValue(index, out var height) ? height : GetItemHeight(_items[index]);
+                    maxHeight = Math.Max(maxHeight, itemHeight);
+                }
+            }
+
+            if (point.Y >= currentY && point.Y < currentY + maxHeight)
+            {
+                // Found the row, now get the item index for this column and row
+                var index = row * _columns + column;
+                if (index < _items.Count)
+                {
+                    return index;
+                }
+                return -1;
+            }
+            currentY += maxHeight;
         }
         return -1;
     }

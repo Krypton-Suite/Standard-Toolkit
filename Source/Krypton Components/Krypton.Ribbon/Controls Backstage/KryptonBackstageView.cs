@@ -31,6 +31,7 @@ public class KryptonBackstageView : KryptonPanel
     private readonly KryptonPanel _pageContainer;
 
     private int _navigationWidth;
+    private int _columns;
     private bool _suspendSync;
     private readonly BackStageViewColorValues _colorValues;
     private readonly BackstageCloseItem _closeItem;
@@ -64,17 +65,20 @@ public class KryptonBackstageView : KryptonPanel
     public KryptonBackstageView()
     {
         _navigationWidth = 200;
+        _columns = 1;
         _overlayMode = BackstageOverlayMode.FullClient;
 
         _pages = new KryptonBackstagePageCollection();
         _pages.Inserted += OnPagesInserted;
         _pages.Removed += OnPagesRemoved;
-        _pages.Clearing += OnPagesCleared;
+        _pages.Clearing += OnPagesClearing;
+        _pages.Cleared += OnPagesCleared;
 
         _commands = new KryptonBackstageCommandCollection();
         _commands.Inserted += OnCommandsInserted;
         _commands.Removed += OnCommandsRemoved;
-        _commands.Clearing += OnCommandsCleared;
+        _commands.Clearing += OnCommandsClearing;
+        _commands.Cleared += OnCommandsCleared;
 
         // Initialize colors object
         _colorValues = new BackStageViewColorValues(OnColorsNeedPaint);
@@ -92,7 +96,8 @@ public class KryptonBackstageView : KryptonPanel
 
         _navigationList = new BackstageNavigationList(this)
         {
-            Dock = DockStyle.Fill
+            Dock = DockStyle.Fill,
+            Columns = _columns
         };
         _navigationList.SelectedIndexChanged += OnNavigationSelectedIndexChanged;
 
@@ -167,6 +172,26 @@ public class KryptonBackstageView : KryptonPanel
                 _navigationWidth = value;
                 _navigationPanel.Width = value;
                 PerformLayout();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets and sets the number of columns for displaying navigation items.
+    /// </summary>
+    [Category(@"Backstage")]
+    [Description(@"Number of columns for displaying navigation items.")]
+    [DefaultValue(1)]
+    public int Columns
+    {
+        get => _columns;
+        set
+        {
+            if (_columns != value && value > 0)
+            {
+                _columns = value;
+                _navigationList.Columns = value;
+                _navigationList.Invalidate();
             }
         }
     }
@@ -266,11 +291,13 @@ public class KryptonBackstageView : KryptonPanel
             // If the event was canceled, don't close the application
             if (cancelEventArgs.Cancel)
             {
+                // Save the current page before clearing selection (ClearSelected may trigger re-entrant call)
+                var previousPage = _selectedPage;
                 // Clear the selection so the Close button doesn't appear selected
                 _navigationList.ClearSelected();
-                if (_selectedPage != null)
+                if (previousPage != null)
                 {
-                    _navigationList.SelectedItem = _selectedPage;
+                    _navigationList.SelectedItem = previousPage;
                 }
                 return;
             }
@@ -285,11 +312,13 @@ public class KryptonBackstageView : KryptonPanel
         {
             // Execute the command
             command.PerformClick();
+            // Save the current page before clearing selection (ClearSelected may trigger re-entrant call)
+            var previousPage = _selectedPage;
             // Clear selection after command execution
             _navigationList.ClearSelected();
-            if (_selectedPage != null)
+            if (previousPage != null)
             {
-                _navigationList.SelectedItem = _selectedPage;
+                _navigationList.SelectedItem = previousPage;
             }
             return;
         }
@@ -465,7 +494,7 @@ public class KryptonBackstageView : KryptonPanel
         }
     }
 
-    private void OnPagesCleared(object? sender, EventArgs e)
+    private void OnPagesClearing(object? sender, EventArgs e)
     {
         foreach (KryptonBackstagePage page in _pages.ToArray())
         {
@@ -473,6 +502,10 @@ public class KryptonBackstageView : KryptonPanel
         }
 
         _pageContainer.Controls.Clear();
+    }
+
+    private void OnPagesCleared(object? sender, EventArgs e)
+    {
         RebuildNavigationList();
         SelectPage(null);
     }
@@ -707,13 +740,16 @@ public class KryptonBackstageView : KryptonPanel
         RebuildNavigationList();
     }
 
-    private void OnCommandsCleared(object? sender, EventArgs e)
+    private void OnCommandsClearing(object? sender, EventArgs e)
     {
         foreach (KryptonBackstageCommand command in _commands.ToArray())
         {
             command.NavigationPropertyChanged -= OnCommandNavigationPropertyChanged;
         }
+    }
 
+    private void OnCommandsCleared(object? sender, EventArgs e)
+    {
         RebuildNavigationList();
     }
 
