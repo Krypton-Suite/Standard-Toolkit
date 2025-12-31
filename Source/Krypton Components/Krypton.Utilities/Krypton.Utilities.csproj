@@ -82,9 +82,9 @@
 	</PropertyGroup>
 
 	<!-- WebView2 NuGet Package Reference for .NET Framework targets (4.7.2+) -->
-	<!-- Uses floating version to automatically resolve to latest 1.0.x version -->
+	<!-- Uses minimum version with floating patch to automatically resolve to latest 1.0.x version -->
 	<ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
-		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.*" />
+		<PackageReference Include="Microsoft.Web.WebView2" Version="[1.0.0,2.0.0)" />
 	</ItemGroup>
 
 	<!-- WebView2 SDK References for .NET 8+ (using file-based references if available, otherwise NuGet) -->
@@ -100,9 +100,9 @@
 	</ItemGroup>
 
 	<!-- Fallback to NuGet package for .NET 8+ if file-based references are not available -->
-	<!-- Uses floating version to automatically resolve to latest 1.0.x version -->
+	<!-- Uses minimum version with floating patch to automatically resolve to latest 1.0.x version -->
 	<ItemGroup Condition="!$(TargetFramework.StartsWith('net4')) And !Exists('$(WebView2CoreDll)')">
-		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.*" />
+		<PackageReference Include="Microsoft.Web.WebView2" Version="[1.0.0,2.0.0)" />
 	</ItemGroup>
 
 	<!-- Define WEBVIEW2_AVAILABLE symbol for all targets when WebView2 is available -->
