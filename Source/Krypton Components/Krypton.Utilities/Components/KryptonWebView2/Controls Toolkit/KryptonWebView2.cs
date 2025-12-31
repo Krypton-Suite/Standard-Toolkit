@@ -7,9 +7,11 @@
  */
 #endregion
 
+// TODO: Needs to be looked at again for .NET Framework 4.7.2+
+
 namespace Krypton.Utilities;
 
-#if WEBVIEW2_AVAILABLE
+#if WEBVIEW2_AVAILABLE && NET8_0_OR_GREATER
 
 #region Using Directives
 using Microsoft.Web.WebView2.WinForms;
