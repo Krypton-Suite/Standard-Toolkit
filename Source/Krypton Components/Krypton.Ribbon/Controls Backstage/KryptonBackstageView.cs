@@ -473,7 +473,7 @@ public class KryptonBackstageView : KryptonPanel
         }
 
         _pageContainer.Controls.Clear();
-        _navigationList.Items.Clear();
+        RebuildNavigationList();
         SelectPage(null);
     }
 
