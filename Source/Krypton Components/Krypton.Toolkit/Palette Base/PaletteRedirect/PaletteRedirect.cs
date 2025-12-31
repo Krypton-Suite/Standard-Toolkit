@@ -1319,14 +1319,18 @@ public class PaletteRedirect : PaletteBase, IGlobalId
     }
 
     /// <summary>
-    /// Clears the scaled font cache without disposing fonts.
-    /// Fonts may still be referenced by components that obtained them via font getter methods.
-    /// Fonts will be disposed when this PaletteRedirect instance is disposed.
+    /// Clears the scaled font cache and disposes all cached fonts.
+    /// This is called when the scale factor changes to prevent GDI handle leaks.
     /// </summary>
     private void ClearScaledFontCache()
     {
         if (_scaledFontCache != null)
         {
+            foreach (var cachedFont in _scaledFontCache.Values)
+            {
+                cachedFont?.Dispose();
+            }
+
             _scaledFontCache.Clear();
         }
     }
