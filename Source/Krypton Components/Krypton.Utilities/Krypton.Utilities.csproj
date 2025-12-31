@@ -105,6 +105,7 @@
 
 	<!-- WebView2 SDK References for .NET 8+ (using file-based references if available, otherwise NuGet) -->
 	<!-- Separate ItemGroup entries for each TFM to ensure reliable reference inclusion in CI -->
+	<!-- Prefer file-based references if available (for local development) -->
 	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0-windows' And Exists('$(WebView2CoreDll)')">
 		<Reference Include="Microsoft.Web.WebView2.Core">
 			<HintPath>$(WebView2CoreDll)</HintPath>
@@ -136,15 +137,15 @@
 		</Reference>
 	</ItemGroup>
 
-	<!-- Fallback to NuGet package for .NET 8+ if file-based references are not available -->
+	<!-- Always use NuGet package for .NET 8+ (required for CI builds where file-based references may not exist) -->
 	<!-- Uses minimum version with floating patch to automatically resolve to latest 1.0.x version -->
-	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0-windows' And !Exists('$(WebView2CoreDll)')">
+	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0-windows'">
 		<PackageReference Include="Microsoft.Web.WebView2" Version="[1.0.0,2.0.0)" />
 	</ItemGroup>
-	<ItemGroup Condition="'$(TargetFramework)' == 'net9.0-windows' And !Exists('$(WebView2CoreDll)')">
+	<ItemGroup Condition="'$(TargetFramework)' == 'net9.0-windows'">
 		<PackageReference Include="Microsoft.Web.WebView2" Version="[1.0.0,2.0.0)" />
 	</ItemGroup>
-	<ItemGroup Condition="'$(TargetFramework)' == 'net10.0-windows' And !Exists('$(WebView2CoreDll)')">
+	<ItemGroup Condition="'$(TargetFramework)' == 'net10.0-windows'">
 		<PackageReference Include="Microsoft.Web.WebView2" Version="[1.0.0,2.0.0)" />
 	</ItemGroup>
 
@@ -160,7 +161,7 @@
 	<PropertyGroup Condition="'$(TargetFramework)' == 'net481'">
 		<DefineConstants>$(DefineConstants);WEBVIEW2_AVAILABLE</DefineConstants>
 	</PropertyGroup>
-	<!-- For .NET 8+: available if SDK files exist or NuGet package is referenced -->
+	<!-- For .NET 8+: always available via NuGet package (package references are above) -->
 	<PropertyGroup Condition="'$(TargetFramework)' == 'net8.0-windows'">
 		<DefineConstants>$(DefineConstants);WEBVIEW2_AVAILABLE</DefineConstants>
 	</PropertyGroup>
