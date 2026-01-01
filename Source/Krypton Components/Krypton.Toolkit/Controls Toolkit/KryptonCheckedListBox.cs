@@ -937,51 +937,60 @@ public class KryptonCheckedListBox : VisualControlBase,
             var selectedIndex = SelectedIndex;
             if ((selectedIndex >= 0) && (selectedIndex < Items.Count))
             {
-                // Handle different selection modes
-                if (_kryptonCheckedListBox.SelectionMode == CheckedSelectionMode.MultiSimple ||
-                    _kryptonCheckedListBox.SelectionMode == CheckedSelectionMode.MultiExtended)
+                switch (_kryptonCheckedListBox.SelectionMode)
                 {
-                    // In multi-selection mode, toggle check state for clicked item
-                    if (!_killNextSelect)
+                    // Handle different selection modes
+                    case CheckedSelectionMode.MultiSimple:
+                    case CheckedSelectionMode.MultiExtended:
                     {
-                        CheckState checkedState = _kryptonCheckedListBox.GetItemCheckState(selectedIndex);
-                        CheckState newCheckValue = (checkedState != CheckState.Unchecked) ? CheckState.Unchecked : CheckState.Checked;
-                        var ice = new ItemCheckEventArgs(selectedIndex, newCheckValue, checkedState);
-                        _kryptonCheckedListBox.SetItemCheckState(selectedIndex, ice.NewValue);
-                    }
-                }
-                else if (_kryptonCheckedListBox.SelectionMode == CheckedSelectionMode.Radio)
-                {
-                    // Radio mode - only one item can be checked at a time
-                    if (!_killNextSelect)
-                    {
-                        // Uncheck all other items first
-                        for (int i = 0; i < _kryptonCheckedListBox.Items.Count; i++)
+                        // In multi-selection mode, toggle check state for clicked item
+                        if (!_killNextSelect)
                         {
-                            if (i != selectedIndex && _kryptonCheckedListBox.GetItemCheckState(i) != CheckState.Unchecked)
-                            {
-                                _kryptonCheckedListBox.SetItemCheckState(i, CheckState.Unchecked);
-                            }
-                        }
-                        
-                        // In radio mode, always check the clicked item (don't toggle)
-                        CheckState checkedState = _kryptonCheckedListBox.GetItemCheckState(selectedIndex);
-                        if (checkedState == CheckState.Unchecked)
-                        {
-                            var ice = new ItemCheckEventArgs(selectedIndex, CheckState.Checked, checkedState);
+                            CheckState checkedState = _kryptonCheckedListBox.GetItemCheckState(selectedIndex);
+                            CheckState newCheckValue = (checkedState != CheckState.Unchecked) ? CheckState.Unchecked : CheckState.Checked;
+                            var ice = new ItemCheckEventArgs(selectedIndex, newCheckValue, checkedState);
                             _kryptonCheckedListBox.SetItemCheckState(selectedIndex, ice.NewValue);
                         }
+
+                        break;
                     }
-                }
-                else
-                {
-                    // Single selection mode - original behavior
-                    if (!_killNextSelect && ((selectedIndex == _lastSelected) || _kryptonCheckedListBox.CheckOnClick))
+                    case CheckedSelectionMode.Radio:
                     {
-                        CheckState checkedState = _kryptonCheckedListBox.GetItemCheckState(selectedIndex);
-                        CheckState newCheckValue = (checkedState != CheckState.Unchecked) ? CheckState.Unchecked : CheckState.Checked;
-                        var ice = new ItemCheckEventArgs(selectedIndex, newCheckValue, checkedState);
-                        _kryptonCheckedListBox.SetItemCheckState(selectedIndex, ice.NewValue);
+                        // Radio mode - only one item can be checked at a time
+                        if (!_killNextSelect)
+                        {
+                            // Uncheck all other items first
+                            for (int i = 0; i < _kryptonCheckedListBox.Items.Count; i++)
+                            {
+                                if (i != selectedIndex && _kryptonCheckedListBox.GetItemCheckState(i) != CheckState.Unchecked)
+                                {
+                                    _kryptonCheckedListBox.SetItemCheckState(i, CheckState.Unchecked);
+                                }
+                            }
+                        
+                            // In radio mode, always check the clicked item (don't toggle)
+                            CheckState checkedState = _kryptonCheckedListBox.GetItemCheckState(selectedIndex);
+                            if (checkedState == CheckState.Unchecked)
+                            {
+                                var ice = new ItemCheckEventArgs(selectedIndex, CheckState.Checked, checkedState);
+                                _kryptonCheckedListBox.SetItemCheckState(selectedIndex, ice.NewValue);
+                            }
+                        }
+
+                        break;
+                    }
+                    default:
+                    {
+                        // Single selection mode - original behavior
+                        if (!_killNextSelect && ((selectedIndex == _lastSelected) || _kryptonCheckedListBox.CheckOnClick))
+                        {
+                            CheckState checkedState = _kryptonCheckedListBox.GetItemCheckState(selectedIndex);
+                            CheckState newCheckValue = (checkedState != CheckState.Unchecked) ? CheckState.Unchecked : CheckState.Checked;
+                            var ice = new ItemCheckEventArgs(selectedIndex, newCheckValue, checkedState);
+                            _kryptonCheckedListBox.SetItemCheckState(selectedIndex, ice.NewValue);
+                        }
+
+                        break;
                     }
                 }
                 _lastSelected = selectedIndex;
@@ -1791,10 +1800,14 @@ public class KryptonCheckedListBox : VisualControlBase,
     /// </summary>
     public void ClearChecked()
     {
+        BeginUpdate();
+
         for (int i = 0; i < Items.Count; i++)
         {
             SetItemChecked(i, false);
         }
+        
+        EndUpdate();
     }
 
     /// <summary>
