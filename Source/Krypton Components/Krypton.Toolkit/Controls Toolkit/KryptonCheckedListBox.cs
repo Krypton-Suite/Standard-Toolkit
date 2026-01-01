@@ -942,7 +942,6 @@ public class KryptonCheckedListBox : VisualControlBase,
                     // Handle different selection modes
                     case CheckedSelectionMode.MultiSimple:
                     case CheckedSelectionMode.MultiExtended:
-                    {
                         // In multi-selection mode, toggle check state for clicked item
                         if (!_killNextSelect)
                         {
@@ -951,11 +950,8 @@ public class KryptonCheckedListBox : VisualControlBase,
                             var ice = new ItemCheckEventArgs(selectedIndex, newCheckValue, checkedState);
                             _kryptonCheckedListBox.SetItemCheckState(selectedIndex, ice.NewValue);
                         }
-
                         break;
-                    }
                     case CheckedSelectionMode.Radio:
-                    {
                         // Radio mode - only one item can be checked at a time
                         if (!_killNextSelect)
                         {
@@ -976,11 +972,8 @@ public class KryptonCheckedListBox : VisualControlBase,
                                 _kryptonCheckedListBox.SetItemCheckState(selectedIndex, ice.NewValue);
                             }
                         }
-
                         break;
-                    }
                     default:
-                    {
                         // Single selection mode - original behavior
                         if (!_killNextSelect && ((selectedIndex == _lastSelected) || _kryptonCheckedListBox.CheckOnClick))
                         {
@@ -989,9 +982,7 @@ public class KryptonCheckedListBox : VisualControlBase,
                             var ice = new ItemCheckEventArgs(selectedIndex, newCheckValue, checkedState);
                             _kryptonCheckedListBox.SetItemCheckState(selectedIndex, ice.NewValue);
                         }
-
                         break;
-                    }
                 }
                 _lastSelected = selectedIndex;
                 Invalidate();
@@ -1800,14 +1791,10 @@ public class KryptonCheckedListBox : VisualControlBase,
     /// </summary>
     public void ClearChecked()
     {
-        BeginUpdate();
-
         for (int i = 0; i < Items.Count; i++)
         {
             SetItemChecked(i, false);
         }
-        
-        EndUpdate();
     }
 
     /// <summary>
