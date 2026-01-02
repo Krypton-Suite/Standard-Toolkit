@@ -708,8 +708,10 @@ public class KryptonForm : VisualForm,
                 _internalKryptonPanel.ClientSize = ClientSize;
             }
 
-            // Route to base.Controls when MDI is enabled
-            return base.IsMdiContainer ? base.Controls : _internalKryptonPanel.Controls;
+            // Route to base.Controls when MDI is enabled, or when SetInheritedControlOverride is called
+            return (base.IsMdiContainer || _internalPanelState == InheritBool.True)
+                ? base.Controls
+                : _internalKryptonPanel.Controls;
         }
     }
 
