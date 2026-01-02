@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -73,7 +73,11 @@ public class BadgeOverflowValues : Storage
 
     #region Reset
 
-    public void Reset() => _overflowText = DEFAULT_OVERFLOW_TEXT;
+    public void Reset()
+    {
+        _overflowText = DEFAULT_OVERFLOW_TEXT;
+        PerformNeedPaint(true);
+    }
 
     #endregion
 }

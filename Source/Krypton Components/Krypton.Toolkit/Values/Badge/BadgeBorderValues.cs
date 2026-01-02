@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -108,6 +108,7 @@ public class BadgeBorderValues : Storage
     {
         _badgeBorderSize = DEFAULT_BADGE_BORDER_SIZE;
         _badgeBorderBevel = DEFAULT_BADGE_BORDER_BEVEL;
+        PerformNeedPaint(true);
     }
 
     #endregion

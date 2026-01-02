@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -393,6 +393,7 @@ public class BadgeContentValues : Storage
         _autoShowHideBadge = DEFAULT_AUTO_SHOW_HIDE_BADGE;
         _badgeImage = null;
         _badgeImagePadding = 4;
+        PerformNeedPaint(true);
     }
 
     #endregion
