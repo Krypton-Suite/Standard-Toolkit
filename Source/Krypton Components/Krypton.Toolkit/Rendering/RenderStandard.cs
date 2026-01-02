@@ -12209,6 +12209,14 @@ public class RenderStandard : RenderBase
         public Image? Image;
         public Color ImageTransparentColor;
         public Rectangle ImageRect;
+        public bool DrawOverlayImage;
+        public Image? OverlayImage;
+        public Color OverlayImageTransparentColor;
+        public Rectangle OverlayImageRect;
+        public OverlayImagePosition OverlayImagePosition;
+        public OverlayImageScaleMode OverlayImageScaleMode;
+        public float OverlayImageScaleFactor;
+        public Size OverlayImageFixedSize;
         public PaletteTextTrim ShortTextTrimming;
         public AccurateTextMemento? ShortTextMemento;
         public Rectangle ShortTextRect;
@@ -12227,6 +12235,10 @@ public class RenderStandard : RenderBase
             LongTextTrimming = PaletteTextTrim.EllipsisCharacter;
             ShortTextTrimming = PaletteTextTrim.EllipsisCharacter;
             Orientation = VisualOrientation.Top;
+            OverlayImagePosition = OverlayImagePosition.TopRight;
+            OverlayImageScaleMode = OverlayImageScaleMode.None;
+            OverlayImageScaleFactor = 0.5f;
+            OverlayImageFixedSize = new Size(16, 16);
         }
 
         /// <summary>
@@ -12270,6 +12282,12 @@ public class RenderStandard : RenderBase
                         ImageRect.Y = displayRect.Bottom - ImageRect.Height - (ImageRect.Y - displayRect.Top);
                     }
 
+                    // Reposition the overlay image relative to the main image
+                    if (DrawOverlayImage && DrawImage)
+                    {
+                        CalculateOverlayImagePosition();
+                    }
+
                     // Reposition the short text relative the display rectangle
                     if (DrawShortText)
                     {
@@ -12293,6 +12311,12 @@ public class RenderStandard : RenderBase
                         var x = ImageRect.Y - displayRect.Top;
                         ImageRect.Y = displayRect.Top + displayRect.Width - ImageRect.Width - (ImageRect.X - displayRect.X);
                         ImageRect.X = x + displayRect.Left;
+                    }
+
+                    // Reposition the overlay image relative to the main image
+                    if (DrawOverlayImage && DrawImage)
+                    {
+                        CalculateOverlayImagePosition();
                     }
 
                     // Reposition the short text relative the display rectangle
@@ -12324,6 +12348,12 @@ public class RenderStandard : RenderBase
                         ImageRect.Y = y + displayRect.Top;
                     }
 
+                    // Reposition the overlay image relative to the main image
+                    if (DrawOverlayImage && DrawImage)
+                    {
+                        CalculateOverlayImagePosition();
+                    }
+
                     // Reposition the short text relative the display rectangle
                     if (DrawShortText)
                     {
@@ -12350,7 +12380,7 @@ public class RenderStandard : RenderBase
         /// <summary>
         /// Calculate the overlay image position and size based on the main image rectangle, overlay position, and scale mode.
         /// </summary>
-        private void CalculateOverlayImagePosition()
+        internal void CalculateOverlayImagePosition()
         {
             if (OverlayImage == null || !DrawImage)
             {
@@ -12392,19 +12422,21 @@ public class RenderStandard : RenderBase
                     break;
 
                 case OverlayImageScaleMode.ProportionalToMain:
+                {
                     // Scale proportionally to maintain aspect ratio, using smaller dimension of main image as reference
-                    float mainImageMinDim = Math.Min(mainImageRect.Width, mainImageRect.Height);
-                    float targetSize = mainImageMinDim * OverlayImageScaleFactor;
+                    float propMainImageMinDim = Math.Min(mainImageRect.Width, mainImageRect.Height);
+                    float propTargetSize = propMainImageMinDim * OverlayImageScaleFactor;
 
                     // Calculate scale to fit target size while maintaining aspect ratio
-                    float scale = Math.Min(
-                        targetSize / originalOverlaySize.Width,
-                        targetSize / originalOverlaySize.Height);
+                    float propScale = Math.Min(
+                        propTargetSize / originalOverlaySize.Width,
+                        propTargetSize / originalOverlaySize.Height);
 
                     overlaySize = new Size(
-                        (int)(originalOverlaySize.Width * scale),
-                        (int)(originalOverlaySize.Height * scale));
+                        (int)(originalOverlaySize.Width * propScale),
+                        (int)(originalOverlaySize.Height * propScale));
                     break;
+                }
             }
 
             // Ensure minimum size of 1x1
