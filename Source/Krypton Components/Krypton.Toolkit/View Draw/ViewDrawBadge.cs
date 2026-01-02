@@ -203,7 +203,7 @@ public class ViewDrawBadge : ViewLeaf
 
         // Use the badge font or default font for measurement
         // Only dispose fonts we create ourselves, not fonts from BadgeValues
-        Font measureFont = _badgeValues.BadgeContentValues.Font ?? new Font(KryptonManager.CurrentGlobalPalette.BaseFont.FontFamily, 7.5f, FontStyle.Bold, GraphicsUnit.Point);
+        Font measureFont = _badgeValues.BadgeContentValues.Font ?? GetFallbackFont();
         bool createdFont = _badgeValues.BadgeContentValues.Font == null;
 
         try
@@ -373,7 +373,7 @@ public class ViewDrawBadge : ViewLeaf
             if (!string.IsNullOrEmpty(text))
             {
                 // Only dispose fonts we create ourselves, not fonts from BadgeValues
-                Font textFont = _badgeValues.BadgeContentValues.Font ?? new Font(KryptonManager.CurrentGlobalPalette.BaseFont.FontFamily, 7.5f, FontStyle.Bold, GraphicsUnit.Point);
+                Font textFont = _badgeValues.BadgeContentValues.Font ?? GetFallbackFont();
                 bool createdFont = _badgeValues.BadgeContentValues.Font == null;
                 Color textColor = _badgeValues.BadgeColorValues.TextColor;
                 if (opacity < 1.0f)
@@ -451,6 +451,32 @@ public class ViewDrawBadge : ViewLeaf
         }
 
         return text;
+    }
+
+    /// <summary>
+    /// Gets a fallback font when the badge font is not specified and the global palette is not available.
+    /// </summary>
+    /// <returns>A font to use for badge rendering.</returns>
+    private Font GetFallbackFont()
+    {
+        // Try to get font from global palette, with null checks
+        var globalPalette = KryptonManager.CurrentGlobalPalette;
+        if (globalPalette?.BaseFont != null)
+        {
+            return new Font(globalPalette.BaseFont.FontFamily, 7.5f, FontStyle.Bold, GraphicsUnit.Point);
+        }
+
+        // Fallback to default system font if palette is not initialized
+        // Use "Segoe UI" as default (matching PaletteBase default) or SystemFonts.DefaultFont
+        try
+        {
+            return new Font("Segoe UI", 7.5f, FontStyle.Bold, GraphicsUnit.Point);
+        }
+        catch
+        {
+            // If Segoe UI is not available, use system default font
+            return new Font(SystemFonts.DefaultFont.FontFamily, 7.5f, FontStyle.Bold, GraphicsUnit.Point);
+        }
     }
 
     private void DrawBadgeBorder(Graphics g, Rectangle drawRect, float opacity)
@@ -578,11 +604,11 @@ public class ViewDrawBadge : ViewLeaf
                     DrawBevelCircle(g, borderRect, topLeftPen, bottomRightPen);
                     break;
                 case BadgeShape.Square:
-                    DrawBevelSquare(g, borderRect, topLeftPen, bottomRightPen);
+                    DrawBevelSquare(g, borderRect, topLeftPen, bottomRightPen, borderSize);
                     break;
                 case BadgeShape.RoundedRectangle:
                     int borderRadius = Math.Max(0, Math.Min(borderRect.Width, borderRect.Height) / 4);
-                    DrawBevelRoundedRectangle(g, borderRect, borderRadius, topLeftPen, bottomRightPen);
+                    DrawBevelRoundedRectangle(g, borderRect, borderRadius, topLeftPen, bottomRightPen, borderSize);
                     break;
             }
         }
@@ -606,9 +632,8 @@ public class ViewDrawBadge : ViewLeaf
         }
     }
 
-    private void DrawBevelSquare(Graphics g, Rectangle rect, Pen lightPen, Pen darkPen)
+    private void DrawBevelSquare(Graphics g, Rectangle rect, Pen lightPen, Pen darkPen, int borderSize)
     {
-        int borderSize = _badgeValues.BadgeBorderValues.BadgeBorderSize;
         int halfBorder = borderSize / 2;
 
         // Top edge (light)
@@ -624,9 +649,8 @@ public class ViewDrawBadge : ViewLeaf
         g.DrawLine(darkPen, rect.Right - halfBorder, rect.Top + halfBorder, rect.Right - halfBorder, rect.Bottom - halfBorder);
     }
 
-    private void DrawBevelRoundedRectangle(Graphics g, Rectangle rect, int radius, Pen lightPen, Pen darkPen)
+    private void DrawBevelRoundedRectangle(Graphics g, Rectangle rect, int radius, Pen lightPen, Pen darkPen, int borderSize)
     {
-        int borderSize = _badgeValues.BadgeBorderValues.BadgeBorderSize;
         int halfBorder = borderSize / 2;
 
         // Top-left arc (light)
