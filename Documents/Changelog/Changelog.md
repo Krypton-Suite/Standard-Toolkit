@@ -6,6 +6,8 @@
 
 * Implemented [#2812](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2812), Code Editor Control
 	- To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this control is part of the `Krypton.Utilities` assembly.
+* Resolved [#2721](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2721), Floating Window is Empty
+* Resolved [#2605](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2605), `KryptonFloatingWindow` leaves empty window behind when dragged from docked state
 * Implemented [#1786](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1786), `KryptonCheckedListBox` multi selection
 * Resolved [#2818](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2818), Unable to find package `Krypton.Utilities`
 * Resolved [#2801](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2801), `KryptonTextBox` Validating event fires twice
