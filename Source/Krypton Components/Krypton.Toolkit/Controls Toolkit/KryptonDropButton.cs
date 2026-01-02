@@ -531,6 +531,18 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
     /// <returns>String value.</returns>
     public string GetLongText() => KryptonCommand?.ExtraText ?? Values.GetLongText();
 
+    public Image? GetOverlayImage(PaletteState state) => null;
+
+    public Color GetOverlayImageTransparentColor(PaletteState state) => Color.Empty;
+
+    public OverlayImagePosition GetOverlayImagePosition(PaletteState state) => OverlayImagePosition.TopRight;
+
+    public OverlayImageScaleMode GetOverlayImageScaleMode(PaletteState state) => OverlayImageScaleMode.None;
+
+    public float GetOverlayImageScaleFactor(PaletteState state) => 0.5f;
+
+    public Size GetOverlayImageFixedSize(PaletteState state) => new Size(16, 16);
+
     /// <summary>
     /// Gets the content image.
     /// </summary>
