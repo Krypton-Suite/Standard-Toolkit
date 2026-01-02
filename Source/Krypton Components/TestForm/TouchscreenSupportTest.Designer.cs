@@ -1,4 +1,4 @@
-﻿namespace TestForm
+namespace TestForm
 {
     partial class TouchscreenSupportTest
     {
@@ -92,6 +92,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.grpOtherControls.Panel)).BeginInit();
             this.grpOtherControls.Panel.SuspendLayout();
             this.grpOtherControls.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.grpAdvancedControls)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.grpAdvancedControls.Panel)).BeginInit();
+            this.grpAdvancedControls.Panel.SuspendLayout();
+            this.grpAdvancedControls.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grpSettings)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grpSettings.Panel)).BeginInit();
             this.grpSettings.Panel.SuspendLayout();
