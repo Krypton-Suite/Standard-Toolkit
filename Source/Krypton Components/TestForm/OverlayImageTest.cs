@@ -143,28 +143,28 @@ public partial class OverlayImageTest : KryptonForm
     private void SetupPositionExamples(Image mainImage, Image overlayImage)
     {
         // Top Left
-        btnTopLeft.Image = mainImage;
+        btnTopLeft.Values.Image = mainImage;
         btnTopLeft.Values.OverlayImage.Image = overlayImage;
         btnTopLeft.Values.OverlayImage.Position = OverlayImagePosition.TopLeft;
         btnTopLeft.Values.OverlayImage.ScaleMode = OverlayImageScaleMode.None;
         btnTopLeft.Text = "Top Left";
 
         // Top Right
-        btnTopRight.Image = mainImage;
+        btnTopRight.Values.Image = mainImage;
         btnTopRight.Values.OverlayImage.Image = overlayImage;
         btnTopRight.Values.OverlayImage.Position = OverlayImagePosition.TopRight;
         btnTopRight.Values.OverlayImage.ScaleMode = OverlayImageScaleMode.None;
         btnTopRight.Text = "Top Right";
 
         // Bottom Left
-        btnBottomLeft.Image = mainImage;
+        btnBottomLeft.Values.Image = mainImage;
         btnBottomLeft.Values.OverlayImage.Image = overlayImage;
         btnBottomLeft.Values.OverlayImage.Position = OverlayImagePosition.BottomLeft;
         btnBottomLeft.Values.OverlayImage.ScaleMode = OverlayImageScaleMode.None;
         btnBottomLeft.Text = "Bottom Left";
 
         // Bottom Right
-        btnBottomRight.Image = mainImage;
+        btnBottomRight.Values.Image = mainImage;
         btnBottomRight.Values.OverlayImage.Image = overlayImage;
         btnBottomRight.Values.OverlayImage.Position = OverlayImagePosition.BottomRight;
         btnBottomRight.Values.OverlayImage.ScaleMode = OverlayImageScaleMode.None;
@@ -174,14 +174,14 @@ public partial class OverlayImageTest : KryptonForm
     private void SetupScalingExamples(Image mainImage, Image overlayImage)
     {
         // None (actual size)
-        btnScaleNone.Image = mainImage;
+        btnScaleNone.Values.Image = mainImage;
         btnScaleNone.Values.OverlayImage.Image = overlayImage;
         btnScaleNone.Values.OverlayImage.Position = OverlayImagePosition.TopRight;
         btnScaleNone.Values.OverlayImage.ScaleMode = OverlayImageScaleMode.None;
         btnScaleNone.Text = "No Scaling";
 
         // Percentage (30% of main image)
-        btnScalePercentage.Image = mainImage;
+        btnScalePercentage.Values.Image = mainImage;
         btnScalePercentage.Values.OverlayImage.Image = overlayImage;
         btnScalePercentage.Values.OverlayImage.Position = OverlayImagePosition.TopRight;
         btnScalePercentage.Values.OverlayImage.ScaleMode = OverlayImageScaleMode.Percentage;
@@ -189,7 +189,7 @@ public partial class OverlayImageTest : KryptonForm
         btnScalePercentage.Text = "30% Scale";
 
         // Fixed Size (16x16)
-        btnScaleFixed.Image = mainImage;
+        btnScaleFixed.Values.Image = mainImage;
         btnScaleFixed.Values.OverlayImage.Image = overlayImage;
         btnScaleFixed.Values.OverlayImage.Position = OverlayImagePosition.TopRight;
         btnScaleFixed.Values.OverlayImage.ScaleMode = OverlayImageScaleMode.FixedSize;
@@ -197,7 +197,7 @@ public partial class OverlayImageTest : KryptonForm
         btnScaleFixed.Text = "Fixed 16x16";
 
         // Proportional to Main (50% of smaller dimension)
-        btnScaleProportional.Image = mainImage;
+        btnScaleProportional.Values.Image = mainImage;
         btnScaleProportional.Values.OverlayImage.Image = overlayImage;
         btnScaleProportional.Values.OverlayImage.Position = OverlayImagePosition.TopRight;
         btnScaleProportional.Values.OverlayImage.ScaleMode = OverlayImageScaleMode.ProportionalToMain;
@@ -208,7 +208,7 @@ public partial class OverlayImageTest : KryptonForm
     private void SetupInteractiveExamples(Image mainImage, Image overlayImage)
     {
         // Interactive button for property grid
-        btnInteractive.Image = mainImage;
+        btnInteractive.Values.Image = mainImage;
         btnInteractive.Values.OverlayImage.Image = overlayImage;
         btnInteractive.Values.OverlayImage.Position = OverlayImagePosition.TopRight;
         btnInteractive.Values.OverlayImage.ScaleMode = OverlayImageScaleMode.Percentage;
@@ -216,23 +216,23 @@ public partial class OverlayImageTest : KryptonForm
         btnInteractive.Text = "Interactive (Select for Property Grid)";
 
         // Different overlay colors
-        btnRedOverlay.Image = mainImage;
+        btnRedOverlay.Values.Image = mainImage;
         btnRedOverlay.Values.OverlayImage.Image = CreateCustomOverlayImage(Color.Red, "!");
         btnRedOverlay.Values.OverlayImage.Position = OverlayImagePosition.TopRight;
         btnRedOverlay.Text = "Red Overlay";
 
-        btnGreenOverlay.Image = mainImage;
+        btnGreenOverlay.Values.Image = mainImage;
         btnGreenOverlay.Values.OverlayImage.Image = CreateCustomOverlayImage(Color.Green, "✓");
         btnGreenOverlay.Values.OverlayImage.Position = OverlayImagePosition.TopRight;
         btnGreenOverlay.Text = "Green Overlay";
 
-        btnBlueOverlay.Image = mainImage;
+        btnBlueOverlay.Values.Image = mainImage;
         btnBlueOverlay.Values.OverlayImage.Image = CreateCustomOverlayImage(Color.Blue, "i");
         btnBlueOverlay.Values.OverlayImage.Position = OverlayImagePosition.TopRight;
         btnBlueOverlay.Text = "Blue Overlay";
 
         // Notification counter example
-        btnNotification.Image = mainImage;
+        btnNotification.Values.Image = mainImage;
         btnNotification.Values.OverlayImage.Image = CreateCustomOverlayImage(Color.Orange, "5");
         btnNotification.Values.OverlayImage.Position = OverlayImagePosition.TopRight;
         btnNotification.Values.OverlayImage.ScaleMode = OverlayImageScaleMode.FixedSize;
@@ -243,7 +243,7 @@ public partial class OverlayImageTest : KryptonForm
     private void SetupLabelExamples(Image mainImage, Image overlayImage)
     {
         // Label with overlay
-        lblWithOverlay.Image = mainImage;
+        lblWithOverlay.Values.Image = mainImage;
         lblWithOverlay.Values.OverlayImage.Image = overlayImage;
         lblWithOverlay.Values.OverlayImage.Position = OverlayImagePosition.TopRight;
         lblWithOverlay.Values.OverlayImage.ScaleMode = OverlayImageScaleMode.Percentage;
@@ -251,12 +251,12 @@ public partial class OverlayImageTest : KryptonForm
         lblWithOverlay.Text = "Label with Overlay";
 
         // Label with different positions
-        lblTopLeft.Image = mainImage;
+        lblTopLeft.Values.Image = mainImage;
         lblTopLeft.Values.OverlayImage.Image = CreateCustomOverlayImage(Color.Purple);
         lblTopLeft.Values.OverlayImage.Position = OverlayImagePosition.TopLeft;
         lblTopLeft.Text = "Top Left";
 
-        lblBottomRight.Image = mainImage;
+        lblBottomRight.Values.Image = mainImage;
         lblBottomRight.Values.OverlayImage.Image = CreateCustomOverlayImage(Color.Teal);
         lblBottomRight.Values.OverlayImage.Position = OverlayImagePosition.BottomRight;
         lblBottomRight.Text = "Bottom Right";

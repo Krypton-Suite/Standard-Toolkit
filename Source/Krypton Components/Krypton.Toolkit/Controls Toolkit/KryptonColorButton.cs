@@ -895,7 +895,7 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
     public Color GetImageTransparentColor(PaletteState state) =>
         KryptonCommand?.ImageTransparentColor ?? Values.GetImageTransparentColor(state);
 
-    // <summary>
+    /// <summary>
     /// Gets the overlay image.
     /// </summary>
     /// <param name="state">The state for which the overlay image is needed.</param>
