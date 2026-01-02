@@ -6,6 +6,8 @@
 
 * Implemented [#1220](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1220), Is it time to bring over `KryptonToast`s
 * Implemented [#1282](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1282), `KToast`: Add 'Do not show again' option
+* Resolved [#2721](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2721), Floating Window is Empty
+* Resolved [#2605](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2605), `KryptonFloatingWindow` leaves empty window behind when dragged from docked state
 * Implemented [#1786](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1786), `KryptonCheckedListBox` multi selection
 * Resolved [#2818](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2818), Unable to find package `Krypton.Utilities`
 * Resolved [#2801](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2801), `KryptonTextBox` Validating event fires twice
