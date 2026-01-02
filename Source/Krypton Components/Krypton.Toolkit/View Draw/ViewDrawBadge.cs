@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -442,10 +442,10 @@ public class ViewDrawBadge : ViewLeaf
             // Try to parse the text as an integer
             if (int.TryParse(text, out int numericValue))
             {
-                // If the value exceeds the overflow threshold, return overflow text
+                // If the value exceeds the overflow threshold, return MaxBadgeValue + OverflowText (e.g., "99+")
                 if (numericValue > _badgeValues.BadgeContentValues.MaxBadgeValue)
                 {
-                    return _badgeValues.BadgeOverflowValues.OverflowText;
+                    return _badgeValues.BadgeContentValues.MaxBadgeValue.ToString() + _badgeValues.BadgeOverflowValues.OverflowText;
                 }
             }
         }
