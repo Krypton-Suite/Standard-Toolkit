@@ -31,20 +31,30 @@ jobs:
               label => typeof label === 'string' ? label : label.name
             );
             
+            // Helper function to check if labels contain a pattern (handles emojis)
+            const hasLabelMatching = (pattern) => {
+              const patternLower = pattern.toLowerCase();
+              return labels.some(label => {
+                const labelLower = label.toLowerCase();
+                // Check if label contains the pattern (handles emoji prefixes like '🪲 bug')
+                return labelLower.includes(patternLower);
+              });
+            };
+            
             // Auto-prefix issue titles based on template type
             // Only do this for newly opened issues (not edits)
             if (context.payload.action === 'opened') {
               
               let titlePrefix = null;
               
-              // Check for Bug Report template
-              const hasBugLabel = labels.includes('bug');
+              // Check for Bug Report template (handles '🪲 bug' label)
+              const hasBugLabel = hasLabelMatching('bug');
               const hasBugReportFields = issueBody.includes('### Steps to Reproduce');
               if ((hasBugLabel || hasBugReportFields) && !issueTitle.startsWith('[Bug]: ')) {
                 titlePrefix = '[Bug]: ';
               }
-              // Check for Feature Request template
-              else if ((labels.includes('enhancement') || labels.includes('new feature') || labels.includes('suggestion') || 
+              // Check for Feature Request template (handles '✨ new feature', '💡 suggestion' labels)
+              else if ((hasLabelMatching('enhancement') || hasLabelMatching('new feature') || hasLabelMatching('suggestion') || 
                        issueBody.includes('### Feature Description')) && 
                        !issueTitle.startsWith('[Feature Request]: ')) {
                 titlePrefix = '[Feature Request]: ';
@@ -55,8 +65,8 @@ jobs:
                        !issueTitle.startsWith('[Other Issues]: ')) {
                 titlePrefix = '[Other Issues]: ';
               }
-              // Check for Post a Question template
-              else if ((labels.includes('question') || 
+              // Check for Post a Question template (handles '❔ question' label)
+              else if ((hasLabelMatching('question') || 
                        issueBody.includes('### What do you want to ask?')) && 
                        !issueTitle.startsWith('[Question]: ')) {
                 titlePrefix = '[Question]: ';
@@ -78,8 +88,9 @@ jobs:
               }
             }
             
-            // Map area names to label names
-            const areaToLabel = {
+            // Map area names to label search patterns
+            // The workflow will dynamically find matching labels from the repository
+            const areaToLabelPattern = {
               'Docking': 'area:docking',
               'Navigator': 'area:navigator',
               'Ribbon': 'area:ribbon',
@@ -87,10 +98,68 @@ jobs:
               'Workspace': 'area:workspace'
             };
             
+            // Fetch all labels from the repository to find exact matches (handles emojis)
+            let allLabels = [];
+            try {
+              const { data: repoLabels } = await github.rest.issues.listLabelsForRepo({
+                owner,
+                repo,
+                per_page: 100
+              });
+              allLabels = repoLabels.map(label => label.name);
+              console.log(`Fetched ${allLabels.length} labels from repository`);
+            } catch (error) {
+              console.warn(`Failed to fetch labels: ${error.message}`);
+              // Fallback to direct mapping if label fetch fails
+            }
+            
+            // Create a mapping from area names to actual label names (with emojis if present)
+            const areaToLabel = {};
+            for (const [area, pattern] of Object.entries(areaToLabelPattern)) {
+              let matchedLabel = null;
+              
+              if (allLabels.length > 0) {
+                // Try to find exact case-insensitive match first
+                matchedLabel = allLabels.find(label => 
+                  label.toLowerCase() === pattern.toLowerCase()
+                );
+                
+                // If no exact match, try to find label that contains the pattern (handles emojis)
+                // e.g., "🎯 area:docking" should match pattern "area:docking"
+                if (!matchedLabel) {
+                  matchedLabel = allLabels.find(label => {
+                    const labelLower = label.toLowerCase();
+                    const patternLower = pattern.toLowerCase();
+                    // Match if label contains the pattern (handles emoji prefixes)
+                    return labelLower.includes(patternLower);
+                  });
+                }
+                
+                // Also try matching by extracting just alphanumeric/colon chars (for fuzzy matching)
+                if (!matchedLabel) {
+                  const patternClean = pattern.toLowerCase().replace(/[^\w:]/g, '');
+                  matchedLabel = allLabels.find(label => {
+                    const labelClean = label.toLowerCase().replace(/[^\w:]/g, '');
+                    return labelClean === patternClean;
+                  });
+                }
+              }
+              
+              // If still no match, use the pattern as-is (will fail gracefully later)
+              areaToLabel[area] = matchedLabel || pattern;
+              
+              if (matchedLabel && matchedLabel !== pattern) {
+                console.log(`Matched "${area}" to label "${matchedLabel}" (pattern was "${pattern}")`);
+              } else if (!matchedLabel) {
+                console.log(`Using pattern "${pattern}" for area "${area}" (no label match found)`);
+              }
+            }
+            
             // Extract "Areas Affected" field from issue body (only for bug reports)
             // GitHub issue forms store dropdown selections as markdown lists
             // Pattern matches: ### Areas Affected followed by bulleted list items
-            const isBugReport = labels.includes('bug') || issueBody.includes('### Steps to Reproduce');
+            // Check for bug label (handles '🪲 bug' label)
+            const isBugReport = hasLabelMatching('bug') || issueBody.includes('### Steps to Reproduce');
             
             if (!isBugReport) {
               console.log('Not a bug report - skipping area label assignment.');
