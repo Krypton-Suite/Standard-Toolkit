@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -230,10 +230,10 @@ internal sealed class VisualBackstageOverlayForm : KryptonForm
     /// </summary>
     private Rectangle CalculateBelowRibbonBounds()
     {
-        if (_ribbon == null || _ownerForm == null)
+        if (_ribbon == null)
         {
             // Fallback to full client area
-            return _ownerForm!.RectangleToScreen(_ownerForm.ClientRectangle);
+            return _ownerForm.RectangleToScreen(_ownerForm.ClientRectangle);
         }
 
         // Get ribbon's screen bounds
