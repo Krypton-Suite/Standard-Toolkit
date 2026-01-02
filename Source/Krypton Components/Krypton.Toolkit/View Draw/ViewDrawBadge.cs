@@ -463,13 +463,37 @@ public class ViewDrawBadge : ViewLeaf
                 borderColor = Color.FromArgb((int)(opacity * 255), borderColor.R, borderColor.G, borderColor.B);
             }
 
+            // Clamp BadgeBorderSize to prevent negative borderRect dimensions
+            // Border size should not exceed half the minimum dimension to ensure valid rectangle
+            // We need to ensure borderRect has at least width/height of 1, so borderSize must be
+            // strictly less than the minimum dimension (not just half)
+            int minDimension = Math.Min(drawRect.Width, drawRect.Height);
+            int maxBorderSize = Math.Max(0, minDimension - 1); // Ensure at least 1px remains for borderRect
+            int borderSize = Math.Min(_badgeValues.BadgeBorderValues.BadgeBorderSize, maxBorderSize);
+            
+            // If border size is invalid after clamping, skip drawing
+            if (borderSize <= 0)
+            {
+                return;
+            }
+
             // Adjust rectangle to account for pen width (pen draws centered on edge)
-            int halfBorder = _badgeValues.BadgeBorderValues.BadgeBorderSize / 2;
+            int halfBorder = borderSize / 2;
+            // Ensure borderRect dimensions are always positive
+            int borderWidth = Math.Max(1, drawRect.Width - borderSize);
+            int borderHeight = Math.Max(1, drawRect.Height - borderSize);
+            
+            // Additional validation: if borderRect would be invalid, skip drawing
+            if (borderWidth <= 0 || borderHeight <= 0)
+            {
+                return;
+            }
+            
             Rectangle borderRect = new Rectangle(
                 drawRect.X + halfBorder,
                 drawRect.Y + halfBorder,
-                drawRect.Width - _badgeValues.BadgeBorderValues.BadgeBorderSize,
-                drawRect.Height - _badgeValues.BadgeBorderValues.BadgeBorderSize);
+                borderWidth,
+                borderHeight);
 
             // If bevel is enabled, draw border with bevel effect
             if (_badgeValues.BadgeBorderValues.BadgeBorderBevel != BadgeBevelType.None)
@@ -479,7 +503,7 @@ public class ViewDrawBadge : ViewLeaf
             else
             {
                 // Standard border without bevel
-                using (var borderPen = new Pen(borderColor, _badgeValues.BadgeBorderValues.BadgeBorderSize))
+                using (var borderPen = new Pen(borderColor, borderSize))
                 {
                     switch (_badgeValues.BadgeContentValues.Shape)
                     {
@@ -490,7 +514,7 @@ public class ViewDrawBadge : ViewLeaf
                             g.DrawRectangle(borderPen, borderRect);
                             break;
                         case BadgeShape.RoundedRectangle:
-                            int borderRadius = Math.Min(borderRect.Width, borderRect.Height) / 4;
+                            int borderRadius = Math.Max(0, Math.Min(borderRect.Width, borderRect.Height) / 4);
                             DrawRoundedRectangle(g, borderPen, borderRect, borderRadius);
                             break;
                     }
@@ -501,6 +525,12 @@ public class ViewDrawBadge : ViewLeaf
 
     private void DrawBevelBorder(Graphics g, Rectangle borderRect, Color baseColor, float opacity)
     {
+        // Validate borderRect to prevent negative dimensions
+        if (borderRect.Width <= 0 || borderRect.Height <= 0)
+        {
+            return;
+        }
+
         // Create lighter and darker colors for bevel effect
         Color lightColor = ControlPaint.Light(baseColor);
         Color darkColor = ControlPaint.Dark(baseColor);
@@ -511,7 +541,17 @@ public class ViewDrawBadge : ViewLeaf
             darkColor = Color.FromArgb((int)(opacity * 255), darkColor.R, darkColor.G, darkColor.B);
         }
 
-        int borderSize = _badgeValues.BadgeBorderValues.BadgeBorderSize;
+        // Clamp border size to prevent issues with oversized borders
+        // Ensure border size doesn't exceed the minimum dimension (pen width should fit within borderRect)
+        int minDimension = Math.Min(borderRect.Width, borderRect.Height);
+        int maxBorderSize = Math.Max(0, minDimension - 1); // Ensure pen width fits within borderRect
+        int borderSize = Math.Min(_badgeValues.BadgeBorderValues.BadgeBorderSize, maxBorderSize);
+        
+        // If border size is invalid after clamping, skip drawing
+        if (borderSize <= 0)
+        {
+            return;
+        }
 
         // For Raised bevel: light top/left, dark bottom/right
         // For Inset bevel: dark top/left, light bottom/right (reversed)
@@ -541,7 +581,7 @@ public class ViewDrawBadge : ViewLeaf
                     DrawBevelSquare(g, borderRect, topLeftPen, bottomRightPen);
                     break;
                 case BadgeShape.RoundedRectangle:
-                    int borderRadius = Math.Min(borderRect.Width, borderRect.Height) / 4;
+                    int borderRadius = Math.Max(0, Math.Min(borderRect.Width, borderRect.Height) / 4);
                     DrawBevelRoundedRectangle(g, borderRect, borderRadius, topLeftPen, bottomRightPen);
                     break;
             }
