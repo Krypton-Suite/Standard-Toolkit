@@ -1948,8 +1948,9 @@ public class KryptonRichTextBox : VisualControlBase,
                     int plainTextLength = plainText?.Length ?? 0;
 
                     // Check for explicit formatting codes (most reliable indicator)
-                    bool hasFormattingCodes = savedRtf.Contains(@"\b") || savedRtf.Contains(@"\i") || savedRtf.Contains(@"\ul") ||
-                                             savedRtf.Contains(@"\fs") || savedRtf.Contains(@"\cf") || savedRtf.Contains(@"\highlight");
+                    string[] formattingCodes = { @"\b", @"\i", @"\ul", @"\fs", @"\cf", @"\highlight" };
+                    
+                    bool hasFormattingCodes = formattingCodes.Any(code => savedRtf.Contains(code));
 
                     // Check for custom fonts (beyond default \f0)
                     // Look for font references like \f1, \f2, etc. (but not \f0 which is default)
