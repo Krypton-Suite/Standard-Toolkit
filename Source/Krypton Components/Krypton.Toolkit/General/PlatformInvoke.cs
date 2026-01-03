@@ -5129,6 +5129,65 @@ No 	                    No 	                    Show text only
     }*/
 
     #endregion
+    #region Taskbar Overlay Icon (ITaskbarList3)
+
+    /// <summary>
+    /// COM interface for Windows 7+ taskbar functionality including overlay icons.
+    /// </summary>
+    [ComImport]
+    [Guid("ea1afb91-9e28-4b86-90e9-9e9f8a5eefaf")]
+    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    internal interface ITaskbarList3
+    {
+        // ITaskbarList methods
+        void HrInit();
+        void AddTab(IntPtr hwnd);
+        void DeleteTab(IntPtr hwnd);
+        void ActivateTab(IntPtr hwnd);
+        void SetActiveAlt(IntPtr hwnd);
+
+        // ITaskbarList2 methods
+        void MarkFullscreenWindow(IntPtr hwnd, [MarshalAs(UnmanagedType.Bool)] bool fFullscreen);
+
+        // ITaskbarList3 methods
+        void SetProgressValue(IntPtr hwnd, ulong ullCompleted, ulong ullTotal);
+        void SetProgressState(IntPtr hwnd, TBPFLAG tbpFlags);
+        void RegisterTab(IntPtr hwndTab, IntPtr hwndMDI);
+        void UnregisterTab(IntPtr hwndTab);
+        void SetTabOrder(IntPtr hwndTab, IntPtr hwndInsertBefore);
+        void SetTabActive(IntPtr hwndTab, IntPtr hwndMDI, uint dwReserved);
+        void ThumbBarAddButtons(IntPtr hwnd, uint cButtons, [MarshalAs(UnmanagedType.LPArray)] IntPtr[] pButtons);
+        void ThumbBarUpdateButtons(IntPtr hwnd, uint cButtons, [MarshalAs(UnmanagedType.LPArray)] IntPtr[] pButtons);
+        void ThumbBarSetImageList(IntPtr hwnd, IntPtr himl);
+        void SetOverlayIcon(IntPtr hwnd, IntPtr hIcon, [MarshalAs(UnmanagedType.LPWStr)] string pszDescription);
+        void SetThumbnailTooltip(IntPtr hwnd, [MarshalAs(UnmanagedType.LPWStr)] string pszTip);
+        void SetThumbnailClip(IntPtr hwnd, IntPtr prcClip);
+    }
+
+    /// <summary>
+    /// Taskbar progress flag values.
+    /// </summary>
+    internal enum TBPFLAG
+    {
+        TBPF_NOPROGRESS = 0,
+        TBPF_INDETERMINATE = 0x1,
+        TBPF_NORMAL = 0x2,
+        TBPF_ERROR = 0x4,
+        TBPF_PAUSED = 0x8
+    }
+
+    /// <summary>
+    /// CLSID for TaskbarList COM object.
+    /// </summary>
+    [ComImport]
+    [Guid("56FDF344-FD6D-11d0-958A-006097C9A090")]
+    [ClassInterface(ClassInterfaceType.None)]
+    internal class TaskbarList
+    {
+    }
+
+    #endregion
+
 
     #endregion
 }
