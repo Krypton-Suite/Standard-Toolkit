@@ -91,14 +91,20 @@ public partial class OverlayImageTest : KryptonForm
                 g.DrawEllipse(pen, 1, 1, 22, 22);
             }
 
-            // Draw exclamation mark
+            // Draw exclamation mark (centered)
+            g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
             using (var font = new Font("Arial", 14, FontStyle.Bold))
             using (var brush = new SolidBrush(Color.White))
+            using (var sf = new StringFormat(StringFormat.GenericTypographic)
             {
-                var textSize = g.MeasureString("!", font);
-                g.DrawString("!", font, brush,
-                    (24 - textSize.Width) / 2,
-                    (24 - textSize.Height) / 2);
+                Alignment = StringAlignment.Center,
+                LineAlignment = StringAlignment.Center,
+                FormatFlags = StringFormatFlags.NoWrap | StringFormatFlags.NoClip,
+                Trimming = StringTrimming.None
+            })
+            {
+                var rect = new RectangleF(0, 0, 24, 24);
+                g.DrawString("!", font, brush, rect, sf);
             }
         }
         return bitmap;
@@ -124,16 +130,22 @@ public partial class OverlayImageTest : KryptonForm
                 g.DrawEllipse(pen, 0.75f, 0.75f, 18.5f, 18.5f);
             }
 
-            // Draw text if provided
+            // Draw text if provided (centered)
             if (!string.IsNullOrEmpty(text))
             {
+                g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
                 using (var font = new Font("Arial", 10, FontStyle.Bold))
                 using (var brush = new SolidBrush(Color.White))
+                using (var sf = new StringFormat(StringFormat.GenericTypographic)
                 {
-                    var textSize = g.MeasureString(text, font);
-                    g.DrawString(text, font, brush,
-                        (20 - textSize.Width) / 2,
-                        (20 - textSize.Height) / 2);
+                    Alignment = StringAlignment.Center,
+                    LineAlignment = StringAlignment.Center,
+                    FormatFlags = StringFormatFlags.NoWrap | StringFormatFlags.NoClip,
+                    Trimming = StringTrimming.None
+                })
+                {
+                    var rect = new RectangleF(0, 0, 20, 20);
+                    g.DrawString(text, font, brush, rect, sf);
                 }
             }
         }
