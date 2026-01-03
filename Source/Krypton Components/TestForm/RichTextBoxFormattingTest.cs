@@ -39,55 +39,6 @@ public partial class RichTextBoxFormattingTest : KryptonForm
 
         kcmbInputControlStyle.SelectedIndex = 0; // Default selection
     }
-    /*private PaletteMode GetPaletteModeFromString(string paletteName)
-    {
-        return paletteName switch
-        {
-            "Office 2010 - Blue" => PaletteMode.Office2010Blue,
-            "Office 2010 - Silver" => PaletteMode.Office2010Silver,
-            "Office 2010 - Black" => PaletteMode.Office2010Black,
-            "Office 2013 - White" => PaletteMode.Office2013White,
-            "Office 2013 - Dark Gray" => PaletteMode.Office2013DarkGray,
-            "Office 2013 - Light Gray" => PaletteMode.Office2013LightGray,
-            "Office 365 - Blue" => PaletteMode.Office365Blue,
-            "Office 365 - Silver" => PaletteMode.Office365Silver,
-            "Office 365 - Black" => PaletteMode.Office365Black,
-            "Office 365 - White" => PaletteMode.Office365White,
-            "Sparkle - Blue" => PaletteMode.SparkleBlue,
-            "Sparkle - Orange" => PaletteMode.SparkleOrange,
-            "Sparkle - Purple" => PaletteMode.SparklePurple,
-            "Professional - System" => PaletteMode.ProfessionalSystem,
-            "Professional - Office 2003" => PaletteMode.ProfessionalOffice2003,
-            "Professional - Office 2007 Blue" => PaletteMode.ProfessionalOffice2007Blue,
-            "Professional - Office 2007 Silver" => PaletteMode.ProfessionalOffice2007Silver,
-            "Professional - Office 2007 Black" => PaletteMode.ProfessionalOffice2007Black,
-            "Professional - Office 2007 White" => PaletteMode.ProfessionalOffice2007White,
-            "Professional - Office 2010 Blue" => PaletteMode.ProfessionalOffice2010Blue,
-            "Professional - Office 2010 Silver" => PaletteMode.ProfessionalOffice2010Silver,
-            "Professional - Office 2010 Black" => PaletteMode.ProfessionalOffice2010Black,
-            "Professional - Office 2010 White" => PaletteMode.ProfessionalOffice2010White,
-            "Professional - Office 2013" => PaletteMode.ProfessionalOffice2013,
-            "Professional - Office 365 Blue" => PaletteMode.ProfessionalOffice365Blue,
-            "Professional - Office 365 Silver" => PaletteMode.ProfessionalOffice365Silver,
-            "Professional - Office 365 Black" => PaletteMode.ProfessionalOffice365Black,
-            "Professional - Office 365 White" => PaletteMode.ProfessionalOffice365White,
-            "Professional - Sparkle Blue" => PaletteMode.ProfessionalSparkleBlue,
-            "Professional - Sparkle Orange" => PaletteMode.ProfessionalSparkleOrange,
-            "Professional - Sparkle Purple" => PaletteMode.ProfessionalSparklePurple,
-            "Custom - Blue" => PaletteMode.Custom,
-            "Custom - Orange" => PaletteMode.Custom,
-            "Custom - Purple" => PaletteMode.Custom,
-            "Custom - Dark" => PaletteMode.Custom,
-            "Custom - Light" => PaletteMode.Custom,
-            "Custom - Dark Blue" => PaletteMode.Custom,
-            "Custom - Dark Orange" => PaletteMode.Custom,
-            "Custom - Dark Purple" => PaletteMode.Custom,
-            "Custom - Light Blue" => PaletteMode.Custom,
-            "Custom - Light Orange" => PaletteMode.Custom,
-            "Custom - Light Purple" => PaletteMode.Custom,
-            _ => PaletteMode.Office2010Blue
-        };
-    }*/
 
     private void LoadSampleRtfContent()
     {
