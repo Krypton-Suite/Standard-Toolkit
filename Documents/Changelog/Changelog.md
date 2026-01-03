@@ -4,6 +4,7 @@
 
 # 2026-01-19 - Build 2501 (Version 105-LTS - Patch 1) - January 2026
 
+* Resolved [#2832](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2832), `KryptonRichTextBox` does not retain its formatting when palette is changed
 * Resolved [#2721](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2721), Floating Window is Empty after dragging from Docked state
 * Resolved [#2605](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2605), `KryptonFloatingWindow` leaves empty window behind when dragged from docked state
 * Resolved [#2801](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2801), `KryptonTextBox` Validating event fires twice
