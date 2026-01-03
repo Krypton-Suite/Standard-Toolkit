@@ -1925,6 +1925,71 @@ public class KryptonRichTextBox : VisualControlBase,
 
         if (!IsDisposed && !Disposing)
         {
+            // IMPORTANT: Save RTF content BEFORE any property changes that might reset formatting
+            // Setting BackColor, ForeColor, or Font can reset RTF formatting in RichTextBox
+            string? savedRtf = null;
+            bool hasRtfFormatting = false;
+
+            if (_richTextBox.Handle != IntPtr.Zero && _richTextBox.TextLength > 0)
+            {
+                savedRtf = _richTextBox.Rtf;
+
+                // Check if the RichTextBox has RTF formatting by examining the Rtf property
+                // If Rtf contains character-level formatting codes, preserve formatting
+                if (!string.IsNullOrEmpty(savedRtf))
+                {
+
+                    // Check for character-level formatting codes that indicate rich formatting
+                    // Basic RTF structure without formatting: {\rtf1\ansi\deff0 ... \par }
+                    // Formatting codes: \b (bold), \i (italic), \ul (underline), \fs (font size),
+                    // \cf (foreground color), \highlight (background color), \f (font family override)
+                    // Also check if RTF is significantly longer than plain text (indicates formatting)
+                    string plainText = _richTextBox.Text;
+                    int plainTextLength = plainText?.Length ?? 0;
+
+                    // Check for explicit formatting codes (most reliable indicator)
+                    bool hasFormattingCodes = savedRtf.Contains(@"\b") || savedRtf.Contains(@"\i") || savedRtf.Contains(@"\ul") ||
+                                             savedRtf.Contains(@"\fs") || savedRtf.Contains(@"\cf") || savedRtf.Contains(@"\highlight");
+
+                    // Check for custom fonts (beyond default \f0)
+                    // Look for font references like \f1, \f2, etc. (but not \f0 which is default)
+                    bool hasCustomFonts = false;
+                    if (savedRtf.Contains(@"\f"))
+                    {
+                        // Simple check: if RTF contains \f followed by a non-zero digit, it's a custom font
+                        // This catches \f1, \f2, etc. but not \f0
+                        int fIndex = savedRtf.IndexOf(@"\f", StringComparison.Ordinal);
+                        while (fIndex >= 0 && fIndex < savedRtf.Length - 2)
+                        {
+                            char nextChar = savedRtf[fIndex + 2];
+                            if (char.IsDigit(nextChar) && nextChar != '0')
+                            {
+                                hasCustomFonts = true;
+                                break;
+                            }
+                            // Look for next occurrence
+                            fIndex = savedRtf.IndexOf(@"\f", fIndex + 2, StringComparison.Ordinal);
+                        }
+                    }
+
+                    // RTF with formatting is typically much longer than plain text
+                    // Basic RTF wrapper adds ~50-100 chars, but formatting adds significantly more
+                    // Use a more conservative threshold to avoid false positives
+                    bool rtfMuchLonger = plainTextLength > 0 && savedRtf.Length > (plainTextLength + 200);
+
+                    // If RTF contains the basic structure but is longer than expected, likely has formatting
+                    // Plain text RTF is usually: {\rtf1\ansi\deff0{\fonttbl...}{\colortbl...}text\par}
+                    // If it's significantly longer, there's likely formatting
+                    hasRtfFormatting = hasFormattingCodes || hasCustomFonts || rtfMuchLonger;
+                }
+                else if (!string.IsNullOrEmpty(savedRtf))
+                {
+                    // Even if text length is 0, if RTF exists and has structure beyond minimal, preserve it
+                    // This handles edge cases where text might be empty but RTF structure exists
+                    hasRtfFormatting = savedRtf.Length > 50; // Minimal RTF is usually ~30-40 chars
+                }
+            }
+
             // Update the back/fore/font from the palette settings
             UpdateStateAndPalettes();
             IPaletteTriple triple = GetTripleState();
@@ -1948,26 +2013,24 @@ public class KryptonRichTextBox : VisualControlBase,
             Font? font = triple.PaletteContent.GetContentShortTextFont(state);
             if ((_richTextBox.Handle != IntPtr.Zero) && font != null && !_richTextBox.Font.Equals(font))
             {
-                // Check if the RichTextBox has RTF formatting by examining the Rtf property
-                // If Rtf contains character-level formatting codes, preserve formatting
-                string? rtf = _richTextBox.Rtf;
-                bool hasRtfFormatting = false;
-
-                if (!string.IsNullOrEmpty(rtf) && _richTextBox.TextLength > 0)
-                {
-                    // Check for character-level formatting codes that indicate rich formatting
-                    // Basic RTF structure without formatting: {\rtf1\ansi\deff0 ... \par }
-                    // Formatting codes: \b (bold), \i (italic), \ul (underline), \fs (font size),
-                    // \cf (foreground color), \highlight (background color), \f (font family override)
-                    hasRtfFormatting = rtf.Contains(@"\b") || rtf.Contains(@"\i") || rtf.Contains(@"\ul") ||
-                                       rtf.Contains(@"\fs") || rtf.Contains(@"\cf") || rtf.Contains(@"\highlight") ||
-                                       (rtf.Contains(@"\f") && !rtf.Contains(@"\f0")); // \f0 is default font, \fN is custom
-                }
 
                 if (!hasRtfFormatting)
                 {
                     // Only set font for plain text to avoid losing RTF formatting
                     _richTextBox.Font = font;
+                }
+            }
+
+            // If we detected RTF formatting, restore it after property changes
+            // This ensures formatting is preserved even if BackColor/ForeColor changes reset it
+            if (hasRtfFormatting && !string.IsNullOrEmpty(savedRtf) && _richTextBox.Handle != IntPtr.Zero)
+            {
+                // Check if RTF was modified (lost formatting) and restore it
+                string currentRtf = _richTextBox.Rtf;
+                if (currentRtf != savedRtf)
+                {
+                    // Restore the original RTF to preserve formatting
+                    _richTextBox.Rtf = savedRtf;
                 }
             }
         }
