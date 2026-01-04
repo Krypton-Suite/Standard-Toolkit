@@ -2438,18 +2438,19 @@ public class KryptonRichTextBox : VisualControlBase,
         if (colorTableStart >= 0)
         {
             // Find the end of color table
+            ReadOnlySpan<char> rtfSpan = rtf;
             int braceCount = 0;
             int colorTableEnd = colorTableStart;
             bool inColorTable = false;
 
-            for (int i = colorTableStart; i < rtf.Length; i++)
+            for (int i = colorTableStart; i < rtfSpan.Length; i++)
             {
-                if (rtf[i] == '{')
+                if (rtfSpan[i] == '{')
                 {
                     braceCount++;
                     inColorTable = true;
                 }
-                else if (rtf[i] == '}')
+                else if (rtfSpan[i] == '}')
                 {
                     braceCount--;
                     if (inColorTable && braceCount == 0)
