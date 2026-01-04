@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -2385,9 +2385,9 @@ public class KryptonRichTextBox : VisualControlBase,
     /// </summary>
     /// <param name="rtf">The RTF content to check.</param>
     /// <returns>True if black text is detected, false otherwise.</returns>
-    private static bool HasBlackTextInRtf(string rtf)
+    private static bool HasBlackTextInRtf(ReadOnlySpan<char> rtf)
     {
-        if (string.IsNullOrEmpty(rtf))
+        if (rtf.IsEmpty)
         {
             return false;
         }
@@ -2410,6 +2410,8 @@ public class KryptonRichTextBox : VisualControlBase,
                 {
                     return true;
                 }
+
+                i += 3;
             }
         }
 
@@ -2636,10 +2638,11 @@ public class KryptonRichTextBox : VisualControlBase,
             return 0;
         }
 
+        ReadOnlySpan<char> span = colorTable;
         int count = 0;
-        for (int i = 0; i < colorTable.Length; i++)
+        for (int i = 0; i < span.Length; i++)
         {
-            if (colorTable[i] == ';')
+            if (span[i] == ';')
             {
                 count++;
             }
