@@ -1989,13 +1989,14 @@ public class KryptonRichTextBox : VisualControlBase,
                         // Look for backslash followed by formatting codes: \b, \i, \ul, \fs, \cf, \highlight, or \f[1-9]
                         bool foundFormatting = false;
                         bool foundCustomFont = false;
+                        ReadOnlySpan<char> savedRtfSpan = savedRtf;
 
                         // Exit early once we find either formatting or custom font (either indicates RTF formatting)
-                        for (int i = 0; i < rtfLength - 1 && !foundFormatting && !foundCustomFont; i++)
+                        for (int i = 0; i < savedRtfSpan.Length - 1 && !foundFormatting && !foundCustomFont; i++)
                         {
-                            if (savedRtf[i] == '\\')
+                            if (savedRtfSpan[i] == '\\')
                             {
-                                char nextChar = savedRtf[i + 1];
+                                char nextChar = savedRtfSpan[i + 1];
 
                                 // Check for formatting codes: b, i, u, f, c, h, s
                                 switch (nextChar)
@@ -2005,15 +2006,15 @@ public class KryptonRichTextBox : VisualControlBase,
                                         foundFormatting = true;
                                         break;
                                     case 'u': // \ul (underline) - check for 'l' next
-                                        if (i + 2 < rtfLength && savedRtf[i + 2] == 'l')
+                                        if (i + 2 < savedRtfSpan.Length && savedRtfSpan[i + 2] == 'l')
                                         {
                                             foundFormatting = true;
                                         }
                                         break;
                                     case 'f': // \f (font) - check for non-zero digit
-                                        if (i + 2 < rtfLength)
+                                        if (i + 2 < savedRtfSpan.Length)
                                         {
-                                            char fontDigit = savedRtf[i + 2];
+                                            char fontDigit = savedRtfSpan[i + 2];
                                             if (char.IsDigit(fontDigit) && fontDigit != '0')
                                             {
                                                 foundCustomFont = true;
@@ -2021,26 +2022,26 @@ public class KryptonRichTextBox : VisualControlBase,
                                         }
                                         break;
                                     case 'c': // \cf (color) - check for 'f' next
-                                        if (i + 2 < rtfLength && savedRtf[i + 2] == 'f')
+                                        if (i + 2 < savedRtfSpan.Length && savedRtfSpan[i + 2] == 'f')
                                         {
                                             foundFormatting = true;
                                         }
                                         break;
                                     case 'h': // \highlight - check character by character to avoid Substring
-                                        if (i + 9 < rtfLength)
+                                        if (i + 9 < savedRtfSpan.Length)
                                         {
                                             // Check for "highlight" without Substring allocation
-                                            if (savedRtf[i + 2] == 'i' && savedRtf[i + 3] == 'g' &&
-                                                savedRtf[i + 4] == 'h' && savedRtf[i + 5] == 'l' &&
-                                                savedRtf[i + 6] == 'i' && savedRtf[i + 7] == 'g' &&
-                                                savedRtf[i + 8] == 'h' && savedRtf[i + 9] == 't')
+                                            if (savedRtfSpan[i + 2] == 'i' && savedRtfSpan[i + 3] == 'g' &&
+                                                savedRtfSpan[i + 4] == 'h' && savedRtfSpan[i + 5] == 'l' &&
+                                                savedRtfSpan[i + 6] == 'i' && savedRtfSpan[i + 7] == 'g' &&
+                                                savedRtfSpan[i + 8] == 'h' && savedRtfSpan[i + 9] == 't')
                                             {
                                                 foundFormatting = true;
                                             }
                                         }
                                         break;
                                     case 's': // \fs (font size) - check for digit after 's'
-                                        if (i + 2 < rtfLength && char.IsDigit(savedRtf[i + 2]))
+                                        if (i + 2 < savedRtfSpan.Length && char.IsDigit(savedRtfSpan[i + 2]))
                                         {
                                             foundFormatting = true;
                                         }
@@ -2580,19 +2581,26 @@ public class KryptonRichTextBox : VisualControlBase,
         {
             // Fallback: just remove \cf0
             var result = new System.Text.StringBuilder(modifiedRtf);
-            for (int i = result.Length - 4; i >= 0; i--)
+            ReadOnlySpan<char> resultSpan = result.ToString();
+            for (int i = resultSpan.Length - 4; i >= 0; i--)
             {
-                if (result[i] == '\\' && result[i + 1] == 'c' && result[i + 2] == 'f' && result[i + 3] == '0')
+                if (resultSpan[i] == '\\' && resultSpan[i + 1] == 'c' && resultSpan[i + 2] == 'f' && resultSpan[i + 3] == '0')
                 {
-                    if (i + 4 >= result.Length ||
-                        result[i + 4] == ' ' ||
-                        result[i + 4] == '\\' ||
-                        result[i + 4] == '\r' ||
-                        result[i + 4] == '\n' ||
-                        result[i + 4] == '\t' ||
-                        !char.IsDigit(result[i + 4]))
+                    if (i + 4 >= resultSpan.Length ||
+                        resultSpan[i + 4] == ' ' ||
+                        resultSpan[i + 4] == '\\' ||
+                        resultSpan[i + 4] == '\r' ||
+                        resultSpan[i + 4] == '\n' ||
+                        resultSpan[i + 4] == '\t' ||
+                        !char.IsDigit(resultSpan[i + 4]))
                     {
                         result.Remove(i, 4);
+                        resultSpan = result.ToString();
+                        i -= 3;
+                    }
+                    else
+                    {
+                        i -= 3;
                     }
                 }
             }
@@ -2602,24 +2610,31 @@ public class KryptonRichTextBox : VisualControlBase,
         // Replace \cf0 with \cf{whiteColorIndex} (which is now 0, but we keep the code for clarity)
         var finalResult = new System.Text.StringBuilder(modifiedRtf);
         string replacement = $@"\cf{whiteColorIndex}";
+        ReadOnlySpan<char> finalResultSpan = finalResult.ToString();
 
         // Scan backwards to avoid index shifting issues
-        for (int i = finalResult.Length - 4; i >= 0; i--)
+        for (int i = finalResultSpan.Length - 4; i >= 0; i--)
         {
-            if (finalResult[i] == '\\' && finalResult[i + 1] == 'c' && finalResult[i + 2] == 'f' && finalResult[i + 3] == '0')
+            if (finalResultSpan[i] == '\\' && finalResultSpan[i + 1] == 'c' && finalResultSpan[i + 2] == 'f' && finalResultSpan[i + 3] == '0')
             {
                 // Verify it's a complete color code
-                if (i + 4 >= finalResult.Length ||
-                    finalResult[i + 4] == ' ' ||
-                    finalResult[i + 4] == '\\' ||
-                    finalResult[i + 4] == '\r' ||
-                    finalResult[i + 4] == '\n' ||
-                    finalResult[i + 4] == '\t' ||
-                    !char.IsDigit(finalResult[i + 4]))
+                if (i + 4 >= finalResultSpan.Length ||
+                    finalResultSpan[i + 4] == ' ' ||
+                    finalResultSpan[i + 4] == '\\' ||
+                    finalResultSpan[i + 4] == '\r' ||
+                    finalResultSpan[i + 4] == '\n' ||
+                    finalResultSpan[i + 4] == '\t' ||
+                    !char.IsDigit(finalResultSpan[i + 4]))
                 {
                     // Replace \cf0 with white color code
                     finalResult.Remove(i, 4);
                     finalResult.Insert(i, replacement);
+                    finalResultSpan = finalResult.ToString();
+                    i -= 3;
+                }
+                else
+                {
+                    i -= 3;
                 }
             }
         }
