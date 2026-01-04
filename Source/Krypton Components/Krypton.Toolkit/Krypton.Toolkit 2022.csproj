@@ -57,7 +57,9 @@
 		<Reference Include="System.Net.Http" />
 	</ItemGroup>
 
-
+	<ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
+		<PackageReference Include="System.Memory" Version="4.5.5" />
+	</ItemGroup>
 
 	<PropertyGroup>
 	<PackageId>Krypton.Toolkit</PackageId>
