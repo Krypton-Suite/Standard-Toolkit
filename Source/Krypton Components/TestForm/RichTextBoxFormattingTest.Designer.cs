@@ -31,7 +31,6 @@
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
             this.krtbRichTextBox = new Krypton.Toolkit.KryptonRichTextBox();
             this.kryptonPanel2 = new Krypton.Toolkit.KryptonPanel();
-            this.kryptonThemeComboBox1 = new Krypton.Toolkit.KryptonThemeComboBox();
             this.klblInstructions = new Krypton.Toolkit.KryptonLabel();
             this.klblTitle = new Krypton.Toolkit.KryptonLabel();
             this.klblPalette = new Krypton.Toolkit.KryptonLabel();
@@ -39,18 +38,23 @@
             this.klblInputControlStyle = new Krypton.Toolkit.KryptonLabel();
             this.kryptonPanel3 = new Krypton.Toolkit.KryptonPanel();
             this.klblStatus = new Krypton.Toolkit.KryptonLabel();
+            this.kbtnPerformanceTest = new Krypton.Toolkit.KryptonButton();
+            this.kbtnLoadComplexFormatting = new Krypton.Toolkit.KryptonButton();
+            this.kbtnLoadMinimalRtf = new Krypton.Toolkit.KryptonButton();
+            this.kbtnLoadLongRtf = new Krypton.Toolkit.KryptonButton();
             this.kbtnClear = new Krypton.Toolkit.KryptonButton();
             this.kbtnVerifyFormatting = new Krypton.Toolkit.KryptonButton();
             this.kbtnLoadPlainText = new Krypton.Toolkit.KryptonButton();
             this.kbtnLoadSample = new Krypton.Toolkit.KryptonButton();
+            this.kryptonThemeComboBox1 = new Krypton.Toolkit.KryptonThemeComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel2)).BeginInit();
             this.kryptonPanel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kcmbInputControlStyle)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel3)).BeginInit();
             this.kryptonPanel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // kryptonPanel1
@@ -69,7 +73,7 @@
             this.krtbRichTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.krtbRichTextBox.Location = new System.Drawing.Point(0, 130);
             this.krtbRichTextBox.Name = "krtbRichTextBox";
-            this.krtbRichTextBox.Size = new System.Drawing.Size(1000, 500);
+            this.krtbRichTextBox.Size = new System.Drawing.Size(1000, 470);
             this.krtbRichTextBox.TabIndex = 2;
             this.krtbRichTextBox.Text = "";
             // 
@@ -87,24 +91,15 @@
             this.kryptonPanel2.Size = new System.Drawing.Size(1000, 130);
             this.kryptonPanel2.TabIndex = 0;
             // 
-            // kryptonThemeComboBox1
-            // 
-            this.kryptonThemeComboBox1.DropDownWidth = 305;
-            this.kryptonThemeComboBox1.Location = new System.Drawing.Point(70, 45);
-            this.kryptonThemeComboBox1.Name = "kryptonThemeComboBox1";
-            this.kryptonThemeComboBox1.Size = new System.Drawing.Size(305, 22);
-            this.kryptonThemeComboBox1.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
-            this.kryptonThemeComboBox1.TabIndex = 6;
-            // 
             // klblInstructions
             // 
-            this.klblInstructions.Location = new System.Drawing.Point(400, 47);
+            this.klblInstructions.Location = new System.Drawing.Point(12, 103);
             this.klblInstructions.Name = "klblInstructions";
-            this.klblInstructions.Size = new System.Drawing.Size(458, 20);
+            this.klblInstructions.Size = new System.Drawing.Size(764, 20);
             this.klblInstructions.StateCommon.ShortText.Color1 = System.Drawing.Color.Gray;
             this.klblInstructions.TabIndex = 3;
-            this.klblInstructions.Values.Text = "Instructions: Change the palette above and verify that RTF formatting is preserve" +
-    "d.";
+            this.klblInstructions.Values.Text = "Instructions: Use buttons below to load different RTF content types. Change palet" +
+    "te/style to test formatting preservation and performance.";
             // 
             // klblTitle
             // 
@@ -125,7 +120,6 @@
             // 
             // kcmbInputControlStyle
             // 
-            this.kcmbInputControlStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.kcmbInputControlStyle.Location = new System.Drawing.Point(130, 75);
             this.kcmbInputControlStyle.Name = "kcmbInputControlStyle";
             this.kcmbInputControlStyle.Size = new System.Drawing.Size(200, 22);
@@ -143,27 +137,71 @@
             // kryptonPanel3
             // 
             this.kryptonPanel3.Controls.Add(this.klblStatus);
+            this.kryptonPanel3.Controls.Add(this.kbtnPerformanceTest);
+            this.kryptonPanel3.Controls.Add(this.kbtnLoadComplexFormatting);
+            this.kryptonPanel3.Controls.Add(this.kbtnLoadMinimalRtf);
+            this.kryptonPanel3.Controls.Add(this.kbtnLoadLongRtf);
             this.kryptonPanel3.Controls.Add(this.kbtnClear);
             this.kryptonPanel3.Controls.Add(this.kbtnVerifyFormatting);
             this.kryptonPanel3.Controls.Add(this.kbtnLoadPlainText);
             this.kryptonPanel3.Controls.Add(this.kbtnLoadSample);
             this.kryptonPanel3.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.kryptonPanel3.Location = new System.Drawing.Point(0, 630);
+            this.kryptonPanel3.Location = new System.Drawing.Point(0, 600);
             this.kryptonPanel3.Name = "kryptonPanel3";
-            this.kryptonPanel3.Size = new System.Drawing.Size(1000, 70);
+            this.kryptonPanel3.Size = new System.Drawing.Size(1000, 100);
             this.kryptonPanel3.TabIndex = 1;
             // 
             // klblStatus
             // 
-            this.klblStatus.Location = new System.Drawing.Point(12, 41);
+            this.klblStatus.Location = new System.Drawing.Point(12, 72);
             this.klblStatus.Name = "klblStatus";
             this.klblStatus.Size = new System.Drawing.Size(83, 20);
             this.klblStatus.TabIndex = 4;
             this.klblStatus.Values.Text = "Status: Ready";
             // 
+            // kbtnPerformanceTest
+            // 
+            this.kbtnPerformanceTest.Location = new System.Drawing.Point(138, 41);
+            this.kbtnPerformanceTest.Name = "kbtnPerformanceTest";
+            this.kbtnPerformanceTest.Size = new System.Drawing.Size(150, 25);
+            this.kbtnPerformanceTest.TabIndex = 8;
+            this.kbtnPerformanceTest.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kbtnPerformanceTest.Values.Text = "Performance Test";
+            this.kbtnPerformanceTest.Click += new System.EventHandler(this.KbtnPerformanceTest_Click);
+            // 
+            // kbtnLoadComplexFormatting
+            // 
+            this.kbtnLoadComplexFormatting.Location = new System.Drawing.Point(516, 10);
+            this.kbtnLoadComplexFormatting.Name = "kbtnLoadComplexFormatting";
+            this.kbtnLoadComplexFormatting.Size = new System.Drawing.Size(150, 25);
+            this.kbtnLoadComplexFormatting.TabIndex = 7;
+            this.kbtnLoadComplexFormatting.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kbtnLoadComplexFormatting.Values.Text = "Load Complex Formatting";
+            this.kbtnLoadComplexFormatting.Click += new System.EventHandler(this.KbtnLoadComplexFormatting_Click);
+            // 
+            // kbtnLoadMinimalRtf
+            // 
+            this.kbtnLoadMinimalRtf.Location = new System.Drawing.Point(390, 10);
+            this.kbtnLoadMinimalRtf.Name = "kbtnLoadMinimalRtf";
+            this.kbtnLoadMinimalRtf.Size = new System.Drawing.Size(120, 25);
+            this.kbtnLoadMinimalRtf.TabIndex = 6;
+            this.kbtnLoadMinimalRtf.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kbtnLoadMinimalRtf.Values.Text = "Load Minimal RTF";
+            this.kbtnLoadMinimalRtf.Click += new System.EventHandler(this.KbtnLoadMinimalRtf_Click);
+            // 
+            // kbtnLoadLongRtf
+            // 
+            this.kbtnLoadLongRtf.Location = new System.Drawing.Point(264, 10);
+            this.kbtnLoadLongRtf.Name = "kbtnLoadLongRtf";
+            this.kbtnLoadLongRtf.Size = new System.Drawing.Size(120, 25);
+            this.kbtnLoadLongRtf.TabIndex = 5;
+            this.kbtnLoadLongRtf.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kbtnLoadLongRtf.Values.Text = "Load Long RTF";
+            this.kbtnLoadLongRtf.Click += new System.EventHandler(this.KbtnLoadLongRtf_Click);
+            // 
             // kbtnClear
             // 
-            this.kbtnClear.Location = new System.Drawing.Point(480, 10);
+            this.kbtnClear.Location = new System.Drawing.Point(294, 41);
             this.kbtnClear.Name = "kbtnClear";
             this.kbtnClear.Size = new System.Drawing.Size(100, 25);
             this.kbtnClear.TabIndex = 3;
@@ -173,9 +211,9 @@
             // 
             // kbtnVerifyFormatting
             // 
-            this.kbtnVerifyFormatting.Location = new System.Drawing.Point(324, 10);
+            this.kbtnVerifyFormatting.Location = new System.Drawing.Point(12, 41);
             this.kbtnVerifyFormatting.Name = "kbtnVerifyFormatting";
-            this.kbtnVerifyFormatting.Size = new System.Drawing.Size(150, 25);
+            this.kbtnVerifyFormatting.Size = new System.Drawing.Size(120, 25);
             this.kbtnVerifyFormatting.TabIndex = 2;
             this.kbtnVerifyFormatting.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnVerifyFormatting.Values.Text = "Verify Formatting";
@@ -183,9 +221,9 @@
             // 
             // kbtnLoadPlainText
             // 
-            this.kbtnLoadPlainText.Location = new System.Drawing.Point(168, 10);
+            this.kbtnLoadPlainText.Location = new System.Drawing.Point(138, 10);
             this.kbtnLoadPlainText.Name = "kbtnLoadPlainText";
-            this.kbtnLoadPlainText.Size = new System.Drawing.Size(150, 25);
+            this.kbtnLoadPlainText.Size = new System.Drawing.Size(120, 25);
             this.kbtnLoadPlainText.TabIndex = 1;
             this.kbtnLoadPlainText.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnLoadPlainText.Values.Text = "Load Plain Text";
@@ -195,11 +233,20 @@
             // 
             this.kbtnLoadSample.Location = new System.Drawing.Point(12, 10);
             this.kbtnLoadSample.Name = "kbtnLoadSample";
-            this.kbtnLoadSample.Size = new System.Drawing.Size(150, 25);
+            this.kbtnLoadSample.Size = new System.Drawing.Size(120, 25);
             this.kbtnLoadSample.TabIndex = 0;
             this.kbtnLoadSample.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnLoadSample.Values.Text = "Load Sample RTF";
             this.kbtnLoadSample.Click += new System.EventHandler(this.KbtnLoadSample_Click);
+            // 
+            // kryptonThemeComboBox1
+            // 
+            this.kryptonThemeComboBox1.DropDownWidth = 337;
+            this.kryptonThemeComboBox1.Location = new System.Drawing.Point(70, 47);
+            this.kryptonThemeComboBox1.Name = "kryptonThemeComboBox1";
+            this.kryptonThemeComboBox1.Size = new System.Drawing.Size(337, 22);
+            this.kryptonThemeComboBox1.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
+            this.kryptonThemeComboBox1.TabIndex = 6;
             // 
             // RichTextBoxFormattingTest
             // 
@@ -217,11 +264,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel2)).EndInit();
             this.kryptonPanel2.ResumeLayout(false);
             this.kryptonPanel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kcmbInputControlStyle)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel3)).EndInit();
             this.kryptonPanel3.ResumeLayout(false);
             this.kryptonPanel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -238,7 +285,11 @@
         private Krypton.Toolkit.KryptonPanel kryptonPanel3;
         private Krypton.Toolkit.KryptonButton kbtnLoadSample;
         private Krypton.Toolkit.KryptonButton kbtnLoadPlainText;
+        private Krypton.Toolkit.KryptonButton kbtnLoadLongRtf;
+        private Krypton.Toolkit.KryptonButton kbtnLoadMinimalRtf;
+        private Krypton.Toolkit.KryptonButton kbtnLoadComplexFormatting;
         private Krypton.Toolkit.KryptonButton kbtnVerifyFormatting;
+        private Krypton.Toolkit.KryptonButton kbtnPerformanceTest;
         private Krypton.Toolkit.KryptonButton kbtnClear;
         private Krypton.Toolkit.KryptonLabel klblStatus;
         private Krypton.Toolkit.KryptonLabel klblInstructions;
