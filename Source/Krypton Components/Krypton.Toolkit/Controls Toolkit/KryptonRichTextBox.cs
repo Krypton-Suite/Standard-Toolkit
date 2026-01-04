@@ -1938,50 +1938,84 @@ public class KryptonRichTextBox : VisualControlBase,
                 // If Rtf contains character-level formatting codes, preserve formatting
                 if (!string.IsNullOrEmpty(savedRtf))
                 {
-
-                    // Check for character-level formatting codes that indicate rich formatting
-                    // Basic RTF structure without formatting: {\rtf1\ansi\deff0 ... \par }
-                    // Formatting codes: \b (bold), \i (italic), \ul (underline), \fs (font size),
-                    // \cf (foreground color), \highlight (background color), \f (font family override)
-                    // Also check if RTF is significantly longer than plain text (indicates formatting)
+                    int rtfLength = savedRtf.Length;
                     string plainText = _richTextBox.Text;
                     int plainTextLength = plainText?.Length ?? 0;
 
-                    // Check for explicit formatting codes (most reliable indicator)
-                    string[] formattingCodes = { @"\b", @"\i", @"\ul", @"\fs", @"\cf", @"\highlight" };
-                    
-                    bool hasFormattingCodes = formattingCodes.Any(code => savedRtf.Contains(code));
-
-                    // Check for custom fonts (beyond default \f0)
-                    // Look for font references like \f1, \f2, etc. (but not \f0 which is default)
-                    bool hasCustomFonts = false;
-                    if (savedRtf.Contains(@"\f"))
+                    // Quick length check first (fastest check - O(1))
+                    bool rtfMuchLonger = plainTextLength > 0 && rtfLength > (plainTextLength + 200);
+                    if (rtfMuchLonger)
                     {
-                        // Simple check: if RTF contains \f followed by a non-zero digit, it's a custom font
-                        // This catches \f1, \f2, etc. but not \f0
-                        int fIndex = savedRtf.IndexOf(@"\f", StringComparison.Ordinal);
-                        while (fIndex >= 0 && fIndex < savedRtf.Length - 2)
-                        {
-                            char nextChar = savedRtf[fIndex + 2];
-                            if (char.IsDigit(nextChar) && nextChar != '0')
-                            {
-                                hasCustomFonts = true;
-                                break;
-                            }
-                            // Look for next occurrence
-                            fIndex = savedRtf.IndexOf(@"\f", fIndex + 2, StringComparison.Ordinal);
-                        }
+                        hasRtfFormatting = true;
                     }
+                    else
+                    {
+                        // Single-pass character scan for maximum efficiency (O(n) worst case, but exits early)
+                        // Look for backslash followed by formatting codes: \b, \i, \ul, \fs, \cf, \highlight, or \f[1-9]
+                        bool foundFormatting = false;
+                        bool foundCustomFont = false;
 
-                    // RTF with formatting is typically much longer than plain text
-                    // Basic RTF wrapper adds ~50-100 chars, but formatting adds significantly more
-                    // Use a more conservative threshold to avoid false positives
-                    bool rtfMuchLonger = plainTextLength > 0 && savedRtf.Length > (plainTextLength + 200);
+                        // Exit early once we find either formatting or custom font (either indicates RTF formatting)
+                        for (int i = 0; i < rtfLength - 1 && !foundFormatting && !foundCustomFont; i++)
+                        {
+                            if (savedRtf[i] == '\\')
+                            {
+                                char nextChar = savedRtf[i + 1];
 
-                    // If RTF contains the basic structure but is longer than expected, likely has formatting
-                    // Plain text RTF is usually: {\rtf1\ansi\deff0{\fonttbl...}{\colortbl...}text\par}
-                    // If it's significantly longer, there's likely formatting
-                    hasRtfFormatting = hasFormattingCodes || hasCustomFonts || rtfMuchLonger;
+                                // Check for formatting codes: b, i, u, f, c, h, s
+                                switch (nextChar)
+                                {
+                                    case 'b': // \b (bold)
+                                    case 'i': // \i (italic)
+                                        foundFormatting = true;
+                                        break;
+                                    case 'u': // \ul (underline) - check for 'l' next
+                                        if (i + 2 < rtfLength && savedRtf[i + 2] == 'l')
+                                        {
+                                            foundFormatting = true;
+                                        }
+                                        break;
+                                    case 'f': // \f (font) - check for non-zero digit
+                                        if (i + 2 < rtfLength)
+                                        {
+                                            char fontDigit = savedRtf[i + 2];
+                                            if (char.IsDigit(fontDigit) && fontDigit != '0')
+                                            {
+                                                foundCustomFont = true;
+                                            }
+                                        }
+                                        break;
+                                    case 'c': // \cf (color) - check for 'f' next
+                                        if (i + 2 < rtfLength && savedRtf[i + 2] == 'f')
+                                        {
+                                            foundFormatting = true;
+                                        }
+                                        break;
+                                    case 'h': // \highlight - check character by character to avoid Substring
+                                        if (i + 9 < rtfLength)
+                                        {
+                                            // Check for "highlight" without Substring allocation
+                                            if (savedRtf[i + 2] == 'i' && savedRtf[i + 3] == 'g' &&
+                                                savedRtf[i + 4] == 'h' && savedRtf[i + 5] == 'l' &&
+                                                savedRtf[i + 6] == 'i' && savedRtf[i + 7] == 'g' &&
+                                                savedRtf[i + 8] == 'h' && savedRtf[i + 9] == 't')
+                                            {
+                                                foundFormatting = true;
+                                            }
+                                        }
+                                        break;
+                                    case 's': // \fs (font size) - check for digit after 's'
+                                        if (i + 2 < rtfLength && char.IsDigit(savedRtf[i + 2]))
+                                        {
+                                            foundFormatting = true;
+                                        }
+                                        break;
+                                }
+                            }
+                        }
+
+                        hasRtfFormatting = foundFormatting || foundCustomFont;
+                    }
                 }
                 else if (!string.IsNullOrEmpty(savedRtf))
                 {
@@ -2014,7 +2048,6 @@ public class KryptonRichTextBox : VisualControlBase,
             Font? font = triple.PaletteContent.GetContentShortTextFont(state);
             if ((_richTextBox.Handle != IntPtr.Zero) && font != null && !_richTextBox.Font.Equals(font))
             {
-
                 if (!hasRtfFormatting)
                 {
                     // Only set font for plain text to avoid losing RTF formatting
