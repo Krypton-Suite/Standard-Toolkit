@@ -2479,7 +2479,7 @@ public class KryptonRichTextBox : VisualControlBase,
                     // Find the index of white color
                     // Count colors before white (each color ends with ;)
                     ReadOnlySpan<char> red255 = @"\red255".AsSpan();
-                    int whitePos = colorTable.IndexOf(red255, StringComparison.Ordinal);
+                    int whitePos = colorTable.IndexOf(red255);
                     if (whitePos > 0)
                     {
                         ReadOnlySpan<char> beforeWhite = colorTable.Slice(0, whitePos);
@@ -2510,18 +2510,24 @@ public class KryptonRichTextBox : VisualControlBase,
                     // Check if there's an explicit color definition for index 0
                     // Look for \red, \green, \blue patterns
                     ReadOnlySpan<char> redPattern = @"\red".AsSpan();
-                    int redIndex = colorTable.IndexOf(redPattern, firstColorStart, StringComparison.Ordinal);
-                    int nextSemicolon = colorTable.IndexOf(';', firstColorStart);
+                    ReadOnlySpan<char> searchSpan = colorTable.Slice(firstColorStart);
+                    int redIndexRelative = searchSpan.IndexOf(redPattern);
+                    int redIndex = redIndexRelative >= 0 ? firstColorStart + redIndexRelative : -1;
+                    int nextSemicolonRelative = searchSpan.IndexOf(';');
+                    int nextSemicolon = nextSemicolonRelative >= 0 ? firstColorStart + nextSemicolonRelative : -1;
                     int colorEnd = nextSemicolon > 0 ? nextSemicolon : colorTable.Length;
                     bool hasExplicitFirstColor = redIndex >= 0 && redIndex < colorEnd;
 
                     if (hasExplicitFirstColor)
                     {
                         // Find where the first explicit color ends (next semicolon or closing brace)
-                        int firstColorEnd = colorTable.IndexOf(';', firstColorStart);
+                        ReadOnlySpan<char> searchSpanForEnd = colorTable.Slice(firstColorStart);
+                        int firstColorEndRelative = searchSpanForEnd.IndexOf(';');
+                        int firstColorEnd = firstColorEndRelative >= 0 ? firstColorStart + firstColorEndRelative : -1;
                         if (firstColorEnd < 0)
                         {
-                            firstColorEnd = colorTable.IndexOf('}', firstColorStart);
+                            int braceEndRelative = searchSpanForEnd.IndexOf('}');
+                            firstColorEnd = braceEndRelative >= 0 ? firstColorStart + braceEndRelative : -1;
                         }
 
                         if (firstColorEnd > firstColorStart)
@@ -2564,14 +2570,16 @@ public class KryptonRichTextBox : VisualControlBase,
         {
             // No color table exists, create one with white as default
             // Find insertion point after font table
-            int fontTableEnd = rtf.IndexOf(@"}\n", StringComparison.Ordinal);
+            ReadOnlySpan<char> newlinePattern = @"}\n".AsSpan();
+            int fontTableEnd = rtfSpan.IndexOf(newlinePattern, StringComparison.Ordinal);
             if (fontTableEnd < 0)
             {
-                fontTableEnd = rtf.IndexOf(@"}\r\n", StringComparison.Ordinal);
+                ReadOnlySpan<char> crlfPattern = @"}\r\n".AsSpan();
+                fontTableEnd = rtfSpan.IndexOf(crlfPattern, StringComparison.Ordinal);
             }
             if (fontTableEnd < 0)
             {
-                fontTableEnd = rtf.IndexOf('}');
+                fontTableEnd = rtfSpan.IndexOf('}');
             }
 
             if (fontTableEnd >= 0)
@@ -2654,25 +2662,34 @@ public class KryptonRichTextBox : VisualControlBase,
     /// </summary>
     /// <param name="colorTable">The color table string to count.</param>
     /// <returns>The number of color entries (semicolons indicate entries).</returns>
-    private static int CountColorTableEntries(string colorTable)
+    private static int CountColorTableEntries(ReadOnlySpan<char> colorTable)
     {
-        if (string.IsNullOrEmpty(colorTable))
+        if (colorTable.IsEmpty)
         {
             return 0;
         }
 
-        ReadOnlySpan<char> span = colorTable;
-        int count = 0;
-        for (int i = 0; i < span.Length; i++)
+#if NET5_0_OR_GREATER
+        // Use Span.Count method available in .NET 5.0 and later
+        int count = MemoryExtensions.Count(colorTable, ';') + 1;
+#else
+        // Fallback for older frameworks without Span.Count
+        int count = 1;
+
+        // Count semicolons to determine number of colors
+        for (int i = 0; i < colorTable.Length; i++)
         {
-            if (span[i] == ';')
+            // Each semicolon indicates a color entry
+            if (colorTable[i] == ';')
             {
+                // Increment count for each semicolon found
                 count++;
             }
         }
+#endif
 
         // First semicolon is after the opening brace, so subtract 1
-        return Math.Max(0, count - 1);
+        return count - 1;
     }
 
     #endregion
