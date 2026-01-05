@@ -6,6 +6,7 @@
 
 * Implemented [#1214](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1214), Implement "Overlay Icons" on Form Task bar images
 	- **Note:** The positioning of the overlay icon is controlled by Windows and cannot be changed.
+* Implemented [#1760](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1760), Touchscreen support
 * Resolved [#2788](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2788), `KryptonHelpProvider` - Part of #2658
 * Implemented [#2790](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2790), `KryptonBindingNavigator` - Part of #2658
 * Implemented [#2789](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2789), `KryptonTimer` - Part of #2658
