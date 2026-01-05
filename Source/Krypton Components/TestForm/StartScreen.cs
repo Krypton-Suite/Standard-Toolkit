@@ -67,6 +67,7 @@ public partial class StartScreen : KryptonForm
         CreateButton("ErrorProvider", string.Empty, typeof(ErrorProviderTest));
         CreateButton("FormBorder Test", string.Empty, typeof(FormBorderTest));
         CreateButton("Header Examples", string.Empty, typeof(HeaderExamples));
+        CreateButton("HelpProvider", "Test KryptonHelpProvider functionality", typeof(HelpProviderTest));
         CreateButton("Menu/Tool/Status Strips", string.Empty, typeof(MenuToolBarStatusStripTest));
         CreateButton("ProgressBar", "Checkout if progress has been made.", typeof(ProgressBarTest));
         CreateButton("Ribbon / Navigator / Workspace", string.Empty, typeof(RibbonNavigatorWorkspaceTest));
@@ -83,6 +84,7 @@ public partial class StartScreen : KryptonForm
         CreateButton("Calendar", string.Empty, typeof(CalendarTest));
         CreateButton("Controls Test", string.Empty, typeof(ControlsTest));
         CreateButton("KryptonDataGridView Demo", string.Empty, typeof(DataGridViewDemo));
+        CreateButton("KryptonBindingNavigator Demo", "Comprehensive example of KryptonBindingNavigator with data binding", typeof(BindingNavigatorDemo));
         CreateButton("FadeForm", string.Empty, typeof(FadeFormTest));
         CreateButton("GroupBox", string.Empty, typeof(GroupBoxTest));
         CreateButton("InputBox", string.Empty, typeof(InputBoxTest));
@@ -90,8 +92,10 @@ public partial class StartScreen : KryptonForm
         CreateButton("Old Style Main: Fullscreen", string.Empty, typeof(Main));
         CreateButton("PropertyGridTest", string.Empty, typeof(PropertyGridTest));
         CreateButton("Ribbon", string.Empty, typeof(RibbonTest));
+        CreateButton("Ribbon Merger Demo", "Demonstrates UserControl hosting and ribbon merging for plugin architectures", typeof(RibbonMergerDemo));
         CreateButton("TextBox", string.Empty, typeof(TextBoxEventTest));
         CreateButton("TreeView", string.Empty, typeof(TreeViewExample));
+        CreateButton("Timer", "Test KryptonTimer with interval configuration and event tracking.", typeof(TimerTest));
         CreateButton("Panel Form", string.Empty, typeof(PanelForm));
         CreateButton("Palette Viewer", string.Empty, typeof(PaletteViewerForm));
         CreateButton("Powered By Button", string.Empty, typeof(PoweredByButtonExample));
