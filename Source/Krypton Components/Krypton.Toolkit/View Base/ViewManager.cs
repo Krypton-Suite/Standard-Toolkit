@@ -181,6 +181,17 @@ public class ViewManager : GlobalId,
             retSize = Root.GetPreferredSize(context);
         }
 
+        // Apply touchscreen control scaling if enabled and font scaling is not enabled
+        // When font scaling is enabled, it already affects measurements through scaled fonts,
+        // so we skip control scaling to avoid double scaling (font scaling × control scaling)
+        if (KryptonManager.UseTouchscreenSupport && !KryptonManager.UseTouchscreenFontScaling)
+        {
+            var scaleFactor = KryptonManager.TouchscreenScaleFactor;
+            retSize = new Size(
+                (int)Math.Round(retSize.Width * scaleFactor),
+                (int)Math.Round(retSize.Height * scaleFactor));
+        }
+
         if (OutputDebug)
         {
             Console.WriteLine(@"Id:{0} GetPreferredSize Type:{1} Ret:{2} Proposed:{3}",
