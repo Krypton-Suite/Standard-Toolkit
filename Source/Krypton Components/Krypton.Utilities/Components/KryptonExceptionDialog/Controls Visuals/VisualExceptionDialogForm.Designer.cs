@@ -1,4 +1,4 @@
-﻿namespace Krypton.Utilities
+namespace Krypton.Utilities
 {
     partial class VisualExceptionDialogForm
     {
