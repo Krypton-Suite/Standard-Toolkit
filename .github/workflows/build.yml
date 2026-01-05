@@ -16,6 +16,7 @@ on:
       - V105-LTS
       - V85-LTS
     paths-ignore: ['.git*', '.vscode']
+  workflow_dispatch:
 
 jobs:
   build:
@@ -72,7 +73,7 @@ jobs:
 
   release:
     runs-on: windows-latest
-    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+    if: github.ref == 'refs/heads/master' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
     needs: build
 
     steps:
