@@ -2664,14 +2664,7 @@ public class KryptonRichTextBox : VisualControlBase,
         }
 
         ReadOnlySpan<char> span = colorTable;
-        int count = 0;
-        for (int i = 0; i < span.Length; i++)
-        {
-            if (span[i] == ';')
-            {
-                count++;
-            }
-        }
+        int count = span.Count(';');
 
         // First semicolon is after the opening brace, so subtract 1
         return Math.Max(0, count - 1);
