@@ -17,6 +17,8 @@ public class PaletteRedirect : PaletteBase, IGlobalId
 {
     #region Instance Fields
     private PaletteBase? _target;
+    private Dictionary<FontCacheKey, Font>? _scaledFontCache;
+    private float _lastScaleFactor = float.MinValue;
     #endregion
 
     /// <inheritdoc/>
@@ -328,7 +330,12 @@ public class PaletteRedirect : PaletteBase, IGlobalId
     /// <param name="style">Content style.</param>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Font value.</returns>
-    public override Font? GetContentShortTextFont(PaletteContentStyle style, PaletteState state) => _target?.GetContentShortTextFont(style, state);
+    public override Font? GetContentShortTextFont(PaletteContentStyle style, PaletteState state)
+    {
+        var font = _target?.GetContentShortTextFont(style, state);
+
+        return ScaleFontIfNeeded(font);
+    }
 
     /// <summary>
     /// Gets the font for the short text by generating a new font instance.
@@ -336,7 +343,12 @@ public class PaletteRedirect : PaletteBase, IGlobalId
     /// <param name="style">Content style.</param>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Font value.</returns>
-    public override Font? GetContentShortTextNewFont(PaletteContentStyle style, PaletteState state) => _target?.GetContentShortTextNewFont(style, state);
+    public override Font? GetContentShortTextNewFont(PaletteContentStyle style, PaletteState state) 
+    {
+        var font = _target?.GetContentShortTextNewFont(style, state);
+
+        return ScaleFontIfNeededForNewFont(font);
+    }
 
     /// <summary>
     /// Gets the rendering hint for the short text.
@@ -464,7 +476,12 @@ public class PaletteRedirect : PaletteBase, IGlobalId
     /// <param name="style">Content style.</param>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Font value.</returns>
-    public override Font? GetContentLongTextFont(PaletteContentStyle style, PaletteState state) => _target?.GetContentLongTextFont(style, state);
+    public override Font? GetContentLongTextFont(PaletteContentStyle style, PaletteState state) 
+    {
+        var font = _target?.GetContentLongTextFont(style, state);
+
+        return ScaleFontIfNeeded(font);
+    }
 
     /// <summary>
     /// Gets the font for the long text by generating a new font instance.
@@ -472,7 +489,12 @@ public class PaletteRedirect : PaletteBase, IGlobalId
     /// <param name="style">Content style.</param>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Font value.</returns>
-    public override Font? GetContentLongTextNewFont(PaletteContentStyle style, PaletteState state) => _target?.GetContentLongTextNewFont(style, state);
+    public override Font? GetContentLongTextNewFont(PaletteContentStyle style, PaletteState state) 
+    {
+        var font = _target?.GetContentLongTextNewFont(style, state);
+
+        return ScaleFontIfNeededForNewFont(font);
+    }
 
     /// <summary>
     /// Gets the rendering hint for the long text.
@@ -1135,6 +1157,209 @@ public class PaletteRedirect : PaletteBase, IGlobalId
     /// Gets access to the color table instance.
     /// </summary>
     public override KryptonColorTable ColorTable => _target!.ColorTable;
+
+    #endregion
+
+    #region Font Scaling Helper
+
+    /// <summary>
+    /// Cache key for scaled fonts.
+    /// </summary>
+    private readonly struct FontCacheKey : IEquatable<FontCacheKey>
+    {
+        public readonly string FontFamilyName;
+        public readonly float Size;
+        public readonly FontStyle Style;
+        public readonly GraphicsUnit Unit;
+        public readonly float ScaleFactor;
+
+        public FontCacheKey(Font font, float scaleFactor)
+        {
+            FontFamilyName = font.FontFamily.Name;
+            Size = font.Size;
+            Style = font.Style;
+            Unit = font.Unit;
+            ScaleFactor = scaleFactor;
+        }
+
+        public bool Equals(FontCacheKey other) =>
+            FontFamilyName == other.FontFamilyName &&
+            Math.Abs(Size - other.Size) < 0.001f &&
+            Style == other.Style &&
+            Unit == other.Unit &&
+            Math.Abs(ScaleFactor - other.ScaleFactor) < 0.001f;
+
+        public override bool Equals(object? obj) => obj is FontCacheKey other && Equals(other);
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var hashCode = FontFamilyName.GetHashCode();
+                // Round to match Equals tolerance (0.001f)
+                hashCode = (hashCode * 397) ^ ((int)Math.Round(Size * 1000)).GetHashCode();
+                hashCode = (hashCode * 397) ^ Style.GetHashCode();
+                hashCode = (hashCode * 397) ^ Unit.GetHashCode();
+                // Round to match Equals tolerance (0.001f)
+                hashCode = (hashCode * 397) ^ ((int)Math.Round(ScaleFactor * 1000)).GetHashCode();
+                return hashCode;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Scales a font if touchscreen support and font scaling are enabled.
+    /// Caches scaled fonts to prevent GDI handle exhaustion.
+    /// </summary>
+    /// <param name="font">The font to scale, or null.</param>
+    /// <returns>The scaled font, or the original font if scaling is not needed or font is null.</returns>
+    private Font? ScaleFontIfNeeded(Font? font)
+    {
+        if (font == null || !KryptonManager.UseTouchscreenSupport || !KryptonManager.UseTouchscreenFontScaling)
+        {
+            return font;
+        }
+
+        var scaleFactor = KryptonManager.TouchscreenFontScaleFactor;
+        if (Math.Abs(scaleFactor - 1.0f) < 0.001f)
+        {
+            return font;
+        }
+
+        // Clear cache if scale factor changed
+        if (Math.Abs(_lastScaleFactor - scaleFactor) > 0.001f)
+        {
+            ClearScaledFontCache();
+            _lastScaleFactor = scaleFactor;
+        }
+
+        // Initialize cache if needed
+        _scaledFontCache ??= new Dictionary<FontCacheKey, Font>();
+
+        // Check cache
+        var cacheKey = new FontCacheKey(font, scaleFactor);
+        if (_scaledFontCache.TryGetValue(cacheKey, out var cachedFont))
+        {
+            return cachedFont;
+        }
+
+        // Create and cache new scaled font
+        try
+        {
+            var scaledFont = new Font(font.FontFamily, font.Size * scaleFactor, font.Style, font.Unit);
+            _scaledFontCache[cacheKey] = scaledFont;
+            return scaledFont;
+        }
+        catch
+        {
+            // If font creation fails, return original font
+            return font;
+        }
+    }
+
+    /// <summary>
+    /// Scales a font if touchscreen support and font scaling are enabled.
+    /// Returns a new font instance that callers own and can dispose.
+    /// Uses cached fonts as templates but always returns a clone to prevent disposal issues.
+    /// </summary>
+    /// <param name="font">The font to scale, or null.</param>
+    /// <returns>A new scaled font instance, or the original font if scaling is not needed or font is null.</returns>
+    private Font? ScaleFontIfNeededForNewFont(Font? font)
+    {
+        if (font == null || !KryptonManager.UseTouchscreenSupport || !KryptonManager.UseTouchscreenFontScaling)
+        {
+            return font;
+        }
+
+        var scaleFactor = KryptonManager.TouchscreenFontScaleFactor;
+        if (Math.Abs(scaleFactor - 1.0f) < 0.001f)
+        {
+            return font;
+        }
+
+        // Clear cache if scale factor changed
+        if (Math.Abs(_lastScaleFactor - scaleFactor) > 0.001f)
+        {
+            ClearScaledFontCache();
+            _lastScaleFactor = scaleFactor;
+        }
+
+        // Initialize cache if needed
+        _scaledFontCache ??= new Dictionary<FontCacheKey, Font>();
+
+        // Check cache
+        var cacheKey = new FontCacheKey(font, scaleFactor);
+        if (_scaledFontCache.TryGetValue(cacheKey, out var cachedFont))
+        {
+            // Return a clone of the cached font so callers can dispose it without affecting the cache
+            try
+            {
+                return new Font(cachedFont.FontFamily, cachedFont.Size, cachedFont.Style, cachedFont.Unit);
+            }
+            catch
+            {
+                // If cloning fails, return original font to avoid returning a cached font that could be disposed
+                return font;
+            }
+        }
+
+        // Create and cache new scaled font, then return a clone
+        try
+        {
+            var scaledFont = new Font(font.FontFamily, font.Size * scaleFactor, font.Style, font.Unit);
+            _scaledFontCache[cacheKey] = scaledFont;
+            // Return a clone so callers can dispose it without affecting the cache
+            return new Font(scaledFont.FontFamily, scaledFont.Size, scaledFont.Style, scaledFont.Unit);
+        }
+        catch
+        {
+            // If font creation fails, return original font
+            return font;
+        }
+    }
+
+    /// <summary>
+    /// Clears the scaled font cache and disposes all cached fonts.
+    /// This is called when the scale factor changes to prevent GDI handle leaks.
+    /// </summary>
+    private void ClearScaledFontCache()
+    {
+        if (_scaledFontCache != null)
+        {
+            foreach (var cachedFont in _scaledFontCache.Values)
+            {
+                cachedFont?.Dispose();
+            }
+
+            _scaledFontCache.Clear();
+        }
+    }
+
+    #endregion
+
+    #region IDisposable Implementation
+
+    /// <summary>
+    /// Releases the unmanaged resources used by the PaletteRedirect and optionally releases the managed resources.
+    /// </summary>
+    /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            if (_scaledFontCache != null)
+            {
+                foreach (var cachedFont in _scaledFontCache.Values)
+                {
+                    cachedFont?.Dispose();
+                }
+
+                _scaledFontCache.Clear();
+            }
+        }
+
+        base.Dispose(disposing);
+    }
 
     #endregion
 
