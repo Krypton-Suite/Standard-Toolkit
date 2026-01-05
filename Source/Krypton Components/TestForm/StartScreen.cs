@@ -94,6 +94,7 @@ public partial class StartScreen : KryptonForm
         CreateButton("Ribbon Merger Demo", "Demonstrates UserControl hosting and ribbon merging for plugin architectures", typeof(RibbonMergerDemo));
         CreateButton("TextBox", string.Empty, typeof(TextBoxEventTest));
         CreateButton("TreeView", string.Empty, typeof(TreeViewExample));
+        CreateButton("Touchscreen Support Test", "Comprehensive demonstration of touchscreen support with real-time scale factor adjustment.", typeof(TouchscreenSupportTest)); 
         CreateButton("Timer", "Test KryptonTimer with interval configuration and event tracking.", typeof(TimerTest));
         CreateButton("Panel Form", string.Empty, typeof(PanelForm));
         CreateButton("Palette Viewer", string.Empty, typeof(PaletteViewerForm));
