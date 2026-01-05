@@ -4,6 +4,7 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#2790](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2790), `KryptonBindingNavigator` - Part of #2658
 * Implemented [#2789](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2789), `KryptonTimer` - Part of #2658
 * Implemented [#2630](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2630), Centralise TFM configuration
 * Implemented [#1220](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1220), Is it time to bring over `KryptonToast`s
