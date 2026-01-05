@@ -7,6 +7,8 @@
  */
 #endregion
 
+using GraphicsExtensions = Krypton.Toolkit.GraphicsExtensions;
+
 //using SearchBoxImageResources = Krypton.Utilities.
 
 namespace Krypton.Utilities;
