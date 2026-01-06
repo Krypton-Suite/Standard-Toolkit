@@ -48,9 +48,6 @@ internal class BackstageNavigationList : Control
         _columns = 1;
 
         UpdateDpiFactors();
-#if !NET462
-        DpiChanged += OnDpiChanged;
-#endif
         UpdateBackColor();
     }
     #endregion
@@ -469,7 +466,14 @@ internal class BackstageNavigationList : Control
     private void UpdateBackColor() => BackColor = _parentView?.GetNavigationBackgroundColor() ?? Color.FromArgb(240, 240, 240);
 
 #if !NET462
-    private void OnDpiChanged(object? sender, DpiChangedEventArgs e) => UpdateDpiFactors();
+    /// <summary>
+    /// Raises the DpiChanged event.
+    /// </summary>
+    protected override void OnDpiChanged(DpiChangedEventArgs e)
+    {
+        base.OnDpiChanged(e);
+        UpdateDpiFactors();
+    }
 #endif
 
     private void UpdateDpiFactors()

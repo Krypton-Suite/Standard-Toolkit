@@ -125,6 +125,13 @@ public class KryptonBackstageView : KryptonPanel
     {
         if (disposing)
         {
+            // Unsubscribe from all page events to prevent memory leaks
+            // Pages are plain objects that can outlive the view, so we must clean up
+            foreach (KryptonBackstagePage page in _pages.ToArray())
+            {
+                page.NavigationPropertyChanged -= OnPageNavigationPropertyChanged;
+            }
+
             // Unsubscribe from all command events to prevent memory leaks
             // Commands are plain objects that can outlive the view, so we must clean up
             foreach (KryptonBackstageCommand command in _commands.ToArray())
