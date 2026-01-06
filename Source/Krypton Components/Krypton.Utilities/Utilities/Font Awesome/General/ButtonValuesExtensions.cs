@@ -99,12 +99,18 @@ public static class ButtonValuesExtensions
             {
                 previousImage.Dispose();
             }
-            if (buttonValues.ImageStates.ImageNormal is Bitmap previousNormal)
-            {
-                previousNormal.Dispose();
-            }
             buttonValues.Image = normalBitmap;
-            buttonValues.ImageStates.ImageNormal = normalBitmap;
+
+            // Create a separate instance for ImageNormal to avoid double disposal
+            var normalBitmapForState = FontAwesomeHelper.RenderIcon(icon, size, normalColor, style);
+            if (normalBitmapForState != null)
+            {
+                if (buttonValues.ImageStates.ImageNormal is Bitmap previousNormal)
+                {
+                    previousNormal.Dispose();
+                }
+                buttonValues.ImageStates.ImageNormal = normalBitmapForState;
+            }
         }
 
         // Disabled state (grayed out)
@@ -173,12 +179,18 @@ public static class ButtonValuesExtensions
             {
                 previousImage.Dispose();
             }
-            if (buttonValues.ImageStates.ImageNormal is Bitmap previousNormal)
-            {
-                previousNormal.Dispose();
-            }
             buttonValues.Image = normalBitmap;
-            buttonValues.ImageStates.ImageNormal = normalBitmap;
+
+            // Create a separate instance for ImageNormal to avoid double disposal
+            var normalBitmapForState = FontAwesomeHelper.RenderIcon(iconName, size, normalColor, style);
+            if (normalBitmapForState != null)
+            {
+                if (buttonValues.ImageStates.ImageNormal is Bitmap previousNormal)
+                {
+                    previousNormal.Dispose();
+                }
+                buttonValues.ImageStates.ImageNormal = normalBitmapForState;
+            }
         }
 
         // Disabled state (grayed out)
