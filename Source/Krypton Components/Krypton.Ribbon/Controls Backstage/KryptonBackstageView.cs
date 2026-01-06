@@ -117,6 +117,44 @@ public class KryptonBackstageView : KryptonPanel
         PaletteChanged += OnPaletteChanged;
     }
 
+    /// <summary>
+    /// Clean up any resources being used.
+    /// </summary>
+    /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            // Unsubscribe from all command events to prevent memory leaks
+            // Commands are plain objects that can outlive the view, so we must clean up
+            foreach (KryptonBackstageCommand command in _commands.ToArray())
+            {
+                command.NavigationPropertyChanged -= OnCommandNavigationPropertyChanged;
+            }
+
+            // Unsubscribe from collection events
+            _pages.Inserted -= OnPagesInserted;
+            _pages.Removed -= OnPagesRemoved;
+            _pages.Clearing -= OnPagesClearing;
+            _pages.Cleared -= OnPagesCleared;
+
+            _commands.Inserted -= OnCommandsInserted;
+            _commands.Removed -= OnCommandsRemoved;
+            _commands.Clearing -= OnCommandsClearing;
+            _commands.Cleared -= OnCommandsCleared;
+
+            // Unsubscribe from other events
+            if (_navigationList != null)
+            {
+                _navigationList.SelectedIndexChanged -= OnNavigationSelectedIndexChanged;
+            }
+
+            PaletteChanged -= OnPaletteChanged;
+        }
+
+        base.Dispose(disposing);
+    }
+
     #endregion
 
     #region Public
@@ -618,6 +656,59 @@ public class KryptonBackstageView : KryptonPanel
 
         // Office 2010: Orange highlight
         return Color.FromArgb(242, 155, 57);
+    }
+
+    internal Color GetHoverItemHighlightColor()
+    {
+        // Theme-aware hover color
+        var palette = GetPalette();
+        var backgroundColor = GetNavigationBackgroundColor();
+
+        if (palette != null)
+        {
+            try
+            {
+                // Try to get hover color from palette tracking state
+                var hoverColor = palette.GetBackColor1(PaletteBackStyle.ButtonNavigatorStack, PaletteState.Tracking);
+                if (hoverColor.ToArgb() != Color.Empty.ToArgb())
+                {
+                    return hoverColor;
+                }
+            }
+            catch
+            {
+                // Fall through to theme-specific defaults
+            }
+
+            if (IsOffice2013Theme(palette) || IsMicrosoft365Theme(palette))
+            {
+                // Office 2013 / Microsoft 365: Lighter blue hover on dark blue background
+                return Color.FromArgb(50, 100, 150);
+            }
+        }
+
+        // Office 2010 and others: Light gray hover on light background
+        return Color.FromArgb(250, 250, 250);
+    }
+
+    internal Color GetNavigationTextColor()
+    {
+        // Theme-aware text color based on background brightness
+        var backgroundColor = GetNavigationBackgroundColor();
+        
+        // Calculate relative luminance to determine if background is dark or light
+        // Using standard formula: L = 0.2126*R + 0.7152*G + 0.0722*B (normalized to 0-255)
+        var luminance = (0.2126 * backgroundColor.R + 0.7152 * backgroundColor.G + 0.0722 * backgroundColor.B) / 255.0;
+        
+        // If background is dark (luminance < 0.5), use light text; otherwise use dark text
+        if (luminance < 0.5)
+        {
+            // Dark background: use light text
+            return Color.FromArgb(240, 240, 240);
+        }
+        
+        // Light background: use dark text
+        return Color.FromArgb(51, 51, 51);
     }
 
     private static bool IsOffice2013Theme(PaletteBase? palette)

@@ -22,6 +22,8 @@ internal class BackstageNavigationList : Control
     private readonly KryptonBackstageView? _parentView;
     private readonly Dictionary<int, int> _itemHeights; // Cache item heights by index
     private int _columns;
+    private float _dpiFactorX;
+    private float _dpiFactorY;
     #endregion
 
     #region Identity
@@ -45,6 +47,10 @@ internal class BackstageNavigationList : Control
         _itemHeights = new Dictionary<int, int>();
         _columns = 1;
 
+        UpdateDpiFactors();
+#if !NET462
+        DpiChanged += OnDpiChanged;
+#endif
         UpdateBackColor();
     }
     #endregion
@@ -53,20 +59,12 @@ internal class BackstageNavigationList : Control
     /// <summary>
     /// Gets the DPI factor for X axis.
     /// </summary>
-    protected float GetDpiFactorX()
-    {
-        using Graphics g = CreateGraphics();
-        return g.DpiX / 96f;
-    }
+    protected float GetDpiFactorX() => _dpiFactorX;
 
     /// <summary>
     /// Gets the DPI factor for Y axis.
     /// </summary>
-    protected float GetDpiFactorY()
-    {
-        using Graphics g = CreateGraphics();
-        return g.DpiY / 96f;
-    }
+    protected float GetDpiFactorY() => _dpiFactorY;
     #endregion
 
     #region Public
@@ -388,8 +386,9 @@ internal class BackstageNavigationList : Control
         }
         else if (isHover)
         {
-            // Light hover effect
-            using var brush = new SolidBrush(Color.FromArgb(250, 250, 250));
+            // Theme-aware hover effect
+            var hoverColor = _parentView?.GetHoverItemHighlightColor() ?? Color.FromArgb(250, 250, 250);
+            using var brush = new SolidBrush(hoverColor);
             g.FillRectangle(brush, rect);
         }
 
@@ -431,7 +430,18 @@ internal class BackstageNavigationList : Control
             textRect.X += textPadding;
             textRect.Width -= textPadding + imagePadding;
 
-            var textColor = isSelected ? Color.Black : Color.FromArgb(51, 51, 51);
+            // Theme-aware text color
+            Color textColor;
+            if (isSelected)
+            {
+                // Selected items use black text for contrast with highlight
+                textColor = Color.Black;
+            }
+            else
+            {
+                // Use theme-aware text color based on background
+                textColor = _parentView?.GetNavigationTextColor() ?? Color.FromArgb(51, 51, 51);
+            }
             using var brush = new SolidBrush(textColor);
 
             // Use slightly larger font for large items
@@ -457,6 +467,17 @@ internal class BackstageNavigationList : Control
         };
 
     private void UpdateBackColor() => BackColor = _parentView?.GetNavigationBackgroundColor() ?? Color.FromArgb(240, 240, 240);
+
+#if !NET462
+    private void OnDpiChanged(object? sender, DpiChangedEventArgs e) => UpdateDpiFactors();
+#endif
+
+    private void UpdateDpiFactors()
+    {
+        using Graphics g = CreateGraphics();
+        _dpiFactorX = g.DpiX / 96f;
+        _dpiFactorY = g.DpiY / 96f;
+    }
 
     #endregion
 }
