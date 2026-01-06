@@ -341,7 +341,7 @@ internal class BackstageNavigationList : Control
         // Multi-column: calculate row and column from position
         // Items fill row-major: across rows first (index 0,1,2 in row 0, then 3,4,5 in row 1, etc.)
         var columnWidth = Math.Max(Width / _columns, 1);
-        var column = Math.Min(point.X / columnWidth, _columns - 1);
+        var column = Math.Max(0, Math.Min(point.X / columnWidth, _columns - 1));
         var rowsPerColumn = (int)Math.Ceiling((double)_items.Count / _columns);
 
         // Calculate row heights to find which row we're in
@@ -363,7 +363,7 @@ internal class BackstageNavigationList : Control
             {
                 // Found the row, now get the item index for this column and row
                 var index = row * _columns + column;
-                if (index < _items.Count)
+                if (index >= 0 && index < _items.Count)
                 {
                     return index;
                 }
@@ -433,8 +433,9 @@ internal class BackstageNavigationList : Control
             Color textColor;
             if (isSelected)
             {
-                // Selected items use black text for contrast with highlight
-                textColor = Color.Black;
+                // Calculate text color based on highlight color luminance for proper contrast
+                var highlightColor = _parentView?.GetSelectedItemHighlightColor() ?? Color.FromArgb(242, 155, 57);
+                textColor = _parentView?.GetTextColorForBackground(highlightColor) ?? Color.FromArgb(51, 51, 51);
             }
             else
             {

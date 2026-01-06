@@ -743,7 +743,11 @@ public class KryptonBackstageView : KryptonPanel
     {
         // Theme-aware text color based on background brightness
         var backgroundColor = GetNavigationBackgroundColor();
-        
+        return GetTextColorForBackground(backgroundColor);
+    }
+
+    internal Color GetTextColorForBackground(Color backgroundColor)
+    {
         // Calculate relative luminance to determine if background is dark or light
         // Using standard formula: L = 0.2126*R + 0.7152*G + 0.0722*B (normalized to 0-255)
         var luminance = (0.2126 * backgroundColor.R + 0.7152 * backgroundColor.G + 0.0722 * backgroundColor.B) / 255.0;
