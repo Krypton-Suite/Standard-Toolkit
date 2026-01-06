@@ -188,8 +188,17 @@ public class FontAwesomeIconPickerDialog : KryptonForm
                 var matchesStyle = selectedStyle == null;
                 if (!matchesStyle)
                 {
-                    var availableStyles = FontAwesomeIconMetadataLoader.GetAvailableStyles(iconName);
-                    matchesStyle = availableStyles.Contains(selectedStyle.Value);
+                    // If metadata is not loaded, allow all icons through style filter
+                    // since we can't determine which styles are available without metadata
+                    if (!FontAwesomeIconMetadataLoader.IsMetadataLoaded)
+                    {
+                        matchesStyle = true;
+                    }
+                    else
+                    {
+                        var availableStyles = FontAwesomeIconMetadataLoader.GetAvailableStyles(iconName);
+                        matchesStyle = availableStyles.Contains(selectedStyle.Value);
+                    }
                 }
 
                 if (matchesSearch && matchesStyle)
