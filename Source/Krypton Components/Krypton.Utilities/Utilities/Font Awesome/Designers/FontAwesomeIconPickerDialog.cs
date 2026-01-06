@@ -165,7 +165,15 @@ public class FontAwesomeIconPickerDialog : KryptonForm
     private void FilterIcons()
     {
         var searchText = _searchTextBox.Text.ToLowerInvariant();
-        var selectedStyle = _styleComboBox.SelectedItem?.ToString() ?? "All";
+        var selectedStyleText = _styleComboBox.SelectedItem?.ToString() ?? "All";
+        
+        FontAwesomeStyle? selectedStyle = selectedStyleText switch
+        {
+            "Solid" => FontAwesomeStyle.Solid,
+            "Regular" => FontAwesomeStyle.Regular,
+            "Brands" => FontAwesomeStyle.Brands,
+            _ => null
+        };
 
         _iconListView.Items.Clear();
         _iconListView.BeginUpdate();
@@ -176,12 +184,18 @@ public class FontAwesomeIconPickerDialog : KryptonForm
             {
                 var iconName = icon.ToString().ToLowerInvariant();
                 var matchesSearch = string.IsNullOrEmpty(searchText) || iconName.Contains(searchText);
-
-                // For now, we show all icons regardless of style filter
-                // In a full implementation, you could filter by available styles from metadata
-                if (matchesSearch)
+                
+                var matchesStyle = selectedStyle == null;
+                if (!matchesStyle)
                 {
-                    var unicode = FontAwesomeHelper.GetUnicodeForIcon(icon.ToString().ToLowerInvariant(), FontAwesomeStyle.Solid);
+                    var availableStyles = FontAwesomeIconMetadataLoader.GetAvailableStyles(iconName);
+                    matchesStyle = availableStyles.Contains(selectedStyle.Value);
+                }
+
+                if (matchesSearch && matchesStyle)
+                {
+                    var styleToUse = selectedStyle ?? FontAwesomeStyle.Solid;
+                    var unicode = FontAwesomeHelper.GetUnicodeForIcon(iconName, styleToUse);
                     var item = new ListViewItem(icon.ToString())
                     {
                         Tag = icon,
