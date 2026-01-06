@@ -69,8 +69,36 @@ public abstract class VisualSimpleBase : VisualControlBase
         // Do we have a manager to ask for a preferred size?
         if (ViewManager != null)
         {
+            // When AutoSize is enabled, always use an unconstrained proposed size to get the true preferred size.
+            // This ensures consistent behavior between GrowOnly and GrowAndShrink modes.
+            // The proposedSize parameter represents available space, but for AutoSize controls,
+            // we need the actual preferred size without constraints.
+            Size layoutProposedSize = AutoSize
+                ? new Size(int.MaxValue, int.MaxValue)
+                : proposedSize;
+
             // Ask the view to perform a layout
-            Size retSize = ViewManager.GetPreferredSize(Renderer, proposedSize);
+            Size retSize = ViewManager.GetPreferredSize(Renderer, layoutProposedSize);
+
+            // Add padding to ensure consistent behavior between .NET Framework and .NET
+            // In .NET Framework, Control.GetPreferredSize() didn't include Padding,
+            // but in .NET it does, so we need to add it explicitly here for consistency.
+            // Note: proposedSize represents available space, not current control size,
+            // so we always add padding to the content size to get the total required size.
+            retSize.Width += Padding.Horizontal;
+            retSize.Height += Padding.Vertical;
+
+            // For AutoSize with GrowAndShrink, ensure we never return a size smaller than what
+            // the base class would return, to prevent incorrect shrinking behavior.
+            if (AutoSize && GetAutoSizeMode() == AutoSizeMode.GrowAndShrink)
+            {
+                // Get what the base class would return (this includes padding handling in .NET)
+                Size baseSize = base.GetPreferredSize(new Size(int.MaxValue, int.MaxValue));
+
+                // Ensure our calculated size is at least as large as the base class size
+                retSize.Width = Math.Max(retSize.Width, baseSize.Width);
+                retSize.Height = Math.Max(retSize.Height, baseSize.Height);
+            }
 
             // Apply the maximum sizing
             if (MaximumSize.Width > 0)
