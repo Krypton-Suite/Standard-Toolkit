@@ -41,6 +41,32 @@ internal class KryptonBackstagePageDesigner : ScrollableControlDesigner
             : SelectionRules.None;
     #endregion
 
+    #region Protected
+    /// <summary>
+    /// Releases all resources used by the component. 
+    /// </summary>
+    /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
+    protected override void Dispose(bool disposing)
+    {
+        try
+        {
+            if (disposing)
+            {
+                // Unhook from events
+                if (_changeService != null)
+                {
+                    _changeService.ComponentRemoving -= OnComponentRemoving;
+                }
+            }
+        }
+        finally
+        {
+            // Must let base class do standard stuff
+            base.Dispose(disposing);
+        }
+    }
+    #endregion
+
     #region Implementation
     private KryptonBackstageView? ParentBackstageView => _page?.Parent as KryptonBackstageView ?? _page?.Parent?.Parent as KryptonBackstageView;
 
