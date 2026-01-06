@@ -707,15 +707,16 @@ public static class FontAwesomeHelper
         // Font Awesome 6 Free Unicode mappings
         // Based on Font Awesome 6.5.1 Free icons
         // Solid style uses U+F000-U+F8FF range
-        // Regular style uses U+F000-U+F8FF range (different glyphs)
+        // Regular style uses U+F000-U+F8FF range (same Unicode, different glyphs in font file)
         // Brands style uses U+F000-U+F8FF range
-        // Note: Unicode values are identical across all styles (Light, Thin, Duotone use same Unicode as Solid)
+        // Note: Unicode values are identical across all styles (Regular, Light, Thin, Duotone use same Unicode as Solid)
+        // The visual difference comes from using different font files, not different Unicode values
 
         var normalizedName = iconName.ToLowerInvariant().Replace("-", "").Replace("_", "").Trim();
 
-        // Pro styles (Light, Thin, Duotone) use the same Unicode values as Solid
-        // Fall back to Solid mappings when Pro styles are requested
-        if (style == FontAwesomeStyle.Light || style == FontAwesomeStyle.Thin || style == FontAwesomeStyle.Duotone)
+        // Regular, Light, Thin, and Duotone styles use the same Unicode values as Solid
+        // Fall back to Solid mappings when these styles are requested
+        if (style == FontAwesomeStyle.Regular || style == FontAwesomeStyle.Light || style == FontAwesomeStyle.Thin || style == FontAwesomeStyle.Duotone)
         {
             return GetIconUnicodeMapping(iconName, FontAwesomeStyle.Solid);
         }
@@ -851,36 +852,6 @@ public static class FontAwesomeHelper
                 "euro" => 0xF153,
                 "pound" => 0xF154,
                 "bitcoin" => 0xF15A,
-                _ => 0
-            };
-        }
-
-        // Font Awesome 6 Regular (far) mappings - many icons have different Unicode in Regular
-        if (style == FontAwesomeStyle.Regular)
-        {
-            return normalizedName switch
-            {
-                "home" or "house" => 0xF2B0,
-                "user" => 0xF2BD,
-                "users" => 0xF0C0,
-                "cog" or "settings" or "gear" => 0xF5B2,
-                "search" => 0xF3A3,
-                "close" or "times" or "xmark" => 0xF410,
-                "check" => 0xF560,
-                "star" => 0xF005,
-                "heart" => 0xF004,
-                "bookmark" => 0xF02E,
-                "calendar" => 0xF133,
-                "clock" => 0xF017,
-                "envelope" => 0xF0E0,
-                "eye" => 0xF06E,
-                "eyeslash" => 0xF070,
-                "folder" => 0xF07B,
-                "file" => 0xF15B,
-                "image" or "photo" => 0xF03E,
-                "save" => 0xF0C7,
-                "edit" or "pencil" => 0xF303,
-                "trash" or "trashcan" => 0xF2ED,
                 _ => 0
             };
         }
