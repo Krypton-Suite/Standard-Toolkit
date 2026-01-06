@@ -356,8 +356,31 @@ public class KryptonBackstageView : KryptonPanel
                 return;
             }
 
+            // Save the current page before attempting to close
+            var previousPageBeforeClose = _selectedPage;
             // Close the main form (which will close the application)
             CloseApplication();
+            
+            // Check if the form is still open (FormClosing event may have cancelled the close)
+            var form = FindMainForm();
+            if (form != null && !form.IsDisposed && form.Visible)
+            {
+                // Form is still open, restore the navigation list selection
+                _suspendSync = true;
+                try
+                {
+                    // Clear the selection so the Close button doesn't appear selected
+                    _navigationList.ClearSelected();
+                    if (previousPageBeforeClose != null)
+                    {
+                        _navigationList.SelectedItem = previousPageBeforeClose;
+                    }
+                }
+                finally
+                {
+                    _suspendSync = false;
+                }
+            }
             return;
         }
 
