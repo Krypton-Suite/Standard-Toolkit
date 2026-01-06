@@ -651,11 +651,11 @@ public static class FontAwesomeHelper
         }
     }
 
-    private static Bitmap CloneBitmap(Bitmap source)
+    private static Bitmap? CloneBitmap(Bitmap source)
     {
         if (source == null)
         {
-            return null!;
+            return null;
         }
 
         var clone = new Bitmap(source.Width, source.Height, source.PixelFormat);
