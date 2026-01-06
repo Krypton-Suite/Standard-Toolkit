@@ -113,6 +113,10 @@
 	    <CustomToolNamespace>Krypton.Utilities</CustomToolNamespace>
 	    <LastGenOutput>SearchBoxImageResources.Designer.cs</LastGenOutput>
 	  </EmbeddedResource>
+	  <EmbeddedResource Update="Components\KryptonToast\Resources\ToastImageResources.resx">
+	    <Generator>ResXFileCodeGenerator</Generator>
+	    <LastGenOutput>ToastImageResources.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -124,6 +128,11 @@
 	    <DesignTime>True</DesignTime>
 	    <AutoGen>True</AutoGen>
 	    <DependentUpon>SearchBoxImageResources.resx</DependentUpon>
+	  </Compile>
+	  <Compile Update="Components\KryptonToast\Resources\ToastImageResources.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>ToastImageResources.resx</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
