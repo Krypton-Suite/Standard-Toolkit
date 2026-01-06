@@ -315,6 +315,11 @@ public static class FontAwesomeIconMetadataLoader
     /// <returns>The Unicode value, or 0 if not found.</returns>
     public static int GetUnicodeForIcon(string iconName, FontAwesomeStyle style)
     {
+        if (iconName == null)
+        {
+            return 0;
+        }
+
         if (_iconMetadata == null)
         {
             LoadMetadata();
@@ -357,6 +362,11 @@ public static class FontAwesomeIconMetadataLoader
     /// <returns>A list of available styles for the icon.</returns>
     public static List<FontAwesomeStyle> GetAvailableStyles(string iconName)
     {
+        if (iconName == null)
+        {
+            return new List<FontAwesomeStyle>();
+        }
+
         if (_iconMetadata == null)
         {
             LoadMetadata();

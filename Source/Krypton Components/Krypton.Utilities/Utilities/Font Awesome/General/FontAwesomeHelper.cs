@@ -300,6 +300,11 @@ public static class FontAwesomeHelper
     /// <returns>The Unicode character code, or 0 if not found.</returns>
     public static int GetUnicodeForIcon(string iconName, FontAwesomeStyle style = FontAwesomeStyle.Solid)
     {
+        if (iconName == null)
+        {
+            return 0;
+        }
+
         // First, try to load from icons.json metadata if available
         var metadataUnicode = FontAwesomeIconMetadataLoader.GetUnicodeForIcon(iconName, style);
         if (metadataUnicode > 0)
