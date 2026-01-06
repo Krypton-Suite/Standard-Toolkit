@@ -250,19 +250,27 @@ public static class FontAwesomeHelper
         if (bitmap != null)
         {
             // Cache the bitmap (synchronized to prevent race condition with ClearCache)
-            lock (_lockObject)
+            try
             {
-                // Double-check pattern: another thread might have added it while we were rendering
-                if (!_imageCache.TryGetValue(cacheKey, out _))
+                lock (_lockObject)
                 {
-                    var clonedBitmap = CloneBitmap(bitmap);
-                    if (!_imageCache.TryAdd(cacheKey, clonedBitmap))
+                    // Double-check pattern: another thread might have added it while we were rendering
+                    if (!_imageCache.TryGetValue(cacheKey, out _))
                     {
-                        // Another thread added the key between TryGetValue and TryAdd
-                        // Dispose the orphaned cloned bitmap to prevent resource leak
-                        clonedBitmap?.Dispose();
+                        var clonedBitmap = CloneBitmap(bitmap);
+                        if (!_imageCache.TryAdd(cacheKey, clonedBitmap))
+                        {
+                            // Another thread added the key between TryGetValue and TryAdd
+                            // Dispose the orphaned cloned bitmap to prevent resource leak
+                            clonedBitmap?.Dispose();
+                        }
                     }
                 }
+            }
+            catch
+            {
+                // If cloning fails (e.g., out of memory), skip caching but still return the original bitmap
+                // The original bitmap will be returned to the caller, preventing resource leak
             }
         }
 
@@ -556,6 +564,7 @@ public static class FontAwesomeHelper
     {
         Bitmap? bitmap = null;
         Font? font = null;
+        var fontDisposedByUsing = false;
         try
         {
             // Load and validate the font within the lock to prevent race condition where
@@ -615,30 +624,35 @@ public static class FontAwesomeHelper
                 bitmap = new Bitmap(bitmapSize, bitmapSize, PixelFormat.Format32bppArgb);
 
                 using (font)
-                using (var graphics = Graphics.FromImage(bitmap))
                 {
-                    graphics.TextRenderingHint = TextRenderingHint.AntiAlias;
-                    graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-                    graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-                    graphics.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
+                    fontDisposedByUsing = true;
+                    using (var graphics = Graphics.FromImage(bitmap))
+                    {
+                        graphics.TextRenderingHint = TextRenderingHint.AntiAlias;
+                        graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                        graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                        graphics.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
 
-                    using var brush = new SolidBrush(color);
+                        using var brush = new SolidBrush(color);
 
-                    // Convert Unicode to string
-                    var iconChar = char.ConvertFromUtf32(unicode);
+                        // Convert Unicode to string
+                        var iconChar = char.ConvertFromUtf32(unicode);
 
-                    // Measure text
-                    var textSize = graphics.MeasureString(iconChar, font);
-                    var x = (bitmapSize - textSize.Width) / 2;
-                    var y = (bitmapSize - textSize.Height) / 2;
+                        // Measure text
+                        var textSize = graphics.MeasureString(iconChar, font);
+                        var x = (bitmapSize - textSize.Width) / 2;
+                        var y = (bitmapSize - textSize.Height) / 2;
 
-                    // Draw icon
-                    // Keep lock held during rendering to prevent ClearCache from freeing
-                    // the font memory via Marshal.FreeCoTaskMem while the Font object is in use.
-                    // Per MSDN, the memory block must remain allocated for the lifetime of
-                    // any Font object created from that font family.
-                    graphics.DrawString(iconChar, font, brush, x, y);
+                        // Draw icon
+                        // Keep lock held during rendering to prevent ClearCache from freeing
+                        // the font memory via Marshal.FreeCoTaskMem while the Font object is in use.
+                        // Per MSDN, the memory block must remain allocated for the lifetime of
+                        // any Font object created from that font family.
+                        graphics.DrawString(iconChar, font, brush, x, y);
+                    }
                 }
+                
+                font = null;
             }
 
             return bitmap;
@@ -646,7 +660,10 @@ public static class FontAwesomeHelper
         catch
         {
             bitmap?.Dispose();
-            font?.Dispose();
+            if (!fontDisposedByUsing)
+            {
+                font?.Dispose();
+            }
             return null;
         }
     }
