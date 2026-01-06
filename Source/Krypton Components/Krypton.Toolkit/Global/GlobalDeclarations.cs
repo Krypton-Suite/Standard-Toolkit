@@ -78,7 +78,6 @@ global using Krypton.Toolkit.ResourceFiles.Sort;
 global using Krypton.Toolkit.ResourceFiles.Stars;
 global using Krypton.Toolkit.ResourceFiles.SystemMenu;
 global using Krypton.Toolkit.ResourceFiles.TaskDialog;
-global using Krypton.Toolkit.ResourceFiles.ToastNotification;
 global using Krypton.Toolkit.ResourceFiles.Toolbars;
 global using Krypton.Toolkit.ResourceFiles.ToolkitLogos;
 global using Krypton.Toolkit.ResourceFiles.TreeItems;
