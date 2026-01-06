@@ -43,6 +43,7 @@ public static class NavigatorExtensions
         var smallBitmap = FontAwesomeHelper.RenderIcon(icon, smallSize, iconColor, iconStyle);
         if (smallBitmap != null)
         {
+            page.ImageSmall?.Dispose();
             page.ImageSmall = smallBitmap;
         }
 
@@ -50,6 +51,7 @@ public static class NavigatorExtensions
         var mediumBitmap = FontAwesomeHelper.RenderIcon(icon, mediumSize, iconColor, iconStyle);
         if (mediumBitmap != null)
         {
+            page.ImageMedium?.Dispose();
             page.ImageMedium = mediumBitmap;
         }
 
@@ -57,6 +59,7 @@ public static class NavigatorExtensions
         var largeBitmap = FontAwesomeHelper.RenderIcon(icon, largeSize, iconColor, iconStyle);
         if (largeBitmap != null)
         {
+            page.ImageLarge?.Dispose();
             page.ImageLarge = largeBitmap;
         }
 
@@ -94,6 +97,7 @@ public static class NavigatorExtensions
         var smallBitmap = FontAwesomeHelper.RenderIcon(iconName, smallSize, iconColor, iconStyle);
         if (smallBitmap != null)
         {
+            page.ImageSmall?.Dispose();
             page.ImageSmall = smallBitmap;
         }
 
@@ -101,6 +105,7 @@ public static class NavigatorExtensions
         var mediumBitmap = FontAwesomeHelper.RenderIcon(iconName, mediumSize, iconColor, iconStyle);
         if (mediumBitmap != null)
         {
+            page.ImageMedium?.Dispose();
             page.ImageMedium = mediumBitmap;
         }
 
@@ -108,6 +113,7 @@ public static class NavigatorExtensions
         var largeBitmap = FontAwesomeHelper.RenderIcon(iconName, largeSize, iconColor, iconStyle);
         if (largeBitmap != null)
         {
+            page.ImageLarge?.Dispose();
             page.ImageLarge = largeBitmap;
         }
 
@@ -134,6 +140,7 @@ public static class NavigatorExtensions
         var iconBitmap = FontAwesomeHelper.RenderIcon(icon, size, color, style);
         if (iconBitmap != null)
         {
+            page.ToolTipImage?.Dispose();
             page.ToolTipImage = iconBitmap;
         }
 
@@ -160,6 +167,7 @@ public static class NavigatorExtensions
         var iconBitmap = FontAwesomeHelper.RenderIcon(iconName, size, color, style);
         if (iconBitmap != null)
         {
+            page.ToolTipImage?.Dispose();
             page.ToolTipImage = iconBitmap;
         }
 

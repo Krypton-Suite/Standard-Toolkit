@@ -31,6 +31,10 @@ public static class ButtonValuesExtensions
         var iconBitmap = FontAwesomeHelper.RenderIcon(iconName, size, color, style);
         if (iconBitmap != null)
         {
+            if (buttonValues.Image is Bitmap previousBitmap)
+            {
+                previousBitmap.Dispose();
+            }
             buttonValues.Image = iconBitmap;
         }
 
@@ -56,6 +60,10 @@ public static class ButtonValuesExtensions
         var iconBitmap = FontAwesomeHelper.RenderIcon(icon, size, color, style);
         if (iconBitmap != null)
         {
+            if (buttonValues.Image is Bitmap previousBitmap)
+            {
+                previousBitmap.Dispose();
+            }
             buttonValues.Image = iconBitmap;
         }
 
@@ -87,6 +95,14 @@ public static class ButtonValuesExtensions
         var normalBitmap = FontAwesomeHelper.RenderIcon(icon, size, normalColor, style);
         if (normalBitmap != null)
         {
+            if (buttonValues.Image is Bitmap previousImage)
+            {
+                previousImage.Dispose();
+            }
+            if (buttonValues.ImageStates.ImageNormal is Bitmap previousNormal)
+            {
+                previousNormal.Dispose();
+            }
             buttonValues.Image = normalBitmap;
             buttonValues.ImageStates.ImageNormal = normalBitmap;
         }
@@ -96,6 +112,10 @@ public static class ButtonValuesExtensions
             disabledColor ?? Color.FromArgb(128, normalColor), style);
         if (disabledBitmap != null)
         {
+            if (buttonValues.ImageStates.ImageDisabled is Bitmap previousDisabled)
+            {
+                previousDisabled.Dispose();
+            }
             buttonValues.ImageStates.ImageDisabled = disabledBitmap;
         }
 
@@ -103,6 +123,10 @@ public static class ButtonValuesExtensions
         var pressedBitmap = FontAwesomeHelper.RenderIcon(icon, size, pressedColor ?? normalColor, style);
         if (pressedBitmap != null)
         {
+            if (buttonValues.ImageStates.ImagePressed is Bitmap previousPressed)
+            {
+                previousPressed.Dispose();
+            }
             buttonValues.ImageStates.ImagePressed = pressedBitmap;
         }
 
@@ -110,6 +134,10 @@ public static class ButtonValuesExtensions
         var trackingBitmap = FontAwesomeHelper.RenderIcon(icon, size, trackingColor ?? normalColor, style);
         if (trackingBitmap != null)
         {
+            if (buttonValues.ImageStates.ImageTracking is Bitmap previousTracking)
+            {
+                previousTracking.Dispose();
+            }
             buttonValues.ImageStates.ImageTracking = trackingBitmap;
         }
 
@@ -141,6 +169,14 @@ public static class ButtonValuesExtensions
         var normalBitmap = FontAwesomeHelper.RenderIcon(iconName, size, normalColor, style);
         if (normalBitmap != null)
         {
+            if (buttonValues.Image is Bitmap previousImage)
+            {
+                previousImage.Dispose();
+            }
+            if (buttonValues.ImageStates.ImageNormal is Bitmap previousNormal)
+            {
+                previousNormal.Dispose();
+            }
             buttonValues.Image = normalBitmap;
             buttonValues.ImageStates.ImageNormal = normalBitmap;
         }
@@ -150,6 +186,10 @@ public static class ButtonValuesExtensions
             disabledColor ?? Color.FromArgb(128, normalColor), style);
         if (disabledBitmap != null)
         {
+            if (buttonValues.ImageStates.ImageDisabled is Bitmap previousDisabled)
+            {
+                previousDisabled.Dispose();
+            }
             buttonValues.ImageStates.ImageDisabled = disabledBitmap;
         }
 
@@ -157,6 +197,10 @@ public static class ButtonValuesExtensions
         var pressedBitmap = FontAwesomeHelper.RenderIcon(iconName, size, pressedColor ?? normalColor, style);
         if (pressedBitmap != null)
         {
+            if (buttonValues.ImageStates.ImagePressed is Bitmap previousPressed)
+            {
+                previousPressed.Dispose();
+            }
             buttonValues.ImageStates.ImagePressed = pressedBitmap;
         }
 
@@ -164,6 +208,10 @@ public static class ButtonValuesExtensions
         var trackingBitmap = FontAwesomeHelper.RenderIcon(iconName, size, trackingColor ?? normalColor, style);
         if (trackingBitmap != null)
         {
+            if (buttonValues.ImageStates.ImageTracking is Bitmap previousTracking)
+            {
+                previousTracking.Dispose();
+            }
             buttonValues.ImageStates.ImageTracking = trackingBitmap;
         }
 

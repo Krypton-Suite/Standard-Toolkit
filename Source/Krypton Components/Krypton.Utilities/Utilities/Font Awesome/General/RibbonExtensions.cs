@@ -40,6 +40,10 @@ public static class RibbonExtensions
         var smallBitmap = FontAwesomeHelper.RenderIcon(icon, smallSize, iconColor, iconStyle);
         if (smallBitmap != null)
         {
+            if (button.ImageSmall is Bitmap previousSmall)
+            {
+                previousSmall.Dispose();
+            }
             button.ImageSmall = smallBitmap;
         }
 
@@ -47,6 +51,10 @@ public static class RibbonExtensions
         var largeBitmap = FontAwesomeHelper.RenderIcon(icon, largeSize, iconColor, iconStyle);
         if (largeBitmap != null)
         {
+            if (button.ImageLarge is Bitmap previousLarge)
+            {
+                previousLarge.Dispose();
+            }
             button.ImageLarge = largeBitmap;
         }
 
@@ -81,6 +89,10 @@ public static class RibbonExtensions
         var smallBitmap = FontAwesomeHelper.RenderIcon(iconName, smallSize, iconColor, iconStyle);
         if (smallBitmap != null)
         {
+            if (button.ImageSmall is Bitmap previousSmall)
+            {
+                previousSmall.Dispose();
+            }
             button.ImageSmall = smallBitmap;
         }
 
@@ -88,6 +100,10 @@ public static class RibbonExtensions
         var largeBitmap = FontAwesomeHelper.RenderIcon(iconName, largeSize, iconColor, iconStyle);
         if (largeBitmap != null)
         {
+            if (button.ImageLarge is Bitmap previousLarge)
+            {
+                previousLarge.Dispose();
+            }
             button.ImageLarge = largeBitmap;
         }
 
