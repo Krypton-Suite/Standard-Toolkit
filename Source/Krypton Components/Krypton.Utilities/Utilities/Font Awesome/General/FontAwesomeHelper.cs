@@ -555,13 +555,13 @@ public static class FontAwesomeHelper
     private static Bitmap? RenderIconInternal(string fontKey, int unicode, int size, Color color)
     {
         Bitmap? bitmap = null;
+        Font? font = null;
         try
         {
             // Load and validate the font within the lock to prevent race condition where
             // ClearCache() disposes the PrivateFontCollection between loading the font
             // and using it for rendering. This ensures the FontFamily remains valid
             // during Font creation and use.
-            Font? font = null;
             FontFamily? fontFamily = null;
             lock (_lockObject)
             {
