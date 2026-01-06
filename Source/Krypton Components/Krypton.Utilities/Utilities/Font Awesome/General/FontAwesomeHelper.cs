@@ -154,10 +154,24 @@ public static class FontAwesomeHelper
     /// </summary>
     public static FontAwesomeStyle DefaultStyle { get; set; } = FontAwesomeStyle.Solid;
 
+    private static int _defaultSize = 16;
+
     /// <summary>
     /// Gets or sets the default icon size in pixels.
     /// </summary>
-    public static int DefaultSize { get; set; } = 16;
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the value is less than or equal to zero.</exception>
+    public static int DefaultSize
+    {
+        get => _defaultSize;
+        set
+        {
+            if (value <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(value), value, "DefaultSize must be greater than zero.");
+            }
+            _defaultSize = value;
+        }
+    }
 
     /// <summary>
     /// Gets or sets the default icon color.
@@ -201,6 +215,10 @@ public static class FontAwesomeHelper
         }
 
         size = size > 0 ? size : DefaultSize;
+        if (size <= 0)
+        {
+            return null;
+        }
         var iconColor = color ?? DefaultColor;
         var iconStyle = style ?? DefaultStyle;
 
@@ -223,15 +241,12 @@ public static class FontAwesomeHelper
             return null;
         }
 
-        // Load Font Awesome font
-        var fontFamily = LoadFontAwesomeFont(iconStyle);
-        if (fontFamily == null)
-        {
-            return null;
-        }
-
-        // Render icon
-        var bitmap = RenderIconInternal(fontFamily, unicode, size, iconColor);
+        // Get font key and render icon
+        // RenderIconInternal will load and validate the font within its lock to prevent
+        // race condition where ClearCache() disposes the PrivateFontCollection
+        // between loading the font and using it for rendering
+        var fontKey = GetFontKey(iconStyle);
+        var bitmap = RenderIconInternal(fontKey, unicode, size, iconColor);
         if (bitmap != null)
         {
             // Cache the bitmap (synchronized to prevent race condition with ClearCache)
@@ -240,7 +255,13 @@ public static class FontAwesomeHelper
                 // Double-check pattern: another thread might have added it while we were rendering
                 if (!_imageCache.TryGetValue(cacheKey, out _))
                 {
-                    _imageCache.TryAdd(cacheKey, CloneBitmap(bitmap));
+                    var clonedBitmap = CloneBitmap(bitmap);
+                    if (!_imageCache.TryAdd(cacheKey, clonedBitmap))
+                    {
+                        // Another thread added the key between TryGetValue and TryAdd
+                        // Dispose the orphaned cloned bitmap to prevent resource leak
+                        clonedBitmap?.Dispose();
+                    }
                 }
             }
         }
@@ -509,16 +530,85 @@ public static class FontAwesomeHelper
         return $"FontAwesome_{style}";
     }
 
-    private static Bitmap? RenderIconInternal(FontFamily fontFamily, int unicode, int size, Color color)
+    private static FontAwesomeStyle GetStyleFromFontKey(string fontKey)
+    {
+        // Font key format is "FontAwesome_{style}"
+        var prefix = "FontAwesome_";
+        if (fontKey.StartsWith(prefix, StringComparison.Ordinal))
+        {
+            var styleString = fontKey.Substring(prefix.Length);
+            if (Enum.TryParse<FontAwesomeStyle>(styleString, out var style))
+            {
+                return style;
+            }
+        }
+        return DefaultStyle;
+    }
+
+    private static Bitmap? RenderIconInternal(string fontKey, int unicode, int size, Color color)
     {
         Bitmap? bitmap = null;
         try
         {
+            // Load and validate the font within the lock to prevent race condition where
+            // ClearCache() disposes the PrivateFontCollection between loading the font
+            // and using it for rendering. This ensures the FontFamily remains valid
+            // during Font creation and use.
+            Font font;
+            FontFamily? fontFamily = null;
+            lock (_lockObject)
+            {
+                // Check cache first - if entry exists, use it directly
+                if (_fontCache.TryGetValue(fontKey, out var cacheEntry))
+                {
+                    fontFamily = cacheEntry.FontFamily;
+                }
+            }
+
+            // If font not in cache, load it outside the lock (LoadFontAwesomeFont manages its own locking)
+            if (fontFamily == null)
+            {
+                fontFamily = LoadFontAwesomeFont(GetStyleFromFontKey(fontKey));
+                if (fontFamily == null)
+                {
+                    return null;
+                }
+            }
+
+            // Re-acquire lock to verify font is still valid and create Font object
+            // This prevents race condition where ClearCache disposes PrivateFontCollection
+            // between loading the font and using it for rendering
+            lock (_lockObject)
+            {
+                // Verify the cache entry still exists and matches the FontFamily we're about to use
+                // This catches the case where ClearCache disposed the font after we loaded it
+                if (!_fontCache.TryGetValue(fontKey, out var cacheEntry) || cacheEntry.FontFamily != fontFamily)
+                {
+                    // Font was cleared or changed, reload it
+                    fontFamily = LoadFontAwesomeFont(GetStyleFromFontKey(fontKey));
+                    if (fontFamily == null)
+                    {
+                        return null;
+                    }
+                    // Double-check after reload
+                    if (!_fontCache.TryGetValue(fontKey, out cacheEntry) || cacheEntry.FontFamily != fontFamily)
+                    {
+                        return null;
+                    }
+                }
+
+                // Create font while holding the lock to ensure FontFamily remains valid
+                // This prevents ClearCache from disposing the PrivateFontCollection
+                // while we're creating the Font object
+                font = new Font(fontFamily, size, FontStyle.Regular, GraphicsUnit.Pixel);
+            }
+
             // Create a bitmap with padding for better rendering
             var padding = Math.Max(2, size / 8);
             var bitmapSize = size + (padding * 2);
             bitmap = new Bitmap(bitmapSize, bitmapSize, PixelFormat.Format32bppArgb);
 
+            using (font)
             using (var graphics = Graphics.FromImage(bitmap))
             {
                 graphics.TextRenderingHint = TextRenderingHint.AntiAlias;
@@ -526,8 +616,6 @@ public static class FontAwesomeHelper
                 graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
                 graphics.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
 
-                // Create font
-                using var font = new Font(fontFamily, size, FontStyle.Regular, GraphicsUnit.Pixel);
                 using var brush = new SolidBrush(color);
 
                 // Convert Unicode to string
