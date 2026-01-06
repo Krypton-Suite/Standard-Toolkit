@@ -648,11 +648,19 @@ public static class FontAwesomeHelper
         }
 
         var clone = new Bitmap(source.Width, source.Height, source.PixelFormat);
-        using (var graphics = Graphics.FromImage(clone))
+        try
         {
-            graphics.DrawImage(source, 0, 0);
+            using (var graphics = Graphics.FromImage(clone))
+            {
+                graphics.DrawImage(source, 0, 0);
+            }
+            return clone;
         }
-        return clone;
+        catch
+        {
+            clone?.Dispose();
+            throw;
+        }
     }
 
     private static int GetIconUnicodeMapping(string iconName, FontAwesomeStyle style)
