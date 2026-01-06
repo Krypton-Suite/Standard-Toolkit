@@ -47,6 +47,9 @@ internal class BackstageNavigationList : Control
         _itemHeights = new Dictionary<int, int>();
         _columns = 1;
 
+#if !NET462
+        DpiChanged += OnDpiChanged;
+#endif
         UpdateDpiFactors();
         UpdateBackColor();
     }
@@ -280,14 +283,7 @@ internal class BackstageNavigationList : Control
     }
 
 #if !NET462
-    /// <summary>
-    /// Raises the <see cref="Control.DpiChanged"/> event.
-    /// </summary>
-    protected override void OnDpiChanged(DpiChangedEventArgs e)
-    {
-        base.OnDpiChanged(e);
-        UpdateDpiFactors();
-    }
+    private void OnDpiChanged(object? sender, DpiChangedEventArgs e) => UpdateDpiFactors();
 #endif
     #endregion
 
