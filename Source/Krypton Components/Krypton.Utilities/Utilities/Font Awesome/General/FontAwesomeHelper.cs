@@ -320,8 +320,9 @@ public static class FontAwesomeHelper
         }
 
         // Last resort: use hash-based approach (not accurate but works as fallback)
-        // Use StringComparer.OrdinalIgnoreCase for deterministic hash codes across .NET versions
-        var iconHash = StringComparer.OrdinalIgnoreCase.GetHashCode(iconName);
+        // Use deterministic hash function to ensure consistent results across .NET versions
+        // (StringComparer.GetHashCode is randomized in .NET Core+ for security)
+        var iconHash = GetDeterministicHashCode(iconName);
         var baseOffset = style switch
         {
             FontAwesomeStyle.Solid => SOLID_BASE,
@@ -560,7 +561,7 @@ public static class FontAwesomeHelper
             // ClearCache() disposes the PrivateFontCollection between loading the font
             // and using it for rendering. This ensures the FontFamily remains valid
             // during Font creation and use.
-            Font font;
+            Font? font = null;
             FontFamily? fontFamily = null;
             lock (_lockObject)
             {
@@ -641,6 +642,7 @@ public static class FontAwesomeHelper
         catch
         {
             bitmap?.Dispose();
+            font?.Dispose();
             return null;
         }
     }
@@ -666,6 +668,34 @@ public static class FontAwesomeHelper
             clone?.Dispose();
             throw;
         }
+    }
+
+    /// <summary>
+    /// Computes a deterministic hash code for a string that is consistent across .NET versions.
+    /// This is necessary because StringComparer.GetHashCode uses randomized hash codes in .NET Core+
+    /// for security (hash flooding protection), which would cause inconsistent icon rendering.
+    /// </summary>
+    /// <param name="value">The string to hash.</param>
+    /// <returns>A deterministic hash code.</returns>
+    private static int GetDeterministicHashCode(string value)
+    {
+        if (value == null)
+        {
+            return 0;
+        }
+
+        // Use case-insensitive comparison for icon names
+        var normalized = value.ToUpperInvariant();
+        
+        // Simple deterministic hash algorithm (djb2 variant)
+        // This produces the same hash for the same input across all .NET versions
+        int hash = 5381;
+        foreach (var c in normalized)
+        {
+            hash = ((hash << 5) + hash) + c; // hash * 33 + c
+        }
+
+        return hash;
     }
 
     private static int GetIconUnicodeMapping(string iconName, FontAwesomeStyle style)
