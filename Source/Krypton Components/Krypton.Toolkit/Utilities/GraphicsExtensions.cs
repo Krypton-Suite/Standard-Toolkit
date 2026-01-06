@@ -256,111 +256,6 @@ public static class GraphicsExtensions
         }
     }
 
-    /// <summary>Gets the type of the toast notification icon.</summary>
-    /// <param name="notificationIconType">Type of the notification icon.</param>
-    /// <param name="customImage">The custom image.</param>
-    /// <param name="customSize">Size of the custom.</param>
-    /// <returns></returns>
-    /// <exception cref="System.ArgumentOutOfRangeException">notificationIconType - null</exception>
-    public static Image? GetToastNotificationIconType(KryptonToastNotificationIcon notificationIconType,
-        Image? customImage = null, Size? customSize = null)
-    {
-        Size newSize = customSize ?? new Size(128, 128);
-
-        switch (notificationIconType)
-        {
-            case KryptonToastNotificationIcon.None:
-                return null;
-            case KryptonToastNotificationIcon.Hand:
-                return ToastNotificationImageResources.Toast_Notification_Hand_128_x_128;
-            case KryptonToastNotificationIcon.SystemHand:
-                return ScaleImage(SystemIcons.Hand.ToBitmap(), newSize);
-            case KryptonToastNotificationIcon.Question:
-                return ToastNotificationImageResources.Toast_Notification_Question_128_x_128;
-            case KryptonToastNotificationIcon.SystemQuestion:
-                return ScaleImage(SystemIcons.Question.ToBitmap(), newSize);
-            case KryptonToastNotificationIcon.Exclamation:
-            case KryptonToastNotificationIcon.SystemExclamation:
-            case KryptonToastNotificationIcon.Warning:
-                return ToastNotificationImageResources.Toast_Notification_Warning_128_x_115;
-            case KryptonToastNotificationIcon.Asterisk:
-                return ToastNotificationImageResources.Toast_Notification_Asterisk_128_x_128;
-            case KryptonToastNotificationIcon.Error:
-                return ToastNotificationImageResources.Toast_Notification_Critical_128_x_128;
-            case KryptonToastNotificationIcon.SystemAsterisk:
-                return ScaleImage(SystemIcons.Asterisk.ToBitmap(), newSize);
-            case KryptonToastNotificationIcon.Stop:
-                return ToastNotificationImageResources.Toast_Notification_Stop_128_x_128;
-            case KryptonToastNotificationIcon.Information:
-                return ToastNotificationImageResources.Toast_Notification_Information_128_x_128;
-            case KryptonToastNotificationIcon.Shield:
-            {
-                var messageBoxShieldIcon = ExtractIconFromImageresInternal(ImageresIconID.Shield, IconSize.Huge);
-                return messageBoxShieldIcon?.ToBitmap();
-            }
-            case KryptonToastNotificationIcon.WindowsLogo:
-                if (OSUtilities.IsAtLeastWindowsEleven)
-                {
-                    return ToastNotificationImageResources.Toast_Notification_Windows_11_128_x_128;
-                }
-                else if (OSUtilities.IsWindowsTen || OSUtilities.IsWindowsEightPointOne || OSUtilities.IsWindowsEight)
-                {
-                    return ToastNotificationImageResources.Toast_Notification_Windows_10_128_x_121;
-                }
-                else
-                {
-                    return ScaleImage(SystemIcons.WinLogo.ToBitmap(), newSize);
-                }
-            case KryptonToastNotificationIcon.Application:
-                return customImage != null
-                    ? ScaleImage(customImage, newSize)
-                    : ScaleImage(SystemIcons.Application.ToBitmap(), newSize);
-            case KryptonToastNotificationIcon.SystemApplication:
-                return ScaleImage(SystemIcons.Application.ToBitmap(), newSize);
-            case KryptonToastNotificationIcon.Ok:
-                return ToastNotificationImageResources.Toast_Notification_Ok_128_x_128;
-            case KryptonToastNotificationIcon.Custom:
-                return customImage != null ? ScaleImage(customImage, newSize) : null;
-            default:
-                DebugTools.NotImplemented(notificationIconType.ToString());
-                throw new ArgumentOutOfRangeException(nameof(notificationIconType), notificationIconType, null);
-        }
-    }
-
-    /// <summary>
-    /// Returns a Bitmap for a toast notification icon, using existing mapping and optional scaling.
-    /// Centralizes conversion to Bitmap to reduce duplication in forms that require Bitmap images.
-    /// </summary>
-    /// <param name="notificationIconType">Type of icon to resolve. If null, returns null.</param>
-    /// <param name="applicationIcon">Optional application Icon used when the icon type is Application.</param>
-    /// <param name="customImage">Optional custom image used when the icon type is Custom or Application.</param>
-    /// <param name="customSize">Optional target size for system-derived images.</param>
-    /// <returns>Bitmap or null.</returns>
-    public static Bitmap? GetToastNotificationBitmap(
-        KryptonToastNotificationIcon? notificationIconType,
-        Icon? applicationIcon = null,
-        Image? customImage = null,
-        Size? customSize = null)
-    {
-        if (notificationIconType is null)
-        {
-            return null;
-        }
-
-        // If asking for Application, prefer the provided applicationIcon converted to Bitmap.
-        Image? customForMapping = notificationIconType == KryptonToastNotificationIcon.Application
-            ? (applicationIcon?.ToBitmap() ?? customImage)
-            : customImage;
-
-        Image? resolved = GetToastNotificationIconType(notificationIconType.Value, customForMapping, customSize);
-        if (resolved == null)
-        {
-            return null;
-        }
-
-        return resolved as Bitmap ?? new Bitmap(resolved);
-    }
-
     /// <summary>Extracts an icon from imageres.dll using the specified icon ID and size.</summary>
     /// <param name="iconId">The icon ID from ImageresIconID enum.</param>
     /// <param name="iconSize">The size of the icon to extract. Defaults to Medium (32x32).</param>
@@ -528,7 +423,7 @@ public static class GraphicsExtensions
     /// <summary>Gets a UAC shield image based on the current Krypton theme.</summary>
     /// <param name="targetSize">The target size.</param>
     /// <returns>The shield image, or null if not available.</returns>
-    private static Image? GetThemeBasedShieldImage(Size targetSize)
+    public static Image? GetThemeBasedShieldImage(Size targetSize)
     {
         var currentTheme = KryptonManager.CurrentGlobalPaletteMode;
 
@@ -563,7 +458,7 @@ public static class GraphicsExtensions
     /// <summary>Gets a UAC shield image based on the current OS.</summary>
     /// <param name="targetSize">The target size.</param>
     /// <returns>The shield image, or null if not available.</returns>
-    private static Image? GetOSBasedShieldImage(Size targetSize)
+    public static Image? GetOSBasedShieldImage(Size targetSize)
     {
         // Get the appropriate shield image based on OS
         if (OSUtilities.IsAtLeastWindowsEleven)
