@@ -21,8 +21,8 @@ public class FontAwesomeIconPickerDialog : KryptonForm
     public FontAwesomeIconPickerDialog()
     {
         InitializeComponent();
-        _selectedIcon = FontAwesomeIcon.Home;
         LoadIcons();
+        SelectedIcon = FontAwesomeIcon.Home;
     }
 
     /// <summary>

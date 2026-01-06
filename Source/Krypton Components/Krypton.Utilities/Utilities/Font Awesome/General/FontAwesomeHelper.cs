@@ -315,7 +315,8 @@ public static class FontAwesomeHelper
         }
 
         // Last resort: use hash-based approach (not accurate but works as fallback)
-        var iconHash = iconName.ToLowerInvariant().GetHashCode();
+        // Use StringComparer.OrdinalIgnoreCase for deterministic hash codes across .NET versions
+        var iconHash = StringComparer.OrdinalIgnoreCase.GetHashCode(iconName);
         var baseOffset = style switch
         {
             FontAwesomeStyle.Solid => SOLID_BASE,
@@ -661,8 +662,16 @@ public static class FontAwesomeHelper
         // Solid style uses U+F000-U+F8FF range
         // Regular style uses U+F000-U+F8FF range (different glyphs)
         // Brands style uses U+F000-U+F8FF range
+        // Note: Unicode values are identical across all styles (Light, Thin, Duotone use same Unicode as Solid)
 
         var normalizedName = iconName.ToLowerInvariant().Replace("-", "").Replace("_", "").Trim();
+
+        // Pro styles (Light, Thin, Duotone) use the same Unicode values as Solid
+        // Fall back to Solid mappings when Pro styles are requested
+        if (style == FontAwesomeStyle.Light || style == FontAwesomeStyle.Thin || style == FontAwesomeStyle.Duotone)
+        {
+            return GetIconUnicodeMapping(iconName, FontAwesomeStyle.Solid);
+        }
 
         // Font Awesome 6 Solid (fas) mappings
         if (style == FontAwesomeStyle.Solid)

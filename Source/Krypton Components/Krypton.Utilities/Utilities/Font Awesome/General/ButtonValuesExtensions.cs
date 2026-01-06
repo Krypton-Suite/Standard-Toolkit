@@ -100,23 +100,17 @@ public static class ButtonValuesExtensions
         }
 
         // Pressed state
-        if (pressedColor != null)
+        var pressedBitmap = FontAwesomeHelper.RenderIcon(icon, size, pressedColor ?? normalColor, style);
+        if (pressedBitmap != null)
         {
-            var pressedBitmap = FontAwesomeHelper.RenderIcon(icon, size, pressedColor, style);
-            if (pressedBitmap != null)
-            {
-                buttonValues.ImageStates.ImagePressed = pressedBitmap;
-            }
+            buttonValues.ImageStates.ImagePressed = pressedBitmap;
         }
 
         // Tracking (hover) state
-        if (trackingColor != null)
+        var trackingBitmap = FontAwesomeHelper.RenderIcon(icon, size, trackingColor ?? normalColor, style);
+        if (trackingBitmap != null)
         {
-            var trackingBitmap = FontAwesomeHelper.RenderIcon(icon, size, trackingColor, style);
-            if (trackingBitmap != null)
-            {
-                buttonValues.ImageStates.ImageTracking = trackingBitmap;
-            }
+            buttonValues.ImageStates.ImageTracking = trackingBitmap;
         }
 
         return buttonValues;
@@ -160,23 +154,17 @@ public static class ButtonValuesExtensions
         }
 
         // Pressed state
-        if (pressedColor != null)
+        var pressedBitmap = FontAwesomeHelper.RenderIcon(iconName, size, pressedColor ?? normalColor, style);
+        if (pressedBitmap != null)
         {
-            var pressedBitmap = FontAwesomeHelper.RenderIcon(iconName, size, pressedColor, style);
-            if (pressedBitmap != null)
-            {
-                buttonValues.ImageStates.ImagePressed = pressedBitmap;
-            }
+            buttonValues.ImageStates.ImagePressed = pressedBitmap;
         }
 
         // Tracking (hover) state
-        if (trackingColor != null)
+        var trackingBitmap = FontAwesomeHelper.RenderIcon(iconName, size, trackingColor ?? normalColor, style);
+        if (trackingBitmap != null)
         {
-            var trackingBitmap = FontAwesomeHelper.RenderIcon(iconName, size, trackingColor, style);
-            if (trackingBitmap != null)
-            {
-                buttonValues.ImageStates.ImageTracking = trackingBitmap;
-            }
+            buttonValues.ImageStates.ImageTracking = trackingBitmap;
         }
 
         return buttonValues;
