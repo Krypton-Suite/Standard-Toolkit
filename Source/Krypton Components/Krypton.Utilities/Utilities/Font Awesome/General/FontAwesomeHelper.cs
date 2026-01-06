@@ -608,33 +608,37 @@ public static class FontAwesomeHelper
                 // This prevents ClearCache from disposing the PrivateFontCollection
                 // while we're creating the Font object
                 font = new Font(fontFamily, size, FontStyle.Regular, GraphicsUnit.Pixel);
-            }
 
-            // Create a bitmap with padding for better rendering
-            var padding = Math.Max(2, size / 8);
-            var bitmapSize = size + (padding * 2);
-            bitmap = new Bitmap(bitmapSize, bitmapSize, PixelFormat.Format32bppArgb);
+                // Create a bitmap with padding for better rendering
+                var padding = Math.Max(2, size / 8);
+                var bitmapSize = size + (padding * 2);
+                bitmap = new Bitmap(bitmapSize, bitmapSize, PixelFormat.Format32bppArgb);
 
-            using (font)
-            using (var graphics = Graphics.FromImage(bitmap))
-            {
-                graphics.TextRenderingHint = TextRenderingHint.AntiAlias;
-                graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-                graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-                graphics.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
+                using (font)
+                using (var graphics = Graphics.FromImage(bitmap))
+                {
+                    graphics.TextRenderingHint = TextRenderingHint.AntiAlias;
+                    graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                    graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                    graphics.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
 
-                using var brush = new SolidBrush(color);
+                    using var brush = new SolidBrush(color);
 
-                // Convert Unicode to string
-                var iconChar = char.ConvertFromUtf32(unicode);
+                    // Convert Unicode to string
+                    var iconChar = char.ConvertFromUtf32(unicode);
 
-                // Measure text
-                var textSize = graphics.MeasureString(iconChar, font);
-                var x = (bitmapSize - textSize.Width) / 2;
-                var y = (bitmapSize - textSize.Height) / 2;
+                    // Measure text
+                    var textSize = graphics.MeasureString(iconChar, font);
+                    var x = (bitmapSize - textSize.Width) / 2;
+                    var y = (bitmapSize - textSize.Height) / 2;
 
-                // Draw icon
-                graphics.DrawString(iconChar, font, brush, x, y);
+                    // Draw icon
+                    // Keep lock held during rendering to prevent ClearCache from freeing
+                    // the font memory via Marshal.FreeCoTaskMem while the Font object is in use.
+                    // Per MSDN, the memory block must remain allocated for the lifetime of
+                    // any Font object created from that font family.
+                    graphics.DrawString(iconChar, font, brush, x, y);
+                }
             }
 
             return bitmap;
