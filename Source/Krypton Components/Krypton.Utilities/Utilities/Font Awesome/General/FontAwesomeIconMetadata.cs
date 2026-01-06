@@ -190,18 +190,21 @@ public static class FontAwesomeIconMetadataLoader
                         Styles = styles!
                     };
 
+                    // Normalize icon name for dictionary key (remove hyphens/underscores to match enum naming)
+                    var normalizedIconName = NormalizeIconName(iconName);
+
                     // Map Font Awesome style strings to our enum
                     foreach (var style in styles)
                     {
                         var faStyle = MapStyleStringToEnum(style);
                         if (faStyle.HasValue)
                         {
-                            if (!_iconMetadata.ContainsKey(iconName))
+                            if (!_iconMetadata.ContainsKey(normalizedIconName))
                             {
-                                _iconMetadata[iconName] = new Dictionary<FontAwesomeStyle, FontAwesomeIconMetadata>();
+                                _iconMetadata[normalizedIconName] = new Dictionary<FontAwesomeStyle, FontAwesomeIconMetadata>();
                             }
 
-                            _iconMetadata[iconName][faStyle.Value] = metadata;
+                            _iconMetadata[normalizedIconName][faStyle.Value] = metadata;
                         }
                     }
                 }
@@ -280,18 +283,21 @@ public static class FontAwesomeIconMetadataLoader
                         Styles = styles
                     };
 
+                    // Normalize icon name for dictionary key (remove hyphens/underscores to match enum naming)
+                    var normalizedIconName = NormalizeIconName(iconName);
+
                     // Map Font Awesome style strings to our enum
                     foreach (var style in styles)
                     {
                         var faStyle = MapStyleStringToEnum(style);
                         if (faStyle.HasValue)
                         {
-                            if (!_iconMetadata.ContainsKey(iconName))
+                            if (!_iconMetadata.ContainsKey(normalizedIconName))
                             {
-                                _iconMetadata[iconName] = new Dictionary<FontAwesomeStyle, FontAwesomeIconMetadata>();
+                                _iconMetadata[normalizedIconName] = new Dictionary<FontAwesomeStyle, FontAwesomeIconMetadata>();
                             }
 
-                            _iconMetadata[iconName][faStyle.Value] = metadata;
+                            _iconMetadata[normalizedIconName][faStyle.Value] = metadata;
                         }
                     }
                 }
@@ -331,7 +337,8 @@ public static class FontAwesomeIconMetadataLoader
             return 0;
         }
 
-        if (metadataDict.TryGetValue(iconName, out var styleDict) &&
+        var normalizedIconName = NormalizeIconName(iconName);
+        if (metadataDict.TryGetValue(normalizedIconName, out var styleDict) &&
             styleDict.TryGetValue(style, out var metadata))
         {
             return metadata.UnicodeInt;
@@ -378,7 +385,8 @@ public static class FontAwesomeIconMetadataLoader
             return new List<FontAwesomeStyle>();
         }
 
-        if (metadata.TryGetValue(iconName, out var styleDict))
+        var normalizedIconName = NormalizeIconName(iconName);
+        if (metadata.TryGetValue(normalizedIconName, out var styleDict))
         {
             return styleDict.Keys.ToList();
         }
@@ -409,5 +417,22 @@ public static class FontAwesomeIconMetadataLoader
             "duotone" => FontAwesomeStyle.Duotone,
             _ => null
         };
+    }
+
+    /// <summary>
+    /// Normalizes an icon name by removing hyphens and underscores, and converting to lowercase.
+    /// This matches the normalization used in FontAwesomeHelper.GetIconUnicodeMapping to ensure
+    /// consistent lookups between enum values (CamelCase) and icons.json keys (kebab-case).
+    /// </summary>
+    /// <param name="iconName">The icon name to normalize.</param>
+    /// <returns>The normalized icon name.</returns>
+    private static string NormalizeIconName(string iconName)
+    {
+        if (string.IsNullOrEmpty(iconName))
+        {
+            return string.Empty;
+        }
+
+        return iconName.ToLowerInvariant().Replace("-", "").Replace("_", "").Trim();
     }
 }
