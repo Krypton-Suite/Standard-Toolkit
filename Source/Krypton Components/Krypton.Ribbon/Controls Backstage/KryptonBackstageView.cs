@@ -336,13 +336,22 @@ public class KryptonBackstageView : KryptonPanel
             // If the event was canceled, don't close the application
             if (cancelEventArgs.Cancel)
             {
-                // Save the current page before clearing selection (ClearSelected may trigger re-entrant call)
+                // Save the current page before clearing selection
                 var previousPage = _selectedPage;
-                // Clear the selection so the Close button doesn't appear selected
-                _navigationList.ClearSelected();
-                if (previousPage != null)
+                // Suspend sync to prevent re-entrant calls that cause flickering
+                _suspendSync = true;
+                try
                 {
-                    _navigationList.SelectedItem = previousPage;
+                    // Clear the selection so the Close button doesn't appear selected
+                    _navigationList.ClearSelected();
+                    if (previousPage != null)
+                    {
+                        _navigationList.SelectedItem = previousPage;
+                    }
+                }
+                finally
+                {
+                    _suspendSync = false;
                 }
                 return;
             }
@@ -357,13 +366,22 @@ public class KryptonBackstageView : KryptonPanel
         {
             // Execute the command
             command.PerformClick();
-            // Save the current page before clearing selection (ClearSelected may trigger re-entrant call)
+            // Save the current page before clearing selection
             var previousPage = _selectedPage;
-            // Clear selection after command execution
-            _navigationList.ClearSelected();
-            if (previousPage != null)
+            // Suspend sync to prevent re-entrant calls that cause flickering
+            _suspendSync = true;
+            try
             {
-                _navigationList.SelectedItem = previousPage;
+                // Clear selection after command execution
+                _navigationList.ClearSelected();
+                if (previousPage != null)
+                {
+                    _navigationList.SelectedItem = previousPage;
+                }
+            }
+            finally
+            {
+                _suspendSync = false;
             }
             return;
         }
