@@ -97,6 +97,8 @@ public class KryptonRibbon : VisualSimple,
     private PaletteBackStyle _backInactiveStyle;
     private KryptonRibbonTab? _minSelectedTab;
     private KryptonRibbonTab? _selectedTab;
+    private VisualBackstageOverlayForm? _backstageOverlay;
+    private KryptonRibbonTab? _backstageRestoreTab;
     #endregion
 
     #region Events
@@ -141,6 +143,34 @@ public class KryptonRibbon : VisualSimple,
     [Category(@"Ribbon")]
     [Description(@"Occurs when the application button menu has been closed.")]
     public event ToolStripDropDownClosedEventHandler? AppButtonMenuClosed;
+
+    /// <summary>
+    /// Occurs when the backstage view is opening.
+    /// </summary>
+    [Category(@"Ribbon")]
+    [Description(@"Occurs when backstage view is opening but not displayed as yet.")]
+    public event CancelEventHandler? BackstageOpening;
+
+    /// <summary>
+    /// Occurs when the backstage view is opened.
+    /// </summary>
+    [Category(@"Ribbon")]
+    [Description(@"Occurs when backstage view is fully opened for display.")]
+    public event EventHandler? BackstageOpened;
+
+    /// <summary>
+    /// Occurs when the backstage view is about to close.
+    /// </summary>
+    [Category(@"Ribbon")]
+    [Description(@"Occurs when backstage view is about to close.")]
+    public event CancelEventHandler? BackstageClosing;
+
+    /// <summary>
+    /// Occurs when the backstage view has been closed.
+    /// </summary>
+    [Category(@"Ribbon")]
+    [Description(@"Occurs when backstage view has been closed.")]
+    public event EventHandler? BackstageClosed;
 
     /// <summary>
     /// Occurs when the ribbon context menu is about to be shown.
@@ -237,6 +267,18 @@ public class KryptonRibbon : VisualSimple,
             {
                 tab.Dispose();
             }
+
+            // Ensure any backstage overlay is dismissed
+            if (_backstageOverlay != null)
+            {
+                _backstageOverlay.BackRequested -= OnBackstageBackRequested;
+                _backstageOverlay.Disposed -= OnBackstageOverlayDisposed;
+                _backstageOverlay.Close();
+                _backstageOverlay.Dispose();
+                _backstageOverlay = null;
+            }
+
+            _backstageRestoreTab = null;
 
             ResumeLayout();
         }
@@ -962,7 +1004,7 @@ public class KryptonRibbon : VisualSimple,
     /// Internal design time method.
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public new bool InDesignMode => 
+    public new bool InDesignMode =>
         // Removed warning CS0108: "IndesignMode hides inherited member VisualControl.InDesignMode".
         // By marking the property as new.
         DesignMode;
@@ -1115,7 +1157,7 @@ public class KryptonRibbon : VisualSimple,
                     {
                         // Only interested is the owning form is usable and has the focus
                         if (TabsArea is not null
-                            && FindForm() is Form ownerForm 
+                            && FindForm() is Form ownerForm
                             && ownerForm is { Visible: true, Enabled: true, ContainsFocus: true })
                         {
                             // Extract the x and y mouse position from message
@@ -1481,10 +1523,10 @@ public class KryptonRibbon : VisualSimple,
 
         // Check each quick access toolbar button
         foreach (IQuickAccessToolbarButton qatButton in from IQuickAccessToolbarButton qatButton in QATButtons
-                 where qatButton.GetVisible() && qatButton.GetEnabled()
-                 let shortcut = qatButton.GetShortcutKeys()
-                 where (shortcut != Keys.None) && (shortcut == keyData)
-                 select qatButton)
+                                                        where qatButton.GetVisible() && qatButton.GetEnabled()
+                                                        let shortcut = qatButton.GetShortcutKeys()
+                                                        where (shortcut != Keys.None) && (shortcut == keyData)
+                                                        select qatButton)
         {
             // Click the button and finish processing
             qatButton.PerformClick();
@@ -1696,7 +1738,7 @@ public class KryptonRibbon : VisualSimple,
     {
         // Request item processing from the focus lost helper
         FocusLostMenuHelper.ProcessItems();
-        
+
         // Need to recalculate anything relying on the palette
         DirtyPaletteCounter++;
 
@@ -1746,6 +1788,30 @@ public class KryptonRibbon : VisualSimple,
     protected internal virtual void OnAppButtonMenuClosed(ToolStripDropDownClosedEventArgs e) => AppButtonMenuClosed?.Invoke(this, e);
 
     /// <summary>
+    /// Raises the BackstageOpening event.
+    /// </summary>
+    /// <param name="e">An CancelEventArgs containing the event data.</param>
+    protected internal virtual void OnBackstageOpening(CancelEventArgs e) => BackstageOpening?.Invoke(this, e);
+
+    /// <summary>
+    /// Raises the BackstageOpened event.
+    /// </summary>
+    /// <param name="e">An EventArgs containing event data.</param>
+    protected internal virtual void OnBackstageOpened(EventArgs e) => BackstageOpened?.Invoke(this, e);
+
+    /// <summary>
+    /// Raises the BackstageClosing event.
+    /// </summary>
+    /// <param name="e">An CancelEventArgs containing the event data.</param>
+    protected internal virtual void OnBackstageClosing(CancelEventArgs e) => BackstageClosing?.Invoke(this, e);
+
+    /// <summary>
+    /// Raises the BackstageClosed event.
+    /// </summary>
+    /// <param name="e">An EventArgs containing event data.</param>
+    protected internal virtual void OnBackstageClosed(EventArgs e) => BackstageClosed?.Invoke(this, e);
+
+    /// <summary>
     /// Raises the MinimizedModeChanged event.
     /// </summary>
     /// <param name="e">An EventArgs containing event data.</param>
@@ -1760,6 +1826,125 @@ public class KryptonRibbon : VisualSimple,
     internal void OnDesignTimeAddTab() => DesignTimeAddTab?.Invoke(this, EventArgs.Empty);
 
     internal bool RealMinimizedMode => MinimizedMode && !InDesignMode;
+
+    internal bool BackstageVisible => _backstageOverlay != null;
+
+    internal bool TryToggleBackstageView()
+    {
+        if (RibbonShape == PaletteRibbonShape.Office2007)
+        {
+            return false;
+        }
+
+        if (!RibbonFileAppTab.UseBackstageView)
+        {
+            return false;
+        }
+
+        if (RibbonFileAppTab.BackstageContent is null)
+        {
+            return false;
+        }
+
+        if (_backstageOverlay != null)
+        {
+            return CloseBackstageView();
+        }
+
+        // Give event handler a chance to cancel the open request
+        var cea = new CancelEventArgs();
+        OnBackstageOpening(cea);
+
+        if (cea.Cancel)
+        {
+            return false;
+        }
+
+        Form? topForm = FindForm();
+        if (topForm is null)
+        {
+            return false;
+        }
+
+        // Close any existing app menu popup before showing backstage
+        TabsArea?.DismissAppButtonMenu();
+
+        // Remove any minimized popup window from display
+        if (RealMinimizedMode)
+        {
+            KillMinimizedPopup();
+        }
+
+        // Remember the currently selected tab so we can restore it on close
+        _backstageRestoreTab = SelectedTab;
+
+        // Get overlay mode from BackstageView if available
+        BackstageOverlayMode overlayMode = BackstageOverlayMode.FullClient;
+        if (RibbonFileAppTab.BackstageView != null)
+        {
+            overlayMode = RibbonFileAppTab.BackstageView.OverlayMode;
+        }
+
+        _backstageOverlay = new VisualBackstageOverlayForm(topForm, overlayMode, this);
+        _backstageOverlay.SetContent(RibbonFileAppTab.BackstageContent);
+        _backstageOverlay.BackRequested += OnBackstageBackRequested;
+        _backstageOverlay.Disposed += OnBackstageOverlayDisposed;
+        _backstageOverlay.UpdateOwnerBounds();
+
+        // Indicate the backstage view is fully constructed and displayed
+        OnBackstageOpened(EventArgs.Empty);
+
+        return true;
+    }
+
+    public bool CloseBackstageView()
+    {
+        if (_backstageOverlay is null)
+        {
+            return false;
+        }
+
+        // Give event handler a chance to cancel the close request
+        var cea = new CancelEventArgs();
+        OnBackstageClosing(cea);
+
+        if (cea.Cancel)
+        {
+            return false;
+        }
+
+        // Close triggers disposal and centralized cleanup
+        _backstageOverlay.Close();
+        return true;
+    }
+
+    private void OnBackstageBackRequested(object? sender, EventArgs e) => CloseBackstageView();
+
+    private void OnBackstageOverlayDisposed(object? sender, EventArgs e)
+    {
+        if (_backstageOverlay != null)
+        {
+            _backstageOverlay.BackRequested -= OnBackstageBackRequested;
+            _backstageOverlay.Disposed -= OnBackstageOverlayDisposed;
+            _backstageOverlay = null;
+        }
+
+        // Remove the fixed 'pressed' state from the application tab
+        TabsArea?.RemoveFixedAppTab();
+
+        // We always kill keyboard mode when backstage is removed
+        KillKeyboardMode();
+
+        // Restore previous selected tab if possible
+        if (_backstageRestoreTab != null && _backstageRestoreTab != SelectedTab)
+        {
+            SelectedTab = _backstageRestoreTab;
+        }
+
+        _backstageRestoreTab = null;
+
+        OnBackstageClosed(EventArgs.Empty);
+    }
 
     internal ViewRibbonManager? ViewRibbonManager => ViewManager as ViewRibbonManager;
 
@@ -2577,7 +2762,7 @@ public class KryptonRibbon : VisualSimple,
         MinimizedMode = false;
         ScrollerStyle = ButtonStyle.Standalone;
         ShowMinimizeButton = true;
-		ScrollTabGroupArea = true;
+        ScrollTabGroupArea = true;
         QATLocation = QATLocation.Above;
         QATUserChange = true;
         LostFocusLosesKeyboard = true;
@@ -3253,3 +3438,4 @@ public class KryptonRibbon : VisualSimple,
     }
     #endregion
 }
+
