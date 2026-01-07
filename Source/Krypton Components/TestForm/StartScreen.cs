@@ -56,6 +56,7 @@ public partial class StartScreen : KryptonForm
     private void AddButtons()
     {
         CreateButton("AboutBox", "Try this About Box for a change", typeof(AboutBoxTest));
+        CreateButton("Badge Test", "Comprehensive badge functionality demonstration for KryptonButton and KryptonCheckButton.", typeof(ButtonBadgeTest));
         CreateButton("Buttons Test", "All the buttons you want to test.", typeof(ButtonsTest));
         CreateButton("BugReportingTool", "Easily report bugs with this tool.", typeof(BugReportingDialogTest));
         CreateButton("CommandLink Buttons", "No comment", typeof(CommandLinkButtons));
