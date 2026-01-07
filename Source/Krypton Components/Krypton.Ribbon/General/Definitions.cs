@@ -514,6 +514,31 @@ public enum BackstageOverlayMode
 
 #endregion
 
+#region Enum RibbonNotificationBarType
+
+/// <summary>
+/// Specifies the type of notification bar.
+/// </summary>
+public enum RibbonNotificationBarType
+{
+    /// <summary>Information notification (blue).</summary>
+    Information,
+
+    /// <summary>Warning notification (yellow/orange).</summary>
+    Warning,
+
+    /// <summary>Error notification (red).</summary>
+    Error,
+
+    /// <summary>Success notification (green).</summary>
+    Success,
+
+    /// <summary>Custom notification (uses custom colors).</summary>
+    Custom
+}
+
+#endregion
+
 #region Delegates
 /// <summary>
 /// Signature of a click event that expects the provided finish delegate to be called when associated actions are completed.
