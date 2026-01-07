@@ -141,7 +141,7 @@ public partial class TouchscreenHighDpiDemo : KryptonForm
 
         // Workspace example - Create cells with pages
         var cell1 = new KryptonWorkspaceCell();
-        var page1 = new KryptonPage { Text = "Workspace Cell 1", TextTitle = "Cell 1" };
+        var workspacePage1 = new KryptonPage { Text = "Workspace Cell 1", TextTitle = "Cell 1" };
         var label1w = new KryptonLabel
         {
             Text = "Workspace Cell 1 - Workspace cells and their tabs scale with touchscreen support on high DPI",
@@ -149,12 +149,12 @@ public partial class TouchscreenHighDpiDemo : KryptonForm
         };
         label1w.StateCommon.ShortText.TextH = PaletteRelativeAlign.Center;
         label1w.StateCommon.ShortText.TextV = PaletteRelativeAlign.Center;
-        page1.Controls.Add(label1w);
-        cell1.Pages.Add(page1);
-        cell1.SelectedPage = page1;
+        workspacePage1.Controls.Add(label1w);
+        cell1.Pages.Add(workspacePage1);
+        cell1.SelectedPage = workspacePage1;
 
         var cell2 = new KryptonWorkspaceCell();
-        var page2 = new KryptonPage { Text = "Workspace Cell 2", TextTitle = "Cell 2" };
+        var workspacePage2 = new KryptonPage { Text = "Workspace Cell 2", TextTitle = "Cell 2" };
         var label2w = new KryptonLabel
         {
             Text = "Workspace Cell 2 - Navigator, Ribbon, Workspace, and Docking all support touchscreen scaling with per-monitor DPI",
@@ -162,9 +162,9 @@ public partial class TouchscreenHighDpiDemo : KryptonForm
         };
         label2w.StateCommon.ShortText.TextH = PaletteRelativeAlign.Center;
         label2w.StateCommon.ShortText.TextV = PaletteRelativeAlign.Center;
-        page2.Controls.Add(label2w);
-        cell2.Pages.Add(page2);
-        cell2.SelectedPage = page2;
+        workspacePage2.Controls.Add(label2w);
+        cell2.Pages.Add(workspacePage2);
+        cell2.SelectedPage = workspacePage2;
 
         workspace.Root.Children.Add(cell1);
         workspace.Root.Children.Add(cell2);
