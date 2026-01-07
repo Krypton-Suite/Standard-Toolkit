@@ -128,6 +128,7 @@ internal class ViewDrawRibbonNotificationBar : ViewComposite
     private readonly int _iconSize;
     private readonly int _closeButtonSize;
     private readonly int _buttonSpacing;
+    private readonly int _horizontalPadding;
     private KryptonRibbonNotificationBarData? _notificationData;
     private readonly List<ButtonViewInfo> _buttonViews;
     private IDisposable? _mementoBack;
@@ -169,6 +170,7 @@ internal class ViewDrawRibbonNotificationBar : ViewComposite
         _closeButtonSize = (int)(20 * FactorDpiX);
         _buttonSpacing = (int)(8 * FactorDpiX);
         _buttonVerticalPadding = (int)(4 * FactorDpiY);
+        _horizontalPadding = (int)(12 * FactorDpiX);
         _buttonViews = new List<ButtonViewInfo>();
 
         // Create button palettes
@@ -382,6 +384,9 @@ internal class ViewDrawRibbonNotificationBar : ViewComposite
         // Clear existing children
         _layoutDocker.Clear();
 
+        // Add left padding
+        _layoutDocker.Add(new ViewLayoutSeparator(_horizontalPadding), ViewDockStyle.Left);
+
         // Create fresh icon view if needed
         if (_notificationData.ShowIcon && _notificationData.Icon != null)
         {
@@ -393,6 +398,8 @@ internal class ViewDrawRibbonNotificationBar : ViewComposite
             {
                 _layoutDocker.Add(_iconContent, ViewDockStyle.Left);
             }
+            // Add spacing after icon
+            _layoutDocker.Add(new ViewLayoutSeparator(_buttonSpacing), ViewDockStyle.Left);
         }
 
         // Create fresh text view with left-aligned palette
@@ -502,6 +509,8 @@ internal class ViewDrawRibbonNotificationBar : ViewComposite
             if (_buttonContainer.Parent == null)
             {
                 _layoutDocker.Add(_buttonContainer, ViewDockStyle.Right);
+                // Add right padding after buttons
+                _layoutDocker.Add(new ViewLayoutSeparator(_horizontalPadding), ViewDockStyle.Right);
             }
         }
         else if (_buttonContainer != null && _buttonContainer.Parent != null)
