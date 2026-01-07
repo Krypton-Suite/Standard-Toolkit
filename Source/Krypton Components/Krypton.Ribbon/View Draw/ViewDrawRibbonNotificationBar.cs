@@ -198,6 +198,9 @@ internal class ViewDrawRibbonNotificationBar : ViewComposite
         _horizontalPadding = (int)(12 * FactorDpiX);
         _buttonViews = new List<ButtonViewInfo>();
 
+        // Set owning control for proper mouse event routing
+        OwningControl = _ribbon;
+
         // Create button palettes
         var redirector = _ribbon.GetRedirector();
         _buttonPalette = new PaletteTripleRedirect(redirector,
@@ -608,7 +611,8 @@ internal class ViewDrawRibbonNotificationBar : ViewComposite
         {
             TestForFocusCues = false,
             Enabled = true,
-            Visible = true
+            Visible = true,
+            OwningControl = _ribbon  // Set owning control for mouse event routing
         };
 
         // Create button controller
@@ -732,9 +736,74 @@ internal class ViewDrawRibbonNotificationBar : ViewComposite
             var buttonInfo = _buttonViews.FirstOrDefault(bv => bv.Controller == controller);
             if (buttonInfo != null)
             {
-                ButtonClick?.Invoke(this, new RibbonNotificationBarEventArgs(buttonInfo.IsCloseButton ? -1 : buttonInfo.Index));
+                HandleButtonClick(buttonInfo);
             }
         }
+    }
+
+    private void HandleButtonClick(ButtonViewInfo buttonInfo)
+    {
+        // If close button, hide notification bar immediately
+        if (buttonInfo.IsCloseButton)
+        {
+            if (_notificationData != null)
+            {
+                _notificationData.Visible = false;
+            }
+        }
+        
+        // Always raise the event for external handlers
+        ButtonClick?.Invoke(this, new RibbonNotificationBarEventArgs(buttonInfo.IsCloseButton ? -1 : buttonInfo.Index));
+    }
+
+    /// <summary>
+    /// Handle mouse down events to detect button clicks.
+    /// </summary>
+    public override bool MouseDown(Point pt, MouseButtons button)
+    {
+        // Check if click is within any button's bounds
+        if (button == MouseButtons.Left)
+        {
+            // Convert point to button's coordinate space
+            foreach (var buttonInfo in _buttonViews)
+            {
+                var buttonView = buttonInfo.ButtonView;
+                var buttonRect = buttonView.ClientRectangle;
+                
+                // Check if point is within button bounds (point is relative to notification bar)
+                // Need to find button's position relative to notification bar
+                var buttonLocation = GetButtonLocation(buttonView);
+                var buttonBounds = new Rectangle(buttonLocation, buttonRect.Size);
+                
+                if (buttonBounds.Contains(pt))
+                {
+                    // Found a button click - handle it
+                    HandleButtonClick(buttonInfo);
+                    return true; // Indicate we handled the click
+                }
+            }
+        }
+        
+        // Let base handle if not a button click
+        return base.MouseDown(pt, button);
+    }
+
+    /// <summary>
+    /// Get the location of a button view relative to the notification bar.
+    /// </summary>
+    private Point GetButtonLocation(ViewBase buttonView)
+    {
+        Point location = Point.Empty;
+        ViewBase? current = buttonView;
+        
+        // Walk up the parent chain to accumulate offsets
+        while (current != null && current != this)
+        {
+            location.Offset(current.ClientLocation);
+            current = current.Parent;
+        }
+        
+        return location;
     }
     #endregion
 
