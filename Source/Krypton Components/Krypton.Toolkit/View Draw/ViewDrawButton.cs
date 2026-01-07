@@ -34,6 +34,7 @@ public class ViewDrawButton : ViewComposite, IRippleHost
     private readonly ViewDrawDropDownButton _drawDropDownButton;
     private VisualOrientation _dropDownPosition;
     private readonly ViewLayoutSeparator _drawOuterSeparator;
+    private ViewDrawBadge? _drawBadge;
     private Rectangle _splitRectangle;
     private Rectangle _nonSplitRectangle;
     private bool _dropDown;
@@ -320,6 +321,7 @@ public class ViewDrawButton : ViewComposite, IRippleHost
             _drawContent.Enabled = value;
             _drawSplitBorder.Enabled = value;
             _drawDropDownButton.Enabled = value;
+            _drawBadge?.Enabled = value;
         }
     }
     #endregion
@@ -438,6 +440,28 @@ public class ViewDrawButton : ViewComposite, IRippleHost
     }
     #endregion
 
+    #region Badge
+
+    /// <summary>
+    /// Sets the badge values for the button.
+    /// </summary>
+    /// <param name="badgeValues">Source for badge values.</param>
+    /// <param name="control">Control instance for DPI awareness.</param>
+    public void SetBadgeValues([DisallowNull] BadgeValues badgeValues, [DisallowNull] Control control)
+    {
+        Debug.Assert(badgeValues != null);
+        Debug.Assert(control != null);
+
+        // Create badge if it doesn't exist
+        if (_drawBadge == null)
+        {
+            _drawBadge = new ViewDrawBadge(badgeValues!, control!);
+            Add(_drawBadge);
+        }
+    }
+
+    #endregion
+
     #region Eval
     /// <summary>
     /// Evaluate the need for drawing transparent areas.
@@ -546,6 +570,17 @@ public class ViewDrawButton : ViewComposite, IRippleHost
         // Update canvas with the rectangle to use for drawing the split area and the non-split area
         _drawCanvas.SplitRectangle = _splitRectangle;
         _drawCanvas.NonSplitRectangle = _nonSplitRectangle;
+
+        // Layout the badge if it exists
+        if (_drawBadge != null)
+        {
+            // Layout the badge using our client rectangle
+            using var badgeContext = new ViewLayoutContext(context.Control!, context.Renderer!)
+            {
+                DisplayRectangle = ClientRectangle
+            };
+            _drawBadge.Layout(badgeContext);
+        }
     }
     #endregion
 
