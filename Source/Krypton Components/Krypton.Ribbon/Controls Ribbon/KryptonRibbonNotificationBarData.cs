@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -26,6 +26,7 @@ public class KryptonRibbonNotificationBarData : INotifyPropertyChanged
     private bool _showActionButtons;
     private string[] _actionButtonTexts;
     private Image[]? _actionButtonImages;
+    private IKryptonCommand[]? _actionButtonCommands;
     private Color _customBackColor;
     private Color _customForeColor;
     private Color _customBorderColor;
@@ -261,6 +262,26 @@ public class KryptonRibbonNotificationBarData : INotifyPropertyChanged
             if (_actionButtonImages != value)
             {
                 _actionButtonImages = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the array of KryptonCommand objects for action buttons.
+    /// If provided, these will be used instead of ActionButtonTexts.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"The array of KryptonCommand objects for action buttons. If provided, these will be used instead of ActionButtonTexts.")]
+    [DefaultValue(null)]
+    public IKryptonCommand[]? ActionButtonCommands
+    {
+        get => _actionButtonCommands;
+        set
+        {
+            if (_actionButtonCommands != value)
+            {
+                _actionButtonCommands = value;
                 OnPropertyChanged();
             }
         }

@@ -8,6 +8,7 @@
 #endregion
 
 using Krypton.Ribbon;
+using Krypton.Toolkit;
 
 namespace TestForm;
 
@@ -89,15 +90,7 @@ public partial class RibbonNotificationBarDemo : KryptonForm
     {
         // Information notification examples
         btnInfoBasic.Click += (s, e) => ShowInformationNotification();
-        btnInfoWithTitle.Click += (s, e) =>
-        {
-            kryptonRibbon.NotificationBar.Type = RibbonNotificationBarType.Information;
-            kryptonRibbon.NotificationBar.Title = "NEW FEATURES";
-            kryptonRibbon.NotificationBar.Text = "Check out the latest features in this update!";
-            kryptonRibbon.NotificationBar.ActionButtonTexts = new[] { "Learn more", "Dismiss" };
-            kryptonRibbon.NotificationBar.Icon = SystemIcons.Information.ToBitmap();
-            kryptonRibbon.NotificationBar.Visible = true;
-        };
+        btnInfoWithTitle.Click += (s, e) => ShowInformationWithCommands();
 
         // Warning notification examples
         btnWarningOfficeStyle.Click += (s, e) => ShowWarningNotification();
@@ -112,13 +105,7 @@ public partial class RibbonNotificationBarDemo : KryptonForm
 
         // Error notification examples
         btnErrorBasic.Click += (s, e) => ShowErrorNotification();
-        btnErrorMultipleActions.Click += (s, e) =>
-        {
-            kryptonRibbon.NotificationBar.Type = RibbonNotificationBarType.Error;
-            kryptonRibbon.NotificationBar.Text = "Failed to save document. What would you like to do?";
-            kryptonRibbon.NotificationBar.ActionButtonTexts = new[] { "Retry", "Save As", "Discard" };
-            kryptonRibbon.NotificationBar.Visible = true;
-        };
+        btnErrorMultipleActions.Click += (s, e) => ShowErrorWithCommands();
 
         // Success notification examples
         btnSuccessBasic.Click += (s, e) => ShowSuccessNotification();
@@ -171,6 +158,41 @@ public partial class RibbonNotificationBarDemo : KryptonForm
         kryptonRibbon.NotificationBar.Visible = true;
     }
 
+    private void ShowInformationWithCommands()
+    {
+        // Create KryptonCommand objects for action buttons
+        var learnMoreCommand = new KryptonCommand
+        {
+            Text = "Learn more",
+            ImageSmall = SystemIcons.Question.ToBitmap()
+        };
+        learnMoreCommand.Execute += (s, e) =>
+        {
+            MessageBox.Show("Learn more clicked! This demonstrates KryptonCommand.Execute event.", 
+                "KryptonCommand Demo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        };
+
+        var dismissCommand = new KryptonCommand
+        {
+            Text = "Dismiss",
+            ImageSmall = SystemIcons.Application.ToBitmap()
+        };
+        dismissCommand.Execute += (s, e) =>
+        {
+            kryptonRibbon.NotificationBar.Visible = false;
+            MessageBox.Show("Dismiss clicked! Notification hidden via KryptonCommand.Execute event.", 
+                "KryptonCommand Demo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        };
+
+        // Use KryptonCommand array instead of ActionButtonTexts
+        kryptonRibbon.NotificationBar.Type = RibbonNotificationBarType.Information;
+        kryptonRibbon.NotificationBar.Title = "NEW FEATURES";
+        kryptonRibbon.NotificationBar.Text = "Check out the latest features in this update! This example uses KryptonCommand objects for buttons.";
+        kryptonRibbon.NotificationBar.ActionButtonCommands = new[] { learnMoreCommand, dismissCommand };
+        kryptonRibbon.NotificationBar.Icon = SystemIcons.Information.ToBitmap();
+        kryptonRibbon.NotificationBar.Visible = true;
+    }
+
     private void ShowWarningNotification()
     {
         kryptonRibbon.NotificationBar.Type = RibbonNotificationBarType.Warning;
@@ -186,6 +208,56 @@ public partial class RibbonNotificationBarDemo : KryptonForm
         kryptonRibbon.NotificationBar.Type = RibbonNotificationBarType.Error;
         kryptonRibbon.NotificationBar.Text = "An error occurred while saving the document. Please try again.";
         kryptonRibbon.NotificationBar.ActionButtonTexts = new[] { "Retry", "Cancel" };
+        kryptonRibbon.NotificationBar.Icon = SystemIcons.Error.ToBitmap();
+        kryptonRibbon.NotificationBar.Visible = true;
+    }
+
+    private void ShowErrorWithCommands()
+    {
+        // Create KryptonCommand objects with different enabled states
+        var retryCommand = new KryptonCommand
+        {
+            Text = "Retry",
+            ImageSmall = SystemIcons.Shield.ToBitmap(),
+            Enabled = true
+        };
+        retryCommand.Execute += (s, e) =>
+        {
+            MessageBox.Show("Retry clicked! Attempting to save again...", 
+                "KryptonCommand Demo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        };
+
+        var saveAsCommand = new KryptonCommand
+        {
+            Text = "Save As",
+            ImageSmall = SystemIcons.Application.ToBitmap(),
+            Enabled = true
+        };
+        saveAsCommand.Execute += (s, e) =>
+        {
+            MessageBox.Show("Save As clicked! Opening save dialog...", 
+                "KryptonCommand Demo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        };
+
+        var discardCommand = new KryptonCommand
+        {
+            Text = "Discard",
+            ImageSmall = SystemIcons.Error.ToBitmap(),
+            Enabled = true
+        };
+        discardCommand.Execute += (s, e) =>
+        {
+            var result = MessageBox.Show("Are you sure you want to discard changes?", 
+                "Confirm Discard", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (result == DialogResult.Yes)
+            {
+                kryptonRibbon.NotificationBar.Visible = false;
+            }
+        };
+
+        kryptonRibbon.NotificationBar.Type = RibbonNotificationBarType.Error;
+        kryptonRibbon.NotificationBar.Text = "Failed to save document. What would you like to do? (Using KryptonCommand)";
+        kryptonRibbon.NotificationBar.ActionButtonCommands = new[] { retryCommand, saveAsCommand, discardCommand };
         kryptonRibbon.NotificationBar.Icon = SystemIcons.Error.ToBitmap();
         kryptonRibbon.NotificationBar.Visible = true;
     }
@@ -336,8 +408,21 @@ public partial class RibbonNotificationBarDemo : KryptonForm
         }
         else
         {
-            string buttonText = kryptonRibbon.NotificationBar.ActionButtonTexts?[e.ActionButtonIndex] ?? "Unknown";
-            message = $"Action button '{buttonText}' (index {e.ActionButtonIndex}) was clicked.";
+            // Check if using KryptonCommand or ActionButtonTexts
+            string buttonText;
+            if (kryptonRibbon.NotificationBar.ActionButtonCommands != null && 
+                e.ActionButtonIndex < kryptonRibbon.NotificationBar.ActionButtonCommands.Length)
+            {
+                var command = kryptonRibbon.NotificationBar.ActionButtonCommands[e.ActionButtonIndex];
+                buttonText = command?.Text ?? "Unknown";
+                message = $"Action button '{buttonText}' (index {e.ActionButtonIndex}) was clicked via NotificationBarButtonClick event. " +
+                         $"Note: KryptonCommand.Execute event also fires.";
+            }
+            else
+            {
+                buttonText = kryptonRibbon.NotificationBar.ActionButtonTexts?[e.ActionButtonIndex] ?? "Unknown";
+                message = $"Action button '{buttonText}' (index {e.ActionButtonIndex}) was clicked.";
+            }
 
             // Handle queue navigation
             if (kryptonRibbon.Tag is Queue<string> queue)
