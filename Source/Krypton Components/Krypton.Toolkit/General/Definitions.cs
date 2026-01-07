@@ -1080,6 +1080,109 @@ public enum ButtonCheckState
 }
 #endregion
 
+#region Enum BadgePosition
+
+/// <summary>
+/// Specifies the position of a badge on a button.
+/// </summary>
+public enum BadgePosition
+{
+    /// <summary>
+    /// Specifies the badge is positioned in the top-right corner.
+    /// </summary>
+    TopRight,
+
+    /// <summary>
+    /// Specifies the badge is positioned in the top-left corner.
+    /// </summary>
+    TopLeft,
+
+    /// <summary>
+    /// Specifies the badge is positioned in the bottom-right corner.
+    /// </summary>
+    BottomRight,
+
+    /// <summary>
+    /// Specifies the badge is positioned in the bottom-left corner.
+    /// </summary>
+    BottomLeft
+}
+
+#endregion
+
+#region Enum BadgeShape
+
+/// <summary>
+/// Specifies the shape of a badge.
+/// </summary>
+public enum BadgeShape
+{
+    /// <summary>
+    /// Specifies a circular badge.
+    /// </summary>
+    Circle,
+
+    /// <summary>
+    /// Specifies a square badge.
+    /// </summary>
+    Square,
+
+    /// <summary>
+    /// Specifies a rounded rectangle badge.
+    /// </summary>
+    RoundedRectangle
+}
+
+#endregion
+
+#region Enum BadgeAnimation
+
+/// <summary>
+/// Specifies the animation type for a badge.
+/// </summary>
+public enum BadgeAnimation
+{
+    /// <summary>
+    /// No animation.
+    /// </summary>
+    None,
+
+    /// <summary>
+    /// Fade in and out animation.
+    /// </summary>
+    FadeInOut,
+
+    /// <summary>
+    /// Pulsing animation (scale and opacity).
+    /// </summary>
+    Pulse
+}
+
+#endregion
+
+#region Enum BadgeBevelType
+/// <summary>
+/// Specifies the type of bevel effect for badge borders.
+/// </summary>
+public enum BadgeBevelType
+{
+    /// <summary>
+    /// No bevel effect.
+    /// </summary>
+    None,
+
+    /// <summary>
+    /// Raised bevel effect (light top/left edges, dark bottom/right edges).
+    /// </summary>
+    Raised,
+
+    /// <summary>
+    /// Inset/embedded bevel effect (dark top/left edges, light bottom/right edges).
+    /// </summary>
+    Inset
+}
+#endregion
+
 #region Enum RelativeEdgeAlign
 /// <summary>
 /// Specifies a relative edge alignment position.
