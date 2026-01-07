@@ -474,6 +474,46 @@ public enum RibbonItemAlignment
 }
 #endregion
 
+#region Enum BackstageItemSize
+
+/// <summary>
+/// Specifies the size of a navigation item in the Backstage View.
+/// </summary>
+public enum BackstageItemSize
+{
+    /// <summary>
+    /// Small item size (default, compact display).
+    /// </summary>
+    Small = 0,
+
+    /// <summary>
+    /// Large item size (Office-like, more prominent display with larger image area).
+    /// </summary>
+    Large = 1
+}
+
+#endregion
+
+#region Enum BackstageOverlayMode
+
+/// <summary>
+/// Specifies the overlay coverage mode for the Backstage View.
+/// </summary>
+public enum BackstageOverlayMode
+{
+    /// <summary>
+    /// Overlay covers the entire form client area (default).
+    /// </summary>
+    FullClient = 0,
+
+    /// <summary>
+    /// Overlay covers only the area below the ribbon.
+    /// </summary>
+    BelowRibbon = 1
+}
+
+#endregion
+
 #region Delegates
 /// <summary>
 /// Signature of a click event that expects the provided finish delegate to be called when associated actions are completed.

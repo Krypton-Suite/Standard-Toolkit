@@ -8,6 +8,7 @@
 #endregion
 
 global using System;
+global using System.Collections.Concurrent;
 global using System.ComponentModel;
 global using System.Diagnostics;
 global using System.Diagnostics.CodeAnalysis;
@@ -15,4 +16,7 @@ global using System.Drawing;
 global using System.Windows.Forms;
 global using System.Windows.Forms.Design;
 
+global using Krypton.Navigator;
+global using Krypton.Ribbon;
 global using Krypton.Toolkit;
+global using Krypton.Workspace;
