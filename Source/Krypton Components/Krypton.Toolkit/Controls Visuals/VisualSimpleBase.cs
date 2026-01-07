@@ -80,13 +80,16 @@ public abstract class VisualSimpleBase : VisualControlBase
             // Ask the view to perform a layout
             Size retSize = ViewManager.GetPreferredSize(Renderer, layoutProposedSize);
 
+#if NETFRAMEWORK
             // Add padding to ensure consistent behavior between .NET Framework and .NET
             // In .NET Framework, Control.GetPreferredSize() didn't include Padding,
             // but in .NET it does, so we need to add it explicitly here for consistency.
             // Note: proposedSize represents available space, not current control size,
             // so we always add padding to the content size to get the total required size.
             retSize.Width += Padding.Horizontal;
+
             retSize.Height += Padding.Vertical;
+#endif
 
             // For AutoSize with GrowAndShrink, ensure we never return a size smaller than what
             // the base class would return, to prevent incorrect shrinking behavior.
