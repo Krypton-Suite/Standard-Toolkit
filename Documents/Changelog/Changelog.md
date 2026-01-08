@@ -5,6 +5,7 @@
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
 * Implemented [#2795](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2795), `KryptonFileSystemWatcher` - Part of #2658
+* Resolved [#1809](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1809), Dragging a dock cell appears to lag
 * Implemented [#2783](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2783), Add Badge Support for KryptonButton and KryptonCheckButton (Notification Indicator)
 * Implemented [#2510](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2510), Backstage view
 * Implemented [#2156](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2156), Native support for Font Awesome
