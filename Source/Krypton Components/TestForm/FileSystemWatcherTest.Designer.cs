@@ -1,4 +1,4 @@
-﻿namespace TestForm
+namespace TestForm
 {
     partial class FileSystemWatcherTest
     {
@@ -48,10 +48,10 @@
             this.klblWatchPath = new Krypton.Toolkit.KryptonLabel();
             this.kpgbStatus = new Krypton.Toolkit.KryptonGroupBox();
             this.kpnlStatus = new Krypton.Toolkit.KryptonPanel();
-            this.klblBufferSize = new Krypton.Toolkit.KryptonLabel();
+            this.klblBufferSizeStatus = new Krypton.Toolkit.KryptonLabel();
             this.klblIncludeSubdirs = new Krypton.Toolkit.KryptonLabel();
-            this.klblNotifyFilter = new Krypton.Toolkit.KryptonLabel();
-            this.klblFilter = new Krypton.Toolkit.KryptonLabel();
+            this.klblNotifyFilterStatus = new Krypton.Toolkit.KryptonLabel();
+            this.klblFilterStatus = new Krypton.Toolkit.KryptonLabel();
             this.klblPath = new Krypton.Toolkit.KryptonLabel();
             this.klblStatus = new Krypton.Toolkit.KryptonLabel();
             this.kpgbControls = new Krypton.Toolkit.KryptonGroupBox();
