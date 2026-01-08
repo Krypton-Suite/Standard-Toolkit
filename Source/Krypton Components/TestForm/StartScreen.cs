@@ -65,6 +65,7 @@ public partial class StartScreen : KryptonForm
         CreateButton("Docking Config Save/Load Test", "Test SaveConfigToArray and LoadConfigFromArray", typeof(DockingConfigSaveLoadTest));
         CreateButton("Font Awesome Test", string.Empty, typeof(FontAwesomeTest));
         CreateButton("Floating Window Test", "Comprehensive test for floating window bug fix (Issue #2721)", typeof(FloatingWindowTest));
+        CreateButton("FlowLayoutPanel", "Test KryptonFlowLayoutPanel with dynamic control layout and flow directions.", typeof(FlowLayoutPanelTest));
         CreateButton("ErrorProvider", string.Empty, typeof(ErrorProviderTest));
         CreateButton("FormBorder Test", string.Empty, typeof(FormBorderTest));
         CreateButton("Header Examples", string.Empty, typeof(HeaderExamples));
