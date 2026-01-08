@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -26,7 +26,7 @@ public class KryptonCountdownButton : KryptonButton
 
     private volatile int _countdownSeconds;
     private readonly Timer _countdownTimer;
-    private volatile string _originalText;
+    private volatile string? _originalText;
     private readonly CountdownButtonValues _countdownButtonValues;
 
     #endregion
@@ -107,7 +107,14 @@ public class KryptonCountdownButton : KryptonButton
         }
 
         _countdownSeconds = _countdownButtonValues.CountdownDuration;
-        _originalText = Text;
+        
+        // Only capture the original text if it's not already set, to avoid duplicating
+        // countdown formatting if StartCountdown() is called when Text already contains formatted countdown
+        if (string.IsNullOrEmpty(_originalText))
+        {
+            // Strip any existing countdown formatting before capturing the original text
+            _originalText = StripCountdownFormatting(Text);
+        }
 
         Enabled = false;
         UpdateCountdownText();
@@ -122,7 +129,12 @@ public class KryptonCountdownButton : KryptonButton
         _countdownTimer.Stop();
         _countdownSeconds = 0;
         Enabled = true;
-        Text = _originalText;
+        if (!string.IsNullOrEmpty(_originalText))
+        {
+            Text = _originalText;
+        }
+        // Clear _originalText so it can be re-captured on next StartCountdown() if Text has changed
+        _originalText = null;
     }
 
     /// <summary>Cancels the countdown and restores the button to its original state.</summary>
@@ -131,12 +143,33 @@ public class KryptonCountdownButton : KryptonButton
         ResetCountdown();
     }
 
+    /// <summary>Strips any existing countdown formatting from the text.</summary>
+    /// <param name="text">The text that may contain countdown formatting.</param>
+    /// <returns>The text with countdown formatting removed.</returns>
+    private string StripCountdownFormatting(string text)
+    {
+        if (string.IsNullOrEmpty(text))
+        {
+            return text;
+        }
+
+        // Try to detect and remove common countdown patterns like " (0s)", " (30s)", etc.
+        // This handles the default format "{0} ({1})" where {1} is "Xs"
+        // Match pattern: space + opening paren + optional whitespace + digits + suffix + closing paren at the end
+        string suffix = _countdownButtonValues.CountdownSecondSuffix;
+        string pattern = @"\s*\(\s*\d+" + Regex.Escape(suffix) + @"\s*\)\s*$";
+        string stripped = Regex.Replace(text, pattern, string.Empty, RegexOptions.IgnoreCase);
+        
+        return stripped;
+    }
+
     /// <summary>Updates the countdown text.</summary>
     private void UpdateCountdownText()
     {
         if (string.IsNullOrEmpty(_originalText))
         {
-            _originalText = Text;
+            // Strip any existing countdown formatting before capturing the original text
+            _originalText = StripCountdownFormatting(Text);
         }
         // Use the suffix from the values class and format the text
         string secondsWithSuffix = _countdownSeconds + _countdownButtonValues.CountdownSecondSuffix;
