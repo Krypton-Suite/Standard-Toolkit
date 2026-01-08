@@ -104,6 +104,7 @@ public partial class StartScreen : KryptonForm
         CreateButton("Powered By Button", string.Empty, typeof(PoweredByButtonExample));
         CreateButton("Krypton Task Dialog Demo", string.Empty, typeof(KryptonTaskDialogDemoForm));
         CreateButton("Krypton MDI Window", "KryptonForm MDI Container with both KForm and WForm children", typeof(MdiWindow));
+        CreateButton("Krypton Splitter", "Test KryptonSplitter with vertical, horizontal, and multi-panel layouts.", typeof(KryptonSplitterDemo));
     }
 
     private void OnFormClosing(object? sender, FormClosingEventArgs e)
