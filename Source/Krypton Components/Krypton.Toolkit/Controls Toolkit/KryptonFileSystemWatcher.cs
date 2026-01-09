@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -24,9 +24,10 @@ public class KryptonFileSystemWatcher : Component
 {
     #region Instance Fields
 
-    private FileSystemWatcher? _fileSystemWatcher;
+    private readonly FileSystemWatcher _fileSystemWatcher;
     private PaletteBase? _palette;
     private PaletteMode _paletteMode;
+    private bool _disposed;
 
     #endregion
 
@@ -122,7 +123,7 @@ public class KryptonFileSystemWatcher : Component
     public KryptonFileSystemWatcher(IContainer container)
         : this()
     {
-        container?.Add(this);
+        container.Add(this);
     }
 
     /// <summary>
@@ -152,21 +153,27 @@ public class KryptonFileSystemWatcher : Component
     /// </summary>
     protected override void Dispose(bool disposing)
     {
+        if (_disposed)
+        {
+            return;
+        }
+
         if (disposing)
         {
             // Unhook from events
             KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChanged;
 
-            if (_fileSystemWatcher != null)
-            {
-                _fileSystemWatcher.Created -= OnFileSystemWatcherCreated;
-                _fileSystemWatcher.Changed -= OnFileSystemWatcherChanged;
-                _fileSystemWatcher.Deleted -= OnFileSystemWatcherDeleted;
-                _fileSystemWatcher.Renamed -= OnFileSystemWatcherRenamed;
-                _fileSystemWatcher.Error -= OnFileSystemWatcherError;
-                _fileSystemWatcher.Dispose();
-                _fileSystemWatcher = null;
-            }
+            _fileSystemWatcher.Created -= OnFileSystemWatcherCreated;
+            _fileSystemWatcher.Changed -= OnFileSystemWatcherChanged;
+            _fileSystemWatcher.Deleted -= OnFileSystemWatcherDeleted;
+            _fileSystemWatcher.Renamed -= OnFileSystemWatcherRenamed;
+            _fileSystemWatcher.Error -= OnFileSystemWatcherError;
+            _fileSystemWatcher.Dispose();
+
+            _disposed = true;
+
+            // Suppress finalization since we've already cleaned up managed resources
+            GC.SuppressFinalize(this);
         }
 
         base.Dispose(disposing);
@@ -185,10 +192,10 @@ public class KryptonFileSystemWatcher : Component
     [Editor(typeof(FolderNameEditor), typeof(UITypeEditor))]
     public string Path
     {
-        get => _fileSystemWatcher?.Path ?? string.Empty;
+        get => _fileSystemWatcher.Path ?? string.Empty;
         set
         {
-            _fileSystemWatcher?.Path = value;
+            _fileSystemWatcher.Path = value;
         }
     }
 
@@ -200,10 +207,10 @@ public class KryptonFileSystemWatcher : Component
     [DefaultValue("*.*")]
     public string Filter
     {
-        get => _fileSystemWatcher?.Filter ?? "*.*";
+        get => _fileSystemWatcher.Filter ?? "*.*";
         set
         {
-            _fileSystemWatcher?.Filter = value;
+            _fileSystemWatcher.Filter = value;
         }
     }
 
@@ -218,7 +225,7 @@ public class KryptonFileSystemWatcher : Component
         get => _fileSystemWatcher?.NotifyFilter ?? (NotifyFilters.FileName | NotifyFilters.DirectoryName | NotifyFilters.LastWrite);
         set
         {
-            _fileSystemWatcher?.NotifyFilter = value;
+            _fileSystemWatcher.NotifyFilter = value;
         }
     }
 
@@ -233,7 +240,7 @@ public class KryptonFileSystemWatcher : Component
         get => _fileSystemWatcher?.EnableRaisingEvents ?? false;
         set
         {
-            _fileSystemWatcher?.EnableRaisingEvents = value;
+            _fileSystemWatcher.EnableRaisingEvents = value;
         }
     }
 
@@ -248,7 +255,7 @@ public class KryptonFileSystemWatcher : Component
         get => _fileSystemWatcher?.IncludeSubdirectories ?? false;
         set
         {
-            _fileSystemWatcher?.IncludeSubdirectories = value;
+            _fileSystemWatcher.IncludeSubdirectories = value;
         }
     }
 
@@ -263,7 +270,7 @@ public class KryptonFileSystemWatcher : Component
         get => _fileSystemWatcher?.InternalBufferSize ?? 8192;
         set
         {
-            _fileSystemWatcher?.InternalBufferSize = value;
+            _fileSystemWatcher.InternalBufferSize = value;
         }
     }
 
@@ -276,10 +283,10 @@ public class KryptonFileSystemWatcher : Component
     [Browsable(false)]
     public ISynchronizeInvoke? SynchronizingObject
     {
-        get => _fileSystemWatcher?.SynchronizingObject;
+        get => _fileSystemWatcher.SynchronizingObject;
         set
         {
-            _fileSystemWatcher?.SynchronizingObject = value;
+            _fileSystemWatcher.SynchronizingObject = value;
         }
     }
 
@@ -347,14 +354,14 @@ public class KryptonFileSystemWatcher : Component
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public FileSystemWatcher? FileSystemWatcher => _fileSystemWatcher;
+    public FileSystemWatcher FileSystemWatcher => _fileSystemWatcher;
 
     /// <summary>
     /// Begins the watching of the specified directory.
     /// </summary>
     public void BeginInit()
     {
-        _fileSystemWatcher?.BeginInit();
+        _fileSystemWatcher.BeginInit();
     }
 
     /// <summary>
@@ -362,7 +369,7 @@ public class KryptonFileSystemWatcher : Component
     /// </summary>
     public void EndInit()
     {
-        _fileSystemWatcher?.EndInit();
+        _fileSystemWatcher.EndInit();
     }
 
     /// <summary>
@@ -370,10 +377,7 @@ public class KryptonFileSystemWatcher : Component
     /// </summary>
     /// <param name="changeType">The type of change to watch for.</param>
     /// <returns>A WaitForChangedResult that contains specific information on the change that occurred.</returns>
-    public WaitForChangedResult WaitForChanged(WatcherChangeTypes changeType)
-    {
-        return _fileSystemWatcher?.WaitForChanged(changeType) ?? default;
-    }
+    public WaitForChangedResult WaitForChanged(WatcherChangeTypes changeType) => _fileSystemWatcher?.WaitForChanged(changeType) ?? default;
 
     /// <summary>
     /// A synchronous method that returns a structure that contains specific information on the change that occurred, given the type of change you want to monitor and the time (in milliseconds) to wait before timing out.
@@ -381,10 +385,7 @@ public class KryptonFileSystemWatcher : Component
     /// <param name="changeType">The type of change to watch for.</param>
     /// <param name="timeout">The time (in milliseconds) to wait before timing out.</param>
     /// <returns>A WaitForChangedResult that contains specific information on the change that occurred.</returns>
-    public WaitForChangedResult WaitForChanged(WatcherChangeTypes changeType, int timeout)
-    {
-        return _fileSystemWatcher?.WaitForChanged(changeType, timeout) ?? default;
-    }
+    public WaitForChangedResult WaitForChanged(WatcherChangeTypes changeType, int timeout) => _fileSystemWatcher?.WaitForChanged(changeType, timeout) ?? default;
 
     #endregion
 
