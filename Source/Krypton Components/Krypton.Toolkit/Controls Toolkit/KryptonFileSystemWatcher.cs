@@ -222,7 +222,7 @@ public class KryptonFileSystemWatcher : Component
     [DefaultValue(NotifyFilters.FileName | NotifyFilters.DirectoryName | NotifyFilters.LastWrite)]
     public NotifyFilters NotifyFilter
     {
-        get => _fileSystemWatcher?.NotifyFilter ?? (NotifyFilters.FileName | NotifyFilters.DirectoryName | NotifyFilters.LastWrite);
+        get => _fileSystemWatcher.NotifyFilter;
         set
         {
             _fileSystemWatcher.NotifyFilter = value;
@@ -237,7 +237,7 @@ public class KryptonFileSystemWatcher : Component
     [DefaultValue(false)]
     public bool EnableRaisingEvents
     {
-        get => _fileSystemWatcher?.EnableRaisingEvents ?? false;
+        get => _fileSystemWatcher.EnableRaisingEvents;
         set
         {
             _fileSystemWatcher.EnableRaisingEvents = value;
@@ -252,7 +252,7 @@ public class KryptonFileSystemWatcher : Component
     [DefaultValue(false)]
     public bool IncludeSubdirectories
     {
-        get => _fileSystemWatcher?.IncludeSubdirectories ?? false;
+        get => _fileSystemWatcher.IncludeSubdirectories;
         set
         {
             _fileSystemWatcher.IncludeSubdirectories = value;
@@ -267,7 +267,7 @@ public class KryptonFileSystemWatcher : Component
     [DefaultValue(8192)]
     public int InternalBufferSize
     {
-        get => _fileSystemWatcher?.InternalBufferSize ?? 8192;
+        get => _fileSystemWatcher.InternalBufferSize;
         set
         {
             _fileSystemWatcher.InternalBufferSize = value;
@@ -377,7 +377,7 @@ public class KryptonFileSystemWatcher : Component
     /// </summary>
     /// <param name="changeType">The type of change to watch for.</param>
     /// <returns>A WaitForChangedResult that contains specific information on the change that occurred.</returns>
-    public WaitForChangedResult WaitForChanged(WatcherChangeTypes changeType) => _fileSystemWatcher?.WaitForChanged(changeType) ?? default;
+    public WaitForChangedResult WaitForChanged(WatcherChangeTypes changeType) => _fileSystemWatcher.WaitForChanged(changeType);
 
     /// <summary>
     /// A synchronous method that returns a structure that contains specific information on the change that occurred, given the type of change you want to monitor and the time (in milliseconds) to wait before timing out.
@@ -385,7 +385,7 @@ public class KryptonFileSystemWatcher : Component
     /// <param name="changeType">The type of change to watch for.</param>
     /// <param name="timeout">The time (in milliseconds) to wait before timing out.</param>
     /// <returns>A WaitForChangedResult that contains specific information on the change that occurred.</returns>
-    public WaitForChangedResult WaitForChanged(WatcherChangeTypes changeType, int timeout) => _fileSystemWatcher?.WaitForChanged(changeType, timeout) ?? default;
+    public WaitForChangedResult WaitForChanged(WatcherChangeTypes changeType, int timeout) => _fileSystemWatcher.WaitForChanged(changeType, timeout);
 
     #endregion
 
