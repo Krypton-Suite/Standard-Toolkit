@@ -60,6 +60,7 @@ public partial class StartScreen : KryptonForm
         CreateButton("Buttons Test", "All the buttons you want to test.", typeof(ButtonsTest));
         CreateButton("BugReportingTool", "Easily report bugs with this tool.", typeof(BugReportingDialogTest));
         CreateButton("Code Editor", "Native code editor with syntax highlighting, line numbering, code folding, and auto-completion.", typeof(CodeEditorTest));
+        CreateButton("Countdown Button", "Comprehensive demonstration of KryptonCountdownButton features with customizable duration, format, and enable-at-zero options.", typeof(CountdownButtonTest));
         CreateButton("CommandLink Buttons", "No comment", typeof(CommandLinkButtons));
         CreateButton("Control Styles", string.Empty, typeof(ControlStylesForm));
         CreateButton("DateTime Example", string.Empty, typeof(DateTimeExample));
@@ -74,6 +75,7 @@ public partial class StartScreen : KryptonForm
         CreateButton("ProgressBar", "Checkout if progress has been made.", typeof(ProgressBarTest));
         CreateButton("Ribbon / Navigator / Workspace", string.Empty, typeof(RibbonNavigatorWorkspaceTest));
         CreateButton("Splash Screen", string.Empty, typeof(SplashScreenExample));
+        CreateButton("Taskbar Overlay Icon Test", "Comprehensive demonstration of taskbar overlay icons on KryptonForm with configurable icons, descriptions, and interactive examples.", typeof(TaskbarOverlayIconTest));
         CreateButton("Theme Controls", string.Empty, typeof(ThemeControlExamples));
         CreateButton("TextBox Validating Test", "Tests fix for Validating event duplication bug #2801", typeof(KryptonTextBoxValidatingTest));
         CreateButton("RichTextBox Formatting Test", "Tests fix for RichTextBox formatting preservation when palette changes (Issue #2832)", typeof(RichTextBoxFormattingTest));
@@ -85,6 +87,7 @@ public partial class StartScreen : KryptonForm
         CreateButton("EmojiViewer Advanced", "Only hardcore devs can handle this one!", typeof(AdvancedEmojiViewerForm));
         CreateButton("BreadCrumb", "Follow the breadcrumbs and find the treasure...", typeof(BreadCrumbTest));
         CreateButton("Calendar", string.Empty, typeof(CalendarTest));
+        CreateButton("ComboBox/DateTimePicker Consistency", "Comprehensive demonstration of KComboBox and KDateTimePicker consistency fix (Issue #1651). Shows drop-down buttons stretching to full height and centered text.", typeof(ComboBoxDateTimePickerConsistencyDemo));
         CreateButton("Controls Test", string.Empty, typeof(ControlsTest));
         CreateButton("KryptonDataGridView Demo", string.Empty, typeof(DataGridViewDemo));
         CreateButton("KryptonBindingNavigator Demo", "Comprehensive example of KryptonBindingNavigator with data binding", typeof(BindingNavigatorDemo));
