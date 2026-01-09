@@ -153,12 +153,7 @@ public class KryptonFileSystemWatcher : Component
     /// </summary>
     protected override void Dispose(bool disposing)
     {
-        if (_disposed)
-        {
-            return;
-        }
-
-        if (disposing)
+        if (!_disposed && disposing)
         {
             // Unhook from events
             KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChanged;
