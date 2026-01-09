@@ -87,7 +87,7 @@ internal partial class VisualToastDateTimeUserInputWithProgressBarRtlAwareForm :
 
     private void UpdateIcon()
     {
-        var bitmap = GraphicsExtensions.GetToastNotificationBitmap(
+        var bitmap = GraphicsExtensionUtilities.GetToastNotificationBitmap(
             _data.NotificationIcon,
             _data.ApplicationIcon,
             _data.CustomImage,

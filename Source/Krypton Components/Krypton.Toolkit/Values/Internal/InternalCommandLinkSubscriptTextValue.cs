@@ -9,21 +9,21 @@
 
 namespace Krypton.Toolkit;
 
-public class CommandLinkMainTextValue : NullContentValues
+internal class InternalCommandLinkSubscriptTextValue : NullContentValues
 {
     #region Public
 
-    /// <summary>Gets or sets the short text.</summary>
-    /// <value>The short text.</value>
-    public string ShortText { get; set; }
+    /// <summary>Gets or sets the long text.</summary>
+    /// <value>The long text.</value>
+    public string LongText { get; set; }
 
     #endregion
 
     #region Implementation
 
-    /// <summary>Gets the content short text.</summary>
+    /// <summary>Gets the content long text.</summary>
     /// <returns>String value.</returns>
-    public override string GetShortText() => ShortText;
+    public override string GetLongText() => LongText;
 
     #endregion
 }
