@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -22,12 +22,13 @@ public class KryptonNotifyIcon : Component
 {
     #region Instance Fields
     
-    private NotifyIcon? _notifyIcon;
+    private readonly NotifyIcon _notifyIcon;
     private Icon? _icon;
     private string _text;
     private bool _visible;
     private PaletteBase? _palette;
     private PaletteMode _paletteMode;
+    private bool _disposed;
    
     #endregion
 
@@ -152,31 +153,29 @@ public class KryptonNotifyIcon : Component
     /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
     protected override void Dispose(bool disposing)
     {
-        if (disposing)
+        if (!_disposed && disposing)
         {
             // Unhook from events
             KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChanged;
 
-            if (_notifyIcon != null)
-            {
-                _notifyIcon.Click -= OnClick;
-                _notifyIcon.DoubleClick -= OnDoubleClick;
-                _notifyIcon.MouseClick -= OnMouseClick;
-                _notifyIcon.MouseDoubleClick -= OnMouseDoubleClick;
-                _notifyIcon.MouseMove -= OnMouseMove;
-                _notifyIcon.MouseDown -= OnMouseDown;
-                _notifyIcon.MouseUp -= OnMouseUp;
-                _notifyIcon.BalloonTipClicked -= OnBalloonTipClicked;
-                _notifyIcon.BalloonTipClosed -= OnBalloonTipClosed;
-                _notifyIcon.BalloonTipShown -= OnBalloonTipShown;
+            _notifyIcon.Click -= OnClick;
+            _notifyIcon.DoubleClick -= OnDoubleClick;
+            _notifyIcon.MouseClick -= OnMouseClick;
+            _notifyIcon.MouseDoubleClick -= OnMouseDoubleClick;
+            _notifyIcon.MouseMove -= OnMouseMove;
+            _notifyIcon.MouseDown -= OnMouseDown;
+            _notifyIcon.MouseUp -= OnMouseUp;
+            _notifyIcon.BalloonTipClicked -= OnBalloonTipClicked;
+            _notifyIcon.BalloonTipClosed -= OnBalloonTipClosed;
+            _notifyIcon.BalloonTipShown -= OnBalloonTipShown;
 
-                _notifyIcon.Dispose();
-                _notifyIcon = null;
-            }
+            _notifyIcon.Dispose();
 
             _icon?.Dispose();
             _icon = null;
             _palette = null;
+
+            _disposed = true;
         }
 
         base.Dispose(disposing);
@@ -280,7 +279,7 @@ public class KryptonNotifyIcon : Component
             {
                 _icon?.Dispose();
                 _icon = value;
-                _notifyIcon?.Icon = value;
+                _notifyIcon.Icon = value;
             }
         }
     }
@@ -302,7 +301,7 @@ public class KryptonNotifyIcon : Component
             if (_text != value)
             {
                 _text = value ?? string.Empty;
-                _notifyIcon?.Text = _text;
+                _notifyIcon.Text = _text;
             }
         }
     }
@@ -322,7 +321,7 @@ public class KryptonNotifyIcon : Component
             if (_visible != value)
             {
                 _visible = value;
-                _notifyIcon?.Visible = value;
+                _notifyIcon.Visible = value;
             }
         }
     }
@@ -337,8 +336,8 @@ public class KryptonNotifyIcon : Component
     [AllowNull]
     public string BalloonTipText
     {
-        get => _notifyIcon?.BalloonTipText ?? string.Empty;
-        set => _notifyIcon?.BalloonTipText = value;
+        get => _notifyIcon.BalloonTipText ?? string.Empty;
+        set => _notifyIcon.BalloonTipText = value;
     }
 
     /// <summary>
@@ -351,8 +350,8 @@ public class KryptonNotifyIcon : Component
     [AllowNull]
     public string BalloonTipTitle
     {
-        get => _notifyIcon?.BalloonTipTitle ?? string.Empty;
-        set => _notifyIcon?.BalloonTipTitle = value;
+        get => _notifyIcon.BalloonTipTitle ?? string.Empty;
+        set => _notifyIcon.BalloonTipTitle = value;
     }
 
     /// <summary>
@@ -363,8 +362,8 @@ public class KryptonNotifyIcon : Component
     [DefaultValue(ToolTipIcon.None)]
     public ToolTipIcon BalloonTipIcon
     {
-        get => _notifyIcon?.BalloonTipIcon ?? ToolTipIcon.None;
-        set => _notifyIcon?.BalloonTipIcon = value;
+        get => _notifyIcon.BalloonTipIcon;
+        set => _notifyIcon.BalloonTipIcon = value;
     }
 
     /// <summary>
@@ -372,13 +371,13 @@ public class KryptonNotifyIcon : Component
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public NotifyIcon? NotifyIcon => _notifyIcon;
+    public NotifyIcon NotifyIcon => _notifyIcon;
 
     /// <summary>
     /// Displays a balloon tip in the taskbar for the specified time period.
     /// </summary>
     /// <param name="timeout">The time period, in milliseconds, the balloon tip should display.</param>
-    public void ShowBalloonTip(int timeout) => _notifyIcon?.ShowBalloonTip(timeout);
+    public void ShowBalloonTip(int timeout) => _notifyIcon.ShowBalloonTip(timeout);
 
     /// <summary>
     /// Displays a balloon tip with the specified title, text, and icon in the taskbar for the specified time period.
@@ -387,7 +386,7 @@ public class KryptonNotifyIcon : Component
     /// <param name="tipTitle">The title to display on the balloon tip.</param>
     /// <param name="tipText">The text to display on the balloon tip.</param>
     /// <param name="tipIcon">One of the ToolTipIcon values.</param>
-    public void ShowBalloonTip(int timeout, string tipTitle, string tipText, ToolTipIcon tipIcon) => _notifyIcon?.ShowBalloonTip(timeout, tipTitle, tipText, tipIcon);
+    public void ShowBalloonTip(int timeout, string tipTitle, string tipText, ToolTipIcon tipIcon) => _notifyIcon.ShowBalloonTip(timeout, tipTitle, tipText, tipIcon);
 
     #endregion
 
@@ -397,7 +396,7 @@ public class KryptonNotifyIcon : Component
     {
         // For now, use the icon that was set
         // In the future, this could be customized based on the palette
-        if (_notifyIcon != null && _icon != null)
+        if (_icon != null)
         {
             _notifyIcon.Icon = _icon;
         }
