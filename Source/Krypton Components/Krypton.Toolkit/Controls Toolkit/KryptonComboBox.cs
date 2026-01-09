@@ -377,6 +377,10 @@ public class KryptonComboBox : VisualControlBase,
                     var dropDownWidth = SystemInformation.VerticalScrollBarWidth;
                     Size borderSize = SystemInformation.BorderSize;
 
+                    // Store the full client height before adjusting rect for text area
+                    // This ensures the drop-down button tracking matches the painted button area
+                    int fullClientHeight = rect.bottom - rect.top;
+
                     // Create rect for the text area
                     rect.left += borderSize.Width;
                     rect.right -= borderSize.Width + dropDownWidth;
@@ -384,8 +388,11 @@ public class KryptonComboBox : VisualControlBase,
                     rect.bottom -= borderSize.Height;
 
                     // Create rectangle that represents the drop-down button
-                    var dropRect = new Rectangle(rect.right + 2, rect.top, dropDownWidth - 2,
-                        rect.bottom - rect.top);
+                    // Match the paint code calculation for consistency
+                    Rectangle dropRect;
+                    dropRect = _kryptonComboBox.RightToLeft == RightToLeft.Yes
+                        ? new Rectangle(rect.left + borderSize.Width, rect.top, dropDownWidth, fullClientHeight)
+                        : new Rectangle(rect.right, rect.top, dropDownWidth, fullClientHeight);
 
                     // Extract the point in client coordinates
                     var clientPoint = new Point((int)m.LParam);

@@ -258,10 +258,10 @@ public class BadgeContentValues : Storage
     private bool ShouldSerializeAnimation() => Animation != BadgeAnimation.None;
 
     /// <summary>
-    /// Gets and sets the badge diameter (for circle shape only). 0 means auto-size based on content.
+    /// Gets and sets the badge size (diameter for circle, side length for square). 0 means auto-size based on content.
     /// </summary>
     [Category(@"Visuals")]
-    [Description(@"The diameter of the badge when Shape is Circle. 0 means auto-size based on content.")]
+    [Description(@"The size of the badge: diameter when Shape is Circle, side length when Shape is Square. 0 means auto-size based on content.")]
     [RefreshProperties(RefreshProperties.All)]
     [DefaultValue(0)]
     public int BadgeDiameter
