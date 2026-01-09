@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -521,6 +521,9 @@ public enum BackstageOverlayMode
 /// </summary>
 public enum RibbonNotificationBarType
 {
+    /// <summary>Unknown notification type (not assigned).</summary>
+    Unknown = 0,
+
     /// <summary>Information notification (blue).</summary>
     Information,
 
