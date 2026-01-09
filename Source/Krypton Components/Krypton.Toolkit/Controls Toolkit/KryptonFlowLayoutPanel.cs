@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -21,6 +21,7 @@ public class KryptonFlowLayoutPanel : FlowLayoutPanel
     
     private readonly KryptonPanel _backGroundPanel;
     private Bitmap? _bitmap;
+    private bool _disposed;
     
     #endregion
 
@@ -57,7 +58,7 @@ public class KryptonFlowLayoutPanel : FlowLayoutPanel
     /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
     protected override void Dispose(bool disposing)
     {
-        if (disposing)
+        if (!_disposed && disposing)
         {
             _backGroundPanel.StateCommon.PropertyChanged -= State_PropertyChanged;
             _backGroundPanel.StateDisabled.PropertyChanged -= State_PropertyChanged;
@@ -65,6 +66,10 @@ public class KryptonFlowLayoutPanel : FlowLayoutPanel
 
             _bitmap?.Dispose();
             _bitmap = null;
+
+            _backGroundPanel?.Dispose();
+
+            _disposed = true;
         }
 
         base.Dispose(disposing);
