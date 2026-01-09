@@ -53,6 +53,16 @@ public class KryptonFlowLayoutPanel : FlowLayoutPanel
     }
 
     /// <summary>
+    /// Release managed and unmanaged resources.
+    /// </summary>
+    public new void Dispose()
+    {
+        // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
+    }
+
+    /// <summary>
     /// Clean up any resources being used.
     /// </summary>
     /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
