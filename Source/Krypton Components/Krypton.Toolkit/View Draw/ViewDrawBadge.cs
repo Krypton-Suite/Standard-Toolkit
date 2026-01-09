@@ -170,8 +170,9 @@ public class ViewDrawBadge : ViewLeaf
     #region Implementation
     private Size CalculateBadgeSize(ViewLayoutContext context)
     {
-        // If shape is Circle and BadgeDiameter is specified, use it
-        if (_badgeValues.BadgeContentValues.Shape == BadgeShape.Circle && _badgeValues.BadgeContentValues.BadgeDiameter > 0)
+        // If BadgeDiameter is specified, use it for Circle and Square shapes
+        if (_badgeValues.BadgeContentValues.BadgeDiameter > 0 && 
+            (_badgeValues.BadgeContentValues.Shape == BadgeShape.Circle || _badgeValues.BadgeContentValues.Shape == BadgeShape.Square))
         {
             return new Size(_badgeValues.BadgeContentValues.BadgeDiameter, _badgeValues.BadgeContentValues.BadgeDiameter);
         }
