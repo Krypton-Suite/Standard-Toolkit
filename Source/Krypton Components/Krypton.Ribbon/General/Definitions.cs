@@ -525,19 +525,19 @@ public enum RibbonNotificationBarType
     Unknown = 0,
 
     /// <summary>Information notification (blue).</summary>
-    Information,
+    Information = 1,
 
     /// <summary>Warning notification (yellow/orange).</summary>
-    Warning,
+    Warning = 2,
 
     /// <summary>Error notification (red).</summary>
-    Error,
+    Error = 3,
 
     /// <summary>Success notification (green).</summary>
-    Success,
+    Success = 4,
 
     /// <summary>Custom notification (uses custom colors).</summary>
-    Custom
+    Custom = 5
 }
 
 #endregion
