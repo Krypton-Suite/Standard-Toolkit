@@ -4,7 +4,7 @@
 
 # 2026-01-19 - Build 2501 (Version 105-LTS - Patch 1) - January 2026
 
-* Resolved [2862](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2862), Form border resize flicker
+* Resolved [#2862](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2862), Form border resize flicker
 * Resolved [#948](https://github.com/Krypton-Suite/Standard-Toolkit/issues/948), Why does the KButton change size/padding between using .NET Framework & .NET
 * Resolved [#1809](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1809), Dragging a dock cell appears to lag
 * Resolved [#2832](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2832), `KryptonRichTextBox` does not retain its formatting when palette is changed
