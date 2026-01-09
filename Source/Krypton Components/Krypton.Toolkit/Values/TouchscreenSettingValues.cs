@@ -45,7 +45,7 @@ public class TouchscreenSettingValues : GlobalId
     /// Note: If AutomaticallyDetectTouchscreen is true, this property will be automatically updated based on detection.
     /// </summary>
     [Category(@"Visuals")]
-    [Description(@"Should touchscreen support be enabled, making controls larger for easier touch interaction.\nNote: If AutomaticallyDetectTouchscreen is true, this property will be automatically updated based on detection.")]
+    [Description(@"Should touchscreen support be enabled, making controls larger for easier touch interaction. Note: If AutomaticallyDetectTouchscreen is true, this property will be automatically updated based on detection.")]
     [DefaultValue(false)]
     public bool TouchscreenModeEnabled
     {
