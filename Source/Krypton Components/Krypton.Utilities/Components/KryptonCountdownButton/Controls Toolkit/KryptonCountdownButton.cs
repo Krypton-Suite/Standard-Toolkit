@@ -22,6 +22,13 @@ namespace Krypton.Utilities;
 [Description(@"A button control that displays a countdown timer in its text.")]
 public class KryptonCountdownButton : KryptonButton
 {
+    #region Static Fields
+
+    // Cache of compiled regex instances per suffix to avoid recompiling patterns
+    private static readonly Dictionary<string, Regex> _countdownPatternCache = new Dictionary<string, Regex>();
+
+    #endregion
+
     #region Instance Fields
 
     private volatile int _countdownSeconds;
@@ -155,12 +162,30 @@ public class KryptonCountdownButton : KryptonButton
 
         // Try to detect and remove common countdown patterns like " (0s)", " (30s)", etc.
         // This handles the default format "{0} ({1})" where {1} is "Xs"
-        // Match pattern: space + opening paren + optional whitespace + digits + suffix + closing paren at the end
+        // Match pattern: space + opening parenthesis + optional whitespace + digits + suffix + closing parenthesis at the end
         string suffix = _countdownButtonValues.CountdownSecondSuffix;
-        string pattern = @"\s*\(\s*\d+" + Regex.Escape(suffix) + @"\s*\)\s*$";
-        string stripped = Regex.Replace(text, pattern, string.Empty, RegexOptions.IgnoreCase);
+        Regex pattern = GetCountdownPattern(suffix);
+        string stripped = pattern.Replace(text, string.Empty);
         
         return stripped;
+    }
+
+    /// <summary>Gets a compiled regex pattern for the given suffix, using a cache to avoid recompiling.</summary>
+    /// <param name="suffix">The suffix to match.</param>
+    /// <returns>A compiled regex pattern.</returns>
+    private static Regex GetCountdownPattern(string suffix)
+    {
+        lock (_countdownPatternCache)
+        {
+            if (!_countdownPatternCache.TryGetValue(suffix, out Regex? pattern))
+            {
+                string patternString = @"\s*\(\s*\d+" + Regex.Escape(suffix) + @"\s*\)\s*$";
+                pattern = new Regex(patternString, RegexOptions.IgnoreCase | RegexOptions.Compiled);
+                _countdownPatternCache[suffix] = pattern;
+            }
+
+            return pattern;
+        }
     }
 
     /// <summary>Updates the countdown text.</summary>
