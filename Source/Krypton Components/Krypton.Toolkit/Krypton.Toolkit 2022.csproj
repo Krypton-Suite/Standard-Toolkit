@@ -916,7 +916,6 @@
 	<None Update="../../../Assets/PNG/NuGet Package Icons/Krypton Stable.png" Link="Krypton Stable.png" />
   </ItemGroup>
   <ItemGroup>
-	<Folder Include="Controls Visuals\Notification Toast\" />
 	<Folder Include="Storage\Images\Generic\" />
   </ItemGroup>
 
