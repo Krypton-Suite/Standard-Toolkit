@@ -32,7 +32,6 @@ public class ViewDrawBadge : ViewLeaf
     private bool _lastVisible;
     private const int DEFAULT_BADGE_SIZE = 18;
     private const int BADGE_MIN_SIZE = 16;
-    private const int BADGE_OFFSET = 3;
     private const int ANIMATION_INTERVAL = 50; // ms between animation frames
     private const float FADE_MIN_OPACITY = 0.3f;
     private const float FADE_MAX_OPACITY = 1.0f;
@@ -229,7 +228,8 @@ public class ViewDrawBadge : ViewLeaf
 
     private Point CalculateBadgeLocation(Rectangle parentRect, Size badgeSize)
     {
-        int offset = BADGE_OFFSET;
+        int offset = _badgeValues.BadgeContentValues.BadgeMargin;
+
         Point location;
 
         switch (_badgeValues.BadgeContentValues.Position)
@@ -438,15 +438,15 @@ public class ViewDrawBadge : ViewLeaf
         string text = _badgeValues.BadgeContentValues.Text ?? string.Empty;
 
         // Check for overflow if enabled (OverflowNumber > 0)
-        if (_badgeValues.BadgeContentValues.MaxBadgeValue > 0 && !string.IsNullOrEmpty(text))
+        if (_badgeValues.BadgeContentValues.MaximumBadgeValue > 0 && !string.IsNullOrEmpty(text))
         {
             // Try to parse the text as an integer
             if (int.TryParse(text, out int numericValue))
             {
                 // If the value exceeds the overflow threshold, return MaxBadgeValue + OverflowText (e.g., "99+")
-                if (numericValue > _badgeValues.BadgeContentValues.MaxBadgeValue)
+                if (numericValue > _badgeValues.BadgeContentValues.MaximumBadgeValue)
                 {
-                    return _badgeValues.BadgeContentValues.MaxBadgeValue.ToString() + _badgeValues.BadgeOverflowValues.OverflowText;
+                    return _badgeValues.BadgeContentValues.MaximumBadgeValue.ToString() + _badgeValues.BadgeOverflowValues.OverflowText;
                 }
             }
         }
@@ -485,9 +485,17 @@ public class ViewDrawBadge : ViewLeaf
         if (_badgeValues.BadgeBorderValues.BadgeBorderSize > 0 && _badgeValues.BadgeColorValues.BadgeBorderColor != Color.Empty)
         {
             Color borderColor = _badgeValues.BadgeColorValues.BadgeBorderColor;
+
+            // Skip drawing if border color is transparent (A=0)
+            // Don't apply opacity to transparent colors as it would create an incorrect visible color
+            if (borderColor.A == 0)
+            {
+                return;
+            }
+
             if (opacity < 1.0f)
             {
-                borderColor = Color.FromArgb((int)(opacity * 255), borderColor.R, borderColor.G, borderColor.B);
+                borderColor = Color.FromArgb((int)(opacity * borderColor.A), borderColor.R, borderColor.G, borderColor.B);
             }
 
             // Clamp BadgeBorderSize to prevent negative borderRect dimensions
@@ -558,14 +566,20 @@ public class ViewDrawBadge : ViewLeaf
             return;
         }
 
+        // Skip if base color is transparent
+        if (baseColor.A == 0)
+        {
+            return;
+        }
+
         // Create lighter and darker colors for bevel effect
         Color lightColor = ControlPaint.Light(baseColor);
         Color darkColor = ControlPaint.Dark(baseColor);
 
         if (opacity < 1.0f)
         {
-            lightColor = Color.FromArgb((int)(opacity * 255), lightColor.R, lightColor.G, lightColor.B);
-            darkColor = Color.FromArgb((int)(opacity * 255), darkColor.R, darkColor.G, darkColor.B);
+            lightColor = Color.FromArgb((int)(opacity * lightColor.A), lightColor.R, lightColor.G, lightColor.B);
+            darkColor = Color.FromArgb((int)(opacity * darkColor.A), darkColor.R, darkColor.G, darkColor.B);
         }
 
         // Clamp border size to prevent issues with oversized borders
