@@ -68,6 +68,11 @@ namespace TestForm
             this.lblFontScaleFactor = new Krypton.Toolkit.KryptonLabel();
             this.trackFontScaleFactor = new Krypton.Toolkit.KryptonTrackBar();
             this.lblFontScaleValue = new Krypton.Toolkit.KryptonLabel();
+            this.chkAutoDetect = new Krypton.Toolkit.KryptonCheckBox();
+            this.lblDetectionInterval = new Krypton.Toolkit.KryptonLabel();
+            this.numDetectionInterval = new Krypton.Toolkit.KryptonNumericUpDown();
+            this.lblMaxTouchContacts = new Krypton.Toolkit.KryptonLabel();
+            this.btnCheckAvailability = new Krypton.Toolkit.KryptonButton();
             ((System.ComponentModel.ISupportInitialize)(this.grpControls)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grpControls.Panel)).BeginInit();
             this.grpControls.Panel.SuspendLayout();
@@ -92,10 +97,6 @@ namespace TestForm
             ((System.ComponentModel.ISupportInitialize)(this.grpOtherControls.Panel)).BeginInit();
             this.grpOtherControls.Panel.SuspendLayout();
             this.grpOtherControls.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.grpAdvancedControls)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.grpAdvancedControls.Panel)).BeginInit();
-            this.grpAdvancedControls.Panel.SuspendLayout();
-            this.grpAdvancedControls.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grpSettings)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grpSettings.Panel)).BeginInit();
             this.grpSettings.Panel.SuspendLayout();
@@ -360,7 +361,7 @@ namespace TestForm
             this.grpSettings.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.grpSettings.Location = new System.Drawing.Point(0, 561);
             this.grpSettings.Name = "grpSettings";
-            this.grpSettings.Size = new System.Drawing.Size(884, 350);
+            this.grpSettings.Size = new System.Drawing.Size(884, 380);
             this.grpSettings.TabIndex = 1;
             this.grpSettings.Values.Heading = "Touchscreen Support Settings";
             // 
@@ -380,6 +381,11 @@ namespace TestForm
             this.grpSettings.Panel.Controls.Add(this.lblFontScaleFactor);
             this.grpSettings.Panel.Controls.Add(this.trackFontScaleFactor);
             this.grpSettings.Panel.Controls.Add(this.lblFontScaleValue);
+            this.grpSettings.Panel.Controls.Add(this.chkAutoDetect);
+            this.grpSettings.Panel.Controls.Add(this.lblDetectionInterval);
+            this.grpSettings.Panel.Controls.Add(this.numDetectionInterval);
+            this.grpSettings.Panel.Controls.Add(this.lblMaxTouchContacts);
+            this.grpSettings.Panel.Controls.Add(this.btnCheckAvailability);
             // 
             // chkEnableTouchscreen
             // 
@@ -491,11 +497,65 @@ namespace TestForm
             this.lblFontScaleValue.TabIndex = 12;
             this.lblFontScaleValue.Values.Text = "1.25x (25.0% larger)";
             // 
+            // chkAutoDetect
+            // 
+            this.chkAutoDetect.Location = new System.Drawing.Point(650, 20);
+            this.chkAutoDetect.Name = "chkAutoDetect";
+            this.chkAutoDetect.Size = new System.Drawing.Size(220, 20);
+            this.chkAutoDetect.TabIndex = 13;
+            this.chkAutoDetect.Values.Text = "Automatically Detect Touchscreen";
+            // 
+            // lblDetectionInterval
+            // 
+            this.lblDetectionInterval.Location = new System.Drawing.Point(650, 50);
+            this.lblDetectionInterval.Name = "lblDetectionInterval";
+            this.lblDetectionInterval.Size = new System.Drawing.Size(150, 20);
+            this.lblDetectionInterval.TabIndex = 14;
+            this.lblDetectionInterval.Values.Text = "Detection Interval (ms):";
+            // 
+            // numDetectionInterval
+            // 
+            this.numDetectionInterval.Location = new System.Drawing.Point(650, 75);
+            this.numDetectionInterval.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.numDetectionInterval.Minimum = new decimal(new int[] {
+            500,
+            0,
+            0,
+            0});
+            this.numDetectionInterval.Name = "numDetectionInterval";
+            this.numDetectionInterval.Size = new System.Drawing.Size(120, 27);
+            this.numDetectionInterval.TabIndex = 15;
+            this.numDetectionInterval.Value = new decimal(new int[] {
+            2000,
+            0,
+            0,
+            0});
+            // 
+            // lblMaxTouchContacts
+            // 
+            this.lblMaxTouchContacts.Location = new System.Drawing.Point(650, 110);
+            this.lblMaxTouchContacts.Name = "lblMaxTouchContacts";
+            this.lblMaxTouchContacts.Size = new System.Drawing.Size(220, 20);
+            this.lblMaxTouchContacts.TabIndex = 16;
+            this.lblMaxTouchContacts.Values.Text = "Maximum Touch Contacts: 0";
+            // 
+            // btnCheckAvailability
+            // 
+            this.btnCheckAvailability.Location = new System.Drawing.Point(650, 140);
+            this.btnCheckAvailability.Name = "btnCheckAvailability";
+            this.btnCheckAvailability.Size = new System.Drawing.Size(200, 35);
+            this.btnCheckAvailability.TabIndex = 17;
+            this.btnCheckAvailability.Values.Text = "Check Availability";
+            // 
             // lblStatus
             // 
             this.lblStatus.Location = new System.Drawing.Point(15, 290);
             this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(220, 50);
+            this.lblStatus.Size = new System.Drawing.Size(650, 50);
             this.lblStatus.TabIndex = 9;
             this.lblStatus.Values.Text = "Status: Disabled";
             // 
@@ -586,5 +646,10 @@ namespace TestForm
         private Krypton.Toolkit.KryptonLabel lblFontScaleFactor;
         private Krypton.Toolkit.KryptonTrackBar trackFontScaleFactor;
         private Krypton.Toolkit.KryptonLabel lblFontScaleValue;
+        private Krypton.Toolkit.KryptonCheckBox chkAutoDetect;
+        private Krypton.Toolkit.KryptonLabel lblDetectionInterval;
+        private Krypton.Toolkit.KryptonNumericUpDown numDetectionInterval;
+        private Krypton.Toolkit.KryptonLabel lblMaxTouchContacts;
+        private Krypton.Toolkit.KryptonButton btnCheckAvailability;
     }
 }
