@@ -15,11 +15,6 @@
 namespace Krypton.Ribbon;
 
 /// <summary>
-/// Delegate used for hooking into a KryptonRibbonContext typed collection.
-/// </summary>
-public delegate void RibbonRecentDocHandler(object sender, TypedCollectionEventArgs<KryptonRibbonRecentDoc> e);
-
-/// <summary>
 /// Specialise the generic collection with type specific rules for recent document item accessor.
 /// </summary>
 public class KryptonRibbonRecentDocCollection : TypedCollection<KryptonRibbonRecentDoc>

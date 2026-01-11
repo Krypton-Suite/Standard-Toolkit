@@ -101,7 +101,7 @@ internal partial class VisualToastTextBoxUserInputRtlAwareForm : VisualToastBase
 
     private void UpdateIcon()
     {
-        var bitmap = GraphicsExtensions.GetToastNotificationBitmap(
+        var bitmap = GraphicsExtensionUtilities.GetToastNotificationBitmap(
             _toastNotificationIcon,
             _data.ApplicationIcon,
             _data.CustomImage,
