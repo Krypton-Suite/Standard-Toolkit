@@ -1784,6 +1784,12 @@ public class KryptonRichTextBox : VisualControlBase,
     protected override ControlCollection CreateControlsInstance() => new KryptonReadOnlyControls(this);
 
     /// <summary>
+    /// Creates the accessibility object for the KryptonRichTextBox control.
+    /// </summary>
+    /// <returns>A new KryptonRichTextBoxAccessibleObject instance for the control.</returns>
+    protected override AccessibleObject CreateAccessibilityInstance() => new KryptonRichTextBoxAccessibleObject(this);
+
+    /// <summary>
     /// Raises the HandleCreated event.
     /// </summary>
     /// <param name="e">An EventArgs containing the event data.</param>
