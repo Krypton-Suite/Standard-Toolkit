@@ -7,6 +7,7 @@
 * Implemented [#2858](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2858), **[Breaking Change]:** Move `KryptonCommandLink` buttons to `Krypton.Utilities`
   - **Note:**: The `KryptonCommandLinkButton` class has been moved from the `Krypton.Toolkit` namespace to the `Krypton.Utilities` namespace. Please update your using directives accordingly.
 	It is now located in the `Krypton.Utilities` assembly, which is part of the `Krypton.Standard.Toolkit` NuGet package.
+* Resolved [#2516](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2516), `SaveConfigToArray` and `LoadConfigFromArray` not working correctly
 * Implemented [#2853](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2853), Add a 'Countdown' button
 	- To use, download the `Krypton.Standard.Toolkit` NuGet package, as the feature is part of the `Krypton.Utilities` assembly.
 * Resolved [#948](https://github.com/Krypton-Suite/Standard-Toolkit/issues/948), Why does the KButton change size/padding between using .NET Framework & .NET
