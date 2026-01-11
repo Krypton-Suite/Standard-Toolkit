@@ -1374,6 +1374,12 @@ public class KryptonListBox : VisualControlBase,
     protected override ControlCollection CreateControlsInstance() => new KryptonReadOnlyControls(this);
 
     /// <summary>
+    /// Creates the accessibility object for the KryptonListBox control.
+    /// </summary>
+    /// <returns>A new KryptonListBoxAccessibleObject instance for the control.</returns>
+    protected override AccessibleObject CreateAccessibilityInstance() => new KryptonListBoxAccessibleObject(this);
+
+    /// <summary>
     /// Raises the PaletteChanged event.
     /// </summary>
     /// <param name="e">An EventArgs that contains the event data.</param>
