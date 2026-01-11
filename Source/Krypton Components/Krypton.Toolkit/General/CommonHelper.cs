@@ -1246,6 +1246,113 @@ public static class CommonHelper
     }
 
     /// <summary>
+    /// Gets the size of the borders requested by the real window.
+    /// </summary>
+    /// <param name="createParams">Window style parameters.</param>
+    /// <param name="form">Optional VisualForm base to detect usage of Chrome drawing</param>
+    /// <returns>Border sizing.</returns>
+    public static Padding GetWindowBordersForForm(CreateParams createParams, KryptonForm form)
+    {
+        if (form.StateCommon?.Border is PaletteFormBorder formBorder)
+        {
+            int xOffset = 0;
+            int yOffset = 0;
+
+            var (xOffset1, yOffset1) = formBorder.BorderWidths(form.FormBorderStyle);
+
+            xOffset = Math.Max(0, xOffset1);
+            yOffset = Math.Max(0, yOffset1);
+
+            var rect = new PI.RECT
+            {
+                // Start with a zero sized rectangle
+                top = -yOffset,
+                bottom = yOffset
+            };
+
+            // Adjust rectangle to add on the borders required
+            PI.AdjustWindowRectEx(ref rect, (uint)createParams.Style, false, createParams.ExStyle);
+
+            if (form.GetResolvedPalette() is null)
+            {
+                // Need to breakout when the form is closing
+                return new Padding(-rect.left, -rect.top, rect.right, rect.bottom);
+            }
+
+            if (!CommonHelper.IsFormMaximized(form) && form.StateCommon.Border.Width > 0)
+            {
+                // Set the values determined by the formBorder.BorderWidths etc.
+                rect.left = -xOffset;
+                rect.right = xOffset;
+                rect.bottom = yOffset;
+
+                switch (formBorder.GetBorderDrawBorders(PaletteState.Normal))
+                {
+                    case PaletteDrawBorders.None:
+                        rect.left = 0;
+                        rect.right = 0;
+                        rect.bottom = 0;
+                        break;
+
+                    case PaletteDrawBorders.Bottom:
+                    case PaletteDrawBorders.TopBottom:
+                        rect.left = 0;
+                        rect.right = 0;
+                        break;
+
+                    case PaletteDrawBorders.Left:
+                    case PaletteDrawBorders.TopLeft:
+                        rect.right = 0;
+                        rect.bottom = 0;
+                        break;
+
+                    case PaletteDrawBorders.BottomLeft:
+                    case PaletteDrawBorders.TopBottomLeft:
+                        rect.right = 0;
+                        break;
+
+                    case PaletteDrawBorders.Right:
+                    case PaletteDrawBorders.TopRight:
+                        rect.left = 0;
+                        rect.bottom = 0;
+                        break;
+
+                    case PaletteDrawBorders.BottomRight:
+                    case PaletteDrawBorders.TopBottomRight:
+                        rect.left = 0;
+                        break;
+
+                    case PaletteDrawBorders.LeftRight:
+                    case PaletteDrawBorders.TopLeftRight:
+                        rect.bottom = 0;
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+            else if (form.IsMdiChild)
+            {
+                rect.top = 0;
+                rect.left = 0;
+                rect.right = 0;
+                rect.bottom = 0;
+            }
+            else
+            {
+                rect.bottom -= yOffset;
+                rect.top -= rect.bottom;
+            }
+
+            return new Padding(-rect.left, -rect.top, rect.right, rect.bottom);
+        }
+        else
+        {
+            throw new NullReferenceException("form.StateCommon cannot be null.");
+        }
+    }
+
+    /// <summary>
     /// Discover if the provided Form is currently minimized.
     /// </summary>
     /// <param name="f">Form reference.</param>

@@ -1779,6 +1779,15 @@ public class KryptonForm : VisualForm,
         ApplyMaterialFormChromeDefaultsIfNeeded();
     }
 
+    /// <summary>
+    /// Gets the size of the borders requested by the real window.
+    /// </summary>
+    /// <returns>Border sizing.</returns>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public override Padding RealWindowBorders => CommonHelper.GetWindowBordersForForm(CreateParams, this);
+
     #endregion
 
     #region Protected Chrome

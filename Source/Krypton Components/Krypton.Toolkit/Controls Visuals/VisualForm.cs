@@ -542,7 +542,7 @@ public abstract class VisualForm : Form,
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public Padding RealWindowBorders => CommonHelper.GetWindowBorders(CreateParams);
+    public virtual Padding RealWindowBorders => CommonHelper.GetWindowBorders(CreateParams);
 
     /// <summary>
     /// Gets a count of the number of paints that have occurred.
