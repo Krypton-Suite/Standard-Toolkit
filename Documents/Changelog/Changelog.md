@@ -4,6 +4,7 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#2861](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2861), Extend touchscreen support
 * Implemented [#762](https://github.com/Krypton-Suite/Standard-Toolkit/issues/762), Does Krypton provide the correct UIA providers for the controls it "Hides"
 * Resolved [#2516](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2516), `SaveConfigToArray` and `LoadConfigFromArray` not working correctly
 * Implemented [#2853](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2853), Add a 'Countdown' button
