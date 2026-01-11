@@ -7,7 +7,7 @@
  */
 #endregion
 
-namespace Krypton.Toolkit;
+namespace Krypton.Utilities;
 
 public class CommandLinkSubscriptTextValue : NullContentValues
 {

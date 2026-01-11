@@ -7,7 +7,7 @@
  */
 #endregion
 
-namespace Krypton.Toolkit;
+namespace Krypton.Utilities;
 
 internal class KryptonCommandLinkButtonActionList : DesignerActionList
 {
