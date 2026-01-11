@@ -146,40 +146,6 @@ public class KryptonNotifyIcon : Component
     {
         container?.Add(this);
     }
-
-    /// <summary>
-    /// Clean up any resources being used.
-    /// </summary>
-    /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-    protected override void Dispose(bool disposing)
-    {
-        if (!_disposed && disposing)
-        {
-            // Unhook from events
-            KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChanged;
-
-            _notifyIcon.Click -= OnClick;
-            _notifyIcon.DoubleClick -= OnDoubleClick;
-            _notifyIcon.MouseClick -= OnMouseClick;
-            _notifyIcon.MouseDoubleClick -= OnMouseDoubleClick;
-            _notifyIcon.MouseMove -= OnMouseMove;
-            _notifyIcon.MouseDown -= OnMouseDown;
-            _notifyIcon.MouseUp -= OnMouseUp;
-            _notifyIcon.BalloonTipClicked -= OnBalloonTipClicked;
-            _notifyIcon.BalloonTipClosed -= OnBalloonTipClosed;
-            _notifyIcon.BalloonTipShown -= OnBalloonTipShown;
-
-            _notifyIcon.Dispose();
-
-            _icon?.Dispose();
-            _icon = null;
-            _palette = null;
-
-            _disposed = true;
-        }
-
-        base.Dispose(disposing);
-    }
     
     #endregion
 
@@ -430,6 +396,29 @@ public class KryptonNotifyIcon : Component
             _palette = KryptonManager.CurrentGlobalPalette;
             UpdateIcon();
         }
+    }
+
+    #endregion
+
+    #region Disposal
+
+    private void Dispose(bool isDisposing)
+    {
+        if (!_disposed)
+        {
+            _notifyIcon?.Dispose();
+        }
+
+        _disposed = true;
+    }
+
+    ~KryptonNotifyIcon() => Dispose(false);
+
+    public void Dispose()
+    {
+        Dispose(true);
+
+        GC.SuppressFinalize(this);
     }
 
     #endregion
