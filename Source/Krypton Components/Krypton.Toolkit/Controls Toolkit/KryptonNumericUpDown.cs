@@ -1637,6 +1637,12 @@ public class KryptonNumericUpDown : VisualControlBase,
     protected override ControlCollection CreateControlsInstance() => new KryptonReadOnlyControls(this);
 
     /// <summary>
+    /// Creates the accessibility object for the KryptonNumericUpDown control.
+    /// </summary>
+    /// <returns>A new KryptonNumericUpDownAccessibleObject instance for the control.</returns>
+    protected override AccessibleObject CreateAccessibilityInstance() => new KryptonNumericUpDownAccessibleObject(this);
+
+    /// <summary>
     /// Raises the HandleCreated event.
     /// </summary>
     /// <param name="e">An EventArgs containing the event data.</param>
