@@ -130,7 +130,7 @@ internal partial class VisualToastBasicWithProgressBarForm : KryptonForm
 
     private void UpdateIcon()
     {
-        var bitmap = GraphicsExtensions.GetToastNotificationBitmap(
+        var bitmap = GraphicsExtensionUtilities.GetToastNotificationBitmap(
             _basicToastNotificationData.NotificationIcon,
             null,
             _basicToastNotificationData.CustomImage,
