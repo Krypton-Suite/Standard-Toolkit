@@ -8,7 +8,7 @@
 #endregion
 
 // ReSharper disable InconsistentNaming
-namespace Krypton.Toolkit;
+namespace Krypton.Utilities;
 
 public class CommandLinkImageValues : Storage, IContentValues
 {
@@ -95,7 +95,6 @@ public class CommandLinkImageValues : Storage, IContentValues
     private void ResetUACShieldIconSize() => UACShieldIconSize = IconSize.Small;
 
     #endregion
-
 
     #region IsDefault
 

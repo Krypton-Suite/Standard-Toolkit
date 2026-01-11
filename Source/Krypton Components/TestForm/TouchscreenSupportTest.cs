@@ -31,6 +31,7 @@ public partial class TouchscreenSupportTest : KryptonForm
     {
         // Subscribe to touchscreen support changes
         KryptonManager.GlobalTouchscreenSupportChanged += OnGlobalTouchscreenSupportChanged;
+        KryptonManager.TouchscreenAvailabilityChanged += OnTouchscreenAvailabilityChanged;
 
         // Initialize UI with current settings
         UpdateUIFromSettings();
@@ -48,6 +49,9 @@ public partial class TouchscreenSupportTest : KryptonForm
         btnApplyPreset50.Click += BtnApplyPreset50_Click;
         btnApplyPreset75.Click += BtnApplyPreset75_Click;
         btnToggle.Click += BtnToggle_Click;
+        chkAutoDetect.CheckedChanged += ChkAutoDetect_CheckedChanged;
+        numDetectionInterval.ValueChanged += NumDetectionInterval_ValueChanged;
+        btnCheckAvailability.Click += BtnCheckAvailability_Click;
 
         // Update status
         UpdateStatus();
@@ -170,13 +174,12 @@ public partial class TouchscreenSupportTest : KryptonForm
 
         try
         {
-            KryptonManager.TouchscreenSettingsValues.TouchscreenModeEnabled = chkEnableTouchscreen.Checked;
+            KryptonManager.TouchscreenSettingValues.TouchscreenModeEnabled = chkEnableTouchscreen.Checked;
             UpdateStatus();
         }
         catch (Exception ex)
         {
-            KryptonMessageBox.Show($"Error: {ex.Message}", "Touchscreen Support", KryptonMessageBoxButtons.OK,
-                KryptonMessageBoxIcon.Error);
+            KryptonMessageBox.Show($"Error: {ex.Message}", "Touchscreen Support", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Error);
         }
     }
 
@@ -188,13 +191,12 @@ public partial class TouchscreenSupportTest : KryptonForm
         {
             // Convert trackbar value (0-200) to scale factor (1.0 - 3.0)
             float scaleFactor = 1.0f + (trackScaleFactor.Value / 100f);
-            KryptonManager.TouchscreenSettingsValues.ControlScaleFactor = scaleFactor;
+            KryptonManager.TouchscreenSettingValues.ControlScaleFactor = scaleFactor;
             UpdateStatus();
         }
         catch (Exception ex)
         {
-            KryptonMessageBox.Show($"Error: {ex.Message}", "Touchscreen Support", KryptonMessageBoxButtons.OK,
-                KryptonMessageBoxIcon.Error);
+            KryptonMessageBox.Show($"Error: {ex.Message}", "Touchscreen Support", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Error);
         }
     }
 
@@ -204,14 +206,13 @@ public partial class TouchscreenSupportTest : KryptonForm
 
         try
         {
-            KryptonManager.TouchscreenSettingsValues.FontScalingEnabled = chkEnableFontScaling.Checked;
-            trackFontScaleFactor.Enabled = KryptonManager.TouchscreenSettingsValues.TouchscreenModeEnabled && chkEnableFontScaling.Checked;
+            KryptonManager.TouchscreenSettingValues.FontScalingEnabled = chkEnableFontScaling.Checked;
+            trackFontScaleFactor.Enabled = KryptonManager.TouchscreenSettingValues.TouchscreenModeEnabled && chkEnableFontScaling.Checked;
             UpdateStatus();
         }
         catch (Exception ex)
         {
-            KryptonMessageBox.Show($"Error: {ex.Message}", "Touchscreen Support", KryptonMessageBoxButtons.OK,
-                KryptonMessageBoxIcon.Error);
+            KryptonMessageBox.Show($"Error: {ex.Message}", "Touchscreen Support", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Error);
         }
     }
 
@@ -223,13 +224,12 @@ public partial class TouchscreenSupportTest : KryptonForm
         {
             // Convert trackbar value (0-200) to scale factor (1.0 - 3.0)
             float scaleFactor = 1.0f + (trackFontScaleFactor.Value / 100f);
-            KryptonManager.TouchscreenSettingsValues.FontScaleFactor = scaleFactor;
+            KryptonManager.TouchscreenSettingValues.FontScaleFactor = scaleFactor;
             UpdateStatus();
         }
         catch (Exception ex)
         {
-            KryptonMessageBox.Show($"Error: {ex.Message}", "Touchscreen Support", KryptonMessageBoxButtons.OK,
-                KryptonMessageBoxIcon.Error);
+            KryptonMessageBox.Show($"Error: {ex.Message}", "Touchscreen Support", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Error);
         }
     }
 
@@ -237,15 +237,14 @@ public partial class TouchscreenSupportTest : KryptonForm
     {
         try
         {
-            KryptonManager.TouchscreenSettingsValues.ControlScaleFactor = 1.25f; // Default 25% larger
-            KryptonManager.TouchscreenSettingsValues.FontScaleFactor = 1.25f; // Default 25% larger
+            KryptonManager.TouchscreenSettingValues.ControlScaleFactor = 1.25f; // Default 25% larger
+            KryptonManager.TouchscreenSettingValues.FontScaleFactor = 1.25f; // Default 25% larger
             UpdateUIFromSettings();
             UpdateStatus();
         }
         catch (Exception ex)
         {
-            KryptonMessageBox.Show($"Error: {ex.Message}", "Touchscreen Support", KryptonMessageBoxButtons.OK,
-                KryptonMessageBoxIcon.Error);
+            KryptonMessageBox.Show($"Error: {ex.Message}", "Touchscreen Support", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Error);
         }
     }
 
@@ -268,18 +267,16 @@ public partial class TouchscreenSupportTest : KryptonForm
     {
         try
         {
-            KryptonManager.TouchscreenSettingsValues.TouchscreenModeEnabled = true;
-            KryptonManager.TouchscreenSettingsValues.ControlScaleFactor = scaleFactor;
-            KryptonManager.TouchscreenSettingsValues.FontScaleFactor = scaleFactor; // Match font scale to control scale
+            KryptonManager.TouchscreenSettingValues.TouchscreenModeEnabled = true;
+            KryptonManager.TouchscreenSettingValues.ControlScaleFactor = scaleFactor;
+            KryptonManager.TouchscreenSettingValues.FontScaleFactor = scaleFactor; // Match font scale to control scale
             UpdateUIFromSettings();
             UpdateStatus();
-            KryptonMessageBox.Show($"Applied preset: {description}", "Touchscreen Support", KryptonMessageBoxButtons.OK,
-                KryptonMessageBoxIcon.Information);
+            KryptonMessageBox.Show($"Applied preset: {description}", "Touchscreen Support", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
         }
         catch (Exception ex)
         {
-            KryptonMessageBox.Show($"Error: {ex.Message}", "Touchscreen Support", KryptonMessageBoxButtons.OK,
-                KryptonMessageBoxIcon.Error);
+            KryptonMessageBox.Show($"Error: {ex.Message}", "Touchscreen Support", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Error);
         }
     }
 
@@ -287,14 +284,13 @@ public partial class TouchscreenSupportTest : KryptonForm
     {
         try
         {
-            KryptonManager.TouchscreenSettingsValues.TouchscreenModeEnabled = !KryptonManager.UseTouchscreenSupport;
+            KryptonManager.TouchscreenSettingValues.TouchscreenModeEnabled = !KryptonManager.UseTouchscreenSupport;
             UpdateUIFromSettings();
             UpdateStatus();
         }
         catch (Exception ex)
         {
-            KryptonMessageBox.Show($"Error: {ex.Message}", "Touchscreen Support", KryptonMessageBoxButtons.OK,
-                KryptonMessageBoxIcon.Error);
+            KryptonMessageBox.Show($"Error: {ex.Message}", "Touchscreen Support", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Error);
         }
     }
 
@@ -318,7 +314,7 @@ public partial class TouchscreenSupportTest : KryptonForm
         _updatingFromEvent = true;
         try
         {
-            var settings = KryptonManager.TouchscreenSettingsValues;
+            var settings = KryptonManager.TouchscreenSettingValues;
 
             chkEnableTouchscreen.Checked = settings.TouchscreenModeEnabled;
 
@@ -346,6 +342,17 @@ public partial class TouchscreenSupportTest : KryptonForm
             trackFontScaleFactor.Enabled = fontScalingEnabled;
             lblFontScaleFactor.Enabled = touchscreenEnabled;
             lblFontScaleValue.Enabled = touchscreenEnabled;
+
+            // Automatic detection controls
+            chkAutoDetect.Checked = settings.AutomaticallyDetectTouchscreen;
+            numDetectionInterval.Value = settings.DetectionInterval;
+            numDetectionInterval.Enabled = settings.AutomaticallyDetectTouchscreen;
+            lblDetectionInterval.Enabled = settings.AutomaticallyDetectTouchscreen;
+
+            // Update maximum touch contacts display
+            int maxContacts = settings.MaximumTouchContacts;
+            lblMaxTouchContacts.Text = $"Maximum Touch Contacts: {maxContacts}";
+            lblMaxTouchContacts.StateCommon.ShortText.Color1 = maxContacts > 0 ? Color.Green : Color.Gray;
         }
         finally
         {
@@ -355,17 +362,18 @@ public partial class TouchscreenSupportTest : KryptonForm
 
     private void UpdateStatus()
     {
-        var settings = KryptonManager.TouchscreenSettingsValues;
+        var settings = KryptonManager.TouchscreenSettingValues;
         bool isEnabled = settings.TouchscreenModeEnabled;
         float controlScaleFactor = KryptonManager.TouchscreenScaleFactor;
         bool fontScalingEnabled = settings.FontScalingEnabled && isEnabled;
         float fontScaleFactor = KryptonManager.TouchscreenFontScaleFactor;
+        bool autoDetect = settings.AutomaticallyDetectTouchscreen;
+        bool isAvailable = KryptonManager.IsTouchscreenAvailable();
 
         string statusText;
         if (isEnabled)
         {
-            statusText =
-                $"Touchscreen Support: ENABLED - Control Scale: {controlScaleFactor:F2}x ({(controlScaleFactor * 100 - 100):F1}% larger)";
+            statusText = $"Touchscreen Support: ENABLED - Control Scale: {controlScaleFactor:F2}x ({(controlScaleFactor * 100 - 100):F1}% larger)";
             if (fontScalingEnabled)
             {
                 statusText += $" | Font Scale: {fontScaleFactor:F2}x ({(fontScaleFactor * 100 - 100):F1}% larger)";
@@ -380,6 +388,16 @@ public partial class TouchscreenSupportTest : KryptonForm
             statusText = "Touchscreen Support: DISABLED - Controls at normal size";
         }
 
+        if (autoDetect)
+        {
+            statusText += $" | Auto-Detect: ON (Interval: {settings.DetectionInterval}ms)";
+            statusText += $" | Touchscreen: {(isAvailable ? "DETECTED" : "NOT DETECTED")}";
+        }
+        else
+        {
+            statusText += " | Auto-Detect: OFF";
+        }
+
         lblStatus.Text = statusText;
         lblStatus.StateCommon.ShortText.Color1 = isEnabled ? Color.Green : Color.Gray;
 
@@ -387,10 +405,90 @@ public partial class TouchscreenSupportTest : KryptonForm
         btnToggle.Text = isEnabled ? "Disable Touchscreen Support" : "Enable Touchscreen Support";
     }
 
+    private void ChkAutoDetect_CheckedChanged(object? sender, EventArgs e)
+    {
+        if (_updatingFromEvent) return;
+
+        try
+        {
+            KryptonManager.TouchscreenSettingValues.AutomaticallyDetectTouchscreen = chkAutoDetect.Checked;
+            UpdateStatus();
+        }
+        catch (Exception ex)
+        {
+            KryptonMessageBox.Show($"Error: {ex.Message}", "Touchscreen Support", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Error);
+        }
+    }
+
+    private void NumDetectionInterval_ValueChanged(object? sender, EventArgs e)
+    {
+        if (_updatingFromEvent) return;
+
+        try
+        {
+            int interval = (int)numDetectionInterval.Value;
+            KryptonManager.TouchscreenSettingValues.DetectionInterval = interval;
+            UpdateStatus();
+        }
+        catch (Exception ex)
+        {
+            KryptonMessageBox.Show($"Error: {ex.Message}", "Touchscreen Support", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Error);
+            // Restore previous value
+            UpdateUIFromSettings();
+        }
+    }
+
+    private void BtnCheckAvailability_Click(object? sender, EventArgs e)
+    {
+        bool isAvailable = KryptonManager.IsTouchscreenAvailable();
+        int maxContacts = KryptonManager.GetMaximumTouchContacts();
+
+        string message = $"Touchscreen Detection Results:\n\n";
+        message += $"Available: {(isAvailable ? "Yes" : "No")}\n";
+        message += $"Maximum Touch Contacts: {maxContacts}";
+
+        KryptonMessageBox.Show(message, "Touchscreen Detection", KryptonMessageBoxButtons.OK,
+            isAvailable ? KryptonMessageBoxIcon.Information : KryptonMessageBoxIcon.Warning);
+    }
+
+    private void OnTouchscreenAvailabilityChanged(object? sender, TouchscreenAvailabilityChangedEventArgs e)
+    {
+        // Update UI on the UI thread
+        if (InvokeRequired)
+        {
+            Invoke(new Action(UpdateUIFromSettings));
+            Invoke(new Action(UpdateStatus));
+        }
+        else
+        {
+            UpdateUIFromSettings();
+            UpdateStatus();
+        }
+
+        // Show notification
+        string message = e.IsAvailable
+            ? $"Touchscreen connected!\nMaximum contacts: {e.MaximumTouchContacts}\nTouchscreen support has been automatically enabled."
+            : "Touchscreen disconnected.\nTouchscreen support has been automatically disabled.";
+
+        if (InvokeRequired)
+        {
+            Invoke(new Action(() =>
+                KryptonMessageBox.Show(message, "Touchscreen Availability Changed", KryptonMessageBoxButtons.OK,
+                    e.IsAvailable ? KryptonMessageBoxIcon.Information : KryptonMessageBoxIcon.Warning)));
+        }
+        else
+        {
+            KryptonMessageBox.Show(message, "Touchscreen Availability Changed", KryptonMessageBoxButtons.OK,
+                e.IsAvailable ? KryptonMessageBoxIcon.Information : KryptonMessageBoxIcon.Warning);
+        }
+    }
+
     protected override void OnFormClosed(FormClosedEventArgs e)
     {
         // Unsubscribe from events
         KryptonManager.GlobalTouchscreenSupportChanged -= OnGlobalTouchscreenSupportChanged;
+        KryptonManager.TouchscreenAvailabilityChanged -= OnTouchscreenAvailabilityChanged;
         base.OnFormClosed(e);
     }
 }
+

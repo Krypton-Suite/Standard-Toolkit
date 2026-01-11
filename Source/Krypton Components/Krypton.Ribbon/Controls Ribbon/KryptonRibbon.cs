@@ -73,6 +73,7 @@ public class KryptonRibbon : VisualSimple,
     private ViewDrawRibbonQATBorder _qatBelowRibbon;
     private ViewLayoutRibbonQATFromRibbon _qatBelowContents;
     private ViewDrawRibbonMinimizeBar _minimizeBar;
+    private ViewDrawRibbonNotificationBar _notificationBar;
 
     // User ButtonSpecs
 
@@ -99,6 +100,11 @@ public class KryptonRibbon : VisualSimple,
     private KryptonRibbonTab? _selectedTab;
     private VisualBackstageOverlayForm? _backstageOverlay;
     private KryptonRibbonTab? _backstageRestoreTab;
+
+    private KryptonRibbonNotificationBarData _notificationBarData;
+
+    private Timer? _autoDismissTimer;
+
     #endregion
 
     #region Events
@@ -201,6 +207,13 @@ public class KryptonRibbon : VisualSimple,
     [EditorBrowsable(EditorBrowsableState.Never)]
     [Browsable(false)]
     public event EventHandler? DesignTimeAddTab;
+
+    /// <summary>
+    /// Occurs when a notification bar button is clicked.
+    /// </summary>
+    [Category(@"Action")]
+    [Description(@"Occurs when a notification bar action button or close button is clicked.")]
+    public event EventHandler<RibbonNotificationBarEventArgs>? NotificationBarButtonClick;
     #endregion
 
     #region Identity
@@ -243,6 +256,21 @@ public class KryptonRibbon : VisualSimple,
         {
             // Remember to unhook otherwise memory cannot be garbage collected
             Application.RemoveMessageFilter(this);
+
+            // Stop and dispose auto-dismiss timer
+            if (_autoDismissTimer != null)
+            {
+                _autoDismissTimer.Stop();
+                _autoDismissTimer.Dispose();
+                _autoDismissTimer = null;
+            }
+
+            // Unhook from notification bar data
+            if (_notificationBarData != null)
+            {
+                _notificationBarData.PropertyChanged -= OnNotificationBarDataPropertyChanged;
+            }
+
 
             // Prevent the removing of child controls from causing a 
             // layout that then causes the children to be added again!
@@ -888,6 +916,17 @@ public class KryptonRibbon : VisualSimple,
     /// Resets the MinimizedMode property to its default value.
     /// </summary>
     public void ResetMinimizedMode() => MinimizedMode = false;
+
+    /// <summary>
+    /// Gets the notification bar data for customization.
+    /// </summary>
+    [Category(@"Appearance")]
+    [Description(@"Provides access to notification bar customization properties.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public KryptonRibbonNotificationBarData NotificationBar
+    {
+        get => _notificationBarData;
+    }
 
     /// <summary>
     /// Gets and sets the display method for the quick access toolbar.
@@ -2821,6 +2860,10 @@ public class KryptonRibbon : VisualSimple,
     {
         RibbonShortcuts = new RibbonShortcuts();
 
+        _notificationBarData = new KryptonRibbonNotificationBarData();
+        
+        _notificationBarData.PropertyChanged += OnNotificationBarDataPropertyChanged;
+
         // Create direct access to the redirector for panel background
         _backPanelInherit = new PaletteBackInheritRedirect(Redirector, PaletteBackStyle.PanelClient);
 
@@ -2882,11 +2925,20 @@ public class KryptonRibbon : VisualSimple,
             Visible = false
         };
 
+        // Create notification bar
+        _notificationBar = new ViewDrawRibbonNotificationBar(this, NeedPaintDelegate)
+        {
+            Visible = false,
+            NotificationData = _notificationBarData
+        };
+        _notificationBar.ButtonClick += OnNotificationBarButtonClick;
+
         // Connect up the various view elements
         MainPanel.Add(_ribbonDocker);
         _ribbonDocker.Add(GroupsArea, ViewDockStyle.Fill);
         _ribbonDocker.Add(_minimizeBar, ViewDockStyle.Bottom);
         _ribbonDocker.Add(_qatBelowRibbon, ViewDockStyle.Bottom);
+        _ribbonDocker.Add(_notificationBar, ViewDockStyle.Bottom);
         _ribbonDocker.Add(TabsArea, ViewDockStyle.Top);
         _ribbonDocker.Add(CaptionArea, ViewDockStyle.Top);
 
@@ -2900,9 +2952,87 @@ public class KryptonRibbon : VisualSimple,
         // Create the view manager instance
         ViewManager = new ViewRibbonManager(this, GroupsArea.ViewGroups, _rootDocker, false, NeedPaintDelegate);
     }
+
+    private void OnNotificationBarDataPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (_notificationBar == null)
+        {
+            return;
+        }
+
+        switch (e.PropertyName)
+        {
+            case nameof(KryptonRibbonNotificationBarData.Visible):
+                _notificationBar.Visible = _notificationBarData.Visible;
+                UpdateAutoDismissTimer();
+                PerformNeedPaint(true);
+                break;
+            case nameof(KryptonRibbonNotificationBarData.AutoDismissSeconds):
+                UpdateAutoDismissTimer();
+                break;
+            default:
+                PerformNeedPaint(true);
+                break;
+        }
+    }
+
+    private void OnNotificationBarButtonClick(object? sender, RibbonNotificationBarEventArgs e)
+    {
+        // Stop auto-dismiss timer if button was clicked
+        if (_autoDismissTimer != null)
+        {
+            _autoDismissTimer.Stop();
+            _autoDismissTimer.Dispose();
+            _autoDismissTimer = null;
+        }
+
+        // Raise the event
+        NotificationBarButtonClick?.Invoke(this, e);
+
+        // If close button was clicked, hide the notification bar
+        if (e.ActionButtonIndex == -1)
+        {
+            _notificationBarData.Visible = false;
+        }
+    }
+
+    private void UpdateAutoDismissTimer()
+    {
+        // Dispose existing timer if any
+        if (_autoDismissTimer != null)
+        {
+            _autoDismissTimer.Stop();
+            _autoDismissTimer.Dispose();
+            _autoDismissTimer = null;
+        }
+
+        // Create new timer if auto-dismiss is enabled and notification is visible
+        if (_notificationBarData.Visible && _notificationBarData.AutoDismissSeconds > 0)
+        {
+            _autoDismissTimer = new System.Windows.Forms.Timer
+            {
+                Interval = _notificationBarData.AutoDismissSeconds * 1000
+            };
+            _autoDismissTimer.Tick += OnAutoDismissTimerTick;
+            _autoDismissTimer.Start();
+        }
+    }
+
+    private void OnAutoDismissTimerTick(object? sender, EventArgs e)
+    {
+        if (_autoDismissTimer != null)
+        {
+            _autoDismissTimer.Stop();
+            _autoDismissTimer.Dispose();
+            _autoDismissTimer = null;
+        }
+
+        _notificationBarData.Visible = false;
+    }
+
     #endregion
 
-    #region Private
+        #region Private
     private void CheckForAltUp()
     {
         if (_altDown)
