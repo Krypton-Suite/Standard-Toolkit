@@ -681,6 +681,12 @@ public class KryptonLinkWrapLabel : LinkLabel
     }
 
     /// <summary>
+    /// Creates the accessibility object for the KryptonLinkWrapLabel control.
+    /// </summary>
+    /// <returns>A new KryptonLinkWrapLabelAccessibleObject instance for the control.</returns>
+    protected override AccessibleObject CreateAccessibilityInstance() => new KryptonLinkWrapLabelAccessibleObject(this);
+
+    /// <summary>
     /// Processes a mnemonic character.
     /// </summary>
     /// <param name="charCode">The mnemonic character entered.</param>
