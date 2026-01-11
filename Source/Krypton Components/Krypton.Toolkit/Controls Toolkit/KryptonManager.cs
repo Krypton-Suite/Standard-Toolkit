@@ -32,6 +32,10 @@ public sealed class KryptonManager : Component
     private static float _globalTouchscreenScaleFactor = 1.25f;
     private static bool _globalTouchscreenFontScaling = true;
     private static float _globalTouchscreenFontScaleFactor = 1.25f;
+    private static bool _globalAutomaticallyDetectTouchscreen = false;
+    private static int _globalTouchscreenDetectionInterval = 2000; // Default 2 seconds
+    private static System.Threading.Timer? _touchscreenDetectionTimer;
+    private static bool _lastDetectedTouchscreenState = false;
     private static Font? _baseFont;
 
     // Initialize the default modes
@@ -140,6 +144,7 @@ public sealed class KryptonManager : Component
     #endregion
 
     #region Static Events
+
     /// <summary>
     /// Occurs when the palette changes.
     /// </summary>
@@ -160,6 +165,16 @@ public sealed class KryptonManager : Component
     [Category(@"Property Changed")]
     [Description(@"Occurs when the value of the GlobalTouchscreenSupport or GlobalTouchscreenScaleFactor property is changed.")]
     public static event EventHandler? GlobalTouchscreenSupportChanged;
+
+    /// <summary>
+    /// Occurs when touchscreen availability changes (detected or removed).
+    /// This event is fired when AutomaticallyDetectTouchscreen is enabled and the system detects
+    /// that a touchscreen has been connected or disconnected.
+    /// </summary>
+    [Category(@"Property Changed")]
+    [Description(@"Occurs when touchscreen availability changes (detected or removed).")]
+    public static event EventHandler<TouchscreenAvailabilityChangedEventArgs>? TouchscreenAvailabilityChanged;
+
     #endregion
 
     #region Identity
@@ -440,9 +455,9 @@ public sealed class KryptonManager : Component
     [Description(@"Settings for touchscreen support, including control and font scaling.")]
     [MergableProperty(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-    public TouchscreenSettingValues TouchscreenSettings => TouchscreenSettingsValues;
-    private bool ShouldSerializeTouchscreenSettings() => !TouchscreenSettingsValues.IsDefault;
-    private void ResetTouchscreenSettings() => TouchscreenSettingsValues.Reset();
+    public TouchscreenSettingValues TouchscreenSettings => TouchscreenSettingValues;
+    private bool ShouldSerializeTouchscreenSettings() => !TouchscreenSettingValues.IsDefault;
+    private void ResetTouchscreenSettings() => TouchscreenSettingValues.Reset();
 
 
     #endregion
@@ -463,7 +478,7 @@ public sealed class KryptonManager : Component
 
     /// <summary>Gets the touchscreen support settings.</summary>
     /// <value>The touchscreen support settings.</value>
-    public static TouchscreenSettingValues TouchscreenSettingsValues { get; } = new TouchscreenSettingValues();
+    public static TouchscreenSettingValues TouchscreenSettingValues { get; } = new TouchscreenSettingValues();
 
     #region Static ShowAdministratorSuffix
     /// <summary>
@@ -666,6 +681,216 @@ public sealed class KryptonManager : Component
     /// Gets the touchscreen font scale factor. Returns the configured font scale factor when touchscreen support and font scaling are enabled, otherwise 1.0.
     /// </summary>
     public static float TouchscreenFontScaleFactor => (UseTouchscreenSupport && UseTouchscreenFontScaling) ? _globalTouchscreenFontScaleFactor : 1.0f;
+
+    /// <summary>
+    /// Gets and sets a value indicating whether touchscreen support should be automatically detected and enabled.
+    /// When set to true, the system will automatically check for touchscreen capability and enable/disable touchscreen support accordingly.
+    /// Periodic polling will be enabled to detect hot-plug scenarios.
+    /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public static bool AutomaticallyDetectTouchscreen
+    {
+        get => _globalAutomaticallyDetectTouchscreen;
+        set
+        {
+            if (_globalAutomaticallyDetectTouchscreen != value)
+            {
+                _globalAutomaticallyDetectTouchscreen = value;
+
+                if (value)
+                {
+                    // Initialize last detected state
+                    _lastDetectedTouchscreenState = IsTouchscreenAvailable();
+
+                    // Perform detection immediately
+                    PerformTouchscreenDetection();
+
+                    // Start periodic polling
+                    StartTouchscreenDetectionTimer();
+                }
+                else
+                {
+                    // Stop periodic polling
+                    StopTouchscreenDetectionTimer();
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets and sets the interval (in milliseconds) for periodic touchscreen detection polling.
+    /// This is used when AutomaticallyDetectTouchscreen is enabled to detect hot-plug scenarios.
+    /// Default is 2000ms (2 seconds). Minimum value is 500ms.
+    /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public static int TouchscreenDetectionInterval
+    {
+        get => _globalTouchscreenDetectionInterval;
+        set
+        {
+            if (value < 500)
+            {
+                throw new ArgumentOutOfRangeException(nameof(value), value, @"Detection interval must be at least 500 milliseconds.");
+            }
+
+            if (_globalTouchscreenDetectionInterval != value)
+            {
+                _globalTouchscreenDetectionInterval = value;
+
+                // Restart timer with new interval if auto-detection is enabled
+                if (_globalAutomaticallyDetectTouchscreen)
+                {
+                    StartTouchscreenDetectionTimer();
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Performs touchscreen detection and updates the Enabled property if AutomaticallyDetectTouchscreen is true.
+    /// This method is called automatically when AutomaticallyDetectTouchscreen is enabled, but can also be called manually.
+    /// </summary>
+    private static void PerformTouchscreenDetection()
+    {
+        if (!_globalAutomaticallyDetectTouchscreen)
+        {
+            return; // Auto-detection is disabled
+        }
+
+        bool isTouchscreenAvailable = IsTouchscreenAvailable();
+        int maximumTouchContacts = GetMaximumTouchContacts();
+
+        // Check if availability has changed
+        bool availabilityChanged = _lastDetectedTouchscreenState != isTouchscreenAvailable;
+
+        // Only update if the current state differs from detected state
+        if (_globalTouchscreenMode != isTouchscreenAvailable)
+        {
+            // Update the enabled state without triggering change events (we'll fire it once at the end)
+            _globalTouchscreenMode = isTouchscreenAvailable;
+
+            // Fire change event to notify controls to refresh
+            OnGlobalTouchscreenSupportChanged(EventArgs.Empty);
+        }
+
+        // Fire availability changed event if the detected state changed
+        if (availabilityChanged)
+        {
+            _lastDetectedTouchscreenState = isTouchscreenAvailable;
+            OnTouchscreenAvailabilityChanged(new TouchscreenAvailabilityChangedEventArgs(isTouchscreenAvailable, maximumTouchContacts));
+        }
+    }
+
+    /// <summary>
+    /// Starts periodic touchscreen detection polling.
+    /// </summary>
+    private static void StartTouchscreenDetectionTimer()
+    {
+        StopTouchscreenDetectionTimer();
+
+        if (!_globalAutomaticallyDetectTouchscreen)
+        {
+            return;
+        }
+
+        _touchscreenDetectionTimer = new System.Threading.Timer(TouchscreenDetectionTimer_Tick, null, _globalTouchscreenDetectionInterval, _globalTouchscreenDetectionInterval);
+    }
+
+    /// <summary>
+    /// Stops periodic touchscreen detection polling.
+    /// </summary>
+    private static void StopTouchscreenDetectionTimer()
+    {
+        if (_touchscreenDetectionTimer != null)
+        {
+            _touchscreenDetectionTimer.Dispose();
+            _touchscreenDetectionTimer = null;
+        }
+    }
+
+    /// <summary>
+    /// Timer callback for periodic touchscreen detection.
+    /// </summary>
+    private static void TouchscreenDetectionTimer_Tick(object? state) => PerformTouchscreenDetection();
+
+    /// <summary>
+    /// Raises the TouchscreenAvailabilityChanged event.
+    /// </summary>
+    /// <param name="e">A TouchscreenAvailabilityChangedEventArgs containing the event data.</param>
+    private static void OnTouchscreenAvailabilityChanged(TouchscreenAvailabilityChangedEventArgs e)
+    {
+        var handler = TouchscreenAvailabilityChanged;
+        handler?.Invoke(null, e);
+    }
+
+    /// <summary>
+    /// Detects if the system has touchscreen capability.
+    /// Uses GetSystemMetrics(SM_DIGITIZER) to check for digitizer input support.
+    /// Note: This detects system-wide touchscreen capability, not per-monitor.
+    /// For per-monitor detection, you may need to check the monitor's capabilities separately.
+    /// </summary>
+    /// <returns>True if a touchscreen is detected; otherwise false.</returns>
+    public static bool IsTouchscreenAvailable()
+    {
+        try
+        {
+            // SM_DIGITIZER = 94
+            // NID_READY = 0x80 (bit 7) indicates the digitizer is ready
+            int digitizerInfo = PI.GetSystemMetrics(PI.SM_.DIGITIZER);
+            return (digitizerInfo & 0x80) != 0; // Check NID_READY bit
+        }
+        catch
+        {
+            // API may not be available on older Windows versions
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Gets the maximum number of simultaneous touch contacts supported by the system.
+    /// Returns 0 if no touchscreen is available or the API is not supported.
+    /// </summary>
+    /// <returns>The maximum number of simultaneous touches, or 0 if not available.</returns>
+    public static int GetMaximumTouchContacts()
+    {
+        try
+        {
+            // SM_MAXIMUMTOUCHES = 95
+            return PI.GetSystemMetrics(PI.SM_.MAXIMUMTOUCHES);
+        }
+        catch
+        {
+            // API may not be available on older Windows versions
+            return 0;
+        }
+    }
+
+    /// <summary>
+    /// Automatically enables touchscreen support if a touchscreen is detected.
+    /// This is a convenience method that calls IsTouchscreenAvailable() and enables support if detected.
+    /// </summary>
+    /// <param name="scaleFactor">The scale factor to use if touchscreen is detected. Default is 1.25f (25% larger).</param>
+    /// <param name="enableFontScaling">Whether to enable font scaling. Default is true.</param>
+    /// <returns>True if touchscreen was detected and support was enabled; otherwise false.</returns>
+    public static bool AutoEnableTouchscreenSupport(float scaleFactor = 1.25f, bool enableFontScaling = true)
+    {
+        if (IsTouchscreenAvailable())
+        {
+            TouchscreenSettingValues.TouchscreenModeEnabled = true;
+            TouchscreenSettingValues.ControlScaleFactor = scaleFactor;
+            TouchscreenSettingValues.FontScalingEnabled = enableFontScaling;
+
+            if (enableFontScaling)
+            {
+                TouchscreenSettingValues.FontScaleFactor = scaleFactor;
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
     #endregion
 
     #region Static Palette
