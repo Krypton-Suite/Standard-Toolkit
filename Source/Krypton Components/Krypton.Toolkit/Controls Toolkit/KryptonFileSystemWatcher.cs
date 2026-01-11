@@ -398,7 +398,7 @@ public class KryptonFileSystemWatcher : Component
 
     #region Disposal
 
-    private void Dispose(bool isDisposing)
+    private new void Dispose(bool isDisposing)
     {
         if (!_disposed)
         {
@@ -416,7 +416,7 @@ public class KryptonFileSystemWatcher : Component
     /// <summary>
     /// Dispose and garbage collection.
     /// </summary>
-    public void Dispose()
+    public new void Dispose()
     {
         Dispose(true);
 
