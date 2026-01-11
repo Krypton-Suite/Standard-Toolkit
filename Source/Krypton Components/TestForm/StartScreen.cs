@@ -10,6 +10,8 @@
 using System.Reflection;
 using System.Windows.Forms;
 
+using Krypton.Utilities;
+
 namespace TestForm;
 
 public partial class StartScreen : KryptonForm

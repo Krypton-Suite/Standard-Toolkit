@@ -4,6 +4,9 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#2858](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2858), **[Breaking Change]:** Move `KryptonCommandLink` buttons to `Krypton.Utilities`
+  - **Note:**: The `KryptonCommandLinkButton` class has been moved from the `Krypton.Toolkit` namespace to the `Krypton.Utilities` namespace. Please update your using directives accordingly.
+	It is now located in the `Krypton.Utilities` assembly, which is part of the `Krypton.Standard.Toolkit` NuGet package.
 * Implemented [#2795](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2795), `KryptonFileSystemWatcher` - Part of #2658
 * Implemented [#2861](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2861), Extend touchscreen support
 * Implemented [#762](https://github.com/Krypton-Suite/Standard-Toolkit/issues/762), Does Krypton provide the correct UIA providers for the controls it "Hides"

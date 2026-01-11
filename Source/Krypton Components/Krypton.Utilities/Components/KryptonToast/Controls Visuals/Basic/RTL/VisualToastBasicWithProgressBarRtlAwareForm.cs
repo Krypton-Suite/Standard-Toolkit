@@ -107,7 +107,7 @@ internal partial class VisualToastBasicWithProgressBarRtlAwareForm : VisualToast
 
     private void UpdateIcon()
     {
-        var bitmap = GraphicsExtensions.GetToastNotificationBitmap(
+        var bitmap = GraphicsExtensionUtilities.GetToastNotificationBitmap(
             _basicToastNotificationData.NotificationIcon,
             null,
             _basicToastNotificationData.CustomImage,

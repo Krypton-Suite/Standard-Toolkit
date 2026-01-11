@@ -10,7 +10,7 @@
 // ReSharper disable PossibleUnintendedReferenceComparison
 namespace Krypton.Toolkit;
 
-public class CommandLinkTextValues : CaptionValues
+public class InternalCommandLinkTextValues : CaptionValues
 {
     #region Static Fields
     private const string DEFAULT_HEADING = @"Krypton Command Link Button";
@@ -29,10 +29,10 @@ public class CommandLinkTextValues : CaptionValues
     #endregion
 
     #region Identity
-    /// <summary>Initializes a new instance of the <see cref="CommandLinkTextValues" /> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="InternalCommandLinkTextValues" /> class.</summary>
     /// <param name="needPaint">Delegate for notifying paint requests.</param>
     /// <param name="getDpiFactor"></param>
-    public CommandLinkTextValues(NeedPaintHandler needPaint, GetDpiFactor getDpiFactor)
+    public InternalCommandLinkTextValues(NeedPaintHandler needPaint, GetDpiFactor getDpiFactor)
         : base(needPaint, getDpiFactor)
     {
         _descriptionFont = null;
