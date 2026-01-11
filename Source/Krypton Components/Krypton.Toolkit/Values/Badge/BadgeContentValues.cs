@@ -17,10 +17,13 @@ public class BadgeContentValues : Storage
 {
     #region Static Fields
 
-    private const string DEFAULT_TEXT = "";
+    private const string DEFAULT_BADGE_TEXT = @"";
     private const bool DEFAULT_AUTO_SHOW_HIDE_BADGE = false; 
     private const int DEFAULT_BADGE_DIAMETER = 0; // 0 means auto-size
-    private const int DEFAULT_MAX_BADGE_VALUE = 99;
+    private const int DEFAULT_MAXIMUM_BADGE_VALUE = 99;
+    private const int DEFAULT_MINIMUM_BADGE_VALUE = 0;
+    private const int DEFAULT_BADGE_MARGIN = 5; // Default badge margin/offset from the edge
+    private const int DEFAULT_BUTTON_IMAGE_PADDING = 4;
 
     #endregion
 
@@ -36,6 +39,7 @@ public class BadgeContentValues : Storage
     private int _badgeImagePadding;
     private int _badgeDiameter;
     private int _maxBadgeValue;
+    private int _badgeMargin;
     private bool _autoShowHideBadge;
 
     #endregion
@@ -60,7 +64,7 @@ public class BadgeContentValues : Storage
     [Category(@"Visuals")]
     [Description(@"The text to display on the badge.")]
     [RefreshProperties(RefreshProperties.All)]
-    [DefaultValue("")]
+    [DefaultValue(DEFAULT_BADGE_TEXT)]
     public string Text
     {
         get => _text ?? GlobalStaticValues.DEFAULT_EMPTY_STRING;
@@ -81,7 +85,7 @@ public class BadgeContentValues : Storage
         }
     }
 
-    private bool ShouldSerializeText() => Text != DEFAULT_TEXT;
+    private bool ShouldSerializeText() => Text != DEFAULT_BADGE_TEXT;
 
     /// <summary>
     /// Gets and sets the badge image.
@@ -119,7 +123,7 @@ public class BadgeContentValues : Storage
     [Category(@"Visuals")]
     [Description(@"The padding around the badge image.")]
     [RefreshProperties(RefreshProperties.All)]
-    [DefaultValue(4)]
+    [DefaultValue(DEFAULT_BUTTON_IMAGE_PADDING)]
     public int BadgeImagePadding
     {
         get => _badgeImagePadding;
@@ -137,7 +141,7 @@ public class BadgeContentValues : Storage
         }
     }
 
-    private bool ShouldSerializeBadgeImagePadding() => BadgeImagePadding != 4;
+    private bool ShouldSerializeBadgeImagePadding() => BadgeImagePadding != DEFAULT_BUTTON_IMAGE_PADDING;
 
     /// <summary>
     /// Gets and sets the badge position on the button.
@@ -263,7 +267,7 @@ public class BadgeContentValues : Storage
     [Category(@"Visuals")]
     [Description(@"The size of the badge: diameter when Shape is Circle, side length when Shape is Square. 0 means auto-size based on content.")]
     [RefreshProperties(RefreshProperties.All)]
-    [DefaultValue(0)]
+    [DefaultValue(DEFAULT_BADGE_DIAMETER)]
     public int BadgeDiameter
     {
         get => _badgeDiameter;
@@ -290,8 +294,8 @@ public class BadgeContentValues : Storage
     [Category(@"Visuals")]
     [Description(@"The threshold number. If the badge text value (as a number) exceeds this value, OverflowText is displayed instead. Set to 0 to disable overflow checking.")]
     [RefreshProperties(RefreshProperties.All)]
-    [DefaultValue(99)]
-    public int MaxBadgeValue
+    [DefaultValue(DEFAULT_MAXIMUM_BADGE_VALUE)]
+    public int MaximumBadgeValue
     {
         get => _maxBadgeValue;
         set
@@ -309,7 +313,7 @@ public class BadgeContentValues : Storage
         }
     }
 
-    private bool ShouldSerializeMaxBadgeValue() => MaxBadgeValue != DEFAULT_MAX_BADGE_VALUE;
+    private bool ShouldSerializeMaxBadgeValue() => MaximumBadgeValue != DEFAULT_MAXIMUM_BADGE_VALUE;
 
     /// <summary>
     /// Gets and sets whether the badge should automatically show when it has content (text or image) and hide when empty.
@@ -340,6 +344,40 @@ public class BadgeContentValues : Storage
 
     private bool ShouldSerializeAutoShowHideBadge() => AutoShowHideBadge != DEFAULT_AUTO_SHOW_HIDE_BADGE;
 
+    /// <summary>
+    /// Gets and sets the badge margin (offset) from the button edge for badge positioning.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"The badge margin (offset in pixels) from the button edge for badge positioning.")]
+    [RefreshProperties(RefreshProperties.All)]
+    [DefaultValue(DEFAULT_BADGE_MARGIN)]
+    public int BadgeMargin
+    {
+        get => _badgeMargin;
+
+        set
+        {
+            if (value < 0)
+            {
+                value = 0;
+            }
+
+            if (_badgeMargin != value)
+            {
+                _badgeMargin = value;
+
+                PerformNeedPaint(true);
+            }
+        }
+    }
+
+    private bool ShouldSerializeBadgeMargin() => BadgeMargin != DEFAULT_BADGE_MARGIN;
+
+    /// <summary>
+    /// Resets the Margin property to its default value.
+    /// </summary>
+    public void ResetBadgeMargin() => BadgeMargin = DEFAULT_BADGE_MARGIN;
+
     #endregion
 
     #region Implementation
@@ -363,18 +401,20 @@ public class BadgeContentValues : Storage
 
     #region IsDefault
 
+    /// <inheritdoc />
     [Browsable(false)]
-    public override bool IsDefault => Text.Equals(DEFAULT_TEXT) &&
+    public override bool IsDefault => Text.Equals(DEFAULT_BADGE_TEXT) &&
                                       Position.Equals(BadgePosition.TopRight) &&
                                       Visible.Equals(false) &&
                                       Font == null &&
                                       Shape.Equals(BadgeShape.Circle) &&
                                       Animation.Equals(BadgeAnimation.None) &&
                                       BadgeDiameter.Equals(DEFAULT_BADGE_DIAMETER) &&
-                                      MaxBadgeValue.Equals(DEFAULT_MAX_BADGE_VALUE) &&
+                                      MaximumBadgeValue.Equals(DEFAULT_MAXIMUM_BADGE_VALUE) &&
                                       AutoShowHideBadge.Equals(DEFAULT_AUTO_SHOW_HIDE_BADGE) &&
                                       BadgeImage == null &&
-                                      BadgeImagePadding.Equals(4);
+                                      BadgeImagePadding.Equals(DEFAULT_BUTTON_IMAGE_PADDING) &&
+                                      BadgeMargin.Equals(DEFAULT_MAXIMUM_BADGE_VALUE);
 
     #endregion
 
@@ -382,17 +422,18 @@ public class BadgeContentValues : Storage
 
     public void Reset()
     {
-        _text = DEFAULT_TEXT;
+        _text = DEFAULT_BADGE_TEXT;
         _position = BadgePosition.TopRight;
         _visible = false;
         _font = null;
         _shape = BadgeShape.Circle;
         _animation = BadgeAnimation.None;
         _badgeDiameter = DEFAULT_BADGE_DIAMETER;
-        _maxBadgeValue = DEFAULT_MAX_BADGE_VALUE;
+        _maxBadgeValue = DEFAULT_MAXIMUM_BADGE_VALUE;
         _autoShowHideBadge = DEFAULT_AUTO_SHOW_HIDE_BADGE;
         _badgeImage = null;
         _badgeImagePadding = 4;
+        _badgeMargin = DEFAULT_BADGE_MARGIN;
         PerformNeedPaint(true);
     }
 
