@@ -10,7 +10,8 @@
 // ReSharper disable InconsistentNaming
 namespace Krypton.Toolkit;
 
-public class CommandLinkImageValues : Storage, IContentValues
+[EditorBrowsable(EditorBrowsableState.Never)]
+public class InternalCommandLinkImageValues : Storage, IContentValues
 {
     #region Instance Fields
     private bool _displayUACShield;
@@ -20,9 +21,9 @@ public class CommandLinkImageValues : Storage, IContentValues
     #endregion
 
     #region Identity
-    /// <summary>Initializes a new instance of the <see cref="CommandLinkImageValues" /> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="InternalCommandLinkImageValues" /> class.</summary>
     /// <param name="needPaint">The need paint.</param>
-    public CommandLinkImageValues(NeedPaintHandler needPaint)
+    public InternalCommandLinkImageValues(NeedPaintHandler needPaint)
     {
         NeedPaint = needPaint;
         _uacShieldIconSize = IconSize.Small;
@@ -95,7 +96,6 @@ public class CommandLinkImageValues : Storage, IContentValues
     private void ResetUACShieldIconSize() => UACShieldIconSize = IconSize.Small;
 
     #endregion
-
 
     #region IsDefault
 

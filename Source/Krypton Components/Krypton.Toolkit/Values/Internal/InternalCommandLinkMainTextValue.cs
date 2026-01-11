@@ -9,7 +9,7 @@
 
 namespace Krypton.Toolkit;
 
-public class CommandLinkMainTextValue : NullContentValues
+internal class InternalCommandLinkMainTextValue : NullContentValues
 {
     #region Public
 

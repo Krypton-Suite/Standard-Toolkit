@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -510,6 +510,34 @@ public enum BackstageOverlayMode
     /// Overlay covers only the area below the ribbon.
     /// </summary>
     BelowRibbon = 1
+}
+
+#endregion
+
+#region Enum RibbonNotificationBarType
+
+/// <summary>
+/// Specifies the type of notification bar.
+/// </summary>
+public enum RibbonNotificationBarType
+{
+    /// <summary>Unknown notification type (not assigned).</summary>
+    Unknown = 0,
+
+    /// <summary>Information notification (blue).</summary>
+    Information = 1,
+
+    /// <summary>Warning notification (yellow/orange).</summary>
+    Warning = 2,
+
+    /// <summary>Error notification (red).</summary>
+    Error = 3,
+
+    /// <summary>Success notification (green).</summary>
+    Success = 4,
+
+    /// <summary>Custom notification (uses custom colors).</summary>
+    Custom = 5
 }
 
 #endregion
