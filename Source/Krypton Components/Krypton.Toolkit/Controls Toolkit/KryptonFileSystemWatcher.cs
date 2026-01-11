@@ -148,32 +148,6 @@ public class KryptonFileSystemWatcher : Component
         Filter = filter;
     }
 
-    /// <summary>
-    /// Clean up any resources being used.
-    /// </summary>
-    protected override void Dispose(bool disposing)
-    {
-        if (!_disposed && disposing)
-        {
-            // Unhook from events
-            KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChanged;
-
-            _fileSystemWatcher.Created -= OnFileSystemWatcherCreated;
-            _fileSystemWatcher.Changed -= OnFileSystemWatcherChanged;
-            _fileSystemWatcher.Deleted -= OnFileSystemWatcherDeleted;
-            _fileSystemWatcher.Renamed -= OnFileSystemWatcherRenamed;
-            _fileSystemWatcher.Error -= OnFileSystemWatcherError;
-            _fileSystemWatcher.Dispose();
-
-            _disposed = true;
-
-            // Suppress finalization since we've already cleaned up managed resources
-            GC.SuppressFinalize(this);
-        }
-
-        base.Dispose(disposing);
-    }
-
     #endregion
 
     #region Public
@@ -418,6 +392,35 @@ public class KryptonFileSystemWatcher : Component
         {
             _palette = KryptonManager.CurrentGlobalPalette;
         }
+    }
+
+    #endregion
+
+    #region Disposal
+
+    private void Dispose(bool isDisposing)
+    {
+        if (!_disposed)
+        {
+            if (isDisposing)
+            {
+                _fileSystemWatcher?.Dispose();
+            }
+
+            _disposed = true;
+        }
+    }
+
+    ~KryptonFileSystemWatcher() => Dispose(false);
+
+    /// <summary>
+    /// Dispose and garbage collection.
+    /// </summary>
+    public void Dispose()
+    {
+        Dispose(true);
+
+        GC.SuppressFinalize(this);
     }
 
     #endregion
