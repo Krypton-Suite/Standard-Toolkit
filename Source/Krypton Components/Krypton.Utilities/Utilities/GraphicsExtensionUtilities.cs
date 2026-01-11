@@ -8,7 +8,7 @@ using ToastImageResources = Krypton.Utilities.Components.KryptonToast.Resources.
 
 namespace Krypton.Utilities;
 
-public static class GraphicsExtensions
+public static class GraphicsExtensionUtilities
 {
     /// <summary>Gets the type of the toast notification icon.</summary>
     /// <param name="notificationIconType">Type of the notification icon.</param>

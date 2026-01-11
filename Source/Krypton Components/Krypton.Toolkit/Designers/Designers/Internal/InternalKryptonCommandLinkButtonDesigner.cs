@@ -9,13 +9,13 @@
 
 namespace Krypton.Toolkit;
 
-internal class KryptonCommandLinkButtonDesigner : ControlDesigner
+internal class InternalKryptonCommandLinkButtonDesigner : ControlDesigner
 {
     #region Identity
     /// <summary>
     /// Initialize a new instance of the KryptonButtonDesigner class.
     /// </summary>
-    public KryptonCommandLinkButtonDesigner()
+    public InternalKryptonCommandLinkButtonDesigner()
     {
         // The resizing handles around the control need to change depending on the
         // value of the AutoSize and AutoSizeMode properties. When in AutoSize you
@@ -36,7 +36,7 @@ internal class KryptonCommandLinkButtonDesigner : ControlDesigner
 
             DesignerActionListCollection actionList = new DesignerActionListCollection();
 
-            actionList.Add(new KryptonCommandLinkButtonActionList(this));
+            actionList.Add(new InternalKryptonCommandLinkButtonActionList(this));
 
             return actionList;
 
