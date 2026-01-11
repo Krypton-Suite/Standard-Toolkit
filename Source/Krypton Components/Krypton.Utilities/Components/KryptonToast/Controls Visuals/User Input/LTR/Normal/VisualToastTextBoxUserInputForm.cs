@@ -103,7 +103,7 @@ internal partial class VisualToastTextBoxUserInputForm : VisualToastBaseForm
 
     private void UpdateIcon()
     {
-        var bitmap = GraphicsExtensions.GetToastNotificationBitmap(
+        var bitmap = GraphicsExtensionUtilities.GetToastNotificationBitmap(
             _toastNotificationIcon,
             _data.ApplicationIcon,
             _data.CustomImage,

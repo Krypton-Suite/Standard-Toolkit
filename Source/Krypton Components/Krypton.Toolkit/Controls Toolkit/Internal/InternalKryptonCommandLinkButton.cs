@@ -11,11 +11,11 @@ namespace Krypton.Toolkit;
 
 /// <summary>Combines button functionality with the styling features of the Krypton Toolkit.</summary>
 /// <remarks>Main code taken from KryptonButton, then trimmed out to force the CommandLink layout.</remarks>
-[ToolboxBitmap(typeof(KryptonCommandLinkButton), @"ToolboxBitmaps.KryptonCommandLinkButton.bmp")]
-[ToolboxItem(true)]
+[ToolboxBitmap(typeof(InternalKryptonCommandLinkButton), @"ToolboxBitmaps.KryptonCommandLinkButton.bmp")]
+[ToolboxItem(false)]
 [DefaultEvent("Click")]
 [DefaultProperty("Heading")]
-[Designer(typeof(KryptonCommandLinkButtonDesigner))]
+[Designer(typeof(InternalKryptonCommandLinkButtonDesigner))]
 [DesignerCategory("code")]
 #if NET8_0_OR_GREATER
 #pragma warning disable CS0618
@@ -27,7 +27,8 @@ namespace Krypton.Toolkit;
 [DisplayName("Krypton Command Link")]
 [Description("A Krypton Command Link Button.")]
 [ComVisible(true)]
-public class KryptonCommandLinkButton : VisualSimpleBase, IButtonControl
+[EditorBrowsable(EditorBrowsableState.Never)]
+public class InternalKryptonCommandLinkButton : VisualSimpleBase, IButtonControl
 {
     // [ClassInterface(ClassInterfaceType.AutoDispatch)]
     // generates warning CS0618:
@@ -59,7 +60,7 @@ public class KryptonCommandLinkButton : VisualSimpleBase, IButtonControl
     private readonly PaletteTripleOverride _overrideNormal;
     private readonly PaletteTripleOverride _overridePressed;
     private readonly PaletteTripleOverride _overrideTracking;
-    private readonly ViewDrawCommandLinkButton _drawCommandLinkButton;
+    private readonly InternalViewDrawCommandLinkButton _drawCommandLinkButton;
     private VisualOrientation _orientation;
 
     #endregion
@@ -77,8 +78,8 @@ public class KryptonCommandLinkButton : VisualSimpleBase, IButtonControl
 
     #region Identity
 
-    /// <summary>Initializes a new instance of the <see cref="KryptonCommandLinkButton" /> class.</summary>
-    public KryptonCommandLinkButton()
+    /// <summary>Initializes a new instance of the <see cref="InternalKryptonCommandLinkButton" /> class.</summary>
+    public InternalKryptonCommandLinkButton()
     {
         // We generate click events manually, suppress default
         // production of them by the base Control class
@@ -92,8 +93,8 @@ public class KryptonCommandLinkButton : VisualSimpleBase, IButtonControl
         _useMnemonic = true;
 
         // Create content storage
-        UACShieldIcon = new CommandLinkImageValues(NeedPaintDelegate);
-        CommandLinkTextValues = new CommandLinkTextValues(NeedPaintDelegate, GetDpiFactor);
+        UACShieldIcon = new InternalCommandLinkImageValues(NeedPaintDelegate);
+        CommandLinkTextValues = new InternalCommandLinkTextValues(NeedPaintDelegate, GetDpiFactor);
 
         // Create the palette storage
         StateCommon = new PaletteTripleRedirect(Redirector, PaletteBackStyle.ButtonCommand, PaletteBorderStyle.ButtonCommand, PaletteContentStyle.ButtonCommand, NeedPaintDelegate);
@@ -123,7 +124,7 @@ public class KryptonCommandLinkButton : VisualSimpleBase, IButtonControl
         _overridePressed = new PaletteTripleOverride(OverrideFocus, StatePressed, PaletteState.FocusOverride);
 
         // Create the view button instance
-        _drawCommandLinkButton = new ViewDrawCommandLinkButton(StateDisabled,
+        _drawCommandLinkButton = new InternalViewDrawCommandLinkButton(StateDisabled,
             _overrideNormal,
             _overrideTracking,
             _overridePressed,
@@ -267,7 +268,7 @@ public class KryptonCommandLinkButton : VisualSimpleBase, IButtonControl
     [Category("CommandLink")]
     [Description("CommandLink Button Text")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-    public CommandLinkTextValues CommandLinkTextValues { get; }
+    public InternalCommandLinkTextValues CommandLinkTextValues { get; }
 
     /// <summary>
     /// Gets access to the button content.
@@ -275,7 +276,7 @@ public class KryptonCommandLinkButton : VisualSimpleBase, IButtonControl
     [Category("CommandLink")]
     [Description("CommandLink Button Image")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-    public CommandLinkImageValues UACShieldIcon { get; }
+    public InternalCommandLinkImageValues UACShieldIcon { get; }
 
     private bool ShouldSerializeValues() => false;
 
@@ -690,7 +691,7 @@ public class KryptonCommandLinkButton : VisualSimpleBase, IButtonControl
     /// <summary>
     /// Gets access to the view element for the color button.
     /// </summary>
-    protected virtual ViewDrawCommandLinkButton ViewDrawButton => _drawCommandLinkButton;
+    protected virtual InternalViewDrawCommandLinkButton ViewDrawButton => _drawCommandLinkButton;
 
     #endregion
 

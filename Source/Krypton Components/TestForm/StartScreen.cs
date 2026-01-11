@@ -10,6 +10,8 @@
 using System.Reflection;
 using System.Windows.Forms;
 
+using Krypton.Utilities;
+
 namespace TestForm;
 
 public partial class StartScreen : KryptonForm
@@ -67,6 +69,7 @@ public partial class StartScreen : KryptonForm
         CreateButton("Docking Config Save/Load Test", "Test SaveConfigToArray and LoadConfigFromArray", typeof(DockingConfigSaveLoadTest));
         CreateButton("Font Awesome Test", string.Empty, typeof(FontAwesomeTest));
         CreateButton("Floating Window Test", "Comprehensive test for floating window bug fix (Issue #2721)", typeof(FloatingWindowTest));
+        CreateButton("FileSystemWatcher", "Monitor file system changes with Krypton integration.", typeof(FileSystemWatcherTest));
         CreateButton("ErrorProvider", string.Empty, typeof(ErrorProviderTest));
         CreateButton("FormBorder Test", string.Empty, typeof(FormBorderTest));
         CreateButton("Header Examples", string.Empty, typeof(HeaderExamples));
@@ -99,6 +102,7 @@ public partial class StartScreen : KryptonForm
         CreateButton("Old Style Main: Fullscreen", string.Empty, typeof(Main));
         CreateButton("PropertyGridTest", string.Empty, typeof(PropertyGridTest));
         CreateButton("Ribbon", string.Empty, typeof(RibbonTest));
+        CreateButton("Ribbon Notification Bar", "Comprehensive demonstration of the Krypton Ribbon Notification Bar feature with all customization options.", typeof(RibbonNotificationBarDemo));
         CreateButton("Ribbon Merger Demo", "Demonstrates UserControl hosting and ribbon merging for plugin architectures", typeof(RibbonMergerDemo));
         CreateButton("TextBox", string.Empty, typeof(TextBoxEventTest));
         CreateButton("TreeView", string.Empty, typeof(TreeViewExample));
