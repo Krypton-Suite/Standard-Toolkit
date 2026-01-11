@@ -26,10 +26,26 @@ public class TouchscreenSettingValues : GlobalId
     #region Public
 
     /// <summary>
+    /// Gets or sets a value indicating whether touchscreen support should be automatically detected and enabled.
+    /// When set to true, the system will automatically check for touchscreen capability and enable/disable touchscreen support accordingly.
+    /// </summary>
+    [Category(@"Detection")]
+    [Description(@"When enabled, automatically detects touchscreen capability and enables/disables touchscreen support accordingly.")]
+    [DefaultValue(false)]
+    public bool AutomaticallyDetectTouchscreen
+    {
+        get => KryptonManager.AutomaticallyDetectTouchscreen;
+        set => KryptonManager.AutomaticallyDetectTouchscreen = value;
+    }
+    private bool ShouldSerializeAutomaticallyDetectTouchscreen() => AutomaticallyDetectTouchscreen;
+    private void ResetAutomaticallyDetectTouchscreen() => AutomaticallyDetectTouchscreen = false;
+
+    /// <summary>
     /// Gets or sets a value indicating if touchscreen support is enabled, making controls larger based on the scale factor.
+    /// Note: If AutomaticallyDetectTouchscreen is true, this property will be automatically updated based on detection.
     /// </summary>
     [Category(@"Visuals")]
-    [Description(@"Should touchscreen support be enabled, making controls larger for easier touch interaction.")]
+    [Description(@"Should touchscreen support be enabled, making controls larger for easier touch interaction. Note: If AutomaticallyDetectTouchscreen is true, this property will be automatically updated based on detection.")]
     [DefaultValue(false)]
     public bool TouchscreenModeEnabled
     {
@@ -102,6 +118,32 @@ public class TouchscreenSettingValues : GlobalId
     private bool ShouldSerializeFontScaleFactor() => Math.Abs(FontScaleFactor - 1.25f) > 0.001f;
     private void ResetFontScaleFactor() => FontScaleFactor = 1.25f;
 
+    /// <summary>
+    /// Gets the maximum number of simultaneous touch contacts supported by the system.
+    /// Returns 0 if no touchscreen is available or the API is not supported.
+    /// </summary>
+    [Category(@"Detection")]
+    [Description(@"The maximum number of simultaneous touch contacts supported by the system. Returns 0 if not available.")]
+    [Browsable(true)]
+    [ReadOnly(true)]
+    public int MaximumTouchContacts => KryptonManager.GetMaximumTouchContacts();
+
+    /// <summary>
+    /// Gets or sets the interval (in milliseconds) for periodic touchscreen detection polling.
+    /// This is used when AutomaticallyDetectTouchscreen is enabled to detect hot-plug scenarios.
+    /// Default is 2000ms (2 seconds). Minimum value is 500ms.
+    /// </summary>
+    [Category(@"Detection")]
+    [Description(@"The interval in milliseconds for periodic touchscreen detection polling. Used for hot-plug detection. Minimum is 500ms.")]
+    [DefaultValue(2000)]
+    public int DetectionInterval
+    {
+        get => KryptonManager.TouchscreenDetectionInterval;
+        set => KryptonManager.TouchscreenDetectionInterval = value;
+    }
+    private bool ShouldSerializeDetectionInterval() => DetectionInterval != 2000;
+    private void ResetDetectionInterval() => DetectionInterval = 2000;
+
     #endregion
 
     #region Overrides
@@ -117,10 +159,12 @@ public class TouchscreenSettingValues : GlobalId
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public bool IsDefault => !(ShouldSerializeTouchscreenModeEnabled() ||
+    public bool IsDefault => !(ShouldSerializeAutomaticallyDetectTouchscreen() ||
+                               ShouldSerializeTouchscreenModeEnabled() ||
                                ShouldSerializeControlScaleFactor() ||
                                ShouldSerializeFontScalingEnabled() ||
-                               ShouldSerializeFontScaleFactor());
+                               ShouldSerializeFontScaleFactor() ||
+                               ShouldSerializeDetectionInterval());
 
     #endregion
 
@@ -128,10 +172,12 @@ public class TouchscreenSettingValues : GlobalId
 
     public void Reset()
     {
+        ResetAutomaticallyDetectTouchscreen();
         ResetTouchscreenModeEnabled();
         ResetControlScaleFactor();
         ResetFontScalingEnabled();
         ResetFontScaleFactor();
+        ResetDetectionInterval();
     }
 
     #endregion
