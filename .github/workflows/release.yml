@@ -11,7 +11,7 @@ on:
       - canary
       - V105-LTS
       - V85-LTS
-    workflow_dispatch:
+  workflow_dispatch:
 
 jobs:
   release-master:
