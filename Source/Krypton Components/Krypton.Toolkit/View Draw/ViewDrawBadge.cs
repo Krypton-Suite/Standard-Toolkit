@@ -220,7 +220,7 @@ public class ViewDrawBadge : ViewLeaf
             }
 
             // For non-circle shapes, we might want different sizing
-            int padding = _badgeValues.BadgeContentValues.Shape == BadgeShape.Circle ? 8 : 6;
+            int padding = 8;
             int diameter = Math.Max(BADGE_MIN_SIZE, (int)Math.Max(textSize.Width, textSize.Height) + padding);
             return new Size(diameter, diameter);
         }
