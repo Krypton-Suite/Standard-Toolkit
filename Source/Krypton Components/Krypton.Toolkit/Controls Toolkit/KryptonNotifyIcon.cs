@@ -414,7 +414,8 @@ public class KryptonNotifyIcon : Component
 
     #region Disposal
 
-    private new void Dispose(bool isDisposing)
+    /// <inheritdoc />
+    protected override void Dispose(bool disposing)
     {
         if (!_disposed)
         {
@@ -422,11 +423,13 @@ public class KryptonNotifyIcon : Component
         }
 
         _disposed = true;
+
+        base.Dispose(disposing);
     }
 
     ~KryptonNotifyIcon() => Dispose(false);
 
-    public new void Dispose()
+    private new void Dispose()
     {
         Dispose(true);
 
