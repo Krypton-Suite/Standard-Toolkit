@@ -139,7 +139,7 @@ public class PaletteFormBorder : PaletteBorder
         int xBorder;
         int yBorder;
 
-        if (UseThemeFormChromeBorderWidth)
+        if (!UseThemeFormChromeBorderWidth)
         {
             xBorder = 0;
             yBorder = 0;
