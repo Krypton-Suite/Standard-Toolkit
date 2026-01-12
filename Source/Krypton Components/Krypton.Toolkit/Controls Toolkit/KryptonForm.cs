@@ -39,20 +39,35 @@ public class KryptonForm : VisualForm,
             _kryptonForm = kryptonForm;
         }
 
-        public override PaletteRelativeAlign GetContentShortTextH(PaletteContentStyle style, PaletteState state) => style switch
+        public override PaletteRelativeAlign GetContentShortTextH(PaletteContentStyle style, PaletteState state)
         {
-            PaletteContentStyle.HeaderForm
+            // Handle header styles
+            if (style is PaletteContentStyle.HeaderForm
                 or PaletteContentStyle.HeaderPrimary
                 or PaletteContentStyle.HeaderDockInactive
                 or PaletteContentStyle.HeaderDockActive
                 or PaletteContentStyle.HeaderSecondary
                 or PaletteContentStyle.HeaderCustom1
                 or PaletteContentStyle.HeaderCustom2
-                or PaletteContentStyle.HeaderCustom3 => _kryptonForm._formTitleAlign != PaletteRelativeAlign.Inherit
+                or PaletteContentStyle.HeaderCustom3)
+            {
+                // In RTL mode with RightToLeftLayout enabled, position title on the right (Far)
+                // The content layout system will position text before image when both are Far,
+                // so the order is: [Buttons] [Title] [Icon]
+                if (_kryptonForm.RightToLeft == RightToLeft.Yes && _kryptonForm.RightToLeftLayout)
+                {
+                    // Title should be Far (right side) so it appears on the right before the icon
+                    return PaletteRelativeAlign.Far;
+                }
+
+                // Use custom title align if set, otherwise use base
+                return _kryptonForm._formTitleAlign != PaletteRelativeAlign.Inherit
                     ? _kryptonForm._formTitleAlign
-                    : base.GetContentShortTextH(style, state),
-            _ => base.GetContentShortTextH(style, state)
-        };
+                    : base.GetContentShortTextH(style, state);
+            }
+
+            return base.GetContentShortTextH(style, state);
+        }
 
         public override PaletteRelativeAlign GetContentImageH(PaletteContentStyle style, PaletteState state)
         {
