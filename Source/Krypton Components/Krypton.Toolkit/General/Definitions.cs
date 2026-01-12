@@ -1130,7 +1130,12 @@ public enum BadgeShape
     /// <summary>
     /// Specifies a rounded rectangle badge.
     /// </summary>
-    RoundedRectangle
+    RoundedRectangle,
+
+    /// <summary>
+    /// Specifies a capsule (pill-shaped) badge with fully rounded ends.
+    /// </summary>
+    Capsule
 }
 
 #endregion
