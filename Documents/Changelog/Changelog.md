@@ -5,6 +5,7 @@
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
 * Resolved [#2862](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2862), Form border resize flicker
+* Resolved [#2457](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2457), `KryptonForm` RTL border bug
 * Implemented [#2792](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2792), `KryptonNotifyIcon` - Part of #2658
 * Implemented [#2791](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2791), `KryptonFlowLayoutPanel` - Part of #2658
 * Implemented [#2837](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2837), Ribbon Notification Banners
