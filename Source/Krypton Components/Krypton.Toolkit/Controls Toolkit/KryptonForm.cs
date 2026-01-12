@@ -69,6 +69,30 @@ public class KryptonForm : VisualForm,
             return base.GetContentShortTextH(style, state);
         }
 
+        public override PaletteRelativeAlign GetContentLongTextH(PaletteContentStyle style, PaletteState state)
+        {
+            // Handle header styles
+            if (style is PaletteContentStyle.HeaderForm
+                or PaletteContentStyle.HeaderPrimary
+                or PaletteContentStyle.HeaderDockInactive
+                or PaletteContentStyle.HeaderDockActive
+                or PaletteContentStyle.HeaderSecondary
+                or PaletteContentStyle.HeaderCustom1
+                or PaletteContentStyle.HeaderCustom2
+                or PaletteContentStyle.HeaderCustom3)
+            {
+                // In RTL mode with RightToLeftLayout enabled, position TextExtra on the left (Near)
+                // so it appears after the control box buttons: [Buttons] [TextExtra] [Title] [Icon]
+                if (_kryptonForm.RightToLeft == RightToLeft.Yes && _kryptonForm.RightToLeftLayout)
+                {
+                    // TextExtra should be Near (left side) so it appears after the buttons
+                    return PaletteRelativeAlign.Near;
+                }
+            }
+
+            return base.GetContentLongTextH(style, state);
+        }
+
         public override PaletteRelativeAlign GetContentImageH(PaletteContentStyle style, PaletteState state)
         {
             // In RTL mode with RightToLeftLayout enabled, position icon on the right (Far)
