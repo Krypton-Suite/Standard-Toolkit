@@ -167,6 +167,7 @@ public class ViewDrawBadge : ViewLeaf
     #endregion
 
     #region Implementation
+
     private Size CalculateBadgeSize(ViewLayoutContext context)
     {
         // If BadgeDiameter is specified, use it for Circle and Square shapes
@@ -352,8 +353,22 @@ public class ViewDrawBadge : ViewLeaf
         }
         else
         {
+            // Calculate the content rectangle (shrink if border with bevel is present)
+            Rectangle contentRect = drawRect;
+
+            if (_badgeValues.BadgeBorderValues.BadgeBorderSize > 0 && _badgeValues.BadgeBorderValues.BadgeBorderBevel != BadgeBevelType.None)
+            {
+                // For bevel borders, shrink the content area to leave room for the border
+                contentRect = new Rectangle(
+                    drawRect.X + _badgeValues.BadgeBorderValues.BadgeBorderSize,
+                    drawRect.Y + _badgeValues.BadgeBorderValues.BadgeBorderSize,
+                    drawRect.Width - (_badgeValues.BadgeBorderValues.BadgeBorderSize * 2),
+                    drawRect.Height - (_badgeValues.BadgeBorderValues.BadgeBorderSize * 2));
+            }
+
             // Draw the badge background for text badges (no background for image badges)
             Color badgeColor = _badgeValues.BadgeColorValues.BadgeColor;
+
             if (opacity < 1.0f)
             {
                 badgeColor = Color.FromArgb((int)(opacity * 255), badgeColor.R, badgeColor.G, badgeColor.B);
@@ -364,18 +379,18 @@ public class ViewDrawBadge : ViewLeaf
                 switch (_badgeValues.BadgeContentValues.Shape)
                 {
                     case BadgeShape.Circle:
-                        g.FillEllipse(badgeBrush, drawRect);
+                        g.FillEllipse(badgeBrush, contentRect);
                         break;
                     case BadgeShape.Square:
-                        g.FillRectangle(badgeBrush, drawRect);
+                        g.FillRectangle(badgeBrush, contentRect);
                         break;
                     case BadgeShape.RoundedRectangle:
-                        int radius = Math.Min(drawRect.Width, drawRect.Height) / 4;
-                        FillRoundedRectangle(g, badgeBrush, drawRect, radius);
+                        int radius = Math.Min(contentRect.Width, contentRect.Height) / 4;
+                        FillRoundedRectangle(g, badgeBrush, contentRect, radius);
                         break;
                     case BadgeShape.Capsule:
-                        int capsuleRadius = Math.Min(drawRect.Width, drawRect.Height) / 2;
-                        FillRoundedRectangle(g, badgeBrush, drawRect, capsuleRadius);
+                        int capsuleRadius = Math.Min(contentRect.Width, contentRect.Height) / 2;
+                        FillRoundedRectangle(g, badgeBrush, contentRect, capsuleRadius);
                         break;
                 }
             }
@@ -385,8 +400,22 @@ public class ViewDrawBadge : ViewLeaf
 
             // Draw the badge text
             string text = GetDisplayText();
+
             if (!string.IsNullOrEmpty(text))
             {
+                // Calculate the content rectangle for text (shrink if border with bevel is present)
+                Rectangle textRect = drawRect;
+
+                if (_badgeValues.BadgeBorderValues.BadgeBorderSize > 0 && _badgeValues.BadgeBorderValues.BadgeBorderBevel != BadgeBevelType.None)
+                {
+                    // For bevel borders, shrink the text area to leave room for the border
+                    textRect = new Rectangle(
+                        drawRect.X + _badgeValues.BadgeBorderValues.BadgeBorderSize,
+                        drawRect.Y + _badgeValues.BadgeBorderValues.BadgeBorderSize,
+                        drawRect.Width - (_badgeValues.BadgeBorderValues.BadgeBorderSize * 2),
+                        drawRect.Height - (_badgeValues.BadgeBorderValues.BadgeBorderSize * 2));
+                }
+
                 // Only dispose fonts we create ourselves, not fonts from BadgeValues
                 Font textFont = _badgeValues.BadgeContentValues.Font ?? GetFallbackFont();
                 bool createdFont = _badgeValues.BadgeContentValues.Font == null;
@@ -407,7 +436,7 @@ public class ViewDrawBadge : ViewLeaf
                                    FormatFlags = StringFormatFlags.NoWrap
                                })
                         {
-                            g.DrawString(text, textFont, textBrush, drawRect, stringFormat);
+                            g.DrawString(text, textFont, textBrush, textRect, stringFormat);
                         }
                     }
                 }
@@ -514,47 +543,24 @@ public class ViewDrawBadge : ViewLeaf
                 borderColor = Color.FromArgb((int)(opacity * borderColor.A), borderColor.R, borderColor.G, borderColor.B);
             }
 
-            // Clamp BadgeBorderSize to prevent negative borderRect dimensions
-            // Border size should not exceed half the minimum dimension to ensure valid rectangle
-            // We need to ensure borderRect has at least width/height of 1, so borderSize must be
-            // strictly less than the minimum dimension (not just half)
-            int minDimension = Math.Min(drawRect.Width, drawRect.Height);
-            int maxBorderSize = Math.Max(0, minDimension - 1); // Ensure at least 1px remains for borderRect
-            int borderSize = Math.Min(_badgeValues.BadgeBorderValues.BadgeBorderSize, maxBorderSize);
-            
-            // If border size is invalid after clamping, skip drawing
-            if (borderSize <= 0)
-            {
-                return;
-            }
-
-            // Adjust rectangle to account for pen width (pen draws centered on edge)
-            int halfBorder = borderSize / 2;
-            // Ensure borderRect dimensions are always positive
-            int borderWidth = Math.Max(1, drawRect.Width - borderSize);
-            int borderHeight = Math.Max(1, drawRect.Height - borderSize);
-            
-            // Additional validation: if borderRect would be invalid, skip drawing
-            if (borderWidth <= 0 || borderHeight <= 0)
-            {
-                return;
-            }
-            
-            Rectangle borderRect = new Rectangle(
-                drawRect.X + halfBorder,
-                drawRect.Y + halfBorder,
-                borderWidth,
-                borderHeight);
-
-            // If bevel is enabled, draw border with bevel effect
+            // If bevel is enabled, draw border on outer edge
             if (_badgeValues.BadgeBorderValues.BadgeBorderBevel != BadgeBevelType.None)
             {
-                DrawBevelBorder(g, borderRect, borderColor, opacity);
+                // For bevel borders, draw on the outer edge of the badge
+                DrawBevelBorder(g, drawRect, borderColor, opacity);
             }
             else
             {
+                // For standard borders, adjust rectangle to account for pen width (pen draws centered on edge)
+                int halfBorder = _badgeValues.BadgeBorderValues.BadgeBorderSize / 2;
+                Rectangle borderRect = new Rectangle(
+                    drawRect.X + halfBorder,
+                    drawRect.Y + halfBorder,
+                    drawRect.Width - _badgeValues.BadgeBorderValues.BadgeBorderSize,
+                    drawRect.Height - _badgeValues.BadgeBorderValues.BadgeBorderSize);
+
                 // Standard border without bevel
-                using (var borderPen = new Pen(borderColor, borderSize))
+                using (var borderPen = new Pen(borderColor, _badgeValues.BadgeBorderValues.BadgeBorderSize))
                 {
                     switch (_badgeValues.BadgeContentValues.Shape)
                     {
@@ -565,7 +571,7 @@ public class ViewDrawBadge : ViewLeaf
                             g.DrawRectangle(borderPen, borderRect);
                             break;
                         case BadgeShape.RoundedRectangle:
-                            int borderRadius = Math.Max(0, Math.Min(borderRect.Width, borderRect.Height) / 4);
+                            int borderRadius = Math.Min(borderRect.Width, borderRect.Height) / 4;
                             DrawRoundedRectangle(g, borderPen, borderRect, borderRadius);
                             break;
                         case BadgeShape.Capsule:
@@ -640,15 +646,15 @@ public class ViewDrawBadge : ViewLeaf
                         DrawBevelCircle(g, borderRect, topLeftPen, bottomRightPen);
                         break;
                     case BadgeShape.Square:
-                        DrawBevelSquare(g, borderRect, topLeftPen, bottomRightPen, borderSize);
+                        DrawBevelSquare(g, borderRect, topLeftPen, bottomRightPen);
                         break;
                     case BadgeShape.RoundedRectangle:
                         int borderRadius = Math.Max(0, Math.Min(borderRect.Width, borderRect.Height) / 4);
-                        DrawBevelRoundedRectangle(g, borderRect, borderRadius, topLeftPen, bottomRightPen, borderSize);
+                        DrawBevelRoundedRectangle(g, borderRect, borderRadius, topLeftPen, bottomRightPen);
                         break;
                     case BadgeShape.Capsule:
                         int capsuleBorderRadius = Math.Min(borderRect.Width, borderRect.Height) / 2;
-                        DrawBevelRoundedRectangle(g, borderRect, capsuleBorderRadius, topLeftPen, bottomRightPen, borderSize);
+                        DrawBevelRoundedRectangle(g, borderRect, capsuleBorderRadius, topLeftPen, bottomRightPen);
                         break;
                 }
             }
@@ -657,92 +663,131 @@ public class ViewDrawBadge : ViewLeaf
 
     private void DrawBevelCircle(Graphics g, Rectangle rect, Pen lightPen, Pen darkPen)
     {
-        // For circle, draw top-left half with light color, bottom-right half with dark color
-        // Top-left arc (180 degrees from 135 to 315)
-        using (var path = new GraphicsPath())
-        {
-            path.AddArc(rect.X, rect.Y, rect.Width, rect.Height, 135, 180);
-            g.DrawPath(lightPen, path);
-        }
+        int borderSize = _badgeValues.BadgeBorderValues.BadgeBorderSize;
 
-        // Bottom-right arc (180 degrees from 315 to 135, wrapping around)
-        using (var path = new GraphicsPath())
+        // Draw bevel border on outer edge - draw concentric arcs to create border thickness
+        for (int i = 0; i < borderSize; i++)
         {
-            path.AddArc(rect.X, rect.Y, rect.Width, rect.Height, 315, 180);
-            g.DrawPath(darkPen, path);
+            Rectangle arcRect = new Rectangle(rect.X + i, rect.Y + i, rect.Width - (i * 2), rect.Height - (i * 2));
+
+            // Top-left arc (light) - 180 degrees from 135 to 315
+            using (var path = new GraphicsPath())
+            {
+                path.AddArc(arcRect.X, arcRect.Y, arcRect.Width, arcRect.Height, 135, 180);
+                g.DrawPath(lightPen, path);
+            }
+
+            // Bottom-right arc (dark) - 180 degrees from 315 to 135
+            using (var path = new GraphicsPath())
+            {
+                path.AddArc(arcRect.X, arcRect.Y, arcRect.Width, arcRect.Height, 315, 180);
+                g.DrawPath(darkPen, path);
+            }
         }
     }
 
-    private void DrawBevelSquare(Graphics g, Rectangle rect, Pen lightPen, Pen darkPen, int borderSize)
+    private void DrawBevelSquare(Graphics g, Rectangle rect, Pen lightPen, Pen darkPen)
     {
-        int halfBorder = borderSize / 2;
+        int borderSize = _badgeValues.BadgeBorderValues.BadgeBorderSize;
 
-        // Top edge (light)
-        g.DrawLine(lightPen, rect.Left + halfBorder, rect.Top + halfBorder, rect.Right - halfBorder, rect.Top + halfBorder);
+        // Draw bevel border on outer edge - draw multiple lines to create the border thickness
+        for (int i = 0; i < borderSize; i++)
+        {
+            // Top edge (light) - draw from outer edge inward
+            g.DrawLine(lightPen, rect.Left + i, rect.Top + i, rect.Right - 1 - i, rect.Top + i);
 
-        // Left edge (light)
-        g.DrawLine(lightPen, rect.Left + halfBorder, rect.Top + halfBorder, rect.Left + halfBorder, rect.Bottom - halfBorder);
+            // Left edge (light) - draw from outer edge inward
+            g.DrawLine(lightPen, rect.Left + i, rect.Top + i, rect.Left + i, rect.Bottom - 1 - i);
 
-        // Bottom edge (dark)
-        g.DrawLine(darkPen, rect.Left + halfBorder, rect.Bottom - halfBorder, rect.Right - halfBorder, rect.Bottom - halfBorder);
+            // Bottom edge (dark) - draw from outer edge inward
+            g.DrawLine(darkPen, rect.Left + i, rect.Bottom - 1 - i, rect.Right - 1 - i, rect.Bottom - 1 - i);
 
-        // Right edge (dark)
-        g.DrawLine(darkPen, rect.Right - halfBorder, rect.Top + halfBorder, rect.Right - halfBorder, rect.Bottom - halfBorder);
+            // Right edge (dark) - draw from outer edge inward
+            g.DrawLine(darkPen, rect.Right - 1 - i, rect.Top + i, rect.Right - 1 - i, rect.Bottom - 1 - i);
+        }
     }
 
-    private void DrawBevelRoundedRectangle(Graphics g, Rectangle rect, int radius, Pen lightPen, Pen darkPen, int borderSize)
+    private void DrawBevelRoundedRectangle(Graphics g, Rectangle rect, int radius, Pen lightPen, Pen darkPen)
     {
-        int halfBorder = borderSize / 2;
+        int borderSize = _badgeValues.BadgeBorderValues.BadgeBorderSize;
 
-        // Top-left arc (light)
-        using (var path = new GraphicsPath())
+        // Draw bevel border on outer edge - draw multiple layers to create border thickness
+        for (int i = 0; i < borderSize; i++)
         {
-            path.AddArc(rect.X + halfBorder, rect.Y + halfBorder, radius * 2, radius * 2, 180, 90);
-            g.DrawPath(lightPen, path);
+            Rectangle layerRect = new Rectangle(rect.X + i, rect.Y + i, rect.Width - (i * 2), rect.Height - (i * 2));
+            int layerRadius = Math.Max(0, radius - i);
+
+            if (layerRadius > 0)
+            {
+                // Top-left arc (light)
+                using (var path = new GraphicsPath())
+                {
+                    path.AddArc(layerRect.X, layerRect.Y, layerRadius * 2, layerRadius * 2, 180, 90);
+                    g.DrawPath(lightPen, path);
+                }
+
+                // Top edge (light)
+                if (layerRect.Width > layerRadius * 2)
+                {
+                    g.DrawLine(lightPen, layerRect.Left + layerRadius, layerRect.Top, layerRect.Right - layerRadius, layerRect.Top);
+                }
+
+                // Top-right arc - split: top half light, right half dark
+                using (var path = new GraphicsPath())
+                {
+                    path.AddArc(layerRect.Right - layerRadius * 2, layerRect.Y, layerRadius * 2, layerRadius * 2, 270, 45);
+                    g.DrawPath(lightPen, path);
+                }
+                using (var path = new GraphicsPath())
+                {
+                    path.AddArc(layerRect.Right - layerRadius * 2, layerRect.Y, layerRadius * 2, layerRadius * 2, 315, 45);
+                    g.DrawPath(darkPen, path);
+                }
+
+                // Right edge (dark)
+                if (layerRect.Height > layerRadius * 2)
+                {
+                    g.DrawLine(darkPen, layerRect.Right, layerRect.Top + layerRadius, layerRect.Right, layerRect.Bottom - layerRadius);
+                }
+
+                // Bottom-right arc (dark)
+                using (var path = new GraphicsPath())
+                {
+                    path.AddArc(layerRect.Right - layerRadius * 2, layerRect.Bottom - layerRadius * 2, layerRadius * 2, layerRadius * 2, 0, 90);
+                    g.DrawPath(darkPen, path);
+                }
+
+                // Bottom edge (dark)
+                if (layerRect.Width > layerRadius * 2)
+                {
+                    g.DrawLine(darkPen, layerRect.Left + layerRadius, layerRect.Bottom, layerRect.Right - layerRadius, layerRect.Bottom);
+                }
+
+                // Bottom-left arc - split: bottom half dark, left half light
+                using (var path = new GraphicsPath())
+                {
+                    path.AddArc(layerRect.X, layerRect.Bottom - layerRadius * 2, layerRadius * 2, layerRadius * 2, 90, 45);
+                    g.DrawPath(darkPen, path);
+                }
+                using (var path = new GraphicsPath())
+                {
+                    path.AddArc(layerRect.X, layerRect.Bottom - layerRadius * 2, layerRadius * 2, layerRadius * 2, 135, 45);
+                    g.DrawPath(lightPen, path);
+                }
+
+                // Left edge (light)
+                if (layerRect.Height > layerRadius * 2)
+                {
+                    g.DrawLine(lightPen, layerRect.Left, layerRect.Top + layerRadius, layerRect.Left, layerRect.Bottom - layerRadius);
+                }
+            }
+            else
+            {
+                // When radius is 0, draw as square
+                DrawBevelSquare(g, layerRect, lightPen, darkPen);
+                break; // Only need to draw once for square
+            }
         }
-
-        // Top edge (light)
-        g.DrawLine(lightPen, rect.Left + radius + halfBorder, rect.Top + halfBorder, rect.Right - radius - halfBorder, rect.Top + halfBorder);
-
-        // Top-right arc - split: top half light, right half dark
-        using (var path = new GraphicsPath())
-        {
-            path.AddArc(rect.Right - radius * 2 - halfBorder, rect.Y + halfBorder, radius * 2, radius * 2, 270, 45);
-            g.DrawPath(lightPen, path);
-        }
-        using (var path = new GraphicsPath())
-        {
-            path.AddArc(rect.Right - radius * 2 - halfBorder, rect.Y + halfBorder, radius * 2, radius * 2, 315, 45);
-            g.DrawPath(darkPen, path);
-        }
-
-        // Right edge (dark)
-        g.DrawLine(darkPen, rect.Right - halfBorder, rect.Top + radius + halfBorder, rect.Right - halfBorder, rect.Bottom - radius - halfBorder);
-
-        // Bottom-right arc (dark)
-        using (var path = new GraphicsPath())
-        {
-            path.AddArc(rect.Right - radius * 2 - halfBorder, rect.Bottom - radius * 2 - halfBorder, radius * 2, radius * 2, 0, 90);
-            g.DrawPath(darkPen, path);
-        }
-
-        // Bottom edge (dark)
-        g.DrawLine(darkPen, rect.Left + radius + halfBorder, rect.Bottom - halfBorder, rect.Right - radius - halfBorder, rect.Bottom - halfBorder);
-
-        // Bottom-left arc - split: bottom half dark, left half light
-        using (var path = new GraphicsPath())
-        {
-            path.AddArc(rect.X + halfBorder, rect.Bottom - radius * 2 - halfBorder, radius * 2, radius * 2, 90, 45);
-            g.DrawPath(darkPen, path);
-        }
-        using (var path = new GraphicsPath())
-        {
-            path.AddArc(rect.X + halfBorder, rect.Bottom - radius * 2 - halfBorder, radius * 2, radius * 2, 135, 45);
-            g.DrawPath(lightPen, path);
-        }
-
-        // Left edge (light)
-        g.DrawLine(lightPen, rect.Left + halfBorder, rect.Top + radius + halfBorder, rect.Left + halfBorder, rect.Bottom - radius - halfBorder);
     }
 
     private float GetAnimationOpacity()
