@@ -429,7 +429,7 @@ public class KryptonNotifyIcon : Component
 
     ~KryptonNotifyIcon() => Dispose(false);
 
-    private new void Dispose()
+    private void Dispose()
     {
         Dispose(true);
 

@@ -419,7 +419,7 @@ public class KryptonFileSystemWatcher : Component
     /// <summary>
     /// Dispose and garbage collection.
     /// </summary>
-    private new void Dispose()
+    private void Dispose()
     {
         Dispose(true);
 
