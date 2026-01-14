@@ -84,6 +84,7 @@ public partial class StartScreen : KryptonForm
         CreateButton("Theme Controls", string.Empty, typeof(ThemeControlExamples));
         CreateButton("TextBox Validating Test", "Tests fix for Validating event duplication bug #2801", typeof(KryptonTextBoxValidatingTest));
         CreateButton("RichTextBox Formatting Test", "Tests fix for RichTextBox formatting preservation when palette changes (Issue #2832)", typeof(RichTextBoxFormattingTest));
+        CreateButton("RTL Layout Test", "Test for RTL compliance", typeof(RTLFormBorderTest));
         CreateButton("Toast", "For breakfast....?", typeof(ToastNotificationTestChoice));
         CreateButton("WorkspaceTest", string.Empty, typeof(WorkspaceTest));
         CreateButton("Blur Example", string.Empty, typeof(BlurExampleForm));
@@ -96,6 +97,7 @@ public partial class StartScreen : KryptonForm
         CreateButton("Controls Test", string.Empty, typeof(ControlsTest));
         CreateButton("KryptonDataGridView Demo", string.Empty, typeof(DataGridViewDemo));
         CreateButton("KryptonBindingNavigator Demo", "Comprehensive example of KryptonBindingNavigator with data binding", typeof(BindingNavigatorDemo));
+        CreateButton("Krypton Dialog tests", "Tests the various types of dialogs.", typeof(KryptonDialogExamples));
         CreateButton("FadeForm", string.Empty, typeof(FadeFormTest));
         CreateButton("GroupBox", string.Empty, typeof(GroupBoxTest));
         CreateButton("InputBox", string.Empty, typeof(InputBoxTest));

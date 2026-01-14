@@ -189,6 +189,9 @@ public class KryptonGlobalToolkitStrings : GlobalId
     public static KryptonMiscellaneousThemeStrings KryptonMiscellaneousThemeStrings { get; } =
         new KryptonMiscellaneousThemeStrings();
 
+    public static KryptonPrintPreviewDialogStrings KryptonPrintPreviewDialogStrings { get; } =
+        new KryptonPrintPreviewDialogStrings();
+
     /// <summary>Gets the scroll bar strings.</summary>
     /// <value>The scroll bar strings.</value>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -543,6 +546,17 @@ public class KryptonGlobalToolkitStrings : GlobalId
     private bool ShouldSerializeExceptionDialogStrings() => !KryptonExceptionDialogStrings.IsDefault;
     private void ResetExceptionDialogStrings() => KryptonExceptionDialogStrings.Reset();
 
+    /// <summary>Gets the krypton print preview dialog strings.</summary>
+    /// <value>The krypton print preview dialog strings.</value>
+    [Category(@"Visuals")]
+    [Description(@"Collection of print preview dialog strings.")]
+    [MergableProperty(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    [Localizable(true)]
+    public KryptonPrintPreviewDialogStrings PrintPreviewDialogStrings => KryptonPrintPreviewDialogStrings;
+    private bool ShouldSerializePrintPreviewDialogStrings() => !KryptonPrintPreviewDialogStrings.IsDefault;
+    private void ResetMiscellaneousPrintPreviewDialogStrings() => KryptonPrintPreviewDialogStrings.Reset();
+
     /// <summary>Gets the krypton miscellaneous theme strings.</summary>
     /// <value>The krypton miscellaneous theme strings.</value>
     [Category(@"Visuals")]
@@ -725,7 +739,7 @@ public class KryptonGlobalToolkitStrings : GlobalId
     [EditorBrowsable(EditorBrowsableState.Never)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public bool IsDefault => !(ShouldSerializeAboutBoxBasicStrings() || ShouldSerializeAboutBoxStrings() || ShouldSerializeBugReportingDialogStrings() ||
-                               ShouldSerializeExceptionDialogStrings() ||
+                               ShouldSerializeExceptionDialogStrings() || ShouldSerializePrintPreviewDialogStrings() ||
                                ShouldSerializeBackStyleStrings() || ShouldSerializeBorderStyleStrings() ||
                                ShouldSerializeButtonOrientationStrings() ||
                                ShouldSerializeButtonSpecStyleStrings() || ShouldSerializeButtonStyleStrings() ||
@@ -763,6 +777,7 @@ public class KryptonGlobalToolkitStrings : GlobalId
         ResetColorStrings();
         ResetCustomStrings();
         ResetFileSystemListViewStrings();
+        ResetMiscellaneousPrintPreviewDialogStrings();
         ResetGeneralRibbonStrings();
         ResetGeneralStrings();
         ResetGridStyleStrings();
