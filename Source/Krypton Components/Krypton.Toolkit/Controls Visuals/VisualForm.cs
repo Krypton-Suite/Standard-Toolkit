@@ -51,6 +51,7 @@ public abstract class VisualForm : Form,
     private BlurManager _blurManager;
     private readonly object lockObject = new();
     private readonly TaskbarOverlayIconValues _taskbarOverlayIconValues;
+    readonly JumpListValues _jumpListValues;
 
     #endregion
 
@@ -94,7 +95,7 @@ public abstract class VisualForm : Form,
         }
         catch
         {
-            //
+            // Do nothing
         }
     }
 
@@ -135,6 +136,10 @@ public abstract class VisualForm : Form,
         // Taskbar overlay icon values
         _taskbarOverlayIconValues = new TaskbarOverlayIconValues(NeedPaintDelegate);
         _taskbarOverlayIconValues.OnTaskbarOverlayChanged += UpdateTaskbarOverlayIcon;
+
+        // Jump list
+        _jumpListValues = new JumpListValues(NeedPaintDelegate);
+        _jumpListValues.JumpListChanged += OnJumpListChanged;
 
 #if !NET462
         DpiChanged += OnDpiChanged;
@@ -422,6 +427,25 @@ public abstract class VisualForm : Form,
     /// </summary>
     /// <returns>true if the TaskbarOverlayIconValues property should be serialized; otherwise, false.</returns>
     public bool ShouldSerializeTaskbarOverlayIconValues() => !TaskbarOverlayIconValues.IsDefault;
+
+    /// <summary>
+    /// Gets access to the jump list values.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Jump list configuration for the taskbar button.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public JumpListValues JumpList => _jumpListValues;
+
+    /// <summary>
+    /// Resets the JumpList property to its default value.
+    /// </summary>
+    public void ResetJumpList() => JumpList.Reset();
+
+    /// <summary>
+    /// Indicates whether the JumpList property should be serialized.
+    /// </summary>
+    /// <returns>true if the JumpList property should be serialized; otherwise, false.</returns>
+    public bool ShouldSerializeJumpList() => !JumpList.IsDefault;
 
     /// <summary>
     /// Gets and sets the custom palette implementation.
@@ -1757,6 +1781,151 @@ public abstract class VisualForm : Form,
 #if !NET462
     private void OnDpiChanged(object? sender, DpiChangedEventArgs e) => UpdateDpiFactors();
 #endif
+
+    #region Jump List
+
+    /// <summary>
+    /// Updates the jump list using the Windows ICustomDestinationList API.
+    /// </summary>
+    private void OnJumpListChanged()
+    {
+        // Only update at runtime, not in designer
+        if (CommonHelper.DesignMode() || !IsHandleCreated)
+        {
+            return;
+        }
+
+        try
+        {
+            // Check if Windows 7+ (ICustomDestinationList requires Windows 7+)
+            if (Environment.OSVersion.Version.Major < 6 ||
+                (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor < 1))
+            {
+                return; // Not supported on Windows Vista or earlier
+            }
+
+            // Check if AppId is set
+            if (string.IsNullOrEmpty(_jumpListValues.AppId))
+            {
+                return;
+            }
+
+            // Create CustomDestinationList COM object
+            var destinationList = (PI.ICustomDestinationList)new PI.CustomDestinationList();
+            destinationList.SetAppID(_jumpListValues.AppId);
+
+            // Begin jump list creation
+            Guid iidObjectArray = new Guid("92ca9dcd-5622-4bba-a805-5e9f541bd8c9");
+            destinationList.BeginList(out uint maxSlots, ref iidObjectArray, out IntPtr removedItems);
+
+            // Add known categories if requested
+            if (_jumpListValues.ShowFrequentCategory)
+            {
+                destinationList.AppendKnownCategory(PI.KNOWNDESTCATEGORY.KDC_FREQUENT);
+            }
+
+            if (_jumpListValues.ShowRecentCategory)
+            {
+                destinationList.AppendKnownCategory(PI.KNOWNDESTCATEGORY.KDC_RECENT);
+            }
+
+            // Add custom categories
+            foreach (var category in _jumpListValues.Categories)
+            {
+                if (category.Value.Count > 0)
+                {
+                    var categoryItems = CreateObjectArray(category.Value);
+                    if (categoryItems != null)
+                    {
+                        destinationList.AppendCategory(category.Key, categoryItems);
+                    }
+                }
+            }
+
+            // Add user tasks
+            if (_jumpListValues.UserTasks.Count > 0)
+            {
+                var taskItems = CreateObjectArray(_jumpListValues.UserTasks);
+                if (taskItems != null)
+                {
+                    destinationList.AddUserTasks(taskItems);
+                }
+            }
+
+            // Commit the jump list
+            destinationList.CommitList();
+        }
+        catch (Exception ex)
+        {
+            // Silently fail if jump list API is not available
+            // This can happen on older Windows versions or if COM registration fails
+            KryptonExceptionHandler.CaptureException(ex, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
+        }
+    }
+
+    /// <summary>
+    /// Creates an IObjectArray from a list of JumpListItem objects.
+    /// </summary>
+    private PI.IObjectArray? CreateObjectArray(List<JumpListItem> items)
+    {
+        if (items == null || items.Count == 0)
+        {
+            return null;
+        }
+
+        try
+        {
+            // Create ObjectCollection
+            var objectCollection = (PI.IObjectCollection)new PI.ObjectCollection();
+
+            // Create shell links for each item
+            foreach (var item in items)
+            {
+                if (string.IsNullOrEmpty(item.Path))
+                {
+                    continue;
+                }
+
+                var shellLink = (PI.IShellLinkW)new PI.ShellLink();
+                shellLink.SetPath(item.Path);
+
+                if (!string.IsNullOrEmpty(item.Arguments))
+                {
+                    shellLink.SetArguments(item.Arguments);
+                }
+
+                if (!string.IsNullOrEmpty(item.WorkingDirectory))
+                {
+                    shellLink.SetWorkingDirectory(item.WorkingDirectory);
+                }
+
+                if (!string.IsNullOrEmpty(item.Description))
+                {
+                    shellLink.SetDescription(item.Description);
+                }
+
+                if (!string.IsNullOrEmpty(item.IconPath))
+                {
+                    shellLink.SetIconLocation(item.IconPath, item.IconIndex);
+                }
+
+                // Add to collection
+                objectCollection.AddObject(shellLink);
+            }
+
+            // Return as IObjectArray
+            Guid iidObjectArray = new Guid("92ca9dcd-5622-4bba-a805-5e9f541bd8c9");
+            return (PI.IObjectArray)objectCollection;
+        }
+        catch (Exception ex)
+        {
+            KryptonExceptionHandler.CaptureException(ex, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
+            return null;
+        }
+    }
+
+    #endregion
+
     #endregion
 
     private void UpdateDpiFactors()
