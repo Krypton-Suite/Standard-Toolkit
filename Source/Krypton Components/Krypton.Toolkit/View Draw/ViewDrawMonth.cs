@@ -85,6 +85,7 @@ public class ViewDrawMonth : ViewLayoutStack,
         Add(_drawHeader);
 
         // Create the left/right arrows for moving the months
+        // Note: ButtonSpecManagerBase.GetDockStyle() handles RTL swapping automatically
         _arrowPrev = new ButtonSpecCalendar(this, PaletteButtonSpecStyle.Previous, RelativeEdgeAlign.Near);
         _arrowNext = new ButtonSpecCalendar(this, PaletteButtonSpecStyle.Next, RelativeEdgeAlign.Far);
         _arrowPrev.Click += OnPrevMonth;
@@ -124,14 +125,16 @@ public class ViewDrawMonth : ViewLayoutStack,
         _borderEdge = new PaletteBorderEdge(_borderEdgeRedirect, null);
         _drawBorderEdge = new ViewDrawBorderEdge(_borderEdge, Orientation.Vertical);
         _drawWeekNumbers = new ViewDrawWeekNumbers(_calendar, _months);
-        var borderLeftDock = new ViewLayoutDocker
+
+        // Create a docker for week numbers - use ViewLayoutDocker which automatically handles RTL via CalculateDock
+        var borderWeekDock = new ViewLayoutDocker
         {
             { _drawWeekNumbers, ViewDockStyle.Left },
             { new ViewLayoutSeparator(0, 4), ViewDockStyle.Top },
             { _drawBorderEdge, ViewDockStyle.Fill },
             { new ViewLayoutSeparator(0, 4), ViewDockStyle.Bottom }
         };
-        _numberStack.Add(borderLeftDock);
+        _numberStack.Add(borderWeekDock);
 
         // Add border between day names and individual days
         var borderEdgeRedirect = new PaletteBorderEdgeRedirect(_calendar.StateNormal.Header.Border, null);
