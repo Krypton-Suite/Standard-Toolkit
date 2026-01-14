@@ -62,6 +62,7 @@ public partial class StartScreen : KryptonForm
         CreateButton("Badge Test", "Comprehensive badge functionality demonstration for KryptonButton and KryptonCheckButton.", typeof(ButtonBadgeTest));
         CreateButton("Buttons Test", "All the buttons you want to test.", typeof(ButtonsTest));
         CreateButton("BugReportingTool", "Easily report bugs with this tool.", typeof(BugReportingDialogTest));
+        CreateButton("Code Editor", "Native code editor with syntax highlighting, line numbering, code folding, and auto-completion.", typeof(CodeEditorTest));
         CreateButton("Countdown Button", "Comprehensive demonstration of KryptonCountdownButton features with customizable duration, format, and enable-at-zero options.", typeof(CountdownButtonTest));
         CreateButton("CommandLink Buttons", "No comment", typeof(CommandLinkButtons));
         CreateButton("Control Styles", string.Empty, typeof(ControlStylesForm));
