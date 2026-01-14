@@ -55,6 +55,11 @@ public partial class TouchscreenSupportTest : KryptonForm
 
         // Update status
         UpdateStatus();
+
+        // Add DPI cache invalidation on form resize/move to handle monitor changes
+        Resize += (s, e) => KryptonManager.InvalidateDpiCache();
+        
+        Move += (s, e) => KryptonManager.InvalidateDpiCache();
     }
 
     private void SetupDemoControls()
@@ -370,6 +375,14 @@ public partial class TouchscreenSupportTest : KryptonForm
         bool autoDetect = settings.AutomaticallyDetectTouchscreen;
         bool isAvailable = KryptonManager.IsTouchscreenAvailable();
 
+        // Get DPI information
+        float dpiX = KryptonManager.GetDpiFactorX();
+        float dpiY = KryptonManager.GetDpiFactorY();
+        float dpiAvg = KryptonManager.GetDpiFactor();
+        float combinedX = KryptonManager.GetCombinedScaleFactorX();
+        float combinedY = KryptonManager.GetCombinedScaleFactorY();
+        float combinedAvg = KryptonManager.GetCombinedScaleFactor();
+
         string statusText;
         if (isEnabled)
         {
@@ -382,10 +395,13 @@ public partial class TouchscreenSupportTest : KryptonForm
             {
                 statusText += " | Font Scaling: DISABLED";
             }
+
+            // Add DPI and combined scaling info
+            statusText += $" | DPI: {dpiAvg:F2}x ({dpiX:F2}x, {dpiY:F2}y) | Combined: {combinedAvg:F2}x ({combinedX:F2}x, {combinedY:F2}y)";
         }
         else
         {
-            statusText = "Touchscreen Support: DISABLED - Controls at normal size";
+            statusText = $"Touchscreen Support: DISABLED - Controls at normal size | DPI: {dpiAvg:F2}x ({dpiX:F2}x, {dpiY:F2}y)";
         }
 
         if (autoDetect)
@@ -405,6 +421,59 @@ public partial class TouchscreenSupportTest : KryptonForm
         btnToggle.Text = isEnabled ? "Disable Touchscreen Support" : "Enable Touchscreen Support";
     }
 
+    /// <summary>
+    /// Demonstrates the DPI-aware helper methods available in KryptonManager.
+    /// This method shows examples of how to use the scaling helpers for various types.
+    /// </summary>
+    private void DemonstrateDpiHelperMethods()
+    {
+        // Example 1: Get DPI factors
+        float dpiX = KryptonManager.GetDpiFactorX();
+        float dpiY = KryptonManager.GetDpiFactorY();
+        float dpiAvg = KryptonManager.GetDpiFactor();
+
+        // Example 2: Get combined scaling (DPI × Touchscreen)
+        float combinedX = KryptonManager.GetCombinedScaleFactorX();
+        float combinedY = KryptonManager.GetCombinedScaleFactorY();
+        float combinedAvg = KryptonManager.GetCombinedScaleFactor();
+
+        // Example 3: Scale a single value by DPI
+        int baseSize = 100;
+        int scaledByDpi = KryptonManager.ScaleValueByDpi(baseSize);
+        float scaledByDpiFloat = KryptonManager.ScaleValueByDpi(100f);
+
+        // Example 4: Scale a value by combined DPI and touchscreen
+        int scaledByBoth = KryptonManager.ScaleValueByDpiAndTouchscreen(baseSize);
+        float scaledByBothFloat = KryptonManager.ScaleValueByDpiAndTouchscreen(100f);
+
+        // Example 5: Scale a Size
+        Size baseSizeObj = new Size(200, 100);
+        Size scaledByDpiSize = KryptonManager.ScaleSizeByDpi(baseSizeObj);
+        Size scaledByBothSize = KryptonManager.ScaleSizeByDpiAndTouchscreen(baseSizeObj);
+
+        // Example 6: Scale a Point
+        Point basePoint = new Point(50, 75);
+        Point scaledByDpiPoint = KryptonManager.ScalePointByDpi(basePoint);
+        Point scaledByBothPoint = KryptonManager.ScalePointByDpiAndTouchscreen(basePoint);
+
+        // Example 7: Scale a Rectangle
+        Rectangle baseRect = new Rectangle(10, 20, 200, 100);
+        Rectangle scaledByDpiRect = KryptonManager.ScaleRectangleByDpi(baseRect);
+        Rectangle scaledByBothRect = KryptonManager.ScaleRectangleByDpiAndTouchscreen(baseRect);
+
+        // Example 8: Invalidate DPI cache when moving to a different monitor
+        // KryptonManager.InvalidateDpiCache(); // Call this when DPI changes
+
+        // Display results (for demonstration purposes)
+        string message = $"DPI Helper Methods Demo:\n\n" +
+                        $"DPI Factors: X={dpiX:F2}, Y={dpiY:F2}, Avg={dpiAvg:F2}\n" +
+                        $"Combined Factors: X={combinedX:F2}, Y={combinedY:F2}, Avg={combinedAvg:F2}\n\n" +
+                        $"Base Size: {baseSize} → Scaled by DPI: {scaledByDpi}, Scaled by Both: {scaledByBoth}\n" +
+                        $"Base Size Object: {baseSizeObj} → Scaled by DPI: {scaledByDpiSize}, Scaled by Both: {scaledByBothSize}\n" +
+                        $"Base Point: {basePoint} → Scaled by DPI: {scaledByDpiPoint}, Scaled by Both: {scaledByBothPoint}\n" +
+                        $"Base Rectangle: {baseRect} → Scaled by DPI: {scaledByDpiRect}, Scaled by Both: {scaledByBothRect}";
+
+        KryptonMessageBox.Show(message, "DPI Helper Methods Demo", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
     private void ChkAutoDetect_CheckedChanged(object? sender, EventArgs e)
     {
         if (_updatingFromEvent) return;
