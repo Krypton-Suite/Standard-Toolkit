@@ -1508,6 +1508,12 @@ public class KryptonDomainUpDown : VisualControlBase,
     protected override ControlCollection CreateControlsInstance() => new KryptonReadOnlyControls(this);
 
     /// <summary>
+    /// Creates the accessibility object for the KryptonDomainUpDown control.
+    /// </summary>
+    /// <returns>A new KryptonDomainUpDownAccessibleObject instance for the control.</returns>
+    protected override AccessibleObject CreateAccessibilityInstance() => new KryptonDomainUpDownAccessibleObject(this);
+
+    /// <summary>
     /// Raises the HandleCreated event.
     /// </summary>
     /// <param name="e">An EventArgs containing the event data.</param>
@@ -1996,9 +2002,11 @@ public class KryptonDomainUpDown : VisualControlBase,
 
     private void OnDomainUpDownPreviewKeyDown(object? sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-    private void OnDomainUpDownValidated(object? sender, EventArgs e) => OnValidated(e);
+    // TODO: Workaround for issue where ContainerControl style causes duplicate validation events. See issue https://github.com/Krypton-Suite/Standard-Toolkit/issues/2801 for details.
+    private void OnDomainUpDownValidated(object? sender, EventArgs e) => ForwardValidated(e);
 
-    private void OnDomainUpDownValidating(object? sender, CancelEventArgs e) => OnValidating(e);
+    // TODO: Workaround for issue where ContainerControl style causes duplicate validation events. See issue https://github.com/Krypton-Suite/Standard-Toolkit/issues/2801 for details.
+    private void OnDomainUpDownValidating(object? sender, CancelEventArgs e) => ForwardValidating(e);
 
     private void OnShowToolTip(object? sender, ToolTipEventArgs e)
     {

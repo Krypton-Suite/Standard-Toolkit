@@ -335,6 +335,10 @@ public class KryptonComboBox : VisualControlBase,
                     var dropDownWidth = SystemInformation.VerticalScrollBarWidth;
                     Size borderSize = SystemInformation.BorderSize;
 
+                    // Store the full client height before adjusting rect for text area
+                    // This ensures the drop-down button tracking matches the painted button area
+                    int fullClientHeight = rect.bottom - rect.top;
+
                     // Create rect for the text area
                     rect.left += borderSize.Width;
                     rect.right -= borderSize.Width + dropDownWidth;
@@ -342,8 +346,11 @@ public class KryptonComboBox : VisualControlBase,
                     rect.bottom -= borderSize.Height;
 
                     // Create rectangle that represents the drop-down button
-                    var dropRect = new Rectangle(rect.right + 2, rect.top, dropDownWidth - 2,
-                        rect.bottom - rect.top);
+                    // Match the paint code calculation for consistency
+                    Rectangle dropRect;
+                    dropRect = _kryptonComboBox.RightToLeft == RightToLeft.Yes
+                        ? new Rectangle(rect.left + borderSize.Width, rect.top, dropDownWidth, fullClientHeight)
+                        : new Rectangle(rect.right, rect.top, dropDownWidth, fullClientHeight);
 
                     // Extract the point in client coordinates
                     var clientPoint = new Point((int)m.LParam);
@@ -2440,6 +2447,12 @@ public class KryptonComboBox : VisualControlBase,
     protected override ControlCollection CreateControlsInstance() => new KryptonReadOnlyControls(this);
 
     /// <summary>
+    /// Creates the accessibility object for the KryptonComboBox control.
+    /// </summary>
+    /// <returns>A new KryptonComboBoxAccessibleObject instance for the control.</returns>
+    protected override AccessibleObject CreateAccessibilityInstance() => new KryptonComboBoxAccessibleObject(this);
+
+    /// <summary>
     /// Raises the HandleCreated event.
     /// </summary>
     /// <param name="e">An EventArgs containing the event data.</param>
@@ -3160,9 +3173,11 @@ public class KryptonComboBox : VisualControlBase,
 
     private void OnComboBoxPreviewKeyDown(object? sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-    private void OnComboBoxValidated(object? sender, EventArgs e) => OnValidated(e);
+    // TODO: Workaround for issue where ContainerControl style causes duplicate validation events. See issue https://github.com/Krypton-Suite/Standard-Toolkit/issues/2801 for details.
+    private void OnComboBoxValidated(object? sender, EventArgs e) => ForwardValidated(e);
 
-    private void OnComboBoxValidating(object? sender, CancelEventArgs e) => OnValidating(e);
+    // TODO: Workaround for issue where ContainerControl style causes duplicate validation events. See issue https://github.com/Krypton-Suite/Standard-Toolkit/issues/2801 for details.
+    private void OnComboBoxValidating(object? sender, CancelEventArgs e) => ForwardValidating(e);
 
     private void OnComboBoxFormat(object? sender, ListControlConvertEventArgs e) => OnFormat(e);
 

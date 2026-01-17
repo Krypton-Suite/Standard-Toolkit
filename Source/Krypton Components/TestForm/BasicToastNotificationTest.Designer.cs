@@ -40,6 +40,7 @@ namespace TestForm
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BasicToastNotificationTest));
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
             this.kbtnShow = new Krypton.Toolkit.KryptonButton();
+            this.kbtnDemoFeatures = new Krypton.Toolkit.KryptonButton();
             this.kryptonBorderEdge1 = new Krypton.Toolkit.KryptonBorderEdge();
             this.kryptonPanel2 = new Krypton.Toolkit.KryptonPanel();
             this.kryptonLabel7 = new Krypton.Toolkit.KryptonLabel();
@@ -91,6 +92,7 @@ namespace TestForm
             // kryptonPanel1
             // 
             this.kryptonPanel1.Controls.Add(this.kbtnShow);
+            this.kryptonPanel1.Controls.Add(this.kbtnDemoFeatures);
             this.kryptonPanel1.Controls.Add(this.kryptonBorderEdge1);
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 430);
@@ -108,6 +110,16 @@ namespace TestForm
             this.kbtnShow.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnShow.Values.Text = "Show";
             this.kbtnShow.Click += new System.EventHandler(this.kbtnShow_Click);
+            // 
+            // kbtnDemoFeatures
+            // 
+            this.kbtnDemoFeatures.Location = new System.Drawing.Point(537, 13);
+            this.kbtnDemoFeatures.Name = "kbtnDemoFeatures";
+            this.kbtnDemoFeatures.Size = new System.Drawing.Size(233, 25);
+            this.kbtnDemoFeatures.TabIndex = 2;
+            this.kbtnDemoFeatures.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kbtnDemoFeatures.Values.Text = "Demo Features #1282";
+            this.kbtnDemoFeatures.Click += new System.EventHandler(this.kbtnDemoFeatures_Click);
             // 
             // kryptonBorderEdge1
             // 
@@ -560,6 +572,7 @@ namespace TestForm
         private Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge1;
         private Krypton.Toolkit.KryptonPanel kryptonPanel2;
         private Krypton.Toolkit.KryptonButton kbtnShow;
+        private Krypton.Toolkit.KryptonButton kbtnDemoFeatures;
         private Krypton.Toolkit.KryptonCheckBox kchkUseFade;
         private Krypton.Toolkit.KryptonTextBox ktxtCustomToastIconPath;
         private Krypton.Toolkit.KryptonComboBox kcmbToastIcon;

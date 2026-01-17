@@ -75,6 +75,9 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
         Values = CreateButtonValues(NeedPaintDelegate);
         Values.TextChanged += OnButtonTextChanged;
 
+        // Create badge storage
+        BadgeValues = CreateBadgeValues(NeedPaintDelegate);
+
         // Create the palette storage
         StateCommon = new PaletteTripleRedirect(Redirector, PaletteBackStyle.ButtonStandalone, PaletteBorderStyle.ButtonStandalone, PaletteContentStyle.ButtonStandalone, NeedPaintDelegate);
         StateDisabled = new PaletteTriple(StateCommon, NeedPaintDelegate);
@@ -123,6 +126,9 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
 
         // Create the view manager instance
         ViewManager = new ViewManager(this, _drawButton);
+
+        // Set up badge values on the button
+        _drawButton.SetBadgeValues(BadgeValues, this);
     }
     #endregion
 
@@ -306,6 +312,18 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
     public ButtonValues Values { get; }
 
     private bool ShouldSerializeValues() => !Values.IsDefault;
+
+    /// <summary>
+    /// Gets access to the badge values.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Badge values")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public BadgeValues BadgeValues { get; }
+
+    private void ResetBadgeValues() => BadgeValues.Reset();
+
+    private bool ShouldSerializeBadgeValues() => !BadgeValues.IsDefault;
 
     /// <summary>
     /// Gets access to the common button appearance that other states can override.
@@ -767,6 +785,13 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
     /// <returns>Set of button values.</returns>
     /// <param name="needPaint">Delegate for notifying paint requests.</param>
     protected virtual ButtonValues CreateButtonValues(NeedPaintHandler needPaint) => new ButtonValues(needPaint);
+
+    /// <summary>
+    /// Creates the badge values instance.
+    /// </summary>
+    /// <param name="needPaint">Delegate for notifying paint requests.</param>
+    /// <returns>BadgeValues instance.</returns>
+    protected virtual BadgeValues CreateBadgeValues(NeedPaintHandler needPaint) => new BadgeValues(needPaint);
 
     /// <summary>
     /// Gets access to the view element for the button.

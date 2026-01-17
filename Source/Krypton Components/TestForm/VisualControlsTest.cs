@@ -10,6 +10,8 @@
 using System.Reflection;
 using System.Threading;
 
+using Krypton.Utilities;
+
 namespace TestForm;
 
 public partial class VisualControlsTest : KryptonForm
@@ -107,11 +109,11 @@ public partial class VisualControlsTest : KryptonForm
 
     private void kbtnVisualToastNotification_Click(object sender, EventArgs e)
     {
-        var data = new KryptonBasicToastNotificationData
+        var data = new KryptonBasicToastData
         {
             NotificationTitle = "Demo Toast",
             NotificationContent = "This is a basic toast notification.",
-            NotificationIcon = KryptonToastNotificationIcon.Information,
+            NotificationIcon = KryptonToastIcon.Information,
             ShowCloseBox = true,
             CountDownSeconds = 0
         };

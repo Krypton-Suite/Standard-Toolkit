@@ -703,6 +703,10 @@ public abstract class KryptonDockingSpace : DockingElementClosedCollection
         {
             xmlWriter.WriteAttributeString(@"S", CommonHelper.SizeToString(SpaceControl.Size));
 
+            // Ensure layout is performed before saving to commit any structural changes
+            // (e.g., cells added when docking to edges) to the Root.Children collection
+            SpaceControl.PerformLayout();
+
             // Output an xml for the contained workspace
             SpaceControl.PageSaving += OnSpaceControlPageSaving;
             SpaceControl.SaveLayoutToXml(xmlWriter);

@@ -13,9 +13,18 @@ namespace TestForm;
 
 public partial class BugReportingDialogTest : KryptonForm
 {
+    private readonly KryptonErrorProvider _errorProvider;
+
     public BugReportingDialogTest()
     {
         InitializeComponent();
+        
+        _errorProvider = new KryptonErrorProvider
+        {
+            ContainerControl = this,
+            BlinkStyle = KryptonErrorBlinkStyle.BlinkIfDifferentError
+        };
+        
         LoadDefaultEmailConfig();
     }
 
@@ -51,21 +60,53 @@ public partial class BugReportingDialogTest : KryptonForm
 
     private bool ValidateEmailConfig()
     {
+        bool isValid = true;
+
         if (string.IsNullOrWhiteSpace(ktbSmtpServer.Text))
         {
-            MessageBox.Show("Please enter SMTP server address.", "Configuration Error", 
-                MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            return false;
+            _errorProvider.SetError(ktbSmtpServer, "Please enter SMTP server address.");
+            isValid = false;
+        }
+        else
+        {
+            _errorProvider.SetError(ktbSmtpServer, string.Empty);
         }
 
         if (string.IsNullOrWhiteSpace(ktbToEmail.Text))
         {
-            MessageBox.Show("Please enter recipient email address.", "Configuration Error", 
-                MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            return false;
+            _errorProvider.SetError(ktbToEmail, "Please enter recipient email address.");
+            isValid = false;
+        }
+        else
+        {
+            _errorProvider.SetError(ktbToEmail, string.Empty);
         }
 
-        return true;
+        return isValid;
+    }
+
+    private void ValidateSmtpServer()
+    {
+        if (string.IsNullOrWhiteSpace(ktbSmtpServer.Text))
+        {
+            _errorProvider.SetError(ktbSmtpServer, "Please enter SMTP server address.");
+        }
+        else
+        {
+            _errorProvider.SetError(ktbSmtpServer, string.Empty);
+        }
+    }
+
+    private void ValidateToEmail()
+    {
+        if (string.IsNullOrWhiteSpace(ktbToEmail.Text))
+        {
+            _errorProvider.SetError(ktbToEmail, "Please enter recipient email address.");
+        }
+        else
+        {
+            _errorProvider.SetError(ktbToEmail, string.Empty);
+        }
     }
 
     private void kbtnShowBugReport_Click(object sender, EventArgs e)
@@ -202,6 +243,23 @@ public partial class BugReportingDialogTest : KryptonForm
     private void kbtnClose_Click(object sender, EventArgs e)
     {
         Close();
+    }
+
+    private void ktbSmtpServer_TextChanged(object sender, EventArgs e)
+    {
+        ValidateSmtpServer();
+    }
+
+    private void ktbToEmail_TextChanged(object sender, EventArgs e)
+    {
+        ValidateToEmail();
+    }
+
+    protected override void OnFormClosed(FormClosedEventArgs e)
+    {
+        _errorProvider?.Clear();
+        _errorProvider?.Dispose();
+        base.OnFormClosed(e);
     }
 }
 

@@ -7,6 +7,7 @@
  */
 #endregion
 
+
 namespace Krypton.Toolkit;
 
 /// <summary>
@@ -15,9 +16,10 @@ namespace Krypton.Toolkit;
 public static class FocusLostMenuHelper
 {
     #region Private fields
-    private static List<IFocusLostMenuItem> _items                = [];
-    private static List<ContextMenuStrip>   _winformsContextMenus = [];
-    private static List<ToolStrip>          _winformsToolStrips   = [];
+    private static ConcurrentSimpleList<IFocusLostMenuItem> _items                   = new();
+    private static ConcurrentSimpleList<ContextMenuStrip>   _winformsContextMenus    = new();
+    private static ConcurrentSimpleList<ToolStrip>          _winformsToolStrips      = new();
+    private static ConcurrentSimpleList<DateTimePicker>     _winformsDateTimePickers = new();
     #endregion
 
     #region Register
@@ -28,6 +30,15 @@ public static class FocusLostMenuHelper
     public static void Register(IFocusLostMenuItem item)
     {
         _items.Add(item);
+    }
+
+    /// <summary>
+    /// Registers a Winforms DateTimePicker.
+    /// </summary>
+    /// <param name="item">A valid DateTimePicker instance.</param>
+    public static void Register(DateTimePicker item)
+    {
+        _winformsDateTimePickers.Add(item);
     }
 
     /// <summary>
@@ -123,8 +134,9 @@ public static class FocusLostMenuHelper
         ProcessStandardItems();
         ProcessWinformsContextMenus();
         ProcessWinformsToolStrips();
+        ProcessWinformsDateTimePickers();
     }
-    
+
     private static void ProcessStandardItems()
     {
         // Only process items implementing IFocusLostMenuItem
@@ -144,7 +156,7 @@ public static class FocusLostMenuHelper
 
     private static void ProcessWinformsToolStrips()
     {
-        for (int i = 0; i < _winformsToolStrips.Count; i++ )
+        for (int i = 0; i < _winformsToolStrips.Count; i++)
         {
             if (_winformsToolStrips[i] is ToolStrip toolStrip)
             {
@@ -170,7 +182,13 @@ public static class FocusLostMenuHelper
             }
         }
     }
+
+    private static void ProcessWinformsDateTimePickers()
+    {
+        for (int i = 0; i < _winformsDateTimePickers.Count; i++)
+        {
+            PI.SendMessage(_winformsDateTimePickers[i].Handle, PI.DTM_.CLOSEMONTHCAL, IntPtr.Zero, IntPtr.Zero);
+        }
+    }
     #endregion
 }
-
-

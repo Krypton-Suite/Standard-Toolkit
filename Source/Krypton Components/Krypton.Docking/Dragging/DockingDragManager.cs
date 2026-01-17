@@ -41,7 +41,10 @@ public class DockingDragManager : DragManager,
         _manager = manager;
         _offset = Point.Empty;
 
+        // Timer is kept for backward compatibility but no longer used for position updates
+        // Position updates now happen immediately in DragMove for responsive dragging
         // Use timer to ensure we do not update the display too quickly which then causes tearing
+        // TODO: Remove in a future version
         _moveTimer = new Timer
         {
             Interval = 10
@@ -110,16 +113,15 @@ public class DockingDragManager : DragManager,
         if (FloatingWindow != null)
         {
             _screenPt = screenPt;
-            _moveTimer.Start();
+            // Update position immediately for responsive dragging
+            UpdateFloatingWindowPosition();
         }
 
         base.DragMove(screenPt);
     }
 
-    private void OnFloatingWindowMove(object? sender, EventArgs e)
+    private void UpdateFloatingWindowPosition()
     {
-        _moveTimer.Stop();
-
         // Position the floating window relative to the screen position
         if (FloatingWindow != null)
         {
@@ -139,6 +141,14 @@ public class DockingDragManager : DragManager,
                 FloatingWindow.Height,
                 BoundsSpecified.Location);
         }
+    }
+
+    private void OnFloatingWindowMove(object? sender, EventArgs e)
+    {
+        _moveTimer.Stop();
+
+        // This method is no longer used but kept for backward compatibility
+        // Position updates now happen immediately in DragMove
     }
 
     /// <summary>

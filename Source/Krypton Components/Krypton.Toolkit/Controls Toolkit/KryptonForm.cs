@@ -39,20 +39,81 @@ public class KryptonForm : VisualForm,
             _kryptonForm = kryptonForm;
         }
 
-        public override PaletteRelativeAlign GetContentShortTextH(PaletteContentStyle style, PaletteState state) => style switch
+        public override PaletteRelativeAlign GetContentShortTextH(PaletteContentStyle style, PaletteState state)
         {
-            PaletteContentStyle.HeaderForm
+            // Handle header styles
+            if (style is PaletteContentStyle.HeaderForm
                 or PaletteContentStyle.HeaderPrimary
                 or PaletteContentStyle.HeaderDockInactive
                 or PaletteContentStyle.HeaderDockActive
                 or PaletteContentStyle.HeaderSecondary
                 or PaletteContentStyle.HeaderCustom1
                 or PaletteContentStyle.HeaderCustom2
-                or PaletteContentStyle.HeaderCustom3 => _kryptonForm._formTitleAlign != PaletteRelativeAlign.Inherit
+                or PaletteContentStyle.HeaderCustom3)
+            {
+                // In RTL mode with RightToLeftLayout enabled, position title on the right (Far)
+                // The content layout system will position text before image when both are Far,
+                // so the order is: [Buttons] [Title] [Icon]
+                if (_kryptonForm.RightToLeft == RightToLeft.Yes && _kryptonForm.RightToLeftLayout)
+                {
+                    // Title should be Far (right side) so it appears on the right before the icon
+                    return PaletteRelativeAlign.Far;
+                }
+
+                // Use custom title align if set, otherwise use base
+                return _kryptonForm._formTitleAlign != PaletteRelativeAlign.Inherit
                     ? _kryptonForm._formTitleAlign
-                    : base.GetContentShortTextH(style, state),
-            _ => base.GetContentShortTextH(style, state)
-        };
+                    : base.GetContentShortTextH(style, state);
+            }
+
+            return base.GetContentShortTextH(style, state);
+        }
+
+        public override PaletteRelativeAlign GetContentLongTextH(PaletteContentStyle style, PaletteState state)
+        {
+            // Handle header styles
+            if (style is PaletteContentStyle.HeaderForm
+                or PaletteContentStyle.HeaderPrimary
+                or PaletteContentStyle.HeaderDockInactive
+                or PaletteContentStyle.HeaderDockActive
+                or PaletteContentStyle.HeaderSecondary
+                or PaletteContentStyle.HeaderCustom1
+                or PaletteContentStyle.HeaderCustom2
+                or PaletteContentStyle.HeaderCustom3)
+            {
+                // In RTL mode with RightToLeftLayout enabled, position TextExtra on the left (Near)
+                // so it appears after the control box buttons: [Buttons] [TextExtra] [Title] [Icon]
+                if (_kryptonForm.RightToLeft == RightToLeft.Yes && _kryptonForm.RightToLeftLayout)
+                {
+                    // TextExtra should be Near (left side) so it appears after the buttons
+                    return PaletteRelativeAlign.Near;
+                }
+            }
+
+            return base.GetContentLongTextH(style, state);
+        }
+
+        public override PaletteRelativeAlign GetContentImageH(PaletteContentStyle style, PaletteState state)
+        {
+            // In RTL mode with RightToLeftLayout enabled, position icon on the right (Far)
+            if (_kryptonForm.RightToLeft == RightToLeft.Yes && _kryptonForm.RightToLeftLayout)
+            {
+                return style switch
+                {
+                    PaletteContentStyle.HeaderForm
+                        or PaletteContentStyle.HeaderPrimary
+                        or PaletteContentStyle.HeaderDockInactive
+                        or PaletteContentStyle.HeaderDockActive
+                        or PaletteContentStyle.HeaderSecondary
+                        or PaletteContentStyle.HeaderCustom1
+                        or PaletteContentStyle.HeaderCustom2
+                        or PaletteContentStyle.HeaderCustom3 => PaletteRelativeAlign.Far,
+                    _ => base.GetContentImageH(style, state)
+                };
+            }
+
+            return base.GetContentImageH(style, state);
+        }
     }
 
     /// <summary>
@@ -708,8 +769,10 @@ public class KryptonForm : VisualForm,
                 _internalKryptonPanel.ClientSize = ClientSize;
             }
 
-            // Route to base.Controls when MDI is enabled
-            return base.IsMdiContainer ? base.Controls : _internalKryptonPanel.Controls;
+            // Route to base.Controls when MDI is enabled, or when SetInheritedControlOverride is called
+            return (base.IsMdiContainer || _internalPanelState == InheritBool.True)
+                ? base.Controls
+                : _internalKryptonPanel.Controls;
         }
     }
 
@@ -1232,7 +1295,29 @@ public class KryptonForm : VisualForm,
             }
         }
     }
-    
+
+    /// <summary>
+    /// Gets and sets the RightToLeft property.
+    /// </summary>
+    [Browsable(true)]
+    [DefaultValue(RightToLeft.No)]
+    [EditorBrowsable(EditorBrowsableState.Always)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public override RightToLeft RightToLeft
+    {
+        get => base.RightToLeft;
+
+        set
+        {
+            if (base.RightToLeft != value)
+            {
+                base.RightToLeft = value;
+
+                OnRightToLeftChanged(EventArgs.Empty);
+            }
+        }
+    }
+
     #endregion
 
     #region Public Chrome
@@ -1540,6 +1625,24 @@ public class KryptonForm : VisualForm,
     {
         base.OnResizeEnd(e);
         InvalidateNonClient();
+    }
+
+    /// <inheritdoc />
+    protected override void OnRightToLeftChanged(EventArgs e)
+    {
+        base.OnRightToLeftChanged(e);
+
+        // Recreate buttons when RTL changes to update their positions
+        _buttonManager?.RecreateButtons();
+    }
+
+    /// <inheritdoc />
+    protected override void OnRightToLeftLayoutChanged(EventArgs e)
+    {
+        base.OnRightToLeftLayoutChanged(e);
+
+        // Recreate buttons when RTL changes to update their positions
+        _buttonManager?.RecreateButtons();
     }
 
     /// <summary>
@@ -2371,13 +2474,34 @@ public class KryptonForm : VisualForm,
     {
         if (MdiParent == null)
         {
+            // Fix for #2457, please do not remove!!!
+            // For RTL layout mode, disable region clipping to prevent border issues
+            if (RightToLeftLayout)
+            {
+                SuspendPaint();
+                _regionWindowState = FormWindowState.Maximized;
+                UpdateBorderRegion(null); // No region clipping in RTL mode
+                ResumePaint();
+                return;
+            }
+
             // Get the size of each window border
             var xBorder = PI.GetSystemMetrics(PI.SM_.CXSIZEFRAME) * 2;
             var yBorder = PI.GetSystemMetrics(PI.SM_.CYSIZEFRAME) * 2;
 
-            // Reduce the Bounds by the padding on all but the top
-            var maximizedRect = new Rectangle(xBorder, yBorder, Width - (xBorder * 2),
-                Height - (yBorder * 2));
+            // Fix for #2457, please do not remove!!!
+            // Get the actual border widths from the form's border palette
+            var formBorder = StateCommon?.Border as PaletteFormBorder;
+            var (leftBorder, topBorder) = formBorder?.BorderWidths(FormBorderStyle) ?? (xBorder / 2, yBorder / 2);
+            var rightBorder = leftBorder; // Use same width for right border
+            var bottomBorder = topBorder; // Use same width for bottom border
+
+            // Calculate the maximized region with proper border handling
+            var maximizedRect = new Rectangle(
+                leftBorder,
+                topBorder,
+                Width - (leftBorder + rightBorder),
+                Height - (topBorder + bottomBorder));
 
             // Use this as the new region
             SuspendPaint();

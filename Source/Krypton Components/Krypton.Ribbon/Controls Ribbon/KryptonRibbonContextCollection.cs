@@ -15,11 +15,6 @@
 namespace Krypton.Ribbon;
 
 /// <summary>
-/// Delegate used for hooking into a KryptonRibbonContext typed collection.
-/// </summary>
-public delegate void RibbonContextHandler(object sender, TypedCollectionEventArgs<KryptonRibbonContext> e);
-
-/// <summary>
 /// Specialise the generic collection with type specific rules for context item accessor.
 /// </summary>
 public class KryptonRibbonContextCollection : TypedCollection<KryptonRibbonContext>

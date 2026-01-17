@@ -853,7 +853,16 @@ public abstract class ButtonSpecManagerBase : GlobalId
         return -1;
     }
 
-    private ViewDockStyle GetDockStyle(ButtonSpec spec) => spec.GetEdge(_redirector) == RelativeEdgeAlign.Near ? ViewDockStyle.Left : ViewDockStyle.Right;
+    private ViewDockStyle GetDockStyle(ButtonSpec spec)
+    {
+        var edge = spec.GetEdge(_redirector);
+
+        var isRtl = Control is Form form && form.RightToLeft == RightToLeft.Yes && form.RightToLeftLayout;
+
+        // In RTL mode with RightToLeftLayout enabled, reverse the dock style
+        return isRtl ? edge == RelativeEdgeAlign.Near ? ViewDockStyle.Right : ViewDockStyle.Left :
+            edge == RelativeEdgeAlign.Near ? ViewDockStyle.Left : ViewDockStyle.Right;
+    }
 
     private VisualOrientation CalculateOrientation(VisualOrientation viewOrientation,
         ButtonOrientation buttonOrientation) => buttonOrientation switch

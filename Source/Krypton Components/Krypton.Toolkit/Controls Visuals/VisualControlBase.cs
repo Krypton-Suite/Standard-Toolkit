@@ -25,6 +25,7 @@ public abstract class VisualControlBase : Control,
     #endregion
 
     #region Instance Fields
+
     private bool _layoutDirty;
     private bool _refresh;
     private bool _refreshAll;
@@ -39,6 +40,8 @@ public abstract class VisualControlBase : Control,
     private KryptonContextMenu? _kryptonContextMenu;
     protected VisualPopupToolTip? visualBasePopupToolTip;
     private readonly ToolTipManager _toolTipManager;
+    private bool _isForwardingValidationFromChild;
+
     #endregion
 
     #region Events
@@ -768,6 +771,52 @@ public abstract class VisualControlBase : Control,
     /// <returns>PaletteRedirect derived class.</returns>
     protected virtual PaletteRedirect CreateRedirector() => new PaletteRedirect(_palette);
 
+    // TODO: Workaround for issue where ContainerControl style causes duplicate validation events. See issue https://github.com/Krypton-Suite/Standard-Toolkit/issues/2801 for details.
+    /// <summary>
+    /// Forward a Validating event from a child control. This method should be called by derived classes
+    /// when forwarding validation events from internal controls to prevent duplicate validation events
+    /// when the control is marked as a ContainerControl.
+    /// </summary>
+    /// <param name="e">A CancelEventArgs that contains the event data.</param>
+    protected void ForwardValidating(CancelEventArgs e)
+    {
+        // Indicate that we are forwarding a validation event
+        _isForwardingValidationFromChild = true;
+
+        try
+        {
+            OnValidating(e);
+        }
+        finally
+        {
+            // Clear forwarding indication
+            _isForwardingValidationFromChild = false;
+        }
+    }
+
+    // TODO: Workaround for issue where ContainerControl style causes duplicate validation events. See issue https://github.com/Krypton-Suite/Standard-Toolkit/issues/2801 for details.
+    /// <summary>
+    /// Forward a Validated event from a child control. This method should be called by derived classes
+    /// when forwarding validation events from internal controls to prevent duplicate validation events
+    /// when the control is marked as a ContainerControl.
+    /// </summary>
+    /// <param name="e">An EventArgs that contains the event data.</param>
+    protected void ForwardValidated(EventArgs e)
+    {
+        // Indicate that we are forwarding a validation event
+        _isForwardingValidationFromChild = true;
+
+        try
+        {
+            OnValidated(e);
+        }
+        finally
+        {
+            // Clear forwarding indication
+            _isForwardingValidationFromChild = false;
+        }
+    }
+
     /// <summary>
     /// Update global event attachments.
     /// </summary>
@@ -777,11 +826,13 @@ public abstract class VisualControlBase : Control,
         if (attach)
         {
             KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged;
+            KryptonManager.GlobalTouchscreenSupportChanged += OnGlobalTouchscreenSupportChanged;
             SystemEvents.UserPreferenceChanged += OnUserPreferenceChanged;
         }
         else
         {
             KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChanged;
+            KryptonManager.GlobalTouchscreenSupportChanged -= OnGlobalTouchscreenSupportChanged;
             SystemEvents.UserPreferenceChanged -= OnUserPreferenceChanged;
         }
     }
@@ -789,6 +840,61 @@ public abstract class VisualControlBase : Control,
     #endregion
 
     #region Protected Overrides
+
+    // TODO: Workaround for issue where ContainerControl style causes duplicate validation events. See issue https://github.com/Krypton-Suite/Standard-Toolkit/issues/2801 for details.
+    /// <summary>
+    /// Raises the Validated event when the control is finished validating.
+    /// </summary>
+    /// <remarks>Override this method to perform additional actions when the control is validated. Be sure to
+    /// call the base implementation to ensure the Validated event is raised.</remarks>
+    /// <param name="e">An EventArgs that contains the event data.</param>
+    protected override void OnValidated(EventArgs e)
+    {
+        // Root cause fix: When ContainerControl style is set, Windows Forms validation mechanism treats
+        // this control as a container and validates it separately from its children. Since these
+        // controls are wrapper controls that forward validation from their child controls via
+        // ForwardValidating(), we suppress container control validation to prevent duplicate events.
+        //
+        // The fix: When we receive a Validating event that is NOT from a forwarded child control
+        // (indicated by _isForwardingValidationFromChild flag), and this control has ContainerControl
+        // style set, this is the container control validation being triggered. We suppress it because
+        // child controls already handle validation and forward it to us via ForwardValidating().
+        if (!_isForwardingValidationFromChild && GetStyle(ControlStyles.ContainerControl))
+        {
+            // This is container control validation - suppress it to prevent duplicate events
+            return;
+        }
+
+        // This is either validation from a child control (forwarded) or normal validation
+        base.OnValidated(e);
+    }
+
+    // TODO: Workaround for issue where ContainerControl style causes duplicate validation events. See issue https://github.com/Krypton-Suite/Standard-Toolkit/issues/2801 for details.
+    /// <summary>
+    /// Raises the Validating event, allowing validation logic to be performed before the control loses focus.
+    /// </summary>
+    /// <param name="e">A CancelEventArgs that contains the event data. Setting the Cancel property to <see langword="true"/> will prevent the control from losing focus.</param>
+    protected override void OnValidating(CancelEventArgs e)
+    {
+        // Root cause fix: When ContainerControl style is set, Windows Forms validation mechanism treats
+        // this control as a container and validates it separately from its children. Since these
+        // controls are wrapper controls that forward validation from their child controls via
+        // ForwardValidated(), we suppress container control validation to prevent duplicate events.
+        //
+        // The fix: When we receive a Validated event that is NOT from a forwarded child control
+        // (indicated by _isForwardingValidationFromChild flag), and this control has ContainerControl
+        // style set, this is the container control validation being triggered. We suppress it because
+        // child controls already handle validation and forward it to us via ForwardValidated().
+        if (!_isForwardingValidationFromChild && GetStyle(ControlStyles.ContainerControl))
+        {
+            // This is container control validation - suppress it to prevent duplicate events
+            return;
+        }
+
+        // This is either validation from a child control (forwarded) or normal validation
+        base.OnValidating(e);
+    }
+
     /// <summary>
     /// Raises the RightToLeftChanged event.
     /// </summary>
@@ -1078,6 +1184,21 @@ public abstract class VisualControlBase : Control,
 
             GlobalPaletteChanged?.Invoke(sender, e);
         }
+    }
+
+    /// <summary>
+    /// Occurs when the global touchscreen support setting has been changed.
+    /// </summary>
+    /// <param name="sender">Source of the event.</param>
+    /// <param name="e">An EventArgs that contains the event data.</param>
+    protected virtual void OnGlobalTouchscreenSupportChanged(object? sender, EventArgs e)
+    {
+        // Touchscreen support affects control sizing, so we need to relayout
+        // Need to recalculate anything relying on sizing
+        DirtyPaletteCounter++;
+
+        // A change in touchscreen support means we need to layout and redraw
+        OnNeedPaint(LocalCustomPalette, new NeedLayoutEventArgs(true));
     }
 
     /// <summary>

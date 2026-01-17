@@ -12,7 +12,7 @@ namespace Krypton.Toolkit;
 /// <summary>The public interface to the <see cref="VisualExceptionDialogForm"/> class.</summary>
 [ToolboxItem(false)]
 [DesignerCategory(@"code")]
-public static class KryptonExceptionDialog
+internal static class KryptonExceptionDialog
 {
     #region Public
 

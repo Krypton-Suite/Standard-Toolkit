@@ -1080,6 +1080,109 @@ public enum ButtonCheckState
 }
 #endregion
 
+#region Enum BadgePosition
+
+/// <summary>
+/// Specifies the position of a badge on a button.
+/// </summary>
+public enum BadgePosition
+{
+    /// <summary>
+    /// Specifies the badge is positioned in the top-right corner.
+    /// </summary>
+    TopRight,
+
+    /// <summary>
+    /// Specifies the badge is positioned in the top-left corner.
+    /// </summary>
+    TopLeft,
+
+    /// <summary>
+    /// Specifies the badge is positioned in the bottom-right corner.
+    /// </summary>
+    BottomRight,
+
+    /// <summary>
+    /// Specifies the badge is positioned in the bottom-left corner.
+    /// </summary>
+    BottomLeft
+}
+
+#endregion
+
+#region Enum BadgeShape
+
+/// <summary>
+/// Specifies the shape of a badge.
+/// </summary>
+public enum BadgeShape
+{
+    /// <summary>
+    /// Specifies a circular badge.
+    /// </summary>
+    Circle,
+
+    /// <summary>
+    /// Specifies a square badge.
+    /// </summary>
+    Square,
+
+    /// <summary>
+    /// Specifies a rounded rectangle badge.
+    /// </summary>
+    RoundedRectangle
+}
+
+#endregion
+
+#region Enum BadgeAnimation
+
+/// <summary>
+/// Specifies the animation type for a badge.
+/// </summary>
+public enum BadgeAnimation
+{
+    /// <summary>
+    /// No animation.
+    /// </summary>
+    None,
+
+    /// <summary>
+    /// Fade in and out animation.
+    /// </summary>
+    FadeInOut,
+
+    /// <summary>
+    /// Pulsing animation (scale and opacity).
+    /// </summary>
+    Pulse
+}
+
+#endregion
+
+#region Enum BadgeBevelType
+/// <summary>
+/// Specifies the type of bevel effect for badge borders.
+/// </summary>
+public enum BadgeBevelType
+{
+    /// <summary>
+    /// No bevel effect.
+    /// </summary>
+    None,
+
+    /// <summary>
+    /// Raised bevel effect (light top/left edges, dark bottom/right edges).
+    /// </summary>
+    Raised,
+
+    /// <summary>
+    /// Inset/embedded bevel effect (dark top/left edges, light bottom/right edges).
+    /// </summary>
+    Inset
+}
+#endregion
+
 #region Enum RelativeEdgeAlign
 /// <summary>
 /// Specifies a relative edge alignment position.
@@ -1777,7 +1880,22 @@ public enum CheckedSelectionMode
     /// <summary>
     /// Only one item can be selected.
     /// </summary>
-    One = 1
+    One = 1,
+
+    /// <summary>
+    /// Multiple items can be selected with simple click selection.
+    /// </summary>
+    MultiSimple = 2,
+
+    /// <summary>
+    /// Multiple items can be selected with extended selection (Ctrl/Shift keys).
+    /// </summary>
+    MultiExtended = 3,
+
+    /// <summary>
+    /// Only one item can be checked at a time (radio button behavior).
+    /// </summary>
+    Radio = 4
 }
 #endregion
 
@@ -2100,226 +2218,6 @@ public enum KryptonMessageBoxResult
     TryAgain = 10,
     Continue = 11
 #endif
-}
-
-#endregion
-
-#endregion
-
-#region Toast Definitions
-
-#region Enum KryptonToastNotificationIcon
-
-[TypeConverter(typeof(KryptonToastNotificationIconConverter))]
-public enum KryptonToastNotificationIcon
-{
-    /// <summary>Specify no icon.</summary>
-    None = 0,
-
-    /// <summary>Specify a hand icon.</summary>
-    Hand = 1,
-
-    /// <summary>Specify the system hand icon.</summary>
-    SystemHand = MessageBoxIcon.Hand,
-
-    /// <summary>Specify a question icon.</summary>
-    Question = 2,
-
-    /// <summary>Specify the system question icon.</summary>
-    SystemQuestion = MessageBoxIcon.Question,
-
-    /// <summary>Specify an exclamation icon.</summary>
-    Exclamation = 3,
-
-    /// <summary>Specify the system exclamation icon.</summary>
-    SystemExclamation = MessageBoxIcon.Exclamation,
-
-    /// <summary>Specify an asterisk icon.</summary>
-    Asterisk = 4,
-
-    /// <summary>Specify the system asterisk icon.</summary>
-    SystemAsterisk = MessageBoxIcon.Asterisk,
-
-    /// <summary>Specify a stop icon.</summary>
-    Stop = 5,
-
-    /// <summary>Specify the system stop icon.</summary>
-    SystemStop = MessageBoxIcon.Stop,
-
-    /// <summary>Specify a error icon.</summary>
-    Error = 6,
-
-    /// <summary>Specify the system error icon.</summary>
-    SystemError = MessageBoxIcon.Error,
-
-    /// <summary>Specify a warning icon.</summary>
-    Warning = 7,
-
-    /// <summary>Specify the system warning icon.</summary>
-    SystemWarning = MessageBoxIcon.Warning,
-
-    /// <summary>Specify an information icon.</summary>
-    Information = 8,
-
-    /// <summary>Specify the system information icon.</summary>
-    SystemInformation = MessageBoxIcon.Information,
-
-    /// <summary>Specify a UAC shield icon.</summary>
-    Shield = 9,
-
-    /// <summary>Specify a Windows logo icon.</summary>
-    WindowsLogo = 10,
-
-    /// <summary>Specify your application icon.</summary>
-    Application = 11,
-
-    /// <summary>Specify the default system application icon. See <see cref="SystemIcons.Application"/>.</summary>
-    SystemApplication = 12,
-
-    /// <summary>Specify an ok icon.</summary>
-    Ok = 13,
-
-    /// <summary>Specify a custom icon.</summary>
-    Custom = 14
-}
-
-#endregion
-
-#region Enum KryptonToastNotificationContentAreaType
-
-public enum KryptonToastNotificationContentAreaType
-{
-    RichTextBox = 0,
-    MultiLineTextBox = 1,
-    WrapLinkLabel = 2,
-    WrapLabel = 3
-}
-
-#endregion
-
-#region Enum KryptonToastNotificationInputAreaType
-
-public enum KryptonToastNotificationInputAreaType
-{
-    /// <summary>A <see cref="KryptonToastNotification"/> with a <see cref="KryptonComboBox"/> user input.</summary>
-    ComboBox = 0,
-    /// <summary>A <see cref="KryptonToastNotification"/> with a <see cref="KryptonDateTimePicker"/> user input.</summary>
-    DateTime = 1,
-    /// <summary>A <see cref="KryptonToastNotification"/> with a <see cref="KryptonDomainUpDown"/> user input.</summary>
-    DomainUpDown = 2,
-    /// <summary>A <see cref="KryptonToastNotification"/> with a <see cref="KryptonNumericUpDown"/> user input.</summary>
-    NumericUpDown = 3,
-    /// <summary>A <see cref="KryptonToastNotification"/> with a <see cref="KryptonMaskedTextBox"/> user input.</summary>
-    MaskedTextBox = 4,
-    /// <summary>A <see cref="KryptonToastNotification"/> with a <see cref="KryptonTextBox"/> user input.</summary>
-    TextBox = 5
-}
-
-#endregion
-
-#region Enum KryptonToastNotificationActionButton
-
-public enum KryptonToastNotificationActionButton
-{
-    Button1 = 0,
-    Button2 = 1
-    //Button3 = 2
-}
-
-#endregion
-
-#region Enum KryptonToastNotificationActionType
-
-public enum KryptonToastNotificationActionType
-{
-    Default = 0,
-    Dismiss = 1,
-    LaunchProcess = 2,
-    Open = 3
-}
-
-#endregion
-
-#region Enum KryptonToastNotificationDismissButtonLocation
-
-public enum KryptonToastNotificationDismissButtonLocation
-{
-    Left = 0,
-    Right = 1
-}
-
-#endregion
-
-#region Enum KryptonToastNotificationAlignment
-
-public enum KryptonToastNotificationAlignment
-{
-    LeftToRight = 0,
-    RightToLeft = 1
-}
-
-#endregion
-
-#region Enum KryptonToastNotificationResponseType
-
-public enum KryptonToastNotificationResponseType
-{
-    /// <summary>Returns a <see cref="bool"/> result.</summary>
-    Bool = 0,
-    /// <summary>Returns a <see cref="CheckBoxState"/> result.</summary>
-    CheckedState = 1,
-    /// <summary>Returns what ever value is selected in the <see cref="KryptonComboBox"/>.</summary>
-    ComboBox = 2,
-    /// <summary>Returns a <see cref="System.DateTime"/> result.</summary>
-    DateTime = 3,
-    /// <summary>Returns a <see cref="System.Windows.Forms.DialogResult"/> result.</summary>
-    DialogResult = 4,
-    /// <summary>Returns a time-out result.</summary>
-    Timeout = 5,
-    /// <summary>Returns a <see cref="string"/> result.</summary>
-    String = 6
-}
-
-#endregion
-
-#region Enum KryptonToastNotificationType
-
-public enum KryptonToastNotificationType
-{
-    Basic = 0,
-    BasicWithProgressBar = 1,
-    UserInput = 2,
-    UserInputWithProgressBar = 3
-}
-
-#endregion
-
-#region KryptonToastNotificationResult
-
-/// <summary>
-/// Options for the <see cref="KryptonToastNotification"/>.
-/// </summary>
-public enum KryptonToastNotificationResult
-{
-    None = DialogResult.None,
-    Ok = DialogResult.OK,
-    Cancel = DialogResult.Cancel,
-    Abort = DialogResult.Abort,
-    Retry = DialogResult.Retry,
-    Ignore = DialogResult.Ignore,
-    Yes = DialogResult.Yes,
-    No = DialogResult.No,
-    Close = 8,
-    Help = 9,
-#if NET8_0_OR_GREATER
-        TryAgain = DialogResult.TryAgain,
-        Continue = DialogResult.Continue,
-#else
-    TryAgain = 10,
-    Continue = 11,
-#endif
-    TimeOut = 12,
-    DoNotShowAgain = 13
 }
 
 #endregion
