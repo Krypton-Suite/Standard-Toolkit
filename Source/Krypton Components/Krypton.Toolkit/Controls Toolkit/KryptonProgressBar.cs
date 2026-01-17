@@ -51,6 +51,20 @@ public class KryptonProgressBar : Control, IContentValues
     private Color _textShadowColor;
     private bool _showTextBackdrop;
     private Color _textBackdropColor;
+    private readonly ProgressBarTriStateValues _triStateValues;
+    private Color _originalValueColor1;
+    private Color _originalTextColor1;
+    private Color _originalTextColor2;
+    private PaletteColorStyle _originalTextColorStyle;
+    private PaletteRectangleAlign _originalTextColorAlign;
+    private float _originalTextColorAngle;
+    private Color _originalValueColor2;
+    private PaletteColorStyle _originalValueColorStyle;
+    private PaletteRectangleAlign _originalValueColorAlign;
+    private float _originalValueColorAngle;
+    private Image? _originalValueImage;
+    private PaletteImageStyle _originalValueImageStyle;
+    private PaletteRectangleAlign _originalValueImageAlign;
 
     #endregion
 
@@ -131,6 +145,28 @@ public class KryptonProgressBar : Control, IContentValues
         _textShadowColor = Color.Empty;
         _showTextBackdrop = false;
         _textBackdropColor = Color.Empty;
+
+        // Store the original color from StateCommon (which is set to Green)
+        _originalValueColor1 = StateCommon.Back.Color1;
+
+        // Store the original text color (will be set after layout)
+        _originalTextColor1 = Color.Empty;
+        _originalTextColor2 = Color.Empty;
+        _originalTextColorStyle = PaletteColorStyle.Inherit;
+        _originalTextColorAlign = PaletteRectangleAlign.Inherit;
+        _originalTextColorAngle = -1f;
+
+        _originalValueImage = StateCommon.Back.Image;
+        _originalValueImageStyle = StateCommon.Back.ImageStyle;
+        _originalValueImageAlign = StateCommon.Back.ImageAlign;
+
+        _originalValueColor2 = StateCommon.Back.Color2;
+        _originalValueColorStyle = StateCommon.Back.ColorStyle;
+        _originalValueColorAlign = StateCommon.Back.ColorAlign;
+        _originalValueColorAngle = StateCommon.Back.ColorAngle;
+
+        // Create tri-state values storage
+        _triStateValues = new ProgressBarTriStateValues(this, OnNeedPaintHandler);
 
         OnlayoutInternal();
     }
@@ -435,6 +471,30 @@ public class KryptonProgressBar : Control, IContentValues
             }
 
             _maximum = value;
+
+            if (_triStateValues.AutoCalculateThresholdValues)
+            {
+                _triStateValues.CalculateThresholds();
+            }
+            else
+            {
+                // Validate thresholds against new maximum
+                if (_triStateValues.LowThreshold > _maximum)
+                {
+                    _triStateValues.LowThreshold = Math.Max(0, _maximum / 3);
+                }
+
+                if (_triStateValues.HighThreshold > _maximum)
+                {
+                    _triStateValues.HighThreshold = Math.Max(_triStateValues.LowThreshold + 1, _maximum * 2 / 3);
+                }
+            }
+
+            if (_triStateValues.UseTriStateColors)
+            {
+                UpdateThresholdColor();
+            }
+
             Invalidate();
         }
     }
@@ -467,6 +527,18 @@ public class KryptonProgressBar : Control, IContentValues
             }
 
             _minimum = value;
+
+            // Recalculate thresholds if auto-calculation is enabled
+            if (_triStateValues.AutoCalculateThresholdValues)
+            {
+                _triStateValues.CalculateThresholds();
+            }
+
+            if (_triStateValues.UseTriStateColors)
+            {
+                UpdateThresholdColor();
+            }
+
             Invalidate();
         }
     }
@@ -513,6 +585,11 @@ public class KryptonProgressBar : Control, IContentValues
             if (_useValueAsText)
             {
                 Text = $@"{value}%";
+            }
+
+            if (_triStateValues.UseTriStateColors)
+            {
+                UpdateThresholdColor();
             }
 
             Invalidate();
@@ -565,6 +642,11 @@ public class KryptonProgressBar : Control, IContentValues
         if (_value > _maximum)
         {
             _value = _maximum;
+        }
+
+        if (_triStateValues.UseTriStateColors)
+        {
+            UpdateThresholdColor();
         }
 
         Invalidate();
@@ -623,6 +705,16 @@ public class KryptonProgressBar : Control, IContentValues
             UpdateTextWithValue(value);
         }
     }
+
+    /// <summary>
+    /// Gets access to the threshold color values.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Threshold color values for the progress bar.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public ProgressBarTriStateValues TriStateValues => _triStateValues;
+
+    private bool ShouldSerializeTriStateValues() => !TriStateValues.IsDefault;
 
     #endregion
 
@@ -697,6 +789,11 @@ public class KryptonProgressBar : Control, IContentValues
 
         // Get the renderer associated with this palette
         IRenderer renderer = _palette!.GetRenderer();
+
+        if (_triStateValues.UseTriStateColors)
+        {
+            UpdateThresholdColor();
+        }
 
         // Create the rendering context that is passed into all renderer calls
         using var renderContext = new RenderContext(this, e.Graphics, e.ClipRectangle, renderer);
@@ -1043,12 +1140,28 @@ public class KryptonProgressBar : Control, IContentValues
     #endregion
 
     #region Implementation
+
     private void OnlayoutInternal(LayoutEventArgs? e = null)
     {
         if (_palette != null)
         {
             // We want the inner part of the control to draw like a button.
             var (barPaletteState, barState) = GetBarPaletteState();
+
+            // Store original text color properties if not already stored
+            if (_originalTextColor1 == Color.Empty)
+            {
+                _originalTextColor1 = barPaletteState.PaletteContent!.GetContentShortTextColor1(barState);
+                if (_originalTextColor1 == Color.Empty)
+                {
+                    // If still empty, try to get from the palette content directly
+                    _originalTextColor1 = StateNormal.Content.ShortText.Color1;
+                }
+                _originalTextColor2 = StateNormal.Content.ShortText.Color2;
+                _originalTextColorStyle = StateNormal.Content.ShortText.ColorStyle;
+                _originalTextColorAlign = StateNormal.Content.ShortText.ColorAlign;
+                _originalTextColorAngle = StateNormal.Content.ShortText.ColorAngle;
+            }
 
             // Get the renderer associated with this palette
             IRenderer renderer = _palette.GetRenderer();
@@ -1137,11 +1250,342 @@ public class KryptonProgressBar : Control, IContentValues
         Invalidate();
     }
 
-    private void UpdateTextWithValue(bool value)
-    {
+    private void UpdateTextWithValue(bool value) =>
         Text = value
             ? $@"{Value}%"
             : string.Empty;
+
+    /// <summary>
+    /// Updates the progress bar color based on the current value and threshold settings.
+    /// </summary>
+    internal void UpdateThresholdColor()
+    {
+        var (barPaletteState, barState) = GetBarPaletteState();
+
+        // Cast to PaletteTriple to access Content property
+        PaletteTriple? paletteTriple = barPaletteState as PaletteTriple;
+
+        if (!_triStateValues.UseTriStateColors)
+        {
+            // Restore original colors when disabled
+            _stateBackValue.Color1 = _originalValueColor1;
+            if (_originalValueColor2 != Color.Empty)
+            {
+                _stateBackValue.Color2 = _originalValueColor2;
+            }
+            if (_originalValueColorStyle != PaletteColorStyle.Inherit)
+            {
+                _stateBackValue.ColorStyle = _originalValueColorStyle;
+            }
+            if (_originalValueColorAlign != PaletteRectangleAlign.Inherit)
+            {
+                _stateBackValue.ColorAlign = _originalValueColorAlign;
+            }
+            if (Math.Abs(_originalValueColorAngle - (-1f)) > 0.001f)
+            {
+                _stateBackValue.ColorAngle = _originalValueColorAngle;
+            }
+            if (_originalValueImage != null)
+            {
+                _stateBackValue.Image = _originalValueImage;
+            }
+            if (_originalValueImageStyle != PaletteImageStyle.Inherit)
+            {
+                _stateBackValue.ImageStyle = _originalValueImageStyle;
+            }
+            if (_originalValueImageAlign != PaletteRectangleAlign.Inherit)
+            {
+                _stateBackValue.ImageAlign = _originalValueImageAlign;
+            }
+            if (paletteTriple != null)
+            {
+                if (_originalTextColor1 != Color.Empty)
+                {
+                    paletteTriple.Content.ShortText.Color1 = _originalTextColor1;
+                }
+                if (_originalTextColor2 != Color.Empty)
+                {
+                    paletteTriple.Content.ShortText.Color2 = _originalTextColor2;
+                }
+                if (_originalTextColorStyle != PaletteColorStyle.Inherit)
+                {
+                    paletteTriple.Content.ShortText.ColorStyle = _originalTextColorStyle;
+                }
+                if (_originalTextColorAlign != PaletteRectangleAlign.Inherit)
+                {
+                    paletteTriple.Content.ShortText.ColorAlign = _originalTextColorAlign;
+                }
+                if (Math.Abs(_originalTextColorAngle - (-1f)) > 0.001f)
+                {
+                    paletteTriple.Content.ShortText.ColorAngle = _originalTextColorAngle;
+                }
+            }
+            return;
+        }
+
+        // Store current background color properties as original if we're enabling for the first time
+        if (_originalValueColor1 == Color.Green)
+        {
+            Color currentColor = _stateBackValue.Color1;
+            if (currentColor != Color.Green && currentColor != Color.Empty)
+            {
+                _originalValueColor1 = currentColor;
+                _originalValueColor2 = _stateBackValue.Color2;
+                _originalValueColorStyle = _stateBackValue.ColorStyle;
+                _originalValueColorAlign = _stateBackValue.ColorAlign;
+                _originalValueColorAngle = _stateBackValue.ColorAngle;
+                _originalValueImage = _stateBackValue.Image;
+                _originalValueImageStyle = _stateBackValue.ImageStyle;
+                _originalValueImageAlign = _stateBackValue.ImageAlign;
+            }
+        }
+
+        // Store current text color properties as original if not already stored
+        if (_originalTextColor1 == Color.Empty && paletteTriple != null)
+        {
+            _originalTextColor1 = paletteTriple.Content.ShortText.Color1;
+            _originalTextColor2 = paletteTriple.Content.ShortText.Color2;
+            _originalTextColorStyle = paletteTriple.Content.ShortText.ColorStyle;
+            _originalTextColorAlign = paletteTriple.Content.ShortText.ColorAlign;
+            _originalTextColorAngle = paletteTriple.Content.ShortText.ColorAngle;
+        }
+
+        // Determine which colors and properties to use based on the current value
+        Color backColor1 = _originalValueColor1;
+        Color backColor2 = _originalValueColor2;
+        PaletteColorStyle backColorStyle = _originalValueColorStyle;
+        PaletteRectangleAlign backColorAlign = _originalValueColorAlign;
+        float backColorAngle = _originalValueColorAngle;
+        Image? backImage = _originalValueImage;
+        PaletteImageStyle backImageStyle = _originalValueImageStyle;
+        PaletteRectangleAlign backImageAlign = _originalValueImageAlign;
+        Color textColor1 = _originalTextColor1;
+        Color textColor2 = _originalTextColor2;
+        PaletteColorStyle textColorStyle = _originalTextColorStyle;
+        PaletteRectangleAlign textColorAlign = _originalTextColorAlign;
+        float textColorAngle = _originalTextColorAngle;
+
+        if (_value < _triStateValues.LowThreshold)
+        {
+            backColor1 = _triStateValues.LowThresholdColor1;
+            if (_triStateValues.LowThresholdColor2 != Color.Empty)
+            {
+                backColor2 = _triStateValues.LowThresholdColor2;
+            }
+            if (_triStateValues.LowThresholdColorStyle != PaletteColorStyle.Inherit)
+            {
+                backColorStyle = _triStateValues.LowThresholdColorStyle;
+            }
+            if (_triStateValues.LowThresholdColorAlign != PaletteRectangleAlign.Inherit)
+            {
+                backColorAlign = _triStateValues.LowThresholdColorAlign;
+            }
+            if (Math.Abs(_triStateValues.LowThresholdColorAngle - (-1f)) > 0.001f)
+            {
+                backColorAngle = _triStateValues.LowThresholdColorAngle;
+            }
+            if (_triStateValues.LowThresholdImage != null)
+            {
+                backImage = _triStateValues.LowThresholdImage;
+            }
+            if (_triStateValues.LowThresholdImageStyle != PaletteImageStyle.Inherit)
+            {
+                backImageStyle = _triStateValues.LowThresholdImageStyle;
+            }
+            if (_triStateValues.LowThresholdImageAlign != PaletteRectangleAlign.Inherit)
+            {
+                backImageAlign = _triStateValues.LowThresholdImageAlign;
+            }
+            if (_triStateValues.LowThresholdTextColor != Color.Empty)
+            {
+                textColor1 = _triStateValues.LowThresholdTextColor;
+            }
+            else if (_triStateValues.UseOppositeTextColors)
+            {
+                textColor1 = ControlPaint.Light(_triStateValues.LowThresholdColor1);
+            }
+            if (_triStateValues.LowThresholdTextColor2 != Color.Empty)
+            {
+                textColor2 = _triStateValues.LowThresholdTextColor2;
+            }
+            if (_triStateValues.LowThresholdTextColorStyle != PaletteColorStyle.Inherit)
+            {
+                textColorStyle = _triStateValues.LowThresholdTextColorStyle;
+            }
+            if (_triStateValues.LowThresholdTextColorAlign != PaletteRectangleAlign.Inherit)
+            {
+                textColorAlign = _triStateValues.LowThresholdTextColorAlign;
+            }
+            if (Math.Abs(_triStateValues.LowThresholdTextColorAngle - (-1f)) > 0.001f)
+            {
+                textColorAngle = _triStateValues.LowThresholdTextColorAngle;
+            }
+        }
+        else if (_value >= _triStateValues.HighThreshold)
+        {
+            backColor1 = _triStateValues.HighThresholdColor1;
+            if (_triStateValues.HighThresholdColor2 != Color.Empty)
+            {
+                backColor2 = _triStateValues.HighThresholdColor2;
+            }
+            if (_triStateValues.HighThresholdColorStyle != PaletteColorStyle.Inherit)
+            {
+                backColorStyle = _triStateValues.HighThresholdColorStyle;
+            }
+            if (_triStateValues.HighThresholdColorAlign != PaletteRectangleAlign.Inherit)
+            {
+                backColorAlign = _triStateValues.HighThresholdColorAlign;
+            }
+            if (Math.Abs(_triStateValues.HighThresholdColorAngle - (-1f)) > 0.001f)
+            {
+                backColorAngle = _triStateValues.HighThresholdColorAngle;
+            }
+            if (_triStateValues.HighThresholdImage != null)
+            {
+                backImage = _triStateValues.HighThresholdImage;
+            }
+            if (_triStateValues.HighThresholdImageStyle != PaletteImageStyle.Inherit)
+            {
+                backImageStyle = _triStateValues.HighThresholdImageStyle;
+            }
+            if (_triStateValues.HighThresholdImageAlign != PaletteRectangleAlign.Inherit)
+            {
+                backImageAlign = _triStateValues.HighThresholdImageAlign;
+            }
+            if (_triStateValues.HighThresholdTextColor != Color.Empty)
+            {
+                textColor1 = _triStateValues.HighThresholdTextColor;
+            }
+            else if (_triStateValues.UseOppositeTextColors)
+            {
+                textColor1 = ControlPaint.Dark(_triStateValues.HighThresholdColor1);
+            }
+            if (_triStateValues.HighThresholdTextColor2 != Color.Empty)
+            {
+                textColor2 = _triStateValues.HighThresholdTextColor2;
+            }
+            if (_triStateValues.HighThresholdTextColorStyle != PaletteColorStyle.Inherit)
+            {
+                textColorStyle = _triStateValues.HighThresholdTextColorStyle;
+            }
+            if (_triStateValues.HighThresholdTextColorAlign != PaletteRectangleAlign.Inherit)
+            {
+                textColorAlign = _triStateValues.HighThresholdTextColorAlign;
+            }
+            if (Math.Abs(_triStateValues.HighThresholdTextColorAngle - (-1f)) > 0.001f)
+            {
+                textColorAngle = _triStateValues.HighThresholdTextColorAngle;
+            }
+        }
+        else
+        {
+            backColor1 = _triStateValues.MediumThresholdColor1;
+            if (_triStateValues.MediumThresholdColor2 != Color.Empty)
+            {
+                backColor2 = _triStateValues.MediumThresholdColor2;
+            }
+            if (_triStateValues.MediumThresholdColorStyle != PaletteColorStyle.Inherit)
+            {
+                backColorStyle = _triStateValues.MediumThresholdColorStyle;
+            }
+            if (_triStateValues.MediumThresholdColorAlign != PaletteRectangleAlign.Inherit)
+            {
+                backColorAlign = _triStateValues.MediumThresholdColorAlign;
+            }
+            if (Math.Abs(_triStateValues.MediumThresholdColorAngle - (-1f)) > 0.001f)
+            {
+                backColorAngle = _triStateValues.MediumThresholdColorAngle;
+            }
+            if (_triStateValues.MediumThresholdImage != null)
+            {
+                backImage = _triStateValues.MediumThresholdImage;
+            }
+            if (_triStateValues.MediumThresholdImageStyle != PaletteImageStyle.Inherit)
+            {
+                backImageStyle = _triStateValues.MediumThresholdImageStyle;
+            }
+            if (_triStateValues.MediumThresholdImageAlign != PaletteRectangleAlign.Inherit)
+            {
+                backImageAlign = _triStateValues.MediumThresholdImageAlign;
+            }
+            if (_triStateValues.MediumThresholdTextColor != Color.Empty)
+            {
+                textColor1 = _triStateValues.MediumThresholdTextColor;
+            }
+            else if (_triStateValues.UseOppositeTextColors)
+            {
+                textColor1 = ControlPaint.Dark(_triStateValues.MediumThresholdColor1);
+            }
+            if (_triStateValues.MediumThresholdTextColor2 != Color.Empty)
+            {
+                textColor2 = _triStateValues.MediumThresholdTextColor2;
+            }
+            if (_triStateValues.MediumThresholdTextColorStyle != PaletteColorStyle.Inherit)
+            {
+                textColorStyle = _triStateValues.MediumThresholdTextColorStyle;
+            }
+            if (_triStateValues.MediumThresholdTextColorAlign != PaletteRectangleAlign.Inherit)
+            {
+                textColorAlign = _triStateValues.MediumThresholdTextColorAlign;
+            }
+            if (Math.Abs(_triStateValues.MediumThresholdTextColorAngle - (-1f)) > 0.001f)
+            {
+                textColorAngle = _triStateValues.MediumThresholdTextColorAngle;
+            }
+        }
+
+        // Update background color properties
+        _stateBackValue.Color1 = backColor1;
+        if (backColor2 != Color.Empty)
+        {
+            _stateBackValue.Color2 = backColor2;
+        }
+        if (backColorStyle != PaletteColorStyle.Inherit)
+        {
+            _stateBackValue.ColorStyle = backColorStyle;
+        }
+        if (backColorAlign != PaletteRectangleAlign.Inherit)
+        {
+            _stateBackValue.ColorAlign = backColorAlign;
+        }
+        if (Math.Abs(backColorAngle - (-1f)) > 0.001f)
+        {
+            _stateBackValue.ColorAngle = backColorAngle;
+        }
+        if (backImage != null)
+        {
+            _stateBackValue.Image = backImage;
+        }
+        if (backImageStyle != PaletteImageStyle.Inherit)
+        {
+            _stateBackValue.ImageStyle = backImageStyle;
+        }
+        if (backImageAlign != PaletteRectangleAlign.Inherit)
+        {
+            _stateBackValue.ImageAlign = backImageAlign;
+        }
+
+        // Update text color properties
+        if (paletteTriple != null)
+        {
+            paletteTriple.Content.ShortText.Color1 = textColor1;
+            if (textColor2 != Color.Empty)
+            {
+                paletteTriple.Content.ShortText.Color2 = textColor2;
+            }
+            if (textColorStyle != PaletteColorStyle.Inherit)
+            {
+                paletteTriple.Content.ShortText.ColorStyle = textColorStyle;
+            }
+            if (textColorAlign != PaletteRectangleAlign.Inherit)
+            {
+                paletteTriple.Content.ShortText.ColorAlign = textColorAlign;
+            }
+            if (Math.Abs(textColorAngle - (-1f)) > 0.001f)
+            {
+                paletteTriple.Content.ShortText.ColorAngle = textColorAngle;
+            }
+        }
     }
 
     #endregion
