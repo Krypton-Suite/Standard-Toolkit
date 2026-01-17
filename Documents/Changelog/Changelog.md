@@ -2,6 +2,12 @@
 
 ====
 
+# 2026-05-xx - Build 2605 (Version 105-LTS - Patch 2) - May 2026
+
+* Resolved [#2862](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2862), Form border resize flicker
+
+====
+
 # 2026-01-19 - Build 2501 (Version 105-LTS - Patch 1) - January 2026
 
 * Resolved/Implemented [#1651](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1651), KComboBox's should follow the DateTimePicker layout(s)

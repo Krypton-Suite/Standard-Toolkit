@@ -164,6 +164,13 @@ public class KryptonForm : VisualForm,
         // Yes, we want to be drawn double buffered by default
         base.DoubleBuffered = true;
 
+#if NET10_0_OR_GREATER
+        // Fix for issue #2862: .NET 10 introduced FormCornerPreference which causes flicker
+        // during resize when using custom chrome. Set to DoNotRound since KryptonForm
+        // handles its own border rendering with custom chrome.
+        FormCornerPreference = FormCornerPreference.DoNotRound;
+#endif
+
         // Create storage objects
         ButtonSpecs = new FormButtonSpecCollection(this);
         var buttonSpecsFixed = new FormFixedButtonSpecCollection(this);
