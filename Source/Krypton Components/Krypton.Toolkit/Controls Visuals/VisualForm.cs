@@ -52,6 +52,7 @@ public abstract class VisualForm : Form,
     private readonly object lockObject = new();
     private readonly TaskbarOverlayIconValues _taskbarOverlayIconValues;
     readonly JumpListValues _jumpListValues;
+    private readonly WindowsShellValues _shellValues;
 
     #endregion
 
@@ -133,9 +134,9 @@ public abstract class VisualForm : Form,
         ShadowValues = new ShadowValues();
         BlurValues = new BlurValues();
 
-        // Taskbar overlay icon values
-        _taskbarOverlayIconValues = new TaskbarOverlayIconValues(NeedPaintDelegate);
-        _taskbarOverlayIconValues.OnTaskbarOverlayChanged += UpdateTaskbarOverlayIcon;
+        // Taskbar configuration
+        _shellValues = new WindowsShellValues(NeedPaintDelegate);
+        _shellValues.OverlayIconValues.OnTaskbarOverlayChanged += UpdateTaskbarOverlayIcon;
 
         // Jump list
         _jumpListValues = new JumpListValues(NeedPaintDelegate);
@@ -410,23 +411,23 @@ public abstract class VisualForm : Form,
     public void ResetBlurValues() => _blurValues.Reset();
 
     /// <summary>
-    /// Gets access to the taskbar overlay icon values.
+    /// Gets access to the shell values.
     /// </summary>
     [Category(@"Visuals")]
-    [Description(@"Taskbar overlay icon to display on the taskbar button.")]
+    [Description(@"Windows shell related values.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-    public TaskbarOverlayIconValues TaskbarOverlayIconValues => _taskbarOverlayIconValues;
+    public WindowsShellValues ShellValues => _shellValues;
 
     /// <summary>
-    /// Resets the TaskbarOverlayIconValues property to its default value.
+    /// Resets the ShellValues property to its default value.
     /// </summary>
-    public void ResetTaskbarOverlayIconValues() => TaskbarOverlayIconValues.Reset();
+    public void ResetShellValues() => ShellValues.Reset();
 
     /// <summary>
-    /// Indicates whether the TaskbarOverlayIconValues property should be serialized.
+    /// Indicates whether the ShellValues property should be serialized.
     /// </summary>
-    /// <returns>true if the TaskbarOverlayIconValues property should be serialized; otherwise, false.</returns>
-    public bool ShouldSerializeTaskbarOverlayIconValues() => !TaskbarOverlayIconValues.IsDefault;
+    /// <returns>true if the ShellValues property should be serialized; otherwise, false.</returns>
+    public bool ShouldSerializeShellValues() => !ShellValues.IsDefault;
 
     /// <summary>
     /// Gets access to the jump list values.
@@ -1986,13 +1987,13 @@ public abstract class VisualForm : Form,
 
             // Get icon handle
             IntPtr hIcon = IntPtr.Zero;
-            if (_taskbarOverlayIconValues.Icon != null)
+            if (_shellValues.OverlayIconValues.Icon != null)
             {
-                hIcon = _taskbarOverlayIconValues.Icon.Handle;
+                hIcon = _shellValues.OverlayIconValues.Icon.Handle;
             }
 
             // Set overlay icon (passing null clears it)
-            string description = _taskbarOverlayIconValues.Description ?? string.Empty;
+            string description = _shellValues.OverlayIconValues.Description ?? string.Empty;
             taskbarList.SetOverlayIcon(Handle, hIcon, description);
         }
         catch (Exception ex)
