@@ -1260,6 +1260,11 @@ public class KryptonProgressBar : Control, IContentValues
     /// </summary>
     internal void UpdateThresholdColor()
     {
+        if (_triStateValues == null)
+        {
+            return;
+        }
+
         var (barPaletteState, barState) = GetBarPaletteState();
 
         // Cast to PaletteTriple to access Content property
@@ -1350,192 +1355,49 @@ public class KryptonProgressBar : Control, IContentValues
             _originalTextColorAngle = paletteTriple.Content.ShortText.ColorAngle;
         }
 
-        // Determine which colors and properties to use based on the current value
-        Color backColor1 = _originalValueColor1;
-        Color backColor2 = _originalValueColor2;
-        PaletteColorStyle backColorStyle = _originalValueColorStyle;
-        PaletteRectangleAlign backColorAlign = _originalValueColorAlign;
-        float backColorAngle = _originalValueColorAngle;
-        Image? backImage = _originalValueImage;
-        PaletteImageStyle backImageStyle = _originalValueImageStyle;
-        PaletteRectangleAlign backImageAlign = _originalValueImageAlign;
-        Color textColor1 = _originalTextColor1;
-        Color textColor2 = _originalTextColor2;
-        PaletteColorStyle textColorStyle = _originalTextColorStyle;
-        PaletteRectangleAlign textColorAlign = _originalTextColorAlign;
-        float textColorAngle = _originalTextColorAngle;
-
+        // Determine which state to use (Normal or Disabled) based on control's Enabled state
+        ProgressBarTriStateRegionAppearanceValues region;
         if (_value < _triStateValues.LowThreshold)
         {
-            backColor1 = _triStateValues.LowThresholdColor1;
-            if (_triStateValues.LowThresholdColor2 != Color.Empty)
-            {
-                backColor2 = _triStateValues.LowThresholdColor2;
-            }
-            if (_triStateValues.LowThresholdColorStyle != PaletteColorStyle.Inherit)
-            {
-                backColorStyle = _triStateValues.LowThresholdColorStyle;
-            }
-            if (_triStateValues.LowThresholdColorAlign != PaletteRectangleAlign.Inherit)
-            {
-                backColorAlign = _triStateValues.LowThresholdColorAlign;
-            }
-            if (Math.Abs(_triStateValues.LowThresholdColorAngle - (-1f)) > 0.001f)
-            {
-                backColorAngle = _triStateValues.LowThresholdColorAngle;
-            }
-            if (_triStateValues.LowThresholdImage != null)
-            {
-                backImage = _triStateValues.LowThresholdImage;
-            }
-            if (_triStateValues.LowThresholdImageStyle != PaletteImageStyle.Inherit)
-            {
-                backImageStyle = _triStateValues.LowThresholdImageStyle;
-            }
-            if (_triStateValues.LowThresholdImageAlign != PaletteRectangleAlign.Inherit)
-            {
-                backImageAlign = _triStateValues.LowThresholdImageAlign;
-            }
-            if (_triStateValues.LowThresholdTextColor != Color.Empty)
-            {
-                textColor1 = _triStateValues.LowThresholdTextColor;
-            }
-            else if (_triStateValues.UseOppositeTextColors)
-            {
-                textColor1 = ControlPaint.Light(_triStateValues.LowThresholdColor1);
-            }
-            if (_triStateValues.LowThresholdTextColor2 != Color.Empty)
-            {
-                textColor2 = _triStateValues.LowThresholdTextColor2;
-            }
-            if (_triStateValues.LowThresholdTextColorStyle != PaletteColorStyle.Inherit)
-            {
-                textColorStyle = _triStateValues.LowThresholdTextColorStyle;
-            }
-            if (_triStateValues.LowThresholdTextColorAlign != PaletteRectangleAlign.Inherit)
-            {
-                textColorAlign = _triStateValues.LowThresholdTextColorAlign;
-            }
-            if (Math.Abs(_triStateValues.LowThresholdTextColorAngle - (-1f)) > 0.001f)
-            {
-                textColorAngle = _triStateValues.LowThresholdTextColorAngle;
-            }
+            region = _triStateValues.LowThresholdValues;
         }
         else if (_value >= _triStateValues.HighThreshold)
         {
-            backColor1 = _triStateValues.HighThresholdColor1;
-            if (_triStateValues.HighThresholdColor2 != Color.Empty)
-            {
-                backColor2 = _triStateValues.HighThresholdColor2;
-            }
-            if (_triStateValues.HighThresholdColorStyle != PaletteColorStyle.Inherit)
-            {
-                backColorStyle = _triStateValues.HighThresholdColorStyle;
-            }
-            if (_triStateValues.HighThresholdColorAlign != PaletteRectangleAlign.Inherit)
-            {
-                backColorAlign = _triStateValues.HighThresholdColorAlign;
-            }
-            if (Math.Abs(_triStateValues.HighThresholdColorAngle - (-1f)) > 0.001f)
-            {
-                backColorAngle = _triStateValues.HighThresholdColorAngle;
-            }
-            if (_triStateValues.HighThresholdImage != null)
-            {
-                backImage = _triStateValues.HighThresholdImage;
-            }
-            if (_triStateValues.HighThresholdImageStyle != PaletteImageStyle.Inherit)
-            {
-                backImageStyle = _triStateValues.HighThresholdImageStyle;
-            }
-            if (_triStateValues.HighThresholdImageAlign != PaletteRectangleAlign.Inherit)
-            {
-                backImageAlign = _triStateValues.HighThresholdImageAlign;
-            }
-            if (_triStateValues.HighThresholdTextColor != Color.Empty)
-            {
-                textColor1 = _triStateValues.HighThresholdTextColor;
-            }
-            else if (_triStateValues.UseOppositeTextColors)
-            {
-                textColor1 = ControlPaint.Dark(_triStateValues.HighThresholdColor1);
-            }
-            if (_triStateValues.HighThresholdTextColor2 != Color.Empty)
-            {
-                textColor2 = _triStateValues.HighThresholdTextColor2;
-            }
-            if (_triStateValues.HighThresholdTextColorStyle != PaletteColorStyle.Inherit)
-            {
-                textColorStyle = _triStateValues.HighThresholdTextColorStyle;
-            }
-            if (_triStateValues.HighThresholdTextColorAlign != PaletteRectangleAlign.Inherit)
-            {
-                textColorAlign = _triStateValues.HighThresholdTextColorAlign;
-            }
-            if (Math.Abs(_triStateValues.HighThresholdTextColorAngle - (-1f)) > 0.001f)
-            {
-                textColorAngle = _triStateValues.HighThresholdTextColorAngle;
-            }
+            region = _triStateValues.HighThresholdValues;
         }
         else
         {
-            backColor1 = _triStateValues.MediumThresholdColor1;
-            if (_triStateValues.MediumThresholdColor2 != Color.Empty)
-            {
-                backColor2 = _triStateValues.MediumThresholdColor2;
-            }
-            if (_triStateValues.MediumThresholdColorStyle != PaletteColorStyle.Inherit)
-            {
-                backColorStyle = _triStateValues.MediumThresholdColorStyle;
-            }
-            if (_triStateValues.MediumThresholdColorAlign != PaletteRectangleAlign.Inherit)
-            {
-                backColorAlign = _triStateValues.MediumThresholdColorAlign;
-            }
-            if (Math.Abs(_triStateValues.MediumThresholdColorAngle - (-1f)) > 0.001f)
-            {
-                backColorAngle = _triStateValues.MediumThresholdColorAngle;
-            }
-            if (_triStateValues.MediumThresholdImage != null)
-            {
-                backImage = _triStateValues.MediumThresholdImage;
-            }
-            if (_triStateValues.MediumThresholdImageStyle != PaletteImageStyle.Inherit)
-            {
-                backImageStyle = _triStateValues.MediumThresholdImageStyle;
-            }
-            if (_triStateValues.MediumThresholdImageAlign != PaletteRectangleAlign.Inherit)
-            {
-                backImageAlign = _triStateValues.MediumThresholdImageAlign;
-            }
-            if (_triStateValues.MediumThresholdTextColor != Color.Empty)
-            {
-                textColor1 = _triStateValues.MediumThresholdTextColor;
-            }
-            else if (_triStateValues.UseOppositeTextColors)
-            {
-                textColor1 = ControlPaint.Dark(_triStateValues.MediumThresholdColor1);
-            }
-            if (_triStateValues.MediumThresholdTextColor2 != Color.Empty)
-            {
-                textColor2 = _triStateValues.MediumThresholdTextColor2;
-            }
-            if (_triStateValues.MediumThresholdTextColorStyle != PaletteColorStyle.Inherit)
-            {
-                textColorStyle = _triStateValues.MediumThresholdTextColorStyle;
-            }
-            if (_triStateValues.MediumThresholdTextColorAlign != PaletteRectangleAlign.Inherit)
-            {
-                textColorAlign = _triStateValues.MediumThresholdTextColorAlign;
-            }
-            if (Math.Abs(_triStateValues.MediumThresholdTextColorAngle - (-1f)) > 0.001f)
-            {
-                textColorAngle = _triStateValues.MediumThresholdTextColorAngle;
-            }
+            region = _triStateValues.MediumThresholdValues;
+        }
+
+        // Get the active state (Normal or Disabled)
+        ProgressBarTriStateRegionStateValues activeState = Enabled ? region.StateNormal : region.StateDisabled;
+        ProgressBarTriStateRegionStateValues commonState = region.StateCommon;
+
+        // Get effective values - use active state if set, otherwise fall back to common state, then original
+        Color backColor = activeState.Back.Color1 != Color.Empty ? activeState.Back.Color1 :
+                         (commonState.Back.Color1 != Color.Empty ? commonState.Back.Color1 : _originalValueColor1);
+        Color backColor2 = activeState.Back.Color2 != Color.Empty ? activeState.Back.Color2 : commonState.Back.Color2;
+        PaletteColorStyle backColorStyle = activeState.Back.ColorStyle != PaletteColorStyle.Inherit ? activeState.Back.ColorStyle : commonState.Back.ColorStyle;
+        PaletteRectangleAlign backColorAlign = activeState.Back.ColorAlign != PaletteRectangleAlign.Inherit ? activeState.Back.ColorAlign : commonState.Back.ColorAlign;
+        float backColorAngle = Math.Abs(activeState.Back.ColorAngle - (-1f)) > 0.001f ? activeState.Back.ColorAngle : commonState.Back.ColorAngle;
+        Image? backImage = activeState.Back.Image ?? commonState.Back.Image;
+        PaletteImageStyle backImageStyle = activeState.Back.ImageStyle != PaletteImageStyle.Inherit ? activeState.Back.ImageStyle : commonState.Back.ImageStyle;
+        PaletteRectangleAlign backImageAlign = activeState.Back.ImageAlign != PaletteRectangleAlign.Inherit ? activeState.Back.ImageAlign : commonState.Back.ImageAlign;
+        Color textColor = activeState.Content.Color1 != Color.Empty ? activeState.Content.Color1 : commonState.Content.Color1;
+        Color textColor2 = activeState.Content.Color2 != Color.Empty ? activeState.Content.Color2 : commonState.Content.Color2;
+        PaletteColorStyle textColorStyle = activeState.Content.ColorStyle != PaletteColorStyle.Inherit ? activeState.Content.ColorStyle : commonState.Content.ColorStyle;
+        PaletteRectangleAlign textColorAlign = activeState.Content.ColorAlign != PaletteRectangleAlign.Inherit ? activeState.Content.ColorAlign : commonState.Content.ColorAlign;
+        float textColorAngle = Math.Abs(activeState.Content.ColorAngle - (-1f)) > 0.001f ? activeState.Content.ColorAngle : commonState.Content.ColorAngle;
+
+        // Handle UseOppositeTextColors - if textColor is Empty and UseOppositeTextColors is enabled, calculate opposite
+        if (textColor == Color.Empty && _triStateValues.UseOppositeTextColors && backColor != Color.Empty)
+        {
+            textColor = ControlPaint.Light(backColor);
         }
 
         // Update background color properties
-        _stateBackValue.Color1 = backColor1;
+        _stateBackValue.Color1 = backColor;
         if (backColor2 != Color.Empty)
         {
             _stateBackValue.Color2 = backColor2;
@@ -1568,7 +1430,7 @@ public class KryptonProgressBar : Control, IContentValues
         // Update text color properties
         if (paletteTriple != null)
         {
-            paletteTriple.Content.ShortText.Color1 = textColor1;
+            paletteTriple.Content.ShortText.Color1 = textColor;
             if (textColor2 != Color.Empty)
             {
                 paletteTriple.Content.ShortText.Color2 = textColor2;
