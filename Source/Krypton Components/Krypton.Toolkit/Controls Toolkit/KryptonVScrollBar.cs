@@ -342,8 +342,24 @@ public class KryptonVScrollBar : Control
     }
 
     /// <summary>
+    /// Gets or sets the background color for the control.
+    /// </summary>
+    [Browsable(false)]
+    [Bindable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public override Color BackColor
+    {
+        get => base.BackColor;
+        set => base.BackColor = value;
+    }
+
+    /// <summary>
     /// Gets or sets the border color.
     /// </summary>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [Category(@"Appearance")]
     [Description(@"Gets or sets the border color.")]
     [DefaultValue(typeof(Color), "Color.FromARGB(93, 140, 201)")]
@@ -369,6 +385,9 @@ public class KryptonVScrollBar : Control
     /// <summary>
     /// Gets or sets the border color in disabled state.
     /// </summary>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [Category(@"Appearance")]
     [Description(@"Gets or sets the border color in disabled state.")]
     [DefaultValue(typeof(Color), "Color.Gray")]
@@ -514,6 +533,27 @@ public class KryptonVScrollBar : Control
     /// <param name="e">A <see cref="PaintEventArgs"/> that contains information about the control to paint.</param>
     protected override void OnPaint(PaintEventArgs e)
     {
+        // Get border rounding for clipping the control shape
+        float borderRounding = 0;
+        if (_palette != null)
+        {
+            IRenderer renderer = _palette.GetRenderer();
+            PaletteState borderState = Enabled ? PaletteState.Normal : PaletteState.Disabled;
+            IPaletteBorder paletteBorder = borderState == PaletteState.Disabled 
+                ? _stateDisabled.PaletteBorder 
+                : _stateNormal.PaletteBorder;
+            borderRounding = paletteBorder.GetBorderRounding(borderState);
+        }
+
+        // Apply clipping to round the control corners if rounding is specified
+        Region? originalClip = null;
+        if (borderRounding > 0)
+        {
+            originalClip = e.Graphics.Clip?.Clone();
+            using GraphicsPath roundedPath = CommonHelper.RoundedRectanglePath(ClientRectangle, (int)borderRounding);
+            e.Graphics.SetClip(roundedPath, CombineMode.Replace);
+        }
+
         // sets the smoothing mode to none
         using var gh = new GraphicsHint(e.Graphics, PaletteGraphicsHint.None);
 
@@ -624,6 +664,13 @@ public class KryptonVScrollBar : Control
             // Fallback to simple border if no palette available
             using var pen = new Pen(Enabled ? KryptonScrollBarRenderer.BorderColors[0] : _disabledBorderColor);
             e.Graphics.DrawRectangle(pen, 0, 0, Width - 1, Height - 1);
+        }
+
+        // Restore original clip region if we modified it
+        if (originalClip != null)
+        {
+            e.Graphics.Clip = originalClip;
+            originalClip.Dispose();
         }
     }
 
