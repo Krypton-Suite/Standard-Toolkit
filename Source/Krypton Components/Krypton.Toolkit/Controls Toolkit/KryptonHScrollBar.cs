@@ -644,6 +644,15 @@ public class KryptonHScrollBar : Control
                 ScrollBarOrientation.Horizontal);
         }
 
+        // Restore original clip region before drawing border (border renderer handles its own clipping)
+        if (originalClip != null)
+        {
+            Region oldClip = e.Graphics.Clip;
+            e.Graphics.Clip = originalClip;
+            oldClip.Dispose();
+            originalClip = null;
+        }
+
         // draw border with rounding support
         if (_palette != null)
         {
@@ -671,13 +680,6 @@ public class KryptonHScrollBar : Control
             // Fallback to simple border if no palette available
             using var pen = new Pen(Enabled ? KryptonScrollBarRenderer.BorderColors[0] : _disabledBorderColor);
             e.Graphics.DrawRectangle(pen, 0, 0, Width - 1, Height - 1);
-        }
-
-        // Restore original clip region if we modified it
-        if (originalClip != null)
-        {
-            e.Graphics.Clip = originalClip;
-            originalClip.Dispose();
         }
     }
 
