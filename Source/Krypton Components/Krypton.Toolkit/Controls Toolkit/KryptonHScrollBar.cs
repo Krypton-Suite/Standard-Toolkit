@@ -543,14 +543,21 @@ public class KryptonHScrollBar : Control
                 ? _stateDisabled.PaletteBorder 
                 : _stateNormal.PaletteBorder;
             borderRounding = paletteBorder.GetBorderRounding(borderState);
+            
+            // Ensure rounding doesn't exceed what can fit in the control
+            if (borderRounding > 0)
+            {
+                // Clamp rounding to fit within the control bounds
+                borderRounding = Math.Min(borderRounding, Math.Min(ClientRectangle.Width / 2f, ClientRectangle.Height / 2f));
+            }
         }
 
         // Apply clipping to round the control corners if rounding is specified
         Region? originalClip = null;
-        if (borderRounding > 0)
+        if (borderRounding > 0 && ClientRectangle.Width > 0 && ClientRectangle.Height > 0)
         {
             originalClip = e.Graphics.Clip?.Clone();
-            using GraphicsPath roundedPath = CommonHelper.RoundedRectanglePath(ClientRectangle, (int)borderRounding);
+            using GraphicsPath roundedPath = CommonHelper.RoundedRectanglePath(ClientRectangle, (int)Math.Round(borderRounding));
             e.Graphics.SetClip(roundedPath, CombineMode.Replace);
         }
 
