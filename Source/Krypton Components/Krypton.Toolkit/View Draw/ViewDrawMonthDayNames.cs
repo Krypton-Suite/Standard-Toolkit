@@ -108,23 +108,36 @@ public class ViewDrawMonthDayNames : ViewLeaf,
         // We take on all the available display area
         ClientRectangle = context!.DisplayRectangle;
 
+        // Check if RTL layout is enabled
+        bool isRtl = context.IsRightToLeftLayout;
+
         // Content palette depends on enabled state of the control
         PaletteState state = Enabled ? PaletteState.Normal : PaletteState.Disabled;
 
-        // Layout the 7 day names
-        var layoutRect = new Rectangle(ClientLocation, _months.SizeDays);
-        for (int i = 0, day=(int)_months.DisplayDayOfWeek; i < 7; i++, day++)
+        // Calculate starting X position based on RTL
+        int startX = isRtl
+            ? ClientRectangle.Right - _months.SizeDays.Width
+            : ClientLocation.X;
+
+        // Layout the 7 day names (in RTL, reverse the order)
+        var layoutRect = new Rectangle(startX, ClientLocation.Y, _months.SizeDays.Width, _months.SizeDays.Height);
+        for (int i = 0; i < 7; i++)
         {
+            // Calculate actual day index based on RTL
+            int actualIndex = isRtl ? (6 - i) : i;
+            int day = ((int)_months.DisplayDayOfWeek + actualIndex) % 7;
+
             // Define text to be drawn
-            _drawText = _months.DayNames![day % 7];
+            _drawText = _months.DayNames![day];
 
-            _dayMementos[i]?.Dispose();
+            _dayMementos[actualIndex]?.Dispose();
 
-            _dayMementos[i] = context.Renderer.RenderStandardContent.LayoutContent(context, layoutRect, _calendar.StateNormal.DayOfWeek.Content, this, 
+            _dayMementos[actualIndex] = context.Renderer.RenderStandardContent.LayoutContent(context, layoutRect, _calendar.StateNormal.DayOfWeek.Content, this,
                 VisualOrientation.Top, state);
 
-            // Move across to next day
-            layoutRect.X += _months.SizeDays.Width;
+            // Move across to next day (in RTL, move backwards)
+            int step = CommonHelper.GetRtlAwareStep(_months.SizeDays.Width, isRtl);
+            layoutRect.X += step;
         }
 
         // Put back the original display value now we have finished
@@ -151,23 +164,36 @@ public class ViewDrawMonthDayNames : ViewLeaf,
             throw new ArgumentNullException(nameof(context.Renderer));
         }
 
+        // Check if RTL layout is enabled (from control context)
+        bool isRtl = CommonHelper.IsRightToLeftLayout(_calendar.CalendarControl);
+
         // Content palette depends on enabled state of the control
         PaletteState state = Enabled ? PaletteState.Normal : PaletteState.Disabled;
 
-        // Draw the 7 day names
-        var drawRect = new Rectangle(ClientLocation, _months.SizeDays);
-        for(int i=0, day=(int)_months.DisplayDayOfWeek; i<7; i++, day++)
+        // Calculate starting X position based on RTL
+        int startX = isRtl
+            ? ClientRectangle.Right - _months.SizeDays.Width
+            : ClientLocation.X;
+
+        // Draw the 7 day names (in RTL, reverse the order)
+        var drawRect = new Rectangle(startX, ClientLocation.Y, _months.SizeDays.Width, _months.SizeDays.Height);
+        for (int i = 0; i < 7; i++)
         {
+            // Calculate actual day index based on RTL
+            int actualIndex = isRtl ? (6 - i) : i;
+            int day = ((int)_months.DisplayDayOfWeek + actualIndex) % 7;
+
             // Draw using memento cached from the layout call
-            if (_dayMementos[day % 7] != null)
+            if (_dayMementos[actualIndex] != null)
             {
                 context?.Renderer.RenderStandardContent.DrawContent(context, drawRect,
-                    _calendar.StateNormal.DayOfWeek.Content, _dayMementos[day % 7]!,
+                    _calendar.StateNormal.DayOfWeek.Content, _dayMementos[actualIndex]!,
                     VisualOrientation.Top, state, true);
             }
 
-            // Move across to next day
-            drawRect.X += _months.SizeDays.Width;
+            // Move across to next day (in RTL, move backwards)
+            int step = CommonHelper.GetRtlAwareStep(_months.SizeDays.Width, isRtl);
+            drawRect.X += step;
         }
     }
     #endregion
@@ -198,6 +224,34 @@ public class ViewDrawMonthDayNames : ViewLeaf,
     /// </summary>
     /// <returns>String value.</returns>
     public string GetLongText() => string.Empty;
+
+    /// <summary>
+    /// Gets the overlay image.
+    /// </summary>
+    /// <param name="state">The state for which the overlay image is needed.</param>
+    /// <returns>Overlay image value, or null if no overlay image is set.</returns>
+    public Image? GetOverlayImage(PaletteState state) => null;
+
+    /// <summary>
+    /// Gets the overlay image color that should be transparent.
+    /// </summary>
+    /// <param name="state">The state for which the overlay image is needed.</param>
+    /// <returns>Color value.</returns>
+    public Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+    
+    /// <summary>
+    /// Gets the scale factor for the overlay image (used when scale mode is Percentage or ProportionalToMain).
+    /// </summary>
+    /// <param name="state">The state for which the overlay scale factor is needed.</param>
+    /// <returns>Scale factor (0.0 to 2.0).</returns>
+    public float GetOverlayImageScaleFactor(PaletteState state) => 0.5f;
+
+    /// <summary>
+    /// Gets the fixed size for the overlay image (used when scale mode is FixedSize).
+    /// </summary>
+    /// <param name="state">The state for which the overlay fixed size is needed.</param>
+    /// <returns>Fixed size.</returns>
+    public Size GetOverlayImageFixedSize(PaletteState state) => new Size(16, 16);
 
     #endregion
 }

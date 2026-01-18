@@ -127,6 +127,9 @@ public class ViewDrawMonthDays : ViewLeaf,
     /// <returns>DateTime for matching day; otherwise null.</returns>
     public DateTime? DayFromPoint(Point pt, bool exact)
     {
+        // Check if RTL layout is enabled
+        bool isRtl = CommonHelper.IsRightToLeftLayout(_calendar.CalendarControl);
+
         // Search the list of days for the one containing the requested point
         for (var i = 0; i < DAYS; i++)
         {
@@ -176,17 +179,24 @@ public class ViewDrawMonthDays : ViewLeaf,
                         {
                             DateTime startRowDate = _firstDay.AddDays(row * WEEKDAYS);
 
-                            if (pt.X < ClientLocation.X)
+                            // Check if RTL layout is enabled
+                            bool isRtl = CommonHelper.IsRightToLeftLayout(_calendar.CalendarControl);
+
+                            if (pt.X < ClientRectangle.Left)
                             {
-                                retDate = startRowDate;
+                                retDate = isRtl ? startRowDate.AddDays(WEEKDAYS - 1) : startRowDate;
                             }
                             else if (pt.X >= ClientRectangle.Right)
                             {
-                                retDate = startRowDate.AddDays(WEEKDAYS - 1);
+                                retDate = isRtl ? startRowDate : startRowDate.AddDays(WEEKDAYS - 1);
                             }
                             else
                             {
-                                var offsetDays = (pt.X - ClientLocation.X) / _dayRects[row * WEEKDAYS].Width;
+                                var offsetDays = (pt.X - ClientRectangle.Left) / _dayRects[row * WEEKDAYS].Width;
+                                if (isRtl)
+                                {
+                                    offsetDays = WEEKDAYS - 1 - offsetDays;
+                                }
                                 retDate = startRowDate.AddDays(offsetDays);
                             }
 
@@ -244,8 +254,14 @@ public class ViewDrawMonthDays : ViewLeaf,
         // We take on all the available display area
         ClientRectangle = context!.DisplayRectangle;
 
-        var layoutXCell = ClientLocation.X;
-        var layoutXDay = ClientLocation.X + ((_months.SizeDays.Width - _months.SizeDay.Width) / 2);
+        // Check if RTL layout is enabled
+        bool isRtl = context.IsRightToLeftLayout;
+
+        // Calculate starting X position based on RTL
+        int layoutXCell = isRtl
+            ? ClientRectangle.Right - _months.SizeDays.Width
+            : ClientLocation.X;
+        int layoutXDay = layoutXCell + ((_months.SizeDays.Width - _months.SizeDay.Width) / 2);
         var layoutRectCell = new Rectangle(layoutXCell, ClientLocation.Y, _months.SizeDays.Width,
             _months.SizeDays.Height);
         var layoutRectDay = new Rectangle(layoutXDay, ClientLocation.Y, _months.SizeDay.Width,
@@ -256,14 +272,18 @@ public class ViewDrawMonthDays : ViewLeaf,
         DateTime displayDate = _firstDay;
         for (var j = 0; j < WEEKS; j++)
         {
-            // Layout each day as a column
+            // Layout each day as a column (in RTL, reverse the order)
             for (var i = 0; i < WEEKDAYS; i++)
             {
-                // Memento index
-                var index = (j * WEEKDAYS) + i;
+                // Calculate actual day index based on RTL
+                int actualDayIndex = isRtl ? (WEEKDAYS - 1 - i) : i;
+                DateTime actualDisplayDate = _firstDay.AddDays(j * WEEKDAYS + actualDayIndex);
+
+                // Memento index (still uses original order for array access)
+                var index = (j * WEEKDAYS) + actualDayIndex;
 
                 // Define text to be drawn
-                _drawText = displayDate.Day.ToString();
+                _drawText = actualDisplayDate.Day.ToString();
 
                 if (_dayMementos[index] != null)
                 {
@@ -276,18 +296,18 @@ public class ViewDrawMonthDays : ViewLeaf,
                 IPaletteTriple paletteTriple = _calendar.OverrideNormal;
 
                 // If the display date is not within the allowed range, do not draw it
-                if ((displayDate < minDate) || (displayDate > maxDate))
+                if ((actualDisplayDate < minDate) || (actualDisplayDate > maxDate))
                 {
                     skip = true;
                 }
                 else
                 {
                     _calendar.SetFocusOverride(false);
-                    _calendar.SetBoldedOverride(BoldedDate(displayDate));
-                    _calendar.SetTodayOverride(_months.ShowTodayCircle && (displayDate == todayDate));
+                    _calendar.SetBoldedOverride(BoldedDate(actualDisplayDate));
+                    _calendar.SetTodayOverride(_months.ShowTodayCircle && (actualDisplayDate == todayDate));
 
                     // If the day is not actually in the month we are drawing
-                    if (displayDate.Month != _month.Month)
+                    if (actualDisplayDate.Month != _month.Month)
                     {
                         // If we need to show this day but disabled
                         if (((j < 3) && _firstMonth) || ((j > 3) && _lastMonth))
@@ -303,11 +323,11 @@ public class ViewDrawMonthDays : ViewLeaf,
                     else
                     {
                         // Is this day part of the selection?
-                        if ((displayDate >= selectStart) && (displayDate <= selectEnd))
+                        if ((actualDisplayDate >= selectStart) && (actualDisplayDate <= selectEnd))
                         {
-                            _calendar.SetFocusOverride((_months.FocusDay != null) && (_months.FocusDay.Value == displayDate));
+                            _calendar.SetFocusOverride((_months.FocusDay != null) && (_months.FocusDay.Value == actualDisplayDate));
 
-                            if (_months.TrackingDay.HasValue && (_months.TrackingDay.Value == displayDate))
+                            if (_months.TrackingDay.HasValue && (_months.TrackingDay.Value == actualDisplayDate))
                             {
                                 paletteState = PaletteState.CheckedTracking;
                                 paletteTriple = _calendar.OverrideCheckedTracking;
@@ -320,7 +340,7 @@ public class ViewDrawMonthDays : ViewLeaf,
                         }
                         else
                         {
-                            if (_months.TrackingDay.HasValue && (_months.TrackingDay.Value == displayDate))
+                            if (_months.TrackingDay.HasValue && (_months.TrackingDay.Value == actualDisplayDate))
                             {
                                 paletteState = PaletteState.Tracking;
                                 paletteTriple = _calendar.OverrideTracking;
@@ -338,18 +358,16 @@ public class ViewDrawMonthDays : ViewLeaf,
                     // information but cannot actually be selected themselves as part of a multi selection action)
                     if (paletteState != PaletteState.Disabled)
                     {
-                        _lastDay = displayDate;
+                        _lastDay = actualDisplayDate;
                     }
                 }
 
                 _dayRects[index] = layoutRectCell;
 
-                // Move across to next column
-                layoutRectCell.X += _months.SizeDays.Width;
-                layoutRectDay.X += _months.SizeDays.Width;
-
-                // Move to next day
-                displayDate += TIMESPAN_1DAY;
+                // Move across to next column (in RTL, move backwards)
+                int step = CommonHelper.GetRtlAwareStep(_months.SizeDays.Width, isRtl);
+                layoutRectCell.X += step;
+                layoutRectDay.X += step;
             }
 
             // Move to start of the next row
@@ -357,6 +375,9 @@ public class ViewDrawMonthDays : ViewLeaf,
             layoutRectCell.Y += _months.SizeDays.Height;
             layoutRectDay.X = layoutXDay;
             layoutRectDay.Y += _months.SizeDays.Height;
+
+            // Reset displayDate for next iteration (only used for tracking, not positioning)
+            displayDate = _firstDay.AddDays((j + 1) * WEEKDAYS);
         }
 
         // Put back the original display value now we have finished
@@ -389,8 +410,15 @@ public class ViewDrawMonthDays : ViewLeaf,
         DateTime selectStart = _calendar.SelectionStart.Date;
         DateTime selectEnd = _calendar.SelectionEnd.Date;
 
-        var layoutXCell = ClientLocation.X;
-        var layoutXDay = ClientLocation.X + ((_months.SizeDays.Width - _months.SizeDay.Width) / 2);
+        // Check if RTL layout is enabled (from control context)
+        // Since we don't have direct context access, get it from the calendar control
+        bool isRtl = CommonHelper.IsRightToLeftLayout(_calendar.CalendarControl);
+
+        // Calculate starting X position based on RTL
+        int layoutXCell = isRtl
+            ? ClientRectangle.Right - _months.SizeDays.Width
+            : ClientLocation.X;
+        int layoutXDay = layoutXCell + ((_months.SizeDays.Width - _months.SizeDay.Width) / 2);
         var drawRectCell = new Rectangle(layoutXCell, ClientLocation.Y, _months.SizeDays.Width,
             _months.SizeDays.Height);
         var drawRectDay = new Rectangle(layoutXDay, ClientLocation.Y, _months.SizeDay.Width,
@@ -401,11 +429,15 @@ public class ViewDrawMonthDays : ViewLeaf,
         DateTime displayDate = _firstDay;
         for (var j = 0; j < WEEKS; j++)
         {
-            // Draw each day as a column
+            // Draw each day as a column (in RTL, reverse the order)
             for (var i = 0; i < WEEKDAYS; i++)
             {
-                // Memento index
-                var index = (j * WEEKDAYS) + i;
+                // Calculate actual day index based on RTL
+                int actualDayIndex = isRtl ? (WEEKDAYS - 1 - i) : i;
+                DateTime actualDisplayDate = _firstDay.AddDays(j * WEEKDAYS + actualDayIndex);
+
+                // Memento index (still uses original order for array access)
+                var index = (j * WEEKDAYS) + actualDayIndex;
 
                 // Draw using memento cached from the layout call
                 if (_dayMementos[index] != null)
@@ -415,18 +447,18 @@ public class ViewDrawMonthDays : ViewLeaf,
                     IPaletteTriple paletteTriple = _calendar.OverrideNormal;
 
                     // If the display date is not within the allowed range, do not draw it
-                    if ((displayDate < minDate) || (displayDate > maxDate))
+                    if ((actualDisplayDate < minDate) || (actualDisplayDate > maxDate))
                     {
                         skip = true;
                     }
                     else
                     {
                         _calendar.SetFocusOverride(false);
-                        _calendar.SetBoldedOverride(BoldedDate(displayDate));
-                        _calendar.SetTodayOverride(_months.ShowTodayCircle && (displayDate == todayDate));
+                        _calendar.SetBoldedOverride(BoldedDate(actualDisplayDate));
+                        _calendar.SetTodayOverride(_months.ShowTodayCircle && (actualDisplayDate == todayDate));
 
                         // If the day is not actually in the month we are drawing
-                        if (displayDate.Month != _month.Month)
+                        if (actualDisplayDate.Month != _month.Month)
                         {
                             // If we need to show this day but disabled
                             if (((j < 3) && _firstMonth) || ((j > 3) && _lastMonth))
@@ -442,11 +474,11 @@ public class ViewDrawMonthDays : ViewLeaf,
                         else
                         {
                             // Is this day part of the selection?
-                            if ((displayDate >= selectStart) && (displayDate <= selectEnd))
+                            if ((actualDisplayDate >= selectStart) && (actualDisplayDate <= selectEnd))
                             {
-                                _calendar.SetFocusOverride((_months.FocusDay != null) && (_months.FocusDay.Value == displayDate));
+                                _calendar.SetFocusOverride((_months.FocusDay != null) && (_months.FocusDay.Value == actualDisplayDate));
 
-                                if (_months.TrackingDay.HasValue && (_months.TrackingDay.Value == displayDate))
+                                if (_months.TrackingDay.HasValue && (_months.TrackingDay.Value == actualDisplayDate))
                                 {
                                     paletteState = PaletteState.CheckedTracking;
                                     paletteTriple = _calendar.OverrideCheckedTracking;
@@ -459,7 +491,7 @@ public class ViewDrawMonthDays : ViewLeaf,
                             }
                             else
                             {
-                                if (_months.TrackingDay.HasValue && (_months.TrackingDay.Value == displayDate))
+                                if (_months.TrackingDay.HasValue && (_months.TrackingDay.Value == actualDisplayDate))
                                 {
                                     paletteState = PaletteState.Tracking;
                                     paletteTriple = _calendar.OverrideTracking;
@@ -473,7 +505,7 @@ public class ViewDrawMonthDays : ViewLeaf,
                         // Do we need to draw the background?
                         if (paletteTriple.PaletteBack.GetBackDraw(paletteState) == InheritBool.True)
                         {
-                            using GraphicsPath path = context?.Renderer.RenderStandardBorder.GetBackPath(context, drawRectCell, paletteTriple.PaletteBorder!, 
+                            using GraphicsPath path = context?.Renderer.RenderStandardBorder.GetBackPath(context, drawRectCell, paletteTriple.PaletteBorder!,
                                 VisualOrientation.Top, paletteState)!;
                             using var gh = new GraphicsHint(context!.Graphics, paletteTriple.PaletteBorder!.GetBorderGraphicsHint(paletteState));
                             context.Renderer.RenderStandardBack.DrawBack(context, drawRectCell, path, paletteTriple.PaletteBack, VisualOrientation.Top, paletteState, null);
@@ -494,12 +526,10 @@ public class ViewDrawMonthDays : ViewLeaf,
                     }
                 }
 
-                // Move across to next column
-                drawRectCell.X += _months.SizeDays.Width;
-                drawRectDay.X += _months.SizeDays.Width;
-
-                // Move to next day
-                displayDate += TIMESPAN_1DAY;
+                // Move across to next column (in RTL, move backwards)
+                int step = CommonHelper.GetRtlAwareStep(_months.SizeDays.Width, isRtl);
+                drawRectCell.X += step;
+                drawRectDay.X += step;
             }
 
             // Move to start of the next row
@@ -507,6 +537,9 @@ public class ViewDrawMonthDays : ViewLeaf,
             drawRectCell.Y += _months.SizeDays.Height;
             drawRectDay.X = layoutXDay;
             drawRectDay.Y += _months.SizeDays.Height;
+
+            // Reset displayDate for next iteration (only used for tracking, not positioning)
+            displayDate = _firstDay.AddDays((j + 1) * WEEKDAYS);
         }
     }
     #endregion

@@ -19,12 +19,19 @@ namespace Krypton.Toolkit;
 [DesignerCategory(@"code")]
 public abstract class VisualSimpleBase : VisualControlBase
 {
+    #region Instance Fields
+
+    private bool _isRightToLeftLayout;
+
+    #endregion
+
     #region Identity
     /// <summary>
     /// Initialize a new instance of the VisualSimpleBase class.
     /// </summary>
     protected VisualSimpleBase()
     {
+        _isRightToLeftLayout = false;
     }
     #endregion
 
@@ -172,5 +179,76 @@ public abstract class VisualSimpleBase : VisualControlBase
         get => base.ForeColor;
         set => base.ForeColor = value;
     }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether control's elements are aligned to support locales using right-to-left fonts.
+    /// </summary>
+    [Category(@"Appearance")]
+    [Localizable(true)]
+    [Description(@"Indicates whether the control should support RightToLeft layouts.")]
+    [DefaultValue(typeof(RightToLeft), "No")]
+    public override RightToLeft RightToLeft
+    {
+        get => base.RightToLeft;
+        set
+        {
+            if (base.RightToLeft != value)
+            {
+                base.RightToLeft = value;
+                PerformNeedPaint(true);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the layout of the control is from right to left.
+    /// </summary>
+    [Category(@"Appearance")]
+    [Localizable(true)]
+    [Description(@"Indicates whether the layout of the control is from right to left.")]
+    [DefaultValue(false)]
+    [Browsable(true)]
+    [EditorBrowsable(EditorBrowsableState.Always)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public bool RightToLeftLayout
+    {
+        get => _isRightToLeftLayout;
+        set
+        {
+            if (_isRightToLeftLayout != value)
+            {
+                _isRightToLeftLayout = value;
+                OnRightToLeftLayoutChanged(EventArgs.Empty);
+                PerformNeedPaint(true);
+            }
+        }
+    }
+    #endregion
+
+    #region Protected Overrides
+    /// <summary>
+    /// Raises the RightToLeftChanged event.
+    /// </summary>
+    /// <param name="e">An EventArgs containing event data.</param>
+    protected override void OnRightToLeftChanged(EventArgs e)
+    {
+        // Need re-layout to reflect change of layout direction
+        PerformNeedPaint(true);
+
+        base.OnRightToLeftChanged(e);
+    }
+
+    /// <summary>
+    /// Raises the RightToLeftLayoutChanged event.
+    /// </summary>
+    /// <param name="e">An EventArgs containing event data.</param>
+    /// <remarks>
+    /// This method is provided for controls that don't have OnRightToLeftLayoutChanged in their base class.
+    /// Derived classes can override this to provide custom handling when RightToLeftLayout changes.
+    /// </remarks>
+    protected virtual void OnRightToLeftLayoutChanged(EventArgs e) =>
+        // Need re-layout to reflect change of layout direction
+        PerformNeedPaint(true);
+
     #endregion
 }

@@ -105,5 +105,31 @@ public class ViewLayoutContext : ViewContext
 
     public RectangleF DisplayRectangleF { get; set; }
 
+    /// <summary>
+    /// Gets whether Right-to-Left layout is enabled for the control.
+    /// </summary>
+    public bool IsRightToLeftLayout
+    {
+        get
+        {
+            if (Control != null)
+            {
+                return CommonHelper.IsRightToLeftLayout(Control);
+            }
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Gets the RightToLeft setting of the control.
+    /// </summary>
+    public RightToLeft RightToLeft
+    {
+        get
+        {
+            return Control?.RightToLeft ?? RightToLeft.No;
+        }
+    }
+
     #endregion
 }
