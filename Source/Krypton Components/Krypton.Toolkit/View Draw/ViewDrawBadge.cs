@@ -217,7 +217,7 @@ public class ViewDrawBadge : ViewLeaf
                 const int CAPSULE_MIN_WIDTH = 22;
                 int capsulePadding = _badgeValues.BadgeContentValues.CapsuleShapePadding; // Padding for capsule
                 int height = Math.Max(BADGE_MIN_SIZE, (int)textSize.Height + capsulePadding);
-                int width = Math.Max(CAPSULE_MIN_WIDTH, (int)textSize.Width + capsulePadding); // Width should be at least height, but wider if text is wider
+                int width = Math.Max(CAPSULE_MIN_WIDTH, Math.Max((int)textSize.Width + capsulePadding, height)); // Width should be at least height, but wider if text is wider
                 return new Size(width, height);
             }
 
