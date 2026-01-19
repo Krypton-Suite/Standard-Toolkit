@@ -247,7 +247,7 @@ public class ProgressBarTriStateValues : Storage
 
             if (_useThresholdColors)
             {
-                _owner.UpdateThresholdColor();
+                _owner?.UpdateThresholdColor();
                 PerformNeedPaint(true);
             }
         }
@@ -301,7 +301,7 @@ public class ProgressBarTriStateValues : Storage
 
             if (_useThresholdColors)
             {
-                _owner.UpdateThresholdColor();
+                _owner?.UpdateThresholdColor();
                 PerformNeedPaint(true);
             }
         }
