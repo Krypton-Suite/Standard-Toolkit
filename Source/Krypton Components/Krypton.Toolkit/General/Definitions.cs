@@ -59,6 +59,48 @@ public interface IContentValues
     /// </summary>
     /// <returns>String value.</returns>
     string GetLongText();
+
+    /// <summary>
+    /// Gets the overlay image.
+    /// </summary>
+    /// <param name="state">The state for which the overlay image is needed.</param>
+    /// <returns>Overlay image value, or null if no overlay image is set.</returns>
+    Image? GetOverlayImage(PaletteState state);
+
+    /// <summary>
+    /// Gets the overlay image color that should be transparent.
+    /// </summary>
+    /// <param name="state">The state for which the overlay image is needed.</param>
+    /// <returns>Color value.</returns>
+    Color GetOverlayImageTransparentColor(PaletteState state);
+
+    /// <summary>
+    /// Gets the position of the overlay image relative to the main image.
+    /// </summary>
+    /// <param name="state">The state for which the overlay position is needed.</param>
+    /// <returns>Overlay image position.</returns>
+    OverlayImagePosition GetOverlayImagePosition(PaletteState state);
+
+    /// <summary>
+    /// Gets the scaling mode for the overlay image.
+    /// </summary>
+    /// <param name="state">The state for which the overlay scale mode is needed.</param>
+    /// <returns>Overlay image scale mode.</returns>
+    OverlayImageScaleMode GetOverlayImageScaleMode(PaletteState state);
+
+    /// <summary>
+    /// Gets the scale factor for the overlay image (used when scale mode is Percentage or ProportionalToMain).
+    /// </summary>
+    /// <param name="state">The state for which the overlay scale factor is needed.</param>
+    /// <returns>Scale factor (0.0 to 2.0).</returns>
+    float GetOverlayImageScaleFactor(PaletteState state);
+
+    /// <summary>
+    /// Gets the fixed size for the overlay image (used when scale mode is FixedSize).
+    /// </summary>
+    /// <param name="state">The state for which the overlay fixed size is needed.</param>
+    /// <returns>Fixed size for the overlay image.</returns>
+    Size GetOverlayImageFixedSize(PaletteState state);
 }
 #endregion
 
@@ -4401,3 +4443,58 @@ public interface IFocusLostMenuItem
 }
 #endregion
 
+#region Enum OverlayImagePosition
+/// <summary>
+/// Specifies the position of an overlay image relative to the main image.
+/// </summary>
+public enum OverlayImagePosition
+{
+    /// <summary>
+    /// Specifies the overlay image is positioned at the top-left corner.
+    /// </summary>
+    TopLeft,
+
+    /// <summary>
+    /// Specifies the overlay image is positioned at the top-right corner.
+    /// </summary>
+    TopRight,
+
+    /// <summary>
+    /// Specifies the overlay image is positioned at the bottom-left corner.
+    /// </summary>
+    BottomLeft,
+
+    /// <summary>
+    /// Specifies the overlay image is positioned at the bottom-right corner.
+    /// </summary>
+    BottomRight
+}
+#endregion
+
+#region Enum OverlayImageScaleMode
+/// <summary>
+/// Specifies how an overlay image should be scaled relative to the main image.
+/// </summary>
+public enum OverlayImageScaleMode
+{
+    /// <summary>
+    /// Use the actual size of the overlay image without scaling.
+    /// </summary>
+    None,
+
+    /// <summary>
+    /// Scale the overlay image as a percentage of the main image size.
+    /// </summary>
+    Percentage,
+
+    /// <summary>
+    /// Scale the overlay image to a fixed size.
+    /// </summary>
+    FixedSize,
+
+    /// <summary>
+    /// Scale the overlay image proportionally to maintain aspect ratio, using the smaller dimension of the main image as reference.
+    /// </summary>
+    ProportionalToMain
+}
+#endregion
