@@ -5129,6 +5129,7 @@ No 	                    No 	                    Show text only
     }*/
 
     #endregion
+
     #region Taskbar Overlay Icon (ITaskbarList3)
 
     /// <summary>
@@ -5188,6 +5189,133 @@ No 	                    No 	                    Show text only
 
     #endregion
 
+    #region Jump List (ICustomDestinationList)
+
+    /// <summary>
+    /// COM interface for Windows 7+ custom jump list functionality.
+    /// </summary>
+    [ComImport]
+    [Guid("6332debf-87b5-4670-90c0-5e57b408a49e")]
+    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    internal interface ICustomDestinationList
+    {
+        void SetAppID([MarshalAs(UnmanagedType.LPWStr)] string pszAppID);
+        [PreserveSig]
+        int BeginList(out uint pcMaxSlots, [In] ref Guid riid, out IntPtr ppv);
+        [PreserveSig]
+        int AppendCategory([MarshalAs(UnmanagedType.LPWStr)] string pszCategory, [In] IObjectArray poa);
+        [PreserveSig]
+        int AppendKnownCategory([In] KNOWNDESTCATEGORY category);
+        [PreserveSig]
+        int AddUserTasks([In] IObjectArray poa);
+        [PreserveSig]
+        int CommitList();
+        [PreserveSig]
+        int GetRemovedDestinations([In] ref Guid riid, out IntPtr ppv);
+        [PreserveSig]
+        int DeleteList([MarshalAs(UnmanagedType.LPWStr)] string pszAppID);
+        [PreserveSig]
+        int AbortList();
+    }
+
+    /// <summary>
+    /// Known destination categories for jump lists.
+    /// </summary>
+    internal enum KNOWNDESTCATEGORY
+    {
+        KDC_FREQUENT = 1,
+        KDC_RECENT = 2
+    }
+
+    /// <summary>
+    /// COM interface for object arrays used in jump lists.
+    /// </summary>
+    [ComImport]
+    [Guid("92ca9dcd-5622-4bba-a805-5e9f541bd8c9")]
+    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    internal interface IObjectArray
+    {
+        uint GetCount();
+        [return: MarshalAs(UnmanagedType.IUnknown)]
+        object GetAt([In] uint uiIndex, [In] ref Guid riid);
+    }
+
+    /// <summary>
+    /// COM interface for object collection used to build jump lists.
+    /// </summary>
+    [ComImport]
+    [Guid("5632b1a4-e38a-400a-928a-d4cd63230295")]
+    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    internal interface IObjectCollection
+    {
+        void AddObject([In, MarshalAs(UnmanagedType.IUnknown)] object punk);
+        void AddFromArray([In] IObjectArray poaSource);
+        void RemoveObjectAt([In] uint uiIndex);
+        void Clear();
+        uint GetCount();
+        [return: MarshalAs(UnmanagedType.IUnknown)]
+        object GetAt([In] uint uiIndex, [In] ref Guid riid);
+    }
+
+    /// <summary>
+    /// COM interface for shell links used in jump lists.
+    /// </summary>
+    [ComImport]
+    [Guid("000214F9-0000-0000-C000-000000000046")]
+    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    internal interface IShellLinkW
+    {
+        void GetPath([Out, MarshalAs(UnmanagedType.LPWStr)] StringBuilder pszFile, int cchMaxPath, out IntPtr pfd, int fFlags);
+        void GetIDList(out IntPtr ppidl);
+        void SetIDList(IntPtr pidl);
+        void GetDescription([Out, MarshalAs(UnmanagedType.LPWStr)] StringBuilder pszName, int cchMaxName);
+        void SetDescription([MarshalAs(UnmanagedType.LPWStr)] string pszName);
+        void GetWorkingDirectory([Out, MarshalAs(UnmanagedType.LPWStr)] StringBuilder pszDir, int cchMaxPath);
+        void SetWorkingDirectory([MarshalAs(UnmanagedType.LPWStr)] string pszDir);
+        void GetArguments([Out, MarshalAs(UnmanagedType.LPWStr)] StringBuilder pszArgs, int cchMaxPath);
+        void SetArguments([MarshalAs(UnmanagedType.LPWStr)] string pszArgs);
+        void GetHotkey(out short pwHotkey);
+        void SetHotkey(short wHotkey);
+        void GetShowCmd(out int piShowCmd);
+        void SetShowCmd(int iShowCmd);
+        void GetIconLocation([Out, MarshalAs(UnmanagedType.LPWStr)] StringBuilder pszIconPath, int cchIconPath, out int piIcon);
+        void SetIconLocation([MarshalAs(UnmanagedType.LPWStr)] string pszIconPath, int iIcon);
+        void SetRelativePath([MarshalAs(UnmanagedType.LPWStr)] string pszPathRel, int dwReserved);
+        void Resolve(IntPtr hwnd, int fFlags);
+        void SetPath([MarshalAs(UnmanagedType.LPWStr)] string pszFile);
+    }
+
+    /// <summary>
+    /// CLSID for ShellLink COM object.
+    /// </summary>
+    [ComImport]
+    [Guid("00021401-0000-0000-C000-000000000046")]
+    [ClassInterface(ClassInterfaceType.None)]
+    internal class ShellLink
+    {
+    }
+
+    /// <summary>
+    /// CLSID for CustomDestinationList COM object.
+    /// </summary>
+    [ComImport]
+    [Guid("77f10cf0-3db5-496c-bb43-78e2f5a1d207")]
+    [ClassInterface(ClassInterfaceType.None)]
+    internal class CustomDestinationList
+    {
+    }
+
+    /// <summary>
+    /// CLSID for ObjectCollection COM object.
+    /// </summary>
+    [ComImport]
+    [Guid("5632b1a4-e38a-400a-928a-d4cd63230295")]
+    [ClassInterface(ClassInterfaceType.None)]
+    internal class ObjectCollection
+    {
+    }
+
+    #endregion
 
     #endregion
 }

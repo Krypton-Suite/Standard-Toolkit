@@ -398,17 +398,20 @@ public class KryptonFileSystemWatcher : Component
 
     #region Disposal
 
-    private void Dispose(bool isDisposing)
+    /// <inheritdoc />
+    protected override void Dispose(bool disposing)
     {
         if (!_disposed)
         {
-            if (isDisposing)
+            if (disposing)
             {
                 _fileSystemWatcher?.Dispose();
             }
 
             _disposed = true;
         }
+
+        base.Dispose(disposing);
     }
 
     ~KryptonFileSystemWatcher() => Dispose(false);
@@ -416,7 +419,7 @@ public class KryptonFileSystemWatcher : Component
     /// <summary>
     /// Dispose and garbage collection.
     /// </summary>
-    public void Dispose()
+    private void Dispose()
     {
         Dispose(true);
 
