@@ -37,6 +37,8 @@ public sealed class KryptonManager : Component
     private static System.Threading.Timer? _touchscreenDetectionTimer;
     private static bool _lastDetectedTouchscreenState = false;
     private static Font? _baseFont;
+    private static float _cachedDpiX = 0f;
+    private static float _cachedDpiY = 0f;
 
     // Initialize the default modes
 
@@ -1615,4 +1617,390 @@ public sealed class KryptonManager : Component
 
     #endregion
 
+    #region DPI-Aware Helper Methods
+
+    /// <summary>
+    /// Gets the current DPI scaling factor for the X axis (horizontal).
+    /// Returns 1.0 for 96 DPI (100% scaling), 1.25 for 120 DPI (125% scaling), etc.
+    /// Uses the primary monitor's DPI. For per-monitor DPI awareness, use the overload that accepts a window handle.
+    /// </summary>
+    /// <returns>The DPI scaling factor for the X axis.</returns>
+    public static float GetDpiFactorX()
+    {
+        if (_cachedDpiX <= 0.1f)
+        {
+            var screenDc = PI.GetDC(IntPtr.Zero);
+
+            if (screenDc != IntPtr.Zero)
+            {
+                _cachedDpiX = PI.GetDeviceCaps(screenDc, PI.DeviceCap.LOGPIXELSX) / 96f;
+
+                PI.ReleaseDC(IntPtr.Zero, screenDc);
+            }
+            else
+            {
+                using (Graphics gfx = Graphics.FromHwnd(IntPtr.Zero))
+                {
+                    _cachedDpiX = gfx.DpiX / 96f;
+                }
+            }
+        }
+
+        return _cachedDpiX;
+    }
+
+    /// <summary>
+    /// Gets the DPI scaling factor for the X axis (horizontal) for a specific window.
+    /// This method supports per-monitor DPI awareness by using the window's monitor DPI.
+    /// Returns 1.0 for 96 DPI (100% scaling), 1.25 for 120 DPI (125% scaling), etc.
+    /// </summary>
+    /// <param name="hWnd">Window handle to get the DPI for. If IntPtr.Zero, falls back to primary monitor DPI.</param>
+    /// <returns>The DPI scaling factor for the X axis.</returns>
+    public static float GetDpiFactorX(IntPtr hWnd)
+    {
+        if (hWnd == IntPtr.Zero)
+        {
+            return GetDpiFactorX();
+        }
+
+        // Try to use GetDpiForWindow for per-monitor DPI awareness (Windows 10 version 1607+)
+        try
+        {
+            uint dpi = PI.GetDpiForWindow(hWnd);
+
+            if (dpi > 0)
+            {
+                return dpi / 96f;
+            }
+        }
+        catch
+        {
+            // GetDpiForWindow may not be available on older Windows versions
+        }
+
+        // Fallback to window's Graphics DPI
+        try
+        {
+            using (Graphics graphics = Graphics.FromHwnd(hWnd))
+            {
+                return graphics.DpiX / 96f;
+            }
+        }
+        catch
+        {
+            // Final fallback to primary monitor
+            return GetDpiFactorX();
+        }
+    }
+
+    /// <summary>
+    /// Gets the current DPI scaling factor for the Y axis (vertical).
+    /// Returns 1.0 for 96 DPI (100% scaling), 1.25 for 120 DPI (125% scaling), etc.
+    /// Uses the primary monitor's DPI. For per-monitor DPI awareness, use the overload that accepts a window handle.
+    /// </summary>
+    /// <returns>The DPI scaling factor for the Y axis.</returns>
+    public static float GetDpiFactorY()
+    {
+        if (_cachedDpiY <= 0.1f)
+        {
+            var screenDc = PI.GetDC(IntPtr.Zero);
+            if (screenDc != IntPtr.Zero)
+            {
+                _cachedDpiY = PI.GetDeviceCaps(screenDc, PI.DeviceCap.LOGPIXELSY) / 96f;
+                PI.ReleaseDC(IntPtr.Zero, screenDc);
+            }
+            else
+            {
+                // Fallback method
+                using Graphics graphics = Graphics.FromHwnd(IntPtr.Zero);
+                _cachedDpiY = graphics.DpiY / 96f;
+            }
+        }
+
+        return _cachedDpiY;
+    }
+
+    /// <summary>
+    /// Gets the DPI scaling factor for the Y axis (vertical) for a specific window.
+    /// This method supports per-monitor DPI awareness by using the window's monitor DPI.
+    /// Returns 1.0 for 96 DPI (100% scaling), 1.25 for 120 DPI (125% scaling), etc.
+    /// </summary>
+    /// <param name="hWnd">Window handle to get the DPI for. If IntPtr.Zero, falls back to primary monitor DPI.</param>
+    /// <returns>The DPI scaling factor for the Y axis.</returns>
+    public static float GetDpiFactorY(IntPtr hWnd)
+    {
+        if (hWnd == IntPtr.Zero)
+        {
+            return GetDpiFactorY();
+        }
+
+        // Try to use GetDpiForWindow for per-monitor DPI awareness (Windows 10 version 1607+)
+        try
+        {
+            uint dpi = PI.GetDpiForWindow(hWnd);
+            if (dpi > 0)
+            {
+                return dpi / 96f;
+            }
+        }
+        catch
+        {
+            // GetDpiForWindow may not be available on older Windows versions
+        }
+
+        // Fallback to window's Graphics DPI
+        try
+        {
+            using Graphics graphics = Graphics.FromHwnd(hWnd);
+            return graphics.DpiY / 96f;
+        }
+        catch
+        {
+            // Final fallback to primary monitor
+            return GetDpiFactorY();
+        }
+    }
+
+    /// <summary>
+    /// Gets the current DPI scaling factor (average of X and Y axes).
+    /// Useful when uniform scaling is assumed.
+    /// Uses the primary monitor's DPI. For per-monitor DPI awareness, use the overload that accepts a window handle.
+    /// </summary>
+    /// <returns>The average DPI scaling factor.</returns>
+    public static float GetDpiFactor() => (GetDpiFactorX() + GetDpiFactorY()) / 2f;
+
+    /// <summary>
+    /// Gets the DPI scaling factor (average of X and Y axes) for a specific window.
+    /// This method supports per-monitor DPI awareness by using the window's monitor DPI.
+    /// </summary>
+    /// <param name="hWnd">Window handle to get the DPI for. If IntPtr.Zero, falls back to primary monitor DPI.</param>
+    /// <returns>The average DPI scaling factor.</returns>
+    public static float GetDpiFactor(IntPtr hWnd) => (GetDpiFactorX(hWnd) + GetDpiFactorY(hWnd)) / 2f;
+
+    /// <summary>
+    /// Gets the combined scaling factor (DPI × Touchscreen) for the X axis.
+    /// This represents the total scaling that will be applied to control sizes.
+    /// Uses the primary monitor's DPI. For per-monitor DPI awareness, use the overload that accepts a window handle.
+    /// </summary>
+    /// <returns>The combined scaling factor for the X axis.</returns>
+    public static float GetCombinedScaleFactorX()
+    {
+        var dpiFactor = GetDpiFactorX();
+        var touchscreenFactor = TouchscreenScaleFactor;
+        return dpiFactor * touchscreenFactor;
+    }
+
+    /// <summary>
+    /// Gets the combined scaling factor (DPI × Touchscreen) for the X axis for a specific window.
+    /// This method supports per-monitor DPI awareness, which is important for touchscreen support on high DPI displays.
+    /// This represents the total scaling that will be applied to control sizes.
+    /// </summary>
+    /// <param name="hWnd">Window handle to get the DPI for. If IntPtr.Zero, falls back to primary monitor DPI.</param>
+    /// <returns>The combined scaling factor for the X axis.</returns>
+    public static float GetCombinedScaleFactorX(IntPtr hWnd)
+    {
+        var dpiFactor = GetDpiFactorX(hWnd);
+        var touchscreenFactor = TouchscreenScaleFactor;
+        return dpiFactor * touchscreenFactor;
+    }
+
+    /// <summary>
+    /// Gets the combined scaling factor (DPI × Touchscreen) for the Y axis.
+    /// This represents the total scaling that will be applied to control sizes.
+    /// Uses the primary monitor's DPI. For per-monitor DPI awareness, use the overload that accepts a window handle.
+    /// </summary>
+    /// <returns>The combined scaling factor for the Y axis.</returns>
+    public static float GetCombinedScaleFactorY()
+    {
+        var dpiFactor = GetDpiFactorY();
+        var touchscreenFactor = TouchscreenScaleFactor;
+        return dpiFactor * touchscreenFactor;
+    }
+
+    /// <summary>
+    /// Gets the combined scaling factor (DPI × Touchscreen) for the Y axis for a specific window.
+    /// This method supports per-monitor DPI awareness, which is important for touchscreen support on high DPI displays.
+    /// This represents the total scaling that will be applied to control sizes.
+    /// </summary>
+    /// <param name="hWnd">Window handle to get the DPI for. If IntPtr.Zero, falls back to primary monitor DPI.</param>
+    /// <returns>The combined scaling factor for the Y axis.</returns>
+    public static float GetCombinedScaleFactorY(IntPtr hWnd)
+    {
+        var dpiFactor = GetDpiFactorY(hWnd);
+        var touchscreenFactor = TouchscreenScaleFactor;
+        return dpiFactor * touchscreenFactor;
+    }
+
+    /// <summary>
+    /// Gets the combined scaling factor (DPI × Touchscreen) as an average.
+    /// Useful when uniform scaling is assumed.
+    /// Uses the primary monitor's DPI. For per-monitor DPI awareness, use the overload that accepts a window handle.
+    /// </summary>
+    /// <returns>The average combined scaling factor.</returns>
+    public static float GetCombinedScaleFactor() => (GetCombinedScaleFactorX() + GetCombinedScaleFactorY()) / 2f;
+
+    /// <summary>
+    /// Gets the combined scaling factor (DPI × Touchscreen) as an average for a specific window.
+    /// This method supports per-monitor DPI awareness, which is important for touchscreen support on high DPI displays.
+    /// Useful when uniform scaling is assumed.
+    /// </summary>
+    /// <param name="hWnd">Window handle to get the DPI for. If IntPtr.Zero, falls back to primary monitor DPI.</param>
+    /// <returns>The average combined scaling factor.</returns>
+    public static float GetCombinedScaleFactor(IntPtr hWnd) => (GetCombinedScaleFactorX(hWnd) + GetCombinedScaleFactorY(hWnd)) / 2f;
+
+    /// <summary>
+    /// Scales a single value by the current DPI factor.
+    /// </summary>
+    /// <param name="value">The value to scale.</param>
+    /// <returns>The scaled value.</returns>
+    public static int ScaleValueByDpi(int value) => (int)Math.Round(value * GetDpiFactor());
+
+    /// <summary>
+    /// Scales a single value by the current DPI factor.
+    /// </summary>
+    /// <param name="value">The value to scale.</param>
+    /// <returns>The scaled value.</returns>
+    public static float ScaleValueByDpi(float value) => value * GetDpiFactor();
+
+    /// <summary>
+    /// Scales a single value by the combined DPI and touchscreen factor.
+    /// </summary>
+    /// <param name="value">The value to scale.</param>
+    /// <returns>The scaled value.</returns>
+    public static int ScaleValueByDpiAndTouchscreen(int value) => (int)Math.Round(value * GetCombinedScaleFactor());
+
+    /// <summary>
+    /// Scales a single value by the combined DPI and touchscreen factor.
+    /// </summary>
+    /// <param name="value">The value to scale.</param>
+    /// <returns>The scaled value.</returns>
+    public static float ScaleValueByDpiAndTouchscreen(float value) => value * GetCombinedScaleFactor();
+
+    /// <summary>
+    /// Scales a Size by the current DPI factors (X and Y separately).
+    /// </summary>
+    /// <param name="size">The size to scale.</param>
+    /// <returns>The scaled size.</returns>
+    public static Size ScaleSizeByDpi(Size size) => new Size(
+        (int)Math.Round(size.Width * GetDpiFactorX()),
+        (int)Math.Round(size.Height * GetDpiFactorY()));
+
+    /// <summary>
+    /// Scales a SizeF by the current DPI factors (X and Y separately).
+    /// </summary>
+    /// <param name="size">The size to scale.</param>
+    /// <returns>The scaled size.</returns>
+    public static SizeF ScaleSizeByDpi(SizeF size) => new SizeF(
+        size.Width * GetDpiFactorX(),
+        size.Height * GetDpiFactorY());
+
+    /// <summary>
+    /// Scales a Size by the combined DPI and touchscreen factors (X and Y separately).
+    /// </summary>
+    /// <param name="size">The size to scale.</param>
+    /// <returns>The scaled size.</returns>
+    public static Size ScaleSizeByDpiAndTouchscreen(Size size) => new Size(
+        (int)Math.Round(size.Width * GetCombinedScaleFactorX()),
+        (int)Math.Round(size.Height * GetCombinedScaleFactorY()));
+
+    /// <summary>
+    /// Scales a SizeF by the combined DPI and touchscreen factors (X and Y separately).
+    /// </summary>
+    /// <param name="size">The size to scale.</param>
+    /// <returns>The scaled size.</returns>
+    public static SizeF ScaleSizeByDpiAndTouchscreen(SizeF size) => new SizeF(
+        size.Width * GetCombinedScaleFactorX(),
+        size.Height * GetCombinedScaleFactorY());
+
+    /// <summary>
+    /// Scales a Point by the current DPI factors (X and Y separately).
+    /// </summary>
+    /// <param name="point">The point to scale.</param>
+    /// <returns>The scaled point.</returns>
+    public static Point ScalePointByDpi(Point point) => new Point(
+        (int)Math.Round(point.X * GetDpiFactorX()),
+        (int)Math.Round(point.Y * GetDpiFactorY()));
+
+    /// <summary>
+    /// Scales a PointF by the current DPI factors (X and Y separately).
+    /// </summary>
+    /// <param name="point">The point to scale.</param>
+    /// <returns>The scaled point.</returns>
+    public static PointF ScalePointByDpi(PointF point) => new PointF(
+        point.X * GetDpiFactorX(),
+        point.Y * GetDpiFactorY());
+
+    /// <summary>
+    /// Scales a Point by the combined DPI and touchscreen factors (X and Y separately).
+    /// </summary>
+    /// <param name="point">The point to scale.</param>
+    /// <returns>The scaled point.</returns>
+    public static Point ScalePointByDpiAndTouchscreen(Point point) => new Point(
+        (int)Math.Round(point.X * GetCombinedScaleFactorX()),
+        (int)Math.Round(point.Y * GetCombinedScaleFactorY()));
+
+    /// <summary>
+    /// Scales a PointF by the combined DPI and touchscreen factors (X and Y separately).
+    /// </summary>
+    /// <param name="point">The point to scale.</param>
+    /// <returns>The scaled point.</returns>
+    public static PointF ScalePointByDpiAndTouchscreen(PointF point) => new PointF(
+        point.X * GetCombinedScaleFactorX(),
+        point.Y * GetCombinedScaleFactorY());
+
+    /// <summary>
+    /// Scales a Rectangle by the current DPI factors (X and Y separately).
+    /// </summary>
+    /// <param name="rect">The rectangle to scale.</param>
+    /// <returns>The scaled rectangle.</returns>
+    public static Rectangle ScaleRectangleByDpi(Rectangle rect) => new Rectangle(
+        (int)Math.Round(rect.X * GetDpiFactorX()),
+        (int)Math.Round(rect.Y * GetDpiFactorY()),
+        (int)Math.Round(rect.Width * GetDpiFactorX()),
+        (int)Math.Round(rect.Height * GetDpiFactorY()));
+
+    /// <summary>
+    /// Scales a RectangleF by the current DPI factors (X and Y separately).
+    /// </summary>
+    /// <param name="rect">The rectangle to scale.</param>
+    /// <returns>The scaled rectangle.</returns>
+    public static RectangleF ScaleRectangleByDpi(RectangleF rect) => new RectangleF(
+        rect.X * GetDpiFactorX(),
+        rect.Y * GetDpiFactorY(),
+        rect.Width * GetDpiFactorX(),
+        rect.Height * GetDpiFactorY());
+
+    /// <summary>
+    /// Scales a Rectangle by the combined DPI and touchscreen factors (X and Y separately).
+    /// </summary>
+    /// <param name="rect">The rectangle to scale.</param>
+    /// <returns>The scaled rectangle.</returns>
+    public static Rectangle ScaleRectangleByDpiAndTouchscreen(Rectangle rect) => new Rectangle(
+        (int)Math.Round(rect.X * GetCombinedScaleFactorX()),
+        (int)Math.Round(rect.Y * GetCombinedScaleFactorY()),
+        (int)Math.Round(rect.Width * GetCombinedScaleFactorX()),
+        (int)Math.Round(rect.Height * GetCombinedScaleFactorY()));
+
+    /// <summary>
+    /// Scales a RectangleF by the combined DPI and touchscreen factors (X and Y separately).
+    /// </summary>
+    /// <param name="rect">The rectangle to scale.</param>
+    /// <returns>The scaled rectangle.</returns>
+    public static RectangleF ScaleRectangleByDpiAndTouchscreen(RectangleF rect) => new RectangleF(
+        rect.X * GetCombinedScaleFactorX(),
+        rect.Y * GetCombinedScaleFactorY(),
+        rect.Width * GetCombinedScaleFactorX(),
+        rect.Height * GetCombinedScaleFactorY());
+
+    /// <summary>
+    /// Invalidates the cached DPI factors, forcing them to be recalculated on the next access.
+    /// Call this method when the DPI changes (e.g., when the window is moved to a different monitor).
+    /// </summary>
+    public static void InvalidateDpiCache()
+    {
+        _cachedDpiX = 0f;
+        _cachedDpiY = 0f;
+    }
+
+    #endregion
 }

@@ -42,8 +42,8 @@ public partial class TaskbarOverlayIconTest : KryptonForm
         btnExample1.Text = "Set Red Badge";
         btnExample1.Click += (s, e) =>
         {
-            TaskbarOverlayIconValues.Icon = CreateOverlayIcon(Color.Red, "!");
-            TaskbarOverlayIconValues.Description = "Red notification badge";
+            ShellValues.OverlayIconValues.Icon = CreateOverlayIcon(Color.Red, "!");
+            ShellValues.OverlayIconValues.Description = "Red notification badge";
         };
 
         // Example 2: Different colors
@@ -51,29 +51,29 @@ public partial class TaskbarOverlayIconTest : KryptonForm
         btnExample2Red.Text = "Red";
         btnExample2Red.Click += (s, e) =>
         {
-            TaskbarOverlayIconValues.Icon = CreateOverlayIcon(Color.Red, "!");
-            TaskbarOverlayIconValues.Description = "Red notification";
+            ShellValues.OverlayIconValues.Icon = CreateOverlayIcon(Color.Red, "!");
+            ShellValues.OverlayIconValues.Description = "Red notification";
         };
 
         btnExample2Green.Text = "Green";
         btnExample2Green.Click += (s, e) =>
         {
-            TaskbarOverlayIconValues.Icon = CreateOverlayIcon(Color.Green, "✓");
-            TaskbarOverlayIconValues.Description = "Green success indicator";
+            ShellValues.OverlayIconValues.Icon = CreateOverlayIcon(Color.Green, "✓");
+            ShellValues.OverlayIconValues.Description = "Green success indicator";
         };
 
         btnExample2Blue.Text = "Blue";
         btnExample2Blue.Click += (s, e) =>
         {
-            TaskbarOverlayIconValues.Icon = CreateOverlayIcon(Color.Blue, "i");
-            TaskbarOverlayIconValues.Description = "Blue information";
+            ShellValues.OverlayIconValues.Icon = CreateOverlayIcon(Color.Blue, "i");
+            ShellValues.OverlayIconValues.Description = "Blue information";
         };
 
         btnExample2Orange.Text = "Orange";
         btnExample2Orange.Click += (s, e) =>
         {
-            TaskbarOverlayIconValues.Icon = CreateOverlayIcon(Color.Orange, "!");
-            TaskbarOverlayIconValues.Description = "Orange warning";
+            ShellValues.OverlayIconValues.Icon = CreateOverlayIcon(Color.Orange, "!");
+            ShellValues.OverlayIconValues.Description = "Orange warning";
         };
     }
 
@@ -106,29 +106,29 @@ public partial class TaskbarOverlayIconTest : KryptonForm
         btnSystemError.Text = "Error";
         btnSystemError.Click += (s, e) =>
         {
-            TaskbarOverlayIconValues.Icon = SystemIcons.Error;
-            TaskbarOverlayIconValues.Description = "Error notification";
+            ShellValues.OverlayIconValues.Icon = SystemIcons.Error;
+            ShellValues.OverlayIconValues.Description = "Error notification";
         };
 
         btnSystemWarning.Text = "Warning";
         btnSystemWarning.Click += (s, e) =>
         {
-            TaskbarOverlayIconValues.Icon = SystemIcons.Warning;
-            TaskbarOverlayIconValues.Description = "Warning notification";
+            ShellValues.OverlayIconValues.Icon = SystemIcons.Warning;
+            ShellValues.OverlayIconValues.Description = "Warning notification";
         };
 
         btnSystemInfo.Text = "Information";
         btnSystemInfo.Click += (s, e) =>
         {
-            TaskbarOverlayIconValues.Icon = SystemIcons.Information;
-            TaskbarOverlayIconValues.Description = "Information notification";
+            ShellValues.OverlayIconValues.Icon = SystemIcons.Information;
+            ShellValues.OverlayIconValues.Description = "Information notification";
         };
 
         btnSystemQuestion.Text = "Question";
         btnSystemQuestion.Click += (s, e) =>
         {
-            TaskbarOverlayIconValues.Icon = SystemIcons.Question;
-            TaskbarOverlayIconValues.Description = "Question notification";
+            ShellValues.OverlayIconValues.Icon = SystemIcons.Question;
+            ShellValues.OverlayIconValues.Description = "Question notification";
         };
     }
 
@@ -139,22 +139,22 @@ public partial class TaskbarOverlayIconTest : KryptonForm
         btnStatusOnline.Text = "Online";
         btnStatusOnline.Click += (s, e) =>
         {
-            TaskbarOverlayIconValues.Icon = CreateOverlayIcon(Color.Lime, "●");
-            TaskbarOverlayIconValues.Description = "Application is online";
+            ShellValues.OverlayIconValues.Icon = CreateOverlayIcon(Color.Lime, "●");
+            ShellValues.OverlayIconValues.Description = "Application is online";
         };
 
         btnStatusOffline.Text = "Offline";
         btnStatusOffline.Click += (s, e) =>
         {
-            TaskbarOverlayIconValues.Icon = CreateOverlayIcon(Color.Gray, "●");
-            TaskbarOverlayIconValues.Description = "Application is offline";
+            ShellValues.OverlayIconValues.Icon = CreateOverlayIcon(Color.Gray, "●");
+            ShellValues.OverlayIconValues.Description = "Application is offline";
         };
 
         btnSyncing.Text = "Syncing";
         btnSyncing.Click += (s, e) =>
         {
-            TaskbarOverlayIconValues.Icon = CreateOverlayIcon(Color.Blue, "⟳");
-            TaskbarOverlayIconValues.Description = "Synchronizing data";
+            ShellValues.OverlayIconValues.Icon = CreateOverlayIcon(Color.Blue, "⟳");
+            ShellValues.OverlayIconValues.Description = "Synchronizing data";
         };
     }
 
@@ -222,36 +222,36 @@ public partial class TaskbarOverlayIconTest : KryptonForm
     {
         if (_notificationCount > 0)
         {
-            TaskbarOverlayIconValues.Icon = CreateOverlayIcon(Color.Orange, _notificationCount > 99 ? "99+" : _notificationCount.ToString());
-            TaskbarOverlayIconValues.Description = $"{_notificationCount} notifications";
+            ShellValues.OverlayIconValues.Icon = CreateOverlayIcon(Color.Orange, _notificationCount > 99 ? "99+" : _notificationCount.ToString());
+            ShellValues.OverlayIconValues.Description = $"{_notificationCount} notifications";
             lblNotificationCount.Text = $"Notification Count: {_notificationCount}";
         }
         else
         {
-            TaskbarOverlayIconValues.Icon = null;
-            TaskbarOverlayIconValues.Description = string.Empty;
+            ShellValues.OverlayIconValues.Icon = null;
+            ShellValues.OverlayIconValues.Description = string.Empty;
             lblNotificationCount.Text = "Notification Count: 0 (Overlay cleared)";
         }
     }
 
     private void BtnToggleOverlay_Click(object? sender, EventArgs e)
     {
-        bool isVisible = TaskbarOverlayIconValues.Icon != null;
+        bool isVisible = ShellValues.OverlayIconValues.Icon != null;
         if (isVisible)
         {
-            TaskbarOverlayIconValues.Icon = null;
-            TaskbarOverlayIconValues.Description = string.Empty;
+            ShellValues.OverlayIconValues.Icon = null;
+            ShellValues.OverlayIconValues.Description = string.Empty;
         }
         else
         {
-            TaskbarOverlayIconValues.Icon = CreateOverlayIcon(Color.Red, "!");
-            TaskbarOverlayIconValues.Description = "Overlay visible";
+            ShellValues.OverlayIconValues.Icon = CreateOverlayIcon(Color.Red, "!");
+            ShellValues.OverlayIconValues.Description = "Overlay visible";
         }
         UpdateToggleStatus();
     }
 
     private void UpdateToggleStatus()
     {
-        lblToggleStatus.Text = $"Overlay: {(TaskbarOverlayIconValues.Icon != null ? "Visible" : "Hidden")}";
+        lblToggleStatus.Text = $"Overlay: {(ShellValues.OverlayIconValues.Icon != null ? "Visible" : "Hidden")}";
     }
 }
