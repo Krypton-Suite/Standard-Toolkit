@@ -240,6 +240,53 @@ public abstract class ViewBase : GlobalId,
 
     private void InitialiseFactors()
     {
+        // Try to get per-monitor DPI from the owning control for proper high DPI support
+        Control? owningControl = OwningControl;
+        IntPtr hWnd = IntPtr.Zero;
+
+        if (owningControl != null && owningControl.IsHandleCreated)
+        {
+            hWnd = owningControl.Handle;
+        }
+        else if (Component is Control componentControl && componentControl.IsHandleCreated)
+        {
+            hWnd = componentControl.Handle;
+        }
+
+        // Use per-monitor DPI if we have a window handle (supports high DPI and touchscreen scaling)
+        if (hWnd != IntPtr.Zero)
+        {
+            try
+            {
+                // Try to use GetDpiForWindow for per-monitor DPI awareness (Windows 10 version 1607+)
+                uint dpi = PI.GetDpiForWindow(hWnd);
+                if (dpi > 0)
+                {
+                    _factorDpiX = dpi / 96f;
+                    _factorDpiY = dpi / 96f;
+                    return;
+                }
+            }
+            catch
+            {
+                // GetDpiForWindow may not be available on older Windows versions
+            }
+
+            // Fallback to window's Graphics DPI
+            try
+            {
+                using Graphics graphics = Graphics.FromHwnd(hWnd);
+                _factorDpiX = graphics.DpiX / 96f;
+                _factorDpiY = graphics.DpiY / 96f;
+                return;
+            }
+            catch
+            {
+                // Continue to primary monitor fallback
+            }
+        }
+
+        // Fallback
         // This does mean that the app will not change it's dpi awareness until restarted !
         // Do not use the control dpi, as these values are being used to target the screen
         var screenDc = PI.GetDC(IntPtr.Zero);
@@ -272,6 +319,16 @@ public abstract class ViewBase : GlobalId,
 
             return _factorDpiY;
         }
+    }
+
+    /// <summary>
+    /// Invalidates the cached DPI factors, forcing them to be recalculated on the next access.
+    /// Call this method when the DPI changes (e.g., when the window is moved to a different monitor).
+    /// </summary>
+    public void InvalidateDpiFactors()
+    {
+        _factorDpiX = 0f;
+        _factorDpiY = 0f;
     }
 
     #endregion
