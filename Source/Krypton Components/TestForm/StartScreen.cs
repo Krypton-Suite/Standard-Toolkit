@@ -97,9 +97,11 @@ public partial class StartScreen : KryptonForm
         CreateButton("Controls Test", string.Empty, typeof(ControlsTest));
         CreateButton("KryptonDataGridView Demo", string.Empty, typeof(DataGridViewDemo));
         CreateButton("KryptonBindingNavigator Demo", "Comprehensive example of KryptonBindingNavigator with data binding", typeof(BindingNavigatorDemo));
+        CreateButton("Krypton Dialog tests", "Tests the various types of dialogs.", typeof(KryptonDialogExamples));
         CreateButton("FadeForm", string.Empty, typeof(FadeFormTest));
         CreateButton("GroupBox", string.Empty, typeof(GroupBoxTest));
         CreateButton("InputBox", string.Empty, typeof(InputBoxTest));
+        CreateButton("Jump List Test", "Comprehensive demonstration of jump lists on KryptonForm with user tasks, custom categories, known categories, and interactive examples.", typeof(JumpListTest));
         CreateButton("MessageBox", string.Empty, typeof(MessageBoxTest));
         CreateButton("Old Style Main: Fullscreen", string.Empty, typeof(Main));
         CreateButton("Overlay Image Test", "Comprehensive demonstration of overlay images on KryptonButton and KryptonLabel with configurable positions and scaling modes.", typeof(OverlayImageTest));

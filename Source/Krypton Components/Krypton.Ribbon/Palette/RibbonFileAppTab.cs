@@ -7,7 +7,7 @@
 
 namespace Krypton.Ribbon;
 
-//// <summary>
+/// <summary>
 /// Storage for the "File application tab" related properties.
 /// </summary>
 public class RibbonFileAppTab : Storage
