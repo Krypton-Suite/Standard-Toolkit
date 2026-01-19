@@ -1032,6 +1032,18 @@ public class KryptonErrorProvider : Component, IExtenderProvider
 
         public string GetLongText() => string.Empty;
 
+        public Image? GetOverlayImage(PaletteState state) => null;
+
+        public Color GetOverlayImageTransparentColor(PaletteState state) => Color.Empty;
+
+        public OverlayImagePosition GetOverlayImagePosition(PaletteState state) => OverlayImagePosition.TopRight;
+
+        public OverlayImageScaleMode GetOverlayImageScaleMode(PaletteState state) => OverlayImageScaleMode.None;
+
+        public float GetOverlayImageScaleFactor(PaletteState state) => 0.5f;
+
+        public Size GetOverlayImageFixedSize(PaletteState state) => new Size(16, 16);
+
         public string GetDescription() => string.Empty;
     }
 

@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -73,6 +73,7 @@ internal class BackstageNavigationList : Control
     /// <summary>
     /// Gets and sets the selected index.
     /// </summary>
+    [DefaultValue(-1)]
     public int SelectedIndex
     {
         get => _selectedIndex;
@@ -90,6 +91,7 @@ internal class BackstageNavigationList : Control
     /// <summary>
     /// Gets and sets the selected item.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public object? SelectedItem
     {
         get => _selectedIndex >= 0 && _selectedIndex < _items.Count ? _items[_selectedIndex] : null;
@@ -111,6 +113,7 @@ internal class BackstageNavigationList : Control
     /// <summary>
     /// Gets and sets the number of columns for displaying items.
     /// </summary>
+    [DefaultValue(1)]
     public int Columns
     {
         get => _columns;

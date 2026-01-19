@@ -105,6 +105,18 @@ internal class ViewDrawRibbonNotificationBar : ViewComposite
         public string GetShortText() => _command.Text;
 
         public string GetLongText() => string.Empty; // Only use short text to prevent duplication
+
+        public Image? GetOverlayImage(PaletteState state) => null;
+
+        public Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+
+        public OverlayImagePosition GetOverlayImagePosition(PaletteState state) => OverlayImagePosition.TopRight;
+
+        public OverlayImageScaleMode GetOverlayImageScaleMode(PaletteState state) => OverlayImageScaleMode.None;
+
+        public float GetOverlayImageScaleFactor(PaletteState state) => 0.5f;
+
+        public Size GetOverlayImageFixedSize(PaletteState state) => new Size(16, 16);
     }
 
     /// <summary>
@@ -128,6 +140,18 @@ internal class ViewDrawRibbonNotificationBar : ViewComposite
         public string GetShortText() => _text;
 
         public string GetLongText() => string.Empty; // Only use short text to prevent duplication
+
+        public Image? GetOverlayImage(PaletteState state) => null;
+
+        public Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+
+        public OverlayImagePosition GetOverlayImagePosition(PaletteState state) => OverlayImagePosition.TopRight;
+
+        public OverlayImageScaleMode GetOverlayImageScaleMode(PaletteState state) => OverlayImageScaleMode.None;
+
+        public float GetOverlayImageScaleFactor(PaletteState state) => 0.5f;
+
+        public Size GetOverlayImageFixedSize(PaletteState state) => new Size(16, 16);
     }
 
     /// <summary>
@@ -144,6 +168,18 @@ internal class ViewDrawRibbonNotificationBar : ViewComposite
         public string GetShortText() => "×";
 
         public string GetLongText() => string.Empty; // Only use short text to prevent duplication
+
+        public Image? GetOverlayImage(PaletteState state) => null;
+
+        public Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+
+        public OverlayImagePosition GetOverlayImagePosition(PaletteState state) => OverlayImagePosition.TopRight;
+
+        public OverlayImageScaleMode GetOverlayImageScaleMode(PaletteState state) => OverlayImageScaleMode.None;
+
+        public float GetOverlayImageScaleFactor(PaletteState state) => 0.5f;
+
+        public Size GetOverlayImageFixedSize(PaletteState state) => new Size(16, 16);
     }
     #endregion
 
@@ -829,6 +865,18 @@ internal class ViewDrawRibbonNotificationBar : ViewComposite
         public string GetShortText() => string.Empty;
 
         public string GetLongText() => string.Empty;
+
+        public Image? GetOverlayImage(PaletteState state) => null;
+
+        public Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+
+        public OverlayImagePosition GetOverlayImagePosition(PaletteState state) => OverlayImagePosition.TopRight;
+
+        public OverlayImageScaleMode GetOverlayImageScaleMode(PaletteState state) => OverlayImageScaleMode.None;
+
+        public float GetOverlayImageScaleFactor(PaletteState state) => 0.5f;
+
+        public Size GetOverlayImageFixedSize(PaletteState state) => new Size(16, 16);
     }
 
     /// <summary>
@@ -859,6 +907,18 @@ internal class ViewDrawRibbonNotificationBar : ViewComposite
         }
 
         public string GetLongText() => string.Empty; // Only use short text to prevent duplication
+
+        public Image? GetOverlayImage(PaletteState state) => null;
+
+        public Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+
+        public OverlayImagePosition GetOverlayImagePosition(PaletteState state) => OverlayImagePosition.TopRight;
+
+        public OverlayImageScaleMode GetOverlayImageScaleMode(PaletteState state) => OverlayImageScaleMode.None;
+
+        public float GetOverlayImageScaleFactor(PaletteState state) => 0.5f;
+
+        public Size GetOverlayImageFixedSize(PaletteState state) => new Size(16, 16);
     }
     #endregion
 }
