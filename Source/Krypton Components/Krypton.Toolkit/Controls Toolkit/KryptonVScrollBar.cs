@@ -567,11 +567,15 @@ public class KryptonVScrollBar : Control
         // save client rectangle
         Rectangle rect = ClientRectangle;
 
+        // Get DPI scaling factor
+        float dpiFactor = GetDpiFactor();
+        int borderOffset = (int)Math.Round(1 * dpiFactor);
+
         // adjust the rectangle for vertical scrollbar
-        rect.X++;
-        rect.Y += _arrowHeight + 1;
-        rect.Width -= 2;
-        rect.Height -= (_arrowHeight * 2) + 2;
+        rect.X += borderOffset;
+        rect.Y += _arrowHeight + borderOffset;
+        rect.Width -= borderOffset * 2;
+        rect.Height -= (_arrowHeight * 2) + (borderOffset * 2);
 
         KryptonScrollBarRenderer.InitColors();
 
@@ -633,9 +637,10 @@ public class KryptonVScrollBar : Control
         }
         else if (_bottomBarClicked)
         {
-            _clickedBarRectangle.Y = _thumbRectangle.Bottom + 1;
+            int borderOffsetS = (int)Math.Round(1 * GetDpiFactor());
+            _clickedBarRectangle.Y = _thumbRectangle.Bottom + borderOffsetS;
             _clickedBarRectangle.Height =
-                _thumbBottomLimitBottom - _clickedBarRectangle.Y + 1;
+                _thumbBottomLimitBottom - _clickedBarRectangle.Y + borderOffsetS;
 
             KryptonScrollBarRenderer.DrawTrack(
                 e.Graphics,
@@ -647,9 +652,9 @@ public class KryptonVScrollBar : Control
         // Restore original clip region before drawing border (border renderer handles its own clipping)
         if (originalClip != null)
         {
-            Region oldClip = e.Graphics.Clip;
+            Region? oldClip = e.Graphics.Clip;
             e.Graphics.Clip = originalClip;
-            oldClip.Dispose();
+            oldClip?.Dispose();
             originalClip = null;
         }
 
@@ -948,7 +953,7 @@ public class KryptonVScrollBar : Control
     protected override bool ProcessDialogKey(Keys keyData)
     {
         // key handling is here - keys recognized by the control
-        // Up&Down, PageUp, PageDown, Home, End
+        // Up&Down, PageUp, PageDown, Home, End, Ctrl+Home, Ctrl+End
         if (keyData == Keys.Up)
         {
             Value -= _smallChange;
@@ -970,23 +975,25 @@ public class KryptonVScrollBar : Control
 
                 return true;
             case Keys.PageDown:
+            {
+                if (_value + _largeChange > _maximum)
                 {
-                    if (_value + _largeChange > _maximum)
-                    {
-                        Value = _maximum;
-                    }
-                    else
-                    {
-                        Value += _largeChange;
-                    }
-
-                    return true;
+                    Value = _maximum;
                 }
+                else
+                {
+                    Value += _largeChange;
+                }
+
+                return true;
+            }
             case Keys.Home:
+            case Keys.Control | Keys.Home:
                 Value = _minimum;
 
                 return true;
             case Keys.End:
+            case Keys.Control | Keys.End:
                 Value = _maximum;
 
                 return true;
@@ -1024,6 +1031,29 @@ public class KryptonVScrollBar : Control
     #region Misc Methods
 
     /// <summary>
+    /// Gets the DPI scaling factor for the control.
+    /// </summary>
+    /// <returns>The DPI scaling factor (DeviceDpi / 96). Returns 1.0 if DPI cannot be determined.</returns>
+    private float GetDpiFactor()
+    {
+        if (IsHandleCreated && DeviceDpi > 0)
+        {
+            return DeviceDpi / 96F;
+        }
+
+        // Fallback: use Graphics DPI if handle not created yet
+        try
+        {
+            using Graphics g = CreateGraphics();
+            return g.DpiX / 96F;
+        }
+        catch
+        {
+            return 1.0F;
+        }
+    }
+
+    /// <summary>
     /// Sets up the scrollbar.
     /// </summary>
     private void SetUpScrollBar()
@@ -1034,36 +1064,43 @@ public class KryptonVScrollBar : Control
             return;
         }
 
+        // Get DPI scaling factor
+        float dpiFactor = GetDpiFactor();
+
         // set up the width's, height's and rectangles for vertical scrollbar
-        _arrowHeight = 17;
-        _arrowWidth = 15;
-        _thumbWidth = 15;
+        // Scale dimensions based on DPI
+        _arrowHeight = (int)Math.Round(17 * dpiFactor);
+        _arrowWidth = (int)Math.Round(15 * dpiFactor);
+        _thumbWidth = (int)Math.Round(15 * dpiFactor);
         _thumbHeight = GetThumbSize();
 
+        int borderOffset = (int)Math.Round(1 * dpiFactor);
+        int horizontalOffset = (int)Math.Round(2 * dpiFactor);
+
         _clickedBarRectangle = ClientRectangle;
-        _clickedBarRectangle.Inflate(-1, -1);
+        _clickedBarRectangle.Inflate(-borderOffset, -borderOffset);
         _clickedBarRectangle.Y += _arrowHeight;
         _clickedBarRectangle.Height -= _arrowHeight * 2;
 
         _channelRectangle = _clickedBarRectangle;
 
         _thumbRectangle = new Rectangle(
-            ClientRectangle.X + 2,
-            ClientRectangle.Y + _arrowHeight + 1,
-            _thumbWidth - 1,
+            ClientRectangle.X + horizontalOffset,
+            ClientRectangle.Y + _arrowHeight + borderOffset,
+            _thumbWidth - borderOffset,
             _thumbHeight
         );
 
         _topArrowRectangle = new Rectangle(
-            ClientRectangle.X + 2,
-            ClientRectangle.Y + 1,
+            ClientRectangle.X + horizontalOffset,
+            ClientRectangle.Y + borderOffset,
             _arrowWidth,
             _arrowHeight
         );
 
         _bottomArrowRectangle = new Rectangle(
-            ClientRectangle.X + 2,
-            ClientRectangle.Bottom - _arrowHeight - 1,
+            ClientRectangle.X + horizontalOffset,
+            ClientRectangle.Bottom - _arrowHeight - borderOffset,
             _arrowWidth,
             _arrowHeight
         );
@@ -1073,14 +1110,14 @@ public class KryptonVScrollBar : Control
 
         // Set the bottom limit of the thumb's bottom border.
         _thumbBottomLimitBottom =
-            ClientRectangle.Bottom - _arrowHeight - 2;
+            ClientRectangle.Bottom - _arrowHeight - horizontalOffset;
 
         // Set the bottom limit of the thumb's top border.
         _thumbBottomLimitTop =
             _thumbBottomLimitBottom - _thumbRectangle.Height;
 
         // Set the top limit of the thumb's top border.
-        _thumbTopLimit = ClientRectangle.Y + _arrowHeight + 1;
+        _thumbTopLimit = ClientRectangle.Y + _arrowHeight + borderOffset;
 
         ChangeThumbPosition(GetThumbPosition());
 
