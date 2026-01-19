@@ -1931,6 +1931,45 @@ public abstract class VisualForm : Form,
 
     private void UpdateDpiFactors()
     {
+        // Invalidate the global DPI cache to ensure fresh values are calculated
+        KryptonManager.InvalidateDpiCache();
+
+        // Use per-monitor DPI for proper high DPI and touchscreen scaling support
+        IntPtr hWnd = IsHandleCreated ? Handle : IntPtr.Zero;
+
+        if (hWnd != IntPtr.Zero)
+        {
+            try
+            {
+                // Try to use GetDpiForWindow for per-monitor DPI awareness (Windows 10 version 1607+)
+                uint dpi = PI.GetDpiForWindow(hWnd);
+                if (dpi > 0)
+                {
+                    FactorDpiX = dpi / 96f;
+                    FactorDpiY = dpi / 96f;
+                    return;
+                }
+            }
+            catch
+            {
+                // GetDpiForWindow may not be available on older Windows versions
+            }
+
+            // Fallback to window's Graphics DPI
+            try
+            {
+                using Graphics graphics = Graphics.FromHwnd(hWnd);
+                FactorDpiX = graphics.DpiX / 96f;
+                FactorDpiY = graphics.DpiY / 96f;
+                return;
+            }
+            catch
+            {
+                // Continue to primary monitor fallback
+            }
+        }
+
+        // Fallback
         // Do not use the control dpi, as these values are being used to target the screen
         IntPtr screenDc = PI.GetDC(IntPtr.Zero);
         if (screenDc != IntPtr.Zero)
