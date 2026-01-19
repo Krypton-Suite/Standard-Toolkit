@@ -73,6 +73,7 @@ public class KryptonRibbon : VisualSimple,
     private ViewDrawRibbonQATBorder _qatBelowRibbon;
     private ViewLayoutRibbonQATFromRibbon _qatBelowContents;
     private ViewDrawRibbonMinimizeBar _minimizeBar;
+    private ViewDrawRibbonNotificationBar _notificationBar;
 
     // User ButtonSpecs
 
@@ -97,6 +98,13 @@ public class KryptonRibbon : VisualSimple,
     private PaletteBackStyle _backInactiveStyle;
     private KryptonRibbonTab? _minSelectedTab;
     private KryptonRibbonTab? _selectedTab;
+    private VisualBackstageOverlayForm? _backstageOverlay;
+    private KryptonRibbonTab? _backstageRestoreTab;
+
+    private KryptonRibbonNotificationBarData _notificationBarData;
+
+    private Timer? _autoDismissTimer;
+
     #endregion
 
     #region Events
@@ -143,6 +151,34 @@ public class KryptonRibbon : VisualSimple,
     public event ToolStripDropDownClosedEventHandler? AppButtonMenuClosed;
 
     /// <summary>
+    /// Occurs when the backstage view is opening.
+    /// </summary>
+    [Category(@"Ribbon")]
+    [Description(@"Occurs when backstage view is opening but not displayed as yet.")]
+    public event CancelEventHandler? BackstageOpening;
+
+    /// <summary>
+    /// Occurs when the backstage view is opened.
+    /// </summary>
+    [Category(@"Ribbon")]
+    [Description(@"Occurs when backstage view is fully opened for display.")]
+    public event EventHandler? BackstageOpened;
+
+    /// <summary>
+    /// Occurs when the backstage view is about to close.
+    /// </summary>
+    [Category(@"Ribbon")]
+    [Description(@"Occurs when backstage view is about to close.")]
+    public event CancelEventHandler? BackstageClosing;
+
+    /// <summary>
+    /// Occurs when the backstage view has been closed.
+    /// </summary>
+    [Category(@"Ribbon")]
+    [Description(@"Occurs when backstage view has been closed.")]
+    public event EventHandler? BackstageClosed;
+
+    /// <summary>
     /// Occurs when the ribbon context menu is about to be shown.
     /// </summary>
     [Category(@"Ribbon")]
@@ -171,6 +207,13 @@ public class KryptonRibbon : VisualSimple,
     [EditorBrowsable(EditorBrowsableState.Never)]
     [Browsable(false)]
     public event EventHandler? DesignTimeAddTab;
+
+    /// <summary>
+    /// Occurs when a notification bar button is clicked.
+    /// </summary>
+    [Category(@"Action")]
+    [Description(@"Occurs when a notification bar action button or close button is clicked.")]
+    public event EventHandler<RibbonNotificationBarEventArgs>? NotificationBarButtonClick;
     #endregion
 
     #region Identity
@@ -214,6 +257,21 @@ public class KryptonRibbon : VisualSimple,
             // Remember to unhook otherwise memory cannot be garbage collected
             Application.RemoveMessageFilter(this);
 
+            // Stop and dispose auto-dismiss timer
+            if (_autoDismissTimer != null)
+            {
+                _autoDismissTimer.Stop();
+                _autoDismissTimer.Dispose();
+                _autoDismissTimer = null;
+            }
+
+            // Unhook from notification bar data
+            if (_notificationBarData != null)
+            {
+                _notificationBarData.PropertyChanged -= OnNotificationBarDataPropertyChanged;
+            }
+
+
             // Prevent the removing of child controls from causing a 
             // layout that then causes the children to be added again!
             SuspendLayout();
@@ -237,6 +295,18 @@ public class KryptonRibbon : VisualSimple,
             {
                 tab.Dispose();
             }
+
+            // Ensure any backstage overlay is dismissed
+            if (_backstageOverlay != null)
+            {
+                _backstageOverlay.BackRequested -= OnBackstageBackRequested;
+                _backstageOverlay.Disposed -= OnBackstageOverlayDisposed;
+                _backstageOverlay.Close();
+                _backstageOverlay.Dispose();
+                _backstageOverlay = null;
+            }
+
+            _backstageRestoreTab = null;
 
             ResumeLayout();
         }
@@ -848,6 +918,17 @@ public class KryptonRibbon : VisualSimple,
     public void ResetMinimizedMode() => MinimizedMode = false;
 
     /// <summary>
+    /// Gets the notification bar data for customization.
+    /// </summary>
+    [Category(@"Appearance")]
+    [Description(@"Provides access to notification bar customization properties.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public KryptonRibbonNotificationBarData NotificationBar
+    {
+        get => _notificationBarData;
+    }
+
+    /// <summary>
     /// Gets and sets the display method for the quick access toolbar.
     /// </summary>
     [Localizable(true)]
@@ -962,7 +1043,7 @@ public class KryptonRibbon : VisualSimple,
     /// Internal design time method.
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public new bool InDesignMode => 
+    public new bool InDesignMode =>
         // Removed warning CS0108: "IndesignMode hides inherited member VisualControl.InDesignMode".
         // By marking the property as new.
         DesignMode;
@@ -1115,7 +1196,7 @@ public class KryptonRibbon : VisualSimple,
                     {
                         // Only interested is the owning form is usable and has the focus
                         if (TabsArea is not null
-                            && FindForm() is Form ownerForm 
+                            && FindForm() is Form ownerForm
                             && ownerForm is { Visible: true, Enabled: true, ContainsFocus: true })
                         {
                             // Extract the x and y mouse position from message
@@ -1128,9 +1209,9 @@ public class KryptonRibbon : VisualSimple,
                             // Only interested if over the tabs area
                             if (TabsArea.ClientRectangle.Contains(PointToClient(pt)) || (_scrollTabGroupArea && GroupsArea.ClientRectangle.Contains(PointToClient(pt))))
                             {
-                                if (MouseControlFinder.ControlUnderMouse() is Control control && control.Enabled)
+                                if (MouseControlFinder.ControlUnderMouse(pt) is Control control && control.Enabled)
                                 {
-                                    if (control is ComboBox or KryptonTrackBar or VisualPopupAppMenu or VisualContextMenu || control.Parent is DomainUpDown or NumericUpDown)
+                                    if (control is ComboBox or KryptonTrackBar or KryptonDateTimePicker or VisualPopupAppMenu or VisualContextMenu || control.Parent is DomainUpDown or NumericUpDown)
                                     {
                                         return false;
                                     }
@@ -1481,10 +1562,10 @@ public class KryptonRibbon : VisualSimple,
 
         // Check each quick access toolbar button
         foreach (IQuickAccessToolbarButton qatButton in from IQuickAccessToolbarButton qatButton in QATButtons
-                 where qatButton.GetVisible() && qatButton.GetEnabled()
-                 let shortcut = qatButton.GetShortcutKeys()
-                 where (shortcut != Keys.None) && (shortcut == keyData)
-                 select qatButton)
+                                                        where qatButton.GetVisible() && qatButton.GetEnabled()
+                                                        let shortcut = qatButton.GetShortcutKeys()
+                                                        where (shortcut != Keys.None) && (shortcut == keyData)
+                                                        select qatButton)
         {
             // Click the button and finish processing
             qatButton.PerformClick();
@@ -1696,7 +1777,7 @@ public class KryptonRibbon : VisualSimple,
     {
         // Request item processing from the focus lost helper
         FocusLostMenuHelper.ProcessItems();
-        
+
         // Need to recalculate anything relying on the palette
         DirtyPaletteCounter++;
 
@@ -1746,38 +1827,35 @@ public class KryptonRibbon : VisualSimple,
     protected internal virtual void OnAppButtonMenuClosed(ToolStripDropDownClosedEventArgs e) => AppButtonMenuClosed?.Invoke(this, e);
 
     /// <summary>
+    /// Raises the BackstageOpening event.
+    /// </summary>
+    /// <param name="e">An CancelEventArgs containing the event data.</param>
+    protected internal virtual void OnBackstageOpening(CancelEventArgs e) => BackstageOpening?.Invoke(this, e);
+
+    /// <summary>
+    /// Raises the BackstageOpened event.
+    /// </summary>
+    /// <param name="e">An EventArgs containing event data.</param>
+    protected internal virtual void OnBackstageOpened(EventArgs e) => BackstageOpened?.Invoke(this, e);
+
+    /// <summary>
+    /// Raises the BackstageClosing event.
+    /// </summary>
+    /// <param name="e">An CancelEventArgs containing the event data.</param>
+    protected internal virtual void OnBackstageClosing(CancelEventArgs e) => BackstageClosing?.Invoke(this, e);
+
+    /// <summary>
+    /// Raises the BackstageClosed event.
+    /// </summary>
+    /// <param name="e">An EventArgs containing event data.</param>
+    protected internal virtual void OnBackstageClosed(EventArgs e) => BackstageClosed?.Invoke(this, e);
+
+    /// <summary>
     /// Raises the MinimizedModeChanged event.
     /// </summary>
     /// <param name="e">An EventArgs containing event data.</param>
     protected virtual void OnMinimizedModeChanged(EventArgs e) => MinimizedModeChanged?.Invoke(this, e);
 
-    #endregion
-
-    #region WIN32 Calls
-    public static class MouseControlFinder
-    {
-        // Returns the HWND under the current mouse cursor (screen coordinates).
-        public static IntPtr HwndUnderMouse()
-        {
-            return PI.WindowFromPoint(Cursor.Position);
-        }
-
-        // Returns the WinForms Control under the mouse or null if none found.
-        public static Control? ControlUnderMouse()
-        {
-            IntPtr hwnd = HwndUnderMouse();
-            while (hwnd != IntPtr.Zero)
-            {
-                Control? control = FromHandle(hwnd);
-                if (control != null)
-                {
-                    return control;
-                }
-                hwnd = PI.GetParent(hwnd);
-            }
-            return null;
-        }
-    }
     #endregion
 
     #region Internal
@@ -1787,6 +1865,125 @@ public class KryptonRibbon : VisualSimple,
     internal void OnDesignTimeAddTab() => DesignTimeAddTab?.Invoke(this, EventArgs.Empty);
 
     internal bool RealMinimizedMode => MinimizedMode && !InDesignMode;
+
+    internal bool BackstageVisible => _backstageOverlay != null;
+
+    internal bool TryToggleBackstageView()
+    {
+        if (RibbonShape == PaletteRibbonShape.Office2007)
+        {
+            return false;
+        }
+
+        if (!RibbonFileAppTab.UseBackstageView)
+        {
+            return false;
+        }
+
+        if (RibbonFileAppTab.BackstageContent is null)
+        {
+            return false;
+        }
+
+        if (_backstageOverlay != null)
+        {
+            return CloseBackstageView();
+        }
+
+        // Give event handler a chance to cancel the open request
+        var cea = new CancelEventArgs();
+        OnBackstageOpening(cea);
+
+        if (cea.Cancel)
+        {
+            return false;
+        }
+
+        Form? topForm = FindForm();
+        if (topForm is null)
+        {
+            return false;
+        }
+
+        // Close any existing app menu popup before showing backstage
+        TabsArea?.DismissAppButtonMenu();
+
+        // Remove any minimized popup window from display
+        if (RealMinimizedMode)
+        {
+            KillMinimizedPopup();
+        }
+
+        // Remember the currently selected tab so we can restore it on close
+        _backstageRestoreTab = SelectedTab;
+
+        // Get overlay mode from BackstageView if available
+        BackstageOverlayMode overlayMode = BackstageOverlayMode.FullClient;
+        if (RibbonFileAppTab.BackstageView != null)
+        {
+            overlayMode = RibbonFileAppTab.BackstageView.OverlayMode;
+        }
+
+        _backstageOverlay = new VisualBackstageOverlayForm(topForm, overlayMode, this);
+        _backstageOverlay.SetContent(RibbonFileAppTab.BackstageContent);
+        _backstageOverlay.BackRequested += OnBackstageBackRequested;
+        _backstageOverlay.Disposed += OnBackstageOverlayDisposed;
+        _backstageOverlay.UpdateOwnerBounds();
+
+        // Indicate the backstage view is fully constructed and displayed
+        OnBackstageOpened(EventArgs.Empty);
+
+        return true;
+    }
+
+    public bool CloseBackstageView()
+    {
+        if (_backstageOverlay is null)
+        {
+            return false;
+        }
+
+        // Give event handler a chance to cancel the close request
+        var cea = new CancelEventArgs();
+        OnBackstageClosing(cea);
+
+        if (cea.Cancel)
+        {
+            return false;
+        }
+
+        // Close triggers disposal and centralized cleanup
+        _backstageOverlay.Close();
+        return true;
+    }
+
+    private void OnBackstageBackRequested(object? sender, EventArgs e) => CloseBackstageView();
+
+    private void OnBackstageOverlayDisposed(object? sender, EventArgs e)
+    {
+        if (_backstageOverlay != null)
+        {
+            _backstageOverlay.BackRequested -= OnBackstageBackRequested;
+            _backstageOverlay.Disposed -= OnBackstageOverlayDisposed;
+            _backstageOverlay = null;
+        }
+
+        // Remove the fixed 'pressed' state from the application tab
+        TabsArea?.RemoveFixedAppTab();
+
+        // We always kill keyboard mode when backstage is removed
+        KillKeyboardMode();
+
+        // Restore previous selected tab if possible
+        if (_backstageRestoreTab != null && _backstageRestoreTab != SelectedTab)
+        {
+            SelectedTab = _backstageRestoreTab;
+        }
+
+        _backstageRestoreTab = null;
+
+        OnBackstageClosed(EventArgs.Empty);
+    }
 
     internal ViewRibbonManager? ViewRibbonManager => ViewManager as ViewRibbonManager;
 
@@ -2604,7 +2801,7 @@ public class KryptonRibbon : VisualSimple,
         MinimizedMode = false;
         ScrollerStyle = ButtonStyle.Standalone;
         ShowMinimizeButton = true;
-		ScrollTabGroupArea = true;
+        ScrollTabGroupArea = true;
         QATLocation = QATLocation.Above;
         QATUserChange = true;
         LostFocusLosesKeyboard = true;
@@ -2662,6 +2859,10 @@ public class KryptonRibbon : VisualSimple,
     private void CreateStorageObjects()
     {
         RibbonShortcuts = new RibbonShortcuts();
+
+        _notificationBarData = new KryptonRibbonNotificationBarData();
+        
+        _notificationBarData.PropertyChanged += OnNotificationBarDataPropertyChanged;
 
         // Create direct access to the redirector for panel background
         _backPanelInherit = new PaletteBackInheritRedirect(Redirector, PaletteBackStyle.PanelClient);
@@ -2724,11 +2925,20 @@ public class KryptonRibbon : VisualSimple,
             Visible = false
         };
 
+        // Create notification bar
+        _notificationBar = new ViewDrawRibbonNotificationBar(this, NeedPaintDelegate)
+        {
+            Visible = false,
+            NotificationData = _notificationBarData
+        };
+        _notificationBar.ButtonClick += OnNotificationBarButtonClick;
+
         // Connect up the various view elements
         MainPanel.Add(_ribbonDocker);
         _ribbonDocker.Add(GroupsArea, ViewDockStyle.Fill);
         _ribbonDocker.Add(_minimizeBar, ViewDockStyle.Bottom);
         _ribbonDocker.Add(_qatBelowRibbon, ViewDockStyle.Bottom);
+        _ribbonDocker.Add(_notificationBar, ViewDockStyle.Bottom);
         _ribbonDocker.Add(TabsArea, ViewDockStyle.Top);
         _ribbonDocker.Add(CaptionArea, ViewDockStyle.Top);
 
@@ -2742,9 +2952,87 @@ public class KryptonRibbon : VisualSimple,
         // Create the view manager instance
         ViewManager = new ViewRibbonManager(this, GroupsArea.ViewGroups, _rootDocker, false, NeedPaintDelegate);
     }
+
+    private void OnNotificationBarDataPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (_notificationBar == null)
+        {
+            return;
+        }
+
+        switch (e.PropertyName)
+        {
+            case nameof(KryptonRibbonNotificationBarData.Visible):
+                _notificationBar.Visible = _notificationBarData.Visible;
+                UpdateAutoDismissTimer();
+                PerformNeedPaint(true);
+                break;
+            case nameof(KryptonRibbonNotificationBarData.AutoDismissSeconds):
+                UpdateAutoDismissTimer();
+                break;
+            default:
+                PerformNeedPaint(true);
+                break;
+        }
+    }
+
+    private void OnNotificationBarButtonClick(object? sender, RibbonNotificationBarEventArgs e)
+    {
+        // Stop auto-dismiss timer if button was clicked
+        if (_autoDismissTimer != null)
+        {
+            _autoDismissTimer.Stop();
+            _autoDismissTimer.Dispose();
+            _autoDismissTimer = null;
+        }
+
+        // Raise the event
+        NotificationBarButtonClick?.Invoke(this, e);
+
+        // If close button was clicked, hide the notification bar
+        if (e.ActionButtonIndex == -1)
+        {
+            _notificationBarData.Visible = false;
+        }
+    }
+
+    private void UpdateAutoDismissTimer()
+    {
+        // Dispose existing timer if any
+        if (_autoDismissTimer != null)
+        {
+            _autoDismissTimer.Stop();
+            _autoDismissTimer.Dispose();
+            _autoDismissTimer = null;
+        }
+
+        // Create new timer if auto-dismiss is enabled and notification is visible
+        if (_notificationBarData.Visible && _notificationBarData.AutoDismissSeconds > 0)
+        {
+            _autoDismissTimer = new System.Windows.Forms.Timer
+            {
+                Interval = _notificationBarData.AutoDismissSeconds * 1000
+            };
+            _autoDismissTimer.Tick += OnAutoDismissTimerTick;
+            _autoDismissTimer.Start();
+        }
+    }
+
+    private void OnAutoDismissTimerTick(object? sender, EventArgs e)
+    {
+        if (_autoDismissTimer != null)
+        {
+            _autoDismissTimer.Stop();
+            _autoDismissTimer.Dispose();
+            _autoDismissTimer = null;
+        }
+
+        _notificationBarData.Visible = false;
+    }
+
     #endregion
 
-    #region Private
+        #region Private
     private void CheckForAltUp()
     {
         if (_altDown)
@@ -3280,3 +3568,4 @@ public class KryptonRibbon : VisualSimple,
     }
     #endregion
 }
+

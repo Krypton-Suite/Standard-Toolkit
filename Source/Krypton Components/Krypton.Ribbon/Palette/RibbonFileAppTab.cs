@@ -15,6 +15,8 @@ public class RibbonFileAppTab : Storage
     #region Instance Fields
     private readonly KryptonRibbon _ribbon;
     private string _fileAppTabText;
+    private bool _useBackstageView;
+    private Control? _backstageContent;
     #endregion
 
     #region Identity
@@ -29,6 +31,8 @@ public class RibbonFileAppTab : Storage
         _ribbon = ribbon!;
 
         ResetFileAppTabText();
+        _useBackstageView = false;
+        _backstageContent = null;
     }
     #endregion
 
@@ -38,7 +42,9 @@ public class RibbonFileAppTab : Storage
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public override bool IsDefault => !ShouldSerializeFileAppTabText();
+    public override bool IsDefault => !ShouldSerializeFileAppTabText()
+                                      && !UseBackstageView
+                                      && (BackstageContent is null);
     #endregion
 
     #region FileAppTabText
@@ -66,5 +72,68 @@ public class RibbonFileAppTab : Storage
     }
     private void ResetFileAppTabText() => _fileAppTabText = KryptonManager.Strings.RibbonStrings.AppButtonText;
     private bool ShouldSerializeFileAppTabText() => _fileAppTabText != KryptonManager.Strings.RibbonStrings.AppButtonText;
+    #endregion
+
+    #region UseBackstageView
+    /// <summary>
+    /// Gets and sets if the Office 2010 style File application tab should show a backstage view when selected.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Determine if selecting the File application tab shows a backstage view (if provided).")]
+    [DefaultValue(false)]
+    public bool UseBackstageView
+    {
+        get => _useBackstageView;
+
+        set
+        {
+            if (_useBackstageView != value)
+            {
+                _useBackstageView = value;
+                _ribbon.PerformNeedPaint(true);
+            }
+        }
+    }
+    #endregion
+
+    #region BackstageContent
+    /// <summary>
+    /// Gets and sets the control that will be hosted inside the backstage view overlay.
+    /// </summary>
+    [Category(@"Backstage")]
+    [Description(@"Control hosted inside the backstage view overlay. If null then the default app menu popup is used.")]
+    [DefaultValue(null)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public Control? BackstageContent
+    {
+        get => _backstageContent;
+
+        set
+        {
+            if (!ReferenceEquals(_backstageContent, value))
+            {
+                _backstageContent = value;
+                _ribbon.PerformNeedPaint(false);
+            }
+        }
+    }
+    #endregion
+
+    #region BackstageView
+    /// <summary>
+    /// Gets and sets a <see cref="KryptonBackstageView"/> instance to be hosted as the backstage content.
+    /// </summary>
+    /// <remarks>
+    /// This is a designer-friendly convenience wrapper around <see cref="BackstageContent"/>.
+    /// </remarks>
+    [Category(@"Backstage")]
+    [Description(@"Backstage view instance to host when the File tab is selected.")]
+    [DefaultValue(null)]
+    [TypeConverter(typeof(ReferenceConverter))]
+    public KryptonBackstageView? BackstageView
+    {
+        get => BackstageContent as KryptonBackstageView;
+        set => BackstageContent = value;
+    }
     #endregion
 }

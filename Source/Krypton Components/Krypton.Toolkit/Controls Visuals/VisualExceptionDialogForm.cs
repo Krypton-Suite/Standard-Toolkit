@@ -9,7 +9,14 @@
 
 namespace Krypton.Toolkit;
 
-public partial class VisualExceptionDialogForm : KryptonForm
+/// <summary>
+/// Represents a modal dialog form that displays detailed information about an exception, including its message, stack trace, and inner exceptions, with options for copying details, searching, and reporting bugs.
+/// </summary>
+/// <remarks>Use this form to present exception details to users or developers in a structured and interactive
+/// way. The dialog can be configured to show or hide copy and search features, highlight exception details, and provide
+/// a callback for custom bug reporting. This form is intended for internal use within applications that utilize the
+/// Krypton Toolkit UI framework.</remarks>
+internal partial class VisualExceptionDialogForm : KryptonForm
 {
     #region Instance Fields
 

@@ -2,7 +2,7 @@
 # Script to update the project file with the latest WebView2 SDK version
 
 param(
-    [string]$ProjectPath = "Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj",
+    [string]$ProjectPath = "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj",
     [switch]$WhatIf = $false
 )
 
@@ -48,11 +48,27 @@ function Update-ProjectFile {
     
     $content = Get-Content $ProjectPath -Raw
     
-    # Update .NET Framework references
+    # Check if project file uses floating versions (1.0.*)
+    if ($content -match 'Version="1\.0\.\*"') {
+        Write-Host "Project file uses floating version (1.0.*) - no manual update needed." -ForegroundColor Green
+        Write-Host "NuGet will automatically resolve to the latest 1.0.x version on restore." -ForegroundColor Yellow
+        return $false
+    }
+    
+    # Update .NET Framework references (for file-based references, if any)
     $netFrameworkPattern = 'Microsoft\.Web\.WebView2\.Core, Version=([^,]+), Culture=neutral'
     $netFrameworkReplacement = "Microsoft.Web.WebView2.Core, Version=$NewVersion, Culture=neutral"
     
     $updatedContent = $content -replace $netFrameworkPattern, $netFrameworkReplacement
+    
+    # Also check for PackageReference with specific versions
+    $packageRefPattern = '<PackageReference Include="Microsoft\.Web\.WebView2" Version="([^"]+)"'
+    if ($content -match $packageRefPattern) {
+        $oldVersion = $matches[1]
+        if ($oldVersion -ne $NewVersion -and $oldVersion -ne "1.0.*") {
+            $updatedContent = $updatedContent -replace "($packageRefPattern)", "<PackageReference Include=`"Microsoft.Web.WebView2`" Version=`"$NewVersion`""
+        }
+    }
     
     if ($updatedContent -ne $content) {
         if ($WhatIf) {
@@ -63,7 +79,7 @@ function Update-ProjectFile {
         }
         return $true
     } else {
-        Write-Warning "No version references found to update in project file"
+        Write-Warning "No version references found to update in project file (or already using floating versions)"
         return $false
     }
 }

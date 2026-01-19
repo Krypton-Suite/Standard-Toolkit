@@ -10,6 +10,8 @@
 using System.Diagnostics;
 using System.Reflection;
 
+using Krypton.Utilities;
+
 namespace TestForm;
 
 public partial class Main : KryptonForm
@@ -109,7 +111,7 @@ public partial class Main : KryptonForm
         {
             ShowImportButton = true,
             ShowSilentOption = true,
-            StartIndex = GlobalStaticValues.GLOBAL_DEFAULT_THEME_INDEX,
+            StartIndex = Krypton.Toolkit.GlobalStaticValues.GLOBAL_DEFAULT_THEME_INDEX,
             StartPosition = FormStartPosition.CenterScreen,
             WindowTitle = KryptonManager.Strings.MiscellaneousThemeStrings.ThemeBrowserWindowTitle
         };

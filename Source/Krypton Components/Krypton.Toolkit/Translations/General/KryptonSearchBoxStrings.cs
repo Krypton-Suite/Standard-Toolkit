@@ -17,6 +17,8 @@ public class KryptonSearchBoxStrings : GlobalId
     private const string DEFAULT_SEARCH_BOX_CUE_TEXT = @"Enter a search term...";
     private const string DEFAULT_CLEAR_SEARCH_BOX_TOOLTIP = @"Clear Search Box";
     private const string DEFAULT_CLEAR_SEARCH_BOX_TOOLTIP_DESCRIPTION = @"Click to clear the search box.";
+    private const string DEFAULT_SEARCH_BOX_SEARCH_TOOLTIP_TITLE = @"Search";
+    private const string DEFAULT_SEARCH_BOX_SEARCH_TOOLTIP_DESCRIPTION = @"Click to perform the search.";
     private const string DEFAULT_TOOL_TIP_HEADING_TEXT = @"Search Box";
     private const string DEFAULT_TOOL_TIP_BODY_TEXT = @"Enter a search term to filter results.";
 
@@ -47,7 +49,7 @@ public class KryptonSearchBoxStrings : GlobalId
     [Description("The tooltip text displayed when hovering over the clear search box button.")]
     [DefaultValue(DEFAULT_CLEAR_SEARCH_BOX_TOOLTIP)]
     [Localizable(true)]
-    public string ClearSearchBoxToolTip { get; set; }
+    public string ClearButtonToolTipTitle { get; set; }
 
     /// <summary>Gets or sets the clear search box tool tip description.</summary>
     /// <value>The clear search box tool tip description.</value>
@@ -56,6 +58,18 @@ public class KryptonSearchBoxStrings : GlobalId
     [DefaultValue(DEFAULT_CLEAR_SEARCH_BOX_TOOLTIP_DESCRIPTION)]
     [Localizable(true)]
     public string ClearSearchBoxToolTipDescription { get; set; }
+
+    [Category("Visuals")]
+    [Description("The tooltip title text displayed when hovering over the search box button.")]
+    [DefaultValue(DEFAULT_SEARCH_BOX_SEARCH_TOOLTIP_TITLE)]
+    [Localizable(true)]
+    public string SearchBoxSearchButtonToolTipTitle { get; set; }
+
+    [Category("Visuals")]
+    [Description("The tooltip description text displayed when hovering over the search box button.")]
+    [DefaultValue(DEFAULT_SEARCH_BOX_SEARCH_TOOLTIP_DESCRIPTION)]
+    [Localizable(true)]
+    public string SearchBoxSearchButtonToolTipDescription { get; set; }
 
     /// <summary>Gets or sets the tool tip heading text.</summary>
     /// <value>The tool tip heading text.</value>
@@ -79,11 +93,13 @@ public class KryptonSearchBoxStrings : GlobalId
 
     [Browsable(false)]
     public bool IsDefault =>
-        SearchBoxCueText == DEFAULT_SEARCH_BOX_CUE_TEXT &&
-        ClearSearchBoxToolTip == DEFAULT_CLEAR_SEARCH_BOX_TOOLTIP &&
-        ClearSearchBoxToolTipDescription == DEFAULT_CLEAR_SEARCH_BOX_TOOLTIP_DESCRIPTION &&
-        ToolTipHeadingText == DEFAULT_TOOL_TIP_HEADING_TEXT &&
-        ToolTipBodyText == DEFAULT_TOOL_TIP_BODY_TEXT;
+        SearchBoxCueText.Equals(DEFAULT_SEARCH_BOX_CUE_TEXT) &&
+        ClearButtonToolTipTitle.Equals(DEFAULT_CLEAR_SEARCH_BOX_TOOLTIP) &&
+        ClearSearchBoxToolTipDescription.Equals(DEFAULT_CLEAR_SEARCH_BOX_TOOLTIP_DESCRIPTION) &&
+        ToolTipHeadingText.Equals(DEFAULT_TOOL_TIP_HEADING_TEXT) &&
+        ToolTipBodyText.Equals(DEFAULT_TOOL_TIP_BODY_TEXT) &&
+        SearchBoxSearchButtonToolTipTitle.Equals(DEFAULT_SEARCH_BOX_SEARCH_TOOLTIP_TITLE) &&
+        SearchBoxSearchButtonToolTipDescription.Equals(DEFAULT_SEARCH_BOX_SEARCH_TOOLTIP_DESCRIPTION);
 
     #endregion
 
@@ -92,10 +108,12 @@ public class KryptonSearchBoxStrings : GlobalId
     public void Reset()
     {
         SearchBoxCueText = DEFAULT_SEARCH_BOX_CUE_TEXT;
-        ClearSearchBoxToolTip = DEFAULT_CLEAR_SEARCH_BOX_TOOLTIP;
+        ClearButtonToolTipTitle = DEFAULT_CLEAR_SEARCH_BOX_TOOLTIP;
         ClearSearchBoxToolTipDescription = DEFAULT_CLEAR_SEARCH_BOX_TOOLTIP_DESCRIPTION;
         ToolTipHeadingText = DEFAULT_TOOL_TIP_HEADING_TEXT;
         ToolTipBodyText = DEFAULT_TOOL_TIP_BODY_TEXT;
+        SearchBoxSearchButtonToolTipTitle = DEFAULT_SEARCH_BOX_SEARCH_TOOLTIP_TITLE;
+        SearchBoxSearchButtonToolTipDescription = DEFAULT_SEARCH_BOX_SEARCH_TOOLTIP_DESCRIPTION;
     }
 
     #endregion

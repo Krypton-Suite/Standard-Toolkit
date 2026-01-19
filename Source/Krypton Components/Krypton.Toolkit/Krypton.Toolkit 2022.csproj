@@ -1,19 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
-  <Choose>
-	<When Condition="'$(Configuration)' == 'Nightly' Or '$(Configuration)' == 'Canary' Or '$(Configuration)' == 'Debug'">
-	  <PropertyGroup>
-		<TargetFrameworks>net472;net48;net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
-	  </PropertyGroup>
-	</When>
-	<Otherwise>
-	  <PropertyGroup>
-		<TargetFrameworks>net48;net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
-
-		<TargetFrameworks Condition="'$(TFMs)' == 'all'">net472;net48;net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
-	  </PropertyGroup>
-	</Otherwise>
-  </Choose>
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
 	<OutputType>Library</OutputType>
@@ -57,7 +42,9 @@
 		<Reference Include="System.Net.Http" />
 	</ItemGroup>
 
-
+	<ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
+		<PackageReference Include="System.Memory" Version="4.5.5" />
+	</ItemGroup>
 
 	<PropertyGroup>
 	<PackageId>Krypton.Toolkit</PackageId>
@@ -401,11 +388,6 @@
 	  <DesignTime>True</DesignTime>
 	  <AutoGen>True</AutoGen>
 	  <DependentUpon>TaskDialogImageResources.resx</DependentUpon>
-	</Compile>
-	<Compile Update="ResourceFiles\ToastNotification\ToastNotificationImageResources.Designer.cs">
-	  <DesignTime>True</DesignTime>
-	  <AutoGen>True</AutoGen>
-	  <DependentUpon>ToastNotificationImageResources.resx</DependentUpon>
 	</Compile>
 	<Compile Update="ResourceFiles\Toolbars\GenericToolbarImageResources.Designer.cs">
 	  <DesignTime>True</DesignTime>
@@ -856,10 +838,6 @@
 	<EmbeddedResource Update="ResourceFiles\TaskDialog\TaskDialogImageResources.resx">
 	  <Generator>ResXFileCodeGenerator</Generator>
 	  <LastGenOutput>TaskDialogImageResources.Designer.cs</LastGenOutput>
-	</EmbeddedResource>
-	<EmbeddedResource Update="ResourceFiles\ToastNotification\ToastNotificationImageResources.resx">
-	  <Generator>ResXFileCodeGenerator</Generator>
-	  <LastGenOutput>ToastNotificationImageResources.Designer.cs</LastGenOutput>
 	</EmbeddedResource>
 	<EmbeddedResource Update="ResourceFiles\Toolbars\GenericToolbarImageResources.resx">
 	  <Generator>ResXFileCodeGenerator</Generator>
