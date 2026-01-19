@@ -62,6 +62,7 @@ public partial class StartScreen : KryptonForm
         CreateButton("Badge Test", "Comprehensive badge functionality demonstration for KryptonButton and KryptonCheckButton.", typeof(ButtonBadgeTest));
         CreateButton("Buttons Test", "All the buttons you want to test.", typeof(ButtonsTest));
         CreateButton("BugReportingTool", "Easily report bugs with this tool.", typeof(BugReportingDialogTest));
+        CreateButton("Code Editor", "Native code editor with syntax highlighting, line numbering, code folding, and auto-completion.", typeof(CodeEditorTest));
         CreateButton("Countdown Button", "Comprehensive demonstration of KryptonCountdownButton features with customizable duration, format, and enable-at-zero options.", typeof(CountdownButtonTest));
         CreateButton("CommandLink Buttons", "No comment", typeof(CommandLinkButtons));
         CreateButton("Control Styles", string.Empty, typeof(ControlStylesForm));
@@ -83,6 +84,7 @@ public partial class StartScreen : KryptonForm
         CreateButton("Taskbar Overlay Icon Test", "Comprehensive demonstration of taskbar overlay icons on KryptonForm with configurable icons, descriptions, and interactive examples.", typeof(TaskbarOverlayIconTest));
         CreateButton("Theme Controls", string.Empty, typeof(ThemeControlExamples));
         CreateButton("TextBox Validating Test", "Tests fix for Validating event duplication bug #2801", typeof(KryptonTextBoxValidatingTest));
+        CreateButton("Touchscreen + High DPI Demo", "Comprehensive demonstration of touchscreen support with per-monitor high DPI scaling (Issue #2844).", typeof(TouchscreenHighDpiDemo));
         CreateButton("RichTextBox Formatting Test", "Tests fix for RichTextBox formatting preservation when palette changes (Issue #2832)", typeof(RichTextBoxFormattingTest));
         CreateButton("RTL Layout Test", "Test for RTL compliance", typeof(RTLFormBorderTest));
         CreateButton("Toast", "For breakfast....?", typeof(ToastNotificationTestChoice));
@@ -105,11 +107,13 @@ public partial class StartScreen : KryptonForm
         CreateButton("MessageBox", string.Empty, typeof(MessageBoxTest));
         CreateButton("Old Style Main: Fullscreen", string.Empty, typeof(Main));
         CreateButton("ProgressBar Tri-State", string.Empty, typeof(ProgressBarTriStateTest));
+        CreateButton("Overlay Image Test", "Comprehensive demonstration of overlay images on KryptonButton and KryptonLabel with configurable positions and scaling modes.", typeof(OverlayImageTest));
         CreateButton("PropertyGridTest", string.Empty, typeof(PropertyGridTest));
         CreateButton("Ribbon", string.Empty, typeof(RibbonTest));
         CreateButton("Ribbon Notification Bar", "Comprehensive demonstration of the Krypton Ribbon Notification Bar feature with all customization options.", typeof(RibbonNotificationBarDemo));
         CreateButton("Ribbon Merger Demo", "Demonstrates UserControl hosting and ribbon merging for plugin architectures", typeof(RibbonMergerDemo));
         CreateButton("TextBox", string.Empty, typeof(TextBoxEventTest));
+        CreateButton("TextSuggestion", string.Empty, typeof(TextSuggestionDemo));
         CreateButton("TreeView", string.Empty, typeof(TreeViewExample));
         CreateButton("Touchscreen Support Test", "Comprehensive demonstration of touchscreen support with real-time scale factor adjustment.", typeof(TouchscreenSupportTest)); 
         CreateButton("Timer", "Test KryptonTimer with interval configuration and event tracking.", typeof(TimerTest));

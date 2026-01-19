@@ -482,11 +482,30 @@ public class KryptonBrowserControl : KryptonPanel
     protected override void OnEnabledChanged(EventArgs e)
     {
         base.OnEnabledChanged(e);
-        if (_splitContainer != null) _splitContainer.Enabled = Enabled;
-        if (_treeView != null) _treeView.Enabled = Enabled;
-        if (_listView != null) _listView.Enabled = Enabled;
-        if (_treeViewPanel != null) _treeViewPanel.Enabled = Enabled;
-        if (_listViewPanel != null) _listViewPanel.Enabled = Enabled;
+        if (_splitContainer != null)
+        {
+            _splitContainer.Enabled = Enabled;
+        }
+
+        if (_treeView != null)
+        {
+            _treeView.Enabled = Enabled;
+        }
+
+        if (_listView != null)
+        {
+            _listView.Enabled = Enabled;
+        }
+
+        if (_treeViewPanel != null)
+        {
+            _treeViewPanel.Enabled = Enabled;
+        }
+
+        if (_listViewPanel != null)
+        {
+            _listViewPanel.Enabled = Enabled;
+        }
     }
 
     #endregion
