@@ -74,6 +74,48 @@ public class KryptonDataGridView : DataGridView
         /// <returns>String value.</returns>
         public string GetLongText() => string.Empty;
 
+        /// <summary>
+        /// Gets the overlay image.
+        /// </summary>
+        /// <param name="state">The state for which the overlay image is needed.</param>
+        /// <returns>Overlay image value, or null if no overlay image is set.</returns>
+        public Image? GetOverlayImage(PaletteState state) => null;
+
+        /// <summary>
+        /// Gets the overlay image color that should be transparent.
+        /// </summary>
+        /// <param name="state">The state for which the overlay image is needed.</param>
+        /// <returns>Color value.</returns>
+        public Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+
+        /// <summary>
+        /// Gets the position of the overlay image relative to the main image.
+        /// </summary>
+        /// <param name="state">The state for which the overlay position is needed.</param>
+        /// <returns>Overlay image position.</returns>
+        public OverlayImagePosition GetOverlayImagePosition(PaletteState state) => OverlayImagePosition.TopRight;
+
+        /// <summary>
+        /// Gets the scaling mode for the overlay image.
+        /// </summary>
+        /// <param name="state">The state for which the overlay scale mode is needed.</param>
+        /// <returns>Overlay image scale mode.</returns>
+        public OverlayImageScaleMode GetOverlayImageScaleMode(PaletteState state) => OverlayImageScaleMode.None;
+
+        /// <summary>
+        /// Gets the scale factor for the overlay image.
+        /// </summary>
+        /// <param name="state">The state for which the overlay scale factor is needed.</param>
+        /// <returns>Scale factor.</returns>
+        public float GetOverlayImageScaleFactor(PaletteState state) => 0.5f;
+
+        /// <summary>
+        /// Gets the fixed size for the overlay image.
+        /// </summary>
+        /// <param name="state">The state for which the overlay fixed size is needed.</param>
+        /// <returns>Fixed size.</returns>
+        public Size GetOverlayImageFixedSize(PaletteState state) => new Size(16, 16);
+
         #endregion
     }
     #endregion

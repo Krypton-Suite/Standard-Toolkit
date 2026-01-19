@@ -15,7 +15,7 @@
         {
             if (disposing && (components != null))
             {
-                TaskbarOverlayIconValues.Icon?.Dispose();
+                ShellValues.OverlayIconValues.Icon?.Dispose();
                 components.Dispose();
             }
             base.Dispose(disposing);

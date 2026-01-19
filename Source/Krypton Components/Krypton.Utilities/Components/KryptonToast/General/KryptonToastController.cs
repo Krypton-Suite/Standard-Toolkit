@@ -70,7 +70,7 @@ internal class KryptonToastController
 
     /// <summary>Shows the toast.</summary>
     /// <param name="data">The data.</param>
-    /// <returns>A <see cref="KryptonToastNotification"/> with all appropriate data.</returns>
+    /// <returns>A <see cref="KryptonToast"/> with all appropriate data.</returns>
     /// <exception cref="System.ArgumentNullException"></exception>
     internal static object ShowToast(KryptonUserInputToastData data)
     {
