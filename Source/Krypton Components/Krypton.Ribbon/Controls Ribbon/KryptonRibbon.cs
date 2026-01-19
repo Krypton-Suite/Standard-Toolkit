@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
@@ -105,6 +105,18 @@ public class KryptonRibbon : VisualSimple,
 
     private Timer? _autoDismissTimer;
 
+    // Detachable ribbon support
+    private VisualRibbonFloatingWindow? _floatingWindow;
+    private Control? _originalParent;
+    private Point _originalLocation;
+    private Size _originalSize;
+    private DockStyle _originalDock;
+    private bool _allowDetach;
+    
+    // Preference persistence support
+    private Point? _savedFloatingWindowPosition;
+    private bool _savePreferencesOnStateChange = true;
+
     #endregion
 
     #region Events
@@ -200,6 +212,27 @@ public class KryptonRibbon : VisualSimple,
     public event EventHandler? MinimizedModeChanged;
 
     /// <summary>
+    /// Occurs when the ribbon is detached into a floating window.
+    /// </summary>
+    [Category(@"Action")]
+    [Description(@"Occurs when the ribbon is detached into a floating window.")]
+    public event EventHandler? RibbonDetached;
+
+    /// <summary>
+    /// Occurs when the ribbon is reattached to its original parent.
+    /// </summary>
+    [Category(@"Action")]
+    [Description(@"Occurs when the ribbon is reattached to its original parent.")]
+    public event EventHandler? RibbonReattached;
+
+    /// <summary>
+    /// Occurs when preferences should be saved (detached state and window position).
+    /// </summary>
+    [Category(@"Action")]
+    [Description(@"Occurs when preferences should be saved. Handle this event to persist the detached state and window position.")]
+    public event EventHandler<DetachPreferencesEventArgs>? DetachPreferencesChanged;
+
+    /// <summary>
     /// Occurs add design time when the user requests a tab be added.
     /// </summary>
     [Category(@"Design Time Only")]
@@ -233,6 +266,9 @@ public class KryptonRibbon : VisualSimple,
         SetStyle(ControlStyles.ResizeRedraw, false);
 
         _selectedContext = string.Empty;
+        _allowDetach = false;
+
+        FloatingWindowText = KryptonManager.Strings.MiscellaneousStrings.RibbonFloatingWindowText;
 
         CreateRibbonCollections();
         CreateButtonSpecs();
@@ -307,6 +343,15 @@ public class KryptonRibbon : VisualSimple,
             }
 
             _backstageRestoreTab = null;
+
+            // Clean up floating window if detached
+            if (_floatingWindow != null && !_floatingWindow.IsDisposed)
+            {
+                _floatingWindow.WindowClosing -= OnFloatingWindowClosing;
+                _floatingWindow.Close();
+                _floatingWindow.Dispose();
+                _floatingWindow = null;
+            }
 
             ResumeLayout();
         }
@@ -483,6 +528,37 @@ public class KryptonRibbon : VisualSimple,
     [Description(@"Determines if the user is allowed to change the minimized mode.")]
     [DefaultValue(true)]
     public bool AllowMinimizedChange { get; set; }
+
+    /// <summary>
+    /// Gets or sets if the ribbon can be detached into a floating window.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Determines if the ribbon can be detached into a floating window.")]
+    [DefaultValue(false)]
+    public bool AllowDetach
+    {
+        get => _allowDetach;
+        set
+        {
+            if (_allowDetach != value)
+            {
+                _allowDetach = value;
+                
+                // If disabling detach and currently detached, reattach
+                if (!_allowDetach && IsDetached)
+                {
+                    Reattach();
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets a value indicating whether the ribbon is currently detached.
+    /// </summary>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public bool IsDetached => _floatingWindow != null && !_floatingWindow.IsDisposed;
 
     /// <summary>
     /// Gets and sets a value indicating if tooltips should be Displayed for button specs.
@@ -728,6 +804,27 @@ public class KryptonRibbon : VisualSimple,
 
     private void ResetSelectedContext() => SelectedContext = string.Empty;
     private bool ShouldSerializeSelectedContext() => !string.IsNullOrEmpty(_selectedContext);
+
+    /// <summary>
+    /// Gets or sets the text displayed in the floating window.
+    /// </summary>
+    [Category(@"Appearance")]
+    [Description(@"Text displayed in the floating window.")]
+    [Localizable(true)]
+    [DefaultValue(@"Ribbon")]
+    public string FloatingWindowText { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether preferences are automatically saved when the detached state changes.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Indicates whether preferences are automatically saved when the detached state changes.")]
+    [DefaultValue(true)]
+    public bool SavePreferencesOnStateChange
+    {
+        get => _savePreferencesOnStateChange;
+        set => _savePreferencesOnStateChange = value;
+    }
 
     /// <summary>
     /// Gets the collection of ribbon context definitions.
@@ -1025,6 +1122,369 @@ public class KryptonRibbon : VisualSimple,
     /// Resets the ShowMinimizeButton property to its default value.
     /// </summary>
     public void ResetShowMinimizeButton() => ShowMinimizeButton = true;
+
+    /// <summary>
+    /// Detaches the ribbon into a floating window.
+    /// </summary>
+    /// <returns>True if the ribbon was successfully detached; otherwise, false.</returns>
+    public bool Detach()
+    {
+        // Check if detach is allowed
+        if (!_allowDetach)
+        {
+            return false;
+        }
+
+        // Check if already detached
+        if (IsDetached)
+        {
+            return true;
+        }
+
+        // Must have a parent to detach from
+        if (Parent == null)
+        {
+            return false;
+        }
+
+        // Find the owner form
+        Form? ownerForm = FindForm();
+        if (ownerForm == null)
+        {
+            return false;
+        }
+
+        try
+        {
+            // Store original state
+            _originalParent = Parent;
+            _originalLocation = Location;
+            _originalSize = Size;
+            _originalDock = Dock;
+
+            // Prevent form integration when detached
+            CaptionArea!.PreventIntegration = true;
+
+            // Create floating window
+            _floatingWindow = new VisualRibbonFloatingWindow(ownerForm, this);
+            _floatingWindow.WindowClosing += OnFloatingWindowClosing;
+            _floatingWindow.TitleBarDoubleClick += OnFloatingWindowTitleBarDoubleClick;
+
+            // Store the ribbon's current size before removing from parent
+            // This ensures we have a valid size even if the parent is resizing
+            var ribbonSize = Size;
+            
+            // If size is invalid or too small, calculate preferred size
+            // Ribbon typically needs at least 100-150 pixels height for tabs and groups
+            if (ribbonSize.Width <= 0 || ribbonSize.Height <= 0 || ribbonSize.Height < 100)
+            {
+                // Force a layout to get accurate size
+                PerformLayout();
+                
+                // Get the actual rendered size
+                ribbonSize = Size;
+                
+                // If still invalid, calculate preferred size with a reasonable width
+                if (ribbonSize.Width <= 0 || ribbonSize.Height <= 0)
+                {
+                    var preferredSize = GetPreferredSize(new Size(Math.Max(400, Width), 0));
+                    ribbonSize = new Size(
+                        Math.Max(400, preferredSize.Width > 0 ? preferredSize.Width : 400),
+                        Math.Max(150, preferredSize.Height > 0 ? preferredSize.Height : 150));
+                }
+            }
+
+            // Remove from original parent
+            _originalParent.Controls.Remove(this);
+
+            // Set size before adding to ensure it's visible
+            // Ensure minimum height for ribbon to display properly
+            Size = new Size(
+                Math.Max(400, ribbonSize.Width),
+                Math.Max(150, ribbonSize.Height));
+            Dock = DockStyle.Top;
+            Visible = true;
+
+            // Add to floating window
+            _floatingWindow.Controls.Add(this);
+
+            // Set floating window to standard size: 1099 x 293 pixels
+            // This size accommodates the full ribbon display including caption bar
+            _floatingWindow.Size = new Size(1099, 293);
+            
+            // Set minimum size to prevent window from being too small
+            _floatingWindow.MinimumSize = new Size(400, 150 + SystemInformation.CaptionHeight);
+
+            // Force layout to ensure proper display
+            SuspendLayout();
+            _floatingWindow.SuspendLayout();
+            
+            PerformLayout();
+            _floatingWindow.PerformLayout();
+            
+            ResumeLayout(true);
+            _floatingWindow.ResumeLayout(true);
+
+            // Show the floating window
+            _floatingWindow.Show();
+            
+            // Save initial position
+            if (_floatingWindow != null && !_floatingWindow.IsDisposed)
+            {
+                _savedFloatingWindowPosition = _floatingWindow.Location;
+            }
+            
+            // Force a refresh after showing
+            Invalidate(true);
+            _floatingWindow.Invalidate(true);
+            _floatingWindow.Update();
+            Update();
+
+            // Hook up position tracking and save initial position
+            if (_floatingWindow != null)
+            {
+                _floatingWindow.LocationChanged += OnFloatingWindowLocationChanged;
+                _savedFloatingWindowPosition = _floatingWindow.Location;
+            }
+
+            // Raise event
+            OnRibbonDetached(EventArgs.Empty);
+
+            // Save preferences if enabled
+            if (_savePreferencesOnStateChange)
+            {
+                SaveDetachPreferences();
+            }
+
+            return true;
+        }
+        catch
+        {
+            // If anything goes wrong, try to restore state
+            Reattach();
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Reattaches the ribbon to its original parent.
+    /// </summary>
+    /// <returns>True if the ribbon was successfully reattached; otherwise, false.</returns>
+    public bool Reattach()
+    {
+        // Check if actually detached
+        if (!IsDetached || _floatingWindow == null || _originalParent == null)
+        {
+            return false;
+        }
+
+        try
+        {
+            // Save position before closing
+            if (_floatingWindow != null && !_floatingWindow.IsDisposed)
+            {
+                _savedFloatingWindowPosition = _floatingWindow.Location;
+            }
+
+            // Remove from floating window
+            _floatingWindow.Controls.Remove(this);
+            _floatingWindow.WindowClosing -= OnFloatingWindowClosing;
+            _floatingWindow.TitleBarDoubleClick -= OnFloatingWindowTitleBarDoubleClick;
+            _floatingWindow.LocationChanged -= OnFloatingWindowLocationChanged;
+
+            // Close and dispose floating window
+            if (!_floatingWindow.IsDisposed)
+            {
+                _floatingWindow.Close();
+                _floatingWindow.Dispose();
+            }
+
+            _floatingWindow = null;
+
+            // Restore original state
+            Dock = _originalDock;
+            Location = _originalLocation;
+            Size = _originalSize;
+
+            // Re-enable form integration
+            CaptionArea!.PreventIntegration = false;
+
+            // Add back to original parent
+            _originalParent.Controls.Add(this);
+
+            // Clear stored state
+            _originalParent = null;
+
+            // Raise event
+            OnRibbonReattached(EventArgs.Empty);
+
+            // Save preferences if enabled
+            if (_savePreferencesOnStateChange)
+            {
+                SaveDetachPreferences();
+            }
+
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Raises the RibbonDetached event.
+    /// </summary>
+    /// <param name="e">An EventArgs that contains the event data.</param>
+    protected virtual void OnRibbonDetached(EventArgs e) => RibbonDetached?.Invoke(this, e);
+
+    /// <summary>
+    /// Raises the RibbonReattached event.
+    /// </summary>
+    /// <param name="e">An EventArgs that contains the event data.</param>
+    protected virtual void OnRibbonReattached(EventArgs e) => RibbonReattached?.Invoke(this, e);
+
+    /// <summary>
+    /// Handles the floating window closing event.
+    /// </summary>
+    private void OnFloatingWindowClosing(object? sender, EventArgs e) => Reattach();
+
+    /// <summary>
+    /// Handles the floating window title bar double-click event.
+    /// </summary>
+    private void OnFloatingWindowTitleBarDoubleClick(object? sender, EventArgs e) => Reattach();
+
+    /// <summary>
+    /// Handles the floating window location changed event to track position for persistence.
+    /// </summary>
+    private void OnFloatingWindowLocationChanged(object? sender, EventArgs e)
+    {
+        if (_floatingWindow != null && !_floatingWindow.IsDisposed)
+        {
+            _savedFloatingWindowPosition = _floatingWindow.Location;
+            
+            // Save preferences if enabled
+            if (_savePreferencesOnStateChange)
+            {
+                SaveDetachPreferences();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Saves the current detach preferences (detached state and window position).
+    /// </summary>
+    /// <remarks>
+    /// This method raises the <see cref="DetachPreferencesChanged"/> event, allowing
+    /// applications to persist the preferences using their preferred storage mechanism
+    /// (Settings, Registry, file, etc.).
+    /// </remarks>
+    public void SaveDetachPreferences()
+    {
+        var args = new DetachPreferencesEventArgs
+        {
+            IsDetached = IsDetached,
+            FloatingWindowPosition = _savedFloatingWindowPosition
+        };
+        
+        OnDetachPreferencesChanged(args);
+    }
+
+    /// <summary>
+    /// Loads and restores the detach preferences (detached state and window position).
+    /// </summary>
+    /// <param name="isDetached">The saved detached state.</param>
+    /// <param name="floatingWindowPosition">The saved floating window position, or null if not saved.</param>
+    /// <returns>True if preferences were successfully loaded; otherwise false.</returns>
+    /// <remarks>
+    /// Call this method during form initialization to restore the previous state.
+    /// If <paramref name="isDetached"/> is true, the ribbon will be detached after the form is loaded.
+    /// If <paramref name="floatingWindowPosition"/> is provided, the floating window will be positioned at that location.
+    /// </remarks>
+    public bool LoadDetachPreferences(bool isDetached, Point? floatingWindowPosition = null)
+    {
+        if (!AllowDetach)
+        {
+            return false;
+        }
+
+        _savedFloatingWindowPosition = floatingWindowPosition;
+
+        if (isDetached)
+        {
+            // Store the position for use when detaching
+            if (floatingWindowPosition.HasValue)
+            {
+                _savedFloatingWindowPosition = floatingWindowPosition;
+            }
+
+            // Detach after form is loaded (use BeginInvoke to ensure form is fully initialized)
+            if (Parent != null && Parent.FindForm() != null)
+            {
+                var form = Parent.FindForm();
+                if (form != null)
+                {
+                    form.Load += (s, e) =>
+                    {
+                        // Use BeginInvoke to ensure form is fully laid out
+                        BeginInvoke(new Action(() =>
+                        {
+                            if (Detach())
+                            {
+                                // Restore position if available
+                                if (_savedFloatingWindowPosition.HasValue && _floatingWindow != null)
+                                {
+                                    RestoreFloatingWindowPosition(_savedFloatingWindowPosition.Value);
+                                }
+                            }
+                        }));
+                    };
+                }
+            }
+            else
+            {
+                // If parent form is not available yet, try to detach immediately
+                // This might not work if called too early
+                if (Detach() && _savedFloatingWindowPosition.HasValue && _floatingWindow != null)
+                {
+                    RestoreFloatingWindowPosition(_savedFloatingWindowPosition.Value);
+                }
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// Restores the floating window position, ensuring it's on a visible screen.
+    /// </summary>
+    /// <param name="position">The position to restore.</param>
+    private void RestoreFloatingWindowPosition(Point position)
+    {
+        if (_floatingWindow == null || _floatingWindow.IsDisposed)
+        {
+            return;
+        }
+
+        // Ensure the position is on a visible screen
+        var screen = Screen.FromPoint(position);
+        var workingArea = screen.WorkingArea;
+
+        // Clamp position to screen bounds
+        var x = Math.Max(workingArea.Left, Math.Min(position.X, workingArea.Right - _floatingWindow.Width));
+        var y = Math.Max(workingArea.Top, Math.Min(position.Y, workingArea.Bottom - _floatingWindow.Height));
+
+        _floatingWindow.Location = new Point(x, y);
+        _savedFloatingWindowPosition = _floatingWindow.Location;
+    }
+
+    /// <summary>
+    /// Raises the DetachPreferencesChanged event.
+    /// </summary>
+    /// <param name="e">A DetachPreferencesEventArgs that contains the event data.</param>
+    protected virtual void OnDetachPreferencesChanged(DetachPreferencesEventArgs e) => DetachPreferencesChanged?.Invoke(this, e);
 
     /// <summary>
     /// Gets access to the ToolTipManager used for displaying tool tips.
@@ -1632,6 +2092,39 @@ public class KryptonRibbon : VisualSimple,
         }
 
         // Do not call base class! Prevent context menu from appearing by default
+    }
+
+    /// <summary>
+    /// Raises the MouseDoubleClick event.
+    /// </summary>
+    /// <param name="e">A MouseEventArgs containing event data.</param>
+    protected override void OnMouseDoubleClick(MouseEventArgs e)
+    {
+        // If detach is allowed and ribbon is attached, check if double-click is on caption area
+        if (_allowDetach && !IsDetached && e.Button == MouseButtons.Left)
+        {
+            // Check if the click is within the caption area using the view manager
+            if (ViewManager != null && CaptionArea != null && CaptionArea.Visible)
+            {
+                var point = new Point(e.X, e.Y);
+                var viewAtPoint = ViewManager.Root.ViewFromPoint(point);
+                
+                // Check if the view at the point is the caption area or a child of it
+                ViewBase? currentView = viewAtPoint;
+                while (currentView != null)
+                {
+                    if (currentView == CaptionArea)
+                    {
+                        // Double-click on caption area - detach the ribbon
+                        Detach();
+                        return; // Don't process further
+                    }
+                    currentView = currentView.Parent;
+                }
+            }
+        }
+
+        base.OnMouseDoubleClick(e);
     }
 
     /// <summary>
