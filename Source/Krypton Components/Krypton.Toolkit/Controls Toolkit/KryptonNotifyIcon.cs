@@ -303,7 +303,13 @@ public class KryptonNotifyIcon : Component
     public string BalloonTipText
     {
         get => _notifyIcon.BalloonTipText ?? string.Empty;
-        set => _notifyIcon.BalloonTipText = value;
+        set
+        {
+            if (value != null)
+            {
+                _notifyIcon.BalloonTipText = value;
+            }
+        }
     }
 
     /// <summary>
@@ -317,7 +323,13 @@ public class KryptonNotifyIcon : Component
     public string BalloonTipTitle
     {
         get => _notifyIcon.BalloonTipTitle ?? string.Empty;
-        set => _notifyIcon.BalloonTipTitle = value;
+        set
+        {
+            if (value != null)
+            {
+                _notifyIcon.BalloonTipTitle = value;
+            }
+        }
     }
 
     /// <summary>
@@ -402,7 +414,8 @@ public class KryptonNotifyIcon : Component
 
     #region Disposal
 
-    private void Dispose(bool isDisposing)
+    /// <inheritdoc />
+    protected override void Dispose(bool disposing)
     {
         if (!_disposed)
         {
@@ -410,11 +423,13 @@ public class KryptonNotifyIcon : Component
         }
 
         _disposed = true;
+
+        base.Dispose(disposing);
     }
 
     ~KryptonNotifyIcon() => Dispose(false);
 
-    public void Dispose()
+    private void Dispose()
     {
         Dispose(true);
 
