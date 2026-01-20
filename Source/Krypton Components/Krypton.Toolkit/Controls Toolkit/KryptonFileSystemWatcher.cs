@@ -416,15 +416,5 @@ public class KryptonFileSystemWatcher : Component
 
     ~KryptonFileSystemWatcher() => Dispose(false);
 
-    /// <summary>
-    /// Dispose and garbage collection.
-    /// </summary>
-    private void Dispose()
-    {
-        Dispose(true);
-
-        GC.SuppressFinalize(this);
-    }
-
     #endregion
 }

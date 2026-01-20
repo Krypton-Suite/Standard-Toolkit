@@ -5,6 +5,7 @@
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
 * Implemented [#595](https://github.com/Krypton-Suite/Standard-Toolkit/issues/595), Detachable Ribbons - Added ability to detach `KryptonRibbon` into a floating window with `AllowDetach` property, `Detach()` and `Reattach()` methods, and `RibbonDetached`/`RibbonReattached` events. See [Detachable Ribbons Documentation](Detachable-Ribbons-Feature.md) for comprehensive details.
+* Implemented [#2895](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2895), `KryptonProgressBar` - Three Colour States
 * Resolved/Implemented [#2844](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2844), Touchscreen High DPI scaling
 * Implemented [#2808](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2808), Move `KryptonToastNotification` feature to `Krypton.Utilities`
 * Implemented [#2572](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2572), Autocomplete control/menu
