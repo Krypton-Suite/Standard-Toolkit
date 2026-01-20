@@ -2,7 +2,7 @@
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2026 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, Lesandro and tobitege et al. 2026 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -170,13 +170,6 @@ public class ViewDrawBadge : ViewLeaf
 
     private Size CalculateBadgeSize(ViewLayoutContext context)
     {
-        // If BadgeDiameter is specified, use it for Circle and Square shapes
-        if (_badgeValues.BadgeContentValues.BadgeDiameter > 0 && 
-            (_badgeValues.BadgeContentValues.Shape == BadgeShape.Circle || _badgeValues.BadgeContentValues.Shape == BadgeShape.Square))
-        {
-            return new Size(_badgeValues.BadgeContentValues.BadgeDiameter, _badgeValues.BadgeContentValues.BadgeDiameter);
-        }
-
         // If image is provided, use image size with padding
         if (_badgeValues.BadgeContentValues.BadgeImage != null)
         {
@@ -210,20 +203,19 @@ public class ViewDrawBadge : ViewLeaf
         try
         {
             SizeF textSize = g.MeasureString(text, measureFont);
-
+            int padding = 8;
             // For capsule shape, use width-based sizing to create pill shape
             if (_badgeValues.BadgeContentValues.Shape == BadgeShape.Capsule)
             {
                 const int CAPSULE_MIN_WIDTH = 22;
                 int capsulePadding = _badgeValues.BadgeContentValues.CapsuleShapePadding; // Padding for capsule
                 int height = Math.Max(BADGE_MIN_SIZE, (int)textSize.Height + capsulePadding);
-                int width = Math.Max(CAPSULE_MIN_WIDTH, Math.Max((int)textSize.Width + capsulePadding, height)); // Width should be at least height, but wider if text is wider
+                int width = Math.Max(CAPSULE_MIN_WIDTH, (int)Math.Max(_badgeValues.BadgeContentValues.BadgeDiameter, textSize.Width) + capsulePadding); // Width should be at least height, but wider if text is wider
                 return new Size(width, height);
             }
 
             // For non-circle shapes, we might want different sizing
-            int padding = 8;
-            int diameter = Math.Max(BADGE_MIN_SIZE, (int)Math.Max(textSize.Width, textSize.Height) + padding);
+            int diameter = Math.Max(BADGE_MIN_SIZE, (int)Math.Max((int)Math.Max(_badgeValues.BadgeContentValues.BadgeDiameter, textSize.Width), textSize.Height) + padding);
             return new Size(diameter, diameter);
         }
         finally
@@ -234,7 +226,6 @@ public class ViewDrawBadge : ViewLeaf
                 measureFont.Dispose();
             }
         }
-
     }
 
     private Point CalculateBadgeLocation(Rectangle parentRect, Size badgeSize)
@@ -356,15 +347,8 @@ public class ViewDrawBadge : ViewLeaf
             // Calculate the content rectangle (shrink if border with bevel is present)
             Rectangle contentRect = drawRect;
 
-            if (_badgeValues.BadgeBorderValues.BadgeBorderSize > 0 && _badgeValues.BadgeBorderValues.BadgeBorderBevel != BadgeBevelType.None)
-            {
-                // For bevel borders, shrink the content area to leave room for the border
-                contentRect = new Rectangle(
-                    drawRect.X + _badgeValues.BadgeBorderValues.BadgeBorderSize,
-                    drawRect.Y + _badgeValues.BadgeBorderValues.BadgeBorderSize,
-                    drawRect.Width - (_badgeValues.BadgeBorderValues.BadgeBorderSize * 2),
-                    drawRect.Height - (_badgeValues.BadgeBorderValues.BadgeBorderSize * 2));
-            }
+            // Draw border if specified
+            DrawBadgeBorder(g, drawRect, opacity);
 
             // Draw the badge background for text badges (no background for image badges)
             Color badgeColor = _badgeValues.BadgeColorValues.BadgeColor;
@@ -395,9 +379,6 @@ public class ViewDrawBadge : ViewLeaf
                 }
             }
 
-            // Draw border if specified
-            DrawBadgeBorder(g, drawRect, opacity);
-
             // Draw the badge text
             string text = GetDisplayText();
 
@@ -405,16 +386,6 @@ public class ViewDrawBadge : ViewLeaf
             {
                 // Calculate the content rectangle for text (shrink if border with bevel is present)
                 Rectangle textRect = drawRect;
-
-                if (_badgeValues.BadgeBorderValues.BadgeBorderSize > 0 && _badgeValues.BadgeBorderValues.BadgeBorderBevel != BadgeBevelType.None)
-                {
-                    // For bevel borders, shrink the text area to leave room for the border
-                    textRect = new Rectangle(
-                        drawRect.X + _badgeValues.BadgeBorderValues.BadgeBorderSize,
-                        drawRect.Y + _badgeValues.BadgeBorderValues.BadgeBorderSize,
-                        drawRect.Width - (_badgeValues.BadgeBorderValues.BadgeBorderSize * 2),
-                        drawRect.Height - (_badgeValues.BadgeBorderValues.BadgeBorderSize * 2));
-                }
 
                 // Only dispose fonts we create ourselves, not fonts from BadgeValues
                 Font textFont = _badgeValues.BadgeContentValues.Font ?? GetFallbackFont();
@@ -430,11 +401,11 @@ public class ViewDrawBadge : ViewLeaf
                     using (var textBrush = new SolidBrush(textColor))
                     {
                         using (var stringFormat = new StringFormat
-                               {
-                                   Alignment = StringAlignment.Center,
-                                   LineAlignment = StringAlignment.Center,
-                                   FormatFlags = StringFormatFlags.NoWrap
-                               })
+                        {
+                            Alignment = StringAlignment.Center,
+                            LineAlignment = StringAlignment.Center,
+                            FormatFlags = StringFormatFlags.NoWrap
+                        })
                         {
                             g.DrawString(text, textFont, textBrush, textRect, stringFormat);
                         }
@@ -543,44 +514,8 @@ public class ViewDrawBadge : ViewLeaf
                 borderColor = Color.FromArgb((int)(opacity * borderColor.A), borderColor.R, borderColor.G, borderColor.B);
             }
 
-            // If bevel is enabled, draw border on outer edge
-            if (_badgeValues.BadgeBorderValues.BadgeBorderBevel != BadgeBevelType.None)
-            {
-                // For bevel borders, draw on the outer edge of the badge
-                DrawBevelBorder(g, drawRect, borderColor, opacity);
-            }
-            else
-            {
-                // For standard borders, adjust rectangle to account for pen width (pen draws centered on edge)
-                int halfBorder = _badgeValues.BadgeBorderValues.BadgeBorderSize / 2;
-                Rectangle borderRect = new Rectangle(
-                    drawRect.X + halfBorder,
-                    drawRect.Y + halfBorder,
-                    drawRect.Width - _badgeValues.BadgeBorderValues.BadgeBorderSize,
-                    drawRect.Height - _badgeValues.BadgeBorderValues.BadgeBorderSize);
-
-                // Standard border without bevel
-                using (var borderPen = new Pen(borderColor, _badgeValues.BadgeBorderValues.BadgeBorderSize))
-                {
-                    switch (_badgeValues.BadgeContentValues.Shape)
-                    {
-                        case BadgeShape.Circle:
-                            g.DrawEllipse(borderPen, borderRect);
-                            break;
-                        case BadgeShape.Square:
-                            g.DrawRectangle(borderPen, borderRect);
-                            break;
-                        case BadgeShape.RoundedRectangle:
-                            int borderRadius = Math.Min(borderRect.Width, borderRect.Height) / 4;
-                            DrawRoundedRectangle(g, borderPen, borderRect, borderRadius);
-                            break;
-                        case BadgeShape.Capsule:
-                            int capsuleBorderRadius = Math.Min(borderRect.Width, borderRect.Height) / 2;
-                            DrawRoundedRectangle(g, borderPen, borderRect, capsuleBorderRadius);
-                            break;
-                    }
-                }
-            }
+            // For bevel borders, draw on the outer edge of the badge
+            DrawBevelBorder(g, drawRect, borderColor, opacity);
         }
     }
 
@@ -613,7 +548,7 @@ public class ViewDrawBadge : ViewLeaf
         int minDimension = Math.Min(borderRect.Width, borderRect.Height);
         int maxBorderSize = Math.Max(0, minDimension - 1); // Ensure pen width fits within borderRect
         int borderSize = Math.Min(_badgeValues.BadgeBorderValues.BadgeBorderSize, maxBorderSize);
-        
+
         // If border size is invalid after clamping, skip drawing
         if (borderSize <= 0)
         {
@@ -627,13 +562,18 @@ public class ViewDrawBadge : ViewLeaf
 
         if (_badgeValues.BadgeBorderValues.BadgeBorderBevel == BadgeBevelType.Raised)
         {
-            topLeftPen = new Pen(lightColor, borderSize);
-            bottomRightPen = new Pen(darkColor, borderSize);
+            topLeftPen = new Pen(lightColor, 2);
+            bottomRightPen = new Pen(darkColor, 2);
         }
-        else // Inset
+        else if (_badgeValues.BadgeBorderValues.BadgeBorderBevel == BadgeBevelType.Inset)
         {
-            topLeftPen = new Pen(darkColor, borderSize);
-            bottomRightPen = new Pen(lightColor, borderSize);
+            topLeftPen = new Pen(darkColor, 2);
+            bottomRightPen = new Pen(lightColor, 2);
+        }
+        else
+        {
+            topLeftPen = new Pen(baseColor, 2);
+            bottomRightPen = new Pen(baseColor, 2);
         }
 
         using (topLeftPen)
@@ -668,19 +608,19 @@ public class ViewDrawBadge : ViewLeaf
         // Draw bevel border on outer edge - draw concentric arcs to create border thickness
         for (int i = 0; i < borderSize; i++)
         {
-            Rectangle arcRect = new Rectangle(rect.X + i, rect.Y + i, rect.Width - (i * 2), rect.Height - (i * 2));
+            Rectangle arcRect = new Rectangle(rect.X - i, rect.Y - i, rect.Width + (i * 2), rect.Height + (i * 2));
 
             // Top-left arc (light) - 180 degrees from 135 to 315
             using (var path = new GraphicsPath())
             {
-                path.AddArc(arcRect.X, arcRect.Y, arcRect.Width, arcRect.Height, 135, 180);
+                path.AddArc(arcRect.X, arcRect.Y, arcRect.Width, arcRect.Height, 135, 181);
                 g.DrawPath(lightPen, path);
             }
 
             // Bottom-right arc (dark) - 180 degrees from 315 to 135
             using (var path = new GraphicsPath())
             {
-                path.AddArc(arcRect.X, arcRect.Y, arcRect.Width, arcRect.Height, 315, 180);
+                path.AddArc(arcRect.X, arcRect.Y, arcRect.Width, arcRect.Height, 315, 181);
                 g.DrawPath(darkPen, path);
             }
         }
@@ -694,16 +634,16 @@ public class ViewDrawBadge : ViewLeaf
         for (int i = 0; i < borderSize; i++)
         {
             // Top edge (light) - draw from outer edge inward
-            g.DrawLine(lightPen, rect.Left + i, rect.Top + i, rect.Right - 1 - i, rect.Top + i);
+            g.DrawLine(lightPen, rect.Left - i - 1, rect.Top - i, rect.Right + i, rect.Top - i);
 
             // Left edge (light) - draw from outer edge inward
-            g.DrawLine(lightPen, rect.Left + i, rect.Top + i, rect.Left + i, rect.Bottom - 1 - i);
+            g.DrawLine(lightPen, rect.Left - i, rect.Top - i, rect.Left - i, rect.Bottom + i + 1);
 
             // Bottom edge (dark) - draw from outer edge inward
-            g.DrawLine(darkPen, rect.Left + i, rect.Bottom - 1 - i, rect.Right - 1 - i, rect.Bottom - 1 - i);
+            g.DrawLine(darkPen, rect.Left - i, rect.Bottom + i, rect.Right + i + 1, rect.Bottom + i);
 
             // Right edge (dark) - draw from outer edge inward
-            g.DrawLine(darkPen, rect.Right - 1 - i, rect.Top + i, rect.Right - 1 - i, rect.Bottom - 1 - i);
+            g.DrawLine(darkPen, rect.Right + i, rect.Top - i - 1, rect.Right + i, rect.Bottom + i);
         }
     }
 
@@ -714,8 +654,8 @@ public class ViewDrawBadge : ViewLeaf
         // Draw bevel border on outer edge - draw multiple layers to create border thickness
         for (int i = 0; i < borderSize; i++)
         {
-            Rectangle layerRect = new Rectangle(rect.X + i, rect.Y + i, rect.Width - (i * 2), rect.Height - (i * 2));
-            int layerRadius = Math.Max(0, radius - i);
+            Rectangle layerRect = new Rectangle(rect.X - i, rect.Y - i, rect.Width + (i * 2), rect.Height + (i * 2));
+            int layerRadius = Math.Max(0, radius + i);
 
             if (layerRadius > 0)
             {
@@ -729,7 +669,7 @@ public class ViewDrawBadge : ViewLeaf
                 // Top edge (light)
                 if (layerRect.Width > layerRadius * 2)
                 {
-                    g.DrawLine(lightPen, layerRect.Left + layerRadius, layerRect.Top, layerRect.Right - layerRadius, layerRect.Top);
+                    g.DrawLine(lightPen, layerRect.Left + layerRadius - 1, layerRect.Top, layerRect.Right - layerRadius + 1, layerRect.Top);
                 }
 
                 // Top-right arc - split: top half light, right half dark
@@ -747,7 +687,7 @@ public class ViewDrawBadge : ViewLeaf
                 // Right edge (dark)
                 if (layerRect.Height > layerRadius * 2)
                 {
-                    g.DrawLine(darkPen, layerRect.Right, layerRect.Top + layerRadius, layerRect.Right, layerRect.Bottom - layerRadius);
+                    g.DrawLine(darkPen, layerRect.Right, layerRect.Top + layerRadius - 1, layerRect.Right, layerRect.Bottom - layerRadius + 1);
                 }
 
                 // Bottom-right arc (dark)
@@ -760,7 +700,7 @@ public class ViewDrawBadge : ViewLeaf
                 // Bottom edge (dark)
                 if (layerRect.Width > layerRadius * 2)
                 {
-                    g.DrawLine(darkPen, layerRect.Left + layerRadius, layerRect.Bottom, layerRect.Right - layerRadius, layerRect.Bottom);
+                    g.DrawLine(darkPen, layerRect.Left + layerRadius - 1, layerRect.Bottom, layerRect.Right - layerRadius + 1, layerRect.Bottom);
                 }
 
                 // Bottom-left arc - split: bottom half dark, left half light
@@ -778,7 +718,7 @@ public class ViewDrawBadge : ViewLeaf
                 // Left edge (light)
                 if (layerRect.Height > layerRadius * 2)
                 {
-                    g.DrawLine(lightPen, layerRect.Left, layerRect.Top + layerRadius, layerRect.Left, layerRect.Bottom - layerRadius);
+                    g.DrawLine(lightPen, layerRect.Left, layerRect.Top + layerRadius - 1, layerRect.Left, layerRect.Bottom - layerRadius + 1);
                 }
             }
             else
