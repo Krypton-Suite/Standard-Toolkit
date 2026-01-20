@@ -16,6 +16,7 @@ on:
 jobs:
   release-master:
     runs-on: windows-latest
+    environment: production  # Requires approval before publishing
     if: github.ref == 'refs/heads/master' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
 
     steps:
@@ -243,7 +244,7 @@ jobs:
               @{
                 title = "🎉 Krypton Toolkit Stable Release"
                 description = "A new stable release is now available!"
-                color = 77dd76
+                color = 7863670
                 fields = @(
                   @{
                     name = "📌 Version"
@@ -280,6 +281,7 @@ jobs:
 
   release-v105-lts:
     runs-on: windows-latest
+    environment: production  # Requires approval before publishing
     if: github.ref == 'refs/heads/V105-LTS' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
 
     steps:
@@ -468,7 +470,7 @@ jobs:
               @{
                 title = "🎉 Krypton Toolkit Stable Release"
                 description = "A new stable release is now available!"
-                color = 77dd76
+                color = 7863670
                 fields = @(
                   @{
                     name = "📌 Version"
@@ -505,6 +507,7 @@ jobs:
 
   release-v85-lts:
     runs-on: windows-latest
+    environment: production  # Requires approval before publishing
     if: github.ref == 'refs/heads/V85-LTS' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
 
     steps:
@@ -678,7 +681,7 @@ jobs:
               @{
                 title = "🛡️ Krypton Toolkit LTS Release"
                 description = "A new Long-Term Support release is now available!"
-                color = 0094ff
+                color = 38143
                 fields = @(
                   @{
                     name = "📌 Version"
@@ -715,6 +718,7 @@ jobs:
 
   release-canary:
     runs-on: windows-latest
+    environment: production  # Requires approval before publishing
     if: github.ref == 'refs/heads/canary' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
 
     steps:
