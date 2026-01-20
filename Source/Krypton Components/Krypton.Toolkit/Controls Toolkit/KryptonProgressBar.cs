@@ -51,6 +51,20 @@ public class KryptonProgressBar : Control, IContentValues
     private Color _textShadowColor;
     private bool _showTextBackdrop;
     private Color _textBackdropColor;
+    private readonly ProgressBarTriStateValues _triStateValues;
+    private Color _originalValueColor1;
+    private Color _originalTextColor1;
+    private Color _originalTextColor2;
+    private PaletteColorStyle _originalTextColorStyle;
+    private PaletteRectangleAlign _originalTextColorAlign;
+    private float _originalTextColorAngle;
+    private Color _originalValueColor2;
+    private PaletteColorStyle _originalValueColorStyle;
+    private PaletteRectangleAlign _originalValueColorAlign;
+    private float _originalValueColorAngle;
+    private Image? _originalValueImage;
+    private PaletteImageStyle _originalValueImageStyle;
+    private PaletteRectangleAlign _originalValueImageAlign;
 
     #endregion
 
@@ -131,6 +145,28 @@ public class KryptonProgressBar : Control, IContentValues
         _textShadowColor = Color.Empty;
         _showTextBackdrop = false;
         _textBackdropColor = Color.Empty;
+
+        // Store the original color from StateCommon (which is set to Green)
+        _originalValueColor1 = StateCommon.Back.Color1;
+
+        // Store the original text color (will be set after layout)
+        _originalTextColor1 = Color.Empty;
+        _originalTextColor2 = Color.Empty;
+        _originalTextColorStyle = PaletteColorStyle.Inherit;
+        _originalTextColorAlign = PaletteRectangleAlign.Inherit;
+        _originalTextColorAngle = -1f;
+
+        _originalValueImage = StateCommon.Back.Image;
+        _originalValueImageStyle = StateCommon.Back.ImageStyle;
+        _originalValueImageAlign = StateCommon.Back.ImageAlign;
+
+        _originalValueColor2 = StateCommon.Back.Color2;
+        _originalValueColorStyle = StateCommon.Back.ColorStyle;
+        _originalValueColorAlign = StateCommon.Back.ColorAlign;
+        _originalValueColorAngle = StateCommon.Back.ColorAngle;
+
+        // Create tri-state values storage
+        _triStateValues = new ProgressBarTriStateValues(this, OnNeedPaintHandler);
 
         OnlayoutInternal();
     }
@@ -435,6 +471,30 @@ public class KryptonProgressBar : Control, IContentValues
             }
 
             _maximum = value;
+
+            if (_triStateValues.AutoCalculateThresholdValues)
+            {
+                _triStateValues.CalculateThresholds();
+            }
+            else
+            {
+                // Validate thresholds against new maximum
+                if (_triStateValues.LowThreshold > _maximum)
+                {
+                    _triStateValues.LowThreshold = Math.Max(0, _maximum / 3);
+                }
+
+                if (_triStateValues.HighThreshold > _maximum)
+                {
+                    _triStateValues.HighThreshold = Math.Max(_triStateValues.LowThreshold + 1, _maximum * 2 / 3);
+                }
+            }
+
+            if (_triStateValues.UseTriStateColors)
+            {
+                UpdateThresholdColor();
+            }
+
             Invalidate();
         }
     }
@@ -467,6 +527,18 @@ public class KryptonProgressBar : Control, IContentValues
             }
 
             _minimum = value;
+
+            // Recalculate thresholds if auto-calculation is enabled
+            if (_triStateValues.AutoCalculateThresholdValues)
+            {
+                _triStateValues.CalculateThresholds();
+            }
+
+            if (_triStateValues.UseTriStateColors)
+            {
+                UpdateThresholdColor();
+            }
+
             Invalidate();
         }
     }
@@ -513,6 +585,11 @@ public class KryptonProgressBar : Control, IContentValues
             if (_useValueAsText)
             {
                 Text = $@"{value}%";
+            }
+
+            if (_triStateValues.UseTriStateColors)
+            {
+                UpdateThresholdColor();
             }
 
             Invalidate();
@@ -565,6 +642,11 @@ public class KryptonProgressBar : Control, IContentValues
         if (_value > _maximum)
         {
             _value = _maximum;
+        }
+
+        if (_triStateValues.UseTriStateColors)
+        {
+            UpdateThresholdColor();
         }
 
         Invalidate();
@@ -623,6 +705,16 @@ public class KryptonProgressBar : Control, IContentValues
             UpdateTextWithValue(value);
         }
     }
+
+    /// <summary>
+    /// Gets access to the threshold color values.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Threshold color values for the progress bar.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public ProgressBarTriStateValues TriStateValues => _triStateValues;
+
+    private bool ShouldSerializeTriStateValues() => !TriStateValues.IsDefault;
 
     #endregion
 
@@ -740,6 +832,11 @@ public class KryptonProgressBar : Control, IContentValues
 
         // Get the renderer associated with this palette
         IRenderer renderer = _palette!.GetRenderer();
+
+        if (_triStateValues.UseTriStateColors)
+        {
+            UpdateThresholdColor();
+        }
 
         // Create the rendering context that is passed into all renderer calls
         using var renderContext = new RenderContext(this, e.Graphics, e.ClipRectangle, renderer);
@@ -1086,12 +1183,28 @@ public class KryptonProgressBar : Control, IContentValues
     #endregion
 
     #region Implementation
+
     private void OnlayoutInternal(LayoutEventArgs? e = null)
     {
         if (_palette != null)
         {
             // We want the inner part of the control to draw like a button.
             var (barPaletteState, barState) = GetBarPaletteState();
+
+            // Store original text color properties if not already stored
+            if (_originalTextColor1 == Color.Empty)
+            {
+                _originalTextColor1 = barPaletteState.PaletteContent!.GetContentShortTextColor1(barState);
+                if (_originalTextColor1 == Color.Empty)
+                {
+                    // If still empty, try to get from the palette content directly
+                    _originalTextColor1 = StateNormal.Content.ShortText.Color1;
+                }
+                _originalTextColor2 = StateNormal.Content.ShortText.Color2;
+                _originalTextColorStyle = StateNormal.Content.ShortText.ColorStyle;
+                _originalTextColorAlign = StateNormal.Content.ShortText.ColorAlign;
+                _originalTextColorAngle = StateNormal.Content.ShortText.ColorAngle;
+            }
 
             // Get the renderer associated with this palette
             IRenderer renderer = _palette.GetRenderer();
@@ -1180,11 +1293,204 @@ public class KryptonProgressBar : Control, IContentValues
         Invalidate();
     }
 
-    private void UpdateTextWithValue(bool value)
-    {
+    private void UpdateTextWithValue(bool value) =>
         Text = value
             ? $@"{Value}%"
             : string.Empty;
+
+    /// <summary>
+    /// Updates the progress bar color based on the current value and threshold settings.
+    /// </summary>
+    internal void UpdateThresholdColor()
+    {
+        if (_triStateValues == null)
+        {
+            return;
+        }
+
+        var (barPaletteState, barState) = GetBarPaletteState();
+
+        // Cast to PaletteTriple to access Content property
+        PaletteTriple? paletteTriple = barPaletteState as PaletteTriple;
+
+        if (!_triStateValues.UseTriStateColors)
+        {
+            // Restore original colors when disabled
+            _stateBackValue.Color1 = _originalValueColor1;
+            if (_originalValueColor2 != Color.Empty)
+            {
+                _stateBackValue.Color2 = _originalValueColor2;
+            }
+            if (_originalValueColorStyle != PaletteColorStyle.Inherit)
+            {
+                _stateBackValue.ColorStyle = _originalValueColorStyle;
+            }
+            if (_originalValueColorAlign != PaletteRectangleAlign.Inherit)
+            {
+                _stateBackValue.ColorAlign = _originalValueColorAlign;
+            }
+            if (Math.Abs(_originalValueColorAngle - (-1f)) > 0.001f)
+            {
+                _stateBackValue.ColorAngle = _originalValueColorAngle;
+            }
+            if (_originalValueImage != null)
+            {
+                _stateBackValue.Image = _originalValueImage;
+            }
+            if (_originalValueImageStyle != PaletteImageStyle.Inherit)
+            {
+                _stateBackValue.ImageStyle = _originalValueImageStyle;
+            }
+            if (_originalValueImageAlign != PaletteRectangleAlign.Inherit)
+            {
+                _stateBackValue.ImageAlign = _originalValueImageAlign;
+            }
+            if (paletteTriple != null)
+            {
+                if (_originalTextColor1 != Color.Empty)
+                {
+                    paletteTriple.Content.ShortText.Color1 = _originalTextColor1;
+                }
+                if (_originalTextColor2 != Color.Empty)
+                {
+                    paletteTriple.Content.ShortText.Color2 = _originalTextColor2;
+                }
+                if (_originalTextColorStyle != PaletteColorStyle.Inherit)
+                {
+                    paletteTriple.Content.ShortText.ColorStyle = _originalTextColorStyle;
+                }
+                if (_originalTextColorAlign != PaletteRectangleAlign.Inherit)
+                {
+                    paletteTriple.Content.ShortText.ColorAlign = _originalTextColorAlign;
+                }
+                if (Math.Abs(_originalTextColorAngle - (-1f)) > 0.001f)
+                {
+                    paletteTriple.Content.ShortText.ColorAngle = _originalTextColorAngle;
+                }
+            }
+            return;
+        }
+
+        // Store current background color properties as original if we're enabling for the first time
+        if (_originalValueColor1 == Color.Green)
+        {
+            Color currentColor = _stateBackValue.Color1;
+            if (currentColor != Color.Green && currentColor != Color.Empty)
+            {
+                _originalValueColor1 = currentColor;
+                _originalValueColor2 = _stateBackValue.Color2;
+                _originalValueColorStyle = _stateBackValue.ColorStyle;
+                _originalValueColorAlign = _stateBackValue.ColorAlign;
+                _originalValueColorAngle = _stateBackValue.ColorAngle;
+                _originalValueImage = _stateBackValue.Image;
+                _originalValueImageStyle = _stateBackValue.ImageStyle;
+                _originalValueImageAlign = _stateBackValue.ImageAlign;
+            }
+        }
+
+        // Store current text color properties as original if not already stored
+        if (_originalTextColor1 == Color.Empty && paletteTriple != null)
+        {
+            _originalTextColor1 = paletteTriple.Content.ShortText.Color1;
+            _originalTextColor2 = paletteTriple.Content.ShortText.Color2;
+            _originalTextColorStyle = paletteTriple.Content.ShortText.ColorStyle;
+            _originalTextColorAlign = paletteTriple.Content.ShortText.ColorAlign;
+            _originalTextColorAngle = paletteTriple.Content.ShortText.ColorAngle;
+        }
+
+        // Determine which state to use (Normal or Disabled) based on control's Enabled state
+        ProgressBarTriStateRegionAppearanceValues region;
+        if (_value < _triStateValues.LowThreshold)
+        {
+            region = _triStateValues.LowThresholdValues;
+        }
+        else if (_value >= _triStateValues.HighThreshold)
+        {
+            region = _triStateValues.HighThresholdValues;
+        }
+        else
+        {
+            region = _triStateValues.MediumThresholdValues;
+        }
+
+        // Get the active state (Normal or Disabled)
+        ProgressBarTriStateRegionStateValues activeState = Enabled ? region.StateNormal : region.StateDisabled;
+        ProgressBarTriStateRegionStateValues commonState = region.StateCommon;
+
+        // Get effective values - use active state if set, otherwise fall back to common state, then original
+        Color backColor = activeState.Back.Color1 != Color.Empty ? activeState.Back.Color1 :
+                         (commonState.Back.Color1 != Color.Empty ? commonState.Back.Color1 : _originalValueColor1);
+        Color backColor2 = activeState.Back.Color2 != Color.Empty ? activeState.Back.Color2 : commonState.Back.Color2;
+        PaletteColorStyle backColorStyle = activeState.Back.ColorStyle != PaletteColorStyle.Inherit ? activeState.Back.ColorStyle : commonState.Back.ColorStyle;
+        PaletteRectangleAlign backColorAlign = activeState.Back.ColorAlign != PaletteRectangleAlign.Inherit ? activeState.Back.ColorAlign : commonState.Back.ColorAlign;
+        float backColorAngle = Math.Abs(activeState.Back.ColorAngle - (-1f)) > 0.001f ? activeState.Back.ColorAngle : commonState.Back.ColorAngle;
+        Image? backImage = activeState.Back.Image ?? commonState.Back.Image;
+        PaletteImageStyle backImageStyle = activeState.Back.ImageStyle != PaletteImageStyle.Inherit ? activeState.Back.ImageStyle : commonState.Back.ImageStyle;
+        PaletteRectangleAlign backImageAlign = activeState.Back.ImageAlign != PaletteRectangleAlign.Inherit ? activeState.Back.ImageAlign : commonState.Back.ImageAlign;
+        Color textColor = activeState.Content.Color1 != Color.Empty ? activeState.Content.Color1 : commonState.Content.Color1;
+        Color textColor2 = activeState.Content.Color2 != Color.Empty ? activeState.Content.Color2 : commonState.Content.Color2;
+        PaletteColorStyle textColorStyle = activeState.Content.ColorStyle != PaletteColorStyle.Inherit ? activeState.Content.ColorStyle : commonState.Content.ColorStyle;
+        PaletteRectangleAlign textColorAlign = activeState.Content.ColorAlign != PaletteRectangleAlign.Inherit ? activeState.Content.ColorAlign : commonState.Content.ColorAlign;
+        float textColorAngle = Math.Abs(activeState.Content.ColorAngle - (-1f)) > 0.001f ? activeState.Content.ColorAngle : commonState.Content.ColorAngle;
+
+        // Handle UseOppositeTextColors - if textColor is Empty and UseOppositeTextColors is enabled, calculate opposite
+        if (textColor == Color.Empty && _triStateValues.UseOppositeTextColors && backColor != Color.Empty)
+        {
+            textColor = ControlPaint.Light(backColor);
+        }
+
+        // Update background color properties
+        _stateBackValue.Color1 = backColor;
+        if (backColor2 != Color.Empty)
+        {
+            _stateBackValue.Color2 = backColor2;
+        }
+        if (backColorStyle != PaletteColorStyle.Inherit)
+        {
+            _stateBackValue.ColorStyle = backColorStyle;
+        }
+        if (backColorAlign != PaletteRectangleAlign.Inherit)
+        {
+            _stateBackValue.ColorAlign = backColorAlign;
+        }
+        if (Math.Abs(backColorAngle - (-1f)) > 0.001f)
+        {
+            _stateBackValue.ColorAngle = backColorAngle;
+        }
+        if (backImage != null)
+        {
+            _stateBackValue.Image = backImage;
+        }
+        if (backImageStyle != PaletteImageStyle.Inherit)
+        {
+            _stateBackValue.ImageStyle = backImageStyle;
+        }
+        if (backImageAlign != PaletteRectangleAlign.Inherit)
+        {
+            _stateBackValue.ImageAlign = backImageAlign;
+        }
+
+        // Update text color properties
+        if (paletteTriple != null)
+        {
+            paletteTriple.Content.ShortText.Color1 = textColor;
+            if (textColor2 != Color.Empty)
+            {
+                paletteTriple.Content.ShortText.Color2 = textColor2;
+            }
+            if (textColorStyle != PaletteColorStyle.Inherit)
+            {
+                paletteTriple.Content.ShortText.ColorStyle = textColorStyle;
+            }
+            if (textColorAlign != PaletteRectangleAlign.Inherit)
+            {
+                paletteTriple.Content.ShortText.ColorAlign = textColorAlign;
+            }
+            if (Math.Abs(textColorAngle - (-1f)) > 0.001f)
+            {
+                paletteTriple.Content.ShortText.ColorAngle = textColorAngle;
+            }
+        }
     }
 
     #endregion

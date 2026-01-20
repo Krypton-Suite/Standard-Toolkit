@@ -429,13 +429,6 @@ public class KryptonNotifyIcon : Component
 
     ~KryptonNotifyIcon() => Dispose(false);
 
-    private void Dispose()
-    {
-        Dispose(true);
-
-        GC.SuppressFinalize(this);
-    }
-
     #endregion
 }
 
