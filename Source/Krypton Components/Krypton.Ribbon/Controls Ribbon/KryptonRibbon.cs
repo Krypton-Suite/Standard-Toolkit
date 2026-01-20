@@ -1264,7 +1264,7 @@ public class KryptonRibbon : VisualSimple,
         }
         catch (Exception exc)
         {
-            Debug.WriteLine($@"KryptonRibbon.Detach() failed: {exc.Message}");
+            Debug.WriteLine(@"KryptonRibbon.Detach() failed: {0}", exc.Message);
             // If anything goes wrong, try to restore state
             Reattach();
             return false;
@@ -1333,7 +1333,7 @@ public class KryptonRibbon : VisualSimple,
         }
         catch (Exception exc)
         {
-            Debug.WriteLine($@"KryptonRibbon.Reattach() failed: {exc.Message}");
+            Debug.WriteLine(@"KryptonRibbon.Reattach() failed: {0}", exc.Message);
             return false;
         }
     }
