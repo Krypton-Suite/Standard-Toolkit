@@ -176,7 +176,7 @@ public partial class TouchscreenHighDpiDemo : KryptonForm
 
         try
         {
-            KryptonManager.TouchscreenSettingsValues.TouchscreenModeEnabled = chkEnableTouchscreen.Checked;
+            KryptonManager.TouchscreenSettingValues.TouchscreenModeEnabled = chkEnableTouchscreen.Checked;
             UpdateStatus();
             UpdateDpiInfo();
         }
@@ -193,7 +193,7 @@ public partial class TouchscreenHighDpiDemo : KryptonForm
         try
         {
             float scaleFactor = 1.0f + (trackScaleFactor.Value / 100f);
-            KryptonManager.TouchscreenSettingsValues.ControlScaleFactor = scaleFactor;
+            KryptonManager.TouchscreenSettingValues.ControlScaleFactor = scaleFactor;
             lblScaleValue.Text = $"{scaleFactor:F2}x ({(scaleFactor * 100 - 100):F1}% larger)";
             UpdateStatus();
             UpdateDpiInfo();
@@ -210,8 +210,8 @@ public partial class TouchscreenHighDpiDemo : KryptonForm
 
         try
         {
-            KryptonManager.TouchscreenSettingsValues.FontScalingEnabled = chkEnableFontScaling.Checked;
-            trackFontScaleFactor.Enabled = KryptonManager.TouchscreenSettingsValues.TouchscreenModeEnabled && chkEnableFontScaling.Checked;
+            KryptonManager.TouchscreenSettingValues.FontScalingEnabled = chkEnableFontScaling.Checked;
+            trackFontScaleFactor.Enabled = KryptonManager.TouchscreenSettingValues.TouchscreenModeEnabled && chkEnableFontScaling.Checked;
             UpdateStatus();
         }
         catch (Exception ex)
@@ -227,7 +227,7 @@ public partial class TouchscreenHighDpiDemo : KryptonForm
         try
         {
             float scaleFactor = 1.0f + (trackFontScaleFactor.Value / 100f);
-            KryptonManager.TouchscreenSettingsValues.FontScaleFactor = scaleFactor;
+            KryptonManager.TouchscreenSettingValues.FontScaleFactor = scaleFactor;
             lblFontScaleValue.Text = $"{scaleFactor:F2}x ({(scaleFactor * 100 - 100):F1}% larger)";
             UpdateStatus();
         }
@@ -241,8 +241,8 @@ public partial class TouchscreenHighDpiDemo : KryptonForm
     {
         try
         {
-            KryptonManager.TouchscreenSettingsValues.ControlScaleFactor = 1.25f; // Default 25% larger
-            KryptonManager.TouchscreenSettingsValues.FontScaleFactor = 1.25f; // Default 25% larger
+            KryptonManager.TouchscreenSettingValues.ControlScaleFactor = 1.25f; // Default 25% larger
+            KryptonManager.TouchscreenSettingValues.FontScaleFactor = 1.25f; // Default 25% larger
             UpdateUIFromSettings();
             UpdateStatus();
             UpdateDpiInfo();
@@ -272,9 +272,9 @@ public partial class TouchscreenHighDpiDemo : KryptonForm
     {
         try
         {
-            KryptonManager.TouchscreenSettingsValues.TouchscreenModeEnabled = true;
-            KryptonManager.TouchscreenSettingsValues.ControlScaleFactor = scaleFactor;
-            KryptonManager.TouchscreenSettingsValues.FontScaleFactor = scaleFactor; // Match font scale to control scale
+            KryptonManager.TouchscreenSettingValues.TouchscreenModeEnabled = true;
+            KryptonManager.TouchscreenSettingValues.ControlScaleFactor = scaleFactor;
+            KryptonManager.TouchscreenSettingValues.FontScaleFactor = scaleFactor; // Match font scale to control scale
             UpdateUIFromSettings();
             UpdateStatus();
             UpdateDpiInfo();
@@ -290,7 +290,7 @@ public partial class TouchscreenHighDpiDemo : KryptonForm
     {
         try
         {
-            KryptonManager.TouchscreenSettingsValues.TouchscreenModeEnabled = !KryptonManager.UseTouchscreenSupport;
+            KryptonManager.TouchscreenSettingValues.TouchscreenModeEnabled = !KryptonManager.UseTouchscreenSupport;
             UpdateUIFromSettings();
             UpdateStatus();
             UpdateDpiInfo();
@@ -344,7 +344,7 @@ public partial class TouchscreenHighDpiDemo : KryptonForm
         _updatingFromEvent = true;
         try
         {
-            var settings = KryptonManager.TouchscreenSettingsValues;
+            var settings = KryptonManager.TouchscreenSettingValues;
 
             chkEnableTouchscreen.Checked = settings.TouchscreenModeEnabled;
 
@@ -381,7 +381,7 @@ public partial class TouchscreenHighDpiDemo : KryptonForm
 
     private void UpdateStatus()
     {
-        var settings = KryptonManager.TouchscreenSettingsValues;
+        var settings = KryptonManager.TouchscreenSettingValues;
         bool isEnabled = settings.TouchscreenModeEnabled;
         float controlScaleFactor = KryptonManager.TouchscreenScaleFactor;
         bool fontScalingEnabled = settings.FontScalingEnabled && isEnabled;
