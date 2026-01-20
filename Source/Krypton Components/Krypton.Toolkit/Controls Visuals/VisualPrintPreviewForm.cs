@@ -37,6 +37,7 @@ internal partial class VisualPrintPreviewForm : KryptonForm
     /// <summary>
     /// Gets or sets the PrintDocument to preview.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public KryptonPrintDocument? Document
     {
         get => _document;
@@ -61,6 +62,7 @@ internal partial class VisualPrintPreviewForm : KryptonForm
     /// <summary>
     /// Gets or sets whether to use anti-aliasing.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public bool UseAntiAlias
     {
         get => _useAntiAlias;

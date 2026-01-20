@@ -9,7 +9,7 @@
 
 namespace Krypton.Toolkit;
 
-/// <summary>Exposes the set of <see cref="KryptonToastIconConverter"/> strings used within Krypton and that are localizable.</summary>
+/// <summary>Exposes the set of <see cref="KryptonIconConverter"/> strings used within Krypton and that are localizable.</summary>
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public class ToastNotificationIconStrings : GlobalId
 {
