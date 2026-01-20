@@ -1208,9 +1208,13 @@ public class KryptonRibbon : VisualSimple,
             // Add to floating window
             _floatingWindow.Controls.Add(this);
 
-            // Set floating window to standard size: 1099 x 293 pixels
-            // This size accommodates the full ribbon display including caption bar
-            _floatingWindow.Size = new Size(1099, 293);
+            // Set floating window size based on ribbon's calculated size
+            // Use the ribbon's width (preserved from before detachment) and calculate appropriate height
+            // Add caption bar height to accommodate the window chrome
+            var captionHeight = SystemInformation.CaptionHeight;
+            var windowWidth = Math.Max(400, ribbonSize.Width); // Ensure minimum width
+            var windowHeight = Math.Max(150 + captionHeight, ribbonSize.Height + captionHeight);
+            _floatingWindow.Size = new Size(windowWidth, windowHeight);
             
             // Set minimum size to prevent window from being too small
             _floatingWindow.MinimumSize = new Size(400, 150 + SystemInformation.CaptionHeight);
@@ -1258,8 +1262,9 @@ public class KryptonRibbon : VisualSimple,
 
             return true;
         }
-        catch
+        catch (Exception exc)
         {
+            Debug.WriteLine($@"KryptonRibbon.Detach() failed: {exc.Message}");
             // If anything goes wrong, try to restore state
             Reattach();
             return false;
@@ -1326,8 +1331,9 @@ public class KryptonRibbon : VisualSimple,
 
             return true;
         }
-        catch
+        catch (Exception exc)
         {
+            Debug.WriteLine($@"KryptonRibbon.Reattach() failed: {exc.Message}");
             return false;
         }
     }
@@ -1412,12 +1418,6 @@ public class KryptonRibbon : VisualSimple,
 
         if (isDetached)
         {
-            // Store the position for use when detaching
-            if (floatingWindowPosition.HasValue)
-            {
-                _savedFloatingWindowPosition = floatingWindowPosition;
-            }
-
             // Detach after form is loaded (use BeginInvoke to ensure form is fully initialized)
             if (Parent != null && Parent.FindForm() != null)
             {

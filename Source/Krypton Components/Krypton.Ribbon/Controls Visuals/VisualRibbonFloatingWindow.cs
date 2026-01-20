@@ -69,11 +69,7 @@ public class VisualRibbonFloatingWindow : KryptonForm
 
         // Note: The ribbon will be added to this window by the Detach() method
         // after it's removed from its original parent. We just store the reference here.
-        // The window size will be set in the Detach() method after the ribbon is added.
-
-        // Set initial size - standard ribbon floating window size
-        // This ensures the window is large enough to display the ribbon properly
-        Size = new Size(1099, 293);
+        // The window size will be set in the Detach() method based on the ribbon's actual size.
 
         // Set border style to fixed tool window after initial sizing
         FormBorderStyle = FormBorderStyle.FixedToolWindow;
@@ -162,9 +158,12 @@ public class VisualRibbonFloatingWindow : KryptonForm
                 _ribbon.PerformLayout();
             }
             
-            // Set window to standard size: 1099 x 293 pixels
-            // This ensures the ribbon displays properly in the floating window
-            Size = new Size(1099, 293);
+            // Set window size based on ribbon's actual size
+            // The width should match the ribbon's width, height should accommodate ribbon + caption
+            var captionHeight = SystemInformation.CaptionHeight;
+            var windowWidth = Math.Max(400, _ribbon.Width); // Ensure minimum width
+            var windowHeight = Math.Max(150 + captionHeight, ribbonHeight + captionHeight);
+            Size = new Size(windowWidth, windowHeight);
             
             // Ensure minimum size is set
             MinimumSize = new Size(400, 150 + SystemInformation.CaptionHeight);
