@@ -1503,9 +1503,15 @@ public class KryptonComboBox : VisualControlBase,
     [AllowNull]
     public override Font Font
     {
-        get => base.Font;
+        get => GetStateCommonFont() ?? base.Font;
 
-        set => base.Font = value!;
+        set
+        {
+            // Always set base.Font to ensure consistency
+            base.Font = value!;
+            // Also try to set StateCommon font, but don't fail if it's not available
+            SetStateCommonFont(value);
+        }
     }
 
     /// <summary>
@@ -2477,6 +2483,53 @@ public class KryptonComboBox : VisualControlBase,
     /// </summary>
     /// <param name="e"></param>
     protected virtual void OnToolTipNeeded(ToolTipNeededEventArgs e) => ToolTipNeeded?.Invoke(this, e);
+
+    /// <summary>
+    /// Gets the font from StateCommon.ComboBox.Content.Font safely, handling design mode serialization issues.
+    /// </summary>
+    /// <returns>The font from StateCommon, or null if not available or during problematic design time access.</returns>
+    protected virtual Font? GetStateCommonFont()
+    {
+        try
+        {
+            // Use null-conditional operators to safely access nested properties
+            // This prevents issues during design time serialization when StateCommon might not be fully initialized
+            return StateCommon.ComboBox.Content?.Font;
+        }
+        catch
+        {
+            // If StateCommon is not fully initialized or there's a serialization issue,
+            // return null to fall back to base.Font
+            return null;
+        }
+    }
+
+    /// <summary>
+    /// Sets the font to StateCommon.ComboBox.Content.Font safely, handling design mode serialization issues.
+    /// </summary>
+    /// <param name="value">The font value to set.</param>
+    /// <returns>True if the font was set to StateCommon, false to fall back to base.Font.</returns>
+    protected virtual bool SetStateCommonFont(Font? value)
+    {
+        try
+        {
+            // Use null-conditional operators to safely access nested properties
+            // This prevents issues during design time serialization when StateCommon might not be fully initialized
+            if (StateCommon.ComboBox?.Content != null)
+            {
+                StateCommon.ComboBox.Content.Font = value;
+
+                return true;
+            }
+        }
+        catch
+        {
+            // If StateCommon is not fully initialized or there's a serialization issue,
+            // return false to fall back to base.Font
+        }
+
+        return false;
+    }
     // ReSharper restore VirtualMemberNeverOverridden.Global
     #endregion
 
