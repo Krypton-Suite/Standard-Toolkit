@@ -484,7 +484,7 @@ public class ViewLayoutDocker : ViewComposite
         else
         {
             // Do we need to adjust to reflect right to left layout?
-            if (CommonHelper.GetRightToLeftLayout(control) && (control.RightToLeft == RightToLeft.Yes))
+            if (CommonHelper.IsRightToLeftLayout(control))
             {
                 // Only need to invert the left and right sides
                 ds = ds switch
