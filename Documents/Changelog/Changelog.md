@@ -9,7 +9,7 @@
 
 ====
 
-# 2026-01-19 - Build 2601 (Version 105-LTS - Patch 1) - January 2026
+# 2026-01-19 - Build 2601 (Version 100-LTS - Patch 1) - January 2026
 
 * Resolved/Implemented [#1651](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1651), KComboBox's should follow the DateTimePicker layout(s)
 * Resolved [#2457](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2457), `KryptonForm` RTL border bug
