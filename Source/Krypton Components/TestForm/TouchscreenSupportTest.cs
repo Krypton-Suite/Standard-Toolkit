@@ -466,14 +466,17 @@ public partial class TouchscreenSupportTest : KryptonForm
 
         // Display results (for demonstration purposes)
         string message = $"DPI Helper Methods Demo:\n\n" +
-                        $"DPI Factors: X={dpiX:F2}, Y={dpiY:F2}, Avg={dpiAvg:F2}\n" +
-                        $"Combined Factors: X={combinedX:F2}, Y={combinedY:F2}, Avg={combinedAvg:F2}\n\n" +
-                        $"Base Size: {baseSize} → Scaled by DPI: {scaledByDpi}, Scaled by Both: {scaledByBoth}\n" +
-                        $"Base Size Object: {baseSizeObj} → Scaled by DPI: {scaledByDpiSize}, Scaled by Both: {scaledByBothSize}\n" +
-                        $"Base Point: {basePoint} → Scaled by DPI: {scaledByDpiPoint}, Scaled by Both: {scaledByBothPoint}\n" +
-                        $"Base Rectangle: {baseRect} → Scaled by DPI: {scaledByDpiRect}, Scaled by Both: {scaledByBothRect}";
+                         $"DPI Factors: X={dpiX:F2}, Y={dpiY:F2}, Avg={dpiAvg:F2}\n" +
+                         $"Combined Factors: X={combinedX:F2}, Y={combinedY:F2}, Avg={combinedAvg:F2}\n\n" +
+                         $"Base Size: {baseSize} → Scaled by DPI: {scaledByDpi}, Scaled by Both: {scaledByBoth}\n" +
+                         $"Base Size Object: {baseSizeObj} → Scaled by DPI: {scaledByDpiSize}, Scaled by Both: {scaledByBothSize}\n" +
+                         $"Base Point: {basePoint} → Scaled by DPI: {scaledByDpiPoint}, Scaled by Both: {scaledByBothPoint}\n" +
+                         $"Base Rectangle: {baseRect} → Scaled by DPI: {scaledByDpiRect}, Scaled by Both: {scaledByBothRect}";
 
-        KryptonMessageBox.Show(message, "DPI Helper Methods Demo", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
+        KryptonMessageBox.Show(message, "DPI Helper Methods Demo", KryptonMessageBoxButtons.OK,
+            KryptonMessageBoxIcon.Information);
+    }
+
     private void ChkAutoDetect_CheckedChanged(object? sender, EventArgs e)
     {
         if (_updatingFromEvent) return;
