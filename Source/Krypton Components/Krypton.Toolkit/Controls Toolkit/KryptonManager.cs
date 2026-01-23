@@ -407,14 +407,14 @@ public sealed class KryptonManager : Component
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Should scrollable controls use Krypton-themed scrollbars instead of native scrollbars.")]
-    [DefaultValue(false)]
+    [DefaultValue(true)]
     public bool GlobalUseKryptonScrollbars
     {
         get => UseKryptonScrollbars;
         set => UseKryptonScrollbars = value;
     }
     private bool ShouldSerializeGlobalUseKryptonScrollbars() => GlobalUseKryptonScrollbars;
-    private void ResetGlobalUseKryptonScrollbars() => GlobalUseKryptonScrollbars = false;
+    private void ResetGlobalUseKryptonScrollbars() => GlobalUseKryptonScrollbars = true;
 
 
     /// <summary>
