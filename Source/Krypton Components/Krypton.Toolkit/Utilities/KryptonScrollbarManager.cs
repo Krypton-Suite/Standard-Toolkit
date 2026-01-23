@@ -668,9 +668,14 @@ public class KryptonScrollbarManager : IDisposable
         _horizontalScrollBar = new KryptonHScrollBar
         {
             Visible = false,
-            TabStop = false,
-            Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right
+            TabStop = false
         };
+
+        // Only use anchors for container mode; native wrapper mode uses manual positioning
+        if (_mode == ScrollbarManagerMode.Container)
+        {
+            _horizontalScrollBar.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+        }
 
         _horizontalScrollBar.Scroll += OnHorizontalScroll;
 
@@ -691,9 +696,14 @@ public class KryptonScrollbarManager : IDisposable
         _verticalScrollBar = new KryptonVScrollBar
         {
             Visible = false,
-            TabStop = false,
-            Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right
+            TabStop = false
         };
+
+        // Only use anchors for container mode; native wrapper mode uses manual positioning
+        if (_mode == ScrollbarManagerMode.Container)
+        {
+            _verticalScrollBar.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+        }
 
         _verticalScrollBar.Scroll += OnVerticalScroll;
 
@@ -740,23 +750,38 @@ public class KryptonScrollbarManager : IDisposable
             return;
         }
 
+        Rectangle clientRect = _targetControl.ClientRectangle;
         int scrollbarWidth = SystemInformation.VerticalScrollBarWidth;
         int scrollbarHeight = SystemInformation.HorizontalScrollBarHeight;
 
         // Position horizontal scrollbar
         if (_horizontalScrollBar != null && _horizontalScrollBar.Visible)
         {
-            _horizontalScrollBar.Location = new Point(0, _targetControl.ClientSize.Height - scrollbarHeight);
-            _horizontalScrollBar.Width = _targetControl.ClientSize.Width - (_verticalScrollBar?.Visible == true ? scrollbarWidth : 0);
+            int hScrollY = clientRect.Bottom - scrollbarHeight;
+            int hScrollWidth = clientRect.Width - (_verticalScrollBar?.Visible == true ? scrollbarWidth : 0);
+            
+            // Ensure scrollbar stays within bounds
+            hScrollY = Math.Max(clientRect.Top, Math.Min(hScrollY, clientRect.Bottom - 1));
+            hScrollWidth = Math.Max(0, Math.Min(hScrollWidth, clientRect.Width));
+            
+            _horizontalScrollBar.Location = new Point(clientRect.Left, hScrollY);
+            _horizontalScrollBar.Width = hScrollWidth;
             _horizontalScrollBar.Height = scrollbarHeight;
         }
 
         // Position vertical scrollbar
         if (_verticalScrollBar != null && _verticalScrollBar.Visible)
         {
-            _verticalScrollBar.Location = new Point(_targetControl.ClientSize.Width - scrollbarWidth, 0);
+            int vScrollX = clientRect.Right - scrollbarWidth;
+            int vScrollHeight = clientRect.Height - (_horizontalScrollBar?.Visible == true ? scrollbarHeight : 0);
+            
+            // Ensure scrollbar stays within bounds
+            vScrollX = Math.Max(clientRect.Left, Math.Min(vScrollX, clientRect.Right - 1));
+            vScrollHeight = Math.Max(0, Math.Min(vScrollHeight, clientRect.Height));
+            
+            _verticalScrollBar.Location = new Point(vScrollX, clientRect.Top);
             _verticalScrollBar.Width = scrollbarWidth;
-            _verticalScrollBar.Height = _targetControl.ClientSize.Height - (_horizontalScrollBar?.Visible == true ? scrollbarHeight : 0);
+            _verticalScrollBar.Height = vScrollHeight;
         }
     }
 
