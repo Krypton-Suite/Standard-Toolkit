@@ -337,6 +337,9 @@ public class KryptonTreeView : VisualControlBase,
     private bool _trackingMouseEnter;
     private bool _isRecreating; // https://github.com/Krypton-Suite/Standard-Toolkit/issues/777
     private bool _multiSelect;
+    private KryptonScrollbarManager? _scrollbarManager;
+    private bool _useKryptonScrollbars;
+
     #endregion
 
     #region Events
@@ -678,6 +681,11 @@ public class KryptonTreeView : VisualControlBase,
     /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
     protected override void Dispose(bool disposing)
     {
+        if (disposing)
+        {
+            _scrollbarManager?.Dispose();
+            _scrollbarManager = null;
+        }
         base.Dispose(disposing);
         if (_screenDC != IntPtr.Zero)
         {
@@ -1457,6 +1465,37 @@ public class KryptonTreeView : VisualControlBase,
     /// Activates the control.
     /// </summary>
     public new void Select() => TreeView.Select();
+
+    /// <summary>
+    /// Gets or sets whether to use Krypton-themed scrollbars instead of native scrollbars.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Gets or sets whether to use Krypton-themed scrollbars instead of native scrollbars.")]
+    [DefaultValue(false)]
+    public bool UseKryptonScrollbars
+    {
+        get => _useKryptonScrollbars;
+        set
+        {
+            if (_useKryptonScrollbars != value)
+            {
+                _useKryptonScrollbars = value;
+                UpdateScrollbarManager();
+            }
+        }
+    }
+
+    private bool ShouldSerializeUseKryptonScrollbars() => UseKryptonScrollbars;
+
+    private void ResetUseKryptonScrollbars() => UseKryptonScrollbars = false;
+
+    /// <summary>
+    /// Gets access to the scrollbar manager when UseKryptonScrollbars is enabled.
+    /// </summary>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public KryptonScrollbarManager? ScrollbarManager => _scrollbarManager;
+
     #endregion
 
     #region Protected
@@ -1828,6 +1867,11 @@ public class KryptonTreeView : VisualControlBase,
 
         // We need a layout to occur before any painting
         InvokeLayout();
+
+        if (_useKryptonScrollbars)
+        {
+            UpdateScrollbarManager();
+        }
     }
 
     /// <summary>
@@ -1924,6 +1968,28 @@ public class KryptonTreeView : VisualControlBase,
     #endregion
 
     #region Implementation
+
+    private void UpdateScrollbarManager()
+    {
+        if (_useKryptonScrollbars)
+        {
+            if (_scrollbarManager == null)
+            {
+                _scrollbarManager = new KryptonScrollbarManager(_treeView, ScrollbarManagerMode.NativeWrapper)
+                {
+                    Enabled = true
+                };
+            }
+        }
+        else
+        {
+            if (_scrollbarManager != null)
+            {
+                _scrollbarManager.Dispose();
+                _scrollbarManager = null;
+            }
+        }
+    }
 
     private void UpdateItemHeight()
     {

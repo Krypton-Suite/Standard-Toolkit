@@ -332,6 +332,8 @@ public class KryptonTextBox : VisualControlBase,
     private bool _showEllipsisButton;
     //private bool _isInAlphaNumericMode;
     private readonly ButtonSpecAny _editorButton;
+    private KryptonScrollbarManager? _scrollbarManager;
+    private bool _useKryptonScrollbars;
 
     #endregion
 
@@ -542,6 +544,9 @@ public class KryptonTextBox : VisualControlBase,
 
             // Remember to pull down the manager instance
             _buttonManager?.Destruct();
+
+            _scrollbarManager?.Dispose();
+            _scrollbarManager = null;
         }
 
         base.Dispose(disposing);
@@ -1382,6 +1387,36 @@ public class KryptonTextBox : VisualControlBase,
         // element that thinks it has the focus is informed it does not
         OnMouseLeave(EventArgs.Empty);
 
+    /// <summary>
+    /// Gets or sets whether to use Krypton-themed scrollbars instead of native scrollbars.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Gets or sets whether to use Krypton-themed scrollbars instead of native scrollbars.")]
+    [DefaultValue(false)]
+    public bool UseKryptonScrollbars
+    {
+        get => _useKryptonScrollbars;
+        set
+        {
+            if (_useKryptonScrollbars != value)
+            {
+                _useKryptonScrollbars = value;
+                UpdateScrollbarManager();
+            }
+        }
+    }
+
+    private bool ShouldSerializeUseKryptonScrollbars() => UseKryptonScrollbars;
+
+    private void ResetUseKryptonScrollbars() => UseKryptonScrollbars = false;
+
+    /// <summary>
+    /// Gets access to the scrollbar manager when UseKryptonScrollbars is enabled.
+    /// </summary>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public KryptonScrollbarManager? ScrollbarManager => _scrollbarManager;
+
     #endregion
 
     #region Protected
@@ -1510,6 +1545,11 @@ public class KryptonTextBox : VisualControlBase,
 
         // We need to recalculate the correct height
         AdjustHeight(true);
+
+        if (_useKryptonScrollbars)
+        {
+            UpdateScrollbarManager();
+        }
     }
 
     /// <summary>
@@ -2026,6 +2066,28 @@ public class KryptonTextBox : VisualControlBase,
             bsaEllipsisButton.Visible = false;
 
             ButtonSpecs.Remove(bsaEllipsisButton);
+        }
+    }
+
+    private void UpdateScrollbarManager()
+    {
+        if (_useKryptonScrollbars)
+        {
+            if (_scrollbarManager == null)
+            {
+                _scrollbarManager = new KryptonScrollbarManager(_textBox, ScrollbarManagerMode.NativeWrapper)
+                {
+                    Enabled = true
+                };
+            }
+        }
+        else
+        {
+            if (_scrollbarManager != null)
+            {
+                _scrollbarManager.Dispose();
+                _scrollbarManager = null;
+            }
         }
     }
 

@@ -427,6 +427,9 @@ public class KryptonListBox : VisualControlBase,
     private bool _trackingMouseEnter;
     // Captures the scroll position before a click/selection change
     private int _preClickTopIndex;
+    private KryptonScrollbarManager? _scrollbarManager;
+    private bool _useKryptonScrollbars;
+
     #endregion
 
     #region Events
@@ -679,7 +682,14 @@ public class KryptonListBox : VisualControlBase,
     /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
     protected override void Dispose(bool disposing)
     {
+        if (disposing)
+        {
+            _scrollbarManager?.Dispose();
+            _scrollbarManager = null;
+        }
+
         base.Dispose(disposing);
+        
         if (_screenDC != IntPtr.Zero)
         {
             PI.DeleteDC(_screenDC);
@@ -1175,6 +1185,37 @@ public class KryptonListBox : VisualControlBase,
     }
 
     /// <summary>
+    /// Gets or sets whether to use Krypton-themed scrollbars instead of native scrollbars.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Gets or sets whether to use Krypton-themed scrollbars instead of native scrollbars.")]
+    [DefaultValue(false)]
+    public bool UseKryptonScrollbars
+    {
+        get => _useKryptonScrollbars;
+        set
+        {
+            if (_useKryptonScrollbars != value)
+            {
+                _useKryptonScrollbars = value;
+                UpdateScrollbarManager();
+            }
+        }
+    }
+
+    private bool ShouldSerializeUseKryptonScrollbars() => UseKryptonScrollbars;
+
+    private void ResetUseKryptonScrollbars() => UseKryptonScrollbars = false;
+
+    /// <summary>
+    /// Gets access to the scrollbar manager when UseKryptonScrollbars is enabled.
+    /// </summary>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public KryptonScrollbarManager? ScrollbarManager => _scrollbarManager;
+
+
+    /// <summary>
     /// Unselects all items in the KryptonListBox.
     /// </summary>
     public void ClearSelected() => _listBox.ClearSelected();
@@ -1527,6 +1568,12 @@ public class KryptonListBox : VisualControlBase,
 
         // We need a layout to occur before any painting
         InvokeLayout();
+
+        // Update scrollbars to match current setting
+        if (_useKryptonScrollbars)
+        {
+            UpdateScrollbarManager();
+        }
     }
 
     /// <summary>
@@ -1886,6 +1933,28 @@ public class KryptonListBox : VisualControlBase,
     private void OnDoubleClick(object? sender, EventArgs e) => base.OnDoubleClick(e);
 
     private void OnMouseDoubleClick(object? sender, MouseEventArgs e) => base.OnMouseDoubleClick(e);
+
+    private void UpdateScrollbarManager()
+    {
+        if (_useKryptonScrollbars)
+        {
+            if (_scrollbarManager == null)
+            {
+                _scrollbarManager = new KryptonScrollbarManager(_listBox, ScrollbarManagerMode.NativeWrapper)
+                {
+                    Enabled = true
+                };
+            }
+        }
+        else
+        {
+            if (_scrollbarManager != null)
+            {
+                _scrollbarManager.Dispose();
+                _scrollbarManager = null;
+            }
+        }
+    }
 
     #endregion
 }

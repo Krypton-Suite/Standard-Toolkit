@@ -31,6 +31,8 @@ public class KryptonGroup : VisualControlContainment
     private readonly ViewLayoutFill _layoutFill;
     private bool _forcedLayout;
     private bool _layingOut;
+    private KryptonScrollbarManager? _scrollbarManager;
+    private bool _useKryptonScrollbars;
 
     #endregion
 
@@ -235,6 +237,36 @@ public class KryptonGroup : VisualControlContainment
     private bool ShouldSerializeStateNormal() => !StateNormal!.IsDefault;
 
     /// <summary>
+    /// Gets or sets whether to use Krypton-themed scrollbars instead of native scrollbars.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Gets or sets whether to use Krypton-themed scrollbars instead of native scrollbars.")]
+    [DefaultValue(false)]
+    public bool UseKryptonScrollbars
+    {
+        get => _useKryptonScrollbars;
+        set
+        {
+            if (_useKryptonScrollbars != value)
+            {
+                _useKryptonScrollbars = value;
+                UpdateScrollbarManager();
+            }
+        }
+    }
+
+    private bool ShouldSerializeUseKryptonScrollbars() => UseKryptonScrollbars;
+
+    private void ResetUseKryptonScrollbars() => UseKryptonScrollbars = false;
+
+    /// <summary>
+    /// Gets access to the scrollbar manager when UseKryptonScrollbars is enabled.
+    /// </summary>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public KryptonScrollbarManager? ScrollbarManager => _scrollbarManager;
+
+    /// <summary>
     /// Get the preferred size of the control based on a proposed size.
     /// </summary>
     /// <param name="proposedSize">Starting size proposed by the caller.</param>
@@ -344,6 +376,23 @@ public class KryptonGroup : VisualControlContainment
 
         // We need a layout to occur before any painting
         InvokeLayout();
+
+        // Update scrollbar manager state
+        if (_useKryptonScrollbars)
+        {
+            UpdateScrollbarManager();
+        }
+    }
+
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            _scrollbarManager?.Dispose();
+            _scrollbarManager = null;
+        }
+
+        base.Dispose(disposing);
     }
 
     /// <summary>
@@ -443,6 +492,29 @@ public class KryptonGroup : VisualControlContainment
     #endregion
 
     #region Implementation
+
+    private void UpdateScrollbarManager()
+    {
+        if (_useKryptonScrollbars)
+        {
+            if (_scrollbarManager == null)
+            {
+                _scrollbarManager = new KryptonScrollbarManager(Panel, ScrollbarManagerMode.Container)
+                {
+                    Enabled = true
+                };
+            }
+        }
+        else
+        {
+            if (_scrollbarManager != null)
+            {
+                _scrollbarManager.Dispose();
+                _scrollbarManager = null;
+            }
+        }
+    }
+
     private void OnGroupPanelPaint(object? sender, NeedLayoutEventArgs e)
     {
         // If the child panel is layout out but not because we are, then it must be

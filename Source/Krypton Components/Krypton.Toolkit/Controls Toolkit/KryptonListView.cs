@@ -317,6 +317,9 @@ public class KryptonListView : VisualControlBase,
     private bool _mouseOver;
     private bool _alwaysActive;
     private bool _forcedLayout;
+    private KryptonScrollbarManager? _scrollbarManager;
+    private bool _useKryptonScrollbars;
+
     #endregion
 
     #region Events
@@ -503,6 +506,12 @@ public class KryptonListView : VisualControlBase,
     /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
     protected override void Dispose(bool disposing)
     {
+        if (disposing)
+        {
+            _scrollbarManager?.Dispose();
+            _scrollbarManager = null;
+        }
+
         base.Dispose(disposing);
         if (_screenDC != IntPtr.Zero)
         {
@@ -1300,6 +1309,36 @@ public class KryptonListView : VisualControlBase,
     /// </summary>
     public new void Select() => _listView.Select();
 
+    /// <summary>
+    /// Gets or sets whether to use Krypton-themed scrollbars instead of native scrollbars.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Gets or sets whether to use Krypton-themed scrollbars instead of native scrollbars.")]
+    [DefaultValue(false)]
+    public bool UseKryptonScrollbars
+    {
+        get => _useKryptonScrollbars;
+        set
+        {
+            if (_useKryptonScrollbars != value)
+            {
+                _useKryptonScrollbars = value;
+                UpdateScrollbarManager();
+            }
+        }
+    }
+
+    private bool ShouldSerializeUseKryptonScrollbars() => UseKryptonScrollbars;
+
+    private void ResetUseKryptonScrollbars() => UseKryptonScrollbars = false;
+
+    /// <summary>
+    /// Gets access to the scrollbar manager when UseKryptonScrollbars is enabled.
+    /// </summary>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public KryptonScrollbarManager? ScrollbarManager => _scrollbarManager;
+
     #endregion public
 
     #region DrawItem and SubItem
@@ -1528,9 +1567,13 @@ public class KryptonListView : VisualControlBase,
 
         // We need a layout to occur before any painting
         InvokeLayout();
+
+        if (_useKryptonScrollbars)
+        {
+            UpdateScrollbarManager();
+        }
     }
-
-
+    
     /// <summary>
     /// Raises the MouseDown event.
     /// </summary>
@@ -1702,4 +1745,25 @@ public class KryptonListView : VisualControlBase,
 
     private bool ShouldSerializeOverrideFocus() => !OverrideFocus.IsDefault;
 
+    private void UpdateScrollbarManager()
+    {
+        if (_useKryptonScrollbars)
+        {
+            if (_scrollbarManager == null)
+            {
+                _scrollbarManager = new KryptonScrollbarManager(_listView, ScrollbarManagerMode.NativeWrapper)
+                {
+                    Enabled = true
+                };
+            }
+        }
+        else
+        {
+            if (_scrollbarManager != null)
+            {
+                _scrollbarManager.Dispose();
+                _scrollbarManager = null;
+            }
+        }
+    }
 }
