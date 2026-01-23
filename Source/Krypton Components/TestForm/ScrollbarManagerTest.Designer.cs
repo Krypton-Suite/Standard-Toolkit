@@ -279,6 +279,7 @@
             this.richTextBoxNative.Size = new System.Drawing.Size(489, 120);
             this.richTextBoxNative.TabIndex = 0;
             this.richTextBoxNative.Text = "";
+            this.richTextBoxNative.UseKryptonScrollbars = true;
             // 
             // btnToggleRichTextBoxManager
             // 
