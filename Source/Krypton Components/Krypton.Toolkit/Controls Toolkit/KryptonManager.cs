@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -28,6 +28,7 @@ public sealed class KryptonManager : Component
     private static bool _globalUseThemeFormChromeBorderWidth = true;
     private static bool _globalShowAdministratorSuffix = true;
     internal static bool _globalUseKryptonFileDialogs = true;
+    private static bool _globalUseKryptonScrollbars = false;
     private static bool _globalTouchscreenMode = false;
     private static float _globalTouchscreenScaleFactor = 1.25f;
     private static bool _globalTouchscreenFontScaling = true;
@@ -244,6 +245,7 @@ public sealed class KryptonManager : Component
                                ShouldSerializeShowAdministratorSuffix() ||
                                ShouldSerializeToolkitStrings() ||
                                ShouldSerializeUseKryptonFileDialogs() ||
+                               ShouldSerializeGlobalUseKryptonScrollbars() ||
                                ShouldSerializeBaseFont() ||
                                ShouldSerializeGlobalPaletteMode() ||
                                ShouldSerializeTouchscreenSettings());
@@ -260,6 +262,7 @@ public sealed class KryptonManager : Component
         ResetShowAdministratorSuffix();
         ResetToolkitStrings();
         ResetUseKryptonFileDialogs();
+        ResetGlobalUseKryptonScrollbars();
         ResetBaseFont();
         ResetGlobalPaletteMode();
         ResetTouchscreenSettings();
@@ -398,6 +401,20 @@ public sealed class KryptonManager : Component
     }
     private bool ShouldSerializeUseKryptonFileDialogs() => !UseKryptonFileDialogs;
     private void ResetUseKryptonFileDialogs() => UseKryptonFileDialogs = true;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether scrollable controls should use Krypton-themed scrollbars instead of native scrollbars.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Should scrollable controls use Krypton-themed scrollbars instead of native scrollbars.")]
+    [DefaultValue(false)]
+    public bool GlobalUseKryptonScrollbars
+    {
+        get => UseKryptonScrollbars;
+        set => UseKryptonScrollbars = value;
+    }
+    private bool ShouldSerializeGlobalUseKryptonScrollbars() => GlobalUseKryptonScrollbars;
+    private void ResetGlobalUseKryptonScrollbars() => GlobalUseKryptonScrollbars = false;
 
 
     /// <summary>
@@ -555,6 +572,27 @@ public sealed class KryptonManager : Component
 
                 // Fire change event
                 OnGlobalUseThemeFormChromeBorderWidthChanged(EventArgs.Empty);
+            }
+        }
+    }
+    #endregion
+
+    #region Static UseKryptonScrollbars
+    /// <summary>
+    /// Gets and sets the global flag that decides if scrollable controls should use Krypton-themed scrollbars instead of native scrollbars.
+    /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public static bool UseKryptonScrollbars
+    {
+        get => _globalUseKryptonScrollbars;
+
+        set
+        {
+            // Only interested if the value changes
+            if (_globalUseKryptonScrollbars != value)
+            {
+                // Use new value
+                _globalUseKryptonScrollbars = value;
             }
         }
     }

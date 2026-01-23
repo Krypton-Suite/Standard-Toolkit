@@ -37,6 +37,8 @@ public class KryptonScrollbarManager : IDisposable
     private int _verticalScrollValue;
     private bool _suppressScrollEvents;
     private readonly Timer _syncTimer;
+    private RichTextBoxScrollBars? _originalRichTextBoxScrollBars;
+    private ScrollBars? _originalTextBoxScrollBars;
 
     #endregion
 
@@ -231,6 +233,18 @@ public class KryptonScrollbarManager : IDisposable
             _targetControl.HandleDestroyed -= OnTargetControlHandleDestroyed;
             _targetControl.Resize -= OnTargetControlResize;
             _targetControl.Layout -= OnTargetControlLayout;
+
+            // Restore original ScrollBars values for RichTextBox/TextBox
+            if (_targetControl is RichTextBox richTextBox && _originalRichTextBoxScrollBars.HasValue)
+            {
+                richTextBox.ScrollBars = _originalRichTextBoxScrollBars.Value;
+                _originalRichTextBoxScrollBars = null;
+            }
+            else if (_targetControl is TextBox textBox && _originalTextBoxScrollBars.HasValue)
+            {
+                textBox.ScrollBars = _originalTextBoxScrollBars.Value;
+                _originalTextBoxScrollBars = null;
+            }
 
             // Restore AutoScroll if it was disabled
             if (_mode == ScrollbarManagerMode.Container && _targetControl is Panel panel)
@@ -612,6 +626,31 @@ public class KryptonScrollbarManager : IDisposable
 
         try
         {
+            // RichTextBox uses RichTextBoxScrollBars property
+            if (_targetControl is RichTextBox richTextBox)
+            {
+                // Store original value if not already stored
+                if (_originalRichTextBoxScrollBars == null)
+                {
+                    _originalRichTextBoxScrollBars = richTextBox.ScrollBars;
+                }
+                richTextBox.ScrollBars = RichTextBoxScrollBars.None;
+                return;
+            }
+
+            // TextBox uses ScrollBars property
+            if (_targetControl is TextBox textBox)
+            {
+                // Store original value if not already stored
+                if (_originalTextBoxScrollBars == null)
+                {
+                    _originalTextBoxScrollBars = textBox.ScrollBars;
+                }
+                textBox.ScrollBars = ScrollBars.None;
+                return;
+            }
+
+            // For other controls, try to remove scrollbar styles via window styles
             // Get current window style
             uint style = PI.GetWindowLong(_targetControl.Handle, PI.GWL_.STYLE);
 

@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -31,7 +31,7 @@ public class KryptonPanel : VisualPanel
     private readonly PaletteDouble? _stateDisabled;
     private readonly PaletteDouble? _stateNormal;
     private KryptonScrollbarManager? _scrollbarManager;
-    private bool _useKryptonScrollbars;
+    private bool? _useKryptonScrollbars;
 
     #endregion
 
@@ -88,10 +88,11 @@ public class KryptonPanel : VisualPanel
     [DefaultValue(false)]
     public bool UseKryptonScrollbars
     {
-        get => _useKryptonScrollbars;
+        get => _useKryptonScrollbars ?? KryptonManager.UseKryptonScrollbars;
         set
         {
-            if (_useKryptonScrollbars != value)
+            bool currentValue = _useKryptonScrollbars ?? KryptonManager.UseKryptonScrollbars;
+            if (currentValue != value)
             {
                 _useKryptonScrollbars = value;
                 UpdateScrollbarManager();
@@ -99,9 +100,9 @@ public class KryptonPanel : VisualPanel
         }
     }
 
-    private bool ShouldSerializeUseKryptonScrollbars() => UseKryptonScrollbars;
+    private bool ShouldSerializeUseKryptonScrollbars() => _useKryptonScrollbars.HasValue;
 
-    private void ResetUseKryptonScrollbars() => UseKryptonScrollbars = false;
+    private void ResetUseKryptonScrollbars() => _useKryptonScrollbars = null;
 
     /// <summary>
     /// Gets access to the scrollbar manager when UseKryptonScrollbars is enabled.
@@ -220,7 +221,7 @@ public class KryptonPanel : VisualPanel
     protected override void OnHandleCreated(EventArgs e)
     {
         base.OnHandleCreated(e);
-        if (_useKryptonScrollbars)
+        if (KryptonManager.UseKryptonScrollbars)
         {
             UpdateScrollbarManager();
         }
@@ -241,7 +242,7 @@ public class KryptonPanel : VisualPanel
 
     private void UpdateScrollbarManager()
     {
-        if (_useKryptonScrollbars)
+        if (KryptonManager.UseKryptonScrollbars)
         {
             if (_scrollbarManager == null)
             {

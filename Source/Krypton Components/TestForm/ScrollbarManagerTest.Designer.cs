@@ -58,7 +58,7 @@
             this.lblDynamicExample = new Krypton.Toolkit.KryptonLabel();
             this.lblDynamicStatus = new Krypton.Toolkit.KryptonLabel();
             this.kpgProperties = new Krypton.Toolkit.KryptonGroupBox();
-            this.propertyGrid = new System.Windows.Forms.PropertyGrid();
+            this.propertyGrid = new Krypton.Toolkit.KryptonPropertyGrid();
             this.lblPropertiesExample = new Krypton.Toolkit.KryptonLabel();
             ((System.ComponentModel.ISupportInitialize)(this.kpnlMain)).BeginInit();
             this.kpnlMain.SuspendLayout();
@@ -386,6 +386,8 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.propertyGrid.Location = new System.Drawing.Point(9, 52);
             this.propertyGrid.Name = "propertyGrid";
+            this.propertyGrid.Padding = new System.Windows.Forms.Padding(1);
+            this.propertyGrid.SelectedObject = this.kpgDynamic;
             this.propertyGrid.Size = new System.Drawing.Size(489, 153);
             this.propertyGrid.TabIndex = 0;
             // 
@@ -472,7 +474,7 @@
         private Krypton.Toolkit.KryptonLabel lblDynamicExample;
         private Krypton.Toolkit.KryptonLabel lblDynamicStatus;
         private Krypton.Toolkit.KryptonGroupBox kpgProperties;
-        private System.Windows.Forms.PropertyGrid propertyGrid;
+        private Krypton.Toolkit.KryptonPropertyGrid propertyGrid;
         private Krypton.Toolkit.KryptonLabel lblPropertiesExample;
     }
 }

@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -299,7 +299,7 @@ public class KryptonRichTextBox : VisualControlBase,
     private bool _firstPaint;
     private string? _originalRtf; // Store original RTF to restore when switching away from dark mode black themes
     private KryptonScrollbarManager? _scrollbarManager;
-    private bool _useKryptonScrollbars;
+    private bool? _useKryptonScrollbars;
 
     #endregion
 
@@ -1694,16 +1694,18 @@ public class KryptonRichTextBox : VisualControlBase,
 
     /// <summary>
     /// Gets or sets whether to use Krypton-themed scrollbars instead of native scrollbars.
+    /// If not explicitly set, uses the global value from KryptonManager.UseKryptonScrollbars.
     /// </summary>
     [Category(@"Behavior")]
-    [Description(@"Gets or sets whether to use Krypton-themed scrollbars instead of native scrollbars.")]
+    [Description(@"Gets or sets whether to use Krypton-themed scrollbars instead of native scrollbars. If not explicitly set, uses the global value from KryptonManager.UseKryptonScrollbars.")]
     [DefaultValue(false)]
     public bool UseKryptonScrollbars
     {
-        get => _useKryptonScrollbars;
+        get => _useKryptonScrollbars ?? KryptonManager.UseKryptonScrollbars;
         set
         {
-            if (_useKryptonScrollbars != value)
+            bool currentValue = _useKryptonScrollbars ?? KryptonManager.UseKryptonScrollbars;
+            if (currentValue != value)
             {
                 _useKryptonScrollbars = value;
                 UpdateScrollbarManager();
@@ -1711,9 +1713,9 @@ public class KryptonRichTextBox : VisualControlBase,
         }
     }
 
-    private bool ShouldSerializeUseKryptonScrollbars() => UseKryptonScrollbars;
+    private bool ShouldSerializeUseKryptonScrollbars() => _useKryptonScrollbars.HasValue;
 
-    private void ResetUseKryptonScrollbars() => UseKryptonScrollbars = false;
+    private void ResetUseKryptonScrollbars() => _useKryptonScrollbars = null;
 
     /// <summary>
     /// Gets access to the scrollbar manager when UseKryptonScrollbars is enabled.
@@ -1839,7 +1841,7 @@ public class KryptonRichTextBox : VisualControlBase,
         // We need a layout to occur before any painting
         InvokeLayout();
 
-        if (_useKryptonScrollbars)
+        if (KryptonManager.UseKryptonScrollbars)
         {
             UpdateScrollbarManager();
         }
@@ -2276,7 +2278,7 @@ public class KryptonRichTextBox : VisualControlBase,
 
     private void UpdateScrollbarManager()
     {
-        if (_useKryptonScrollbars)
+        if (KryptonManager.UseKryptonScrollbars)
         {
             if (_scrollbarManager == null)
             {

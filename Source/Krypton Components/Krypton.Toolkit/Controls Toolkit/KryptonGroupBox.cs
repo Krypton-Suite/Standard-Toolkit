@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -40,7 +40,7 @@ public class KryptonGroupBox : VisualControlContainment
     private readonly bool _ignoreLayout;
     private bool _layingOut;
     private KryptonScrollbarManager? _scrollbarManager;
-    private bool _useKryptonScrollbars;
+    private bool? _useKryptonScrollbars;
 
     #endregion
 
@@ -520,10 +520,11 @@ public class KryptonGroupBox : VisualControlContainment
     [DefaultValue(false)]
     public bool UseKryptonScrollbars
     {
-        get => _useKryptonScrollbars;
+        get => _useKryptonScrollbars ?? KryptonManager.UseKryptonScrollbars;
         set
         {
-            if (_useKryptonScrollbars != value)
+            bool currentValue = _useKryptonScrollbars ?? KryptonManager.UseKryptonScrollbars;
+            if (currentValue != value)
             {
                 _useKryptonScrollbars = value;
                 UpdateScrollbarManager();
@@ -531,9 +532,9 @@ public class KryptonGroupBox : VisualControlContainment
         }
     }
 
-    private bool ShouldSerializeUseKryptonScrollbars() => UseKryptonScrollbars;
+    private bool ShouldSerializeUseKryptonScrollbars() => _useKryptonScrollbars.HasValue;
 
-    private void ResetUseKryptonScrollbars() => UseKryptonScrollbars = false;
+    private void ResetUseKryptonScrollbars() => _useKryptonScrollbars = null;
 
     /// <summary>
     /// Gets access to the scrollbar manager when UseKryptonScrollbars is enabled.
@@ -823,7 +824,7 @@ public class KryptonGroupBox : VisualControlContainment
 
     private void UpdateScrollbarManager()
     {
-        if (_useKryptonScrollbars)
+        if (KryptonManager.UseKryptonScrollbars)
         {
             _scrollbarManager ??= new KryptonScrollbarManager(Panel, ScrollbarManagerMode.Container)
             {
