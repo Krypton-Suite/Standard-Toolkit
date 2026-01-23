@@ -11,11 +11,12 @@ on:
       - canary
       - V105-LTS
       - V85-LTS
-    workflow_dispatch:
+  workflow_dispatch:
 
 jobs:
   release-master:
     runs-on: windows-latest
+    environment: production  # Requires approval before publishing
     if: github.ref == 'refs/heads/master' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
 
     steps:
@@ -82,7 +83,7 @@ jobs:
       - name: Cache NuGet
         # Kill switch check
         if: steps.release_kill_switch.outputs.enabled == 'true'
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
@@ -204,7 +205,7 @@ jobs:
               @{
                 title = "🎉 Krypton Toolkit Stable Release"
                 description = "A new stable release is now available!"
-                color = 77dd76
+                color = 7863670
                 fields = @(
                   @{
                     name = "📌 Version"
@@ -241,6 +242,7 @@ jobs:
 
   release-v105-lts:
     runs-on: windows-latest
+    environment: production  # Requires approval before publishing
     if: github.ref == 'refs/heads/V105-LTS' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
 
     steps:
@@ -307,7 +309,7 @@ jobs:
       - name: Cache NuGet
         # Kill switch check
         if: steps.release_kill_switch.outputs.enabled == 'true'
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
@@ -429,7 +431,7 @@ jobs:
               @{
                 title = "🎉 Krypton Toolkit Stable Release"
                 description = "A new stable release is now available!"
-                color = 77dd76
+                color = 7863670
                 fields = @(
                   @{
                     name = "📌 Version"
@@ -466,6 +468,7 @@ jobs:
 
   release-v85-lts:
     runs-on: windows-latest
+    environment: production  # Requires approval before publishing
     if: github.ref == 'refs/heads/V85-LTS' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
 
     steps:
@@ -517,7 +520,7 @@ jobs:
       - name: Cache NuGet
         # Kill switch check
         if: steps.lts_release_kill_switch.outputs.enabled == 'true'
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
@@ -639,7 +642,7 @@ jobs:
               @{
                 title = "🛡️ Krypton Toolkit LTS Release"
                 description = "A new Long-Term Support release is now available!"
-                color = 0094ff
+                color = 38143
                 fields = @(
                   @{
                     name = "📌 Version"
@@ -676,6 +679,7 @@ jobs:
 
   release-canary:
     runs-on: windows-latest
+    environment: production  # Requires approval before publishing
     if: github.ref == 'refs/heads/canary' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
 
     steps:
@@ -742,7 +746,7 @@ jobs:
       - name: Cache NuGet
         # Kill switch check
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
@@ -967,7 +971,7 @@ jobs:
       - name: Cache NuGet
         # Kill switch check
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
