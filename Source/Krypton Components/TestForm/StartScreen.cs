@@ -86,6 +86,7 @@ public partial class StartScreen : KryptonForm
         CreateButton("RTL Compliance Tests", "Test the Krypton.Toolkit controls for compliance.", typeof(RTLControlsTest));
         CreateButton("Splash Screen", string.Empty, typeof(SplashScreenExample));
         CreateButton("Taskbar Overlay Icon Test", "Comprehensive demonstration of taskbar overlay icons on KryptonForm with configurable icons, descriptions, and interactive examples.", typeof(TaskbarOverlayIconTest));
+        CreateButton("Taskbar Thumbnail Buttons", "Demo of taskbar thumbnail toolbar buttons (Play, Pause, Next, Stop) in the taskbar preview. Hover the taskbar button to see them.", typeof(TaskbarThumbnailButtonsDemo));
         CreateButton("Theme Controls", string.Empty, typeof(ThemeControlExamples));
         CreateButton("TextBox Validating Test", "Tests fix for Validating event duplication bug #2801", typeof(KryptonTextBoxValidatingTest));
         CreateButton("Touchscreen + High DPI Demo", "Comprehensive demonstration of touchscreen support with per-monitor high DPI scaling (Issue #2844).", typeof(TouchscreenHighDpiDemo));
