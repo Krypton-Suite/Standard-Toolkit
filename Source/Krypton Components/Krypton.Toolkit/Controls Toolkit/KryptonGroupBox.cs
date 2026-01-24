@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -26,6 +26,7 @@ namespace Krypton.Toolkit;
 public class KryptonGroupBox : VisualControlContainment
 {
     #region Instance Fields
+
     private LabelStyle _captionStyle;
     private VisualOrientation _captionEdge;
     private ButtonOrientation _captionOrientation;
@@ -38,6 +39,9 @@ public class KryptonGroupBox : VisualControlContainment
     private bool _captionVisible;
     private readonly bool _ignoreLayout;
     private bool _layingOut;
+    private KryptonScrollbarManager? _scrollbarManager;
+    private bool? _useKryptonScrollbars;
+
     #endregion
 
     #region Identity
@@ -128,6 +132,10 @@ public class KryptonGroupBox : VisualControlContainment
                     // Ignored
                 }
             }
+
+            _scrollbarManager?.Dispose();
+
+            _scrollbarManager = null;
         }
 
         base.Dispose(disposing);
@@ -135,6 +143,7 @@ public class KryptonGroupBox : VisualControlContainment
     #endregion
 
     #region Public
+
     /// <summary>
     /// Gets and sets the name of the control.
     /// </summary>
@@ -504,6 +513,37 @@ public class KryptonGroupBox : VisualControlContainment
     private bool ShouldSerializeValues() => !Values.IsDefault;
 
     /// <summary>
+    /// Gets or sets whether to use Krypton-themed scrollbars instead of native scrollbars.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Gets or sets whether to use Krypton-themed scrollbars instead of native scrollbars.")]
+    [DefaultValue(false)]
+    public bool UseKryptonScrollbars
+    {
+        get => _useKryptonScrollbars ?? KryptonManager.UseKryptonScrollbars;
+        set
+        {
+            bool currentValue = _useKryptonScrollbars ?? KryptonManager.UseKryptonScrollbars;
+            if (currentValue != value)
+            {
+                _useKryptonScrollbars = value;
+                UpdateScrollbarManager();
+            }
+        }
+    }
+
+    private bool ShouldSerializeUseKryptonScrollbars() => _useKryptonScrollbars.HasValue;
+
+    private void ResetUseKryptonScrollbars() => _useKryptonScrollbars = null;
+
+    /// <summary>
+    /// Gets access to the scrollbar manager when UseKryptonScrollbars is enabled.
+    /// </summary>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public KryptonScrollbarManager? ScrollbarManager => _scrollbarManager;
+
+    /// <summary>
     /// Get the preferred size of the control based on a proposed size.
     /// </summary>
     /// <param name="proposedSize">Starting size proposed by the caller.</param>
@@ -781,6 +821,25 @@ public class KryptonGroupBox : VisualControlContainment
     private void OnRemoveObscurer(object? sender, EventArgs e) => _obscurer?.Uncover();
 
     private void OnValuesTextChanged(object? sender, EventArgs e) => OnTextChanged(EventArgs.Empty);
+
+    private void UpdateScrollbarManager()
+    {
+        if (KryptonManager.UseKryptonScrollbars)
+        {
+            _scrollbarManager ??= new KryptonScrollbarManager(Panel, ScrollbarManagerMode.Container)
+            {
+                Enabled = true
+            };
+        }
+        else
+        {
+            if (_scrollbarManager != null)
+            {
+                _scrollbarManager.Dispose();
+                _scrollbarManager = null;
+            }
+        }
+    }
 
     private void OnGroupPanelPaint(object sender, NeedLayoutEventArgs e)
     {

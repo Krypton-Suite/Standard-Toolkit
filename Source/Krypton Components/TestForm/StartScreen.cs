@@ -80,6 +80,7 @@ public partial class StartScreen : KryptonForm
         CreateButton("NotifyIcon", "Comprehensive demonstration of KryptonNotifyIcon with all events, balloon tips, and context menu support.", typeof(NotifyIconTest));
         CreateButton("ProgressBar", "Checkout if progress has been made.", typeof(ProgressBarTest));
         CreateButton("ScrollBar", "Comprehensive demonstration of KryptonHScrollBar and KryptonVScrollBar controls with basic usage, scrolling content, synchronization, theming, programmatic control, and event logging.", typeof(ScrollBarTest));
+        CreateButton("Scrollbar Manager", "Comprehensive demonstration of KryptonScrollbarManager with container mode, native wrapper mode, dynamic content, and integration examples.", typeof(ScrollbarManagerTest));
         CreateButton("Ribbon / Navigator / Workspace", string.Empty, typeof(RibbonNavigatorWorkspaceTest));
         CreateButton("RTL Compliance Tests", "Test the Krypton.Toolkit controls for compliance.", typeof(RTLControlsTest));
         CreateButton("Splash Screen", string.Empty, typeof(SplashScreenExample));
