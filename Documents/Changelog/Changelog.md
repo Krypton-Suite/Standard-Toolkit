@@ -5,10 +5,12 @@
 ## 2026-04-20 - Build 2604 (Version 105-LTS - Patch 2) - April 2026
 
 * Resolved [#2910](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2910), `KryptonComboBox` override Font property causes form designer error
+* Resolved [#2902](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2902), NuGet Version Discrepancy
+* Version bump `100.xx.xx.xx` -> `105.xx.xx.xx`
 
 ====
 
-# 2026-01-19 - Build 2501 (Version 105-LTS - Patch 1) - January 2026
+# 2026-01-19 - Build 2501 (Version 100-LTS - Patch 1) - January 2026
 
 * Resolved/Implemented [#1651](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1651), KComboBox's should follow the DateTimePicker layout(s)
 * Resolved [#2457](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2457), `KryptonForm` RTL border bug
@@ -40,7 +42,6 @@
 * Implemented [#2653](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2653), Adds a property to `KryptonTaskDialog` to toggle the `KryptonSystemMenu`.
 * Resolves [#2649](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2649), `KryptonSytemMenu` duplicates menu entries.
 * Resolved [#2641](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2641), `KryptonForm` based minimised MDI Child Windows do not react when hosted in a `KryptonForm` parent container.
-* Version bump `100.xx.xx.xx` -> `105.xx.xx.xx`
 
 ====
 
