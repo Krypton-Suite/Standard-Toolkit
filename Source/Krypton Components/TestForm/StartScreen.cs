@@ -61,6 +61,7 @@ public partial class StartScreen : KryptonForm
         CreateButton("Accessibility Test (UIA Providers)", "Comprehensive demo and test for UIA Provider implementation (Issue #762). Tests all 10 controls with accessibility support, organized by category with detailed results.", typeof(AccessibilityTest));
         CreateButton("Badge Test", "Comprehensive badge functionality demonstration for KryptonButton and KryptonCheckButton.", typeof(ButtonBadgeTest));
         CreateButton("Buttons Test", "All the buttons you want to test.", typeof(ButtonsTest));
+        CreateButton("Bug 2914 Test", "Tests the fix for 2914.", typeof(Bug2914Test));
         CreateButton("BugReportingTool", "Easily report bugs with this tool.", typeof(BugReportingDialogTest));
         CreateButton("Code Editor", "Native code editor with syntax highlighting, line numbering, code folding, and auto-completion.", typeof(CodeEditorTest));
         CreateButton("Countdown Button", "Comprehensive demonstration of KryptonCountdownButton features with customizable duration, format, and enable-at-zero options.", typeof(CountdownButtonTest));
@@ -80,10 +81,12 @@ public partial class StartScreen : KryptonForm
         CreateButton("NotifyIcon", "Comprehensive demonstration of KryptonNotifyIcon with all events, balloon tips, and context menu support.", typeof(NotifyIconTest));
         CreateButton("ProgressBar", "Checkout if progress has been made.", typeof(ProgressBarTest));
         CreateButton("ScrollBar", "Comprehensive demonstration of KryptonHScrollBar and KryptonVScrollBar controls with basic usage, scrolling content, synchronization, theming, programmatic control, and event logging.", typeof(ScrollBarTest));
+        CreateButton("Scrollbar Manager", "Comprehensive demonstration of KryptonScrollbarManager with container mode, native wrapper mode, dynamic content, and integration examples.", typeof(ScrollbarManagerTest));
         CreateButton("Ribbon / Navigator / Workspace", string.Empty, typeof(RibbonNavigatorWorkspaceTest));
         CreateButton("RTL Compliance Tests", "Test the Krypton.Toolkit controls for compliance.", typeof(RTLControlsTest));
         CreateButton("Splash Screen", string.Empty, typeof(SplashScreenExample));
         CreateButton("Taskbar Overlay Icon Test", "Comprehensive demonstration of taskbar overlay icons on KryptonForm with configurable icons, descriptions, and interactive examples.", typeof(TaskbarOverlayIconTest));
+        CreateButton("Taskbar Thumbnail Buttons", "Demo of taskbar thumbnail toolbar buttons (Play, Pause, Next, Stop) in the taskbar preview. Hover the taskbar button to see them.", typeof(TaskbarThumbnailButtonsDemo));
         CreateButton("Theme Controls", string.Empty, typeof(ThemeControlExamples));
         CreateButton("TextBox Validating Test", "Tests fix for Validating event duplication bug #2801", typeof(KryptonTextBoxValidatingTest));
         CreateButton("Touchscreen + High DPI Demo", "Comprehensive demonstration of touchscreen support with per-monitor high DPI scaling (Issue #2844).", typeof(TouchscreenHighDpiDemo));

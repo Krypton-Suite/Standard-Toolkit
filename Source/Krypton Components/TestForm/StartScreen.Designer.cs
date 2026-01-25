@@ -69,6 +69,7 @@ namespace TestForm
             // kryptonManager1
             // 
             this.kryptonManager1.BaseFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.kryptonManager1.GlobalUseKryptonScrollbars = true;
             this.kryptonManager1.ToolkitStrings.MessageBoxStrings.LessDetails = "L&ess Details...";
             this.kryptonManager1.ToolkitStrings.MessageBoxStrings.MoreDetails = "&More Details...";
             // 
@@ -98,6 +99,7 @@ namespace TestForm
             this.tbFilter.Size = new System.Drawing.Size(526, 30);
             this.tbFilter.StateCommon.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.tbFilter.TabIndex = 0;
+            this.tbFilter.UseKryptonScrollbars = true;
             // 
             // btnClearFilter
             // 
@@ -113,6 +115,7 @@ namespace TestForm
             this.kryptonThemeListBox1.Name = "kryptonThemeListBox1";
             this.kryptonThemeListBox1.Size = new System.Drawing.Size(313, 709);
             this.kryptonThemeListBox1.TabIndex = 17;
+            this.kryptonThemeListBox1.UseKryptonScrollbars = true;
             // 
             // btnDockTopRight
             // 

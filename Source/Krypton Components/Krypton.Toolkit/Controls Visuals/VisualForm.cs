@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -27,6 +27,11 @@ public abstract class VisualForm : Form,
     #region Static Fields
     private static readonly bool _themedApp;
 
+    /// <summary>
+    /// Registered "TaskbarButtonCreated" message. Must handle this before using ITaskbarList3 (e.g. ThumbBarAddButtons).
+    /// </summary>
+    private static readonly uint s_taskbarButtonCreatedMsg = PI.RegisterWindowMessage("TaskbarButtonCreated");
+
     // To avoid lag when Acrylic is in use
     public const int WS_EX_NOREDIRECTIONBITMAP = 0x00200000;
 
@@ -53,6 +58,8 @@ public abstract class VisualForm : Form,
     private readonly TaskbarOverlayIconValues _taskbarOverlayIconValues;
     readonly JumpListValues _jumpListValues;
     private readonly WindowsShellValues _shellValues;
+    private bool _thumbButtonsAdded;
+    private bool _taskbarButtonCreated;
 
     #endregion
 
@@ -84,6 +91,14 @@ public abstract class VisualForm : Form,
     [Category(@"Property Changed")]
     [Description(@"Occurs when the value of the GlobalPalette property is changed.")]
     public event EventHandler? GlobalPaletteChanged;
+
+    /// <summary>
+    /// Occurs when a taskbar thumbnail toolbar button is clicked.
+    /// </summary>
+    [Category(@"Action")]
+    [Description(@"Occurs when the user clicks a button in the taskbar thumbnail preview.")]
+    public event EventHandler<ThumbnailButtonClickEventArgs>? ThumbnailButtonClick;
+
     #endregion
 
     #region Identity
@@ -137,6 +152,7 @@ public abstract class VisualForm : Form,
         // Taskbar configuration
         _shellValues = new WindowsShellValues(NeedPaintDelegate);
         _shellValues.OverlayIconValues.OnTaskbarOverlayChanged += UpdateTaskbarOverlayIcon;
+        _shellValues.ThumbnailButtonValues.OnThumbnailButtonsChanged += UpdateTaskbarThumbnailButtons;
 
         // Jump list
         _jumpListValues = new JumpListValues(NeedPaintDelegate);
@@ -840,6 +856,18 @@ public abstract class VisualForm : Form,
 
         // Update taskbar overlay icon if set
         UpdateTaskbarOverlayIcon();
+        UpdateTaskbarThumbnailButtons();
+    }
+
+    /// <summary>
+    /// Raises the HandleDestroyed event.
+    /// </summary>
+    /// <param name="e">An EventArgs containing the event data.</param>
+    protected override void OnHandleDestroyed(EventArgs e)
+    {
+        _thumbButtonsAdded = false;
+        _taskbarButtonCreated = false;
+        base.OnHandleDestroyed(e);
     }
 
     /// <summary>
@@ -1087,6 +1115,13 @@ public abstract class VisualForm : Form,
         // Do we need to override message processing?
         if (!IsDisposed && !Disposing)
         {
+            if (s_taskbarButtonCreatedMsg != 0 && m.Msg == (int)s_taskbarButtonCreatedMsg)
+            {
+                _taskbarButtonCreated = true;
+                UpdateTaskbarThumbnailButtons();
+                processed = true;
+            }
+
             switch (m.Msg)
             {
                 case PI.WM_.NCPAINT:
@@ -1175,6 +1210,17 @@ public abstract class VisualForm : Form,
                     // message used to indicate a window is shown and manually request layout
                     // and paint of the non-client area to get it shown.
                     PerformNeedPaint(true);
+                    break;
+                case PI.WM_.COMMAND:
+                {
+                    var wp = (uint)(m.WParam.ToInt64() & 0xFFFFFFFF);
+                    if (((wp >> 16) & 0xFFFF) == PI.THBN_CLICKED)
+                    {
+                        var buttonId = wp & 0xFFFF;
+                        ThumbnailButtonClick?.Invoke(this, new ThumbnailButtonClickEventArgs(buttonId));
+                        processed = true;
+                    }
+                }
                     break;
             }
         }
@@ -2039,6 +2085,89 @@ public abstract class VisualForm : Form,
         {
             // Silently fail if taskbar API is not available
             // This can happen on older Windows versions or if COM registration fails
+            KryptonExceptionHandler.CaptureException(ex, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
+        }
+    }
+
+    /// <summary>
+    /// Updates the taskbar thumbnail toolbar buttons using the Windows ITaskbarList3 API.
+    /// </summary>
+    private void UpdateTaskbarThumbnailButtons()
+    {
+        if (CommonHelper.DesignMode() || !IsHandleCreated || !ShowInTaskbar || !_taskbarButtonCreated)
+        {
+            return;
+        }
+
+        try
+        {
+            if (Environment.OSVersion.Version.Major < 6 ||
+                (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor < 1))
+            {
+                return;
+            }
+
+            var buttons = _shellValues.ThumbnailButtonValues.Buttons;
+            if (buttons.Count == 0)
+            {
+                return;
+            }
+
+            var arr = new PI.THUMBBUTTON[buttons.Count];
+            const int maxTip = 259;
+            for (var i = 0; i < buttons.Count; i++)
+            {
+                var b = buttons[i];
+                var tip = (b.Tooltip ?? string.Empty);
+                if (tip.Length > maxTip)
+                {
+                    tip = tip.Substring(0, maxTip);
+                }
+
+                var flags = b.Hidden
+                    ? PI.THUMBBUTTONFLAGS.THBF_HIDDEN
+                    : (b.Enabled ? PI.THUMBBUTTONFLAGS.THBF_ENABLED : PI.THUMBBUTTONFLAGS.THBF_DISABLED);
+
+                arr[i] = new PI.THUMBBUTTON
+                {
+                    dwMask = PI.THUMBBUTTONMASK.THB_ICON | PI.THUMBBUTTONMASK.THB_TOOLTIP | PI.THUMBBUTTONMASK.THB_FLAGS,
+                    iId = b.Id,
+                    iBitmap = 0,
+                    hIcon = b.Icon?.Handle ?? IntPtr.Zero,
+                    szTip = tip,
+                    dwFlags = flags
+                };
+            }
+
+            var size = Marshal.SizeOf<PI.THUMBBUTTON>();
+            var buf = Marshal.AllocHGlobal(size * arr.Length);
+            try
+            {
+                for (var i = 0; i < arr.Length; i++)
+                {
+                    Marshal.StructureToPtr(arr[i], IntPtr.Add(buf, i * size), false);
+                }
+
+                var taskbarList = (PI.ITaskbarList3)new PI.TaskbarList();
+                taskbarList.HrInit();
+
+                if (!_thumbButtonsAdded)
+                {
+                    taskbarList.ThumbBarAddButtons(Handle, (uint)arr.Length, buf);
+                    _thumbButtonsAdded = true;
+                }
+                else
+                {
+                    taskbarList.ThumbBarUpdateButtons(Handle, (uint)arr.Length, buf);
+                }
+            }
+            finally
+            {
+                Marshal.FreeHGlobal(buf);
+            }
+        }
+        catch (Exception ex)
+        {
             KryptonExceptionHandler.CaptureException(ex, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
         }
     }

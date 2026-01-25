@@ -1172,7 +1172,12 @@ public enum BadgeShape
     /// <summary>
     /// Specifies a rounded rectangle badge.
     /// </summary>
-    RoundedRectangle
+    RoundedRectangle,
+
+    /// <summary>
+    /// Specifies a capsule (pill-shaped) badge with fully rounded ends.
+    /// </summary>
+    Capsule
 }
 
 #endregion
@@ -4497,4 +4502,29 @@ public enum OverlayImageScaleMode
     /// </summary>
     ProportionalToMain
 }
+#endregion
+
+#region Enum ScrollbarManagerMode
+
+/// <summary>
+/// Specifies the integration mode for the scrollbar manager.
+/// </summary>
+public enum ScrollbarManagerMode
+{
+    /// <summary>
+    /// Container mode - for controls like Panel, GroupBox that use AutoScroll.
+    /// </summary>
+    Container,
+
+    /// <summary>
+    /// Native wrapper mode - for controls like TextBox, RichTextBox with native scrollbars.
+    /// </summary>
+    NativeWrapper,
+
+    /// <summary>
+    /// Custom mode - for controls with custom scrolling logic.
+    /// </summary>
+    Custom
+}
+
 #endregion

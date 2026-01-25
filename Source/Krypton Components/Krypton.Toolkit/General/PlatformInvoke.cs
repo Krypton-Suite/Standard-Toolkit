@@ -5133,7 +5133,53 @@ No 	                    No 	                    Show text only
     #region Taskbar Overlay Icon (ITaskbarList3)
 
     /// <summary>
-    /// COM interface for Windows 7+ taskbar functionality including overlay icons.
+    /// Notification code sent in WM_COMMAND when a taskbar thumbnail toolbar button is clicked.
+    /// </summary>
+    internal const int THBN_CLICKED = 0x1800;
+
+    /// <summary>
+    /// Mask flags for THUMBBUTTON; specifies which members contain valid data.
+    /// </summary>
+    [Flags]
+    internal enum THUMBBUTTONMASK
+    {
+        THB_BITMAP = 0x1,
+        THB_ICON = 0x2,
+        THB_TOOLTIP = 0x4,
+        THB_FLAGS = 0x8
+    }
+
+    /// <summary>
+    /// Flags controlling taskbar thumbnail button state and behavior.
+    /// </summary>
+    [Flags]
+    internal enum THUMBBUTTONFLAGS
+    {
+        THBF_ENABLED = 0,
+        THBF_DISABLED = 0x1,
+        THBF_DISMISSONCLICK = 0x2,
+        THBF_NOBACKGROUND = 0x4,
+        THBF_HIDDEN = 0x8,
+        THBF_NONINTERACTIVE = 0x10
+    }
+
+    /// <summary>
+    /// Structure defining a button in the taskbar thumbnail toolbar.
+    /// </summary>
+    [StructLayout(LayoutKind.Sequential, Pack = 8, CharSet = CharSet.Unicode)]
+    internal struct THUMBBUTTON
+    {
+        public THUMBBUTTONMASK dwMask;
+        public uint iId;
+        public uint iBitmap;
+        public IntPtr hIcon;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)]
+        public string szTip;
+        public THUMBBUTTONFLAGS dwFlags;
+    }
+
+    /// <summary>
+    /// COM interface for Windows 7+ taskbar functionality including overlay icons and thumbnail toolbars.
     /// </summary>
     [ComImport]
     [Guid("ea1afb91-9e28-4b86-90e9-9e9f8a5eefaf")]
@@ -5157,8 +5203,8 @@ No 	                    No 	                    Show text only
         void UnregisterTab(IntPtr hwndTab);
         void SetTabOrder(IntPtr hwndTab, IntPtr hwndInsertBefore);
         void SetTabActive(IntPtr hwndTab, IntPtr hwndMDI, uint dwReserved);
-        void ThumbBarAddButtons(IntPtr hwnd, uint cButtons, [MarshalAs(UnmanagedType.LPArray)] IntPtr[] pButtons);
-        void ThumbBarUpdateButtons(IntPtr hwnd, uint cButtons, [MarshalAs(UnmanagedType.LPArray)] IntPtr[] pButtons);
+        void ThumbBarAddButtons(IntPtr hwnd, uint cButtons, IntPtr pButtons);
+        void ThumbBarUpdateButtons(IntPtr hwnd, uint cButtons, IntPtr pButtons);
         void ThumbBarSetImageList(IntPtr hwnd, IntPtr himl);
         void SetOverlayIcon(IntPtr hwnd, IntPtr hIcon, [MarshalAs(UnmanagedType.LPWStr)] string pszDescription);
         void SetThumbnailTooltip(IntPtr hwnd, [MarshalAs(UnmanagedType.LPWStr)] string pszTip);

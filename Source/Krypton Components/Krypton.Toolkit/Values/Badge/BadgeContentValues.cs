@@ -24,6 +24,7 @@ public class BadgeContentValues : Storage
     private const int DEFAULT_MINIMUM_BADGE_VALUE = 0;
     private const int DEFAULT_BADGE_MARGIN = 5; // Default badge margin/offset from the edge
     private const int DEFAULT_BUTTON_IMAGE_PADDING = 4;
+    private const int DEFAULT_CAPSULE_SHAPE_PADDING = 8;
 
     #endregion
 
@@ -41,6 +42,7 @@ public class BadgeContentValues : Storage
     private int _maxBadgeValue;
     private int _badgeMargin;
     private bool _autoShowHideBadge;
+    private int _capsuleShapePadding;
 
     #endregion
 
@@ -378,6 +380,40 @@ public class BadgeContentValues : Storage
     /// </summary>
     public void ResetBadgeMargin() => BadgeMargin = DEFAULT_BADGE_MARGIN;
 
+    /// <summary>
+    /// Gets and sets the badge capsule shape padding for badge positioning.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"The badge capsule shape padding for badge positioning.")]
+    [RefreshProperties(RefreshProperties.All)]
+    [DefaultValue(DEFAULT_CAPSULE_SHAPE_PADDING)]
+    public int CapsuleShapePadding
+    {
+        get => _capsuleShapePadding;
+
+        set
+        {
+            if (value < 0)
+            {
+                value = DEFAULT_CAPSULE_SHAPE_PADDING;
+            }
+
+            if (_capsuleShapePadding != value)
+            {
+                _capsuleShapePadding = value;
+
+                PerformNeedPaint(true);
+            }
+        }
+    }
+
+    private bool ShouldSerializeCapsuleShapePadding() => CapsuleShapePadding != DEFAULT_CAPSULE_SHAPE_PADDING;
+
+    /// <summary>
+    /// Resets the CapsuleShapePadding property to its default value.
+    /// </summary>
+    public void ResetCapsuleShapePadding() => CapsuleShapePadding = DEFAULT_CAPSULE_SHAPE_PADDING;
+
     #endregion
 
     #region Implementation
@@ -403,18 +439,19 @@ public class BadgeContentValues : Storage
 
     /// <inheritdoc />
     [Browsable(false)]
-    public override bool IsDefault => Text.Equals(DEFAULT_BADGE_TEXT) &&
-                                      Position.Equals(BadgePosition.TopRight) &&
-                                      Visible.Equals(false) &&
-                                      Font == null &&
-                                      Shape.Equals(BadgeShape.Circle) &&
-                                      Animation.Equals(BadgeAnimation.None) &&
-                                      BadgeDiameter.Equals(DEFAULT_BADGE_DIAMETER) &&
-                                      MaximumBadgeValue.Equals(DEFAULT_MAXIMUM_BADGE_VALUE) &&
-                                      AutoShowHideBadge.Equals(DEFAULT_AUTO_SHOW_HIDE_BADGE) &&
-                                      BadgeImage == null &&
-                                      BadgeImagePadding.Equals(DEFAULT_BUTTON_IMAGE_PADDING) &&
-                                      BadgeMargin.Equals(DEFAULT_MAXIMUM_BADGE_VALUE);
+    public override bool IsDefault => !(ShouldSerializeAnimation() ||
+                                        ShouldSerializeAutoShowHideBadge() ||
+                                        ShouldSerializeBadgeDiameter() ||
+                                        ShouldSerializeBadgeImage() ||
+                                        ShouldSerializeBadgeImagePadding() ||
+                                        ShouldSerializeBadgeMargin() ||
+                                        ShouldSerializeCapsuleShapePadding() ||
+                                        ShouldSerializeFont() ||
+                                        ShouldSerializeMaxBadgeValue() ||
+                                        ShouldSerializePosition() ||
+                                        ShouldSerializeShape() ||
+                                        ShouldSerializeText() ||
+                                        ShouldSerializeVisible());
 
     #endregion
 
@@ -434,6 +471,8 @@ public class BadgeContentValues : Storage
         _badgeImage = null;
         _badgeImagePadding = 4;
         _badgeMargin = DEFAULT_BADGE_MARGIN;
+        _capsuleShapePadding = DEFAULT_CAPSULE_SHAPE_PADDING;
+
         PerformNeedPaint(true);
     }
 
