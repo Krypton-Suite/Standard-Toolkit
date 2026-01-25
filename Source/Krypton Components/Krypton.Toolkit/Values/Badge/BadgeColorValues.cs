@@ -54,7 +54,7 @@ public class BadgeColorValues : Storage
     [Category(@"Visuals")]
     [Description(@"The background color of the badge.")]
     [RefreshProperties(RefreshProperties.All)]
-    [KryptonDefaultColor]
+    [DefaultValue(typeof(Color), "Red")]
     public Color BadgeColor
     {
         get => _badgeColor;
@@ -76,7 +76,7 @@ public class BadgeColorValues : Storage
     [Category(@"Visuals")]
     [Description(@"The text color of the badge.")]
     [RefreshProperties(RefreshProperties.All)]
-    [KryptonDefaultColor]
+    [DefaultValue(typeof(Color), "White")]
     public Color TextColor
     {
         get => _textColor;
