@@ -4,6 +4,7 @@
 
 ## 2026-04-20 - Build 2604 (Version 105-LTS - Patch 2) - April 2026
 
+* Resolved [#2914](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2914), White bar is shown in a `KryptonForm` Sizable without buttons and text
 * Resolved [#2910](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2910), `KryptonComboBox` override Font property causes form designer error
 * Resolved [#2902](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2902), NuGet Version Discrepancy
 * Version bump `100.xx.xx.xx` -> `105.xx.xx.xx`

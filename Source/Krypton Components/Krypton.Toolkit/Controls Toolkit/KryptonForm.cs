@@ -2043,6 +2043,38 @@ public class KryptonForm : VisualForm,
         return ret;
     }
 
+    /// <inheritdoc />
+    protected override bool OnWM_NCCALCSIZE(ref Message m)
+    {
+        // Does the LParam contain a RECT or an NCCALCSIZE_PARAMS
+        if (m.WParam != IntPtr.Zero)
+        {
+            // Get the border sizing needed around the client area
+            Padding borders = RealWindowBorders;
+
+            // If caption should be hidden, set top border to 0 to prevent white band
+            if (ShouldHideCaption())
+            {
+                borders = new Padding(borders.Left, 0, borders.Right, borders.Bottom);
+            }
+
+            // Extract the Win32 NCCALCSIZE_PARAMS structure from LPARAM
+            PI.NCCALCSIZE_PARAMS calcsize = (PI.NCCALCSIZE_PARAMS)m.GetLParam(typeof(PI.NCCALCSIZE_PARAMS))!;
+
+            // Reduce provided RECT by the borders
+            calcsize.rectProposed.left += borders.Left;
+            calcsize.rectProposed.top += borders.Top;
+            calcsize.rectProposed.right -= borders.Right;
+            calcsize.rectProposed.bottom -= borders.Bottom;
+
+            // Put back the modified structure
+            Marshal.StructureToPtr(calcsize, m.LParam, false);
+        }
+
+        // Message processed, do not pass onto base class for processing
+        return true;
+    }
+
     protected override void OnMove(EventArgs e)
     {
         base.OnMove(e);
@@ -2180,6 +2212,30 @@ public class KryptonForm : VisualForm,
         }
     }
 
+    /// <summary>
+    /// Determines if the caption area should be hidden (no text, no icon, no control box, no visible buttons).
+    /// </summary>
+    /// <returns>True if caption should be hidden; otherwise false.</returns>
+    private bool ShouldHideCaption()
+    {
+        // Check if there are any visible buttons
+        bool hasVisibleButtons = false;
+        foreach (ButtonSpecView bsv in _buttonManager.ButtonSpecViews)
+        {
+            if (bsv.ViewCenter.Visible && bsv.ViewButton.Enabled)
+            {
+                hasVisibleButtons = true;
+                break;
+            }
+        }
+
+        // Hide caption if no control box, no text, no icon, and no visible buttons
+        return !ControlBox
+               && string.IsNullOrEmpty(GetShortText())
+               && GetDefinedIcon() == null
+               && !hasVisibleButtons;
+    }
+
     private bool CheckViewLayout()
     {
         // Cannot process a message for a disposed control
@@ -2218,16 +2274,29 @@ public class KryptonForm : VisualForm,
                     _headerStylePrev = _headerStyle;
                 }
 
-                // Update the heading to enforce a fixed Material-like caption height when Material renderer is active
-                if (Renderer is RenderMaterial)
+                bool shouldHideCaption = ShouldHideCaption();
+
+                if (shouldHideCaption)
                 {
-                    const int materialCaptionHeight = 44; // px
-                    _headingFixedSize.FixedSize = new Size(materialCaptionHeight, materialCaptionHeight);
+                    _headingFixedSize.FixedSize = Size.Empty;
+
+                    _headingFixedSize.Visible = false;
                 }
                 else
                 {
-                    Padding windowBorders = RealWindowBorders;
-                    _headingFixedSize.FixedSize = new Size(windowBorders.Top, windowBorders.Top);
+                    _headingFixedSize.Visible = true;
+
+                    // Update the heading to enforce a fixed Material-like caption height when Material renderer is active
+                    if (Renderer is RenderMaterial)
+                    {
+                        const int materialCaptionHeight = 44; // px
+                        _headingFixedSize.FixedSize = new Size(materialCaptionHeight, materialCaptionHeight);
+                    }
+                    else
+                    {
+                        Padding windowBorders = RealWindowBorders;
+                        _headingFixedSize.FixedSize = new Size(windowBorders.Top, windowBorders.Top);
+                    }
                 }
 
                 // A change in window state since last time requires a layout
