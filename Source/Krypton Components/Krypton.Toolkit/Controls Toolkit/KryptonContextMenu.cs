@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -76,6 +76,8 @@ public class KryptonContextMenu : Component,
         LocalCustomPalette = null;
         PaletteMode = PaletteMode.Global;
         Images = new ContextMenuImages(needPaintDelegate);
+        // Note: The PaletteRedirect used here will automatically scale context menu item padding
+        // when touchscreen support is enabled (see PaletteRedirect.GetMetricPadding for details)
         _redirector = new PaletteRedirect(null);
         _redirectorImages = new PaletteRedirectContextMenu(_redirector, Images);
         Enabled = true;

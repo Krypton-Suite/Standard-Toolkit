@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -343,8 +343,16 @@ public class ButtonSpecView : GlobalId,
             return CommonHelper.ScaleImageForSizedDisplay(baseImage, targetW, targetH, true);
         }
 
-        return CommonHelper.ScaleImageForSizedDisplay(baseImage, baseImage.Width * dpiFactor,
-            baseImage.Height * dpiFactor, true);
+        // Automatically scale all button images when touchscreen support is enabled
+        // This provides better touchscreen usability by making buttons larger and easier to tap
+        float imageScaleFactor = dpiFactor;
+        if (KryptonManager.UseTouchscreenSupport)
+        {
+            imageScaleFactor *= KryptonManager.TouchscreenScaleFactor;
+        }
+
+        return CommonHelper.ScaleImageForSizedDisplay(baseImage, baseImage.Width * imageScaleFactor,
+            baseImage.Height * imageScaleFactor, true);
     }
 
     /// <summary>

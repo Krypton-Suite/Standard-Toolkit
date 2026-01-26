@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -312,6 +312,7 @@ public class KryptonForm : VisualForm,
         // Hook into global static events
         KryptonManager.GlobalUseThemeFormChromeBorderWidthChanged += OnGlobalUseThemeFormChromeBorderWidthChanged;
         KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged;
+        KryptonManager.GlobalTouchscreenSupportChanged += OnGlobalTouchscreenSupportChanged;
 
         // Create the view manager instance
         ViewManager = new ViewManager(this, _drawDocker);
@@ -559,6 +560,7 @@ public class KryptonForm : VisualForm,
             // Unhook from the global static events
             KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChanged;
             KryptonManager.GlobalUseThemeFormChromeBorderWidthChanged -= OnGlobalUseThemeFormChromeBorderWidthChanged;
+            KryptonManager.GlobalTouchscreenSupportChanged -= OnGlobalTouchscreenSupportChanged;
 
             // #1979 Temporary fix
             base.PaletteChanged -= (s, e) => _internalKryptonPanel.PaletteMode = PaletteMode;
@@ -1691,6 +1693,17 @@ public class KryptonForm : VisualForm,
         base.OnRightToLeftLayoutChanged(e);
 
         // Recreate buttons when RTL changes to update their positions
+        _buttonManager?.RecreateButtons();
+    }
+
+    /// <summary>
+    /// Occurs when the global touchscreen support setting has been changed.
+    /// </summary>
+    /// <param name="sender">Source of the event.</param>
+    /// <param name="e">An EventArgs that contains the event data.</param>
+    private void OnGlobalTouchscreenSupportChanged(object? sender, EventArgs e)
+    {
+        // Recreate buttons when touchscreen support changes to update their sizes
         _buttonManager?.RecreateButtons();
     }
 
