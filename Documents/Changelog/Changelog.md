@@ -4,6 +4,7 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#2925](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2925), Controlbox Touchscreen support
 * Implemented [#2916](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2916), Taskbar Thumbnail Button support
 * Resolved [#2914](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2914), White bar is shown in a `KryptonForm` Sizable without buttons and text
 * Implemented [#187](https://github.com/Krypton-Suite/Standard-Toolkit/issues/187), Can the Extended Kit Scrollbars be placed into standard and used by all controls that have scrollability?

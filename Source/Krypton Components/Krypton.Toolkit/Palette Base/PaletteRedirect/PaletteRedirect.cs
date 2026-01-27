@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
@@ -624,7 +624,24 @@ public class PaletteRedirect : PaletteBase, IGlobalId
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Padding value.</returns>
     public override Padding GetBorderContentPadding(KryptonForm? owningForm, PaletteContentStyle style,
-        PaletteState state) => _target!.GetBorderContentPadding(owningForm, style, state);
+        PaletteState state)
+    {
+        // Get the base padding value from the target palette
+        Padding basePadding = _target!.GetBorderContentPadding(owningForm, style, state);
+
+        // Scale content padding for controlbox buttons when touchscreen mode is enabled
+        if (KryptonManager.UseTouchscreenSupport && style == PaletteContentStyle.ButtonButtonSpec)
+        {
+            float scaleFactor = KryptonManager.TouchscreenScaleFactor;
+            return new Padding(
+                (int)Math.Round(basePadding.Left * scaleFactor),
+                (int)Math.Round(basePadding.Top * scaleFactor),
+                (int)Math.Round(basePadding.Right * scaleFactor),
+                (int)Math.Round(basePadding.Bottom * scaleFactor));
+        }
+
+        return basePadding;
+    }
 
     /// <summary>
     /// Gets the padding between adjacent content items.
@@ -663,7 +680,33 @@ public class PaletteRedirect : PaletteBase, IGlobalId
     /// <param name="metric">Requested metric.</param>
     /// <returns>Padding value.</returns>
     public override Padding GetMetricPadding(KryptonForm? owningForm, PaletteState state,
-        PaletteMetricPadding metric) => _target!.GetMetricPadding(owningForm, state, metric);
+        PaletteMetricPadding metric)
+    {
+        // Get the base padding value from the target palette
+        Padding basePadding = _target!.GetMetricPadding(owningForm, state, metric);
+
+        // Scale padding for context menu items when touchscreen mode is enabled
+        // Note: We don't scale HeaderButtonPaddingForm here as it creates transparent areas.
+        // Instead, we scale the button's content padding and image size directly.
+        if (KryptonManager.UseTouchscreenSupport)
+        {
+            float scaleFactor = KryptonManager.TouchscreenScaleFactor;
+
+            // Scale context menu item padding
+            if (metric is PaletteMetricPadding.ContextMenuItemHighlight
+                or PaletteMetricPadding.ContextMenuItemOuter
+                or PaletteMetricPadding.ContextMenuItemsCollection)
+            {
+                return new Padding(
+                    (int)Math.Round(basePadding.Left * scaleFactor),
+                    (int)Math.Round(basePadding.Top * scaleFactor),
+                    (int)Math.Round(basePadding.Right * scaleFactor),
+                    (int)Math.Round(basePadding.Bottom * scaleFactor));
+            }
+        }
+
+        return basePadding;
+    }
 
     #endregion
 

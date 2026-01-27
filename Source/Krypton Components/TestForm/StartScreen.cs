@@ -121,7 +121,8 @@ public partial class StartScreen : KryptonForm
         CreateButton("TextBox", string.Empty, typeof(TextBoxEventTest));
         CreateButton("TextSuggestion", string.Empty, typeof(TextSuggestionDemo));
         CreateButton("TreeView", string.Empty, typeof(TreeViewExample));
-        CreateButton("Touchscreen Support Test", "Comprehensive demonstration of touchscreen support with real-time scale factor adjustment.", typeof(TouchscreenSupportTest)); 
+        CreateButton("Touchscreen Support Test", "Comprehensive demonstration of touchscreen support with real-time scale factor adjustment.", typeof(TouchscreenSupportTest));
+        CreateButton("Controlbox & Context Menu Touchscreen", "Demonstration of touchscreen support for controlbox buttons (minimize, maximize, close) and KryptonContextMenu items (Issue #2925).", typeof(ControlboxTouchscreenDemo)); 
         CreateButton("Timer", "Test KryptonTimer with interval configuration and event tracking.", typeof(TimerTest));
         CreateButton("Panel Form", string.Empty, typeof(PanelForm));
         CreateButton("Palette Viewer", string.Empty, typeof(PaletteViewerForm));
