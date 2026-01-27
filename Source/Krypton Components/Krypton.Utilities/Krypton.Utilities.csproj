@@ -56,9 +56,9 @@
 
 	<!-- WebView2 SDK Path (for .NET 8+ file-based references, if needed) -->
 	<PropertyGroup>
-		<WebView2SDKPath>$(MSBuildProjectDirectory)\..\..\..\WebView2SDK</WebView2SDKPath>
-		<WebView2CoreDll>$(WebView2SDKPath)\Microsoft.Web.WebView2.Core.dll</WebView2CoreDll>
-		<WebView2WinFormsDll>$(WebView2SDKPath)\Microsoft.Web.WebView2.WinForms.dll</WebView2WinFormsDll>
+		<WebView2SDKPath>$([System.IO.Path]::GetFullPath('$(MSBuildProjectDirectory)\..\..\..\WebView2SDK'))</WebView2SDKPath>
+		<WebView2CoreDll>$([System.IO.Path]::GetFullPath('$(WebView2SDKPath)\Microsoft.Web.WebView2.Core.dll'))</WebView2CoreDll>
+		<WebView2WinFormsDll>$([System.IO.Path]::GetFullPath('$(WebView2SDKPath)\Microsoft.Web.WebView2.WinForms.dll'))</WebView2WinFormsDll>
 	</PropertyGroup>
 
 	<!-- WebView2 NuGet Package Reference for .NET Framework targets (4.7.2+) -->
@@ -85,12 +85,14 @@
 		<PackageReference Include="Microsoft.Web.WebView2" Version="(1.0.0,2.0.0)" />
 	</ItemGroup>
 
-	<!-- Define WEBVIEW2_AVAILABLE only when a WebView2 reference is actually available for this TFM -->
+	<!-- Define WEBVIEW2_AVAILABLE only when WebView2 reference is actually available for this TFM -->
 	<!-- For .NET Framework: always available via NuGet package -->
 	<PropertyGroup Condition="'$(TargetFramework)' == 'net472' Or '$(TargetFramework)' == 'net48' Or '$(TargetFramework)' == 'net481'">
 		<DefineConstants>$(DefineConstants);WEBVIEW2_AVAILABLE</DefineConstants>
 	</PropertyGroup>
-	<!-- For .NET 8+: only when WebView2 SDK files exist (file-based refs); avoids CS0234 when SDK not set up -->
+	<!-- For .NET 8+: only when WebView2 SDK files exist (file-based refs) -->
+	<!-- This prevents CS0234 errors when SDK is not set up. The PackageReference fallback is kept for restore compatibility, -->
+	<!-- but WEBVIEW2_AVAILABLE is only defined when SDK files exist, ensuring code only compiles when assemblies are available -->
 	<PropertyGroup Condition="('$(TargetFramework)' == 'net8.0-windows' Or '$(TargetFramework)' == 'net9.0-windows' Or '$(TargetFramework)' == 'net10.0-windows') And Exists('$(WebView2CoreDll)')">
 		<DefineConstants>$(DefineConstants);WEBVIEW2_AVAILABLE</DefineConstants>
 	</PropertyGroup>

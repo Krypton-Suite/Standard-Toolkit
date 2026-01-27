@@ -65,7 +65,7 @@ using WebView2Base = Microsoft.Web.WebView2.WinForms.WebView2;
 [ToolboxBitmap(typeof(KryptonWebView2), "KryptonWebView2.ToolboxBitmaps.WebView2.bmp")]
 [Designer(typeof(KryptonWebView2Designer))]
 [DesignerCategory(@"code")]
-[Description(@"Enables the user to browse web pages using the modern WebView2 engine with Krypton theming support.")]
+[Description(@"Enables the user to browse web pages using the modern WebView2 engine with Krypton theming support. Note: The WebView2 SDK must be installed or available for this control to function.")]
 public class KryptonWebView2 : WebView2Base
 {
     #region Instance Fields
