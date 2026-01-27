@@ -85,13 +85,13 @@
 		<PackageReference Include="Microsoft.Web.WebView2" Version="(1.0.0,2.0.0)" />
 	</ItemGroup>
 
-	<!-- Define WEBVIEW2_AVAILABLE symbol for all targets when WebView2 is available -->
+	<!-- Define WEBVIEW2_AVAILABLE only when a WebView2 reference is actually available for this TFM -->
 	<!-- For .NET Framework: always available via NuGet package -->
 	<PropertyGroup Condition="'$(TargetFramework)' == 'net472' Or '$(TargetFramework)' == 'net48' Or '$(TargetFramework)' == 'net481'">
 		<DefineConstants>$(DefineConstants);WEBVIEW2_AVAILABLE</DefineConstants>
 	</PropertyGroup>
-	<!-- For .NET 8+: available if SDK files exist or NuGet package is referenced -->
-	<PropertyGroup Condition="'$(TargetFramework)' == 'net8.0-windows' Or '$(TargetFramework)' == 'net9.0-windows' Or '$(TargetFramework)' == 'net10.0-windows'">
+	<!-- For .NET 8+: only when WebView2 SDK files exist (file-based refs); avoids CS0234 when SDK not set up -->
+	<PropertyGroup Condition="('$(TargetFramework)' == 'net8.0-windows' Or '$(TargetFramework)' == 'net9.0-windows' Or '$(TargetFramework)' == 'net10.0-windows') And Exists('$(WebView2CoreDll)')">
 		<DefineConstants>$(DefineConstants);WEBVIEW2_AVAILABLE</DefineConstants>
 	</PropertyGroup>
 
