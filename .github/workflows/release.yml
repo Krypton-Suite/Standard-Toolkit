@@ -127,7 +127,8 @@ jobs:
           Copy-Item (Join-Path $nugetBasePath $winFormsDll) "WebView2SDK\"
           $loaderDll = Get-ChildItem -Path $nugetBasePath -Recurse -Name "WebView2Loader.dll" | Select-Object -First 1
           Copy-Item (Join-Path $nugetBasePath $loaderDll) "WebView2SDK\"
-          dotnet remove "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj" package Microsoft.Web.WebView2
+          # Note: We keep the PackageReference in the project file - file-based refs will take precedence when DLLs exist,
+          # and PackageReference serves as a fallback for builds where SDK files aren't available
 
       - name: Restore
         # Kill switch check
@@ -392,7 +393,8 @@ jobs:
           Copy-Item (Join-Path $nugetBasePath $winFormsDll) "WebView2SDK\"
           $loaderDll = Get-ChildItem -Path $nugetBasePath -Recurse -Name "WebView2Loader.dll" | Select-Object -First 1
           Copy-Item (Join-Path $nugetBasePath $loaderDll) "WebView2SDK\"
-          dotnet remove "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj" package Microsoft.Web.WebView2
+          # Note: We keep the PackageReference in the project file - file-based refs will take precedence when DLLs exist,
+          # and PackageReference serves as a fallback for builds where SDK files aren't available
 
       - name: Restore
         # Kill switch check
@@ -642,7 +644,8 @@ jobs:
           Copy-Item (Join-Path $nugetBasePath $winFormsDll) "WebView2SDK\"
           $loaderDll = Get-ChildItem -Path $nugetBasePath -Recurse -Name "WebView2Loader.dll" | Select-Object -First 1
           Copy-Item (Join-Path $nugetBasePath $loaderDll) "WebView2SDK\"
-          dotnet remove "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj" package Microsoft.Web.WebView2
+          # Note: We keep the PackageReference in the project file - file-based refs will take precedence when DLLs exist,
+          # and PackageReference serves as a fallback for builds where SDK files aren't available
 
       - name: Restore
         # Kill switch check
@@ -907,7 +910,8 @@ jobs:
           Copy-Item (Join-Path $nugetBasePath $winFormsDll) "WebView2SDK\"
           $loaderDll = Get-ChildItem -Path $nugetBasePath -Recurse -Name "WebView2Loader.dll" | Select-Object -First 1
           Copy-Item (Join-Path $nugetBasePath $loaderDll) "WebView2SDK\"
-          dotnet remove "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj" package Microsoft.Web.WebView2
+          # Note: We keep the PackageReference in the project file - file-based refs will take precedence when DLLs exist,
+          # and PackageReference serves as a fallback for builds where SDK files aren't available
 
       - name: Restore
         # Kill switch check
@@ -1171,7 +1175,8 @@ jobs:
           Copy-Item (Join-Path $nugetBasePath $winFormsDll) "WebView2SDK\"
           $loaderDll = Get-ChildItem -Path $nugetBasePath -Recurse -Name "WebView2Loader.dll" | Select-Object -First 1
           Copy-Item (Join-Path $nugetBasePath $loaderDll) "WebView2SDK\"
-          dotnet remove "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj" package Microsoft.Web.WebView2
+          # Note: We keep the PackageReference in the project file - file-based refs will take precedence when DLLs exist,
+          # and PackageReference serves as a fallback for builds where SDK files aren't available
 
       - name: Restore
         # Kill switch check

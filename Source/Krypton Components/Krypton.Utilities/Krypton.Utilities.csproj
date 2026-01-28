@@ -67,7 +67,8 @@
 		<PackageReference Include="Microsoft.Web.WebView2" Version="(1.0.0,2.0.0)" />
 	</ItemGroup>
 
-	<!-- WebView2 SDK References for .NET 8+ (using file-based references if available, otherwise NuGet) -->
+	<!-- WebView2 SDK References for .NET 8+ (using file-based references if available) -->
+	<!-- File-based refs take precedence over PackageReference when SDK files exist -->
 	<ItemGroup Condition="('$(TargetFramework)' == 'net8.0-windows' Or '$(TargetFramework)' == 'net9.0-windows' Or '$(TargetFramework)' == 'net10.0-windows') And Exists('$(WebView2CoreDll)')">
 		<Reference Include="Microsoft.Web.WebView2.Core">
 			<HintPath>$(WebView2CoreDll)</HintPath>
@@ -79,21 +80,20 @@
 		</Reference>
 	</ItemGroup>
 
-	<!-- Fallback to NuGet package for .NET 8+ if file-based references are not available -->
+	<!-- NuGet package for .NET 8+ (always added; file-based refs take precedence when available) -->
 	<!-- Uses minimum version with floating patch to automatically resolve to latest 1.0.x version -->
-	<ItemGroup Condition="('$(TargetFramework)' == 'net8.0-windows' Or '$(TargetFramework)' == 'net9.0-windows' Or '$(TargetFramework)' == 'net10.0-windows') And !Exists('$(WebView2CoreDll)')">
+	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0-windows' Or '$(TargetFramework)' == 'net9.0-windows' Or '$(TargetFramework)' == 'net10.0-windows'">
 		<PackageReference Include="Microsoft.Web.WebView2" Version="(1.0.0,2.0.0)" />
 	</ItemGroup>
 
-	<!-- Define WEBVIEW2_AVAILABLE only when WebView2 reference is actually available for this TFM -->
+	<!-- Define WEBVIEW2_AVAILABLE when WebView2 is available for this TFM -->
 	<!-- For .NET Framework: always available via NuGet package -->
 	<PropertyGroup Condition="'$(TargetFramework)' == 'net472' Or '$(TargetFramework)' == 'net48' Or '$(TargetFramework)' == 'net481'">
 		<DefineConstants>$(DefineConstants);WEBVIEW2_AVAILABLE</DefineConstants>
 	</PropertyGroup>
-	<!-- For .NET 8+: only when WebView2 SDK files exist (file-based refs) -->
-	<!-- This prevents CS0234 errors when SDK is not set up. The PackageReference fallback is kept for restore compatibility, -->
-	<!-- but WEBVIEW2_AVAILABLE is only defined when SDK files exist, ensuring code only compiles when assemblies are available -->
-	<PropertyGroup Condition="('$(TargetFramework)' == 'net8.0-windows' Or '$(TargetFramework)' == 'net9.0-windows' Or '$(TargetFramework)' == 'net10.0-windows') And Exists('$(WebView2CoreDll)')">
+	<!-- For .NET 8+: always available via either file-based refs (when SDK exists) or PackageReference fallback -->
+	<!-- Note: Ensure restore runs before build to resolve PackageReference when SDK files don't exist -->
+	<PropertyGroup Condition="'$(TargetFramework)' == 'net8.0-windows' Or '$(TargetFramework)' == 'net9.0-windows' Or '$(TargetFramework)' == 'net10.0-windows'">
 		<DefineConstants>$(DefineConstants);WEBVIEW2_AVAILABLE</DefineConstants>
 	</PropertyGroup>
 
