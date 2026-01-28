@@ -119,11 +119,11 @@
 		<!-- Construct paths to assemblies - try multiple possible locations -->
 		<!-- First try lib folder with target framework -->
 		<PropertyGroup>
-			<_WebView2CoreAssembly1>$(NuGetPackageRoot)microsoft.web.webview2\$(_WebView2ResolvedVersion)\lib\net8.0-windows\Microsoft.Web.WebView2.Core.dll</_WebView2CoreAssembly1>
-			<_WebView2WinFormsAssembly1>$(NuGetPackageRoot)microsoft.web.webview2\$(_WebView2ResolvedVersion)\lib\net8.0-windows\Microsoft.Web.WebView2.WinForms.dll</_WebView2WinFormsAssembly1>
+			<_WebView2CoreAssembly1>$(NuGetPackageRoot)microsoft.web.webview2\$(_WebView2ResolvedVersion)\lib\$(TargetFramework)\Microsoft.Web.WebView2.Core.dll</_WebView2CoreAssembly1>
+			<_WebView2WinFormsAssembly1>$(NuGetPackageRoot)microsoft.web.webview2\$(_WebView2ResolvedVersion)\lib\$(TargetFramework)\Microsoft.Web.WebView2.WinForms.dll</_WebView2WinFormsAssembly1>
 			<!-- Try lib_manual -->
-			<_WebView2CoreAssembly2>$(NuGetPackageRoot)microsoft.web.webview2\$(_WebView2ResolvedVersion)\lib_manual\net8.0-windows\Microsoft.Web.WebView2.Core.dll</_WebView2CoreAssembly2>
-			<_WebView2WinFormsAssembly2>$(NuGetPackageRoot)microsoft.web.webview2\$(_WebView2ResolvedVersion)\lib_manual\net8.0-windows\Microsoft.Web.WebView2.WinForms.dll</_WebView2WinFormsAssembly2>
+			<_WebView2CoreAssembly2>$(NuGetPackageRoot)microsoft.web.webview2\$(_WebView2ResolvedVersion)\lib_manual\$(TargetFramework)\Microsoft.Web.WebView2.Core.dll</_WebView2CoreAssembly2>
+			<_WebView2WinFormsAssembly2>$(NuGetPackageRoot)microsoft.web.webview2\$(_WebView2ResolvedVersion)\lib_manual\$(TargetFramework)\Microsoft.Web.WebView2.WinForms.dll</_WebView2WinFormsAssembly2>
 			<!-- Try lib without TFM subfolder -->
 			<_WebView2CoreAssembly3>$(NuGetPackageRoot)microsoft.web.webview2\$(_WebView2ResolvedVersion)\lib\Microsoft.Web.WebView2.Core.dll</_WebView2CoreAssembly3>
 			<_WebView2WinFormsAssembly3>$(NuGetPackageRoot)microsoft.web.webview2\$(_WebView2ResolvedVersion)\lib\Microsoft.Web.WebView2.WinForms.dll</_WebView2WinFormsAssembly3>
