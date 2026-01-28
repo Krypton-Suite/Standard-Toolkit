@@ -158,11 +158,12 @@
 	<!-- For .NET 8+: only define when SDK files exist OR when package references can be resolved -->
 	<!-- Use a target to check if references are available before defining the constant -->
 	<Target Name="CheckWebView2Availability" BeforeTargets="CoreCompile" Condition="'$(TargetFramework)' == 'net8.0-windows' Or '$(TargetFramework)' == 'net9.0-windows' Or '$(TargetFramework)' == 'net10.0-windows'">
+		<!-- Check if SDK files exist first (highest priority) -->
 		<PropertyGroup Condition="Exists('$(WebView2CoreDll)')">
 			<DefineConstants>$(DefineConstants);WEBVIEW2_AVAILABLE</DefineConstants>
 		</PropertyGroup>
-		<!-- Check if WebView2 references are available from package -->
-		<ItemGroup>
+		<!-- Check if WebView2 references are available from package (only when SDK files don't exist) -->
+		<ItemGroup Condition="!Exists('$(WebView2CoreDll)')">
 			<_WebView2Refs Include="@(ReferencePath)" Condition="'%(Filename)' == 'Microsoft.Web.WebView2.Core' Or '%(Filename)' == 'Microsoft.Web.WebView2.WinForms'" />
 		</ItemGroup>
 		<PropertyGroup Condition="'@(_WebView2Refs)' != '' And !Exists('$(WebView2CoreDll)')">
