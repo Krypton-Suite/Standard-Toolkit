@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -547,6 +547,9 @@ internal class ViewDrawRibbonCaptionArea : ViewDrawDocker
                         _compoRightInjected = true;
                     }
 
+                    // Issue #2921: Remove from CaptionArea before injecting so the view is not in two
+                    // hierarchies (form caption and ribbon). Otherwise both can layout/draw it → double ribbon.
+                    Remove(_contextTiles);
                     _kryptonForm.InjectViewElement(_contextTiles, ViewDockStyle.Fill);
                 }
                 else
@@ -554,12 +557,13 @@ internal class ViewDrawRibbonCaptionArea : ViewDrawDocker
                     _captionAppButton.OwnerForm = null;
                     _captionQAT.OwnerForm = null;
                     _kryptonForm.RevokeViewElement(_contextTiles, ViewDockStyle.Fill);
+                    Add(_contextTiles, ViewDockStyle.Fill);
 
                     // At runtime under vista we do not remove the compo right border
                     if (_ribbon.InDesignMode)
                     {
                         _kryptonForm.RevokeViewElement(_compRightBorder, ViewDockStyle.Right);
-                        _compoRightInjected = true;
+                        _compoRightInjected = false;
                     }
 
                     _kryptonForm.RevokeViewElement(_captionAppButton, ViewDockStyle.Left);
