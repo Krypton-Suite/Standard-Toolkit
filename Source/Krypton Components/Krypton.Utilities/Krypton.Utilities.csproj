@@ -99,9 +99,9 @@
 		<ReadLinesFromFile File="$(ProjectAssetsFile)" Condition="Exists('$(ProjectAssetsFile)')">
 			<Output TaskParameter="Lines" ItemName="_AssetsFileLines" />
 		</ReadLinesFromFile>
-		<!-- Extract version from assets file (look for "Microsoft.Web.WebView2/1.0.622.22") -->
+		<!-- Extract version from assets file (look for "Microsoft.Web.WebView2/1.0.622.22" or "Microsoft.Web.WebView2/1.0.622.22-preview") -->
 		<PropertyGroup>
-			<_WebView2VersionPattern>Microsoft\.Web\.WebView2/(\d+\.\d+\.\d+\.\d+)</_WebView2VersionPattern>
+			<_WebView2VersionPattern>Microsoft\.Web\.WebView2/(\d+\.\d+\.\d+\.\d+(?:-[a-zA-Z0-9.-]+)?)</_WebView2VersionPattern>
 		</PropertyGroup>
 		<!-- Try to find version in assets file lines -->
 		<ItemGroup>
