@@ -165,7 +165,7 @@
 		<ItemGroup>
 			<_WebView2Refs Include="@(ReferencePath)" Condition="'%(Filename)' == 'Microsoft.Web.WebView2.Core' Or '%(Filename)' == 'Microsoft.Web.WebView2.WinForms'" />
 		</ItemGroup>
-		<PropertyGroup Condition="'@(_WebView2Refs)' != ''">
+		<PropertyGroup Condition="'@(_WebView2Refs)' != '' And !Exists('$(WebView2CoreDll)')">
 			<DefineConstants>$(DefineConstants);WEBVIEW2_AVAILABLE</DefineConstants>
 		</PropertyGroup>
 	</Target>
