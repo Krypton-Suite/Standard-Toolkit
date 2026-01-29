@@ -4,6 +4,7 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Resolved [#2935](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2935), Maximized MDI window form border drawn on wrong monitor (secondary monitor); `DropSolidWindow` now uses screen coordinates for `DesktopBounds`; non-client border painting uses a DC compatible with the window's monitor
 * Resolved [#2921](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2921), Double ribbon drawn; form close button unresponsive when ribbon injects into caption (`CustomCaptionArea` overlapping min/max/close); design-time composition right border not re-injected when revoking
 * Implemented [#2925](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2925), Controlbox Touchscreen support
 * Implemented [#2916](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2916), Taskbar Thumbnail Button support
