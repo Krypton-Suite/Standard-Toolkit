@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -209,6 +209,30 @@ public class KryptonDockingFloatspace : KryptonDockingSpace
         {
             var args = new FloatspaceCellEventArgs(FloatspaceControl, this, cell);
             dockingManager.RaiseFloatspaceCellRemoved(args);
+        }
+
+        // When the last cell is removed (e.g. after redocking the only page), hide the floating window
+        // so no empty window is left behind (fix #2933). Disposing here caused the redocked page to
+        // disappear; hiding relies on KryptonFloatingWindow.UpdateCellSettings (Visible = false when
+        // CellVisibleCount == 0) but we ensure it runs now.
+        if (FloatspaceControl.CellVisibleCount == 0)
+        {
+            FloatspaceControl.BeginInvoke(new Action(EnsureFloatingWindowHiddenWhenEmpty));
+        }
+    }
+
+    private void EnsureFloatingWindowHiddenWhenEmpty()
+    {
+        if (FloatspaceControl.IsDisposed)
+        {
+            return;
+        }
+
+        if (FloatspaceControl.CellVisibleCount == 0
+            && GetParentType(typeof(KryptonDockingFloatingWindow)) is KryptonDockingFloatingWindow window
+            && !window.FloatingWindow.IsDisposed)
+        {
+            window.FloatingWindow.Visible = false;
         }
     }
 

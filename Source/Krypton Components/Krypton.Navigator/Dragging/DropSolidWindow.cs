@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -81,9 +81,17 @@ public class DropSolidWindow : KryptonForm
             {
                 _solidRect = value;
 
-                var area = Screen.GetWorkingArea(this);
-
-                var bounds = new Rectangle(value.Location - (Size)area.Location, value.Size);
+                Rectangle bounds;
+                if (value.IsEmpty)
+                {
+                    // Move off-screen to avoid a visible artifact at (0,0) when no target is matched
+                    bounds = new Rectangle(-32000, -32000, 0, 0);
+                }
+                else
+                {
+                    var area = Screen.GetWorkingArea(this);
+                    bounds = new Rectangle(value.Location - (Size)area.Location, value.Size);
+                }
 
                 DesktopBounds = bounds;
 
