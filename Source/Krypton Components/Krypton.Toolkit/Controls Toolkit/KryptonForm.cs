@@ -1995,31 +1995,45 @@ public class KryptonForm : VisualForm,
     {
         Point originalPt = pt;
 
-        if (CustomCaptionArea.Contains(pt))
+        // Check min/max/close buttons first so they take precedence over CustomCaptionArea.
+        // Issue #2921: When the ribbon injects into the caption, CustomCaptionArea can overlap
+        // the form buttons; hitting CAPTION instead of CLOSE prevented closing the window.
+        if (_buttonManager.GetButtonRectangle(ButtonSpecClose).Contains(pt))
         {
-            return new IntPtr(PI.HT.CAPTION);
-        }
-
-        // Is the mouse over any of the min/max/close buttons?
-        if (_buttonManager.GetButtonRectangle(ButtonSpecMin).Contains(pt)
-            || _buttonManager.GetButtonRectangle(ButtonSpecMax).Contains(pt)
-            || _buttonManager.GetButtonRectangle(ButtonSpecClose).Contains(pt))
-        {
-            // Get the mouse controller for this button
             ViewBase? viewBase = ViewManager?.Root.ViewFromPoint(pt);
-            IMouseController? controller = viewBase?.FindMouseController();
-
-            // Display snap layouts on Windows 11
-            if (OSUtilities.IsAtLeastWindowsEleven && _buttonManager.GetButtonRectangle(ButtonSpecMax).Contains(pt))
-            {
-                return new IntPtr(PI.HT.MAXBUTTON);
-            }
-
-            // Ensure the button shows as 'normal' state when mouse not over and pressed
-            if (controller is ButtonController buttonController)
+            if (viewBase?.FindMouseController() is ButtonController buttonController)
             {
                 buttonController.NonClientAsNormal = true;
             }
+
+            return new IntPtr(PI.HT.CLOSE);
+        }
+
+        if (_buttonManager.GetButtonRectangle(ButtonSpecMax).Contains(pt))
+        {
+            ViewBase? viewBase = ViewManager?.Root.ViewFromPoint(pt);
+            if (viewBase?.FindMouseController() is ButtonController buttonController)
+            {
+                buttonController.NonClientAsNormal = true;
+            }
+
+            return new IntPtr(OSUtilities.IsAtLeastWindowsEleven ? PI.HT.MAXBUTTON : PI.HT.ZOOM);
+        }
+
+        if (_buttonManager.GetButtonRectangle(ButtonSpecMin).Contains(pt))
+        {
+            ViewBase? viewBase = ViewManager?.Root.ViewFromPoint(pt);
+            if (viewBase?.FindMouseController() is ButtonController buttonController)
+            {
+                buttonController.NonClientAsNormal = true;
+            }
+
+            return new IntPtr(PI.HT.REDUCE);
+        }
+
+        if (CustomCaptionArea.Contains(pt))
+        {
+            return new IntPtr(PI.HT.CAPTION);
         }
 
         // Do not allow the caption to be moved or the border resized

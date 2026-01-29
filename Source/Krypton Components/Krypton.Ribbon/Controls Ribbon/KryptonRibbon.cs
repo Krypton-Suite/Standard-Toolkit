@@ -345,7 +345,7 @@ public class KryptonRibbon : VisualSimple,
             _backstageRestoreTab = null;
 
             // Clean up floating window if detached
-            if (_floatingWindow != null && !_floatingWindow.IsDisposed)
+            if (_floatingWindow is { IsDisposed: false })
             {
                 _floatingWindow.WindowClosing -= OnFloatingWindowClosing;
                 _floatingWindow.Close();
@@ -558,7 +558,7 @@ public class KryptonRibbon : VisualSimple,
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public bool IsDetached => _floatingWindow != null && !_floatingWindow.IsDisposed;
+    public bool IsDetached => _floatingWindow is { IsDisposed: false };
 
     /// <summary>
     /// Gets and sets a value indicating if tooltips should be Displayed for button specs.
@@ -1233,15 +1233,15 @@ public class KryptonRibbon : VisualSimple,
             _floatingWindow.Show();
             
             // Save initial position
-            if (_floatingWindow != null && !_floatingWindow.IsDisposed)
+            if (_floatingWindow is { IsDisposed: false })
             {
                 _savedFloatingWindowPosition = _floatingWindow.Location;
             }
             
             // Force a refresh after showing
             Invalidate(true);
-            _floatingWindow.Invalidate(true);
-            _floatingWindow.Update();
+            _floatingWindow?.Invalidate(true);
+            _floatingWindow?.Update();
             Update();
 
             // Hook up position tracking and save initial position
@@ -1286,22 +1286,22 @@ public class KryptonRibbon : VisualSimple,
         try
         {
             // Save position before closing
-            if (_floatingWindow != null && !_floatingWindow.IsDisposed)
+            if (_floatingWindow is { IsDisposed: false })
             {
                 _savedFloatingWindowPosition = _floatingWindow.Location;
             }
 
             // Remove from floating window
-            _floatingWindow.Controls.Remove(this);
-            _floatingWindow.WindowClosing -= OnFloatingWindowClosing;
-            _floatingWindow.TitleBarDoubleClick -= OnFloatingWindowTitleBarDoubleClick;
-            _floatingWindow.LocationChanged -= OnFloatingWindowLocationChanged;
+            _floatingWindow?.Controls.Remove(this);
+            _floatingWindow?.WindowClosing -= OnFloatingWindowClosing;
+            _floatingWindow?.TitleBarDoubleClick -= OnFloatingWindowTitleBarDoubleClick;
+            _floatingWindow?.LocationChanged -= OnFloatingWindowLocationChanged;
 
             // Close and dispose floating window
-            if (!_floatingWindow.IsDisposed)
+            if (!(_floatingWindow is { IsDisposed: true }))
             {
-                _floatingWindow.Close();
-                _floatingWindow.Dispose();
+                _floatingWindow?.Close();
+                _floatingWindow?.Dispose();
             }
 
             _floatingWindow = null;
@@ -1365,7 +1365,7 @@ public class KryptonRibbon : VisualSimple,
     /// </summary>
     private void OnFloatingWindowLocationChanged(object? sender, EventArgs e)
     {
-        if (_floatingWindow != null && !_floatingWindow.IsDisposed)
+        if (_floatingWindow is { IsDisposed: false })
         {
             _savedFloatingWindowPosition = _floatingWindow.Location;
             
@@ -1656,8 +1656,7 @@ public class KryptonRibbon : VisualSimple,
                     {
                         // Only interested is the owning form is usable and has the focus
                         if (TabsArea is not null
-                            && FindForm() is Form ownerForm
-                            && ownerForm is { Visible: true, Enabled: true, ContainsFocus: true })
+                            && FindForm() is Form { Visible: true, Enabled: true, ContainsFocus: true })
                         {
                             // Extract the x and y mouse position from message
                             var pt = new Point
@@ -1669,21 +1668,17 @@ public class KryptonRibbon : VisualSimple,
                             // Only interested if over the tabs area
                             if (TabsArea.ClientRectangle.Contains(PointToClient(pt)) || (_scrollTabGroupArea && GroupsArea.ClientRectangle.Contains(PointToClient(pt))))
                             {
-                                if (MouseControlFinder.ControlUnderMouse(pt) is Control control && control.Enabled)
+                                if (MouseControlFinder.ControlUnderMouse(pt) is Control { Enabled: true } control)
                                 {
                                     if (control is ComboBox or KryptonTrackBar or KryptonDateTimePicker or VisualPopupAppMenu or VisualContextMenu || control.Parent is DomainUpDown or NumericUpDown)
                                     {
                                         return false;
                                     }
-                                    else if (control is TextBox textBox
-                                        && textBox.Multiline
-                                        && textBox.ScrollBars is ScrollBars.Both or ScrollBars.Vertical or ScrollBars.Horizontal)
+                                    else if (control is TextBox { Multiline: true, ScrollBars: ScrollBars.Both or ScrollBars.Vertical or ScrollBars.Horizontal })
                                     {
                                         return false;
                                     }
-                                    else if (control is RichTextBox richTextBox
-                                        && richTextBox.Multiline
-                                        && richTextBox.ScrollBars is RichTextBoxScrollBars.Vertical or RichTextBoxScrollBars.ForcedVertical or RichTextBoxScrollBars.Both or RichTextBoxScrollBars.ForcedBoth)
+                                    else if (control is RichTextBox { Multiline: true, ScrollBars: RichTextBoxScrollBars.Vertical or RichTextBoxScrollBars.ForcedVertical or RichTextBoxScrollBars.Both or RichTextBoxScrollBars.ForcedBoth })
                                     {
                                         return false;
                                     }
@@ -2104,7 +2099,7 @@ public class KryptonRibbon : VisualSimple,
         if (_allowDetach && !IsDetached && e.Button == MouseButtons.Left)
         {
             // Check if the click is within the caption area using the view manager
-            if (ViewManager != null && CaptionArea != null && CaptionArea.Visible)
+            if (ViewManager != null && CaptionArea is { Visible: true })
             {
                 var point = new Point(e.X, e.Y);
                 var viewAtPoint = ViewManager.Root.ViewFromPoint(point);
@@ -3500,7 +3495,7 @@ public class KryptonRibbon : VisualSimple,
         }
 
         // Create new timer if auto-dismiss is enabled and notification is visible
-        if (_notificationBarData.Visible && _notificationBarData.AutoDismissSeconds > 0)
+        if (_notificationBarData is { Visible: true, AutoDismissSeconds: > 0 })
         {
             _autoDismissTimer = new System.Windows.Forms.Timer
             {
