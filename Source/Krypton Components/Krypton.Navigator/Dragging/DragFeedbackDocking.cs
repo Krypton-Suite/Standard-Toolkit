@@ -225,7 +225,7 @@ public class DragFeedbackDocking : DragFeedback
                 // Create and show a solid feedback window without it taking focus.
                 // Position off-screen initially to avoid a visible 1x1 artifact at top-left (0,0).
                 _solid = new DropSolidWindow(PaletteDragDrop, Renderer);
-                _solid.SetBounds(-32000, -32000, 1, 1, BoundsSpecified.All);
+                _solid.SetBounds(GlobalStaticValues.OFF_SCREEN_POSITION, GlobalStaticValues.OFF_SCREEN_POSITION, 1, 1, BoundsSpecified.All);
                 _solid.ShowWithoutActivate();
                 _solid.Refresh();
             }

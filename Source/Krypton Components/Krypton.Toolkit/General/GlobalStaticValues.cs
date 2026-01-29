@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -91,6 +91,9 @@ public class GlobalStaticValues
 
     /// <summary>The transparency key color</summary>
     public static readonly Color TRANSPARENCY_KEY_COLOR = Color.Magenta;
+
+    /// <summary>Windows convention for positioning windows off-screen (e.g. to hide them). Used when placing windows so they are not visible.</summary>
+    public const int OFF_SCREEN_POSITION = -32000;
 
     /// <summary>The tab row gradient first color</summary>
     public static readonly Color TAB_ROW_GRADIENT_FIRST_COLOR = Color.Transparent;

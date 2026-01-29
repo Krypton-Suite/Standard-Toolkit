@@ -85,7 +85,7 @@ public class DropSolidWindow : KryptonForm
                 if (value.IsEmpty)
                 {
                     // Move off-screen to avoid a visible artifact at (0,0) when no target is matched
-                    bounds = new Rectangle(-32000, -32000, 0, 0);
+                    bounds = new Rectangle(GlobalStaticValues.OFF_SCREEN_POSITION, GlobalStaticValues.OFF_SCREEN_POSITION, 0, 0);
                 }
                 else
                 {
