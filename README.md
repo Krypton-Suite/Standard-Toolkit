@@ -1,5 +1,6 @@
 # <img src="https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Krypton.png?raw=true"> Standard Toolkit
 
+# Note: This branch (V95 Archive) is scheduled for deletion on 1st June 2026. After this point **all** code contained in this branch will no longer be publically available.
 
 <!-- Start Document Outline -->
 
