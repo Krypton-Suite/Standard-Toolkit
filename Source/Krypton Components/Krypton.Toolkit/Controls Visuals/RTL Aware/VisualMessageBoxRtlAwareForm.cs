@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -64,6 +64,9 @@ internal partial class VisualMessageBoxRtlAwareForm : KryptonForm
 
         // Create the form contents
         InitializeComponent();
+
+        // Disable Krypton scrollbars for the message box - they cover text with minimal content (issue #2944).
+        krtbMessageText.UseKryptonScrollbars = false;
 
         // Hookup the native window on the KRTB, only after IntializeComponent().
         _krtbNativeWindow.AssignHandle(krtbMessageText.RichTextBox.Handle);
