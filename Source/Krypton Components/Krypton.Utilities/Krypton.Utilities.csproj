@@ -64,37 +64,22 @@
 	<!-- WebView2 NuGet Package Reference for .NET Framework targets (4.7.2+) -->
 	<!-- Uses minimum version with floating patch to automatically resolve to latest 1.0.x version -->
 	<ItemGroup Condition="'$(TargetFramework)' == 'net472' Or '$(TargetFramework)' == 'net48' Or '$(TargetFramework)' == 'net481'">
-		<PackageReference Include="Microsoft.Web.WebView2" Version="[1.0.0,2.0.0)" />
+		<PackageReference Include="Microsoft.Web.WebView2" Version="(1.0.0,2.0.0)" />
 	</ItemGroup>
 
-	<!-- WebView2 SDK References for .NET 8+ (using file-based references if available) -->
-	<!-- File-based refs take precedence over PackageReference when SDK files exist -->
-	<ItemGroup Condition="('$(TargetFramework)' == 'net8.0-windows' Or '$(TargetFramework)' == 'net9.0-windows' Or '$(TargetFramework)' == 'net10.0-windows') And Exists('$(WebView2CoreDll)')">
-		<Reference Include="Microsoft.Web.WebView2.Core">
-			<HintPath>$(WebView2CoreDll)</HintPath>
-			<Private>True</Private>
-		</Reference>
-		<Reference Include="Microsoft.Web.WebView2.WinForms">
-			<HintPath>$(WebView2WinFormsDll)</HintPath>
-			<Private>True</Private>
-		</Reference>
-	</ItemGroup>
-
-	<!-- NuGet package for .NET 8+ (always added; file-based refs take precedence when available) -->
+	<!-- NuGet package for .NET 8+ (explicit refs added by AddWebView2References target after restore) -->
 	<!-- Uses minimum version with floating patch to automatically resolve to latest 1.0.x version -->
 	<!-- IncludeAssets="all" ensures assemblies are available even if they're in lib_manual -->
 	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0-windows' Or '$(TargetFramework)' == 'net9.0-windows' Or '$(TargetFramework)' == 'net10.0-windows'">
-		<PackageReference Include="Microsoft.Web.WebView2" Version="[1.0.0,2.0.0)">
+		<PackageReference Include="Microsoft.Web.WebView2" Version="(1.0.0,2.0.0)">
 			<IncludeAssets>all</IncludeAssets>
 			<PrivateAssets>none</PrivateAssets>
 		</PackageReference>
 	</ItemGroup>
 
-	<!-- Explicit assembly references for .NET 8+ from NuGet package (when SDK files don't exist) -->
+	<!-- Explicit assembly references for .NET 8+ from NuGet package -->
 	<!-- WebView2 assemblies are in lib_manual and need explicit references for library projects -->
-	<!-- The PackageReference with IncludeAssets="all" should make assemblies available, but we need explicit references -->
-	<!-- Use a target that runs after ResolvePackageAssets to add explicit references -->
-	<Target Name="AddWebView2References" AfterTargets="ResolvePackageAssets" BeforeTargets="FindReferenceAssembliesForReferences" Condition="('$(TargetFramework)' == 'net8.0-windows' Or '$(TargetFramework)' == 'net9.0-windows' Or '$(TargetFramework)' == 'net10.0-windows') And !Exists('$(WebView2CoreDll)')">
+	<Target Name="AddWebView2References" AfterTargets="ResolvePackageAssets" BeforeTargets="FindReferenceAssembliesForReferences" Condition="'$(TargetFramework)' == 'net8.0-windows' Or '$(TargetFramework)' == 'net9.0-windows' Or '$(TargetFramework)' == 'net10.0-windows'">
 		<!-- Read the resolved package version from project.assets.json -->
 		<ReadLinesFromFile File="$(ProjectAssetsFile)" Condition="Exists('$(ProjectAssetsFile)')">
 			<Output TaskParameter="Lines" ItemName="_AssetsFileLines" />
@@ -155,21 +140,10 @@
 	<PropertyGroup Condition="'$(TargetFramework)' == 'net472' Or '$(TargetFramework)' == 'net48' Or '$(TargetFramework)' == 'net481'">
 		<DefineConstants>$(DefineConstants);WEBVIEW2_AVAILABLE</DefineConstants>
 	</PropertyGroup>
-	<!-- For .NET 8+: only define when SDK files exist OR when package references can be resolved -->
-	<!-- Use a target to check if references are available before defining the constant -->
-	<Target Name="CheckWebView2Availability" BeforeTargets="CoreCompile" Condition="'$(TargetFramework)' == 'net8.0-windows' Or '$(TargetFramework)' == 'net9.0-windows' Or '$(TargetFramework)' == 'net10.0-windows'">
-		<!-- Check if SDK files exist first (highest priority) -->
-		<PropertyGroup Condition="Exists('$(WebView2CoreDll)')">
-			<DefineConstants>$(DefineConstants);WEBVIEW2_AVAILABLE</DefineConstants>
-		</PropertyGroup>
-		<!-- Check if WebView2 references are available from package (only when SDK files don't exist) -->
-		<ItemGroup Condition="!Exists('$(WebView2CoreDll)')">
-			<_WebView2Refs Include="@(ReferencePath)" Condition="'%(Filename)' == 'Microsoft.Web.WebView2.Core' Or '%(Filename)' == 'Microsoft.Web.WebView2.WinForms'" />
-		</ItemGroup>
-		<PropertyGroup Condition="'@(_WebView2Refs)' != '' And !Exists('$(WebView2CoreDll)')">
-			<DefineConstants>$(DefineConstants);WEBVIEW2_AVAILABLE</DefineConstants>
-		</PropertyGroup>
-	</Target>
+	<!-- For .NET 8+: always available via PackageReference (AddWebView2References target adds explicit refs) -->
+	<PropertyGroup Condition="'$(TargetFramework)' == 'net8.0-windows' Or '$(TargetFramework)' == 'net9.0-windows' Or '$(TargetFramework)' == 'net10.0-windows'">
+		<DefineConstants>$(DefineConstants);WEBVIEW2_AVAILABLE</DefineConstants>
+	</PropertyGroup>
 
 	<!-- WebView2 Toolbox Bitmap -->
 	<ItemGroup>
