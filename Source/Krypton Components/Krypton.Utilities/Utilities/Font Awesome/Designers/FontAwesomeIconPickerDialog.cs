@@ -198,7 +198,7 @@ public class FontAwesomeIconPickerDialog : KryptonForm
                     else
                     {
                         var availableStyles = FontAwesomeIconMetadataLoader.GetAvailableStyles(iconName);
-                        matchesStyle = availableStyles.Contains(selectedStyle.Value);
+                        matchesStyle = availableStyles.Contains(selectedStyle!.Value);
                     }
                 }
 
