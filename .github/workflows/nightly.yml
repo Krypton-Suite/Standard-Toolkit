@@ -199,10 +199,12 @@ jobs:
           Copy-Item (Join-Path $nugetBasePath $loaderDll) "WebView2SDK\"
           # Note: We keep the PackageReference in the project file - file-based refs will take precedence when DLLs exist,
           # and PackageReference serves as a fallback for builds where SDK files aren't available
+          # Explicitly restore Krypton.Utilities with Nightly config so all TFMs get WebView2 before main restore/build
+          msbuild "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj" /t:Restore /p:Configuration=Nightly /p:Platform="Any CPU"
 
       - name: Restore
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
-        run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnxx"
+        run: msbuild "Scripts/Build/nightly.proj" /t:Restore /p:Configuration=Nightly /p:Platform="Any CPU"
 
       - name: Build Nightly
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
