@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
  *  
  */
 #endregion
@@ -71,15 +71,6 @@ public abstract class VisualSimple : VisualControl
         {
             // Ask the view to Perform a layout
             Size retSize = ViewManager.GetPreferredSize(Renderer, proposedSize);
-
-#if NETFRAMEWORK
-            // Add padding to ensure consistent behavior between .NET Framework and .NET
-            // In .NET Framework, Control.GetPreferredSize() didn't include Padding,
-            // but in .NET it does, so we need to add it explicitly here for consistency
-            retSize.Width += Padding.Horizontal;
-
-            retSize.Height += Padding.Vertical;
-#endif
 
             // Apply the maximum sizing
             if (MaximumSize.Width > 0)

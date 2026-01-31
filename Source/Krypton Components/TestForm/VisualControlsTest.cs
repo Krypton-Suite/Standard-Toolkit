@@ -2,15 +2,13 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2025 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2025 - 2025. All rights reserved.
  *
  */
 #endregion
 
 using System.Reflection;
 using System.Threading;
-
-using Krypton.Utilities;
 
 namespace TestForm;
 
@@ -109,11 +107,11 @@ public partial class VisualControlsTest : KryptonForm
 
     private void kbtnVisualToastNotification_Click(object sender, EventArgs e)
     {
-        var data = new KryptonBasicToastData
+        var data = new KryptonBasicToastNotificationData
         {
             NotificationTitle = "Demo Toast",
             NotificationContent = "This is a basic toast notification.",
-            NotificationIcon = KryptonToastIcon.Information,
+            NotificationIcon = KryptonToastNotificationIcon.Information,
             ShowCloseBox = true,
             CountDownSeconds = 0
         };

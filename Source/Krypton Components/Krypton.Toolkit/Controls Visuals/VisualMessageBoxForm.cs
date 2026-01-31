@@ -1,11 +1,11 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
  *
  */
 #endregion
@@ -72,14 +72,6 @@ internal partial class VisualMessageBoxForm : KryptonForm
         // Create the form contents
         InitializeComponent();
 
-        // Disable Krypton scrollbars for the message box - they cover text with minimal content (issue #2944).
-        krtbMessageText.UseKryptonScrollbars = false;
-
-        // Prevent native scrollbars from covering text: word wrap and hide scrollbars via API (issue #2944).
-        krtbMessageText.WordWrap = true;
-        krtbMessageText.RichTextBox.HandleCreated += OnMessageRichTextBoxHandleCreated;
-        krtbMessageText.RichTextBox.Layout += OnMessageRichTextBoxLayout;
-
         // Hookup the native window on the KRTB, only after IntializeComponent().
         _krtbNativeWindow.AssignHandle(krtbMessageText.RichTextBox.Handle);
 
@@ -100,52 +92,12 @@ internal partial class VisualMessageBoxForm : KryptonForm
         // Finally calculate and set form sizing
         UpdateSizing(showOwner);
 
-        // Hide native scrollbars so they never cover the message text (issue #2944).
-        HideMessageBoxScrollbars();
-
         ShowCloseButton(showCloseButton);
     }
 
     #endregion Identity
 
     #region Implementation
-
-    /// <summary>
-    /// Hides native scrollbars on the message RichTextBox so they never cover the text (issue #2944).
-    /// Uses ShowScrollBar API only to avoid handle recreation. Scrolls to top so message text is visible.
-    /// </summary>
-    private void HideMessageBoxScrollbars()
-    {
-        if (!krtbMessageText.RichTextBox.IsHandleCreated || krtbMessageText.RichTextBox.Disposing || krtbMessageText.RichTextBox.IsDisposed)
-        {
-            return;
-        }
-
-        try
-        {
-            krtbMessageText.WordWrap = true;
-            PI.ShowScrollBar(krtbMessageText.RichTextBox.Handle, (int)PI.SB_.BOTH, false);
-
-            // Ensure message text is visible: scroll to top (content may be off-screen after hiding scrollbars).
-            krtbMessageText.SelectionStart = 0;
-            krtbMessageText.SelectionLength = 0;
-            krtbMessageText.ScrollToCaret();
-        }
-        catch
-        {
-            // Ignore
-        }
-    }
-
-    private void OnMessageRichTextBoxHandleCreated(object? sender, EventArgs e)
-    {
-        HideMessageBoxScrollbars();
-    }
-
-    private void OnMessageRichTextBoxLayout(object? sender, LayoutEventArgs e)
-    {
-        HideMessageBoxScrollbars();
-    }
 
     private void UpdateText()
     {
@@ -154,7 +106,6 @@ internal partial class VisualMessageBoxForm : KryptonForm
             : _caption!.Split(Environment.NewLine.ToCharArray())[0];
 
         krtbMessageText.Text = _text;
-        HideMessageBoxScrollbars();
     }
 
     private void UpdateTextExtra(bool? showCtrlCopy)
