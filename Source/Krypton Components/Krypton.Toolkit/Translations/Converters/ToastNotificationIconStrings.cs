@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -9,7 +9,7 @@
 
 namespace Krypton.Toolkit;
 
-/// <summary>Exposes the set of <see cref="KryptonIconConverter"/> strings used within Krypton and that are localizable.</summary>
+/// <summary>Exposes the set of icon converter strings used within Krypton for toast notifications and that are localizable.</summary>
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public class ToastNotificationIconStrings : GlobalId
 {

@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2026 - 2026. All rights reserved.
@@ -258,7 +258,7 @@ public static class FontAwesomeHelper
                     if (!_imageCache.TryGetValue(cacheKey, out _))
                     {
                         var clonedBitmap = CloneBitmap(bitmap);
-                        if (!_imageCache.TryAdd(cacheKey, clonedBitmap))
+                        if (clonedBitmap != null && !_imageCache.TryAdd(cacheKey, clonedBitmap))
                         {
                             // Another thread added the key between TryGetValue and TryAdd
                             // Dispose the orphaned cloned bitmap to prevent resource leak
