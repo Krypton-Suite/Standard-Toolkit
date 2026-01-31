@@ -1,6 +1,6 @@
 # Bundled WebView2 assemblies
 
-This folder contains the Microsoft WebView2 managed assemblies used by the KryptonWebView2 control. The project references these DLLs directly when present; no NuGet PackageReference is used.
+This folder contains the Microsoft WebView2 managed assemblies used by the KryptonWebView2 control. The project references these DLLs directly so no NuGet restore or CI setup is required for WebView2.
 
 ## Required files
 
@@ -16,7 +16,11 @@ From the repository root, run:
 Scripts\WebVew2\Populate-BundledWebView2.cmd
 ```
 
-This downloads the latest stable Microsoft.Web.WebView2 NuGet package and copies the assemblies here. Without these DLLs, the project builds but KryptonWebView2 is not compiled (WEBVIEW2_AVAILABLE is not set). After populating, rebuild to include WebView2 support.
+This always downloads the **latest stable** Microsoft.Web.WebView2 NuGet package and copies the assemblies here. After running once, you can commit the DLLs so CI and other developers don't need to run the script. CI workflows also populate this folder with the latest version on each run.
+
+## Updating
+
+To update to a newer WebView2 version, run the same script again (it will overwrite with the latest version from NuGet), then rebuild and commit.
 
 ## License
 
