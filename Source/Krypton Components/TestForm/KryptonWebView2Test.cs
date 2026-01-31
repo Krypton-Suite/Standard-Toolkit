@@ -181,4 +181,11 @@ public partial class KryptonWebView2Test : KryptonForm
         }
     }
 }
+#else
+/// <summary>
+/// Stub for KryptonWebView2 test form when WebView2 is not available.
+/// </summary>
+public partial class KryptonWebView2Test : KryptonForm
+{
+}
 #endif
