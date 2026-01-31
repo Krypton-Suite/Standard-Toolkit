@@ -3206,6 +3206,10 @@ No 	                    No 	                    Show text only
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern int SetScrollPos(IntPtr hWnd, SB_ nBar, int nPos, bool bRedraw);
 
+    [DllImport(Libraries.User32, SetLastError = true)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static extern bool ShowScrollBar(IntPtr hWnd, int wBar, bool bShow);
+
     [DllImport(Libraries.User32)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern bool GetScrollRange(IntPtr Handle, SB_ nBar, ref IntPtr min, ref IntPtr max);

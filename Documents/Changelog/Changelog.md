@@ -4,6 +4,7 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Resolved [#2944](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2944), Messagebox sizing issues - Krypton scrollbars no longer cover text when message has minimal content
 * Resolved [#2921](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2921), Double ribbon drawn; form close button unresponsive when ribbon injects into caption (`CustomCaptionArea` overlapping min/max/close); design-time composition right border not re-injected when revoking
 * Implemented [#2925](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2925), Controlbox Touchscreen support
 * Implemented [#2916](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2916), Taskbar Thumbnail Button support

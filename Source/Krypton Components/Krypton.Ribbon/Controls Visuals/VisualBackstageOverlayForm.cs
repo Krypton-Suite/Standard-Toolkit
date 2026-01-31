@@ -14,7 +14,7 @@ namespace Krypton.Ribbon;
 /// </summary>
 /// <remarks>
 /// This form is owned by the top-level form that contains the ribbon and is positioned to cover the owner's
-/// <see cref="Form.ClientRectangle"/> in screen coordinates.
+/// <see cref="Control.ClientRectangle"/> in screen coordinates.
 ///
 /// The hosted content is temporarily re-parented into this form while the overlay is open and restored back to
 /// its original parent when the overlay closes/disposes. The overlay does <b>not</b> dispose the hosted content.
