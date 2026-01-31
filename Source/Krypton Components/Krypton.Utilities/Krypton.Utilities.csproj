@@ -73,7 +73,7 @@
 		</Reference>
 	</ItemGroup>
 
-	<!-- Define WEBVIEW2_AVAILABLE when bundled WebView2 DLLs exist -->
+	<!-- Define WEBVIEW2_AVAILABLE only when bundled WebView2 DLLs exist -->
 	<PropertyGroup Condition="Exists('$(WebView2CoreDll)') And Exists('$(WebView2WinFormsDll)')">
 		<DefineConstants>$(DefineConstants);WEBVIEW2_AVAILABLE</DefineConstants>
 	</PropertyGroup>

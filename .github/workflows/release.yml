@@ -90,36 +90,45 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
 
-      - name: Populate WebView2 (latest)
+      - name: Setup WebView2 SDK
         # Kill switch check
         if: steps.release_kill_switch.outputs.enabled == 'true'
         shell: pwsh
         run: |
-          $libDir = "Source/Krypton Components/Krypton.Utilities/Lib/WebView2"
-          if (-not (Test-Path $libDir)) { New-Item -ItemType Directory -Path $libDir -Force }
+          if (-not (Test-Path "WebView2SDK")) { mkdir WebView2SDK }
           $packageId = "Microsoft.Web.WebView2"
           $latestVersion = $null
           try {
             $searchUrl = "https://azuresearch-usnc.nuget.org/query?q=$packageId&prerelease=false&semVerLevel=2.0.0&take=1"
             $searchResponse = Invoke-RestMethod -Uri $searchUrl -Method Get
-            if ($searchResponse.data -and $searchResponse.data.Count -gt 0) { $latestVersion = $searchResponse.data[0].version }
+            if ($searchResponse.data -and $searchResponse.data.Count -gt 0) {
+              $latestVersion = $searchResponse.data[0].version
+            }
           } catch {
             try {
-              $response = Invoke-RestMethod -Uri "https://api.nuget.org/v3-flatcontainer/$packageId/index.json" -Method Get
-              $stableVersions = $response.versions | Where-Object { $_ -notmatch '[-]' -and $_ -match '^\d+\.\d+\.\d+$' }
-              if ($stableVersions) { $latestVersion = $stableVersions | Sort-Object { [System.Version]$_ } -Descending | Select-Object -First 1 }
+              $apiUrl = "https://api.nuget.org/v3-flatcontainer/$packageId/index.json"
+              $response = Invoke-RestMethod -Uri $apiUrl -Method Get
+              if ($response.versions) {
+                $stableVersions = $response.versions | Where-Object { $_ -notmatch '[-]' -and $_ -match '^\d+\.\d+\.\d+$' }
+                if ($stableVersions) {
+                  $latestVersion = $stableVersions | Sort-Object { [System.Version]$_ } -Descending | Select-Object -First 1
+                }
+              }
             } catch {}
           }
           if (-not $latestVersion) { $latestVersion = "1.0.3595.46" }
-          Write-Host "Using WebView2 (latest): $latestVersion"
-          dotnet add "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj" package $packageId --version $latestVersion
+          Write-Host "Using WebView2 SDK version: $latestVersion"
+          dotnet add "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj" package Microsoft.Web.WebView2 --version $latestVersion
           dotnet restore "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj"
-          $nugetBase = "$env:USERPROFILE\.nuget\packages\microsoft.web.webview2\$latestVersion"
-          @("Microsoft.Web.WebView2.Core.dll","Microsoft.Web.WebView2.WinForms.dll","WebView2Loader.dll") | ForEach-Object {
-            $f = Get-ChildItem -Path $nugetBase -Recurse -Name $_ -ErrorAction SilentlyContinue | Select-Object -First 1
-            if ($f) { Copy-Item (Join-Path $nugetBase $f) $libDir -Force; Write-Host "Copied $_" }
-          }
-          dotnet remove "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj" package $packageId
+          $nugetBasePath = "$env:USERPROFILE\.nuget\packages\microsoft.web.webview2\$latestVersion"
+          $coreDll = Get-ChildItem -Path $nugetBasePath -Recurse -Name "Microsoft.Web.WebView2.Core.dll" | Select-Object -First 1
+          Copy-Item (Join-Path $nugetBasePath $coreDll) "WebView2SDK\"
+          $winFormsDll = Get-ChildItem -Path $nugetBasePath -Recurse -Name "Microsoft.Web.WebView2.WinForms.dll" | Select-Object -First 1
+          Copy-Item (Join-Path $nugetBasePath $winFormsDll) "WebView2SDK\"
+          $loaderDll = Get-ChildItem -Path $nugetBasePath -Recurse -Name "WebView2Loader.dll" | Select-Object -First 1
+          Copy-Item (Join-Path $nugetBasePath $loaderDll) "WebView2SDK\"
+          # Note: We keep the PackageReference in the project file - file-based refs will take precedence when DLLs exist,
+          # and PackageReference serves as a fallback for builds where SDK files aren't available
 
       - name: Restore
         # Kill switch check
@@ -347,36 +356,45 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
 
-      - name: Populate WebView2 (latest)
+      - name: Setup WebView2 SDK
         # Kill switch check
         if: steps.release_kill_switch.outputs.enabled == 'true'
         shell: pwsh
         run: |
-          $libDir = "Source/Krypton Components/Krypton.Utilities/Lib/WebView2"
-          if (-not (Test-Path $libDir)) { New-Item -ItemType Directory -Path $libDir -Force }
+          if (-not (Test-Path "WebView2SDK")) { mkdir WebView2SDK }
           $packageId = "Microsoft.Web.WebView2"
           $latestVersion = $null
           try {
             $searchUrl = "https://azuresearch-usnc.nuget.org/query?q=$packageId&prerelease=false&semVerLevel=2.0.0&take=1"
             $searchResponse = Invoke-RestMethod -Uri $searchUrl -Method Get
-            if ($searchResponse.data -and $searchResponse.data.Count -gt 0) { $latestVersion = $searchResponse.data[0].version }
+            if ($searchResponse.data -and $searchResponse.data.Count -gt 0) {
+              $latestVersion = $searchResponse.data[0].version
+            }
           } catch {
             try {
-              $response = Invoke-RestMethod -Uri "https://api.nuget.org/v3-flatcontainer/$packageId/index.json" -Method Get
-              $stableVersions = $response.versions | Where-Object { $_ -notmatch '[-]' -and $_ -match '^\d+\.\d+\.\d+$' }
-              if ($stableVersions) { $latestVersion = $stableVersions | Sort-Object { [System.Version]$_ } -Descending | Select-Object -First 1 }
+              $apiUrl = "https://api.nuget.org/v3-flatcontainer/$packageId/index.json"
+              $response = Invoke-RestMethod -Uri $apiUrl -Method Get
+              if ($response.versions) {
+                $stableVersions = $response.versions | Where-Object { $_ -notmatch '[-]' -and $_ -match '^\d+\.\d+\.\d+$' }
+                if ($stableVersions) {
+                  $latestVersion = $stableVersions | Sort-Object { [System.Version]$_ } -Descending | Select-Object -First 1
+                }
+              }
             } catch {}
           }
           if (-not $latestVersion) { $latestVersion = "1.0.3595.46" }
-          Write-Host "Using WebView2 (latest): $latestVersion"
-          dotnet add "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj" package $packageId --version $latestVersion
+          Write-Host "Using WebView2 SDK version: $latestVersion"
+          dotnet add "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj" package Microsoft.Web.WebView2 --version $latestVersion
           dotnet restore "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj"
-          $nugetBase = "$env:USERPROFILE\.nuget\packages\microsoft.web.webview2\$latestVersion"
-          @("Microsoft.Web.WebView2.Core.dll","Microsoft.Web.WebView2.WinForms.dll","WebView2Loader.dll") | ForEach-Object {
-            $f = Get-ChildItem -Path $nugetBase -Recurse -Name $_ -ErrorAction SilentlyContinue | Select-Object -First 1
-            if ($f) { Copy-Item (Join-Path $nugetBase $f) $libDir -Force; Write-Host "Copied $_" }
-          }
-          dotnet remove "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj" package $packageId
+          $nugetBasePath = "$env:USERPROFILE\.nuget\packages\microsoft.web.webview2\$latestVersion"
+          $coreDll = Get-ChildItem -Path $nugetBasePath -Recurse -Name "Microsoft.Web.WebView2.Core.dll" | Select-Object -First 1
+          Copy-Item (Join-Path $nugetBasePath $coreDll) "WebView2SDK\"
+          $winFormsDll = Get-ChildItem -Path $nugetBasePath -Recurse -Name "Microsoft.Web.WebView2.WinForms.dll" | Select-Object -First 1
+          Copy-Item (Join-Path $nugetBasePath $winFormsDll) "WebView2SDK\"
+          $loaderDll = Get-ChildItem -Path $nugetBasePath -Recurse -Name "WebView2Loader.dll" | Select-Object -First 1
+          Copy-Item (Join-Path $nugetBasePath $loaderDll) "WebView2SDK\"
+          # Note: We keep the PackageReference in the project file - file-based refs will take precedence when DLLs exist,
+          # and PackageReference serves as a fallback for builds where SDK files aren't available
 
       - name: Restore
         # Kill switch check
