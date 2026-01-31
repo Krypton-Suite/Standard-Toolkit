@@ -681,24 +681,4 @@ public class KryptonWebView2 : WebView2Base
     #endregion
 }
 
-#else
-
-using System.ComponentModel;
-using System.Drawing;
-using System.Windows.Forms;
-
-/// <summary>
-/// Stub when WebView2 SDK/package is not available. Run dotnet restore or add WebView2 SDK for full implementation.
-/// </summary>
-[ToolboxItem(true)]
-[ToolboxBitmap(typeof(KryptonWebView2), "KryptonWebView2.ToolboxBitmaps.WebView2.bmp")]
-[Description(@"WebView2 with Krypton theming. WebView2 SDK or package required; run dotnet restore or add WebView2 SDK.")]
-public class KryptonWebView2 : Control
-{
-    public KryptonWebView2()
-    {
-        BackColor = SystemColors.Control;
-    }
-}
-
 #endif

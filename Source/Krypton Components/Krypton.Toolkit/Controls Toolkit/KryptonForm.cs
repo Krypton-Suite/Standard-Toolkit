@@ -2031,17 +2031,9 @@ public class KryptonForm : VisualForm,
             return new IntPtr(PI.HT.REDUCE);
         }
 
-        Padding borders = RealWindowBorders;
-
-        // Issue #2921: CustomCaptionArea is in form client coordinates (set by ribbon);
-        // hit-test pt is in window coordinates — convert for correct caption/drag detection.
-        if (!CustomCaptionArea.IsEmpty)
+        if (CustomCaptionArea.Contains(pt))
         {
-            var clientPt = new Point(pt.X - borders.Left, pt.Y - borders.Top);
-            if (CustomCaptionArea.Contains(clientPt))
-            {
-                return new IntPtr(PI.HT.CAPTION);
-            }
+            return new IntPtr(PI.HT.CAPTION);
         }
 
         // Do not allow the caption to be moved or the border resized
@@ -2075,6 +2067,7 @@ public class KryptonForm : VisualForm,
         }
 
         bool isResizable = FormBorderStyle is FormBorderStyle.Sizable or FormBorderStyle.SizableToolWindow;
+        Padding borders = RealWindowBorders;
 
         // Material: use a wider invisible hit band for easier resize while keeping flat, borderless visuals.
         // RealWindowBorders can be 0 when the palette (e.g., Material) suppresses border width for drawing.
