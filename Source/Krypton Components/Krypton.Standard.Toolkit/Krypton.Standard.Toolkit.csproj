@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 	
 	<!--
 		Krypton.Standard.Toolkit - Combined Package Project
@@ -14,6 +14,10 @@
 	
 		All referenced DLLs, XML documentation files, and PDB symbol files are included in the package
 		for each target framework, allowing consumers to use the complete toolkit from a single package.
+
+		When WebView2 DLLs are present in Krypton.Utilities\Lib\WebView2 (after running
+		Scripts\WebVew2\Populate-BundledWebView2.cmd), the package also includes the WebView2 managed
+		DLLs and native loader so consumers get WebView2 support without a separate package reference.
 	-->
 
 	<PropertyGroup>
@@ -58,10 +62,21 @@
 		-->
 		<IncludeBuildOutput>false</IncludeBuildOutput>
 	</PropertyGroup>
+	<!-- WebView2: path to bundled DLLs in Krypton.Utilities (same as used by Utilities build). Run Scripts\WebVew2\Populate-BundledWebView2.cmd to populate. -->
+	<PropertyGroup>
+		<WebView2LibPath>$(MSBuildThisFileDirectory)..\Krypton.Utilities\Lib\WebView2</WebView2LibPath>
+	</PropertyGroup>
+
 	<ItemGroup>
 	  <Content Include="Krypton.ico">
 	    <Pack>false</Pack>
 	  </Content>
+	</ItemGroup>
+
+	<!-- WebView2 native loader: include in runtimes so consuming apps get the correct native DLL. Only included when bundled WebView2 is populated. -->
+	<ItemGroup Condition="Exists('$(WebView2LibPath)\WebView2Loader.dll')">
+		<Content Include="$(WebView2LibPath)\WebView2Loader.dll" Pack="true" PackagePath="runtimes\win-x64\native\WebView2Loader.dll" />
+		<Content Include="$(WebView2LibPath)\WebView2Loader.dll" Pack="true" PackagePath="runtimes\win-x86\native\WebView2Loader.dll" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -162,6 +177,14 @@
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Workspace.dll" Condition="Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Workspace.dll')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
+
+			<!-- WebView2 managed DLLs (bundled from Krypton.Utilities\Lib\WebView2). Only included when bundled WebView2 is populated. -->
+			<TfmSpecificPackageFile Include="$(WebView2LibPath)\Microsoft.Web.WebView2.Core.dll" Condition="Exists('$(WebView2LibPath)\Microsoft.Web.WebView2.Core.dll')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(WebView2LibPath)\Microsoft.Web.WebView2.WinForms.dll" Condition="Exists('$(WebView2LibPath)\Microsoft.Web.WebView2.WinForms.dll')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
 
