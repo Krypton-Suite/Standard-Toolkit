@@ -2,7 +2,7 @@
 /*
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- * Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2025 - 2025. All rights reserved.
+ * Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2025 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -17,7 +17,7 @@ public partial class KryptonTaskDialogElementCommandLinkButtons : KryptonTaskDia
     internal Action? CollectionEditorClosed;
     internal bool CollectionEditorActive { get; set; }
 
-    private readonly ObservableCollection<KryptonCommandLinkButton> _buttons;
+    private readonly ObservableCollection<InternalKryptonCommandLinkButton> _buttons;
     private readonly TableLayoutPanel _tlp;
     private readonly FlowLayoutPanel _flp;
     private readonly KryptonButton _btnFlowDirection;
@@ -63,7 +63,7 @@ public partial class KryptonTaskDialogElementCommandLinkButtons : KryptonTaskDia
     /// Krypton CommandLink Buttons collection.
     /// </summary>
     [Editor(typeof(KryptonTaskDialogElementCommandLinkButtons.ButtonsCollectionEditor), typeof(UITypeEditor))]
-    public ObservableCollection<KryptonCommandLinkButton> Buttons => _buttons;
+    public ObservableCollection<InternalKryptonCommandLinkButton> Buttons => _buttons;
 
     /// <summary>
     /// Rounds the button corners.
@@ -161,13 +161,13 @@ public partial class KryptonTaskDialogElementCommandLinkButtons : KryptonTaskDia
     {
         _btnFlowDirection.StateCommon.Border.Rounding = Defaults.GetCornerRouding(RoundedCorners);
 
-        foreach ( KryptonCommandLinkButton button in _buttons)
+        foreach (InternalKryptonCommandLinkButton button in _buttons)
         {
             SetButtonRoundedCorners(button);
         }
     }
 
-    private void SetButtonRoundedCorners(KryptonCommandLinkButton button)
+    private void SetButtonRoundedCorners(InternalKryptonCommandLinkButton button)
     {
         button.StateCommon.Border.Rounding = Defaults.GetCornerRouding(RoundedCorners);
     }
@@ -282,7 +282,7 @@ public partial class KryptonTaskDialogElementCommandLinkButtons : KryptonTaskDia
             {
                 for (int i = 0; i < e.NewItems.Count; i++)
                 {
-                    if (e.NewItems[i] is KryptonCommandLinkButton button)
+                    if (e.NewItems[i] is InternalKryptonCommandLinkButton button)
                     {
                         _flp.Controls.Add(button);
                         SetButtonRoundedCorners(button);

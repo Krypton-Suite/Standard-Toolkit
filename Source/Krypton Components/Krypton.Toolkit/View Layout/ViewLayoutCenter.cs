@@ -1,11 +1,11 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -247,26 +247,44 @@ public class ViewLayoutCenter : ViewComposite
                 // Ask child for it's own preferred size
                 Size childPreferred = child.GetPreferredSize(context);
 
-                // Make sure the child is never bigger than the available space
-                if (childPreferred.Width > ClientWidth)
+                // When touchscreen support is enabled for controlbox buttons, make the button fill
+                // the entire area (including padding) to avoid transparent magenta outlines
+                bool fillEntireArea = false;
+                if (KryptonManager.UseTouchscreenSupport && 
+                    MetricPadding == PaletteMetricPadding.HeaderButtonPaddingForm &&
+                    child is ViewDrawButton)
                 {
-                    childPreferred.Width = ClientWidth;
+                    fillEntireArea = true;
                 }
 
-                if (childPreferred.Height > ClientHeight)
+                if (fillEntireArea)
                 {
-                    childPreferred.Height = ClientHeight;
+                    // Make the button fill the entire original area (before padding was applied)
+                    context.DisplayRectangle = original;
                 }
+                else
+                {
+                    // Make sure the child is never bigger than the available space
+                    if (childPreferred.Width > ClientWidth)
+                    {
+                        childPreferred.Width = ClientWidth;
+                    }
 
-                // Find vertical and horizontal offsets for centering
-                var xOffset = (ClientWidth - childPreferred.Width) / 2;
-                var yOffset = (ClientHeight - childPreferred.Height) / 2;
+                    if (childPreferred.Height > ClientHeight)
+                    {
+                        childPreferred.Height = ClientHeight;
+                    }
 
-                // Create the rectangle that centers the child in our space
-                context.DisplayRectangle = new Rectangle(ClientRectangle.X + xOffset,
-                    ClientRectangle.Y + yOffset,
-                    childPreferred.Width,
-                    childPreferred.Height);
+                    // Find vertical and horizontal offsets for centering
+                    var xOffset = (ClientWidth - childPreferred.Width) / 2;
+                    var yOffset = (ClientHeight - childPreferred.Height) / 2;
+
+                    // Create the rectangle that centers the child in our space
+                    context.DisplayRectangle = new Rectangle(ClientRectangle.X + xOffset,
+                        ClientRectangle.Y + yOffset,
+                        childPreferred.Width,
+                        childPreferred.Height);
+                }
 
                 // Finally ask the child to layout
                 child.Layout(context);

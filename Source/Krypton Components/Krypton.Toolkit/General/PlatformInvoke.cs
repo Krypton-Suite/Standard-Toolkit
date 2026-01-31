@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -507,6 +507,12 @@ internal partial class PI
         UNCHECKED = 0x0000,
         CHECKED = 0x0001,
         INDETERMINATE = 0x0002
+    }
+    
+    internal struct DTM_
+    {
+        // Closes a date and time picker (DTP) control. Send this message explicitly or by using the DateTime\_CloseMonthCal macro.
+        public const int CLOSEMONTHCAL = 0x100D;
     }
 
     #region ScrollBar
@@ -3200,6 +3206,10 @@ No 	                    No 	                    Show text only
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern int SetScrollPos(IntPtr hWnd, SB_ nBar, int nPos, bool bRedraw);
 
+    [DllImport(Libraries.User32, SetLastError = true)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static extern bool ShowScrollBar(IntPtr hWnd, int wBar, bool bShow);
+
     [DllImport(Libraries.User32)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern bool GetScrollRange(IntPtr Handle, SB_ nBar, ref IntPtr min, ref IntPtr max);
@@ -3430,6 +3440,10 @@ No 	                    No 	                    Show text only
     [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern bool ShowCaret(IntPtr hWnd);
+
+    [DllImport(Libraries.User32, SetLastError = true)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static extern bool DestroyIcon(IntPtr hIcon);
 
     [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
@@ -4304,6 +4318,83 @@ No 	                    No 	                    Show text only
 
     #endregion
 
+    #region Static Shell32
+
+    /// <summary>
+    /// Flags used with SHGetFileInfo to specify what information to retrieve.
+    /// </summary>
+    [Flags]
+    internal enum SHGFI_ : uint
+    {
+        /// <summary>Get icon</summary>
+        ICON = 0x000000100,
+        /// <summary>Get display name</summary>
+        DISPLAYNAME = 0x000000200,
+        /// <summary>Get type name</summary>
+        TYPENAME = 0x000000400,
+        /// <summary>Get attributes</summary>
+        ATTRIBUTES = 0x000000800,
+        /// <summary>Get icon location</summary>
+        ICONLOCATION = 0x000001000,
+        /// <summary>Return exe type</summary>
+        EXETYPE = 0x000002000,
+        /// <summary>Get system icon index</summary>
+        SYSICONINDEX = 0x000004000,
+        /// <summary>Put a link overlay on icon</summary>
+        LINKOVERLAY = 0x000008000,
+        /// <summary>Show icon in selected state</summary>
+        SELECTED = 0x000010000,
+        /// <summary>Get only specified attributes</summary>
+        ATTR_SPECIFIED = 0x000020000,
+        /// <summary>Get large icon</summary>
+        LARGEICON = 0x000000000,
+        /// <summary>Get small icon</summary>
+        SMALLICON = 0x000000001,
+        /// <summary>Get open icon</summary>
+        OPENICON = 0x000000002,
+        /// <summary>Get shell size icon</summary>
+        SHELLICONSIZE = 0x000000004,
+        /// <summary>pszPath is a PIDL</summary>
+        PIDL = 0x000000008,
+        /// <summary>Use passed dwFileAttribute</summary>
+        USEFILEATTRIBUTES = 0x000000010,
+        /// <summary>Apply the appropriate overlays</summary>
+        ADDOVERLAYS = 0x000000020,
+        /// <summary>Get the index of the overlay</summary>
+        OVERLAYINDEX = 0x000000040
+    }
+
+    /// <summary>
+    /// Contains information about a file object.
+    /// </summary>
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
+    internal struct SHFILEINFO
+    {
+        /// <summary>A handle to the icon that represents the file</summary>
+        public IntPtr hIcon;
+        /// <summary>The index of the icon image within the system image list</summary>
+        public int iIcon;
+        /// <summary>An array of values that indicates the attributes of the file object</summary>
+        public uint dwAttributes;
+        /// <summary>A string that contains the name of the file as it appears in the Windows Shell, or the path and file name of the file that contains the icon representing the file</summary>
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)]
+        public string szDisplayName;
+        /// <summary>A string that describes the type of file</summary>
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 80)]
+        public string szTypeName;
+    }
+
+    [DllImport(Libraries.Shell32, CharSet = CharSet.Auto, SetLastError = true)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static extern IntPtr SHGetFileInfo(
+        string pszPath,
+        uint dwFileAttributes,
+        ref SHFILEINFO psfi,
+        uint cbSizeFileInfo,
+        uint uFlags);
+
+    #endregion
+
     #region Static Uxtheme
 
     [DllImport(Libraries.UxTheme, CharSet = CharSet.Unicode)]
@@ -5040,6 +5131,239 @@ No 	                    No 	                    Show text only
         public uint GradientColor;
         public uint AnimationId;
     }*/
+
+    #endregion
+
+    #region Taskbar Overlay Icon (ITaskbarList3)
+
+    /// <summary>
+    /// Notification code sent in WM_COMMAND when a taskbar thumbnail toolbar button is clicked.
+    /// </summary>
+    internal const int THBN_CLICKED = 0x1800;
+
+    /// <summary>
+    /// Mask flags for THUMBBUTTON; specifies which members contain valid data.
+    /// </summary>
+    [Flags]
+    internal enum THUMBBUTTONMASK
+    {
+        THB_BITMAP = 0x1,
+        THB_ICON = 0x2,
+        THB_TOOLTIP = 0x4,
+        THB_FLAGS = 0x8
+    }
+
+    /// <summary>
+    /// Flags controlling taskbar thumbnail button state and behavior.
+    /// </summary>
+    [Flags]
+    internal enum THUMBBUTTONFLAGS
+    {
+        THBF_ENABLED = 0,
+        THBF_DISABLED = 0x1,
+        THBF_DISMISSONCLICK = 0x2,
+        THBF_NOBACKGROUND = 0x4,
+        THBF_HIDDEN = 0x8,
+        THBF_NONINTERACTIVE = 0x10
+    }
+
+    /// <summary>
+    /// Structure defining a button in the taskbar thumbnail toolbar.
+    /// </summary>
+    [StructLayout(LayoutKind.Sequential, Pack = 8, CharSet = CharSet.Unicode)]
+    internal struct THUMBBUTTON
+    {
+        public THUMBBUTTONMASK dwMask;
+        public uint iId;
+        public uint iBitmap;
+        public IntPtr hIcon;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)]
+        public string szTip;
+        public THUMBBUTTONFLAGS dwFlags;
+    }
+
+    /// <summary>
+    /// COM interface for Windows 7+ taskbar functionality including overlay icons and thumbnail toolbars.
+    /// </summary>
+    [ComImport]
+    [Guid("ea1afb91-9e28-4b86-90e9-9e9f8a5eefaf")]
+    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    internal interface ITaskbarList3
+    {
+        // ITaskbarList methods
+        void HrInit();
+        void AddTab(IntPtr hwnd);
+        void DeleteTab(IntPtr hwnd);
+        void ActivateTab(IntPtr hwnd);
+        void SetActiveAlt(IntPtr hwnd);
+
+        // ITaskbarList2 methods
+        void MarkFullscreenWindow(IntPtr hwnd, [MarshalAs(UnmanagedType.Bool)] bool fFullscreen);
+
+        // ITaskbarList3 methods
+        void SetProgressValue(IntPtr hwnd, ulong ullCompleted, ulong ullTotal);
+        void SetProgressState(IntPtr hwnd, TBPFLAG tbpFlags);
+        void RegisterTab(IntPtr hwndTab, IntPtr hwndMDI);
+        void UnregisterTab(IntPtr hwndTab);
+        void SetTabOrder(IntPtr hwndTab, IntPtr hwndInsertBefore);
+        void SetTabActive(IntPtr hwndTab, IntPtr hwndMDI, uint dwReserved);
+        void ThumbBarAddButtons(IntPtr hwnd, uint cButtons, IntPtr pButtons);
+        void ThumbBarUpdateButtons(IntPtr hwnd, uint cButtons, IntPtr pButtons);
+        void ThumbBarSetImageList(IntPtr hwnd, IntPtr himl);
+        void SetOverlayIcon(IntPtr hwnd, IntPtr hIcon, [MarshalAs(UnmanagedType.LPWStr)] string pszDescription);
+        void SetThumbnailTooltip(IntPtr hwnd, [MarshalAs(UnmanagedType.LPWStr)] string pszTip);
+        void SetThumbnailClip(IntPtr hwnd, IntPtr prcClip);
+    }
+
+    /// <summary>
+    /// Taskbar progress flag values.
+    /// </summary>
+    internal enum TBPFLAG
+    {
+        TBPF_NOPROGRESS = 0,
+        TBPF_INDETERMINATE = 0x1,
+        TBPF_NORMAL = 0x2,
+        TBPF_ERROR = 0x4,
+        TBPF_PAUSED = 0x8
+    }
+
+    /// <summary>
+    /// CLSID for TaskbarList COM object.
+    /// </summary>
+    [ComImport]
+    [Guid("56FDF344-FD6D-11d0-958A-006097C9A090")]
+    [ClassInterface(ClassInterfaceType.None)]
+    internal class TaskbarList
+    {
+    }
+
+    #endregion
+
+    #region Jump List (ICustomDestinationList)
+
+    /// <summary>
+    /// COM interface for Windows 7+ custom jump list functionality.
+    /// </summary>
+    [ComImport]
+    [Guid("6332debf-87b5-4670-90c0-5e57b408a49e")]
+    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    internal interface ICustomDestinationList
+    {
+        void SetAppID([MarshalAs(UnmanagedType.LPWStr)] string pszAppID);
+        [PreserveSig]
+        int BeginList(out uint pcMaxSlots, [In] ref Guid riid, out IntPtr ppv);
+        [PreserveSig]
+        int AppendCategory([MarshalAs(UnmanagedType.LPWStr)] string pszCategory, [In] IObjectArray poa);
+        [PreserveSig]
+        int AppendKnownCategory([In] KNOWNDESTCATEGORY category);
+        [PreserveSig]
+        int AddUserTasks([In] IObjectArray poa);
+        [PreserveSig]
+        int CommitList();
+        [PreserveSig]
+        int GetRemovedDestinations([In] ref Guid riid, out IntPtr ppv);
+        [PreserveSig]
+        int DeleteList([MarshalAs(UnmanagedType.LPWStr)] string pszAppID);
+        [PreserveSig]
+        int AbortList();
+    }
+
+    /// <summary>
+    /// Known destination categories for jump lists.
+    /// </summary>
+    internal enum KNOWNDESTCATEGORY
+    {
+        KDC_FREQUENT = 1,
+        KDC_RECENT = 2
+    }
+
+    /// <summary>
+    /// COM interface for object arrays used in jump lists.
+    /// </summary>
+    [ComImport]
+    [Guid("92ca9dcd-5622-4bba-a805-5e9f541bd8c9")]
+    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    internal interface IObjectArray
+    {
+        uint GetCount();
+        [return: MarshalAs(UnmanagedType.IUnknown)]
+        object GetAt([In] uint uiIndex, [In] ref Guid riid);
+    }
+
+    /// <summary>
+    /// COM interface for object collection used to build jump lists.
+    /// </summary>
+    [ComImport]
+    [Guid("5632b1a4-e38a-400a-928a-d4cd63230295")]
+    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    internal interface IObjectCollection
+    {
+        void AddObject([In, MarshalAs(UnmanagedType.IUnknown)] object punk);
+        void AddFromArray([In] IObjectArray poaSource);
+        void RemoveObjectAt([In] uint uiIndex);
+        void Clear();
+        uint GetCount();
+        [return: MarshalAs(UnmanagedType.IUnknown)]
+        object GetAt([In] uint uiIndex, [In] ref Guid riid);
+    }
+
+    /// <summary>
+    /// COM interface for shell links used in jump lists.
+    /// </summary>
+    [ComImport]
+    [Guid("000214F9-0000-0000-C000-000000000046")]
+    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    internal interface IShellLinkW
+    {
+        void GetPath([Out, MarshalAs(UnmanagedType.LPWStr)] StringBuilder pszFile, int cchMaxPath, out IntPtr pfd, int fFlags);
+        void GetIDList(out IntPtr ppidl);
+        void SetIDList(IntPtr pidl);
+        void GetDescription([Out, MarshalAs(UnmanagedType.LPWStr)] StringBuilder pszName, int cchMaxName);
+        void SetDescription([MarshalAs(UnmanagedType.LPWStr)] string pszName);
+        void GetWorkingDirectory([Out, MarshalAs(UnmanagedType.LPWStr)] StringBuilder pszDir, int cchMaxPath);
+        void SetWorkingDirectory([MarshalAs(UnmanagedType.LPWStr)] string pszDir);
+        void GetArguments([Out, MarshalAs(UnmanagedType.LPWStr)] StringBuilder pszArgs, int cchMaxPath);
+        void SetArguments([MarshalAs(UnmanagedType.LPWStr)] string pszArgs);
+        void GetHotkey(out short pwHotkey);
+        void SetHotkey(short wHotkey);
+        void GetShowCmd(out int piShowCmd);
+        void SetShowCmd(int iShowCmd);
+        void GetIconLocation([Out, MarshalAs(UnmanagedType.LPWStr)] StringBuilder pszIconPath, int cchIconPath, out int piIcon);
+        void SetIconLocation([MarshalAs(UnmanagedType.LPWStr)] string pszIconPath, int iIcon);
+        void SetRelativePath([MarshalAs(UnmanagedType.LPWStr)] string pszPathRel, int dwReserved);
+        void Resolve(IntPtr hwnd, int fFlags);
+        void SetPath([MarshalAs(UnmanagedType.LPWStr)] string pszFile);
+    }
+
+    /// <summary>
+    /// CLSID for ShellLink COM object.
+    /// </summary>
+    [ComImport]
+    [Guid("00021401-0000-0000-C000-000000000046")]
+    [ClassInterface(ClassInterfaceType.None)]
+    internal class ShellLink
+    {
+    }
+
+    /// <summary>
+    /// CLSID for CustomDestinationList COM object.
+    /// </summary>
+    [ComImport]
+    [Guid("77f10cf0-3db5-496c-bb43-78e2f5a1d207")]
+    [ClassInterface(ClassInterfaceType.None)]
+    internal class CustomDestinationList
+    {
+    }
+
+    /// <summary>
+    /// CLSID for ObjectCollection COM object.
+    /// </summary>
+    [ComImport]
+    [Guid("5632b1a4-e38a-400a-928a-d4cd63230295")]
+    [ClassInterface(ClassInterfaceType.None)]
+    internal class ObjectCollection
+    {
+    }
 
     #endregion
 

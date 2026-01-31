@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -36,6 +36,7 @@ public class ButtonValues : Storage,
     private string? _text;
     private string _extraText;
     private Size? _customIconSize;
+    private readonly OverlayImageValues _overlayImage;
 
     #endregion
 
@@ -69,6 +70,7 @@ public class ButtonValues : Storage,
         _iconSelectionStrategy = IconSelectionStrategy.OSBased; // Default to OS based strategy
         ImageStates = CreateImageStates();
         ImageStates.NeedPaint = needPaint;
+        _overlayImage = new OverlayImageValues(needPaint);
     }
     #endregion
 
@@ -87,7 +89,8 @@ public class ButtonValues : Storage,
                                       //(UACShieldIconSize == UACShieldIconSize.ExtraSmall)
                                       (ImageTransparentColor == GlobalStaticValues.EMPTY_COLOR) &&
                                       (Text == DEFAULT_TEXT) &&
-                                      (ExtraText == _defaultExtraText);
+                                      (ExtraText == _defaultExtraText) &&
+                                      _overlayImage.IsDefault;
 
     #endregion
 
@@ -408,6 +411,19 @@ public class ButtonValues : Storage,
 
     #endregion
 
+    #region OverlayImage
+    /// <summary>
+    /// Gets access to the overlay image values.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Overlay image values.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public OverlayImageValues OverlayImage => _overlayImage;
+
+    private bool ShouldSerializeOverlayImage() => !_overlayImage.IsDefault;
+
+    #endregion
+
     #region IContentValues
     /// <summary>
     /// Gets the content image.
@@ -439,6 +455,48 @@ public class ButtonValues : Storage,
     /// Gets the content long text.
     /// </summary>
     public virtual string GetLongText() => ExtraText;
+
+    /// <summary>
+    /// Gets the overlay image.
+    /// </summary>
+    /// <param name="state">The state for which the overlay image is needed.</param>
+    /// <returns>Overlay image value, or null if no overlay image is set.</returns>
+    public virtual Image? GetOverlayImage(PaletteState state) => _overlayImage.Image;
+
+    /// <summary>
+    /// Gets the overlay image color that should be transparent.
+    /// </summary>
+    /// <param name="state">The state for which the overlay image is needed.</param>
+    /// <returns>Color value.</returns>
+    public virtual Color GetOverlayImageTransparentColor(PaletteState state) => _overlayImage.ImageTransparentColor;
+
+    /// <summary>
+    /// Gets the position of the overlay image relative to the main image.
+    /// </summary>
+    /// <param name="state">The state for which the overlay position is needed.</param>
+    /// <returns>Overlay image position.</returns>
+    public virtual OverlayImagePosition GetOverlayImagePosition(PaletteState state) => _overlayImage.Position;
+
+    /// <summary>
+    /// Gets the scaling mode for the overlay image.
+    /// </summary>
+    /// <param name="state">The state for which the overlay scale mode is needed.</param>
+    /// <returns>Overlay image scale mode.</returns>
+    public virtual OverlayImageScaleMode GetOverlayImageScaleMode(PaletteState state) => _overlayImage.ScaleMode;
+
+    /// <summary>
+    /// Gets the scale factor for the overlay image.
+    /// </summary>
+    /// <param name="state">The state for which the overlay scale factor is needed.</param>
+    /// <returns>Scale factor.</returns>
+    public virtual float GetOverlayImageScaleFactor(PaletteState state) => _overlayImage.ScaleFactor;
+
+    /// <summary>
+    /// Gets the fixed size for the overlay image.
+    /// </summary>
+    /// <param name="state">The state for which the overlay fixed size is needed.</param>
+    /// <returns>Fixed size.</returns>
+    public virtual Size GetOverlayImageFixedSize(PaletteState state) => _overlayImage.FixedSize;
 
     #endregion
 

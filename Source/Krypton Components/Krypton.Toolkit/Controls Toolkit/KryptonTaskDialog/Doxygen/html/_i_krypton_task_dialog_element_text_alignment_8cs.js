@@ -1,0 +1,5 @@
+var _i_krypton_task_dialog_element_text_alignment_8cs =
+[
+    [ "Krypton.Toolkit.IKryptonTaskDialogElementTextAlignmentHorizontal", "interface_krypton_1_1_toolkit_1_1_i_krypton_task_dialog_element_text_alignment_horizontal.html", "interface_krypton_1_1_toolkit_1_1_i_krypton_task_dialog_element_text_alignment_horizontal" ],
+    [ "Krypton.Toolkit.IKryptonTaskDialogElementTextAlignmentVertical", "interface_krypton_1_1_toolkit_1_1_i_krypton_task_dialog_element_text_alignment_vertical.html", "interface_krypton_1_1_toolkit_1_1_i_krypton_task_dialog_element_text_alignment_vertical" ]
+];
