@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
@@ -628,6 +628,16 @@ internal class ViewLayoutRibbonTabsArea : ViewLayoutDocker
         _buttonSpecMin.MdiChild = _activeMdiChild;
         ButtonSpecManager?.RecreateButtons();
         PerformNeedPaint(true);
+
+        // Issue #2921: When last MDI child closes, re-check caption integration and force form
+        // to re-layout so double ribbon / stale caption does not remain.
+        if (_activeMdiChild == null && topForm is KryptonForm kryptonForm)
+        {
+            _captionArea.PerformFormChromeCheck();
+            kryptonForm.RecreateMinMaxCloseButtons();
+            kryptonForm.PerformNeedPaint(true);
+            kryptonForm.InvalidateNonClient();
+        }
 
         // We never want the mdi child window to have a system menu, we provide the 
         // pendant buttons as part of the ribbon and so replace the need for it.
