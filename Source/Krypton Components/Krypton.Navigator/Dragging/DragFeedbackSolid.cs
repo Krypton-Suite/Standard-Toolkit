@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -55,9 +55,10 @@ public class DragFeedbackSolid : DragFeedback
 
         if (_solid == null)
         {
-            // Create and show a window without it taking focus
+            // Create and show a window without it taking focus.
+            // Position off-screen initially to avoid a visible 1x1 artifact at top-left (0,0).
             _solid = new DropSolidWindow(PaletteDragDrop, Renderer);
-            _solid.SetBounds(0, 0, 1, 1, BoundsSpecified.All);
+            _solid.SetBounds(GlobalStaticValues.OFF_SCREEN_POSITION, GlobalStaticValues.OFF_SCREEN_POSITION, 1, 1, BoundsSpecified.All);
             _solid.ShowWithoutActivate();
             _solid.Refresh();
         }

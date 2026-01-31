@@ -55,7 +55,6 @@ public abstract class VisualForm : Form,
     private BlurValues _blurValues;
     private BlurManager _blurManager;
     private readonly object lockObject = new();
-    private readonly TaskbarOverlayIconValues _taskbarOverlayIconValues;
     readonly JumpListValues _jumpListValues;
     private readonly WindowsShellValues _shellValues;
     private bool _thumbButtonsAdded;

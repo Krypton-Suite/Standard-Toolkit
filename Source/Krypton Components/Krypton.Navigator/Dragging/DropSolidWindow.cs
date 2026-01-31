@@ -81,10 +81,19 @@ public class DropSolidWindow : KryptonForm
             {
                 _solidRect = value;
 
-                // DrawRect/SolidRect are in screen coordinates; DesktopBounds expects screen coordinates.
-                // Do not subtract working-area origin (fixes #2935: border on wrong monitor when
-                // drop indicator is on a secondary monitor).
-                DesktopBounds = value;
+                Rectangle bounds;
+                if (value.IsEmpty)
+                {
+                    // Move off-screen to avoid a visible artifact at (0,0) when no target is matched
+                    bounds = new Rectangle(GlobalStaticValues.OFF_SCREEN_POSITION, GlobalStaticValues.OFF_SCREEN_POSITION, 0, 0);
+                }
+                else
+                {
+                    var area = Screen.GetWorkingArea(this);
+                    bounds = new Rectangle(value.Location - (Size)area.Location, value.Size);
+                }
+
+                DesktopBounds = bounds;
 
                 Refresh();
             }

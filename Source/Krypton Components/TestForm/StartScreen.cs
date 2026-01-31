@@ -70,6 +70,7 @@ public partial class StartScreen : KryptonForm
         CreateButton("Control Styles", string.Empty, typeof(ControlStylesForm));
         CreateButton("DateTime Example", string.Empty, typeof(DateTimeExample));
         CreateButton("Docking Config Save/Load Test", "Test SaveConfigToArray and LoadConfigFromArray", typeof(DockingConfigSaveLoadTest));
+        CreateButton("Docking Redock Demo", "Demo for Issue #2933: undock (Float) then redock; no floating window left behind.", typeof(DockingRedockDemo));
         CreateButton("Font Awesome Test", string.Empty, typeof(FontAwesomeTest));
         CreateButton("Floating Window Test", "Comprehensive test for floating window bug fix (Issue #2721)", typeof(FloatingWindowTest));
         CreateButton("FlowLayoutPanel", "Test KryptonFlowLayoutPanel with dynamic control layout and flow directions.", typeof(FlowLayoutPanelTest));
