@@ -1,14 +1,16 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2024 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2024 - 2026. All rights reserved.
  *
  */
 #endregion
 
 using System.Reflection;
 using System.Windows.Forms;
+
+using Krypton.Utilities;
 
 namespace TestForm;
 
@@ -34,8 +36,9 @@ public partial class StartScreen : KryptonForm
         _panelWidth = tlpMain.Width;
         _filterTimer = new();
         _sizeAtStartup = new Size(902, 633);
+        
         this.Size = _sizeAtStartup;
-        this.FormClosed += OnFormClosed;
+        this.FormClosing += OnFormClosing;
 
         btnDockTopRight.Click += OnBtnDockTopRightClick;
         btnRestoreSize.Click += OnBtnRestoreSizeClick;
@@ -55,17 +58,41 @@ public partial class StartScreen : KryptonForm
     private void AddButtons()
     {
         CreateButton("AboutBox", "Try this About Box for a change", typeof(AboutBoxTest));
+        CreateButton("Accessibility Test (UIA Providers)", "Comprehensive demo and test for UIA Provider implementation (Issue #762). Tests all 10 controls with accessibility support, organized by category with detailed results.", typeof(AccessibilityTest));
+        CreateButton("Badge Test", "Comprehensive badge functionality demonstration for KryptonButton and KryptonCheckButton.", typeof(ButtonBadgeTest));
         CreateButton("Buttons Test", "All the buttons you want to test.", typeof(ButtonsTest));
+        CreateButton("Bug 2914 Test", "Tests the fix for 2914.", typeof(Bug2914Test));
+        CreateButton("BugReportingTool", "Easily report bugs with this tool.", typeof(BugReportingDialogTest));
+        CreateButton("Code Editor", "Native code editor with syntax highlighting, line numbering, code folding, and auto-completion.", typeof(CodeEditorTest));
+        CreateButton("Countdown Button", "Comprehensive demonstration of KryptonCountdownButton features with customizable duration, format, and enable-at-zero options.", typeof(CountdownButtonTest));
         CreateButton("CommandLink Buttons", "No comment", typeof(CommandLinkButtons));
         CreateButton("Control Styles", string.Empty, typeof(ControlStylesForm));
         CreateButton("DateTime Example", string.Empty, typeof(DateTimeExample));
+        CreateButton("Docking Config Save/Load Test", "Test SaveConfigToArray and LoadConfigFromArray", typeof(DockingConfigSaveLoadTest));
+        CreateButton("Docking Redock Demo", "Demo for Issue #2933: undock (Float) then redock; no floating window left behind.", typeof(DockingRedockDemo));
+        CreateButton("Font Awesome Test", string.Empty, typeof(FontAwesomeTest));
+        CreateButton("Floating Window Test", "Comprehensive test for floating window bug fix (Issue #2721)", typeof(FloatingWindowTest));
+        CreateButton("FlowLayoutPanel", "Test KryptonFlowLayoutPanel with dynamic control layout and flow directions.", typeof(FlowLayoutPanelTest));
+        CreateButton("FileSystemWatcher", "Monitor file system changes with Krypton integration.", typeof(FileSystemWatcherTest));
+        CreateButton("ErrorProvider", string.Empty, typeof(ErrorProviderTest));
         CreateButton("FormBorder Test", string.Empty, typeof(FormBorderTest));
         CreateButton("Header Examples", string.Empty, typeof(HeaderExamples));
+        CreateButton("HelpProvider", "Test KryptonHelpProvider functionality", typeof(HelpProviderTest));
         CreateButton("Menu/Tool/Status Strips", string.Empty, typeof(MenuToolBarStatusStripTest));
+        CreateButton("NotifyIcon", "Comprehensive demonstration of KryptonNotifyIcon with all events, balloon tips, and context menu support.", typeof(NotifyIconTest));
         CreateButton("ProgressBar", "Checkout if progress has been made.", typeof(ProgressBarTest));
+        CreateButton("ScrollBar", "Comprehensive demonstration of KryptonHScrollBar and KryptonVScrollBar controls with basic usage, scrolling content, synchronization, theming, programmatic control, and event logging.", typeof(ScrollBarTest));
+        CreateButton("Scrollbar Manager", "Comprehensive demonstration of KryptonScrollbarManager with container mode, native wrapper mode, dynamic content, and integration examples.", typeof(ScrollbarManagerTest));
         CreateButton("Ribbon / Navigator / Workspace", string.Empty, typeof(RibbonNavigatorWorkspaceTest));
+        CreateButton("RTL Compliance Tests", "Test the Krypton.Toolkit controls for compliance.", typeof(RTLControlsTest));
         CreateButton("Splash Screen", string.Empty, typeof(SplashScreenExample));
+        CreateButton("Taskbar Overlay Icon Test", "Comprehensive demonstration of taskbar overlay icons on KryptonForm with configurable icons, descriptions, and interactive examples.", typeof(TaskbarOverlayIconTest));
+        CreateButton("Taskbar Thumbnail Buttons", "Demo of taskbar thumbnail toolbar buttons (Play, Pause, Next, Stop) in the taskbar preview. Hover the taskbar button to see them.", typeof(TaskbarThumbnailButtonsDemo));
         CreateButton("Theme Controls", string.Empty, typeof(ThemeControlExamples));
+        CreateButton("TextBox Validating Test", "Tests fix for Validating event duplication bug #2801", typeof(KryptonTextBoxValidatingTest));
+        CreateButton("Touchscreen + High DPI Demo", "Comprehensive demonstration of touchscreen support with per-monitor high DPI scaling (Issue #2844).", typeof(TouchscreenHighDpiDemo));
+        CreateButton("RichTextBox Formatting Test", "Tests fix for RichTextBox formatting preservation when palette changes (Issue #2832)", typeof(RichTextBoxFormattingTest));
+        CreateButton("RTL Layout Test", "Test for RTL compliance", typeof(RTLFormBorderTest));
         CreateButton("Toast", "For breakfast....?", typeof(ToastNotificationTestChoice));
         CreateButton("WorkspaceTest", string.Empty, typeof(WorkspaceTest));
         CreateButton("Blur Example", string.Empty, typeof(BlurExampleForm));
@@ -74,28 +101,40 @@ public partial class StartScreen : KryptonForm
         CreateButton("EmojiViewer Advanced", "Only hardcore devs can handle this one!", typeof(AdvancedEmojiViewerForm));
         CreateButton("BreadCrumb", "Follow the breadcrumbs and find the treasure...", typeof(BreadCrumbTest));
         CreateButton("Calendar", string.Empty, typeof(CalendarTest));
+        CreateButton("ComboBox/DateTimePicker Consistency", "Comprehensive demonstration of KComboBox and KDateTimePicker consistency fix (Issue #1651). Shows drop-down buttons stretching to full height and centered text.", typeof(ComboBoxDateTimePickerConsistencyDemo));
         CreateButton("Controls Test", string.Empty, typeof(ControlsTest));
         CreateButton("KryptonDataGridView Demo", string.Empty, typeof(DataGridViewDemo));
+        CreateButton("KryptonBindingNavigator Demo", "Comprehensive example of KryptonBindingNavigator with data binding", typeof(BindingNavigatorDemo));
+        CreateButton("Krypton Dialog tests", "Tests the various types of dialogs.", typeof(KryptonDialogExamples));
         CreateButton("FadeForm", string.Empty, typeof(FadeFormTest));
         CreateButton("GroupBox", string.Empty, typeof(GroupBoxTest));
         CreateButton("InputBox", string.Empty, typeof(InputBoxTest));
+        CreateButton("Jump List Test", "Comprehensive demonstration of jump lists on KryptonForm with user tasks, custom categories, known categories, and interactive examples.", typeof(JumpListTest));
         CreateButton("MessageBox", string.Empty, typeof(MessageBoxTest));
         CreateButton("Old Style Main: Fullscreen", string.Empty, typeof(Main));
+        CreateButton("ProgressBar Tri-State", string.Empty, typeof(ProgressBarTriStateTest));
+        CreateButton("Overlay Image Test", "Comprehensive demonstration of overlay images on KryptonButton and KryptonLabel with configurable positions and scaling modes.", typeof(OverlayImageTest));
         CreateButton("PropertyGridTest", string.Empty, typeof(PropertyGridTest));
         CreateButton("Ribbon", string.Empty, typeof(RibbonTest));
+        CreateButton("Ribbon Notification Bar", "Comprehensive demonstration of the Krypton Ribbon Notification Bar feature with all customization options.", typeof(RibbonNotificationBarDemo));
+        CreateButton("Ribbon Merger Demo", "Demonstrates UserControl hosting and ribbon merging for plugin architectures", typeof(RibbonMergerDemo));
+        CreateButton("Detachable Ribbons", "Demonstrates detachable ribbons feature - allows ribbon to be moved to a floating window (Issue #595)", typeof(RibbonDetachableTest));
         CreateButton("TextBox", string.Empty, typeof(TextBoxEventTest));
+        CreateButton("TextSuggestion", string.Empty, typeof(TextSuggestionDemo));
         CreateButton("TreeView", string.Empty, typeof(TreeViewExample));
+        CreateButton("Touchscreen Support Test", "Comprehensive demonstration of touchscreen support with real-time scale factor adjustment.", typeof(TouchscreenSupportTest));
+        CreateButton("Controlbox & Context Menu Touchscreen", "Demonstration of touchscreen support for controlbox buttons (minimize, maximize, close) and KryptonContextMenu items (Issue #2925).", typeof(ControlboxTouchscreenDemo)); 
+        CreateButton("Timer", "Test KryptonTimer with interval configuration and event tracking.", typeof(TimerTest));
         CreateButton("Panel Form", string.Empty, typeof(PanelForm));
         CreateButton("Palette Viewer", string.Empty, typeof(PaletteViewerForm));
         CreateButton("Powered By Button", string.Empty, typeof(PoweredByButtonExample));
         CreateButton("Krypton Task Dialog Demo", string.Empty, typeof(KryptonTaskDialogDemoForm));
+        CreateButton("Krypton MDI Window", "KryptonForm MDI Container with both KForm and WForm children", typeof(MdiWindow));
     }
 
-    private void OnFormClosed(object? sender, FormClosedEventArgs e)
+    private void OnFormClosing(object? sender, FormClosingEventArgs e)
     {
-        _registryAccess.LastFilterString = tbFilter.Text;
-        _registryAccess.DockTopRight = IsFormDockedTopRight();
-        _registryAccess.FormSize = this.Size;
+        SaveSettings();
     }
 
     private bool IsFormDockedTopRight()
@@ -104,20 +143,41 @@ public partial class StartScreen : KryptonForm
             && this.Left == Screen.FromControl(this).Bounds.Width - this.Size.Width;
     }
 
+    private void SaveSettings()
+    {
+        _registryAccess.LastFilterString = tbFilter.Text;
+        _registryAccess.DockTopRight = IsFormDockedTopRight();
+        _registryAccess.FormSize = this.Size;
+    }
+
     private void RestoreSettings()
+    {
+        RestoreFormSize();
+        RestoreLastFilter();
+        RestoreFormLocation();
+    }
+
+    private void RestoreFormLocation()
     {
         _dockTopRight = _registryAccess.DockTopRight;
         if (_dockTopRight)
         {
+            System.Diagnostics.Debug.Print("docktoppppppp");
             OnBtnDockTopRightClick(null, EventArgs.Empty);
         }
+    }
 
+    private void RestoreLastFilter()
+    {
         string lastFilter = _registryAccess.LastFilterString;
         if (lastFilter.Length > 0)
         {
             tbFilter.Text = lastFilter;
         }
+    }
 
+    private void RestoreFormSize()
+    {
         Size size = _registryAccess.FormSize;
         if (size.Width > 0 && size.Height > 0)
         {

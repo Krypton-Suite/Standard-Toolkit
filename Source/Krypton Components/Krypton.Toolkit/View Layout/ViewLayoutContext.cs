@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -104,6 +104,32 @@ public class ViewLayoutContext : ViewContext
     public Rectangle DisplayRectangle { get; set; }
 
     public RectangleF DisplayRectangleF { get; set; }
+
+    /// <summary>
+    /// Gets whether Right-to-Left layout is enabled for the control.
+    /// </summary>
+    public bool IsRightToLeftLayout
+    {
+        get
+        {
+            if (Control != null)
+            {
+                return CommonHelper.IsRightToLeftLayout(Control);
+            }
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Gets the RightToLeft setting of the control.
+    /// </summary>
+    public RightToLeft RightToLeft
+    {
+        get
+        {
+            return Control?.RightToLeft ?? RightToLeft.No;
+        }
+    }
 
     #endregion
 }

@@ -2,13 +2,15 @@
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2025. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2026. All rights reserved. 
  *  
  */
 #endregion
 
 using System.Diagnostics;
 using System.Reflection;
+
+using Krypton.Utilities;
 
 namespace TestForm;
 
@@ -109,7 +111,7 @@ public partial class Main : KryptonForm
         {
             ShowImportButton = true,
             ShowSilentOption = true,
-            StartIndex = GlobalStaticValues.GLOBAL_DEFAULT_THEME_INDEX,
+            StartIndex = Krypton.Toolkit.GlobalStaticValues.GLOBAL_DEFAULT_THEME_INDEX,
             StartPosition = FormStartPosition.CenterScreen,
             WindowTitle = KryptonManager.Strings.MiscellaneousThemeStrings.ThemeBrowserWindowTitle
         };
@@ -398,5 +400,15 @@ public partial class Main : KryptonForm
     private void kryptonButton17_Click(object sender, EventArgs e)
     {
         new CheckedListBoxDemo().ShowDialog();
+    }
+
+    private void kbtnErrorProviderTest_Click(object sender, EventArgs e)
+    {
+        new ErrorProviderTest().ShowDialog();
+    }
+
+    private void kbtnBugReportingDialogTest_Click(object sender, EventArgs e)
+    {
+        new BugReportingDialogTest().ShowDialog();
     }
 }
