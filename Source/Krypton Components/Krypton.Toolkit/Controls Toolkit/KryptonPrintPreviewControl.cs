@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -110,6 +110,7 @@ public class KryptonPrintPreviewControl : VisualControlBase
         remove => _previewControl.StartPageChanged -= value;
     }
 
+#pragma warning disable CS0067 // Event is never used - hidden from designer to avoid confusion with base control
     /// <summary>
     /// Occurs when the value of the BackColor property changes.
     /// </summary>
@@ -137,7 +138,8 @@ public class KryptonPrintPreviewControl : VisualControlBase
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     public new event EventHandler? ForeColorChanged;
-    
+#pragma warning restore CS0067
+
     #endregion
 
     #region Identity
