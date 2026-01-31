@@ -68,13 +68,16 @@ jobs:
       - name: Populate WebView2 (latest)
         shell: pwsh
         run: |
-          $libDir = "Source/Krypton Components/Krypton.Utilities/Lib/WebView2"
+          $root = $env:GITHUB_WORKSPACE
+          if (-not $root) { $root = (Get-Location).Path }
+          $utilProj = Join-Path $root "Source\Krypton Components\Krypton.Utilities\Krypton.Utilities.csproj"
+          $libDir = Join-Path $root "Source\Krypton Components\Krypton.Utilities\Lib\WebView2"
+          if (-not (Test-Path $utilProj)) { Write-Error "Project not found: $utilProj"; exit 1 }
           if (-not (Test-Path $libDir)) { New-Item -ItemType Directory -Path $libDir -Force }
           $packageId = "Microsoft.Web.WebView2"
           $latestVersion = $null
           try {
-            $searchUrl = "https://azuresearch-usnc.nuget.org/query?q=$packageId&prerelease=false&semVerLevel=2.0.0&take=1"
-            $searchResponse = Invoke-RestMethod -Uri $searchUrl -Method Get
+            $searchResponse = Invoke-RestMethod -Uri "https://azuresearch-usnc.nuget.org/query?q=$packageId&prerelease=false&semVerLevel=2.0.0&take=1" -Method Get
             if ($searchResponse.data -and $searchResponse.data.Count -gt 0) { $latestVersion = $searchResponse.data[0].version }
           } catch {
             try {
@@ -85,14 +88,14 @@ jobs:
           }
           if (-not $latestVersion) { $latestVersion = "1.0.3595.46" }
           Write-Host "Using WebView2 (latest): $latestVersion"
-          dotnet add "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj" package $packageId --version $latestVersion
-          dotnet restore "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj"
-          $nugetBase = "$env:USERPROFILE\.nuget\packages\microsoft.web.webview2\$latestVersion"
+          dotnet add $utilProj package $packageId --version $latestVersion
+          dotnet restore $utilProj
+          $nugetBase = Join-Path $env:USERPROFILE ".nuget\packages\microsoft.web.webview2\$latestVersion"
           @("Microsoft.Web.WebView2.Core.dll","Microsoft.Web.WebView2.WinForms.dll","WebView2Loader.dll") | ForEach-Object {
             $f = Get-ChildItem -Path $nugetBase -Recurse -Name $_ -ErrorAction SilentlyContinue | Select-Object -First 1
             if ($f) { Copy-Item (Join-Path $nugetBase $f) $libDir -Force; Write-Host "Copied $_" }
           }
-          dotnet remove "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj" package $packageId
+          dotnet remove $utilProj package $packageId
 
       - name: Restore
         run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnx"
@@ -150,13 +153,16 @@ jobs:
       - name: Populate WebView2 (latest)
         shell: pwsh
         run: |
-          $libDir = "Source/Krypton Components/Krypton.Utilities/Lib/WebView2"
+          $root = $env:GITHUB_WORKSPACE
+          if (-not $root) { $root = (Get-Location).Path }
+          $utilProj = Join-Path $root "Source\Krypton Components\Krypton.Utilities\Krypton.Utilities.csproj"
+          $libDir = Join-Path $root "Source\Krypton Components\Krypton.Utilities\Lib\WebView2"
+          if (-not (Test-Path $utilProj)) { Write-Error "Project not found: $utilProj"; exit 1 }
           if (-not (Test-Path $libDir)) { New-Item -ItemType Directory -Path $libDir -Force }
           $packageId = "Microsoft.Web.WebView2"
           $latestVersion = $null
           try {
-            $searchUrl = "https://azuresearch-usnc.nuget.org/query?q=$packageId&prerelease=false&semVerLevel=2.0.0&take=1"
-            $searchResponse = Invoke-RestMethod -Uri $searchUrl -Method Get
+            $searchResponse = Invoke-RestMethod -Uri "https://azuresearch-usnc.nuget.org/query?q=$packageId&prerelease=false&semVerLevel=2.0.0&take=1" -Method Get
             if ($searchResponse.data -and $searchResponse.data.Count -gt 0) { $latestVersion = $searchResponse.data[0].version }
           } catch {
             try {
@@ -167,14 +173,14 @@ jobs:
           }
           if (-not $latestVersion) { $latestVersion = "1.0.3595.46" }
           Write-Host "Using WebView2 (latest): $latestVersion"
-          dotnet add "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj" package $packageId --version $latestVersion
-          dotnet restore "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj"
-          $nugetBase = "$env:USERPROFILE\.nuget\packages\microsoft.web.webview2\$latestVersion"
+          dotnet add $utilProj package $packageId --version $latestVersion
+          dotnet restore $utilProj
+          $nugetBase = Join-Path $env:USERPROFILE ".nuget\packages\microsoft.web.webview2\$latestVersion"
           @("Microsoft.Web.WebView2.Core.dll","Microsoft.Web.WebView2.WinForms.dll","WebView2Loader.dll") | ForEach-Object {
             $f = Get-ChildItem -Path $nugetBase -Recurse -Name $_ -ErrorAction SilentlyContinue | Select-Object -First 1
             if ($f) { Copy-Item (Join-Path $nugetBase $f) $libDir -Force; Write-Host "Copied $_" }
           }
-          dotnet remove "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj" package $packageId
+          dotnet remove $utilProj package $packageId
 
       - name: Restore
         run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnx"

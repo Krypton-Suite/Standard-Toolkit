@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 18
-VisualStudioVersion = 18.3.11222.16 d18.3
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31825.309
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{56F1A41E-584B-4F91-9E98-7D8BF678210C}"
 EndProject
@@ -121,10 +121,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ChangeLog", "ChangeLog", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernBuild", "..\..\Scripts\ModernBuild\ModernBuild.csproj", "{572C5A4E-6D69-4A06-ED1B-1B083D837613}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Krypton.Utilities", "Krypton.Utilities\Krypton.Utilities.csproj", "{06EB20A7-268F-3ABE-8D4F-EDDBFB703017}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Krypton.Standard.Toolkit", "Krypton.Standard.Toolkit\Krypton.Standard.Toolkit.csproj", "{C964EE77-3384-3B3D-84C2-B6E62D4AEE3C}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Canary|Any CPU = Canary|Any CPU
@@ -204,26 +200,6 @@ Global
 		{572C5A4E-6D69-4A06-ED1B-1B083D837613}.Nightly|Any CPU.Build.0 = Release|Any CPU
 		{572C5A4E-6D69-4A06-ED1B-1B083D837613}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{572C5A4E-6D69-4A06-ED1B-1B083D837613}.Release|Any CPU.Build.0 = Release|Any CPU
-		{06EB20A7-268F-3ABE-8D4F-EDDBFB703017}.Canary|Any CPU.ActiveCfg = Canary|Any CPU
-		{06EB20A7-268F-3ABE-8D4F-EDDBFB703017}.Canary|Any CPU.Build.0 = Canary|Any CPU
-		{06EB20A7-268F-3ABE-8D4F-EDDBFB703017}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{06EB20A7-268F-3ABE-8D4F-EDDBFB703017}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{06EB20A7-268F-3ABE-8D4F-EDDBFB703017}.Installer|Any CPU.ActiveCfg = Installer|Any CPU
-		{06EB20A7-268F-3ABE-8D4F-EDDBFB703017}.Installer|Any CPU.Build.0 = Installer|Any CPU
-		{06EB20A7-268F-3ABE-8D4F-EDDBFB703017}.Nightly|Any CPU.ActiveCfg = Nightly|Any CPU
-		{06EB20A7-268F-3ABE-8D4F-EDDBFB703017}.Nightly|Any CPU.Build.0 = Nightly|Any CPU
-		{06EB20A7-268F-3ABE-8D4F-EDDBFB703017}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{06EB20A7-268F-3ABE-8D4F-EDDBFB703017}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C964EE77-3384-3B3D-84C2-B6E62D4AEE3C}.Canary|Any CPU.ActiveCfg = Canary|Any CPU
-		{C964EE77-3384-3B3D-84C2-B6E62D4AEE3C}.Canary|Any CPU.Build.0 = Canary|Any CPU
-		{C964EE77-3384-3B3D-84C2-B6E62D4AEE3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C964EE77-3384-3B3D-84C2-B6E62D4AEE3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C964EE77-3384-3B3D-84C2-B6E62D4AEE3C}.Installer|Any CPU.ActiveCfg = Installer|Any CPU
-		{C964EE77-3384-3B3D-84C2-B6E62D4AEE3C}.Installer|Any CPU.Build.0 = Installer|Any CPU
-		{C964EE77-3384-3B3D-84C2-B6E62D4AEE3C}.Nightly|Any CPU.ActiveCfg = Nightly|Any CPU
-		{C964EE77-3384-3B3D-84C2-B6E62D4AEE3C}.Nightly|Any CPU.Build.0 = Nightly|Any CPU
-		{C964EE77-3384-3B3D-84C2-B6E62D4AEE3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C964EE77-3384-3B3D-84C2-B6E62D4AEE3C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -250,8 +226,6 @@ Global
 		{40B83627-BD68-488E-ACB0-5B83D0A8B69C} = {FB5BC976-FCC7-4729-9331-C2420DE7ADB6}
 		{F0BC3940-BAC0-40B9-AECB-2FC752486AD5} = {405E4318-4C8A-4DC7-B624-8F7097CDFF60}
 		{572C5A4E-6D69-4A06-ED1B-1B083D837613} = {511519DD-C887-40E5-8961-658AE4CA5D46}
-		{06EB20A7-268F-3ABE-8D4F-EDDBFB703017} = {950EE50E-C0E8-4A28-96D3-4735F5313610}
-		{C964EE77-3384-3B3D-84C2-B6E62D4AEE3C} = {950EE50E-C0E8-4A28-96D3-4735F5313610}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C8204ACC-48AA-49AC-8236-6E9C162EC2FA}

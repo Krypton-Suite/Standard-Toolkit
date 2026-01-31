@@ -30,7 +30,6 @@
         {
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
             this.kbtnCopy = new Krypton.Toolkit.KryptonButton();
-            this.kbtnReportBug = new Krypton.Toolkit.KryptonButton();
             this.kbtnOk = new Krypton.Toolkit.KryptonButton();
             this.kryptonBorderEdge1 = new Krypton.Toolkit.KryptonBorderEdge();
             this.kryptonPanel2 = new Krypton.Toolkit.KryptonPanel();
@@ -38,8 +37,8 @@
             this.kwlblExceptionOutline = new Krypton.Toolkit.KryptonWrapLabel();
             this.kwlblExceptionDetails = new Krypton.Toolkit.KryptonWrapLabel();
             this.kryptonSeparator1 = new Krypton.Toolkit.KryptonSeparator();
-            this.krtbExceptionDetails = new Krypton.Toolkit.KryptonRichTextBox();
-            this.isbSearchArea = new Krypton.Toolkit.InternalSearchableExceptionTreeView();
+            this.rtbExceptionDetails = new System.Windows.Forms.RichTextBox();
+            this.isbSearchArea = new Krypton.Toolkit.InternalSearchableExceptionWinFormsTreeView();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel2)).BeginInit();
@@ -51,7 +50,6 @@
             // kryptonPanel1
             // 
             this.kryptonPanel1.Controls.Add(this.kbtnCopy);
-            this.kryptonPanel1.Controls.Add(this.kbtnReportBug);
             this.kryptonPanel1.Controls.Add(this.kbtnOk);
             this.kryptonPanel1.Controls.Add(this.kryptonBorderEdge1);
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -65,24 +63,13 @@
             // 
             this.kbtnCopy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.kbtnCopy.Enabled = false;
-            this.kbtnCopy.Location = new System.Drawing.Point(843, 13);
+            this.kbtnCopy.Location = new System.Drawing.Point(939, 13);
             this.kbtnCopy.Name = "kbtnCopy";
             this.kbtnCopy.Size = new System.Drawing.Size(90, 25);
-            this.kbtnCopy.TabIndex = 3;
+            this.kbtnCopy.TabIndex = 2;
             this.kbtnCopy.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnCopy.Values.Text = "kryptonButton1";
             this.kbtnCopy.Click += new System.EventHandler(this.kbtnCopy_Click);
-            // 
-            // kbtnReportBug
-            // 
-            this.kbtnReportBug.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.kbtnReportBug.Location = new System.Drawing.Point(939, 13);
-            this.kbtnReportBug.Name = "kbtnReportBug";
-            this.kbtnReportBug.Size = new System.Drawing.Size(90, 25);
-            this.kbtnReportBug.TabIndex = 2;
-            this.kbtnReportBug.Values.DropDownArrowColor = System.Drawing.Color.Empty;
-            this.kbtnReportBug.Values.Text = "Report Bug";
-            this.kbtnReportBug.Visible = false;
             // 
             // kbtnOk
             // 
@@ -123,7 +110,7 @@
             this.tableLayoutPanel1.Controls.Add(this.kwlblExceptionOutline, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.kwlblExceptionDetails, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.kryptonSeparator1, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.krtbExceptionDetails, 2, 1);
+            this.tableLayoutPanel1.Controls.Add(this.rtbExceptionDetails, 2, 1);
             this.tableLayoutPanel1.Controls.Add(this.isbSearchArea, 0, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
@@ -141,7 +128,7 @@
             this.kwlblExceptionOutline.Location = new System.Drawing.Point(5, 5);
             this.kwlblExceptionOutline.Margin = new System.Windows.Forms.Padding(5);
             this.kwlblExceptionOutline.Name = "kwlblExceptionOutline";
-            this.kwlblExceptionOutline.Size = new System.Drawing.Size(295, 25);
+            this.kwlblExceptionOutline.Size = new System.Drawing.Size(231, 25);
             this.kwlblExceptionOutline.Text = "kryptonWrapLabel1";
             this.kwlblExceptionOutline.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -149,33 +136,35 @@
             // 
             this.kwlblExceptionDetails.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kwlblExceptionDetails.LabelStyle = Krypton.Toolkit.LabelStyle.TitleControl;
-            this.kwlblExceptionDetails.Location = new System.Drawing.Point(325, 5);
+            this.kwlblExceptionDetails.Location = new System.Drawing.Point(261, 5);
             this.kwlblExceptionDetails.Margin = new System.Windows.Forms.Padding(5);
             this.kwlblExceptionDetails.Name = "kwlblExceptionDetails";
-            this.kwlblExceptionDetails.Size = new System.Drawing.Size(807, 25);
+            this.kwlblExceptionDetails.Size = new System.Drawing.Size(871, 25);
             this.kwlblExceptionDetails.Text = "kryptonWrapLabel2";
             this.kwlblExceptionDetails.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // kryptonSeparator1
             // 
             this.kryptonSeparator1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.kryptonSeparator1.Location = new System.Drawing.Point(310, 40);
+            this.kryptonSeparator1.Location = new System.Drawing.Point(246, 40);
             this.kryptonSeparator1.Margin = new System.Windows.Forms.Padding(5);
             this.kryptonSeparator1.Name = "kryptonSeparator1";
             this.kryptonSeparator1.Size = new System.Drawing.Size(5, 446);
             this.kryptonSeparator1.TabIndex = 2;
             // 
-            // krtbExceptionDetails
+            // rtbExceptionDetails
             // 
-            this.krtbExceptionDetails.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.krtbExceptionDetails.InputControlStyle = Krypton.Toolkit.InputControlStyle.PanelClient;
-            this.krtbExceptionDetails.Location = new System.Drawing.Point(323, 38);
-            this.krtbExceptionDetails.Name = "krtbExceptionDetails";
-            this.krtbExceptionDetails.ReadOnly = true;
-            this.krtbExceptionDetails.Size = new System.Drawing.Size(811, 450);
-            this.krtbExceptionDetails.TabIndex = 6;
-            this.krtbExceptionDetails.Text = "";
-            this.krtbExceptionDetails.TextChanged += new System.EventHandler(this.krtbExceptionDetails_TextChanged);
+            this.rtbExceptionDetails.BackColor = System.Drawing.SystemColors.Control;
+            this.rtbExceptionDetails.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.rtbExceptionDetails.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rtbExceptionDetails.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rtbExceptionDetails.Location = new System.Drawing.Point(259, 38);
+            this.rtbExceptionDetails.Name = "rtbExceptionDetails";
+            this.rtbExceptionDetails.ReadOnly = true;
+            this.rtbExceptionDetails.Size = new System.Drawing.Size(875, 450);
+            this.rtbExceptionDetails.TabIndex = 4;
+            this.rtbExceptionDetails.Text = "";
+            this.rtbExceptionDetails.TextChanged += new System.EventHandler(this.rtbExceptionDetails_TextChanged);
             // 
             // isbSearchArea
             // 
@@ -183,8 +172,8 @@
             this.isbSearchArea.Dock = System.Windows.Forms.DockStyle.Fill;
             this.isbSearchArea.Location = new System.Drawing.Point(3, 38);
             this.isbSearchArea.Name = "isbSearchArea";
-            this.isbSearchArea.Size = new System.Drawing.Size(299, 450);
-            this.isbSearchArea.TabIndex = 7;
+            this.isbSearchArea.Size = new System.Drawing.Size(235, 450);
+            this.isbSearchArea.TabIndex = 5;
             this.isbSearchArea.NodeSelected += new System.Windows.Forms.TreeViewEventHandler(this.isbSearchArea_NodeSelected);
             // 
             // VisualExceptionDialogForm
@@ -218,7 +207,6 @@
 
         private KryptonPanel kryptonPanel1;
         private KryptonButton kbtnCopy;
-        private KryptonButton kbtnReportBug;
         private KryptonButton kbtnOk;
         private KryptonBorderEdge kryptonBorderEdge1;
         private KryptonPanel kryptonPanel2;
@@ -226,7 +214,7 @@
         private KryptonWrapLabel kwlblExceptionOutline;
         private KryptonWrapLabel kwlblExceptionDetails;
         private KryptonSeparator kryptonSeparator1;
-        private KryptonRichTextBox krtbExceptionDetails;
-        private InternalSearchableExceptionTreeView isbSearchArea;
+        private RichTextBox rtbExceptionDetails;
+        private InternalSearchableExceptionWinFormsTreeView isbSearchArea;
     }
 }

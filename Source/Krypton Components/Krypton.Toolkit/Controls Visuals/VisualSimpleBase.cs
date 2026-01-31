@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
  *  
  */
 #endregion
@@ -19,19 +19,12 @@ namespace Krypton.Toolkit;
 [DesignerCategory(@"code")]
 public abstract class VisualSimpleBase : VisualControlBase
 {
-    #region Instance Fields
-
-    private bool _isRightToLeftLayout;
-
-    #endregion
-
     #region Identity
     /// <summary>
     /// Initialize a new instance of the VisualSimpleBase class.
     /// </summary>
     protected VisualSimpleBase()
     {
-        _isRightToLeftLayout = false;
     }
     #endregion
 
@@ -76,39 +69,8 @@ public abstract class VisualSimpleBase : VisualControlBase
         // Do we have a manager to ask for a preferred size?
         if (ViewManager != null)
         {
-            // When AutoSize is enabled, always use an unconstrained proposed size to get the true preferred size.
-            // This ensures consistent behavior between GrowOnly and GrowAndShrink modes.
-            // The proposedSize parameter represents available space, but for AutoSize controls,
-            // we need the actual preferred size without constraints.
-            Size layoutProposedSize = AutoSize
-                ? new Size(int.MaxValue, int.MaxValue)
-                : proposedSize;
-
             // Ask the view to perform a layout
-            Size retSize = ViewManager.GetPreferredSize(Renderer, layoutProposedSize);
-
-#if NETFRAMEWORK
-            // Add padding to ensure consistent behavior between .NET Framework and .NET
-            // In .NET Framework, Control.GetPreferredSize() didn't include Padding,
-            // but in .NET it does, so we need to add it explicitly here for consistency.
-            // Note: proposedSize represents available space, not current control size,
-            // so we always add padding to the content size to get the total required size.
-            retSize.Width += Padding.Horizontal;
-
-            retSize.Height += Padding.Vertical;
-#endif
-
-            // For AutoSize with GrowAndShrink, ensure we never return a size smaller than what
-            // the base class would return, to prevent incorrect shrinking behavior.
-            if (AutoSize && GetAutoSizeMode() == AutoSizeMode.GrowAndShrink)
-            {
-                // Get what the base class would return (this includes padding handling in .NET)
-                Size baseSize = base.GetPreferredSize(new Size(int.MaxValue, int.MaxValue));
-
-                // Ensure our calculated size is at least as large as the base class size
-                retSize.Width = Math.Max(retSize.Width, baseSize.Width);
-                retSize.Height = Math.Max(retSize.Height, baseSize.Height);
-            }
+            Size retSize = ViewManager.GetPreferredSize(Renderer, proposedSize);
 
             // Apply the maximum sizing
             if (MaximumSize.Width > 0)
@@ -179,76 +141,5 @@ public abstract class VisualSimpleBase : VisualControlBase
         get => base.ForeColor;
         set => base.ForeColor = value;
     }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether control's elements are aligned to support locales using right-to-left fonts.
-    /// </summary>
-    [Category(@"Appearance")]
-    [Localizable(true)]
-    [Description(@"Indicates whether the control should support RightToLeft layouts.")]
-    [DefaultValue(typeof(RightToLeft), "No")]
-    public override RightToLeft RightToLeft
-    {
-        get => base.RightToLeft;
-        set
-        {
-            if (base.RightToLeft != value)
-            {
-                base.RightToLeft = value;
-                PerformNeedPaint(true);
-            }
-        }
-    }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the layout of the control is from right to left.
-    /// </summary>
-    [Category(@"Appearance")]
-    [Localizable(true)]
-    [Description(@"Indicates whether the layout of the control is from right to left.")]
-    [DefaultValue(false)]
-    [Browsable(true)]
-    [EditorBrowsable(EditorBrowsableState.Always)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-    public bool RightToLeftLayout
-    {
-        get => _isRightToLeftLayout;
-        set
-        {
-            if (_isRightToLeftLayout != value)
-            {
-                _isRightToLeftLayout = value;
-                OnRightToLeftLayoutChanged(EventArgs.Empty);
-                PerformNeedPaint(true);
-            }
-        }
-    }
-    #endregion
-
-    #region Protected Overrides
-    /// <summary>
-    /// Raises the RightToLeftChanged event.
-    /// </summary>
-    /// <param name="e">An EventArgs containing event data.</param>
-    protected override void OnRightToLeftChanged(EventArgs e)
-    {
-        // Need re-layout to reflect change of layout direction
-        PerformNeedPaint(true);
-
-        base.OnRightToLeftChanged(e);
-    }
-
-    /// <summary>
-    /// Raises the RightToLeftLayoutChanged event.
-    /// </summary>
-    /// <param name="e">An EventArgs containing event data.</param>
-    /// <remarks>
-    /// This method is provided for controls that don't have OnRightToLeftLayoutChanged in their base class.
-    /// Derived classes can override this to provide custom handling when RightToLeftLayout changes.
-    /// </remarks>
-    protected virtual void OnRightToLeftLayoutChanged(EventArgs e) =>
-        // Need re-layout to reflect change of layout direction
-        PerformNeedPaint(true);
-
     #endregion
 }

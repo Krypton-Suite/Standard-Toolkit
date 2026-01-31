@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
  *  
  */
 #endregion
@@ -179,17 +179,6 @@ public class ViewManager : GlobalId,
             using var context = new ViewLayoutContext(this,
                 Control, AlignControl, renderer, proposedSize);
             retSize = Root.GetPreferredSize(context);
-        }
-
-        // Apply touchscreen control scaling if enabled and font scaling is not enabled
-        // When font scaling is enabled, it already affects measurements through scaled fonts,
-        // so we skip control scaling to avoid double scaling (font scaling × control scaling)
-        if (KryptonManager.UseTouchscreenSupport && !KryptonManager.UseTouchscreenFontScaling)
-        {
-            var scaleFactor = KryptonManager.TouchscreenScaleFactor;
-            retSize = new Size(
-                (int)Math.Round(retSize.Width * scaleFactor),
-                (int)Math.Round(retSize.Height * scaleFactor));
         }
 
         if (OutputDebug)

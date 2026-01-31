@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
  *
  */
 #endregion
@@ -75,9 +75,6 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
         Values = CreateButtonValues(NeedPaintDelegate);
         Values.TextChanged += OnButtonTextChanged;
 
-        // Create badge storage
-        BadgeValues = CreateBadgeValues(NeedPaintDelegate);
-
         // Create the palette storage
         StateCommon = new PaletteTripleRedirect(Redirector, PaletteBackStyle.ButtonStandalone, PaletteBorderStyle.ButtonStandalone, PaletteContentStyle.ButtonStandalone, NeedPaintDelegate);
         StateDisabled = new PaletteTriple(StateCommon, NeedPaintDelegate);
@@ -126,9 +123,6 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
 
         // Create the view manager instance
         ViewManager = new ViewManager(this, _drawButton);
-
-        // Set up badge values on the button
-        _drawButton.SetBadgeValues(BadgeValues, this);
     }
     #endregion
 
@@ -312,18 +306,6 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
     public ButtonValues Values { get; }
 
     private bool ShouldSerializeValues() => !Values.IsDefault;
-
-    /// <summary>
-    /// Gets access to the badge values.
-    /// </summary>
-    [Category(@"Visuals")]
-    [Description(@"Badge values")]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-    public BadgeValues BadgeValues { get; }
-
-    private void ResetBadgeValues() => BadgeValues.Reset();
-
-    private bool ShouldSerializeBadgeValues() => !BadgeValues.IsDefault;
 
     /// <summary>
     /// Gets access to the common button appearance that other states can override.
@@ -563,49 +545,6 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
     /// <returns>Color value.</returns>
     public Color GetImageTransparentColor(PaletteState state) =>
         KryptonCommand?.ImageTransparentColor ?? Values.GetImageTransparentColor(state);
-
-    /// <summary>
-    /// Gets the overlay image.
-    /// </summary>
-    /// <param name="state">The state for which the overlay image is needed.</param>
-    /// <returns>Overlay image value, or null if no overlay image is set.</returns>
-    public Image? GetOverlayImage(PaletteState state) => Values.GetOverlayImage(state);
-
-    /// <summary>
-    /// Gets the overlay image color that should be transparent.
-    /// </summary>
-    /// <param name="state">The state for which the overlay image is needed.</param>
-    /// <returns>Color value.</returns>
-    public Color GetOverlayImageTransparentColor(PaletteState state) => Values.GetOverlayImageTransparentColor(state);
-
-    /// <summary>
-    /// Gets the position of the overlay image relative to the main image.
-    /// </summary>
-    /// <param name="state">The state for which the overlay position is needed.</param>
-    /// <returns>Overlay image position.</returns>
-    public OverlayImagePosition GetOverlayImagePosition(PaletteState state) => Values.GetOverlayImagePosition(state);
-
-    /// <summary>
-    /// Gets the scaling mode for the overlay image.
-    /// </summary>
-    /// <param name="state">The state for which the overlay scale mode is needed.</param>
-    /// <returns>Overlay image scale mode.</returns>
-    public OverlayImageScaleMode GetOverlayImageScaleMode(PaletteState state) => Values.GetOverlayImageScaleMode(state);
-
-    /// <summary>
-    /// Gets the scale factor for the overlay image.
-    /// </summary>
-    /// <param name="state">The state for which the overlay scale factor is needed.</param>
-    /// <returns>Scale factor.</returns>
-    public float GetOverlayImageScaleFactor(PaletteState state) => Values.GetOverlayImageScaleFactor(state);
-
-    /// <summary>
-    /// Gets the fixed size for the overlay image.
-    /// </summary>
-    /// <param name="state">The state for which the overlay fixed size is needed.</param>
-    /// <returns>Fixed size.</returns>
-    public Size GetOverlayImageFixedSize(PaletteState state) => Values.GetOverlayImageFixedSize(state);
-
     #endregion
 
     #region Protected Overrides
@@ -828,13 +767,6 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
     /// <returns>Set of button values.</returns>
     /// <param name="needPaint">Delegate for notifying paint requests.</param>
     protected virtual ButtonValues CreateButtonValues(NeedPaintHandler needPaint) => new ButtonValues(needPaint);
-
-    /// <summary>
-    /// Creates the badge values instance.
-    /// </summary>
-    /// <param name="needPaint">Delegate for notifying paint requests.</param>
-    /// <returns>BadgeValues instance.</returns>
-    protected virtual BadgeValues CreateBadgeValues(NeedPaintHandler needPaint) => new BadgeValues(needPaint);
 
     /// <summary>
     /// Gets access to the view element for the button.

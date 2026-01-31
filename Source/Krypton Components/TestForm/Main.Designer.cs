@@ -2,7 +2,7 @@
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2026. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2025. All rights reserved. 
  *  
  */
 #endregion
@@ -40,7 +40,6 @@ namespace TestForm
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
-            this.kbtnErrorProviderTest = new Krypton.Toolkit.KryptonButton();
             this.kryptonButton17 = new Krypton.Toolkit.KryptonButton();
             this.kryptonCheckedListBox1 = new Krypton.Toolkit.KryptonCheckedListBox();
             this.kryptonButton16 = new Krypton.Toolkit.KryptonButton();
@@ -117,6 +116,7 @@ namespace TestForm
             this.buttonSpecAny9 = new Krypton.Toolkit.ButtonSpecAny();
             this.buttonSpecAny10 = new Krypton.Toolkit.ButtonSpecAny();
             this.kryptonIntegratedToolbarPrintCommand1 = new Krypton.Toolkit.KryptonIntegratedToolbarPrintCommand();
+            this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
             this.kryptonCheckSet1 = new Krypton.Toolkit.KryptonCheckSet(this.components);
             this.kryptonInputBoxManager1 = new Krypton.Toolkit.KryptonInputBoxManager();
             this.kcmdOpenImage = new Krypton.Toolkit.KryptonCommand();
@@ -144,7 +144,6 @@ namespace TestForm
             // 
             // kryptonPanel1
             // 
-            this.kryptonPanel1.Controls.Add(this.kbtnErrorProviderTest);
             this.kryptonPanel1.Controls.Add(this.kryptonButton17);
             this.kryptonPanel1.Controls.Add(this.kryptonCheckedListBox1);
             this.kryptonPanel1.Controls.Add(this.kryptonButton16);
@@ -207,16 +206,6 @@ namespace TestForm
             this.kryptonPanel1.Name = "kryptonPanel1";
             this.kryptonPanel1.Size = new System.Drawing.Size(1320, 740);
             this.kryptonPanel1.TabIndex = 0;
-            // 
-            // kbtnErrorProviderTest
-            // 
-            this.kbtnErrorProviderTest.Location = new System.Drawing.Point(11, 620);
-            this.kbtnErrorProviderTest.Name = "kbtnErrorProviderTest";
-            this.kbtnErrorProviderTest.Size = new System.Drawing.Size(133, 25);
-            this.kbtnErrorProviderTest.TabIndex = 85;
-            this.kbtnErrorProviderTest.Values.DropDownArrowColor = System.Drawing.Color.Empty;
-            this.kbtnErrorProviderTest.Values.Text = "ErrorProvider";
-            this.kbtnErrorProviderTest.Click += new System.EventHandler(this.kbtnErrorProviderTest_Click);
             // 
             // kryptonButton17
             // 
@@ -930,6 +919,13 @@ namespace TestForm
             // 
             this.kryptonIntegratedToolbarPrintCommand1.Text = "Print";
             // 
+            // kryptonManager1
+            // 
+            this.kryptonManager1.BaseFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.kryptonManager1.GlobalPaletteMode = Krypton.Toolkit.PaletteMode.ProfessionalSystem;
+            this.kryptonManager1.ToolkitStrings.MessageBoxStrings.LessDetails = "L&ess Details...";
+            this.kryptonManager1.ToolkitStrings.MessageBoxStrings.MoreDetails = "&More Details...";
+            // 
             // kcmdOpenImage
             // 
             this.kcmdOpenImage.Text = "&...";
@@ -1020,6 +1016,7 @@ namespace TestForm
         private Krypton.Toolkit.ButtonSpecAny buttonSpecAny10;
         private Krypton.Toolkit.KryptonIntegratedToolbarPrintCommand kryptonIntegratedToolbarPrintCommand1;
         private Krypton.Toolkit.KryptonButton kbtnIntegratedToolbar;
+        private Krypton.Toolkit.KryptonManager kryptonManager1;
         private Krypton.Toolkit.KryptonButton kryptonButton3;
         private Krypton.Toolkit.KryptonTrackBar ktrkProgressValues;
         private Krypton.Toolkit.KryptonProgressBar kryptonProgressBar1;
@@ -1078,6 +1075,5 @@ namespace TestForm
         private KryptonButton kryptonButton16;
         private KryptonCheckedListBox kryptonCheckedListBox1;
         private KryptonButton kryptonButton17;
-        private KryptonButton kbtnErrorProviderTest;
     }
 }

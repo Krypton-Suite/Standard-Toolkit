@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp), Simon Coghlan(aka Smurf-IV), Giduac, et al. 2025 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp), Simon Coghlan(aka Smurf-IV), Giduac, et al. 2025 - 2025. All rights reserved.
  *
  */
 #endregion
@@ -14,8 +14,6 @@ public partial class InternalSearchableExceptionTreeView : UserControl
     #region Instance Fields
 
     private bool _showSearchFeatures;
-
-    private Color? _highlightColor;
 
     private readonly List<KryptonTreeNode> _originalNodes = new List<KryptonTreeNode>();
 
@@ -33,18 +31,6 @@ public partial class InternalSearchableExceptionTreeView : UserControl
 
             Invalidate();
         }
-    }
-
-    /// <summary>
-    /// Gets or sets the color used to highlight selected elements in the control.
-    /// </summary>
-    /// <remarks>If no color is explicitly set, the default highlight color is <see cref="Color.LightYellow"/>. This property is not persisted by designers due to its serialization visibility setting.</remarks>
-    [DefaultValue(null)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public Color HighlightColor
-    {
-        get => _highlightColor ?? Color.LightYellow;
-        set => _highlightColor = value;
     }
 
     public Exception? SelectedException => kietvException.SelectedException;
@@ -73,7 +59,7 @@ public partial class InternalSearchableExceptionTreeView : UserControl
 
         kwlblSearchResults.Text = KryptonManager.Strings.ExceptionDialogStrings.TypeToSearch;
 
-        bsaClearSearch.ToolTipTitle = KryptonManager.Strings.SearchBoxStrings.ClearButtonToolTipTitle;
+        bsaClearSearch.ToolTipTitle = KryptonManager.Strings.SearchBoxStrings.ClearSearchBoxToolTip;
 
         bsaClearSearch.ToolTipBody = KryptonManager.Strings.SearchBoxStrings.ClearSearchBoxToolTipDescription;
     }
@@ -159,7 +145,7 @@ public partial class InternalSearchableExceptionTreeView : UserControl
         var firstMatch = kietvException.Nodes
             .Cast<KryptonTreeNode>()
             .SelectMany(FlattenTree)
-            .FirstOrDefault(n => n.BackColor == _highlightColor);
+            .FirstOrDefault(n => n.BackColor == Color.LightYellow);
 
         kietvException.SelectedNode = firstMatch ??
                                       (kietvException.Nodes.Count > 0 ? kietvException.Nodes[0] : null);
@@ -200,7 +186,7 @@ public partial class InternalSearchableExceptionTreeView : UserControl
             if (isMatch)
             {
                 matchCount++;
-                clone.BackColor = _highlightColor ?? Color.LightYellow;
+                clone.BackColor = Color.LightYellow;
                 clone.ForeColor = Color.Black;
                 clone.NodeFont = new Font(kietvException.Font, FontStyle.Bold);
             }

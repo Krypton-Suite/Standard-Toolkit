@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
  *  
  */
 #endregion
@@ -157,7 +157,7 @@ public class PaletteBorder : Storage,
     [Description(@"Should border be drawn.")]
     [DefaultValue(InheritBool.Inherit)]
     [RefreshProperties(RefreshProperties.All)]
-    public virtual InheritBool Draw
+    public InheritBool Draw
     {
         get => _storage?.BorderDraw ?? InheritBool.Inherit;
 
@@ -594,7 +594,19 @@ public class PaletteBorder : Storage,
     /// </summary>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Border width.</returns>
-    public int GetBorderWidth(PaletteState state) => Width != -1 ? Width : _inherit.GetBorderWidth(state);
+    //public int GetBorderWidth(PaletteState state) => Width != -1 ? Width : _inherit.GetBorderWidth(state);
+    public int GetBorderWidth(PaletteState state)
+    {
+        if (Width > 0)
+        {
+            return Width;
+        }
+        else
+        {
+            int width = _inherit.GetBorderWidth(state);
+            return width > 0 ? width : 0;
+        }
+    }
     #endregion
 
     #region Rounding

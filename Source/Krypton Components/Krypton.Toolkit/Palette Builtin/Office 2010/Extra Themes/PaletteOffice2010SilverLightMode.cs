@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
  *
  */
 #endregion
@@ -439,6 +439,52 @@ public abstract class PaletteOffice2010SilverLightModeBase : PaletteBase
     #endregion
 
     #region Identity
+    /// <summary>
+    /// Initialize a new instance of the PaletteOffice2010SilverLightModeBase class.
+    /// </summary>
+    /// <param name="schemeColors">Array of palette specific colors.</param>
+    /// <param name="checkBoxList">List of images for check box.</param>
+    /// <param name="galleryButtonList">List of images for gallery buttons.</param>
+    /// <param name="radioButtonArray">Array of images for radio button.</param>
+    /// <param name="trackBarColors">Array of track bar specific colors.</param>
+    [System.Obsolete("Color[] constructor is deprecated and will be removed in V110. Use KryptonColorSchemeBase overload.", false)]
+    protected PaletteOffice2010SilverLightModeBase([DisallowNull] Color[] schemeColors,
+        [DisallowNull] ImageList checkBoxList,
+        [DisallowNull] ImageList galleryButtonList,
+        [DisallowNull] Image?[] radioButtonArray,
+        Color[] trackBarColors)
+    {
+        Debug.Assert(schemeColors != null);
+        Debug.Assert(checkBoxList != null);
+        Debug.Assert(galleryButtonList != null);
+        Debug.Assert(radioButtonArray != null);
+
+        // Remember incoming sets of values
+        ThemeName = nameof(PaletteOffice2010SilverLightModeBase);
+
+        if (schemeColors != null)
+        {
+            _ribbonColors = schemeColors;
+        }
+
+        if (checkBoxList != null)
+        {
+            _checkBoxList = checkBoxList;
+        }
+
+        if (galleryButtonList != null)
+        {
+            _galleryButtonList = galleryButtonList;
+        }
+        if (radioButtonArray != null)
+        {
+            _radioButtonArray = radioButtonArray;
+        }
+
+        // Get the font settings from the system
+        DefineFonts();
+    }
+
     /// <summary>
     /// Overload that accepts a KryptonColorSchemeBase instance and forwards colours to the main constructor.
     /// </summary>

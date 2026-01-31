@@ -1,30 +1,6 @@
 <Project>
 	<Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../../'))" />
 
-	<!-- Target Framework Selection: Determines which .NET versions to build for based on configuration -->
-	<Choose>
-		<!-- Nightly, Canary, and Debug configurations build for all target frameworks -->
-		<When Condition="'$(Configuration)' == 'Nightly' Or '$(Configuration)' == 'Canary' Or '$(Configuration)' == 'Debug'">
-			<PropertyGroup>
-				<TargetFrameworks>net472;net48;net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
-			</PropertyGroup>
-		</When>
-		<!-- When SkipNetFramework is true, only build for .NET 8+ (used for testing/CI scenarios) -->
-		<When Condition="'$(SkipNetFramework)' == 'true'">
-			<PropertyGroup>
-				<TargetFrameworks>net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
-			</PropertyGroup>
-		</When>
-		<!-- Otherwise, build for .NET Framework 4.8+ and .NET 8+ (default) -->
-		<Otherwise>
-			<PropertyGroup>
-				<TargetFrameworks>net48;net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
-				<!-- When TFMs=all, include .NET Framework 4.7.2 as well -->
-				<TargetFrameworks Condition="'$(TFMs)' == 'all'">net472;net48;net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
-			</PropertyGroup>
-		</Otherwise>
-	</Choose>
-
 	<!--Sets up the language version.-->
 	<!--https://learn.microsoft.com/en-gb/dotnet/csharp/language-reference/configure-language-version#configure-multiple-projects-->
 	<PropertyGroup>
@@ -36,7 +12,7 @@
 		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
 		<NeutralLanguage>en</NeutralLanguage>
 		<Authors>Phil Wright (A.K.A ComponentFactory), Peter Wagner (A.K.A Wagnerp), Simon Coghlan (A.K.A Smurf-IV), Giduac, Ahmed Abdelhameed, Lesandro and tobitege</Authors>
-		<Copyright>© Component Factory Pty Ltd, 2006 - 2016. Then modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, Lesandro and tobitege et al. 2017 - 2026. All rights reserved.</Copyright>
+		<Copyright>© Component Factory Pty Ltd, 2006 - 2016. Then modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, Lesandro and tobitege et al. 2017 - 2025. All rights reserved.</Copyright>
 	</PropertyGroup>
 
 	<PropertyGroup>
