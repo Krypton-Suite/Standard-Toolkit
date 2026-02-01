@@ -1841,7 +1841,7 @@ public class KryptonRichTextBox : VisualControlBase,
         // We need a layout to occur before any painting
         InvokeLayout();
 
-        if (KryptonManager.UseKryptonScrollbars)
+        if (UseKryptonScrollbars)
         {
             UpdateScrollbarManager();
         }
@@ -2278,7 +2278,7 @@ public class KryptonRichTextBox : VisualControlBase,
 
     private void UpdateScrollbarManager()
     {
-        if (KryptonManager.UseKryptonScrollbars)
+        if (UseKryptonScrollbars)
         {
             if (_scrollbarManager == null)
             {
