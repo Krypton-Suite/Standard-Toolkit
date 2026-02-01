@@ -7,6 +7,9 @@ dotnet_diagnostic.CS0105.severity = None
 dotnet_diagnostic.CA1069.severity = None
 
 [*.cs]
+# License header template (Visual Studio: Ctrl+. on first line → "Add file header", or Fix all in Solution).
+# Update the year range (e.g. 2025 - 2026) when the calendar year changes; file_header_template has no year placeholder.
+file_header_template = #region BSD License\n/*\n *\n *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)\n *  Modifications by Peter Wagner(aka Wagnerp), Simon Coghlan(aka Smurf-IV), Giduac, tobitege, Lesandro, KamaniAR, et al. 2026 - 2026. All rights reserved.\n *\n */\n#endregion
 # Sort System.* using directives alphabetically, and place them before other using directives
 dotnet_sort_system_directives_first = true
 #Place a blank line between using directive groups.
