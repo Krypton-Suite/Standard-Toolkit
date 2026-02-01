@@ -2,8 +2,9 @@
 
 =======
 
-# 2026-02-28 - Build 2602 (Patch 10) - February 2025
+# 2026-02-23 - Build 2602 (Patch 10) - February 2025
 
+* Resolved [#2935](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2935), Maximized MDI window form border drawn on wrong monitor (secondary monitor); `DropSolidWindow` now uses screen coordinates for `DesktopBounds`; non-client border painting uses a DC compatible with the window's monitor
 * Resolved [#2745](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2745b), `VisualMultilineStringEditorForm` only saving last line
 * Implemented [#2628](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2628), Improve build system
 * Resolved [#2681](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2704), Add a missing case statement to `KryptonCustomPaletteBase`.
