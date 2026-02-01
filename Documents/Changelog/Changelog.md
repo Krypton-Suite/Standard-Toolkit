@@ -2,6 +2,52 @@
 
 ====
 
+## 2026-04-20 - Build 2604 (Version 105-LTS - Patch 2) - April 2026
+
+* Resolved [#2935](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2935), Maximized MDI window form border drawn on wrong monitor (secondary monitor); `DropSolidWindow` now uses screen coordinates for `DesktopBounds`; non-client border painting uses a DC compatible with the window's monitor
+* Resolved [#2103](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2103), Ensure that `KryptonForm` properly supports RTL/LTR
+* Resolved [#2914](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2914), White bar is shown in a `KryptonForm` Sizable without buttons and text
+* Resolved [#2910](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2910), `KryptonComboBox` override Font property causes form designer error
+* Resolved [#2902](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2902), NuGet Version Discrepancy
+* Version bump `100.xx.xx.xx` -> `105.xx.xx.xx`
+
+====
+
+# 2026-01-19 - Build 2501 (Version 100-LTS - Patch 1) - January 2026
+
+* Resolved/Implemented [#1651](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1651), KComboBox's should follow the DateTimePicker layout(s)
+* Resolved [#2457](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2457), `KryptonForm` RTL border bug
+* Resolved [#2516](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2516), `SaveConfigToArray` and `LoadConfigFromArray` not working correctly
+* Implemented [#762](https://github.com/Krypton-Suite/Standard-Toolkit/issues/762), Does Krypton provide the correct UIA providers for the controls it "Hides"
+* Resolved [#948](https://github.com/Krypton-Suite/Standard-Toolkit/issues/948), Why does the KButton change size/padding between using .NET Framework & .NET
+* Resolved [#1809](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1809), Dragging a dock cell appears to lag
+* Resolved [#2832](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2832), `KryptonRichTextBox` does not retain its formatting when palette is changed
+* Implemented [#1220](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1220), Is it time to bring over `KryptonToast`s
+* Implemented [#1282](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1282), `KToast`: Add 'Do not show again' option
+* Resolved [#2721](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2721), Floating Window is Empty after dragging from Docked state
+* Resolved [#2605](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2605), `KryptonFloatingWindow` leaves empty window behind when dragged from docked state
+* Resolved [#2801](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2801), `KryptonTextBox` Validating event fires twice
+* Resolved [#2716](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2716), Adjusting the width of the `KryptonRibbonGroupButton` to avoid cutting off the text*
+* Implemented [#2570](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2570), Added Tab scrolling with mouse over Ribbon's GroupsArea - ScrollTabGroupArea for #331.
+* Implemented [#2753](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2753), Adds helper class that aids in closing menus at will, which don't repsond to losing focus.
+* Implemented [#2728](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2728), Ability for developers to set the highlight colour - Part of #2720
+* Resolved [#2745](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2745b), `VisualMultilineStringEditorForm` only saving last line
+* Resolved [#2638](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2638), `KryptonButton` with rouding, draws incorrect background when pressed.
+* Resolved [#2631](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2631), `KryptonFrom` draws the custom border when `FormBorderStyle` is `None`.
+* Resolved [#2681](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2704), Add a missing case statement to `KryptonCustomPaletteBase`.
+* Resolved [#2455](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2455), `KryptonForm` does not close when the system icon is double clicked.
+* Resolved [#2681](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2681), `KryptonDataGridView` column headers do not repaint correctly on horizontal mouse scroll.
+* Resolved [#2631](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2604), `KryptonContextMenu` items editor does not restore items when cancelled.
+* Resolved [#2631](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2682), `KryptonForm` does not close when `FormBorderStyle` is set to none at design time.
+* Resolved [#2629](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2629), `KryptonToggleSwitch` text repaint fails when the `Checked` property is toggled.
+* Implemented [#2622](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2622), Automatically assign users to new pull requests
+* Implemented [#2617](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2617), Move GitHub templates to YAML
+* Implemented [#2653](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2653), Adds a property to `KryptonTaskDialog` to toggle the `KryptonSystemMenu`.
+* Resolves [#2649](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2649), `KryptonSytemMenu` duplicates menu entries.
+* Resolved [#2641](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2641), `KryptonForm` based minimised MDI Child Windows do not react when hosted in a `KryptonForm` parent container.
+
+====
+
 ## 2025-11-24 - Build 2511 (V100 RTM) - November 2025
 
 * Implemented [#2621](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2621), Add `dependabot.yml` for maintenance tasks
