@@ -1524,29 +1524,39 @@ public abstract class VisualForm : Form,
                         // If we managed to get a compatible bitmap
                         if (hBitmap != IntPtr.Zero)
                         {
-                            // Must use the screen device context for the bitmap when drawing into the
-                            // bitmap otherwise the Opacity and RightToLeftLayout will not work correctly.
-                            // Select the new bitmap into the screen DC
-                            IntPtr oldBitmap = PI.SelectObject(_screenDC, hBitmap);
+                            // Use a DC compatible with the window's monitor so border draws on the correct
+                            // screen when the form is on a secondary monitor (fixes #2935).
+                            IntPtr memDC = PI.CreateCompatibleDC(hDC);
+                            IntPtr oldBitmap = memDC != IntPtr.Zero
+                                ? PI.SelectObject(memDC, hBitmap)
+                                : PI.SelectObject(_screenDC, hBitmap);
 
                             try
                             {
+                                IntPtr drawDC = memDC != IntPtr.Zero ? memDC : _screenDC;
+
                                 // Drawing is easier when using a Graphics instance
-                                using (Graphics g = Graphics.FromHdc(_screenDC))
+                                using (Graphics g = Graphics.FromHdc(drawDC))
                                 {
                                     WindowChromePaint(g, windowBounds);
                                 }
 
-                                // Now blit from the bitmap to the screen
-                                PI.BitBlt(hDC, 0, 0, windowBounds.Width, windowBounds.Height, _screenDC, 0, 0, PI.SRCCOPY);
+                                // Now blit from the bitmap to the window
+                                PI.BitBlt(hDC, 0, 0, windowBounds.Width, windowBounds.Height, drawDC, 0, 0, PI.SRCCOPY);
                             }
                             finally
                             {
-                                // Restore the original bitmap
-                                PI.SelectObject(_screenDC, oldBitmap);
+                                // Cleanup resources
+                                PI.SelectObject(memDC != IntPtr.Zero ? memDC : _screenDC, oldBitmap);
 
-                                // Delete the temporary bitmap
+                                // Delete resources we created
                                 PI.DeleteObject(hBitmap);
+
+                                // Delete memory DC if used
+                                if (memDC != IntPtr.Zero)
+                                {
+                                    PI.DeleteDC(memDC);
+                                }
                             }
                         }
                         else
