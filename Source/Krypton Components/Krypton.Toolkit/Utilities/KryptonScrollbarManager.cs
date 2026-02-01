@@ -650,18 +650,19 @@ public class KryptonScrollbarManager : IDisposable
                 return;
             }
 
-            // For other controls, try to remove scrollbar styles via window styles
-            // Get current window style
-            uint style = PI.GetWindowLong(_targetControl.Handle, PI.GWL_.STYLE);
+            // For other controls (ListBox, ListView, TreeView, PropertyGrid, etc.), hide native
+            // scrollbars via ShowScrollBar so only Krypton scrollbars are visible.
+            _ = PI.ShowScrollBar(_targetControl.Handle, (int)PI.SB_.BOTH, false);
 
-            // Remove scrollbar styles
+            // Also remove scrollbar window styles so they stay hidden; frame change is required
+            // for style changes to take effect (see SetWindowLong / SetWindowPos docs).
+            uint style = PI.GetWindowLong(_targetControl.Handle, PI.GWL_.STYLE);
             style &= ~(uint)PI.WS_.HSCROLL;
             style &= ~(uint)PI.WS_.VSCROLL;
-
-            // Set new style
             PI.SetWindowLong(_targetControl.Handle, PI.GWL_.STYLE, style);
+            PI.SetWindowPos(_targetControl.Handle, IntPtr.Zero, 0, 0, 0, 0,
+                PI.SWP_.NOMOVE | PI.SWP_.NOSIZE | PI.SWP_.NOZORDER | PI.SWP_.FRAMECHANGED);
 
-            // Force redraw
             _targetControl.Invalidate();
         }
         catch
