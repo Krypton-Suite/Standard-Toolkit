@@ -4,7 +4,8 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
-* Implemented [#2952](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2962), Set license header via `editorconfig`
+* Implemented [#2939](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2939), Extend the bug reporting tool
+* Implemented [#2962](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2962), Set license header via `editorconfig`
 * Resolved [#2935](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2935), Maximized MDI window form border drawn on wrong monitor (secondary monitor); `DropSolidWindow` now uses screen coordinates for `DesktopBounds`; non-client border painting uses a DC compatible with the window's monitor
 * Resolved [#2926](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2926), Scrollbar issues - controls no longer show both Krypton and native Win32 scrollbars when Krypton scrollbars are enabled
 * Resolved [#2893](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2893), KMessageBox message text wrong: message now displays passed text correctly (message text set after layout, designer placeholder removed in VisualMessageBoxForm and VisualMessageBoxRtlAwareForm); `KryptonRichTextBox` now respects per-control `UseKryptonScrollbars` so message box Krypton scrollbars no longer cover text when set to false; CustomMessageBoxTest shows dialog result in form title instead of overwriting message body
