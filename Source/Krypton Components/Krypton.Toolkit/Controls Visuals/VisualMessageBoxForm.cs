@@ -103,6 +103,9 @@ internal partial class VisualMessageBoxForm : KryptonForm
         // Hide native scrollbars so they never cover the message text (issue #2944).
         HideMessageBoxScrollbars();
 
+        // Set message text last so it is not overwritten by layout/size (issue #2893).
+        krtbMessageText.Text = _text;
+
         ShowCloseButton(showCloseButton);
     }
 

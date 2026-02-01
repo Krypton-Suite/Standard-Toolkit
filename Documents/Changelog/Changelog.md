@@ -4,6 +4,7 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Resolved [#2893](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2893), KMessageBox message text wrong: message now displays passed text correctly (message text set after layout, designer placeholder removed in VisualMessageBoxForm and VisualMessageBoxRtlAwareForm); `KryptonRichTextBox` now respects per-control `UseKryptonScrollbars` so message box Krypton scrollbars no longer cover text when set to false; CustomMessageBoxTest shows dialog result in form title instead of overwriting message body
 * Resolved [#2933](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2933), Docking not working correctly: floating window left behind after redock. When a document is undocked then redocked into the workspace, the empty floating window is now hidden (no visible "left behind" window) without disposing, so the redocked page remains visible.
 * Resolved drag feedback artifact: when dragging a dockable page, a small dark artefact appeared in the top-left corner of the screen. The drop feedback window (`DropSolidWindow`) was created at (0,0); it is now positioned off-screen initially and when no drop target is matched.
 * Resolved [#2944](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2944), Messagebox sizing issues - Krypton scrollbars no longer cover text when message has minimal content
