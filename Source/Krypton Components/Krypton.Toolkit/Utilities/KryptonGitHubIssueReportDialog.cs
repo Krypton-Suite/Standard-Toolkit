@@ -9,7 +9,7 @@
 
 namespace Krypton.Toolkit;
 
-//// <summary>
+/// <summary>
 /// Public API for the GitHub issue report dialog (internal Toolkit version).
 /// </summary>
 /// <remarks>
