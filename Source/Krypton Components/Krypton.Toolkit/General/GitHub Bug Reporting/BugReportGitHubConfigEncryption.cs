@@ -21,9 +21,9 @@ namespace Krypton.Toolkit;
 /// <b>Developer workflow:</b>
 /// <list type="number">
 /// <item>Create a <see cref="BugReportGitHubConfig"/> with your repository details and PAT.</item>
-/// <item>Call <see cref="SaveEncryptedConfig"/> with a secret key to create the encrypted file.</item>
+/// <item>Call <see cref="SaveEncryptedConfig(BugReportGitHubConfig, string, SecureString)"/> with a secret key to create the encrypted file.</item>
 /// <item>Ship the encrypted file with your application (do NOT ship the secret key in source).</item>
-/// <item>At runtime, call <see cref="LoadEncryptedConfig"/> with the same secret key.</item>
+/// <item>At runtime, call <see cref="LoadEncryptedConfig(string, SecureString)"/> with the same secret key.</item>
 /// </list>
 /// </para>
 /// <para>

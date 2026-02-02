@@ -19,8 +19,8 @@ namespace Krypton.Utilities;
 /// </para>
 /// <para>
 /// <b>Developer setup:</b>
-/// Use <see cref="BugReportGitHubConfigEncryption.SaveEncryptedConfig"/> to create the encrypted config file,
-/// then ship it with your application. At runtime, provide the same secret key to <see cref="Show"/>.
+/// Use <see cref="BugReportGitHubConfigEncryption.SaveEncryptedConfig(BugReportGitHubConfig, string, System.Security.SecureString)"/> to create the encrypted config file,
+/// then ship it with your application. At runtime, provide the same secret key to <see cref="Show(IWin32Window?, SecureString)"/>.
 /// </para>
 /// </remarks>
 [ToolboxItem(false)]
