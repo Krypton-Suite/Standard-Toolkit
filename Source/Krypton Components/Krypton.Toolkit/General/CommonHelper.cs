@@ -425,7 +425,7 @@ public static class CommonHelper
     /// </summary>
     /// <param name="control">Control for which the setting is needed.</param>
     /// <returns>RightToLeftLayout setting.</returns>
-    public static bool GetRightToLeftLayout(Control control)
+    public static bool GetRightToLeftLayout(Control? control)
     {
         // First check if the control itself has RightToLeftLayout (e.g., VisualSimpleBase controls)
         if (control is VisualSimpleBase visualSimpleBase)
@@ -435,7 +435,7 @@ public static class CommonHelper
 
         // For other controls that might have RightToLeftLayout (like Form, ListView, etc.)
         // Use reflection to check if the property exists and get its value
-        var property = control.GetType().GetProperty("RightToLeftLayout");
+        var property = control?.GetType().GetProperty("RightToLeftLayout");
         if (property != null && property.PropertyType == typeof(bool))
         {
             if (property.GetValue(control) is bool value)
@@ -453,7 +453,7 @@ public static class CommonHelper
     /// </summary>
     /// <param name="control">Control for which RTL is checked.</param>
     /// <returns>True if RTL layout should be applied; otherwise false.</returns>
-    public static bool IsRightToLeftLayout(Control control) => GetRightToLeftLayout(control) && (control.RightToLeft == RightToLeft.Yes);
+    public static bool IsRightToLeftLayout(Control? control) => GetRightToLeftLayout(control) && (control is { RightToLeft: RightToLeft.Yes });
 
     /// <summary>
     /// Calculates the X position from the right edge for RTL-aware positioning.

@@ -1,31 +1,28 @@
 ﻿#region BSD License
 /*
  * 
- * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2026 - 2026. All rights reserved.
  *  
  */
 #endregion
 
 namespace Krypton.Toolkit;
 
-internal class KryptonScrollBarActionList : DesignerActionList
+internal class KryptonHScrollBarActionList : DesignerActionList
 {
     #region Instance Fields
 
-    private readonly KryptonScrollBar _scrollBar;
+    private readonly KryptonHScrollBar _scrollBar;
     private readonly IComponentChangeService? _service;
 
     #endregion
 
     #region Identity
 
-    public KryptonScrollBarActionList(KryptonScrollBarDesigner owner) : base(owner.Component)
+    public KryptonHScrollBarActionList(KryptonHScrollBarDesigner owner) : base(owner.Component)
     {
-        _scrollBar = (owner.Component as KryptonScrollBar)!;
+        _scrollBar = (owner.Component as KryptonHScrollBar)!;
 
         _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
     }
@@ -75,23 +72,6 @@ internal class KryptonScrollBarActionList : DesignerActionList
                 _service?.OnComponentChanged(_scrollBar, null, _scrollBar.Value, value);
 
                 _scrollBar.Value = value;
-            }
-        }
-    }
-
-    /// <summary>Gets or sets the orientation of the scrollbar.</summary>
-    /// <value>The orientation.</value>
-    public ScrollBarOrientation Orientation
-    {
-        get => _scrollBar.Orientation;
-
-        set
-        {
-            if (_scrollBar.Orientation != value)
-            {
-                _service?.OnComponentChanged(_scrollBar, null, _scrollBar.Orientation, value);
-
-                _scrollBar.Orientation = value;
             }
         }
     }

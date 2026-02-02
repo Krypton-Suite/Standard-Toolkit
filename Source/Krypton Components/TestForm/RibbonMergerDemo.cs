@@ -38,7 +38,7 @@ public partial class RibbonMergerDemo : KryptonForm
         };
         newButton.Click += (s, e) => LogMessage("Main ribbon: New button clicked");
         var triple1 = new KryptonRibbonGroupTriple();
-        triple1.Items.Add(newButton);
+        triple1.Items?.Add(newButton);
         homeGroup.Items.Add(triple1);
         homeTab.Groups.Add(homeGroup);
 
@@ -50,7 +50,7 @@ public partial class RibbonMergerDemo : KryptonForm
         };
         refreshButton.Click += (s, e) => LogMessage("Main ribbon: Refresh button clicked");
         var triple2 = new KryptonRibbonGroupTriple();
-        triple2.Items.Add(refreshButton);
+        triple2.Items?.Add(refreshButton);
         viewGroup.Items.Add(triple2);
         viewTab.Groups.Add(viewGroup);
 

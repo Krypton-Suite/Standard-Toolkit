@@ -169,8 +169,8 @@ public partial class TouchscreenSupportTest : KryptonForm
         cell2.Pages.Add(page2);
         cell2.SelectedPage = page2;
 
-        workspace.Root.Children.Add(cell1);
-        workspace.Root.Children.Add(cell2);
+        workspace.Root.Children?.Add(cell1);
+        workspace.Root.Children?.Add(cell2);
     }
 
     private void ChkEnableTouchscreen_CheckedChanged(object? sender, EventArgs e)

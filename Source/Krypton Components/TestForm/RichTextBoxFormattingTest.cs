@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -26,12 +26,12 @@ public partial class RichTextBoxFormattingTest : KryptonForm
 
     private void InitializeInputControlStyleComboBox()
     {
-        foreach (var style in Enum.GetValues(typeof(InputControlStyle)))
+        foreach (InputControlStyle style in Enum.GetValues(typeof(InputControlStyle)))
         {
             kcmbInputControlStyle.Items.Add(style.ToString());
         }
 
-        kcmbInputControlStyle.SelectedItem = InputControlStyle.Standalone.ToString();
+        kcmbInputControlStyle.SelectedItem = nameof(InputControlStyle.Standalone);
     }
 
     private void InitializeSampleContent()
@@ -208,11 +208,12 @@ public partial class RichTextBoxFormattingTest : KryptonForm
         //KryptonManager.CurrentGlobalPaletteMode = originalMode;
         stopwatch.Stop();
 
-        string rtf = krtbRichTextBox.Rtf;
+        string? rtf = krtbRichTextBox.Rtf;
         bool hasFormatting = !string.IsNullOrEmpty(rtf) &&
-            (rtf.Contains(@"\b") || rtf.Contains(@"\i") || rtf.Contains(@"\ul") ||
-             rtf.Contains(@"\fs") || rtf.Contains(@"\cf") || rtf.Contains(@"\highlight") ||
-             (rtf.Contains(@"\f") && !rtf.Contains(@"\f0")));
+                             rtf != null &&
+                             (rtf.Contains(@"\b") || rtf.Contains(@"\i") || rtf.Contains(@"\ul") ||
+                              rtf.Contains(@"\fs") || rtf.Contains(@"\cf") || rtf.Contains(@"\highlight") ||
+                              (rtf.Contains(@"\f") && !rtf.Contains(@"\f0")));
 
         string result = hasFormatting ? "PRESERVED" : "LOST";
         klblStatus.Text = $"Performance: 10 palette changes in {stopwatch.ElapsedMilliseconds}ms. Formatting: {result}";
@@ -222,87 +223,95 @@ public partial class RichTextBoxFormattingTest : KryptonForm
     private void KbtnVerifyFormatting_Click(object? sender, EventArgs e)
     {
         // Check if RTF formatting exists using the same logic as the optimized detection
-        string rtf = krtbRichTextBox.Rtf;
+        string? rtf = krtbRichTextBox.Rtf;
         bool hasFormatting = false;
 
         if (!string.IsNullOrEmpty(rtf) && krtbRichTextBox.TextLength > 0)
         {
-            int rtfLength = rtf.Length;
-            string plainText = krtbRichTextBox.Text;
-            int plainTextLength = plainText?.Length ?? 0;
-
-            // Quick length check first
-            bool rtfMuchLonger = plainTextLength > 0 && rtfLength > (plainTextLength + 200);
-            if (rtfMuchLonger)
+            if (rtf != null)
             {
-                hasFormatting = true;
-            }
-            else
-            {
-                // Single-pass scan (same as optimized detection)
-                bool foundFormatting = false;
-                bool foundCustomFont = false;
+                int rtfLength = rtf.Length;
+                string plainText = krtbRichTextBox.Text;
+                int plainTextLength = plainText?.Length ?? 0;
 
-                for (int i = 0; i < rtfLength - 1 && !foundFormatting && !foundCustomFont; i++)
+                // Quick length check first
+                bool rtfMuchLonger = plainTextLength > 0 && rtfLength > (plainTextLength + 200);
+                if (rtfMuchLonger)
                 {
-                    if (rtf[i] == '\\')
+                    hasFormatting = true;
+                }
+                else
+                {
+                    // Single-pass scan (same as optimized detection)
+                    bool foundFormatting = false;
+                    bool foundCustomFont = false;
+
+                    for (int i = 0; i < rtfLength - 1 && !foundFormatting && !foundCustomFont; i++)
                     {
-                        char nextChar = rtf[i + 1];
-                        switch (nextChar)
+                        if (rtf[i] == '\\')
                         {
-                            case 'b':
-                            case 'i':
-                                foundFormatting = true;
-                                break;
-                            case 'u':
-                                if (i + 2 < rtfLength && rtf[i + 2] == 'l')
-                                {
+                            char nextChar = rtf[i + 1];
+                            switch (nextChar)
+                            {
+                                case 'b':
+                                case 'i':
                                     foundFormatting = true;
-                                }
-                                break;
-                            case 'f':
-                                if (i + 2 < rtfLength)
-                                {
-                                    char fontDigit = rtf[i + 2];
-                                    if (char.IsDigit(fontDigit) && fontDigit != '0')
+                                    break;
+                                case 'u':
+                                    if (i + 2 < rtfLength && rtf[i + 2] == 'l')
                                     {
-                                        foundCustomFont = true;
+                                        foundFormatting = true;
                                     }
-                                }
-                                break;
-                            case 'c':
-                                if (i + 2 < rtfLength && rtf[i + 2] == 'f')
-                                {
-                                    foundFormatting = true;
-                                }
-                                break;
-                            case 'h':
-                                if (i + 9 < rtfLength &&
-                                    rtf[i + 2] == 'i' && rtf[i + 3] == 'g' &&
-                                    rtf[i + 4] == 'h' && rtf[i + 5] == 'l' &&
-                                    rtf[i + 6] == 'i' && rtf[i + 7] == 'g' &&
-                                    rtf[i + 8] == 'h' && rtf[i + 9] == 't')
-                                {
-                                    foundFormatting = true;
-                                }
-                                break;
-                            case 's':
-                                if (i + 2 < rtfLength && char.IsDigit(rtf[i + 2]))
-                                {
-                                    foundFormatting = true;
-                                }
-                                break;
+                                    break;
+                                case 'f':
+                                    if (i + 2 < rtfLength)
+                                    {
+                                        char fontDigit = rtf[i + 2];
+                                        if (char.IsDigit(fontDigit) && fontDigit != '0')
+                                        {
+                                            foundCustomFont = true;
+                                        }
+                                    }
+                                    break;
+                                case 'c':
+                                    if (i + 2 < rtfLength && rtf[i + 2] == 'f')
+                                    {
+                                        foundFormatting = true;
+                                    }
+                                    break;
+                                case 'h':
+                                    if (i + 9 < rtfLength &&
+                                        rtf[i + 2] == 'i' && rtf[i + 3] == 'g' &&
+                                        rtf[i + 4] == 'h' && rtf[i + 5] == 'l' &&
+                                        rtf[i + 6] == 'i' && rtf[i + 7] == 'g' &&
+                                        rtf[i + 8] == 'h' && rtf[i + 9] == 't')
+                                    {
+                                        foundFormatting = true;
+                                    }
+                                    break;
+                                case 's':
+                                    if (i + 2 < rtfLength && char.IsDigit(rtf[i + 2]))
+                                    {
+                                        foundFormatting = true;
+                                    }
+                                    break;
+                            }
                         }
                     }
-                }
 
-                hasFormatting = foundFormatting || foundCustomFont;
+                    hasFormatting = foundFormatting || foundCustomFont;
+                }
             }
         }
 
         if (hasFormatting)
         {
-            klblStatus.Text = $"✓ Verification: RTF formatting is PRESENT and preserved! (RTF: {krtbRichTextBox.Rtf.Length} bytes, Text: {krtbRichTextBox.TextLength} chars)";
+            if (krtbRichTextBox.Rtf != null)
+            {
+                klblStatus.Text =
+                    $"✓ Verification: RTF formatting is PRESENT and preserved! (RTF: {krtbRichTextBox.Rtf.Length} bytes, Text: {krtbRichTextBox.TextLength} chars)";
+            }
+
             klblStatus.StateCommon.ShortText.Color1 = Color.Green;
         }
         else
