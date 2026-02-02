@@ -34,10 +34,7 @@ public static class KryptonGitHubIssueReportDialog
     /// <param name="secretKey">The secret key used to decrypt the configuration file.</param>
     /// <returns>DialogResult.OK if the issue was created successfully; otherwise, DialogResult.Cancel.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="secretKey"/> is null or empty.</exception>
-    public static DialogResult Show(IWin32Window? owner, string secretKey)
-    {
-        return Show(owner, secretKey, null);
-    }
+    public static DialogResult Show(IWin32Window? owner, SecureString secretKey) => Show(owner, secretKey, null);
 
     /// <summary>
     /// Displays the GitHub issue report dialog using configuration loaded from the specified encrypted config file.
@@ -47,7 +44,7 @@ public static class KryptonGitHubIssueReportDialog
     /// <param name="configFilePath">Path to the encrypted config file. If null, uses the default path.</param>
     /// <returns>DialogResult.OK if the issue was created successfully; otherwise, DialogResult.Cancel.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="secretKey"/> is null or empty.</exception>
-    public static DialogResult Show(IWin32Window? owner, string secretKey, string? configFilePath) => Show(owner, secretKey, configFilePath, null);
+    public static DialogResult Show(IWin32Window? owner, SecureString secretKey, string? configFilePath) => Show(owner, secretKey, configFilePath, null);
 
     /// <summary>
     /// Displays the GitHub issue report dialog with configuration from the specified encrypted config file and optional pre-filled description.
@@ -58,9 +55,9 @@ public static class KryptonGitHubIssueReportDialog
     /// <param name="initialDescription">Optional pre-filled text for the issue description (e.g. exception details from KryptonExceptionDialog).</param>
     /// <returns>DialogResult.OK if the issue was created successfully; otherwise, DialogResult.Cancel.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="secretKey"/> is null or empty.</exception>
-    public static DialogResult Show(IWin32Window? owner, string secretKey, string? configFilePath, string? initialDescription)
+    public static DialogResult Show(IWin32Window? owner, SecureString secretKey, string? configFilePath, string? initialDescription)
     {
-        if (string.IsNullOrWhiteSpace(secretKey))
+        if (secretKey == null || secretKey.Length == 0)
         {
             throw new ArgumentNullException(nameof(secretKey));
         }

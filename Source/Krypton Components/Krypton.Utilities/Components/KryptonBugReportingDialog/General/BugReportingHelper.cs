@@ -37,7 +37,7 @@ public static class BugReportingHelper
     /// <param name="showCopyButton">Optional flag to show the copy button.</param>
     /// <param name="showSearchBox">Optional flag to show the search box.</param>
     /// <param name="githubConfigPath">Optional path to the encrypted config file. If null, the default path is used.</param>
-    public static void ShowExceptionWithBugReporting(Exception exception, string githubSecretKey,
+    public static void ShowExceptionWithBugReporting(Exception exception, SecureString githubSecretKey,
         Color? highlightColor = null, bool? showCopyButton = null, bool? showSearchBox = null, string? githubConfigPath = null) =>
         KryptonExceptionDialog.Show(exception, highlightColor, showCopyButton, showSearchBox,
             null, githubSecretKey, githubConfigPath);

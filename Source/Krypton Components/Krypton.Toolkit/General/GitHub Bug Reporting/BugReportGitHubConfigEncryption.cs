@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -56,6 +56,24 @@ public static class BugReportGitHubConfigEncryption
     /// <param name="secretKey">A secret key used for encryption. Must be the same key used for decryption.</param>
     /// <exception cref="ArgumentNullException">Thrown when any parameter is null or empty.</exception>
     /// <exception cref="InvalidOperationException">Thrown when the config is not valid.</exception>
+    public static void SaveEncryptedConfig(BugReportGitHubConfig config, string filePath, SecureString secretKey)
+    {
+        if (secretKey == null || secretKey.Length == 0)
+        {
+            throw new ArgumentNullException(nameof(secretKey));
+        }
+
+        SaveEncryptedConfig(config, filePath, SecureStringToString(secretKey));
+    }
+
+    /// <summary>
+    /// Encrypts and saves a <see cref="BugReportGitHubConfig"/> to a file.
+    /// </summary>
+    /// <param name="config">The configuration to encrypt. Must have Owner, RepositoryName, and PersonalAccessToken set.</param>
+    /// <param name="filePath">The path where the encrypted config file will be saved.</param>
+    /// <param name="secretKey">A secret key used for encryption. Must be the same key used for decryption.</param>
+    /// <exception cref="ArgumentNullException">Thrown when any parameter is null or empty.</exception>
+    /// <exception cref="InvalidOperationException">Thrown when the config is not valid.</exception>
     public static void SaveEncryptedConfig(BugReportGitHubConfig config, string filePath, string secretKey)
     {
         if (config == null)
@@ -82,6 +100,25 @@ public static class BugReportGitHubConfigEncryption
         var encryptedBytes = Encrypt(plainText, secretKey);
 
         File.WriteAllBytes(filePath, encryptedBytes);
+    }
+
+    /// <summary>
+    /// Loads and decrypts a <see cref="BugReportGitHubConfig"/> from an encrypted file.
+    /// </summary>
+    /// <param name="filePath">The path to the encrypted config file.</param>
+    /// <param name="secretKey">The secret key used when the file was encrypted.</param>
+    /// <returns>The decrypted configuration.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when any parameter is null or empty.</exception>
+    /// <exception cref="FileNotFoundException">Thrown when the config file does not exist.</exception>
+    /// <exception cref="CryptographicException">Thrown when decryption fails (wrong key or corrupted file).</exception>
+    public static BugReportGitHubConfig LoadEncryptedConfig(string filePath, SecureString secretKey)
+    {
+        if (secretKey == null || secretKey.Length == 0)
+        {
+            throw new ArgumentNullException(nameof(secretKey));
+        }
+
+        return LoadEncryptedConfig(filePath, SecureStringToString(secretKey));
     }
 
     /// <summary>
@@ -125,6 +162,24 @@ public static class BugReportGitHubConfigEncryption
             RepositoryName = parts[1],
             PersonalAccessToken = parts[2]
         };
+    }
+
+    /// <summary>
+    /// Attempts to load and decrypt a <see cref="BugReportGitHubConfig"/> from an encrypted file.
+    /// </summary>
+    /// <param name="filePath">The path to the encrypted config file.</param>
+    /// <param name="secretKey">The secret key used when the file was encrypted.</param>
+    /// <param name="config">When successful, contains the decrypted configuration; otherwise, null.</param>
+    /// <returns><c>true</c> if the config was loaded successfully; otherwise, <c>false</c>.</returns>
+    public static bool TryLoadEncryptedConfig(string filePath, SecureString secretKey, out BugReportGitHubConfig? config)
+    {
+        config = null;
+        if (secretKey == null || secretKey.Length == 0)
+        {
+            return false;
+        }
+
+        return TryLoadEncryptedConfig(filePath, SecureStringToString(secretKey), out config);
     }
 
     /// <summary>
@@ -221,6 +276,28 @@ public static class BugReportGitHubConfigEncryption
     {
         using var sha256 = SHA256.Create();
         return sha256.ComputeHash(Encoding.UTF8.GetBytes(secretKey));
+    }
+
+    private static string SecureStringToString(SecureString value)
+    {
+        if (value == null || value.Length == 0)
+        {
+            return string.Empty;
+        }
+
+        var ptr = IntPtr.Zero;
+        try
+        {
+            ptr = Marshal.SecureStringToBSTR(value);
+            return Marshal.PtrToStringBSTR(ptr) ?? string.Empty;
+        }
+        finally
+        {
+            if (ptr != IntPtr.Zero)
+            {
+                Marshal.ZeroFreeBSTR(ptr);
+            }
+        }
     }
 
     #endregion

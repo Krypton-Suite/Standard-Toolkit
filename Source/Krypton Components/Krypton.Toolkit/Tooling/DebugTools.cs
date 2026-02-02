@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -28,7 +28,7 @@ public static class DebugTools
 {
     #region Static Fields
 
-    private static string? _secretKey;
+    private static SecureString? _secretKey;
     private static string? _configFilePath;
 
     #endregion
@@ -41,7 +41,7 @@ public static class DebugTools
     /// </summary>
     /// <param name="secretKey">The secret key for decrypting the GitHub config file.</param>
     /// <param name="configFilePath">Optional path to the encrypted config file. If null, uses the default path.</param>
-    public static void ConfigureGitHubReporting(string secretKey, string? configFilePath = null)
+    public static void ConfigureGitHubReporting(SecureString secretKey, string? configFilePath = null)
     {
         _secretKey = secretKey;
         _configFilePath = configFilePath;
@@ -59,7 +59,7 @@ public static class DebugTools
     /// <summary>
     /// Gets a value indicating whether GitHub reporting is configured.
     /// </summary>
-    public static bool IsGitHubReportingConfigured => !string.IsNullOrWhiteSpace(_secretKey);
+    public static bool IsGitHubReportingConfigured => _secretKey != null && _secretKey.Length > 0;
 
     /// <summary>
     /// Allow Krypton to be improved by getting help from users.

@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -83,7 +83,7 @@ public static class KryptonExceptionDialog
     /// <param name="bugReportCallback">An optional callback invoked when the user clicks "Report Bug". Ignored if <paramref name="githubSecretKey"/> is provided.</param>
     /// <param name="githubSecretKey">Optional secret key for GitHub bug reporting. When provided, "Report Bug" opens the GitHub issue dialog with exception details pre-filled.</param>
     /// <param name="githubConfigPath">Optional path to the encrypted config file. If null, the default path is used.</param>
-    public static void Show(Exception exception, Color? highlightColor, bool? showCopyButton, bool? showSearchBox, Action<Exception>? bugReportCallback, string? githubSecretKey, string? githubConfigPath = null) =>
+    public static void Show(Exception exception, Color? highlightColor, bool? showCopyButton, bool? showSearchBox, Action<Exception>? bugReportCallback, SecureString? githubSecretKey, string? githubConfigPath = null) =>
         ShowCore(exception, highlightColor, showCopyButton, showSearchBox, bugReportCallback, githubSecretKey, githubConfigPath);
 
     #endregion
@@ -100,7 +100,7 @@ public static class KryptonExceptionDialog
     /// <param name="bugReportCallback">An optional callback that will be invoked when the user clicks the "Report Bug" button.</param>
     /// <param name="gitHubSecretKey">Optional secret key for GitHub bug reporting. When provided, "Report Bug" opens the GitHub issue dialog.</param>
     /// <param name="gitHubConfigFilePath">Optional path to the encrypted config file. If null, the default path is used.</param>
-    private static void ShowCore(Exception exception, Color? highlightColor, bool? showCopyButton, bool? showSearchBox, Action<Exception>? bugReportCallback, string? gitHubSecretKey, string? gitHubConfigFilePath) =>
+    private static void ShowCore(Exception exception, Color? highlightColor, bool? showCopyButton, bool? showSearchBox, Action<Exception>? bugReportCallback, SecureString? gitHubSecretKey, string? gitHubConfigFilePath) =>
         VisualExceptionDialogForm.Show(exception, highlightColor, showCopyButton, null, showSearchBox, bugReportCallback, null, gitHubSecretKey, gitHubConfigFilePath);
 
     #endregion

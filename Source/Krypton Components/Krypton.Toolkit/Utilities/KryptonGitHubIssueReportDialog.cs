@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -34,7 +34,7 @@ public static class KryptonGitHubIssueReportDialog
     /// <param name="secretKey">The secret key used to decrypt the configuration file.</param>
     /// <returns>DialogResult.OK if the issue was created successfully; otherwise, DialogResult.Cancel.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="secretKey"/> is null or empty.</exception>
-    public static DialogResult Show(IWin32Window? owner, string secretKey)
+    public static DialogResult Show(IWin32Window? owner, SecureString secretKey)
     {
         return Show(owner, secretKey, null, null);
     }
@@ -47,7 +47,7 @@ public static class KryptonGitHubIssueReportDialog
     /// <param name="configFilePath">Path to the encrypted config file. If null, uses the default path.</param>
     /// <returns>DialogResult.OK if the issue was created successfully; otherwise, DialogResult.Cancel.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="secretKey"/> is null or empty.</exception>
-    public static DialogResult Show(IWin32Window? owner, string secretKey, string? configFilePath)
+    public static DialogResult Show(IWin32Window? owner, SecureString secretKey, string? configFilePath)
     {
         return Show(owner, secretKey, configFilePath, null);
     }
@@ -61,9 +61,9 @@ public static class KryptonGitHubIssueReportDialog
     /// <param name="additionalInfo">Optional text to pre-fill the Additional Information field (e.g. method, file, line context).</param>
     /// <returns>DialogResult.OK if the issue was created successfully; otherwise, DialogResult.Cancel.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="secretKey"/> is null or empty.</exception>
-    public static DialogResult Show(IWin32Window? owner, string secretKey, string? configFilePath, string? additionalInfo)
+    public static DialogResult Show(IWin32Window? owner, SecureString secretKey, string? configFilePath, string? additionalInfo)
     {
-        if (string.IsNullOrWhiteSpace(secretKey))
+        if (secretKey == null || secretKey.Length == 0)
         {
             throw new ArgumentNullException(nameof(secretKey));
         }

@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -48,6 +48,27 @@ public static class BugReportGitHubConfigEncryption
     /// <param name="secretKey">A secret key used for encryption. Must be the same key used for decryption.</param>
     /// <exception cref="ArgumentNullException">Thrown when any parameter is null or empty.</exception>
     /// <exception cref="InvalidOperationException">Thrown when the config is not valid.</exception>
+    public static void SaveEncryptedConfig(BugReportGitHubConfig config, string filePath, SecureString secretKey)
+    {
+        Krypton.Toolkit.BugReportGitHubConfigEncryption.SaveEncryptedConfig(
+            new Krypton.Toolkit.BugReportGitHubConfig
+            {
+                Owner = config.Owner,
+                RepositoryName = config.RepositoryName,
+                PersonalAccessToken = config.PersonalAccessToken
+            },
+            filePath,
+            secretKey);
+    }
+
+    /// <summary>
+    /// Encrypts and saves a <see cref="BugReportGitHubConfig"/> to a file.
+    /// </summary>
+    /// <param name="config">The configuration to encrypt. Must have Owner, RepositoryName, and PersonalAccessToken set.</param>
+    /// <param name="filePath">The path where the encrypted config file will be saved.</param>
+    /// <param name="secretKey">A secret key used for encryption. Must be the same key used for decryption.</param>
+    /// <exception cref="ArgumentNullException">Thrown when any parameter is null or empty.</exception>
+    /// <exception cref="InvalidOperationException">Thrown when the config is not valid.</exception>
     public static void SaveEncryptedConfig(BugReportGitHubConfig config, string filePath, string secretKey)
     {
         if (config == null)
@@ -74,6 +95,27 @@ public static class BugReportGitHubConfigEncryption
     /// <exception cref="ArgumentNullException">Thrown when any parameter is null or empty.</exception>
     /// <exception cref="FileNotFoundException">Thrown when the config file does not exist.</exception>
     /// <exception cref="CryptographicException">Thrown when decryption fails (wrong key or corrupted file).</exception>
+    public static BugReportGitHubConfig LoadEncryptedConfig(string filePath, SecureString secretKey)
+    {
+        var toolkitConfig = Krypton.Toolkit.BugReportGitHubConfigEncryption.LoadEncryptedConfig(filePath, secretKey);
+
+        return new BugReportGitHubConfig
+        {
+            Owner = toolkitConfig.Owner,
+            RepositoryName = toolkitConfig.RepositoryName,
+            PersonalAccessToken = toolkitConfig.PersonalAccessToken
+        };
+    }
+
+    /// <summary>
+    /// Loads and decrypts a <see cref="BugReportGitHubConfig"/> from an encrypted file.
+    /// </summary>
+    /// <param name="filePath">The path to the encrypted config file.</param>
+    /// <param name="secretKey">The secret key used when the file was encrypted.</param>
+    /// <returns>The decrypted configuration.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when any parameter is null or empty.</exception>
+    /// <exception cref="FileNotFoundException">Thrown when the config file does not exist.</exception>
+    /// <exception cref="CryptographicException">Thrown when decryption fails (wrong key or corrupted file).</exception>
     public static BugReportGitHubConfig LoadEncryptedConfig(string filePath, string secretKey)
     {
         var toolkitConfig = Krypton.Toolkit.BugReportGitHubConfigEncryption.LoadEncryptedConfig(filePath, secretKey);
@@ -84,6 +126,31 @@ public static class BugReportGitHubConfigEncryption
             RepositoryName = toolkitConfig.RepositoryName,
             PersonalAccessToken = toolkitConfig.PersonalAccessToken
         };
+    }
+
+    /// <summary>
+    /// Attempts to load and decrypt a <see cref="BugReportGitHubConfig"/> from an encrypted file.
+    /// </summary>
+    /// <param name="filePath">The path to the encrypted config file.</param>
+    /// <param name="secretKey">The secret key used when the file was encrypted.</param>
+    /// <param name="config">When successful, contains the decrypted configuration; otherwise, null.</param>
+    /// <returns><c>true</c> if the config was loaded successfully; otherwise, <c>false</c>.</returns>
+    public static bool TryLoadEncryptedConfig(string filePath, SecureString secretKey, out BugReportGitHubConfig? config)
+    {
+        config = null;
+
+        if (Krypton.Toolkit.BugReportGitHubConfigEncryption.TryLoadEncryptedConfig(filePath, secretKey, out var toolkitConfig) && toolkitConfig != null)
+        {
+            config = new BugReportGitHubConfig
+            {
+                Owner = toolkitConfig.Owner,
+                RepositoryName = toolkitConfig.RepositoryName,
+                PersonalAccessToken = toolkitConfig.PersonalAccessToken
+            };
+            return true;
+        }
+
+        return false;
     }
 
     /// <summary>

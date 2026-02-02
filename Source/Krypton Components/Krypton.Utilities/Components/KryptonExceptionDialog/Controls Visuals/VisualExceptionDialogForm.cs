@@ -27,7 +27,7 @@ internal partial class VisualExceptionDialogForm : KryptonForm
 
     private readonly Action<Exception>? _bugReportCallback;
 
-    private readonly string? _gitHubSecretKey;
+    private readonly SecureString? _gitHubSecretKey;
 
     private readonly string? _gitHubConfigFilePath;
 
@@ -37,7 +37,7 @@ internal partial class VisualExceptionDialogForm : KryptonForm
 
     #region Identity
 
-    public VisualExceptionDialogForm(bool? showCopyButton, bool? showSearchBox, bool? showSubmitBugReportButton, Color? highlightColor, Exception exception, Action<Exception>? bugReportCallback = null, bool? showReportBugToGitHubButton = null, string? gitHubSecretKey = null, string? gitHubConfigFilePath = null)
+    public VisualExceptionDialogForm(bool? showCopyButton, bool? showSearchBox, bool? showSubmitBugReportButton, Color? highlightColor, Exception exception, Action<Exception>? bugReportCallback = null, bool? showReportBugToGitHubButton = null, SecureString? gitHubSecretKey = null, string? gitHubConfigFilePath = null)
     {
         InitializeComponent();
 
@@ -51,7 +51,7 @@ internal partial class VisualExceptionDialogForm : KryptonForm
 
         _showReportBugToGitHubButton = showReportBugToGitHubButton ?? false;
 
-        _gitHubSecretKey = string.IsNullOrWhiteSpace(gitHubSecretKey) ? null : gitHubSecretKey;
+        _gitHubSecretKey = gitHubSecretKey != null && gitHubSecretKey.Length > 0 ? gitHubSecretKey : null;
 
         _gitHubConfigFilePath = gitHubConfigFilePath;
 
@@ -241,7 +241,7 @@ internal partial class VisualExceptionDialogForm : KryptonForm
     /// integration is not used.</param>
     /// <param name="gitHubConfigFilePath">An optional file path to a GitHub configuration file used when submitting a bug report. If null, the default
     /// configuration is used.</param>
-    internal static void Show(Exception exception, Color? highlightColor, bool? showCopyButton, bool? showSubmitBugReportButton, bool? showSearchBox, Action<Exception>? bugReportCallback = null, bool? showReportBugToGitHubButton = null, string? gitHubSecretKey = null, string? gitHubConfigFilePath = null)
+    internal static void Show(Exception exception, Color? highlightColor, bool? showCopyButton, bool? showSubmitBugReportButton, bool? showSearchBox, Action<Exception>? bugReportCallback = null, bool? showReportBugToGitHubButton = null, SecureString? gitHubSecretKey = null, string? gitHubConfigFilePath = null)
     {
         using var ved = new VisualExceptionDialogForm(showCopyButton, showSearchBox, showSubmitBugReportButton, highlightColor, exception, bugReportCallback, showReportBugToGitHubButton, gitHubSecretKey, gitHubConfigFilePath);
 
