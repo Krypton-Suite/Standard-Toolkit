@@ -8,6 +8,9 @@
 #endregion
 
 using Krypton.Toolkit;
+#if NET9_0_OR_GREATER
+using System.Buffers;
+#endif
 
 namespace TestForm;
 
@@ -17,6 +20,10 @@ namespace TestForm;
 /// </summary>
 public partial class RichTextBoxFormattingTest : KryptonForm
 {
+#if NET9_0_OR_GREATER
+    private static readonly SearchValues<string> RtfFormattingValues = SearchValues.Create(new[] { @"\b", @"\i", @"\ul", @"\fs", @"\cf", @"\highlight" }.AsSpan(), StringComparison.Ordinal);
+#endif
+
     public RichTextBoxFormattingTest()
     {
         InitializeComponent();
@@ -209,11 +216,17 @@ public partial class RichTextBoxFormattingTest : KryptonForm
         stopwatch.Stop();
 
         string? rtf = krtbRichTextBox.Rtf;
+#if NET9_0_OR_GREATER
+        ReadOnlySpan<char> rtfSpan = rtf.AsSpan();
         bool hasFormatting = !string.IsNullOrEmpty(rtf) &&
-                             rtf != null &&
+            (rtfSpan.ContainsAny(RtfFormattingValues) ||
+             (rtfSpan.Contains(@"\f".AsSpan(), StringComparison.Ordinal) && !rtfSpan.Contains(@"\f0".AsSpan(), StringComparison.Ordinal)));
+#else
+        bool hasFormatting = !string.IsNullOrEmpty(rtf) &&
                              (rtf.Contains(@"\b") || rtf.Contains(@"\i") || rtf.Contains(@"\ul") ||
                               rtf.Contains(@"\fs") || rtf.Contains(@"\cf") || rtf.Contains(@"\highlight") ||
                               (rtf.Contains(@"\f") && !rtf.Contains(@"\f0")));
+#endif
 
         string result = hasFormatting ? "PRESERVED" : "LOST";
         klblStatus.Text = $"Performance: 10 palette changes in {stopwatch.ElapsedMilliseconds}ms. Formatting: {result}";
