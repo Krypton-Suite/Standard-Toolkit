@@ -20,7 +20,7 @@ namespace Krypton.Utilities;
 /// <para>
 /// <b>Developer setup:</b>
 /// Use <see cref="BugReportGitHubConfigEncryption.SaveEncryptedConfig(BugReportGitHubConfig, string, System.Security.SecureString)"/> to create the encrypted config file,
-/// then ship it with your application. At runtime, provide the same secret key to <see cref="Show(IWin32Window?, SecureString)"/>.
+/// then ship it with your application. At runtime, provide the same secret key to <see cref="Show(IWin32Window?, SecureString?)"/>.
 /// </para>
 /// </remarks>
 [ToolboxItem(false)]
@@ -34,7 +34,7 @@ public static class KryptonGitHubIssueReportDialog
     /// <param name="secretKey">The secret key used to decrypt the configuration file.</param>
     /// <returns>DialogResult.OK if the issue was created successfully; otherwise, DialogResult.Cancel.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="secretKey"/> is null or empty.</exception>
-    public static DialogResult Show(IWin32Window? owner, SecureString secretKey) => Show(owner, secretKey, null);
+    public static DialogResult Show(IWin32Window? owner, SecureString? secretKey) => Show(owner, secretKey, null);
 
     /// <summary>
     /// Displays the GitHub issue report dialog using configuration loaded from the specified encrypted config file.
@@ -44,7 +44,7 @@ public static class KryptonGitHubIssueReportDialog
     /// <param name="configFilePath">Path to the encrypted config file. If null, uses the default path.</param>
     /// <returns>DialogResult.OK if the issue was created successfully; otherwise, DialogResult.Cancel.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="secretKey"/> is null or empty.</exception>
-    public static DialogResult Show(IWin32Window? owner, SecureString secretKey, string? configFilePath) => Show(owner, secretKey, configFilePath, null);
+    public static DialogResult Show(IWin32Window? owner, SecureString? secretKey, string? configFilePath) => Show(owner, secretKey, configFilePath, null);
 
     /// <summary>
     /// Displays the GitHub issue report dialog with configuration from the specified encrypted config file and optional pre-filled description.
@@ -55,7 +55,7 @@ public static class KryptonGitHubIssueReportDialog
     /// <param name="initialDescription">Optional pre-filled text for the issue description (e.g. exception details from KryptonExceptionDialog).</param>
     /// <returns>DialogResult.OK if the issue was created successfully; otherwise, DialogResult.Cancel.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="secretKey"/> is null or empty.</exception>
-    public static DialogResult Show(IWin32Window? owner, SecureString secretKey, string? configFilePath, string? initialDescription)
+    public static DialogResult Show(IWin32Window? owner, SecureString? secretKey, string? configFilePath, string? initialDescription)
     {
         if (secretKey == null || secretKey.Length == 0)
         {
@@ -64,7 +64,7 @@ public static class KryptonGitHubIssueReportDialog
 
         var filePath = configFilePath ?? BugReportGitHubConfigEncryption.GetDefaultConfigFilePath();
 
-        if (!BugReportGitHubConfigEncryption.TryLoadEncryptedConfig(filePath, secretKey, out var config) || config == null)
+        if (!BugReportGitHubConfigEncryption.TryLoadEncryptedConfig(filePath, secretKey!, out var config) || config == null)
         {
             KryptonMessageBox.Show(
                 "Failed to load GitHub configuration. The encrypted config file may be missing, corrupted, or the secret key is incorrect.",
@@ -87,7 +87,7 @@ public static class KryptonGitHubIssueReportDialog
     /// <returns>DialogResult.OK if the issue was created successfully; otherwise, DialogResult.Cancel.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="config"/> is null.</exception>
     /// <exception cref="InvalidOperationException">Thrown when <paramref name="config"/> is not valid.</exception>
-    public static DialogResult Show(IWin32Window? owner, BugReportGitHubConfig config) => Show(owner, config, null);
+    public static DialogResult Show(IWin32Window? owner, BugReportGitHubConfig? config) => Show(owner, config, null);
 
     /// <summary>
     /// Displays the GitHub issue report dialog with an explicitly provided configuration and optional pre-filled description.
@@ -98,7 +98,7 @@ public static class KryptonGitHubIssueReportDialog
     /// <returns>DialogResult.OK if the issue was created successfully; otherwise, DialogResult.Cancel.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="config"/> is null.</exception>
     /// <exception cref="InvalidOperationException">Thrown when <paramref name="config"/> is not valid.</exception>
-    public static DialogResult Show(IWin32Window? owner, BugReportGitHubConfig config, string? initialDescription)
+    public static DialogResult Show(IWin32Window? owner, BugReportGitHubConfig? config, string? initialDescription)
     {
         if (config == null)
         {
