@@ -81,9 +81,19 @@ public class DropSolidWindow : KryptonForm
             {
                 _solidRect = value;
 
-                var area = Screen.GetWorkingArea(this);
+                Rectangle bounds;
 
-                var bounds = new Rectangle(value.Location - (Size)area.Location, value.Size);
+                if (value.IsEmpty)
+                {
+                    // Move off-screen to avoid a visible artifact at (0,0) when no target is matched
+                    bounds = new Rectangle(GlobalStaticValues.OFF_SCREEN_POSITION, GlobalStaticValues.OFF_SCREEN_POSITION, 0, 0);
+                }
+                else
+                {
+                    var area = Screen.GetWorkingArea(this);
+
+                    bounds = new Rectangle(value.Location - (Size)area.Location, value.Size);
+                } 
 
                 DesktopBounds = bounds;
 
