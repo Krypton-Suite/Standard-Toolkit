@@ -2,18 +2,18 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2026 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
 
 namespace Krypton.Toolkit;
 
-internal class KryptonVScrollBarDesigner : ControlDesigner
+internal class KryptonScrollBarDesigner : ControlDesigner
 {
     #region Identity
-    /// <summary>Initializes a new instance of the <see cref="KryptonVScrollBarDesigner" /> class.</summary>
-    public KryptonVScrollBarDesigner() =>
+    /// <summary>Initializes a new instance of the <see cref="KryptonScrollBarDesigner" /> class.</summary>
+    public KryptonScrollBarDesigner() =>
         // The resizing handles around the control need to change depending on the
         // value of the AutoSize and AutoSizeMode properties. When in AutoSize you
         // do not get the resizing handles, otherwise you do.
@@ -29,7 +29,7 @@ internal class KryptonVScrollBarDesigner : ControlDesigner
         {
             var actionList = new DesignerActionListCollection
             {
-                new KryptonVScrollBarActionList(this)
+                new KryptonScrollBarActionList(this)
             };
 
             return actionList;
