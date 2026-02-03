@@ -51,7 +51,7 @@ internal partial class VisualExceptionDialogForm : KryptonForm
 
         _showReportBugToGitHubButton = showReportBugToGitHubButton ?? false;
 
-        _gitHubSecretKey = gitHubSecretKey != null && gitHubSecretKey.Length > 0 ? gitHubSecretKey : null;
+        _gitHubSecretKey = gitHubSecretKey is { Length: > 0 } ? gitHubSecretKey : null;
 
         _gitHubConfigFilePath = gitHubConfigFilePath;
 
@@ -236,7 +236,7 @@ internal partial class VisualExceptionDialogForm : KryptonForm
     /// <param name="showSearchBox">Indicates whether a search box is included in the dialog for user queries. If null, the default behavior is
     /// used.</param>
     /// <param name="bugReportCallback">An optional callback that is invoked when the user submits a bug report. Receives the exception as a parameter.</param>
-    /// <param name="showReportBugToGitHubButton">Indicates whether a button is shown to submit a bug report directly to GitHub. If null, the default
+    /// <param name="showReportBugToGitHubButton">Indicates whether a button is shown to submit a bug report directly to GitHub. If null, the default is used.used.</param>
     /// <param name="gitHubSecretKey">An optional secret key used for authenticating with GitHub when submitting a bug report. If null, GitHub
     /// integration is not used.</param>
     /// <param name="gitHubConfigFilePath">An optional file path to a GitHub configuration file used when submitting a bug report. If null, the default
