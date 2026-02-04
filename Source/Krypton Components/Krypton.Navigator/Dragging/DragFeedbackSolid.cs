@@ -57,7 +57,9 @@ public class DragFeedbackSolid : DragFeedback
         {
             // Create and show a window without it taking focus
             _solid = new DropSolidWindow(PaletteDragDrop, Renderer);
-            _solid.SetBounds(0, 0, 1, 1, BoundsSpecified.All);
+
+            // Position off-screen initially to avoid a visible 1x1 artifact at top-left (0,0).
+            _solid.SetBounds(GlobalStaticValues.OFF_SCREEN_POSITION , GlobalStaticValues.OFF_SCREEN_POSITION, 1, 1, BoundsSpecified.All);
             _solid.ShowWithoutActivate();
             _solid.Refresh();
         }
