@@ -10,6 +10,10 @@
 # To re-enable: Set ALPHA_BACKUP_SYNC_DISABLED=false or delete the variable
 #
 # Discord: Set secret DISCORD_WEBHOOK_ALPHA_BACKUP to send notifications (optional).
+#
+# Separate repo backup: Set variable BACKUP_REPO (e.g. Krypton-Suite/Standard-Toolkit-Backup) and
+# secret BACKUP_REPO_TOKEN (PAT with push access). Backups go into dated dirs: "Standard Toolkit Backup - YYYY-MM-DD".
+# Optional: BACKUP_DIR_PREFIX (default "Standard Toolkit Backup"), BACKUP_BRANCH (default "main").
 
 name: Alpha to Alpha-Backup Sync
 
@@ -93,7 +97,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const { owner, repo } = context.repo;
-            let result = { pr_created: false, pr_number: '', pr_url: '' };
+            let result = { pr_created: false, pr_number: '', pr_url: '', pr_node_id: '' };
             const { data: compare } = await github.rest.repos.compareCommitsWithBasehead({
               owner,
               repo,
@@ -114,6 +118,7 @@ jobs:
               console.log('Open PR from alpha to alpha-backup already exists: #' + prs[0].number);
               result.pr_number = prs[0].number;
               result.pr_url = prs[0].html_url;
+              result.pr_node_id = prs[0].node_id;
               return result;
             }
             const { data: pr } = await github.rest.pulls.create({
@@ -128,7 +133,66 @@ jobs:
             result.pr_created = true;
             result.pr_number = pr.number;
             result.pr_url = pr.html_url;
+            result.pr_node_id = pr.node_id;
             return result;
+
+      - name: Enable auto-merge on PR
+        if: steps.kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
+        uses: actions/github-script@v8
+        env:
+          PR_NODE_ID: ${{ fromJson(steps.create_pr.outputs.result).pr_node_id }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const nodeId = process.env.PR_NODE_ID;
+            if (!nodeId) {
+              console.log('No PR to enable auto-merge on.');
+              return;
+            }
+            try {
+              await github.graphql(`
+                mutation($pullRequestId: ID!, $mergeMethod: PullRequestMergeMethod) {
+                  enablePullRequestAutoMerge(input: { pullRequestId: $pullRequestId, mergeMethod: $mergeMethod }) {
+                    pullRequest { autoMergeRequest { enabledAt } }
+                  }
+                }
+              `, { pullRequestId: nodeId, mergeMethod: 'MERGE' });
+              console.log('Auto-merge enabled on PR.');
+            } catch (err) {
+              console.warn('Could not enable auto-merge (repo may not have Allow auto-merge enabled):', err.message);
+            }
+
+      - name: Push alpha to backup repository (dated directory)
+        if: steps.kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
+        id: backup_repo
+        env:
+          BACKUP_REPO: ${{ vars.BACKUP_REPO }}
+          BACKUP_REPO_TOKEN: ${{ secrets.BACKUP_REPO_TOKEN }}
+          BACKUP_DIR_PREFIX: ${{ vars.BACKUP_DIR_PREFIX }}
+          BACKUP_BRANCH: ${{ vars.BACKUP_BRANCH }}
+        run: |
+          if [ -z "$BACKUP_REPO_TOKEN" ] || [ -z "$BACKUP_REPO" ]; then
+            echo "BACKUP_REPO (variable) or BACKUP_REPO_TOKEN (secret) not set - skipping backup repo push"
+            echo "pushed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          prefix="${BACKUP_DIR_PREFIX:-Standard Toolkit Backup}"
+          branch="${BACKUP_BRANCH:-main}"
+          today=$(date -u +%Y-%m-%d)
+          dir_name="$prefix - $today"
+          echo "dir_name=$dir_name" >> "$GITHUB_OUTPUT"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git clone --depth 1 "https://x-access-token:$BACKUP_REPO_TOKEN@github.com/$BACKUP_REPO.git" backup-repo
+          cd backup-repo
+          git checkout -b "$branch" 2>/dev/null || git checkout "$branch" 2>/dev/null || true
+          mkdir -p "$dir_name"
+          rsync -a --exclude='.git' ../. "$dir_name/"
+          git add "$dir_name"
+          git commit -m "chore: backup alpha to $dir_name (automated)"
+          git push origin "$branch"
+          echo "pushed=true" >> "$GITHUB_OUTPUT"
+          echo "Pushed alpha to $BACKUP_REPO ($dir_name)"
 
       - name: Discord notification
         if: steps.kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
@@ -136,6 +200,9 @@ jobs:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_ALPHA_BACKUP }}
           BRANCH_CREATED: ${{ steps.ensure_backup.outputs.result == 'created' }}
           PR_RESULT: ${{ steps.create_pr.outputs.result }}
+          BACKUP_PUSHED: ${{ steps.backup_repo.outputs.pushed }}
+          BACKUP_REPO: ${{ vars.BACKUP_REPO }}
+          BACKUP_DIR: ${{ steps.backup_repo.outputs.dir_name }}
         run: |
           if [ -z "$DISCORD_WEBHOOK" ]; then
             echo "DISCORD_WEBHOOK_ALPHA_BACKUP not set - skipping Discord notification"
@@ -149,6 +216,13 @@ jobs:
               pr_link="\n• [PR #$pr_number]($pr_url)"
             fi
           fi
+          backup_line=""
+          if [ "$BACKUP_PUSHED" = "true" ] && [ -n "$BACKUP_REPO" ]; then
+            backup_line="\n• Pushed to backup repo: $BACKUP_REPO"
+            if [ -n "$BACKUP_DIR" ]; then
+              backup_line="$backup_line ($BACKUP_DIR)"
+            fi
+          fi
           branch_msg="alpha-backup branch already existed"
           if [ "$BRANCH_CREATED" = "true" ]; then
             branch_msg="alpha-backup branch was created (did not exist)"
@@ -156,11 +230,12 @@ jobs:
           payload=$(jq -n \
             --arg branch "$branch_msg" \
             --arg pr_link "$pr_link" \
+            --arg backup_line "$backup_line" \
             --arg run_url "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" \
             '{
               embeds: [{
                 title: "📦 Alpha → Alpha-Backup Sync",
-                description: ("Alpha had commits in the last 24 hours. Sync workflow ran.\n\n• " + $branch + $pr_link + "\n• [Workflow run](" + $run_url + ")"),
+                description: ("Alpha had commits in the last 24 hours. Sync workflow ran.\n\n• " + $branch + $pr_link + $backup_line + "\n• [Workflow run](" + $run_url + ")"),
                 color: 3447003,
                 timestamp: (now | todate),
                 footer: { text: "Alpha Backup Sync" }
