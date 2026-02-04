@@ -56,7 +56,7 @@ public static class BugReportGitHubConfigEncryption
     /// <param name="secretKey">A secret key used for encryption. Must be the same key used for decryption.</param>
     /// <exception cref="ArgumentNullException">Thrown when any parameter is null or empty.</exception>
     /// <exception cref="InvalidOperationException">Thrown when the config is not valid.</exception>
-    public static void SaveEncryptedConfig(BugReportGitHubConfig config, string filePath, SecureString secretKey)
+    public static void SaveEncryptedConfig(BugReportGitHubConfig? config, string? filePath, SecureString? secretKey)
     {
         if (secretKey == null || secretKey.Length == 0)
         {
@@ -74,7 +74,7 @@ public static class BugReportGitHubConfigEncryption
     /// <param name="secretKey">A secret key used for encryption. Must be the same key used for decryption.</param>
     /// <exception cref="ArgumentNullException">Thrown when any parameter is null or empty.</exception>
     /// <exception cref="InvalidOperationException">Thrown when the config is not valid.</exception>
-    public static void SaveEncryptedConfig(BugReportGitHubConfig config, string filePath, string secretKey)
+    public static void SaveEncryptedConfig(BugReportGitHubConfig? config, string? filePath, string? secretKey)
     {
         if (config == null)
         {
@@ -111,7 +111,7 @@ public static class BugReportGitHubConfigEncryption
     /// <exception cref="ArgumentNullException">Thrown when any parameter is null or empty.</exception>
     /// <exception cref="FileNotFoundException">Thrown when the config file does not exist.</exception>
     /// <exception cref="CryptographicException">Thrown when decryption fails (wrong key or corrupted file).</exception>
-    public static BugReportGitHubConfig LoadEncryptedConfig(string filePath, SecureString secretKey)
+    public static BugReportGitHubConfig LoadEncryptedConfig(string? filePath, SecureString? secretKey)
     {
         if (secretKey == null || secretKey.Length == 0)
         {
@@ -130,7 +130,7 @@ public static class BugReportGitHubConfigEncryption
     /// <exception cref="ArgumentNullException">Thrown when any parameter is null or empty.</exception>
     /// <exception cref="FileNotFoundException">Thrown when the config file does not exist.</exception>
     /// <exception cref="CryptographicException">Thrown when decryption fails (wrong key or corrupted file).</exception>
-    public static BugReportGitHubConfig LoadEncryptedConfig(string filePath, string secretKey)
+    public static BugReportGitHubConfig LoadEncryptedConfig(string? filePath, string? secretKey)
     {
         if (string.IsNullOrWhiteSpace(filePath))
         {
@@ -171,7 +171,7 @@ public static class BugReportGitHubConfigEncryption
     /// <param name="secretKey">The secret key used when the file was encrypted.</param>
     /// <param name="config">When successful, contains the decrypted configuration; otherwise, null.</param>
     /// <returns><c>true</c> if the config was loaded successfully; otherwise, <c>false</c>.</returns>
-    public static bool TryLoadEncryptedConfig(string filePath, SecureString secretKey, out BugReportGitHubConfig? config)
+    public static bool TryLoadEncryptedConfig(string? filePath, SecureString? secretKey, out BugReportGitHubConfig? config)
     {
         config = null;
         if (secretKey == null || secretKey.Length == 0)
@@ -189,7 +189,7 @@ public static class BugReportGitHubConfigEncryption
     /// <param name="secretKey">The secret key used when the file was encrypted.</param>
     /// <param name="config">When successful, contains the decrypted configuration; otherwise, null.</param>
     /// <returns><c>true</c> if the config was loaded successfully; otherwise, <c>false</c>.</returns>
-    public static bool TryLoadEncryptedConfig(string filePath, string secretKey, out BugReportGitHubConfig? config)
+    public static bool TryLoadEncryptedConfig(string? filePath, string? secretKey, out BugReportGitHubConfig? config)
     {
         config = null;
 
