@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -208,12 +208,24 @@ public class ViewDrawSeparator : ViewLeaf
         // Ensure we are using the correct palette
         CheckPaletteState();
 
+        // Guard against null palette/metric (e.g. Navigator.StateDisabled.Separator can be null)
+        if (_palette is null || _metric is null)
+        {
+            return;
+        }
+
         // Apply padding needed outside the border of the separator
         var rect = CommonHelper.ApplyPadding(Orientation, ClientRectangle,
-            _metric!.GetMetricPadding(context.Control as KryptonForm, ElementState, MetricPadding));
+            _metric.GetMetricPadding(context.Control as KryptonForm, ElementState, MetricPadding));
+
+        // Guard against null palette back/border (can occur during theme swap or disposal)
+        if (_palette.PaletteBack is null || _palette.PaletteBorder is null)
+        {
+            return;
+        }
 
         // Ask the renderer to perform drawing of the separator glyph
-        context.Renderer.RenderGlyph.DrawSeparator(context, rect, _palette!.PaletteBack, _palette.PaletteBorder!,
+        context.Renderer.RenderGlyph.DrawSeparator(context, rect, _palette.PaletteBack, _palette.PaletteBorder,
             Orientation, State, (Source == null) || Source.SeparatorCanMove);
     }
     #endregion
