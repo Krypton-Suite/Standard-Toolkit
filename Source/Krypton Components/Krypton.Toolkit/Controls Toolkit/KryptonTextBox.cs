@@ -1,11 +1,11 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -186,58 +186,59 @@ public class KryptonTextBox : VisualControlBase,
                         }
                         else
                         {
-                            // Set the correct text rendering hint for the text drawing. We only draw if the edit text is disabled so we
-                            // just always grab the disable state value. Without this line the wrong hint can occur because it inherits
-                            // it from the device context. Resulting in blurred text.
-                            g.TextRenderingHint =
-                                CommonHelper.PaletteTextHintToRenderingHint(
-                                    _kryptonTextBox.StateDisabled.PaletteContent.GetContentShortTextHint(PaletteState.Disabled));
+                                // Set the correct text rendering hint for the text drawing. We only draw if the edit text is disabled so we
+                                // just always grab the disable state value. Without this line the wrong hint can occur because it inherits
+                                // it from the device context. Resulting in blurred text.
+                                // Use GraphicsTextHint to properly save/restore TextRenderingHint to prevent affecting other controls
+                                using (new GraphicsTextHint(g, CommonHelper.PaletteTextHintToRenderingHint(
+                                    _kryptonTextBox.StateDisabled.PaletteContent.GetContentShortTextHint(PaletteState.Disabled))))
+                                {
+                                    // Define the string formatting requirements
+                                    var stringFormat = new StringFormat
+                                    {
+                                        Trimming = StringTrimming.None,
+                                        LineAlignment = StringAlignment.Near
+                                    };
+                                    if (!_kryptonTextBox.Multiline)
+                                    {
+                                        stringFormat.FormatFlags |= StringFormatFlags.NoWrap;
+                                    }
 
-                            // Define the string formatting requirements
-                            var stringFormat = new StringFormat
-                            {
-                                Trimming = StringTrimming.None,
-                                LineAlignment = StringAlignment.Near
-                            };
-                            if (!_kryptonTextBox.Multiline)
-                            {
-                                stringFormat.FormatFlags |= StringFormatFlags.NoWrap;
+                                    stringFormat.Alignment = _kryptonTextBox.TextAlign switch
+                                    {
+                                        HorizontalAlignment.Left => RightToLeft == RightToLeft.Yes
+                                            ? StringAlignment.Far
+                                            : StringAlignment.Near,
+                                        HorizontalAlignment.Right => RightToLeft == RightToLeft.Yes
+                                            ? StringAlignment.Near
+                                            : StringAlignment.Far,
+                                        HorizontalAlignment.Center => StringAlignment.Center,
+                                        _ => stringFormat.Alignment
+                                    };
+
+                                    // Use the correct prefix setting
+                                    stringFormat.HotkeyPrefix = HotkeyPrefix.None;
+
+                                    // Decide on the text to draw disabled
+                                    var drawString = Text;
+                                    if (PasswordChar != '\0')
+                                    {
+                                        drawString = new string(PasswordChar, Text.Length);
+                                    }
+
+                                    // Define the font to use for disabled painting – always query the palette first.
+                                    // Avoids exception - magnitudes faster than another repaint AND try/catch.
+                                    var disabledFont = _kryptonTextBox
+                                                           .GetTripleState()
+                                                           .PaletteContent?
+                                                           .GetContentShortTextFont(PaletteState.Disabled)
+                                                       ?? Font; // Fallback: current Font if palette returns null
+                                    using var foreBrush = new SolidBrush(ForeColor);
+                                    g.DrawString(drawString, disabledFont, foreBrush,
+                                        textRectangle,
+                                        stringFormat);
+                                }
                             }
-
-                            stringFormat.Alignment = _kryptonTextBox.TextAlign switch
-                            {
-                                HorizontalAlignment.Left => RightToLeft == RightToLeft.Yes
-                                    ? StringAlignment.Far
-                                    : StringAlignment.Near,
-                                HorizontalAlignment.Right => RightToLeft == RightToLeft.Yes
-                                    ? StringAlignment.Near
-                                    : StringAlignment.Far,
-                                HorizontalAlignment.Center => StringAlignment.Center,
-                                _ => stringFormat.Alignment
-                            };
-
-                            // Use the correct prefix setting
-                            stringFormat.HotkeyPrefix = HotkeyPrefix.None;
-
-                            // Decide on the text to draw disabled
-                            var drawString = Text;
-                            if (PasswordChar != '\0')
-                            {
-                                drawString = new string(PasswordChar, Text.Length);
-                            }
-
-                            // Define the font to use for disabled painting – always query the palette first.
-                            // Avoids exception - magnitudes faster than another repaint AND try/catch.
-                            var disabledFont = _kryptonTextBox
-                                                   .GetTripleState()
-                                                   .PaletteContent?
-                                                   .GetContentShortTextFont(PaletteState.Disabled)
-                                               ?? Font; // Fallback: current Font if palette returns null
-                            using var foreBrush = new SolidBrush(ForeColor);
-                            g.DrawString(drawString, disabledFont, foreBrush,
-                                textRectangle,
-                                stringFormat);
-                        }
 
                         // Remove clipping settings
                         PI.SelectClipRgn(hdc, IntPtr.Zero);
@@ -332,6 +333,8 @@ public class KryptonTextBox : VisualControlBase,
     private bool _showEllipsisButton;
     //private bool _isInAlphaNumericMode;
     private readonly ButtonSpecAny _editorButton;
+    private KryptonScrollbarManager? _scrollbarManager;
+    private bool? _useKryptonScrollbars;
 
     #endregion
 
@@ -542,6 +545,9 @@ public class KryptonTextBox : VisualControlBase,
 
             // Remember to pull down the manager instance
             _buttonManager?.Destruct();
+
+            _scrollbarManager?.Dispose();
+            _scrollbarManager = null;
         }
 
         base.Dispose(disposing);
@@ -1382,6 +1388,38 @@ public class KryptonTextBox : VisualControlBase,
         // element that thinks it has the focus is informed it does not
         OnMouseLeave(EventArgs.Empty);
 
+    /// <summary>
+    /// Gets or sets whether to use Krypton-themed scrollbars instead of native scrollbars.
+    /// If not explicitly set, uses the global value from KryptonManager.UseKryptonScrollbars.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Gets or sets whether to use Krypton-themed scrollbars instead of native scrollbars. If not explicitly set, uses the global value from KryptonManager.UseKryptonScrollbars.")]
+    [DefaultValue(false)]
+    public bool UseKryptonScrollbars
+    {
+        get => _useKryptonScrollbars ?? KryptonManager.UseKryptonScrollbars;
+        set
+        {
+            bool currentValue = _useKryptonScrollbars ?? KryptonManager.UseKryptonScrollbars;
+            if (currentValue != value)
+            {
+                _useKryptonScrollbars = value;
+                UpdateScrollbarManager();
+            }
+        }
+    }
+
+    private bool ShouldSerializeUseKryptonScrollbars() => _useKryptonScrollbars.HasValue;
+
+    private void ResetUseKryptonScrollbars() => _useKryptonScrollbars = null;
+
+    /// <summary>
+    /// Gets access to the scrollbar manager when UseKryptonScrollbars is enabled.
+    /// </summary>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public KryptonScrollbarManager? ScrollbarManager => _scrollbarManager;
+
     #endregion
 
     #region Protected
@@ -1510,6 +1548,11 @@ public class KryptonTextBox : VisualControlBase,
 
         // We need to recalculate the correct height
         AdjustHeight(true);
+
+        if (KryptonManager.UseKryptonScrollbars)
+        {
+            UpdateScrollbarManager();
+        }
     }
 
     /// <summary>
@@ -2026,6 +2069,28 @@ public class KryptonTextBox : VisualControlBase,
             bsaEllipsisButton.Visible = false;
 
             ButtonSpecs.Remove(bsaEllipsisButton);
+        }
+    }
+
+    private void UpdateScrollbarManager()
+    {
+        if (KryptonManager.UseKryptonScrollbars)
+        {
+            if (_scrollbarManager == null)
+            {
+                _scrollbarManager = new KryptonScrollbarManager(_textBox, ScrollbarManagerMode.NativeWrapper)
+                {
+                    Enabled = true
+                };
+            }
+        }
+        else
+        {
+            if (_scrollbarManager != null)
+            {
+                _scrollbarManager.Dispose();
+                _scrollbarManager = null;
+            }
         }
     }
 

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -253,6 +253,48 @@ public class KryptonComboBox : VisualControlBase,
         /// <returns>String value.</returns>
         public virtual string GetLongText() => string.Empty;
 
+        /// <summary>
+        /// Gets the overlay image.
+        /// </summary>
+        /// <param name="state">The state for which the overlay image is needed.</param>
+        /// <returns>Overlay image value, or null if no overlay image is set.</returns>
+        public virtual Image? GetOverlayImage(PaletteState state) => null;
+
+        /// <summary>
+        /// Gets the overlay image color that should be transparent.
+        /// </summary>
+        /// <param name="state">The state for which the overlay image is needed.</param>
+        /// <returns>Color value.</returns>
+        public virtual Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+
+        /// <summary>
+        /// Gets the position of the overlay image relative to the main image.
+        /// </summary>
+        /// <param name="state">The state for which the overlay position is needed.</param>
+        /// <returns>Overlay image position.</returns>
+        public virtual OverlayImagePosition GetOverlayImagePosition(PaletteState state) => OverlayImagePosition.TopRight;
+
+        /// <summary>
+        /// Gets the scaling mode for the overlay image.
+        /// </summary>
+        /// <param name="state">The state for which the overlay scale mode is needed.</param>
+        /// <returns>Overlay image scale mode.</returns>
+        public virtual OverlayImageScaleMode GetOverlayImageScaleMode(PaletteState state) => OverlayImageScaleMode.None;
+
+        /// <summary>
+        /// Gets the scale factor for the overlay image (used when scale mode is Percentage or ProportionalToMain).
+        /// </summary>
+        /// <param name="state">The state for which the overlay scale factor is needed.</param>
+        /// <returns>Scale factor (0.0 to 2.0).</returns>
+        public virtual float GetOverlayImageScaleFactor(PaletteState state) => 0.5f;
+
+        /// <summary>
+        /// Gets the fixed size for the overlay image (used when scale mode is FixedSize).
+        /// </summary>
+        /// <param name="state">The state for which the overlay fixed size is needed.</param>
+        /// <returns>Fixed size.</returns>
+        public virtual Size GetOverlayImageFixedSize(PaletteState state) => new Size(16, 16);
+
         #endregion
 
         #region Protected
@@ -352,8 +394,8 @@ public class KryptonComboBox : VisualControlBase,
                         ? new Rectangle(rect.left + borderSize.Width, rect.top, dropDownWidth, fullClientHeight)
                         : new Rectangle(rect.right, rect.top, dropDownWidth, fullClientHeight);
 
-                        // Extract the point in client coordinates
-                        var clientPoint = new Point((int)m.LParam);
+                    // Extract the point in client coordinates
+                    var clientPoint = new Point((int)m.LParam);
                     var mouseTracking = dropRect.Contains(clientPoint);
                     if (mouseTracking != _mouseTracking)
                     {
@@ -2488,7 +2530,6 @@ public class KryptonComboBox : VisualControlBase,
 
         return false;
     }
-
     // ReSharper restore VirtualMemberNeverOverridden.Global
     #endregion
 
@@ -2978,25 +3019,27 @@ public class KryptonComboBox : VisualControlBase,
                 // Set the correct text rendering hint for the text drawing. We only draw if the edit text is enabled so we
                 // just always grab the normal state value. Without this line the wrong hint can occur because it inherits
                 // it from the device context. Resulting in blurred text.
-                e.Graphics.TextRenderingHint = CommonHelper.PaletteTextHintToRenderingHint(StateNormal.Item.PaletteContent!.GetContentShortTextHint(PaletteState.Normal));
-
-                TextFormatFlags flags = TextFormatFlags.TextBoxControl | TextFormatFlags.NoPadding;
-
-                // Use the correct prefix setting
-                flags |= TextFormatFlags.NoPrefix;
-
-                // Do we need to switch drawing direction?
-                if (RightToLeft == RightToLeft.Yes)
+                // Use GraphicsTextHint to properly save/restore TextRenderingHint to prevent affecting other controls
+                using (new GraphicsTextHint(e.Graphics, CommonHelper.PaletteTextHintToRenderingHint(StateNormal.Item.PaletteContent!.GetContentShortTextHint(PaletteState.Normal))))
                 {
-                    flags |= TextFormatFlags.Right;
-                }
+                    TextFormatFlags flags = TextFormatFlags.TextBoxControl | TextFormatFlags.NoPadding;
 
-                // Draw text using font defined by the control
-                TextRenderer.DrawText(e.Graphics,
-                    _comboBox.Text, _comboBox.Font,
-                    drawBounds,
-                    textColor, backColor,
-                    flags);
+                    // Use the correct prefix setting
+                    flags |= TextFormatFlags.NoPrefix;
+
+                    // Do we need to switch drawing direction?
+                    if (RightToLeft == RightToLeft.Yes)
+                    {
+                        flags |= TextFormatFlags.Right;
+                    }
+
+                    // Draw text using font defined by the control
+                    TextRenderer.DrawText(e.Graphics,
+                        _comboBox.Text, _comboBox.Font,
+                        drawBounds,
+                        textColor, backColor,
+                        flags);
+                }
             }
         }
         else
