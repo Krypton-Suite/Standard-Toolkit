@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -63,7 +63,6 @@ public partial class TouchscreenHighDpiDemo : KryptonForm
         // Handle form move/resize to detect monitor changes
         this.Move += (s, e) => UpdateDpiInfo();
         this.Resize += (s, e) => UpdateDpiInfo();
-        this.DpiChanged += (s, e) => OnDpiChanged(e);
 
         // Update status
         UpdateStatus();
@@ -166,8 +165,12 @@ public partial class TouchscreenHighDpiDemo : KryptonForm
         cell2.Pages.Add(workspacePage2);
         cell2.SelectedPage = workspacePage2;
 
-        workspace.Root.Children.Add(cell1);
-        workspace.Root.Children.Add(cell2);
+        var root = workspace.Root;
+        if (root != null)
+        {
+            root.Children?.Add(cell1);
+            root.Children?.Add(cell2);
+        }
     }
 
     private void ChkEnableTouchscreen_CheckedChanged(object? sender, EventArgs e)
@@ -308,8 +311,9 @@ public partial class TouchscreenHighDpiDemo : KryptonForm
         UpdateDpiInfo();
     }
 
-    private void OnDpiChanged(DpiChangedEventArgs e)
+    protected override void OnDpiChanged(DpiChangedEventArgs e)
     {
+        base.OnDpiChanged(e);
         // DPI changed - invalidate cache and update info
         KryptonManager.InvalidateDpiCache();
         UpdateDpiInfo();

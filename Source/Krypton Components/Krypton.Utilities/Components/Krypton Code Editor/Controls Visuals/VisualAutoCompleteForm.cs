@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -149,7 +149,7 @@ internal class VisualAutoCompleteForm : KryptonForm
         if (_listBox.SelectedIndex >= 0)
         {
             var selected = _listBox.SelectedItem?.ToString();
-            if (!string.IsNullOrEmpty(selected))
+            if (selected != null && selected.Length > 0)
             {
                 // Use stored prefix instead of calling GetCurrentWord again - less flicker
                 var rtb = _editor.RichTextBox;

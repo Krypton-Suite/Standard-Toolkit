@@ -16,7 +16,6 @@ using Microsoft.Web.WebView2.Core;
 
 namespace TestForm;
 
-#if WEBVIEW2_AVAILABLE
 /// <summary>
 /// Test form demonstrating the KryptonWebView2 control functionality.
 /// 
@@ -40,9 +39,12 @@ public partial class KryptonWebView2Test : KryptonForm
     public KryptonWebView2Test()
     {
         InitializeComponent();
+#if WEBVIEW2_AVAILABLE
         InitializeWebView2();
+#endif
     }
 
+#if WEBVIEW2_AVAILABLE
     /// <summary>
     /// Initializes the WebView2 control asynchronously and navigates to a default page.
     /// </summary>
@@ -180,12 +182,5 @@ public partial class KryptonWebView2Test : KryptonForm
             kryptonTextBox1.Text = kryptonWebView21.CoreWebView2.Source;
         }
     }
-}
-#else
-/// <summary>
-/// Stub for KryptonWebView2 test form when WebView2 is not available.
-/// </summary>
-public partial class KryptonWebView2Test : KryptonForm
-{
-}
 #endif
+}

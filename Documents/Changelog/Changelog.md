@@ -4,12 +4,15 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Resolved [#2984](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2984), NullReferenceException in `ViewDrawSeparator.RenderBefore`; added null guards for palette/metric and palette back/border when rendering separator (e.g. Navigator.StateDisabled.Separator can be null, or during theme swap/disposal)
 * Implemented [#2952](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2962), Set license header via `editorconfig`
+* Implemented [#2939](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2939), Extend the bug reporting tool
+* Implemented [#2962](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2962), Set license header via `editorconfig`
 * Resolved [#2935](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2935), Maximized MDI window form border drawn on wrong monitor (secondary monitor); `DropSolidWindow` now uses screen coordinates for `DesktopBounds`; non-client border painting uses a DC compatible with the window's monitor
 * Resolved [#2926](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2926), Scrollbar issues - controls no longer show both Krypton and native Win32 scrollbars when Krypton scrollbars are enabled
 * Resolved [#2893](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2893), KMessageBox message text wrong: message now displays passed text correctly (message text set after layout, designer placeholder removed in VisualMessageBoxForm and VisualMessageBoxRtlAwareForm); `KryptonRichTextBox` now respects per-control `UseKryptonScrollbars` so message box Krypton scrollbars no longer cover text when set to false; CustomMessageBoxTest shows dialog result in form title instead of overwriting message body
 * Resolved [#2933](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2933), Docking not working correctly: floating window left behind after redock. When a document is undocked then redocked into the workspace, the empty floating window is now hidden (no visible "left behind" window) without disposing, so the redocked page remains visible.
-* Resolved drag feedback artifact: when dragging a dockable page, a small dark artefact appeared in the top-left corner of the screen. The drop feedback window (`DropSolidWindow`) was created at (0,0); it is now positioned off-screen initially and when no drop target is matched.
+* Resolved [#2132](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2132), Drag feedback artifact: when dragging a dockable page, a small dark artefact appeared in the top-left corner of the screen. The drop feedback window (`DropSolidWindow`) was created at (0,0); it is now positioned off-screen initially and when no drop target is matched.
 * Resolved [#2944](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2944), Messagebox sizing issues - Krypton scrollbars no longer cover text when message has minimal content
 * Resolved [#2921](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2921), Double ribbon drawn; form close button unresponsive when ribbon injects into caption (`CustomCaptionArea` overlapping min/max/close); design-time composition right border not re-injected when revoking
 * Implemented [#2925](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2925), Controlbox Touchscreen support
