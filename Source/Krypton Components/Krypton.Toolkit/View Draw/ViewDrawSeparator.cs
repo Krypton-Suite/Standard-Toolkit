@@ -18,6 +18,7 @@ namespace Krypton.Toolkit;
 public class ViewDrawSeparator : ViewLeaf
 {
     #region Instance Fields
+
     internal IPaletteDouble? _paletteDisabled;
     internal IPaletteDouble? _paletteNormal;
     internal IPaletteDouble? _paletteTracking;
@@ -32,6 +33,7 @@ public class ViewDrawSeparator : ViewLeaf
     #endregion
 
     #region Identity
+
     /// <summary>
     /// Initialize a new instance of the ViewDrawSeparator class.
     /// </summary>
@@ -85,9 +87,11 @@ public class ViewDrawSeparator : ViewLeaf
         // Return the class name and instance identifier
         $"ViewDrawSeparator:{Id}";
 
+    
     #endregion
 
     #region MetricPadding
+    
     /// <summary>
     /// Gets and sets the metric used to calculate the padding.
     /// </summary>
@@ -96,6 +100,7 @@ public class ViewDrawSeparator : ViewLeaf
     #endregion
 
     #region Source
+    
     /// <summary>
     /// Gets and sets the associated separator source.
     /// </summary>
@@ -104,6 +109,7 @@ public class ViewDrawSeparator : ViewLeaf
     #endregion
 
     #region Orientation
+    
     /// <summary>
     /// Gets and sets the visual orientation.
     /// </summary>
@@ -112,6 +118,7 @@ public class ViewDrawSeparator : ViewLeaf
     #endregion
 
     #region Length
+    
     /// <summary>
     /// Gets and sets the length of the separator.
     /// </summary>
@@ -120,6 +127,7 @@ public class ViewDrawSeparator : ViewLeaf
     #endregion
 
     #region SetPalettes
+    
     /// <summary>
     /// Update the source palettes for drawing.
     /// </summary>
@@ -159,9 +167,11 @@ public class ViewDrawSeparator : ViewLeaf
         _metricTracking = metricTracking;
         _metricPressed = metricPressed;
     }
+    
     #endregion
 
     #region Layout
+    
     /// <summary>
     /// Discover the preferred size of the element.
     /// </summary>
@@ -181,6 +191,7 @@ public class ViewDrawSeparator : ViewLeaf
         Debug.Assert(context != null);
         ClientRectangle = context!.DisplayRectangle;
     }
+    
     #endregion
 
     #region Paint
@@ -209,7 +220,7 @@ public class ViewDrawSeparator : ViewLeaf
         CheckPaletteState();
 
         // Guard against null palette/metric (e.g. Navigator.StateDisabled.Separator can be null)
-        if (_palette is null || _metric is null)
+        if (_palette is null || _metric is null || _palette.PaletteBack is null || _palette.PaletteBorder is null)
         {
             return;
         }
@@ -218,15 +229,9 @@ public class ViewDrawSeparator : ViewLeaf
         var rect = CommonHelper.ApplyPadding(Orientation, ClientRectangle,
             _metric.GetMetricPadding(context.Control as KryptonForm, ElementState, MetricPadding));
 
-        // Guard against null palette back/border (can occur during theme swap or disposal)
-        if (_palette.PaletteBack is null || _palette.PaletteBorder is null)
-        {
-            return;
-        }
-
         // Ask the renderer to perform drawing of the separator glyph
         context.Renderer.RenderGlyph.DrawSeparator(context, rect, _palette.PaletteBack, _palette.PaletteBorder,
-            Orientation, State, (Source == null) || Source.SeparatorCanMove);
+            Orientation, State, (Source is null) || Source.SeparatorCanMove);
     }
     #endregion
 
