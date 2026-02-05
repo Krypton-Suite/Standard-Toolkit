@@ -104,7 +104,7 @@ public class ViewDrawSeparator : ViewLeaf
     /// <summary>
     /// Gets and sets the associated separator source.
     /// </summary>
-    public ISeparatorSource Source { get; set; }
+    public ISeparatorSource? Source { get; set; }
 
     #endregion
 
@@ -220,7 +220,7 @@ public class ViewDrawSeparator : ViewLeaf
         CheckPaletteState();
 
         // Guard against null palette/metric (e.g. Navigator.StateDisabled.Separator can be null)
-        if (_palette is null || _metric is null || _palette.PaletteBack is null || _palette.PaletteBorder is null)
+        if (_palette?.PaletteBack is null || _palette.PaletteBorder is null || _metric is null)
         {
             return;
         }
