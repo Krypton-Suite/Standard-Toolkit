@@ -205,7 +205,7 @@
             this.krtbMessageText.StateCommon.Border.DrawBorders = Krypton.Toolkit.PaletteDrawBorders.None;
             this.krtbMessageText.TabIndex = 0;
             this.krtbMessageText.TabStop = false;
-            this.krtbMessageText.Text = "Message Text\n.\ttabbed";
+            this.krtbMessageText.Text = "";
             this.krtbMessageText.WordWrap = false;
             // 
             // VisualMessageBoxRtlAwareForm
