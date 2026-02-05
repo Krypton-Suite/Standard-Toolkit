@@ -2,7 +2,7 @@ namespace TestForm;
 
 partial class Bug2935MdiMultiMonitorDemo
 {
-    private System.ComponentModel.IContainer? components;
+    private System.ComponentModel.IContainer components;
 
     protected override void Dispose(bool disposing)
     {

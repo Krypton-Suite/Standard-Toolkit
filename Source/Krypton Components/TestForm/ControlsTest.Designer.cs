@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -82,8 +82,8 @@ namespace TestForm
             this.kryptonComboBox1 = new Krypton.Toolkit.KryptonComboBox();
             this.kryptonRichTextBox2 = new Krypton.Toolkit.KryptonRichTextBox();
             this.kryptonRichTextBox1 = new Krypton.Toolkit.KryptonRichTextBox();
-            this.kryptonScrollBar2 = new Krypton.Toolkit.KryptonScrollBar();
-            this.kryptonScrollBar1 = new Krypton.Toolkit.KryptonScrollBar();
+            this.kvsbTest = new Krypton.Toolkit.KryptonVScrollBar();
+            this.khsbTest = new Krypton.Toolkit.KryptonHScrollBar();
             this.kryptonPropertyGrid2 = new Krypton.Toolkit.KryptonPropertyGrid();
             this.kryptonPropertyGrid1 = new Krypton.Toolkit.KryptonPropertyGrid();
             this.kryptonListView1 = new Krypton.Toolkit.KryptonListView();
@@ -290,8 +290,8 @@ namespace TestForm
             this.kryptonPanel1.Controls.Add(this.kryptonComboBox1);
             this.kryptonPanel1.Controls.Add(this.kryptonRichTextBox2);
             this.kryptonPanel1.Controls.Add(this.kryptonRichTextBox1);
-            this.kryptonPanel1.Controls.Add(this.kryptonScrollBar2);
-            this.kryptonPanel1.Controls.Add(this.kryptonScrollBar1);
+            this.kryptonPanel1.Controls.Add(this.kvsbTest);
+            this.kryptonPanel1.Controls.Add(this.khsbTest);
             this.kryptonPanel1.Controls.Add(this.kryptonPropertyGrid2);
             this.kryptonPanel1.Controls.Add(this.kryptonPropertyGrid1);
             this.kryptonPanel1.Controls.Add(this.kryptonListView1);
@@ -470,30 +470,24 @@ namespace TestForm
             //
             // kryptonScrollBar2
             //
-            this.kryptonScrollBar2.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(93)))), ((int)(((byte)(140)))), ((int)(((byte)(201)))));
-            this.kryptonScrollBar2.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.kryptonScrollBar2.Enabled = false;
-            this.kryptonScrollBar2.Location = new System.Drawing.Point(809, 468);
-            this.kryptonScrollBar2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.kryptonScrollBar2.Name = "kryptonScrollBar2";
-            this.kryptonScrollBar2.Opacity = 1D;
-            this.kryptonScrollBar2.Orientation = Krypton.Toolkit.ScrollBarOrientation.Horizontal;
-            this.kryptonScrollBar2.ScrollBarWidth = 267;
-            this.kryptonScrollBar2.Size = new System.Drawing.Size(267, 23);
-            this.kryptonScrollBar2.TabIndex = 35;
+            this.kvsbTest.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(93)))), ((int)(((byte)(140)))), ((int)(((byte)(201)))));
+            this.kvsbTest.DisabledBorderColor = System.Drawing.Color.Gray;
+            this.kvsbTest.Enabled = false;
+            this.kvsbTest.Location = new System.Drawing.Point(809, 468);
+            this.kvsbTest.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.kvsbTest.Name = "kvsbTest";
+            this.kvsbTest.Size = new System.Drawing.Size(267, 23);
+            this.kvsbTest.TabIndex = 35;
             //
             // kryptonScrollBar1
             //
-            this.kryptonScrollBar1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(93)))), ((int)(((byte)(140)))), ((int)(((byte)(201)))));
-            this.kryptonScrollBar1.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.kryptonScrollBar1.Location = new System.Drawing.Point(809, 436);
-            this.kryptonScrollBar1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.kryptonScrollBar1.Name = "kryptonScrollBar1";
-            this.kryptonScrollBar1.Opacity = 1D;
-            this.kryptonScrollBar1.Orientation = Krypton.Toolkit.ScrollBarOrientation.Horizontal;
-            this.kryptonScrollBar1.ScrollBarWidth = 267;
-            this.kryptonScrollBar1.Size = new System.Drawing.Size(267, 23);
-            this.kryptonScrollBar1.TabIndex = 34;
+            this.khsbTest.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(93)))), ((int)(((byte)(140)))), ((int)(((byte)(201)))));
+            this.khsbTest.DisabledBorderColor = System.Drawing.Color.Gray;
+            this.khsbTest.Location = new System.Drawing.Point(809, 436);
+            this.khsbTest.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.khsbTest.Name = "khsbTest";
+            this.khsbTest.Size = new System.Drawing.Size(267, 23);
+            this.khsbTest.TabIndex = 34;
             //
             // kryptonPropertyGrid2
             //
@@ -1013,8 +1007,8 @@ namespace TestForm
         private KryptonListView kryptonListView1;
         private KryptonPropertyGrid kryptonPropertyGrid1;
         private KryptonPropertyGrid kryptonPropertyGrid2;
-        private KryptonScrollBar kryptonScrollBar1;
-        private KryptonScrollBar kryptonScrollBar2;
+        private KryptonHScrollBar khsbTest;
+        private KryptonVScrollBar kvsbTest;
         private KryptonRichTextBox kryptonRichTextBox2;
         private KryptonRichTextBox kryptonRichTextBox1;
         private KryptonComboBox kryptonComboBox2;

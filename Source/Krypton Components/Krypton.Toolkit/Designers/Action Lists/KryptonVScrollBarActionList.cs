@@ -2,27 +2,27 @@
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2025 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2026 - 2026. All rights reserved.
  *  
  */
 #endregion
 
 namespace Krypton.Toolkit;
 
-internal class KryptonScrollBarActionList : DesignerActionList
+internal class KryptonVScrollBarActionList : DesignerActionList
 {
     #region Instance Fields
 
-    private readonly KryptonScrollBar _scrollBar;
+    private readonly KryptonVScrollBar _scrollBar;
     private readonly IComponentChangeService? _service;
 
     #endregion
 
     #region Identity
 
-    public KryptonScrollBarActionList(KryptonScrollBarDesigner owner) : base(owner.Component)
+    public KryptonVScrollBarActionList(KryptonVScrollBarDesigner owner) : base(owner.Component)
     {
-        _scrollBar = (owner.Component as KryptonScrollBar)!;
+        _scrollBar = (owner.Component as KryptonVScrollBar)!;
 
         _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
     }
@@ -75,24 +75,6 @@ internal class KryptonScrollBarActionList : DesignerActionList
             }
         }
     }
-
-    /// <summary>Gets or sets the orientation of the scrollbar.</summary>
-    /// <value>The orientation.</value>
-    public ScrollBarOrientation Orientation
-    {
-        get => _scrollBar.Orientation;
-
-        set
-        {
-            if (_scrollBar.Orientation != value)
-            {
-                _service?.OnComponentChanged(_scrollBar, null, _scrollBar.Orientation, value);
-
-                _scrollBar.Orientation = value;
-            }
-        }
-    }
-
     #endregion
 
     #region Public Override
