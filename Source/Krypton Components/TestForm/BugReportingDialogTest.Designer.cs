@@ -34,6 +34,8 @@
             this.kbtnShowExceptionWithBugReporting = new Krypton.Toolkit.KryptonButton();
             this.kbtnShowBugReportWithException = new Krypton.Toolkit.KryptonButton();
             this.kbtnShowBugReport = new Krypton.Toolkit.KryptonButton();
+            this.kbtnCreateGitHubIssuePublic = new Krypton.Toolkit.KryptonButton();
+            this.kbtnCreateGitHubIssueInternal = new Krypton.Toolkit.KryptonButton();
             this.kryptonGroupBox1 = new Krypton.Toolkit.KryptonGroupBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.kwlblSmtpServer = new Krypton.Toolkit.KryptonWrapLabel();
@@ -50,6 +52,12 @@
             this.kwlblPassword = new Krypton.Toolkit.KryptonWrapLabel();
             this.ktbPassword = new Krypton.Toolkit.KryptonTextBox();
             this.kwlblTestDescription = new Krypton.Toolkit.KryptonWrapLabel();
+            this.kgrpGitHub = new Krypton.Toolkit.KryptonGroupBox();
+            this.tlpGitHub = new System.Windows.Forms.TableLayoutPanel();
+            this.kwlblSecretKey = new Krypton.Toolkit.KryptonWrapLabel();
+            this.ktbSecretKey = new Krypton.Toolkit.KryptonTextBox();
+            this.kwlblConfigPath = new Krypton.Toolkit.KryptonWrapLabel();
+            this.ktbConfigPath = new Krypton.Toolkit.KryptonTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1)).BeginInit();
@@ -57,12 +65,20 @@
             this.kryptonGroupBox1.Panel.SuspendLayout();
             this.kryptonGroupBox1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kgrpGitHub)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kgrpGitHub.Panel)).BeginInit();
+            this.kgrpGitHub.Panel.SuspendLayout();
+            this.kgrpGitHub.SuspendLayout();
+            this.tlpGitHub.SuspendLayout();
             this.SuspendLayout();
             // 
             // kryptonPanel1
             // 
             this.kryptonPanel1.Controls.Add(this.kbtnClose);
             this.kryptonPanel1.Controls.Add(this.kbtnTestEmailConfig);
+            this.kryptonPanel1.Controls.Add(this.kbtnCreateGitHubIssuePublic);
+            this.kryptonPanel1.Controls.Add(this.kbtnCreateGitHubIssueInternal);
+            this.kryptonPanel1.Controls.Add(this.kgrpGitHub);
             this.kryptonPanel1.Controls.Add(this.kbtnShowExceptionWithBugReporting);
             this.kryptonPanel1.Controls.Add(this.kbtnShowBugReportWithException);
             this.kryptonPanel1.Controls.Add(this.kbtnShowBugReport);
@@ -71,13 +87,13 @@
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(600, 584);
+            this.kryptonPanel1.Size = new System.Drawing.Size(600, 640);
             this.kryptonPanel1.TabIndex = 0;
             // 
             // kbtnClose
             // 
             this.kbtnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.kbtnClose.Location = new System.Drawing.Point(513, 549);
+            this.kbtnClose.Location = new System.Drawing.Point(513, 605);
             this.kbtnClose.Name = "kbtnClose";
             this.kbtnClose.Size = new System.Drawing.Size(75, 25);
             this.kbtnClose.TabIndex = 6;
@@ -88,7 +104,7 @@
             // kbtnTestEmailConfig
             // 
             this.kbtnTestEmailConfig.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.kbtnTestEmailConfig.Location = new System.Drawing.Point(12, 549);
+            this.kbtnTestEmailConfig.Location = new System.Drawing.Point(12, 605);
             this.kbtnTestEmailConfig.Name = "kbtnTestEmailConfig";
             this.kbtnTestEmailConfig.Size = new System.Drawing.Size(150, 25);
             this.kbtnTestEmailConfig.TabIndex = 5;
@@ -96,29 +112,112 @@
             this.kbtnTestEmailConfig.Values.Text = "Test Email Configuration";
             this.kbtnTestEmailConfig.Click += new System.EventHandler(this.kbtnTestEmailConfig_Click);
             // 
+            // kgrpGitHub
+            //
+            this.kgrpGitHub.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.kgrpGitHub.Location = new System.Drawing.Point(12, 300);
+            this.kgrpGitHub.Name = "kgrpGitHub";
+            this.kgrpGitHub.Panel.Controls.Add(this.tlpGitHub);
+            this.kgrpGitHub.Size = new System.Drawing.Size(576, 80);
+            this.kgrpGitHub.TabIndex = 8;
+            this.kgrpGitHub.Values.Heading = "GitHub (encrypted config)";
+            //
+            // tlpGitHub
+            //
+            this.tlpGitHub.ColumnCount = 2;
+            this.tlpGitHub.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            this.tlpGitHub.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpGitHub.Controls.Add(this.kwlblSecretKey, 0, 0);
+            this.tlpGitHub.Controls.Add(this.ktbSecretKey, 1, 0);
+            this.tlpGitHub.Controls.Add(this.kwlblConfigPath, 0, 1);
+            this.tlpGitHub.Controls.Add(this.ktbConfigPath, 1, 1);
+            this.tlpGitHub.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlpGitHub.Location = new System.Drawing.Point(0, 0);
+            this.tlpGitHub.Name = "tlpGitHub";
+            this.tlpGitHub.Padding = new System.Windows.Forms.Padding(8);
+            this.tlpGitHub.RowCount = 2;
+            this.tlpGitHub.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
+            this.tlpGitHub.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
+            this.tlpGitHub.Size = new System.Drawing.Size(572, 76);
+            this.tlpGitHub.TabIndex = 0;
+            //
+            // kwlblSecretKey
+            //
+            this.kwlblSecretKey.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.kwlblSecretKey.LabelStyle = Krypton.Toolkit.LabelStyle.NormalControl;
+            this.kwlblSecretKey.Location = new System.Drawing.Point(11, 14);
+            this.kwlblSecretKey.Name = "kwlblSecretKey";
+            this.kwlblSecretKey.Size = new System.Drawing.Size(62, 15);
+            this.kwlblSecretKey.Text = "Secret Key:";
+            //
+            // ktbSecretKey
+            //
+            this.ktbSecretKey.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.ktbSecretKey.Location = new System.Drawing.Point(108, 10);
+            this.ktbSecretKey.Name = "ktbSecretKey";
+            this.ktbSecretKey.PasswordChar = '●';
+            this.ktbSecretKey.Size = new System.Drawing.Size(454, 23);
+            this.ktbSecretKey.TabIndex = 0;
+            this.ktbSecretKey.UseSystemPasswordChar = true;
+            //
+            // kwlblConfigPath
+            //
+            this.kwlblConfigPath.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.kwlblConfigPath.LabelStyle = Krypton.Toolkit.LabelStyle.NormalControl;
+            this.kwlblConfigPath.Location = new System.Drawing.Point(11, 46);
+            this.kwlblConfigPath.Name = "kwlblConfigPath";
+            this.kwlblConfigPath.Size = new System.Drawing.Size(84, 15);
+            this.kwlblConfigPath.Text = "Config Path (opt):";
+            //
+            // ktbConfigPath
+            //
+            this.ktbConfigPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.ktbConfigPath.Location = new System.Drawing.Point(108, 42);
+            this.ktbConfigPath.Name = "ktbConfigPath";
+            this.ktbConfigPath.Size = new System.Drawing.Size(454, 23);
+            this.ktbConfigPath.TabIndex = 1;
+            //
+            // kbtnCreateGitHubIssuePublic
+            //
+            this.kbtnCreateGitHubIssuePublic.Location = new System.Drawing.Point(12, 390);
+            this.kbtnCreateGitHubIssuePublic.Name = "kbtnCreateGitHubIssuePublic";
+            this.kbtnCreateGitHubIssuePublic.Size = new System.Drawing.Size(576, 28);
+            this.kbtnCreateGitHubIssuePublic.TabIndex = 7;
+            this.kbtnCreateGitHubIssuePublic.Values.Text = "Create Bug Report on GitHub (Public/Utilities)";
+            this.kbtnCreateGitHubIssuePublic.Click += new System.EventHandler(this.kbtnCreateGitHubIssuePublic_Click);
+            //
+            // kbtnCreateGitHubIssueInternal
+            //
+            this.kbtnCreateGitHubIssueInternal.Location = new System.Drawing.Point(12, 424);
+            this.kbtnCreateGitHubIssueInternal.Name = "kbtnCreateGitHubIssueInternal";
+            this.kbtnCreateGitHubIssueInternal.Size = new System.Drawing.Size(576, 28);
+            this.kbtnCreateGitHubIssueInternal.TabIndex = 9;
+            this.kbtnCreateGitHubIssueInternal.Values.Text = "Create Bug Report on GitHub (Internal/Toolkit)";
+            this.kbtnCreateGitHubIssueInternal.Click += new System.EventHandler(this.kbtnCreateGitHubIssueInternal_Click);
+            //
             // kbtnShowExceptionWithBugReporting
-            // 
-            this.kbtnShowExceptionWithBugReporting.Location = new System.Drawing.Point(12, 372);
+            //
+            this.kbtnShowExceptionWithBugReporting.Location = new System.Drawing.Point(12, 458);
             this.kbtnShowExceptionWithBugReporting.Name = "kbtnShowExceptionWithBugReporting";
             this.kbtnShowExceptionWithBugReporting.Size = new System.Drawing.Size(576, 30);
             this.kbtnShowExceptionWithBugReporting.TabIndex = 4;
             this.kbtnShowExceptionWithBugReporting.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnShowExceptionWithBugReporting.Values.Text = "Show Exception Dialog with Bug Reporting Integration";
             this.kbtnShowExceptionWithBugReporting.Click += new System.EventHandler(this.kbtnShowExceptionWithBugReporting_Click);
-            // 
+            //
             // kbtnShowBugReportWithException
-            // 
-            this.kbtnShowBugReportWithException.Location = new System.Drawing.Point(12, 336);
+            //
+            this.kbtnShowBugReportWithException.Location = new System.Drawing.Point(12, 494);
             this.kbtnShowBugReportWithException.Name = "kbtnShowBugReportWithException";
             this.kbtnShowBugReportWithException.Size = new System.Drawing.Size(576, 30);
             this.kbtnShowBugReportWithException.TabIndex = 3;
             this.kbtnShowBugReportWithException.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnShowBugReportWithException.Values.Text = "Show Bug Report Dialog with Exception";
             this.kbtnShowBugReportWithException.Click += new System.EventHandler(this.kbtnShowBugReportWithException_Click);
-            // 
+            //
             // kbtnShowBugReport
-            // 
-            this.kbtnShowBugReport.Location = new System.Drawing.Point(12, 300);
+            //
+            this.kbtnShowBugReport.Location = new System.Drawing.Point(12, 530);
             this.kbtnShowBugReport.Name = "kbtnShowBugReport";
             this.kbtnShowBugReport.Size = new System.Drawing.Size(576, 30);
             this.kbtnShowBugReport.TabIndex = 2;
@@ -128,7 +227,7 @@
             // 
             // kryptonGroupBox1
             // 
-            this.kryptonGroupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.kryptonGroupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.kryptonGroupBox1.Location = new System.Drawing.Point(12, 50);
             // 
@@ -298,7 +397,7 @@
             // 
             // kwlblTestDescription
             // 
-            this.kwlblTestDescription.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.kwlblTestDescription.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.kwlblTestDescription.LabelStyle = Krypton.Toolkit.LabelStyle.TitleControl;
             this.kwlblTestDescription.Location = new System.Drawing.Point(12, 12);
@@ -311,7 +410,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(600, 584);
+            this.ClientSize = new System.Drawing.Size(600, 640);
             this.Controls.Add(this.kryptonPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
@@ -328,6 +427,12 @@
             this.kryptonGroupBox1.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kgrpGitHub.Panel)).EndInit();
+            this.kgrpGitHub.Panel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kgrpGitHub)).EndInit();
+            this.kgrpGitHub.ResumeLayout(false);
+            this.tlpGitHub.ResumeLayout(false);
+            this.tlpGitHub.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -353,6 +458,14 @@
         private KryptonTextBox ktbPassword;
         private KryptonButton kbtnShowBugReport;
         private KryptonButton kbtnShowBugReportWithException;
+        private KryptonGroupBox kgrpGitHub;
+        private TableLayoutPanel tlpGitHub;
+        private KryptonWrapLabel kwlblSecretKey;
+        private KryptonTextBox ktbSecretKey;
+        private KryptonWrapLabel kwlblConfigPath;
+        private KryptonTextBox ktbConfigPath;
+        private KryptonButton kbtnCreateGitHubIssuePublic;
+        private KryptonButton kbtnCreateGitHubIssueInternal;
         private KryptonButton kbtnShowExceptionWithBugReporting;
         private KryptonButton kbtnTestEmailConfig;
         private KryptonButton kbtnClose;

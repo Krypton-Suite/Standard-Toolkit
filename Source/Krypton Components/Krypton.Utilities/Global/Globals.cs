@@ -13,6 +13,7 @@ global using System.ComponentModel;
 global using System.Diagnostics;
 global using System.Diagnostics.CodeAnalysis;
 global using System.Drawing;
+global using System.Security.Cryptography;
 global using System.Windows.Forms;
 global using System.Windows.Forms.Design;
 
