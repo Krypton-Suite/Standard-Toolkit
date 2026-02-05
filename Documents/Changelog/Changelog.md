@@ -4,6 +4,7 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#2968](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2968), Move **all** RTL specific dialogs to use the feature fully
 * Resolved [#2984](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2984), NullReferenceException in `ViewDrawSeparator.RenderBefore`; added null guards for palette/metric and palette back/border when rendering separator (e.g. Navigator.StateDisabled.Separator can be null, or during theme swap/disposal)
 * Implemented [#2952](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2962), Set license header via `editorconfig`
 * Implemented [#2939](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2939), Extend the bug reporting tool
