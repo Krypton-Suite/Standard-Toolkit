@@ -15,7 +15,7 @@ namespace Krypton.Toolkit;
 /// <summary>
 /// A horizontal scrollbar control with Krypton theming.
 /// </summary>
-[Designer(typeof(KryptonScrollBarDesigner))]
+[Designer(typeof(KryptonHScrollBarDesigner))]
 [DefaultEvent(nameof(Scroll))]
 [DefaultProperty(nameof(Value))]
 [ToolboxBitmap(typeof(HScrollBar))]
@@ -652,9 +652,9 @@ public class KryptonHScrollBar : Control
         // Restore original clip region before drawing border (border renderer handles its own clipping)
         if (originalClip != null)
         {
-            Region oldClip = e.Graphics.Clip;
+            Region? oldClip = e.Graphics.Clip;
             e.Graphics.Clip = originalClip;
-            oldClip.Dispose();
+            oldClip?.Dispose();
             originalClip = null;
         }
 

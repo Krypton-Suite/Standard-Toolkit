@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -23,7 +23,7 @@ public static class KryptonExceptionDialog
     /// present error information without customizing the dialog's appearance or behavior.</remarks>
     /// <param name="exception">The exception to display. Cannot be null.</param>
     public static void Show(Exception exception) =>
-        ShowCore(exception, null, null, null, null, null);
+        ShowCore(exception, null, null, null, null, null, null);
 
     /// <summary>
     /// Displays the specified exception in a user interface dialog, optionally highlighting the dialog with a custom color.
@@ -31,7 +31,7 @@ public static class KryptonExceptionDialog
     /// <param name="exception">The exception to display. Cannot be null.</param>
     /// <param name="highlightColor">An optional color used to highlight the dialog. If null, the default highlight color is used.</param>
     public static void Show(Exception exception, Color? highlightColor) =>
-        ShowCore(exception, highlightColor, null, null, null, null);
+        ShowCore(exception, highlightColor, null, null, null, null, null);
 
     /// <summary>
     /// Displays a dialog showing details of the specified exception, with optional controls for copying the error information and searching for solutions.
@@ -44,7 +44,7 @@ public static class KryptonExceptionDialog
     /// langword="true"/>, the search box is displayed; if <see langword="false"/>, it is hidden; if <see
     /// langword="null"/>, the default behavior is used.</param>
     public static void Show(Exception exception, bool? showCopyButton, bool? showSearchBox) =>
-        ShowCore(exception, null, showCopyButton, null, showSearchBox, null);
+        ShowCore(exception, null, showCopyButton, showSearchBox, null, null, null);
 
     /// <summary>
     /// Displays a dialog that presents details about the specified exception, with optional UI features such as highlighting and copy/search controls.
@@ -55,7 +55,7 @@ public static class KryptonExceptionDialog
     /// <param name="showCopyButton">An optional value indicating whether to show a button that allows users to copy exception details. If null, the default behavior is applied.</param>
     /// <param name="showSearchBox">An optional value indicating whether to show a search box for filtering exception details. If null, the default behavior is applied.</param>
     public static void Show(Exception exception, Color? highlightColor, bool? showCopyButton, bool? showSearchBox) =>
-        ShowCore(exception, highlightColor, showCopyButton, null, showSearchBox, null);
+        ShowCore(exception, highlightColor, showCopyButton, showSearchBox, null, null, null);
 
     /// <summary>
     /// Displays a dialog that presents details about the specified exception, with optional UI features and bug reporting capability.
@@ -63,11 +63,28 @@ public static class KryptonExceptionDialog
     /// <param name="exception">The exception to display in the dialog. Cannot be null.</param>
     /// <param name="highlightColor">An optional color used to highlight key information in the dialog. If null, the default highlight color is used.</param>
     /// <param name="showCopyButton">An optional value indicating whether to show a button that allows users to copy exception details. If null, the default behavior is applied.</param>
-    /// <param name="showSubmitBugReportButton">An optional value indicating whether to show a "Report Bug" button. If null, the default behavior is applied.</param>
     /// <param name="showSearchBox">An optional value indicating whether to show a search box for filtering exception details. If null, the default behavior is applied.</param>
     /// <param name="bugReportCallback">An optional callback that will be invoked when the user clicks the "Report Bug" button. If provided, a "Report Bug" button will be shown.</param>
-    public static void Show(Exception exception, Color? highlightColor, bool? showCopyButton, bool? showSubmitBugReportButton, bool? showSearchBox, Action<Exception>? bugReportCallback) =>
-        ShowCore(exception, highlightColor, showCopyButton, showSubmitBugReportButton, showSearchBox, bugReportCallback);
+    public static void Show(Exception exception, Color? highlightColor, bool? showCopyButton, bool? showSearchBox, Action<Exception>? bugReportCallback) =>
+        ShowCore(exception, highlightColor, showCopyButton, showSearchBox, bugReportCallback, null, null);
+
+    /// <summary>
+    /// Displays a dialog that presents details about the specified exception, with optional UI features and GitHub bug reporting integration.
+    /// </summary>
+    /// <remarks>
+    /// When <paramref name="githubSecretKey"/> is provided, a "Report Bug" button is shown. Clicking it opens the GitHub issue report dialog
+    /// with the exception details pre-filled in the Additional Information field. The config is loaded from an encrypted file; see
+    /// <see cref="BugReportGitHubConfigEncryption"/> for setup.
+    /// </remarks>
+    /// <param name="exception">The exception to display in the dialog. Cannot be null.</param>
+    /// <param name="highlightColor">An optional color used to highlight key information in the dialog. If null, the default highlight color is used.</param>
+    /// <param name="showCopyButton">An optional value indicating whether to show a button that allows users to copy exception details. If null, the default behavior is applied.</param>
+    /// <param name="showSearchBox">An optional value indicating whether to show a search box for filtering exception details. If null, the default behavior is applied.</param>
+    /// <param name="bugReportCallback">An optional callback invoked when the user clicks "Report Bug". Ignored if <paramref name="githubSecretKey"/> is provided.</param>
+    /// <param name="githubSecretKey">Optional secret key for GitHub bug reporting. When provided, "Report Bug" opens the GitHub issue dialog with exception details pre-filled.</param>
+    /// <param name="githubConfigPath">Optional path to the encrypted config file. If null, the default path is used.</param>
+    public static void Show(Exception exception, Color? highlightColor, bool? showCopyButton, bool? showSearchBox, Action<Exception>? bugReportCallback, SecureString? githubSecretKey, string? githubConfigPath = null) =>
+        ShowCore(exception, highlightColor, showCopyButton, showSearchBox, bugReportCallback, githubSecretKey, githubConfigPath);
 
     #endregion
 
@@ -79,11 +96,12 @@ public static class KryptonExceptionDialog
     /// <param name="exception">The exception to display in the dialog. Cannot be null.</param>
     /// <param name="highlightColor">An optional color used to highlight elements in the dialog. If null, the default highlight color is used.</param>
     /// <param name="showCopyButton">An optional value indicating whether to show a button for copying exception details. If null, the default behavior is used.</param>
-    /// <param name="showSubmitBugReportButton">An optional value indicating whether to show a button for submitting bug reports. If null, the default behavior is used.</param>
     /// <param name="showSearchBox">An optional value indicating whether to show a search box for filtering exception details. If null, the default behavior is used.</param>
     /// <param name="bugReportCallback">An optional callback that will be invoked when the user clicks the "Report Bug" button.</param>
-    private static void ShowCore(Exception exception, Color? highlightColor, bool? showCopyButton, bool? showSubmitBugReportButton, bool? showSearchBox, Action<Exception>? bugReportCallback) =>
-        VisualExceptionDialogForm.Show(exception, highlightColor, showCopyButton, showSubmitBugReportButton, showSearchBox, bugReportCallback);
+    /// <param name="gitHubSecretKey">Optional secret key for GitHub bug reporting. When provided, "Report Bug" opens the GitHub issue dialog.</param>
+    /// <param name="gitHubConfigFilePath">Optional path to the encrypted config file. If null, the default path is used.</param>
+    private static void ShowCore(Exception exception, Color? highlightColor, bool? showCopyButton, bool? showSearchBox, Action<Exception>? bugReportCallback, SecureString? gitHubSecretKey, string? gitHubConfigFilePath) =>
+        VisualExceptionDialogForm.Show(exception, highlightColor, showCopyButton, null, showSearchBox, bugReportCallback, null, gitHubSecretKey, gitHubConfigFilePath);
 
     #endregion
 }

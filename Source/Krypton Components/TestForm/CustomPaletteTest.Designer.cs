@@ -42,7 +42,7 @@ namespace TestForm
             this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
             this.kryptonCustomPaletteBase1 = new Krypton.Toolkit.KryptonCustomPaletteBase(this.components);
             this.kryptonThemeComboBox1 = new Krypton.Toolkit.KryptonThemeComboBox();
-            this.kryptonScrollBar1 = new Krypton.Toolkit.KryptonScrollBar();
+            this.kryptonVScrollBar1 = new Krypton.Toolkit.KryptonVScrollBar();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -71,22 +71,20 @@ namespace TestForm
             // 
             // kryptonScrollBar1
             // 
-            this.kryptonScrollBar1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(93)))), ((int)(((byte)(140)))), ((int)(((byte)(201)))));
-            this.kryptonScrollBar1.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.kryptonScrollBar1.Location = new System.Drawing.Point(66, 12);
-            this.kryptonScrollBar1.Name = "kryptonScrollBar1";
-            this.kryptonScrollBar1.Opacity = 1D;
-            this.kryptonScrollBar1.ScrollBarWidth = 19;
-            this.kryptonScrollBar1.Size = new System.Drawing.Size(19, 404);
-            this.kryptonScrollBar1.TabIndex = 1;
-            this.kryptonScrollBar1.Text = "kryptonScrollBar1";
+            this.kryptonVScrollBar1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(93)))), ((int)(((byte)(140)))), ((int)(((byte)(201)))));
+            this.kryptonVScrollBar1.DisabledBorderColor = System.Drawing.Color.Gray;
+            this.kryptonVScrollBar1.Location = new System.Drawing.Point(66, 12);
+            this.kryptonVScrollBar1.Name = "kryptonVScrollBar1";
+            this.kryptonVScrollBar1.Size = new System.Drawing.Size(19, 404);
+            this.kryptonVScrollBar1.TabIndex = 1;
+            this.kryptonVScrollBar1.Text = "kryptonScrollBar1";
             // 
             // CustomPaletteTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(762, 453);
-            this.Controls.Add(this.kryptonScrollBar1);
+            this.Controls.Add(this.kryptonVScrollBar1);
             this.Controls.Add(this.kryptonThemeComboBox1);
             this.Name = "CustomPaletteTest";
             this.Text = "CustomPaletteTest";
@@ -101,6 +99,6 @@ namespace TestForm
         private Krypton.Toolkit.KryptonManager kryptonManager1;
         private Krypton.Toolkit.KryptonCustomPaletteBase kryptonCustomPaletteBase1;
         private Krypton.Toolkit.KryptonThemeComboBox kryptonThemeComboBox1;
-        private Krypton.Toolkit.KryptonScrollBar kryptonScrollBar1;
+        private Krypton.Toolkit.KryptonVScrollBar kryptonVScrollBar1;
     }
 }

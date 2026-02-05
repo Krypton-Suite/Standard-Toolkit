@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -24,29 +24,28 @@
     <ProjectReference Include="..\Krypton.Workspace\Krypton.Workspace 2022.csproj" />
   </ItemGroup>
 
-  <!-- WebView2 SDK References -->
-  <ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
-    <Reference Include="Microsoft.Web.WebView2.Core, Version=1.0.2478.35, Culture=neutral, PublicKeyToken=2a8ab48044d2601e, processorArchitecture=MSIL">
-      <HintPath>..\..\..\WebView2SDK\Microsoft.Web.WebView2.Core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.Web.WebView2.WinForms, Version=1.0.2478.35, Culture=neutral, PublicKeyToken=2a8ab48044d2601e, processorArchitecture=MSIL">
-      <HintPath>..\..\..\WebView2SDK\Microsoft.Web.WebView2.WinForms.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-  </ItemGroup>
-
-  <!-- WebView2 SDK References for .NET 8+ -->
-  <ItemGroup Condition="!$(TargetFramework.StartsWith('net4'))">
+  <!-- WebView2: prefer Lib/WebView2 (matches Krypton.Utilities), fallback to NuGet when DLLs missing -->
+  <PropertyGroup>
+    <WebView2LibPath>$(MSBuildThisFileDirectory)..\Krypton.Utilities\Lib\WebView2</WebView2LibPath>
+    <WebView2CoreDll>$(WebView2LibPath)\Microsoft.Web.WebView2.Core.dll</WebView2CoreDll>
+    <WebView2WinFormsDll>$(WebView2LibPath)\Microsoft.Web.WebView2.WinForms.dll</WebView2WinFormsDll>
+  </PropertyGroup>
+  <ItemGroup Condition="Exists('$(WebView2CoreDll)') And Exists('$(WebView2WinFormsDll)')">
     <Reference Include="Microsoft.Web.WebView2.Core">
-      <HintPath>..\..\..\WebView2SDK\Microsoft.Web.WebView2.Core.dll</HintPath>
+      <HintPath>$(WebView2CoreDll)</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Web.WebView2.WinForms">
-      <HintPath>..\..\..\WebView2SDK\Microsoft.Web.WebView2.WinForms.dll</HintPath>
+      <HintPath>$(WebView2WinFormsDll)</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
+  <ItemGroup Condition="!Exists('$(WebView2CoreDll)') Or !Exists('$(WebView2WinFormsDll)')">
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2478.35" />
+  </ItemGroup>
+  <PropertyGroup Condition="Exists('$(WebView2CoreDll)') And Exists('$(WebView2WinFormsDll)')">
+    <DefineConstants>$(DefineConstants);WEBVIEW2_AVAILABLE</DefineConstants>
+  </PropertyGroup>
 
   <ItemGroup>
     <Compile Update="KryptonTaskDialogDemo\DemoDialogs\KryptonTaskDialogDemoForm.ProgressBar1.cs">
