@@ -12,9 +12,9 @@
 
 namespace TestForm
 {
-#if WEBVIEW2_AVAILABLE
     partial class KryptonWebView2Test
     {
+#if WEBVIEW2_AVAILABLE
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -193,6 +193,17 @@ namespace TestForm
         private Krypton.Toolkit.KryptonButton kbtnNavigate;
         private Krypton.Toolkit.KryptonTextBox kryptonTextBox1;
         private Krypton.Toolkit.KryptonLabel kryptonLabel2;
-    }
+#else
+        private void InitializeComponent()
+        {
+            this.SuspendLayout();
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Name = "KryptonWebView2Test";
+            this.Text = "KryptonWebView2 Test (WebView2 not available)";
+            this.ResumeLayout(false);
+        }
 #endif
+    }
 }

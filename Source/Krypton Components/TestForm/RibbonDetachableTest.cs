@@ -113,9 +113,9 @@ public partial class RibbonDetachableTest : KryptonForm
 
         // Buttons must be wrapped in a container item (Lines, Triple, etc.)
         var clipboardLines = new KryptonRibbonGroupLines();
-        clipboardLines.Items.Add(pasteButton);
-        clipboardLines.Items.Add(cutButton);
-        clipboardLines.Items.Add(copyButton);
+        clipboardLines.Items?.Add(pasteButton);
+        clipboardLines.Items?.Add(cutButton);
+        clipboardLines.Items?.Add(copyButton);
         clipboardGroup.Items.Add(clipboardLines);
 
         var fontGroup = new KryptonRibbonGroup
@@ -137,8 +137,8 @@ public partial class RibbonDetachableTest : KryptonForm
 
         // Buttons must be wrapped in a container item (Lines, Triple, etc.)
         var fontLines = new KryptonRibbonGroupLines();
-        fontLines.Items.Add(boldButton);
-        fontLines.Items.Add(italicButton);
+        fontLines.Items?.Add(boldButton);
+        fontLines.Items?.Add(italicButton);
         fontGroup.Items.Add(fontLines);
 
         homeTab.Groups.Add(clipboardGroup);

@@ -49,7 +49,7 @@ public partial class RibbonMdiDemo : KryptonForm
         var newBtn = new KryptonRibbonGroupButton { TextLine1 = "New" };
         newBtn.Click += (_, _) => AddChild(resizable: true, maximized: false);
         var triple1 = new KryptonRibbonGroupTriple();
-        triple1!.Items.Add(newBtn);
+        triple1!.Items?.Add(newBtn);
         fileGroup.Items.Add(triple1);
         fileTab.Groups.Add(fileGroup);
 
@@ -59,7 +59,7 @@ public partial class RibbonMdiDemo : KryptonForm
         var openMaxBtn = new KryptonRibbonGroupButton { TextLine1 = "Open Maximized" };
         openMaxBtn.Click += (_, _) => AddChild(resizable: true, maximized: true);
         var triple2 = new KryptonRibbonGroupTriple();
-        triple2!.Items.Add(openMaxBtn);
+        triple2!.Items?.Add(openMaxBtn);
         homeGroup.Items.Add(triple2);
         homeTab.Groups.Add(homeGroup);
 

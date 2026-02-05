@@ -68,8 +68,8 @@ public partial class DataManagerPlugin : UserControl
         reportButton.Click += (s, e) => lblPluginStatus.Text = "Report generated";
 
         var triple2 = new KryptonRibbonGroupTriple();
-        triple2.Items.Add(analyzeButton);
-        triple2.Items.Add(reportButton);
+        triple2.Items?.Add(analyzeButton);
+        triple2.Items?.Add(reportButton);
         analysisGroup.Items.Add(triple2);
 
         dataTab.Groups.Add(importGroup);
