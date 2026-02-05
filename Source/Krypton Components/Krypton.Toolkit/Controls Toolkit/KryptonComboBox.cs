@@ -253,48 +253,6 @@ public class KryptonComboBox : VisualControlBase,
         /// <returns>String value.</returns>
         public virtual string GetLongText() => string.Empty;
 
-        /// <summary>
-        /// Gets the overlay image.
-        /// </summary>
-        /// <param name="state">The state for which the overlay image is needed.</param>
-        /// <returns>Overlay image value, or null if no overlay image is set.</returns>
-        public virtual Image? GetOverlayImage(PaletteState state) => null;
-
-        /// <summary>
-        /// Gets the overlay image color that should be transparent.
-        /// </summary>
-        /// <param name="state">The state for which the overlay image is needed.</param>
-        /// <returns>Color value.</returns>
-        public virtual Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
-
-        /// <summary>
-        /// Gets the position of the overlay image relative to the main image.
-        /// </summary>
-        /// <param name="state">The state for which the overlay position is needed.</param>
-        /// <returns>Overlay image position.</returns>
-        public virtual OverlayImagePosition GetOverlayImagePosition(PaletteState state) => OverlayImagePosition.TopRight;
-
-        /// <summary>
-        /// Gets the scaling mode for the overlay image.
-        /// </summary>
-        /// <param name="state">The state for which the overlay scale mode is needed.</param>
-        /// <returns>Overlay image scale mode.</returns>
-        public virtual OverlayImageScaleMode GetOverlayImageScaleMode(PaletteState state) => OverlayImageScaleMode.None;
-
-        /// <summary>
-        /// Gets the scale factor for the overlay image (used when scale mode is Percentage or ProportionalToMain).
-        /// </summary>
-        /// <param name="state">The state for which the overlay scale factor is needed.</param>
-        /// <returns>Scale factor (0.0 to 2.0).</returns>
-        public virtual float GetOverlayImageScaleFactor(PaletteState state) => 0.5f;
-
-        /// <summary>
-        /// Gets the fixed size for the overlay image (used when scale mode is FixedSize).
-        /// </summary>
-        /// <param name="state">The state for which the overlay fixed size is needed.</param>
-        /// <returns>Fixed size.</returns>
-        public virtual Size GetOverlayImageFixedSize(PaletteState state) => new Size(16, 16);
-
         #endregion
 
         #region Protected
@@ -377,10 +335,6 @@ public class KryptonComboBox : VisualControlBase,
                     var dropDownWidth = SystemInformation.VerticalScrollBarWidth;
                     Size borderSize = SystemInformation.BorderSize;
 
-                    // Store the full client height before adjusting rect for text area
-                    // This ensures the drop-down button tracking matches the painted button area
-                    int fullClientHeight = rect.bottom - rect.top;
-
                     // Create rect for the text area
                     rect.left += borderSize.Width;
                     rect.right -= borderSize.Width + dropDownWidth;
@@ -388,11 +342,8 @@ public class KryptonComboBox : VisualControlBase,
                     rect.bottom -= borderSize.Height;
 
                     // Create rectangle that represents the drop-down button
-                    // Match the paint code calculation for consistency
-                    Rectangle dropRect;
-                    dropRect = _kryptonComboBox.RightToLeft == RightToLeft.Yes
-                        ? new Rectangle(rect.left + borderSize.Width, rect.top, dropDownWidth, fullClientHeight)
-                        : new Rectangle(rect.right, rect.top, dropDownWidth, fullClientHeight);
+                    var dropRect = new Rectangle(rect.right + 2, rect.top, dropDownWidth - 2,
+                        rect.bottom - rect.top);
 
                     // Extract the point in client coordinates
                     var clientPoint = new Point((int)m.LParam);
@@ -1503,15 +1454,9 @@ public class KryptonComboBox : VisualControlBase,
     [AllowNull]
     public override Font Font
     {
-        get => GetStateCommonFont() ?? base.Font;
+        get => base.Font;
 
-        set
-        {
-            // Always set base.Font to ensure consistency
-            base.Font = value!;
-            // Also try to set StateCommon font, but don't fail if it's not available
-            SetStateCommonFont(value);
-        }
+        set => base.Font = value!;
     }
 
     /// <summary>
@@ -2483,53 +2428,6 @@ public class KryptonComboBox : VisualControlBase,
     /// </summary>
     /// <param name="e"></param>
     protected virtual void OnToolTipNeeded(ToolTipNeededEventArgs e) => ToolTipNeeded?.Invoke(this, e);
-
-    /// <summary>
-    /// Gets the font from StateCommon.ComboBox.Content.Font safely, handling design mode serialization issues.
-    /// </summary>
-    /// <returns>The font from StateCommon, or null if not available or during problematic design time access.</returns>
-    protected virtual Font? GetStateCommonFont()
-    {
-        try
-        {
-            // Use null-conditional operators to safely access nested properties
-            // This prevents issues during design time serialization when StateCommon might not be fully initialized
-            return StateCommon.ComboBox.Content?.Font;
-        }
-        catch
-        {
-            // If StateCommon is not fully initialized or there's a serialization issue,
-            // return null to fall back to base.Font
-            return null;
-        }
-    }
-
-    /// <summary>
-    /// Sets the font to StateCommon.ComboBox.Content.Font safely, handling design mode serialization issues.
-    /// </summary>
-    /// <param name="value">The font value to set.</param>
-    /// <returns>True if the font was set to StateCommon, false to fall back to base.Font.</returns>
-    protected virtual bool SetStateCommonFont(Font? value)
-    {
-        try
-        {
-            // Use null-conditional operators to safely access nested properties
-            // This prevents issues during design time serialization when StateCommon might not be fully initialized
-            if (StateCommon.ComboBox?.Content != null)
-            {
-                StateCommon.ComboBox.Content.Font = value;
-
-                return true;
-            }
-        }
-        catch
-        {
-            // If StateCommon is not fully initialized or there's a serialization issue,
-            // return false to fall back to base.Font
-        }
-
-        return false;
-    }
     // ReSharper restore VirtualMemberNeverOverridden.Global
     #endregion
 
@@ -2540,12 +2438,6 @@ public class KryptonComboBox : VisualControlBase,
     /// <returns>A new instance of Control.ControlCollection assigned to the control.</returns>
     [EditorBrowsable(EditorBrowsableState.Advanced)]
     protected override ControlCollection CreateControlsInstance() => new KryptonReadOnlyControls(this);
-
-    /// <summary>
-    /// Creates the accessibility object for the KryptonComboBox control.
-    /// </summary>
-    /// <returns>A new KryptonComboBoxAccessibleObject instance for the control.</returns>
-    protected override AccessibleObject CreateAccessibilityInstance() => new KryptonComboBoxAccessibleObject(this);
 
     /// <summary>
     /// Raises the HandleCreated event.
@@ -3270,11 +3162,9 @@ public class KryptonComboBox : VisualControlBase,
 
     private void OnComboBoxPreviewKeyDown(object? sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-    // TODO: Workaround for issue where ContainerControl style causes duplicate validation events. See issue https://github.com/Krypton-Suite/Standard-Toolkit/issues/2801 for details.
-    private void OnComboBoxValidated(object? sender, EventArgs e) => ForwardValidated(e);
+    private void OnComboBoxValidated(object? sender, EventArgs e) => OnValidated(e);
 
-    // TODO: Workaround for issue where ContainerControl style causes duplicate validation events. See issue https://github.com/Krypton-Suite/Standard-Toolkit/issues/2801 for details.
-    private void OnComboBoxValidating(object? sender, CancelEventArgs e) => ForwardValidating(e);
+    private void OnComboBoxValidating(object? sender, CancelEventArgs e) => OnValidating(e);
 
     private void OnComboBoxFormat(object? sender, ListControlConvertEventArgs e) => OnFormat(e);
 

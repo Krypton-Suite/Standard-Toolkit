@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -333,9 +333,6 @@ public class KryptonTextBox : VisualControlBase,
     private bool _showEllipsisButton;
     //private bool _isInAlphaNumericMode;
     private readonly ButtonSpecAny _editorButton;
-    private KryptonScrollbarManager? _scrollbarManager;
-    private bool? _useKryptonScrollbars;
-
     #endregion
 
     #region Events
@@ -545,9 +542,6 @@ public class KryptonTextBox : VisualControlBase,
 
             // Remember to pull down the manager instance
             _buttonManager?.Destruct();
-
-            _scrollbarManager?.Dispose();
-            _scrollbarManager = null;
         }
 
         base.Dispose(disposing);
@@ -1388,38 +1382,6 @@ public class KryptonTextBox : VisualControlBase,
         // element that thinks it has the focus is informed it does not
         OnMouseLeave(EventArgs.Empty);
 
-    /// <summary>
-    /// Gets or sets whether to use Krypton-themed scrollbars instead of native scrollbars.
-    /// If not explicitly set, uses the global value from KryptonManager.UseKryptonScrollbars.
-    /// </summary>
-    [Category(@"Behavior")]
-    [Description(@"Gets or sets whether to use Krypton-themed scrollbars instead of native scrollbars. If not explicitly set, uses the global value from KryptonManager.UseKryptonScrollbars.")]
-    [DefaultValue(false)]
-    public bool UseKryptonScrollbars
-    {
-        get => _useKryptonScrollbars ?? KryptonManager.UseKryptonScrollbars;
-        set
-        {
-            bool currentValue = _useKryptonScrollbars ?? KryptonManager.UseKryptonScrollbars;
-            if (currentValue != value)
-            {
-                _useKryptonScrollbars = value;
-                UpdateScrollbarManager();
-            }
-        }
-    }
-
-    private bool ShouldSerializeUseKryptonScrollbars() => _useKryptonScrollbars.HasValue;
-
-    private void ResetUseKryptonScrollbars() => _useKryptonScrollbars = null;
-
-    /// <summary>
-    /// Gets access to the scrollbar manager when UseKryptonScrollbars is enabled.
-    /// </summary>
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public KryptonScrollbarManager? ScrollbarManager => _scrollbarManager;
-
     #endregion
 
     #region Protected
@@ -1526,12 +1488,6 @@ public class KryptonTextBox : VisualControlBase,
     protected override ControlCollection CreateControlsInstance() => new KryptonReadOnlyControls(this);
 
     /// <summary>
-    /// Creates the accessibility object for the KryptonTextBox control.
-    /// </summary>
-    /// <returns>A new KryptonTextBoxAccessibleObject instance for the control.</returns>
-    protected override AccessibleObject CreateAccessibilityInstance() => new KryptonTextBoxAccessibleObject(this);
-
-    /// <summary>
     /// Raises the HandleCreated event.
     /// </summary>
     /// <param name="e">An EventArgs containing the event data.</param>
@@ -1548,11 +1504,6 @@ public class KryptonTextBox : VisualControlBase,
 
         // We need to recalculate the correct height
         AdjustHeight(true);
-
-        if (KryptonManager.UseKryptonScrollbars)
-        {
-            UpdateScrollbarManager();
-        }
     }
 
     /// <summary>
@@ -1922,11 +1873,9 @@ public class KryptonTextBox : VisualControlBase,
 
     private void OnTextBoxPreviewKeyDown(object? sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-    // TODO: Workaround for issue where ContainerControl style causes duplicate validation events. See issue https://github.com/Krypton-Suite/Standard-Toolkit/issues/2801 for details.
-    private void OnTextBoxValidated(object? sender, EventArgs e) => ForwardValidated(e);
+    private void OnTextBoxValidated(object? sender, EventArgs e) => OnValidated(e);
 
-    // TODO: Workaround for issue where ContainerControl style causes duplicate validation events. See issue https://github.com/Krypton-Suite/Standard-Toolkit/issues/2801 for details.
-    private void OnTextBoxValidating(object? sender, CancelEventArgs e) => ForwardValidating(e);
+    private void OnTextBoxValidating(object? sender, CancelEventArgs e) => OnValidating(e);
 
     private void OnShowToolTip(object? sender, ToolTipEventArgs e)
     {
@@ -2069,28 +2018,6 @@ public class KryptonTextBox : VisualControlBase,
             bsaEllipsisButton.Visible = false;
 
             ButtonSpecs.Remove(bsaEllipsisButton);
-        }
-    }
-
-    private void UpdateScrollbarManager()
-    {
-        if (KryptonManager.UseKryptonScrollbars)
-        {
-            if (_scrollbarManager == null)
-            {
-                _scrollbarManager = new KryptonScrollbarManager(_textBox, ScrollbarManagerMode.NativeWrapper)
-                {
-                    Enabled = true
-                };
-            }
-        }
-        else
-        {
-            if (_scrollbarManager != null)
-            {
-                _scrollbarManager.Dispose();
-                _scrollbarManager = null;
-            }
         }
     }
 
