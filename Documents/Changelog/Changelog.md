@@ -4,6 +4,7 @@
 
 ## 2026-04-20 - Build 2604 (Version 105-LTS - Patch 2) - April 2026
 
+* Resolved [#2913](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2913), Krypton Toolkit causes low-quality text rendering in Stimulsoft preview window
 * Resolved [#2927](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2927), "Populate from Base" task freezes Visual Studio
 * Resolved [#2132](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2132), Drag feedback artifact: when dragging a dockable page, a small dark artefact appeared in the top-left corner of the screen. The drop feedback window (`DropSolidWindow`) was created at (0,0); it is now positioned off-screen initially and when no drop target is matched.
 * Implemented [#2952](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2962), Set license header via `editorconfig`
