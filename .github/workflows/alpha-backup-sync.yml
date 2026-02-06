@@ -176,6 +176,15 @@ jobs:
             echo "pushed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
+          # Normalize BACKUP_REPO: expect owner/repo (e.g. Krypton-Suite/Standard-Toolkit-Backup)
+          # If user set full URL, strip to owner/repo
+          repo_path="$BACKUP_REPO"
+          if [[ "$repo_path" == https://github.com/* ]] || [[ "$repo_path" == http://github.com/* ]]; then
+            repo_path="${repo_path#*github.com/}"
+            repo_path="${repo_path%.git}"
+            repo_path="${repo_path%/}"
+            echo "Normalized BACKUP_REPO from full URL to: $repo_path"
+          fi
           prefix="${BACKUP_DIR_PREFIX:-Standard Toolkit Backup}"
           branch="${BACKUP_BRANCH:-main}"
           today=$(date -u +%Y-%m-%d)
@@ -183,7 +192,7 @@ jobs:
           echo "dir_name=$dir_name" >> "$GITHUB_OUTPUT"
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git clone --depth 1 "https://x-access-token:$BACKUP_REPO_TOKEN@github.com/$BACKUP_REPO.git" backup-repo
+          git clone --depth 1 "https://x-access-token:$BACKUP_REPO_TOKEN@github.com/$repo_path.git" backup-repo
           cd backup-repo
           git checkout -b "$branch" 2>/dev/null || git checkout "$branch" 2>/dev/null || true
           mkdir -p "$dir_name"
