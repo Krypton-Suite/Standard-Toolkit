@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -217,7 +217,7 @@ namespace Krypton.Toolkit
             this.krtbMessageText.StateCommon.Border.DrawBorders = Krypton.Toolkit.PaletteDrawBorders.None;
             this.krtbMessageText.TabIndex = 0;
             this.krtbMessageText.TabStop = false;
-            this.krtbMessageText.Text = "Message Text\n.\ttabbed";
+            this.krtbMessageText.Text = "";
             this.krtbMessageText.WordWrap = false;
             // 
             // VisualMessageBoxForm
