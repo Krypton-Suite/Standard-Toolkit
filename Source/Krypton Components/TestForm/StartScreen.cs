@@ -60,6 +60,7 @@ public partial class StartScreen : KryptonForm
         CreateButton("AboutBox", "Try this About Box for a change", typeof(AboutBoxTest));
         CreateButton("Accessibility Test (UIA Providers)", "Comprehensive demo and test for UIA Provider implementation (Issue #762). Tests all 10 controls with accessibility support, organized by category with detailed results.", typeof(AccessibilityTest));
         CreateButton("Badge Test", "Comprehensive badge functionality demonstration for KryptonButton and KryptonCheckButton.", typeof(ButtonBadgeTest));
+        CreateButton("Button Text Tracking", "Demonstrates alternate text color for tracking (hover) state on KryptonButton, KryptonCheckButton, KryptonColorButton and other controls (Issue #1326). Improves readability in dark themes.", typeof(ButtonTextTrackingExample));
         CreateButton("Buttons Test", "All the buttons you want to test.", typeof(ButtonsTest));
         CreateButton("Bug 2914 Test", "Tests the fix for 2914.", typeof(Bug2914Test));
         CreateButton("Bug 2984 Separator Test", "Demo for Issue #2984: NullReferenceException in ViewDrawSeparator.RenderBefore. Exercises KryptonNavigator (Outlook), KryptonSplitContainer, and KryptonSeparator. Swap themes to verify no crash.", typeof(Bug2984SeparatorTest));

@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -2178,9 +2178,9 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
                 or PaletteContentStyle.ButtonCustom2
                 or PaletteContentStyle.ButtonCustom3 => state switch
                 {
-                    PaletteState.Tracking => _buttonTextTracking,
-                    PaletteState.Normal => BaseColors.TextButtonNormal,
-                    _ => BaseColors.TextButtonChecked
+                PaletteState.Tracking or PaletteState.CheckedTracking => !BaseColors.ButtonTextTracking.IsEmpty ? BaseColors.ButtonTextTracking : _buttonTextTracking,
+                PaletteState.Normal => BaseColors.TextButtonNormal,
+                _ => BaseColors.TextButtonChecked
                 },
             /*state != PaletteState.Normal
                 ? BaseColors.TextButtonChecked
@@ -2189,7 +2189,7 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
             PaletteContentStyle.TabDockAutoHidden => BaseColors.TextButtonNormal,
             PaletteContentStyle.ButtonCalendarDay => state switch
             {
-                PaletteState.Tracking => _buttonTextTracking,
+                PaletteState.Tracking => !BaseColors.ButtonTextTracking.IsEmpty ? BaseColors.ButtonTextTracking : _buttonTextTracking,
                 PaletteState.Disabled => _disabledText2,
                 _ => BaseColors.TextButtonNormal
             },
@@ -2197,11 +2197,12 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
                 or PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb
                 or PaletteContentStyle.ButtonButtonSpec => state switch
                 {
-                    PaletteState.Tracking => _buttonTextTracking,
+                    PaletteState.Tracking => !BaseColors.ButtonTextTracking.IsEmpty ? BaseColors.ButtonTextTracking : _buttonTextTracking,
+                    PaletteState.CheckedTracking => !BaseColors.ButtonTextTracking.IsEmpty ? BaseColors.ButtonTextTracking : BaseColors.TextButtonChecked,
                     PaletteState.Normal => style == PaletteContentStyle.ButtonListItem
                         ? BaseColors.TextLabelControl
                         : BaseColors.TextLabelPanel,
-                    PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => BaseColors.TextButtonChecked,
+                    PaletteState.CheckedNormal or PaletteState.CheckedPressed => BaseColors.TextButtonChecked,
                     _ => BaseColors.TextButtonNormal
                 },
             PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose => state switch
@@ -4198,12 +4199,30 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
                     _ => BaseColors.RibbonTabTextNormal
                 };
             case PaletteRibbonTextStyle.RibbonGroupCollapsedText:
+                if (state is PaletteState.Tracking or PaletteState.CheckedTracking)
+                {
+                    var trackingColor = BaseColors.RibbonGroupTextTracking;
+                    return trackingColor != GlobalStaticValues.EMPTY_COLOR && !trackingColor.IsEmpty
+                        ? trackingColor
+                        : BaseColors.RibbonGroupCollapsedText;
+                }
                 return BaseColors.RibbonGroupCollapsedText;
             case PaletteRibbonTextStyle.RibbonGroupButtonText:
             case PaletteRibbonTextStyle.RibbonGroupLabelText:
             case PaletteRibbonTextStyle.RibbonGroupCheckBoxText:
             case PaletteRibbonTextStyle.RibbonGroupRadioButtonText:
-                return state == PaletteState.Disabled ? _disabledText : BaseColors.RibbonGroupCollapsedText;
+                if (state == PaletteState.Disabled)
+                {
+                    return _disabledText;
+                }
+                if (state is PaletteState.Tracking or PaletteState.CheckedTracking)
+                {
+                    var trackingColor = BaseColors.RibbonGroupTextTracking;
+                    return trackingColor != GlobalStaticValues.EMPTY_COLOR && !trackingColor.IsEmpty
+                        ? trackingColor
+                        : BaseColors.RibbonGroupCollapsedText;
+                }
+                return BaseColors.RibbonGroupCollapsedText;
 
             default:
                 // Should never happen!
@@ -4442,6 +4461,15 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
         Table ??= new KryptonColorTable365BlackDarkMode(BaseColors.ToArray(), InheritBool.True, this);
 
     #endregion ColorTable
+
+    protected override void OnSchemeColorChanged(SchemeBaseColors index, Color newColor)
+    {
+        if (BaseColors is not null && index == SchemeBaseColors.ButtonTextTracking)
+        {
+            BaseColors.ButtonTextTracking = newColor;
+        }
+        base.OnSchemeColorChanged(index, newColor);
+    }
 
     #region OnUserPreferenceChanged
 

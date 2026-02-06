@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -4926,12 +4926,30 @@ public abstract class PaletteOffice2007Base : PaletteBase
                     _ => _ribbonColors[(int)SchemeBaseColors.RibbonTabTextNormal]
                 };
             case PaletteRibbonTextStyle.RibbonGroupCollapsedText:
+                if (state is PaletteState.Tracking or PaletteState.CheckedTracking)
+                {
+                    var trackingColor = _ribbonColors[(int)SchemeBaseColors.RibbonGroupTextTracking];
+                    return trackingColor != GlobalStaticValues.EMPTY_COLOR && !trackingColor.IsEmpty
+                        ? trackingColor
+                        : _ribbonColors[(int)SchemeBaseColors.RibbonGroupCollapsedText];
+                }
                 return _ribbonColors[(int)SchemeBaseColors.RibbonGroupCollapsedText];
             case PaletteRibbonTextStyle.RibbonGroupButtonText:
             case PaletteRibbonTextStyle.RibbonGroupLabelText:
             case PaletteRibbonTextStyle.RibbonGroupCheckBoxText:
             case PaletteRibbonTextStyle.RibbonGroupRadioButtonText:
-                return state == PaletteState.Disabled ? _disabledText : _ribbonColors[(int)SchemeBaseColors.RibbonGroupCollapsedText];
+                if (state == PaletteState.Disabled)
+                {
+                    return _disabledText;
+                }
+                if (state is PaletteState.Tracking or PaletteState.CheckedTracking)
+                {
+                    var trackingColor = _ribbonColors[(int)SchemeBaseColors.RibbonGroupTextTracking];
+                    return trackingColor != GlobalStaticValues.EMPTY_COLOR && !trackingColor.IsEmpty
+                        ? trackingColor
+                        : _ribbonColors[(int)SchemeBaseColors.RibbonGroupCollapsedText];
+                }
+                return _ribbonColors[(int)SchemeBaseColors.RibbonGroupCollapsedText];
 
             default:
                 // Should never happen!
