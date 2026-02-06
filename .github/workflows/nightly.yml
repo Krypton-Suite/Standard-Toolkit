@@ -309,7 +309,7 @@ jobs:
                   }
                   @{
                     name = "📦 NuGet Packages"
-                    value = "• [Krypton.Toolkit.Nightly](https://www.nuget.org/packages/Krypton.Toolkit.Nightly)`n• [Krypton.Ribbon.Nightly](https://www.nuget.org/packages/Krypton.Ribbon.Nightly)`n• [Krypton.Navigator.Nightly](https://www.nuget.org/packages/Krypton.Navigator.Nightly)`n• [Krypton.Workspace.Nightly](https://www.nuget.org/packages/Krypton.Workspace.Nightly)`n• [Krypton.Docking.Nightly](https://www.nuget.org/packages/Krypton.Docking.Nightly)`n• [Krypton.Standard.Toolkit.Nightly](https://www.nuget.org/packages/Krypton.Standard.Toolkit.Nightly)`n• [Krypton.Utilities.Nightly](https://www.nuget.org/packages/Krypton.Utilities.Nightly)"
+                    value = "• [Krypton.Toolkit.Nightly](https://www.nuget.org/packages/Krypton.Toolkit.Nightly)`n• [Krypton.Ribbon.Nightly](https://www.nuget.org/packages/Krypton.Ribbon.Nightly)`n• [Krypton.Navigator.Nightly](https://www.nuget.org/packages/Krypton.Navigator.Nightly)`n• [Krypton.Workspace.Nightly](https://www.nuget.org/packages/Krypton.Workspace.Nightly)`n• [Krypton.Docking.Nightly](https://www.nuget.org/packages/Krypton.Docking.Nightly)`n• [Krypton.Standard.Toolkit.Nightly](https://www.nuget.org/packages/Krypton.Standard.Toolkit.Nightly)"
                     inline = $false
                   }
                   @{
