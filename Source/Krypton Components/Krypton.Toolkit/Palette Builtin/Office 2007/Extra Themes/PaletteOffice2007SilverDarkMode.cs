@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -3872,6 +3872,8 @@ public abstract class PaletteOffice2007SilverDarkModeBase : PaletteBase
             case PaletteMetricInt.BarButtonEdgeOutside:
             case PaletteMetricInt.BarButtonEdgeInside:
                 return 3;
+            case PaletteMetricInt.DropDownArrowBaseSize:
+                return 10;
             case PaletteMetricInt.None:
                 return 0;
             default:

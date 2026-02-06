@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
@@ -57,6 +57,7 @@ public class RenderStandard : RenderBase
     private const int SPACING_TAB_SMOOTH_LRO = 9;
     private const int SPACING_TAB_SMOOTH_TO = 7;
     private const int GROUP_FRAME_TITLE_HEIGHT = 8;
+    private const int DROP_DOWN_ARROW_BASE_SIZE = 10;
     private const float GROUP_GRADIENT_TWO = 0.16f;
     private const float GROUP_GRADIENT_FRAME = 0.32f;
 
@@ -2549,8 +2550,15 @@ public class RenderStandard : RenderBase
         PaletteState state,
         VisualOrientation orientation)
     {
+        var paletteBase = KryptonManager.CurrentGlobalPalette;
+        var baseSize = (paletteBase != null ? paletteBase.GetMetricInt(null, state, PaletteMetricInt.DropDownArrowBaseSize) : 0);
+        if (baseSize <= 0)
+        {
+            baseSize = DROP_DOWN_ARROW_BASE_SIZE;
+        }
+
         var square = Math.Min(context.DisplayRectangle.Width, context.DisplayRectangle.Height);
-        square = Math.Min(square, 16);
+        square = Math.Min(square, baseSize);
         square = (int)(square * context.Graphics.DpiY / 96f);
 
         return new Size(square, square);

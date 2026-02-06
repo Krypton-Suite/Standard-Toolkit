@@ -315,6 +315,8 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
             case PaletteMetricInt.BarButtonEdgeOutside:
             case PaletteMetricInt.BarButtonEdgeInside:
                 return 1;
+            case PaletteMetricInt.DropDownArrowBaseSize:
+                return 10;
             case PaletteMetricInt.None:
                 return 0;
             default:
