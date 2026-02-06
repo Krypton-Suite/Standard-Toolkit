@@ -37,10 +37,10 @@
             this.kryptonBorderEdge1 = new Krypton.Toolkit.KryptonBorderEdge();
             this.kpnlMain = new Krypton.Toolkit.KryptonPanel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.krtbNotificationContentText = new Krypton.Toolkit.KryptonRichTextBox();
+            this.klblHeader = new Krypton.Toolkit.KryptonLabel();
             this.kpbCountDown = new Krypton.Toolkit.KryptonProgressBar();
             this.pbxImage = new System.Windows.Forms.PictureBox();
-            this.klblHeader = new Krypton.Toolkit.KryptonLabel();
-            this.krtbNotificationContentText = new Krypton.Toolkit.KryptonRichTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.kpnlFooter)).BeginInit();
             this.kpnlFooter.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -89,6 +89,7 @@
             this.kbtnDismiss.Location = new System.Drawing.Point(53, 13);
             this.kbtnDismiss.Margin = new System.Windows.Forms.Padding(10);
             this.kbtnDismiss.Name = "kbtnDismiss";
+            this.kbtnDismiss.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.kbtnDismiss.Size = new System.Drawing.Size(23, 22);
             this.kbtnDismiss.TabIndex = 2;
             this.kbtnDismiss.Values.DropDownArrowColor = System.Drawing.Color.Empty;
@@ -101,6 +102,7 @@
             this.klblToastLocation.Location = new System.Drawing.Point(520, 23);
             this.klblToastLocation.Margin = new System.Windows.Forms.Padding(10);
             this.klblToastLocation.Name = "klblToastLocation";
+            this.klblToastLocation.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.klblToastLocation.Size = new System.Drawing.Size(6, 2);
             this.klblToastLocation.TabIndex = 3;
             this.klblToastLocation.Values.Text = "";
@@ -111,6 +113,7 @@
             this.kchkDoNotShowAgain.Location = new System.Drawing.Point(546, 10);
             this.kchkDoNotShowAgain.Margin = new System.Windows.Forms.Padding(10);
             this.kchkDoNotShowAgain.Name = "kchkDoNotShowAgain";
+            this.kchkDoNotShowAgain.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.kchkDoNotShowAgain.Size = new System.Drawing.Size(45, 29);
             this.kchkDoNotShowAgain.TabIndex = 4;
             this.kchkDoNotShowAgain.Values.Text = "CB1";
@@ -122,6 +125,7 @@
             this.itbDismiss.Location = new System.Drawing.Point(10, 13);
             this.itbDismiss.Margin = new System.Windows.Forms.Padding(10);
             this.itbDismiss.Name = "itbDismiss";
+            this.itbDismiss.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.itbDismiss.Size = new System.Drawing.Size(23, 22);
             this.itbDismiss.TabIndex = 5;
             this.itbDismiss.Values.DropDownArrowColor = System.Drawing.Color.Empty;
@@ -166,43 +170,6 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(601, 242);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
-            // kpbCountDown
-            // 
-            this.tableLayoutPanel1.SetColumnSpan(this.kpbCountDown, 2);
-            this.kpbCountDown.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.kpbCountDown.Location = new System.Drawing.Point(3, 213);
-            this.kpbCountDown.Name = "kpbCountDown";
-            this.kpbCountDown.Size = new System.Drawing.Size(595, 26);
-            this.kpbCountDown.StateCommon.Back.Color1 = System.Drawing.Color.Green;
-            this.kpbCountDown.StateDisabled.Back.ColorStyle = Krypton.Toolkit.PaletteColorStyle.OneNote;
-            this.kpbCountDown.StateNormal.Back.ColorStyle = Krypton.Toolkit.PaletteColorStyle.OneNote;
-            this.kpbCountDown.TabIndex = 0;
-            this.kpbCountDown.Text = "kryptonProgressBar1";
-            this.kpbCountDown.Values.Text = "kryptonProgressBar1";
-            // 
-            // pbxImage
-            // 
-            this.pbxImage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pbxImage.Location = new System.Drawing.Point(468, 5);
-            this.pbxImage.Margin = new System.Windows.Forms.Padding(5);
-            this.pbxImage.Name = "pbxImage";
-            this.tableLayoutPanel1.SetRowSpan(this.pbxImage, 2);
-            this.pbxImage.Size = new System.Drawing.Size(128, 200);
-            this.pbxImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.pbxImage.TabIndex = 1;
-            this.pbxImage.TabStop = false;
-            // 
-            // klblHeader
-            // 
-            this.klblHeader.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.klblHeader.LabelStyle = Krypton.Toolkit.LabelStyle.TitlePanel;
-            this.klblHeader.Location = new System.Drawing.Point(5, 5);
-            this.klblHeader.Margin = new System.Windows.Forms.Padding(5);
-            this.klblHeader.Name = "klblHeader";
-            this.klblHeader.Size = new System.Drawing.Size(453, 29);
-            this.klblHeader.TabIndex = 4;
-            this.klblHeader.Values.Text = "kryptonLabel1";
-            // 
             // krtbNotificationContentText
             // 
             this.krtbNotificationContentText.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -217,7 +184,48 @@
             this.krtbNotificationContentText.TabIndex = 5;
             this.krtbNotificationContentText.Text = "kryptonRichTextBox1";
             // 
-            // VisualToastNotificationBasicWithProgressBarRtlAwareForm
+            // klblHeader
+            // 
+            this.klblHeader.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.klblHeader.LabelStyle = Krypton.Toolkit.LabelStyle.TitlePanel;
+            this.klblHeader.Location = new System.Drawing.Point(5, 5);
+            this.klblHeader.Margin = new System.Windows.Forms.Padding(5);
+            this.klblHeader.Name = "klblHeader";
+            this.klblHeader.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.klblHeader.Size = new System.Drawing.Size(453, 29);
+            this.klblHeader.TabIndex = 4;
+            this.klblHeader.Values.Text = "kryptonLabel1";
+            // 
+            // kpbCountDown
+            // 
+            this.tableLayoutPanel1.SetColumnSpan(this.kpbCountDown, 2);
+            this.kpbCountDown.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kpbCountDown.Location = new System.Drawing.Point(3, 213);
+            this.kpbCountDown.Name = "kpbCountDown";
+            this.kpbCountDown.Size = new System.Drawing.Size(595, 26);
+            this.kpbCountDown.StateCommon.Back.Color1 = System.Drawing.Color.Green;
+            this.kpbCountDown.StateDisabled.Back.ColorStyle = Krypton.Toolkit.PaletteColorStyle.OneNote;
+            this.kpbCountDown.StateNormal.Back.ColorStyle = Krypton.Toolkit.PaletteColorStyle.OneNote;
+            this.kpbCountDown.StateNormal.Content.ShortText.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
+            this.kpbCountDown.TabIndex = 0;
+            this.kpbCountDown.Text = "kryptonProgressBar1";
+            this.kpbCountDown.TextBackdropColor = System.Drawing.Color.Empty;
+            this.kpbCountDown.TextShadowColor = System.Drawing.Color.Empty;
+            this.kpbCountDown.Values.Text = "kryptonProgressBar1";
+            // 
+            // pbxImage
+            // 
+            this.pbxImage.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pbxImage.Location = new System.Drawing.Point(468, 5);
+            this.pbxImage.Margin = new System.Windows.Forms.Padding(5);
+            this.pbxImage.Name = "pbxImage";
+            this.tableLayoutPanel1.SetRowSpan(this.pbxImage, 2);
+            this.pbxImage.Size = new System.Drawing.Size(128, 200);
+            this.pbxImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pbxImage.TabIndex = 1;
+            this.pbxImage.TabStop = false;
+            // 
+            // VisualToastBasicWithProgressBarRtlAwareForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -227,12 +235,16 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "VisualToastNotificationBasicWithProgressBarRtlAwareForm";
+            this.Name = "VisualToastBasicWithProgressBarRtlAwareForm";
             this.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.RightToLeftLayout = true;
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
+            this.UseThemeFormChromeBorderWidth = false;
             this.Load += new System.EventHandler(this.VisualToastNotificationBasicWithProgressBarRtlAwareForm_Load);
+            this.Controls.SetChildIndex(this.kpnlFooter, 0);
+            this.Controls.SetChildIndex(this.kpnlMain, 0);
             ((System.ComponentModel.ISupportInitialize)(this.kpnlFooter)).EndInit();
             this.kpnlFooter.ResumeLayout(false);
             this.kpnlFooter.PerformLayout();
