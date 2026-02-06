@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -1966,6 +1966,16 @@ public class KryptonCustomPaletteBase : PaletteBase
             {
                 ResetOperation(null);
             }
+            else if (this.InDesignMode())
+            {
+                // In design mode (e.g. VS designer), run synchronously to avoid PerformOperation
+                // deadlock/freeze with ModalWaitDialog and worker thread (see issue #2927)
+                ResetOperation(null);
+
+                KryptonMessageBox.Show("Reset of palette is completed.",
+                    "Palette Reset",
+                    KryptonMessageBoxButtons.OK);
+            }
             else
             {
                 // Perform the reset operation on a separate worker thread
@@ -2007,6 +2017,16 @@ public class KryptonCustomPaletteBase : PaletteBase
             if (silent)
             {
                 PopulateFromBaseOperation(null);
+            }
+            else if (this.InDesignMode())
+            {
+                // In design mode (e.g. VS designer), run synchronously to avoid PerformOperation
+                // deadlock/freeze with ModalWaitDialog and worker thread (see issue #2927)
+                PopulateFromBaseOperation(null);
+
+                KryptonMessageBox.Show("Relevant values have been populated.",
+                    "Populate Values",
+                    KryptonMessageBoxButtons.OK);
             }
             else
             {
