@@ -193,44 +193,45 @@ namespace Krypton.Toolkit
                                     // Set the correct text rendering hint for the text drawing. We only draw if the edit text is disabled so we
                                     // just always grab the disable state value. Without this line the wrong hint can occur because it inherits
                                     // it from the device context. Resulting in blurred text.
-                                    g.TextRenderingHint = CommonHelper.PaletteTextHintToRenderingHint(_kryptonMaskedTextBox.StateDisabled.PaletteContent.GetContentShortTextHint(PaletteState.Disabled));
-
-                                    // Define the string formatting requirements
-                                    var stringFormat = new StringFormat
+                                    // Use GraphicsTextHint to properly save/restore TextRenderingHint to prevent affecting other controls
+                                    using (new GraphicsTextHint(g, CommonHelper.PaletteTextHintToRenderingHint(_kryptonMaskedTextBox.StateDisabled.PaletteContent!.GetContentShortTextHint(PaletteState.Disabled))))
                                     {
-                                        LineAlignment = StringAlignment.Center,
-                                        FormatFlags = StringFormatFlags.NoWrap,
-                                        Trimming = StringTrimming.None
-                                    };
+                                        // Define the string formatting requirements
+                                        var stringFormat = new StringFormat
+                                        {
+                                            LineAlignment = StringAlignment.Center,
+                                            FormatFlags = StringFormatFlags.NoWrap,
+                                            Trimming = StringTrimming.None
+                                        };
 
-                                    stringFormat.Alignment = _kryptonMaskedTextBox.TextAlign switch
-                                    {
-                                        HorizontalAlignment.Left => RightToLeft == RightToLeft.Yes
-                                            ? StringAlignment.Far
-                                            : StringAlignment.Near,
-                                        HorizontalAlignment.Right => RightToLeft == RightToLeft.Yes
-                                            ? StringAlignment.Near
-                                            : StringAlignment.Far,
-                                        HorizontalAlignment.Center => StringAlignment.Center,
-                                        _ => stringFormat.Alignment
-                                    };
+                                        stringFormat.Alignment = _kryptonMaskedTextBox.TextAlign switch
+                                        {
+                                            HorizontalAlignment.Left => RightToLeft == RightToLeft.Yes
+                                                ? StringAlignment.Far
+                                                : StringAlignment.Near,
+                                            HorizontalAlignment.Right => RightToLeft == RightToLeft.Yes
+                                                ? StringAlignment.Near
+                                                : StringAlignment.Far,
+                                            HorizontalAlignment.Center => StringAlignment.Center,
+                                            _ => stringFormat.Alignment
+                                        };
 
-                                    // Use the correct prefix setting
-                                    stringFormat.HotkeyPrefix = HotkeyPrefix.None;
+                                        // Use the correct prefix setting
+                                        stringFormat.HotkeyPrefix = HotkeyPrefix.None;
 
-                                    // Draw using a solid brush
-                                    var drawText = MaskedTextProvider?.ToDisplayString() ?? Text;
-                                    try
-                                    {
+                                        // Draw using a solid brush
+                                        var drawText = MaskedTextProvider?.ToDisplayString() ?? Text;
+
+                                        // Define the font to use for disabled painting – always query the palette first.
+                                        // Avoids exception - magnitudes faster than another repaint AND try/catch.
+                                        var disabledFont = _kryptonMaskedTextBox
+                                                               .GetTripleState()
+                                                               .PaletteContent?
+                                                               .GetContentShortTextFont(PaletteState.Disabled)
+                                                           ?? Font; // Fallback: current Font if palette returns null
+
                                         using var foreBrush = new SolidBrush(ForeColor);
-                                        g.DrawString(drawText, Font, foreBrush,
-                                            new RectangleF(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top),
-                                            stringFormat);
-                                    }
-                                    catch (ArgumentException)
-                                    {
-                                        using var foreBrush = new SolidBrush(ForeColor);
-                                        g.DrawString(drawText, _kryptonMaskedTextBox.GetTripleState().PaletteContent.GetContentShortTextFont(PaletteState.Disabled), foreBrush,
+                                        g.DrawString(drawText, disabledFont, foreBrush,
                                             new RectangleF(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top),
                                             stringFormat);
                                     }
