@@ -40,19 +40,20 @@ namespace Krypton.Utilities
             this.kryptonSeparator1 = new Krypton.Toolkit.KryptonSeparator();
             this.krtbExceptionDetails = new Krypton.Toolkit.KryptonRichTextBox();
             this.isbSearchArea = new Krypton.Toolkit.InternalSearchableExceptionTreeView();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.kbtnReportBugToGitHub = new Krypton.Toolkit.KryptonButton();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel2)).BeginInit();
             this.kryptonPanel2.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonSeparator1)).BeginInit();
+            this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // kryptonPanel1
             // 
-            this.kryptonPanel1.Controls.Add(this.kbtnCopy);
-            this.kryptonPanel1.Controls.Add(this.kbtnReportBug);
-            this.kryptonPanel1.Controls.Add(this.kbtnOk);
+            this.kryptonPanel1.Controls.Add(this.tableLayoutPanel2);
             this.kryptonPanel1.Controls.Add(this.kryptonBorderEdge1);
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 491);
@@ -63,11 +64,14 @@ namespace Krypton.Utilities
             // 
             // kbtnCopy
             // 
-            this.kbtnCopy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.kbtnCopy.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.kbtnCopy.AutoSize = true;
+            this.kbtnCopy.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.kbtnCopy.Enabled = false;
-            this.kbtnCopy.Location = new System.Drawing.Point(843, 13);
+            this.kbtnCopy.Location = new System.Drawing.Point(662, 12);
+            this.kbtnCopy.Margin = new System.Windows.Forms.Padding(10);
             this.kbtnCopy.Name = "kbtnCopy";
-            this.kbtnCopy.Size = new System.Drawing.Size(90, 25);
+            this.kbtnCopy.Size = new System.Drawing.Size(94, 25);
             this.kbtnCopy.TabIndex = 3;
             this.kbtnCopy.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnCopy.Values.Text = "kryptonButton1";
@@ -75,8 +79,11 @@ namespace Krypton.Utilities
             // 
             // kbtnReportBug
             // 
-            this.kbtnReportBug.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.kbtnReportBug.Location = new System.Drawing.Point(939, 13);
+            this.kbtnReportBug.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.kbtnReportBug.AutoSize = true;
+            this.kbtnReportBug.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.kbtnReportBug.Location = new System.Drawing.Point(923, 12);
+            this.kbtnReportBug.Margin = new System.Windows.Forms.Padding(10);
             this.kbtnReportBug.Name = "kbtnReportBug";
             this.kbtnReportBug.Size = new System.Drawing.Size(90, 25);
             this.kbtnReportBug.TabIndex = 2;
@@ -86,10 +93,13 @@ namespace Krypton.Utilities
             // 
             // kbtnOk
             // 
-            this.kbtnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.kbtnOk.Location = new System.Drawing.Point(1035, 13);
+            this.kbtnOk.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.kbtnOk.AutoSize = true;
+            this.kbtnOk.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.kbtnOk.Location = new System.Drawing.Point(1033, 12);
+            this.kbtnOk.Margin = new System.Windows.Forms.Padding(10);
             this.kbtnOk.Name = "kbtnOk";
-            this.kbtnOk.Size = new System.Drawing.Size(90, 25);
+            this.kbtnOk.Size = new System.Drawing.Size(94, 25);
             this.kbtnOk.TabIndex = 1;
             this.kbtnOk.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnOk.Values.Text = "kryptonButton1";
@@ -187,6 +197,40 @@ namespace Krypton.Utilities
             this.isbSearchArea.TabIndex = 7;
             this.isbSearchArea.NodeSelected += new System.Windows.Forms.TreeViewEventHandler(this.isbSearchArea_NodeSelected);
             // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.BackColor = System.Drawing.Color.Transparent;
+            this.tableLayoutPanel2.ColumnCount = 4;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel2.Controls.Add(this.kbtnReportBugToGitHub, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.kbtnOk, 3, 0);
+            this.tableLayoutPanel2.Controls.Add(this.kbtnCopy, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.kbtnReportBug, 2, 0);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 1);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 1;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(1137, 49);
+            this.tableLayoutPanel2.TabIndex = 5;
+            // 
+            // kbtnReportBugToGitHub
+            // 
+            this.kbtnReportBugToGitHub.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.kbtnReportBugToGitHub.AutoSize = true;
+            this.kbtnReportBugToGitHub.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.kbtnReportBugToGitHub.Location = new System.Drawing.Point(776, 12);
+            this.kbtnReportBugToGitHub.Margin = new System.Windows.Forms.Padding(10);
+            this.kbtnReportBugToGitHub.Name = "kbtnReportBugToGitHub";
+            this.kbtnReportBugToGitHub.Size = new System.Drawing.Size(127, 25);
+            this.kbtnReportBugToGitHub.TabIndex = 4;
+            this.kbtnReportBugToGitHub.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kbtnReportBugToGitHub.Values.Text = "Report Bug to GitHub";
+            this.kbtnReportBugToGitHub.Visible = false;
+            // 
             // VisualExceptionDialogForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -210,6 +254,8 @@ namespace Krypton.Utilities
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonSeparator1)).EndInit();
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.tableLayoutPanel2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -228,5 +274,7 @@ namespace Krypton.Utilities
         private KryptonSeparator kryptonSeparator1;
         private KryptonRichTextBox krtbExceptionDetails;
         private InternalSearchableExceptionTreeView isbSearchArea;
+        private TableLayoutPanel tableLayoutPanel2;
+        private KryptonButton kbtnReportBugToGitHub;
     }
 }

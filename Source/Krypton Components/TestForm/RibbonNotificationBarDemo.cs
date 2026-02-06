@@ -76,10 +76,10 @@ public partial class RibbonNotificationBarDemo : KryptonForm
         showSuccessButton.Click += (s, e) => ShowSuccessNotification();
 
         var lines = new KryptonRibbonGroupLines();
-        lines.Items.Add(showInfoButton);
-        lines.Items.Add(showWarningButton);
-        lines.Items.Add(showErrorButton);
-        lines.Items.Add(showSuccessButton);
+        lines.Items?.Add(showInfoButton);
+        lines.Items?.Add(showWarningButton);
+        lines.Items?.Add(showErrorButton);
+        lines.Items?.Add(showSuccessButton);
         notificationGroup.Items.Add(lines);
 
         homeTab.Groups.Add(notificationGroup);

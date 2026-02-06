@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -404,41 +404,41 @@ Get-PersonInfo -Name ""John"" -Age 30"
     private void kcmbLanguage_SelectedIndexChanged(object sender, EventArgs e)
     {
         var selected = kcmbLanguage.SelectedItem?.ToString();
-        if (string.IsNullOrEmpty(selected))
-            return;
-
-        kceEditor.Language = selected switch
+        if (selected != null && selected.Length > 0)
         {
-            "C#" => Krypton.Utilities.Language.CSharp,
-            "C++" => Krypton.Utilities.Language.Cpp,
-            "VB.NET" => Krypton.Utilities.Language.VbNet,
-            "XML" => Krypton.Utilities.Language.Xml,
-            "HTML" => Krypton.Utilities.Language.Html,
-            "CSS" => Krypton.Utilities.Language.Css,
-            "JavaScript" => Krypton.Utilities.Language.JavaScript,
-            "TypeScript" => Krypton.Utilities.Language.TypeScript,
-            "Python" => Krypton.Utilities.Language.Python,
-            "Rust" => Krypton.Utilities.Language.Rust,
-            "Go" => Krypton.Utilities.Language.Go,
-            "Java" => Krypton.Utilities.Language.Java,
-            "PHP" => Krypton.Utilities.Language.Php,
-            "Ruby" => Krypton.Utilities.Language.Ruby,
-            "Swift" => Krypton.Utilities.Language.Swift,
-            "Kotlin" => Krypton.Utilities.Language.Kotlin,
-            "SQL" => Krypton.Utilities.Language.Sql,
-            "JSON" => Krypton.Utilities.Language.Json,
-            "YAML" => Krypton.Utilities.Language.Yaml,
-            "TOML" => Krypton.Utilities.Language.Toml,
-            "Markdown" => Krypton.Utilities.Language.Markdown,
-            "Batch" => Krypton.Utilities.Language.Batch,
-            "PowerShell" => Krypton.Utilities.Language.PowerShell,
-            _ => Krypton.Utilities.Language.None
-        };
+            kceEditor.Language = selected switch
+            {
+                "C#" => Krypton.Utilities.Language.CSharp,
+                "C++" => Krypton.Utilities.Language.Cpp,
+                "VB.NET" => Krypton.Utilities.Language.VbNet,
+                "XML" => Krypton.Utilities.Language.Xml,
+                "HTML" => Krypton.Utilities.Language.Html,
+                "CSS" => Krypton.Utilities.Language.Css,
+                "JavaScript" => Krypton.Utilities.Language.JavaScript,
+                "TypeScript" => Krypton.Utilities.Language.TypeScript,
+                "Python" => Krypton.Utilities.Language.Python,
+                "Rust" => Krypton.Utilities.Language.Rust,
+                "Go" => Krypton.Utilities.Language.Go,
+                "Java" => Krypton.Utilities.Language.Java,
+                "PHP" => Krypton.Utilities.Language.Php,
+                "Ruby" => Krypton.Utilities.Language.Ruby,
+                "Swift" => Krypton.Utilities.Language.Swift,
+                "Kotlin" => Krypton.Utilities.Language.Kotlin,
+                "SQL" => Krypton.Utilities.Language.Sql,
+                "JSON" => Krypton.Utilities.Language.Json,
+                "YAML" => Krypton.Utilities.Language.Yaml,
+                "TOML" => Krypton.Utilities.Language.Toml,
+                "Markdown" => Krypton.Utilities.Language.Markdown,
+                "Batch" => Krypton.Utilities.Language.Batch,
+                "PowerShell" => Krypton.Utilities.Language.PowerShell,
+                _ => Krypton.Utilities.Language.None
+            };
 
-        // Load sample code if available
-        if (_sampleCode.ContainsKey(selected))
-        {
-            kceEditor.Text = _sampleCode[selected];
+            // Load sample code if available
+            if (_sampleCode.TryGetValue(selected, out var value))
+            {
+                kceEditor.Text = value;
+            }
         }
     }
 

@@ -51,7 +51,7 @@ namespace TestForm
             this.kryptonTableLayoutPanel1 = new Krypton.Toolkit.KryptonTableLayoutPanel();
             this.kryptonMaskedTextBox1 = new Krypton.Toolkit.KryptonMaskedTextBox();
             this.kryptonLinkWrapLabel1 = new Krypton.Toolkit.KryptonLinkWrapLabel();
-            this.kryptonScrollBar1 = new Krypton.Toolkit.KryptonScrollBar();
+            this.kryptonVScrollBar1 = new Krypton.Toolkit.KryptonVScrollBar();
             this.kryptonHeaderGroup1 = new Krypton.Toolkit.KryptonHeaderGroup();
             this.kryptonGroupBox1 = new Krypton.Toolkit.KryptonGroupBox();
             this.kryptonNavigator1 = new Krypton.Navigator.KryptonNavigator();
@@ -155,7 +155,7 @@ namespace TestForm
             this.kryptonPanel1.Controls.Add(this.kryptonTableLayoutPanel1);
             this.kryptonPanel1.Controls.Add(this.kryptonMaskedTextBox1);
             this.kryptonPanel1.Controls.Add(this.kryptonLinkWrapLabel1);
-            this.kryptonPanel1.Controls.Add(this.kryptonScrollBar1);
+            this.kryptonPanel1.Controls.Add(this.kryptonVScrollBar1);
             this.kryptonPanel1.Controls.Add(this.kryptonHeaderGroup1);
             this.kryptonPanel1.Controls.Add(this.kryptonGroupBox1);
             this.kryptonPanel1.Controls.Add(this.kryptonNavigator1);
@@ -316,15 +316,13 @@ namespace TestForm
             // 
             // kryptonScrollBar1
             // 
-            this.kryptonScrollBar1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.kryptonScrollBar1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(93)))), ((int)(((byte)(140)))), ((int)(((byte)(201)))));
-            this.kryptonScrollBar1.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.kryptonScrollBar1.Location = new System.Drawing.Point(1248, 144);
-            this.kryptonScrollBar1.Name = "kryptonScrollBar1";
-            this.kryptonScrollBar1.Opacity = 1D;
-            this.kryptonScrollBar1.ScrollBarWidth = 19;
-            this.kryptonScrollBar1.Size = new System.Drawing.Size(19, 200);
-            this.kryptonScrollBar1.TabIndex = 58;
+            this.kryptonVScrollBar1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.kryptonVScrollBar1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(93)))), ((int)(((byte)(140)))), ((int)(((byte)(201)))));
+            this.kryptonVScrollBar1.DisabledBorderColor = System.Drawing.Color.Gray;
+            this.kryptonVScrollBar1.Location = new System.Drawing.Point(1248, 144);
+            this.kryptonVScrollBar1.Name = "kryptonVScrollBar1";
+            this.kryptonVScrollBar1.Size = new System.Drawing.Size(19, 200);
+            this.kryptonVScrollBar1.TabIndex = 58;
             // 
             // kryptonHeaderGroup1
             // 
@@ -1065,7 +1063,7 @@ namespace TestForm
         private KryptonHeaderGroup kryptonHeaderGroup1;
         private Krypton.Docking.KryptonDockingManager kryptonDockingManager1;
         private KryptonFontDialog kryptonFontDialog1;
-        private KryptonScrollBar kryptonScrollBar1;
+        private KryptonVScrollBar kryptonVScrollBar1;
         private KryptonLinkWrapLabel kryptonLinkWrapLabel1;
         private KryptonMaskedTextBox kryptonMaskedTextBox1;
         private KryptonTableLayoutPanel kryptonTableLayoutPanel1;

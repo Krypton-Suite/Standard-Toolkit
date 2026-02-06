@@ -47,12 +47,12 @@ namespace TestForm
 
         #region Designer Fields
 
-        private Krypton.Ribbon.KryptonRibbon? _ribbon;
-        private Krypton.Toolkit.KryptonButton? _btnDetach;
-        private Krypton.Toolkit.KryptonButton? _btnReattach;
-        private Krypton.Toolkit.KryptonLabel? _lblStatus;
-        private Krypton.Toolkit.ButtonSpecAny? _detachButton;
-        private Krypton.Toolkit.ButtonSpecAny? _reattachButton;
+        private Krypton.Ribbon.KryptonRibbon _ribbon;
+        private Krypton.Toolkit.KryptonButton _btnDetach;
+        private Krypton.Toolkit.KryptonButton _btnReattach;
+        private Krypton.Toolkit.KryptonLabel _lblStatus;
+        private Krypton.Toolkit.ButtonSpecAny _detachButton;
+        private Krypton.Toolkit.ButtonSpecAny _reattachButton;
 
         #endregion
     }

@@ -7,6 +7,7 @@
  */
 #endregion
 
+using System.Security;
 using Krypton.Utilities;
 
 namespace TestForm;
@@ -240,6 +241,46 @@ public partial class BugReportingDialogTest : KryptonForm
         }
     }
 
+    private void kbtnCreateGitHubIssuePublic_Click(object sender, EventArgs e)
+    {
+        var secretKey = ktbSecretKey.Text?.Trim();
+        if (string.IsNullOrWhiteSpace(secretKey))
+        {
+            _errorProvider.SetError(ktbSecretKey, "Secret key is required for GitHub issue reporting.");
+            return;
+        }
+        _errorProvider.SetError(ktbSecretKey, string.Empty);
+
+        var secureKey = CreateSecureString(secretKey);
+        var configPath = string.IsNullOrWhiteSpace(ktbConfigPath.Text) ? null : ktbConfigPath.Text.Trim();
+        var result = Krypton.Utilities.KryptonGitHubIssueReportDialog.Show(this, secureKey, configPath);
+        if (result == DialogResult.OK)
+        {
+            MessageBox.Show("Bug report created successfully!", "Success",
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+    }
+
+    private void kbtnCreateGitHubIssueInternal_Click(object sender, EventArgs e)
+    {
+        var secretKey = ktbSecretKey.Text?.Trim();
+        if (string.IsNullOrWhiteSpace(secretKey))
+        {
+            _errorProvider.SetError(ktbSecretKey, "Secret key is required for GitHub issue reporting.");
+            return;
+        }
+        _errorProvider.SetError(ktbSecretKey, string.Empty);
+
+        var secureKey = CreateSecureString(secretKey);
+        var configPath = string.IsNullOrWhiteSpace(ktbConfigPath.Text) ? null : ktbConfigPath.Text.Trim();
+        var result = Krypton.Toolkit.KryptonGitHubIssueReportDialog.Show(this, secureKey, configPath);
+        if (result == DialogResult.OK)
+        {
+            MessageBox.Show("Bug report created successfully!", "Success",
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+    }
+
     private void kbtnClose_Click(object sender, EventArgs e)
     {
         Close();
@@ -260,6 +301,17 @@ public partial class BugReportingDialogTest : KryptonForm
         _errorProvider?.Clear();
         _errorProvider?.Dispose();
         base.OnFormClosed(e);
+    }
+
+    private static SecureString CreateSecureString(string value)
+    {
+        var ss = new SecureString();
+        foreach (var c in value)
+        {
+            ss.AppendChar(c);
+        }
+        ss.MakeReadOnly();
+        return ss;
     }
 }
 

@@ -27,10 +27,11 @@ global using System.Drawing.Text;
 global using System.Globalization;
 global using System.IO;
 global using System.Linq;
+global using System.Media;
 #if NET8_0_OR_GREATER
 global using System.Text.Json.Nodes;
 #endif
-global using System.Media;
+global using System.Net.Http;
 global using System.Reflection;
 global using System.Resources;
 global using System.Runtime.CompilerServices;
@@ -38,6 +39,7 @@ global using System.Runtime.InteropServices;
 global using System.Runtime.Serialization;
 global using System.Runtime.Serialization.Formatters.Binary;
 global using System.Security;
+global using System.Security.Cryptography;
 global using System.Security.Principal;
 global using System.Text;
 global using System.Text.RegularExpressions;

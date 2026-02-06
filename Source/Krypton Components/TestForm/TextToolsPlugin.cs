@@ -55,9 +55,9 @@ public partial class TextToolsPlugin : UserControl
         underlineButton.Click += (s, e) => lblPluginStatus.Text = "Underline formatting applied";
 
         var triple1 = new KryptonRibbonGroupTriple();
-        triple1.Items.Add(boldButton);
-        triple1.Items.Add(italicButton);
-        triple1.Items.Add(underlineButton);
+        triple1.Items?.Add(boldButton);
+        triple1.Items?.Add(italicButton);
+        triple1.Items?.Add(underlineButton);
         formatGroup.Items.Add(triple1);
 
         // Alignment group
@@ -81,9 +81,9 @@ public partial class TextToolsPlugin : UserControl
         rightAlignButton.Click += (s, e) => lblPluginStatus.Text = "Right alignment applied";
 
         var triple2 = new KryptonRibbonGroupTriple();
-        triple2.Items.Add(leftAlignButton);
-        triple2.Items.Add(centerAlignButton);
-        triple2.Items.Add(rightAlignButton);
+        triple2.Items?.Add(leftAlignButton);
+        triple2.Items?.Add(centerAlignButton);
+        triple2.Items?.Add(rightAlignButton);
         alignGroup.Items.Add(triple2);
 
         textTab.Groups.Add(formatGroup);
