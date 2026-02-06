@@ -2566,7 +2566,7 @@ public class RenderStandard : RenderBase
 		PaletteState state,
 		VisualOrientation orientation)
 	{
-		var paletteBase = KryptonManager.GlobalPalette as PaletteBase;
+		var paletteBase = KryptonManager.CurrentGlobalPalette;
 		var baseSize = (paletteBase != null ? paletteBase.GetMetricInt(context.Control as KryptonForm, state, PaletteMetricInt.DropDownArrowBaseSize) : -1);
 		if (baseSize <= 0)
 		{
