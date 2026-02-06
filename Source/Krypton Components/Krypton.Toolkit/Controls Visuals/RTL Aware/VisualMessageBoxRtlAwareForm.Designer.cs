@@ -1,4 +1,4 @@
-﻿namespace Krypton.Toolkit
+namespace Krypton.Toolkit
 {
     partial class VisualMessageBoxRtlAwareForm
     {
