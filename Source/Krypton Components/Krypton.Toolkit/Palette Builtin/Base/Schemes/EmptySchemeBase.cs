@@ -138,6 +138,8 @@ public sealed class EmptySchemeBase : KryptonColorSchemeBase
     public override Color RibbonGroupFrameInside3          { get; set; } = GlobalStaticValues.EMPTY_COLOR;
     public override Color RibbonGroupFrameInside4          { get; set; } = GlobalStaticValues.EMPTY_COLOR;
     public override Color RibbonGroupCollapsedText         { get; set; } = GlobalStaticValues.EMPTY_COLOR;
+    public override Color RibbonGroupTextTracking          { get; set; } = GlobalStaticValues.EMPTY_COLOR;
+    public override Color ButtonTextTracking               { get; set; } = GlobalStaticValues.EMPTY_COLOR;
     public override Color RibbonGroupButtonText            { get; set; } = GlobalStaticValues.EMPTY_COLOR;
     public override Color AlternatePressedBack1            { get; set; } = GlobalStaticValues.EMPTY_COLOR;
     public override Color AlternatePressedBack2            { get; set; } = GlobalStaticValues.EMPTY_COLOR;
