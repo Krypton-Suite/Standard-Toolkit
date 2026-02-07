@@ -4,6 +4,7 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Resolved [#972](https://github.com/Krypton-Suite/Standard-Toolkit/issues/972), Office 2013 & Microsoft 365 control box items are not 'flat' – control box buttons (minimize, maximize, close) now use solid flat fills instead of gradients to match the official Office 2013 appearance
 * Implemented [#1326](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1326), Is it possible to have an alternate colour for `##Tracking` - Alternate text color for tracking (hover) state on buttons for improved readability in dark themes. Added comprehensive example in TestForm (`ButtonTextTrackingExample`)
 * Implemented [#2129](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2129), Drop-down arrows smaller and DPI aware; base size reduced from 16 to 10 logical pixels with DPI scaling; size configurable via theme (`PaletteMetricInt.DropDownArrowBaseSize`, `KryptonPalette.Navigator.StateCommon.Bar.DropDownArrowBaseSize`)
 * Implemented [#2968](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2968), Move **all** RTL specific dialogs to use the feature fully
