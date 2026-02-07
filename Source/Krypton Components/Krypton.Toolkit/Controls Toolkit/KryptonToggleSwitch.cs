@@ -657,16 +657,15 @@ public class KryptonToggleSwitch : Control, IContentValues
                    
                 float textY = (Height - textSize.Height) / 2f; // Center text vertically
 
-                // Enable better text rendering for smooth appearance
-                graphics.TextRenderingHint = TextRenderingHint.AntiAlias;
-
                 if (ToggleSwitchValues.ShowText)
                 {
-                    // Draw the text
-                    graphics.DrawString(text, font, textBrush, new PointF(textX, textY));
-
-                    // Reset text rendering hint
-                    graphics.TextRenderingHint = TextRenderingHint.SystemDefault;
+                    // Enable better text rendering for smooth appearance
+                    // Use GraphicsTextHint to properly save/restore TextRenderingHint to prevent affecting other controls
+                    using (new GraphicsTextHint(graphics, TextRenderingHint.AntiAlias))
+                    {
+                        // Draw the text
+                        graphics.DrawString(text, font, textBrush, new PointF(textX, textY));
+                    }
                 }
             }
         }
