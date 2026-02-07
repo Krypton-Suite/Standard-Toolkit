@@ -92,6 +92,11 @@ public abstract class PaletteBase : Component
     /// Occurs when a single scheme color is changed.
     /// </summary>
     public event EventHandler<SchemeColorChangedEventArgs>? SchemeColorChanged;
+
+    /// <summary>
+    /// Occurs when a single scheme extra color is changed.
+    /// </summary>
+    public event EventHandler<SchemeExtraColorChangedEventArgs>? SchemeExtraColorChanged;
     #endregion
 
     #region Identity
@@ -2185,6 +2190,7 @@ public abstract class PaletteBase : Component
     }
 
     private readonly object _colorLock = new();
+    private readonly Color[] _extraColors = new Color[36];
 
     /// <summary>
     /// Resets <see cref="ColorTable"/> to be updated on next paint.
@@ -2316,6 +2322,58 @@ public abstract class PaletteBase : Component
             SetSchemeColor(kv.Key, kv.Value); // reuses events + paint
     }
 
+    /// <summary>
+    /// Sets a scheme extra color by index.
+    /// </summary>
+    /// <param name="colorIndex">The scheme extra color index.</param>
+    /// <param name="newColor">The new color value.</param>
+    public virtual void SetSchemeExtraColor(SchemeExtraColors colorIndex, Color newColor)
+    {
+        lock (_colorLock)
+        {
+            var idx = (int)colorIndex;
+            if (idx >= _extraColors.Length || _extraColors[idx] == newColor)
+            {
+                return;
+            }
+
+            _extraColors[idx] = newColor;
+            InvalidateColorTable();
+        }
+        OnSchemeExtraColorChanged(colorIndex, newColor);
+        SchemeExtraColorChanged?.Invoke(this, new SchemeExtraColorChangedEventArgs(colorIndex, newColor));
+        OnPalettePaint(this, new PaletteLayoutEventArgs(true, true));
+    }
+
+    /// <summary>
+    /// Gets a scheme extra color by index.
+    /// </summary>
+    /// <param name="colorIndex">The scheme extra color index.</param>
+    /// <returns>The color value.</returns>
+    public virtual Color GetSchemeExtraColor(SchemeExtraColors colorIndex)
+    {
+        lock (_colorLock)
+        {
+            var idx = (int)colorIndex;
+            return idx >= 0 && idx < _extraColors.Length ? _extraColors[idx] : GlobalStaticValues.EMPTY_COLOR;
+        }
+    }
+
+    /// <summary>
+    /// Batch updates scheme extra colors.
+    /// </summary>
+    /// <param name="colorUpdates">Dictionary of scheme extra color index to new color value.</param>
+    public virtual void UpdateSchemeExtraColors(Dictionary<SchemeExtraColors, Color> colorUpdates)
+    {
+        if (colorUpdates is null)
+        {
+            throw new ArgumentNullException(nameof(colorUpdates));
+        }
+
+        foreach (var kv in colorUpdates)
+            SetSchemeExtraColor(kv.Key, kv.Value);
+    }
+
     // Thread-safe full-scheme replacement
     public void ApplyScheme(KryptonColorSchemeBase newScheme)
     {
@@ -2366,6 +2424,9 @@ public abstract class PaletteBase : Component
 
     /// <summary>Hook for derived families to rebuild caches when a color changes.</summary>
     protected virtual void OnSchemeColorChanged(SchemeBaseColors index, Color newColor) { }
+
+    /// <summary>Hook for derived families when a scheme extra color changes.</summary>
+    protected virtual void OnSchemeExtraColorChanged(SchemeExtraColors index, Color newColor) { }
 }
 
 /// <summary>
@@ -2377,6 +2438,21 @@ public sealed class SchemeColorChangedEventArgs : EventArgs
     public Color NewColor { get; }
 
     public SchemeColorChangedEventArgs(SchemeBaseColors index, Color newColor)
+    {
+        Index = index;
+        NewColor = newColor;
+    }
+}
+
+/// <summary>
+/// Data for when one scheme extra color changes.
+/// </summary>
+public sealed class SchemeExtraColorChangedEventArgs : EventArgs
+{
+    public SchemeExtraColors Index { get; }
+    public Color NewColor { get; }
+
+    public SchemeExtraColorChangedEventArgs(SchemeExtraColors index, Color newColor)
     {
         Index = index;
         NewColor = newColor;

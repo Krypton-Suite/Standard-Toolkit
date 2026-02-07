@@ -2147,6 +2147,18 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
         };
     }
 
+    private Color GetEffectiveButtonTextTracking(Color fallbackWhenEmpty)
+    {
+        var idx = (int)SchemeBaseColors.ButtonTextTracking;
+        if (idx < _ribbonColors.Length)
+        {
+            var c = _ribbonColors[idx];
+            if (!c.IsEmpty) return c;
+        }
+        var extra = GetSchemeExtraColor(SchemeExtraColors.ButtonTextTracking);
+        return !extra.IsEmpty ? extra : fallbackWhenEmpty;
+    }
+
     /// <summary>
     /// Gets the first back color for the short text.
     /// </summary>
@@ -2220,7 +2232,7 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
             PaletteContentStyle.LabelToolTip or PaletteContentStyle.LabelSuperTip or PaletteContentStyle.LabelKeyTip => _toolTipText,
             PaletteContentStyle.ContextMenuHeading => _ribbonColors[(int)SchemeBaseColors.ContextMenuHeadingText],
             PaletteContentStyle.TabHighProfile or PaletteContentStyle.TabStandardProfile or PaletteContentStyle.TabLowProfile or PaletteContentStyle.TabOneNote or PaletteContentStyle.TabDock or PaletteContentStyle.TabCustom1 or PaletteContentStyle.TabCustom2 or PaletteContentStyle.TabCustom3 or PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonGallery or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 => state == PaletteState.Tracking || state == PaletteState.CheckedTracking
-                ? (_ribbonColors[(int)SchemeBaseColors.ButtonTextTracking].IsEmpty ? _ribbonColors[(int)SchemeBaseColors.TextButtonChecked] : _ribbonColors[(int)SchemeBaseColors.ButtonTextTracking])
+                ? GetEffectiveButtonTextTracking(_ribbonColors[(int)SchemeBaseColors.TextButtonChecked])
                 : state != PaletteState.Normal
                     ? _ribbonColors[(int)SchemeBaseColors.TextButtonChecked]
                     : _ribbonColors[(int)SchemeBaseColors.TextButtonNormal],
@@ -2231,12 +2243,8 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
                 PaletteState.Normal => style == PaletteContentStyle.ButtonListItem
                     ? _ribbonColors[(int)SchemeBaseColors.TextLabelControl]
                     : _ribbonColors[(int)SchemeBaseColors.TextLabelPanel],
-                PaletteState.Tracking => _ribbonColors[(int)SchemeBaseColors.ButtonTextTracking].IsEmpty
-                    ? _ribbonColors[(int)SchemeBaseColors.TextButtonNormal]
-                    : _ribbonColors[(int)SchemeBaseColors.ButtonTextTracking],
-                PaletteState.CheckedTracking => _ribbonColors[(int)SchemeBaseColors.ButtonTextTracking].IsEmpty
-                    ? _ribbonColors[(int)SchemeBaseColors.TextButtonChecked]
-                    : _ribbonColors[(int)SchemeBaseColors.ButtonTextTracking],
+                PaletteState.Tracking => GetEffectiveButtonTextTracking(_ribbonColors[(int)SchemeBaseColors.TextButtonNormal]),
+                PaletteState.CheckedTracking => GetEffectiveButtonTextTracking(_ribbonColors[(int)SchemeBaseColors.TextButtonChecked]),
                 PaletteState.CheckedNormal or PaletteState.CheckedPressed => _ribbonColors[(int)SchemeBaseColors.TextButtonChecked],
                 _ => _ribbonColors[(int)SchemeBaseColors.TextButtonNormal]
             },
@@ -2306,7 +2314,7 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
             PaletteContentStyle.LabelToolTip or PaletteContentStyle.LabelSuperTip or PaletteContentStyle.LabelKeyTip => _toolTipText,
             PaletteContentStyle.ContextMenuHeading => _ribbonColors[(int)SchemeBaseColors.ContextMenuHeadingText],
             PaletteContentStyle.TabHighProfile or PaletteContentStyle.TabStandardProfile or PaletteContentStyle.TabLowProfile or PaletteContentStyle.TabOneNote or PaletteContentStyle.TabDock or PaletteContentStyle.TabCustom1 or PaletteContentStyle.TabCustom2 or PaletteContentStyle.TabCustom3 or PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonGallery or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 => state == PaletteState.Tracking || state == PaletteState.CheckedTracking
-                ? (_ribbonColors[(int)SchemeBaseColors.ButtonTextTracking].IsEmpty ? _ribbonColors[(int)SchemeBaseColors.TextButtonChecked] : _ribbonColors[(int)SchemeBaseColors.ButtonTextTracking])
+                ? GetEffectiveButtonTextTracking(_ribbonColors[(int)SchemeBaseColors.TextButtonChecked])
                 : state != PaletteState.Normal
                     ? _ribbonColors[(int)SchemeBaseColors.TextButtonChecked]
                     : _ribbonColors[(int)SchemeBaseColors.TextButtonNormal],
@@ -2317,12 +2325,8 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
                 PaletteState.Normal => style == PaletteContentStyle.ButtonListItem
                     ? _ribbonColors[(int)SchemeBaseColors.TextLabelControl]
                     : _ribbonColors[(int)SchemeBaseColors.TextLabelPanel],
-                PaletteState.Tracking => _ribbonColors[(int)SchemeBaseColors.ButtonTextTracking].IsEmpty
-                    ? _ribbonColors[(int)SchemeBaseColors.TextButtonNormal]
-                    : _ribbonColors[(int)SchemeBaseColors.ButtonTextTracking],
-                PaletteState.CheckedTracking => _ribbonColors[(int)SchemeBaseColors.ButtonTextTracking].IsEmpty
-                    ? _ribbonColors[(int)SchemeBaseColors.TextButtonChecked]
-                    : _ribbonColors[(int)SchemeBaseColors.ButtonTextTracking],
+                PaletteState.Tracking => GetEffectiveButtonTextTracking(_ribbonColors[(int)SchemeBaseColors.TextButtonNormal]),
+                PaletteState.CheckedTracking => GetEffectiveButtonTextTracking(_ribbonColors[(int)SchemeBaseColors.TextButtonChecked]),
                 PaletteState.CheckedNormal or PaletteState.CheckedPressed => _ribbonColors[(int)SchemeBaseColors.TextButtonChecked],
                 _ => _ribbonColors[(int)SchemeBaseColors.TextButtonNormal]
             },
@@ -4487,6 +4491,20 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
             BaseColors.ButtonTextTracking = newColor;
         }
         base.OnSchemeColorChanged(index, newColor);
+    }
+
+    protected override void OnSchemeExtraColorChanged(SchemeExtraColors index, Color newColor)
+    {
+        if (index == SchemeExtraColors.ButtonTextTracking)
+        {
+            var idx = (int)SchemeBaseColors.ButtonTextTracking;
+            if (idx < _ribbonColors.Length)
+            {
+                _ribbonColors[idx] = newColor;
+            }
+            BaseColors?.ButtonTextTracking = newColor;
+        }
+        base.OnSchemeExtraColorChanged(index, newColor);
     }
 
     #endregion OnUserPreferenceChanged
