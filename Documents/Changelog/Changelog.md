@@ -4,6 +4,7 @@
 
 ## 2026-04-20 - Build 2604 (Version 105-LTS - Patch 2) - April 2026
 
+* Implemented [#2129](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2129), Drop Down Arrows: base size reduced from 16 to 10 logical pixels; size scales by DPI; added `PaletteMetricInt.DropDownArrowBaseSize` and `KryptonPaletteNavigatorStateBar.DropDownArrowBaseSize` for theme-based configuration
 * Resolved [#2927](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2927), "Populate from Base" task freezes Visual Studio
 * Resolved [#2132](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2132), Drag feedback artifact: when dragging a dockable page, a small dark artefact appeared in the top-left corner of the screen. The drop feedback window (`DropSolidWindow`) was created at (0,0); it is now positioned off-screen initially and when no drop target is matched.
 * Implemented [#2952](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2962), Set license header via `editorconfig`
