@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -1130,7 +1130,7 @@ public class KryptonCustomPaletteBase : PaletteBase
     /// <inheritdoc />
     public override int GetMetricInt(KryptonForm? owningForm, PaletteState state, PaletteMetricInt metric) => metric switch
     {
-        PaletteMetricInt.BarButtonEdgeInside or PaletteMetricInt.BarButtonEdgeOutside or PaletteMetricInt.CheckButtonGap or PaletteMetricInt.RibbonTabGap => Navigator.StateCommon.Bar.GetMetricInt(owningForm, state, metric),
+        PaletteMetricInt.BarButtonEdgeInside or PaletteMetricInt.BarButtonEdgeOutside or PaletteMetricInt.CheckButtonGap or PaletteMetricInt.RibbonTabGap or PaletteMetricInt.DropDownArrowBaseSize => Navigator.StateCommon.Bar.GetMetricInt(owningForm, state, metric),
         PaletteMetricInt.HeaderButtonEdgeInsetPrimary => HeaderStyles.HeaderPrimary.StateCommon.GetMetricInt(owningForm, state, metric),
         PaletteMetricInt.HeaderButtonEdgeInsetSecondary => HeaderStyles.HeaderSecondary.StateCommon.GetMetricInt(owningForm, state, metric),
         PaletteMetricInt.HeaderButtonEdgeInsetDockInactive => HeaderStyles.HeaderDockInactive.StateCommon.GetMetricInt(owningForm, state, metric),
@@ -4268,6 +4268,8 @@ public class KryptonCustomPaletteBase : PaletteBase
                 return ButtonSpecs.RibbonMinimize;
             case PaletteButtonSpecStyle.RibbonExpand:
                 return ButtonSpecs.RibbonExpand;
+            case PaletteButtonSpecStyle.Undo:
+                return ButtonSpecs.Previous;
             default:
                 // Should never happen!
                 Debug.Assert(false);
