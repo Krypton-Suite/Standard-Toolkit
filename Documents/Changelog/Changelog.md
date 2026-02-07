@@ -4,6 +4,7 @@
 
 ## 2026-04-20 - Build 2604 (Version 105-LTS - Patch 2) - April 2026
 
+* Resolved [#972](https://github.com/Krypton-Suite/Standard-Toolkit/issues/972), Office 2013 & Microsoft 365 control box items are not 'flat' – control box buttons (minimize, maximize, close) now use solid flat fills instead of gradients to match the official Office 2013 appearance
 * Resolved [#2913](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2913), Krypton Toolkit causes low-quality text rendering in Stimulsoft preview window
 * Implemented [#2129](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2129), Drop Down Arrows: base size reduced from 16 to 10 logical pixels; size scales by DPI; added `PaletteMetricInt.DropDownArrowBaseSize` and `KryptonPaletteNavigatorStateBar.DropDownArrowBaseSize` for theme-based configuration
 * Resolved [#2927](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2927), "Populate from Base" task freezes Visual Studio

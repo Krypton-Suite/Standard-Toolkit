@@ -1015,9 +1015,9 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
                     or PaletteState.NormalDefaultOverride
                     or PaletteState.CheckedNormal
                     or PaletteState.Tracking
-                    or PaletteState.CheckedTracking => PaletteColorStyle.Linear,
-                PaletteState.Pressed
-                    or PaletteState.CheckedPressed => PaletteColorStyle.LinearShadow,
+                    or PaletteState.CheckedTracking
+                    or PaletteState.Pressed
+                    or PaletteState.CheckedPressed => PaletteColorStyle.Solid,
                 _ => throw DebugTools.NotImplemented(state.ToString())
             },
             PaletteBackStyle.ButtonAlternate or PaletteBackStyle.ButtonStandalone or PaletteBackStyle.ButtonLowProfile or PaletteBackStyle.ButtonBreadCrumb or PaletteBackStyle.ButtonListItem or PaletteBackStyle.ButtonCommand or PaletteBackStyle.ButtonButtonSpec or PaletteBackStyle.ButtonCluster or PaletteBackStyle.ButtonGallery or PaletteBackStyle.ButtonCustom1 or PaletteBackStyle.ButtonCustom2 or PaletteBackStyle.ButtonCustom3 or PaletteBackStyle.ButtonInputControl or PaletteBackStyle.ContextMenuItemHighlight => state switch
