@@ -1,4 +1,4 @@
-﻿namespace Krypton.Toolkit
+namespace Krypton.Toolkit
 {
     partial class VisualMessageBoxRtlAwareForm
     {
@@ -208,7 +208,7 @@
             this.krtbMessageText.Size = new System.Drawing.Size(166, 19);
             this.krtbMessageText.StateCommon.Border.DrawBorders = Krypton.Toolkit.PaletteDrawBorders.None;
             this.krtbMessageText.TabIndex = 0;
-            this.krtbMessageText.Text = "Message Text\n.\ttabbed";
+            this.krtbMessageText.Text = "";
             this.krtbMessageText.WordWrap = false;
             // 
             // VisualMessageBoxRtlAwareForm

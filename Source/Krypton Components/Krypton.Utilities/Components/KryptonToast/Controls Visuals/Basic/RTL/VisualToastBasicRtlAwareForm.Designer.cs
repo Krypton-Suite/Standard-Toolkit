@@ -39,8 +39,8 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.pbxImage = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.klblHeader = new Krypton.Toolkit.KryptonLabel();
             this.krtbNotificationContentText = new Krypton.Toolkit.KryptonRichTextBox();
+            this.klblHeader = new Krypton.Toolkit.KryptonLabel();
             ((System.ComponentModel.ISupportInitialize)(this.kpnlButtons)).BeginInit();
             this.kpnlButtons.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
@@ -90,6 +90,7 @@
             this.kbtnDismiss.Location = new System.Drawing.Point(78, 13);
             this.kbtnDismiss.Margin = new System.Windows.Forms.Padding(10);
             this.kbtnDismiss.Name = "kbtnDismiss";
+            this.kbtnDismiss.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.kbtnDismiss.Size = new System.Drawing.Size(48, 22);
             this.kbtnDismiss.TabIndex = 2;
             this.kbtnDismiss.Values.DropDownArrowColor = System.Drawing.Color.Empty;
@@ -102,6 +103,7 @@
             this.klblToastLocation.Location = new System.Drawing.Point(508, 23);
             this.klblToastLocation.Margin = new System.Windows.Forms.Padding(10);
             this.klblToastLocation.Name = "klblToastLocation";
+            this.klblToastLocation.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.klblToastLocation.Size = new System.Drawing.Size(6, 2);
             this.klblToastLocation.TabIndex = 3;
             this.klblToastLocation.Values.Text = "";
@@ -112,6 +114,7 @@
             this.kchkDoNotShowAgain.Location = new System.Drawing.Point(534, 10);
             this.kchkDoNotShowAgain.Margin = new System.Windows.Forms.Padding(10);
             this.kchkDoNotShowAgain.Name = "kchkDoNotShowAgain";
+            this.kchkDoNotShowAgain.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.kchkDoNotShowAgain.Size = new System.Drawing.Size(45, 29);
             this.kchkDoNotShowAgain.TabIndex = 4;
             this.kchkDoNotShowAgain.Values.Text = "CB1";
@@ -123,6 +126,7 @@
             this.itbDismiss.Location = new System.Drawing.Point(10, 13);
             this.itbDismiss.Margin = new System.Windows.Forms.Padding(10);
             this.itbDismiss.Name = "itbDismiss";
+            this.itbDismiss.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.itbDismiss.Size = new System.Drawing.Size(48, 22);
             this.itbDismiss.TabIndex = 5;
             this.itbDismiss.Values.DropDownArrowColor = System.Drawing.Color.Empty;
@@ -189,17 +193,6 @@
             this.tableLayoutPanel2.Size = new System.Drawing.Size(445, 205);
             this.tableLayoutPanel2.TabIndex = 1;
             // 
-            // klblHeader
-            // 
-            this.klblHeader.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.klblHeader.LabelStyle = Krypton.Toolkit.LabelStyle.TitlePanel;
-            this.klblHeader.Location = new System.Drawing.Point(5, 5);
-            this.klblHeader.Margin = new System.Windows.Forms.Padding(5);
-            this.klblHeader.Name = "klblHeader";
-            this.klblHeader.Size = new System.Drawing.Size(435, 29);
-            this.klblHeader.TabIndex = 4;
-            this.klblHeader.Values.Text = "kryptonLabel1";
-            // 
             // krtbNotificationContentText
             // 
             this.krtbNotificationContentText.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -214,7 +207,19 @@
             this.krtbNotificationContentText.TabIndex = 5;
             this.krtbNotificationContentText.Text = "kryptonRichTextBox1";
             // 
-            // VisualToastNotificationBasicRtlAwareForm
+            // klblHeader
+            // 
+            this.klblHeader.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.klblHeader.LabelStyle = Krypton.Toolkit.LabelStyle.TitlePanel;
+            this.klblHeader.Location = new System.Drawing.Point(5, 5);
+            this.klblHeader.Margin = new System.Windows.Forms.Padding(5);
+            this.klblHeader.Name = "klblHeader";
+            this.klblHeader.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.klblHeader.Size = new System.Drawing.Size(435, 29);
+            this.klblHeader.TabIndex = 4;
+            this.klblHeader.Values.Text = "kryptonLabel1";
+            // 
+            // VisualToastBasicRtlAwareForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -224,12 +229,16 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "VisualToastNotificationBasicRtlAwareForm";
+            this.Name = "VisualToastBasicRtlAwareForm";
             this.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.RightToLeftLayout = true;
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
+            this.UseThemeFormChromeBorderWidth = false;
             this.Load += new System.EventHandler(this.VisualToastNotificationBasicRtlAwareForm_Load);
+            this.Controls.SetChildIndex(this.kpnlButtons, 0);
+            this.Controls.SetChildIndex(this.kryptonPanel1, 0);
             ((System.ComponentModel.ISupportInitialize)(this.kpnlButtons)).EndInit();
             this.kpnlButtons.ResumeLayout(false);
             this.kpnlButtons.PerformLayout();

@@ -3019,25 +3019,27 @@ public class KryptonComboBox : VisualControlBase,
                 // Set the correct text rendering hint for the text drawing. We only draw if the edit text is enabled so we
                 // just always grab the normal state value. Without this line the wrong hint can occur because it inherits
                 // it from the device context. Resulting in blurred text.
-                e.Graphics.TextRenderingHint = CommonHelper.PaletteTextHintToRenderingHint(StateNormal.Item.PaletteContent!.GetContentShortTextHint(PaletteState.Normal));
-
-                TextFormatFlags flags = TextFormatFlags.TextBoxControl | TextFormatFlags.NoPadding;
-
-                // Use the correct prefix setting
-                flags |= TextFormatFlags.NoPrefix;
-
-                // Do we need to switch drawing direction?
-                if (RightToLeft == RightToLeft.Yes)
+                // Use GraphicsTextHint to properly save/restore TextRenderingHint to prevent affecting other controls
+                using (new GraphicsTextHint(e.Graphics, CommonHelper.PaletteTextHintToRenderingHint(StateNormal.Item.PaletteContent!.GetContentShortTextHint(PaletteState.Normal))))
                 {
-                    flags |= TextFormatFlags.Right;
-                }
+                    TextFormatFlags flags = TextFormatFlags.TextBoxControl | TextFormatFlags.NoPadding;
 
-                // Draw text using font defined by the control
-                TextRenderer.DrawText(e.Graphics,
-                    _comboBox.Text, _comboBox.Font,
-                    drawBounds,
-                    textColor, backColor,
-                    flags);
+                    // Use the correct prefix setting
+                    flags |= TextFormatFlags.NoPrefix;
+
+                    // Do we need to switch drawing direction?
+                    if (RightToLeft == RightToLeft.Yes)
+                    {
+                        flags |= TextFormatFlags.Right;
+                    }
+
+                    // Draw text using font defined by the control
+                    TextRenderer.DrawText(e.Graphics,
+                        _comboBox.Text, _comboBox.Font,
+                        drawBounds,
+                        textColor, backColor,
+                        flags);
+                }
             }
         }
         else
