@@ -3103,6 +3103,8 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
                 return 3;
             case PaletteMetricInt.None:
                 return 0;
+            case PaletteMetricInt.DropDownArrowBaseSize:
+                return 10;
             default:
                 // Should never happen!
                 Debug.Assert(false);
