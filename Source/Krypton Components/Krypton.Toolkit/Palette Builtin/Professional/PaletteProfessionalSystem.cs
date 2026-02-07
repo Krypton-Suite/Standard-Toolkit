@@ -3747,12 +3747,17 @@ public class PaletteProfessionalSystem : PaletteBase
                     _ => BaseColors!.RibbonTabTextNormal
                 };
             case PaletteRibbonTextStyle.RibbonGroupCollapsedText:
-                return BaseColors!.RibbonGroupCollapsedText;
+                return GetRibbonGroupTextColor(state,
+                    BaseColors!.RibbonGroupTextTracking,
+                    BaseColors!.RibbonGroupCollapsedText);
             case PaletteRibbonTextStyle.RibbonGroupButtonText:
             case PaletteRibbonTextStyle.RibbonGroupLabelText:
             case PaletteRibbonTextStyle.RibbonGroupCheckBoxText:
             case PaletteRibbonTextStyle.RibbonGroupRadioButtonText:
-                return state == PaletteState.Disabled ? _disabledText : BaseColors!.RibbonGroupCollapsedText;
+                return GetRibbonGroupTextColor(state,
+                    BaseColors!.RibbonGroupTextTracking,
+                    BaseColors!.RibbonGroupCollapsedText,
+                    _disabledText);
 
             default:
                 // Should never happen!

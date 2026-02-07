@@ -4,6 +4,7 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#1326](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1326), Is it possible to have an alternate colour for `##Tracking` - Alternate text color for tracking (hover) state on buttons for improved readability in dark themes. Added comprehensive example in TestForm (`ButtonTextTrackingExample`)
 * Implemented [#2129](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2129), Drop-down arrows smaller and DPI aware; base size reduced from 16 to 10 logical pixels with DPI scaling; size configurable via theme (`PaletteMetricInt.DropDownArrowBaseSize`, `KryptonPalette.Navigator.StateCommon.Bar.DropDownArrowBaseSize`)
 * Implemented [#2968](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2968), Move **all** RTL specific dialogs to use the feature fully
 * Resolved [#2927](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2927), "Populate from Base" task freezes Visual Studio

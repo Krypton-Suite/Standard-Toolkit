@@ -4026,12 +4026,17 @@ public abstract class PaletteVisualStudio2010With2010Base : PaletteBase
                     _ => _ribbonColors[(int)SchemeBaseColors.RibbonTabTextNormal]
                 };
             case PaletteRibbonTextStyle.RibbonGroupCollapsedText:
-                return _ribbonColors[(int)SchemeBaseColors.RibbonGroupCollapsedText];
+                return GetRibbonGroupTextColor(state,
+                    _ribbonColors[(int)SchemeBaseColors.RibbonGroupTextTracking],
+                    _ribbonColors[(int)SchemeBaseColors.RibbonGroupCollapsedText]);
             case PaletteRibbonTextStyle.RibbonGroupButtonText:
             case PaletteRibbonTextStyle.RibbonGroupLabelText:
             case PaletteRibbonTextStyle.RibbonGroupCheckBoxText:
             case PaletteRibbonTextStyle.RibbonGroupRadioButtonText:
-                return state == PaletteState.Disabled ? _disabledText : _ribbonColors[(int)SchemeBaseColors.RibbonGroupCollapsedText];
+                return GetRibbonGroupTextColor(state,
+                    _ribbonColors[(int)SchemeBaseColors.RibbonGroupTextTracking],
+                    _ribbonColors[(int)SchemeBaseColors.RibbonGroupCollapsedText],
+                    _disabledText);
 
             default:
                 // Should never happen!
