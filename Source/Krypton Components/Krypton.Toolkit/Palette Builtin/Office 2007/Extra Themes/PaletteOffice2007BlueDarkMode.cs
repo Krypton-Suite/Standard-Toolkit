@@ -4674,30 +4674,17 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                     _ => BaseColors!.RibbonTabTextNormal
                 };
             case PaletteRibbonTextStyle.RibbonGroupCollapsedText:
-                if (state is PaletteState.Tracking or PaletteState.CheckedTracking)
-                {
-                    var trackingColor = BaseColors!.RibbonGroupTextTracking;
-                    return trackingColor != GlobalStaticValues.EMPTY_COLOR && !trackingColor.IsEmpty
-                        ? trackingColor
-                        : BaseColors!.RibbonGroupCollapsedText;
-                }
-                return BaseColors!.RibbonGroupCollapsedText;
+                return GetRibbonGroupTextColor(state,
+                    BaseColors!.RibbonGroupTextTracking,
+                    BaseColors!.RibbonGroupCollapsedText);
             case PaletteRibbonTextStyle.RibbonGroupButtonText:
             case PaletteRibbonTextStyle.RibbonGroupLabelText:
             case PaletteRibbonTextStyle.RibbonGroupCheckBoxText:
             case PaletteRibbonTextStyle.RibbonGroupRadioButtonText:
-                if (state == PaletteState.Disabled)
-                {
-                    return _disabledText;
-                }
-                if (state is PaletteState.Tracking or PaletteState.CheckedTracking)
-                {
-                    var trackingColor = BaseColors!.RibbonGroupTextTracking;
-                    return trackingColor != GlobalStaticValues.EMPTY_COLOR && !trackingColor.IsEmpty
-                        ? trackingColor
-                        : BaseColors!.RibbonGroupCollapsedText;
-                }
-                return BaseColors!.RibbonGroupCollapsedText;
+                return GetRibbonGroupTextColor(state,
+                    BaseColors!.RibbonGroupTextTracking,
+                    BaseColors!.RibbonGroupCollapsedText,
+                    _disabledText);
 
             default:
                 // Should never happen!

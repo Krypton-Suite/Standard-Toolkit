@@ -3297,30 +3297,17 @@ public abstract class PaletteVisualStudioBase : PaletteBase
                     _ => _ribbonColors[(int)SchemeBaseColors.RibbonTabTextNormal]
                 };
             case PaletteRibbonTextStyle.RibbonGroupCollapsedText:
-                if (state is PaletteState.Tracking or PaletteState.CheckedTracking)
-                {
-                    var trackingColor = _ribbonColors[(int)SchemeBaseColors.RibbonGroupTextTracking];
-                    return trackingColor != GlobalStaticValues.EMPTY_COLOR && !trackingColor.IsEmpty
-                        ? trackingColor
-                        : _ribbonColors[(int)SchemeBaseColors.RibbonGroupCollapsedText];
-                }
-                return _ribbonColors[(int)SchemeBaseColors.RibbonGroupCollapsedText];
+                return GetRibbonGroupTextColor(state,
+                    _ribbonColors[(int)SchemeBaseColors.RibbonGroupTextTracking],
+                    _ribbonColors[(int)SchemeBaseColors.RibbonGroupCollapsedText]);
             case PaletteRibbonTextStyle.RibbonGroupButtonText:
             case PaletteRibbonTextStyle.RibbonGroupLabelText:
             case PaletteRibbonTextStyle.RibbonGroupCheckBoxText:
             case PaletteRibbonTextStyle.RibbonGroupRadioButtonText:
-                if (state == PaletteState.Disabled)
-                {
-                    return _disabledText;
-                }
-                if (state is PaletteState.Tracking or PaletteState.CheckedTracking)
-                {
-                    var trackingColor = _ribbonColors[(int)SchemeBaseColors.RibbonGroupTextTracking];
-                    return trackingColor != GlobalStaticValues.EMPTY_COLOR && !trackingColor.IsEmpty
-                        ? trackingColor
-                        : _ribbonColors[(int)SchemeBaseColors.RibbonGroupCollapsedText];
-                }
-                return _ribbonColors[(int)SchemeBaseColors.RibbonGroupCollapsedText];
+                return GetRibbonGroupTextColor(state,
+                    _ribbonColors[(int)SchemeBaseColors.RibbonGroupTextTracking],
+                    _ribbonColors[(int)SchemeBaseColors.RibbonGroupCollapsedText],
+                    _disabledText);
 
             default:
                 // Should never happen!
