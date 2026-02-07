@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -1130,7 +1130,7 @@ public class KryptonCustomPaletteBase : PaletteBase
     /// <inheritdoc />
     public override int GetMetricInt(KryptonForm? owningForm, PaletteState state, PaletteMetricInt metric) => metric switch
     {
-        PaletteMetricInt.BarButtonEdgeInside or PaletteMetricInt.BarButtonEdgeOutside or PaletteMetricInt.CheckButtonGap or PaletteMetricInt.RibbonTabGap => Navigator.StateCommon.Bar.GetMetricInt(owningForm, state, metric),
+        PaletteMetricInt.BarButtonEdgeInside or PaletteMetricInt.BarButtonEdgeOutside or PaletteMetricInt.CheckButtonGap or PaletteMetricInt.RibbonTabGap or PaletteMetricInt.DropDownArrowBaseSize => Navigator.StateCommon.Bar.GetMetricInt(owningForm, state, metric),
         PaletteMetricInt.HeaderButtonEdgeInsetPrimary => HeaderStyles.HeaderPrimary.StateCommon.GetMetricInt(owningForm, state, metric),
         PaletteMetricInt.HeaderButtonEdgeInsetSecondary => HeaderStyles.HeaderSecondary.StateCommon.GetMetricInt(owningForm, state, metric),
         PaletteMetricInt.HeaderButtonEdgeInsetDockInactive => HeaderStyles.HeaderDockInactive.StateCommon.GetMetricInt(owningForm, state, metric),

@@ -3007,6 +3007,8 @@ public class PaletteOffice2003Base : PaletteBase
             case PaletteMetricInt.BarButtonEdgeOutside:
             case PaletteMetricInt.BarButtonEdgeInside:
                 return 3;
+            case PaletteMetricInt.DropDownArrowBaseSize:
+                return 10;
             case PaletteMetricInt.None:
                 return 0;
             default:
