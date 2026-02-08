@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege, et al. 2024 - 2026. All rights reserved.
@@ -2134,23 +2134,25 @@ public abstract class PaletteMicrosoft365BlackDarkModeAlternateBase : PaletteBas
             PaletteContentStyle.ContextMenuHeading => BaseColors.ContextMenuHeadingText,
             PaletteContentStyle.TabHighProfile or PaletteContentStyle.TabStandardProfile or PaletteContentStyle.TabLowProfile or PaletteContentStyle.TabOneNote or PaletteContentStyle.TabDock or PaletteContentStyle.TabCustom1 or PaletteContentStyle.TabCustom2 or PaletteContentStyle.TabCustom3 or PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonGallery or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 => state switch
             {
-                PaletteState.Tracking => _buttonTextTracking,
+                PaletteState.Tracking or PaletteState.CheckedTracking => !BaseColors.ButtonTextTracking.IsEmpty ? BaseColors.ButtonTextTracking : _buttonTextTracking,
                 PaletteState.Normal => BaseColors.TextButtonNormal,
                 _ => BaseColors.TextButtonChecked
             },
             PaletteContentStyle.TabDockAutoHidden => BaseColors.TextButtonNormal,
             PaletteContentStyle.ButtonCalendarDay => state switch
             {
-                PaletteState.Tracking => _buttonTextTracking,
+                PaletteState.Tracking => !BaseColors.ButtonTextTracking.IsEmpty ? BaseColors.ButtonTextTracking : _buttonTextTracking,
                 PaletteState.Disabled => _disabledText2,
                 _ => BaseColors.TextButtonNormal
             },
             PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonButtonSpec => state switch
             {
+                PaletteState.Tracking => !BaseColors.ButtonTextTracking.IsEmpty ? BaseColors.ButtonTextTracking : _buttonTextTracking,
+                PaletteState.CheckedTracking => !BaseColors.ButtonTextTracking.IsEmpty ? BaseColors.ButtonTextTracking : BaseColors.TextButtonChecked,
                 PaletteState.Normal => style == PaletteContentStyle.ButtonListItem
                     ? BaseColors.TextLabelControl
                     : BaseColors.TextLabelPanel,
-                PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => BaseColors.TextButtonChecked,
+                PaletteState.CheckedNormal or PaletteState.CheckedPressed => BaseColors.TextButtonChecked,
                 _ => BaseColors.TextButtonNormal
             },
             PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose => state switch
@@ -2229,10 +2231,12 @@ public abstract class PaletteMicrosoft365BlackDarkModeAlternateBase : PaletteBas
             },
             PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonButtonSpec => state switch
             {
+                PaletteState.Tracking => !BaseColors.ButtonTextTracking.IsEmpty ? BaseColors.ButtonTextTracking : _buttonTextTracking,
+                PaletteState.CheckedTracking => !BaseColors.ButtonTextTracking.IsEmpty ? BaseColors.ButtonTextTracking : BaseColors.TextButtonChecked,
                 PaletteState.Normal => style == PaletteContentStyle.ButtonListItem
                     ? BaseColors.TextLabelControl
                     : BaseColors.TextLabelPanel,
-                PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => BaseColors.TextButtonChecked,
+                PaletteState.CheckedNormal or PaletteState.CheckedPressed => BaseColors.TextButtonChecked,
                 _ => BaseColors.TextButtonNormal
             },
             PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose => state switch
@@ -3031,6 +3035,8 @@ public abstract class PaletteMicrosoft365BlackDarkModeAlternateBase : PaletteBas
                 return 3;
             case PaletteMetricInt.None:
                 return 0;
+            case PaletteMetricInt.DropDownArrowBaseSize:
+                return 10;
             default:
                 // Should never happen!
                 Debug.Assert(false);
@@ -4126,12 +4132,17 @@ public abstract class PaletteMicrosoft365BlackDarkModeAlternateBase : PaletteBas
                     _ => BaseColors.RibbonTabTextNormal
                 };
             case PaletteRibbonTextStyle.RibbonGroupCollapsedText:
-                return BaseColors.RibbonGroupCollapsedText;
+                return GetRibbonGroupTextColor(state,
+                    BaseColors.RibbonGroupTextTracking,
+                    BaseColors.RibbonGroupCollapsedText);
             case PaletteRibbonTextStyle.RibbonGroupButtonText:
             case PaletteRibbonTextStyle.RibbonGroupLabelText:
             case PaletteRibbonTextStyle.RibbonGroupCheckBoxText:
             case PaletteRibbonTextStyle.RibbonGroupRadioButtonText:
-                return state == PaletteState.Disabled ? _disabledText : BaseColors.RibbonGroupCollapsedText;
+                return GetRibbonGroupTextColor(state,
+                    BaseColors.RibbonGroupTextTracking,
+                    BaseColors.RibbonGroupCollapsedText,
+                    _disabledText);
 
             default:
                 // Should never happen!
@@ -4369,6 +4380,15 @@ public abstract class PaletteMicrosoft365BlackDarkModeAlternateBase : PaletteBas
         Table ??= new KryptonColorTable365BlackDarkModeAlternate(BaseColors.ToArray(), InheritBool.True, this);
 
     #endregion ColorTable
+
+    protected override void OnSchemeColorChanged(SchemeBaseColors index, Color newColor)
+    {
+        if (BaseColors is not null && index == SchemeBaseColors.ButtonTextTracking)
+        {
+            BaseColors.ButtonTextTracking = newColor;
+        }
+        base.OnSchemeColorChanged(index, newColor);
+    }
 
     #region OnUserPreferenceChanged
 

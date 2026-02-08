@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -3254,6 +3254,8 @@ public abstract class PaletteOffice2010BlueLightModeBase : PaletteBase
                 return 3;
             case PaletteMetricInt.None:
                 return 0;
+            case PaletteMetricInt.DropDownArrowBaseSize:
+                return 10;
             default:
                 // Should never happen!
                 Debug.Assert(false);
@@ -4345,12 +4347,17 @@ public abstract class PaletteOffice2010BlueLightModeBase : PaletteBase
                     _ => BaseColors!.RibbonTabTextNormal
                 };
             case PaletteRibbonTextStyle.RibbonGroupCollapsedText:
-                return BaseColors!.RibbonGroupCollapsedText;
+                return GetRibbonGroupTextColor(state,
+                    BaseColors!.RibbonGroupTextTracking,
+                    BaseColors!.RibbonGroupCollapsedText);
             case PaletteRibbonTextStyle.RibbonGroupButtonText:
             case PaletteRibbonTextStyle.RibbonGroupLabelText:
             case PaletteRibbonTextStyle.RibbonGroupCheckBoxText:
             case PaletteRibbonTextStyle.RibbonGroupRadioButtonText:
-                return state == PaletteState.Disabled ? _disabledText : BaseColors!.RibbonGroupCollapsedText;
+                return GetRibbonGroupTextColor(state,
+                    BaseColors!.RibbonGroupTextTracking,
+                    BaseColors!.RibbonGroupCollapsedText,
+                    _disabledText);
 
             default:
                 // Should never happen!

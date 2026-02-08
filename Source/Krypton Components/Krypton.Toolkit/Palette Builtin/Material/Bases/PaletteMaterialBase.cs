@@ -317,6 +317,8 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
                 return 1;
             case PaletteMetricInt.None:
                 return 0;
+            case PaletteMetricInt.DropDownArrowBaseSize:
+                return 10;
             default:
                 return base.GetMetricInt(owningForm, state, metric);
         }

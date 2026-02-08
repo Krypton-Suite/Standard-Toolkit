@@ -138,6 +138,8 @@ public sealed class PaletteSparkleBlueDarkMode_BaseScheme : KryptonColorSchemeBa
     public override Color RibbonGroupFrameInside3          { get; set; } = Color.FromArgb(150, 150, 150);
     public override Color RibbonGroupFrameInside4          { get; set; } = Color.FromArgb(205, 205, 205);
     public override Color RibbonGroupCollapsedText         { get; set; } = Color.White;
+    public override Color RibbonGroupTextTracking          { get; set; } = GlobalStaticValues.EMPTY_COLOR;
+    public override Color ButtonTextTracking               { get; set; } = GlobalStaticValues.EMPTY_COLOR;
     public override Color RibbonGroupButtonText            { get; set; } = GlobalStaticValues.EMPTY_COLOR; // missing value
     public override Color AlternatePressedBack1            { get; set; } = Color.FromArgb(158, 163, 172);
     public override Color AlternatePressedBack2            { get; set; } = Color.FromArgb(212, 215, 216);
