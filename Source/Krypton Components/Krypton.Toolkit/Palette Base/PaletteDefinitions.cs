@@ -1241,6 +1241,12 @@ public enum PaletteMetricInt
     HeaderButtonEdgeInsetForm,
 
     /// <summary>
+    /// Specifies how far to inset the right edge of form header buttons (e.g. close button).
+    /// Use 0 to align the close button with the form edge for easier corner clicking.
+    /// </summary>
+    HeaderButtonEdgeInsetFormRight,
+
+    /// <summary>
     /// Specifies how far to inset a button on a calendar header.
     /// </summary>
     HeaderButtonEdgeInsetCalendar,

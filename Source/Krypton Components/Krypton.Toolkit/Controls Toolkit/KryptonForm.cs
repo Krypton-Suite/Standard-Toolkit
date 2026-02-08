@@ -296,6 +296,8 @@ public class KryptonForm : VisualForm,
             [_drawHeading],
             [StateCommon.Header],
             [PaletteMetricInt.HeaderButtonEdgeInsetForm],
+            [PaletteMetricInt.HeaderButtonEdgeInsetFormRight],
+            [PaletteMetricInt.HeaderButtonEdgeInsetForm],
             [PaletteMetricPadding.HeaderButtonPaddingForm],
             CreateToolStripRenderer,
             OnNeedPaint);
@@ -2385,6 +2387,7 @@ public class KryptonForm : VisualForm,
             case HeaderStyle.Form:
                 _buttonManager.SetDockerMetrics(drawDocker, palette,
                     PaletteMetricInt.HeaderButtonEdgeInsetForm,
+                    PaletteMetricInt.HeaderButtonEdgeInsetFormRight,
                     PaletteMetricPadding.HeaderButtonPaddingForm);
                 break;
 
