@@ -1136,6 +1136,7 @@ public class KryptonCustomPaletteBase : PaletteBase
         PaletteMetricInt.HeaderButtonEdgeInsetDockInactive => HeaderStyles.HeaderDockInactive.StateCommon.GetMetricInt(owningForm, state, metric),
         PaletteMetricInt.HeaderButtonEdgeInsetDockActive => HeaderStyles.HeaderDockActive.StateCommon.GetMetricInt(owningForm, state, metric),
         PaletteMetricInt.HeaderButtonEdgeInsetForm => HeaderStyles.HeaderForm.StateCommon.GetMetricInt(owningForm, state, metric),
+        PaletteMetricInt.HeaderButtonEdgeInsetFormRight => HeaderStyles.HeaderForm.StateCommon.GetMetricInt(owningForm, state, metric),
         PaletteMetricInt.HeaderButtonEdgeInsetCustom1 => HeaderStyles.HeaderCustom1.StateCommon.GetMetricInt(owningForm, state, metric),
         PaletteMetricInt.HeaderButtonEdgeInsetCustom2 => HeaderStyles.HeaderCustom2.StateCommon.GetMetricInt(owningForm, state, metric),
         PaletteMetricInt.HeaderButtonEdgeInsetCustom3 => HeaderStyles.HeaderCustom3.StateCommon.GetMetricInt(owningForm, state, metric),

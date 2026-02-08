@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -287,6 +287,8 @@ public class KryptonForm : VisualForm,
         _buttonManager = new ButtonSpecManagerDraw(this, Redirector, ButtonSpecs, buttonSpecsFixed,
             [_drawHeading],
             [StateCommon.Header],
+            [PaletteMetricInt.HeaderButtonEdgeInsetForm],
+            [PaletteMetricInt.HeaderButtonEdgeInsetFormRight],
             [PaletteMetricInt.HeaderButtonEdgeInsetForm],
             [PaletteMetricPadding.HeaderButtonPaddingForm],
             CreateToolStripRenderer,
@@ -2277,6 +2279,7 @@ public class KryptonForm : VisualForm,
             case HeaderStyle.Form:
                 _buttonManager.SetDockerMetrics(drawDocker, palette,
                     PaletteMetricInt.HeaderButtonEdgeInsetForm,
+                    PaletteMetricInt.HeaderButtonEdgeInsetFormRight,
                     PaletteMetricPadding.HeaderButtonPaddingForm);
                 break;
 
