@@ -4,6 +4,7 @@
 
 # 2026-02-23 - Build 2602 (Patch 10) - February 2025
 
+* Resolved [#972](https://github.com/Krypton-Suite/Standard-Toolkit/issues/972), `Office 2013` & `Microsoft 365` control box items are not 'flat' – control box buttons (minimize, maximize, close) now use solid flat fills instead of gradients to match the official Office 2013 appearance
 * Resolved [#2913](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2913), Krypton Toolkit causes low-quality text rendering in Stimulsoft preview window
 * Resolved [#2935](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2935), Maximized MDI window form border drawn on wrong monitor (secondary monitor); `DropSolidWindow` now uses screen coordinates for `DesktopBounds`; non-client border painting uses a DC compatible with the window's monitor
 * Resolved [#2745](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2745b), `VisualMultilineStringEditorForm` only saving last line
