@@ -138,6 +138,8 @@ public sealed class PaletteProfessionalSystem_BaseScheme : KryptonColorSchemeBas
     public override Color RibbonGroupFrameInside3          { get; set; } = Color.FromArgb(0, 0, 0, 0);
     public override Color RibbonGroupFrameInside4          { get; set; } = Color.FromArgb(0, 0, 0, 0);
     public override Color RibbonGroupCollapsedText         { get; set; } = SystemColors.ControlText;
+    public override Color RibbonGroupTextTracking          { get; set; } = GlobalStaticValues.EMPTY_COLOR;
+    public override Color ButtonTextTracking               { get; set; } = GlobalStaticValues.EMPTY_COLOR;
     public override Color RibbonGroupButtonText            { get; set; } = SystemColors.ControlText;
     public override Color AlternatePressedBack1            { get; set; } = Color.FromArgb(255, 0, 0);
     public override Color AlternatePressedBack2            { get; set; } = Color.FromArgb(255, 0, 0);

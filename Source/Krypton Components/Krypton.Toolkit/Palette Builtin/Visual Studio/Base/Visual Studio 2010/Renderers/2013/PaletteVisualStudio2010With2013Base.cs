@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -2933,6 +2933,8 @@ public abstract class PaletteVisualStudio2010With2013Base : PaletteBase
                 return 3;
             case PaletteMetricInt.None:
                 return 0;
+            case PaletteMetricInt.DropDownArrowBaseSize:
+                return 10;
             default:
                 // Should never happen!
                 Debug.Assert(false);
@@ -4023,12 +4025,17 @@ public abstract class PaletteVisualStudio2010With2013Base : PaletteBase
                     _ => _ribbonColors[(int)SchemeBaseColors.RibbonTabTextNormal]
                 };
             case PaletteRibbonTextStyle.RibbonGroupCollapsedText:
-                return _ribbonColors[(int)SchemeBaseColors.RibbonGroupCollapsedText];
+                return GetRibbonGroupTextColor(state,
+                    _ribbonColors[(int)SchemeBaseColors.RibbonGroupTextTracking],
+                    _ribbonColors[(int)SchemeBaseColors.RibbonGroupCollapsedText]);
             case PaletteRibbonTextStyle.RibbonGroupButtonText:
             case PaletteRibbonTextStyle.RibbonGroupLabelText:
             case PaletteRibbonTextStyle.RibbonGroupCheckBoxText:
             case PaletteRibbonTextStyle.RibbonGroupRadioButtonText:
-                return state == PaletteState.Disabled ? _disabledText : _ribbonColors[(int)SchemeBaseColors.RibbonGroupCollapsedText];
+                return GetRibbonGroupTextColor(state,
+                    _ribbonColors[(int)SchemeBaseColors.RibbonGroupTextTracking],
+                    _ribbonColors[(int)SchemeBaseColors.RibbonGroupCollapsedText],
+                    _disabledText);
 
             default:
                 // Should never happen!

@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
@@ -2338,6 +2338,31 @@ public abstract class PaletteBase : Component
     }
 
     #endregion Palette Helpers
+
+    /// <summary>
+    /// Gets ribbon group text color with optional disabled and tracking handling.
+    /// </summary>
+    /// <param name="state">Palette state.</param>
+    /// <param name="trackingColor">Color when tracking; if empty, defaultColor is used.</param>
+    /// <param name="defaultColor">Color when state is normal or when tracking color is empty.</param>
+    /// <param name="disabledColor">Optional color when disabled; if null, disabled is not checked.</param>
+    /// <returns>The resolved color.</returns>
+    protected static Color GetRibbonGroupTextColor(PaletteState state, Color trackingColor, Color defaultColor, Color? disabledColor = null)
+    {
+        if (disabledColor.HasValue && state == PaletteState.Disabled)
+        {
+            return disabledColor.Value;
+        }
+
+        if (state is PaletteState.Tracking or PaletteState.CheckedTracking)
+        {
+            return trackingColor != GlobalStaticValues.EMPTY_COLOR && !trackingColor.IsEmpty
+                ? trackingColor
+                : defaultColor;
+        }
+
+        return defaultColor;
+    }
 
     /// <summary>Hook for derived families to rebuild caches when a color changes.</summary>
     protected virtual void OnSchemeColorChanged(SchemeBaseColors index, Color newColor) { }

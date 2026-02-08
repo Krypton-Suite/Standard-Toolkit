@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -138,6 +138,8 @@ public sealed class PaletteVisualStudio2010Office2013Variation_BaseScheme : Kryp
     public override Color RibbonGroupFrameInside3          { get; set; } = GlobalStaticValues.EMPTY_COLOR;
     public override Color RibbonGroupFrameInside4          { get; set; } = GlobalStaticValues.EMPTY_COLOR;
     public override Color RibbonGroupCollapsedText         { get; set; } = Color.FromArgb(30, 57, 91);
+    public override Color RibbonGroupTextTracking          { get; set; } = GlobalStaticValues.EMPTY_COLOR;
+    public override Color ButtonTextTracking               { get; set; } = GlobalStaticValues.EMPTY_COLOR;
     public override Color RibbonGroupButtonText            { get; set; } = GlobalStaticValues.EMPTY_COLOR; // missing value
     public override Color AlternatePressedBack1            { get; set; } = Color.FromArgb(118, 153, 200);
     public override Color AlternatePressedBack2            { get; set; } = Color.FromArgb(184, 215, 253);

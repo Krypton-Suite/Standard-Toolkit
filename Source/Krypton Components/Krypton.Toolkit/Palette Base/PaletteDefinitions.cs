@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -1280,7 +1280,12 @@ public enum PaletteMetricInt
     /// <summary>
     /// Specifies the spacing gap been each ribbon tab.
     /// </summary>
-    RibbonTabGap
+    RibbonTabGap,
+
+    /// <summary>
+    /// Specifies the base size (at 96 DPI) of the drop-down arrow glyph in logical pixels.
+    /// </summary>
+    DropDownArrowBaseSize
 }
 #endregion
 

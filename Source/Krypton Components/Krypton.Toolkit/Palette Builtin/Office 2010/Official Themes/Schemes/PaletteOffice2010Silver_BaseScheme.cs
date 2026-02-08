@@ -138,6 +138,8 @@ public sealed class PaletteOffice2010Silver_BaseScheme : KryptonColorSchemeBase
     public override Color RibbonGroupFrameInside3          { get; set; } = GlobalStaticValues.EMPTY_COLOR;
     public override Color RibbonGroupFrameInside4          { get; set; } = GlobalStaticValues.EMPTY_COLOR;
     public override Color RibbonGroupCollapsedText         { get; set; } = Color.FromArgb( 59, 59, 59);
+    public override Color RibbonGroupTextTracking          { get; set; } = GlobalStaticValues.EMPTY_COLOR;
+    public override Color ButtonTextTracking               { get; set; } = GlobalStaticValues.EMPTY_COLOR;
     public override Color RibbonGroupButtonText            { get; set; } = GlobalStaticValues.EMPTY_COLOR; // missing value
     public override Color AlternatePressedBack1            { get; set; } = Color.FromArgb(179, 185, 195);
     public override Color AlternatePressedBack2            { get; set; } = Color.FromArgb(216, 224, 224);

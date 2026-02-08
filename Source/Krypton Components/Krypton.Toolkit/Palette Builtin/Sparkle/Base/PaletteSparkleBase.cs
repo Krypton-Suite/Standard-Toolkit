@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -2953,6 +2953,8 @@ public class PaletteSparkleBase : PaletteBase
                 return 3;
             case PaletteMetricInt.None:
                 return 0;
+            case PaletteMetricInt.DropDownArrowBaseSize:
+                return 10;
             default:
                 // Should never happen!
                 Debug.Assert(false);
@@ -4281,7 +4283,10 @@ public class PaletteSparkleBase : PaletteBase
             case PaletteRibbonTextStyle.RibbonGroupLabelText:
             case PaletteRibbonTextStyle.RibbonGroupCheckBoxText:
             case PaletteRibbonTextStyle.RibbonGroupRadioButtonText:
-                return state == PaletteState.Disabled ? _disabledText : _ribbonColors[(int)SchemeBaseColors.RibbonGroupCollapsedText];
+                return GetRibbonGroupTextColor(state,
+                    _ribbonColors[(int)SchemeBaseColors.RibbonGroupTextTracking],
+                    _ribbonColors[(int)SchemeBaseColors.RibbonGroupCollapsedText],
+                    _disabledText);
 
             default:
                 // Should never happen!
