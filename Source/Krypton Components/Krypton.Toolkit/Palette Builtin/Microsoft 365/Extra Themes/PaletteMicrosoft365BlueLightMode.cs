@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -183,11 +183,11 @@ namespace Krypton.Toolkit
                                                                 Color.FromArgb(105, 112, 121),    // FormHeaderLongActive
                                                                 Color.FromArgb(160, 160, 160),    // FormHeaderLongInactive
                                                                 Color.FromArgb(158, 193, 241),    // FormButtonBorderTrack
-                                                                Color.FromArgb(210, 228, 254),    // FormButtonBack1Track
-                                                                Color.FromArgb(255, 255, 255),    // FormButtonBack2Track
+                                                                Color.FromArgb(213, 224, 241),    // FormButtonBack1Track
+                                                                Color.FromArgb(213, 224, 241),    // FormButtonBack2Track
                                                                 Color.FromArgb(162, 191, 227),    // FormButtonBorderPressed
-                                                                Color.FromArgb(132, 178, 233),    // FormButtonBack1Pressed
-                                                                Color.FromArgb(192, 231, 252),    // FormButtonBack2Pressed
+                                                                Color.FromArgb(163, 189, 227),    // FormButtonBack1Pressed
+                                                                Color.FromArgb(163, 189, 227),    // FormButtonBack2Pressed
                                                                 Color.FromArgb( 21,  66, 139),    // TextButtonFormNormal
                                                                 Color.FromArgb( 21,  66, 139),    // TextButtonFormTracking
                                                                 Color.FromArgb( 21,  66, 139),    // TextButtonFormPressed
@@ -1547,12 +1547,11 @@ namespace Krypton.Toolkit
                 PaletteBackStyle.SeparatorHighProfile => PaletteColorStyle.RoundedTopLight,
                 PaletteBackStyle.SeparatorHighInternalProfile => PaletteColorStyle.Linear,
                 PaletteBackStyle.HeaderPrimary or PaletteBackStyle.HeaderDockInactive or PaletteBackStyle.HeaderSecondary or PaletteBackStyle.HeaderCustom1 or PaletteBackStyle.HeaderCustom2 or PaletteBackStyle.HeaderCustom3 or PaletteBackStyle.HeaderDockActive => PaletteColorStyle.Rounded,
-                PaletteBackStyle.ButtonForm or PaletteBackStyle.ButtonFormClose => state switch
-                {
-                    PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride or PaletteState.CheckedNormal or PaletteState.Tracking or PaletteState.CheckedTracking => PaletteColorStyle.Linear,
-                    PaletteState.Pressed or PaletteState.CheckedPressed => PaletteColorStyle.LinearShadow,
-                    _ => throw new ArgumentOutOfRangeException(nameof(state))
-                },
+            PaletteBackStyle.ButtonForm or PaletteBackStyle.ButtonFormClose => state switch
+            {
+                PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride or PaletteState.CheckedNormal or PaletteState.Tracking or PaletteState.CheckedTracking or PaletteState.Pressed or PaletteState.CheckedPressed => PaletteColorStyle.Solid,
+                _ => throw new ArgumentOutOfRangeException(nameof(state))
+            },
                 PaletteBackStyle.ButtonAlternate or PaletteBackStyle.ButtonStandalone or PaletteBackStyle.ButtonLowProfile or PaletteBackStyle.ButtonBreadCrumb or PaletteBackStyle.ButtonListItem or PaletteBackStyle.ButtonCommand or PaletteBackStyle.ButtonButtonSpec or PaletteBackStyle.ButtonCluster or PaletteBackStyle.ButtonGallery or PaletteBackStyle.ButtonCustom1 or PaletteBackStyle.ButtonCustom2 or PaletteBackStyle.ButtonCustom3 or PaletteBackStyle.ButtonInputControl or PaletteBackStyle.ContextMenuItemHighlight => state switch
                 {
                     PaletteState.Disabled => PaletteColorStyle.Solid,

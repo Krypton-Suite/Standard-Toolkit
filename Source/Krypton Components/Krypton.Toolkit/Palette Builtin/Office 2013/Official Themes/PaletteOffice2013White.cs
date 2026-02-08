@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -128,11 +128,11 @@ namespace Krypton.Toolkit
             Color.FromArgb(59, 59, 59), // FormHeaderLongActive
             Color.FromArgb(138, 138, 138), // FormHeaderLongInactive
             Color.FromArgb(166, 172, 179), // FormButtonBorderTrack
-            Color.FromArgb(255, 255, 255), // FormButtonBack1Track
-            Color.FromArgb(228, 228, 229), // FormButtonBack2Track
+            Color.FromArgb(213, 224, 241), // FormButtonBack1Track
+            Color.FromArgb(213, 224, 241), // FormButtonBack2Track
             Color.FromArgb(166, 172, 179), // FormButtonBorderPressed
-            Color.FromArgb(223, 228, 235), // FormButtonBack1Pressed
-            Color.FromArgb(188, 193, 200), // FormButtonBack2Pressed
+            Color.FromArgb(163, 189, 227), // FormButtonBack1Pressed
+            Color.FromArgb(163, 189, 227), // FormButtonBack2Pressed
             Color.Black, // TextButtonFormNormal
             Color.Black, // TextButtonFormTracking
             Color.Black, // TextButtonFormPressed
@@ -1309,12 +1309,11 @@ namespace Krypton.Toolkit
                 PaletteBackStyle.SeparatorHighProfile => PaletteColorStyle.RoundedTopLight,
                 PaletteBackStyle.SeparatorHighInternalProfile => PaletteColorStyle.Linear,
                 PaletteBackStyle.HeaderPrimary or PaletteBackStyle.HeaderDockInactive or PaletteBackStyle.HeaderSecondary or PaletteBackStyle.HeaderCustom1 or PaletteBackStyle.HeaderCustom2 or PaletteBackStyle.HeaderCustom3 or PaletteBackStyle.HeaderDockActive => PaletteColorStyle.Rounded,
-                PaletteBackStyle.ButtonForm or PaletteBackStyle.ButtonFormClose => state switch
-                {
-                    PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride or PaletteState.CheckedNormal or PaletteState.Tracking or PaletteState.CheckedTracking => PaletteColorStyle.Linear,
-                    PaletteState.Pressed or PaletteState.CheckedPressed => PaletteColorStyle.LinearShadow,
-                    _ => throw new ArgumentOutOfRangeException(nameof(state))
-                },
+            PaletteBackStyle.ButtonForm or PaletteBackStyle.ButtonFormClose => state switch
+            {
+                PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride or PaletteState.CheckedNormal or PaletteState.Tracking or PaletteState.CheckedTracking or PaletteState.Pressed or PaletteState.CheckedPressed => PaletteColorStyle.Solid,
+                _ => throw new ArgumentOutOfRangeException(nameof(state))
+            },
                 PaletteBackStyle.ButtonAlternate or PaletteBackStyle.ButtonStandalone or PaletteBackStyle.ButtonLowProfile or PaletteBackStyle.ButtonBreadCrumb or PaletteBackStyle.ButtonListItem or PaletteBackStyle.ButtonCommand or PaletteBackStyle.ButtonButtonSpec or PaletteBackStyle.ButtonCluster or PaletteBackStyle.ButtonGallery or PaletteBackStyle.ButtonCustom1 or PaletteBackStyle.ButtonCustom2 or PaletteBackStyle.ButtonCustom3 or PaletteBackStyle.ButtonInputControl or PaletteBackStyle.ContextMenuItemHighlight => state switch
                 {
                     PaletteState.Disabled => PaletteColorStyle.Solid,

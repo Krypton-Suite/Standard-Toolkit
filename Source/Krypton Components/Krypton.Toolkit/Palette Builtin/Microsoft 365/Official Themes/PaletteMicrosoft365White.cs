@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -189,11 +189,11 @@ namespace Krypton.Toolkit
             Color.FromArgb(59, 59, 59), // FormHeaderLongActive
             Color.FromArgb(138, 138, 138), // FormHeaderLongInactive
             Color.FromArgb(166, 172, 179), // FormButtonBorderTrack
-            Color.FromArgb(255, 255, 255), // FormButtonBack1Track
-            Color.FromArgb(228, 228, 229), // FormButtonBack2Track
+            Color.FromArgb(213, 224, 241), // FormButtonBack1Track
+            Color.FromArgb(213, 224, 241), // FormButtonBack2Track
             Color.FromArgb(166, 172, 179), // FormButtonBorderPressed
-            Color.FromArgb(223, 228, 235), // FormButtonBack1Pressed
-            Color.FromArgb(188, 193, 200), // FormButtonBack2Pressed
+            Color.FromArgb(163, 189, 227), // FormButtonBack1Pressed
+            Color.FromArgb(163, 189, 227), // FormButtonBack2Pressed
             Color.Black, // TextButtonFormNormal
             Color.Black, // TextButtonFormTracking
             Color.Black, // TextButtonFormPressed
