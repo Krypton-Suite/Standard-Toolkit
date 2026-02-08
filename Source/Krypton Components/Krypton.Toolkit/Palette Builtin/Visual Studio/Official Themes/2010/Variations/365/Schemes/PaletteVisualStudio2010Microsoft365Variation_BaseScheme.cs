@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -66,11 +66,11 @@ public sealed class PaletteVisualStudio2010Microsoft365Variation_BaseScheme : Kr
     public override Color FormHeaderLongActive             { get; set; } = Color.FromArgb(30, 57, 91);
     public override Color FormHeaderLongInactive           { get; set; } = Color.FromArgb(106, 128, 168);
     public override Color FormButtonBorderTrack            { get; set; } = Color.FromArgb(143, 165, 191);
-    public override Color FormButtonBack1Track             { get; set; } = Color.FromArgb(214, 234, 255);
-    public override Color FormButtonBack2Track             { get; set; } = Color.FromArgb(188, 207, 231);
+    public override Color FormButtonBack1Track             { get; set; } = Color.FromArgb(213, 224, 241);
+    public override Color FormButtonBack2Track             { get; set; } = Color.FromArgb(213, 224, 241);
     public override Color FormButtonBorderPressed          { get; set; } = Color.FromArgb(143, 165, 191);
-    public override Color FormButtonBack1Pressed           { get; set; } = Color.FromArgb(187, 206, 230);
-    public override Color FormButtonBack2Pressed           { get; set; } = Color.FromArgb(166, 182, 213);
+    public override Color FormButtonBack1Pressed           { get; set; } = Color.FromArgb(163, 189, 227);
+    public override Color FormButtonBack2Pressed           { get; set; } = Color.FromArgb(163, 189, 227);
     public override Color TextButtonFormNormal             { get; set; } = Color.FromArgb(21, 66, 139);
     public override Color TextButtonFormTracking           { get; set; } = Color.FromArgb(21, 66, 139);
     public override Color TextButtonFormPressed            { get; set; } = Color.FromArgb(21, 66, 139);
