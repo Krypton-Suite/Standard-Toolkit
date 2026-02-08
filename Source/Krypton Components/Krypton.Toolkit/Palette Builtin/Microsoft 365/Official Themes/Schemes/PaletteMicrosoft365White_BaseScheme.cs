@@ -66,11 +66,11 @@ public sealed class PaletteMicrosoft365White_BaseScheme : KryptonColorSchemeBase
     public override Color FormHeaderLongActive             { get; set; } = Color.FromArgb(59, 59, 59);
     public override Color FormHeaderLongInactive           { get; set; } = Color.FromArgb(138, 138, 138);
     public override Color FormButtonBorderTrack            { get; set; } = Color.FromArgb(166, 172, 179);
-    public override Color FormButtonBack1Track             { get; set; } = Color.FromArgb(255, 255, 255);
-    public override Color FormButtonBack2Track             { get; set; } = Color.FromArgb(228, 228, 229);
+    public override Color FormButtonBack1Track             { get; set; } = Color.FromArgb(213, 224, 241);
+    public override Color FormButtonBack2Track             { get; set; } = Color.FromArgb(213, 224, 241);
     public override Color FormButtonBorderPressed          { get; set; } = Color.FromArgb(166, 172, 179);
-    public override Color FormButtonBack1Pressed           { get; set; } = Color.FromArgb(223, 228, 235);
-    public override Color FormButtonBack2Pressed           { get; set; } = Color.FromArgb(188, 193, 200);
+    public override Color FormButtonBack1Pressed           { get; set; } = Color.FromArgb(163, 189, 227);
+    public override Color FormButtonBack2Pressed           { get; set; } = Color.FromArgb(163, 189, 227);
     public override Color TextButtonFormNormal             { get; set; } = Color.Black;
     public override Color TextButtonFormTracking           { get; set; } = Color.Black;
     public override Color TextButtonFormPressed            { get; set; } = Color.Black;
