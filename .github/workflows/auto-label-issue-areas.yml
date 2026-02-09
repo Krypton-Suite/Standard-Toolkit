@@ -95,6 +95,7 @@ jobs:
               'Navigator': 'area:navigator',
               'Ribbon': 'area:ribbon',
               'Toolkit': 'area:toolkit',
+              'Utilities': 'area:toolkit-utilities',
               'Workspace': 'area:workspace'
             };
             
