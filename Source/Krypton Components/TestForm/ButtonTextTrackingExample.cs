@@ -61,11 +61,13 @@ public partial class ButtonTextTrackingExample : KryptonForm
         if (color.IsEmpty || color.A == 0)
         {
             palette.SetSchemeColor(SchemeBaseColors.ButtonTextTracking, GlobalStaticValues.EMPTY_COLOR);
+            palette.SetSchemeExtraColor(SchemeExtraColors.ButtonTextTracking, GlobalStaticValues.EMPTY_COLOR);
             klblStatus.Values.Text = "Tracking color reset to theme default.";
         }
         else
         {
             palette.SetSchemeColor(SchemeBaseColors.ButtonTextTracking, color);
+            palette.SetSchemeExtraColor(SchemeExtraColors.ButtonTextTracking, color);
             klblStatus.Values.Text = $"Tracking text color set to {color.Name}.";
         }
     }
