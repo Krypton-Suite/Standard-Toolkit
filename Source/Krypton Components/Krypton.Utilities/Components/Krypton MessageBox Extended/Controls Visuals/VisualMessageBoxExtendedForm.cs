@@ -1,3 +1,11 @@
+#region BSD License
+/*
+ *
+ *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner(aka Wagnerp), Simon Coghlan(aka Smurf-IV), Giduac, et al. 2026 - 2026. All rights reserved.
+ *
+ */
+#endregion
 
 using ContentAlignment = System.Drawing.ContentAlignment;
 using Timer = System.Windows.Forms.Timer;
@@ -120,6 +128,12 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
 
     private readonly int? _footerRichTextBoxHeight;
 
+    private readonly ExtendedKryptonMessageBoxCountdownButton _countdownButton;
+
+    private readonly int? _countdownButtonSeconds;
+
+    private readonly DialogResult? _countdownButtonDialogResult;
+
     #endregion
 
     #region Identity
@@ -171,7 +185,10 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
         string? footerText = null,
         bool footerExpanded = false,
         ExtendedKryptonMessageBoxFooterContentType footerContentType = ExtendedKryptonMessageBoxFooterContentType.Text,
-        int? footerRichTextBoxHeight = null)
+        int? footerRichTextBoxHeight = null,
+        ExtendedKryptonMessageBoxCountdownButton countdownButton = ExtendedKryptonMessageBoxCountdownButton.None,
+        int? countdownButtonSeconds = null,
+        DialogResult? countdownButtonDialogResult = null)
     {
         // Store incoming values
         _text = text;
@@ -224,6 +241,9 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
         _footerExpanded = footerExpanded;
         _footerContentType = footerContentType;
         _footerRichTextBoxHeight = footerRichTextBoxHeight;
+        _countdownButton = countdownButton;
+        _countdownButtonSeconds = countdownButtonSeconds;
+        _countdownButtonDialogResult = countdownButtonDialogResult;
 
         // Create the form contents
         InitializeComponent();
@@ -235,6 +255,9 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
         UpdateDefault();
         UpdateHelp();
         UpdateTextExtra(showCtrlCopy);
+        
+        // Apply countdown to selected button if specified
+        ApplyCountdownToButton();
 
         UpdateContentAreaType(messageContainerType, messageTextAlignment, messageTextBoxAlignment, richTextBoxTextAlignment);
 
@@ -825,6 +848,48 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
             _button3.IgnoreAltF4 = true;
             _button4.IgnoreAltF4 = true;
             //_button5.IgnoreAltF4 = true;
+        }
+    }
+
+    /// <summary>Applies countdown functionality to the selected button.</summary>
+    private void ApplyCountdownToButton()
+    {
+        if (_countdownButton == ExtendedKryptonMessageBoxCountdownButton.None)
+        {
+            return;
+        }
+
+        MessageButton? targetButton = _countdownButton switch
+        {
+            ExtendedKryptonMessageBoxCountdownButton.Button1 => _button1,
+            ExtendedKryptonMessageBoxCountdownButton.Button2 => _button2,
+            ExtendedKryptonMessageBoxCountdownButton.Button3 => _button3,
+            ExtendedKryptonMessageBoxCountdownButton.Button4 => _button4,
+            _ => null
+        };
+
+        if (targetButton != null && targetButton.Visible)
+        {
+            // Configure countdown values
+            // Use countdownButtonSeconds if specified, otherwise fall back to timeout value, otherwise default to 60
+            int countdownDuration = _countdownButtonSeconds ?? (_useTimeOut ? _timeOut : 60);
+            targetButton.CountdownButtonValues.CountdownDuration = countdownDuration;
+            targetButton.CountdownButtonValues.CountdownInterval = _timeOutInterval ?? 1000;
+            
+            // Start the countdown
+            targetButton.StartCountdown();
+            
+            // Handle countdown finished event
+            targetButton.CountdownFinished += (sender, e) =>
+            {
+                // If a specific dialog result was specified, close the dialog with that result
+                if (_countdownButtonDialogResult.HasValue)
+                {
+                    DialogResult = _countdownButtonDialogResult.Value;
+                    Close();
+                }
+                // Otherwise, the button is automatically enabled and user can click it normally
+            };
         }
     }
 

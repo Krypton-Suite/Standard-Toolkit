@@ -1,8 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+#region BSD License
+/*
+ *
+ *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner(aka Wagnerp), Simon Coghlan(aka Smurf-IV), Giduac, et al. 2026 - 2026. All rights reserved.
+ *
+ */
+#endregion
 
 namespace Krypton.Utilities;
 
@@ -122,6 +125,29 @@ public enum ExtendedKryptonMessageBoxFooterContentType
 
     /// <summary>Footer displays a KryptonRichTextBox.</summary>
     RichTextBox = 2
+}
+
+#endregion
+
+#region Enum ExtendedKryptonMessageBoxCountdownButton
+
+/// <summary>Specifies which button should display a countdown timer in <see cref="KryptonMessageBoxExtended"/>.</summary>
+public enum ExtendedKryptonMessageBoxCountdownButton
+{
+    /// <summary>No button displays a countdown (default).</summary>
+    None = 0,
+
+    /// <summary>The first button displays a countdown.</summary>
+    Button1 = 1,
+
+    /// <summary>The second button displays a countdown.</summary>
+    Button2 = 2,
+
+    /// <summary>The third button displays a countdown.</summary>
+    Button3 = 3,
+
+    /// <summary>The fourth button displays a countdown.</summary>
+    Button4 = 4
 }
 
 #endregion
