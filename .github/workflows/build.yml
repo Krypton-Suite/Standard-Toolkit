@@ -35,10 +35,22 @@ jobs:
             9.0.x
             10.0.x
 
-      # global.json dynamically generate
-      - name: Force .NET 10 SDK via global.json
+      # .NET 11 (Preview)
+      - name: Setup .NET 11 (Preview)
+        # Kill switch check
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 11.0.x
+          dotnet-quality: preview
+
+      # global.json dynamically generate (use latest SDK available)
+      - name: Force .NET 11 SDK via global.json
         run: |
-          $sdkVersion = (dotnet --list-sdks | Select-String "10.0").ToString().Split(" ")[0]
+          $sdkVersion = (dotnet --list-sdks | Select-String "11.0").ToString().Split(" ")[0]
+          if (-not $sdkVersion) {
+            # Fallback to .NET 10 if .NET 11 is not available
+            $sdkVersion = (dotnet --list-sdks | Select-String "10.0").ToString().Split(" ")[0]
+          }
           Write-Output "Using SDK $sdkVersion"
           @"
           {
@@ -75,19 +87,29 @@ jobs:
           if (-not (Test-Path $utilProj)) { Write-Error "Project not found: $utilProj"; exit 1 }
           if (-not (Test-Path $libDir)) { New-Item -ItemType Directory -Path $libDir -Force }
           $packageId = "Microsoft.Web.WebView2"
+          # Use prerelease versions for alpha and canary branches to avoid .NET 11.0 requirement
+          $usePrerelease = ($env:GITHUB_REF -eq 'refs/heads/alpha' -or $env:GITHUB_REF -eq 'refs/heads/canary')
+          $prereleaseParam = if ($usePrerelease) { "true" } else { "false" }
+          Write-Host "Using prerelease=$prereleaseParam for WebView2 SDK lookup"
           $latestVersion = $null
           try {
-            $searchResponse = Invoke-RestMethod -Uri "https://azuresearch-usnc.nuget.org/query?q=$packageId&prerelease=false&semVerLevel=2.0.0&take=1" -Method Get
+            $searchResponse = Invoke-RestMethod -Uri "https://azuresearch-usnc.nuget.org/query?q=$packageId&prerelease=$prereleaseParam&semVerLevel=2.0.0&take=1" -Method Get
             if ($searchResponse.data -and $searchResponse.data.Count -gt 0) { $latestVersion = $searchResponse.data[0].version }
           } catch {
             try {
               $response = Invoke-RestMethod -Uri "https://api.nuget.org/v3-flatcontainer/$packageId/index.json" -Method Get
-              $stableVersions = $response.versions | Where-Object { $_ -notmatch '[-]' -and $_ -match '^\d+\.\d+\.\d+$' }
-              if ($stableVersions) { $latestVersion = $stableVersions | Sort-Object { [System.Version]$_ } -Descending | Select-Object -First 1 }
+              if ($usePrerelease) {
+                # Include prerelease versions
+                $allVersions = $response.versions | Where-Object { $_ -match '^\d+\.\d+\.\d+' }
+                if ($allVersions) { $latestVersion = $allVersions | Sort-Object { [System.Version]($_ -replace '-.*', '') } -Descending | Select-Object -First 1 }
+              } else {
+                $stableVersions = $response.versions | Where-Object { $_ -notmatch '[-]' -and $_ -match '^\d+\.\d+\.\d+$' }
+                if ($stableVersions) { $latestVersion = $stableVersions | Sort-Object { [System.Version]$_ } -Descending | Select-Object -First 1 }
+              }
             } catch {}
           }
           if (-not $latestVersion) { $latestVersion = "1.0.3595.46" }
-          Write-Host "Using WebView2 (latest): $latestVersion"
+          Write-Host "Using WebView2 ($(if ($usePrerelease) { 'preview' } else { 'latest' })): $latestVersion"
           dotnet add $utilProj package $packageId --version $latestVersion
           dotnet restore $utilProj
           $nugetBase = Join-Path $env:USERPROFILE ".nuget\packages\microsoft.web.webview2\$latestVersion"
@@ -160,19 +182,29 @@ jobs:
           if (-not (Test-Path $utilProj)) { Write-Error "Project not found: $utilProj"; exit 1 }
           if (-not (Test-Path $libDir)) { New-Item -ItemType Directory -Path $libDir -Force }
           $packageId = "Microsoft.Web.WebView2"
+          # Use prerelease versions for alpha and canary branches to avoid .NET 11.0 requirement
+          $usePrerelease = ($env:GITHUB_REF -eq 'refs/heads/alpha' -or $env:GITHUB_REF -eq 'refs/heads/canary')
+          $prereleaseParam = if ($usePrerelease) { "true" } else { "false" }
+          Write-Host "Using prerelease=$prereleaseParam for WebView2 SDK lookup"
           $latestVersion = $null
           try {
-            $searchResponse = Invoke-RestMethod -Uri "https://azuresearch-usnc.nuget.org/query?q=$packageId&prerelease=false&semVerLevel=2.0.0&take=1" -Method Get
+            $searchResponse = Invoke-RestMethod -Uri "https://azuresearch-usnc.nuget.org/query?q=$packageId&prerelease=$prereleaseParam&semVerLevel=2.0.0&take=1" -Method Get
             if ($searchResponse.data -and $searchResponse.data.Count -gt 0) { $latestVersion = $searchResponse.data[0].version }
           } catch {
             try {
               $response = Invoke-RestMethod -Uri "https://api.nuget.org/v3-flatcontainer/$packageId/index.json" -Method Get
-              $stableVersions = $response.versions | Where-Object { $_ -notmatch '[-]' -and $_ -match '^\d+\.\d+\.\d+$' }
-              if ($stableVersions) { $latestVersion = $stableVersions | Sort-Object { [System.Version]$_ } -Descending | Select-Object -First 1 }
+              if ($usePrerelease) {
+                # Include prerelease versions
+                $allVersions = $response.versions | Where-Object { $_ -match '^\d+\.\d+\.\d+' }
+                if ($allVersions) { $latestVersion = $allVersions | Sort-Object { [System.Version]($_ -replace '-.*', '') } -Descending | Select-Object -First 1 }
+              } else {
+                $stableVersions = $response.versions | Where-Object { $_ -notmatch '[-]' -and $_ -match '^\d+\.\d+\.\d+$' }
+                if ($stableVersions) { $latestVersion = $stableVersions | Sort-Object { [System.Version]$_ } -Descending | Select-Object -First 1 }
+              }
             } catch {}
           }
           if (-not $latestVersion) { $latestVersion = "1.0.3595.46" }
-          Write-Host "Using WebView2 (latest): $latestVersion"
+          Write-Host "Using WebView2 ($(if ($usePrerelease) { 'preview' } else { 'latest' })): $latestVersion"
           dotnet add $utilProj package $packageId --version $latestVersion
           dotnet restore $utilProj
           $nugetBase = Join-Path $env:USERPROFILE ".nuget\packages\microsoft.web.webview2\$latestVersion"
