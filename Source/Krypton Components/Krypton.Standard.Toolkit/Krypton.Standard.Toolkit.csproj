@@ -154,6 +154,7 @@
 			<_LibFolderName Condition="'$(TargetFramework)' == 'net8.0-windows'">net8.0-windows7.0</_LibFolderName>
 			<_LibFolderName Condition="'$(TargetFramework)' == 'net9.0-windows'">net9.0-windows7.0</_LibFolderName>
 			<_LibFolderName Condition="'$(TargetFramework)' == 'net10.0-windows'">net10.0-windows7.0</_LibFolderName>
+			<_LibFolderName Condition="'$(TargetFramework)' == 'net11.0-windows'">net11.0-windows7.0</_LibFolderName>
 			<!-- For .NET Framework TFMs, use the TFM as-is -->
 			<_LibFolderName Condition="'$(_LibFolderName)' == ''">$(TargetFramework)</_LibFolderName>
 		</PropertyGroup>
