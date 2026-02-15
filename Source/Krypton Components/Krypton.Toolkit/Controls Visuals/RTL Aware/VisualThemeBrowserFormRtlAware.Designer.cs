@@ -88,6 +88,7 @@
             this.kbtnImport.Name = "kbtnImport";
             this.kbtnImport.Size = new System.Drawing.Size(90, 25);
             this.kbtnImport.TabIndex = 0;
+            this.kbtnImport.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnImport.Values.Text = "kryptonButton1";
             this.kbtnImport.Click += new System.EventHandler(this.kbtnImport_Click);
             // 
@@ -110,6 +111,7 @@
             this.kbtnCancel.Name = "kbtnCancel";
             this.kbtnCancel.Size = new System.Drawing.Size(90, 25);
             this.kbtnCancel.TabIndex = 2;
+            this.kbtnCancel.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnCancel.Values.Text = "kryptonButton1";
             this.kbtnCancel.Click += new System.EventHandler(this.kbtnCancel_Click);
             // 
@@ -122,6 +124,7 @@
             this.kbtnOk.Name = "kbtnOk";
             this.kbtnOk.Size = new System.Drawing.Size(90, 25);
             this.kbtnOk.TabIndex = 3;
+            this.kbtnOk.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnOk.Values.Text = "kryptonButton2";
             this.kbtnOk.Click += new System.EventHandler(this.kbtnOk_Click);
             // 
@@ -181,7 +184,6 @@
             // 
             // kcpbCustom
             // 
-            this.kcpbCustom.BasePaletteType = Krypton.Toolkit.BasePaletteType.Custom;
             this.kcpbCustom.Ribbon.RibbonAppButton.StateNormal.BackColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(245)))), ((int)(((byte)(248)))));
             this.kcpbCustom.Ribbon.RibbonAppButton.StateNormal.BackColor2 = System.Drawing.Color.Empty;
             this.kcpbCustom.Ribbon.RibbonAppButton.StateNormal.BackColor3 = System.Drawing.Color.Empty;
@@ -341,7 +343,7 @@
             this.kcpbCustom.Ribbon.RibbonQATOverflow.BackColor3 = System.Drawing.Color.Empty;
             this.kcpbCustom.Ribbon.RibbonQATOverflow.BackColor4 = System.Drawing.Color.Empty;
             this.kcpbCustom.Ribbon.RibbonQATOverflow.BackColor5 = System.Drawing.Color.Empty;
-            this.kcpbCustom.ThemeName = null;
+            this.kcpbCustom.UseThemeFormChromeBorderWidth = Krypton.Toolkit.InheritBool.True;
             // 
             // VisualThemeBrowserFormRtlAware
             // 
@@ -357,6 +359,7 @@
             this.MinimizeBox = false;
             this.Name = "VisualThemeBrowserFormRtlAware";
             this.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.RightToLeftLayout = true;
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
