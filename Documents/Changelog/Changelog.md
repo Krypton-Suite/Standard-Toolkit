@@ -4,6 +4,7 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Resolved [#3025](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3025), KryptonLabel with AutoSize not working in the Designer – when drawing a KryptonLabel by click-drag on the form, the control now resizes to fit its text (when `AutoSize = true`), matching standard WinForms Label behavior. `KryptonLabel` overrides `SetBoundsCore` to enforce preferred size.
 * Implemented [#1326](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1326), Button Text Tracking - Alternate text color for tracking (hover) state on buttons. Added comprehensive example in TestForm (`ButtonTextTrackingExample`). Wired up `SchemeExtraColors` enum: new `SetSchemeExtraColor`/`GetSchemeExtraColor`/`UpdateSchemeExtraColors` API in `PaletteBase`; `SchemeExtraColorChanged` event; `ButtonTextTracking` resolvable from both `SchemeBaseColors` and `SchemeExtraColors`.
 * Resolved [#3012](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3012), Space between form close button and right edge of the form – introduced `PaletteMetricInt.HeaderButtonEdgeInsetFormRight` (returns 0) so the close button aligns with the form edge; top-right corner is now clickable for easy closing
 * Resolved [#972](https://github.com/Krypton-Suite/Standard-Toolkit/issues/972), Office 2013 & Microsoft 365 control box items are not 'flat' – control box buttons (minimize, maximize, close) now use solid flat fills instead of gradients to match the official Office 2013 appearance
