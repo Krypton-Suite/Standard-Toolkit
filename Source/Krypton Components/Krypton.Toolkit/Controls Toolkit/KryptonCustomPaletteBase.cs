@@ -3118,7 +3118,7 @@ public class KryptonCustomPaletteBase : PaletteBase
                     $"Version '{version}' number is incompatible, only version {GlobalStaticValues.CURRENT_SUPPORTED_PALETTE_VERSION} or above can be imported.\nUse the PaletteUpgradeTool from the Application tab of the KryptonExplorer to upgrade.");
             }
 
-            // Restore bundled palette name so external themes display correctly (e.g. in KManager)
+            // Restore bundled palette name so external themes display correctly (e.g. in KryptonManager)
             if (root.HasAttribute("Name"))
             {
                 SetPaletteName(root.GetAttribute("Name"));
