@@ -118,10 +118,29 @@ public class ThemeManager
 
     /// <summary>
     /// Returns the respective theme name for the given KryptonManager instance.
+    /// When the mode is Custom and the custom palette has a bundled name, that name is returned so it displays correctly (e.g. in KryptonManager).
     /// </summary>
     /// <param name="manager">A valid reference to a KryptonManager instance.</param>
     /// <returns>The theme name.</returns>
-    public static string ReturnPaletteModeAsString(KryptonManager manager) => ReturnPaletteModeAsString(manager.GlobalPaletteMode);
+    public static string ReturnPaletteModeAsString(KryptonManager manager)
+    {
+        // When in Custom mode, attempt to return the custom palette's name if it exists, otherwise return the palette mode as string.
+        if (manager is { GlobalPaletteMode: PaletteMode.Custom, GlobalCustomPalette: { } customPalette })
+        {
+            // Attempt to get the custom palette's name. If it exists and is not just whitespace, return it. Otherwise, return the palette mode as string.
+            var name = customPalette.GetPaletteName();
+
+            // ReSharper disable once SuspiciousTypeConversion.Global - The check is necessary to ensure that the method exists before calling it, as GetPaletteName is not guaranteed to be implemented in all custom palettes.
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                // Return the custom palette's name if it exists and is not just whitespace.
+                return name;
+            }
+        }
+
+        // Return the palette mode as string if not in Custom mode or if the custom palette does not have a valid name.
+        return ReturnPaletteModeAsString(manager.GlobalPaletteMode);
+    }
 
     /// <summary>
     /// Returns the palette mode as string.

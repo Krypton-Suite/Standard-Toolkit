@@ -63,7 +63,7 @@ public class GlobalStaticValues
     public const PaletteMode GLOBAL_DEFAULT_PALETTE_MODE = PaletteMode.Microsoft365Blue;
 
     /// <summary>The current supported palette version</summary>
-    public const int CURRENT_SUPPORTED_PALETTE_VERSION = 20;
+    public const int CURRENT_SUPPORTED_PALETTE_VERSION = 21;
 
     /// <summary>The default highlight debugging color</summary>
     public static Color DEFAULT_HIGHLIGHT_DEBUGGING_COLOR = Color.Red;
