@@ -103,14 +103,20 @@ public class BugReportGitHubService
         }
         catch (HttpRequestException ex)
         {
+            KryptonExceptionDialog.Show(ex);
+
             return BugReportGitHubResult.Failure($"Request failed: {ex.Message}");
         }
         catch (TaskCanceledException ex)
         {
+            KryptonExceptionDialog.Show(ex);
+
             return BugReportGitHubResult.Failure("Request was cancelled or timed out.");
         }
         catch (Exception ex)
         {
+            KryptonExceptionDialog.Show(ex);
+
             return BugReportGitHubResult.Failure(ex.Message);
         }
     }
@@ -177,14 +183,20 @@ public class BugReportGitHubService
         }
         catch (HttpRequestException ex)
         {
+            KryptonExceptionDialog.Show(ex);
+
             return BugReportGitHubResult.Failure($"Request failed: {ex.Message}");
         }
         catch (TaskCanceledException ex)
         {
+            KryptonExceptionDialog.Show(ex);
+
             return BugReportGitHubResult.Failure("Request was cancelled or timed out.");
         }
         catch (Exception ex)
         {
+            KryptonExceptionDialog.Show(ex);
+
             return BugReportGitHubResult.Failure(ex.Message);
         }
     }
@@ -248,14 +260,20 @@ public class BugReportGitHubService
         }
         catch (HttpRequestException ex)
         {
+            KryptonExceptionDialog.Show(ex);
+
             return BugReportGitHubResult.Failure($"Request failed: {ex.Message}");
         }
         catch (TaskCanceledException ex)
         {
+            KryptonExceptionDialog.Show(ex);
+
             return BugReportGitHubResult.Failure("Request was cancelled or timed out.");
         }
         catch (Exception ex)
         {
+            KryptonExceptionDialog.Show(ex);
+
             return BugReportGitHubResult.Failure(ex.Message);
         }
     }
@@ -319,14 +337,20 @@ public class BugReportGitHubService
         }
         catch (HttpRequestException ex)
         {
+            KryptonExceptionDialog.Show(ex);
+
             return BugReportGitHubResult.Failure($"Request failed: {ex.Message}");
         }
         catch (TaskCanceledException ex)
         {
+            KryptonExceptionDialog.Show(ex);
+
             return BugReportGitHubResult.Failure("Request was cancelled or timed out.");
         }
         catch (Exception ex)
         {
+            KryptonExceptionDialog.Show(ex);
+
             return BugReportGitHubResult.Failure(ex.Message);
         }
     }
