@@ -19,9 +19,9 @@ public partial class StartScreen : KryptonForm
     private readonly List<KryptonCommandLinkButton> _buttons;
     private readonly IComparer<KryptonCommandLinkButton> _headingComparer;
     private readonly Timer _filterTimer;
-    private int _panelWidth;
-    private Size _sizeAtStartup;
-    private RegistryAccess _registryAccess;
+    private readonly int _panelWidth;
+    private readonly Size _sizeAtStartup;
+    private readonly RegistryAccess _registryAccess;
     private bool _dockTopRight;
 
     public StartScreen()
@@ -72,6 +72,7 @@ public partial class StartScreen : KryptonForm
         CreateButton("Countdown Button", "Comprehensive demonstration of KryptonCountdownButton features with customizable duration, format, and enable-at-zero options.", typeof(CountdownButtonTest));
         CreateButton("CommandLink Buttons", "No comment", typeof(CommandLinkButtons));
         CreateButton("Control Styles", string.Empty, typeof(ControlStylesForm));
+        CreateButton("DateTimePicker Month Calendar Background", "Comprehensive demo of KryptonDateTimePicker month calendar custom background (Issue #1827): CalendarBackColor, theme default, presets (dark/light), and pick-a-color to style the drop-down calendar.", typeof(KryptonDateTimePickerMonthCalendarDemo));
         CreateButton("DateTime Example", string.Empty, typeof(DateTimeExample));
         CreateButton("Docking Config Save/Load Test", "Test SaveConfigToArray and LoadConfigFromArray", typeof(DockingConfigSaveLoadTest));
         CreateButton("Docking Redock Demo", "Demo for Issue #2933: undock (Float) then redock; no floating window left behind.", typeof(DockingRedockDemo));
@@ -355,7 +356,7 @@ public partial class StartScreen : KryptonForm
                 string headingX = x.CommandLinkTextValues.Heading.ToLower(CultureInfo.InvariantCulture);
                 string headingY = y.CommandLinkTextValues.Heading.ToLower(CultureInfo.InvariantCulture);
 
-                return headingX.CompareTo(headingY);
+                return string.Compare(headingX, headingY, StringComparison.Ordinal);
             }
             else
             {
