@@ -6,6 +6,8 @@
  *  
  */
 #endregion
+
+
 namespace Krypton.Toolkit;
 
 #region Static
@@ -19,12 +21,28 @@ namespace Krypton.Toolkit;
 internal static class CommonHelperThemeSelectors
 {
     /// <summary>
-    /// Returns a list with theme names.
+    /// Returns a list with theme names. When the current global palette is a custom palette with a bundled name,
+    /// the "Custom" entry is shown as "Custom - [Theme Name]" so the theme array displays it correctly (see issue #1031).
     /// </summary>
     /// <returns>String array of theme names.</returns>
-    internal static string[] GetThemesArray()
+    internal static object[] GetThemesArray()
     {
-        return PaletteModeStrings.SupportedThemesMap.Keys.ToArray();
+        var arr = PaletteModeStrings.SupportedThemesMap.Keys.ToArray();
+
+        if (KryptonManager.CurrentGlobalPalette is KryptonCustomPaletteBase custom
+            && !string.IsNullOrWhiteSpace(custom.GetPaletteName()))
+        {
+            for (int i = 0; i < arr.Length; i++)
+            {
+                if (arr[i] == PaletteModeStrings.DEFAULT_PALETTE_CUSTOM)
+                {
+                    arr[i] = ThemeManager.CustomThemeNamePrefix + custom.GetPaletteName();
+                    break;
+                }
+            }
+        }
+
+        return arr;
     }
 
     /// <summary>
@@ -85,6 +103,7 @@ internal static class CommonHelperThemeSelectors
 
     /// <summary>
     /// Return the index in the list of the requested PaletteMode parameter.
+    /// For Custom mode, finds the entry that is "Custom" or "Custom - [Theme Name]" so dynamic labels work.
     /// </summary>
     /// <param name="items">The control's list of themes (usually Items).</param>
     /// <param name="mode">The PaletteMode for which to locate the index in items.</param>
@@ -101,8 +120,23 @@ internal static class CommonHelperThemeSelectors
         // A lookup is not possible since Global does not exist in the themes dictionary.
         if (mode != PaletteMode.Global)
         {
-            var selectedText = PaletteModeStrings.SupportedThemes.SecondToFirst[mode];
-            newIdx = items.IndexOf(selectedText);
+            if (mode == PaletteMode.Custom)
+            {
+                // Theme array may show "Custom" or "Custom - [Theme Name]"
+                for (int i = 0; i < items.Count; i++)
+                {
+                    if (items[i] is string s && (s == PaletteModeStrings.DEFAULT_PALETTE_CUSTOM || s.StartsWith(ThemeManager.CustomThemeNamePrefix, StringComparison.Ordinal)))
+                    {
+                        newIdx = i;
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                var selectedText = PaletteModeStrings.SupportedThemes.SecondToFirst[mode];
+                newIdx = items.IndexOf(selectedText);
+            }
         }
 
         return (newIdx >= 0 && newIdx < PaletteModeStrings.SupportedThemesMap.Count)
@@ -153,12 +187,12 @@ internal static class CommonHelperThemeSelectors
     /// <returns>Returns the location in the list of items for defaultPalette.</returns>
     internal static int GetInitialSelectedIndex(PaletteMode defaultPalette, KryptonManager manager, IList items)
     {
-        PaletteMode pm = defaultPalette == PaletteMode.Global 
-                         && manager.GlobalPaletteMode != PaletteMode.Custom 
+        PaletteMode pm = defaultPalette == PaletteMode.Global
+                         && manager.GlobalPaletteMode != PaletteMode.Custom
                          && manager.GlobalPaletteMode != PaletteMode.Global
             ? manager.GlobalPaletteMode
             : defaultPalette;
-                
+
         return CommonHelperThemeSelectors.GetPaletteIndex(items, pm);
     }
 
@@ -185,14 +219,14 @@ internal static class CommonHelperThemeSelectors
             if (value != PaletteMode.Global)
             {
                 // Setting the index triggers OnSelectedIndexChanged()
-                result = CommonHelperThemeSelectors.GetPaletteIndex(items, defaultPalette);
+                result = GetPaletteIndex(items, defaultPalette);
             }
         }
 
         return result;
     }
 }
-   
+
 #endregion
 
 #region IKryptonThemeSelectorBase

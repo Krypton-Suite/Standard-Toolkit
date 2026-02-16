@@ -18,7 +18,12 @@ namespace Krypton.Toolkit;
 public class ThemeManager
 {
     #region Private static fields
+
     private const string _msgBoxCaption = "ThemeManager";
+
+    /// <summary>Prefix used when the theme array displays a custom palette with a name, e.g. "Custom - [My Theme Name]".</summary>
+    internal const string CustomThemeNamePrefix = @"Custom - ";
+
     #endregion
 
     #region Properties
@@ -151,11 +156,24 @@ public class ThemeManager
 
     /// <summary>
     /// Returns the themes PaletteMode from the theme's name.
+    /// Accepts the static "Custom" or the dynamic "Custom - [Theme Name]" form so theme selectors resolve correctly.
     /// </summary>
     /// <param name="themeName">Name of the theme.</param>
     /// <returns>The respective PaletteMode if the theme name is valid. Otherwise PaletteMode.Global.</returns>
     public static PaletteMode GetThemeManagerMode(string themeName)
     {
+        if (string.IsNullOrEmpty(themeName))
+        {
+            return PaletteMode.Global;
+        }
+
+        // Dynamic theme array may show "Custom - [My Theme Name]" when a custom palette has a bundled name
+        if (themeName == PaletteModeStrings.DEFAULT_PALETTE_CUSTOM
+            || themeName.StartsWith(CustomThemeNamePrefix, StringComparison.Ordinal))
+        {
+            return PaletteMode.Custom;
+        }
+
         return PaletteModeStrings.SupportedThemesMap.TryGetValue(themeName, out PaletteMode paletteMode)
             ? paletteMode
             : PaletteMode.Global;
