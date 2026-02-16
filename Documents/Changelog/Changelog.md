@@ -4,6 +4,7 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#776](https://github.com/Krypton-Suite/Standard-Toolkit/issues/776), Ability to set a number of custom colours for `KryptonColorButton`
 * Implemented [#922](https://github.com/Krypton-Suite/Standard-Toolkit/issues/922), Can external themes have names bundled with them
 * Resolved [#3025](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3025), KryptonLabel with AutoSize not working in the Designer – when drawing a KryptonLabel by click-drag on the form, the control now resizes to fit its text (when `AutoSize = true`), matching standard WinForms Label behavior. `KryptonLabel` overrides `SetBoundsCore` to enforce preferred size.
 * Implemented [#1326](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1326), Button Text Tracking - Alternate text color for tracking (hover) state on buttons. Added comprehensive example in TestForm (`ButtonTextTrackingExample`). Wired up `SchemeExtraColors` enum: new `SetSchemeExtraColor`/`GetSchemeExtraColor`/`UpdateSchemeExtraColors` API in `PaletteBase`; `SchemeExtraColorChanged` event; `ButtonTextTracking` resolvable from both `SchemeBaseColors` and `SchemeExtraColors`.
