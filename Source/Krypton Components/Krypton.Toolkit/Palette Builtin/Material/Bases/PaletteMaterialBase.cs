@@ -304,7 +304,7 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
             case PaletteMetricInt.HeaderButtonEdgeInsetForm:
                 return 0;
             case PaletteMetricInt.HeaderButtonEdgeInsetFormRight:
-                return 0;
+                return 2;
             case PaletteMetricInt.HeaderButtonEdgeInsetInputControl:
                 return 2; // keep buttons close to edges for Material
             case PaletteMetricInt.HeaderButtonEdgeInsetPrimary:

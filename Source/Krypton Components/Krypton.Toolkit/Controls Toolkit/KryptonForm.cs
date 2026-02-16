@@ -2654,39 +2654,13 @@ public class KryptonForm : VisualForm,
     {
         if (MdiParent == null)
         {
-            // Fix for #2457, please do not remove!!!
-            // For RTL layout mode, disable region clipping to prevent border issues
-            if (RightToLeftLayout)
-            {
-                SuspendPaint();
-                _regionWindowState = FormWindowState.Maximized;
-                UpdateBorderRegion(null); // No region clipping in RTL mode
-                ResumePaint();
-                return;
-            }
-
-            // Get the size of each window border
-            var xBorder = PI.GetSystemMetrics(PI.SM_.CXSIZEFRAME) * 2;
-            var yBorder = PI.GetSystemMetrics(PI.SM_.CYSIZEFRAME) * 2;
-
-            // Fix for #2457, please do not remove!!!
-            // Get the actual border widths from the form's border palette
-            var formBorder = StateCommon?.Border as PaletteFormBorder;
-            var (leftBorder, topBorder) = formBorder?.BorderWidths(FormBorderStyle) ?? (xBorder / 2, yBorder / 2);
-            var rightBorder = leftBorder; // Use same width for right border
-            var bottomBorder = topBorder; // Use same width for bottom border
-
-            // Calculate the maximized region with proper border handling
-            var maximizedRect = new Rectangle(
-                leftBorder,
-                topBorder,
-                Width - (leftBorder + rightBorder),
-                Height - (topBorder + bottomBorder));
-
-            // Use this as the new region
+            // Fix for #2457 / #3012: Do not apply a clipping region when maximized.
+            // For RTL layout mode, disable region clipping to prevent border issues (#2457).
+            // For all maximized forms, skip region so the title bar, control box, and left/top/bottom
+            // edges are not cut off (#3012 - controlbox and buttonspace not show full when maximized).
             SuspendPaint();
             _regionWindowState = FormWindowState.Maximized;
-            UpdateBorderRegion(new Region(maximizedRect));
+            UpdateBorderRegion(null);
             ResumePaint();
         }
         else
