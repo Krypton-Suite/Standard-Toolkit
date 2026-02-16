@@ -2172,7 +2172,12 @@ public abstract class PaletteVisualStudioBase : PaletteBase
                 }
                 return Math.Max(2, owningForm!.RealWindowBorders.Right);
             case PaletteMetricInt.HeaderButtonEdgeInsetFormRight:
-                return 0;
+                // Issue #3012: Match the left/top inset for consistent spacing from edges
+                if (owningForm == null)
+                {
+                    return 0;
+                }
+                return Math.Max(2, owningForm!.RealWindowBorders.Right);
             case PaletteMetricInt.HeaderButtonEdgeInsetInputControl:
                 return 1;
             case PaletteMetricInt.HeaderButtonEdgeInsetPrimary:

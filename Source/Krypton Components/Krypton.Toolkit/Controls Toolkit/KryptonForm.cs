@@ -1967,6 +1967,22 @@ public class KryptonForm : VisualForm,
             return new IntPtr(PI.HT.CLIENT);
         }
 
+        // Issue #3012: When maximized, clicking the top-left corner should show system menu (LTR) or close (RTL)
+        if (GetWindowState() == FormWindowState.Maximized)
+        {
+            const int cornerSize = 20;
+            var topLeftCorner = new Rectangle(0, 0, cornerSize, cornerSize);
+            if (topLeftCorner.Contains(pt))
+            {
+                if (RightToLeftLayout)
+                {
+                    return new IntPtr(PI.HT.CLOSE);
+                }
+
+                return new IntPtr(PI.HT.MENU);
+            }
+        }
+
         using (var context = new ViewLayoutContext(this, Renderer))
         {
             // Discover if the form icon is being Displayed

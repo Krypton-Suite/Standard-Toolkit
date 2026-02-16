@@ -304,7 +304,12 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
             case PaletteMetricInt.HeaderButtonEdgeInsetForm:
                 return 0;
             case PaletteMetricInt.HeaderButtonEdgeInsetFormRight:
-                return 0;
+                // Issue #3012: Match spacing from right edge when form is provided
+                if (owningForm == null)
+                {
+                    return 0;
+                }
+                return Math.Max(2, owningForm!.RealWindowBorders.Right);
             case PaletteMetricInt.HeaderButtonEdgeInsetInputControl:
                 return 2; // keep buttons close to edges for Material
             case PaletteMetricInt.HeaderButtonEdgeInsetPrimary:
