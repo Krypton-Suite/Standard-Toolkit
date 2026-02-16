@@ -4,6 +4,8 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#2836](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2836), Time to bring over `KryptonMessageBoxExtended`
+    - To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this feature is part of the `Krypton.Utilities` assembly.
 * Implemented [#1827](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1827), `KryptonDateTimePicker`'s 'MonthCalendar' with custom background color
 * Implemented [#776](https://github.com/Krypton-Suite/Standard-Toolkit/issues/776), Ability to set a number of custom colours for `KryptonColorButton`
 * Implemented [#922](https://github.com/Krypton-Suite/Standard-Toolkit/issues/922), Can external themes have names bundled with them
