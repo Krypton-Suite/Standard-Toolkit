@@ -2915,11 +2915,11 @@ public abstract class PaletteVisualStudio2010With365Base : PaletteBase
             case PaletteMetricInt.HeaderButtonEdgeInsetForm:
                 if (owningForm == null)
                 {
-                    return 0;
+                    return 4;
                 }
-                return Math.Max(2, owningForm!.RealWindowBorders.Right);
+                return Math.Max(4, owningForm!.RealWindowBorders.Right);
             case PaletteMetricInt.HeaderButtonEdgeInsetFormRight:
-                return 2;
+                return 4;
             case PaletteMetricInt.HeaderButtonEdgeInsetInputControl:
                 return 1;
             case PaletteMetricInt.HeaderButtonEdgeInsetPrimary:
