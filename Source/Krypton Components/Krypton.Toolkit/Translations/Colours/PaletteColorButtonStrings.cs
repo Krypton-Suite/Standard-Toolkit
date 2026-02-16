@@ -24,6 +24,7 @@ namespace Krypton.Toolkit
         private const string DEFAULT_RECENT_COLORS = "Recent Colors";
         private const string DEFAULT_STANDARD_COLORS = "Standard Colors";
         private const string DEFAULT_THEME_COLORS = "Theme Colors";
+        private const string DEFAULT_CUSTOM_COLORS = "Custom Colors";
 
         #endregion
 
@@ -39,6 +40,7 @@ namespace Krypton.Toolkit
             RecentColors = DEFAULT_RECENT_COLORS;
             StandardColors = DEFAULT_STANDARD_COLORS;
             ThemeColors = DEFAULT_THEME_COLORS;
+            CustomColors = DEFAULT_CUSTOM_COLORS;
         }
         #endregion
 
@@ -51,7 +53,8 @@ namespace Krypton.Toolkit
                                           NoColor.Equals(DEFAULT_NO_COLOR) &&
                                           RecentColors.Equals(DEFAULT_RECENT_COLORS) &&
                                           StandardColors.Equals(DEFAULT_STANDARD_COLORS) &&
-                                          ThemeColors.Equals(DEFAULT_THEME_COLORS);
+                                          ThemeColors.Equals(DEFAULT_THEME_COLORS) &&
+                                          CustomColors.Equals(DEFAULT_CUSTOM_COLORS);
 
         #endregion
 
@@ -117,6 +120,20 @@ namespace Krypton.Toolkit
         [DefaultValue("Theme Colors")]
         [RefreshProperties(RefreshProperties.All)]
         public string ThemeColors { get; set; }
+
+        #endregion
+
+        #region CustomColors
+
+        /// <summary>
+        /// Gets and sets the title for the custom colors section of the color button menu.
+        /// </summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Title for custom colors section of the color button menu.")]
+        [DefaultValue(DEFAULT_CUSTOM_COLORS)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string CustomColors { get; set; }
 
         #endregion
     }
