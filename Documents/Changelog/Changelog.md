@@ -6,6 +6,9 @@
 
 * Implemented [#2836](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2836), Time to bring over `KryptonMessageBoxExtended`
     - To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this feature is part of the `Krypton.Utilities` assembly.
+* Implemented [#1827](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1827), `KryptonDateTimePicker`'s 'MonthCalendar' with custom background color
+* Implemented [#776](https://github.com/Krypton-Suite/Standard-Toolkit/issues/776), Ability to set a number of custom colours for `KryptonColorButton`
+* Implemented [#922](https://github.com/Krypton-Suite/Standard-Toolkit/issues/922), Can external themes have names bundled with them
 * Resolved [#3025](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3025), KryptonLabel with AutoSize not working in the Designer – when drawing a KryptonLabel by click-drag on the form, the control now resizes to fit its text (when `AutoSize = true`), matching standard WinForms Label behavior. `KryptonLabel` overrides `SetBoundsCore` to enforce preferred size.
 * Implemented [#1326](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1326), Button Text Tracking - Alternate text color for tracking (hover) state on buttons. Added comprehensive example in TestForm (`ButtonTextTrackingExample`). Wired up `SchemeExtraColors` enum: new `SetSchemeExtraColor`/`GetSchemeExtraColor`/`UpdateSchemeExtraColors` API in `PaletteBase`; `SchemeExtraColorChanged` event; `ButtonTextTracking` resolvable from both `SchemeBaseColors` and `SchemeExtraColors`.
 * Resolved [#3012](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3012), Space between form close button and right edge of the form – introduced `PaletteMetricInt.HeaderButtonEdgeInsetFormRight` (returns 0) so the close button aligns with the form edge; top-right corner is now clickable for easy closing
