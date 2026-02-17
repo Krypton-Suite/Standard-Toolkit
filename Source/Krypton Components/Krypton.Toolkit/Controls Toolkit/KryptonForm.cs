@@ -352,6 +352,33 @@ public class KryptonForm : VisualForm,
     private float GetDpiFactor() => DeviceDpi / 96F;
 
     /// <summary>
+    /// Gets the size (width and height) of the top-left corner hit-test area when maximized.
+    /// Theme-related (uses caption height or form button size) and scaled by DPI/zoom. Issue #3012.
+    /// </summary>
+    private int GetTopLeftCornerHitTestSize()
+    {
+        const int defaultAt96Dpi = 20;
+
+        // Prefer theme-derived size: caption height (varies by theme, e.g. Material 44px)
+        int captionHeight = _drawHeading?.ClientRectangle.Height ?? 0;
+        if (captionHeight > 0)
+        {
+            return Math.Max(1, captionHeight);
+        }
+
+        // Else use form button size (theme-dependent)
+        Rectangle closeRect = _buttonManager.GetButtonRectangle(ButtonSpecClose);
+        int buttonSize = Math.Max(closeRect.Height, closeRect.Width);
+        if (buttonSize > 0)
+        {
+            return Math.Max(1, buttonSize);
+        }
+
+        // Fallback: default size scaled by DPI/zoom
+        return Math.Max(1, (int)Math.Round(defaultAt96Dpi * GetDpiFactor()));
+    }
+
+    /// <summary>
     /// Determines whether the form-level sizing grip should be shown.
     /// Issue: https://github.com/Krypton-Suite/Standard-Toolkit/issues/984
     /// PR: https://github.com/Krypton-Suite/Standard-Toolkit/pull/2436
@@ -2056,11 +2083,10 @@ public class KryptonForm : VisualForm,
         bool isMaximized = GetWindowState() == FormWindowState.Maximized;
         if (isMaximized)
         {
-            // Define the top-left corner area (typically where the system menu icon would be)
-            // Use a reasonable size for the clickable area (e.g., 20x20 pixels)
-            const int cornerSize = 20;
+            // Corner size is theme-related (caption/button size) and scaled by DPI/zoom
+            int cornerSize = GetTopLeftCornerHitTestSize();
             Rectangle topLeftCorner = new Rectangle(0, 0, cornerSize, cornerSize);
-            
+
             if (topLeftCorner.Contains(pt))
             {
                 // For RTL layouts, top-left corner should close the form
