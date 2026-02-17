@@ -4,6 +4,7 @@
 
 ## 2026-04-20 - Build 2604 (Version 105-LTS - Patch 2) - April 2026
 
+* Implemented [#776](https://github.com/Krypton-Suite/Standard-Toolkit/issues/776), Ability to set a number of custom colours for `KryptonColorButton`
 * Implemented [#2968](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2968), Move **all** RTL specific dialogs to use the feature fully
 * Implemented [#3043](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3043), Canary LTS release workflow
 * Resolved [#3012](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3012), Space between form close button and right edge of the form – introduced `PaletteMetricInt.HeaderButtonEdgeInsetFormRight` (returns 0) so the close button aligns with the form edge; top-right corner is now clickable for easy closing
