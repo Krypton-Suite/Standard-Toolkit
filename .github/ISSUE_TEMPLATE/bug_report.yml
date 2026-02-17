@@ -117,4 +117,5 @@ body:
         - Navigator
         - Ribbon
         - Toolkit
+        - Utilities
         - Workspace
