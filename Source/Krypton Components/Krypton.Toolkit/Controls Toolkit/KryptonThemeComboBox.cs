@@ -95,6 +95,10 @@ public class KryptonThemeComboBox : KryptonComboBox, IKryptonThemeSelectorBase
             return;
         }
 
+        // Refresh theme list so "Custom" shows as "Custom - [Theme Name]" when a custom palette has a name (issue #1031)
+        Items.Clear();
+        Items.AddRange(CommonHelperThemeSelectors.GetThemesArray());
+
         int idx = CommonHelperThemeSelectors.GetPaletteIndex(Items, mode);
         if (idx == SelectedIndex)
         {
