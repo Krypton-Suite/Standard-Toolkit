@@ -1,0 +1,80 @@
+# New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+# Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, tobitege et al. 2026 - 2026. All rights reserved.
+#
+# Automatically adds the 'chore:automatic-backup' label to pull requests that modify
+# the alpha-backup-sync.yml workflow file.
+
+name: Auto-label PR backup workflow
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+permissions:
+  pull-requests: write
+
+jobs:
+  label-backup-workflow:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if PR modifies alpha-backup-sync.yml
+        uses: actions/github-script@v8
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { owner, repo } = context.repo;
+            const prNumber = context.payload.pull_request.number;
+            
+            // Get the list of files changed in this PR
+            const { data: files } = await github.rest.pulls.listFiles({
+              owner,
+              repo,
+              pull_number: prNumber,
+            });
+            
+            // Check if alpha-backup-sync.yml is in the changed files
+            const targetFile = '.github/workflows/alpha-backup-sync.yml';
+            const modifiesWorkflow = files.some(file => file.filename === targetFile);
+            
+            if (!modifiesWorkflow) {
+              console.log(`PR #${prNumber} does not modify ${targetFile}, skipping label.`);
+              return;
+            }
+            
+            console.log(`PR #${prNumber} modifies ${targetFile}, adding label 'chore:automatic-backup'.`);
+            
+            // Get existing labels on the PR
+            const { data: pr } = await github.rest.pulls.get({
+              owner,
+              repo,
+              pull_number: prNumber,
+            });
+            
+            const existingLabels = (pr.labels || []).map(label => label.name);
+            const labelToAdd = 'chore:automatic-backup';
+            
+            // Only add the label if it's not already present
+            if (existingLabels.includes(labelToAdd)) {
+              console.log(`Label '${labelToAdd}' is already present on PR #${prNumber}.`);
+              return;
+            }
+            
+            // Add the label
+            try {
+              await github.rest.issues.addLabels({
+                owner,
+                repo,
+                issue_number: prNumber,
+                labels: [labelToAdd],
+              });
+              console.log(`Successfully added label '${labelToAdd}' to PR #${prNumber}`);
+            } catch (error) {
+              console.error(`Failed to add label: ${error.message}`);
+              // If label doesn't exist, log a warning but don't fail the workflow
+              if (error.status === 422) {
+                console.warn(`Label '${labelToAdd}' may not exist in the repository. Please create it first.`);
+              }
+            }
