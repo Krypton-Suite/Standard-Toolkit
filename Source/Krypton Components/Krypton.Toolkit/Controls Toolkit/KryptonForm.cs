@@ -1836,11 +1836,45 @@ public class KryptonForm : VisualForm,
         // Let default processing run first
         base.WndProc(ref m);
 
+        // Ensure maximized window fits within the monitor's working area (no -8 offset, height/width not exceeding work area)
+        if (m.Msg == (int)PI.WM_.GETMINMAXINFO)
+        {
+            ConstrainMaximizedBoundsToWorkArea(ref m);
+        }
+
         // After the client has painted, draw our grip overlay last so it isn't erased
         if (m.Msg == WM_PAINT)
         {
             DrawSizingGripOverlayIfNeeded();
         }
+    }
+
+    /// <summary>
+    /// Constrains the maximized window size and position to the monitor's working area.
+    /// Prevents Left/Top at -8 and height/width exceeding working area when maximized.
+    /// </summary>
+    private static void ConstrainMaximizedBoundsToWorkArea(ref Message m)
+    {
+        const int MONITOR_DEFAULT_TO_NEAREST = 0x00000002;
+
+        IntPtr monitor = PI.MonitorFromWindow(m.HWnd, MONITOR_DEFAULT_TO_NEAREST);
+        if (monitor == IntPtr.Zero)
+        {
+            return;
+        }
+
+        PI.MONITORINFO mi = PI.GetMonitorInfo(monitor);
+        int workWidth = mi.rcWork.right - mi.rcWork.left;
+        int workHeight = mi.rcWork.bottom - mi.rcWork.top;
+        int maxX = Math.Abs(mi.rcWork.left - mi.rcMonitor.left);
+        int maxY = Math.Abs(mi.rcWork.top - mi.rcMonitor.top);
+
+        PI.MINMAXINFO mmi = (PI.MINMAXINFO)Marshal.PtrToStructure(m.LParam, typeof(PI.MINMAXINFO))!;
+        mmi.ptMaxPosition.X = maxX;
+        mmi.ptMaxPosition.Y = maxY;
+        mmi.ptMaxSize.X = workWidth;
+        mmi.ptMaxSize.Y = workHeight;
+        Marshal.StructureToPtr(mmi, m.LParam, false);
     }
 
     protected override bool OnWM_NCLBUTTONDBLCLK(ref Message m)
