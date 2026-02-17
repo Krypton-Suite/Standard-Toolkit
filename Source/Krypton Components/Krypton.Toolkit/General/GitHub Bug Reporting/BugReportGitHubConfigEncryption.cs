@@ -150,7 +150,7 @@ public static class BugReportGitHubConfigEncryption
         var encryptedBytes = File.ReadAllBytes(filePath);
         var plainText = Decrypt(encryptedBytes, secretKey);
 
-        var parts = plainText.Split(new[] { Separator }, StringSplitOptions.None);
+        var parts = plainText.Split([Separator], StringSplitOptions.None);
         if (parts.Length < 3)
         {
             throw new CryptographicException("Decrypted config data is invalid or corrupted.");
@@ -217,7 +217,7 @@ public static class BugReportGitHubConfigEncryption
 
     #region Private
 
-    private static byte[] Encrypt(string plainText, string secretKey)
+    private static byte[] Encrypt(string plainText, string? secretKey)
     {
         var key = DeriveKey(secretKey);
 
@@ -241,7 +241,7 @@ public static class BugReportGitHubConfigEncryption
         return result;
     }
 
-    private static string Decrypt(byte[] encryptedBytes, string secretKey)
+    private static string Decrypt(byte[] encryptedBytes, string? secretKey)
     {
         var key = DeriveKey(secretKey);
 
@@ -272,10 +272,10 @@ public static class BugReportGitHubConfigEncryption
         return Encoding.UTF8.GetString(plainBytes);
     }
 
-    private static byte[] DeriveKey(string secretKey)
+    private static byte[] DeriveKey(string? secretKey)
     {
         using var sha256 = SHA256.Create();
-        return sha256.ComputeHash(Encoding.UTF8.GetBytes(secretKey));
+        return sha256.ComputeHash(Encoding.UTF8.GetBytes(secretKey!));
     }
 
     private static string SecureStringToString(SecureString value)

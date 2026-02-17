@@ -3229,6 +3229,8 @@ No 	                    No 	                    Show text only
 
     internal delegate IntPtr HookProc(int code, IntPtr wParam, IntPtr lParam);
 
+    public delegate void TimerProc(IntPtr hWnd, uint uMsg, UIntPtr nIDEvent, uint dwTime);
+
     [DllImport(Libraries.User32)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern IntPtr SetWindowsHookEx(WH_ idHook, HookProc lpfn, IntPtr hInstance, int threadId);

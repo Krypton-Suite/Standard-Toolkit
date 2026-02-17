@@ -90,6 +90,7 @@ public class KryptonDateTimePicker : VisualControlBase,
     private bool _dropDownMonthChanged;
     private object? _rawDateTime;
     private int _cachedHeight;
+    private Color _calendarBackColor;
     #endregion
 
     #region Events
@@ -1047,6 +1048,42 @@ public class KryptonDateTimePicker : VisualControlBase,
     private void ResetCalendarDayOfWeekStyle() => CalendarDayOfWeekStyle = ButtonStyle.CalendarDay;
 
     private bool ShouldSerializeCalendarDayOfWeekStyle() => CalendarDayOfWeekStyle != ButtonStyle.CalendarDay;
+
+    /// <summary>
+    /// Gets or sets the background color of the drop-down month calendar.
+    /// </summary>
+    [Category(@"Visuals - MonthCalendar")]
+    [Description(@"Background color of the drop-down month calendar. Empty uses the theme/palette default.")]
+    [DefaultValue(typeof(Color), "")]
+    [KryptonPersist]
+    public Color CalendarBackColor
+    {
+        get => _calendarBackColor;
+        set
+        {
+            // Only interested in changes of value
+            if (_calendarBackColor == value)
+            {
+                return;
+            }
+
+            // Store the new value
+            _calendarBackColor = value;
+
+            // Update the palette with the new value
+            if (_kmc != null)
+            {
+                ApplyCalendarBackColorToPalette(_kmc, value);
+            }
+
+            // Redraw to show the new color
+            PerformNeedPaint(true);
+        }
+    }
+
+    private void ResetCalendarBackColor() => CalendarBackColor = Color.Empty;
+
+    private bool ShouldSerializeCalendarBackColor() => CalendarBackColor != Color.Empty;
 
     /// <summary>
     /// Gets or sets the palette to be applied.
@@ -2148,6 +2185,9 @@ public class KryptonDateTimePicker : VisualControlBase,
                 DayStyle = CalendarDayStyle,
                 HeaderStyle = CalendarHeaderStyle
             };
+
+            ApplyCalendarBackColorToPalette(_kmc, _calendarBackColor);
+
             _kmc.DateChanged += OnMonthCalendarDateChanged;
             kcm.Items.Add(_kmc);
 
@@ -2213,6 +2253,59 @@ public class KryptonDateTimePicker : VisualControlBase,
 
         // Did not show a context menu so we remove the fixed appearance of button
         _buttonDropDown.RemoveFixed();
+    }
+
+    /// <summary>
+    /// Apply calendar back color to the month calendar palette (body, day cells, day-of-week row, header).
+    /// </summary>
+    private static void ApplyCalendarBackColorToPalette(KryptonContextMenuMonthCalendar kmc, Color color)
+    {
+        // Body background (drawn by ViewDrawDocker in the dropdown)
+        kmc.StateCommon.Back.Draw = InheritBool.True;
+        if (color == Color.Empty)
+        {
+            kmc.StateCommon.Back.Color1 = Color.Empty;
+            kmc.StateCommon.Back.ColorStyle = PaletteColorStyle.Inherit;
+            // Keep Back.Draw = True so body still draws with theme color
+
+            kmc.StateCommon.Day.Back.Color1 = Color.Empty;
+            kmc.StateCommon.Day.Back.ColorStyle = PaletteColorStyle.Inherit;
+            kmc.StateCommon.Day.Back.Draw = InheritBool.Inherit;
+
+            kmc.StateCommon.Day.Border.Color1 = Color.Empty;
+            kmc.StateCommon.Day.Border.ColorStyle = PaletteColorStyle.Inherit;
+            kmc.StateCommon.Day.Border.Draw = InheritBool.Inherit;
+
+            kmc.StateCommon.DayOfWeek.Back.Color1 = Color.Empty;
+            kmc.StateCommon.DayOfWeek.Back.ColorStyle = PaletteColorStyle.Inherit;
+            kmc.StateCommon.DayOfWeek.Back.Draw = InheritBool.Inherit;
+
+            kmc.StateCommon.Header.Back.Color1 = Color.Empty;
+            kmc.StateCommon.Header.Back.ColorStyle = PaletteColorStyle.Inherit;
+            kmc.StateCommon.Header.Back.Draw = InheritBool.Inherit;
+        }
+        else
+        {
+            kmc.StateCommon.Back.Color1 = color;
+            kmc.StateCommon.Back.ColorStyle = PaletteColorStyle.Solid;
+            kmc.StateCommon.Back.Draw = InheritBool.True;
+
+            kmc.StateCommon.Day.Back.Color1 = color;
+            kmc.StateCommon.Day.Back.ColorStyle = PaletteColorStyle.Solid;
+            kmc.StateCommon.Day.Back.Draw = InheritBool.True;
+
+            kmc.StateCommon.Day.Border.Color1 = color;
+            kmc.StateCommon.Day.Border.ColorStyle = PaletteColorStyle.Solid;
+            kmc.StateCommon.Day.Border.Draw = InheritBool.True;
+
+            kmc.StateCommon.DayOfWeek.Back.Color1 = color;
+            kmc.StateCommon.DayOfWeek.Back.ColorStyle = PaletteColorStyle.Solid;
+            kmc.StateCommon.DayOfWeek.Back.Draw = InheritBool.True;
+
+            kmc.StateCommon.Header.Back.Color1 = color;
+            kmc.StateCommon.Header.Back.ColorStyle = PaletteColorStyle.Solid;
+            kmc.StateCommon.Header.Back.Draw = InheritBool.True;
+        }
     }
 
     private void OnMonthCalendarDateChanged(object? sender, DateRangeEventArgs e)

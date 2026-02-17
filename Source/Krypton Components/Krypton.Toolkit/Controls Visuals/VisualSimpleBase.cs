@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -98,16 +98,19 @@ public abstract class VisualSimpleBase : VisualControlBase
             retSize.Height += Padding.Vertical;
 #endif
 
-            // For AutoSize with GrowAndShrink, ensure we never return a size smaller than what
-            // the base class would return, to prevent incorrect shrinking behavior.
-            if (AutoSize && GetAutoSizeMode() == AutoSizeMode.GrowAndShrink)
+            // For AutoSize with GrowAndShrink, use base class size only as fallback when the view
+            // failed to calculate a valid preferred size (e.g. renderer not ready in designer).
+            // Do NOT use it as a floor when we have valid content-based size, or labels with
+            // short text (e.g. "K") would incorrectly stay at DefaultSize 90x25 instead of shrinking.
+            if (AutoSize && GetAutoSizeMode() == AutoSizeMode.GrowAndShrink
+                && (retSize.Width <= 0 || retSize.Height <= 0))
             {
-                // Get what the base class would return (this includes padding handling in .NET)
                 Size baseSize = base.GetPreferredSize(new Size(int.MaxValue, int.MaxValue));
-
-                // Ensure our calculated size is at least as large as the base class size
-                retSize.Width = Math.Max(retSize.Width, baseSize.Width);
-                retSize.Height = Math.Max(retSize.Height, baseSize.Height);
+                if (baseSize.Width > 0 && baseSize.Height > 0)
+                {
+                    retSize.Width = Math.Max(retSize.Width, baseSize.Width);
+                    retSize.Height = Math.Max(retSize.Height, baseSize.Height);
+                }
             }
 
             // Apply the maximum sizing
