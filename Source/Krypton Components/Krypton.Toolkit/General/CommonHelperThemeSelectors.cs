@@ -25,7 +25,7 @@ internal static class CommonHelperThemeSelectors
     /// the "Custom" entry is shown as "Custom - [Theme Name]" so the theme array displays it correctly (see issue #1031).
     /// </summary>
     /// <returns>String array of theme names.</returns>
-    internal static object[] GetThemesArray()
+    internal static string[] GetThemesArray()
     {
         var arr = PaletteModeStrings.SupportedThemesMap.Keys.ToArray();
 
