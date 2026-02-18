@@ -37,7 +37,7 @@ public class PaletteProfessionalSystem : PaletteBase
     private static readonly Padding _contentPaddingButton5 = new Padding(3, 3, 3, 2);
     private static readonly Padding _contentPaddingButton6 = new Padding(3);
     private static readonly Padding _contentPaddingButton7 = new Padding(1, 1, 3, 1);
-    private static readonly Padding _contentPaddingButtonForm = new Padding(5);
+    private static readonly Padding _contentPaddingButtonForm = new Padding(0);
     private static readonly Padding _contentPaddingButtonGallery = new Padding(1, 0, 1, 0);
     private static readonly Padding _contentPaddingToolTip = new Padding(2);
     private static readonly Padding _contentPaddingSuperTip = new Padding(4);
@@ -2702,6 +2702,7 @@ public class PaletteProfessionalSystem : PaletteBase
                 }
                 return Math.Max(2, owningForm!.RealWindowBorders.Right);
             case PaletteMetricInt.HeaderButtonEdgeInsetFormRight:
+                // Flush with form edge (like standard Windows title bar)
                 return 0;
             case PaletteMetricInt.HeaderButtonEdgeInsetInputControl:
                 return 1;
