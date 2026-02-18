@@ -76,7 +76,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
 
+      # TODO: Remove the step-level `if` below in November 2026 so WebView2 runs on all branches.
       - name: Populate WebView2 (latest)
+        if: github.ref == 'refs/heads/alpha' || github.ref == 'refs/heads/canary' || github.head_ref == 'alpha' || github.head_ref == 'canary'
         shell: pwsh
         run: |
           $root = $env:GITHUB_WORKSPACE
@@ -171,7 +173,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
 
+      # TODO: Remove the step-level `if` below in November 2026 so WebView2 runs on all branches.
       - name: Populate WebView2 (latest)
+        if: github.ref == 'refs/heads/alpha' || github.ref == 'refs/heads/canary' || github.head_ref == 'alpha' || github.head_ref == 'canary'
         shell: pwsh
         run: |
           $root = $env:GITHUB_WORKSPACE
