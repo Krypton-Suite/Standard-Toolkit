@@ -4,6 +4,7 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Resolved [#2922](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2922), WinForms borderless form briefly displays system title bar on startup
 * Implemented [#1031](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1031), A way to 'dynamically' update the palette theme array with the theme name (i.e. if a custom palette is used)
 * Implemented [#2836](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2836), Time to bring over `KryptonMessageBoxExtended`
     - To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this feature is part of the `Krypton.Utilities` assembly.
