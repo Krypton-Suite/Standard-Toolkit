@@ -4,6 +4,7 @@
 
 ## 2026-04-20 - Build 2604 (Version 105-LTS - Patch 2) - April 2026
 
+* Resolved [#3031](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3031), Maximized form's size exceeds the screen's working area
 * Implemented [#776](https://github.com/Krypton-Suite/Standard-Toolkit/issues/776), Ability to set a number of custom colours for `KryptonColorButton`
 * Implemented [#2968](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2968), Move **all** RTL specific dialogs to use the feature fully
 * Implemented [#3043](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3043), Canary LTS release workflow
