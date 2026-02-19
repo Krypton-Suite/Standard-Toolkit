@@ -1136,6 +1136,7 @@ public class KryptonCustomPaletteBase : PaletteBase
         PaletteMetricInt.HeaderButtonEdgeInsetDockInactive => HeaderStyles.HeaderDockInactive.StateCommon.GetMetricInt(owningForm, state, metric),
         PaletteMetricInt.HeaderButtonEdgeInsetDockActive => HeaderStyles.HeaderDockActive.StateCommon.GetMetricInt(owningForm, state, metric),
         PaletteMetricInt.HeaderButtonEdgeInsetForm => HeaderStyles.HeaderForm.StateCommon.GetMetricInt(owningForm, state, metric),
+        PaletteMetricInt.HeaderButtonEdgeInsetFormRight => HeaderStyles.HeaderForm.StateCommon.GetMetricInt(owningForm, state, metric),
         PaletteMetricInt.HeaderButtonEdgeInsetCustom1 => HeaderStyles.HeaderCustom1.StateCommon.GetMetricInt(owningForm, state, metric),
         PaletteMetricInt.HeaderButtonEdgeInsetCustom2 => HeaderStyles.HeaderCustom2.StateCommon.GetMetricInt(owningForm, state, metric),
         PaletteMetricInt.HeaderButtonEdgeInsetCustom3 => HeaderStyles.HeaderCustom3.StateCommon.GetMetricInt(owningForm, state, metric),
@@ -2199,10 +2200,12 @@ public class KryptonCustomPaletteBase : PaletteBase
         // Set the file path
         SetCustomisedKryptonPaletteFilePath(Path.GetFullPath(ret));
 
-        // Set the palette name
-        // TODO: Get paletteName from the paletteBase
-
-        SetPaletteName(Path.GetFileName(ret));
+        // Use bundled name from file if present, otherwise fall back to filename
+        if (string.IsNullOrWhiteSpace(GetPaletteName()))
+        {
+            // Set the theme name to the file name
+            SetPaletteName(Path.GetFileName(ret));
+        }
 
         return ret;
     }
@@ -2238,6 +2241,8 @@ public class KryptonCustomPaletteBase : PaletteBase
             {
                 throw;
             }
+
+            KryptonExceptionHandler.CaptureException(aex);
 
             stream.Position = 0;
             PerformUpgrade(stream);
@@ -3113,6 +3118,12 @@ public class KryptonCustomPaletteBase : PaletteBase
                     $"Version '{version}' number is incompatible, only version {GlobalStaticValues.CURRENT_SUPPORTED_PALETTE_VERSION} or above can be imported.\nUse the PaletteUpgradeTool from the Application tab of the KryptonExplorer to upgrade.");
             }
 
+            // Restore bundled palette name so external themes display correctly (e.g. in KryptonManager)
+            if (root.HasAttribute("Name"))
+            {
+                SetPaletteName(root.GetAttribute("Name"));
+            }
+
             // Grab the properties and images elements
             var props = root.SelectSingleNode(nameof(Properties)) as XmlElement;
             var images = root.SelectSingleNode(nameof(Images)) as XmlElement;
@@ -3134,10 +3145,6 @@ public class KryptonCustomPaletteBase : PaletteBase
             // Use reflection to import the palette hierarchy
             ImportImagesFromElement(images, imageCache);
             ImportObjectFromElement(props, imageCache, this);
-
-            // Set the palette name
-            // TODO: Get paletteName from the paletteBase
-            //SetPaletteName(root.SelectSingleNode(Name));
         }
         catch (Exception e)
         {
@@ -3252,7 +3259,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             doc.AppendChild(doc.CreateComment(
                 "New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)"));
             doc.AppendChild(doc.CreateComment(
-                $"Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - {DateTime.Now.Year}. All rights reserved."));
+                $"Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), Giduac, tobitege, Lesandro, KamaniAR, et al. 2017 - {DateTime.Now.Year}. All rights reserved."));
             doc.AppendChild(doc.CreateComment("WARNING: Modifying this file may render it invalid for importing."));
             doc.AppendChild(doc.CreateComment($@"Date created: {DateTime.Now.ToLongDateString()}"));
 
@@ -3262,6 +3269,13 @@ public class KryptonCustomPaletteBase : PaletteBase
             root.SetAttribute(nameof(Version), GlobalStaticValues.CURRENT_SUPPORTED_PALETTE_VERSION.ToString());
             root.SetAttribute("Generated",
                 $"{DateTime.Now.ToLongDateString()}, @{DateTime.Now.ToShortTimeString()}");
+
+            // Bundle the palette display name so it can be shown correctly when loaded (e.g. in KryptonManager)
+            if (!string.IsNullOrWhiteSpace(PaletteName))
+            {
+                root.SetAttribute("Name", PaletteName);
+            }
+
             doc.AppendChild(root);
 
             // Add two children, one for storing actual palette values the other for cached images

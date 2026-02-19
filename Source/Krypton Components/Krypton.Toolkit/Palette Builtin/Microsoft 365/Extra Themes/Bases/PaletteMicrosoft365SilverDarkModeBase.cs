@@ -3011,6 +3011,8 @@ public abstract class PaletteMicrosoft365SilverDarkModeBase : PaletteBase
                     return 0;
                 }
                 return Math.Max(2, owningForm!.RealWindowBorders.Right);
+            case PaletteMetricInt.HeaderButtonEdgeInsetFormRight:
+                return 0;
             case PaletteMetricInt.HeaderButtonEdgeInsetInputControl:
                 return 1;
             case PaletteMetricInt.HeaderButtonEdgeInsetPrimary:
@@ -4391,6 +4393,15 @@ public abstract class PaletteMicrosoft365SilverDarkModeBase : PaletteBase
             BaseColors.ButtonTextTracking = newColor;
         }
         base.OnSchemeColorChanged(index, newColor);
+    }
+
+    protected override void OnSchemeExtraColorChanged(SchemeExtraColors index, Color newColor)
+    {
+        if (BaseColors is not null && index == SchemeExtraColors.ButtonTextTracking)
+        {
+            BaseColors.ButtonTextTracking = newColor;
+        }
+        base.OnSchemeExtraColorChanged(index, newColor);
     }
 
     #region OnUserPreferenceChanged

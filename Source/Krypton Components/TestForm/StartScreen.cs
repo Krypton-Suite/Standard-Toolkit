@@ -19,9 +19,9 @@ public partial class StartScreen : KryptonForm
     private readonly List<KryptonCommandLinkButton> _buttons;
     private readonly IComparer<KryptonCommandLinkButton> _headingComparer;
     private readonly Timer _filterTimer;
-    private int _panelWidth;
-    private Size _sizeAtStartup;
-    private RegistryAccess _registryAccess;
+    private readonly int _panelWidth;
+    private readonly Size _sizeAtStartup;
+    private readonly RegistryAccess _registryAccess;
     private bool _dockTopRight;
 
     public StartScreen()
@@ -62,14 +62,17 @@ public partial class StartScreen : KryptonForm
         CreateButton("Badge Test", "Comprehensive badge functionality demonstration for KryptonButton and KryptonCheckButton.", typeof(ButtonBadgeTest));
         CreateButton("Button Text Tracking", "Demonstrates alternate text color for tracking (hover) state on KryptonButton, KryptonCheckButton, KryptonColorButton and other controls (Issue #1326). Improves readability in dark themes.", typeof(ButtonTextTrackingExample));
         CreateButton("Buttons Test", "All the buttons you want to test.", typeof(ButtonsTest));
+        CreateButton("KryptonColorButton Custom Colours", "Comprehensive demo of KryptonColorButton custom colours (Issue #776): CustomColors, MaxCustomColors, and visibility. Only 10 colours, or custom + theme + standard, or cap display count.", typeof(KryptonColorButtonDemo));
         CreateButton("Bug 2914 Test", "Tests the fix for 2914.", typeof(Bug2914Test));
         CreateButton("Bug 2984 Separator Test", "Demo for Issue #2984: NullReferenceException in ViewDrawSeparator.RenderBefore. Exercises KryptonNavigator (Outlook), KryptonSplitContainer, and KryptonSeparator. Swap themes to verify no crash.", typeof(Bug2984SeparatorTest));
+        CreateButton("Bug 3025 KryptonLabel AutoSize Demo", "Demo for Issue #3025: KryptonLabel with AutoSize now resizes to fit text when placed in the Designer (click-drag). Shows AutoSize on/off, LabelStyles, short/long text, and text + image.", typeof(Bug3025KryptonLabelAutoSizeDemo));
         CreateButton("Bug 2935 MDI multi-monitor", "Demo for issue #2935: maximized MDI child form border drawn on the correct monitor. Move the MDI parent to a second monitor, open and maximize a child; the border should stay on the same monitor.", typeof(Bug2935MdiMultiMonitorDemo));
         CreateButton("BugReportingTool", "Easily report bugs with this tool.", typeof(BugReportingDialogTest));
         CreateButton("Code Editor", "Native code editor with syntax highlighting, line numbering, code folding, and auto-completion.", typeof(CodeEditorTest));
         CreateButton("Countdown Button", "Comprehensive demonstration of KryptonCountdownButton features with customizable duration, format, and enable-at-zero options.", typeof(CountdownButtonTest));
         CreateButton("CommandLink Buttons", "No comment", typeof(CommandLinkButtons));
         CreateButton("Control Styles", string.Empty, typeof(ControlStylesForm));
+        CreateButton("DateTimePicker Month Calendar Background", "Comprehensive demo of KryptonDateTimePicker month calendar custom background (Issue #1827): CalendarBackColor, theme default, presets (dark/light), and pick-a-color to style the drop-down calendar.", typeof(KryptonDateTimePickerMonthCalendarDemo));
         CreateButton("DateTime Example", string.Empty, typeof(DateTimeExample));
         CreateButton("Docking Config Save/Load Test", "Test SaveConfigToArray and LoadConfigFromArray", typeof(DockingConfigSaveLoadTest));
         CreateButton("Docking Redock Demo", "Demo for Issue #2933: undock (Float) then redock; no floating window left behind.", typeof(DockingRedockDemo));
@@ -353,7 +356,7 @@ public partial class StartScreen : KryptonForm
                 string headingX = x.CommandLinkTextValues.Heading.ToLower(CultureInfo.InvariantCulture);
                 string headingY = y.CommandLinkTextValues.Heading.ToLower(CultureInfo.InvariantCulture);
 
-                return headingX.CompareTo(headingY);
+                return string.Compare(headingX, headingY, StringComparison.Ordinal);
             }
             else
             {

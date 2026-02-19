@@ -109,28 +109,23 @@ jobs:
             9.0.x
             10.0.x
 
-      # .NET 11 (will auto-upgrade from preview to GA when available)
-      - name: Setup .NET 11
-        id: setup_dotnet_11
-        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
+      # .NET 11 (Preview)
+      - name: Setup .NET 11 (Preview)
+        # Kill switch check
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
         uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 11.0.x
-        continue-on-error: true
-      
-      - name: Note .NET 11 Status
-        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true' && steps.setup_dotnet_11.outcome == 'failure'
-        run: |
-          Write-Host "::notice::.NET 11 is not yet available - falling back to .NET 10 (this is expected)"
+          dotnet-quality: preview
 
       # global.json dynamically generate (use latest SDK available)
-      - name: Force .NET 10 SDK via global.json
+      - name: Force .NET 11 SDK via global.json
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
         run: |
-          $sdkVersion = (dotnet --list-sdks | Select-String "10.0").ToString().Split(" ")[0]
+          $sdkVersion = (dotnet --list-sdks | Select-String "11.0").ToString().Split(" ")[0]
           if (-not $sdkVersion) {
-            # Fallback to .NET 8 if .NET 10 is not available
-            $sdkVersion = (dotnet --list-sdks | Select-String "8.0").ToString().Split(" ")[0]
+            # Fallback to .NET 10 if .NET 11 is not available
+            $sdkVersion = (dotnet --list-sdks | Select-String "10.0").ToString().Split(" ")[0]
           }
           Write-Output "Using SDK $sdkVersion"
           @"
@@ -161,35 +156,41 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
 
-      - name: Populate WebView2 (latest)
+      - name: Populate WebView2 (preview)
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
         shell: pwsh
         run: |
-          $libDir = "Source/Krypton Components/Krypton.Utilities/Lib/WebView2"
+          $root = $env:GITHUB_WORKSPACE
+          if (-not $root) { $root = (Get-Location).Path }
+          $utilProj = Join-Path $root "Source\Krypton Components\Krypton.Utilities\Krypton.Utilities.csproj"
+          $libDir = Join-Path $root "Source\Krypton Components\Krypton.Utilities\Lib\WebView2"
+          if (-not (Test-Path $utilProj)) { Write-Error "Project not found: $utilProj"; exit 1 }
           if (-not (Test-Path $libDir)) { New-Item -ItemType Directory -Path $libDir -Force }
           $packageId = "Microsoft.Web.WebView2"
+          # Use prerelease versions for alpha/nightly builds to avoid .NET 11.0 requirement
+          Write-Host "Using prerelease=true for WebView2 SDK lookup (nightly build)"
           $latestVersion = $null
           try {
-            $searchUrl = "https://azuresearch-usnc.nuget.org/query?q=$packageId&prerelease=false&semVerLevel=2.0.0&take=1"
-            $searchResponse = Invoke-RestMethod -Uri $searchUrl -Method Get
+            $searchResponse = Invoke-RestMethod -Uri "https://azuresearch-usnc.nuget.org/query?q=$packageId&prerelease=true&semVerLevel=2.0.0&take=1" -Method Get
             if ($searchResponse.data -and $searchResponse.data.Count -gt 0) { $latestVersion = $searchResponse.data[0].version }
           } catch {
             try {
               $response = Invoke-RestMethod -Uri "https://api.nuget.org/v3-flatcontainer/$packageId/index.json" -Method Get
-              $stableVersions = $response.versions | Where-Object { $_ -notmatch '[-]' -and $_ -match '^\d+\.\d+\.\d+$' }
-              if ($stableVersions) { $latestVersion = $stableVersions | Sort-Object { [System.Version]$_ } -Descending | Select-Object -First 1 }
+              # Include prerelease versions
+              $allVersions = $response.versions | Where-Object { $_ -match '^\d+\.\d+\.\d+' }
+              if ($allVersions) { $latestVersion = $allVersions | Sort-Object { [System.Version]($_ -replace '-.*', '') } -Descending | Select-Object -First 1 }
             } catch {}
           }
           if (-not $latestVersion) { $latestVersion = "1.0.3595.46" }
-          Write-Host "Using WebView2 (latest): $latestVersion"
-          dotnet add "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj" package $packageId --version $latestVersion
-          dotnet restore "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj"
-          $nugetBase = "$env:USERPROFILE\.nuget\packages\microsoft.web.webview2\$latestVersion"
+          Write-Host "Using WebView2 (preview): $latestVersion"
+          dotnet add $utilProj package $packageId --version $latestVersion
+          dotnet restore $utilProj
+          $nugetBase = Join-Path $env:USERPROFILE ".nuget\packages\microsoft.web.webview2\$latestVersion"
           @("Microsoft.Web.WebView2.Core.dll","Microsoft.Web.WebView2.WinForms.dll","WebView2Loader.dll") | ForEach-Object {
             $f = Get-ChildItem -Path $nugetBase -Recurse -Name $_ -ErrorAction SilentlyContinue | Select-Object -First 1
             if ($f) { Copy-Item (Join-Path $nugetBase $f) $libDir -Force; Write-Host "Copied $_" }
           }
-          dotnet remove "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj" package $packageId
+          dotnet remove $utilProj package $packageId
 
       - name: Restore
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
@@ -264,7 +265,7 @@ jobs:
           # Fallback: Try to read from csproj XML
           if (-not $version) {
             try {
-              $proj = 'Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit.csproj'
+              $proj = 'Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj'
               [xml]$projXml = Get-Content $proj
               $versionNode = $projXml.SelectSingleNode("//Version")
               if ($versionNode) {
@@ -314,7 +315,7 @@ jobs:
                   }
                   @{
                     name = "🎯 Target Frameworks"
-                    value = "• .NET Framework 4.7.2`n• .NET Framework 4.8`n• .NET Framework 4.8.1`n• .NET 8.0`n• .NET 9.0`n• .NET 10.0"
+                    value = "• .NET Framework 4.7.2`n• .NET Framework 4.8`n• .NET Framework 4.8.1`n• .NET 8.0`n• .NET 9.0`n• .NET 10.0`n• .NET 11.0"
                     inline = $false
                   }
                   @{

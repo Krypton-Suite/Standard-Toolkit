@@ -18,7 +18,12 @@ namespace Krypton.Toolkit;
 public class ThemeManager
 {
     #region Private static fields
+
     private const string _msgBoxCaption = "ThemeManager";
+
+    /// <summary>Prefix used when the theme array displays a custom palette with a name, e.g. "Custom - [My Theme Name]".</summary>
+    internal const string CustomThemeNamePrefix = @"Custom - ";
+
     #endregion
 
     #region Properties
@@ -118,10 +123,29 @@ public class ThemeManager
 
     /// <summary>
     /// Returns the respective theme name for the given KryptonManager instance.
+    /// When the mode is Custom and the custom palette has a bundled name, that name is returned so it displays correctly (e.g. in KryptonManager).
     /// </summary>
     /// <param name="manager">A valid reference to a KryptonManager instance.</param>
     /// <returns>The theme name.</returns>
-    public static string ReturnPaletteModeAsString(KryptonManager manager) => ReturnPaletteModeAsString(manager.GlobalPaletteMode);
+    public static string ReturnPaletteModeAsString(KryptonManager manager)
+    {
+        // When in Custom mode, attempt to return the custom palette's name if it exists, otherwise return the palette mode as string.
+        if (manager is { GlobalPaletteMode: PaletteMode.Custom, GlobalCustomPalette: { } customPalette })
+        {
+            // Attempt to get the custom palette's name. If it exists and is not just whitespace, return it. Otherwise, return the palette mode as string.
+            var name = customPalette.GetPaletteName();
+
+            // ReSharper disable once SuspiciousTypeConversion.Global - The check is necessary to ensure that the method exists before calling it, as GetPaletteName is not guaranteed to be implemented in all custom palettes.
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                // Return the custom palette's name if it exists and is not just whitespace.
+                return name;
+            }
+        }
+
+        // Return the palette mode as string if not in Custom mode or if the custom palette does not have a valid name.
+        return ReturnPaletteModeAsString(manager.GlobalPaletteMode);
+    }
 
     /// <summary>
     /// Returns the palette mode as string.
@@ -132,11 +156,24 @@ public class ThemeManager
 
     /// <summary>
     /// Returns the themes PaletteMode from the theme's name.
+    /// Accepts the static "Custom" or the dynamic "Custom - [Theme Name]" form so theme selectors resolve correctly.
     /// </summary>
     /// <param name="themeName">Name of the theme.</param>
     /// <returns>The respective PaletteMode if the theme name is valid. Otherwise PaletteMode.Global.</returns>
     public static PaletteMode GetThemeManagerMode(string themeName)
     {
+        if (string.IsNullOrEmpty(themeName))
+        {
+            return PaletteMode.Global;
+        }
+
+        // Dynamic theme array may show "Custom - [My Theme Name]" when a custom palette has a bundled name
+        if (themeName == PaletteModeStrings.DEFAULT_PALETTE_CUSTOM
+            || themeName.StartsWith(CustomThemeNamePrefix, StringComparison.Ordinal))
+        {
+            return PaletteMode.Custom;
+        }
+
         return PaletteModeStrings.SupportedThemesMap.TryGetValue(themeName, out PaletteMode paletteMode)
             ? paletteMode
             : PaletteMode.Global;

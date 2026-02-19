@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -136,6 +136,7 @@ public class PaletteHeaderButtonRedirect : PaletteTripleMetricRedirect
             PaletteMetricInt.HeaderButtonEdgeInsetPrimary or PaletteMetricInt.HeaderButtonEdgeInsetSecondary
                 or PaletteMetricInt.HeaderButtonEdgeInsetDockInactive
                 or PaletteMetricInt.HeaderButtonEdgeInsetDockActive or PaletteMetricInt.HeaderButtonEdgeInsetForm
+                or PaletteMetricInt.HeaderButtonEdgeInsetFormRight
                 or PaletteMetricInt.HeaderButtonEdgeInsetInputControl
                 or PaletteMetricInt.HeaderButtonEdgeInsetCustom1 or PaletteMetricInt.HeaderButtonEdgeInsetCustom2
                 or PaletteMetricInt.HeaderButtonEdgeInsetCustom3 when ButtonEdgeInset != -1 => ButtonEdgeInset,

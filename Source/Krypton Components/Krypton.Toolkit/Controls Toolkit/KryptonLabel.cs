@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -527,6 +527,34 @@ public class KryptonLabel : VisualSimpleBase, IContentValues
     /// Gets the default size of the control.
     /// </summary>
     protected override Size DefaultSize => new Size(90, 25);
+
+    /// <summary>
+    /// Sets the bounds of the control. When AutoSize is true, the size is forced to the preferred size
+    /// so that the label fits its content (e.g. when drawn by click-drag in the designer).
+    /// </summary>
+    /// <param name="x">The new Left property value of the control.</param>
+    /// <param name="y">The new Top property value of the control.</param>
+    /// <param name="width">The new Width property value of the control.</param>
+    /// <param name="height">The new Height property value of the control.</param>
+    /// <param name="specified">A bitwise combination of the BoundsSpecified values.</param>
+    protected override void SetBoundsCore(int x, int y, int width, int height, BoundsSpecified specified)
+    {
+        if (AutoSize && (specified & BoundsSpecified.Size) != 0)
+        {
+            Size preferredSize = GetPreferredSize(new Size(int.MaxValue, int.MaxValue));
+            
+            // Only apply preferred size when valid (e.g. when Renderer was ready); otherwise
+            // we might get a huge size and blow up the form in the designer.
+            if (preferredSize.Width > 0 && preferredSize.Height > 0
+                && preferredSize.Width < 10000 && preferredSize.Height < 10000)
+            {
+                width = preferredSize.Width;
+                height = preferredSize.Height;
+            }
+        }
+
+        base.SetBoundsCore(x, y, width, height, specified);
+    }
 
     /// <summary>
     /// Work out if this control needs to paint transparent areas.

@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -48,7 +48,7 @@ internal class ExceptionHandler
         bool showStackTrace = false, bool? useExceptionDialog = true,
         bool? showExceptionDialogCopyButton = false, bool? showExceptionDialogSearchBox = false)
     {
-        if (useExceptionDialog is not null or true)
+        if (useExceptionDialog is null or true)
         {
             KryptonExceptionDialog.Show(exception, showExceptionDialogCopyButton, showExceptionDialogSearchBox);
         }
