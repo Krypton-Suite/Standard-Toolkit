@@ -2191,6 +2191,13 @@ public class KryptonForm : VisualForm,
             // Is mouse over one of the borders?
             if (isResizable && (mouseView == _drawDocker || pt.Y < _drawHeading.ClientRectangle.Height))
             {
+                // Issue #3011 (regression of #2096): When maximized, top edge/corners must return HTCAPTION
+                // so the user can drag from the very top; HTTOP/HTTOPLEFT/HTTOPRIGHT prevent dragging.
+                if (GetWindowState() == FormWindowState.Maximized && pt.Y <= Math.Max(borders.Top, HT_CORNER))
+                {
+                    return new IntPtr(PI.HT.CAPTION);
+                }
+
                 // Is point over the left border?
                 if ((borders.Left > 0) && (pt.X <= borders.Left))
                 {
