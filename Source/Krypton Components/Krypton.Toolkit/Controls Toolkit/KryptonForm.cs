@@ -2005,6 +2005,31 @@ public class KryptonForm : VisualForm,
         ApplyMaterialFormChromeDefaultsIfNeeded();
     }
 
+    /// <inheritdoc />
+    protected override void OnWM_GETMINMAXINFO(ref Message m)
+    {
+        base.OnWM_GETMINMAXINFO(ref m);
+
+        // If the handle isn't created, then the form isn't yet positioned and sized by Windows, so we don't have
+        if (IsHandleCreated)
+        {
+            return;
+        }
+
+        // Get the working area of the screen containing the form
+        Rectangle workingArea = Screen.FromControl(this).WorkingArea;
+
+        // Marshal the MINMAXINFO structure from the message's lParam
+        PI.MINMAXINFO mmi = (PI.MINMAXINFO)Marshal.PtrToStructure(m.LParam, typeof(PI.MINMAXINFO))!;
+
+        // Clamp maximized size to working area (belt-and-suspenders for issue #3013)
+        mmi.ptMaxSize.X = Math.Min(mmi.ptMaxSize.X, workingArea.Width);
+        mmi.ptMaxSize.Y = Math.Min(mmi.ptMaxSize.Y, workingArea.Height);
+
+        // Clamp maximized position to working area (belt-and-suspenders for issue #3013)
+        Marshal.StructureToPtr(mmi, m.LParam, true);
+    }
+
     #endregion
 
     #region Protected Chrome
