@@ -229,7 +229,7 @@ jobs:
       - name: Get Version
         id: get_version
         run: |
-          $version = (dotnet build "Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit.csproj" --no-restore --verbosity quiet | Select-String "Version" | ForEach-Object { $_.Line.Split('=')[1].Trim() })
+          $version = (dotnet build "Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj" --no-restore --verbosity quiet | Select-String "Version" | ForEach-Object { $_.Line.Split('=')[1].Trim() })
           if (-not $version) {
             $version = "100.25.1.1"  # Fallback version
           }

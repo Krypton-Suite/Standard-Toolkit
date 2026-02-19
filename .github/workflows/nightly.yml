@@ -265,7 +265,7 @@ jobs:
           # Fallback: Try to read from csproj XML
           if (-not $version) {
             try {
-              $proj = 'Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit.csproj'
+              $proj = 'Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj'
               [xml]$projXml = Get-Content $proj
               $versionNode = $projXml.SelectSingleNode("//Version")
               if ($versionNode) {
