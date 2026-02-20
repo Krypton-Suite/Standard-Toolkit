@@ -3805,6 +3805,17 @@ No 	                    No 	                    Show text only
     internal static extern int BitBlt(IntPtr hDestDC, int x, int y, int nWidth, int nHeight, IntPtr hSrcDC, int xSrc,
         int ySrc, int dwRop);
 
+    internal const uint LAYOUT_LTR = 0;
+    internal const uint LAYOUT_RTL = 0x00000001;
+
+    [DllImport(Libraries.Gdi32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static extern uint GetLayout(IntPtr hdc);
+
+    [DllImport(Libraries.Gdi32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static extern uint SetLayout(IntPtr hdc, uint dwLayout);
+
     [DllImport(Libraries.Gdi32)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern StretchBltMode SetStretchBltMode(IntPtr hdc, StretchBltMode iStretchMode);

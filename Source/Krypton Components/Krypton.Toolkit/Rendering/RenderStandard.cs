@@ -1306,246 +1306,296 @@ public class RenderStandard : RenderBase
 		return memento;
 	}
 
-	/// <summary>
-	/// Perform draw of content using provided memento.
-	/// </summary>
-	/// <param name="context">Render context.</param>
-	/// <param name="displayRect">Display area available for drawing.</param>
-	/// <param name="palette">Content palette details.</param>
-	/// <param name="memento">Cached values from layout call.</param>
-	/// <param name="orientation">Visual orientation of the content.</param>
-	/// <param name="state">State associated with rendering.</param>
-	/// <param name="allowFocusRect">Allow drawing of focus rectangle.</param>
-	/// <exception cref="ArgumentNullException"></exception>
-	public override void DrawContent([DisallowNull] RenderContext context,
-		Rectangle displayRect,
-		[DisallowNull] IPaletteContent palette,
-		[DisallowNull] IDisposable memento,
-		VisualOrientation orientation,
-		PaletteState state,
-		bool allowFocusRect)
-	{
-		Debug.Assert(context != null);
-		Debug.Assert(memento != null);
-		Debug.Assert(memento is StandardContentMemento);
+    /// <summary>
+    /// Perform draw of content using provided memento.
+    /// </summary>
+    /// <param name="context">Render context.</param>
+    /// <param name="displayRect">Display area available for drawing.</param>
+    /// <param name="palette">Content palette details.</param>
+    /// <param name="memento">Cached values from layout call.</param>
+    /// <param name="orientation">Visual orientation of the content.</param>
+    /// <param name="state">State associated with rendering.</param>
+    /// <param name="allowFocusRect">Allow drawing of focus rectangle.</param>
+    /// <exception cref="ArgumentNullException"></exception>
+    public override void DrawContent([DisallowNull] RenderContext context,
+        Rectangle displayRect,
+        [DisallowNull] IPaletteContent palette,
+        [DisallowNull] IDisposable memento,
+        VisualOrientation orientation,
+        PaletteState state,
+        bool allowFocusRect)
+    {
+        Debug.Assert(context != null);
+        Debug.Assert(memento != null);
+        Debug.Assert(memento is StandardContentMemento);
 
-		// Validate parameter references
-		if (context == null)
-		{
-			throw new ArgumentNullException(nameof(context));
-		}
+        // Validate parameter references
+        if (context == null)
+        {
+            throw new ArgumentNullException(nameof(context));
+        }
 
-		if (palette == null)
-		{
-			throw new ArgumentNullException(nameof(palette));
-		}
+        if (palette == null)
+        {
+            throw new ArgumentNullException(nameof(palette));
+        }
 
-		Debug.Assert(context.Control != null);
-		Debug.Assert(!context.Control!.IsDisposed);
+        Debug.Assert(context.Control != null);
+        Debug.Assert(!context.Control!.IsDisposed);
 
-		// Cast the incoming memento to the correct type
-		var standard = (StandardContentMemento)memento!;
+        // Cast the incoming memento to the correct type
+        var standard = (StandardContentMemento)memento!;
 
-		if (standard.DrawImage)
-		{
-			DrawImageHelper(context,
-				standard.Image,
-				standard.ImageTransparentColor,
-				standard.ImageRect,
-				orientation,
-				palette.GetContentImageEffect(state),
-				palette.GetContentImageColorMap(state),
-				palette.GetContentImageColorTo(state));
-		}
+        if (standard.DrawImage)
+        {
+            DrawImageHelper(context,
+                standard.Image,
+                standard.ImageTransparentColor,
+                standard.ImageRect,
+                orientation,
+                palette.GetContentImageEffect(state),
+                palette.GetContentImageColorMap(state),
+                palette.GetContentImageColorTo(state));
+        }
 
-		// Draw overlay image if present
-		if (standard.DrawOverlayImage && standard.OverlayImage != null &&
-			!standard.OverlayImageRect.IsEmpty &&
-			standard.OverlayImageRect.Width > 0 &&
-			standard.OverlayImageRect.Height > 0)
-		{
-			DrawImageHelper(context,
-				standard.OverlayImage,
-				standard.OverlayImageTransparentColor,
-				standard.OverlayImageRect,
-				orientation,
-				palette.GetContentImageEffect(state),
-				palette.GetContentImageColorMap(state),
-				palette.GetContentImageColorTo(state));
-		}
+        // Draw overlay image if present
+        if (standard.DrawOverlayImage && standard.OverlayImage != null &&
+            !standard.OverlayImageRect.IsEmpty &&
+            standard.OverlayImageRect.Width > 0 &&
+            standard.OverlayImageRect.Height > 0)
+        {
+            DrawImageHelper(context,
+                standard.OverlayImage,
+                standard.OverlayImageTransparentColor,
+                standard.OverlayImageRect,
+                orientation,
+                palette.GetContentImageEffect(state),
+                palette.GetContentImageColorMap(state),
+                palette.GetContentImageColorTo(state));
+        }
 
-		if (standard.DrawShortText)
-		{
-			using var hint = new GraphicsTextHint(context.Graphics, standard.ShortTextHint);
-			// Constrain drawing to the provided display rectangle
-			Rectangle shortTextRectToDraw = Rectangle.Intersect(standard.ShortTextRect, displayRect);
-			if (shortTextRectToDraw.IsEmpty)
-			{
-				shortTextRectToDraw = standard.ShortTextRect;
-			}
+        if (standard.DrawShortText)
+        {
+            using var hint = new GraphicsTextHint(context.Graphics, standard.ShortTextHint);
+            // Constrain drawing to the provided display rectangle
+            Rectangle shortTextRectToDraw = Rectangle.Intersect(standard.ShortTextRect, displayRect);
+            if (shortTextRectToDraw.IsEmpty)
+            {
+                shortTextRectToDraw = standard.ShortTextRect;
+            }
 
-			// Get the rectangle to use when dealing with gradients
-			Rectangle gradientRect = context.GetAlignedRectangle(palette.GetContentShortTextColorAlign(state), shortTextRectToDraw);
+            // Form caption RTL: pre-mirror text so that when the window DC mirrors the bitmap, glyphs appear correct.
+            bool shortPreMirror = palette.GetContentStyle() == PaletteContentStyle.HeaderForm
+                && CommonHelper.IsRightToLeftLayout(context.Control)
+                && orientation == VisualOrientation.Top
+                && shortTextRectToDraw.Width > 0;
 
-			// Use standard helper routine to create appropriate color brush
-			Color color1 = palette.GetContentShortTextColor1(state);
-			PaletteColorStyle colorStyle = palette.GetContentShortTextColorStyle(state);
-			using (Brush colorBrush = CreateColorBrush(gradientRect,
-					   color1,
-					   palette.GetContentShortTextColor2(state),
-					   colorStyle,
-					   palette.GetContentShortTextColorAngle(state),
-					   orientation))
-			{
-				if (!AccurateText.DrawString(context.Graphics,
-						colorBrush,
-						shortTextRectToDraw,
-						context.Control.RightToLeft,
-						standard.Orientation,
-						state,
-						standard.ShortTextMemento!))
-				{
-					// Failed to draw means the font is likely to be invalid, get a fresh font
-					standard.ShortTextMemento!.Font = palette.GetContentShortTextNewFont(state)!;
+            // If pre-mirror is needed, save the graphics state before applying the transform
+            GraphicsState? shortGs = shortPreMirror ? context.Graphics.Save() : null;
 
-					// Try again using the new font
-					AccurateText.DrawString(context.Graphics,
-						colorBrush,
-						shortTextRectToDraw,
-						context.Control.RightToLeft,
-						standard.Orientation,
-						state,
-						standard.ShortTextMemento);
-				}
-			}
+            // Apply the pre-mirror transform if needed
+            if (shortPreMirror)
+            {
+                context.Graphics.TranslateTransform(shortTextRectToDraw.Right, 0);
+                context.Graphics.ScaleTransform(-1, 1);
+                context.Graphics.TranslateTransform(-shortTextRectToDraw.Left, 0);
+            }
 
-			Image shortImage = palette.GetContentShortTextImage(state)!;
-			PaletteImageStyle shortImageStyle = palette.GetContentShortTextImageStyle(state);
+            try
+            {
+                // Get the rectangle to use when dealing with gradients
+                Rectangle gradientRect = context.GetAlignedRectangle(palette.GetContentShortTextColorAlign(state), shortTextRectToDraw);
 
-			// Do we need to draw the image?
-			if (ShouldDrawImage(shortImage))
-			{
-				// Get the rectangle to use when dealing with gradients
-				Rectangle imageRect = context.GetAlignedRectangle(palette.GetContentShortTextImageAlign(state), shortTextRectToDraw);
+                // Use standard helper routine to create appropriate color brush
+                Color color1 = palette.GetContentShortTextColor1(state);
+                PaletteColorStyle colorStyle = palette.GetContentShortTextColorStyle(state);
+                using (Brush colorBrush = CreateColorBrush(gradientRect,
+                           color1,
+                           palette.GetContentShortTextColor2(state),
+                           colorStyle,
+                           palette.GetContentShortTextColorAngle(state),
+                           orientation))
+                {
+                    if (!AccurateText.DrawString(context.Graphics,
+                        colorBrush,
+                        shortTextRectToDraw,
+                        context.Control.RightToLeft,
+                        standard.Orientation,
+                        state,
+                        standard.ShortTextMemento!))
+                    {
+                        // Failed to draw means the font is likely to be invalid, get a fresh font
+                        standard.ShortTextMemento!.Font = palette.GetContentShortTextNewFont(state)!;
 
-				// Use standard helper routine to create appropriate image brush
-				using Brush imageBrush = CreateImageBrush(imageRect, shortImage, shortImageStyle);
-				if (!AccurateText.DrawString(context.Graphics,
-						imageBrush,
-						shortTextRectToDraw,
-						context.Control.RightToLeft,
-						standard.Orientation,
-						state,
-						standard.ShortTextMemento!))
-				{
-					// Failed to draw means the font is likely to be invalid, get a fresh font
-					standard.ShortTextMemento!.Font = palette.GetContentShortTextNewFont(state)!;
+                        // Try again using the new font
+                        AccurateText.DrawString(context.Graphics,
+                            colorBrush,
+                            shortTextRectToDraw,
+                            context.Control.RightToLeft,
+                            standard.Orientation,
+                            state,
+                            standard.ShortTextMemento);
+                    }
+                }
 
-					AccurateText.DrawString(context.Graphics,
-						imageBrush,
-						shortTextRectToDraw,
-						context.Control.RightToLeft,
-						standard.Orientation,
-						state,
-						standard.ShortTextMemento);
-				}
-			}
-		}
+                Image shortImage = palette.GetContentShortTextImage(state)!;
+                PaletteImageStyle shortImageStyle = palette.GetContentShortTextImageStyle(state);
 
-		if (standard.DrawLongText)
-		{
-			using var hint = new GraphicsTextHint(context.Graphics, standard.LongTextHint);
-			// Constrain drawing to the provided display rectangle
-			Rectangle longTextRectToDraw = Rectangle.Intersect(standard.LongTextRect, displayRect);
-			if (longTextRectToDraw.IsEmpty)
-			{
-				longTextRectToDraw = standard.LongTextRect;
-			}
+                // Do we need to draw the image?
+                if (ShouldDrawImage(shortImage))
+                {
+                    // Get the rectangle to use when dealing with gradients
+                    Rectangle imageRect = context.GetAlignedRectangle(palette.GetContentShortTextImageAlign(state), shortTextRectToDraw);
 
-			// Get the rectangle to use when dealing with gradients
-			Rectangle gradientRect = context.GetAlignedRectangle(palette.GetContentLongTextColorAlign(state), longTextRectToDraw);
+                    // Use standard helper routine to create appropriate image brush
+                    using Brush imageBrush = CreateImageBrush(imageRect, shortImage, shortImageStyle);
+                    if (!AccurateText.DrawString(context.Graphics,
+                            imageBrush,
+                            shortTextRectToDraw,
+                            context.Control.RightToLeft,
+                            standard.Orientation,
+                            state,
+                            standard.ShortTextMemento!))
+                    {
+                        // Failed to draw means the font is likely to be invalid, get a fresh font
+                        standard.ShortTextMemento!.Font = palette.GetContentShortTextNewFont(state)!;
 
-			// Use standard helper routine to create appropriate color brush
-			Color color1 = palette.GetContentLongTextColor1(state);
-			PaletteColorStyle colorStyle = palette.GetContentLongTextColorStyle(state);
-			using (Brush colorBrush = CreateColorBrush(gradientRect,
-					   color1,
-					   palette.GetContentLongTextColor2(state),
-					   colorStyle,
-					   palette.GetContentLongTextColorAngle(state),
-					   orientation))
-			{
-				if (!AccurateText.DrawString(context.Graphics,
-						colorBrush,
-						longTextRectToDraw,
-						context.Control.RightToLeft,
-						standard.Orientation,
-						state,
-						standard.LongTextMemento!))
-				{
-					// Failed to draw means the font is likely to be invalid, get a fresh font
-					standard.LongTextMemento!.Font = palette.GetContentLongTextNewFont(state)!;
+                        AccurateText.DrawString(context.Graphics,
+                            imageBrush,
+                            shortTextRectToDraw,
+                            context.Control.RightToLeft,
+                            standard.Orientation,
+                            state,
+                            standard.ShortTextMemento);
+                    }
+                }
+            }
+            finally
+            {
+                if (shortPreMirror && shortGs != null)
+                {
+                    context.Graphics.Restore(shortGs);
+                }
+            }
+        }
 
-					AccurateText.DrawString(context.Graphics,
-						colorBrush,
-						longTextRectToDraw,
-						context.Control.RightToLeft,
-						standard.Orientation,
-						state,
-						standard.LongTextMemento);
-				}
-			}
+        if (standard.DrawLongText)
+        {
+            using var hint = new GraphicsTextHint(context.Graphics, standard.LongTextHint);
+            // Constrain drawing to the provided display rectangle
+            Rectangle longTextRectToDraw = Rectangle.Intersect(standard.LongTextRect, displayRect);
+            if (longTextRectToDraw.IsEmpty)
+            {
+                longTextRectToDraw = standard.LongTextRect;
+            }
 
-			Image longImage = palette.GetContentLongTextImage(state)!;
-			PaletteImageStyle longImageStyle = palette.GetContentLongTextImageStyle(state);
+            // Form caption RTL: pre-mirror text so that when the window DC mirrors the bitmap, glyphs appear correct.
+            bool longPreMirror = palette.GetContentStyle() == PaletteContentStyle.HeaderForm
+                && CommonHelper.IsRightToLeftLayout(context.Control)
+                && orientation == VisualOrientation.Top
+                && longTextRectToDraw.Width > 0;
+            GraphicsState? longGs = longPreMirror ? context.Graphics.Save() : null;
+            if (longPreMirror)
+            {
+                context.Graphics.TranslateTransform(longTextRectToDraw.Right, 0);
+                context.Graphics.ScaleTransform(-1, 1);
+                context.Graphics.TranslateTransform(-longTextRectToDraw.Left, 0);
+            }
 
-			// Do we need to draw the image?
-			if (ShouldDrawImage(longImage))
-			{
-				// Get the rectangle to use when dealing with gradients
-				Rectangle imageRect = context.GetAlignedRectangle(palette.GetContentLongTextImageAlign(state), longTextRectToDraw);
+            try
+            {
+                // Get the rectangle to use when dealing with gradients
+                Rectangle gradientRect = context.GetAlignedRectangle(palette.GetContentLongTextColorAlign(state), longTextRectToDraw);
 
-				// Use standard helper routine to create appropriate image brush
-				using Brush imageBrush = CreateImageBrush(imageRect, longImage, longImageStyle);
-				if (!AccurateText.DrawString(context.Graphics,
-						imageBrush,
-						longTextRectToDraw,
-						context.Control.RightToLeft,
-						standard.Orientation,
-						state,
-						standard.LongTextMemento!))
-				{
-					// Failed to draw means the font is likely to be invalid, get a fresh font
-					standard.LongTextMemento!.Font = palette.GetContentLongTextNewFont(state)!;
+                // Use standard helper routine to create appropriate color brush
+                Color color1 = palette.GetContentLongTextColor1(state);
+                PaletteColorStyle colorStyle = palette.GetContentLongTextColorStyle(state);
+                using (Brush colorBrush = CreateColorBrush(gradientRect,
+                           color1,
+                           palette.GetContentLongTextColor2(state),
+                           colorStyle,
+                           palette.GetContentLongTextColorAngle(state),
+                           orientation))
+                {
+                    if (!AccurateText.DrawString(context.Graphics,
+                        colorBrush,
+                        longTextRectToDraw,
+                        context.Control.RightToLeft,
+                        standard.Orientation,
+                        state,
+                        standard.LongTextMemento!))
+                    {
+                        // Failed to draw means the font is likely to be invalid, get a fresh font
+                        standard.LongTextMemento!.Font = palette.GetContentLongTextNewFont(state)!;
 
-					AccurateText.DrawString(context.Graphics,
-						imageBrush,
-						longTextRectToDraw,
-						context.Control.RightToLeft,
-						standard.Orientation,
-						state,
-						standard.LongTextMemento);
-				}
-			}
-		}
+                        AccurateText.DrawString(context.Graphics,
+                            colorBrush,
+                            longTextRectToDraw,
+                            context.Control.RightToLeft,
+                            standard.Orientation,
+                            state,
+                            standard.LongTextMemento);
+                    }
+                }
 
-		// Do we need to show this content has the focus?
-		if (allowFocusRect && (palette.GetContentDrawFocus(state) == InheritBool.True))
-		{
-			// Place the rectangle 1 pixel inside the content display area
-			displayRect.Inflate(-1, -1);
+                Image longImage = palette.GetContentLongTextImage(state)!;
+                PaletteImageStyle longImageStyle = palette.GetContentLongTextImageStyle(state);
 
-			// Use window forms provided helper class for drawing
-			ControlPaint.DrawFocusRectangle(context.Graphics, displayRect);
-		}
-	}
+                // Do we need to draw the image?
+                if (ShouldDrawImage(longImage))
+                {
+                    // Get the rectangle to use when dealing with gradients
+                    Rectangle imageRect = context.GetAlignedRectangle(palette.GetContentLongTextImageAlign(state), longTextRectToDraw);
 
-	/// <summary>
-	/// Request the calculated display of the image.
-	/// </summary>
-	/// <param name="memento">Cached values from layout call.</param>
-	/// <returns>True if the image is being Displayed; otherwise false.</returns>
-	public override bool GetContentImageDisplayed(IDisposable? memento)
+                    // Use standard helper routine to create appropriate image brush
+                    using Brush imageBrush = CreateImageBrush(imageRect, longImage, longImageStyle);
+                    if (!AccurateText.DrawString(context.Graphics,
+                            imageBrush,
+                            longTextRectToDraw,
+                            context.Control.RightToLeft,
+                            standard.Orientation,
+                            state,
+                            standard.LongTextMemento!))
+                    {
+                        // Failed to draw means the font is likely to be invalid, get a fresh font
+                        standard.LongTextMemento!.Font = palette.GetContentLongTextNewFont(state)!;
+
+                        AccurateText.DrawString(context.Graphics,
+                            imageBrush,
+                            longTextRectToDraw,
+                            context.Control.RightToLeft,
+                            standard.Orientation,
+                            state,
+                            standard.LongTextMemento);
+                    }
+                }
+            }
+            finally
+            {
+                if (longPreMirror && longGs != null)
+                {
+                    context.Graphics.Restore(longGs);
+                }
+            }
+        }
+
+        // Do we need to show this content has the focus?
+        if (allowFocusRect && (palette.GetContentDrawFocus(state) == InheritBool.True))
+        {
+            // Place the rectangle 1 pixel inside the content display area
+            displayRect.Inflate(-1, -1);
+
+            // Use window forms provided helper class for drawing
+            ControlPaint.DrawFocusRectangle(context.Graphics, displayRect);
+        }
+    }
+
+    /// <summary>
+    /// Request the calculated display of the image.
+    /// </summary>
+    /// <param name="memento">Cached values from layout call.</param>
+    /// <returns>True if the image is being Displayed; otherwise false.</returns>
+    public override bool GetContentImageDisplayed(IDisposable? memento)
 	{
 		if (memento != null)
 		{
@@ -5947,9 +5997,12 @@ public class RenderStandard : RenderBase
 			textFont = captionFont;
 		}
 
-		// Get a pixel accurate measure of text drawing space needed
-		memento.ShortTextMemento = AccurateText.MeasureString(g,
-			rtl,
+        // Form captions: do not reverse character order; the typeface handles RTL scripts.
+        RightToLeft textRtl = paletteContent.GetContentStyle() == PaletteContentStyle.HeaderForm ? RightToLeft.No : rtl;
+
+        // Get a pixel accurate measure of text drawing space needed
+        memento.ShortTextMemento = AccurateText.MeasureString(g,
+			textRtl,
 			shortText,
 			textFont!,
 			memento.ShortTextTrimming,
