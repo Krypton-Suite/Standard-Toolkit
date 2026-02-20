@@ -4,6 +4,7 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Resolved [#3011](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3011), Cannot drag maximized form from the top (once again)
 * Resolved [#2922](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2922), WinForms borderless form briefly displays system title bar on startup
 * Implemented [#1031](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1031), A way to 'dynamically' update the palette theme array with the theme name (i.e. if a custom palette is used)
 * Implemented [#2836](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2836), Time to bring over `KryptonMessageBoxExtended`
