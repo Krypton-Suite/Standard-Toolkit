@@ -197,6 +197,9 @@ public class KryptonForm : VisualForm,
     // Compensate for Windows 11 outer accent border by shrinking the window region slightly
     private Rectangle _lastGripClientRect = Rectangle.Empty;
     private Timer? _clickTimer;
+    // Issue #2922: Workaround for borderless form briefly showing system title bar on startup
+    private bool _borderlessFormFirstShowPending;
+    private double _borderlessTargetOpacity = 1.0;
     private KryptonSystemMenu? _kryptonSystemMenu;
     // SystemMenu context menu components
     private KryptonContextMenu _systemMenuContextMenu;
@@ -1538,7 +1541,6 @@ public class KryptonForm : VisualForm,
     /// Raises the ControlRemoved event.
     /// </summary>
     /// <param name="e">An EventArgs containing event data.</param>
-    //protected override void OnControlRemoved(ControlEventArgs e)
     protected override void OnControlRemoved(ControlEventArgs e)
     {
         // Is the cached reference being removed?
@@ -1552,6 +1554,42 @@ public class KryptonForm : VisualForm,
         }
 
         base.OnControlRemoved(e);
+    }
+
+    /// <inheritdoc />
+    protected override void SetVisibleCore(bool value)
+    {
+        // When showing a borderless form for the first time we want to start with an opacity of 0 and then fade in to the target opacity.
+        // This is because some themes (e.g. Windows 11) have a fade in animation for borderless windows,
+        // but if we start with the target opacity then the animation is not smooth as it animates from fully
+        // transparent to the target opacity instead of from 0 to the target opacity.
+        if (value && FormBorderStyle == FormBorderStyle.None && !DesignMode && !_borderlessFormFirstShowPending)
+        {
+            // Set a flag to indicate we are in the middle of the first show of a borderless form, so we don't interfere with subsequent calls to SetVisibleCore
+            _borderlessFormFirstShowPending = true;
+
+            // Cache the target opacity to restore after the first show
+            _borderlessTargetOpacity = Opacity;
+
+            // Start with an opacity of 0 to allow the fade in animation to work smoothly
+            Opacity = 0;
+
+            // Let the form become visible with the new opacity value
+            base.SetVisibleCore(true);
+
+            // Use BeginInvoke to ensure the opacity change happens after the form is shown, which allows the fade in animation to work correctly
+            BeginInvoke(() =>
+            {
+                // Clear the flag to indicate the first show is complete
+                Opacity = _borderlessTargetOpacity;
+            });
+
+            // We have handled the first show, so exit to avoid calling base.SetVisibleCore again
+            return;
+        }
+
+        // For subsequent calls to SetVisibleCore we just call the base method with the provided value
+        base.SetVisibleCore(value);
     }
 
     /// <summary>
@@ -2105,6 +2143,13 @@ public class KryptonForm : VisualForm,
             // Is mouse over one of the borders?
             if (isResizable && (mouseView == _drawDocker || pt.Y < _drawHeading.ClientRectangle.Height))
             {
+                // Issue #3011 (regression of #2096): When maximized, top edge/corners must return HTCAPTION
+                // so the user can drag from the very top; HTTOP/HTTOPLEFT/HTTOPRIGHT prevent dragging.
+                if (GetWindowState() == FormWindowState.Maximized && pt.Y <= Math.Max(borders.Top, HT_CORNER))
+                {
+                    return new IntPtr(PI.HT.CAPTION);
+                }
+
                 // Is point over the left border?
                 if ((borders.Left > 0) && (pt.X <= borders.Left))
                 {
