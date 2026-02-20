@@ -113,10 +113,13 @@ public partial class VisualVerifyFileCheckSumForm : KryptonForm
                 tslStatus.Text = @"Ready...";
                 break;
             case CheckSumStatus.Invalid:
+                tslStatus.Text = @"Hash is invalid.";
                 break;
             case CheckSumStatus.Valid:
+                tslStatus.Text = @"Hash is valid.";
                 break;
             case CheckSumStatus.Verifying:
+                tslStatus.Text = @"Verifying hash...";
                 break;
         }
     }
@@ -190,6 +193,7 @@ public partial class VisualVerifyFileCheckSumForm : KryptonForm
     {
         try
         {
+            kbtnVerify.Enabled = false;
             CalculateHash();
         }
         catch (Exception exc)
@@ -244,7 +248,7 @@ public partial class VisualVerifyFileCheckSumForm : KryptonForm
     }
 
     private bool VerifyCheckSum(string fileCheckSum, string importedCheckSum) =>
-        fileCheckSum.Equals(importedCheckSum);
+        HelperMethods.IsValid(fileCheckSum.Trim(), importedCheckSum.Trim());
 
     private void ImportCheckSumFromFile(string filePath)
     {
@@ -252,13 +256,9 @@ public partial class VisualVerifyFileCheckSumForm : KryptonForm
         {
             if (File.Exists(filePath))
             {
-                StreamReader reader = new(File.OpenRead(filePath));
+                using StreamReader reader = new(File.OpenRead(filePath));
 
                 ktxtVarifyCheckSum.Text = reader.ReadToEnd();
-
-                reader.Close();
-
-                reader.Dispose();
 
                 kbtnVerify.Enabled = true;
             }
@@ -271,17 +271,21 @@ public partial class VisualVerifyFileCheckSumForm : KryptonForm
 
     private void kbtnVerify_Click(object sender, EventArgs e)
     {
+        UpdateStatus(CheckSumStatus.Verifying);
+
         if (VerifyCheckSum(kwlHashOutput.Text, ktxtVarifyCheckSum.Text))
         {
             ktxtVarifyCheckSum.StateCommon.Border.Color1 = Color.Green;
 
             ktxtVarifyCheckSum.StateCommon.Border.Color2 = Color.Green;
+            UpdateStatus(CheckSumStatus.Valid);
         }
         else
         {
             ktxtVarifyCheckSum.StateCommon.Border.Color1 = Color.Red;
 
             ktxtVarifyCheckSum.StateCommon.Border.Color2 = Color.Red;
+            UpdateStatus(CheckSumStatus.Invalid);
         }
     }
 
@@ -325,5 +329,86 @@ public partial class VisualVerifyFileCheckSumForm : KryptonForm
         // {
         //     bsaReset.Enabled = ButtonEnabled.True;
         // }
+    }
+
+    private static string? ComputeFileHash(string? filePath, Func<HashAlgorithm> createHasher, Func<byte[], string> buildHashString, Action<int> reportProgress)
+    {
+        if (string.IsNullOrEmpty(filePath))
+        {
+            return null;
+        }
+
+        using (Stream file = File.OpenRead(filePath))
+        {
+            long size = file.Length;
+            using (HashAlgorithm hasher = createHasher())
+            {
+                if (size == 0)
+                {
+                    hasher.TransformFinalBlock(Array.Empty<byte>(), 0, 0);
+                    reportProgress(100);
+                    return buildHashString(hasher.Hash);
+                }
+
+                byte[] buffer;
+                int bytesRead;
+                long totalBytesRead = 0;
+                do
+                {
+                    buffer = new byte[4096];
+                    bytesRead = file.Read(buffer, 0, buffer.Length);
+                    totalBytesRead += bytesRead;
+                    hasher.TransformBlock(buffer, 0, bytesRead, null, 0);
+                    reportProgress((int)((double)totalBytesRead / size * 100));
+                } while (bytesRead != 0);
+
+                hasher.TransformFinalBlock(buffer, 0, 0);
+                return buildHashString(hasher.Hash);
+            }
+        }
+    }
+
+    private void bgwMD5_DoWork(object sender, DoWorkEventArgs e) => e.Result = ComputeFileHash(e.Argument?.ToString(), MD5.Create, HashingHelpers.BuildMD5HashString, p => bgwMD5.ReportProgress(p));
+
+    private void bgwSHA1_DoWork(object sender, DoWorkEventArgs e) => e.Result = ComputeFileHash(e.Argument?.ToString(), SHA1.Create, HashingHelpers.BuildSHA1HashString, p => bgwSHA1.ReportProgress(p));
+
+    private void bgwSHA256_DoWork(object sender, DoWorkEventArgs e) => e.Result = ComputeFileHash(e.Argument?.ToString(), SHA256.Create, HashingHelpers.BuildSHA256HashString, p => bgwSHA256.ReportProgress(p));
+
+    private void bgwSHA384_DoWork(object sender, DoWorkEventArgs e) => e.Result = ComputeFileHash(e.Argument?.ToString(), SHA384.Create, HashingHelpers.BuildSHA384HashString, p => bgwSHA384.ReportProgress(p));
+
+    private void bgwSHA512_DoWork(object sender, DoWorkEventArgs e) => e.Result = ComputeFileHash(e.Argument?.ToString(), SHA512.Create, HashingHelpers.BuildSHA512HashString, p => bgwSHA512.ReportProgress(p));
+
+    private void bgwRIPEMD160_DoWork(object sender, DoWorkEventArgs e)
+    {
+#if !NET8_0_OR_GREATER
+        e.Result = ComputeFileHash(e.Argument?.ToString(), RIPEMD160Managed.Create, HashingHelpers.BuildRIPEMD160HashString, p => bgwRIPEMD160.ReportProgress(p));
+#endif
+    }
+
+    private void Calculation_ProgressChanged(object sender, ProgressChangedEventArgs e)
+    {
+        if (IsDisposed || Disposing)
+        {
+            return;
+        }
+
+        kpbtsiCalculationProgress.Visible = true;
+        kpbtsiCalculationProgress.Value = e.ProgressPercentage;
+        kwlHashOutput.Text = @"Please wait ...";
+        UpdateStatus(CheckSumStatus.Computing);
+    }
+
+    private void Calculation_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+    {
+        if (IsDisposed || Disposing)
+        {
+            return;
+        }
+
+        kpbtsiCalculationProgress.Visible = false;
+        kpbtsiCalculationProgress.Value = 0;
+        kwlHashOutput.Text = $@"{e.Result}";
+        kbtnVerify.Enabled = !string.IsNullOrWhiteSpace(kwlHashOutput.Text) && !string.IsNullOrWhiteSpace(ktxtVarifyCheckSum.Text);
+        UpdateStatus(CheckSumStatus.Ready);
     }
 }

@@ -47,6 +47,7 @@ internal partial class VisualComputeFileCheckSumForm : KryptonForm
 
         UpdateStatus(CheckSumStatus.Ready);
 
+        InitialFilePath = initialFilePath;
         _fileName = initialFilePath ?? string.Empty;
 
         _hashAlgorithm = hashAlgorithm ?? SupportedHashAlgorithims.SHA256;
@@ -105,13 +106,13 @@ internal partial class VisualComputeFileCheckSumForm : KryptonForm
 
         if (kchkToggleCasing.Checked)
         {
-            tempHashString.ToUpper();
+            tempHashString = tempHashString.ToUpperInvariant();
 
             kwlHashOutput.Text = tempHashString;
         }
         else
         {
-            tempHashString.ToLower();
+            tempHashString = tempHashString.ToLowerInvariant();
 
             kwlHashOutput.Text = tempHashString;
         }
@@ -181,37 +182,9 @@ internal partial class VisualComputeFileCheckSumForm : KryptonForm
 
         if (sfd.ShowDialog() == DialogResult.OK)
         {
-            if (!File.Exists(Path.GetFullPath(sfd.FileName)))
+            if (!string.IsNullOrEmpty(kwlHashOutput.Text))
             {
-                File.Create(Path.GetFullPath(sfd.FileName));
-
-                StreamWriter writer = new(Path.GetFullPath(sfd.FileName));
-
-                if (!string.IsNullOrEmpty(kwlHashOutput.Text))
-                {
-                    writer.Write(kwlHashOutput.Text);
-
-                    writer.Flush();
-
-                    writer.Dispose();
-
-                    writer.Close();
-                }
-            }
-            else
-            {
-                StreamWriter writer = new(Path.GetFullPath(sfd.FileName));
-
-                if (!string.IsNullOrEmpty(kwlHashOutput.Text))
-                {
-                    writer.Write(kwlHashOutput.Text);
-
-                    writer.Flush();
-
-                    writer.Dispose();
-
-                    writer.Close();
-                }
+                File.WriteAllText(Path.GetFullPath(sfd.FileName), kwlHashOutput.Text);
             }
         }
     }
@@ -349,6 +322,13 @@ internal partial class VisualComputeFileCheckSumForm : KryptonForm
             long size = file.Length;
             using (HashAlgorithm hasher = createHasher())
             {
+                if (size == 0)
+                {
+                    hasher.TransformFinalBlock(Array.Empty<byte>(), 0, 0);
+                    reportProgress(100);
+                    return buildHashString(hasher.Hash);
+                }
+
                 byte[] buffer;
                 int bytesRead;
                 long totalBytesRead = 0;

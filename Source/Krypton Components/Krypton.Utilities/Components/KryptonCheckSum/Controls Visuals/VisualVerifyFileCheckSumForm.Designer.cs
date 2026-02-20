@@ -123,31 +123,49 @@
             // 
             this.bgwMD5.WorkerReportsProgress = true;
             this.bgwMD5.WorkerSupportsCancellation = true;
+            this.bgwMD5.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgwMD5_DoWork);
+            this.bgwMD5.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.Calculation_ProgressChanged);
+            this.bgwMD5.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.Calculation_RunWorkerCompleted);
             // 
             // bgwSHA1
             // 
             this.bgwSHA1.WorkerReportsProgress = true;
             this.bgwSHA1.WorkerSupportsCancellation = true;
+            this.bgwSHA1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgwSHA1_DoWork);
+            this.bgwSHA1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.Calculation_ProgressChanged);
+            this.bgwSHA1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.Calculation_RunWorkerCompleted);
             // 
             // bgwSHA256
             // 
             this.bgwSHA256.WorkerReportsProgress = true;
             this.bgwSHA256.WorkerSupportsCancellation = true;
+            this.bgwSHA256.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgwSHA256_DoWork);
+            this.bgwSHA256.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.Calculation_ProgressChanged);
+            this.bgwSHA256.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.Calculation_RunWorkerCompleted);
             // 
             // bgwSHA384
             // 
             this.bgwSHA384.WorkerReportsProgress = true;
             this.bgwSHA384.WorkerSupportsCancellation = true;
+            this.bgwSHA384.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgwSHA384_DoWork);
+            this.bgwSHA384.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.Calculation_ProgressChanged);
+            this.bgwSHA384.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.Calculation_RunWorkerCompleted);
             // 
             // bgwSHA512
             // 
             this.bgwSHA512.WorkerReportsProgress = true;
             this.bgwSHA512.WorkerSupportsCancellation = true;
+            this.bgwSHA512.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgwSHA512_DoWork);
+            this.bgwSHA512.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.Calculation_ProgressChanged);
+            this.bgwSHA512.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.Calculation_RunWorkerCompleted);
             // 
             // bgwRIPEMD160
             // 
             this.bgwRIPEMD160.WorkerReportsProgress = true;
             this.bgwRIPEMD160.WorkerSupportsCancellation = true;
+            this.bgwRIPEMD160.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgwRIPEMD160_DoWork);
+            this.bgwRIPEMD160.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.Calculation_ProgressChanged);
+            this.bgwRIPEMD160.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.Calculation_RunWorkerCompleted);
             // 
             // kryptonPanel1
             // 
@@ -163,7 +181,7 @@
             // 
             // kbtnVerify
             // 
-            this.kbtnVerify.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.kbtnVerify.DialogResult = System.Windows.Forms.DialogResult.None;
             this.kbtnVerify.Enabled = false;
             this.kbtnVerify.Location = new System.Drawing.Point(491, 13);
             this.kbtnVerify.Name = "kbtnVerify";
@@ -184,14 +202,14 @@
             // 
             // kbtnCancel
             // 
-            this.kbtnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.kbtnCancel.DialogResult = System.Windows.Forms.DialogResult.None;
             this.kbtnCancel.Location = new System.Drawing.Point(587, 13);
             this.kbtnCancel.Name = "kbtnCancel";
             this.kbtnCancel.Size = new System.Drawing.Size(90, 25);
             this.kbtnCancel.TabIndex = 4;
             this.kbtnCancel.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnCancel.Values.Text = "C&ancel";
-            this.kbtnCancel.Click += new System.EventHandler(this.kbtnCalculate_Click);
+            this.kbtnCancel.Click += new System.EventHandler(this.kbtnCancel_Click);
             // 
             // kryptonPanel2
             // 
@@ -401,7 +419,7 @@
             // 
             // kbtnCalculate
             // 
-            this.kbtnCalculate.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.kbtnCalculate.DialogResult = System.Windows.Forms.DialogResult.None;
             this.kbtnCalculate.Location = new System.Drawing.Point(315, 33);
             this.kbtnCalculate.Name = "kbtnCalculate";
             this.kbtnCalculate.Size = new System.Drawing.Size(90, 25);

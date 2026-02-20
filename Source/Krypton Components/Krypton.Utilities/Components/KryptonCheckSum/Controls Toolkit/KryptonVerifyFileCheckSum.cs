@@ -8,6 +8,8 @@ namespace Krypton.Utilities;
 [DesignerCategory(@"code")]
 public static class KryptonVerifyFileCheckSum
 {
+    public static DialogResult Show(IWin32Window? owner = null) => ShowCore(owner);
+
     public static DialogResult Show(IWin32Window? owner, string filePath) => ShowCore(owner, filePath);
 
     public static DialogResult Show(IWin32Window? owner, string? filePath, string? expectedHash) => ShowCore(owner, filePath, expectedHash);

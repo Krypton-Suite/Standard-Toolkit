@@ -63,6 +63,6 @@ public class HelperMethods
 #endif
     }
 
-    public static bool IsValid(string fileCheckSum, string checkSumToCompare) => checkSumToCompare.Contains(fileCheckSum);
+    public static bool IsValid(string fileCheckSum, string checkSumToCompare) => string.Equals(fileCheckSum, checkSumToCompare, StringComparison.OrdinalIgnoreCase);
     #endregion
 }
