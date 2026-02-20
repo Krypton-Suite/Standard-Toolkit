@@ -76,7 +76,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
 
+      # TODO: Remove the step-level `if` below in November 2026 so WebView2 runs on all branches.
       - name: Populate WebView2 (latest)
+        if: github.ref == 'refs/heads/alpha' || github.ref == 'refs/heads/canary' || github.head_ref == 'alpha' || github.head_ref == 'canary'
         shell: pwsh
         run: |
           $root = $env:GITHUB_WORKSPACE
@@ -171,7 +173,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
 
+      # TODO: Remove the step-level `if` below in November 2026 so WebView2 runs on all branches.
       - name: Populate WebView2 (latest)
+        if: github.ref == 'refs/heads/alpha' || github.ref == 'refs/heads/canary' || github.head_ref == 'alpha' || github.head_ref == 'canary'
         shell: pwsh
         run: |
           $root = $env:GITHUB_WORKSPACE
@@ -225,7 +229,7 @@ jobs:
       - name: Get Version
         id: get_version
         run: |
-          $version = (dotnet build "Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit.csproj" --no-restore --verbosity quiet | Select-String "Version" | ForEach-Object { $_.Line.Split('=')[1].Trim() })
+          $version = (dotnet build "Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj" --no-restore --verbosity quiet | Select-String "Version" | ForEach-Object { $_.Line.Split('=')[1].Trim() })
           if (-not $version) {
             $version = "100.25.1.1"  # Fallback version
           }
