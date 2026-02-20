@@ -1844,7 +1844,7 @@ public class KryptonForm : VisualForm,
     {
         base.OnWM_GETMINMAXINFO(ref m);
 
-        // If the handle isn't created, then the form isn't yet positioned and sized by Windows, so we don't have
+        // If the handle isn't created, we cannot safely get Screen.FromControl/working area, so skip clamping.
         if (IsHandleCreated)
         {
             return;
