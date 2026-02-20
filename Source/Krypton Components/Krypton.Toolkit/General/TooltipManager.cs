@@ -88,6 +88,7 @@ public class ToolTipManager
 
     /// <summary>
     /// Gets and sets the interval before a tooltip is closed.
+    /// Use 0 for infinite display (tooltip stays until the pointer leaves the control).
     /// </summary>
     public int CloseInterval
     {
@@ -95,15 +96,16 @@ public class ToolTipManager
 
         set
         {
-            // Cannot have an interval less than 1ms
+            // 0 = infinite; negative values are clamped to 0
             if (value < 0)
             {
-                value = 1;
+                value = 0;
             }
 
             _closeTimer.Interval = value;
         }
     }
+
     #endregion
 
     #region IMouseController Snooped Messages
@@ -267,7 +269,12 @@ public class ToolTipManager
 
             // Raise event requesting the tooltip be shown
             OnShowToolTip(new ToolTipEventArgs(_startTarget!, Control.MousePosition));
-            _closeTimer.Start();
+
+            // Only start close timer when interval > 0 (0 = infinite display)
+            if (_closeTimer.Interval > 0)
+            {
+                _closeTimer.Start();
+            }
         }
         else
         {
