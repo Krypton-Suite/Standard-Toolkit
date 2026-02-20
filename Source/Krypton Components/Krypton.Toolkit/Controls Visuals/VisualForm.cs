@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -1021,11 +1021,9 @@ public abstract class VisualForm : Form,
                     break;
                 case PI.WM_.GETMINMAXINFO:
                     OnWM_GETMINMAXINFO(ref m);
-                    /* Setting handled to false enables the application to process its own Min/Max requirements,
-                     * as mentioned by jason.bullard (comment from September 22, 2011) on http://gallery.expression.microsoft.com/ZuneWindowBehavior/ */
-                    // https://github.com/Krypton-Suite/Standard-Toolkit/issues/459
-                    // Still got to call - base - to allow the "application to process its own Min/Max requirements" !!
-                    base.WndProc(ref m);
+                    // Call DefWndProc instead of base.WndProc so our MINMAXINFO (work area from OnWM_GETMINMAXINFO)
+                    // is not overwritten by Form.MaximizedBounds. Fixes issue #3013 - maximized form exceeding work area.
+                    DefWndProc(ref m);
                     return;
             }
         }
