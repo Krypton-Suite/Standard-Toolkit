@@ -2765,10 +2765,8 @@ public class KryptonWorkspace : VisualContainerControl,
 
         // Are both items allowed to be resized by the user?
         // (at design time we can get null references)
-        if (/*(after == null)
-            ||*/ !after.WorkspaceAllowResizing
-                 || (before == null)
-                 || !before.WorkspaceAllowResizing
+        if (after is not { WorkspaceAllowResizing: true }
+            || before is not { WorkspaceAllowResizing: true }
            )
         {
             return false;
