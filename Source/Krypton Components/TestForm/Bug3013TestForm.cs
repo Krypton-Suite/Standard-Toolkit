@@ -24,7 +24,7 @@ namespace TestForm
 
         private void UpdateSizeLabel()
         {
-            kwlblFormResizeData.Text = $"Screen size: {Screen.FromControl(this).WorkingArea.Size},\nForm size: {Size}";
+            kwlblFormResizeData.Text = $"Screen size: Height = {Screen.FromControl(this).WorkingArea.Height}, Width = {Screen.FromControl(this).WorkingArea.Width},\nForm Location: Left = {Left}, Top = {Top}, Right = {Right}, Bottom = {Bottom},\nForm size: Height = {Height}, Width = {Width}";
         }
     }
 }

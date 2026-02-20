@@ -1836,45 +1836,11 @@ public class KryptonForm : VisualForm,
         // Let default processing run first
         base.WndProc(ref m);
 
-        // Ensure maximized window fits within the monitor's working area (no -8 offset, height/width not exceeding work area)
-        if (m.Msg == (int)PI.WM_.GETMINMAXINFO)
-        {
-            ConstrainMaximizedBoundsToWorkArea(ref m);
-        }
-
         // After the client has painted, draw our grip overlay last so it isn't erased
         if (m.Msg == WM_PAINT)
         {
             DrawSizingGripOverlayIfNeeded();
         }
-    }
-
-    /// <summary>
-    /// Constrains the maximized window size and position to the monitor's working area.
-    /// Prevents Left/Top at -8 and height/width exceeding working area when maximized.
-    /// </summary>
-    private static void ConstrainMaximizedBoundsToWorkArea(ref Message m)
-    {
-        const int MONITOR_DEFAULT_TO_NEAREST = 0x00000002;
-
-        IntPtr monitor = PI.MonitorFromWindow(m.HWnd, MONITOR_DEFAULT_TO_NEAREST);
-        if (monitor == IntPtr.Zero)
-        {
-            return;
-        }
-
-        PI.MONITORINFO mi = PI.GetMonitorInfo(monitor);
-        int workWidth = mi.rcWork.right - mi.rcWork.left;
-        int workHeight = mi.rcWork.bottom - mi.rcWork.top;
-        int maxX = Math.Abs(mi.rcWork.left - mi.rcMonitor.left);
-        int maxY = Math.Abs(mi.rcWork.top - mi.rcMonitor.top);
-
-        PI.MINMAXINFO mmi = (PI.MINMAXINFO)Marshal.PtrToStructure(m.LParam, typeof(PI.MINMAXINFO))!;
-        mmi.ptMaxPosition.X = maxX;
-        mmi.ptMaxPosition.Y = maxY;
-        mmi.ptMaxSize.X = workWidth;
-        mmi.ptMaxSize.Y = workHeight;
-        Marshal.StructureToPtr(mmi, m.LParam, false);
     }
 
     protected override bool OnWM_NCLBUTTONDBLCLK(ref Message m)
@@ -2003,31 +1969,6 @@ public class KryptonForm : VisualForm,
 
         // Ensure Material defaults are applied as early as possible for new forms
         ApplyMaterialFormChromeDefaultsIfNeeded();
-    }
-
-    /// <inheritdoc />
-    protected override void OnWM_GETMINMAXINFO(ref Message m)
-    {
-        base.OnWM_GETMINMAXINFO(ref m);
-
-        // If the handle isn't created, we cannot safely get Screen.FromControl/working area, so skip clamping.
-        if (!IsHandleCreated)
-        {
-            return;
-        }
-
-        // Get the working area of the screen containing the form
-        Rectangle workingArea = Screen.FromControl(this).WorkingArea;
-
-        // Marshal the MINMAXINFO structure from the message's lParam
-        PI.MINMAXINFO mmi = (PI.MINMAXINFO)Marshal.PtrToStructure(m.LParam, typeof(PI.MINMAXINFO))!;
-
-        // Clamp maximized size to working area (belt-and-suspenders for issue #3013)
-        mmi.ptMaxSize.X = Math.Min(mmi.ptMaxSize.X, workingArea.Width);
-        mmi.ptMaxSize.Y = Math.Min(mmi.ptMaxSize.Y, workingArea.Height);
-
-        // Clamp maximized position to working area (belt-and-suspenders for issue #3013)
-        Marshal.StructureToPtr(mmi, m.LParam, true);
     }
 
     #endregion
