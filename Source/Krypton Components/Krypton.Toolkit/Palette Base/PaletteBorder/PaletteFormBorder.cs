@@ -1,7 +1,7 @@
 ﻿#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2025. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2026. All rights reserved. 
  *  
  */
 #endregion
@@ -34,6 +34,34 @@ public class PaletteFormBorder : PaletteBorder
 
     #region Width
     internal bool UseThemeFormChromeBorderWidth { get; set; } = true;
+
+
+    /// <summary>
+    /// Gets a value indicating if border should be drawn.
+    /// </summary>
+    [KryptonPersist(false)]
+    [Category(@"Visuals")]
+    [Description(@"Should the border be drawn.")]
+    [DefaultValue(InheritBool.Inherit)]
+    [RefreshProperties(RefreshProperties.All)]
+    public override InheritBool Draw
+    {
+        get
+        {
+            return _ownerForm.FormBorderStyle != FormBorderStyle.None
+                ? base.Draw
+                : InheritBool.False;
+        }
+
+        set
+        {
+            if (base.Draw != value)
+            {
+                base.Draw = value;
+            }
+        }
+    }
+
 
     /// <summary>
     /// Gets and sets the border width.

@@ -1,11 +1,11 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege, et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege, et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -162,46 +162,6 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
     #endregion Instance Fields
 
     #region Identity
-
-    /// <summary>
-    /// Initialize a new instance of the PaletteSparkleBlueDarkModeBase class.
-    /// </summary>
-    /// <param name="ribbonColors">Colors used mainly for the ribbon.</param>
-    /// <param name="sparkleColors">Colors used mainly for the sparkle settings.</param>
-    /// <param name="appButtonNormal">Colors for app button in normal state.</param>
-    /// <param name="appButtonTrack">Colors for app button in tracking state.</param>
-    /// <param name="appButtonPressed">Colors for app button in pressed state.</param>
-    /// <param name="ribbonGroupCollapsedBorderContextTracking">Colors for tracking a collapsed group border.</param>
-    /// <param name="checkBoxList">Images for check box controls.</param>
-    /// <param name="radioButtonArray">Images for radio button controls.</param>
-    [System.Obsolete("Color[] constructor is deprecated and will be removed in V110. Use KryptonColorSchemeBase overload.", false)]
-    protected PaletteSparkleBlueDarkModeBase(Color[] ribbonColors,
-        Color[] sparkleColors,
-        Color[] appButtonNormal,
-        Color[] appButtonTrack,
-        Color[] appButtonPressed,
-        Color[] ribbonGroupCollapsedBorderContextTracking,
-        ImageList checkBoxList,
-        Image?[] radioButtonArray)
-    {
-        ThemeName = nameof(PaletteSparkleBlueDarkModeBase);
-
-        // Save colors for use in the color table
-        _ribbonColors = ribbonColors;
-        _sparkleColors = sparkleColors;
-        _appButtonNormal = appButtonNormal;
-        _appButtonTrack = appButtonTrack;
-        _appButtonPressed = appButtonPressed;
-        _ribbonGroupCollapsedBorderContextTracking = ribbonGroupCollapsedBorderContextTracking;
-        _checkBoxList = checkBoxList;
-        _radioButtonArray = radioButtonArray;
-
-        // Get the font settings from the system
-        DefineFonts();
-
-        SetTrackBarColors();
-    }
-
     /// <summary>
     /// Overload that accepts a KryptonColorSchemeBase instance and forwards colours to the main constructor.
     /// </summary>
@@ -2849,6 +2809,8 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                     return 0;
                 }
                 return Math.Max(2, owningForm!.RealWindowBorders.Right);
+            case PaletteMetricInt.HeaderButtonEdgeInsetFormRight:
+                return 0;
             case PaletteMetricInt.HeaderButtonEdgeInsetInputControl:
                 return 1;
             case PaletteMetricInt.HeaderButtonEdgeInsetPrimary:
@@ -2863,6 +2825,8 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                 return 3;
             case PaletteMetricInt.None:
                 return 0;
+            case PaletteMetricInt.DropDownArrowBaseSize:
+                return 10;
             default:
                 // Should never happen!
                 Debug.Assert(false);
@@ -4168,7 +4132,10 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
             case PaletteRibbonTextStyle.RibbonGroupLabelText:
             case PaletteRibbonTextStyle.RibbonGroupCheckBoxText:
             case PaletteRibbonTextStyle.RibbonGroupRadioButtonText:
-                return state == PaletteState.Disabled ? _disabledText : _ribbonColors[(int)SchemeBaseColors.RibbonGroupCollapsedText];
+                return GetRibbonGroupTextColor(state,
+                    _ribbonColors[(int)SchemeBaseColors.RibbonGroupTextTracking],
+                    _ribbonColors[(int)SchemeBaseColors.RibbonGroupCollapsedText],
+                    _disabledText);
 
             default:
                 // Should never happen!

@@ -1,11 +1,11 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -337,6 +337,9 @@ public class KryptonTreeView : VisualControlBase,
     private bool _trackingMouseEnter;
     private bool _isRecreating; // https://github.com/Krypton-Suite/Standard-Toolkit/issues/777
     private bool _multiSelect;
+    private KryptonScrollbarManager? _scrollbarManager;
+    private bool? _useKryptonScrollbars;
+
     #endregion
 
     #region Events
@@ -678,6 +681,11 @@ public class KryptonTreeView : VisualControlBase,
     /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
     protected override void Dispose(bool disposing)
     {
+        if (disposing)
+        {
+            _scrollbarManager?.Dispose();
+            _scrollbarManager = null;
+        }
         base.Dispose(disposing);
         if (_screenDC != IntPtr.Zero)
         {
@@ -1457,6 +1465,38 @@ public class KryptonTreeView : VisualControlBase,
     /// Activates the control.
     /// </summary>
     public new void Select() => TreeView.Select();
+
+    /// <summary>
+    /// Gets or sets whether to use Krypton-themed scrollbars instead of native scrollbars.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Gets or sets whether to use Krypton-themed scrollbars instead of native scrollbars.")]
+    [DefaultValue(false)]
+    public bool UseKryptonScrollbars
+    {
+        get => _useKryptonScrollbars ?? KryptonManager.UseKryptonScrollbars;
+        set
+        {
+            bool currentValue = _useKryptonScrollbars ?? KryptonManager.UseKryptonScrollbars;
+            if (currentValue != value)
+            {
+                _useKryptonScrollbars = value;
+                UpdateScrollbarManager();
+            }
+        }
+    }
+
+    private bool ShouldSerializeUseKryptonScrollbars() => _useKryptonScrollbars.HasValue;
+
+    private void ResetUseKryptonScrollbars() => _useKryptonScrollbars = null;
+
+    /// <summary>
+    /// Gets access to the scrollbar manager when UseKryptonScrollbars is enabled.
+    /// </summary>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public KryptonScrollbarManager? ScrollbarManager => _scrollbarManager;
+
     #endregion
 
     #region Protected
@@ -1828,6 +1868,11 @@ public class KryptonTreeView : VisualControlBase,
 
         // We need a layout to occur before any painting
         InvokeLayout();
+
+        if (KryptonManager.UseKryptonScrollbars)
+        {
+            UpdateScrollbarManager();
+        }
     }
 
     /// <summary>
@@ -1924,6 +1969,28 @@ public class KryptonTreeView : VisualControlBase,
     #endregion
 
     #region Implementation
+
+    private void UpdateScrollbarManager()
+    {
+        if (KryptonManager.UseKryptonScrollbars)
+        {
+            if (_scrollbarManager == null)
+            {
+                _scrollbarManager = new KryptonScrollbarManager(_treeView, ScrollbarManagerMode.NativeWrapper)
+                {
+                    Enabled = true
+                };
+            }
+        }
+        else
+        {
+            if (_scrollbarManager != null)
+            {
+                _scrollbarManager.Dispose();
+                _scrollbarManager = null;
+            }
+        }
+    }
 
     private void UpdateItemHeight()
     {
@@ -2410,9 +2477,11 @@ public class KryptonTreeView : VisualControlBase,
 
     private void OnTreeViewPreviewKeyDown(object? sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-    private void OnTreeViewValidated(object? sender, EventArgs e) => OnValidated(e);
+    // TODO: Workaround for issue where ContainerControl style causes duplicate validation events. See issue https://github.com/Krypton-Suite/Standard-Toolkit/issues/2801 for details.
+    private void OnTreeViewValidated(object? sender, EventArgs e) => ForwardValidated(e);
 
-    private void OnTreeViewValidating(object? sender, CancelEventArgs e) => OnValidating(e);
+    // TODO: Workaround for issue where ContainerControl style causes duplicate validation events. See issue https://github.com/Krypton-Suite/Standard-Toolkit/issues/2801 for details.
+    private void OnTreeViewValidating(object? sender, CancelEventArgs e) => ForwardValidating(e);
 
     private void OnTreeViewNodeMouseHover(object? sender, TreeNodeMouseHoverEventArgs e) => OnNodeMouseHover(e);
 

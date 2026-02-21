@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -44,7 +44,6 @@ public class ToolTipManager
     /// </summary>
     public ToolTipManager(ToolTipValues toolTipValues)
     {
-        // TODO: Setup callbacks when the interval are changed programmatically
         _startTimer = new System.Windows.Forms.Timer
         {
             Interval = toolTipValues.ShowIntervalDelay
@@ -61,7 +60,12 @@ public class ToolTipManager
         {
             Interval = 100 // ReShowDelay
         };
+     
         _detectMoveTimer.Tick += OnStopDetectMoveTimerTick;
+
+        toolTipValues.ShowIntervalDelayChanged += OnShowIntervalDelayChanged;
+
+        toolTipValues.CloseIntervalDelayChanged += OnCloseIntervalDelayChanged;
     }
 
     #endregion
@@ -88,6 +92,7 @@ public class ToolTipManager
 
     /// <summary>
     /// Gets and sets the interval before a tooltip is closed.
+    /// Use 0 for infinite display (tooltip stays until the pointer leaves the control).
     /// </summary>
     public int CloseInterval
     {
@@ -95,10 +100,10 @@ public class ToolTipManager
 
         set
         {
-            // Cannot have an interval less than 1ms
+            // 0 = infinite display, but cannot have an interval less than 0
             if (value < 0)
             {
-                value = 1;
+                value = 0;
             }
 
             _closeTimer.Interval = value;
@@ -267,7 +272,12 @@ public class ToolTipManager
 
             // Raise event requesting the tooltip be shown
             OnShowToolTip(new ToolTipEventArgs(_startTarget!, Control.MousePosition));
-            _closeTimer.Start();
+
+            // Only start close timer when interval > 0 (0 = infinite display)
+            if (_closeTimer.Interval > 0)
+            {
+                _closeTimer.Start();
+            }
         }
         else
         {
@@ -315,6 +325,22 @@ public class ToolTipManager
         // Raises event indicating the tooltip should be removed
         _closeTimer.Stop();
         OnCancelToolTip();
+    }
+
+    private void OnShowIntervalDelayChanged(object? sender, EventArgs e)
+    {
+        if (sender is ToolTipValues values)
+        {
+            ShowInterval = values.ShowIntervalDelay;
+        }
+    }
+
+    private void OnCloseIntervalDelayChanged(object? sender, EventArgs e)
+    {
+        if (sender is ToolTipValues values)
+        {
+            CloseInterval = values.CloseIntervalDelay;
+        }
     }
 
     #endregion

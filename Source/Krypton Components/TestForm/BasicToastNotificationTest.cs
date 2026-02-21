@@ -2,10 +2,15 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2024 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2024 - 2026. All rights reserved.
  *
  */
 #endregion
+
+using Krypton.Utilities;
+
+using GlobalStaticValues = Krypton.Toolkit.GlobalStaticValues;
+using GraphicsExtensions = Krypton.Toolkit.GraphicsExtensions;
 
 namespace TestForm;
 
@@ -26,7 +31,7 @@ public partial class BasicToastNotificationTest : KryptonForm
     private Font _contentFont;
     private Font? _titleFont;
     private int _countDownSeconds;
-    private KryptonToastNotificationIcon? _notificationIcon;
+    private KryptonToastIcon? _notificationIcon;
     private string _notificationTitleText;
     private string _notificationContentText;
 
@@ -39,7 +44,7 @@ public partial class BasicToastNotificationTest : KryptonForm
 
     private void kbtnShow_Click(object sender, EventArgs e)
     {
-        var notificationData = new KryptonBasicToastNotificationData()
+        var notificationData = new KryptonBasicToastData()
         {
             CountDownSeconds = _countDownSeconds,
             CustomImage = null,
@@ -60,7 +65,7 @@ public partial class BasicToastNotificationTest : KryptonForm
             UseRtlReading = _useRtlReading
         };
 
-        var notificationDataWithLocation = new KryptonBasicToastNotificationData()
+        var notificationDataWithLocation = new KryptonBasicToastData()
         {
             CountDownSeconds = _countDownSeconds,
             CustomImage = null,
@@ -78,11 +83,11 @@ public partial class BasicToastNotificationTest : KryptonForm
 
         if (kchkShowProgressBar.Checked)
         {
-            KryptonToastNotification.ShowBasicProgressBarNotification(notificationData);
+            KryptonToast.ShowBasicProgressBarNotification(notificationData);
         }
         else
         {
-            KryptonToastNotification.ShowBasicNotification(notificationData);
+            KryptonToast.ShowBasicNotification(notificationData);
         }
     }
 
@@ -96,7 +101,7 @@ public partial class BasicToastNotificationTest : KryptonForm
         _showDoNotShowAgainOption = false;
         _titleAlignmentH = PaletteRelativeAlign.Center;
         _countDownSeconds = 60;
-        _notificationIcon = KryptonToastNotificationIcon.Information;
+        _notificationIcon = KryptonToastIcon.Information;
         _notificationTitleText = ktxtToastTitle.Text;
         _notificationContentText = ktxtToastContent.Text;
         _borderColor1 = Color.Empty;
@@ -106,7 +111,7 @@ public partial class BasicToastNotificationTest : KryptonForm
         kcbtnBorderColor1.SelectedColor = Color.Empty;
         kcbtnBorderColor2.SelectedColor = Color.Empty;
 
-        foreach (var value in Enum.GetValues(typeof(KryptonToastNotificationIcon)))
+        foreach (var value in Enum.GetValues(typeof(KryptonToastIcon)))
         {
             kcmbToastIcon.Items.Add(value!.ToString()!);
         }
@@ -170,7 +175,7 @@ public partial class BasicToastNotificationTest : KryptonForm
 
     private void kcmbToastIcon_SelectedIndexChanged(object sender, EventArgs e)
     {
-        _notificationIcon = (KryptonToastNotificationIcon)Enum.Parse(typeof(KryptonToastNotificationIcon), kcmbToastIcon.Text);
+        _notificationIcon = (KryptonToastIcon)Enum.Parse(typeof(KryptonToastIcon), kcmbToastIcon.Text);
     }
 
     private void kcmbToastTitleAlignmentH_SelectedIndexChanged(object sender, EventArgs e)
@@ -226,5 +231,70 @@ public partial class BasicToastNotificationTest : KryptonForm
     private void kcmbToastTitleAlignmentV_SelectedIndexChanged(object sender, EventArgs e)
     {
         _titleAlignmentV = (PaletteRelativeAlign)Enum.Parse(typeof(PaletteRelativeAlign), kcmbToastTitleAlignmentV.Text);
+    }
+
+    /// <summary>
+    /// Demonstrates all three features from issue #1282:
+    /// 1. Custom checkbox text (OptionalCheckBoxText)
+    /// 2. TriState support (UseDoNotShowAgainOptionThreeState and DoNotShowAgainOptionCheckState)
+    /// 3. Getting the state when closed (using return value methods)
+    /// </summary>
+    private void kbtnDemoFeatures_Click(object sender, EventArgs e)
+    {
+        DemonstrateDoNotShowAgainFeatures();
+    }
+
+    /// <summary>
+    /// Demonstrates all three features from issue #1282:
+    /// 1. Custom checkbox text (OptionalCheckBoxText)
+    /// 2. TriState support (UseDoNotShowAgainOptionThreeState and DoNotShowAgainOptionCheckState)
+    /// 3. Getting the state when closed (using return value methods)
+    /// </summary>
+    private void DemonstrateDoNotShowAgainFeatures()
+    {
+        // Example 1: Basic notification with custom checkbox text and boolean return
+        var dataWithCustomText = new KryptonBasicToastData()
+        {
+            NotificationTitle = @"Feature Demo",
+            NotificationContent = @"This demonstrates custom checkbox text.",
+            NotificationIcon = KryptonToastIcon.Information,
+            ShowDoNotShowAgainOption = true,
+            OptionalCheckBoxText = @"Don't remind me about this feature", // Feature 1: Custom text
+            CountDownSeconds = 0
+        };
+
+        bool result = KryptonToast.ShowBasicNotificationWithBooleanReturnValue(dataWithCustomText);
+        KryptonMessageBox.Show($"Checkbox was checked: {result}", @"Result", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
+
+        // Example 2: Notification with TriState support and CheckState return
+        var dataWithTriState = new KryptonBasicToastData()
+        {
+            NotificationTitle = @"TriState Demo",
+            NotificationContent = @"This demonstrates TriState checkbox support.",
+            NotificationIcon = KryptonToastIcon.Warning,
+            ShowDoNotShowAgainOption = true,
+            OptionalCheckBoxText = @"Remember my choice", // Feature 1: Custom text
+            UseDoNotShowAgainOptionThreeState = true, // Feature 2: Enable TriState
+            DoNotShowAgainOptionCheckState = CheckState.Indeterminate, // Feature 2: Set initial state
+            CountDownSeconds = 0
+        };
+
+        CheckState checkStateResult = KryptonToast.ShowBasicNotificationWithCheckStateReturnValue(dataWithTriState);
+        KryptonMessageBox.Show($"Checkbox state: {checkStateResult}", @"Result", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
+
+        // Example 3: Progress bar notification with all features
+        var dataWithProgressBar = new KryptonBasicToastData()
+        {
+            NotificationTitle = @"Complete Feature Demo",
+            NotificationContent = @"This demonstrates all features together with a progress bar.",
+            NotificationIcon = KryptonToastIcon.Information,
+            ShowDoNotShowAgainOption = true,
+            OptionalCheckBoxText = @"Skip this notification in the future", // Feature 1: Custom text
+            UseDoNotShowAgainOptionThreeState = true, // Feature 2: Enable TriState
+            CountDownSeconds = 30
+        };
+
+        CheckState finalState = KryptonToast.ShowBasicProgressBarNotificationWithCheckStateReturnValue(dataWithProgressBar);
+        KryptonMessageBox.Show($"Final checkbox state: {finalState}", @"Result", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
     }
 }

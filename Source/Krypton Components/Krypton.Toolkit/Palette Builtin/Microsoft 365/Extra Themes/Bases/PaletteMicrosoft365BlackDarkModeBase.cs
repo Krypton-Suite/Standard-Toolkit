@@ -1,11 +1,11 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege, et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege, et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -1015,9 +1015,9 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
                     or PaletteState.NormalDefaultOverride
                     or PaletteState.CheckedNormal
                     or PaletteState.Tracking
-                    or PaletteState.CheckedTracking => PaletteColorStyle.Linear,
-                PaletteState.Pressed
-                    or PaletteState.CheckedPressed => PaletteColorStyle.LinearShadow,
+                    or PaletteState.CheckedTracking
+                    or PaletteState.Pressed
+                    or PaletteState.CheckedPressed => PaletteColorStyle.Solid,
                 _ => throw DebugTools.NotImplemented(state.ToString())
             },
             PaletteBackStyle.ButtonAlternate or PaletteBackStyle.ButtonStandalone or PaletteBackStyle.ButtonLowProfile or PaletteBackStyle.ButtonBreadCrumb or PaletteBackStyle.ButtonListItem or PaletteBackStyle.ButtonCommand or PaletteBackStyle.ButtonButtonSpec or PaletteBackStyle.ButtonCluster or PaletteBackStyle.ButtonGallery or PaletteBackStyle.ButtonCustom1 or PaletteBackStyle.ButtonCustom2 or PaletteBackStyle.ButtonCustom3 or PaletteBackStyle.ButtonInputControl or PaletteBackStyle.ContextMenuItemHighlight => state switch
@@ -2178,9 +2178,9 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
                 or PaletteContentStyle.ButtonCustom2
                 or PaletteContentStyle.ButtonCustom3 => state switch
                 {
-                    PaletteState.Tracking => _buttonTextTracking,
-                    PaletteState.Normal => BaseColors.TextButtonNormal,
-                    _ => BaseColors.TextButtonChecked
+                PaletteState.Tracking or PaletteState.CheckedTracking => !BaseColors.ButtonTextTracking.IsEmpty ? BaseColors.ButtonTextTracking : _buttonTextTracking,
+                PaletteState.Normal => BaseColors.TextButtonNormal,
+                _ => BaseColors.TextButtonChecked
                 },
             /*state != PaletteState.Normal
                 ? BaseColors.TextButtonChecked
@@ -2189,7 +2189,7 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
             PaletteContentStyle.TabDockAutoHidden => BaseColors.TextButtonNormal,
             PaletteContentStyle.ButtonCalendarDay => state switch
             {
-                PaletteState.Tracking => _buttonTextTracking,
+                PaletteState.Tracking => !BaseColors.ButtonTextTracking.IsEmpty ? BaseColors.ButtonTextTracking : _buttonTextTracking,
                 PaletteState.Disabled => _disabledText2,
                 _ => BaseColors.TextButtonNormal
             },
@@ -2197,11 +2197,12 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
                 or PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb
                 or PaletteContentStyle.ButtonButtonSpec => state switch
                 {
-                    PaletteState.Tracking => _buttonTextTracking,
+                    PaletteState.Tracking => !BaseColors.ButtonTextTracking.IsEmpty ? BaseColors.ButtonTextTracking : _buttonTextTracking,
+                    PaletteState.CheckedTracking => !BaseColors.ButtonTextTracking.IsEmpty ? BaseColors.ButtonTextTracking : BaseColors.TextButtonChecked,
                     PaletteState.Normal => style == PaletteContentStyle.ButtonListItem
                         ? BaseColors.TextLabelControl
                         : BaseColors.TextLabelPanel,
-                    PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => BaseColors.TextButtonChecked,
+                    PaletteState.CheckedNormal or PaletteState.CheckedPressed => BaseColors.TextButtonChecked,
                     _ => BaseColors.TextButtonNormal
                 },
             PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose => state switch
@@ -3088,6 +3089,8 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
                     return 0;
                 }
                 return Math.Max(2, owningForm!.RealWindowBorders.Right);
+            case PaletteMetricInt.HeaderButtonEdgeInsetFormRight:
+                return 0;
             case PaletteMetricInt.HeaderButtonEdgeInsetInputControl:
                 return 1;
             case PaletteMetricInt.HeaderButtonEdgeInsetPrimary:
@@ -3102,6 +3105,8 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
                 return 3;
             case PaletteMetricInt.None:
                 return 0;
+            case PaletteMetricInt.DropDownArrowBaseSize:
+                return 10;
             default:
                 // Should never happen!
                 Debug.Assert(false);
@@ -4198,12 +4203,17 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
                     _ => BaseColors.RibbonTabTextNormal
                 };
             case PaletteRibbonTextStyle.RibbonGroupCollapsedText:
-                return BaseColors.RibbonGroupCollapsedText;
+                return GetRibbonGroupTextColor(state,
+                    BaseColors.RibbonGroupTextTracking,
+                    BaseColors.RibbonGroupCollapsedText);
             case PaletteRibbonTextStyle.RibbonGroupButtonText:
             case PaletteRibbonTextStyle.RibbonGroupLabelText:
             case PaletteRibbonTextStyle.RibbonGroupCheckBoxText:
             case PaletteRibbonTextStyle.RibbonGroupRadioButtonText:
-                return state == PaletteState.Disabled ? _disabledText : BaseColors.RibbonGroupCollapsedText;
+                return GetRibbonGroupTextColor(state,
+                    BaseColors.RibbonGroupTextTracking,
+                    BaseColors.RibbonGroupCollapsedText,
+                    _disabledText);
 
             default:
                 // Should never happen!
@@ -4442,6 +4452,24 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
         Table ??= new KryptonColorTable365BlackDarkMode(BaseColors.ToArray(), InheritBool.True, this);
 
     #endregion ColorTable
+
+    protected override void OnSchemeColorChanged(SchemeBaseColors index, Color newColor)
+    {
+        if (BaseColors is not null && index == SchemeBaseColors.ButtonTextTracking)
+        {
+            BaseColors.ButtonTextTracking = newColor;
+        }
+        base.OnSchemeColorChanged(index, newColor);
+    }
+
+    protected override void OnSchemeExtraColorChanged(SchemeExtraColors index, Color newColor)
+    {
+        if (BaseColors is not null && index == SchemeExtraColors.ButtonTextTracking)
+        {
+            BaseColors.ButtonTextTracking = newColor;
+        }
+        base.OnSchemeExtraColorChanged(index, newColor);
+    }
 
     #region OnUserPreferenceChanged
 

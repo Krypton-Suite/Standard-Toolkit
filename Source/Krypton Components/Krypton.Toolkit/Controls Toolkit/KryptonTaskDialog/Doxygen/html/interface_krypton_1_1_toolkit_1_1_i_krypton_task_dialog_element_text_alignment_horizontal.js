@@ -1,0 +1,4 @@
+var interface_krypton_1_1_toolkit_1_1_i_krypton_task_dialog_element_text_alignment_horizontal =
+[
+    [ "TextAlignmentHorizontal", "interface_krypton_1_1_toolkit_1_1_i_krypton_task_dialog_element_text_alignment_horizontal.html#a2be5aaee169b5bc2f2c07f34ce1397fd", null ]
+];

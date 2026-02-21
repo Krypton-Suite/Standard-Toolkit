@@ -1,7 +1,7 @@
 ﻿#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2021 - 2025. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2021 - 2026. All rights reserved. 
  */
 #endregion
 
@@ -27,10 +27,11 @@ global using System.Drawing.Text;
 global using System.Globalization;
 global using System.IO;
 global using System.Linq;
+global using System.Media;
 #if NET8_0_OR_GREATER
 global using System.Text.Json.Nodes;
 #endif
-global using System.Media;
+global using System.Net.Http;
 global using System.Reflection;
 global using System.Resources;
 global using System.Runtime.CompilerServices;
@@ -38,6 +39,7 @@ global using System.Runtime.InteropServices;
 global using System.Runtime.Serialization;
 global using System.Runtime.Serialization.Formatters.Binary;
 global using System.Security;
+global using System.Security.Cryptography;
 global using System.Security.Principal;
 global using System.Text;
 global using System.Text.RegularExpressions;
@@ -78,7 +80,6 @@ global using Krypton.Toolkit.ResourceFiles.Sort;
 global using Krypton.Toolkit.ResourceFiles.Stars;
 global using Krypton.Toolkit.ResourceFiles.SystemMenu;
 global using Krypton.Toolkit.ResourceFiles.TaskDialog;
-global using Krypton.Toolkit.ResourceFiles.ToastNotification;
 global using Krypton.Toolkit.ResourceFiles.Toolbars;
 global using Krypton.Toolkit.ResourceFiles.ToolkitLogos;
 global using Krypton.Toolkit.ResourceFiles.TreeItems;

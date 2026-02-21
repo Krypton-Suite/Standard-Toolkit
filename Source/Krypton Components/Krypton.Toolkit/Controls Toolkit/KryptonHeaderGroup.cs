@@ -1,11 +1,11 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -67,6 +67,10 @@ public class KryptonHeaderGroup : VisualControlContainment
     private bool _collapsed;
     private readonly bool _ignoreLayout;
     private bool _layingOut;
+
+    private KryptonScrollbarManager? _scrollbarManager;
+    private bool? _useKryptonScrollbars;
+
     #endregion
 
     #region Events
@@ -227,6 +231,9 @@ public class KryptonHeaderGroup : VisualControlContainment
 
             // Remember to pull down the manager instance
             _buttonManager.Destruct();
+
+            _scrollbarManager?.Dispose();
+            _scrollbarManager = null;
         }
 
         base.Dispose(disposing);
@@ -234,6 +241,7 @@ public class KryptonHeaderGroup : VisualControlContainment
     #endregion
 
     #region Public
+
     /// <summary>
     /// Gets and sets the name of the control.
     /// </summary>
@@ -679,6 +687,37 @@ public class KryptonHeaderGroup : VisualControlContainment
     private bool ShouldSerializeValuesSecondary() => !ValuesSecondary.IsDefault;
 
     /// <summary>
+    /// Gets or sets whether to use Krypton-themed scrollbars instead of native scrollbars.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Gets or sets whether to use Krypton-themed scrollbars instead of native scrollbars.")]
+    [DefaultValue(false)]
+    public bool UseKryptonScrollbars
+    {
+        get => _useKryptonScrollbars ?? KryptonManager.UseKryptonScrollbars;
+        set
+        {
+            bool currentValue = _useKryptonScrollbars ?? KryptonManager.UseKryptonScrollbars;
+            if (currentValue != value)
+            {
+                _useKryptonScrollbars = value;
+                UpdateScrollbarManager();
+            }
+        }
+    }
+
+    private bool ShouldSerializeUseKryptonScrollbars() => _useKryptonScrollbars.HasValue;
+
+    private void ResetUseKryptonScrollbars() => _useKryptonScrollbars = null;
+
+    /// <summary>
+    /// Gets access to the scrollbar manager when UseKryptonScrollbars is enabled.
+    /// </summary>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public KryptonScrollbarManager? ScrollbarManager => _scrollbarManager;
+
+    /// <summary>
     /// Get the preferred size of the control based on a proposed size.
     /// </summary>
     /// <param name="proposedSize">Starting size proposed by the caller.</param>
@@ -838,6 +877,11 @@ public class KryptonHeaderGroup : VisualControlContainment
     /// <param name="e">An EventArgs containing the event data.</param>
     protected override void OnHandleCreated(EventArgs e)
     {
+        if (KryptonManager.UseKryptonScrollbars)
+        {
+            UpdateScrollbarManager();
+        }
+
         // Let base class do standard stuff
         base.OnHandleCreated(e);
 
@@ -1057,6 +1101,29 @@ public class KryptonHeaderGroup : VisualControlContainment
     #endregion
 
     #region Implementation
+
+    private void UpdateScrollbarManager()
+    {
+        if (KryptonManager.UseKryptonScrollbars)
+        {
+            if (_scrollbarManager == null)
+            {
+                _scrollbarManager = new KryptonScrollbarManager(Panel, ScrollbarManagerMode.Container)
+                {
+                    Enabled = true
+                };
+            }
+        }
+        else
+        {
+            if (_scrollbarManager != null)
+            {
+                _scrollbarManager.Dispose();
+                _scrollbarManager = null;
+            }
+        }
+    }
+
     private void OnRemoveObscurer(object? sender, EventArgs e) => _obscurer?.Uncover();
 
     private void OnHeaderGroupTextChanged(object? sender, EventArgs e) => OnTextChanged(EventArgs.Empty);

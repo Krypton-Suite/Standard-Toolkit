@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -37,7 +37,7 @@ public class PaletteProfessionalSystem : PaletteBase
     private static readonly Padding _contentPaddingButton5 = new Padding(3, 3, 3, 2);
     private static readonly Padding _contentPaddingButton6 = new Padding(3);
     private static readonly Padding _contentPaddingButton7 = new Padding(1, 1, 3, 1);
-    private static readonly Padding _contentPaddingButtonForm = new Padding(5);
+    private static readonly Padding _contentPaddingButtonForm = new Padding(0);
     private static readonly Padding _contentPaddingButtonGallery = new Padding(1, 0, 1, 0);
     private static readonly Padding _contentPaddingToolTip = new Padding(2);
     private static readonly Padding _contentPaddingSuperTip = new Padding(4);
@@ -2701,6 +2701,9 @@ public class PaletteProfessionalSystem : PaletteBase
                     return 0;
                 }
                 return Math.Max(2, owningForm!.RealWindowBorders.Right);
+            case PaletteMetricInt.HeaderButtonEdgeInsetFormRight:
+                // Flush with form edge (like standard Windows title bar)
+                return 0;
             case PaletteMetricInt.HeaderButtonEdgeInsetInputControl:
                 return 1;
             case PaletteMetricInt.HeaderButtonEdgeInsetPrimary:
@@ -2715,6 +2718,8 @@ public class PaletteProfessionalSystem : PaletteBase
                 return 3;
             case PaletteMetricInt.None:
                 return 0;
+            case PaletteMetricInt.DropDownArrowBaseSize:
+                return 10;
             default:
                 // Should never happen!
                 Debug.Assert(false);
@@ -3745,12 +3750,17 @@ public class PaletteProfessionalSystem : PaletteBase
                     _ => BaseColors!.RibbonTabTextNormal
                 };
             case PaletteRibbonTextStyle.RibbonGroupCollapsedText:
-                return BaseColors!.RibbonGroupCollapsedText;
+                return GetRibbonGroupTextColor(state,
+                    BaseColors!.RibbonGroupTextTracking,
+                    BaseColors!.RibbonGroupCollapsedText);
             case PaletteRibbonTextStyle.RibbonGroupButtonText:
             case PaletteRibbonTextStyle.RibbonGroupLabelText:
             case PaletteRibbonTextStyle.RibbonGroupCheckBoxText:
             case PaletteRibbonTextStyle.RibbonGroupRadioButtonText:
-                return state == PaletteState.Disabled ? _disabledText : BaseColors!.RibbonGroupCollapsedText;
+                return GetRibbonGroupTextColor(state,
+                    BaseColors!.RibbonGroupTextTracking,
+                    BaseColors!.RibbonGroupCollapsedText,
+                    _disabledText);
 
             default:
                 // Should never happen!

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -18,7 +18,12 @@ namespace Krypton.Toolkit;
 public class ThemeManager
 {
     #region Private static fields
+
     private const string _msgBoxCaption = "ThemeManager";
+
+    /// <summary>Prefix used when the theme array displays a custom palette with a name, e.g. "Custom - [My Theme Name]".</summary>
+    internal const string CustomThemeNamePrefix = @"Custom - ";
+
     #endregion
 
     #region Properties
@@ -118,10 +123,29 @@ public class ThemeManager
 
     /// <summary>
     /// Returns the respective theme name for the given KryptonManager instance.
+    /// When the mode is Custom and the custom palette has a bundled name, that name is returned so it displays correctly (e.g. in KryptonManager).
     /// </summary>
     /// <param name="manager">A valid reference to a KryptonManager instance.</param>
     /// <returns>The theme name.</returns>
-    public static string ReturnPaletteModeAsString(KryptonManager manager) => ReturnPaletteModeAsString(manager.GlobalPaletteMode);
+    public static string ReturnPaletteModeAsString(KryptonManager manager)
+    {
+        // When in Custom mode, attempt to return the custom palette's name if it exists, otherwise return the palette mode as string.
+        if (manager is { GlobalPaletteMode: PaletteMode.Custom, GlobalCustomPalette: { } customPalette })
+        {
+            // Attempt to get the custom palette's name. If it exists and is not just whitespace, return it. Otherwise, return the palette mode as string.
+            var name = customPalette.GetPaletteName();
+
+            // ReSharper disable once SuspiciousTypeConversion.Global - The check is necessary to ensure that the method exists before calling it, as GetPaletteName is not guaranteed to be implemented in all custom palettes.
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                // Return the custom palette's name if it exists and is not just whitespace.
+                return name;
+            }
+        }
+
+        // Return the palette mode as string if not in Custom mode or if the custom palette does not have a valid name.
+        return ReturnPaletteModeAsString(manager.GlobalPaletteMode);
+    }
 
     /// <summary>
     /// Returns the palette mode as string.
@@ -131,56 +155,25 @@ public class ThemeManager
     public static string ReturnPaletteModeAsString(PaletteMode paletteMode) => new PaletteModeConverter().ConvertToString(paletteMode)!;
 
     /// <summary>
-    /// Loads the custom theme.
-    /// </summary>
-    /// <param name="palette">The palette.</param>
-    /// <param name="manager">The manager.</param>
-    /// <param name="themeFile">A custom theme file.</param>
-    /// <param name="silent">if set to <c>true</c> [silent].</param>
-    [Obsolete("Deprecated and will be removed in V110. Set a global custom palette through 'ThemeManager.ApplyTheme(...)'.")]
-    public static void LoadCustomTheme(KryptonCustomPaletteBase palette, KryptonManager manager, string themeFile = "", bool silent = false)
-    {
-        // Until removal pass the call to the new ApplyTheme method.
-        ApplyTheme(themeFile, silent, manager ?? new KryptonManager());
-            
-        //try
-        //{
-        //    // Declare new instances (no need for locking if these are local to the method)
-        //    palette = new KryptonCustomPaletteBase();
-        //    manager = new KryptonManager();
-
-        //    // TODO: Add silent option
-        //    if (silent)
-        //    {
-        //        if (themeFile is not ("" and ""))
-        //        {
-        //            palette.Import(themeFile, silent);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        palette.Import();
-        //    }
-
-        //    // Set manager
-        //    manager.GlobalCustomPalette = palette;
-
-        //    ApplyTheme(PaletteMode.Custom, manager);
-        //}
-        //catch (Exception exc)
-        //{
-        //    KryptonExceptionHandler.CaptureException(exc,
-        //        showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
-        //}
-    }
-
-    /// <summary>
     /// Returns the themes PaletteMode from the theme's name.
+    /// Accepts the static "Custom" or the dynamic "Custom - [Theme Name]" form so theme selectors resolve correctly.
     /// </summary>
     /// <param name="themeName">Name of the theme.</param>
     /// <returns>The respective PaletteMode if the theme name is valid. Otherwise PaletteMode.Global.</returns>
     public static PaletteMode GetThemeManagerMode(string themeName)
     {
+        if (string.IsNullOrEmpty(themeName))
+        {
+            return PaletteMode.Global;
+        }
+
+        // Dynamic theme array may show "Custom - [My Theme Name]" when a custom palette has a bundled name
+        if (themeName == PaletteModeStrings.DEFAULT_PALETTE_CUSTOM
+            || themeName.StartsWith(CustomThemeNamePrefix, StringComparison.Ordinal))
+        {
+            return PaletteMode.Custom;
+        }
+
         return PaletteModeStrings.SupportedThemesMap.TryGetValue(themeName, out PaletteMode paletteMode)
             ? paletteMode
             : PaletteMode.Global;

@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2024 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2024 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -50,21 +50,6 @@ public class KryptonThemeComboBox : KryptonComboBox, IKryptonThemeSelectorBase
 
     /// <inheritdoc/>
     [Category(@"Visuals")]
-    [Description(@"The custom assigned palette mode.")]
-    [DefaultValue(null)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-    [Obsolete("Deprecated and will be removed in V110. Set a global custom palette through 'ThemeManager.ApplyTheme(...)'.")]
-    public KryptonCustomPaletteBase? KryptonCustomPalette
-    {
-        get => _kryptonCustomPalette;
-        set => _kryptonCustomPalette = value;
-    }
-
-    private void ResetKryptonCustomPalette() => _kryptonCustomPalette = null;
-    private bool ShouldSerializeKryptonCustomPalette() => _kryptonCustomPalette is not null;
-
-    /// <inheritdoc/>
-    [Category(@"Visuals")]
     [Description(@"The default palette mode.")]
     [DefaultValue(PaletteMode.Global)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
@@ -109,6 +94,10 @@ public class KryptonThemeComboBox : KryptonComboBox, IKryptonThemeSelectorBase
         {
             return;
         }
+
+        // Refresh theme list so "Custom" shows as "Custom - [Theme Name]" when a custom palette has a name (issue #1031)
+        Items.Clear();
+        Items.AddRange(CommonHelperThemeSelectors.GetThemesArray());
 
         int idx = CommonHelperThemeSelectors.GetPaletteIndex(Items, mode);
         if (idx == SelectedIndex)

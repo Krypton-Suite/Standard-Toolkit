@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2025 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2025 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -119,9 +119,10 @@ public class KryptonToggleSwitch : Control, IContentValues
                 _checked = value;
 
                 _animationTimer.Start();
+                StartAnimation();
+                Invalidate();
 
                 CheckedChanged?.Invoke(this, EventArgs.Empty);
-                StartAnimation();
             }
         }
     }
@@ -424,10 +425,15 @@ public class KryptonToggleSwitch : Control, IContentValues
     /// <summary>Gets the state of the current.</summary>
     private IPaletteTriple GetCurrentState()
     {
-        return !Enabled ? StateDisabled :
-            _isPressed ? StatePressed :
-            _isTracking ? StateTracking :
-            (StateNormal != null ? StateNormal : StateCommon);
+        return !Enabled 
+            ? StateDisabled 
+            : _isPressed 
+                ? StatePressed 
+                : _isTracking 
+                    ? StateTracking 
+                    : (StateNormal != null 
+                        ? StateNormal 
+                        : StateCommon);
     }
 
     /// <summary>Gets the knob rectangle.</summary>
@@ -651,16 +657,15 @@ public class KryptonToggleSwitch : Control, IContentValues
                    
                 float textY = (Height - textSize.Height) / 2f; // Center text vertically
 
-                // Enable better text rendering for smooth appearance
-                graphics.TextRenderingHint = TextRenderingHint.AntiAlias;
-
                 if (ToggleSwitchValues.ShowText)
                 {
-                    // Draw the text
-                    graphics.DrawString(text, font, textBrush, new PointF(textX, textY));
-
-                    // Reset text rendering hint
-                    graphics.TextRenderingHint = TextRenderingHint.SystemDefault;
+                    // Enable better text rendering for smooth appearance
+                    // Use GraphicsTextHint to properly save/restore TextRenderingHint to prevent affecting other controls
+                    using (new GraphicsTextHint(graphics, TextRenderingHint.AntiAlias))
+                    {
+                        // Draw the text
+                        graphics.DrawString(text, font, textBrush, new PointF(textX, textY));
+                    }
                 }
             }
         }
@@ -816,8 +821,7 @@ public class KryptonToggleSwitch : Control, IContentValues
     public override ImageLayout BackgroundImageLayout { get; set; }
 
     #endregion
-
-
+    
     #region IContentValues
 
     /// <summary>Gets the content image.</summary>
@@ -853,6 +857,48 @@ public class KryptonToggleSwitch : Control, IContentValues
     {
         throw new NotImplementedException();
     }
+
+    /// <summary>
+    /// Gets the overlay image.
+    /// </summary>
+    /// <param name="state">The state for which the overlay image is needed.</param>
+    /// <returns>Overlay image value, or null if no overlay image is set.</returns>
+    public Image? GetOverlayImage(PaletteState state) => null;
+
+    /// <summary>
+    /// Gets the overlay image color that should be transparent.
+    /// </summary>
+    /// <param name="state">The state for which the overlay image is needed.</param>
+    /// <returns>Color value.</returns>
+    public Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+
+    /// <summary>
+    /// Gets the position of the overlay image relative to the main image.
+    /// </summary>
+    /// <param name="state">The state for which the overlay position is needed.</param>
+    /// <returns>Overlay image position.</returns>
+    public OverlayImagePosition GetOverlayImagePosition(PaletteState state) => OverlayImagePosition.TopRight;
+
+    /// <summary>
+    /// Gets the scaling mode for the overlay image.
+    /// </summary>
+    /// <param name="state">The state for which the overlay scale mode is needed.</param>
+    /// <returns>Overlay image scale mode.</returns>
+    public OverlayImageScaleMode GetOverlayImageScaleMode(PaletteState state) => OverlayImageScaleMode.None;
+
+    /// <summary>
+    /// Gets the scale factor for the overlay image (used when scale mode is Percentage or ProportionalToMain).
+    /// </summary>
+    /// <param name="state">The state for which the overlay scale factor is needed.</param>
+    /// <returns>Scale factor (0.0 to 2.0).</returns>
+    public float GetOverlayImageScaleFactor(PaletteState state) => 0.5f;
+
+    /// <summary>
+    /// Gets the fixed size for the overlay image (used when scale mode is FixedSize).
+    /// </summary>
+    /// <param name="state">The state for which the overlay fixed size is needed.</param>
+    /// <returns>Fixed size.</returns>
+    public Size GetOverlayImageFixedSize(PaletteState state) => new Size(16, 16);
 
     #endregion
 }

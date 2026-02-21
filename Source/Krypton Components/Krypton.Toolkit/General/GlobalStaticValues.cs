@@ -1,11 +1,11 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -63,7 +63,7 @@ public class GlobalStaticValues
     public const PaletteMode GLOBAL_DEFAULT_PALETTE_MODE = PaletteMode.Microsoft365Blue;
 
     /// <summary>The current supported palette version</summary>
-    public const int CURRENT_SUPPORTED_PALETTE_VERSION = 20;
+    public const int CURRENT_SUPPORTED_PALETTE_VERSION = 21;
 
     /// <summary>The default highlight debugging color</summary>
     public static Color DEFAULT_HIGHLIGHT_DEBUGGING_COLOR = Color.Red;
@@ -91,6 +91,9 @@ public class GlobalStaticValues
 
     /// <summary>The transparency key color</summary>
     public static readonly Color TRANSPARENCY_KEY_COLOR = Color.Magenta;
+
+    /// <summary>Windows convention for positioning windows off-screen (e.g. to hide them). Used when placing windows so they are not visible.</summary>
+    public const int OFF_SCREEN_POSITION = -32000;
 
     /// <summary>The tab row gradient first color</summary>
     public static readonly Color TAB_ROW_GRADIENT_FIRST_COLOR = Color.Transparent;

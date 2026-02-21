@@ -1,4 +1,4 @@
-﻿################################################################################
+################################################################################
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
@@ -87,6 +87,8 @@ artifacts/
 *.scc
 *.dll
 *.exe
+# Bundled WebView2 assemblies (tracked so CI builds without NuGet setup)
+!Source/Krypton Components/Krypton.Utilities/Lib/WebView2/*.dll
 *.xml
 
 # Chutzpah Test files

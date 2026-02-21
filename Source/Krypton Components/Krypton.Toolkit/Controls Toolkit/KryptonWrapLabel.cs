@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobiteg 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobiteg 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -597,9 +597,12 @@ public class KryptonWrapLabel : Label
         }
 
         ForeColor = textColor;
-        e.Graphics.TextRenderingHint = CommonHelper.PaletteTextHintToRenderingHint(hint);
 
-        base.OnPaint(e);
+        // Use GraphicsTextHint to properly save/restore TextRenderingHint to prevent affecting other controls
+        using (new GraphicsTextHint(e.Graphics, CommonHelper.PaletteTextHintToRenderingHint(hint)))
+        {
+            base.OnPaint(e);
+        }
     }
 
     /// <summary>

@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2025 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2025 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -23,6 +23,7 @@ public class KryptonMiscellaneousStrings
     private const string DEFAULT_LONG_TERM_STABLE_TEXT = @"Long Term Stable";
     private const string DEFAULT_CHANGELOG_TEXT = @"&Changelog";
     private const string DEFAULT_README_TEXT = @"&Readme";
+    private const string DEFAULT_RIBBON_FLOATING_WINDOW_TEXT = @"Ribbon";
 
     #endregion
 
@@ -109,6 +110,14 @@ public class KryptonMiscellaneousStrings
     [DefaultValue(DEFAULT_README_TEXT)]
     public string ReadmeText { get; set; }
 
+    /// <summary>Gets or sets the text displayed in the ribbon floating window.</summary>
+    /// <value>The ribbon floating window text.</value>
+    [Localizable(true)]
+    [Category(@"Visuals")]
+    [Description(@"The ribbon floating window text.")]
+    [DefaultValue(DEFAULT_RIBBON_FLOATING_WINDOW_TEXT)]
+    public string RibbonFloatingWindowText { get; set; }
+
     #endregion
 
     #region IsDefault
@@ -122,7 +131,8 @@ public class KryptonMiscellaneousStrings
                              StableText.Equals(DEFAULT_STABLE_TEXT) &&
                              LongTermStableText.Equals(DEFAULT_LONG_TERM_STABLE_TEXT) &&
                              ChangeLogText.Equals(DEFAULT_CHANGELOG_TEXT) &&
-                             ReadmeText.Equals(DEFAULT_README_TEXT);
+                             ReadmeText.Equals(DEFAULT_README_TEXT) &&
+                             RibbonFloatingWindowText.Equals(DEFAULT_RIBBON_FLOATING_WINDOW_TEXT);
     #endregion
 
     #region Implementation
@@ -146,6 +156,8 @@ public class KryptonMiscellaneousStrings
         ChangeLogText = DEFAULT_CHANGELOG_TEXT;
 
         ReadmeText = DEFAULT_README_TEXT;
+
+        RibbonFloatingWindowText = DEFAULT_RIBBON_FLOATING_WINDOW_TEXT;
     }
 
     #endregion

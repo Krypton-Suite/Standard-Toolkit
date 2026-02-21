@@ -2,7 +2,7 @@
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2025. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2026. All rights reserved. 
  *  
  */
 #endregion
@@ -39,12 +39,12 @@ namespace TestForm
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CommandLinkButtons));
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
-            this.kryptonCommandLinkButton5 = new Krypton.Toolkit.KryptonCommandLinkButton();
-            this.kryptonCommandLinkButton4 = new Krypton.Toolkit.KryptonCommandLinkButton();
-            this.kryptonCommandLinkButton3 = new Krypton.Toolkit.KryptonCommandLinkButton();
-            this.kryptonCommandLinkButton2 = new Krypton.Toolkit.KryptonCommandLinkButton();
+            this.kryptonCommandLinkButton5 = new Krypton.Utilities.KryptonCommandLinkButton();
+            this.kryptonCommandLinkButton4 = new Krypton.Utilities.KryptonCommandLinkButton();
+            this.kryptonCommandLinkButton3 = new Krypton.Utilities.KryptonCommandLinkButton();
+            this.kryptonCommandLinkButton2 = new Krypton.Utilities.KryptonCommandLinkButton();
             this.kryptonAlternateCommandLinkButton1 = new Krypton.Toolkit.KryptonAlternateCommandLinkButton();
-            this.kryptonCommandLinkButton1 = new Krypton.Toolkit.KryptonCommandLinkButton();
+            this.kryptonCommandLinkButton1 = new Krypton.Utilities.KryptonCommandLinkButton();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -231,11 +231,11 @@ namespace TestForm
         #endregion
 
         private Krypton.Toolkit.KryptonPanel kryptonPanel1;
-        private Krypton.Toolkit.KryptonCommandLinkButton kryptonCommandLinkButton1;
-        private Krypton.Toolkit.KryptonCommandLinkButton kryptonCommandLinkButton5;
-        private Krypton.Toolkit.KryptonCommandLinkButton kryptonCommandLinkButton4;
-        private Krypton.Toolkit.KryptonCommandLinkButton kryptonCommandLinkButton3;
-        private Krypton.Toolkit.KryptonCommandLinkButton kryptonCommandLinkButton2;
+        private Krypton.Utilities.KryptonCommandLinkButton kryptonCommandLinkButton1;
+        private Krypton.Utilities.KryptonCommandLinkButton kryptonCommandLinkButton5;
+        private Krypton.Utilities.KryptonCommandLinkButton kryptonCommandLinkButton4;
+        private Krypton.Utilities.KryptonCommandLinkButton kryptonCommandLinkButton3;
+        private Krypton.Utilities.KryptonCommandLinkButton kryptonCommandLinkButton2;
         private Krypton.Toolkit.KryptonAlternateCommandLinkButton kryptonAlternateCommandLinkButton1;
     }
 }

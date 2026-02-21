@@ -1,10 +1,10 @@
-﻿#region BSD License
+#region BSD License
 /*
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2026. All rights reserved.
  */
 #endregion
 
@@ -92,6 +92,11 @@ public abstract class PaletteBase : Component
     /// Occurs when a single scheme color is changed.
     /// </summary>
     public event EventHandler<SchemeColorChangedEventArgs>? SchemeColorChanged;
+
+    /// <summary>
+    /// Occurs when a single scheme extra color is changed.
+    /// </summary>
+    public event EventHandler<SchemeExtraColorChangedEventArgs>? SchemeExtraColorChanged;
     #endregion
 
     #region Identity
@@ -2185,6 +2190,7 @@ public abstract class PaletteBase : Component
     }
 
     private readonly object _colorLock = new();
+    private readonly Color[] _extraColors = new Color[36];
 
     /// <summary>
     /// Resets <see cref="ColorTable"/> to be updated on next paint.
@@ -2316,6 +2322,58 @@ public abstract class PaletteBase : Component
             SetSchemeColor(kv.Key, kv.Value); // reuses events + paint
     }
 
+    /// <summary>
+    /// Sets a scheme extra color by index.
+    /// </summary>
+    /// <param name="colorIndex">The scheme extra color index.</param>
+    /// <param name="newColor">The new color value.</param>
+    public virtual void SetSchemeExtraColor(SchemeExtraColors colorIndex, Color newColor)
+    {
+        lock (_colorLock)
+        {
+            var idx = (int)colorIndex;
+            if (idx >= _extraColors.Length || _extraColors[idx] == newColor)
+            {
+                return;
+            }
+
+            _extraColors[idx] = newColor;
+            InvalidateColorTable();
+        }
+        OnSchemeExtraColorChanged(colorIndex, newColor);
+        SchemeExtraColorChanged?.Invoke(this, new SchemeExtraColorChangedEventArgs(colorIndex, newColor));
+        OnPalettePaint(this, new PaletteLayoutEventArgs(true, true));
+    }
+
+    /// <summary>
+    /// Gets a scheme extra color by index.
+    /// </summary>
+    /// <param name="colorIndex">The scheme extra color index.</param>
+    /// <returns>The color value.</returns>
+    public virtual Color GetSchemeExtraColor(SchemeExtraColors colorIndex)
+    {
+        lock (_colorLock)
+        {
+            var idx = (int)colorIndex;
+            return idx >= 0 && idx < _extraColors.Length ? _extraColors[idx] : GlobalStaticValues.EMPTY_COLOR;
+        }
+    }
+
+    /// <summary>
+    /// Batch updates scheme extra colors.
+    /// </summary>
+    /// <param name="colorUpdates">Dictionary of scheme extra color index to new color value.</param>
+    public virtual void UpdateSchemeExtraColors(Dictionary<SchemeExtraColors, Color> colorUpdates)
+    {
+        if (colorUpdates is null)
+        {
+            throw new ArgumentNullException(nameof(colorUpdates));
+        }
+
+        foreach (var kv in colorUpdates)
+            SetSchemeExtraColor(kv.Key, kv.Value);
+    }
+
     // Thread-safe full-scheme replacement
     public void ApplyScheme(KryptonColorSchemeBase newScheme)
     {
@@ -2339,8 +2397,36 @@ public abstract class PaletteBase : Component
 
     #endregion Palette Helpers
 
+    /// <summary>
+    /// Gets ribbon group text color with optional disabled and tracking handling.
+    /// </summary>
+    /// <param name="state">Palette state.</param>
+    /// <param name="trackingColor">Color when tracking; if empty, defaultColor is used.</param>
+    /// <param name="defaultColor">Color when state is normal or when tracking color is empty.</param>
+    /// <param name="disabledColor">Optional color when disabled; if null, disabled is not checked.</param>
+    /// <returns>The resolved color.</returns>
+    protected static Color GetRibbonGroupTextColor(PaletteState state, Color trackingColor, Color defaultColor, Color? disabledColor = null)
+    {
+        if (disabledColor.HasValue && state == PaletteState.Disabled)
+        {
+            return disabledColor.Value;
+        }
+
+        if (state is PaletteState.Tracking or PaletteState.CheckedTracking)
+        {
+            return trackingColor != GlobalStaticValues.EMPTY_COLOR && !trackingColor.IsEmpty
+                ? trackingColor
+                : defaultColor;
+        }
+
+        return defaultColor;
+    }
+
     /// <summary>Hook for derived families to rebuild caches when a color changes.</summary>
     protected virtual void OnSchemeColorChanged(SchemeBaseColors index, Color newColor) { }
+
+    /// <summary>Hook for derived families when a scheme extra color changes.</summary>
+    protected virtual void OnSchemeExtraColorChanged(SchemeExtraColors index, Color newColor) { }
 }
 
 /// <summary>
@@ -2352,6 +2438,21 @@ public sealed class SchemeColorChangedEventArgs : EventArgs
     public Color NewColor { get; }
 
     public SchemeColorChangedEventArgs(SchemeBaseColors index, Color newColor)
+    {
+        Index = index;
+        NewColor = newColor;
+    }
+}
+
+/// <summary>
+/// Data for when one scheme extra color changes.
+/// </summary>
+public sealed class SchemeExtraColorChangedEventArgs : EventArgs
+{
+    public SchemeExtraColors Index { get; }
+    public Color NewColor { get; }
+
+    public SchemeExtraColorChangedEventArgs(SchemeExtraColors index, Color newColor)
     {
         Index = index;
         NewColor = newColor;

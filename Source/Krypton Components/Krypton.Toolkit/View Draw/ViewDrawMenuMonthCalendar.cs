@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -21,6 +21,7 @@ public class ViewDrawMenuMonthCalendar : ViewComposite,
     #region Instance Fields
     private readonly KryptonContextMenuMonthCalendar _monthCalendar;
     private readonly IContextMenuProvider _provider;
+    private readonly ViewDrawDocker _drawDocker;
     private readonly ViewLayoutMonths _layoutMonths;
     private readonly bool _itemEnabled;
 
@@ -63,6 +64,17 @@ public class ViewDrawMenuMonthCalendar : ViewComposite,
             Enabled = _itemEnabled
         };
 
+        // Wrap in a docker so the month calendar body background (StateCommon.Back) is drawn
+        _drawDocker = new ViewDrawDocker(_monthCalendar.StateCommon.Back, _monthCalendar.StateCommon.Border, null)
+        {
+            // Place the month calendar in the filling area of the docker
+            {
+                _layoutMonths, 
+                ViewDockStyle.Fill
+            }
+        };
+
+        // Add docker to the view hierarchy
         Add(_layoutMonths);
     }
 

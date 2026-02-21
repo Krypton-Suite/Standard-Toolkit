@@ -1,11 +1,11 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -1006,8 +1006,7 @@ public abstract class PaletteMicrosoft365SilverLightModeBase : PaletteBase
             PaletteBackStyle.HeaderPrimary or PaletteBackStyle.HeaderDockInactive or PaletteBackStyle.HeaderSecondary or PaletteBackStyle.HeaderCustom1 or PaletteBackStyle.HeaderCustom2 or PaletteBackStyle.HeaderCustom3 or PaletteBackStyle.HeaderDockActive => PaletteColorStyle.Rounded,
             PaletteBackStyle.ButtonForm or PaletteBackStyle.ButtonFormClose => state switch
             {
-                PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride or PaletteState.CheckedNormal or PaletteState.Tracking or PaletteState.CheckedTracking => PaletteColorStyle.Linear,
-                PaletteState.Pressed or PaletteState.CheckedPressed => PaletteColorStyle.LinearShadow,
+                PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride or PaletteState.CheckedNormal or PaletteState.Tracking or PaletteState.CheckedTracking or PaletteState.Pressed or PaletteState.CheckedPressed => PaletteColorStyle.Solid,
                 _ => throw DebugTools.NotImplemented(state.ToString())
             },
             PaletteBackStyle.ButtonAlternate or PaletteBackStyle.ButtonStandalone or PaletteBackStyle.ButtonLowProfile or PaletteBackStyle.ButtonBreadCrumb or PaletteBackStyle.ButtonListItem or PaletteBackStyle.ButtonCommand or PaletteBackStyle.ButtonButtonSpec or PaletteBackStyle.ButtonCluster or PaletteBackStyle.ButtonGallery or PaletteBackStyle.ButtonCustom1 or PaletteBackStyle.ButtonCustom2 or PaletteBackStyle.ButtonCustom3 or PaletteBackStyle.ButtonInputControl or PaletteBackStyle.ContextMenuItemHighlight => state switch
@@ -2134,9 +2133,14 @@ public abstract class PaletteMicrosoft365SilverLightModeBase : PaletteBase
             PaletteContentStyle.LabelAlternateControl or PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.ContextMenuItemImage or PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemShortcutText or PaletteContentStyle.ContextMenuItemTextAlternate => BaseColors.TextLabelControl,
             PaletteContentStyle.LabelToolTip or PaletteContentStyle.LabelSuperTip or PaletteContentStyle.LabelKeyTip => _toolTipText,
             PaletteContentStyle.ContextMenuHeading => BaseColors.ContextMenuHeadingText,
-            PaletteContentStyle.TabHighProfile or PaletteContentStyle.TabStandardProfile or PaletteContentStyle.TabLowProfile or PaletteContentStyle.TabOneNote or PaletteContentStyle.TabDock or PaletteContentStyle.TabCustom1 or PaletteContentStyle.TabCustom2 or PaletteContentStyle.TabCustom3 or PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonGallery or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 => state != PaletteState.Normal
-                ? BaseColors.TextButtonChecked
-                : BaseColors.TextButtonNormal,
+            PaletteContentStyle.TabHighProfile or PaletteContentStyle.TabStandardProfile or PaletteContentStyle.TabLowProfile or PaletteContentStyle.TabOneNote or PaletteContentStyle.TabDock or PaletteContentStyle.TabCustom1 or PaletteContentStyle.TabCustom2 or PaletteContentStyle.TabCustom3 or PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonGallery or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 => state switch
+            {
+                PaletteState.Tracking or PaletteState.CheckedTracking => BaseColors.ButtonTextTracking.IsEmpty
+                    ? BaseColors.TextButtonChecked
+                    : BaseColors.ButtonTextTracking,
+                PaletteState.Normal => BaseColors.TextButtonNormal,
+                _ => BaseColors.TextButtonChecked
+            },
             PaletteContentStyle.TabDockAutoHidden => BaseColors.TextButtonNormal,
             PaletteContentStyle.ButtonCalendarDay => state == PaletteState.Disabled ? _disabledText2 : Color.Black,
             PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonButtonSpec => state switch
@@ -2144,7 +2148,13 @@ public abstract class PaletteMicrosoft365SilverLightModeBase : PaletteBase
                 PaletteState.Normal => style == PaletteContentStyle.ButtonListItem
                     ? BaseColors.TextLabelControl
                     : BaseColors.TextLabelPanel,
-                PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => BaseColors.TextButtonChecked,
+                PaletteState.Tracking => BaseColors.ButtonTextTracking.IsEmpty
+                    ? BaseColors.TextButtonNormal
+                    : BaseColors.ButtonTextTracking,
+                PaletteState.CheckedNormal or PaletteState.CheckedPressed => BaseColors.TextButtonChecked,
+                PaletteState.CheckedTracking => BaseColors.ButtonTextTracking.IsEmpty
+                    ? BaseColors.TextButtonChecked
+                    : BaseColors.ButtonTextTracking,
                 _ => BaseColors.TextButtonNormal
             },
             PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose => state switch
@@ -2212,9 +2222,14 @@ public abstract class PaletteMicrosoft365SilverLightModeBase : PaletteBase
             PaletteContentStyle.LabelAlternateControl or PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.ContextMenuItemImage or PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemTextAlternate or PaletteContentStyle.ContextMenuItemShortcutText => BaseColors.TextLabelControl,
             PaletteContentStyle.LabelToolTip or PaletteContentStyle.LabelSuperTip or PaletteContentStyle.LabelKeyTip => _toolTipText,
             PaletteContentStyle.ContextMenuHeading => BaseColors.ContextMenuHeadingText,
-            PaletteContentStyle.TabHighProfile or PaletteContentStyle.TabStandardProfile or PaletteContentStyle.TabLowProfile or PaletteContentStyle.TabOneNote or PaletteContentStyle.TabDock or PaletteContentStyle.TabCustom1 or PaletteContentStyle.TabCustom2 or PaletteContentStyle.TabCustom3 or PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonGallery or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 => state != PaletteState.Normal
-                ? BaseColors.TextButtonChecked
-                : BaseColors.TextButtonNormal,
+            PaletteContentStyle.TabHighProfile or PaletteContentStyle.TabStandardProfile or PaletteContentStyle.TabLowProfile or PaletteContentStyle.TabOneNote or PaletteContentStyle.TabDock or PaletteContentStyle.TabCustom1 or PaletteContentStyle.TabCustom2 or PaletteContentStyle.TabCustom3 or PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonGallery or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 => state switch
+            {
+                PaletteState.Tracking or PaletteState.CheckedTracking => BaseColors.ButtonTextTracking.IsEmpty
+                    ? BaseColors.TextButtonChecked
+                    : BaseColors.ButtonTextTracking,
+                PaletteState.Normal => BaseColors.TextButtonNormal,
+                _ => BaseColors.TextButtonChecked
+            },
             PaletteContentStyle.TabDockAutoHidden => BaseColors.TextButtonNormal,
             PaletteContentStyle.ButtonCalendarDay => state == PaletteState.Disabled ? _disabledText2 : Color.Black,
             PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonButtonSpec => state switch
@@ -2222,7 +2237,13 @@ public abstract class PaletteMicrosoft365SilverLightModeBase : PaletteBase
                 PaletteState.Normal => style == PaletteContentStyle.ButtonListItem
                     ? BaseColors.TextLabelControl
                     : BaseColors.TextLabelPanel,
-                PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => BaseColors.TextButtonChecked,
+                PaletteState.Tracking => BaseColors.ButtonTextTracking.IsEmpty
+                    ? BaseColors.TextButtonNormal
+                    : BaseColors.ButtonTextTracking,
+                PaletteState.CheckedNormal or PaletteState.CheckedPressed => BaseColors.TextButtonChecked,
+                PaletteState.CheckedTracking => BaseColors.ButtonTextTracking.IsEmpty
+                    ? BaseColors.TextButtonChecked
+                    : BaseColors.ButtonTextTracking,
                 _ => BaseColors.TextButtonNormal
             },
             PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose => state switch
@@ -2612,9 +2633,14 @@ public abstract class PaletteMicrosoft365SilverLightModeBase : PaletteBase
             PaletteContentStyle.LabelAlternateControl or PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.ContextMenuItemImage or PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemShortcutText or PaletteContentStyle.ContextMenuItemTextAlternate => BaseColors.TextLabelControl,
             PaletteContentStyle.LabelToolTip or PaletteContentStyle.LabelSuperTip or PaletteContentStyle.LabelKeyTip => _toolTipText,
             PaletteContentStyle.ContextMenuHeading => BaseColors.ContextMenuHeadingText,
-            PaletteContentStyle.TabHighProfile or PaletteContentStyle.TabStandardProfile or PaletteContentStyle.TabLowProfile or PaletteContentStyle.TabOneNote or PaletteContentStyle.TabDock or PaletteContentStyle.TabCustom1 or PaletteContentStyle.TabCustom2 or PaletteContentStyle.TabCustom3 or PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonGallery or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 => state != PaletteState.Normal
-                ? BaseColors.TextButtonChecked
-                : BaseColors.TextButtonNormal,
+            PaletteContentStyle.TabHighProfile or PaletteContentStyle.TabStandardProfile or PaletteContentStyle.TabLowProfile or PaletteContentStyle.TabOneNote or PaletteContentStyle.TabDock or PaletteContentStyle.TabCustom1 or PaletteContentStyle.TabCustom2 or PaletteContentStyle.TabCustom3 or PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonGallery or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 => state switch
+            {
+                PaletteState.Tracking or PaletteState.CheckedTracking => BaseColors.ButtonTextTracking.IsEmpty
+                    ? BaseColors.TextButtonChecked
+                    : BaseColors.ButtonTextTracking,
+                PaletteState.Normal => BaseColors.TextButtonNormal,
+                _ => BaseColors.TextButtonChecked
+            },
             PaletteContentStyle.TabDockAutoHidden => BaseColors.TextButtonNormal,
             PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonButtonSpec or PaletteContentStyle.ButtonCalendarDay => state switch
             {
@@ -2688,9 +2714,14 @@ public abstract class PaletteMicrosoft365SilverLightModeBase : PaletteBase
             PaletteContentStyle.LabelAlternateControl or PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.ContextMenuItemImage or PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemTextAlternate or PaletteContentStyle.ContextMenuItemShortcutText => BaseColors.TextLabelControl,
             PaletteContentStyle.LabelToolTip or PaletteContentStyle.LabelSuperTip or PaletteContentStyle.LabelKeyTip => _toolTipText,
             PaletteContentStyle.ContextMenuHeading => BaseColors.ContextMenuHeadingText,
-            PaletteContentStyle.TabHighProfile or PaletteContentStyle.TabStandardProfile or PaletteContentStyle.TabLowProfile or PaletteContentStyle.TabOneNote or PaletteContentStyle.TabDock or PaletteContentStyle.TabCustom1 or PaletteContentStyle.TabCustom2 or PaletteContentStyle.TabCustom3 or PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonGallery or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 => state != PaletteState.Normal
-                ? BaseColors.TextButtonChecked
-                : BaseColors.TextButtonNormal,
+            PaletteContentStyle.TabHighProfile or PaletteContentStyle.TabStandardProfile or PaletteContentStyle.TabLowProfile or PaletteContentStyle.TabOneNote or PaletteContentStyle.TabDock or PaletteContentStyle.TabCustom1 or PaletteContentStyle.TabCustom2 or PaletteContentStyle.TabCustom3 or PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonGallery or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 => state switch
+            {
+                PaletteState.Tracking or PaletteState.CheckedTracking => BaseColors.ButtonTextTracking.IsEmpty
+                    ? BaseColors.TextButtonChecked
+                    : BaseColors.ButtonTextTracking,
+                PaletteState.Normal => BaseColors.TextButtonNormal,
+                _ => BaseColors.TextButtonChecked
+            },
             PaletteContentStyle.TabDockAutoHidden => BaseColors.TextButtonNormal,
             PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonButtonSpec or PaletteContentStyle.ButtonCalendarDay => state switch
             {
@@ -2996,6 +3027,8 @@ public abstract class PaletteMicrosoft365SilverLightModeBase : PaletteBase
                     return 0;
                 }
                 return Math.Max(2, owningForm!.RealWindowBorders.Right);
+            case PaletteMetricInt.HeaderButtonEdgeInsetFormRight:
+                return 0;
             case PaletteMetricInt.HeaderButtonEdgeInsetInputControl:
                 return 1;
             case PaletteMetricInt.HeaderButtonEdgeInsetPrimary:
@@ -3010,6 +3043,8 @@ public abstract class PaletteMicrosoft365SilverLightModeBase : PaletteBase
                 return 3;
             case PaletteMetricInt.None:
                 return 0;
+            case PaletteMetricInt.DropDownArrowBaseSize:
+                return 10;
             default:
                 // Should never happen!
                 Debug.Assert(false);
@@ -4117,12 +4152,17 @@ public abstract class PaletteMicrosoft365SilverLightModeBase : PaletteBase
                     _ => BaseColors.RibbonTabTextNormal
                 };
             case PaletteRibbonTextStyle.RibbonGroupCollapsedText:
-                return BaseColors.RibbonGroupCollapsedText;
+                return GetRibbonGroupTextColor(state,
+                    BaseColors.RibbonGroupTextTracking,
+                    BaseColors.RibbonGroupCollapsedText);
             case PaletteRibbonTextStyle.RibbonGroupButtonText:
             case PaletteRibbonTextStyle.RibbonGroupLabelText:
             case PaletteRibbonTextStyle.RibbonGroupCheckBoxText:
             case PaletteRibbonTextStyle.RibbonGroupRadioButtonText:
-                return state == PaletteState.Disabled ? _disabledText : BaseColors.RibbonGroupCollapsedText;
+                return GetRibbonGroupTextColor(state,
+                    BaseColors.RibbonGroupTextTracking,
+                    BaseColors.RibbonGroupCollapsedText,
+                    _disabledText);
 
             default:
                 // Should never happen!
@@ -4360,6 +4400,24 @@ public abstract class PaletteMicrosoft365SilverLightModeBase : PaletteBase
         Table ??= new KryptonColorTable365SilverLightMode(BaseColors.ToArray(), InheritBool.True, this);
 
     #endregion
+
+    protected override void OnSchemeColorChanged(SchemeBaseColors index, Color newColor)
+    {
+        if (BaseColors is not null && index == SchemeBaseColors.ButtonTextTracking)
+        {
+            BaseColors.ButtonTextTracking = newColor;
+        }
+        base.OnSchemeColorChanged(index, newColor);
+    }
+
+    protected override void OnSchemeExtraColorChanged(SchemeExtraColors index, Color newColor)
+    {
+        if (BaseColors is not null && index == SchemeExtraColors.ButtonTextTracking)
+        {
+            BaseColors.ButtonTextTracking = newColor;
+        }
+        base.OnSchemeExtraColorChanged(index, newColor);
+    }
 
     #region OnUserPreferenceChanged
 
