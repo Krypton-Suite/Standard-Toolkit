@@ -29,12 +29,12 @@ public partial class StartScreen : KryptonForm
         InitializeComponent();
 
         // Init & basic settings
-        _registryAccess = new();
+        _registryAccess = new RegistryAccess();
         _dockTopRight = false;
         _buttons = [];
         _headingComparer = new ButtonHeadingComparer();
         _panelWidth = tlpMain.Width;
-        _filterTimer = new();
+        _filterTimer = new Timer();
         _sizeAtStartup = new Size(902, 633);
         
         this.Size = _sizeAtStartup;
@@ -83,6 +83,7 @@ public partial class StartScreen : KryptonForm
         CreateButton("FlowLayoutPanel", "Test KryptonFlowLayoutPanel with dynamic control layout and flow directions.", typeof(FlowLayoutPanelTest));
         CreateButton("FileSystemWatcher", "Monitor file system changes with Krypton integration.", typeof(FileSystemWatcherTest));
         CreateButton("ErrorProvider", string.Empty, typeof(ErrorProviderTest));
+        CreateButton("File checksum (Compute && Verify)", "Compute or verify file hashes (MD5, SHA-1, SHA-256, SHA-384, SHA-512, RIPEMD-160) using the Krypton checksum dialogs.", typeof(FileCheckSumDemo));
         CreateButton("FormBorder Test", string.Empty, typeof(FormBorderTest));
         CreateButton("Header Examples", string.Empty, typeof(HeaderExamples));
         CreateButton("HelpProvider", "Test KryptonHelpProvider functionality", typeof(HelpProviderTest));
@@ -133,7 +134,7 @@ public partial class StartScreen : KryptonForm
         CreateButton("TextSuggestion", string.Empty, typeof(TextSuggestionDemo));
         CreateButton("TreeView", string.Empty, typeof(TreeViewExample));
         CreateButton("Touchscreen Support Test", "Comprehensive demonstration of touchscreen support with real-time scale factor adjustment.", typeof(TouchscreenSupportTest));
-        CreateButton("Controlbox & Context Menu Touchscreen", "Demonstration of touchscreen support for controlbox buttons (minimize, maximize, close) and KryptonContextMenu items (Issue #2925).", typeof(ControlboxTouchscreenDemo)); 
+        CreateButton("Controlbox && Context Menu Touchscreen", "Demonstration of touchscreen support for controlbox buttons (minimize, maximize, close) and KryptonContextMenu items (Issue #2925).", typeof(ControlboxTouchscreenDemo)); 
         CreateButton("Timer", "Test KryptonTimer with interval configuration and event tracking.", typeof(TimerTest));
         CreateButton("Panel Form", string.Empty, typeof(PanelForm));
         CreateButton("Palette Viewer", string.Empty, typeof(PaletteViewerForm));
