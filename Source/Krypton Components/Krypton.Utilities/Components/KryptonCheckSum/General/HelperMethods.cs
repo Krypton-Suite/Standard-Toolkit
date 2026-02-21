@@ -1,20 +1,32 @@
-﻿#region BSD License
+﻿#region MIT License
 /*
+ * MIT License
  *
- *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp), Simon Coghlan(aka Smurf-IV), Giduac, et al. 2026 - 2026. All rights reserved.
+ * Copyright (c) 2017 - 2026 Krypton Suite
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  *
  */
 #endregion
 
 namespace Krypton.Utilities;
 
-/// <summary>
-/// Provides utility methods and properties for working with hash algorithms and checksum validation.
-/// </summary>
-/// <remarks>The class exposes supported hash algorithm types and includes methods for populating UI elements and
-/// validating checksums. It is intended for use in scenarios where hash algorithm selection and checksum comparison are
-/// required.</remarks>
 public class HelperMethods
 {
     #region Instance Fields
@@ -27,29 +39,13 @@ public class HelperMethods
 
     #region Public
 
-    /// <summary>
-    /// Gets the collection of supported hash algorithm type names.
-    /// </summary>
     public string[] HashTypes => _hashTypes;
 
-    /// <summary>
-    /// Gets the list of hash algorithm names supported by .NET and newer cryptographic providers.
-    /// </summary>
-    /// <remarks>Use this property to determine which hash types are compatible with .NET and similar
-    /// modern providers. The returned array may be empty if no supported hash types are available.</remarks>
     public string[] SafeNetAndNewerHashTypes => _safeNETAndNewerHashTypes;
 
     #endregion
 
     #region Implementation
-
-    /// <summary>
-    /// Populates the specified combo box with available hash algorithm types.
-    /// </summary>
-    /// <remarks>The set of hash types added depends on the target .NET version. On .NET 8.0 or greater, newer
-    /// hash types are included. This method is typically used to provide users with a selection of supported hash
-    /// algorithms in UI scenarios.</remarks>
-    /// <param name="hashBox">The combo box to be filled with hash algorithm options. Cannot be null.</param>
     public static void PropagateHashBox(KryptonComboBox hashBox)
     {
         HelperMethods helperMethods = new HelperMethods();
@@ -67,15 +63,6 @@ public class HelperMethods
 #endif
     }
 
-    /// <summary>
-    /// Determines whether two checksum strings are equal using a case-insensitive comparison.
-    /// </summary>
-    /// <remarks>Comparison is performed using ordinal, case-insensitive semantics. Both parameters must be
-    /// non-null to avoid exceptions.</remarks>
-    /// <param name="fileCheckSum">The checksum string to validate. Cannot be null.</param>
-    /// <param name="checkSumToCompare">The checksum string to compare against. Cannot be null.</param>
-    /// <returns>true if the checksum strings are equal, ignoring case; otherwise, false.</returns>
     public static bool IsValid(string fileCheckSum, string checkSumToCompare) => string.Equals(fileCheckSum, checkSumToCompare, StringComparison.OrdinalIgnoreCase);
-
     #endregion
 }
