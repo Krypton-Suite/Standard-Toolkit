@@ -92,18 +92,18 @@
             this.ss.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tslStatus,
             this.kpbtsiCalculationProgress});
-            this.ss.Location = new System.Drawing.Point(0, 305);
+            this.ss.Location = new System.Drawing.Point(0, 307);
             this.ss.Name = "ss";
             this.ss.ProgressBars = null;
             this.ss.RenderMode = System.Windows.Forms.ToolStripRenderMode.ManagerRenderMode;
-            this.ss.Size = new System.Drawing.Size(689, 24);
+            this.ss.Size = new System.Drawing.Size(689, 22);
             this.ss.TabIndex = 4;
             this.ss.Text = "statusStrip1";
             // 
             // tslStatus
             // 
             this.tslStatus.Name = "tslStatus";
-            this.tslStatus.Size = new System.Drawing.Size(543, 19);
+            this.tslStatus.Size = new System.Drawing.Size(674, 17);
             this.tslStatus.Spring = true;
             this.tslStatus.Text = "Ready";
             this.tslStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -173,7 +173,7 @@
             this.kryptonPanel1.Controls.Add(this.kryptonBorderEdge1);
             this.kryptonPanel1.Controls.Add(this.kbtnCancel);
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.kryptonPanel1.Location = new System.Drawing.Point(0, 255);
+            this.kryptonPanel1.Location = new System.Drawing.Point(0, 257);
             this.kryptonPanel1.Name = "kryptonPanel1";
             this.kryptonPanel1.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelAlternate;
             this.kryptonPanel1.Size = new System.Drawing.Size(689, 50);
@@ -181,7 +181,6 @@
             // 
             // kbtnVerify
             // 
-            this.kbtnVerify.DialogResult = System.Windows.Forms.DialogResult.None;
             this.kbtnVerify.Enabled = false;
             this.kbtnVerify.Location = new System.Drawing.Point(491, 13);
             this.kbtnVerify.Name = "kbtnVerify";
@@ -202,7 +201,7 @@
             // 
             // kbtnCancel
             // 
-            this.kbtnCancel.DialogResult = System.Windows.Forms.DialogResult.None;
+            this.kbtnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.kbtnCancel.Location = new System.Drawing.Point(587, 13);
             this.kbtnCancel.Name = "kbtnCancel";
             this.kbtnCancel.Size = new System.Drawing.Size(90, 25);
@@ -217,7 +216,7 @@
             this.kryptonPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel2.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel2.Name = "kryptonPanel2";
-            this.kryptonPanel2.Size = new System.Drawing.Size(689, 255);
+            this.kryptonPanel2.Size = new System.Drawing.Size(689, 257);
             this.kryptonPanel2.TabIndex = 1;
             // 
             // tableLayoutPanel1
@@ -243,7 +242,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(689, 255);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(689, 257);
             this.tableLayoutPanel1.TabIndex = 2;
             // 
             // kryptonWrapLabel1
@@ -312,7 +311,7 @@
             // kryptonGroupBox1.Panel
             // 
             this.kryptonGroupBox1.Panel.Controls.Add(this.kwlHashOutput);
-            this.kryptonGroupBox1.Size = new System.Drawing.Size(683, 91);
+            this.kryptonGroupBox1.Size = new System.Drawing.Size(683, 92);
             this.kryptonGroupBox1.TabIndex = 5;
             this.kryptonGroupBox1.Values.Heading = "CheckSum Output";
             // 
@@ -323,19 +322,19 @@
             this.kwlHashOutput.LabelStyle = Krypton.Toolkit.LabelStyle.TitlePanel;
             this.kwlHashOutput.Location = new System.Drawing.Point(0, 0);
             this.kwlHashOutput.Name = "kwlHashOutput";
-            this.kwlHashOutput.Size = new System.Drawing.Size(679, 67);
+            this.kwlHashOutput.Size = new System.Drawing.Size(679, 68);
             this.kwlHashOutput.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // kryptonGroupBox2
             // 
             this.tableLayoutPanel1.SetColumnSpan(this.kryptonGroupBox2, 3);
             this.kryptonGroupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.kryptonGroupBox2.Location = new System.Drawing.Point(3, 161);
+            this.kryptonGroupBox2.Location = new System.Drawing.Point(3, 162);
             // 
             // kryptonGroupBox2.Panel
             // 
             this.kryptonGroupBox2.Panel.Controls.Add(this.ktxtVarifyCheckSum);
-            this.kryptonGroupBox2.Size = new System.Drawing.Size(683, 91);
+            this.kryptonGroupBox2.Size = new System.Drawing.Size(683, 92);
             this.kryptonGroupBox2.TabIndex = 6;
             this.kryptonGroupBox2.Values.Heading = "Verify CheckSum";
             // 
@@ -419,7 +418,6 @@
             // 
             // kbtnCalculate
             // 
-            this.kbtnCalculate.DialogResult = System.Windows.Forms.DialogResult.None;
             this.kbtnCalculate.Location = new System.Drawing.Point(315, 33);
             this.kbtnCalculate.Name = "kbtnCalculate";
             this.kbtnCalculate.Size = new System.Drawing.Size(90, 25);
