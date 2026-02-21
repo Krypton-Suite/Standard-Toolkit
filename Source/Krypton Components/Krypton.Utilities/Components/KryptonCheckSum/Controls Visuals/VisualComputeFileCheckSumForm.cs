@@ -1,15 +1,21 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+#region BSD License
+/*
+ *
+ *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner(aka Wagnerp), Simon Coghlan(aka Smurf-IV), Giduac, et al. 2026 - 2026. All rights reserved.
+ *
+ */
+#endregion
 
 namespace Krypton.Utilities;
 
+/// <summary>
+/// Represents a form that enables users to compute and display file checksums using selectable hash algorithms.
+/// </summary>
+/// <remarks>This form provides a graphical interface for selecting a file and computing its hash using supported
+/// algorithms, including options for .NET and newer hash types. It is intended for use within applications that require
+/// file integrity verification or hash calculation. The form supports cancellation and progress reporting for
+/// long-running hash operations.</remarks>
 internal partial class VisualComputeFileCheckSumForm : KryptonForm
 {
     #region Instance Fields
