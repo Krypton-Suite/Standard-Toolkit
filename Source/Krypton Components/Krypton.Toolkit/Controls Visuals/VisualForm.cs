@@ -1255,10 +1255,40 @@ public abstract class VisualForm : Form,
             PI.MONITORINFO monitorInfo = PI.GetMonitorInfo(monitor);
             PI.RECT rcWorkArea = monitorInfo.rcWork;
             PI.RECT rcMonitorArea = monitorInfo.rcMonitor;
-            mmi.ptMaxPosition.X = Math.Abs(rcWorkArea.left - rcMonitorArea.left);
-            mmi.ptMaxPosition.Y = Math.Abs(rcWorkArea.top - rcMonitorArea.top);
-            mmi.ptMaxSize.X = Math.Abs(rcWorkArea.right - rcWorkArea.left);
-            mmi.ptMaxSize.Y = Math.Abs(rcWorkArea.bottom - rcWorkArea.top);
+
+            // Measure the invisible DWM extended frame dynamically so the maximized window's
+            // visible surface fills the work area exactly. The frame size varies with:
+            //   - OS/DPI: Windows 10+ typically adds 7-9px per side at 100-125% DPI
+            //   - High Contrast / classic theme: DWM composition is off → frame is zero
+            //   - Kiosk / custom shell modes: may suppress or reduce the frame
+            // We compare GetWindowRect (outer rect including invisible frame) with
+            // DwmGetWindowAttribute(ExtendedFrameBounds) (visible rect only) to get exact values.
+            int frameLeft = 0, frameRight = 0, frameTop = 0, frameBottom = 0;
+
+            if (m.HWnd != IntPtr.Zero && PI.Dwm.IsCompositionEnabled())
+            {
+                var winRect = new PI.RECT();
+                if (PI.GetWindowRect(m.HWnd, ref winRect))
+                {
+                    Rectangle visibleRect = PI.Dwm.DwmGetWindowRect(m.HWnd);
+                    if (!visibleRect.IsEmpty)
+                    {
+                        frameLeft = Math.Max(0, visibleRect.Left - winRect.left);
+                        frameTop = Math.Max(0, visibleRect.Top - winRect.top);
+                        frameRight = Math.Max(0, winRect.right  - visibleRect.Right);
+                        frameBottom = Math.Max(0, winRect.bottom - visibleRect.Bottom);
+                    }
+                }
+            }
+
+            // Shift ptMaxPosition inward by the frame so the invisible border lies off-screen,
+            // and extend ptMaxSize so the visible surface fills the work area edge-to-edge.
+            int workOffsetX = rcWorkArea.left - rcMonitorArea.left;
+            int workOffsetY = rcWorkArea.top  - rcMonitorArea.top;
+            mmi.ptMaxPosition.X = workOffsetX - frameLeft;
+            mmi.ptMaxPosition.Y = workOffsetY - frameTop;
+            mmi.ptMaxSize.X = (rcWorkArea.right  - rcWorkArea.left) + frameLeft + frameRight;
+            mmi.ptMaxSize.Y = (rcWorkArea.bottom - rcWorkArea.top) + frameTop  + frameBottom;
             // https://github.com/Krypton-Suite/Standard-Toolkit/issues/415 so changed to "* 3 / 2"
             mmi.ptMinTrackSize.X = Math.Max(mmi.ptMinTrackSize.X * 3 / 2, MinimumSize.Width);
             mmi.ptMinTrackSize.Y = Math.Max(mmi.ptMinTrackSize.Y * 2, MinimumSize.Height);
