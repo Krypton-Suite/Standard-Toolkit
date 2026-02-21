@@ -1719,12 +1719,6 @@ public class KryptonForm : VisualForm,
         // Let default processing run first
         base.WndProc(ref m);
 
-        // Ensure maximized window fits within the monitor's working area (no -8 offset, height/width not exceeding work area)
-        if (m.Msg == (int)PI.WM_.GETMINMAXINFO)
-        {
-            ConstrainMaximizedBoundsToWorkArea(ref m);
-        }
-
         // After the client has painted, draw our grip overlay last so it isn't erased
         if (m.Msg == WM_PAINT)
         {
@@ -1732,32 +1726,29 @@ public class KryptonForm : VisualForm,
         }
     }
 
-    /// <summary>
-    /// Constrains the maximized window size and position to the monitor's working area.
-    /// Prevents Left/Top at -8 and height/width exceeding working area when maximized.
-    /// </summary>
-    private static void ConstrainMaximizedBoundsToWorkArea(ref Message m)
+    protected override bool OnWM_NCLBUTTONDBLCLK(ref Message m)
     {
-        const int MONITOR_DEFAULT_TO_NEAREST = 0x00000002;
+        using var context = new ViewLayoutContext(this, Renderer);
 
-        IntPtr monitor = PI.MonitorFromWindow(m.HWnd, MONITOR_DEFAULT_TO_NEAREST);
-        if (monitor == IntPtr.Zero)
+        // Discover if the form icon is being Displayed
+        if (_drawContent.IsImageDisplayed(context))
         {
-            return;
+            // Extract the point in screen coordinates
+            var screenPoint = new Point((int)m.LParam.ToInt64());
+
+            // Convert to window coordinates
+            Point windowPoint = ScreenToWindow(screenPoint);
+
+            // Is the mouse over the image area
+            if (_drawContent.ImageRectangle(context).Contains(windowPoint))
+            {
+                // Double click on the system menu icon (ControlBox) should close the window
+                SendSysCommand(PI.SC_.CLOSE);
+                return true;
+            }
         }
 
-        PI.MONITORINFO mi = PI.GetMonitorInfo(monitor);
-        int workWidth = mi.rcWork.right - mi.rcWork.left;
-        int workHeight = mi.rcWork.bottom - mi.rcWork.top;
-        int maxX = Math.Abs(mi.rcWork.left - mi.rcMonitor.left);
-        int maxY = Math.Abs(mi.rcWork.top - mi.rcMonitor.top);
-
-        PI.MINMAXINFO mmi = (PI.MINMAXINFO)Marshal.PtrToStructure(m.LParam, typeof(PI.MINMAXINFO))!;
-        mmi.ptMaxPosition.X = maxX;
-        mmi.ptMaxPosition.Y = maxY;
-        mmi.ptMaxSize.X = workWidth;
-        mmi.ptMaxSize.Y = workHeight;
-        Marshal.StructureToPtr(mmi, m.LParam, false);
+        return base.OnWM_NCLBUTTONDBLCLK(ref m);
     }
 
     private void DrawSizingGripOverlayIfNeeded()

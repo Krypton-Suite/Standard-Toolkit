@@ -4,6 +4,7 @@
 
 ## 2026-04-20 - Build 2604 (Version 105-LTS - Patch 2) - April 2026
 
+* Resolved [#3031](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3031), Maximized form's size exceeds the screen's working area
 * Implemented [#3075](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3075), Tooltips with extended/infinite timeout
 * Resolved [#3011](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3011), Cannot drag maximized form from the top (once again)
 * Resolved [#2922](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2922), WinForms borderless form briefly displays system title bar on startup
