@@ -777,13 +777,16 @@ public static class KryptonMessageBoxExtended
     /// <param name="optionalCheckBoxText">The optional CheckBox text.</param>
     /// <param name="useOptionalCheckBoxThreeState">State of the use optional CheckBox three.</param>
     /// <param name="useTimeOut">The use time out.</param>
-    /// <param name="timeOut">The time out.</param>
+    /// <param name="timeOut">The time-out.</param>
     /// <param name="timeOutInterval">Sets the interval of the 'time out' timer. Default is 1000.</param>
     /// <param name="timerResult">The timer result.</param>
     /// <param name="footerText">The text to display in the expandable footer. If null or empty, footer will not be shown (unless footerContentType is CheckBox).</param>
     /// <param name="footerExpanded">If true, the footer will be expanded by default; otherwise, it will be collapsed.</param>
     /// <param name="footerContentType">The type of content to display in the footer (Text, CheckBox, or RichTextBox).</param>
     /// <param name="footerRichTextBoxHeight">The height for the RichTextBox when footerContentType is RichTextBox. If null, uses default height.</param>
+    /// <param name="countdownButton">The countdown button.</param>
+    /// <param name="countdownButtonSeconds">The countdown button seconds.</param>
+    /// <param name="countdownButtonDialogResult">The countdown button dialog result.</param>
     /// <returns>
     ///   <br />
     /// </returns>
