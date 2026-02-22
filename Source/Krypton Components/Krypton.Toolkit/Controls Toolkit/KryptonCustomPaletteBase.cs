@@ -2077,7 +2077,7 @@ public class KryptonCustomPaletteBase : PaletteBase
                 paletteFileName = kofd.FileName;
 
                 // Set the theme name to the file name
-                PaletteName = paletteFileName;
+                PaletteName = Path.GetFileNameWithoutExtension(paletteFileName);
             }
         }
         else
@@ -2096,7 +2096,7 @@ public class KryptonCustomPaletteBase : PaletteBase
                 paletteFileName = dialog.FileName;
 
                 // Set the theme name to the file name
-                PaletteName = paletteFileName;
+                PaletteName = Path.GetFileNameWithoutExtension(paletteFileName);
             }
         }
         if (!string.IsNullOrWhiteSpace(paletteFileName))
@@ -2127,7 +2127,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             paletteFileName = dialog.FileName;
 
             // Set the theme name to the file name
-            PaletteName = paletteFileName;
+            PaletteName = Path.GetFileNameWithoutExtension(paletteFileName);
         }
 
         if (!string.IsNullOrWhiteSpace(paletteFileName))
@@ -2460,7 +2460,7 @@ public class KryptonCustomPaletteBase : PaletteBase
                 SetCustomisedKryptonPaletteFilePath(Path.GetFullPath(ksfd.FileName));
 
                 // Set the theme name to the file name
-                PaletteName = ksfd.FileName;
+                PaletteName = Path.GetFileNameWithoutExtension(ksfd.FileName);
 
                 return Export(ksfd.FileName, true, false);
             }
@@ -2480,7 +2480,7 @@ public class KryptonCustomPaletteBase : PaletteBase
                 SetCustomisedKryptonPaletteFilePath(Path.GetFullPath(dialog.FileName));
 
                 // Set the theme name to the file name
-                PaletteName = dialog.FileName;
+                PaletteName = Path.GetFileNameWithoutExtension(dialog.FileName);
 
                 // Use the existing export overload that takes the target name
                 return Export(dialog.FileName, true, false);
@@ -2507,7 +2507,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             SetCustomisedKryptonPaletteFilePath(Path.GetFullPath(dialog.FileName));
 
             // Set the theme name to the file name
-            PaletteName = dialog.FileName;
+            PaletteName = Path.GetFileNameWithoutExtension(dialog.FileName);
 
             // Use the existing export overload that takes the target name
             return Export(dialog.FileName, true, false);
