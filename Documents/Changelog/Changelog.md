@@ -5,6 +5,7 @@
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
 * Resolved [#3093](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3093), NullReferenceException in `KryptonWorkspace.SeparatorCanMove`
+* Resolved [#3103](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3103), Name of the theme is not being serialized in XML files
 * Implemented [#3073](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3073), Bring over the file hashing/verification utility
 	- To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this feature is part of the `Krypton.Utilities` assembly.
 * Implemented [#3075](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3075), Tooltips with extended/infinite timeout
