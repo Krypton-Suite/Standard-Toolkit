@@ -1393,8 +1393,8 @@ public class KryptonHScrollBar : Control
         // Create KryptonContextMenu items
         _kcmScrollHere = new KryptonContextMenuItem(KryptonManager.Strings.ScrollBarStrings.ScrollHere, ScrollHereClick);
         _kcmSeparator1 = new KryptonContextMenuSeparator();
-        _kcmLeft = new KryptonContextMenuItem(nameof(Left), LeftClick);
-        _kcmRight = new KryptonContextMenuItem(nameof(Right), RightClick);
+        _kcmLeft = new KryptonContextMenuItem(KryptonManager.Strings.ScrollBarStrings.Left, LeftClick);
+        _kcmRight = new KryptonContextMenuItem(KryptonManager.Strings.ScrollBarStrings.Right, RightClick);
         _kcmSeparator2 = new KryptonContextMenuSeparator();
         _kcmLargeLeft = new KryptonContextMenuItem(KryptonManager.Strings.ScrollBarStrings.PageLeft, LargeLeftClick);
         _kcmLargeRight = new KryptonContextMenuItem(KryptonManager.Strings.ScrollBarStrings.PageRight, LargeRightClick);
