@@ -782,6 +782,7 @@ public class KryptonNumericUpDown : VisualControlBase,
     private bool _alwaysActive;
     private bool _trackingMouseEnter;
     private bool _autoSize;
+    private int _cachedHeight;
     private Graphics? _graphics;
 
     #endregion
@@ -873,6 +874,7 @@ public class KryptonNumericUpDown : VisualControlBase,
         _upDownButtonStyle = ButtonStyle.InputControl;
         _alwaysActive = true;
         _autoSize = false;
+        _cachedHeight = -1;
         _graphics = null;
         AllowButtonSpecToolTips = false;
         AllowButtonSpecToolTipPriority = false;
@@ -1540,6 +1542,11 @@ public class KryptonNumericUpDown : VisualControlBase,
                 retSize.Height = Math.Max(MinimumSize.Height, retSize.Height);
             }
 
+            if (MinimumControlHeight > 0)
+            {
+                retSize.Height = Math.Max(MinimumControlHeight, retSize.Height);
+            }
+
             return retSize;
         }
         else
@@ -1865,22 +1872,25 @@ public class KryptonNumericUpDown : VisualControlBase,
         int width, int height,
         BoundsSpecified specified)
     {
-        // Get the preferred size of the entire control
-        Size preferredSize = GetPreferredSize(new Size(int.MaxValue, int.MaxValue));
-
         // If setting the actual height
-        if (specified.HasFlag(BoundsSpecified.Height))
+        if ((specified & BoundsSpecified.Height) == BoundsSpecified.Height)
         {
+            if (_cachedHeight == -1)
+            {
+                _cachedHeight = height;
+            }
+
             // Override the actual height used
-            height = preferredSize.Height;
+            height = PreferredHeight;
         }
+
+        if ((specified & BoundsSpecified.Height) == BoundsSpecified.Height)
+        {
+            _cachedHeight = height;
+        }
+
         // Do not do the following otherwise the designer will not allow width to be set!
         // https://github.com/Krypton-Suite/Standard-Toolkit/issues/724
-        //if (specified.HasFlag(BoundsSpecified.Width))
-        //{
-        //    // Override the actual Width used
-        //    width = preferredSize.Width;
-        //}
         base.SetBoundsCore(x, y, width, height, specified);
     }
 
@@ -2202,7 +2212,7 @@ public class KryptonNumericUpDown : VisualControlBase,
 
                     if (AllowButtonSpecToolTipPriority)
                     {
-                        visualBasePopupToolTip?.Dispose();
+                        _visualBasePopupToolTip?.Dispose();
                     }
 
                     // Create the actual tooltip popup object
