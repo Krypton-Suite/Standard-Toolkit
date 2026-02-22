@@ -20,14 +20,31 @@ namespace Krypton.Toolkit;
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public class ToolTipValues : HeaderValues
 {
+    #region Instance Fields
+
     private int _showIntervalDelay = 500;
     private int _closeIntervalDelay = 5000;
     private LabelStyle _toolTipStyle = LabelStyle.SuperTip;
 
+    #endregion
+
+    #region Events
+
+    /// <summary>Raised when <see cref="ShowIntervalDelay"/> changes.</summary>
+    public event EventHandler? ShowIntervalDelayChanged;
+
+    /// <summary>Raised when <see cref="CloseIntervalDelay"/> changes.</summary>
+    public event EventHandler? CloseIntervalDelayChanged;
+
+    #endregion
+
+    #region Identity
+
     /// <summary>
+    /// Initializes a new instance of the ToolTipValues class with the specified paint notification handler and DPI factor provider.
     /// </summary>
-    /// <param name="needPaint"></param>
-    /// <param name="getDpiFactor"></param>
+    /// <param name="needPaint">A delegate used to notify when a repaint is required. Can be null if paint notifications are not needed.</param>
+    /// <param name="getDpiFactor">A delegate that provides the current DPI scaling factor for rendering.</param>
     public ToolTipValues(NeedPaintHandler? needPaint, GetDpiFactor getDpiFactor)
         : base(needPaint, getDpiFactor)
     {
@@ -35,8 +52,16 @@ public class ToolTipValues : HeaderValues
         ToolTipPosition = new PopupPositionValues();
     }
 
+    #endregion
+
+    #region Protected Overrides
+
     /// <inheritdoc />
     protected override Image? GetImageDefault() => null;
+
+    #endregion
+
+    #region Public
 
     #region EnableToolTips
     /// <summary>
@@ -115,8 +140,12 @@ public class ToolTipValues : HeaderValues
                 value = 1;
             }
 
-            _showIntervalDelay = value;
-            // TODO: Raise an event to cause the tooltipMgr to update !
+            if (_showIntervalDelay != value)
+            {
+                _showIntervalDelay = value;
+
+                ShowIntervalDelayChanged?.Invoke(this, EventArgs.Empty);
+            }
         }
     }
 
@@ -132,7 +161,7 @@ public class ToolTipValues : HeaderValues
     /// Use 0 for infinite display (tooltip stays until the pointer leaves the control).
     /// </summary>
     [Category(@"ToolTip")]
-    [Description(@"Interval (in millisecs) before a tooltip is closed. Use 0 for infinite.\n[Currently ONLY designer values used]")]
+    [Description("Interval (in millisecs) before a tooltip is closed. Use 0 for infinite.\n[Currently ONLY designer values used]")]
     [DefaultValue(5000)]
     public int CloseIntervalDelay
     {
@@ -145,14 +174,20 @@ public class ToolTipValues : HeaderValues
                 value = 0;
             }
 
-            _closeIntervalDelay = value;
-            // TODO: Raise an event to cause the tooltipMgr to update !
+            if (_closeIntervalDelay != value)
+            {
+                _closeIntervalDelay = value;
+
+                CloseIntervalDelayChanged?.Invoke(this, EventArgs.Empty);
+            }
         }
     }
 
     private bool ShouldSerializeCloseIntervalDelay() => _closeIntervalDelay != 5000;
 
     private void ResetCloseIntervalDelay() => CloseIntervalDelay = 5000;
+
+    #endregion
 
     #endregion
 
