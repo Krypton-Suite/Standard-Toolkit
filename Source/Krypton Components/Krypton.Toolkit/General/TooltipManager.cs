@@ -44,7 +44,6 @@ public class ToolTipManager
     /// </summary>
     public ToolTipManager(ToolTipValues toolTipValues)
     {
-        // TODO: Setup callbacks when the interval are changed programmatically
         _startTimer = new System.Windows.Forms.Timer
         {
             Interval = toolTipValues.ShowIntervalDelay
@@ -61,7 +60,12 @@ public class ToolTipManager
         {
             Interval = 100 // ReShowDelay
         };
+     
         _detectMoveTimer.Tick += OnStopDetectMoveTimerTick;
+
+        toolTipValues.ShowIntervalDelayChanged += OnShowIntervalDelayChanged;
+
+        toolTipValues.CloseIntervalDelayChanged += OnCloseIntervalDelayChanged;
     }
 
     #endregion
@@ -323,6 +327,23 @@ public class ToolTipManager
         _closeTimer.Stop();
         OnCancelToolTip();
     }
+
+    private void OnShowIntervalDelayChanged(object? sender, EventArgs e)
+    {
+        if (sender is ToolTipValues values)
+        {
+            ShowInterval = values.ShowIntervalDelay;
+        }
+    }
+
+    private void OnCloseIntervalDelayChanged(object? sender, EventArgs e)
+    {
+        if (sender is ToolTipValues values)
+        {
+            CloseInterval = values.CloseIntervalDelay;
+        }
+    }
+
 
     #endregion
 }
