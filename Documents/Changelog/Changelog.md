@@ -5,6 +5,7 @@
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
 * Resolved [#3031](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3031), Maximized form's size exceeds the screen's working area
+* Resolved [#3101](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3101), Colors in theme exporting XMLs is missing
 * Implemented [#2597](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2597), Use the `KryptonContextMenu` in `KryptonHScrollBar` & `KryptonVScrollBar`
 * Resolved [#3103](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3103), Name of the theme is not being serialized in XML files
 * Implemented [#3073](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3073), Bring over the file hashing/verification utility
