@@ -1,7 +1,7 @@
 ﻿#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2026. All rights reserved.
  */
 #endregion
 
@@ -83,6 +83,7 @@ public class PaletteRibbonFileAppTab : Storage, IPaletteRibbonFileAppTab
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Ribbon app button dark color.")]
+    [DefaultValue(typeof(Color),  "31, 72, 161")]
     [RefreshProperties(RefreshProperties.All)]
     public Color RibbonFileAppTabBottomColor
     {
@@ -113,6 +114,7 @@ public class PaletteRibbonFileAppTab : Storage, IPaletteRibbonFileAppTab
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Ribbon app button light color.")]
+    [DefaultValue(typeof(Color), "84, 158, 243")]
     [RefreshProperties(RefreshProperties.All)]
     public Color RibbonFileAppTabTopColor
     {
@@ -145,6 +147,7 @@ public class PaletteRibbonFileAppTab : Storage, IPaletteRibbonFileAppTab
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Ribbon app button text color.")]
+    [DefaultValue(typeof(Color), "White")]
     [RefreshProperties(RefreshProperties.All)]
     public Color RibbonFileAppTabTextColor
     {
