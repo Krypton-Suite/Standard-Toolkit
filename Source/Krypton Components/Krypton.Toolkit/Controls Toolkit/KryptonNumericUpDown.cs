@@ -1829,19 +1829,25 @@ public class KryptonNumericUpDown : VisualControlBase,
         int width, int height,
         BoundsSpecified specified)
     {
+        // Changed from inline GetPreferredSize() to the same pattern as KryptonComboBox,
+        // KryptonDateTimePicker, and KryptonDomainUpDown: cache incoming height on first set,
+        // then always override to PreferredHeight (which honours MinimumControlHeight).
+        // See https://github.com/Krypton-Suite/Standard-Toolkit/issues/615
         // If setting the actual height
         if ((specified & BoundsSpecified.Height) == BoundsSpecified.Height)
         {
-            // Override the actual height used
-            height = PreferredHeight;
-        }
+            // First time the height is set, remember it
+            if (_cachedHeight == -1)
+            {
+                _cachedHeight = height;
+            }
 
-        if ((specified & BoundsSpecified.Height) == BoundsSpecified.Height)
-        {
+            // Override the actual height used and cache it for later
+            height = PreferredHeight;
             _cachedHeight = height;
         }
 
-        // Do not do the following otherwise the designer will not allow width to be set!
+        // Do not override width to allow designer width to be set freely.
         // https://github.com/Krypton-Suite/Standard-Toolkit/issues/724
         base.SetBoundsCore(x, y, width, height, specified);
     }
