@@ -3531,8 +3531,8 @@ namespace Krypton.Toolkit
                             {
                                 var defaultAttribs = prop.GetCustomAttributes(typeof(DefaultValueAttribute), false);
 
-                                // Does this property have a default value attribute?
-                                if (defaultAttribs.Length == 1)
+                                // Use the first one found (KryptonDefaultColor is a DefaultValueAttribute subclass)
+                                if (defaultAttribs.Length >= 1)
                                 {
                                     // Cast to correct type
                                     var defaultAttrib = (DefaultValueAttribute)defaultAttribs[0];
@@ -3692,8 +3692,8 @@ namespace Krypton.Toolkit
                                 {
                                     var defaultAttribs = prop.GetCustomAttributes(typeof(DefaultValueAttribute), false);
 
-                                    // Does this property have a default value attribute?
-                                    if (defaultAttribs.Length == 1)
+                                    // Does this property have at least one default value attribute?
+                                    if (defaultAttribs.Length >= 1)
                                     {
                                         // Cast to correct type
                                         var defaultAttrib = (DefaultValueAttribute)defaultAttribs[0];
