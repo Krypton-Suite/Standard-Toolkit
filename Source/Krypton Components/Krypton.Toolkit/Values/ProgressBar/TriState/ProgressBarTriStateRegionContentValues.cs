@@ -56,7 +56,6 @@ public class ProgressBarTriStateRegionContentValues : Storage
 
     [Category(@"Visuals")]
     [Description(@"First text/content color. Empty uses default or opposite when UseOppositeTextColors is enabled.")]
-    [DefaultValue(typeof(Color), nameof(Color.Empty))]
     [KryptonDefaultColor]
     public Color Color1
     {
@@ -75,7 +74,6 @@ public class ProgressBarTriStateRegionContentValues : Storage
 
     [Category(@"Visuals")]
     [Description(@"Second text/content color. Empty uses default.")]
-    [DefaultValue(typeof(Color), nameof(Color.Empty))]
     [KryptonDefaultColor]
     public Color Color2
     {

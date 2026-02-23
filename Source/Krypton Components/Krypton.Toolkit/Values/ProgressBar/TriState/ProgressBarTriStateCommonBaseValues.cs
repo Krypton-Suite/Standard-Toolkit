@@ -72,7 +72,6 @@ public class ProgressBarTriStateCommonBaseValues : Storage
 
     [Category(@"Visuals")]
     [Description(@"First background color. Empty uses default.")]
-    [DefaultValue(typeof(Color), nameof(Color.Empty))]
     [KryptonDefaultColor]
     public Color BackColor1
     {
@@ -82,7 +81,6 @@ public class ProgressBarTriStateCommonBaseValues : Storage
 
     [Category(@"Visuals")]
     [Description(@"Second background color. Empty uses default.")]
-    [DefaultValue(typeof(Color), nameof(Color.Empty))]
     [KryptonDefaultColor]
     public Color BackColor2
     {
@@ -154,7 +152,6 @@ public class ProgressBarTriStateCommonBaseValues : Storage
 
     [Category(@"Visuals")]
     [Description(@"First text color. Empty uses default.")]
-    [DefaultValue(typeof(Color), nameof(Color.Empty))]
     [KryptonDefaultColor]
     public Color TextColor1
     {
@@ -164,7 +161,6 @@ public class ProgressBarTriStateCommonBaseValues : Storage
 
     [Category(@"Visuals")]
     [Description(@"Second text color. Empty uses default.")]
-    [DefaultValue(typeof(Color), nameof(Color.Empty))]
     [KryptonDefaultColor]
     public Color TextColor2
     {
