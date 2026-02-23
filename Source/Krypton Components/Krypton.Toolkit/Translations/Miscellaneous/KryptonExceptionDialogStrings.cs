@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp), Simon Coghlan(aka Smurf-IV), Giduac, et al. 2024 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp), Simon Coghlan(aka Smurf-IV), Giduac, et al. 2024 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -34,6 +34,9 @@ public class KryptonExceptionDialogStrings : GlobalId
     private const string DEFAULT_EXCEPTION_DIALOG_RESULTS_FOUND_APPENDAGE = @"found";
     private const string DEFAULT_EXCEPTION_DIALOG_NO_MATCHES_FOUND = @"No matches found.";
     private const string DEFAULT_EXCEPTION_DIALOG_TYPE_TO_SEARCH = @"Type to search...";
+    private const string DEFAULT_EXCEPTION_DIALOG_REPORT_BUG_BUTTON_TEXT = @"Report Bug";
+    private const string DEFAULT_EXCEPTION_DIALOG_REPORT_BUG_ON_GITHUB_BUTTON_TEXT = @"Report Bug on GitHub";
+    private const string DEFAULT_EXCEPTION_DIALOG_COPY_DETAILS_BUTTON_TEXT = @"Copy Details";
 
     #endregion
 
@@ -75,7 +78,10 @@ public class KryptonExceptionDialogStrings : GlobalId
                              ResultsAppendage.Equals(DEFAULT_EXCEPTION_DIALOG_RESULTS_APPENDAGE) &&
                              ResultsFoundAppendage.Equals(DEFAULT_EXCEPTION_DIALOG_RESULTS_FOUND_APPENDAGE) &&
                              NoMatchesFound.Equals(DEFAULT_EXCEPTION_DIALOG_NO_MATCHES_FOUND) &&
-                             TypeToSearch.Equals(DEFAULT_EXCEPTION_DIALOG_TYPE_TO_SEARCH);
+                             TypeToSearch.Equals(DEFAULT_EXCEPTION_DIALOG_TYPE_TO_SEARCH) &&
+                             ReportBugButtonText.Equals(DEFAULT_EXCEPTION_DIALOG_REPORT_BUG_BUTTON_TEXT) &&
+                             ReportBugOnGitHubButtonText.Equals(DEFAULT_EXCEPTION_DIALOG_REPORT_BUG_ON_GITHUB_BUTTON_TEXT) &&
+                             CopyDetailsButtonText.Equals(DEFAULT_EXCEPTION_DIALOG_COPY_DETAILS_BUTTON_TEXT);
 
     #endregion
 
@@ -243,6 +249,33 @@ public class KryptonExceptionDialogStrings : GlobalId
     [RefreshProperties(RefreshProperties.All)]
     public string TypeToSearch { get; set; }
 
+    /// <summary>Gets or sets the report bug button text.</summary>
+    /// <value>The report bug button text.</value>
+    [Localizable(true)]
+    [Category(@"Values")]
+    [Description(@"The report bug button text for the exception dialog.")]
+    [DefaultValue(DEFAULT_EXCEPTION_DIALOG_REPORT_BUG_BUTTON_TEXT)]
+    [RefreshProperties(RefreshProperties.All)]
+    public string ReportBugButtonText { get; set; }
+
+    /// <summary>Gets or sets the report bug on GitHub button text.</summary>
+    /// <value>The report bug on GitHub button text.</value>
+    [Localizable(true)]
+    [Category(@"Values")]
+    [Description(@"The report bug on GitHub button text for the exception dialog.")]
+    [DefaultValue(DEFAULT_EXCEPTION_DIALOG_REPORT_BUG_ON_GITHUB_BUTTON_TEXT)]
+    [RefreshProperties(RefreshProperties.All)]
+    public string ReportBugOnGitHubButtonText { get; set; }
+
+    /// <summary>Gets or sets the copy details button text.</summary>
+    /// <value>The copy details button text.</value>
+    [Localizable(true)]
+    [Category(@"Values")]
+    [Description(@"The copy details button text for the exception dialog.")]
+    [DefaultValue(DEFAULT_EXCEPTION_DIALOG_COPY_DETAILS_BUTTON_TEXT)]
+    [RefreshProperties(RefreshProperties.All)]
+    public string CopyDetailsButtonText { get; set; }
+
     #endregion
 
     #region Implementation
@@ -285,6 +318,12 @@ public class KryptonExceptionDialogStrings : GlobalId
         NoMatchesFound = DEFAULT_EXCEPTION_DIALOG_NO_MATCHES_FOUND;
 
         TypeToSearch = DEFAULT_EXCEPTION_DIALOG_TYPE_TO_SEARCH;
+
+        ReportBugButtonText = DEFAULT_EXCEPTION_DIALOG_REPORT_BUG_BUTTON_TEXT;
+
+        ReportBugOnGitHubButtonText = DEFAULT_EXCEPTION_DIALOG_REPORT_BUG_ON_GITHUB_BUTTON_TEXT;
+
+        CopyDetailsButtonText = DEFAULT_EXCEPTION_DIALOG_COPY_DETAILS_BUTTON_TEXT;
     }
 
     #endregion

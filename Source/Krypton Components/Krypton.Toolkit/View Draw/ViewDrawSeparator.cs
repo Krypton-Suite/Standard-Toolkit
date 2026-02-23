@@ -1,11 +1,11 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -18,6 +18,7 @@ namespace Krypton.Toolkit;
 public class ViewDrawSeparator : ViewLeaf
 {
     #region Instance Fields
+
     internal IPaletteDouble? _paletteDisabled;
     internal IPaletteDouble? _paletteNormal;
     internal IPaletteDouble? _paletteTracking;
@@ -32,6 +33,7 @@ public class ViewDrawSeparator : ViewLeaf
     #endregion
 
     #region Identity
+
     /// <summary>
     /// Initialize a new instance of the ViewDrawSeparator class.
     /// </summary>
@@ -85,9 +87,11 @@ public class ViewDrawSeparator : ViewLeaf
         // Return the class name and instance identifier
         $"ViewDrawSeparator:{Id}";
 
+    
     #endregion
 
     #region MetricPadding
+    
     /// <summary>
     /// Gets and sets the metric used to calculate the padding.
     /// </summary>
@@ -96,14 +100,16 @@ public class ViewDrawSeparator : ViewLeaf
     #endregion
 
     #region Source
+    
     /// <summary>
     /// Gets and sets the associated separator source.
     /// </summary>
-    public ISeparatorSource Source { get; set; }
+    public ISeparatorSource? Source { get; set; }
 
     #endregion
 
     #region Orientation
+    
     /// <summary>
     /// Gets and sets the visual orientation.
     /// </summary>
@@ -112,6 +118,7 @@ public class ViewDrawSeparator : ViewLeaf
     #endregion
 
     #region Length
+    
     /// <summary>
     /// Gets and sets the length of the separator.
     /// </summary>
@@ -120,6 +127,7 @@ public class ViewDrawSeparator : ViewLeaf
     #endregion
 
     #region SetPalettes
+    
     /// <summary>
     /// Update the source palettes for drawing.
     /// </summary>
@@ -159,9 +167,11 @@ public class ViewDrawSeparator : ViewLeaf
         _metricTracking = metricTracking;
         _metricPressed = metricPressed;
     }
+    
     #endregion
 
     #region Layout
+    
     /// <summary>
     /// Discover the preferred size of the element.
     /// </summary>
@@ -181,6 +191,7 @@ public class ViewDrawSeparator : ViewLeaf
         Debug.Assert(context != null);
         ClientRectangle = context!.DisplayRectangle;
     }
+    
     #endregion
 
     #region Paint
@@ -208,13 +219,19 @@ public class ViewDrawSeparator : ViewLeaf
         // Ensure we are using the correct palette
         CheckPaletteState();
 
+        // Guard against null palette/metric (e.g. Navigator.StateDisabled.Separator can be null)
+        if (_palette?.PaletteBack is null || _palette.PaletteBorder is null || _metric is null)
+        {
+            return;
+        }
+
         // Apply padding needed outside the border of the separator
         var rect = CommonHelper.ApplyPadding(Orientation, ClientRectangle,
-            _metric!.GetMetricPadding(context.Control as KryptonForm, ElementState, MetricPadding));
+            _metric.GetMetricPadding(context.Control as KryptonForm, ElementState, MetricPadding));
 
         // Ask the renderer to perform drawing of the separator glyph
-        context.Renderer.RenderGlyph.DrawSeparator(context, rect, _palette!.PaletteBack, _palette.PaletteBorder!,
-            Orientation, State, (Source == null) || Source.SeparatorCanMove);
+        context.Renderer.RenderGlyph.DrawSeparator(context, rect, _palette.PaletteBack, _palette.PaletteBorder,
+            Orientation, State, (Source is null) || Source.SeparatorCanMove);
     }
     #endregion
 

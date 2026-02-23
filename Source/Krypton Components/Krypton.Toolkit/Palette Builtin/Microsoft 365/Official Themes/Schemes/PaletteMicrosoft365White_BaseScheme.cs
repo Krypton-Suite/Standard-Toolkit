@@ -1,8 +1,8 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2025 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2025 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -66,11 +66,11 @@ public sealed class PaletteMicrosoft365White_BaseScheme : KryptonColorSchemeBase
     public override Color FormHeaderLongActive             { get; set; } = Color.FromArgb(59, 59, 59);
     public override Color FormHeaderLongInactive           { get; set; } = Color.FromArgb(138, 138, 138);
     public override Color FormButtonBorderTrack            { get; set; } = Color.FromArgb(166, 172, 179);
-    public override Color FormButtonBack1Track             { get; set; } = Color.FromArgb(255, 255, 255);
-    public override Color FormButtonBack2Track             { get; set; } = Color.FromArgb(228, 228, 229);
+    public override Color FormButtonBack1Track             { get; set; } = Color.FromArgb(213, 224, 241);
+    public override Color FormButtonBack2Track             { get; set; } = Color.FromArgb(213, 224, 241);
     public override Color FormButtonBorderPressed          { get; set; } = Color.FromArgb(166, 172, 179);
-    public override Color FormButtonBack1Pressed           { get; set; } = Color.FromArgb(223, 228, 235);
-    public override Color FormButtonBack2Pressed           { get; set; } = Color.FromArgb(188, 193, 200);
+    public override Color FormButtonBack1Pressed           { get; set; } = Color.FromArgb(163, 189, 227);
+    public override Color FormButtonBack2Pressed           { get; set; } = Color.FromArgb(163, 189, 227);
     public override Color TextButtonFormNormal             { get; set; } = Color.Black;
     public override Color TextButtonFormTracking           { get; set; } = Color.Black;
     public override Color TextButtonFormPressed            { get; set; } = Color.Black;
@@ -138,6 +138,8 @@ public sealed class PaletteMicrosoft365White_BaseScheme : KryptonColorSchemeBase
     public override Color RibbonGroupFrameInside3          { get; set; } = GlobalStaticValues.EMPTY_COLOR;
     public override Color RibbonGroupFrameInside4          { get; set; } = GlobalStaticValues.EMPTY_COLOR;
     public override Color RibbonGroupCollapsedText         { get; set; } = Color.FromArgb(59, 59, 59);
+    public override Color RibbonGroupTextTracking          { get; set; } = GlobalStaticValues.EMPTY_COLOR;
+    public override Color ButtonTextTracking               { get; set; } = GlobalStaticValues.EMPTY_COLOR;
     public override Color RibbonGroupButtonText            { get; set; } = GlobalStaticValues.EMPTY_COLOR; // missing value
     public override Color AlternatePressedBack1            { get; set; } = Color.FromArgb(179, 185, 195);
     public override Color AlternatePressedBack2            { get; set; } = Color.FromArgb(216, 224, 224);

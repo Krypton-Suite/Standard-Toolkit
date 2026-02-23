@@ -1,11 +1,11 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -1130,12 +1130,13 @@ public class KryptonCustomPaletteBase : PaletteBase
     /// <inheritdoc />
     public override int GetMetricInt(KryptonForm? owningForm, PaletteState state, PaletteMetricInt metric) => metric switch
     {
-        PaletteMetricInt.BarButtonEdgeInside or PaletteMetricInt.BarButtonEdgeOutside or PaletteMetricInt.CheckButtonGap or PaletteMetricInt.RibbonTabGap => Navigator.StateCommon.Bar.GetMetricInt(owningForm, state, metric),
+        PaletteMetricInt.BarButtonEdgeInside or PaletteMetricInt.BarButtonEdgeOutside or PaletteMetricInt.CheckButtonGap or PaletteMetricInt.RibbonTabGap or PaletteMetricInt.DropDownArrowBaseSize => Navigator.StateCommon.Bar.GetMetricInt(owningForm, state, metric),
         PaletteMetricInt.HeaderButtonEdgeInsetPrimary => HeaderStyles.HeaderPrimary.StateCommon.GetMetricInt(owningForm, state, metric),
         PaletteMetricInt.HeaderButtonEdgeInsetSecondary => HeaderStyles.HeaderSecondary.StateCommon.GetMetricInt(owningForm, state, metric),
         PaletteMetricInt.HeaderButtonEdgeInsetDockInactive => HeaderStyles.HeaderDockInactive.StateCommon.GetMetricInt(owningForm, state, metric),
         PaletteMetricInt.HeaderButtonEdgeInsetDockActive => HeaderStyles.HeaderDockActive.StateCommon.GetMetricInt(owningForm, state, metric),
         PaletteMetricInt.HeaderButtonEdgeInsetForm => HeaderStyles.HeaderForm.StateCommon.GetMetricInt(owningForm, state, metric),
+        PaletteMetricInt.HeaderButtonEdgeInsetFormRight => HeaderStyles.HeaderForm.StateCommon.GetMetricInt(owningForm, state, metric),
         PaletteMetricInt.HeaderButtonEdgeInsetCustom1 => HeaderStyles.HeaderCustom1.StateCommon.GetMetricInt(owningForm, state, metric),
         PaletteMetricInt.HeaderButtonEdgeInsetCustom2 => HeaderStyles.HeaderCustom2.StateCommon.GetMetricInt(owningForm, state, metric),
         PaletteMetricInt.HeaderButtonEdgeInsetCustom3 => HeaderStyles.HeaderCustom3.StateCommon.GetMetricInt(owningForm, state, metric),
@@ -1966,6 +1967,16 @@ public class KryptonCustomPaletteBase : PaletteBase
             {
                 ResetOperation(null);
             }
+            else if (this.InDesignMode())
+            {
+                // In design mode (e.g. VS designer), run synchronously to avoid PerformOperation
+                // deadlock/freeze with ModalWaitDialog and worker thread (see issue #2927)
+                ResetOperation(null);
+
+                KryptonMessageBox.Show("Reset of palette is completed.",
+                    "Palette Reset",
+                    KryptonMessageBoxButtons.OK);
+            }
             else
             {
                 // Perform the reset operation on a separate worker thread
@@ -2007,6 +2018,16 @@ public class KryptonCustomPaletteBase : PaletteBase
             if (silent)
             {
                 PopulateFromBaseOperation(null);
+            }
+            else if (this.InDesignMode())
+            {
+                // In design mode (e.g. VS designer), run synchronously to avoid PerformOperation
+                // deadlock/freeze with ModalWaitDialog and worker thread (see issue #2927)
+                PopulateFromBaseOperation(null);
+
+                KryptonMessageBox.Show("Relevant values have been populated.",
+                    "Populate Values",
+                    KryptonMessageBoxButtons.OK);
             }
             else
             {
@@ -2056,7 +2077,7 @@ public class KryptonCustomPaletteBase : PaletteBase
                 paletteFileName = kofd.FileName;
 
                 // Set the theme name to the file name
-                PaletteName = paletteFileName;
+                PaletteName = Path.GetFileNameWithoutExtension(paletteFileName);
             }
         }
         else
@@ -2075,7 +2096,7 @@ public class KryptonCustomPaletteBase : PaletteBase
                 paletteFileName = dialog.FileName;
 
                 // Set the theme name to the file name
-                PaletteName = paletteFileName;
+                PaletteName = Path.GetFileNameWithoutExtension(paletteFileName);
             }
         }
         if (!string.IsNullOrWhiteSpace(paletteFileName))
@@ -2106,7 +2127,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             paletteFileName = dialog.FileName;
 
             // Set the theme name to the file name
-            PaletteName = paletteFileName;
+            PaletteName = Path.GetFileNameWithoutExtension(paletteFileName);
         }
 
         if (!string.IsNullOrWhiteSpace(paletteFileName))
@@ -2179,10 +2200,12 @@ public class KryptonCustomPaletteBase : PaletteBase
         // Set the file path
         SetCustomisedKryptonPaletteFilePath(Path.GetFullPath(ret));
 
-        // Set the palette name
-        // TODO: Get paletteName from the paletteBase
-
-        SetPaletteName(Path.GetFileName(ret));
+        // Use bundled name from file if present, otherwise fall back to filename
+        if (string.IsNullOrWhiteSpace(GetPaletteName()))
+        {
+            // Set the theme name to the file name
+            SetPaletteName(Path.GetFileName(ret));
+        }
 
         return ret;
     }
@@ -2218,6 +2241,8 @@ public class KryptonCustomPaletteBase : PaletteBase
             {
                 throw;
             }
+
+            KryptonExceptionHandler.CaptureException(aex);
 
             stream.Position = 0;
             PerformUpgrade(stream);
@@ -2435,7 +2460,7 @@ public class KryptonCustomPaletteBase : PaletteBase
                 SetCustomisedKryptonPaletteFilePath(Path.GetFullPath(ksfd.FileName));
 
                 // Set the theme name to the file name
-                PaletteName = ksfd.FileName;
+                PaletteName = Path.GetFileNameWithoutExtension(ksfd.FileName);
 
                 return Export(ksfd.FileName, true, false);
             }
@@ -2455,7 +2480,7 @@ public class KryptonCustomPaletteBase : PaletteBase
                 SetCustomisedKryptonPaletteFilePath(Path.GetFullPath(dialog.FileName));
 
                 // Set the theme name to the file name
-                PaletteName = dialog.FileName;
+                PaletteName = Path.GetFileNameWithoutExtension(dialog.FileName);
 
                 // Use the existing export overload that takes the target name
                 return Export(dialog.FileName, true, false);
@@ -2482,7 +2507,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             SetCustomisedKryptonPaletteFilePath(Path.GetFullPath(dialog.FileName));
 
             // Set the theme name to the file name
-            PaletteName = dialog.FileName;
+            PaletteName = Path.GetFileNameWithoutExtension(dialog.FileName);
 
             // Use the existing export overload that takes the target name
             return Export(dialog.FileName, true, false);
@@ -3093,6 +3118,12 @@ public class KryptonCustomPaletteBase : PaletteBase
                     $"Version '{version}' number is incompatible, only version {GlobalStaticValues.CURRENT_SUPPORTED_PALETTE_VERSION} or above can be imported.\nUse the PaletteUpgradeTool from the Application tab of the KryptonExplorer to upgrade.");
             }
 
+            // Restore bundled palette name so external themes display correctly (e.g. in KryptonManager)
+            if (root.HasAttribute("Name"))
+            {
+                SetPaletteName(root.GetAttribute("Name"));
+            }
+
             // Grab the properties and images elements
             var props = root.SelectSingleNode(nameof(Properties)) as XmlElement;
             var images = root.SelectSingleNode(nameof(Images)) as XmlElement;
@@ -3114,10 +3145,6 @@ public class KryptonCustomPaletteBase : PaletteBase
             // Use reflection to import the palette hierarchy
             ImportImagesFromElement(images, imageCache);
             ImportObjectFromElement(props, imageCache, this);
-
-            // Set the palette name
-            // TODO: Get paletteName from the paletteBase
-            //SetPaletteName(root.SelectSingleNode(Name));
         }
         catch (Exception e)
         {
@@ -3232,7 +3259,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             doc.AppendChild(doc.CreateComment(
                 "New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)"));
             doc.AppendChild(doc.CreateComment(
-                $"Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - {DateTime.Now.Year}. All rights reserved."));
+                $"Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), Giduac, tobitege, Lesandro, KamaniAR, et al. 2017 - {DateTime.Now.Year}. All rights reserved."));
             doc.AppendChild(doc.CreateComment("WARNING: Modifying this file may render it invalid for importing."));
             doc.AppendChild(doc.CreateComment($@"Date created: {DateTime.Now.ToLongDateString()}"));
 
@@ -3242,6 +3269,13 @@ public class KryptonCustomPaletteBase : PaletteBase
             root.SetAttribute(nameof(Version), GlobalStaticValues.CURRENT_SUPPORTED_PALETTE_VERSION.ToString());
             root.SetAttribute("Generated",
                 $"{DateTime.Now.ToLongDateString()}, @{DateTime.Now.ToShortTimeString()}");
+
+            // Bundle the palette display name so it can be shown correctly when loaded (e.g. in KryptonManager)
+            if (!string.IsNullOrWhiteSpace(PaletteName))
+            {
+                root.SetAttribute("Name", PaletteName);
+            }
+
             doc.AppendChild(root);
 
             // Add two children, one for storing actual palette values the other for cached images
@@ -4248,6 +4282,8 @@ public class KryptonCustomPaletteBase : PaletteBase
                 return ButtonSpecs.RibbonMinimize;
             case PaletteButtonSpecStyle.RibbonExpand:
                 return ButtonSpecs.RibbonExpand;
+            case PaletteButtonSpecStyle.Undo:
+                return ButtonSpecs.Previous;
             default:
                 // Should never happen!
                 Debug.Assert(false);

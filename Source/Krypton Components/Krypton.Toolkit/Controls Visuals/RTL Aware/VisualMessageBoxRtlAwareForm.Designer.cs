@@ -1,4 +1,4 @@
-﻿namespace Krypton.Toolkit
+namespace Krypton.Toolkit
 {
     partial class VisualMessageBoxRtlAwareForm
     {
@@ -115,6 +115,7 @@
             this._button4.Margin = new System.Windows.Forms.Padding(0);
             this._button4.MinimumSize = new System.Drawing.Size(38, 21);
             this._button4.Name = "_button4";
+            this._button4.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this._button4.Size = new System.Drawing.Size(38, 23);
             this._button4.TabIndex = 2;
             this._button4.Values.DropDownArrowColor = System.Drawing.Color.Empty;
@@ -131,6 +132,7 @@
             this._button3.Margin = new System.Windows.Forms.Padding(0);
             this._button3.MinimumSize = new System.Drawing.Size(38, 21);
             this._button3.Name = "_button3";
+            this._button3.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this._button3.Size = new System.Drawing.Size(38, 23);
             this._button3.TabIndex = 2;
             this._button3.Values.DropDownArrowColor = System.Drawing.Color.Empty;
@@ -147,6 +149,7 @@
             this._button1.Margin = new System.Windows.Forms.Padding(0);
             this._button1.MinimumSize = new System.Drawing.Size(38, 21);
             this._button1.Name = "_button1";
+            this._button1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this._button1.Size = new System.Drawing.Size(38, 23);
             this._button1.TabIndex = 0;
             this._button1.Values.DropDownArrowColor = System.Drawing.Color.Empty;
@@ -163,6 +166,7 @@
             this._button2.Margin = new System.Windows.Forms.Padding(0);
             this._button2.MinimumSize = new System.Drawing.Size(38, 21);
             this._button2.Name = "_button2";
+            this._button2.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this._button2.Size = new System.Drawing.Size(38, 23);
             this._button2.TabIndex = 1;
             this._button2.Values.DropDownArrowColor = System.Drawing.Color.Empty;
@@ -201,11 +205,10 @@
             this.krtbMessageText.Name = "krtbMessageText";
             this.krtbMessageText.ReadOnly = true;
             this.krtbMessageText.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
-            this.krtbMessageText.Size = new System.Drawing.Size(150, 19);
+            this.krtbMessageText.Size = new System.Drawing.Size(166, 19);
             this.krtbMessageText.StateCommon.Border.DrawBorders = Krypton.Toolkit.PaletteDrawBorders.None;
             this.krtbMessageText.TabIndex = 0;
-            this.krtbMessageText.TabStop = false;
-            this.krtbMessageText.Text = "Message Text\n.\ttabbed";
+            this.krtbMessageText.Text = "";
             this.krtbMessageText.WordWrap = false;
             // 
             // VisualMessageBoxRtlAwareForm
@@ -220,6 +223,7 @@
             this.MinimizeBox = false;
             this.Name = "VisualMessageBoxRtlAwareForm";
             this.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.RightToLeftLayout = true;
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
@@ -233,7 +237,6 @@
             ((System.ComponentModel.ISupportInitialize)(this._messageIcon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kpnlContentArea)).EndInit();
             this.kpnlContentArea.ResumeLayout(false);
-            this.kpnlContentArea.PerformLayout();
             this.ResumeLayout(false);
 
         }

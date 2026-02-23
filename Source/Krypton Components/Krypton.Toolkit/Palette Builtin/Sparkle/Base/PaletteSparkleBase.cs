@@ -1,11 +1,11 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -205,69 +205,6 @@ public class PaletteSparkleBase : PaletteBase
     #endregion
 
     #region Identity
-    /// <summary>
-    /// Initialize a new instance of the PaletteSparkle class.
-    /// </summary>
-    /// <param name="ribbonColors">Colors used mainly for the ribbon.</param>
-    /// <param name="sparkleColors">Colors used mainly for the sparkle settings.</param>
-    /// <param name="appButtonNormal">Colors for app button in normal state.</param>
-    /// <param name="appButtonTrack">Colors for app button in tracking state.</param>
-    /// <param name="appButtonPressed">Colors for app button in pressed state.</param>
-    /// <param name="ribbonGroupCollapsedBorderContextTracking">Colors for tracking a collapsed group border.</param>
-    /// <param name="checkBoxList">Images for check box controls.</param>
-    /// <param name="radioButtonArray">Images for radio button controls.</param>
-    [System.Obsolete("Color[] constructor is deprecated and will be removed in V110. Use KryptonColorSchemeBase overload.", false)]
-    public PaletteSparkleBase(Color[] ribbonColors,
-        Color[] sparkleColors,
-        Color[] appButtonNormal,
-        Color[] appButtonTrack,
-        Color[] appButtonPressed,
-        Color[] ribbonGroupCollapsedBorderContextTracking,
-        ImageList checkBoxList,
-        Image?[] radioButtonArray)
-    {
-        // Save colors for use in the color table
-        ThemeName = nameof(PaletteSparkleBase);
-
-        if (ribbonColors != null)
-        {
-            _ribbonColors = ribbonColors;
-        }
-        if (sparkleColors != null)
-        {
-            _sparkleColors = sparkleColors;
-        }
-        if (appButtonNormal != null)
-        {
-            _appButtonNormal = appButtonNormal;
-        }
-        if (appButtonTrack != null)
-        {
-            _appButtonTrack = appButtonTrack;
-        }
-        if (appButtonPressed != null)
-        {
-            _appButtonPressed = appButtonPressed;
-        }
-        if (ribbonGroupCollapsedBorderContextTracking != null)
-        {
-            _ribbonGroupCollapsedBorderContextTracking = ribbonGroupCollapsedBorderContextTracking;
-        }
-        if (checkBoxList != null)
-        {
-            _checkBoxList = checkBoxList;
-        }
-        if (radioButtonArray != null)
-        {
-            _radioButtonArray = radioButtonArray;
-        }
-
-        // Get the font settings from the system
-        DefineFonts();
-
-        SetTrackBarColors();
-    }
-
     /// <summary>
     /// Overload that accepts a KryptonColorSchemeBase instance and forwards colours to the main constructor.
     /// </summary>
@@ -3002,6 +2939,8 @@ public class PaletteSparkleBase : PaletteBase
                     return 0;
                 }
                 return Math.Max(2, owningForm!.RealWindowBorders.Right);
+            case PaletteMetricInt.HeaderButtonEdgeInsetFormRight:
+                return 0;
             case PaletteMetricInt.HeaderButtonEdgeInsetInputControl:
                 return 1;
             case PaletteMetricInt.HeaderButtonEdgeInsetPrimary:
@@ -3016,6 +2955,8 @@ public class PaletteSparkleBase : PaletteBase
                 return 3;
             case PaletteMetricInt.None:
                 return 0;
+            case PaletteMetricInt.DropDownArrowBaseSize:
+                return 10;
             default:
                 // Should never happen!
                 Debug.Assert(false);
@@ -4344,7 +4285,10 @@ public class PaletteSparkleBase : PaletteBase
             case PaletteRibbonTextStyle.RibbonGroupLabelText:
             case PaletteRibbonTextStyle.RibbonGroupCheckBoxText:
             case PaletteRibbonTextStyle.RibbonGroupRadioButtonText:
-                return state == PaletteState.Disabled ? _disabledText : _ribbonColors[(int)SchemeBaseColors.RibbonGroupCollapsedText];
+                return GetRibbonGroupTextColor(state,
+                    _ribbonColors[(int)SchemeBaseColors.RibbonGroupTextTracking],
+                    _ribbonColors[(int)SchemeBaseColors.RibbonGroupCollapsedText],
+                    _disabledText);
 
             default:
                 // Should never happen!

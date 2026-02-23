@@ -2,7 +2,7 @@
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -591,9 +591,12 @@ public class KryptonLinkWrapLabel : LinkLabel
         }
 
         ForeColor = textColor;
-        e.Graphics.TextRenderingHint = CommonHelper.PaletteTextHintToRenderingHint(hint);
 
-        base.OnPaint(e);
+        // Use GraphicsTextHint to properly save/restore TextRenderingHint to prevent affecting other controls
+        using (new GraphicsTextHint(e.Graphics, CommonHelper.PaletteTextHintToRenderingHint(hint)))
+        {
+            base.OnPaint(e);
+        }
     }
 
     /// <summary>
@@ -679,6 +682,12 @@ public class KryptonLinkWrapLabel : LinkLabel
 
         return base.ProcessCmdKey(ref msg, keyData);
     }
+
+    /// <summary>
+    /// Creates the accessibility object for the KryptonLinkWrapLabel control.
+    /// </summary>
+    /// <returns>A new KryptonLinkWrapLabelAccessibleObject instance for the control.</returns>
+    protected override AccessibleObject CreateAccessibilityInstance() => new KryptonLinkWrapLabelAccessibleObject(this);
 
     /// <summary>
     /// Processes a mnemonic character.

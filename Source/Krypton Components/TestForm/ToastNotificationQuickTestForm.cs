@@ -2,10 +2,12 @@
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2025. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2026. All rights reserved. 
  *  
  */
 #endregion
+
+using Krypton.Utilities;
 
 namespace TestForm;
 
@@ -18,78 +20,78 @@ public partial class ToastNotificationQuickTestForm : KryptonForm
 
     private void kbtnBasicNotification_Click(object sender, EventArgs e)
     {
-        KryptonBasicToastNotificationData data = new KryptonBasicToastNotificationData()
+        KryptonBasicToastData data = new KryptonBasicToastData()
         {
             NotificationTitle = @"Hello World!",
             NotificationContent = @"This is a simple test...",
-            NotificationIcon = KryptonToastNotificationIcon.Information,
+            NotificationIcon = KryptonToastIcon.Information,
             CountDownSeconds = 60
         };
 
-        KryptonToastNotification.ShowBasicNotification(data);
+        KryptonToast.ShowBasicNotification(data);
     }
 
     private void kbtnBasicNotificationChecked_Click(object sender, EventArgs e)
     {
-        KryptonBasicToastNotificationData data = new KryptonBasicToastNotificationData()
+        KryptonBasicToastData data = new KryptonBasicToastData()
         {
             NotificationTitle = @"Hello World!",
             NotificationContent = @"This is a simple test...",
-            NotificationIcon = KryptonToastNotificationIcon.Information,
+            NotificationIcon = KryptonToastIcon.Information,
             ShowDoNotShowAgainOption = true,
             IsDoNotShowAgainOptionChecked = true,
             CountDownSeconds = 60
         };
 
-        bool result = KryptonToastNotification.ShowBasicNotificationWithBooleanReturnValue(data);
+        bool result = KryptonToast.ShowBasicNotificationWithBooleanReturnValue(data);
 
         KryptonMessageBox.Show($"Result = {result}", string.Empty, KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
     }
 
     private void kbtnBasicNotificationCheckState_Click(object sender, EventArgs e)
     {
-        KryptonBasicToastNotificationData data = new KryptonBasicToastNotificationData()
+        KryptonBasicToastData data = new KryptonBasicToastData()
         {
             NotificationTitle = @"Hello World!",
             NotificationContent = @"This is a simple test...",
-            NotificationIcon = KryptonToastNotificationIcon.Information,
+            NotificationIcon = KryptonToastIcon.Information,
             ShowDoNotShowAgainOption = true,
             DoNotShowAgainOptionCheckState = CheckState.Checked,
             UseDoNotShowAgainOptionThreeState = true,
             CountDownSeconds = 60
         };
 
-        CheckState result = KryptonToastNotification.ShowBasicNotificationWithCheckStateReturnValue(data);
+        CheckState result = KryptonToast.ShowBasicNotificationWithCheckStateReturnValue(data);
 
         KryptonMessageBox.Show($"Result = {result}", string.Empty, KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
     }
 
     private void kbtnBasicNotificationWithProgressBar_Click(object sender, EventArgs e)
     {
-        KryptonBasicToastNotificationData data = new KryptonBasicToastNotificationData()
+        KryptonBasicToastData data = new KryptonBasicToastData()
         {
             NotificationTitle = @"Hello World!",
             NotificationContent = @"This is a simple test...",
-            NotificationIcon = KryptonToastNotificationIcon.Information,
+            NotificationIcon = KryptonToastIcon.Information,
             CountDownSeconds = 60
         };
 
-        KryptonToastNotification.ShowBasicProgressBarNotification(data);
+        KryptonToast.ShowBasicProgressBarNotification(data);
     }
 
     private void kbtnBasicNotificationWithProgressBarChecked_Click(object sender, EventArgs e)
     {
-        KryptonBasicToastNotificationData data = new KryptonBasicToastNotificationData()
+        KryptonBasicToastData data = new KryptonBasicToastData()
         {
             NotificationTitle = @"Hello World!",
             NotificationContent = @"This is a simple test...",
-            NotificationIcon = KryptonToastNotificationIcon.Information,
+            NotificationIcon = KryptonToastIcon.Information,
             ShowDoNotShowAgainOption = true,
             IsDoNotShowAgainOptionChecked = true,
             CountDownSeconds = 60
         };
 
-        bool result = KryptonToastNotification.ShowBasicProgressBarNotificationWithBooleanReturnValue(data);
+        bool result = KryptonToast.ShowBasicProgressBarNotificationWithBooleanReturnValue(data);
 
         KryptonMessageBox.Show($"Result = {result}", string.Empty, KryptonMessageBoxButtons.OK,
             KryptonMessageBoxIcon.Information);
@@ -97,11 +99,11 @@ public partial class ToastNotificationQuickTestForm : KryptonForm
 
     private void kbtnBasicNotificationWithProgressBarCheckState_Click(object sender, EventArgs e)
     {
-        KryptonBasicToastNotificationData data = new KryptonBasicToastNotificationData()
+        KryptonBasicToastData data = new KryptonBasicToastData()
         {
             NotificationTitle = @"Hello World!",
             NotificationContent = @"This is a simple test...",
-            NotificationIcon = KryptonToastNotificationIcon.Information,
+            NotificationIcon = KryptonToastIcon.Information,
             ShowDoNotShowAgainOption = true,
             DoNotShowAgainOptionCheckState = CheckState.Checked,
             UseDoNotShowAgainOptionThreeState = true,
@@ -109,24 +111,24 @@ public partial class ToastNotificationQuickTestForm : KryptonForm
         };
 
         CheckState result =
-            KryptonToastNotification.ShowBasicProgressBarNotificationWithCheckStateReturnValue(data);
+            KryptonToast.ShowBasicProgressBarNotificationWithCheckStateReturnValue(data);
 
         KryptonMessageBox.Show($"Result = {result}");
     }
 
     private void kbtnComboBoxNotificaton_Click(object sender, EventArgs e)
     {
-        KryptonUserInputToastNotificationData comboBoxNotificationData = new KryptonUserInputToastNotificationData()
+        KryptonUserInputToastData comboBoxNotificationData = new KryptonUserInputToastData()
         {
             NotificationTitle = @"Hello World!",
             NotificationContent = @"This is a simple test...",
-            NotificationIcon = KryptonToastNotificationIcon.Information,
+            NotificationIcon = KryptonToastIcon.Information,
             UserInputList = GetItems(),
-            NotificationInputAreaType = KryptonToastNotificationInputAreaType.ComboBox,
+            NotificationInputAreaType = KryptonToastInputAreaType.ComboBox,
             CountDownSeconds = 60
         };
 
-        string? result = KryptonToastNotification.ShowNotification(comboBoxNotificationData) as string;
+        string? result = KryptonToast.ShowNotification(comboBoxNotificationData) as string;
 
         //string result = KryptonToastNotification.ShowNotificationWithComboBox(null,
         //    @"This is a simple test...", @"Hello World!", KryptonToastNotificationIcon.Exclamation, GetItems(), 1,
@@ -154,84 +156,84 @@ public partial class ToastNotificationQuickTestForm : KryptonForm
 
     private void kbtnDateTimeNotificaton_Click(object sender, EventArgs e)
     {
-        KryptonUserInputToastNotificationData dateTimeNotificationData = new KryptonUserInputToastNotificationData()
+        KryptonUserInputToastData dateTimeNotificationData = new KryptonUserInputToastData()
         {
             NotificationTitle = @"Hello World!",
             NotificationContent = @"This is a simple test...",
-            NotificationIcon = KryptonToastNotificationIcon.Information,
-            NotificationInputAreaType = KryptonToastNotificationInputAreaType.DateTime,
+            NotificationIcon = KryptonToastIcon.Information,
+            NotificationInputAreaType = KryptonToastInputAreaType.DateTime,
             CountDownSeconds = 60
         };
 
-        DateTime result = (DateTime)KryptonToastNotification.ShowNotification(dateTimeNotificationData);
+        DateTime result = (DateTime)KryptonToast.ShowNotification(dateTimeNotificationData);
 
         KryptonMessageBox.Show($"Result = {result}");
     }
 
     private void kbtnDomainUpDownNotificaton_Click(object sender, EventArgs e)
     {
-        KryptonUserInputToastNotificationData domainUpDownNotificationData = new KryptonUserInputToastNotificationData()
+        KryptonUserInputToastData domainUpDownNotificationData = new KryptonUserInputToastData()
         {
             NotificationTitle = @"Hello World!",
             NotificationContent = @"This is a simple test...",
-            NotificationIcon = KryptonToastNotificationIcon.Information,
-            NotificationInputAreaType = KryptonToastNotificationInputAreaType.DomainUpDown,
+            NotificationIcon = KryptonToastIcon.Information,
+            NotificationInputAreaType = KryptonToastInputAreaType.DomainUpDown,
             UserInputList = GetItems(),
             CountDownSeconds = 60
         };
 
-        string? result = KryptonToastNotification.ShowNotification(domainUpDownNotificationData) as string;
+        string? result = KryptonToast.ShowNotification(domainUpDownNotificationData) as string;
 
         KryptonMessageBox.Show($"Result = {result}");
     }
 
     private void kbtnMaskedTextBoxNotificaton_Click(object sender, EventArgs e)
     {
-        KryptonUserInputToastNotificationData maskedTextBoxNotificationData =
-            new KryptonUserInputToastNotificationData()
+        KryptonUserInputToastData maskedTextBoxNotificationData =
+            new KryptonUserInputToastData()
             {
                 NotificationTitle = @"Hello World!",
                 NotificationContent = @"This is a simple test...",
-                NotificationIcon = KryptonToastNotificationIcon.Information,
-                NotificationInputAreaType = KryptonToastNotificationInputAreaType.MaskedTextBox,
+                NotificationIcon = KryptonToastIcon.Information,
+                NotificationInputAreaType = KryptonToastInputAreaType.MaskedTextBox,
                 CountDownSeconds = 60
             };
 
-        string? result = KryptonToastNotification.ShowNotification(maskedTextBoxNotificationData) as string;
+        string? result = KryptonToast.ShowNotification(maskedTextBoxNotificationData) as string;
 
         KryptonMessageBox.Show($"Result = {result}");
     }
 
     private void kbtnNumericUpDownNotificaton_Click(object sender, EventArgs e)
     {
-        KryptonUserInputToastNotificationData numericUpDownNotificationData =
-            new KryptonUserInputToastNotificationData()
+        KryptonUserInputToastData numericUpDownNotificationData =
+            new KryptonUserInputToastData()
             {
                 NotificationTitle = @"Hello World!",
                 NotificationContent = @"This is a simple test...",
-                NotificationIcon = KryptonToastNotificationIcon.Information,
-                NotificationInputAreaType = KryptonToastNotificationInputAreaType.NumericUpDown,
+                NotificationIcon = KryptonToastIcon.Information,
+                NotificationInputAreaType = KryptonToastInputAreaType.NumericUpDown,
                 CountDownSeconds = 60
             };
 
-        int result = (int)KryptonToastNotification.ShowNotification(numericUpDownNotificationData);
+        int result = (int)KryptonToast.ShowNotification(numericUpDownNotificationData);
 
         KryptonMessageBox.Show($"Result = {result}");
     }
 
     private void kbtnTextBoxNotificaton_Click(object sender, EventArgs e)
     {
-        KryptonUserInputToastNotificationData textBoxNotificationData = new KryptonUserInputToastNotificationData()
+        KryptonUserInputToastData textBoxNotificationData = new KryptonUserInputToastData()
         {
             NotificationTitle = @"Hello World!",
             NotificationContent = @"This is a simple test...",
-            NotificationIcon = KryptonToastNotificationIcon.Information,
-            NotificationInputAreaType = KryptonToastNotificationInputAreaType.TextBox,
+            NotificationIcon = KryptonToastIcon.Information,
+            NotificationInputAreaType = KryptonToastInputAreaType.TextBox,
             ToastNotificationCueText = @"Type your response here...",
             CountDownSeconds = 60
         };
 
-        string? result = KryptonToastNotification.ShowNotification(textBoxNotificationData) as string;
+        string? result = KryptonToast.ShowNotification(textBoxNotificationData) as string;
 
         KryptonMessageBox.Show($"Result = {result}");
     }

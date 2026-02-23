@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -421,28 +421,69 @@ public static class CommonHelper
     public static void SwapRectangleSizes(ref Rectangle rect) => (rect.Width, rect.Height) = (rect.Height, rect.Width);
 
     /// <summary>
-    /// Gets the form level right to left setting.
+    /// Gets the right to left layout setting for a control.
     /// </summary>
     /// <param name="control">Control for which the setting is needed.</param>
-    /// <returns>RightToLeft setting.</returns>
-    public static bool GetRightToLeftLayout(Control control)
+    /// <returns>RightToLeftLayout setting.</returns>
+    public static bool GetRightToLeftLayout(Control? control)
     {
-        // Default to left-to-right layout
-        var rtl = false;
-
-        // We need a valid control to find a top level form
-        // Search for a top level form associated with the control
-        Form? topForm = control.FindForm();
-
-        // If can find an owning form
-        if (topForm != null)
+        // First check if the control itself has RightToLeftLayout (e.g., VisualSimpleBase controls)
+        if (control is VisualSimpleBase visualSimpleBase)
         {
-            // Use the form setting instead
-            rtl = topForm.RightToLeftLayout;
+            return visualSimpleBase.RightToLeftLayout;
         }
 
-        return rtl;
+        // For other controls that might have RightToLeftLayout (like Form, ListView, etc.)
+        // Use reflection to check if the property exists and get its value
+        var property = control?.GetType().GetProperty("RightToLeftLayout");
+        if (property != null && property.PropertyType == typeof(bool))
+        {
+            if (property.GetValue(control) is bool value)
+            {
+                return value;
+            }
+        }
+
+        // Default to left-to-right layout
+        return false;
     }
+
+    /// <summary>
+    /// Determines if RTL layout should be applied for the given control.
+    /// </summary>
+    /// <param name="control">Control for which RTL is checked.</param>
+    /// <returns>True if RTL layout should be applied; otherwise false.</returns>
+    public static bool IsRightToLeftLayout(Control? control) => GetRightToLeftLayout(control) && (control is { RightToLeft: RightToLeft.Yes });
+
+    /// <summary>
+    /// Calculates the X position from the right edge for RTL-aware positioning.
+    /// </summary>
+    /// <param name="containerWidth">Width of the container.</param>
+    /// <param name="itemWidth">Width of the item to position.</param>
+    /// <param name="offset">Offset from the edge.</param>
+    /// <param name="isRtl">True if RTL layout is active.</param>
+    /// <returns>X position for the item.</returns>
+    public static int GetRtlAwareXPosition(int containerWidth, int itemWidth, int offset, bool isRtl) =>
+        isRtl
+            ? containerWidth - itemWidth - offset  // Position from right
+            : offset; // Position from left
+
+    /// <summary>
+    /// Calculates the X position increment for RTL-aware layout (positive or negative step).
+    /// </summary>
+    /// <param name="step">Step size to increment by.</param>
+    /// <param name="isRtl">True if RTL layout is active.</param>
+    /// <returns>Step value (negative for RTL, positive for LTR).</returns>
+    public static int GetRtlAwareStep(int step, bool isRtl) => isRtl ? -step : step;
+
+    /// <summary>
+    /// Gets the reverse index for accessing items in reverse order for RTL.
+    /// </summary>
+    /// <param name="index">Original index (0-based).</param>
+    /// <param name="totalCount">Total number of items.</param>
+    /// <param name="isRtl">True if RTL layout is active.</param>
+    /// <returns>Index to use for accessing the item (reversed if RTL).</returns>
+    public static int GetRtlAwareIndex(int index, int totalCount, bool isRtl) => isRtl ? (totalCount - 1 - index) : index;
 
     /// <summary>
     /// Decide if the context menu strip should be Displayed.
@@ -1520,17 +1561,6 @@ public static class CommonHelper
         }
 
         return _cachedDesignMode.Value;
-    }
-
-    /// <summary>
-    /// Discover if the component is in design mode.
-    /// </summary>
-    /// <param name="c">Component to test.</param>
-    /// <returns>True if in design mode; otherwise false.</returns>
-    [Obsolete("This method will be removed from V110 and onward. Use CommonHelper.DesignMode() instead.")]
-    public static bool DesignMode(Component? c)
-    {
-        return CommonHelper.DesignMode();
     }
 
     /// <summary>
