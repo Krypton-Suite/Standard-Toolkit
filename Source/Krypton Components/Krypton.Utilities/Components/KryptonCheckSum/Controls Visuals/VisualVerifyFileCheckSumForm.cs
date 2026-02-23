@@ -30,11 +30,13 @@ public partial class VisualVerifyFileCheckSumForm : KryptonForm
     /// <summary>
     /// Gets or sets the initial file path to display when the form is shown via the static API.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public string? InitialFilePath { get; set; }
 
     /// <summary>
     /// Gets or sets the initial expected hash value when the form is shown via the static API.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public string? InitialExpectedHash { get; set; }
 
     #endregion
