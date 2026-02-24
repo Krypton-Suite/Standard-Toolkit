@@ -68,7 +68,6 @@ public class ProgressBarTriStateRegionBackValues : Storage
 
     [Category(@"Visuals")]
     [Description(@"First background color.")]
-    [DefaultValue(typeof(Color), nameof(Color.Empty))]
     [KryptonDefaultColor]
     public Color Color1
     {
@@ -87,7 +86,6 @@ public class ProgressBarTriStateRegionBackValues : Storage
 
     [Category(@"Visuals")]
     [Description(@"Second background color. Empty uses default.")]
-    [DefaultValue(typeof(Color), nameof(Color.Empty))]
     [KryptonDefaultColor]
     public Color Color2
     {

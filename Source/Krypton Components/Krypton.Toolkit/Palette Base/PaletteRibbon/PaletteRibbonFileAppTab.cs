@@ -83,6 +83,7 @@ public class PaletteRibbonFileAppTab : Storage, IPaletteRibbonFileAppTab
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Ribbon app button dark color.")]
+    [DefaultValue(typeof(Color),  "31, 72, 161")]
     [RefreshProperties(RefreshProperties.All)]
     public Color RibbonFileAppTabBottomColor
     {
@@ -113,6 +114,7 @@ public class PaletteRibbonFileAppTab : Storage, IPaletteRibbonFileAppTab
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Ribbon app button light color.")]
+    [DefaultValue(typeof(Color), "84, 158, 243")]
     [RefreshProperties(RefreshProperties.All)]
     public Color RibbonFileAppTabTopColor
     {
@@ -145,6 +147,7 @@ public class PaletteRibbonFileAppTab : Storage, IPaletteRibbonFileAppTab
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Ribbon app button text color.")]
+    [DefaultValue(typeof(Color), "White")]
     [RefreshProperties(RefreshProperties.All)]
     public Color RibbonFileAppTabTextColor
     {
