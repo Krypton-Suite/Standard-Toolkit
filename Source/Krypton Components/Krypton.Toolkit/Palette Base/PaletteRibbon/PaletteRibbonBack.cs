@@ -104,8 +104,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the first background color for the ribbon item.
         /// </summary>
+        [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"First background color for the ribbon item.")]
+        [DefaultValue(typeof(Color), "Empty")]
         [RefreshProperties(RefreshProperties.All)]
         public virtual Color BackColor1
         {

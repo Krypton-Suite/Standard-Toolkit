@@ -90,7 +90,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Color for the text.")]
-        [DefaultValue(typeof(Color), "")]
+        [KryptonDefaultColor]
         [RefreshProperties(RefreshProperties.All)]
         public Color TextColor
         {
