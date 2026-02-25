@@ -80,6 +80,7 @@ public partial class StartScreen : KryptonForm
         CreateButton("Docking Redock Demo", "Demo for Issue #2933: undock (Float) then redock; no floating window left behind.", typeof(DockingRedockDemo));
         CreateButton("Font Awesome Test", string.Empty, typeof(FontAwesomeTest));
         CreateButton("Floating Window Test", "Comprehensive test for floating window bug fix (Issue #2721)", typeof(FloatingWindowTest));
+        CreateButton("Floating Toolbars Demo", "Comprehensive demonstration of KryptonFloatingToolbars features including drag-and-drop floating/docking, programmatic control, animation, window styles, docking preview indicators, custom themes, state persistence, and multi-monitor support.", typeof(FloatingToolbarsDemo));
         CreateButton("FlowLayoutPanel", "Test KryptonFlowLayoutPanel with dynamic control layout and flow directions.", typeof(FlowLayoutPanelTest));
         CreateButton("FileSystemWatcher", "Monitor file system changes with Krypton integration.", typeof(FileSystemWatcherTest));
         CreateButton("ErrorProvider", string.Empty, typeof(ErrorProviderTest));

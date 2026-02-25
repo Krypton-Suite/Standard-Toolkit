@@ -5,6 +5,8 @@
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
 * Resolved [#3031](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3031), Maximized form's size exceeds the screen's working area
+* Implemented [#1136](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1136), Floating Toolbars
+	- To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this feature is part of the `Krypton.Utilities` assembly.
 * Resolved [#3101](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3101), Colors in theme exporting XMLs is missing
 * Implemented [#2597](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2597), Use the `KryptonContextMenu` in `KryptonHScrollBar` & `KryptonVScrollBar`
 * Resolved [#3103](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3103), Name of the theme is not being serialized in XML files
