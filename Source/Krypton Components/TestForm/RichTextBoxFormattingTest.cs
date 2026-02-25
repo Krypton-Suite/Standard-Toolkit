@@ -223,6 +223,7 @@ public partial class RichTextBoxFormattingTest : KryptonForm
              (rtfSpan.Contains(@"\f".AsSpan(), StringComparison.Ordinal) && !rtfSpan.Contains(@"\f0".AsSpan(), StringComparison.Ordinal)));
 #else
         bool hasFormatting = !string.IsNullOrEmpty(rtf) &&
+                             rtf != null &&
                              (rtf.Contains(@"\b") || rtf.Contains(@"\i") || rtf.Contains(@"\ul") ||
                               rtf.Contains(@"\fs") || rtf.Contains(@"\cf") || rtf.Contains(@"\highlight") ||
                               (rtf.Contains(@"\f") && !rtf.Contains(@"\f0")));
