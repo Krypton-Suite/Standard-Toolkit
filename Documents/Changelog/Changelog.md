@@ -4,6 +4,7 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#615](https://github.com/Krypton-Suite/Standard-Toolkit/issues/615), Controls should have "min design heights" be the same
 * Implemented [#1136](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1136), Floating Toolbars
 	- To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this feature is part of the `Krypton.Utilities` assembly.
 * Resolved [#3101](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3101), Colors in theme exporting XMLs is missing
