@@ -38,9 +38,10 @@ public abstract class VisualControlBase : Control,
     private readonly SimpleCall _refreshCall;
     private readonly SimpleCall _layoutCall;
     private KryptonContextMenu? _kryptonContextMenu;
-    protected VisualPopupToolTip? visualBasePopupToolTip;
+    protected VisualPopupToolTip? _visualBasePopupToolTip;
     private readonly ToolTipManager _toolTipManager;
     private bool _isForwardingValidationFromChild;
+    private int _minimumControlHeight;
 
     #endregion
 
@@ -486,6 +487,28 @@ public abstract class VisualControlBase : Control,
     /// Resets the ToolTipValues property to its default value.
     /// </summary>
     public void ResetToolTipValues() => ToolTipValues.Reset();
+
+    /// <summary>
+    /// Gets or sets a minimum height for the control, independent of font size.
+    /// When set to a value greater than zero, the control height will never fall below
+    /// this value, allowing input controls to be aligned to a consistent design height
+    /// regardless of the active palette font. Set to 0 to use the palette-driven preferred height.
+    /// </summary>
+    [Category(@"Layout")]
+    [Description(@"Specifies a minimum height for the control, independent of font size. Set to 0 to use the palette-driven preferred height.")]
+    [DefaultValue(0)]
+    public virtual int MinimumControlHeight
+    {
+        get => _minimumControlHeight;
+        set
+        {
+            if (_minimumControlHeight != value)
+            {
+                _minimumControlHeight = value;
+                PerformLayout();
+            }
+        }
+    }
 
     #endregion
 
@@ -1418,11 +1441,11 @@ public abstract class VisualControlBase : Control,
                )
             {
                 // Remove any currently showing tooltip
-                visualBasePopupToolTip?.Dispose();
+                _visualBasePopupToolTip?.Dispose();
 
                 // Create the actual tooltip popup object
                 // ReSharper disable once UseObjectOrCollectionInitializer
-                visualBasePopupToolTip = new VisualPopupToolTip(Redirector,
+                _visualBasePopupToolTip = new VisualPopupToolTip(Redirector,
                     ToolTipValues,
                     Renderer,
                     PaletteBackStyle.ControlToolTip,
@@ -1430,15 +1453,15 @@ public abstract class VisualControlBase : Control,
                     CommonHelper.ContentStyleFromLabelStyle(ToolTipValues.ToolTipStyle),
                     ToolTipValues.ToolTipShadow);
 
-                visualBasePopupToolTip.Disposed += OnVisualPopupToolTipDisposed;
-                visualBasePopupToolTip.ShowRelativeTo(e.Target, e.ControlMousePosition);
+                _visualBasePopupToolTip.Disposed += OnVisualPopupToolTipDisposed;
+                _visualBasePopupToolTip.ShowRelativeTo(e.Target, e.ControlMousePosition);
             }
         }
     }
 
     private void OnCancelToolTip(object? sender, EventArgs e) =>
         // Remove any currently showing tooltip
-        visualBasePopupToolTip?.Dispose();
+        _visualBasePopupToolTip?.Dispose();
 
     private void OnVisualPopupToolTipDisposed(object? sender, EventArgs e)
     {
@@ -1447,7 +1470,7 @@ public abstract class VisualControlBase : Control,
         popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
         // Not showing a popup page anymore
-        visualBasePopupToolTip = null;
+        _visualBasePopupToolTip = null;
     }
 
     /// <inheritdoc />
