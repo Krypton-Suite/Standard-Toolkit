@@ -303,13 +303,17 @@ public partial class BugReportingDialogTest : KryptonForm
         base.OnFormClosed(e);
     }
 
-    private static SecureString CreateSecureString(string value)
+    private static SecureString CreateSecureString(string? value)
     {
         var ss = new SecureString();
-        foreach (var c in value)
+        if (value != null)
         {
-            ss.AppendChar(c);
+            foreach (var c in value)
+            {
+                ss.AppendChar(c);
+            }
         }
+
         ss.MakeReadOnly();
         return ss;
     }
