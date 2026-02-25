@@ -112,7 +112,7 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
 
     private readonly int? _timeOutInterval;
 
-    private bool _timedOut;
+    private bool _hasTimedOut;
 
     private DialogResult _result;
 
@@ -1546,7 +1546,7 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
 
         _timeOutTimer.Dispose();
 
-        _timedOut = true;
+        _hasTimedOut = true;
     }
 
     private void SetupOptionalCheckBox()
@@ -1747,7 +1747,7 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
 
         if (_timeOut == 0)
         {
-            _timedOut = true;
+            _hasTimedOut = true;
 
             Close();
         }
