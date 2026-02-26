@@ -4,7 +4,7 @@ namespace TestForm
 {
     partial class KryptonDateTimePickerMonthCalendarDemo
     {
-        private System.ComponentModel.IContainer? components = null;
+        private System.ComponentModel.IContainer components = null;
 
         protected override void Dispose(bool disposing)
         {
