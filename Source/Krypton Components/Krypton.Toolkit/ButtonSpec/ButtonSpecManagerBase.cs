@@ -86,7 +86,7 @@ public abstract class ButtonSpecManagerBase : GlobalId
         PaletteRedirect redirector,
         ButtonSpecCollectionBase? variableSpecs,
         ButtonSpecCollectionBase? fixedSpecs,
-        IPaletteMetric[] viewMetrics,
+        IPaletteMetric?[] viewMetrics,
         PaletteMetricInt[] viewMetricIntOutside,
         PaletteMetricInt[]? viewMetricIntOutsideRight,
         PaletteMetricInt[] viewMetricIntInside,
