@@ -128,7 +128,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
 
-      - name: Populate WebView2 (preview)
+      - name: Populate WebView2 (Preview)
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         shell: pwsh
         run: |
@@ -152,7 +152,7 @@ jobs:
             } catch {}
           }
           if (-not $latestVersion) { $latestVersion = "1.0.3595.46" }
-          Write-Host "Using WebView2 (preview): $latestVersion"
+          Write-Host "Using WebView2 (Preview): $latestVersion"
           dotnet add $utilProj package $packageId --version $latestVersion
           dotnet restore $utilProj
           $nugetBase = Join-Path $env:USERPROFILE ".nuget\packages\microsoft.web.webview2\$latestVersion"
