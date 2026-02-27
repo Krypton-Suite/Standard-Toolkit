@@ -1091,6 +1091,63 @@ public abstract class VisualForm : Form,
 
         // We do not process the message if on an MDI child, because doing so prevents the
         // LayoutMdi call on the parent from working and cascading/tiling the children
+        // WM_GETMINMAXINFO and WM_WINDOWPOSCHANGING must both be intercepted to prevent the
+        // DWM-extended values from being applied. Fixes issue #3013.
+        //
+        // WM_GETMINMAXINFO: Windows sends this multiple times during the maximize sequence —
+        // including after IsFormMaximized becomes true. We fill our work-area values and return 0
+        // immediately so neither DefWndProc nor base.WndProc can overwrite lParam.
+        //
+        // WM_WINDOWPOSCHANGING: DefWindowProc reads our MINMAXINFO correctly but then adds its
+        // own DWM extended-frame offset (typically ±8 px), producing the final x/y/cx/cy values
+        // it sends here. We snap them back to the work area so the window lands exactly on it.
+        if (_themedApp
+            && (m.Msg == PI.WM_.GETMINMAXINFO || m.Msg == PI.WM_.WINDOWPOSCHANGING)
+            && (MdiParent is null || UseThemeFormChromeBorderWidth))
+        {
+            if (m.Msg == PI.WM_.GETMINMAXINFO)
+            {
+                // Fill our MINMAXINFO and return 0 (required by WM_GETMINMAXINFO docs).
+                // Do NOT call DefWndProc or base.WndProc as either would overwrite lParam.
+                OnWM_GETMINMAXINFO(ref m);
+                m.Result = IntPtr.Zero;
+                return;
+            }
+
+            // WM_WINDOWPOSCHANGING — snap any DWM-extended position/size back to the work area.
+            if (m.LParam != IntPtr.Zero)
+            {
+                var wp = (PI.WINDOWPOS)Marshal.PtrToStructure(m.LParam, typeof(PI.WINDOWPOS))!;
+                const int MONITOR_DEFAULT_TO_NEAREST = 0x00000002;
+                IntPtr mon = PI.MonitorFromWindow(m.HWnd, MONITOR_DEFAULT_TO_NEAREST);
+                if (mon != IntPtr.Zero)
+                {
+                    PI.MONITORINFO mi = PI.GetMonitorInfo(mon);
+                    int workLeft   = mi.rcWork.left;
+                    int workTop    = mi.rcWork.top;
+                    int workWidth  = mi.rcWork.right  - mi.rcWork.left;
+                    int workHeight = mi.rcWork.bottom - mi.rcWork.top;
+
+                    // Detect the DWM-extended pattern: window extends past all four work-area edges.
+                    bool overLeft   = wp.x < workLeft;
+                    bool overTop    = wp.y < workTop;
+                    bool overRight  = (wp.x + wp.cx) > (workLeft + workWidth);
+                    bool overBottom = (wp.y + wp.cy) > (workTop  + workHeight);
+
+                    if (overLeft && overTop && overRight && overBottom)
+                    {
+                        wp.x  = workLeft;
+                        wp.y  = workTop;
+                        wp.cx = workWidth;
+                        wp.cy = workHeight;
+                        Marshal.StructureToPtr(wp, m.LParam, true);
+                    }
+                }
+            }
+        }
+
+        // WM_NCCALCSIZE and other chrome messages are skipped for maximized forms and MDI children
+        // to avoid conflicting with the OS layout.
         if (_themedApp
             && !CommonHelper.IsFormMaximized(this)
             && (MdiParent is null || UseThemeFormChromeBorderWidth))
@@ -1100,14 +1157,6 @@ public abstract class VisualForm : Form,
                 case PI.WM_.NCCALCSIZE:
                     processed = OnWM_NCCALCSIZE(ref m);
                     break;
-                case PI.WM_.GETMINMAXINFO:
-                    OnWM_GETMINMAXINFO(ref m);
-                    /* Setting handled to false enables the application to process its own Min/Max requirements,
-                     * as mentioned by jason.bullard (comment from September 22, 2011) on http://gallery.expression.microsoft.com/ZuneWindowBehavior/ */
-                    // https://github.com/Krypton-Suite/Standard-Toolkit/issues/459
-                    // Still got to call - base - to allow the "application to process its own Min/Max requirements" !!
-                    base.WndProc(ref m);
-                    return;
             }
         }
 
@@ -1257,10 +1306,14 @@ public abstract class VisualForm : Form,
             PI.MONITORINFO monitorInfo = PI.GetMonitorInfo(monitor);
             PI.RECT rcWorkArea = monitorInfo.rcWork;
             PI.RECT rcMonitorArea = monitorInfo.rcMonitor;
-            mmi.ptMaxPosition.X = Math.Abs(rcWorkArea.left - rcMonitorArea.left);
-            mmi.ptMaxPosition.Y = Math.Abs(rcWorkArea.top - rcMonitorArea.top);
-            mmi.ptMaxSize.X = Math.Abs(rcWorkArea.right - rcWorkArea.left);
-            mmi.ptMaxSize.Y = Math.Abs(rcWorkArea.bottom - rcWorkArea.top);
+
+            // Position and size the maximized window to exactly cover the work area.
+            // DefWndProc is intentionally NOT called after this (see WndProc), so Windows uses
+            // these values directly without applying any DWM extended-frame expansion.
+            mmi.ptMaxPosition.X = rcWorkArea.left - rcMonitorArea.left;
+            mmi.ptMaxPosition.Y = rcWorkArea.top  - rcMonitorArea.top;
+            mmi.ptMaxSize.X = rcWorkArea.right  - rcWorkArea.left;
+            mmi.ptMaxSize.Y = rcWorkArea.bottom - rcWorkArea.top;
             // https://github.com/Krypton-Suite/Standard-Toolkit/issues/415 so changed to "* 3 / 2"
             mmi.ptMinTrackSize.X = Math.Max(mmi.ptMinTrackSize.X * 3 / 2, MinimumSize.Width);
             mmi.ptMinTrackSize.Y = Math.Max(mmi.ptMinTrackSize.Y * 2, MinimumSize.Height);
