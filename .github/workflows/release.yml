@@ -102,7 +102,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
 
-      - name: Populate WebView2 (latest)
+      - name: Populate WebView2 (Latest)
         # Kill switch check
         if: steps.release_kill_switch.outputs.enabled == 'true'
         shell: pwsh
@@ -126,7 +126,7 @@ jobs:
             } catch {}
           }
           if (-not $latestVersion) { $latestVersion = "1.0.3595.46" }
-          Write-Host "Using WebView2 (latest): $latestVersion"
+          Write-Host "Using WebView2 (Latest): $latestVersion"
           dotnet add $utilProj package $packageId --version $latestVersion
           dotnet restore $utilProj
           $nugetBase = Join-Path $env:USERPROFILE ".nuget\packages\microsoft.web.webview2\$latestVersion"
@@ -362,7 +362,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
 
-      - name: Populate WebView2 (latest)
+      - name: Populate WebView2 (Latest)
         # Kill switch check
         if: steps.release_kill_switch.outputs.enabled == 'true'
         shell: pwsh
@@ -386,7 +386,7 @@ jobs:
             } catch {}
           }
           if (-not $latestVersion) { $latestVersion = "1.0.3595.46" }
-          Write-Host "Using WebView2 (latest): $latestVersion"
+          Write-Host "Using WebView2 (Latest): $latestVersion"
           dotnet add $utilProj package $packageId --version $latestVersion
           dotnet restore $utilProj
           $nugetBase = Join-Path $env:USERPROFILE ".nuget\packages\microsoft.web.webview2\$latestVersion"
@@ -835,12 +835,23 @@ jobs:
             9.0.x
             10.0.x
 
-      # global.json dynamically generate
-      - name: Force .NET 10 SDK via global.json
-        # Kill switch check
+      # .NET 11 (Preview)
+      - name: Setup .NET 11 (Preview)
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 11.0.x
+          dotnet-quality: preview
+
+      # global.json dynamically generate (use latest SDK available)
+      - name: Force .NET 11 SDK via global.json
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         run: |
-          $sdkVersion = (dotnet --list-sdks | Select-String "10.0").ToString().Split(" ")[0]
+          $sdkVersion = (dotnet --list-sdks | Select-String "11.0").ToString().Split(" ")[0]
+          if (-not $sdkVersion) {
+            # Fallback to .NET 10 if .NET 11 is not available
+            $sdkVersion = (dotnet --list-sdks | Select-String "10.0").ToString().Split(" ")[0]
+          }
           Write-Output "Using SDK $sdkVersion"
           @"
           {
@@ -873,48 +884,40 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
 
-      - name: Setup WebView2 SDK
+      - name: Setup WebView2 SDK (Preview)
         # Kill switch check
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         shell: pwsh
         run: |
-          if (-not (Test-Path "WebView2SDK")) { mkdir WebView2SDK }
+          $root = $env:GITHUB_WORKSPACE
+          if (-not $root) { $root = (Get-Location).Path }
+          $utilProj = Join-Path $root "Source\Krypton Components\Krypton.Utilities\Krypton.Utilities.csproj"
+          $libDir = Join-Path $root "Source\Krypton Components\Krypton.Utilities\Lib\WebView2"
+          if (-not (Test-Path $utilProj)) { Write-Error "Project not found: $utilProj"; exit 1 }
+          if (-not (Test-Path $libDir)) { New-Item -ItemType Directory -Path $libDir -Force }
           $packageId = "Microsoft.Web.WebView2"
-          # Use prerelease versions for canary builds to avoid .NET 11.0 requirement
           Write-Host "Using prerelease=true for WebView2 SDK lookup (canary build)"
           $latestVersion = $null
           try {
-            $searchUrl = "https://azuresearch-usnc.nuget.org/query?q=$packageId&prerelease=true&semVerLevel=2.0.0&take=1"
-            $searchResponse = Invoke-RestMethod -Uri $searchUrl -Method Get
-            if ($searchResponse.data -and $searchResponse.data.Count -gt 0) {
-              $latestVersion = $searchResponse.data[0].version
-            }
+            $searchResponse = Invoke-RestMethod -Uri "https://azuresearch-usnc.nuget.org/query?q=$packageId&prerelease=true&semVerLevel=2.0.0&take=1" -Method Get
+            if ($searchResponse.data -and $searchResponse.data.Count -gt 0) { $latestVersion = $searchResponse.data[0].version }
           } catch {
             try {
-              $apiUrl = "https://api.nuget.org/v3-flatcontainer/$packageId/index.json"
-              $response = Invoke-RestMethod -Uri $apiUrl -Method Get
-              if ($response.versions) {
-                # Include prerelease versions
-                $allVersions = $response.versions | Where-Object { $_ -match '^\d+\.\d+\.\d+' }
-                if ($allVersions) {
-                  $latestVersion = $allVersions | Sort-Object { [System.Version]($_ -replace '-.*', '') } -Descending | Select-Object -First 1
-                }
-              }
+              $response = Invoke-RestMethod -Uri "https://api.nuget.org/v3-flatcontainer/$packageId/index.json" -Method Get
+              $allVersions = $response.versions | Where-Object { $_ -match '^\d+\.\d+\.\d+' }
+              if ($allVersions) { $latestVersion = $allVersions | Sort-Object { [System.Version]($_ -replace '-.*', '') } -Descending | Select-Object -First 1 }
             } catch {}
           }
           if (-not $latestVersion) { $latestVersion = "1.0.3595.46" }
-          Write-Host "Using WebView2 SDK version (preview): $latestVersion"
-          dotnet add "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj" package Microsoft.Web.WebView2 --version $latestVersion
-          dotnet restore "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj"
-          $nugetBasePath = "$env:USERPROFILE\.nuget\packages\microsoft.web.webview2\$latestVersion"
-          $coreDll = Get-ChildItem -Path $nugetBasePath -Recurse -Name "Microsoft.Web.WebView2.Core.dll" | Select-Object -First 1
-          Copy-Item (Join-Path $nugetBasePath $coreDll) "WebView2SDK\"
-          $winFormsDll = Get-ChildItem -Path $nugetBasePath -Recurse -Name "Microsoft.Web.WebView2.WinForms.dll" | Select-Object -First 1
-          Copy-Item (Join-Path $nugetBasePath $winFormsDll) "WebView2SDK\"
-          $loaderDll = Get-ChildItem -Path $nugetBasePath -Recurse -Name "WebView2Loader.dll" | Select-Object -First 1
-          Copy-Item (Join-Path $nugetBasePath $loaderDll) "WebView2SDK\"
-          # Note: We keep the PackageReference in the project file - file-based refs will take precedence when DLLs exist,
-          # and PackageReference serves as a fallback for builds where SDK files aren't available
+          Write-Host "Using WebView2 (Preview): $latestVersion"
+          dotnet add $utilProj package $packageId --version $latestVersion
+          dotnet restore $utilProj
+          $nugetBase = Join-Path $env:USERPROFILE ".nuget\packages\microsoft.web.webview2\$latestVersion"
+          @("Microsoft.Web.WebView2.Core.dll","Microsoft.Web.WebView2.WinForms.dll","WebView2Loader.dll") | ForEach-Object {
+            $f = Get-ChildItem -Path $nugetBase -Recurse -Name $_ -ErrorAction SilentlyContinue | Select-Object -First 1
+            if ($f) { Copy-Item (Join-Path $nugetBase $f) $libDir -Force; Write-Host "Copied $_" }
+          }
+          dotnet remove $utilProj package $packageId
 
       - name: Restore
         # Kill switch check
