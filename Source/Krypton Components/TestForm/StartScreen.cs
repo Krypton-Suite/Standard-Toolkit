@@ -102,6 +102,7 @@ public partial class StartScreen : KryptonForm
         CreateButton("Tooltip Extended/Infinite Timeout", "Comprehensive demo of extended and infinite tooltip timeout (Issue #3075). Krypton tooltips support AutoPopDelay > 5000ms and 0 (infinite) on all Windows versions.", typeof(TooltipTimeoutTest));
         CreateButton("TextBox Validating Test", "Tests fix for Validating event duplication bug #2801", typeof(KryptonTextBoxValidatingTest));
         CreateButton("Touchscreen + High DPI Demo", "Comprehensive demonstration of touchscreen support with per-monitor high DPI scaling (Issue #2844).", typeof(TouchscreenHighDpiDemo));
+        CreateButton("Title Bar Menu", "Demonstrates titlebar menu.", typeof(KryptonFormTitleBarDemo));
         CreateButton("RichTextBox Formatting Test", "Tests fix for RichTextBox formatting preservation when palette changes (Issue #2832)", typeof(RichTextBoxFormattingTest));
         CreateButton("RTL Layout Test", "Test for RTL compliance", typeof(RTLFormBorderTest));
         CreateButton("Toast", "For breakfast....?", typeof(ToastNotificationTestChoice));
