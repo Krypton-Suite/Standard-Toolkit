@@ -4,6 +4,7 @@
 
 ## 2026-04-20 - Build 2604 (Version 105-LTS - Patch 2) - April 2026
 
+* Implemented [#3117](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3117), Disabling focus when clicking on a `KryptonButton`
 * Implemented [#615](https://github.com/Krypton-Suite/Standard-Toolkit/issues/615), Controls should have "min design heights" be the same
 * Resolved [#3101](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3101), Colors in theme exporting XMLs is missing
 * Resolved [#3103](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3103), Name of the theme is not being serialized in XML files
