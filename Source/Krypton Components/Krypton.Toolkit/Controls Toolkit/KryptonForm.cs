@@ -204,6 +204,12 @@ public class KryptonForm : VisualForm,
     private KryptonSystemMenu? _kryptonSystemMenu;
     // SystemMenu context menu components
     private KryptonContextMenu _systemMenuContextMenu;
+
+    // Titlebar
+    private KryptonFormTitleBar? _titleBar;
+    private ViewDrawDocker? _titleBarDocker;
+    private ButtonSpecManagerDraw? _titleBarButtonManager;
+
     #endregion
 
     #region Identity
@@ -611,6 +617,16 @@ public class KryptonForm : VisualForm,
             ButtonSpecMin.Dispose();
             ButtonSpecMax.Dispose();
             ButtonSpecClose.Dispose();
+
+            // Detach the title bar fully (unsubscribes events, revokes view element,
+            // clears SetOwnerForm, destructs the button manager, and disposes the docker).
+            // Using DetachTitleBar keeps this in sync with the property-setter teardown
+            // and prevents OnTitleBarButtonSpecChanged firing on a disposed handle.
+            if (_titleBar != null)
+            {
+                DetachTitleBar(_titleBar);
+                _titleBar = null;
+            }
 
             // Dispose the click timer
             _clickTimer?.Dispose();
@@ -1145,6 +1161,38 @@ public class KryptonForm : VisualForm,
     [Description(@"Collection of button specifications.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public FormButtonSpecCollection ButtonSpecs { get; }
+
+    /// <summary>
+    /// Gets or sets the <see cref="KryptonFormTitleBar"/> component that hosts button-spec items
+    /// in the title bar caption area, to the left of the form title text.
+    /// Set to <c>null</c> to remove any previously attached title bar toolbar.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Title bar component that hosts button-spec items in the form caption area.")]
+    [DefaultValue(null)]
+    public KryptonFormTitleBar? TitleBar
+    {
+        get => _titleBar;
+        set
+        {
+            if (_titleBar == value)
+            {
+                return;
+            }
+
+            if (_titleBar != null)
+            {
+                DetachTitleBar(_titleBar);
+            }
+
+            _titleBar = value;
+
+            if (_titleBar != null)
+            {
+                AttachTitleBar(_titleBar);
+            }
+        }
+    }
 
     /// <summary>
     /// Gets access to the minimize button spec.
@@ -1753,6 +1801,8 @@ public class KryptonForm : VisualForm,
 
         // Recreate buttons when RTL changes to update their positions
         _buttonManager?.RecreateButtons();
+
+        _titleBarButtonManager?.RecreateButtons();
     }
 
     /// <inheritdoc />
@@ -1762,6 +1812,8 @@ public class KryptonForm : VisualForm,
 
         // Recreate buttons when RTL changes to update their positions
         _buttonManager?.RecreateButtons();
+
+        _titleBarButtonManager?.RecreateButtons();
     }
 
     /// <summary>
@@ -1773,6 +1825,8 @@ public class KryptonForm : VisualForm,
     {
         // Recreate buttons when touchscreen support changes to update their sizes
         _buttonManager?.RecreateButtons();
+
+        _titleBarButtonManager?.RecreateButtons();
     }
 
     /// <summary>
@@ -3080,6 +3134,113 @@ public class KryptonForm : VisualForm,
     protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
     {
         return base.ProcessCmdKey(ref msg, keyData);
+    }
+
+    private void AttachTitleBar([DisallowNull] KryptonFormTitleBar titleBar)
+    {
+        // Give the title bar component a back-reference to this form so it can
+        // reach form-level state (palette, metrics, etc.) during rendering.
+        titleBar.SetOwnerForm(this);
+
+        // Create a ViewDrawDocker that will act as a container for the title bar's
+        // custom buttons.  It inherits the active header's back, border, and palette
+        // so it blends seamlessly into the caption area.
+        // PaletteMetricBool.None / PaletteMetricPadding.None mean the docker adds no
+        // extra padding of its own; VisualOrientation.Top matches the caption bar.
+        _titleBarDocker = new ViewDrawDocker(StateActive.Header.Back, StateActive.Header.Border, StateActive.Header,
+            PaletteMetricBool.None, PaletteMetricPadding.None, VisualOrientation.Top);
+
+        // ButtonSpecManagerDraw wires the KryptonFormTitleBar.ButtonSpecs collection to
+        // the view layer.  Each ButtonSpec is turned into a real view button, rendered
+        // inside _titleBarDocker, and measured using the HeaderButtonEdgeInset /
+        // HeaderButtonPadding metrics so spacing stays consistent with the rest of the
+        // caption buttons (Min/Max/Close).
+        // Passing null for the fixed-button array means only the user-defined specs
+        // from the titleBar are managed here; the system chrome buttons are handled by
+        // the separate _buttonManager.
+        // Under RTL+RightToLeftLayout, ViewDrawDocker.CalculateDock() automatically
+        // flips ViewDockStyle.Left to ViewDockStyle.Right, so the injected docker
+        // migrates to the correct visual edge without any extra code here.
+        _titleBarButtonManager = new ButtonSpecManagerDraw(
+            this,                                           // owning control (for RightToLeft checks)
+            Redirector,                                     // palette redirector
+            titleBar.ButtonSpecs,                           // the user-defined button specs to render
+            null,                                           // no fixed button specs in this manager
+            [_titleBarDocker],                              // single view container the buttons live in
+            [StateCommon.Header],                           // palette state used to style each button
+            [PaletteMetricInt.HeaderButtonEdgeInsetForm],   // edge inset metric (gap from docker border)
+            [PaletteMetricPadding.HeaderButtonPaddingForm], // padding metric around each button
+            CreateToolStripRenderer,                        // renderer factory (for ToolStrip-hosted glyphs)
+            OnNeedPaint);                                   // invalidation callback
+
+        // Share the form-level ToolTipManager so hovering a title bar button shows
+        // a tooltip using the same infrastructure as all other Krypton controls.
+        _titleBarButtonManager.ToolTipManager = ToolTipManager;
+
+        // Physically insert _titleBarDocker into the caption view tree as a Left-docked
+        // child of _drawHeading.  This places the custom buttons between the form icon
+        // (which is drawn by _drawContent as the content image) and the title text,
+        // mirroring where the Ribbon places its Quick-Access Toolbar buttons.
+        // Under RTL the Left dock is flipped to Right by the layout engine, which in a
+        // mirrored coordinate system is still visually "after the icon, before the title".
+        InjectViewElement(_titleBarDocker, ViewDockStyle.Left);
+
+        // Track collection changes so the view stays in sync: when the developer adds
+        // or removes a ButtonSpec at runtime, OnTitleBarButtonSpecChanged refreshes the
+        // button views and re-measures the caption area.
+        titleBar.ButtonSpecInserted += OnTitleBarButtonSpecChanged;
+        titleBar.ButtonSpecRemoved += OnTitleBarButtonSpecChanged;
+
+        // Rebuild the Min/Max/Close buttons because their edge-inset calculations can
+        // depend on how many title bar buttons are now present, then request a full
+        // non-client repaint so the new buttons appear immediately.
+        RecreateMinMaxCloseButtons();
+        PerformNeedPaint(true);
+    }
+
+    private void DetachTitleBar([DisallowNull] KryptonFormTitleBar titleBar)
+    {
+        // Stop listening for collection changes first so no callbacks fire
+        // during the teardown sequence below.
+        titleBar.ButtonSpecInserted -= OnTitleBarButtonSpecChanged;
+        titleBar.ButtonSpecRemoved -= OnTitleBarButtonSpecChanged;
+
+        // Remove the docker from the caption view tree before destroying it so the
+        // layout engine never tries to measure a partially-disposed element.
+        if (_titleBarDocker != null)
+        {
+            RevokeViewElement(_titleBarDocker, ViewDockStyle.Left);
+        }
+
+        // Destruct releases all button view elements created by the manager and
+        // unregisters any internal event handlers it holds.
+        _titleBarButtonManager?.Destruct();
+        _titleBarButtonManager = null;
+
+        // Dispose the docker view after the manager is gone so no lingering
+        // button views attempt to paint through an already-disposed parent.
+        _titleBarDocker?.Dispose();
+        _titleBarDocker = null;
+
+        // Clear the back-reference so the title bar component no longer holds
+        // a reference to this form.
+        titleBar.SetOwnerForm(null);
+
+        // Rebuild chrome buttons and repaint for the same reason as in AttachTitleBar:
+        // the caption geometry has changed and Min/Max/Close need to recalculate.
+        RecreateMinMaxCloseButtons();
+        PerformNeedPaint(true);
+    }
+
+    private void OnTitleBarButtonSpecChanged(object? sender, ButtonSpecEventArgs e)
+    {
+        // A ButtonSpec was added to or removed from the KryptonFormTitleBar collection.
+        // RefreshButtons re-creates only the affected view button(s) inside the manager
+        // without rebuilding the entire caption tree, then RecreateMinMaxCloseButtons
+        // adjusts the chrome button spacing and a repaint makes the change visible.
+        _titleBarButtonManager?.RefreshButtons();
+        RecreateMinMaxCloseButtons();
+        PerformNeedPaint(true);
     }
 
     #endregion
