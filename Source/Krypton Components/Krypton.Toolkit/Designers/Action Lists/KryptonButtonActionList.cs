@@ -69,6 +69,21 @@ internal class KryptonButtonActionList : DesignerActionList
         }
     }
 
+    /// <summary>Gets or sets a value indicating whether the button is selectable.</summary>
+    public bool IsSelectable
+    {
+        get =>_button.IsSelectable;
+
+        set
+        {
+            if (_button.IsSelectable != value)
+            {
+                _service?.OnComponentChanged(_button, null, _button.IsSelectable, value);
+                _button.IsSelectable = value;
+            }
+        }
+    }
+
     /// <summary>Gets or sets the krypton context menu.</summary>
     /// <value>The krypton context menu.</value>
     public KryptonContextMenu? KryptonContextMenu
@@ -250,6 +265,8 @@ internal class KryptonButtonActionList : DesignerActionList
             actions.Add(new DesignerActionPropertyItem(nameof(ExtraText), nameof(ExtraText), @"Values", @"Button extra text"));
             actions.Add(new DesignerActionPropertyItem(nameof(Image), nameof(Image), @"Values", @"Button image"));
             actions.Add(new DesignerActionPropertyItem(nameof(DialogResult), nameof(DialogResult), @"Values", @"The DialogResult for this button"));
+            actions.Add(new DesignerActionHeaderItem(@"Behavior"));
+            actions.Add(new DesignerActionPropertyItem(nameof(IsSelectable), nameof(IsSelectable), @"Behavior", @"When false, the button does not receive focus when clicked (e.g. for on-screen keyboards)."));
             actions.Add(new DesignerActionHeaderItem(@"Visuals"));
             actions.Add(new DesignerActionPropertyItem(nameof(PaletteMode), @"Palette", @"Visuals", @"Palette applied to drawing"));
             actions.Add(new DesignerActionHeaderItem(@"UAC Elevation"));
