@@ -134,6 +134,24 @@ internal class KryptonCommandLinkButtonActionList : DesignerActionList
             }
         }
     }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the button can receive focus when clicked.
+    /// </summary>
+    public bool IsSelectable
+    {
+        get => _button.IsSelectable;
+
+        set
+        {
+            if (_button.IsSelectable != value)
+            {
+                _service?.OnComponentChanged(_button, null, _button.IsSelectable, value);
+                _button.IsSelectable = value;
+            }
+        }
+    }
+
     #endregion
 
     #region Public Override
@@ -156,6 +174,8 @@ internal class KryptonCommandLinkButtonActionList : DesignerActionList
             actions.Add(new DesignerActionPropertyItem("Heading", "Heading", "CommandLink", "Button Heading text"));
             actions.Add(new DesignerActionPropertyItem("Description", "Description", "CommandLink", "Button Subscript Description text"));
             actions.Add(new DesignerActionPropertyItem("Image", "Image", "CommandLink", "Button image"));
+            actions.Add(new DesignerActionHeaderItem("Behavior"));
+            actions.Add(new DesignerActionPropertyItem(nameof(IsSelectable), nameof(IsSelectable), "Behavior", "When false, the button does not receive focus when clicked. Useful for on-screen keyboards so that input goes to the currently focused control."));
             actions.Add(new DesignerActionHeaderItem("Visuals"));
             actions.Add(new DesignerActionPropertyItem("ButtonStyle", "Style", "Visuals", "Button style"));
             actions.Add(new DesignerActionPropertyItem("PaletteMode", "Palette", "Visuals", "Palette applied to drawing"));
