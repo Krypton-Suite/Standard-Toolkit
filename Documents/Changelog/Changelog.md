@@ -4,6 +4,7 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Resolved [#3123](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3123), `KryptonComboBox` DropDownWidth doesn't resize with the control
 * Resolved [#3031](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3031), Maximized form's size exceeds the screen's working area
 * Implemented [#615](https://github.com/Krypton-Suite/Standard-Toolkit/issues/615), Controls should have "min design heights" be the same
 * Implemented [#1136](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1136), Floating Toolbars
