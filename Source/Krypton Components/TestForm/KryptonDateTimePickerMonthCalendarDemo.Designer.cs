@@ -1,4 +1,6 @@
-﻿namespace TestForm
+#nullable enable
+
+namespace TestForm
 {
     partial class KryptonDateTimePickerMonthCalendarDemo
     {
