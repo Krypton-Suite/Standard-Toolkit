@@ -21,6 +21,7 @@ public class ToolTipManager
     private readonly System.Windows.Forms.Timer _startTimer;
     private readonly System.Windows.Forms.Timer _detectMoveTimer;
     private readonly System.Windows.Forms.Timer _closeTimer;
+    private int _closeInterval;
     private ViewBase? _startTarget;
     private ViewBase? _currentTarget;
     private bool _showingToolTips;
@@ -50,9 +51,13 @@ public class ToolTipManager
         };
         _startTimer.Tick += OnStartTimerTick;
 
+        // 0 = infinite display, but cannot have an interval less than 0
+        _closeInterval = toolTipValues.CloseIntervalDelay < 0 ? 0 : toolTipValues.CloseIntervalDelay;
+
         _closeTimer = new System.Windows.Forms.Timer
         {
-            Interval = toolTipValues.CloseIntervalDelay
+            // 0 = infinite display, but cannot have an interval less than 0
+            Interval = _closeInterval > 0 ? _closeInterval : 1
         };
         _closeTimer.Tick += OnCloseTimerTick;
 
@@ -96,7 +101,7 @@ public class ToolTipManager
     /// </summary>
     public int CloseInterval
     {
-        get => _closeTimer.Interval;
+        get => _closeInterval;
 
         set
         {
@@ -106,7 +111,10 @@ public class ToolTipManager
                 value = 0;
             }
 
-            _closeTimer.Interval = value;
+            _closeInterval = value;
+
+            // Update the timer interval to match the new value, using 1ms if infinite display is specified
+            _closeTimer.Interval = value > 0 ? value : 1;
         }
     }
     #endregion
@@ -274,8 +282,10 @@ public class ToolTipManager
             OnShowToolTip(new ToolTipEventArgs(_startTarget!, Control.MousePosition));
 
             // Only start close timer when interval > 0 (0 = infinite display)
-            if (_closeTimer.Interval > 0)
+            if (_closeInterval > 0)
             {
+                _closeTimer.Interval = _closeInterval;
+
                 _closeTimer.Start();
             }
         }
