@@ -1,48 +1,50 @@
 # New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
 # Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, tobitege et al. 2026 - 2026. All rights reserved.
 #
-# KILL-SWITCH: To disable this workflow, set repository variable NIGHTLY_DISABLED=true
+# KILL-SWITCH: To disable this workflow, set repository variable CANARY_DISABLED=true
 # Location: Repository Settings → Secrets and variables → Actions → Variables tab
-# To re-enable: Set NIGHTLY_DISABLED=false or delete the variable
+# To re-enable: Set CANARY_DISABLED=false or delete the variable
+#
+# Runs only when code is pushed to the Canary branch (or when triggered manually).
+# Does not run on a schedule.
 
-name: Nightly Release
+name: Canary Release
 
 on:
-  schedule:
-    # Run nightly build automatically at midnight UTC every day
-    - cron: '0 0 * * *'
-  workflow_dispatch:  # Allow manual triggering for testing
+  push:
+    branches:
+      - Canary
+  workflow_dispatch:  # Allow manual triggering
 
 jobs:
-  nightly:
+  canary:
     runs-on: windows-latest
     environment: production  # Requires approval before publishing
 
     concurrency:
-      group: nightly-alpha
+      group: canary-alpha
       cancel-in-progress: true
-    
+
     steps:
-      # Nightly Release kill switch
-      - name: Nightly Release Kill Switch Check
-        id: nightly_release_kill_switch
+      # Canary Release kill switch
+      - name: Canary Release Kill Switch Check
+        id: canary_release_kill_switch
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
-          $disabled = '${{ vars.NIGHTLY_DISABLED }}'
+          $disabled = '${{ vars.CANARY_DISABLED }}'
 
           if ($disabled -eq 'true') {
-            Write-Host "::warning:: Nightly Release workflow is currently DISABLED via kill switch (NIGHTLY_DISABLED=true)"
-            Write-Host "To re-enable: Go to Repository Settings -> Secrets and Variables -> Actions -> Variables -> Set NIGHTLY_DISABLED to 'false'."
+            Write-Host "::warning:: Canary Release workflow is currently DISABLED via kill switch (CANARY_DISABLED=true)"
+            Write-Host "To re-enable: Go to Repository Settings -> Secrets and Variables -> Actions -> Variables -> Set CANARY_DISABLED to 'false'."
             echo "enabled=false" >> $env:GITHUB_OUTPUT
           } else {
-            Write-Host "Nightly Release kill switch check has passed, continuing..."
+            Write-Host "Canary Release kill switch check has passed, continuing..."
             echo "enabled=true" >> $env:GITHUB_OUTPUT
           }
 
       - name: Security - Verify Repository
-        # Kill switch check
-        if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
@@ -53,56 +55,27 @@ jobs:
           Write-Host "✓ Repository verified: $env:GITHUB_REPOSITORY"
 
       - name: Security - Verify Branch
-        # Kill switch check
-        if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
-          # This workflow checks out alpha, so verify we're authorized to do so
-          $allowedRefs = @('refs/heads/alpha', 'refs/heads/master', 'refs/heads/main')
-          if ($env:GITHUB_REF -notin $allowedRefs) {
-            Write-Error "Security: Workflow triggered from unauthorized branch '$env:GITHUB_REF'"
+          # This workflow is for the Canary branch only (push to Canary or manual run from Canary)
+          if ($env:GITHUB_REF -ne 'refs/heads/Canary') {
+            Write-Error "Security: Canary release only runs from branch Canary. Current ref: '$env:GITHUB_REF'. For manual run, select branch 'Canary' in the workflow dispatch."
             exit 1
           }
           Write-Host "✓ Branch verified: $env:GITHUB_REF"
 
       - name: Checkout
-        if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         uses: actions/checkout@v6
         with:
-          ref: alpha
+          ref: Canary
           fetch-depth: 0
-
-      - name: Check for changes in last 24 hours
-        if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
-        id: check_changes
-        shell: pwsh
-        run: |
-          $ErrorActionPreference = 'Stop'
-          
-          # Get commits from last 24 hours on alpha branch
-          $yesterday = (Get-Date).AddDays(-1).ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss")
-          $commitCount = git rev-list --count --since="$yesterday" alpha
-          
-          Write-Host "Commits in last 24 hours: $commitCount"
-          
-          if ([int]$commitCount -gt 0) {
-            Write-Host "Changes detected - proceeding with nightly build"
-            echo "has_changes=true" >> $env:GITHUB_OUTPUT
-          } else {
-            Write-Host "No changes detected - skipping nightly build"
-            echo "has_changes=false" >> $env:GITHUB_OUTPUT
-          }
-
-      - name: Skip notification
-        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'false'
-        run: |
-          Write-Host "::notice::No commits in the last 24 hours. Skipping nightly build and publish."
 
       # .NET 9 and 10
       - name: Setup .NET
-        # Kill switch check
-        if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         uses: actions/setup-dotnet@v5
         with:
           dotnet-version: |
@@ -111,8 +84,7 @@ jobs:
 
       # .NET 11 (Preview)
       - name: Setup .NET 11 (Preview)
-        # Kill switch check
-        if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 11.0.x
@@ -120,7 +92,7 @@ jobs:
 
       # global.json dynamically generate (use latest SDK available)
       - name: Force .NET 11 SDK via global.json
-        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         run: |
           $sdkVersion = (dotnet --list-sdks | Select-String "11.0").ToString().Split(" ")[0]
           if (-not $sdkVersion) {
@@ -138,17 +110,17 @@ jobs:
           "@ | Out-File -Encoding utf8 global.json
 
       - name: Setup MSBuild
-        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         uses: microsoft/setup-msbuild@v2
         with:
           msbuild-architecture: x64
 
       - name: Setup NuGet
-        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         uses: NuGet/setup-nuget@v2
 
       - name: Cache NuGet
-        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         uses: actions/cache@v5
         with:
           path: ~/.nuget/packages
@@ -157,7 +129,7 @@ jobs:
             ${{ runner.os }}-nuget-
 
       - name: Populate WebView2 (Preview)
-        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         shell: pwsh
         run: |
           $root = $env:GITHUB_WORKSPACE
@@ -167,8 +139,7 @@ jobs:
           if (-not (Test-Path $utilProj)) { Write-Error "Project not found: $utilProj"; exit 1 }
           if (-not (Test-Path $libDir)) { New-Item -ItemType Directory -Path $libDir -Force }
           $packageId = "Microsoft.Web.WebView2"
-          # Use prerelease versions for alpha/nightly builds to avoid .NET 11.0 requirement
-          Write-Host "Using prerelease=true for WebView2 SDK lookup (nightly build)"
+          Write-Host "Using prerelease=true for WebView2 SDK lookup (canary build)"
           $latestVersion = $null
           try {
             $searchResponse = Invoke-RestMethod -Uri "https://azuresearch-usnc.nuget.org/query?q=$packageId&prerelease=true&semVerLevel=2.0.0&take=1" -Method Get
@@ -176,7 +147,6 @@ jobs:
           } catch {
             try {
               $response = Invoke-RestMethod -Uri "https://api.nuget.org/v3-flatcontainer/$packageId/index.json" -Method Get
-              # Include prerelease versions
               $allVersions = $response.versions | Where-Object { $_ -match '^\d+\.\d+\.\d+' }
               if ($allVersions) { $latestVersion = $allVersions | Sort-Object { [System.Version]($_ -replace '-.*', '') } -Descending | Select-Object -First 1 }
             } catch {}
@@ -193,19 +163,19 @@ jobs:
           dotnet remove $utilProj package $packageId
 
       - name: Restore
-        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
-        run: msbuild "Scripts/Build/nightly.proj" /t:Restore /p:Configuration=Nightly /p:Platform="Any CPU"
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
+        run: msbuild "Scripts/Build/canary.proj" /t:Restore /p:Configuration=Canary /p:Platform="Any CPU"
 
-      - name: Build Nightly
-        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
-        run: msbuild "Scripts/Build/nightly.proj" /t:Build /p:Configuration=Nightly /p:Platform="Any CPU"
+      - name: Build Canary
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
+        run: msbuild "Scripts/Build/canary.proj" /t:Build /p:Configuration=Canary /p:Platform="Any CPU"
 
-      - name: Pack Nightly
-        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
-        run: msbuild "Scripts/Build/nightly.proj" /t:Pack /p:Configuration=Nightly /p:Platform="Any CPU"
+      - name: Pack Canary
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
+        run: msbuild "Scripts/Build/canary.proj" /t:Pack /p:Configuration=Canary /p:Platform="Any CPU"
 
       - name: Push NuGet Packages to nuget.org
-        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         id: push_nuget
         shell: pwsh
         run: |
@@ -215,17 +185,16 @@ jobs:
             echo "packages_published=false" >> $env:GITHUB_OUTPUT
             exit 0
           }
-          
-          $packages = Get-ChildItem "Bin/Packages/Nightly/*.nupkg" -ErrorAction SilentlyContinue
+
+          $packages = Get-ChildItem "Bin/Packages/Canary/*.nupkg" -ErrorAction SilentlyContinue
           $publishedAny = $false
-          
+
           if ($packages) {
             foreach ($package in $packages) {
               Write-Output "Pushing package: $($package.Name)"
               try {
                 $output = dotnet nuget push "$($package.FullName)" --api-key $env:NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate 2>&1 | Out-String
                 Write-Output $output
-                # Check if package was actually pushed (not skipped)
                 if ($output -notmatch "already exists" -and $output -notmatch "was not pushed") {
                   $publishedAny = $true
                   Write-Host "Package $($package.Name) was published"
@@ -239,30 +208,28 @@ jobs:
           } else {
             Write-Output "No NuGet packages found to push"
           }
-          
+
           echo "packages_published=$publishedAny" >> $env:GITHUB_OUTPUT
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
 
       - name: Get Version
-        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         id: get_version
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
           $version = $null
-          
-          # Try to get version from the built assembly (most reliable)
+
           try {
-            $dllPath = Get-ChildItem "Bin/Nightly/net48/Krypton.Toolkit.dll" -ErrorAction Stop
+            $dllPath = Get-ChildItem "Bin/Canary/net48/Krypton.Toolkit.dll" -ErrorAction Stop
             $assemblyVersion = [System.Reflection.AssemblyName]::GetAssemblyName($dllPath.FullName).Version
             $version = $assemblyVersion.ToString()
             Write-Host "Got version from assembly: $version"
           } catch {
             Write-Host "Could not read version from assembly: $_"
           }
-          
-          # Fallback: Try to read from csproj XML
+
           if (-not $version) {
             try {
               $proj = 'Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj'
@@ -276,32 +243,32 @@ jobs:
               Write-Host "Could not read version from csproj: $_"
             }
           }
-          
-          # Last resort fallback
+
           if (-not $version) {
             Write-Warning "Version not found, using fallback."
             $version = "100.25.1.1"
           }
-          
+
           Write-Host "Final determined version: $version"
           echo "version=$version" >> $env:GITHUB_OUTPUT
-          echo "tag=v$version-nightly" >> $env:GITHUB_OUTPUT
+          echo "tag=v$version-canary" >> $env:GITHUB_OUTPUT
 
-      - name: Announce Nightly Release on Discord
-        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.push_nuget.outputs.packages_published == 'True'
+      - name: Announce Canary Release on Discord
+        # Kill switch check
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true' && steps.push_nuget.outputs.packages_published == 'True'
         shell: pwsh
         run: |
-          if (-not $env:DISCORD_WEBHOOK_NIGHTLY) {
-            Write-Warning "DISCORD_WEBHOOK_NIGHTLY not set - skipping Discord notification"
+          if (-not $env:DISCORD_WEBHOOK_CANARY) {
+            Write-Warning "DISCORD_WEBHOOK_CANARY not set - skipping Discord notification"
             exit 0
           }
-          
+
           $payload = @{
             embeds = @(
               @{
-                title = "🚀 Krypton Toolkit Nightly Release"
-                description = "A new nightly build is now available for bleeding-edge testing!"
-                color = 10181046
+                title = "🐤 Krypton Toolkit Canary Release"
+                description = "A new canary pre-release is now available for early testing!"
+                color = 16776960
                 fields = @(
                   @{
                     name = "📌 Version"
@@ -310,7 +277,7 @@ jobs:
                   }
                   @{
                     name = "📦 NuGet Packages"
-                    value = "• [Krypton.Toolkit.Nightly](https://www.nuget.org/packages/Krypton.Toolkit.Nightly)`n• [Krypton.Ribbon.Nightly](https://www.nuget.org/packages/Krypton.Ribbon.Nightly)`n• [Krypton.Navigator.Nightly](https://www.nuget.org/packages/Krypton.Navigator.Nightly)`n• [Krypton.Workspace.Nightly](https://www.nuget.org/packages/Krypton.Workspace.Nightly)`n• [Krypton.Docking.Nightly](https://www.nuget.org/packages/Krypton.Docking.Nightly)`n• [Krypton.Standard.Toolkit.Nightly](https://www.nuget.org/packages/Krypton.Standard.Toolkit.Nightly)"
+                    value = "• [Krypton.Toolkit.Canary](https://www.nuget.org/packages/Krypton.Toolkit.Canary)`n• [Krypton.Ribbon.Canary](https://www.nuget.org/packages/Krypton.Ribbon.Canary)`n• [Krypton.Navigator.Canary](https://www.nuget.org/packages/Krypton.Navigator.Canary)`n• [Krypton.Workspace.Canary](https://www.nuget.org/packages/Krypton.Workspace.Canary)`n• [Krypton.Docking.Canary](https://www.nuget.org/packages/Krypton.Docking.Canary)`n• [Krypton.Standard.Toolkit.Canary](https://www.nuget.org/packages/Krypton.Standard.Toolkit.Canary)"
                     inline = $false
                   }
                   @{
@@ -319,8 +286,8 @@ jobs:
                     inline = $false
                   }
                   @{
-                    name = "📄 Changelog"
-                    value = "• [Latest Changelog](https://github.com/Krypton-Suite/Standard-Toolkit/blob/alpha/Documents/Changelog/Changelog.md)"
+                    name = "📄 Release Notes"
+                    value = "[View Changelog](https://github.com/Krypton-Suite/Standard-Toolkit/blob/canary/Documents/Changelog/Changelog.md)"
                     inline = $false
                   }
                 )
@@ -331,7 +298,7 @@ jobs:
               }
             )
           } | ConvertTo-Json -Depth 10
-          
-          Invoke-RestMethod -Uri $env:DISCORD_WEBHOOK_NIGHTLY -Method Post -Body $payload -ContentType "application/json"
+
+          Invoke-RestMethod -Uri "${{ secrets.DISCORD_WEBHOOK_CANARY }}" -Method Post -Body $payload -ContentType "application/json"
         env:
-          DISCORD_WEBHOOK_NIGHTLY: ${{ secrets.DISCORD_WEBHOOK_NIGHTLY }}
+          DISCORD_WEBHOOK_CANARY: ${{ secrets.DISCORD_WEBHOOK_CANARY }}
