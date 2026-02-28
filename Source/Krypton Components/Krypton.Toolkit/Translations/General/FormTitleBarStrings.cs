@@ -18,17 +18,17 @@ public class FormTitleBarStrings : GlobalId
 {
     #region Static Fields
 
-    private const string DEFAULT_FILE = @"File";
-    private const string DEFAULT_EDIT = @"Edit";
-    private const string DEFAULT_TOOLS = @"Tools";
-    private const string DEFAULT_HELP = @"Help";
-    private const string DEFAULT_EXIT = @"Exit";
-    private const string DEFAULT_SELECT_ALL = @"Select All";
-    private const string DEFAULT_CUSTOMIZE = @"Customize";
-    private const string DEFAULT_OPTIONS = @"Options";
-    private const string DEFAULT_CONTENTS = @"Contents";
-    private const string DEFAULT_INDEX = @"Index";
-    private const string DEFAULT_ABOUT = @"About";
+    private const string DEFAULT_FILE = @"&File"; // Accelerator key - 'F'
+    private const string DEFAULT_EDIT = @"&Edit"; // Accelerator key - 'E'
+    private const string DEFAULT_TOOLS = @"&Tools"; // Accelerator key - 'T'
+    private const string DEFAULT_HELP = @"&Help"; // Accelerator key - 'H'
+    private const string DEFAULT_EXIT = @"E&xit"; // Accelerator key - 'x'
+    private const string DEFAULT_SELECT_ALL = @"Select &All"; // Accelerator key - 'A'
+    private const string DEFAULT_CUSTOMIZE = @"C&ustomize"; // Accelerator key - 'u'
+    private const string DEFAULT_OPTIONS = @"&Options"; // Accelerator key - 'O'
+    private const string DEFAULT_CONTENTS = @"&Contents"; // Accelerator key - 'C'
+    private const string DEFAULT_INDEX = @"&Index"; // Accelerator key - 'I'
+    private const string DEFAULT_ABOUT = @"&About"; // Accelerator key - 'A'
 
     #endregion
 
