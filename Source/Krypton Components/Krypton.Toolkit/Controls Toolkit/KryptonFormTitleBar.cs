@@ -315,6 +315,11 @@ public class KryptonFormTitleBar : Component
 
     private void SyncButtonSpecsFromValues()
     {
+        if (_values is null || ButtonSpecs is null)
+        {
+            return;
+        }
+
         var v = _values.ButtonVisibility;
         var a = _values.ButtonAlignment;
 

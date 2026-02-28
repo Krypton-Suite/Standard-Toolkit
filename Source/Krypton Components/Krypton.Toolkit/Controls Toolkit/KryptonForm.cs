@@ -618,11 +618,15 @@ public class KryptonForm : VisualForm,
             ButtonSpecMax.Dispose();
             ButtonSpecClose.Dispose();
 
-            // Dispose title bar and related resources
-            _titleBarButtonManager?.Destruct();
-            _titleBarButtonManager = null;
-            _titleBarDocker?.Dispose();
-            _titleBarDocker = null;
+            // Detach the title bar fully (unsubscribes events, revokes view element,
+            // clears SetOwnerForm, destructs the button manager, and disposes the docker).
+            // Using DetachTitleBar keeps this in sync with the property-setter teardown
+            // and prevents OnTitleBarButtonSpecChanged firing on a disposed handle.
+            if (_titleBar != null)
+            {
+                DetachTitleBar(_titleBar);
+                _titleBar = null;
+            }
 
             // Dispose the click timer
             _clickTimer?.Dispose();
