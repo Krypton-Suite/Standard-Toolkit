@@ -36,8 +36,8 @@ public class KryptonCommandLinkButton : VisualSimpleBase, IButtonControl
     //
     // Only for net6.0 and not for newer releases.
     //
-    // Therefore the warning has been disabled for NET 6.0, since it has only been marked as obsolete in future releases
-    // but does seems to remain supported in contrast to the warning
+    // Therefore, the warning has been disabled for NET 6.0, since it has only been marked as obsolete in future releases
+    // but does seem to remain supported in contrast to the warning
     //
     // May it become marked obsolete in future releases new warnings will appear.
 
@@ -52,6 +52,7 @@ public class KryptonCommandLinkButton : VisualSimpleBase, IButtonControl
     private bool _isDefault;
     private bool _useMnemonic;
     private bool _wasEnabled;
+    private bool _isSelectable;
     private ButtonStyle _buttonStyle;
     private IKryptonCommand? _command;
     private readonly ButtonController _buttonController;
@@ -90,6 +91,7 @@ public class KryptonCommandLinkButton : VisualSimpleBase, IButtonControl
         DialogResult = DialogResult.None;
         _orientation = VisualOrientation.Top;
         _useMnemonic = true;
+        _isSelectable = true;
 
         // Create content storage
         UACShieldIcon = new CommandLinkImageValues(NeedPaintDelegate);
@@ -478,6 +480,27 @@ public class KryptonCommandLinkButton : VisualSimpleBase, IButtonControl
     {
         get => base.ImeMode;
         set => base.ImeMode = value;
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the button can receive focus when clicked.
+    /// When <c>false</c>, clicking the button does not steal focus from the currently active
+    /// control — useful for on-screen keyboards where input must remain in a text field or grid cell.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"When false, the button does not receive focus when clicked. Useful for on-screen keyboards so that input goes to the currently focused control.")]
+    [DefaultValue(true)]
+    public bool IsSelectable
+    {
+        get => _isSelectable;
+        set
+        {
+            if (_isSelectable != value)
+            {
+                _isSelectable = value;
+                SetStyle(ControlStyles.Selectable, value);
+            }
+        }
     }
 
     #endregion

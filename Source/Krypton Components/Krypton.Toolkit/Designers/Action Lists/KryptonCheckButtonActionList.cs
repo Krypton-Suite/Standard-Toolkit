@@ -91,6 +91,8 @@ internal class KryptonCheckButtonActionList : KryptonButtonActionList
             actions.Add(new DesignerActionPropertyItem(nameof(Text), nameof(Text), @"Values", @"Button text"));
             actions.Add(new DesignerActionPropertyItem(nameof(ExtraText), nameof(ExtraText), @"Values", @"Button extra text"));
             actions.Add(new DesignerActionPropertyItem(nameof(Image), nameof(Image), @"Values", @"Button image"));
+            actions.Add(new DesignerActionHeaderItem(@"Behavior"));
+            actions.Add(new DesignerActionPropertyItem(nameof(IsSelectable), nameof(IsSelectable), @"Behavior", @"When false, the button does not receive focus when clicked. Useful for on-screen keyboards so that input goes to the currently focused control."));
             actions.Add(new DesignerActionHeaderItem(@"Visuals"));
             actions.Add(new DesignerActionPropertyItem(nameof(PaletteMode), @"Palette", @"Visuals", @"Palette applied to drawing"));
         }
