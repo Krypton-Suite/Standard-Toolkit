@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -90,6 +90,43 @@ internal class KryptonFormTitleBarDesigner : ComponentDesigner
 
     #endregion
 
+    #region Internal
+
+    /// <summary>
+    /// Inserts the standard button specs into <paramref name="titleBar"/> using the supplied
+    /// <paramref name="host"/> and notifies <paramref name="changeService"/> of the change.
+    /// Both the designer verb and the action-list verb delegate here so the logic lives in one place.
+    /// </summary>
+    internal static void InsertStandardItems(
+        KryptonFormTitleBar titleBar,
+        IDesignerHost? host,
+        IComponentChangeService? changeService)
+    {
+        var specs = KryptonFormTitleBar.CreateStandardButtonSpecs();
+
+        foreach (var template in specs)
+        {
+            var spec = host != null
+                ? (ButtonSpecAny)host.CreateComponent(typeof(ButtonSpecAny))
+                : new ButtonSpecAny();
+
+            spec.Type = template.Type;
+            spec.ToolTipTitle = template.ToolTipTitle;
+            spec.Enabled = template.Enabled;
+            spec.Visible = template.Visible;
+            spec.Edge = template.Edge;
+            spec.Text = template.Text;
+            spec.AllowInheritText = template.AllowInheritText;
+            spec.ShowDrop = template.ShowDrop;
+            spec.KryptonContextMenu = template.KryptonContextMenu;
+            titleBar.ButtonSpecs.Add(spec);
+        }
+
+        changeService?.OnComponentChanged(titleBar, null, null, null);
+    }
+
+    #endregion
+
     #region Implementation
 
     private void OnComponentRemoving(object? sender, ComponentEventArgs e)
@@ -114,26 +151,10 @@ internal class KryptonFormTitleBarDesigner : ComponentDesigner
             return;
         }
 
-        var host = GetService(typeof(IDesignerHost)) as IDesignerHost;
-        var specs = KryptonFormTitleBar.CreateStandardButtonSpecs();
-
-        foreach (var template in specs)
-        {
-            var spec = host != null
-                ? (ButtonSpecAny)host.CreateComponent(typeof(ButtonSpecAny))
-                : new ButtonSpecAny();
-
-            spec.Type = template.Type;
-            spec.ToolTipTitle = template.ToolTipTitle;
-            spec.Enabled = template.Enabled;
-            spec.Text = template.Text;
-            spec.AllowInheritText = template.AllowInheritText;
-            spec.ShowDrop = template.ShowDrop;
-            spec.KryptonContextMenu = template.KryptonContextMenu;
-            _titleBar.ButtonSpecs.Add(spec);
-        }
-
-        _changeService?.OnComponentChanged(_titleBar, null, null, null);
+        InsertStandardItems(
+            _titleBar,
+            GetService(typeof(IDesignerHost)) as IDesignerHost,
+            _changeService);
     }
 
     #endregion

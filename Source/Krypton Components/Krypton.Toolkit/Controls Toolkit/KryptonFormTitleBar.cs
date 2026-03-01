@@ -150,26 +150,26 @@ public class KryptonFormTitleBar : Component
         var fb = KryptonManager.Strings.TitleBarStrings;
 
         var fileItems = new KryptonContextMenuItems();
-        fileItems.Items.Add(new KryptonContextMenuItem(tb.New));
-        fileItems.Items.Add(new KryptonContextMenuItem(tb.Open));
-        fileItems.Items.Add(new KryptonContextMenuItem(tb.Save));
-        fileItems.Items.Add(new KryptonContextMenuItem(tb.SaveAs));
-        fileItems.Items.Add(new KryptonContextMenuItem(tb.SaveAll));
+        fileItems.Items.Add(new KryptonContextMenuItem(tb.NewMenuItem));
+        fileItems.Items.Add(new KryptonContextMenuItem(tb.OpenMenuItem));
+        fileItems.Items.Add(new KryptonContextMenuItem(tb.SaveMenuItem));
+        fileItems.Items.Add(new KryptonContextMenuItem(tb.SaveAsMenuItem));
+        fileItems.Items.Add(new KryptonContextMenuItem(tb.SaveAllMenuItem));
         fileItems.Items.Add(new KryptonContextMenuSeparator());
-        fileItems.Items.Add(new KryptonContextMenuItem(tb.Print));
-        fileItems.Items.Add(new KryptonContextMenuItem(tb.PrintPreview));
+        fileItems.Items.Add(new KryptonContextMenuItem(tb.PrintMenuItem));
+        fileItems.Items.Add(new KryptonContextMenuItem(tb.PrintPreviewMenuItem));
         fileItems.Items.Add(new KryptonContextMenuSeparator());
         fileItems.Items.Add(new KryptonContextMenuItem(fb.Exit));
         var fileMenu = new KryptonContextMenu();
         fileMenu.Items.Add(fileItems);
 
         var editItems = new KryptonContextMenuItems();
-        editItems.Items.Add(new KryptonContextMenuItem(tb.Undo));
-        editItems.Items.Add(new KryptonContextMenuItem(tb.Redo));
+        editItems.Items.Add(new KryptonContextMenuItem(tb.UndoMenuItem));
+        editItems.Items.Add(new KryptonContextMenuItem(tb.RedoMenuItem));
         editItems.Items.Add(new KryptonContextMenuSeparator());
-        editItems.Items.Add(new KryptonContextMenuItem(tb.Cut));
-        editItems.Items.Add(new KryptonContextMenuItem(tb.Copy));
-        editItems.Items.Add(new KryptonContextMenuItem(tb.Paste));
+        editItems.Items.Add(new KryptonContextMenuItem(tb.CutMenuItem));
+        editItems.Items.Add(new KryptonContextMenuItem(tb.CopyMenuItem));
+        editItems.Items.Add(new KryptonContextMenuItem(tb.PasteMenuItem));
         editItems.Items.Add(new KryptonContextMenuSeparator());
         editItems.Items.Add(new KryptonContextMenuItem(fb.SelectAll));
         var editMenu = new KryptonContextMenu();
