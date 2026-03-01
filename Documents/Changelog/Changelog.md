@@ -4,6 +4,7 @@
 
 ## 2026-04-20 - Build 2604 (Version 105-LTS - Patch 2) - April 2026
 
+* Resolved [#3124](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3124), Docking: Loading configuration while form is hidden remover splitter
 * Resolved [#3123](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3123), `KryptonComboBox` DropDownWidth doesn't resize with the control
 * Implemented [#3117](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3117), Disabling focus when clicking on a `KryptonButton`
 * Implemented [#615](https://github.com/Krypton-Suite/Standard-Toolkit/issues/615), Controls should have "min design heights" be the same
