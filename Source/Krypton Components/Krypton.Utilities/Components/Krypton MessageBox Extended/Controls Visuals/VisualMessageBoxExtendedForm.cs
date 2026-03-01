@@ -25,13 +25,11 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
 
     #region Instance Fields
 
-    private readonly bool _showCloseButton;
-
     private readonly string _text;
     private readonly string _caption;
 
     private readonly KryptonMessageBoxDefaultButton _defaultButton;
-    // If help information provided or we are not a service/default desktop application then grab an owner for showing the message box
+    // If help information provided, or we are not a service/default desktop application then grab an owner for showing the message box
     private static /*readonly*/ IWin32Window? _showOwner;
     private readonly HelpInfo? _helpInfo;
     private readonly ContentAlignment _messageTextAlignment;
@@ -112,10 +110,6 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
 
     private readonly int? _timeOutInterval;
 
-    private bool _hasTimedOut;
-
-    private DialogResult _result;
-
     private DialogResult _timerResult;
 
     private readonly PaletteRelativeAlign _richTextBoxTextAlignment;
@@ -181,8 +175,7 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
         bool? useTimeOut,
         int? timeOut,
         int? timeOutInterval,
-        DialogResult? timerResult,
-        string? footerText = null,
+        DialogResult? timerResult, bool showCloseButton, string? footerText = null,
         bool footerExpanded = false,
         ExtendedKryptonMessageBoxFooterContentType footerContentType = ExtendedKryptonMessageBoxFooterContentType.Text,
         int? footerRichTextBoxHeight = null,
@@ -278,7 +271,7 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
         }
     }
 
-    public VisualMessageBoxExtendedForm(KryptonMessageBoxExtendedData messageBoxExtendedData)
+    public VisualMessageBoxExtendedForm(KryptonMessageBoxExtendedData messageBoxExtendedData, bool showCloseButton)
     {
         _messageBoxExtendedData = messageBoxExtendedData;
 
@@ -1545,8 +1538,6 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
         }
 
         _timeOutTimer.Dispose();
-
-        _hasTimedOut = true;
     }
 
     private void SetupOptionalCheckBox()
@@ -1747,8 +1738,6 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
 
         if (_timeOut == 0)
         {
-            _hasTimedOut = true;
-
             Close();
         }
     }
