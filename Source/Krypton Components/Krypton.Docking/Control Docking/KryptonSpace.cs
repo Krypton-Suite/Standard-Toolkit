@@ -66,6 +66,7 @@ public abstract class KryptonSpace : KryptonWorkspace
     private readonly EventHandler _visibleUpdate;
     private bool _awaitingFocusUpdate;
     private bool _awaitingVisibleUpdate;
+    private bool _pendingVisibleUpdateOnHandle;
     private bool _setFocus;
     private string _closeTooltip;
     private string _pinTooltip;
@@ -243,14 +244,24 @@ public abstract class KryptonSpace : KryptonWorkspace
             // Cache focus update until invoke occurs
             _setFocus = focus;
 
-            // No point requesting the update more than once
-            if (!_awaitingVisibleUpdate && IsHandleCreated)
+            if (IsHandleCreated)
             {
-                // Async invoke ensures the delegate is called in sync with the message queue, this means that all the
-                // layout changes for the space control will be finished and so then we can update the visible state of
-                // the cells to reflect the tab visible changes.
-                BeginInvoke(_visibleUpdate);
-                _awaitingVisibleUpdate = true;
+                // No point requesting the update more than once
+                if (!_awaitingVisibleUpdate)
+                {
+                    // Async invoke ensures the delegate is called in sync with the message queue, this means that all the
+                    // layout changes for the space control will be finished and so then we can update the visible state of
+                    // the cells to reflect the tab visible changes.
+                    BeginInvoke(_visibleUpdate);
+                    _awaitingVisibleUpdate = true;
+                }
+            }
+            else
+            {
+                // The control has no window handle yet (e.g. form is hidden during config load).
+                // Defer the visible update until the handle is created so that cell visibility
+                // and layout are correctly applied once the form becomes visible.
+                _pendingVisibleUpdateOnHandle = true;
             }
         }
     }
@@ -352,6 +363,24 @@ public abstract class KryptonSpace : KryptonWorkspace
     /// Gets a value indicating if docking specific visible changes should be applied.
     /// </summary>
     protected virtual bool ApplyDockingVisibility => true;
+
+    /// <summary>
+    /// Overridden to apply any pending visible update that was deferred because the handle
+    /// did not exist when <see cref="UpdateVisible(bool)"/> was called (e.g. the form was
+    /// hidden while a docking configuration was being loaded).
+    /// </summary>
+    /// <param name="e">An EventArgs containing the event data.</param>
+    protected override void OnHandleCreated(EventArgs e)
+    {
+        base.OnHandleCreated(e);
+
+        // If we have a pending visible update then perform it now
+        if (_pendingVisibleUpdateOnHandle)
+        {
+            _pendingVisibleUpdateOnHandle = false;
+            UpdateVisible();
+        }
+    }
 
     /// <summary>
     /// Raises the CellGainsFocus event.
