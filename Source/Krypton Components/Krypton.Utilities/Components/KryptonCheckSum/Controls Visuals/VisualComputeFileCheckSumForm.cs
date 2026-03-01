@@ -335,7 +335,7 @@ internal partial class VisualComputeFileCheckSumForm : KryptonForm
                 {
                     hasher.TransformFinalBlock(Array.Empty<byte>(), 0, 0);
                     reportProgress(100);
-                    return buildHashString(hasher.Hash);
+                    return buildHashString(hasher.Hash!);
                 }
 
                 byte[] buffer;
@@ -351,7 +351,7 @@ internal partial class VisualComputeFileCheckSumForm : KryptonForm
                 } while (bytesRead != 0);
 
                 hasher.TransformFinalBlock(buffer, 0, 0);
-                return buildHashString(hasher.Hash);
+                return buildHashString(hasher.Hash!);
             }
         }
     }

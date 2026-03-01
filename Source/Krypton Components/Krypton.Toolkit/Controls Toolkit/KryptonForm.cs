@@ -3167,7 +3167,7 @@ public class KryptonForm : VisualForm,
             titleBar.ButtonSpecs,                           // the user-defined button specs to render
             null,                                           // no fixed button specs in this manager
             [_titleBarDocker],                              // single view container the buttons live in
-            [StateCommon.Header],                           // palette state used to style each button
+            [StateCommon!.Header],                           // palette state used to style each button
             [PaletteMetricInt.HeaderButtonEdgeInsetForm],   // edge inset metric (gap from docker border)
             [PaletteMetricPadding.HeaderButtonPaddingForm], // padding metric around each button
             CreateToolStripRenderer,                        // renderer factory (for ToolStrip-hosted glyphs)

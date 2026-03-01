@@ -52,6 +52,8 @@ public static class KryptonComputeFileCheckSum
     /// </summary>
     /// <param name="owner">The window that will own the dialog. Can be null to use the active window or center on screen.</param>
     /// <param name="filePath">Optional initial file path to display. If non-null and the file exists, the path is pre-filled.</param>
+    /// <param name="algorithim">Optional hash algorithm to use for computing the checksum. If null, a default algorithm may be used.</param>
+    /// <param name="hashAlgorithm">Optional hash algorithm to use for verification. If null, a default algorithm may be used.</param>
     /// <returns>One of the <see cref="DialogResult" /> values.</returns>
     internal static DialogResult ShowCore(IWin32Window? owner = null, string? filePath = null, SupportedHashAlgorithims? algorithim = null, SafeNETAndNewerSupportedHashAlgorithms? hashAlgorithm = null)
     {

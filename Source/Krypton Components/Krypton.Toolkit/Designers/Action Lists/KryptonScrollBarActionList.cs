@@ -9,6 +9,7 @@
 
 namespace Krypton.Toolkit;
 
+[Obsolete("'KryptonScrollBar' is obsolete: 'Please use either KryptonHScrollBar or KryptonVScrollBar. This control will be removed in version 120 LTS.'")]
 internal class KryptonScrollBarActionList : DesignerActionList
 {
     #region Instance Fields
