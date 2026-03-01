@@ -1,11 +1,11 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -268,8 +268,8 @@ public class KryptonSparkleRenderer : KryptonProfessionalRenderer
         using var aa = new AntiAlias(e.Graphics);
         // Create border path for the check box
         using GraphicsPath borderPath = CreateBorderPath(checkBox, CUT_MENU_ITEM_BACK);
-        Color colorFill = KCT.ContextMenuItemImageBack;
-        Color colorBorder = KCT.ContextMenuItemImageBorder;
+        Color colorFill = KCT.CheckBackground;
+        Color colorBorder = CommonHelper.BlackenColor(KCT.CheckBackground, 0.89f, 0.88f, 0.98f);
         if (!e.Item.Enabled)
         {
             colorFill = CommonHelper.ColorToBlackAndWhite(colorFill);
@@ -602,8 +602,8 @@ public class KryptonSparkleRenderer : KryptonProfessionalRenderer
             case ContextMenuStrip _:
             case ToolStripDropDownMenu _:
                 // Create the light and dark line pens
-                using (Pen lightPen = new Pen(KCT.ContextMenuImageColumnBorder),
-                       darkPen = new Pen(KCT.ContextMenuImageColumnBorder))
+                using (Pen lightPen = new Pen(KCT.ImageMarginGradientEnd),
+                       darkPen = new Pen(KCT.ImageMarginGradientMiddle))
                 {
                     DrawSeparator(e.Graphics, e.Vertical, e.Item.Bounds,
                         lightPen, darkPen, SEPARATOR_INSET,
@@ -651,7 +651,7 @@ public class KryptonSparkleRenderer : KryptonProfessionalRenderer
                     using (var clipping = new Clipping(e.Graphics, clipPath))
                     {
                         // Create the background brush
-                        using (var backBrush = new SolidBrush(KCT.ContextMenuBack))
+                        using (var backBrush = new SolidBrush(KCT.ToolStripDropDownBackground))
                         {
                             e.Graphics.FillPath(backBrush, borderPath);
                         }
@@ -760,14 +760,14 @@ public class KryptonSparkleRenderer : KryptonProfessionalRenderer
             }
 
             // Draw the entire margine area in a solid color
-            using (var backBrush = new SolidBrush(KCT.ContextMenuImageColumnBack))
+            using (var backBrush = new SolidBrush(KCT.ImageMarginGradientBegin))
             {
                 e.Graphics.FillRectangle(backBrush, marginRect);
             }
 
             // Create the light and dark line pens
-            using (Pen lightPen = new Pen(KCT.ContextMenuImageColumnBorder),
-                   darkPen = new Pen(KCT.ContextMenuImageColumnBorder))
+            using (Pen lightPen = new Pen(KCT.ImageMarginGradientEnd),
+                   darkPen = new Pen(KCT.ImageMarginGradientMiddle))
             {
                 if (!rtl)
                 {
@@ -802,7 +802,7 @@ public class KryptonSparkleRenderer : KryptonProfessionalRenderer
             // If there is a connected area to be drawn
             if (!e.ConnectedArea.IsEmpty)
             {
-                using var excludeBrush = new SolidBrush(KCT.ContextMenuBack);
+                using var excludeBrush = new SolidBrush(KCT.ToolStripDropDownBackground);
                 e.Graphics.FillRectangle(excludeBrush, e.ConnectedArea);
             }
 
@@ -811,8 +811,8 @@ public class KryptonSparkleRenderer : KryptonProfessionalRenderer
                 insidePath = CreateInsideBorderPath(e.AffectedBounds, e.ConnectedArea, CUT_CONTEXT_MENU),
                 clipPath = CreateClipBorderPath(e.AffectedBounds, e.ConnectedArea, CUT_CONTEXT_MENU);
             // Create the different pen colors we need
-            using Pen borderPen = new Pen(KCT.ContextMenuBorder),
-                insidePen = new Pen(KCT.ContextMenuBack);
+            using Pen borderPen = new Pen(KCT.MenuBorder),
+                insidePen = new Pen(KCT.ToolStripDropDownBackground);
             // Clip all drawing to within the border path
             using var clipping = new Clipping(e.Graphics, clipPath);
             // Drawing with anti aliasing to create smoother appearance
@@ -846,7 +846,7 @@ public class KryptonSparkleRenderer : KryptonProfessionalRenderer
                 CommonHelper.BlackenColor(KCT.ButtonSelectedGradientMiddle, 0.91f, 0.91f, 0.91f),
                 CommonHelper.BlackenColor(KCT.ButtonSelectedGradientMiddle, 0.75f, 0.75f, 0.75f));
 
-            _gradientItem = new GradientItemColors(KCT.ContextMenuItemImageBack,
+            _gradientItem = new GradientItemColors(KCT.CheckBackground,
                 KCT.ButtonSelectedGradientBegin,
                 KCT.ButtonSelectedGradientBegin);
 
@@ -1017,13 +1017,13 @@ public class KryptonSparkleRenderer : KryptonProfessionalRenderer
         // Clip all drawing to within the border path
         using var clipping = new Clipping(g, clipPath);
         // Draw the entire background area first
-        using (var backBrush = new SolidBrush(KCT.ContextMenuBack))
+        using (var backBrush = new SolidBrush(KCT.ToolStripDropDownBackground))
         {
             g?.FillPath(backBrush, borderPath);
         }
 
         // Draw the border
-        using (var borderPen = new Pen(KCT.ContextMenuBorder))
+        using (var borderPen = new Pen(KCT.MenuBorder))
         {
             g?.DrawPath(borderPen, borderPath);
         }
