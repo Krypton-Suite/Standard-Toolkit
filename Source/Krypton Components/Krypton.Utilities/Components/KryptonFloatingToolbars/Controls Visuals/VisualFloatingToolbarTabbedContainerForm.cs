@@ -20,8 +20,6 @@ public partial class VisualFloatingToolbarTabbedContainerForm : KryptonForm
     private KryptonNavigator? _navigator;
     private readonly Dictionary<KryptonFloatableToolStrip, KryptonPage> _toolbarPages = [];
     private readonly Dictionary<KryptonFloatableMenuStrip, KryptonPage> _menuStripPages = [];
-    private bool _isDragOver;
-
     #endregion
 
     #region Public
@@ -29,6 +27,7 @@ public partial class VisualFloatingToolbarTabbedContainerForm : KryptonForm
     /// <summary>
     /// Gets or sets the toolbar group associated with this container.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public FloatingToolbarGroup? Group
     {
         get => _group;
@@ -79,7 +78,6 @@ public partial class VisualFloatingToolbarTabbedContainerForm : KryptonForm
         if (IsValidDragData(e.Data))
         {
             e.Effect = DragDropEffects.Move;
-            _isDragOver = true;
             Invalidate();
         }
         else
@@ -102,13 +100,11 @@ public partial class VisualFloatingToolbarTabbedContainerForm : KryptonForm
 
     private void Navigator_DragLeave(object? sender, EventArgs e)
     {
-        _isDragOver = false;
         Invalidate();
     }
 
     private void Navigator_DragDrop(object? sender, DragEventArgs e)
     {
-        _isDragOver = false;
         Invalidate();
 
         if (!IsValidDragData(e.Data))
@@ -117,7 +113,7 @@ public partial class VisualFloatingToolbarTabbedContainerForm : KryptonForm
         }
 
         // Handle toolbar drop
-        if (e.Data.GetData(typeof(KryptonFloatableToolStrip)) is KryptonFloatableToolStrip toolbar)
+        if (e.Data!.GetData(typeof(KryptonFloatableToolStrip)) is KryptonFloatableToolStrip toolbar)
         {
             AddToolbar(toolbar);
         }
@@ -159,7 +155,7 @@ public partial class VisualFloatingToolbarTabbedContainerForm : KryptonForm
             {
                 Text = toolbar.FloatingToolBarWindowText,
                 TextTitle = toolbar.FloatingToolBarWindowText,
-                TextDescription = $"Toolbar: {toolbar.Name}"
+                TextDescription = $@"Toolbar: {toolbar.Name}"
             };
 
             var panel = new KryptonPanel
@@ -187,7 +183,7 @@ public partial class VisualFloatingToolbarTabbedContainerForm : KryptonForm
             {
                 Text = menuStrip.FloatingWindowText,
                 TextTitle = menuStrip.FloatingWindowText,
-                TextDescription = $"Menu Strip: {menuStrip.Name}"
+                TextDescription = $@"Menu Strip: {menuStrip.Name}"
             };
 
             var panel = new KryptonPanel
@@ -240,7 +236,7 @@ public partial class VisualFloatingToolbarTabbedContainerForm : KryptonForm
         {
             Text = toolbar.FloatingToolBarWindowText,
             TextTitle = toolbar.FloatingToolBarWindowText,
-            TextDescription = $"Toolbar: {toolbar.Name}"
+            TextDescription = $@"Toolbar: {toolbar.Name}"
         };
 
         var panel = new KryptonPanel
@@ -273,7 +269,7 @@ public partial class VisualFloatingToolbarTabbedContainerForm : KryptonForm
         {
             Text = menuStrip.FloatingWindowText,
             TextTitle = menuStrip.FloatingWindowText,
-            TextDescription = $"Menu Strip: {menuStrip.Name}"
+            TextDescription = $@"Menu Strip: {menuStrip.Name}"
         };
 
         var panel = new KryptonPanel

@@ -103,6 +103,10 @@ internal class DockingPreviewIndicator : Form
     /// <summary>
     /// Gets or sets the indicator color.
     /// </summary>
+    [DefaultValue(typeof(Color), "100, 0, 120, 215")]
+    [Description("The color used for the docking preview indicator.")]
+    [Category("Appearance")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public Color IndicatorColor
     {
         get => _indicatorColor;
@@ -116,6 +120,7 @@ internal class DockingPreviewIndicator : Form
     /// <summary>
     /// Gets or sets the border color.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public Color BorderColor
     {
         get => _borderColor;

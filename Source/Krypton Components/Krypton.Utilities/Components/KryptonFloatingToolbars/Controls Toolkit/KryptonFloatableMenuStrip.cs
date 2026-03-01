@@ -169,6 +169,7 @@ public class KryptonFloatableMenuStrip : KryptonMenuStrip
     /// <summary>
     /// Gets or sets the theme for the floating window.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public FloatingWindowTheme? WindowTheme
     {
         get => _windowTheme;

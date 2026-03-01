@@ -25,8 +25,6 @@ public partial class VisualRTLMessageBoxExtendedForm : KryptonForm
 
     #region Instance Fields
 
-    private readonly bool _showCloseButton;
-
     private readonly string _text;
     private readonly string _caption;
 
@@ -35,10 +33,6 @@ public partial class VisualRTLMessageBoxExtendedForm : KryptonForm
     private static /*readonly*/ IWin32Window? _showOwner;
     private readonly HelpInfo? _helpInfo;
     private readonly ContentAlignment _messageTextAlignment;
-
-    private readonly Image? _applicationImage;
-
-    private readonly KryptonMessageBoxExtendedData _messageBoxExtendedData;
 
     #endregion
 
