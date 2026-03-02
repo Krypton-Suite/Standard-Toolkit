@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -27,10 +27,12 @@ internal class KryptonScrollBarDesigner : ControlDesigner
     {
         get
         {
+#pragma warning disable CS0618
             var actionList = new DesignerActionListCollection
             {
                 new KryptonScrollBarActionList(this)
             };
+#pragma warning restore CS0618
 
             return actionList;
         }

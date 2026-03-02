@@ -4528,3 +4528,26 @@ public enum ScrollbarManagerMode
 }
 
 #endregion
+
+#region Enum KryptonTaskbarProgressState
+
+/// <summary>Specifies the state of the taskbar progress indicator when <see cref="KryptonProgressBar.UseTaskbarProgress"/> is enabled.</summary>
+public enum KryptonTaskbarProgressState
+{
+    /// <summary>No progress indicator is shown. Equivalent to <c>TBPF_NOPROGRESS</c>.</summary>
+    NoProgress = 0,
+
+    /// <summary>A pulsing green indicator is shown without a specific value. Equivalent to <c>TBPF_INDETERMINATE</c>.</summary>
+    Indeterminate = 1,
+
+    /// <summary>A green progress indicator shows the current completion amount. Equivalent to <c>TBPF_NORMAL</c>.</summary>
+    Normal = 2,
+
+    /// <summary>A red progress indicator shows that an error has occurred. Equivalent to <c>TBPF_ERROR</c>.</summary>
+    Error = 4,
+
+    /// <summary>A yellow progress indicator shows that the operation has been paused. Equivalent to <c>TBPF_PAUSED</c>.</summary>
+    Paused = 8
+}
+
+#endregion

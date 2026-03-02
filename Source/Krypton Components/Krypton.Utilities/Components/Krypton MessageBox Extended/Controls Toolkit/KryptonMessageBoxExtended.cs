@@ -26,18 +26,20 @@ public static class KryptonMessageBoxExtended
     /// <param name="countdownButton">Specifies which button should display a countdown timer. Use None to disable countdown.</param>
     /// <param name="countdownButtonSeconds">The duration in seconds for the countdown button. If null, uses the timeout value if available, otherwise defaults to 60.</param>
     /// <param name="countdownButtonDialogResult">The dialog result to return when the countdown button's countdown finishes. If null, uses the button's default DialogResult.</param>
+    /// <param name="showCloseButton">Whether to show the close button on the message box form.</param>
     /// <returns></returns>
     public static DialogResult Show(string message, string caption, ExtendedMessageBoxButtons buttons,
         ExtendedKryptonMessageBoxIcon icon, bool? showCtrlCopy = null,
         ExtendedKryptonMessageBoxCountdownButton countdownButton = ExtendedKryptonMessageBoxCountdownButton.None,
         int? countdownButtonSeconds = null,
-        DialogResult? countdownButtonDialogResult = null)
+        DialogResult? countdownButtonDialogResult = null, bool showCloseButton = true)
         => ShowCore(null, message, caption, buttons, icon, KryptonMessageBoxDefaultButton.Button1,
             0, null, showCtrlCopy, null, null, null, null, null, null, null, null, null,
             null, null, null, null, null, ExtendedKryptonMessageBoxMessageContainerType.Normal,
             null, null, null, null,
             ContentAlignment.MiddleLeft, null, null, null, null, null,
-            DialogResult.OK, null, false, ExtendedKryptonMessageBoxFooterContentType.Text, null, countdownButton, countdownButtonSeconds, countdownButtonDialogResult);
+            DialogResult.OK, showCloseButton, 
+            null, false, ExtendedKryptonMessageBoxFooterContentType.Text, null, countdownButton, countdownButtonSeconds, countdownButtonDialogResult);
 
     /// <summary>Shows a <seealso cref="KryptonMessageBoxExtended"/>.</summary>
     /// <param name="messageText">The text.</param>
@@ -54,6 +56,7 @@ public static class KryptonMessageBoxExtended
     /// <param name="countdownButton">Specifies which button should display a countdown timer. Use None to disable countdown.</param>
     /// <param name="countdownButtonSeconds">The duration in seconds for the countdown button. If null, uses the timeout value if available, otherwise defaults to 60.</param>
     /// <param name="countdownButtonDialogResult">The dialog result to return when the countdown button's countdown finishes. If null, uses the button's default DialogResult.</param>
+    /// <param name="showCloseButton">Whether to show the close button on the message box form.</param>
     public static DialogResult Show(string messageText, string caption, ExtendedMessageBoxButtons buttons,
         ExtendedKryptonMessageBoxIcon icon, bool? showCtrlCopy = null,
         ContentAlignment? messageTextAlignment = null,
@@ -62,13 +65,13 @@ public static class KryptonMessageBoxExtended
         DialogResult? timerResult = DialogResult.None,
         ExtendedKryptonMessageBoxCountdownButton countdownButton = ExtendedKryptonMessageBoxCountdownButton.None,
         int? countdownButtonSeconds = null,
-        DialogResult? countdownButtonDialogResult = null) =>
+        DialogResult? countdownButtonDialogResult = null, bool showCloseButton = true) =>
         ShowCore(null, messageText, caption, buttons, icon, KryptonMessageBoxDefaultButton.Button1,
             0, null, showCtrlCopy, null, null, null, null, null, null, null, null, null,
             null, null, null, null, null, ExtendedKryptonMessageBoxMessageContainerType.Normal,
             null, null, null, null,
             messageTextAlignment, null, messageTextBoxAlignment, useTimeOut, timeOut, timeOutInterval, timerResult,
-            null, false, ExtendedKryptonMessageBoxFooterContentType.Text, null, countdownButton, countdownButtonSeconds, countdownButtonDialogResult);
+            showCloseButton, null, false, ExtendedKryptonMessageBoxFooterContentType.Text, null, countdownButton, countdownButtonSeconds, countdownButtonDialogResult);
 
     /// <summary>Shows a <seealso cref="KryptonMessageBoxExtended"/>.</summary>
     /// <param name="messageText">The text.</param>
@@ -92,6 +95,7 @@ public static class KryptonMessageBoxExtended
     /// <param name="countdownButton">Specifies which button should display a countdown timer. Use None to disable countdown.</param>
     /// <param name="countdownButtonSeconds">The duration in seconds for the countdown button. If null, uses the timeout value if available, otherwise defaults to 60.</param>
     /// <param name="countdownButtonDialogResult">The dialog result to return when the countdown button's countdown finishes. If null, uses the button's default DialogResult.</param>
+    /// <param name="showCloseButton">Whether to show the close button on the message box form.</param>
     public static DialogResult Show(string messageText, string caption, ExtendedMessageBoxButtons buttons,
         ExtendedKryptonMessageBoxIcon icon, bool? showCtrlCopy = null,
         string? applicationPath = null,
@@ -107,7 +111,7 @@ public static class KryptonMessageBoxExtended
         DialogResult? timerResult = DialogResult.None,
         ExtendedKryptonMessageBoxCountdownButton countdownButton = ExtendedKryptonMessageBoxCountdownButton.None,
         int? countdownButtonSeconds = null,
-        DialogResult? countdownButtonDialogResult = null)
+        DialogResult? countdownButtonDialogResult = null, bool showCloseButton = true)
         => ShowCore(null, messageText, caption, buttons, icon, KryptonMessageBoxDefaultButton.Button1, 0,
             null, showCtrlCopy, null, null, null, Color.Empty,
             [Color.Empty, Color.Empty, Color.Empty, Color.Empty],
@@ -115,7 +119,7 @@ public static class KryptonMessageBoxExtended
             string.Empty, string.Empty, applicationPath, messageContainerType, linkLabelCommand,
             contentLinkArea, linkLaunchArgument, openInExplorer, messageTextAlignment, richTextBoxTextAlignment, messageTextBoxAlignment,
             useTimeOut, timeOut, timeOutInterval, timerResult,
-            null, false, ExtendedKryptonMessageBoxFooterContentType.Text, null, countdownButton, countdownButtonSeconds, countdownButtonDialogResult);
+            showCloseButton, null, false, ExtendedKryptonMessageBoxFooterContentType.Text, null, countdownButton, countdownButtonSeconds, countdownButtonDialogResult);
 
     /// <summary>Shows a <seealso cref="KryptonMessageBoxExtended"/>.</summary>
     /// <param name="messageText">The text.</param>
@@ -144,6 +148,7 @@ public static class KryptonMessageBoxExtended
     /// <param name="countdownButton">Specifies which button should display a countdown timer. Use None to disable countdown.</param>
     /// <param name="countdownButtonSeconds">The duration in seconds for the countdown button. If null, uses the timeout value if available, otherwise defaults to 60.</param>
     /// <param name="countdownButtonDialogResult">The dialog result to return when the countdown button's countdown finishes. If null, uses the button's default DialogResult.</param>
+    /// <param name="showCloseButton">Whether to show the close button on the message box form.</param>
     public static DialogResult Show(string messageText, string caption = @"",
         ExtendedMessageBoxButtons buttons = ExtendedMessageBoxButtons.OK,
         ExtendedKryptonMessageBoxIcon icon = ExtendedKryptonMessageBoxIcon.None,
@@ -167,7 +172,7 @@ public static class KryptonMessageBoxExtended
         DialogResult? timerResult = DialogResult.None,
         ExtendedKryptonMessageBoxCountdownButton countdownButton = ExtendedKryptonMessageBoxCountdownButton.None,
         int? countdownButtonSeconds = null,
-        DialogResult? countdownButtonDialogResult = null)
+        DialogResult? countdownButtonDialogResult = null, bool showCloseButton = true)
         =>
             ShowCore(null, messageText, caption, buttons, icon, defaultButton, options,
                 displayHelpButton ? new HelpInfo() : null, showCtrlCopy,
@@ -178,7 +183,7 @@ public static class KryptonMessageBoxExtended
                 messageContainerType, linkLabelCommand, contentLinkArea,
                 linkLaunchArgument, openInExplorer, messageTextAlignment, richTextBoxTextAlignment, messageTextBoxAlignment,
                 useTimeOut, timeOut, timeOutInterval, timerResult,
-                null, false, ExtendedKryptonMessageBoxFooterContentType.Text, null, countdownButton, countdownButtonSeconds, countdownButtonDialogResult);
+                showCloseButton, null, false, ExtendedKryptonMessageBoxFooterContentType.Text, null, countdownButton, countdownButtonSeconds, countdownButtonDialogResult);
 
     /// <summary>Shows a <seealso cref="KryptonMessageBoxExtended"/>.</summary>
     /// <param name="messageText">The text.</param>
@@ -258,6 +263,7 @@ public static class KryptonMessageBoxExtended
     /// <param name="countdownButton">Specifies which button should display a countdown timer. Use None to disable countdown.</param>
     /// <param name="countdownButtonSeconds">The duration in seconds for the countdown button. If null, uses the timeout value if available, otherwise defaults to 60.</param>
     /// <param name="countdownButtonDialogResult">The dialog result to return when the countdown button's countdown finishes. If null, uses the button's default DialogResult.</param>
+    /// <param name="showCloseButton">Whether to show the close button on the message box form.</param>
     public static DialogResult Show(IWin32Window owner, string messageText, string caption = @"",
         ExtendedMessageBoxButtons buttons = ExtendedMessageBoxButtons.OK,
         ExtendedKryptonMessageBoxIcon icon = ExtendedKryptonMessageBoxIcon.None,
@@ -279,7 +285,7 @@ public static class KryptonMessageBoxExtended
         DialogResult? timerResult = DialogResult.None,
         ExtendedKryptonMessageBoxCountdownButton countdownButton = ExtendedKryptonMessageBoxCountdownButton.None,
         int? countdownButtonSeconds = null,
-        DialogResult? countdownButtonDialogResult = null)
+        DialogResult? countdownButtonDialogResult = null, bool showCloseButton = true)
         =>
             ShowCore(owner, messageText, caption, buttons, icon, defaultButton, options,
                 displayHelpButton ? new HelpInfo() : null, showCtrlCopy,
@@ -292,7 +298,7 @@ public static class KryptonMessageBoxExtended
                 linkLaunchArgument, openInExplorer,
                 messageTextAlignment, richTextBoxTextAlignment, messageTextBoxAlignment,
                 useTimeOut, timeOut, timeOutInterval, timerResult,
-                null, false, ExtendedKryptonMessageBoxFooterContentType.Text, null, countdownButton, countdownButtonSeconds, countdownButtonDialogResult);
+                showCloseButton, null, false, ExtendedKryptonMessageBoxFooterContentType.Text, null, countdownButton, countdownButtonSeconds, countdownButtonDialogResult);
 
     public static DialogResult Show(IWin32Window owner, string message, string caption,
         ExtendedMessageBoxButtons buttons, ExtendedKryptonMessageBoxIcon icon,
@@ -479,6 +485,7 @@ public static class KryptonMessageBoxExtended
     /// <param name="countdownButton">Specifies which button should display a countdown timer. Use None to disable countdown.</param>
     /// <param name="countdownButtonSeconds">The duration in seconds for the countdown button. If null, uses the timeout value if available, otherwise defaults to 60.</param>
     /// <param name="countdownButtonDialogResult">The dialog result to return when the countdown button's countdown finishes. If null, uses the button's default DialogResult.</param>
+    /// <param name="showCloseButton">Whether to show the close button on the message box form.</param>
     public static DialogResult Show(IWin32Window owner, string messageText, string caption = @"",
         ExtendedMessageBoxButtons buttons = ExtendedMessageBoxButtons.OK,
         ExtendedKryptonMessageBoxIcon icon = ExtendedKryptonMessageBoxIcon.None,
@@ -517,7 +524,7 @@ public static class KryptonMessageBoxExtended
         DialogResult? timerResult = DialogResult.None,
         ExtendedKryptonMessageBoxCountdownButton countdownButton = ExtendedKryptonMessageBoxCountdownButton.None,
         int? countdownButtonSeconds = null,
-        DialogResult? countdownButtonDialogResult = null)
+        DialogResult? countdownButtonDialogResult = null, bool showCloseButton = true)
         =>
             ShowCore(owner, messageText, caption, buttons, icon, defaultButton, options,
                 displayHelpButton ? new HelpInfo(helpFilePath, navigator, param) : null,
@@ -530,13 +537,16 @@ public static class KryptonMessageBoxExtended
                 openInExplorer, messageTextAlignment,
                 richTextBoxTextAlignment, messageTextBoxAlignment,
                 useTimeOut, timeOut, timeOutInterval, timerResult,
-                null, false, ExtendedKryptonMessageBoxFooterContentType.Text, null, countdownButton, countdownButtonSeconds, countdownButtonDialogResult);
+                showCloseButton, null, false, 
+                ExtendedKryptonMessageBoxFooterContentType.Text, null, 
+                countdownButton, countdownButtonSeconds, countdownButtonDialogResult);
 
     /// <summary>Shows a <seealso cref="KryptonMessageBoxExtended"/> with expandable footer.</summary>
     /// <param name="messageText">The message text.</param>
     /// <param name="caption">The caption.</param>
     /// <param name="buttons">The buttons.</param>
     /// <param name="icon">The icon.</param>
+    /// <param name="showCloseButton">Whether to show the close button on the message box form.</param>
     /// <param name="footerText">The text to display in the expandable footer. If null or empty, footer will not be shown (unless footerContentType is CheckBox).</param>
     /// <param name="footerExpanded">If true, the footer will be expanded by default; otherwise, it will be collapsed.</param>
     /// <param name="footerContentType">The type of content to display in the footer (Text, CheckBox, or RichTextBox).</param>
@@ -546,7 +556,7 @@ public static class KryptonMessageBoxExtended
     /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
     public static DialogResult Show(string messageText, string caption = @"",
         ExtendedMessageBoxButtons buttons = ExtendedMessageBoxButtons.OK,
-        ExtendedKryptonMessageBoxIcon icon = ExtendedKryptonMessageBoxIcon.None,
+        ExtendedKryptonMessageBoxIcon icon = ExtendedKryptonMessageBoxIcon.None, bool showCloseButton = true,
         string? footerText = null,
         bool footerExpanded = false,
         ExtendedKryptonMessageBoxFooterContentType footerContentType = ExtendedKryptonMessageBoxFooterContentType.Text,
@@ -562,7 +572,7 @@ public static class KryptonMessageBoxExtended
                 ExtendedKryptonMessageBoxMessageContainerType.Normal,
                 null, null, null, null, ContentAlignment.MiddleLeft, null, null,
                 null, null, null, null,
-                footerText, footerExpanded, footerContentType, footerRichTextBoxHeight);
+                showCloseButton, footerText, footerExpanded, footerContentType, footerRichTextBoxHeight);
 
     /// <summary>Shows a <seealso cref="KryptonMessageBoxExtended"/> with expandable footer.</summary>
     /// <param name="owner">The owner.</param>
@@ -570,6 +580,7 @@ public static class KryptonMessageBoxExtended
     /// <param name="caption">The caption.</param>
     /// <param name="buttons">The buttons.</param>
     /// <param name="icon">The icon.</param>
+    /// <param name="showCloseButton">Whether to show the close button on the message box form.</param>
     /// <param name="footerText">The text to display in the expandable footer. If null or empty, footer will not be shown (unless footerContentType is CheckBox).</param>
     /// <param name="footerExpanded">If true, the footer will be expanded by default; otherwise, it will be collapsed.</param>
     /// <param name="footerContentType">The type of content to display in the footer (Text, CheckBox, or RichTextBox).</param>
@@ -579,7 +590,7 @@ public static class KryptonMessageBoxExtended
     /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
     public static DialogResult Show(IWin32Window owner, string messageText, string caption = @"",
         ExtendedMessageBoxButtons buttons = ExtendedMessageBoxButtons.OK,
-        ExtendedKryptonMessageBoxIcon icon = ExtendedKryptonMessageBoxIcon.None,
+        ExtendedKryptonMessageBoxIcon icon = ExtendedKryptonMessageBoxIcon.None, bool showCloseButton = true,
         string? footerText = null,
         bool footerExpanded = false,
         ExtendedKryptonMessageBoxFooterContentType footerContentType = ExtendedKryptonMessageBoxFooterContentType.Text,
@@ -595,7 +606,7 @@ public static class KryptonMessageBoxExtended
                 ExtendedKryptonMessageBoxMessageContainerType.Normal,
                 null, null, null, null, ContentAlignment.MiddleLeft, null, null,
                 null, null, null, null,
-                footerText, footerExpanded, footerContentType, footerRichTextBoxHeight);
+                showCloseButton, footerText, footerExpanded, footerContentType, footerRichTextBoxHeight);
 
     #endregion
 
@@ -633,6 +644,7 @@ public static class KryptonMessageBoxExtended
         int? timeOut,
         int? timeOutInterval,
         DialogResult? timerResult,
+        bool showCloseButton = true,
         string? footerText = null,
         bool footerExpanded = false,
         ExtendedKryptonMessageBoxFooterContentType footerContentType = ExtendedKryptonMessageBoxFooterContentType.Text,
@@ -725,6 +737,7 @@ public static class KryptonMessageBoxExtended
                 timeOut,
                 timeOutInterval,
                 timerResult,
+                showCloseButton,
                 footerText,
                 footerExpanded,
                 footerContentType,
@@ -780,6 +793,7 @@ public static class KryptonMessageBoxExtended
     /// <param name="timeOut">The time-out.</param>
     /// <param name="timeOutInterval">Sets the interval of the 'time out' timer. Default is 1000.</param>
     /// <param name="timerResult">The timer result.</param>
+    /// <param name="showCloseButton">Whether to show the close button on the message box form.</param>
     /// <param name="footerText">The text to display in the expandable footer. If null or empty, footer will not be shown (unless footerContentType is CheckBox).</param>
     /// <param name="footerExpanded">If true, the footer will be expanded by default; otherwise, it will be collapsed.</param>
     /// <param name="footerContentType">The type of content to display in the footer (Text, CheckBox, or RichTextBox).</param>
@@ -822,6 +836,7 @@ public static class KryptonMessageBoxExtended
         int? timeOut,
         int? timeOutInterval,
         DialogResult? timerResult,
+        bool showCloseButton = true,
         string? footerText = null,
         bool footerExpanded = false,
         ExtendedKryptonMessageBoxFooterContentType footerContentType = ExtendedKryptonMessageBoxFooterContentType.Text,
@@ -914,6 +929,7 @@ public static class KryptonMessageBoxExtended
                 timeOut,
                 timeOutInterval,
                 timerResult,
+                showCloseButton,
                 footerText,
                 footerExpanded,
                 footerContentType,
@@ -964,6 +980,7 @@ public static class KryptonMessageBoxExtended
     /// <param name="timeOut">Specifies the 'time out' time, default is 60.</param>
     /// <param name="timeOutInterval">Sets the interval of the 'time out' timer.</param>
     /// <param name="timerResult">Specifies the <seealso cref="DialogResult"/> action to trigger, once the <seealso cref="KryptonMessageBoxExtended"/> has timed out.</param>
+    /// <param name="showCloseButton">Whether to show the close button on the message box form.</param>
     /// <param name="footerText">The text to display in the expandable footer. If null or empty, footer will not be shown (unless footerContentType is CheckBox).</param>
     /// <param name="footerExpanded">If true, the footer will be expanded by default; otherwise, it will be collapsed.</param>
     /// <param name="footerContentType">The type of content to display in the footer (Text, CheckBox, or RichTextBox).</param>
@@ -999,6 +1016,7 @@ public static class KryptonMessageBoxExtended
         int? timeOut,
         int? timeOutInterval,
         DialogResult? timerResult,
+        bool showCloseButton = true,
         string? footerText = null,
         bool footerExpanded = false,
         ExtendedKryptonMessageBoxFooterContentType footerContentType = ExtendedKryptonMessageBoxFooterContentType.Text,
@@ -1091,6 +1109,7 @@ public static class KryptonMessageBoxExtended
                 timeOut,
                 timeOutInterval,
                 timerResult,
+                showCloseButton,
                 footerText,
                 footerExpanded,
                 footerContentType,

@@ -336,7 +336,7 @@ public partial class FloatingToolbarsDemo : KryptonForm
     {
         try
         {
-            var states = new List<FloatingToolbarState>
+            var states = new FloatingToolbarState?[]
             {
                 kftsToolbar1.SaveState(),
                 kftsToolbar2.SaveState(),
