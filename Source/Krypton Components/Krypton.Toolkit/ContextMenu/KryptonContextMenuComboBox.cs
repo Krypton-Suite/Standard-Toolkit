@@ -24,11 +24,8 @@ namespace Krypton.Toolkit;
 public class KryptonContextMenuComboBox : KryptonContextMenuItemBase
 {
     #region Instance Fields
-    private string _text;
     private int _minimumWidth;
-    private bool _enabled;
-    private int _selectedIndex;
-    private readonly ObjectCollection _items;
+    private readonly KryptonComboBox _comboBox;
 
     #endregion
 
@@ -64,11 +61,11 @@ public class KryptonContextMenuComboBox : KryptonContextMenuItemBase
     /// <param name="initialText">Initial text value.</param>
     public KryptonContextMenuComboBox(string initialText)
     {
-        _text = initialText;
         _minimumWidth = 120;
-        _enabled = true;
-        _selectedIndex = -1;
-        _items = new ObjectCollection(this);
+
+        _comboBox = new KryptonComboBox { Text = initialText };
+        _comboBox.SelectedIndexChanged += OnComboBoxSelectedIndexChanged;
+        _comboBox.TextChanged += OnComboBoxTextChanged;
     }
 
     /// <summary>
@@ -76,6 +73,22 @@ public class KryptonContextMenuComboBox : KryptonContextMenuItemBase
     /// </summary>
     /// <returns>String representation.</returns>
     public override string ToString() => Text;
+
+    /// <summary>
+    /// Clean up any resources being used.
+    /// </summary>
+    /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            _comboBox.SelectedIndexChanged -= OnComboBoxSelectedIndexChanged;
+            _comboBox.TextChanged -= OnComboBoxTextChanged;
+            _comboBox.Dispose();
+        }
+
+        base.Dispose(disposing);
+    }
 
     #endregion
 
@@ -130,15 +143,13 @@ public class KryptonContextMenuComboBox : KryptonContextMenuItemBase
     [Localizable(true)]
     public string Text
     {
-        get => _text;
+        get => _comboBox.Text;
 
         set
         {
-            if (_text != value)
+            if (_comboBox.Text != value)
             {
-                _text = value;
-                OnPropertyChanged(new PropertyChangedEventArgs(nameof(Text)));
-                TextChanged?.Invoke(this, EventArgs.Empty);
+                _comboBox.Text = value;
             }
         }
     }
@@ -148,11 +159,10 @@ public class KryptonContextMenuComboBox : KryptonContextMenuItemBase
     /// </summary>
     [Category(@"Data")]
     [Description(@"The items in the combo box.")]
-    [Editor(@"System.Windows.Forms.Design.ListControlStringCollectionEditor, System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     [Localizable(true)]
     [MergableProperty(false)]
-    public ObjectCollection Items => _items;
+    public ComboBox.ObjectCollection Items => _comboBox.Items;
 
     /// <summary>
     /// Gets and sets the index specifying the currently selected item.
@@ -161,17 +171,9 @@ public class KryptonContextMenuComboBox : KryptonContextMenuItemBase
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public int SelectedIndex
     {
-        get => _selectedIndex;
+        get => _comboBox.SelectedIndex;
 
-        set
-        {
-            if (_selectedIndex != value)
-            {
-                _selectedIndex = value;
-                OnPropertyChanged(new PropertyChangedEventArgs(nameof(SelectedIndex)));
-                SelectedIndexChanged?.Invoke(this, EventArgs.Empty);
-            }
-        }
+        set => _comboBox.SelectedIndex = value;
     }
 
     /// <summary>
@@ -179,7 +181,7 @@ public class KryptonContextMenuComboBox : KryptonContextMenuItemBase
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public object? SelectedItem => (_selectedIndex >= 0 && _selectedIndex < _items.Count) ? _items[_selectedIndex] : null;
+    public object? SelectedItem => _comboBox.SelectedItem;
 
     /// <summary>
     /// Gets and sets the minimum display width of the combo box.
@@ -211,13 +213,13 @@ public class KryptonContextMenuComboBox : KryptonContextMenuItemBase
     [DefaultValue(true)]
     public bool Enabled
     {
-        get => _enabled;
+        get => _comboBox.Enabled;
 
         set
         {
-            if (_enabled != value)
+            if (_comboBox.Enabled != value)
             {
-                _enabled = value;
+                _comboBox.Enabled = value;
                 OnPropertyChanged(new PropertyChangedEventArgs(nameof(Enabled)));
             }
         }
@@ -226,54 +228,25 @@ public class KryptonContextMenuComboBox : KryptonContextMenuItemBase
     #endregion
 
     #region Internal
-    internal void OnSelectedIndexChangedInternal() => SelectedIndexChanged?.Invoke(this, EventArgs.Empty);
+    /// <summary>
+    /// Gets the underlying KryptonComboBox; used by the view to host the control directly.
+    /// </summary>
+    internal KryptonComboBox ComboBox => _comboBox;
 
     #endregion
 
-    /// <summary>
-    /// Simple string collection for combo box items.
-    /// </summary>
-    public class ObjectCollection : List<object>
+    #region Private
+    private void OnComboBoxSelectedIndexChanged(object? sender, EventArgs e)
     {
-        private readonly KryptonContextMenuComboBox _owner;
-
-        internal ObjectCollection(KryptonContextMenuComboBox owner)
-        {
-            _owner = owner;
-        }
-
-        /// <summary>
-        /// Adds an item and notifies the owner of the change.
-        /// </summary>
-        /// <param name="item">Item to add.</param>
-        public new void Add(object item)
-        {
-            base.Add(item);
-            _owner.OnPropertyChanged(new PropertyChangedEventArgs(nameof(Items)));
-        }
-
-        /// <summary>
-        /// Removes an item and notifies the owner of the change.
-        /// </summary>
-        /// <param name="item">Item to remove.</param>
-        /// <returns>True if the item was found and removed.</returns>
-        public new bool Remove(object item)
-        {
-            var result = base.Remove(item);
-            if (result)
-            {
-                _owner.OnPropertyChanged(new PropertyChangedEventArgs(nameof(Items)));
-            }
-            return result;
-        }
-
-        /// <summary>
-        /// Clears all items and notifies the owner of the change.
-        /// </summary>
-        public new void Clear()
-        {
-            base.Clear();
-            _owner.OnPropertyChanged(new PropertyChangedEventArgs(nameof(Items)));
-        }
+        OnPropertyChanged(new PropertyChangedEventArgs(nameof(SelectedIndex)));
+        SelectedIndexChanged?.Invoke(this, EventArgs.Empty);
     }
+
+    private void OnComboBoxTextChanged(object? sender, EventArgs e)
+    {
+        OnPropertyChanged(new PropertyChangedEventArgs(nameof(Text)));
+        TextChanged?.Invoke(this, EventArgs.Empty);
+    }
+    #endregion
 }
+
