@@ -4,6 +4,7 @@
 
 # 2026-03-23 - Build 2602 (Patch 10) - March 2025
 
+* Resolved [#3124](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3124), Docking: Loading configuration while form is hidden remover splitter
 * Resolved [#3123](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3123), KryptonComboBox DropDownWidth doesn't resize with the control
 * Resolved [#3101](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3101), Colors in theme exporting XMLs is missing
 * Implemented [#776](https://github.com/Krypton-Suite/Standard-Toolkit/issues/776), Ability to set a number of custom colours for `KryptonColorButton`
