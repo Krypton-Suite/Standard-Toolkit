@@ -14,6 +14,7 @@ namespace Krypton.Toolkit;
 
 [ToolboxBitmap(typeof(VScrollBar))]
 [ToolboxItem(false)]
+[Obsolete("'KryptonScrollBar' is obsolete: 'Please use either KryptonHScrollBar or KryptonVScrollBar. This control will be removed in version 120 LTS.'")]
 public class VScrollSkin : Panel
 {
     #region "   Members   "

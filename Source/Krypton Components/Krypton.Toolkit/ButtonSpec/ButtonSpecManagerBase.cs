@@ -28,7 +28,7 @@ public abstract class ButtonSpecManagerBase : GlobalId
     private readonly PaletteRedirect _redirector;
     private readonly ButtonSpecCollectionBase? _variableSpecs;
     private readonly ButtonSpecCollectionBase? _fixedSpecs;
-    private readonly IPaletteMetric[]? _viewMetrics;
+    private readonly IPaletteMetric[] _viewMetrics;
     private readonly PaletteMetricInt[] _viewMetricIntOutside;
     private readonly PaletteMetricInt[]? _viewMetricIntOutsideRight;
     private readonly PaletteMetricInt[] _viewMetricIntInside;
@@ -86,7 +86,7 @@ public abstract class ButtonSpecManagerBase : GlobalId
         PaletteRedirect redirector,
         ButtonSpecCollectionBase? variableSpecs,
         ButtonSpecCollectionBase? fixedSpecs,
-        IPaletteMetric?[] viewMetrics,
+        IPaletteMetric[] viewMetrics,
         PaletteMetricInt[] viewMetricIntOutside,
         PaletteMetricInt[]? viewMetricIntOutsideRight,
         PaletteMetricInt[] viewMetricIntInside,

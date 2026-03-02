@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -60,28 +60,11 @@ internal class KryptonFormTitleBarActionList : DesignerActionList
     /// <summary>Gets the button-spec collection.</summary>
     public KryptonFormTitleBar.FormTitleBarButtonSpecCollection ButtonSpecs => _titleBar.ButtonSpecs;
 
-    private void OnInsertStandardItems(object? sender, EventArgs e)
-    {
-        var host = GetService(typeof(IDesignerHost)) as IDesignerHost;
-        var specs = KryptonFormTitleBar.CreateStandardButtonSpecs();
-
-        foreach (var template in specs)
-        {
-            var spec = host != null
-                ? (ButtonSpecAny)host.CreateComponent(typeof(ButtonSpecAny))
-                : new ButtonSpecAny();
-            spec.Type = template.Type;
-            spec.ToolTipTitle = template.ToolTipTitle;
-            spec.Enabled = template.Enabled;
-            spec.Text = template.Text;
-            spec.AllowInheritText = template.AllowInheritText;
-            spec.ShowDrop = template.ShowDrop;
-            spec.KryptonContextMenu = template.KryptonContextMenu;
-            _titleBar.ButtonSpecs.Add(spec);
-        }
-
-        _service?.OnComponentChanged(_titleBar, null, null, null);
-    }
+    private void OnInsertStandardItems(object? sender, EventArgs e) =>
+        KryptonFormTitleBarDesigner.InsertStandardItems(
+            _titleBar,
+            GetService(typeof(IDesignerHost)) as IDesignerHost,
+            _service);
 
     #endregion
 }

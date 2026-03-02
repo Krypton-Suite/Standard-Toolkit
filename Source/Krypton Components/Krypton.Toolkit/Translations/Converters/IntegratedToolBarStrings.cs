@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -30,6 +30,21 @@ public class IntegratedToolBarStrings : GlobalId
     private const string DEFAULT_PALETTE_BUTTON_SPEC_STYLE_PRINT = @"Print";
     private const string DEFAULT_PALETTE_BUTTON_SPEC_STYLE_QUICK_PRINT = @"Quick Print";
 
+    // Menu item text — includes & accelerator characters for keyboard navigation.
+    // These are separate from the tooltip-only strings above so tooltips remain unaffected.
+    private const string DEFAULT_MENU_ITEM_NEW = @"&New"; // Accelerator key - 'N'
+    private const string DEFAULT_MENU_ITEM_OPEN = @"&Open"; // Accelerator key - 'O'
+    private const string DEFAULT_MENU_ITEM_SAVE = @"&Save"; // Accelerator key - 'S'
+    private const string DEFAULT_MENU_ITEM_SAVE_AS = @"Save &As"; // Accelerator key - 'A'
+    private const string DEFAULT_MENU_ITEM_SAVE_ALL = @"Save A&ll"; // Accelerator key - 'l'
+    private const string DEFAULT_MENU_ITEM_CUT = @"Cu&t"; // Accelerator key - 't'
+    private const string DEFAULT_MENU_ITEM_COPY = @"&Copy"; // Accelerator key - 'C'
+    private const string DEFAULT_MENU_ITEM_PASTE = @"&Paste"; // Accelerator key - 'P'
+    private const string DEFAULT_MENU_ITEM_UNDO = @"&Undo"; // Accelerator key - 'U'
+    private const string DEFAULT_MENU_ITEM_REDO = @"&Redo"; // Accelerator key - 'R'
+    private const string DEFAULT_MENU_ITEM_PRINT_PREVIEW = @"Print Pre&view"; // Accelerator key - 'v'
+    private const string DEFAULT_MENU_ITEM_PRINT = @"&Print"; // Accelerator key - 'P'
+
     #endregion
 
     #region Identity
@@ -59,7 +74,20 @@ public class IntegratedToolBarStrings : GlobalId
                              PageSetup.Equals(DEFAULT_PALETTE_BUTTON_SPEC_STYLE_PAGE_SETUP) &&
                              PrintPreview.Equals(DEFAULT_PALETTE_BUTTON_SPEC_STYLE_PRINT_PREVIEW) &&
                              Print.Equals(DEFAULT_PALETTE_BUTTON_SPEC_STYLE_PRINT) &&
-                             QuickPrint.Equals(DEFAULT_PALETTE_BUTTON_SPEC_STYLE_QUICK_PRINT);
+                             QuickPrint.Equals(DEFAULT_PALETTE_BUTTON_SPEC_STYLE_QUICK_PRINT) &&
+                             NewMenuItem.Equals(DEFAULT_MENU_ITEM_NEW) &&
+                             OpenMenuItem.Equals(DEFAULT_MENU_ITEM_OPEN) &&
+                             SaveMenuItem.Equals(DEFAULT_MENU_ITEM_SAVE) &&
+                             SaveAsMenuItem.Equals(DEFAULT_MENU_ITEM_SAVE_AS) &&
+                             SaveAllMenuItem.Equals(DEFAULT_MENU_ITEM_SAVE_ALL) &&
+                             CutMenuItem.Equals(DEFAULT_MENU_ITEM_CUT) &&
+                             CopyMenuItem.Equals(DEFAULT_MENU_ITEM_COPY) &&
+                             PasteMenuItem.Equals(DEFAULT_MENU_ITEM_PASTE) &&
+                             UndoMenuItem.Equals(DEFAULT_MENU_ITEM_UNDO) &&
+                             RedoMenuItem.Equals(DEFAULT_MENU_ITEM_REDO) &&
+                             PrintPreviewMenuItem.Equals(DEFAULT_MENU_ITEM_PRINT_PREVIEW) &&
+                             PrintMenuItem.Equals(DEFAULT_MENU_ITEM_PRINT);
+
     public void Reset()
     {
         New = DEFAULT_PALETTE_BUTTON_SPEC_STYLE_NEW;
@@ -89,6 +117,30 @@ public class IntegratedToolBarStrings : GlobalId
         Print = DEFAULT_PALETTE_BUTTON_SPEC_STYLE_PRINT;
 
         QuickPrint = DEFAULT_PALETTE_BUTTON_SPEC_STYLE_QUICK_PRINT;
+
+        NewMenuItem = DEFAULT_MENU_ITEM_NEW;
+
+        OpenMenuItem = DEFAULT_MENU_ITEM_OPEN;
+
+        SaveMenuItem = DEFAULT_MENU_ITEM_SAVE;
+
+        SaveAsMenuItem = DEFAULT_MENU_ITEM_SAVE_AS;
+
+        SaveAllMenuItem = DEFAULT_MENU_ITEM_SAVE_ALL;
+
+        CutMenuItem = DEFAULT_MENU_ITEM_CUT;
+
+        CopyMenuItem = DEFAULT_MENU_ITEM_COPY;
+
+        PasteMenuItem = DEFAULT_MENU_ITEM_PASTE;
+
+        UndoMenuItem = DEFAULT_MENU_ITEM_UNDO;
+
+        RedoMenuItem = DEFAULT_MENU_ITEM_REDO;
+
+        PrintPreviewMenuItem = DEFAULT_MENU_ITEM_PRINT_PREVIEW;
+
+        PrintMenuItem = DEFAULT_MENU_ITEM_PRINT;
     }
 
     /// <summary>Gets or sets the new integrated toolbar button spec style string.</summary>
@@ -188,6 +240,102 @@ public class IntegratedToolBarStrings : GlobalId
     [DefaultValue(DEFAULT_PALETTE_BUTTON_SPEC_STYLE_QUICK_PRINT)]
     [RefreshProperties(RefreshProperties.All)]
     public string QuickPrint { get; set; }
+
+    /// <summary>Gets or sets the New context menu item text (includes &amp; accelerator).</summary>
+    [Category(@"Visuals")]
+    [Description(@"The New context menu item text shown in the title bar File menu. Supports & accelerator characters.")]
+    [DefaultValue(DEFAULT_MENU_ITEM_NEW)]
+    [Localizable(true)]
+    [RefreshProperties(RefreshProperties.All)]
+    public string NewMenuItem { get; set; }
+
+    /// <summary>Gets or sets the Open context menu item text (includes &amp; accelerator).</summary>
+    [Category(@"Visuals")]
+    [Description(@"The Open context menu item text shown in the title bar File menu. Supports & accelerator characters.")]
+    [DefaultValue(DEFAULT_MENU_ITEM_OPEN)]
+    [Localizable(true)]
+    [RefreshProperties(RefreshProperties.All)]
+    public string OpenMenuItem { get; set; }
+
+    /// <summary>Gets or sets the Save context menu item text (includes &amp; accelerator).</summary>
+    [Category(@"Visuals")]
+    [Description(@"The Save context menu item text shown in the title bar File menu. Supports & accelerator characters.")]
+    [DefaultValue(DEFAULT_MENU_ITEM_SAVE)]
+    [Localizable(true)]
+    [RefreshProperties(RefreshProperties.All)]
+    public string SaveMenuItem { get; set; }
+
+    /// <summary>Gets or sets the Save As context menu item text (includes &amp; accelerator).</summary>
+    [Category(@"Visuals")]
+    [Description(@"The Save As context menu item text shown in the title bar File menu. Supports & accelerator characters.")]
+    [DefaultValue(DEFAULT_MENU_ITEM_SAVE_AS)]
+    [Localizable(true)]
+    [RefreshProperties(RefreshProperties.All)]
+    public string SaveAsMenuItem { get; set; }
+
+    /// <summary>Gets or sets the Save All context menu item text (includes &amp; accelerator).</summary>
+    [Category(@"Visuals")]
+    [Description(@"The Save All context menu item text shown in the title bar File menu. Supports & accelerator characters.")]
+    [DefaultValue(DEFAULT_MENU_ITEM_SAVE_ALL)]
+    [Localizable(true)]
+    [RefreshProperties(RefreshProperties.All)]
+    public string SaveAllMenuItem { get; set; }
+
+    /// <summary>Gets or sets the Cut context menu item text (includes &amp; accelerator).</summary>
+    [Category(@"Visuals")]
+    [Description(@"The Cut context menu item text shown in the title bar Edit menu. Supports & accelerator characters.")]
+    [DefaultValue(DEFAULT_MENU_ITEM_CUT)]
+    [Localizable(true)]
+    [RefreshProperties(RefreshProperties.All)]
+    public string CutMenuItem { get; set; }
+
+    /// <summary>Gets or sets the Copy context menu item text (includes &amp; accelerator).</summary>
+    [Category(@"Visuals")]
+    [Description(@"The Copy context menu item text shown in the title bar Edit menu. Supports & accelerator characters.")]
+    [DefaultValue(DEFAULT_MENU_ITEM_COPY)]
+    [Localizable(true)]
+    [RefreshProperties(RefreshProperties.All)]
+    public string CopyMenuItem { get; set; }
+
+    /// <summary>Gets or sets the Paste context menu item text (includes &amp; accelerator).</summary>
+    [Category(@"Visuals")]
+    [Description(@"The Paste context menu item text shown in the title bar Edit menu. Supports & accelerator characters.")]
+    [DefaultValue(DEFAULT_MENU_ITEM_PASTE)]
+    [Localizable(true)]
+    [RefreshProperties(RefreshProperties.All)]
+    public string PasteMenuItem { get; set; }
+
+    /// <summary>Gets or sets the Undo context menu item text (includes &amp; accelerator).</summary>
+    [Category(@"Visuals")]
+    [Description(@"The Undo context menu item text shown in the title bar Edit menu. Supports & accelerator characters.")]
+    [DefaultValue(DEFAULT_MENU_ITEM_UNDO)]
+    [Localizable(true)]
+    [RefreshProperties(RefreshProperties.All)]
+    public string UndoMenuItem { get; set; }
+
+    /// <summary>Gets or sets the Redo context menu item text (includes &amp; accelerator).</summary>
+    [Category(@"Visuals")]
+    [Description(@"The Redo context menu item text shown in the title bar Edit menu. Supports & accelerator characters.")]
+    [DefaultValue(DEFAULT_MENU_ITEM_REDO)]
+    [Localizable(true)]
+    [RefreshProperties(RefreshProperties.All)]
+    public string RedoMenuItem { get; set; }
+
+    /// <summary>Gets or sets the Print Preview context menu item text (includes &amp; accelerator).</summary>
+    [Category(@"Visuals")]
+    [Description(@"The Print Preview context menu item text shown in the title bar File menu. Supports & accelerator characters.")]
+    [DefaultValue(DEFAULT_MENU_ITEM_PRINT_PREVIEW)]
+    [Localizable(true)]
+    [RefreshProperties(RefreshProperties.All)]
+    public string PrintPreviewMenuItem { get; set; }
+
+    /// <summary>Gets or sets the Print context menu item text (includes &amp; accelerator).</summary>
+    [Category(@"Visuals")]
+    [Description(@"The Print context menu item text shown in the title bar File menu. Supports & accelerator characters.")]
+    [DefaultValue(DEFAULT_MENU_ITEM_PRINT)]
+    [Localizable(true)]
+    [RefreshProperties(RefreshProperties.All)]
+    public string PrintMenuItem { get; set; }
 
     #endregion
 }
