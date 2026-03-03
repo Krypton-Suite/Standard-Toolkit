@@ -3,7 +3,7 @@
 =======
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
-
+* Resolved [#3013](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3013), Maximized form's size exceeds the screen's working area
 * Implemented [#3113](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3113), TextBox item for KryptonContextMenu-Items
 * Implemented [#2890](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2890), Taskbar Progress Bar support
 * Resolved [#3124](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3124), Docking: Loading configuration while form is hidden remover splitter
