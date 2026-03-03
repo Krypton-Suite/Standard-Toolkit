@@ -7,6 +7,7 @@
 		This project creates a combined NuGet package that includes all the core Krypton libraries:
 		- Krypton.Docking
 		- Krypton.Navigator
+		- Krypton.Navigator.Utilities
 		- Krypton.Ribbon
 		- Krypton.Toolkit
 		- Krypton.Utilities
@@ -52,7 +53,7 @@
 	<!-- NuGet Package Metadata -->
 	<PropertyGroup>
 		<PackageId>Krypton.Standard.Toolkit</PackageId>
-		<Description>Aggregate package containing Krypton.Docking, Krypton.Navigator, Krypton.Ribbon, Krypton.Toolkit, Krypton.Utilities, and Krypton.Workspace with all reference binaries included.</Description>
+		<Description>Aggregate package containing Krypton.Docking, Krypton.Navigator, Krypton.Navigator.Utilities, Krypton.Ribbon, Krypton.Toolkit, Krypton.Utilities, and Krypton.Workspace with all reference binaries included.</Description>
 		<!-- Additional package metadata (version, authors, license, etc.) is defined in Directory.Build.props and Directory.Build.targets -->
 
 		<!--
@@ -102,6 +103,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Krypton.Docking\Krypton.Docking 2022.csproj" />
 		<ProjectReference Include="..\Krypton.Navigator\Krypton.Navigator 2022.csproj" />
+		<ProjectReference Include="..\Krypton.Navigator.Utilities\Krypton.Navigator.Utilities.csproj" />
 		<ProjectReference Include="..\Krypton.Ribbon\Krypton.Ribbon 2022.csproj" />
 		<ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
 		<ProjectReference Include="..\Krypton.Utilities\Krypton.Utilities.csproj">
@@ -168,6 +170,9 @@
 			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Navigator.dll" Condition="Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Navigator.dll')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Navigator.Utilities.dll" Condition="Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Navigator.Utilities.dll')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Ribbon.dll" Condition="Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Ribbon.dll')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
@@ -196,6 +201,9 @@
 			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Navigator.xml" Condition="Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Navigator.xml')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Navigator.Utilities.xml" Condition="Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Navigator.Utilities.xml')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Ribbon.xml" Condition="Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Ribbon.xml')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
@@ -214,6 +222,9 @@
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Navigator.pdb" Condition="'$(IncludeSymbols)' == 'true' And Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Navigator.pdb')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Navigator.Utilities.pdb" Condition="'$(IncludeSymbols)' == 'true' And Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Navigator.Utilities.pdb')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Ribbon.pdb" Condition="'$(IncludeSymbols)' == 'true' And Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Ribbon.pdb')">
