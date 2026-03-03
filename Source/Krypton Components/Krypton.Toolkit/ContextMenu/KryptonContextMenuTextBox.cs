@@ -21,15 +21,12 @@ namespace Krypton.Toolkit;
 public class KryptonContextMenuTextBox : KryptonContextMenuItemBase
 {
     #region Instance Fields
-    
-    private string _text;
     private int _minimumWidth;
-    private bool _enabled;
+    private readonly KryptonTextBox _textBox;
 
     #endregion
 
     #region Events
-    
     /// <summary>
     /// Occurs when the value of the Text property changes.
     /// </summary>
@@ -40,7 +37,6 @@ public class KryptonContextMenuTextBox : KryptonContextMenuItemBase
     #endregion
 
     #region Identity
-    
     /// <summary>
     /// Initialize a new instance of the KryptonContextMenuTextBox class.
     /// </summary>
@@ -55,9 +51,10 @@ public class KryptonContextMenuTextBox : KryptonContextMenuItemBase
     /// <param name="initialText">Initial text value.</param>
     public KryptonContextMenuTextBox(string initialText)
     {
-        _text = initialText;
         _minimumWidth = 120;
-        _enabled = true;
+
+        _textBox = new KryptonTextBox { Text = initialText };
+        _textBox.TextChanged += OnTextBoxTextChanged;
     }
 
     /// <summary>
@@ -66,10 +63,24 @@ public class KryptonContextMenuTextBox : KryptonContextMenuItemBase
     /// <returns>String representation.</returns>
     public override string ToString() => Text;
 
+    /// <summary>
+    /// Clean up any resources being used.
+    /// </summary>
+    /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            _textBox.TextChanged -= OnTextBoxTextChanged;
+            _textBox.Dispose();
+        }
+
+        base.Dispose(disposing);
+    }
+
     #endregion
 
     #region Public
-
     /// <summary>
     /// Returns the number of child menu items.
     /// </summary>
@@ -120,15 +131,13 @@ public class KryptonContextMenuTextBox : KryptonContextMenuItemBase
     [Localizable(true)]
     public string Text
     {
-        get => _text;
+        get => _textBox.Text;
 
         set
         {
-            if (_text != value)
+            if (_textBox.Text != value)
             {
-                _text = value;
-                OnPropertyChanged(new PropertyChangedEventArgs(nameof(Text)));
-                TextChanged?.Invoke(this, EventArgs.Empty);
+                _textBox.Text = value;
             }
         }
     }
@@ -163,17 +172,33 @@ public class KryptonContextMenuTextBox : KryptonContextMenuItemBase
     [DefaultValue(true)]
     public bool Enabled
     {
-        get => _enabled;
+        get => _textBox.Enabled;
 
         set
         {
-            if (_enabled != value)
+            if (_textBox.Enabled != value)
             {
-                _enabled = value;
+                _textBox.Enabled = value;
                 OnPropertyChanged(new PropertyChangedEventArgs(nameof(Enabled)));
             }
         }
     }
 
+    #endregion
+
+    #region Internal
+    /// <summary>
+    /// Gets the underlying KryptonTextBox; used by the view to host the control directly.
+    /// </summary>
+    internal KryptonTextBox TextBox => _textBox;
+
+    #endregion
+
+    #region Private
+    private void OnTextBoxTextChanged(object? sender, EventArgs e)
+    {
+        OnPropertyChanged(new PropertyChangedEventArgs(nameof(Text)));
+        TextChanged?.Invoke(this, EventArgs.Empty);
+    }
     #endregion
 }
