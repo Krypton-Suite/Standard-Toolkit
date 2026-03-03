@@ -2634,27 +2634,32 @@ public class KryptonForm : VisualForm,
         }
     }
 
-    private void UpdateRegionForMaximized()
-    {
-        if (MdiParent == null)
-        {
-            // Fix for #2457 / #3012: Do not apply a clipping region when maximized.
-            // For RTL layout mode, disable region clipping to prevent border issues (#2457).
-            // For all maximized forms, skip region so the title bar, control box, and left/top/bottom
-            // edges are not cut off (#3012 - controlbox and buttonspace not show full when maximized).
-            SuspendPaint();
-            _regionWindowState = FormWindowState.Maximized;
-            UpdateBorderRegion(null);
-            ResumePaint();
-        }
-        else
-        {
-            // As a maximized Mdi Child we do not need any border region
-            UpdateBorderRegion(null);
-        }
-    }
+	// Fix for #3013 : This change restores the original implementation of UpdateRegionForMaximized.
+	private void UpdateRegionForMaximized()
+	{
+		if (MdiParent == null)
+		{
+			// Get the size of each window border
+			Padding padding = RealWindowBorders;
 
-    private void UpdateBorderRegion(Region? newRegion)
+			// Reduce the Bounds by the padding on all but the top
+			var maximizedRect = new Rectangle(padding.Left, padding.Left, Width - padding.Horizontal,
+				Height - padding.Left - padding.Bottom);
+
+			// Use this as the new region
+			SuspendPaint();
+			_regionWindowState = FormWindowState.Maximized;
+			UpdateBorderRegion(new Region(maximizedRect));
+			ResumePaint();
+		}
+		else
+		{
+			// As a maximized Mdi Child we do not need any border region
+			UpdateBorderRegion(null);
+		}
+	}
+
+	private void UpdateBorderRegion(Region? newRegion)
     {
         if ((newRegion != null)
             && (newRegion.IsEmpty(CreateGraphics()))
