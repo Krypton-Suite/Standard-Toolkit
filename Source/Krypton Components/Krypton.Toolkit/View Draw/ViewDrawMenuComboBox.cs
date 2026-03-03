@@ -12,14 +12,12 @@ namespace Krypton.Toolkit;
 internal class ViewDrawMenuComboBox : ViewComposite
 {
     #region Instance Fields
-
     private readonly IContextMenuProvider _provider;
     private readonly KryptonComboBox _comboBox;
 
     #endregion
 
     #region Identity
-
     /// <summary>
     /// Initialize a new instance of the ViewDrawMenuComboBox class.
     /// </summary>
@@ -31,25 +29,11 @@ internal class ViewDrawMenuComboBox : ViewComposite
         _provider = provider;
         KryptonContextMenuComboBox = comboBoxItem;
 
-        _comboBox = new KryptonComboBox
-        {
-            Text = comboBoxItem.Text,
-            Enabled = provider.ProviderEnabled && comboBoxItem.Enabled,
-            MinimumSize = new Size(comboBoxItem.MinimumWidth, 0)
-        };
+        // Use the model's own KryptonComboBox directly — no duplication of items
+        _comboBox = comboBoxItem.ComboBox;
+        _comboBox.Enabled = provider.ProviderEnabled && comboBoxItem.Enabled;
+        _comboBox.MinimumSize = new Size(comboBoxItem.MinimumWidth, 0);
 
-        foreach (var item in comboBoxItem.Items)
-        {
-            _comboBox.Items.Add(item);
-        }
-
-        if (comboBoxItem.SelectedIndex >= 0 && comboBoxItem.SelectedIndex < _comboBox.Items.Count)
-        {
-            _comboBox.SelectedIndex = comboBoxItem.SelectedIndex;
-        }
-
-        _comboBox.SelectedIndexChanged += OnComboBoxSelectedIndexChanged;
-        _comboBox.TextChanged += OnComboBoxTextChanged;
         comboBoxItem.PropertyChanged += OnPropertyChanged;
     }
 
@@ -67,13 +51,9 @@ internal class ViewDrawMenuComboBox : ViewComposite
     {
         if (disposing)
         {
-            _comboBox.SelectedIndexChanged -= OnComboBoxSelectedIndexChanged;
-            _comboBox.TextChanged -= OnComboBoxTextChanged;
             KryptonContextMenuComboBox.PropertyChanged -= OnPropertyChanged;
 
             _comboBox.Parent?.Controls.Remove(_comboBox);
-
-            _comboBox.Dispose();
         }
 
         base.Dispose(disposing);
@@ -82,7 +62,6 @@ internal class ViewDrawMenuComboBox : ViewComposite
     #endregion
 
     #region KryptonContextMenuComboBox
-
     /// <summary>
     /// Gets access to the owning combo box data model.
     /// </summary>
@@ -90,17 +69,7 @@ internal class ViewDrawMenuComboBox : ViewComposite
 
     #endregion
 
-    #region ComboBox
-
-    /// <summary>
-    /// Gets access to the hosted KryptonComboBox instance.
-    /// </summary>
-    public KryptonComboBox ComboBox => _comboBox;
-
-    #endregion
-
     #region ItemEnabled
-
     /// <summary>
     /// Gets the enabled state of the item.
     /// </summary>
@@ -109,7 +78,6 @@ internal class ViewDrawMenuComboBox : ViewComposite
     #endregion
 
     #region Layout
-
     /// <summary>
     /// Discover the preferred size of the element.
     /// </summary>
@@ -159,31 +127,13 @@ internal class ViewDrawMenuComboBox : ViewComposite
 
         base.Layout(context);
     }
-
     #endregion
 
     #region Private
-
-    private void OnComboBoxSelectedIndexChanged(object? sender, EventArgs e)
-    {
-        KryptonContextMenuComboBox.SelectedIndex = _comboBox.SelectedIndex;
-    }
-
-    private void OnComboBoxTextChanged(object? sender, EventArgs e)
-    {
-        KryptonContextMenuComboBox.Text = _comboBox.Text;
-    }
-
     private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
         switch (e.PropertyName)
         {
-            case nameof(KryptonContextMenuComboBox.Text):
-                if (_comboBox.Text != KryptonContextMenuComboBox.Text)
-                {
-                    _comboBox.Text = KryptonContextMenuComboBox.Text;
-                }
-                break;
             case nameof(KryptonContextMenuComboBox.Enabled):
                 _comboBox.Enabled = _provider.ProviderEnabled && KryptonContextMenuComboBox.Enabled;
                 break;
@@ -191,22 +141,7 @@ internal class ViewDrawMenuComboBox : ViewComposite
                 _comboBox.MinimumSize = new Size(KryptonContextMenuComboBox.MinimumWidth, 0);
                 _provider.ProviderNeedPaintDelegate(this, new NeedLayoutEventArgs(true));
                 break;
-            case nameof(KryptonContextMenuComboBox.SelectedIndex):
-                if (_comboBox.SelectedIndex != KryptonContextMenuComboBox.SelectedIndex)
-                {
-                    _comboBox.SelectedIndex = KryptonContextMenuComboBox.SelectedIndex;
-                }
-                break;
-            case nameof(KryptonContextMenuComboBox.Items):
-                _comboBox.Items.Clear();
-                foreach (var item in KryptonContextMenuComboBox.Items)
-                {
-                    _comboBox.Items.Add(item);
-                }
-                _provider.ProviderNeedPaintDelegate(this, new NeedLayoutEventArgs(true));
-                break;
         }
     }
-
     #endregion
 }
