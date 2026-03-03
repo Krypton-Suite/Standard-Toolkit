@@ -12,14 +12,12 @@ namespace Krypton.Toolkit;
 internal class ViewDrawMenuTextBox : ViewComposite
 {
     #region Instance Fields
-    
     private readonly IContextMenuProvider _provider;
     private readonly KryptonTextBox _textBox;
 
     #endregion
 
     #region Identity
-    
     /// <summary>
     /// Initialize a new instance of the ViewDrawMenuTextBox class.
     /// </summary>
@@ -31,14 +29,11 @@ internal class ViewDrawMenuTextBox : ViewComposite
         _provider = provider;
         KryptonContextMenuTextBox = textBoxItem;
 
-        _textBox = new KryptonTextBox
-        {
-            Text = textBoxItem.Text,
-            Enabled = provider.ProviderEnabled && textBoxItem.Enabled,
-            MinimumSize = new Size(textBoxItem.MinimumWidth, 0)
-        };
+        // Use the model's own KryptonTextBox directly
+        _textBox = textBoxItem.TextBox;
+        _textBox.Enabled = provider.ProviderEnabled && textBoxItem.Enabled;
+        _textBox.MinimumSize = new Size(textBoxItem.MinimumWidth, 0);
 
-        _textBox.TextChanged += OnTextBoxTextChanged;
         textBoxItem.PropertyChanged += OnPropertyChanged;
     }
 
@@ -56,15 +51,9 @@ internal class ViewDrawMenuTextBox : ViewComposite
     {
         if (disposing)
         {
-            _textBox.TextChanged -= OnTextBoxTextChanged;
             KryptonContextMenuTextBox.PropertyChanged -= OnPropertyChanged;
 
-            if (_textBox.Parent != null)
-            {
-                _textBox.Parent.Controls.Remove(_textBox);
-            }
-
-            _textBox.Dispose();
+            _textBox.Parent?.Controls.Remove(_textBox);
         }
 
         base.Dispose(disposing);
@@ -73,7 +62,6 @@ internal class ViewDrawMenuTextBox : ViewComposite
     #endregion
 
     #region KryptonContextMenuTextBox
-    
     /// <summary>
     /// Gets access to the owning text box data model.
     /// </summary>
@@ -81,17 +69,7 @@ internal class ViewDrawMenuTextBox : ViewComposite
 
     #endregion
 
-    #region TextBox
-    
-    /// <summary>
-    /// Gets access to the hosted KryptonTextBox instance.
-    /// </summary>
-    public KryptonTextBox TextBox => _textBox;
-
-    #endregion
-
     #region ItemEnabled
-    
     /// <summary>
     /// Gets the enabled state of the item.
     /// </summary>
@@ -100,7 +78,6 @@ internal class ViewDrawMenuTextBox : ViewComposite
     #endregion
 
     #region Layout
-    
     /// <summary>
     /// Discover the preferred size of the element.
     /// </summary>
@@ -112,7 +89,6 @@ internal class ViewDrawMenuTextBox : ViewComposite
         ItemEnabled = _provider.ProviderEnabled && KryptonContextMenuTextBox.Enabled;
         _textBox.Enabled = ItemEnabled;
 
-        // Height from the text box preferred size; width from MinimumWidth setting plus padding
         var textBoxPreferred = _textBox.GetPreferredSize(Size.Empty);
         var preferredWidth = Math.Max(KryptonContextMenuTextBox.MinimumWidth, textBoxPreferred.Width) + 6;
         var preferredHeight = textBoxPreferred.Height + 4;
@@ -136,13 +112,11 @@ internal class ViewDrawMenuTextBox : ViewComposite
 
         ClientRectangle = context.DisplayRectangle;
 
-        // Ensure the text box lives inside the menu popup control
         if (context.Control != null && _textBox.Parent != context.Control)
         {
             context.Control.Controls.Add(_textBox);
         }
 
-        // Position and show the text box within the allocated client area
         _textBox.SetBounds(
             ClientRectangle.X + 3,
             ClientRectangle.Y + 2,
@@ -153,23 +127,13 @@ internal class ViewDrawMenuTextBox : ViewComposite
 
         base.Layout(context);
     }
-
     #endregion
 
     #region Private
-    
-    private void OnTextBoxTextChanged(object? sender, EventArgs e) => KryptonContextMenuTextBox.Text = _textBox.Text;
-
     private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
         switch (e.PropertyName)
         {
-            case nameof(KryptonContextMenuTextBox.Text):
-                if (_textBox.Text != KryptonContextMenuTextBox.Text)
-                {
-                    _textBox.Text = KryptonContextMenuTextBox.Text;
-                }
-                break;
             case nameof(KryptonContextMenuTextBox.Enabled):
                 _textBox.Enabled = _provider.ProviderEnabled && KryptonContextMenuTextBox.Enabled;
                 break;
@@ -179,6 +143,6 @@ internal class ViewDrawMenuTextBox : ViewComposite
                 break;
         }
     }
-
     #endregion
 }
+
