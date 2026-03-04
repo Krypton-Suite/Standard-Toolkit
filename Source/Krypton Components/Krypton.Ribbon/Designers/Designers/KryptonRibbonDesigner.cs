@@ -140,8 +140,7 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
                 _toggleHelpersVerb = new DesignerVerb(@"Toggle Helpers", OnToggleHelpers);
                 _addTabVerb = new DesignerVerb(@"Add Tab", OnAddTab);
                 _clearTabsVerb = new DesignerVerb(@"Clear Tabs", OnClearTabs);
-                _verbs.AddRange([_toggleHelpersVerb, _addTabVerb, _clearTabsVerb]);
-                _insertStandardQATVerb = new DesignerVerb(@"Insert Standard Items", OnInsertStandardQATItems);
+                _insertStandardQATVerb = new DesignerVerb(@"Insert Standard Quick Access Toolbar Items", OnInsertStandardQATItems);
                 _verbs.AddRange([_toggleHelpersVerb, _addTabVerb, _clearTabsVerb, _insertStandardQATVerb]);
             }
 
