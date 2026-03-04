@@ -45,6 +45,12 @@ public sealed class AppState
     /// </summary>
     public string ProjectFile { get; set; } = string.Empty;
 
+    /// <summary>
+    /// Gets or sets the selected scripts profile (Auto, VS2022, Current).
+    /// Controls which Scripts folder variant is preferred when resolving .proj files.
+    /// </summary>
+    public ScriptProfile ScriptProfile { get; set; } = ScriptProfile.Auto;
+
     #endregion
 
     #region Logging Configuration
