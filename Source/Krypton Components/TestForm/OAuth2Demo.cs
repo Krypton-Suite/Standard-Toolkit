@@ -126,7 +126,7 @@ public partial class OAuth2Demo : KryptonForm
             _btnRefresh.Enabled = tokens.HasRefreshToken;
 
             _lblResult.Text = "Sign-in successful!\n\n" +
-                              $"Access token: {(string.IsNullOrEmpty(tokens.AccessToken) ? "(none)" : tokens.AccessToken.Length > 20 ? tokens.AccessToken.Substring(20) + "..." : tokens.AccessToken)}\n" +
+                              $"Access token: {(string.IsNullOrEmpty(tokens.AccessToken) ? "(none)" : tokens.AccessToken is { Length: > 20 } ? tokens.AccessToken.Substring(20) + "..." : tokens.AccessToken)}\n" +
                               $"Token type: {tokens.TokenType ?? "N/A"}\n" +
                               $"Expires in: {tokens.ExpiresIn} seconds\n" +
                               $"Refresh token: {(tokens.HasRefreshToken ? "Yes" : "No")}";
