@@ -361,33 +361,6 @@ public class KryptonForm : VisualForm,
     private float GetDpiFactor() => DeviceDpi / 96F;
 
     /// <summary>
-    /// Gets the size (width and height) of the top-left corner hit-test area when maximized.
-    /// Theme-related (uses caption height or form button size) and scaled by DPI/zoom. Issue #3012.
-    /// </summary>
-    private int GetTopLeftCornerHitTestSize()
-    {
-        const int defaultAt96Dpi = 20;
-
-        // Prefer theme-derived size: caption height (varies by theme, e.g. Material 44px)
-        int captionHeight = _drawHeading?.ClientRectangle.Height ?? 0;
-        if (captionHeight > 0)
-        {
-            return Math.Max(1, captionHeight);
-        }
-
-        // Else use form button size (theme-dependent)
-        Rectangle closeRect = _buttonManager.GetButtonRectangle(ButtonSpecClose);
-        int buttonSize = Math.Max(closeRect.Height, closeRect.Width);
-        if (buttonSize > 0)
-        {
-            return Math.Max(1, buttonSize);
-        }
-
-        // Fallback: default size scaled by DPI/zoom
-        return Math.Max(1, (int)Math.Round(defaultAt96Dpi * GetDpiFactor()));
-    }
-
-    /// <summary>
     /// Determines whether the form-level sizing grip should be shown.
     /// Issue: https://github.com/Krypton-Suite/Standard-Toolkit/issues/984
     /// PR: https://github.com/Krypton-Suite/Standard-Toolkit/pull/2436
@@ -2172,29 +2145,6 @@ public class KryptonForm : VisualForm,
             return new IntPtr(PI.HT.CLIENT);
         }
 
-        // Issue #3012: When maximized, clicking the top-left corner should show system menu (LTR) or close (RTL)
-        bool isMaximized = GetWindowState() == FormWindowState.Maximized;
-        if (isMaximized)
-        {
-            // Corner size is theme-related (caption/button size) and scaled by DPI/zoom
-            int cornerSize = GetTopLeftCornerHitTestSize();
-            Rectangle topLeftCorner = new Rectangle(0, 0, cornerSize, cornerSize);
-
-            if (topLeftCorner.Contains(pt))
-            {
-                // For RTL layouts, top-left corner should close the form
-                // For LTR layouts, top-left corner should show system menu
-                if (RightToLeftLayout)
-                {
-                    return new IntPtr(PI.HT.CLOSE);
-                }
-                else
-                {
-                    return new IntPtr(PI.HT.MENU);
-                }
-            }
-        }
-
         using (var context = new ViewLayoutContext(this, Renderer))
         {
             // Discover if the form icon is being Displayed
@@ -2776,35 +2726,53 @@ public class KryptonForm : VisualForm,
         }
     }
 
-	// Fix for #3013 : This change restores the original implementation of UpdateRegionForMaximized.
-	private void UpdateRegionForMaximized()
-	{
-		if (MdiParent == null)
-		{
-			// Get the size of each window border
-			var xBorder = PI.GetSystemMetrics(PI.SM_.CXSIZEFRAME) * 2;
-			var yBorder = PI.GetSystemMetrics(PI.SM_.CYSIZEFRAME) * 2;
+    private void UpdateRegionForMaximized()
+    {
+        if (MdiParent == null)
+        {
+            // Fix for #2457, please do not remove!!!
+            // For RTL layout mode, disable region clipping to prevent border issues
+            if (RightToLeftLayout)
+            {
+                SuspendPaint();
+                _regionWindowState = FormWindowState.Maximized;
+                UpdateBorderRegion(null); // No region clipping in RTL mode
+                ResumePaint();
+                return;
+            }
 
-			Padding padding = RealWindowBorders;
+            // Get the size of each window border
+            var xBorder = PI.GetSystemMetrics(PI.SM_.CXSIZEFRAME) * 2;
+            var yBorder = PI.GetSystemMetrics(PI.SM_.CYSIZEFRAME) * 2;
 
-			// Reduce the Bounds by the padding on all but the top
-			var maximizedRect = new Rectangle(xBorder, yBorder, Width - (xBorder * 2),
-				Height - (yBorder * 2));
+            // Fix for #2457, please do not remove!!!
+            // Get the actual border widths from the form's border palette
+            var formBorder = StateCommon?.Border as PaletteFormBorder;
+            var (leftBorder, topBorder) = formBorder?.BorderWidths(FormBorderStyle) ?? (xBorder / 2, yBorder / 2);
+            var rightBorder = leftBorder; // Use same width for right border
+            var bottomBorder = topBorder; // Use same width for bottom border
 
-			// Use this as the new region
-			SuspendPaint();
-			_regionWindowState = FormWindowState.Maximized;
-			UpdateBorderRegion(new Region(maximizedRect));
-			ResumePaint();
-		}
-		else
-		{
-			// As a maximized Mdi Child we do not need any border region
-			UpdateBorderRegion(null);
-		}
-	}
+            // Calculate the maximized region with proper border handling
+            var maximizedRect = new Rectangle(
+                leftBorder,
+                topBorder,
+                Width - (leftBorder + rightBorder),
+                Height - (topBorder + bottomBorder));
 
-	private void UpdateBorderRegion(Region? newRegion)
+            // Use this as the new region
+            SuspendPaint();
+            _regionWindowState = FormWindowState.Maximized;
+            UpdateBorderRegion(new Region(maximizedRect));
+            ResumePaint();
+        }
+        else
+        {
+            // As a maximized Mdi Child we do not need any border region
+            UpdateBorderRegion(null);
+        }
+    }
+
+    private void UpdateBorderRegion(Region? newRegion)
     {
         if ((newRegion != null)
             && (newRegion.IsEmpty(CreateGraphics()))
