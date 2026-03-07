@@ -846,6 +846,43 @@ public class KryptonRibbon : VisualSimple,
     public KryptonRibbonQATButtonCollection QATButtons { get; private set; }
 
     /// <summary>
+    /// Inserts a standard set of quick access toolbar buttons (New, Open, Save, etc.),
+    /// similar to the WinForms MenuStrip "Insert Standard Items" option.
+    /// </summary>
+    public void InsertStandardQATItems()
+    {
+        QATButtons.Clear();
+        QATButtons.AddRange(CreateStandardQATButtons());
+    }
+
+    /// <summary>
+    /// Creates a standard set of quick access toolbar button templates.
+    /// </summary>
+    /// <returns>Array of QAT button templates.</returns>
+    internal static KryptonRibbonQATButton[] CreateStandardQATButtons()
+    {
+        var tb = KryptonManager.Strings.ToolBarStrings;
+
+        return
+        [
+            new KryptonRibbonQATButton { Type = PaletteButtonSpecStyle.New,       Text = tb.New },
+            new KryptonRibbonQATButton { Type = PaletteButtonSpecStyle.Open,      Text = tb.Open },
+            new KryptonRibbonQATButton { Type = PaletteButtonSpecStyle.Save,      Text = tb.Save },
+            new KryptonRibbonQATButton { Type = PaletteButtonSpecStyle.SaveAs,    Text = tb.SaveAs },
+            new KryptonRibbonQATButton { Type = PaletteButtonSpecStyle.SaveAll,   Text = tb.SaveAll },
+            new KryptonRibbonQATButton { Type = PaletteButtonSpecStyle.Cut,       Text = tb.Cut },
+            new KryptonRibbonQATButton { Type = PaletteButtonSpecStyle.Copy,      Text = tb.Copy },
+            new KryptonRibbonQATButton { Type = PaletteButtonSpecStyle.Paste,     Text = tb.Paste },
+            new KryptonRibbonQATButton { Type = PaletteButtonSpecStyle.Undo,      Text = tb.Undo },
+            new KryptonRibbonQATButton { Type = PaletteButtonSpecStyle.Redo,      Text = tb.Redo },
+            new KryptonRibbonQATButton { Type = PaletteButtonSpecStyle.PageSetup, Text = tb.PageSetup },
+            new KryptonRibbonQATButton { Type = PaletteButtonSpecStyle.PrintPreview, Text = tb.PrintPreview },
+            new KryptonRibbonQATButton { Type = PaletteButtonSpecStyle.Print,     Text = tb.Print },
+            new KryptonRibbonQATButton { Type = PaletteButtonSpecStyle.QuickPrint,Text = tb.QuickPrint }
+        ];
+    }
+
+    /// <summary>
     /// Gets the set of ribbon shortcuts.
     /// </summary>
     [Category(@"Values")]
