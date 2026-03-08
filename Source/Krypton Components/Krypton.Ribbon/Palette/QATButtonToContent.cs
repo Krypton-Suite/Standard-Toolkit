@@ -30,7 +30,7 @@ internal class QATButtonToContent : IPaletteContent
     /// </summary>
     /// <param name="qatButton">Source for button values.</param>
     /// <param name="ribbon">Reference to owning ribbon instance.</param>
-    public QATButtonToContent([DisallowNull] IQuickAccessToolbarButton qatButton, KryptonRibbon ribbon)
+    public QATButtonToContent([DisallowNull] IQuickAccessToolbarButton qatButton, KryptonRibbon? ribbon)
     {
         Debug.Assert(qatButton is not null);
         Debug.Assert(ribbon is not null);
