@@ -20,7 +20,7 @@ namespace Krypton.Utilities;
 /// an HTTP listener on localhost or register a custom protocol handler.
 /// </para>
 /// <para>
-/// <see cref="OAuth2WebView2RedirectHandler"/> uses WebView2's NavigationStarting to intercept
+/// <c>OAuth2WebView2RedirectHandler</c> uses WebView2's NavigationStarting to intercept
 /// redirects within an embedded browser.
 /// </para>
 /// </remarks>
