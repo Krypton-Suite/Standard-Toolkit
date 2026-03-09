@@ -15,7 +15,7 @@ on:
 
 jobs:
   canary-lts-release:
-    runs-on: windows-latest
+    runs-on: windows-2025  # VS 2026 required for .NET 10.0 targeting
     if: github.ref == 'refs/heads/V105-LTS' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
 
     steps:
