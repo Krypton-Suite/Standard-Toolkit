@@ -30,8 +30,8 @@ public partial class JumpListTest : KryptonForm
         // Set application ID (required for jump lists)
         JumpList.AppId = "KryptonToolkit.JumpListTest";
 
-        // Use WPF JumpList (more reliable than native COM on WinForms)
-        SyncToWpfJumpList();
+        // Use WPF JumpList bridge (more reliable than native COM on WinForms)
+        Krypton.Toolkit.JumpList.WpfJumpListBridge.Sync(JumpList);
 
         // Setup examples
         SetupBasicExamples();
@@ -51,7 +51,7 @@ public partial class JumpListTest : KryptonForm
         btnSetAppId.Click += (s, e) =>
         {
             JumpList.AppId = "KryptonToolkit.JumpListTest";
-            SyncToWpfJumpList();
+            Krypton.Toolkit.JumpList.WpfJumpListBridge.Sync(JumpList);
             UpdateStatus("Application ID set: " + JumpList.AppId);
         };
 
@@ -61,7 +61,7 @@ public partial class JumpListTest : KryptonForm
         btnClearJumpList.Click += (s, e) =>
         {
             JumpList.Reset();
-            SyncToWpfJumpList();
+            Krypton.Toolkit.JumpList.WpfJumpListBridge.Sync(JumpList);
             UpdateStatus("Jump list cleared");
         };
     }
@@ -80,7 +80,7 @@ public partial class JumpListTest : KryptonForm
         btnClearUserTasks.Click += (s, e) =>
         {
             JumpList.UserTasks.Clear();
-            SyncToWpfJumpList();
+            Krypton.Toolkit.JumpList.WpfJumpListBridge.Sync(JumpList);
             UpdateStatus("User tasks cleared");
         };
     }
@@ -99,7 +99,7 @@ public partial class JumpListTest : KryptonForm
         btnClearCategories.Click += (s, e) =>
         {
             JumpList.ClearCategories();
-            SyncToWpfJumpList();
+            Krypton.Toolkit.JumpList.WpfJumpListBridge.Sync(JumpList);
             UpdateStatus("Categories cleared");
         };
     }
@@ -112,7 +112,7 @@ public partial class JumpListTest : KryptonForm
         btnShowFrequent.Click += (s, e) =>
         {
             JumpList.ShowFrequentCategory = !JumpList.ShowFrequentCategory;
-            SyncToWpfJumpList();
+            Krypton.Toolkit.JumpList.WpfJumpListBridge.Sync(JumpList);
             UpdateStatus($"Frequent category: {(JumpList.ShowFrequentCategory ? "Enabled" : "Disabled")}");
         };
 
@@ -120,7 +120,7 @@ public partial class JumpListTest : KryptonForm
         btnShowRecent.Click += (s, e) =>
         {
             JumpList.ShowRecentCategory = !JumpList.ShowRecentCategory;
-            SyncToWpfJumpList();
+            Krypton.Toolkit.JumpList.WpfJumpListBridge.Sync(JumpList);
             UpdateStatus($"Recent category: {(JumpList.ShowRecentCategory ? "Enabled" : "Disabled")}");
         };
     }
@@ -138,7 +138,7 @@ public partial class JumpListTest : KryptonForm
         };
 
         JumpList.UserTasks.Add(task);
-        SyncToWpfJumpList();
+            Krypton.Toolkit.JumpList.WpfJumpListBridge.Sync(JumpList);
         UpdateStatus($"Added user task: {task.Title}");
     }
 
@@ -186,7 +186,7 @@ public partial class JumpListTest : KryptonForm
             Description = "Open Windows Notepad"
         });
 
-        SyncToWpfJumpList();
+            Krypton.Toolkit.JumpList.WpfJumpListBridge.Sync(JumpList);
         UpdateStatus($"Added {JumpList.UserTasks.Count} user tasks");
     }
 
@@ -225,7 +225,7 @@ public partial class JumpListTest : KryptonForm
         });
 
         JumpList.AddCategory("Recent Files", recentFiles);
-        SyncToWpfJumpList();
+            Krypton.Toolkit.JumpList.WpfJumpListBridge.Sync(JumpList);
         UpdateStatus($"Added Recent Files category with {recentFiles.Count} items");
     }
 
@@ -267,7 +267,7 @@ public partial class JumpListTest : KryptonForm
         });
 
         JumpList.AddCategory("Templates", templates);
-        SyncToWpfJumpList();
+            Krypton.Toolkit.JumpList.WpfJumpListBridge.Sync(JumpList);
         UpdateStatus($"Added Templates category with {templates.Count} items");
     }
 
@@ -277,107 +277,4 @@ public partial class JumpListTest : KryptonForm
         lblStatus.Refresh();
     }
 
-    /// <summary>
-    /// Syncs Krypton JumpList to WPF JumpList (more reliable than native COM on WinForms).
-    /// </summary>
-    private void SyncToWpfJumpList()
-    {
-        try
-        {
-            var wpfApp = global::System.Windows.Application.Current;
-            if (wpfApp == null)
-            {
-                return;
-            }
-
-            void DoSync()
-            {
-                var wpfJumpList = new global::System.Windows.Shell.JumpList
-            {
-                ShowFrequentCategory = JumpList.ShowFrequentCategory,
-                ShowRecentCategory = JumpList.ShowRecentCategory
-            };
-
-            foreach (var task in JumpList.UserTasks)
-            {
-                if (string.IsNullOrEmpty(task.Path))
-                {
-                    continue;
-                }
-
-                var appPath = task.Path;
-                if (!Path.IsPathRooted(appPath) && !appPath.Contains(Path.DirectorySeparatorChar))
-                {
-                    // Resolve exe name to full path (e.g. calc.exe, notepad.exe)
-                    var sysDir = Environment.GetFolderPath(Environment.SpecialFolder.System);
-                    var sysX86 = Environment.GetFolderPath(Environment.SpecialFolder.SystemX86);
-                    var fullPath = Path.Combine(sysDir, appPath);
-                    if (!File.Exists(fullPath))
-                    {
-                        fullPath = Path.Combine(sysX86, appPath);
-                    }
-                    if (File.Exists(fullPath))
-                    {
-                        appPath = fullPath;
-                    }
-                }
-
-                wpfJumpList.JumpItems.Add(new global::System.Windows.Shell.JumpTask
-                {
-                    Title = task.Title,
-                    ApplicationPath = appPath,
-                    Arguments = string.IsNullOrEmpty(task.Arguments) ? " " : task.Arguments,
-                    Description = task.Description,
-                    IconResourcePath = string.IsNullOrEmpty(task.IconPath) ? appPath : task.IconPath,
-                    IconResourceIndex = task.IconIndex,
-                    WorkingDirectory = string.IsNullOrEmpty(task.WorkingDirectory) ? null : task.WorkingDirectory
-                    // No CustomCategory = appears in default "Tasks" category
-                });
-            }
-
-            foreach (var category in JumpList.Categories)
-            {
-                foreach (var item in category.Value)
-                {
-                    if (!string.IsNullOrEmpty(item.Path))
-                    {
-                        var jumpItem = File.Exists(item.Path)
-                            ? (global::System.Windows.Shell.JumpItem)new global::System.Windows.Shell.JumpPath
-                            {
-                                Path = item.Path,
-                                CustomCategory = category.Key
-                            }
-                            : new global::System.Windows.Shell.JumpTask
-                            {
-                                Title = item.Title,
-                                ApplicationPath = item.Path,
-                                Arguments = item.Arguments ?? string.Empty,
-                                Description = item.Description,
-                                IconResourcePath = string.IsNullOrEmpty(item.IconPath) ? item.Path : item.IconPath,
-                                IconResourceIndex = item.IconIndex,
-                                CustomCategory = category.Key
-                            };
-                        wpfJumpList.JumpItems.Add(jumpItem);
-                    }
-                }
-            }
-
-                global::System.Windows.Shell.JumpList.SetJumpList(wpfApp, wpfJumpList);
-                wpfJumpList.Apply();
-            }
-
-            if (wpfApp.Dispatcher.CheckAccess())
-            {
-                DoSync();
-            }
-            else
-            {
-                wpfApp.Dispatcher.Invoke(DoSync);
-            }
-        }
-        catch
-        {
-            // Fall back to Krypton's native implementation
-        }
-    }
 }
