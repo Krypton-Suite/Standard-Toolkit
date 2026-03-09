@@ -8,40 +8,40 @@
   - [Documentation](#documentation)
   - [Contributing to the Standard Toolkit](#contributing-to-the-standard-toolkit)
   - [Package Support Information](#package-support-information)
-	- [Release Cadence](#release-cadence)
-	- [Package Descriptions](#package-descriptions)
-	- [Installing Pre-Release Versions](#installing-pre-release-versions)
-  - [Supporters](#supporters)
-  - [Toolkit Example images](#toolkit-example-images)
+- [Release Cadence](#release-cadence)
+- [Package Descriptions](#package-descriptions)
+- [Installing Pre-Release Versions](#installing-pre-release-versions)
+- [Supporters](#supporters)
+- [Toolkit Example images](#toolkit-example-images)
 - [Discord Server](#discord-server)
   - [Version History](#version-history)
   - [Breaking Changes](#breaking-changes)
   - [V1100.00 (2026-11-xx - Build 2611 - November 2026)](#v110000-2026-11-xx---build-2611---november-2026)
   - [V100.00 (2025-11-24 - Build 2511 - November 2025)](#v10000-2025-11-24---build-2511---november-2025)
-	- [Support for .NET FrameWork 4.6.2, 4.7 & 4.7.1](#support-for-net-framework-462-47--471)
-  - [V95.00 (2025-02-01 - Build 2502 - February 2025)](#v9500-2025-02-01---build-2502---february-2025)
-  - [V90.00 (2024-11-12 - Build 2411 - November 2024)](#v9000-2024-11-12---build-2411---november-2024)
-	- [Support for .NET 6/7](#support-for-net-67)
-	- [`KryptonButton` Properties](#kryptonbutton-properties)
-	- [API Changes](#api-changes)
-	- [`KryptonInputBox`](#kryptoninputbox)
-	- [Building the Toolkit](#building-the-toolkit)
-  - [Known Issues \& Workarounds](#known-issues--workarounds)
-  - [Introduction](#introduction)
-  - [What is this Repository About?](#what-is-this-repository-about)
-  - [Contributing to this project](#contributing-to-this-project)
-  - [Individual Components](#individual-components)
-	- [Krypton Toolkit](#krypton-toolkit)
-	- [Krypton Ribbon](#krypton-ribbon)
-	- [Krypton Navigator](#krypton-navigator)
-	- [Krypton Workspace](#krypton-workspace)
-	- [Krypton Docking](#krypton-docking)
+- [Support for .NET FrameWork 4.6.2, 4.7 & 4.7.1](#support-for-net-framework-462-47--471)
+- [V95.00 (2025-02-01 - Build 2502 - February 2025)](#v9500-2025-02-01---build-2502---february-2025)
+- [V90.00 (2024-11-12 - Build 2411 - November 2024)](#v9000-2024-11-12---build-2411---november-2024)
+- [Support for .NET 6/7](#support-for-net-67)
+- [`KryptonButton` Properties](#kryptonbutton-properties)
+- [API Changes](#api-changes)
+- [`KryptonInputBox`](#kryptoninputbox)
+- [Building the Toolkit](#building-the-toolkit)
+- [Known Issues \& Workarounds](#known-issues--workarounds)
+- [Introduction](#introduction)
+- [What is this Repository About?](#what-is-this-repository-about)
+- [Contributing to this project](#contributing-to-this-project)
+- [Individual Components](#individual-components)
+- [Krypton Toolkit](#krypton-toolkit)
+- [Krypton Ribbon](#krypton-ribbon)
+- [Krypton Navigator](#krypton-navigator)
+- [Krypton Workspace](#krypton-workspace)
+- [Krypton Docking](#krypton-docking)
 
 <!-- End Document Outline -->
 
 =======
 
-# NuGet Information
+## NuGet Information
 
 View [package version details and supported frameworks](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Support/Krypton%20Toolkit%20Suite%20Standard%20Modules.html).
 
@@ -50,12 +50,12 @@ View [package version details and supported frameworks](https://krypton-suite.gi
 ## Build Status
 
 | Workflow | Status |
-|----------|--------|
-| Build (Master)   | [![Build](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/build.yml/badge.svg)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/build.yml) |
-| Release (Master)  | [![Release](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/release.yml/badge.svg)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/release.yml) |
-| Build (Canary)    | [![Build](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/build.yml/badge.svg?branch=canary)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/build.yml) |
-| Release (Canary)  | [![Release](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/release.yml/badge.svg?branch=canary)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/release.yml) |
-| Build (Alpha)     | [![Build](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/build.yml/badge.svg?branch=alpha)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/build.yml) |
+| --- | --- |
+| Build (Master) | [![Build](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/build.yml/badge.svg)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/build.yml) |
+| Release (Master) | [![Release](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/release.yml/badge.svg)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/release.yml) |
+| Build (Canary) | [![Build](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/build.yml/badge.svg?branch=canary)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/build.yml) |
+| Release (Canary) | [![Release](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/release.yml/badge.svg?branch=canary)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/release.yml) |
+| Build (Alpha) | [![Build](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/build.yml/badge.svg?branch=alpha)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/build.yml) |
 | Release (Alpha) | [![Release](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/nightly.yml/badge.svg?branch=alpha)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/nightly.yml) |
 
 =======
@@ -98,8 +98,8 @@ To find out how to install either `Canary` or `Nightly` versions, please check o
 
 Development of the Krypton Standard Toolkit is supported by these generous organisations:
 
-| [![JetBrains logo.](https://resources.jetbrains.com/storage/products/company/brand/logos/jetbrains.svg)](https://jb.gg/OpenSource)       | [![YourKit logo](https://github.com/Krypton-Suite/Documentation/blob/main/Assets/Supporter-Logos/yourkit-logo.png?raw=true)](https://www.yourkit.com/)       |
-|----------------|----------------|
+| [![JetBrains logo.](https://resources.jetbrains.com/storage/products/company/brand/logos/jetbrains.svg)](https://jb.gg/OpenSource) | [![YourKit logo](https://github.com/Krypton-Suite/Documentation/blob/main/Assets/Supporter-Logos/yourkit-logo.png?raw=true)](https://www.yourkit.com/) |
+| --- | --- |
 | JetBrains provides cutting-edge IDE and developer productivity tools. | YourKit provides a market-leading intelligent [Java Profiler](https://www.yourkit.com/features/) and [.NET Profiler](https://www.yourkit.com/dotnet/features/). |
 
 =======
@@ -136,25 +136,25 @@ There are list of changes that have occurred during the development of the V110.
 
 - Implemented [#2858](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2858), **[Breaking Change]:** Move `KryptonCommandLink` buttons to `Krypton.Utilities`
   - **Note:**: The `KryptonCommandLinkButton` class has been moved from the `Krypton.Toolkit` namespace to the `Krypton.Utilities` namespace. Please update your using directives accordingly.
-	It is now located in the `Krypton.Utilities` assembly, which is part of the `Krypton.Standard.Toolkit` NuGet package.
+ It is now located in the `Krypton.Utilities` assembly, which is part of the `Krypton.Standard.Toolkit` NuGet package.
 
 - Implemented [#2808](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2808), Move `KryptonToastNotification` feature to `Krypton.Utilities`
   - **Note:**: The `KryptonToastNotification` class has been moved from the `Krypton.Toolkit` namespace to the `Krypton.Utilities` namespace. Please update your using directives accordingly.
-	It is now located in the `Krypton.Utilities` assembly, which is part of the `Krypton.Standard.Toolkit` NuGet package.
+ It is now located in the `Krypton.Utilities` assembly, which is part of the `Krypton.Standard.Toolkit` NuGet package.
   - The `KryptonToastNotification` public API has also been renamed to `KryptonToast` to better reflect its purpose. It is recommended to update any references to the old class name in your codebase to ensure compatibility with the new version.
 
 - Implemented [#2762](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2762), Move the public facing version of `KryptonExceptionDialog` to `Krypton.Utilities`
   - **Note:**: The `KryptonExceptionDialog` class has been moved from the `Krypton.Toolkit` namespace to the `Krypton.Utilities` namespace. Please update your using directives accordingly.
-	It is now located in the `Krypton.Utilities` assembly, which is part of the `Krypton.Standard.Toolkit` NuGet package.
-	
+ It is now located in the `Krypton.Utilities` assembly, which is part of the `Krypton.Standard.Toolkit` NuGet package.
+
 ## V100.00 (2025-11-24 - Build 2511 - November 2025)
 
 There are list of changes that have occurred during the development of the V100.00 version
 
 - Implemented [#984](https://github.com/Krypton-Suite/Standard-Toolkit/issues/984), `KryptonForm` using `SizeGripStyle` for grippie.
   - **Note:** This contains a breaking change for **custom** themes as it introduces a new abstract method:
-	`public abstract Image? GetSizeGripImage(RightToLeft isRtl);`
-	so that themes can return a size grip image (or null).
+ `public abstract Image? GetSizeGripImage(RightToLeft isRtl);`
+ so that themes can return a size grip image (or null).
 
 - Implemented [#2328](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2328), Set the baseline support to .NET Framework 4.7.2
   - **Note:** This is a breaking change, as the minimum supported version of .NET Framework has been raised from 4.6.2 to 4.7.2.
