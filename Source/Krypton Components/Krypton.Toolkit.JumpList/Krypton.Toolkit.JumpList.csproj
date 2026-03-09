@@ -29,12 +29,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Content Include="..\Krypton.Utilities\Krypton.ico" Link="Krypton.ico">
-			<Pack>false</Pack>
-		</Content>
-	</ItemGroup>
-
-	<ItemGroup>
 		<ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
 	</ItemGroup>
 
