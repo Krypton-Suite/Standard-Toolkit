@@ -879,7 +879,7 @@ internal class ViewLayoutRibbonTabsArea : ViewLayoutDocker
                             // Cast to correct type
 
                             // Create a content that recovers values from a IQuickAccessToolbarButton
-                            var qatButtonContent = new QATButtonToolTipToContent(viewElement1.QATButton);
+                            var qatButtonContent = new QATButtonToolTipToContent(viewElement1.QATButton, _ribbon);
 
                             // Is there actually anything to show for the tooltip
                             if (qatButtonContent.HasContent)
