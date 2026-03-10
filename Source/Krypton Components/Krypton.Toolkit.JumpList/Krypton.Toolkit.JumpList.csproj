@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>Library</OutputType>
+		<RootNamespace>Krypton.Toolkit.JumpList</RootNamespace>
+		<AssemblyName>Krypton.Toolkit.JumpList</AssemblyName>
+		<IsPackable>false</IsPackable>
+		<CheckEolTargetFramework>false</CheckEolTargetFramework>
+		<SignAssembly>True</SignAssembly>
+		<AssemblyOriginatorKeyFile>..\Krypton.Utilities\StrongKrypton.snk</AssemblyOriginatorKeyFile>
+		<ApplicationIcon>Krypton.ico</ApplicationIcon>
+		<DelaySign>false</DelaySign>
+		<UseWindowsForms>true</UseWindowsForms>
+		<UseWPF>true</UseWPF>
+		<PlatformTarget>AnyCPU</PlatformTarget>
+		<EnableNETAnalyzers>true</EnableNETAnalyzers>
+		<NeutralLanguage>en</NeutralLanguage>
+		<DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
+		<Configurations>Debug;Release;Installer;Nightly;Canary</Configurations>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<Nullable>enable</Nullable>
+		<WarningLevel>8</WarningLevel>
+		<AnalysisLevel>latest</AnalysisLevel>
+		<AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
+		<ForceDesignerDPIUnaware>true</ForceDesignerDPIUnaware>
+		<ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
+		<OutputPath>..\..\..\Bin\$(Configuration)\</OutputPath>
+		<NoWarn>1701;1702</NoWarn>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
+	</ItemGroup>
+
+</Project>

@@ -1,12 +1,15 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
+    <!-- Jump list COM (CustomDestinationList) requires matching process architecture. Target x64 on 64-bit Windows to avoid REGDB_E_CLASSNOTREG. -->
+    <PlatformTarget>x64</PlatformTarget>
     <Nullable>enable</Nullable>
     <!--https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-messages/warning-waves-->
     <WarningLevel>8</WarningLevel>
     <AnalysisLevel>latest</AnalysisLevel>
     <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
     <AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
     <ForceDesignerDPIUnaware>true</ForceDesignerDPIUnaware>
     <ApplicationVisualStyles>true</ApplicationVisualStyles>

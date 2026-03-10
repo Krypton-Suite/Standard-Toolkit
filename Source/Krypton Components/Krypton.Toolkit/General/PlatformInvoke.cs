@@ -3741,7 +3741,7 @@ No 	                    No 	                    Show text only
 
         public MENUITEMINFO()
         {
-            cbSize = (uint)Marshal.SizeOf(typeof(MENUITEMINFO));
+            cbSize = (uint)SizeOf(typeof(MENUITEMINFO));
         }
     }
 
@@ -3961,7 +3961,8 @@ No 	                    No 	                    Show text only
     #region nt.dll
 
     [DllImport(Libraries.NtDll, SetLastError = true)]
-    internal static extern int RtlGetVersion(ref PI.OSVERSIONINFOEX lpVersionInformation);
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static extern int RtlGetVersion(ref OSVERSIONINFOEX lpVersionInformation);
 
     #endregion
 
@@ -5244,6 +5245,15 @@ No 	                    No 	                    Show text only
     #region Jump List (ICustomDestinationList)
 
     /// <summary>
+    /// Assigns an explicit Application User Model ID to the current process.
+    /// Must be called before any UI is presented or jump list manipulation occurs.
+    /// </summary>
+    [DllImport(Libraries.Shell32, CharSet = CharSet.Unicode, SetLastError = true)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static extern int SetCurrentProcessExplicitAppUserModelID(
+        [MarshalAs(UnmanagedType.LPWStr)] string appId);
+
+    /// <summary>
     /// COM interface for Windows 7+ custom jump list functionality.
     /// </summary>
     [ComImport]
@@ -5358,13 +5368,129 @@ No 	                    No 	                    Show text only
     }
 
     /// <summary>
-    /// CLSID for ObjectCollection COM object.
+    /// CLSID for ObjectCollection COM object (EnumerableObjectCollection).
+    /// Must use the class CLSID here, not the IObjectCollection interface IID (5632b1a4-e38a-400a-928a-d4cd63230295).
+    /// Using the interface GUID causes REGDB_E_CLASSNOTREG when instantiating—COM expects a creatable class, not an interface.
     /// </summary>
     [ComImport]
-    [Guid("5632b1a4-e38a-400a-928a-d4cd63230295")]
+    [Guid("2d3468c1-36a7-43b6-ac24-d3f02fd9607a")]
     [ClassInterface(ClassInterfaceType.None)]
     internal class ObjectCollection
     {
+    }
+
+    /// <summary>
+    /// IPropertyStore interface for setting shell item properties (e.g. PKEY_Title).
+    /// </summary>
+    [ComImport]
+    [Guid("886d8eeb-8cf2-4446-8d02-cdba1dbdcf99")]
+    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    internal interface IPropertyStore
+    {
+        void GetCount(out uint cProps);
+        void GetAt(uint iProp, out PROPERTYKEY pkey);
+        void GetValue([In] ref PROPERTYKEY key, out PROPVARIANT pv);
+        void SetValue(in PROPERTYKEY key, in PROPVARIANT pv);
+        void Commit();
+    }
+
+    /// <summary>
+    /// Property key structure for Windows Property System.
+    /// </summary>
+    [StructLayout(LayoutKind.Sequential, Pack = 4)]
+    internal struct PROPERTYKEY
+    {
+        public Guid fmtid;
+        public uint pid;
+    }
+
+    /// <summary>
+    /// PROPVARIANT structure for Windows Property System (minimal for string values).
+    /// </summary>
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct PROPVARIANT
+    {
+        public ushort vt;
+        public ushort wReserved1;
+        public ushort wReserved2;
+        public ushort wReserved3;
+        public IntPtr p;
+        public uint p2;
+    }
+
+    /// <summary>
+    /// PKEY_Title - System.Title property for jump list display names.
+    /// </summary>
+    internal static readonly PROPERTYKEY PKEY_Title = new()
+    {
+        fmtid = new Guid("F29F85E0-4FF9-1068-AB91-08002B27B3D9"),
+        pid = 2
+    };
+
+    [DllImport(Libraries.Propsys, CharSet = CharSet.Unicode)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    private static extern int InitPropVariantFromString([MarshalAs(UnmanagedType.LPWStr)] string psz, out PROPVARIANT ppropvar);
+
+    [DllImport(Libraries.Propsys)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    private static extern int PropVariantClear(ref PROPVARIANT pvar);
+
+    /// <summary>
+    /// IID for IPropertyStore interface.
+    /// </summary>
+    private static readonly Guid IID_IPropertyStore = new("886d8eeb-8cf2-4446-8d02-cdba1dbdcf99");
+
+    /// <summary>
+    /// Sets the display title on an IShellLink for jump list items. Uses IPropertyStore and PKEY_Title.
+    /// </summary>
+    internal static void TrySetShellLinkTitle(IShellLinkW shellLink, string title)
+    {
+        if (string.IsNullOrEmpty(title))
+        {
+            return;
+        }
+
+        IntPtr pUnk = IntPtr.Zero;
+        IntPtr pPropStore = IntPtr.Zero;
+        try
+        {
+            pUnk = GetIUnknownForObject(shellLink);
+            var iid = IID_IPropertyStore;
+#pragma warning disable CS9191 // ref vs in: Marshal.QueryInterface requires ref on .NET Framework
+            if (QueryInterface(pUnk, ref iid, out pPropStore) == 0 && pPropStore != IntPtr.Zero)
+#pragma warning restore CS9191
+            {
+                var propStore = (IPropertyStore)GetObjectForIUnknown(pPropStore);
+                if (InitPropVariantFromString(title, out PROPVARIANT pv) == 0)
+                {
+                    try
+                    {
+                        propStore.SetValue(in PKEY_Title, in pv);
+                        propStore.Commit();
+                    }
+                    finally
+                    {
+                        PropVariantClear(ref pv);
+                    }
+                }
+            }
+        }
+        catch
+        {
+            // Ignore - display may fall back to path/description
+        }
+        finally
+        {
+            if (pPropStore != IntPtr.Zero)
+            {
+                Release(pPropStore);
+            }
+
+            if (pUnk != IntPtr.Zero)
+            {
+                Release(pUnk);
+            }
+        }
     }
 
     #endregion
