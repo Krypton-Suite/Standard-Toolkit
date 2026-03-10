@@ -20,7 +20,7 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: windows-2025  # VS 2026 required for .NET 10.0 targeting (VS 17.14 on windows-latest not supported)
     if: github.event_name != 'pull_request' || (github.event.pull_request.head.repo.full_name == github.repository || github.event_name == 'workflow_dispatch')
 
     steps:
@@ -127,7 +127,7 @@ jobs:
         run: msbuild "Scripts/Build/nightly.proj" /t:Rebuild /p:Configuration=Release /p:Platform="Any CPU"
 
   release:
-    runs-on: windows-latest
+    runs-on: windows-2025  # VS 2026 required for .NET 10.0 targeting (VS 17.14 on windows-latest not supported)
     if: github.ref == 'refs/heads/master' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
     needs: build
 

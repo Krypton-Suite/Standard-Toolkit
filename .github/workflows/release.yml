@@ -15,7 +15,7 @@ on:
 
 jobs:
   release-master:
-    runs-on: windows-latest
+    runs-on: windows-2025  # VS 2026 required for .NET 10.0 targeting
     environment: production  # Requires approval before publishing
     if: github.ref == 'refs/heads/master' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
 
@@ -293,7 +293,7 @@ jobs:
           DISCORD_WEBHOOK_MASTER: ${{ secrets.DISCORD_WEBHOOK_MASTER }}
 
   release-v105-lts:
-    runs-on: windows-latest
+    runs-on: windows-2025  # VS 2026 required for .NET 10.0 targeting
     environment: production  # Requires approval before publishing
     if: github.ref == 'refs/heads/V105-LTS' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
 
@@ -559,7 +559,7 @@ jobs:
           DISCORD_WEBHOOK_MASTER: ${{ secrets.DISCORD_WEBHOOK_MASTER }}
 
   release-v85-lts:
-    runs-on: windows-latest
+    runs-on: windows-2025  # VS 2026 required for .NET 10.0 targeting
     environment: production  # Requires approval before publishing
     if: github.ref == 'refs/heads/V85-LTS' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
 
@@ -810,7 +810,7 @@ jobs:
           DISCORD_WEBHOOK_LTS: ${{ secrets.DISCORD_WEBHOOK_LTS }}
 
   release-canary:
-    runs-on: windows-latest
+    runs-on: windows-2025  # VS 2026 required for .NET 10.0 targeting
     environment: production  # Requires approval before publishing
     if: github.ref == 'refs/heads/canary' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
 
@@ -1079,7 +1079,7 @@ jobs:
           DISCORD_WEBHOOK_CANARY: ${{ secrets.DISCORD_WEBHOOK_CANARY }}
 
   release-alpha:
-    runs-on: windows-latest
+    runs-on: windows-2025  # VS 2026 required for .NET 10.0 targeting
     if: github.ref == 'refs/heads/alpha' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
 
     steps:
