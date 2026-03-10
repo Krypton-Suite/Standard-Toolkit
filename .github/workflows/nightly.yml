@@ -15,7 +15,7 @@ on:
 
 jobs:
   nightly:
-    runs-on: windows-2025  # VS 2026 required for .NET 10.0 targeting
+    runs-on: windows-2025-vs2026  # VS 2026 required for .NET 10.0 targeting
     environment: production  # Requires approval before publishing
 
     concurrency:
