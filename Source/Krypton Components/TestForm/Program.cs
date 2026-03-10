@@ -17,10 +17,12 @@ internal static class Program
 
 #if NETFRAMEWORK
     [DllImport("user32.dll")]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     private static extern bool SetProcessDPIAware();
 #endif
 
     [DllImport("shell32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     private static extern int SetCurrentProcessExplicitAppUserModelID(string appId);
 
     /// <summary>

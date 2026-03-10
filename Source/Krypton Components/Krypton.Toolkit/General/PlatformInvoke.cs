@@ -3961,6 +3961,7 @@ No 	                    No 	                    Show text only
     #region nt.dll
 
     [DllImport(Libraries.NtDll, SetLastError = true)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern int RtlGetVersion(ref OSVERSIONINFOEX lpVersionInformation);
 
     #endregion
@@ -5368,6 +5369,8 @@ No 	                    No 	                    Show text only
 
     /// <summary>
     /// CLSID for ObjectCollection COM object (EnumerableObjectCollection).
+    /// Must use the class CLSID here, not the IObjectCollection interface IID (5632b1a4-e38a-400a-928a-d4cd63230295).
+    /// Using the interface GUID causes REGDB_E_CLASSNOTREG when instantiating—COM expects a creatable class, not an interface.
     /// </summary>
     [ComImport]
     [Guid("2d3468c1-36a7-43b6-ac24-d3f02fd9607a")]
