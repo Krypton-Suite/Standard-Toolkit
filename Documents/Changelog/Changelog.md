@@ -2,11 +2,52 @@
 
 =======
 
+## Table of Contents
+
+* [2026-11-xx - Build 2611 (V110 Nightly) - November 2026](#2026-11-xx---build-2611-v110-nightly---november-2026)
+* [2025-11-24 - Build 2511 (V100 RTM) - November 2025](#2025-11-24---build-2511-v100-rtm---november-2025)
+* [2025-06-23 - Build 2506 (Version 95 - Patch 7) - June 2025](#2025-06-23---build-2506-version-95---patch-7---june-2025)
+* [2025-04-21 - Build 2504 (Version 95 - Patch 6) - April 2025](#2025-04-21---build-2504-version-95---patch-6---april-2025)
+* [2025-02-25 - Build 2502 (Version 95 - Patch 5) - February 2025](#2025-02-25---build-2502-version-95---patch-5---february-2025)
+* [2024-11-12 - Build 2411 (V90) - November 2024](#2024-11-12---build-2411-v90---november-2024)
+* [2025-02-25 - Build 2502 (Patch 5) - February 2025](#2025-02-25---build-2502-patch-5---february-2025)
+* [2024-11-14 - Build 2411 (Patch 4) - November 2024](#2024-11-14---build-2411-patch-4---november-2024)
+* [2024-10-14 - Build 2410 (Patch 3) - October 2024](#2024-10-14---build-2410-patch-3---october-2024)
+* [2024-08-26 - Build 2408 (Patch 2) - August 2024](#2024-08-26---build-2408-patch-2---august-2024)
+* [2024-07-22 - Build 2407 (Version 85 - Patch 1) - July 2024](#2024-07-22---build-2407-version-85---patch-1---july-2024)
+* [2024-06-24 - Build 2406 - June 2024](#2024-06-24---build-2406---june-2024)
+* [2024-03-04 - Build 2403 (Version 80 - Patch 2) - March 2024](#2024-03-04---build-2403-version-80---patch-2---march-2024)
+* [2023-11-17 - Build 2311 (Version 80 - Patch 1) - November 2023](#2023-11-17---build-2311-version-80---patch-1---november-2023)
+* [2023-11-14 - Build 2311 - November 2023](#2023-11-14---build-2311---november-2023)
+* [2022-11-08 - Build 2211 - November 2022](#2022-11-08---build-2211---november-2022)
+* [2022-06-01 - Build 2206 - June 2022](#2022-06-01---build-2206---june-2022)
+* [2022-04-04 - Build 2204 - April 2022](#2022-04-04---build-2204---april-2022)
+* [2022-02-01 - Build 2202 - February 2022](#2022-02-01---build-2202---february-2022)
+* [2022-01-05 - Build 2201 - January 2022](#2022-01-05---build-2201---january-2022)
+* [2021-11-08 - Build 2111 - November 2021](#2021-11-08---build-2111---november-2021)
+* [2021-08-03 Build 2108.1 - August 2021 (Canary Update 1)](#2021-08-03-build-21081---august-2021-canary-update-1)
+* [2021-08-02 Build 2108 - August 2021 (Canary)](#2021-08-02-build-2108---august-2021-canary)
+* [2021-06-26 - Build 2106.2 - June 2021 (Update 2)](#2021-06-26---build-21062---june-2021-update-2)
+* [2021-06-04 - Build 2106.1 - June 2021 (Update 1)](#2021-06-04---build-21061---june-2021-update-1)
+* [2021-06-02 - Build 2106.1 - June 2021 (Update 1 - Canary)](#2021-06-02---build-21061---june-2021-update-1---canary)
+* [2021-06-01 - Build 2106 - June 2021](#2021-06-01---build-2106---june-2021)
+* [2021-03-27 - Build 2103.1 - March 2021 (Update 1)](#2021-03-27---build-21031---march-2021-update-1)
+* [2021-03-01 - Build 2103 - March 2021](#2021-03-01---build-2103---march-2021)
+* [2021-01-05 - Build 2101 - January 2021](#2021-01-05---build-2101---january-2021)
+* [2020-11-01 - Build 2011 - November 2020](#2020-11-01---build-2011---november-2020)
+* [2020-08-12 - Build 2008 - August 2020](#2020-08-12---build-2008---august-2020)
+* [2020-06-01 - Build 2006 - June 2020](#2020-06-01---build-2006---june-2020)
+* [2020-03-01 - Build 2003 - March 2020](#2020-03-01---build-2003---march-2020)
+* [2020-02-07 - Build 2002.1 - February 2020 (Update 1)](#2020-02-07---build-20021---february-2020-update-1)
+* [2020-02-01 - Build 2002 - February 2020](#2020-02-01---build-2002---february-2020)
+
+=======
+
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
 * Implemented [#1358](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1358), Can the Ribbon QAT buttons follow the same styles as `ButtonSpecs`
 * Implemented [#3156](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3156), OAuth2 with PKCE support
-	- To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this feature is part of the `Krypton.Utilities` assembly.
+  * To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this feature is part of the `Krypton.Utilities` assembly.
 * Implemented [#1746](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1746), `XtraTabbedMdiManager` Implementation
 * Resolved [#3093](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3093), NullReferenceException in `KryptonWorkspace.SeparatorCanMove`
 * Implemented [#3113](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3113), TextBox item for KryptonContextMenu-Items
