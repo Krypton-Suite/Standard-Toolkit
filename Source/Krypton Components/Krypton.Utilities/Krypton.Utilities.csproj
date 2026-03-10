@@ -52,6 +52,7 @@
 			<SpecificVersion>True</SpecificVersion>
 			<Version>4.0.0.0</Version>
 		</Reference>
+		<Reference Include="System.Net.Http" Condition="$(TargetFramework.StartsWith('net4'))" />
 	</ItemGroup>
 
 	<!-- WebView2: bundled DLLs in Lib/WebView2 (all target frameworks). Run Scripts\WebVew2\Populate-BundledWebView2.cmd to populate. -->
