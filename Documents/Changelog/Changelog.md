@@ -45,6 +45,9 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#3177](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3177), **[Breaking Change]** Move `KryptonAboutBox` to `Krypton.Utilities`
+  * **Note:**: The `KryptonAboutBox` class has been moved from the `Krypton.Toolkit` namespace to the `Krypton.Utilities` namespace. Please update your using directives accordingly.
+  * You can find the `KryptonAboutBox` class in the `Krypton.Utilities` assembly, which is part of the `Krypton.Standard.Toolkit` NuGet package.
 * Implemented [#1358](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1358), Can the Ribbon QAT buttons follow the same styles as `ButtonSpecs`
 * Implemented [#3156](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3156), OAuth2 with PKCE support
   * To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this feature is part of the `Krypton.Utilities` assembly.

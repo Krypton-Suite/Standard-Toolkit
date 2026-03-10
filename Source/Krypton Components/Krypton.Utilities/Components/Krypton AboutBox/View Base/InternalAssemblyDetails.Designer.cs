@@ -1,4 +1,4 @@
-﻿namespace Krypton.Toolkit
+﻿namespace Krypton.Utilities
 {
     partial class InternalAssemblyDetails
     {

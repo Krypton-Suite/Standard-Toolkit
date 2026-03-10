@@ -7,7 +7,7 @@
  */
 #endregion
 
-namespace Krypton.Toolkit;
+namespace Krypton.Utilities;
 
 /// <summary>This class does the heavy lifting for <see cref="VisualAboutBoxForm"/> and its associated components.</summary>
 internal class KryptonAboutBoxUtilities
@@ -54,7 +54,7 @@ internal class KryptonAboutBoxUtilities
             }
             else
             {
-                dateTime = DateTime.Parse(@"01/01/1970").AddDays(assemblyVersion!.Build).AddSeconds(assemblyVersion.Revision * 2);
+                dateTime = DateTime.Parse(@"01/01/1970").AddDays(assemblyVersion.Build).AddSeconds(assemblyVersion.Revision * 2);
 
                 // if (TimeZone.IsDaylightSavingTime(dateTime, TimeZone.CurrentTimeZone.GetDaylightChanges(dateTime.Year)))
                 // Timezone is deprecated and replaces by TimeZoneInfo
@@ -80,17 +80,14 @@ internal class KryptonAboutBoxUtilities
 
     public static NameValueCollection AssemblyAttribs(Assembly assembly)
     {
-        string typeName;
-        string name;
-        string value;
         var nvc = new NameValueCollection();
         var r = new Regex(@"(\.Assembly|\.)(?<Name>[^.]*)Attribute$", RegexOptions.IgnoreCase);
 
         foreach (var attrib in assembly.GetCustomAttributes(false))
         {
-            typeName = attrib.GetType().ToString();
-            name = r.Match(typeName).Groups["Name"].ToString();
-            value = "";
+            var typeName = attrib.GetType().ToString();
+            var name = r.Match(typeName).Groups["Name"].ToString();
+            var value = string.Empty;
             switch (typeName)
             {
                 case "System.CLSCompliantAttribute":
@@ -182,8 +179,8 @@ internal class KryptonAboutBoxUtilities
             // Use Assembly.Location.' Krypton.Toolkit 2022(net6.0 - windows), Krypton.Toolkit 2022(net8.0 - windows), Krypton.Toolkit 2022(net9.0 - windows)
             //nvc.Add("CodeBase", assembly.EscapedCodeBase.Replace("file:///", ""));
 
-            string? s = assembly.Location.Replace("file:///", "");
-            nvc.Add("CodeBase",  s is not null ? s : string.Empty );
+            string s = assembly.Location.Replace("file:///", "");
+            nvc.Add("CodeBase",  s );
         }
         catch (NotSupportedException)
         {
@@ -285,11 +282,11 @@ internal class KryptonAboutBoxUtilities
 
         Populate(dataStore, string.Empty, string.Empty);
 
-        Populate(dataStore, KryptonManager.Strings.AboutBoxBasicStrings.EntryAssembly, entryAssemblyName!);
+        Populate(dataStore, KryptonManager.Strings.AboutBoxBasicStrings.EntryAssembly, entryAssemblyName);
 
-        Populate(dataStore, KryptonManager.Strings.AboutBoxBasicStrings.ExecutingAssembly, executingAssemblyName!);
+        Populate(dataStore, KryptonManager.Strings.AboutBoxBasicStrings.ExecutingAssembly, executingAssemblyName);
 
-        Populate(dataStore, KryptonManager.Strings.AboutBoxBasicStrings.CallingAssembly, callingAssemblyName!);
+        Populate(dataStore, KryptonManager.Strings.AboutBoxBasicStrings.CallingAssembly, callingAssemblyName);
     }
 
     public static void PopulateAssemblies(KryptonComboBox assemblyList, KryptonDataGridView dataStore)
@@ -301,7 +298,7 @@ internal class KryptonAboutBoxUtilities
             PopulateAssemblySummary(assembly, dataStore, assemblyList);
         }
 
-        assemblyList.SelectedIndex = assemblyList.FindStringExact(entryAssemblyName!);
+        assemblyList.SelectedIndex = assemblyList.FindStringExact(entryAssemblyName);
     }
 
     private static void PopulateAssemblySummary(Assembly assembly, KryptonDataGridView dataStore, KryptonComboBox assemblyItems)
@@ -315,7 +312,7 @@ internal class KryptonAboutBoxUtilities
             dataStore.Rows.Add(value);
         }
 
-        assemblyItems.Items.Add(assemblyName!);
+        assemblyItems.Items.Add(assemblyName);
     }
 
     public static FileVersionInfo GetFileVersionInfo(string assemblyLocation)
