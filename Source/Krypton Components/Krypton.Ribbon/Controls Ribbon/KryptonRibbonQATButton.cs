@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2026. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -37,6 +37,7 @@ public class KryptonRibbonQATButton : Component,
     private bool _enabled;
     private string _text;
     private KryptonCommand? _command;
+    private PaletteButtonSpecStyle _type;
 
     #endregion
 
@@ -119,6 +120,37 @@ public class KryptonRibbonQATButton : Component,
     }
 
     private bool ShouldSerializeImage() => Image != _defaultImage;
+
+    /// <summary>
+    /// Gets and sets the button specification style (e.g. New, Open, Save) for themed icons.
+    /// </summary>
+    [Localizable(true)]
+    [Category(@"Behavior")]
+    [Description(@"Button spec style for themed icons; Generic uses custom Image.")]
+    [RefreshProperties(RefreshProperties.All)]
+    [DefaultValue(PaletteButtonSpecStyle.Generic)]
+    public PaletteButtonSpecStyle Type
+    {
+        get => _type;
+
+        set
+        {
+            if (_type != value)
+            {
+                _type = value;
+                OnPropertyChanged(nameof(Type));
+
+                if (Visible)
+                {
+                    Ribbon?.PerformNeedPaint(false);
+                }
+            }
+        }
+    }
+
+    private bool ShouldSerializeType() => Type != PaletteButtonSpecStyle.Generic;
+
+    private void ResetType() => Type = PaletteButtonSpecStyle.Generic;
 
     /// <summary>
     /// Gets and sets the visible state of the ribbon quick access toolbar entry.
@@ -439,6 +471,12 @@ public class KryptonRibbonQATButton : Component,
     /// <summary>Gets the tool tip shadow value.</summary>
     [EditorBrowsable(EditorBrowsableState.Advanced)]
     public bool GetToolTipShadow() => ToolTipShadow;
+
+    /// <summary>
+    /// Gets the button specification style for themed icons.
+    /// </summary>
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
+    public PaletteButtonSpecStyle GetButtonSpecType() => Type; 
 
     /// <summary>
     /// Generates a Click event for a button.
