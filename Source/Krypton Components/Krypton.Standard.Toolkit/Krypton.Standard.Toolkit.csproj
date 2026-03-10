@@ -10,6 +10,7 @@
 		- Krypton.Navigator.Utilities
 		- Krypton.Ribbon
 		- Krypton.Toolkit
+		- Krypton.Toolkit.JumpList
 		- Krypton.Utilities
 		- Krypton.Workspace
 	
@@ -179,6 +180,9 @@
 			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.dll" Condition="Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.dll')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.JumpList.dll" Condition="Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.JumpList.dll')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Utilities.dll" Condition="Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Utilities.dll')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
@@ -210,6 +214,9 @@
 			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.xml" Condition="Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.xml')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.JumpList.xml" Condition="Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.JumpList.xml')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Utilities.xml" Condition="Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Utilities.xml')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
@@ -231,6 +238,9 @@
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.pdb" Condition="'$(IncludeSymbols)' == 'true' And Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.pdb')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.JumpList.pdb" Condition="'$(IncludeSymbols)' == 'true' And Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.JumpList.pdb')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Utilities.pdb" Condition="'$(IncludeSymbols)' == 'true' And Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Utilities.pdb')">
