@@ -37,6 +37,7 @@ public class KryptonRibbonQATButton : Component,
     private bool _enabled;
     private string _text;
     private KryptonCommand? _command;
+    private PaletteButtonSpecStyle _type;
 
     #endregion
 
@@ -119,6 +120,37 @@ public class KryptonRibbonQATButton : Component,
     }
 
     private bool ShouldSerializeImage() => Image != _defaultImage;
+
+    /// <summary>
+    /// Gets and sets the button specification style (e.g. New, Open, Save) for themed icons.
+    /// </summary>
+    [Localizable(true)]
+    [Category(@"Behavior")]
+    [Description(@"Button spec style for themed icons; Generic uses custom Image.")]
+    [RefreshProperties(RefreshProperties.All)]
+    [DefaultValue(PaletteButtonSpecStyle.Generic)]
+    public PaletteButtonSpecStyle Type
+    {
+        get => _type;
+
+        set
+        {
+            if (_type != value)
+            {
+                _type = value;
+                OnPropertyChanged(nameof(Type));
+
+                if (Visible)
+                {
+                    Ribbon?.PerformNeedPaint(false);
+                }
+            }
+        }
+    }
+
+    private bool ShouldSerializeType() => Type != PaletteButtonSpecStyle.Generic;
+
+    private void ResetType() => Type = PaletteButtonSpecStyle.Generic;
 
     /// <summary>
     /// Gets and sets the visible state of the ribbon quick access toolbar entry.
@@ -439,6 +471,12 @@ public class KryptonRibbonQATButton : Component,
     /// <summary>Gets the tool tip shadow value.</summary>
     [EditorBrowsable(EditorBrowsableState.Advanced)]
     public bool GetToolTipShadow() => ToolTipShadow;
+
+    /// <summary>
+    /// Gets the button specification style for themed icons.
+    /// </summary>
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
+    public PaletteButtonSpecStyle GetButtonSpecType() => Type; 
 
     /// <summary>
     /// Generates a Click event for a button.

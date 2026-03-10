@@ -13,7 +13,7 @@
 - `Source/Krypton Components`: Core libraries (`Krypton.Toolkit`, `Krypton.Ribbon`, `Krypton.Navigator`, `Krypton.Workspace`, `Krypton.Docking`) and the solution `Krypton Toolkit Suite 2022 - VS2022.sln`
 - `Source/Krypton Components/TestForm`: WinForms sample app used to validate changes
 - `Source/TestHarnesses`: Small repro/test harnesses (e.g., `ThemeSwapRepro`)
-- `Scripts/`: Build and packaging scripts (`build-stable.cmd`, `build-canary.cmd`, `build-nightly.cmd`, `build.proj`)
+- `Scripts/`: Build and packaging scripts; `run.cmd` (root) launches an interactive menu; scripts live under `Scripts/VS2022/`, `Scripts/Current/`, `Scripts/Build/` (e.g., `build-stable.cmd`, `build-canary.cmd`, `build-nightly.cmd`, `build.proj`)
 - `Bin/`: Build outputs by configuration (e.g., `Bin/Debug`)
 - `Documents/`, `Assets/`, `Logs/`: Docs, images, and build logs
 
@@ -24,8 +24,8 @@
 - Run sample app:
   - `dotnet run --project "Source/Krypton Components/TestForm/TestForm.csproj" -c Debug`
 - Preset builds (Windows cmd):
-  - `Scripts/build-stable.cmd` | `Scripts/build-canary.cmd` | `Scripts/build-nightly.cmd`
-- Outputs land in `Bin/<Configuration>/`. Supported TFMs include `net472`, `net48`, `net481`, `net8.0-windows`, `net9.0-windows`, `net10.0-windows`
+  - `run.cmd` (interactive menu) or `Scripts/VS2022/build-stable.cmd` | `Scripts/VS2022/build-canary.cmd` | `Scripts/VS2022/build-nightly.cmd`
+- Outputs land in `Bin/<Configuration>/`. Supported TFMs include `net472`, `net48`, `net481`, `net8.0-windows`, `net9.0-windows`, `net10.0-windows`, `net11.0-windows`
 
 ## Coding Style & Naming Conventions
 
