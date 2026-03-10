@@ -856,6 +856,9 @@ public abstract class VisualForm : Form,
         // Update taskbar overlay icon if set
         UpdateTaskbarOverlayIcon();
         UpdateTaskbarThumbnailButtons();
+
+        // Apply jump list when handle is created (properties may have been set before handle existed)
+        OnJumpListChanged();
     }
 
     /// <summary>
@@ -1954,6 +1957,11 @@ public abstract class VisualForm : Form,
             // Commit the jump list
             destinationList.CommitList();
         }
+        catch (System.Runtime.InteropServices.COMException ex) when (ex.HResult == unchecked((int)0x80040154))
+        {
+            // REGDB_E_CLASSNOTREG: Jump list COM (CustomDestinationList) not available.
+            // Common on Server Core, 32/64-bit mismatch, or restricted environments.
+        }
         catch (Exception ex)
         {
             // Silently fail if jump list API is not available
@@ -1964,6 +1972,8 @@ public abstract class VisualForm : Form,
 
     /// <summary>
     /// Creates an IObjectArray from a list of JumpListItem objects.
+    /// Per MSDN: IShellLink for jump lists must have SetPath, SetArguments, SetIconLocation,
+    /// and display name via PKEY_Title (IPropertyStore).
     /// </summary>
     private PI.IObjectArray? CreateObjectArray(List<JumpListItem> items)
     {
@@ -1974,7 +1984,7 @@ public abstract class VisualForm : Form,
 
         try
         {
-            // Create ObjectCollection
+            // Create ObjectCollection (EnumerableObjectCollection)
             var objectCollection = (PI.IObjectCollection)new PI.ObjectCollection();
 
             // Create shell links for each item
@@ -1988,24 +1998,25 @@ public abstract class VisualForm : Form,
                 var shellLink = (PI.IShellLinkW)new PI.ShellLink();
                 shellLink.SetPath(item.Path);
 
-                if (!string.IsNullOrEmpty(item.Arguments))
-                {
-                    shellLink.SetArguments(item.Arguments);
-                }
+                // Required: User Tasks must declare an argument list (MSDN). Use space if none.
+                shellLink.SetArguments(string.IsNullOrEmpty(item.Arguments) ? " " : item.Arguments);
 
                 if (!string.IsNullOrEmpty(item.WorkingDirectory))
                 {
                     shellLink.SetWorkingDirectory(item.WorkingDirectory);
                 }
 
-                if (!string.IsNullOrEmpty(item.Description))
-                {
-                    shellLink.SetDescription(item.Description);
-                }
+                // Description provides tooltip; use Title as fallback
+                shellLink.SetDescription(string.IsNullOrEmpty(item.Description) ? item.Title : item.Description);
 
-                if (!string.IsNullOrEmpty(item.IconPath))
+                // Required: Icon location. Use path as fallback when no icon specified.
+                var iconPath = !string.IsNullOrEmpty(item.IconPath) ? item.IconPath : item.Path;
+                shellLink.SetIconLocation(iconPath, item.IconIndex);
+
+                // Set display name via PKEY_Title (required for custom jump list display names)
+                if (!string.IsNullOrEmpty(item.Title))
                 {
-                    shellLink.SetIconLocation(item.IconPath, item.IconIndex);
+                    PI.TrySetShellLinkTitle(shellLink, item.Title);
                 }
 
                 // Add to collection
@@ -2013,7 +2024,6 @@ public abstract class VisualForm : Form,
             }
 
             // Return as IObjectArray
-            Guid iidObjectArray = new Guid("92ca9dcd-5622-4bba-a805-5e9f541bd8c9");
             return (PI.IObjectArray)objectCollection;
         }
         catch (Exception ex)

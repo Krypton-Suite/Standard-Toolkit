@@ -20,7 +20,11 @@ namespace Krypton.Ribbon;
 internal class QATButtonToolTipToContent : IContentValues
 {
     #region Instance Fields
+
     private readonly IQuickAccessToolbarButton _qatButton;
+
+    private readonly KryptonRibbon _ribbon;
+
     #endregion
 
     #region Identity
@@ -28,11 +32,14 @@ internal class QATButtonToolTipToContent : IContentValues
     /// Initialize a new instance of the QATButtonToolTipToContent class.
     /// </summary>
     /// <param name="qatButton">Source quick access toolbar button.</param>
-    public QATButtonToolTipToContent([DisallowNull] IQuickAccessToolbarButton qatButton)
+    /// <param name="ribbon">Reference to owning ribbon control.</param>
+    public QATButtonToolTipToContent([DisallowNull] IQuickAccessToolbarButton qatButton, KryptonRibbon ribbon)
     {
         Debug.Assert(qatButton is not null);
+        Debug.Assert(ribbon is not null);
 
         _qatButton = qatButton ?? throw new ArgumentNullException(nameof(qatButton));
+        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
     }
     #endregion
 
@@ -65,7 +72,16 @@ internal class QATButtonToolTipToContent : IContentValues
     /// Gets the content short text.
     /// </summary>
     /// <returns>String value.</returns>
-    public string GetShortText() => _qatButton.GetToolTipTitle();
+    public string GetShortText()
+    {
+        var title = _qatButton.GetToolTipTitle();
+        if (string.IsNullOrEmpty(title) && _qatButton.GetButtonSpecType() != PaletteButtonSpecStyle.Generic)
+        {
+            title = _ribbon.GetRedirector().GetButtonSpecToolTipTitle(_qatButton.GetButtonSpecType());
+        }
+
+        return title ?? string.Empty;
+    }
 
     /// <summary>
     /// Gets the content long text.
