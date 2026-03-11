@@ -3,7 +3,6 @@
 =======
 
 ## Table of Contents
-
 * [2026-11-xx - Build 2611 (V110 Nightly) - November 2026](#2026-11-xx---build-2611-v110-nightly---november-2026)
 * [2025-11-24 - Build 2511 (V100 RTM) - November 2025](#2025-11-24---build-2511-v100-rtm---november-2025)
 * [2025-06-23 - Build 2506 (Version 95 - Patch 7) - June 2025](#2025-06-23---build-2506-version-95---patch-7---june-2025)
@@ -44,7 +43,7 @@
 =======
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
-
+* Resolved [#3201](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3201), Resolves potential memory leaks in `KryptonDataGridViewRatingColumn`
 * Resolved [#3163](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3163), Form Icon Misplaced in Contextual Tabs
 * Implemented [#1358](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1358), Can the Ribbon QAT buttons follow the same styles as `ButtonSpecs`
 * Implemented [#3156](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3156), OAuth2 with PKCE support

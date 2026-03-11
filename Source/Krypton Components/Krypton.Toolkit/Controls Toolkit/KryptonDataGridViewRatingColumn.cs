@@ -14,8 +14,8 @@ namespace Krypton.Toolkit;
 
 /// <summary>
 /// A column to display a rating.<br/>
-/// Ratings can reach from 1 to 253, set RatingMaximum to the desired number of images.<br/>
-/// You van assign custom images to the properties Image and ImgeDisabled.<br/>
+/// Ratings can reach from 1 to 254, set RatingMaximum to the desired number of images.<br/>
+/// You can assign custom images to the properties Image and ImageDisabled.<br/>
 /// If you do not supply your own images, default stock images will be used.
 /// </summary>
 public class KryptonDataGridViewRatingColumn : KryptonDataGridViewIconColumn
@@ -56,7 +56,7 @@ public class KryptonDataGridViewRatingColumn : KryptonDataGridViewIconColumn
     public KryptonDataGridViewRatingColumn()
         : base(new KryptonDataGridViewRatingCell())
     {
-        _ratingMaximum = 0;
+        _ratingMaximum = 10;
         _disposed = false;
         _image = null;
         _imageDisabled = null;
@@ -71,15 +71,15 @@ public class KryptonDataGridViewRatingColumn : KryptonDataGridViewIconColumn
     #region Public
     /// <summary>
     /// The maximum value the rating can have.<br/>
-    /// A maximum 253 images is supported.<br/>
-    /// Width of the column to accomodate the rating is at the descretion of the user.<br/>
+    /// A maximum 254 images is supported.<br/>
+    /// Width of the column to accommodate the rating is at the descretion of the user.<br/>
     /// Set to zero to disable the display of rating images an empty cell is displayed instead.
     /// </summary>
     [Browsable(true)]
     [DefaultValue(10)]
     [EditorBrowsable(EditorBrowsableState.Always)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-    [Description("The maximum value the rating can have.")]
+    [Description("The maximum value the rating can have. (254 maximum)")]
     public byte RatingMaximum
     {
         get => _ratingMaximum;
@@ -87,7 +87,9 @@ public class KryptonDataGridViewRatingColumn : KryptonDataGridViewIconColumn
         {
             if (_ratingMaximum != value)
             {
-                _ratingMaximum = value;
+                _ratingMaximum = value >= byte.MaxValue 
+                    ? (byte)(byte.MaxValue - 1)
+                    : value;
                 OnGenerateRatingImages();
             }
         }
@@ -148,12 +150,12 @@ public class KryptonDataGridViewRatingColumn : KryptonDataGridViewIconColumn
 
         foreach(KeyValuePair<byte, Image> kvp in _images)
         {
-            cloned._images.Add(kvp.Key, kvp.Value);
+            cloned._images.Add(kvp.Key, (Image)kvp.Value.Clone());
         }
 
         foreach (KeyValuePair<byte, Image> kvp in _imagesDisabled)
         {
-            cloned._imagesDisabled.Add(kvp.Key, kvp.Value);
+            cloned._imagesDisabled.Add(kvp.Key, (Image)kvp.Value.Clone());
         }
 
         return cloned;
@@ -166,14 +168,25 @@ public class KryptonDataGridViewRatingColumn : KryptonDataGridViewIconColumn
     {
         if (!_disposed && disposing)
         {
-            _images.Clear();
-            _imagesDisabled.Clear();
+            ClearImageDictionary(_images);
+            ClearImageDictionary(_imagesDisabled);
+            
             _ratingMaximum = 0;
 
             _disposed = true;
         }
 
         base.Dispose(disposing);
+    }
+
+    private void ClearImageDictionary(Dictionary<byte, Image> dictionary)
+    {
+        foreach (KeyValuePair<byte, Image> kvp in dictionary)
+        {
+            kvp.Value.Dispose();
+        }
+
+        dictionary.Clear();
     }
     #endregion
 
@@ -242,10 +255,9 @@ public class KryptonDataGridViewRatingColumn : KryptonDataGridViewIconColumn
                 // Draw the next baseImage on each iteration
                 g.DrawImage(baseImage, j * _ratingImageCanvasSize, 0);
 
-                // Adjust the rectangle width to copy out the slice of bitmap.
+                // Adjust the rectangle width to copy out the bitmap slice.
                 rectangle.Width = i * _ratingImageCanvasSize;
-
-                // Clone just the needed portion into its own Bitmap, and save it to the dictionary.
+                // Clone just the needed portion into its own Bitmap.
                 images.Add(i, bitmap.Clone(rectangle, bitmap.PixelFormat));
             }
         }
@@ -259,15 +271,16 @@ public class KryptonDataGridViewRatingColumn : KryptonDataGridViewIconColumn
     /// <returns>The rating image that will be painted onto the single canvas.</returns>
     private static Image GenerateFallBackImage(Color color)
     {
-        Bitmap result = new Bitmap(_ratingImageSize, _ratingImageSize);
+        using Bitmap result = new Bitmap(_ratingImageSize, _ratingImageSize);
 
         using Brush brush = new SolidBrush(color);
         using Graphics g = Graphics.FromImage(result);
 
         g.FillEllipse(brush, _ratingImageRectangle);
 
-        return result;
+        return (Image)result.Clone();
     }
+
     /// <summary>
     /// Paints the rating image onto the canvas.
     /// </summary>
@@ -275,7 +288,7 @@ public class KryptonDataGridViewRatingColumn : KryptonDataGridViewIconColumn
     /// <returns>A base rating image used to construct the rating images.</returns>
     private Image GenerateBaseImage(Image image)
     {
-        Bitmap canvas = new Bitmap(_ratingImageCanvasSize, _ratingImageCanvasSize);
+        using Bitmap canvas = new(_ratingImageCanvasSize, _ratingImageCanvasSize);
         using Graphics g = Graphics.FromImage(canvas);
 
         // Resize the image if needed
@@ -287,7 +300,7 @@ public class KryptonDataGridViewRatingColumn : KryptonDataGridViewIconColumn
         // Paint it on the canvas
         g.DrawImage(image, _ratingImageRectangle);
 
-        return canvas;
+        return (Image)canvas.Clone();
     }
 
     /// <summary>
@@ -301,7 +314,7 @@ public class KryptonDataGridViewRatingColumn : KryptonDataGridViewIconColumn
 
     #region Internal
     /// <summary>
-    /// Gets the rating image that corresponds to the the ratingIndex and if the DataGridView is disabled or not.
+    /// Gets the rating image that corresponds to the ratingIndex and if the DataGridView is disabled or not.
     /// </summary>
     /// <param name="ratingIndex">The rating number.</param>
     /// <returns>
@@ -318,7 +331,7 @@ public class KryptonDataGridViewRatingColumn : KryptonDataGridViewIconColumn
                 ratingIndex = (byte)_images.Count;
             }
 
-            // Teturn the image based on the state of the grid
+            // Return the image based on the state of the grid
             return DataGridView!.Enabled
                 ? _images[ratingIndex]
                 : _imagesDisabled[ratingIndex];
