@@ -131,7 +131,7 @@ jobs:
             $f = Get-ChildItem -Path $nugetBase -Recurse -Name $_ -ErrorAction SilentlyContinue | Select-Object -First 1
             if ($f) { Copy-Item (Join-Path $nugetBase $f) $libDir -Force; Write-Host "Copied $_" }
           }
-          dotnet remove package $packageId --project "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj"
+          dotnet remove --project "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj" package $packageId
 
       - name: Restore
         # Kill switch check
@@ -388,7 +388,7 @@ jobs:
             $f = Get-ChildItem -Path $nugetBase -Recurse -Name $_ -ErrorAction SilentlyContinue | Select-Object -First 1
             if ($f) { Copy-Item (Join-Path $nugetBase $f) $libDir -Force; Write-Host "Copied $_" }
           }
-          dotnet remove package $packageId --project "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj"
+          dotnet remove --project "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj" package $packageId
 
       - name: Restore
         # Kill switch check
@@ -911,7 +911,7 @@ jobs:
             $f = Get-ChildItem -Path $nugetBase -Recurse -Name $_ -ErrorAction SilentlyContinue | Select-Object -First 1
             if ($f) { Copy-Item (Join-Path $nugetBase $f) $libDir -Force; Write-Host "Copied $_" }
           }
-          dotnet remove package $packageId --project "$utilProj"
+          dotnet remove --project "$utilProj" package $packageId
 
       - name: Restore
         # Kill switch check
