@@ -20,7 +20,7 @@ on:
 
 jobs:
   build:
-    runs-on: windows-2025-vs2026  # VS 2026 required for .NET 10.0 targeting (VS 17.14 on windows-latest not supported)
+    runs-on: windows-latest
     if: github.event_name != 'pull_request' || (github.event.pull_request.head.repo.full_name == github.repository || github.event_name == 'workflow_dispatch')
 
     steps:
@@ -111,14 +111,14 @@ jobs:
           }
           if (-not $latestVersion) { $latestVersion = "1.0.3595.46" }
           Write-Host "Using WebView2 ($(if ($usePrerelease) { 'preview' } else { 'latest' })): $latestVersion"
-          dotnet add "$utilProj" package $packageId --version $latestVersion
-          dotnet restore "$utilProj"
+          dotnet add $utilProj package $packageId --version $latestVersion
+          dotnet restore $utilProj
           $nugetBase = Join-Path $env:USERPROFILE ".nuget\packages\microsoft.web.webview2\$latestVersion"
           @("Microsoft.Web.WebView2.Core.dll","Microsoft.Web.WebView2.WinForms.dll","WebView2Loader.dll") | ForEach-Object {
             $f = Get-ChildItem -Path $nugetBase -Recurse -Name $_ -ErrorAction SilentlyContinue | Select-Object -First 1
             if ($f) { Copy-Item (Join-Path $nugetBase $f) $libDir -Force; Write-Host "Copied $_" }
           }
-          dotnet remove --project "$utilProj" package $packageId
+          dotnet remove $utilProj package $packageId
 
       - name: Restore
         run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnx"
@@ -127,7 +127,7 @@ jobs:
         run: msbuild "Scripts/Build/nightly.proj" /t:Rebuild /p:Configuration=Release /p:Platform="Any CPU"
 
   release:
-    runs-on: windows-2025-vs2026  # VS 2026 required for .NET 10.0 targeting (VS 17.14 on windows-latest not supported)
+    runs-on: windows-latest
     if: github.ref == 'refs/heads/master' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
     needs: build
 
@@ -208,14 +208,14 @@ jobs:
           }
           if (-not $latestVersion) { $latestVersion = "1.0.3595.46" }
           Write-Host "Using WebView2 ($(if ($usePrerelease) { 'preview' } else { 'latest' })): $latestVersion"
-          dotnet add "$utilProj" package $packageId --version $latestVersion
-          dotnet restore "$utilProj"
+          dotnet add $utilProj package $packageId --version $latestVersion
+          dotnet restore $utilProj
           $nugetBase = Join-Path $env:USERPROFILE ".nuget\packages\microsoft.web.webview2\$latestVersion"
           @("Microsoft.Web.WebView2.Core.dll","Microsoft.Web.WebView2.WinForms.dll","WebView2Loader.dll") | ForEach-Object {
             $f = Get-ChildItem -Path $nugetBase -Recurse -Name $_ -ErrorAction SilentlyContinue | Select-Object -First 1
             if ($f) { Copy-Item (Join-Path $nugetBase $f) $libDir -Force; Write-Host "Copied $_" }
           }
-          dotnet remove --project "$utilProj" package $packageId
+          dotnet remove $utilProj package $packageId
 
       - name: Restore
         run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnx"
