@@ -172,6 +172,27 @@ internal class ViewDrawRibbonAppButton : ViewLeaf
 
         // If there is an application button image to be drawn
         Image? localImage = _ribbon.RibbonFileAppButton.AppButtonImage;
+
+        // If there is no image, but the form has an icon, then use that as the image
+        Image? formIconBitmap;
+
+        // Fixes #64 / #3163: In Office 2007 (orb) mode, use the form icon when AppButtonImage is not set
+        if (localImage == null && _ribbon.RibbonShape == PaletteRibbonShape.Office2007)
+        {
+            // Only use the form icon if it is actually being shown on the form. If the form is configured to not show an icon, then we should not use it as the image for the application button.
+            var form = _ribbon.FindForm();
+
+            // If the form is configured to show an icon and a control box, and the form has an icon assigned, then use that as the image for the application button
+            if (form is { ShowIcon: true, ControlBox: true, Icon: not null })
+            {
+                // Convert the form icon to a bitmap and use that as the image for the application button
+                formIconBitmap = form.Icon.ToBitmap();
+
+                // If the form icon is larger than 32x32, then we need to scale it down to fit within the application button
+                localImage = formIconBitmap;
+            }
+        }
+
         if (localImage != null)
         {
             // We always draw the image a 24x24 image (if dpi = 1!)
