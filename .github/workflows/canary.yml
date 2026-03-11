@@ -18,7 +18,7 @@ on:
 
 jobs:
   canary:
-    runs-on: windows-2025  # VS 2026 required for .NET 10.0 targeting
+    runs-on: windows-2025-vs2026  # VS 2026 required for .NET 10.0 targeting
     environment: production  # Requires approval before publishing
 
     concurrency:
@@ -153,14 +153,14 @@ jobs:
           }
           if (-not $latestVersion) { $latestVersion = "1.0.3595.46" }
           Write-Host "Using WebView2 (Preview): $latestVersion"
-          dotnet add $utilProj package $packageId --version $latestVersion
-          dotnet restore $utilProj
+          dotnet add "$utilProj" package $packageId --version $latestVersion
+          dotnet restore "$utilProj"
           $nugetBase = Join-Path $env:USERPROFILE ".nuget\packages\microsoft.web.webview2\$latestVersion"
           @("Microsoft.Web.WebView2.Core.dll","Microsoft.Web.WebView2.WinForms.dll","WebView2Loader.dll") | ForEach-Object {
             $f = Get-ChildItem -Path $nugetBase -Recurse -Name $_ -ErrorAction SilentlyContinue | Select-Object -First 1
             if ($f) { Copy-Item (Join-Path $nugetBase $f) $libDir -Force; Write-Host "Copied $_" }
           }
-          dotnet remove $utilProj package $packageId
+          dotnet remove "$utilProj" package $packageId
 
       - name: Restore
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
