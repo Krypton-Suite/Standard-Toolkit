@@ -4285,6 +4285,23 @@ public class KryptonCustomPaletteBase : PaletteBase
                 return ButtonSpecs.RibbonExpand;
             case PaletteButtonSpecStyle.Undo:
                 return ButtonSpecs.Previous;
+            case PaletteButtonSpecStyle.New:
+            case PaletteButtonSpecStyle.Open:
+            case PaletteButtonSpecStyle.Save:
+            case PaletteButtonSpecStyle.SaveAs:
+            case PaletteButtonSpecStyle.SaveAll:
+            case PaletteButtonSpecStyle.Cut:
+            case PaletteButtonSpecStyle.Copy:
+            case PaletteButtonSpecStyle.Paste:
+            case PaletteButtonSpecStyle.Redo:
+            case PaletteButtonSpecStyle.PageSetup:
+            case PaletteButtonSpecStyle.PrintPreview:
+            case PaletteButtonSpecStyle.Print:
+            case PaletteButtonSpecStyle.QuickPrint:
+            case PaletteButtonSpecStyle.SelectAll:
+            case PaletteButtonSpecStyle.SelectNone:
+            case PaletteButtonSpecStyle.Search:
+                return ButtonSpecs.Generic;
             default:
                 // Should never happen!
                 Debug.Assert(false);

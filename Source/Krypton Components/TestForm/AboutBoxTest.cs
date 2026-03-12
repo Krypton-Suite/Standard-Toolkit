@@ -48,9 +48,16 @@ public partial class AboutBoxTest : KryptonForm
         {
             selectedAssembly = Assembly.LoadFile(assemblyPath);
         }
-        catch (BadImageFormatException)
+        catch (BadImageFormatException ex)
         {
-            MessageBox.Show("The selected file is not a valid .NET assembly.", "Invalid Assembly", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            string hint = Environment.Is64BitProcess
+                ? "This often happens when selecting a 32-bit assembly from a 64-bit process (or vice versa), or a native/non-.NET executable."
+                : "This often happens when selecting a 64-bit assembly from a 32-bit process (or vice versa), or a native/non-.NET executable.";
+            MessageBox.Show(
+                $"The selected file is not a valid .NET assembly or cannot be loaded by this process.\n\n{hint}\n\nDetails: {ex.Message}",
+                "Invalid Assembly",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error);
             return;
         }
         catch (Exception ex)
@@ -88,7 +95,12 @@ public partial class AboutBoxTest : KryptonForm
 
     private void bsaAssemblyBrowse_Click(object sender, EventArgs e)
     {
-        OpenFileDialog openFileDialog = new OpenFileDialog();
+        OpenFileDialog openFileDialog = new OpenFileDialog
+        {
+            Filter = "Assemblies (*.dll;*.exe)|*.dll;*.exe|All files (*.*)|*.*",
+            FilterIndex = 1,
+            Title = "Select a .NET assembly"
+        };
 
         if (openFileDialog.ShowDialog() == DialogResult.OK)
         {
@@ -98,7 +110,12 @@ public partial class AboutBoxTest : KryptonForm
 
     private void bsaBrowseHeaderImage_Click(object sender, EventArgs e)
     {
-        OpenFileDialog openFileDialog = new OpenFileDialog();
+        OpenFileDialog openFileDialog = new OpenFileDialog
+        {
+            Filter = "Image files (*.bmp;*.png;*.jpg;*.jpeg;*.gif)|*.bmp;*.png;*.jpg;*.jpeg;*.gif|All files (*.*)|*.*",
+            FilterIndex = 1,
+            Title = "Select header image"
+        };
 
         if (openFileDialog.ShowDialog() == DialogResult.OK)
         {
@@ -108,7 +125,12 @@ public partial class AboutBoxTest : KryptonForm
 
     private void bsaBrowseMainImage_Click(object sender, EventArgs e)
     {
-        OpenFileDialog openFileDialog = new OpenFileDialog();
+        OpenFileDialog openFileDialog = new OpenFileDialog
+        {
+            Filter = "Image files (*.bmp;*.png;*.jpg;*.jpeg;*.gif)|*.bmp;*.png;*.jpg;*.jpeg;*.gif|All files (*.*)|*.*",
+            FilterIndex = 1,
+            Title = "Select main image"
+        };
 
         if (openFileDialog.ShowDialog() == DialogResult.OK)
         {

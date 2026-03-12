@@ -21,10 +21,24 @@ public partial class SplashScreenExample : KryptonForm
 
     private void kbtnShow_Click(object sender, EventArgs e)
     {
+        Bitmap? logo = null;
+        if (!string.IsNullOrWhiteSpace(ktxtLogo.Text) && File.Exists(ktxtLogo.Text))
+        {
+            try
+            {
+                logo = new Bitmap(ktxtLogo.Text);
+            }
+            catch (ArgumentException)
+            {
+                MessageBox.Show(@"Invalid or unsupported image file.", @"Logo Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+        }
+
         KryptonSplashScreenData splashScreenData = new KryptonSplashScreenData()
         {
-            ApplicationLogo = new Bitmap(ktxtLogo.Text),
-            Assembly = Assembly.GetExecutingAssembly(), //Assembly.LoadFile(ktxtAssembly.Text),
+            ApplicationLogo = logo,
+            Assembly = Assembly.GetExecutingAssembly(), 
             NextWindow = this,
             ShowCopyright = kchkShowCopyright.Checked,
             ShowCloseButton = kcbShowCloseButton.Checked,

@@ -44,7 +44,9 @@
 =======
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
+
 * Resolved [#3203](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3203), Ribbon: QATLocation=Hidden does not hide QAT when FormBorderStyle=None
+* Resolved [#3072](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3072), Some samples do not work
 * Resolved [#3163](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3163), Form Icon Misplaced in Contextual Tabs
 * Implemented [#1358](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1358), Can the Ribbon QAT buttons follow the same styles as `ButtonSpecs`
 * Implemented [#3156](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3156), OAuth2 with PKCE support
