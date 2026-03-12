@@ -178,16 +178,6 @@ public class KryptonDataGridViewRatingColumn : KryptonDataGridViewIconColumn
 
         base.Dispose(disposing);
     }
-
-    private void ClearImageDictionary(Dictionary<byte, Image> dictionary)
-    {
-        foreach (KeyValuePair<byte, Image> kvp in dictionary)
-        {
-            kvp.Value.Dispose();
-        }
-
-        dictionary.Clear();
-    }
     #endregion
 
     #region Implementation
@@ -197,8 +187,8 @@ public class KryptonDataGridViewRatingColumn : KryptonDataGridViewIconColumn
     private void OnGenerateRatingImages()
     {
         // Always clear when we get here
-        _images.Clear();
-        _imagesDisabled.Clear();
+        ClearImageDictionary(_images);
+        ClearImageDictionary(_imagesDisabled);
 
         if (_ratingMaximum > 0)
         {
@@ -347,5 +337,17 @@ public class KryptonDataGridViewRatingColumn : KryptonDataGridViewIconColumn
     /// Returns the number of rating images in a single dictionary.
     /// </summary>
     internal byte RatingImageCount => (byte)_images.Count;
+    #endregion
+
+    #region Private
+    private void ClearImageDictionary(Dictionary<byte, Image> dictionary)
+    {
+        foreach (KeyValuePair<byte, Image> kvp in dictionary)
+        {
+            kvp.Value.Dispose();
+        }
+
+        dictionary.Clear();
+    }
     #endregion
 }
