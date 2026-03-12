@@ -15,13 +15,13 @@ on:
 
 jobs:
   nightly:
-    runs-on: windows-latest
+    runs-on: windows-2025-vs2026
     environment: production  # Requires approval before publishing
 
     concurrency:
       group: nightly-alpha
       cancel-in-progress: true
-    
+
     steps:
       # Nightly Release kill switch
       - name: Nightly Release Kill Switch Check
@@ -79,13 +79,13 @@ jobs:
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
-          
+
           # Get commits from last 24 hours on alpha branch
           $yesterday = (Get-Date).AddDays(-1).ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss")
           $commitCount = git rev-list --count --since="$yesterday" alpha
-          
+
           Write-Host "Commits in last 24 hours: $commitCount"
-          
+
           if ([int]$commitCount -gt 0) {
             Write-Host "Changes detected - proceeding with nightly build"
             echo "has_changes=true" >> $env:GITHUB_OUTPUT
@@ -190,7 +190,7 @@ jobs:
             $f = Get-ChildItem -Path $nugetBase -Recurse -Name $_ -ErrorAction SilentlyContinue | Select-Object -First 1
             if ($f) { Copy-Item (Join-Path $nugetBase $f) $libDir -Force; Write-Host "Copied $_" }
           }
-          dotnet remove $utilProj package $packageId
+          dotnet remove package $packageId --project $utilProj
 
       - name: Restore
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
@@ -215,10 +215,10 @@ jobs:
             echo "packages_published=false" >> $env:GITHUB_OUTPUT
             exit 0
           }
-          
+
           $packages = Get-ChildItem "Bin/Packages/Nightly/*.nupkg" -ErrorAction SilentlyContinue
           $publishedAny = $false
-          
+
           if ($packages) {
             foreach ($package in $packages) {
               Write-Output "Pushing package: $($package.Name)"
@@ -239,7 +239,7 @@ jobs:
           } else {
             Write-Output "No NuGet packages found to push"
           }
-          
+
           echo "packages_published=$publishedAny" >> $env:GITHUB_OUTPUT
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
@@ -251,7 +251,7 @@ jobs:
         run: |
           $ErrorActionPreference = 'Stop'
           $version = $null
-          
+
           # Try to get version from the built assembly (most reliable)
           try {
             $dllPath = Get-ChildItem "Bin/Nightly/net48/Krypton.Toolkit.dll" -ErrorAction Stop
@@ -261,7 +261,7 @@ jobs:
           } catch {
             Write-Host "Could not read version from assembly: $_"
           }
-          
+
           # Fallback: Try to read from csproj XML
           if (-not $version) {
             try {
@@ -276,13 +276,13 @@ jobs:
               Write-Host "Could not read version from csproj: $_"
             }
           }
-          
+
           # Last resort fallback
           if (-not $version) {
             Write-Warning "Version not found, using fallback."
             $version = "100.25.1.1"
           }
-          
+
           Write-Host "Final determined version: $version"
           echo "version=$version" >> $env:GITHUB_OUTPUT
           echo "tag=v$version-nightly" >> $env:GITHUB_OUTPUT
@@ -295,7 +295,7 @@ jobs:
             Write-Warning "DISCORD_WEBHOOK_NIGHTLY not set - skipping Discord notification"
             exit 0
           }
-          
+
           $payload = @{
             embeds = @(
               @{
@@ -331,7 +331,7 @@ jobs:
               }
             )
           } | ConvertTo-Json -Depth 10
-          
+
           Invoke-RestMethod -Uri $env:DISCORD_WEBHOOK_NIGHTLY -Method Post -Body $payload -ContentType "application/json"
         env:
           DISCORD_WEBHOOK_NIGHTLY: ${{ secrets.DISCORD_WEBHOOK_NIGHTLY }}
