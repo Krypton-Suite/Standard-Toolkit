@@ -81,7 +81,11 @@ jobs:
         if: github.ref == 'refs/heads/alpha' || github.ref == 'refs/heads/canary' || github.head_ref == 'alpha' || github.head_ref == 'canary'
         shell: pwsh
         run: |
-          $libDir = "Source/Krypton Components/Krypton.Utilities/Lib/WebView2"
+          $root = $env:GITHUB_WORKSPACE
+          if (-not $root) { $root = (Get-Location).Path }
+          $utilProj = Join-Path $root "Source\Krypton Components\Krypton.Utilities\Krypton.Utilities.csproj"
+          $libDir = Join-Path $root "Source\Krypton Components\Krypton.Utilities\Lib\WebView2"
+          if (-not (Test-Path $utilProj)) { Write-Error "Project not found: $utilProj"; exit 1 }
           if (-not (Test-Path $libDir)) { New-Item -ItemType Directory -Path $libDir -Force }
           $packageId = "Microsoft.Web.WebView2"
           # Use prerelease versions for alpha and canary branches to avoid .NET 11.0 requirement
@@ -107,14 +111,18 @@ jobs:
           }
           if (-not $latestVersion) { $latestVersion = "1.0.3595.46" }
           Write-Host "Using WebView2 ($(if ($usePrerelease) { 'preview' } else { 'latest' })): $latestVersion"
-          dotnet add "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj" package $packageId --version $latestVersion
-          dotnet restore "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj"
+          dotnet add "$utilProj" package $packageId --version $latestVersion
+          dotnet restore "$utilProj"
           $nugetBase = Join-Path $env:USERPROFILE ".nuget\packages\microsoft.web.webview2\$latestVersion"
           @("Microsoft.Web.WebView2.Core.dll","Microsoft.Web.WebView2.WinForms.dll","WebView2Loader.dll") | ForEach-Object {
             $f = Get-ChildItem -Path $nugetBase -Recurse -Name $_ -ErrorAction SilentlyContinue | Select-Object -First 1
             if ($f) { Copy-Item (Join-Path $nugetBase $f) $libDir -Force; Write-Host "Copied $_" }
           }
-          dotnet remove package $packageId --project "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj"
+          [xml]$proj = Get-Content $utilProj
+          $nodes = $proj.SelectNodes("//PackageReference[@Include='$packageId']")
+          foreach ($node in $nodes) { $node.ParentNode.RemoveChild($node) | Out-Null }
+          $proj.Save($utilProj)
+          Write-Host "Removed temporary WebView2 PackageReference entries"
 
       - name: Restore
         run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnx"
@@ -174,7 +182,11 @@ jobs:
         if: github.ref == 'refs/heads/alpha' || github.ref == 'refs/heads/canary' || github.head_ref == 'alpha' || github.head_ref == 'canary'
         shell: pwsh
         run: |
-          $libDir = "Source/Krypton Components/Krypton.Utilities/Lib/WebView2"
+          $root = $env:GITHUB_WORKSPACE
+          if (-not $root) { $root = (Get-Location).Path }
+          $utilProj = Join-Path $root "Source\Krypton Components\Krypton.Utilities\Krypton.Utilities.csproj"
+          $libDir = Join-Path $root "Source\Krypton Components\Krypton.Utilities\Lib\WebView2"
+          if (-not (Test-Path $utilProj)) { Write-Error "Project not found: $utilProj"; exit 1 }
           if (-not (Test-Path $libDir)) { New-Item -ItemType Directory -Path $libDir -Force }
           $packageId = "Microsoft.Web.WebView2"
           # Use prerelease versions for alpha and canary branches to avoid .NET 11.0 requirement
@@ -200,14 +212,18 @@ jobs:
           }
           if (-not $latestVersion) { $latestVersion = "1.0.3595.46" }
           Write-Host "Using WebView2 ($(if ($usePrerelease) { 'preview' } else { 'latest' })): $latestVersion"
-          dotnet add "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj" package $packageId --version $latestVersion
-          dotnet restore "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj"
+          dotnet add "$utilProj" package $packageId --version $latestVersion
+          dotnet restore "$utilProj"
           $nugetBase = Join-Path $env:USERPROFILE ".nuget\packages\microsoft.web.webview2\$latestVersion"
           @("Microsoft.Web.WebView2.Core.dll","Microsoft.Web.WebView2.WinForms.dll","WebView2Loader.dll") | ForEach-Object {
             $f = Get-ChildItem -Path $nugetBase -Recurse -Name $_ -ErrorAction SilentlyContinue | Select-Object -First 1
             if ($f) { Copy-Item (Join-Path $nugetBase $f) $libDir -Force; Write-Host "Copied $_" }
           }
-          dotnet remove package $packageId --project "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj"
+          [xml]$proj = Get-Content $utilProj
+          $nodes = $proj.SelectNodes("//PackageReference[@Include='$packageId']")
+          foreach ($node in $nodes) { $node.ParentNode.RemoveChild($node) | Out-Null }
+          $proj.Save($utilProj)
+          Write-Host "Removed temporary WebView2 PackageReference entries"
 
       - name: Restore
         run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnx"
