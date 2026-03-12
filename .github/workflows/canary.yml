@@ -18,7 +18,7 @@ on:
 
 jobs:
   canary:
-    runs-on: windows-latest
+    runs-on: windows-2025-vs2026
     environment: production  # Requires approval before publishing
 
     concurrency:
@@ -160,7 +160,7 @@ jobs:
             $f = Get-ChildItem -Path $nugetBase -Recurse -Name $_ -ErrorAction SilentlyContinue | Select-Object -First 1
             if ($f) { Copy-Item (Join-Path $nugetBase $f) $libDir -Force; Write-Host "Copied $_" }
           }
-          dotnet remove $utilProj package $packageId
+          dotnet remove package $packageId --project $utilProj
 
       - name: Restore
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
