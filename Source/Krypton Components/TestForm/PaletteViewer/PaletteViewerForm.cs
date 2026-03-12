@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2025 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2025 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -96,28 +96,6 @@ public partial class PaletteViewerForm : KryptonForm
         return false;
     }
 
-    private static bool ShouldSkipColorMethod(System.Reflection.MethodInfo m)
-    {
-        if (m.IsSpecialName
-            || m.ReturnType != typeof(Color)
-            || m.ContainsGenericParameters
-            || IsProblematicBaseMethod(m))
-        {
-            return true;
-        }
-
-        foreach (var p in m.GetParameters())
-        {
-            var parameterType = p.ParameterType;
-            if (p.IsOut || parameterType.IsByRef || parameterType.ContainsGenericParameters)
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     /// <summary>
     /// Initializes a new instance of the <see cref="PaletteViewerForm"/> class.
     /// </summary>
@@ -167,8 +145,6 @@ public partial class PaletteViewerForm : KryptonForm
         UpdateStatus("Ready");
 
         UpdateUIState();
-
-        AttachKryptonManager(new KryptonManager());
     }
 
     /// <summary>
@@ -244,7 +220,25 @@ public partial class PaletteViewerForm : KryptonForm
 
         foreach (var m in methods)
         {
-            if (ShouldSkipColorMethod(m))
+            if (m.IsSpecialName
+                || IsProblematicBaseMethod(m)
+                || m.ReturnType != typeof(Color))
+            {
+                continue;
+            }
+
+            // Skip methods with ref/out parameters or open generics
+            bool skip = false;
+            foreach (var p in m.GetParameters())
+            {
+                if (p.IsOut || p.ParameterType.IsByRef)
+                {
+                    skip = true;
+                    break;
+                }
+            }
+
+            if (skip)
             {
                 continue;
             }
@@ -370,7 +364,22 @@ public partial class PaletteViewerForm : KryptonForm
         var paletteMethods = palette.GetType().GetMethods(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
         foreach (var m in paletteMethods)
         {
-            if (ShouldSkipColorMethod(m))
+            if (m.IsSpecialName || m.ReturnType != typeof(Color) || (IsProblematicBaseMethod(m)))
+            {
+                continue;
+            }
+
+            // Skip methods with ref/out parameters
+            bool skip = false;
+            foreach (var p in m.GetParameters())
+            {
+                if (p.IsOut || p.ParameterType.IsByRef)
+                {
+                    skip = true;
+                    break;
+                }
+            }
+            if (skip)
             {
                 continue;
             }
