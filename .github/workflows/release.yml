@@ -15,7 +15,7 @@ on:
 
 jobs:
   release-master:
-    runs-on: windows-2025-vs2026  # VS 2026 required for .NET 10.0 targeting
+    runs-on: windows-2025-vs2026
     environment: production  # Requires approval before publishing
     if: github.ref == 'refs/heads/master' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
 
@@ -87,7 +87,7 @@ jobs:
         with:
           msbuild-architecture: x64
 
-      - name: Setup 
+      - name: Setup NuGet
         # Kill switch check
         if: steps.release_kill_switch.outputs.enabled == 'true'
         uses: NuGet/setup-nuget@v2.0.1
@@ -127,14 +127,14 @@ jobs:
           }
           if (-not $latestVersion) { $latestVersion = "1.0.3595.46" }
           Write-Host "Using WebView2 (Latest): $latestVersion"
-          dotnet add "$utilProj" package $packageId --version $latestVersion
-          dotnet restore "$utilProj"
+          dotnet add $utilProj package $packageId --version $latestVersion
+          dotnet restore $utilProj
           $nugetBase = Join-Path $env:USERPROFILE ".nuget\packages\microsoft.web.webview2\$latestVersion"
           @("Microsoft.Web.WebView2.Core.dll","Microsoft.Web.WebView2.WinForms.dll","WebView2Loader.dll") | ForEach-Object {
             $f = Get-ChildItem -Path $nugetBase -Recurse -Name $_ -ErrorAction SilentlyContinue | Select-Object -First 1
             if ($f) { Copy-Item (Join-Path $nugetBase $f) $libDir -Force; Write-Host "Copied $_" }
           }
-          dotnet remove "$utilProj" package $packageId
+          dotnet remove package $packageId --project $utilProj
 
       - name: Restore
         # Kill switch check
@@ -287,7 +287,7 @@ jobs:
           DISCORD_WEBHOOK_MASTER: ${{ secrets.DISCORD_WEBHOOK_MASTER }}
 
   release-v105-lts:
-    runs-on: windows-2025-vs2026  # VS 2026 required for .NET 10.0 targeting
+    runs-on: windows-2025-vs2026
     environment: production  # Requires approval before publishing
     if: github.ref == 'refs/heads/V105-LTS' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
 
@@ -387,14 +387,14 @@ jobs:
           }
           if (-not $latestVersion) { $latestVersion = "1.0.3595.46" }
           Write-Host "Using WebView2 (Latest): $latestVersion"
-          dotnet add "$utilProj" package $packageId --version $latestVersion
-          dotnet restore "$utilProj"
+          dotnet add $utilProj package $packageId --version $latestVersion
+          dotnet restore $utilProj
           $nugetBase = Join-Path $env:USERPROFILE ".nuget\packages\microsoft.web.webview2\$latestVersion"
           @("Microsoft.Web.WebView2.Core.dll","Microsoft.Web.WebView2.WinForms.dll","WebView2Loader.dll") | ForEach-Object {
             $f = Get-ChildItem -Path $nugetBase -Recurse -Name $_ -ErrorAction SilentlyContinue | Select-Object -First 1
             if ($f) { Copy-Item (Join-Path $nugetBase $f) $libDir -Force; Write-Host "Copied $_" }
           }
-          dotnet remove "$utilProj" package $packageId
+          dotnet remove package $packageId --project $utilProj
 
       - name: Restore
         # Kill switch check
@@ -547,7 +547,7 @@ jobs:
           DISCORD_WEBHOOK_MASTER: ${{ secrets.DISCORD_WEBHOOK_MASTER }}
 
   release-v85-lts:
-    runs-on: windows-2025-vs2026  # VS 2026 required for .NET 10.0 targeting
+    runs-on: windows-2025-vs2026
     environment: production  # Requires approval before publishing
     if: github.ref == 'refs/heads/V85-LTS' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
 
@@ -798,7 +798,7 @@ jobs:
           DISCORD_WEBHOOK_LTS: ${{ secrets.DISCORD_WEBHOOK_LTS }}
 
   release-canary:
-    runs-on: windows-2025-vs2026  # VS 2026 required for .NET 10.0 targeting
+    runs-on: windows-2025-vs2026
     environment: production  # Requires approval before publishing
     if: github.ref == 'refs/heads/canary' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
 
@@ -910,14 +910,14 @@ jobs:
           }
           if (-not $latestVersion) { $latestVersion = "1.0.3595.46" }
           Write-Host "Using WebView2 (Preview): $latestVersion"
-          dotnet add "$utilProj" package $packageId --version $latestVersion
-          dotnet restore "$utilProj"
+          dotnet add $utilProj package $packageId --version $latestVersion
+          dotnet restore $utilProj
           $nugetBase = Join-Path $env:USERPROFILE ".nuget\packages\microsoft.web.webview2\$latestVersion"
           @("Microsoft.Web.WebView2.Core.dll","Microsoft.Web.WebView2.WinForms.dll","WebView2Loader.dll") | ForEach-Object {
             $f = Get-ChildItem -Path $nugetBase -Recurse -Name $_ -ErrorAction SilentlyContinue | Select-Object -First 1
             if ($f) { Copy-Item (Join-Path $nugetBase $f) $libDir -Force; Write-Host "Copied $_" }
           }
-          dotnet remove "$utilProj" package $packageId
+          dotnet remove package $packageId --project $utilProj
 
       - name: Restore
         # Kill switch check
@@ -1070,7 +1070,7 @@ jobs:
           DISCORD_WEBHOOK_CANARY: ${{ secrets.DISCORD_WEBHOOK_CANARY }}
 
   release-alpha:
-    runs-on: windows-2025-vs2026  # VS 2026 required for .NET 10.0 targeting
+    runs-on: windows-2025-vs2026
     if: github.ref == 'refs/heads/alpha' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
 
     steps:

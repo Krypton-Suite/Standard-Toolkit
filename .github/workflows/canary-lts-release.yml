@@ -15,7 +15,7 @@ on:
 
 jobs:
   canary-lts-release:
-    runs-on: windows-2025-vs2026  # VS 2026 required for .NET 10.0 targeting
+    runs-on: windows-2025-vs2026
     if: github.ref == 'refs/heads/V105-LTS' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
 
     steps:
@@ -114,8 +114,8 @@ jobs:
           }
           if (-not $latestVersion) { $latestVersion = "1.0.3595.46" }
           Write-Host "Using WebView2 SDK version: $latestVersion"
-          dotnet add "Source/Current/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj" package Microsoft.Web.WebView2 --version $latestVersion
-          dotnet restore "Source/Current/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj"
+          dotnet add "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj" package Microsoft.Web.WebView2 --version $latestVersion
+          dotnet restore "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj"
           $nugetBasePath = "$env:USERPROFILE\.nuget\packages\microsoft.web.webview2\$latestVersion"
           $coreDll = Get-ChildItem -Path $nugetBasePath -Recurse -Name "Microsoft.Web.WebView2.Core.dll" | Select-Object -First 1
           Copy-Item (Join-Path $nugetBasePath $coreDll) "WebView2SDK\"
@@ -123,11 +123,11 @@ jobs:
           Copy-Item (Join-Path $nugetBasePath $winFormsDll) "WebView2SDK\"
           $loaderDll = Get-ChildItem -Path $nugetBasePath -Recurse -Name "WebView2Loader.dll" | Select-Object -First 1
           Copy-Item (Join-Path $nugetBasePath $loaderDll) "WebView2SDK\"
-          dotnet remove "Source/Current/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj" package Microsoft.Web.WebView2
+          dotnet remove "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj" package Microsoft.Web.WebView2
 
       - name: Restore
         if: steps.canary_lts_kill_switch.outputs.enabled == 'true'
-        run: dotnet restore "Source/Current/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnx"
+        run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnx"
 
       - name: Prepare Code Signing Certificate (Optional)
         if: steps.canary_lts_kill_switch.outputs.enabled == 'true'
