@@ -48,7 +48,7 @@ public struct KryptonSplashScreenData
 
     /// <summary>Gets or sets the application logo.</summary>
     /// <value>The application logo.</value>
-    public Bitmap ApplicationLogo { set; get; }
+    public Bitmap? ApplicationLogo { set; get; }
 
     /// <summary>Gets or sets the timeout.</summary>
     /// <value>The timeout.</value>

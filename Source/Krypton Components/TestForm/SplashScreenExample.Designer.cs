@@ -144,7 +144,6 @@
             this.ktxtLogo.Name = "ktxtLogo";
             this.ktxtLogo.Size = new System.Drawing.Size(288, 24);
             this.ktxtLogo.TabIndex = 11;
-            this.ktxtLogo.Text = "kryptonTextBox1";
             // 
             // bsaBrowseLogo
             // 
