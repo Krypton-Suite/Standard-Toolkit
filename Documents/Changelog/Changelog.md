@@ -43,6 +43,8 @@
 =======
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
+
+* Resolved [#3013](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3013), Maximized form's size exceeds the screen's working area
 * Resolved [#3201](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3201), Resolves potential memory leaks in `KryptonDataGridViewRatingColumn`
 * Resolved [#3203](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3203), Ribbon: QATLocation=Hidden does not hide QAT when FormBorderStyle=None
 * Resolved [#3072](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3072), Some samples do not work
