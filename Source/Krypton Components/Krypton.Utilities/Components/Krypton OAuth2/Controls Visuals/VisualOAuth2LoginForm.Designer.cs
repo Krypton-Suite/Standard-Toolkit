@@ -7,7 +7,7 @@ internal sealed partial class VisualOAuth2LoginForm
     /// <summary>
     /// Required designer variable.
     /// </summary>
-    private System.ComponentModel.IContainer? components;
+    private System.ComponentModel.IContainer components;
 
     /// <summary>
     /// Clean up any resources being used.
