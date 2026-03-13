@@ -132,35 +132,59 @@ jobs:
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         shell: pwsh
         run: |
+          $ErrorActionPreference = "Stop"
+
           $root = $env:GITHUB_WORKSPACE
           if (-not $root) { $root = (Get-Location).Path }
-          $utilProj = Join-Path $root "Source\Krypton Components\Krypton.Utilities\Krypton.Utilities.csproj"
+
           $libDir = Join-Path $root "Source\Krypton Components\Krypton.Utilities\Lib\WebView2"
-          if (-not (Test-Path $utilProj)) { Write-Error "Project not found: $utilProj"; exit 1 }
-          if (-not (Test-Path $libDir)) { New-Item -ItemType Directory -Path $libDir -Force }
-          $packageId = "Microsoft.Web.WebView2"
-          Write-Host "Using prerelease=true for WebView2 SDK lookup (canary build)"
-          $latestVersion = $null
-          try {
-            $searchResponse = Invoke-RestMethod -Uri "https://azuresearch-usnc.nuget.org/query?q=$packageId&prerelease=true&semVerLevel=2.0.0&take=1" -Method Get
-            if ($searchResponse.data -and $searchResponse.data.Count -gt 0) { $latestVersion = $searchResponse.data[0].version }
-          } catch {
-            try {
-              $response = Invoke-RestMethod -Uri "https://api.nuget.org/v3-flatcontainer/$packageId/index.json" -Method Get
-              $allVersions = $response.versions | Where-Object { $_ -match '^\d+\.\d+\.\d+' }
-              if ($allVersions) { $latestVersion = $allVersions | Sort-Object { [System.Version]($_ -replace '-.*', '') } -Descending | Select-Object -First 1 }
-            } catch {}
-          }
-          if (-not $latestVersion) { $latestVersion = "1.0.3595.46" }
-          Write-Host "Using WebView2 (Preview): $latestVersion"
-          dotnet add $utilProj package $packageId --version $latestVersion
-          dotnet restore $utilProj
-          $nugetBase = Join-Path $env:USERPROFILE ".nuget\packages\microsoft.web.webview2\$latestVersion"
-          @("Microsoft.Web.WebView2.Core.dll","Microsoft.Web.WebView2.WinForms.dll","WebView2Loader.dll") | ForEach-Object {
-            $f = Get-ChildItem -Path $nugetBase -Recurse -Name $_ -ErrorAction SilentlyContinue | Select-Object -First 1
-            if ($f) { Copy-Item (Join-Path $nugetBase $f) $libDir -Force; Write-Host "Copied $_" }
-          }
-          dotnet remove package $packageId --project $utilProj
+          $tempDir = Join-Path $env:RUNNER_TEMP "webview2"
+                try {
+                    $search = Invoke-RestMethod `
+                        -Uri "https://azuresearch-usnc.nuget.org/query?q=$packageId&prerelease=true&semVerLevel=2.0.0&take=1"
+      
+                    $latestVersion = $search.data[0].version
+                }
+                catch {
+                    Write-Warning "NuGet search failed, using fallback version"
+                    $latestVersion = "1.0.3595.46"
+                }
+      
+                Write-Host "Using WebView2 version: $latestVersion"
+      
+                $nupkg = Join-Path $tempDir "$packageId.$latestVersion.nupkg"
+                $extractDir = Join-Path $tempDir "extract"
+      
+                Write-Host "Downloading package..."
+      
+                Invoke-WebRequest `
+                    -Uri "https://www.nuget.org/api/v2/package/$packageId/$latestVersion" `
+                    -OutFile $nupkg
+      
+                Write-Host "Extracting package..."
+      
+                Expand-Archive $nupkg $extractDir -Force
+      
+                Write-Host "Copying required DLLs..."
+      
+                $files = @(
+                    "Microsoft.Web.WebView2.Core.dll"
+                    "Microsoft.Web.WebView2.WinForms.dll"
+                    "WebView2Loader.dll"
+                )
+      
+                foreach ($file in $files) {
+                    $found = Get-ChildItem $extractDir -Recurse -Filter $file | Select-Object -First 1
+                    if ($found) {
+                        Copy-Item $found.FullName $libDir -Force
+                        Write-Host "Copied $file"
+                    }
+                    else {
+                        Write-Warning "$file not found in package"
+                    }
+                }
+      
+                Write-Host "WebView2 population complete."
 
       - name: Restore
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
