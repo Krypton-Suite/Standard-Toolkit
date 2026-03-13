@@ -9,6 +9,8 @@
 
 using System.IO;
 
+using Krypton.Toolkit.JumpList;
+
 namespace TestForm;
 
 /// <summary>
@@ -31,7 +33,7 @@ public partial class JumpListTest : KryptonForm
         JumpList.AppId = "KryptonToolkit.JumpListTest";
 
         // Use WPF JumpList bridge (more reliable than native COM on WinForms)
-        Krypton.Toolkit.JumpList.WpfJumpListBridge.Sync(JumpList);
+        WpfJumpListBridge.Sync(JumpList);
 
         // Setup examples
         SetupBasicExamples();
@@ -51,7 +53,7 @@ public partial class JumpListTest : KryptonForm
         btnSetAppId.Click += (s, e) =>
         {
             JumpList.AppId = "KryptonToolkit.JumpListTest";
-            Krypton.Toolkit.JumpList.WpfJumpListBridge.Sync(JumpList);
+            WpfJumpListBridge.Sync(JumpList);
             UpdateStatus("Application ID set: " + JumpList.AppId);
         };
 
@@ -61,7 +63,7 @@ public partial class JumpListTest : KryptonForm
         btnClearJumpList.Click += (s, e) =>
         {
             JumpList.Reset();
-            Krypton.Toolkit.JumpList.WpfJumpListBridge.Sync(JumpList);
+            WpfJumpListBridge.Sync(JumpList);
             UpdateStatus("Jump list cleared");
         };
     }
@@ -80,7 +82,7 @@ public partial class JumpListTest : KryptonForm
         btnClearUserTasks.Click += (s, e) =>
         {
             JumpList.UserTasks.Clear();
-            Krypton.Toolkit.JumpList.WpfJumpListBridge.Sync(JumpList);
+            WpfJumpListBridge.Sync(JumpList);
             UpdateStatus("User tasks cleared");
         };
     }
@@ -99,7 +101,7 @@ public partial class JumpListTest : KryptonForm
         btnClearCategories.Click += (s, e) =>
         {
             JumpList.ClearCategories();
-            Krypton.Toolkit.JumpList.WpfJumpListBridge.Sync(JumpList);
+            WpfJumpListBridge.Sync(JumpList);
             UpdateStatus("Categories cleared");
         };
     }
@@ -112,7 +114,7 @@ public partial class JumpListTest : KryptonForm
         btnShowFrequent.Click += (s, e) =>
         {
             JumpList.ShowFrequentCategory = !JumpList.ShowFrequentCategory;
-            Krypton.Toolkit.JumpList.WpfJumpListBridge.Sync(JumpList);
+            WpfJumpListBridge.Sync(JumpList);
             UpdateStatus($"Frequent category: {(JumpList.ShowFrequentCategory ? "Enabled" : "Disabled")}");
         };
 
@@ -120,7 +122,7 @@ public partial class JumpListTest : KryptonForm
         btnShowRecent.Click += (s, e) =>
         {
             JumpList.ShowRecentCategory = !JumpList.ShowRecentCategory;
-            Krypton.Toolkit.JumpList.WpfJumpListBridge.Sync(JumpList);
+            WpfJumpListBridge.Sync(JumpList);
             UpdateStatus($"Recent category: {(JumpList.ShowRecentCategory ? "Enabled" : "Disabled")}");
         };
     }
@@ -138,7 +140,7 @@ public partial class JumpListTest : KryptonForm
         };
 
         JumpList.UserTasks.Add(task);
-            Krypton.Toolkit.JumpList.WpfJumpListBridge.Sync(JumpList);
+            WpfJumpListBridge.Sync(JumpList);
         UpdateStatus($"Added user task: {task.Title}");
     }
 
@@ -186,7 +188,7 @@ public partial class JumpListTest : KryptonForm
             Description = "Open Windows Notepad"
         });
 
-            Krypton.Toolkit.JumpList.WpfJumpListBridge.Sync(JumpList);
+            WpfJumpListBridge.Sync(JumpList);
         UpdateStatus($"Added {JumpList.UserTasks.Count} user tasks");
     }
 
@@ -225,7 +227,7 @@ public partial class JumpListTest : KryptonForm
         });
 
         JumpList.AddCategory("Recent Files", recentFiles);
-            Krypton.Toolkit.JumpList.WpfJumpListBridge.Sync(JumpList);
+            WpfJumpListBridge.Sync(JumpList);
         UpdateStatus($"Added Recent Files category with {recentFiles.Count} items");
     }
 
@@ -267,7 +269,7 @@ public partial class JumpListTest : KryptonForm
         });
 
         JumpList.AddCategory("Templates", templates);
-            Krypton.Toolkit.JumpList.WpfJumpListBridge.Sync(JumpList);
+            WpfJumpListBridge.Sync(JumpList);
         UpdateStatus($"Added Templates category with {templates.Count} items");
     }
 
