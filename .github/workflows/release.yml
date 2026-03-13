@@ -90,7 +90,7 @@ jobs:
       - name: Setup NuGet
         # Kill switch check
         if: steps.release_kill_switch.outputs.enabled == 'true'
-        uses: NuGet/setup-nuget@v2.0.1
+        uses: NuGet/setup-nuget@v2.0.2
 
       - name: Cache NuGet
         # Kill switch check
@@ -354,7 +354,7 @@ jobs:
       - name: Setup NuGet
         # Kill switch check
         if: steps.release_kill_switch.outputs.enabled == 'true'
-        uses: NuGet/setup-nuget@v2.0.1
+        uses: NuGet/setup-nuget@v2.0.2
 
       - name: Cache NuGet
         # Kill switch check
@@ -603,7 +603,7 @@ jobs:
       - name: Setup NuGet
         # Kill switch check
         if: steps.lts_release_kill_switch.outputs.enabled == 'true'
-        uses: NuGet/setup-nuget@v2.0.1
+        uses: NuGet/setup-nuget@v2.0.2
 
       - name: Cache NuGet
         # Kill switch check
@@ -880,7 +880,7 @@ jobs:
       - name: Setup NuGet
         # Kill switch check
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
-        uses: NuGet/setup-nuget@v2.0.1
+        uses: NuGet/setup-nuget@v2.0.2
 
       - name: Cache NuGet
         # Kill switch check
@@ -1144,7 +1144,7 @@ jobs:
       - name: Setup NuGet
         # Kill switch check
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
-        uses: NuGet/setup-nuget@v2.0.1
+        uses: NuGet/setup-nuget@v2.0.2
 
       - name: Cache NuGet
         # Kill switch check
