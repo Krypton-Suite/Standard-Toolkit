@@ -111,12 +111,12 @@ public class KryptonDataGridViewRatingCell : KryptonDataGridViewTextBoxCell
             x = cellBounds.X;
             // Add three to cater for cell borders
             y = cellBounds.Top + 3;
-            // LTR aligns left, the rectangle for the image starts there
+            // LTR alignes left, the rectangle for the image starts there
             rectX = 0;
         }
         else
         {
-            // Determines on RTL whether "cellBounds.X + cellBounds.Width - image.Width"
+            // Determines on RTL wether "cellBounds.X + cellBounds.Width - image.Width"
             // amounts to a value which is farther to the left than cellBounds.X.
             // The max is the value that will serve as x when positioning the image on the cell.
             x = Math.Max(cellBounds.X, cellBounds.X + cellBounds.Width - image.Width);
