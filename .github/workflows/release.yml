@@ -127,14 +127,18 @@ jobs:
           }
           if (-not $latestVersion) { $latestVersion = "1.0.3595.46" }
           Write-Host "Using WebView2 (Latest): $latestVersion"
-          dotnet add $utilProj package $packageId --version $latestVersion
-          dotnet restore $utilProj
+          dotnet add "$utilProj" package $packageId --version $latestVersion
+          dotnet restore "$utilProj"
           $nugetBase = Join-Path $env:USERPROFILE ".nuget\packages\microsoft.web.webview2\$latestVersion"
           @("Microsoft.Web.WebView2.Core.dll","Microsoft.Web.WebView2.WinForms.dll","WebView2Loader.dll") | ForEach-Object {
             $f = Get-ChildItem -Path $nugetBase -Recurse -Name $_ -ErrorAction SilentlyContinue | Select-Object -First 1
             if ($f) { Copy-Item (Join-Path $nugetBase $f) $libDir -Force; Write-Host "Copied $_" }
           }
-          dotnet remove package $packageId --project $utilProj
+          [xml]$proj = Get-Content $utilProj
+          $nodes = $proj.SelectNodes("//PackageReference[@Include='$packageId']")
+          foreach ($node in $nodes) { $node.ParentNode.RemoveChild($node) | Out-Null }
+          $proj.Save($utilProj)
+          Write-Host "Removed temporary WebView2 PackageReference entries"
 
       - name: Restore
         # Kill switch check
@@ -387,14 +391,18 @@ jobs:
           }
           if (-not $latestVersion) { $latestVersion = "1.0.3595.46" }
           Write-Host "Using WebView2 (Latest): $latestVersion"
-          dotnet add $utilProj package $packageId --version $latestVersion
-          dotnet restore $utilProj
+          dotnet add "$utilProj" package $packageId --version $latestVersion
+          dotnet restore "$utilProj"
           $nugetBase = Join-Path $env:USERPROFILE ".nuget\packages\microsoft.web.webview2\$latestVersion"
           @("Microsoft.Web.WebView2.Core.dll","Microsoft.Web.WebView2.WinForms.dll","WebView2Loader.dll") | ForEach-Object {
             $f = Get-ChildItem -Path $nugetBase -Recurse -Name $_ -ErrorAction SilentlyContinue | Select-Object -First 1
             if ($f) { Copy-Item (Join-Path $nugetBase $f) $libDir -Force; Write-Host "Copied $_" }
           }
-          dotnet remove package $packageId --project $utilProj
+          [xml]$proj = Get-Content $utilProj
+          $nodes = $proj.SelectNodes("//PackageReference[@Include='$packageId']")
+          foreach ($node in $nodes) { $node.ParentNode.RemoveChild($node) | Out-Null }
+          $proj.Save($utilProj)
+          Write-Host "Removed temporary WebView2 PackageReference entries"
 
       - name: Restore
         # Kill switch check
@@ -910,14 +918,18 @@ jobs:
           }
           if (-not $latestVersion) { $latestVersion = "1.0.3595.46" }
           Write-Host "Using WebView2 (Preview): $latestVersion"
-          dotnet add $utilProj package $packageId --version $latestVersion
-          dotnet restore $utilProj
+          dotnet add "$utilProj" package $packageId --version $latestVersion
+          dotnet restore "$utilProj"
           $nugetBase = Join-Path $env:USERPROFILE ".nuget\packages\microsoft.web.webview2\$latestVersion"
           @("Microsoft.Web.WebView2.Core.dll","Microsoft.Web.WebView2.WinForms.dll","WebView2Loader.dll") | ForEach-Object {
             $f = Get-ChildItem -Path $nugetBase -Recurse -Name $_ -ErrorAction SilentlyContinue | Select-Object -First 1
             if ($f) { Copy-Item (Join-Path $nugetBase $f) $libDir -Force; Write-Host "Copied $_" }
           }
-          dotnet remove package $packageId --project $utilProj
+          [xml]$proj = Get-Content $utilProj
+          $nodes = $proj.SelectNodes("//PackageReference[@Include='$packageId']")
+          foreach ($node in $nodes) { $node.ParentNode.RemoveChild($node) | Out-Null }
+          $proj.Save($utilProj)
+          Write-Host "Removed temporary WebView2 PackageReference entries"
 
       - name: Restore
         # Kill switch check

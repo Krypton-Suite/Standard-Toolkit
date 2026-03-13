@@ -114,8 +114,9 @@ jobs:
           }
           if (-not $latestVersion) { $latestVersion = "1.0.3595.46" }
           Write-Host "Using WebView2 SDK version: $latestVersion"
-          dotnet add "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj" package Microsoft.Web.WebView2 --version $latestVersion
-          dotnet restore "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj"
+          $utilProj = Join-Path $env:GITHUB_WORKSPACE "Source\Krypton Components\Krypton.Utilities\Krypton.Utilities.csproj"
+          dotnet add "$utilProj" package Microsoft.Web.WebView2 --version $latestVersion
+          dotnet restore "$utilProj"
           $nugetBasePath = "$env:USERPROFILE\.nuget\packages\microsoft.web.webview2\$latestVersion"
           $coreDll = Get-ChildItem -Path $nugetBasePath -Recurse -Name "Microsoft.Web.WebView2.Core.dll" | Select-Object -First 1
           Copy-Item (Join-Path $nugetBasePath $coreDll) "WebView2SDK\"
@@ -123,7 +124,11 @@ jobs:
           Copy-Item (Join-Path $nugetBasePath $winFormsDll) "WebView2SDK\"
           $loaderDll = Get-ChildItem -Path $nugetBasePath -Recurse -Name "WebView2Loader.dll" | Select-Object -First 1
           Copy-Item (Join-Path $nugetBasePath $loaderDll) "WebView2SDK\"
-          dotnet remove "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj" package Microsoft.Web.WebView2
+          [xml]$proj = Get-Content $utilProj
+          $nodes = $proj.SelectNodes("//PackageReference[@Include='$packageId']")
+          foreach ($node in $nodes) { $node.ParentNode.RemoveChild($node) | Out-Null }
+          $proj.Save($utilProj)
+          Write-Host "Removed temporary WebView2 PackageReference entries"
 
       - name: Restore
         if: steps.canary_lts_kill_switch.outputs.enabled == 'true'
