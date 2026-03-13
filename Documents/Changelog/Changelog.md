@@ -43,6 +43,10 @@
 =======
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
+
+* Implemented [#3177](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3177), **[Breaking Change]** Move `KryptonAboutBox` to `Krypton.Utilities`
+  * **Note:**: The `KryptonAboutBox` class has been moved from the `Krypton.Toolkit` namespace to the `Krypton.Utilities` namespace. Please update your using directives accordingly.
+  * You can find the `KryptonAboutBox` class in the `Krypton.Utilities` assembly, which is part of the `Krypton.Standard.Toolkit` NuGet package.
 * Resolved [#3201](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3201), Resolves potential memory leaks in `KryptonDataGridViewRatingColumn`
 * Resolved [#3203](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3203), Ribbon: QATLocation=Hidden does not hide QAT when FormBorderStyle=None
 * Resolved [#3072](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3072), Some samples do not work
