@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, tobitege & Ahmed Abdelhameed et al. 2025 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, tobitege & Ahmed Abdelhameed et al. 2025 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -50,41 +50,30 @@ public class KryptonDataGridViewRatingCell : KryptonDataGridViewTextBoxCell
         object? formattedValue, string? errorText, DataGridViewCellStyle cellStyle, DataGridViewAdvancedBorderStyle advancedBorderStyle, DataGridViewPaintParts paintParts)
     {
         // If value is zero no rating image will be displayed
-        var currentValue = value is not null 
-            ? value.ToString() 
-            : "0";
+        var currentValue = value?.ToString() ?? "0";
 
         // We never show the numbers
         value = null;
         formattedValue = null;
-        
+
+        // First the cell is painted
+        base.Paint(graphics, clipBounds, cellBounds, rowIndex, cellState, value, formattedValue, errorText, cellStyle, advancedBorderStyle, paintParts);
+
         if (DataGridView is not null
             && !DataGridView.Rows[rowIndex].IsNewRow
             && DataGridView?.Rows.SharedRow(rowIndex).Index != -1
             && OwningKryptonColumn?.RatingImageCount > 0
             && byte.TryParse(currentValue, out byte cellValue)
-            && cellValue > 0)
+            && cellValue > 0
+            && OwningKryptonColumn.GetRatingImage(cellValue) is Image image)
         {
-            // First the cell is painted
-            base.Paint(graphics, clipBounds, cellBounds, rowIndex, cellState, value, formattedValue, errorText, cellStyle, advancedBorderStyle, paintParts);
+            int x;
+            int y;
+            int rectX;
+            int width;
 
-            // Get the rating image, if the cellValue is smaller than 1 it will return null
-            Image? image = OwningKryptonColumn.GetImage(cellValue);
-
-            if (image is not null)
-            {
-                int x;
-                int y;
-                int rectX;
-                int width;
-
-                PaintGetImagePosition(out x, out y, out width, out rectX, in image, in cellBounds);
-                graphics.DrawImage(image, x, y, new Rectangle(rectX, 0, width, image.Height), GraphicsUnit.Pixel);
-            }
-        }
-        else
-        {
-            base.Paint(graphics, clipBounds, cellBounds, rowIndex, cellState, value, formattedValue, errorText, cellStyle, advancedBorderStyle, paintParts);
+            PaintGetImagePosition(out x, out y, out width, out rectX, in image, in cellBounds);
+            graphics.DrawImage(image, x, y, new Rectangle(rectX, 0, width, image.Height), GraphicsUnit.Pixel);
         }
     }
     #endregion
@@ -98,7 +87,6 @@ public class KryptonDataGridViewRatingCell : KryptonDataGridViewTextBoxCell
 
     #region Private
     // Determines the factors to position the image in the cell.
-    // Used internally only
     private void PaintGetImagePosition(out int x, out int y, out int width, out int rectX, in Image image, in Rectangle cellBounds)
     {
         // If the image width is smaller than cellbounds.width, 
@@ -111,12 +99,12 @@ public class KryptonDataGridViewRatingCell : KryptonDataGridViewTextBoxCell
             x = cellBounds.X;
             // Add three to cater for cell borders
             y = cellBounds.Top + 3;
-            // LTR alignes left, the rectangle for the image starts there
+            // LTR aligns left, the rectangle for the image starts there
             rectX = 0;
         }
         else
         {
-            // Determines on RTL wether "cellBounds.X + cellBounds.Width - image.Width"
+            // Determines on RTL whether "cellBounds.X + cellBounds.Width - image.Width"
             // amounts to a value which is farther to the left than cellBounds.X.
             // The max is the value that will serve as x when positioning the image on the cell.
             x = Math.Max(cellBounds.X, cellBounds.X + cellBounds.Width - image.Width);
