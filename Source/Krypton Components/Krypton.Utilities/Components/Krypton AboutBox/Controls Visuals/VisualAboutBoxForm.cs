@@ -7,7 +7,9 @@
  */
 #endregion
 
-namespace Krypton.Toolkit;
+using Krypton.Utilities.Properties;
+
+namespace Krypton.Utilities;
 
 internal partial class VisualAboutBoxForm : KryptonForm
 {
@@ -64,12 +66,12 @@ internal partial class VisualAboutBoxForm : KryptonForm
     private void Startup(KryptonAboutBoxData aboutBoxData)
     {
         khgMain.ValuesPrimary.Image =
-            aboutBoxData.HeaderImage ?? GenericImageResources.InformationSmall;
+            aboutBoxData.HeaderImage ?? Resources.InformationSmall;
 
         khgMain.ValuesPrimary.Heading =
             $@"{KryptonManager.Strings.AboutBoxStrings.About} {aboutBoxData.ApplicationName}";
 
-        pbxImage.Image = aboutBoxData.MainImage ?? GenericImageResources.InformationMedium;
+        pbxImage.Image = aboutBoxData.MainImage ?? Resources.InformationMedium;
 
         kwlCurrentTheme.Text = $@"{KryptonManager.Strings.CustomStrings.CurrentTheme}:";
 
@@ -292,12 +294,12 @@ internal partial class VisualAboutBoxForm : KryptonForm
         #region Basic Details
 
         khgMain.ValuesPrimary.Image =
-            aboutBoxData.HeaderImage ?? GenericImageResources.InformationSmall;
+            aboutBoxData.HeaderImage ?? Resources.InformationSmall;
 
         khgMain.ValuesPrimary.Heading =
             $@"{KryptonManager.Strings.AboutBoxStrings.About} {aboutBoxData.ApplicationName}";
 
-        pbxImage.Image = aboutBoxData.MainImage ?? GenericImageResources.InformationMedium;
+        pbxImage.Image = aboutBoxData.MainImage ?? Resources.InformationMedium;
 
         kwlCurrentTheme.Text = $@"{KryptonManager.Strings.CustomStrings.CurrentTheme}:";
 
@@ -436,23 +438,14 @@ internal partial class VisualAboutBoxForm : KryptonForm
 
     private void SwitchIcon(ToolkitSupportType value)
     {
-        switch (value)
+        pbxLogo.Image = value switch
         {
-            case ToolkitSupportType.Canary:
-                pbxLogo.Image = ToolkitLogoImageResources.Krypton_Canary;
-                break;
-            case ToolkitSupportType.Nightly:
-                pbxLogo.Image = ToolkitLogoImageResources.Krypton_Nightly;
-                break;
-            case ToolkitSupportType.Stable:
-                pbxLogo.Image = ToolkitLogoImageResources.Krypton_Stable;
-                break;
-            case ToolkitSupportType.LongTermSupport:
-                //pbxLogo.Image = ToolkitLogoImageResources.Krypton_LTS;
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(value), value, null);
-        }
+            ToolkitSupportType.Canary => Resources.Krypton_Canary,
+            ToolkitSupportType.Nightly => Resources.Krypton_Nightly,
+            ToolkitSupportType.Stable => Resources.Krypton_Stable,
+            ToolkitSupportType.LongTermSupport => Resources.Krypton_LTS,
+            _ => throw new ArgumentOutOfRangeException(nameof(value), value, null),
+        };
     }
 
     private void UpdateBuiltOnText(string value) => klblBuiltOn.Text = value;

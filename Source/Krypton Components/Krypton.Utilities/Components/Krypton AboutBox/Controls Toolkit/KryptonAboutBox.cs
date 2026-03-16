@@ -7,7 +7,7 @@
  */
 #endregion
 
-namespace Krypton.Toolkit;
+namespace Krypton.Utilities;
 
 /// <summary>The public interface to the <see cref="VisualAboutBoxForm"/> class.</summary>
 [ToolboxItem(false)]

@@ -7,7 +7,7 @@
  */
 #endregion
 
-namespace Krypton.Toolkit;
+namespace Krypton.Utilities;
 
 /// <summary>Contains the toolkit information used for creating a new <see cref="VisualAboutBoxForm"/>.</summary>
 public struct KryptonAboutToolkitData
