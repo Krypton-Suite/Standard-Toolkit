@@ -131,18 +131,22 @@ Follow the links to see the different objects and layouts that this framework al
 
 There are list of changes that have occurred during the development of the V110.00 version
 
+* Implemented [#3177](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3177), **[Breaking Change]** Move `KryptonAboutBox` to `Krypton.Utilities`
+  * **Note:**: The `KryptonAboutBox` class has been moved from the `Krypton.Toolkit` namespace to the `Krypton.Utilities` namespace. Please update your using directives accordingly.
+  * You can find the `KryptonAboutBox` class in the `Krypton.Utilities` assembly, which is part of the `Krypton.Standard.Toolkit` NuGet package.
+
 * Implemented [#2858](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2858), **[Breaking Change]:** Move `KryptonCommandLink` buttons to `Krypton.Utilities`
   * **Note:**: The `KryptonCommandLinkButton` class has been moved from the `Krypton.Toolkit` namespace to the `Krypton.Utilities` namespace. Please update your using directives accordingly.
- It is now located in the `Krypton.Utilities` assembly, which is part of the `Krypton.Standard.Toolkit` NuGet package.
+  * It is now located in the `Krypton.Utilities` assembly, which is part of the `Krypton.Standard.Toolkit` NuGet package.
 
 * Implemented [#2808](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2808), Move `KryptonToastNotification` feature to `Krypton.Utilities`
   * **Note:**: The `KryptonToastNotification` class has been moved from the `Krypton.Toolkit` namespace to the `Krypton.Utilities` namespace. Please update your using directives accordingly.
- It is now located in the `Krypton.Utilities` assembly, which is part of the `Krypton.Standard.Toolkit` NuGet package.
+  * It is now located in the `Krypton.Utilities` assembly, which is part of the `Krypton.Standard.Toolkit` NuGet package.
   * The `KryptonToastNotification` public API has also been renamed to `KryptonToast` to better reflect its purpose. It is recommended to update any references to the old class name in your codebase to ensure compatibility with the new version.
 
 * Implemented [#2762](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2762), Move the public facing version of `KryptonExceptionDialog` to `Krypton.Utilities`
   * **Note:**: The `KryptonExceptionDialog` class has been moved from the `Krypton.Toolkit` namespace to the `Krypton.Utilities` namespace. Please update your using directives accordingly.
- It is now located in the `Krypton.Utilities` assembly, which is part of the `Krypton.Standard.Toolkit` NuGet package.
+  * It is now located in the `Krypton.Utilities` assembly, which is part of the `Krypton.Standard.Toolkit` NuGet package.
 
 ## V100.00 (2025-11-24 - Build 2511 - November 2025)
 

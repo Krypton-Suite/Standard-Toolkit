@@ -7,7 +7,7 @@
  */
 #endregion
 
-namespace Krypton.Toolkit;
+namespace Krypton.Utilities;
 
 internal partial class InternalAssemblyDetails : UserControl
 {

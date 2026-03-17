@@ -7,7 +7,7 @@
  */
 #endregion
 
-namespace Krypton.Toolkit;
+namespace Krypton.Utilities;
 
 /// <summary>A structure that contains basic information for <see cref="VisualAboutBoxForm"/>.</summary>
 public struct KryptonAboutBoxData
