@@ -149,7 +149,8 @@ namespace TestForm
 
         private void kryptonButton7_Click(object sender, EventArgs e)
         {
-            kryptonCustomPaletteBase1.Export();
+			kryptonCustomPaletteBase1.PopulateFromBase(true);
+			kryptonCustomPaletteBase1.Export();
         }
 
         private void kryptonButton8_Click(object sender, EventArgs e)
@@ -315,5 +316,12 @@ namespace TestForm
             KryptonMessageBox.Show("question?", "title", KryptonMessageBoxButtons.YesNo,
                 KryptonMessageBoxIcon.Warning, KryptonMessageBoxDefaultButton.Button2);
         }
-    }
+
+		private void kryptonButton10_Click(object sender, EventArgs e)
+		{
+            kryptonCustomPaletteBase1.UseKryptonFileDialogs = true;
+            kryptonCustomPaletteBase1.PopulateFromBase(true);
+			kryptonCustomPaletteBase1.ExportDefaults(ignoreDefaults:false, silent:true);
+		}
+	}
 }
