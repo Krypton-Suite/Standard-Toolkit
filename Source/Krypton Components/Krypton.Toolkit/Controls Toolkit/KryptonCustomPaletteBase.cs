@@ -3595,12 +3595,26 @@ public class KryptonCustomPaletteBase : PaletteBase
                             }
                             else
                             {
-                                // We need the type converter to create a string representation
-                                var converter = TypeDescriptor.GetConverter(prop.PropertyType);
+								// We need the type converter to create a string representation
+								var cultureInfo = new CultureInfo("en-US");
 
-                                // Save to an invariant string so that load is not affected by culture
-                                childElement.SetAttribute(@"Value", converter.ConvertToInvariantString(childObj!));
-                            }
+								// We need the type converter to create a string representation
+								var converter = TypeDescriptor.GetConverter(prop.PropertyType);
+
+								// Fix [3164]: "Font property values are not serialized correctly in the exported XML file."
+								// Force serialization using the en-US culture to prevent localization issues.
+								string? stringValue = string.Empty;
+
+								if (null != childObj)
+								{
+									stringValue = converter.ConvertTo(context: null,
+																			culture: cultureInfo,
+																			value: childObj!,
+																			destinationType: typeof(string)) as string;
+								}
+
+								childElement.SetAttribute(@"Value", stringValue ?? string.Empty);
+							}
                         }
                     }
                 }
