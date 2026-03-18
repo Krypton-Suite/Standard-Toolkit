@@ -3,6 +3,9 @@
 
 name: Release
 
+permissions:
+  contents: read
+
 on:
   push:
     branches:
