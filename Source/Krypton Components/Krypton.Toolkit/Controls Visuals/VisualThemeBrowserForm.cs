@@ -10,80 +10,94 @@ namespace Krypton.Toolkit;
 
 internal partial class VisualThemeBrowserForm : KryptonForm
 {
-    #region Instance Fields
+	#region Instance Fields
 
-    private readonly KryptonThemeBrowserData _themeBrowserData;
+	private readonly KryptonThemeBrowserData _themeBrowserData;
 
-    #endregion
+	#endregion
 
-    #region Identity
+	#region Identity
 
-    /// <summary>Initializes a new instance of the <see cref="VisualThemeBrowserForm" /> class.</summary>
-    /// <param name="themeBrowserData">The data to provide to the <see cref="VisualThemeBrowserForm"/>.</param>
-    public VisualThemeBrowserForm(KryptonThemeBrowserData themeBrowserData)
-    {
-        //SetInheritedControlOverride(); // Disabled as part of issue #2296. See the issue for details.
-        InitializeComponent();
+	/// <summary>Initializes a new instance of the <see cref="VisualThemeBrowserForm" /> class.</summary>
+	/// <param name="themeBrowserData">The data to provide to the <see cref="VisualThemeBrowserForm"/>.</param>
+	public VisualThemeBrowserForm(KryptonThemeBrowserData themeBrowserData)
+	{
+		//SetInheritedControlOverride(); // Disabled as part of issue #2296. See the issue for details.
+		InitializeComponent();
 
-        _themeBrowserData = themeBrowserData;
+		_themeBrowserData = themeBrowserData;
 
-        AdjustUI();
-    }
+		AdjustUI();
+	}
 
-    #endregion
+	#endregion
 
-    #region Implementation
+	#region Implementation
 
-    private void AdjustUI()
-    {
-        Text = _themeBrowserData.WindowTitle;
+	private void AdjustUI()
+	{
+		Text = _themeBrowserData.WindowTitle;
 
-        kbtnImport.Visible = _themeBrowserData.ShowImportButton ?? false;
+		kbtnImport.Visible = _themeBrowserData.ShowImportButton ?? false;
 
-        kchkSilent.Visible = _themeBrowserData.ShowSilentOption ?? false;
+		kchkSilent.Visible = _themeBrowserData.ShowSilentOption ?? false;
 
-        StartPosition = _themeBrowserData.StartPosition ?? FormStartPosition.CenterScreen;
+		StartPosition = _themeBrowserData.StartPosition ?? FormStartPosition.CenterScreen;
 
-        //klbThemeList.SelectedIndex = _startIndex;
+		//klbThemeList.SelectedIndex = _startIndex;
 
-        klblDescription.Text = KryptonManager.Strings.MiscellaneousThemeStrings.ThemeBrowserDescription;
+		klblDescription.Text = KryptonManager.Strings.MiscellaneousThemeStrings.ThemeBrowserDescription;
 
-        kbtnImport.Text = KryptonManager.Strings.MiscellaneousThemeStrings.Import;
+		kbtnImport.Text = KryptonManager.Strings.MiscellaneousThemeStrings.Import;
 
-        kchkSilent.Text = KryptonManager.Strings.MiscellaneousThemeStrings.Silent;
+		kchkSilent.Text = KryptonManager.Strings.MiscellaneousThemeStrings.Silent;
 
-        kbtnCancel.Text = KryptonManager.Strings.GeneralStrings.Cancel;
+		kbtnCancel.Text = KryptonManager.Strings.GeneralStrings.Cancel;
 
-        kbtnOK.Text = KryptonManager.Strings.GeneralStrings.OK;
-    }
+		kbtnOK.Text = KryptonManager.Strings.GeneralStrings.OK;
+	}
 
-    private void kbtnImport_Click(object sender, EventArgs e) => kcpbCustom.Import(kchkSilent.Checked);
+	private void kbtnImport_Click(object sender, EventArgs e) => kcpbCustom.Import(kchkSilent.Checked);
 
-    private void KryptonThemeBrowserForm_Load(object sender, EventArgs e)
-    {
-        foreach (var themeName in ThemeManager.SupportedInternalThemeNames)
-        {
-            if (themeName != null)
-            {
-                klbThemeList.Items.Add(themeName);
-            }
-        }
+	private void KryptonThemeBrowserForm_Load(object sender, EventArgs e)
+	{
+		foreach (var themeName in ThemeManager.SupportedInternalThemeNames)
+		{
+			if (themeName != null)
+			{
+				klbThemeList.Items.Add(themeName);
+			}
+		}
 
-        klbThemeList.SelectedItem = _themeBrowserData.StartIndex;
-    }
+		klbThemeList.SelectedItem = _themeBrowserData.StartIndex;
+	}
 
-    private void kbtnOK_Click(object sender, EventArgs e) => DialogResult = DialogResult.OK;
+	private void kbtnOK_Click(object sender, EventArgs e) => DialogResult = DialogResult.OK;
 
-    private void kbtnCancel_Click(object sender, EventArgs e) => DialogResult = DialogResult.Cancel;
+	private void kbtnCancel_Click(object sender, EventArgs e) => DialogResult = DialogResult.Cancel;
 
-    private void klbThemeList_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        ThemeManager.ApplyTheme(klbThemeList.GetItemText(klbThemeList.SelectedItem)!, new KryptonManager());
+	private void klbThemeList_SelectedIndexChanged(object sender, EventArgs e)
+	{
+		ThemeManager.ApplyTheme(klbThemeList.GetItemText(klbThemeList.SelectedItem)!, new KryptonManager());
 
-        SetIndexText($@"{klbThemeList.GetItemText(klbThemeList.SelectedItem)} - Index: {klbThemeList.SelectedIndex}");
-    }
+		SetIndexText($@"{klbThemeList.GetItemText(klbThemeList.SelectedItem)} - Index: {klbThemeList.SelectedIndex}");
+	}
 
-    private void SetIndexText(string v) => klblSelectedIndex.Text = v;
+	private void SetIndexText(string v) => klblSelectedIndex.Text = v;
 
-    #endregion
+	#endregion
+
+	private void kbtnExport_Click(object sender, EventArgs e)
+	{
+		this.saveFileDialog1.OverwritePrompt = true;
+		this.saveFileDialog1.DefaultExt = "xml";
+		this.saveFileDialog1.Filter = "Palette files (*.xml)|*.xml|All files (*.*)|(*.*)";
+		this.saveFileDialog1.Title = "Save Palette As";
+		this.saveFileDialog1.FileName = $"{klbThemeList.GetItemText(klbThemeList.SelectedItem)}.xml";
+		if (this.saveFileDialog1.ShowDialog() == DialogResult.OK)
+		{
+			this.kcpbCustom.PopulateFromBase(true);
+			this.kcpbCustom.Export(this.saveFileDialog1.FileName, false);
+		}
+	}
 }
