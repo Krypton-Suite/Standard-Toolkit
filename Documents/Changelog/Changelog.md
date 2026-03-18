@@ -46,6 +46,7 @@
 
 ## 2026-04-20 - Build 2604 (Version 105-LTS - Patch 2) - April 2026
 
+* Resolved [#3013](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3013), Maximized form's size exceeds the screen's working area
 * Implemented [#3173](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3173), Use pattern matching
 * Resolved [#3201](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3201), Resolves potential memory leaks in `KryptonDataGridViewRatingColumn`
 * Resolved [#3163](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3163), Form Icon Misplaced in Contextual Tabs
