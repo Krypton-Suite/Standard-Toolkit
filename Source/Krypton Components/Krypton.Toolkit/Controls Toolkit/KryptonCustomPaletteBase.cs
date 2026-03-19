@@ -3609,11 +3609,18 @@ public class KryptonCustomPaletteBase : PaletteBase
                             }
                             else
                             {
+                                var cultureInfo = new CultureInfo("en-US");
+			                    
                                 // We need the type converter to create a string representation
-                                var converter = TypeDescriptor.GetConverter(prop.PropertyType);
+								var converter = TypeDescriptor.GetConverter(prop.PropertyType);
 
-                                // Save to an invariant string so that load is not affected by culture
-                                childElement.SetAttribute(@"Value", converter.ConvertToInvariantString(childObj!));
+								// Fix [3164]: "Font property values are not serialized correctly in the exported XML file."
+								// Force serialization using the en-US culture to prevent localization issues.
+								childElement.SetAttribute(@"Value", (string)converter.ConvertTo(
+                                                                        context: null,
+                                                                        culture: cultureInfo,
+                                                                        value: childObj!,
+                                                                        destinationType: typeof(string)));
                             }
                         }
                     }
