@@ -7,6 +7,9 @@
 
 name: Canary LTS Release
 
+permissions:
+  contents: read
+
 on:
   push:
     branches:
