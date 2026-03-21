@@ -7,6 +7,9 @@
 
 name: Nightly Release
 
+permissions:
+  contents: read
+
 on:
   schedule:
     # Run nightly build automatically at midnight UTC every day
