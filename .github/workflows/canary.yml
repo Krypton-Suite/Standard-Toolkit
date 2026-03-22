@@ -16,6 +16,9 @@ on:
       - Canary
   workflow_dispatch:  # Allow manual triggering
 
+permissions:
+  contents: read
+
 jobs:
   canary:
     runs-on: windows-2025-vs2026

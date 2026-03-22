@@ -3,6 +3,9 @@
 
 name: Build
 
+permissions:
+  contents: read
+
 on:
   pull_request:
     branches: ['**']
@@ -17,6 +20,9 @@ on:
       - V85-LTS
     paths-ignore: ['.git*', '.vscode']
   workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   build:
