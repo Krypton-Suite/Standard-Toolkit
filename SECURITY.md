@@ -2,20 +2,12 @@
 
 ## Supported Versions
 
-Use this section to tell people about which versions of your project are
-currently being supported with security updates.
-
 | Version | Supported          |
 | ------- | ------------------ |
-| 5.1.x   | :white_check_mark: |
-| 5.0.x   | :x:                |
-| 4.0.x   | :white_check_mark: |
-| < 4.0   | :x:                |
+| 85.x   | :white_check_mark: |
+| 10x.x   | :white_check_mark: |
+| 11x.x   | :white_check_mark: |
 
 ## Reporting a Vulnerability
 
-Use this section to tell people how to report a vulnerability.
-
-Tell them where to go, how often they can expect to get an update on a
-reported vulnerability, what to expect if the vulnerability is accepted or
-declined, etc.
+To report a bug, please submit a new bug report via the issue tracker. In doing so, the status of the issue can be easily tracked. When filing a new bug report, please try to be as descriptive as possible as this will aid us with quicker fixes. Please also try searching bug reports first before filing a new one to avoid duplication.
