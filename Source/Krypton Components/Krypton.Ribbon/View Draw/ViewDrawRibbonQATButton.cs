@@ -65,11 +65,15 @@ internal class ViewDrawRibbonQATButton : ViewComposite,
 
 
         // Use a class to convert from ribbon tab to content interface
-        _contentProvider = new QATButtonToContent(qatButton!);
+        _contentProvider = new QATButtonToContent(qatButton!, ribbon);
 
         // Create and add the draw content for display inside the button
         _drawContent = new ViewDrawContent(_contentProvider, this, VisualOrientation.Top);
+        
         Add(_drawContent);
+
+        // Clear cached image when button properties change
+        qatButton!.PropertyChanged += OnQATButtonPropertyChanged;
 
         // Need to notice when the ribbon enable state changes
         _ribbon.EnabledChanged += OnRibbonEnableChanged;
@@ -94,6 +98,8 @@ internal class ViewDrawRibbonQATButton : ViewComposite,
     {
         if (disposing)
         {
+            QATButton.PropertyChanged -= OnQATButtonPropertyChanged;
+
             if (_mementoBack != null)
             {
                 _mementoBack.Dispose();
@@ -210,6 +216,9 @@ internal class ViewDrawRibbonQATButton : ViewComposite,
     #endregion
 
     #region Implementation
+
+    private void OnQATButtonPropertyChanged(object? sender, PropertyChangedEventArgs e) => _cachedImage = null;
+
     private void OnRibbonEnableChanged(object? sender, EventArgs e) => UpdateEnabled();
 
     private void UpdateEnabled() =>
@@ -245,17 +254,24 @@ internal class ViewDrawRibbonQATButton : ViewComposite,
     {
         if (_cachedImage == null)
         {
-            var sourceImage = QATButton.GetImage();
-            var currentWidth = sourceImage!.Width * FactorDpiX;
-            var currentHeight = sourceImage.Height * FactorDpiY;
-            /*if ((int)currentHeight == sourceImage.Height)
-            {
-                // Need to work around the image drawing off the bottom of the form title bar when scaling @ 100%
-                currentHeight -= 2; // Has to be even to ensure that horizontal lines are still drawn.
-            }
-            */
+            Image? sourceImage;
 
-            _cachedImage = CommonHelper.ScaleImageForSizedDisplay(sourceImage, currentWidth, currentHeight, false);
+            if (QATButton.GetButtonSpecType() != PaletteButtonSpecStyle.Generic)
+            {
+                sourceImage = _ribbon.GetRedirector().GetButtonSpecImage(QATButton.GetButtonSpecType(), state);
+            }
+            else
+            {
+                sourceImage = QATButton.GetImage();
+            }
+
+            if (sourceImage != null)
+            {
+                var currentWidth = sourceImage.Width * FactorDpiX;
+                var currentHeight = sourceImage.Height * FactorDpiY;
+
+                _cachedImage = CommonHelper.ScaleImageForSizedDisplay(sourceImage, currentWidth, currentHeight, false);
+            }
         }
 
         return _cachedImage;
@@ -266,7 +282,10 @@ internal class ViewDrawRibbonQATButton : ViewComposite,
     /// </summary>
     /// <param name="state">Tab state.</param>
     /// <returns>Transparent Color.</returns>
-    public Color GetImageTransparentColor(PaletteState state) => Color.Empty;
+    public Color GetImageTransparentColor(PaletteState state) =>
+        QATButton.GetButtonSpecType() != PaletteButtonSpecStyle.Generic
+            ? _ribbon.GetRedirector().GetButtonSpecImageTransparentColor(QATButton.GetButtonSpecType())
+            : Color.Empty;
 
     /// <summary>
     /// Gets the short text used as the main ribbon title.

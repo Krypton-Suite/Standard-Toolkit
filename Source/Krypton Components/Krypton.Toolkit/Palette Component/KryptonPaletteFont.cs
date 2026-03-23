@@ -43,7 +43,7 @@ public class KryptonPaletteFont : Storage
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public override bool IsDefault => (CommonLongTextFont == new Font("Segoe UI", 9f)) && (CommonShortTextFont == new Font("Segoe UI", 9f));
+    public override bool IsDefault =>  FontsAreDefault(CommonLongTextFont) && FontsAreDefault(CommonShortTextFont);
 
     #endregion
 
@@ -87,6 +87,20 @@ public class KryptonPaletteFont : Storage
     /// Resets the CommonShortTextFont property to its default value.
     /// </summary>
     public void ResetCommonShortTextFont() => CommonShortTextFont = new Font("Segoe UI", 9f);
+
+    #endregion
+
+    #region Implementation
+
+    private bool FontsAreDefault(Font? font)
+    {
+        if (font is null)
+        {
+            return true;
+        }
+
+        return font.Name == @"Segoe UI" && Math.Abs(font.Size - 9f) < 0.001f && font is { Style: FontStyle.Regular, Unit: GraphicsUnit.Point };
+    }
 
     #endregion
 }

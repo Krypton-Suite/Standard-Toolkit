@@ -13,11 +13,11 @@ namespace TestForm;
 
 public partial class PaletteViewerForm : KryptonForm
 {
-    private readonly System.Collections.Generic.List<Krypton.Toolkit.PaletteBase> _palettes = new System.Collections.Generic.List<Krypton.Toolkit.PaletteBase>();
-    private System.Collections.Generic.List<System.Reflection.MethodInfo> _apiCalls;
-    private System.Collections.Generic.Dictionary<System.Reflection.MemberInfo, string>? _methodEnumMapping;
-    private Krypton.Toolkit.SchemeBaseColors[] _enumValues;
-    private System.Drawing.Color[]? _baselineColors;
+    private readonly List<PaletteBase> _palettes = new List<PaletteBase>();
+    private List<System.Reflection.MethodInfo>? _apiCalls;
+    private Dictionary<System.Reflection.MemberInfo, string>? _methodEnumMapping;
+    private SchemeBaseColors[]? _enumValues;
+    private Color[]? _baselineColors;
     private string? _baselinePaletteName;
     private string? _sourcePath;
     private bool _isSourceValid;
@@ -26,31 +26,31 @@ public partial class PaletteViewerForm : KryptonForm
     private bool _bulkUpdating;
     private const int MinColumnWidth = 120;
     private readonly WindowStateStore _winStore;
-    private readonly WindowStateInfo _winInfo;
-    private static readonly IReadOnlyDictionary<string, Krypton.Toolkit.PaletteMode> DisplayToEnum = Krypton.Toolkit.PaletteModeStrings.SupportedThemesMap;
-    private static readonly System.Collections.Generic.Dictionary<Krypton.Toolkit.PaletteMode, string> EnumToDisplay = new System.Collections.Generic.Dictionary<Krypton.Toolkit.PaletteMode, string>(System.Linq.Enumerable.ToDictionary(DisplayToEnum, kv => kv.Value, kv => kv.Key));
-    private readonly System.Collections.Generic.HashSet<System.Type> _processedBases = new System.Collections.Generic.HashSet<System.Type>();
-    private Krypton.Toolkit.KryptonManager _kryptonManager1;
+    private readonly WindowStateInfo? _winInfo;
+    private static readonly IReadOnlyDictionary<string, PaletteMode> DisplayToEnum = PaletteModeStrings.SupportedThemesMap;
+    private static readonly Dictionary<PaletteMode, string> EnumToDisplay = new Dictionary<PaletteMode, string>(Enumerable.ToDictionary(DisplayToEnum, kv => kv.Value, kv => kv.Key));
+    private readonly HashSet<Type> _processedBases = new HashSet<Type>();
+    private KryptonManager? _kryptonManager1;
 
     // Add undo stack for colour edits
-    private readonly System.Collections.Generic.Stack<UndoItem> _undoStack = new System.Collections.Generic.Stack<UndoItem>();
+    private readonly Stack<UndoItem> _undoStack = new Stack<UndoItem>();
 
     // Active filter state
-    private System.Drawing.Color? _activeColourFilter;
+    private Color? _activeColourFilter;
     private string? _activeNameFilter;
     private string? _lastColorFilterInput;
 
-    private System.Windows.Forms.ContextMenuStrip? _contextMenu;
+    private ContextMenuStrip? _contextMenu;
 
     private readonly struct UndoItem
     {
-        public Krypton.Toolkit.PaletteBase Palette { get; }
-        public Krypton.Toolkit.SchemeBaseColors ColorEnum { get; }
-        public System.Drawing.Color OldColor { get; }
+        public PaletteBase Palette { get; }
+        public SchemeBaseColors ColorEnum { get; }
+        public Color OldColor { get; }
         public int RowIndex { get; }
         public int ColumnIndex { get; }
 
-        public UndoItem(Krypton.Toolkit.PaletteBase palette, Krypton.Toolkit.SchemeBaseColors colorEnum, System.Drawing.Color oldColor, int rowIndex, int columnIndex)
+        public UndoItem(PaletteBase palette, SchemeBaseColors colorEnum, Color oldColor, int rowIndex, int columnIndex)
         {
             Palette = palette;
             ColorEnum = colorEnum;
@@ -60,19 +60,19 @@ public partial class PaletteViewerForm : KryptonForm
         }
     }
 
-    private static readonly Krypton.Toolkit.PaletteMode[] LegacyProfessionalModes = new[]
+    private static readonly PaletteMode[] LegacyProfessionalModes = new[]
     {
-        Krypton.Toolkit.PaletteMode.ProfessionalSystem,
-        Krypton.Toolkit.PaletteMode.ProfessionalOffice2003
+        PaletteMode.ProfessionalSystem,
+        PaletteMode.ProfessionalOffice2003
     };
 
-    private static bool IsSparkleDisplay(string display) => display.StartsWith("Sparkle", System.StringComparison.OrdinalIgnoreCase);
-    private static bool IsSparkleMode(Krypton.Toolkit.PaletteMode mode) => mode.ToString().StartsWith("Sparkle", System.StringComparison.OrdinalIgnoreCase);
-    private static bool IsSparkleType(System.Type t) => t.Name.StartsWith("PaletteSparkle", System.StringComparison.OrdinalIgnoreCase);
+    private static bool IsSparkleDisplay(string display) => display.StartsWith("Sparkle", StringComparison.OrdinalIgnoreCase);
+    private static bool IsSparkleMode(PaletteMode mode) => mode.ToString().StartsWith("Sparkle", StringComparison.OrdinalIgnoreCase);
+    private static bool IsSparkleType(Type t) => t.Name.StartsWith("PaletteSparkle", StringComparison.OrdinalIgnoreCase);
 
-    private static bool IsLegacyProfessionalMode(Krypton.Toolkit.PaletteMode mode) => System.Array.IndexOf(LegacyProfessionalModes, mode) >= 0;
+    private static bool IsLegacyProfessionalMode(PaletteMode mode) => Array.IndexOf(LegacyProfessionalModes, mode) >= 0;
     private static bool IsLegacyProfessionalDisplay(string display) => DisplayToEnum.TryGetValue(display, out var m) && IsLegacyProfessionalMode(m);
-    private static bool IsLegacyProfessionalType(System.Type t) => t.Name.StartsWith("PaletteProfessional", System.StringComparison.OrdinalIgnoreCase);
+    private static bool IsLegacyProfessionalType(Type t) => t.Name.StartsWith("PaletteProfessional", StringComparison.OrdinalIgnoreCase);
 
     private static bool IsProblematicBaseMethod(System.Reflection.MethodInfo m)
     {
@@ -85,8 +85,8 @@ public partial class PaletteViewerForm : KryptonForm
 
         // Exclude any GetRibbonBackColor* method declared on a *Base palette class,
         // as many of these throw or show dialogs for unsupported styles.
-        if (typeName.EndsWith("Base", System.StringComparison.Ordinal) &&
-            m.Name.StartsWith("GetRibbonBackColor", System.StringComparison.Ordinal))
+        if (typeName.EndsWith("Base", StringComparison.Ordinal) &&
+            m.Name.StartsWith("GetRibbonBackColor", StringComparison.Ordinal))
         {
             return true;
         }
@@ -96,6 +96,9 @@ public partial class PaletteViewerForm : KryptonForm
         return false;
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="PaletteViewerForm"/> class.
+    /// </summary>
     public PaletteViewerForm()
     {
         InitializeComponent();
@@ -104,18 +107,18 @@ public partial class PaletteViewerForm : KryptonForm
 
         // load persisted window state
         _winStore = new WindowStateStore();
-        _winInfo = _winStore.Load()!;
+        _winInfo = _winStore.Load() ?? new WindowStateInfo();
 
-        PopulateThemeCombo(_winInfo.LastTheme ?? string.Empty);
+        PopulateThemeCombo(_winInfo.LastTheme);
 
-        _sourcePath = _winInfo.SourcePath ?? string.Empty;
+        _sourcePath = _winInfo.SourcePath;
         _isSourceValid = IsValidSourcePath(_sourcePath);
-        if (this.textSourcePath != null)
+        if (textSourcePath != null)
         {
-            this.textSourcePath.Text = _sourcePath ?? string.Empty;
+            textSourcePath.Text = _sourcePath ?? string.Empty;
         }
 
-        Rectangle workArea = System.Windows.Forms.Screen.PrimaryScreen!.WorkingArea;
+        Rectangle workArea = Screen.PrimaryScreen!.WorkingArea;
 
         if (_winInfo != null)
         {
@@ -123,21 +126,21 @@ public partial class PaletteViewerForm : KryptonForm
             Left = _winInfo.Left;
             Top = _winInfo.Top;
 
-            var screen = System.Windows.Forms.Screen.FromPoint(new System.Drawing.Point(_winInfo.Left, _winInfo.Top));
+            var screen = Screen.FromPoint(new Point(_winInfo.Left, _winInfo.Top));
             var wa = screen.WorkingArea;
-            Width = System.Math.Min(_winInfo.Width, wa.Width);
-            Height = System.Math.Min(_winInfo.Height, wa.Height);
+            Width = Math.Min(_winInfo.Width, wa.Width);
+            Height = Math.Min(_winInfo.Height, wa.Height);
 
             var st = _winInfo.State == FormWindowState.Minimized ? FormWindowState.Normal : _winInfo.State;
             WindowState = st;
         }
         else
         {
-            this.Size = new System.Drawing.Size(workArea.Width / 2, workArea.Height / 2);
-            this.Location = new System.Drawing.Point((workArea.Width - this.Width) / 2, (workArea.Height - this.Height) / 2);
+            Size = new Size(workArea.Width / 2, workArea.Height / 2);
+            Location = new Point((workArea.Width - Width) / 2, (workArea.Height - Height) / 2);
         }
 
-        this.FormClosing += MainForm_FormClosing;
+        FormClosing += MainForm_FormClosing;
 
         UpdateStatus("Ready");
 
@@ -179,7 +182,7 @@ public partial class PaletteViewerForm : KryptonForm
         return true;
     }
 
-    public void AttachKryptonManager(Krypton.Toolkit.KryptonManager manager)
+    public void AttachKryptonManager(KryptonManager manager)
     {
         _kryptonManager1 = manager;
         UpdateThemeSwitcher();
@@ -189,7 +192,7 @@ public partial class PaletteViewerForm : KryptonForm
     {
         if (_kryptonManager1 is not null
             && kryptonThemeComboBox is not null
-            && _kryptonManager1.GlobalPaletteMode != Krypton.Toolkit.PaletteMode.Custom
+            && _kryptonManager1.GlobalPaletteMode != PaletteMode.Custom
             && EnumToDisplay.TryGetValue(_kryptonManager1.GlobalPaletteMode, out string? disp)
             && disp is not null)
         {
@@ -210,16 +213,16 @@ public partial class PaletteViewerForm : KryptonForm
             return;
         }
 
-        var baseType = typeof(Krypton.Toolkit.PaletteMicrosoft365Base);
+        var baseType = typeof(PaletteMicrosoft365Base);
         var methods = baseType.GetMethods(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
 
-        var list = new System.Collections.Generic.List<System.Reflection.MethodInfo>();
+        var list = new List<System.Reflection.MethodInfo>();
 
         foreach (var m in methods)
         {
             if (m.IsSpecialName
                 || IsProblematicBaseMethod(m)
-                || m.ReturnType != typeof(System.Drawing.Color))
+                || m.ReturnType != typeof(Color))
             {
                 continue;
             }
@@ -246,48 +249,48 @@ public partial class PaletteViewerForm : KryptonForm
         _apiCalls = list;
 
         // prepare enum values array
-        _enumValues = (Krypton.Toolkit.SchemeBaseColors[])System.Enum.GetValues(typeof(Krypton.Toolkit.SchemeBaseColors));
+        _enumValues = (SchemeBaseColors[])Enum.GetValues(typeof(SchemeBaseColors));
 
         BuildBaseRows();
     }
 
     private void BuildBaseRows()
     {
-        this.dataGridViewPalette.Columns.Clear();
-        this.dataGridViewPalette.Rows.Clear();
+        dataGridViewPalette.Columns.Clear();
+        dataGridViewPalette.Rows.Clear();
 
         // Column 0: Enum Index
-        var colIndex = new System.Windows.Forms.DataGridViewTextBoxColumn();
-        colIndex.HeaderText = "#";
+        var colIndex = new DataGridViewTextBoxColumn();
+        colIndex.HeaderText = @"#";
         colIndex.Name = "colIndex";
         colIndex.ReadOnly = true;
         colIndex.Frozen = true;
-        colIndex.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+        colIndex.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
         colIndex.MinimumWidth = 50;
-        colIndex.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-        this.dataGridViewPalette.Columns.Add(colIndex);
+        colIndex.SortMode = DataGridViewColumnSortMode.NotSortable;
+        dataGridViewPalette.Columns.Add(colIndex);
 
         // Column 1: Enum Name
-        var colEnum = new System.Windows.Forms.DataGridViewTextBoxColumn();
-        colEnum.HeaderText = "SchemeBaseColors";
+        var colEnum = new DataGridViewTextBoxColumn();
+        colEnum.HeaderText = @"SchemeBaseColors";
         colEnum.Name = "colEnum";
         colEnum.ReadOnly = true;
         colEnum.Frozen = true;
-        colEnum.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-        this.dataGridViewPalette.Columns.Add(colEnum);
+        colEnum.SortMode = DataGridViewColumnSortMode.NotSortable;
+        dataGridViewPalette.Columns.Add(colEnum);
 
         // Column 2: API Call(s)
-        var colApi = new System.Windows.Forms.DataGridViewTextBoxColumn();
-        colApi.HeaderText = "API Call(s)";
+        var colApi = new DataGridViewTextBoxColumn();
+        colApi.HeaderText = @"API Call(s)";
         colApi.Name = "colApi";
         colApi.ReadOnly = true;
         colApi.MinimumWidth = 150;
-        colApi.DefaultCellStyle.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-        colApi.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-        colApi.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+        colApi.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+        colApi.SortMode = DataGridViewColumnSortMode.NotSortable;
+        colApi.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
         colApi.DefaultCellStyle.Alignment = DataGridViewContentAlignment.TopLeft;
         colApi.Frozen = true;
-        this.dataGridViewPalette.Columns.Add(colApi);
+        dataGridViewPalette.Columns.Add(colApi);
 
         if (_enumValues == null)
         {
@@ -296,20 +299,20 @@ public partial class PaletteViewerForm : KryptonForm
 
         for (int idx = 0; idx < _enumValues.Length; idx++)
         {
-            int rowIndex = this.dataGridViewPalette.Rows.Add();
-            var row = this.dataGridViewPalette.Rows[rowIndex];
+            int rowIndex = dataGridViewPalette.Rows.Add();
+            var row = dataGridViewPalette.Rows[rowIndex];
             row.Cells[0].Value = idx; // index column
             row.Cells[1].Value = _enumValues[idx].ToString();
             row.Cells[2].Value = string.Empty; // API mapping
         }
 
         // Auto-resize columns once, then allow manual resize
-        this.dataGridViewPalette.AutoResizeColumns(System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells);
-        foreach (System.Windows.Forms.DataGridViewColumn col in this.dataGridViewPalette.Columns)
+        dataGridViewPalette.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
+        foreach (DataGridViewColumn col in dataGridViewPalette.Columns)
         {
             if (col.Name != "colApi")
             {
-                col.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+                col.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             }
         }
 
@@ -322,7 +325,7 @@ public partial class PaletteViewerForm : KryptonForm
 
         int singleLineHeight = 22;
 
-        foreach (System.Windows.Forms.DataGridViewRow row in this.dataGridViewPalette.Rows)
+        foreach (DataGridViewRow row in dataGridViewPalette.Rows)
         {
             if (row.IsNewRow)
             {
@@ -331,7 +334,7 @@ public partial class PaletteViewerForm : KryptonForm
 
             var cell = row.Cells.Count > 2 ? row.Cells[2] : null; // API column
             int lineCount = 1;
-            if (cell?.Value is string txt && txt.Length > 0)
+            if (cell?.Value is string { Length: > 0 } txt)
             {
                 lineCount = txt.Split('\n').Length;
             }
@@ -340,16 +343,16 @@ public partial class PaletteViewerForm : KryptonForm
         }
     }
 
-    private void BuildMethodEnumMapping(Krypton.Toolkit.PaletteBase palette)
+    private void BuildMethodEnumMapping(PaletteBase? palette)
     {
         if (palette == null)
         {
             return;
         }
 
-        var mapping = new System.Collections.Generic.Dictionary<System.Reflection.MemberInfo, string>();
+        var mapping = new Dictionary<System.Reflection.MemberInfo, string>();
 
-        System.Drawing.Color[] colorArray = TryGetPaletteColors(palette) ?? [];
+        Color[]? colorArray = TryGetPaletteColors(palette) ?? [];
 
         if (colorArray == null || colorArray.Length == 0)
         {
@@ -361,7 +364,7 @@ public partial class PaletteViewerForm : KryptonForm
         var paletteMethods = palette.GetType().GetMethods(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
         foreach (var m in paletteMethods)
         {
-            if (m.IsSpecialName || m.ReturnType != typeof(System.Drawing.Color) || (IsProblematicBaseMethod(m)))
+            if (m.IsSpecialName || m.ReturnType != typeof(Color) || (IsProblematicBaseMethod(m)))
             {
                 continue;
             }
@@ -381,7 +384,7 @@ public partial class PaletteViewerForm : KryptonForm
                 continue;
             }
 
-            System.Drawing.Color resultColor;
+            Color resultColor;
             try
             {
                 var parameters = m.GetParameters();
@@ -392,11 +395,11 @@ public partial class PaletteViewerForm : KryptonForm
                     var pt = parameters[idx].ParameterType;
                     if (pt.IsEnum)
                     {
-                        args[idx] = System.Enum.GetValues(pt).GetValue(0)!;
+                        args[idx] = Enum.GetValues(pt).GetValue(0)!;
                     }
                     else if (pt.IsValueType)
                     {
-                        args[idx] = System.Activator.CreateInstance(pt)!;
+                        args[idx] = Activator.CreateInstance(pt)!;
                     }
                     else
                     {
@@ -404,14 +407,14 @@ public partial class PaletteViewerForm : KryptonForm
                     }
                 }
 
-                resultColor = (System.Drawing.Color)m.Invoke(palette, args)!;
+                resultColor = (Color)m.Invoke(palette, args)!;
             }
             catch (System.Reflection.TargetInvocationException tie)
             {
                 // Ignore known palette issues that manifest as exceptions
-                if (tie.InnerException is System.NotImplementedException ||
-                    tie.InnerException is System.ArgumentOutOfRangeException ||
-                    tie.InnerException is System.IndexOutOfRangeException)
+                if (tie.InnerException is NotImplementedException ||
+                    tie.InnerException is ArgumentOutOfRangeException ||
+                    tie.InnerException is IndexOutOfRangeException)
                 {
                     continue;
                 }
@@ -424,9 +427,9 @@ public partial class PaletteViewerForm : KryptonForm
             {
                 if (colorArray[i].ToArgb() == resultColor.ToArgb())
                 {
-                    if (System.Enum.IsDefined(typeof(Krypton.Toolkit.SchemeBaseColors), i))
+                    if (Enum.IsDefined(typeof(SchemeBaseColors), i))
                     {
-                        var enumName = ((Krypton.Toolkit.SchemeBaseColors)i).ToString();
+                        var enumName = ((SchemeBaseColors)i).ToString();
                         mapping[m] = enumName;
                     }
                     break;
@@ -440,15 +443,15 @@ public partial class PaletteViewerForm : KryptonForm
             var ctProps = palette.ColorTable.GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
             foreach (var prop in ctProps)
             {
-                if (prop.PropertyType != typeof(System.Drawing.Color) || prop.GetIndexParameters().Length > 0)
+                if (prop.PropertyType != typeof(Color) || prop.GetIndexParameters().Length > 0)
                 {
                     continue;
                 }
 
-                System.Drawing.Color c;
+                Color c;
                 try
                 {
-                    c = (System.Drawing.Color)prop.GetValue(palette.ColorTable)!;
+                    c = (Color)prop.GetValue(palette.ColorTable)!;
                 }
                 catch
                 {
@@ -459,9 +462,9 @@ public partial class PaletteViewerForm : KryptonForm
                 {
                     if (colorArray[i].ToArgb() == c.ToArgb())
                     {
-                        if (System.Enum.IsDefined(typeof(Krypton.Toolkit.SchemeBaseColors), i))
+                        if (Enum.IsDefined(typeof(SchemeBaseColors), i))
                         {
-                            var enumName = ((Krypton.Toolkit.SchemeBaseColors)i).ToString();
+                            var enumName = ((SchemeBaseColors)i).ToString();
                             mapping[prop] = enumName;
                         }
                         break;
@@ -476,13 +479,13 @@ public partial class PaletteViewerForm : KryptonForm
         if (_enumValues != null)
         {
             // create reverse map enumName -> list of methods
-            var enumMethodMap = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.List<string>>();
+            var enumMethodMap = new Dictionary<string, List<string>>();
             foreach (var kvp in mapping)
             {
                 var enumName = kvp.Value;
                 if (!enumMethodMap.TryGetValue(enumName, out var list))
                 {
-                    list = new System.Collections.Generic.List<string>();
+                    list = new List<string>();
                     enumMethodMap.Add(enumName, list);
                 }
                 list.Add(kvp.Key.Name);
@@ -494,7 +497,7 @@ public partial class PaletteViewerForm : KryptonForm
                 if (enumMethodMap.TryGetValue(enName, out var mlist))
                 {
                     var joined = string.Join("\n", mlist);
-                    var apiCell = this.dataGridViewPalette.Rows[i].Cells[2];
+                    var apiCell = dataGridViewPalette.Rows[i].Cells[2];
                     apiCell.Value = joined;
                     apiCell.Tag = mlist.Count > 1;
                 }
@@ -504,14 +507,14 @@ public partial class PaletteViewerForm : KryptonForm
         UpdateUIState();
     }
 
-    private void AddPalette(Krypton.Toolkit.PaletteBase palette)
+    private void AddPalette(PaletteBase palette)
     {
         if (palette == null)
         {
             return;
         }
 
-        var modeForPalette = Krypton.Toolkit.KryptonManager.GetModeForPalette(palette);
+        var modeForPalette = KryptonManager.GetModeForPalette(palette);
         if (IsSparkleMode(modeForPalette) || IsSparkleType(palette.GetType()) || IsLegacyProfessionalMode(modeForPalette) || IsLegacyProfessionalType(palette.GetType()))
         {
             return; // skip unsupported palette types
@@ -528,25 +531,25 @@ public partial class PaletteViewerForm : KryptonForm
         }
 
         // Add column
-        var rawHeader = modeForPalette != Krypton.Toolkit.PaletteMode.Custom ? GetDisplayName(modeForPalette) : palette.GetType().Name;
+        var rawHeader = modeForPalette != PaletteMode.Custom ? GetDisplayName(modeForPalette) : palette.GetType().Name;
         var baseHeader = BreakHeader(rawHeader);
 
-        var col = new System.Windows.Forms.DataGridViewTextBoxColumn();
+        var col = new DataGridViewTextBoxColumn();
         col.HeaderText = baseHeader;
         // Use full type name for unique identification across namespaces
         col.Name = palette.GetType().FullName;
         col.ReadOnly = false;
-        col.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-        col.HeaderCell.Style.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-        col.HeaderCell.Style.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-        this.dataGridViewPalette.Columns.Add(col);
+        col.SortMode = DataGridViewColumnSortMode.NotSortable;
+        col.HeaderCell.Style.WrapMode = DataGridViewTriState.True;
+        col.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+        dataGridViewPalette.Columns.Add(col);
 
-        int paletteColumnIndex = this.dataGridViewPalette.Columns.Count - 1;
+        int paletteColumnIndex = dataGridViewPalette.Columns.Count - 1;
 
         // populate enum rows with color values
 
         // fetch palette color array
-        System.Drawing.Color[] paletteColors = TryGetPaletteColors(palette) ?? [];
+        Color[] paletteColors = TryGetPaletteColors(palette) ?? [];
 
         // Assign baseline if not yet set
         if (_baselineColors == null && paletteColors != null)
@@ -556,63 +559,65 @@ public partial class PaletteViewerForm : KryptonForm
         }
 
         int missingCount = 0;
-        bool sparsePalette = paletteColors == null || paletteColors.Length < _enumValues.Length / 3; // heuristics for incompatible palettes
+        bool sparsePalette = paletteColors == null || paletteColors.Length < _enumValues!.Length / 3; // heuristics for incompatible palettes
 
         string headerSuffix = string.Empty;
 
-        for (int i = 0; i < _enumValues.Length; i++)
+        if (_enumValues != null)
         {
-            var row = this.dataGridViewPalette.Rows[i];
-            bool indexPresent = paletteColors != null
-                && paletteColors.Length > 0
-                && i >= 0
-                && i < paletteColors.Length;
-
-            System.Drawing.Color color = indexPresent ? paletteColors![i] : System.Drawing.Color.Transparent;
-            if (!indexPresent)
+            for (int i = 0; i < _enumValues.Length; i++)
             {
-                // count missing only if palette is expected to support full scheme
-                if (!sparsePalette)
+                var row = dataGridViewPalette.Rows[i];
+                bool indexPresent = paletteColors is { Length: > 0 }
+                                    && i >= 0
+                                    && i < paletteColors.Length;
+
+                Color color = indexPresent ? paletteColors![i] : Color.Transparent;
+                if (!indexPresent)
                 {
-                    missingCount++;
-                    if (string.IsNullOrEmpty(row.Cells[paletteColumnIndex].ErrorText))
+                    // count missing only if palette is expected to support full scheme
+                    if (!sparsePalette)
                     {
-                        row.Cells[paletteColumnIndex].ErrorText = "Missing index";
+                        missingCount++;
+                        if (string.IsNullOrEmpty(row.Cells[paletteColumnIndex].ErrorText))
+                        {
+                            row.Cells[paletteColumnIndex].ErrorText = "Missing index";
+                        }
                     }
                 }
+                else if (color.A == 0)
+                {
+                    // Intentionally empty – mark as warning (italic text) but no error icon
+                    string label = color == Color.Transparent ? "Transparent" : "EMPTY";
+                    row.Cells[paletteColumnIndex].Value = label;
+                    row.Cells[paletteColumnIndex].Style.Font = new Font(Font, FontStyle.Italic);
+                }
+
+                var cell = row.Cells[paletteColumnIndex];
+                var textColor = ContrastColor(color);
+                cell.Style.BackColor = color;
+                cell.Style.ForeColor = textColor;
+                cell.Style.SelectionBackColor = AdjustSelectionBack(color);
+                cell.Style.SelectionForeColor = textColor;
+                cell.Value = "#" + color.R.ToString("X2") + color.G.ToString("X2") + color.B.ToString("X2");
+
+                cell.ToolTipText = palette.GetType().Name + " - " + _enumValues[i];
+
+                // Legacy fallback removed – handled below for missing or intentional transparent values
             }
-            else if (color.A == 0)
-            {
-                // Intentionally empty – mark as warning (italic text) but no error icon
-                string label = color == System.Drawing.Color.Transparent ? "Transparent" : "EMPTY";
-                row.Cells[paletteColumnIndex].Value = label;
-                row.Cells[paletteColumnIndex].Style.Font = new System.Drawing.Font(this.Font, System.Drawing.FontStyle.Italic);
-            }
-
-            var cell = row.Cells[paletteColumnIndex];
-            var textColor = ContrastColor(color);
-            cell.Style.BackColor = color;
-            cell.Style.ForeColor = textColor;
-            cell.Style.SelectionBackColor = AdjustSelectionBack(color);
-            cell.Style.SelectionForeColor = textColor;
-            cell.Value = "#" + color.R.ToString("X2") + color.G.ToString("X2") + color.B.ToString("X2");
-
-            cell.ToolTipText = palette.GetType().Name + " - " + _enumValues[i];
-
-            // Legacy fallback removed – handled below for missing or intentional transparent values
         }
 
         // Static source check for array vs enum
         if (!string.IsNullOrWhiteSpace(_sourcePath))
         {
             var issues = Classes.ThemeArrayInspector.GetIssues(palette.GetType(), _sourcePath ?? string.Empty);
-            if (issues != null && !issues.IsClean)
+            if (issues is { IsClean: false })
             {
                 foreach (int idx in issues.MissingIndices)
                 {
-                    if (idx >= 0 && idx < this.dataGridViewPalette.Rows.Count)
+                    if (idx >= 0 && idx < dataGridViewPalette.Rows.Count)
                     {
-                        var c = this.dataGridViewPalette.Rows[idx].Cells[paletteColumnIndex];
+                        var c = dataGridViewPalette.Rows[idx].Cells[paletteColumnIndex];
                         if (string.IsNullOrEmpty(c.ErrorText))
                         {
                             c.ErrorText = "Missing value";
@@ -627,9 +632,9 @@ public partial class PaletteViewerForm : KryptonForm
 
                 foreach (int idx in issues.UnlabelledIndices)
                 {
-                    if (idx >= 0 && idx < this.dataGridViewPalette.Rows.Count)
+                    if (idx >= 0 && idx < dataGridViewPalette.Rows.Count)
                     {
-                        var c = this.dataGridViewPalette.Rows[idx].Cells[paletteColumnIndex];
+                        var c = dataGridViewPalette.Rows[idx].Cells[paletteColumnIndex];
                         if (string.IsNullOrEmpty(c.ErrorText))
                         {
                             c.ErrorText = "Unmarked value";
@@ -644,9 +649,9 @@ public partial class PaletteViewerForm : KryptonForm
 
                 foreach (int idx in issues.OutOfOrderIndices)
                 {
-                    if (idx >= 0 && idx < this.dataGridViewPalette.Rows.Count)
+                    if (idx >= 0 && idx < dataGridViewPalette.Rows.Count)
                     {
-                        var c = this.dataGridViewPalette.Rows[idx].Cells[paletteColumnIndex];
+                        var c = dataGridViewPalette.Rows[idx].Cells[paletteColumnIndex];
                         if (string.IsNullOrEmpty(c.ErrorText))
                         {
                             c.ErrorText = "Out-of-order";
@@ -661,9 +666,9 @@ public partial class PaletteViewerForm : KryptonForm
 
                 foreach (int idx in issues.ExtraIndices)
                 {
-                    if (idx >= 0 && idx < this.dataGridViewPalette.Rows.Count)
+                    if (idx >= 0 && idx < dataGridViewPalette.Rows.Count)
                     {
-                        var c = this.dataGridViewPalette.Rows[idx].Cells[paletteColumnIndex];
+                        var c = dataGridViewPalette.Rows[idx].Cells[paletteColumnIndex];
                         if (string.IsNullOrEmpty(c.ErrorText))
                         {
                             c.ErrorText = "Extra entry";
@@ -694,21 +699,21 @@ public partial class PaletteViewerForm : KryptonForm
 
         colHeader += headerSuffix;
 
-        this.dataGridViewPalette.Columns[paletteColumnIndex].HeaderText = colHeader;
-        this.dataGridViewPalette.Columns[paletteColumnIndex].HeaderCell.Style.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-        this.dataGridViewPalette.Columns[paletteColumnIndex].HeaderCell.Style.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+        dataGridViewPalette.Columns[paletteColumnIndex].HeaderText = colHeader;
+        dataGridViewPalette.Columns[paletteColumnIndex].HeaderCell.Style.WrapMode = DataGridViewTriState.True;
+        dataGridViewPalette.Columns[paletteColumnIndex].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
         // Recalculate header height to accommodate up to 3 lines
-        this.dataGridViewPalette.AutoResizeColumnHeadersHeight();
+        dataGridViewPalette.AutoResizeColumnHeadersHeight();
 
         // Auto-size new column to contents once, then freeze
-        int preferred = col.GetPreferredWidth(System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells, true);
-        preferred = System.Math.Max(MinColumnWidth, System.Math.Min(preferred, 300));
+        int preferred = col.GetPreferredWidth(DataGridViewAutoSizeColumnMode.AllCells, true);
+        preferred = Math.Max(MinColumnWidth, Math.Min(preferred, 300));
         col.Width = preferred;
-        col.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+        col.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
 
         // ensure new column is not sortable
-        col.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+        col.SortMode = DataGridViewColumnSortMode.NotSortable;
 
         // After populating all rows for this palette, adjust row heights only if not in bulk update
         if (!_bulkUpdating)
@@ -719,12 +724,12 @@ public partial class PaletteViewerForm : KryptonForm
         UpdateUIState();
     }
 
-    private static System.Drawing.Color ContrastColor(System.Drawing.Color c)
+    private static Color ContrastColor(Color c)
     {
         // If fully transparent, fallback to default grid text colour (black)
         if (c.A == 0)
         {
-            return System.Drawing.Color.Black;
+            return Color.Black;
         }
 
         // Convert sRGB to linear RGB
@@ -732,9 +737,9 @@ public partial class PaletteViewerForm : KryptonForm
         double G = c.G / 255.0;
         double B = c.B / 255.0;
 
-        R = R <= 0.03928 ? R / 12.92 : System.Math.Pow((R + 0.055) / 1.055, 2.4);
-        G = G <= 0.03928 ? G / 12.92 : System.Math.Pow((G + 0.055) / 1.055, 2.4);
-        B = B <= 0.03928 ? B / 12.92 : System.Math.Pow((B + 0.055) / 1.055, 2.4);
+        R = R <= 0.03928 ? R / 12.92 : Math.Pow((R + 0.055) / 1.055, 2.4);
+        G = G <= 0.03928 ? G / 12.92 : Math.Pow((G + 0.055) / 1.055, 2.4);
+        B = B <= 0.03928 ? B / 12.92 : Math.Pow((B + 0.055) / 1.055, 2.4);
 
         // Calculate relative luminance
         double L = 0.2126 * R + 0.7152 * G + 0.0722 * B;
@@ -743,10 +748,10 @@ public partial class PaletteViewerForm : KryptonForm
         // For white text contrast ratio is (1.0 + 0.05) / (L + 0.05)
         // For black text contrast ratio is (L + 0.05) / 0.05
         // White is better if background luminance <= 0.179
-        return L <= 0.179 ? System.Drawing.Color.White : System.Drawing.Color.Black;
+        return L <= 0.179 ? Color.White : Color.Black;
     }
 
-    private static System.Drawing.Color AdjustSelectionBack(System.Drawing.Color c)
+    private static Color AdjustSelectionBack(Color c)
     {
         // If color is dark, lighten; if light, darken.
         double factor = 0.3; // 30% difference
@@ -754,24 +759,24 @@ public partial class PaletteViewerForm : KryptonForm
         int r = isLight ? (int)(c.R * (1 - factor)) : (int)(c.R + (255 - c.R) * factor);
         int g = isLight ? (int)(c.G * (1 - factor)) : (int)(c.G + (255 - c.G) * factor);
         int b = isLight ? (int)(c.B * (1 - factor)) : (int)(c.B + (255 - c.B) * factor);
-        return System.Drawing.Color.FromArgb(c.A, r, g, b);
+        return Color.FromArgb(c.A, r, g, b);
     }
 
-    private void BtnAddPalette_Click(object sender, System.EventArgs e)
+    private void BtnAddPalette_Click(object sender, EventArgs e)
     {
-        this.LoadApiCalls();
+        LoadApiCalls();
 
-        this.buttonAddPalette.Enabled = false;
-        this.buttonRemovePalette.Enabled = false;
-        this.Cursor = System.Windows.Forms.Cursors.WaitCursor;
+        buttonAddPalette.Enabled = false;
+        buttonRemovePalette.Enabled = false;
+        Cursor = Cursors.WaitCursor;
         UpdateStatus("Adding palette...");
-        System.Windows.Forms.Application.DoEvents();
+        Application.DoEvents();
 
         try
         {
-            if (this.comboTheme.SelectedItem is string display && DisplayToEnum.TryGetValue(display, out Krypton.Toolkit.PaletteMode mode))
+            if (comboTheme.SelectedItem is string display && DisplayToEnum.TryGetValue(display, out PaletteMode mode))
             {
-                var palette = Krypton.Toolkit.KryptonManager.GetPaletteForMode(mode);
+                var palette = KryptonManager.GetPaletteForMode(mode);
 
                 if (!_palettes.Contains(palette))
                 {
@@ -782,15 +787,15 @@ public partial class PaletteViewerForm : KryptonForm
         finally
         {
             UpdateStatus("Ready");
-            this.Cursor = System.Windows.Forms.Cursors.Default;
+            Cursor = Cursors.Default;
             // State recalculated based on current validity
             UpdateUIState();
         }
     }
 
-    private void BtnRemovePalette_Click(object sender, System.EventArgs e)
+    private void BtnRemovePalette_Click(object sender, EventArgs e)
     {
-        if (!(this.comboTheme.SelectedItem is string display) || !DisplayToEnum.TryGetValue(display, out Krypton.Toolkit.PaletteMode mode))
+        if (!(comboTheme.SelectedItem is string display) || !DisplayToEnum.TryGetValue(display, out PaletteMode mode))
         {
             return; // nothing selected
         }
@@ -805,10 +810,10 @@ public partial class PaletteViewerForm : KryptonForm
         _palettes.Remove(palette);
 
         // find column
-        var column = this.dataGridViewPalette.Columns.GetColumnCount(DataGridViewElementStates.Visible) > 0 ? this.dataGridViewPalette.Columns[palette.GetType().FullName!] : null;
+        var column = dataGridViewPalette.Columns.GetColumnCount(DataGridViewElementStates.Visible) > 0 ? dataGridViewPalette.Columns[palette.GetType().FullName!] : null;
         if (column != null)
         {
-            this.dataGridViewPalette.Columns.Remove(column);
+            dataGridViewPalette.Columns.Remove(column);
         }
 
         UpdateUIState();
@@ -818,7 +823,7 @@ public partial class PaletteViewerForm : KryptonForm
     {
         foreach (var kvp in DisplayToEnum)
         {
-            if (kvp.Value == Krypton.Toolkit.PaletteMode.Custom)
+            if (kvp.Value == PaletteMode.Custom)
             {
                 continue;
             }
@@ -833,24 +838,24 @@ public partial class PaletteViewerForm : KryptonForm
                 continue; // skip legacy professional themes
             }
 
-            this.comboTheme.Items.Add(kvp.Key);
+            comboTheme.Items.Add(kvp.Key);
         }
 
-        if (!string.IsNullOrEmpty(preferredDisplay) && this.comboTheme.Items.Contains(preferredDisplay))
+        if (!string.IsNullOrEmpty(preferredDisplay) && comboTheme.Items.Contains(preferredDisplay))
         {
-            this.comboTheme.SelectedItem = preferredDisplay;
+            comboTheme.SelectedItem = preferredDisplay;
         }
     }
 
-    private void ComboTheme_SelectedIndexChanged(object sender, System.EventArgs e)
+    private void ComboTheme_SelectedIndexChanged(object sender, EventArgs e)
     {
         UpdateUIState();
     }
 
-    private async void BtnAddAll_Click(object sender, System.EventArgs e)
+    private async void BtnAddAll_Click(object sender, EventArgs e)
     {
         // Ensure base rows and enum array are ready
-        this.LoadApiCalls();
+        LoadApiCalls();
 
         if (_cancellationToken != null)
         {
@@ -860,26 +865,26 @@ public partial class PaletteViewerForm : KryptonForm
         _cancellationToken = new System.Threading.CancellationTokenSource();
         var token = _cancellationToken.Token;
 
-        this.buttonAddAll.Enabled = false;
-        this.buttonAddPalette.Enabled = false;
-        this.buttonRemovePalette.Enabled = false;
-        this.comboTheme.Enabled = false;
-        this.buttonCancel.Visible = true;
+        buttonAddAll.Enabled = false;
+        buttonAddPalette.Enabled = false;
+        buttonRemovePalette.Enabled = false;
+        comboTheme.Enabled = false;
+        buttonCancel.Visible = true;
 
         UpdateStatus("Adding all palettes...");
 
         // Force a gui refresh before the adding starts
-        this.Refresh();
+        Refresh();
 
         // Begin bulk update
         _bulkUpdating = true;
-        this.dataGridViewPalette.SuspendLayout();
+        dataGridViewPalette.SuspendLayout();
 
         try
         {
             await System.Threading.Tasks.Task.Run(() =>
             {
-                var modes = (Krypton.Toolkit.PaletteMode[])System.Enum.GetValues(typeof(Krypton.Toolkit.PaletteMode));
+                var modes = (PaletteMode[])Enum.GetValues(typeof(PaletteMode));
                 foreach (var mode in modes)
                 {
                     if (token.IsCancellationRequested)
@@ -887,14 +892,14 @@ public partial class PaletteViewerForm : KryptonForm
                         break;
                     }
 
-                    if (mode == Krypton.Toolkit.PaletteMode.Custom || IsSparkleMode(mode) || IsLegacyProfessionalMode(mode))
+                    if (mode == PaletteMode.Custom || IsSparkleMode(mode) || IsLegacyProfessionalMode(mode))
                     {
                         continue; // skip unsupported modes
                     }
 
-                    var palette = Krypton.Toolkit.KryptonManager.GetPaletteForMode(mode);
+                    var palette = KryptonManager.GetPaletteForMode(mode);
 
-                    this.Invoke((System.Action)(() =>
+                    Invoke((Action)(() =>
                     {
                         if (!_palettes.Contains(palette))
                         {
@@ -905,7 +910,7 @@ public partial class PaletteViewerForm : KryptonForm
                 }
             }, token);
         }
-        catch (System.OperationCanceledException)
+        catch (OperationCanceledException)
         {
             UpdateStatus("Add all cancelled.");
         }
@@ -913,16 +918,16 @@ public partial class PaletteViewerForm : KryptonForm
         {
             // End bulk update
             _bulkUpdating = false;
-            this.dataGridViewPalette.ResumeLayout();
+            dataGridViewPalette.ResumeLayout();
 
             // Perform final row-height adjustment once after bulk add completes
             AdjustRowHeights();
 
-            this.buttonAddAll.Enabled = true;
-            this.buttonAddPalette.Enabled = true;
-            this.buttonRemovePalette.Enabled = true;
-            this.comboTheme.Enabled = true;
-            this.buttonCancel.Visible = false;
+            buttonAddAll.Enabled = true;
+            buttonAddPalette.Enabled = true;
+            buttonRemovePalette.Enabled = true;
+            comboTheme.Enabled = true;
+            buttonCancel.Visible = false;
 
             _cancellationToken.Dispose();
             _cancellationToken = null;
@@ -933,37 +938,37 @@ public partial class PaletteViewerForm : KryptonForm
         }
     }
 
-    private void BtnCancel_Click(object sender, System.EventArgs e)
+    private void BtnCancel_Click(object sender, EventArgs e)
     {
         _cancellationToken?.Cancel();
     }
 
     private void UpdateStatus(string message)
     {
-        if (this.InvokeRequired)
+        if (InvokeRequired)
         {
-            this.BeginInvoke((System.Action)(() => UpdateStatus(message)));
+            BeginInvoke((Action)(() => UpdateStatus(message)));
             return;
         }
 
-        this.statusLabel.Text = message;
+        statusLabel.Text = message;
     }
 
-    private void DataGridViewPalette_ColumnAdded(object sender, System.Windows.Forms.DataGridViewColumnEventArgs e)
+    private void DataGridViewPalette_ColumnAdded(object sender, DataGridViewColumnEventArgs e)
     {
         // auto-size once then freeze
-        int preferred = e.Column.GetPreferredWidth(System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells, true);
-        preferred = System.Math.Max(MinColumnWidth, System.Math.Min(preferred, 300));
+        int preferred = e.Column.GetPreferredWidth(DataGridViewAutoSizeColumnMode.AllCells, true);
+        preferred = Math.Max(MinColumnWidth, Math.Min(preferred, 300));
         e.Column.Width = preferred;
         if (e.Column.Index != 2)
         {
-            e.Column.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            e.Column.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
         }
         else
         {
             e.Column.Frozen = true;
         }
-        e.Column.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+        e.Column.SortMode = DataGridViewColumnSortMode.NotSortable;
 
         // Add tooltip for palette/theme columns to indicate activation behaviour
         if (e.Column.Index >= 3)
@@ -972,21 +977,21 @@ public partial class PaletteViewerForm : KryptonForm
         }
     }
 
-    private void DataGridViewPalette_ColumnHeaderMouseClick(object sender, System.Windows.Forms.DataGridViewCellMouseEventArgs e)
+    private void DataGridViewPalette_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
     {
         if (e.ColumnIndex < 3)
         {
             return;
         }
 
-        var column = this.dataGridViewPalette.Columns[e.ColumnIndex];
+        var column = dataGridViewPalette.Columns[e.ColumnIndex];
         var palette = _palettes.Find(p => p.GetType().FullName == column.Name);
 
         // New guard: do not activate palettes that still have missing enum values
         if (palette != null && !string.IsNullOrWhiteSpace(_sourcePath))
         {
             var issues = Classes.ThemeArrayInspector.GetIssues(palette.GetType(), _sourcePath ?? string.Empty);
-            if (issues != null && issues.MissingCount > 0)
+            if (issues is { MissingCount: > 0 })
             {
                 UpdateStatus($"Cannot activate {palette.GetType().Name}: {issues.MissingCount} missing enum colours");
                 return;
@@ -995,15 +1000,15 @@ public partial class PaletteViewerForm : KryptonForm
 
         if (palette != null)
         {
-            var mode = Krypton.Toolkit.KryptonManager.GetModeForPalette(palette);
-            if (mode != Krypton.Toolkit.PaletteMode.Custom)
+            var mode = KryptonManager.GetModeForPalette(palette);
+            if (mode != PaletteMode.Custom)
             {
-                _kryptonManager1.GlobalPaletteMode = mode;
+                _kryptonManager1?.GlobalPaletteMode = mode;
             }
-            else if (palette is Krypton.Toolkit.KryptonCustomPaletteBase cp)
+            else if (palette is KryptonCustomPaletteBase cp)
             {
-                _kryptonManager1.GlobalPaletteMode = Krypton.Toolkit.PaletteMode.Custom;
-                _kryptonManager1.GlobalCustomPalette = cp;
+                _kryptonManager1?.GlobalPaletteMode = PaletteMode.Custom;
+                _kryptonManager1?.GlobalCustomPalette = cp;
             }
 
             string headerFlat = column.HeaderText.Replace("\n", " ").Replace("\r", " ");
@@ -1011,9 +1016,9 @@ public partial class PaletteViewerForm : KryptonForm
         }
     }
 
-    private void BtnClear_Click(object sender, System.EventArgs e)
+    private void BtnClear_Click(object sender, EventArgs e)
     {
-        this._palettes.Clear();
+        _palettes.Clear();
         _baselineColors = null;
         _baselinePaletteName = null;
         _processedBases.Clear();
@@ -1048,7 +1053,7 @@ public partial class PaletteViewerForm : KryptonForm
         return sb.ToString();
     }
 
-    private string GetDisplayName(Krypton.Toolkit.PaletteMode mode)
+    private string GetDisplayName(PaletteMode mode)
     {
             return EnumToDisplay.TryGetValue(mode, out string? display)
             ? display
@@ -1058,8 +1063,8 @@ public partial class PaletteViewerForm : KryptonForm
     private void MainForm_FormClosing(object? sender, FormClosingEventArgs e)
     {
         // determine bounds depending on state
-        var stateForSave = this.WindowState;
-        var bounds = stateForSave == FormWindowState.Normal ? this.Bounds : this.RestoreBounds;
+        var stateForSave = WindowState;
+        var bounds = stateForSave == FormWindowState.Normal ? Bounds : RestoreBounds;
 
         var ws = new WindowStateInfo
         {
@@ -1068,21 +1073,21 @@ public partial class PaletteViewerForm : KryptonForm
             Width = bounds.Width,
             Height = bounds.Height,
             State = stateForSave,
-            LastTheme = (this.comboTheme.SelectedItem as string)!,
+            LastTheme = (comboTheme.SelectedItem as string)!,
             SourcePath = _sourcePath ?? string.Empty
         };
 
         _winStore.Save(ws);
     }
 
-    private void DataGridViewPalette_CurrentCellChanged(object sender, System.EventArgs e)
+    private void DataGridViewPalette_CurrentCellChanged(object sender, EventArgs e)
     {
-        if (_bulkUpdating || this.dataGridViewPalette.CurrentCell == null)
+        if (_bulkUpdating || dataGridViewPalette.CurrentCell == null)
         {
             return;
         }
 
-        int newIndex = this.dataGridViewPalette.CurrentCell.RowIndex;
+        int newIndex = dataGridViewPalette.CurrentCell.RowIndex;
         if (newIndex == _highlightRowIndex)
         {
             return;
@@ -1091,13 +1096,13 @@ public partial class PaletteViewerForm : KryptonForm
         int old = _highlightRowIndex;
         _highlightRowIndex = newIndex;
 
-        if (old >= 0 && old < this.dataGridViewPalette.Rows.Count)
+        if (old >= 0 && old < dataGridViewPalette.Rows.Count)
         {
-            this.dataGridViewPalette.InvalidateRow(old);
+            dataGridViewPalette.InvalidateRow(old);
         }
-        if (newIndex >= 0 && newIndex < this.dataGridViewPalette.Rows.Count)
+        if (newIndex >= 0 && newIndex < dataGridViewPalette.Rows.Count)
         {
-            this.dataGridViewPalette.InvalidateRow(newIndex);
+            dataGridViewPalette.InvalidateRow(newIndex);
         }
     }
 
@@ -1105,18 +1110,18 @@ public partial class PaletteViewerForm : KryptonForm
     {
         if (_bulkUpdating
             || _highlightRowIndex < 0
-            || _highlightRowIndex >= this.dataGridViewPalette.RowCount)
+            || _highlightRowIndex >= dataGridViewPalette.RowCount)
         {
             return;
         }
 
-        var rowRect = this.dataGridViewPalette.GetRowDisplayRectangle(_highlightRowIndex, true);
+        var rowRect = dataGridViewPalette.GetRowDisplayRectangle(_highlightRowIndex, true);
         if (rowRect.Width <= 0 || rowRect.Height <= 0)
         {
             return; // row not visible
         }
 
-        using (var pen = new System.Drawing.Pen(System.Drawing.Color.DarkOrange, 1))
+        using (var pen = new Pen(Color.DarkOrange, 1))
         {
             rowRect.Width -= 1;
             rowRect.Height -= 1;
@@ -1131,7 +1136,7 @@ public partial class PaletteViewerForm : KryptonForm
     {
         using (var sfd = new SaveFileDialog())
         {
-            sfd.Filter = $"{format.ToUpper()} files|*.{format}|All files|*.*";
+            sfd.Filter = $@"{format.ToUpper()} files|*.{format}|All files|*.*";
             sfd.DefaultExt = format;
             if (sfd.ShowDialog(this) != DialogResult.OK)
             {
@@ -1153,39 +1158,39 @@ public partial class PaletteViewerForm : KryptonForm
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "Save Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(this, ex.Message, @"Save Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
 
-    private string ExportCsv() => Classes.Exporter.ToCsv(this.dataGridViewPalette);
+    private string ExportCsv() => Classes.Exporter.ToCsv(dataGridViewPalette);
 
-    private void ExportXml(string fileName) => Classes.Exporter.ToXml(this.dataGridViewPalette, fileName);
+    private void ExportXml(string fileName) => Classes.Exporter.ToXml(dataGridViewPalette, fileName);
 
     private void UpdateUIState()
     {
         bool validSource = _isSourceValid;
 
-        bool hasData = this.dataGridViewPalette.Columns.Count > 3 && this.dataGridViewPalette.Rows.Count > 0;
-        this.buttonSave.Enabled = hasData;
+        bool hasData = dataGridViewPalette.Columns.Count > 3 && dataGridViewPalette.Rows.Count > 0;
+        buttonSave.Enabled = hasData;
 
         bool hasPalettes = _palettes.Count > 0;
 
         bool canRemove = false;
         bool canAdd = false;
 
-        if (this.comboTheme.SelectedItem is string selDisplay && DisplayToEnum.TryGetValue(selDisplay, out PaletteMode selMode))
+        if (comboTheme.SelectedItem is string selDisplay && DisplayToEnum.TryGetValue(selDisplay, out PaletteMode selMode))
         {
             canRemove = _palettes.Exists(p => KryptonManager.GetModeForPalette(p) == selMode);
             canAdd = !canRemove;
         }
 
-        this.buttonRemovePalette.Enabled = canRemove;
-        this.buttonAddPalette.Enabled = canAdd && validSource;
-        this.buttonClear.Enabled = hasPalettes;
+        buttonRemovePalette.Enabled = canRemove;
+        buttonAddPalette.Enabled = canAdd && validSource;
+        buttonClear.Enabled = hasPalettes;
 
         // AddAll button if exists
-        if (this.buttonAddAll != null)
+        if (buttonAddAll != null)
         {
             bool anyRemaining = false;
             foreach (var kv in DisplayToEnum)
@@ -1201,18 +1206,18 @@ public partial class PaletteViewerForm : KryptonForm
                     break;
                 }
             }
-            this.buttonAddAll.Enabled = validSource && anyRemaining;
+            buttonAddAll.Enabled = validSource && anyRemaining;
         }
 
-        if (this.buttonClearSource != null)
+        if (buttonClearSource != null)
         {
-            this.buttonClearSource.Enabled = !string.IsNullOrWhiteSpace(_sourcePath);
+            buttonClearSource.Enabled = !string.IsNullOrWhiteSpace(_sourcePath);
         }
 
         // Update source-required hint visibility
-        if (this.labelSourceRequired != null)
+        if (labelSourceRequired != null)
         {
-            this.labelSourceRequired.Visible = !validSource;
+            labelSourceRequired.Visible = !validSource;
         }
     }
 
@@ -1221,10 +1226,10 @@ public partial class PaletteViewerForm : KryptonForm
         UpdateUIState();
     }
 
-    private void ButtonSave_Click(object sender, System.EventArgs e)
+    private void ButtonSave_Click(object sender, EventArgs e)
     {
         string format = "csv";
-        if (this.comboSaveFormat.SelectedItem is string sel)
+        if (comboSaveFormat.SelectedItem is string sel)
         {
             format = sel.ToLower();
         }
@@ -1238,7 +1243,7 @@ public partial class PaletteViewerForm : KryptonForm
         {
             tb.ReadOnly = true; // allow selection but no edits
             tb.BorderStyle = BorderStyle.None;
-            tb.BackColor = System.Drawing.SystemColors.Window;
+            tb.BackColor = SystemColors.Window;
             // No need to capture or reset text – leaving it untouched avoids unwanted changes
 
             tb.KeyDown -= EditingTextBox_KeyDown;
@@ -1271,7 +1276,7 @@ public partial class PaletteViewerForm : KryptonForm
         {
             try
             {
-                System.Windows.Forms.Clipboard.SetDataObject(text, true);
+                Clipboard.SetDataObject(text, true);
                 return;
             }
             catch (System.Runtime.InteropServices.ExternalException)
@@ -1281,7 +1286,7 @@ public partial class PaletteViewerForm : KryptonForm
         }
     }
 
-    private static System.Type? GetRibbonColorsOwner(System.Type t)
+    private static Type? GetRibbonColorsOwner(Type t)
     {
         return t?.BaseType;
     }
@@ -1289,7 +1294,7 @@ public partial class PaletteViewerForm : KryptonForm
     /// <summary>
     /// Extracts the colour array from a palette via <c>ColorTable.Colors</c> (or <c>Colours</c>).
     /// </summary>
-    private static System.Drawing.Color[]? TryGetPaletteColors(Krypton.Toolkit.PaletteBase palette)
+    private static Color[]? TryGetPaletteColors(PaletteBase palette)
     {
         if (palette == null)
         {
@@ -1304,13 +1309,13 @@ public partial class PaletteViewerForm : KryptonForm
                 var prop = ct.GetType().GetProperty("Colors", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public)
                             ?? ct.GetType().GetProperty("Colours", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
 
-                if (prop != null && prop.PropertyType == typeof(System.Drawing.Color[]))
+                if (prop != null && prop.PropertyType == typeof(Color[]))
                 {
-                    return (prop.GetValue(ct) as System.Drawing.Color[])!;
+                    return (prop.GetValue(ct) as Color[])!;
                 }
             }
         }
-        catch (System.IndexOutOfRangeException)
+        catch (IndexOutOfRangeException)
         {
             // Ignore faulty palettes; caller treats palette as sparse/incompatible.
         }
@@ -1318,7 +1323,7 @@ public partial class PaletteViewerForm : KryptonForm
         return null;
     }
 
-    private void MergeEnumMethodMapping(System.Collections.Generic.Dictionary<System.Reflection.MemberInfo, string> newMap)
+    private void MergeEnumMethodMapping(Dictionary<System.Reflection.MemberInfo, string> newMap)
     {
         if (_methodEnumMapping == null)
         {
@@ -1335,16 +1340,16 @@ public partial class PaletteViewerForm : KryptonForm
         }
     }
 
-    private void BtnBrowseSource_Click(object sender, System.EventArgs e)
+    private void BtnBrowseSource_Click(object sender, EventArgs e)
     {
-        using (var dlg = new Krypton.Toolkit.KryptonFolderBrowserDialog())
+        using (var dlg = new KryptonFolderBrowserDialog())
         {
-            if (!string.IsNullOrEmpty(_sourcePath) && System.IO.Directory.Exists(_sourcePath))
+            if (!string.IsNullOrEmpty(_sourcePath) && Directory.Exists(_sourcePath))
             {
                 dlg.SelectedPath = _sourcePath;
             }
 
-            if (dlg.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
+            if (dlg.ShowDialog(this) == DialogResult.OK)
             {
                 SetSourcePath(dlg.SelectedPath);
             }
@@ -1358,26 +1363,26 @@ public partial class PaletteViewerForm : KryptonForm
             return;
         }
 
-        if (string.Equals(_sourcePath, path, System.StringComparison.OrdinalIgnoreCase))
+        if (string.Equals(_sourcePath, path, StringComparison.OrdinalIgnoreCase))
         {
             return;
         }
 
         _sourcePath = path;
         _isSourceValid = IsValidSourcePath(_sourcePath);
-        if (this.textSourcePath != null)
+        if (textSourcePath != null)
         {
-            this.textSourcePath.Text = path;
+            textSourcePath.Text = path;
         }
 
         // persist immediately
         var ws = _winInfo ?? new WindowStateInfo();
         ws.SourcePath = path;
-        ws.Left = this.Left;
-        ws.Top = this.Top;
-        ws.Width = this.Width;
-        ws.Height = this.Height;
-        ws.State = this.WindowState;
+        ws.Left = Left;
+        ws.Top = Top;
+        ws.Width = Width;
+        ws.Height = Height;
+        ws.State = WindowState;
         ws.LastTheme = comboTheme.SelectedItem as string ?? string.Empty;
         _winStore.Save(ws);
 
@@ -1396,7 +1401,7 @@ public partial class PaletteViewerForm : KryptonForm
         for (int p = 0; p < _palettes.Count; p++)
         {
             var palette = _palettes[p];
-            var col = this.dataGridViewPalette.Columns[palette.GetType().FullName!];
+            var col = dataGridViewPalette.Columns[palette.GetType().FullName!];
             if (col == null)
             {
                 continue;
@@ -1411,9 +1416,9 @@ public partial class PaletteViewerForm : KryptonForm
 
             foreach (int idx in issues.MissingIndices)
             {
-                if (idx >= 0 && idx < this.dataGridViewPalette.Rows.Count)
+                if (idx >= 0 && idx < dataGridViewPalette.Rows.Count)
                 {
-                    var c = this.dataGridViewPalette.Rows[idx].Cells[colIndex];
+                    var c = dataGridViewPalette.Rows[idx].Cells[colIndex];
                     if (string.IsNullOrEmpty(c.ErrorText))
                     {
                         c.ErrorText = "Missing value";
@@ -1427,9 +1432,9 @@ public partial class PaletteViewerForm : KryptonForm
             }
             foreach (int idx in issues.UnlabelledIndices)
             {
-                if (idx >= 0 && idx < this.dataGridViewPalette.Rows.Count)
+                if (idx >= 0 && idx < dataGridViewPalette.Rows.Count)
                 {
-                    var c = this.dataGridViewPalette.Rows[idx].Cells[colIndex];
+                    var c = dataGridViewPalette.Rows[idx].Cells[colIndex];
                     if (string.IsNullOrEmpty(c.ErrorText))
                     {
                         c.ErrorText = "Unmarked value";
@@ -1443,9 +1448,9 @@ public partial class PaletteViewerForm : KryptonForm
             }
             foreach (int idx in issues.OutOfOrderIndices)
             {
-                if (idx >= 0 && idx < this.dataGridViewPalette.Rows.Count)
+                if (idx >= 0 && idx < dataGridViewPalette.Rows.Count)
                 {
-                    var c = this.dataGridViewPalette.Rows[idx].Cells[colIndex];
+                    var c = dataGridViewPalette.Rows[idx].Cells[colIndex];
                     if (string.IsNullOrEmpty(c.ErrorText))
                     {
                         c.ErrorText = "Out-of-order";
@@ -1459,9 +1464,9 @@ public partial class PaletteViewerForm : KryptonForm
             }
             foreach (int idx in issues.ExtraIndices)
             {
-                if (idx >= 0 && idx < this.dataGridViewPalette.Rows.Count)
+                if (idx >= 0 && idx < dataGridViewPalette.Rows.Count)
                 {
-                    var c = this.dataGridViewPalette.Rows[idx].Cells[colIndex];
+                    var c = dataGridViewPalette.Rows[idx].Cells[colIndex];
                     if (string.IsNullOrEmpty(c.ErrorText))
                     {
                         c.ErrorText = "Extra entry";
@@ -1475,10 +1480,10 @@ public partial class PaletteViewerForm : KryptonForm
             }
         }
 
-        this.dataGridViewPalette.Refresh();
+        dataGridViewPalette.Refresh();
     }
 
-    private void BtnClearSource_Click(object sender, System.EventArgs e)
+    private void BtnClearSource_Click(object sender, EventArgs e)
     {
         ClearSourcePath();
     }
@@ -1488,19 +1493,19 @@ public partial class PaletteViewerForm : KryptonForm
         _sourcePath = null;
         _isSourceValid = false;
 
-        if (this.textSourcePath != null)
+        if (textSourcePath != null)
         {
-            this.textSourcePath.Text = string.Empty;
+            textSourcePath.Text = string.Empty;
         }
 
         // Persist cleared setting
         var ws = _winInfo ?? new WindowStateInfo();
         ws.SourcePath = string.Empty;
-        ws.Left = this.Left;
-        ws.Top = this.Top;
-        ws.Width = this.Width;
-        ws.Height = this.Height;
-        ws.State = this.WindowState;
+        ws.Left = Left;
+        ws.Top = Top;
+        ws.Width = Width;
+        ws.Height = Height;
+        ws.State = WindowState;
         ws.LastTheme = (comboTheme.SelectedItem as string)!;
         _winStore.Save(ws);
 
@@ -1509,24 +1514,24 @@ public partial class PaletteViewerForm : KryptonForm
 
     private void EditCurrentCellColor()
     {
-        if (this.dataGridViewPalette.CurrentCell == null)
+        if (dataGridViewPalette.CurrentCell == null)
         {
             return;
         }
 
-        int colIndex = this.dataGridViewPalette.CurrentCell.ColumnIndex;
-        int rowIndex = this.dataGridViewPalette.CurrentCell.RowIndex;
+        int colIndex = dataGridViewPalette.CurrentCell.ColumnIndex;
+        int rowIndex = dataGridViewPalette.CurrentCell.RowIndex;
 
-        if (colIndex <= 2 || rowIndex < 0 || rowIndex >= this._enumValues.Length)
+        if (_enumValues != null && (colIndex <= 2 || rowIndex < 0 || rowIndex >= _enumValues.Length))
         {
             return;
         }
 
-        DataGridViewColumn col = this.dataGridViewPalette.Columns[colIndex];
+        DataGridViewColumn col = dataGridViewPalette.Columns[colIndex];
 
         // Column Name already stores the full type name, use it directly
         string expectedName = col.Name;
-        Krypton.Toolkit.PaletteBase? palette = this._palettes
+        PaletteBase? palette = _palettes
             .Find(p => string.Equals(p.GetType().FullName, expectedName, StringComparison.Ordinal));
 
         if (palette is null)
@@ -1534,35 +1539,38 @@ public partial class PaletteViewerForm : KryptonForm
             return;
         }
 
-        SchemeBaseColors colorEnum = this._enumValues[rowIndex];
-
-        System.Drawing.Color currentColor = palette.GetSchemeColor(colorEnum);
-
-        using (var dialog = new TestForm.LiveColorPickerDialog())
+        if (_enumValues != null)
         {
-            dialog.Color = currentColor;
-            dialog.Text = $"A:{currentColor.A} R:{currentColor.R} G:{currentColor.G} B:{currentColor.B}";
+            SchemeBaseColors colorEnum = _enumValues[rowIndex];
 
-            // live-update handler
-            dialog.LiveColorChanged += (_, eArgs) =>
-            {
-                ApplySelectedColor(eArgs.Color, palette, colorEnum, rowIndex, colIndex, pushUndo: false);
-            };
+            Color currentColor = palette.GetSchemeColor(colorEnum);
 
-            var result = dialog.ShowDialog(this);
-            if (result == DialogResult.OK)
+            using (var dialog = new LiveColorPickerDialog())
             {
-                ApplySelectedColor(dialog.Color, palette, colorEnum, rowIndex, colIndex, pushUndo: true);
-            }
-            else
-            {
-                // Revert any live preview changes if the user cancels the dialog
-                ApplySelectedColor(currentColor, palette, colorEnum, rowIndex, colIndex, pushUndo: false);
+                dialog.Color = currentColor;
+                dialog.Text = $@"A:{currentColor.A} R:{currentColor.R} G:{currentColor.G} B:{currentColor.B}";
+
+                // live-update handler
+                dialog.LiveColorChanged += (_, eArgs) =>
+                {
+                    ApplySelectedColor(eArgs.Color, palette, colorEnum, rowIndex, colIndex, pushUndo: false);
+                };
+
+                var result = dialog.ShowDialog(this);
+                if (result == DialogResult.OK)
+                {
+                    ApplySelectedColor(dialog.Color, palette, colorEnum, rowIndex, colIndex, pushUndo: true);
+                }
+                else
+                {
+                    // Revert any live preview changes if the user cancels the dialog
+                    ApplySelectedColor(currentColor, palette, colorEnum, rowIndex, colIndex, pushUndo: false);
+                }
             }
         }
     }
 
-    private void ApplySelectedColor(System.Drawing.Color newColor, Krypton.Toolkit.PaletteBase palette, SchemeBaseColors colorEnum, int rowIndex, int colIndex, bool pushUndo)
+    private void ApplySelectedColor(Color newColor, PaletteBase palette, SchemeBaseColors colorEnum, int rowIndex, int colIndex, bool pushUndo)
     {
         if (pushUndo)
         {
@@ -1572,10 +1580,10 @@ public partial class PaletteViewerForm : KryptonForm
         palette.SetSchemeColor(colorEnum, newColor);
 
         // Commit any pending edit before updating
-        this.dataGridViewPalette.EndEdit();
+        dataGridViewPalette.EndEdit();
 
         // Update cell visuals
-        DataGridViewCell cell = this.dataGridViewPalette.Rows[rowIndex].Cells[colIndex];
+        DataGridViewCell cell = dataGridViewPalette.Rows[rowIndex].Cells[colIndex];
         cell.Value = "#" + newColor.R.ToString("X2") + newColor.G.ToString("X2") + newColor.B.ToString("X2");
         cell.Style.BackColor = newColor;
         cell.Style.ForeColor = ContrastColor(newColor);
@@ -1583,13 +1591,13 @@ public partial class PaletteViewerForm : KryptonForm
         cell.Style.SelectionForeColor = cell.Style.ForeColor;
 
         // Ensure refresh
-        this.dataGridViewPalette.CurrentCell = null;
-        this.dataGridViewPalette.CurrentCell = cell;
-        this.dataGridViewPalette.Refresh();
+        dataGridViewPalette.CurrentCell = null;
+        dataGridViewPalette.CurrentCell = cell;
+        dataGridViewPalette.Refresh();
 
         if (KryptonManager.CurrentGlobalPalette == palette)
         {
-            this.Invalidate(true);
+            Invalidate(true);
         }
     }
 
@@ -1604,32 +1612,32 @@ public partial class PaletteViewerForm : KryptonForm
 
         action.Palette.SetSchemeColor(action.ColorEnum, action.OldColor);
 
-        if (action.RowIndex >= 0 && action.RowIndex < this.dataGridViewPalette.Rows.Count &&
-            action.ColumnIndex >= 0 && action.ColumnIndex < this.dataGridViewPalette.Columns.Count)
+        if (action.RowIndex >= 0 && action.RowIndex < dataGridViewPalette.Rows.Count &&
+            action.ColumnIndex >= 0 && action.ColumnIndex < dataGridViewPalette.Columns.Count)
         {
-            DataGridViewCell cell = this.dataGridViewPalette.Rows[action.RowIndex].Cells[action.ColumnIndex];
+            DataGridViewCell cell = dataGridViewPalette.Rows[action.RowIndex].Cells[action.ColumnIndex];
             cell.Value = "#" + action.OldColor.R.ToString("X2") + action.OldColor.G.ToString("X2") + action.OldColor.B.ToString("X2");
             cell.Style.BackColor = action.OldColor;
             cell.Style.ForeColor = ContrastColor(action.OldColor);
             cell.Style.SelectionBackColor = AdjustSelectionBack(action.OldColor);
             cell.Style.SelectionForeColor = cell.Style.ForeColor;
 
-            this.dataGridViewPalette.CurrentCell = null;
-            this.dataGridViewPalette.CurrentCell = cell;
-            this.dataGridViewPalette.Refresh();
+            dataGridViewPalette.CurrentCell = null;
+            dataGridViewPalette.CurrentCell = cell;
+            dataGridViewPalette.Refresh();
         }
 
         if (KryptonManager.CurrentGlobalPalette == action.Palette)
         {
-            this.Invalidate(true);
+            Invalidate(true);
         }
     }
 
     // ------------------------- Search / Filter helpers ---------------------------
 
-    private static bool TryParseColorString(string input, out System.Drawing.Color color)
+    private static bool TryParseColorString(string input, out Color color)
     {
-        color = System.Drawing.Color.Empty;
+        color = Color.Empty;
         if (string.IsNullOrWhiteSpace(input))
         {
             return false;
@@ -1638,11 +1646,11 @@ public partial class PaletteViewerForm : KryptonForm
         input = input.Trim();
 
         // Hex with #
-        if (input.StartsWith("#", System.StringComparison.Ordinal))
+        if (input.StartsWith("#", StringComparison.Ordinal))
         {
             try
             {
-                color = System.Drawing.ColorTranslator.FromHtml(input);
+                color = ColorTranslator.FromHtml(input);
                 return true;
             }
             catch
@@ -1656,11 +1664,12 @@ public partial class PaletteViewerForm : KryptonForm
         {
             try
             {
-                color = System.Drawing.ColorTranslator.FromHtml("#" + input);
+                color = ColorTranslator.FromHtml("#" + input);
                 return true;
             }
             catch
             {
+                // ignored
             }
         }
 
@@ -1671,12 +1680,12 @@ public partial class PaletteViewerForm : KryptonForm
             byte.TryParse(parts[1].Trim(), out byte g) &&
             byte.TryParse(parts[2].Trim(), out byte b))
         {
-            color = System.Drawing.Color.FromArgb(r, g, b);
+            color = Color.FromArgb(r, g, b);
             return true;
         }
 
         // Named colour
-        var named = System.Drawing.Color.FromName(input);
+        var named = Color.FromName(input);
         if (named.IsKnownColor || named.IsNamedColor)
         {
             color = named;
@@ -1688,7 +1697,7 @@ public partial class PaletteViewerForm : KryptonForm
 
     private void SearchForColor()
     {
-        string? input = Krypton.Toolkit.KryptonInputBox.Show(new Krypton.Toolkit.KryptonInputBoxData
+        string? input = KryptonInputBox.Show(new KryptonInputBoxData
         {
             Prompt = "Enter colour to search (e.g. #FF0000 or 255,0,0):",
             Caption = "Search Colour",
@@ -1702,13 +1711,13 @@ public partial class PaletteViewerForm : KryptonForm
         }
 
         // starting position after current cell
-        int startRow = this.dataGridViewPalette.CurrentCell?.RowIndex ?? 0;
-        int startCol = this.dataGridViewPalette.CurrentCell?.ColumnIndex ?? 3;
+        int startRow = dataGridViewPalette.CurrentCell?.RowIndex ?? 0;
+        int startCol = dataGridViewPalette.CurrentCell?.ColumnIndex ?? 3;
 
         // Search forward from next cell
         bool found = false;
-        int rowCount = this.dataGridViewPalette.Rows.Count;
-        int colCount = this.dataGridViewPalette.Columns.Count;
+        int rowCount = dataGridViewPalette.Rows.Count;
+        int colCount = dataGridViewPalette.Columns.Count;
 
         int r = startRow;
         int c = startCol + 1;
@@ -1721,10 +1730,10 @@ public partial class PaletteViewerForm : KryptonForm
                 c = 3;
             }
 
-            var cell = this.dataGridViewPalette.Rows[r].Cells[c];
+            var cell = dataGridViewPalette.Rows[r].Cells[c];
             if (cell.Style.BackColor.ToArgb() == target.ToArgb())
             {
-                this.dataGridViewPalette.CurrentCell = cell;
+                dataGridViewPalette.CurrentCell = cell;
                 found = true;
                 break;
             }
@@ -1737,7 +1746,7 @@ public partial class PaletteViewerForm : KryptonForm
 
     private void ApplyRowFilter(Func<DataGridViewRow, bool> predicate)
     {
-        foreach (DataGridViewRow row in this.dataGridViewPalette.Rows)
+        foreach (DataGridViewRow row in dataGridViewPalette.Rows)
         {
             if (row.IsNewRow)
             {
@@ -1750,7 +1759,7 @@ public partial class PaletteViewerForm : KryptonForm
 
     private void FilterRowsByColour()
     {
-        string? input = Krypton.Toolkit.KryptonInputBox.Show(new Krypton.Toolkit.KryptonInputBoxData
+        string? input = KryptonInputBox.Show(new KryptonInputBoxData
         {
             Prompt = "Enter colour to filter by (e.g. #FF0000 or 255,0,0):",
             Caption = "Filter Rows – Colour",
@@ -1771,7 +1780,7 @@ public partial class PaletteViewerForm : KryptonForm
 
     private void FilterRowsByEnumSubstring()
     {
-        string? keyword = Krypton.Toolkit.KryptonInputBox.Show(new Krypton.Toolkit.KryptonInputBoxData
+        string? keyword = KryptonInputBox.Show(new KryptonInputBoxData
         {
             Prompt = "Enter text to filter SchemeBaseColors (contains, case-insensitive):",
             Caption = "Filter Rows – SchemeBaseColors",
@@ -1839,18 +1848,18 @@ public partial class PaletteViewerForm : KryptonForm
 
     private void SetupContextMenu()
     {
-        _contextMenu = new System.Windows.Forms.ContextMenuStrip();
+        _contextMenu = new ContextMenuStrip();
         _contextMenu.Items.Add("Search Colour...\tCtrl+F", null, (_, __) => SearchForColor());
         _contextMenu.Items.Add("Filter by Colour...\tCtrl+Shift+C", null, (_, __) => FilterRowsByColour());
         _contextMenu.Items.Add("Filter by Name...\tCtrl+Shift+F", null, (_, __) => FilterRowsByEnumSubstring());
-        _contextMenu.Items.Add(new System.Windows.Forms.ToolStripSeparator());
+        _contextMenu.Items.Add(new ToolStripSeparator());
         _contextMenu.Items.Add("Reset Filters\tCtrl+Shift+R", null, (_, __) => ClearRowFilter());
 
-        this.dataGridViewPalette.ContextMenuStrip = _contextMenu;
+        dataGridViewPalette.ContextMenuStrip = _contextMenu;
     }
 
     //-------------- Filter evaluation -------------------
-    private bool RowPassesFilters(System.Windows.Forms.DataGridViewRow row)
+    private bool RowPassesFilters(DataGridViewRow row)
     {
         if (row.IsNewRow)
         {
@@ -1875,7 +1884,11 @@ public partial class PaletteViewerForm : KryptonForm
         if (!string.IsNullOrWhiteSpace(_activeNameFilter))
         {
             string? enumName = row.Cells.Count > 1 ? row.Cells[1].Value?.ToString() : null;
-            passesName = enumName != null && enumName.IndexOf(_activeNameFilter, System.StringComparison.OrdinalIgnoreCase) >= 0;
+            if (_activeNameFilter != null)
+            {
+                passesName = enumName != null &&
+                             enumName.IndexOf(_activeNameFilter, StringComparison.OrdinalIgnoreCase) >= 0;
+            }
         }
 
         return passesColour && passesName;
@@ -1883,7 +1896,7 @@ public partial class PaletteViewerForm : KryptonForm
 
     private void UpdateRowVisibility()
     {
-        foreach (System.Windows.Forms.DataGridViewRow row in this.dataGridViewPalette.Rows)
+        foreach (DataGridViewRow row in dataGridViewPalette.Rows)
         {
             if (row.IsNewRow)
             {
@@ -1893,6 +1906,6 @@ public partial class PaletteViewerForm : KryptonForm
             row.Visible = RowPassesFilters(row);
         }
 
-        this.dataGridViewPalette.Refresh();
+        dataGridViewPalette.Refresh();
     }
 }

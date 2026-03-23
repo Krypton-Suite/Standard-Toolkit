@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -228,6 +228,11 @@ public class KryptonGlobalToolkitStrings : GlobalId
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public static SystemMenuStrings Win32SystemMenuStrings { get; } = new SystemMenuStrings();
 
+    /// <summary>Gets the form title bar strings.</summary>
+    /// <value>The form title bar strings.</value>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public static FormTitleBarStrings FormTitleBarStrings { get; } = new FormTitleBarStrings();
+
     #endregion
 
     #region Public
@@ -363,6 +368,19 @@ public class KryptonGlobalToolkitStrings : GlobalId
     public IntegratedToolBarStrings ToolBarStrings => IntegratedToolBarStrings;
     private bool ShouldSerializeToolBarStrings() => !IntegratedToolBarStrings.IsDefault;
     private void ResetToolBarStrings() => IntegratedToolBarStrings.Reset();
+
+    /// <summary>Gets the form title bar strings.</summary>
+    /// <value>The form title bar strings.</value>
+    [Category(@"Visuals")]
+    [Description(@"Collection of form title bar strings.")]
+    [MergableProperty(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    [Localizable(true)]
+    public FormTitleBarStrings TitleBarStrings => FormTitleBarStrings;
+
+    private bool ShouldSerializeTitleBarStrings() => !FormTitleBarStrings.IsDefault;
+
+    private void ResetTitleBarStrings() => FormTitleBarStrings.Reset();
 
     /// <summary>Gets the link behavior style strings.</summary>
     /// <value>The link behavior style strings.</value>
@@ -738,12 +756,14 @@ public class KryptonGlobalToolkitStrings : GlobalId
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public bool IsDefault => !(ShouldSerializeAboutBoxBasicStrings() || ShouldSerializeAboutBoxStrings() || ShouldSerializeBugReportingDialogStrings() ||
+    public bool IsDefault => !(ShouldSerializeAboutBoxBasicStrings() || ShouldSerializeAboutBoxStrings() ||
+                               ShouldSerializeBugReportingDialogStrings() ||
                                ShouldSerializeExceptionDialogStrings() || ShouldSerializePrintPreviewDialogStrings() ||
                                ShouldSerializeBackStyleStrings() || ShouldSerializeBorderStyleStrings() ||
                                ShouldSerializeButtonOrientationStrings() ||
                                ShouldSerializeButtonSpecStyleStrings() || ShouldSerializeButtonStyleStrings() ||
-                               ShouldSerializeColorStrings() || ShouldSerializeCustomStrings() || ShouldSerializeFileSystemListViewStrings() ||
+                               ShouldSerializeColorStrings() || ShouldSerializeCustomStrings() ||
+                               ShouldSerializeFileSystemListViewStrings() ||
                                ShouldSerializeGeneralRibbonStrings() || ShouldSerializeGeneralStrings() ||
                                ShouldSerializeGridStyleStrings() || ShouldSerializeGridViewStyleStrings() ||
                                ShouldSerializeHeaderGroupCollapsedTargetStrings() ||
@@ -759,8 +779,9 @@ public class KryptonGlobalToolkitStrings : GlobalId
                                ShouldSerializeToastNotificationIconStrings() ||
                                ShouldSerializeTabBorderStyleStrings() || ShouldSerializeTabStyleStrings() ||
                                ShouldSerializeToastNotificationStrings() || ShouldSerializeToolBarStrings() ||
-                               ShouldSerializeSplashScreenStringsStrings() || ShouldSerializeMiscellaneousStrings() || 
-                               ShouldSerializeMessageBoxStringsStrings() || ShouldSerializeSystemMenuStrings());
+                               ShouldSerializeSplashScreenStringsStrings() || ShouldSerializeMiscellaneousStrings() ||
+                               ShouldSerializeMessageBoxStringsStrings() || ShouldSerializeSystemMenuStrings() ||
+                               ShouldSerializeTitleBarStrings());
 
     /// <summary>Resets this instance.</summary>
     public void Reset()
@@ -807,6 +828,7 @@ public class KryptonGlobalToolkitStrings : GlobalId
         ResetMessageBoxStrings();
         ResetSearchBoxStrings();
         ResetSystemMenuStrings();
+        ResetTitleBarStrings();
     }
 
     #endregion

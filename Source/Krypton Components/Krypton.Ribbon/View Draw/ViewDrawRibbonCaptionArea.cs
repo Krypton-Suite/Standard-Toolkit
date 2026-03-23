@@ -185,15 +185,15 @@ internal class ViewDrawRibbonCaptionArea : ViewDrawDocker
     public void AppButtonChanged() =>
         // Requests a repaint to show the change.
         OnAppButtonNeedPaint(this, new NeedLayoutEventArgs(false));
-    #endregion
+	#endregion
 
-    #region AppButtonChanged
-    /// <summary>
-    /// Update the visible state of the caption area based on integration, app button, contexts and qat location.
-    /// </summary>
-    public void UpdateVisible() => Visible = !_integrated &&
-                                             (_ribbon.RibbonFileAppButton.AppButtonVisible ||
-                                              (_ribbon.QATLocation == QATLocation.Above) ||
+	#region AppButtonChanged
+	/// <summary>
+	/// Update the visible state of the caption area based on integration, app button, contexts and qat location.
+	/// </summary>
+	/// Fix:3203 Ribbon: QATLocation=Hidden does not hide QAT
+	public void UpdateVisible() => Visible = !_integrated &&
+                                             ((_ribbon.QATLocation == QATLocation.Above) ||
                                               (_ribbon.RibbonContexts.Count > 0));
     #endregion
 

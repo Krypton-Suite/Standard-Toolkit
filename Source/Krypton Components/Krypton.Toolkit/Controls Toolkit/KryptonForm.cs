@@ -204,6 +204,12 @@ public class KryptonForm : VisualForm,
     private KryptonSystemMenu? _kryptonSystemMenu;
     // SystemMenu context menu components
     private KryptonContextMenu _systemMenuContextMenu;
+
+    // Titlebar
+    private KryptonFormTitleBar? _titleBar;
+    private ViewDrawDocker? _titleBarDocker;
+    private ButtonSpecManagerDraw? _titleBarButtonManager;
+
     #endregion
 
     #region Identity
@@ -353,33 +359,6 @@ public class KryptonForm : VisualForm,
 
     #region Private SizeGrip
     private float GetDpiFactor() => DeviceDpi / 96F;
-
-    /// <summary>
-    /// Gets the size (width and height) of the top-left corner hit-test area when maximized.
-    /// Theme-related (uses caption height or form button size) and scaled by DPI/zoom. Issue #3012.
-    /// </summary>
-    private int GetTopLeftCornerHitTestSize()
-    {
-        const int defaultAt96Dpi = 20;
-
-        // Prefer theme-derived size: caption height (varies by theme, e.g. Material 44px)
-        int captionHeight = _drawHeading?.ClientRectangle.Height ?? 0;
-        if (captionHeight > 0)
-        {
-            return Math.Max(1, captionHeight);
-        }
-
-        // Else use form button size (theme-dependent)
-        Rectangle closeRect = _buttonManager.GetButtonRectangle(ButtonSpecClose);
-        int buttonSize = Math.Max(closeRect.Height, closeRect.Width);
-        if (buttonSize > 0)
-        {
-            return Math.Max(1, buttonSize);
-        }
-
-        // Fallback: default size scaled by DPI/zoom
-        return Math.Max(1, (int)Math.Round(defaultAt96Dpi * GetDpiFactor()));
-    }
 
     /// <summary>
     /// Determines whether the form-level sizing grip should be shown.
@@ -611,6 +590,16 @@ public class KryptonForm : VisualForm,
             ButtonSpecMin.Dispose();
             ButtonSpecMax.Dispose();
             ButtonSpecClose.Dispose();
+
+            // Detach the title bar fully (unsubscribes events, revokes view element,
+            // clears SetOwnerForm, destructs the button manager, and disposes the docker).
+            // Using DetachTitleBar keeps this in sync with the property-setter teardown
+            // and prevents OnTitleBarButtonSpecChanged firing on a disposed handle.
+            if (_titleBar != null)
+            {
+                DetachTitleBar(_titleBar);
+                _titleBar = null;
+            }
 
             // Dispose the click timer
             _clickTimer?.Dispose();
@@ -1145,6 +1134,38 @@ public class KryptonForm : VisualForm,
     [Description(@"Collection of button specifications.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public FormButtonSpecCollection ButtonSpecs { get; }
+
+    /// <summary>
+    /// Gets or sets the <see cref="KryptonFormTitleBar"/> component that hosts button-spec items
+    /// in the title bar caption area, to the left of the form title text.
+    /// Set to <c>null</c> to remove any previously attached title bar toolbar.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Title bar component that hosts button-spec items in the form caption area.")]
+    [DefaultValue(null)]
+    public KryptonFormTitleBar? TitleBar
+    {
+        get => _titleBar;
+        set
+        {
+            if (_titleBar == value)
+            {
+                return;
+            }
+
+            if (_titleBar != null)
+            {
+                DetachTitleBar(_titleBar);
+            }
+
+            _titleBar = value;
+
+            if (_titleBar != null)
+            {
+                AttachTitleBar(_titleBar);
+            }
+        }
+    }
 
     /// <summary>
     /// Gets access to the minimize button spec.
@@ -1753,6 +1774,8 @@ public class KryptonForm : VisualForm,
 
         // Recreate buttons when RTL changes to update their positions
         _buttonManager?.RecreateButtons();
+
+        _titleBarButtonManager?.RecreateButtons();
     }
 
     /// <inheritdoc />
@@ -1762,6 +1785,8 @@ public class KryptonForm : VisualForm,
 
         // Recreate buttons when RTL changes to update their positions
         _buttonManager?.RecreateButtons();
+
+        _titleBarButtonManager?.RecreateButtons();
     }
 
     /// <summary>
@@ -1773,6 +1798,8 @@ public class KryptonForm : VisualForm,
     {
         // Recreate buttons when touchscreen support changes to update their sizes
         _buttonManager?.RecreateButtons();
+
+        _titleBarButtonManager?.RecreateButtons();
     }
 
     /// <summary>
@@ -1875,45 +1902,11 @@ public class KryptonForm : VisualForm,
         // Let default processing run first
         base.WndProc(ref m);
 
-        // Ensure maximized window fits within the monitor's working area (no -8 offset, height/width not exceeding work area)
-        if (m.Msg == (int)PI.WM_.GETMINMAXINFO)
-        {
-            ConstrainMaximizedBoundsToWorkArea(ref m);
-        }
-
         // After the client has painted, draw our grip overlay last so it isn't erased
         if (m.Msg == WM_PAINT)
         {
             DrawSizingGripOverlayIfNeeded();
         }
-    }
-
-    /// <summary>
-    /// Constrains the maximized window size and position to the monitor's working area.
-    /// Prevents Left/Top at -8 and height/width exceeding working area when maximized.
-    /// </summary>
-    private static void ConstrainMaximizedBoundsToWorkArea(ref Message m)
-    {
-        const int MONITOR_DEFAULT_TO_NEAREST = 0x00000002;
-
-        IntPtr monitor = PI.MonitorFromWindow(m.HWnd, MONITOR_DEFAULT_TO_NEAREST);
-        if (monitor == IntPtr.Zero)
-        {
-            return;
-        }
-
-        PI.MONITORINFO mi = PI.GetMonitorInfo(monitor);
-        int workWidth = mi.rcWork.right - mi.rcWork.left;
-        int workHeight = mi.rcWork.bottom - mi.rcWork.top;
-        int maxX = Math.Abs(mi.rcWork.left - mi.rcMonitor.left);
-        int maxY = Math.Abs(mi.rcWork.top - mi.rcMonitor.top);
-
-        PI.MINMAXINFO mmi = (PI.MINMAXINFO)Marshal.PtrToStructure(m.LParam, typeof(PI.MINMAXINFO))!;
-        mmi.ptMaxPosition.X = maxX;
-        mmi.ptMaxPosition.Y = maxY;
-        mmi.ptMaxSize.X = workWidth;
-        mmi.ptMaxSize.Y = workHeight;
-        Marshal.StructureToPtr(mmi, m.LParam, false);
     }
 
     protected override bool OnWM_NCLBUTTONDBLCLK(ref Message m)
@@ -2150,29 +2143,6 @@ public class KryptonForm : VisualForm,
         if (InertForm)
         {
             return new IntPtr(PI.HT.CLIENT);
-        }
-
-        // Issue #3012: When maximized, clicking the top-left corner should show system menu (LTR) or close (RTL)
-        bool isMaximized = GetWindowState() == FormWindowState.Maximized;
-        if (isMaximized)
-        {
-            // Corner size is theme-related (caption/button size) and scaled by DPI/zoom
-            int cornerSize = GetTopLeftCornerHitTestSize();
-            Rectangle topLeftCorner = new Rectangle(0, 0, cornerSize, cornerSize);
-
-            if (topLeftCorner.Contains(pt))
-            {
-                // For RTL layouts, top-left corner should close the form
-                // For LTR layouts, top-left corner should show system menu
-                if (RightToLeftLayout)
-                {
-                    return new IntPtr(PI.HT.CLOSE);
-                }
-                else
-                {
-                    return new IntPtr(PI.HT.MENU);
-                }
-            }
         }
 
         using (var context = new ViewLayoutContext(this, Renderer))
@@ -2760,13 +2730,39 @@ public class KryptonForm : VisualForm,
     {
         if (MdiParent == null)
         {
-            // Fix for #2457 / #3012: Do not apply a clipping region when maximized.
-            // For RTL layout mode, disable region clipping to prevent border issues (#2457).
-            // For all maximized forms, skip region so the title bar, control box, and left/top/bottom
-            // edges are not cut off (#3012 - controlbox and buttonspace not show full when maximized).
+            // Fix for #2457, please do not remove!!!
+            // For RTL layout mode, disable region clipping to prevent border issues
+            if (RightToLeftLayout)
+            {
+                SuspendPaint();
+                _regionWindowState = FormWindowState.Maximized;
+                UpdateBorderRegion(null); // No region clipping in RTL mode
+                ResumePaint();
+                return;
+            }
+
+            // Get the size of each window border
+            var xBorder = PI.GetSystemMetrics(PI.SM_.CXSIZEFRAME) * 2;
+            var yBorder = PI.GetSystemMetrics(PI.SM_.CYSIZEFRAME) * 2;
+
+            // Fix for #2457, please do not remove!!!
+            // Get the actual border widths from the form's border palette
+            var formBorder = StateCommon?.Border as PaletteFormBorder;
+            var (leftBorder, topBorder) = formBorder?.BorderWidths(FormBorderStyle) ?? (xBorder / 2, yBorder / 2);
+            var rightBorder = leftBorder; // Use same width for right border
+            var bottomBorder = topBorder; // Use same width for bottom border
+
+            // Calculate the maximized region with proper border handling
+            var maximizedRect = new Rectangle(
+                leftBorder,
+                topBorder,
+                Width - (leftBorder + rightBorder),
+                Height - (topBorder + bottomBorder));
+
+            // Use this as the new region
             SuspendPaint();
             _regionWindowState = FormWindowState.Maximized;
-            UpdateBorderRegion(null);
+            UpdateBorderRegion(new Region(maximizedRect));
             ResumePaint();
         }
         else
@@ -3114,6 +3110,113 @@ public class KryptonForm : VisualForm,
     protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
     {
         return base.ProcessCmdKey(ref msg, keyData);
+    }
+
+    private void AttachTitleBar([DisallowNull] KryptonFormTitleBar titleBar)
+    {
+        // Give the title bar component a back-reference to this form so it can
+        // reach form-level state (palette, metrics, etc.) during rendering.
+        titleBar.SetOwnerForm(this);
+
+        // Create a ViewDrawDocker that will act as a container for the title bar's
+        // custom buttons.  It inherits the active header's back, border, and palette
+        // so it blends seamlessly into the caption area.
+        // PaletteMetricBool.None / PaletteMetricPadding.None mean the docker adds no
+        // extra padding of its own; VisualOrientation.Top matches the caption bar.
+        _titleBarDocker = new ViewDrawDocker(StateActive.Header.Back, StateActive.Header.Border, StateActive.Header,
+            PaletteMetricBool.None, PaletteMetricPadding.None, VisualOrientation.Top);
+
+        // ButtonSpecManagerDraw wires the KryptonFormTitleBar.ButtonSpecs collection to
+        // the view layer.  Each ButtonSpec is turned into a real view button, rendered
+        // inside _titleBarDocker, and measured using the HeaderButtonEdgeInset /
+        // HeaderButtonPadding metrics so spacing stays consistent with the rest of the
+        // caption buttons (Min/Max/Close).
+        // Passing null for the fixed-button array means only the user-defined specs
+        // from the titleBar are managed here; the system chrome buttons are handled by
+        // the separate _buttonManager.
+        // Under RTL+RightToLeftLayout, ViewDrawDocker.CalculateDock() automatically
+        // flips ViewDockStyle.Left to ViewDockStyle.Right, so the injected docker
+        // migrates to the correct visual edge without any extra code here.
+        _titleBarButtonManager = new ButtonSpecManagerDraw(
+            this,                                           // owning control (for RightToLeft checks)
+            Redirector,                                     // palette redirector
+            titleBar.ButtonSpecs,                           // the user-defined button specs to render
+            null,                                           // no fixed button specs in this manager
+            [_titleBarDocker],                              // single view container the buttons live in
+            [StateCommon!.Header],                           // palette state used to style each button
+            [PaletteMetricInt.HeaderButtonEdgeInsetForm],   // edge inset metric (gap from docker border)
+            [PaletteMetricPadding.HeaderButtonPaddingForm], // padding metric around each button
+            CreateToolStripRenderer,                        // renderer factory (for ToolStrip-hosted glyphs)
+            OnNeedPaint);                                   // invalidation callback
+
+        // Share the form-level ToolTipManager so hovering a title bar button shows
+        // a tooltip using the same infrastructure as all other Krypton controls.
+        _titleBarButtonManager.ToolTipManager = ToolTipManager;
+
+        // Physically insert _titleBarDocker into the caption view tree as a Left-docked
+        // child of _drawHeading.  This places the custom buttons between the form icon
+        // (which is drawn by _drawContent as the content image) and the title text,
+        // mirroring where the Ribbon places its Quick-Access Toolbar buttons.
+        // Under RTL the Left dock is flipped to Right by the layout engine, which in a
+        // mirrored coordinate system is still visually "after the icon, before the title".
+        InjectViewElement(_titleBarDocker, ViewDockStyle.Left);
+
+        // Track collection changes so the view stays in sync: when the developer adds
+        // or removes a ButtonSpec at runtime, OnTitleBarButtonSpecChanged refreshes the
+        // button views and re-measures the caption area.
+        titleBar.ButtonSpecInserted += OnTitleBarButtonSpecChanged;
+        titleBar.ButtonSpecRemoved += OnTitleBarButtonSpecChanged;
+
+        // Rebuild the Min/Max/Close buttons because their edge-inset calculations can
+        // depend on how many title bar buttons are now present, then request a full
+        // non-client repaint so the new buttons appear immediately.
+        RecreateMinMaxCloseButtons();
+        PerformNeedPaint(true);
+    }
+
+    private void DetachTitleBar([DisallowNull] KryptonFormTitleBar titleBar)
+    {
+        // Stop listening for collection changes first so no callbacks fire
+        // during the teardown sequence below.
+        titleBar.ButtonSpecInserted -= OnTitleBarButtonSpecChanged;
+        titleBar.ButtonSpecRemoved -= OnTitleBarButtonSpecChanged;
+
+        // Remove the docker from the caption view tree before destroying it so the
+        // layout engine never tries to measure a partially-disposed element.
+        if (_titleBarDocker != null)
+        {
+            RevokeViewElement(_titleBarDocker, ViewDockStyle.Left);
+        }
+
+        // Destruct releases all button view elements created by the manager and
+        // unregisters any internal event handlers it holds.
+        _titleBarButtonManager?.Destruct();
+        _titleBarButtonManager = null;
+
+        // Dispose the docker view after the manager is gone so no lingering
+        // button views attempt to paint through an already-disposed parent.
+        _titleBarDocker?.Dispose();
+        _titleBarDocker = null;
+
+        // Clear the back-reference so the title bar component no longer holds
+        // a reference to this form.
+        titleBar.SetOwnerForm(null);
+
+        // Rebuild chrome buttons and repaint for the same reason as in AttachTitleBar:
+        // the caption geometry has changed and Min/Max/Close need to recalculate.
+        RecreateMinMaxCloseButtons();
+        PerformNeedPaint(true);
+    }
+
+    private void OnTitleBarButtonSpecChanged(object? sender, ButtonSpecEventArgs e)
+    {
+        // A ButtonSpec was added to or removed from the KryptonFormTitleBar collection.
+        // RefreshButtons re-creates only the affected view button(s) inside the manager
+        // without rebuilding the entire caption tree, then RecreateMinMaxCloseButtons
+        // adjusts the chrome button spacing and a repaint makes the change visible.
+        _titleBarButtonManager?.RefreshButtons();
+        RecreateMinMaxCloseButtons();
+        PerformNeedPaint(true);
     }
 
     #endregion

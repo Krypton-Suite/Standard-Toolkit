@@ -98,6 +98,12 @@ public interface IQuickAccessToolbarButton
     string GetToolTipBody();
 
     /// <summary>
+    /// Gets the button specification style (e.g. New, Open, Save) for themed icons.
+    /// </summary>
+    /// <returns>Button spec style; Generic uses custom Image.</returns>
+    PaletteButtonSpecStyle GetButtonSpecType();
+
+    /// <summary>
     /// Does the tooltip have a shadow?
     /// </summary>
     /// <returns></returns>

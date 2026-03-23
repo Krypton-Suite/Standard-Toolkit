@@ -237,6 +237,11 @@
             this.textBoxSelectedContexts = new Krypton.Toolkit.KryptonTextBox();
             this.labelContextsInstructions = new Krypton.Toolkit.KryptonLabel();
             this.kryptonContextMenuItem4 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonRibbonQATButton1 = new Krypton.Ribbon.KryptonRibbonQATButton();
+            this.kryptonRibbonQATButton2 = new Krypton.Ribbon.KryptonRibbonQATButton();
+            this.kryptonRibbonQATButton3 = new Krypton.Ribbon.KryptonRibbonQATButton();
+            this.kryptonRibbonQATButton4 = new Krypton.Ribbon.KryptonRibbonQATButton();
+            this.kryptonRibbonQATButton5 = new Krypton.Ribbon.KryptonRibbonQATButton();
             ((System.ComponentModel.ISupportInitialize)(this.labelOffice2007Styles)).BeginInit();
             this.labelOffice2007Styles.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
@@ -304,6 +309,13 @@
             // kryptonRibbon
             // 
             this.kryptonRibbon.Name = "kryptonRibbon";
+            this.kryptonRibbon.NotificationBar.ActionButtonTexts = new string[0];
+            this.kryptonRibbon.QATButtons.AddRange(new System.ComponentModel.Component[] {
+            this.kryptonRibbonQATButton1,
+            this.kryptonRibbonQATButton2,
+            this.kryptonRibbonQATButton3,
+            this.kryptonRibbonQATButton4,
+            this.kryptonRibbonQATButton5});
             this.kryptonRibbon.RibbonContexts.AddRange(new Krypton.Ribbon.KryptonRibbonContext[] {
             this.contextDefRed,
             this.contextDefGreen});
@@ -1467,6 +1479,26 @@
             this.labelContextsInstructions.Values.Text = "Use a common separated list of context names and then\r\npress the \'Apply\' button. " +
     "To remove all contextual tabs\r\njust remove all the text and press \'Apply\'.";
             // 
+            // kryptonRibbonQATButton1
+            // 
+            this.kryptonRibbonQATButton1.Type = Krypton.Toolkit.PaletteButtonSpecStyle.New;
+            // 
+            // kryptonRibbonQATButton2
+            // 
+            this.kryptonRibbonQATButton2.Type = Krypton.Toolkit.PaletteButtonSpecStyle.Open;
+            // 
+            // kryptonRibbonQATButton3
+            // 
+            this.kryptonRibbonQATButton3.Type = Krypton.Toolkit.PaletteButtonSpecStyle.Save;
+            // 
+            // kryptonRibbonQATButton4
+            // 
+            this.kryptonRibbonQATButton4.Type = Krypton.Toolkit.PaletteButtonSpecStyle.PrintPreview;
+            // 
+            // kryptonRibbonQATButton5
+            // 
+            this.kryptonRibbonQATButton5.Type = Krypton.Toolkit.PaletteButtonSpecStyle.Print;
+            // 
             // RibbonTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1710,5 +1742,10 @@
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButton19;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButton20;
         private KryptonThemeComboBox kryptonThemeComboBox1;
+        private Krypton.Ribbon.KryptonRibbonQATButton kryptonRibbonQATButton1;
+        private Krypton.Ribbon.KryptonRibbonQATButton kryptonRibbonQATButton2;
+        private Krypton.Ribbon.KryptonRibbonQATButton kryptonRibbonQATButton3;
+        private Krypton.Ribbon.KryptonRibbonQATButton kryptonRibbonQATButton4;
+        private Krypton.Ribbon.KryptonRibbonQATButton kryptonRibbonQATButton5;
     }
 }

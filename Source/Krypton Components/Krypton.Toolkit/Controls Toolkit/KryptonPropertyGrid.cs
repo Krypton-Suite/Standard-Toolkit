@@ -277,6 +277,7 @@ public class KryptonPropertyGrid : VisualControlBase,
 
         // Create the internal list box used for containing content
         _propertyGrid = new InternalPropertyGrid(this);
+        _propertyGrid.Font = DefaultFont; // Ensure valid font before DocComment.WmCreate; prevents Font.GetHeight ArgumentException
         _propertyGrid.Click += OnPropertyGridClick; // SKC: make sure that the default click is also routed.
         _propertyGrid.GotFocus += OnPropertyGridGotFocus;
         _propertyGrid.LostFocus += OnPropertyGridLostFocus;
@@ -673,10 +674,10 @@ public class KryptonPropertyGrid : VisualControlBase,
             _propertyGrid.ViewDrawPanel.ElementState = pState;
             _drawDockerOuter.ElementState = pState;
 
-            var normalFont = gridState.PaletteContent?.GetContentShortTextFont(PaletteState.ContextNormal);
-            var disabledFont = gridState.PaletteContent?.GetContentShortTextFont(PaletteState.Disabled);
-
-            _propertyGrid.Font = (Enabled ? normalFont : disabledFont)!;
+            // Use DefaultFont for PropertyGrid to avoid Font.GetHeight ArgumentException in DocComment.UpdateUIWithFont.
+            // Palette fonts can be invalid in certain themes or contexts, causing crash during PropertyGrid child creation.
+            Font safeFont = DefaultFont;
+            _propertyGrid.Font = safeFont;
             _propertyGrid.BackColor =
                 gridState.PaletteBack.GetBackColor1(Enabled ? PaletteState.Normal : PaletteState.Disabled);
 
@@ -689,21 +690,19 @@ public class KryptonPropertyGrid : VisualControlBase,
                 {
                     state = PaletteState.FocusOverride;
                     triple = StateActive;
-                    control.Font = StateActive.PaletteContent?.GetContentShortTextFont(PaletteState.FocusOverride)!;
                 }
                 else if (control.Enabled)
                 {
                     state = PaletteState.ContextNormal;
                     triple = StateNormal;
-                    // Note: tobitege commented out to avoid unrecoverable exception in System.Drawing, when toggling theme back and forth
-                    control.Font = normalFont!;
                 }
                 else
                 {
                     state = PaletteState.Disabled;
                     triple = StateDisabled;
-                    control.Font = disabledFont!;
                 }
+
+                control.Font = safeFont; // Same as PropertyGrid; avoids DocComment Font.GetHeight crash
 
                 control.ForeColor = triple.PaletteContent!.GetContentShortTextColor1(state);
                 control.BackColor = triple.PaletteBack.GetBackColor1(state);
@@ -721,7 +720,6 @@ public class KryptonPropertyGrid : VisualControlBase,
     }
 
     private IPaletteTriple GetTripleState() => Enabled ? (IsActive ? StateActive : StateNormal) : StateDisabled;
-
 
     private static Color ContrastColor(Color color)
     {

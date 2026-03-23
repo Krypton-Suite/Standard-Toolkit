@@ -2298,46 +2298,6 @@ public enum ToolkitSupportType
 
 #endregion
 
-#region AboutBox Definitions
-
-#region Enum AboutToolkitPage
-
-internal enum AboutToolkitPage
-{
-    GeneralInformation = 0,
-    Discord = 1,
-    DeveloperInformation = 2,
-    Versions = 3
-}
-
-#endregion
-
-#region Enum AboutBoxFileInformationPage
-
-public enum AboutBoxFileInformationPage
-{
-    Application = 0,
-    Assemblies = 1,
-    AssemblyDetails = 2
-}
-
-#endregion
-
-#region Enum AboutBoxPage
-
-public enum AboutBoxPage
-{
-    GeneralInformation = 0,
-    Description = 1,
-    FileInformation = 2,
-    Theme = 3,
-    ToolkitInformation = 4
-}
-
-#endregion
-
-#endregion
-
 #region InformationBox Definitions
 
 #region Enum AutoCloseDefinedParameters
@@ -4525,6 +4485,29 @@ public enum ScrollbarManagerMode
     /// Custom mode - for controls with custom scrolling logic.
     /// </summary>
     Custom
+}
+
+#endregion
+
+#region Enum KryptonTaskbarProgressState
+
+/// <summary>Specifies the state of the taskbar progress indicator when <see cref="KryptonProgressBar.UseTaskbarProgress"/> is enabled.</summary>
+public enum KryptonTaskbarProgressState
+{
+    /// <summary>No progress indicator is shown. Equivalent to <c>TBPF_NOPROGRESS</c>.</summary>
+    NoProgress = 0,
+
+    /// <summary>A pulsing green indicator is shown without a specific value. Equivalent to <c>TBPF_INDETERMINATE</c>.</summary>
+    Indeterminate = 1,
+
+    /// <summary>A green progress indicator shows the current completion amount. Equivalent to <c>TBPF_NORMAL</c>.</summary>
+    Normal = 2,
+
+    /// <summary>A red progress indicator shows that an error has occurred. Equivalent to <c>TBPF_ERROR</c>.</summary>
+    Error = 4,
+
+    /// <summary>A yellow progress indicator shows that the operation has been paused. Equivalent to <c>TBPF_PAUSED</c>.</summary>
+    Paused = 8
 }
 
 #endregion

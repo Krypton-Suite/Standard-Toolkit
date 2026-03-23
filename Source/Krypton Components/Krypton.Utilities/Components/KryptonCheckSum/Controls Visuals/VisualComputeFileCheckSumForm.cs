@@ -33,10 +33,13 @@ internal partial class VisualComputeFileCheckSumForm : KryptonForm
     /// <summary>
     /// Gets or sets the initial file path to display when the form is shown via the static API.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public string? InitialFilePath { get; set; }
 
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public SupportedHashAlgorithims HashAlgorithm { get; set; }
 
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public SafeNETAndNewerSupportedHashAlgorithms SafeNETAndNewerHashAlgorithm { get; set; }
 
     #endregion
@@ -332,7 +335,7 @@ internal partial class VisualComputeFileCheckSumForm : KryptonForm
                 {
                     hasher.TransformFinalBlock(Array.Empty<byte>(), 0, 0);
                     reportProgress(100);
-                    return buildHashString(hasher.Hash);
+                    return buildHashString(hasher.Hash!);
                 }
 
                 byte[] buffer;
@@ -348,7 +351,7 @@ internal partial class VisualComputeFileCheckSumForm : KryptonForm
                 } while (bytesRead != 0);
 
                 hasher.TransformFinalBlock(buffer, 0, 0);
-                return buildHashString(hasher.Hash);
+                return buildHashString(hasher.Hash!);
             }
         }
     }

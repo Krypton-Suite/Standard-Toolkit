@@ -68,6 +68,7 @@ public partial class StartScreen : KryptonForm
         CreateButton("Bug 2984 Separator Test", "Demo for Issue #2984: NullReferenceException in ViewDrawSeparator.RenderBefore. Exercises KryptonNavigator (Outlook), KryptonSplitContainer, and KryptonSeparator. Swap themes to verify no crash.", typeof(Bug2984SeparatorTest));
         CreateButton("Bug 3025 KryptonLabel AutoSize Demo", "Demo for Issue #3025: KryptonLabel with AutoSize now resizes to fit text when placed in the Designer (click-drag). Shows AutoSize on/off, LabelStyles, short/long text, and text + image.", typeof(Bug3025KryptonLabelAutoSizeDemo));
         CreateButton("Bug 2935 MDI multi-monitor", "Demo for issue #2935: maximized MDI child form border drawn on the correct monitor. Move the MDI parent to a second monitor, open and maximize a child; the border should stay on the same monitor.", typeof(Bug2935MdiMultiMonitorDemo));
+        CreateButton("Bug 3013 Test", "Tests the fix for 3013.", typeof(Bug3013TestForm));
         CreateButton("BugReportingTool", "Easily report bugs with this tool.", typeof(BugReportingDialogTest));
         CreateButton("Code Editor", "Native code editor with syntax highlighting, line numbering, code folding, and auto-completion.", typeof(CodeEditorTest));
         CreateButton("Countdown Button", "Comprehensive demonstration of KryptonCountdownButton features with customizable duration, format, and enable-at-zero options.", typeof(CountdownButtonTest));
@@ -79,6 +80,7 @@ public partial class StartScreen : KryptonForm
         CreateButton("Docking Redock Demo", "Demo for Issue #2933: undock (Float) then redock; no floating window left behind.", typeof(DockingRedockDemo));
         CreateButton("Font Awesome Test", string.Empty, typeof(FontAwesomeTest));
         CreateButton("Floating Window Test", "Comprehensive test for floating window bug fix (Issue #2721)", typeof(FloatingWindowTest));
+        CreateButton("Floating Toolbars Demo", "Comprehensive demonstration of KryptonFloatingToolbars features including drag-and-drop floating/docking, programmatic control, animation, window styles, docking preview indicators, custom themes, state persistence, and multi-monitor support.", typeof(FloatingToolbarsDemo));
         CreateButton("FlowLayoutPanel", "Test KryptonFlowLayoutPanel with dynamic control layout and flow directions.", typeof(FlowLayoutPanelTest));
         CreateButton("FileSystemWatcher", "Monitor file system changes with Krypton integration.", typeof(FileSystemWatcherTest));
         CreateButton("ErrorProvider", string.Empty, typeof(ErrorProviderTest));
@@ -88,6 +90,7 @@ public partial class StartScreen : KryptonForm
         CreateButton("HelpProvider", "Test KryptonHelpProvider functionality", typeof(HelpProviderTest));
         CreateButton("Menu/Tool/Status Strips", string.Empty, typeof(MenuToolBarStatusStripTest));
         CreateButton("NotifyIcon", "Comprehensive demonstration of KryptonNotifyIcon with all events, balloon tips, and context menu support.", typeof(NotifyIconTest));
+        CreateButton("OAuth2 PKCE Demo", "Comprehensive OAuth2 with PKCE demo. Sign in with Azure AD, Google, or GitHub using embedded WebView2 or system browser. Configure client ID, redirect URI, and scopes.", typeof(OAuth2Demo));
         CreateButton("ProgressBar", "Checkout if progress has been made.", typeof(ProgressBarTest));
         CreateButton("ScrollBar", "Comprehensive demonstration of KryptonHScrollBar and KryptonVScrollBar controls with basic usage, scrolling content, synchronization, theming, programmatic control, and event logging.", typeof(ScrollBarTest));
         CreateButton("Scrollbar Manager", "Comprehensive demonstration of KryptonScrollbarManager with container mode, native wrapper mode, dynamic content, and integration examples.", typeof(ScrollbarManagerTest));
@@ -96,10 +99,12 @@ public partial class StartScreen : KryptonForm
         CreateButton("Splash Screen", string.Empty, typeof(SplashScreenExample));
         CreateButton("Taskbar Overlay Icon Test", "Comprehensive demonstration of taskbar overlay icons on KryptonForm with configurable icons, descriptions, and interactive examples.", typeof(TaskbarOverlayIconTest));
         CreateButton("Taskbar Thumbnail Buttons", "Demo of taskbar thumbnail toolbar buttons (Play, Pause, Next, Stop) in the taskbar preview. Hover the taskbar button to see them.", typeof(TaskbarThumbnailButtonsDemo));
+        CreateButton("Taskbar Progress Bar Demo", "Comprehensive demo of KryptonProgressBar taskbar synchronisation (Issue #2890). Covers enable/disable toggle, simulated download, manual slider, all ProgressBarStyles, all KryptonTaskbarProgressState overrides (Normal/Error/Paused/Indeterminate/NoProgress), and Min/Max range.", typeof(TaskbarProgressBarDemo));
         CreateButton("Theme Controls", string.Empty, typeof(ThemeControlExamples));
         CreateButton("Tooltip Extended/Infinite Timeout", "Comprehensive demo of extended and infinite tooltip timeout (Issue #3075). Krypton tooltips support AutoPopDelay > 5000ms and 0 (infinite) on all Windows versions.", typeof(TooltipTimeoutTest));
         CreateButton("TextBox Validating Test", "Tests fix for Validating event duplication bug #2801", typeof(KryptonTextBoxValidatingTest));
         CreateButton("Touchscreen + High DPI Demo", "Comprehensive demonstration of touchscreen support with per-monitor high DPI scaling (Issue #2844).", typeof(TouchscreenHighDpiDemo));
+        CreateButton("Title Bar Menu", "Demonstrates titlebar menu.", typeof(KryptonFormTitleBarDemo));
         CreateButton("RichTextBox Formatting Test", "Tests fix for RichTextBox formatting preservation when palette changes (Issue #2832)", typeof(RichTextBoxFormattingTest));
         CreateButton("RTL Layout Test", "Test for RTL compliance", typeof(RTLFormBorderTest));
         CreateButton("Toast", "For breakfast....?", typeof(ToastNotificationTestChoice));
@@ -140,8 +145,10 @@ public partial class StartScreen : KryptonForm
         CreateButton("Powered By Button", string.Empty, typeof(PoweredByButtonExample));
         CreateButton("Krypton Task Dialog Demo", string.Empty, typeof(KryptonTaskDialogDemoForm));
         CreateButton("Krypton MDI Window", "KryptonForm MDI Container with both KForm and WForm children", typeof(MdiWindow));
+        CreateButton("Tabbed MDI Demo (Issue #1746)", "KryptonTabbedMdiManager: MDI child windows displayed as tab pages instead of overlapping windows.", typeof(TabbedMdiDemo));
         CreateButton("Ribbon MDI Demo (Issue #2921)", "Comprehensive demo for Issue #2921: Ribbon + MDI. Verifies no double ribbon tabs when opening/closing maximized MDI children; close/minimize/maximize and QAT click areas aligned with visuals.", typeof(RibbonMdiDemo));
-    }
+		CreateButton("Ribbon QATLocation=Hidden does not hide QAT when FormBorderStyle=None (Issue #3203)", string.Empty, typeof(Bug3203QATLocationHiddenFormTest));
+	}
 
     private void OnFormClosing(object? sender, FormClosingEventArgs e)
     {

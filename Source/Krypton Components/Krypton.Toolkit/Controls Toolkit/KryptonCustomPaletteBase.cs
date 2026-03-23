@@ -3541,7 +3541,8 @@ public class KryptonCustomPaletteBase : PaletteBase
                             var defaultAttribs = prop.GetCustomAttributes(typeof(DefaultValueAttribute), false);
 
                             // Does this property have a default value attribute?
-                            if (defaultAttribs.Length == 1)
+                            // Use the first one found (KryptonDefaultColor is a DefaultValueAttribute subclass)
+                            if (defaultAttribs.Length >= 1)
                             {
                                 // Cast to correct type
                                 var defaultAttrib = defaultAttribs[0] as DefaultValueAttribute;
@@ -3608,11 +3609,18 @@ public class KryptonCustomPaletteBase : PaletteBase
                             }
                             else
                             {
+                                var cultureInfo = new CultureInfo("en-US");
+			                    
                                 // We need the type converter to create a string representation
-                                var converter = TypeDescriptor.GetConverter(prop.PropertyType);
+								var converter = TypeDescriptor.GetConverter(prop.PropertyType);
 
-                                // Save to an invariant string so that load is not affected by culture
-                                childElement.SetAttribute(@"Value", converter.ConvertToInvariantString(childObj!));
+								// Fix [3164]: "Font property values are not serialized correctly in the exported XML file."
+								// Force serialization using the en-US culture to prevent localization issues.
+								childElement.SetAttribute(@"Value", (string)converter.ConvertTo(
+                                                                        context: null,
+                                                                        culture: cultureInfo,
+                                                                        value: childObj!,
+                                                                        destinationType: typeof(string)));
                             }
                         }
                     }
@@ -3704,8 +3712,8 @@ public class KryptonCustomPaletteBase : PaletteBase
                             {
                                 var defaultAttribs = prop.GetCustomAttributes(typeof(DefaultValueAttribute), false);
 
-                                // Does this property have a default value attribute?
-                                if (defaultAttribs.Length == 1)
+                                // Does this property have at least one default value attribute?
+                                if (defaultAttribs.Length >= 1)
                                 {
                                     // Cast to correct type
                                     var defaultAttrib = (DefaultValueAttribute)defaultAttribs[0];
@@ -4284,6 +4292,23 @@ public class KryptonCustomPaletteBase : PaletteBase
                 return ButtonSpecs.RibbonExpand;
             case PaletteButtonSpecStyle.Undo:
                 return ButtonSpecs.Previous;
+            case PaletteButtonSpecStyle.New:
+            case PaletteButtonSpecStyle.Open:
+            case PaletteButtonSpecStyle.Save:
+            case PaletteButtonSpecStyle.SaveAs:
+            case PaletteButtonSpecStyle.SaveAll:
+            case PaletteButtonSpecStyle.Cut:
+            case PaletteButtonSpecStyle.Copy:
+            case PaletteButtonSpecStyle.Paste:
+            case PaletteButtonSpecStyle.Redo:
+            case PaletteButtonSpecStyle.PageSetup:
+            case PaletteButtonSpecStyle.PrintPreview:
+            case PaletteButtonSpecStyle.Print:
+            case PaletteButtonSpecStyle.QuickPrint:
+            case PaletteButtonSpecStyle.SelectAll:
+            case PaletteButtonSpecStyle.SelectNone:
+            case PaletteButtonSpecStyle.Search:
+                return ButtonSpecs.Generic;
             default:
                 // Should never happen!
                 Debug.Assert(false);

@@ -1,4 +1,6 @@
-﻿namespace TestForm
+#nullable enable
+
+namespace TestForm
 {
     partial class KryptonDateTimePickerMonthCalendarDemo
     {
@@ -98,7 +100,7 @@
             this.btnPickColor.Name = "btnPickColor";
             this.btnPickColor.Size = new System.Drawing.Size(120, 30);
             this.btnPickColor.TabIndex = 1;
-            this.btnPickColor.Values.Image = ((System.Drawing.Image)(resources.GetObject("btnPickColor.Values.Image")));
+            this.btnPickColor.Values.Image = resources.GetObject("btnPickColor.Values.Image") as System.Drawing.Image;
             this.btnPickColor.Values.RoundedCorners = 8;
             this.btnPickColor.Values.Text = "Calendar color";
             // 

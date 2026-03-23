@@ -17,7 +17,11 @@ namespace Krypton.Ribbon;
 internal class QATButtonToContent : IPaletteContent
 {
     #region Instance Fields
+
     private readonly IQuickAccessToolbarButton _qatButton;
+
+    private readonly KryptonRibbon _ribbon;
+
     #endregion
 
     #region Identity
@@ -25,11 +29,14 @@ internal class QATButtonToContent : IPaletteContent
     /// Initialize a new instance of the RibbonTabToContent class.
     /// </summary>
     /// <param name="qatButton">Source for button values.</param>
-    public QATButtonToContent([DisallowNull] IQuickAccessToolbarButton qatButton)
+    /// <param name="ribbon">Reference to owning ribbon instance.</param>
+    public QATButtonToContent([DisallowNull] IQuickAccessToolbarButton qatButton, KryptonRibbon? ribbon)
     {
         Debug.Assert(qatButton is not null);
+        Debug.Assert(ribbon is not null);
 
         _qatButton = qatButton ?? throw new ArgumentNullException(nameof(qatButton));
+        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
     }
     #endregion
 
@@ -76,7 +83,10 @@ internal class QATButtonToContent : IPaletteContent
     /// </summary>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
-    public Color GetContentImageColorMap(PaletteState state) => Color.Empty;
+    public Color GetContentImageColorMap(PaletteState state) =>
+        _qatButton.GetButtonSpecType() != PaletteButtonSpecStyle.Generic
+            ? _ribbon.GetRedirector().GetButtonSpecColorMap(_qatButton.GetButtonSpecType())
+            : Color.Empty;
 
     /// <summary>
     /// Gets the color to use in place of the image map color.

@@ -1485,6 +1485,11 @@ public class KryptonDateTimePicker : VisualControlBase,
                 retSize.Height = Math.Max(MinimumSize.Height, retSize.Height);
             }
 
+            if (MinimumControlHeight > 0)
+            {
+                retSize.Height = Math.Max(MinimumControlHeight, retSize.Height);
+            }
+
             return retSize;
         }
         else
@@ -2125,7 +2130,7 @@ public class KryptonDateTimePicker : VisualControlBase,
 
                     if (AllowButtonSpecToolTipPriority)
                     {
-                        visualBasePopupToolTip?.Dispose();
+                        _visualBasePopupToolTip?.Dispose();
                     }
 
                     // Create the actual tooltip popup object

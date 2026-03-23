@@ -1325,6 +1325,11 @@ public class KryptonTextBox : VisualControlBase,
                 retSize.Height = Math.Max(MinimumSize.Height, retSize.Height);
             }
 
+            if (MinimumControlHeight > 0)
+            {
+                retSize.Height = Math.Max(MinimumControlHeight, retSize.Height);
+            }
+
             return retSize;
         }
         else
@@ -1981,7 +1986,7 @@ public class KryptonTextBox : VisualControlBase,
 
                         if (AllowButtonSpecToolTipPriority)
                         {
-                            visualBasePopupToolTip?.Dispose();
+                            _visualBasePopupToolTip?.Dispose();
                         }
                     }
 

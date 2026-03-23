@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -8,6 +8,8 @@
 #endregion
 
 using System.IO;
+
+using Krypton.Toolkit.JumpList;
 
 namespace TestForm;
 
@@ -30,6 +32,9 @@ public partial class JumpListTest : KryptonForm
         // Set application ID (required for jump lists)
         JumpList.AppId = "KryptonToolkit.JumpListTest";
 
+        // Use WPF JumpList bridge (more reliable than native COM on WinForms)
+        WpfJumpListBridge.Sync(JumpList);
+
         // Setup examples
         SetupBasicExamples();
         SetupUserTasksExamples();
@@ -48,6 +53,7 @@ public partial class JumpListTest : KryptonForm
         btnSetAppId.Click += (s, e) =>
         {
             JumpList.AppId = "KryptonToolkit.JumpListTest";
+            WpfJumpListBridge.Sync(JumpList);
             UpdateStatus("Application ID set: " + JumpList.AppId);
         };
 
@@ -57,6 +63,7 @@ public partial class JumpListTest : KryptonForm
         btnClearJumpList.Click += (s, e) =>
         {
             JumpList.Reset();
+            WpfJumpListBridge.Sync(JumpList);
             UpdateStatus("Jump list cleared");
         };
     }
@@ -75,6 +82,7 @@ public partial class JumpListTest : KryptonForm
         btnClearUserTasks.Click += (s, e) =>
         {
             JumpList.UserTasks.Clear();
+            WpfJumpListBridge.Sync(JumpList);
             UpdateStatus("User tasks cleared");
         };
     }
@@ -93,6 +101,7 @@ public partial class JumpListTest : KryptonForm
         btnClearCategories.Click += (s, e) =>
         {
             JumpList.ClearCategories();
+            WpfJumpListBridge.Sync(JumpList);
             UpdateStatus("Categories cleared");
         };
     }
@@ -105,6 +114,7 @@ public partial class JumpListTest : KryptonForm
         btnShowFrequent.Click += (s, e) =>
         {
             JumpList.ShowFrequentCategory = !JumpList.ShowFrequentCategory;
+            WpfJumpListBridge.Sync(JumpList);
             UpdateStatus($"Frequent category: {(JumpList.ShowFrequentCategory ? "Enabled" : "Disabled")}");
         };
 
@@ -112,6 +122,7 @@ public partial class JumpListTest : KryptonForm
         btnShowRecent.Click += (s, e) =>
         {
             JumpList.ShowRecentCategory = !JumpList.ShowRecentCategory;
+            WpfJumpListBridge.Sync(JumpList);
             UpdateStatus($"Recent category: {(JumpList.ShowRecentCategory ? "Enabled" : "Disabled")}");
         };
     }
@@ -129,6 +140,7 @@ public partial class JumpListTest : KryptonForm
         };
 
         JumpList.UserTasks.Add(task);
+            WpfJumpListBridge.Sync(JumpList);
         UpdateStatus($"Added user task: {task.Title}");
     }
 
@@ -176,6 +188,7 @@ public partial class JumpListTest : KryptonForm
             Description = "Open Windows Notepad"
         });
 
+            WpfJumpListBridge.Sync(JumpList);
         UpdateStatus($"Added {JumpList.UserTasks.Count} user tasks");
     }
 
@@ -214,6 +227,7 @@ public partial class JumpListTest : KryptonForm
         });
 
         JumpList.AddCategory("Recent Files", recentFiles);
+            WpfJumpListBridge.Sync(JumpList);
         UpdateStatus($"Added Recent Files category with {recentFiles.Count} items");
     }
 
@@ -255,6 +269,7 @@ public partial class JumpListTest : KryptonForm
         });
 
         JumpList.AddCategory("Templates", templates);
+            WpfJumpListBridge.Sync(JumpList);
         UpdateStatus($"Added Templates category with {templates.Count} items");
     }
 
@@ -263,4 +278,5 @@ public partial class JumpListTest : KryptonForm
         lblStatus.Text = $"Status: {message}";
         lblStatus.Refresh();
     }
+
 }

@@ -709,7 +709,7 @@ public class KryptonBreadCrumb : VisualSimpleBase,
 
                     if (AllowButtonSpecToolTipPriority)
                     {
-                        visualBasePopupToolTip?.Dispose();
+                        _visualBasePopupToolTip?.Dispose();
                     }
 
                     // Create the actual tooltip popup object

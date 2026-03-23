@@ -16,7 +16,7 @@ internal static class BuildLogic
 {
     /// <summary>
     /// Discovers the root directory of the Krypton repository by searching for build project files.
-    /// Searches upward from the application's base directory to find the Scripts/Project-Files/build.proj file.
+    /// Searches upward from the application's base directory to find known Scripts/*/build.proj layouts.
     /// </summary>
     /// <returns>The full path to the repository root directory.</returns>
     internal static string FindRepoRoot()
@@ -24,8 +24,7 @@ internal static class BuildLogic
         var dir = new DirectoryInfo(AppContext.BaseDirectory);
         while (dir != null)
         {
-            string probe = Path.Combine(dir.FullName, "Scripts", "Project-Files", "build.proj");
-            if (File.Exists(probe))
+            if (HasKnownBuildProjectLayout(dir.FullName))
             {
                 return dir.FullName;
             }
@@ -36,8 +35,7 @@ internal static class BuildLogic
             var probe = new DirectoryInfo(AppContext.BaseDirectory).Parent?.Parent?.Parent?.Parent;
             if (probe != null)
             {
-                string candidate = Path.Combine(probe.FullName, "Scripts", "Project-Files", "build.proj");
-                if (File.Exists(candidate))
+                if (HasKnownBuildProjectLayout(probe.FullName))
                 {
                     return probe.FullName;
                 }
@@ -48,13 +46,41 @@ internal static class BuildLogic
     }
 
     /// <summary>
-    /// Gets the project file path for the specified build channel.
-    /// Searches in both Scripts and Scripts/Project-Files directories for the appropriate .proj file.
+    /// Determines whether the provided directory appears to be the repository root
+    /// by checking for known build project layouts.
     /// </summary>
-    /// <param name="rootPath">The root path of the repository.</param>
+    /// <param name="rootPath">The directory path to validate as a repository root.</param>
+    /// <returns>True when a known build.proj location exists; otherwise false.</returns>
+    private static bool HasKnownBuildProjectLayout(string rootPath)
+    {
+        string[] candidates =
+        {
+            Path.Combine(rootPath, "Scripts", "build.proj"),
+            Path.Combine(rootPath, "Scripts", "Project-Files", "build.proj"),
+            Path.Combine(rootPath, "Scripts", "Current", "build.proj"),
+            Path.Combine(rootPath, "Scripts", "VS2022", "build.proj"),
+            Path.Combine(rootPath, "Scripts", "Build", "build.proj")
+        };
+
+        foreach (string candidate in candidates)
+        {
+            if (File.Exists(candidate))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// Gets the project file path for the specified build channel.
+    /// Searches all known script-layout directories for the appropriate .proj file.
+    /// </summary>
+    /// <param name="state">The current application state.</param>
     /// <param name="channel">The build channel (Nightly, Canary, Stable, LTS).</param>
     /// <returns>The path to the project file for the specified channel.</returns>
-    private static string GetProjFileForChannel(string rootPath, ChannelType channel)
+    private static string GetProjFileForChannel(AppState state, ChannelType channel)
     {
         string name = channel switch
         {
@@ -62,17 +88,59 @@ internal static class BuildLogic
             ChannelType.Canary  => "canary.proj",
             _                   => "build.proj"
         };
-        string pfProjectFiles = Path.Combine(rootPath, "Scripts", "Project-Files", name);
-        string pfScripts = Path.Combine(rootPath, "Scripts", name);
-        if (File.Exists(pfScripts))
+
+        return ResolveProjectFile(state.RootPath, name, state.ScriptProfile, state.MsBuildPath);
+    }
+
+    /// <summary>
+    /// Resolves a script project file name by probing known locations in precedence order.
+    /// </summary>
+    /// <param name="rootPath">The root path of the repository.</param>
+    /// <param name="name">The project file name to locate.</param>
+    /// <param name="scriptProfile">The selected scripts profile (Auto, VS2022, Current).</param>
+    /// <param name="msBuildPath">The currently detected MSBuild executable path.</param>
+    /// <returns>The first existing full path, or the preferred scripts-folder path when none are found.</returns>
+    private static string ResolveProjectFile(string rootPath, string name, ScriptProfile scriptProfile, string msBuildPath)
+    {
+        IReadOnlyList<string> folderOrder = GetScriptResolutionOrder(scriptProfile, msBuildPath);
+        var candidates = new List<string>(folderOrder.Count + 2);
+
+        foreach (string folder in folderOrder)
         {
-            return pfScripts;
+            candidates.Add(Path.Combine(rootPath, "Scripts", folder, name));
         }
-        if (File.Exists(pfProjectFiles))
+
+        // Legacy locations kept for backward compatibility with older repo layouts.
+        candidates.Add(Path.Combine(rootPath, "Scripts", name));
+        candidates.Add(Path.Combine(rootPath, "Scripts", "Project-Files", name));
+
+        foreach (string candidate in candidates)
         {
-            return pfProjectFiles;
+            if (File.Exists(candidate))
+            {
+                return candidate;
+            }
         }
-        return pfScripts;
+
+        return candidates.Count > 0
+            ? candidates[0]
+            : Path.Combine(rootPath, "Scripts", name);
+    }
+
+    /// <summary>
+    /// Returns the scripts-folder probe order for the selected profile.
+    /// </summary>
+    /// <param name="scriptProfile">The selected scripts profile (Auto, VS2022, Current).</param>
+    /// <param name="msBuildPath">The detected MSBuild executable path.</param>
+    /// <returns>Ordered folder names to probe under Scripts/.</returns>
+    private static IReadOnlyList<string> GetScriptResolutionOrder(ScriptProfile scriptProfile, string msBuildPath)
+    {
+        ScriptProfile effective = GetEffectiveScriptProfile(scriptProfile, msBuildPath);
+        return effective switch
+        {
+            ScriptProfile.VS2022 => new[] { "VS2022", "Current", "Build" },
+            _                    => new[] { "Current", "VS2022", "Build" }
+        };
     }
 
     /// <summary>
@@ -180,6 +248,50 @@ internal static class BuildLogic
     }
 
     /// <summary>
+    /// Gets the next scripts profile in the scripts profile progression cycle.
+    /// </summary>
+    /// <param name="profile">The current scripts profile.</param>
+    /// <returns>The next scripts profile in the cycle (Auto → VS2022 → Current → Auto).</returns>
+    internal static ScriptProfile NextScriptProfile(ScriptProfile profile)
+    {
+        return profile switch
+        {
+            ScriptProfile.Auto    => ScriptProfile.VS2022,
+            ScriptProfile.VS2022  => ScriptProfile.Current,
+            _                     => ScriptProfile.Auto
+        };
+    }
+
+    /// <summary>
+    /// Resolves the effective scripts profile from an explicit or automatic selection.
+    /// </summary>
+    /// <param name="profile">The selected scripts profile.</param>
+    /// <param name="msBuildPath">The detected MSBuild executable path.</param>
+    /// <returns>The effective scripts profile to use for file resolution.</returns>
+    internal static ScriptProfile GetEffectiveScriptProfile(ScriptProfile profile, string msBuildPath)
+    {
+        if (profile != ScriptProfile.Auto)
+        {
+            return profile;
+        }
+
+        if (!string.IsNullOrWhiteSpace(msBuildPath))
+        {
+            if (msBuildPath.IndexOf("\\Microsoft Visual Studio\\2022\\", StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                return ScriptProfile.VS2022;
+            }
+            if (msBuildPath.IndexOf("\\Microsoft Visual Studio\\18\\", StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                return ScriptProfile.Current;
+            }
+        }
+
+        // Default auto preference to Current for forward-compatible setups.
+        return ScriptProfile.Current;
+    }
+
+    /// <summary>
     /// Gets the default build configuration for the specified channel.
     /// </summary>
     /// <param name="channel">The build channel type.</param>
@@ -279,7 +391,7 @@ internal static class BuildLogic
                 }
                 case NuGetAction.RebuildPack:
                 {
-                    nugetTargets.Add("Rebuild");
+                    nugetTargets.Add(GetRebuildCompatibleTarget(state));
                     nugetTargets.Add(GetPackTargetForCurrent(state));
                     state.NuGetRunZipAfterMsBuild = state.NuGetCreateZip;
                     break;
@@ -301,7 +413,7 @@ internal static class BuildLogic
                 }
                 case NuGetAction.BuildPackPush:
                 {
-                    nugetTargets.Add("Rebuild");
+                    nugetTargets.Add(GetRebuildCompatibleTarget(state));
                     nugetTargets.Add(GetPackTargetForCurrent(state));
                     state.PendingTargets = new Queue<string>(nugetTargets);
                     // After MSBuild completes, run zip (optional) and then push
@@ -332,9 +444,13 @@ internal static class BuildLogic
         switch (state.Action)
         {
             case BuildAction.Build:
+            {
+                targets.Add("Build");
+                break;
+            }
             case BuildAction.Rebuild:
             {
-                targets.Add("Rebuild");
+                targets.Add(GetRebuildCompatibleTarget(state));
                 break;
             }
             case BuildAction.Pack:
@@ -344,7 +460,7 @@ internal static class BuildLogic
             }
             case BuildAction.BuildPack:
             {
-                targets.Add("Rebuild");
+                targets.Add(GetRebuildCompatibleTarget(state));
                 targets.Add(GetPackTargetForCurrent(state));
                 break;
             }
@@ -393,14 +509,14 @@ internal static class BuildLogic
         if (state.Action == BuildAction.Installer)
         {
             string prefix = "installer";
-            state.ProjectFile = GetInstallerProjFile(state.RootPath);
+            state.ProjectFile = GetInstallerProjFile(state);
             state.TextLogPath = Path.Combine(logs, $"{prefix}-build-summary.log");
             state.BinLogPath = Path.Combine(logs, $"{prefix}-build.binlog");
         }
         else
         {
             string prefix = state.Channel.ToString().ToLowerInvariant();
-            state.ProjectFile = GetProjFileForChannel(state.RootPath, state.Channel);
+            state.ProjectFile = GetProjFileForChannel(state, state.Channel);
             state.TextLogPath = Path.Combine(logs, $"{prefix}-build-summary.log");
             state.BinLogPath = Path.Combine(logs, $"{prefix}-build.binlog");
         }
@@ -538,6 +654,17 @@ internal static class BuildLogic
             };
         }
         return "Pack";
+    }
+
+    /// <summary>
+    /// Gets the best available clean-build target for the currently selected channel.
+    /// Nightly project files define a dedicated Rebuild target; other channels use Build.
+    /// </summary>
+    /// <param name="state">The current application state.</param>
+    /// <returns>"Rebuild" for Nightly, otherwise "Build".</returns>
+    private static string GetRebuildCompatibleTarget(AppState state)
+    {
+        return state.Channel == ChannelType.Nightly ? "Rebuild" : "Build";
     }
 
     /// <summary>
@@ -1273,18 +1400,12 @@ internal static class BuildLogic
 
     /// <summary>
     /// Gets the path to the installer project file.
-    /// Searches in both Scripts and Scripts/Project-Files directories for installer.proj.
+    /// Searches known script-layout directories for installer.proj.
     /// </summary>
-    /// <param name="rootPath">The root path of the repository.</param>
+    /// <param name="state">The current application state.</param>
     /// <returns>The path to the installer project file.</returns>
-    private static string GetInstallerProjFile(string rootPath)
+    private static string GetInstallerProjFile(AppState state)
     {
-        string scripts = Path.Combine(rootPath, "Scripts", "installer.proj");
-        if (File.Exists(scripts))
-        {
-            return scripts;
-        }
-        string projectFiles = Path.Combine(rootPath, "Scripts", "Project-Files", "installer.proj");
-        return projectFiles;
+        return ResolveProjectFile(state.RootPath, "installer.proj", state.ScriptProfile, state.MsBuildPath);
     }
 }
