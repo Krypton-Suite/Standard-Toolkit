@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -585,7 +585,7 @@ internal class ViewDrawRibbonGroupGallery : ViewComposite,
         contentLayout.Add(_viewLargeCenter, ViewDockStyle.Bottom);
 
         // Add a 1 pixel separator at bottom of button before the text
-        contentLayout.Add(new ViewLayoutRibbonSeparator(1, false), ViewDockStyle.Bottom);
+        contentLayout.Add(new ViewLayoutRibbonSeparator((int)(1 * FactorDpiY), false), ViewDockStyle.Bottom);
 
         // Add the content into the background and border
         _viewLarge.Add(contentLayout);

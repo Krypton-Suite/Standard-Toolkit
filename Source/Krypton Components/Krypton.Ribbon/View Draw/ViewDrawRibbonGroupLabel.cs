@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -287,7 +287,7 @@ internal class ViewDrawRibbonGroupLabel : ViewComposite,
         _viewLarge.Add(_viewLargeText2, ViewDockStyle.Bottom);
 
         // Add a 1 pixel separator at bottom of button before the text
-        _viewLarge.Add(new ViewLayoutRibbonSeparator(1, false), ViewDockStyle.Bottom);
+        _viewLarge.Add(new ViewLayoutRibbonSeparator((int)(1 * FactorDpiY), false), ViewDockStyle.Bottom);
 
         // Create controller for intercepting events to determine tool tip handling
         _viewLarge.MouseController = new ToolTipController(_ribbon.TabsArea!.ButtonSpecManager!.ToolTipManager!,
