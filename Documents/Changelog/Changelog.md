@@ -3,6 +3,7 @@
 =======
 
 ## Table of Contents
+
 * [2026-11-xx - Build 2611 (V110 Nightly) - November 2026](#2026-11-xx---build-2611-v110-nightly---november-2026)
 * [2025-11-24 - Build 2511 (V100 RTM) - November 2025](#2025-11-24---build-2511-v100-rtm---november-2025)
 * [2025-06-23 - Build 2506 (Version 95 - Patch 7) - June 2025](#2025-06-23---build-2506-version-95---patch-7---june-2025)
@@ -44,6 +45,7 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Resolved [#3249](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3249), `KryptonForm` shows an extra border on the secondary monitor when maximized
 * Resolved [#3013](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3013), Maximized form's size exceeds the screen's working area
 * Resolved [#3164](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3164), Font property values are being serialized depending of the current culture in exported XML theme file
 * Implemented [#3177](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3177), **[Breaking Change]** Move `KryptonAboutBox` to `Krypton.Utilities`

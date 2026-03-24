@@ -3614,13 +3614,10 @@ public class KryptonCustomPaletteBase : PaletteBase
                                 // We need the type converter to create a string representation
 								var converter = TypeDescriptor.GetConverter(prop.PropertyType);
 
-								// Fix [3164]: "Font property values are not serialized correctly in the exported XML file."
+                                // Fix [3164]: "Font property values are not serialized correctly in the exported XML file."
 								// Force serialization using the en-US culture to prevent localization issues.
-								childElement.SetAttribute(@"Value", (string)converter.ConvertTo(
-                                                                        context: null,
-                                                                        culture: cultureInfo,
-                                                                        value: childObj!,
-                                                                        destinationType: typeof(string)));
+								var converted = converter.ConvertTo(context: null, culture: cultureInfo, value: childObj!, destinationType: typeof(string));
+								childElement.SetAttribute(@"Value", converted?.ToString() ?? string.Empty);
                             }
                         }
                     }
