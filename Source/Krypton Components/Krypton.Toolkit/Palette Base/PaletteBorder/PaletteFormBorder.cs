@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2026. All rights reserved. 
@@ -134,50 +134,45 @@ public class PaletteFormBorder : PaletteBorder
     }
 
     /// https://github.com/Krypton-Suite/Standard-Toolkit/issues/139
+    /// Fix for #3249: when UseThemeFormChromeBorderWidth is true, we still return actual system metrics
+    /// because Windows reserves non-client area internally when maximized. Returning (0,0) caused the
+    /// maximized region to overflow onto the secondary monitor in multi-monitor setups.
     internal (int xBorder, int yBorder) BorderWidths(FormBorderStyle formFormBorderStyle)
     {
         int xBorder;
         int yBorder;
 
-        if (UseThemeFormChromeBorderWidth)
+        switch (formFormBorderStyle)
         {
-            xBorder = 0;
-            yBorder = 0;
-        }
-        else
-        {
-            switch (formFormBorderStyle)
-            {
-                case FormBorderStyle.None:
-                    xBorder = 0;
-                    yBorder = 0;
-                    break;
+            case FormBorderStyle.None:
+                xBorder = 0;
+                yBorder = 0;
+                break;
 
-                case FormBorderStyle.FixedSingle:
-                case FormBorderStyle.FixedToolWindow:
-                    xBorder = PI.GetSystemMetrics(PI.SM_.CXFIXEDFRAME);
-                    yBorder = PI.GetSystemMetrics(PI.SM_.CYFIXEDFRAME);
-                    break;
+            case FormBorderStyle.FixedSingle:
+            case FormBorderStyle.FixedToolWindow:
+                xBorder = PI.GetSystemMetrics(PI.SM_.CXFIXEDFRAME);
+                yBorder = PI.GetSystemMetrics(PI.SM_.CYFIXEDFRAME);
+                break;
 
-                case FormBorderStyle.Fixed3D:
-                    xBorder = PI.GetSystemMetrics(PI.SM_.CXEDGE);
-                    yBorder = PI.GetSystemMetrics(PI.SM_.CYEDGE);
-                    break;
+            case FormBorderStyle.Fixed3D:
+                xBorder = PI.GetSystemMetrics(PI.SM_.CXEDGE);
+                yBorder = PI.GetSystemMetrics(PI.SM_.CYEDGE);
+                break;
 
-                case FormBorderStyle.FixedDialog:
-                    xBorder = PI.GetSystemMetrics(PI.SM_.CXDLGFRAME);
-                    yBorder = PI.GetSystemMetrics(PI.SM_.CYDLGFRAME);
-                    break;
+            case FormBorderStyle.FixedDialog:
+                xBorder = PI.GetSystemMetrics(PI.SM_.CXDLGFRAME);
+                yBorder = PI.GetSystemMetrics(PI.SM_.CYDLGFRAME);
+                break;
 
-                case FormBorderStyle.Sizable:
-                case FormBorderStyle.SizableToolWindow:
-                    xBorder = PI.GetSystemMetrics(PI.SM_.CXSIZEFRAME);
-                    yBorder = PI.GetSystemMetrics(PI.SM_.CYSIZEFRAME);
-                    break;
+            case FormBorderStyle.Sizable:
+            case FormBorderStyle.SizableToolWindow:
+                xBorder = PI.GetSystemMetrics(PI.SM_.CXSIZEFRAME);
+                yBorder = PI.GetSystemMetrics(PI.SM_.CYSIZEFRAME);
+                break;
 
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(formFormBorderStyle), formFormBorderStyle, null);
-            }
+            default:
+                throw new ArgumentOutOfRangeException(nameof(formFormBorderStyle), formFormBorderStyle, null);
         }
 
         return (xBorder, yBorder);
