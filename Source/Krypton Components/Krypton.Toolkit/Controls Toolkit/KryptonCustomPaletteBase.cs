@@ -3124,6 +3124,14 @@ public class KryptonCustomPaletteBase : PaletteBase
                 SetPaletteName(root.GetAttribute("Name"));
             }
 
+            // Populate missing palette values from the base palette first.
+            //
+            // Some theme XML files intentionally omit certain button/header metrics and
+            // drawing settings. Without an initial populate step, those omitted values can
+            // remain at placeholder defaults and cause small rendering artifacts in the
+            // KryptonForm caption chrome (e.g. near the system Close button).
+            PopulateFromBaseOperation(null);
+
             // Grab the properties and images elements
             var props = root.SelectSingleNode(nameof(Properties)) as XmlElement;
             var images = root.SelectSingleNode(nameof(Images)) as XmlElement;
