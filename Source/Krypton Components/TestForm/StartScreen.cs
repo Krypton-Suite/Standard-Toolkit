@@ -148,6 +148,7 @@ public partial class StartScreen : KryptonForm
         CreateButton("Tabbed MDI Demo (Issue #1746)", "KryptonTabbedMdiManager: MDI child windows displayed as tab pages instead of overlapping windows.", typeof(TabbedMdiDemo));
         CreateButton("Ribbon MDI Demo (Issue #2921)", "Comprehensive demo for Issue #2921: Ribbon + MDI. Verifies no double ribbon tabs when opening/closing maximized MDI children; close/minimize/maximize and QAT click areas aligned with visuals.", typeof(RibbonMdiDemo));
 		CreateButton("Ribbon QATLocation=Hidden does not hide QAT when FormBorderStyle=None (Issue #3203)", string.Empty, typeof(Bug3203QATLocationHiddenFormTest));
+		CreateButton("Small square rendered next to Close button on KryptonForm when using a custom theme (Issue #3183)", string.Empty, typeof(Bug3183SmallSquareRenderedNextToClose));
 	}
 
     private void OnFormClosing(object? sender, FormClosingEventArgs e)
