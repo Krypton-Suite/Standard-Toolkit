@@ -17,12 +17,8 @@ on:
       - canary
       - gold
       - V105-LTS
-      - V85-LTS
     paths-ignore: ['.git*', '.vscode']
   workflow_dispatch:
-
-permissions:
-  contents: read
 
 jobs:
   build:
