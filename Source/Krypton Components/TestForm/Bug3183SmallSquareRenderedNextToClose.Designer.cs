@@ -60,7 +60,8 @@
 			this.ClientSize = new System.Drawing.Size(800, 450);
 			this.Controls.Add(this.kryptonButton1);
 			this.Name = "Bug3183SmallSquareRenderedNextToClose";
-			this.Text = "Bug3183SmallSquareRenderedNextToClose";
+			this.Text = "Small square rendered next to Close button on KryptonForm when using a custom the" +
+    "me (Issue #3183";
 			this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
 			this.Load += new System.EventHandler(this.Bug3183SmallSquareRenderedNextToClose_Load);
 			this.ResumeLayout(false);
