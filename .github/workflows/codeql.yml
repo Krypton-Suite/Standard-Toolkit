@@ -1,0 +1,90 @@
+# New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+# Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2026 - 2026. All rights reserved.
+#
+# Run CodeQL security and code quality analysis for C# using a full manual build,
+# improving dependency/type/call-target resolution compared to no-build scans.
+
+name: "CodeQL"
+
+on:
+  push:
+    branches:
+      - master
+      - alpha
+      - canary
+      - gold
+      - V105-LTS
+  pull_request:
+    branches:
+      - master
+  schedule:
+    - cron: "0 4 * * 1"
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+  security-events: write
+
+jobs:
+  analyze:
+    name: Analyze C#
+    runs-on: windows-2025-vs2026
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: |
+            9.0.x
+            10.0.x
+
+      - name: Setup .NET 11 (Preview)
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 11.0.x
+          dotnet-quality: preview
+
+      - name: Force latest available 11/10 SDK via global.json
+        shell: pwsh
+        run: |
+          $sdkVersion = (dotnet --list-sdks | Select-String "11.0" | Select-Object -First 1).ToString().Split(" ")[0]
+          if (-not $sdkVersion) {
+            $sdkVersion = (dotnet --list-sdks | Select-String "10.0" | Select-Object -First 1).ToString().Split(" ")[0]
+          }
+          if (-not $sdkVersion) { throw "No suitable .NET SDK found on runner." }
+          Write-Host "Using SDK $sdkVersion"
+          @"
+          {
+            "sdk": {
+              "version": "$sdkVersion",
+              "rollForward": "latestFeature"
+            }
+          }
+          "@ | Out-File -Encoding utf8 global.json
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v3
+        with:
+          msbuild-architecture: x64
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: csharp
+          build-mode: manual
+
+      - name: Restore solution
+        shell: pwsh
+        run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnx"
+
+      - name: Build solution
+        shell: pwsh
+        run: msbuild "Scripts/Build/nightly.proj" /t:Rebuild /p:Configuration=Release /p:Platform="Any CPU"
+
+      - name: Perform CodeQL analysis
+        uses: github/codeql-action/analyze@v3
