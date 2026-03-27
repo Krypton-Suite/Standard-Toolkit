@@ -812,9 +812,9 @@ public abstract class KryptonDockingSpace : DockingElementClosedCollection
             _space = value;
 
             // Hook into space events we need to monitor
-            value.Disposed += OnSpaceDisposed;
-            value.WorkspaceCellAdding += OnSpaceCellAdding;
-            value.PageDrop += RaiseSpacePageDrop;
+            _space!.Disposed += OnSpaceDisposed;
+            _space.WorkspaceCellAdding += OnSpaceCellAdding;
+            _space.PageDrop += RaiseSpacePageDrop;
         }
     }
 
