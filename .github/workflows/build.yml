@@ -3,6 +3,9 @@
 
 name: Build
 
+permissions:
+  contents: read
+
 on:
   pull_request:
     branches: ['**']
@@ -14,7 +17,6 @@ on:
       - canary
       - gold
       - V105-LTS
-      - V85-LTS
     paths-ignore: ['.git*', '.vscode']
   workflow_dispatch:
 
@@ -61,12 +63,12 @@ jobs:
           "@ | Out-File -Encoding utf8 global.json
 
       - name: Setup MSBuild
-        uses: microsoft/setup-msbuild@v2
+        uses: microsoft/setup-msbuild@v3
         with:
           msbuild-architecture: x64
 
       - name: Setup NuGet
-        uses: NuGet/setup-nuget@v2.0.1
+        uses: NuGet/setup-nuget@v2.0.2
 
       - name: Cache NuGet
         uses: actions/cache@v5
@@ -162,12 +164,12 @@ jobs:
           "@ | Out-File -Encoding utf8 global.json
 
       - name: Setup MSBuild
-        uses: microsoft/setup-msbuild@v2
+        uses: microsoft/setup-msbuild@v3
         with:
           msbuild-architecture: x64
 
       - name: Setup NuGet
-        uses: NuGet/setup-nuget@v2.0.1
+        uses: NuGet/setup-nuget@v2.0.2
 
       - name: Cache NuGet
         uses: actions/cache@v5
