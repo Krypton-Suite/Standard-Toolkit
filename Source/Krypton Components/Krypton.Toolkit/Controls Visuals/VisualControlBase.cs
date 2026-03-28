@@ -794,7 +794,6 @@ public abstract class VisualControlBase : Control,
     /// <returns>PaletteRedirect derived class.</returns>
     protected virtual PaletteRedirect CreateRedirector() => new PaletteRedirect(_palette);
 
-    // TODO: Workaround for issue where ContainerControl style causes duplicate validation events. See issue https://github.com/Krypton-Suite/Standard-Toolkit/issues/2801 for details.
     /// <summary>
     /// Forward a Validating event from a child control. This method should be called by derived classes
     /// when forwarding validation events from internal controls to prevent duplicate validation events
@@ -817,7 +816,6 @@ public abstract class VisualControlBase : Control,
         }
     }
 
-    // TODO: Workaround for issue where ContainerControl style causes duplicate validation events. See issue https://github.com/Krypton-Suite/Standard-Toolkit/issues/2801 for details.
     /// <summary>
     /// Forward a Validated event from a child control. This method should be called by derived classes
     /// when forwarding validation events from internal controls to prevent duplicate validation events
@@ -864,7 +862,6 @@ public abstract class VisualControlBase : Control,
 
     #region Protected Overrides
 
-    // TODO: Workaround for issue where ContainerControl style causes duplicate validation events. See issue https://github.com/Krypton-Suite/Standard-Toolkit/issues/2801 for details.
     /// <summary>
     /// Raises the Validated event when the control is finished validating.
     /// </summary>
@@ -892,7 +889,6 @@ public abstract class VisualControlBase : Control,
         base.OnValidated(e);
     }
 
-    // TODO: Workaround for issue where ContainerControl style causes duplicate validation events. See issue https://github.com/Krypton-Suite/Standard-Toolkit/issues/2801 for details.
     /// <summary>
     /// Raises the Validating event, allowing validation logic to be performed before the control loses focus.
     /// </summary>
