@@ -227,30 +227,6 @@ public partial class StartScreen : KryptonForm
         _buttons.Add(button);
     }
 
-    private void CreateButton(string heading, string description, Type formType, Image? image = null)
-    {
-        KryptonCommandLinkButton button = new();
-
-        if (!typeof(Form).IsAssignableFrom(formType))
-        {
-            throw new InvalidCastException("Parameter formType is not of type Form or derived from Form.");
-        }
-
-        button.CommandLinkTextValues.Heading = heading;
-        button.CommandLinkTextValues.Description = description;
-        button.AutoSize = false;
-        button.Size = new Size(_panelWidth - 10, 60);
-        button.Click += (_, _) => OnCommandLinkTestButtonClick(formType);
-
-        if (image is not null)
-        {
-            button.CommandLinkTextValues.UseDefaultImage = false;
-            button.CommandLinkTextValues.Image = new Bitmap(image, 48, 48);
-        }
-
-        _buttons.Add(button);
-    }
-
     private void SetupExitButton()
     {
         FontFamily family = KryptonManager.CurrentGlobalPalette.GetContentShortTextFont(PaletteContentStyle.InputControlStandalone, PaletteState.Normal)!.FontFamily;
