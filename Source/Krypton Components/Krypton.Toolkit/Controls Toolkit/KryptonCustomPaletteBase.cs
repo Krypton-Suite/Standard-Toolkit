@@ -3124,12 +3124,18 @@ public class KryptonCustomPaletteBase : PaletteBase
                 SetPaletteName(root.GetAttribute("Name"));
             }
 
-            // Populate missing palette values from the base palette first.
+            // Import order: establish a full baseline from BasePalette, then apply the XML theme on top.
             //
-            // Some theme XML files intentionally omit certain button/header metrics and
-            // drawing settings. Without an initial populate step, those omitted values can
-            // remain at placeholder defaults and cause small rendering artifacts in the
-            // KryptonForm caption chrome (e.g. near the system Close button).
+            // PopulateFromBaseOperation resets the palette hierarchy and copies values from the current
+            // BasePalette (via each storage type's PopulateFromBase). That ensures every property that the
+            // theme file does NOT serialize still reflects inheritance from the base theme instead of
+            // leftover C# defaults or stale state from a previous load—avoiding gaps in metrics, button
+            // specs, header chrome, etc. (e.g. stray rendering next to caption buttons).
+            //
+            // The steps below (ImportImagesFromElement / ImportObjectFromElement) then overwrite only what
+            // the XML actually defines. Theme wins for anything present in the file; anything omitted keeps
+            // the values we just populated from BasePalette. Doing populate after import would fight the
+            // file and could reset explicit theme settings, so populate must run first.
             PopulateFromBaseOperation(null);
 
             // Grab the properties and images elements
