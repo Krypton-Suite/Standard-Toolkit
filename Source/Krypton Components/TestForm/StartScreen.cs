@@ -54,41 +54,48 @@ public partial class StartScreen : KryptonForm
     /// </summary>
     private void AddButtons()
     {
-        CreateButton("AboutBox", "Try this About Box for a change", typeof(AboutBoxTest));
-        CreateButton("Buttons Test", "All the buttons you want to test.", typeof(ButtonsTest));
-        CreateButton("CommandLink Buttons", "No comment", typeof(CommandLinkButtons));
-        CreateButton("Control Styles", string.Empty, typeof(ControlStylesForm));
-        CreateButton("DateTime Example", string.Empty, typeof(DateTimeExample));
-        CreateButton("FormBorder Test", string.Empty, typeof(FormBorderTest));
-        CreateButton("Header Examples", string.Empty, typeof(HeaderExamples));
-        CreateButton("Menu/Tool/Status Strips", string.Empty, typeof(MenuToolBarStatusStripTest));
-        CreateButton("ProgressBar", "Checkout if progress has been made.", typeof(ProgressBarTest));
-        CreateButton("Ribbon / Navigator / Workspace", string.Empty, typeof(RibbonNavigatorWorkspaceTest));
-        CreateButton("Splash Screen", string.Empty, typeof(SplashScreenExample));
-        CreateButton("Theme Controls", string.Empty, typeof(ThemeControlExamples));
-        CreateButton("Toast", "For breakfast....?", typeof(ToastNotificationTestChoice));
-        CreateButton("WorkspaceTest", string.Empty, typeof(WorkspaceTest));
-        CreateButton("Blur Example", string.Empty, typeof(BlurExampleForm));
-        CreateButton("Visual Controls", string.Empty, typeof(VisualControlsTest));
-        CreateButton("EmojiViewer Basic", string.Empty, typeof(BasicEmojiViewerForm));
-        CreateButton("EmojiViewer Advanced", "Only hardcore devs can handle this one!", typeof(AdvancedEmojiViewerForm));
-        CreateButton("BreadCrumb", "Follow the breadcrumbs and find the treasure...", typeof(BreadCrumbTest));
-        CreateButton("Calendar", string.Empty, typeof(CalendarTest));
-        CreateButton("Controls Test", string.Empty, typeof(ControlsTest));
-        CreateButton("KryptonDataGridView Demo", string.Empty, typeof(DataGridViewDemo));
-        CreateButton("FadeForm", string.Empty, typeof(FadeFormTest));
-        CreateButton("GroupBox", string.Empty, typeof(GroupBoxTest));
-        CreateButton("InputBox", string.Empty, typeof(InputBoxTest));
-        CreateButton("MessageBox", string.Empty, typeof(MessageBoxTest));
-        CreateButton("Old Style Main: Fullscreen", string.Empty, typeof(Main));
-        CreateButton("PropertyGridTest", string.Empty, typeof(PropertyGridTest));
-        CreateButton("Ribbon", string.Empty, typeof(RibbonTest));
-        CreateButton("TextBox", string.Empty, typeof(TextBoxEventTest));
-        CreateButton("TreeView", string.Empty, typeof(TreeViewExample));
-        CreateButton("Panel Form", string.Empty, typeof(PanelForm));
-        CreateButton("Palette Viewer", string.Empty, typeof(PaletteViewerForm));
-        CreateButton("Powered By Button", string.Empty, typeof(PoweredByButtonExample));
-        CreateButton("Krypton Task Dialog Demo", string.Empty, typeof(KryptonTaskDialogDemoForm));
+        CreateButton<AboutBoxTest>("AboutBox", "Try this About Box for a change");
+        CreateButton<AccessibilityTest>("Accessibility Test (UIA Providers)", "Comprehensive demo and test for UIA Provider implementation (Issue #762). Tests all 10 controls with accessibility support, organized by category with detailed results.");
+        CreateButton<ButtonsTest>("Buttons Test", "All the buttons you want to test.");
+        CreateButton<CommandLinkButtons>("CommandLink Buttons", "No comment");
+        CreateButton<ControlStylesForm>("Control Styles", string.Empty);
+        CreateButton<DateTimeExample>("DateTime Example", string.Empty);
+        CreateButton<DockingConfigSaveLoadTest>("Docking Config Save/Load Test", "Test SaveConfigToArray and LoadConfigFromArray");
+        CreateButton<FormBorderTest>("FormBorder Test", string.Empty);
+        CreateButton<HeaderExamples>("Header Examples", string.Empty);
+        CreateButton<MenuToolBarStatusStripTest>("Menu/Tool/Status Strips", string.Empty);
+        CreateButton<ProgressBarTest>("ProgressBar", "Checkout if progress has been made.");
+        CreateButton<RibbonNavigatorWorkspaceTest>("Ribbon / Navigator / Workspace", string.Empty);
+        CreateButton<FloatingWindowTest>("Floating Window Test", "Comprehensive test for floating window bug fix (Issue #2721)");
+        CreateButton<SplashScreenExample>("Splash Screen", string.Empty);
+        CreateButton<ThemeControlExamples>("Theme Controls", string.Empty);
+        CreateButton<ToastNotificationTestChoice>("Toast", "For breakfast....?");
+        CreateButton<WorkspaceTest>("WorkspaceTest", string.Empty);
+        CreateButton<BlurExampleForm>("Blur Example", string.Empty);
+        CreateButton<VisualControlsTest>("Visual Controls", string.Empty);
+        CreateButton<BasicEmojiViewerForm>("EmojiViewer Basic", string.Empty);
+        CreateButton<AdvancedEmojiViewerForm>("EmojiViewer Advanced", "Only hardcore devs can handle this one!");
+        CreateButton<BreadCrumbTest>("BreadCrumb", "Follow the breadcrumbs and find the treasure...");
+        CreateButton<CalendarTest>("Calendar", string.Empty);
+        CreateButton<ComboBoxDateTimePickerConsistencyDemo>("ComboBox/DateTimePicker Consistency", "Comprehensive demonstration of KComboBox and KDateTimePicker consistency fix (Issue #1651). Shows drop-down buttons stretching to full height and centered text.");
+        CreateButton<ControlsTest>("Controls Test", string.Empty);
+        CreateButton<DataGridViewDemo>("KryptonDataGridView Demo", string.Empty);
+        CreateButton<FadeFormTest>("FadeForm", string.Empty);
+        CreateButton<GroupBoxTest>("GroupBox", string.Empty);
+        CreateButton<InputBoxTest>("InputBox", string.Empty);
+        CreateButton<MessageBoxTest>("MessageBox", string.Empty);
+        CreateButton<Main>("Old Style Main: Fullscreen", string.Empty);
+        CreateButton<PropertyGridTest>("PropertyGridTest", string.Empty);
+        CreateButton<RibbonTest>("Ribbon", string.Empty);
+        CreateButton<TextBoxEventTest>("TextBox", string.Empty);
+        CreateButton<KryptonTextBoxValidatingTest>("TextBox Validating Test", "Tests fix for Validating event duplication bug #2801");
+        CreateButton<RichTextBoxFormattingTest>("RichTextBox Formatting Test", "Tests fix for RichTextBox formatting preservation when palette changes (Issue #2832)");
+        CreateButton<TreeViewExample>("TreeView", string.Empty);
+        CreateButton<PanelForm>("Panel Form", string.Empty);
+        CreateButton<PaletteViewerForm>("Palette Viewer", string.Empty);
+        CreateButton<PoweredByButtonExample>("Powered By Button", string.Empty);
+        CreateButton<KryptonTaskDialogDemoForm>("Krypton Task Dialog Demo", string.Empty);
+        CreateButton<MdiWindow>("Krypton MDI Window", "KryptonForm MDI Container with both KForm and WForm children");
     }
 
     private void OnFormClosed(object? sender, FormClosedEventArgs e)
@@ -125,9 +132,10 @@ public partial class StartScreen : KryptonForm
         }
     }
 
-    private void CreateButton(string heading, string description, Type formType, Image? image = null )
+    private void CreateButton<TForm>(string heading, string description, Image? image = null) where TForm : Form
     {
         KryptonCommandLinkButton button = new();
+        Type formType = typeof(TForm);
         
         if (!typeof(Form).IsAssignableFrom(formType))
         {
@@ -181,14 +189,7 @@ public partial class StartScreen : KryptonForm
 
     private void OnCommandLinkTestButtonClick(Type formType)
     {
-        // This one needs a special handling
-        if (formType == typeof(PaletteViewerForm)
-            && Activator.CreateInstance(formType) is PaletteViewerForm paletteViewerForm)
-        {
-            paletteViewerForm.AttachKryptonManager(kryptonManager1);
-            paletteViewerForm.Show();
-        }
-        else if (Activator.CreateInstance(formType) is Form form)
+        if (Activator.CreateInstance(formType) is Form form)
         {
             form.Show();
         }
