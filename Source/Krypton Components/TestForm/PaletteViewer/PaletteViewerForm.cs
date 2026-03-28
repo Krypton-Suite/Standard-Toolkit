@@ -145,6 +145,8 @@ public partial class PaletteViewerForm : KryptonForm
         UpdateStatus("Ready");
 
         UpdateUIState();
+
+        AttachKryptonManager(new KryptonManager());
     }
 
     /// <summary>
