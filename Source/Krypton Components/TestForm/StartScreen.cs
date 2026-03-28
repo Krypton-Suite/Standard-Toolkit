@@ -129,7 +129,6 @@ public partial class StartScreen : KryptonForm
         _dockTopRight = _registryAccess.DockTopRight;
         if (_dockTopRight)
         {
-            System.Diagnostics.Debug.Print("docktoppppppp");
             OnBtnDockTopRightClick(null, EventArgs.Empty);
         }
     }
