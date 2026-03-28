@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2025 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2025 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -1315,9 +1315,9 @@ public class KryptonCalcInput : VisualControlBase, IContainedInputControl
 
     private void OnTextBoxPreviewKeyDown(object? sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-    private void OnTextBoxValidating(object? sender, CancelEventArgs e) => OnValidating(e);
+    private void OnTextBoxValidating(object? sender, CancelEventArgs e) => ForwardValidating(e);
 
-    private void OnTextBoxValidated(object? sender, EventArgs e) => OnValidated(e);
+    private void OnTextBoxValidated(object? sender, EventArgs e) => ForwardValidated(e);
 
     private void OnTextBoxMouseEnter(object? sender, EventArgs e)
     {
