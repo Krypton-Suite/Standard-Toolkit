@@ -375,7 +375,7 @@ internal class ViewDrawRibbonGroupColorButton : ViewComposite,
         contentLayout.Add(_viewLargeCenter, ViewDockStyle.Bottom);
 
         // Add a 1 pixel separator at bottom of button before the text
-        contentLayout.Add(new ViewLayoutRibbonSeparator(1, ViewDockStyle.Bottom);
+        contentLayout.Add(new ViewLayoutRibbonSeparator(1, false), ViewDockStyle.Bottom);
 
         // Add the content into the background and border
         _viewLarge.Add(contentLayout);
