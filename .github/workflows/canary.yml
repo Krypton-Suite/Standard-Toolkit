@@ -16,6 +16,9 @@ on:
       - Canary
   workflow_dispatch:  # Allow manual triggering
 
+permissions:
+  contents: read
+
 jobs:
   canary:
     runs-on: windows-2025-vs2026
@@ -111,13 +114,13 @@ jobs:
 
       - name: Setup MSBuild
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
-        uses: microsoft/setup-msbuild@v2
+        uses: microsoft/setup-msbuild@v3
         with:
           msbuild-architecture: x64
 
       - name: Setup NuGet
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
-        uses: NuGet/setup-nuget@v2
+        uses: NuGet/setup-nuget@v3.0.0
 
       - name: Cache NuGet
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'

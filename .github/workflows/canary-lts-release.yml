@@ -7,6 +7,9 @@
 
 name: Canary LTS Release
 
+permissions:
+  contents: read
+
 on:
   push:
     branches:
@@ -70,13 +73,13 @@ jobs:
 
       - name: Setup MSBuild
         if: steps.canary_lts_kill_switch.outputs.enabled == 'true'
-        uses: microsoft/setup-msbuild@v2
+        uses: microsoft/setup-msbuild@v3
         with:
           msbuild-architecture: x64
 
       - name: Setup NuGet
         if: steps.canary_lts_kill_switch.outputs.enabled == 'true'
-        uses: NuGet/setup-nuget@v2.0.1
+        uses: NuGet/setup-nuget@v3.0.0
 
       - name: Cache NuGet
         if: steps.canary_lts_kill_switch.outputs.enabled == 'true'
