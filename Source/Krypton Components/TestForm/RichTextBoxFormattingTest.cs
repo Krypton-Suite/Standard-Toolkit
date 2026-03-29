@@ -118,18 +118,19 @@ public partial class RichTextBoxFormattingTest : KryptonForm
 
     private void KbtnLoadPlainText_Click(object? sender, EventArgs e)
     {
-        krtbRichTextBox.Text = "This is plain text without any RTF formatting. When you change the palette, this text will use the palette font.";
+        krtbRichTextBox.Text = @"This is plain text without any RTF formatting. When you change the palette, this text will use the palette font.";
         UpdateStatus("Plain text loaded. This will use the palette font when palette changes.");
     }
 
     private void KbtnVerifyFormatting_Click(object? sender, EventArgs e)
     {
         // Check if RTF formatting exists
-        string rtf = krtbRichTextBox.Rtf;
+        string? rtf = krtbRichTextBox.Rtf;
         bool hasFormatting = !string.IsNullOrEmpty(rtf) &&
-            (rtf.Contains(@"\b") || rtf.Contains(@"\i") || rtf.Contains(@"\ul") ||
-             rtf.Contains(@"\fs") || rtf.Contains(@"\cf") || rtf.Contains(@"\highlight") ||
-             (rtf.Contains(@"\f") && !rtf.Contains(@"\f0")));
+                             rtf != null &&
+                             (rtf.Contains(@"\b") || rtf.Contains(@"\i") || rtf.Contains(@"\ul") ||
+                              rtf.Contains(@"\fs") || rtf.Contains(@"\cf") || rtf.Contains(@"\highlight") ||
+                              (rtf.Contains(@"\f") && !rtf.Contains(@"\f0")));
 
         if (hasFormatting)
         {
