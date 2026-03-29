@@ -46,6 +46,7 @@
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
 * Resolved [#3183](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3183), Small square rendered next to Close button on KryptonForm when using a custom theme
+* Resolved [#3225](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3225), Ribbon large button image-to-text separator not DPI-scaled
 * Resolved [#3256](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3256), Tree View Event is Crashing
 * Resolved [#3249](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3249), `KryptonForm` shows an extra border on the secondary monitor when maximized
 * Resolved [#3013](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3013), Maximized form's size exceeds the screen's working area
