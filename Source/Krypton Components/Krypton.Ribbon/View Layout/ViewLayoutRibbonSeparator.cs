@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -45,8 +45,8 @@ internal class ViewLayoutRibbonSeparator : ViewLeaf
         int height,
         bool ignoreMouse)
     {
-        _width = (int)(width * FactorDpiX);
-        _height = (int)(height * FactorDpiY);
+        _width = Math.Max(1, (int)Math.Round(width * FactorDpiX, MidpointRounding.AwayFromZero));
+        _height = Math.Max(1, (int)Math.Round(height * FactorDpiY, MidpointRounding.AwayFromZero));
 
         if (ignoreMouse)
         {
