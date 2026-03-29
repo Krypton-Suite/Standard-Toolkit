@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -124,13 +124,7 @@ public partial class RichTextBoxFormattingTest : KryptonForm
 
     private void KbtnVerifyFormatting_Click(object? sender, EventArgs e)
     {
-        // Check if RTF formatting exists
-        string? rtf = krtbRichTextBox.Rtf;
-        bool hasFormatting = !string.IsNullOrEmpty(rtf) &&
-                             rtf != null &&
-                             (rtf.Contains(@"\b") || rtf.Contains(@"\i") || rtf.Contains(@"\ul") ||
-                              rtf.Contains(@"\fs") || rtf.Contains(@"\cf") || rtf.Contains(@"\highlight") ||
-                              (rtf.Contains(@"\f") && !rtf.Contains(@"\f0")));
+        bool hasFormatting = RtfAppearsFormatted(krtbRichTextBox.Rtf);
 
         if (hasFormatting)
         {
@@ -142,6 +136,48 @@ public partial class RichTextBoxFormattingTest : KryptonForm
             klblStatus.Text = "ℹ Verification: This is plain text (no RTF formatting).";
             klblStatus.StateCommon.ShortText.Color1 = Color.Blue;
         }
+    }
+
+    /// <summary>
+    /// Single-pass heuristic over RTF: same substrings as prior Contains checks, without rescanning the string for each token.
+    /// </summary>
+    private static bool RtfAppearsFormatted(string? rtf)
+    {
+        if (string.IsNullOrEmpty(rtf))
+        {
+            return false;
+        }
+
+        ReadOnlySpan<char> s = rtf.AsSpan();
+        bool hasF = false;
+        bool hasF0 = false;
+
+        for (int i = 0; i < s.Length; i++)
+        {
+            if (s[i] != '\\')
+            {
+                continue;
+            }
+
+            ReadOnlySpan<char> tail = s.Slice(i);
+            if (tail.StartsWith("\\b") || tail.StartsWith("\\i") || tail.StartsWith("\\ul") ||
+                tail.StartsWith("\\fs") || tail.StartsWith("\\cf") || tail.StartsWith("\\highlight"))
+            {
+                return true;
+            }
+
+            if (tail.StartsWith("\\f0"))
+            {
+                hasF0 = true;
+            }
+
+            if (tail.StartsWith("\\f"))
+            {
+                hasF = true;
+            }
+        }
+
+        return hasF && !hasF0;
     }
 
     private void KbtnClear_Click(object? sender, EventArgs e)
