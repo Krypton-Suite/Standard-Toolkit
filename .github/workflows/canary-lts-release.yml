@@ -79,7 +79,7 @@ jobs:
 
       - name: Setup NuGet
         if: steps.canary_lts_kill_switch.outputs.enabled == 'true'
-        uses: NuGet/setup-nuget@v2.0.2
+        uses: NuGet/setup-nuget@v3.0.0
 
       - name: Cache NuGet
         if: steps.canary_lts_kill_switch.outputs.enabled == 'true'
