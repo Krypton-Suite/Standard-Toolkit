@@ -784,22 +784,33 @@ public abstract class KryptonDockingSpace : DockingElementClosedCollection
 
         set
         {
-            // Should only ever set the value once
+            if (value == null)
+            {
+                // Allow clearing when the space has been disposed (e.g. empty dockspace after config load)
+                if (_space != null)
+                {
+                    _space.Disposed -= OnSpaceDisposed;
+                    _space.WorkspaceCellAdding -= OnSpaceCellAdding;
+                    _space.PageDrop -= RaiseSpacePageDrop;
+                    _space = null;
+                }
+
+                return;
+            }
+
+            // Should only ever set the value once (except when clearing with null)
             if (_space != null)
             {
                 throw new ArgumentException(@"Cannot set the 'Space' property more than once.", nameof(SpaceControl));
             }
 
             // Cache for future use
-            _space = value ?? throw new ArgumentNullException(nameof(value));
+            _space = value;
 
             // Hook into space events we need to monitor
-            if (SpaceControl != null)
-            {
-                SpaceControl.Disposed += OnSpaceDisposed;
-                SpaceControl.WorkspaceCellAdding += OnSpaceCellAdding;
-                SpaceControl.PageDrop += RaiseSpacePageDrop;
-            }
+            _space!.Disposed += OnSpaceDisposed;
+            _space.WorkspaceCellAdding += OnSpaceCellAdding;
+            _space.PageDrop += RaiseSpacePageDrop;
         }
     }
 
