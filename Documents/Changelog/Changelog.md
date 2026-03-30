@@ -46,6 +46,7 @@
 
 ## 2026-04-20 - Build 2604 (Version 105-LTS - Patch 2) - April 2026
 
+* Resolved [#3227](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3227), `KryptonDockingManager.LoadConfigFromArray` throws exception
 * Resolved [#3225](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3225), Ribbon large button image-to-text separator not DPI-scaled
 * Resolved [#3164](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3164), Toolkit: Font property values are being serialized depending of the current culture in exported XML theme file
 * Resolved [#3013](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3013), Maximized form's size exceeds the screen's working area
