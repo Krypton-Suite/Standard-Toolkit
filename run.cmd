@@ -1,4 +1,4 @@
-﻿:: Last updated: Saturday 16th August, 2025 @ 19:00
+:: Last updated: Sunday 29th March, 2026 @ 11:00
 
 @echo off
 
@@ -16,7 +16,7 @@ goto selectvsversion
 :selectvsversion
 cls
 
-@echo Welcome to the Krypton Toolkit Build system, version: 3.0.
+@echo Welcome to the Krypton Toolkit Build system, version: 3.1.
 @echo Please select the Visual Studio toolset to target.
 echo:
 @echo ==============================================================================================
@@ -65,6 +65,41 @@ echo.
 exit /b 0
 
 :: ===================================================================================================
+:: Workspace clean helpers (use "call :label"; returns via exit /b)
+
+:cleanbinandobj
+echo Deleting the 'Bin' folder
+rd /s /q "Bin"
+echo Deleted the 'Bin' folder
+echo Deleting the 'Krypton.Docking\obj' folder
+rd /s /q "Source\Krypton Components\Krypton.Docking\obj"
+echo Deleted the 'Krypton.Docking\obj' folder
+echo Deleting the 'Krypton.Navigator\obj' folder
+rd /s /q "Source\Krypton Components\Krypton.Navigator\obj"
+echo Deleted the 'Krypton.Navigator\obj' folder
+echo Deleting the 'Krypton.Ribbon\obj' folder
+rd /s /q "Source\Krypton Components\Krypton.Ribbon\obj"
+echo Deleted the 'Krypton.Ribbon\obj' folder
+echo Deleting the 'Krypton.Toolkit\obj' folder
+rd /s /q "Source\Krypton Components\Krypton.Toolkit\obj"
+echo Deleted the 'Krypton.Toolkit\obj' folder
+echo Deleting the 'Krypton.Workspace\obj' folder
+rd /s /q "Source\Krypton Components\Krypton.Workspace\obj"
+echo Deleted the 'Krypton.Workspace\obj' folder
+exit /b 0
+
+:cleanlogs
+echo Deleting the 'Logs' folder
+del /f "Logs"
+exit /b 0
+
+:cleanrootbuildlog
+echo Deleting the 'build.log' file
+del /f build.log
+echo Deleted the 'build.log' file
+exit /b 0
+
+:: ===================================================================================================
 
 :mainmenu
 
@@ -82,10 +117,11 @@ echo 4. Build and Pack Toolkit
 echo 5. Debug project
 echo 6. NuGet Tools
 echo 7. Create Archives (ZIP/TAR)
-echo 8. Change Visual Studio target
-echo 9. End
+echo 8. WebView2 SDK Tools
+echo 9. Change Visual Studio target
+echo 10. End
 echo:
-set /p answer="Enter number (1 - 9): "
+set /p answer="Enter number (1 - 10): "
 if "%answer%"=="1" (goto cleanproject)
 if "%answer%"=="2" (goto buildproject)
 if "%answer%"=="3" (goto createnugetpackages)
@@ -93,8 +129,9 @@ if "%answer%"=="4" (goto buildandpacktoolkit)
 if "%answer%"=="5" (goto debugproject)
 if "%answer%"=="6" (goto nugettools)
 if "%answer%"=="7" (goto createarchives)
-if "%answer%"=="8" (goto selectvsversion)
-if "%answer%"=="9" (goto exitbuildsystem)
+if "%answer%"=="8" (goto webview2tools)
+if "%answer%"=="9" (goto selectvsversion)
+if "%answer%"=="10" (goto exitbuildsystem)
 
 @echo Invalid input, please try again.
 
@@ -139,7 +176,7 @@ set /p answer="Enter number (1 - 5): "
 if %answer%==1 (goto packnightly)
 if %answer%==2 (goto packcanary)
 if %answer%==3 (goto packstable)
-if %answer%==4 (goto packlts)
+if %answer%==4 (goto packltsmenu)
 if %answer%==5 (goto mainmenu)
 
 @echo Invalid input, please try again.
@@ -217,26 +254,8 @@ pause
 :cleanproject
 cls
 
-echo Deleting the 'Bin' folder
-rd /s /q "Bin"
-echo Deleted the 'Bin' folder
-echo Deleting the 'Krypton.Docking\obj' folder
-rd /s /q "Source\Krypton Components\Krypton.Docking\obj"
-echo Deleted the 'Krypton.Docking\obj' folder
-echo Deleting the 'Krypton.Navigator\obj' folder
-rd /s /q "Source\Krypton Components\Krypton.Navigator\obj"
-echo Deleted the 'Krypton.Navigator\obj' folder
-echo Deleting the 'Krypton.Ribbon\obj' folder
-rd /s /q "Source\Krypton Components\Krypton.Ribbon\obj"
-echo Deleted the 'Krypton.Ribbon\obj' folder
-echo Deleting the 'Krypton.Toolkit\obj' folder
-rd /s /q "Source\Krypton Components\Krypton.Toolkit\obj"
-echo Deleted the 'Krypton.Toolkit\obj' folder
-echo Deleting the 'Krypton.Workspace\obj' folder
-rd /s /q "Source\Krypton Components\Krypton.Workspace\obj"
-echo Deleted the 'Krypton.Workspace\obj' folder
-echo Deleting the 'Logs' folder
-del /f "Logs"
+call :cleanbinandobj
+call :cleanlogs
 
 pause
 
@@ -244,31 +263,10 @@ goto mainmenu
 
 :clearproject
 
-echo Deleting the 'Bin' folder
-rd /s /q "Bin"
-echo Deleted the 'Bin' folder
-echo Deleting the 'Krypton.Docking\obj' folder
-rd /s /q "Source\Krypton Components\Krypton.Docking\obj"
-echo Deleted the 'Krypton.Docking\obj' folder
-echo Deleting the 'Krypton.Navigator\obj' folder
-rd /s /q "Source\Krypton Components\Krypton.Navigator\obj"
-echo Deleted the 'Krypton.Navigator\obj' folder
-echo Deleting the 'Krypton.Ribbon\obj' folder
-rd /s /q "Source\Krypton Components\Krypton.Ribbon\obj"
-echo Deleted the 'Krypton.Ribbon\obj' folder
-echo Deleting the 'Krypton.Toolkit\obj' folder
-rd /s /q "Source\Krypton Components\Krypton.Toolkit\obj"
-echo Deleted the 'Krypton.Toolkit\obj' folder
-echo Deleting the 'Krypton.Workspace\obj' folder
-rd /s /q "Source\Krypton Components\Krypton.Workspace\obj"
-echo Deleted the 'Krypton.Workspace\obj' folder
-echo Deleting the 'Logs' folder
-del /f "Logs"
+call :cleanbinandobj
+call :cleanlogs
 
 :: ===================================================================================================
-
-:cleanproject
-goto cleanproject
 
 :buildproject
 goto buildmenu
@@ -278,9 +276,6 @@ goto packmenu
 
 :debugproject
 goto debugmenu
-
-:nugettools
-goto createarchives
 
 :createarchives
 cls
@@ -323,6 +318,8 @@ cls
 
 
 call "%VS_SCRIPTS_DIR%\update-nuget.cmd"
+set "UPDATE_NUGET_EC=%errorlevel%"
+if "%UPDATE_NUGET_EC%"=="2" goto mainmenu
 
 
 pause
@@ -602,32 +599,15 @@ goto packltsmenu
 :debug
 cls
 
-echo Deleting the 'Bin' folder
-rd /s /q "Bin"
-echo Deleted the 'Bin' folder
-echo Deleting the 'Krypton.Docking\obj' folder
-rd /s /q "Source\Krypton Components\Krypton.Docking\obj"
-echo Deleted the 'Krypton.Docking\obj' folder
-echo Deleting the 'Krypton.Navigator\obj' folder
-rd /s /q "Source\Krypton Components\Krypton.Navigator\obj"
-echo Deleted the 'Krypton.Navigator\obj' folder
-echo Deleting the 'Krypton.Ribbon\obj' folder
-rd /s /q "Source\Krypton Components\Krypton.Ribbon\obj"
-echo Deleted the 'Krypton.Ribbon\obj' folder
-echo Deleting the 'Krypton.Toolkit\obj' folder
-rd /s /q "Source\Krypton Components\Krypton.Toolkit\obj"
-echo Deleted the 'Krypton.Toolkit\obj' folder
-echo Deleting the 'Krypton.Workspace\obj' folder
-rd /s /q "Source\Krypton Components\Krypton.Workspace\obj"
-echo Deleted the 'Krypton.Workspace\obj' folder
-echo Deleting the 'build.log' file
-del /f build.log
-echo Deleted the 'build.log' file
+call :cleanbinandobj
+call :cleanrootbuildlog
 
 cls
 
 
 call "%VS_SCRIPTS_DIR%\build-nightly.cmd"
+
+goto debugmenu
 
 :: ===================================================================================================
 
@@ -636,6 +616,8 @@ cls
 
 
 call "%VS_SCRIPTS_DIR%\update-nuget.cmd"
+set "UPDATE_NUGET_EC=%errorlevel%"
+if "%UPDATE_NUGET_EC%"=="2" goto mainmenu
 
 :buildandcreatenugetpackages
 cls
@@ -660,6 +642,8 @@ if %answer%==6 (goto mainmenu)
 
 pause
 
+goto buildandcreatenugetpackages
+
 :: ===================================================================================================
 
 :buildnightlypackages
@@ -667,27 +651,8 @@ cls
 
 echo Step 1: Clean
 
-echo Deleting the 'Bin' folder
-rd /s /q "Bin"
-echo Deleted the 'Bin' folder
-echo Deleting the 'Krypton.Docking\obj' folder
-rd /s /q "Source\Krypton Components\Krypton.Docking\obj"
-echo Deleted the 'Krypton.Docking\obj' folder
-echo Deleting the 'Krypton.Navigator\obj' folder
-rd /s /q "Source\Krypton Components\Krypton.Navigator\obj"
-echo Deleted the 'Krypton.Navigator\obj' folder
-echo Deleting the 'Krypton.Ribbon\obj' folder
-rd /s /q "Source\Krypton Components\Krypton.Ribbon\obj"
-echo Deleted the 'Krypton.Ribbon\obj' folder
-echo Deleting the 'Krypton.Toolkit\obj' folder
-rd /s /q "Source\Krypton Components\Krypton.Toolkit\obj"
-echo Deleted the 'Krypton.Toolkit\obj' folder
-echo Deleting the 'Krypton.Workspace\obj' folder
-rd /s /q "Source\Krypton Components\Krypton.Workspace\obj"
-echo Deleted the 'Krypton.Workspace\obj' folder
-echo Deleting the 'build.log' file
-del /f build.log
-echo Deleted the 'build.log' file
+call :cleanbinandobj
+call :cleanrootbuildlog
 
 cls
 
@@ -706,6 +671,88 @@ call "%VS_SCRIPTS_DIR%\build-nightly-custom.cmd" Pack
 
 pause
 
+goto buildandcreatenugetpackages
+
+:: ===================================================================================================
+
+:buildcanarypackages
+cls
+
+echo Step 1: Clean
+
+call :cleanbinandobj
+call :cleanrootbuildlog
+
+cls
+
+echo Step 2: Build and pack
+
+call "%VS_SCRIPTS_DIR%\build-canary.cmd" Pack
+
+pause
+
+goto buildandcreatenugetpackages
+
+:: ===================================================================================================
+
+:buildstablepackages
+cls
+
+echo Step 1: Clean
+
+call :cleanbinandobj
+call :cleanrootbuildlog
+
+cls
+
+echo Step 2: Build and pack
+
+call "%VS_SCRIPTS_DIR%\build-stable.cmd" Pack
+
+pause
+
+goto buildandcreatenugetpackages
+
+:: ===================================================================================================
+
+:buildstablelitepackages
+cls
+
+echo Step 1: Clean
+
+call :cleanbinandobj
+call :cleanrootbuildlog
+
+cls
+
+echo Step 2: Build and pack ^(lite^)
+
+call "%VS_SCRIPTS_DIR%\build-stable.cmd" PackLite
+
+pause
+
+goto buildandcreatenugetpackages
+
+:: ===================================================================================================
+
+:buildltspackages
+cls
+
+echo Step 1: Clean
+
+call :cleanbinandobj
+call :cleanrootbuildlog
+
+cls
+
+echo Step 2: Build and pack
+
+call "%VS_SCRIPTS_DIR%\build-lts.cmd" Pack
+
+pause
+
+goto buildandcreatenugetpackages
+
 :: ===================================================================================================
 
 :rebuildproject
@@ -713,6 +760,8 @@ cls
 
 
 call "%VS_SCRIPTS_DIR%\rebuild-build-nightly.cmd"
+
+goto buildmenu
 
 :: ===================================================================================================
 
@@ -726,11 +775,19 @@ cls
 
 call "%VS_SCRIPTS_DIR%\build-nightly.cmd" Pack
 
+pause
+
+goto mainmenu
+
 :buildandpackcanary
 cls
 
 
 call "%VS_SCRIPTS_DIR%\build-canary.cmd" Pack
+
+pause
+
+goto mainmenu
 
 :buildandpackstable
 cls
@@ -738,7 +795,99 @@ cls
 
 call "%VS_SCRIPTS_DIR%\build-stable.cmd" Pack
 
+pause
+
+goto mainmenu
+
+:buildandpacklts
+cls
+
+
+call "%VS_SCRIPTS_DIR%\build-lts.cmd" Pack
+
+pause
+
+goto mainmenu
+
 :: ===================================================================================================
+
+:webview2tools
+cls
+
+echo WebView2 SDK Tools
+echo.
+echo 1. Setup WebView2 SDK
+echo 2. Update WebView2 SDK
+echo 3. Check WebView2 Version
+echo 4. Go back to main menu
+echo:
+set /p answer="Enter number (1 - 4): "
+if %answer%==1 (goto setupwebview2sdk)
+if %answer%==2 (goto updatewebview2sdk)
+if %answer%==3 (goto checkwebview2version)
+if %answer%==4 (goto mainmenu)
+
+@echo Invalid input, please try again.
+
+pause
+
+goto webview2tools
+
+:: ===================================================================================================
+
+:setupwebview2sdk
+cls
+
+echo Setting up WebView2 SDK for KryptonWebView2 control...
+echo This will install the latest stable WebView2 SDK version.
+echo.
+
+pushd "%~dp0Scripts\WebVew2"
+
+call Setup-WebView2SDK.cmd
+
+popd
+
+pause
+
+goto webview2tools
+
+:: ===================================================================================================
+
+:updatewebview2sdk
+cls
+
+echo Updating WebView2 SDK to latest version...
+echo This will check for updates and install the newest stable version.
+echo.
+
+pushd "%~dp0Scripts\WebVew2"
+
+call Update-WebView2SDK.cmd
+
+popd
+
+pause
+
+goto webview2tools
+
+:: ===================================================================================================
+
+:checkwebview2version
+cls
+
+echo Checking WebView2 SDK version...
+echo.
+
+pushd "%~dp0Scripts\WebVew2"
+
+call Check-WebView2Version.cmd
+
+popd
+
+pause
+
+goto webview2tools
 
 :clearlogfiles
 
