@@ -40,7 +40,7 @@ public partial class PoweredByButtonExample : KryptonForm
 
     private void kryptonComboBox1_SelectedIndexChanged(object sender, EventArgs e)
     {
-        ToolkitSupportType support = (ToolkitSupportType)kryptonComboBox1.SelectedItem;
+        ToolkitSupportType support = (ToolkitSupportType)kryptonComboBox1.SelectedItem!;
 
         kryptonPoweredByButton1.ButtonValues.ToolkitSupportType = support;
     }
