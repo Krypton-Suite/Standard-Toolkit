@@ -63,6 +63,8 @@
 		  We only want to include the referenced DLLs (Krypton.Docking, Krypton.Navigator, etc.), not this wrapper project's output.
 		-->
 		<IncludeBuildOutput>false</IncludeBuildOutput>
+		<!-- Prevent project references from being emitted as NuGet dependencies; this package carries binaries directly. -->
+		<SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
 	</PropertyGroup>
 	<!-- WebView2: path to bundled DLLs in Krypton.Utilities (same as used by Utilities build). Run Scripts\WebVew2\Populate-BundledWebView2.cmd to populate. -->
 	<PropertyGroup>
