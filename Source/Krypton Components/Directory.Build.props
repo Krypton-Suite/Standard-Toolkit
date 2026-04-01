@@ -140,7 +140,7 @@
 				<!-- common package data -->
 				<PackageProjectUrl>https://github.com/Krypton-Suite/Standard-Toolkit</PackageProjectUrl>
 				<PackageIcon>Krypton Stable.png</PackageIcon>
-				<Authors>Peter William Wagner &amp; Simon Coghlan &amp; Giduac &amp; Ahmed Abdelhameed &amp; Lesandro &amp; tobitege &amp; Thomas Bolon</Authors>
+				<Authors>Peter William Wagner &amp; Simon Coghlan &amp; Giduac &amp; Ahmed Abdelhameed &amp; Lesandro &amp; tobitege &amp; KamaniAR &amp; mcpbcs &amp; Thomas Bolon</Authors>
 				<!--<PackageLicenseFile>License.md</PackageLicenseFile>-->
 				<PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
 				<PackageReadmeFile>README.md</PackageReadmeFile>
