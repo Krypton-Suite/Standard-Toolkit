@@ -12,7 +12,6 @@
 namespace Krypton.Toolkit;
 
 /// <inheritdoc/>
-[ToolboxBitmap(typeof(KryptonDataGridViewImageColumn), "ToolboxBitmaps.KryptonDataGridViewImageColumn.bmp")]
 public class KryptonDataGridViewImageColumn : DataGridViewImageColumn, IIconCell
 {
     private KryptonDataGridView? _dataGridView = null;
@@ -72,7 +71,7 @@ public class KryptonDataGridViewImageColumn : DataGridViewImageColumn, IIconCell
     /// <returns>The cloned object.</returns>
     public override object Clone()
     {
-        var cloned = base.Clone() as KryptonDataGridViewImageColumn ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("cloned"));
+        var cloned = base.Clone() as KryptonDataGridViewImageColumn ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("cloned"));
 
         foreach (IconSpec sp in IconSpecs)
         {
