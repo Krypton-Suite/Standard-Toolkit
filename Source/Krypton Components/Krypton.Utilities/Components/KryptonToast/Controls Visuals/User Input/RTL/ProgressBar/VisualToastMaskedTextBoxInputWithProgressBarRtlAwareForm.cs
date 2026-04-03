@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -57,6 +57,8 @@ internal partial class VisualToastMaskedTextBoxInputWithProgressBarRtlAwareForm 
 
     private void UpdateText()
     {
+        GlobalStaticValues.ApplyToastRichTextContentColor(krtbNotificationContentText);
+
         klblHeader.Text = _data.NotificationTitle ?? GlobalStaticValues.DEFAULT_EMPTY_STRING;
 
         krtbNotificationContentText.Text = _data.NotificationContent ?? GlobalStaticValues.DEFAULT_EMPTY_STRING;
