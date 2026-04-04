@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -163,9 +163,17 @@ public class GlobalStaticValues
         // per ticket #1692
         get => KryptonManager.CurrentGlobalPalette.GetContentLongTextColor1(PaletteContentStyle.LabelNormalPanel, PaletteState.Normal);
     }
+
     #endregion
 
     #region Methods
+
+    /// <summary>
+    /// Applies <see cref="KryptonMessageBoxRichTextBoxTextColor"/> to a read-only panel-client <see cref="Krypton.Toolkit.KryptonRichTextBox"/> (toast body text; #3018).
+    /// </summary>
+    internal static void ApplyToastRichTextContentColor(Krypton.Toolkit.KryptonRichTextBox richTextBox) =>
+        richTextBox.StateCommon.Content.Color1 = KryptonMessageBoxRichTextBoxTextColor;
+
     /// <summary>
     /// Helper method that returns a generic message when a variable is null.
     /// </summary>
