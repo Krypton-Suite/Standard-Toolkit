@@ -10,12 +10,17 @@
 global using System;
 global using System.Collections.Concurrent;
 global using System.ComponentModel;
+global using System.Data;
 global using System.Diagnostics;
 global using System.Diagnostics.CodeAnalysis;
 global using System.Drawing;
+global using System.Net;
+global using System.Net.Http;
 global using System.Security.Cryptography;
+global using System.Text;
 global using System.Windows.Forms;
 global using System.Windows.Forms.Design;
+global using System.Xml.Serialization;
 
 global using Krypton.Navigator;
 global using Krypton.Ribbon;

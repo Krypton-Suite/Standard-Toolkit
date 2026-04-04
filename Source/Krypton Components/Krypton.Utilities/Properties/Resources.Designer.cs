@@ -93,6 +93,76 @@ namespace Krypton.Utilities.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ColumnHeader_Filtered {
+            get {
+                object obj = ResourceManager.GetObject("ColumnHeader_Filtered", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ColumnHeader_FilteredAndOrderedASC {
+            get {
+                object obj = ResourceManager.GetObject("ColumnHeader_FilteredAndOrderedASC", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ColumnHeader_FilteredAndOrderedDESC {
+            get {
+                object obj = ResourceManager.GetObject("ColumnHeader_FilteredAndOrderedDESC", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ColumnHeader_OrderedASC {
+            get {
+                object obj = ResourceManager.GetObject("ColumnHeader_OrderedASC", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ColumnHeader_OrderedDESC {
+            get {
+                object obj = ResourceManager.GetObject("ColumnHeader_OrderedDESC", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ColumnHeader_SavedFilters {
+            get {
+                object obj = ResourceManager.GetObject("ColumnHeader_SavedFilters", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ColumnHeader_UnFiltered {
+            get {
+                object obj = ResourceManager.GetObject("ColumnHeader_UnFiltered", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Copy {
             get {
                 object obj = ResourceManager.GetObject("Copy", resourceCulture);
@@ -223,6 +293,76 @@ namespace Krypton.Utilities.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap MenuStrip_OrderASCbool {
+            get {
+                object obj = ResourceManager.GetObject("MenuStrip_OrderASCbool", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap MenuStrip_OrderASCnum {
+            get {
+                object obj = ResourceManager.GetObject("MenuStrip_OrderASCnum", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap MenuStrip_OrderASCtxt {
+            get {
+                object obj = ResourceManager.GetObject("MenuStrip_OrderASCtxt", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap MenuStrip_OrderDESCbool {
+            get {
+                object obj = ResourceManager.GetObject("MenuStrip_OrderDESCbool", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap MenuStrip_OrderDESCnum {
+            get {
+                object obj = ResourceManager.GetObject("MenuStrip_OrderDESCnum", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap MenuStrip_OrderDESCtxt {
+            get {
+                object obj = ResourceManager.GetObject("MenuStrip_OrderDESCtxt", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap MenuStrip_ResizeGrip {
+            get {
+                object obj = ResourceManager.GetObject("MenuStrip_ResizeGrip", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Ok {
             get {
                 object obj = ResourceManager.GetObject("Ok", resourceCulture);
@@ -276,6 +416,56 @@ namespace Krypton.Utilities.Properties {
         internal static System.Drawing.Bitmap Restart_Dark {
             get {
                 object obj = ResourceManager.GetObject("Restart_Dark", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SearchToolBar_ButtonCaseSensitive {
+            get {
+                object obj = ResourceManager.GetObject("SearchToolBar_ButtonCaseSensitive", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SearchToolBar_ButtonClose {
+            get {
+                object obj = ResourceManager.GetObject("SearchToolBar_ButtonClose", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SearchToolBar_ButtonFromBegin {
+            get {
+                object obj = ResourceManager.GetObject("SearchToolBar_ButtonFromBegin", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SearchToolBar_ButtonSearch {
+            get {
+                object obj = ResourceManager.GetObject("SearchToolBar_ButtonSearch", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SearchToolBar_ButtonWholeWord {
+            get {
+                object obj = ResourceManager.GetObject("SearchToolBar_ButtonWholeWord", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

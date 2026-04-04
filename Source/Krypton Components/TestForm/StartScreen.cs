@@ -57,6 +57,7 @@ public partial class StartScreen : KryptonForm
     /// </summary>
     private void AddButtons()
     {
+        CreateButton<AdvancedDataGridViewTest>("KryptonAdvancedDataGridView", "Need to manipulate some data?");
         CreateButton<AboutBoxTest>("AboutBox", "Try this About Box for a change");
         CreateButton<AccessibilityTest>("Accessibility Test (UIA Providers)", "Comprehensive demo and test for UIA Provider implementation (Issue #762). Tests all 10 controls with accessibility support, organized by category with detailed results.");
         CreateButton<ButtonBadgeTest>("Badge Test", "Comprehensive badge functionality demonstration for KryptonButton and KryptonCheckButton.");

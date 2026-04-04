@@ -127,6 +127,27 @@
   <data name="Cancel_Windows_11" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Cancel_Windows_11.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="ColumnHeader_Filtered" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ColumnHeader_Filtered.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ColumnHeader_FilteredAndOrderedASC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ColumnHeader_FilteredAndOrderedASC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ColumnHeader_FilteredAndOrderedDESC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ColumnHeader_FilteredAndOrderedDESC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ColumnHeader_OrderedASC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ColumnHeader_OrderedASC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ColumnHeader_OrderedDESC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ColumnHeader_OrderedDESC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ColumnHeader_SavedFilters" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ColumnHeader_SavedFilters.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ColumnHeader_UnFiltered" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ColumnHeader_UnFiltered.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Copy" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Copy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -166,6 +187,27 @@
   <data name="Krypton Stable" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Krypton Stable.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="MenuStrip_OrderASCbool" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MenuStrip_OrderASCbool.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MenuStrip_OrderASCnum" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MenuStrip_OrderASCnum.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MenuStrip_OrderASCtxt" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MenuStrip_OrderASCtxt.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MenuStrip_OrderDESCbool" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MenuStrip_OrderDESCbool.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MenuStrip_OrderDESCnum" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MenuStrip_OrderDESCnum.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MenuStrip_OrderDESCtxt" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MenuStrip_OrderDESCtxt.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MenuStrip_ResizeGrip" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MenuStrip_ResizeGrip.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Ok" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Ok.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -183,6 +225,21 @@
   </data>
   <data name="Restart_Dark" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Restart_Dark.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SearchToolBar_ButtonCaseSensitive" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SearchToolBar_ButtonCaseSensitive.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SearchToolBar_ButtonClose" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SearchToolBar_ButtonClose.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SearchToolBar_ButtonFromBegin" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SearchToolBar_ButtonFromBegin.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SearchToolBar_ButtonSearch" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SearchToolBar_ButtonSearch.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SearchToolBar_ButtonWholeWord" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SearchToolBar_ButtonWholeWord.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Stop" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Stop.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
