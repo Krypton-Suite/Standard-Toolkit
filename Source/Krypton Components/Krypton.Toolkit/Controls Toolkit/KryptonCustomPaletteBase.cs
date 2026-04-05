@@ -4284,9 +4284,13 @@ public class KryptonCustomPaletteBase : PaletteBase
             case PaletteButtonSpecStyle.RibbonExpand:
                 return ButtonSpecs.RibbonExpand;
             default:
-                // Should never happen!
-                Debug.Assert(false);
-                throw DebugTools.NotImplemented(style.ToString());
+                // Unknown or out-of-range values (e.g. newer enum, bad serialization) — avoid crashing the UI.
+                Debug.Assert(false, $"Unhandled {nameof(PaletteButtonSpecStyle)}: {(int)style}");
+                if (Debugger.IsAttached)
+                {
+                    throw DebugTools.NotImplemented(style.ToString());
+                }
+                return ButtonSpecs.Generic;
         }
     }
 
