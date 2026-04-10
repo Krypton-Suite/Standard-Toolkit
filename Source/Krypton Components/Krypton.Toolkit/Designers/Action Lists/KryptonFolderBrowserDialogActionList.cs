@@ -27,6 +27,12 @@ internal class KryptonFolderBrowserDialogActionList : DesignerActionList
         set => SetProperty(_dialog.Title, value, () => _dialog.Title = value);
     }
 
+    public Icon? Icon
+    {
+        get => _dialog.Icon;
+        set => SetProperty(_dialog.Icon, value, () => _dialog.Icon = value);
+    }
+
     public string SelectedPath
     {
         get => _dialog.SelectedPath;
@@ -55,6 +61,7 @@ internal class KryptonFolderBrowserDialogActionList : DesignerActionList
         {
             actions.Add(new DesignerActionHeaderItem(@"Dialog"));
             actions.Add(new DesignerActionPropertyItem(nameof(Title), nameof(Title), @"Dialog", @"Dialog title."));
+            actions.Add(new DesignerActionPropertyItem(nameof(Icon), nameof(Icon), @"Dialog", @"Dialog icon."));
             actions.Add(new DesignerActionPropertyItem(nameof(SelectedPath), @"Selected Path", @"Dialog", @"Selected or initial folder path."));
 #if NET8_0_OR_GREATER
             actions.Add(new DesignerActionPropertyItem(nameof(InitialDirectory), @"Initial Directory", @"Dialog", @"Initial directory shown by the dialog."));
