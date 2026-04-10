@@ -2046,7 +2046,7 @@ public class KryptonForm : VisualForm,
     protected override void WindowChromeStart()
     {
         // Make sure the views for the buttons are created
-        if (_recreateButtons)
+        if (_recreateButtons && this.ControlBox && !string.IsNullOrWhiteSpace(this.Text))
         {
             _buttonManager.RecreateButtons();
             _recreateButtons = false;
