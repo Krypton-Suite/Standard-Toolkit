@@ -46,6 +46,7 @@
 
 ## 2026-04-20 - Build 2604 (Version 105-LTS - Patch 2) - April 2026
 
+* Implemented [#1002](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1002), Implement `ActionLists` for file dialogs `KryptonOpenFileDialog`, `KryptonSaveFileDialog`, and `KryptonFolderBrowserDialog` to expose common design-time properties.
 * Resolved [#3256](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3256), Tree View Event is Crashing
 * Resolved [#3227](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3227), `KryptonDockingManager.LoadConfigFromArray` throws exception
 * Resolved [#3225](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3225), Ribbon large button image-to-text separator not DPI-scaled
@@ -83,7 +84,7 @@
 
 ====
 
-# 2026-01-19 - Build 2501 (Version 100-LTS - Patch 1) - January 2026
+## 2026-01-19 - Build 2501 (Version 100-LTS - Patch 1) - January 2026
 
 * Resolved/Implemented [#1651](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1651), KComboBox's should follow the DateTimePicker layout(s)
 * Resolved [#2457](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2457), `KryptonForm` RTL border bug
@@ -286,12 +287,14 @@
 
 =======
 
-# 2025-06-23 - Build 2506 (Version 95 - Patch 7) - June 2025
+## 2025-06-23 - Build 2506 (Version 95 - Patch 7) - June 2025
+
 * Resolved [#2166](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2166), Form with Krypton Ribbon, when maximized, cuts off the right, left and bottom edges.
 
 ====
 
-# 2025-04-21 - Build 2504 (Version 95 - Patch 6) - April 2025
+## 2025-04-21 - Build 2504 (Version 95 - Patch 6) - April 2025
+
 * Resolved [#2112](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2112), MdiContainer and KForm
 * Implemented [#2164](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2164), `KryptonDataGridView.ColumnCount` when set, now converts basic columns to `KryptonDataGridViewTextBoxColumns` when Autogeneration is enabled.
 * Resolved [#868](https://github.com/Krypton-Suite/Standard-Toolkit/issues/868), `KryptonForm` Does not route `WM_HELP` request
@@ -303,7 +306,8 @@
 
 =======
 
-# 2025-02-25 - Build 2502 (Version 95 - Patch 5) - February 2025
+## 2025-02-25 - Build 2502 (Version 95 - Patch 5) - February 2025
+
 * Implemented [#2125](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2125), Adding NotificationIcon Size in ToastNotification
 * Resolved [#1832](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1832), `KryptonComboBox` now will always vertically center the inner ComboBox. The `IntegralHeight` property now defaults to true.
 * Resolved [#2108](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2108), `KryptonPropertyGrid` needs to support 'resetting' of values
@@ -345,10 +349,10 @@
 * Resolved [#1842](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1842), `KryptonTextBox` height collapses when MultiLine is enabled.
 * Resolved [#1241](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1241), `KryptonDataGridViewComboBoxColumn` ignores `ValueMember` in data binding.
 
-
 =======
 
 ## 2024-11-12 - Build 2411 (V90) - November 2024
+
 * Resolved [#1787](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1787), Office 2007 & 2010 Silver Dark Mode themes ribbon button tracking colors adjusted.
 * Resolved [#1800](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1800), `KryptonDataGridViewComboBoxEditingControl.EditingControlFormattedValue` property is differently implemented.
 * Resolved [#66](https://github.com/Krypton-Suite/Standard-Toolkit/issues/66), Cannot Add Ribbon-Buttons-Container (KryptonRibbonGroupTripple) when using .NETCore onwards [Returns error due to abstract class]
@@ -421,7 +425,7 @@
 * Resolved [#1424](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1424), **[Breaking Change]** `KryptonMessageBox` does not obey tab characters like `MessageBox`
 * Resolved [#1381](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1381), **[Regression]** Docking Persistence broken since build ##.23.10.303
 * Resolved [#1356](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1356), **[Breaking Change]** AppButton colours don't change while switching themes
-  * See https://github.com/Krypton-Suite/Standard-Toolkit/issues/1356#issuecomment-2039412890
+  * See <https://github.com/Krypton-Suite/Standard-Toolkit/issues/1356#issuecomment-2039412890>
   * `RibbonAppButton` has become `RibbonFileAppButton`
   * Addition `RibbonFileAppTab` to hold the tab text (Defaults to `File`)
   * Colours for the `FileAppTab` have been moved into the `StateCommon` area
@@ -503,7 +507,8 @@
 
 =======
 
-# 2025-02-25 - Build 2502 (Patch 5) - February 2025
+## 2025-02-25 - Build 2502 (Patch 5) - February 2025
+
 * Resolved [#2108](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2108), `KryptonPropertyGrid` needs to support 'resetting' of values
 * Resolved [#561](https://github.com/Krypton-Suite/Standard-Toolkit/issues/561), MenuItem images are not scaled with dpi Awareness
 * Resolved [#1964](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1964), `KryptonTreeView` Node crosses are not Dpi Scaled
@@ -525,13 +530,15 @@
 
 =======
 
-# 2024-11-14 - Build 2411 (Patch 4) - November 2024
+## 2024-11-14 - Build 2411 (Patch 4) - November 2024
+
 * Resolved [#1837](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1837), `KryptonMessageBoxDefaultButton.Button2` doesn't work
 * Resolved [#1820](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1820), When KryptonDataGridView.AutoGenerate is set WinForms columns are used. See the issue for full text.
 
 =======
 
-# 2024-10-14 - Build 2410 (Patch 3) - October 2024
+## 2024-10-14 - Build 2410 (Patch 3) - October 2024
+
 * Implemented [#1813](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1813), LTS Configuration
 * Resolved [#1800](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1800) `KryptonDataGridViewComboBoxEditingControl.EditingControlFormattedValue` property is differently implemented.
 * Implemented [#1792](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1792), Enable 'SourceLink' for NuGet packages
@@ -542,6 +549,7 @@
 =======
 
 ## 2024-08-26 - Build 2408 (Patch 2) - August 2024
+
 * Resolved [#1697](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1697), `KryptonComboBox` change in DropDownStyle cripples the control while the control is disabled when reenabled again.
 * Resolved [#1755](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1755), Ribbon `GalleryButtonController` timer component causes an exception on mouse movements.
 * Resolved [#1548](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1548), KComboBox DropDown arrow is illegible in certain themes
@@ -552,6 +560,7 @@
 =======
 
 ## 2024-07-22 - Build 2407 (Version 85 - Patch 1) - July 2024
+
 * Resolved [#1373](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1373), `KT.CommonHelper.CheckContextMenuForShortcut()` handles direct type casts differently from .NET 8.0 onward. Solution courtesy of @Tape-Worm
 * Resolved [#1583](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1583), `KryptonThemeComboBox` and `KrpytonThemeListBox` have the wrong designer assigned. Adds the `KryptonStubDesigner` internal class.
 * Resolved [#1614](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1614), `KryptonMessageBox` throws an exception after Esc key is pressed.
@@ -563,6 +572,7 @@
 =======
 
 ## 2024-06-24 - Build 2406 - June 2024
+
 * Resolved [#1561](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1561), KryptonRibbonGroup Controls remain enabled at runtime when set to disabled in the designer.
 * Resolved [#1302](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1302), **[Breaking Change]** Font being used by "Professional" theme is pants !
 * Resolved [#1528](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1528), Tracking colours need reviewing
@@ -587,11 +597,13 @@
 =======
 
 ## 2024-03-04 - Build 2403 (Version 80 - Patch 2) - March 2024
+
 * Resolved [#1314](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1314), **[Regression]** CheckedListBox CheckedIndices NullRef
 
 =======
 
 ## 2023-11-17 - Build 2311 (Version 80 - Patch 1) - November 2023
+
 * Resolved issue where an assertion is made when using `KryptonThemeComboBox` or `KryptonRibbonGroupThemeComboBox`
 * Resolved issue where `Sparkle` themes would crash when using certain `ButtonSpecs`
 * Resolved [#1174](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1174), Unable to adjust height of `KryptonForm` when `KryptonRibbon` is added
@@ -601,6 +613,7 @@
 =======
 
 ## 2023-11-14 - Build 2311 - November 2023
+
 * Resolved [#1093](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1093), `KryptonManager` - Setting the `GlobalPaletteMode` to 'Global' throws a error
 * Implemented [#1117](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1117), Is it possible to have the KForm back colour as the KPanel colour
 * Resolved [#1153](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1153), Whilst investigating #1152 found that "Start drag" in certain application causes an exception.
@@ -708,7 +721,8 @@ Cannot add items to KryptonGroupBox in WinForms Designer
 =======
 
 ## 2022-11-08 - Build 2211 - November 2022
-* Resolved [#817](https://github.com/Krypton-Suite/Standard-Toolkit/issues/817), DLL files in **Signed** NuGet packages are not signed. By default, all assemblies are now signed, negating the need for `Signed` NuGet packages (**Note:** You may need to sign your assemblies after upgrading. To find out how to do this, click [here](https://learn.microsoft.com/en-us/dotnet/standard/assembly/strong-named).)
+
+* Resolved [#817](https://github.com/Krypton-Suite/Standard-Toolkit/issues/817), DLL files in **Signed** NuGet packages are not signed. By default, all assemblies are now signed, negating the need for `Signed` NuGet packages (**Note:** You may need to sign your assemblies after upgrading. See [strong-named assemblies documentation](https://learn.microsoft.com/en-us/dotnet/standard/assembly/strong-named).)
 * Removed `DisableCloseButton` option on `KryptonForm`, as feature was not properly implemented
 * Resolved [#809](https://github.com/Krypton-Suite/Standard-Toolkit/issues/809), `Office 2010 - Silver (Light Mode)` - `KryptonDataGridView` throw exception on hover
 * `KryptonMessageBox` using the `KryptonMessageBoxIcon.Shield` option, will now display the correct image for the version of the OS
@@ -751,6 +765,7 @@ Cannot add items to KryptonGroupBox in WinForms Designer
 =======
 
 ## 2022-06-01 - Build 2206 - June 2022
+
 * Improvements to all 'Black/Blue (Dark Mode)' themes
 * Silver dark/light mode themes are now implemented
 * Full/Lite NuGet packages - as support for .NET 5 ended in May, there are now 2 types of NuGet package.
@@ -770,6 +785,7 @@ Cannot add items to KryptonGroupBox in WinForms Designer
 =======
 
 ## 2022-04-04 - Build 2204 - April 2022
+
 * Resolved [#678](https://github.com/Krypton-Suite/Standard-Toolkit/issues/678), Dropdown list background & text colour are the same (Office 2010 - Black (Dark Mode))
 * Resolved [#673](https://github.com/Krypton-Suite/Standard-Toolkit/issues/673), `KryptonRibbonGroup` does not have entries for either `StateContextPressed` or `StateContextTracking`
 * Resolved [#665](https://github.com/Krypton-Suite/Standard-Toolkit/issues/665), Breadcrumb - Cannot Add items to Root via the designer
@@ -801,6 +817,7 @@ Cannot add items to KryptonGroupBox in WinForms Designer
 =======
 
 ## 2022-02-01 - Build 2202 - February 2022
+
 * Add links to the NuGet version information in the package descriptions
 * Updated NuGet package information to aid deployment to GitHub
 * Versions have now been changed to the following format `Major.yy.MM.dayofyear`, i.e. `60.22.02.32`, but for convenience, builds will still be referenced as `yyMM` in documentation
@@ -834,6 +851,7 @@ Cannot add items to KryptonGroupBox in WinForms Designer
 =======
 
 ## 2022-01-05 - Build 2201 - January 2022
+
 * Complete [#517](https://github.com/Krypton-Suite/Standard-Toolkit/issues/517), Warning CS3008: Identifier '_toolTipValues' is not CLS-compliant
 * Resolved [#515](https://github.com/Krypton-Suite/Standard-Toolkit/issues/515), Office 365 Dark mode does not have enough contrast for disabled text
 * Resolved [#511](https://github.com/Krypton-Suite/Standard-Toolkit/issues/511), KryptonRibbonGroupComboBox does not have tooltips
@@ -845,7 +863,7 @@ Cannot add items to KryptonGroupBox in WinForms Designer
 * Resolved [#491](https://github.com/Krypton-Suite/Standard-Toolkit/issues/491), Krypton.Toolkit.KryptonMessageBox wrong form height when YesNo or AbortRetryIgnore buttons selected (thanks to [mbsysde99](https://github.com/mbsysde99))
 * Resolved [#488](https://github.com/Krypton-Suite/Standard-Toolkit/issues/488), `KryptonTextBox` DoubleClick event does not fire
 * Resolved [#484](https://github.com/Krypton-Suite/Standard-Toolkit/issues/484), Using todays alpha, Active form does not show the title text when using QAT
-* Resolved [#483](https://github.com/Krypton-Suite/Standard-Toolkit/issues/483), `KryptonForm` loses visibility when the form border property is set to ***None*** using certain themes (thanks to [mbsysde99](https://github.com/mbsysde99))
+* Resolved [#483](https://github.com/Krypton-Suite/Standard-Toolkit/issues/483), `KryptonForm` loses visibility when the form border property is set to _**None**_ using certain themes (thanks to [mbsysde99](https://github.com/mbsysde99))
 * Resolved [#478](https://github.com/Krypton-Suite/Standard-Toolkit/issues/478), `ThemesComboBox` has a double list
 * Resolved [#473](https://github.com/Krypton-Suite/Standard-Toolkit/issues/473), The `KryptonListbox` component does not fire the double-click event
 * Resolved [#459](https://github.com/Krypton-Suite/Standard-Toolkit/issues/459), Respect Maximum size for Child Forms and controls
@@ -872,6 +890,7 @@ Cannot add items to KryptonGroupBox in WinForms Designer
 =======
 
 ## 2021-11-08 - Build 2111 - November 2021
+
 * Implemented [#49](https://github.com/Krypton-Suite/Standard-Toolkit/issues/49), Support for .NET 6
 * Implements [#384](https://github.com/Krypton-Suite/Standard-Toolkit/issues/384), FontDialog only has 16 colours, Bring back the ColourChooser button
 * Resolved [#381](https://github.com/Krypton-Suite/Standard-Toolkit/issues/381), Allow Common Dialog Titles to be changed
@@ -904,11 +923,11 @@ Cannot add items to KryptonGroupBox in WinForms Designer
 * Implemented [#290](https://github.com/Krypton-Suite/Standard-Toolkit/issues/290), Should V6 only support "MS Supported" Net Frameworks?
   * The toolkit will only work with projects using .NET Framework 4.6.2 or higher
   * `lite` NuGet packages are no longer being supported or maintained for the forseeable future
-  * For more information, please visit [here](https://dotnet.microsoft.com/platform/support/policy/dotnet-framework)
+  * For more information, see the [Microsoft .NET Framework support policy](https://dotnet.microsoft.com/platform/support/policy/dotnet-framework)
 * Implemented [#282](https://github.com/Krypton-Suite/Standard-Toolkit/issues/282), `KryptonScrollbars` need to have smart tags
 * Resolved [#245](https://github.com/Krypton-Suite/Standard-Toolkit/issues/245), `TableLayoutPanel` should be "Kryptonised"
 * Implemented [#269](https://github.com/Krypton-Suite/Standard-Toolkit/issues/269), "Print Dialog" is in the Main Forms elements - Where is Kryptons' Standard themed equivalent
-  * This *does not do* the PrintDlgEx, as that is buried too deep in the OS.
+  * This _does not do_ the PrintDlgEx, as that is buried too deep in the OS.
 * Resolved [#281](https://github.com/Krypton-Suite/Standard-Toolkit/issues/281), `KryptonScrollbar`: Scroll value cannot be set
 * Resolved [#274](https://github.com/Krypton-Suite/Standard-Toolkit/issues/274), KRadioButton should use the Label(Panel) style by default
 * Resolved [#273](https://github.com/Krypton-Suite/Standard-Toolkit/issues/273), KCheckBox should use the Label(Panel) style by default
@@ -941,6 +960,7 @@ Cannot add items to KryptonGroupBox in WinForms Designer
 =======
 
 ## 2021-08-03 Build 2108.1 - August 2021 (Canary Update 1)
+
 * Resolved [#230](https://github.com/Krypton-Suite/Standard-Toolkit/issues/230), ThemeManager does not populate with the new "Light / Dark" themes
 * Resolved [#229](https://github.com/Krypton-Suite/Standard-Toolkit/issues/229), Cannot set button text programatically
 * Resolved [#225](https://github.com/Krypton-Suite/Standard-Toolkit/issues/225), Cannot set text of a button in designer
@@ -948,6 +968,7 @@ Cannot add items to KryptonGroupBox in WinForms Designer
 =======
 
 ## 2021-08-02 Build 2108 - August 2021 (Canary)
+
 * Implement [#207](https://github.com/Krypton-Suite/Standard-Toolkit/issues/207), 'DarkMode' for `KryptonRichTextBox`/`KryptonTextBox` (Sparkle theme updates to come)
 * Resolved [#150](https://github.com/Krypton-Suite/Standard-Toolkit/issues/150), Change the Default type of Theme for A KryptonLabel to be "Normal- Panel"
   * Make sure that the `NormalPanel` is the default style
@@ -972,7 +993,7 @@ Cannot add items to KryptonGroupBox in WinForms Designer
 * Implement [#149](https://github.com/Krypton-Suite/Standard-Toolkit/issues/149), Change the default theme from `Office 2010 - Blue` to `Office 365 - Blue`
 * Implement [#147](https://github.com/Krypton-Suite/Standard-Toolkit/issues/147), Update `csproj` files to handle `AssemblyInfo` data
 * New `KryptonInputBoxManager` control, now you can configure a `KryptonInputBox` through the designer
-* Improved the `KryptonInputBox` to take advantage of the `KryptonTextBox` ***CueHint*** features
+* Improved the `KryptonInputBox` to take advantage of the `KryptonTextBox` _**CueHint**_ features
 * New `KryptonWebBrowser`Control allowing `KryptonContext` menus [#113](https://github.com/Krypton-Suite/Standard-Toolkit/issues/113)
 * Resolved [#122](https://github.com/Krypton-Suite/Standard-Toolkit/issues/122), Placing a `KryptonStatusStrip` in the Designer causes an exception
 * Implemented [#117](https://github.com/Krypton-Suite/Standard-Toolkit/issues/117), Consolidate `using` statements
@@ -983,7 +1004,7 @@ Cannot add items to KryptonGroupBox in WinForms Designer
 * Resolved [#92](https://github.com/Krypton-Suite/Standard-Toolkit/issues/92), **Many** Items cannot be Dragged and dropped onto a Form in Designer
 * Resolved [#91](https://github.com/Krypton-Suite/Standard-Toolkit/issues/91), Cannot add items to KryptonGroupBox in designer
 * Resolved [#84](https://github.com/Krypton-Suite/Standard-Toolkit/issues/84), Multi-Line Text Box does not support Hint
-* Implemented [#82](https://github.com/Krypton-Suite/Standard-Toolkit/issues/82), ComboBox Should be able to have *Hint's*
+* Implemented [#82](https://github.com/Krypton-Suite/Standard-Toolkit/issues/82), ComboBox Should be able to have _Hint's_
 * Implemented [#81](https://github.com/Krypton-Suite/Standard-Toolkit/issues/81), Can the "6.x.Lite" version only support .net48;net5.0-windows;net6.0-windows
 * Implemented [#79](https://github.com/Krypton-Suite/Standard-Toolkit/issues/79), Customise 'Hint' Font
 * Resolved [#77](https://github.com/Krypton-Suite/Standard-Toolkit/issues/77), When using KryptonInputBox focus is not on the edit box when it is shown
@@ -993,36 +1014,43 @@ Cannot add items to KryptonGroupBox in WinForms Designer
 =======
 
 ## 2021-06-26 - Build 2106.2 - June 2021 (Update 2)
+
 * Resolved [#167](https://github.com/Krypton-Suite/Standard-Toolkit/issues/167), Latest Canary of `KryptonInputBox` is not usable!!
 
 =======
 
 ## 2021-06-04 - Build 2106.1 - June 2021 (Update 1)
+
 * Fixed NuGet package descriptions
 * Disabled `KryptonListView`, `KryptonToolStrip` and `KryptonStatusStrip` - to return in a future update
 
 =======
 
 ## 2021-06-02 - Build 2106.1 - June 2021 (Update 1 - Canary)
+
 * Resolved [#129](https://github.com/Krypton-Suite/Standard-Toolkit/issues/129), Canary NuGet description for `Lite` is incorrect
 
 =======
 
 ## 2021-06-01 - Build 2106 - June 2021
+
 * Allow the user to set a `ActivePage` on the `KryptonWorkspace` control
 * Implemented [#43](https://github.com/Krypton-Suite/Standard-Toolkit/issues/43), Access corner rounding features via Action Lists
 * Implemented [#60](https://github.com/Krypton-Suite/Standard-Toolkit/issues/60), As this project is now a long way from the original "ComponentFactory" - The BSD-3 License Header needs to change
-* Removed `Krypton.Toolkit.Values` namespace to comply with the general namespace. ***NOTE: This is likely to cause errors in your projects. To solve, please do a find/replace with `Krypton.Toolkit.Values` to `Krypton.Toolkit` in your source code.***
+* Removed `Krypton.Toolkit.Values` namespace to comply with the general namespace. _**NOTE: This is likely to cause errors in your projects. To solve, please do a find/replace with `Krypton.Toolkit.Values` to `Krypton.Toolkit` in your source code.**_
 * The `MultilineStringEditor` now inherits a `KryptonForm`
 
 =======
 
 ## 2021-03-27 - Build 2103.1 - March 2021 (Update 1)
+
 * Remove the Auto Versioning on Each build
 * Resolved [#52](https://github.com/Krypton-Suite/Standard-Toolkit/issues/52), Nuget Package descriptions need to be consistent (And published!)
 
 =======
+
 ## 2021-03-01 - Build 2103 - March 2021
+
 * Resolved [#35](https://github.com/Krypton-Suite/Standard-Toolkit/issues/35), It is still not possible to create a `KryptonStatusStrip` on a form at design time.
 * Resolved `KryptonPalette` component, courtesy of 'gwni'
 * Added properties to action lists such as `ShortFont`, `LongFont`, `Font`, `SelectedColour` etc. More to come.
@@ -1041,20 +1069,23 @@ Cannot add items to KryptonGroupBox in WinForms Designer
 =======
 
 ## 2020-11-01 - Build 2011 - November 2020
+
 * Shortened namespaces, the toolkit will now use namespaces such as `Krypton.Ribbon` instead of the older `ComponentFactory.Krypton.Ribbon` to align with package names
 * Support for .NET 5
 * Versions now begin with `5.550`
 * Long term support (LTS) packages are available for developers who need extra time to migrate their projects over to the new namespace format or .NET 5
-* ***Important! If you're upgrading from a older legacy version, please uninstall your currently installed packages BEFORE intalling these packages. Please also follow [this](https://github.com/Krypton-Suite/Standard-Toolkit-Online-Help/blob/master/Source/Documentation/Standard%20Toolkit%20Migration%20Guide.md) guidence, as the toolkit now uses different namespaces!***
+* _**Important! If you're upgrading from a older legacy version, please uninstall your currently installed packages BEFORE intalling these packages. Please also follow [this](https://github.com/Krypton-Suite/Standard-Toolkit-Online-Help/blob/master/Source/Documentation/Standard%20Toolkit%20Migration%20Guide.md) guidence, as the toolkit now uses different namespaces!**_
 
 =======
 
 ## 2020-08-12 - Build 2008 - August 2020
+
 * Resolved [#16](https://github.com/Krypton-Suite/Standard-Toolkit/issues/16), Taskbar Width is offset in Docking operations. Fix courtesy of [sneusse](https://github.com/sneusse).
 
 =======
 
 ## 2020-06-01 - Build 2006 - June 2020
+
 * Implemented [#8](https://github.com/Krypton-Suite/Standard-Toolkit/issues/8), Is it possible to only minimize FloatingWindow in DockingManager?
 * Resolved [#9](https://github.com/Krypton-Suite/Standard-Toolkit/issues/9), Cannot place `KryptonStatusStrip` on a Form
 * Resolved [#12](https://github.com/Krypton-Suite/Standard-Toolkit/issues/12), AllowButtonSpecToolTipPriority
@@ -1063,6 +1094,7 @@ Cannot add items to KryptonGroupBox in WinForms Designer
 =======
 
 ## 2020-03-01 - Build 2003 - March 2020
+
 * Resolved [#39](https://github.com/Wagnerp/Krypton-Toolkit-Suite-NET-Core/issues/39), System.ArgumentException: 'Parameter is not valid.'
 * Resolved [#30](https://github.com/Wagnerp/Krypton-Toolkit-Suite-NET-Core/issues/30), `AutoHiddenGroup elements do not properly process AppearanceChanged events`. Credit to [MGRussell](https://github.com/MGRussell)
 * Resolved `SerializationException: Type 'System.Windows.Forms.Cursor' in Assembly 'System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089' is not marked as serializable.`, credit to [Carko](https://github.com/Carko)
@@ -1072,6 +1104,7 @@ Cannot add items to KryptonGroupBox in WinForms Designer
 =======
 
 ## 2020-02-07 - Build 2002.1 - February 2020 (Update 1)
+
 * Resolved [#28](https://github.com/Wagnerp/Krypton-Toolkit-Suite-NET-Core/issues/28), KryptonForm crashing Visual Studio
 * Added support for `KryptonInputBox` textbox text alignment
 
