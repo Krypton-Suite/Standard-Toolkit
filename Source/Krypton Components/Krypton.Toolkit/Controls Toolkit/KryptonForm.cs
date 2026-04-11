@@ -3322,5 +3322,44 @@ public class KryptonForm : VisualForm,
 
         return _isInAdministratorMode;
     }
-    #endregion
+	#endregion
+
+
+	/// <summary>
+	/// Determines whether the KryptonForm has a native non-client frame
+	/// with a visible and paintable caption (Text or TextExtra).
+	/// </summary>
+	protected override bool HasCaptionContent()
+	{
+		// No border means no non-client area at all
+		if (FormBorderStyle == FormBorderStyle.None)
+		{
+			return false;
+		}
+
+		// Krypton caption content can come from Text or TextExtra
+		if (string.IsNullOrWhiteSpace(Text) &&
+			string.IsNullOrWhiteSpace(TextExtra))
+		{
+			// Treat empty caption as non-usable to avoid NC repaint issues
+			// (e.g. white line when window is deactivated)
+			return false;
+		}
+
+		// Explicit enumeration for clarity and future-proofing
+		return FormBorderStyle switch
+		{
+			FormBorderStyle.FixedSingle => true,
+			FormBorderStyle.Fixed3D => true,
+			FormBorderStyle.FixedDialog => true,
+			FormBorderStyle.Sizable => true,
+			FormBorderStyle.FixedToolWindow => true,
+			FormBorderStyle.SizableToolWindow => true,
+
+			FormBorderStyle.None => false,
+
+			// Defensive default for future enum values
+			_ => true
+		};
+	}
 }

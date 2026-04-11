@@ -31,7 +31,7 @@ public partial class Bug2914Test : KryptonForm
 		Bug2914Test frm = new Bug2914Test();
 
 		// Center the form on the screen when it is shown
-		frm.StartPosition = FormStartPosition.CenterScreen;
+		frm.StartPosition = FormStartPosition.Manual;
 
 		// Explicitly set the location (redundant when using CenterScreen,
 		// but kept for consistency or testing purposes)

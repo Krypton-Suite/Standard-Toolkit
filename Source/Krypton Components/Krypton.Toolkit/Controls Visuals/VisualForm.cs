@@ -777,8 +777,14 @@ public abstract class VisualForm : Form,
             {
                 hRgn = invalidRegion.GetHrgn(g);
 
+                if (!HasCaptionContent())
+                    this.SuspendPaint();
+
                 PI.RedrawWindow(Handle, IntPtr.Zero, hRgn.Value,
                     PI.RDW_FRAME | PI.RDW_UPDATENOW | PI.RDW_INVALIDATE);
+
+				if (!HasCaptionContent())
+					this.ResumePaint();
             }
             catch (InvalidOperationException ioEx)
             {
@@ -795,10 +801,25 @@ public abstract class VisualForm : Form,
         }
     }
 
-    /// <summary>
-    /// Gets rectangle that is the real window rectangle based on Win32 API call.
-    /// </summary>
-    protected Rectangle RealWindowRectangle
+	/// <summary>
+	/// Determines whether the form has a native non-client frame with a usable caption.
+	/// 
+	/// This method must be overridden by derived classes that provide
+	/// a concrete implementation of form chrome handling.
+	/// </summary>
+	/// <exception cref="NotSupportedException">
+	/// Thrown when the method is not overridden in a derived class.
+	/// </exception>
+	protected virtual bool HasCaptionContent()
+	{
+		throw new NotSupportedException(
+			$"{GetType().Name} must override HasCaptionContent() to provide a valid implementation.");
+	}
+
+	/// <summary>
+	/// Gets rectangle that is the real window rectangle based on Win32 API call.
+	/// </summary>
+	protected Rectangle RealWindowRectangle
     {
         get
         {
