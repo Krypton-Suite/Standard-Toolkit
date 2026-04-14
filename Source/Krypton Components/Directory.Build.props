@@ -154,15 +154,15 @@
 		</Otherwise>
 	</Choose>
 
-	<!-- CS7069: ExpandableObjectConverter metadata must resolve System.ComponentModel.TypeConverter at compile time.
-	     .NET 9+ SDK package pruning can treat a direct System.ComponentModel.TypeConverter reference as prunable and
-	     apply IncludeAssets=none, which removes it from the compile graph. Disable pruning for non-net4 TFMs here and
-	     keep an explicit package reference for those TFMs so WinForms/WPF libraries retain a stable compile ref. -->
+	<!-- CS7069 metadata resolution: keep explicit compile-time component-model refs for non-net4 TFMs.
+	     .NET 9+ SDK package pruning can mark these as prunable and drop them from compile assets, which then breaks
+	     inherited WinForms metadata (for example ExpandableObjectConverter and Component on Ribbon/ButtonSpec types). -->
 	<PropertyGroup Condition="'$(TargetFramework)' != '' and $(TargetFramework.StartsWith('net4')) != 'true'">
 		<RestoreEnablePackagePruning>false</RestoreEnablePackagePruning>
 	</PropertyGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' != '' and $(TargetFramework.StartsWith('net4')) != 'true'">
+		<PackageReference Include="System.ComponentModel.Primitives" Version="4.3.0" />
 		<PackageReference Include="System.ComponentModel.TypeConverter" Version="4.3.0" />
 	</ItemGroup>
 </Project>
