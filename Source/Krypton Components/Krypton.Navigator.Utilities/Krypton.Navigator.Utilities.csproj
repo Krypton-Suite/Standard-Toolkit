@@ -32,6 +32,7 @@
 
 	<ItemGroup>
 		<Compile Include="..\Krypton.Toolkit\General\PlatformInvoke.cs" Link="General\PlatformInvoke.cs" />
+		<Compile Include="..\Krypton.Toolkit\General\Scroll Bars\WIN32ScrollBars.cs" Link="General\Scroll Bars\WIN32ScrollBars.cs" />
 	</ItemGroup>
 
 	<ItemGroup>

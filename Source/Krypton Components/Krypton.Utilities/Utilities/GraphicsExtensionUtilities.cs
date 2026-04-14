@@ -10,6 +10,8 @@ namespace Krypton.Utilities;
 
 public static class GraphicsExtensionUtilities
 {
+    public const int DEFAULT_TOAST_ICON_SIZE = 128;
+
     /// <summary>Gets the type of the toast notification icon.</summary>
     /// <param name="notificationIconType">Type of the notification icon.</param>
     /// <param name="customImage">The custom image.</param>
@@ -113,6 +115,28 @@ public static class GraphicsExtensionUtilities
         }
 
         return resolved as Bitmap ?? new Bitmap(resolved);
+    }
+
+    /// <summary>Resolves a toast notification icon size from optional width and height values.</summary>
+    /// <param name="width">Optional width.</param>
+    /// <param name="height">Optional height.</param>
+    /// <returns>A safe size for toast notification icon rendering.</returns>
+    public static Size ResolveToastNotificationIconSize(int? width, int? height)
+    {
+        var resolvedWidth = width ?? DEFAULT_TOAST_ICON_SIZE;
+        var resolvedHeight = height ?? DEFAULT_TOAST_ICON_SIZE;
+
+        if (resolvedWidth <= 0)
+        {
+            resolvedWidth = DEFAULT_TOAST_ICON_SIZE;
+        }
+
+        if (resolvedHeight <= 0)
+        {
+            resolvedHeight = DEFAULT_TOAST_ICON_SIZE;
+        }
+
+        return new Size(resolvedWidth, resolvedHeight);
     }
 
     /// <summary>Resize the image to the specified width and height. Copied from: https://stackoverflow.com/questions/1922040/how-to-resize-an-image-c-sharp</summary>
