@@ -1,4 +1,4 @@
-<Project>
+ <Project>
 	<Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../../'))" />
 
 	<!-- Target Framework Selection: Determines which .NET versions to build for based on configuration -->
@@ -164,5 +164,14 @@
 	<ItemGroup Condition="'$(TargetFramework)' != '' and $(TargetFramework.StartsWith('net4')) != 'true'">
 		<PackageReference Include="System.ComponentModel.Primitives" Version="4.3.0" />
 		<PackageReference Include="System.ComponentModel.TypeConverter" Version="4.3.0" />
+	</ItemGroup>
+
+	<!-- MSB3822/MSB3823 resource generation fix for net4x TFMs with non-string .resx entries. -->
+	<PropertyGroup Condition="'$(TargetFramework)' != '' and $(TargetFramework.StartsWith('net4')) == 'true'">
+		<GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
+	</PropertyGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' != '' and $(TargetFramework.StartsWith('net4')) == 'true'">
+		<PackageReference Include="System.Resources.Extensions" Version="4.7.1" />
 	</ItemGroup>
 </Project>
