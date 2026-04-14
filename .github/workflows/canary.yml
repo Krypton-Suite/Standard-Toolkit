@@ -191,15 +191,15 @@ jobs:
 
       - name: Restore
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
-        run: msbuild "Scripts/Build/canary.proj" /t:Restore /p:Configuration=Canary /p:Platform="Any CPU"
+        run: msbuild "Scripts/Build/canary.proj" /t:Restore /p:Configuration=Canary /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
       - name: Build Canary
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
-        run: msbuild "Scripts/Build/canary.proj" /t:Build /p:Configuration=Canary /p:Platform="Any CPU"
+        run: msbuild "Scripts/Build/canary.proj" /t:Build /p:Configuration=Canary /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
       - name: Pack Canary
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
-        run: msbuild "Scripts/Build/canary.proj" /t:Pack /p:Configuration=Canary /p:Platform="Any CPU"
+        run: msbuild "Scripts/Build/canary.proj" /t:Pack /p:Configuration=Canary /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
       - name: Push NuGet Packages to nuget.org
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
@@ -213,7 +213,11 @@ jobs:
             exit 0
           }
 
-          $packages = Get-ChildItem "Bin/Packages/Canary/*.nupkg" -ErrorAction SilentlyContinue
+          $packageCandidates = @(
+            "artifacts/packages/Canary/*.nupkg",
+            "Bin/Packages/Canary/*.nupkg"
+          )
+          $packages = @(Get-ChildItem -Path $packageCandidates -ErrorAction SilentlyContinue | Sort-Object FullName -Unique)
           $publishedAny = $false
 
           if ($packages) {
@@ -249,7 +253,14 @@ jobs:
           $version = $null
 
           try {
-            $dllPath = Get-ChildItem "Bin/Canary/net48/Krypton.Toolkit.dll" -ErrorAction Stop
+            $dllCandidates = @(
+              "artifacts/bin/Canary/net48/Krypton.Toolkit.dll",
+              "Bin/Canary/net48/Krypton.Toolkit.dll"
+            )
+            $dllPath = Get-ChildItem -Path $dllCandidates -ErrorAction SilentlyContinue | Select-Object -First 1
+            if (-not $dllPath) {
+              throw "Krypton.Toolkit.dll not found in artifacts or Bin output paths."
+            }
             $assemblyVersion = [System.Reflection.AssemblyName]::GetAssemblyName($dllPath.FullName).Version
             $version = $assemblyVersion.ToString()
             Write-Host "Got version from assembly: $version"

@@ -10,7 +10,7 @@ This folder contains the Microsoft WebView2 managed assemblies used by the Krypt
 
 ## How to populate
 
-From the repository root, run:
+From the repository root, run (the scripts folder is spelled **`WebVew2`** in the repository):
 
 ```
 Scripts\WebVew2\Populate-BundledWebView2.cmd
