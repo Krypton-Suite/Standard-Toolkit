@@ -157,11 +157,11 @@
 	<!-- CS7069 metadata resolution: keep explicit compile-time component-model refs for non-net4 TFMs.
 	     .NET 9+ SDK package pruning can mark these as prunable and drop them from compile assets, which then breaks
 	     inherited WinForms metadata (for example ExpandableObjectConverter and Component on Ribbon/ButtonSpec types). -->
-	<PropertyGroup Condition="'$(TargetFramework)' != '' and $(TargetFramework.StartsWith('net4')) != 'true'">
+	<PropertyGroup Condition="'$(TargetFramework)' == '' or $(TargetFramework.StartsWith('net4')) != 'true'">
 		<RestoreEnablePackagePruning>false</RestoreEnablePackagePruning>
 	</PropertyGroup>
 
-	<ItemGroup Condition="'$(TargetFramework)' != '' and $(TargetFramework.StartsWith('net4')) != 'true'">
+	<ItemGroup Condition="'$(TargetFramework)' == '' or $(TargetFramework.StartsWith('net4')) != 'true'">
 		<PackageReference Include="System.ComponentModel.Primitives" Version="4.3.0" />
 		<PackageReference Include="System.ComponentModel.TypeConverter" Version="4.3.0" />
 	</ItemGroup>
