@@ -777,14 +777,18 @@ public abstract class VisualForm : Form,
             {
                 hRgn = invalidRegion.GetHrgn(g);
 
-                if (!HasCaptionContent())
+                if (!this.HasCaptionContent())
+                {
                     this.SuspendPaint();
+                }
 
                 PI.RedrawWindow(Handle, IntPtr.Zero, hRgn.Value,
                     PI.RDW_FRAME | PI.RDW_UPDATENOW | PI.RDW_INVALIDATE);
 
-				if (!HasCaptionContent())
-					this.ResumePaint();
+                if (!this.HasCaptionContent())
+                {
+                    this.ResumePaint();
+                }
             }
             catch (InvalidOperationException ioEx)
             {

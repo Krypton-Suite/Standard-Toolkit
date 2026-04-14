@@ -30,12 +30,12 @@ public partial class Bug2914Test : KryptonForm
 		// Create a new instance of the Bug2914Test form
 		Bug2914Test frm = new Bug2914Test();
 
-		// Center the form on the screen when it is shown
+		// Use manual start position so the form location is fully controlled by code
 		frm.StartPosition = FormStartPosition.Manual;
 
-		// Explicitly set the location (redundant when using CenterScreen,
-		// but kept for consistency or testing purposes)
-		frm.Location = new Point(0, 0);
+		// Set an explicit initial location for the form
+		// (useful for deterministic positioning or layout testing)
+		frm.Location = new Point(100, 100);
 
 		// Remove the window title text
 		frm.Text = string.Empty;
@@ -72,7 +72,7 @@ public partial class Bug2914Test : KryptonForm
 		frm.Location = new Point(0, 0);
 
 		// Set the window title text
-		frm.Text = "HOLA";
+		frm.Text = "Normal window";
 
 		// Allow the form to be resized
 		frm.FormBorderStyle = FormBorderStyle.Sizable;
