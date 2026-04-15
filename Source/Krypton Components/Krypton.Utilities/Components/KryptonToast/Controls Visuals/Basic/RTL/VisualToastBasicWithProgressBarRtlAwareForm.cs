@@ -109,13 +109,17 @@ internal partial class VisualToastBasicWithProgressBarRtlAwareForm : VisualToast
 
     private void UpdateIcon()
     {
+        var iconSize = GraphicsExtensionUtilities.ResolveToastNotificationIconSize(
+            _basicToastNotificationData.NotificationIconWidth,
+            _basicToastNotificationData.NotificationIconHeight);
+
         var bitmap = GraphicsExtensionUtilities.GetToastNotificationBitmap(
             _basicToastNotificationData.NotificationIcon,
             null,
             _basicToastNotificationData.CustomImage,
-            new Size(128, 128));
+            iconSize);
 
-        SetIcon(bitmap);
+        SetIcon(bitmap, iconSize);
     }
 
     private void UpdateDoNotShowAgainOptionChecked() =>
@@ -125,7 +129,11 @@ internal partial class VisualToastBasicWithProgressBarRtlAwareForm : VisualToast
         kchkDoNotShowAgain.CheckState =
             _basicToastNotificationData.DoNotShowAgainOptionCheckState ?? CheckState.Unchecked;
 
-    private void SetIcon(Bitmap? image) => pbxImage.Image = image;
+    private void SetIcon(Bitmap? image, Size size)
+    {
+        pbxImage.Size = size;
+        pbxImage.Image = image;
+    }
 
     private void UpdateLocation()
     {
