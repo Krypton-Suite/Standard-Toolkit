@@ -3331,9 +3331,11 @@ public class KryptonForm : VisualForm,
 	/// </summary>
 	protected override bool HasCaptionContent()
 	{
-		// No border means no non-client caption at all.
-		if (FormBorderStyle == FormBorderStyle.None)
-			return false;
+        // No border means no non-client caption at all.
+        if (FormBorderStyle == FormBorderStyle.None)
+        {
+            return false;
+        }
 
 		/*
 		 * Special-case workaround:
