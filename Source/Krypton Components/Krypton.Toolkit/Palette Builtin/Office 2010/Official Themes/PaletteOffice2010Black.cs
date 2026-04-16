@@ -44,7 +44,7 @@ public class PaletteOffice2010Black : PaletteOffice2010BlackBase
 
     #region Rafting
 
-    private readonly float _gradientRafting = GlobalStaticValues.DEFAULT_RAFTING_RIBBON_TAB_BACKGROUND_GRADIENT;
+    private readonly float _gradientRafting = GlobalStaticConstants.DEFAULT_RAFTING_RIBBON_TAB_BACKGROUND_GRADIENT;
 
     #endregion
 
@@ -115,7 +115,7 @@ public class PaletteOffice2010Black : PaletteOffice2010BlackBase
         {
             ImageSize = new Size(13, 7),
             ColorDepth = ColorDepth.Depth24Bit,
-            TransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR
+            TransparentColor = GlobalStaticVariables.TRANSPARENCY_KEY_COLOR
         };
         _galleryButtonList.Images.AddStrip(GalleryImageResources.Gallery2010);
         _radioButtonArray =
@@ -210,7 +210,7 @@ public class PaletteOffice2010Black : PaletteOffice2010BlackBase
 
     /// <inheritdoc />
     public override Color GetRibbonTabRowGradientColor1(PaletteState state) =>
-        GlobalStaticValues.TAB_ROW_GRADIENT_FIRST_COLOR;
+        GlobalStaticVariables.TAB_ROW_GRADIENT_FIRST_COLOR;
 
     /// <inheritdoc />
     public override Color GetRibbonTabRowBackgroundGradientRaftingDark(PaletteState state) =>
@@ -221,7 +221,7 @@ public class PaletteOffice2010Black : PaletteOffice2010BlackBase
         _tabRowBackgroundGradientRaftingLightColor;
 
     /// <inheritdoc />
-    public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+    public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
 
     /// <inheritdoc />
     public override float GetRibbonTabRowGradientRaftingAngle(PaletteState state) => _gradientRafting;

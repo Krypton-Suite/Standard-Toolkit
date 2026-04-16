@@ -45,7 +45,8 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
-* Implemented [#2125](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2125), Adding NotificationIcon Size in ToastNotification. Added `NotificationIconWidth` and `NotificationIconHeight` to toast data models and wired basic toast views to render and layout icons using custom dimensions.
+* Implemented [#1738](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1738), Move methods out of `GlobalStaticVariables` into 'new' `GlobalStaticFunctions`
+* Implemented [#2125](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2125), Adding `NotificationIcon Size` in `ToastNotification`. Added `NotificationIconWidth` and `NotificationIconHeight` to toast data models and wired basic toast views to render and layout icons using custom dimensions.
 * Implemented [#998](https://github.com/Krypton-Suite/Standard-Toolkit/issues/998), Use the new artifacts feature to simplify build paths. Added opt-in artifacts output support for build/package paths via shared MSBuild properties (`UseArtifactsOutput=true`) and updated `ModernBuild` package discovery to work with both legacy `Bin/*` and `artifacts/packages/*` layouts.
   * Updated GitHub Actions workflows to build with artifacts output enabled and to resolve package/DLL paths from `artifacts/*` with legacy `Bin/*` fallback.
 * Implemented [#1002](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1002), Implement `ActionLists` for file dialogs, `KryptonOpenFileDialog`, `KryptonSaveFileDialog`, and `KryptonFolderBrowserDialog` to expose common design-time properties.

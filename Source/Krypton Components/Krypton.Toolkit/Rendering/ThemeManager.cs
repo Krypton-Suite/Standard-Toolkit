@@ -33,7 +33,7 @@ public class ThemeManager
     public static ICollection<string> SupportedInternalThemeNames => PaletteModeStrings.SupportedInternalThemeNames;
 
     /// <summary>Returns the Default Global Palette.</summary>
-    public static PaletteMode DefaultGlobalPalette => GlobalStaticValues.GLOBAL_DEFAULT_PALETTE_MODE;
+    public static PaletteMode DefaultGlobalPalette => GlobalStaticConstants.GLOBAL_DEFAULT_PALETTE_MODE;
 
     #endregion
 
@@ -88,7 +88,7 @@ public class ThemeManager
             }
             catch (Exception exc)
             {
-                KryptonExceptionHandler.CaptureException(exc, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
+                KryptonExceptionHandler.CaptureException(exc, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
             }
         }
         else
@@ -117,7 +117,7 @@ public class ThemeManager
         }
         catch (Exception exc)
         {
-            KryptonExceptionHandler.CaptureException(exc, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
+            KryptonExceptionHandler.CaptureException(exc, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
         }
     }
 

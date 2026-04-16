@@ -36,8 +36,8 @@ public class KryptonPaletteTMSSeparator : KryptonPaletteTMSBase
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public override bool IsDefault => (InternalKCT.InternalSeparatorDark == GlobalStaticValues.EMPTY_COLOR) &&
-                                      (InternalKCT.InternalSeparatorLight == GlobalStaticValues.EMPTY_COLOR);
+    public override bool IsDefault => (InternalKCT.InternalSeparatorDark == GlobalStaticVariables.EMPTY_COLOR) &&
+                                      (InternalKCT.InternalSeparatorLight == GlobalStaticVariables.EMPTY_COLOR);
 
     #endregion
 
@@ -74,7 +74,7 @@ public class KryptonPaletteTMSSeparator : KryptonPaletteTMSBase
     /// <summary>
     /// Resets the SeparatorDark property to its default value.
     /// </summary>
-    public void ResetSeparatorDark() => SeparatorDark = GlobalStaticValues.EMPTY_COLOR;
+    public void ResetSeparatorDark() => SeparatorDark = GlobalStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region SeparatorLight
@@ -99,6 +99,6 @@ public class KryptonPaletteTMSSeparator : KryptonPaletteTMSBase
     /// <summary>
     /// Resets the SeparatorLight property to its default value.
     /// </summary>
-    public void ResetSeparatorLight() => SeparatorLight = GlobalStaticValues.EMPTY_COLOR;
+    public void ResetSeparatorLight() => SeparatorLight = GlobalStaticVariables.EMPTY_COLOR;
     #endregion
 }

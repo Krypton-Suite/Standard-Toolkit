@@ -82,8 +82,8 @@ internal class KryptonRibbonGroupMaskedTextBoxDesigner : ComponentDesigner, IKry
         }
 
         // Get access to the services
-        _designerHost = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("_designerHost"));
-        _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("_changeService"));
+        _designerHost = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("_designerHost"));
+        _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("_changeService"));
 
         // We need to know when we are being removed/changed
         _changeService.ComponentChanged += OnComponentChanged;
@@ -206,7 +206,7 @@ internal class KryptonRibbonGroupMaskedTextBoxDesigner : ComponentDesigner, IKry
 
         if (_ribbonMaskedTextBox.Ribbon != null)
         {
-            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
+            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("items"));
             moveFirst = items.IndexOf(_ribbonMaskedTextBox) > 0;
             movePrev = items.IndexOf(_ribbonMaskedTextBox) > 0;
             moveNext = items.IndexOf(_ribbonMaskedTextBox) < (items.Count - 1);
@@ -233,7 +233,7 @@ internal class KryptonRibbonGroupMaskedTextBoxDesigner : ComponentDesigner, IKry
         if (_ribbonMaskedTextBox.Ribbon is not null)
         {
             // Get access to the parent collection of items
-            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
+            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("items"));
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupMaskedTextBox MoveFirst");
@@ -268,7 +268,7 @@ internal class KryptonRibbonGroupMaskedTextBoxDesigner : ComponentDesigner, IKry
         if (_ribbonMaskedTextBox.Ribbon is not null)
         {
             // Get access to the parent collection of items
-            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
+            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("items"));
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupMaskedTextBox MovePrevious");
@@ -305,7 +305,7 @@ internal class KryptonRibbonGroupMaskedTextBoxDesigner : ComponentDesigner, IKry
         if (_ribbonMaskedTextBox.Ribbon is not null)
         {
             // Get access to the parent collection of items
-            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
+            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("items"));
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupMaskedTextBox MoveNext");
@@ -342,7 +342,7 @@ internal class KryptonRibbonGroupMaskedTextBoxDesigner : ComponentDesigner, IKry
         if (_ribbonMaskedTextBox.Ribbon is not null)
         {
             // Get access to the parent collection of items
-            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
+            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("items"));
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupMaskedTextBox MoveLast");
@@ -377,7 +377,7 @@ internal class KryptonRibbonGroupMaskedTextBoxDesigner : ComponentDesigner, IKry
         if (_ribbonMaskedTextBox.Ribbon is not null)
         {
             // Get access to the parent collection of items
-            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
+            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("items"));
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupMaskedTextBox DeleteTextBox");
@@ -414,7 +414,7 @@ internal class KryptonRibbonGroupMaskedTextBoxDesigner : ComponentDesigner, IKry
     {
         if (_ribbonMaskedTextBox.Ribbon != null)
         {
-            PropertyDescriptor? propertyEnabled = TypeDescriptor.GetProperties(_ribbonMaskedTextBox)[nameof(Enabled)] ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("propertyEnabled"));
+            PropertyDescriptor? propertyEnabled = TypeDescriptor.GetProperties(_ribbonMaskedTextBox)[nameof(Enabled)] ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("propertyEnabled"));
             var oldValue = (bool?)propertyEnabled.GetValue(_ribbonMaskedTextBox);
             var newValue = !oldValue;
             _changeService.OnComponentChanged(_ribbonMaskedTextBox, null, oldValue, newValue);
@@ -426,7 +426,7 @@ internal class KryptonRibbonGroupMaskedTextBoxDesigner : ComponentDesigner, IKry
     {
         if (_ribbonMaskedTextBox.Ribbon != null)
         {
-            PropertyDescriptor? propertyVisible = TypeDescriptor.GetProperties(_ribbonMaskedTextBox)[nameof(Visible)] ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("propertyVisible"));
+            PropertyDescriptor? propertyVisible = TypeDescriptor.GetProperties(_ribbonMaskedTextBox)[nameof(Visible)] ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("propertyVisible"));
             var oldValue = (bool?)propertyVisible.GetValue(_ribbonMaskedTextBox);
             var newValue = !oldValue;
             _changeService.OnComponentChanged(_ribbonMaskedTextBox, null, oldValue, newValue);
