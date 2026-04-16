@@ -24,7 +24,7 @@ For the main, initial migration those 2 arrays were chosen to be converted and r
 | `SchemeBaseColorsExtensions` | Converts a `KryptonColorSchemeBase` into the legacy `Color[]` layouts via `ToArray()` and `ToTrackBarArray()` (6 entries). |
 
 Nothing in the low-level rendering pipeline had to change – all internal code still
-works with simple arrays – but **every public API writen or reviewed becomes
+works with simple arrays – but **every public API written or reviewed becomes
 readable and type-safe**.
 
 ## Current migration workflow (SchemeGenerator v2)

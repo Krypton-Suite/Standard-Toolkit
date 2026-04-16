@@ -3,6 +3,10 @@
 		<Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.targets', '$(MSBuildThisFileDirectory)../../'))" />
 		-->
 
+	<PropertyGroup Condition="'$(UseArtifactsOutput)' == 'true'">
+		<OutputPath>$(KryptonBuildOutputRoot)$(Configuration)\</OutputPath>
+	</PropertyGroup>
+
 	<Choose>
 		<When Condition="'$(Configuration)' == 'Canary'">
 			<PropertyGroup>

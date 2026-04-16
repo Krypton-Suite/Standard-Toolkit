@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2024 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -117,6 +117,14 @@ public struct KryptonBasicToastData
     /// <value>The notification icon.</value>
     public KryptonToastIcon? NotificationIcon { get; set; }
 
+    /// <summary>Gets or sets the notification icon width.</summary>
+    /// <value>The notification icon width.</value>
+    public int? NotificationIconWidth { get; set; }
+
+    /// <summary>Gets or sets the notification icon height.</summary>
+    /// <value>The notification icon height.</value>
+    public int? NotificationIconHeight { get; set; }
+
     /// <summary>Gets or sets the notification title horizontal alignment.</summary>
     /// <value>The notification title horizontal alignment.</value>
     public PaletteRelativeAlign? NotificationTitleAlignmentH { get; set; }
@@ -166,6 +174,10 @@ public struct KryptonBasicToastData
         NotificationTitleAlignmentH = PaletteRelativeAlign.Center;
 
         NotificationTitleAlignmentV = PaletteRelativeAlign.Center;
+
+        NotificationIconWidth = GraphicsExtensionUtilities.DEFAULT_TOAST_ICON_SIZE;
+
+        NotificationIconHeight = GraphicsExtensionUtilities.DEFAULT_TOAST_ICON_SIZE;
     }
 
     #endregion

@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2024 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -129,6 +129,14 @@ public struct KryptonUserInputToastData
     /// <value>The notification icon.</value>
     public KryptonToastIcon? NotificationIcon { get; set; }
 
+    /// <summary>Gets or sets the notification icon width.</summary>
+    /// <value>The notification icon width.</value>
+    public int? NotificationIconWidth { get; set; }
+
+    /// <summary>Gets or sets the notification icon height.</summary>
+    /// <value>The notification icon height.</value>
+    public int? NotificationIconHeight { get; set; }
+
     /// <summary>Gets or sets the type of the notification input area.</summary>
     /// <value>The type of the notification input area.</value>
     public KryptonToastInputAreaType? NotificationInputAreaType { get; set; }
@@ -208,6 +216,10 @@ public struct KryptonUserInputToastData
         ToastHost = null;
 
         SelectedIndex = 0;
+
+        NotificationIconWidth = GraphicsExtensionUtilities.DEFAULT_TOAST_ICON_SIZE;
+
+        NotificationIconHeight = GraphicsExtensionUtilities.DEFAULT_TOAST_ICON_SIZE;
     }
 
     #endregion

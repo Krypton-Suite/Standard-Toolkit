@@ -66,7 +66,7 @@ jobs:
 
       - name: Ensure alpha-backup exists
         if: steps.kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         id: ensure_backup
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -92,7 +92,7 @@ jobs:
       - name: Create PR from alpha to alpha-backup
         if: steps.kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
         id: create_pr
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
@@ -138,7 +138,7 @@ jobs:
 
       - name: Enable auto-merge on PR
         if: steps.kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         env:
           PR_NODE_ID: ${{ fromJson(steps.create_pr.outputs.result).pr_node_id }}
         with:

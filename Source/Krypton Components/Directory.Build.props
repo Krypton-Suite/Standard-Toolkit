@@ -1,4 +1,4 @@
-<Project>
+ <Project>
 	<Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../../'))" />
 
 	<!-- Target Framework Selection: Determines which .NET versions to build for based on configuration -->
@@ -46,7 +46,7 @@
 
 	<!-- Configure NuGet package output to separate directory for easier management -->
 	<PropertyGroup>
-		<PackageOutputPath>$(MSBuildThisFileDirectory)..\..\Bin\Packages\$(Configuration)\</PackageOutputPath>
+		<PackageOutputPath>$(KryptonPackageOutputRoot)$(Configuration)\</PackageOutputPath>
 	</PropertyGroup>
 
 	<Choose>
@@ -140,7 +140,7 @@
 				<!-- common package data -->
 				<PackageProjectUrl>https://github.com/Krypton-Suite/Standard-Toolkit</PackageProjectUrl>
 				<PackageIcon>Krypton Stable.png</PackageIcon>
-				<Authors>Peter William Wagner &amp; Simon Coghlan &amp; Giduac &amp; Ahmed Abdelhameed &amp; Lesandro &amp; tobitege &amp; Thomas Bolon</Authors>
+				<Authors>Peter William Wagner &amp; Simon Coghlan &amp; Giduac &amp; Ahmed Abdelhameed &amp; Lesandro &amp; tobitege &amp; KamaniAR &amp; mcpbcs &amp; Thomas Bolon</Authors>
 				<!--<PackageLicenseFile>License.md</PackageLicenseFile>-->
 				<PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
 				<PackageReadmeFile>README.md</PackageReadmeFile>
@@ -153,4 +153,26 @@
 			</PropertyGroup>
 		</Otherwise>
 	</Choose>
+
+	<!-- CS7069 metadata resolution: keep explicit compile-time component-model refs for net8/net9 only.
+	     Newer TFMs (net10+) should use inbox framework assemblies to avoid assembly-version conflicts.
+	     .NET 9+ SDK package pruning can mark these as prunable and drop them from compile assets, which then breaks
+	     inherited WinForms metadata (for example ExpandableObjectConverter and Component on Ribbon/ButtonSpec types). -->
+	<PropertyGroup Condition="'$(TargetFramework)' == 'net8.0-windows' Or '$(TargetFramework)' == 'net9.0-windows'">
+		<RestoreEnablePackagePruning>false</RestoreEnablePackagePruning>
+	</PropertyGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0-windows' Or '$(TargetFramework)' == 'net9.0-windows'">
+		<PackageReference Include="System.ComponentModel.Primitives" Version="4.3.0" />
+		<PackageReference Include="System.ComponentModel.TypeConverter" Version="4.3.0" />
+	</ItemGroup>
+
+	<!-- MSB3822/MSB3823 resource generation fix for net4x TFMs with non-string .resx entries. -->
+	<PropertyGroup Condition="'$(TargetFramework)' != '' and $(TargetFramework.StartsWith('net4')) == 'true'">
+		<GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
+	</PropertyGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' != '' and $(TargetFramework.StartsWith('net4')) == 'true'">
+		<PackageReference Include="System.Resources.Extensions" Version="4.7.1" />
+	</ItemGroup>
 </Project>
