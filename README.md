@@ -36,8 +36,6 @@
   * [Krypton Workspace](#krypton-workspace)
   * [Krypton Docking](#krypton-docking)
 
-=======
-
 ## NuGet Information
 
 View [package version details and supported frameworks](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Support/Krypton%20Toolkit%20Suite%20Standard%20Modules.html).
@@ -239,6 +237,12 @@ The `KryptonInputBox` now uses the new `KryptonInputBoxData` API, to handle data
 
 As of V90.00 support for longer path names **will** need to be enabled if you want to build the toolkit yourself. For more details on how to do this, please follow the instructions in the [long path names configuration guide](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Contributing/AllowingforLongerPathandFileNames.html).
 
+Quick options from the repository root:
+
+- **Solution build:** `dotnet build "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.sln" -c Debug` (see [AGENTS.md](AGENTS.md) for TestForm and preset script notes).
+- **Interactive scripts:** `run.cmd` or the channel scripts under `Scripts/VS2022/` (and related folders).
+- **ModernBuild (optional):** keyboard-driven build, pack, and NuGet workflows — see [Scripts/ModernBuild/README.md](Scripts/ModernBuild/README.md).
+
 =======
 
 ## Known Issues & Workarounds
@@ -266,8 +270,8 @@ Ahmed-Abdelhameed have been fixing and adding more capabilities to this toolkit.
 * There is also an Extensions project, which takes these base controls and add more useful complete controls (Currently outside the scope of this help). To find out more about the Extended Toolkit, please visit the [Extended Toolkit repository](https://github.com/Krypton-Suite/Extended-Toolkit)
 * All .Net Versions from 4.8.2 are catered for (interim releases, i.e. releases in-between Long Term Support (LTS) versions of .NET will **only** be supported for the duration of that particular version, usually 24 months.)
 * New versions of NuGet packages can be obtained via the [Krypton Suite NuGet profile page](https://www.nuget.org/profiles/Krypton_Suite), or via your package manager by searching `Krypton.`.
-* New, major versions are released annually, with patches if needed released throughout that period. Version 100 is expected to release in November 2025.
-* For tips on how to build the toolkit for yourself, please read the following [article](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Contributing/HowtoBuild.html).
+* New, major versions are released annually, with patches if needed released throughout that period (for example, V100 shipped November 2025). See the [changelog](Documents/Changelog/Changelog.md) for current work.
+* For tips on how to build the toolkit for yourself, please read the following [article](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Contributing/HowtoBuild.html). Repository-specific commands and tooling are summarized in [AGENTS.md](AGENTS.md) and [Scripts/ModernBuild/README.md](Scripts/ModernBuild/README.md).
 
 ## Contributing to this project
 

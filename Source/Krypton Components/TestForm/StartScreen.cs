@@ -92,6 +92,7 @@ public partial class StartScreen : KryptonForm
         CreateButton<MenuToolBarStatusStripTest>("Menu/Tool/Status Strips", string.Empty);
         CreateButton<NotifyIconTest>("NotifyIcon", "Comprehensive demonstration of KryptonNotifyIcon with all events, balloon tips, and context menu support.");
         CreateButton<OAuth2Demo>("OAuth2 PKCE Demo", "Comprehensive OAuth2 with PKCE demo. Sign in with Azure AD, Google, or GitHub using embedded WebView2 or system browser. Configure client ID, redirect URI, and scopes.");
+        CreateButton<QRCodeDemo>("QR Code (KryptonQRCode)", "Native QR code generation without external packages: live preview, ECC levels, module size, colors, quiet zone, Save PNG, clipboard, and static GenerateBitmap API.");
         CreateButton<ProgressBarTest>("ProgressBar", "Checkout if progress has been made.");
         CreateButton<ScrollBarTest>("ScrollBar", "Comprehensive demonstration of KryptonHScrollBar and KryptonVScrollBar controls with basic usage, scrolling content, synchronization, theming, programmatic control, and event logging.");
         CreateButton<ScrollbarManagerTest>("Scrollbar Manager", "Comprehensive demonstration of KryptonScrollbarManager with container mode, native wrapper mode, dynamic content, and integration examples.");
