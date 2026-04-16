@@ -2046,7 +2046,7 @@ public class KryptonForm : VisualForm,
     protected override void WindowChromeStart()
     {
         // Make sure the views for the buttons are created
-        if (_recreateButtons)
+        if (_recreateButtons && this.ControlBox)
         {
             _buttonManager.RecreateButtons();
             _recreateButtons = false;
@@ -3322,5 +3322,52 @@ public class KryptonForm : VisualForm,
 
         return _isInAdministratorMode;
     }
-    #endregion
+	#endregion
+
+
+	/// <summary>
+	/// Determines whether the form has usable caption content
+	/// for non-client area painting.
+	/// </summary>
+	protected override bool HasCaptionContent()
+	{
+        // No border means no non-client caption at all.
+        if (FormBorderStyle == FormBorderStyle.None)
+        {
+            return false;
+        }
+
+		/*
+		 * Special-case workaround:
+		 *
+		 * For Sizable forms without a control box and without any caption text,
+		 * the framework may still attempt non-client painting, which can result
+		 * in visual artifacts (e.g. a white bar when the form is deactivated).
+		 *
+		 * This check is intentionally limited to FormBorderStyle.Sizable.
+		 * Tool window styles are excluded because they may legitimately have
+		 * no visible title text and still require non-client painting.
+		 */
+		if (FormBorderStyle == FormBorderStyle.Sizable &&
+			!ControlBox &&
+			string.IsNullOrWhiteSpace(Text) &&
+			string.IsNullOrWhiteSpace(TextExtra))
+		{
+			return false;
+		}
+
+		// All remaining bordered styles are considered to have usable
+		// caption content from a non-client painting perspective,
+		// regardless of whether a visible title text is present.
+		return FormBorderStyle switch
+		{
+			FormBorderStyle.FixedSingle => true,
+			FormBorderStyle.Fixed3D => true,
+			FormBorderStyle.FixedDialog => true,
+			FormBorderStyle.Sizable => true,
+			FormBorderStyle.FixedToolWindow => true,
+			FormBorderStyle.SizableToolWindow => true,
+			_ => false
+		};
+	}
 }

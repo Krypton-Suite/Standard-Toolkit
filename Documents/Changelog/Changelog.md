@@ -46,6 +46,7 @@
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
 * Implemented [#3301](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3301), Is it time to bring over `AdvancedDataGridView`
+* Resolved [#2914](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2914), White bar is shown in a KryptonForm Sizable without buttons and text
 * Implemented [#2125](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2125), Adding NotificationIcon Size in ToastNotification. Added `NotificationIconWidth` and `NotificationIconHeight` to toast data models and wired basic toast views to render and layout icons using custom dimensions.
 * Implemented [#998](https://github.com/Krypton-Suite/Standard-Toolkit/issues/998), Use the new artifacts feature to simplify build paths. Added opt-in artifacts output support for build/package paths via shared MSBuild properties (`UseArtifactsOutput=true`) and updated `ModernBuild` package discovery to work with both legacy `Bin/*` and `artifacts/packages/*` layouts.
   * Updated GitHub Actions workflows to build with artifacts output enabled and to resolve package/DLL paths from `artifacts/*` with legacy `Bin/*` fallback.
