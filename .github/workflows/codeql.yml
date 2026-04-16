@@ -84,7 +84,7 @@ jobs:
 
       - name: Build solution
         shell: pwsh
-        run: msbuild "Scripts/Build/nightly.proj" /t:Rebuild /p:Configuration=Release /p:Platform="Any CPU"
+        run: msbuild "Scripts/Build/nightly.proj" /t:Rebuild /p:Configuration=Release /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
       - name: Perform CodeQL analysis
         uses: github/codeql-action/analyze@v4

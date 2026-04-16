@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -76,6 +76,8 @@ internal partial class VisualToastTextBoxUserInputRtlAwareForm : VisualToastBase
 
     private void UpdateText()
     {
+        GlobalStaticValues.ApplyToastRichTextContentColor(krtbNotificationContentText);
+
         klblHeader.Text = _notificationTitleText;
 
         krtbNotificationContentText.Text = _notificationContentText;

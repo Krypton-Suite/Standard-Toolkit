@@ -129,6 +129,14 @@ public struct KryptonUserInputToastData
     /// <value>The notification icon.</value>
     public KryptonToastIcon? NotificationIcon { get; set; }
 
+    /// <summary>Gets or sets the notification icon width.</summary>
+    /// <value>The notification icon width.</value>
+    public int? NotificationIconWidth { get; set; }
+
+    /// <summary>Gets or sets the notification icon height.</summary>
+    /// <value>The notification icon height.</value>
+    public int? NotificationIconHeight { get; set; }
+
     /// <summary>Gets or sets the type of the notification input area.</summary>
     /// <value>The type of the notification input area.</value>
     public KryptonToastInputAreaType? NotificationInputAreaType { get; set; }
@@ -208,6 +216,10 @@ public struct KryptonUserInputToastData
         ToastHost = null;
 
         SelectedIndex = 0;
+
+        NotificationIconWidth = GraphicsExtensionUtilities.DEFAULT_TOAST_ICON_SIZE;
+
+        NotificationIconHeight = GraphicsExtensionUtilities.DEFAULT_TOAST_ICON_SIZE;
     }
 
     #endregion

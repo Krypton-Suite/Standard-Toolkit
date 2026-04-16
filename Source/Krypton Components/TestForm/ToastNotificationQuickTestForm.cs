@@ -25,6 +25,8 @@ public partial class ToastNotificationQuickTestForm : KryptonForm
             NotificationTitle = @"Hello World!",
             NotificationContent = @"This is a simple test...",
             NotificationIcon = KryptonToastIcon.Information,
+            NotificationIconWidth = 16,
+            NotificationIconHeight = 16,
             CountDownSeconds = 60
         };
 
