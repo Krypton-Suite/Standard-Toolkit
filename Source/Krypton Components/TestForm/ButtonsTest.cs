@@ -16,6 +16,13 @@ public partial class ButtonsTest : KryptonForm
         InitializeComponent();
         kcbColorScheme.SelectedItem = "OfficeThemes";
         kcbSortMode.Enabled = false;
+
+        // #1673 sample: progress bar in the shared UAC drop-down context menu
+        kryptonContextMenuItems1.Items.Insert(0, new KryptonContextMenuProgressBar
+        {
+            MinimumWidth = 200,
+            Value = 42
+        });
     }
 
     private void kcbtnDropDown_SelectedColorChanged(object sender, ColorEventArgs e)
