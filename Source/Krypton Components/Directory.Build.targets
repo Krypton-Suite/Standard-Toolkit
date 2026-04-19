@@ -3,8 +3,11 @@
 		<Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.targets', '$(MSBuildThisFileDirectory)../../'))" />
 		-->
 
-	<PropertyGroup Condition="'$(UseArtifactsOutput)' == 'true'">
-		<OutputPath>$(KryptonBuildOutputRoot)$(Configuration)\</OutputPath>
+	<!-- CI sets UseArtifactsOutput=true. KryptonBuildOutputRoot points under artifacts\bin; without a per-TFM
+	     segment every inner multi-target build writes Krypton.Toolkit.dll (etc.) to the same folder and the
+	     last TFM wins. Downstream net472 then compiles against a net10+ assembly (CS1705 / CS7069 / CS0012). -->
+	<PropertyGroup Condition="'$(UseArtifactsOutput)' == 'true' And '$(TargetFramework)' != ''">
+		<OutputPath>$(KryptonBuildOutputRoot)$(Configuration)\$(TargetFramework)\</OutputPath>
 	</PropertyGroup>
 
 	<Choose>
