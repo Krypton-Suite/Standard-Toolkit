@@ -33,7 +33,6 @@
 	<NoWarn>1701;1702</NoWarn>
 	<Configurations>Debug;Release;Installer;Nightly;Canary</Configurations>
 	<GenerateDocumentationFile>true</GenerateDocumentationFile>
-	<OutputPath>..\..\..\Bin\$(Configuration)\</OutputPath>
 	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	<Nullable>enable</Nullable>
 	<!--https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-messages/warning-waves-->
@@ -943,5 +942,13 @@
   <PropertyGroup Condition="'$(Configuration)'!='Debug'">
 	<Optimize>True</Optimize>
   </PropertyGroup>
+
+  <!-- .NET Framework apps: auto binding redirects fix System.Resources.Extensions 4.0.0.0 vs 4.0.1.0 load failures. -->
+  <ItemGroup>
+	<None Include="..\NetFramework.SystemResourcesExtensions.BindingRedirects.props"
+			Pack="true"
+			PackagePath="build\$(PackageId).props"
+			Visible="false" />
+  </ItemGroup>
 
 </Project>
