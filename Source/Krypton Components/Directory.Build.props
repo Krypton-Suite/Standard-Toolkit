@@ -154,18 +154,14 @@
 		</Otherwise>
 	</Choose>
 
-	<!-- CS7069 metadata resolution: keep explicit compile-time component-model refs for net8/net9 only.
-	     Newer TFMs (net10+) should use inbox framework assemblies to avoid assembly-version conflicts.
-	     .NET 9+ SDK package pruning can mark these as prunable and drop them from compile assets, which then breaks
-	     inherited WinForms metadata (for example ExpandableObjectConverter and Component on Ribbon/ButtonSpec types). -->
-	<PropertyGroup Condition="'$(TargetFramework)' == 'net8.0-windows' Or '$(TargetFramework)' == 'net9.0-windows'">
+	<!-- CS7069 / package pruning: WinForms metadata (Component, ExpandableObjectConverter, etc.) can disappear from
+	     compile assets when pruning is on. Disable pruning for all .NET (Core) Windows TFMs (hyphen TFM only so
+	     net472/net48 are excluded — UseWindowsForms still sets Platform=Windows on netfx).
+	     Do not add explicit System.ComponentModel.* NuGet packages here: with pruning off the shared framework
+	     supplies them; explicit 4.3.0 packages caused CS1705 on net10+ and NU1510 (will not be pruned) everywhere. -->
+	<PropertyGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETCoreApp' And '$(TargetPlatformIdentifier)' == 'Windows' And $(TargetFramework.Contains('-'))">
 		<RestoreEnablePackagePruning>false</RestoreEnablePackagePruning>
 	</PropertyGroup>
-
-	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0-windows' Or '$(TargetFramework)' == 'net9.0-windows'">
-		<PackageReference Include="System.ComponentModel.Primitives" Version="4.3.0" />
-		<PackageReference Include="System.ComponentModel.TypeConverter" Version="4.3.0" />
-	</ItemGroup>
 
 	<!-- MSB3822/MSB3823 resource generation fix for net4x TFMs with non-string .resx entries. -->
 	<PropertyGroup Condition="'$(TargetFramework)' != '' and $(TargetFramework.StartsWith('net4')) == 'true'">
@@ -173,6 +169,7 @@
 	</PropertyGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' != '' and $(TargetFramework.StartsWith('net4')) == 'true'">
-		<PackageReference Include="System.Resources.Extensions" Version="4.7.1" />
+		<!-- GeneratePathProperty: Krypton.Standard.Toolkit packs binaries with suppressed nuspec deps; net4x needs this DLL beside Krypton.*. -->
+		<PackageReference Include="System.Resources.Extensions" Version="4.7.1" GeneratePathProperty="true" />
 	</ItemGroup>
 </Project>
