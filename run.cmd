@@ -1,4 +1,4 @@
-:: Last updated: Sunday 29th March, 2026 @ 11:00
+:: Last updated: Sunday 19th April, 2026 @ 13:00
 
 @echo off
 
@@ -16,7 +16,7 @@ goto selectvsversion
 :selectvsversion
 cls
 
-@echo Welcome to the Krypton Toolkit Build system, version: 3.1.
+@echo Welcome to the Krypton Toolkit Build system, version: 3.1a.
 @echo Please select the Visual Studio toolset to target.
 echo:
 @echo ==============================================================================================
@@ -189,11 +189,13 @@ goto packmenu
 cls
 
 echo 1. Debug
-echo 2. Go back to main mainmenu
+echo 2. Run TestForm project
+echo 3. Go back to main mainmenu
 echo:
-set /p answer="Enter number (1 - 2): "
+set /p answer="Enter number (1 - 3): "
 if %answer%==1 (goto debug)
-if %answer%==2 (goto mainmenu)
+if %answer%==2 (goto runtestform)
+if %answer%==3 (goto mainmenu)
 
 @echo Invalid input, please try again.
 
@@ -892,3 +894,13 @@ goto webview2tools
 :clearlogfiles
 
 :clearbinaries
+
+:: ===================================================================================================
+
+:runtestform
+
+cls
+
+echo Running TestForm project...
+
+dotnet run --project "Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net11.0-windows
