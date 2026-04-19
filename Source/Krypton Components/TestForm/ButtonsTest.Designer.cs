@@ -65,6 +65,7 @@ namespace TestForm
             this.kryptonButton3 = new Krypton.Toolkit.KryptonButton();
             this.kryptonButton1 = new Krypton.Toolkit.KryptonButton();
             this.buttonSpecAny1 = new Krypton.Toolkit.ButtonSpecAny();
+            this.kryptonContextMenuComboBox1 = new Krypton.Toolkit.KryptonContextMenuComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kcbColorScheme)).BeginInit();
@@ -102,7 +103,6 @@ namespace TestForm
             this.KryptonCalcInput1.AllowDecimals = true;
             this.KryptonCalcInput1.ButtonSpecs.Add(this.buttonSpecAny2);
             this.KryptonCalcInput1.DecimalPlaces = 2;
-            this.KryptonCalcInput1.DropDownWidth = 0;
             this.KryptonCalcInput1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.KryptonCalcInput1.Location = new System.Drawing.Point(120, 270);
             this.KryptonCalcInput1.Name = "KryptonCalcInput1";
@@ -235,7 +235,8 @@ namespace TestForm
             // kryptonContextMenu1
             // 
             this.kryptonContextMenu1.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
-            this.kryptonContextMenuItems1});
+            this.kryptonContextMenuItems1,
+            this.kryptonContextMenuComboBox1});
             // 
             // kryptonContextMenuItems1
             // 
@@ -354,6 +355,10 @@ namespace TestForm
             this.buttonSpecAny1.Text = "Test Text";
             this.buttonSpecAny1.UniqueName = "bad5983b9e7f4d82b15e55a1a19807bb";
             // 
+            // kryptonContextMenuComboBox1
+            // 
+            this.kryptonContextMenuComboBox1.Text = "kryptonContextMenuComboBox1";
+            // 
             // ButtonsTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -408,5 +413,6 @@ namespace TestForm
         private Krypton.Toolkit.KryptonLabel kryptonLabel2;
         private KryptonCalcInput KryptonCalcInput1;
         private ButtonSpecAny buttonSpecAny2;
+        private KryptonContextMenuComboBox kryptonContextMenuComboBox1;
     }
 }
