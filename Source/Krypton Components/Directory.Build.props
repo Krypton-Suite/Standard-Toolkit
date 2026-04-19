@@ -154,15 +154,17 @@
 		</Otherwise>
 	</Choose>
 
-	<!-- CS7069 metadata resolution: explicit compile-time component-model refs for Windows TFMs.
-	     SDK package pruning (net9+) can drop these from compile assets; inherited WinForms metadata
-	     (for example Component on Ribbon/ButtonSpec types) still needs them on net8+.
-	     Use StartsWith/Contains (not exact TFM): SDK may normalize to net10.0-windows7.0 etc. -->
-	<PropertyGroup Condition="$(TargetFramework.Contains('-windows')) And ($(TargetFramework.StartsWith('net8')) Or $(TargetFramework.StartsWith('net9')) Or $(TargetFramework.StartsWith('net10')) Or $(TargetFramework.StartsWith('net11')))">
+	<!-- CS7069 / package pruning: WinForms metadata (Component, ExpandableObjectConverter, etc.) can disappear from
+	     compile assets when pruning is on. Disable pruning for all .NET (Core) Windows TFMs (hyphen TFM only so
+	     net472/net48 are excluded — UseWindowsForms still sets Platform=Windows on netfx).
+	     Do NOT reference System.ComponentModel.* 4.3.0 NuGet packages on net10+: the shared framework already
+	     ships TypeConverter (v11.x); mixing 4.3.0 causes CS1705 (assembly version mismatch) and cascades of errors. -->
+	<PropertyGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETCoreApp' And '$(TargetPlatformIdentifier)' == 'Windows' And $(TargetFramework.Contains('-'))">
 		<RestoreEnablePackagePruning>false</RestoreEnablePackagePruning>
 	</PropertyGroup>
 
-	<ItemGroup Condition="$(TargetFramework.Contains('-windows')) And ($(TargetFramework.StartsWith('net8')) Or $(TargetFramework.StartsWith('net9')) Or $(TargetFramework.StartsWith('net10')) Or $(TargetFramework.StartsWith('net11')))">
+	<!-- Explicit packages only where needed (net8 / net9); net10+ use inbox assemblies + pruning disabled above. -->
+	<ItemGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETCoreApp' And '$(TargetPlatformIdentifier)' == 'Windows' And $(TargetFramework.Contains('-')) And ($(TargetFramework.StartsWith('net8.')) Or $(TargetFramework.StartsWith('net9.')))">
 		<PackageReference Include="System.ComponentModel.Primitives" Version="4.3.0" />
 		<PackageReference Include="System.ComponentModel.TypeConverter" Version="4.3.0" />
 	</ItemGroup>
