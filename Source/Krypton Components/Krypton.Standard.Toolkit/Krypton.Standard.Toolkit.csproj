@@ -237,6 +237,15 @@
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
 
+			<!--
+			  net4x builds use preserialized resources (Directory.Build.props), which load System.Resources.Extensions at runtime.
+			  This aggregate package sets SuppressDependenciesWhenPacking, so NuGet does not list transitive dependencies—without
+			  this file, apps can resolve a mismatched assembly (FileLoadException 0x80131040) and fail during GlobalStaticValues init.
+			-->
+			<TfmSpecificPackageFile Include="$(PkgSystem_Resources_Extensions)\lib\net461\System.Resources.Extensions.dll" Condition="$(TargetFramework.StartsWith('net4')) And Exists('$(PkgSystem_Resources_Extensions)\lib\net461\System.Resources.Extensions.dll')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
+
 			<!-- WebView2 managed DLLs (bundled from Krypton.Utilities\Lib\WebView2). Only included when bundled WebView2 is populated. -->
 			<TfmSpecificPackageFile Include="$(WebView2LibPath)\Microsoft.Web.WebView2.Core.dll" Condition="Exists('$(WebView2LibPath)\Microsoft.Web.WebView2.Core.dll')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
@@ -302,5 +311,13 @@
 	<PropertyGroup Condition="'$(Configuration)'!='Debug'">
 		<Optimize>True</Optimize>
 	</PropertyGroup>
+
+	<!-- .NET Framework apps: auto binding redirects fix System.Resources.Extensions 4.0.0.0 vs 4.0.1.0 load failures. -->
+	<ItemGroup>
+		<None Include="..\NetFramework.SystemResourcesExtensions.BindingRedirects.props"
+				Pack="true"
+				PackagePath="build\$(PackageId).props"
+				Visible="false" />
+	</ItemGroup>
 
 </Project>

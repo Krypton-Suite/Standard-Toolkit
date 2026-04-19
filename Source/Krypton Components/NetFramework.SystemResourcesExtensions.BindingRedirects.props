@@ -1,0 +1,12 @@
+<Project>
+	<!--
+	  Krypton net4x builds reference System.Resources.Extensions (preserialized .resx). The NuGet package
+	  ships assembly version 4.0.1.0 while facades/references may ask for 4.0.0.0; without a binding redirect,
+	  .NET Framework apps can throw FileLoadException (0x80131040) during resource initialization.
+	  Import this via build/$(PackageId).props from each shipped NuGet package id.
+	-->
+	<PropertyGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'">
+		<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+		<GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+	</PropertyGroup>
+</Project>

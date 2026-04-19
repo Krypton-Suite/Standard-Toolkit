@@ -923,4 +923,12 @@
 	<Optimize>True</Optimize>
   </PropertyGroup>
 
+  <!-- .NET Framework apps: auto binding redirects fix System.Resources.Extensions 4.0.0.0 vs 4.0.1.0 load failures. -->
+  <ItemGroup>
+	<None Include="..\NetFramework.SystemResourcesExtensions.BindingRedirects.props"
+			Pack="true"
+			PackagePath="build\$(PackageId).props"
+			Visible="false" />
+  </ItemGroup>
+
 </Project>

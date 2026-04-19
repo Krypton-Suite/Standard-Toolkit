@@ -154,15 +154,14 @@
 		</Otherwise>
 	</Choose>
 
-	<!-- CS7069 metadata resolution: keep explicit compile-time component-model refs for net8/net9 only.
-	     Newer TFMs (net10+) should use inbox framework assemblies to avoid assembly-version conflicts.
-	     .NET 9+ SDK package pruning can mark these as prunable and drop them from compile assets, which then breaks
-	     inherited WinForms metadata (for example ExpandableObjectConverter and Component on Ribbon/ButtonSpec types). -->
-	<PropertyGroup Condition="'$(TargetFramework)' == 'net8.0-windows' Or '$(TargetFramework)' == 'net9.0-windows'">
+	<!-- CS7069 metadata resolution: explicit compile-time component-model refs for Windows TFMs.
+	     SDK package pruning (net9+) can drop these from compile assets; net10+ still needs them for
+	     inherited WinForms metadata (for example Component on Ribbon/ButtonSpec types). -->
+	<PropertyGroup Condition="'$(TargetFramework)' == 'net8.0-windows' Or '$(TargetFramework)' == 'net9.0-windows' Or '$(TargetFramework)' == 'net10.0-windows' Or '$(TargetFramework)' == 'net11.0-windows'">
 		<RestoreEnablePackagePruning>false</RestoreEnablePackagePruning>
 	</PropertyGroup>
 
-	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0-windows' Or '$(TargetFramework)' == 'net9.0-windows'">
+	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0-windows' Or '$(TargetFramework)' == 'net9.0-windows' Or '$(TargetFramework)' == 'net10.0-windows' Or '$(TargetFramework)' == 'net11.0-windows'">
 		<PackageReference Include="System.ComponentModel.Primitives" Version="4.3.0" />
 		<PackageReference Include="System.ComponentModel.TypeConverter" Version="4.3.0" />
 	</ItemGroup>
@@ -173,6 +172,7 @@
 	</PropertyGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' != '' and $(TargetFramework.StartsWith('net4')) == 'true'">
-		<PackageReference Include="System.Resources.Extensions" Version="4.7.1" />
+		<!-- GeneratePathProperty: Krypton.Standard.Toolkit packs binaries with suppressed nuspec deps; net4x needs this DLL beside Krypton.*. -->
+		<PackageReference Include="System.Resources.Extensions" Version="4.7.1" GeneratePathProperty="true" />
 	</ItemGroup>
 </Project>
