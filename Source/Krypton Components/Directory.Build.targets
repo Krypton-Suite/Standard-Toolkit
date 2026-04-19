@@ -10,6 +10,9 @@
 		<OutputPath>$(KryptonBuildOutputRoot)$(Configuration)\$(TargetFramework)\</OutputPath>
 	</PropertyGroup>
 
+	<Import Project="$(MSBuildThisFileDirectory)NetFramework.SystemResourcesExtensions.BindingRedirects.props"
+	        Condition="Exists('$(MSBuildThisFileDirectory)NetFramework.SystemResourcesExtensions.BindingRedirects.props')" />
+
 	<Choose>
 		<When Condition="'$(Configuration)' == 'Canary'">
 			<PropertyGroup>

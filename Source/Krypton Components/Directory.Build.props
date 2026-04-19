@@ -157,17 +157,11 @@
 	<!-- CS7069 / package pruning: WinForms metadata (Component, ExpandableObjectConverter, etc.) can disappear from
 	     compile assets when pruning is on. Disable pruning for all .NET (Core) Windows TFMs (hyphen TFM only so
 	     net472/net48 are excluded — UseWindowsForms still sets Platform=Windows on netfx).
-	     Do NOT reference System.ComponentModel.* 4.3.0 NuGet packages on net10+: the shared framework already
-	     ships TypeConverter (v11.x); mixing 4.3.0 causes CS1705 (assembly version mismatch) and cascades of errors. -->
+	     Do not add explicit System.ComponentModel.* NuGet packages here: with pruning off the shared framework
+	     supplies them; explicit 4.3.0 packages caused CS1705 on net10+ and NU1510 (will not be pruned) everywhere. -->
 	<PropertyGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETCoreApp' And '$(TargetPlatformIdentifier)' == 'Windows' And $(TargetFramework.Contains('-'))">
 		<RestoreEnablePackagePruning>false</RestoreEnablePackagePruning>
 	</PropertyGroup>
-
-	<!-- Explicit packages only where needed (net8 / net9); net10+ use inbox assemblies + pruning disabled above. -->
-	<ItemGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETCoreApp' And '$(TargetPlatformIdentifier)' == 'Windows' And $(TargetFramework.Contains('-')) And ($(TargetFramework.StartsWith('net8.')) Or $(TargetFramework.StartsWith('net9.')))">
-		<PackageReference Include="System.ComponentModel.Primitives" Version="4.3.0" />
-		<PackageReference Include="System.ComponentModel.TypeConverter" Version="4.3.0" />
-	</ItemGroup>
 
 	<!-- MSB3822/MSB3823 resource generation fix for net4x TFMs with non-string .resx entries. -->
 	<PropertyGroup Condition="'$(TargetFramework)' != '' and $(TargetFramework.StartsWith('net4')) == 'true'">
