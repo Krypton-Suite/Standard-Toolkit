@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>Krypton.Standard.Toolkit.Nightly</id>
+    <version>110.26.4.106-alpha</version>
+    <authors>Peter Wagner (A.K.A Wagnerp) and Simon Coghlan (A.K.A Smurf-IV), Giduac, Ahmed Abdelhameed, Lesandro, tobitege, Phil Wright (A.K.A ComponentFactory)</authors>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <license type="expression">BSD-3-Clause</license>
+    <licenseUrl>https://licenses.nuget.org/BSD-3-Clause</licenseUrl>
+    <icon>Krypton Nightly.png</icon>
+    <projectUrl>https://github.com/Krypton-Suite/Standard-Toolkit</projectUrl>
+    <description>An update to Component factory's krypton toolkit to support .NET Framework 4.7.2 - 4.8.1 and .NET 8 - 11. Aggregate package containing Krypton.Docking, Krypton.Navigator, Krypton.Navigator.Utilities, Krypton.Ribbon, Krypton.Toolkit, Krypton.Utilities, and Krypton.Workspace with all reference binaries included. This package supports all .NET Framework versions starting .NET Framework 4.6.2 - 4.8.1 and .NET 8 - 11. Also, all libraries are included targeting each specific framework version for performance purposes. To view all of the standard toolkit package latest version information, please visit: https://github.com/Krypton-Suite/Krypton-Toolkit-Suite-Version-Dashboard/blob/main/Documents/Modules/Standard/Krypton-Toolkit-Suite-Standard-Modules.md To find out what's new, please visit: https://github.com/Krypton-Suite/Standard-Toolkit/blob/alpha/Documents/Changelog/Changelog.md This package is for those who want to try out the latest cutting edge features before deployment.</description>
+    <releaseNotes>Get updates here: https://github.com/Krypton-Suite/Standard-Toolkit</releaseNotes>
+    <copyright>© Krypton Suite (Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, Lesandro and tobitege) 2017 - 2026. Component Factory Pty Ltd (Phil Wright), 2006 - 2016. All rights reserved.</copyright>
+    <tags>Krypton ComponentFactory WinForms Themes Controls DataGrid Ribbon Workspace Tabs .Net Toolkit</tags>
+    <repository type="git" url="https://github.com/Krypton-Suite/Standard-Toolkit" branch="refs/heads/alpha-warning-fixes" commit="36584c2bbe8b946517788b3ffb7880504e13f9ec" />
+    <dependencies>
+      <group targetFramework="net10.0-windows7.0">
+        <dependency id="Krypton.Docking.Nightly" version="110.26.4.106-alpha" exclude="Build,Analyzers" />
+        <dependency id="Krypton.Navigator.Utilities" version="110.26.4.106-alpha" exclude="Build,Analyzers" />
+        <dependency id="Krypton.Navigator.Nightly" version="110.26.4.106-alpha" exclude="Build,Analyzers" />
+        <dependency id="Krypton.Ribbon.Nightly" version="110.26.4.106-alpha" exclude="Build,Analyzers" />
+        <dependency id="Krypton.Toolkit.Nightly" version="110.26.4.106-alpha" exclude="Build,Analyzers" />
+        <dependency id="Krypton.Workspace.Nightly" version="110.26.4.106-alpha" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework="net11.0-windows7.0">
+        <dependency id="Krypton.Docking.Nightly" version="110.26.4.106-alpha" exclude="Build,Analyzers" />
+        <dependency id="Krypton.Navigator.Utilities" version="110.26.4.106-alpha" exclude="Build,Analyzers" />
+        <dependency id="Krypton.Navigator.Nightly" version="110.26.4.106-alpha" exclude="Build,Analyzers" />
+        <dependency id="Krypton.Ribbon.Nightly" version="110.26.4.106-alpha" exclude="Build,Analyzers" />
+        <dependency id="Krypton.Toolkit.Nightly" version="110.26.4.106-alpha" exclude="Build,Analyzers" />
+        <dependency id="Krypton.Workspace.Nightly" version="110.26.4.106-alpha" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework=".NETFramework4.7.2">
+        <dependency id="Krypton.Docking.Nightly" version="110.26.4.106-alpha" exclude="Build,Analyzers" />
+        <dependency id="Krypton.Navigator.Utilities" version="110.26.4.106-alpha" exclude="Build,Analyzers" />
+        <dependency id="Krypton.Navigator.Nightly" version="110.26.4.106-alpha" exclude="Build,Analyzers" />
+        <dependency id="Krypton.Ribbon.Nightly" version="110.26.4.106-alpha" exclude="Build,Analyzers" />
+        <dependency id="Krypton.Toolkit.Nightly" version="110.26.4.106-alpha" exclude="Build,Analyzers" />
+        <dependency id="Krypton.Workspace.Nightly" version="110.26.4.106-alpha" exclude="Build,Analyzers" />
+        <dependency id="System.Resources.Extensions" version="4.7.1" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework=".NETFramework4.8">
+        <dependency id="Krypton.Docking.Nightly" version="110.26.4.106-alpha" exclude="Build,Analyzers" />
+        <dependency id="Krypton.Navigator.Utilities" version="110.26.4.106-alpha" exclude="Build,Analyzers" />
+        <dependency id="Krypton.Navigator.Nightly" version="110.26.4.106-alpha" exclude="Build,Analyzers" />
+        <dependency id="Krypton.Ribbon.Nightly" version="110.26.4.106-alpha" exclude="Build,Analyzers" />
+        <dependency id="Krypton.Toolkit.Nightly" version="110.26.4.106-alpha" exclude="Build,Analyzers" />
+        <dependency id="Krypton.Workspace.Nightly" version="110.26.4.106-alpha" exclude="Build,Analyzers" />
+        <dependency id="System.Resources.Extensions" version="4.7.1" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework=".NETFramework4.8.1">
+        <dependency id="Krypton.Docking.Nightly" version="110.26.4.106-alpha" exclude="Build,Analyzers" />
+        <dependency id="Krypton.Navigator.Utilities" version="110.26.4.106-alpha" exclude="Build,Analyzers" />
+        <dependency id="Krypton.Navigator.Nightly" version="110.26.4.106-alpha" exclude="Build,Analyzers" />
+        <dependency id="Krypton.Ribbon.Nightly" version="110.26.4.106-alpha" exclude="Build,Analyzers" />
+        <dependency id="Krypton.Toolkit.Nightly" version="110.26.4.106-alpha" exclude="Build,Analyzers" />
+        <dependency id="Krypton.Workspace.Nightly" version="110.26.4.106-alpha" exclude="Build,Analyzers" />
+        <dependency id="System.Resources.Extensions" version="4.7.1" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework="net8.0-windows7.0">
+        <dependency id="Krypton.Docking.Nightly" version="110.26.4.106-alpha" exclude="Build,Analyzers" />
+        <dependency id="Krypton.Navigator.Utilities" version="110.26.4.106-alpha" exclude="Build,Analyzers" />
+        <dependency id="Krypton.Navigator.Nightly" version="110.26.4.106-alpha" exclude="Build,Analyzers" />
+        <dependency id="Krypton.Ribbon.Nightly" version="110.26.4.106-alpha" exclude="Build,Analyzers" />
+        <dependency id="Krypton.Toolkit.Nightly" version="110.26.4.106-alpha" exclude="Build,Analyzers" />
+        <dependency id="Krypton.Workspace.Nightly" version="110.26.4.106-alpha" exclude="Build,Analyzers" />
+        <dependency id="System.ComponentModel.Primitives" version="4.3.0" exclude="Build,Analyzers" />
+        <dependency id="System.ComponentModel.TypeConverter" version="4.3.0" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework="net9.0-windows7.0">
+        <dependency id="Krypton.Docking.Nightly" version="110.26.4.106-alpha" exclude="Build,Analyzers" />
+        <dependency id="Krypton.Navigator.Utilities" version="110.26.4.106-alpha" exclude="Build,Analyzers" />
+        <dependency id="Krypton.Navigator.Nightly" version="110.26.4.106-alpha" exclude="Build,Analyzers" />
+        <dependency id="Krypton.Ribbon.Nightly" version="110.26.4.106-alpha" exclude="Build,Analyzers" />
+        <dependency id="Krypton.Toolkit.Nightly" version="110.26.4.106-alpha" exclude="Build,Analyzers" />
+        <dependency id="Krypton.Workspace.Nightly" version="110.26.4.106-alpha" exclude="Build,Analyzers" />
+        <dependency id="System.ComponentModel.Primitives" version="4.3.0" exclude="Build,Analyzers" />
+        <dependency id="System.ComponentModel.TypeConverter" version="4.3.0" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+    <frameworkReferences>
+      <group targetFramework="net10.0-windows7.0">
+        <frameworkReference name="Microsoft.WindowsDesktop.App.WindowsForms" />
+      </group>
+      <group targetFramework="net11.0-windows7.0">
+        <frameworkReference name="Microsoft.WindowsDesktop.App.WindowsForms" />
+      </group>
+      <group targetFramework=".NETFramework4.7.2" />
+      <group targetFramework=".NETFramework4.8" />
+      <group targetFramework=".NETFramework4.8.1" />
+      <group targetFramework="net8.0-windows7.0">
+        <frameworkReference name="Microsoft.WindowsDesktop.App.WindowsForms" />
+      </group>
+      <group targetFramework="net9.0-windows7.0">
+        <frameworkReference name="Microsoft.WindowsDesktop.App.WindowsForms" />
+      </group>
+    </frameworkReferences>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" targetFramework=".NETFramework4.7.2, .NETFramework4.8, .NETFramework4.8.1" />
+      <frameworkAssembly assemblyName="System.Net.Http" targetFramework=".NETFramework4.7.2, .NETFramework4.8, .NETFramework4.8.1" />
+    </frameworkAssemblies>
+  </metadata>
+</package>
