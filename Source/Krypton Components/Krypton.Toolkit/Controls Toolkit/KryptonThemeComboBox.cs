@@ -82,6 +82,22 @@ public class KryptonThemeComboBox : KryptonComboBox, IKryptonThemeSelectorBase
     #region Implementation
 
     /// <summary>
+    /// Theme resolution must use the list item string (same approach as <see cref="KryptonThemeListBox"/>).
+    /// For an owner-draw <see cref="KryptonComboBox"/>, <see cref="Control.Text"/> can lag or stay empty when
+    /// <see cref="ComboBox.SelectedIndex"/> is set programmatically, which would otherwise map to
+    /// <see cref="PaletteMode.Global"/> and revert the selection (see #3283).
+    /// </summary>
+    private string GetSelectedThemeName()
+    {
+        if (SelectedIndex > -1 && SelectedItem is string { Length: > 0 } s)
+        {
+            return s;
+        }
+
+        return Text ?? string.Empty;
+    }
+
+    /// <summary>
     /// Routine that will be executed when the control is fully instantiated.
     /// </summary>
     /// <param name="e">EventArgs param. Not used in this implementation.</param>
@@ -95,8 +111,8 @@ public class KryptonThemeComboBox : KryptonComboBox, IKryptonThemeSelectorBase
     /// This method will run when the KryptonManager.GlobalPaletteChanged event is fired.<br/>
     /// It will synchronize the SelectedIndex with the newly assigned Global Palette.
     /// </summary>
-    /// <param name="sender">Object that intiated the call.</param>
-    /// <param name="e">Eventargs object data (not used).</param>
+    /// <param name="sender">Object that initiated the call.</param>
+    /// <param name="e">Event args object data (not used).</param>
     private void KryptonManagerGlobalPaletteChanged(object? sender, EventArgs e)
     {
         if (_isLocalUpdate)
@@ -159,6 +175,10 @@ public class KryptonThemeComboBox : KryptonComboBox, IKryptonThemeSelectorBase
 
         if (!IsHandleCreated)
         {
+            if (!CommonHelperThemeSelectors.OnSelectedIndexChanged(ref _isLocalUpdate, _isExternalUpdate, ref _defaultPalette, GetSelectedThemeName(), _manager, _kryptonCustomPalette))
+            {
+                SelectedIndex = CommonHelperThemeSelectors.GetPaletteIndex(Items, _manager.GlobalPaletteMode);
+            }
             base.OnSelectedIndexChanged(e);
             return;
         }
@@ -173,7 +193,7 @@ public class KryptonThemeComboBox : KryptonComboBox, IKryptonThemeSelectorBase
             ThemeChangeCoordinator.Begin(FindForm());
             try
             {
-                if (!CommonHelperThemeSelectors.OnSelectedIndexChanged(ref _isLocalUpdate, _isExternalUpdate, ref _defaultPalette, Text, _manager, _kryptonCustomPalette))
+                if (!CommonHelperThemeSelectors.OnSelectedIndexChanged(ref _isLocalUpdate, _isExternalUpdate, ref _defaultPalette, GetSelectedThemeName(), _manager, _kryptonCustomPalette))
                 {
                     // theme change failed; resync index to current global palette
                     SelectedIndex = CommonHelperThemeSelectors.GetPaletteIndex(Items, _manager.GlobalPaletteMode);
