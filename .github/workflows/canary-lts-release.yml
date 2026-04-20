@@ -163,7 +163,7 @@ jobs:
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
-          $buildArgs = 'Scripts/Build/canary.proj /t:Build /p:Configuration=Canary /p:Platform="Any CPU"'
+          $buildArgs = 'Scripts/Build/canary.proj /t:Build /p:Configuration=Canary /p:Platform="Any CPU" /p:UseArtifactsOutput=true'
 
           if (${{ steps.prepare_cert.outputs.cert_available }} -eq 'true') {
             $buildArgs += ' /p:EnableAuthenticodeSigning=true'
@@ -182,7 +182,7 @@ jobs:
 
       - name: Pack Canary
         if: steps.canary_lts_kill_switch.outputs.enabled == 'true'
-        run: msbuild "Scripts/Build/canary.proj" /t:Pack /p:Configuration=Canary /p:Platform="Any CPU"
+        run: msbuild "Scripts/Build/canary.proj" /t:Pack /p:Configuration=Canary /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
       - name: Push NuGet Packages to nuget.org
         if: steps.canary_lts_kill_switch.outputs.enabled == 'true'

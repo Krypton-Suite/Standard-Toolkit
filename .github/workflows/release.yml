@@ -150,12 +150,12 @@ jobs:
       - name: Build Release
         # Kill switch check
         if: steps.release_kill_switch.outputs.enabled == 'true'
-        run: msbuild "Scripts/Build/build.proj" /t:Build /p:Configuration=Release /p:Platform="Any CPU"
+        run: msbuild "Scripts/Build/build.proj" /t:Build /p:Configuration=Release /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
       - name: Pack Release
         # Kill switch check
         if: steps.release_kill_switch.outputs.enabled == 'true'
-        run: msbuild "Scripts/Build/build.proj" /t:Pack /p:Configuration=Release /p:Platform="Any CPU"
+        run: msbuild "Scripts/Build/build.proj" /t:Pack /p:Configuration=Release /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
       - name: Push NuGet Packages to nuget.org
         # Kill switch check
@@ -170,7 +170,11 @@ jobs:
             exit 0
           }
           
-          $packages = Get-ChildItem "Bin/Packages/Release/*.nupkg" -ErrorAction SilentlyContinue
+          $packageCandidates = @(
+            "artifacts/packages/Release/*.nupkg",
+            "Bin/Packages/Release/*.nupkg"
+          )
+          $packages = @(Get-ChildItem -Path $packageCandidates -ErrorAction SilentlyContinue | Sort-Object FullName -Unique)
           $publishedAny = $false
           
           if ($packages) {
@@ -209,7 +213,14 @@ jobs:
           
           # Try to get version from the built assembly (most reliable)
           try {
-            $dllPath = Get-ChildItem "Bin/Release/net48/Krypton.Toolkit.dll" -ErrorAction Stop
+            $dllCandidates = @(
+              "artifacts/bin/Release/net48/Krypton.Toolkit.dll",
+              "Bin/Release/net48/Krypton.Toolkit.dll"
+            )
+            $dllPath = Get-ChildItem -Path $dllCandidates -ErrorAction SilentlyContinue | Select-Object -First 1
+            if (-not $dllPath) {
+              throw "Krypton.Toolkit.dll not found in artifacts or Bin output paths."
+            }
             $assemblyVersion = [System.Reflection.AssemblyName]::GetAssemblyName($dllPath.FullName).Version
             $version = $assemblyVersion.ToString()
             Write-Host "Got version from assembly: $version"
@@ -414,12 +425,12 @@ jobs:
       - name: Build Release
         # Kill switch check
         if: steps.release_kill_switch.outputs.enabled == 'true'
-        run: msbuild "Scripts/Build/build.proj" /t:Build /p:Configuration=Release /p:Platform="Any CPU"
+        run: msbuild "Scripts/Build/build.proj" /t:Build /p:Configuration=Release /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
       - name: Pack Release
         # Kill switch check
         if: steps.release_kill_switch.outputs.enabled == 'true'
-        run: msbuild "Scripts/Build/build.proj" /t:Pack /p:Configuration=Release /p:Platform="Any CPU"
+        run: msbuild "Scripts/Build/build.proj" /t:Pack /p:Configuration=Release /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
       - name: Push NuGet Packages to nuget.org
         # Kill switch check
@@ -434,7 +445,11 @@ jobs:
             exit 0
           }
           
-          $packages = Get-ChildItem "Bin/Packages/Release/*.nupkg" -ErrorAction SilentlyContinue
+          $packageCandidates = @(
+            "artifacts/packages/Release/*.nupkg",
+            "Bin/Packages/Release/*.nupkg"
+          )
+          $packages = @(Get-ChildItem -Path $packageCandidates -ErrorAction SilentlyContinue | Sort-Object FullName -Unique)
           $publishedAny = $false
           
           if ($packages) {
@@ -473,7 +488,14 @@ jobs:
           
           # Try to get version from the built assembly (most reliable)
           try {
-            $dllPath = Get-ChildItem "Bin/Release/net48/Krypton.Toolkit.dll" -ErrorAction Stop
+            $dllCandidates = @(
+              "artifacts/bin/Release/net48/Krypton.Toolkit.dll",
+              "Bin/Release/net48/Krypton.Toolkit.dll"
+            )
+            $dllPath = Get-ChildItem -Path $dllCandidates -ErrorAction SilentlyContinue | Select-Object -First 1
+            if (-not $dllPath) {
+              throw "Krypton.Toolkit.dll not found in artifacts or Bin output paths."
+            }
             $assemblyVersion = [System.Reflection.AssemblyName]::GetAssemblyName($dllPath.FullName).Version
             $version = $assemblyVersion.ToString()
             Write-Host "Got version from assembly: $version"
@@ -690,12 +712,12 @@ jobs:
       - name: Build Canary
         # Kill switch check
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
-        run: msbuild "Scripts/Build/canary.proj" /t:Build /p:Configuration=Canary /p:Platform="Any CPU"
+        run: msbuild "Scripts/Build/canary.proj" /t:Build /p:Configuration=Canary /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
       - name: Pack Canary
         # Kill switch check
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
-        run: msbuild "Scripts/Build/canary.proj" /t:Pack /p:Configuration=Canary /p:Platform="Any CPU"
+        run: msbuild "Scripts/Build/canary.proj" /t:Pack /p:Configuration=Canary /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
       - name: Push NuGet Packages to nuget.org
         # Kill switch check
@@ -710,7 +732,11 @@ jobs:
             exit 0
           }
           
-          $packages = Get-ChildItem "Bin/Packages/Canary/*.nupkg" -ErrorAction SilentlyContinue
+          $packageCandidates = @(
+            "artifacts/packages/Canary/*.nupkg",
+            "Bin/Packages/Canary/*.nupkg"
+          )
+          $packages = @(Get-ChildItem -Path $packageCandidates -ErrorAction SilentlyContinue | Sort-Object FullName -Unique)
           $publishedAny = $false
           
           if ($packages) {
@@ -749,7 +775,14 @@ jobs:
           
           # Try to get version from the built assembly (most reliable)
           try {
-            $dllPath = Get-ChildItem "Bin/Canary/net48/Krypton.Toolkit.dll" -ErrorAction Stop
+            $dllCandidates = @(
+              "artifacts/bin/Canary/net48/Krypton.Toolkit.dll",
+              "Bin/Canary/net48/Krypton.Toolkit.dll"
+            )
+            $dllPath = Get-ChildItem -Path $dllCandidates -ErrorAction SilentlyContinue | Select-Object -First 1
+            if (-not $dllPath) {
+              throw "Krypton.Toolkit.dll not found in artifacts or Bin output paths."
+            }
             $assemblyVersion = [System.Reflection.AssemblyName]::GetAssemblyName($dllPath.FullName).Version
             $version = $assemblyVersion.ToString()
             Write-Host "Got version from assembly: $version"
@@ -958,12 +991,12 @@ jobs:
       - name: Build Alpha
         # Kill switch check
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
-        run: msbuild "Scripts/Build/nightly.proj" /t:Build /p:Configuration=Nightly /p:Platform="Any CPU"
+        run: msbuild "Scripts/Build/nightly.proj" /t:Build /p:Configuration=Nightly /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
       - name: Pack Alpha
         # Kill switch check
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
-        run: msbuild "Scripts/Build/nightly.proj" /t:Pack /p:Configuration=Nightly /p:Platform="Any CPU"
+        run: msbuild "Scripts/Build/nightly.proj" /t:Pack /p:Configuration=Nightly /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
       # Note: NuGet publishing for alpha/nightly builds is handled by nightly.yml workflow
       # which runs on a schedule and checks for changes in the last 24 hours

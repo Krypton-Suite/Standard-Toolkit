@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -3614,13 +3614,10 @@ public class KryptonCustomPaletteBase : PaletteBase
                                 // We need the type converter to create a string representation
 								var converter = TypeDescriptor.GetConverter(prop.PropertyType);
 
-								// Fix [3164]: "Font property values are not serialized correctly in the exported XML file."
+                                // Fix [3164]: "Font property values are not serialized correctly in the exported XML file."
 								// Force serialization using the en-US culture to prevent localization issues.
-								childElement.SetAttribute(@"Value", (string)converter.ConvertTo(
-                                                                        context: null,
-                                                                        culture: cultureInfo,
-                                                                        value: childObj!,
-                                                                        destinationType: typeof(string)));
+								var converted = converter.ConvertTo(context: null, culture: cultureInfo, value: childObj!, destinationType: typeof(string));
+								childElement.SetAttribute(@"Value", converted?.ToString() ?? string.Empty);
                             }
                         }
                     }
@@ -4310,9 +4307,13 @@ public class KryptonCustomPaletteBase : PaletteBase
             case PaletteButtonSpecStyle.Search:
                 return ButtonSpecs.Generic;
             default:
-                // Should never happen!
-                Debug.Assert(false);
-                throw DebugTools.NotImplemented(style.ToString());
+                // Unknown or out-of-range values (e.g. newer enum, bad serialization) — avoid crashing the UI.
+                Debug.Assert(false, $"Unhandled {nameof(PaletteButtonSpecStyle)}: {(int)style}");
+                if (Debugger.IsAttached)
+                {
+                    throw DebugTools.NotImplemented(style.ToString());
+                }
+                return ButtonSpecs.Generic;
         }
     }
 

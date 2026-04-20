@@ -3,6 +3,16 @@
 		<Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.targets', '$(MSBuildThisFileDirectory)../../'))" />
 		-->
 
+	<!-- Per-TFM output under $(KryptonBuildOutputRoot)$(Configuration)\: legacy builds use Bin\Release\net472\;
+	     UseArtifactsOutput=true uses artifacts\bin\Release\net472\. A single shared folder makes the last
+	     inner multi-target build overwrite Krypton.Toolkit.dll (etc.), so net472 then references net10+ (CS1705). -->
+	<PropertyGroup Condition="'$(TargetFramework)' != ''">
+		<OutputPath>$(KryptonBuildOutputRoot)$(Configuration)\$(TargetFramework)\</OutputPath>
+	</PropertyGroup>
+
+	<Import Project="$(MSBuildThisFileDirectory)NetFramework.SystemResourcesExtensions.BindingRedirects.props"
+	        Condition="Exists('$(MSBuildThisFileDirectory)NetFramework.SystemResourcesExtensions.BindingRedirects.props')" />
+
 	<Choose>
 		<When Condition="'$(Configuration)' == 'Canary'">
 			<PropertyGroup>

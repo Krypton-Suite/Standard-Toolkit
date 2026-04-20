@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -2046,7 +2046,7 @@ public class KryptonForm : VisualForm,
     protected override void WindowChromeStart()
     {
         // Make sure the views for the buttons are created
-        if (_recreateButtons)
+        if (_recreateButtons && this.ControlBox)
         {
             _buttonManager.RecreateButtons();
             _recreateButtons = false;
@@ -2741,25 +2741,26 @@ public class KryptonForm : VisualForm,
                 return;
             }
 
-            // Get the size of each window border
-            var xBorder = PI.GetSystemMetrics(PI.SM_.CXSIZEFRAME) * 2;
-            var yBorder = PI.GetSystemMetrics(PI.SM_.CYSIZEFRAME) * 2;
+            // Get per-side border widths
+            var formBorders = StateCommon?.Border as PaletteFormBorder;
 
-            // Fix for #2457, please do not remove!!!
-            // Get the actual border widths from the form's border palette
-            var formBorder = StateCommon?.Border as PaletteFormBorder;
-            var (leftBorder, topBorder) = formBorder?.BorderWidths(FormBorderStyle) ?? (xBorder / 2, yBorder / 2);
-            var rightBorder = leftBorder; // Use same width for right border
-            var bottomBorder = topBorder; // Use same width for bottom border
+            var (borderX, borderY) =
+                formBorders?.BorderWidths(FormBorderStyle)
+                ?? (
+                    PI.GetSystemMetrics(PI.SM_.CXSIZEFRAME),
+                    PI.GetSystemMetrics(PI.SM_.CYSIZEFRAME)
+                );
 
-            // Calculate the maximized region with proper border handling
+            // Convert to TOTAL border (this is REQUIRED for maximized Region)
+            int totalBorderX = borderX * 2;
+            int totalBorderY = borderY * 2;
+
             var maximizedRect = new Rectangle(
-                leftBorder,
-                topBorder,
-                Width - (leftBorder + rightBorder),
-                Height - (topBorder + bottomBorder));
+                totalBorderX,
+                totalBorderY,
+                Width - (totalBorderX * 2),
+                Height - (totalBorderY * 2));
 
-            // Use this as the new region
             SuspendPaint();
             _regionWindowState = FormWindowState.Maximized;
             UpdateBorderRegion(new Region(maximizedRect));
@@ -3321,5 +3322,52 @@ public class KryptonForm : VisualForm,
 
         return _isInAdministratorMode;
     }
-    #endregion
+	#endregion
+
+
+	/// <summary>
+	/// Determines whether the form has usable caption content
+	/// for non-client area painting.
+	/// </summary>
+	protected override bool HasCaptionContent()
+	{
+        // No border means no non-client caption at all.
+        if (FormBorderStyle == FormBorderStyle.None)
+        {
+            return false;
+        }
+
+		/*
+		 * Special-case workaround:
+		 *
+		 * For Sizable forms without a control box and without any caption text,
+		 * the framework may still attempt non-client painting, which can result
+		 * in visual artifacts (e.g. a white bar when the form is deactivated).
+		 *
+		 * This check is intentionally limited to FormBorderStyle.Sizable.
+		 * Tool window styles are excluded because they may legitimately have
+		 * no visible title text and still require non-client painting.
+		 */
+		if (FormBorderStyle == FormBorderStyle.Sizable &&
+			!ControlBox &&
+			string.IsNullOrWhiteSpace(Text) &&
+			string.IsNullOrWhiteSpace(TextExtra))
+		{
+			return false;
+		}
+
+		// All remaining bordered styles are considered to have usable
+		// caption content from a non-client painting perspective,
+		// regardless of whether a visible title text is present.
+		return FormBorderStyle switch
+		{
+			FormBorderStyle.FixedSingle => true,
+			FormBorderStyle.Fixed3D => true,
+			FormBorderStyle.FixedDialog => true,
+			FormBorderStyle.Sizable => true,
+			FormBorderStyle.FixedToolWindow => true,
+			FormBorderStyle.SizableToolWindow => true,
+			_ => false
+		};
+	}
 }

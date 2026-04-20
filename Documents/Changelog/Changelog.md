@@ -3,6 +3,7 @@
 =======
 
 ## Table of Contents
+
 * [2026-11-xx - Build 2611 (V110 Nightly) - November 2026](#2026-11-xx---build-2611-v110-nightly---november-2026)
 * [2025-11-24 - Build 2511 (V100 RTM) - November 2025](#2025-11-24---build-2511-v100-rtm---november-2025)
 * [2025-06-23 - Build 2506 (Version 95 - Patch 7) - June 2025](#2025-06-23---build-2506-version-95---patch-7---june-2025)
@@ -44,6 +45,20 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Resolved [#3330](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3330), `KryptonManager` exception 'The type initializer for 'Krypton.Toolkit.KryptonManager' threw an exception.'
+* Implemented [#1673](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1673), `KryptonContextMenuComboBox` & `KryptonContextMenuProgressBar` need to be implemented. `KryptonContextMenuProgressBar` for context menus (and enabled **Add ComboBox** in the context menu collection editor).
+* Resolved [#2914](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2914), White bar is shown in a KryptonForm Sizable without buttons and text
+* Implemented [#2125](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2125), Adding NotificationIcon Size in ToastNotification. Added `NotificationIconWidth` and `NotificationIconHeight` to toast data models and wired basic toast views to render and layout icons using custom dimensions.
+* Implemented [#998](https://github.com/Krypton-Suite/Standard-Toolkit/issues/998), Use the new artifacts feature to simplify build paths. Added opt-in artifacts output support for build/package paths via shared MSBuild properties (`UseArtifactsOutput=true`) and updated `ModernBuild` package discovery to work with both legacy `Bin/*` and `artifacts/packages/*` layouts.
+  * Updated GitHub Actions workflows to build with artifacts output enabled and to resolve package/DLL paths from `artifacts/*` with legacy `Bin/*` fallback.
+* Implemented [#1002](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1002), Implement `ActionLists` for file dialogs, `KryptonOpenFileDialog`, `KryptonSaveFileDialog`, and `KryptonFolderBrowserDialog` to expose common design-time properties.
+* Implemented [#3305](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3305), QR Code Generation/Viewer
+  * To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this control is part of the `Krypton.Utilities` assembly.
+* Resolved [#3018](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3018), `KryptonToast` no longer works properly
+* Resolved [#3227](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3227), `KryptonDockingManager.LoadConfigFromArray` throws exception
+* Resolved [#3225](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3225), Ribbon large button image-to-text separator not DPI-scaled
+* Resolved [#3256](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3256), Tree View Event is Crashing
+* Resolved [#3249](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3249), `KryptonForm` shows an extra border on the secondary monitor when maximized
 * Resolved [#3013](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3013), Maximized form's size exceeds the screen's working area
 * Resolved [#3164](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3164), Font property values are being serialized depending of the current culture in exported XML theme file
 * Implemented [#3177](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3177), **[Breaking Change]** Move `KryptonAboutBox` to `Krypton.Utilities`
