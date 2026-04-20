@@ -47,7 +47,6 @@
 		<!--https://learn.microsoft.com/en-us/visualstudio/designers/disable-dpi-awareness?view=vs-2022-->
 		<ForceDesignerDPIUnaware>true</ForceDesignerDPIUnaware>
 		<ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
-		<OutputPath>..\..\..\Bin\$(Configuration)\</OutputPath>
 		<NoWarn>1701;1702</NoWarn>
 	</PropertyGroup>
 
@@ -130,7 +129,52 @@
 	-->
 	<PropertyGroup>
 		<TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);AddReferencedAssembliesToPackage</TargetsForTfmSpecificContentInPackage>
+		<GenerateNuspecDependsOn>$(GenerateNuspecDependsOn);NormalizePackTargetFrameworkAliases</GenerateNuspecDependsOn>
 	</PropertyGroup>
+
+	<!--
+		Normalize pack-time TFM aliases so the generated nuspec dependency groups exactly
+		match the package lib/ref folders and avoid NU5128 framework mismatch warnings.
+	-->
+	<Target Name="NormalizePackTargetFrameworkAliases">
+		<ItemGroup>
+			<_OriginalPackTargetFrameworks Include="@(_TargetFrameworks)" />
+			<_OriginalSuppressedDependencyFrameworks Include="@(_FrameworksWithSuppressedDependencies)" />
+			<_OriginalFrameworkAssemblyReferences Include="@(_FrameworkAssemblyReferences)" />
+
+			<_TargetFrameworks Remove="@(_TargetFrameworks)" />
+			<_FrameworksWithSuppressedDependencies Remove="@(_FrameworksWithSuppressedDependencies)" />
+			<_FrameworkAssemblyReferences Remove="@(_FrameworkAssemblyReferences)" />
+
+			<_TargetFrameworks Include=".NETFramework4.7.2" Condition="'%(_OriginalPackTargetFrameworks.Identity)' == 'net472'" />
+			<_TargetFrameworks Include=".NETFramework4.8" Condition="'%(_OriginalPackTargetFrameworks.Identity)' == 'net48'" />
+			<_TargetFrameworks Include=".NETFramework4.8.1" Condition="'%(_OriginalPackTargetFrameworks.Identity)' == 'net481'" />
+			<_TargetFrameworks Include="net8.0-windows7.0" Condition="'%(_OriginalPackTargetFrameworks.Identity)' == 'net8.0-windows'" />
+			<_TargetFrameworks Include="net9.0-windows7.0" Condition="'%(_OriginalPackTargetFrameworks.Identity)' == 'net9.0-windows'" />
+			<_TargetFrameworks Include="net10.0-windows7.0" Condition="'%(_OriginalPackTargetFrameworks.Identity)' == 'net10.0-windows'" />
+			<_TargetFrameworks Include="net11.0-windows7.0" Condition="'%(_OriginalPackTargetFrameworks.Identity)' == 'net11.0-windows'" />
+			<_TargetFrameworks Include="%(_OriginalPackTargetFrameworks.Identity)" Condition="'@(_TargetFrameworks)' == ''" />
+
+			<_FrameworksWithSuppressedDependencies Include=".NETFramework4.7.2" Condition="'%(_OriginalSuppressedDependencyFrameworks.Identity)' == 'net472'" />
+			<_FrameworksWithSuppressedDependencies Include=".NETFramework4.8" Condition="'%(_OriginalSuppressedDependencyFrameworks.Identity)' == 'net48'" />
+			<_FrameworksWithSuppressedDependencies Include=".NETFramework4.8.1" Condition="'%(_OriginalSuppressedDependencyFrameworks.Identity)' == 'net481'" />
+			<_FrameworksWithSuppressedDependencies Include="net8.0-windows7.0" Condition="'%(_OriginalSuppressedDependencyFrameworks.Identity)' == 'net8.0-windows'" />
+			<_FrameworksWithSuppressedDependencies Include="net9.0-windows7.0" Condition="'%(_OriginalSuppressedDependencyFrameworks.Identity)' == 'net9.0-windows'" />
+			<_FrameworksWithSuppressedDependencies Include="net10.0-windows7.0" Condition="'%(_OriginalSuppressedDependencyFrameworks.Identity)' == 'net10.0-windows'" />
+			<_FrameworksWithSuppressedDependencies Include="net11.0-windows7.0" Condition="'%(_OriginalSuppressedDependencyFrameworks.Identity)' == 'net11.0-windows'" />
+			<_FrameworksWithSuppressedDependencies Include="%(_OriginalSuppressedDependencyFrameworks.Identity)" Condition="'@(_FrameworksWithSuppressedDependencies)' == ''" />
+
+			<_FrameworkAssemblyReferences Include="@(_OriginalFrameworkAssemblyReferences)">
+				<TargetFramework Condition="'%(_OriginalFrameworkAssemblyReferences.TargetFramework)' == 'net472'">.NETFramework4.7.2</TargetFramework>
+				<TargetFramework Condition="'%(_OriginalFrameworkAssemblyReferences.TargetFramework)' == 'net48'">.NETFramework4.8</TargetFramework>
+				<TargetFramework Condition="'%(_OriginalFrameworkAssemblyReferences.TargetFramework)' == 'net481'">.NETFramework4.8.1</TargetFramework>
+				<TargetFramework Condition="'%(_OriginalFrameworkAssemblyReferences.TargetFramework)' == 'net8.0-windows'">net8.0-windows7.0</TargetFramework>
+				<TargetFramework Condition="'%(_OriginalFrameworkAssemblyReferences.TargetFramework)' == 'net9.0-windows'">net9.0-windows7.0</TargetFramework>
+				<TargetFramework Condition="'%(_OriginalFrameworkAssemblyReferences.TargetFramework)' == 'net10.0-windows'">net10.0-windows7.0</TargetFramework>
+				<TargetFramework Condition="'%(_OriginalFrameworkAssemblyReferences.TargetFramework)' == 'net11.0-windows'">net11.0-windows7.0</TargetFramework>
+			</_FrameworkAssemblyReferences>
+		</ItemGroup>
+	</Target>
 
 	<!--
 		Add Referenced Assemblies to Package Target
@@ -189,6 +233,15 @@
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Workspace.dll" Condition="Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Workspace.dll')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
+
+			<!--
+			  net4x builds use preserialized resources (Directory.Build.props), which load System.Resources.Extensions at runtime.
+			  This aggregate package sets SuppressDependenciesWhenPacking, so NuGet does not list transitive dependencies—without
+			  this file, apps can resolve a mismatched assembly (FileLoadException 0x80131040) and fail during GlobalStaticValues init.
+			-->
+			<TfmSpecificPackageFile Include="$(PkgSystem_Resources_Extensions)\lib\net461\System.Resources.Extensions.dll" Condition="$(TargetFramework.StartsWith('net4')) And Exists('$(PkgSystem_Resources_Extensions)\lib\net461\System.Resources.Extensions.dll')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
 
@@ -257,5 +310,13 @@
 	<PropertyGroup Condition="'$(Configuration)'!='Debug'">
 		<Optimize>True</Optimize>
 	</PropertyGroup>
+
+	<!-- .NET Framework apps: auto binding redirects fix System.Resources.Extensions 4.0.0.0 vs 4.0.1.0 load failures. -->
+	<ItemGroup>
+		<None Include="..\NetFramework.SystemResourcesExtensions.BindingRedirects.props"
+				Pack="true"
+				PackagePath="build\$(PackageId).props"
+				Visible="false" />
+	</ItemGroup>
 
 </Project>
