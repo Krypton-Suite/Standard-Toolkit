@@ -82,6 +82,22 @@ public class KryptonThemeComboBox : KryptonComboBox, IKryptonThemeSelectorBase
     #region Implementation
 
     /// <summary>
+    /// Theme resolution must use the list item string (same approach as <see cref="KryptonThemeListBox"/>).
+    /// For an owner-draw <see cref="KryptonComboBox"/>, <see cref="Control.Text"/> can lag or stay empty when
+    /// <see cref="ComboBox.SelectedIndex"/> is set programmatically, which would otherwise map to
+    /// <see cref="PaletteMode.Global"/> and revert the selection (see #3283).
+    /// </summary>
+    private string GetSelectedThemeName()
+    {
+        if (SelectedIndex > -1 && SelectedItem is string s && s.Length > 0)
+        {
+            return s;
+        }
+
+        return Text ?? string.Empty;
+    }
+
+    /// <summary>
     /// Routine that will be executed when the control is fully instantiated.
     /// </summary>
     /// <param name="e">EventArgs param. Not used in this implementation.</param>
@@ -163,6 +179,11 @@ public class KryptonThemeComboBox : KryptonComboBox, IKryptonThemeSelectorBase
 
         if (!IsHandleCreated)
         {
+            if (!CommonHelperThemeSelectors.OnSelectedIndexChanged(ref _isLocalUpdate, _isExternalUpdate, ref _defaultPalette, GetSelectedThemeName(), _manager, _kryptonCustomPalette))
+            {
+                SelectedIndex = CommonHelperThemeSelectors.GetPaletteIndex(Items, _manager.GlobalPaletteMode);
+            }
+
             base.OnSelectedIndexChanged(e);
             return;
         }
@@ -177,7 +198,7 @@ public class KryptonThemeComboBox : KryptonComboBox, IKryptonThemeSelectorBase
             ThemeChangeCoordinator.Begin(FindForm());
             try
             {
-                if (!CommonHelperThemeSelectors.OnSelectedIndexChanged(ref _isLocalUpdate, _isExternalUpdate, ref _defaultPalette, Text, _manager, _kryptonCustomPalette))
+                if (!CommonHelperThemeSelectors.OnSelectedIndexChanged(ref _isLocalUpdate, _isExternalUpdate, ref _defaultPalette, GetSelectedThemeName(), _manager, _kryptonCustomPalette))
                 {
                     // theme change failed; resync index to current global palette
                     SelectedIndex = CommonHelperThemeSelectors.GetPaletteIndex(Items, _manager.GlobalPaletteMode);
