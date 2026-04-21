@@ -2141,12 +2141,14 @@ public class KryptonRichTextBox : VisualControlBase,
 
             // If we detected RTF formatting, restore it after property changes
             // This ensures formatting is preserved even if BackColor/ForeColor changes reset it
-            if (hasRtfFormatting && !string.IsNullOrEmpty(savedRtf) && _richTextBox.Handle != IntPtr.Zero)
+            if (hasRtfFormatting
+                && _richTextBox.Handle != IntPtr.Zero
+                && savedRtf is { Length: > 0 } rtfBeforeMutations)
             {
                 // Always restore from the snapshot taken before palette mutations. Comparing cached
                 // RTF length to decide whether content is "new" could leave stale _originalRtf and
                 // wipe recent typing (e.g. mouse leave -> PerformNeedPaint -> small RTF delta).
-                _originalRtf = savedRtf;
+                _originalRtf = rtfBeforeMutations;
 
                 // Check if we're in a dark mode black theme that requires black text handling
                 PaletteMode currentMode = KryptonManager.CurrentGlobalPaletteMode;
@@ -2158,19 +2160,19 @@ public class KryptonRichTextBox : VisualControlBase,
                 {
                     // In dark mode black themes, check if RTF contains black text
                     // If so, replace black color codes with white for visibility
-                    bool hasBlackText = HasBlackTextInRtf(savedRtf);
+                    bool hasBlackText = HasBlackTextInRtf(rtfBeforeMutations);
                     if (hasBlackText)
                     {
-                        rtfToRestore = RemoveBlackColorCodes(savedRtf);
+                        rtfToRestore = RemoveBlackColorCodes(rtfBeforeMutations);
                     }
                     else
                     {
-                        rtfToRestore = savedRtf;
+                        rtfToRestore = rtfBeforeMutations;
                     }
                 }
                 else
                 {
-                    rtfToRestore = savedRtf;
+                    rtfToRestore = rtfBeforeMutations;
                 }
 
                 // Check if RTF was modified (lost formatting) and restore it
