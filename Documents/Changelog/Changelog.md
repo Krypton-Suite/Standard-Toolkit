@@ -4,6 +4,7 @@
 
 ## Table of Contents
 
+* [2026-07-20 - Build 2607 (Version 105-LTS - Patch 3) - July 2026](#2026-07-20---build-2607-version-105-lts---patch-3---july-2026)
 * [2026-04-20 - Build 2604 (Version 105-LTS - Patch 2) - April 2026](#2026-04-20---build-2604-version-105-lts---patch-2---april-2026)
 * [2026-01-19 - Build 2501 (Version 100-LTS - Patch 1) - January 2026](#2026-01-19---build-2501-version-100-lts---patch-1---january-2026)
 * [2025-11-24 - Build 2511 (V100 RTM) - November 2025](#2025-11-24---build-2511-v100-rtm---november-2025)
@@ -41,6 +42,12 @@
 * [2020-03-01 - Build 2003 - March 2020](#2020-03-01---build-2003---march-2020)
 * [2020-02-07 - Build 2002.1 - February 2020 (Update 1)](#2020-02-07---build-20021---february-2020-update-1)
 * [2020-02-01 - Build 2002 - February 2020](#2020-02-01---build-2002---february-2020)
+
+====
+
+ ## 2026-07-20 - Build 2607 (Version 105-LTS - Patch 3) - July 2026
+
+ * Resolved [#3283](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3283), `KryptonThemeComboBox` does not change theme when `SelectedIndex` is changed
 
 ====
 
