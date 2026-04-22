@@ -3552,11 +3552,29 @@ public class KryptonCustomPaletteBase : PaletteBase
                         // Should we test if the property value is the default?
                         if (ignoreDefaults)
                         {
+                            // First prefer the component-model pattern used across the palette hierarchy.
+                            // If a ShouldSerialize<PropertyName>() method exists and returns false, treat
+                            // the property as default and do not export it.
+                            var shouldSerializeMethod = t.GetMethod($"ShouldSerialize{prop.Name}",
+                                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
+                                binder: null,
+                                types: Type.EmptyTypes,
+                                modifiers: null);
+
+                            if (shouldSerializeMethod != null &&
+                                shouldSerializeMethod.ReturnType == typeof(bool))
+                            {
+                                if (!(bool)shouldSerializeMethod.Invoke(obj, null)!)
+                                {
+                                    ignore = true;
+                                }
+                            }
+
                             var defaultAttribs = prop.GetCustomAttributes(typeof(DefaultValueAttribute), false);
 
                             // Does this property have a default value attribute?
                             // Use the first one found (KryptonDefaultColor is a DefaultValueAttribute subclass)
-                            if (defaultAttribs.Length >= 1)
+                            if (!ignore && defaultAttribs.Length >= 1)
                             {
                                 // Cast to correct type
                                 var defaultAttrib = defaultAttribs[0] as DefaultValueAttribute;
