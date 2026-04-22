@@ -45,6 +45,7 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Resolved [#3342](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3342), `KryptonTextBox`, text flickers when resizing the control (multiline active)
 * Resolved [#3283](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3283), `KryptonThemeComboBox` does not change theme when `SelectedIndex` is changed
 * Resolved [#3330](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3330), `KryptonManager` exception 'The type initializer for 'Krypton.Toolkit.KryptonManager' threw an exception.'
 * Implemented [#1673](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1673), `KryptonContextMenuComboBox` & `KryptonContextMenuProgressBar` need to be implemented. `KryptonContextMenuProgressBar` for context menus (and enabled **Add ComboBox** in the context menu collection editor).
