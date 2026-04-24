@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -2046,7 +2046,7 @@ public class KryptonForm : VisualForm,
     protected override void WindowChromeStart()
     {
         // Make sure the views for the buttons are created
-        if (_recreateButtons)
+        if (_recreateButtons && this.ControlBox)
         {
             _buttonManager.RecreateButtons();
             _recreateButtons = false;
@@ -3322,5 +3322,52 @@ public class KryptonForm : VisualForm,
 
         return _isInAdministratorMode;
     }
-    #endregion
+	#endregion
+
+
+	/// <summary>
+	/// Determines whether the form has usable caption content
+	/// for non-client area painting.
+	/// </summary>
+	protected override bool HasCaptionContent()
+	{
+        // No border means no non-client caption at all.
+        if (FormBorderStyle == FormBorderStyle.None)
+        {
+            return false;
+        }
+
+		/*
+		 * Special-case workaround:
+		 *
+		 * For Sizable forms without a control box and without any caption text,
+		 * the framework may still attempt non-client painting, which can result
+		 * in visual artifacts (e.g. a white bar when the form is deactivated).
+		 *
+		 * This check is intentionally limited to FormBorderStyle.Sizable.
+		 * Tool window styles are excluded because they may legitimately have
+		 * no visible title text and still require non-client painting.
+		 */
+		if (FormBorderStyle == FormBorderStyle.Sizable &&
+			!ControlBox &&
+			string.IsNullOrWhiteSpace(Text) &&
+			string.IsNullOrWhiteSpace(TextExtra))
+		{
+			return false;
+		}
+
+		// All remaining bordered styles are considered to have usable
+		// caption content from a non-client painting perspective,
+		// regardless of whether a visible title text is present.
+		return FormBorderStyle switch
+		{
+			FormBorderStyle.FixedSingle => true,
+			FormBorderStyle.Fixed3D => true,
+			FormBorderStyle.FixedDialog => true,
+			FormBorderStyle.Sizable => true,
+			FormBorderStyle.FixedToolWindow => true,
+			FormBorderStyle.SizableToolWindow => true,
+			_ => false
+		};
+	}
 }

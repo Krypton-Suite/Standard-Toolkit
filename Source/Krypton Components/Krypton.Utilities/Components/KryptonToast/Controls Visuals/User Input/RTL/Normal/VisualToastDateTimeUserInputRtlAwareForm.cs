@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -59,6 +59,8 @@ internal partial class VisualToastDateTimeUserInputRtlAwareForm : VisualToastBas
 
     private void UpdateText()
     {
+        GlobalStaticValues.ApplyToastRichTextContentColor(krtbNotificationContentText);
+
         klblHeader.Text = _data.NotificationTitle;
 
         krtbNotificationContentText.Text = _data.NotificationContent;
