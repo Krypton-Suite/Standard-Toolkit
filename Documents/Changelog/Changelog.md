@@ -46,6 +46,7 @@
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
 * Implemented [#908](https://github.com/Krypton-Suite/Standard-Toolkit/issues/908), Create new items via 'New Item/Project'
+* Resolved [#3341](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3341), Discord notifications report the wrong version number
 * Resolved [#3283](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3283), `KryptonThemeComboBox` does not change theme when `SelectedIndex` is changed
 * Resolved [#3330](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3330), `KryptonManager` exception 'The type initializer for 'Krypton.Toolkit.KryptonManager' threw an exception.'
 * Implemented [#1673](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1673), `KryptonContextMenuComboBox` & `KryptonContextMenuProgressBar` need to be implemented. `KryptonContextMenuProgressBar` for context menus (and enabled **Add ComboBox** in the context menu collection editor).
