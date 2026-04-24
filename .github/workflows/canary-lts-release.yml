@@ -230,27 +230,36 @@ jobs:
         run: |
           $ErrorActionPreference = 'Stop'
           $version = $null
+          $proj = 'Source/Current/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj'
+          $msbuildConfig = 'Canary'
 
           try {
-            $dllPath = Get-ChildItem "Artefacts/Canary/net48/Krypton.Toolkit.dll" -ErrorAction Stop
-            $assemblyVersion = [System.Reflection.AssemblyName]::GetAssemblyName($dllPath.FullName).Version
-            $version = $assemblyVersion.ToString()
-            Write-Host "Got version from assembly: $version"
+            $evaluated = (& dotnet msbuild "$proj" -getProperty:Version -p:Configuration=$msbuildConfig -nologo -v:q).Trim()
+            if ($evaluated) {
+              $version = $evaluated
+              Write-Host "Got version from MSBuild: $version"
+            }
           } catch {
-            Write-Host "Could not read version from assembly: $_"
+            Write-Host "Could not read version from MSBuild: $_"
           }
 
           if (-not $version) {
             try {
-              $proj = 'Source/Current/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj'
-              [xml]$projXml = Get-Content $proj
-              $versionNode = $projXml.SelectSingleNode("//Version")
-              if ($versionNode) {
-                $version = $versionNode.InnerText.Trim()
-                Write-Host "Got version from csproj: $version"
+              $dllRelativePaths = @(
+                "artifacts/bin/$msbuildConfig/net48/Krypton.Toolkit.dll",
+                "Bin/$msbuildConfig/net48/Krypton.Toolkit.dll",
+                "Artefacts/$msbuildConfig/net48/Krypton.Toolkit.dll"
+              )
+              $dllPath = $null
+              foreach ($p in $dllRelativePaths) {
+                if (Test-Path -LiteralPath $p) { $dllPath = Get-Item -LiteralPath $p; break }
               }
+              if (-not $dllPath) { throw "Krypton.Toolkit.dll not found under artifacts, Bin, or Artefacts." }
+              $assemblyVersion = [System.Reflection.AssemblyName]::GetAssemblyName($dllPath.FullName).Version
+              $version = $assemblyVersion.ToString()
+              Write-Host "Got version from assembly: $version"
             } catch {
-              Write-Host "Could not read version from csproj: $_"
+              Write-Host "Could not read version from assembly: $_"
             }
           }
 
