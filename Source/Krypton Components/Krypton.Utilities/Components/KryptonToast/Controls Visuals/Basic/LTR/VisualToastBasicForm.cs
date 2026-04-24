@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -71,6 +71,8 @@ internal partial class VisualToastBasicForm : KryptonForm
 
     private void UpdateText()
     {
+        GlobalStaticValues.ApplyToastRichTextContentColor(krtbNotificationContentText);
+
         krtbNotificationContentText.Text = _basicToastNotificationData.NotificationContent ?? string.Empty;
 
         klblHeader.Text = _basicToastNotificationData.NotificationTitle;
@@ -111,13 +113,17 @@ internal partial class VisualToastBasicForm : KryptonForm
 
     private void UpdateIcon()
     {
+        var iconSize = GraphicsExtensionUtilities.ResolveToastNotificationIconSize(
+            _basicToastNotificationData.NotificationIconWidth,
+            _basicToastNotificationData.NotificationIconHeight);
+
         var bitmap = GraphicsExtensionUtilities.GetToastNotificationBitmap(
             _basicToastNotificationData.NotificationIcon,
             null,
             _basicToastNotificationData.CustomImage,
-            new Size(128, 128));
+            iconSize);
 
-        SetIcon(bitmap);
+        SetIcon(bitmap, iconSize);
     }
 
     private void UpdateDoNotShowAgainOptionChecked() =>
@@ -126,7 +132,11 @@ internal partial class VisualToastBasicForm : KryptonForm
     private void UpdateDoNotShowAgainOptionCheckState() => kchkDoNotShowAgain.CheckState =
         _basicToastNotificationData.DoNotShowAgainOptionCheckState ?? CheckState.Unchecked;
 
-    private void SetIcon(Bitmap? image) => pbxIcon.Image = image;
+    private void SetIcon(Bitmap? image, Size size)
+    {
+        pbxIcon.Size = size;
+        pbxIcon.Image = image;
+    }
 
     private void UpdateLocation() =>
         //Once loaded, position the form, or position it to the bottom left of the screen with added padding

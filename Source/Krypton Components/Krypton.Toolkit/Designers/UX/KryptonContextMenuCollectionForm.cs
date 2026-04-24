@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -97,10 +97,15 @@ public partial class KryptonContextMenuCollectionEditor
                         return 12;
                     case KryptonContextMenuMonthCalendar _:
                         return 13;
+                    case KryptonContextMenuComboBox _:
+                        return 14;
+                    case KryptonContextMenuTextBox _:
+                        return 15;
+                    case KryptonContextMenuProgressBar _:
+                        return 16;
                 }
 
-                Debug.Assert(false);
-                return -1;
+                return 2;
             }
 
             private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e) =>
@@ -209,6 +214,7 @@ public partial class KryptonContextMenuCollectionEditor
         private Button _buttonAddColorColumns;
         private Button _buttonAddImageSelect;
         private Button _buttonAddComboBox;
+        private Button _buttonAddProgressBar;
         private PropertyGrid _propertyGrid1;
         private IContainer components;
         private TableLayoutPanel _tableLayoutPanel1;
@@ -256,6 +262,7 @@ public partial class KryptonContextMenuCollectionEditor
             _buttonAddColorColumns = new Button();
             _buttonAddImageSelect = new Button();
             _buttonAddComboBox = new Button();
+            _buttonAddProgressBar = new Button();
             _tableLayoutPanel1 = new TableLayoutPanel();
             _panel1 = new Panel();
             _tableLayoutPanel1.SuspendLayout();
@@ -317,7 +324,9 @@ public partial class KryptonContextMenuCollectionEditor
                 BlueArrowResources.arrow_down_blue,
                 GenericKryptonImageResources.KryptonContextMenuImageSelect,
                 GenericKryptonImageResources.KryptonMonthCalendar,
-                GenericKryptonImageResources.KryptonComboBox
+                GenericKryptonImageResources.KryptonComboBox,
+                GenericKryptonImageResources.KryptonTextBox,
+                GenericKryptonImageResources.KryptonNumericUpDown
             ]);
 
             // TODO: Do these need updating?
@@ -336,6 +345,8 @@ public partial class KryptonContextMenuCollectionEditor
             _imageList.Images.SetKeyName(12, "KryptonContextMenuImageSelect.bmp");
             _imageList.Images.SetKeyName(13, "KryptonContextMenuMonthCalendar.bmp");
             _imageList.Images.SetKeyName(14, "KryptonComboBox.bmp");
+            _imageList.Images.SetKeyName(15, "KryptonTextBox.bmp");
+            _imageList.Images.SetKeyName(16, "KryptonNumericUpDown.bmp");
             // 
             // label1
             // 
@@ -588,9 +599,22 @@ public partial class KryptonContextMenuCollectionEditor
             _buttonAddComboBox.Text = @"Add ComboBox";
             _buttonAddComboBox.TextImageRelation = TextImageRelation.ImageBeforeText;
             _buttonAddComboBox.UseVisualStyleBackColor = true;
-            // Note Remove this when fully implemented
-            _buttonAddComboBox.Enabled = false;
             _buttonAddComboBox.Click += buttonAddComboBox_Click;
+            // 
+            // buttonAddProgressBar
+            // 
+            _buttonAddProgressBar.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            _buttonAddProgressBar.ImageAlign = ContentAlignment.MiddleLeft;
+            _buttonAddProgressBar.ImageIndex = 16;
+            _buttonAddProgressBar.ImageList = _imageList;
+            _buttonAddProgressBar.Location = new Point(21, 603);
+            _buttonAddProgressBar.Name = nameof(_buttonAddProgressBar);
+            _buttonAddProgressBar.Size = new Size(184, 32);
+            _buttonAddProgressBar.TabIndex = 18;
+            _buttonAddProgressBar.Text = @"Add ProgressBar";
+            _buttonAddProgressBar.TextImageRelation = TextImageRelation.ImageBeforeText;
+            _buttonAddProgressBar.UseVisualStyleBackColor = true;
+            _buttonAddProgressBar.Click += buttonAddProgressBar_Click;
             // 
             // tableLayoutPanel1
             // 
@@ -619,6 +643,7 @@ public partial class KryptonContextMenuCollectionEditor
             // panel1
             // 
             _panel1.Controls.Add(_buttonMoveUp);
+            _panel1.Controls.Add(_buttonAddProgressBar);
             _panel1.Controls.Add(_buttonAddComboBox);
             _panel1.Controls.Add(_buttonAddMonthCalendar);
             _panel1.Controls.Add(_buttonAddImageSelect);
@@ -848,6 +873,8 @@ public partial class KryptonContextMenuCollectionEditor
         private void buttonAddImageSelect_Click(object? sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuImageSelect)));
 
         private void buttonAddComboBox_Click(object? sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuComboBox)));
+
+        private void buttonAddProgressBar_Click(object? sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuProgressBar)));
 
         private void buttonDelete_Click(object? sender, EventArgs e)
         {

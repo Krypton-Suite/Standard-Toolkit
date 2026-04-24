@@ -26,12 +26,12 @@
 		<!--https://learn.microsoft.com/en-us/visualstudio/designers/disable-dpi-awareness?view=vs-2022-->
 		<ForceDesignerDPIUnaware>true</ForceDesignerDPIUnaware>
 		<ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
-		<OutputPath>..\..\..\Bin\$(Configuration)\</OutputPath>
 		<NoWarn>1701;1702</NoWarn>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<Compile Include="..\Krypton.Toolkit\General\PlatformInvoke.cs" Link="General\PlatformInvoke.cs" />
+		<Compile Include="..\Krypton.Toolkit\General\Scroll Bars\WIN32ScrollBars.cs" Link="General\Scroll Bars\WIN32ScrollBars.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -49,6 +49,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
 		<ProjectReference Include="..\Krypton.Navigator\Krypton.Navigator 2022.csproj" />
 	</ItemGroup>
 

@@ -1068,10 +1068,11 @@ internal static class BuildLogic
     {
         try
         {
-            string bin = Path.Combine(state.RootPath, "Bin", "Release");
-            if (!Directory.Exists(bin))
+            string? packageFolder = GetCandidatePackageFolders(state)
+                .FirstOrDefault(Directory.Exists);
+            if (string.IsNullOrWhiteSpace(packageFolder))
             {
-                state.OnOutput?.Invoke($"ZIP: folder not found: {bin}");
+                state.OnOutput?.Invoke("ZIP: no package folder found in expected output locations.");
                 return;
             }
             string date = DateTime.Now.ToString("yyyyMMdd");
@@ -1082,7 +1083,7 @@ internal static class BuildLogic
                 try { File.Delete(zipPath); } catch { }
             }
             state.OnOutput?.Invoke($"Creating ZIP: {zipPath}");
-            System.IO.Compression.ZipFile.CreateFromDirectory(bin, zipPath, System.IO.Compression.CompressionLevel.Optimal, includeBaseDirectory: false);
+            System.IO.Compression.ZipFile.CreateFromDirectory(packageFolder, zipPath, System.IO.Compression.CompressionLevel.Optimal, includeBaseDirectory: false);
             state.NuGetLastZipPath = zipPath;
         }
         catch (Exception ex)
@@ -1365,7 +1366,7 @@ internal static class BuildLogic
 
     /// <summary>
     /// Gets the list of candidate directories that may contain NuGet packages.
-    /// Currently returns only the Bin/Release directory regardless of channel.
+    /// Supports both legacy Bin/* and newer artifacts/packages/* layouts.
     /// </summary>
     /// <param name="state">The application state containing build configuration.</param>
     /// <returns>A list of directory paths to search for NuGet packages.</returns>
@@ -1393,9 +1394,21 @@ internal static class BuildLogic
         list.Add(Path.Combine(bin, "Debug"));
         return list.Distinct(StringComparer.OrdinalIgnoreCase).ToList();
         */
-        // Packages are always produced into Bin/Release regardless of channel
-        string binRelease = Path.Combine(state.RootPath, "Bin", "Release");
-        return new[] { binRelease };
+        string configuration = GetEffectiveConfiguration(state);
+        string artifactsConfig = Path.Combine(state.RootPath, "artifacts", "packages", configuration);
+        string artifactsRelease = Path.Combine(state.RootPath, "artifacts", "packages", "Release");
+        string legacyPackageConfig = Path.Combine(state.RootPath, "Bin", "Packages", configuration);
+        string legacyBinConfig = Path.Combine(state.RootPath, "Bin", configuration);
+        string legacyBinRelease = Path.Combine(state.RootPath, "Bin", "Release");
+
+        return new[]
+        {
+            artifactsConfig,
+            artifactsRelease,
+            legacyPackageConfig,
+            legacyBinConfig,
+            legacyBinRelease
+        }.Distinct(StringComparer.OrdinalIgnoreCase).ToList();
     }
 
     /// <summary>

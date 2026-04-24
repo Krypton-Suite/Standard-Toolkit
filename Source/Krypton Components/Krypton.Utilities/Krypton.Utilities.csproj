@@ -26,7 +26,6 @@
 		<!--https://learn.microsoft.com/en-us/visualstudio/designers/disable-dpi-awareness?view=vs-2022-->
 		<ForceDesignerDPIUnaware>true</ForceDesignerDPIUnaware>
 		<ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
-		<OutputPath>..\..\..\Bin\$(Configuration)\</OutputPath>
 		<NoWarn>1701;1702</NoWarn>
 	</PropertyGroup>
 
@@ -112,6 +111,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Components\Krypton AboutBox\Controls Visuals\VisualAboutBoxForm.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="Components\Krypton AboutBox\Controls Visuals\VisualAboutBoxRtlAwareForm.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="Components\Krypton AboutBox\View Base\InternalAssemblyDetails.cs">
+	    <SubType>UserControl</SubType>
+	  </Compile>
 	  <Compile Update="Components\KryptonSearchBox\Resource Files\SearchBoxImageResources.Designer.cs">
 	    <DesignTime>True</DesignTime>
 	    <AutoGen>True</AutoGen>

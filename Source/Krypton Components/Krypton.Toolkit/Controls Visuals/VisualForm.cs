@@ -777,8 +777,18 @@ public abstract class VisualForm : Form,
             {
                 hRgn = invalidRegion.GetHrgn(g);
 
+                if (!this.HasCaptionContent())
+                {
+                    this.SuspendPaint();
+                }
+
                 PI.RedrawWindow(Handle, IntPtr.Zero, hRgn.Value,
                     PI.RDW_FRAME | PI.RDW_UPDATENOW | PI.RDW_INVALIDATE);
+
+                if (!this.HasCaptionContent())
+                {
+                    this.ResumePaint();
+                }
             }
             catch (InvalidOperationException ioEx)
             {
@@ -795,10 +805,25 @@ public abstract class VisualForm : Form,
         }
     }
 
-    /// <summary>
-    /// Gets rectangle that is the real window rectangle based on Win32 API call.
-    /// </summary>
-    protected Rectangle RealWindowRectangle
+	/// <summary>
+	/// Determines whether the form has a native non-client frame with a usable caption.
+	/// 
+	/// This method must be overridden by derived classes that provide
+	/// a concrete implementation of form chrome handling.
+	/// </summary>
+	/// <exception cref="NotSupportedException">
+	/// Thrown when the method is not overridden in a derived class.
+	/// </exception>
+	protected virtual bool HasCaptionContent()
+	{
+		throw new NotSupportedException(
+			$"{GetType().Name} must override HasCaptionContent() to provide a valid implementation.");
+	}
+
+	/// <summary>
+	/// Gets rectangle that is the real window rectangle based on Win32 API call.
+	/// </summary>
+	protected Rectangle RealWindowRectangle
     {
         get
         {
@@ -1300,22 +1325,26 @@ public abstract class VisualForm : Form,
     {
         PI.MINMAXINFO mmi = (PI.MINMAXINFO)Marshal.PtrToStructure(m.LParam, typeof(PI.MINMAXINFO))!;
 
-        // Adjust the maximized size and position to fit the work area of the correct monitor
+        // Adjust the maximized size and position to fit the work area of the correct monitor.
+        // For multi-monitor: ptMaxPosition must be in primary-monitor coordinates per MSDN.
+        // See https://stackoverflow.com/questions/35984883 and https://github.com/Krypton-Suite/Standard-Toolkit/issues/3249
         const int MONITOR_DEFAULT_TO_NEAREST = 0x00000002;
-        IntPtr monitor = PI.MonitorFromWindow(m.HWnd, MONITOR_DEFAULT_TO_NEAREST);
+        const int MONITOR_DEFAULT_TO_PRIMARY = 0x00000001;
+        IntPtr targetMonitor = PI.MonitorFromWindow(m.HWnd, MONITOR_DEFAULT_TO_NEAREST);
+        IntPtr primaryMonitor = PI.MonitorFromWindow(IntPtr.Zero, MONITOR_DEFAULT_TO_PRIMARY);
 
-        if (monitor != IntPtr.Zero)
+        if (targetMonitor != IntPtr.Zero && primaryMonitor != IntPtr.Zero)
         {
-            PI.MONITORINFO monitorInfo = PI.GetMonitorInfo(monitor);
-            PI.RECT rcWorkArea = monitorInfo.rcWork;
-            PI.RECT rcMonitorArea = monitorInfo.rcMonitor;
+            PI.MONITORINFO targetInfo = PI.GetMonitorInfo(targetMonitor);
+            PI.MONITORINFO primaryInfo = PI.GetMonitorInfo(primaryMonitor);
+            PI.RECT rcWorkArea = targetInfo.rcWork;
+            PI.RECT rcTargetMonitor = targetInfo.rcMonitor;
 
-            // Position and size the maximized window to exactly cover the work area.
-            // DefWndProc is intentionally NOT called after this (see WndProc), so Windows uses
-            // these values directly without applying any DWM extended-frame expansion.
-            mmi.ptMaxPosition.X = rcWorkArea.left - rcMonitorArea.left;
-            mmi.ptMaxPosition.Y = rcWorkArea.top  - rcMonitorArea.top;
-            mmi.ptMaxSize.X = rcWorkArea.right  - rcWorkArea.left;
+            // ptMaxPosition must be expressed relative to the primary monitor so Windows
+            // correctly places the maximized window on the target (possibly secondary) monitor.
+            mmi.ptMaxPosition.X = primaryInfo.rcMonitor.left + rcWorkArea.left - rcTargetMonitor.left;
+            mmi.ptMaxPosition.Y = primaryInfo.rcMonitor.top + rcWorkArea.top - rcTargetMonitor.top;
+            mmi.ptMaxSize.X = rcWorkArea.right - rcWorkArea.left;
             mmi.ptMaxSize.Y = rcWorkArea.bottom - rcWorkArea.top;
             // https://github.com/Krypton-Suite/Standard-Toolkit/issues/415 so changed to "* 3 / 2"
             mmi.ptMinTrackSize.X = Math.Max(mmi.ptMinTrackSize.X * 3 / 2, MinimumSize.Width);

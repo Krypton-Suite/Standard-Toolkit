@@ -3,6 +3,9 @@
 
 name: Build
 
+permissions:
+  contents: read
+
 on:
   pull_request:
     branches: ['**']
@@ -14,7 +17,6 @@ on:
       - canary
       - gold
       - V105-LTS
-      - V85-LTS
     paths-ignore: ['.git*', '.vscode']
   workflow_dispatch:
 
@@ -61,12 +63,12 @@ jobs:
           "@ | Out-File -Encoding utf8 global.json
 
       - name: Setup MSBuild
-        uses: microsoft/setup-msbuild@v2
+        uses: microsoft/setup-msbuild@v3
         with:
           msbuild-architecture: x64
 
       - name: Setup NuGet
-        uses: NuGet/setup-nuget@v2.0.1
+        uses: NuGet/setup-nuget@v3.1.0
 
       - name: Cache NuGet
         uses: actions/cache@v5
@@ -111,20 +113,25 @@ jobs:
           }
           if (-not $latestVersion) { $latestVersion = "1.0.3595.46" }
           Write-Host "Using WebView2 ($(if ($usePrerelease) { 'preview' } else { 'latest' })): $latestVersion"
-          dotnet add $utilProj package $packageId --version $latestVersion
-          dotnet restore $utilProj
+          dotnet add "$utilProj" package $packageId --version $latestVersion
+          dotnet restore "$utilProj"
           $nugetBase = Join-Path $env:USERPROFILE ".nuget\packages\microsoft.web.webview2\$latestVersion"
           @("Microsoft.Web.WebView2.Core.dll","Microsoft.Web.WebView2.WinForms.dll","WebView2Loader.dll") | ForEach-Object {
             $f = Get-ChildItem -Path $nugetBase -Recurse -Name $_ -ErrorAction SilentlyContinue | Select-Object -First 1
             if ($f) { Copy-Item (Join-Path $nugetBase $f) $libDir -Force; Write-Host "Copied $_" }
           }
-          dotnet remove package $packageId --project $utilProj
+          [xml]$proj = Get-Content $utilProj
+          $nodes = $proj.SelectNodes("//PackageReference[@Include='$packageId']")
+          foreach ($node in $nodes) { $node.ParentNode.RemoveChild($node) | Out-Null }
+          $proj.Save($utilProj)
+          Write-Host "Removed temporary WebView2 PackageReference entries"
 
+      # Match nightly.proj: Release + TFMs=all so TargetFrameworks / package graphs align (avoids CS7069 / prune mismatches).
       - name: Restore
-        run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnx"
+        run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnx" -p:Configuration=Release -p:TFMs=all
 
       - name: Build
-        run: msbuild "Scripts/Build/nightly.proj" /t:Rebuild /p:Configuration=Release /p:Platform="Any CPU"
+        run: msbuild "Scripts/Build/nightly.proj" /t:Rebuild /restore /p:Configuration=Release /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
   release:
     runs-on: windows-2025-vs2026
@@ -158,12 +165,12 @@ jobs:
           "@ | Out-File -Encoding utf8 global.json
 
       - name: Setup MSBuild
-        uses: microsoft/setup-msbuild@v2
+        uses: microsoft/setup-msbuild@v3
         with:
           msbuild-architecture: x64
 
       - name: Setup NuGet
-        uses: NuGet/setup-nuget@v2.0.1
+        uses: NuGet/setup-nuget@v3.1.0
 
       - name: Cache NuGet
         uses: actions/cache@v5
@@ -208,23 +215,27 @@ jobs:
           }
           if (-not $latestVersion) { $latestVersion = "1.0.3595.46" }
           Write-Host "Using WebView2 ($(if ($usePrerelease) { 'preview' } else { 'latest' })): $latestVersion"
-          dotnet add $utilProj package $packageId --version $latestVersion
-          dotnet restore $utilProj
+          dotnet add "$utilProj" package $packageId --version $latestVersion
+          dotnet restore "$utilProj"
           $nugetBase = Join-Path $env:USERPROFILE ".nuget\packages\microsoft.web.webview2\$latestVersion"
           @("Microsoft.Web.WebView2.Core.dll","Microsoft.Web.WebView2.WinForms.dll","WebView2Loader.dll") | ForEach-Object {
             $f = Get-ChildItem -Path $nugetBase -Recurse -Name $_ -ErrorAction SilentlyContinue | Select-Object -First 1
             if ($f) { Copy-Item (Join-Path $nugetBase $f) $libDir -Force; Write-Host "Copied $_" }
           }
-          dotnet remove package $packageId --project $utilProj
+          [xml]$proj = Get-Content $utilProj
+          $nodes = $proj.SelectNodes("//PackageReference[@Include='$packageId']")
+          foreach ($node in $nodes) { $node.ParentNode.RemoveChild($node) | Out-Null }
+          $proj.Save($utilProj)
+          Write-Host "Removed temporary WebView2 PackageReference entries"
 
       - name: Restore
-        run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnx"
+        run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnx" -p:Configuration=Release -p:TFMs=all
 
       - name: Build Release
-        run: msbuild "Scripts/Build/build.proj" /t:Build /p:Configuration=Release /p:Platform="Any CPU"
+        run: msbuild "Scripts/Build/build.proj" /t:Build /restore /p:Configuration=Release /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
       - name: Pack Release
-        run: msbuild "Scripts/Build/build.proj" /t:Pack /p:Configuration=Release /p:Platform="Any CPU"
+        run: msbuild "Scripts/Build/build.proj" /t:Pack /restore /p:Configuration=Release /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
       - name: Get Version
         id: get_version

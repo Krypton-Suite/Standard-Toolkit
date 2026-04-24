@@ -1,6 +1,6 @@
-## ModernBuild - User Guide
+# ModernBuild - User Guide
 
-### What is ModernBuild?
+## What is ModernBuild?
 
 ModernBuild is a Windows terminal UI (TUI) tool for building, packing, and publishing Krypton Suite artifacts from the repository root using MSBuild and NuGet.
 
@@ -34,27 +34,31 @@ Legacy fallback locations are still probed:
 - `Scripts/`
 - `Scripts/Project-Files/`
 
-Logs are written to `Logs/`. NuGet package discovery currently uses `Bin/Release/`.
+Logs are written to `Logs/`. NuGet package discovery supports both legacy `Bin/*` outputs and `artifacts/packages/*` outputs.
 
 ### Build and run
 
-Build:
+The project multi-targets `net8.0-windows`, `net9.0-windows`, and `net10.0-windows`. Pass `-f <tfm>` to build or run a specific framework (otherwise the SDK may build all targets).
+
+Build (example, Release on .NET 9):
 
 ```powershell
-dotnet build Scripts/ModernBuild/ModernBuild.csproj -c Release
+dotnet build Scripts/ModernBuild/ModernBuild.csproj -c Release -f net9.0-windows
 ```
 
 Run:
 
 ```powershell
-dotnet run --project Scripts/ModernBuild/ModernBuild.csproj
+dotnet run --project Scripts/ModernBuild/ModernBuild.csproj -f net9.0-windows
 ```
 
-Or run a built executable, for example:
+Or run a built executable after building, for example:
 
 ```powershell
-Scripts/ModernBuild/bin/Debug/net9.0-windows/ModernBuild.exe
+Scripts\ModernBuild\bin\Release\net9.0-windows\ModernBuild.exe
 ```
+
+Use `Debug` instead of `Release` when you built a Debug configuration, and substitute `net8.0-windows` or `net10.0-windows` if you targeted that TFM.
 
 ### UI layout
 
@@ -174,7 +178,7 @@ Legacy fallback (both modes):
 - `nuget.exe` not found
   - Put `nuget.exe` on PATH
 - No packages found for push
-  - Ensure expected packages exist under `Bin/Release/`
+  - Ensure expected packages exist under `Bin/Packages/<Configuration>`, `Bin/<Configuration>`, or `artifacts/packages/<Configuration>`
 
 ### Notes
 

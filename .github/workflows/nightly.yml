@@ -7,6 +7,9 @@
 
 name: Nightly Release
 
+permissions:
+  contents: read
+
 on:
   schedule:
     # Run nightly build automatically at midnight UTC every day
@@ -139,13 +142,13 @@ jobs:
 
       - name: Setup MSBuild
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
-        uses: microsoft/setup-msbuild@v2
+        uses: microsoft/setup-msbuild@v3
         with:
           msbuild-architecture: x64
 
       - name: Setup NuGet
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
-        uses: NuGet/setup-nuget@v2
+        uses: NuGet/setup-nuget@v3.1.0
 
       - name: Cache NuGet
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
@@ -156,53 +159,89 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
 
+      - uses: actions/cache@v5
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
+        with:
+          path: ${{ runner.temp }}/webview2
+          key: webview2-${{ runner.os }}
+
       - name: Populate WebView2 (Preview)
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
         shell: pwsh
         run: |
+          $ErrorActionPreference = "Stop"
+
           $root = $env:GITHUB_WORKSPACE
           if (-not $root) { $root = (Get-Location).Path }
-          $utilProj = Join-Path $root "Source\Krypton Components\Krypton.Utilities\Krypton.Utilities.csproj"
+
           $libDir = Join-Path $root "Source\Krypton Components\Krypton.Utilities\Lib\WebView2"
-          if (-not (Test-Path $utilProj)) { Write-Error "Project not found: $utilProj"; exit 1 }
-          if (-not (Test-Path $libDir)) { New-Item -ItemType Directory -Path $libDir -Force }
+          $tempDir = Join-Path $env:RUNNER_TEMP "webview2"
+
+          New-Item -ItemType Directory -Force -Path $libDir | Out-Null
+          New-Item -ItemType Directory -Force -Path $tempDir | Out-Null
+
           $packageId = "Microsoft.Web.WebView2"
-          # Use prerelease versions for alpha/nightly builds to avoid .NET 11.0 requirement
-          Write-Host "Using prerelease=true for WebView2 SDK lookup (nightly build)"
-          $latestVersion = $null
+
+          Write-Host "Querying NuGet for latest WebView2 prerelease..."
+
           try {
-            $searchResponse = Invoke-RestMethod -Uri "https://azuresearch-usnc.nuget.org/query?q=$packageId&prerelease=true&semVerLevel=2.0.0&take=1" -Method Get
-            if ($searchResponse.data -and $searchResponse.data.Count -gt 0) { $latestVersion = $searchResponse.data[0].version }
-          } catch {
-            try {
-              $response = Invoke-RestMethod -Uri "https://api.nuget.org/v3-flatcontainer/$packageId/index.json" -Method Get
-              # Include prerelease versions
-              $allVersions = $response.versions | Where-Object { $_ -match '^\d+\.\d+\.\d+' }
-              if ($allVersions) { $latestVersion = $allVersions | Sort-Object { [System.Version]($_ -replace '-.*', '') } -Descending | Select-Object -First 1 }
-            } catch {}
+              $search = Invoke-RestMethod `
+                  -Uri "https://azuresearch-usnc.nuget.org/query?q=$packageId&prerelease=true&semVerLevel=2.0.0&take=1"
+
+              $latestVersion = $search.data[0].version
           }
-          if (-not $latestVersion) { $latestVersion = "1.0.3595.46" }
-          Write-Host "Using WebView2 (Preview): $latestVersion"
-          dotnet add $utilProj package $packageId --version $latestVersion
-          dotnet restore $utilProj
-          $nugetBase = Join-Path $env:USERPROFILE ".nuget\packages\microsoft.web.webview2\$latestVersion"
-          @("Microsoft.Web.WebView2.Core.dll","Microsoft.Web.WebView2.WinForms.dll","WebView2Loader.dll") | ForEach-Object {
-            $f = Get-ChildItem -Path $nugetBase -Recurse -Name $_ -ErrorAction SilentlyContinue | Select-Object -First 1
-            if ($f) { Copy-Item (Join-Path $nugetBase $f) $libDir -Force; Write-Host "Copied $_" }
+          catch {
+              Write-Warning "NuGet search failed, using fallback version"
+              $latestVersion = "1.0.3595.46"
           }
-          dotnet remove package $packageId --project $utilProj
+
+          Write-Host "Using WebView2 version: $latestVersion"
+
+          $nupkg = Join-Path $tempDir "$packageId.$latestVersion.nupkg"
+          $extractDir = Join-Path $tempDir "extract"
+
+          Write-Host "Downloading package..."
+
+          Invoke-WebRequest `
+              -Uri "https://www.nuget.org/api/v2/package/$packageId/$latestVersion" `
+              -OutFile $nupkg
+
+          Write-Host "Extracting package..."
+
+          Expand-Archive $nupkg $extractDir -Force
+
+          Write-Host "Copying required DLLs..."
+
+          $files = @(
+              "Microsoft.Web.WebView2.Core.dll"
+              "Microsoft.Web.WebView2.WinForms.dll"
+              "WebView2Loader.dll"
+          )
+
+          foreach ($file in $files) {
+              $found = Get-ChildItem $extractDir -Recurse -Filter $file | Select-Object -First 1
+              if ($found) {
+                  Copy-Item $found.FullName $libDir -Force
+                  Write-Host "Copied $file"
+              }
+              else {
+                  Write-Warning "$file not found in package"
+              }
+          }
+
+          Write-Host "WebView2 population complete."
 
       - name: Restore
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
-        run: msbuild "Scripts/Build/nightly.proj" /t:Restore /p:Configuration=Nightly /p:Platform="Any CPU"
+        run: msbuild "Scripts/Build/nightly.proj" /t:Restore /p:Configuration=Nightly /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
       - name: Build Nightly
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
-        run: msbuild "Scripts/Build/nightly.proj" /t:Build /p:Configuration=Nightly /p:Platform="Any CPU"
+        run: msbuild "Scripts/Build/nightly.proj" /t:Build /p:Configuration=Nightly /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
       - name: Pack Nightly
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
-        run: msbuild "Scripts/Build/nightly.proj" /t:Pack /p:Configuration=Nightly /p:Platform="Any CPU"
+        run: msbuild "Scripts/Build/nightly.proj" /t:Pack /p:Configuration=Nightly /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
       - name: Push NuGet Packages to nuget.org
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
@@ -216,7 +255,11 @@ jobs:
             exit 0
           }
 
-          $packages = Get-ChildItem "Bin/Packages/Nightly/*.nupkg" -ErrorAction SilentlyContinue
+          $packageCandidates = @(
+            "artifacts/packages/Nightly/*.nupkg",
+            "Bin/Packages/Nightly/*.nupkg"
+          )
+          $packages = @(Get-ChildItem -Path $packageCandidates -ErrorAction SilentlyContinue | Sort-Object FullName -Unique)
           $publishedAny = $false
 
           if ($packages) {
@@ -251,33 +294,39 @@ jobs:
         run: |
           $ErrorActionPreference = 'Stop'
           $version = $null
+          $proj = 'Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj'
+          $msbuildConfig = 'Nightly'
 
-          # Try to get version from the built assembly (most reliable)
+          # Evaluated MSBuild Version (LibraryVersion); avoids parsing csproj XML where //Version matches System.Design metadata (4.0.0.0).
           try {
-            $dllPath = Get-ChildItem "Bin/Nightly/net48/Krypton.Toolkit.dll" -ErrorAction Stop
-            $assemblyVersion = [System.Reflection.AssemblyName]::GetAssemblyName($dllPath.FullName).Version
-            $version = $assemblyVersion.ToString()
-            Write-Host "Got version from assembly: $version"
+            $evaluated = (& dotnet msbuild "$proj" -getProperty:Version -p:Configuration=$msbuildConfig -nologo -v:q).Trim()
+            if ($evaluated) {
+              $version = $evaluated
+              Write-Host "Got version from MSBuild: $version"
+            }
           } catch {
-            Write-Host "Could not read version from assembly: $_"
+            Write-Host "Could not read version from MSBuild: $_"
           }
 
-          # Fallback: Try to read from csproj XML
           if (-not $version) {
             try {
-              $proj = 'Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj'
-              [xml]$projXml = Get-Content $proj
-              $versionNode = $projXml.SelectSingleNode("//Version")
-              if ($versionNode) {
-                $version = $versionNode.InnerText.Trim()
-                Write-Host "Got version from csproj: $version"
+              $dllRelativePaths = @(
+                "artifacts/bin/$msbuildConfig/net48/Krypton.Toolkit.dll",
+                "Bin/$msbuildConfig/net48/Krypton.Toolkit.dll"
+              )
+              $dllPath = $null
+              foreach ($p in $dllRelativePaths) {
+                if (Test-Path -LiteralPath $p) { $dllPath = Get-Item -LiteralPath $p; break }
               }
+              if (-not $dllPath) { throw "Krypton.Toolkit.dll not found under artifacts or Bin." }
+              $assemblyVersion = [System.Reflection.AssemblyName]::GetAssemblyName($dllPath.FullName).Version
+              $version = $assemblyVersion.ToString()
+              Write-Host "Got version from assembly: $version"
             } catch {
-              Write-Host "Could not read version from csproj: $_"
+              Write-Host "Could not read version from assembly: $_"
             }
           }
 
-          # Last resort fallback
           if (-not $version) {
             Write-Warning "Version not found, using fallback."
             $version = "100.25.1.1"
