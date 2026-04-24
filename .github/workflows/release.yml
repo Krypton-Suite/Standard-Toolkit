@@ -210,45 +210,43 @@ jobs:
         run: |
           $ErrorActionPreference = 'Stop'
           $version = $null
-          
-          # Try to get version from the built assembly (most reliable)
+          $proj = 'Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj'
+          $msbuildConfig = 'Release'
+
           try {
-            $dllCandidates = @(
-              "artifacts/bin/Release/net48/Krypton.Toolkit.dll",
-              "Bin/Release/net48/Krypton.Toolkit.dll"
-            )
-            $dllPath = Get-ChildItem -Path $dllCandidates -ErrorAction SilentlyContinue | Select-Object -First 1
-            if (-not $dllPath) {
-              throw "Krypton.Toolkit.dll not found in artifacts or Bin output paths."
+            $evaluated = (& dotnet msbuild "$proj" -getProperty:Version -p:Configuration=$msbuildConfig -nologo -v:q).Trim()
+            if ($evaluated) {
+              $version = $evaluated
+              Write-Host "Got version from MSBuild: $version"
             }
-            $assemblyVersion = [System.Reflection.AssemblyName]::GetAssemblyName($dllPath.FullName).Version
-            $version = $assemblyVersion.ToString()
-            Write-Host "Got version from assembly: $version"
           } catch {
-            Write-Host "Could not read version from assembly: $_"
+            Write-Host "Could not read version from MSBuild: $_"
           }
-          
-          # Fallback: Try to read from csproj XML
+
           if (-not $version) {
             try {
-              $proj = 'Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj'
-              [xml]$projXml = Get-Content $proj
-              $versionNode = $projXml.SelectSingleNode("//Version")
-              if ($versionNode) {
-                $version = $versionNode.InnerText.Trim()
-                Write-Host "Got version from csproj: $version"
+              $dllRelativePaths = @(
+                "artifacts/bin/$msbuildConfig/net48/Krypton.Toolkit.dll",
+                "Bin/$msbuildConfig/net48/Krypton.Toolkit.dll"
+              )
+              $dllPath = $null
+              foreach ($p in $dllRelativePaths) {
+                if (Test-Path -LiteralPath $p) { $dllPath = Get-Item -LiteralPath $p; break }
               }
+              if (-not $dllPath) { throw "Krypton.Toolkit.dll not found under artifacts or Bin." }
+              $assemblyVersion = [System.Reflection.AssemblyName]::GetAssemblyName($dllPath.FullName).Version
+              $version = $assemblyVersion.ToString()
+              Write-Host "Got version from assembly: $version"
             } catch {
-              Write-Host "Could not read version from csproj: $_"
+              Write-Host "Could not read version from assembly: $_"
             }
           }
-          
-          # Last resort fallback
+
           if (-not $version) {
             Write-Warning "Version not found, using fallback."
             $version = "100.25.1.1"
           }
-          
+
           Write-Host "Final determined version: $version"
           echo "version=$version" >> $env:GITHUB_OUTPUT
           echo "tag=v$version" >> $env:GITHUB_OUTPUT
@@ -485,45 +483,43 @@ jobs:
         run: |
           $ErrorActionPreference = 'Stop'
           $version = $null
-          
-          # Try to get version from the built assembly (most reliable)
+          $proj = 'Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj'
+          $msbuildConfig = 'Release'
+
           try {
-            $dllCandidates = @(
-              "artifacts/bin/Release/net48/Krypton.Toolkit.dll",
-              "Bin/Release/net48/Krypton.Toolkit.dll"
-            )
-            $dllPath = Get-ChildItem -Path $dllCandidates -ErrorAction SilentlyContinue | Select-Object -First 1
-            if (-not $dllPath) {
-              throw "Krypton.Toolkit.dll not found in artifacts or Bin output paths."
+            $evaluated = (& dotnet msbuild "$proj" -getProperty:Version -p:Configuration=$msbuildConfig -nologo -v:q).Trim()
+            if ($evaluated) {
+              $version = $evaluated
+              Write-Host "Got version from MSBuild: $version"
             }
-            $assemblyVersion = [System.Reflection.AssemblyName]::GetAssemblyName($dllPath.FullName).Version
-            $version = $assemblyVersion.ToString()
-            Write-Host "Got version from assembly: $version"
           } catch {
-            Write-Host "Could not read version from assembly: $_"
+            Write-Host "Could not read version from MSBuild: $_"
           }
-          
-          # Fallback: Try to read from csproj XML
+
           if (-not $version) {
             try {
-              $proj = 'Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj'
-              [xml]$projXml = Get-Content $proj
-              $versionNode = $projXml.SelectSingleNode("//Version")
-              if ($versionNode) {
-                $version = $versionNode.InnerText.Trim()
-                Write-Host "Got version from csproj: $version"
+              $dllRelativePaths = @(
+                "artifacts/bin/$msbuildConfig/net48/Krypton.Toolkit.dll",
+                "Bin/$msbuildConfig/net48/Krypton.Toolkit.dll"
+              )
+              $dllPath = $null
+              foreach ($p in $dllRelativePaths) {
+                if (Test-Path -LiteralPath $p) { $dllPath = Get-Item -LiteralPath $p; break }
               }
+              if (-not $dllPath) { throw "Krypton.Toolkit.dll not found under artifacts or Bin." }
+              $assemblyVersion = [System.Reflection.AssemblyName]::GetAssemblyName($dllPath.FullName).Version
+              $version = $assemblyVersion.ToString()
+              Write-Host "Got version from assembly: $version"
             } catch {
-              Write-Host "Could not read version from csproj: $_"
+              Write-Host "Could not read version from assembly: $_"
             }
           }
-          
-          # Last resort fallback
+
           if (-not $version) {
             Write-Warning "Version not found, using fallback."
             $version = "100.25.1.1"
           }
-          
+
           Write-Host "Final determined version: $version"
           echo "version=$version" >> $env:GITHUB_OUTPUT
           echo "tag=v$version" >> $env:GITHUB_OUTPUT
@@ -772,45 +768,43 @@ jobs:
         run: |
           $ErrorActionPreference = 'Stop'
           $version = $null
-          
-          # Try to get version from the built assembly (most reliable)
+          $proj = 'Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj'
+          $msbuildConfig = 'Canary'
+
           try {
-            $dllCandidates = @(
-              "artifacts/bin/Canary/net48/Krypton.Toolkit.dll",
-              "Bin/Canary/net48/Krypton.Toolkit.dll"
-            )
-            $dllPath = Get-ChildItem -Path $dllCandidates -ErrorAction SilentlyContinue | Select-Object -First 1
-            if (-not $dllPath) {
-              throw "Krypton.Toolkit.dll not found in artifacts or Bin output paths."
+            $evaluated = (& dotnet msbuild "$proj" -getProperty:Version -p:Configuration=$msbuildConfig -nologo -v:q).Trim()
+            if ($evaluated) {
+              $version = $evaluated
+              Write-Host "Got version from MSBuild: $version"
             }
-            $assemblyVersion = [System.Reflection.AssemblyName]::GetAssemblyName($dllPath.FullName).Version
-            $version = $assemblyVersion.ToString()
-            Write-Host "Got version from assembly: $version"
           } catch {
-            Write-Host "Could not read version from assembly: $_"
+            Write-Host "Could not read version from MSBuild: $_"
           }
-          
-          # Fallback: Try to read from csproj XML
+
           if (-not $version) {
             try {
-              $proj = 'Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj'
-              [xml]$projXml = Get-Content $proj
-              $versionNode = $projXml.SelectSingleNode("//Version")
-              if ($versionNode) {
-                $version = $versionNode.InnerText.Trim()
-                Write-Host "Got version from csproj: $version"
+              $dllRelativePaths = @(
+                "artifacts/bin/$msbuildConfig/net48/Krypton.Toolkit.dll",
+                "Bin/$msbuildConfig/net48/Krypton.Toolkit.dll"
+              )
+              $dllPath = $null
+              foreach ($p in $dllRelativePaths) {
+                if (Test-Path -LiteralPath $p) { $dllPath = Get-Item -LiteralPath $p; break }
               }
+              if (-not $dllPath) { throw "Krypton.Toolkit.dll not found under artifacts or Bin." }
+              $assemblyVersion = [System.Reflection.AssemblyName]::GetAssemblyName($dllPath.FullName).Version
+              $version = $assemblyVersion.ToString()
+              Write-Host "Got version from assembly: $version"
             } catch {
-              Write-Host "Could not read version from csproj: $_"
+              Write-Host "Could not read version from assembly: $_"
             }
           }
-          
-          # Last resort fallback
+
           if (-not $version) {
             Write-Warning "Version not found, using fallback."
             $version = "100.25.1.1"
           }
-          
+
           Write-Host "Final determined version: $version"
           echo "version=$version" >> $env:GITHUB_OUTPUT
           echo "tag=v$version-canary" >> $env:GITHUB_OUTPUT
