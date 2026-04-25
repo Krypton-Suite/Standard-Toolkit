@@ -68,7 +68,7 @@ jobs:
           msbuild-architecture: x64
 
       - name: Setup NuGet
-        uses: NuGet/setup-nuget@v3.1.0
+        uses: NuGet/setup-nuget@v4
 
       - name: Cache NuGet
         uses: actions/cache@v5
@@ -169,7 +169,7 @@ jobs:
           msbuild-architecture: x64
 
       - name: Setup NuGet
-        uses: NuGet/setup-nuget@v3.1.0
+        uses: NuGet/setup-nuget@v4
 
       - name: Cache NuGet
         uses: actions/cache@v5
