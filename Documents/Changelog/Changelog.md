@@ -47,6 +47,7 @@
 
 * Resolved [#3164](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3164), Font properties with no explicit value were not correctly serialized/deserialized in exported XML
 * Resolved [#3183](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3183), Small square rendered next to Close button on KryptonForm when using a custom theme
+* Resolved [#3348](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3348), Cannot install `Krypton.Standard.Toolkit` NuGet package
 * Resolved [#3341](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3341), Discord notifications report the wrong version number
 * Resolved [#3283](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3283), `KryptonThemeComboBox` does not change theme when `SelectedIndex` is changed
 * Resolved [#3330](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3330), `KryptonManager` exception 'The type initializer for 'Krypton.Toolkit.KryptonManager' threw an exception.'
