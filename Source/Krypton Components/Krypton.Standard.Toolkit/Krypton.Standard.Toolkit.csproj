@@ -47,7 +47,8 @@
 		<!--https://learn.microsoft.com/en-us/visualstudio/designers/disable-dpi-awareness?view=vs-2022-->
 		<ForceDesignerDPIUnaware>true</ForceDesignerDPIUnaware>
 		<ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
-		<NoWarn>1701;1702</NoWarn>
+		<!-- Aggregate package intentionally suppresses nuspec dependencies; avoid NU5128 for empty dependency groups. -->
+		<NoWarn>1701;1702;NU5128</NoWarn>
 	</PropertyGroup>
 
 	<!-- NuGet Package Metadata -->
@@ -139,11 +140,9 @@
 	<Target Name="NormalizePackTargetFrameworkAliases">
 		<ItemGroup>
 			<_OriginalPackTargetFrameworks Include="@(_TargetFrameworks)" />
-			<_OriginalSuppressedDependencyFrameworks Include="@(_FrameworksWithSuppressedDependencies)" />
 			<_OriginalFrameworkAssemblyReferences Include="@(_FrameworkAssemblyReferences)" />
 
 			<_TargetFrameworks Remove="@(_TargetFrameworks)" />
-			<_FrameworksWithSuppressedDependencies Remove="@(_FrameworksWithSuppressedDependencies)" />
 			<_FrameworkAssemblyReferences Remove="@(_FrameworkAssemblyReferences)" />
 
 			<_TargetFrameworks Include=".NETFramework4.7.2" Condition="'%(_OriginalPackTargetFrameworks.Identity)' == 'net472'" />
@@ -154,15 +153,6 @@
 			<_TargetFrameworks Include="net10.0-windows7.0" Condition="'%(_OriginalPackTargetFrameworks.Identity)' == 'net10.0-windows'" />
 			<_TargetFrameworks Include="net11.0-windows7.0" Condition="'%(_OriginalPackTargetFrameworks.Identity)' == 'net11.0-windows'" />
 			<_TargetFrameworks Include="%(_OriginalPackTargetFrameworks.Identity)" Condition="'@(_TargetFrameworks)' == ''" />
-
-			<_FrameworksWithSuppressedDependencies Include=".NETFramework4.7.2" Condition="'%(_OriginalSuppressedDependencyFrameworks.Identity)' == 'net472'" />
-			<_FrameworksWithSuppressedDependencies Include=".NETFramework4.8" Condition="'%(_OriginalSuppressedDependencyFrameworks.Identity)' == 'net48'" />
-			<_FrameworksWithSuppressedDependencies Include=".NETFramework4.8.1" Condition="'%(_OriginalSuppressedDependencyFrameworks.Identity)' == 'net481'" />
-			<_FrameworksWithSuppressedDependencies Include="net8.0-windows7.0" Condition="'%(_OriginalSuppressedDependencyFrameworks.Identity)' == 'net8.0-windows'" />
-			<_FrameworksWithSuppressedDependencies Include="net9.0-windows7.0" Condition="'%(_OriginalSuppressedDependencyFrameworks.Identity)' == 'net9.0-windows'" />
-			<_FrameworksWithSuppressedDependencies Include="net10.0-windows7.0" Condition="'%(_OriginalSuppressedDependencyFrameworks.Identity)' == 'net10.0-windows'" />
-			<_FrameworksWithSuppressedDependencies Include="net11.0-windows7.0" Condition="'%(_OriginalSuppressedDependencyFrameworks.Identity)' == 'net11.0-windows'" />
-			<_FrameworksWithSuppressedDependencies Include="%(_OriginalSuppressedDependencyFrameworks.Identity)" Condition="'@(_FrameworksWithSuppressedDependencies)' == ''" />
 
 			<_FrameworkAssemblyReferences Include="@(_OriginalFrameworkAssemblyReferences)">
 				<TargetFramework Condition="'%(_OriginalFrameworkAssemblyReferences.TargetFramework)' == 'net472'">.NETFramework4.7.2</TargetFramework>
@@ -211,28 +201,28 @@
 		<!-- Include referenced DLL files for all referenced projects -->
 		<ItemGroup>
 			<!-- Include DLL files -->
-			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Docking.dll" Condition="Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Docking.dll')">
+			<TfmSpecificPackageFile Include="..\Krypton.Docking\bin\$(Configuration)\$(TargetFramework)\Krypton.Docking.dll" Condition="Exists('..\Krypton.Docking\bin\$(Configuration)\$(TargetFramework)\Krypton.Docking.dll')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
-			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Navigator.dll" Condition="Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Navigator.dll')">
+			<TfmSpecificPackageFile Include="..\Krypton.Navigator\bin\$(Configuration)\$(TargetFramework)\Krypton.Navigator.dll" Condition="Exists('..\Krypton.Navigator\bin\$(Configuration)\$(TargetFramework)\Krypton.Navigator.dll')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
-			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Navigator.Utilities.dll" Condition="Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Navigator.Utilities.dll')">
+			<TfmSpecificPackageFile Include="..\Krypton.Navigator.Utilities\bin\$(Configuration)\$(TargetFramework)\Krypton.Navigator.Utilities.dll" Condition="Exists('..\Krypton.Navigator.Utilities\bin\$(Configuration)\$(TargetFramework)\Krypton.Navigator.Utilities.dll')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
-			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Ribbon.dll" Condition="Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Ribbon.dll')">
+			<TfmSpecificPackageFile Include="..\Krypton.Ribbon\bin\$(Configuration)\$(TargetFramework)\Krypton.Ribbon.dll" Condition="Exists('..\Krypton.Ribbon\bin\$(Configuration)\$(TargetFramework)\Krypton.Ribbon.dll')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
-			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.dll" Condition="Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.dll')">
+			<TfmSpecificPackageFile Include="..\Krypton.Toolkit\bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.dll" Condition="Exists('..\Krypton.Toolkit\bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.dll')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
-			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.JumpList.dll" Condition="Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.JumpList.dll')">
+			<TfmSpecificPackageFile Include="..\Krypton.Toolkit.JumpList\bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.JumpList.dll" Condition="Exists('..\Krypton.Toolkit.JumpList\bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.JumpList.dll')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
-			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Utilities.dll" Condition="Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Utilities.dll')">
+			<TfmSpecificPackageFile Include="..\Krypton.Utilities\bin\$(Configuration)\$(TargetFramework)\Krypton.Utilities.dll" Condition="Exists('..\Krypton.Utilities\bin\$(Configuration)\$(TargetFramework)\Krypton.Utilities.dll')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
-			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Workspace.dll" Condition="Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Workspace.dll')">
+			<TfmSpecificPackageFile Include="..\Krypton.Workspace\bin\$(Configuration)\$(TargetFramework)\Krypton.Workspace.dll" Condition="Exists('..\Krypton.Workspace\bin\$(Configuration)\$(TargetFramework)\Krypton.Workspace.dll')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
 
@@ -254,56 +244,57 @@
 			</TfmSpecificPackageFile>
 
 			<!-- Include XML documentation files for IntelliSense support -->
-			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Docking.xml" Condition="Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Docking.xml')">
+			<TfmSpecificPackageFile Include="..\Krypton.Docking\bin\$(Configuration)\$(TargetFramework)\Krypton.Docking.xml" Condition="Exists('..\Krypton.Docking\bin\$(Configuration)\$(TargetFramework)\Krypton.Docking.xml')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
-			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Navigator.xml" Condition="Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Navigator.xml')">
+			<TfmSpecificPackageFile Include="..\Krypton.Navigator\bin\$(Configuration)\$(TargetFramework)\Krypton.Navigator.xml" Condition="Exists('..\Krypton.Navigator\bin\$(Configuration)\$(TargetFramework)\Krypton.Navigator.xml')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
-			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Navigator.Utilities.xml" Condition="Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Navigator.Utilities.xml')">
+			<TfmSpecificPackageFile Include="..\Krypton.Navigator.Utilities\bin\$(Configuration)\$(TargetFramework)\Krypton.Navigator.Utilities.xml" Condition="Exists('..\Krypton.Navigator.Utilities\bin\$(Configuration)\$(TargetFramework)\Krypton.Navigator.Utilities.xml')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
-			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Ribbon.xml" Condition="Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Ribbon.xml')">
+			<TfmSpecificPackageFile Include="..\Krypton.Ribbon\bin\$(Configuration)\$(TargetFramework)\Krypton.Ribbon.xml" Condition="Exists('..\Krypton.Ribbon\bin\$(Configuration)\$(TargetFramework)\Krypton.Ribbon.xml')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
-			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.xml" Condition="Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.xml')">
+			<TfmSpecificPackageFile Include="..\Krypton.Toolkit\bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.xml" Condition="Exists('..\Krypton.Toolkit\bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.xml')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
-			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.JumpList.xml" Condition="Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.JumpList.xml')">
+			<TfmSpecificPackageFile Include="..\Krypton.Toolkit.JumpList\bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.JumpList.xml" Condition="Exists('..\Krypton.Toolkit.JumpList\bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.JumpList.xml')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
-			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Utilities.xml" Condition="Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Utilities.xml')">
+			<TfmSpecificPackageFile Include="..\Krypton.Utilities\bin\$(Configuration)\$(TargetFramework)\Krypton.Utilities.xml" Condition="Exists('..\Krypton.Utilities\bin\$(Configuration)\$(TargetFramework)\Krypton.Utilities.xml')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
-			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Workspace.xml" Condition="Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Workspace.xml')">
+			<TfmSpecificPackageFile Include="..\Krypton.Workspace\bin\$(Configuration)\$(TargetFramework)\Krypton.Workspace.xml" Condition="Exists('..\Krypton.Workspace\bin\$(Configuration)\$(TargetFramework)\Krypton.Workspace.xml')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
 
 			<!-- Include PDB symbol files (only when IncludeSymbols is true, e.g., for Nightly/Canary configurations) -->
-			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Docking.pdb" Condition="'$(IncludeSymbols)' == 'true' And Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Docking.pdb')">
+			<TfmSpecificPackageFile Include="..\Krypton.Docking\bin\$(Configuration)\$(TargetFramework)\Krypton.Docking.pdb" Condition="'$(IncludeSymbols)' == 'true' And Exists('..\Krypton.Docking\bin\$(Configuration)\$(TargetFramework)\Krypton.Docking.pdb')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
-			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Navigator.pdb" Condition="'$(IncludeSymbols)' == 'true' And Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Navigator.pdb')">
+			<TfmSpecificPackageFile Include="..\Krypton.Navigator\bin\$(Configuration)\$(TargetFramework)\Krypton.Navigator.pdb" Condition="'$(IncludeSymbols)' == 'true' And Exists('..\Krypton.Navigator\bin\$(Configuration)\$(TargetFramework)\Krypton.Navigator.pdb')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
-			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Navigator.Utilities.pdb" Condition="'$(IncludeSymbols)' == 'true' And Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Navigator.Utilities.pdb')">
+			<TfmSpecificPackageFile Include="..\Krypton.Navigator.Utilities\bin\$(Configuration)\$(TargetFramework)\Krypton.Navigator.Utilities.pdb" Condition="'$(IncludeSymbols)' == 'true' And Exists('..\Krypton.Navigator.Utilities\bin\$(Configuration)\$(TargetFramework)\Krypton.Navigator.Utilities.pdb')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
-			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Ribbon.pdb" Condition="'$(IncludeSymbols)' == 'true' And Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Ribbon.pdb')">
+			<TfmSpecificPackageFile Include="..\Krypton.Ribbon\bin\$(Configuration)\$(TargetFramework)\Krypton.Ribbon.pdb" Condition="'$(IncludeSymbols)' == 'true' And Exists('..\Krypton.Ribbon\bin\$(Configuration)\$(TargetFramework)\Krypton.Ribbon.pdb')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
-			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.pdb" Condition="'$(IncludeSymbols)' == 'true' And Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.pdb')">
+			<TfmSpecificPackageFile Include="..\Krypton.Toolkit\bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.pdb" Condition="'$(IncludeSymbols)' == 'true' And Exists('..\Krypton.Toolkit\bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.pdb')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
-			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.JumpList.pdb" Condition="'$(IncludeSymbols)' == 'true' And Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.JumpList.pdb')">
+			<TfmSpecificPackageFile Include="..\Krypton.Toolkit.JumpList\bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.JumpList.pdb" Condition="'$(IncludeSymbols)' == 'true' And Exists('..\Krypton.Toolkit.JumpList\bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.JumpList.pdb')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
-			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Utilities.pdb" Condition="'$(IncludeSymbols)' == 'true' And Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Utilities.pdb')">
+			<TfmSpecificPackageFile Include="..\Krypton.Utilities\bin\$(Configuration)\$(TargetFramework)\Krypton.Utilities.pdb" Condition="'$(IncludeSymbols)' == 'true' And Exists('..\Krypton.Utilities\bin\$(Configuration)\$(TargetFramework)\Krypton.Utilities.pdb')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
-			<TfmSpecificPackageFile Include="..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Workspace.pdb" Condition="'$(IncludeSymbols)' == 'true' And Exists('..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Workspace.pdb')">
+			<TfmSpecificPackageFile Include="..\Krypton.Workspace\bin\$(Configuration)\$(TargetFramework)\Krypton.Workspace.pdb" Condition="'$(IncludeSymbols)' == 'true' And Exists('..\Krypton.Workspace\bin\$(Configuration)\$(TargetFramework)\Krypton.Workspace.pdb')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
+
 		</ItemGroup>
 	</Target>
 
