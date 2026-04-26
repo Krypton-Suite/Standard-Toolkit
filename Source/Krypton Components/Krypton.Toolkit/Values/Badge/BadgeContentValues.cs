@@ -69,7 +69,7 @@ public class BadgeContentValues : Storage
     [DefaultValue(DEFAULT_BADGE_TEXT)]
     public string Text
     {
-        get => _text ?? GlobalStaticValues.DEFAULT_EMPTY_STRING;
+        get => _text ?? GlobalStaticVariables.DEFAULT_EMPTY_STRING;
         set
         {
             if (_text != value)

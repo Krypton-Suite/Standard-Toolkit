@@ -40,7 +40,7 @@ public class PaletteOffice2010BlueLightMode : PaletteOffice2010BlueLightModeBase
 
     #region Rafting
 
-    private readonly float _gradientRafting = GlobalStaticValues.DEFAULT_RAFTING_RIBBON_TAB_BACKGROUND_GRADIENT;
+    private readonly float _gradientRafting = GlobalStaticConstants.DEFAULT_RAFTING_RIBBON_TAB_BACKGROUND_GRADIENT;
 
     #endregion
 
@@ -103,7 +103,7 @@ public class PaletteOffice2010BlueLightMode : PaletteOffice2010BlueLightModeBase
         {
             ImageSize = new Size(13, 7),
             ColorDepth = ColorDepth.Depth24Bit,
-            TransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR
+            TransparentColor = GlobalStaticVariables.TRANSPARENCY_KEY_COLOR
         };
         _galleryButtonList.Images.AddStrip(GalleryImageResources.Gallery2010);
         _radioButtonArray =
@@ -194,7 +194,7 @@ public class PaletteOffice2010BlueLightMode : PaletteOffice2010BlueLightModeBase
 
     /// <inheritdoc />
     public override Color GetRibbonTabRowGradientColor1(PaletteState state) =>
-        GlobalStaticValues.TAB_ROW_GRADIENT_FIRST_COLOR;
+        GlobalStaticVariables.TAB_ROW_GRADIENT_FIRST_COLOR;
 
     /// <inheritdoc />
     public override Color GetRibbonTabRowBackgroundGradientRaftingDark(PaletteState state) =>
@@ -205,7 +205,7 @@ public class PaletteOffice2010BlueLightMode : PaletteOffice2010BlueLightModeBase
         _tabRowBackgroundGradientRaftingLightColor;
 
     /// <inheritdoc />
-    public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+    public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
 
     /// <inheritdoc />
     public override float GetRibbonTabRowGradientRaftingAngle(PaletteState state) => _gradientRafting;
@@ -547,7 +547,7 @@ public abstract class PaletteOffice2010BlueLightModeBase : PaletteBase
         // We do not provide override values
         if (CommonHelper.IsOverrideStateExclude(state, PaletteState.NormalDefaultOverride))
         {
-            return GlobalStaticValues.EMPTY_COLOR;
+            return GlobalStaticVariables.EMPTY_COLOR;
         }
 
         switch (style)
@@ -602,16 +602,16 @@ public abstract class PaletteOffice2010BlueLightModeBase : PaletteBase
                 switch (state)
                 {
                     case PaletteState.Disabled:
-                        return style == PaletteBackStyle.TabLowProfile ? GlobalStaticValues.EMPTY_COLOR : _disabledBack;
+                        return style == PaletteBackStyle.TabLowProfile ? GlobalStaticVariables.EMPTY_COLOR : _disabledBack;
 
                     case PaletteState.Normal:
-                        return style == PaletteBackStyle.TabLowProfile ? GlobalStaticValues.EMPTY_COLOR : SystemColors.Window;
+                        return style == PaletteBackStyle.TabLowProfile ? GlobalStaticVariables.EMPTY_COLOR : SystemColors.Window;
 
                     case PaletteState.Pressed:
                     case PaletteState.Tracking:
                         return style switch
                         {
-                            PaletteBackStyle.TabLowProfile => GlobalStaticValues.EMPTY_COLOR,
+                            PaletteBackStyle.TabLowProfile => GlobalStaticVariables.EMPTY_COLOR,
                             PaletteBackStyle.TabHighProfile => state == PaletteState.Tracking
                                 ? GetArrayColor<ButtonBackColor>(ButtonBackColor.Color3)
                                 : GetArrayColor<ButtonBackColor>(ButtonBackColor.Color5),
@@ -787,7 +787,7 @@ public abstract class PaletteOffice2010BlueLightModeBase : PaletteBase
             case PaletteBackStyle.ButtonForm:
                 return state switch
                 {
-                    PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride => GlobalStaticValues.EMPTY_COLOR,
+                    PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride => GlobalStaticVariables.EMPTY_COLOR,
                     PaletteState.CheckedNormal => BaseColors!.FormButtonBack1Checked,
                     PaletteState.Tracking => BaseColors!.FormButtonBack1Track,
                     PaletteState.CheckedTracking => BaseColors!.FormButtonBack1CheckTrack,
@@ -797,7 +797,7 @@ public abstract class PaletteOffice2010BlueLightModeBase : PaletteBase
             case PaletteBackStyle.ButtonFormClose:
                 return state switch
                 {
-                    PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride => GlobalStaticValues.EMPTY_COLOR,
+                    PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride => GlobalStaticVariables.EMPTY_COLOR,
                     PaletteState.CheckedNormal => _formCloseChecked1,
                     PaletteState.Tracking => _formCloseTracking1,
                     PaletteState.CheckedTracking => _formCloseCheckedTracking1,
@@ -857,7 +857,7 @@ public abstract class PaletteOffice2010BlueLightModeBase : PaletteBase
         // We do not provide override values
         if (CommonHelper.IsOverrideStateExclude(state, PaletteState.NormalDefaultOverride))
         {
-            return GlobalStaticValues.EMPTY_COLOR;
+            return GlobalStaticVariables.EMPTY_COLOR;
         }
 
         switch (style)
@@ -911,9 +911,9 @@ public abstract class PaletteOffice2010BlueLightModeBase : PaletteBase
             case PaletteBackStyle.TabCustom3:
                 return state switch
                 {
-                    PaletteState.Disabled => style == PaletteBackStyle.TabLowProfile ? GlobalStaticValues.EMPTY_COLOR : _disabledBack,
-                    PaletteState.Normal => style == PaletteBackStyle.TabLowProfile ? GlobalStaticValues.EMPTY_COLOR : BaseColors!.ButtonNormalBack2,
-                    PaletteState.Tracking or PaletteState.Pressed => style == PaletteBackStyle.TabLowProfile ? GlobalStaticValues.EMPTY_COLOR : SystemColors.Window,
+                    PaletteState.Disabled => style == PaletteBackStyle.TabLowProfile ? GlobalStaticVariables.EMPTY_COLOR : _disabledBack,
+                    PaletteState.Normal => style == PaletteBackStyle.TabLowProfile ? GlobalStaticVariables.EMPTY_COLOR : BaseColors!.ButtonNormalBack2,
+                    PaletteState.Tracking or PaletteState.Pressed => style == PaletteBackStyle.TabLowProfile ? GlobalStaticVariables.EMPTY_COLOR : SystemColors.Window,
                     PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => SystemColors.Window,
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
@@ -1075,7 +1075,7 @@ public abstract class PaletteOffice2010BlueLightModeBase : PaletteBase
             case PaletteBackStyle.ButtonForm:
                 return state switch
                 {
-                    PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride => GlobalStaticValues.EMPTY_COLOR,
+                    PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride => GlobalStaticVariables.EMPTY_COLOR,
                     PaletteState.CheckedNormal => BaseColors!.FormButtonBack2Checked,
                     PaletteState.Tracking => BaseColors!.FormButtonBack2Track,
                     PaletteState.CheckedTracking => BaseColors!.FormButtonBack2CheckTrack,
@@ -1085,7 +1085,7 @@ public abstract class PaletteOffice2010BlueLightModeBase : PaletteBase
             case PaletteBackStyle.ButtonFormClose:
                 return state switch
                 {
-                    PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride => GlobalStaticValues.EMPTY_COLOR,
+                    PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride => GlobalStaticVariables.EMPTY_COLOR,
                     PaletteState.CheckedNormal => _formCloseChecked2,
                     PaletteState.Tracking => _formCloseTracking2,
                     PaletteState.CheckedTracking => _formCloseCheckedTracking2,
@@ -1112,7 +1112,7 @@ public abstract class PaletteOffice2010BlueLightModeBase : PaletteBase
                     PaletteState.Disabled => style == PaletteBackStyle.ButtonGallery ? BaseColors!.RibbonGalleryBack1 : GetArrayColor<ButtonBackColor>(ButtonBackColor.Color2),
                     PaletteState.Normal => BaseColors!.ButtonNormalBack2,
                     PaletteState.NormalDefaultOverride => style is PaletteBackStyle.ButtonLowProfile or PaletteBackStyle.ButtonBreadCrumb or PaletteBackStyle.ButtonListItem or PaletteBackStyle.ButtonCommand or PaletteBackStyle.ButtonButtonSpec or PaletteBackStyle.ContextMenuItemHighlight
-                        ? GlobalStaticValues.EMPTY_COLOR
+                        ? GlobalStaticVariables.EMPTY_COLOR
                         : BaseColors!.ButtonNormalDefaultBack2,
                     PaletteState.CheckedNormal => style == PaletteBackStyle.ButtonInputControl ? BaseColors!.ButtonNormalBack2 : GetArrayColor<ButtonBackColor>(ButtonBackColor.Color8),
                     PaletteState.Tracking => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color4),
@@ -1440,15 +1440,15 @@ public abstract class PaletteOffice2010BlueLightModeBase : PaletteBase
                 }
             }
 
-            return GlobalStaticValues.EMPTY_COLOR;
+            return GlobalStaticVariables.EMPTY_COLOR;
         }
 
         return style switch
         {
             PaletteBorderStyle.TabHighProfile or PaletteBorderStyle.TabStandardProfile or PaletteBorderStyle.TabLowProfile or PaletteBorderStyle.TabOneNote or PaletteBorderStyle.TabCustom1 or PaletteBorderStyle.TabCustom2 or PaletteBorderStyle.TabCustom3 => state switch
             {
-                PaletteState.Disabled => style == PaletteBorderStyle.TabLowProfile ? GlobalStaticValues.EMPTY_COLOR : _disabledBorder,
-                PaletteState.Normal or PaletteState.Tracking or PaletteState.Pressed => style == PaletteBorderStyle.TabLowProfile ? GlobalStaticValues.EMPTY_COLOR : BaseColors!.ButtonNormalBorder,
+                PaletteState.Disabled => style == PaletteBorderStyle.TabLowProfile ? GlobalStaticVariables.EMPTY_COLOR : _disabledBorder,
+                PaletteState.Normal or PaletteState.Tracking or PaletteState.Pressed => style == PaletteBorderStyle.TabLowProfile ? GlobalStaticVariables.EMPTY_COLOR : BaseColors!.ButtonNormalBorder,
                 PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => BaseColors!.ControlBorder,
                 _ => throw DebugTools.NotImplemented(state.ToString())
             },
@@ -1496,7 +1496,7 @@ public abstract class PaletteOffice2010BlueLightModeBase : PaletteBase
                 : BaseColors!.FormBorderActive,
             PaletteBorderStyle.ButtonForm => state switch
             {
-                PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride => GlobalStaticValues.EMPTY_COLOR,
+                PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride => GlobalStaticVariables.EMPTY_COLOR,
                 PaletteState.CheckedNormal => BaseColors!.FormButtonBorderCheck,
                 PaletteState.Tracking or PaletteState.CheckedTracking => BaseColors!.FormButtonBorderTrack,
                 PaletteState.Pressed or PaletteState.CheckedPressed => BaseColors!.FormButtonBorderPressed,
@@ -1504,7 +1504,7 @@ public abstract class PaletteOffice2010BlueLightModeBase : PaletteBase
             },
             PaletteBorderStyle.ButtonFormClose => state switch
             {
-                PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride => GlobalStaticValues.EMPTY_COLOR,
+                PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride => GlobalStaticVariables.EMPTY_COLOR,
                 PaletteState.CheckedNormal => _formCloseBorderCheckedNormal,
                 PaletteState.Tracking or PaletteState.CheckedTracking => _formCloseBorderTracking,
                 PaletteState.Pressed or PaletteState.CheckedPressed => _formCloseBorderPressed,
@@ -1515,7 +1515,7 @@ public abstract class PaletteOffice2010BlueLightModeBase : PaletteBase
                 PaletteState.Disabled => style == PaletteBorderStyle.ButtonGallery ? BaseColors!.RibbonGalleryBack2 : GetArrayColor<ButtonBorderColor>(ButtonBorderColor.Color1),
                 PaletteState.Normal => BaseColors!.ButtonNormalBorder,
                 PaletteState.NormalDefaultOverride => style is PaletteBorderStyle.ButtonLowProfile or PaletteBorderStyle.ButtonBreadCrumb or PaletteBorderStyle.ButtonListItem or PaletteBorderStyle.ButtonCommand or PaletteBorderStyle.ButtonButtonSpec or PaletteBorderStyle.ContextMenuItemHighlight
-                    ? GlobalStaticValues.EMPTY_COLOR
+                    ? GlobalStaticVariables.EMPTY_COLOR
                     : BaseColors!.ButtonNormalDefaultBorder,
                 PaletteState.CheckedNormal => GetArrayColor<ButtonBorderColor>(ButtonBorderColor.Color6),
                 PaletteState.Tracking => GetArrayColor<ButtonBorderColor>(ButtonBorderColor.Color2),
@@ -1566,15 +1566,15 @@ public abstract class PaletteOffice2010BlueLightModeBase : PaletteBase
                 }
             }
 
-            return GlobalStaticValues.EMPTY_COLOR;
+            return GlobalStaticVariables.EMPTY_COLOR;
         }
 
         return style switch
         {
             PaletteBorderStyle.TabHighProfile or PaletteBorderStyle.TabStandardProfile or PaletteBorderStyle.TabLowProfile or PaletteBorderStyle.TabOneNote or PaletteBorderStyle.TabCustom1 or PaletteBorderStyle.TabCustom2 or PaletteBorderStyle.TabCustom3 => state switch
             {
-                PaletteState.Disabled => style == PaletteBorderStyle.TabLowProfile ? GlobalStaticValues.EMPTY_COLOR : _disabledBorder,
-                PaletteState.Normal or PaletteState.Tracking or PaletteState.Pressed => style == PaletteBorderStyle.TabLowProfile ? GlobalStaticValues.EMPTY_COLOR : BaseColors!.ButtonNormalBorder,
+                PaletteState.Disabled => style == PaletteBorderStyle.TabLowProfile ? GlobalStaticVariables.EMPTY_COLOR : _disabledBorder,
+                PaletteState.Normal or PaletteState.Tracking or PaletteState.Pressed => style == PaletteBorderStyle.TabLowProfile ? GlobalStaticVariables.EMPTY_COLOR : BaseColors!.ButtonNormalBorder,
                 PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => BaseColors!.ControlBorder,
                 _ => throw DebugTools.NotImplemented(state.ToString())
             },
@@ -1622,7 +1622,7 @@ public abstract class PaletteOffice2010BlueLightModeBase : PaletteBase
                 : BaseColors!.FormBorderActive,
             PaletteBorderStyle.ButtonForm => state switch
             {
-                PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride => GlobalStaticValues.EMPTY_COLOR,
+                PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride => GlobalStaticVariables.EMPTY_COLOR,
                 PaletteState.CheckedNormal => BaseColors!.FormButtonBorderCheck,
                 PaletteState.Tracking or PaletteState.CheckedTracking => BaseColors!.FormButtonBorderTrack,
                 PaletteState.Pressed or PaletteState.CheckedPressed => BaseColors!.FormButtonBorderPressed,
@@ -1630,7 +1630,7 @@ public abstract class PaletteOffice2010BlueLightModeBase : PaletteBase
             },
             PaletteBorderStyle.ButtonFormClose => state switch
             {
-                PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride => GlobalStaticValues.EMPTY_COLOR,
+                PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride => GlobalStaticVariables.EMPTY_COLOR,
                 PaletteState.CheckedNormal => _formCloseBorderCheckedNormal,
                 PaletteState.Tracking or PaletteState.CheckedTracking => _formCloseBorderTracking,
                 PaletteState.Pressed or PaletteState.CheckedPressed => _formCloseBorderPressed,
@@ -1788,7 +1788,7 @@ public abstract class PaletteOffice2010BlueLightModeBase : PaletteBase
         // We do not provide override values
         if (CommonHelper.IsOverrideState(state))
         {
-            return GlobalStaticValues.DEFAULT_PRIMARY_CORNER_ROUNDING_VALUE;
+            return GlobalStaticConstants.DEFAULT_PRIMARY_CORNER_ROUNDING_VALUE;
         }
 
         return style switch
@@ -1986,12 +1986,12 @@ public abstract class PaletteOffice2010BlueLightModeBase : PaletteBase
         // We do not provide override values
         if (CommonHelper.IsOverrideState(state))
         {
-            return GlobalStaticValues.EMPTY_COLOR;
+            return GlobalStaticVariables.EMPTY_COLOR;
         }
 
         return style switch
         {
-            PaletteContentStyle.HeaderPrimary or PaletteContentStyle.HeaderDockInactive or PaletteContentStyle.HeaderDockActive or PaletteContentStyle.HeaderCalendar or PaletteContentStyle.HeaderSecondary or PaletteContentStyle.HeaderForm or PaletteContentStyle.HeaderCustom1 or PaletteContentStyle.HeaderCustom2 or PaletteContentStyle.HeaderCustom3 or PaletteContentStyle.LabelAlternateControl or PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelAlternatePanel or PaletteContentStyle.LabelNormalPanel or PaletteContentStyle.LabelBoldPanel or PaletteContentStyle.LabelItalicPanel or PaletteContentStyle.LabelTitlePanel or PaletteContentStyle.LabelGroupBoxCaption or PaletteContentStyle.LabelToolTip or PaletteContentStyle.LabelSuperTip or PaletteContentStyle.LabelKeyTip or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.ContextMenuHeading or PaletteContentStyle.ContextMenuItemImage or PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemTextAlternate or PaletteContentStyle.ContextMenuItemShortcutText or PaletteContentStyle.InputControlStandalone or PaletteContentStyle.InputControlRibbon or PaletteContentStyle.InputControlCustom1 or PaletteContentStyle.InputControlCustom2 or PaletteContentStyle.InputControlCustom3 or PaletteContentStyle.TabHighProfile or PaletteContentStyle.TabStandardProfile or PaletteContentStyle.TabLowProfile or PaletteContentStyle.TabOneNote or PaletteContentStyle.TabDock or PaletteContentStyle.TabDockAutoHidden or PaletteContentStyle.TabCustom1 or PaletteContentStyle.TabCustom2 or PaletteContentStyle.TabCustom3 or PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonGallery or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonButtonSpec or PaletteContentStyle.ButtonCalendarDay or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonNavigatorStack or PaletteContentStyle.ButtonNavigatorOverflow or PaletteContentStyle.ButtonNavigatorMini or PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 or PaletteContentStyle.ButtonInputControl or PaletteContentStyle.GridHeaderColumnList or PaletteContentStyle.GridHeaderColumnSheet or PaletteContentStyle.GridHeaderColumnCustom1 or PaletteContentStyle.GridHeaderColumnCustom2 or PaletteContentStyle.GridHeaderColumnCustom3 or PaletteContentStyle.GridHeaderRowList or PaletteContentStyle.GridHeaderRowSheet or PaletteContentStyle.GridHeaderRowCustom1 or PaletteContentStyle.GridHeaderRowCustom2 or PaletteContentStyle.GridHeaderRowCustom3 or PaletteContentStyle.GridDataCellList or PaletteContentStyle.GridDataCellSheet or PaletteContentStyle.GridDataCellCustom1 or PaletteContentStyle.GridDataCellCustom2 or PaletteContentStyle.GridDataCellCustom3 => GlobalStaticValues.EMPTY_COLOR,
+            PaletteContentStyle.HeaderPrimary or PaletteContentStyle.HeaderDockInactive or PaletteContentStyle.HeaderDockActive or PaletteContentStyle.HeaderCalendar or PaletteContentStyle.HeaderSecondary or PaletteContentStyle.HeaderForm or PaletteContentStyle.HeaderCustom1 or PaletteContentStyle.HeaderCustom2 or PaletteContentStyle.HeaderCustom3 or PaletteContentStyle.LabelAlternateControl or PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelAlternatePanel or PaletteContentStyle.LabelNormalPanel or PaletteContentStyle.LabelBoldPanel or PaletteContentStyle.LabelItalicPanel or PaletteContentStyle.LabelTitlePanel or PaletteContentStyle.LabelGroupBoxCaption or PaletteContentStyle.LabelToolTip or PaletteContentStyle.LabelSuperTip or PaletteContentStyle.LabelKeyTip or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.ContextMenuHeading or PaletteContentStyle.ContextMenuItemImage or PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemTextAlternate or PaletteContentStyle.ContextMenuItemShortcutText or PaletteContentStyle.InputControlStandalone or PaletteContentStyle.InputControlRibbon or PaletteContentStyle.InputControlCustom1 or PaletteContentStyle.InputControlCustom2 or PaletteContentStyle.InputControlCustom3 or PaletteContentStyle.TabHighProfile or PaletteContentStyle.TabStandardProfile or PaletteContentStyle.TabLowProfile or PaletteContentStyle.TabOneNote or PaletteContentStyle.TabDock or PaletteContentStyle.TabDockAutoHidden or PaletteContentStyle.TabCustom1 or PaletteContentStyle.TabCustom2 or PaletteContentStyle.TabCustom3 or PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonGallery or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonButtonSpec or PaletteContentStyle.ButtonCalendarDay or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonNavigatorStack or PaletteContentStyle.ButtonNavigatorOverflow or PaletteContentStyle.ButtonNavigatorMini or PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 or PaletteContentStyle.ButtonInputControl or PaletteContentStyle.GridHeaderColumnList or PaletteContentStyle.GridHeaderColumnSheet or PaletteContentStyle.GridHeaderColumnCustom1 or PaletteContentStyle.GridHeaderColumnCustom2 or PaletteContentStyle.GridHeaderColumnCustom3 or PaletteContentStyle.GridHeaderRowList or PaletteContentStyle.GridHeaderRowSheet or PaletteContentStyle.GridHeaderRowCustom1 or PaletteContentStyle.GridHeaderRowCustom2 or PaletteContentStyle.GridHeaderRowCustom3 or PaletteContentStyle.GridDataCellList or PaletteContentStyle.GridDataCellSheet or PaletteContentStyle.GridDataCellCustom1 or PaletteContentStyle.GridDataCellCustom2 or PaletteContentStyle.GridDataCellCustom3 => GlobalStaticVariables.EMPTY_COLOR,
             _ => throw new ArgumentOutOfRangeException(nameof(style))
         };
     }
@@ -2007,12 +2007,12 @@ public abstract class PaletteOffice2010BlueLightModeBase : PaletteBase
         // We do not provide override values
         if (CommonHelper.IsOverrideState(state))
         {
-            return GlobalStaticValues.EMPTY_COLOR;
+            return GlobalStaticVariables.EMPTY_COLOR;
         }
 
         return style switch
         {
-            PaletteContentStyle.HeaderPrimary or PaletteContentStyle.HeaderDockInactive or PaletteContentStyle.HeaderDockActive or PaletteContentStyle.HeaderCalendar or PaletteContentStyle.HeaderSecondary or PaletteContentStyle.HeaderForm or PaletteContentStyle.HeaderCustom1 or PaletteContentStyle.HeaderCustom2 or PaletteContentStyle.HeaderCustom3 or PaletteContentStyle.LabelAlternateControl or PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelAlternatePanel or PaletteContentStyle.LabelNormalPanel or PaletteContentStyle.LabelBoldPanel or PaletteContentStyle.LabelItalicPanel or PaletteContentStyle.LabelTitlePanel or PaletteContentStyle.LabelGroupBoxCaption or PaletteContentStyle.LabelToolTip or PaletteContentStyle.LabelSuperTip or PaletteContentStyle.LabelKeyTip or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.ContextMenuHeading or PaletteContentStyle.ContextMenuItemImage or PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemTextAlternate or PaletteContentStyle.ContextMenuItemShortcutText or PaletteContentStyle.InputControlStandalone or PaletteContentStyle.InputControlRibbon or PaletteContentStyle.InputControlCustom1 or PaletteContentStyle.InputControlCustom2 or PaletteContentStyle.InputControlCustom3 or PaletteContentStyle.TabHighProfile or PaletteContentStyle.TabStandardProfile or PaletteContentStyle.TabLowProfile or PaletteContentStyle.TabOneNote or PaletteContentStyle.TabDock or PaletteContentStyle.TabDockAutoHidden or PaletteContentStyle.TabCustom1 or PaletteContentStyle.TabCustom2 or PaletteContentStyle.TabCustom3 or PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonGallery or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonButtonSpec or PaletteContentStyle.ButtonCalendarDay or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonNavigatorStack or PaletteContentStyle.ButtonNavigatorOverflow or PaletteContentStyle.ButtonNavigatorMini or PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 or PaletteContentStyle.ButtonInputControl or PaletteContentStyle.GridHeaderColumnList or PaletteContentStyle.GridHeaderColumnSheet or PaletteContentStyle.GridHeaderColumnCustom1 or PaletteContentStyle.GridHeaderColumnCustom2 or PaletteContentStyle.GridHeaderColumnCustom3 or PaletteContentStyle.GridHeaderRowList or PaletteContentStyle.GridHeaderRowSheet or PaletteContentStyle.GridHeaderRowCustom1 or PaletteContentStyle.GridHeaderRowCustom2 or PaletteContentStyle.GridHeaderRowCustom3 or PaletteContentStyle.GridDataCellList or PaletteContentStyle.GridDataCellSheet or PaletteContentStyle.GridDataCellCustom1 or PaletteContentStyle.GridDataCellCustom2 or PaletteContentStyle.GridDataCellCustom3 => GlobalStaticValues.EMPTY_COLOR,
+            PaletteContentStyle.HeaderPrimary or PaletteContentStyle.HeaderDockInactive or PaletteContentStyle.HeaderDockActive or PaletteContentStyle.HeaderCalendar or PaletteContentStyle.HeaderSecondary or PaletteContentStyle.HeaderForm or PaletteContentStyle.HeaderCustom1 or PaletteContentStyle.HeaderCustom2 or PaletteContentStyle.HeaderCustom3 or PaletteContentStyle.LabelAlternateControl or PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelAlternatePanel or PaletteContentStyle.LabelNormalPanel or PaletteContentStyle.LabelBoldPanel or PaletteContentStyle.LabelItalicPanel or PaletteContentStyle.LabelTitlePanel or PaletteContentStyle.LabelGroupBoxCaption or PaletteContentStyle.LabelToolTip or PaletteContentStyle.LabelSuperTip or PaletteContentStyle.LabelKeyTip or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.ContextMenuHeading or PaletteContentStyle.ContextMenuItemImage or PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemTextAlternate or PaletteContentStyle.ContextMenuItemShortcutText or PaletteContentStyle.InputControlStandalone or PaletteContentStyle.InputControlRibbon or PaletteContentStyle.InputControlCustom1 or PaletteContentStyle.InputControlCustom2 or PaletteContentStyle.InputControlCustom3 or PaletteContentStyle.TabHighProfile or PaletteContentStyle.TabStandardProfile or PaletteContentStyle.TabLowProfile or PaletteContentStyle.TabOneNote or PaletteContentStyle.TabDock or PaletteContentStyle.TabDockAutoHidden or PaletteContentStyle.TabCustom1 or PaletteContentStyle.TabCustom2 or PaletteContentStyle.TabCustom3 or PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonGallery or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonButtonSpec or PaletteContentStyle.ButtonCalendarDay or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonNavigatorStack or PaletteContentStyle.ButtonNavigatorOverflow or PaletteContentStyle.ButtonNavigatorMini or PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 or PaletteContentStyle.ButtonInputControl or PaletteContentStyle.GridHeaderColumnList or PaletteContentStyle.GridHeaderColumnSheet or PaletteContentStyle.GridHeaderColumnCustom1 or PaletteContentStyle.GridHeaderColumnCustom2 or PaletteContentStyle.GridHeaderColumnCustom3 or PaletteContentStyle.GridHeaderRowList or PaletteContentStyle.GridHeaderRowSheet or PaletteContentStyle.GridHeaderRowCustom1 or PaletteContentStyle.GridHeaderRowCustom2 or PaletteContentStyle.GridHeaderRowCustom3 or PaletteContentStyle.GridDataCellList or PaletteContentStyle.GridDataCellSheet or PaletteContentStyle.GridDataCellCustom1 or PaletteContentStyle.GridDataCellCustom2 or PaletteContentStyle.GridDataCellCustom3 => GlobalStaticVariables.EMPTY_COLOR,
             _ => throw new ArgumentOutOfRangeException(nameof(style))
         };
     }
@@ -2028,12 +2028,12 @@ public abstract class PaletteOffice2010BlueLightModeBase : PaletteBase
         // We do not provide override values
         if (CommonHelper.IsOverrideState(state))
         {
-            return GlobalStaticValues.EMPTY_COLOR;
+            return GlobalStaticVariables.EMPTY_COLOR;
         }
 
         return style switch
         {
-            PaletteContentStyle.HeaderPrimary or PaletteContentStyle.HeaderDockInactive or PaletteContentStyle.HeaderDockActive or PaletteContentStyle.HeaderCalendar or PaletteContentStyle.HeaderSecondary or PaletteContentStyle.HeaderForm or PaletteContentStyle.HeaderCustom1 or PaletteContentStyle.HeaderCustom2 or PaletteContentStyle.HeaderCustom3 or PaletteContentStyle.LabelAlternateControl or PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelAlternatePanel or PaletteContentStyle.LabelNormalPanel or PaletteContentStyle.LabelBoldPanel or PaletteContentStyle.LabelItalicPanel or PaletteContentStyle.LabelTitlePanel or PaletteContentStyle.LabelGroupBoxCaption or PaletteContentStyle.LabelToolTip or PaletteContentStyle.LabelSuperTip or PaletteContentStyle.LabelKeyTip or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.ContextMenuHeading or PaletteContentStyle.ContextMenuItemImage or PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemTextAlternate or PaletteContentStyle.ContextMenuItemShortcutText or PaletteContentStyle.InputControlStandalone or PaletteContentStyle.InputControlRibbon or PaletteContentStyle.InputControlCustom1 or PaletteContentStyle.InputControlCustom2 or PaletteContentStyle.InputControlCustom3 or PaletteContentStyle.TabHighProfile or PaletteContentStyle.TabStandardProfile or PaletteContentStyle.TabLowProfile or PaletteContentStyle.TabOneNote or PaletteContentStyle.TabDock or PaletteContentStyle.TabDockAutoHidden or PaletteContentStyle.TabCustom1 or PaletteContentStyle.TabCustom2 or PaletteContentStyle.TabCustom3 or PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonGallery or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonButtonSpec or PaletteContentStyle.ButtonCalendarDay or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonNavigatorStack or PaletteContentStyle.ButtonNavigatorOverflow or PaletteContentStyle.ButtonNavigatorMini or PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 or PaletteContentStyle.ButtonInputControl or PaletteContentStyle.GridHeaderColumnList or PaletteContentStyle.GridHeaderColumnSheet or PaletteContentStyle.GridHeaderColumnCustom1 or PaletteContentStyle.GridHeaderColumnCustom2 or PaletteContentStyle.GridHeaderColumnCustom3 or PaletteContentStyle.GridHeaderRowList or PaletteContentStyle.GridHeaderRowSheet or PaletteContentStyle.GridHeaderRowCustom1 or PaletteContentStyle.GridHeaderRowCustom2 or PaletteContentStyle.GridHeaderRowCustom3 or PaletteContentStyle.GridDataCellList or PaletteContentStyle.GridDataCellSheet or PaletteContentStyle.GridDataCellCustom1 or PaletteContentStyle.GridDataCellCustom2 or PaletteContentStyle.GridDataCellCustom3 => GlobalStaticValues.EMPTY_COLOR,
+            PaletteContentStyle.HeaderPrimary or PaletteContentStyle.HeaderDockInactive or PaletteContentStyle.HeaderDockActive or PaletteContentStyle.HeaderCalendar or PaletteContentStyle.HeaderSecondary or PaletteContentStyle.HeaderForm or PaletteContentStyle.HeaderCustom1 or PaletteContentStyle.HeaderCustom2 or PaletteContentStyle.HeaderCustom3 or PaletteContentStyle.LabelAlternateControl or PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelAlternatePanel or PaletteContentStyle.LabelNormalPanel or PaletteContentStyle.LabelBoldPanel or PaletteContentStyle.LabelItalicPanel or PaletteContentStyle.LabelTitlePanel or PaletteContentStyle.LabelGroupBoxCaption or PaletteContentStyle.LabelToolTip or PaletteContentStyle.LabelSuperTip or PaletteContentStyle.LabelKeyTip or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.ContextMenuHeading or PaletteContentStyle.ContextMenuItemImage or PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemTextAlternate or PaletteContentStyle.ContextMenuItemShortcutText or PaletteContentStyle.InputControlStandalone or PaletteContentStyle.InputControlRibbon or PaletteContentStyle.InputControlCustom1 or PaletteContentStyle.InputControlCustom2 or PaletteContentStyle.InputControlCustom3 or PaletteContentStyle.TabHighProfile or PaletteContentStyle.TabStandardProfile or PaletteContentStyle.TabLowProfile or PaletteContentStyle.TabOneNote or PaletteContentStyle.TabDock or PaletteContentStyle.TabDockAutoHidden or PaletteContentStyle.TabCustom1 or PaletteContentStyle.TabCustom2 or PaletteContentStyle.TabCustom3 or PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonGallery or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonButtonSpec or PaletteContentStyle.ButtonCalendarDay or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonNavigatorStack or PaletteContentStyle.ButtonNavigatorOverflow or PaletteContentStyle.ButtonNavigatorMini or PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 or PaletteContentStyle.ButtonInputControl or PaletteContentStyle.GridHeaderColumnList or PaletteContentStyle.GridHeaderColumnSheet or PaletteContentStyle.GridHeaderColumnCustom1 or PaletteContentStyle.GridHeaderColumnCustom2 or PaletteContentStyle.GridHeaderColumnCustom3 or PaletteContentStyle.GridHeaderRowList or PaletteContentStyle.GridHeaderRowSheet or PaletteContentStyle.GridHeaderRowCustom1 or PaletteContentStyle.GridHeaderRowCustom2 or PaletteContentStyle.GridHeaderRowCustom3 or PaletteContentStyle.GridDataCellList or PaletteContentStyle.GridDataCellSheet or PaletteContentStyle.GridDataCellCustom1 or PaletteContentStyle.GridDataCellCustom2 or PaletteContentStyle.GridDataCellCustom3 => GlobalStaticVariables.EMPTY_COLOR,
             _ => throw new ArgumentOutOfRangeException(nameof(style))
         };
     }
@@ -2330,16 +2330,16 @@ public abstract class PaletteOffice2010BlueLightModeBase : PaletteBase
                     PaletteState.LinkNotVisitedOverride => BaseColors!.LinkNotVisitedOverrideControl,
                     PaletteState.LinkVisitedOverride => BaseColors!.LinkVisitedOverrideControl,
                     PaletteState.LinkPressedOverride => BaseColors!.LinkPressedOverrideControl,
-                    _ => GlobalStaticValues.EMPTY_COLOR
+                    _ => GlobalStaticVariables.EMPTY_COLOR
                 },
                 PaletteContentStyle.LabelAlternatePanel or PaletteContentStyle.LabelNormalPanel or PaletteContentStyle.LabelBoldPanel or PaletteContentStyle.LabelItalicPanel or PaletteContentStyle.LabelTitlePanel or PaletteContentStyle.LabelGroupBoxCaption => state switch
                 {
                     PaletteState.LinkNotVisitedOverride => BaseColors!.LinkNotVisitedOverridePanel,
                     PaletteState.LinkVisitedOverride => BaseColors!.LinkVisitedOverridePanel,
                     PaletteState.LinkPressedOverride => BaseColors!.LinkPressedOverridePanel,
-                    _ => GlobalStaticValues.EMPTY_COLOR
+                    _ => GlobalStaticVariables.EMPTY_COLOR
                 },
-                _ => GlobalStaticValues.EMPTY_COLOR
+                _ => GlobalStaticVariables.EMPTY_COLOR
             };
         }
 
@@ -2418,7 +2418,7 @@ public abstract class PaletteOffice2010BlueLightModeBase : PaletteBase
         // We do not provide override values
         if (CommonHelper.IsOverrideState(state))
         {
-            return GlobalStaticValues.EMPTY_COLOR;
+            return GlobalStaticVariables.EMPTY_COLOR;
         }
 
         switch (style)
@@ -2819,7 +2819,7 @@ public abstract class PaletteOffice2010BlueLightModeBase : PaletteBase
         // We do not provide override values
         if (CommonHelper.IsOverrideState(state))
         {
-            return GlobalStaticValues.EMPTY_COLOR;
+            return GlobalStaticVariables.EMPTY_COLOR;
         }
 
         switch (style)
@@ -2895,7 +2895,7 @@ public abstract class PaletteOffice2010BlueLightModeBase : PaletteBase
         // We do not provide override values
         if (CommonHelper.IsOverrideState(state))
         {
-            return GlobalStaticValues.EMPTY_COLOR;
+            return GlobalStaticVariables.EMPTY_COLOR;
         }
 
         switch (style)
@@ -3881,7 +3881,7 @@ public abstract class PaletteOffice2010BlueLightModeBase : PaletteBase
                 return BaseColors!.RibbonGroupFrameInside1;
             case PaletteRibbonBackStyle.RibbonGroupNormalTitle:
             case PaletteRibbonBackStyle.RibbonGroupCollapsedBack:
-                return GlobalStaticValues.EMPTY_COLOR;
+                return GlobalStaticVariables.EMPTY_COLOR;
             case PaletteRibbonBackStyle.RibbonGroupNormalBorder:
             case PaletteRibbonBackStyle.RibbonGroupCollapsedBorder:
                 switch (state)
@@ -3917,7 +3917,7 @@ public abstract class PaletteOffice2010BlueLightModeBase : PaletteBase
                 }
                 break;
             case PaletteRibbonBackStyle.RibbonGroupArea:
-                return state == PaletteState.ContextCheckedNormal ? GlobalStaticValues.EMPTY_COLOR : BaseColors!.RibbonGroupsArea1;
+                return state == PaletteState.ContextCheckedNormal ? GlobalStaticVariables.EMPTY_COLOR : BaseColors!.RibbonGroupsArea1;
 
             case PaletteRibbonBackStyle.RibbonTab:
                 switch (state)
@@ -3935,7 +3935,7 @@ public abstract class PaletteOffice2010BlueLightModeBase : PaletteBase
                     case PaletteState.FocusOverride:
                         return _contextCheckedTabBorder1;
                     case PaletteState.Normal:
-                        return GlobalStaticValues.EMPTY_COLOR;
+                        return GlobalStaticVariables.EMPTY_COLOR;
                     default:
                         // Should never happen!
                         Debug.Assert(false);
@@ -4049,7 +4049,7 @@ public abstract class PaletteOffice2010BlueLightModeBase : PaletteBase
                     case PaletteState.FocusOverride:
                         return _contextCheckedTabBorder2;
                     case PaletteState.Normal:
-                        return GlobalStaticValues.EMPTY_COLOR;
+                        return GlobalStaticVariables.EMPTY_COLOR;
                     default:
                         // Should never happen!
                         Debug.Assert(false);
@@ -4061,7 +4061,7 @@ public abstract class PaletteOffice2010BlueLightModeBase : PaletteBase
             case PaletteRibbonBackStyle.RibbonGalleryBack:
             case PaletteRibbonBackStyle.RibbonGalleryBorder:
             case PaletteRibbonBackStyle.RibbonGroupCollapsedBack:
-                return GlobalStaticValues.EMPTY_COLOR;
+                return GlobalStaticVariables.EMPTY_COLOR;
             default:
                 // Should never happen!
                 Debug.Assert(false);
@@ -4103,7 +4103,7 @@ public abstract class PaletteOffice2010BlueLightModeBase : PaletteBase
             case PaletteRibbonBackStyle.RibbonGroupNormalTitle:
             case PaletteRibbonBackStyle.RibbonGalleryBack:
             case PaletteRibbonBackStyle.RibbonGalleryBorder:
-                return GlobalStaticValues.EMPTY_COLOR;
+                return GlobalStaticVariables.EMPTY_COLOR;
             case PaletteRibbonBackStyle.RibbonAppButton:
                 switch (state)
                 {
@@ -4138,7 +4138,7 @@ public abstract class PaletteOffice2010BlueLightModeBase : PaletteBase
                     case PaletteState.FocusOverride:
                         return _contextCheckedTabBorder3;
                     case PaletteState.Normal:
-                        return GlobalStaticValues.EMPTY_COLOR;
+                        return GlobalStaticVariables.EMPTY_COLOR;
                     default:
                         // Should never happen!
                         Debug.Assert(false);
@@ -4185,7 +4185,7 @@ public abstract class PaletteOffice2010BlueLightModeBase : PaletteBase
             case PaletteRibbonBackStyle.RibbonGroupNormalTitle:
             case PaletteRibbonBackStyle.RibbonGalleryBack:
             case PaletteRibbonBackStyle.RibbonGalleryBorder:
-                return GlobalStaticValues.EMPTY_COLOR;
+                return GlobalStaticVariables.EMPTY_COLOR;
             case PaletteRibbonBackStyle.RibbonAppButton:
                 switch (state)
                 {
@@ -4220,7 +4220,7 @@ public abstract class PaletteOffice2010BlueLightModeBase : PaletteBase
                     case PaletteState.FocusOverride:
                         return _contextCheckedTabBorder4;
                     case PaletteState.Normal:
-                        return GlobalStaticValues.EMPTY_COLOR;
+                        return GlobalStaticVariables.EMPTY_COLOR;
                     default:
                         // Should never happen!
                         Debug.Assert(false);
@@ -4259,7 +4259,7 @@ public abstract class PaletteOffice2010BlueLightModeBase : PaletteBase
             case PaletteRibbonBackStyle.RibbonQATOverflow:
             case PaletteRibbonBackStyle.RibbonGalleryBack:
             case PaletteRibbonBackStyle.RibbonGalleryBorder:
-                return GlobalStaticValues.EMPTY_COLOR;
+                return GlobalStaticVariables.EMPTY_COLOR;
             case PaletteRibbonBackStyle.RibbonGroupNormalBorder:
             case PaletteRibbonBackStyle.RibbonGroupCollapsedBorder:
                 return BaseColors!.RibbonGroupBorder5;
@@ -4302,7 +4302,7 @@ public abstract class PaletteOffice2010BlueLightModeBase : PaletteBase
                     case PaletteState.ContextCheckedTracking:
                     case PaletteState.FocusOverride:
                     case PaletteState.Normal:
-                        return GlobalStaticValues.EMPTY_COLOR;
+                        return GlobalStaticVariables.EMPTY_COLOR;
                     default:
                         // Should never happen!
                         Debug.Assert(false);
@@ -4384,7 +4384,7 @@ public abstract class PaletteOffice2010BlueLightModeBase : PaletteBase
         // We do not provide override values
         if (CommonHelper.IsOverrideState(state))
         {
-            return GlobalStaticValues.EMPTY_COLOR;
+            return GlobalStaticVariables.EMPTY_COLOR;
         }
 
         switch (element)
@@ -4396,7 +4396,7 @@ public abstract class PaletteOffice2010BlueLightModeBase : PaletteBase
             case PaletteElement.TrackBarPosition:
                 return state switch
                 {
-                    PaletteState.Disabled => GlobalStaticValues.EMPTY_COLOR,
+                    PaletteState.Disabled => GlobalStaticVariables.EMPTY_COLOR,
                     _ => BaseColors!.TrackBarOutsidePosition
                 };
             default:
@@ -4419,7 +4419,7 @@ public abstract class PaletteOffice2010BlueLightModeBase : PaletteBase
     {
         if (CommonHelper.IsOverrideState(state))
         {
-            return GlobalStaticValues.EMPTY_COLOR;
+            return GlobalStaticVariables.EMPTY_COLOR;
         }
 
         switch (element)
@@ -4457,7 +4457,7 @@ public abstract class PaletteOffice2010BlueLightModeBase : PaletteBase
     {
         if (CommonHelper.IsOverrideState(state))
         {
-            return GlobalStaticValues.EMPTY_COLOR;
+            return GlobalStaticVariables.EMPTY_COLOR;
         }
 
         switch (element)
@@ -4501,21 +4501,21 @@ public abstract class PaletteOffice2010BlueLightModeBase : PaletteBase
             case PaletteElement.TrackBarTick:
                 if (CommonHelper.IsOverrideState(state))
                 {
-                    return GlobalStaticValues.EMPTY_COLOR;
+                    return GlobalStaticVariables.EMPTY_COLOR;
                 }
 
                 return _ribbonColors![(int)SchemeBaseColors.TrackBarTickMarks];
             case PaletteElement.TrackBarTrack:
                 if (CommonHelper.IsOverrideState(state))
                 {
-                    return GlobalStaticValues.EMPTY_COLOR;
+                    return GlobalStaticVariables.EMPTY_COLOR;
                 }
 
                 return _ribbonColors![(int)SchemeBaseColors.TrackBarFillTrack];
             case PaletteElement.TrackBarPosition:
                 if (CommonHelper.IsOverrideStateExclude(state, PaletteState.FocusOverride))
                 {
-                    return GlobalStaticValues.EMPTY_COLOR;
+                    return GlobalStaticVariables.EMPTY_COLOR;
                 }
 
                 return state switch
@@ -4549,21 +4549,21 @@ public abstract class PaletteOffice2010BlueLightModeBase : PaletteBase
             case PaletteElement.TrackBarTick:
                 if (CommonHelper.IsOverrideState(state))
                 {
-                    return GlobalStaticValues.EMPTY_COLOR;
+                    return GlobalStaticVariables.EMPTY_COLOR;
                 }
 
                 return _ribbonColors![(int)SchemeBaseColors.TrackBarTickMarks];
             case PaletteElement.TrackBarTrack:
                 if (CommonHelper.IsOverrideState(state))
                 {
-                    return GlobalStaticValues.EMPTY_COLOR;
+                    return GlobalStaticVariables.EMPTY_COLOR;
                 }
 
                 return _ribbonColors![(int)SchemeBaseColors.TrackBarFillTrack];
             case PaletteElement.TrackBarPosition:
                 if (CommonHelper.IsOverrideStateExclude(state, PaletteState.FocusOverride))
                 {
-                    return GlobalStaticValues.EMPTY_COLOR;
+                    return GlobalStaticVariables.EMPTY_COLOR;
                 }
 
                 return state switch

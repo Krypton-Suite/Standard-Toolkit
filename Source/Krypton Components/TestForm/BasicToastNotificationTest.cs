@@ -9,7 +9,6 @@
 
 using Krypton.Utilities;
 
-using GlobalStaticValues = Krypton.Toolkit.GlobalStaticValues;
 using GraphicsExtensions = Krypton.Toolkit.GraphicsExtensions;
 
 namespace TestForm;
@@ -225,7 +224,7 @@ public partial class BasicToastNotificationTest : KryptonForm
 
     private void kbtnSampleText_Click(object sender, EventArgs e)
     {
-        ktxtToastContent.Text = GlobalStaticValues.DEFAULT_LONG_SEED_TEXT;
+        ktxtToastContent.Text = GlobalStaticVariables.DEFAULT_LONG_SEED_TEXT;
     }
 
     private void kcmbToastTitleAlignmentV_SelectedIndexChanged(object sender, EventArgs e)

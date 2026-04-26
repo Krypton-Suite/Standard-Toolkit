@@ -249,7 +249,7 @@ public class RenderMicrosoft365 : RenderOffice2010
                 cache.Dispose();
 
                 // If we have a context color to use then modify the drawing colors
-                if (c5 != GlobalStaticValues.EMPTY_COLOR)
+                if (c5 != GlobalStaticVariables.EMPTY_COLOR)
                 {
                     if (!standard)
                     {
@@ -346,7 +346,7 @@ public class RenderMicrosoft365 : RenderOffice2010
                 cache.Dispose();
 
                 // If c5 has a colour then use that to highlight the tab
-                if (c5 != GlobalStaticValues.EMPTY_COLOR)
+                if (c5 != GlobalStaticVariables.EMPTY_COLOR)
                 {
                     if (!standard)
                     {

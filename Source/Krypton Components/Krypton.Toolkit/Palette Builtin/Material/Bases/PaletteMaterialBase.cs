@@ -551,7 +551,7 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
     {
         if (CommonHelper.IsOverrideState(state))
         {
-            return GlobalStaticValues.DEFAULT_PRIMARY_CORNER_ROUNDING_VALUE;
+            return GlobalStaticConstants.DEFAULT_PRIMARY_CORNER_ROUNDING_VALUE;
         }
 
         if (style == PaletteBorderStyle.FormMain || style == PaletteBorderStyle.HeaderForm)

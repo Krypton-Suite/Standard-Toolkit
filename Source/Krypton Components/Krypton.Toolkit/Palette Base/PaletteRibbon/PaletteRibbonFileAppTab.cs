@@ -38,9 +38,9 @@ public class PaletteRibbonFileAppTab : Storage, IPaletteRibbonFileAppTab
         NeedPaint = needPaint;
 
         // Set default values
-        _ribbonFileAppTabBottomColor = GlobalStaticValues.DEFAULT_RIBBON_FILE_APP_TAB_BOTTOM_COLOR;
-        _ribbonFileAppTabTopColor = GlobalStaticValues.DEFAULT_RIBBON_FILE_APP_TAB_TOP_COLOR;
-        _ribbonFileAppTabTextColor = GlobalStaticValues.DEFAULT_RIBBON_FILE_APP_TAB_TEXT_COLOR;
+        _ribbonFileAppTabBottomColor = GlobalStaticVariables.DEFAULT_RIBBON_FILE_APP_TAB_BOTTOM_COLOR;
+        _ribbonFileAppTabTopColor = GlobalStaticVariables.DEFAULT_RIBBON_FILE_APP_TAB_TOP_COLOR;
+        _ribbonFileAppTabTextColor = GlobalStaticVariables.DEFAULT_RIBBON_FILE_APP_TAB_TEXT_COLOR;
     }
     #endregion
 
@@ -98,8 +98,8 @@ public class PaletteRibbonFileAppTab : Storage, IPaletteRibbonFileAppTab
             }
         }
     }
-    private void ResetRibbonFileAppTabBottomColor() => RibbonFileAppTabBottomColor = GlobalStaticValues.DEFAULT_RIBBON_FILE_APP_TAB_BOTTOM_COLOR;
-    private bool ShouldSerializeRibbonFileAppTabBottomColor() => RibbonFileAppTabBottomColor != GlobalStaticValues.DEFAULT_RIBBON_FILE_APP_TAB_BOTTOM_COLOR;
+    private void ResetRibbonFileAppTabBottomColor() => RibbonFileAppTabBottomColor = GlobalStaticVariables.DEFAULT_RIBBON_FILE_APP_TAB_BOTTOM_COLOR;
+    private bool ShouldSerializeRibbonFileAppTabBottomColor() => RibbonFileAppTabBottomColor != GlobalStaticVariables.DEFAULT_RIBBON_FILE_APP_TAB_BOTTOM_COLOR;
 
     /// <inheritdoc />
     public Color GetRibbonFileAppTabBottomColor(PaletteState state) => ShouldSerializeRibbonFileAppTabBottomColor()
@@ -129,8 +129,8 @@ public class PaletteRibbonFileAppTab : Storage, IPaletteRibbonFileAppTab
             }
         }
     }
-    private void ResetRibbonFileAppTabTopColor() => RibbonFileAppTabTopColor = GlobalStaticValues.DEFAULT_RIBBON_FILE_APP_TAB_TOP_COLOR;
-    private bool ShouldSerializeRibbonFileAppTabTopColor() => RibbonFileAppTabTopColor != GlobalStaticValues.DEFAULT_RIBBON_FILE_APP_TAB_TOP_COLOR;
+    private void ResetRibbonFileAppTabTopColor() => RibbonFileAppTabTopColor = GlobalStaticVariables.DEFAULT_RIBBON_FILE_APP_TAB_TOP_COLOR;
+    private bool ShouldSerializeRibbonFileAppTabTopColor() => RibbonFileAppTabTopColor != GlobalStaticVariables.DEFAULT_RIBBON_FILE_APP_TAB_TOP_COLOR;
 
     /// <inheritdoc />
     public Color GetRibbonFileAppTabTopColor(PaletteState state) => ShouldSerializeRibbonFileAppTabTopColor()
@@ -162,8 +162,8 @@ public class PaletteRibbonFileAppTab : Storage, IPaletteRibbonFileAppTab
             }
         }
     }
-    private void ResetRibbonFileAppTabTextColor() => RibbonFileAppTabTextColor = GlobalStaticValues.DEFAULT_RIBBON_FILE_APP_TAB_TEXT_COLOR;
-    private bool ShouldSerializeRibbonFileAppTabTextColor() => RibbonFileAppTabTextColor != GlobalStaticValues.DEFAULT_RIBBON_FILE_APP_TAB_TEXT_COLOR;
+    private void ResetRibbonFileAppTabTextColor() => RibbonFileAppTabTextColor = GlobalStaticVariables.DEFAULT_RIBBON_FILE_APP_TAB_TEXT_COLOR;
+    private bool ShouldSerializeRibbonFileAppTabTextColor() => RibbonFileAppTabTextColor != GlobalStaticVariables.DEFAULT_RIBBON_FILE_APP_TAB_TEXT_COLOR;
 
     /// <inheritdoc />
     public Color GetRibbonFileAppTabTextColor(PaletteState state) => ShouldSerializeRibbonFileAppTabTextColor()
