@@ -94,7 +94,7 @@ public class SeparatorController : ButtonController,
             MinimizeBox = false;
             ShowInTaskbar = false;
             BackColor = Color.Black;
-            TransparencyKey = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
+            TransparencyKey = GlobalStaticVariables.TRANSPARENCY_KEY_COLOR;
             Opacity = 0.5;
         }
 

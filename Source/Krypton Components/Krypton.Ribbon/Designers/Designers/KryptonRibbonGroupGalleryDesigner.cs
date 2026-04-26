@@ -91,8 +91,8 @@ internal class KryptonRibbonGroupGalleryDesigner : ComponentDesigner, IKryptonDe
         }
 
         // Get access to the services
-        _designerHost = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_designerHost)));
-        _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_changeService)));
+        _designerHost = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_designerHost)));
+        _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_changeService)));
 
         // We need to know when we are being removed/changed
         _changeService.ComponentChanged += OnComponentChanged;
@@ -409,7 +409,7 @@ internal class KryptonRibbonGroupGalleryDesigner : ComponentDesigner, IKryptonDe
     {
         if (_ribbonGallery.Ribbon != null)
         {
-            PropertyDescriptor? propertyEnabled = TypeDescriptor.GetProperties(_ribbonGallery)[nameof(Enabled)] ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("propertyEnabled"));
+            PropertyDescriptor? propertyEnabled = TypeDescriptor.GetProperties(_ribbonGallery)[nameof(Enabled)] ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("propertyEnabled"));
             var oldValue = (bool?)propertyEnabled.GetValue(_ribbonGallery);
             var newValue = !oldValue;
             _changeService.OnComponentChanged(_ribbonGallery, null, oldValue, newValue);
@@ -421,7 +421,7 @@ internal class KryptonRibbonGroupGalleryDesigner : ComponentDesigner, IKryptonDe
     {
         if (_ribbonGallery.Ribbon != null)
         {
-            PropertyDescriptor? propertyVisible = TypeDescriptor.GetProperties(_ribbonGallery)[nameof(Visible)] ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("propertyVisible"));
+            PropertyDescriptor? propertyVisible = TypeDescriptor.GetProperties(_ribbonGallery)[nameof(Visible)] ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("propertyVisible"));
             var oldValue = (bool?)propertyVisible.GetValue(_ribbonGallery);
             var newValue = !oldValue;
             _changeService.OnComponentChanged(_ribbonGallery, null, oldValue, newValue);

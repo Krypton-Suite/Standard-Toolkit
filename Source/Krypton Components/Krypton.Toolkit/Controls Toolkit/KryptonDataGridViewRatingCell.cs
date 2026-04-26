@@ -41,7 +41,7 @@ public class KryptonDataGridViewRatingCell : KryptonDataGridViewTextBoxCell
     /// <inheritdoc/>
     public override object Clone()
     {
-        var clone = base.Clone() as KryptonDataGridViewRatingCell ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("clone"));
+        var clone = base.Clone() as KryptonDataGridViewRatingCell ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("clone"));
         return clone;
     }
 

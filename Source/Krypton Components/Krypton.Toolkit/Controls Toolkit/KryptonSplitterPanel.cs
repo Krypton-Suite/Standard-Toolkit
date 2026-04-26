@@ -82,7 +82,7 @@ public sealed class KryptonSplitterPanel : KryptonPanel
     {
         Debug.Assert(container is not null);
 
-        Owner = container ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(container)));
+        Owner = container ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(container)));
     }
     #endregion
 

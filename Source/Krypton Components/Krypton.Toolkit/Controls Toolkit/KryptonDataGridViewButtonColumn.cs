@@ -65,7 +65,7 @@ public class KryptonDataGridViewButtonColumn : KryptonDataGridViewIconColumn
     public override object Clone()
     {
         // Create a new instance
-        var clone = base.Clone() as KryptonDataGridViewButtonColumn ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("clone"));
+        var clone = base.Clone() as KryptonDataGridViewButtonColumn ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("clone"));
         clone.Text = Text;
 
         return clone;

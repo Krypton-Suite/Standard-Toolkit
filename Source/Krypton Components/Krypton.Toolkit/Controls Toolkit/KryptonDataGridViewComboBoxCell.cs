@@ -92,7 +92,7 @@ public class KryptonDataGridViewComboBoxCell : DataGridViewTextBoxCell
     /// </summary>
     public override object Clone()
     {
-        var dataGridViewCell = base.Clone() as KryptonDataGridViewComboBoxCell ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("dataGridViewCell"));
+        var dataGridViewCell = base.Clone() as KryptonDataGridViewComboBoxCell ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("dataGridViewCell"));
 
         dataGridViewCell.DropDownStyle = DropDownStyle;
         dataGridViewCell.DropDownHeight = DropDownHeight;

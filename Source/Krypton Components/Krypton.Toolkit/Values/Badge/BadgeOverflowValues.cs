@@ -49,7 +49,7 @@ public class BadgeOverflowValues : Storage
     [DefaultValue("+")]
     public string OverflowText
     {
-        get => _overflowText ?? GlobalStaticValues.DEFAULT_EMPTY_STRING;
+        get => _overflowText ?? GlobalStaticVariables.DEFAULT_EMPTY_STRING;
         set
         {
             if (_overflowText != value)

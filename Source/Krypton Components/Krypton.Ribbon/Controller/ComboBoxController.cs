@@ -39,9 +39,9 @@ internal class ComboBoxController : GlobalId,
         [DisallowNull] KryptonRibbonGroupComboBox comboBox,
         [DisallowNull] ViewDrawRibbonGroupComboBox target)
     {
-        _ribbon = ribbon ?? throw new Exception( GlobalStaticValues.VariableCannotBeNull(nameof(_ribbon)));
-        _comboBox = comboBox ?? throw new Exception(GlobalStaticValues.VariableCannotBeNull(nameof(_comboBox)));
-        _target = target ?? throw new Exception(GlobalStaticValues.VariableCannotBeNull(nameof(_target)));
+        _ribbon = ribbon ?? throw new Exception( GlobalStaticFunctions.VariableCannotBeNull(nameof(_ribbon)));
+        _comboBox = comboBox ?? throw new Exception(GlobalStaticFunctions.VariableCannotBeNull(nameof(_comboBox)));
+        _target = target ?? throw new Exception(GlobalStaticFunctions.VariableCannotBeNull(nameof(_target)));
     }
     #endregion
 
@@ -158,7 +158,7 @@ internal class ComboBoxController : GlobalId,
 
         if (ribbon.TabsArea is null)
         {
-            throw new NullReferenceException(GlobalStaticValues.PropertyCannotBeNull(nameof(ribbon.TabsArea)));
+            throw new NullReferenceException(GlobalStaticFunctions.PropertyCannotBeNull(nameof(ribbon.TabsArea)));
         }
 
         switch (e.KeyData)

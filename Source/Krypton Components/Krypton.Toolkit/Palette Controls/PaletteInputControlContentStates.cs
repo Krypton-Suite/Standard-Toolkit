@@ -46,7 +46,7 @@ public class PaletteInputControlContentStates : Storage,
 
         // Default the initial values
         _font = null;
-        _color1 = GlobalStaticValues.EMPTY_COLOR;
+        _color1 = GlobalStaticVariables.EMPTY_COLOR;
         _padding = CommonHelper.InheritPadding;
         _shortTextH = PaletteRelativeAlign.Inherit;
     }

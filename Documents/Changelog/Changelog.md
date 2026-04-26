@@ -47,6 +47,8 @@
 
 * Resolved [#3164](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3164), Font properties with no explicit value were not correctly serialized/deserialized in exported XML
 * Resolved [#3183](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3183), Small square rendered next to Close button on KryptonForm when using a custom theme
+* Implemented [#1738](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1738), Move methods out of `GlobalStaticVariables` into 'new' `GlobalStaticFunctions`
+* Implemented [#2125](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2125), Adding `NotificationIcon Size` in `ToastNotification`. Added `NotificationIconWidth` and `NotificationIconHeight` to toast data models and wired basic toast views to render and layout icons using custom dimensions.
 * Resolved [#3342](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3342), `KryptonTextBox`, text flickers when resizing the control (multiline active)
 * Resolved [#3348](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3348), Cannot install `Krypton.Standard.Toolkit` NuGet package
 * Resolved [#3341](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3341), Discord notifications report the wrong version number

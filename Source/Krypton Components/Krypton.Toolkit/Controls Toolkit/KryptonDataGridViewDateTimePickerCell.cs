@@ -95,7 +95,7 @@ public class KryptonDataGridViewDateTimePickerCell : DataGridViewTextBoxCell
     /// </summary>
     public override object Clone()
     {
-        var dateTimeCell = base.Clone() as KryptonDataGridViewDateTimePickerCell ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("dateTimeCell"));
+        var dateTimeCell = base.Clone() as KryptonDataGridViewDateTimePickerCell ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("dateTimeCell"));
 
         dateTimeCell.AutoShift = AutoShift;
         dateTimeCell.Checked = Checked;
@@ -839,7 +839,7 @@ public class KryptonDataGridViewDateTimePickerCell : DataGridViewTextBoxCell
     #region Private
 
     private KryptonDataGridViewDateTimePickerEditingControl EditingDateTimePicker =>
-        DataGridView!.EditingControl as KryptonDataGridViewDateTimePickerEditingControl ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(DataGridView.EditingControl)));
+        DataGridView!.EditingControl as KryptonDataGridViewDateTimePickerEditingControl ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(DataGridView.EditingControl)));
 
     private void OnCommonChange()
     {

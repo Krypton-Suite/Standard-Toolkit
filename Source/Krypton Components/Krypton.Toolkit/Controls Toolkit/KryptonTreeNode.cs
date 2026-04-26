@@ -92,7 +92,7 @@ public class KryptonTreeNode : TreeNode
     private void Init()
     {
         _longText = string.Empty;
-        _longForeColor = GlobalStaticValues.EMPTY_COLOR;
+        _longForeColor = GlobalStaticVariables.EMPTY_COLOR;
         _longNodeFont = null;
         _isCheckBoxVisible = true;
     }
@@ -143,7 +143,7 @@ public class KryptonTreeNode : TreeNode
         }
     }
 
-    private bool ShouldSerializeLongForeColor() => _longForeColor != GlobalStaticValues.EMPTY_COLOR;
+    private bool ShouldSerializeLongForeColor() => _longForeColor != GlobalStaticVariables.EMPTY_COLOR;
 
     #endregion    
 

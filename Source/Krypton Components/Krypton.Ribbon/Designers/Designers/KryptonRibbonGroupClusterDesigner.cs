@@ -74,8 +74,8 @@ internal class KryptonRibbonGroupClusterDesigner : ComponentDesigner
         }
 
         // Get access to the services
-        _designerHost = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_designerHost)));
-        _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_changeService)));
+        _designerHost = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_designerHost)));
+        _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_changeService)));
 
         // We need to know when we are being removed/changed
         _changeService.ComponentRemoving += OnComponentRemoving;
@@ -391,7 +391,7 @@ internal class KryptonRibbonGroupClusterDesigner : ComponentDesigner
                 RaiseComponentChanging(propertyItems);
 
                 // Need access to host in order to delete a component
-                var host = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("host"));
+                var host = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("host"));
 
                 // We need to remove all the buttons from the cluster group
                 for (var i = _ribbonCluster.Items.Count - 1; i >= 0; i--)
@@ -464,7 +464,7 @@ internal class KryptonRibbonGroupClusterDesigner : ComponentDesigner
         if (e.Component == _ribbonCluster)
         {
             // Need access to host in order to delete a component
-            var host = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("host"));
+            var host = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("host"));
 
             // We need to remove all items from the cluster
             for (var j = _ribbonCluster!.Items.Count - 1; j >= 0; j--)
@@ -511,8 +511,8 @@ internal class KryptonRibbonGroupClusterDesigner : ComponentDesigner
                     _deleteClusterMenu });
 
                 // Ensure add images have correct transparent background
-                _addButtonMenu.ImageTransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
-                _addColorButtonMenu.ImageTransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
+                _addButtonMenu.ImageTransparentColor = GlobalStaticVariables.TRANSPARENCY_KEY_COLOR;
+                _addColorButtonMenu.ImageTransparentColor = GlobalStaticVariables.TRANSPARENCY_KEY_COLOR;
             }
 
             // Update verbs to work out correct enable states

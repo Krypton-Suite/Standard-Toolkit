@@ -29,7 +29,7 @@ public class ButtonSpecEventArgs : EventArgs
         Debug.Assert(index >= 0);
 
         // Remember parameter details
-        ButtonSpec = spec ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(spec)));
+        ButtonSpec = spec ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(spec)));
         Index = index;
     }
     #endregion
