@@ -2,6 +2,11 @@
 
 =======
 
+# 2026-06-22 - Build 2606 (Patch 11) - June 2026
+* Resolved [#3342](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3342), `KryptonTextBox`, text flickers when resizing the control (multiline active)
+
+=======
+
 # 2026-03-23 - Build 2602 (Patch 10) - March 2025
 
 * Resolved [#3164](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3164), Toolkit: Font property values are being serialized depending of the current culture in exported XML theme file 
