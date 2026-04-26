@@ -46,7 +46,7 @@ internal abstract class ViewBuilderStackCheckButtonBase : ViewBuilderBase
         base.Construct(navigator, manager, redirector);
 
         // Get the current root element
-        _oldRoot = ViewManager!.Root as ViewLayoutPageShow ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ViewManager.Root)));
+        _oldRoot = ViewManager!.Root as ViewLayoutPageShow ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(ViewManager.Root)));
 
         // Create and initialize all objects
         ViewManager.Root = CreateStackCheckButtonView()!;

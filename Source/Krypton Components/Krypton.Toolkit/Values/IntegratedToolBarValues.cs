@@ -85,7 +85,7 @@ public class IntegratedToolBarValues : GlobalId
     {
         return base.ToString() is string s
             ? s
-            : GlobalStaticValues.DEFAULT_EMPTY_STRING;
+            : GlobalStaticVariables.DEFAULT_EMPTY_STRING;
     }
 
     #endregion

@@ -213,11 +213,11 @@ public class ViewDrawMenuColorBlock : ViewLeaf
         }
 
         // If not in normal state, then need to adorn display
-        var outside = GlobalStaticValues.EMPTY_COLOR;
-        var inside = GlobalStaticValues.EMPTY_COLOR;
+        var outside = GlobalStaticVariables.EMPTY_COLOR;
+        var inside = GlobalStaticVariables.EMPTY_COLOR;
 
         // Is this element selected?
-        var selected = (KryptonContextMenuColorColumns.SelectedColor != GlobalStaticValues.EMPTY_COLOR) && KryptonContextMenuColorColumns.SelectedColor.Equals(Color);
+        var selected = (KryptonContextMenuColorColumns.SelectedColor != GlobalStaticVariables.EMPTY_COLOR) && KryptonContextMenuColorColumns.SelectedColor.Equals(Color);
 
         switch (ElementState)
         {

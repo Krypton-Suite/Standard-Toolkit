@@ -32,7 +32,7 @@ public static class SchemeBaseColorsExtensions
         {
             var property = type.GetProperty(names[i]);
             colors[i] = property is null
-                ? GlobalStaticValues.EMPTY_COLOR
+                ? GlobalStaticVariables.EMPTY_COLOR
                 : (Color)property.GetValue(scheme)!;
         }
 

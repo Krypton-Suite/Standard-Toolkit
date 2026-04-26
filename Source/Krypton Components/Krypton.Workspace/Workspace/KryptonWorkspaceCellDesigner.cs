@@ -34,7 +34,7 @@ internal class KryptonWorkspaceCellDesigner : KryptonNavigatorDesigner
         if (e.Component == Navigator)
         {
             // If this workspace cell is inside a parent
-            var cell = Navigator as KryptonWorkspaceCell ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(Navigator)));                
+            var cell = Navigator as KryptonWorkspaceCell ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(Navigator)));                
             // Cell an only be inside a workspace sequence
             var sequence = cell.WorkspaceParent as KryptonWorkspaceSequence;
             // Remove the cell from the parent

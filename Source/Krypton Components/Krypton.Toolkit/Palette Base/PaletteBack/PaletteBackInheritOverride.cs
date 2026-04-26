@@ -36,8 +36,8 @@ public class PaletteBackInheritOverride : PaletteBackInherit
         Debug.Assert(backup != null);
 
         // Store incoming alternatives
-        _primary = primary ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(primary)));
-        _backup = backup ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(backup)));
+        _primary = primary ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(primary)));
+        _backup = backup ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(backup)));
 
         // Default other state
         Apply = true;
@@ -145,7 +145,7 @@ public class PaletteBackInheritOverride : PaletteBackInherit
         {
             Color ret = _primary.GetBackColor1(Override ? OverrideState : state);
 
-            if (ret == GlobalStaticValues.EMPTY_COLOR)
+            if (ret == GlobalStaticVariables.EMPTY_COLOR)
             {
                 ret = _backup.GetBackColor1(state);
             }
@@ -169,7 +169,7 @@ public class PaletteBackInheritOverride : PaletteBackInherit
         {
             Color ret = _primary.GetBackColor2(Override ? OverrideState : state);
 
-            if (ret == GlobalStaticValues.EMPTY_COLOR)
+            if (ret == GlobalStaticVariables.EMPTY_COLOR)
             {
                 ret = _backup.GetBackColor2(state);
             }

@@ -160,7 +160,7 @@ internal class DialogLauncherButtonController : LeftUpButtonController,
 
         if (Ribbon.TabsArea is null)
         {
-            throw new NullReferenceException(GlobalStaticValues.PropertyCannotBeNull(nameof(Ribbon.TabsArea)));
+            throw new NullReferenceException(GlobalStaticFunctions.PropertyCannotBeNull(nameof(Ribbon.TabsArea)));
         }
 
         switch (e.KeyData)

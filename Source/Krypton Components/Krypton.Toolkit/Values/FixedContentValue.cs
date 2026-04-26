@@ -22,7 +22,7 @@ public class FixedContentValue : IContentValues
     /// Initialize a new instance of the FixedContentValue class.
     /// </summary>
     public FixedContentValue()
-        : this(GlobalStaticValues.DEFAULT_EMPTY_STRING, GlobalStaticValues.DEFAULT_EMPTY_STRING, null, GlobalStaticValues.EMPTY_COLOR)
+        : this(GlobalStaticVariables.DEFAULT_EMPTY_STRING, GlobalStaticVariables.DEFAULT_EMPTY_STRING, null, GlobalStaticVariables.EMPTY_COLOR)
     {
     }
 
@@ -95,7 +95,7 @@ public class FixedContentValue : IContentValues
     [Localizable(true)]
     public Color ImageTransparentColor { get; set; }
 
-    private bool ShouldSerializeImageTransparentColor() => ImageTransparentColor != GlobalStaticValues.EMPTY_COLOR;
+    private bool ShouldSerializeImageTransparentColor() => ImageTransparentColor != GlobalStaticVariables.EMPTY_COLOR;
 
     #endregion
 
@@ -138,7 +138,7 @@ public class FixedContentValue : IContentValues
     /// </summary>
     /// <param name="state">The state for which the overlay image is needed.</param>
     /// <returns>Color value.</returns>
-    public Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+    public Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the position of the overlay image relative to the main image.

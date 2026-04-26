@@ -72,7 +72,7 @@ public class KryptonCommand : Component, IKryptonCommand, INotifyPropertyChanged
         _textLine2 = string.Empty;
         _imageSmall = null;
         _imageLarge = null;
-        _imageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
+        _imageTransparentColor = GlobalStaticVariables.EMPTY_COLOR;
         _commandType = KryptonCommandType.General;
         _assignedButtonSpec = null;
     }

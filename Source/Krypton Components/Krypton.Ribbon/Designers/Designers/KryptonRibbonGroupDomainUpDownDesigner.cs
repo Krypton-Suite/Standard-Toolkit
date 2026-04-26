@@ -82,8 +82,8 @@ internal class KryptonRibbonGroupDomainUpDownDesigner : ComponentDesigner, IKryp
         }
 
         // Get access to the services
-        _designerHost = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_designerHost)));
-        _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_changeService)));
+        _designerHost = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_designerHost)));
+        _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_changeService)));
 
         // We need to know when we are being removed/changed
         _changeService.ComponentChanged += OnComponentChanged;
@@ -206,7 +206,7 @@ internal class KryptonRibbonGroupDomainUpDownDesigner : ComponentDesigner, IKryp
 
         if (_ribbonDomainUpDown.Ribbon is not null)
         {
-            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
+            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("items"));
             moveFirst = items.IndexOf(_ribbonDomainUpDown) > 0;
             movePrev = items.IndexOf(_ribbonDomainUpDown) > 0;
             moveNext = items.IndexOf(_ribbonDomainUpDown) < (items.Count - 1);
@@ -233,7 +233,7 @@ internal class KryptonRibbonGroupDomainUpDownDesigner : ComponentDesigner, IKryp
         if (_ribbonDomainUpDown.Ribbon is not null)
         {
             // Get access to the parent collection of items
-            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
+            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("items"));
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupDomainUpDown MoveFirst");
@@ -268,7 +268,7 @@ internal class KryptonRibbonGroupDomainUpDownDesigner : ComponentDesigner, IKryp
         if (_ribbonDomainUpDown.Ribbon is not null)
         {
             // Get access to the parent collection of items
-            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
+            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("items"));
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupDomainUpDown MovePrevious");
@@ -305,7 +305,7 @@ internal class KryptonRibbonGroupDomainUpDownDesigner : ComponentDesigner, IKryp
         if (_ribbonDomainUpDown.Ribbon is not null)
         {
             // Get access to the parent collection of items
-            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
+            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("items"));
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupDomainUpDown MoveNext");
@@ -342,7 +342,7 @@ internal class KryptonRibbonGroupDomainUpDownDesigner : ComponentDesigner, IKryp
         if (_ribbonDomainUpDown.Ribbon is not null)
         {
             // Get access to the parent collection of items
-            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
+            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("items"));
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupDomainUpDown MoveLast");
@@ -377,7 +377,7 @@ internal class KryptonRibbonGroupDomainUpDownDesigner : ComponentDesigner, IKryp
         if (_ribbonDomainUpDown.Ribbon is not null)
         {
             // Get access to the parent collection of items
-            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
+            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("items"));
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupDomainUpDown DeleteDomainUpDown");
@@ -414,7 +414,7 @@ internal class KryptonRibbonGroupDomainUpDownDesigner : ComponentDesigner, IKryp
     {
         if (_ribbonDomainUpDown.Ribbon is not null)
         {
-            PropertyDescriptor? propertyEnabled = TypeDescriptor.GetProperties(_ribbonDomainUpDown)[nameof(Enabled)] ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("propertyEnabled"));
+            PropertyDescriptor? propertyEnabled = TypeDescriptor.GetProperties(_ribbonDomainUpDown)[nameof(Enabled)] ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("propertyEnabled"));
             var oldValue = (bool?)propertyEnabled.GetValue(_ribbonDomainUpDown);
             var newValue = !oldValue;
             _changeService.OnComponentChanged(_ribbonDomainUpDown, null, oldValue, newValue);
@@ -426,7 +426,7 @@ internal class KryptonRibbonGroupDomainUpDownDesigner : ComponentDesigner, IKryp
     {
         if (_ribbonDomainUpDown.Ribbon is not null)
         {
-            PropertyDescriptor? propertyVisible = TypeDescriptor.GetProperties(_ribbonDomainUpDown)[nameof(Visible)] ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("propertyVisible"));
+            PropertyDescriptor? propertyVisible = TypeDescriptor.GetProperties(_ribbonDomainUpDown)[nameof(Visible)] ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("propertyVisible"));
             var oldValue = (bool?)propertyVisible.GetValue(_ribbonDomainUpDown);
             var newValue = !oldValue;
             _changeService.OnComponentChanged(_ribbonDomainUpDown, null, oldValue, newValue);

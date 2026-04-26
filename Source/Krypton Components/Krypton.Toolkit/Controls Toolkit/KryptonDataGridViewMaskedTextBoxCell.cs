@@ -60,7 +60,7 @@ public class KryptonDataGridViewMaskedTextBoxCell : DataGridViewTextBoxCell
             _paintingMaskedTextBox.SetLayoutDisplayPadding(new Padding(0, 0, 1, -1));
             _paintingMaskedTextBox.StateCommon.Border.Width = 0;
             _paintingMaskedTextBox.StateCommon.Border.Draw = InheritBool.False;
-            _paintingMaskedTextBox.StateCommon.Back.Color1 = GlobalStaticValues.EMPTY_COLOR;
+            _paintingMaskedTextBox.StateCommon.Back.Color1 = GlobalStaticVariables.EMPTY_COLOR;
         }
 
         // Set the default values of the properties:

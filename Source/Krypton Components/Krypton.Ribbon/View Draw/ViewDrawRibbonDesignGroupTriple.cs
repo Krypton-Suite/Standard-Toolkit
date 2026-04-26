@@ -38,7 +38,7 @@ internal class ViewDrawRibbonDesignGroupTriple : ViewDrawRibbonDesignBase
         // Use image list to convert background Magenta to transparent
         _imageList = new ImageList
         {
-            TransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR
+            TransparentColor = GlobalStaticVariables.TRANSPARENCY_KEY_COLOR
         };
         _imageList.Images.AddRange([
             GenericImageResources.KryptonRibbonGroupButton,

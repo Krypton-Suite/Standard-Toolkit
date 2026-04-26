@@ -164,7 +164,7 @@ public class KryptonMiscellaneousStrings
 
     #region Public Overrides
 
-    public override string ToString() => !IsDefault ? "Modified" : GlobalStaticValues.DEFAULT_EMPTY_STRING;
+    public override string ToString() => !IsDefault ? "Modified" : GlobalStaticVariables.DEFAULT_EMPTY_STRING;
 
     #endregion
 }

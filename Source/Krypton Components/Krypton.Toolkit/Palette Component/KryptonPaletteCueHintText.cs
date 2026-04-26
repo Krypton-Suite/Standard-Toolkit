@@ -20,7 +20,7 @@ public class KryptonPaletteCueHintText : Storage
     {
         NeedPaint = needPaint;
 
-        CueColor = GlobalStaticValues.EMPTY_COLOR;
+        CueColor = GlobalStaticVariables.EMPTY_COLOR;
 
         CueFont = null;
     }
@@ -28,13 +28,13 @@ public class KryptonPaletteCueHintText : Storage
     #endregion
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public override bool IsDefault => (CueColor == GlobalStaticValues.EMPTY_COLOR) && (CueFont == null);
+    public override bool IsDefault => (CueColor == GlobalStaticVariables.EMPTY_COLOR) && (CueFont == null);
 
     #region Colour
 
     public Color CueColor { get; set; }
 
-    public void ResetCueColor() => CueColor = GlobalStaticValues.EMPTY_COLOR;
+    public void ResetCueColor() => CueColor = GlobalStaticVariables.EMPTY_COLOR;
 
     #endregion
 
