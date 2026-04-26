@@ -971,13 +971,13 @@ public abstract class RenderBase : Component,
             }
 
             // Do we need to remap a colors in the bitmap?
-            if ((remapTransparent != GlobalStaticValues.EMPTY_COLOR) ||
-                ((remapColor != GlobalStaticValues.EMPTY_COLOR) && (remapNew != GlobalStaticValues.EMPTY_COLOR)))
+            if ((remapTransparent != GlobalStaticVariables.EMPTY_COLOR) ||
+                ((remapColor != GlobalStaticVariables.EMPTY_COLOR) && (remapNew != GlobalStaticVariables.EMPTY_COLOR)))
             {
                 var colorMaps = new List<ColorMap>();
 
                 // Create remapping for the transparent color
-                if (remapTransparent != GlobalStaticValues.EMPTY_COLOR)
+                if (remapTransparent != GlobalStaticVariables.EMPTY_COLOR)
                 {
                     var remap = new ColorMap
                     {
@@ -988,7 +988,7 @@ public abstract class RenderBase : Component,
                 }
 
                 // Create remapping from source to target colors
-                if ((remapColor != GlobalStaticValues.EMPTY_COLOR) && (remapNew != GlobalStaticValues.EMPTY_COLOR))
+                if ((remapColor != GlobalStaticVariables.EMPTY_COLOR) && (remapNew != GlobalStaticVariables.EMPTY_COLOR))
                 {
                     var remap = new ColorMap
                     {

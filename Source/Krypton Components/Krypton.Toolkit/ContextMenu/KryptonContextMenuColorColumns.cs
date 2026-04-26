@@ -137,7 +137,7 @@ public class KryptonContextMenuColorColumns : KryptonContextMenuItemBase
     {
         // Default fields
         _autoClose = true;
-        _selectedColor = GlobalStaticValues.EMPTY_COLOR;
+        _selectedColor = GlobalStaticVariables.EMPTY_COLOR;
         _groupNonFirstRows = true;
         _blockSize = new Size(13, 13);
         SetColorScheme(scheme);

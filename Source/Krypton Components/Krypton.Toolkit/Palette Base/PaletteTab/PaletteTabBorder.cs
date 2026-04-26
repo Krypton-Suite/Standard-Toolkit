@@ -38,8 +38,8 @@ public class PaletteTabBorder : PaletteBorder
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public override bool IsDefault => (Draw == InheritBool.Inherit) &&
                                       (GraphicsHint == PaletteGraphicsHint.Inherit) &&
-                                      (Color1 == GlobalStaticValues.EMPTY_COLOR) &&
-                                      (Color2 == GlobalStaticValues.EMPTY_COLOR) &&
+                                      (Color1 == GlobalStaticVariables.EMPTY_COLOR) &&
+                                      (Color2 == GlobalStaticVariables.EMPTY_COLOR) &&
                                       (ColorStyle == PaletteColorStyle.Inherit) &&
                                       (ColorAlign == PaletteRectangleAlign.Inherit) &&
                                       (ColorAngle == -1) &&

@@ -128,7 +128,7 @@ public class KryptonDataGridViewProgressCell : KryptonDataGridViewTextBoxCell
                     }
 
                     // Custom text color for the progress cell
-                    if (KryptonOwningColumn.ProgressBar.TextColor != GlobalStaticValues.EMPTY_COLOR)
+                    if (KryptonOwningColumn.ProgressBar.TextColor != GlobalStaticVariables.EMPTY_COLOR)
                     {
                         cellStyle.ForeColor = KryptonOwningColumn.ProgressBar.TextColor;
                     }
