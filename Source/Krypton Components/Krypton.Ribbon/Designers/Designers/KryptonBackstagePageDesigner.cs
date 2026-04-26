@@ -22,7 +22,7 @@ internal class KryptonBackstagePageDesigner : ScrollableControlDesigner
         base.Initialize(component);
 
         _page = component as KryptonBackstagePage;
-        _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_changeService)));
+        _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_changeService)));
         _changeService.ComponentRemoving += OnComponentRemoving;
 
         // Lock the component from user size/location change when hosted inside a backstage view

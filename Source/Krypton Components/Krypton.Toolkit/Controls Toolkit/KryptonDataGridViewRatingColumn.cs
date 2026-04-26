@@ -148,7 +148,7 @@ public class KryptonDataGridViewRatingColumn : KryptonDataGridViewIconColumn
     /// <inheritdoc/>
     public override object Clone()
     {
-        var cloned = base.Clone() as KryptonDataGridViewRatingColumn ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("cloned"));
+        var cloned = base.Clone() as KryptonDataGridViewRatingColumn ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("cloned"));
 
         CloneImageDictionary(_images, cloned._images);
         CloneImageDictionary(_imagesDisabled, cloned._imagesDisabled);

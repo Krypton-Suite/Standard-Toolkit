@@ -101,7 +101,7 @@ internal class ExceptionHandler
         }
         catch (Exception e)
         {
-            CaptureException(e, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
+            CaptureException(e, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
         }
     }
 
@@ -127,7 +127,7 @@ internal class ExceptionHandler
         }
         catch (Exception e)
         {
-            CaptureException(e, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
+            CaptureException(e, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
         }
     }
     #endregion

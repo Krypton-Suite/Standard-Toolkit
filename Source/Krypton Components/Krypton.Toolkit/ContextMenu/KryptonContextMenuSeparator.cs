@@ -98,7 +98,7 @@ public class KryptonContextMenuSeparator : KryptonContextMenuItemBase
 
             // Take up same space as the image column, so separator starts close to actual text
             var imageContent = new ViewDrawContent(provider.ProviderStateCommon.ItemImage.Content,
-                new FixedContentValue(null, null, null, GlobalStaticValues.EMPTY_COLOR), VisualOrientation.Top);
+                new FixedContentValue(null, null, null, GlobalStaticVariables.EMPTY_COLOR), VisualOrientation.Top);
             var imageCanvas = new ViewDrawMenuImageCanvas(provider.ProviderStateCommon.ItemImage.Back,
                 provider.ProviderStateCommon.ItemImage.Border, 0, true)
             {

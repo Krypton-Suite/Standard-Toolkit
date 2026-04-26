@@ -108,7 +108,7 @@ internal class ViewDrawRibbonNotificationBar : ViewComposite
 
         public Image? GetOverlayImage(PaletteState state) => null;
 
-        public Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+        public Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
 
         public OverlayImagePosition GetOverlayImagePosition(PaletteState state) => OverlayImagePosition.TopRight;
 
@@ -143,7 +143,7 @@ internal class ViewDrawRibbonNotificationBar : ViewComposite
 
         public Image? GetOverlayImage(PaletteState state) => null;
 
-        public Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+        public Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
 
         public OverlayImagePosition GetOverlayImagePosition(PaletteState state) => OverlayImagePosition.TopRight;
 
@@ -171,7 +171,7 @@ internal class ViewDrawRibbonNotificationBar : ViewComposite
 
         public Image? GetOverlayImage(PaletteState state) => null;
 
-        public Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+        public Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
 
         public OverlayImagePosition GetOverlayImagePosition(PaletteState state) => OverlayImagePosition.TopRight;
 
@@ -868,7 +868,7 @@ internal class ViewDrawRibbonNotificationBar : ViewComposite
 
         public Image? GetOverlayImage(PaletteState state) => null;
 
-        public Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+        public Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
 
         public OverlayImagePosition GetOverlayImagePosition(PaletteState state) => OverlayImagePosition.TopRight;
 
@@ -910,7 +910,7 @@ internal class ViewDrawRibbonNotificationBar : ViewComposite
 
         public Image? GetOverlayImage(PaletteState state) => null;
 
-        public Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+        public Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
 
         public OverlayImagePosition GetOverlayImagePosition(PaletteState state) => OverlayImagePosition.TopRight;
 

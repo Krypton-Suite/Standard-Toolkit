@@ -160,7 +160,7 @@ public class KryptonContextMenuItem : KryptonContextMenuItemBase
         _showShortcutKeys = true;
         _largeKryptonCommandImage = false;
         _extraText = string.Empty;
-        _imageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
+        _imageTransparentColor = GlobalStaticVariables.EMPTY_COLOR;
         _shortcutKeys = shortcut;
         _shortcutKeyDisplayString = string.Empty;
         _checkState = CheckState.Unchecked;
@@ -324,8 +324,8 @@ public class KryptonContextMenuItem : KryptonContextMenuItemBase
         }
     }
 
-    private bool ShouldSerializeImageTransparentColor() => !_imageTransparentColor.Equals(GlobalStaticValues.EMPTY_COLOR);
-    private void ResetImageTransparentColor() => _imageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
+    private bool ShouldSerializeImageTransparentColor() => !_imageTransparentColor.Equals(GlobalStaticVariables.EMPTY_COLOR);
+    private void ResetImageTransparentColor() => _imageTransparentColor = GlobalStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets and sets the shortcut key combination associated with the menu item.

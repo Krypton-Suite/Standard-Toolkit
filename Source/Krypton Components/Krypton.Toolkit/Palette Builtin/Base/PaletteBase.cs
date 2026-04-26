@@ -888,7 +888,7 @@ public abstract class PaletteBase : Component
         switch (style)
         {
             case PaletteButtonSpecStyle.Generic:
-                return GlobalStaticValues.EMPTY_COLOR;
+                return GlobalStaticVariables.EMPTY_COLOR;
             case PaletteButtonSpecStyle.Close:
             case PaletteButtonSpecStyle.Context:
             case PaletteButtonSpecStyle.Next:
@@ -912,7 +912,7 @@ public abstract class PaletteBase : Component
             case PaletteButtonSpecStyle.WorkspaceRestore:
             case PaletteButtonSpecStyle.RibbonMinimize:
             case PaletteButtonSpecStyle.RibbonExpand:
-                return GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
+                return GlobalStaticVariables.TRANSPARENCY_KEY_COLOR;
             case PaletteButtonSpecStyle.New:
             case PaletteButtonSpecStyle.Open:
             case PaletteButtonSpecStyle.SaveAll:
@@ -927,12 +927,12 @@ public abstract class PaletteBase : Component
             case PaletteButtonSpecStyle.PrintPreview:
             case PaletteButtonSpecStyle.Print:
             case PaletteButtonSpecStyle.QuickPrint:
-                return GlobalStaticValues.EMPTY_COLOR;
+                return GlobalStaticVariables.EMPTY_COLOR;
             default:
                 // Should never happen!
                 Debug.Assert(false);
                 DebugTools.NotImplemented(style.ToString());
-                return GlobalStaticValues.EMPTY_COLOR;
+                return GlobalStaticVariables.EMPTY_COLOR;
         }
     }
 
@@ -1142,7 +1142,7 @@ public abstract class PaletteBase : Component
             case PaletteButtonSpecStyle.PrintPreview:
             case PaletteButtonSpecStyle.Print:
             case PaletteButtonSpecStyle.QuickPrint:
-                return GlobalStaticValues.EMPTY_COLOR;
+                return GlobalStaticVariables.EMPTY_COLOR;
             case PaletteButtonSpecStyle.Close:
             case PaletteButtonSpecStyle.Context:
             case PaletteButtonSpecStyle.Next:
@@ -1163,7 +1163,7 @@ public abstract class PaletteBase : Component
                 // Should never happen!
                 Debug.Assert(false);
                 DebugTools.NotImplemented(style.ToString());
-                return GlobalStaticValues.EMPTY_COLOR;
+                return GlobalStaticVariables.EMPTY_COLOR;
         }
     }
 
@@ -1191,7 +1191,7 @@ public abstract class PaletteBase : Component
             case PaletteButtonSpecStyle.PrintPreview:
             case PaletteButtonSpecStyle.Print:
             case PaletteButtonSpecStyle.QuickPrint:
-                return GlobalStaticValues.EMPTY_COLOR;
+                return GlobalStaticVariables.EMPTY_COLOR;
             case PaletteButtonSpecStyle.Close:
             case PaletteButtonSpecStyle.Context:
             case PaletteButtonSpecStyle.Next:
@@ -1215,12 +1215,12 @@ public abstract class PaletteBase : Component
             case PaletteButtonSpecStyle.WorkspaceRestore:
             case PaletteButtonSpecStyle.RibbonMinimize:
             case PaletteButtonSpecStyle.RibbonExpand:
-                return GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
+                return GlobalStaticVariables.TRANSPARENCY_KEY_COLOR;
             default:
                 // Should never happen!
                 Debug.Assert(false);
                 DebugTools.NotImplemented(style.ToString());
-                return GlobalStaticValues.EMPTY_COLOR;
+                return GlobalStaticVariables.EMPTY_COLOR;
         }
     }
 
@@ -2355,7 +2355,7 @@ public abstract class PaletteBase : Component
         lock (_colorLock)
         {
             var idx = (int)colorIndex;
-            return idx >= 0 && idx < _extraColors.Length ? _extraColors[idx] : GlobalStaticValues.EMPTY_COLOR;
+            return idx >= 0 && idx < _extraColors.Length ? _extraColors[idx] : GlobalStaticVariables.EMPTY_COLOR;
         }
     }
 
@@ -2414,7 +2414,7 @@ public abstract class PaletteBase : Component
 
         if (state is PaletteState.Tracking or PaletteState.CheckedTracking)
         {
-            return trackingColor != GlobalStaticValues.EMPTY_COLOR && !trackingColor.IsEmpty
+            return trackingColor != GlobalStaticVariables.EMPTY_COLOR && !trackingColor.IsEmpty
                 ? trackingColor
                 : defaultColor;
         }

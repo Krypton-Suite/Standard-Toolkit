@@ -28,11 +28,11 @@ public class KryptonPaletteCargo : Storage
         NeedPaint = needPaint;
 
         // Default cargo values
-        Color1 = GlobalStaticValues.EMPTY_COLOR;
-        Color2 = GlobalStaticValues.EMPTY_COLOR;
-        Color3 = GlobalStaticValues.EMPTY_COLOR;
-        Color4 = GlobalStaticValues.EMPTY_COLOR;
-        Color5 = GlobalStaticValues.EMPTY_COLOR;
+        Color1 = GlobalStaticVariables.EMPTY_COLOR;
+        Color2 = GlobalStaticVariables.EMPTY_COLOR;
+        Color3 = GlobalStaticVariables.EMPTY_COLOR;
+        Color4 = GlobalStaticVariables.EMPTY_COLOR;
+        Color5 = GlobalStaticVariables.EMPTY_COLOR;
     }
     #endregion
 
@@ -43,11 +43,11 @@ public class KryptonPaletteCargo : Storage
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public override bool IsDefault => (Color1 == GlobalStaticValues.EMPTY_COLOR) &&
-                                      (Color2 == GlobalStaticValues.EMPTY_COLOR) &&
-                                      (Color3 == GlobalStaticValues.EMPTY_COLOR) &&
-                                      (Color4 == GlobalStaticValues.EMPTY_COLOR) &&
-                                      (Color5 == GlobalStaticValues.EMPTY_COLOR);
+    public override bool IsDefault => (Color1 == GlobalStaticVariables.EMPTY_COLOR) &&
+                                      (Color2 == GlobalStaticVariables.EMPTY_COLOR) &&
+                                      (Color3 == GlobalStaticVariables.EMPTY_COLOR) &&
+                                      (Color4 == GlobalStaticVariables.EMPTY_COLOR) &&
+                                      (Color5 == GlobalStaticVariables.EMPTY_COLOR);
     //(Font1 == null) &&
     //(Font2 == null);
 
@@ -67,7 +67,7 @@ public class KryptonPaletteCargo : Storage
     /// <summary>
     /// esets the Color1 property to its default value.
     /// </summary>
-    public void ResetColor1() => Color1 = GlobalStaticValues.EMPTY_COLOR;
+    public void ResetColor1() => Color1 = GlobalStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region Color2
@@ -84,7 +84,7 @@ public class KryptonPaletteCargo : Storage
     /// <summary>
     /// esets the Color2 property to its default value.
     /// </summary>
-    public void ResetColor2() => Color2 = GlobalStaticValues.EMPTY_COLOR;
+    public void ResetColor2() => Color2 = GlobalStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region Color3
@@ -101,7 +101,7 @@ public class KryptonPaletteCargo : Storage
     /// <summary>
     /// esets the Color3 property to its default value.
     /// </summary>
-    public void ResetColor3() => Color3 = GlobalStaticValues.EMPTY_COLOR;
+    public void ResetColor3() => Color3 = GlobalStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region Color4
@@ -118,7 +118,7 @@ public class KryptonPaletteCargo : Storage
     /// <summary>
     /// esets the Color4 property to its default value.
     /// </summary>
-    public void ResetColor4() => Color4 = GlobalStaticValues.EMPTY_COLOR;
+    public void ResetColor4() => Color4 = GlobalStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region Color5
@@ -135,7 +135,7 @@ public class KryptonPaletteCargo : Storage
     /// <summary>
     /// esets the Color5 property to its default value.
     /// </summary>
-    public void ResetColor5() => Color5 = GlobalStaticValues.EMPTY_COLOR;
+    public void ResetColor5() => Color5 = GlobalStaticVariables.EMPTY_COLOR;
     #endregion
 
     /*

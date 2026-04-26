@@ -1995,7 +1995,7 @@ public abstract class VisualForm : Form,
         {
             // Silently fail if jump list API is not available
             // This can happen on older Windows versions or if COM registration fails
-            KryptonExceptionHandler.CaptureException(ex, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
+            KryptonExceptionHandler.CaptureException(ex, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
         }
     }
 
@@ -2057,7 +2057,7 @@ public abstract class VisualForm : Form,
         }
         catch (Exception ex)
         {
-            KryptonExceptionHandler.CaptureException(ex, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
+            KryptonExceptionHandler.CaptureException(ex, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
             return null;
         }
     }
@@ -2176,7 +2176,7 @@ public abstract class VisualForm : Form,
         {
             // Silently fail if taskbar API is not available
             // This can happen on older Windows versions or if COM registration fails
-            KryptonExceptionHandler.CaptureException(ex, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
+            KryptonExceptionHandler.CaptureException(ex, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
         }
     }
 
@@ -2259,7 +2259,7 @@ public abstract class VisualForm : Form,
         }
         catch (Exception ex)
         {
-            KryptonExceptionHandler.CaptureException(ex, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
+            KryptonExceptionHandler.CaptureException(ex, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
         }
     }
 }

@@ -80,7 +80,7 @@ public static class UACShieldHelper
             bool isLargeIcon = size.Width >= 32 || size.Height >= 32;
 
             // Try the primary UAC shield icon ID
-            var icon = GraphicsExtensions.ExtractIcon(Libraries.Imageres, GlobalStaticValues.UAC_SHIELD_ICON_ID, isLargeIcon);
+            var icon = GraphicsExtensions.ExtractIcon(Libraries.Imageres, GlobalStaticConstants.UAC_SHIELD_ICON_ID, isLargeIcon);
 
             if (icon != null)
             {
@@ -92,7 +92,7 @@ public static class UACShieldHelper
             }
 
             // Try the alternative UAC shield icon ID
-            icon = GraphicsExtensions.ExtractIcon(Libraries.Imageres, GlobalStaticValues.UAC_SHIELD_ICON_ID_ALT, isLargeIcon);
+            icon = GraphicsExtensions.ExtractIcon(Libraries.Imageres, GlobalStaticConstants.UAC_SHIELD_ICON_ID_ALT, isLargeIcon);
 
             if (icon != null)
             {

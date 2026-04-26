@@ -45,7 +45,7 @@ internal class KeyTipControl : KryptonForm
         StartPosition = FormStartPosition.Manual;
         FormBorderStyle = FormBorderStyle.None;
         ShowInTaskbar = false;
-        TransparencyKey = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
+        TransparencyKey = GlobalStaticVariables.TRANSPARENCY_KEY_COLOR;
         StateCommon!.Border.DrawBorders = PaletteDrawBorders.None;
         StateCommon!.Border.Width = 0;
 

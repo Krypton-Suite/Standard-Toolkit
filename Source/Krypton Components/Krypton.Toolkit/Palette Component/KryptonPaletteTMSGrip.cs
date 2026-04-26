@@ -36,8 +36,8 @@ public class KryptonPaletteTMSGrip : KryptonPaletteTMSBase
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public override bool IsDefault => (InternalKCT.InternalGripDark == GlobalStaticValues.EMPTY_COLOR) &&
-                                      (InternalKCT.InternalGripLight == GlobalStaticValues.EMPTY_COLOR);
+    public override bool IsDefault => (InternalKCT.InternalGripDark == GlobalStaticVariables.EMPTY_COLOR) &&
+                                      (InternalKCT.InternalGripLight == GlobalStaticVariables.EMPTY_COLOR);
 
     #endregion
 
@@ -74,7 +74,7 @@ public class KryptonPaletteTMSGrip : KryptonPaletteTMSBase
     /// <summary>
     /// esets the GripDark property to its default value.
     /// </summary>
-    public void ResetGripDark() => GripDark = GlobalStaticValues.EMPTY_COLOR;
+    public void ResetGripDark() => GripDark = GlobalStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region GripLight
@@ -99,6 +99,6 @@ public class KryptonPaletteTMSGrip : KryptonPaletteTMSBase
     /// <summary>
     /// esets the GripLight property to its default value.
     /// </summary>
-    public void ResetGripLight() => GripLight = GlobalStaticValues.EMPTY_COLOR;
+    public void ResetGripLight() => GripLight = GlobalStaticVariables.EMPTY_COLOR;
     #endregion
 }

@@ -148,7 +148,7 @@ public static class PaletteImageScaler
             return img;
         }
         using var tmpBmp = new Bitmap(img);
-        tmpBmp.MakeTransparent(GlobalStaticValues.TRANSPARENCY_KEY_COLOR);
+        tmpBmp.MakeTransparent(GlobalStaticVariables.TRANSPARENCY_KEY_COLOR);
         return CommonHelper.ScaleImageForSizedDisplay(tmpBmp, img.Width * scaleFactor.Width, img.Height * scaleFactor.Height, false);
     }
 }
