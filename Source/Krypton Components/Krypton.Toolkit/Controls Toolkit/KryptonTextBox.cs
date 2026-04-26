@@ -104,6 +104,9 @@ public class KryptonTextBox : VisualControlBase,
         {
             switch (m.Msg)
             {
+                case PI.WM_.ERASEBKGND:
+                    // Prevent two-stage erase/paint redraw during resize, which causes visible text flicker.
+                    break;
                 case PI.WM_.NCHITTEST:
                     if (_kryptonTextBox.InTransparentDesignMode)
                     {
@@ -135,6 +138,17 @@ public class KryptonTextBox : VisualControlBase,
                 case PI.WM_.PRINTCLIENT:
                 case PI.WM_.PAINT:
                 {
+                    bool hasCueHintText = !string.IsNullOrWhiteSpace(_kryptonTextBox.CueHint.CueHintText);
+                    bool hasUserText = !string.IsNullOrEmpty(_kryptonTextBox.Text);
+
+                    // Use native edit-control painting for the common enabled text path.
+                    // Custom cue-hint/disabled rendering remains below.
+                    if (_kryptonTextBox.Enabled && (!hasCueHintText || hasUserText))
+                    {
+                        base.WndProc(ref m);
+                        break;
+                    }
+
                     var ps = new PI.PAINTSTRUCT();
 
                     // Do we need to BeginPaint or just take the given HDC?
@@ -152,9 +166,7 @@ public class KryptonTextBox : VisualControlBase,
                     Size borderSize = SystemInformation.BorderSize;
                     rect.left -= borderSize.Width + 1;
 
-                    if (!string.IsNullOrWhiteSpace(_kryptonTextBox.CueHint.CueHintText)
-                        && string.IsNullOrEmpty(_kryptonTextBox.Text)
-                       )
+                    if (hasCueHintText && !hasUserText)
                     {
                         // Go perform the drawing of the CueHint
                         using var backBrush = new SolidBrush(BackColor);
@@ -1574,11 +1586,30 @@ public class KryptonTextBox : VisualControlBase,
     /// <param name="e">An EventArgs that contains the event data.</param>
     protected override void OnResize(EventArgs e)
     {
-        // Let base class raise events
-        base.OnResize(e);
+        bool freezeTextBoxRedraw = Multiline && _textBox.IsHandleCreated;
 
-        // We must have a layout calculation
-        ForceControlLayout();
+        if (freezeTextBoxRedraw)
+        {
+            PI.SendMessage(_textBox.Handle, PI.SETREDRAW, IntPtr.Zero, IntPtr.Zero);
+        }
+
+        try
+        {
+            // Let base class raise events
+            base.OnResize(e);
+
+            // We must have a layout calculation
+            ForceControlLayout();
+        }
+        finally
+        {
+            if (freezeTextBoxRedraw)
+            {
+                PI.SendMessage(_textBox.Handle, PI.SETREDRAW, (IntPtr)1, IntPtr.Zero);
+                _textBox.Invalidate();
+                _textBox.Update();
+            }
+        }
     }
 
     /// <summary>
