@@ -3396,12 +3396,11 @@ public class KryptonCustomPaletteBase : PaletteBase
 										//   a default Font instance instead of null
 										//
 										// By skipping the conversion, the property is correctly restored
-										// to a null value.
+										// as null.
 										// -----------------------------------------------------------------
-										if (!(resolvedType == typeof(Font) && valueValue == "(none)"))
+										if (resolvedType != typeof(Font) || valueValue != "(none)")
 										{
 											var converter = TypeDescriptor.GetConverter(resolvedType);
-
 											setValue = converter.ConvertFromInvariantString(valueValue);
 										}
 
