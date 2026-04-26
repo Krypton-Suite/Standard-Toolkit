@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2025 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2025 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -138,9 +138,9 @@ public sealed class PaletteMaterialDark_BaseScheme : KryptonColorSchemeBase
     public override Color RibbonGroupFrameInside3          { get; set; } = Color.FromArgb(214, 218, 223);
     public override Color RibbonGroupFrameInside4          { get; set; } = Color.FromArgb(222, 225, 230);
     public override Color RibbonGroupCollapsedText         { get; set; } = Color.FromArgb(255, 255, 255);
-    public override Color RibbonGroupTextTracking          { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color ButtonTextTracking               { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonGroupButtonText            { get; set; } = GlobalStaticValues.EMPTY_COLOR; // missing value
+    public override Color RibbonGroupTextTracking          { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
+    public override Color ButtonTextTracking               { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
+    public override Color RibbonGroupButtonText            { get; set; } = GlobalStaticVariables.EMPTY_COLOR; // missing value
     public override Color AlternatePressedBack1            { get; set; } = Color.FromArgb(158, 163, 172);
     public override Color AlternatePressedBack2            { get; set; } = Color.FromArgb(212, 215, 216);
     public override Color AlternatePressedBorder1          { get; set; } = Color.FromArgb(124, 125, 125);
@@ -221,11 +221,11 @@ public sealed class PaletteMaterialDark_BaseScheme : KryptonColorSchemeBase
     public override Color RibbonGalleryBackTracking        { get; set; } = Color.FromArgb(247, 247, 247);
     public override Color RibbonGalleryBack1               { get; set; } = Color.FromArgb(195, 200, 209);
     public override Color RibbonGalleryBack2               { get; set; } = Color.FromArgb(217, 220, 224);
-    public override Color RibbonTabTracking3               { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonTabTracking4               { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonGroupBorder3               { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonGroupBorder4               { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonGroupBorder5               { get; set; } = GlobalStaticValues.EMPTY_COLOR;
+    public override Color RibbonTabTracking3               { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
+    public override Color RibbonTabTracking4               { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
+    public override Color RibbonGroupBorder3               { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
+    public override Color RibbonGroupBorder4               { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
+    public override Color RibbonGroupBorder5               { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
     public override Color RibbonGroupTitleText             { get; set; } = Color.FromArgb(255, 255, 255);
     public override Color RibbonDropArrowLight             { get; set; } = Color.FromArgb(225, 225, 225);
     public override Color RibbonDropArrowDark              { get; set; } = Color.FromArgb(103, 103, 103);

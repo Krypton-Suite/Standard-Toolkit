@@ -1997,7 +1997,7 @@ public class KryptonCheckedListBox : VisualControlBase,
     [DefaultValue("")]
     public string DisplayMember
     {
-        get => _displayMember ?? GlobalStaticValues.DEFAULT_EMPTY_STRING;
+        get => _displayMember ?? GlobalStaticVariables.DEFAULT_EMPTY_STRING;
         set
         {
             if (_displayMember != value)
@@ -2016,7 +2016,7 @@ public class KryptonCheckedListBox : VisualControlBase,
     [DefaultValue("")]
     public string ValueMember
     {
-        get => _valueMember ?? GlobalStaticValues.DEFAULT_EMPTY_STRING;
+        get => _valueMember ?? GlobalStaticVariables.DEFAULT_EMPTY_STRING;
         set => _valueMember = value;
     }
 
@@ -2515,7 +2515,7 @@ public class KryptonCheckedListBox : VisualControlBase,
             _contentValues!.ShortText = _listBox.GetItemText(Items[index]);
             _contentValues.LongText = null;
             _contentValues.Image = null;
-            _contentValues.ImageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
+            _contentValues.ImageTransparentColor = GlobalStaticVariables.EMPTY_COLOR;
         }
     }
 

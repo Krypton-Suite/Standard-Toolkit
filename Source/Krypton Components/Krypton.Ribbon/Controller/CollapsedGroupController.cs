@@ -253,7 +253,7 @@ internal class CollapsedGroupController : GlobalId,
 
         if (ribbon.TabsArea is null)
         {
-            throw new NullReferenceException(GlobalStaticValues.PropertyCannotBeNull(nameof(ribbon.TabsArea)));
+            throw new NullReferenceException(GlobalStaticFunctions.PropertyCannotBeNull(nameof(ribbon.TabsArea)));
         }
 
         switch (e.KeyData)

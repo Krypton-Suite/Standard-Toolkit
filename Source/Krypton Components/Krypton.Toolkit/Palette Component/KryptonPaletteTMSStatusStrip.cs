@@ -36,10 +36,10 @@ public class KryptonPaletteTMSStatusStrip : KryptonPaletteTMSBase
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public override bool IsDefault => (InternalKCT.InternalStatusStripText == GlobalStaticValues.EMPTY_COLOR) &&
+    public override bool IsDefault => (InternalKCT.InternalStatusStripText == GlobalStaticVariables.EMPTY_COLOR) &&
                                       (InternalKCT.InternalStatusStripFont == null) &&
-                                      (InternalKCT.InternalStatusStripGradientBegin == GlobalStaticValues.EMPTY_COLOR) &&
-                                      (InternalKCT.InternalStatusStripGradientEnd == GlobalStaticValues.EMPTY_COLOR);
+                                      (InternalKCT.InternalStatusStripGradientBegin == GlobalStaticVariables.EMPTY_COLOR) &&
+                                      (InternalKCT.InternalStatusStripGradientEnd == GlobalStaticVariables.EMPTY_COLOR);
 
     #endregion
 
@@ -78,7 +78,7 @@ public class KryptonPaletteTMSStatusStrip : KryptonPaletteTMSBase
     /// <summary>
     /// Resets the StatusStripText property to its default value.
     /// </summary>
-    public void ResetStatusStripText() => StatusStripText = GlobalStaticValues.EMPTY_COLOR;
+    public void ResetStatusStripText() => StatusStripText = GlobalStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region StatusStripFont
@@ -103,7 +103,7 @@ public class KryptonPaletteTMSStatusStrip : KryptonPaletteTMSBase
     /// <summary>
     /// Resets the StatusStripFont property to its default value.
     /// </summary>
-    public void ResetStatusStripFont() => StatusStripText = GlobalStaticValues.EMPTY_COLOR;
+    public void ResetStatusStripFont() => StatusStripText = GlobalStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region StatusStripGradientBegin
@@ -128,7 +128,7 @@ public class KryptonPaletteTMSStatusStrip : KryptonPaletteTMSBase
     /// <summary>
     /// Resets the StatusStripGradientBegin property to its default value.
     /// </summary>
-    public void ResetStatusStripGradientBegin() => StatusStripGradientBegin = GlobalStaticValues.EMPTY_COLOR;
+    public void ResetStatusStripGradientBegin() => StatusStripGradientBegin = GlobalStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region StatusStripGradientEnd
@@ -153,6 +153,6 @@ public class KryptonPaletteTMSStatusStrip : KryptonPaletteTMSBase
     /// <summary>
     /// Resets the StatusStripGradientEnd property to its default value.
     /// </summary>
-    public void ResetStatusStripGradientEnd() => StatusStripGradientEnd = GlobalStaticValues.EMPTY_COLOR;
+    public void ResetStatusStripGradientEnd() => StatusStripGradientEnd = GlobalStaticVariables.EMPTY_COLOR;
     #endregion
 }

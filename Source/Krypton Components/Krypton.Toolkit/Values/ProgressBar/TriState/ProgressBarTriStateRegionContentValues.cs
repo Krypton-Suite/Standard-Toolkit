@@ -162,7 +162,7 @@ public class ProgressBarTriStateRegionContentValues : Storage
     #region Public Overrides
 
     /// <inheritdoc />
-    public override string ToString() => !IsDefault ? "Modified" : GlobalStaticValues.DEFAULT_EMPTY_STRING;
+    public override string ToString() => !IsDefault ? "Modified" : GlobalStaticVariables.DEFAULT_EMPTY_STRING;
 
     #endregion
 }

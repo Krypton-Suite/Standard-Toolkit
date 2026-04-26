@@ -36,10 +36,10 @@ public class KryptonPaletteTMSMenuStrip : KryptonPaletteTMSBase
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public override bool IsDefault => (InternalKCT.InternalMenuStripText == GlobalStaticValues.EMPTY_COLOR) &&
+    public override bool IsDefault => (InternalKCT.InternalMenuStripText == GlobalStaticVariables.EMPTY_COLOR) &&
                                       (InternalKCT.InternalMenuStripFont == null) &&
-                                      (InternalKCT.InternalMenuStripGradientBegin == GlobalStaticValues.EMPTY_COLOR) &&
-                                      (InternalKCT.InternalMenuStripGradientEnd == GlobalStaticValues.EMPTY_COLOR);
+                                      (InternalKCT.InternalMenuStripGradientBegin == GlobalStaticVariables.EMPTY_COLOR) &&
+                                      (InternalKCT.InternalMenuStripGradientEnd == GlobalStaticVariables.EMPTY_COLOR);
 
     #endregion
 
@@ -78,7 +78,7 @@ public class KryptonPaletteTMSMenuStrip : KryptonPaletteTMSBase
     /// <summary>
     /// esets the MenuStripText property to its default value.
     /// </summary>
-    public void ResetMenuStripText() => MenuStripText = GlobalStaticValues.EMPTY_COLOR;
+    public void ResetMenuStripText() => MenuStripText = GlobalStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region MenuStripFont
@@ -128,7 +128,7 @@ public class KryptonPaletteTMSMenuStrip : KryptonPaletteTMSBase
     /// <summary>
     /// esets the MenuStripGradientBegin property to its default value.
     /// </summary>
-    public void ResetMenuStripGradientBegin() => MenuStripGradientBegin = GlobalStaticValues.EMPTY_COLOR;
+    public void ResetMenuStripGradientBegin() => MenuStripGradientBegin = GlobalStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region MenuStripGradientEnd
@@ -153,6 +153,6 @@ public class KryptonPaletteTMSMenuStrip : KryptonPaletteTMSBase
     /// <summary>
     /// esets the MenuStripGradientEnd property to its default value.
     /// </summary>
-    public void ResetMenuStripGradientEnd() => MenuStripGradientEnd = GlobalStaticValues.EMPTY_COLOR;
+    public void ResetMenuStripGradientEnd() => MenuStripGradientEnd = GlobalStaticVariables.EMPTY_COLOR;
     #endregion
 }

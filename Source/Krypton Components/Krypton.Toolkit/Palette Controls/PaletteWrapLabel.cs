@@ -34,7 +34,7 @@ public class PaletteWrapLabel : Storage
     {
         _wrapLabel = wrapLabel;
         _font = null;
-        _textColor = GlobalStaticValues.EMPTY_COLOR;
+        _textColor = GlobalStaticVariables.EMPTY_COLOR;
         _hint = PaletteTextHint.Inherit;
     }
 
@@ -44,7 +44,7 @@ public class PaletteWrapLabel : Storage
     {
         _linkWrapLabel = linkWrapLabel;
         _font = null;
-        _textColor = GlobalStaticValues.EMPTY_COLOR;
+        _textColor = GlobalStaticVariables.EMPTY_COLOR;
         _hint = PaletteTextHint.Inherit;
     }
 
@@ -57,7 +57,7 @@ public class PaletteWrapLabel : Storage
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public override bool IsDefault => (_font == null) &&
-                                      (_textColor == GlobalStaticValues.EMPTY_COLOR) &&
+                                      (_textColor == GlobalStaticVariables.EMPTY_COLOR) &&
                                       (_hint == PaletteTextHint.Inherit);
 
     #endregion

@@ -66,7 +66,7 @@ public class VisualPopupToolTip : VisualPopup
         Debug.Assert(contentValues is not null);
 
         // Remember references needed later
-        _contentValues = contentValues ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(contentValues)));
+        _contentValues = contentValues ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(contentValues)));
 
         // Create the triple redirector needed by view elements
         _palette = new PaletteTripleMetricRedirect(redirector, backStyle, borderStyle, contentStyle, NeedPaintDelegate);

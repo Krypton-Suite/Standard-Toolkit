@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, tobitege & Ahmed Abdelhameed et al. 2025 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, tobitege & Ahmed Abdelhameed et al. 2025 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -148,7 +148,7 @@ public class KryptonDataGridViewRatingColumn : KryptonDataGridViewIconColumn
     /// <inheritdoc/>
     public override object Clone()
     {
-        var cloned = base.Clone() as KryptonDataGridViewRatingColumn ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("cloned"));
+        var cloned = base.Clone() as KryptonDataGridViewRatingColumn ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("cloned"));
 
         CloneImageDictionary(_images, cloned._images);
         CloneImageDictionary(_imagesDisabled, cloned._imagesDisabled);

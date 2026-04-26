@@ -55,7 +55,7 @@ public class KryptonDataGridViewTextBoxColumn : KryptonDataGridViewIconColumn
     /// <returns></returns>
     public override object Clone()
     {
-        var cloned = base.Clone() as KryptonDataGridViewTextBoxColumn ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("coned"));
+        var cloned = base.Clone() as KryptonDataGridViewTextBoxColumn ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("coned"));
 
         cloned.Multiline = Multiline;
         cloned.MultilineStringEditor = MultilineStringEditor;

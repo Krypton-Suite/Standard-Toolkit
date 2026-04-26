@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -21,11 +21,11 @@ public class PaletteMicrosoft365White : PaletteMicrosoft365Base
 
     #region Ribbon Specific Colors
 
-    private static readonly Color _ribbonAppButtonDarkColor = GlobalStaticValues.DEFAULT_RIBBON_FILE_APP_TAB_BOTTOM_COLOR;
+    private static readonly Color _ribbonAppButtonDarkColor = GlobalStaticVariables.DEFAULT_RIBBON_FILE_APP_TAB_BOTTOM_COLOR;
 
-    private static readonly Color _ribbonAppButtonLightColor = GlobalStaticValues.DEFAULT_RIBBON_FILE_APP_TAB_TOP_COLOR;
+    private static readonly Color _ribbonAppButtonLightColor = GlobalStaticVariables.DEFAULT_RIBBON_FILE_APP_TAB_TOP_COLOR;
 
-    private static readonly Color _ribbonAppButtonTextColor = GlobalStaticValues.DEFAULT_RIBBON_FILE_APP_TAB_TEXT_COLOR;
+    private static readonly Color _ribbonAppButtonTextColor = GlobalStaticVariables.DEFAULT_RIBBON_FILE_APP_TAB_TEXT_COLOR;
 
     #endregion
 
@@ -146,7 +146,7 @@ public class PaletteMicrosoft365White : PaletteMicrosoft365Base
         {
             ImageSize = new Size(13, 7),
             ColorDepth = ColorDepth.Depth24Bit,
-            TransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR
+            TransparentColor = GlobalStaticVariables.TRANSPARENCY_KEY_COLOR
         };
         _galleryButtonList.Images.AddStrip(GalleryImageResources.Gallery2010);
 
@@ -333,15 +333,15 @@ public class PaletteMicrosoft365White : PaletteMicrosoft365Base
     #region Tab Row Background
 
     /// <inheritdoc />
-    public override Color GetRibbonTabRowGradientColor1(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+    public override Color GetRibbonTabRowGradientColor1(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
 
     /// <inheritdoc />
     public override Color GetRibbonTabRowBackgroundGradientRaftingDark(PaletteState state) =>
-        GlobalStaticValues.EMPTY_COLOR;
+        GlobalStaticVariables.EMPTY_COLOR;
 
     /// <inheritdoc />
     public override Color GetRibbonTabRowBackgroundGradientRaftingLight(PaletteState state) =>
-        GlobalStaticValues.EMPTY_COLOR;
+        GlobalStaticVariables.EMPTY_COLOR;
 
     /// <inheritdoc />
     public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) => Color.White;

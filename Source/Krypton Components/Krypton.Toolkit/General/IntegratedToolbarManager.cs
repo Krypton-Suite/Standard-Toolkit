@@ -64,7 +64,7 @@ internal class IntegratedToolbarManager
         }
         catch (Exception e)
         {
-            KryptonExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
+            KryptonExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
         }
     }
 
@@ -79,7 +79,7 @@ internal class IntegratedToolbarManager
         }
         catch (Exception e)
         {
-            KryptonExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
+            KryptonExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
         }
     }
 

@@ -45,7 +45,7 @@ public class HeaderGroupValuesPrimary : HeaderValuesBase
     /// Gets the default description value.
     /// </summary>
     /// <returns>String reference.</returns>
-    protected override string GetDescriptionDefault() => GlobalStaticValues.DEFAULT_EMPTY_STRING;
+    protected override string GetDescriptionDefault() => GlobalStaticVariables.DEFAULT_EMPTY_STRING;
 
     #endregion
 
