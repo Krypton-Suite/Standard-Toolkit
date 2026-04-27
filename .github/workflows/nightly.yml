@@ -148,7 +148,7 @@ jobs:
 
       - name: Setup NuGet
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
-        uses: NuGet/setup-nuget@v3.1.0
+        uses: NuGet/setup-nuget@v4
 
       - name: Cache NuGet
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
@@ -301,8 +301,12 @@ jobs:
           try {
             $evaluated = (& dotnet msbuild "$proj" -getProperty:Version -p:Configuration=$msbuildConfig -nologo -v:q).Trim()
             if ($evaluated) {
-              $version = $evaluated
-              Write-Host "Got version from MSBuild: $version"
+              if ($evaluated -match '^[1-9]\d{2,}\.\d+\.\d+\.\d+$') {
+                $version = $evaluated
+                Write-Host "Got version from MSBuild: $version"
+              } else {
+                Write-Warning "Ignoring unexpected MSBuild version '$evaluated'."
+              }
             }
           } catch {
             Write-Host "Could not read version from MSBuild: $_"
@@ -320,8 +324,13 @@ jobs:
               }
               if (-not $dllPath) { throw "Krypton.Toolkit.dll not found under artifacts or Bin." }
               $assemblyVersion = [System.Reflection.AssemblyName]::GetAssemblyName($dllPath.FullName).Version
-              $version = $assemblyVersion.ToString()
-              Write-Host "Got version from assembly: $version"
+              $assemblyVersionText = $assemblyVersion.ToString()
+              if ($assemblyVersionText -match '^[1-9]\d{2,}\.\d+\.\d+\.\d+$') {
+                $version = $assemblyVersionText
+                Write-Host "Got version from assembly: $version"
+              } else {
+                Write-Warning "Ignoring unexpected assembly version '$assemblyVersionText' from $($dllPath.FullName)."
+              }
             } catch {
               Write-Host "Could not read version from assembly: $_"
             }
