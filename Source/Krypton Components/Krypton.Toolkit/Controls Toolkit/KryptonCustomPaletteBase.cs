@@ -3368,22 +3368,32 @@ public class KryptonCustomPaletteBase : PaletteBase
                                     }
                                     else
                                     {
-                                        object? setValue = null;
+										object? setValue = null;
 
-                                        // We ignore conversion of a Font of value (none) because instead
-                                        // of providing null it returns a default font value
-                                        if (valueType != nameof(Font) || valueValue != @"(none)")
-                                        {
-                                            // We need the type converter to create a string representation
-                                            var converter = TypeDescriptor.GetConverter(StringToType(valueType));
+										// Resolve the CLR type from the serialized Type attribute
+										Type resolvedType = StringToType(valueType);
 
-                                            // Recreate the value using the converter
-                                            setValue = converter.ConvertFromInvariantString(valueValue);
-                                        }
+										// -----------------------------------------------------------------
+										// We intentionally skip conversion when importing a Font with
+										// Value="(none)".
+										//
+										// Reason:
+										// - "(none)" represents an explicitly unset Font (Font == null)
+										// - Converting "(none)" using FontConverter would return
+										//   a default Font instance instead of null
+										//
+										// By skipping the conversion, the property is correctly restored
+										// as null.
+										// -----------------------------------------------------------------
+										if (resolvedType != typeof(Font) || valueValue != "(none)")
+										{
+											var converter = TypeDescriptor.GetConverter(resolvedType);
+											setValue = converter.ConvertFromInvariantString(valueValue);
+										}
 
-                                        // Push the value into the actual property
-                                        prop.SetValue(obj, setValue, null);
-                                    }
+										// Assign the restored value (null for "(none)" Font cases)
+										prop.SetValue(obj, setValue, null);
+									}
                                 }
                             }
                         }
@@ -3595,25 +3605,65 @@ public class KryptonCustomPaletteBase : PaletteBase
                             }
                             else
                             {
-								// We need the type converter to create a string representation
-								var cultureInfo = new CultureInfo("en-US");
-
-								// We need the type converter to create a string representation
-								var converter = TypeDescriptor.GetConverter(prop.PropertyType);
-
-								// Fix [3164]: "Font property values are not serialized correctly in the exported XML file."
-								// Force serialization using the en-US culture to prevent localization issues.
-								string? stringValue = string.Empty;
-
-								if (null != childObj)
+								// -----------------------------------------------------------------------------
+								// Special handling for Font properties
+								// -----------------------------------------------------------------------------
+								if (prop.PropertyType == typeof(Font))
 								{
-									stringValue = converter.ConvertTo(context: null,
-																			culture: cultureInfo,
-																			value: childObj!,
-																			destinationType: typeof(string)) as string;
+									// -------------------------------------------------------------------------
+									// A Font property may legitimately be NULL when the user has not explicitly
+									// assigned a font value.
+									//
+									// In this case, NULL does NOT indicate an error. It simply means:
+									//   - No explicit Font value was provided by the user
+									//
+									// However, NULL cannot be represented directly in XML. If no value is
+									// written, the persisted state becomes ambiguous.
+									//
+									// To make this state explicit and deterministic, we serialize a sentinel
+									// value.
+									//
+									// Convention:
+									//   "(none)" => no Font explicitly assigned (Font == null)
+									// -------------------------------------------------------------------------
+									if (childObj == null)
+									{
+										childElement.SetAttribute("Value", "(none)");
+									}
+									else
+									{
+										// ---------------------------------------------------------------------
+										// When a Font value is present, we preserve the existing serialization
+										// behavior and use the standard TypeConverter.
+										//
+										// This is intentional:
+										// - It preserves backward compatibility with previously exported XML
+										// - It avoids changing the established serialization format
+										//
+										// Note:
+										// While a CultureInfo is provided, this does not guarantee complete
+										// invariance for all internal conversions performed by the converter.
+										// The behavior is kept as-is for compatibility reasons.
+										// ---------------------------------------------------------------------
+										var cultureInfo = new CultureInfo("en-US");
+										var converter = TypeDescriptor.GetConverter(prop.PropertyType);
+										var converted = converter.ConvertTo(context: null, culture: cultureInfo, value: childObj, destinationType: typeof(string));
+										childElement.SetAttribute("Value", converted?.ToString() ?? string.Empty);
+									}
 								}
-
-								childElement.SetAttribute(@"Value", stringValue ?? string.Empty);
+								else
+								{
+									// -------------------------------------------------------------------------
+									// Default serialization path for all non-Font property types.
+									//
+									// The existing TypeConverter-based logic is preserved without changes
+									// to avoid unintended behavioral differences.
+									// -------------------------------------------------------------------------
+									var cultureInfo = new CultureInfo("en-US");
+									var converter = TypeDescriptor.GetConverter(prop.PropertyType);
+									var converted = converter.ConvertTo(context: null, culture: cultureInfo, value: childObj!, destinationType: typeof(string));
+									childElement.SetAttribute("Value", converted?.ToString() ?? string.Empty);
+								}
 							}
                         }
                     }
