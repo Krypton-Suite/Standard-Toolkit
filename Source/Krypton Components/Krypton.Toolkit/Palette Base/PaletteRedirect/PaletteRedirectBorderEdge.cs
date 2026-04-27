@@ -119,7 +119,7 @@ public class PaletteRedirectBorderEdge : PaletteRedirect
     {
         PaletteBorderEdge? inherit = GetInherit(state);
 
-        return inherit?.GetBackColor1(state) ?? Target?.GetBorderColor1(style, state) ?? GlobalStaticValues.EMPTY_COLOR;
+        return inherit?.GetBackColor1(state) ?? Target?.GetBorderColor1(style, state) ?? GlobalStaticVariables.EMPTY_COLOR;
     }
 
     /// <summary>
@@ -132,7 +132,7 @@ public class PaletteRedirectBorderEdge : PaletteRedirect
     {
         PaletteBorderEdge? inherit = GetInherit(state);
 
-        return inherit?.GetBackColor2(state) ?? Target?.GetBorderColor2(style, state) ?? GlobalStaticValues.EMPTY_COLOR;
+        return inherit?.GetBackColor2(state) ?? Target?.GetBorderColor2(style, state) ?? GlobalStaticVariables.EMPTY_COLOR;
     }
 
     /// <summary>

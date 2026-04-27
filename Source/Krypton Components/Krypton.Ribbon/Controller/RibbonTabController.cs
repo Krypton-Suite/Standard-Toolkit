@@ -229,7 +229,7 @@ internal class RibbonTabController : GlobalId,
 
         if (_ribbon.TabsArea is null)
         {
-            throw new NullReferenceException(GlobalStaticValues.PropertyCannotBeNull(nameof(_ribbon.TabsArea)));
+            throw new NullReferenceException(GlobalStaticFunctions.PropertyCannotBeNull(nameof(_ribbon.TabsArea)));
         }
 
         // When there is no selected tab then tab and shift+tab become right and left

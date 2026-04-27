@@ -40,8 +40,8 @@ public class PaletteBack : Storage,
             // Set to default values
             BackDraw = InheritBool.Inherit;
             BackGraphicsHint = PaletteGraphicsHint.Inherit;
-            BackColor1 = GlobalStaticValues.EMPTY_COLOR;
-            BackColor2 = GlobalStaticValues.EMPTY_COLOR;
+            BackColor1 = GlobalStaticVariables.EMPTY_COLOR;
+            BackColor2 = GlobalStaticVariables.EMPTY_COLOR;
             BackColorStyle = PaletteColorStyle.Inherit;
             BackColorAlign = PaletteRectangleAlign.Inherit;
             BackColorAngle = -1;
@@ -54,8 +54,8 @@ public class PaletteBack : Storage,
         /// </summary>
         public bool IsDefault => (BackDraw == InheritBool.Inherit) &&
                                  (BackGraphicsHint == PaletteGraphicsHint.Inherit) &&
-                                 (BackColor1 == GlobalStaticValues.EMPTY_COLOR) &&
-                                 (BackColor2 == GlobalStaticValues.EMPTY_COLOR) &&
+                                 (BackColor1 == GlobalStaticVariables.EMPTY_COLOR) &&
+                                 (BackColor2 == GlobalStaticVariables.EMPTY_COLOR) &&
                                  (BackColorStyle == PaletteColorStyle.Inherit) &&
                                  (BackColorAlign == PaletteRectangleAlign.Inherit) &&
                                  (BackColorAngle == -1) &&
@@ -240,7 +240,7 @@ public class PaletteBack : Storage,
     [RefreshProperties(RefreshProperties.All)]
     public Color Color1
     {
-        get => _storage?.BackColor1 ?? GlobalStaticValues.EMPTY_COLOR;
+        get => _storage?.BackColor1 ?? GlobalStaticVariables.EMPTY_COLOR;
 
         set
         {
@@ -255,7 +255,7 @@ public class PaletteBack : Storage,
             }
             else
             {
-                if (value != GlobalStaticValues.EMPTY_COLOR)
+                if (value != GlobalStaticVariables.EMPTY_COLOR)
                 {
                     _storage = new InternalStorage
                     {
@@ -273,7 +273,7 @@ public class PaletteBack : Storage,
     /// </summary>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
-    public Color GetBackColor1(PaletteState state) => Color1 != GlobalStaticValues.EMPTY_COLOR ? Color1 : _inherit!.GetBackColor1(state);
+    public Color GetBackColor1(PaletteState state) => Color1 != GlobalStaticVariables.EMPTY_COLOR ? Color1 : _inherit!.GetBackColor1(state);
     #endregion
 
     #region Color2
@@ -287,7 +287,7 @@ public class PaletteBack : Storage,
     [RefreshProperties(RefreshProperties.All)]
     public Color Color2
     {
-        get => _storage?.BackColor2 ?? GlobalStaticValues.EMPTY_COLOR;
+        get => _storage?.BackColor2 ?? GlobalStaticVariables.EMPTY_COLOR;
 
         set
         {
@@ -302,7 +302,7 @@ public class PaletteBack : Storage,
             }
             else
             {
-                if (value != GlobalStaticValues.EMPTY_COLOR)
+                if (value != GlobalStaticVariables.EMPTY_COLOR)
                 {
                     _storage = new InternalStorage
                     {
@@ -320,7 +320,7 @@ public class PaletteBack : Storage,
     /// </summary>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
-    public Color GetBackColor2(PaletteState state) => Color2 != GlobalStaticValues.EMPTY_COLOR ? Color2 : _inherit!.GetBackColor2(state);
+    public Color GetBackColor2(PaletteState state) => Color2 != GlobalStaticVariables.EMPTY_COLOR ? Color2 : _inherit!.GetBackColor2(state);
     #endregion
 
     #region ColorStyle

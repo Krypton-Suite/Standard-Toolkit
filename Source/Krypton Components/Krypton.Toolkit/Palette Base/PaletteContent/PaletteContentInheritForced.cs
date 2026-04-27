@@ -44,7 +44,7 @@ public class PaletteContentInheritForced : PaletteContentInherit
     public void SetInherit([DisallowNull] IPaletteContent paletteContent)
     {
         Debug.Assert(paletteContent != null);
-        _inherit = paletteContent ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(paletteContent)));
+        _inherit = paletteContent ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(paletteContent)));
     }
     #endregion
 

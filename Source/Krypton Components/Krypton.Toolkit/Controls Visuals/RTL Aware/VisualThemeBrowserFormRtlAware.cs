@@ -46,7 +46,7 @@ internal partial class VisualThemeBrowserFormRtlAware : KryptonForm
 
         if (klbThemeList.Items.Count > 0)
         {
-            klbThemeList.SelectedIndex = _themeBrowserData.StartIndex ?? GlobalStaticValues.GLOBAL_DEFAULT_THEME_INDEX;
+            klbThemeList.SelectedIndex = _themeBrowserData.StartIndex ?? GlobalStaticConstants.GLOBAL_DEFAULT_THEME_INDEX;
         }
 
         klblHeader.Text = KryptonManager.Strings.MiscellaneousThemeStrings.ThemeBrowserDescription;

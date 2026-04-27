@@ -44,8 +44,8 @@ public class PaletteBorder : Storage,
             BorderDraw = InheritBool.Inherit;
             BorderDrawBorders = PaletteDrawBorders.Inherit;
             BorderGraphicsHint = PaletteGraphicsHint.Inherit;
-            BorderColor1 = GlobalStaticValues.EMPTY_COLOR;
-            BorderColor2 = GlobalStaticValues.EMPTY_COLOR;
+            BorderColor1 = GlobalStaticVariables.EMPTY_COLOR;
+            BorderColor2 = GlobalStaticVariables.EMPTY_COLOR;
             BorderColorStyle = PaletteColorStyle.Inherit;
             BorderColorAlign = PaletteRectangleAlign.Inherit;
             BorderColorAngle = -1;
@@ -61,8 +61,8 @@ public class PaletteBorder : Storage,
         public bool IsDefault => (BorderDraw == InheritBool.Inherit) &&
                                  (BorderDrawBorders == PaletteDrawBorders.Inherit) &&
                                  (BorderGraphicsHint == PaletteGraphicsHint.Inherit) &&
-                                 (BorderColor1 == GlobalStaticValues.EMPTY_COLOR) &&
-                                 (BorderColor2 == GlobalStaticValues.EMPTY_COLOR) &&
+                                 (BorderColor1 == GlobalStaticVariables.EMPTY_COLOR) &&
+                                 (BorderColor2 == GlobalStaticVariables.EMPTY_COLOR) &&
                                  (BorderColorStyle == PaletteColorStyle.Inherit) &&
                                  (BorderColorAlign == PaletteRectangleAlign.Inherit) &&
                                  (BorderColorAngle == -1) &&
@@ -100,7 +100,7 @@ public class PaletteBorder : Storage,
         Debug.Assert(inherit != null);
 
         // Remember inheritance
-        _inherit = inherit ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(inherit)));
+        _inherit = inherit ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(inherit)));
 
         // Store the provided paint notification delegate
         NeedPaint = needPaint;
@@ -320,7 +320,7 @@ public class PaletteBorder : Storage,
             }
             else
             {
-                return GlobalStaticValues.EMPTY_COLOR;
+                return GlobalStaticVariables.EMPTY_COLOR;
             }
         }
 
@@ -337,7 +337,7 @@ public class PaletteBorder : Storage,
             }
             else
             {
-                if (value != GlobalStaticValues.EMPTY_COLOR)
+                if (value != GlobalStaticVariables.EMPTY_COLOR)
                 {
                     _storage = new InternalStorage
                     {
@@ -355,7 +355,7 @@ public class PaletteBorder : Storage,
     /// </summary>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
-    public Color GetBorderColor1(PaletteState state) => Color1 != GlobalStaticValues.EMPTY_COLOR ? Color1 : _inherit.GetBorderColor1(state);
+    public Color GetBorderColor1(PaletteState state) => Color1 != GlobalStaticVariables.EMPTY_COLOR ? Color1 : _inherit.GetBorderColor1(state);
 
     #endregion
 
@@ -370,7 +370,7 @@ public class PaletteBorder : Storage,
     [RefreshProperties(RefreshProperties.All)]
     public Color Color2
     {
-        get => _storage?.BorderColor2 ?? GlobalStaticValues.EMPTY_COLOR;
+        get => _storage?.BorderColor2 ?? GlobalStaticVariables.EMPTY_COLOR;
 
         set
         {
@@ -385,7 +385,7 @@ public class PaletteBorder : Storage,
             }
             else
             {
-                if (value != GlobalStaticValues.EMPTY_COLOR)
+                if (value != GlobalStaticVariables.EMPTY_COLOR)
                 {
                     _storage = new InternalStorage
                     {
@@ -403,7 +403,7 @@ public class PaletteBorder : Storage,
     /// </summary>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
-    public Color GetBorderColor2(PaletteState state) => Color2 != GlobalStaticValues.EMPTY_COLOR ? Color2 : _inherit.GetBorderColor2(state);
+    public Color GetBorderColor2(PaletteState state) => Color2 != GlobalStaticVariables.EMPTY_COLOR ? Color2 : _inherit.GetBorderColor2(state);
     #endregion
 
     #region ColorStyle
@@ -604,7 +604,7 @@ public class PaletteBorder : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"How much to round the border corners.")]
-    [DefaultValue(GlobalStaticValues.DEFAULT_PRIMARY_CORNER_ROUNDING_VALUE)]
+    [DefaultValue(GlobalStaticConstants.DEFAULT_PRIMARY_CORNER_ROUNDING_VALUE)]
     [RefreshProperties(RefreshProperties.All)]
     public float Rounding
     {
@@ -618,7 +618,7 @@ public class PaletteBorder : Storage,
                 return _storage.BorderRounding;
             }
 
-            return GlobalStaticValues.DEFAULT_PRIMARY_CORNER_ROUNDING_VALUE;
+            return GlobalStaticConstants.DEFAULT_PRIMARY_CORNER_ROUNDING_VALUE;
         }
 
         set
@@ -634,7 +634,7 @@ public class PaletteBorder : Storage,
             }
             else
             {
-                if (value != GlobalStaticValues.DEFAULT_PRIMARY_CORNER_ROUNDING_VALUE)
+                if (value != GlobalStaticConstants.DEFAULT_PRIMARY_CORNER_ROUNDING_VALUE)
                 {
                     _storage = new InternalStorage
                     {
@@ -647,8 +647,8 @@ public class PaletteBorder : Storage,
         }
     }
 
-    private void ResetRounding() => Rounding = GlobalStaticValues.DEFAULT_PRIMARY_CORNER_ROUNDING_VALUE;
-    private bool ShouldSerializeRounding() => Rounding != GlobalStaticValues.DEFAULT_PRIMARY_CORNER_ROUNDING_VALUE;
+    private void ResetRounding() => Rounding = GlobalStaticConstants.DEFAULT_PRIMARY_CORNER_ROUNDING_VALUE;
+    private bool ShouldSerializeRounding() => Rounding != GlobalStaticConstants.DEFAULT_PRIMARY_CORNER_ROUNDING_VALUE;
 
     /// <summary>
     /// Gets the border rounding.

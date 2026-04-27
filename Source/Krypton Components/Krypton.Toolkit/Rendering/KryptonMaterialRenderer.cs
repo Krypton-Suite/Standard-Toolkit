@@ -46,24 +46,24 @@ public sealed class KryptonMaterialRenderer : KryptonProfessionalRenderer
             {
                 var style = kss.StateCommon.GetBackColorStyle(PaletteState.Normal);
                 var c1 = kss.StateCommon.GetBackColor1(PaletteState.Normal);
-                if (style == PaletteColorStyle.Solid && c1 != GlobalStaticValues.EMPTY_COLOR && !c1.IsEmpty)
+                if (style == PaletteColorStyle.Solid && c1 != GlobalStaticVariables.EMPTY_COLOR && !c1.IsEmpty)
                 {
                     back = c1;
                 }
                 else
                 {
-                    back = (KCT.StatusStripGradientEnd != GlobalStaticValues.EMPTY_COLOR && !KCT.StatusStripGradientEnd.IsEmpty)
+                    back = (KCT.StatusStripGradientEnd != GlobalStaticVariables.EMPTY_COLOR && !KCT.StatusStripGradientEnd.IsEmpty)
                         ? KCT.StatusStripGradientEnd
-                        : ((KCT.StatusStripGradientBegin != GlobalStaticValues.EMPTY_COLOR && !KCT.StatusStripGradientBegin.IsEmpty)
+                        : ((KCT.StatusStripGradientBegin != GlobalStaticVariables.EMPTY_COLOR && !KCT.StatusStripGradientBegin.IsEmpty)
                             ? KCT.StatusStripGradientBegin
                             : ss.BackColor);
                 }
             }
             else
             {
-                back = (KCT.StatusStripGradientEnd != GlobalStaticValues.EMPTY_COLOR && !KCT.StatusStripGradientEnd.IsEmpty)
+                back = (KCT.StatusStripGradientEnd != GlobalStaticVariables.EMPTY_COLOR && !KCT.StatusStripGradientEnd.IsEmpty)
                     ? KCT.StatusStripGradientEnd
-                    : ((KCT.StatusStripGradientBegin != GlobalStaticValues.EMPTY_COLOR && !KCT.StatusStripGradientBegin.IsEmpty)
+                    : ((KCT.StatusStripGradientBegin != GlobalStaticVariables.EMPTY_COLOR && !KCT.StatusStripGradientBegin.IsEmpty)
                         ? KCT.StatusStripGradientBegin
                         : ss.BackColor);
             }
@@ -168,7 +168,7 @@ public sealed class KryptonMaterialRenderer : KryptonProfessionalRenderer
         {
             var state = !e.Item.Enabled ? PaletteState.Disabled : (e.Item.Selected ? PaletteState.Tracking : PaletteState.Normal);
             var textColor = KCT.Palette.GetContentShortTextColor1(PaletteContentStyle.ContextMenuItemTextStandard, state);
-            if (textColor == GlobalStaticValues.EMPTY_COLOR || textColor.IsEmpty)
+            if (textColor == GlobalStaticVariables.EMPTY_COLOR || textColor.IsEmpty)
             {
                 // Deterministic fallback based on state
                 textColor = KCT.MenuItemText;
@@ -180,7 +180,7 @@ public sealed class KryptonMaterialRenderer : KryptonProfessionalRenderer
             var state = e.Item.Selected || e.Item.Pressed ? PaletteState.Tracking : PaletteState.Normal;
             // Prefer on-surface label color for top-level menu items under Material
             var c = KCT.Palette.GetContentShortTextColor1(PaletteContentStyle.LabelNormalPanel, state);
-            if (c == GlobalStaticValues.EMPTY_COLOR || c.IsEmpty)
+            if (c == GlobalStaticVariables.EMPTY_COLOR || c.IsEmpty)
             {
                 c = KCT.MenuStripText;
             }
@@ -195,7 +195,7 @@ public sealed class KryptonMaterialRenderer : KryptonProfessionalRenderer
             // Menu items hosted on a ToolStrip (not MenuStrip/ContextMenu): use on-surface label color
             var state = !e.Item.Enabled ? PaletteState.Disabled : (e.Item.Selected || e.Item.Pressed ? PaletteState.Tracking : PaletteState.Normal);
             var c = KCT.Palette.GetContentShortTextColor1(PaletteContentStyle.LabelNormalPanel, state);
-            if (c == GlobalStaticValues.EMPTY_COLOR || c.IsEmpty)
+            if (c == GlobalStaticVariables.EMPTY_COLOR || c.IsEmpty)
             {
                 c = KCT.MenuItemText;
             }
@@ -206,7 +206,7 @@ public sealed class KryptonMaterialRenderer : KryptonProfessionalRenderer
             // Generic ToolStrip items: use on-surface label color from palette for Material dark
             var state = !e.Item.Enabled ? PaletteState.Disabled : (e.Item.Selected ? PaletteState.Tracking : PaletteState.Normal);
             var c = KCT.Palette.GetContentShortTextColor1(PaletteContentStyle.LabelNormalPanel, state);
-            if (c == GlobalStaticValues.EMPTY_COLOR || c.IsEmpty)
+            if (c == GlobalStaticVariables.EMPTY_COLOR || c.IsEmpty)
             {
                 c = KCT.ToolStripText;
             }

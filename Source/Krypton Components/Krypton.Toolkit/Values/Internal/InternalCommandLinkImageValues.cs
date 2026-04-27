@@ -68,8 +68,8 @@ public class InternalCommandLinkImageValues : Storage, IContentValues
             }
         }
     }
-    private bool ShouldSerializeImageTransparentColor() => _transparencyKey != GlobalStaticValues.EMPTY_COLOR;
-    private void ResetImageTransparentColor() => ImageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
+    private bool ShouldSerializeImageTransparentColor() => _transparencyKey != GlobalStaticVariables.EMPTY_COLOR;
+    private void ResetImageTransparentColor() => ImageTransparentColor = GlobalStaticVariables.EMPTY_COLOR;
 
     /// <summary>The UAC image.</summary>
     [Category("Visuals")]
@@ -117,10 +117,10 @@ public class InternalCommandLinkImageValues : Storage, IContentValues
     public Color GetImageTransparentColor(PaletteState state) => ImageTransparentColor;
 
     /// <inheritdoc />
-    public string GetShortText() => GlobalStaticValues.DEFAULT_EMPTY_STRING;
+    public string GetShortText() => GlobalStaticVariables.DEFAULT_EMPTY_STRING;
 
     /// <inheritdoc />
-    public string GetLongText() => GlobalStaticValues.DEFAULT_EMPTY_STRING;
+    public string GetLongText() => GlobalStaticVariables.DEFAULT_EMPTY_STRING;
 
     /// <summary>
     /// Gets the overlay image.
@@ -134,7 +134,7 @@ public class InternalCommandLinkImageValues : Storage, IContentValues
     /// </summary>
     /// <param name="state">The state for which the overlay image is needed.</param>
     /// <returns>Color value.</returns>
-    public Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+    public Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the position of the overlay image relative to the main image.

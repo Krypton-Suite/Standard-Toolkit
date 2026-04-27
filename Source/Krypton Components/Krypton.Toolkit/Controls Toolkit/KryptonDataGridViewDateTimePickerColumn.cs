@@ -61,7 +61,7 @@ public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconCo
     /// <returns></returns>
     public override object Clone()
     {
-        var cloned = base.Clone() as KryptonDataGridViewDateTimePickerColumn ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("cloned"));
+        var cloned = base.Clone() as KryptonDataGridViewDateTimePickerColumn ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("cloned"));
 
 
         cloned.CalendarAnnuallyBoldedDates = CalendarAnnuallyBoldedDates;
