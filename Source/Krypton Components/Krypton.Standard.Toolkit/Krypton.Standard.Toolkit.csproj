@@ -204,25 +204,49 @@
 			<TfmSpecificPackageFile Include="..\Krypton.Docking\bin\$(Configuration)\$(TargetFramework)\Krypton.Docking.dll" Condition="Exists('..\Krypton.Docking\bin\$(Configuration)\$(TargetFramework)\Krypton.Docking.dll')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(KryptonBuildOutputRoot)$(Configuration)\$(TargetFramework)\Krypton.Docking.dll" Condition="!Exists('..\Krypton.Docking\bin\$(Configuration)\$(TargetFramework)\Krypton.Docking.dll') And Exists('$(KryptonBuildOutputRoot)$(Configuration)\$(TargetFramework)\Krypton.Docking.dll')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="..\Krypton.Navigator\bin\$(Configuration)\$(TargetFramework)\Krypton.Navigator.dll" Condition="Exists('..\Krypton.Navigator\bin\$(Configuration)\$(TargetFramework)\Krypton.Navigator.dll')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(KryptonBuildOutputRoot)$(Configuration)\$(TargetFramework)\Krypton.Navigator.dll" Condition="!Exists('..\Krypton.Navigator\bin\$(Configuration)\$(TargetFramework)\Krypton.Navigator.dll') And Exists('$(KryptonBuildOutputRoot)$(Configuration)\$(TargetFramework)\Krypton.Navigator.dll')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="..\Krypton.Navigator.Utilities\bin\$(Configuration)\$(TargetFramework)\Krypton.Navigator.Utilities.dll" Condition="Exists('..\Krypton.Navigator.Utilities\bin\$(Configuration)\$(TargetFramework)\Krypton.Navigator.Utilities.dll')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(KryptonBuildOutputRoot)$(Configuration)\$(TargetFramework)\Krypton.Navigator.Utilities.dll" Condition="!Exists('..\Krypton.Navigator.Utilities\bin\$(Configuration)\$(TargetFramework)\Krypton.Navigator.Utilities.dll') And Exists('$(KryptonBuildOutputRoot)$(Configuration)\$(TargetFramework)\Krypton.Navigator.Utilities.dll')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="..\Krypton.Ribbon\bin\$(Configuration)\$(TargetFramework)\Krypton.Ribbon.dll" Condition="Exists('..\Krypton.Ribbon\bin\$(Configuration)\$(TargetFramework)\Krypton.Ribbon.dll')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(KryptonBuildOutputRoot)$(Configuration)\$(TargetFramework)\Krypton.Ribbon.dll" Condition="!Exists('..\Krypton.Ribbon\bin\$(Configuration)\$(TargetFramework)\Krypton.Ribbon.dll') And Exists('$(KryptonBuildOutputRoot)$(Configuration)\$(TargetFramework)\Krypton.Ribbon.dll')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="..\Krypton.Toolkit\bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.dll" Condition="Exists('..\Krypton.Toolkit\bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.dll')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(KryptonBuildOutputRoot)$(Configuration)\$(TargetFramework)\Krypton.Toolkit.dll" Condition="!Exists('..\Krypton.Toolkit\bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.dll') And Exists('$(KryptonBuildOutputRoot)$(Configuration)\$(TargetFramework)\Krypton.Toolkit.dll')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="..\Krypton.Toolkit.JumpList\bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.JumpList.dll" Condition="Exists('..\Krypton.Toolkit.JumpList\bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.JumpList.dll')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(KryptonBuildOutputRoot)$(Configuration)\$(TargetFramework)\Krypton.Toolkit.JumpList.dll" Condition="!Exists('..\Krypton.Toolkit.JumpList\bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.JumpList.dll') And Exists('$(KryptonBuildOutputRoot)$(Configuration)\$(TargetFramework)\Krypton.Toolkit.JumpList.dll')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="..\Krypton.Utilities\bin\$(Configuration)\$(TargetFramework)\Krypton.Utilities.dll" Condition="Exists('..\Krypton.Utilities\bin\$(Configuration)\$(TargetFramework)\Krypton.Utilities.dll')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(KryptonBuildOutputRoot)$(Configuration)\$(TargetFramework)\Krypton.Utilities.dll" Condition="!Exists('..\Krypton.Utilities\bin\$(Configuration)\$(TargetFramework)\Krypton.Utilities.dll') And Exists('$(KryptonBuildOutputRoot)$(Configuration)\$(TargetFramework)\Krypton.Utilities.dll')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="..\Krypton.Workspace\bin\$(Configuration)\$(TargetFramework)\Krypton.Workspace.dll" Condition="Exists('..\Krypton.Workspace\bin\$(Configuration)\$(TargetFramework)\Krypton.Workspace.dll')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(KryptonBuildOutputRoot)$(Configuration)\$(TargetFramework)\Krypton.Workspace.dll" Condition="!Exists('..\Krypton.Workspace\bin\$(Configuration)\$(TargetFramework)\Krypton.Workspace.dll') And Exists('$(KryptonBuildOutputRoot)$(Configuration)\$(TargetFramework)\Krypton.Workspace.dll')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
 
@@ -247,25 +271,49 @@
 			<TfmSpecificPackageFile Include="..\Krypton.Docking\bin\$(Configuration)\$(TargetFramework)\Krypton.Docking.xml" Condition="Exists('..\Krypton.Docking\bin\$(Configuration)\$(TargetFramework)\Krypton.Docking.xml')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(KryptonBuildOutputRoot)$(Configuration)\$(TargetFramework)\Krypton.Docking.xml" Condition="!Exists('..\Krypton.Docking\bin\$(Configuration)\$(TargetFramework)\Krypton.Docking.xml') And Exists('$(KryptonBuildOutputRoot)$(Configuration)\$(TargetFramework)\Krypton.Docking.xml')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="..\Krypton.Navigator\bin\$(Configuration)\$(TargetFramework)\Krypton.Navigator.xml" Condition="Exists('..\Krypton.Navigator\bin\$(Configuration)\$(TargetFramework)\Krypton.Navigator.xml')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(KryptonBuildOutputRoot)$(Configuration)\$(TargetFramework)\Krypton.Navigator.xml" Condition="!Exists('..\Krypton.Navigator\bin\$(Configuration)\$(TargetFramework)\Krypton.Navigator.xml') And Exists('$(KryptonBuildOutputRoot)$(Configuration)\$(TargetFramework)\Krypton.Navigator.xml')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="..\Krypton.Navigator.Utilities\bin\$(Configuration)\$(TargetFramework)\Krypton.Navigator.Utilities.xml" Condition="Exists('..\Krypton.Navigator.Utilities\bin\$(Configuration)\$(TargetFramework)\Krypton.Navigator.Utilities.xml')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(KryptonBuildOutputRoot)$(Configuration)\$(TargetFramework)\Krypton.Navigator.Utilities.xml" Condition="!Exists('..\Krypton.Navigator.Utilities\bin\$(Configuration)\$(TargetFramework)\Krypton.Navigator.Utilities.xml') And Exists('$(KryptonBuildOutputRoot)$(Configuration)\$(TargetFramework)\Krypton.Navigator.Utilities.xml')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="..\Krypton.Ribbon\bin\$(Configuration)\$(TargetFramework)\Krypton.Ribbon.xml" Condition="Exists('..\Krypton.Ribbon\bin\$(Configuration)\$(TargetFramework)\Krypton.Ribbon.xml')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(KryptonBuildOutputRoot)$(Configuration)\$(TargetFramework)\Krypton.Ribbon.xml" Condition="!Exists('..\Krypton.Ribbon\bin\$(Configuration)\$(TargetFramework)\Krypton.Ribbon.xml') And Exists('$(KryptonBuildOutputRoot)$(Configuration)\$(TargetFramework)\Krypton.Ribbon.xml')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="..\Krypton.Toolkit\bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.xml" Condition="Exists('..\Krypton.Toolkit\bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.xml')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(KryptonBuildOutputRoot)$(Configuration)\$(TargetFramework)\Krypton.Toolkit.xml" Condition="!Exists('..\Krypton.Toolkit\bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.xml') And Exists('$(KryptonBuildOutputRoot)$(Configuration)\$(TargetFramework)\Krypton.Toolkit.xml')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="..\Krypton.Toolkit.JumpList\bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.JumpList.xml" Condition="Exists('..\Krypton.Toolkit.JumpList\bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.JumpList.xml')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(KryptonBuildOutputRoot)$(Configuration)\$(TargetFramework)\Krypton.Toolkit.JumpList.xml" Condition="!Exists('..\Krypton.Toolkit.JumpList\bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.JumpList.xml') And Exists('$(KryptonBuildOutputRoot)$(Configuration)\$(TargetFramework)\Krypton.Toolkit.JumpList.xml')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="..\Krypton.Utilities\bin\$(Configuration)\$(TargetFramework)\Krypton.Utilities.xml" Condition="Exists('..\Krypton.Utilities\bin\$(Configuration)\$(TargetFramework)\Krypton.Utilities.xml')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(KryptonBuildOutputRoot)$(Configuration)\$(TargetFramework)\Krypton.Utilities.xml" Condition="!Exists('..\Krypton.Utilities\bin\$(Configuration)\$(TargetFramework)\Krypton.Utilities.xml') And Exists('$(KryptonBuildOutputRoot)$(Configuration)\$(TargetFramework)\Krypton.Utilities.xml')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="..\Krypton.Workspace\bin\$(Configuration)\$(TargetFramework)\Krypton.Workspace.xml" Condition="Exists('..\Krypton.Workspace\bin\$(Configuration)\$(TargetFramework)\Krypton.Workspace.xml')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(KryptonBuildOutputRoot)$(Configuration)\$(TargetFramework)\Krypton.Workspace.xml" Condition="!Exists('..\Krypton.Workspace\bin\$(Configuration)\$(TargetFramework)\Krypton.Workspace.xml') And Exists('$(KryptonBuildOutputRoot)$(Configuration)\$(TargetFramework)\Krypton.Workspace.xml')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
 
