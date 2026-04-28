@@ -68,7 +68,7 @@ jobs:
           msbuild-architecture: x64
 
       - name: Setup NuGet
-        uses: NuGet/setup-nuget@v4
+        uses: NuGet/setup-nuget@v3.1.0
 
       - name: Cache NuGet
         uses: actions/cache@v5
@@ -126,11 +126,12 @@ jobs:
           $proj.Save($utilProj)
           Write-Host "Removed temporary WebView2 PackageReference entries"
 
+      # Match nightly.proj: Release + TFMs=all so TargetFrameworks / package graphs align (avoids CS7069 / prune mismatches).
       - name: Restore
-        run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnx"
+        run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnx" -p:Configuration=Release -p:TFMs=all
 
       - name: Build
-        run: msbuild "Scripts/Build/nightly.proj" /t:Rebuild /p:Configuration=Release /p:Platform="Any CPU"
+        run: msbuild "Scripts/Build/nightly.proj" /t:Rebuild /restore /p:Configuration=Release /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
   release:
     runs-on: windows-2025-vs2026
@@ -169,7 +170,7 @@ jobs:
           msbuild-architecture: x64
 
       - name: Setup NuGet
-        uses: NuGet/setup-nuget@v4
+        uses: NuGet/setup-nuget@v3.1.0
 
       - name: Cache NuGet
         uses: actions/cache@v5
@@ -228,18 +229,74 @@ jobs:
           Write-Host "Removed temporary WebView2 PackageReference entries"
 
       - name: Restore
-        run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnx"
+        run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnx" -p:Configuration=Release -p:TFMs=all
 
       - name: Build Release
-        run: msbuild "Scripts/Build/build.proj" /t:Build /p:Configuration=Release /p:Platform="Any CPU"
+        run: msbuild "Scripts/Build/build.proj" /t:Build /restore /p:Configuration=Release /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
       - name: Pack Release
-        run: msbuild "Scripts/Build/build.proj" /t:Pack /p:Configuration=Release /p:Platform="Any CPU"
+        run: msbuild "Scripts/Build/build.proj" /t:Pack /restore /p:Configuration=Release /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
       - name: Get Version
         id: get_version
+        shell: pwsh
         run: |
-          $version = (dotnet build "Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj" --no-restore --verbosity quiet | Select-String "Version" | ForEach-Object { $_.Line.Split('=')[1].Trim() })
+          $ErrorActionPreference = 'Stop'
+          $version = $null
+          $proj = 'Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj'
+          $msbuildConfig = 'Release'
+
+          # Primary source: built Krypton.Toolkit.dll assembly version.
+          try {
+            $dllRelativePaths = @(
+              "artifacts/bin/$msbuildConfig/net48/Krypton.Toolkit.dll",
+              "Bin/$msbuildConfig/net48/Krypton.Toolkit.dll"
+            )
+            $dllPath = $null
+            foreach ($p in $dllRelativePaths) {
+              if (Test-Path -LiteralPath $p) { $dllPath = Get-Item -LiteralPath $p; break }
+            }
+
+            if (-not $dllPath) {
+              $searchRoots = @("artifacts/bin", "Bin/$msbuildConfig", "Bin")
+              foreach ($root in $searchRoots) {
+                if (Test-Path -LiteralPath $root) {
+                  $candidate = Get-ChildItem -Path $root -Recurse -Filter "Krypton.Toolkit.dll" -ErrorAction SilentlyContinue | Select-Object -First 1
+                  if ($candidate) { $dllPath = $candidate; break }
+                }
+              }
+            }
+
+            if (-not $dllPath) { throw "Krypton.Toolkit.dll not found under artifacts or Bin." }
+            $assemblyVersion = [System.Reflection.AssemblyName]::GetAssemblyName($dllPath.FullName).Version
+            $assemblyVersionText = $assemblyVersion.ToString()
+            if ($assemblyVersionText -match '^[1-9]\d{2,}\.\d+\.\d+\.\d+$') {
+              $version = $assemblyVersionText
+              Write-Host "Got version from assembly: $version ($($dllPath.FullName))"
+            } else {
+              Write-Warning "Ignoring unexpected assembly version '$assemblyVersionText' from $($dllPath.FullName)."
+            }
+          } catch {
+            Write-Host "Could not read version from assembly: $_"
+          }
+
+          # Backup source: evaluated MSBuild Version when assembly probing fails.
+          if (-not $version) {
+            try {
+              $evaluated = (& dotnet msbuild "$proj" -getProperty:Version -p:Configuration=$msbuildConfig -nologo -v:q).Trim()
+              if ($evaluated) {
+                if ($evaluated -match '^[1-9]\d{2,}\.\d+\.\d+\.\d+$') {
+                  $version = $evaluated
+                  Write-Host "Got version from MSBuild fallback: $version"
+                } else {
+                  Write-Warning "Ignoring unexpected MSBuild version '$evaluated'."
+                }
+              }
+            } catch {
+              Write-Host "Could not read version from MSBuild: $_"
+            }
+          }
+
           if (-not $version) {
             $version = "100.25.1.1"  # Fallback version
           }

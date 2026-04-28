@@ -79,7 +79,7 @@ jobs:
 
       - name: Setup NuGet
         if: steps.canary_lts_kill_switch.outputs.enabled == 'true'
-        uses: NuGet/setup-nuget@v4
+        uses: NuGet/setup-nuget@v3.1.0
 
       - name: Cache NuGet
         if: steps.canary_lts_kill_switch.outputs.enabled == 'true'
@@ -163,7 +163,7 @@ jobs:
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
-          $buildArgs = 'Scripts/Build/canary.proj /t:Build /p:Configuration=Canary /p:Platform="Any CPU"'
+          $buildArgs = 'Scripts/Build/canary.proj /t:Build /p:Configuration=Canary /p:Platform="Any CPU" /p:UseArtifactsOutput=true'
 
           if (${{ steps.prepare_cert.outputs.cert_available }} -eq 'true') {
             $buildArgs += ' /p:EnableAuthenticodeSigning=true'
@@ -182,7 +182,7 @@ jobs:
 
       - name: Pack Canary
         if: steps.canary_lts_kill_switch.outputs.enabled == 'true'
-        run: msbuild "Scripts/Build/canary.proj" /t:Pack /p:Configuration=Canary /p:Platform="Any CPU"
+        run: msbuild "Scripts/Build/canary.proj" /t:Pack /p:Configuration=Canary /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
       - name: Push NuGet Packages to nuget.org
         if: steps.canary_lts_kill_switch.outputs.enabled == 'true'
@@ -230,27 +230,45 @@ jobs:
         run: |
           $ErrorActionPreference = 'Stop'
           $version = $null
+          $proj = 'Source/Current/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj'
+          $msbuildConfig = 'Canary'
 
           try {
-            $dllPath = Get-ChildItem "Artefacts/Canary/net48/Krypton.Toolkit.dll" -ErrorAction Stop
-            $assemblyVersion = [System.Reflection.AssemblyName]::GetAssemblyName($dllPath.FullName).Version
-            $version = $assemblyVersion.ToString()
-            Write-Host "Got version from assembly: $version"
+            $evaluated = (& dotnet msbuild "$proj" -getProperty:Version -p:Configuration=$msbuildConfig -nologo -v:q).Trim()
+            if ($evaluated) {
+              if ($evaluated -match '^[1-9]\d{2,}\.\d+\.\d+\.\d+$') {
+                $version = $evaluated
+                Write-Host "Got version from MSBuild: $version"
+              } else {
+                Write-Warning "Ignoring unexpected MSBuild version '$evaluated'."
+              }
+            }
           } catch {
-            Write-Host "Could not read version from assembly: $_"
+            Write-Host "Could not read version from MSBuild: $_"
           }
 
           if (-not $version) {
             try {
-              $proj = 'Source/Current/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj'
-              [xml]$projXml = Get-Content $proj
-              $versionNode = $projXml.SelectSingleNode("//Version")
-              if ($versionNode) {
-                $version = $versionNode.InnerText.Trim()
-                Write-Host "Got version from csproj: $version"
+              $dllRelativePaths = @(
+                "artifacts/bin/$msbuildConfig/net48/Krypton.Toolkit.dll",
+                "Bin/$msbuildConfig/net48/Krypton.Toolkit.dll",
+                "Artefacts/$msbuildConfig/net48/Krypton.Toolkit.dll"
+              )
+              $dllPath = $null
+              foreach ($p in $dllRelativePaths) {
+                if (Test-Path -LiteralPath $p) { $dllPath = Get-Item -LiteralPath $p; break }
+              }
+              if (-not $dllPath) { throw "Krypton.Toolkit.dll not found under artifacts, Bin, or Artefacts." }
+              $assemblyVersion = [System.Reflection.AssemblyName]::GetAssemblyName($dllPath.FullName).Version
+              $assemblyVersionText = $assemblyVersion.ToString()
+              if ($assemblyVersionText -match '^[1-9]\d{2,}\.\d+\.\d+\.\d+$') {
+                $version = $assemblyVersionText
+                Write-Host "Got version from assembly: $version"
+              } else {
+                Write-Warning "Ignoring unexpected assembly version '$assemblyVersionText' from $($dllPath.FullName)."
               }
             } catch {
-              Write-Host "Could not read version from csproj: $_"
+              Write-Host "Could not read version from assembly: $_"
             }
           }
 

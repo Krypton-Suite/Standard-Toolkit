@@ -148,7 +148,7 @@ jobs:
 
       - name: Setup NuGet
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
-        uses: NuGet/setup-nuget@v4
+        uses: NuGet/setup-nuget@v3.1.0
 
       - name: Cache NuGet
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
@@ -233,15 +233,15 @@ jobs:
 
       - name: Restore
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
-        run: msbuild "Scripts/Build/nightly.proj" /t:Restore /p:Configuration=Nightly /p:Platform="Any CPU"
+        run: msbuild "Scripts/Build/nightly.proj" /t:Restore /p:Configuration=Nightly /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
       - name: Build Nightly
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
-        run: msbuild "Scripts/Build/nightly.proj" /t:Build /p:Configuration=Nightly /p:Platform="Any CPU"
+        run: msbuild "Scripts/Build/nightly.proj" /t:Build /p:Configuration=Nightly /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
       - name: Pack Nightly
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
-        run: msbuild "Scripts/Build/nightly.proj" /t:Pack /p:Configuration=Nightly /p:Platform="Any CPU"
+        run: msbuild "Scripts/Build/nightly.proj" /t:Pack /p:Configuration=Nightly /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
       - name: Push NuGet Packages to nuget.org
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
@@ -255,7 +255,11 @@ jobs:
             exit 0
           }
 
-          $packages = Get-ChildItem "Bin/Packages/Nightly/*.nupkg" -ErrorAction SilentlyContinue
+          $packageCandidates = @(
+            "artifacts/packages/Nightly/*.nupkg",
+            "Bin/Packages/Nightly/*.nupkg"
+          )
+          $packages = @(Get-ChildItem -Path $packageCandidates -ErrorAction SilentlyContinue | Sort-Object FullName -Unique)
           $publishedAny = $false
 
           if ($packages) {
@@ -290,33 +294,61 @@ jobs:
         run: |
           $ErrorActionPreference = 'Stop'
           $version = $null
+          $proj = 'Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj'
+          $msbuildConfig = 'Nightly'
 
-          # Try to get version from the built assembly (most reliable)
+          # Primary source: built Krypton.Toolkit.dll assembly version.
           try {
-            $dllPath = Get-ChildItem "Bin/Nightly/net48/Krypton.Toolkit.dll" -ErrorAction Stop
+            $dllRelativePaths = @(
+              "artifacts/bin/$msbuildConfig/net48/Krypton.Toolkit.dll",
+              "Bin/$msbuildConfig/net48/Krypton.Toolkit.dll",
+              "Bin/Nightly/net48/Krypton.Toolkit.dll"
+            )
+            $dllPath = $null
+            foreach ($p in $dllRelativePaths) {
+              if (Test-Path -LiteralPath $p) { $dllPath = Get-Item -LiteralPath $p; break }
+            }
+
+            if (-not $dllPath) {
+              $searchRoots = @("artifacts/bin", "Bin/$msbuildConfig", "Bin/Nightly", "Bin")
+              foreach ($root in $searchRoots) {
+                if (Test-Path -LiteralPath $root) {
+                  $candidate = Get-ChildItem -Path $root -Recurse -Filter "Krypton.Toolkit.dll" -ErrorAction SilentlyContinue | Select-Object -First 1
+                  if ($candidate) { $dllPath = $candidate; break }
+                }
+              }
+            }
+
+            if (-not $dllPath) { throw "Krypton.Toolkit.dll not found under artifacts or Bin." }
             $assemblyVersion = [System.Reflection.AssemblyName]::GetAssemblyName($dllPath.FullName).Version
-            $version = $assemblyVersion.ToString()
-            Write-Host "Got version from assembly: $version"
+            $assemblyVersionText = $assemblyVersion.ToString()
+            if ($assemblyVersionText -match '^[1-9]\d{2,}\.\d+\.\d+\.\d+$') {
+              $version = $assemblyVersionText
+              Write-Host "Got version from assembly: $version ($($dllPath.FullName))"
+            } else {
+              Write-Warning "Ignoring unexpected assembly version '$assemblyVersionText' from $($dllPath.FullName)."
+            }
           } catch {
             Write-Host "Could not read version from assembly: $_"
           }
 
-          # Fallback: Try to read from csproj XML
+          # Backup source: evaluated MSBuild Version when assembly probing fails.
           if (-not $version) {
             try {
-              $proj = 'Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj'
-              [xml]$projXml = Get-Content $proj
-              $versionNode = $projXml.SelectSingleNode("//Version")
-              if ($versionNode) {
-                $version = $versionNode.InnerText.Trim()
-                Write-Host "Got version from csproj: $version"
+              $evaluated = (& dotnet msbuild "$proj" -getProperty:Version -p:Configuration=$msbuildConfig -nologo -v:q).Trim()
+              if ($evaluated) {
+                if ($evaluated -match '^[1-9]\d{2,}\.\d+\.\d+\.\d+$') {
+                  $version = $evaluated
+                  Write-Host "Got version from MSBuild fallback: $version"
+                } else {
+                  Write-Warning "Ignoring unexpected MSBuild version '$evaluated'."
+                }
               }
             } catch {
-              Write-Host "Could not read version from csproj: $_"
+              Write-Host "Could not read version from MSBuild: $_"
             }
           }
 
-          # Last resort fallback
           if (-not $version) {
             Write-Warning "Version not found, using fallback."
             $version = "100.25.1.1"
