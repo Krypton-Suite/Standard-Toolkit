@@ -3124,6 +3124,20 @@ public class KryptonCustomPaletteBase : PaletteBase
                 SetPaletteName(root.GetAttribute("Name"));
             }
 
+            // Import order: establish a full baseline from BasePalette, then apply the XML theme on top.
+            //
+            // PopulateFromBaseOperation resets the palette hierarchy and copies values from the current
+            // BasePalette (via each storage type's PopulateFromBase). That ensures every property that the
+            // theme file does NOT serialize still reflects inheritance from the base theme instead of
+            // leftover C# defaults or stale state from a previous load—avoiding gaps in metrics, button
+            // specs, header chrome, etc. (e.g. stray rendering next to caption buttons).
+            //
+            // The steps below (ImportImagesFromElement / ImportObjectFromElement) then overwrite only what
+            // the XML actually defines. Theme wins for anything present in the file; anything omitted keeps
+            // the values we just populated from BasePalette. Doing populate after import would fight the
+            // file and could reset explicit theme settings, so populate must run first.
+            PopulateFromBaseOperation(null);
+
             // Grab the properties and images elements
             var props = root.SelectSingleNode(nameof(Properties)) as XmlElement;
             var images = root.SelectSingleNode(nameof(Images)) as XmlElement;
@@ -3381,22 +3395,32 @@ public class KryptonCustomPaletteBase : PaletteBase
                                     }
                                     else
                                     {
-                                        object? setValue = null;
+										object? setValue = null;
 
-                                        // We ignore conversion of a Font of value (none) because instead
-                                        // of providing null it returns a default font value
-                                        if (valueType != nameof(Font) || valueValue != @"(none)")
-                                        {
-                                            // We need the type converter to create a string representation
-                                            var converter = TypeDescriptor.GetConverter(StringToType(valueType));
+										// Resolve the CLR type from the serialized Type attribute
+										Type resolvedType = StringToType(valueType);
 
-                                            // Recreate the value using the converter
-                                            setValue = converter.ConvertFromInvariantString(valueValue);
-                                        }
+										// -----------------------------------------------------------------
+										// We intentionally skip conversion when importing a Font with
+										// Value="(none)".
+										//
+										// Reason:
+										// - "(none)" represents an explicitly unset Font (Font == null)
+										// - Converting "(none)" using FontConverter would return
+										//   a default Font instance instead of null
+										//
+										// By skipping the conversion, the property is correctly restored
+										// as null.
+										// -----------------------------------------------------------------
+										if (resolvedType != typeof(Font) || valueValue != "(none)")
+										{
+											var converter = TypeDescriptor.GetConverter(resolvedType);
+											setValue = converter.ConvertFromInvariantString(valueValue);
+										}
 
-                                        // Push the value into the actual property
-                                        prop.SetValue(obj, setValue, null);
-                                    }
+										// Assign the restored value (null for "(none)" Font cases)
+										prop.SetValue(obj, setValue, null);
+									}
                                 }
                             }
                         }
@@ -3538,11 +3562,29 @@ public class KryptonCustomPaletteBase : PaletteBase
                         // Should we test if the property value is the default?
                         if (ignoreDefaults)
                         {
+                            // First prefer the component-model pattern used across the palette hierarchy.
+                            // If a ShouldSerialize<PropertyName>() method exists and returns false, treat
+                            // the property as default and do not export it.
+                            var shouldSerializeMethod = t.GetMethod($"ShouldSerialize{prop.Name}",
+                                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
+                                binder: null,
+                                types: Type.EmptyTypes,
+                                modifiers: null);
+
+                            if (shouldSerializeMethod != null &&
+                                shouldSerializeMethod.ReturnType == typeof(bool))
+                            {
+                                if (!(bool)shouldSerializeMethod.Invoke(obj, null)!)
+                                {
+                                    ignore = true;
+                                }
+                            }
+
                             var defaultAttribs = prop.GetCustomAttributes(typeof(DefaultValueAttribute), false);
 
                             // Does this property have a default value attribute?
                             // Use the first one found (KryptonDefaultColor is a DefaultValueAttribute subclass)
-                            if (defaultAttribs.Length >= 1)
+                            if (!ignore && defaultAttribs.Length >= 1)
                             {
                                 // Cast to correct type
                                 var defaultAttrib = defaultAttribs[0] as DefaultValueAttribute;
@@ -3609,15 +3651,71 @@ public class KryptonCustomPaletteBase : PaletteBase
                             }
                             else
                             {
-                                var cultureInfo = new CultureInfo("en-US");
-			                    
-                                // We need the type converter to create a string representation
-								var converter = TypeDescriptor.GetConverter(prop.PropertyType);
+                              // -----------------------------------------------------------------------------
+                              // Special handling for Font properties
+                              // -----------------------------------------------------------------------------
+                              if (prop.PropertyType == typeof(Font))
+                              {
+                                // -------------------------------------------------------------------------
+                                // A Font property may legitimately be NULL when the user has not explicitly
+                                // assigned a font value.
+                                //
+                                // In this case, NULL does NOT indicate an error. It simply means:
+                                //   - No explicit Font value was provided by the user
+                                //
+                                // However, NULL cannot be represented directly in XML. If no value is
+                                // written, the persisted state becomes ambiguous.
+                                //
+                                // To make this state explicit and deterministic, we serialize a sentinel
+                                // value.
+                                //
+                                // Convention:
+                                //   "(none)" => no Font explicitly assigned (Font == null)
+                                // -------------------------------------------------------------------------
+                                if (childObj == null)
+                                {
+                                  childElement.SetAttribute("Value", "(none)");
+                                }
+                                else
+                                {
+                                  // ---------------------------------------------------------------------
+                                  // When a Font value is present, we preserve the existing serialization
+                                  // behavior and use the standard TypeConverter.
+                                  //
+                                  // This is intentional:
+                                  // - It preserves backward compatibility with previously exported XML
+                                  // - It avoids changing the established serialization format
+                                  //
+                                  // Note:
+                                  // While a CultureInfo is provided, this does not guarantee complete
+                                  // invariance for all internal conversions performed by the converter.
+                                  // The behavior is kept as-is for compatibility reasons.
+                                  // ---------------------------------------------------------------------
+                                  var cultureInfo = new CultureInfo("en-US");
 
-                                // Fix [3164]: "Font property values are not serialized correctly in the exported XML file."
-								// Force serialization using the en-US culture to prevent localization issues.
-								var converted = converter.ConvertTo(context: null, culture: cultureInfo, value: childObj!, destinationType: typeof(string));
-								childElement.SetAttribute(@"Value", converted?.ToString() ?? string.Empty);
+                                  var converter = TypeDescriptor.GetConverter(prop.PropertyType);
+
+                                  var converted = converter.ConvertTo(context: null, culture: cultureInfo, value: childObj, destinationType: typeof(string));
+
+                                  childElement.SetAttribute("Value", converted?.ToString() ?? string.Empty);
+                                }
+                              }
+                              else
+                              {
+                                // -------------------------------------------------------------------------
+                                // Default serialization path for all non-Font property types.
+                                //
+                                // The existing TypeConverter-based logic is preserved without changes
+                                // to avoid unintended behavioral differences.
+                                // -------------------------------------------------------------------------
+                                var cultureInfo = new CultureInfo("en-US");
+
+                                var converter = TypeDescriptor.GetConverter(prop.PropertyType);
+
+                                var converted = converter.ConvertTo(context: null, culture: cultureInfo, value: childObj!, destinationType: typeof(string));
+
+                                childElement.SetAttribute("Value", converted?.ToString() ?? string.Empty);
+                              }
                             }
                         }
                     }
