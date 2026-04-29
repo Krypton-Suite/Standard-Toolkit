@@ -18,9 +18,6 @@
 	<NoWarn>1701;1702</NoWarn>
 	<Configurations>Debug;Release;Installer;Nightly;Canary</Configurations>
 	<GenerateDocumentationFile>true</GenerateDocumentationFile>
-	<!-- Ensure multi-target outputs don't overwrite each other -->
-	<OutputPath>..\..\..\Bin\$(Configuration)\$(TargetFramework)\</OutputPath>
-	<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	<Nullable>enable</Nullable>
 	<!--https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-messages/warning-waves-->
