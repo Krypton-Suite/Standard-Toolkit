@@ -60,6 +60,15 @@
     </Reference>
   </ItemGroup>
 
+  <!-- net472 needs explicit System.ComponentModel.* / System.Drawing.* package refs
+       to match Krypton.Toolkit's dependency graph and avoid CS1705/CS7069/CS0012. -->
+  <ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
+    <PackageReference Include="System.ComponentModel.Primitives" Version="4.3.0" />
+    <PackageReference Include="System.ComponentModel.TypeConverter" Version="4.3.0" />
+    <PackageReference Include="System.Drawing.Common" Version="8.0.0" />
+    <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
+  </ItemGroup>
+
   <ItemGroup>
     <Compile Include="..\Krypton.Toolkit\General\GlobalSuppressions.cs" Link="General\GlobalSuppressions.cs" />
     <Compile Include="..\Krypton.Toolkit\General\PlatformInvoke.cs">
