@@ -44,13 +44,13 @@ jobs:
           dotnet-version: 11.0.x
           dotnet-quality: preview
 
-      # global.json dynamically generate (use latest SDK available)
-      - name: Force .NET 11 SDK via global.json
+      # global.json dynamically generate (prefer stable SDKs for CI reproducibility)
+      - name: Force .NET 10 SDK via global.json
         run: |
-          $sdkVersion = (dotnet --list-sdks | Select-String "11.0").ToString().Split(" ")[0]
+          $sdkVersion = (dotnet --list-sdks | Select-String "10.0").ToString().Split(" ")[0]
           if (-not $sdkVersion) {
-            # Fallback to .NET 10 if .NET 11 is not available
-            $sdkVersion = (dotnet --list-sdks | Select-String "10.0").ToString().Split(" ")[0]
+            # Fallback to .NET 9 if .NET 10 is not available
+            $sdkVersion = (dotnet --list-sdks | Select-String "9.0").ToString().Split(" ")[0]
           }
           Write-Output "Using SDK $sdkVersion"
           @"
