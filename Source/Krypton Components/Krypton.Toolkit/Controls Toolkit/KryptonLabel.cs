@@ -486,35 +486,6 @@ public class KryptonLabel : VisualSimpleBase, IContentValues
     protected override Size DefaultSize => new Size(90, 25);
 
     /// <summary>
-    /// Sets the bounds of the control. When AutoSize is true, force size to the preferred size
-    /// so shrinking/growing tracks content in both runtime and designer update paths.
-    /// </summary>
-    /// <param name="x">The new Left property value of the control.</param>
-    /// <param name="y">The new Top property value of the control.</param>
-    /// <param name="width">The new Width property value of the control.</param>
-    /// <param name="height">The new Height property value of the control.</param>
-    /// <param name="specified">A bitwise combination of the BoundsSpecified values.</param>
-    protected override void SetBoundsCore(int x, int y, int width, int height, BoundsSpecified specified)
-    {
-        if (AutoSize)
-        {
-            Size preferredSize = GetPreferredSize(new Size(int.MaxValue, int.MaxValue));
-
-            // Keep existing designer safety guard to avoid unstable extreme values
-            // if preferred size cannot be calculated during initialization.
-            if (preferredSize.Width > 0 && preferredSize.Height > 0
-                && preferredSize.Width < 10000 && preferredSize.Height < 10000)
-            {
-                width = preferredSize.Width;
-                height = preferredSize.Height;
-                specified |= BoundsSpecified.Size;
-            }
-        }
-
-        base.SetBoundsCore(x, y, width, height, specified);
-    }
-
-    /// <summary>
     /// Work out if this control needs to paint transparent areas.
     /// </summary>
     /// <returns>True if paint required; otherwise false.</returns>
