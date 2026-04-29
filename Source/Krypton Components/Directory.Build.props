@@ -47,8 +47,6 @@
 	<!-- Configure NuGet package output to separate directory for easier management -->
 	<PropertyGroup>
 		<PackageOutputPath>$(MSBuildThisFileDirectory)..\..\Bin\Packages\$(Configuration)\</PackageOutputPath>
-		<!-- Prevent multi-target outputs (net472/net8/net10/...) from overwriting each other -->
-		<AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
 	</PropertyGroup>
 
 	<Choose>
