@@ -150,7 +150,7 @@ public abstract class VisualSimpleBase : VisualControlBase
     /// <param name="specified">A bitwise combination of the BoundsSpecified values.</param>
     protected override void SetBoundsCore(int x, int y, int width, int height, BoundsSpecified specified)
     {
-        if (AutoSize && GetAutoSizeMode() == AutoSizeMode.GrowAndShrink)
+        if (AutoSize)
         {
             Size preferredSize = GetPreferredSize(new Size(int.MaxValue, int.MaxValue));
 
@@ -158,8 +158,18 @@ public abstract class VisualSimpleBase : VisualControlBase
             if (preferredSize.Width > 0 && preferredSize.Height > 0
                 && preferredSize.Width < 10000 && preferredSize.Height < 10000)
             {
-                width = preferredSize.Width;
-                height = preferredSize.Height;
+                if (GetAutoSizeMode() == AutoSizeMode.GrowAndShrink)
+                {
+                    width = preferredSize.Width;
+                    height = preferredSize.Height;
+                }
+                else
+                {
+                    // GrowOnly semantics: allow growth to preferred size, never force shrink.
+                    width = Math.Max(Width, preferredSize.Width);
+                    height = Math.Max(Height, preferredSize.Height);
+                }
+
                 specified |= BoundsSpecified.Size;
             }
         }
