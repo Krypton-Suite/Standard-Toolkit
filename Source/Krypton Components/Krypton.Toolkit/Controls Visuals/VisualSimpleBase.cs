@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -145,8 +145,8 @@ public abstract class VisualSimpleBase : VisualControlBase
     }
 
     /// <summary>
-    /// Sets the bounds of the control. For AutoSize + GrowAndShrink controls, force the
-    /// size to the preferred size so shrink/grow behavior tracks content consistently.
+    /// Sets the bounds of the control. For AutoSize controls, apply preferred-size sizing
+    /// based on AutoSizeMode semantics (GrowAndShrink vs GrowOnly).
     /// </summary>
     /// <param name="x">The new Left property value of the control.</param>
     /// <param name="y">The new Top property value of the control.</param>
@@ -155,7 +155,7 @@ public abstract class VisualSimpleBase : VisualControlBase
     /// <param name="specified">A bitwise combination of the BoundsSpecified values.</param>
     protected override void SetBoundsCore(int x, int y, int width, int height, BoundsSpecified specified)
     {
-        if (AutoSize && GetAutoSizeMode() == AutoSizeMode.GrowAndShrink)
+        if (AutoSize)
         {
             Size preferredSize = GetPreferredSize(new Size(int.MaxValue, int.MaxValue));
 
@@ -163,8 +163,18 @@ public abstract class VisualSimpleBase : VisualControlBase
             if (preferredSize.Width > 0 && preferredSize.Height > 0
                 && preferredSize.Width < 10000 && preferredSize.Height < 10000)
             {
-                width = preferredSize.Width;
-                height = preferredSize.Height;
+                if (GetAutoSizeMode() == AutoSizeMode.GrowAndShrink)
+                {
+                    width = preferredSize.Width;
+                    height = preferredSize.Height;
+                }
+                else
+                {
+                    // GrowOnly: grow to fit preferred size, do not force shrink.
+                    width = Math.Max(width, preferredSize.Width);
+                    height = Math.Max(height, preferredSize.Height);
+                }
+
                 specified |= BoundsSpecified.Size;
             }
         }
