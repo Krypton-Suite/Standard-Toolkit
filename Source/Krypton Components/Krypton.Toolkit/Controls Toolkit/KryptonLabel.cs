@@ -539,7 +539,7 @@ public class KryptonLabel : VisualSimpleBase, IContentValues
     /// <param name="specified">A bitwise combination of the BoundsSpecified values.</param>
     protected override void SetBoundsCore(int x, int y, int width, int height, BoundsSpecified specified)
     {
-        if (AutoSize && (specified & BoundsSpecified.Size) != 0)
+        if (AutoSize)
         {
             Size preferredSize = GetPreferredSize(new Size(int.MaxValue, int.MaxValue));
             
@@ -550,6 +550,7 @@ public class KryptonLabel : VisualSimpleBase, IContentValues
             {
                 width = preferredSize.Width;
                 height = preferredSize.Height;
+                specified |= BoundsSpecified.Size;
             }
         }
 
