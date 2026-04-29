@@ -145,6 +145,34 @@ public abstract class VisualSimpleBase : VisualControlBase
     }
 
     /// <summary>
+    /// Sets the bounds of the control. For AutoSize + GrowAndShrink controls, force the
+    /// size to the preferred size so shrink/grow behavior tracks content consistently.
+    /// </summary>
+    /// <param name="x">The new Left property value of the control.</param>
+    /// <param name="y">The new Top property value of the control.</param>
+    /// <param name="width">The new Width property value of the control.</param>
+    /// <param name="height">The new Height property value of the control.</param>
+    /// <param name="specified">A bitwise combination of the BoundsSpecified values.</param>
+    protected override void SetBoundsCore(int x, int y, int width, int height, BoundsSpecified specified)
+    {
+        if (AutoSize && GetAutoSizeMode() == AutoSizeMode.GrowAndShrink)
+        {
+            Size preferredSize = GetPreferredSize(new Size(int.MaxValue, int.MaxValue));
+
+            // Guard against unstable values while renderer/layout is still initializing.
+            if (preferredSize.Width > 0 && preferredSize.Height > 0
+                && preferredSize.Width < 10000 && preferredSize.Height < 10000)
+            {
+                width = preferredSize.Width;
+                height = preferredSize.Height;
+                specified |= BoundsSpecified.Size;
+            }
+        }
+
+        base.SetBoundsCore(x, y, width, height, specified);
+    }
+
+    /// <summary>
     /// Gets or sets the background color for the control.
     /// </summary>
     [Browsable(false)]
