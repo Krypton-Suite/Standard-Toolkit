@@ -60,6 +60,14 @@
     </Reference>
   </ItemGroup>
 
+  <!-- Align net472 reference assembly versions with Krypton.Toolkit to avoid CS1705/CS7069 in CI -->
+  <ItemGroup Condition="'$(TargetFramework)' == 'net472'">
+    <PackageReference Include="System.ComponentModel.Primitives" Version="4.3.0" />
+    <PackageReference Include="System.ComponentModel.TypeConverter" Version="4.3.0" />
+    <PackageReference Include="System.Drawing.Common" Version="10.0.0" />
+    <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
+  </ItemGroup>
+
   <ItemGroup>
     <Compile Include="..\Krypton.Toolkit\General\GlobalSuppressions.cs" Link="General\GlobalSuppressions.cs" />
     <Compile Include="..\Krypton.Toolkit\General\PlatformInvoke.cs">
