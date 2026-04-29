@@ -3,6 +3,9 @@
 #
 # Run CodeQL security and code quality analysis for C# using a full manual build,
 # improving dependency/type/call-target resolution compared to no-build scans.
+# NOTE: This is an advanced CodeQL configuration (build-mode: manual). Keep
+# GitHub Code Scanning "Default setup" disabled for this repository, otherwise
+# SARIF uploads from this workflow are rejected.
 
 name: "CodeQL"
 
