@@ -90,7 +90,9 @@
   </ItemGroup>
   <PropertyGroup>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <OutputPath>..\..\..\Bin\$(Configuration)\</OutputPath>
+	<!-- Ensure multi-target outputs don't overwrite each other -->
+	<OutputPath>..\..\..\Bin\$(Configuration)\$(TargetFramework)\</OutputPath>
+	<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
   <PropertyGroup>
     <NoWarn>1701;1702</NoWarn>
