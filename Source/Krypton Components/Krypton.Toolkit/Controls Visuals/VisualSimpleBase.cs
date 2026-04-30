@@ -158,10 +158,14 @@ public abstract class VisualSimpleBase : VisualControlBase
         if (AutoSize)
         {
             Size preferredSize = GetPreferredSize(new Size(int.MaxValue, int.MaxValue));
+            Rectangle virtualScreen = SystemInformation.VirtualScreen;
+            int maxSensibleWidth = (int)Math.Min(int.MaxValue, Math.Max(1L, (long)Math.Abs(virtualScreen.Width) * 2L));
+            int maxSensibleHeight = (int)Math.Min(int.MaxValue, Math.Max(1L, (long)Math.Abs(virtualScreen.Height) * 2L));
 
-            // Guard against unstable values while renderer/layout is still initializing.
+            // Only apply sensible calculated sizes to avoid unstable initialization values.
+            // Use the OS virtual screen size as the baseline instead of a hard-coded pixel limit.
             if (preferredSize.Width > 0 && preferredSize.Height > 0
-                && preferredSize.Width < 10000 && preferredSize.Height < 10000)
+                && preferredSize.Width <= maxSensibleWidth && preferredSize.Height <= maxSensibleHeight)
             {
                 if (GetAutoSizeMode() == AutoSizeMode.GrowAndShrink)
                 {
@@ -170,9 +174,9 @@ public abstract class VisualSimpleBase : VisualControlBase
                 }
                 else
                 {
-                    // GrowOnly: grow to fit preferred size, do not force shrink.
-                    width = Math.Max(width, preferredSize.Width);
-                    height = Math.Max(height, preferredSize.Height);
+                    // GrowOnly semantics: allow growth to preferred size, never force shrink.
+                    width = Math.Max(Width, preferredSize.Width);
+                    height = Math.Max(Height, preferredSize.Height);
                 }
 
                 specified |= BoundsSpecified.Size;
