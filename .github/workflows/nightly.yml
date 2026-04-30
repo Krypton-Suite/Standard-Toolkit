@@ -297,42 +297,55 @@ jobs:
           $proj = 'Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj'
           $msbuildConfig = 'Nightly'
 
-          # Evaluated MSBuild Version (LibraryVersion); avoids parsing csproj XML where //Version matches System.Design metadata (4.0.0.0).
+          # Primary source: built Krypton.Toolkit.dll assembly version.
           try {
-            $evaluated = (& dotnet msbuild "$proj" -getProperty:Version -p:Configuration=$msbuildConfig -nologo -v:q).Trim()
-            if ($evaluated) {
-              if ($evaluated -match '^[1-9]\d{2,}\.\d+\.\d+\.\d+$') {
-                $version = $evaluated
-                Write-Host "Got version from MSBuild: $version"
-              } else {
-                Write-Warning "Ignoring unexpected MSBuild version '$evaluated'."
+            $dllRelativePaths = @(
+              "artifacts/bin/$msbuildConfig/net48/Krypton.Toolkit.dll",
+              "Bin/$msbuildConfig/net48/Krypton.Toolkit.dll",
+              "Bin/Nightly/net48/Krypton.Toolkit.dll"
+            )
+            $dllPath = $null
+            foreach ($p in $dllRelativePaths) {
+              if (Test-Path -LiteralPath $p) { $dllPath = Get-Item -LiteralPath $p; break }
+            }
+
+            if (-not $dllPath) {
+              $searchRoots = @("artifacts/bin", "Bin/$msbuildConfig", "Bin/Nightly", "Bin")
+              foreach ($root in $searchRoots) {
+                if (Test-Path -LiteralPath $root) {
+                  $candidate = Get-ChildItem -Path $root -Recurse -Filter "Krypton.Toolkit.dll" -ErrorAction SilentlyContinue | Select-Object -First 1
+                  if ($candidate) { $dllPath = $candidate; break }
+                }
               }
             }
+
+            if (-not $dllPath) { throw "Krypton.Toolkit.dll not found under artifacts or Bin." }
+            $assemblyVersion = [System.Reflection.AssemblyName]::GetAssemblyName($dllPath.FullName).Version
+            $assemblyVersionText = $assemblyVersion.ToString()
+            if ($assemblyVersionText -match '^[1-9]\d{2,}\.\d+\.\d+\.\d+$') {
+              $version = $assemblyVersionText
+              Write-Host "Got version from assembly: $version ($($dllPath.FullName))"
+            } else {
+              Write-Warning "Ignoring unexpected assembly version '$assemblyVersionText' from $($dllPath.FullName)."
+            }
           } catch {
-            Write-Host "Could not read version from MSBuild: $_"
+            Write-Host "Could not read version from assembly: $_"
           }
 
+          # Backup source: evaluated MSBuild Version when assembly probing fails.
           if (-not $version) {
             try {
-              $dllRelativePaths = @(
-                "artifacts/bin/$msbuildConfig/net48/Krypton.Toolkit.dll",
-                "Bin/$msbuildConfig/net48/Krypton.Toolkit.dll"
-              )
-              $dllPath = $null
-              foreach ($p in $dllRelativePaths) {
-                if (Test-Path -LiteralPath $p) { $dllPath = Get-Item -LiteralPath $p; break }
-              }
-              if (-not $dllPath) { throw "Krypton.Toolkit.dll not found under artifacts or Bin." }
-              $assemblyVersion = [System.Reflection.AssemblyName]::GetAssemblyName($dllPath.FullName).Version
-              $assemblyVersionText = $assemblyVersion.ToString()
-              if ($assemblyVersionText -match '^[1-9]\d{2,}\.\d+\.\d+\.\d+$') {
-                $version = $assemblyVersionText
-                Write-Host "Got version from assembly: $version"
-              } else {
-                Write-Warning "Ignoring unexpected assembly version '$assemblyVersionText' from $($dllPath.FullName)."
+              $evaluated = (& dotnet msbuild "$proj" -getProperty:Version -p:Configuration=$msbuildConfig -nologo -v:q).Trim()
+              if ($evaluated) {
+                if ($evaluated -match '^[1-9]\d{2,}\.\d+\.\d+\.\d+$') {
+                  $version = $evaluated
+                  Write-Host "Got version from MSBuild fallback: $version"
+                } else {
+                  Write-Warning "Ignoring unexpected MSBuild version '$evaluated'."
+                }
               }
             } catch {
-              Write-Host "Could not read version from assembly: $_"
+              Write-Host "Could not read version from MSBuild: $_"
             }
           }
 
