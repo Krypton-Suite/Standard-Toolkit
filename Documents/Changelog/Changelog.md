@@ -47,6 +47,7 @@
 
  ## 2026-07-20 - Build 2607 (Version 105-LTS - Patch 3) - July 2026
 
+ * Resolved [#3385](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3385), Memory Retention in Krypton Controls via SystemEvents
  * Resolved [#3342](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3342), `KryptonTextBox`, text flickers when resizing the control (multiline active)
  * Resolved [#3283](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3283), `KryptonThemeComboBox` does not change theme when `SelectedIndex` is changed
 
