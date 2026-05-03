@@ -125,16 +125,21 @@ jobs:
       - name: Force .NET 11 SDK via global.json
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
         run: |
-          $sdkVersion = (dotnet --list-sdks | Select-String "11.0").ToString().Split(" ")[0]
+          $sdkVersions = dotnet --list-sdks
+          Write-Host "Available SDKs:"
+          Write-Host $sdkVersions
+
+          $sdkVersion = ($sdkVersions | Select-String "^11\.0\." | Select-Object -First 1).ToString().Split(" ")[0]
           if (-not $sdkVersion) {
-            # Fallback to .NET 10 if .NET 11 is not available
-            $sdkVersion = (dotnet --list-sdks | Select-String "10.0").ToString().Split(" ")[0]
+            Write-Error ".NET 11 SDK is required for net11.0 targets but was not found. Ensure setup-dotnet preview install succeeded before restore."
+            exit 1
           }
           Write-Output "Using SDK $sdkVersion"
           @"
           {
             "sdk": {
               "version": "$sdkVersion",
+              "allowPrerelease": true,
               "rollForward": "latestFeature"
             }
           }
