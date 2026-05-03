@@ -196,7 +196,7 @@ jobs:
           cd backup-repo
           git checkout -b "$branch" 2>/dev/null || git checkout "$branch" 2>/dev/null || true
           mkdir -p "$dir_name"
-          rsync -a --exclude='.git' ../. "$dir_name/"
+          rsync -a --exclude='.git' --exclude='backup-repo' ../. "$dir_name/"
           git add "$dir_name"
           git commit -m "chore: backup alpha to $dir_name (automated)"
           git push origin "$branch"
