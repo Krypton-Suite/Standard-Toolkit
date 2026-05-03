@@ -6,6 +6,11 @@ name: Build TestForm
 permissions:
   contents: read
 
+# When a new .NET preview ships, bump these (e.g. 12.0.x + 12.0) so the Preview job tracks it.
+env:
+  DOTNET_PREVIEW_SETUP_VERSION: '11.0.x'
+  DOTNET_PREVIEW_SDK_BAND: '11.0'
+
 on:
   pull_request:
     branches: ['**']
@@ -21,7 +26,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  testform:
+  Stable:
+    name: Stable
     runs-on: windows-2025-vs2026
     if: github.event_name != 'pull_request' || (github.event.pull_request.head.repo.full_name == github.repository || github.event_name == 'workflow_dispatch')
 
@@ -36,25 +42,31 @@ jobs:
             9.0.x
             10.0.x
 
-      - name: Setup .NET 11 (Preview)
-        uses: actions/setup-dotnet@v5
-        with:
-          dotnet-version: 11.0.x
-          dotnet-quality: preview
-
-      - name: Force .NET 10 SDK via global.json
+      - name: Pin stable SDK via global.json
         shell: pwsh
         run: |
-          $sdkVersion = (dotnet --list-sdks | Select-String "10.0").ToString().Split(" ")[0]
-          if (-not $sdkVersion) {
-            $sdkVersion = (dotnet --list-sdks | Select-String "9.0").ToString().Split(" ")[0]
+          $ErrorActionPreference = 'Stop'
+          $stableLine = dotnet --list-sdks |
+            Where-Object { $_ -match '^10\.0\.[0-9]+\s' } |
+            Select-Object -Last 1
+          $sdkVersion = $null
+          if ($stableLine -match '^(\d+\.\d+\.\d+)\s') {
+            $sdkVersion = $Matches[1]
           }
-          Write-Output "Using SDK $sdkVersion"
+          if (-not $sdkVersion) {
+            $fallback = dotnet --list-sdks | Where-Object { $_ -match '^9\.0\.[0-9]+\s' } | Select-Object -Last 1
+            if ($fallback -match '^(\d+\.\d+\.\d+)\s') { $sdkVersion = $Matches[1] }
+          }
+          if (-not $sdkVersion) {
+            Write-Error 'No 10.0.x or 9.0.x SDK found after setup-dotnet.'
+          }
+          Write-Host "Using SDK $sdkVersion"
           @"
           {
             "sdk": {
               "version": "$sdkVersion",
-              "rollForward": "latestFeature"
+              "rollForward": "latestPatch",
+              "allowPrerelease": false
             }
           }
           "@ | Out-File -Encoding utf8 global.json
@@ -63,12 +75,81 @@ jobs:
         uses: actions/cache@v5
         with:
           path: ~/.nuget/packages
-          key: ${{ runner.os }}-nuget-testform-${{ hashFiles('**/*.csproj') }}
+          key: ${{ runner.os }}-nuget-testform-stable-${{ hashFiles('**/*.csproj') }}
           restore-keys: |
-            ${{ runner.os }}-nuget-testform-
+            ${{ runner.os }}-nuget-testform-stable-
             ${{ runner.os }}-nuget-
 
-      # MSBuild (e.g. .NET 11 preview) rejects -c/--configuration when forwarded literally; use -p: instead.
+      - name: Restore TestForm
+        run: dotnet restore "Source/Krypton Components/TestForm/TestForm.csproj" -p:Configuration=Release -p:TFMs=all
+
+      - name: Build TestForm
+        run: dotnet build "Source/Krypton Components/TestForm/TestForm.csproj" -p:Configuration=Release --no-restore -p:TFMs=all
+
+  Preview:
+    name: Preview
+    runs-on: windows-2025-vs2026
+    if: github.event_name != 'pull_request' || (github.event.pull_request.head.repo.full_name == github.repository || github.event_name == 'workflow_dispatch')
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: |
+            9.0.x
+            10.0.x
+
+      - name: Setup .NET (preview band)
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ env.DOTNET_PREVIEW_SETUP_VERSION }}
+          dotnet-quality: preview
+
+      - name: Pin preview SDK via global.json
+        shell: pwsh
+        env:
+          SDK_BAND: ${{ env.DOTNET_PREVIEW_SDK_BAND }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $band = $env:SDK_BAND
+          if (-not $band) {
+            Write-Error 'DOTNET_PREVIEW_SDK_BAND is not set.'
+          }
+          $escaped = [regex]::Escape($band)
+          $pick = dotnet --list-sdks |
+            Where-Object { $_ -match "^$escaped\." } |
+            Select-Object -Last 1
+          if (-not $pick) {
+            Write-Error "No preview SDK found for band '$band'. Check DOTNET_PREVIEW_SETUP_VERSION / DOTNET_PREVIEW_SDK_BAND in the workflow env."
+          }
+          if ($pick -match '^(\S+)\s') {
+            $sdkVersion = $Matches[1]
+          } else {
+            Write-Error "Could not parse SDK version from line: $pick"
+          }
+          Write-Host "Using preview SDK $sdkVersion (band $band)"
+          @"
+          {
+            "sdk": {
+              "version": "$sdkVersion",
+              "rollForward": "latestFeature",
+              "allowPrerelease": true
+            }
+          }
+          "@ | Out-File -Encoding utf8 global.json
+
+      - name: Cache NuGet
+        uses: actions/cache@v5
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-testform-preview-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-testform-preview-
+            ${{ runner.os }}-nuget-
+
       - name: Restore TestForm
         run: dotnet restore "Source/Krypton Components/TestForm/TestForm.csproj" -p:Configuration=Release -p:TFMs=all
 
