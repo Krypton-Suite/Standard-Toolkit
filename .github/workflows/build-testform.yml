@@ -1,0 +1,75 @@
+# New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+# Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2026 - 2026. All rights reserved.
+
+name: Build TestForm
+
+permissions:
+  contents: read
+
+on:
+  pull_request:
+    branches: ['**']
+    types: [opened, synchronize, reopened]
+  push:
+    branches:
+      - master
+      - alpha
+      - canary
+      - gold
+      - V105-LTS
+    paths-ignore: ['.git*', '.vscode']
+  workflow_dispatch:
+
+jobs:
+  testform:
+    runs-on: windows-2025-vs2026
+    if: github.event_name != 'pull_request' || (github.event.pull_request.head.repo.full_name == github.repository || github.event_name == 'workflow_dispatch')
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: |
+            9.0.x
+            10.0.x
+
+      - name: Setup .NET 11 (Preview)
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 11.0.x
+          dotnet-quality: preview
+
+      - name: Force .NET 10 SDK via global.json
+        shell: pwsh
+        run: |
+          $sdkVersion = (dotnet --list-sdks | Select-String "10.0").ToString().Split(" ")[0]
+          if (-not $sdkVersion) {
+            $sdkVersion = (dotnet --list-sdks | Select-String "9.0").ToString().Split(" ")[0]
+          }
+          Write-Output "Using SDK $sdkVersion"
+          @"
+          {
+            "sdk": {
+              "version": "$sdkVersion",
+              "rollForward": "latestFeature"
+            }
+          }
+          "@ | Out-File -Encoding utf8 global.json
+
+      - name: Cache NuGet
+        uses: actions/cache@v5
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-testform-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-testform-
+            ${{ runner.os }}-nuget-
+
+      - name: Restore TestForm
+        run: dotnet restore "Source/Krypton Components/TestForm/TestForm.csproj" -c Release -p:TFMs=all
+
+      - name: Build TestForm
+        run: dotnet build "Source/Krypton Components/TestForm/TestForm.csproj" -c Release --no-restore -p:TFMs=all
