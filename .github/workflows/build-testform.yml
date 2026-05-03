@@ -69,7 +69,7 @@ jobs:
             ${{ runner.os }}-nuget-
 
       - name: Restore TestForm
-        run: dotnet restore "Source/Krypton Components/TestForm/TestForm.csproj" -c Release -p:TFMs=all
+        run: dotnet restore "Source/Krypton Components/TestForm/TestForm.csproj" --configuration Release -p:TFMs=all
 
       - name: Build TestForm
-        run: dotnet build "Source/Krypton Components/TestForm/TestForm.csproj" -c Release --no-restore -p:TFMs=all
+        run: dotnet build "Source/Krypton Components/TestForm/TestForm.csproj" --configuration Release --no-restore -p:TFMs=all
