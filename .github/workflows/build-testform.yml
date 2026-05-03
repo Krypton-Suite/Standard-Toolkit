@@ -68,8 +68,9 @@ jobs:
             ${{ runner.os }}-nuget-testform-
             ${{ runner.os }}-nuget-
 
+      # MSBuild (e.g. .NET 11 preview) rejects -c/--configuration when forwarded literally; use -p: instead.
       - name: Restore TestForm
-        run: dotnet restore "Source/Krypton Components/TestForm/TestForm.csproj" --configuration Release -p:TFMs=all
+        run: dotnet restore "Source/Krypton Components/TestForm/TestForm.csproj" -p:Configuration=Release -p:TFMs=all
 
       - name: Build TestForm
-        run: dotnet build "Source/Krypton Components/TestForm/TestForm.csproj" --configuration Release --no-restore -p:TFMs=all
+        run: dotnet build "Source/Krypton Components/TestForm/TestForm.csproj" -p:Configuration=Release --no-restore -p:TFMs=all
