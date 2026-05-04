@@ -25,6 +25,16 @@
 		</Otherwise>
 	</Choose>
 
+	<!-- MSB3822/3823: binary .resx (images/icons) need preserialized GenerateResource + System.Resources.Extensions.
+	     Defined here (not repo root) so it applies after SDK props; all projects under this folder are WinForms SDK. -->
+	<PropertyGroup>
+		<GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="System.Resources.Extensions" Version="9.0.10" />
+	</ItemGroup>
+
 	<!--Sets up the language version.-->
 	<!--https://learn.microsoft.com/en-gb/dotnet/csharp/language-reference/configure-language-version#configure-multiple-projects-->
 	<PropertyGroup>
