@@ -1,20 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <Choose>
-	<When Condition="'$(Configuration)' == 'Nightly' Or '$(Configuration)' == 'Canary' Or '$(Configuration)' == 'Debug'">
-	  <PropertyGroup>
-		<TargetFrameworks>net472;net48;net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
-	  </PropertyGroup>
-	</When>
-	<Otherwise>
-	  <PropertyGroup>
-		<TargetFrameworks>net48;net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
-
-		<TargetFrameworks Condition="'$(TFMs)' == 'all'">net472;net48;net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
-	  </PropertyGroup>
-	</Otherwise>
-  </Choose>
-
   <PropertyGroup>
 	<OutputType>Library</OutputType>
 	<RootNamespace>Krypton.Toolkit</RootNamespace>
@@ -56,6 +41,9 @@
 		<Reference Include="System.Net.Http" />
 	</ItemGroup>
 
+	<ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
+		<PackageReference Include="System.Memory" Version="4.5.5" />
+	</ItemGroup>
 
 	<PropertyGroup>
 	<PackageId>Krypton.Toolkit</PackageId>
@@ -145,6 +133,7 @@
 	  <SubType>Component</SubType>
 	</Compile>
 	<Compile Update="Controls Toolkit\KryptonManager.cs" />
+	<Compile Update="Controls Toolkit\KryptonToolTip.cs" />
 	<Compile Update="Palette Builtin\Professional\PaletteProfessionalSystem.cs" />
 	<Compile Update="Palette Builtin\Base\PaletteBase.cs" />
 	<Compile Update="Rendering\RenderOffice2010.cs">
@@ -399,11 +388,6 @@
 	  <DesignTime>True</DesignTime>
 	  <AutoGen>True</AutoGen>
 	  <DependentUpon>TaskDialogImageResources.resx</DependentUpon>
-	</Compile>
-	<Compile Update="ResourceFiles\ToastNotification\ToastNotificationImageResources.Designer.cs">
-	  <DesignTime>True</DesignTime>
-	  <AutoGen>True</AutoGen>
-	  <DependentUpon>ToastNotificationImageResources.resx</DependentUpon>
 	</Compile>
 	<Compile Update="ResourceFiles\Toolbars\GenericToolbarImageResources.Designer.cs">
 	  <DesignTime>True</DesignTime>
@@ -855,10 +839,6 @@
 	  <Generator>ResXFileCodeGenerator</Generator>
 	  <LastGenOutput>TaskDialogImageResources.Designer.cs</LastGenOutput>
 	</EmbeddedResource>
-	<EmbeddedResource Update="ResourceFiles\ToastNotification\ToastNotificationImageResources.resx">
-	  <Generator>ResXFileCodeGenerator</Generator>
-	  <LastGenOutput>ToastNotificationImageResources.Designer.cs</LastGenOutput>
-	</EmbeddedResource>
 	<EmbeddedResource Update="ResourceFiles\Toolbars\GenericToolbarImageResources.resx">
 	  <Generator>ResXFileCodeGenerator</Generator>
 	  <LastGenOutput>GenericToolbarImageResources.Designer.cs</LastGenOutput>
@@ -945,10 +925,7 @@
 
   <!-- .NET Framework apps: auto binding redirects fix System.Resources.Extensions 4.0.0.0 vs 4.0.1.0 load failures. -->
   <ItemGroup>
-	<None Include="..\NetFramework.SystemResourcesExtensions.BindingRedirects.props"
-			Pack="true"
-			PackagePath="build\$(PackageId).props"
-			Visible="false" />
+	<None Include="..\NetFramework.SystemResourcesExtensions.BindingRedirects.props" Pack="true" PackagePath="build\$(PackageId).props" Visible="false" />
   </ItemGroup>
 
 </Project>
