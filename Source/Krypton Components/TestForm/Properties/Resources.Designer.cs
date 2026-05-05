@@ -19,7 +19,7 @@ namespace TestForm.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -1775,9 +1775,9 @@ namespace TestForm.Properties {
         ///          &lt;ImageNormal Type=&quot;Image&quot; Value=&quot;&quot; /&gt;
         ///   [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string Microsoft365_Super_Pink {
+        internal static string Microsoft365_Pink {
             get {
-                return ResourceManager.GetString("Microsoft365_Super_Pink", resourceCulture);
+                return ResourceManager.GetString("Microsoft365 Pink", resourceCulture);
             }
         }
         
