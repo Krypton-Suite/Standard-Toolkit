@@ -239,9 +239,9 @@ As of V90.00 support for longer path names **will** need to be enabled if you wa
 
 Quick options from the repository root:
 
-- **Solution build:** `dotnet build "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.sln" -c Debug` (see [AGENTS.md](AGENTS.md) for TestForm and preset script notes).
-- **Interactive scripts:** `run.cmd` or the channel scripts under `Scripts/VS2022/` (and related folders).
-- **ModernBuild (optional):** keyboard-driven build, pack, and NuGet workflows — see [Scripts/ModernBuild/README.md](Scripts/ModernBuild/README.md).
+* **Solution build:** `dotnet build "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.sln" -c Debug` (see [AGENTS.md](AGENTS.md) for TestForm and preset script notes).
+* **Interactive scripts:** `run.cmd` or the channel scripts under `Scripts/VS2022/` (and related folders).
+* **ModernBuild (optional):** keyboard-driven build, pack, and NuGet workflows — see [Scripts/ModernBuild/README.md](Scripts/ModernBuild/README.md).
 
 =======
 
