@@ -400,7 +400,7 @@ namespace Krypton.Toolkit
                 DrawTabBorder
                     ? context.Renderer.RenderTabBorder.GetTabBorderDisplayPadding(context, PaletteBorder, State, Orientation,
                         TabBorderStyle)
-                    : context.Renderer.RenderStandardBorder.GetBorderDisplayPadding(PaletteBorder, State, Orientation));
+                    : context.Renderer.RenderStandardBorder.GetBorderDisplayPadding(PaletteBorder, State, Orientation, context.DisplayRectangle.Size));
 
             // Do we have a metric source for additional padding?
             if ((PaletteMetric != null) && (_metricPadding != PaletteMetricPadding.None))
@@ -444,7 +444,7 @@ namespace Krypton.Toolkit
             Padding padding = DrawTabBorder
                 ? context.Renderer.RenderTabBorder.GetTabBorderDisplayPadding(context, PaletteBorder, State,
                     Orientation, TabBorderStyle)
-                : context.Renderer.RenderStandardBorder.GetBorderDisplayPadding(PaletteBorder, State, Orientation);
+                : context.Renderer.RenderStandardBorder.GetBorderDisplayPadding(PaletteBorder, State, Orientation, context.DisplayRectangle.Size);
 
             // Apply the padding to the client rectangle
             context.DisplayRectangle = CommonHelper.ApplyPadding(Orientation, ClientRectangle, padding);

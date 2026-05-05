@@ -319,11 +319,11 @@ namespace Krypton.Toolkit
                 // Apply space the border takes up
                 if (IgnoreBorderSpace)
                 {
-                    borderSize = CommonHelper.ApplyPadding(Orientation, borderSize, context.Renderer.RenderStandardBorder.GetBorderDisplayPadding(_paletteBorder, State, Orientation));
+                    borderSize = CommonHelper.ApplyPadding(Orientation, borderSize, context.Renderer.RenderStandardBorder.GetBorderDisplayPadding(_paletteBorder, State, Orientation, originalRect.Size));
                 }
                 else
                 {
-                    Padding padding = context.Renderer.RenderStandardBorder.GetBorderDisplayPadding(_paletteBorder, State, Orientation);
+                    Padding padding = context.Renderer.RenderStandardBorder.GetBorderDisplayPadding(_paletteBorder, State, Orientation, originalRect.Size);
                     preferredSize = CommonHelper.ApplyPadding(Orientation, preferredSize, padding);
                     displayRect = CommonHelper.ApplyPadding(Orientation, displayRect, padding);
                 }
@@ -378,11 +378,11 @@ namespace Krypton.Toolkit
                 // Apply space the border takes up
                 if (IgnoreBorderSpace)
                 {
-                    borderSize = CommonHelper.ApplyPadding(Orientation, borderSize, context.Renderer.RenderStandardBorder.GetBorderDisplayPadding(_paletteBorder, State, Orientation));
+                    borderSize = CommonHelper.ApplyPadding(Orientation, borderSize, context.Renderer.RenderStandardBorder.GetBorderDisplayPadding(_paletteBorder, State, Orientation, originalRect.Size));
                 }
                 else
                 {
-                    Padding padding = context.Renderer.RenderStandardBorder.GetBorderDisplayPadding(_paletteBorder, State, Orientation);
+                    Padding padding = context.Renderer.RenderStandardBorder.GetBorderDisplayPadding(_paletteBorder, State, Orientation, originalRect.Size);
                     preferredSize = CommonHelper.ApplyPadding(Orientation, preferredSize, padding);
                     displayRect = CommonHelper.ApplyPadding(Orientation, displayRect, padding);
                 }
