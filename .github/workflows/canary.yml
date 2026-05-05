@@ -120,7 +120,7 @@ jobs:
 
       - name: Setup NuGet
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
-        uses: NuGet/setup-nuget@v3.1.0
+        uses: NuGet/setup-nuget@v4
 
       - name: Cache NuGet
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
@@ -191,15 +191,15 @@ jobs:
 
       - name: Restore
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
-        run: msbuild "Scripts/Build/canary.proj" /t:Restore /p:Configuration=Canary /p:Platform="Any CPU"
+        run: msbuild "Scripts/Build/canary.proj" /t:Restore /p:Configuration=Canary /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
       - name: Build Canary
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
-        run: msbuild "Scripts/Build/canary.proj" /t:Build /p:Configuration=Canary /p:Platform="Any CPU"
+        run: msbuild "Scripts/Build/canary.proj" /t:Build /p:Configuration=Canary /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
       - name: Pack Canary
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
-        run: msbuild "Scripts/Build/canary.proj" /t:Pack /p:Configuration=Canary /p:Platform="Any CPU"
+        run: msbuild "Scripts/Build/canary.proj" /t:Pack /p:Configuration=Canary /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
       - name: Push NuGet Packages to nuget.org
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
@@ -213,7 +213,11 @@ jobs:
             exit 0
           }
 
-          $packages = Get-ChildItem "Bin/Packages/Canary/*.nupkg" -ErrorAction SilentlyContinue
+          $packageCandidates = @(
+            "artifacts/packages/Canary/*.nupkg",
+            "Bin/Packages/Canary/*.nupkg"
+          )
+          $packages = @(Get-ChildItem -Path $packageCandidates -ErrorAction SilentlyContinue | Sort-Object FullName -Unique)
           $publishedAny = $false
 
           if ($packages) {
@@ -247,27 +251,44 @@ jobs:
         run: |
           $ErrorActionPreference = 'Stop'
           $version = $null
+          $proj = 'Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj'
+          $msbuildConfig = 'Canary'
 
           try {
-            $dllPath = Get-ChildItem "Bin/Canary/net48/Krypton.Toolkit.dll" -ErrorAction Stop
-            $assemblyVersion = [System.Reflection.AssemblyName]::GetAssemblyName($dllPath.FullName).Version
-            $version = $assemblyVersion.ToString()
-            Write-Host "Got version from assembly: $version"
+            $evaluated = (& dotnet msbuild "$proj" -getProperty:Version -p:Configuration=$msbuildConfig -nologo -v:q).Trim()
+            if ($evaluated) {
+              if ($evaluated -match '^[1-9]\d{2,}\.\d+\.\d+\.\d+$') {
+                $version = $evaluated
+                Write-Host "Got version from MSBuild: $version"
+              } else {
+                Write-Warning "Ignoring unexpected MSBuild version '$evaluated'."
+              }
+            }
           } catch {
-            Write-Host "Could not read version from assembly: $_"
+            Write-Host "Could not read version from MSBuild: $_"
           }
 
           if (-not $version) {
             try {
-              $proj = 'Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj'
-              [xml]$projXml = Get-Content $proj
-              $versionNode = $projXml.SelectSingleNode("//Version")
-              if ($versionNode) {
-                $version = $versionNode.InnerText.Trim()
-                Write-Host "Got version from csproj: $version"
+              $dllRelativePaths = @(
+                "artifacts/bin/$msbuildConfig/net48/Krypton.Toolkit.dll",
+                "Bin/$msbuildConfig/net48/Krypton.Toolkit.dll"
+              )
+              $dllPath = $null
+              foreach ($p in $dllRelativePaths) {
+                if (Test-Path -LiteralPath $p) { $dllPath = Get-Item -LiteralPath $p; break }
+              }
+              if (-not $dllPath) { throw "Krypton.Toolkit.dll not found under artifacts or Bin." }
+              $assemblyVersion = [System.Reflection.AssemblyName]::GetAssemblyName($dllPath.FullName).Version
+              $assemblyVersionText = $assemblyVersion.ToString()
+              if ($assemblyVersionText -match '^[1-9]\d{2,}\.\d+\.\d+\.\d+$') {
+                $version = $assemblyVersionText
+                Write-Host "Got version from assembly: $version"
+              } else {
+                Write-Warning "Ignoring unexpected assembly version '$assemblyVersionText' from $($dllPath.FullName)."
               }
             } catch {
-              Write-Host "Could not read version from csproj: $_"
+              Write-Host "Could not read version from assembly: $_"
             }
           }
 
