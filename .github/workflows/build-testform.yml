@@ -71,8 +71,10 @@ jobs:
           }
           "@ | Out-File -Encoding utf8 global.json
 
-      - name: Cache NuGet
-        uses: actions/cache@v5
+      - name: Restore NuGet cache
+        id: stable-nuget-cache-restore
+        uses: actions/cache/restore@v4
+        continue-on-error: true
         with:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-testform-stable-${{ hashFiles('**/*.csproj') }}
@@ -134,6 +136,14 @@ jobs:
       - name: Build TestForm
         run: dotnet build "Source/Krypton Components/TestForm/TestForm.csproj" -p:Configuration=Release --no-restore -p:TFMs=all -m:1 -p:BuildInParallel=false
 
+      - name: Save NuGet cache
+        if: success() && github.event_name != 'pull_request'
+        uses: actions/cache/save@v4
+        continue-on-error: true
+        with:
+          path: ~/.nuget/packages
+          key: ${{ steps.stable-nuget-cache-restore.outputs.cache-primary-key }}
+
   Preview:
     name: Preview
     runs-on: windows-2025-vs2026
@@ -189,8 +199,10 @@ jobs:
           }
           "@ | Out-File -Encoding utf8 global.json
 
-      - name: Cache NuGet
-        uses: actions/cache@v5
+      - name: Restore NuGet cache
+        id: preview-nuget-cache-restore
+        uses: actions/cache/restore@v4
+        continue-on-error: true
         with:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-testform-preview-${{ hashFiles('**/*.csproj') }}
@@ -251,3 +263,11 @@ jobs:
 
       - name: Build TestForm
         run: dotnet build "Source/Krypton Components/TestForm/TestForm.csproj" -p:Configuration=Release --no-restore -p:TFMs=all -m:1 -p:BuildInParallel=false
+
+      - name: Save NuGet cache
+        if: success() && github.event_name != 'pull_request'
+        uses: actions/cache/save@v4
+        continue-on-error: true
+        with:
+          path: ~/.nuget/packages
+          key: ${{ steps.preview-nuget-cache-restore.outputs.cache-primary-key }}
