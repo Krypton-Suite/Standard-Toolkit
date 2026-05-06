@@ -105,6 +105,20 @@ public interface IRenderBorder
         VisualOrientation orientation);
 
     /// <summary>
+    /// Gets the padding used to position display elements completely inside border drawing,
+    /// clamping corner rounding to fit <paramref name="borderOuterSize"/> the same way as the border path when width and height are greater than zero.
+    /// </summary>
+    /// <param name="palette">Palette used for drawing.</param>
+    /// <param name="state">State associated with rendering.</param>
+    /// <param name="orientation">Visual orientation of the border.</param>
+    /// <param name="borderOuterSize">Outer bounds of the border; use (0,0) for legacy padding from palette rounding alone.</param>
+    /// <returns>Padding structure detailing all four edges.</returns>
+    Padding GetBorderDisplayPadding(IPaletteBorder? palette,
+        PaletteState state,
+        VisualOrientation orientation,
+        Size borderOuterSize);
+
+    /// <summary>
     /// Generate a graphics path that is the outside edge of the border.
     /// </summary>
     /// <param name="context">Rendering context.</param>

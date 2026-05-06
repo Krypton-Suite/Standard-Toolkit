@@ -47,9 +47,18 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Update="Bug3381KryptonButtonRoundedTextCenteringDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Bug3381KryptonButtonRoundedTextCenteringDemo.Designer.cs">
+      <DependentUpon>Bug3381KryptonButtonRoundedTextCenteringDemo.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Bug3381KryptonButtonRoundedTextCenteringDemo.resx">
+      <DependentUpon>Bug3381KryptonButtonRoundedTextCenteringDemo.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Update="KryptonTaskDialogDemo\KryptonTaskDialogDemoResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>KryptonTaskDialogDemoResources.Designer.cs</LastGenOutput>

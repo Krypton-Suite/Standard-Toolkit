@@ -83,9 +83,14 @@
 		</Otherwise>
 	</Choose>
 
-	<PropertyGroup Condition="'$(TargetFramework)' == 'net10.0-windows'">
+	<!-- MSB3822/3823: non-string .resx entries need preserialized resources + this package for the SDK GenerateResource task. -->
+	<PropertyGroup Condition="'$(UsingMicrosoftNETSdk)' == 'true' AND '$(UseWindowsForms)' == 'true'">
 		<GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
 	</PropertyGroup>
+
+	<ItemGroup Condition="'$(UsingMicrosoftNETSdk)' == 'true' AND '$(UseWindowsForms)' == 'true'">
+		<PackageReference Include="System.Resources.Extensions" Version="9.0.10" />
+	</ItemGroup>
 
 	<PropertyGroup Condition="'$(Configuration)' == 'Nightly'">
 		<DefineConstants>$(DefineConstants);NIGHTLY</DefineConstants>
