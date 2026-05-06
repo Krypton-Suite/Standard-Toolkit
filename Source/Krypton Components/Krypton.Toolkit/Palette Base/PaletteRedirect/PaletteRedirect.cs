@@ -32,6 +32,7 @@ public class PaletteRedirect : PaletteBase, IGlobalId
     /// <param name="target">Initial palette target for redirection.</param>
     /// <remarks>target can be null when performing a drag-drop operation (Amongst other usages !!)</remarks>
     public PaletteRedirect(PaletteBase? target)
+        : base(attachUserPreferenceChanged: false)
     {
         Id = CommonHelper.NextId;
         // Remember incoming target
