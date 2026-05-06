@@ -83,8 +83,56 @@ jobs:
       - name: Restore TestForm
         run: dotnet restore "Source/Krypton Components/TestForm/TestForm.csproj" -p:Configuration=Release -p:TFMs=all
 
+      - name: Validate TestForm linked resources
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $projectDir = Join-Path $env:GITHUB_WORKSPACE 'Source\Krypton Components\TestForm'
+          $resxFiles = @(
+            Join-Path $projectDir 'Properties\Resources.resx'
+            Join-Path $projectDir 'KryptonTaskDialogDemo\KryptonTaskDialogDemoResources.resx'
+          )
+
+          $missing = New-Object System.Collections.Generic.List[string]
+          foreach ($resxPath in $resxFiles) {
+            if (-not (Test-Path -LiteralPath $resxPath)) {
+              $missing.Add("Missing .resx file: $resxPath")
+              continue
+            }
+
+            [xml]$resx = Get-Content -LiteralPath $resxPath
+            $resxDir = Split-Path -Parent $resxPath
+
+            foreach ($data in $resx.root.data) {
+              if ($data.type -ne 'System.Resources.ResXFileRef, System.Windows.Forms') {
+                continue
+              }
+
+              $valueText = [string]$data.value
+              if ([string]::IsNullOrWhiteSpace($valueText)) {
+                continue
+              }
+
+              $parts = $valueText.Split(';', 2)
+              $relativePath = $parts[0].Trim()
+              if ([string]::IsNullOrWhiteSpace($relativePath)) {
+                continue
+              }
+
+              $fullPath = [System.IO.Path]::GetFullPath((Join-Path $resxDir $relativePath))
+              if (-not (Test-Path -LiteralPath $fullPath)) {
+                $resourceName = [string]$data.name
+                $missing.Add("$resxPath -> data '$resourceName' references missing file '$fullPath'")
+              }
+            }
+          }
+
+          if ($missing.Count -gt 0) {
+            Write-Error ("Linked resource validation failed:`n" + ($missing -join "`n"))
+          }
+
       - name: Build TestForm
-        run: dotnet build "Source/Krypton Components/TestForm/TestForm.csproj" -p:Configuration=Release --no-restore -p:TFMs=all
+        run: dotnet build "Source/Krypton Components/TestForm/TestForm.csproj" -p:Configuration=Release --no-restore -p:TFMs=all -m:1 -p:BuildInParallel=false
 
   Preview:
     name: Preview
@@ -153,5 +201,53 @@ jobs:
       - name: Restore TestForm
         run: dotnet restore "Source/Krypton Components/TestForm/TestForm.csproj" -p:Configuration=Release -p:TFMs=all
 
+      - name: Validate TestForm linked resources
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $projectDir = Join-Path $env:GITHUB_WORKSPACE 'Source\Krypton Components\TestForm'
+          $resxFiles = @(
+            Join-Path $projectDir 'Properties\Resources.resx'
+            Join-Path $projectDir 'KryptonTaskDialogDemo\KryptonTaskDialogDemoResources.resx'
+          )
+
+          $missing = New-Object System.Collections.Generic.List[string]
+          foreach ($resxPath in $resxFiles) {
+            if (-not (Test-Path -LiteralPath $resxPath)) {
+              $missing.Add("Missing .resx file: $resxPath")
+              continue
+            }
+
+            [xml]$resx = Get-Content -LiteralPath $resxPath
+            $resxDir = Split-Path -Parent $resxPath
+
+            foreach ($data in $resx.root.data) {
+              if ($data.type -ne 'System.Resources.ResXFileRef, System.Windows.Forms') {
+                continue
+              }
+
+              $valueText = [string]$data.value
+              if ([string]::IsNullOrWhiteSpace($valueText)) {
+                continue
+              }
+
+              $parts = $valueText.Split(';', 2)
+              $relativePath = $parts[0].Trim()
+              if ([string]::IsNullOrWhiteSpace($relativePath)) {
+                continue
+              }
+
+              $fullPath = [System.IO.Path]::GetFullPath((Join-Path $resxDir $relativePath))
+              if (-not (Test-Path -LiteralPath $fullPath)) {
+                $resourceName = [string]$data.name
+                $missing.Add("$resxPath -> data '$resourceName' references missing file '$fullPath'")
+              }
+            }
+          }
+
+          if ($missing.Count -gt 0) {
+            Write-Error ("Linked resource validation failed:`n" + ($missing -join "`n"))
+          }
+
       - name: Build TestForm
-        run: dotnet build "Source/Krypton Components/TestForm/TestForm.csproj" -p:Configuration=Release --no-restore -p:TFMs=all
+        run: dotnet build "Source/Krypton Components/TestForm/TestForm.csproj" -p:Configuration=Release --no-restore -p:TFMs=all -m:1 -p:BuildInParallel=false
