@@ -150,9 +150,23 @@ public abstract class RenderBase : Component,
     /// <param name="state">State associated with rendering.</param>
     /// <param name="orientation">Visual orientation of the border.</param>
     /// <returns>Padding structure detailing all four edges.</returns>
+    public virtual Padding GetBorderDisplayPadding(IPaletteBorder? palette,
+        PaletteState state,
+        VisualOrientation orientation) =>
+        GetBorderDisplayPadding(palette, state, orientation, Size.Empty);
+
+    /// <summary>
+    /// Gets the padding used to position display elements completely inside border drawing.
+    /// </summary>
+    /// <param name="palette">Palette used for drawing.</param>
+    /// <param name="state">State associated with rendering.</param>
+    /// <param name="orientation">Visual orientation of the border.</param>
+    /// <param name="borderOuterSize">Outer size of the bordered area; use <see cref="Size.Empty"/> for legacy behaviour.</param>
+    /// <returns>Padding structure detailing all four edges.</returns>
     public abstract Padding GetBorderDisplayPadding(IPaletteBorder? palette,
         PaletteState state,
-        VisualOrientation orientation);
+        VisualOrientation orientation,
+        Size borderOuterSize);
 
     /// <summary>
     /// Generate a graphics path that is the outside edge of the border.
