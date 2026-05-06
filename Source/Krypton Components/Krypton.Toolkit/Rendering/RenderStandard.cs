@@ -476,11 +476,13 @@ public class RenderStandard : RenderBase
 	/// <param name="palette">Palette used for drawing.</param>
 	/// <param name="state">State associated with rendering.</param>
 	/// <param name="orientation">Visual orientation of the border.</param>
+	/// <param name="borderOuterSize">When width and height are positive, corner rounding is clamped to fit these bounds the same way as when building the rounded border path, so layout matches drawing and clipping (GitHub #3381).</param>
 	/// <exception cref="ArgumentNullException"></exception>
 	/// <returns>Padding structure detailing all four edges.</returns>
 	public override Padding GetBorderDisplayPadding(IPaletteBorder? palette,
 		PaletteState state,
-		VisualOrientation orientation)
+		VisualOrientation orientation,
+		Size borderOuterSize)
 	{
 		Debug.Assert(palette != null);
 
@@ -496,10 +498,24 @@ public class RenderStandard : RenderBase
 		if (CommonHelper.HasABorder(borders))
 		{
 			var borderWidth = palette.GetBorderWidth(state);
+			float paletteRounding = palette.GetBorderRounding(state);
+			float roundingForPadding = paletteRounding;
+
+			// Match CreateBorderBackPath: rounding must fit inside the outer rectangle (#3381)
+			if (borderOuterSize.Width > 0 && borderOuterSize.Height > 0)
+			{
+				float maxRounding = Math.Min(borderOuterSize.Width / 2f, borderOuterSize.Height / 2f) - borderWidth;
+				if (maxRounding < 0f)
+				{
+					maxRounding = 0f;
+				}
+
+				roundingForPadding = Math.Min(paletteRounding, maxRounding);
+			}
 
 			// Divide the rounding effect by PI to get the actual pixel distance needed
 			// for offsetting. But add 2, so it starts indenting on a rounding of just 1.
-			int roundPadding = Convert.ToInt16((palette.GetBorderRounding(state) + borderWidth + 2) / Math.PI);
+			int roundPadding = Convert.ToInt16((roundingForPadding + borderWidth + 2) / Math.PI);
 
 			// If not involving rounding then padding for an edge is just the border width
 			var squarePadding = borderWidth;

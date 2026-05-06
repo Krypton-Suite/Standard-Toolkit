@@ -339,11 +339,11 @@ public class ViewDrawDocker : ViewDrawCanvas
             // Apply space the border takes up
             if (IgnoreBorderSpace)
             {
-                borderSize = CommonHelper.ApplyPadding(Orientation, borderSize, context.Renderer.RenderStandardBorder.GetBorderDisplayPadding(_paletteBorder!, State, Orientation));
+                borderSize = CommonHelper.ApplyPadding(Orientation, borderSize, context.Renderer.RenderStandardBorder.GetBorderDisplayPadding(_paletteBorder!, State, Orientation, originalRect.Size));
             }
             else
             {
-                var padding = context.Renderer.RenderStandardBorder.GetBorderDisplayPadding(_paletteBorder!, State, Orientation);
+                var padding = context.Renderer.RenderStandardBorder.GetBorderDisplayPadding(_paletteBorder!, State, Orientation, originalRect.Size);
                 preferredSize = CommonHelper.ApplyPadding(Orientation, preferredSize, padding);
                 displayRect = CommonHelper.ApplyPadding(Orientation, displayRect, padding);
             }
@@ -408,11 +408,11 @@ public class ViewDrawDocker : ViewDrawCanvas
             // Apply space the border takes up
             if (IgnoreBorderSpace)
             {
-                borderSize = CommonHelper.ApplyPadding(Orientation, borderSize, context.Renderer.RenderStandardBorder.GetBorderDisplayPadding(_paletteBorder, State, Orientation));
+                borderSize = CommonHelper.ApplyPadding(Orientation, borderSize, context.Renderer.RenderStandardBorder.GetBorderDisplayPadding(_paletteBorder, State, Orientation, originalRect.Size));
             }
             else
             {
-                var padding = context.Renderer.RenderStandardBorder.GetBorderDisplayPadding(_paletteBorder, State, Orientation);
+                var padding = context.Renderer.RenderStandardBorder.GetBorderDisplayPadding(_paletteBorder, State, Orientation, originalRect.Size);
                 preferredSize = CommonHelper.ApplyPadding(Orientation, preferredSize, padding);
                 displayRect = CommonHelper.ApplyPadding(Orientation, displayRect, padding);
             }
@@ -629,7 +629,7 @@ public class ViewDrawDocker : ViewDrawCanvas
             var borderWidth = _paletteBorder!.GetBorderWidth(State);
 
             // Update padding to reflect the orientation we are using
-            padding = context.Renderer.RenderStandardBorder.GetBorderDisplayPadding(_paletteBorder, State, Orientation);
+            padding = context.Renderer.RenderStandardBorder.GetBorderDisplayPadding(_paletteBorder, State, Orientation, ClientRectangle.Size);
             padding = CommonHelper.OrientatePadding(Orientation, padding);
 
             // If docking content extends beyond the border rounding effects then we can adjust 

@@ -63,12 +63,12 @@ public sealed class RenderMaterial : RenderOffice2010
     }
 
     /// <inheritdoc />
-    public override Padding GetBorderDisplayPadding(IPaletteBorder? palette, PaletteState state, VisualOrientation orientation)
+    public override Padding GetBorderDisplayPadding(IPaletteBorder? palette, PaletteState state, VisualOrientation orientation, Size borderOuterSize)
     {
         // Prefer minimal interior insets; fall back to base for overrides or unknowns
         if (CommonHelper.IsOverrideState(state))
         {
-            return base.GetBorderDisplayPadding(palette, state, orientation);
+            return base.GetBorderDisplayPadding(palette, state, orientation, borderOuterSize);
         }
 
         return Padding.Empty;
