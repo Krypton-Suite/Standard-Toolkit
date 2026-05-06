@@ -13,7 +13,7 @@
 namespace Krypton.Toolkit;
 
 /// <summary>
-///Be More WPF like...
+/// Be More WPF like...
 /// https://docs.microsoft.com/en-us/dotnet/framework/wpf/controls/popup-placement-behavior?view=netframework-4.7.2
 /// https://docs.microsoft.com/en-us/dotnet/api/system.windows.controls.tooltip.placement?view=netframework-4.7.2
 /// 
@@ -23,16 +23,15 @@ namespace Krypton.Toolkit;
 public class PopupPositionValues : Storage
 {
     #region Identity
-    /// <summary>
-    /// 
-    /// </summary>
+
+    /// <summary>Initializes a new instance of the <see cref="PopupPositionValues" /> class.</summary>
     public PopupPositionValues()
     {
         Reset();
     }
 
     /// <summary>
-    /// 
+    /// Resets the values back to their defaults.
     /// </summary>
     public void Reset()
     {
@@ -47,7 +46,7 @@ public class PopupPositionValues : Storage
     private ViewBase? _placementTarget;
 
     /// <summary>
-    /// 
+    /// Describes the placement of where a Popup control appears on the screen.
     /// </summary>
     [Description(@"Describes the placement of where a Popup control appears on the screen.")]
     [DefaultValue(PlacementMode.Bottom)]
@@ -65,7 +64,7 @@ public class PopupPositionValues : Storage
     private void ResetPlacementMode() => _placementMode = PlacementMode.Bottom;
 
     /// <summary>
-    /// 
+    /// The element relative to which the Popup is positioned when it opens.
     /// </summary>
     [Description(@"The element relative to which the Popup is positioned when it opens.")]
     [DefaultValue(null)]
@@ -84,7 +83,7 @@ public class PopupPositionValues : Storage
     private void ResetPlacementTarget() => PlacementTarget = null;
 
     /// <summary>
-    /// 
+    /// The rectangle relative to which the Popup control is positioned when it opens.
     /// </summary>
     [Description(@"The rectangle relative to which the Popup control is positioned when it opens.")]
     public Rectangle PlacementRectangle { get; set; }
@@ -98,7 +97,7 @@ public class PopupPositionValues : Storage
 
     #region Default Values
     /// <summary>
-    /// 
+    /// Resets the values back to their defaults.
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
