@@ -61,37 +61,7 @@ public sealed class OAuth2HttpListenerRedirectHandler : IOAuth2RedirectHandler
             string? errorDescription = null;
 
             var query = request.Url?.Query;
-            if (!string.IsNullOrEmpty(query) && query != null && query.StartsWith("?", StringComparison.Ordinal))
-            {
-                query = query.Substring(1);
-                foreach (var part in query.Split('&'))
-                {
-                    var eq = part.IndexOf('=');
-                    if (eq < 0)
-                    {
-                        continue;
-                    }
-
-                    var key = Uri.UnescapeDataString(part.Substring(0, eq).Replace('+', ' '));
-                    var value = Uri.UnescapeDataString(part.Substring(eq + 1).Replace('+', ' '));
-
-                    switch (key.ToUpperInvariant())
-                    {
-                        case "CODE":
-                            code = value;
-                            break;
-                        case "STATE":
-                            state = value;
-                            break;
-                        case "ERROR":
-                            error = value;
-                            break;
-                        case "ERROR_DESCRIPTION":
-                            errorDescription = value;
-                            break;
-                    }
-                }
-            }
+            ParseAuthorizationQuery(query, ref code, ref state, ref error, ref errorDescription);
 
             var body = _successHtml;
             OAuth2AuthorizationResult result;
@@ -169,4 +139,94 @@ public sealed class OAuth2HttpListenerRedirectHandler : IOAuth2RedirectHandler
             return null;
         }
     }
+
+    private static void ParseAuthorizationQuery(string? query, ref string? code, ref string? state, ref string? error, ref string? errorDescription)
+    {
+        if (string.IsNullOrEmpty(query))
+        {
+            return;
+        }
+
+#if NET9_0_OR_GREATER
+        ReadOnlySpan<char> querySpan = query.AsSpan();
+        if (querySpan.Length > 0 && querySpan[0] == '?')
+        {
+            querySpan = querySpan.Slice(1);
+        }
+
+        while (!querySpan.IsEmpty)
+        {
+            int ampIndex = querySpan.IndexOf('&');
+            ReadOnlySpan<char> partSpan;
+
+            if (ampIndex >= 0)
+            {
+                partSpan = querySpan.Slice(0, ampIndex);
+                querySpan = querySpan.Slice(ampIndex + 1);
+            }
+            else
+            {
+                partSpan = querySpan;
+                querySpan = ReadOnlySpan<char>.Empty;
+            }
+
+            int equalsIndex = partSpan.IndexOf('=');
+            if (equalsIndex < 0)
+            {
+                continue;
+            }
+
+            string key = DecodeQueryPart(partSpan.Slice(0, equalsIndex));
+            string value = DecodeQueryPart(partSpan.Slice(equalsIndex + 1));
+
+            AssignAuthorizationField(key, value, ref code, ref state, ref error, ref errorDescription);
+        }
+#else
+        if (!query.StartsWith("?", StringComparison.Ordinal))
+        {
+            return;
+        }
+
+        query = query.Substring(1);
+        foreach (var part in query.Split('&'))
+        {
+            var equalsIndex = part.IndexOf('=');
+            if (equalsIndex < 0)
+            {
+                continue;
+            }
+
+            string key = Uri.UnescapeDataString(part.Substring(0, equalsIndex).Replace('+', ' '));
+            string value = Uri.UnescapeDataString(part.Substring(equalsIndex + 1).Replace('+', ' '));
+
+            AssignAuthorizationField(key, value, ref code, ref state, ref error, ref errorDescription);
+        }
+#endif
+    }
+
+    private static void AssignAuthorizationField(string key, string value, ref string? code, ref string? state, ref string? error, ref string? errorDescription)
+    {
+        switch (key.ToUpperInvariant())
+        {
+            case "CODE":
+                code = value;
+                break;
+            case "STATE":
+                state = value;
+                break;
+            case "ERROR":
+                error = value;
+                break;
+            case "ERROR_DESCRIPTION":
+                errorDescription = value;
+                break;
+        }
+    }
+
+#if NET9_0_OR_GREATER
+    private static string DecodeQueryPart(ReadOnlySpan<char> valueSpan)
+    {
+        return Uri.UnescapeDataString(valueSpan.ToString().Replace('+', ' '));
+    }
+#endif
 }

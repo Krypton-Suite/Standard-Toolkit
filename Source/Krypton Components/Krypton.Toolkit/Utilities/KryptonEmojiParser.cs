@@ -63,15 +63,26 @@ public class KryptonEmojiParser
         // Fetch the emoji list content from the specified URL
         var content = await client.GetStringAsync(emojiListUrl);
 
-        // Split the content into lines, removing any empty entries
-        var lines = content.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
-
-        // Iterate through each line in the content
-        foreach (var rawLine in lines)
+        // Iterate line-by-line to avoid allocating a full split array for large emoji lists.
+        ReadOnlySpan<char> contentSpan = content.AsSpan();
+        while (!contentSpan.IsEmpty)
         {
+            int newlineIndex = contentSpan.IndexOf('\n');
+            ReadOnlySpan<char> rawLineSpan;
+            if (newlineIndex >= 0)
+            {
+                rawLineSpan = contentSpan.Slice(0, newlineIndex);
+                contentSpan = contentSpan.Slice(newlineIndex + 1);
+            }
+            else
+            {
+                rawLineSpan = contentSpan;
+                contentSpan = ReadOnlySpan<char>.Empty;
+            }
+
 #if NET8_0_OR_GREATER
             // Use Span<T> for better performance with string manipulation
-            var line = rawLine.AsSpan().Trim();
+            var line = rawLineSpan.Trim();
 
             // Check if the line is empty or a comment
             if (line.Length == 0 || line[0] == '#')
@@ -123,7 +134,7 @@ public class KryptonEmojiParser
             var codepoints = codeSpan.ToString().Split(' ', StringSplitOptions.RemoveEmptyEntries);
 #else
             // Fallback for .NET versions before 8.0, using string manipulation
-            var line = rawLine.Trim();
+            var line = rawLineSpan.ToString().Trim();
 
             // Check if the line is empty or a comment
             if (string.IsNullOrWhiteSpace(line) || line[0] == '#')

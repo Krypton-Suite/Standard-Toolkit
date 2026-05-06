@@ -216,18 +216,7 @@ public partial class RichTextBoxFormattingTest : KryptonForm
         stopwatch.Stop();
 
         string? rtf = krtbRichTextBox.Rtf;
-#if NET9_0_OR_GREATER
-        ReadOnlySpan<char> rtfSpan = rtf.AsSpan();
-        bool hasFormatting = !string.IsNullOrEmpty(rtf) &&
-            (rtfSpan.ContainsAny(RtfFormattingValues) ||
-             (rtfSpan.Contains(@"\f".AsSpan(), StringComparison.Ordinal) && !rtfSpan.Contains(@"\f0".AsSpan(), StringComparison.Ordinal)));
-#else
-        bool hasFormatting = !string.IsNullOrEmpty(rtf) &&
-                             rtf != null &&
-                             (rtf.Contains(@"\b") || rtf.Contains(@"\i") || rtf.Contains(@"\ul") ||
-                              rtf.Contains(@"\fs") || rtf.Contains(@"\cf") || rtf.Contains(@"\highlight") ||
-                              (rtf.Contains(@"\f") && !rtf.Contains(@"\f0")));
-#endif
+        bool hasFormatting = HasRtfFormatting(rtf, krtbRichTextBox.TextLength);
 
         string result = hasFormatting ? "PRESERVED" : "LOST";
         klblStatus.Text = $"Performance: 10 palette changes in {stopwatch.ElapsedMilliseconds}ms. Formatting: {result}";
@@ -238,85 +227,7 @@ public partial class RichTextBoxFormattingTest : KryptonForm
     {
         // Check if RTF formatting exists using the same logic as the optimized detection
         string? rtf = krtbRichTextBox.Rtf;
-        bool hasFormatting = false;
-
-        if (!string.IsNullOrEmpty(rtf) && krtbRichTextBox.TextLength > 0)
-        {
-            if (rtf != null)
-            {
-                int rtfLength = rtf.Length;
-                string plainText = krtbRichTextBox.Text;
-                int plainTextLength = plainText?.Length ?? 0;
-
-                // Quick length check first
-                bool rtfMuchLonger = plainTextLength > 0 && rtfLength > (plainTextLength + 200);
-                if (rtfMuchLonger)
-                {
-                    hasFormatting = true;
-                }
-                else
-                {
-                    // Single-pass scan (same as optimized detection)
-                    bool foundFormatting = false;
-                    bool foundCustomFont = false;
-
-                    for (int i = 0; i < rtfLength - 1 && !foundFormatting && !foundCustomFont; i++)
-                    {
-                        if (rtf[i] == '\\')
-                        {
-                            char nextChar = rtf[i + 1];
-                            switch (nextChar)
-                            {
-                                case 'b':
-                                case 'i':
-                                    foundFormatting = true;
-                                    break;
-                                case 'u':
-                                    if (i + 2 < rtfLength && rtf[i + 2] == 'l')
-                                    {
-                                        foundFormatting = true;
-                                    }
-                                    break;
-                                case 'f':
-                                    if (i + 2 < rtfLength)
-                                    {
-                                        char fontDigit = rtf[i + 2];
-                                        if (char.IsDigit(fontDigit) && fontDigit != '0')
-                                        {
-                                            foundCustomFont = true;
-                                        }
-                                    }
-                                    break;
-                                case 'c':
-                                    if (i + 2 < rtfLength && rtf[i + 2] == 'f')
-                                    {
-                                        foundFormatting = true;
-                                    }
-                                    break;
-                                case 'h':
-                                    if (i + 9 < rtfLength &&
-                                        rtf[i + 2] == 'i' && rtf[i + 3] == 'g' &&
-                                        rtf[i + 4] == 'h' && rtf[i + 5] == 'l' &&
-                                        rtf[i + 6] == 'i' && rtf[i + 7] == 'g' &&
-                                        rtf[i + 8] == 'h' && rtf[i + 9] == 't')
-                                    {
-                                        foundFormatting = true;
-                                    }
-                                    break;
-                                case 's':
-                                    if (i + 2 < rtfLength && char.IsDigit(rtf[i + 2]))
-                                    {
-                                        foundFormatting = true;
-                                    }
-                                    break;
-                            }
-                        }
-                    }
-
-                    hasFormatting = foundFormatting || foundCustomFont;
-                }
-            }
-        }
+        bool hasFormatting = HasRtfFormatting(rtf, krtbRichTextBox.TextLength);
 
         if (hasFormatting)
         {
@@ -339,5 +250,45 @@ public partial class RichTextBoxFormattingTest : KryptonForm
     {
         krtbRichTextBox.Clear();
         UpdateStatus("RichTextBox cleared.");
+    }
+
+    private static bool HasRtfFormatting(string? rtf, int plainTextLength)
+    {
+        if (string.IsNullOrEmpty(rtf))
+        {
+            return false;
+        }
+
+#if NET9_0_OR_GREATER
+        ReadOnlySpan<char> rtfSpan = rtf.AsSpan();
+
+        // Quick length check first
+        if (plainTextLength > 0 && rtfSpan.Length > (plainTextLength + 200))
+        {
+            return true;
+        }
+
+        if (rtfSpan.ContainsAny(RtfFormattingValues))
+        {
+            return true;
+        }
+
+        int fontTagIndex = rtfSpan.IndexOf(@"\f".AsSpan(), StringComparison.Ordinal);
+        if (fontTagIndex >= 0 && (fontTagIndex + 2) < rtfSpan.Length)
+        {
+            char fontDigit = rtfSpan[fontTagIndex + 2];
+            if (char.IsDigit(fontDigit) && fontDigit != '0')
+            {
+                return true;
+            }
+        }
+
+        return false;
+#else
+        // Keep non-span fallback for earlier target frameworks.
+        return (rtf.Contains(@"\b") || rtf.Contains(@"\i") || rtf.Contains(@"\ul") ||
+                rtf.Contains(@"\fs") || rtf.Contains(@"\cf") || rtf.Contains(@"\highlight") ||
+                (rtf.Contains(@"\f") && !rtf.Contains(@"\f0")));
+#endif
     }
 }

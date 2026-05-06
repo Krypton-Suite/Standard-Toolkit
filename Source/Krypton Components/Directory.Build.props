@@ -44,12 +44,27 @@
 		<Version>$(LibraryVersion)</Version>
 	</PropertyGroup>
 
+	<!-- .NET Framework does not expose System.Runtime.Versioning platform attributes. -->
+	<PropertyGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'">
+		<GenerateTargetPlatformAttribute>false</GenerateTargetPlatformAttribute>
+		<GenerateSupportedOSPlatformAttribute>false</GenerateSupportedOSPlatformAttribute>
+	</PropertyGroup>
+
 	<!-- Configure NuGet package output to separate directory for easier management -->
 	<PropertyGroup>
 		<PackageOutputPath>$(MSBuildThisFileDirectory)..\..\Bin\Packages\$(Configuration)\</PackageOutputPath>
 		<!-- Ensure multi-target outputs don't overwrite each other -->
 		<OutputPath>$(MSBuildThisFileDirectory)..\..\Bin\$(Configuration)\$(TargetFramework)\</OutputPath>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+	</PropertyGroup>
+
+	<!-- Ensure intermediate outputs are isolated per TFM to avoid file-list races (MSB3491). -->
+	<PropertyGroup>
+		<AppendTargetFrameworkToIntermediateOutputPath>true</AppendTargetFrameworkToIntermediateOutputPath>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(TargetFramework)' != ''">
+		<IntermediateOutputPath>obj\$(Configuration)\$(TargetFramework)\</IntermediateOutputPath>
 	</PropertyGroup>
 
 	<Choose>

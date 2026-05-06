@@ -463,20 +463,8 @@ public class BugReportGitHubService
 
         // GitHub returns { "html_url": "https://github.com/owner/repo/issues/123", ... }
         const string marker = "\"html_url\":\"";
-        var start = json.IndexOf(marker, StringComparison.Ordinal);
-        if (start < 0)
-        {
-            return null;
-        }
-
-        start += marker.Length;
-        var end = json.IndexOf('"', start);
-        if (end < 0)
-        {
-            return null;
-        }
-
-        return json.Substring(start, end - start).Replace("\\/", "/");
+        string? value = ExtractJsonStringByMarker(json, marker);
+        return value?.Replace("\\/", "/");
     }
 
     private static string? ExtractErrorMessage(string json)
@@ -488,20 +476,52 @@ public class BugReportGitHubService
 
         // GitHub error: { "message": "Validation Failed", "errors": [...] }
         const string marker = "\"message\":\"";
-        var start = json.IndexOf(marker, StringComparison.Ordinal);
-        if (start < 0)
+        string? value = ExtractJsonStringByMarker(json, marker);
+        return value?.Replace("\\/", "/");
+    }
+
+    private static string? ExtractJsonStringByMarker(string json, string marker)
+    {
+#if NET9_0_OR_GREATER
+        ReadOnlySpan<char> jsonSpan = json.AsSpan();
+        ReadOnlySpan<char> markerSpan = marker.AsSpan();
+
+        int markerIndex = jsonSpan.IndexOf(markerSpan, StringComparison.Ordinal);
+        if (markerIndex < 0)
         {
             return null;
         }
 
-        start += marker.Length;
-        var end = json.IndexOf('"', start);
-        if (end < 0)
+        int valueStartIndex = markerIndex + markerSpan.Length;
+        if (valueStartIndex >= jsonSpan.Length)
         {
             return null;
         }
 
-        return json.Substring(start, end - start).Replace("\\/", "/");
+        ReadOnlySpan<char> valueSpan = jsonSpan.Slice(valueStartIndex);
+        int quoteIndex = valueSpan.IndexOf('"');
+        if (quoteIndex < 0)
+        {
+            return null;
+        }
+
+        return valueSpan.Slice(0, quoteIndex).ToString();
+#else
+        int markerIndex = json.IndexOf(marker, StringComparison.Ordinal);
+        if (markerIndex < 0)
+        {
+            return null;
+        }
+
+        int valueStartIndex = markerIndex + marker.Length;
+        int quoteIndex = json.IndexOf('"', valueStartIndex);
+        if (quoteIndex < 0)
+        {
+            return null;
+        }
+
+        return json.Substring(valueStartIndex, quoteIndex - valueStartIndex);
+#endif
     }
 
     #endregion

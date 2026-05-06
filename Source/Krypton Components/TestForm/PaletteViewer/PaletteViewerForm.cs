@@ -338,7 +338,7 @@ public partial class PaletteViewerForm : KryptonForm
             int lineCount = 1;
             if (cell?.Value is string { Length: > 0 } txt)
             {
-                lineCount = txt.Split('\n').Length;
+                lineCount = CountLines(txt);
             }
 
             row.Height = (singleLineHeight * lineCount) + padding;
@@ -1676,11 +1676,7 @@ public partial class PaletteViewerForm : KryptonForm
         }
 
         // RGB triplet "R,G,B"
-        var parts = input.Split(',');
-        if (parts.Length == 3 &&
-            byte.TryParse(parts[0].Trim(), out byte r) &&
-            byte.TryParse(parts[1].Trim(), out byte g) &&
-            byte.TryParse(parts[2].Trim(), out byte b))
+        if (TryParseRgbTriplet(input, out byte r, out byte g, out byte b))
         {
             color = Color.FromArgb(r, g, b);
             return true;
@@ -1909,5 +1905,74 @@ public partial class PaletteViewerForm : KryptonForm
         }
 
         dataGridViewPalette.Refresh();
+    }
+
+    private static int CountLines(string text)
+    {
+        if (string.IsNullOrEmpty(text))
+        {
+            return 1;
+        }
+
+#if NET9_0_OR_GREATER
+        int count = 1;
+        ReadOnlySpan<char> span = text.AsSpan();
+        int index = 0;
+        while (index < span.Length)
+        {
+            int next = span.Slice(index).IndexOf('\n');
+            if (next < 0)
+            {
+                break;
+            }
+
+            count++;
+            index += next + 1;
+        }
+        return count;
+#else
+        return text.Split('\n').Length;
+#endif
+    }
+
+    private static bool TryParseRgbTriplet(string input, out byte r, out byte g, out byte b)
+    {
+        r = 0;
+        g = 0;
+        b = 0;
+
+#if NET9_0_OR_GREATER
+        ReadOnlySpan<char> span = input.AsSpan();
+
+        int firstComma = span.IndexOf(',');
+        if (firstComma < 0)
+        {
+            return false;
+        }
+
+        int secondComma = span.Slice(firstComma + 1).IndexOf(',');
+        if (secondComma < 0)
+        {
+            return false;
+        }
+
+        secondComma += firstComma + 1;
+
+        // Must be exactly three segments.
+        if (span.Slice(secondComma + 1).IndexOf(',') >= 0)
+        {
+            return false;
+        }
+
+        return byte.TryParse(span.Slice(0, firstComma).Trim(), out r)
+               && byte.TryParse(span.Slice(firstComma + 1, secondComma - firstComma - 1).Trim(), out g)
+               && byte.TryParse(span.Slice(secondComma + 1).Trim(), out b);
+#else
+        var parts = input.Split(',');
+        return parts.Length == 3
+               && byte.TryParse(parts[0].Trim(), out r)
+               && byte.TryParse(parts[1].Trim(), out g)
+               && byte.TryParse(parts[2].Trim(), out b);
+#endif
     }
 }

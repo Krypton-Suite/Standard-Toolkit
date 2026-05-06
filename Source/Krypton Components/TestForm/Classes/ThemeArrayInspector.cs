@@ -72,7 +72,7 @@ internal static class ThemeArrayInspector
 
         string paletteBuiltinSegment = Path.Combine("Palette Builtin", string.Empty);
         var matches = Directory.EnumerateFiles(paletteDir, fileName, SearchOption.AllDirectories)
-            .Where(f => f.IndexOf(paletteBuiltinSegment, StringComparison.OrdinalIgnoreCase) >= 0)
+            .Where(f => PathContainsSegment(f, paletteBuiltinSegment))
             .ToList();
 
         string? palettePath = matches.FirstOrDefault();
@@ -215,14 +215,14 @@ internal static class ThemeArrayInspector
         {
             if (!inEnum)
             {
-                if (line.Contains($"enum {enumName}"))
+                if (ContainsText(line, $"enum {enumName}"))
                 {
                     inEnum = true;
                 }
             }
             else
             {
-                if (line.Contains("}"))
+                if (ContainsText(line, "}"))
                 {
                     break;
                 }
@@ -246,7 +246,7 @@ internal static class ThemeArrayInspector
         {
             if (!inArray)
             {
-                if (line.Contains($"{arrayName} ="))
+                if (ContainsText(line, $"{arrayName} ="))
                 {
                     inArray = true;
                 }
@@ -260,7 +260,7 @@ internal static class ThemeArrayInspector
                     continue;
                 }
 
-                if (line.Contains("];") || line.Contains("};"))
+                if (ContainsText(line, "];") || ContainsText(line, "};"))
                 {
                     break;
                 }
@@ -268,7 +268,7 @@ internal static class ThemeArrayInspector
                 int idx = line.LastIndexOf("//", StringComparison.Ordinal);
                 if (idx >= 0)
                 {
-                    var commentPart = line.Substring(idx + 2);
+                    var commentPart = SliceFrom(line, idx + 2);
                     var match = Regex.Match(commentPart, @"^\s*([A-Za-z0-9_]+)");
                     if (match.Success)
                     {
@@ -277,7 +277,7 @@ internal static class ThemeArrayInspector
                     }
                 }
 
-                if (line.Contains(")") || line.Contains("EMPTY_COLOR"))
+                if (ContainsText(line, ")") || ContainsText(line, "EMPTY_COLOR"))
                 {
                     names.Add(string.Empty);
                 }
@@ -315,6 +315,33 @@ internal static class ThemeArrayInspector
         }
 
         return token;
+    }
+
+    private static bool PathContainsSegment(string source, string segment)
+    {
+#if NET9_0_OR_GREATER
+        return source.AsSpan().Contains(segment.AsSpan(), StringComparison.OrdinalIgnoreCase);
+#else
+        return source.IndexOf(segment, StringComparison.OrdinalIgnoreCase) >= 0;
+#endif
+    }
+
+    private static bool ContainsText(string source, string value)
+    {
+#if NET9_0_OR_GREATER
+        return source.AsSpan().Contains(value.AsSpan(), StringComparison.Ordinal);
+#else
+        return source.Contains(value);
+#endif
+    }
+
+    private static string SliceFrom(string source, int startIndex)
+    {
+#if NET9_0_OR_GREATER
+        return source.AsSpan(startIndex).ToString();
+#else
+        return source.Substring(startIndex);
+#endif
     }
 
     #endregion

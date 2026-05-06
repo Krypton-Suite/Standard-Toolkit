@@ -1556,11 +1556,11 @@ public class KryptonCodeEditor : VisualPanel,
             var line = lines[i];
             if (line.StartsWith("    "))
             {
-                sb.AppendLine(line.Substring(4));
+                sb.AppendLine(SliceFrom(line, 4));
             }
             else if (line.StartsWith("\t"))
             {
-                sb.AppendLine(line.Substring(1));
+                sb.AppendLine(SliceFrom(line, 1));
             }
             else
             {
@@ -1693,7 +1693,7 @@ public class KryptonCodeEditor : VisualPanel,
             start--;
         }
 
-        return text.Substring(start, pos - start);
+        return SliceRange(text, start, pos - start);
     }
 
     internal void ToggleFoldBlock(FoldBlock block)
@@ -1789,5 +1789,23 @@ public class KryptonCodeEditor : VisualPanel,
     public new event EventHandler? TextChanged;
 
     #endregion
+
+    private static string SliceFrom(string value, int startIndex)
+    {
+#if NET9_0_OR_GREATER
+        return value.AsSpan(startIndex).ToString();
+#else
+        return value.Substring(startIndex);
+#endif
+    }
+
+    private static string SliceRange(string value, int startIndex, int length)
+    {
+#if NET9_0_OR_GREATER
+        return value.AsSpan(startIndex, length).ToString();
+#else
+        return value.Substring(startIndex, length);
+#endif
+    }
 }
 

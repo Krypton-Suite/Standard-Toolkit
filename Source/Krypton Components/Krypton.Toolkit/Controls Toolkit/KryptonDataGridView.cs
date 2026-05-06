@@ -1598,8 +1598,14 @@ public class KryptonDataGridView : DataGridView
                                 && e.FormattedValue!.GetType().Name != nameof(Bitmap))
                             {
                                 var val = (string)e.FormattedValue;
-                                var sindx = val.ToLower().IndexOf(_searchString.ToLower());
-                                var sCount = 1;
+#if NET9_0_OR_GREATER
+                                ReadOnlySpan<char> valSpan = val.AsSpan();
+                                ReadOnlySpan<char> searchSpan = _searchString.AsSpan();
+                                var sindx = valSpan.IndexOf(searchSpan, StringComparison.OrdinalIgnoreCase);
+#else
+                                var sindx = val.IndexOf(_searchString, StringComparison.OrdinalIgnoreCase);
+#endif
+                                var searchStart = 0;
                                 while (sindx >= 0)
                                 {
                                     var hl_rect = new Rectangle
@@ -1608,8 +1614,13 @@ public class KryptonDataGridView : DataGridView
                                         Height = e.CellBounds.Height - 5
                                     };
 
+#if NET9_0_OR_GREATER
+                                    var sBefore = valSpan.Slice(0, sindx).ToString();
+                                    var sWord = valSpan.Slice(sindx, searchSpan.Length).ToString();
+#else
                                     var sBefore = val.Substring(0, sindx);
                                     var sWord = val.Substring(sindx, _searchString.Length);
+#endif
                                     Size s1 = TextRenderer.MeasureText(e.Graphics!, sBefore, e.CellStyle!.Font, e.CellBounds.Size);
                                     Size s2 = TextRenderer.MeasureText(e.Graphics!, sWord, e.CellStyle.Font, e.CellBounds.Size);
 
@@ -1645,7 +1656,19 @@ public class KryptonDataGridView : DataGridView
                                     e.Graphics!.FillRectangle(hl_brush, hl_rect);
 
                                     hl_brush.Dispose();
-                                    sindx = val.ToLower().IndexOf(_searchString.ToLower(), sCount++);
+#if NET9_0_OR_GREATER
+                                    searchStart = sindx + 1;
+                                    if (searchStart >= valSpan.Length)
+                                    {
+                                        break;
+                                    }
+
+                                    var nextRelative = valSpan.Slice(searchStart).IndexOf(searchSpan, StringComparison.OrdinalIgnoreCase);
+                                    sindx = nextRelative >= 0 ? searchStart + nextRelative : -1;
+#else
+                                    searchStart = sindx + 1;
+                                    sindx = val.IndexOf(_searchString, searchStart, StringComparison.OrdinalIgnoreCase);
+#endif
                                 }
                             }
                             // Let column do the painting
@@ -2853,7 +2876,11 @@ public class KryptonDataGridView : DataGridView
     {
         if (toolTipText.Length > 0x120)
         {
+#if NET9_0_OR_GREATER
+            var builder = new StringBuilder(toolTipText.AsSpan(0, 0x100).ToString(), 0x103);
+#else
             var builder = new StringBuilder(toolTipText.Substring(0, 0x100), 0x103);
+#endif
             builder.Append(@"...");
             return builder.ToString();
         }

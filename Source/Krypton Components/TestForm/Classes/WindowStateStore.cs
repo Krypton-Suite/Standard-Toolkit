@@ -39,14 +39,11 @@ public class WindowStateStore
                 continue;
             }
 
-            var idx = line.IndexOf('=');
-            if (idx <= 0)
+            if (!TryParseEntry(line, out string key, out string value))
             {
                 continue;
             }
 
-            var key = line.Substring(0, idx).Trim();
-            var value = line.Substring(idx + 1).Trim();
             dict[key] = value;
         }
 
@@ -85,5 +82,35 @@ public class WindowStateStore
             $"SourcePath={info.SourcePath}"
         };
         File.WriteAllLines(_filePath, lines);
+    }
+
+    private static bool TryParseEntry(string line, out string key, out string value)
+    {
+#if NET9_0_OR_GREATER
+        ReadOnlySpan<char> lineSpan = line.AsSpan();
+        int idx = lineSpan.IndexOf('=');
+        if (idx <= 0)
+        {
+            key = string.Empty;
+            value = string.Empty;
+            return false;
+        }
+
+        key = lineSpan.Slice(0, idx).Trim().ToString();
+        value = lineSpan.Slice(idx + 1).Trim().ToString();
+        return true;
+#else
+        int idx = line.IndexOf('=');
+        if (idx <= 0)
+        {
+            key = string.Empty;
+            value = string.Empty;
+            return false;
+        }
+
+        key = line.Substring(0, idx).Trim();
+        value = line.Substring(idx + 1).Trim();
+        return true;
+#endif
     }
 }

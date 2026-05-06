@@ -367,7 +367,7 @@ public class ViewDrawDateTimeText : ViewLeaf
                 _inputDigits += digit;
 
                 // We need to special case the digit entry for descriptive months
-                if (_fragments[_activeFragment].FragFormat.Contains("MMM"))
+                if (ContainsMmm(_fragments[_activeFragment].FragFormat))
                 {
                     // Get the actual month number entered
                     var monthNumber = int.Parse(_inputDigits);
@@ -575,7 +575,7 @@ public class ViewDrawDateTimeText : ViewLeaf
 
                             if (!string.IsNullOrEmpty(_inputDigits) &&
                                 (_activeFragment == i) &&
-                                !_fragments[_activeFragment].FragFormat.Contains("MMM"))
+                                !ContainsMmm(_fragments[_activeFragment].FragFormat))
                             {
                                 // Draw input digits for this fragment
                                 TextRenderer.DrawText(context.Graphics, _inputDigits, font, drawText, foreColor, DRAW_LEFT_FLAGS);
@@ -720,7 +720,7 @@ public class ViewDrawDateTimeText : ViewLeaf
             // Add any trailing literal
             if (literal > 0)
             {
-                fragList.Add(new FormatFragment(current, format, format.Substring(current - literal, literal)));
+                fragList.Add(new FormatFragment(current, format, ExtractLiteral(format, current - literal, literal)));
             }
 
             return fragList;
@@ -735,7 +735,7 @@ public class ViewDrawDateTimeText : ViewLeaf
         {
             if (literal > 0)
             {
-                fragList.Add(new FormatFragment(current, format, format.Substring(current - literal, literal)));
+                fragList.Add(new FormatFragment(current, format, ExtractLiteral(format, current - literal, literal)));
             }
 
             var count = CountUptoMaxCharacters(charater, max, ref current, ref format);
@@ -765,6 +765,24 @@ public class ViewDrawDateTimeText : ViewLeaf
 
             return count;
         }
+
+        private static string ExtractLiteral(string format, int start, int length)
+        {
+#if NET9_0_OR_GREATER
+            return format.AsSpan(start, length).ToString();
+#else
+            return format.Substring(start, length);
+#endif
+        }
+
+        private static bool ContainsMmm(string format)
+        {
+#if NET9_0_OR_GREATER
+            return format.AsSpan().Contains("MMM".AsSpan(), StringComparison.Ordinal);
+#else
+            return format.Contains("MMM");
+#endif
+        }
         #endregion
     }
 
@@ -781,7 +799,7 @@ public class ViewDrawDateTimeText : ViewLeaf
         {
             FragFormat = literal;
 
-            Fragment = length == 0 ? string.Empty : format.Substring(0, length);
+            Fragment = length == 0 ? string.Empty : ExtractFragment(format, length);
         }
 
         /// <summary>
@@ -875,6 +893,15 @@ public class ViewDrawDateTimeText : ViewLeaf
             Debug.Assert(false);
             return dt;
         }
+
+        private static string ExtractFragment(string format, int length)
+        {
+#if NET9_0_OR_GREATER
+            return format.AsSpan(0, length).ToString();
+#else
+            return format.Substring(0, length);
+#endif
+        }
         #endregion
     }
 
@@ -921,14 +948,7 @@ public class ViewDrawDateTimeText : ViewLeaf
                 return FragFormat switch
                 {
                     "d" or "dd" or "M" or "MM" or "MMM" or "MMMM" => true,
-                    _ => FragFormat.StartsWith("h") ||
-                         FragFormat.StartsWith("H") ||
-                         FragFormat.StartsWith("m") ||
-                         FragFormat.StartsWith("s") ||
-                         FragFormat.StartsWith("t") ||
-                         FragFormat.StartsWith("f") ||
-                         FragFormat.StartsWith("F") ||
-                         FragFormat.StartsWith("y")
+                    _ => StartsWithAny(FragFormat, "hHmstfFy")
                 };
             }
         }
@@ -972,15 +992,12 @@ public class ViewDrawDateTimeText : ViewLeaf
                         return 7;
                 }
 
-                if (FragFormat.StartsWith("h") ||
-                    FragFormat.StartsWith("H") ||
-                    FragFormat.StartsWith("m") ||
-                    FragFormat.StartsWith("s"))
+                if (StartsWithAny(FragFormat, "hHms"))
                 {
                     return 2;
                 }
 
-                return FragFormat.StartsWith("y") ? 4 : base.InputDigits;
+                return StartsWithAny(FragFormat, "y") ? 4 : base.InputDigits;
             }
         }
 
@@ -1030,7 +1047,7 @@ public class ViewDrawDateTimeText : ViewLeaf
                     break;
             }
 
-            if (FragFormat.StartsWith("h") || FragFormat.StartsWith("H"))
+            if (StartsWithAny(FragFormat, "hH"))
             {
                 var hoursNumber = int.Parse(digits);
                 if (hoursNumber is < 24 and >= 0)
@@ -1038,7 +1055,7 @@ public class ViewDrawDateTimeText : ViewLeaf
                     dt = dt.AddHours(hoursNumber - dt.Hour);
                 }
             } 
-            else if (FragFormat.StartsWith("m"))
+            else if (StartsWithAny(FragFormat, "m"))
             {
                 var minutesNumber = int.Parse(digits);
                 if (minutesNumber is < 60 and >= 0)
@@ -1046,7 +1063,7 @@ public class ViewDrawDateTimeText : ViewLeaf
                     dt = dt.AddMinutes(minutesNumber - dt.Minute);
                 }
             }
-            else if (FragFormat.StartsWith("s"))
+            else if (StartsWithAny(FragFormat, "s"))
             {
                 var secondsNumber = int.Parse(digits);
                 if (secondsNumber is < 60 and >= 0)
@@ -1054,7 +1071,7 @@ public class ViewDrawDateTimeText : ViewLeaf
                     dt = dt.AddSeconds(secondsNumber - dt.Second);
                 }
             }
-            else if (FragFormat.StartsWith("y"))
+            else if (StartsWithAny(FragFormat, "y"))
             {
                 var yearNumber = int.Parse(digits);
 
@@ -1134,7 +1151,7 @@ public class ViewDrawDateTimeText : ViewLeaf
             }
 
             // Any number of 'h' or 'H' are allowed
-            if (FragFormat.StartsWith("h") || FragFormat.StartsWith("H"))
+            if (StartsWithAny(FragFormat, "hH"))
             {
                 if (forward)
                 {
@@ -1163,7 +1180,7 @@ public class ViewDrawDateTimeText : ViewLeaf
             }
 
             // Any number of 'm'
-            if (FragFormat.StartsWith("m"))
+            if (StartsWithAny(FragFormat, "m"))
             {
                 if (forward)
                 {
@@ -1176,7 +1193,7 @@ public class ViewDrawDateTimeText : ViewLeaf
             }
 
             // Any number of 's'
-            if (FragFormat.StartsWith("s"))
+            if (StartsWithAny(FragFormat, "s"))
             {
                 if (forward)
                 {
@@ -1189,19 +1206,19 @@ public class ViewDrawDateTimeText : ViewLeaf
             }
 
             // Any number of 't'
-            if (FragFormat.StartsWith("t"))
+            if (StartsWithAny(FragFormat, "t"))
             {
                 dt = dt.Hour > 11 ? dt.AddHours(-12) : dt.AddHours(12);
             }
 
             // Any number of 'y'
-            if (FragFormat.StartsWith("y"))
+            if (StartsWithAny(FragFormat, "y"))
             {
                 dt = forward ? dt.AddYears(1) : dt.AddYears(-1);
             }
 
             // Any number of 'f' or 'F'
-            if (FragFormat.StartsWith("f") || FragFormat.StartsWith("F"))
+            if (StartsWithAny(FragFormat, "fF"))
             {
                 // We increment by the last digit (upto a maximum of 3 digits)
                 var digits = Math.Min(FragFormat.Length, 3);
@@ -1227,7 +1244,7 @@ public class ViewDrawDateTimeText : ViewLeaf
         /// <returns>Modified date/time.</returns>
         public override DateTime AMPM(DateTime dt, bool am)
         {
-            if (FragFormat.StartsWith("t"))
+            if (StartsWithAny(FragFormat, "t"))
             {
                 switch (dt.Hour)
                 {
@@ -1250,6 +1267,22 @@ public class ViewDrawDateTimeText : ViewLeaf
             dt = dt.AddMonths(1);
             dt = dt.AddDays(-dt.Day);
             return new DateTime(dt.Year, dt.Month, dt.Day);
+        }
+
+        private static bool StartsWithAny(string value, string candidates)
+        {
+            if (string.IsNullOrEmpty(value) || string.IsNullOrEmpty(candidates))
+            {
+                return false;
+            }
+
+#if NET9_0_OR_GREATER
+            char first = value.AsSpan()[0];
+            return candidates.AsSpan().IndexOf(first) >= 0;
+#else
+            char first = value[0];
+            return candidates.IndexOf(first) >= 0;
+#endif
         }
         #endregion
     }
