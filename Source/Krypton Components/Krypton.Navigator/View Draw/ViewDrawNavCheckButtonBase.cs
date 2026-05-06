@@ -143,6 +143,7 @@ internal abstract class ViewDrawNavCheckButtonBase : ViewDrawButton,
         // Push values into the base class
         SetPalettes(_overrideDisabled, _overrideNormal, _overrideTracking, _overridePressed);
         SetCheckedPalettes(_overrideSelected, _overrideSelected, _overrideSelected);
+        UpdateBadgeMapping();
 
         // Are we allowed to add button specs to the button?
         if (AllowButtonSpecs)
@@ -271,6 +272,8 @@ internal abstract class ViewDrawNavCheckButtonBase : ViewDrawButton,
                     _overridePressed.SetPalettes(Navigator.OverrideFocus.CheckButton, Navigator.StatePressed.CheckButton);
                     _overrideSelected.SetPalettes(Navigator.OverrideFocus.CheckButton, Navigator.StateSelected.CheckButton);
                 }
+
+                UpdateBadgeMapping();
             }
         }
     }
@@ -544,5 +547,13 @@ internal abstract class ViewDrawNavCheckButtonBase : ViewDrawButton,
     private void OnButtonDragRectangle(object? sender, ButtonDragRectangleEventArgs e) => ButtonDragRectangle?.Invoke(this, e);
 
     private void OnButtonDragOffset(object? sender, ButtonDragOffsetEventArgs e) => ButtonDragOffset?.Invoke(this, e);
+
+    private void UpdateBadgeMapping()
+    {
+        if (_page != null)
+        {
+            SetBadgeValues(_page.BadgeValues, Navigator);
+        }
+    }
     #endregion
 }

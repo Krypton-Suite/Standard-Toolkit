@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2024 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2026 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -19,6 +19,7 @@ public partial class RibbonNavigatorWorkspaceTest : KryptonForm
     public RibbonNavigatorWorkspaceTest()
     {
         InitializeComponent();
+        ConfigureNavigatorBadgeSample();
     }
 
     private void buttonSpecExpandCollapse_Click(object sender, EventArgs e)
@@ -243,5 +244,24 @@ public partial class RibbonNavigatorWorkspaceTest : KryptonForm
             UpdateCell(cell);
             cell = kryptonWorkspace.NextCell(cell);
         }
+    }
+
+    private void ConfigureNavigatorBadgeSample()
+    {
+        pageGlobalPalettes.BadgeValues.BadgeContentValues.Text = "3";
+        pageGlobalPalettes.BadgeValues.BadgeContentValues.Visible = true;
+
+        kryptonDisplayMode.BadgeValues.BadgeContentValues.Text = "12";
+        kryptonDisplayMode.BadgeValues.BadgeContentValues.Visible = true;
+
+        kryptonPage1.BadgeValues.BadgeContentValues.Text = "7";
+        kryptonPage1.BadgeValues.BadgeContentValues.Visible = true;
+
+        kryptonPage3.BadgeValues.BadgeContentValues.Text = "120";
+        kryptonPage3.BadgeValues.BadgeContentValues.MaximumBadgeValue = 99;
+        kryptonPage3.BadgeValues.BadgeContentValues.Visible = true;
+
+        kryptonPage7.BadgeValues.BadgeContentValues.Text = string.Empty;
+        kryptonPage7.BadgeValues.BadgeContentValues.Visible = false;
     }
 }

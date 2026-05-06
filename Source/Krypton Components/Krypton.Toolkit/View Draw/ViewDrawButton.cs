@@ -35,6 +35,8 @@ public class ViewDrawButton : ViewComposite, IRippleHost
     private VisualOrientation _dropDownPosition;
     private readonly ViewLayoutSeparator _drawOuterSeparator;
     private ViewDrawBadge? _drawBadge;
+    private BadgeValues? _badgeValues;
+    private Control? _badgeControl;
     private Rectangle _splitRectangle;
     private Rectangle _nonSplitRectangle;
     private bool _dropDown;
@@ -452,12 +454,44 @@ public class ViewDrawButton : ViewComposite, IRippleHost
         Debug.Assert(badgeValues != null);
         Debug.Assert(control != null);
 
-        // Create badge if it doesn't exist
-        if (_drawBadge == null)
+        if (ReferenceEquals(_badgeValues, badgeValues) && ReferenceEquals(_badgeControl, control) && _drawBadge != null)
         {
-            _drawBadge = new ViewDrawBadge(badgeValues!, control!);
-            Add(_drawBadge);
+            return;
         }
+
+        _badgeValues = badgeValues;
+        _badgeControl = control;
+
+        // Create or recreate badge when the source changes
+        if (_drawBadge != null)
+        {
+            Remove(_drawBadge);
+            _drawBadge.Dispose();
+            _drawBadge = null;
+        }
+
+        _drawBadge = new ViewDrawBadge(badgeValues!, control!);
+        Add(_drawBadge);
+        _drawBadge.Enabled = Enabled;
+    }
+
+    /// <summary>
+    /// Release unmanaged and optionally managed resources.
+    /// </summary>
+    /// <param name="disposing">Called from Dispose method.</param>
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            if (_drawBadge != null)
+            {
+                Remove(_drawBadge);
+                _drawBadge.Dispose();
+                _drawBadge = null;
+            }
+        }
+
+        base.Dispose(disposing);
     }
 
     #endregion
