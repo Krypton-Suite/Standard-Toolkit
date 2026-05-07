@@ -89,7 +89,7 @@ jobs:
             ${{ runner.os }}-nuget-
 
       - name: Restore TestForm
-        run: dotnet restore "Source/Krypton Components/TestForm/TestForm.csproj" -p:Configuration=Release -p:TFMs=all
+        run: dotnet restore "Source/Krypton Components/TestForm/TestForm.csproj" -p:Configuration=Release -p:TFMs=lite
 
       - name: Validate TestForm linked resources
         shell: pwsh
@@ -140,7 +140,7 @@ jobs:
           }
 
       - name: Build TestForm
-        run: dotnet build "Source/Krypton Components/TestForm/TestForm.csproj" -p:Configuration=Release --no-restore -p:TFMs=all -m:1 -p:BuildInParallel=false
+        run: dotnet build "Source/Krypton Components/TestForm/TestForm.csproj" -p:Configuration=Release --no-restore -p:TFMs=lite -m:1 -p:BuildInParallel=false
 
       - name: Save NuGet cache
         if: success() && github.event_name != 'pull_request'
