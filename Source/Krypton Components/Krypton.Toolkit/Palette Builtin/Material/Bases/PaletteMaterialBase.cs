@@ -302,7 +302,10 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
             case PaletteMetricInt.CheckButtonGap:
                 return 3;
             case PaletteMetricInt.HeaderButtonEdgeInsetForm:
-                return 0;
+                // 2px so close-button edge not cut off in RTL
+                return 2;
+            case PaletteMetricInt.HeaderButtonEdgeInsetFormRight:
+                return 2;
             case PaletteMetricInt.HeaderButtonEdgeInsetInputControl:
                 return 2; // keep buttons close to edges for Material
             case PaletteMetricInt.HeaderButtonEdgeInsetPrimary:
@@ -315,6 +318,8 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
             case PaletteMetricInt.BarButtonEdgeOutside:
             case PaletteMetricInt.BarButtonEdgeInside:
                 return 1;
+            case PaletteMetricInt.DropDownArrowBaseSize:
+                return 10;
             case PaletteMetricInt.None:
                 return 0;
             default:

@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -46,7 +46,7 @@ public class ButtonSpecManagerDraw : ButtonSpecManagerBase
         GetToolStripRenderer getRenderer,
         NeedPaintHandler needPaint)
         : this(control, redirector, variableSpecs, fixedSpecs,
-            viewDockers, viewMetrics, viewMetricInt, viewMetricInt,
+            viewDockers, viewMetrics, viewMetricInt, null, viewMetricInt,
             viewMetricPaddings, getRenderer, needPaint)
     {
     }
@@ -61,6 +61,7 @@ public class ButtonSpecManagerDraw : ButtonSpecManagerBase
     /// <param name="viewDockers">Array of target view dockers.</param>
     /// <param name="viewMetrics">Array of target metric providers.</param>
     /// <param name="viewMetricIntOutside">Array of target metrics for outside spacer size.</param>
+    /// <param name="viewMetricIntOutsideRight">Optional array of target metrics for right outside spacer size. When null, left value is used for both.</param>
     /// <param name="viewMetricIntInside">Array of target metrics for inside spacer size.</param>
     /// <param name="viewMetricPaddings">Array of target metrics for button padding.</param>
     /// <param name="getRenderer">Delegate for returning a tool strip renderer.</param>
@@ -72,12 +73,13 @@ public class ButtonSpecManagerDraw : ButtonSpecManagerBase
         [DisallowNull] ViewDrawDocker[] viewDockers,
         IPaletteMetric[] viewMetrics,
         PaletteMetricInt[] viewMetricIntOutside,
+        PaletteMetricInt[]? viewMetricIntOutsideRight,
         PaletteMetricInt[] viewMetricIntInside,
         PaletteMetricPadding[] viewMetricPaddings,
         GetToolStripRenderer getRenderer,
         NeedPaintHandler needPaint)
         : base(control, redirector, variableSpecs, fixedSpecs,
-            viewMetrics, viewMetricIntOutside, viewMetricIntInside,
+            viewMetrics, viewMetricIntOutside, viewMetricIntOutsideRight, viewMetricIntInside,
             viewMetricPaddings, getRenderer, needPaint)
     {
         Debug.Assert(viewDockers != null);

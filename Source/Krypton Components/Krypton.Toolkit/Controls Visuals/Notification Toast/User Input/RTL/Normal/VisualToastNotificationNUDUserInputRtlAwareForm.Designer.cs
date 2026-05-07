@@ -38,13 +38,13 @@
             this.kpnlMain = new Krypton.Toolkit.KryptonPanel();
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            this.pbxNotificationIcon = new System.Windows.Forms.PictureBox();
-            this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.krtbNotificationContentText = new Krypton.Toolkit.KryptonRichTextBox();
             this.klblHeader = new Krypton.Toolkit.KryptonLabel();
             this.knudUserInput = new Krypton.Toolkit.KryptonNumericUpDown();
+            this.pbxNotificationIcon = new System.Windows.Forms.PictureBox();
+            this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)(this.kpnlButtons)).BeginInit();
             this.kpnlButtons.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -53,9 +53,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
+            this.tableLayoutPanel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbxNotificationIcon)).BeginInit();
             this.tlpMain.SuspendLayout();
-            this.tableLayoutPanel4.SuspendLayout();
             this.SuspendLayout();
             // 
             // kpnlButtons
@@ -180,46 +180,6 @@
             this.tableLayoutPanel3.Size = new System.Drawing.Size(626, 319);
             this.tableLayoutPanel3.TabIndex = 0;
             // 
-            // pbxNotificationIcon
-            // 
-            this.pbxNotificationIcon.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pbxNotificationIcon.Location = new System.Drawing.Point(493, 5);
-            this.pbxNotificationIcon.Margin = new System.Windows.Forms.Padding(5);
-            this.pbxNotificationIcon.Name = "pbxNotificationIcon";
-            this.pbxNotificationIcon.Size = new System.Drawing.Size(128, 309);
-            this.pbxNotificationIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.pbxNotificationIcon.TabIndex = 0;
-            this.pbxNotificationIcon.TabStop = false;
-            // 
-            // tlpMain
-            // 
-            this.tlpMain.BackColor = System.Drawing.Color.Transparent;
-            this.tlpMain.ColumnCount = 2;
-            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpMain.Controls.Add(this.tableLayoutPanel1, 1, 0);
-            this.tlpMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlpMain.Location = new System.Drawing.Point(0, 0);
-            this.tlpMain.Name = "tlpMain";
-            this.tlpMain.RowCount = 1;
-            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpMain.Size = new System.Drawing.Size(626, 319);
-            this.tlpMain.TabIndex = 0;
-            // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.ColumnCount = 1;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 3;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(620, 313);
-            this.tableLayoutPanel1.TabIndex = 1;
-            // 
             // tableLayoutPanel4
             // 
             this.tableLayoutPanel4.ColumnCount = 1;
@@ -291,6 +251,46 @@
             0,
             0});
             // 
+            // pbxNotificationIcon
+            // 
+            this.pbxNotificationIcon.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pbxNotificationIcon.Location = new System.Drawing.Point(493, 5);
+            this.pbxNotificationIcon.Margin = new System.Windows.Forms.Padding(5);
+            this.pbxNotificationIcon.Name = "pbxNotificationIcon";
+            this.pbxNotificationIcon.Size = new System.Drawing.Size(128, 309);
+            this.pbxNotificationIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pbxNotificationIcon.TabIndex = 0;
+            this.pbxNotificationIcon.TabStop = false;
+            // 
+            // tlpMain
+            // 
+            this.tlpMain.BackColor = System.Drawing.Color.Transparent;
+            this.tlpMain.ColumnCount = 2;
+            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpMain.Controls.Add(this.tableLayoutPanel1, 1, 0);
+            this.tlpMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlpMain.Location = new System.Drawing.Point(0, 0);
+            this.tlpMain.Name = "tlpMain";
+            this.tlpMain.RowCount = 1;
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpMain.Size = new System.Drawing.Size(626, 319);
+            this.tlpMain.TabIndex = 0;
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 1;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 3;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(620, 313);
+            this.tableLayoutPanel1.TabIndex = 1;
+            // 
             // VisualToastNotificationNUDUserInputRtlAwareForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -303,11 +303,14 @@
             this.MinimizeBox = false;
             this.Name = "VisualToastNotificationNUDUserInputRtlAwareForm";
             this.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.RightToLeftLayout = true;
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Load += new System.EventHandler(this.VisualToastNotificationNumericUpDownUserInputRtlAwareForm_Load);
             this.LocationChanged += new System.EventHandler(this.VisualToastNotificationNumericUpDownUserInputRtlAwareForm_LocationChanged);
+            this.Controls.SetChildIndex(this.kpnlButtons, 0);
+            this.Controls.SetChildIndex(this.kpnlMain, 0);
             ((System.ComponentModel.ISupportInitialize)(this.kpnlButtons)).EndInit();
             this.kpnlButtons.ResumeLayout(false);
             this.kpnlButtons.PerformLayout();
@@ -318,10 +321,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
             this.kryptonPanel1.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pbxNotificationIcon)).EndInit();
-            this.tlpMain.ResumeLayout(false);
             this.tableLayoutPanel4.ResumeLayout(false);
             this.tableLayoutPanel4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbxNotificationIcon)).EndInit();
+            this.tlpMain.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
