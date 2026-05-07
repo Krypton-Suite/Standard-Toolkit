@@ -91,16 +91,21 @@ public abstract class VisualSimpleBase : VisualControlBase
             retSize.Height += Padding.Vertical;
 #endif
 
-            // For AutoSize with GrowAndShrink, ensure we never return a size smaller than what
-            // the base class would return, to prevent incorrect shrinking behavior.
+            // For AutoSize with GrowAndShrink, use base class size only as fallback when the view
+            // failed to calculate a valid preferred size (e.g. renderer not ready in designer).
+            // Do NOT use it as a floor when we have valid content-based size, or controls with
+            // short text would incorrectly stay at their initial default size instead of shrinking.
             if (AutoSize && GetAutoSizeMode() == AutoSizeMode.GrowAndShrink)
             {
-                // Get what the base class would return (this includes padding handling in .NET)
-                Size baseSize = base.GetPreferredSize(new Size(int.MaxValue, int.MaxValue));
-
-                // Ensure our calculated size is at least as large as the base class size
-                retSize.Width = Math.Max(retSize.Width, baseSize.Width);
-                retSize.Height = Math.Max(retSize.Height, baseSize.Height);
+                if (retSize.Width <= 0 || retSize.Height <= 0)
+                {
+                    Size baseSize = base.GetPreferredSize(new Size(int.MaxValue, int.MaxValue));
+                    if (baseSize.Width > 0 && baseSize.Height > 0)
+                    {
+                        retSize.Width = Math.Max(retSize.Width, baseSize.Width);
+                        retSize.Height = Math.Max(retSize.Height, baseSize.Height);
+                    }
+                }
             }
 
             // Apply the maximum sizing
@@ -132,6 +137,48 @@ public abstract class VisualSimpleBase : VisualControlBase
             // Fall back on default control processing
             return base.GetPreferredSize(proposedSize);
         }
+    }
+
+    /// <summary>
+    /// Sets the bounds of the control. For AutoSize + GrowAndShrink controls, force the size
+    /// to preferred size so shrink/grow behavior tracks content in runtime and designer paths.
+    /// </summary>
+    /// <param name="x">The new Left property value of the control.</param>
+    /// <param name="y">The new Top property value of the control.</param>
+    /// <param name="width">The new Width property value of the control.</param>
+    /// <param name="height">The new Height property value of the control.</param>
+    /// <param name="specified">A bitwise combination of the BoundsSpecified values.</param>
+    protected override void SetBoundsCore(int x, int y, int width, int height, BoundsSpecified specified)
+    {
+        if (AutoSize)
+        {
+            Size preferredSize = GetPreferredSize(new Size(int.MaxValue, int.MaxValue));
+            Rectangle virtualScreen = SystemInformation.VirtualScreen;
+            int maxSensibleWidth = (int)Math.Min(int.MaxValue, Math.Max(1L, (long)Math.Abs(virtualScreen.Width) * 2L));
+            int maxSensibleHeight = (int)Math.Min(int.MaxValue, Math.Max(1L, (long)Math.Abs(virtualScreen.Height) * 2L));
+
+            // Only apply sensible calculated sizes to avoid unstable initialization values.
+            // Use the OS virtual screen size as the baseline instead of a hard-coded pixel limit.
+            if (preferredSize.Width > 0 && preferredSize.Height > 0
+                && preferredSize.Width <= maxSensibleWidth && preferredSize.Height <= maxSensibleHeight)
+            {
+                if (GetAutoSizeMode() == AutoSizeMode.GrowAndShrink)
+                {
+                    width = preferredSize.Width;
+                    height = preferredSize.Height;
+                }
+                else
+                {
+                    // GrowOnly semantics: allow growth to preferred size, never force shrink.
+                    width = Math.Max(Width, preferredSize.Width);
+                    height = Math.Max(Height, preferredSize.Height);
+                }
+
+                specified |= BoundsSpecified.Size;
+            }
+        }
+
+        base.SetBoundsCore(x, y, width, height, specified);
     }
 
     /// <summary>
