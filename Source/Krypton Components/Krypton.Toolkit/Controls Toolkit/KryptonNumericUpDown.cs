@@ -739,6 +739,7 @@ public class KryptonNumericUpDown : VisualControlBase,
     private bool _alwaysActive;
     private bool _trackingMouseEnter;
     private bool _autoSize;
+    private int _cachedWidth;
     private int _cachedHeight;
     private Graphics? _graphics;
 
@@ -831,6 +832,7 @@ public class KryptonNumericUpDown : VisualControlBase,
         _upDownButtonStyle = ButtonStyle.InputControl;
         _alwaysActive = true;
         _autoSize = false;
+        _cachedWidth = -1;
         _cachedHeight = -1;
         _graphics = null;
         AllowButtonSpecToolTips = false;
@@ -934,8 +936,18 @@ public class KryptonNumericUpDown : VisualControlBase,
         {
             if (_autoSize != value)
             {
+                CacheCurrentDimensionBeforeAutoSizeEnable(value, Width, ref _cachedWidth);
                 _autoSize = value;
-                UpdateAutoSizing();
+
+                if (_autoSize)
+                {
+                    UpdateAutoSizing();
+                }
+                else if (TryGetCachedDimensionForRestore(_cachedWidth, out int restoredWidth))
+                {
+                    Width = restoredWidth;
+                    PerformNeedPaint(true);
+                }
             }
         }
     }
@@ -1823,12 +1835,17 @@ public class KryptonNumericUpDown : VisualControlBase,
         int width, int height,
         BoundsSpecified specified)
     {
+        if (!_autoSize)
+        {
+            CacheDimensionIfSpecified(specified, BoundsSpecified.Width, width, ref _cachedWidth);
+        }
+
         // Changed from inline GetPreferredSize() to the same pattern as KryptonComboBox,
         // KryptonDateTimePicker, and KryptonDomainUpDown: cache incoming height on first set,
         // then always override to PreferredHeight (which honours MinimumControlHeight).
         // See https://github.com/Krypton-Suite/Standard-Toolkit/issues/615
         // If setting the actual height
-        if ((specified & BoundsSpecified.Height) == BoundsSpecified.Height)
+        if (IsDimensionSpecified(specified, BoundsSpecified.Height))
         {
             // First time the height is set, remember it
             if (_cachedHeight == -1)

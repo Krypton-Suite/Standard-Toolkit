@@ -1643,18 +1643,7 @@ public class KryptonMaskedTextBox : VisualControlBase,
         // Do we need to prevent the height from being altered?
         if (_autoSize)
         {
-            switch (Dock)
-            {
-                case DockStyle.Fill:
-                case DockStyle.Left:
-                case DockStyle.Right:
-                    if ((specified & ~BoundsSpecified.Height) == specified)
-                    {
-                        _cachedHeight = height;
-                    }
-
-                    break;
-            }
+            CacheDimensionIfSpecified(specified, BoundsSpecified.Height, height, ref _cachedHeight);
 
             // Override the actual height used to the fixed height for single line
             height = PreferredHeight;

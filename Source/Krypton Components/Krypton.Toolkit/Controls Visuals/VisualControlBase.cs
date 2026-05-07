@@ -669,6 +669,56 @@ public abstract class VisualControlBase : Control,
         // Every control in chain is visible and enabled, so allow mnemonics
         return true;
     }
+
+    /// <summary>
+    /// Returns true when the provided bounds dimension was explicitly specified.
+    /// </summary>
+    /// <param name="specified">Bounds flags provided by the caller.</param>
+    /// <param name="dimension">Dimension to test.</param>
+    /// <returns>True when the dimension flag is present.</returns>
+    protected static bool IsDimensionSpecified(BoundsSpecified specified, BoundsSpecified dimension) =>
+        (specified & dimension) == dimension;
+
+    /// <summary>
+    /// Caches a dimension when that dimension is explicitly specified.
+    /// </summary>
+    /// <param name="specified">Bounds flags provided by the caller.</param>
+    /// <param name="dimension">Dimension to test.</param>
+    /// <param name="incomingValue">Incoming dimension value.</param>
+    /// <param name="cachedValue">Cached value storage.</param>
+    protected static void CacheDimensionIfSpecified(BoundsSpecified specified, BoundsSpecified dimension, int incomingValue, ref int cachedValue)
+    {
+        if (IsDimensionSpecified(specified, dimension))
+        {
+            cachedValue = incomingValue;
+        }
+    }
+
+    /// <summary>
+    /// Stores the current manual dimension before AutoSize is enabled.
+    /// </summary>
+    /// <param name="autoSizeTargetValue">The AutoSize value being applied.</param>
+    /// <param name="currentDimension">Current control dimension.</param>
+    /// <param name="cachedValue">Cached value storage.</param>
+    protected static void CacheCurrentDimensionBeforeAutoSizeEnable(bool autoSizeTargetValue, int currentDimension, ref int cachedValue)
+    {
+        if (autoSizeTargetValue)
+        {
+            cachedValue = currentDimension;
+        }
+    }
+
+    /// <summary>
+    /// Attempts to return a cached dimension value suitable for restoring.
+    /// </summary>
+    /// <param name="cachedValue">Cached value.</param>
+    /// <param name="restoredValue">Restored value output.</param>
+    /// <returns>True when a valid cached value exists.</returns>
+    protected static bool TryGetCachedDimensionForRestore(int cachedValue, out int restoredValue)
+    {
+        restoredValue = cachedValue;
+        return cachedValue > 0;
+    }
     #endregion
 
     #region Protected Virtual

@@ -709,6 +709,7 @@ public class KryptonDomainUpDown : VisualControlBase,
     private bool _alwaysActive;
     private bool _trackingMouseEnter;
     private int _cachedHeight;
+    private int _cachedWidth;
     private bool _autoSize = false;
     private Graphics? _graphics;
     #endregion
@@ -799,6 +800,7 @@ public class KryptonDomainUpDown : VisualControlBase,
         _inputControlStyle = InputControlStyle.Standalone;
         _upDownButtonStyle = ButtonStyle.InputControl;
         _cachedHeight = -1;
+        _cachedWidth = -1;
         _alwaysActive = true;
         _autoSize = false;
         _graphics = null;
@@ -905,8 +907,18 @@ public class KryptonDomainUpDown : VisualControlBase,
         {
             if (_autoSize != value)
             {
+                CacheCurrentDimensionBeforeAutoSizeEnable(value, Width, ref _cachedWidth);
                 _autoSize = value;
-                UpdateAutoSizing();
+
+                if (_autoSize)
+                {
+                    UpdateAutoSizing();
+                }
+                else if (TryGetCachedDimensionForRestore(_cachedWidth, out int restoredWidth))
+                {
+                    Width = restoredWidth;
+                    PerformNeedPaint(true);
+                }
             }
         }
     }
@@ -1692,8 +1704,13 @@ public class KryptonDomainUpDown : VisualControlBase,
         int width, int height,
         BoundsSpecified specified)
     {
+        if (!_autoSize)
+        {
+            CacheDimensionIfSpecified(specified, BoundsSpecified.Width, width, ref _cachedWidth);
+        }
+
         // If setting the actual height
-        if ((specified & BoundsSpecified.Height) == BoundsSpecified.Height)
+        if (IsDimensionSpecified(specified, BoundsSpecified.Height))
         {
             // First time the height is set, remember it
             if (_cachedHeight == -1)
@@ -1706,10 +1723,7 @@ public class KryptonDomainUpDown : VisualControlBase,
         }
 
         // If setting the actual height then cache it for later
-        if ((specified & BoundsSpecified.Height) == BoundsSpecified.Height)
-        {
-            _cachedHeight = height;
-        }
+        CacheDimensionIfSpecified(specified, BoundsSpecified.Height, height, ref _cachedHeight);
 
         base.SetBoundsCore(x, y, width, height, specified);
     }
