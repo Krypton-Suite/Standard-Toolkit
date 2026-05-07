@@ -90,7 +90,7 @@ jobs:
             ${{ runner.os }}-nuget-
 
       - name: Restore TestForm
-        run: dotnet restore "Source/Krypton Components/TestForm/TestForm.csproj" -p:Configuration=Release -p:TargetFrameworks="net472;net48;net481;net8.0-windows;net9.0-windows;net10.0-windows"
+        run: dotnet restore "Source/Krypton Components/TestForm/TestForm.csproj" -p:Configuration=Release -p:TargetFrameworks=net472%3Bnet48%3Bnet481%3Bnet8.0-windows%3Bnet9.0-windows%3Bnet10.0-windows
 
       - name: Validate TestForm linked resources
         shell: pwsh
@@ -141,7 +141,7 @@ jobs:
           }
 
       - name: Build TestForm
-        run: dotnet build "Source/Krypton Components/TestForm/TestForm.csproj" -p:Configuration=Release --no-restore -p:TargetFrameworks="net472;net48;net481;net8.0-windows;net9.0-windows;net10.0-windows" -m:1 -p:BuildInParallel=false
+        run: dotnet build "Source/Krypton Components/TestForm/TestForm.csproj" -p:Configuration=Release --no-restore -p:TargetFrameworks=net472%3Bnet48%3Bnet481%3Bnet8.0-windows%3Bnet9.0-windows%3Bnet10.0-windows -m:1 -p:BuildInParallel=false
 
       - name: Save NuGet cache
         if: success() && github.event_name != 'pull_request'
