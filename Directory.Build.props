@@ -83,10 +83,6 @@
 		</Otherwise>
 	</Choose>
 
-	<PropertyGroup Condition="'$(TargetFramework)' == 'net10.0-windows'">
-		<GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
-	</PropertyGroup>
-
 	<PropertyGroup Condition="'$(Configuration)' == 'Nightly'">
 		<DefineConstants>$(DefineConstants);NIGHTLY</DefineConstants>
 	</PropertyGroup>
