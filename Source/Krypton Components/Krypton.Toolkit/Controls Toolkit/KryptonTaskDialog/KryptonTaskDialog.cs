@@ -455,7 +455,7 @@ public class KryptonTaskDialog : IDisposable
         _form.Padding = _taskDialogDefaults.NullPadding;
         _form.MaximizeBox = false;
         _form.ControlBox = true;
-        _form.SystemMenuValues.Enabled = false;
+        _form.SystemMenuValues.Enabled = true;
 
         SetupTableLayoutPanel();
 

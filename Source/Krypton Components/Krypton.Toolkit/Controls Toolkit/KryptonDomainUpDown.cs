@@ -1362,6 +1362,11 @@ public class KryptonDomainUpDown : VisualControlBase,
                 retSize.Height = Math.Max(MinimumSize.Height, retSize.Height);
             }
 
+            if (MinimumControlHeight > 0)
+            {
+                retSize.Height = Math.Max(MinimumControlHeight, retSize.Height);
+            }
+
             return retSize;
         }
         else
@@ -1506,6 +1511,12 @@ public class KryptonDomainUpDown : VisualControlBase,
     /// <returns>A new instance of Control.ControlCollection assigned to the control.</returns>
     [EditorBrowsable(EditorBrowsableState.Advanced)]
     protected override ControlCollection CreateControlsInstance() => new KryptonReadOnlyControls(this);
+
+    /// <summary>
+    /// Creates the accessibility object for the KryptonDomainUpDown control.
+    /// </summary>
+    /// <returns>A new KryptonDomainUpDownAccessibleObject instance for the control.</returns>
+    protected override AccessibleObject CreateAccessibilityInstance() => new KryptonDomainUpDownAccessibleObject(this);
 
     /// <summary>
     /// Raises the HandleCreated event.
@@ -1996,9 +2007,9 @@ public class KryptonDomainUpDown : VisualControlBase,
 
     private void OnDomainUpDownPreviewKeyDown(object? sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-    private void OnDomainUpDownValidated(object? sender, EventArgs e) => OnValidated(e);
+    private void OnDomainUpDownValidated(object? sender, EventArgs e) => ForwardValidated(e);
 
-    private void OnDomainUpDownValidating(object? sender, CancelEventArgs e) => OnValidating(e);
+    private void OnDomainUpDownValidating(object? sender, CancelEventArgs e) => ForwardValidating(e);
 
     private void OnShowToolTip(object? sender, ToolTipEventArgs e)
     {
@@ -2048,7 +2059,7 @@ public class KryptonDomainUpDown : VisualControlBase,
 
                     if (AllowButtonSpecToolTipPriority)
                     {
-                        visualBasePopupToolTip?.Dispose();
+                        _visualBasePopupToolTip?.Dispose();
                     }
 
                     // Create the actual tooltip popup object

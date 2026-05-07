@@ -56,6 +56,9 @@ public class GlobalStaticValues
 
     internal const int DEFAULT_PADDING = 10;
 
+    /// <summary>Windows convention for positioning windows off-screen (e.g. to hide them). Used when placing windows so they are not visible.</summary>
+    public const int OFF_SCREEN_POSITION = -32000;
+
     /// <summary>The global default theme index</summary>
     public const int GLOBAL_DEFAULT_THEME_INDEX = (int)PaletteMode.Microsoft365Blue;
 

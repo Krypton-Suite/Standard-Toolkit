@@ -94,6 +94,20 @@ public class KryptonRibbonGroupThemeComboBox : KryptonRibbonGroupComboBox, IKryp
     #region Implementation
 
     /// <summary>
+    /// Resolves the theme label from the combo's selected list item when possible, so programmatic
+    /// index changes still apply the correct palette (Toolkit #3283).
+    /// </summary>
+    private string GetSelectedThemeName()
+    {
+        if (SelectedIndex > -1 && SelectedItem is string { Length: > 0 } s)
+        {
+            return s;
+        }
+
+        return Text ?? string.Empty;
+    }
+
+    /// <summary>
     /// This method will run when the KryptonManager.GlobalPaletteChanged event is fired.<br/>
     /// It will synchronize the SelectedIndex with the newly assigned Global Palette.
     /// </summary>
@@ -162,7 +176,7 @@ public class KryptonRibbonGroupThemeComboBox : KryptonRibbonGroupComboBox, IKryp
     /// <inheritdoc />
     protected override void OnSelectedIndexChanged(EventArgs e)
     {
-        if (!CommonHelperThemeSelectors.OnSelectedIndexChanged(ref _isLocalUpdate, _isExternalUpdate, ref _defaultPalette, Text, _manager, _kryptonCustomPalette))
+        if (!CommonHelperThemeSelectors.OnSelectedIndexChanged(ref _isLocalUpdate, _isExternalUpdate, ref _defaultPalette, GetSelectedThemeName(), _manager, _kryptonCustomPalette))
         {
             //theme change went wrong, make the active theme the selected theme in the list.
             SelectedIndex = CommonHelperThemeSelectors.GetPaletteIndex(Items, _manager.GlobalPaletteMode);

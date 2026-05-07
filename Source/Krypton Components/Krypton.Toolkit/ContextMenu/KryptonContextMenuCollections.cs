@@ -30,7 +30,9 @@ public class KryptonContextMenuCollection : TypedRestrictCollection<KryptonConte
         typeof(KryptonContextMenuRadioButton),
         typeof(KryptonContextMenuColorColumns),
         typeof(KryptonContextMenuMonthCalendar),
-        typeof(KryptonContextMenuImageSelect)
+        typeof(KryptonContextMenuImageSelect),
+        typeof(KryptonContextMenuTextBox),
+        typeof(KryptonContextMenuComboBox)
     ];
     #endregion
 
@@ -215,7 +217,9 @@ public class KryptonContextMenuItemCollection : TypedRestrictCollection<KryptonC
         typeof(KryptonContextMenuRadioButton),
         typeof(KryptonContextMenuColorColumns),
         typeof(KryptonContextMenuMonthCalendar),
-        typeof(KryptonContextMenuImageSelect)
+        typeof(KryptonContextMenuImageSelect),
+        typeof(KryptonContextMenuTextBox),
+        typeof(KryptonContextMenuComboBox)
     ];
     #endregion
 
