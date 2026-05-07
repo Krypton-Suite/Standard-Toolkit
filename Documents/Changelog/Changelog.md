@@ -46,6 +46,7 @@
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
 * Implemented [#3292](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3292), Use `AsSpan` in `TestForm` (`RichTextBoxFormattingTest`) by centralizing RTF formatting detection and using span-based checks on modern targets with legacy fallback preserved. Extended `AsSpan` adoption in OAuth2 redirect query parsing and GitHub bug-report response field extraction, with compatibility fallbacks for earlier target frameworks. Continued `AsSpan` adoption in date/time format parsing, DataGridView search highlighting, tooltip truncation, TestForm window-state INI parsing, emoji list line parsing, ThemeArrayInspector string/segment checks, CodeEditor substring extraction, and PaletteViewer line/RGB parsing with legacy fallback paths retained.
+* Resolved [#3365](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3365), `KryptonLinkLabel` 'Autosize' Not Shrinking
 * Resolved [#3381](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3381), Vertical text centering on a rounded-corner `KryptonButton`
 * Implemented [#3380](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3380), `KryptonToolTip` - A user control/component wrapper around the existing KToolTips
 * Resolved [#3385](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3385), Memory Retention in Krypton Controls via SystemEvents
