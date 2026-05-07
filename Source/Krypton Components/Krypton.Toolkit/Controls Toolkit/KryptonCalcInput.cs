@@ -41,6 +41,7 @@ public class KryptonCalcInput : VisualControlBase, IContainedInputControl
     private int _decimalPlaces;
     private bool _trailingZeroes;
     private bool _autoSize;
+    private int _cachedWidth;
     private bool _forcedLayout;
     private bool _thousandsSeparator;
     private Padding _contentPadding;
@@ -144,6 +145,7 @@ public class KryptonCalcInput : VisualControlBase, IContainedInputControl
         _allowDecimals = false;
         _trailingZeroes = true;
         _autoSize = false;
+        _cachedWidth = -1;
         _contentPadding = Padding.Empty;
         _dropDownWidth = 0;
         _popupSide = VisualOrientation.Bottom;
@@ -314,8 +316,19 @@ public class KryptonCalcInput : VisualControlBase, IContainedInputControl
         {
             if (_autoSize != value)
             {
+                AutoSizeDimensionCacheHelper.CacheCurrentBeforeEnable(value, Width, ref _cachedWidth);
+
                 _autoSize = value;
-                UpdateAutoSizing();
+
+                if (_autoSize)
+                {
+                    UpdateAutoSizing();
+                }
+                else if (AutoSizeDimensionCacheHelper.TryGetCachedValue(_cachedWidth, out int restoredWidth))
+                {
+                    Width = restoredWidth;
+                    PerformNeedPaint(true);
+                }
             }
         }
     }
@@ -1020,6 +1033,11 @@ public class KryptonCalcInput : VisualControlBase, IContainedInputControl
         int width, int height,
         BoundsSpecified specified)
     {
+        if (!_autoSize)
+        {
+            AutoSizeDimensionCacheHelper.CacheIfSpecified(specified, BoundsSpecified.Width, width, ref _cachedWidth);
+        }
+
         // Get the preferred size of the entire control
         Size preferredSize = GetPreferredSize(new Size(int.MaxValue, int.MaxValue));
 
