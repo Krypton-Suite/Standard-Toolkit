@@ -1,6 +1,16 @@
 <Project>
 	<Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../../'))" />
 
+	<!-- MSB3822/3823: binary .resx (images/icons) need preserialized GenerateResource + System.Resources.Extensions.
+	     Defined here (not repo root) so it applies after SDK props; all projects under this folder are WinForms SDK. -->
+	<PropertyGroup>
+		<GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="System.Resources.Extensions" Version="9.0.10" />
+	</ItemGroup>
+
 	<!-- Target Framework Selection: Determines which .NET versions to build for based on configuration -->
 	<Choose>
 		<!-- Nightly, Canary, and Debug configurations build for all target frameworks -->
