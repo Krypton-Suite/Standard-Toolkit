@@ -29,7 +29,7 @@ jobs:
   Stable:
     name: Stable
     runs-on: windows-2025-vs2026
-    if: github.event_name != 'pull_request' || (github.event.pull_request.head.repo.full_name == github.repository || github.event_name == 'workflow_dispatch')
+    if: (github.event_name != 'pull_request' || (github.event.pull_request.head.repo.full_name == github.repository || github.event_name == 'workflow_dispatch')) && github.ref_name != 'canary' && github.ref_name != 'nightly' && github.head_ref != 'canary' && github.head_ref != 'nightly'
 
     steps:
       - name: Checkout
