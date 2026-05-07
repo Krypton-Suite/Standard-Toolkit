@@ -66,11 +66,11 @@ public sealed class PaletteMicrosoft365SilverLightMode_BaseScheme : KryptonColor
     public override Color FormHeaderLongActive             { get; set; } = Color.FromArgb(92, 98, 106);
     public override Color FormHeaderLongInactive           { get; set; } = Color.FromArgb(138, 138, 138);
     public override Color FormButtonBorderTrack            { get; set; } = Color.FromArgb(189, 199, 212);
-    public override Color FormButtonBack1Track             { get; set; } = Color.FromArgb(222, 230, 242);
-    public override Color FormButtonBack2Track             { get; set; } = Color.FromArgb(255, 255, 255);
+    public override Color FormButtonBack1Track             { get; set; } = Color.FromArgb(213, 224, 241);
+    public override Color FormButtonBack2Track             { get; set; } = Color.FromArgb(213, 224, 241);
     public override Color FormButtonBorderPressed          { get; set; } = Color.FromArgb(149, 154, 160);
-    public override Color FormButtonBack1Pressed           { get; set; } = Color.FromArgb(125, 131, 140);
-    public override Color FormButtonBack2Pressed           { get; set; } = Color.FromArgb(213, 226, 233);
+    public override Color FormButtonBack1Pressed           { get; set; } = Color.FromArgb(163, 189, 227);
+    public override Color FormButtonBack2Pressed           { get; set; } = Color.FromArgb(163, 189, 227);
     public override Color TextButtonFormNormal             { get; set; } = Color.Black;
     public override Color TextButtonFormTracking           { get; set; } = Color.Black;
     public override Color TextButtonFormPressed            { get; set; } = Color.Black;

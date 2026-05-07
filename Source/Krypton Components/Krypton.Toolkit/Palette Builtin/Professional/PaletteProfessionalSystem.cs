@@ -2696,11 +2696,15 @@ public class PaletteProfessionalSystem : PaletteBase
             case PaletteMetricInt.CheckButtonGap:
                 return 5;
             case PaletteMetricInt.HeaderButtonEdgeInsetForm:
+                // When null (e.g. RTL form header), use 2px so close-button edge is not cut off
                 if (owningForm == null)
                 {
-                    return 0;
+                    return 2;
                 }
                 return Math.Max(2, owningForm!.RealWindowBorders.Right);
+            case PaletteMetricInt.HeaderButtonEdgeInsetFormRight:
+                // 2px inset: edge next to close button (right in LTR, left in RTL)
+                return 2;
             case PaletteMetricInt.HeaderButtonEdgeInsetInputControl:
                 return 1;
             case PaletteMetricInt.HeaderButtonEdgeInsetPrimary:
@@ -2713,6 +2717,8 @@ public class PaletteProfessionalSystem : PaletteBase
             case PaletteMetricInt.BarButtonEdgeOutside:
             case PaletteMetricInt.BarButtonEdgeInside:
                 return 3;
+            case PaletteMetricInt.DropDownArrowBaseSize:
+                return 10;
             case PaletteMetricInt.None:
                 return 0;
             default:

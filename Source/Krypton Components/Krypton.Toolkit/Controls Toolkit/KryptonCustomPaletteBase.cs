@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -1130,12 +1130,13 @@ public class KryptonCustomPaletteBase : PaletteBase
     /// <inheritdoc />
     public override int GetMetricInt(KryptonForm? owningForm, PaletteState state, PaletteMetricInt metric) => metric switch
     {
-        PaletteMetricInt.BarButtonEdgeInside or PaletteMetricInt.BarButtonEdgeOutside or PaletteMetricInt.CheckButtonGap or PaletteMetricInt.RibbonTabGap => Navigator.StateCommon.Bar.GetMetricInt(owningForm, state, metric),
+        PaletteMetricInt.BarButtonEdgeInside or PaletteMetricInt.BarButtonEdgeOutside or PaletteMetricInt.CheckButtonGap or PaletteMetricInt.RibbonTabGap or PaletteMetricInt.DropDownArrowBaseSize => Navigator.StateCommon.Bar.GetMetricInt(owningForm, state, metric),
         PaletteMetricInt.HeaderButtonEdgeInsetPrimary => HeaderStyles.HeaderPrimary.StateCommon.GetMetricInt(owningForm, state, metric),
         PaletteMetricInt.HeaderButtonEdgeInsetSecondary => HeaderStyles.HeaderSecondary.StateCommon.GetMetricInt(owningForm, state, metric),
         PaletteMetricInt.HeaderButtonEdgeInsetDockInactive => HeaderStyles.HeaderDockInactive.StateCommon.GetMetricInt(owningForm, state, metric),
         PaletteMetricInt.HeaderButtonEdgeInsetDockActive => HeaderStyles.HeaderDockActive.StateCommon.GetMetricInt(owningForm, state, metric),
         PaletteMetricInt.HeaderButtonEdgeInsetForm => HeaderStyles.HeaderForm.StateCommon.GetMetricInt(owningForm, state, metric),
+        PaletteMetricInt.HeaderButtonEdgeInsetFormRight => HeaderStyles.HeaderForm.StateCommon.GetMetricInt(owningForm, state, metric),
         PaletteMetricInt.HeaderButtonEdgeInsetCustom1 => HeaderStyles.HeaderCustom1.StateCommon.GetMetricInt(owningForm, state, metric),
         PaletteMetricInt.HeaderButtonEdgeInsetCustom2 => HeaderStyles.HeaderCustom2.StateCommon.GetMetricInt(owningForm, state, metric),
         PaletteMetricInt.HeaderButtonEdgeInsetCustom3 => HeaderStyles.HeaderCustom3.StateCommon.GetMetricInt(owningForm, state, metric),
@@ -1966,6 +1967,16 @@ public class KryptonCustomPaletteBase : PaletteBase
             {
                 ResetOperation(null);
             }
+            else if (this.InDesignMode())
+            {
+                // In design mode (e.g. VS designer), run synchronously to avoid PerformOperation
+                // deadlock/freeze with ModalWaitDialog and worker thread (see issue #2927)
+                ResetOperation(null);
+
+                KryptonMessageBox.Show("Reset of palette is completed.",
+                    "Palette Reset",
+                    KryptonMessageBoxButtons.OK);
+            }
             else
             {
                 // Perform the reset operation on a separate worker thread
@@ -2007,6 +2018,16 @@ public class KryptonCustomPaletteBase : PaletteBase
             if (silent)
             {
                 PopulateFromBaseOperation(null);
+            }
+            else if (this.InDesignMode())
+            {
+                // In design mode (e.g. VS designer), run synchronously to avoid PerformOperation
+                // deadlock/freeze with ModalWaitDialog and worker thread (see issue #2927)
+                PopulateFromBaseOperation(null);
+
+                KryptonMessageBox.Show("Relevant values have been populated.",
+                    "Populate Values",
+                    KryptonMessageBoxButtons.OK);
             }
             else
             {
@@ -2056,7 +2077,7 @@ public class KryptonCustomPaletteBase : PaletteBase
                 paletteFileName = kofd.FileName;
 
                 // Set the theme name to the file name
-                PaletteName = paletteFileName;
+                PaletteName = Path.GetFileNameWithoutExtension(paletteFileName);
             }
         }
         else
@@ -2075,7 +2096,7 @@ public class KryptonCustomPaletteBase : PaletteBase
                 paletteFileName = dialog.FileName;
 
                 // Set the theme name to the file name
-                PaletteName = paletteFileName;
+                PaletteName = Path.GetFileNameWithoutExtension(paletteFileName);
             }
         }
         if (!string.IsNullOrWhiteSpace(paletteFileName))
@@ -2106,7 +2127,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             paletteFileName = dialog.FileName;
 
             // Set the theme name to the file name
-            PaletteName = paletteFileName;
+            PaletteName = Path.GetFileNameWithoutExtension(paletteFileName);
         }
 
         if (!string.IsNullOrWhiteSpace(paletteFileName))
@@ -2435,7 +2456,7 @@ public class KryptonCustomPaletteBase : PaletteBase
                 SetCustomisedKryptonPaletteFilePath(Path.GetFullPath(ksfd.FileName));
 
                 // Set the theme name to the file name
-                PaletteName = ksfd.FileName;
+                PaletteName = Path.GetFileNameWithoutExtension(ksfd.FileName);
 
                 return Export(ksfd.FileName, true, false);
             }
@@ -2455,7 +2476,7 @@ public class KryptonCustomPaletteBase : PaletteBase
                 SetCustomisedKryptonPaletteFilePath(Path.GetFullPath(dialog.FileName));
 
                 // Set the theme name to the file name
-                PaletteName = dialog.FileName;
+                PaletteName = Path.GetFileNameWithoutExtension(dialog.FileName);
 
                 // Use the existing export overload that takes the target name
                 return Export(dialog.FileName, true, false);
@@ -2482,7 +2503,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             SetCustomisedKryptonPaletteFilePath(Path.GetFullPath(dialog.FileName));
 
             // Set the theme name to the file name
-            PaletteName = dialog.FileName;
+            PaletteName = Path.GetFileNameWithoutExtension(dialog.FileName);
 
             // Use the existing export overload that takes the target name
             return Export(dialog.FileName, true, false);
@@ -3347,22 +3368,32 @@ public class KryptonCustomPaletteBase : PaletteBase
                                     }
                                     else
                                     {
-                                        object? setValue = null;
+										object? setValue = null;
 
-                                        // We ignore conversion of a Font of value (none) because instead
-                                        // of providing null it returns a default font value
-                                        if (valueType != nameof(Font) || valueValue != @"(none)")
-                                        {
-                                            // We need the type converter to create a string representation
-                                            var converter = TypeDescriptor.GetConverter(StringToType(valueType));
+										// Resolve the CLR type from the serialized Type attribute
+										Type resolvedType = StringToType(valueType);
 
-                                            // Recreate the value using the converter
-                                            setValue = converter.ConvertFromInvariantString(valueValue);
-                                        }
+										// -----------------------------------------------------------------
+										// We intentionally skip conversion when importing a Font with
+										// Value="(none)".
+										//
+										// Reason:
+										// - "(none)" represents an explicitly unset Font (Font == null)
+										// - Converting "(none)" using FontConverter would return
+										//   a default Font instance instead of null
+										//
+										// By skipping the conversion, the property is correctly restored
+										// as null.
+										// -----------------------------------------------------------------
+										if (resolvedType != typeof(Font) || valueValue != "(none)")
+										{
+											var converter = TypeDescriptor.GetConverter(resolvedType);
+											setValue = converter.ConvertFromInvariantString(valueValue);
+										}
 
-                                        // Push the value into the actual property
-                                        prop.SetValue(obj, setValue, null);
-                                    }
+										// Assign the restored value (null for "(none)" Font cases)
+										prop.SetValue(obj, setValue, null);
+									}
                                 }
                             }
                         }
@@ -3506,8 +3537,8 @@ public class KryptonCustomPaletteBase : PaletteBase
                         {
                             var defaultAttribs = prop.GetCustomAttributes(typeof(DefaultValueAttribute), false);
 
-                            // Does this property have a default value attribute?
-                            if (defaultAttribs.Length == 1)
+                            // Use the first one found (KryptonDefaultColor is a DefaultValueAttribute subclass)
+                            if (defaultAttribs.Length >= 1)
                             {
                                 // Cast to correct type
                                 var defaultAttrib = defaultAttribs[0] as DefaultValueAttribute;
@@ -3574,12 +3605,66 @@ public class KryptonCustomPaletteBase : PaletteBase
                             }
                             else
                             {
-                                // We need the type converter to create a string representation
-                                var converter = TypeDescriptor.GetConverter(prop.PropertyType);
-
-                                // Save to an invariant string so that load is not affected by culture
-                                childElement.SetAttribute(@"Value", converter.ConvertToInvariantString(childObj!));
-                            }
+								// -----------------------------------------------------------------------------
+								// Special handling for Font properties
+								// -----------------------------------------------------------------------------
+								if (prop.PropertyType == typeof(Font))
+								{
+									// -------------------------------------------------------------------------
+									// A Font property may legitimately be NULL when the user has not explicitly
+									// assigned a font value.
+									//
+									// In this case, NULL does NOT indicate an error. It simply means:
+									//   - No explicit Font value was provided by the user
+									//
+									// However, NULL cannot be represented directly in XML. If no value is
+									// written, the persisted state becomes ambiguous.
+									//
+									// To make this state explicit and deterministic, we serialize a sentinel
+									// value.
+									//
+									// Convention:
+									//   "(none)" => no Font explicitly assigned (Font == null)
+									// -------------------------------------------------------------------------
+									if (childObj == null)
+									{
+										childElement.SetAttribute("Value", "(none)");
+									}
+									else
+									{
+										// ---------------------------------------------------------------------
+										// When a Font value is present, we preserve the existing serialization
+										// behavior and use the standard TypeConverter.
+										//
+										// This is intentional:
+										// - It preserves backward compatibility with previously exported XML
+										// - It avoids changing the established serialization format
+										//
+										// Note:
+										// While a CultureInfo is provided, this does not guarantee complete
+										// invariance for all internal conversions performed by the converter.
+										// The behavior is kept as-is for compatibility reasons.
+										// ---------------------------------------------------------------------
+										var cultureInfo = new CultureInfo("en-US");
+										var converter = TypeDescriptor.GetConverter(prop.PropertyType);
+										var converted = converter.ConvertTo(context: null, culture: cultureInfo, value: childObj, destinationType: typeof(string));
+										childElement.SetAttribute("Value", converted?.ToString() ?? string.Empty);
+									}
+								}
+								else
+								{
+									// -------------------------------------------------------------------------
+									// Default serialization path for all non-Font property types.
+									//
+									// The existing TypeConverter-based logic is preserved without changes
+									// to avoid unintended behavioral differences.
+									// -------------------------------------------------------------------------
+									var cultureInfo = new CultureInfo("en-US");
+									var converter = TypeDescriptor.GetConverter(prop.PropertyType);
+									var converted = converter.ConvertTo(context: null, culture: cultureInfo, value: childObj!, destinationType: typeof(string));
+									childElement.SetAttribute("Value", converted?.ToString() ?? string.Empty);
+								}
+							}
                         }
                     }
                 }
@@ -3670,8 +3755,8 @@ public class KryptonCustomPaletteBase : PaletteBase
                             {
                                 var defaultAttribs = prop.GetCustomAttributes(typeof(DefaultValueAttribute), false);
 
-                                // Does this property have a default value attribute?
-                                if (defaultAttribs.Length == 1)
+                                // Does this property have at least one default value attribute?
+                                if (defaultAttribs.Length >= 1)
                                 {
                                     // Cast to correct type
                                     var defaultAttrib = (DefaultValueAttribute)defaultAttribs[0];
@@ -4248,10 +4333,16 @@ public class KryptonCustomPaletteBase : PaletteBase
                 return ButtonSpecs.RibbonMinimize;
             case PaletteButtonSpecStyle.RibbonExpand:
                 return ButtonSpecs.RibbonExpand;
+            case PaletteButtonSpecStyle.Undo:
+                return ButtonSpecs.Previous;
             default:
-                // Should never happen!
-                Debug.Assert(false);
-                throw DebugTools.NotImplemented(style.ToString());
+                // Unknown or out-of-range values (e.g. newer enum, bad serialization) — avoid crashing the UI.
+                Debug.Assert(false, $"Unhandled {nameof(PaletteButtonSpecStyle)}: {(int)style}");
+                if (Debugger.IsAttached)
+                {
+                    throw DebugTools.NotImplemented(style.ToString());
+                }
+                return ButtonSpecs.Generic;
         }
     }
 
