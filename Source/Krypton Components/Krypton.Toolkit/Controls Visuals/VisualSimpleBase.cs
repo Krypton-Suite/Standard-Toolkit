@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -142,6 +142,48 @@ public abstract class VisualSimpleBase : VisualControlBase
             // Fall back on default control processing
             return base.GetPreferredSize(proposedSize);
         }
+    }
+
+    /// <summary>
+    /// Sets the bounds of the control. For AutoSize controls, apply preferred-size sizing
+    /// based on AutoSizeMode semantics (GrowAndShrink vs GrowOnly).
+    /// </summary>
+    /// <param name="x">The new Left property value of the control.</param>
+    /// <param name="y">The new Top property value of the control.</param>
+    /// <param name="width">The new Width property value of the control.</param>
+    /// <param name="height">The new Height property value of the control.</param>
+    /// <param name="specified">A bitwise combination of the BoundsSpecified values.</param>
+    protected override void SetBoundsCore(int x, int y, int width, int height, BoundsSpecified specified)
+    {
+        if (AutoSize)
+        {
+            Size preferredSize = GetPreferredSize(new Size(int.MaxValue, int.MaxValue));
+            Rectangle virtualScreen = SystemInformation.VirtualScreen;
+            int maxSensibleWidth = (int)Math.Min(int.MaxValue, Math.Max(1L, (long)Math.Abs(virtualScreen.Width) * 2L));
+            int maxSensibleHeight = (int)Math.Min(int.MaxValue, Math.Max(1L, (long)Math.Abs(virtualScreen.Height) * 2L));
+
+            // Only apply sensible calculated sizes to avoid unstable initialization values.
+            // Use the OS virtual screen size as the baseline instead of a hard-coded pixel limit.
+            if (preferredSize.Width > 0 && preferredSize.Height > 0
+                && preferredSize.Width <= maxSensibleWidth && preferredSize.Height <= maxSensibleHeight)
+            {
+                if (GetAutoSizeMode() == AutoSizeMode.GrowAndShrink)
+                {
+                    width = preferredSize.Width;
+                    height = preferredSize.Height;
+                }
+                else
+                {
+                    // GrowOnly semantics: allow growth to preferred size, never force shrink.
+                    width = Math.Max(Width, preferredSize.Width);
+                    height = Math.Max(Height, preferredSize.Height);
+                }
+
+                specified |= BoundsSpecified.Size;
+            }
+        }
+
+        base.SetBoundsCore(x, y, width, height, specified);
     }
 
     /// <summary>
