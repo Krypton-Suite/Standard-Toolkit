@@ -53,26 +53,27 @@ jobs:
         run: |
           $ErrorActionPreference = 'Stop'
           $stableLine = dotnet --list-sdks |
-            Where-Object { $_ -match '^11\.0\.[0-9]+\s' -or $_ -match '^10\.0\.[0-9]+\s' } |
+            Where-Object { $_ -match '^11\.0\.[0-9]+(?:-[^\s]+)?\s' } |
             Select-Object -Last 1
           $sdkVersion = $null
           if ($stableLine -match '^(\d+\.\d+\.\d+)\s') {
             $sdkVersion = $Matches[1]
           }
           if (-not $sdkVersion) {
-            $fallback = dotnet --list-sdks | Where-Object { $_ -match '^9\.0\.[0-9]+\s' } | Select-Object -Last 1
+            $fallback = dotnet --list-sdks | Where-Object { $_ -match '^10\.0\.[0-9]+\s' -or $_ -match '^9\.0\.[0-9]+\s' } | Select-Object -Last 1
             if ($fallback -match '^(\d+\.\d+\.\d+)\s') { $sdkVersion = $Matches[1] }
           }
           if (-not $sdkVersion) {
-            Write-Error 'No 11.0.x, 10.0.x, or 9.0.x SDK found after setup-dotnet.'
+            Write-Error 'No 11.0.x (preview), 10.0.x, or 9.0.x SDK found after setup-dotnet.'
           }
           Write-Host "Using SDK $sdkVersion"
+          $allowPrerelease = if ($sdkVersion -like '11.0.*') { 'true' } else { 'false' }
           @"
           {
             "sdk": {
               "version": "$sdkVersion",
               "rollForward": "latestPatch",
-              "allowPrerelease": false
+              "allowPrerelease": $allowPrerelease
             }
           }
           "@ | Out-File -Encoding utf8 global.json
@@ -89,7 +90,7 @@ jobs:
             ${{ runner.os }}-nuget-
 
       - name: Restore TestForm
-        run: dotnet restore "Source/Krypton Components/TestForm/TestForm.csproj" -p:Configuration=Release -p:TFMs=lite
+        run: dotnet restore "Source/Krypton Components/TestForm/TestForm.csproj" -p:Configuration=Release -p:TFMs=all
 
       - name: Validate TestForm linked resources
         shell: pwsh
@@ -140,7 +141,7 @@ jobs:
           }
 
       - name: Build TestForm
-        run: dotnet build "Source/Krypton Components/TestForm/TestForm.csproj" -p:Configuration=Release --no-restore -p:TFMs=lite -m:1 -p:BuildInParallel=false
+        run: dotnet build "Source/Krypton Components/TestForm/TestForm.csproj" -p:Configuration=Release --no-restore -p:TFMs=all -m:1 -p:BuildInParallel=false
 
       - name: Save NuGet cache
         if: success() && github.event_name != 'pull_request'
