@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -30,7 +30,6 @@ public abstract class ButtonSpecManagerBase : GlobalId
     private readonly ButtonSpecCollectionBase? _fixedSpecs;
     private readonly IPaletteMetric[]? _viewMetrics;
     private readonly PaletteMetricInt[] _viewMetricIntOutside;
-    private readonly PaletteMetricInt[]? _viewMetricIntOutsideRight;
     private readonly PaletteMetricInt[] _viewMetricIntInside;
     private readonly PaletteMetricPadding[] _viewMetricPaddings;
     private readonly ListSpacers[] _viewSpacers;
@@ -63,36 +62,6 @@ public abstract class ButtonSpecManagerBase : GlobalId
         PaletteMetricPadding[] viewMetricPaddings,
         GetToolStripRenderer? getRenderer,
         NeedPaintHandler needPaint)
-        : this(control, redirector, variableSpecs, fixedSpecs, viewMetrics,
-            viewMetricIntOutside, null, viewMetricIntInside, viewMetricPaddings, getRenderer, needPaint)
-    {
-    }
-
-    /// <summary>
-    /// Initialize a new instance of the ButtonSpecManagerBase class.
-    /// </summary>
-    /// <param name="control">Control that owns the button manager.</param>
-    /// <param name="redirector">Palette redirector.</param>
-    /// <param name="variableSpecs">Variable set of button specifications.</param>
-    /// <param name="fixedSpecs">Fixed set of button specifications.</param>
-    /// <param name="viewMetrics">Array of target metric providers.</param>
-    /// <param name="viewMetricIntOutside">Array of target metrics for left outside spacer size.</param>
-    /// <param name="viewMetricIntOutsideRight">Optional array of target metrics for right outside spacer size. When null, left value is used for both.</param>
-    /// <param name="viewMetricIntInside">Array of target metrics for inside spacer size.</param>
-    /// <param name="viewMetricPaddings">Array of target metrics for button padding.</param>
-    /// <param name="getRenderer">Delegate for returning a tool strip renderer.</param>
-    /// <param name="needPaint">Delegate for notifying paint requests.</param>
-    protected ButtonSpecManagerBase(Control control,
-        PaletteRedirect redirector,
-        ButtonSpecCollectionBase? variableSpecs,
-        ButtonSpecCollectionBase? fixedSpecs,
-        IPaletteMetric[] viewMetrics,
-        PaletteMetricInt[] viewMetricIntOutside,
-        PaletteMetricInt[]? viewMetricIntOutsideRight,
-        PaletteMetricInt[] viewMetricIntInside,
-        PaletteMetricPadding[] viewMetricPaddings,
-        GetToolStripRenderer? getRenderer,
-        NeedPaintHandler needPaint)
     {
         Debug.Assert(control is not null);
         // Disabled to remove the warning
@@ -106,7 +75,6 @@ public abstract class ButtonSpecManagerBase : GlobalId
         _fixedSpecs = fixedSpecs;
         _viewMetrics = viewMetrics;
         _viewMetricIntOutside = viewMetricIntOutside;
-        _viewMetricIntOutsideRight = viewMetricIntOutsideRight;
         _viewMetricIntInside = viewMetricIntInside;
         _viewMetricPaddings = viewMetricPaddings;
         _getRenderer = getRenderer;
@@ -183,16 +151,13 @@ public abstract class ButtonSpecManagerBase : GlobalId
                 // Get access to the matching docker/metrics/metric triple
                 IPaletteMetric viewMetric = _viewMetrics[i];
                 PaletteMetricInt viewMetricIntOutside = _viewMetricIntOutside[i];
-                PaletteMetricInt viewMetricIntOutsideRight = _viewMetricIntOutsideRight != null && i < _viewMetricIntOutsideRight.Length
-                    ? _viewMetricIntOutsideRight[i]
-                    : viewMetricIntOutside;
 
                 // Create storage for the spacers
                 _viewSpacers[i] = [];
 
                 // Always create the outside edge spacers
                 var spacerL1 = new ViewLayoutMetricSpacer(viewMetric, viewMetricIntOutside);
-                var spacerR1 = new ViewLayoutMetricSpacer(viewMetric, viewMetricIntOutsideRight);
+                var spacerR1 = new ViewLayoutMetricSpacer(viewMetric, viewMetricIntOutside);
                 spacerL1.Visible = spacerR1.Visible = false;
 
                 // Add the spacers to the docker instance
@@ -344,21 +309,6 @@ public abstract class ButtonSpecManagerBase : GlobalId
     public void SetDockerMetrics(ViewBase viewDocker,
         IPaletteMetric viewMetric,
         PaletteMetricInt viewMetricInt,
-        PaletteMetricPadding viewMetricPadding) =>
-        SetDockerMetrics(viewDocker, viewMetric, viewMetricInt, viewMetricInt, viewMetricPadding);
-
-    /// <summary>
-    /// Update the metric details for a specified docker view.
-    /// </summary>
-    /// <param name="viewDocker">Target docker view.</param>
-    /// <param name="viewMetric">New metric source.</param>
-    /// <param name="viewMetricInt">New border edge metric for left spacer.</param>
-    /// <param name="viewMetricIntRight">New border edge metric for right spacer.</param>
-    /// <param name="viewMetricPadding">New button border metric.</param>
-    public void SetDockerMetrics(ViewBase viewDocker,
-        IPaletteMetric viewMetric,
-        PaletteMetricInt viewMetricInt,
-        PaletteMetricInt viewMetricIntRight,
         PaletteMetricPadding viewMetricPadding)
     {
         // If we are applying padding metrics
@@ -375,11 +325,9 @@ public abstract class ButtonSpecManagerBase : GlobalId
                 _viewMetricPaddings[i] = viewMetricPadding;
 
                 // Update the metric for all the spacers associated with this docker
-                var spacers = _viewSpacers[i];
-                for (var s = 0; s < spacers.Count; s++)
+                foreach (ViewLayoutMetricSpacer spacer in _viewSpacers[i])
                 {
-                    var useRightMetric = s % 2 == 1;
-                    spacers[s].SetMetrics(viewMetric, useRightMetric ? viewMetricIntRight : viewMetricInt);
+                    spacer.SetMetrics(viewMetric, viewMetricInt);
                 }
 
                 // Need a repaint and layout to show change
@@ -905,16 +853,7 @@ public abstract class ButtonSpecManagerBase : GlobalId
         return -1;
     }
 
-    private ViewDockStyle GetDockStyle(ButtonSpec spec)
-    {
-        var edge = spec.GetEdge(_redirector);
-
-        var isRtl = Control is Form form && form.RightToLeft == RightToLeft.Yes && form.RightToLeftLayout;
-
-        // In RTL mode with RightToLeftLayout enabled, reverse the dock style
-        return isRtl ? edge == RelativeEdgeAlign.Near ? ViewDockStyle.Right : ViewDockStyle.Left :
-            edge == RelativeEdgeAlign.Near ? ViewDockStyle.Left : ViewDockStyle.Right;
-    }
+    private ViewDockStyle GetDockStyle(ButtonSpec spec) => spec.GetEdge(_redirector) == RelativeEdgeAlign.Near ? ViewDockStyle.Left : ViewDockStyle.Right;
 
     private VisualOrientation CalculateOrientation(VisualOrientation viewOrientation,
         ButtonOrientation buttonOrientation) => buttonOrientation switch

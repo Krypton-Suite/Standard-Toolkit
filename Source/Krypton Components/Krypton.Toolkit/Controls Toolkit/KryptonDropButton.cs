@@ -25,7 +25,6 @@ namespace Krypton.Toolkit;
 public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValues
 {
     #region Instance Fields
-
     protected internal readonly ViewDrawButton _drawButton;
     private ButtonStyle _style;
     protected internal readonly ButtonController _buttonController;
@@ -37,7 +36,6 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
     private bool _isDefault;
     private bool _useMnemonic;
     private bool _wasEnabled;
-    private bool _isSelectable;
     #endregion
 
     #region Events
@@ -72,7 +70,6 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
         _style = ButtonStyle.Standalone;
         DialogResult = DialogResult.None;
         _useMnemonic = true;
-        _isSelectable = true;
 
         // Create content storage
         Values = CreateButtonValues(NeedPaintDelegate);
@@ -519,28 +516,6 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
         get => base.ImeMode;
         set => base.ImeMode = value;
     }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the button can receive focus when clicked.
-    /// When <c>false</c>, clicking the button does not steal focus from the currently active
-    /// control — useful for on-screen keyboards where input must remain in a text field or grid cell.
-    /// </summary>
-    [Category(@"Behavior")]
-    [Description(@"When false, the button does not receive focus when clicked. Useful for on-screen keyboards so that input goes to the currently focused control.")]
-    [DefaultValue(true)]
-    public bool IsSelectable
-    {
-        get => _isSelectable;
-        set
-        {
-            if (_isSelectable != value)
-            {
-                _isSelectable = value;
-                SetStyle(ControlStyles.Selectable, value);
-            }
-        }
-    }
-
     #endregion
 
     #region IContentValues

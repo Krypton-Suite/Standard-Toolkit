@@ -2059,12 +2059,6 @@ public class KryptonCheckedListBox : VisualControlBase,
     protected override ControlCollection CreateControlsInstance() => new KryptonReadOnlyControls(this);
 
     /// <summary>
-    /// Creates the accessibility object for the KryptonCheckedListBox control.
-    /// </summary>
-    /// <returns>A new KryptonCheckedListBoxAccessibleObject instance for the control.</returns>
-    protected override AccessibleObject CreateAccessibilityInstance() => new KryptonCheckedListBoxAccessibleObject(this);
-
-    /// <summary>
     /// Raises the PaletteChanged event.
     /// </summary>
     /// <param name="e">An EventArgs that contains the event data.</param>
@@ -2502,9 +2496,9 @@ public class KryptonCheckedListBox : VisualControlBase,
 
     private void OnListBoxKeyDown(object? sender, KeyEventArgs e) => OnKeyDown(e);
 
-    private void OnListBoxValidated(object? sender, EventArgs e) => ForwardValidated(e);
+    private void OnListBoxValidated(object? sender, EventArgs e) => OnValidated(e);
 
-    private void OnListBoxValidating(object? sender, CancelEventArgs e) => ForwardValidating(e);
+    private void OnListBoxValidating(object? sender, CancelEventArgs e) => OnValidating(e);
 
     private void OnListBoxPreviewKeyDown(object? sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 

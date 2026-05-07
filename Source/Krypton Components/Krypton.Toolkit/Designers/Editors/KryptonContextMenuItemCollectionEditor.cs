@@ -41,8 +41,6 @@ public class KryptonContextMenuItemCollectionEditor : CollectionEditor
         typeof(KryptonContextMenuRadioButton),
         typeof(KryptonContextMenuColorColumns),
         typeof(KryptonContextMenuMonthCalendar),
-        typeof(KryptonContextMenuImageSelect),
-        typeof(KryptonContextMenuTextBox),
-        typeof(KryptonContextMenuComboBox)
+        typeof(KryptonContextMenuImageSelect)
     ];
 }

@@ -703,10 +703,6 @@ public abstract class KryptonDockingSpace : DockingElementClosedCollection
         {
             xmlWriter.WriteAttributeString(@"S", CommonHelper.SizeToString(SpaceControl.Size));
 
-            // Ensure layout is performed before saving to commit any structural changes
-            // (e.g., cells added when docking to edges) to the Root.Children collection
-            SpaceControl.PerformLayout();
-
             // Output an xml for the contained workspace
             SpaceControl.PageSaving += OnSpaceControlPageSaving;
             SpaceControl.SaveLayoutToXml(xmlWriter);
@@ -788,33 +784,22 @@ public abstract class KryptonDockingSpace : DockingElementClosedCollection
 
         set
         {
-            if (value == null)
-            {
-                // Allow clearing when the space has been disposed (e.g. empty dockspace after config load)
-                if (_space != null)
-                {
-                    _space.Disposed -= OnSpaceDisposed;
-                    _space.WorkspaceCellAdding -= OnSpaceCellAdding;
-                    _space.PageDrop -= RaiseSpacePageDrop;
-                    _space = null;
-                }
-
-                return;
-            }
-
-            // Should only ever set the value once (except when clearing with null)
+            // Should only ever set the value once
             if (_space != null)
             {
                 throw new ArgumentException(@"Cannot set the 'Space' property more than once.", nameof(SpaceControl));
             }
 
             // Cache for future use
-            _space = value;
+            _space = value ?? throw new ArgumentNullException(nameof(value));
 
             // Hook into space events we need to monitor
-            _space!.Disposed += OnSpaceDisposed;
-            _space.WorkspaceCellAdding += OnSpaceCellAdding;
-            _space.PageDrop += RaiseSpacePageDrop;
+            if (SpaceControl != null)
+            {
+                SpaceControl.Disposed += OnSpaceDisposed;
+                SpaceControl.WorkspaceCellAdding += OnSpaceCellAdding;
+                SpaceControl.PageDrop += RaiseSpacePageDrop;
+            }
         }
     }
 

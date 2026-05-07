@@ -21,7 +21,6 @@ public class ToolTipManager
     private readonly System.Windows.Forms.Timer _startTimer;
     private readonly System.Windows.Forms.Timer _detectMoveTimer;
     private readonly System.Windows.Forms.Timer _closeTimer;
-    private int _closeInterval;
     private ViewBase? _startTarget;
     private ViewBase? _currentTarget;
     private bool _showingToolTips;
@@ -45,18 +44,16 @@ public class ToolTipManager
     /// </summary>
     public ToolTipManager(ToolTipValues toolTipValues)
     {
+        // TODO: Setup callbacks when the interval are changed programmatically
         _startTimer = new System.Windows.Forms.Timer
         {
             Interval = toolTipValues.ShowIntervalDelay
         };
         _startTimer.Tick += OnStartTimerTick;
 
-        // 0 = infinite; negative values are clamped to 0
-        _closeInterval = toolTipValues.CloseIntervalDelay < 0 ? 0 : toolTipValues.CloseIntervalDelay;
-
         _closeTimer = new System.Windows.Forms.Timer
         {
-            Interval = _closeInterval > 0 ? _closeInterval : 1
+            Interval = toolTipValues.CloseIntervalDelay
         };
         _closeTimer.Tick += OnCloseTimerTick;
 
@@ -64,12 +61,7 @@ public class ToolTipManager
         {
             Interval = 100 // ReShowDelay
         };
-     
         _detectMoveTimer.Tick += OnStopDetectMoveTimerTick;
-
-        toolTipValues.ShowIntervalDelayChanged += OnShowIntervalDelayChanged;
-
-        toolTipValues.CloseIntervalDelayChanged += OnCloseIntervalDelayChanged;
     }
 
     #endregion
@@ -96,26 +88,22 @@ public class ToolTipManager
 
     /// <summary>
     /// Gets and sets the interval before a tooltip is closed.
-    /// Use 0 for infinite display (tooltip stays until the pointer leaves the control).
     /// </summary>
     public int CloseInterval
     {
-        get => _closeInterval;
+        get => _closeTimer.Interval;
 
         set
         {
-            // 0 = infinite; negative values are clamped to 0
+            // Cannot have an interval less than 1ms
             if (value < 0)
             {
-                value = 0;
+                value = 1;
             }
 
-            _closeInterval = value;
-
-            _closeTimer.Interval = value > 0 ? value : 1;
+            _closeTimer.Interval = value;
         }
     }
-
     #endregion
 
     #region IMouseController Snooped Messages
@@ -279,14 +267,7 @@ public class ToolTipManager
 
             // Raise event requesting the tooltip be shown
             OnShowToolTip(new ToolTipEventArgs(_startTarget!, Control.MousePosition));
-
-            // Only start close timer when interval > 0 (0 = infinite display)
-            if (_closeInterval > 0)
-            {
-                _closeTimer.Interval = _closeInterval;
-
-                _closeTimer.Start();
-            }
+            _closeTimer.Start();
         }
         else
         {
@@ -335,23 +316,6 @@ public class ToolTipManager
         _closeTimer.Stop();
         OnCancelToolTip();
     }
-
-    private void OnShowIntervalDelayChanged(object? sender, EventArgs e)
-    {
-        if (sender is ToolTipValues values)
-        {
-            ShowInterval = values.ShowIntervalDelay;
-        }
-    }
-
-    private void OnCloseIntervalDelayChanged(object? sender, EventArgs e)
-    {
-        if (sender is ToolTipValues values)
-        {
-            CloseInterval = values.CloseIntervalDelay;
-        }
-    }
-
 
     #endregion
 }

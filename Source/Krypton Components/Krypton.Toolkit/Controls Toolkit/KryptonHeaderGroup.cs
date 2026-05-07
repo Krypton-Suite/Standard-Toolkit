@@ -1109,7 +1109,7 @@ public class KryptonHeaderGroup : VisualControlContainment
 
                     if (AllowButtonSpecToolTipPriority)
                     {
-                        _visualBasePopupToolTip?.Dispose();
+                        visualBasePopupToolTip?.Dispose();
                     }
 
                     // Create the actual tooltip popup object

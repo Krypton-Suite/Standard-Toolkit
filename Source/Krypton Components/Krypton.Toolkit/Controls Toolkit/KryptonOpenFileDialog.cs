@@ -15,7 +15,6 @@ namespace Krypton.Toolkit;
 ///  Displays a dialog window from which the user can select a file.
 /// </summary>
 [DesignerCategory(@"code")]
-[Designer(typeof(KryptonOpenFileDialogDesigner))]
 [Description("Displays a Kryptonised version of the standard 'OpenFile dialog window' from which the user can select a file.")]
 [ToolboxBitmap(typeof(OpenFileDialog), @"ToolboxBitmaps.KryptonOpenFileDialog.bmp")]
 [ToolboxItem(true)]

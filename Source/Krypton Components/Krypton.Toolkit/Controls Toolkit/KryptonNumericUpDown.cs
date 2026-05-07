@@ -739,7 +739,6 @@ public class KryptonNumericUpDown : VisualControlBase,
     private bool _alwaysActive;
     private bool _trackingMouseEnter;
     private bool _autoSize;
-    private int _cachedHeight;
     private Graphics? _graphics;
 
     #endregion
@@ -831,7 +830,6 @@ public class KryptonNumericUpDown : VisualControlBase,
         _upDownButtonStyle = ButtonStyle.InputControl;
         _alwaysActive = true;
         _autoSize = false;
-        _cachedHeight = -1;
         _graphics = null;
         AllowButtonSpecToolTips = false;
         AllowButtonSpecToolTipPriority = false;
@@ -1499,11 +1497,6 @@ public class KryptonNumericUpDown : VisualControlBase,
                 retSize.Height = Math.Max(MinimumSize.Height, retSize.Height);
             }
 
-            if (MinimumControlHeight > 0)
-            {
-                retSize.Height = Math.Max(MinimumControlHeight, retSize.Height);
-            }
-
             return retSize;
         }
         else
@@ -1642,12 +1635,6 @@ public class KryptonNumericUpDown : VisualControlBase,
     /// <returns>A new instance of Control.ControlCollection assigned to the control.</returns>
     [EditorBrowsable(EditorBrowsableState.Advanced)]
     protected override ControlCollection CreateControlsInstance() => new KryptonReadOnlyControls(this);
-
-    /// <summary>
-    /// Creates the accessibility object for the KryptonNumericUpDown control.
-    /// </summary>
-    /// <returns>A new KryptonNumericUpDownAccessibleObject instance for the control.</returns>
-    protected override AccessibleObject CreateAccessibilityInstance() => new KryptonNumericUpDownAccessibleObject(this);
 
     /// <summary>
     /// Raises the HandleCreated event.
@@ -1829,26 +1816,22 @@ public class KryptonNumericUpDown : VisualControlBase,
         int width, int height,
         BoundsSpecified specified)
     {
-        // Changed from inline GetPreferredSize() to the same pattern as KryptonComboBox,
-        // KryptonDateTimePicker, and KryptonDomainUpDown: cache incoming height on first set,
-        // then always override to PreferredHeight (which honours MinimumControlHeight).
-        // See https://github.com/Krypton-Suite/Standard-Toolkit/issues/615
+        // Get the preferred size of the entire control
+        Size preferredSize = GetPreferredSize(new Size(int.MaxValue, int.MaxValue));
+
         // If setting the actual height
-        if ((specified & BoundsSpecified.Height) == BoundsSpecified.Height)
+        if (specified.HasFlag(BoundsSpecified.Height))
         {
-            // First time the height is set, remember it
-            if (_cachedHeight == -1)
-            {
-                _cachedHeight = height;
-            }
-
-            // Override the actual height used and cache it for later
-            height = PreferredHeight;
-            _cachedHeight = height;
+            // Override the actual height used
+            height = preferredSize.Height;
         }
-
-        // Do not override width to allow designer width to be set freely.
+        // Do not do the following otherwise the designer will not allow width to be set!
         // https://github.com/Krypton-Suite/Standard-Toolkit/issues/724
+        //if (specified.HasFlag(BoundsSpecified.Width))
+        //{
+        //    // Override the actual Width used
+        //    width = preferredSize.Width;
+        //}
         base.SetBoundsCore(x, y, width, height, specified);
     }
 
@@ -2116,9 +2099,9 @@ public class KryptonNumericUpDown : VisualControlBase,
 
     private void OnNumericUpDownPreviewKeyDown(object? sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-    private void OnNumericUpDownValidated(object? sender, EventArgs e) => ForwardValidated(e);
+    private void OnNumericUpDownValidated(object? sender, EventArgs e) => OnValidated(e);
 
-    private void OnNumericUpDownValidating(object? sender, CancelEventArgs e) => ForwardValidating(e);
+    private void OnNumericUpDownValidating(object? sender, CancelEventArgs e) => OnValidating(e);
 
     private void OnShowToolTip(object? sender, ToolTipEventArgs e)
     {
@@ -2168,7 +2151,7 @@ public class KryptonNumericUpDown : VisualControlBase,
 
                     if (AllowButtonSpecToolTipPriority)
                     {
-                        _visualBasePopupToolTip?.Dispose();
+                        visualBasePopupToolTip?.Dispose();
                     }
 
                     // Create the actual tooltip popup object

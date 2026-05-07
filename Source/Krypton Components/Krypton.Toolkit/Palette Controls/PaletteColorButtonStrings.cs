@@ -25,7 +25,6 @@ public class PaletteColorButtonStrings : Storage
     private const string DEFAULT_STANDARD_COLORS = "Standard Colors";
     private const string DEFAULT_THEME_COLORS = "Theme Colors";
     private const string DEFAULT_PALETTE_COLORS = "Palette Colors";
-    private const string DEFAULT_CUSTOM_COLORS = "Custom Colors";
 
     #endregion
 
@@ -41,7 +40,6 @@ public class PaletteColorButtonStrings : Storage
         RecentColors = DEFAULT_RECENT_COLORS;
         StandardColors = DEFAULT_STANDARD_COLORS;
         ThemeColors = DEFAULT_THEME_COLORS;
-        CustomColors = DEFAULT_CUSTOM_COLORS;
         PaletteColors = DEFAULT_PALETTE_COLORS;
     }
     #endregion
@@ -57,7 +55,6 @@ public class PaletteColorButtonStrings : Storage
                                       RecentColors.Equals(DEFAULT_RECENT_COLORS) &&
                                       StandardColors.Equals(DEFAULT_STANDARD_COLORS) &&
                                       ThemeColors.Equals(DEFAULT_THEME_COLORS) &&
-                                      CustomColors.Equals(DEFAULT_CUSTOM_COLORS) &&
                                       PaletteColors.Equals(DEFAULT_PALETTE_COLORS);
 
     #endregion
@@ -137,20 +134,6 @@ public class PaletteColorButtonStrings : Storage
     [DefaultValue(DEFAULT_PALETTE_COLORS)]
     [RefreshProperties(RefreshProperties.All)]
     public string PaletteColors { get; set; }
-
-    #endregion
-
-    #region CustomColors
-
-    /// <summary>
-    /// Gets and sets the title for the custom colors section of the color button menu.
-    /// </summary>
-    [Localizable(true)]
-    [Category(@"Visuals")]
-    [Description(@"Title for custom colors section of the color button menu.")]
-    [DefaultValue(DEFAULT_CUSTOM_COLORS)]
-    [RefreshProperties(RefreshProperties.All)]
-    public string CustomColors { get; set; }
 
     #endregion
 }

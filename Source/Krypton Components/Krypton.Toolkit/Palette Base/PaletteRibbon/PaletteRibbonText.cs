@@ -89,7 +89,7 @@ public class PaletteRibbonText : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Color for the text.")]
-    [KryptonDefaultColor]
+    [DefaultValue(typeof(Color), "")]
     [RefreshProperties(RefreshProperties.All)]
     public Color TextColor
     {

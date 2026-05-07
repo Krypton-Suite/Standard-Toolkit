@@ -22,11 +22,10 @@ namespace Krypton.Toolkit;
 [DesignerCategory(@"code")]
 [Designer(typeof(KryptonContextMenuDesigner))]
 [Description(@"Displays a shortcut menu in popup window.")]
-public class KryptonContextMenu : Component,
-    IFocusLostMenuItem
+public class KryptonContextMenu : Component
 {
     #region Instance Fields
-    private bool _disposed;
+
     private readonly PaletteRedirectContextMenu _redirectorImages;
     private readonly PaletteRedirect _redirector;
 
@@ -72,7 +71,6 @@ public class KryptonContextMenu : Component,
         NeedPaintHandler needPaintDelegate = OnNeedPaint;
 
         // Set default settings
-        _disposed = false;
         LocalCustomPalette = null;
         PaletteMode = PaletteMode.Global;
         Images = new ContextMenuImages(needPaintDelegate);
@@ -89,9 +87,6 @@ public class KryptonContextMenu : Component,
 
         // Create the top level collection for menu items
         Items = [];
-
-        // Register with the FocusLostMenuHelper
-        Register(this);
     }
 
     /// <summary> 
@@ -100,14 +95,9 @@ public class KryptonContextMenu : Component,
     /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
     protected override void Dispose(bool disposing)
     {
-        if (!_disposed && disposing)
+        if (disposing)
         {
-            // Deregister from the FocusLostMenuHelper
-            Deregister(this);
-
             Close();
-
-            _disposed = true;
         }
 
         base.Dispose(disposing);
@@ -507,29 +497,6 @@ public class KryptonContextMenu : Component,
             // Notify event handlers the context menu has been closed and why it closed
             OnClosed(new ToolStripDropDownClosedEventArgs(CloseReason));
         }
-    }
-    #endregion
-
-    #region IFocusLostMenuItem
-    /// <inheritdoc/>
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public void ProcessItem()
-    {
-        this.Close(ToolStripDropDownCloseReason.AppFocusChange);
-    }
-
-    /// <inheritdoc/>
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public void Register(IFocusLostMenuItem item)
-    {
-        FocusLostMenuHelper.Register(item);
-    }
-
-    /// <inheritdoc/>
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public void Deregister(IFocusLostMenuItem item)
-    {
-        FocusLostMenuHelper.Deregister(item);
     }
     #endregion
 }

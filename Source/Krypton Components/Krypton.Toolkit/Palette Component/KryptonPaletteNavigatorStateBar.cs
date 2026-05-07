@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -29,7 +29,6 @@ public class KryptonPaletteNavigatorStateBar : Storage,
     private int _buttonEdgeOutside;
     private int _checkButtonGap;
     private int _ribbonTabGap;
-    private int _dropDownArrowBaseSize;
     #endregion
 
     #region Identity
@@ -59,7 +58,6 @@ public class KryptonPaletteNavigatorStateBar : Storage,
         _buttonEdgeOutside = -1;
         _checkButtonGap = -1;
         _ribbonTabGap = -1;
-        _dropDownArrowBaseSize = -1;
     }
     #endregion
 
@@ -77,8 +75,7 @@ public class KryptonPaletteNavigatorStateBar : Storage,
                                       (ButtonEdgeInside == -1) &&
                                       (ButtonEdgeOutside == -1) &&
                                       (CheckButtonGap == -1) &&
-                                      (RibbonTabGap == -1) &&
-                                      (DropDownArrowBaseSize == -1);
+                                      (RibbonTabGap == -1);
 
     #endregion
 
@@ -96,7 +93,6 @@ public class KryptonPaletteNavigatorStateBar : Storage,
         ButtonEdgeOutside = _redirect.GetMetricInt(null, PaletteState.Normal, PaletteMetricInt.BarButtonEdgeOutside);
         CheckButtonGap = _redirect.GetMetricInt(null, PaletteState.Normal, PaletteMetricInt.CheckButtonGap);
         RibbonTabGap = _redirect.GetMetricInt(null, PaletteState.Normal, PaletteMetricInt.RibbonTabGap);
-        DropDownArrowBaseSize = _redirect.GetMetricInt(null, PaletteState.Normal, PaletteMetricInt.DropDownArrowBaseSize);
     }
     #endregion
 
@@ -361,35 +357,6 @@ public class KryptonPaletteNavigatorStateBar : Storage,
     public void ResetRibbonTabGap() => RibbonTabGap = -1;
     #endregion
 
-    #region DropDownArrowBaseSize
-    /// <summary>
-    /// Gets and sets the base size (logical pixels at 96 DPI) for drop-down arrow glyphs.
-    /// </summary>
-    [KryptonPersist(false)]
-    [Category(@"Visuals")]
-    [Description(@"Base size for drop-down arrow glyphs in logical pixels at 96 DPI.")]
-    [DefaultValue(-1)]
-    [RefreshProperties(RefreshProperties.All)]
-    public int DropDownArrowBaseSize
-    {
-        get => _dropDownArrowBaseSize;
-
-        set
-        {
-            if (_dropDownArrowBaseSize != value)
-            {
-                _dropDownArrowBaseSize = value;
-                PerformNeedPaint(true);
-            }
-        }
-    }
-
-    /// <summary>
-    /// Reset the DropDownArrowBaseSize to the default value.
-    /// </summary>
-    public void ResetDropDownArrowBaseSize() => DropDownArrowBaseSize = -1;
-    #endregion
-
     #region IPaletteMetric
 
     /// <summary>
@@ -428,13 +395,6 @@ public class KryptonPaletteNavigatorStateBar : Storage,
                 if (RibbonTabGap != -1)
                 {
                     return RibbonTabGap;
-                }
-
-                break;
-            case PaletteMetricInt.DropDownArrowBaseSize:
-                if (DropDownArrowBaseSize != -1)
-                {
-                    return DropDownArrowBaseSize;
                 }
 
                 break;

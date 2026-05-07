@@ -50,9 +50,7 @@ public partial class KryptonContextMenuCollectionEditor : CollectionEditor
         typeof(KryptonContextMenuRadioButton),
         typeof(KryptonContextMenuColorColumns),
         typeof(KryptonContextMenuMonthCalendar),
-        typeof(KryptonContextMenuImageSelect),
-        typeof(KryptonContextMenuTextBox),
-        typeof(KryptonContextMenuComboBox)
+        typeof(KryptonContextMenuImageSelect)
     ];
     #endregion
 }

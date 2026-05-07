@@ -201,10 +201,11 @@
             this.krtbMessageText.Name = "krtbMessageText";
             this.krtbMessageText.ReadOnly = true;
             this.krtbMessageText.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
-            this.krtbMessageText.Size = new System.Drawing.Size(166, 19);
+            this.krtbMessageText.Size = new System.Drawing.Size(150, 19);
             this.krtbMessageText.StateCommon.Border.DrawBorders = Krypton.Toolkit.PaletteDrawBorders.None;
             this.krtbMessageText.TabIndex = 0;
-            this.krtbMessageText.Text = "";
+            this.krtbMessageText.TabStop = false;
+            this.krtbMessageText.Text = "Message Text\n.\ttabbed";
             this.krtbMessageText.WordWrap = false;
             // 
             // VisualMessageBoxRtlAwareForm
@@ -219,7 +220,6 @@
             this.MinimizeBox = false;
             this.Name = "VisualMessageBoxRtlAwareForm";
             this.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.RightToLeftLayout = true;
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
@@ -233,6 +233,7 @@
             ((System.ComponentModel.ISupportInitialize)(this._messageIcon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kpnlContentArea)).EndInit();
             this.kpnlContentArea.ResumeLayout(false);
+            this.kpnlContentArea.PerformLayout();
             this.ResumeLayout(false);
 
         }

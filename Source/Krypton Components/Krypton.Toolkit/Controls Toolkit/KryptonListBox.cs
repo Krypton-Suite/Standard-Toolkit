@@ -1374,12 +1374,6 @@ public class KryptonListBox : VisualControlBase,
     protected override ControlCollection CreateControlsInstance() => new KryptonReadOnlyControls(this);
 
     /// <summary>
-    /// Creates the accessibility object for the KryptonListBox control.
-    /// </summary>
-    /// <returns>A new KryptonListBoxAccessibleObject instance for the control.</returns>
-    protected override AccessibleObject CreateAccessibilityInstance() => new KryptonListBoxAccessibleObject(this);
-
-    /// <summary>
     /// Raises the PaletteChanged event.
     /// </summary>
     /// <param name="e">An EventArgs that contains the event data.</param>
@@ -1856,9 +1850,9 @@ public class KryptonListBox : VisualControlBase,
 
     private void OnListBoxPreviewKeyDown(object? sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-    private void OnListBoxValidated(object? sender, EventArgs e) => ForwardValidated(e);
+    private void OnListBoxValidated(object? sender, EventArgs e) => OnValidated(e);
 
-    private void OnListBoxValidating(object? sender, CancelEventArgs e) => ForwardValidating(e);
+    private void OnListBoxValidating(object? sender, CancelEventArgs e) => OnValidating(e);
 
     private void OnListBoxMouseChange(object? sender, EventArgs e)
     {

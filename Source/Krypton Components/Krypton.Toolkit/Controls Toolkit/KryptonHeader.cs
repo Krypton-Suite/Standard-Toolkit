@@ -546,7 +546,7 @@ public class KryptonHeader : VisualSimpleBase
 
                     if (AllowButtonSpecToolTipPriority)
                     {
-                        _visualBasePopupToolTip?.Dispose();
+                        visualBasePopupToolTip?.Dispose();
                     }
 
                     // Create the actual tooltip popup object

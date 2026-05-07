@@ -591,12 +591,9 @@ public class KryptonLinkWrapLabel : LinkLabel
         }
 
         ForeColor = textColor;
+        e.Graphics.TextRenderingHint = CommonHelper.PaletteTextHintToRenderingHint(hint);
 
-        // Use GraphicsTextHint to properly save/restore TextRenderingHint to prevent affecting other controls
-        using (new GraphicsTextHint(e.Graphics, CommonHelper.PaletteTextHintToRenderingHint(hint)))
-        {
-            base.OnPaint(e);
-        }
+        base.OnPaint(e);
     }
 
     /// <summary>
@@ -682,12 +679,6 @@ public class KryptonLinkWrapLabel : LinkLabel
 
         return base.ProcessCmdKey(ref msg, keyData);
     }
-
-    /// <summary>
-    /// Creates the accessibility object for the KryptonLinkWrapLabel control.
-    /// </summary>
-    /// <returns>A new KryptonLinkWrapLabelAccessibleObject instance for the control.</returns>
-    protected override AccessibleObject CreateAccessibilityInstance() => new KryptonLinkWrapLabelAccessibleObject(this);
 
     /// <summary>
     /// Processes a mnemonic character.

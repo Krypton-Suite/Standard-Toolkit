@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -3299,11 +3299,9 @@ public abstract class PaletteOffice2010SilverLightModeBase : PaletteBase
             case PaletteMetricInt.HeaderButtonEdgeInsetForm:
                 if (owningForm == null)
                 {
-                    return 2;
+                    return 0;
                 }
                 return Math.Max(2, owningForm!.RealWindowBorders.Right);
-            case PaletteMetricInt.HeaderButtonEdgeInsetFormRight:
-                return 2;
             case PaletteMetricInt.HeaderButtonEdgeInsetInputControl:
                 return 1;
             case PaletteMetricInt.HeaderButtonEdgeInsetPrimary:
@@ -3316,8 +3314,6 @@ public abstract class PaletteOffice2010SilverLightModeBase : PaletteBase
             case PaletteMetricInt.BarButtonEdgeOutside:
             case PaletteMetricInt.BarButtonEdgeInside:
                 return 3;
-            case PaletteMetricInt.DropDownArrowBaseSize:
-                return 10;
             case PaletteMetricInt.None:
                 return 0;
             default:

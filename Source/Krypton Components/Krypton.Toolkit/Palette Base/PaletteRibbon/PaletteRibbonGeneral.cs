@@ -244,7 +244,6 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Color used for ribbon context text.")]
-    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color ContextTextColor
     {
@@ -280,7 +279,6 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Dark disabled color for ribbon glyphs.")]
-    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color DisabledDark
     {
@@ -315,7 +313,6 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Light disabled color for ribbon glyphs.")]
-    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color DisabledLight
     {
@@ -350,7 +347,6 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Ribbon group dialog launcher button dark color.")]
-    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color GroupDialogDark
     {
@@ -386,7 +382,6 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Ribbon group dialog launcher button light color.")]
-    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color GroupDialogLight
     {
@@ -422,7 +417,6 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Ribbon drop arrow dark color.")]
-    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color DropArrowDark
     {
@@ -457,7 +451,6 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Ribbon drop arrow light color.")]
-    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color DropArrowLight
     {
@@ -493,7 +486,6 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Ribbon group separator dark color.")]
-    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color GroupSeparatorDark
     {
@@ -529,7 +521,6 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Ribbon group separator light color.")]
-    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color GroupSeparatorLight
     {
@@ -565,7 +556,6 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Ribbon minimize bar dark color.")]
-    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color MinimizeBarDarkColor
     {
@@ -601,7 +591,6 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Ribbon minimize bar light color.")]
-    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color MinimizeBarLightColor
     {
@@ -638,7 +627,6 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Ribbon tab row background solid color.")]
-    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color TabRowBackgroundSolidColor
     {
@@ -675,7 +663,6 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Ribbon tab row background gradient dark rafting color.")]
-    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color TabRowBackgroundGradientRaftingDarkColor
     {
@@ -712,7 +699,6 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Ribbon tab row background gradient light rafting color.")]
-    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color TabRowBackgroundGradientRaftingLightColor
     {
@@ -749,7 +735,6 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Ribbon tab row background gradient first color.")]
-    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color TabRowBackgroundGradientFirstColor
     {
@@ -853,7 +838,6 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Ribbon tab separator color.")]
-    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color TabSeparatorColor
     {
@@ -889,7 +873,6 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Ribbon tab context separator color.")]
-    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color TabSeparatorContextColor
     {
@@ -995,7 +978,6 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Quick access toolbar extra button dark color.")]
-    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color QATButtonDarkColor
     {
@@ -1031,7 +1013,6 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Quick access toolbar extra button light color.")]
-    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color QATButtonLightColor
     {

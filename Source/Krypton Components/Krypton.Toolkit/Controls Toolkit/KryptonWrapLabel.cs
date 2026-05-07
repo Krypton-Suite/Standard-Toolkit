@@ -597,12 +597,9 @@ public class KryptonWrapLabel : Label
         }
 
         ForeColor = textColor;
+        e.Graphics.TextRenderingHint = CommonHelper.PaletteTextHintToRenderingHint(hint);
 
-        // Use GraphicsTextHint to properly save/restore TextRenderingHint to prevent affecting other controls
-        using (new GraphicsTextHint(e.Graphics, CommonHelper.PaletteTextHintToRenderingHint(hint)))
-        {
-            base.OnPaint(e);
-        }
+        base.OnPaint(e);
     }
 
     /// <summary>

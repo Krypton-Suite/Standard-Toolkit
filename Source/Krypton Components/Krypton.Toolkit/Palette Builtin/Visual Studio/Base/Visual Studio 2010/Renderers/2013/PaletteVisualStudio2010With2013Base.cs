@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -965,7 +965,8 @@ public abstract class PaletteVisualStudio2010With2013Base : PaletteBase
             PaletteBackStyle.HeaderPrimary or PaletteBackStyle.HeaderDockInactive or PaletteBackStyle.HeaderSecondary or PaletteBackStyle.HeaderCustom1 or PaletteBackStyle.HeaderCustom2 or PaletteBackStyle.HeaderCustom3 or PaletteBackStyle.HeaderDockActive => PaletteColorStyle.Rounded,
             PaletteBackStyle.ButtonForm or PaletteBackStyle.ButtonFormClose => state switch
             {
-                PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride or PaletteState.CheckedNormal or PaletteState.Tracking or PaletteState.CheckedTracking or PaletteState.Pressed or PaletteState.CheckedPressed => PaletteColorStyle.Solid,
+                PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride or PaletteState.CheckedNormal or PaletteState.Tracking or PaletteState.CheckedTracking => PaletteColorStyle.Linear,
+                PaletteState.Pressed or PaletteState.CheckedPressed => PaletteColorStyle.LinearShadow,
                 _ => throw DebugTools.NotImplemented(state.ToString())
             },
             PaletteBackStyle.ButtonAlternate or PaletteBackStyle.ButtonStandalone or PaletteBackStyle.ButtonLowProfile or PaletteBackStyle.ButtonBreadCrumb or PaletteBackStyle.ButtonListItem or PaletteBackStyle.ButtonCommand or PaletteBackStyle.ButtonButtonSpec or PaletteBackStyle.ButtonCluster or PaletteBackStyle.ButtonGallery or PaletteBackStyle.ButtonCustom1 or PaletteBackStyle.ButtonCustom2 or PaletteBackStyle.ButtonCustom3 or PaletteBackStyle.ButtonInputControl or PaletteBackStyle.ContextMenuItemHighlight => state switch
@@ -2958,11 +2959,9 @@ public abstract class PaletteVisualStudio2010With2013Base : PaletteBase
             case PaletteMetricInt.HeaderButtonEdgeInsetForm:
                 if (owningForm == null)
                 {
-                    return 2;
+                    return 0;
                 }
                 return Math.Max(2, owningForm!.RealWindowBorders.Right);
-            case PaletteMetricInt.HeaderButtonEdgeInsetFormRight:
-                return 2;
             case PaletteMetricInt.HeaderButtonEdgeInsetInputControl:
                 return 1;
             case PaletteMetricInt.HeaderButtonEdgeInsetPrimary:
@@ -2975,8 +2974,6 @@ public abstract class PaletteVisualStudio2010With2013Base : PaletteBase
             case PaletteMetricInt.BarButtonEdgeOutside:
             case PaletteMetricInt.BarButtonEdgeInside:
                 return 3;
-            case PaletteMetricInt.DropDownArrowBaseSize:
-                return 10;
             case PaletteMetricInt.None:
                 return 0;
             default:

@@ -167,7 +167,31 @@ internal partial class VisualMultilineStringEditorForm : KryptonForm
         }
     }
 
-    private void kbtnOk_Click(object sender, EventArgs e) => _contents = _useRichTextBox ? [.. krtbContents.Lines] : [.. ktxtStringCollection.Lines];
+    private void kbtnOk_Click(object sender, EventArgs e)
+    {
+        if (_useRichTextBox)
+        {
+            foreach (var line in krtbContents.Lines)
+            {
+                // TODO: This is not right.. It will only have the last line it !
+                _contents =
+                [
+                    line
+                ];
+            }
+        }
+        else
+        {
+            foreach (var line in ktxtStringCollection.Lines)
+            {
+                // TODO: This is not right.. It will only have the last line it !
+                _contents =
+                [
+                    line
+                ];
+            }
+        }
+    }
 
     private void kcRichTextBoxCut_Execute(object sender, EventArgs e) => krtbContents.Cut();
 

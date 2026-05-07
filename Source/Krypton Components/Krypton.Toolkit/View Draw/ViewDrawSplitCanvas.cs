@@ -416,8 +416,7 @@ public class ViewDrawSplitCanvas : ViewComposite
             DrawTabBorder
                 ? context.Renderer.RenderTabBorder.GetTabBorderDisplayPadding(context, PaletteBorder!, State, Orientation,
                     TabBorderStyle)
-                : context.Renderer.RenderStandardBorder.GetBorderDisplayPadding(PaletteBorder!, State, Orientation,
-                    context.DisplayRectangle.Size));
+                : context.Renderer.RenderStandardBorder.GetBorderDisplayPadding(PaletteBorder!, State, Orientation));
 
         // Do we have a metric source for additional padding?
         if (PaletteMetric != null && _metricPadding != PaletteMetricPadding.None)
@@ -466,8 +465,7 @@ public class ViewDrawSplitCanvas : ViewComposite
         var padding = DrawTabBorder
             ? context.Renderer.RenderTabBorder.GetTabBorderDisplayPadding(context, PaletteBorder!, State,
                 Orientation, TabBorderStyle)
-            : context.Renderer.RenderStandardBorder.GetBorderDisplayPadding(PaletteBorder!, State, Orientation,
-                ClientRectangle.Size);
+            : context.Renderer.RenderStandardBorder.GetBorderDisplayPadding(PaletteBorder!, State, Orientation);
 
         // Apply the padding to the client rectangle
         context.DisplayRectangle = CommonHelper.ApplyPadding(Orientation, ClientRectangle, padding);

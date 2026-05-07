@@ -82,7 +82,6 @@
             this.kbtnCancel.Name = "kbtnCancel";
             this.kbtnCancel.Size = new System.Drawing.Size(94, 22);
             this.kbtnCancel.TabIndex = 0;
-            this.kbtnCancel.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnCancel.Values.Text = "kryptonButton1";
             // 
             // kbtnOk
@@ -94,7 +93,6 @@
             this.kbtnOk.Name = "kbtnOk";
             this.kbtnOk.Size = new System.Drawing.Size(94, 22);
             this.kbtnOk.TabIndex = 1;
-            this.kbtnOk.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnOk.Values.Text = "kryptonButton1";
             // 
             // kryptonBorderEdge1
@@ -144,6 +142,8 @@
             // kwlblPrompt
             // 
             this.kwlblPrompt.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kwlblPrompt.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.kwlblPrompt.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
             this.kwlblPrompt.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
             this.kwlblPrompt.Location = new System.Drawing.Point(3, 0);
             this.kwlblPrompt.Name = "kwlblPrompt";
@@ -158,7 +158,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.kbtnCancel;
             this.ClientSize = new System.Drawing.Size(378, 179);
-            this.ControlBox = false;
             this.Controls.Add(this.kryptonPanel2);
             this.Controls.Add(this.kryptonPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
@@ -166,7 +165,6 @@
             this.MinimizeBox = false;
             this.Name = "VisualInputBoxRtlAwareForm";
             this.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.RightToLeftLayout = true;
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
