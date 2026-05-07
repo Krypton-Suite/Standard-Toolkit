@@ -454,7 +454,7 @@ public class ViewDrawButton : ViewComposite, IRippleHost
         Debug.Assert(badgeValues != null);
         Debug.Assert(control != null);
 
-        if (ReferenceEquals(_badgeValues, badgeValues) && ReferenceEquals(_badgeControl, control) && _drawBadge != null)
+        if (_drawBadge != null && ReferenceEquals(_badgeValues, badgeValues) && ReferenceEquals(_badgeControl, control))
         {
             return;
         }
