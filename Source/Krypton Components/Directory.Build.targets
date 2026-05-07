@@ -1,0 +1,172 @@
+<Project>
+	<!-- For reference, not used
+		<Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.targets', '$(MSBuildThisFileDirectory)../../'))" />
+		-->
+
+	<Choose>
+		<When Condition="'$(Configuration)' == 'Canary'">
+			<PropertyGroup>
+				<Minor>$([System.DateTime]::Now.ToString(yy))</Minor>
+				<Build>$([System.DateTime]::Now.ToString(MM))</Build>
+				<Revision>$([System.DateTime]::Now.get_DayOfYear().ToString())</Revision>
+
+				<!--Version layout schema:
+				100 = Major
+				25 = Minor - Year of release
+				01 = Build - Month of release
+				1 = Revision - Day of release (day of year)
+				-beta = Indicates a pre-release package
+				-->
+				<LibraryVersion>100.$(Minor).$(Build).$(Revision)</LibraryVersion>
+				<!--https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages-->
+
+				<!--Stable/Signed-->
+				<PackageVersion>100.$(Minor).$(Build).$(Revision)-beta</PackageVersion>
+
+				<AssemblyVersion>100.$(Minor).$(Build).$(Revision)</AssemblyVersion>
+
+				<FileVersion>100.$(Minor).$(Build).$(Revision)</FileVersion>
+
+				<LangVersion>preview</LangVersion>
+
+				<AnalysLevel>preview</AnalysLevel>
+
+				<IncludeSymbols>True</IncludeSymbols>
+
+				<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+			</PropertyGroup>
+		</When>
+
+		<When Condition="'$(Configuration)' == 'Nightly'">
+			<PropertyGroup>
+				<Minor>$([System.DateTime]::Now.ToString(yy))</Minor>
+				<Build>$([System.DateTime]::Now.ToString(MM))</Build>
+				<Revision>$([System.DateTime]::Now.get_DayOfYear().ToString())</Revision>
+
+				<!--Version layout schema:
+				100 = Major
+				25 = Minor - Year of release
+				01 = Build - Month of release
+				1 = Revision - Day of release (day of year)
+				-alpha = Indicates a pre-release package
+				-->
+				<LibraryVersion>100.$(Minor).$(Build).$(Revision)</LibraryVersion>
+				<!--https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages-->
+
+				<!--Stable/Signed-->
+				<PackageVersion>100.$(Minor).$(Build).$(Revision)-alpha</PackageVersion>
+
+				<AssemblyVersion>100.$(Minor).$(Build).$(Revision)</AssemblyVersion>
+
+				<FileVersion>100.$(Minor).$(Build).$(Revision)</FileVersion>
+
+				<LangVersion>preview</LangVersion>
+
+				<AnalysLevel>preview</AnalysLevel>
+
+				<IncludeSymbols>True</IncludeSymbols>
+
+				<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+			</PropertyGroup>
+		</When>
+
+		<When Condition="'$(Configuration)' == 'Installer'">
+			<PropertyGroup>
+				<Minor>$([System.DateTime]::Now.ToString(yy))</Minor>
+				<Build>$([System.DateTime]::Now.ToString(MM))</Build>
+				<Revision>$([System.DateTime]::Now.get_DayOfYear().ToString())</Revision>
+
+				<!--Version layout schema:
+				25 = Minor - Year of release
+				01 = Build - Month of release
+				1 = Revision - Day of release (day of year)
+				-->
+				<LibraryVersion>100.$(Minor).$(Build).$(Revision)</LibraryVersion>
+				<!--https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages-->
+
+				<!--Stable/Signed-->
+				<PackageVersion>100.$(Minor).$(Build).$(Revision)</PackageVersion>
+
+				<AssemblyVersion>100.$(Minor).$(Build).$(Revision)</AssemblyVersion>
+
+				<FileVersion>100.$(Minor).$(Build).$(Revision)</FileVersion>
+
+				<LangVersion>preview</LangVersion>
+
+				<AnalysLevel>preview</AnalysLevel>
+			</PropertyGroup>
+		</When>
+		<Otherwise>
+			<PropertyGroup>
+				<Minor>$([System.DateTime]::Now.ToString(yy))</Minor>
+				<Build>$([System.DateTime]::Now.ToString(MM))</Build>
+				<Revision>$([System.DateTime]::Now.get_DayOfYear().ToString())</Revision>
+
+				<!--Version layout schema:
+				100 = Major
+				25 = Minor - Year of release
+				01 = Build - Month of release
+				1 = Revision - Day of release (day of year)
+				-->
+				<LibraryVersion>100.$(Minor).$(Build).$(Revision)</LibraryVersion>
+				<!--https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages-->
+
+				<!--Stable/Signed-->
+				<PackageVersion>100.$(Minor).$(Build).$(Revision)</PackageVersion>
+
+				<AssemblyVersion>100.$(Minor).$(Build).$(Revision)</AssemblyVersion>
+
+				<FileVersion>100.$(Minor).$(Build).$(Revision)</FileVersion>
+
+				<LangVersion>preview</LangVersion>
+
+				<AnalysLevel>preview</AnalysLevel>
+			</PropertyGroup>
+		</Otherwise>
+	</Choose>
+
+	<!--Handle AssemblyInfo-->
+	<PropertyGroup>
+		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+		<NeutralLanguage>en</NeutralLanguage>
+		<Authors>Peter Wagner (A.K.A Wagnerp) and Simon Coghlan (A.K.A Smurf-IV), Giduac, Ahmed Abdelhameed, Lesandro, tobitege, Phil Wright (A.K.A ComponentFactory)</Authors>
+		<Copyright>© Krypton Suite (Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, Lesandro and tobitege) 2017 - 2025. Component Factory Pty Ltd (Phil Wright), 2006 - 2016. All rights reserved.</Copyright>
+	</PropertyGroup>
+
+	<Choose>
+		<When Condition="'$(Configuration)' == 'Canary'">
+			<PropertyGroup>
+				<PackageId Condition="'$(TFMs)' == 'all'">$(PackageId).Canary</PackageId>
+
+
+				<Description Condition="'$(TFMs)' == 'all'">An update to Component factory's krypton toolkit to support .NET Framework 4.7.2 - 4.8.1 and .NET 8 - 10. $(Description) This package supports all .NET Framework versions starting .NET Framework 4.6.2 - 4.8.1 and .NET 8 - 10. Also, all libraries are included targeting each specific framework version for performance purposes. To view all of the standard toolkit package latest version information, please visit: https://github.com/Krypton-Suite/Krypton-Toolkit-Suite-Version-Dashboard/blob/main/Documents/Modules/Standard/Krypton-Toolkit-Suite-Standard-Modules.md To find out what's new, please visit: https://github.com/Krypton-Suite/Standard-Toolkit/blob/canary/Documents/Help/Changelog.md This package is for those who want to try out the latest features before deployment.</Description>
+			</PropertyGroup>
+		</When>
+
+		<When Condition="'$(Configuration)' == 'Nightly'">
+			<PropertyGroup>
+				<PackageId Condition="'$(TFMs)' == 'all'">$(PackageId).Nightly</PackageId>
+
+				<Description Condition="'$(TFMs)' == 'all'">An update to Component factory's krypton toolkit to support .NET Framework 4.7.2 - 4.8.1 and .NET 8 - 10. $(Description) This package supports all .NET Framework versions starting .NET Framework 4.6.2 - 4.8.1 and .NET 8 - 10. Also, all libraries are included targeting each specific framework version for performance purposes. To view all of the standard toolkit package latest version information, please visit: https://github.com/Krypton-Suite/Krypton-Toolkit-Suite-Version-Dashboard/blob/main/Documents/Modules/Standard/Krypton-Toolkit-Suite-Standard-Modules.md To find out what's new, please visit: https://github.com/Krypton-Suite/Standard-Toolkit/blob/alpha/Documents/Help/Changelog.md This package is for those who want to try out the latest cutting edge features before deployment.</Description>
+			</PropertyGroup>
+		</When>
+
+		<When Condition="'$(Configuration)' == 'Installer'">
+			<PropertyGroup>
+				<PackageId Condition="'$(TFMs)' == 'all'">$(PackageId).Installer</PackageId>
+
+				<Description Condition="'$(TFMs)' == 'all'">An update to Component factory's krypton toolkit to support .NET Framework 4.7.2 - 4.8.1 and .NET 8 - 10. $(Description) This package supports all .NET Framework versions starting .NET Framework 4.6.2 - 4.8.1 and .NET 8 - 10. Also, all libraries are included targeting each specific framework version for performance purposes. To view all of the standard toolkit package latest version information, please visit: https://github.com/Krypton-Suite/Krypton-Toolkit-Suite-Version-Dashboard/blob/main/Documents/Modules/Standard/Krypton-Toolkit-Suite-Standard-Modules.md To find out what's new, please visit: https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Documents/Help/Changelog.md FOR USE WITH DEMO INSTALLERS ONLY!</Description>
+			</PropertyGroup>
+		</When>
+		<Otherwise>
+			<PropertyGroup>
+				<PackageId Condition="'$(TFMs)' == 'lite'">$(PackageId).Lite</PackageId>
+
+				<Description Condition="'$(TFMs)' == 'lite'">An update to Component factory's krypton toolkit to support .NET Framework 4.8 - 4.8.1 and .NET 8 - 10. $(Description) This package supports all .NET Framework versions starting .NET Framework 4.8 - 4.8.1, .NET 6 - 8. Also, all libraries are included targeting each specific framework version for performance purposes. To view all of the standard toolkit package latest version information, please visit: https://github.com/Krypton-Suite/Krypton-Toolkit-Suite-Version-Dashboard/blob/main/Documents/Modules/Standard/Krypton-Toolkit-Suite-Standard-Modules.md To find out what's new, please visit: https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Documents/Help/Changelog.md</Description>
+
+				<PackageId Condition="'$(TFMs)' == 'all'">$(PackageId)</PackageId>
+				<Description Condition="'$(TFMs)' == 'all'">An update to Component factory's krypton toolkit to support .NET Framework 4.7.2 - 4.8.1 and .NET 8 - 10. $(Description) This package supports all .NET Framework versions starting .NET Framework 4.6.2 - 4.8.1 and .NET 8 - 10. Also, all libraries are included targeting each specific framework version for performance purposes. To view all of the standard toolkit package latest version information, please visit: https://github.com/Krypton-Suite/Krypton-Toolkit-Suite-Version-Dashboard/blob/main/Documents/Modules/Standard/Krypton-Toolkit-Suite-Standard-Modules.md</Description>
+			</PropertyGroup>
+		</Otherwise>
+	</Choose>
+</Project>
