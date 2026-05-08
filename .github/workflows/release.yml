@@ -353,32 +353,12 @@ jobs:
             9.0.x
             10.0.x
 
-      # .NET 11 (Preview)
-      - name: Setup .NET 11 (Preview)
-        # Kill switch check
-        if: steps.release_kill_switch.outputs.enabled == 'true'
-        uses: actions/setup-dotnet@v5
-        with:
-          dotnet-version: 11.0.x
-          dotnet-quality: preview
-
-      # global.json dynamically generate (prefer .NET 11, fallback to .NET 10)
-      - name: Force .NET 11/10 SDK via global.json
+      # global.json dynamically generate
+      - name: Force .NET 10 SDK via global.json
         # Kill switch check
         if: steps.release_kill_switch.outputs.enabled == 'true'
         run: |
-          $sdkVersions = dotnet --list-sdks
-          Write-Host "Available SDKs:"
-          Write-Host $sdkVersions
-
-          $sdkLine = $sdkVersions |
-            Where-Object { $_ -match '^11\.0\.[0-9]+\s' -or $_ -match '^10\.0\.[0-9]+\s' } |
-            Select-Object -Last 1
-          if (-not $sdkLine) {
-            Write-Error "Neither .NET 11 nor .NET 10 SDK was found. Ensure setup-dotnet completed successfully before restore."
-            exit 1
-          }
-          $sdkVersion = $sdkLine.ToString().Split(" ")[0]
+          $sdkVersion = (dotnet --list-sdks | Select-String "10.0").ToString().Split(" ")[0]
           Write-Output "Using SDK $sdkVersion"
           @"
           {
@@ -953,38 +933,17 @@ jobs:
             9.0.x
             10.0.x
 
-      # .NET 11 (Preview)
-      - name: Setup .NET 11 (Preview)
-        # Kill switch check
-        if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
-        uses: actions/setup-dotnet@v5
-        with:
-          dotnet-version: 11.0.x
-          dotnet-quality: preview
-
-      # global.json dynamically generate (prefer .NET 11, fallback to .NET 10)
-      - name: Force .NET 11/10 SDK via global.json
+      # global.json dynamically generate
+      - name: Force .NET 10 SDK via global.json
         # Kill switch check
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
         run: |
-          $sdkVersions = dotnet --list-sdks
-          Write-Host "Available SDKs:"
-          Write-Host $sdkVersions
-
-          $sdkLine = $sdkVersions |
-            Where-Object { $_ -match '^11\.0\.[0-9]+\s' -or $_ -match '^10\.0\.[0-9]+\s' } |
-            Select-Object -Last 1
-          if (-not $sdkLine) {
-            Write-Error "Neither .NET 11 nor .NET 10 SDK was found. Ensure setup-dotnet completed successfully before restore."
-            exit 1
-          }
-          $sdkVersion = $sdkLine.ToString().Split(" ")[0]
+          $sdkVersion = (dotnet --list-sdks | Select-String "10.0").ToString().Split(" ")[0]
           Write-Output "Using SDK $sdkVersion"
           @"
           {
             "sdk": {
               "version": "$sdkVersion",
-              "allowPrerelease": true,
               "rollForward": "latestFeature"
             }
           }

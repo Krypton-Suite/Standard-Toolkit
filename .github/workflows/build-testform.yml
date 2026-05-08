@@ -29,7 +29,7 @@ jobs:
   Stable:
     name: Stable
     runs-on: windows-2025-vs2026
-    if: (github.event_name != 'pull_request' || (github.event.pull_request.head.repo.full_name == github.repository || github.event_name == 'workflow_dispatch')) && github.ref_name != 'canary' && github.ref_name != 'alpha' && github.head_ref != 'canary' && github.head_ref != 'alpha'
+    if: github.event_name != 'pull_request' || (github.event.pull_request.head.repo.full_name == github.repository || github.event_name == 'workflow_dispatch')
 
     steps:
       - name: Checkout
@@ -42,38 +42,31 @@ jobs:
             9.0.x
             10.0.x
 
-      - name: Setup .NET 11 (Preview)
-        uses: actions/setup-dotnet@v5
-        with:
-          dotnet-version: 11.0.x
-          dotnet-quality: preview
-
       - name: Pin stable SDK via global.json
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
           $stableLine = dotnet --list-sdks |
-            Where-Object { $_ -match '^11\.0\.[0-9]+(?:-[^\s]+)?\s' } |
+            Where-Object { $_ -match '^10\.0\.[0-9]+\s' } |
             Select-Object -Last 1
           $sdkVersion = $null
           if ($stableLine -match '^(\d+\.\d+\.\d+)\s') {
             $sdkVersion = $Matches[1]
           }
           if (-not $sdkVersion) {
-            $fallback = dotnet --list-sdks | Where-Object { $_ -match '^10\.0\.[0-9]+\s' -or $_ -match '^9\.0\.[0-9]+\s' } | Select-Object -Last 1
+            $fallback = dotnet --list-sdks | Where-Object { $_ -match '^9\.0\.[0-9]+\s' } | Select-Object -Last 1
             if ($fallback -match '^(\d+\.\d+\.\d+)\s') { $sdkVersion = $Matches[1] }
           }
           if (-not $sdkVersion) {
-            Write-Error 'No 11.0.x (preview), 10.0.x, or 9.0.x SDK found after setup-dotnet.'
+            Write-Error 'No 10.0.x or 9.0.x SDK found after setup-dotnet.'
           }
           Write-Host "Using SDK $sdkVersion"
-          $allowPrerelease = if ($sdkVersion -like '11.0.*') { 'true' } else { 'false' }
           @"
           {
             "sdk": {
               "version": "$sdkVersion",
               "rollForward": "latestPatch",
-              "allowPrerelease": $allowPrerelease
+              "allowPrerelease": false
             }
           }
           "@ | Out-File -Encoding utf8 global.json
