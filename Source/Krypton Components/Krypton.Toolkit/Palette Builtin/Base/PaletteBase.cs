@@ -21,10 +21,16 @@ namespace Krypton.Toolkit
         #region Instance Fields
 
         private bool _useKryptonFileDialogs;
+
         private BasePaletteType _basePaletteType;
+        
         private Padding? _inputControlPadding;
+        
         private PaletteDragFeedback _dragFeedback;
+        
         private string _themeName;
+
+        private readonly bool _systemEventsUserPreferenceSubscribed;
 
         private readonly Font _defaultFontStyle = new Font("Segoe UI", 9f, FontStyle.Regular);
 
@@ -82,11 +88,27 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Identity
+
         /// <summary>Initializes a new instance of the <see cref="PaletteBase" /> class.</summary>
-        protected PaletteBase()
+        public PaletteBase() : this(attachUserPreferenceChanged: true)
         {
-            // We need to notice when system color settings change
-            SystemEvents.UserPreferenceChanged += OnUserPreferenceChanged;
+            
+        }
+
+        /// <summary>
+        /// Initializes palette identity; optionally skips <see cref="SystemEvents.UserPreferenceChanged"/> so
+        /// <see cref="PaletteRedirect"/> (often never disposed) is not rooted by a static event (#3385).
+        /// </summary>
+        /// <param name="attachUserPreferenceChanged">When <see langword="true"/>, subscribes to user preference changes.</param>
+        protected PaletteBase(bool attachUserPreferenceChanged)
+        {
+            _systemEventsUserPreferenceSubscribed = attachUserPreferenceChanged;
+
+            if (attachUserPreferenceChanged)
+            {
+                // We need to notice when system color settings change
+                SystemEvents.UserPreferenceChanged += OnUserPreferenceChanged;
+            }
 
             // Inherit means we need to calculate the value next time it is requested
             _dragFeedback = PaletteDragFeedback.Inherit;
@@ -2015,8 +2037,11 @@ namespace Krypton.Toolkit
         {
             if (disposing)
             {
-                // Detach from static SystemEvents to prevent memory leaks.
-                SystemEvents.UserPreferenceChanged -= OnUserPreferenceChanged;
+                if (_systemEventsUserPreferenceSubscribed)
+                {
+                    // Detach from static SystemEvents to prevent memory leaks.
+                    SystemEvents.UserPreferenceChanged -= OnUserPreferenceChanged;
+                }
 
                 // Dispose any font resources we created.
                 DisposeFonts();

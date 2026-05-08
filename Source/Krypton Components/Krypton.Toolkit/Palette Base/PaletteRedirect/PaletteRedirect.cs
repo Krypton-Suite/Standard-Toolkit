@@ -34,7 +34,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the PaletteRedirect class.
         /// </summary>
         /// <param name="target">Initial palette target for redirection.</param>
-        public PaletteRedirect(PaletteBase? target)
+        public PaletteRedirect(PaletteBase? target) : base(attachUserPreferenceChanged: false)
         {
             Id = CommonHelper.NextId;
             // Remember incoming target
