@@ -6,10 +6,10 @@ name: Build TestForm
 permissions:
   contents: read
 
-# When a new .NET preview ships, bump these (e.g. 12.0.x + 12.0) so the Preview job tracks it.
+# Preview SDK band: set repository Variables (Settings → Actions → Variables) DOTNET_PREVIEW_SETUP_VERSION / DOTNET_PREVIEW_SDK_BAND.
 env:
-  DOTNET_PREVIEW_SETUP_VERSION: '11.0.x'
-  DOTNET_PREVIEW_SDK_BAND: '11.0'
+  DOTNET_PREVIEW_SETUP_VERSION: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION }}
+  DOTNET_PREVIEW_SDK_BAND: ${{ vars.DOTNET_PREVIEW_SDK_BAND }}
 
 on:
   pull_request:
@@ -29,7 +29,8 @@ jobs:
   Stable:
     name: Stable
     runs-on: windows-2025-vs2026
-    if: github.event_name != 'pull_request' || (github.event.pull_request.head.repo.full_name == github.repository || github.event_name == 'workflow_dispatch')
+    # Skip on canary/alpha: those lines use preview SDKs; only the Preview job applies (#3421).
+    if: ${{ (github.event_name != 'pull_request' || (github.event.pull_request.head.repo.full_name == github.repository || github.event_name == 'workflow_dispatch')) && !((github.event_name == 'push' || github.event_name == 'workflow_dispatch') && (github.ref == 'refs/heads/canary' || github.ref == 'refs/heads/alpha')) && !(github.event_name == 'pull_request' && (github.base_ref == 'canary' || github.base_ref == 'alpha')) }}
 
     steps:
       - name: Checkout
