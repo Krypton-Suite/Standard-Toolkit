@@ -6,7 +6,8 @@ name: Build TestForm
 permissions:
   contents: read
 
-# Preview SDK band: set repository Variables (Settings → Actions → Variables) DOTNET_PREVIEW_SETUP_VERSION / DOTNET_PREVIEW_SDK_BAND.
+# Preview SDK band: repository Variables DOTNET_PREVIEW_SETUP_VERSION / DOTNET_PREVIEW_SDK_BAND.
+# USE_DOTNET_PREVIEW=false skips the Preview job and uses Stable on canary/alpha instead.
 env:
   DOTNET_PREVIEW_SETUP_VERSION: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION }}
   DOTNET_PREVIEW_SDK_BAND: ${{ vars.DOTNET_PREVIEW_SDK_BAND }}
@@ -29,8 +30,8 @@ jobs:
   Stable:
     name: Stable
     runs-on: windows-2025-vs2026
-    # Skip on canary/alpha: those lines use preview SDKs; only the Preview job applies (#3421).
-    if: ${{ (github.event_name != 'pull_request' || (github.event.pull_request.head.repo.full_name == github.repository || github.event_name == 'workflow_dispatch')) && !((github.event_name == 'push' || github.event_name == 'workflow_dispatch') && (github.ref == 'refs/heads/canary' || github.ref == 'refs/heads/alpha')) && !(github.event_name == 'pull_request' && (github.base_ref == 'canary' || github.base_ref == 'alpha')) }}
+    # Skip canary/alpha for Stable unless USE_DOTNET_PREVIEW=false (then Stable covers preview-disabled branches; #3421).
+    if: ${{ (github.event_name != 'pull_request' || (github.event.pull_request.head.repo.full_name == github.repository || github.event_name == 'workflow_dispatch')) && (!((github.event_name == 'push' || github.event_name == 'workflow_dispatch') && (github.ref == 'refs/heads/canary' || github.ref == 'refs/heads/alpha')) || vars.USE_DOTNET_PREVIEW == 'false') && (!(github.event_name == 'pull_request' && (github.base_ref == 'canary' || github.base_ref == 'alpha')) || vars.USE_DOTNET_PREVIEW == 'false') }}
 
     steps:
       - name: Checkout
@@ -43,7 +44,8 @@ jobs:
             9.0.x
             10.0.x
 
-      - name: Pin stable SDK via global.json
+      # Stable TFMs only; rollForward latestPatch (matches Stable job intent).
+      - name: Pin SDK via global.json (stable)
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
@@ -148,7 +150,7 @@ jobs:
   Preview:
     name: Preview
     runs-on: windows-2025-vs2026
-    if: github.event_name != 'pull_request' || (github.event.pull_request.head.repo.full_name == github.repository || github.event_name == 'workflow_dispatch')
+    if: ${{ (github.event_name != 'pull_request' || (github.event.pull_request.head.repo.full_name == github.repository || github.event_name == 'workflow_dispatch')) && vars.USE_DOTNET_PREVIEW != 'false' }}
 
     steps:
       - name: Checkout
@@ -161,13 +163,14 @@ jobs:
             9.0.x
             10.0.x
 
-      - name: Setup .NET (preview band)
+      - name: Setup .NET Preview
         uses: actions/setup-dotnet@v5
         with:
           dotnet-version: ${{ env.DOTNET_PREVIEW_SETUP_VERSION }}
           dotnet-quality: preview
 
-      - name: Pin preview SDK via global.json
+      # Preview band from DOTNET_PREVIEW_SDK_BAND; TestForm Preview job only.
+      - name: Pin SDK via global.json (preview)
         shell: pwsh
         env:
           SDK_BAND: ${{ env.DOTNET_PREVIEW_SDK_BAND }}
