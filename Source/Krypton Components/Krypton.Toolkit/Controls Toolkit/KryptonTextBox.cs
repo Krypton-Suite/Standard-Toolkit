@@ -156,6 +156,11 @@ public class KryptonTextBox : VisualControlBase,
 
                     // Paint the entire area in the background color
                     using Graphics g = Graphics.FromHdc(hdc);
+
+                    // BeginPaint can restrict the clip to the update region; cue rendering needs a solid full-client
+                    // background so fringe pixels from prior paints do not remain as top/left edge streaks.
+                    g.ResetClip();
+
                     // Grab the client area of the control
                     PI.GetClientRect(Handle, out PI.RECT rect);
 

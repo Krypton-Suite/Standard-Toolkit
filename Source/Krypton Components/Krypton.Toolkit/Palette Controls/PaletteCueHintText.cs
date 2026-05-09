@@ -127,39 +127,14 @@ public class PaletteCueHintText : PaletteInputControlContentStates
 
     internal void PerformPaint(VisualControlBase textBox, Graphics? g, Rectangle layoutRectangle, SolidBrush backBrush)
     {
-        using var old = new GraphicsHint(g, PaletteGraphicsHint.HighQuality);
-        using var old1 = new GraphicsTextHint(g!, CommonHelper.PaletteTextHintToRenderingHint(_contentTextHint));
-        // Define the string formatting requirements
-        var stringFormat = new StringFormat
+        if (g == null)
         {
-            Trimming = StringTrimming.None,
-            LineAlignment = StringAlignment.Near
-        };
-        stringFormat.Alignment = GetContentShortTextH(PaletteState.Normal) switch
-        {
-            PaletteRelativeAlign.Near => textBox.RightToLeft == RightToLeft.Yes
-                ? StringAlignment.Far
-                : StringAlignment.Near,
-            PaletteRelativeAlign.Far => textBox.RightToLeft == RightToLeft.Yes
-                ? StringAlignment.Near
-                : StringAlignment.Far,
-            PaletteRelativeAlign.Center => StringAlignment.Center,
-            _ => StringAlignment.Near
-        };
-        // This is most applicable to the multi-line controls
-        stringFormat.LineAlignment = GetContentShortTextV(PaletteState.Normal) switch
-        {
-            PaletteRelativeAlign.Near => StringAlignment.Near,
-            //PaletteRelativeAlign.Center => StringAlignment.Center,
-            PaletteRelativeAlign.Far => StringAlignment.Far,
-            _ => StringAlignment.Center
-        };
+            return;
+        }
 
-        // Use the correct prefix setting
-        stringFormat.HotkeyPrefix = HotkeyPrefix.None;
-
-        // Draw entire client area in the background color
-        g?.FillRectangle(backBrush, layoutRectangle);
+        // Fill background first. Avoid applying GraphicsHint/HighQuality smoothing before this fill — it can leave
+        // edge pixels that read as top/left "lines" when combined with GDI+ DrawString and the cue foreground colour.
+        g.FillRectangle(backBrush, layoutRectangle);
 
         var padding = GetBorderContentPadding(null, PaletteState.Normal);
         if (!padding.Equals(CommonHelper.InheritPadding))
@@ -170,10 +145,119 @@ public class PaletteCueHintText : PaletteInputControlContentStates
             layoutRectangle.Height -= padding.Top + padding.Bottom;
         }
 
+        if (layoutRectangle.Width <= 0 || layoutRectangle.Height <= 0)
+        {
+            return;
+        }
+
         using var font = GetContentShortTextNewFont(PaletteState.Normal);
-        using var foreBrush = new SolidBrush(GetContentShortTextColor1(PaletteState.Normal));
+        var foreColor = GetContentShortTextColor1(PaletteState.Normal);
         var drawText = string.IsNullOrEmpty(CueHintText) ? textBox.Text : CueHintText;
-        g?.DrawString(drawText, font, foreBrush, layoutRectangle, stringFormat);
+
+        if (ShouldUseGdiPlusMultilineCue(textBox))
+        {
+            DrawCueHintMultiline(textBox, g, drawText, font, foreColor, layoutRectangle);
+        }
+        else
+        {
+            TextFormatFlags tf = BuildCueTextRendererFormatFlags(textBox);
+            TextRenderer.DrawText(g, drawText, font, layoutRectangle, foreColor, tf);
+        }
+    }
+
+    private static bool ShouldUseGdiPlusMultilineCue(VisualControlBase textBox)
+    {
+        if (textBox is KryptonRichTextBox)
+        {
+            return true;
+        }
+
+        return textBox is KryptonTextBox multilineTextBox && multilineTextBox.Multiline;
+    }
+
+    private TextFormatFlags BuildCueTextRendererFormatFlags(VisualControlBase textBox)
+    {
+        TextFormatFlags tf = TextFormatFlags.NoPrefix
+            | TextFormatFlags.SingleLine
+            | TextFormatFlags.EndEllipsis
+            | TextFormatFlags.NoPadding;
+
+        bool rtl = textBox.RightToLeft == RightToLeft.Yes;
+        if (rtl)
+        {
+            tf |= TextFormatFlags.RightToLeft;
+        }
+
+        PaletteRelativeAlign hAlign = GetContentShortTextH(PaletteState.Normal);
+        if (rtl)
+        {
+            tf |= hAlign switch
+            {
+                PaletteRelativeAlign.Near => TextFormatFlags.Right,
+                PaletteRelativeAlign.Far => TextFormatFlags.Left,
+                PaletteRelativeAlign.Center => TextFormatFlags.HorizontalCenter,
+                _ => TextFormatFlags.Right
+            };
+        }
+        else
+        {
+            tf |= hAlign switch
+            {
+                PaletteRelativeAlign.Near => TextFormatFlags.Left,
+                PaletteRelativeAlign.Far => TextFormatFlags.Right,
+                PaletteRelativeAlign.Center => TextFormatFlags.HorizontalCenter,
+                _ => TextFormatFlags.Left
+            };
+        }
+
+        PaletteRelativeAlign vAlign = GetContentShortTextV(PaletteState.Normal);
+        tf |= vAlign switch
+        {
+            PaletteRelativeAlign.Near => TextFormatFlags.Top,
+            PaletteRelativeAlign.Far => TextFormatFlags.Bottom,
+            _ => TextFormatFlags.VerticalCenter
+        };
+
+        return tf;
+    }
+
+    private void DrawCueHintMultiline(VisualControlBase textBox,
+        Graphics g,
+        string drawText,
+        Font font,
+        Color foreColor,
+        Rectangle layoutRectangle)
+    {
+        using (new GraphicsHint(g, PaletteGraphicsHint.HighQuality))
+        using (new GraphicsTextHint(g, CommonHelper.PaletteTextHintToRenderingHint(_contentTextHint)))
+        {
+            var stringFormat = new StringFormat
+            {
+                Trimming = StringTrimming.None,
+                LineAlignment = StringAlignment.Near
+            };
+            stringFormat.Alignment = GetContentShortTextH(PaletteState.Normal) switch
+            {
+                PaletteRelativeAlign.Near => textBox.RightToLeft == RightToLeft.Yes
+                    ? StringAlignment.Far
+                    : StringAlignment.Near,
+                PaletteRelativeAlign.Far => textBox.RightToLeft == RightToLeft.Yes
+                    ? StringAlignment.Near
+                    : StringAlignment.Far,
+                PaletteRelativeAlign.Center => StringAlignment.Center,
+                _ => StringAlignment.Near
+            };
+            stringFormat.LineAlignment = GetContentShortTextV(PaletteState.Normal) switch
+            {
+                PaletteRelativeAlign.Near => StringAlignment.Near,
+                PaletteRelativeAlign.Far => StringAlignment.Far,
+                _ => StringAlignment.Center
+            };
+            stringFormat.HotkeyPrefix = HotkeyPrefix.None;
+
+            using var foreBrush = new SolidBrush(foreColor);
+            g.DrawString(drawText, font, foreBrush, layoutRectangle, stringFormat);
+        }
     }
 
     #region TextV
@@ -208,7 +292,7 @@ public class PaletteCueHintText : PaletteInputControlContentStates
     /// </summary>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>RelativeAlignment value.</returns>
-    public override PaletteRelativeAlign GetContentShortTextV(PaletteState state) => _shortTextV != PaletteRelativeAlign.Inherit ? _shortTextH : Inherit.GetContentShortTextV(state);
+    public override PaletteRelativeAlign GetContentShortTextV(PaletteState state) => _shortTextV != PaletteRelativeAlign.Inherit ? _shortTextV : Inherit.GetContentShortTextV(state);
 
     // Use the base class
     //protected virtual Padding GetContentPadding(PaletteState state) => !_padding.Equals(CommonHelper.InheritPadding) ? _padding : Inherit.GetContentPadding(state);
