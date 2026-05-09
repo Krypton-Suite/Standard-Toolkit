@@ -45,6 +45,7 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Resolved [#3382](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3382), Lines when using `CueHint` for `KryptonTextBox`
 * Resolved [#3365](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3365), `KryptonLinkLabel` 'Autosize' Not Shrinking
 * Resolved [#3381](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3381), Vertical text centering on a rounded-corner `KryptonButton`
 * Implemented [#3380](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3380), `KryptonToolTip` - A user control/component wrapper around the existing KToolTips
