@@ -85,24 +85,51 @@ jobs:
             9.0.x
             10.0.x
 
-      # .NET 11 (Preview)
-      - name: Setup .NET 11 (Preview)
-        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
+      # Preview .NET SDK. DOTNET_PREVIEW_* : repo Variables (same as build.yml / build-testform.yml).
+      # USE_DOTNET_PREVIEW=false skips preview SDK install; global.json uses stable SDK below.
+      - name: Setup .NET Preview
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true' && vars.USE_DOTNET_PREVIEW != 'false'
         uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: 11.0.x
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION }}
           dotnet-quality: preview
 
-      # global.json dynamically generate (use latest SDK available)
-      - name: Force .NET 11 SDK via global.json
+      # Pin sdk.version for CI; preview band vs stable 10.x/9.x follows USE_DOTNET_PREVIEW (repository variable).
+      - name: Pin SDK via global.json
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
+        env:
+          DOTNET_PREVIEW_SDK_BAND: ${{ vars.DOTNET_PREVIEW_SDK_BAND }}
+          USE_DOTNET_PREVIEW: ${{ vars.USE_DOTNET_PREVIEW }}
         run: |
-          $sdkVersion = (dotnet --list-sdks | Select-String "11.0").ToString().Split(" ")[0]
-          if (-not $sdkVersion) {
-            # Fallback to .NET 10 if .NET 11 is not available
-            $sdkVersion = (dotnet --list-sdks | Select-String "10.0").ToString().Split(" ")[0]
+          $ErrorActionPreference = 'Stop'
+          # Latest patch line matching $Pattern (same idea as other global.json pins in this repo).
+          function Get-ListedSdkVersion([string]$Pattern) {
+            $hit = dotnet --list-sdks | Select-String $Pattern | Select-Object -Last 1
+            if (-not $hit) { return $null }
+            $line = $hit.Line.TrimEnd()
+            if ($line -match '^(\d+\.\d+\.\d+)\s') { return $Matches[1] }
+            return (($line -split '\s+', 2)[0])
           }
-          Write-Output "Using SDK $sdkVersion"
+
+          $usePreview = $env:USE_DOTNET_PREVIEW -ne 'false'
+          $sdkVersion = $null
+          if (-not $usePreview) {
+            $sdkVersion = Get-ListedSdkVersion '10.0'
+            if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '9.0' }
+          } else {
+            if (-not $env:DOTNET_PREVIEW_SDK_BAND) {
+              Write-Error 'DOTNET_PREVIEW_SDK_BAND is not set (repository variable).'
+            }
+            $sdkVersion = Get-ListedSdkVersion $env:DOTNET_PREVIEW_SDK_BAND
+            if (-not $sdkVersion) {
+              # Preview SDK not present on runner; fall back to latest 10.x.
+              $sdkVersion = Get-ListedSdkVersion '10.0'
+            }
+          }
+          if (-not $sdkVersion) {
+            Write-Error 'Could not resolve an SDK version for global.json.'
+          }
+          Write-Host "Using SDK $sdkVersion"
           @"
           {
             "sdk": {
