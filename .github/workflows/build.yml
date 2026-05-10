@@ -37,22 +37,31 @@ jobs:
             9.0.x
             10.0.x
 
-      # .NET 11 (Preview)
-      - name: Setup .NET 11 (Preview)
+      # Preview .NET SDK. USE_DOTNET_PREVIEW=false skips install (global.json still pins .NET 10 below).
+      - name: Setup .NET Preview
+        if: vars.USE_DOTNET_PREVIEW != 'false'
         uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: 11.0.x
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION }}
           dotnet-quality: preview
 
-      # global.json dynamically generate (prefer stable SDKs for CI reproducibility)
-      - name: Force .NET 10 SDK via global.json
+      # Pin sdk.version to latest stable 10.x (fallback 9.x) for reproducible CI.
+      - name: Pin SDK via global.json
         run: |
-          $sdkVersion = (dotnet --list-sdks | Select-String "10.0").ToString().Split(" ")[0]
-          if (-not $sdkVersion) {
-            # Fallback to .NET 9 if .NET 10 is not available
-            $sdkVersion = (dotnet --list-sdks | Select-String "9.0").ToString().Split(" ")[0]
+          $ErrorActionPreference = 'Stop'
+          function Get-ListedSdkVersion([string]$Pattern) {
+            $hit = dotnet --list-sdks | Select-String $Pattern | Select-Object -Last 1
+            if (-not $hit) { return $null }
+            $line = $hit.Line.TrimEnd()
+            if ($line -match '^(\d+\.\d+\.\d+)\s') { return $Matches[1] }
+            return (($line -split '\s+', 2)[0])
           }
-          Write-Output "Using SDK $sdkVersion"
+          $sdkVersion = Get-ListedSdkVersion '10.0'
+          if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '9.0' }
+          if (-not $sdkVersion) {
+            Write-Error 'Could not resolve an SDK version for global.json.'
+          }
+          Write-Host "Using SDK $sdkVersion"
           @"
           {
             "sdk": {
@@ -150,11 +159,23 @@ jobs:
             9.0.x
             10.0.x
 
-      # global.json dynamically generate
-      - name: Force .NET 10 SDK via global.json
+      # Pin sdk.version to latest stable 10.x (fallback 9.x) for reproducible CI.
+      - name: Pin SDK via global.json
         run: |
-          $sdkVersion = (dotnet --list-sdks | Select-String "10.0").ToString().Split(" ")[0]
-          Write-Output "Using SDK $sdkVersion"
+          $ErrorActionPreference = 'Stop'
+          function Get-ListedSdkVersion([string]$Pattern) {
+            $hit = dotnet --list-sdks | Select-String $Pattern | Select-Object -Last 1
+            if (-not $hit) { return $null }
+            $line = $hit.Line.TrimEnd()
+            if ($line -match '^(\d+\.\d+\.\d+)\s') { return $Matches[1] }
+            return (($line -split '\s+', 2)[0])
+          }
+          $sdkVersion = Get-ListedSdkVersion '10.0'
+          if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '9.0' }
+          if (-not $sdkVersion) {
+            Write-Error 'Could not resolve an SDK version for global.json.'
+          }
+          Write-Host "Using SDK $sdkVersion"
           @"
           {
             "sdk": {
