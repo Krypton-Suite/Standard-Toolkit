@@ -124,9 +124,6 @@
   <data name="Main Icon 128 x 128 Nightly" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Main Icon 128 x 128 Nightly.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ad" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ad.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="ae" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ae.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -946,7 +943,7 @@
   <data name="delete" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\delete.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Microsoft365 Pink" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Microsoft365 Pink.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ad" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ad.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
