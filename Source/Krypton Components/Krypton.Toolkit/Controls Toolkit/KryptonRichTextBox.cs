@@ -226,6 +226,8 @@ public class KryptonRichTextBox : VisualControlBase,
                         IntPtr hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
                         using (Graphics g = Graphics.FromHdc(hdc))
                         {
+                            g.ResetClip();
+
                             // Grab the client area of the control
                             PI.GetClientRect(Handle, out PI.RECT rect);
 
