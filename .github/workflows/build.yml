@@ -323,3 +323,4 @@ jobs:
           }
           echo "version=$version" >> $env:GITHUB_OUTPUT
           echo "tag=v$version" >> $env:GITHUB_OUTPUT
+          
