@@ -5,9 +5,22 @@
 
 	<!-- Per-TFM output under $(KryptonBuildOutputRoot)$(Configuration)\: legacy builds use Bin\Release\net472\;
 	     UseArtifactsOutput=true uses artifacts\bin\Release\net472\. A single shared folder makes the last
-	     inner multi-target build overwrite Krypton.Toolkit.dll (etc.), so net472 then references net10+ (CS1705). -->
+	     inner multi-target build overwrite Krypton.Toolkit.dll (etc.), so net472 then references net10+ (CS1705).
+
+	     AppendTargetFrameworkToOutputPath is false in Directory.Build.props so Bin paths can be set explicitly here.
+	     That same SDK switch also skips appending TF to IntermediateOutputPath, so obj\Nightly\ would be shared across
+	     all TFMs—ref/refint DLLs overwrite (last TFM wins) and dependents get CS1705 from the wrong facade version. -->
 	<PropertyGroup Condition="'$(TargetFramework)' != ''">
 		<OutputPath>$(KryptonBuildOutputRoot)$(Configuration)\$(TargetFramework)\</OutputPath>
+		<IntermediateOutputPath>obj\$(Configuration)\$(TargetFramework.ToLowerInvariant())\</IntermediateOutputPath>
+		<!--
+		  Microsoft.Common sets TargetRefPath from IntermediateOutputPath before this file runs; IntermediateOutputPath
+		  here used to omit TFM (AppendTargetFrameworkToOutputPath=false), so TargetRefPath stayed obj\{Configuration}\ref\.
+		  Override so reference assemblies align with obj\{Configuration}\{tfm}\ and CopyRefAssembly/ProjectReference CS1705
+		  consumers see matching facade versions (see Microsoft.Common.CurrentVersion.targets TargetRefPath).
+		-->
+		<TargetRefPath Condition="'$(ProduceReferenceAssembly)' == 'true' and '$(ProduceReferenceAssemblyInOutDir)' == 'true'">$([MSBuild]::NormalizePath($(TargetDir), 'ref', $(TargetFileName)))</TargetRefPath>
+		<TargetRefPath Condition="'$(ProduceReferenceAssembly)' == 'true' and '$(ProduceReferenceAssemblyInOutDir)' != 'true'">$([MSBuild]::NormalizePath($(MSBuildProjectDirectory), $(IntermediateOutputPath), 'ref', $(TargetFileName)))</TargetRefPath>
 	</PropertyGroup>
 
 	<Import Project="$(MSBuildThisFileDirectory)NetFramework.SystemResourcesExtensions.BindingRedirects.props"
