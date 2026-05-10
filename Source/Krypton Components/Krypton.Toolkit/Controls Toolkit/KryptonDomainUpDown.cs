@@ -752,6 +752,7 @@ public class KryptonDomainUpDown : VisualControlBase,
     private bool _trackingMouseEnter;
     private int _cachedHeight;
     private bool _autoSize = false;
+    private int _cachedWidth;
     private Graphics? _graphics;
     #endregion
 
@@ -843,6 +844,7 @@ public class KryptonDomainUpDown : VisualControlBase,
         _cachedHeight = -1;
         _alwaysActive = true;
         _autoSize = false;
+        _cachedWidth = -1;
         _graphics = null;
         AllowButtonSpecToolTips = false;
         AllowButtonSpecToolTipPriority = false;
@@ -947,8 +949,19 @@ public class KryptonDomainUpDown : VisualControlBase,
         {
             if (_autoSize != value)
             {
+                AutoSizeDimensionCacheHelper.CacheCurrentBeforeEnable(value, Width, ref _cachedWidth);
+
                 _autoSize = value;
-                UpdateAutoSizing();
+
+                if (_autoSize)
+                {
+                    UpdateAutoSizing();
+                }
+                else if (AutoSizeDimensionCacheHelper.TryGetCachedValue(_cachedWidth, out int restoredWidth))
+                {
+                    Width = restoredWidth;
+                    PerformNeedPaint(true);
+                }
             }
         }
     }
@@ -1740,6 +1753,11 @@ public class KryptonDomainUpDown : VisualControlBase,
         int width, int height,
         BoundsSpecified specified)
     {
+        if (!_autoSize)
+        {
+            AutoSizeDimensionCacheHelper.CacheIfSpecified(specified, BoundsSpecified.Width, width, ref _cachedWidth);
+        }
+
         // If setting the actual height
         if ((specified & BoundsSpecified.Height) == BoundsSpecified.Height)
         {

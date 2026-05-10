@@ -115,6 +115,40 @@ public class VisualPopupToolTip : VisualPopup
         {
             position = new PopupPositionValues();
         }
+
+        Control? owning = target.OwningControl;
+        if (owning is null)
+        {
+            ShowCalculatingSize(controlMousePosition);
+            return;
+        }
+
+        ApplyPlacementAndShow(controlMousePosition, position, owning, target.ClientRectangle);
+    }
+
+    /// <summary>
+    /// Positions the tooltip using <paramref name="position"/> and the rectangle of <paramref name="placementControl"/>
+    /// when <see cref="PopupPositionValues.PlacementRectangle"/> is empty and <see cref="PopupPositionValues.PlacementTarget"/> is not set.
+    /// Use this when content is not <see cref="ToolTipValues"/> but placement should still follow <see cref="ToolTipValues.ToolTipPosition"/> (e.g. <see cref="KryptonToolTip"/>).
+    /// </summary>
+    /// <param name="placementControl">Hovered control supplying default placement bounds (<see cref="Control.ClientRectangle"/>).</param>
+    /// <param name="screenMousePosition">Screen-space cursor position.</param>
+    /// <param name="position">Placement resolved from tooltip settings.</param>
+    public void ShowRelativeTo([DisallowNull] Control placementControl, Point screenMousePosition,
+        [DisallowNull] PopupPositionValues position) =>
+        ApplyPlacementAndShow(screenMousePosition, position, placementControl,
+            placementControl.ClientRectangle);
+
+    /// <summary>
+    /// Shared placement aligned with WPF Popup behaviour (same rules as <see cref="ShowRelativeTo(ViewBase, Point)"/>).
+    /// </summary>
+    /// <param name="controlMousePosition">Screen-space mouse/cursor coordinates.</param>
+    /// <param name="position">Placement configuration.</param>
+    /// <param name="fallbackOwningControl">Owning control used when placement does not bind to <see cref="PopupPositionValues.PlacementTarget"/>.</param>
+    /// <param name="fallbackPlacementRectInOwningClient">Rectangle in <paramref name="fallbackOwningControl"/> client coordinates.</param>
+    private void ApplyPlacementAndShow(Point controlMousePosition, PopupPositionValues position,
+        Control fallbackOwningControl, Rectangle fallbackPlacementRectInOwningClient)
+    {
         Point currentCursorHotSpot = CommonHelper.CaptureCursor();
 
         Rectangle positionPlacementRectangle = position.PlacementRectangle;
@@ -134,12 +168,11 @@ public class VisualPopupToolTip : VisualPopup
                 // The screen, or PlacementRectangle if it is set. The PlacementRectangle is relative to the screen.
                 if (positionPlacementRectangle.IsEmpty)
                 {
-                    var ctrl = (position.PlacementTarget?.OwningControl ?? target.OwningControl);
+                    Control? ctrl = position.PlacementTarget?.OwningControl ?? fallbackOwningControl;
                     if (ctrl is not null)
                     {
-                        // PlacementTarget or parent.
-                        positionPlacementRectangle = position.PlacementTarget?.ClientRectangle ?? target.ClientRectangle;
-                        positionPlacementRectangle = ctrl.RectangleToScreen(positionPlacementRectangle);
+                        Rectangle rectInOwnerClient = position.PlacementTarget?.ClientRectangle ?? fallbackPlacementRectInOwningClient;
+                        positionPlacementRectangle = ctrl.RectangleToScreen(rectInOwnerClient);
                     }
                     else
                     {
@@ -204,7 +237,6 @@ public class VisualPopupToolTip : VisualPopup
         }
         // Show it now!
         Show(popupLocation, popupSize);
-
     }
 
     /// <summary>

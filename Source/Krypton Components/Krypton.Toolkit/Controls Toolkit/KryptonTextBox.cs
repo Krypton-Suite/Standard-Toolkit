@@ -156,6 +156,9 @@ public class KryptonTextBox : VisualControlBase,
 
                     // Paint the entire area in the background color
                     using Graphics g = Graphics.FromHdc(hdc);
+                    // BeginPaint can restrict the clip to the update region; cue rendering needs a solid full-client
+                    // background so fringe pixels from prior paints do not remain as top/left edge streaks.
+                    g.ResetClip();
                     // Grab the client area of the control
                     PI.GetClientRect(Handle, out PI.RECT rect);
 
@@ -1734,18 +1737,7 @@ public class KryptonTextBox : VisualControlBase,
         // Do we need to prevent the height from being altered?
         if (_autoSize && !Multiline)
         {
-            switch (Dock)
-            {
-                case DockStyle.Fill:
-                case DockStyle.Left:
-                case DockStyle.Right:
-                    if ((specified & ~BoundsSpecified.Height) == specified)
-                    {
-                        _cachedHeight = height;
-                    }
-
-                    break;
-            }
+            AutoSizeDimensionCacheHelper.CacheIfSpecified(specified, BoundsSpecified.Height, height, ref _cachedHeight);
 
             // Override the actual height used to the fixed height for single line
             height = PreferredHeight;

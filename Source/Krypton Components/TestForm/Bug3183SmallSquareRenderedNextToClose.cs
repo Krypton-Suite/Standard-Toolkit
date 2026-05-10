@@ -58,13 +58,13 @@ namespace TestForm
         private void kryptonButton1_Click(object sender, EventArgs e)
         {
             // Theme XML is stored as a string resource so the repro has no dependency on disk paths.
-            byte[] contentFile = Encoding.UTF8.GetBytes(Properties.Resources.Microsoft365_Super_Pink);
+            /*byte[] contentFile = Encoding.UTF8.GetBytes(Properties.Resources.Microsoft365_Super_Pink);
 
             KryptonCustomPaletteBase customPaletteBase = new KryptonCustomPaletteBase();
             customPaletteBase.ImportWithUpgrade(new MemoryStream(contentFile));
 
             this.kryptonManager1.GlobalCustomPalette = customPaletteBase;
-            this.kryptonManager1.GlobalPaletteMode = PaletteMode.Custom;
+            this.kryptonManager1.GlobalPaletteMode = PaletteMode.Custom;*/
         }
     }
 }

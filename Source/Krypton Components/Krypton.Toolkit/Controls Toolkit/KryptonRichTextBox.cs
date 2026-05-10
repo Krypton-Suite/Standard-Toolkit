@@ -226,6 +226,7 @@ public class KryptonRichTextBox : VisualControlBase,
                         IntPtr hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
                         using (Graphics g = Graphics.FromHdc(hdc))
                         {
+                            g.ResetClip();
                             // Grab the client area of the control
                             PI.GetClientRect(Handle, out PI.RECT rect);
 
@@ -2141,32 +2142,14 @@ public class KryptonRichTextBox : VisualControlBase,
 
             // If we detected RTF formatting, restore it after property changes
             // This ensures formatting is preserved even if BackColor/ForeColor changes reset it
-            if (hasRtfFormatting && !string.IsNullOrEmpty(savedRtf) && _richTextBox.Handle != IntPtr.Zero)
+            if (hasRtfFormatting
+                && _richTextBox.Handle != IntPtr.Zero
+                && savedRtf is { Length: > 0 } rtfBeforeMutations)
             {
-                // Store original RTF if not already stored or if RTF content has changed
-                // We need to detect if this is a new RTF (different from stored original)
-                // by checking if the text content matches (RTF might be modified but text is same)
-                string currentText = _richTextBox.Text;
-                bool isNewRtf = _originalRtf == null;
-
-                // If we have stored original, check if text matches to determine if it's the same RTF
-                if (!isNewRtf && _originalRtf != null)
-                {
-                    // Try to get text from original RTF to compare
-                    // If text doesn't match, it's a new RTF
-                    // For simplicity, we'll compare the saved RTF with original
-                    // If they're significantly different, it's likely new content
-                    if (savedRtf != _originalRtf && savedRtf != null && Math.Abs(savedRtf.Length - _originalRtf.Length) > 50)
-                    {
-                        isNewRtf = true;
-                    }
-                }
-
-                if (isNewRtf)
-                {
-                    // Store the original RTF before any modifications
-                    _originalRtf = savedRtf;
-                }
+                // Always restore from the snapshot taken before palette mutations. Comparing cached
+                // RTF length to decide whether content is "new" could leave stale _originalRtf and
+                // wipe recent typing (e.g. mouse leave -> PerformNeedPaint -> small RTF delta).
+                _originalRtf = rtfBeforeMutations;
 
                 // Check if we're in a dark mode black theme that requires black text handling
                 PaletteMode currentMode = KryptonManager.CurrentGlobalPaletteMode;
@@ -2174,26 +2157,23 @@ public class KryptonRichTextBox : VisualControlBase,
 
                 string? rtfToRestore;
 
-                if (isDarkModeBlackTheme && _originalRtf != null)
+                if (isDarkModeBlackTheme)
                 {
-                    // In dark mode black themes, check if original RTF contains black text
+                    // In dark mode black themes, check if RTF contains black text
                     // If so, replace black color codes with white for visibility
-                    bool hasBlackText = HasBlackTextInRtf(_originalRtf);
+                    bool hasBlackText = HasBlackTextInRtf(rtfBeforeMutations);
                     if (hasBlackText)
                     {
-                        // Replace black color codes with white in original RTF
-                        rtfToRestore = RemoveBlackColorCodes(_originalRtf);
+                        rtfToRestore = RemoveBlackColorCodes(rtfBeforeMutations);
                     }
                     else
                     {
-                        // No black text, use original RTF
-                        rtfToRestore = _originalRtf;
+                        rtfToRestore = rtfBeforeMutations;
                     }
                 }
                 else
                 {
-                    // Not in dark mode black theme - restore original RTF with all formatting
-                    rtfToRestore = _originalRtf ?? savedRtf;
+                    rtfToRestore = rtfBeforeMutations;
                 }
 
                 // Check if RTF was modified (lost formatting) and restore it

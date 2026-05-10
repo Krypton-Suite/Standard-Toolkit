@@ -19,7 +19,7 @@ namespace TestForm.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -1757,27 +1757,6 @@ namespace TestForm.Properties {
             get {
                 object obj = ResourceManager.GetObject("mh", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;?xml version=&apos;1.0&apos; encoding=&apos;utf-8&apos;?&gt;
-        ///&lt;KryptonPalette Version=&quot;21&quot; Generated=&quot;Monday, 09 March 2026, @15:54&quot;&gt;
-        ///  &lt;Properties&gt;
-        ///    &lt;UseThemeFormChromeBorderWidth Type=&quot;InheritBool&quot; Value=&quot;Inherit&quot; /&gt;
-        ///    &lt;ButtonSpecs&gt;
-        ///      &lt;Common&gt;
-        ///        &lt;Image Type=&quot;Image&quot; Value=&quot;&quot; /&gt;
-        ///        &lt;ImageStates&gt;
-        ///          &lt;ImageCheckedNormal Type=&quot;Image&quot; Value=&quot;&quot; /&gt;
-        ///          &lt;ImageCheckedPressed Type=&quot;Image&quot; Value=&quot;&quot; /&gt;
-        ///          &lt;ImageCheckedTracking Type=&quot;Image&quot; Value=&quot;&quot; /&gt;
-        ///          &lt;ImageNormal Type=&quot;Image&quot; Value=&quot;&quot; /&gt;
-        ///   [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string Microsoft365_Super_Pink {
-            get {
-                return ResourceManager.GetString("Microsoft365_Super_Pink", resourceCulture);
             }
         }
         

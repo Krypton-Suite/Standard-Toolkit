@@ -1,5 +1,15 @@
- <Project>
+<Project>
 	<Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../../'))" />
+
+	<!-- MSB3822/3823: binary .resx (images/icons) need preserialized GenerateResource + System.Resources.Extensions.
+	     Defined here (not repo root) so it applies after SDK props; all projects under this folder are WinForms SDK. -->
+	<PropertyGroup>
+		<GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="System.Resources.Extensions" Version="9.0.10" />
+	</ItemGroup>
 
 	<!-- Target Framework Selection: Determines which .NET versions to build for based on configuration -->
 	<Choose>
@@ -35,7 +45,7 @@
 	<PropertyGroup>
 		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
 		<NeutralLanguage>en</NeutralLanguage>
-		<Authors>Phil Wright (A.K.A ComponentFactory), Peter Wagner (A.K.A Wagnerp), Simon Coghlan (A.K.A Smurf-IV), Giduac, Ahmed Abdelhameed, Lesandro and tobitege</Authors>
+		<Authors>Phil Wright (A.K.A ComponentFactory), Peter Wagner (A.K.A Wagnerp), Simon Coghlan (A.K.A Smurf-IV), Giduac, Ahmed Abdelhameed, Lesandro, tobitege, KamaniAR and Jorge A. Avilés (A.K.A mpbcs)</Authors>
 		<Copyright>© Component Factory Pty Ltd, 2006 - 2016. Then modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, Lesandro and tobitege et al. 2017 - 2026. All rights reserved.</Copyright>
 	</PropertyGroup>
 
@@ -46,7 +56,13 @@
 
 	<!-- Configure NuGet package output to separate directory for easier management -->
 	<PropertyGroup>
-		<PackageOutputPath>$(KryptonPackageOutputRoot)$(Configuration)\</PackageOutputPath>
+		<PackageOutputPath>$(MSBuildThisFileDirectory)..\..\Bin\Packages\$(Configuration)\</PackageOutputPath>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(TargetFramework)' != '' And !$([System.String]::Copy('$(TargetFramework)').Contains(';'))">
+		<!-- Ensure multi-target outputs don't overwrite each other -->
+		<OutputPath>$(MSBuildThisFileDirectory)..\..\Bin\$(Configuration)\$(TargetFramework)\</OutputPath>
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 	</PropertyGroup>
 
 	<Choose>
@@ -71,7 +87,7 @@
 				<!-- common package data -->
 				<PackageProjectUrl>https://github.com/Krypton-Suite/Standard-Toolkit</PackageProjectUrl>
 				<PackageIcon>Krypton Canary.png</PackageIcon>
-				<Authors>Peter William Wagner &amp; Simon Coghlan &amp; Giduac &amp; Ahmed Abdelhameed &amp; Lesandro &amp; tobitege &amp; Thomas Bolon</Authors>
+				<Authors>Peter William Wagner &amp; Simon Coghlan &amp; Giduac &amp; Ahmed Abdelhameed &amp; Lesandro &amp; tobitege &amp; KamaniAR &amp; Jorge A. Avilés &amp; Thomas Bolon</Authors>
 				<!--<PackageLicenseFile>License.md</PackageLicenseFile>-->
 				<PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
 				<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
@@ -140,7 +156,7 @@
 				<!-- common package data -->
 				<PackageProjectUrl>https://github.com/Krypton-Suite/Standard-Toolkit</PackageProjectUrl>
 				<PackageIcon>Krypton Stable.png</PackageIcon>
-				<Authors>Peter William Wagner &amp; Simon Coghlan &amp; Giduac &amp; Ahmed Abdelhameed &amp; Lesandro &amp; tobitege &amp; KamaniAR &amp; mcpbcs &amp; Thomas Bolon</Authors>
+				<Authors>Peter William Wagner &amp; Simon Coghlan &amp; Giduac &amp; Ahmed Abdelhameed &amp; Lesandro &amp; tobitege &amp; KamaniAR &amp; Jorge A. Avilés &amp; Thomas Bolon</Authors>
 				<!--<PackageLicenseFile>License.md</PackageLicenseFile>-->
 				<PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
 				<PackageReadmeFile>README.md</PackageReadmeFile>
@@ -153,23 +169,4 @@
 			</PropertyGroup>
 		</Otherwise>
 	</Choose>
-
-	<!-- CS7069 / package pruning: WinForms metadata (Component, ExpandableObjectConverter, etc.) can disappear from
-	     compile assets when pruning is on. Disable pruning for all .NET (Core) Windows TFMs (hyphen TFM only so
-	     net472/net48 are excluded — UseWindowsForms still sets Platform=Windows on netfx).
-	     Do not add explicit System.ComponentModel.* NuGet packages here: with pruning off the shared framework
-	     supplies them; explicit 4.3.0 packages caused CS1705 on net10+ and NU1510 (will not be pruned) everywhere. -->
-	<PropertyGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETCoreApp' And '$(TargetPlatformIdentifier)' == 'Windows' And $(TargetFramework.Contains('-'))">
-		<RestoreEnablePackagePruning>false</RestoreEnablePackagePruning>
-	</PropertyGroup>
-
-	<!-- MSB3822/MSB3823 resource generation fix for net4x TFMs with non-string .resx entries. -->
-	<PropertyGroup Condition="'$(TargetFramework)' != '' and $(TargetFramework.StartsWith('net4')) == 'true'">
-		<GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
-	</PropertyGroup>
-
-	<ItemGroup Condition="'$(TargetFramework)' != '' and $(TargetFramework.StartsWith('net4')) == 'true'">
-		<!-- GeneratePathProperty: Krypton.Standard.Toolkit packs binaries with suppressed nuspec deps; net4x needs this DLL beside Krypton.*. -->
-		<PackageReference Include="System.Resources.Extensions" Version="4.7.1" GeneratePathProperty="true" />
-	</ItemGroup>
 </Project>

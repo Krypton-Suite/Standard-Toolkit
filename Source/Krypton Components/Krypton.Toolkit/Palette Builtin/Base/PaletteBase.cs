@@ -22,11 +22,16 @@ public abstract class PaletteBase : Component
     /// Direct indexed access to the palette's backing color array.
     /// </summary>
     protected abstract Color[] SchemeColors { get; }
+    
     internal Color[] GetSchemeColors() => SchemeColors;
 
     private Padding? _inputControlPadding;
+    
     private PaletteDragFeedback _dragFeedback;
+    
     private Image[] _toolBarImages;
+
+    private readonly bool _systemEventsUserPreferenceSubscribed;
 
     private readonly Font _defaultFontStyle = new Font("Segoe UI", 9f, FontStyle.Regular);
 
@@ -100,11 +105,26 @@ public abstract class PaletteBase : Component
     #endregion
 
     #region Identity
+
     /// <summary>Initializes a new instance of the <see cref="PaletteBase" /> class.</summary>
     protected PaletteBase()
+        : this(attachUserPreferenceChanged: true)
     {
-        // We need to notice when system color settings change
-        SystemEvents.UserPreferenceChanged += OnUserPreferenceChanged;
+    }
+
+    /// <summary>
+    /// Initializes palette identity; optionally skips <see cref="SystemEvents.UserPreferenceChanged"/> so
+    /// <see cref="PaletteRedirect"/> (often never disposed) is not rooted by a static event (#3385).
+    /// </summary>
+    /// <param name="attachUserPreferenceChanged">When <see langword="true"/>, subscribes to user preference changes.</param>
+    protected PaletteBase(bool attachUserPreferenceChanged)
+    {
+        _systemEventsUserPreferenceSubscribed = attachUserPreferenceChanged;
+        if (attachUserPreferenceChanged)
+        {
+            // We need to notice when system color settings change
+            SystemEvents.UserPreferenceChanged += OnUserPreferenceChanged;
+        }
 
         // Inherit means we need to calculate the value next time it is requested
         _dragFeedback = PaletteDragFeedback.Inherit;
@@ -112,6 +132,7 @@ public abstract class PaletteBase : Component
         BaseFont = _defaultFontStyle;
         ThemeName = @"PaletteBase"; // DisallowNull !
     }
+
     #endregion
 
     #region UseThemeFormChromeBorderWidth
@@ -2146,8 +2167,11 @@ public abstract class PaletteBase : Component
     {
         if (disposing)
         {
-            // Detach from static SystemEvents to prevent memory leaks
-            SystemEvents.UserPreferenceChanged -= OnUserPreferenceChanged;
+            if (_systemEventsUserPreferenceSubscribed)
+            {
+                // Detach from static SystemEvents to prevent memory leaks
+                SystemEvents.UserPreferenceChanged -= OnUserPreferenceChanged;
+            }
 
             // Dispose any font resources we created
             DisposeFonts();
