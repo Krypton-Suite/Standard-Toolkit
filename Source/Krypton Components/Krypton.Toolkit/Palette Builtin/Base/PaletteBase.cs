@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -21,10 +21,16 @@ namespace Krypton.Toolkit
         #region Instance Fields
 
         private bool _useKryptonFileDialogs;
+
         private BasePaletteType _basePaletteType;
+        
         private Padding? _inputControlPadding;
+        
         private PaletteDragFeedback _dragFeedback;
+        
         private string _themeName;
+
+        private readonly bool _systemEventsUserPreferenceSubscribed;
 
         private readonly Font _defaultFontStyle = new Font("Segoe UI", 9f, FontStyle.Regular);
 
@@ -82,11 +88,27 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Identity
+
         /// <summary>Initializes a new instance of the <see cref="PaletteBase" /> class.</summary>
-        protected PaletteBase()
+        public PaletteBase() : this(attachUserPreferenceChanged: true)
         {
-            // We need to notice when system color settings change
-            SystemEvents.UserPreferenceChanged += OnUserPreferenceChanged;
+            
+        }
+
+        /// <summary>
+        /// Initializes palette identity; optionally skips <see cref="SystemEvents.UserPreferenceChanged"/> so
+        /// <see cref="PaletteRedirect"/> (often never disposed) is not rooted by a static event (#3385).
+        /// </summary>
+        /// <param name="attachUserPreferenceChanged">When <see langword="true"/>, subscribes to user preference changes.</param>
+        protected PaletteBase(bool attachUserPreferenceChanged)
+        {
+            _systemEventsUserPreferenceSubscribed = attachUserPreferenceChanged;
+
+            if (attachUserPreferenceChanged)
+            {
+                // We need to notice when system color settings change
+                SystemEvents.UserPreferenceChanged += OnUserPreferenceChanged;
+            }
 
             // Inherit means we need to calculate the value next time it is requested
             _dragFeedback = PaletteDragFeedback.Inherit;
@@ -2015,8 +2037,11 @@ namespace Krypton.Toolkit
         {
             if (disposing)
             {
-                // Detach from static SystemEvents to prevent memory leaks.
-                SystemEvents.UserPreferenceChanged -= OnUserPreferenceChanged;
+                if (_systemEventsUserPreferenceSubscribed)
+                {
+                    // Detach from static SystemEvents to prevent memory leaks.
+                    SystemEvents.UserPreferenceChanged -= OnUserPreferenceChanged;
+                }
 
                 // Dispose any font resources we created.
                 DisposeFonts();
