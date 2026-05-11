@@ -28,7 +28,7 @@
 		<ItemGroup>
 			<Projects Include="..\..\Source\Krypton Components\Krypton.*\*.csproj" />
 		</ItemGroup>
-		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all;UseArtifactsOutput=$(UseArtifactsOutput)" />
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all;UseArtifactsOutput=$(UseArtifactsOutput)" Targets="Build" BuildInParallel="false" />
 	</Target>
 
 	<Target Name="Rebuild" DependsOnTargets="Clean;Build" />
