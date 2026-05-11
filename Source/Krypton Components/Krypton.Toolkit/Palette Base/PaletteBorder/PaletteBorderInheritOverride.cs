@@ -434,7 +434,7 @@ public class PaletteBorderInheritOverride : PaletteBorderInherit
 
             return _primary.GetBorderRounding(state);
         }
-
+        else
         {
             var ret = _primary.GetBorderRounding(OverrideState);
             if (ret == -1f)
