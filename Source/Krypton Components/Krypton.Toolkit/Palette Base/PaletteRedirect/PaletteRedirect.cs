@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2026. All rights reserved. 
  *  
  */
 #endregion
@@ -34,7 +34,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the PaletteRedirect class.
         /// </summary>
         /// <param name="target">Initial palette target for redirection.</param>
-        public PaletteRedirect(PaletteBase? target)
+        public PaletteRedirect(PaletteBase? target) : base(attachUserPreferenceChanged: false)
         {
             Id = CommonHelper.NextId;
             // Remember incoming target
