@@ -68,6 +68,7 @@ public partial class StartScreen : KryptonForm
         CreateButton<Bug2984SeparatorTest>("Bug 2984 Separator Test", "Demo for Issue #2984: NullReferenceException in ViewDrawSeparator.RenderBefore. Exercises KryptonNavigator (Outlook), KryptonSplitContainer, and KryptonSeparator. Swap themes to verify no crash.");
         CreateButton<Bug3025KryptonLabelAutoSizeDemo>("Bug 3025 KryptonLabel AutoSize Demo", "Demo for Issue #3025: KryptonLabel with AutoSize now resizes to fit text when placed in the Designer (click-drag). Shows AutoSize on/off, LabelStyles, short/long text, and text + image.");
         CreateButton<Bug3342KryptonTextBoxResizeFlickerDemo>("Bug 3342 Multiline TextBox Flicker", "Demo for issue #3342: multiline KryptonTextBox text flicker while resizing. Includes manual resize steps and an automated stress-resize toggle.");
+        CreateButton<Bug3382CueHintLinesDemo>("Bug 3382 CueHint line artifacts", "Demo for issue #3382: KryptonTextBox CueHint with TextH Near and mixed cue/content fonts — verify no stray top/left lines; cue remains vertically centered.");
         CreateButton<Bug3381KryptonButtonRoundedTextCenteringDemo>("Bug 3381 KryptonButton Rounded Text Centering", "Demo for issue #3381: vertical and horizontal text centering inside heavily rounded KryptonButton (wide pill, Cyrillic, font metrics). Includes side-by-side stress, tall narrow capsule, low-rounding baseline, and live rounding / TextV / font / height controls.");
         CreateButton<KryptonToolTipTest>("KryptonToolTip", "Component wrapper (#3380): themed VisualPopupToolTip on arbitrary WinForms / Krypton controls via extender props or SetToolTip.");
         CreateButton<Bug3283ThemeComboBoxProgrammaticTest>("Bug 3283 ThemeComboBox programmatic", "Issue #3283: KryptonThemeComboBox must apply the global palette when SelectedIndex is set in code. Buttons cycle or jump the index; status lines show selection vs KryptonManager.CurrentGlobalPaletteMode. Optional: add a fresh combo with index set before its handle exists.");
@@ -111,6 +112,7 @@ public partial class StartScreen : KryptonForm
         CreateButton<TouchscreenHighDpiDemo>("Touchscreen + High DPI Demo", "Comprehensive demonstration of touchscreen support with per-monitor high DPI scaling (Issue #2844).");
         CreateButton<KryptonFormTitleBarDemo>("Title Bar Menu", "Demonstrates titlebar menu.");
         CreateButton<RichTextBoxFormattingTest>("RichTextBox Formatting Test", "Tests fix for RichTextBox formatting preservation when palette changes (Issue #2832)");
+        CreateButton<Bug3343RichTextBoxEditLossDemo>("Bug 3343 RichTextBox mouse leave", "Issue #3343: type in KryptonRichTextBox, move the mouse out without changing focus; text and TextLength must not reset. Includes KryptonTextBox for comparison.");
         CreateButton<RTLFormBorderTest>("RTL Layout Test", "Test for RTL compliance");
         CreateButton<ToastNotificationTestChoice>("Toast", "For breakfast....?");
         CreateButton<WorkspaceTest>("WorkspaceTest", string.Empty);

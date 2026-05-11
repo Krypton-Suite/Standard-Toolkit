@@ -44,8 +44,8 @@ jobs:
         if: steps.release_kill_switch.outputs.enabled == 'true'
         uses: actions/checkout@v6
 
-      # .NET 9 and 10
-      - name: Setup .NET
+      # .NET 9 and 10; .NET 11 for net11.0-windows (DOTNET_PREVIEW_SETUP_VERSION when set, else 11.0.x).
+      - name: Setup .NET (9 and 10)
         # Kill switch check
         if: steps.release_kill_switch.outputs.enabled == 'true'
         uses: actions/setup-dotnet@v5
@@ -54,34 +54,74 @@ jobs:
             9.0.x
             10.0.x
 
-      # .NET 11 (Preview)
-      - name: Setup .NET 11 (Preview)
+      - name: Setup .NET 11 (stable)
+        id: setup_dotnet11_stable_master
+        continue-on-error: true
         # Kill switch check
         if: steps.release_kill_switch.outputs.enabled == 'true'
         uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: 11.0.x
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
+
+      - name: Setup .NET 11 (preview fallback)
+        # Kill switch check
+        if: steps.release_kill_switch.outputs.enabled == 'true' && steps.setup_dotnet11_stable_master.outcome == 'failure'
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
           dotnet-quality: preview
 
-      # global.json dynamically generate (use latest SDK available)
-      - name: Force .NET 11 SDK via global.json
-        if: steps.release_kill_switch.outputs.enabled == 'true'
-        run: |
-          $sdkVersions = dotnet --list-sdks
-          Write-Host "Available SDKs:"
-          Write-Host $sdkVersions
+      # Preview .NET SDK. USE_DOTNET_PREVIEW=false skips preview SDK; global.json uses stable SDK below.
+      - name: Setup .NET Preview
+        # Kill switch check
+        if: steps.release_kill_switch.outputs.enabled == 'true' && vars.USE_DOTNET_PREVIEW != 'false'
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION }}
+          dotnet-quality: preview
 
-          $sdkVersion = ($sdkVersions | Select-String "^11\.0\." | Select-Object -First 1).ToString().Split(" ")[0]
-          if (-not $sdkVersion) {
-            Write-Error ".NET 11 SDK is required for net11.0 targets but was not found. Ensure setup-dotnet preview install succeeded before restore."
-            exit 1
+      # Pin sdk.version for CI; preview band vs stable follows USE_DOTNET_PREVIEW; always allow .NET 11 for net11.0-windows TFMs.
+      - name: Pin SDK via global.json
+        if: steps.release_kill_switch.outputs.enabled == 'true'
+        env:
+          DOTNET_PREVIEW_SDK_BAND: ${{ vars.DOTNET_PREVIEW_SDK_BAND }}
+          USE_DOTNET_PREVIEW: ${{ vars.USE_DOTNET_PREVIEW }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          function Get-ListedSdkVersion([string]$Pattern) {
+            $hit = dotnet --list-sdks | Select-String $Pattern | Select-Object -Last 1
+            if (-not $hit) { return $null }
+            $line = $hit.Line.TrimEnd()
+            if ($line -match '^(\d+\.\d+\.\d+)\s') { return $Matches[1] }
+            return (($line -split '\s+', 2)[0])
           }
-          Write-Output "Using SDK $sdkVersion"
+
+          $usePreview = $env:USE_DOTNET_PREVIEW -ne 'false'
+          $sdkVersion = $null
+          if (-not $usePreview) {
+            $sdkVersion = Get-ListedSdkVersion '11.0'
+            if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '10.0' }
+            if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '9.0' }
+          } else {
+            if (-not $env:DOTNET_PREVIEW_SDK_BAND) {
+              Write-Error 'DOTNET_PREVIEW_SDK_BAND is not set (repository variable).'
+            }
+            $sdkVersion = Get-ListedSdkVersion $env:DOTNET_PREVIEW_SDK_BAND
+            if (-not $sdkVersion) {
+              $sdkVersion = Get-ListedSdkVersion '11.0'
+            }
+            if (-not $sdkVersion) {
+              $sdkVersion = Get-ListedSdkVersion '10.0'
+            }
+          }
+          if (-not $sdkVersion) {
+            Write-Error 'Could not resolve an SDK version for global.json.'
+          }
+          Write-Host "Using SDK $sdkVersion"
           @"
           {
             "sdk": {
               "version": "$sdkVersion",
-              "allowPrerelease": true,
               "rollForward": "latestFeature"
             }
           }
@@ -343,8 +383,8 @@ jobs:
         if: steps.release_kill_switch.outputs.enabled == 'true'
         uses: actions/checkout@v6
 
-      # .NET 9 and 10
-      - name: Setup .NET
+      # .NET 9 and 10; .NET 11 for net11.0-windows (DOTNET_PREVIEW_SETUP_VERSION when set, else 11.0.x).
+      - name: Setup .NET (9 and 10)
         # Kill switch check
         if: steps.release_kill_switch.outputs.enabled == 'true'
         uses: actions/setup-dotnet@v5
@@ -353,18 +393,55 @@ jobs:
             9.0.x
             10.0.x
 
-      # global.json dynamically generate
-      - name: Force .NET 10 SDK via global.json
+      - name: Setup .NET 11 (stable)
+        id: setup_dotnet11_stable_v105
+        continue-on-error: true
+        # Kill switch check
+        if: steps.release_kill_switch.outputs.enabled == 'true'
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
+
+      - name: Setup .NET 11 (preview fallback)
+        # Kill switch check
+        if: steps.release_kill_switch.outputs.enabled == 'true' && steps.setup_dotnet11_stable_v105.outcome == 'failure'
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
+          dotnet-quality: preview
+
+      - name: Setup .NET Preview
+        # Kill switch check
+        if: steps.release_kill_switch.outputs.enabled == 'true' && vars.USE_DOTNET_PREVIEW != 'false'
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION }}
+          dotnet-quality: preview
+
+      # Pin sdk.version to newest installed 11.x / 10.x / 9.x (must support net11.0-windows TFMs).
+      - name: Pin SDK via global.json
         # Kill switch check
         if: steps.release_kill_switch.outputs.enabled == 'true'
         run: |
-          $sdkVersion = (dotnet --list-sdks | Select-String "10.0").ToString().Split(" ")[0]
-          Write-Output "Using SDK $sdkVersion"
+          $ErrorActionPreference = 'Stop'
+          function Get-ListedSdkVersion([string]$Pattern) {
+            $hit = dotnet --list-sdks | Select-String $Pattern | Select-Object -Last 1
+            if (-not $hit) { return $null }
+            $line = $hit.Line.TrimEnd()
+            if ($line -match '^(\d+\.\d+\.\d+)\s') { return $Matches[1] }
+            return (($line -split '\s+', 2)[0])
+          }
+          $sdkVersion = Get-ListedSdkVersion '11.0'
+          if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '10.0' }
+          if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '9.0' }
+          if (-not $sdkVersion) {
+            Write-Error 'Could not resolve an SDK version for global.json.'
+          }
+          Write-Host "Using SDK $sdkVersion"
           @"
           {
             "sdk": {
               "version": "$sdkVersion",
-              "allowPrerelease": true,
               "rollForward": "latestFeature"
             }
           }
@@ -626,8 +703,8 @@ jobs:
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         uses: actions/checkout@v6
 
-      # .NET 9 and 10
-      - name: Setup .NET
+      # .NET 9 and 10; .NET 11 for net11.0-windows (DOTNET_PREVIEW_SETUP_VERSION when set, else 11.0.x).
+      - name: Setup .NET (9 and 10)
         # Kill switch check
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         uses: actions/setup-dotnet@v5
@@ -636,28 +713,69 @@ jobs:
             9.0.x
             10.0.x
 
-      # .NET 11 (Preview)
-      - name: Setup .NET 11 (Preview)
+      - name: Setup .NET 11 (stable)
+        id: setup_dotnet11_stable_canary
+        continue-on-error: true
+        # Kill switch check
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: 11.0.x
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
+
+      - name: Setup .NET 11 (preview fallback)
+        # Kill switch check
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true' && steps.setup_dotnet11_stable_canary.outcome == 'failure'
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
           dotnet-quality: preview
 
-      # global.json dynamically generate (use latest SDK available)
-      - name: Force .NET 11 SDK via global.json
-        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
-        run: |
-          $sdkVersions = dotnet --list-sdks
-          Write-Host "Available SDKs:"
-          Write-Host $sdkVersions
+      # Preview .NET SDK. USE_DOTNET_PREVIEW=false skips preview SDK; global.json uses stable SDK below.
+      - name: Setup .NET Preview
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true' && vars.USE_DOTNET_PREVIEW != 'false'
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION }}
+          dotnet-quality: preview
 
-          $sdkVersion = ($sdkVersions | Select-String "^11\.0\." | Select-Object -First 1).ToString().Split(" ")[0]
-          if (-not $sdkVersion) {
-            Write-Error ".NET 11 SDK is required for net11.0 targets but was not found. Ensure setup-dotnet preview install succeeded before restore."
-            exit 1
+      # Pin sdk.version for CI; preview band vs stable follows USE_DOTNET_PREVIEW; always allow .NET 11 for net11.0-windows TFMs.
+      - name: Pin SDK via global.json
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
+        env:
+          DOTNET_PREVIEW_SDK_BAND: ${{ vars.DOTNET_PREVIEW_SDK_BAND }}
+          USE_DOTNET_PREVIEW: ${{ vars.USE_DOTNET_PREVIEW }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          function Get-ListedSdkVersion([string]$Pattern) {
+            $hit = dotnet --list-sdks | Select-String $Pattern | Select-Object -Last 1
+            if (-not $hit) { return $null }
+            $line = $hit.Line.TrimEnd()
+            if ($line -match '^(\d+\.\d+\.\d+)\s') { return $Matches[1] }
+            return (($line -split '\s+', 2)[0])
           }
-          Write-Output "Using SDK $sdkVersion"
+
+          $usePreview = $env:USE_DOTNET_PREVIEW -ne 'false'
+          $sdkVersion = $null
+          if (-not $usePreview) {
+            $sdkVersion = Get-ListedSdkVersion '11.0'
+            if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '10.0' }
+            if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '9.0' }
+          } else {
+            if (-not $env:DOTNET_PREVIEW_SDK_BAND) {
+              Write-Error 'DOTNET_PREVIEW_SDK_BAND is not set (repository variable).'
+            }
+            $sdkVersion = Get-ListedSdkVersion $env:DOTNET_PREVIEW_SDK_BAND
+            if (-not $sdkVersion) {
+              $sdkVersion = Get-ListedSdkVersion '11.0'
+            }
+            if (-not $sdkVersion) {
+              $sdkVersion = Get-ListedSdkVersion '10.0'
+            }
+          }
+          if (-not $sdkVersion) {
+            Write-Error 'Could not resolve an SDK version for global.json.'
+          }
+          Write-Host "Using SDK $sdkVersion"
           @"
           {
             "sdk": {
@@ -923,8 +1041,8 @@ jobs:
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
         uses: actions/checkout@v6
 
-      # .NET 9 and 10
-      - name: Setup .NET
+      # .NET 9 and 10; .NET 11 for net11.0-windows — DOTNET_PREVIEW_SETUP_VERSION when set, else 11.0.x (aligned with build.yml).
+      - name: Setup .NET (9 and 10)
         # Kill switch check
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
         uses: actions/setup-dotnet@v5
@@ -933,13 +1051,51 @@ jobs:
             9.0.x
             10.0.x
 
-      # global.json dynamically generate
-      - name: Force .NET 10 SDK via global.json
+      - name: Setup .NET 11 (stable)
+        id: setup_dotnet11_stable_alpha
+        continue-on-error: true
+        # Kill switch check
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
+
+      - name: Setup .NET 11 (preview fallback)
+        # Kill switch check
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.setup_dotnet11_stable_alpha.outcome == 'failure'
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
+          dotnet-quality: preview
+
+      - name: Setup .NET Preview
+        # Kill switch check
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && vars.USE_DOTNET_PREVIEW != 'false'
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION }}
+          dotnet-quality: preview
+
+      # Pin sdk.version to newest installed 11.x / 10.x / 9.x (must support net11.0-windows TFMs).
+      - name: Pin SDK via global.json
         # Kill switch check
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
         run: |
-          $sdkVersion = (dotnet --list-sdks | Select-String "10.0").ToString().Split(" ")[0]
-          Write-Output "Using SDK $sdkVersion"
+          $ErrorActionPreference = 'Stop'
+          function Get-ListedSdkVersion([string]$Pattern) {
+            $hit = dotnet --list-sdks | Select-String $Pattern | Select-Object -Last 1
+            if (-not $hit) { return $null }
+            $line = $hit.Line.TrimEnd()
+            if ($line -match '^(\d+\.\d+\.\d+)\s') { return $Matches[1] }
+            return (($line -split '\s+', 2)[0])
+          }
+          $sdkVersion = Get-ListedSdkVersion '11.0'
+          if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '10.0' }
+          if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '9.0' }
+          if (-not $sdkVersion) {
+            Write-Error 'Could not resolve an SDK version for global.json.'
+          }
+          Write-Host "Using SDK $sdkVersion"
           @"
           {
             "sdk": {
@@ -978,7 +1134,7 @@ jobs:
         run: |
           if (-not (Test-Path "WebView2SDK")) { mkdir WebView2SDK }
           $packageId = "Microsoft.Web.WebView2"
-          # Use prerelease versions for alpha builds to avoid .NET 11.0 requirement
+          # Prerelease WebView2 for alpha NuGet ordering; dotnet restore still requires an SDK that supports net11.0-windows (see Pin SDK step).
           Write-Host "Using prerelease=true for WebView2 SDK lookup (alpha build)"
           $latestVersion = $null
           try {
