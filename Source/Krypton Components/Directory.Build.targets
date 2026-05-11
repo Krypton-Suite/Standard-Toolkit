@@ -8,6 +8,8 @@
 	     inner multi-target build overwrite Krypton.Toolkit.dll (etc.), so net472 then references net10+ (CS1705). -->
 	<PropertyGroup Condition="'$(TargetFramework)' != ''">
 		<OutputPath>$(KryptonBuildOutputRoot)$(Configuration)\$(TargetFramework)\</OutputPath>
+		<!-- Keep OutDir in sync: props set OutputPath before this; SDK freezes OutDir unless updated with OutputPath. -->
+		<OutDir>$(OutputPath)</OutDir>
 	</PropertyGroup>
 
 	<Import Project="$(MSBuildThisFileDirectory)NetFramework.SystemResourcesExtensions.BindingRedirects.props"
