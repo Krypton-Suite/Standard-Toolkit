@@ -264,9 +264,16 @@ jobs:
           )
           $packages = @(Get-ChildItem -Path $packageCandidates -ErrorAction SilentlyContinue | Sort-Object FullName -Unique)
           $publishedAny = $false
+          $repoRoot = if ($null -ne $env:GITHUB_WORKSPACE -and $env:GITHUB_WORKSPACE -ne '') { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
+          . (Join-Path $repoRoot 'Scripts/CI/StandardToolkitNupkgGuard.ps1')
+          $standardToolkitNupkgSizeGateFailed = $false
 
           if ($packages) {
             foreach ($package in $packages) {
+              if (-not (Test-StandardToolkitNupkgPushAllowed -Package $package)) {
+                $standardToolkitNupkgSizeGateFailed = $true
+                continue
+              }
               Write-Output "Pushing package: $($package.Name)"
               try {
                 $output = dotnet nuget push "$($package.FullName)" --api-key $env:NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate 2>&1 | Out-String
@@ -285,9 +292,14 @@ jobs:
             Write-Output "No NuGet packages found to push"
           }
 
+          if ($standardToolkitNupkgSizeGateFailed) {
+            exit 1
+          }
+
           echo "packages_published=$publishedAny" >> $env:GITHUB_OUTPUT
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+          STANDARD_TOOLKIT_MIN_NUPKG_MB: ${{ vars.STANDARD_TOOLKIT_MIN_NUPKG_MB }}
 
       - name: Get Version
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
