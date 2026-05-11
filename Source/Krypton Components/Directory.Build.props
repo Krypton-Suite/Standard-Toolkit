@@ -61,7 +61,7 @@
 
 	<PropertyGroup Condition="'$(TargetFramework)' != '' And !$([System.String]::Copy('$(TargetFramework)').Contains(';'))">
 		<!-- Ensure multi-target outputs don't overwrite each other -->
-		<OutputPath>$(MSBuildThisFileDirectory)..\..\Bin\$(Configuration)\$(TargetFramework)\</OutputPath>
+		<OutputPath>$(KryptonBuildOutputRoot)$(Configuration)\$(TargetFramework)\</OutputPath>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 	</PropertyGroup>
 
