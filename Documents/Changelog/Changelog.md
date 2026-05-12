@@ -45,6 +45,11 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#3443](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3443), `KryptonComboBoxUserControl` - a ComboBox-style control whose drop-down hosts any `UserControl` (or any `Control`). Drop content can opt into the new `IKryptonDropDownUserControl` contract for sizing, lifecycle, and value commit/cancel signalling. Also adds `KryptonDropDownCommitEventArgs` / `KryptonDropDownOpeningEventArgs` and an internal `VisualKryptonDropDownPopup` that supports an optional bottom-right resize grip.
+  * Auto-complete pipeline: optional `IKryptonDropDownFilterable` contract plus `AutoOpenOnType` / `MinFilterLength` properties on the host. When enabled, typing in the editor opens the popup without stealing focus and forwards text to `ApplyFilter`; Up/Down arrows route to `NavigateSelection`, Enter routes to `CommitSelection`, mirroring native ComboBox auto-complete UX.
+  * Designer integration: `KryptonComboBoxUserControlDesigner` + smart-tag action list (`DropDownAlign`, `DropDownWidth/Height`, `DropDownResizable`, `ReadOnlyEditor`, `InputControlStyle`, `PaletteMode`) and a `KryptonDropContentEditor` UITypeEditor that lets designers pick `DropContent` from a drop-down of available `Control`s on the same form **or instantiate a brand-new `UserControl`-derived type** discovered via `ITypeDiscoveryService` (the new component is sited on the host so it appears in `Designer.cs` code-gen).
+  * `TestForm` demo (`KryptonComboBoxUserControlDemo`) covers four scenarios: tree-picker, multi-column grid-picker, plain (non-contract) `UserControl`, and a filter-as-you-type city picker.
+  * To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this control is part of the `Krypton.Utilities` assembly.
 * Resolved [#3382](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3382), Lines when using `CueHint` for `KryptonTextBox`
 * Implemented [#3405](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3405), Add Badge Support for `KryptonNavigator` (Notification Indicator)
 * Resolved [#3343](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3343), Strange behavior of `KryptonRichTextBox` when editing text
