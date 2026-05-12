@@ -53,7 +53,7 @@
 * Resolved [#3381](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3381), Vertical text centering on a rounded-corner `KryptonButton`
 * Implemented [#3380](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3380), `KryptonToolTip` - A user control/component wrapper around the existing KToolTips
 * Resolved [#3385](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3385), Memory Retention in Krypton Controls via SystemEvents
-* Resolved [#3377](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3377), `Krypton.Standard.Toolkit` NuGet package does not contain all binaries
+* Resolved [#3377](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3377), `Krypton.Standard.Toolkit` NuGet package does not contain all binaries (pack path fixes from [#3404](https://github.com/Krypton-Suite/Standard-Toolkit/pull/3404) plus `OutDir` aligned with shared `OutputPath` in `Directory.Build.targets` so builds with `UseArtifactsOutput=true` write DLLs where pack collects them)
 * Resolved [#3164](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3164), Font properties with no explicit value were not correctly serialized/deserialized in exported XML
 * Resolved [#3183](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3183), Small square rendered next to Close button on KryptonForm when using a custom theme
 * Implemented [#908](https://github.com/Krypton-Suite/Standard-Toolkit/issues/908), Create new items via 'New Item/Project'
