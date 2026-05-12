@@ -1,4 +1,4 @@
-﻿using Krypton.Utilities;
+﻿using Krypton.Toolkit.Utilities;
 
 namespace TestForm
 {
@@ -56,7 +56,7 @@ namespace TestForm
             this._kbtnClear = new Krypton.Toolkit.KryptonButton();
             this._txtContent = new Krypton.Toolkit.KryptonTextBox();
             this._kryptonPanelPreview = new Krypton.Toolkit.KryptonPanel();
-            this._kryptonQRCode = new Krypton.Utilities.KryptonQRCode();
+            this._kryptonQRCode = new Krypton.Toolkit.Utilities.KryptonQRCode();
             ((System.ComponentModel.ISupportInitialize)(this._kryptonPanelRoot)).BeginInit();
             this._kryptonPanelRoot.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._splitMain)).BeginInit();

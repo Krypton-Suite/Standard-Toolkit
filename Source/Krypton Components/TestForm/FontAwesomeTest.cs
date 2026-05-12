@@ -14,7 +14,7 @@ using System.Windows.Forms;
 using Krypton.Navigator;
 using Krypton.Ribbon;
 using Krypton.Toolkit;
-using Krypton.Utilities;
+using Krypton.Toolkit.Utilities;
 
 namespace TestForm;
 
@@ -346,7 +346,7 @@ public partial class FontAwesomeTest : KryptonForm
     private void BtnIconPicker_Click(object? sender, EventArgs e)
     {
         // Demonstrate the icon picker dialog
-        using var dialog = new Krypton.Utilities.FontAwesomeIconPickerDialog();
+        using var dialog = new Krypton.Toolkit.Utilities.FontAwesomeIconPickerDialog();
 
         if (dialog.ShowDialog() == DialogResult.OK)
         {

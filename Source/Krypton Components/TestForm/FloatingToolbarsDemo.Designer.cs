@@ -1,4 +1,4 @@
-namespace TestForm
+﻿namespace TestForm
 {
     partial class FloatingToolbarsDemo
     {
@@ -56,17 +56,17 @@ namespace TestForm
             this.kchkEnableAnimation = new Krypton.Toolkit.KryptonCheckBox();
             this.kpgEventLog = new Krypton.Toolkit.KryptonGroupBox();
             this.ktbEventLog = new Krypton.Toolkit.KryptonRichTextBox();
-            this.ktspTop = new Krypton.Utilities.KryptonToolStripPanelExtended();
-            this.ktspBottom = new Krypton.Utilities.KryptonToolStripPanelExtended();
-            this.ktspLeft = new Krypton.Utilities.KryptonToolStripPanelExtended();
-            this.ktspRight = new Krypton.Utilities.KryptonToolStripPanelExtended();
-            this.kmspTop = new Krypton.Utilities.KryptonMenuStripPanelExtended();
-            this.kmspBottom = new Krypton.Utilities.KryptonMenuStripPanelExtended();
-            this.kftsToolbar1 = new Krypton.Utilities.KryptonFloatableToolStrip();
-            this.kftsToolbar2 = new Krypton.Utilities.KryptonFloatableToolStrip();
-            this.kftsToolbar3 = new Krypton.Utilities.KryptonFloatableToolStrip();
-            this.kfmsMenu1 = new Krypton.Utilities.KryptonFloatableMenuStrip();
-            this.kfmsMenu2 = new Krypton.Utilities.KryptonFloatableMenuStrip();
+            this.ktspTop = new Krypton.Toolkit.Utilities.KryptonToolStripPanelExtended();
+            this.ktspBottom = new Krypton.Toolkit.Utilities.KryptonToolStripPanelExtended();
+            this.ktspLeft = new Krypton.Toolkit.Utilities.KryptonToolStripPanelExtended();
+            this.ktspRight = new Krypton.Toolkit.Utilities.KryptonToolStripPanelExtended();
+            this.kmspTop = new Krypton.Toolkit.Utilities.KryptonMenuStripPanelExtended();
+            this.kmspBottom = new Krypton.Toolkit.Utilities.KryptonMenuStripPanelExtended();
+            this.kftsToolbar1 = new Krypton.Toolkit.Utilities.KryptonFloatableToolStrip();
+            this.kftsToolbar2 = new Krypton.Toolkit.Utilities.KryptonFloatableToolStrip();
+            this.kftsToolbar3 = new Krypton.Toolkit.Utilities.KryptonFloatableToolStrip();
+            this.kfmsMenu1 = new Krypton.Toolkit.Utilities.KryptonFloatableMenuStrip();
+            this.kfmsMenu2 = new Krypton.Toolkit.Utilities.KryptonFloatableMenuStrip();
             ((System.ComponentModel.ISupportInitialize)(this.kpnlMain)).BeginInit();
             this.kpnlMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kpnlContent)).BeginInit();
@@ -558,16 +558,16 @@ namespace TestForm
         private Krypton.Toolkit.KryptonButton kbtnClearStates;
         private Krypton.Toolkit.KryptonGroupBox kpgEventLog;
         private Krypton.Toolkit.KryptonRichTextBox ktbEventLog;
-        private Krypton.Utilities.KryptonToolStripPanelExtended ktspTop;
-        private Krypton.Utilities.KryptonToolStripPanelExtended ktspBottom;
-        private Krypton.Utilities.KryptonToolStripPanelExtended ktspLeft;
-        private Krypton.Utilities.KryptonToolStripPanelExtended ktspRight;
-        private Krypton.Utilities.KryptonMenuStripPanelExtended kmspTop;
-        private Krypton.Utilities.KryptonMenuStripPanelExtended kmspBottom;
-        private Krypton.Utilities.KryptonFloatableToolStrip kftsToolbar1;
-        private Krypton.Utilities.KryptonFloatableToolStrip kftsToolbar2;
-        private Krypton.Utilities.KryptonFloatableToolStrip kftsToolbar3;
-        private Krypton.Utilities.KryptonFloatableMenuStrip kfmsMenu1;
-        private Krypton.Utilities.KryptonFloatableMenuStrip kfmsMenu2;
+        private Krypton.Toolkit.Utilities.KryptonToolStripPanelExtended ktspTop;
+        private Krypton.Toolkit.Utilities.KryptonToolStripPanelExtended ktspBottom;
+        private Krypton.Toolkit.Utilities.KryptonToolStripPanelExtended ktspLeft;
+        private Krypton.Toolkit.Utilities.KryptonToolStripPanelExtended ktspRight;
+        private Krypton.Toolkit.Utilities.KryptonMenuStripPanelExtended kmspTop;
+        private Krypton.Toolkit.Utilities.KryptonMenuStripPanelExtended kmspBottom;
+        private Krypton.Toolkit.Utilities.KryptonFloatableToolStrip kftsToolbar1;
+        private Krypton.Toolkit.Utilities.KryptonFloatableToolStrip kftsToolbar2;
+        private Krypton.Toolkit.Utilities.KryptonFloatableToolStrip kftsToolbar3;
+        private Krypton.Toolkit.Utilities.KryptonFloatableMenuStrip kfmsMenu1;
+        private Krypton.Toolkit.Utilities.KryptonFloatableMenuStrip kfmsMenu2;
     }
 }
