@@ -307,24 +307,7 @@ public class PaletteBorderInheritOverride : PaletteBorderInherit
     /// </summary>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Border rounding.</returns>
-    public override float GetBorderRounding(PaletteState state)
-    {
-        if (Apply)
-        {
-            var ret = _primary.GetBorderRounding(Override ? OverrideState : state);
-
-            if (ret == -1)
-            {
-                ret = _backup.GetBorderRounding(state);
-            }
-
-            return ret;
-        }
-        else
-        {
-            return _backup.GetBorderRounding(state);
-        }
-    }
+    public override float GetBorderRounding(PaletteState state) => MergeBorderRoundingForFocusOverride(state);
 
     /// <summary>
     /// Gets a border image.
@@ -392,5 +375,77 @@ public class PaletteBorderInheritOverride : PaletteBorderInherit
             return _backup.GetBorderImageAlign(state);
         }
     }
+
+    #endregion
+
+    #region Implementation
+
+    /// <summary>
+    /// When focus chrome is merged over StateTracking/StatePressed, corner rounding must come from
+    /// the state triple first so hover/press border geometry matches the fill path (GitHub #3383).
+    /// </summary>
+    private static bool PreferBackupBorderRoundingForFocusMerge(PaletteState state)
+    {
+        switch (state)
+        {
+            case PaletteState.Tracking:
+            case PaletteState.Pressed:
+            case PaletteState.CheckedTracking:
+            case PaletteState.CheckedPressed:
+            case PaletteState.ContextTracking:
+            case PaletteState.ContextPressed:
+            case PaletteState.ContextCheckedTracking:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    private float MergeBorderRoundingForFocusOverride(PaletteState state)
+    {
+        if (!Apply)
+        {
+            return _backup.GetBorderRounding(state);
+        }
+
+        if (!Override)
+        {
+            var ret = _primary.GetBorderRounding(state);
+            if (ret == -1f)
+            {
+                ret = _backup.GetBorderRounding(state);
+            }
+
+            return ret;
+        }
+
+        if (OverrideState == PaletteState.FocusOverride && PreferBackupBorderRoundingForFocusMerge(state))
+        {
+            var ret = _backup.GetBorderRounding(state);
+            if (ret != -1f)
+            {
+                return ret;
+            }
+
+            ret = _primary.GetBorderRounding(OverrideState);
+            if (ret != -1f)
+            {
+                return ret;
+            }
+
+            return _primary.GetBorderRounding(state);
+        }
+        else
+        {
+            var ret = _primary.GetBorderRounding(OverrideState);
+            if (ret == -1f)
+            {
+                ret = _backup.GetBorderRounding(state);
+            }
+
+            return ret;
+        }
+    }
+
     #endregion
 }
