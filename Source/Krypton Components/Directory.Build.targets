@@ -14,6 +14,13 @@
 		<UseCommonOutputDirectory>true</UseCommonOutputDirectory>
 	</PropertyGroup>
 
+	<!-- Outer cross-targeting build: default BuildInParallel=true dispatches inner TFMs concurrently. With custom
+	     OutputPath/IntermediateOutputPath, concurrent inner builds can still mis-resolve or overwrite outputs in
+	     practice (CS1705: referenced assembly built for a higher TFM). Serialize inner TFMs per project. -->
+	<PropertyGroup Condition="'$(TargetFrameworks)' != '' And '$(TargetFramework)' == ''">
+		<BuildInParallel>false</BuildInParallel>
+	</PropertyGroup>
+
 	<Import Project="$(MSBuildThisFileDirectory)NetFramework.SystemResourcesExtensions.BindingRedirects.props"
 	        Condition="Exists('$(MSBuildThisFileDirectory)NetFramework.SystemResourcesExtensions.BindingRedirects.props')" />
 
