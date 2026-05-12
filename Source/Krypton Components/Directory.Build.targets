@@ -5,22 +5,20 @@
 
 	<!-- Per-TFM output under $(KryptonBuildOutputRoot)$(Configuration)\: legacy builds use Bin\Release\net472\;
 	     UseArtifactsOutput=true uses artifacts\bin\Release\net472\. A single shared folder makes the last
-	     inner multi-target build overwrite Krypton.Toolkit.dll (etc.), so net472 then references net10+ (CS1705).
-
-	     AppendTargetFrameworkToOutputPath is false in Directory.Build.props so Bin paths can be set explicitly here.
-	     That same SDK switch also skips appending TF to IntermediateOutputPath, so obj\Nightly\ would be shared across
-	     all TFMs—ref/refint DLLs overwrite (last TFM wins) and dependents get CS1705 from the wrong facade version. -->
+	     inner multi-target build overwrite Krypton.Toolkit.dll (etc.), so net472 then references net10+ (CS1705). -->
 	<PropertyGroup Condition="'$(TargetFramework)' != ''">
 		<OutputPath>$(KryptonBuildOutputRoot)$(Configuration)\$(TargetFramework)\</OutputPath>
-		<IntermediateOutputPath>obj\$(Configuration)\$(TargetFramework.ToLowerInvariant())\</IntermediateOutputPath>
-		<!--
-		  Microsoft.Common sets TargetRefPath from IntermediateOutputPath before this file runs; IntermediateOutputPath
-		  here used to omit TFM (AppendTargetFrameworkToOutputPath=false), so TargetRefPath stayed obj\{Configuration}\ref\.
-		  Override so reference assemblies align with obj\{Configuration}\{tfm}\ and CopyRefAssembly/ProjectReference CS1705
-		  consumers see matching facade versions (see Microsoft.Common.CurrentVersion.targets TargetRefPath).
-		-->
-		<TargetRefPath Condition="'$(ProduceReferenceAssembly)' == 'true' and '$(ProduceReferenceAssemblyInOutDir)' == 'true'">$([MSBuild]::NormalizePath($(TargetDir), 'ref', $(TargetFileName)))</TargetRefPath>
-		<TargetRefPath Condition="'$(ProduceReferenceAssembly)' == 'true' and '$(ProduceReferenceAssemblyInOutDir)' != 'true'">$([MSBuild]::NormalizePath($(MSBuildProjectDirectory), $(IntermediateOutputPath), 'ref', $(TargetFileName)))</TargetRefPath>
+		<!-- Keep OutDir in sync: props set OutputPath before this; SDK freezes OutDir unless updated with OutputPath. -->
+		<OutDir>$(OutputPath)</OutDir>
+		<!-- Shared per-TFM output folder across projects; avoid project-to-project copy/clean churn in the same directory. -->
+		<UseCommonOutputDirectory>true</UseCommonOutputDirectory>
+	</PropertyGroup>
+
+	<!-- Outer cross-targeting build: default BuildInParallel=true dispatches inner TFMs concurrently. With custom
+	     OutputPath/IntermediateOutputPath, concurrent inner builds can still mis-resolve or overwrite outputs in
+	     practice (CS1705: referenced assembly built for a higher TFM). Serialize inner TFMs per project. -->
+	<PropertyGroup Condition="'$(TargetFrameworks)' != '' And '$(TargetFramework)' == ''">
+		<BuildInParallel>false</BuildInParallel>
 	</PropertyGroup>
 
 	<Import Project="$(MSBuildThisFileDirectory)NetFramework.SystemResourcesExtensions.BindingRedirects.props"
