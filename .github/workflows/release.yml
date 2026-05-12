@@ -44,8 +44,8 @@ jobs:
         if: steps.release_kill_switch.outputs.enabled == 'true'
         uses: actions/checkout@v6
 
-      # .NET 9 and 10
-      - name: Setup .NET
+      # .NET 9 and 10; .NET 11 for net11.0-windows (DOTNET_PREVIEW_SETUP_VERSION when set, else 11.0.x).
+      - name: Setup .NET (9 and 10)
         # Kill switch check
         if: steps.release_kill_switch.outputs.enabled == 'true'
         uses: actions/setup-dotnet@v5
@@ -53,6 +53,23 @@ jobs:
           dotnet-version: |
             9.0.x
             10.0.x
+
+      - name: Setup .NET 11 (stable)
+        id: setup_dotnet11_stable_master
+        continue-on-error: true
+        # Kill switch check
+        if: steps.release_kill_switch.outputs.enabled == 'true'
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
+
+      - name: Setup .NET 11 (preview fallback)
+        # Kill switch check
+        if: steps.release_kill_switch.outputs.enabled == 'true' && steps.setup_dotnet11_stable_master.outcome == 'failure'
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
+          dotnet-quality: preview
 
       # Preview .NET SDK. USE_DOTNET_PREVIEW=false skips preview SDK; global.json uses stable SDK below.
       - name: Setup .NET Preview
@@ -63,7 +80,7 @@ jobs:
           dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION }}
           dotnet-quality: preview
 
-      # Pin sdk.version for CI; preview band vs stable 10.x/9.x follows USE_DOTNET_PREVIEW (repository variable).
+      # Pin sdk.version for CI; preview band vs stable follows USE_DOTNET_PREVIEW; always allow .NET 11 for net11.0-windows TFMs.
       - name: Pin SDK via global.json
         if: steps.release_kill_switch.outputs.enabled == 'true'
         env:
@@ -82,13 +99,17 @@ jobs:
           $usePreview = $env:USE_DOTNET_PREVIEW -ne 'false'
           $sdkVersion = $null
           if (-not $usePreview) {
-            $sdkVersion = Get-ListedSdkVersion '10.0'
+            $sdkVersion = Get-ListedSdkVersion '11.0'
+            if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '10.0' }
             if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '9.0' }
           } else {
             if (-not $env:DOTNET_PREVIEW_SDK_BAND) {
               Write-Error 'DOTNET_PREVIEW_SDK_BAND is not set (repository variable).'
             }
             $sdkVersion = Get-ListedSdkVersion $env:DOTNET_PREVIEW_SDK_BAND
+            if (-not $sdkVersion) {
+              $sdkVersion = Get-ListedSdkVersion '11.0'
+            }
             if (-not $sdkVersion) {
               $sdkVersion = Get-ListedSdkVersion '10.0'
             }
@@ -200,9 +221,16 @@ jobs:
           )
           $packages = @(Get-ChildItem -Path $packageCandidates -ErrorAction SilentlyContinue | Sort-Object FullName -Unique)
           $publishedAny = $false
-          
+          $repoRoot = if ($null -ne $env:GITHUB_WORKSPACE -and $env:GITHUB_WORKSPACE -ne '') { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
+          . (Join-Path $repoRoot 'Scripts/CI/StandardToolkitNupkgGuard.ps1')
+          $standardToolkitNupkgSizeGateFailed = $false
+
           if ($packages) {
             foreach ($package in $packages) {
+              if (-not (Test-StandardToolkitNupkgPushAllowed -Package $package)) {
+                $standardToolkitNupkgSizeGateFailed = $true
+                continue
+              }
               Write-Output "Pushing package: $($package.Name)"
               try {
                 $output = dotnet nuget push "$($package.FullName)" --api-key $env:NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate 2>&1 | Out-String
@@ -221,10 +249,15 @@ jobs:
           } else {
             Write-Output "No NuGet packages found to push"
           }
-          
+
+          if ($standardToolkitNupkgSizeGateFailed) {
+            exit 1
+          }
+
           echo "packages_published=$publishedAny" >> $env:GITHUB_OUTPUT
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+          STANDARD_TOOLKIT_MIN_NUPKG_MB: ${{ vars.STANDARD_TOOLKIT_MIN_NUPKG_MB }}
 
       - name: Get Version
         # Kill switch check
@@ -362,8 +395,8 @@ jobs:
         if: steps.release_kill_switch.outputs.enabled == 'true'
         uses: actions/checkout@v6
 
-      # .NET 9 and 10
-      - name: Setup .NET
+      # .NET 9 and 10; .NET 11 for net11.0-windows (DOTNET_PREVIEW_SETUP_VERSION when set, else 11.0.x).
+      - name: Setup .NET (9 and 10)
         # Kill switch check
         if: steps.release_kill_switch.outputs.enabled == 'true'
         uses: actions/setup-dotnet@v5
@@ -372,7 +405,32 @@ jobs:
             9.0.x
             10.0.x
 
-      # Pin sdk.version to latest stable 10.x (fallback 9.x) for reproducible CI.
+      - name: Setup .NET 11 (stable)
+        id: setup_dotnet11_stable_v105
+        continue-on-error: true
+        # Kill switch check
+        if: steps.release_kill_switch.outputs.enabled == 'true'
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
+
+      - name: Setup .NET 11 (preview fallback)
+        # Kill switch check
+        if: steps.release_kill_switch.outputs.enabled == 'true' && steps.setup_dotnet11_stable_v105.outcome == 'failure'
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
+          dotnet-quality: preview
+
+      - name: Setup .NET Preview
+        # Kill switch check
+        if: steps.release_kill_switch.outputs.enabled == 'true' && vars.USE_DOTNET_PREVIEW != 'false'
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION }}
+          dotnet-quality: preview
+
+      # Pin sdk.version to newest installed 11.x / 10.x / 9.x (must support net11.0-windows TFMs).
       - name: Pin SDK via global.json
         # Kill switch check
         if: steps.release_kill_switch.outputs.enabled == 'true'
@@ -385,7 +443,8 @@ jobs:
             if ($line -match '^(\d+\.\d+\.\d+)\s') { return $Matches[1] }
             return (($line -split '\s+', 2)[0])
           }
-          $sdkVersion = Get-ListedSdkVersion '10.0'
+          $sdkVersion = Get-ListedSdkVersion '11.0'
+          if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '10.0' }
           if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '9.0' }
           if (-not $sdkVersion) {
             Write-Error 'Could not resolve an SDK version for global.json.'
@@ -494,9 +553,16 @@ jobs:
           )
           $packages = @(Get-ChildItem -Path $packageCandidates -ErrorAction SilentlyContinue | Sort-Object FullName -Unique)
           $publishedAny = $false
-          
+          $repoRoot = if ($null -ne $env:GITHUB_WORKSPACE -and $env:GITHUB_WORKSPACE -ne '') { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
+          . (Join-Path $repoRoot 'Scripts/CI/StandardToolkitNupkgGuard.ps1')
+          $standardToolkitNupkgSizeGateFailed = $false
+
           if ($packages) {
             foreach ($package in $packages) {
+              if (-not (Test-StandardToolkitNupkgPushAllowed -Package $package)) {
+                $standardToolkitNupkgSizeGateFailed = $true
+                continue
+              }
               Write-Output "Pushing package: $($package.Name)"
               try {
                 $output = dotnet nuget push "$($package.FullName)" --api-key $env:NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate 2>&1 | Out-String
@@ -515,10 +581,15 @@ jobs:
           } else {
             Write-Output "No NuGet packages found to push"
           }
-          
+
+          if ($standardToolkitNupkgSizeGateFailed) {
+            exit 1
+          }
+
           echo "packages_published=$publishedAny" >> $env:GITHUB_OUTPUT
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+          STANDARD_TOOLKIT_MIN_NUPKG_MB: ${{ vars.STANDARD_TOOLKIT_MIN_NUPKG_MB }}
 
       - name: Get Version
         # Kill switch check
@@ -656,8 +727,8 @@ jobs:
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         uses: actions/checkout@v6
 
-      # .NET 9 and 10
-      - name: Setup .NET
+      # .NET 9 and 10; .NET 11 for net11.0-windows (DOTNET_PREVIEW_SETUP_VERSION when set, else 11.0.x).
+      - name: Setup .NET (9 and 10)
         # Kill switch check
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         uses: actions/setup-dotnet@v5
@@ -665,6 +736,23 @@ jobs:
           dotnet-version: |
             9.0.x
             10.0.x
+
+      - name: Setup .NET 11 (stable)
+        id: setup_dotnet11_stable_canary
+        continue-on-error: true
+        # Kill switch check
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
+
+      - name: Setup .NET 11 (preview fallback)
+        # Kill switch check
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true' && steps.setup_dotnet11_stable_canary.outcome == 'failure'
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
+          dotnet-quality: preview
 
       # Preview .NET SDK. USE_DOTNET_PREVIEW=false skips preview SDK; global.json uses stable SDK below.
       - name: Setup .NET Preview
@@ -674,7 +762,7 @@ jobs:
           dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION }}
           dotnet-quality: preview
 
-      # Pin sdk.version for CI; preview band vs stable 10.x/9.x follows USE_DOTNET_PREVIEW (repository variable).
+      # Pin sdk.version for CI; preview band vs stable follows USE_DOTNET_PREVIEW; always allow .NET 11 for net11.0-windows TFMs.
       - name: Pin SDK via global.json
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         env:
@@ -693,13 +781,17 @@ jobs:
           $usePreview = $env:USE_DOTNET_PREVIEW -ne 'false'
           $sdkVersion = $null
           if (-not $usePreview) {
-            $sdkVersion = Get-ListedSdkVersion '10.0'
+            $sdkVersion = Get-ListedSdkVersion '11.0'
+            if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '10.0' }
             if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '9.0' }
           } else {
             if (-not $env:DOTNET_PREVIEW_SDK_BAND) {
               Write-Error 'DOTNET_PREVIEW_SDK_BAND is not set (repository variable).'
             }
             $sdkVersion = Get-ListedSdkVersion $env:DOTNET_PREVIEW_SDK_BAND
+            if (-not $sdkVersion) {
+              $sdkVersion = Get-ListedSdkVersion '11.0'
+            }
             if (-not $sdkVersion) {
               $sdkVersion = Get-ListedSdkVersion '10.0'
             }
@@ -812,9 +904,16 @@ jobs:
           )
           $packages = @(Get-ChildItem -Path $packageCandidates -ErrorAction SilentlyContinue | Sort-Object FullName -Unique)
           $publishedAny = $false
-          
+          $repoRoot = if ($null -ne $env:GITHUB_WORKSPACE -and $env:GITHUB_WORKSPACE -ne '') { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
+          . (Join-Path $repoRoot 'Scripts/CI/StandardToolkitNupkgGuard.ps1')
+          $standardToolkitNupkgSizeGateFailed = $false
+
           if ($packages) {
             foreach ($package in $packages) {
+              if (-not (Test-StandardToolkitNupkgPushAllowed -Package $package)) {
+                $standardToolkitNupkgSizeGateFailed = $true
+                continue
+              }
               Write-Output "Pushing package: $($package.Name)"
               try {
                 $output = dotnet nuget push "$($package.FullName)" --api-key $env:NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate 2>&1 | Out-String
@@ -833,10 +932,15 @@ jobs:
           } else {
             Write-Output "No NuGet packages found to push"
           }
-          
+
+          if ($standardToolkitNupkgSizeGateFailed) {
+            exit 1
+          }
+
           echo "packages_published=$publishedAny" >> $env:GITHUB_OUTPUT
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+          STANDARD_TOOLKIT_MIN_NUPKG_MB: ${{ vars.STANDARD_TOOLKIT_MIN_NUPKG_MB }}
 
       - name: Get Version
         # Kill switch check
@@ -973,8 +1077,8 @@ jobs:
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
         uses: actions/checkout@v6
 
-      # .NET 9 and 10
-      - name: Setup .NET
+      # .NET 9 and 10; .NET 11 for net11.0-windows — DOTNET_PREVIEW_SETUP_VERSION when set, else 11.0.x (aligned with build.yml).
+      - name: Setup .NET (9 and 10)
         # Kill switch check
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
         uses: actions/setup-dotnet@v5
@@ -983,7 +1087,32 @@ jobs:
             9.0.x
             10.0.x
 
-      # Pin sdk.version to latest stable 10.x (fallback 9.x) for reproducible CI.
+      - name: Setup .NET 11 (stable)
+        id: setup_dotnet11_stable_alpha
+        continue-on-error: true
+        # Kill switch check
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
+
+      - name: Setup .NET 11 (preview fallback)
+        # Kill switch check
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.setup_dotnet11_stable_alpha.outcome == 'failure'
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
+          dotnet-quality: preview
+
+      - name: Setup .NET Preview
+        # Kill switch check
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && vars.USE_DOTNET_PREVIEW != 'false'
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION }}
+          dotnet-quality: preview
+
+      # Pin sdk.version to newest installed 11.x / 10.x / 9.x (must support net11.0-windows TFMs).
       - name: Pin SDK via global.json
         # Kill switch check
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
@@ -996,7 +1125,8 @@ jobs:
             if ($line -match '^(\d+\.\d+\.\d+)\s') { return $Matches[1] }
             return (($line -split '\s+', 2)[0])
           }
-          $sdkVersion = Get-ListedSdkVersion '10.0'
+          $sdkVersion = Get-ListedSdkVersion '11.0'
+          if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '10.0' }
           if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '9.0' }
           if (-not $sdkVersion) {
             Write-Error 'Could not resolve an SDK version for global.json.'
@@ -1040,7 +1170,7 @@ jobs:
         run: |
           if (-not (Test-Path "WebView2SDK")) { mkdir WebView2SDK }
           $packageId = "Microsoft.Web.WebView2"
-          # Use prerelease versions for alpha builds to avoid .NET 11.0 requirement
+          # Prerelease WebView2 for alpha NuGet ordering; dotnet restore still requires an SDK that supports net11.0-windows (see Pin SDK step).
           Write-Host "Using prerelease=true for WebView2 SDK lookup (alpha build)"
           $latestVersion = $null
           try {

@@ -76,14 +76,29 @@ jobs:
           ref: Canary
           fetch-depth: 0
 
-      # .NET 9 and 10
-      - name: Setup .NET
+      # .NET 9 and 10; .NET 11 for net11.0-windows (DOTNET_PREVIEW_SETUP_VERSION when set, else 11.0.x).
+      - name: Setup .NET (9 and 10)
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         uses: actions/setup-dotnet@v5
         with:
           dotnet-version: |
             9.0.x
             10.0.x
+
+      - name: Setup .NET 11 (stable)
+        id: setup_dotnet11_stable_canary_yml
+        continue-on-error: true
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
+
+      - name: Setup .NET 11 (preview fallback)
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true' && steps.setup_dotnet11_stable_canary_yml.outcome == 'failure'
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
+          dotnet-quality: preview
 
       # Preview .NET SDK. DOTNET_PREVIEW_* : repo Variables (same as build.yml / build-testform.yml).
       # USE_DOTNET_PREVIEW=false skips preview SDK install; global.json uses stable SDK below.
@@ -94,7 +109,7 @@ jobs:
           dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION }}
           dotnet-quality: preview
 
-      # Pin sdk.version for CI; preview band vs stable 10.x/9.x follows USE_DOTNET_PREVIEW (repository variable).
+      # Pin sdk.version for CI; preview band follows USE_DOTNET_PREVIEW; stable path prefers .NET 11 for net11.0-windows TFMs.
       - name: Pin SDK via global.json
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         env:
@@ -114,7 +129,8 @@ jobs:
           $usePreview = $env:USE_DOTNET_PREVIEW -ne 'false'
           $sdkVersion = $null
           if (-not $usePreview) {
-            $sdkVersion = Get-ListedSdkVersion '10.0'
+            $sdkVersion = Get-ListedSdkVersion '11.0'
+            if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '10.0' }
             if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '9.0' }
           } else {
             if (-not $env:DOTNET_PREVIEW_SDK_BAND) {
@@ -122,7 +138,9 @@ jobs:
             }
             $sdkVersion = Get-ListedSdkVersion $env:DOTNET_PREVIEW_SDK_BAND
             if (-not $sdkVersion) {
-              # Preview SDK not present on runner; fall back to latest 10.x.
+              $sdkVersion = Get-ListedSdkVersion '11.0'
+            }
+            if (-not $sdkVersion) {
               $sdkVersion = Get-ListedSdkVersion '10.0'
             }
           }
@@ -246,9 +264,16 @@ jobs:
           )
           $packages = @(Get-ChildItem -Path $packageCandidates -ErrorAction SilentlyContinue | Sort-Object FullName -Unique)
           $publishedAny = $false
+          $repoRoot = if ($null -ne $env:GITHUB_WORKSPACE -and $env:GITHUB_WORKSPACE -ne '') { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
+          . (Join-Path $repoRoot 'Scripts/CI/StandardToolkitNupkgGuard.ps1')
+          $standardToolkitNupkgSizeGateFailed = $false
 
           if ($packages) {
             foreach ($package in $packages) {
+              if (-not (Test-StandardToolkitNupkgPushAllowed -Package $package)) {
+                $standardToolkitNupkgSizeGateFailed = $true
+                continue
+              }
               Write-Output "Pushing package: $($package.Name)"
               try {
                 $output = dotnet nuget push "$($package.FullName)" --api-key $env:NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate 2>&1 | Out-String
@@ -267,9 +292,14 @@ jobs:
             Write-Output "No NuGet packages found to push"
           }
 
+          if ($standardToolkitNupkgSizeGateFailed) {
+            exit 1
+          }
+
           echo "packages_published=$publishedAny" >> $env:GITHUB_OUTPUT
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+          STANDARD_TOOLKIT_MIN_NUPKG_MB: ${{ vars.STANDARD_TOOLKIT_MIN_NUPKG_MB }}
 
       - name: Get Version
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'

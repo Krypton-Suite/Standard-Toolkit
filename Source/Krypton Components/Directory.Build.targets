@@ -8,6 +8,17 @@
 	     inner multi-target build overwrite Krypton.Toolkit.dll (etc.), so net472 then references net10+ (CS1705). -->
 	<PropertyGroup Condition="'$(TargetFramework)' != ''">
 		<OutputPath>$(KryptonBuildOutputRoot)$(Configuration)\$(TargetFramework)\</OutputPath>
+		<!-- Keep OutDir in sync: props set OutputPath before this; SDK freezes OutDir unless updated with OutputPath. -->
+		<OutDir>$(OutputPath)</OutDir>
+		<!-- Shared per-TFM output folder across projects; avoid project-to-project copy/clean churn in the same directory. -->
+		<UseCommonOutputDirectory>true</UseCommonOutputDirectory>
+	</PropertyGroup>
+
+	<!-- Outer cross-targeting build: default BuildInParallel=true dispatches inner TFMs concurrently. With custom
+	     OutputPath/IntermediateOutputPath, concurrent inner builds can still mis-resolve or overwrite outputs in
+	     practice (CS1705: referenced assembly built for a higher TFM). Serialize inner TFMs per project. -->
+	<PropertyGroup Condition="'$(TargetFrameworks)' != '' And '$(TargetFramework)' == ''">
+		<BuildInParallel>false</BuildInParallel>
 	</PropertyGroup>
 
 	<Import Project="$(MSBuildThisFileDirectory)NetFramework.SystemResourcesExtensions.BindingRedirects.props"

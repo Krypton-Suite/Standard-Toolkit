@@ -102,8 +102,8 @@ jobs:
         run: |
           Write-Host "::notice::No commits in the last 24 hours. Skipping nightly build and publish."
 
-      # .NET 9 and 10
-      - name: Setup .NET
+      # .NET 9 and 10; .NET 11 for net11.0-windows (DOTNET_PREVIEW_SETUP_VERSION when set, else 11.0.x).
+      - name: Setup .NET (9 and 10)
         # Kill switch check
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
         uses: actions/setup-dotnet@v5
@@ -111,6 +111,23 @@ jobs:
           dotnet-version: |
             9.0.x
             10.0.x
+
+      - name: Setup .NET 11 (stable)
+        id: setup_dotnet11_stable_nightly
+        continue-on-error: true
+        # Kill switch check
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
+
+      - name: Setup .NET 11 (preview fallback)
+        # Kill switch check
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.setup_dotnet11_stable_nightly.outcome == 'failure'
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
+          dotnet-quality: preview
 
       # Preview .NET SDK. USE_DOTNET_PREVIEW=false skips preview SDK; global.json step uses stable SDK.
       - name: Setup .NET Preview
@@ -121,7 +138,7 @@ jobs:
           dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION }}
           dotnet-quality: preview
 
-      # Pin sdk.version for CI; preview band vs stable 10.x/9.x follows USE_DOTNET_PREVIEW (repository variable).
+      # Pin sdk.version for CI; preview band follows USE_DOTNET_PREVIEW; stable path prefers .NET 11 for net11.0-windows TFMs.
       - name: Pin SDK via global.json
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
         env:
@@ -140,13 +157,17 @@ jobs:
           $usePreview = $env:USE_DOTNET_PREVIEW -ne 'false'
           $sdkVersion = $null
           if (-not $usePreview) {
-            $sdkVersion = Get-ListedSdkVersion '10.0'
+            $sdkVersion = Get-ListedSdkVersion '11.0'
+            if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '10.0' }
             if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '9.0' }
           } else {
             if (-not $env:DOTNET_PREVIEW_SDK_BAND) {
               Write-Error 'DOTNET_PREVIEW_SDK_BAND is not set (repository variable).'
             }
             $sdkVersion = Get-ListedSdkVersion $env:DOTNET_PREVIEW_SDK_BAND
+            if (-not $sdkVersion) {
+              $sdkVersion = Get-ListedSdkVersion '11.0'
+            }
             if (-not $sdkVersion) {
               $sdkVersion = Get-ListedSdkVersion '10.0'
             }
@@ -285,9 +306,16 @@ jobs:
           )
           $packages = @(Get-ChildItem -Path $packageCandidates -ErrorAction SilentlyContinue | Sort-Object FullName -Unique)
           $publishedAny = $false
+          $repoRoot = if ($null -ne $env:GITHUB_WORKSPACE -and $env:GITHUB_WORKSPACE -ne '') { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
+          . (Join-Path $repoRoot 'Scripts/CI/StandardToolkitNupkgGuard.ps1')
+          $standardToolkitNupkgSizeGateFailed = $false
 
           if ($packages) {
             foreach ($package in $packages) {
+              if (-not (Test-StandardToolkitNupkgPushAllowed -Package $package)) {
+                $standardToolkitNupkgSizeGateFailed = $true
+                continue
+              }
               Write-Output "Pushing package: $($package.Name)"
               try {
                 $output = dotnet nuget push "$($package.FullName)" --api-key $env:NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate 2>&1 | Out-String
@@ -307,9 +335,14 @@ jobs:
             Write-Output "No NuGet packages found to push"
           }
 
+          if ($standardToolkitNupkgSizeGateFailed) {
+            exit 1
+          }
+
           echo "packages_published=$publishedAny" >> $env:GITHUB_OUTPUT
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+          STANDARD_TOOLKIT_MIN_NUPKG_MB: ${{ vars.STANDARD_TOOLKIT_MIN_NUPKG_MB }}
 
       - name: Get Version
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'

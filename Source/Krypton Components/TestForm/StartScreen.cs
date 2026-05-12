@@ -64,6 +64,7 @@ public partial class StartScreen : KryptonForm
         CreateButton<ButtonTextTrackingExample>("Button Text Tracking", "Demonstrates alternate text color for tracking (hover) state on KryptonButton, KryptonCheckButton, KryptonColorButton and other controls (Issue #1326). Improves readability in dark themes.");
         CreateButton<ButtonsTest>("Buttons Test", "All the buttons you want to test.");
         CreateButton<KryptonColorButtonDemo>("KryptonColorButton Custom Colours", "Comprehensive demo of KryptonColorButton custom colours (Issue #776): CustomColors, MaxCustomColors, and visibility. Only 10 colours, or custom + theme + standard, or cap display count.");
+        CreateButton<KryptonComboBoxUserControlDemo>("KryptonComboBoxUserControl", "Demo for Issue #3443: a ComboBox-style control whose drop-down hosts any UserControl. Shows tree-picker, grid-picker and a plain (non-contract) UserControl scenario.");
         CreateButton<BorderlessFormDemo>("Borderless Form Demo", "Demo for Issue #2922: Borderless KryptonForm without system title bar flicker on startup. Form should appear directly in borderless state.");
         CreateButton<Bug2914Test>("Bug 2914 Test", "Tests the fix for 2914.");
         CreateButton<Bug2984SeparatorTest>("Bug 2984 Separator Test", "Demo for Issue #2984: NullReferenceException in ViewDrawSeparator.RenderBefore. Exercises KryptonNavigator (Outlook), KryptonSplitContainer, and KryptonSeparator. Swap themes to verify no crash.");
