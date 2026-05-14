@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -62,11 +62,11 @@ namespace Example
 }";
 
         kceEditor.Text = sampleCode;
-        kceEditor.Language = Krypton.Utilities.Language.CSharp;
+        kceEditor.Language = Krypton.Toolkit.Utilities.Language.CSharp;
         kceEditor.ShowLineNumbers = true;
         kceEditor.EnableCodeFolding = true;
         kceEditor.AutoCompleteEnabled = true;
-        kceEditor.Theme = Krypton.Utilities.EditorThemeType.Light;
+        kceEditor.Theme = Krypton.Toolkit.Utilities.EditorThemeType.Light;
 
         // Initialize theme combo
         kcmbTheme.Items.Clear();
@@ -408,30 +408,30 @@ Get-PersonInfo -Name ""John"" -Age 30"
         {
             kceEditor.Language = selected switch
             {
-                "C#" => Krypton.Utilities.Language.CSharp,
-                "C++" => Krypton.Utilities.Language.Cpp,
-                "VB.NET" => Krypton.Utilities.Language.VbNet,
-                "XML" => Krypton.Utilities.Language.Xml,
-                "HTML" => Krypton.Utilities.Language.Html,
-                "CSS" => Krypton.Utilities.Language.Css,
-                "JavaScript" => Krypton.Utilities.Language.JavaScript,
-                "TypeScript" => Krypton.Utilities.Language.TypeScript,
-                "Python" => Krypton.Utilities.Language.Python,
-                "Rust" => Krypton.Utilities.Language.Rust,
-                "Go" => Krypton.Utilities.Language.Go,
-                "Java" => Krypton.Utilities.Language.Java,
-                "PHP" => Krypton.Utilities.Language.Php,
-                "Ruby" => Krypton.Utilities.Language.Ruby,
-                "Swift" => Krypton.Utilities.Language.Swift,
-                "Kotlin" => Krypton.Utilities.Language.Kotlin,
-                "SQL" => Krypton.Utilities.Language.Sql,
-                "JSON" => Krypton.Utilities.Language.Json,
-                "YAML" => Krypton.Utilities.Language.Yaml,
-                "TOML" => Krypton.Utilities.Language.Toml,
-                "Markdown" => Krypton.Utilities.Language.Markdown,
-                "Batch" => Krypton.Utilities.Language.Batch,
-                "PowerShell" => Krypton.Utilities.Language.PowerShell,
-                _ => Krypton.Utilities.Language.None
+                "C#" => Krypton.Toolkit.Utilities.Language.CSharp,
+                "C++" => Krypton.Toolkit.Utilities.Language.Cpp,
+                "VB.NET" => Krypton.Toolkit.Utilities.Language.VbNet,
+                "XML" => Krypton.Toolkit.Utilities.Language.Xml,
+                "HTML" => Krypton.Toolkit.Utilities.Language.Html,
+                "CSS" => Krypton.Toolkit.Utilities.Language.Css,
+                "JavaScript" => Krypton.Toolkit.Utilities.Language.JavaScript,
+                "TypeScript" => Krypton.Toolkit.Utilities.Language.TypeScript,
+                "Python" => Krypton.Toolkit.Utilities.Language.Python,
+                "Rust" => Krypton.Toolkit.Utilities.Language.Rust,
+                "Go" => Krypton.Toolkit.Utilities.Language.Go,
+                "Java" => Krypton.Toolkit.Utilities.Language.Java,
+                "PHP" => Krypton.Toolkit.Utilities.Language.Php,
+                "Ruby" => Krypton.Toolkit.Utilities.Language.Ruby,
+                "Swift" => Krypton.Toolkit.Utilities.Language.Swift,
+                "Kotlin" => Krypton.Toolkit.Utilities.Language.Kotlin,
+                "SQL" => Krypton.Toolkit.Utilities.Language.Sql,
+                "JSON" => Krypton.Toolkit.Utilities.Language.Json,
+                "YAML" => Krypton.Toolkit.Utilities.Language.Yaml,
+                "TOML" => Krypton.Toolkit.Utilities.Language.Toml,
+                "Markdown" => Krypton.Toolkit.Utilities.Language.Markdown,
+                "Batch" => Krypton.Toolkit.Utilities.Language.Batch,
+                "PowerShell" => Krypton.Toolkit.Utilities.Language.PowerShell,
+                _ => Krypton.Toolkit.Utilities.Language.None
             };
 
             // Load sample code if available
@@ -465,13 +465,13 @@ Get-PersonInfo -Name ""John"" -Age 30"
 
         kceEditor.Theme = selected switch
         {
-            "Light" => Krypton.Utilities.EditorThemeType.Light,
-            "Dark" => Krypton.Utilities.EditorThemeType.Dark,
-            "High Contrast" => Krypton.Utilities.EditorThemeType.HighContrast,
-            "Monokai" => Krypton.Utilities.EditorThemeType.Monokai,
-            "Solarized Light" => Krypton.Utilities.EditorThemeType.SolarizedLight,
-            "Solarized Dark" => Krypton.Utilities.EditorThemeType.SolarizedDark,
-            _ => Krypton.Utilities.EditorThemeType.Light
+            "Light" => Krypton.Toolkit.Utilities.EditorThemeType.Light,
+            "Dark" => Krypton.Toolkit.Utilities.EditorThemeType.Dark,
+            "High Contrast" => Krypton.Toolkit.Utilities.EditorThemeType.HighContrast,
+            "Monokai" => Krypton.Toolkit.Utilities.EditorThemeType.Monokai,
+            "Solarized Light" => Krypton.Toolkit.Utilities.EditorThemeType.SolarizedLight,
+            "Solarized Dark" => Krypton.Toolkit.Utilities.EditorThemeType.SolarizedDark,
+            _ => Krypton.Toolkit.Utilities.EditorThemeType.Light
         };
     }
 
@@ -493,30 +493,30 @@ Get-PersonInfo -Name ""John"" -Age 30"
                 var ext = Path.GetExtension(dialog.FileName).ToLower();
                 kceEditor.Language = ext switch
                 {
-                    ".cs" => Krypton.Utilities.Language.CSharp,
-                    ".cpp" or ".cxx" or ".cc" or ".h" or ".hpp" => Krypton.Utilities.Language.Cpp,
-                    ".vb" => Krypton.Utilities.Language.VbNet,
-                    ".xml" => Krypton.Utilities.Language.Xml,
-                    ".html" or ".htm" => Krypton.Utilities.Language.Html,
-                    ".css" => Krypton.Utilities.Language.Css,
-                    ".js" => Krypton.Utilities.Language.JavaScript,
-                    ".ts" => Krypton.Utilities.Language.TypeScript,
-                    ".py" => Krypton.Utilities.Language.Python,
-                    ".rs" => Krypton.Utilities.Language.Rust,
-                    ".go" => Krypton.Utilities.Language.Go,
-                    ".java" => Krypton.Utilities.Language.Java,
-                    ".php" => Krypton.Utilities.Language.Php,
-                    ".rb" => Krypton.Utilities.Language.Ruby,
-                    ".swift" => Krypton.Utilities.Language.Swift,
-                    ".kt" or ".kts" => Krypton.Utilities.Language.Kotlin,
-                    ".sql" => Krypton.Utilities.Language.Sql,
-                    ".json" => Krypton.Utilities.Language.Json,
-                    ".yaml" or ".yml" => Krypton.Utilities.Language.Yaml,
-                    ".toml" => Krypton.Utilities.Language.Toml,
-                    ".md" => Krypton.Utilities.Language.Markdown,
-                    ".bat" or ".cmd" => Krypton.Utilities.Language.Batch,
-                    ".ps1" => Krypton.Utilities.Language.PowerShell,
-                    _ => Krypton.Utilities.Language.None
+                    ".cs" => Krypton.Toolkit.Utilities.Language.CSharp,
+                    ".cpp" or ".cxx" or ".cc" or ".h" or ".hpp" => Krypton.Toolkit.Utilities.Language.Cpp,
+                    ".vb" => Krypton.Toolkit.Utilities.Language.VbNet,
+                    ".xml" => Krypton.Toolkit.Utilities.Language.Xml,
+                    ".html" or ".htm" => Krypton.Toolkit.Utilities.Language.Html,
+                    ".css" => Krypton.Toolkit.Utilities.Language.Css,
+                    ".js" => Krypton.Toolkit.Utilities.Language.JavaScript,
+                    ".ts" => Krypton.Toolkit.Utilities.Language.TypeScript,
+                    ".py" => Krypton.Toolkit.Utilities.Language.Python,
+                    ".rs" => Krypton.Toolkit.Utilities.Language.Rust,
+                    ".go" => Krypton.Toolkit.Utilities.Language.Go,
+                    ".java" => Krypton.Toolkit.Utilities.Language.Java,
+                    ".php" => Krypton.Toolkit.Utilities.Language.Php,
+                    ".rb" => Krypton.Toolkit.Utilities.Language.Ruby,
+                    ".swift" => Krypton.Toolkit.Utilities.Language.Swift,
+                    ".kt" or ".kts" => Krypton.Toolkit.Utilities.Language.Kotlin,
+                    ".sql" => Krypton.Toolkit.Utilities.Language.Sql,
+                    ".json" => Krypton.Toolkit.Utilities.Language.Json,
+                    ".yaml" or ".yml" => Krypton.Toolkit.Utilities.Language.Yaml,
+                    ".toml" => Krypton.Toolkit.Utilities.Language.Toml,
+                    ".md" => Krypton.Toolkit.Utilities.Language.Markdown,
+                    ".bat" or ".cmd" => Krypton.Toolkit.Utilities.Language.Batch,
+                    ".ps1" => Krypton.Toolkit.Utilities.Language.PowerShell,
+                    _ => Krypton.Toolkit.Utilities.Language.None
                 };
 
                 // Update combo box

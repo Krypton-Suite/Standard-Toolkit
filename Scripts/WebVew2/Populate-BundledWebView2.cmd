@@ -1,14 +1,14 @@
-@echo off
-REM Populate Source\Krypton Components\Krypton.Utilities\Lib\WebView2 with latest WebView2 DLLs from NuGet.
+﻿@echo off
+REM Populate Source\Krypton Components\Krypton.Toolkit.Utilities\Lib\WebView2 with latest WebView2 DLLs from NuGet.
 REM Always uses the latest stable Microsoft.Web.WebView2 version. Run from repository root.
 
 setlocal
 cd /d "%~dp0..\.."
 
-set "UTIL_PROJ=Source\Krypton Components\Krypton.Utilities\Krypton.Utilities.csproj"
-set "LIB_DIR=Source\Krypton Components\Krypton.Utilities\Lib\WebView2"
+set "UTIL_PROJ=Source\Krypton Components\Krypton.Toolkit.Utilities\Krypton.Toolkit.Utilities.csproj"
+set "LIB_DIR=Source\Krypton Components\Krypton.Toolkit.Utilities\Lib\WebView2"
 
-echo Populating bundled WebView2 DLLs for Krypton.Utilities...
+echo Populating bundled WebView2 DLLs for Krypton.Toolkit.Utilities...
 echo.
 
 if not exist "%LIB_DIR%" mkdir "%LIB_DIR%"

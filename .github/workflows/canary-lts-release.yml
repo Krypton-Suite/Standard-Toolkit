@@ -1,4 +1,4 @@
-# New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+﻿# New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
 # Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2026 - 2026. All rights reserved.
 #
 # Build and release Canary LTS NuGet packages. Only runs on the V105-LTS branch.
@@ -166,7 +166,7 @@ jobs:
           }
           if (-not $latestVersion) { $latestVersion = "1.0.3595.46" }
           Write-Host "Using WebView2 SDK version: $latestVersion"
-          $utilProj = Join-Path $env:GITHUB_WORKSPACE "Source\Krypton Components\Krypton.Utilities\Krypton.Utilities.csproj"
+          $utilProj = Join-Path $env:GITHUB_WORKSPACE "Source\Krypton Components\Krypton.Toolkit.Utilities\Krypton.Toolkit.Utilities.csproj"
           dotnet add "$utilProj" package Microsoft.Web.WebView2 --version $latestVersion
           dotnet restore "$utilProj"
           $nugetBasePath = "$env:USERPROFILE\.nuget\packages\microsoft.web.webview2\$latestVersion"

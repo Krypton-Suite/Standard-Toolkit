@@ -7,7 +7,7 @@
  */
 #endregion
 
-using Krypton.Utilities;
+using Krypton.Toolkit.Utilities;
 
 using GraphicsExtensions = Krypton.Toolkit.GraphicsExtensions;
 
