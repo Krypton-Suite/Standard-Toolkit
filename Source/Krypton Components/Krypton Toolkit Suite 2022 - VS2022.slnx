@@ -1,4 +1,4 @@
-<Solution>
+﻿<Solution>
   <Configurations>
     <BuildType Name="Canary" />
     <BuildType Name="Debug" />
@@ -109,7 +109,7 @@
       <BuildType Solution="Nightly|*" Project="Release" />
     </Project>
     <Project Path="Krypton.Toolkit.JumpList/Krypton.Toolkit.JumpList.csproj" />
-    <Project Path="Krypton.Utilities/Krypton.Utilities.csproj" Id="e4c9fef0-c69a-4fe6-9784-c8f93250434e">
+    <Project Path="Krypton.Toolkit.Utilities/Krypton.Toolkit.Utilities.csproj" Id="e4c9fef0-c69a-4fe6-9784-c8f93250434e">
       <BuildType Solution="Canary|*" Project="Release" />
       <BuildType Solution="Installer|*" Project="Debug" />
       <BuildType Solution="Nightly|*" Project="Release" />
