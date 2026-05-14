@@ -1,8 +1,8 @@
-# Update-WebView2ProjectVersion.ps1
+﻿# Update-WebView2ProjectVersion.ps1
 # Script to update the project file with the latest WebView2 SDK version
 
 param(
-    [string]$ProjectPath = "Source/Krypton Components/Krypton.Utilities/Krypton.Utilities.csproj",
+    [string]$ProjectPath = "Source/Krypton Components/Krypton.Toolkit.Utilities/Krypton.Toolkit.Utilities.csproj",
     [switch]$WhatIf = $false
 )
 

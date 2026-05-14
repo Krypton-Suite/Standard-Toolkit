@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 	
 	<!--
 		Krypton.Standard.Toolkit - Combined Package Project
@@ -11,13 +11,13 @@
 		- Krypton.Ribbon
 		- Krypton.Toolkit
 		- Krypton.Toolkit.JumpList
-		- Krypton.Utilities
+		- Krypton.Toolkit.Utilities
 		- Krypton.Workspace
 	
 		All referenced DLLs, XML documentation files, and PDB symbol files are included in the package
 		for each target framework, allowing consumers to use the complete toolkit from a single package.
 
-		When WebView2 DLLs are present in Krypton.Utilities\Lib\WebView2 (after running
+		When WebView2 DLLs are present in Krypton.Toolkit.Utilities\Lib\WebView2 (after running
 		Scripts\WebVew2\Populate-BundledWebView2.cmd), the package also includes the WebView2 managed
 		DLLs and native loader so consumers get WebView2 support without a separate package reference.
 	-->
@@ -54,7 +54,7 @@
 	<!-- NuGet Package Metadata -->
 	<PropertyGroup>
 		<PackageId>Krypton.Standard.Toolkit</PackageId>
-		<Description>Aggregate package containing Krypton.Docking, Krypton.Navigator, Krypton.Navigator.Utilities, Krypton.Ribbon, Krypton.Toolkit, Krypton.Utilities, and Krypton.Workspace with all reference binaries included.</Description>
+		<Description>Aggregate package containing Krypton.Docking, Krypton.Navigator, Krypton.Navigator.Utilities, Krypton.Ribbon, Krypton.Toolkit, Krypton.Toolkit.Utilities, and Krypton.Workspace with all reference binaries included.</Description>
 		<!-- Additional package metadata (version, authors, license, etc.) is defined in Directory.Build.props and Directory.Build.targets -->
 
 		<!--
@@ -66,9 +66,9 @@
 		<!-- Prevent project references from being emitted as NuGet dependencies; this package carries binaries directly. -->
 		<SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
 	</PropertyGroup>
-	<!-- WebView2: path to bundled DLLs in Krypton.Utilities (same as used by Utilities build). Run Scripts\WebVew2\Populate-BundledWebView2.cmd to populate. -->
+	<!-- WebView2: path to bundled DLLs in Krypton.Toolkit.Utilities (same as used by Utilities build). Run Scripts\WebVew2\Populate-BundledWebView2.cmd to populate. -->
 	<PropertyGroup>
-		<WebView2LibPath>$(MSBuildThisFileDirectory)..\Krypton.Utilities\Lib\WebView2</WebView2LibPath>
+		<WebView2LibPath>$(MSBuildThisFileDirectory)..\Krypton.Toolkit.Utilities\Lib\WebView2</WebView2LibPath>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -109,7 +109,7 @@
 		<ProjectReference Include="..\Krypton.Navigator.Utilities\Krypton.Navigator.Utilities.csproj" />
 		<ProjectReference Include="..\Krypton.Ribbon\Krypton.Ribbon 2022.csproj" />
 		<ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
-		<ProjectReference Include="..\Krypton.Utilities\Krypton.Utilities.csproj">
+		<ProjectReference Include="..\Krypton.Toolkit.Utilities\Krypton.Toolkit.Utilities.csproj">
 			<PrivateAssets>All</PrivateAssets>
 		</ProjectReference>
 		<ProjectReference Include="..\Krypton.Workspace\Krypton.Workspace 2022.csproj" />
@@ -171,7 +171,7 @@
 		============================================
 	
 		This target runs for each target framework during the Pack operation and includes:
-		1. All referenced DLL files (Krypton.Docking, Krypton.Navigator, Krypton.Ribbon, Krypton.Toolkit, Krypton.Utilities, Krypton.Workspace)
+		1. All referenced DLL files (Krypton.Docking, Krypton.Navigator, Krypton.Ribbon, Krypton.Toolkit, Krypton.Toolkit.Utilities, Krypton.Workspace)
 		2. XML documentation files for IntelliSense support
 		3. PDB symbol files (only when IncludeSymbols is true, for Nightly/Canary configurations)
 	
@@ -240,10 +240,10 @@
 			<TfmSpecificPackageFile Include="..\Krypton.Toolkit.JumpList\bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.JumpList.dll" Condition="!Exists('$(_KryptonPackLibDir)Krypton.Toolkit.JumpList.dll') And Exists('..\Krypton.Toolkit.JumpList\bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.JumpList.dll')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
-			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Krypton.Utilities.dll" Condition="Exists('$(_KryptonPackLibDir)Krypton.Utilities.dll')">
+			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Krypton.Toolkit.Utilities.dll" Condition="Exists('$(_KryptonPackLibDir)Krypton.Toolkit.Utilities.dll')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
-			<TfmSpecificPackageFile Include="..\Krypton.Utilities\bin\$(Configuration)\$(TargetFramework)\Krypton.Utilities.dll" Condition="!Exists('$(_KryptonPackLibDir)Krypton.Utilities.dll') And Exists('..\Krypton.Utilities\bin\$(Configuration)\$(TargetFramework)\Krypton.Utilities.dll')">
+			<TfmSpecificPackageFile Include="..\Krypton.Toolkit.Utilities\bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.Utilities.dll" Condition="!Exists('$(_KryptonPackLibDir)Krypton.Toolkit.Utilities.dll') And Exists('..\Krypton.Toolkit.Utilities\bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.Utilities.dll')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Krypton.Workspace.dll" Condition="Exists('$(_KryptonPackLibDir)Krypton.Workspace.dll')">
@@ -262,7 +262,7 @@
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
 
-			<!-- WebView2 managed DLLs (bundled from Krypton.Utilities\Lib\WebView2). Only included when bundled WebView2 is populated. -->
+			<!-- WebView2 managed DLLs (bundled from Krypton.Toolkit.Utilities\Lib\WebView2). Only included when bundled WebView2 is populated. -->
 			<TfmSpecificPackageFile Include="$(WebView2LibPath)\Microsoft.Web.WebView2.Core.dll" Condition="Exists('$(WebView2LibPath)\Microsoft.Web.WebView2.Core.dll')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
@@ -307,10 +307,10 @@
 			<TfmSpecificPackageFile Include="..\Krypton.Toolkit.JumpList\bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.JumpList.xml" Condition="!Exists('$(_KryptonPackLibDir)Krypton.Toolkit.JumpList.xml') And Exists('..\Krypton.Toolkit.JumpList\bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.JumpList.xml')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
-			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Krypton.Utilities.xml" Condition="Exists('$(_KryptonPackLibDir)Krypton.Utilities.xml')">
+			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Krypton.Toolkit.Utilities.xml" Condition="Exists('$(_KryptonPackLibDir)Krypton.Toolkit.Utilities.xml')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
-			<TfmSpecificPackageFile Include="..\Krypton.Utilities\bin\$(Configuration)\$(TargetFramework)\Krypton.Utilities.xml" Condition="!Exists('$(_KryptonPackLibDir)Krypton.Utilities.xml') And Exists('..\Krypton.Utilities\bin\$(Configuration)\$(TargetFramework)\Krypton.Utilities.xml')">
+			<TfmSpecificPackageFile Include="..\Krypton.Toolkit.Utilities\bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.Utilities.xml" Condition="!Exists('$(_KryptonPackLibDir)Krypton.Toolkit.Utilities.xml') And Exists('..\Krypton.Toolkit.Utilities\bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.Utilities.xml')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Krypton.Workspace.xml" Condition="Exists('$(_KryptonPackLibDir)Krypton.Workspace.xml')">
@@ -357,10 +357,10 @@
 			<TfmSpecificPackageFile Include="..\Krypton.Toolkit.JumpList\bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.JumpList.pdb" Condition="'$(IncludeSymbols)' == 'true' And !Exists('$(_KryptonPackLibDir)Krypton.Toolkit.JumpList.pdb') And Exists('..\Krypton.Toolkit.JumpList\bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.JumpList.pdb')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
-			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Krypton.Utilities.pdb" Condition="'$(IncludeSymbols)' == 'true' And Exists('$(_KryptonPackLibDir)Krypton.Utilities.pdb')">
+			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Krypton.Toolkit.Utilities.pdb" Condition="'$(IncludeSymbols)' == 'true' And Exists('$(_KryptonPackLibDir)Krypton.Toolkit.Utilities.pdb')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
-			<TfmSpecificPackageFile Include="..\Krypton.Utilities\bin\$(Configuration)\$(TargetFramework)\Krypton.Utilities.pdb" Condition="'$(IncludeSymbols)' == 'true' And !Exists('$(_KryptonPackLibDir)Krypton.Utilities.pdb') And Exists('..\Krypton.Utilities\bin\$(Configuration)\$(TargetFramework)\Krypton.Utilities.pdb')">
+			<TfmSpecificPackageFile Include="..\Krypton.Toolkit.Utilities\bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.Utilities.pdb" Condition="'$(IncludeSymbols)' == 'true' And !Exists('$(_KryptonPackLibDir)Krypton.Toolkit.Utilities.pdb') And Exists('..\Krypton.Toolkit.Utilities\bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.Utilities.pdb')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Krypton.Workspace.pdb" Condition="'$(IncludeSymbols)' == 'true' And Exists('$(_KryptonPackLibDir)Krypton.Workspace.pdb')">
