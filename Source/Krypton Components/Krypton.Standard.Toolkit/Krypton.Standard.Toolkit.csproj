@@ -377,12 +377,10 @@
 		<Optimize>True</Optimize>
 	</PropertyGroup>
 
-	<!-- .NET Framework apps: auto binding redirects fix System.Resources.Extensions 4.0.0.0 vs 4.0.1.0 load failures. -->
+	<!-- .NET Framework: binding redirects + buildTransitive import for System.Resources.Extensions. -->
 	<ItemGroup>
-		<None Include="..\NetFramework.SystemResourcesExtensions.BindingRedirects.props"
-				Pack="true"
-				PackagePath="build\$(PackageId).props"
-				Visible="false" />
+		<None Include="..\NetFramework.SystemResourcesExtensions.BindingRedirects.props" Link="NetFxSreRedirects.props" Pack="true" PackagePath="build\$(PackageId).props" Visible="false" />
+		<None Include="..\NetFramework.SystemResourcesExtensions.BindingRedirects.props" Link="NetFxSreRedirectsTransitive.props" Pack="true" PackagePath="buildTransitive\$(PackageId).props" Visible="false" />
 	</ItemGroup>
 
 </Project>
