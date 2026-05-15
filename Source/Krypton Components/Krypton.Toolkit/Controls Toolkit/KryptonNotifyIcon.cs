@@ -13,7 +13,7 @@ namespace Krypton.Toolkit;
 /// Specifies a component that creates an icon in the notification area.
 /// </summary>
 [ToolboxItem(true)]
-[ToolboxBitmap(typeof(NotifyIcon))]
+[ToolboxBitmap(typeof(NotifyIcon), "ToolboxBitmaps.KryptonNotificationIcon.bmp")]
 [DefaultEvent(nameof(MouseClick))]
 [DefaultProperty(nameof(Text))]
 [DesignerCategory(@"code")]

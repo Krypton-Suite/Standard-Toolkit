@@ -18,7 +18,7 @@ namespace Krypton.Toolkit;
 [Designer(typeof(KryptonHScrollBarDesigner))]
 [DefaultEvent(nameof(Scroll))]
 [DefaultProperty(nameof(Value))]
-[ToolboxBitmap(typeof(HScrollBar))]
+[ToolboxBitmap(typeof(HScrollBar), "ToolboxBitmaps.KryptonHorizontalScrollBar.bmp")]
 [DesignerCategory(@"code")]
 [Description(@"A horizontal scrollbar control with Krypton theming.")]
 public class KryptonHScrollBar : Control

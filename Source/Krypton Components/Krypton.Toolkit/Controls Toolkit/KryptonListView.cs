@@ -16,7 +16,7 @@ namespace Krypton.Toolkit;
 /// </summary>
 /// <seealso cref="ListView" />
 [ToolboxItem(true)]
-[ToolboxBitmap(typeof(ListView))]
+[ToolboxBitmap(typeof(ListView), "ToolboxBitmaps.KryptonListView.bmp")]
 [Designer(typeof(KryptonListViewDesigner))]
 [DesignerCategory(@"code")]
 [Description(@"A Kryptonised listview.")]
