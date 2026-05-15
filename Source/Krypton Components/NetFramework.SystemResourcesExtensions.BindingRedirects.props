@@ -1,13 +1,15 @@
 <Project>
 	<!--
-	  Krypton net4x builds use preserialized .resx; at runtime the loader may request
-	  System.Resources.Extensions, Version=4.0.0.0 while the NuGet assembly is 4.0.1.0, causing
-	  FileLoadException (0x80131040) during resource initialization (e.g. KryptonManager / image storage).
+	  Krypton net4x builds use preserialized .resx; at runtime the loader may request an older
+	  System.Resources.Extensions identity (e.g. 4.0.0.0) than the NuGet assembly (9.0.0.0 for package 9.0.10),
+	  causing FileLoadException (0x80131040) during resource initialization (e.g. KryptonManager / image storage).
 
 	  Auto-generate redirects alone is not always enough: ResolveAssemblyReference may not emit a
 	  suggested redirect when the conflict is only visible through Krypton's compiled references.
-	  This file is packed as build/$(PackageId).props for Krypton.Toolkit and Krypton.Standard.Toolkit,
-	  and is imported from Directory.Build.targets so project-reference apps (e.g. TestForm) get the same fix.
+	  This file is packed as build/ and buildTransitive/ $(PackageId).props for Krypton.Toolkit and
+	  Krypton.Standard.Toolkit, and is imported from Directory.Build.targets so project-reference apps
+	  (e.g. TestForm) get the same fix. Krypton.Toolkit also registers AssemblyResolve on .NET Framework
+	  (KryptonNetFxResourceAssemblyResolve) so apps run without relying solely on app.config redirects.
 	-->
 	<PropertyGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'">
 		<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -24,7 +26,7 @@
 			<SuggestedBindingRedirects Remove="@(_KryptonSreSuggestedRemove)" />
 			<_KryptonSreSuggestedRemove Remove="@(_KryptonSreSuggestedRemove)" />
 			<SuggestedBindingRedirects Include="System.Resources.Extensions, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51">
-				<MaxVersion>4.0.1.0</MaxVersion>
+				<MaxVersion>9.0.0.0</MaxVersion>
 			</SuggestedBindingRedirects>
 		</ItemGroup>
 	</Target>
