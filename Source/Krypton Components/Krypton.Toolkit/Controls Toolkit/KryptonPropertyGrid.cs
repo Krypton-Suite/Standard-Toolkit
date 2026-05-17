@@ -11,7 +11,7 @@ namespace Krypton.Toolkit;
 /// /// <seealso cref="PropertyGrid" />
 [Description(@"A property grid control that supports the Krypton render.")]
 [Designer(typeof(KryptonPropertyGridDesigner))]
-[ToolboxBitmap(typeof(PropertyGrid), "ToolboxBitmaps.KryptonPropertyGridVersion2.bmp")]
+[ToolboxBitmap(typeof(PropertyGrid), "ToolboxBitmaps.KryptonPropertyGrid.bmp")]
 [ToolboxItem(true)]
 public class KryptonPropertyGrid : VisualControlBase,
     IContainedInputControl

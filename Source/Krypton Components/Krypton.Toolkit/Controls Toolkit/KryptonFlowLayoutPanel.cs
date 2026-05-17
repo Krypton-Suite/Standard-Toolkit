@@ -13,7 +13,7 @@ namespace Krypton.Toolkit;
 /// A Kryptonised version of the FlowLayoutPanel. Handles the layout of its components, and arranges them in a flow direction automatically.
 /// </summary>
 [ToolboxItem(true)]
-[ToolboxBitmap(typeof(FlowLayoutPanel))]
+[ToolboxBitmap(typeof(FlowLayoutPanel), "ToolboxBitmaps.KryptonFlowLayoutPanel.bmp")]
 [Description("A Kryptonised version of the FlowLayoutPanel. Handles the layout of its components, and arranges them in a flow direction automatically.")]
 public class KryptonFlowLayoutPanel : FlowLayoutPanel
 {

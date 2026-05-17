@@ -15,7 +15,7 @@ using Timer = System.Windows.Forms.Timer;
 /// Provides a user interface for indicating that a control on a form has an error associated with it.
 /// </summary>
 [ToolboxItem(true)]
-[ToolboxBitmap(typeof(ErrorProvider))]
+[ToolboxBitmap(typeof(ErrorProvider), "ToolboxBitmaps.KryptonErrorProvider.bmp")]
 [DefaultEvent(nameof(SetError))]
 [DefaultProperty(nameof(BlinkStyle))]
 [DesignerCategory(@"code")]

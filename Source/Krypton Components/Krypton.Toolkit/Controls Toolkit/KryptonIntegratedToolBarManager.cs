@@ -12,7 +12,7 @@ namespace Krypton.Toolkit;
 /// <summary>Handles all the integrated toolbar functionality.</summary>
 [Category(@"code")]
 [Description(@"Handles all the integrated toolbar functionality.")]
-[ToolboxBitmap(typeof(ToolStrip))]
+[ToolboxBitmap(typeof(ToolStrip), "ToolboxBitmaps.KryptonMenuBar.bmp")]
 public class KryptonIntegratedToolBarManager : Component
 {
     #region Static Fields

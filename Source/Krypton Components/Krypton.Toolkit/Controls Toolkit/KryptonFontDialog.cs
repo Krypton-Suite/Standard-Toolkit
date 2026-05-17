@@ -16,7 +16,7 @@ namespace Krypton.Toolkit;
 /// Represents a common dialog box that displays a list of fonts
 /// that are currently installed on the system.
 /// </summary>
-[ToolboxBitmap(typeof(FontDialog), "ToolboxBitmaps.KryptonFontDialog.png"),
+[ToolboxBitmap(typeof(FontDialog), "ToolboxBitmaps.KryptonFontDialog.bmp"),
  Description("Displays a Kryptonised version of the standard Font dialog, that prompts the user to choose a font from those installed on the local computer.")]
 public class KryptonFontDialog : FontDialog
 {
