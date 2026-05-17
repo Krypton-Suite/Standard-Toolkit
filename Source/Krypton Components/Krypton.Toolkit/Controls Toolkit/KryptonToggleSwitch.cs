@@ -16,6 +16,7 @@ namespace Krypton.Toolkit;
 
 /// <summary></summary>
 [ToolboxItem(true)]
+[ToolboxBitmap(typeof(KryptonToggleSwitch), "ToolboxBitmaps.KryptonToggleButton.bmp")]
 [DefaultEvent(nameof(CheckedChanged))]
 [DefaultProperty(nameof(Checked))]
 [DesignerCategory("code")]

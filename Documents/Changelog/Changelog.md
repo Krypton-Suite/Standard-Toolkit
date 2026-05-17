@@ -45,6 +45,7 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#3447](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3447), Add missing toolbox bitmap images
 * Implemented [#3455](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3455), **[Breaking Change]** Rename `Krypton.Utilities` to `Krypton.Toolkit.Utilities` (project folder, `Krypton.Toolkit.Utilities.csproj`, assembly name, root namespace, and all types). Aligns naming with `Krypton.Navigator.Utilities`. Update `using` directives, fully qualified type names, `ProjectReference` paths, and any tooling or CI paths that pointed at `Krypton.Utilities`. The aggregate `Krypton.Standard.Toolkit` package now ships `Krypton.Toolkit.Utilities.dll` instead of `Krypton.Utilities.dll`.
 * Resolved [#3383](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3383), White inner border artifacts appear on `KryptonButton` when hovering (`StateTracking` rounding issue)
 * Implemented [#3443](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3443), `KryptonComboBoxUserControl` - a ComboBox-style control whose drop-down hosts any `UserControl` (or any `Control`). Drop content can opt into the new `IKryptonDropDownUserControl` contract for sizing, lifecycle, and value commit/cancel signalling. Also adds `KryptonDropDownCommitEventArgs` / `KryptonDropDownOpeningEventArgs` and an internal `VisualKryptonDropDownPopup` that supports an optional bottom-right resize grip.

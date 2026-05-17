@@ -15,7 +15,7 @@ using Timer = System.Windows.Forms.Timer;
 /// Provides themed Krypton tooltips for arbitrary <see cref="Control"/> instances (designer-extended title/body/image and palette settings reuse <see cref="VisualPopupToolTip"/>).
 /// </summary>
 [ToolboxItem(true)]
-[ToolboxBitmap(typeof(ToolTip))]
+[ToolboxBitmap(typeof(ToolTip), "ToolboxBitmaps.KryptonToolTip.bmp")]
 [DefaultProperty(nameof(ToolTipValues))]
 [DesignerCategory(@"code")]
 [ProvideProperty(@"KryptonToolTipTitle", typeof(Control))]

@@ -13,7 +13,7 @@ namespace Krypton.Toolkit;
 /// Represents a dialog box form that contains a <see cref="PrintPreviewControl"/> for printing from a Windows Forms application.
 /// </summary>
 [DefaultProperty(nameof(Document))]
-[ToolboxBitmap(typeof(PrintPreviewDialog), "ToolboxBitmaps.KryptonPrintDialog.png")]
+[ToolboxBitmap(typeof(PrintPreviewDialog), "ToolboxBitmaps.KryptonPrintPreviewDialog.bmp")]
 [Description("Displays a Kryptonised version of the standard PrintPreview dialog window.")]
 [DesignerCategory(@"code")]
 public class KryptonPrintPreviewDialog : Component, IDisposable
