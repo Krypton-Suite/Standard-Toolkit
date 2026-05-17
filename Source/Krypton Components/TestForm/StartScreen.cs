@@ -80,6 +80,7 @@ public partial class StartScreen : KryptonForm
         CreateButton<CodeEditorTest>("Code Editor", "Native code editor with syntax highlighting, line numbering, code folding, and auto-completion.");
         CreateButton<CountdownButtonTest>("Countdown Button", "Comprehensive demonstration of KryptonCountdownButton features with customizable duration, format, and enable-at-zero options.");
         CreateButton<CommandLinkButtons>("CommandLink Buttons", "No comment");
+        CreateButton<KryptonCommandButtonSpecDemo>("KryptonCommand ButtonSpec", "Issue #1133: KryptonCommand.CommandType drives integrated toolbar and help ButtonSpecs with palette-aware images. Click toolbar and help buttons; change theme to verify refresh.");
         CreateButton<ControlStylesForm>("Control Styles", string.Empty);
         CreateButton<KryptonDateTimePickerMonthCalendarDemo>("DateTimePicker Month Calendar Background", "Comprehensive demo of KryptonDateTimePicker month calendar custom background (Issue #1827): CalendarBackColor, theme default, presets (dark/light), and pick-a-color to style the drop-down calendar.");
         CreateButton<DateTimeExample>("DateTime Example", string.Empty);
