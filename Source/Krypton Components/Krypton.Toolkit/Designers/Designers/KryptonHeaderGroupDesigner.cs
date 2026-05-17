@@ -82,6 +82,9 @@ internal class KryptonHeaderGroupDesigner : ParentControlDesigner
         if (_headerGroup != null)
         {
             EnableDesignMode(_headerGroup.Panel, nameof(Panel));
+
+            // Ensure the panel has valid bounds before the designer queries DisplayRectangle for drop targets
+            _headerGroup.PerformLayout();
         }
     }
 
