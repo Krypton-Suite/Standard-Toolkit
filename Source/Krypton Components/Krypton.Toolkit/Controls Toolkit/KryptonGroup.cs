@@ -288,7 +288,14 @@ public class KryptonGroup : VisualControlContainment
             // Ensure that the layout is calculated in order to know the remaining display space
             ForceViewLayout();
 
-            // The inside panel is the client rectangle size
+            // The fill rect from view layout is authoritative; Panel bounds are applied in OnLayout
+            // and can be stale when the designer queries DisplayRectangle before WinForms layout runs.
+            Rectangle fillRect = _layoutFill.FillRect;
+            if (!fillRect.IsEmpty)
+            {
+                return fillRect;
+            }
+
             return new Rectangle(Panel.Location, Panel.Size);
         }
     }
