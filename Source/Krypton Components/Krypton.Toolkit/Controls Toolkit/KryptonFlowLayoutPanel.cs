@@ -1,35 +1,40 @@
-﻿#region BSD License
+#region BSD License
 /*
- * 
- * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2026 - 2026. All rights reserved.
+ *
  */
 #endregion
 
 namespace Krypton.Toolkit;
 
-/// <inheritdoc />
-[ToolboxBitmap(typeof(TableLayoutPanel), "ToolboxBitmaps.KryptonTableLayoutPanel.bmp")]
-[Description("A Kryptonised version of the TableLayoutPanel. Handles the layout of its components, and arranges them in the format of a table automatically.")]
-public class KryptonTableLayoutPanel : TableLayoutPanel
+/// <summary>
+/// A Kryptonised version of the FlowLayoutPanel. Handles the layout of its components, and arranges them in a flow direction automatically.
+/// </summary>
+[ToolboxItem(true)]
+[ToolboxBitmap(typeof(FlowLayoutPanel), "ToolboxBitmaps.KryptonFlowLayoutPanel.bmp")]
+[Description("A Kryptonised version of the FlowLayoutPanel. Handles the layout of its components, and arranges them in a flow direction automatically.")]
+public class KryptonFlowLayoutPanel : FlowLayoutPanel
 {
     #region Instance Fields
+    
     private readonly KryptonPanel _backGroundPanel;
+    private Bitmap? _bitmap;
+    private bool _disposed;
+    
     #endregion
 
     #region Identity
+    
     /// <summary>
-    /// Initialize a new instance of the KryptonTableLayoutPanel class.
+    /// Initialize a new instance of the KryptonFlowLayoutPanel class.
     /// </summary>
-    public KryptonTableLayoutPanel()
+    public KryptonFlowLayoutPanel()
     {
         SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
-        // If you want a transparent background then use the normal TableLayoutPanel
-        SetStyle(ControlStyles.SupportsTransparentBackColor, false);    
+        // If you want a transparent background then use the normal FlowLayoutPanel
+        SetStyle(ControlStyles.SupportsTransparentBackColor, false);
 
         // Yes, we want to be drawn double buffered by default
         base.DoubleBuffered = true;
@@ -47,13 +52,47 @@ public class KryptonTableLayoutPanel : TableLayoutPanel
         base.BackgroundImageLayout = ImageLayout.None;
     }
 
+    /// <summary>
+    /// Release managed and unmanaged resources.
+    /// </summary>
+    public new void Dispose()
+    {
+        // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
+    }
+
+    /// <summary>
+    /// Clean up any resources being used.
+    /// </summary>
+    /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+    protected override void Dispose(bool disposing)
+    {
+        if (!_disposed && disposing)
+        {
+            _backGroundPanel.StateCommon.PropertyChanged -= State_PropertyChanged;
+            _backGroundPanel.StateDisabled.PropertyChanged -= State_PropertyChanged;
+            _backGroundPanel.StateNormal.PropertyChanged -= State_PropertyChanged;
+
+            _bitmap?.Dispose();
+            _bitmap = null;
+
+            _backGroundPanel?.Dispose();
+
+            _disposed = true;
+        }
+
+        base.Dispose(disposing);
+    }
+
     private void State_PropertyChanged(object? sender, PropertyChangedEventArgs e) =>
         // Handle explicit settings to the controls
         BackGroundPanel_Refreshed();
 
     #endregion
 
-    #region Public Override designers
+    #region Public Override Designers
+    
     /// <summary>
     /// Gets or sets the background color for the control.
     /// </summary>
@@ -68,7 +107,7 @@ public class KryptonTableLayoutPanel : TableLayoutPanel
             if (value == Color.Transparent)
             {
                 throw new NotSupportedException(
-                    @"If you want a transparent background then use the normal TableLayoutPanel");
+                    @"If you want a transparent background then use the normal FlowLayoutPanel");
             }
 
             _backGroundPanel.BackColor = value;
@@ -77,7 +116,7 @@ public class KryptonTableLayoutPanel : TableLayoutPanel
     }
 
     /// <summary>
-    /// Gets or sets the font of the text Displayed by the control.
+    /// Gets or sets the font of the text displayed by the control.
     /// </summary>
     [Browsable(false)]
     [Bindable(false)]
@@ -103,7 +142,7 @@ public class KryptonTableLayoutPanel : TableLayoutPanel
     }
 
     /// <summary>
-    /// Gets or sets the background image Displayed in the control.
+    /// Gets or sets the background image displayed in the control.
     /// </summary>
     [Browsable(false)]
     [Bindable(false)]
@@ -200,7 +239,10 @@ public class KryptonTableLayoutPanel : TableLayoutPanel
 
     private bool ShouldSerializePanelBackStyle() => PanelBackStyle != PaletteBackStyle.PanelClient;
 
-    private void ResetPanelBackStyle() => PanelBackStyle = PaletteBackStyle.PanelClient;
+    /// <summary>
+    /// Resets the PanelBackStyle property to its default value.
+    /// </summary>
+    public void ResetPanelBackStyle() => PanelBackStyle = PaletteBackStyle.PanelClient;
 
     /// <summary>
     /// Gets access to the common panel appearance that other states can override.
@@ -237,9 +279,11 @@ public class KryptonTableLayoutPanel : TableLayoutPanel
     /// </summary>
     /// <param name="state">Palette state to fix.</param>
     public virtual void SetFixedState(PaletteState state) => _backGroundPanel.SetFixedState(state);
+    
     #endregion
 
     #region Pass Messages to Panel
+
     /// <inheritdoc />
     protected override void OnEnabledChanged(EventArgs e)
     {
@@ -253,10 +297,9 @@ public class KryptonTableLayoutPanel : TableLayoutPanel
     {
         base.OnSizeChanged(e);
         _backGroundPanel.Size = Size;
-        SetToBehindTable();
+        SetToBehindFlow();
     }
 
-    private Bitmap _bm;
     private void BackGroundPanel_Refreshed()
     {
         // Fix for #774: https://github.com/Krypton-Suite/Standard-Toolkit/issues/774
@@ -265,13 +308,14 @@ public class KryptonTableLayoutPanel : TableLayoutPanel
             return;
         }
 
-        _bm = new Bitmap(_backGroundPanel.Width, _backGroundPanel.Height, PixelFormat.Format32bppRgb);
-        _backGroundPanel.DrawToBitmap(_bm,
+        _bitmap?.Dispose();
+        _bitmap = new Bitmap(_backGroundPanel.Width, _backGroundPanel.Height, PixelFormat.Format32bppRgb);
+        _backGroundPanel.DrawToBitmap(_bitmap,
             new Rectangle(0, 0, _backGroundPanel.Width, _backGroundPanel.Height));
-        BackgroundImage = _bm;
+        BackgroundImage = _bitmap;
     }
 
-    private void SetToBehindTable()
+    private void SetToBehindFlow()
     {
         if (Parent == null)
         {
@@ -281,7 +325,6 @@ public class KryptonTableLayoutPanel : TableLayoutPanel
         if (_backGroundPanel.Parent == null)
         {
             Parent.Controls.Add(_backGroundPanel);
-            //_backGroundPanel.Parent = Parent;
             var index = Parent.Controls.GetChildIndex(this);
             Parent.Controls.SetChildIndex(_backGroundPanel, index + 1);
         }
@@ -295,7 +338,7 @@ public class KryptonTableLayoutPanel : TableLayoutPanel
         var location = Location;
         location.Offset(10, 10);
         _backGroundPanel.Location = location;
-        SetToBehindTable();
+        SetToBehindFlow();
     }
 
     /// <summary>
@@ -308,64 +351,64 @@ public class KryptonTableLayoutPanel : TableLayoutPanel
         {
             // We need to snoop the need to show a context menu
             case PI.WM_.CONTEXTMENU:
-            {
-                // Only interested in overriding the behavior when we have a krypton context menu...
-                if (KryptonContextMenu != null)
                 {
-                    // Extract the screen mouse position (if might not actually be provided)
-                    var mousePt = new Point(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
-
-                    // If keyboard activated, the menu position is centered
-                    if (((int)(long)m.LParam) == -1)
+                    // Only interested in overriding the behavior when we have a krypton context menu...
+                    if (KryptonContextMenu != null)
                     {
-                        mousePt = new Point(Width / 2, Height / 2);
-                    }
-                    else
-                    {
-                        mousePt = PointToClient(mousePt);
+                        // Extract the screen mouse position (if might not actually be provided)
+                        var mousePt = new Point(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
-                        // Mouse point up and left 1 pixel so that the mouse overlaps the top left corner
-                        // of the showing context menu just like it happens for a ContextMenuStrip.
-                        mousePt.X -= 1;
-                        mousePt.Y -= 1;
+                        // If keyboard activated, the menu position is centered
+                        if (((int)(long)m.LParam) == -1)
+                        {
+                            mousePt = new Point(Width / 2, Height / 2);
+                        }
+                        else
+                        {
+                            mousePt = PointToClient(mousePt);
+
+                            // Mouse point up and left 1 pixel so that the mouse overlaps the top left corner
+                            // of the showing context menu just like it happens for a ContextMenuStrip.
+                            mousePt.X -= 1;
+                            mousePt.Y -= 1;
+                        }
+
+                        // If the mouse position is within our client area
+                        if (ClientRectangle.Contains(mousePt))
+                        {
+                            // Show the context menu
+                            KryptonContextMenu.Show(this, PointToScreen(mousePt));
+
+                            // We eat the message!
+                            return;
+                        }
                     }
 
-                    // If the mouse position is within our client area
-                    if (ClientRectangle.Contains(mousePt))
-                    {
-                        // Show the context menu
-                        KryptonContextMenu.Show(this, PointToScreen(mousePt));
-
-                        // We eat the message!
-                        return;
-                    }
+                    break;
                 }
-
-                break;
-            }
             case PI.WM_.WINDOWPOSCHANGED:
-            {
-                // Do the move thing first
-                base.WndProc(ref m);
-                PI.WINDOWPOS structure = (PI.WINDOWPOS)Marshal.PtrToStructure(m.LParam, typeof(PI.WINDOWPOS))!;
-                if (!structure.flags.HasFlag(PI.SWP_.NOZORDER))
                 {
-                    if (_backGroundPanel.Parent != null
-                        && Parent != null)
+                    // Do the move thing first
+                    base.WndProc(ref m);
+                    PI.WINDOWPOS structure = (PI.WINDOWPOS)Marshal.PtrToStructure(m.LParam, typeof(PI.WINDOWPOS))!;
+                    if (!structure.flags.HasFlag(PI.SWP_.NOZORDER))
                     {
-                        var index = Parent.Controls.GetChildIndex(this);
-                        Parent.Controls.SetChildIndex(_backGroundPanel, index + 1);
-                        BackGroundPanel_Refreshed();
+                        if (_backGroundPanel.Parent != null
+                            && Parent != null)
+                        {
+                            var index = Parent.Controls.GetChildIndex(this);
+                            Parent.Controls.SetChildIndex(_backGroundPanel, index + 1);
+                            BackGroundPanel_Refreshed();
+                        }
                     }
+
+                    // We ate the message!
+                    return;
                 }
-
-                // We ate the message!
-                return;
-            }
         }
-
 
         base.WndProc(ref m);
     }
+
     #endregion
 }

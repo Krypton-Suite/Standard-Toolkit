@@ -11,7 +11,7 @@ namespace Krypton.Toolkit;
 
 /// <summary>A <see cref="KryptonCommand"/> created specifically for the <see cref="PaletteButtonSpecStyle.FormHelp"/> button spec.</summary>
 [ToolboxItem(true)]
-[ToolboxBitmap(typeof(KryptonHelpCommand), @"ToolboxBitmaps.KryptonHelp.bmp")]
+[ToolboxBitmap(typeof(KryptonHelpCommand), @"ToolboxBitmaps.KryptonHelpCommand.bmp")]
 [Description(@"For use with the 'Help' ButtonSpec style.")]
 [DesignerCategory(@"code")]
 public class KryptonHelpCommand : KryptonCommand
