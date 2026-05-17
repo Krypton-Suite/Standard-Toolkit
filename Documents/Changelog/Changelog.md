@@ -47,6 +47,7 @@
 
 ## 2026-07-20 - Build 2607 (Version 105-LTS - Patch 3) - July 2026
 
+* Resolved [#3451](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3451), Unable to add child controls into `KryptonHeaderGroup` at design time (`ReadOnly controls collection`). `DisplayRectangle` now reports the view fill rect, group container designers call `PerformLayout` after `EnableDesignMode`, and `KryptonGroupPanelDesigner.CanBeParentedTo` checks the parent component type correctly. Same `DisplayRectangle` improvement applied to `KryptonGroup` and `KryptonGroupBox`.
 * Resolved [#3383](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3383), White inner border artifacts appear on `KryptonButton` when hovering (`StateTracking` rounding issue)
 * Resolved [#3382](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3382), Lines when using `CueHint` for `KryptonTextBox`
 * Resolved [#3365](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3365), `KryptonLinkLabel` 'Autosize' Not Shrinking
