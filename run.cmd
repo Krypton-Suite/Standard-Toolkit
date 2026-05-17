@@ -903,4 +903,5 @@ cls
 
 echo Running TestForm project...
 
-dotnet run --project "Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net11.0-windows
+:: Allows running the TestForm project without needing to open the solution in Visual Studio.
+dotnet run --project "Source\Krypton Components\TestForm\TestForm.csproj" -c Debug 
