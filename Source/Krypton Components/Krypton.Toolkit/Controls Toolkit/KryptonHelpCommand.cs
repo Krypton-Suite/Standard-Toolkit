@@ -14,7 +14,7 @@ namespace Krypton.Toolkit;
 [ToolboxBitmap(typeof(KryptonHelpCommand), @"ToolboxBitmaps.KryptonHelpCommand.bmp")]
 [Description(@"For use with the 'Help' ButtonSpec style.")]
 [DesignerCategory(@"code")]
-[Obsolete("Use KryptonCommand with CommandType = KryptonCommandType.HelpCommand instead.")]
+[Obsolete("Use KryptonCommand with CommandType = KryptonCommandType.HelpCommand instead. This type will be removed in version 120 LTS.")]
 public class KryptonHelpCommand : KryptonButtonSpecTypedCommand
 {
     #region Public

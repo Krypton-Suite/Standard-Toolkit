@@ -14,7 +14,7 @@ namespace Krypton.Toolkit;
 [ToolboxItem(false)]
 [Description(@"For use with the 'Redo' ButtonSpec style.")]
 [DesignerCategory(@"code")]
-[Obsolete("Use KryptonCommand with CommandType = KryptonCommandType.IntegratedToolBarRedoCommand instead.")]
+[Obsolete("Use KryptonCommand with CommandType = KryptonCommandType.IntegratedToolBarRedoCommand instead. This type will be removed in version 120 LTS.")]
 public class KryptonIntegratedToolbarRedoCommand : KryptonButtonSpecTypedCommand
 {
     [DefaultValue(null)]

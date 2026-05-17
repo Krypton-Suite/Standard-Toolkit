@@ -14,7 +14,7 @@ namespace Krypton.Toolkit;
 [ToolboxItem(false)]
 [Description(@"For use with the 'Paste' ButtonSpec style.")]
 [DesignerCategory(@"code")]
-[Obsolete("Use KryptonCommand with CommandType = KryptonCommandType.IntegratedToolBarPasteCommand instead.")]
+[Obsolete("Use KryptonCommand with CommandType = KryptonCommandType.IntegratedToolBarPasteCommand instead. This type will be removed in version 120 LTS.")]
 public class KryptonIntegratedToolbarPasteCommand : KryptonButtonSpecTypedCommand
 {
     [DefaultValue(null)]

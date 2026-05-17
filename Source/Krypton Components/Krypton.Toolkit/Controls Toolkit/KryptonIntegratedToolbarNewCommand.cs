@@ -16,7 +16,7 @@ namespace Krypton.Toolkit;
 [ToolboxItem(false)]
 [Description(@"For use with the 'New' ButtonSpec style.")]
 [DesignerCategory(@"code")]
-[Obsolete("Use KryptonCommand with CommandType = KryptonCommandType.IntegratedToolBarNewCommand instead.")]
+[Obsolete("Use KryptonCommand with CommandType = KryptonCommandType.IntegratedToolBarNewCommand instead. This type will be removed in version 120 LTS.")]
 public class KryptonIntegratedToolbarNewCommand : KryptonButtonSpecTypedCommand
 {
     #region Public

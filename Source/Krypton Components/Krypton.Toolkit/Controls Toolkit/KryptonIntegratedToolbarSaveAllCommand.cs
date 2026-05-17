@@ -14,7 +14,7 @@ namespace Krypton.Toolkit;
 [ToolboxItem(false)]
 [Description(@"For use with the 'Save All' ButtonSpec style.")]
 [DesignerCategory(@"code")]
-[Obsolete("Use KryptonCommand with CommandType = KryptonCommandType.IntegratedToolBarSaveAllCommand instead.")]
+[Obsolete("Use KryptonCommand with CommandType = KryptonCommandType.IntegratedToolBarSaveAllCommand instead. This type will be removed in version 120 LTS.")]
 public class KryptonIntegratedToolbarSaveAllCommand : KryptonButtonSpecTypedCommand
 {
     [DefaultValue(null)]

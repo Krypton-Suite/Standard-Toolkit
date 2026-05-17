@@ -14,7 +14,7 @@ namespace Krypton.Toolkit;
 [ToolboxItem(false)]
 [Description(@"For use with the 'Print Preview' ButtonSpec style.")]
 [DesignerCategory(@"code")]
-[Obsolete("Use KryptonCommand with CommandType = KryptonCommandType.IntegratedToolBarPrintPreviewCommand instead.")]
+[Obsolete("Use KryptonCommand with CommandType = KryptonCommandType.IntegratedToolBarPrintPreviewCommand instead. This type will be removed in version 120 LTS.")]
 public class KryptonIntegratedToolbarPrintPreviewCommand : KryptonButtonSpecTypedCommand
 {
     [DefaultValue(null)]
