@@ -13,7 +13,8 @@
 namespace Krypton.Toolkit;
 
 /// <inheritdoc />
-[ToolboxBitmap(typeof(TableLayoutPanel)), Description("A Kryptonised version of the TableLayoutPanel. Handles the layout of its components, and arranges them in the format of a table automatically.")]
+[ToolboxBitmap(typeof(TableLayoutPanel), "ToolboxBitmaps.KryptonTableLayoutPanel.bmp")]
+[Description("A Kryptonised version of the TableLayoutPanel. Handles the layout of its components, and arranges them in the format of a table automatically.")]
 public class KryptonTableLayoutPanel : TableLayoutPanel
 {
     #region Instance Fields

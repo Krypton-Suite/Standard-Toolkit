@@ -15,7 +15,7 @@ namespace Krypton.Toolkit;
 /// Listens to the file system change notifications and raises events when a directory, or file in a directory, changes with Krypton integration.
 /// </summary>
 [ToolboxItem(true)]
-[ToolboxBitmap(typeof(FileSystemWatcher))]
+[ToolboxBitmap(typeof(FileSystemWatcher), "ToolboxBitmaps.KryptonFileSystemWatcher.bmp")]
 [DefaultEvent(nameof(Created))]
 [DefaultProperty(nameof(Path))]
 [DesignerCategory(@"code")]
