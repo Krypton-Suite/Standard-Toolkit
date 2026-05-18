@@ -12,6 +12,7 @@ namespace Krypton.Toolkit.Utilities;
 #if WEBVIEW2_AVAILABLE
 
 #region Using Directives
+using Microsoft.Web.WebView2.Core;
 using Microsoft.Web.WebView2.WinForms;
 
 // Use a using alias to avoid namespace resolution issues
@@ -74,6 +75,45 @@ public class KryptonWebView2 : WebView2Base
     private readonly PaletteMode _paletteMode = PaletteMode.Global;
     private KryptonContextMenu? _kryptonContextMenu;
     private IRenderer _renderer;
+    private readonly PaletteRedirect _redirector;
+    private readonly PaletteTripleRedirect _stateCommon;
+    private readonly PaletteTriple _stateNormal;
+    private readonly PaletteTriple _stateDisabled;
+    private readonly PaletteTriple _stateActive;
+    private bool _alwaysActive;
+    private bool? _fixedActive;
+
+    #endregion
+
+    #region Events
+
+    /// <summary>
+    /// Occurs when the value of the BackColor property changes.
+    /// </summary>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public new event EventHandler? BackColorChanged;
+
+    /// <summary>
+    /// Occurs when the value of the BackgroundImage property changes.
+    /// </summary>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public new event EventHandler? BackgroundImageChanged;
+
+    /// <summary>
+    /// Occurs when the value of the BackgroundImageLayout property changes.
+    /// </summary>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public new event EventHandler? BackgroundImageLayoutChanged;
+
+    /// <summary>
+    /// Occurs when the value of the ForeColor property changes.
+    /// </summary>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public new event EventHandler? ForeColorChanged;
 
     #endregion
 
@@ -124,6 +164,12 @@ public class KryptonWebView2 : WebView2Base
         {
             doubleBufferedProperty.SetValue(this, true);
         }
+
+        _redirector = new PaletteRedirect(null);
+        _stateCommon = new PaletteTripleRedirect(_redirector, PaletteBackStyle.PanelClient, PaletteBorderStyle.ControlClient, PaletteContentStyle.InputControlStandalone, OnPalettePaint);
+        _stateNormal = new PaletteTriple(_stateCommon, OnPalettePaint);
+        _stateDisabled = new PaletteTriple(_stateCommon, OnPalettePaint);
+        _stateActive = new PaletteTriple(_stateCommon, OnPalettePaint);
 
         SetPalette(KryptonManager.CurrentGlobalPalette);
 
@@ -313,48 +359,248 @@ public class KryptonWebView2 : WebView2Base
     }
 
     /// <summary>
+    /// Gets or sets the background color for the control.
+    /// </summary>
+    [Browsable(false)]
+    [Bindable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public override Color BackColor
+    {
+        get => GetResolvedBackColor();
+        set
+        {
+            StateCommon.Back.Color1 = value;
+            ApplyAppearanceColors();
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the font of the text displayed by the control.
+    /// </summary>
+    [Browsable(false)]
+    [Bindable(false)]
+    [AmbientValue(null)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [AllowNull]
+    public override Font Font
+    {
+        get => base.Font;
+        set => base.Font = value;
+    }
+
+    /// <summary>
+    /// Gets or sets the foreground color for the control.
+    /// </summary>
+    [Browsable(false)]
+    [Bindable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public override Color ForeColor
+    {
+        get => GetResolvedForeColor();
+        set
+        {
+            StateCommon.Content.ShortText.Color1 = value;
+            ApplyAppearanceColors();
+        }
+    }
+
+    /// <summary>
     /// Gets or sets the default background color for the WebView2 control.
     /// </summary>
     /// <value>
-    /// The default background color.
+    /// The default background color shown before web content is rendered.
     /// </value>
     /// <remarks>
-    /// This property forwards to the base WebView2 DefaultBackgroundColor property.
+    /// This value is synchronized from the current palette state. Use <see cref="StateCommon"/>,
+    /// <see cref="StateNormal"/>, <see cref="StateActive"/>, or <see cref="StateDisabled"/> to override palette colors.
     /// </remarks>
-    [Category(@"Appearance")]
-    [Description(@"Gets or sets the default background color for the WebView2 control.")]
+    [Browsable(false)]
+    [Bindable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public new Color DefaultBackgroundColor
     {
-        get
-        {
-            var baseType = this.GetType().BaseType;
-            if (baseType != null)
-            {
-                var property = baseType.GetProperty("DefaultBackgroundColor", BindingFlags.Public | BindingFlags.Instance);
-                if (property != null && property.CanRead)
-                {
-                    var value = property.GetValue(this);
-                    if (value is Color color)
-                    {
-                        return color;
-                    }
-                }
-            }
-            return Color.White;
-        }
+        get => GetResolvedBackColor();
         set
         {
-            var baseType = this.GetType().BaseType;
-            if (baseType != null)
+            StateCommon.Back.Color1 = value;
+            ApplyAppearanceColors();
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the background image displayed in the control.
+    /// </summary>
+    [Browsable(false)]
+    [Bindable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public override Image? BackgroundImage
+    {
+        get => base.BackgroundImage;
+        set => base.BackgroundImage = value;
+    }
+
+    /// <summary>
+    /// Gets or sets the background image layout as defined in the ImageLayout enumeration.
+    /// </summary>
+    [Browsable(false)]
+    [Bindable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public override ImageLayout BackgroundImageLayout
+    {
+        get => base.BackgroundImageLayout;
+        set => base.BackgroundImageLayout = value;
+    }
+
+    /// <summary>
+    /// Gets and sets the WebView2 background palette style.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"WebView2 background palette style.")]
+    [DefaultValue(PaletteBackStyle.PanelClient)]
+    public PaletteBackStyle WebViewBackStyle
+    {
+        get => StateCommon.BackStyle;
+
+        set
+        {
+            if (StateCommon.BackStyle != value)
             {
-                var property = baseType.GetProperty("DefaultBackgroundColor", BindingFlags.Public | BindingFlags.Instance);
-                if (property != null && property.CanWrite)
-                {
-                    property.SetValue(this, value);
-                }
+                StateCommon.BackStyle = value;
+                ApplyAppearanceColors();
             }
         }
+    }
+
+    private bool ShouldSerializeWebViewBackStyle() => WebViewBackStyle != PaletteBackStyle.PanelClient;
+
+    private void ResetWebViewBackStyle() => WebViewBackStyle = PaletteBackStyle.PanelClient;
+
+    /// <summary>
+    /// Gets and sets the WebView2 content palette style used for foreground color.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"WebView2 content palette style used for foreground color.")]
+    [DefaultValue(PaletteContentStyle.InputControlStandalone)]
+    public PaletteContentStyle WebViewContentStyle
+    {
+        get => StateCommon.ContentStyle;
+
+        set
+        {
+            if (StateCommon.ContentStyle != value)
+            {
+                StateCommon.ContentStyle = value;
+                ApplyAppearanceColors();
+            }
+        }
+    }
+
+    private bool ShouldSerializeWebViewContentStyle() => WebViewContentStyle != PaletteContentStyle.InputControlStandalone;
+
+    private void ResetWebViewContentStyle() => WebViewContentStyle = PaletteContentStyle.InputControlStandalone;
+
+    /// <summary>
+    /// Gets access to the common WebView2 appearance that other states can override.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Overrides for defining common WebView2 appearance that other states can override.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public PaletteTripleRedirect StateCommon => _stateCommon;
+
+    private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
+
+    /// <summary>
+    /// Gets access to the normal WebView2 appearance.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Overrides for defining normal WebView2 appearance.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public PaletteTriple StateNormal => _stateNormal;
+
+    private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
+
+    /// <summary>
+    /// Gets access to the disabled WebView2 appearance.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Overrides for defining disabled WebView2 appearance.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public PaletteTriple StateDisabled => _stateDisabled;
+
+    private bool ShouldSerializeStateDisabled() => !StateDisabled.IsDefault;
+
+    /// <summary>
+    /// Gets access to the active WebView2 appearance.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Overrides for defining active WebView2 appearance.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public PaletteTriple StateActive => _stateActive;
+
+    private bool ShouldSerializeStateActive() => !StateActive.IsDefault;
+
+    /// <summary>
+    /// Gets and sets the value indicating if the control is always in the active state.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Determines if the control is always in the active state.")]
+    [DefaultValue(false)]
+    public bool AlwaysActive
+    {
+        get => _alwaysActive;
+
+        set
+        {
+            if (_alwaysActive != value)
+            {
+                _alwaysActive = value;
+                ApplyAppearanceColors();
+            }
+        }
+    }
+
+    private bool ShouldSerializeAlwaysActive() => _alwaysActive;
+
+    /// <summary>
+    /// Sets the fixed state of the control.
+    /// </summary>
+    /// <param name="active">Should the control be fixed as active.</param>
+    public void SetFixedState(bool active) => _fixedActive = active;
+
+    /// <summary>
+    /// Gets a value indicating if the WebView2 control is active.
+    /// </summary>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public bool IsActive => _fixedActive ?? DesignMode || AlwaysActive || ContainsFocus;
+
+    /// <summary>
+    /// Ensures that the WebView2 runtime is installed and initializes the CoreWebView2 environment.
+    /// </summary>
+    /// <param name="environment">A pre-created environment used to create the WebView2 controls.</param>
+    /// <returns>A Task that represents the background initialization operation.</returns>
+    public new Task EnsureCoreWebView2Async(CoreWebView2Environment? environment = null)
+    {
+        Task task = base.EnsureCoreWebView2Async(environment);
+        return ApplyAppearanceAfterInitializationAsync(task);
+    }
+
+    /// <summary>
+    /// Ensures that the WebView2 runtime is installed and initializes the CoreWebView2 environment.
+    /// </summary>
+    /// <param name="environment">A pre-created environment used to create the WebView2 controls.</param>
+    /// <param name="controllerOptions">Options flags for the creation of the controller.</param>
+    /// <returns>A Task that represents the background initialization operation.</returns>
+    public new Task EnsureCoreWebView2Async(CoreWebView2Environment environment, CoreWebView2ControllerOptions controllerOptions)
+    {
+        Task task = base.EnsureCoreWebView2Async(environment, controllerOptions);
+        return ApplyAppearanceAfterInitializationAsync(task);
     }
 
     /// <summary>
@@ -446,6 +692,36 @@ public class KryptonWebView2 : WebView2Base
     #endregion
 
     #region Protected Overrides
+
+    /// <summary>
+    /// Raises the EnabledChanged event.
+    /// </summary>
+    /// <param name="e">An EventArgs that contains the event data.</param>
+    protected override void OnEnabledChanged(EventArgs e)
+    {
+        ApplyAppearanceColors();
+        base.OnEnabledChanged(e);
+    }
+
+    /// <summary>
+    /// Raises the GotFocus event.
+    /// </summary>
+    /// <param name="e">An EventArgs that contains the event data.</param>
+    protected override void OnGotFocus(EventArgs e)
+    {
+        ApplyAppearanceColors();
+        base.OnGotFocus(e);
+    }
+
+    /// <summary>
+    /// Raises the LostFocus event.
+    /// </summary>
+    /// <param name="e">An EventArgs that contains the event data.</param>
+    protected override void OnLostFocus(EventArgs e)
+    {
+        ApplyAppearanceColors();
+        base.OnLostFocus(e);
+    }
 
     /// <summary>
     /// Process Windows-based messages.
@@ -582,6 +858,7 @@ public class KryptonWebView2 : WebView2Base
 
             // Remember the new palette
             _palette = palette;
+            _redirector.Target = palette;
 
             // Get the renderer associated with the palette
             _renderer = _palette.GetRenderer();
@@ -592,15 +869,89 @@ public class KryptonWebView2 : WebView2Base
                 _palette.BasePaletteChanged += OnBaseChanged;
                 _palette.BaseRendererChanged += OnBaseChanged;
             }
+
+            ApplyAppearanceColors();
         }
     }
 
     /// <summary>Called when there is a change in base renderer or base palette.</summary>
     /// <param name="sender">The sender.</param>
     /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
-    private void OnBaseChanged(object? sender, EventArgs e) =>
+    private void OnBaseChanged(object? sender, EventArgs e)
+    {
         // Change in base renderer or base palette require we fetch the latest renderer
         _renderer = _palette!.GetRenderer();
+        ApplyAppearanceColors();
+    }
+
+    private void OnPalettePaint(object? sender, NeedLayoutEventArgs e) => ApplyAppearanceColors();
+
+    private IPaletteTriple GetTripleState() => Enabled ? (IsActive ? _stateActive : _stateNormal) : _stateDisabled;
+
+    private PaletteState GetPaletteState()
+    {
+        if (!Enabled)
+        {
+            return PaletteState.Disabled;
+        }
+
+        return IsActive ? PaletteState.Tracking : PaletteState.Normal;
+    }
+
+    private Color GetResolvedBackColor()
+    {
+        IPaletteTriple triple = GetTripleState();
+        return triple.PaletteBack.GetBackColor1(GetPaletteState());
+    }
+
+    private Color GetResolvedForeColor()
+    {
+        IPaletteTriple triple = GetTripleState();
+        return triple.PaletteContent!.GetContentShortTextColor1(GetPaletteState());
+    }
+
+    private void ApplyAppearanceColors()
+    {
+        if (_palette == null)
+        {
+            return;
+        }
+
+        Color backColor = GetResolvedBackColor();
+        Color foreColor = GetResolvedForeColor();
+
+        SetControlBackColor(backColor);
+        SetControlForeColor(foreColor);
+        SetBaseDefaultBackgroundColor(backColor);
+    }
+
+    private void SetControlBackColor(Color color)
+    {
+        var property = typeof(Control).GetProperty(nameof(BackColor), BindingFlags.Public | BindingFlags.Instance);
+        property?.SetValue(this, color);
+    }
+
+    private void SetControlForeColor(Color color)
+    {
+        var property = typeof(Control).GetProperty(nameof(ForeColor), BindingFlags.Public | BindingFlags.Instance);
+        property?.SetValue(this, color);
+    }
+
+    private void SetBaseDefaultBackgroundColor(Color color)
+    {
+        var baseType = GetType().BaseType;
+        if (baseType != null)
+        {
+            var property = baseType.GetProperty("DefaultBackgroundColor", BindingFlags.Public | BindingFlags.Instance);
+            property?.SetValue(this, color);
+        }
+    }
+
+    private async Task ApplyAppearanceAfterInitializationAsync(Task initializationTask)
+    {
+        await initializationTask.ConfigureAwait(true);
+        ApplyAppearanceColors();
+    }
 
     /// <summary>
     /// Occurs when the global palette has been changed.

@@ -45,6 +45,7 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Enhanced `KryptonWebView2` palette integration. `BackColor`, `ForeColor`, and `DefaultBackgroundColor` are now driven from the active Krypton palette via `StateCommon`, `StateNormal`, `StateActive`, and `StateDisabled` (with `WebViewBackStyle` / `WebViewContentStyle`). Legacy appearance properties and their change events are hidden from the designer; use the `State###` entries under **Visuals** instead.
 * Implemented [#3447](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3447), Add missing toolbox bitmap images
 * Implemented [#3455](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3455), **[Breaking Change]** Rename `Krypton.Utilities` to `Krypton.Toolkit.Utilities` (project folder, `Krypton.Toolkit.Utilities.csproj`, assembly name, root namespace, and all types). Aligns naming with `Krypton.Navigator.Utilities`. Update `using` directives, fully qualified type names, `ProjectReference` paths, and any tooling or CI paths that pointed at `Krypton.Utilities`. The aggregate `Krypton.Standard.Toolkit` package now ships `Krypton.Toolkit.Utilities.dll` instead of `Krypton.Utilities.dll`.
 * Resolved [#3383](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3383), White inner border artifacts appear on `KryptonButton` when hovering (`StateTracking` rounding issue)
