@@ -7,7 +7,6 @@
  */
 #endregion
 
-#if NETFRAMEWORK
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
@@ -15,13 +14,25 @@ using System.Reflection;
 namespace Krypton.Toolkit;
 
 /// <summary>
-/// Ensures <see cref="System.Resources.Extensions"/> loads on .NET Framework when preserialized resources
-/// request an older assembly identity than the deployed NuGet DLL (e.g. 4.0.0.0 vs 9.0.0.10).
+/// Loads preserialized-resource dependencies from the application directory when the CLR requests
+/// an older assembly identity (e.g. System.Resources.Extensions 4.0.0.0 vs deployed 9.0.0.10).
 /// </summary>
-internal static class KryptonNetFxResourceAssemblyResolve
+internal static class KryptonPreserializedResourceAssemblyResolve
 {
     private static bool _registered;
-    private static Assembly? _cachedAssembly;
+    private static readonly Dictionary<string, Assembly> _cachedAssemblies = new(StringComparer.OrdinalIgnoreCase);
+
+    private static readonly string[] _assemblyNames =
+    [
+        "System.Resources.Extensions",
+        "System.Formats.Nrbf",
+        "System.Memory",
+        "System.Buffers",
+        "System.Runtime.CompilerServices.Unsafe",
+        "System.Collections.Immutable",
+        "System.Reflection.Metadata",
+        "System.Numerics.Vectors"
+    ];
 
     /// <summary>Registers <see cref="AppDomain.AssemblyResolve"/> once; returns 0 for use as a static field initializer.</summary>
     internal static int Register()
@@ -39,18 +50,36 @@ internal static class KryptonNetFxResourceAssemblyResolve
     private static Assembly? OnAssemblyResolve(object? sender, ResolveEventArgs args)
     {
         var requested = args.Name;
-        if (string.IsNullOrEmpty(requested)
-            || !requested.StartsWith("System.Resources.Extensions,", StringComparison.Ordinal))
+        if (string.IsNullOrEmpty(requested))
         {
             return null;
         }
 
-        if (_cachedAssembly != null)
+        var comma = requested.IndexOf(',');
+        var simpleName = comma >= 0 ? requested.Substring(0, comma) : requested;
+
+        var isKnown = false;
+        foreach (var name in _assemblyNames)
         {
-            return _cachedAssembly;
+            if (string.Equals(simpleName, name, StringComparison.Ordinal))
+            {
+                isKnown = true;
+                break;
+            }
         }
 
-        foreach (var path in GetCandidatePaths())
+        if (!isKnown)
+        {
+            return null;
+        }
+
+        if (_cachedAssemblies.TryGetValue(simpleName, out var cached))
+        {
+            return cached;
+        }
+
+        var fileName = simpleName + ".dll";
+        foreach (var path in GetCandidatePaths(fileName))
         {
             if (!File.Exists(path))
             {
@@ -60,8 +89,9 @@ internal static class KryptonNetFxResourceAssemblyResolve
             try
             {
                 var bytes = File.ReadAllBytes(path);
-                _cachedAssembly = Assembly.Load(bytes);
-                return _cachedAssembly;
+                var assembly = Assembly.Load(bytes);
+                _cachedAssemblies[simpleName] = assembly;
+                return assembly;
             }
             catch
             {
@@ -72,16 +102,14 @@ internal static class KryptonNetFxResourceAssemblyResolve
         return null;
     }
 
-    private static IEnumerable<string> GetCandidatePaths()
+    private static IEnumerable<string> GetCandidatePaths(string fileName)
     {
-        const string fileName = "System.Resources.Extensions.dll";
         var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
         string?[] directories =
         [
-            Path.GetDirectoryName(typeof(KryptonNetFxResourceAssemblyResolve).Assembly.Location),
-            AppDomain.CurrentDomain.BaseDirectory,
-            Path.GetDirectoryName(Assembly.GetCallingAssembly().Location)
+            Path.GetDirectoryName(typeof(KryptonPreserializedResourceAssemblyResolve).Assembly.Location),
+            AppDomain.CurrentDomain.BaseDirectory
         ];
 
         foreach (var directory in directories)
@@ -99,4 +127,3 @@ internal static class KryptonNetFxResourceAssemblyResolve
         }
     }
 }
-#endif

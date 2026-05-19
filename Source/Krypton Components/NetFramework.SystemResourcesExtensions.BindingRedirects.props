@@ -11,7 +11,7 @@
 	  This file is packed as build/ and buildTransitive/ $(PackageId).props for Krypton.Toolkit and
 	  Krypton.Standard.Toolkit, and is imported from Directory.Build.targets so project-reference apps
 	  (e.g. TestForm) get the same fix. Krypton.Toolkit also registers AssemblyResolve on .NET Framework
-	  (KryptonNetFxResourceAssemblyResolve) so apps run without relying solely on app.config redirects.
+	  (KryptonPreserializedResourceAssemblyResolve) so apps run without relying solely on app.config redirects.
 	-->
 	<PropertyGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'">
 		<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
