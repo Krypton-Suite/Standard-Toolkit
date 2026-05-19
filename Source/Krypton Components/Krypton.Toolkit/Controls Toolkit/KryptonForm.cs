@@ -1963,8 +1963,7 @@ public class KryptonForm : VisualForm,
         }
 
         Point windowPoint = ScreenToWindow(Control.MousePosition);
-        return _buttonManager.IsPointOverButton(windowPoint)
-               || (_titleBarButtonManager?.IsPointOverButton(windowPoint) ?? false);
+        return _buttonManager.IsPointOverButton(windowPoint);
     }
 
     /// <summary>
