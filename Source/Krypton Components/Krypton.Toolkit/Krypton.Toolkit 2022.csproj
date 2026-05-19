@@ -923,10 +923,31 @@
 	<Optimize>True</Optimize>
   </PropertyGroup>
 
-  <!-- .NET Framework: binding redirects + buildTransitive import for System.Resources.Extensions; toolkit also uses AssemblyResolve on net4x. -->
+  <!-- .NET Framework: SRE deploy, binding redirects, consumer targets; runtime hook in KryptonNetFxResourceAssemblyResolve. -->
+  <ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
+	<None Include="Krypton.Toolkit.dll.config" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
   <ItemGroup>
 	<None Include="..\NetFramework.SystemResourcesExtensions.BindingRedirects.props" Link="NetFxSreRedirects.props" Pack="true" PackagePath="build\$(PackageId).props" Visible="false" />
 	<None Include="..\NetFramework.SystemResourcesExtensions.BindingRedirects.props" Link="NetFxSreRedirectsTransitive.props" Pack="true" PackagePath="buildTransitive\$(PackageId).props" Visible="false" />
+	<None Include="..\NetFramework.SystemResourcesExtensions.targets" Link="NetFxSreRedirects.targets" Pack="true" PackagePath="build\$(PackageId).targets" Visible="false" />
+	<None Include="..\NetFramework.SystemResourcesExtensions.targets" Link="NetFxSreRedirectsTransitive.targets" Pack="true" PackagePath="buildTransitive\$(PackageId).targets" Visible="false" />
   </ItemGroup>
+
+  <!-- Bundle System.Resources.Extensions in the nupkg lib folder for net4x (aggregate packages suppress dependencies). -->
+  <Target Name="KryptonPackSystemResourcesExtensionsForNetFramework"
+          BeforeTargets="_GetPackageFiles"
+          Condition="$(TargetFramework.StartsWith('net4'))">
+	<ItemGroup>
+	  <_KryptonPackSreDll Include="$(PkgSystem_Resources_Extensions)\lib\net462\System.Resources.Extensions.dll" Condition="Exists('$(PkgSystem_Resources_Extensions)\lib\net462\System.Resources.Extensions.dll')" />
+	  <_KryptonPackSreDll Include="$(PkgSystem_Resources_Extensions)\lib\net461\System.Resources.Extensions.dll" Condition="'@(_KryptonPackSreDll)' == '' And Exists('$(PkgSystem_Resources_Extensions)\lib\net461\System.Resources.Extensions.dll')" />
+	  <_KryptonPackNrbfDll Include="$(PkgSystem_Formats_Nrbf)\lib\net462\System.Formats.Nrbf.dll" Condition="Exists('$(PkgSystem_Formats_Nrbf)\lib\net462\System.Formats.Nrbf.dll')" />
+	  <_KryptonPackNrbfDll Include="$(PkgSystem_Formats_Nrbf)\lib\net461\System.Formats.Nrbf.dll" Condition="'@(_KryptonPackNrbfDll)' == '' And Exists('$(PkgSystem_Formats_Nrbf)\lib\net461\System.Formats.Nrbf.dll')" />
+	  <TfmSpecificPackageFile Include="@(_KryptonPackSreDll)" PackagePath="lib\$(TargetFramework)\" />
+	  <TfmSpecificPackageFile Include="@(_KryptonPackNrbfDll)" PackagePath="lib\$(TargetFramework)\" />
+	  <TfmSpecificPackageFile Include="Krypton.Toolkit.dll.config" PackagePath="lib\$(TargetFramework)\" />
+	</ItemGroup>
+  </Target>
 
 </Project>

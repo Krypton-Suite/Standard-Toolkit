@@ -8,20 +8,20 @@
 #endregion
 
 #if NETFRAMEWORK
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 
 namespace Krypton.Toolkit;
 
 /// <summary>
-/// Ensures <see cref="System.Resources.Extensions"/> loads from the same directory as this assembly on .NET Framework.
-/// Preserialized .resx can request an older assembly identity than the NuGet DLL (e.g. 4.0.0.0 vs 9.0.0.0), which
-/// otherwise surfaces as <see cref="TypeInitializationException"/> during <see cref="KryptonManager"/> static init
-/// when binding redirects are missing or incomplete (see GitHub #3330).
+/// Ensures <see cref="System.Resources.Extensions"/> loads on .NET Framework when preserialized resources
+/// request an older assembly identity than the deployed NuGet DLL (e.g. 4.0.0.0 vs 9.0.0.10).
 /// </summary>
 internal static class KryptonNetFxResourceAssemblyResolve
 {
     private static bool _registered;
+    private static Assembly? _cachedAssembly;
 
     /// <summary>Registers <see cref="AppDomain.AssemblyResolve"/> once; returns 0 for use as a static field initializer.</summary>
     internal static int Register()
@@ -45,26 +45,57 @@ internal static class KryptonNetFxResourceAssemblyResolve
             return null;
         }
 
-        var toolkitAssembly = typeof(KryptonNetFxResourceAssemblyResolve).Assembly;
-        var dir = Path.GetDirectoryName(toolkitAssembly.Location);
-        if (string.IsNullOrEmpty(dir))
+        if (_cachedAssembly != null)
         {
-            return null;
+            return _cachedAssembly;
         }
 
-        var path = Path.Combine(dir, "System.Resources.Extensions.dll");
-        if (!File.Exists(path))
+        foreach (var path in GetCandidatePaths())
         {
-            return null;
+            if (!File.Exists(path))
+            {
+                continue;
+            }
+
+            try
+            {
+                var bytes = File.ReadAllBytes(path);
+                _cachedAssembly = Assembly.Load(bytes);
+                return _cachedAssembly;
+            }
+            catch
+            {
+                // Try next path
+            }
         }
 
-        try
+        return null;
+    }
+
+    private static IEnumerable<string> GetCandidatePaths()
+    {
+        const string fileName = "System.Resources.Extensions.dll";
+        var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+        string?[] directories =
+        [
+            Path.GetDirectoryName(typeof(KryptonNetFxResourceAssemblyResolve).Assembly.Location),
+            AppDomain.CurrentDomain.BaseDirectory,
+            Path.GetDirectoryName(Assembly.GetCallingAssembly().Location)
+        ];
+
+        foreach (var directory in directories)
         {
-            return Assembly.LoadFrom(path);
-        }
-        catch
-        {
-            return null;
+            if (string.IsNullOrEmpty(directory))
+            {
+                continue;
+            }
+
+            var path = Path.Combine(directory, fileName);
+            if (seen.Add(path))
+            {
+                yield return path;
+            }
         }
     }
 }

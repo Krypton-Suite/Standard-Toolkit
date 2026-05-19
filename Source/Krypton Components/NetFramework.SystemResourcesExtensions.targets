@@ -1,0 +1,47 @@
+<Project>
+	<Import Project="$(MSBuildThisFileDirectory)NetFramework.SystemResourcesExtensions.BindingRedirects.props"
+	        Condition="Exists('$(MSBuildThisFileDirectory)NetFramework.SystemResourcesExtensions.BindingRedirects.props')" />
+
+	<!--
+	  Resolve paths to System.Resources.Extensions (and System.Formats.Nrbf) from the NuGet cache.
+	  Package version is defined in Directory.Build.props (keep in sync).
+	-->
+	<PropertyGroup>
+		<_KryptonSreDllPath Condition="'$(_KryptonSreDllPath)' == '' And '$(PkgSystem_Resources_Extensions)' != '' And Exists('$(PkgSystem_Resources_Extensions)\lib\net462\System.Resources.Extensions.dll')">$(PkgSystem_Resources_Extensions)\lib\net462\System.Resources.Extensions.dll</_KryptonSreDllPath>
+		<_KryptonSreDllPath Condition="'$(_KryptonSreDllPath)' == '' And '$(PkgSystem_Resources_Extensions)' != '' And Exists('$(PkgSystem_Resources_Extensions)\lib\net461\System.Resources.Extensions.dll')">$(PkgSystem_Resources_Extensions)\lib\net461\System.Resources.Extensions.dll</_KryptonSreDllPath>
+		<_KryptonNrbfDllPath Condition="'$(_KryptonNrbfDllPath)' == '' And '$(PkgSystem_Formats_Nrbf)' != '' And Exists('$(PkgSystem_Formats_Nrbf)\lib\net462\System.Formats.Nrbf.dll')">$(PkgSystem_Formats_Nrbf)\lib\net462\System.Formats.Nrbf.dll</_KryptonNrbfDllPath>
+		<_KryptonNrbfDllPath Condition="'$(_KryptonNrbfDllPath)' == '' And '$(PkgSystem_Formats_Nrbf)' != '' And Exists('$(PkgSystem_Formats_Nrbf)\lib\net461\System.Formats.Nrbf.dll')">$(PkgSystem_Formats_Nrbf)\lib\net461\System.Formats.Nrbf.dll</_KryptonNrbfDllPath>
+	</PropertyGroup>
+
+	<!-- When building Krypton libraries on net4x, deploy SRE next to Krypton.Toolkit.dll (project references, local bin). -->
+	<Target Name="KryptonCopySystemResourcesExtensionsToOutput"
+	        AfterTargets="Build"
+	        Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework' And '$(DesignTimeBuild)' != 'true' And '$(_KryptonSreDllPath)' != '' And Exists('$(_KryptonSreDllPath)')">
+		<Copy SourceFiles="$(_KryptonSreDllPath)"
+		      DestinationFolder="$(OutputPath)"
+		      SkipUnchangedFiles="true" />
+		<Copy SourceFiles="$(_KryptonNrbfDllPath)"
+		      DestinationFolder="$(OutputPath)"
+		      SkipUnchangedFiles="true"
+		      Condition="'$(_KryptonNrbfDllPath)' != '' And Exists('$(_KryptonNrbfDllPath)')" />
+	</Target>
+
+	<!--
+	  NuGet consumers: copy System.Resources.Extensions bundled under lib\$(TargetFramework)\ in the Krypton package
+	  (fallback when dependencies are suppressed, e.g. Krypton.Standard.Toolkit aggregate package).
+	-->
+	<PropertyGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'">
+		<_KryptonBundledSreLibPath>$(MSBuildThisFileDirectory)..\lib\$(TargetFramework)\</_KryptonBundledSreLibPath>
+	</PropertyGroup>
+
+	<Target Name="KryptonCopyBundledSystemResourcesExtensionsForConsumer"
+	        AfterTargets="ResolveReferences"
+	        BeforeTargets="CopyFilesToOutputDirectory"
+	        Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework' And Exists('$(_KryptonBundledSreLibPath)System.Resources.Extensions.dll')">
+		<ItemGroup>
+			<ReferenceCopyLocalPaths Include="$(_KryptonBundledSreLibPath)System.Resources.Extensions.dll" />
+			<ReferenceCopyLocalPaths Include="$(_KryptonBundledSreLibPath)System.Formats.Nrbf.dll"
+			                         Condition="Exists('$(_KryptonBundledSreLibPath)System.Formats.Nrbf.dll')" />
+		</ItemGroup>
+	</Target>
+</Project>

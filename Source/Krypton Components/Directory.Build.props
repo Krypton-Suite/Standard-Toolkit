@@ -8,7 +8,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="System.Resources.Extensions" Version="9.0.10" />
+		<PackageReference Include="System.Resources.Extensions" Version="9.0.10" GeneratePathProperty="true" />
+		<PackageReference Include="System.Formats.Nrbf" Version="9.0.10" GeneratePathProperty="true" />
 	</ItemGroup>
 
 	<!-- Target Framework Selection: Determines which .NET versions to build for based on configuration -->
