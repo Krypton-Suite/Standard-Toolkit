@@ -137,8 +137,13 @@ public class KryptonMaskedTextBox : VisualControlBase,
                 case PI.WM_.MOUSELEAVE:
                     // Mouse is not over the control
                     MouseOver = false;
-                    _kryptonMaskedTextBox.PerformNeedPaint(true);
-                    Invalidate();
+                    // Button specs are drawn outside the internal masked text box; avoid repaint churn when the
+                    // pointer is still over the owning KryptonMaskedTextBox (for example on a ButtonSpec).
+                    if (!_kryptonMaskedTextBox.IsMouseReallyOverControl())
+                    {
+                        _kryptonMaskedTextBox.PerformNeedPaint(true);
+                        Invalidate();
+                    }
                     base.WndProc(ref m);
                     break;
                 case PI.WM_.MOUSEMOVE:
@@ -1618,6 +1623,13 @@ public class KryptonMaskedTextBox : VisualControlBase,
     /// <param name="e">An EventArgs that contains the event data.</param>
     protected override void OnMouseLeave(EventArgs e)
     {
+        // Ignore spurious leave notifications while the pointer is still over this control
+        // (for example when moving from the internal masked text box onto a ButtonSpec).
+        if (IsMouseReallyOverControl())
+        {
+            return;
+        }
+
         _mouseOver = false;
         PerformNeedPaint(true);
         _maskedTextBox.Invalidate();
@@ -1935,10 +1947,14 @@ public class KryptonMaskedTextBox : VisualControlBase,
 
     private void OnMaskedTextBoxMouseChange(object? sender, EventArgs e)
     {
+        // Button specs are parent-drawn; the internal masked text box can report leave while the pointer
+        // is still over the KryptonMaskedTextBox client area.
+        var tracking = _maskedTextBox.MouseOver || IsMouseReallyOverControl();
+
         // Change in tracking state?
-        if (_maskedTextBox.MouseOver != _trackingMouseEnter)
+        if (tracking != _trackingMouseEnter)
         {
-            _trackingMouseEnter = _maskedTextBox.MouseOver;
+            _trackingMouseEnter = tracking;
 
             // Raise appropriate event
             if (_trackingMouseEnter)
@@ -1953,5 +1969,8 @@ public class KryptonMaskedTextBox : VisualControlBase,
             }
         }
     }
+
+    private bool IsMouseReallyOverControl() =>
+        IsHandleCreated && ClientRectangle.Contains(PointToClient(Control.MousePosition));
     #endregion
 }
