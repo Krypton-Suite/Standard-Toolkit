@@ -121,8 +121,13 @@ public class KryptonTextBox : VisualControlBase,
                 case PI.WM_.MOUSELEAVE:
                     // Mouse is not over the control
                     MouseOver = false;
-                    _kryptonTextBox.PerformNeedPaint(true);
-                    Invalidate();
+                    // Button specs are drawn outside the internal text box; avoid repaint churn when the
+                    // pointer is still over the owning KryptonTextBox (for example on a ButtonSpec).
+                    if (!_kryptonTextBox.IsMouseReallyOverControl())
+                    {
+                        _kryptonTextBox.PerformNeedPaint(true);
+                        Invalidate();
+                    }
                     base.WndProc(ref m);
                     break;
                 case PI.WM_.MOUSEMOVE:
@@ -1670,6 +1675,13 @@ public class KryptonTextBox : VisualControlBase,
     /// <param name="e">An EventArgs that contains the event data.</param>
     protected override void OnMouseLeave(EventArgs e)
     {
+        // Ignore spurious leave notifications while the pointer is still over this control
+        // (for example when moving from the internal text box onto a ButtonSpec).
+        if (IsMouseReallyOverControl())
+        {
+            return;
+        }
+
         _mouseOver = false;
         PerformNeedPaint(true);
         _textBox.Invalidate();
@@ -1996,10 +2008,14 @@ public class KryptonTextBox : VisualControlBase,
 
     private void OnTextBoxMouseChange(object? sender, EventArgs e)
     {
+        // Button specs are parent-drawn; the internal text box can report leave while the pointer
+        // is still over the KryptonTextBox client area.
+        var tracking = _textBox.MouseOver || IsMouseReallyOverControl();
+
         // Change in tracking state?
-        if (_textBox.MouseOver != _trackingMouseEnter)
+        if (tracking != _trackingMouseEnter)
         {
-            _trackingMouseEnter = _textBox.MouseOver;
+            _trackingMouseEnter = tracking;
 
             // Raise appropriate event
             if (_trackingMouseEnter)
@@ -2014,6 +2030,9 @@ public class KryptonTextBox : VisualControlBase,
             }
         }
     }
+
+    private bool IsMouseReallyOverControl() =>
+        IsHandleCreated && ClientRectangle.Contains(PointToClient(Control.MousePosition));
 
     private void OnEditorButtonClicked(object? sender, EventArgs e) => new MultilineStringEditor1(this).ShowEditor();
 

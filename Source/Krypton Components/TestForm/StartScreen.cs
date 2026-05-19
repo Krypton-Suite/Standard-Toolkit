@@ -58,6 +58,7 @@ public partial class StartScreen : KryptonForm
         CreateButton<AccessibilityTest>("Accessibility Test (UIA Providers)", "Comprehensive demo and test for UIA Provider implementation (Issue #762). Tests all 10 controls with accessibility support, organized by category with detailed results.");
         CreateButton<ButtonsTest>("Buttons Test", "All the buttons you want to test.");
         CreateButton<Bug3381KryptonButtonRoundedTextCenteringDemo>("Bug 3381 KryptonButton Rounded Text Centering", "Demo for issue #3381: vertical and horizontal text centering inside heavily rounded KryptonButton (wide pill, Cyrillic, font metrics). Includes side-by-side stress, tall narrow capsule, low-rounding baseline, and live rounding / TextV / font / height controls.");
+        CreateButton<Bug3367KryptonTextBoxButtonSpecHoverDemo>("Bug 3367 TextBox ButtonSpec Hover", "Demo for issue #3367: ButtonSpec hover flicker on KryptonTextBox, KryptonMaskedTextBox, and KryptonForm (ImageStates.ImageNormal without Image).");
         CreateButton<CommandLinkButtons>("CommandLink Buttons", "No comment");
         CreateButton<ControlStylesForm>("Control Styles", string.Empty);
         CreateButton<DateTimeExample>("DateTime Example", string.Empty);
