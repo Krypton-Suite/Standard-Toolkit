@@ -29,7 +29,8 @@ public class Bug3367KryptonTextBoxButtonSpecHoverDemo : KryptonForm
                 @"How to test issue #3367:" + Environment.NewLine +
                 @"1) Hover the ImageStates.ImageNormal-only ButtonSpec (no Image property assigned)." + Environment.NewLine +
                 @"2) Slowly move over the palette Close ButtonSpec and between text and buttons." + Environment.NewLine +
-                @"3) Before the fix, hover flickered when only ImageStates.ImageNormal was set (palette tracking glyph alternated)."
+                @"3) Also verify KryptonForm title-bar ButtonSpecs (see KryptonFormTitleBar demo)." + Environment.NewLine +
+                @"4) Before the fix, hover flickered when only ImageStates.ImageNormal was set (palette tracking glyph alternated)."
         };
 
         var layout = new TableLayoutPanel
