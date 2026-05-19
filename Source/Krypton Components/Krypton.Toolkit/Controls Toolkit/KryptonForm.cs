@@ -2040,6 +2040,24 @@ public class KryptonForm : VisualForm,
     #endregion
 
     #region Protected Chrome
+    /// <inheritdoc />
+    protected override bool IsMouseReallyOverWindowChrome()
+    {
+        if (base.IsMouseReallyOverWindowChrome())
+        {
+            return true;
+        }
+
+        if (!IsHandleCreated)
+        {
+            return false;
+        }
+
+        Point windowPoint = ScreenToWindow(Control.MousePosition);
+        return _buttonManager.IsPointOverButton(windowPoint)
+               || (_titleBarButtonManager?.IsPointOverButton(windowPoint) ?? false);
+    }
+
     /// <summary>
     /// Perform setup for custom chrome.
     /// </summary>

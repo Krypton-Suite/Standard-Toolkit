@@ -446,8 +446,14 @@ public abstract class ButtonSpecManagerBase : GlobalId
     /// </summary>
     /// <param name="pt">Mouse point.</param>
     /// <returns>True if the view wants the mouse position; otherwise false.</returns>
-    public bool DesignerGetHitTest(Point pt) =>
-        // Search all buttons for any that contain the provided point
+    public bool DesignerGetHitTest(Point pt) => IsPointOverButton(pt);
+
+    /// <summary>
+    /// Gets a value indicating if the point is over any visible, enabled button spec view.
+    /// </summary>
+    /// <param name="pt">Point in the same coordinate space as view button client rectangles.</param>
+    /// <returns>True if over a button spec; otherwise false.</returns>
+    public bool IsPointOverButton(Point pt) =>
         _specLookup.Values.Any(buttonView =>
             buttonView.ViewButton is { Visible: true, Enabled: true }
             && buttonView.ViewButton.ClientRectangle.Contains(pt)
