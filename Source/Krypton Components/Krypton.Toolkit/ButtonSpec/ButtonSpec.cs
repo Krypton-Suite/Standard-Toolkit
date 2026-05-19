@@ -750,30 +750,20 @@ public abstract class ButtonSpec : Component,
     /// <returns>Button image.</returns>
     public virtual Image? GetImage(PaletteBase? palette, PaletteState state)
     {
-        Image? image = null;
-
         // Prefer to get image from the command first
         if (KryptonCommand != null)
         {
             return KryptonCommand.ImageSmall;
         }
 
-        // Try and recover a state specific image
-        image = state switch
-        {
-            PaletteState.Disabled => ImageStates.ImageDisabled,
-            PaletteState.Normal => ImageStates.ImageNormal,
-            PaletteState.Pressed => ImageStates.ImagePressed,
-            PaletteState.Tracking => ImageStates.ImageTracking,
-            PaletteState.CheckedNormal => ImageStates.ImageCheckedNormal,
-            PaletteState.CheckedPressed => ImageStates.ImageCheckedPressed,
-            PaletteState.CheckedTracking => ImageStates.ImageCheckedTracking,
-            _ => image
-        } ?? Image; // Default to the image if no state specific image is found
+        Image? image = GetStateImage(state) ?? Image;
 
-        return (image != null) || !AllowInheritImage
-            ? image
-            : palette?.GetButtonSpecImage(ProtectedType, state);
+        if (image != null || !AllowInheritImage)
+        {
+            return image;
+        }
+
+        return palette?.GetButtonSpecImage(ProtectedType, state);
     }
 
     /// <summary>
@@ -1090,6 +1080,38 @@ public abstract class ButtonSpec : Component,
 
     #region Implementation
     private void OnImageStateChanged(object sender, NeedLayoutEventArgs e) => OnButtonSpecPropertyChanged(nameof(Image));
+
+    private Image? GetStateImage(PaletteState state)
+    {
+        Image? image = state switch
+        {
+            PaletteState.Disabled => ImageStates.ImageDisabled,
+            PaletteState.Normal => ImageStates.ImageNormal,
+            PaletteState.Pressed => ImageStates.ImagePressed,
+            PaletteState.Tracking => ImageStates.ImageTracking,
+            PaletteState.CheckedNormal => ImageStates.ImageCheckedNormal,
+            PaletteState.CheckedPressed => ImageStates.ImageCheckedPressed,
+            PaletteState.CheckedTracking => ImageStates.ImageCheckedTracking,
+            _ => null
+        };
+
+        if (image != null)
+        {
+            return image;
+        }
+
+        // When only a subset of ImageStates is assigned (for example ImageNormal without Image),
+        // reuse those images for other states instead of inheriting a different palette glyph on hover.
+        return state switch
+        {
+            PaletteState.Disabled => ImageStates.ImageNormal,
+            PaletteState.Pressed => ImageStates.ImageTracking ?? ImageStates.ImageNormal,
+            PaletteState.Tracking => ImageStates.ImageNormal,
+            PaletteState.CheckedPressed => ImageStates.ImageCheckedTracking ?? ImageStates.ImageCheckedNormal,
+            PaletteState.CheckedTracking => ImageStates.ImageCheckedNormal,
+            _ => null
+        };
+    }
 
     #endregion
 }

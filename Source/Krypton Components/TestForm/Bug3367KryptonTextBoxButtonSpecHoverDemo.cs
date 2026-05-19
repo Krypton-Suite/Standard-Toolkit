@@ -27,9 +27,9 @@ public class Bug3367KryptonTextBoxButtonSpecHoverDemo : KryptonForm
             Height = 88,
             Text =
                 @"How to test issue #3367:" + Environment.NewLine +
-                @"1) Slowly move the pointer over each ButtonSpec (right edge of the controls below)." + Environment.NewLine +
-                @"2) Move between the text area and the ButtonSpecs, then leave the control entirely." + Environment.NewLine +
-                @"3) Before the fix, ButtonSpecs flickered on hover; tracking/active chrome should now stay stable."
+                @"1) Hover the ImageStates.ImageNormal-only ButtonSpec (no Image property assigned)." + Environment.NewLine +
+                @"2) Slowly move over the palette Close ButtonSpec and between text and buttons." + Environment.NewLine +
+                @"3) Before the fix, hover flickered when only ImageStates.ImageNormal was set (palette tracking glyph alternated)."
         };
 
         var layout = new TableLayoutPanel
@@ -48,7 +48,7 @@ public class Bug3367KryptonTextBoxButtonSpecHoverDemo : KryptonForm
         {
             Dock = DockStyle.Fill,
             AutoSize = true,
-            Values = { Text = @"KryptonTextBox (Generic + Close ButtonSpecs)" }
+            Values = { Text = @"KryptonTextBox (ImageStates.ImageNormal only + palette Close)" }
         };
 
         var ktbDemo = new KryptonTextBox
@@ -62,7 +62,7 @@ public class Bug3367KryptonTextBoxButtonSpecHoverDemo : KryptonForm
         {
             Dock = DockStyle.Fill,
             AutoSize = true,
-            Values = { Text = @"KryptonMaskedTextBox (Generic + Close ButtonSpecs)" }
+            Values = { Text = @"KryptonMaskedTextBox (ImageStates.ImageNormal only + palette Close)" }
         };
 
         var kmtbDemo = new KryptonMaskedTextBox
@@ -84,17 +84,29 @@ public class Bug3367KryptonTextBoxButtonSpecHoverDemo : KryptonForm
 
     private static void AddButtonSpecs(ButtonSpecCollection<ButtonSpecAny> buttonSpecs)
     {
-        buttonSpecs.Add(new ButtonSpecAny
+        var imageNormalOnly = new ButtonSpecAny
         {
             Type = PaletteButtonSpecStyle.Generic,
-            ToolTipBody = @"Generic",
+            ToolTipBody = @"ImageStates.ImageNormal only",
             ToolTipTitle = @"ButtonSpec"
-        });
+        };
+        imageNormalOnly.ImageStates.ImageNormal = CreateDemoImageNormal();
+        buttonSpecs.Add(imageNormalOnly);
+
         buttonSpecs.Add(new ButtonSpecAny
         {
             Type = PaletteButtonSpecStyle.Close,
-            ToolTipBody = @"Clear",
+            ToolTipBody = @"Palette Close (no custom image)",
             ToolTipTitle = @"ButtonSpec"
         });
+    }
+
+    private static Image CreateDemoImageNormal()
+    {
+        var image = new Bitmap(16, 16);
+        using Graphics g = Graphics.FromImage(image);
+        g.Clear(Color.Transparent);
+        g.FillEllipse(Brushes.DodgerBlue, 2, 2, 11, 11);
+        return image;
     }
 }
