@@ -1,5 +1,9 @@
 <Project>
 	<PropertyGroup>
+		<!-- Solution/CLI graph builds can evaluate child projects before Configuration is set; default
+		     avoids wrong TargetFrameworks (Otherwise omits net472) and Bin\<tfm>\ output paths. -->
+		<Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>
+		<Platform Condition="'$(Platform)' == ''">Any CPU</Platform>
 		<UseArtifactsOutput Condition="'$(UseArtifactsOutput)' == ''">false</UseArtifactsOutput>
 		<KryptonLegacyBinRoot>$(MSBuildThisFileDirectory)Bin\</KryptonLegacyBinRoot>
 		<KryptonLegacyPackageRoot>$(KryptonLegacyBinRoot)Packages\</KryptonLegacyPackageRoot>

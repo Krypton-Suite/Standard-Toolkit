@@ -23,6 +23,9 @@
 	</ItemGroup>
 
 	<!-- Target Framework Selection: Determines which .NET versions to build for based on configuration -->
+	<PropertyGroup>
+		<Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>
+	</PropertyGroup>
 	<Choose>
 		<!-- Nightly, Canary, and Debug configurations build for all target frameworks -->
 		<When Condition="'$(Configuration)' == 'Nightly' Or '$(Configuration)' == 'Canary' Or '$(Configuration)' == 'Debug'">
