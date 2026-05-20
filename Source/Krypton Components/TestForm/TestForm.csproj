@@ -93,6 +93,15 @@
     <Compile Update="Bug3383KryptonButtonStateTrackingRoundingDemo.Designer.cs">
       <DependentUpon>Bug3383KryptonButtonStateTrackingRoundingDemo.cs</DependentUpon>
     </Compile>
+    <Compile Update="KryptonComboBoxUserControlDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="KryptonTreeComboBoxDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="KryptonCheckedListComboBoxDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
