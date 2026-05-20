@@ -1,15 +1,17 @@
 <Project>
 	<!--
 	  Krypton net4x builds use preserialized .resx; at runtime the loader may request an older
-	  System.Resources.Extensions identity (e.g. 4.0.0.0) than the NuGet assembly (9.0.0.0 for package 9.0.10),
-	  causing FileLoadException (0x80131040) during resource initialization (e.g. KryptonManager / image storage).
+	  System.Resources.Extensions identity (e.g. 4.0.0.0) than the NuGet assembly (package 9.0.10 → assembly 9.0.0.10),
+	  causing FileLoadException (0x80131040) during resource initialization (e.g. KryptonManager / GlobalStaticVariables).
 
 	  Auto-generate redirects alone is not always enough: ResolveAssemblyReference may not emit a
 	  suggested redirect when the conflict is only visible through Krypton's compiled references.
+	  Do not hard-code newVersion 9.0.0.0 — that mismatches the 9.0.10 package (assembly version 9.0.0.10).
+
 	  This file is packed as build/ and buildTransitive/ $(PackageId).props for Krypton.Toolkit and
 	  Krypton.Standard.Toolkit, and is imported from Directory.Build.targets so project-reference apps
 	  (e.g. TestForm) get the same fix. Krypton.Toolkit also registers AssemblyResolve on .NET Framework
-	  (KryptonNetFxResourceAssemblyResolve) so apps run without relying solely on app.config redirects.
+	  (KryptonPreserializedResourceAssemblyResolve) so apps run without relying solely on app.config redirects.
 	-->
 	<PropertyGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'">
 		<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -20,13 +22,25 @@
 	        AfterTargets="ResolveAssemblyReferences"
 	        BeforeTargets="_GenerateSuggestedBindingRedirectsCache"
 	        Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework' And '$(GenerateBindingRedirectsOutputType)' == 'true' And '$(DesignTimeBuild)' != 'true' And '$(BuildingProject)' == 'true'">
+		<PropertyGroup>
+			<_KryptonSreDllPath Condition="'$(PkgSystem_Resources_Extensions)' != '' And Exists('$(PkgSystem_Resources_Extensions)\lib\net462\System.Resources.Extensions.dll')">$(PkgSystem_Resources_Extensions)\lib\net462\System.Resources.Extensions.dll</_KryptonSreDllPath>
+			<_KryptonSreDllPath Condition="'$(_KryptonSreDllPath)' == '' And '$(PkgSystem_Resources_Extensions)' != '' And Exists('$(PkgSystem_Resources_Extensions)\lib\net461\System.Resources.Extensions.dll')">$(PkgSystem_Resources_Extensions)\lib\net461\System.Resources.Extensions.dll</_KryptonSreDllPath>
+		</PropertyGroup>
+		<GetAssemblyIdentity AssemblyFiles="$(_KryptonSreDllPath)"
+		                     Condition="'$(_KryptonSreDllPath)' != ''">
+			<Output TaskParameter="Assemblies" ItemName="_KryptonSreAssemblyIdentity" />
+		</GetAssemblyIdentity>
+		<PropertyGroup Condition="'@(_KryptonSreAssemblyIdentity)' != ''">
+			<_KryptonSreAssemblyVersion>%(_KryptonSreAssemblyIdentity.Version)</_KryptonSreAssemblyVersion>
+		</PropertyGroup>
 		<ItemGroup>
 			<_KryptonSreSuggestedRemove Include="@(SuggestedBindingRedirects)"
 			                            Condition="$([System.String]::Copy('%(Identity)').StartsWith('System.Resources.Extensions'))" />
 			<SuggestedBindingRedirects Remove="@(_KryptonSreSuggestedRemove)" />
 			<_KryptonSreSuggestedRemove Remove="@(_KryptonSreSuggestedRemove)" />
-			<SuggestedBindingRedirects Include="System.Resources.Extensions, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51">
-				<MaxVersion>9.0.0.0</MaxVersion>
+			<SuggestedBindingRedirects Include="System.Resources.Extensions, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51"
+			                             Condition="'$(_KryptonSreAssemblyVersion)' != ''">
+				<MaxVersion>$(_KryptonSreAssemblyVersion)</MaxVersion>
 			</SuggestedBindingRedirects>
 		</ItemGroup>
 	</Target>

@@ -41,10 +41,8 @@ public sealed class KryptonManager : Component
     private static float _cachedDpiX = 0f;
     private static float _cachedDpiY = 0f;
 
-#if NETFRAMEWORK
     // Must run before any other static field that touches embedded resources (e.g. KryptonImageStorage / KryptonManager.Strings).
-    private static readonly int _resourceAssemblyResolveHook = KryptonNetFxResourceAssemblyResolve.Register();
-#endif
+    private static readonly int _resourceAssemblyResolveHook = KryptonPreserializedResourceAssemblyResolve.Register();
 
     // Initialize the default modes
 
