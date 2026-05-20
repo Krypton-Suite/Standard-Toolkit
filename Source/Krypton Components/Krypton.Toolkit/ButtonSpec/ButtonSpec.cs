@@ -775,12 +775,7 @@ public abstract class ButtonSpec : Component,
     {
         if (KryptonCommand != null)
         {
-            if (KryptonCommand.TryGetButtonSpecStyle(out _))
-            {
-                return KryptonCommand.GetButtonSpecImageTransparentColor(palette);
-            }
-
-            return KryptonCommand.ImageTransparentColor;
+            return KryptonCommand.GetButtonSpecImageTransparentColor(palette);
         }
 
         return ImageTransparentColor != GlobalStaticVariables.EMPTY_COLOR
