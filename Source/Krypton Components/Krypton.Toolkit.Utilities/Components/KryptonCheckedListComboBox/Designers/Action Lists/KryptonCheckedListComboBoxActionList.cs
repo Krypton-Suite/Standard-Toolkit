@@ -51,7 +51,7 @@ internal class KryptonCheckedListComboBoxActionList : DesignerActionList
         }
     }
 
-    public string DisplayMember
+    public string? DisplayMember
     {
         get => _control.DisplayMember;
         set
@@ -65,7 +65,7 @@ internal class KryptonCheckedListComboBoxActionList : DesignerActionList
         }
     }
 
-    public string ValueMember
+    public string? ValueMember
     {
         get => _control.ValueMember;
         set
@@ -79,7 +79,7 @@ internal class KryptonCheckedListComboBoxActionList : DesignerActionList
         }
     }
 
-    public string EmptySelectionText
+    public string? EmptySelectionText
     {
         get => _control.EmptySelectionText;
         set
@@ -145,7 +145,7 @@ internal class KryptonCheckedListComboBoxActionList : DesignerActionList
         }
     }
 
-    public string ValueSeparator
+    public string? ValueSeparator
     {
         get => _control.ValueSeparator;
         set

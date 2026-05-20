@@ -26,7 +26,7 @@ namespace Krypton.Toolkit.Utilities;
 /// items (see <see cref="GetCheckedValues"/>).
 /// Documentation: repository <c>Documents/KryptonCheckedListComboBox-DeveloperDocumentation.md</c> (full API and behavior); <c>Documents/KryptonCheckedListComboBox-Guide.md</c> (short overview).
 /// </remarks>
-[System.ComponentModel.LookupBindingProperties(nameof(DataSource), nameof(DisplayMember), nameof(ValueMember), nameof(SelectedValue))]
+[LookupBindingProperties(nameof(DataSource), nameof(DisplayMember), nameof(ValueMember), nameof(SelectedValue))]
 [ToolboxItem(true)]
 [ToolboxBitmap(typeof(KryptonCheckedListBox), "ToolboxBitmaps.KryptonCheckedListBox.bmp")]
 [DefaultEvent(nameof(ItemCheck))]
@@ -47,8 +47,8 @@ public class KryptonCheckedListComboBox : KryptonComboBoxUserControl
     #region Instance Fields
 
     private readonly KryptonCheckedListComboBoxDropDown _dropDown;
-    private string _valueSeparator = DefaultValueSeparator;
-    private string _emptySelectionText = string.Empty;
+    private string? _valueSeparator = DefaultValueSeparator;
+    private string? _emptySelectionText = string.Empty;
     private bool _closeDropDownOnEnter = true;
 
     #endregion
@@ -125,7 +125,7 @@ public class KryptonCheckedListComboBox : KryptonComboBoxUserControl
     [Category(@"Data")]
     [Description(@"Indicates the list that the drop-down will use for its items.")]
     [DefaultValue(null)]
-    [System.ComponentModel.AttributeProvider(typeof(System.ComponentModel.IListSource))]
+    [AttributeProvider(typeof(IListSource))]
     public object? DataSource
     {
         get => _dropDown.DataSource;
@@ -141,9 +141,9 @@ public class KryptonCheckedListComboBox : KryptonComboBoxUserControl
     /// </summary>
     [Category(@"Data")]
     [Description(@"Indicates the property to display for the items when a data source is set.")]
-    [Editor(@"System.Windows.Forms.Design.DataMemberFieldEditor, System.Design", typeof(System.Drawing.Design.UITypeEditor))]
+    [Editor(@"System.Windows.Forms.Design.DataMemberFieldEditor, System.Design", typeof(UITypeEditor))]
     [DefaultValue("")]
-    public string DisplayMember
+    public string? DisplayMember
     {
         get => _dropDown.DisplayMember;
         set
@@ -158,9 +158,9 @@ public class KryptonCheckedListComboBox : KryptonComboBoxUserControl
     /// </summary>
     [Category(@"Data")]
     [Description(@"Indicates the property to use as the actual value when a data source is set.")]
-    [Editor(@"System.Windows.Forms.Design.DataMemberFieldEditor, System.Design", typeof(System.Drawing.Design.UITypeEditor))]
+    [Editor(@"System.Windows.Forms.Design.DataMemberFieldEditor, System.Design", typeof(UITypeEditor))]
     [DefaultValue("")]
-    public string ValueMember
+    public string? ValueMember
     {
         get => _dropDown.ValueMember;
         set => _dropDown.ValueMember = value ?? string.Empty;
@@ -172,9 +172,9 @@ public class KryptonCheckedListComboBox : KryptonComboBoxUserControl
     /// </summary>
     [Category(@"Data")]
     [Description(@"Formatting applied to displayed text when formatting is enabled.")]
-    [Editor(@"System.Windows.Forms.Design.FormatStringEditor, System.Design", typeof(System.Drawing.Design.UITypeEditor))]
+    [Editor(@"System.Windows.Forms.Design.FormatStringEditor, System.Design", typeof(UITypeEditor))]
     [DefaultValue("")]
-    public string FormatString
+    public string? FormatString
     {
         get => _dropDown.FormatString;
         set
@@ -237,7 +237,7 @@ public class KryptonCheckedListComboBox : KryptonComboBoxUserControl
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public System.Collections.Generic.List<object> CheckedItemList => _dropDown.CheckedItemList;
+    public List<object> CheckedItemList => _dropDown.CheckedItemList;
 
     /// <summary>
     /// Gets or sets the separator placed between checked item texts in the editor summary.
@@ -245,7 +245,7 @@ public class KryptonCheckedListComboBox : KryptonComboBoxUserControl
     [Category(@"Behavior")]
     [Description(@"Separator placed between checked item texts in the editor summary.")]
     [DefaultValue(DefaultValueSeparator)]
-    public string ValueSeparator
+    public string? ValueSeparator
     {
         get => _valueSeparator;
         set => _valueSeparator = value ?? DefaultValueSeparator;
@@ -257,7 +257,7 @@ public class KryptonCheckedListComboBox : KryptonComboBoxUserControl
     [Category(@"Behavior")]
     [Description(@"Editor text when no items are checked.")]
     [DefaultValue("")]
-    public string EmptySelectionText
+    public string? EmptySelectionText
     {
         get => _emptySelectionText;
         set => _emptySelectionText = value ?? string.Empty;
@@ -359,7 +359,7 @@ public class KryptonCheckedListComboBox : KryptonComboBoxUserControl
     /// Formats the currently checked items for display in the editor.
     /// </summary>
     /// <returns>Comma-separated (or custom-separated) summary text.</returns>
-    public string FormatCheckedItemsDisplay()
+    public string? FormatCheckedItemsDisplay()
     {
         var parts = new List<string>();
         foreach (object? item in CheckedItems)
