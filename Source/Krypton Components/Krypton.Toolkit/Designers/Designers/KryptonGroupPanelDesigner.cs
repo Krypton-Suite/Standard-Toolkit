@@ -56,7 +56,7 @@ internal class KryptonGroupPanelDesigner : KryptonPanelDesigner,
     /// <returns>true if the control managed by the specified designer can parent the control managed by this designer; otherwise, false.</returns>
     public override bool CanBeParentedTo(IDesigner parentDesigner) =>
         // We should only ever exist inside a Krypton group container
-        (parentDesigner is KryptonGroup or KryptonHeaderGroup);
+        parentDesigner.Component is KryptonGroup or KryptonGroupBox or KryptonHeaderGroup;
 
     /// <summary>
     /// Gets the selection rules that indicate the movement capabilities of a component.
