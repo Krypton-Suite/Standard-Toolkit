@@ -12,6 +12,9 @@
 	</ItemGroup>
 
 	<!-- Target Framework Selection: Determines which .NET versions to build for based on configuration -->
+	<PropertyGroup>
+		<Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>
+	</PropertyGroup>
 	<Choose>
 		<!-- Nightly, Canary, and Debug configurations build for all target frameworks -->
 		<When Condition="'$(Configuration)' == 'Nightly' Or '$(Configuration)' == 'Canary' Or '$(Configuration)' == 'Debug'">
@@ -57,9 +60,18 @@
 	<!-- Configure NuGet package output to separate directory for easier management -->
 	<PropertyGroup>
 		<PackageOutputPath>$(MSBuildThisFileDirectory)..\..\Bin\Packages\$(Configuration)\</PackageOutputPath>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(TargetFramework)' != '' And !$([System.String]::Copy('$(TargetFramework)').Contains(';'))">
 		<!-- Ensure multi-target outputs don't overwrite each other -->
-		<OutputPath>$(MSBuildThisFileDirectory)..\..\Bin\$(Configuration)\$(TargetFramework)\</OutputPath>
+		<OutputPath>$(KryptonBuildOutputRoot)$(Configuration)\$(TargetFramework)\</OutputPath>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+		<!-- AppendTargetFrameworkToOutputPath=false skips SDK append for intermediate output; obj must stay per-TFM or
+		     inner builds collide (CS2012 / CS1705).
+		     Set IntermediateOutputPath in this .props (before Microsoft.Common evaluates TargetRefPath). Defining it
+		     only in Directory.Build.targets ran too late, leaving TargetRefPath at obj\Config\ref\… while the compiler
+		     wrote refint under obj\Config\<tfm>\ → MSB3883 / DirectoryNotFoundException in CopyRefAssembly. -->
+		<IntermediateOutputPath>$(MSBuildProjectDirectory)\obj\$(Configuration)\$(TargetFramework)\</IntermediateOutputPath>
 	</PropertyGroup>
 
 	<Choose>
