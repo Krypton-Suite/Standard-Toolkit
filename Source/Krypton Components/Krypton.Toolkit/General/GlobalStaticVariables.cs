@@ -13,6 +13,9 @@ namespace Krypton.Toolkit;
 /// <summary>Provides a collection of static values, used within the toolkit.</summary>
 public class GlobalStaticVariables
 {
+    // Before any toolbar image arrays load preserialized resources (see GitHub #3330).
+    private static readonly int _preserializedResourceAssemblyResolveHook = KryptonPreserializedResourceAssemblyResolve.Register();
+
     /// <summary>The default UAC shield icon size</summary>
     public static IconSize DEFAULT_UAC_SHIELD_ICON_SIZE = IconSize.ExtraSmall;
 
