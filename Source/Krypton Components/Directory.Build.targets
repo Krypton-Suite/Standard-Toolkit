@@ -21,8 +21,8 @@
 		<BuildInParallel>false</BuildInParallel>
 	</PropertyGroup>
 
-	<Import Project="$(MSBuildThisFileDirectory)NetFramework.SystemResourcesExtensions.BindingRedirects.props"
-	        Condition="Exists('$(MSBuildThisFileDirectory)NetFramework.SystemResourcesExtensions.BindingRedirects.props')" />
+	<Import Project="$(MSBuildThisFileDirectory)NetFramework.SystemResourcesExtensions.targets"
+	        Condition="Exists('$(MSBuildThisFileDirectory)NetFramework.SystemResourcesExtensions.targets')" />
 
 	<Choose>
 		<When Condition="'$(Configuration)' == 'Canary'">

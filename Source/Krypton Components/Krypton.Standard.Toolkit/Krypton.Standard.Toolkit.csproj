@@ -258,7 +258,13 @@
 			  This aggregate package sets SuppressDependenciesWhenPacking, so NuGet does not list transitive dependencies—without
 			  this file, apps can resolve a mismatched assembly (FileLoadException 0x80131040) and fail during GlobalStaticValues init.
 			-->
-			<TfmSpecificPackageFile Include="$(PkgSystem_Resources_Extensions)\lib\net461\System.Resources.Extensions.dll" Condition="$(TargetFramework.StartsWith('net4')) And Exists('$(PkgSystem_Resources_Extensions)\lib\net461\System.Resources.Extensions.dll')">
+			<TfmSpecificPackageFile Include="$(PkgSystem_Resources_Extensions)\lib\net462\System.Resources.Extensions.dll" Condition="$(TargetFramework.StartsWith('net4')) And Exists('$(PkgSystem_Resources_Extensions)\lib\net462\System.Resources.Extensions.dll')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(PkgSystem_Resources_Extensions)\lib\net461\System.Resources.Extensions.dll" Condition="$(TargetFramework.StartsWith('net4')) And !Exists('$(PkgSystem_Resources_Extensions)\lib\net462\System.Resources.Extensions.dll') And Exists('$(PkgSystem_Resources_Extensions)\lib\net461\System.Resources.Extensions.dll')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(PkgSystem_Formats_Nrbf)\lib\net462\System.Formats.Nrbf.dll" Condition="$(TargetFramework.StartsWith('net4')) And Exists('$(PkgSystem_Formats_Nrbf)\lib\net462\System.Formats.Nrbf.dll')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
 
@@ -377,10 +383,12 @@
 		<Optimize>True</Optimize>
 	</PropertyGroup>
 
-	<!-- .NET Framework: binding redirects + buildTransitive import for System.Resources.Extensions. -->
+	<!-- .NET Framework: binding redirects + consumer targets for System.Resources.Extensions. -->
 	<ItemGroup>
 		<None Include="..\NetFramework.SystemResourcesExtensions.BindingRedirects.props" Link="NetFxSreRedirects.props" Pack="true" PackagePath="build\$(PackageId).props" Visible="false" />
 		<None Include="..\NetFramework.SystemResourcesExtensions.BindingRedirects.props" Link="NetFxSreRedirectsTransitive.props" Pack="true" PackagePath="buildTransitive\$(PackageId).props" Visible="false" />
+		<None Include="..\NetFramework.SystemResourcesExtensions.targets" Link="NetFxSreRedirects.targets" Pack="true" PackagePath="build\$(PackageId).targets" Visible="false" />
+		<None Include="..\NetFramework.SystemResourcesExtensions.targets" Link="NetFxSreRedirectsTransitive.targets" Pack="true" PackagePath="buildTransitive\$(PackageId).targets" Visible="false" />
 	</ItemGroup>
 
 </Project>

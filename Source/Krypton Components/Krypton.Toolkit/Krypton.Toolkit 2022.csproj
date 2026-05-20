@@ -41,9 +41,6 @@
 		<Reference Include="System.Net.Http" />
 	</ItemGroup>
 
-	<ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
-		<PackageReference Include="System.Memory" Version="4.5.5" />
-	</ItemGroup>
 
 	<PropertyGroup>
 	<PackageId>Krypton.Toolkit</PackageId>
@@ -923,10 +920,35 @@
 	<Optimize>True</Optimize>
   </PropertyGroup>
 
-  <!-- .NET Framework: binding redirects + buildTransitive import for System.Resources.Extensions; toolkit also uses AssemblyResolve on net4x. -->
+  <!-- .NET Framework: SRE deploy, binding redirects, consumer targets; runtime hook in KryptonPreserializedResourceAssemblyResolve. -->
+  <ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
+	<None Include="Krypton.Toolkit.dll.config" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
   <ItemGroup>
 	<None Include="..\NetFramework.SystemResourcesExtensions.BindingRedirects.props" Link="NetFxSreRedirects.props" Pack="true" PackagePath="build\$(PackageId).props" Visible="false" />
 	<None Include="..\NetFramework.SystemResourcesExtensions.BindingRedirects.props" Link="NetFxSreRedirectsTransitive.props" Pack="true" PackagePath="buildTransitive\$(PackageId).props" Visible="false" />
+	<None Include="..\NetFramework.SystemResourcesExtensions.targets" Link="NetFxSreRedirects.targets" Pack="true" PackagePath="build\$(PackageId).targets" Visible="false" />
+	<None Include="..\NetFramework.SystemResourcesExtensions.targets" Link="NetFxSreRedirectsTransitive.targets" Pack="true" PackagePath="buildTransitive\$(PackageId).targets" Visible="false" />
   </ItemGroup>
+
+  <!-- Bundle preserialized-resource dependencies in the nupkg (aggregate packages suppress dependencies). -->
+  <Target Name="KryptonPackPreserializedResourceDependencies"
+          BeforeTargets="_GetPackageFiles">
+	<PropertyGroup>
+	  <_KryptonPackSreLibFolder Condition="$(TargetFramework.StartsWith('net4'))">net462</_KryptonPackSreLibFolder>
+	  <_KryptonPackSreLibFolder Condition="'$(TargetFramework)' == 'net8.0-windows'">net8.0</_KryptonPackSreLibFolder>
+	  <_KryptonPackSreLibFolder Condition="'$(TargetFramework)' == 'net9.0-windows'">net9.0</_KryptonPackSreLibFolder>
+	  <_KryptonPackSreLibFolder Condition="'$(TargetFramework)' == 'net10.0-windows'">net10.0</_KryptonPackSreLibFolder>
+	  <_KryptonPackSreLibFolder Condition="'$(TargetFramework)' == 'net11.0-windows'">net11.0</_KryptonPackSreLibFolder>
+	</PropertyGroup>
+	<ItemGroup Condition="'$(_KryptonPackSreLibFolder)' != ''">
+	  <_KryptonPackRuntimeDll Include="$(PkgSystem_Resources_Extensions)\lib\$(_KryptonPackSreLibFolder)\System.Resources.Extensions.dll" Condition="Exists('$(PkgSystem_Resources_Extensions)\lib\$(_KryptonPackSreLibFolder)\System.Resources.Extensions.dll')" />
+	  <_KryptonPackRuntimeDll Include="$(PkgSystem_Formats_Nrbf)\lib\$(_KryptonPackSreLibFolder)\System.Formats.Nrbf.dll" Condition="Exists('$(PkgSystem_Formats_Nrbf)\lib\$(_KryptonPackSreLibFolder)\System.Formats.Nrbf.dll')" />
+	  <_KryptonPackRuntimeDll Include="$(PkgSystem_Memory)\lib\net461\System.Memory.dll" Condition="$(TargetFramework.StartsWith('net4')) And Exists('$(PkgSystem_Memory)\lib\net461\System.Memory.dll')" />
+	  <TfmSpecificPackageFile Include="@(_KryptonPackRuntimeDll)" PackagePath="lib\$(TargetFramework)\" />
+	  <TfmSpecificPackageFile Include="Krypton.Toolkit.dll.config" PackagePath="lib\$(TargetFramework)\" Condition="$(TargetFramework.StartsWith('net4'))" />
+	</ItemGroup>
+  </Target>
 
 </Project>
