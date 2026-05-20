@@ -46,6 +46,9 @@ internal class KryptonGroupBoxDesigner : ParentControlDesigner
         if (_groupBox != null)
         {
             EnableDesignMode(_groupBox.Panel, nameof(Panel));
+
+            // Ensure the panel has valid bounds before the designer queries DisplayRectangle for drop targets
+            _groupBox.PerformLayout();
         }
     }
 

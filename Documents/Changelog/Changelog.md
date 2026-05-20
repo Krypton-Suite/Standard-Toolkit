@@ -45,6 +45,7 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Resolved [#3451](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3451), Unable to add child controls into `KryptonHeaderGroup` at design time (`ReadOnly controls collection`). `DisplayRectangle` now reports the view fill rect, group container designers call `PerformLayout` after `EnableDesignMode`, and `KryptonGroupPanelDesigner.CanBeParentedTo` checks the parent component type correctly. Same `DisplayRectangle` improvement applied to `KryptonGroup` and `KryptonGroupBox`.
 * Resolved [#3282](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3282), `KryptonTreeView` items flicker when selected/clicked (`DrawDefault = false` for `OwnerDrawAll`; composite `WM_PAINT` off-screen buffer with `TVS_EX_DOUBLEBUFFER`; batch selection/check updates; no per-node background repaint)
 * Resolved [#3367](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3367), ButtonSpec hover flicker on `KryptonTextBox`, `KryptonMaskedTextBox`, and `KryptonForm` (including `ImageStates.ImageNormal` without `Image`)
 * Implemented [#3447](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3447), Add missing toolbox bitmap images
