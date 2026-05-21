@@ -12,12 +12,21 @@ namespace Krypton.Toolkit.Utilities;
 /// <summary>
 /// Provides a ComboBox-style control whose drop-down hosts a <see cref="KryptonCheckedListBox"/> for
 /// multi-select with check boxes. Built on <see cref="KryptonComboBoxUserControl"/>.
+/// Implements feature request
+/// <a href="https://github.com/Krypton-Suite/Standard-Toolkit/issues/3445">#3445</a>.
 /// </summary>
 /// <remarks>
 /// The editor shows a summary of checked items (comma-separated by default). The drop-down stays
 /// open while the user checks or unchecks items; press Enter (when <see cref="CloseDropDownOnEnter"/>
 /// is <see langword="true"/>) or click outside to close.
+/// List data binding mirrors <see cref="KryptonCheckedListBox"/> via <see cref="DataSource"/>,
+/// <see cref="DisplayMember"/>, <see cref="ValueMember"/>; the editor summary uses
+/// display text (respects formatting). Use <see cref="CheckedItemList"/> for typed value-member
+/// results; <see cref="KryptonComboBoxUserControl.SelectedValue"/> commits as an array of checked
+/// items (see <see cref="GetCheckedValues"/>).
+/// Documentation: repository <c>Documents/KryptonCheckedListComboBox-DeveloperDocumentation.md</c> (full API and behavior); <c>Documents/KryptonCheckedListComboBox-Guide.md</c> (short overview).
 /// </remarks>
+[LookupBindingProperties(nameof(DataSource), nameof(DisplayMember), nameof(ValueMember), nameof(SelectedValue))]
 [ToolboxItem(true)]
 [ToolboxBitmap(typeof(KryptonCheckedListBox), "ToolboxBitmaps.KryptonCheckedListBox.bmp")]
 [DefaultEvent(nameof(ItemCheck))]
@@ -38,8 +47,8 @@ public class KryptonCheckedListComboBox : KryptonComboBoxUserControl
     #region Instance Fields
 
     private readonly KryptonCheckedListComboBoxDropDown _dropDown;
-    private string _valueSeparator = DefaultValueSeparator;
-    private string _emptySelectionText = string.Empty;
+    private string? _valueSeparator = DefaultValueSeparator;
+    private string? _emptySelectionText = string.Empty;
     private bool _closeDropDownOnEnter = true;
 
     #endregion
@@ -80,6 +89,7 @@ public class KryptonCheckedListComboBox : KryptonComboBoxUserControl
         base.DropContent = _dropDown;
 
         ValueCommitted += OnDropDownValueCommitted;
+        SyncDropDownBindingContext();
     }
 
     /// <summary>
@@ -97,9 +107,99 @@ public class KryptonCheckedListComboBox : KryptonComboBoxUserControl
         base.Dispose(disposing);
     }
 
+    /// <inheritdoc />
+    protected override void OnBindingContextChanged(EventArgs e)
+    {
+        base.OnBindingContextChanged(e);
+        SyncDropDownBindingContext();
+    }
+
     #endregion
 
     #region Public Properties
+
+    /// <summary>
+    /// Gets or sets the data source for the checked list portion of this control (forwarded from the hosted
+    /// <see cref="KryptonCheckedListBox"/>).
+    /// </summary>
+    [Category(@"Data")]
+    [Description(@"Indicates the list that the drop-down will use for its items.")]
+    [DefaultValue(null)]
+    [AttributeProvider(typeof(IListSource))]
+    public object? DataSource
+    {
+        get => _dropDown.DataSource;
+        set
+        {
+            _dropDown.DataSource = value;
+            UpdateSummaryTextAfterListMetadataChange();
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the property path to display for list items when <see cref="DataSource"/> is set.
+    /// </summary>
+    [Category(@"Data")]
+    [Description(@"Indicates the property to display for the items when a data source is set.")]
+    [Editor(@"System.Windows.Forms.Design.DataMemberFieldEditor, System.Design", typeof(UITypeEditor))]
+    [DefaultValue("")]
+    public string? DisplayMember
+    {
+        get => _dropDown.DisplayMember;
+        set
+        {
+            _dropDown.DisplayMember = value ?? string.Empty;
+            UpdateSummaryTextAfterListMetadataChange();
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the property path that supplies the logical value when <see cref="DataSource"/> is set.
+    /// </summary>
+    [Category(@"Data")]
+    [Description(@"Indicates the property to use as the actual value when a data source is set.")]
+    [Editor(@"System.Windows.Forms.Design.DataMemberFieldEditor, System.Design", typeof(UITypeEditor))]
+    [DefaultValue("")]
+    public string? ValueMember
+    {
+        get => _dropDown.ValueMember;
+        set => _dropDown.ValueMember = value ?? string.Empty;
+    }
+
+    /// <summary>
+    /// Gets or sets the format specifier used when converting items to displayed text (requires
+    /// <see cref="FormattingEnabled"/>).
+    /// </summary>
+    [Category(@"Data")]
+    [Description(@"Formatting applied to displayed text when formatting is enabled.")]
+    [Editor(@"System.Windows.Forms.Design.FormatStringEditor, System.Design", typeof(UITypeEditor))]
+    [DefaultValue("")]
+    public string? FormatString
+    {
+        get => _dropDown.FormatString;
+        set
+        {
+            _dropDown.FormatString = value ?? string.Empty;
+            UpdateSummaryTextAfterListMetadataChange();
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether <see cref="FormatString"/> is applied with
+    /// <see cref="DisplayMember"/> items.
+    /// </summary>
+    [Category(@"Data")]
+    [Description(@"If true, FormatString converts DisplayMember values for display.")]
+    [DefaultValue(false)]
+    public bool FormattingEnabled
+    {
+        get => _dropDown.FormattingEnabled;
+        set
+        {
+            _dropDown.FormattingEnabled = value;
+            UpdateSummaryTextAfterListMetadataChange();
+        }
+    }
 
     /// <summary>
     /// Gets the collection of items in the drop-down list.
@@ -132,12 +232,20 @@ public class KryptonCheckedListComboBox : KryptonComboBoxUserControl
     public KryptonCheckedListBox CheckedListBox => _dropDown;
 
     /// <summary>
+    /// Gets the value-member results (or raw items when <see cref="ValueMember"/> is empty)
+    /// for all currently checked items. Matches <see cref="KryptonCheckedListBox.CheckedItemList"/>.
+    /// </summary>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public List<object> CheckedItemList => _dropDown.CheckedItemList;
+
+    /// <summary>
     /// Gets or sets the separator placed between checked item texts in the editor summary.
     /// </summary>
     [Category(@"Behavior")]
     [Description(@"Separator placed between checked item texts in the editor summary.")]
     [DefaultValue(DefaultValueSeparator)]
-    public string ValueSeparator
+    public string? ValueSeparator
     {
         get => _valueSeparator;
         set => _valueSeparator = value ?? DefaultValueSeparator;
@@ -149,7 +257,7 @@ public class KryptonCheckedListComboBox : KryptonComboBoxUserControl
     [Category(@"Behavior")]
     [Description(@"Editor text when no items are checked.")]
     [DefaultValue("")]
-    public string EmptySelectionText
+    public string? EmptySelectionText
     {
         get => _emptySelectionText;
         set => _emptySelectionText = value ?? string.Empty;
@@ -251,14 +359,14 @@ public class KryptonCheckedListComboBox : KryptonComboBoxUserControl
     /// Formats the currently checked items for display in the editor.
     /// </summary>
     /// <returns>Comma-separated (or custom-separated) summary text.</returns>
-    public string FormatCheckedItemsDisplay()
+    public string? FormatCheckedItemsDisplay()
     {
         var parts = new List<string>();
         foreach (object? item in CheckedItems)
         {
             if (item != null)
             {
-                parts.Add(item.ToString() ?? string.Empty);
+                parts.Add(_dropDown.GetItemText(item) ?? string.Empty);
             }
         }
 
@@ -319,6 +427,32 @@ public class KryptonCheckedListComboBox : KryptonComboBoxUserControl
         OnCheckedItemsChanged(EventArgs.Empty);
 
     private void OnInnerListItemCheck(object? sender, ItemCheckEventArgs e) => ItemCheck?.Invoke(this, e);
+
+    private void SyncDropDownBindingContext()
+    {
+        // Base constructor may raise BindingContextChanged before the drop-down field is assigned.
+        if (_dropDown is null)
+        {
+            return;
+        }
+
+        _dropDown.BindingContext = BindingContext;
+    }
+
+    /// <summary>
+    /// Refreshes the editor line when list metadata (data source, display member, format) changes
+    /// without altering checked state (no <see cref="CheckedItemsChanged"/>).
+    /// </summary>
+    private void UpdateSummaryTextAfterListMetadataChange()
+    {
+        if (IsDroppedDown)
+        {
+            _dropDown.PublishSelection(keepDropDownOpen: true);
+            return;
+        }
+
+        Text = FormatCheckedItemsDisplay();
+    }
 
     #endregion
 }
