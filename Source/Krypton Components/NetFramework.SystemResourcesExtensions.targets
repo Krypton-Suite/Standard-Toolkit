@@ -1,0 +1,71 @@
+<Project>
+	<Import Project="$(MSBuildThisFileDirectory)NetFramework.SystemResourcesExtensions.BindingRedirects.props"
+	        Condition="Exists('$(MSBuildThisFileDirectory)NetFramework.SystemResourcesExtensions.BindingRedirects.props')" />
+
+	<!--
+	  Preserialized .resx require System.Resources.Extensions at runtime. Library projects do not copy
+	  PackageReference assemblies to output; UseCommonOutputDirectory shares one folder per TFM.
+	  Copy the full dependency closure after every build (net472/net48/net481 and net8.0-windows, etc.).
+	-->
+	<PropertyGroup>
+		<_KryptonSreLibFolder Condition="'$(_KryptonSreLibFolder)' == '' And $([System.String]::Copy('$(TargetFramework)').StartsWith('net4'))">net462</_KryptonSreLibFolder>
+		<_KryptonSreLibFolder Condition="'$(_KryptonSreLibFolder)' == '' And '$(TargetFramework)' == 'net8.0-windows'">net8.0</_KryptonSreLibFolder>
+		<_KryptonSreLibFolder Condition="'$(_KryptonSreLibFolder)' == '' And '$(TargetFramework)' == 'net9.0-windows'">net9.0</_KryptonSreLibFolder>
+		<_KryptonSreLibFolder Condition="'$(_KryptonSreLibFolder)' == '' And '$(TargetFramework)' == 'net10.0-windows'">net10.0</_KryptonSreLibFolder>
+		<_KryptonSreLibFolder Condition="'$(_KryptonSreLibFolder)' == '' And '$(TargetFramework)' == 'net11.0-windows'">net11.0</_KryptonSreLibFolder>
+		<_KryptonNetFxDependencyLibFolder Condition="$([System.String]::Copy('$(TargetFramework)').StartsWith('net4'))">net462</_KryptonNetFxDependencyLibFolder>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<_KryptonSreDllPath Condition="'$(_KryptonSreDllPath)' == '' And '$(PkgSystem_Resources_Extensions)' != '' And '$(_KryptonSreLibFolder)' != '' And Exists('$(PkgSystem_Resources_Extensions)\lib\$(_KryptonSreLibFolder)\System.Resources.Extensions.dll')">$(PkgSystem_Resources_Extensions)\lib\$(_KryptonSreLibFolder)\System.Resources.Extensions.dll</_KryptonSreDllPath>
+		<_KryptonNrbfDllPath Condition="'$(_KryptonNrbfDllPath)' == '' And '$(PkgSystem_Formats_Nrbf)' != '' And '$(_KryptonSreLibFolder)' != '' And Exists('$(PkgSystem_Formats_Nrbf)\lib\$(_KryptonSreLibFolder)\System.Formats.Nrbf.dll')">$(PkgSystem_Formats_Nrbf)\lib\$(_KryptonSreLibFolder)\System.Formats.Nrbf.dll</_KryptonNrbfDllPath>
+		<_KryptonMemoryDllPath Condition="'$(_KryptonMemoryDllPath)' == '' And '$(PkgSystem_Memory)' != '' And Exists('$(PkgSystem_Memory)\lib\net462\System.Memory.dll')">$(PkgSystem_Memory)\lib\net462\System.Memory.dll</_KryptonMemoryDllPath>
+		<_KryptonMemoryDllPath Condition="'$(_KryptonMemoryDllPath)' == '' And '$(PkgSystem_Memory)' != '' And Exists('$(PkgSystem_Memory)\lib\net461\System.Memory.dll')">$(PkgSystem_Memory)\lib\net461\System.Memory.dll</_KryptonMemoryDllPath>
+		<_KryptonBuffersDllPath Condition="'$(_KryptonBuffersDllPath)' == '' And '$(PkgSystem_Buffers)' != '' And Exists('$(PkgSystem_Buffers)\lib\net462\System.Buffers.dll')">$(PkgSystem_Buffers)\lib\net462\System.Buffers.dll</_KryptonBuffersDllPath>
+		<_KryptonBuffersDllPath Condition="'$(_KryptonBuffersDllPath)' == '' And '$(PkgSystem_Buffers)' != '' And Exists('$(PkgSystem_Buffers)\lib\net461\System.Buffers.dll')">$(PkgSystem_Buffers)\lib\net461\System.Buffers.dll</_KryptonBuffersDllPath>
+		<_KryptonUnsafeDllPath Condition="'$(_KryptonUnsafeDllPath)' == '' And '$(PkgSystem_Runtime_CompilerServices_Unsafe)' != '' And Exists('$(PkgSystem_Runtime_CompilerServices_Unsafe)\lib\net462\System.Runtime.CompilerServices.Unsafe.dll')">$(PkgSystem_Runtime_CompilerServices_Unsafe)\lib\net462\System.Runtime.CompilerServices.Unsafe.dll</_KryptonUnsafeDllPath>
+		<_KryptonUnsafeDllPath Condition="'$(_KryptonUnsafeDllPath)' == '' And '$(PkgSystem_Runtime_CompilerServices_Unsafe)' != '' And Exists('$(PkgSystem_Runtime_CompilerServices_Unsafe)\lib\net461\System.Runtime.CompilerServices.Unsafe.dll')">$(PkgSystem_Runtime_CompilerServices_Unsafe)\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</_KryptonUnsafeDllPath>
+		<_KryptonImmutableDllPath Condition="'$(_KryptonImmutableDllPath)' == '' And '$(PkgSystem_Collections_Immutable)' != '' And Exists('$(PkgSystem_Collections_Immutable)\lib\net462\System.Collections.Immutable.dll')">$(PkgSystem_Collections_Immutable)\lib\net462\System.Collections.Immutable.dll</_KryptonImmutableDllPath>
+		<_KryptonImmutableDllPath Condition="'$(_KryptonImmutableDllPath)' == '' And '$(PkgSystem_Collections_Immutable)' != '' And Exists('$(PkgSystem_Collections_Immutable)\lib\net461\System.Collections.Immutable.dll')">$(PkgSystem_Collections_Immutable)\lib\net461\System.Collections.Immutable.dll</_KryptonImmutableDllPath>
+		<_KryptonReflectionMetadataDllPath Condition="'$(_KryptonReflectionMetadataDllPath)' == '' And '$(PkgSystem_Reflection_Metadata)' != '' And Exists('$(PkgSystem_Reflection_Metadata)\lib\net462\System.Reflection.Metadata.dll')">$(PkgSystem_Reflection_Metadata)\lib\net462\System.Reflection.Metadata.dll</_KryptonReflectionMetadataDllPath>
+		<_KryptonReflectionMetadataDllPath Condition="'$(_KryptonReflectionMetadataDllPath)' == '' And '$(PkgSystem_Reflection_Metadata)' != '' And Exists('$(PkgSystem_Reflection_Metadata)\lib\net461\System.Reflection.Metadata.dll')">$(PkgSystem_Reflection_Metadata)\lib\net461\System.Reflection.Metadata.dll</_KryptonReflectionMetadataDllPath>
+		<_KryptonNumericsVectorsDllPath Condition="'$(_KryptonNumericsVectorsDllPath)' == '' And '$(PkgSystem_Numerics_Vectors)' != '' And Exists('$(PkgSystem_Numerics_Vectors)\lib\net462\System.Numerics.Vectors.dll')">$(PkgSystem_Numerics_Vectors)\lib\net462\System.Numerics.Vectors.dll</_KryptonNumericsVectorsDllPath>
+		<_KryptonNumericsVectorsDllPath Condition="'$(_KryptonNumericsVectorsDllPath)' == '' And '$(PkgSystem_Numerics_Vectors)' != '' And Exists('$(PkgSystem_Numerics_Vectors)\lib\net46\System.Numerics.Vectors.dll')">$(PkgSystem_Numerics_Vectors)\lib\net46\System.Numerics.Vectors.dll</_KryptonNumericsVectorsDllPath>
+	</PropertyGroup>
+
+	<Target Name="KryptonCopyPreserializedResourceDependenciesToOutput"
+	        AfterTargets="Build"
+	        Condition="'$(GenerateResourceUsePreserializedResources)' == 'true' And '$(DesignTimeBuild)' != 'true' And '$(_KryptonSreDllPath)' != ''">
+		<ItemGroup>
+			<_KryptonResourceRuntimeDll Include="$(_KryptonSreDllPath)" />
+			<_KryptonResourceRuntimeDll Include="$(_KryptonNrbfDllPath)" Condition="'$(_KryptonNrbfDllPath)' != ''" />
+			<_KryptonResourceRuntimeDll Include="$(_KryptonMemoryDllPath)" Condition="'$(_KryptonMemoryDllPath)' != ''" />
+			<_KryptonResourceRuntimeDll Include="$(_KryptonBuffersDllPath)" Condition="'$(_KryptonBuffersDllPath)' != ''" />
+			<_KryptonResourceRuntimeDll Include="$(_KryptonUnsafeDllPath)" Condition="'$(_KryptonUnsafeDllPath)' != ''" />
+			<_KryptonResourceRuntimeDll Include="$(_KryptonImmutableDllPath)" Condition="'$(_KryptonImmutableDllPath)' != ''" />
+			<_KryptonResourceRuntimeDll Include="$(_KryptonReflectionMetadataDllPath)" Condition="'$(_KryptonReflectionMetadataDllPath)' != ''" />
+			<_KryptonResourceRuntimeDll Include="$(_KryptonNumericsVectorsDllPath)" Condition="'$(_KryptonNumericsVectorsDllPath)' != ''" />
+		</ItemGroup>
+		<Copy SourceFiles="@(_KryptonResourceRuntimeDll)"
+		      DestinationFolder="$(OutputPath)"
+		      SkipUnchangedFiles="true" />
+	</Target>
+
+	<!-- NuGet consumers: copy bundled DLLs from this package's lib\$(TargetFramework)\ folder. -->
+	<PropertyGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'">
+		<_KryptonBundledSreLibPath>$(MSBuildThisFileDirectory)..\lib\$(TargetFramework)\</_KryptonBundledSreLibPath>
+	</PropertyGroup>
+
+	<Target Name="KryptonCopyBundledSystemResourcesExtensionsForConsumer"
+	        AfterTargets="ResolveReferences"
+	        BeforeTargets="CopyFilesToOutputDirectory"
+	        Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework' And Exists('$(_KryptonBundledSreLibPath)System.Resources.Extensions.dll')">
+		<ItemGroup>
+			<ReferenceCopyLocalPaths Include="$(_KryptonBundledSreLibPath)System.Resources.Extensions.dll" />
+			<ReferenceCopyLocalPaths Include="$(_KryptonBundledSreLibPath)System.Formats.Nrbf.dll"
+			                         Condition="Exists('$(_KryptonBundledSreLibPath)System.Formats.Nrbf.dll')" />
+			<ReferenceCopyLocalPaths Include="$(_KryptonBundledSreLibPath)System.Memory.dll"
+			                         Condition="Exists('$(_KryptonBundledSreLibPath)System.Memory.dll')" />
+		</ItemGroup>
+	</Target>
+</Project>

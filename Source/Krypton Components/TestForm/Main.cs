@@ -102,7 +102,8 @@ public partial class Main : KryptonForm
 
     private void kbtnIntegratedToolbar_Click(object sender, EventArgs e)
     {
-            
+        using var demo = new KryptonCommandButtonSpecDemo();
+        demo.ShowDialog(this);
     }
 
     private void kryptonButton3_Click(object sender, EventArgs e)
