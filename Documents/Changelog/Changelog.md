@@ -45,6 +45,9 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#1133](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1133), Have a 'enum' option in `KCommand` to deal with certain `ButtonSpecs`
+  * `KryptonCommand.CommandType` for built-in `ButtonSpec` styles (integrated toolbar and form help). Palette-aware   per-state images are applied automatically; `AssignedButtonSpec` syncs type, command link, and image states. `KryptonIntegratedToolbar*Command` and `KryptonHelpCommand` are obsolete thin wrappers over `KryptonButtonSpecTypedCommand`. `IntegratedToolBarCommandValues` now uses `KryptonCommand`; `IntegratedToolBarCommandWiring` and `RefreshToolBarCommands()` wire commands to toolbar buttons. `ButtonSpec.GetImage` uses palette state images when the linked command has a non-`General` `CommandType`.
+  * `KryptonIntegratedToolbar*Command` and `KryptonHelpCommand` are obsolete; use `KryptonCommand` with `CommandType` instead (removal in version 120 LTS).
 * Implemented [#3444](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3444), ComboBox with Grouping
   * `KryptonTreeComboBox` - a ComboBox-style control whose drop-down hosts a hierarchical `KryptonTreeView` (grouped/tree selection with leaf-only or any-node commit, full path / breadcrumb / leaf display modes, check boxes and images). Built on `KryptonComboBoxUserControl` in `Krypton.Toolkit.Utilities`. Includes designer smart-tag support.
   * `KryptonCheckedListComboBox` - a ComboBox-style multi-select control whose drop-down hosts `KryptonCheckedListBox` on the same `KryptonComboBoxUserControl` stack. Checked items update the editor summary live while the popup stays open; configurable value separator, `EmptySelectionText`, and `CloseDropDownOnEnter`. Includes designer smart-tag support.
