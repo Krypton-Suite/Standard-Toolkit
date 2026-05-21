@@ -118,15 +118,15 @@ public class KryptonIntegratedToolBarManager : Component
 
     public void ResetToolBarButtonValues() => IntegratedToolBarButtonValues.Reset();*/
 
-    /*[Category(@"Data")]
-    [Description(@"Handles the toolbar buttons.")]
+    [Category(@"Data")]
+    [Description(@"Commands for integrated toolbar buttons.")]
     [MergableProperty(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public IntegratedToolBarCommandValues ToolBarCommands => IntegratedToolBarCommandValues;
 
     private bool ShouldSerializeToolBarCommands() => !IntegratedToolBarCommandValues.IsDefault;
 
-    private void ResetToolBarCommands() => IntegratedToolBarCommandValues.Reset();*/
+    private void ResetToolBarCommands() => IntegratedToolBarCommandValues.Reset();
 
     #region Tool Bar Buttons
 
@@ -206,9 +206,10 @@ public class KryptonIntegratedToolBarManager : Component
 
     #region Static Properties
 
-    public static IntegratedToolBarButtonValues IntegratedToolBarButtonValues { get; } = new IntegratedToolBarButtonValues();
-
+    // Command values must initialize before button values (button values ctor creates a manager instance).
     public static IntegratedToolBarCommandValues IntegratedToolBarCommandValues { get; } = new IntegratedToolBarCommandValues();
+
+    public static IntegratedToolBarButtonValues IntegratedToolBarButtonValues { get; } = new IntegratedToolBarButtonValues();
 
     #endregion
 
@@ -352,6 +353,15 @@ public class KryptonIntegratedToolBarManager : Component
         _integratedToolBarButtons[12] = printToolbarButton;
 
         _integratedToolBarButtons[13] = quickPrintToolbarButton;
+    }
+
+    /// <summary>Re-applies <see cref="IntegratedToolBarCommandValues"/> to the toolbar buttons.</summary>
+    public void RefreshToolBarCommands()
+    {
+        if (_integratedToolBarButtons != null)
+        {
+            IntegratedToolBarCommandValues.ApplyTo(_integratedToolBarButtons);
+        }
     }
 
     /// <summary>Shows the tool bar into parent form.</summary>
