@@ -753,7 +753,7 @@ public abstract class ButtonSpec : Component,
         // Prefer to get image from the command first
         if (KryptonCommand != null)
         {
-            return KryptonCommand.ImageSmall;
+            return KryptonCommand.GetButtonSpecImage(palette, state) ?? KryptonCommand.ImageSmall;
         }
 
         Image? image = GetStateImage(state) ?? Image;
@@ -775,7 +775,7 @@ public abstract class ButtonSpec : Component,
     {
         if (KryptonCommand != null)
         {
-            return KryptonCommand.ImageTransparentColor;
+            return KryptonCommand.GetButtonSpecImageTransparentColor(palette);
         }
 
         return ImageTransparentColor != GlobalStaticVariables.EMPTY_COLOR
@@ -961,6 +961,7 @@ public abstract class ButtonSpec : Component,
             case nameof(ExtraText):
             case @"ImageSmall":
             case nameof(ImageTransparentColor):
+            case nameof(KryptonCommand.CommandType):
                 OnButtonSpecPropertyChanged(e.PropertyName);
                 break;
         }

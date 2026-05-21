@@ -190,6 +190,8 @@ public class IntegratedToolBarValues : GlobalId
 
         buttons[13] = quickPrintToolbarButton;
 
+        KryptonIntegratedToolBarManager.IntegratedToolBarCommandValues.ApplyTo(buttons);
+
         return buttons;
     }
 

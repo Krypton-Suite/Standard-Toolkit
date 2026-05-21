@@ -38,6 +38,61 @@ internal class KryptonCheckedListComboBoxActionList : DesignerActionList
 
     #region Smart-Tag Properties
 
+    public object? DataSource
+    {
+        get => _control.DataSource;
+        set
+        {
+            if (_control.DataSource != value)
+            {
+                _service?.OnComponentChanged(_control, null, _control.DataSource, value);
+                _control.DataSource = value;
+            }
+        }
+    }
+
+    public string? DisplayMember
+    {
+        get => _control.DisplayMember;
+        set
+        {
+            string normalized = value ?? string.Empty;
+            if (_control.DisplayMember != normalized)
+            {
+                _service?.OnComponentChanged(_control, null, _control.DisplayMember, normalized);
+                _control.DisplayMember = normalized;
+            }
+        }
+    }
+
+    public string? ValueMember
+    {
+        get => _control.ValueMember;
+        set
+        {
+            string normalized = value ?? string.Empty;
+            if (_control.ValueMember != normalized)
+            {
+                _service?.OnComponentChanged(_control, null, _control.ValueMember, normalized);
+                _control.ValueMember = normalized;
+            }
+        }
+    }
+
+    public string? EmptySelectionText
+    {
+        get => _control.EmptySelectionText;
+        set
+        {
+            string normalized = value ?? string.Empty;
+            if (_control.EmptySelectionText != normalized)
+            {
+                _service?.OnComponentChanged(_control, null, _control.EmptySelectionText, normalized);
+                _control.EmptySelectionText = normalized;
+            }
+        }
+    }
+
     public LeftRightAlignment DropDownAlign
     {
         get => _control.DropDownAlign;
@@ -90,7 +145,7 @@ internal class KryptonCheckedListComboBoxActionList : DesignerActionList
         }
     }
 
-    public string ValueSeparator
+    public string? ValueSeparator
     {
         get => _control.ValueSeparator;
         set
@@ -139,6 +194,16 @@ internal class KryptonCheckedListComboBoxActionList : DesignerActionList
     public override DesignerActionItemCollection GetSortedActionItems()
     {
         DesignerActionItemCollection actions = new DesignerActionItemCollection();
+
+        actions.Add(new DesignerActionHeaderItem("Data"));
+        actions.Add(new DesignerActionPropertyItem(nameof(DataSource), "Data source", "Data",
+            "List or binding source for items in the checked list (optional; you can use Items instead)."));
+        actions.Add(new DesignerActionPropertyItem(nameof(DisplayMember), "Display member", "Data",
+            "Property path for text shown in the list and editor summary when a data source is set."));
+        actions.Add(new DesignerActionPropertyItem(nameof(ValueMember), "Value member", "Data",
+            "Property path for CheckedItemList values when a data source is set."));
+        actions.Add(new DesignerActionPropertyItem(nameof(EmptySelectionText), "Empty selection text", "Data",
+            "Text shown in the editor when no items are checked."));
 
         actions.Add(new DesignerActionHeaderItem("DropDown"));
         actions.Add(new DesignerActionPropertyItem(nameof(DropDownAlign), "Alignment", "DropDown",
