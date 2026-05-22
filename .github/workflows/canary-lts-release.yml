@@ -141,6 +141,7 @@ jobs:
 
       - name: Setup WebView2 SDK
         if: steps.canary_lts_kill_switch.outputs.enabled == 'true'
+        continue-on-error: true
         shell: pwsh
         run: |
           if (-not (Test-Path "WebView2SDK")) { mkdir WebView2SDK }
