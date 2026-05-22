@@ -74,7 +74,6 @@ namespace TestForm
             // 
             this.kryptonWebView21.AllowExternalDrop = true;
             this.kryptonWebView21.CreationProperties = null;
-            this.kryptonWebView21.DefaultBackgroundColor = System.Drawing.Color.White;
             this.kryptonWebView21.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonWebView21.Location = new System.Drawing.Point(0, 60);
             this.kryptonWebView21.Name = "kryptonWebView21";
