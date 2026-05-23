@@ -213,7 +213,8 @@ public partial class QRCodeDemo : KryptonForm
                 _kcbtnLightColor.SelectedColor,
                 centerImage: _kryptonQRCode.CenterImage,
                 centerImageRelativeSize: _kryptonQRCode.CenterImageRelativeSize,
-                centerImagePaddingModules: _kryptonQRCode.CenterImagePaddingModules);
+                centerImagePaddingModules: _kryptonQRCode.CenterImagePaddingModules,
+                centerImagePalette: _kryptonQRCode.GetCenterImagePalette());
 
             Clipboard.SetImage(bmp);
             KryptonMessageBox.Show(this,

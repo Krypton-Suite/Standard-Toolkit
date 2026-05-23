@@ -92,6 +92,8 @@
 * Implemented [#1002](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1002), Implement `ActionLists` for file dialogs, `KryptonOpenFileDialog`, `KryptonSaveFileDialog`, and `KryptonFolderBrowserDialog` to expose common design-time properties.
 * Implemented [#3305](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3305), QR Code Generation/Viewer
   * To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
+  * `KryptonQRCode` optional palette integration for `CenterImage`: `CenterImageUsePaletteColors`, `CenterImagePaletteStyle`, `CenterImageColorMap`, `CenterImageColorTo`, `CenterImageTransparentColor`, and `CenterImageEffect` (empty/inherit values resolve from the active palette; template glyphs using the Krypton transparency key remap to the effective dark module color). `GetCenterImagePalette()` and `QRCodeCenterImagePalette` support `GetBitmap()` / `GenerateBitmap()` export with the same drawing rules.
+  * Added `PaletteImageDrawing` in `Krypton.Toolkit` — shared palette image effect and color-remap drawing used by `KryptonQRCode` and `RenderBase.DrawImageHelper`.
 * Resolved [#3018](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3018), `KryptonToast` no longer works properly
 * Resolved [#3227](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3227), `KryptonDockingManager.LoadConfigFromArray` throws exception
 * Resolved [#3225](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3225), Ribbon large button image-to-text separator not DPI-scaled
