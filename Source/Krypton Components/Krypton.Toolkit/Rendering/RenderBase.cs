@@ -25,50 +25,6 @@ public abstract class RenderBase : Component,
     IRenderRibbon,
     IRenderGlyph
 {
-    #region Static Fields
-    private static readonly object _threadLock = new object();
-
-    private static readonly ColorMatrix _matrixGrayScale = new ColorMatrix([
-        [0.3f, 0.3f, 0.3f, 0, 0], [0.59f, 0.59f, 0.59f, 0, 0],
-        [0.11f, 0.11f, 0.11f, 0, 0], [0, 0, 0, 1, 0], [0, 0, 0, 0, 1]
-    ]);
-
-    private static readonly ColorMatrix _matrixGrayScaleRed = new ColorMatrix([
-        [1, 0, 0, 0, 0], [0, 0.59f, 0.59f, 0, 0], [0, 0.11f, 0.11f, 0, 0],
-        [0, 0, 0, 1, 0], [0, 0, 0, 0, 1]
-    ]);
-
-    private static readonly ColorMatrix _matrixGrayScaleGreen = new ColorMatrix([
-        [0.3f, 0, 0.3f, 0, 0], [0, 1, 0, 0, 0], [0.11f, 0, 0.11f, 0, 0],
-        [0, 0, 0, 1, 0], [0, 0, 0, 0, 1]
-    ]);
-
-    private static readonly ColorMatrix _matrixGrayScaleBlue = new ColorMatrix([
-        [0.3f, 0.3f, 0, 0, 0], [0.59f, 0.59f, 0, 0, 0], [0, 0, 1, 0, 0],
-        [0, 0, 0, 1, 0], [0, 0, 0, 0, 1]
-    ]);
-
-    private static readonly ColorMatrix _matrixLight = new ColorMatrix([
-        [1, 0, 0, 0, 0], [0, 1, 0, 0, 0], [0, 0, 1, 0, 0],
-        [0, 0, 0, 1, 0], [0.1f, 0.1f, 0.1f, 0, 1]
-    ]);
-
-    private static readonly ColorMatrix _matrixLightLight = new ColorMatrix([
-        [1, 0, 0, 0, 0], [0, 1, 0, 0, 0], [0, 0, 1, 0, 0],
-        [0, 0, 0, 1, 0], [0.2f, 0.2f, 0.2f, 0, 1]
-    ]);
-
-    private static readonly ColorMatrix _matrixDark = new ColorMatrix([
-        [1, 0, 0, 0, 0], [0, 1, 0, 0, 0], [0, 0, 1, 0, 0],
-        [0, 0, 0, 1, 0], [-0.1f, -0.1f, -0.1f, 0, 1]
-    ]);
-
-    private static readonly ColorMatrix _matrixDarkDark = new ColorMatrix([
-        [1, 0, 0, 0, 0], [0, 1, 0, 0, 0], [0, 0, 1, 0, 0],
-        [0, 0, 0, 1, 0], [-0.25f, -0.25f, -0.25f, 0, 1]
-    ]);
-    #endregion
-
     #region IRenderer
     /// <summary>
     /// Gets the standard border renderer.
@@ -936,152 +892,25 @@ public abstract class RenderBase : Component,
     {
         Debug.Assert(context != null);
 
-        // Prevent problems with multiple threads using the same palette images 
-        // by only allowing a single thread to draw the provided image at a time
-        lock (_threadLock)
+        if (context == null)
         {
-            // Validate reference parameter
-            if (context == null)
-            {
-                throw new ArgumentNullException(nameof(context));
-            }
-
-            // Use image attributes class to modify image drawing for effects
-            var attribs = new ImageAttributes();
-
-            switch (effect)
-            {
-                case PaletteImageEffect.Disabled:
-                    attribs.SetColorMatrix(CommonHelper.MatrixDisabled);
-                    break;
-                case PaletteImageEffect.GrayScale:
-                    attribs.SetColorMatrix(_matrixGrayScale, ColorMatrixFlag.SkipGrays);
-                    break;
-                case PaletteImageEffect.GrayScaleRed:
-                    attribs.SetColorMatrix(_matrixGrayScaleRed, ColorMatrixFlag.SkipGrays);
-                    break;
-                case PaletteImageEffect.GrayScaleGreen:
-                    attribs.SetColorMatrix(_matrixGrayScaleGreen, ColorMatrixFlag.SkipGrays);
-                    break;
-                case PaletteImageEffect.GrayScaleBlue:
-                    attribs.SetColorMatrix(_matrixGrayScaleBlue, ColorMatrixFlag.SkipGrays);
-                    break;
-                case PaletteImageEffect.Light:
-                    attribs.SetColorMatrix(_matrixLight);
-                    break;
-                case PaletteImageEffect.LightLight:
-                    attribs.SetColorMatrix(_matrixLightLight);
-                    break;
-                case PaletteImageEffect.Dark:
-                    attribs.SetColorMatrix(_matrixDark);
-                    break;
-                case PaletteImageEffect.DarkDark:
-                    attribs.SetColorMatrix(_matrixDarkDark);
-                    break;
-                case PaletteImageEffect.Inherit:                            // Should never happen!
-                    Debug.Assert(false);
-                    DebugTools.NotImplemented(effect.ToString());
-                    break;
-            }
-
-            // Do we need to remap a colors in the bitmap?
-            if ((remapTransparent != GlobalStaticVariables.EMPTY_COLOR) ||
-                ((remapColor != GlobalStaticVariables.EMPTY_COLOR) && (remapNew != GlobalStaticVariables.EMPTY_COLOR)))
-            {
-                var colorMaps = new List<ColorMap>();
-
-                // Create remapping for the transparent color
-                if (remapTransparent != GlobalStaticVariables.EMPTY_COLOR)
-                {
-                    var remap = new ColorMap
-                    {
-                        OldColor = remapTransparent,
-                        NewColor = Color.Transparent
-                    };
-                    colorMaps.Add(remap);
-                }
-
-                // Create remapping from source to target colors
-                if ((remapColor != GlobalStaticVariables.EMPTY_COLOR) && (remapNew != GlobalStaticVariables.EMPTY_COLOR))
-                {
-                    var remap = new ColorMap
-                    {
-                        OldColor = remapColor,
-                        NewColor = remapNew
-                    };
-                    colorMaps.Add(remap);
-                }
-
-                attribs.SetRemapTable(colorMaps.ToArray(), ColorAdjustType.Bitmap);
-            }
-
-            var translateX = 0;
-            var translateY = 0;
-            var rotation = 0f;
-
-            // Perform any transformations needed for orientation
-            switch (orientation)
-            {
-                case VisualOrientation.Bottom:
-                    // Translate to opposite side of origin, so the rotate can 
-                    // then bring it back to original position but mirror image
-                    translateX = (imageRect.X * 2) + imageRect.Width;
-                    translateY = (imageRect.Y * 2) + imageRect.Height;
-                    rotation = 180f;
-                    break;
-                case VisualOrientation.Left:
-                    // Invert the dimensions of the rectangle for drawing upwards
-                    imageRect = imageRect with { Width = imageRect.Height, Height = imageRect.Width };
-
-                    // Translate back from a quarter left turn to the original place 
-                    translateX = imageRect.X - imageRect.Y;
-                    translateY = imageRect.X + imageRect.Y + imageRect.Width;
-                    rotation = -90f;
-                    break;
-                case VisualOrientation.Right:
-                    // Invert the dimensions of the rectangle for drawing upwards
-                    imageRect = imageRect with { Width = imageRect.Height, Height = imageRect.Width };
-
-                    // Translate back from a quarter right turn to the original place 
-                    translateX = imageRect.X + imageRect.Y + imageRect.Height;
-                    translateY = -(imageRect.X - imageRect.Y);
-                    rotation = 90f;
-                    break;
-            }
-
-            // Apply the transforms if we have any to apply
-            if ((translateX != 0) || (translateY != 0))
-            {
-                context.Graphics.TranslateTransform(translateX, translateY);
-            }
-
-            if (rotation != 0f)
-            {
-                context.Graphics.RotateTransform(rotation);
-            }
-
-            try
-            {
-                // Finally, just draw the image and let the transforms do the rest
-                context.Graphics.DrawImage(image!, imageRect, 0, 0, imageRect.Width, imageRect.Height, GraphicsUnit.Pixel, attribs);
-            }
-            catch (ArgumentException)
-            {
-            }
-            finally
-            {
-                if (rotation != 0f)
-                {
-                    context.Graphics.RotateTransform(-rotation);
-                }
-
-                // Remove the applied transforms
-                if ((translateX != 0) | (translateY != 0))
-                {
-                    context.Graphics.TranslateTransform(-translateX, -translateY);
-                }
-            }
+            throw new ArgumentNullException(nameof(context));
         }
+
+        if (image == null)
+        {
+            return;
+        }
+
+        PaletteImageDrawing.Draw(
+            context.Graphics,
+            image,
+            imageRect,
+            orientation,
+            effect,
+            remapTransparent,
+            remapColor,
+            remapNew);
     }
     #endregion
 }
