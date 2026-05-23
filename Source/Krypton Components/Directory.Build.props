@@ -25,6 +25,7 @@
 	<!-- Target Framework Selection: Determines which .NET versions to build for based on configuration -->
 	<PropertyGroup>
 		<Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>
+		<ExcludeNet11 Condition="'$(ExcludeNet11)' == '' And '$(MSBuildRuntimeType)' == 'Full' And '$(VisualStudioVersion)' == '17.0'">true</ExcludeNet11>
 	</PropertyGroup>
 	<Choose>
 		<!-- Nightly, Canary, and Debug configurations build for all target frameworks -->
