@@ -26,7 +26,7 @@ internal static class QRCodeBitmapRenderer
     /// <param name="showBorder">Whether to add a quiet zone (4 modules).</param>
     /// <returns>A bitmap of the QR code.</returns>
     public static Bitmap Render(bool[,] matrix, int moduleSize, Color darkColor, Color lightColor, bool showBorder)
-        => Render(matrix, moduleSize, darkColor, lightColor, showBorder, null, 0.22f, 1);
+        => Render(matrix, moduleSize, darkColor, lightColor, showBorder, null, 0.22f, 1, default);
 
     /// <summary>
     /// Renders the QR code matrix to a bitmap, optionally drawing a centered image over the symbol.
@@ -39,7 +39,8 @@ internal static class QRCodeBitmapRenderer
         bool showBorder,
         Image? centerImage,
         float centerImageRelativeSize,
-        int centerImagePaddingModules)
+        int centerImagePaddingModules,
+        QRCodeCenterImagePalette centerImagePalette)
     {
         int border = showBorder ? moduleSize * 4 : 0;
         int size = matrix.GetLength(0);
@@ -61,7 +62,7 @@ internal static class QRCodeBitmapRenderer
                 }
             }
 
-            DrawCenterImageIfAny(g, size, moduleSize, border, border, lightColor, centerImage, centerImageRelativeSize, centerImagePaddingModules);
+            DrawCenterImageIfAny(g, size, moduleSize, border, border, lightColor, centerImage, centerImageRelativeSize, centerImagePaddingModules, centerImagePalette);
         }
 
         return bmp;
@@ -79,7 +80,8 @@ internal static class QRCodeBitmapRenderer
         Color lightColor,
         Image? centerImage,
         float relativeSize,
-        int paddingModules)
+        int paddingModules,
+        QRCodeCenterImagePalette centerImagePalette)
     {
         if (centerImage is null)
         {
@@ -138,7 +140,23 @@ internal static class QRCodeBitmapRenderer
         g.PixelOffsetMode = PixelOffsetMode.Half;
         try
         {
-            g.DrawImage(centerImage, lx, ly, w, h);
+            var destRect = new Rectangle(lx, ly, w, h);
+            if (centerImagePalette.UsePaletteColors)
+            {
+                PaletteImageDrawing.Draw(
+                    g,
+                    centerImage,
+                    destRect,
+                    VisualOrientation.Top,
+                    centerImagePalette.Effect,
+                    centerImagePalette.TransparentColor,
+                    centerImagePalette.ColorMap,
+                    centerImagePalette.ColorTo);
+            }
+            else
+            {
+                g.DrawImage(centerImage, destRect);
+            }
         }
         finally
         {

@@ -87,6 +87,7 @@ public class KryptonWebView2 : WebView2Base
 
     #region Events
 
+#pragma warning disable CS0067 // Events are never raised; declared to hide base events from the designer
     /// <summary>
     /// Occurs when the value of the BackColor property changes.
     /// </summary>
@@ -114,6 +115,7 @@ public class KryptonWebView2 : WebView2Base
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     public new event EventHandler? ForeColorChanged;
+#pragma warning restore CS0067
 
     #endregion
 
@@ -376,19 +378,14 @@ public class KryptonWebView2 : WebView2Base
     }
 
     /// <summary>
-    /// Gets or sets the font of the text displayed by the control.
+    /// Gets the font of the text displayed by the control.
     /// </summary>
     [Browsable(false)]
     [Bindable(false)]
-    [AmbientValue(null)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [AllowNull]
-    public override Font Font
-    {
-        get => base.Font;
-        set => base.Font = value;
-    }
+    public new Font Font => base.Font;
 
     /// <summary>
     /// Gets or sets the foreground color for the control.
@@ -438,7 +435,7 @@ public class KryptonWebView2 : WebView2Base
     [Bindable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public override Image? BackgroundImage
+    public new Image? BackgroundImage
     {
         get => base.BackgroundImage;
         set => base.BackgroundImage = value;
@@ -451,7 +448,7 @@ public class KryptonWebView2 : WebView2Base
     [Bindable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public override ImageLayout BackgroundImageLayout
+    public new ImageLayout BackgroundImageLayout
     {
         get => base.BackgroundImageLayout;
         set => base.BackgroundImageLayout = value;
