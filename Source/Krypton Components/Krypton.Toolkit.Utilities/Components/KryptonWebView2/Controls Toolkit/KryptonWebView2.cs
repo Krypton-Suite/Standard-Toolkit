@@ -384,7 +384,7 @@ public class KryptonWebView2 : WebView2Base
     [EditorBrowsable(EditorBrowsableState.Never)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [AllowNull]
-    public override Font Font
+    public new Font Font
     {
         get => base.Font;
         set => base.Font = value;
@@ -438,7 +438,7 @@ public class KryptonWebView2 : WebView2Base
     [Bindable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public override Image? BackgroundImage
+    public new Image? BackgroundImage
     {
         get => base.BackgroundImage;
         set => base.BackgroundImage = value;
@@ -451,7 +451,7 @@ public class KryptonWebView2 : WebView2Base
     [Bindable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public override ImageLayout BackgroundImageLayout
+    public new ImageLayout BackgroundImageLayout
     {
         get => base.BackgroundImageLayout;
         set => base.BackgroundImageLayout = value;
