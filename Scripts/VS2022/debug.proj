@@ -10,20 +10,20 @@
 		<ItemGroup>
 			<Projects Include="..\..\Source\Krypton Components\Krypton.*\*.csproj" />
 		</ItemGroup>
-		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all;ExcludeNet11=true" Targets="Clean" />
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all;ExcludeVs2022UnsupportedTargetFrameworks=true" Targets="Clean" />
 	</Target>
 
 	<Target Name="Restore">
 		<ItemGroup>
 			<Projects Include="..\..\Source\Krypton Components\Krypton.*\*.csproj" />
 		</ItemGroup>
-		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all;ExcludeNet11=true" Targets="Restore" />
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all;ExcludeVs2022UnsupportedTargetFrameworks=true" Targets="Restore" />
 	</Target>
 
 	<Target Name="Build" DependsOnTargets="Restore">
 		<ItemGroup>
 			<Projects Include="..\..\Source\Krypton Components\Krypton.*\*.csproj" />
 		</ItemGroup>
-		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all;ExcludeNet11=true" />
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all;ExcludeVs2022UnsupportedTargetFrameworks=true" />
 	</Target>
 </Project>
