@@ -44,7 +44,8 @@ goto build2019
 @echo
 set targets=Build
 if not "%~1" == "" set targets=%~1
-"%msbuildpath%\msbuild.exe" /t:%targets% build.proj /fl /flp:logfile=../Logs/solution-build-log.log /bl:solution-build-log.binlog /clp:Summary;ShowTimestamp /v:quiet
+REM /m: multi-processor MSBuild (all logical CPUs).
+"%msbuildpath%\msbuild.exe" /m /t:%targets% build.proj /fl /flp:logfile=../Logs/solution-build-log.log /bl:solution-build-log.binlog /clp:Summary;ShowTimestamp /v:quiet
 
 :vs2022build
 if exist "%ProgramFiles%\Microsoft Visual Studio\2022\Preview\MSBuild\Current\Bin" goto vs17prev
@@ -80,7 +81,8 @@ goto build2022
 :build2022
 set targets=Build
 if not "%~1" == "" set targets=%~1
-"%msbuildpath%\msbuild.exe" /t:%targets% build.proj /fl /flp:logfile=build.log
+REM /m: multi-processor MSBuild (all logical CPUs).
+"%msbuildpath%\msbuild.exe" /m /t:%targets% build.proj /fl /flp:logfile=build.log
 
 echo Do you now want to create NuGet packages? (y/n)
 set INPUT=
