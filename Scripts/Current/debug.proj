@@ -1,6 +1,6 @@
 <Project>
 	<Import Project="..\..\Directory.Build.props" />
-	
+
 	<PropertyGroup>
 		<RootFolder>$(MSBuildProjectDirectory)</RootFolder>
 		<Configuration>Debug</Configuration>
@@ -10,20 +10,21 @@
 		<ItemGroup>
 			<Projects Include="..\..\Source\Krypton Components\Krypton.*\*.csproj" />
 		</ItemGroup>
-		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" Targets="Clean" />
-	</Target>	
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all;ExcludeNet11=true" Targets="Restore" />
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all;ExcludeNet11=true" Targets="Clean" />
+	</Target>
 
 	<Target Name="Restore">
 		<ItemGroup>
 			<Projects Include="..\..\Source\Krypton Components\Krypton.*\*.csproj" />
 		</ItemGroup>
-		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" Targets="Restore" />
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all;ExcludeNet11=true" Targets="Restore" />
 	</Target>
-	
+
 	<Target Name="Build" DependsOnTargets="Restore">
 		<ItemGroup>
 			<Projects Include="..\..\Source\Krypton Components\Krypton.*\*.csproj" />
 		</ItemGroup>
-		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" />
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all;ExcludeNet11=true" />
 	</Target>
 </Project>
