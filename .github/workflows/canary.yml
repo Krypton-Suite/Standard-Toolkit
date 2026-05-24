@@ -1,4 +1,4 @@
-# New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+﻿# New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
 # Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, tobitege et al. 2026 - 2026. All rights reserved.
 #
 # KILL-SWITCH: To disable this workflow, set repository variable CANARY_DISABLED=true
@@ -76,8 +76,8 @@ jobs:
           ref: Canary
           fetch-depth: 0
 
-      # .NET 9 and 10
-      - name: Setup .NET
+      # .NET 9 and 10; .NET 11 for net11.0-windows (DOTNET_PREVIEW_SETUP_VERSION when set, else 11.0.x).
+      - name: Setup .NET (9 and 10)
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         uses: actions/setup-dotnet@v5
         with:
@@ -85,24 +85,69 @@ jobs:
             9.0.x
             10.0.x
 
-      # .NET 11 (Preview)
-      - name: Setup .NET 11 (Preview)
+      - name: Setup .NET 11 (stable)
+        id: setup_dotnet11_stable_canary_yml
+        continue-on-error: true
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: 11.0.x
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
+
+      - name: Setup .NET 11 (preview fallback)
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true' && steps.setup_dotnet11_stable_canary_yml.outcome == 'failure'
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
           dotnet-quality: preview
 
-      # global.json dynamically generate (use latest SDK available)
-      - name: Force .NET 11 SDK via global.json
+      # Preview .NET SDK. DOTNET_PREVIEW_* : repo Variables (same as build.yml / build-testform.yml).
+      # USE_DOTNET_PREVIEW=false skips preview SDK install; global.json uses stable SDK below.
+      - name: Setup .NET Preview
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true' && vars.USE_DOTNET_PREVIEW != 'false'
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION }}
+          dotnet-quality: preview
+
+      # Pin sdk.version for CI; preview band follows USE_DOTNET_PREVIEW; stable path prefers .NET 11 for net11.0-windows TFMs.
+      - name: Pin SDK via global.json
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
+        env:
+          DOTNET_PREVIEW_SDK_BAND: ${{ vars.DOTNET_PREVIEW_SDK_BAND }}
+          USE_DOTNET_PREVIEW: ${{ vars.USE_DOTNET_PREVIEW }}
         run: |
-          $sdkVersion = (dotnet --list-sdks | Select-String "11.0").ToString().Split(" ")[0]
-          if (-not $sdkVersion) {
-            # Fallback to .NET 10 if .NET 11 is not available
-            $sdkVersion = (dotnet --list-sdks | Select-String "10.0").ToString().Split(" ")[0]
+          $ErrorActionPreference = 'Stop'
+          # Latest patch line matching $Pattern (same idea as other global.json pins in this repo).
+          function Get-ListedSdkVersion([string]$Pattern) {
+            $hit = dotnet --list-sdks | Select-String $Pattern | Select-Object -Last 1
+            if (-not $hit) { return $null }
+            $line = $hit.Line.TrimEnd()
+            if ($line -match '^(\d+\.\d+\.\d+)\s') { return $Matches[1] }
+            return (($line -split '\s+', 2)[0])
           }
-          Write-Output "Using SDK $sdkVersion"
+
+          $usePreview = $env:USE_DOTNET_PREVIEW -ne 'false'
+          $sdkVersion = $null
+          if (-not $usePreview) {
+            $sdkVersion = Get-ListedSdkVersion '11.0'
+            if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '10.0' }
+            if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '9.0' }
+          } else {
+            if (-not $env:DOTNET_PREVIEW_SDK_BAND) {
+              Write-Error 'DOTNET_PREVIEW_SDK_BAND is not set (repository variable).'
+            }
+            $sdkVersion = Get-ListedSdkVersion $env:DOTNET_PREVIEW_SDK_BAND
+            if (-not $sdkVersion) {
+              $sdkVersion = Get-ListedSdkVersion '11.0'
+            }
+            if (-not $sdkVersion) {
+              $sdkVersion = Get-ListedSdkVersion '10.0'
+            }
+          }
+          if (-not $sdkVersion) {
+            Write-Error 'Could not resolve an SDK version for global.json.'
+          }
+          Write-Host "Using SDK $sdkVersion"
           @"
           {
             "sdk": {
@@ -140,7 +185,7 @@ jobs:
           $root = $env:GITHUB_WORKSPACE
           if (-not $root) { $root = (Get-Location).Path }
 
-          $libDir = Join-Path $root "Source\Krypton Components\Krypton.Utilities\Lib\WebView2"
+          $libDir = Join-Path $root "Source\Krypton Components\Krypton.Toolkit.Utilities\Lib\WebView2"
           $tempDir = Join-Path $env:RUNNER_TEMP "webview2"
                 try {
                     $search = Invoke-RestMethod `
@@ -219,9 +264,16 @@ jobs:
           )
           $packages = @(Get-ChildItem -Path $packageCandidates -ErrorAction SilentlyContinue | Sort-Object FullName -Unique)
           $publishedAny = $false
+          $repoRoot = if ($null -ne $env:GITHUB_WORKSPACE -and $env:GITHUB_WORKSPACE -ne '') { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
+          . (Join-Path $repoRoot 'Scripts/CI/StandardToolkitNupkgGuard.ps1')
+          $standardToolkitNupkgSizeGateFailed = $false
 
           if ($packages) {
             foreach ($package in $packages) {
+              if (-not (Test-StandardToolkitNupkgPushAllowed -Package $package)) {
+                $standardToolkitNupkgSizeGateFailed = $true
+                continue
+              }
               Write-Output "Pushing package: $($package.Name)"
               try {
                 $output = dotnet nuget push "$($package.FullName)" --api-key $env:NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate 2>&1 | Out-String
@@ -240,9 +292,14 @@ jobs:
             Write-Output "No NuGet packages found to push"
           }
 
+          if ($standardToolkitNupkgSizeGateFailed) {
+            exit 1
+          }
+
           echo "packages_published=$publishedAny" >> $env:GITHUB_OUTPUT
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+          STANDARD_TOOLKIT_MIN_NUPKG_MB: ${{ vars.STANDARD_TOOLKIT_MIN_NUPKG_MB }}
 
       - name: Get Version
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
