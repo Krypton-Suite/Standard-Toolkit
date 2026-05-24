@@ -45,7 +45,8 @@ for /f "tokens=* usebackq" %%A in (`tzutil /g`) do (
 @echo:
 set "targets=Build"
 if not "%~1" == "" set "targets=%~1"
-"%msbuildpath%\msbuild.exe" /t:%targets% "%SCRIPT_DIR%build.proj" /fl /flp:logfile="%SCRIPT_DIR%..\..\Logs\stable-build-log.log" /bl:"%SCRIPT_DIR%..\..\Logs\stable-build-log.binlog" /clp:Summary;ShowTimestamp /v:quiet
+REM /m: multi-processor MSBuild (all logical CPUs); build.proj orchestrates Krypton.* in parallel where references allow.
+"%msbuildpath%\msbuild.exe" /m /t:%targets% "%SCRIPT_DIR%build.proj" /fl /flp:logfile="%SCRIPT_DIR%..\..\Logs\stable-build-log.log" /bl:"%SCRIPT_DIR%..\..\Logs\stable-build-log.binlog" /clp:Summary;ShowTimestamp /v:quiet
 @echo:
 @echo Stable release build completed: %date% %time% %zone%
 @echo:

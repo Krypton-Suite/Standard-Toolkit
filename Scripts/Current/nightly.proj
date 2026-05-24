@@ -26,7 +26,7 @@
 		<ItemGroup>
 			<Projects Include="..\..\Source\Krypton Components\Krypton.*\*.csproj" />
 		</ItemGroup>
-		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" />
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" BuildInParallel="true" />
 	</Target>
 
 	<Target Name="Rebuild" DependsOnTargets="Clean;Build" />

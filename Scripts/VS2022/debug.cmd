@@ -36,7 +36,8 @@ goto build
 @echo
 set targets=Build
 if not "%~1" == "" set targets=%~1
-"%msbuildpath%\msbuild.exe" /t:%targets% build.proj /fl /flp:logfile=../Logs/debug-build-log.log /bl:../Logs/debug-build-log.binlog /clp:Summary;ShowTimestamp /v:quiet
+REM /m: multi-processor MSBuild (all logical CPUs).
+"%msbuildpath%\msbuild.exe" /m /t:%targets% build.proj /fl /flp:logfile=../Logs/debug-build-log.log /bl:../Logs/debug-build-log.binlog /clp:Summary;ShowTimestamp /v:quiet
 
 @echo Build Completed: %date% %time%
 @echo
