@@ -14,21 +14,22 @@
 		<ItemGroup>
 			<Projects Include="..\..\Source\Krypton Components\Krypton.*\*.csproj" />
 		</ItemGroup>
-		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" Targets="Clean" BuildInParallel="false" />
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all;ExcludeNet11=true" Targets="Restore" BuildInParallel="false" />
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all;ExcludeNet11=true" Targets="Clean" BuildInParallel="false" />
 	</Target>
 
 	<Target Name="Restore">
 		<ItemGroup>
 			<Projects Include="..\..\Source\Krypton Components\Krypton.*\*.csproj" />
 		</ItemGroup>
-		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" Targets="Restore" BuildInParallel="false" />
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all;ExcludeNet11=true" Targets="Restore" BuildInParallel="false" />
 	</Target>
 
 	<Target Name="Build" DependsOnTargets="Restore">
 		<ItemGroup>
 			<Projects Include="..\..\Source\Krypton Components\Krypton.*\*.csproj" />
 		</ItemGroup>
-		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" BuildInParallel="false" />
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all;ExcludeNet11=true" BuildInParallel="false" />
 	</Target>
 
 	<Target Name="Rebuild" DependsOnTargets="Clean;Build" />
@@ -50,10 +51,11 @@
 			<NugetAssets Include="..\..\Source\Krypton Components\Krypton.*\obj\*.g.targets" />
 			<NugetAssets Include="..\..\Source\Krypton Components\Krypton.*\obj\*.g.props" />
 		</ItemGroup>
-		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" Targets="Clean" BuildInParallel="false" />
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all;ExcludeNet11=true" Targets="Restore" BuildInParallel="false" />
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all;ExcludeNet11=true" Targets="Clean" BuildInParallel="false" />
 		<Delete Files="@(NugetAssets)" />
-		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" Targets="Restore" BuildInParallel="false" />
-		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" Targets="Pack" BuildInParallel="false" />
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all;ExcludeNet11=true" Targets="Restore" BuildInParallel="false" />
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all;ExcludeNet11=true" Targets="Pack" BuildInParallel="false" />
 	</Target>
 
 	<Target Name="Pack" DependsOnTargets="CleanPackages;PackAll" />

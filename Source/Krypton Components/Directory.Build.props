@@ -25,31 +25,35 @@
 	<!-- Target Framework Selection: Determines which .NET versions to build for based on configuration -->
 	<PropertyGroup>
 		<Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>
-		<ExcludeNet11 Condition="'$(ExcludeNet11)' == '' And '$(MSBuildRuntimeType)' == 'Full' And '$(VisualStudioVersion)' == '17.0'">true</ExcludeNet11>
+		<ExcludeVs2022UnsupportedTargetFrameworks Condition="'$(ExcludeVs2022UnsupportedTargetFrameworks)' == '' And '$(MSBuildRuntimeType)' == 'Full' And '$(VisualStudioVersion)' == '17.0'">true</ExcludeVs2022UnsupportedTargetFrameworks>
 	</PropertyGroup>
 	<Choose>
 		<!-- Nightly, Canary, and Debug configurations build for all target frameworks -->
 		<When Condition="'$(Configuration)' == 'Nightly' Or '$(Configuration)' == 'Canary' Or '$(Configuration)' == 'Debug'">
 			<PropertyGroup>
-				<TargetFrameworks Condition="'$(ExcludeNet11)' == 'true'">net472;net48;net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
-				<TargetFrameworks Condition="'$(ExcludeNet11)' != 'true'">net472;net48;net481;net8.0-windows;net9.0-windows;net10.0-windows;net11.0-windows</TargetFrameworks>
+				<TargetFrameworks Condition="'$(ExcludeVs2022UnsupportedTargetFrameworks)' == 'true'">net472;net48;net481;net8.0-windows;net9.0-windows</TargetFrameworks>
+				<TargetFrameworks Condition="'$(ExcludeVs2022UnsupportedTargetFrameworks)' != 'true' And '$(ExcludeNet11)' == 'true'">net472;net48;net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
+				<TargetFrameworks Condition="'$(ExcludeVs2022UnsupportedTargetFrameworks)' != 'true' And '$(ExcludeNet11)' != 'true'">net472;net48;net481;net8.0-windows;net9.0-windows;net10.0-windows;net11.0-windows</TargetFrameworks>
 			</PropertyGroup>
 		</When>
 		<!-- When SkipNetFramework is true, only build for .NET 8+ (used for testing/CI scenarios) -->
 		<When Condition="'$(SkipNetFramework)' == 'true'">
 			<PropertyGroup>
-				<TargetFrameworks Condition="'$(ExcludeNet11)' == 'true'">net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
-				<TargetFrameworks Condition="'$(ExcludeNet11)' != 'true'">net8.0-windows;net9.0-windows;net10.0-windows;net11.0-windows</TargetFrameworks>
+				<TargetFrameworks Condition="'$(ExcludeVs2022UnsupportedTargetFrameworks)' == 'true'">net8.0-windows;net9.0-windows</TargetFrameworks>
+				<TargetFrameworks Condition="'$(ExcludeVs2022UnsupportedTargetFrameworks)' != 'true' And '$(ExcludeNet11)' == 'true'">net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
+				<TargetFrameworks Condition="'$(ExcludeVs2022UnsupportedTargetFrameworks)' != 'true' And '$(ExcludeNet11)' != 'true'">net8.0-windows;net9.0-windows;net10.0-windows;net11.0-windows</TargetFrameworks>
 			</PropertyGroup>
 		</When>
 		<!-- Otherwise, build for .NET Framework 4.8+ and .NET 8+ (default) -->
 		<Otherwise>
 			<PropertyGroup>
-				<TargetFrameworks Condition="'$(ExcludeNet11)' == 'true'">net48;net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
-				<TargetFrameworks Condition="'$(ExcludeNet11)' != 'true'">net48;net481;net8.0-windows;net9.0-windows;net10.0-windows;net11.0-windows</TargetFrameworks>
+				<TargetFrameworks Condition="'$(ExcludeVs2022UnsupportedTargetFrameworks)' == 'true'">net48;net481;net8.0-windows;net9.0-windows</TargetFrameworks>
+				<TargetFrameworks Condition="'$(ExcludeVs2022UnsupportedTargetFrameworks)' != 'true' And '$(ExcludeNet11)' == 'true'">net48;net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
+				<TargetFrameworks Condition="'$(ExcludeVs2022UnsupportedTargetFrameworks)' != 'true' And '$(ExcludeNet11)' != 'true'">net48;net481;net8.0-windows;net9.0-windows;net10.0-windows;net11.0-windows</TargetFrameworks>
 				<!-- When TFMs=all, include .NET Framework 4.7.2 as well -->
-				<TargetFrameworks Condition="'$(TFMs)' == 'all' And '$(ExcludeNet11)' == 'true'">net472;net48;net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
-				<TargetFrameworks Condition="'$(TFMs)' == 'all' And '$(ExcludeNet11)' != 'true'">net472;net48;net481;net8.0-windows;net9.0-windows;net10.0-windows;net11.0-windows</TargetFrameworks>
+				<TargetFrameworks Condition="'$(TFMs)' == 'all' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' == 'true'">net472;net48;net481;net8.0-windows;net9.0-windows</TargetFrameworks>
+				<TargetFrameworks Condition="'$(TFMs)' == 'all' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' != 'true' And '$(ExcludeNet11)' == 'true'">net472;net48;net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
+				<TargetFrameworks Condition="'$(TFMs)' == 'all' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' != 'true' And '$(ExcludeNet11)' != 'true'">net472;net48;net481;net8.0-windows;net9.0-windows;net10.0-windows;net11.0-windows</TargetFrameworks>
 			</PropertyGroup>
 		</Otherwise>
 	</Choose>
