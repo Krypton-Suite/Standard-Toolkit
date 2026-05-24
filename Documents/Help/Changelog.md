@@ -4,6 +4,7 @@
 
 # 2026-06-22 - Build 2606 (Patch 11) - June 2026
 
+* Resolved [#3282](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3282), `KryptonTreeView` items flicker when selected/clicked (`DrawDefault = false` for `OwnerDrawAll`; composite `WM_PAINT` off-screen buffer with `TVS_EX_DOUBLEBUFFER`; batch selection updates; no per-node background repaint)
 * Resolved [#3383](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3383), White inner border artifacts appear on `KryptonButton` when hovering (`StateTracking` rounding issue)
 * Resolved [#3385](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3385), Memory Retention in Krypton Controls via SystemEvents
 * Resolved [#3382](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3382), Lines when using `CueHint` for `KryptonTextBox`
