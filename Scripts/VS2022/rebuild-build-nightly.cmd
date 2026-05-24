@@ -1,4 +1,7 @@
 @echo off
+setlocal EnableExtensions
+set "SCRIPT_DIR=%~dp0"
+pushd "%SCRIPT_DIR%"
 
 if exist "%ProgramFiles%\Microsoft Visual Studio\2022\Preview\MSBuild\Current\Bin" goto vs17prev
 if exist "%ProgramFiles%\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin" goto vs17ent
@@ -37,10 +40,10 @@ for /f "tokens=* usebackq" %%A in (`tzutil /g`) do (
 )
 
 @echo Rebuild Started: %date% %time% %zone%
-@echo
+@echo:
 set targets=Rebuild
 if not "%~1" == "" set targets=%~1
-"%msbuildpath%\msbuild.exe" -t:%targets% nightly.proj /fl /flp:logfile=../Logs/nightly-build-log.log /bl:../Logs/nightly-build-log.binlog  /clp:Summary;ShowTimestamp /v:quiet
+"%msbuildpath%\msbuild.exe" -t:%targets% "%SCRIPT_DIR%nightly.proj" /fl /flp:logfile="%SCRIPT_DIR%..\..\Logs\nightly-build-log.log" /bl:"%SCRIPT_DIR%..\..\Logs\nightly-build-log.binlog"  /clp:Summary;ShowTimestamp /v:quiet
 
 :: -t:rebuild
 
@@ -48,18 +51,21 @@ if not "%~1" == "" set targets=%~1
 
 pause
 
+:prompt
 @echo Do you want to return to complete another task? (Y/N)
 set /p answer="Enter input: "
-if %answer%==Y (goto run)
-if %answer%==y (goto run)
-if %answer%==N exit
-if %answer%==n exit
+if /i "%answer%"=="Y" goto run
+if /i "%answer%"=="N" goto exitbatch
 
 @echo Invalid input, please try again.
+goto prompt
 
 :run
-cd ../..
+popd
 
-run.cmd
+"%SCRIPT_DIR%..\..\run.cmd"
+exit /b
 
 :exitbatch
+popd
+exit /b
