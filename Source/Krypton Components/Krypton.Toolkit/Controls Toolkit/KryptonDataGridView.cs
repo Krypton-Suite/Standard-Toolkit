@@ -1709,7 +1709,7 @@ public class KryptonDataGridView : DataGridView
                                 if (!string.IsNullOrEmpty(text))
                                 {
                                     Rectangle constrainedContentBounds = headerContentBounds;
-                                    Rectangle colDisplayRect = GetColumnDisplayRectangle(e.ColumnIndex, false);
+                                    Rectangle colDisplayRect = GetColumnDisplayRectangle(e.ColumnIndex, true);
                                     if (colDisplayRect.Width > 0)
                                     {
                                         // Translate display rect into cell-local coords
