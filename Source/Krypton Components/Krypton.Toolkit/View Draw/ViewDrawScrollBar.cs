@@ -212,15 +212,18 @@ public class ViewDrawScrollBar : ViewLeaf
                 // Should the scrollbar is shorter than then the entire client area?
                 if (ShortSize)
                 {
+                    float dpiScale = GetParentDpiScale(context.Control);
                     if (Vertical)
                     {
+                        int hScrollHeight = ScaleScrollBarBreadth(SystemInformation.HorizontalScrollBarHeight, dpiScale);
                         _scrollBar?.SetBounds(ClientLocation.X, ClientLocation.Y,
-                            ClientWidth, ClientHeight - SystemInformation.HorizontalScrollBarHeight);
+                            ClientWidth, Math.Max(0, ClientHeight - hScrollHeight));
                     }
                     else
                     {
+                        int vScrollWidth = ScaleScrollBarBreadth(SystemInformation.VerticalScrollBarWidth, dpiScale);
                         _scrollBar?.SetBounds(ClientLocation.X, ClientLocation.Y,
-                            ClientWidth - SystemInformation.VerticalScrollBarWidth, ClientHeight);
+                            Math.Max(0, ClientWidth - vScrollWidth), ClientHeight);
                     }
                 }
                 else
@@ -313,5 +316,18 @@ public class ViewDrawScrollBar : ViewLeaf
 
         ScrollChanged?.Invoke(this, EventArgs.Empty);
     }
+
+    private static float GetParentDpiScale(Control? parent)
+    {
+        if (parent is { IsHandleCreated: true, DeviceDpi: > 0 })
+        {
+            return parent.DeviceDpi / 96f;
+        }
+
+        return 1f;
+    }
+
+    private static int ScaleScrollBarBreadth(int breadthAt96Dpi, float dpiScale) =>
+        Math.Max(1, (int)Math.Round(breadthAt96Dpi * dpiScale));
     #endregion
 }

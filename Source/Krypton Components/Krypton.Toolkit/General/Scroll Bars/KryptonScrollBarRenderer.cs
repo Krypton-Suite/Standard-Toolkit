@@ -323,7 +323,7 @@ internal static class KryptonScrollBarRenderer
         // get grip image
         using Image gripImage = GetGripNormalBitmap();
         // adjust rectangle and rotate grip image if necessary
-        Rectangle r = AdjustThumbGrip(rect, orientation, gripImage);
+        Rectangle r = AdjustThumbGrip(rect, orientation, gripImage, GetDpiScale(g));
 
         // adjust alpha channel of grip image
         using var attr = new ImageAttributes();
@@ -432,22 +432,34 @@ internal static class KryptonScrollBarRenderer
     /// </summary>
     /// <param name="g">The <see cref="Graphics"/> used to paint.</param>
     /// <param name="rect">The rectangle in which to paint.</param>
+    private static float GetDpiScale(Graphics g) => g.DpiX / 96f;
+
+    private static int ScaleScrollMetric(int valueAt96Dpi, float scale) =>
+        Math.Max(1, (int)Math.Round(valueAt96Dpi * scale));
+
     private static void DrawBackgroundVertical(Graphics g, Rectangle rect)
     {
+        float scale = GetDpiScale(g);
+        int edge1 = ScaleScrollMetric(1, scale);
+        int edge2 = ScaleScrollMetric(2, scale);
+        int edge3 = ScaleScrollMetric(3, scale);
+        int band1 = ScaleScrollMetric(8, scale);
+        int band2 = Math.Max(1, rect.Width - edge3 - band1);
+
         using (var p = new Pen(_backgroundColors[0]))
         {
-            g.DrawLine(p, rect.Left + 1, rect.Top + 1, rect.Left + 1, rect.Bottom - 1);
-            g.DrawLine(p, rect.Right - 2, rect.Top + 1, rect.Right - 2, rect.Bottom - 1);
+            g.DrawLine(p, rect.Left + edge1, rect.Top + edge1, rect.Left + edge1, rect.Bottom - edge1);
+            g.DrawLine(p, rect.Right - edge2, rect.Top + edge1, rect.Right - edge2, rect.Bottom - edge1);
         }
 
         using (var p = new Pen(_backgroundColors[1]))
         {
-            g.DrawLine(p, rect.Left + 2, rect.Top + 1, rect.Left + 2, rect.Bottom - 1);
+            g.DrawLine(p, rect.Left + edge2, rect.Top + edge1, rect.Left + edge2, rect.Bottom - edge1);
         }
 
-        var firstRect = new Rectangle(rect.Left + 3, rect.Top, 8, rect.Height);
+        var firstRect = new Rectangle(rect.Left + edge3, rect.Top, band1, rect.Height);
 
-        var secondRect = new Rectangle(firstRect.Right - 1, firstRect.Top, 7, firstRect.Height);
+        var secondRect = new Rectangle(firstRect.Right - 1, firstRect.Top, band2, firstRect.Height);
 
         using (var brush = new LinearGradientBrush(firstRect, _backgroundColors[2],
                    _backgroundColors[3], LinearGradientMode.Horizontal))
@@ -469,20 +481,27 @@ internal static class KryptonScrollBarRenderer
     /// <param name="rect">The rectangle in which to paint.</param>
     private static void DrawBackgroundHorizontal(Graphics g, Rectangle rect)
     {
+        float scale = GetDpiScale(g);
+        int edge1 = ScaleScrollMetric(1, scale);
+        int edge2 = ScaleScrollMetric(2, scale);
+        int edge3 = ScaleScrollMetric(3, scale);
+        int band1 = ScaleScrollMetric(8, scale);
+        int band2 = Math.Max(1, rect.Height - edge3 - band1);
+
         using (var p = new Pen(_backgroundColors[0]))
         {
-            g.DrawLine(p, rect.Left + 1, rect.Top + 1, rect.Right - 1, rect.Top + 1);
-            g.DrawLine(p, rect.Left + 1, rect.Bottom - 2, rect.Right - 1, rect.Bottom - 2);
+            g.DrawLine(p, rect.Left + edge1, rect.Top + edge1, rect.Right - edge1, rect.Top + edge1);
+            g.DrawLine(p, rect.Left + edge1, rect.Bottom - edge2, rect.Right - edge1, rect.Bottom - edge2);
         }
 
         using (var p = new Pen(_backgroundColors[1]))
         {
-            g.DrawLine(p, rect.Left + 1, rect.Top + 2, rect.Right - 1, rect.Top + 2);
+            g.DrawLine(p, rect.Left + edge1, rect.Top + edge2, rect.Right - edge1, rect.Top + edge2);
         }
 
-        var firstRect = new Rectangle(rect.Left, rect.Top + 3, rect.Width, 8);
+        var firstRect = new Rectangle(rect.Left, rect.Top + edge3, rect.Width, band1);
 
-        var secondRect = new Rectangle(firstRect.Left, firstRect.Bottom - 1, firstRect.Width, 7);
+        var secondRect = new Rectangle(firstRect.Left, firstRect.Bottom - 1, firstRect.Width, band2);
 
         using (var brush = new LinearGradientBrush(firstRect, _backgroundColors[2],
                    _backgroundColors[3], LinearGradientMode.Vertical))
@@ -504,7 +523,8 @@ internal static class KryptonScrollBarRenderer
     /// <param name="rect">The rectangle in which to paint.</param>
     private static void DrawTrackVertical(Graphics g, Rectangle rect)
     {
-        var innerRect = new Rectangle(rect.Left + 1, rect.Top, 15, rect.Height);
+        int inset = ScaleScrollMetric(1, GetDpiScale(g));
+        var innerRect = new Rectangle(rect.Left + inset, rect.Top, Math.Max(1, rect.Width - inset), rect.Height);
 
         using var brush = new LinearGradientBrush(innerRect, _trackColors[0], _trackColors[1],
             LinearGradientMode.Horizontal);
@@ -518,7 +538,8 @@ internal static class KryptonScrollBarRenderer
     /// <param name="rect">The rectangle in which to paint.</param>
     private static void DrawTrackHorizontal(Graphics g, Rectangle rect)
     {
-        var innerRect = new Rectangle(rect.Left, rect.Top + 1, rect.Width, 15);
+        int inset = ScaleScrollMetric(1, GetDpiScale(g));
+        var innerRect = new Rectangle(rect.Left, rect.Top + inset, rect.Width, Math.Max(1, rect.Height - inset));
 
         using var brush = new LinearGradientBrush(innerRect, _trackColors[0], _trackColors[1],
             LinearGradientMode.Vertical);
@@ -536,15 +557,18 @@ internal static class KryptonScrollBarRenderer
     private static Rectangle AdjustThumbGrip(
         Rectangle rect,
         ScrollBarOrientation orientation,
-        Image gripImage)
+        Image gripImage,
+        float dpiScale)
     {
         Rectangle r = rect;
 
         r.Inflate(-1, -1);
 
+        int gripInset = ScaleScrollMetric(3, dpiScale);
+
         if (orientation == ScrollBarOrientation.Vertical)
         {
-            r.X += 3;
+            r.X += gripInset;
             r.Y += (r.Height / 2) - (gripImage.Height / 2);
         }
         else
@@ -552,7 +576,7 @@ internal static class KryptonScrollBarRenderer
             gripImage.RotateFlip(RotateFlipType.Rotate90FlipNone);
 
             r.X += (r.Width / 2) - (gripImage.Width / 2);
-            r.Y += 3;
+            r.Y += gripInset;
         }
 
         r.Width = gripImage.Width;
@@ -583,7 +607,7 @@ internal static class KryptonScrollBarRenderer
         innerRect.Inflate(-1, -1);
 
         Rectangle r = innerRect;
-        r.Width = 6;
+        r.Width = Math.Max(1, innerRect.Width / 2);
         r.Height++;
 
         // draw left gradient
@@ -594,6 +618,7 @@ internal static class KryptonScrollBarRenderer
         }
 
         r.X = r.Right;
+        r.Width = Math.Max(1, innerRect.Right - r.X);
 
         // draw right gradient
         if (index == 0)
@@ -634,11 +659,12 @@ internal static class KryptonScrollBarRenderer
             g.DrawLine(p, innerRect.Right, innerRect.Y, innerRect.Right, innerRect.Bottom);
         }
 
+        float corner = 2f * GetDpiScale(g);
         using var gh = new GraphicsHint(g, PaletteGraphicsHint.AntiAlias);
         // draw border
         using (var p = new Pen(_thumbColors[index, 0]))
         {
-            using (GraphicsPath path = CreateRoundPath(rect, 2f, 2f))
+            using (GraphicsPath path = CreateRoundPath(rect, corner, corner))
             {
                 g.DrawPath(p, path);
             }
@@ -667,7 +693,7 @@ internal static class KryptonScrollBarRenderer
         innerRect.Inflate(-1, -1);
 
         Rectangle r = innerRect;
-        r.Height = 6;
+        r.Height = Math.Max(1, innerRect.Height / 2);
         r.Width++;
 
         // draw left gradient
@@ -678,6 +704,7 @@ internal static class KryptonScrollBarRenderer
         }
 
         r.Y = r.Bottom;
+        r.Height = Math.Max(1, innerRect.Bottom - r.Y);
 
         // draw right gradient
         if (index == 0)
@@ -718,11 +745,12 @@ internal static class KryptonScrollBarRenderer
             g.DrawLine(p, innerRect.X, innerRect.Bottom, innerRect.Right, innerRect.Bottom);
         }
 
+        float corner = 2f * GetDpiScale(g);
         using var gh = new GraphicsHint(g, PaletteGraphicsHint.AntiAlias);
         // draw border
         using (var p = new Pen(_thumbColors[index, 0]))
         {
-            using (GraphicsPath path = CreateRoundPath(rect, 2f, 2f))
+            using (GraphicsPath path = CreateRoundPath(rect, corner, corner))
             {
                 g.DrawPath(p, path);
             }

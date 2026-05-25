@@ -26,6 +26,8 @@ public class ButtonSpecHighDpiDemo : KryptonForm
     private readonly KryptonLabel _lblInfo;
     private readonly KryptonLabel _lblEarlyScale;
     private readonly KryptonLabel _lblCommandPath;
+    private readonly KryptonLabel _lblScroll;
+    private readonly KryptonPanel _scrollHost;
     private readonly Timer _dpiTimer;
 
     /// <summary>
@@ -45,8 +47,9 @@ public class ButtonSpecHighDpiDemo : KryptonForm
     public ButtonSpecHighDpiDemo(KryptonCustomPaletteBase? earlyScaledPalette, bool ranEarlyScaleBeforeShow)
     {
         Text = @"ButtonSpec High DPI Demo (#978)";
-        Size = new Size(780, 640);
+        Size = new Size(780, 720);
         StartPosition = FormStartPosition.CenterScreen;
+        AutoScroll = false;
 
         _lblDpi = new KryptonLabel
         {
@@ -190,6 +193,41 @@ public class ButtonSpecHighDpiDemo : KryptonForm
             Size = new Size(320, 27)
         };
 
+        _lblScroll = new KryptonLabel
+        {
+            Location = new Point(400, 520),
+            Size = new Size(360, 36),
+            Text = @"Krypton scrollbars (not system AutoScroll): verify track/thumb fill at this DPI."
+        };
+
+        _scrollHost = new KryptonPanel
+        {
+            Location = new Point(400, 556),
+            Size = new Size(360, 80)
+        };
+        var scrollFill = new Panel
+        {
+            Dock = DockStyle.Fill,
+            BackColor = Color.FromArgb(240, 248, 255)
+        };
+        var vScroll = new KryptonVScrollBar
+        {
+            Dock = DockStyle.Right,
+            Maximum = 100,
+            LargeChange = 20,
+            Value = 35
+        };
+        var hScroll = new KryptonHScrollBar
+        {
+            Dock = DockStyle.Bottom,
+            Maximum = 100,
+            LargeChange = 20,
+            Value = 35
+        };
+        _scrollHost.Controls.Add(scrollFill);
+        _scrollHost.Controls.Add(vScroll);
+        _scrollHost.Controls.Add(hScroll);
+
         Controls.Add(_lblDpi);
         Controls.Add(_lblInfo);
         Controls.Add(_lblEarlyScale);
@@ -203,6 +241,8 @@ public class ButtonSpecHighDpiDemo : KryptonForm
         Controls.Add(_comboBox);
         Controls.Add(btnRefresh);
         Controls.Add(themeCombo);
+        Controls.Add(_lblScroll);
+        Controls.Add(_scrollHost);
 
         _dpiTimer = new Timer { Interval = 500 };
         _dpiTimer.Tick += (_, _) => UpdateDpiLabel();
@@ -296,6 +336,7 @@ public class ButtonSpecHighDpiDemo : KryptonForm
         _textBox.PerformLayout();
         _cmdTextBox.PerformLayout();
         _comboBox.PerformLayout();
+        _scrollHost.PerformLayout();
         Invalidate(true);
     }
 

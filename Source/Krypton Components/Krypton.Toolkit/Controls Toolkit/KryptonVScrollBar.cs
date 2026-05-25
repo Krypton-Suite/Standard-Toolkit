@@ -533,6 +533,8 @@ public class KryptonVScrollBar : Control
     /// <param name="e">A <see cref="PaintEventArgs"/> that contains information about the control to paint.</param>
     protected override void OnPaint(PaintEventArgs e)
     {
+        EnsureDpiLayout();
+
         // Get border rounding for clipping the control shape
         float borderRounding = 0;
         if (_palette != null)
@@ -945,6 +947,13 @@ public class KryptonVScrollBar : Control
         SetUpScrollBar();
     }
 
+    /// <inheritdoc />
+    protected override void OnHandleCreated(EventArgs e)
+    {
+        base.OnHandleCreated(e);
+        EnsureDpiLayout();
+    }
+
     /// <summary>
     /// Processes a dialog key.
     /// </summary>
@@ -1034,6 +1043,23 @@ public class KryptonVScrollBar : Control
     /// Gets the DPI scaling factor for the control.
     /// </summary>
     /// <returns>The DPI scaling factor (DeviceDpi / 96). Returns 1.0 if DPI cannot be determined.</returns>
+    private int _layoutDpi;
+    private bool _suppressLayoutRefresh;
+
+    private void EnsureDpiLayout()
+    {
+        int dpi = IsHandleCreated && DeviceDpi > 0 ? DeviceDpi : 96;
+        if (_layoutDpi == dpi)
+        {
+            return;
+        }
+
+        _layoutDpi = dpi;
+        _suppressLayoutRefresh = true;
+        SetUpScrollBar();
+        _suppressLayoutRefresh = false;
+    }
+
     private float GetDpiFactor()
     {
         if (IsHandleCreated && DeviceDpi > 0)
@@ -1121,7 +1147,10 @@ public class KryptonVScrollBar : Control
 
         ChangeThumbPosition(GetThumbPosition());
 
-        Refresh();
+        if (!_suppressLayoutRefresh)
+        {
+            Refresh();
+        }
     }
 
     /// <summary>
