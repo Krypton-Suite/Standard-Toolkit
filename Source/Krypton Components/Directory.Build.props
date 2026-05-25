@@ -60,6 +60,9 @@
 		<!-- Ensure multi-target outputs don't overwrite each other -->
 		<OutputPath>$(MSBuildThisFileDirectory)..\..\Bin\$(Configuration)\$(TargetFramework)\</OutputPath>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+		<!-- Per-TFM obj avoids races when msbuild /m compiles multiple target frameworks at once -->
+		<IntermediateOutputPath>$(MSBuildProjectDirectory)obj\$(Configuration)\$(TargetFramework)\</IntermediateOutputPath>
+		<AppendTargetFrameworkToIntermediateOutputPath>false</AppendTargetFrameworkToIntermediateOutputPath>
 	</PropertyGroup>
 
 	<Choose>
