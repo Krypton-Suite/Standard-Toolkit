@@ -45,7 +45,7 @@ for /f "tokens=* usebackq" %%A in (`tzutil /g`) do (
 @echo:
 set "targets=Build"
 if not "%~1" == "" set "targets=%~1"
-REM /m: multi-processor MSBuild (all logical CPUs); canary.proj orchestrates Krypton.* in parallel where references allow.
+REM Phased Krypton.* build + /m (see Scripts\Build\Krypton.Orchestration.targets).
 "%msbuildpath%\msbuild.exe" /m /t:%targets% "%SCRIPT_DIR%canary.proj" /fl /flp:logfile="%SCRIPT_DIR%..\..\Logs\canary-build-log.log" /bl:"%SCRIPT_DIR%..\..\Logs\canary-build-log.binlog" /clp:Summary;ShowTimestamp /v:quiet
 @echo:
 @echo Canary release build completed: %date% %time% %zone%

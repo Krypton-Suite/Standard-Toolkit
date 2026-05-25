@@ -39,6 +39,7 @@ for /f "tokens=* usebackq" %%A in (`tzutil /g`) do (
     set "zone=%%A"
 )
 
+REM Phased Krypton.* build + /m (see Scripts\Build\Krypton.Orchestration.targets).
 @echo Started to build Nightly release
 @echo:
 @echo Started: %date% %time% %zone%
