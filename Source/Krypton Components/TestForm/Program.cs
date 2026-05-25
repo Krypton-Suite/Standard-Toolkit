@@ -29,7 +29,7 @@ internal static class Program
     /// The main entry point for the application.
     /// </summary>
     [STAThread]
-    private static void Main()
+    private static void Main(string[] args)
     {
         // Set AppUserModelID before any UI - required for taskbar jump list to attach to this process
         try
@@ -61,6 +61,27 @@ internal static class Program
 #if NET8_0_OR_GREATER
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
 #endif
+        if (args.Any(static a => string.Equals(a, "--button-spec-early-scale", StringComparison.OrdinalIgnoreCase)))
+        {
+            Application.Run(CreateEarlyScaleButtonSpecDemo());
+            return;
+        }
+
         Application.Run(new StartScreen());
+    }
+
+    /// <summary>
+    /// Runs <see cref="PaletteImageScaler.ScalePalette"/> on a custom palette before the demo form is shown (Issue #978).
+    /// </summary>
+    private static ButtonSpecHighDpiDemo CreateEarlyScaleButtonSpecDemo()
+    {
+        const float scale = 2f;
+        var palette = new KryptonCustomPaletteBase
+        {
+            BasePalette = KryptonManager.GetPaletteForMode(PaletteMode.Microsoft365Blue)
+        };
+        palette.ButtonSpecs.Close.PopulateFromBase(PaletteButtonSpecStyle.Close);
+        PaletteImageScaler.ScalePalette(scale, scale, palette);
+        return new ButtonSpecHighDpiDemo(palette, ranEarlyScaleBeforeShow: true);
     }
 }

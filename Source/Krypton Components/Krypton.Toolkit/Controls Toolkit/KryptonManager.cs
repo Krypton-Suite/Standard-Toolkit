@@ -186,8 +186,6 @@ public sealed class KryptonManager : Component
     #region Identity
     static KryptonManager()
     {
-        ButtonSpecDpiImageInitializer.EnsureInitialized();
-
         // We need to notice when system color settings change
         SystemEvents.UserPreferenceChanged += OnUserPreferenceChanged;
 

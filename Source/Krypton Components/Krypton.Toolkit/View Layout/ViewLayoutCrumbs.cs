@@ -301,8 +301,8 @@ public class ViewLayoutCrumbs : ViewComposite, IContentValues
 
         Image? scale2x = redirector.GetButtonSpecImageScale2(PaletteButtonSpecStyle.ArrowLeft, state);
         Image? scale3x = redirector.GetButtonSpecImageScale3(PaletteButtonSpecStyle.ArrowLeft, state);
-        return ButtonSpecImageResolver.ResolveForDpi(baseline, scale2x, scale3x, FactorDpiX, 1f, baseline.Width,
-            baseline.Height);
+        return ButtonSpecImageResolver.ResolveForDpi(baseline, scale2x, scale3x, FactorDpiX, FactorDpiY, 1f,
+            baseline.Width, baseline.Height);
     }
 
     /// <summary>

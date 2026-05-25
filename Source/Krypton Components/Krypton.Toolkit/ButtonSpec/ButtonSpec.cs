@@ -973,15 +973,37 @@ public abstract class ButtonSpec : Component,
     protected PaletteButtonSpecStyle ProtectedType { get; set; }
 
     /// <summary>
-    /// Gets the palette button spec type used for built-in image inheritance (Issue #978).
-    /// </summary>
-    internal PaletteButtonSpecStyle InheritedPaletteButtonSpecStyle => ProtectedType;
-
-    /// <summary>
     /// True when the image for the state is inherited from the palette (Issue #978).
     /// </summary>
-    internal bool IsPaletteImageSource(PaletteState state) =>
-        KryptonCommand == null && Image == null && GetStateImage(state) == null && AllowInheritImage;
+    internal bool IsPaletteImageSource(PaletteState state)
+    {
+        if (!AllowInheritImage || Image != null || GetStateImage(state) != null)
+        {
+            return false;
+        }
+
+        if (KryptonCommand == null)
+        {
+            return true;
+        }
+
+        // Built-in command mappings use palette images unless the mapping has no palette glyph.
+        return KryptonCommand.TryGetButtonSpecStyle(out _)
+               && KryptonCommand.GetButtonSpecImage(null, state) != null;
+    }
+
+    /// <summary>
+    /// Gets the palette button spec style used for built-in image inheritance (Issue #978).
+    /// </summary>
+    internal PaletteButtonSpecStyle GetPaletteButtonSpecStyleForImage()
+    {
+        if (KryptonCommand?.TryGetButtonSpecStyle(out PaletteButtonSpecStyle commandStyle) == true)
+        {
+            return commandStyle;
+        }
+
+        return ProtectedType;
+    }
 
     /// <summary>
     /// Convert from palette specific edge alignment to resolved edge alignment.

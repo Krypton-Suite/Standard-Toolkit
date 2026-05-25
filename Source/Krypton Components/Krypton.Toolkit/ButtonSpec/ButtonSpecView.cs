@@ -335,7 +335,7 @@ public class ButtonSpecView : GlobalId,
         Image? scale3x = null;
         if (ButtonSpec.IsPaletteImageSource(state))
         {
-            PaletteButtonSpecStyle specStyle = ButtonSpec.InheritedPaletteButtonSpecStyle;
+            PaletteButtonSpecStyle specStyle = ButtonSpec.GetPaletteButtonSpecStyleForImage();
             scale2x = _redirector.GetButtonSpecImageScale2(specStyle, state);
             scale3x = _redirector.GetButtonSpecImageScale3(specStyle, state);
         }
@@ -344,12 +344,16 @@ public class ButtonSpecView : GlobalId,
         // to avoid dependency on layout timing where client rectangles can be 0 during early passes.
         if (ButtonSpec.GetStyle(_redirector) == ButtonStyle.InputControl)
         {
-            return ButtonSpecImageResolver.ResolveForDpi(baseImage, scale2x, scale3x, dpiFactor, extraScaleFactor,
-                16f, 16f);
+            const float logicalBox = 16f;
+            float fitScale = Math.Min(logicalBox / baseImage.Width, logicalBox / baseImage.Height);
+            float logicalW = Math.Max(1f, baseImage.Width * fitScale);
+            float logicalH = Math.Max(1f, baseImage.Height * fitScale);
+            return ButtonSpecImageResolver.ResolveForDpi(baseImage, scale2x, scale3x, dpiFactor, dpiFactor,
+                extraScaleFactor, logicalW, logicalH);
         }
 
-        return ButtonSpecImageResolver.ResolveForDpi(baseImage, scale2x, scale3x, dpiFactor, extraScaleFactor,
-            baseImage.Width, baseImage.Height);
+        return ButtonSpecImageResolver.ResolveForDpi(baseImage, scale2x, scale3x, dpiFactor, dpiFactor,
+            extraScaleFactor, baseImage.Width, baseImage.Height);
     }
 
     /// <summary>

@@ -20,7 +20,8 @@ public static class ButtonSpecImageResolver
     /// <param name="baseline">Baseline image (typically 16 logical pixels at 96 DPI).</param>
     /// <param name="scale2x">Optional 200% source (e.g. 32 pixel art).</param>
     /// <param name="scale3x">Optional 300% source (e.g. 48 pixel art).</param>
-    /// <param name="dpiFactor">Per-monitor DPI factor (DeviceDpi / 96).</param>
+    /// <param name="dpiFactorX">Per-monitor horizontal DPI factor (DeviceDpi / 96).</param>
+    /// <param name="dpiFactorY">Per-monitor vertical DPI factor.</param>
     /// <param name="extraScaleFactor">Additional scale (e.g. touchscreen factor).</param>
     /// <param name="logicalWidth">Logical width at 96 DPI when baseline size is not authoritative.</param>
     /// <param name="logicalHeight">Logical height at 96 DPI when baseline size is not authoritative.</param>
@@ -28,7 +29,8 @@ public static class ButtonSpecImageResolver
     public static Image? ResolveForDpi(Image? baseline,
         Image? scale2x,
         Image? scale3x,
-        float dpiFactor,
+        float dpiFactorX,
+        float dpiFactorY,
         float extraScaleFactor,
         float logicalWidth,
         float logicalHeight)
@@ -48,14 +50,23 @@ public static class ButtonSpecImageResolver
             logicalHeight = baseline.Height;
         }
 
-        float combinedScale = dpiFactor * extraScaleFactor;
-        if (combinedScale <= 0f)
+        if (dpiFactorX <= 0f)
         {
-            combinedScale = 1f;
+            dpiFactorX = 1f;
         }
 
-        float targetW = logicalWidth * combinedScale;
-        float targetH = logicalHeight * combinedScale;
+        if (dpiFactorY <= 0f)
+        {
+            dpiFactorY = 1f;
+        }
+
+        if (extraScaleFactor <= 0f)
+        {
+            extraScaleFactor = 1f;
+        }
+
+        float targetW = logicalWidth * dpiFactorX * extraScaleFactor;
+        float targetH = logicalHeight * dpiFactorY * extraScaleFactor;
 
         Image? source = PickBestSource(baseline, scale2x, scale3x, targetW, targetH);
         if (source == null)
@@ -104,6 +115,13 @@ public static class ButtonSpecImageResolver
     }
 
     /// <summary>
+    /// True when dedicated 200% artwork is registered for a built-in baseline image (Issue #978).
+    /// </summary>
+    /// <param name="baselineImage">Baseline palette image at 96 DPI.</param>
+    public static bool HasDedicatedScale2xSource(Image? baselineImage) =>
+        ButtonSpecDpiImageRegistry.HasDedicatedScale2x(baselineImage);
+
+    /// <summary>
     /// Resolves a palette button spec image for display at the current DPI.
     /// </summary>
     public static Image? ResolveFromPalette(PaletteBase palette,
@@ -117,7 +135,8 @@ public static class ButtonSpecImageResolver
         Image? baseline = palette.GetButtonSpecImage(style, state);
         Image? scale2x = palette.GetButtonSpecImageScale2(style, state);
         Image? scale3x = palette.GetButtonSpecImageScale3(style, state);
-        return ResolveForDpi(baseline, scale2x, scale3x, dpiFactor, extraScaleFactor, logicalWidth, logicalHeight);
+        return ResolveForDpi(baseline, scale2x, scale3x, dpiFactor, dpiFactor, extraScaleFactor, logicalWidth,
+            logicalHeight);
     }
 
     private static void Consider(Image? candidate, float targetW, float targetH, ref Image? best, ref int bestArea)

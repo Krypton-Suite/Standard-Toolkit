@@ -148,11 +148,10 @@ public static class PaletteImageScaler
             return img;
         }
 
-        float dpiFactor = scaleFactor.Width;
         Image? scale2x = ButtonSpecDpiImageRegistry.GetScale2x(img, style);
         Image? scale3x = ButtonSpecDpiImageRegistry.GetScale3x(img, style);
-        Image? resolved = ButtonSpecImageResolver.ResolveForDpi(img, scale2x, scale3x, dpiFactor, 1f, img.Width,
-            img.Height);
+        Image? resolved = ButtonSpecImageResolver.ResolveForDpi(img, scale2x, scale3x, scaleFactor.Width,
+            scaleFactor.Height, 1f, img.Width, img.Height);
         if (resolved == null)
         {
             return null;

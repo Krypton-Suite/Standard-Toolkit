@@ -283,8 +283,8 @@ internal class ViewDrawRibbonQATButton : ViewComposite,
 
         if (sourceImage != null)
         {
-            Image? resolved = ButtonSpecImageResolver.ResolveForDpi(sourceImage, scale2x, scale3x, FactorDpiX, 1f,
-                sourceImage.Width, sourceImage.Height);
+            Image? resolved = ButtonSpecImageResolver.ResolveForDpi(sourceImage, scale2x, scale3x, FactorDpiX,
+                FactorDpiY, 1f, sourceImage.Width, sourceImage.Height);
             if (resolved != null)
             {
                 _cachedFactorDpiX = FactorDpiX;

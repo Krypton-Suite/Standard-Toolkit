@@ -14,6 +14,8 @@ namespace Krypton.Toolkit;
 /// </summary>
 internal static class ButtonSpecDpiImageRegistry
 {
+    static ButtonSpecDpiImageRegistry() => ButtonSpecDpiImageInitializer.EnsureInitialized();
+
     private static readonly Dictionary<Image, Image> _lazyScale2x = new(ReferenceImageEqualityComparer.Instance);
     private static readonly Dictionary<Image, Image> _lazyScale3x = new(ReferenceImageEqualityComparer.Instance);
     private static readonly Dictionary<Image, Image> _dedicatedScale2x = new(ReferenceImageEqualityComparer.Instance);
@@ -60,6 +62,12 @@ internal static class ButtonSpecDpiImageRegistry
     /// </summary>
     public static void RegisterScale3x(Image baseline, Image image) =>
         _dedicatedScale3x[baseline] = image;
+
+    /// <summary>
+    /// True when dedicated 200% artwork is registered for the baseline (Issue #978).
+    /// </summary>
+    internal static bool HasDedicatedScale2x(Image? baseline) =>
+        baseline != null && _dedicatedScale2x.ContainsKey(baseline);
 
     /// <summary>
     /// Clears lazily created placeholder images (e.g. after DPI or palette changes).

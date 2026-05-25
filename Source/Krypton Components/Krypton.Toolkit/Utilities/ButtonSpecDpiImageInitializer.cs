@@ -113,6 +113,101 @@ internal static class ButtonSpecDpiImageInitializer
         Register(GenericMDIImageResources.MdiRibbonExpand,
             ButtonSpecDpiImageResources.MdiRibbonExpand_2x,
             ButtonSpecDpiImageResources.MdiRibbonExpand_3x);
+
+        RegisterToolbarOffice2010();
+        RegisterToolbarOffice2019();
+    }
+
+    private static void RegisterToolbarOffice2010()
+    {
+        Register(Office2010ToolbarImageResources.Office2010ToolbarNewNormal,
+            ButtonSpecDpiImageResources.Office2010ToolbarNewNormal_2x,
+            ButtonSpecDpiImageResources.Office2010ToolbarNewNormal_3x);
+        Register(Office2010ToolbarImageResources.Office2010ToolbarOpenNormal,
+            ButtonSpecDpiImageResources.Office2010ToolbarOpenNormal_2x,
+            ButtonSpecDpiImageResources.Office2010ToolbarOpenNormal_3x);
+        Register(Office2010ToolbarImageResources.Office2010ToolbarSaveNormal,
+            ButtonSpecDpiImageResources.Office2010ToolbarSaveNormal_2x,
+            ButtonSpecDpiImageResources.Office2010ToolbarSaveNormal_3x);
+        Register(Office2010ToolbarImageResources.Office2010ToolbarSaveAsNormal,
+            ButtonSpecDpiImageResources.Office2010ToolbarSaveAsNormal_2x,
+            ButtonSpecDpiImageResources.Office2010ToolbarSaveAsNormal_3x);
+        Register(Office2010ToolbarImageResources.Office2010ToolbarSaveAllNormal,
+            ButtonSpecDpiImageResources.Office2010ToolbarSaveAllNormal_2x,
+            ButtonSpecDpiImageResources.Office2010ToolbarSaveAllNormal_3x);
+        Register(Office2010ToolbarImageResources.Office2010ToolbarCutNormal,
+            ButtonSpecDpiImageResources.Office2010ToolbarCutNormal_2x,
+            ButtonSpecDpiImageResources.Office2010ToolbarCutNormal_3x);
+        Register(Office2010ToolbarImageResources.Office2010ToolbarCopyNormal,
+            ButtonSpecDpiImageResources.Office2010ToolbarCopyNormal_2x,
+            ButtonSpecDpiImageResources.Office2010ToolbarCopyNormal_3x);
+        Register(Office2010ToolbarImageResources.Office2010ToolbarPasteNormal,
+            ButtonSpecDpiImageResources.Office2010ToolbarPasteNormal_2x,
+            ButtonSpecDpiImageResources.Office2010ToolbarPasteNormal_3x);
+        Register(Office2010ToolbarImageResources.Office2010ToolbarUndoNormal,
+            ButtonSpecDpiImageResources.Office2010ToolbarUndoNormal_2x,
+            ButtonSpecDpiImageResources.Office2010ToolbarUndoNormal_3x);
+        Register(Office2010ToolbarImageResources.Office2010ToolbarRedoNormal,
+            ButtonSpecDpiImageResources.Office2010ToolbarRedoNormal_2x,
+            ButtonSpecDpiImageResources.Office2010ToolbarRedoNormal_3x);
+        Register(Office2010ToolbarImageResources.Office2010ToolbarPageSetupNormal,
+            ButtonSpecDpiImageResources.Office2010ToolbarPageSetupNormal_2x,
+            ButtonSpecDpiImageResources.Office2010ToolbarPageSetupNormal_3x);
+        Register(Office2010ToolbarImageResources.Office2010ToolbarPrintPreviewNormal,
+            ButtonSpecDpiImageResources.Office2010ToolbarPrintPreviewNormal_2x,
+            ButtonSpecDpiImageResources.Office2010ToolbarPrintPreviewNormal_3x);
+        Register(Office2010ToolbarImageResources.Office2010ToolbarPrintNormal,
+            ButtonSpecDpiImageResources.Office2010ToolbarPrintNormal_2x,
+            ButtonSpecDpiImageResources.Office2010ToolbarPrintNormal_3x);
+        Register(Office2010ToolbarImageResources.Office2010ToolbarQuickPrintNormal,
+            ButtonSpecDpiImageResources.Office2010ToolbarQuickPrintNormal_2x,
+            ButtonSpecDpiImageResources.Office2010ToolbarQuickPrintNormal_3x);
+    }
+
+    private static void RegisterToolbarOffice2019()
+    {
+        Register(Office2019ToolbarImageResources.Office2019ToolbarNewNormal,
+            ButtonSpecDpiImageResources.Office2019ToolbarNewNormal_2x,
+            ButtonSpecDpiImageResources.Office2019ToolbarNewNormal_3x);
+        Register(Office2019ToolbarImageResources.Office2019ToolbarOpenNormal,
+            ButtonSpecDpiImageResources.Office2019ToolbarOpenNormal_2x,
+            ButtonSpecDpiImageResources.Office2019ToolbarOpenNormal_3x);
+        Register(Office2019ToolbarImageResources.Office2019ToolbarSaveNormal,
+            ButtonSpecDpiImageResources.Office2019ToolbarSaveNormal_2x,
+            ButtonSpecDpiImageResources.Office2019ToolbarSaveNormal_3x);
+        Register(Office2019ToolbarImageResources.Office2019ToolbarSaveAsNormal,
+            ButtonSpecDpiImageResources.Office2019ToolbarSaveAsNormal_2x,
+            ButtonSpecDpiImageResources.Office2019ToolbarSaveAsNormal_3x);
+        Register(Office2019ToolbarImageResources.Office2019ToolbarSaveAllNormal,
+            ButtonSpecDpiImageResources.Office2019ToolbarSaveAllNormal_2x,
+            ButtonSpecDpiImageResources.Office2019ToolbarSaveAllNormal_3x);
+        Register(Office2019ToolbarImageResources.Office2019ToolbarCutNormal,
+            ButtonSpecDpiImageResources.Office2019ToolbarCutNormal_2x,
+            ButtonSpecDpiImageResources.Office2019ToolbarCutNormal_3x);
+        Register(Office2019ToolbarImageResources.Office2019ToolbarCopyNormal,
+            ButtonSpecDpiImageResources.Office2019ToolbarCopyNormal_2x,
+            ButtonSpecDpiImageResources.Office2019ToolbarCopyNormal_3x);
+        Register(Office2019ToolbarImageResources.Office2019ToolbarPasteNormal,
+            ButtonSpecDpiImageResources.Office2019ToolbarPasteNormal_2x,
+            ButtonSpecDpiImageResources.Office2019ToolbarPasteNormal_3x);
+        Register(Office2019ToolbarImageResources.Office2019ToolbarUndoNormal,
+            ButtonSpecDpiImageResources.Office2019ToolbarUndoNormal_2x,
+            ButtonSpecDpiImageResources.Office2019ToolbarUndoNormal_3x);
+        Register(Office2019ToolbarImageResources.Office2019ToolbarRedoNormal,
+            ButtonSpecDpiImageResources.Office2019ToolbarRedoNormal_2x,
+            ButtonSpecDpiImageResources.Office2019ToolbarRedoNormal_3x);
+        Register(Office2019ToolbarImageResources.Office2019ToolbarPageSetupNormal,
+            ButtonSpecDpiImageResources.Office2019ToolbarPageSetupNormal_2x,
+            ButtonSpecDpiImageResources.Office2019ToolbarPageSetupNormal_3x);
+        Register(Office2019ToolbarImageResources.Office2019ToolbarPrintPreviewNormal,
+            ButtonSpecDpiImageResources.Office2019ToolbarPrintPreviewNormal_2x,
+            ButtonSpecDpiImageResources.Office2019ToolbarPrintPreviewNormal_3x);
+        Register(Office2019ToolbarImageResources.Office2019ToolbarPrintNormal,
+            ButtonSpecDpiImageResources.Office2019ToolbarPrintNormal_2x,
+            ButtonSpecDpiImageResources.Office2019ToolbarPrintNormal_3x);
+        Register(Office2019ToolbarImageResources.Office2019ToolbarQuickPrintNormal,
+            ButtonSpecDpiImageResources.Office2019ToolbarQuickPrintNormal_2x,
+            ButtonSpecDpiImageResources.Office2019ToolbarQuickPrintNormal_3x);
     }
 
     private static void Register(Image baseline, Image? scale2x, Image? scale3x)
