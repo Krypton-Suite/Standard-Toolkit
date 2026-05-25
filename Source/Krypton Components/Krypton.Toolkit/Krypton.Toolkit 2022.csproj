@@ -176,6 +176,11 @@
 	  <AutoGen>True</AutoGen>
 	  <DependentUpon>ProfessionalButtonSpecResources.resx</DependentUpon>
 	</Compile>
+	<Compile Update="ResourceFiles\ButtonSpecs\ButtonSpecDpiImageResources.Designer.cs">
+	  <DesignTime>True</DesignTime>
+	  <AutoGen>True</AutoGen>
+	  <DependentUpon>ButtonSpecDpiImageResources.resx</DependentUpon>
+	</Compile>
 	<Compile Update="ResourceFiles\Buttons\ButtonImageResources.Designer.cs">
 	  <DesignTime>True</DesignTime>
 	  <AutoGen>True</AutoGen>
@@ -667,6 +672,10 @@
 	<EmbeddedResource Update="ResourceFiles\ButtonSpecs\ProfessionalButtonSpecResources.resx">
 	  <Generator>ResXFileCodeGenerator</Generator>
 	  <LastGenOutput>ProfessionalButtonSpecResources.Designer.cs</LastGenOutput>
+	</EmbeddedResource>
+	<EmbeddedResource Update="ResourceFiles\ButtonSpecs\ButtonSpecDpiImageResources.resx">
+	  <Generator>ResXFileCodeGenerator</Generator>
+	  <LastGenOutput>ButtonSpecDpiImageResources.Designer.cs</LastGenOutput>
 	</EmbeddedResource>
 	<EmbeddedResource Update="ResourceFiles\Buttons\ButtonImageResources.resx">
 	  <Generator>ResXFileCodeGenerator</Generator>

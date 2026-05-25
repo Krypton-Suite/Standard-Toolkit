@@ -2107,7 +2107,10 @@ public abstract class VisualForm : Form,
 
     #endregion
 
-    private void UpdateDpiFactors()
+    /// <summary>
+    /// Updates DPI scale factors when the window DPI changes and refreshes the view hierarchy.
+    /// </summary>
+    protected virtual void UpdateDpiFactors()
     {
         // Invalidate the global DPI cache to ensure fresh values are calculated
         KryptonManager.InvalidateDpiCache();
@@ -2125,6 +2128,7 @@ public abstract class VisualForm : Form,
                 {
                     FactorDpiX = dpi / 96f;
                     FactorDpiY = dpi / 96f;
+                    OnDpiFactorsUpdated();
                     return;
                 }
             }
@@ -2139,6 +2143,7 @@ public abstract class VisualForm : Form,
                 using Graphics graphics = Graphics.FromHwnd(hWnd);
                 FactorDpiX = graphics.DpiX / 96f;
                 FactorDpiY = graphics.DpiY / 96f;
+                OnDpiFactorsUpdated();
                 return;
             }
             catch
@@ -2163,8 +2168,17 @@ public abstract class VisualForm : Form,
             FactorDpiX = graphics.DpiX / 96f;
             FactorDpiY = graphics.DpiY / 96f;
         }
-        // _palette.HasAlreadyBeenScaled = false;
-        // PaletteImageScaler.ScalePalette(FactorDpiX, FactorDpiY, _palette);
+
+        OnDpiFactorsUpdated();
+    }
+
+    /// <summary>
+    /// Called after <see cref="FactorDpiX"/> and <see cref="FactorDpiY"/> are recalculated.
+    /// </summary>
+    protected virtual void OnDpiFactorsUpdated()
+    {
+        ViewManager?.InvalidateDpiFactors();
+        PerformNeedPaint(true);
     }
 
     private void InitializeComponent()

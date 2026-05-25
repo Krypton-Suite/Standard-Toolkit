@@ -45,6 +45,12 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#978](https://github.com/Krypton-Suite/Standard-Toolkit/issues/978), High resolution ButtonSpec image assets for high-DPI displays
+  * `ButtonSpecImageResolver` selects the best baseline / @2x / @3x source from per-monitor DPI and scales down for crisp glyphs.
+  * `ButtonSpecDpiImageRegistry` supplies lazy high-DPI placeholders for all built-in palette ButtonSpec images (dedicated artwork can be registered per `PaletteButtonSpecStyle`).
+  * `ButtonSpecView`, ribbon QAT buttons, and breadcrumb overflow arrows use the resolver; `KryptonManager.InvalidateDpiCache()` clears generated sources on DPI changes.
+  * `ViewManager.InvalidateDpiFactors()` and `VisualForm.OnDpiFactorsUpdated()` refresh the view tree and repaint when per-monitor DPI changes; `KryptonForm` clears the cached caption icon.
+  * `PaletteImageScaler` uses `ButtonSpecImageResolver` when baking custom palette ButtonSpec images at startup DPI.
 * Resolved [#3493](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3493), Fix Scripts build issues related to framework targeting
 * Enhanced `KryptonWebView2` palette integration. `BackColor`, `ForeColor`, and `DefaultBackgroundColor` are now driven from the active Krypton palette via `StateCommon`, `StateNormal`, `StateActive`, and `StateDisabled` (with `WebViewBackStyle` / `WebViewContentStyle`). Legacy appearance properties and their change events are hidden from the designer; use the `State###` entries under **Visuals** instead.
 * Implemented [#3445](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3445), `KryptonComboBox` - Checked combobox. Checked items update the editor summary live while the popup stays open; configurable value separator, `EmptySelectionText`, and `CloseDropDownOnEnter`. Forwarded list binding: `DataSource`, `DisplayMember`, `ValueMember`, `FormatString`, `FormattingEnabled`; `[LookupBindingProperties]`; `CheckedItemList`; `BindingContext` sync to the drop-down; summary text uses `GetItemText` so bound items display correctly. Designer smart-tag **Data** group for `DataSource`, `DisplayMember`, `ValueMember`, and `EmptySelectionText`.

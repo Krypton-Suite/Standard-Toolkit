@@ -59,6 +59,7 @@ public partial class StartScreen : KryptonForm
     {
         CreateButton<AboutBoxTest>("AboutBox", "Try this About Box for a change");
         CreateButton<AccessibilityTest>("Accessibility Test (UIA Providers)", "Comprehensive demo and test for UIA Provider implementation (Issue #762). Tests all 10 controls with accessibility support, organized by category with detailed results.");
+        CreateButton<ButtonSpecHighDpiDemo>("ButtonSpec High DPI (#978)", "Issue #978: ButtonSpecImageResolver picks @2x/@3x palette sources by DPI. Header and text box Close specs; move between monitors or change scaling.");
         CreateButton<ButtonBadgeTest>("Badge Test", "Comprehensive badge functionality demonstration for KryptonButton and KryptonCheckButton.");
         CreateButton<ButtonTextTrackingExample>("Button Text Tracking", "Demonstrates alternate text color for tracking (hover) state on KryptonButton, KryptonCheckButton, KryptonColorButton and other controls (Issue #1326). Improves readability in dark themes.");
         CreateButton<ButtonsTest>("Buttons Test", "All the buttons you want to test.");

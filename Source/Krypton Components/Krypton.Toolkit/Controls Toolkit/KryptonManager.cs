@@ -186,6 +186,8 @@ public sealed class KryptonManager : Component
     #region Identity
     static KryptonManager()
     {
+        ButtonSpecDpiImageInitializer.EnsureInitialized();
+
         // We need to notice when system color settings change
         SystemEvents.UserPreferenceChanged += OnUserPreferenceChanged;
 
@@ -2041,6 +2043,7 @@ public sealed class KryptonManager : Component
     {
         _cachedDpiX = 0f;
         _cachedDpiY = 0f;
+        ButtonSpecDpiImageRegistry.InvalidateCache();
     }
 
     #endregion

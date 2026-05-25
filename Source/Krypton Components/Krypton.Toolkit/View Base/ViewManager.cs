@@ -73,6 +73,34 @@ public class ViewManager : GlobalId,
     }
 
     /// <summary>
+    /// Invalidates cached DPI factors for the entire view hierarchy (Issue #978).
+    /// </summary>
+    public void InvalidateDpiFactors()
+    {
+        if (_root == null)
+        {
+            return;
+        }
+
+        InvalidateDpiFactorsRecursive(_root);
+    }
+
+    private static void InvalidateDpiFactorsRecursive(ViewBase view)
+    {
+        view.InvalidateDpiFactors();
+
+        if (view is not ViewComposite composite)
+        {
+            return;
+        }
+
+        foreach (ViewBase child in composite.Recurse())
+        {
+            child.InvalidateDpiFactors();
+        }
+    }
+
+    /// <summary>
     /// Clean up any resources.
     /// </summary>
     public virtual void Dispose()

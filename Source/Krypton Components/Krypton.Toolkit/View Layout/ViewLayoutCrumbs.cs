@@ -290,7 +290,20 @@ public class ViewLayoutCrumbs : ViewComposite, IContentValues
     /// </summary>
     /// <param name="state">The state for which the image is needed.</param>
     /// <returns>Image value.</returns>
-    public Image? GetImage(PaletteState state) => _kryptonBreadCrumb.GetRedirector().GetButtonSpecImage(PaletteButtonSpecStyle.ArrowLeft, state);
+    public Image? GetImage(PaletteState state)
+    {
+        PaletteRedirect redirector = _kryptonBreadCrumb.GetRedirector();
+        Image? baseline = redirector.GetButtonSpecImage(PaletteButtonSpecStyle.ArrowLeft, state);
+        if (baseline == null)
+        {
+            return null;
+        }
+
+        Image? scale2x = redirector.GetButtonSpecImageScale2(PaletteButtonSpecStyle.ArrowLeft, state);
+        Image? scale3x = redirector.GetButtonSpecImageScale3(PaletteButtonSpecStyle.ArrowLeft, state);
+        return ButtonSpecImageResolver.ResolveForDpi(baseline, scale2x, scale3x, FactorDpiX, 1f, baseline.Width,
+            baseline.Height);
+    }
 
     /// <summary>
     /// Gets the image color that should be transparent.

@@ -245,6 +245,9 @@ internal class ViewDrawRibbonQATButton : ViewComposite,
     #region IContentValues
 
     private Image? _cachedImage;
+    private float _cachedFactorDpiX;
+    private float _cachedFactorDpiY;
+
     /// <summary>
     /// Gets the image used for the ribbon tab.
     /// </summary>
@@ -252,29 +255,51 @@ internal class ViewDrawRibbonQATButton : ViewComposite,
     /// <returns>Image.</returns>
     public Image? GetImage(PaletteState state)
     {
-        if (_cachedImage == null)
+        if (_cachedImage != null
+            && Math.Abs(_cachedFactorDpiX - FactorDpiX) < 0.001f
+            && Math.Abs(_cachedFactorDpiY - FactorDpiY) < 0.001f)
         {
-            Image? sourceImage;
+            return _cachedImage;
+        }
 
-            if (QATButton.GetButtonSpecType() != PaletteButtonSpecStyle.Generic)
-            {
-                sourceImage = _ribbon.GetRedirector().GetButtonSpecImage(QATButton.GetButtonSpecType(), state);
-            }
-            else
-            {
-                sourceImage = QATButton.GetImage();
-            }
+        InvalidateCachedImage();
 
-            if (sourceImage != null)
-            {
-                var currentWidth = sourceImage.Width * FactorDpiX;
-                var currentHeight = sourceImage.Height * FactorDpiY;
+        Image? sourceImage;
+        Image? scale2x = null;
+        Image? scale3x = null;
+        PaletteButtonSpecStyle specStyle = QATButton.GetButtonSpecType();
 
-                _cachedImage = CommonHelper.ScaleImageForSizedDisplay(sourceImage, currentWidth, currentHeight, false);
+        if (specStyle != PaletteButtonSpecStyle.Generic)
+        {
+            PaletteRedirect redirector = _ribbon.GetRedirector();
+            sourceImage = redirector.GetButtonSpecImage(specStyle, state);
+            scale2x = redirector.GetButtonSpecImageScale2(specStyle, state);
+            scale3x = redirector.GetButtonSpecImageScale3(specStyle, state);
+        }
+        else
+        {
+            sourceImage = QATButton.GetImage();
+        }
+
+        if (sourceImage != null)
+        {
+            Image? resolved = ButtonSpecImageResolver.ResolveForDpi(sourceImage, scale2x, scale3x, FactorDpiX, 1f,
+                sourceImage.Width, sourceImage.Height);
+            if (resolved != null)
+            {
+                _cachedFactorDpiX = FactorDpiX;
+                _cachedFactorDpiY = FactorDpiY;
+                _cachedImage = new Bitmap(resolved);
             }
         }
 
         return _cachedImage;
+    }
+
+    private void InvalidateCachedImage()
+    {
+        _cachedImage?.Dispose();
+        _cachedImage = null;
     }
 
     /// <summary>

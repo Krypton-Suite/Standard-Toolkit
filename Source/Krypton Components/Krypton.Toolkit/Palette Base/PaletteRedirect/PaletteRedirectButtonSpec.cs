@@ -44,6 +44,20 @@ public class PaletteRedirectButtonSpec : PaletteRedirect
         PaletteState state) =>
         _inherit.GetButtonSpecImage(style, state);
 
+    /// <inheritdoc />
+    public override Image? GetButtonSpecImageScale2(PaletteButtonSpecStyle style, PaletteState state)
+    {
+        Image? baseline = GetButtonSpecImage(style, state);
+        return ButtonSpecDpiImageRegistry.GetScale2x(baseline, style);
+    }
+
+    /// <inheritdoc />
+    public override Image? GetButtonSpecImageScale3(PaletteButtonSpecStyle style, PaletteState state)
+    {
+        Image? baseline = GetButtonSpecImage(style, state);
+        return ButtonSpecDpiImageRegistry.GetScale3x(baseline, style);
+    }
+
     /// <summary>
     /// Gets the short text to display for the button.
     /// </summary>

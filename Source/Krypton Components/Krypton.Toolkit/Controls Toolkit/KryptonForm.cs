@@ -1819,6 +1819,20 @@ public class KryptonForm : VisualForm,
         }
     }
 
+    /// <inheritdoc />
+    protected override void OnDpiFactorsUpdated()
+    {
+        base.OnDpiFactorsUpdated();
+
+        if (_cacheBitmap != null)
+        {
+            _cacheBitmap.Dispose();
+            _cacheBitmap = null;
+        }
+
+        _cacheIcon = null;
+    }
+
     /// <summary>
     /// Raises the PaletteChanged event.
     /// </summary>

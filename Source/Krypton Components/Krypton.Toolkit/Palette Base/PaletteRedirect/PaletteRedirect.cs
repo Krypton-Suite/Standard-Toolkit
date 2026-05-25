@@ -790,6 +790,14 @@ public class PaletteRedirect : PaletteBase, IGlobalId
     /// <returns>Image value.</returns>
     public override Image? GetButtonSpecImage(PaletteButtonSpecStyle style, PaletteState state) => _target?.GetButtonSpecImage(style, state);
 
+    /// <inheritdoc />
+    public override Image? GetButtonSpecImageScale2(PaletteButtonSpecStyle style, PaletteState state) =>
+        _target?.GetButtonSpecImageScale2(style, state);
+
+    /// <inheritdoc />
+    public override Image? GetButtonSpecImageScale3(PaletteButtonSpecStyle style, PaletteState state) =>
+        _target?.GetButtonSpecImageScale3(style, state);
+
     /// <summary>
     /// Gets the image transparent color.
     /// </summary>

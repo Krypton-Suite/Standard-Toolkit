@@ -900,6 +900,30 @@ public abstract class PaletteBase : Component
     public abstract Image? GetButtonSpecImage(PaletteButtonSpecStyle style, PaletteState state);
 
     /// <summary>
+    /// Gets an optional 200% source image for a built-in button spec (Issue #978).
+    /// </summary>
+    /// <param name="style">Style of button spec.</param>
+    /// <param name="state">State for which image is required.</param>
+    /// <returns>Image value, or null when no higher-resolution source exists.</returns>
+    public virtual Image? GetButtonSpecImageScale2(PaletteButtonSpecStyle style, PaletteState state)
+    {
+        Image? baseline = GetButtonSpecImage(style, state);
+        return ButtonSpecDpiImageRegistry.GetScale2x(baseline, style);
+    }
+
+    /// <summary>
+    /// Gets an optional 300% source image for a built-in button spec (Issue #978).
+    /// </summary>
+    /// <param name="style">Style of button spec.</param>
+    /// <param name="state">State for which image is required.</param>
+    /// <returns>Image value, or null when no higher-resolution source exists.</returns>
+    public virtual Image? GetButtonSpecImageScale3(PaletteButtonSpecStyle style, PaletteState state)
+    {
+        Image? baseline = GetButtonSpecImage(style, state);
+        return ButtonSpecDpiImageRegistry.GetScale3x(baseline, style);
+    }
+
+    /// <summary>
     /// Gets the image transparent color.
     /// </summary>
     /// <param name="style">Style of button spec.</param>

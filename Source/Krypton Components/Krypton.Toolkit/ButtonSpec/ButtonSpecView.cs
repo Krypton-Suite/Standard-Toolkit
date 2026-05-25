@@ -326,33 +326,30 @@ public class ButtonSpecView : GlobalId,
             return null;
         }
 
-        // Default behavior: DPI scale other ButtonSpec styles
         float dpiFactor = _controller?.Target.FactorDpiX ?? 1f;
+        float extraScaleFactor = KryptonManager.UseTouchscreenSupport
+            ? KryptonManager.TouchscreenScaleFactor
+            : 1f;
+
+        Image? scale2x = null;
+        Image? scale3x = null;
+        if (ButtonSpec.IsPaletteImageSource(state))
+        {
+            PaletteButtonSpecStyle specStyle = ButtonSpec.InheritedPaletteButtonSpecStyle;
+            scale2x = _redirector.GetButtonSpecImageScale2(specStyle, state);
+            scale3x = _redirector.GetButtonSpecImageScale3(specStyle, state);
+        }
 
         // For InputControl buttons (editing controls), enforce a consistent 16px logical size (DPI-aware)
         // to avoid dependency on layout timing where client rectangles can be 0 during early passes.
         if (ButtonSpec.GetStyle(_redirector) == ButtonStyle.InputControl)
         {
-            float target = 16f * dpiFactor;
-
-            // Preserve aspect ratio
-            float scale = Math.Min(target / baseImage.Width, target / baseImage.Height);
-            float targetW = Math.Max(1f, baseImage.Width * scale);
-            float targetH = Math.Max(1f, baseImage.Height * scale);
-
-            return CommonHelper.ScaleImageForSizedDisplay(baseImage, targetW, targetH, true);
+            return ButtonSpecImageResolver.ResolveForDpi(baseImage, scale2x, scale3x, dpiFactor, extraScaleFactor,
+                16f, 16f);
         }
 
-        // Automatically scale all button images when touchscreen support is enabled
-        // This provides better touchscreen usability by making buttons larger and easier to tap
-        float imageScaleFactor = dpiFactor;
-        if (KryptonManager.UseTouchscreenSupport)
-        {
-            imageScaleFactor *= KryptonManager.TouchscreenScaleFactor;
-        }
-
-        return CommonHelper.ScaleImageForSizedDisplay(baseImage, baseImage.Width * imageScaleFactor,
-            baseImage.Height * imageScaleFactor, true);
+        return ButtonSpecImageResolver.ResolveForDpi(baseImage, scale2x, scale3x, dpiFactor, extraScaleFactor,
+            baseImage.Width, baseImage.Height);
     }
 
     /// <summary>

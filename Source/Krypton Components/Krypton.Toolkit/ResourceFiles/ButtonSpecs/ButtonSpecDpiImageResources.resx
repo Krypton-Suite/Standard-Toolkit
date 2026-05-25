@@ -1,0 +1,184 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="ProfessionalCloseButton_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\ProfessionalCloseButton_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ProfessionalCloseButton_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\ProfessionalCloseButton_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ProfessionalContextButton_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\ProfessionalContextButton_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ProfessionalContextButton_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\ProfessionalContextButton_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ProfessionalNextButton_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\ProfessionalNextButton_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ProfessionalNextButton_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\ProfessionalNextButton_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ProfessionalPreviousButton_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\ProfessionalPreviousButton_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ProfessionalPreviousButton_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\ProfessionalPreviousButton_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ProfessionalArrowLeftButton_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\ProfessionalArrowLeftButton_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ProfessionalArrowLeftButton_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\ProfessionalArrowLeftButton_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ProfessionalArrowRightButton_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\ProfessionalArrowRightButton_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ProfessionalArrowRightButton_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\ProfessionalArrowRightButton_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ProfessionalArrowUpButton_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\ProfessionalArrowUpButton_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ProfessionalArrowUpButton_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\ProfessionalArrowUpButton_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ProfessionalArrowDownButton_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\ProfessionalArrowDownButton_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ProfessionalArrowDownButton_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\ProfessionalArrowDownButton_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ProfessionalDropDownButton_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\ProfessionalDropDownButton_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ProfessionalDropDownButton_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\ProfessionalDropDownButton_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ProfessionalRestore_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\ProfessionalRestore_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ProfessionalRestore_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\ProfessionalRestore_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ProfessionalPinVerticalButton_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\ProfessionalPinVerticalButton_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ProfessionalPinVerticalButton_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\ProfessionalPinVerticalButton_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ProfessionalPinHorizontalButton_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\ProfessionalPinHorizontalButton_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ProfessionalPinHorizontalButton_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\ProfessionalPinHorizontalButton_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ProfessionalMaximize_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\ProfessionalMaximize_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ProfessionalMaximize_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\ProfessionalMaximize_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010ButtonMDIClose_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010ButtonMDIClose_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010ButtonMDIClose_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010ButtonMDIClose_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010ButtonMDIMin_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010ButtonMDIMin_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010ButtonMDIMin_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010ButtonMDIMin_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010ButtonMDIRestore_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010ButtonMDIRestore_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010ButtonMDIRestore_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010ButtonMDIRestore_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RibbonUp2010_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\RibbonUp2010_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RibbonUp2010_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\RibbonUp2010_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RibbonDown2010_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\RibbonDown2010_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RibbonDown2010_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\RibbonDown2010_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010ButtonMDICloseBlack_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010ButtonMDICloseBlack_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010ButtonMDICloseBlack_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010ButtonMDICloseBlack_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010ButtonMDIMinBlack_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010ButtonMDIMinBlack_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010ButtonMDIMinBlack_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010ButtonMDIMinBlack_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010ButtonMDIRestoreBlack_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010ButtonMDIRestoreBlack_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010ButtonMDIRestoreBlack_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010ButtonMDIRestoreBlack_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RibbonUp2010Black_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\RibbonUp2010Black_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RibbonUp2010Black_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\RibbonUp2010Black_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RibbonDown2010Black_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\RibbonDown2010Black_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RibbonDown2010Black_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\RibbonDown2010Black_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MdiClose_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\MdiClose_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MdiClose_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\MdiClose_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MdiMin_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\MdiMin_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MdiMin_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\MdiMin_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MdiRestore_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\MdiRestore_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MdiRestore_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\MdiRestore_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MdiRibbonMinimize_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\MdiRibbonMinimize_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MdiRibbonMinimize_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\MdiRibbonMinimize_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MdiRibbonExpand_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\MdiRibbonExpand_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MdiRibbonExpand_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\MdiRibbonExpand_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+</root>

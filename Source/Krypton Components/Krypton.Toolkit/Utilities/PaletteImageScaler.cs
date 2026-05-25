@@ -54,31 +54,31 @@ public static class PaletteImageScaler
         // scale buttonspec images
         KryptonPaletteButtonSpecs bs = pal.ButtonSpecs;
         bs.PopulateFromBase(); // populate images first so we can scale them
-        ScaleButtonSpecImageType(bs.ArrowDown, scaleFactor);
-        ScaleButtonSpecImageType(bs.ArrowLeft, scaleFactor);
-        ScaleButtonSpecImageType(bs.ArrowRight, scaleFactor);
-        ScaleButtonSpecImageType(bs.ArrowUp, scaleFactor);
-        ScaleButtonSpecImageType(bs.Close, scaleFactor);
-        ScaleButtonSpecImageType(bs.Common, scaleFactor);
-        ScaleButtonSpecImageType(bs.Context, scaleFactor);
-        ScaleButtonSpecImageType(bs.DropDown, scaleFactor);
-        ScaleButtonSpecImageType(bs.FormClose, scaleFactor);
-        ScaleButtonSpecImageType(bs.FormMax, scaleFactor);
-        ScaleButtonSpecImageType(bs.FormMin, scaleFactor);
-        ScaleButtonSpecImageType(bs.FormRestore, scaleFactor);
-        ScaleButtonSpecImageType(bs.FormHelp, scaleFactor);
-        ScaleButtonSpecImageType(bs.Generic, scaleFactor);
-        ScaleButtonSpecImageType(bs.Next, scaleFactor);
-        ScaleButtonSpecImageType(bs.PendantClose, scaleFactor);
-        ScaleButtonSpecImageType(bs.PendantMin, scaleFactor);
-        ScaleButtonSpecImageType(bs.PendantRestore, scaleFactor);
-        ScaleButtonSpecImageType(bs.PinHorizontal, scaleFactor);
-        ScaleButtonSpecImageType(bs.PinVertical, scaleFactor);
-        ScaleButtonSpecImageType(bs.Previous, scaleFactor);
-        ScaleButtonSpecImageType(bs.RibbonExpand, scaleFactor);
-        ScaleButtonSpecImageType(bs.RibbonMinimize, scaleFactor);
-        ScaleButtonSpecImageType(bs.WorkspaceMaximize, scaleFactor);
-        ScaleButtonSpecImageType(bs.WorkspaceRestore, scaleFactor);
+        ScaleButtonSpecImageType(bs.ArrowDown, scaleFactor, PaletteButtonSpecStyle.ArrowDown);
+        ScaleButtonSpecImageType(bs.ArrowLeft, scaleFactor, PaletteButtonSpecStyle.ArrowLeft);
+        ScaleButtonSpecImageType(bs.ArrowRight, scaleFactor, PaletteButtonSpecStyle.ArrowRight);
+        ScaleButtonSpecImageType(bs.ArrowUp, scaleFactor, PaletteButtonSpecStyle.ArrowUp);
+        ScaleButtonSpecImageType(bs.Close, scaleFactor, PaletteButtonSpecStyle.Close);
+        ScaleButtonSpecImageType(bs.Common, scaleFactor, PaletteButtonSpecStyle.Generic);
+        ScaleButtonSpecImageType(bs.Context, scaleFactor, PaletteButtonSpecStyle.Context);
+        ScaleButtonSpecImageType(bs.DropDown, scaleFactor, PaletteButtonSpecStyle.DropDown);
+        ScaleButtonSpecImageType(bs.FormClose, scaleFactor, PaletteButtonSpecStyle.FormClose);
+        ScaleButtonSpecImageType(bs.FormMax, scaleFactor, PaletteButtonSpecStyle.FormMax);
+        ScaleButtonSpecImageType(bs.FormMin, scaleFactor, PaletteButtonSpecStyle.FormMin);
+        ScaleButtonSpecImageType(bs.FormRestore, scaleFactor, PaletteButtonSpecStyle.FormRestore);
+        ScaleButtonSpecImageType(bs.FormHelp, scaleFactor, PaletteButtonSpecStyle.FormHelp);
+        ScaleButtonSpecImageType(bs.Generic, scaleFactor, PaletteButtonSpecStyle.Generic);
+        ScaleButtonSpecImageType(bs.Next, scaleFactor, PaletteButtonSpecStyle.Next);
+        ScaleButtonSpecImageType(bs.PendantClose, scaleFactor, PaletteButtonSpecStyle.PendantClose);
+        ScaleButtonSpecImageType(bs.PendantMin, scaleFactor, PaletteButtonSpecStyle.PendantMin);
+        ScaleButtonSpecImageType(bs.PendantRestore, scaleFactor, PaletteButtonSpecStyle.PendantRestore);
+        ScaleButtonSpecImageType(bs.PinHorizontal, scaleFactor, PaletteButtonSpecStyle.PinHorizontal);
+        ScaleButtonSpecImageType(bs.PinVertical, scaleFactor, PaletteButtonSpecStyle.PinVertical);
+        ScaleButtonSpecImageType(bs.Previous, scaleFactor, PaletteButtonSpecStyle.Previous);
+        ScaleButtonSpecImageType(bs.RibbonExpand, scaleFactor, PaletteButtonSpecStyle.RibbonExpand);
+        ScaleButtonSpecImageType(bs.RibbonMinimize, scaleFactor, PaletteButtonSpecStyle.RibbonMinimize);
+        ScaleButtonSpecImageType(bs.WorkspaceMaximize, scaleFactor, PaletteButtonSpecStyle.WorkspaceMaximize);
+        ScaleButtonSpecImageType(bs.WorkspaceRestore, scaleFactor, PaletteButtonSpecStyle.WorkspaceRestore);
 
         // scale images
         pal.Images.PopulateFromBase(); //populate images first so we can scale them
@@ -118,17 +118,49 @@ public static class PaletteImageScaler
     /// <summary>Scales the type of the button spec image.</summary>
     /// <param name="bst">The ButtonSpecType.</param>
     /// <param name="scaleFactor">The scale factor.</param>
-    private static void ScaleButtonSpecImageType(KryptonPaletteButtonSpecTyped bst, SizeF scaleFactor)
+    /// <param name="style">The palette button spec style.</param>
+    private static void ScaleButtonSpecImageType(KryptonPaletteButtonSpecTyped bst, SizeF scaleFactor,
+        PaletteButtonSpecStyle style)
     {
-        bst.Image = GetScaledImage(bst.Image, scaleFactor);
+        bst.Image = GetScaledButtonSpecImage(bst.Image, scaleFactor, style);
         CheckButtonImageStates imgState = bst.ImageStates;
-        imgState.ImageCheckedNormal = GetScaledImage(imgState.ImageCheckedNormal, scaleFactor);
-        imgState.ImageCheckedPressed = GetScaledImage(imgState.ImageCheckedPressed, scaleFactor);
-        imgState.ImageCheckedTracking = GetScaledImage(imgState.ImageCheckedTracking, scaleFactor);
-        imgState.ImageDisabled = GetScaledImage(imgState.ImageDisabled, scaleFactor);
-        imgState.ImageNormal = GetScaledImage(imgState.ImageNormal, scaleFactor);
-        imgState.ImagePressed = GetScaledImage(imgState.ImagePressed, scaleFactor);
-        imgState.ImageTracking = GetScaledImage(imgState.ImageTracking, scaleFactor);
+        imgState.ImageCheckedNormal = GetScaledButtonSpecImage(imgState.ImageCheckedNormal, scaleFactor, style);
+        imgState.ImageCheckedPressed = GetScaledButtonSpecImage(imgState.ImageCheckedPressed, scaleFactor, style);
+        imgState.ImageCheckedTracking = GetScaledButtonSpecImage(imgState.ImageCheckedTracking, scaleFactor, style);
+        imgState.ImageDisabled = GetScaledButtonSpecImage(imgState.ImageDisabled, scaleFactor, style);
+        imgState.ImageNormal = GetScaledButtonSpecImage(imgState.ImageNormal, scaleFactor, style);
+        imgState.ImagePressed = GetScaledButtonSpecImage(imgState.ImagePressed, scaleFactor, style);
+        imgState.ImageTracking = GetScaledButtonSpecImage(imgState.ImageTracking, scaleFactor, style);
+    }
+
+    /// <summary>
+    /// Scales a button spec image using <see cref="ButtonSpecImageResolver"/> (Issue #978).
+    /// </summary>
+    private static Image? GetScaledButtonSpecImage(Image? img, SizeF scaleFactor, PaletteButtonSpecStyle style)
+    {
+        if (img == null)
+        {
+            return null;
+        }
+
+        if (scaleFactor is { Width: 1, Height: 1 })
+        {
+            return img;
+        }
+
+        float dpiFactor = scaleFactor.Width;
+        Image? scale2x = ButtonSpecDpiImageRegistry.GetScale2x(img, style);
+        Image? scale3x = ButtonSpecDpiImageRegistry.GetScale3x(img, style);
+        Image? resolved = ButtonSpecImageResolver.ResolveForDpi(img, scale2x, scale3x, dpiFactor, 1f, img.Width,
+            img.Height);
+        if (resolved == null)
+        {
+            return null;
+        }
+
+        using var tmpBmp = new Bitmap(resolved);
+        tmpBmp.MakeTransparent(GlobalStaticVariables.TRANSPARENCY_KEY_COLOR);
+        return new Bitmap(tmpBmp);
     }
 
     // scales an image and also makes magenta transparent
