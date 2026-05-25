@@ -18,7 +18,6 @@ namespace Krypton.Toolkit
         private bool _lastHitTest;
         private KryptonRichTextBox? _richTextBox;
         private IDesignerHost _designerHost;
-        private IComponentChangeService _changeService;
         private ISelectionService _selectionService;
         #endregion
 
@@ -51,18 +50,8 @@ namespace Krypton.Toolkit
 
             // Get access to the design services
             _designerHost = (IDesignerHost)GetService(typeof(IDesignerHost));
-            _changeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));
             _selectionService = (ISelectionService)GetService(typeof(ISelectionService));
-
-            // We need to know when we are being removed
-            _changeService.ComponentRemoving += OnComponentRemoving;
         }
-
-        /// <summary>
-        /// Gets the collection of components associated with the component managed by the designer.
-        /// </summary>
-        public override ICollection AssociatedComponents =>
-            _richTextBox?.ButtonSpecs ?? base.AssociatedComponents;
 
         /// <summary>
         /// Gets the selection rules that indicate the movement capabilities of a component.
@@ -184,34 +173,6 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnComponentRemoving(object sender, ComponentEventArgs e)
-        {
-            // If our control is being removed
-            if (e.Component == _richTextBox)
-            {
-                // Need access to host in order to delete a component
-                var host = (IDesignerHost)GetService(typeof(IDesignerHost));
-
-                // We need to remove all the button spec instances
-                for (var i = _richTextBox.ButtonSpecs.Count - 1; i >= 0; i--)
-                {
-                    // Get access to the indexed button spec
-                    ButtonSpec spec = _richTextBox.ButtonSpecs[i];
-
-                    // Must wrap button spec removal in change notifications
-                    _changeService.OnComponentChanging(_richTextBox, null);
-
-                    // Perform actual removal of button spec from rich textbox
-                    _richTextBox.ButtonSpecs.Remove(spec);
-
-                    // Get host to remove it from design time
-                    host.DestroyComponent(spec);
-
-                    // Must wrap button spec removal in change notifications
-                    _changeService.OnComponentChanged(_richTextBox, null, null, null);
-                }
-            }
-        }
         #endregion
     }
 }

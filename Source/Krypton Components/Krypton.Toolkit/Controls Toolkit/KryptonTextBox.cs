@@ -1337,11 +1337,6 @@ public class KryptonTextBox : VisualControlBase,
                 retSize.Height = Math.Max(MinimumSize.Height, retSize.Height);
             }
 
-            if (MinimumControlHeight > 0)
-            {
-                retSize.Height = Math.Max(MinimumControlHeight, retSize.Height);
-            }
-
             return retSize;
         }
         else
@@ -1511,12 +1506,6 @@ public class KryptonTextBox : VisualControlBase,
     protected override ControlCollection CreateControlsInstance() => new KryptonReadOnlyControls(this);
 
     /// <summary>
-    /// Creates the accessibility object for the KryptonTextBox control.
-    /// </summary>
-    /// <returns>A new KryptonTextBoxAccessibleObject instance for the control.</returns>
-    protected override AccessibleObject CreateAccessibilityInstance() => new KryptonTextBoxAccessibleObject(this);
-
-    /// <summary>
     /// Raises the HandleCreated event.
     /// </summary>
     /// <param name="e">An EventArgs containing the event data.</param>
@@ -1635,7 +1624,7 @@ public class KryptonTextBox : VisualControlBase,
             var paletteContent = GetTripleState().PaletteContent;
             if (paletteContent != null)
             {
-                Padding contentPadding = paletteContent.GetBorderContentPadding(null, _drawDockerOuter.State);
+                Padding contentPadding = paletteContent.GetContentPadding(_drawDockerOuter.State);
                 _layoutFill.DisplayPadding = contentPadding;
             }
         }
@@ -1697,7 +1686,10 @@ public class KryptonTextBox : VisualControlBase,
         // Do we need to prevent the height from being altered?
         if (_autoSize && !Multiline)
         {
-            CacheDimensionIfSpecified(specified, BoundsSpecified.Height, height, ref _cachedHeight);
+            if ((specified & BoundsSpecified.Height) == BoundsSpecified.Height)
+            {
+                _cachedHeight = height;
+            }
 
             // Override the actual height used to the fixed height for single line
             height = PreferredHeight;
@@ -1910,9 +1902,9 @@ public class KryptonTextBox : VisualControlBase,
 
     private void OnTextBoxPreviewKeyDown(object? sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-    private void OnTextBoxValidated(object? sender, EventArgs e) => ForwardValidated(e);
+    private void OnTextBoxValidated(object? sender, EventArgs e) => OnValidated(e);
 
-    private void OnTextBoxValidating(object? sender, CancelEventArgs e) => ForwardValidating(e);
+    private void OnTextBoxValidating(object? sender, CancelEventArgs e) => OnValidating(e);
 
     private void OnShowToolTip(object? sender, ToolTipEventArgs e)
     {
@@ -1967,7 +1959,7 @@ public class KryptonTextBox : VisualControlBase,
 
                         if (AllowButtonSpecToolTipPriority)
                         {
-                            _visualBasePopupToolTip?.Dispose();
+                            visualBasePopupToolTip?.Dispose();
                         }
                     }
 

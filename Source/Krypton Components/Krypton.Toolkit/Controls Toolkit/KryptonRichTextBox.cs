@@ -284,9 +284,29 @@ public class KryptonRichTextBox : VisualControlBase,
     }
     #endregion
 
+    #region Type Definitions
+    /// <summary>
+    /// Collection for managing ButtonSpecAny instances.
+    /// </summary>
+    public class RichTextBoxButtonSpecCollection : ButtonSpecCollection<ButtonSpecAny>
+    {
+        #region Identity
+        /// <summary>
+        /// Initialize a new instance of the RichTextBoxButtonSpecCollection class.
+        /// </summary>
+        /// <param name="owner">Reference to owning object.</param>
+        public RichTextBoxButtonSpecCollection(KryptonRichTextBox owner)
+            : base(owner)
+        {
+        }
+        #endregion
+    }
+    #endregion
+
     #region Instance Fields
 
     private VisualPopupToolTip? _visualPopupToolTip;
+    private readonly ButtonSpecManagerLayout? _buttonManager;
     private readonly ViewLayoutDocker _drawDockerInner;
     private readonly ViewDrawDocker _drawDockerOuter;
     private readonly ViewLayoutFill _layoutFill;
@@ -436,6 +456,11 @@ public class KryptonRichTextBox : VisualControlBase,
         _alwaysActive = true;
         _firstPaint = true;
         _inputControlStyle = InputControlStyle.Standalone;
+        AllowButtonSpecToolTips = false;
+        AllowButtonSpecToolTipPriority = false;
+
+        // Create storage properties
+        ButtonSpecs = new RichTextBoxButtonSpecCollection(this);
 
         // Create the palette storage
         StateCommon = new PaletteInputControlTripleRedirect(Redirector, PaletteBackStyle.InputControlStandalone, PaletteBorderStyle.InputControlStandalone, PaletteContentStyle.InputControlStandalone, NeedPaintDelegate);
@@ -486,10 +511,20 @@ public class KryptonRichTextBox : VisualControlBase,
         // Create the view manager instance
         ViewManager = new ViewManager(this, _drawDockerOuter);
 
+        // Create button specification collection manager
+        _buttonManager = new ButtonSpecManagerLayout(this, Redirector, ButtonSpecs, null,
+            [_drawDockerInner],
+            [StateCommon],
+            [PaletteMetricInt.HeaderButtonEdgeInsetInputControl],
+            [PaletteMetricPadding.HeaderButtonPaddingInputControl],
+            CreateToolStripRenderer,
+            NeedPaintDelegate);
+
         // Create the manager for handling tooltips
         ToolTipManager = new ToolTipManager(ToolTipValues);
         ToolTipManager.ShowToolTip += OnShowToolTip;
         ToolTipManager.CancelToolTip += OnCancelToolTip;
+        _buttonManager.ToolTipManager = ToolTipManager;
 
         // Add text box to the controls collection
         ((KryptonReadOnlyControls)Controls).AddInternal(_richTextBox);
@@ -550,6 +585,30 @@ public class KryptonRichTextBox : VisualControlBase,
     [EditorBrowsable(EditorBrowsableState.Never)]
     [Browsable(false)]
     public bool InRibbonDesignMode { get; set; }
+
+    /// <summary>
+    /// Gets and sets a value indicating if tooltips should be Displayed for button specs.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Should tooltips be Displayed for button specs.")]
+    [DefaultValue(false)]
+    public bool AllowButtonSpecToolTips { get; set; }
+
+    /// <summary>
+    /// Gets and sets a value indicating if button spec tooltips should remove the parent tooltip.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Should button spec tooltips should remove the parent tooltip")]
+    [DefaultValue(false)]
+    public bool AllowButtonSpecToolTipPriority { get; set; }
+
+    /// <summary>
+    /// Gets the collection of button specifications.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Collection of button specifications.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public RichTextBoxButtonSpecCollection ButtonSpecs { get; }
 
     /// <summary>
     /// Gets access to the contained RichTextBox instance.
@@ -1665,7 +1724,7 @@ public class KryptonRichTextBox : VisualControlBase,
     public bool DesignerGetHitTest(Point pt)
     {
         // Ignore call as view builder is already destructed
-        return !IsDisposed;
+        return !IsDisposed && (_buttonManager?.DesignerGetHitTest(pt) == true);
     }
 
     /// <summary>
@@ -1786,12 +1845,6 @@ public class KryptonRichTextBox : VisualControlBase,
     protected override ControlCollection CreateControlsInstance() => new KryptonReadOnlyControls(this);
 
     /// <summary>
-    /// Creates the accessibility object for the KryptonRichTextBox control.
-    /// </summary>
-    /// <returns>A new KryptonRichTextBoxAccessibleObject instance for the control.</returns>
-    protected override AccessibleObject CreateAccessibilityInstance() => new KryptonRichTextBoxAccessibleObject(this);
-
-    /// <summary>
     /// Raises the HandleCreated event.
     /// </summary>
     /// <param name="e">An EventArgs containing the event data.</param>
@@ -1819,6 +1872,9 @@ public class KryptonRichTextBox : VisualControlBase,
         // Update view elements
         _drawDockerInner.Enabled = Enabled;
         _drawDockerOuter.Enabled = Enabled;
+
+        // Update state to reflect change in enabled state
+        _buttonManager?.RefreshButtons();
 
         PerformNeedPaint(true);
 
@@ -1892,7 +1948,7 @@ public class KryptonRichTextBox : VisualControlBase,
         if (!IsDisposed && !Disposing)
         {
             // Update with latest content padding for placing around the contained text box control
-            Padding contentPadding = GetTripleState().PaletteContent!.GetBorderContentPadding(null, _drawDockerOuter.State);
+            Padding contentPadding = GetTripleState().PaletteContent!.GetContentPadding(_drawDockerOuter.State);
             _layoutFill.DisplayPadding = contentPadding;
         }
 
@@ -1997,7 +2053,7 @@ public class KryptonRichTextBox : VisualControlBase,
                         // Look for backslash followed by formatting codes: \b, \i, \ul, \fs, \cf, \highlight, or \f[1-9]
                         bool foundFormatting = false;
                         bool foundCustomFont = false;
-                        ReadOnlySpan<char> savedRtfSpan = savedRtf;
+                        string savedRtfSpan = savedRtf;
 
                         // Exit early once we find either formatting or custom font (either indicates RTF formatting)
                         for (int i = 0; i < savedRtfSpan.Length - 1 && !foundFormatting && !foundCustomFont; i++)
@@ -2129,7 +2185,7 @@ public class KryptonRichTextBox : VisualControlBase,
                 }
 
                 // Check if we're in a dark mode black theme that requires black text handling
-                PaletteMode currentMode = KryptonManager.CurrentGlobalPaletteMode;
+                PaletteMode currentMode = KryptonManager.InternalGlobalPaletteMode;
                 bool isDarkModeBlackTheme = currentMode is PaletteMode.Office2007BlackDarkMode or PaletteMode.Office2010BlackDarkMode or PaletteMode.Microsoft365BlackDarkMode;
 
                 string? rtfToRestore;
@@ -2329,9 +2385,9 @@ public class KryptonRichTextBox : VisualControlBase,
 
     private void OnRichTextBoxLinkClicked(object? sender, LinkClickedEventArgs e) => OnLinkClicked(e);
 
-    private void OnRichTextBoxValidated(object? sender, EventArgs e) => ForwardValidated(e);
+    private void OnRichTextBoxValidated(object? sender, EventArgs e) => OnValidated(e);
 
-    private void OnRichTextBoxValidating(object? sender, CancelEventArgs e) => ForwardValidating(e);
+    private void OnRichTextBoxValidating(object? sender, CancelEventArgs e) => OnValidating(e);
 
     private void OnShowToolTip(object? sender, ToolTipEventArgs e)
     {
@@ -2392,9 +2448,9 @@ public class KryptonRichTextBox : VisualControlBase,
     /// </summary>
     /// <param name="rtf">The RTF content to check.</param>
     /// <returns>True if black text is detected, false otherwise.</returns>
-    private static bool HasBlackTextInRtf(ReadOnlySpan<char> rtf)
+    private static bool HasBlackTextInRtf(string rtf)
     {
-        if (rtf.IsEmpty)
+        if (string.IsNullOrEmpty(rtf))
         {
             return false;
         }
@@ -2437,10 +2493,10 @@ public class KryptonRichTextBox : VisualControlBase,
             return rtf;
         }
 
-        ReadOnlySpan<char> rtfSpan = rtf;
+        string rtfSpan = rtf;
 
         // Find or add white color to color table
-        ReadOnlySpan<char> colortblPattern = @"{\colortbl".AsSpan();
+        string colortblPattern = @"{\colortbl";
         int colorTableStart = rtfSpan.IndexOf(colortblPattern, StringComparison.Ordinal);
         int whiteColorIndex = -1;
         string modifiedRtf = rtf;
@@ -2472,23 +2528,23 @@ public class KryptonRichTextBox : VisualControlBase,
 
             if (colorTableEnd > colorTableStart)
             {
-                ReadOnlySpan<char> colorTable = rtfSpan.Slice(colorTableStart, colorTableEnd - colorTableStart + 1);
+                string colorTable = rtfSpan.Substring(colorTableStart, colorTableEnd - colorTableStart + 1);
 
                 // Check if white color already exists: \red255\green255\blue255
-                ReadOnlySpan<char> red255Green255Blue255 = @"\red255\green255\blue255".AsSpan();
-                ReadOnlySpan<char> red255Green255Blue255Spaced = @"\red255 \green255 \blue255".AsSpan();
-                bool hasWhite = colorTable.Contains(red255Green255Blue255, StringComparison.Ordinal) ||
-                               colorTable.Contains(red255Green255Blue255Spaced, StringComparison.Ordinal);
+                string red255Green255Blue255 = @"\red255\green255\blue255";
+                string red255Green255Blue255Spaced = @"\red255 \green255 \blue255";
+                bool hasWhite = colorTable.IndexOf(red255Green255Blue255, StringComparison.Ordinal) >= 0 ||
+                                colorTable.IndexOf(red255Green255Blue255Spaced, StringComparison.Ordinal) >= 0;
 
                 if (hasWhite)
                 {
                     // Find the index of white color
                     // Count colors before white (each color ends with ;)
-                    ReadOnlySpan<char> red255 = @"\red255".AsSpan();
-                    int whitePos = colorTable.IndexOf(red255);
+                    string red255 = @"\red255";
+                    int whitePos = colorTable.IndexOf(red255, StringComparison.Ordinal);
                     if (whitePos > 0)
                     {
-                        ReadOnlySpan<char> beforeWhite = colorTable.Slice(0, whitePos);
+                        string beforeWhite = colorTable.Substring(0, whitePos);
                         whiteColorIndex = CountColorTableEntries(beforeWhite);
                     }
                 }
@@ -2515,9 +2571,9 @@ public class KryptonRichTextBox : VisualControlBase,
 
                     // Check if there's an explicit color definition for index 0
                     // Look for \red, \green, \blue patterns
-                    ReadOnlySpan<char> redPattern = @"\red".AsSpan();
-                    ReadOnlySpan<char> searchSpan = colorTable.Slice(firstColorStart);
-                    int redIndexRelative = searchSpan.IndexOf(redPattern);
+                    string redPattern = @"\red";
+                    string searchSpan = colorTable.Substring(firstColorStart);
+                    int redIndexRelative = searchSpan.IndexOf(redPattern, StringComparison.Ordinal);
                     int redIndex = redIndexRelative >= 0 ? firstColorStart + redIndexRelative : -1;
                     int nextSemicolonRelative = searchSpan.IndexOf(';');
                     int nextSemicolon = nextSemicolonRelative >= 0 ? firstColorStart + nextSemicolonRelative : -1;
@@ -2527,7 +2583,7 @@ public class KryptonRichTextBox : VisualControlBase,
                     if (hasExplicitFirstColor)
                     {
                         // Find where the first explicit color ends (next semicolon or closing brace)
-                        ReadOnlySpan<char> searchSpanForEnd = colorTable.Slice(firstColorStart);
+                        string searchSpanForEnd = colorTable.Substring(firstColorStart);
                         int firstColorEndRelative = searchSpanForEnd.IndexOf(';');
                         int firstColorEnd = firstColorEndRelative >= 0 ? firstColorStart + firstColorEndRelative : -1;
                         if (firstColorEnd < 0)
@@ -2539,9 +2595,9 @@ public class KryptonRichTextBox : VisualControlBase,
                         if (firstColorEnd > firstColorStart)
                         {
                             // Replace the explicit first color (black) with white
-                            string newColorTable = colorTable.Slice(0, firstColorStart).ToString() +
+                            string newColorTable = colorTable.Substring(0, firstColorStart) +
                                                   @"\red255\green255\blue255" +
-                                                  colorTable.Slice(firstColorEnd).ToString();
+                                                  colorTable.Substring(firstColorEnd);
 
                             // Replace the color table in the RTF
                             modifiedRtf = rtf.Substring(0, colorTableStart) +
@@ -2557,9 +2613,9 @@ public class KryptonRichTextBox : VisualControlBase,
                         // Index 0 is implicit (no explicit color definition)
                         // Insert white as the explicit first color
                         string whiteColorDef = @"\red255\green255\blue255";
-                        string newColorTable = colorTable.Slice(0, firstColorStart).ToString() +
+                        string newColorTable = colorTable.Substring(0, firstColorStart) +
                                               whiteColorDef +
-                                              colorTable.Slice(firstColorStart).ToString();
+                                              colorTable.Substring(firstColorStart);
 
                         // Replace the color table in the RTF
                         modifiedRtf = rtf.Substring(0, colorTableStart) +
@@ -2576,11 +2632,11 @@ public class KryptonRichTextBox : VisualControlBase,
         {
             // No color table exists, create one with white as default
             // Find insertion point after font table
-            ReadOnlySpan<char> newlinePattern = @"}\n".AsSpan();
+            string newlinePattern = @"}\n";
             int fontTableEnd = rtfSpan.IndexOf(newlinePattern, StringComparison.Ordinal);
             if (fontTableEnd < 0)
             {
-                ReadOnlySpan<char> crlfPattern = @"}\r\n".AsSpan();
+                string crlfPattern = @"}\r\n";
                 fontTableEnd = rtfSpan.IndexOf(crlfPattern, StringComparison.Ordinal);
             }
             if (fontTableEnd < 0)
@@ -2602,7 +2658,7 @@ public class KryptonRichTextBox : VisualControlBase,
         {
             // Fallback: just remove \cf0
             var result = new System.Text.StringBuilder(modifiedRtf);
-            ReadOnlySpan<char> resultSpan = result.ToString();
+            string resultSpan = result.ToString();
             for (int i = resultSpan.Length - 4; i >= 0; i--)
             {
                 if (resultSpan[i] == '\\' && resultSpan[i + 1] == 'c' && resultSpan[i + 2] == 'f' && resultSpan[i + 3] == '0')
@@ -2631,7 +2687,7 @@ public class KryptonRichTextBox : VisualControlBase,
         // Replace \cf0 with \cf{whiteColorIndex} (which is now 0, but we keep the code for clarity)
         var finalResult = new System.Text.StringBuilder(modifiedRtf);
         string replacement = $@"\cf{whiteColorIndex}";
-        ReadOnlySpan<char> finalResultSpan = finalResult.ToString();
+        string finalResultSpan = finalResult.ToString();
 
         // Scan backwards to avoid index shifting issues
         for (int i = finalResultSpan.Length - 4; i >= 0; i--)
@@ -2668,18 +2724,13 @@ public class KryptonRichTextBox : VisualControlBase,
     /// </summary>
     /// <param name="colorTable">The color table string to count.</param>
     /// <returns>The number of color entries (semicolons indicate entries).</returns>
-    private static int CountColorTableEntries(ReadOnlySpan<char> colorTable)
+    private static int CountColorTableEntries(string colorTable)
     {
-        if (colorTable.IsEmpty)
+        if (string.IsNullOrEmpty(colorTable))
         {
             return 0;
         }
 
-#if NET5_0_OR_GREATER
-        // Use Span.Count method available in .NET 5.0 and later
-        int count = MemoryExtensions.Count(colorTable, ';') + 1;
-#else
-        // Fallback for older frameworks without Span.Count
         int count = 1;
 
         // Count semicolons to determine number of colors
@@ -2692,7 +2743,6 @@ public class KryptonRichTextBox : VisualControlBase,
                 count++;
             }
         }
-#endif
 
         // First semicolon is after the opening brace, so subtract 1
         return count - 1;
