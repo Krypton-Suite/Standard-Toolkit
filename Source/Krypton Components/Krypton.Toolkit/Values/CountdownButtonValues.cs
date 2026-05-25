@@ -34,8 +34,8 @@ public class CountdownButtonValues : Storage
 
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public override bool IsDefault => CountdownDuration.Equals(GlobalStaticValues.DEFAULT_COUNTDOWN_VALUE) &&
-                                      CountdownInterval.Equals(GlobalStaticValues.DEFAULT_COUNTDOWN_INTERVAL) &&
+    public override bool IsDefault => CountdownDuration.Equals(GlobalStaticConstants.DEFAULT_COUNTDOWN_VALUE) &&
+                                      CountdownInterval.Equals(GlobalStaticConstants.DEFAULT_COUNTDOWN_INTERVAL) &&
                                       CountdownTextFormat.Equals("{0} ({1})");
 
     #endregion
@@ -95,8 +95,8 @@ public class CountdownButtonValues : Storage
 
     public void Reset()
     {
-        CountdownInterval = GlobalStaticValues.DEFAULT_COUNTDOWN_INTERVAL;
-        CountdownDuration = GlobalStaticValues.DEFAULT_COUNTDOWN_VALUE;
+        CountdownInterval = GlobalStaticConstants.DEFAULT_COUNTDOWN_INTERVAL;
+        CountdownDuration = GlobalStaticConstants.DEFAULT_COUNTDOWN_VALUE;
         CountdownTextFormat = "{0} ({1})";
     }
 

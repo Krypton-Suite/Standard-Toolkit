@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & tobitege et al. 2026 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2026 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -67,9 +67,9 @@ public class KryptonBackstageViewDesigner : ParentControlDesigner
         }
 
         // Get access to the services
-        _designerHost = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_designerHost)));
-        _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_changeService)));
-        _selectionService = (ISelectionService?)GetService(typeof(ISelectionService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_selectionService)));
+        _designerHost = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_designerHost)));
+        _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_changeService)));
+        _selectionService = (ISelectionService?)GetService(typeof(ISelectionService)) ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_selectionService)));
 
         // We need to know when we are being removed
         _changeService.ComponentRemoving += OnComponentRemoving;

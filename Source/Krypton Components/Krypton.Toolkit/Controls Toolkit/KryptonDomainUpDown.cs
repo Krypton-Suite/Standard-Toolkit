@@ -499,7 +499,7 @@ public class KryptonDomainUpDown : VisualControlBase,
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Color value.</returns>
-        public virtual Color GetImageTransparentColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+        public virtual Color GetImageTransparentColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the content long text.
@@ -519,7 +519,7 @@ public class KryptonDomainUpDown : VisualControlBase,
         /// </summary>
         /// <param name="state">The state for which the overlay image is needed.</param>
         /// <returns>Color value.</returns>
-        public virtual Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+        public virtual Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the position of the overlay image relative to the main image.
@@ -752,6 +752,7 @@ public class KryptonDomainUpDown : VisualControlBase,
     private bool _trackingMouseEnter;
     private int _cachedHeight;
     private bool _autoSize = false;
+    private int _cachedWidth;
     private Graphics? _graphics;
     #endregion
 
@@ -843,6 +844,7 @@ public class KryptonDomainUpDown : VisualControlBase,
         _cachedHeight = -1;
         _alwaysActive = true;
         _autoSize = false;
+        _cachedWidth = -1;
         _graphics = null;
         AllowButtonSpecToolTips = false;
         AllowButtonSpecToolTipPriority = false;
@@ -947,8 +949,19 @@ public class KryptonDomainUpDown : VisualControlBase,
         {
             if (_autoSize != value)
             {
+                AutoSizeDimensionCacheHelper.CacheCurrentBeforeEnable(value, Width, ref _cachedWidth);
+
                 _autoSize = value;
-                UpdateAutoSizing();
+
+                if (_autoSize)
+                {
+                    UpdateAutoSizing();
+                }
+                else if (AutoSizeDimensionCacheHelper.TryGetCachedValue(_cachedWidth, out int restoredWidth))
+                {
+                    Width = restoredWidth;
+                    PerformNeedPaint(true);
+                }
             }
         }
     }
@@ -1740,6 +1753,11 @@ public class KryptonDomainUpDown : VisualControlBase,
         int width, int height,
         BoundsSpecified specified)
     {
+        if (!_autoSize)
+        {
+            AutoSizeDimensionCacheHelper.CacheIfSpecified(specified, BoundsSpecified.Width, width, ref _cachedWidth);
+        }
+
         // If setting the actual height
         if ((specified & BoundsSpecified.Height) == BoundsSpecified.Height)
         {

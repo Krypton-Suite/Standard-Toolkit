@@ -104,6 +104,9 @@ public class KryptonTextBox : VisualControlBase,
         {
             switch (m.Msg)
             {
+                case PI.WM_.ERASEBKGND:
+                    // Prevent two-stage erase/paint redraw during resize, which causes visible text flicker.
+                    break;
                 case PI.WM_.NCHITTEST:
                     if (_kryptonTextBox.InTransparentDesignMode)
                     {
@@ -118,8 +121,13 @@ public class KryptonTextBox : VisualControlBase,
                 case PI.WM_.MOUSELEAVE:
                     // Mouse is not over the control
                     MouseOver = false;
-                    _kryptonTextBox.PerformNeedPaint(true);
-                    Invalidate();
+                    // Button specs are drawn outside the internal text box; avoid repaint churn when the
+                    // pointer is still over the owning KryptonTextBox (for example on a ButtonSpec).
+                    if (!_kryptonTextBox.IsMouseReallyOverControl())
+                    {
+                        _kryptonTextBox.PerformNeedPaint(true);
+                        Invalidate();
+                    }
                     base.WndProc(ref m);
                     break;
                 case PI.WM_.MOUSEMOVE:
@@ -135,6 +143,17 @@ public class KryptonTextBox : VisualControlBase,
                 case PI.WM_.PRINTCLIENT:
                 case PI.WM_.PAINT:
                 {
+                    bool hasCueHintText = !string.IsNullOrWhiteSpace(_kryptonTextBox.CueHint.CueHintText);
+                    bool hasUserText = !string.IsNullOrEmpty(_kryptonTextBox.Text);
+
+                    // Use native edit-control painting for the common enabled text path.
+                    // Custom cue-hint/disabled rendering remains below.
+                    if (_kryptonTextBox.Enabled && (!hasCueHintText || hasUserText))
+                    {
+                        base.WndProc(ref m);
+                        break;
+                    }
+
                     var ps = new PI.PAINTSTRUCT();
 
                     // Do we need to BeginPaint or just take the given HDC?
@@ -142,6 +161,9 @@ public class KryptonTextBox : VisualControlBase,
 
                     // Paint the entire area in the background color
                     using Graphics g = Graphics.FromHdc(hdc);
+                    // BeginPaint can restrict the clip to the update region; cue rendering needs a solid full-client
+                    // background so fringe pixels from prior paints do not remain as top/left edge streaks.
+                    g.ResetClip();
                     // Grab the client area of the control
                     PI.GetClientRect(Handle, out PI.RECT rect);
 
@@ -152,9 +174,7 @@ public class KryptonTextBox : VisualControlBase,
                     Size borderSize = SystemInformation.BorderSize;
                     rect.left -= borderSize.Width + 1;
 
-                    if (!string.IsNullOrWhiteSpace(_kryptonTextBox.CueHint.CueHintText)
-                        && string.IsNullOrEmpty(_kryptonTextBox.Text)
-                       )
+                    if (hasCueHintText && !hasUserText)
                     {
                         // Go perform the drawing of the CueHint
                         using var backBrush = new SolidBrush(BackColor);
@@ -1622,11 +1642,30 @@ public class KryptonTextBox : VisualControlBase,
     /// <param name="e">An EventArgs that contains the event data.</param>
     protected override void OnResize(EventArgs e)
     {
-        // Let base class raise events
-        base.OnResize(e);
+        bool freezeTextBoxRedraw = Multiline && _textBox.IsHandleCreated;
 
-        // We must have a layout calculation
-        ForceControlLayout();
+        if (freezeTextBoxRedraw)
+        {
+            PI.SendMessage(_textBox.Handle, PI.SETREDRAW, IntPtr.Zero, IntPtr.Zero);
+        }
+
+        try
+        {
+            // Let base class raise events
+            base.OnResize(e);
+
+            // We must have a layout calculation
+            ForceControlLayout();
+        }
+        finally
+        {
+            if (freezeTextBoxRedraw)
+            {
+                PI.SendMessage(_textBox.Handle, PI.SETREDRAW, (IntPtr)1, IntPtr.Zero);
+                _textBox.Invalidate();
+                _textBox.Update();
+            }
+        }
     }
 
     /// <summary>
@@ -1682,6 +1721,13 @@ public class KryptonTextBox : VisualControlBase,
     /// <param name="e">An EventArgs that contains the event data.</param>
     protected override void OnMouseLeave(EventArgs e)
     {
+        // Ignore spurious leave notifications while the pointer is still over this control
+        // (for example when moving from the internal text box onto a ButtonSpec).
+        if (IsMouseReallyOverControl())
+        {
+            return;
+        }
+
         _mouseOver = false;
         PerformNeedPaint(true);
         _textBox.Invalidate();
@@ -1703,18 +1749,7 @@ public class KryptonTextBox : VisualControlBase,
         // Do we need to prevent the height from being altered?
         if (_autoSize && !Multiline)
         {
-            switch (Dock)
-            {
-                case DockStyle.Fill:
-                case DockStyle.Left:
-                case DockStyle.Right:
-                    if ((specified & ~BoundsSpecified.Height) == specified)
-                    {
-                        _cachedHeight = height;
-                    }
-
-                    break;
-            }
+            AutoSizeDimensionCacheHelper.CacheIfSpecified(specified, BoundsSpecified.Height, height, ref _cachedHeight);
 
             // Override the actual height used to the fixed height for single line
             height = PreferredHeight;
@@ -2019,10 +2054,14 @@ public class KryptonTextBox : VisualControlBase,
 
     private void OnTextBoxMouseChange(object? sender, EventArgs e)
     {
+        // Button specs are parent-drawn; the internal text box can report leave while the pointer
+        // is still over the KryptonTextBox client area.
+        var tracking = _textBox.MouseOver || IsMouseReallyOverControl();
+
         // Change in tracking state?
-        if (_textBox.MouseOver != _trackingMouseEnter)
+        if (tracking != _trackingMouseEnter)
         {
-            _trackingMouseEnter = _textBox.MouseOver;
+            _trackingMouseEnter = tracking;
 
             // Raise appropriate event
             if (_trackingMouseEnter)
@@ -2037,6 +2076,9 @@ public class KryptonTextBox : VisualControlBase,
             }
         }
     }
+
+    private bool IsMouseReallyOverControl() =>
+        IsHandleCreated && ClientRectangle.Contains(PointToClient(Control.MousePosition));
 
     private void OnEditorButtonClicked(object? sender, EventArgs e) => new MultilineStringEditor1(this).ShowEditor();
 

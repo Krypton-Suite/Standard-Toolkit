@@ -24,7 +24,7 @@ namespace Krypton.Toolkit;
 /// </para>
 /// </remarks>
 [ToolboxItem(true)]
-[ToolboxBitmap(typeof(KryptonFormTitleBar), "ToolboxBitmaps.KryptonMenuBar.bmp")]
+[ToolboxBitmap(typeof(KryptonFormTitleBar), "ToolboxBitmaps.KryptonApplicationBarMenu.bmp")]
 [DefaultEvent(nameof(ButtonSpecs))]
 [DefaultProperty(nameof(ButtonSpecs))]
 [Designer(typeof(KryptonFormTitleBarDesigner))]

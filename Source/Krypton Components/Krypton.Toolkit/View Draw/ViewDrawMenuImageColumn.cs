@@ -100,7 +100,7 @@ internal class ViewDrawMenuImageColumn : ViewDrawDocker
             Color p1 = PaletteBack!.GetBackColor1(State);
             Color p2 = PaletteBack!.GetBackColor2(State);
 
-            if (p1 != GlobalStaticValues.EMPTY_COLOR || p2 != GlobalStaticValues.EMPTY_COLOR)
+            if (p1 != GlobalStaticVariables.EMPTY_COLOR || p2 != GlobalStaticVariables.EMPTY_COLOR)
             {
                 if (p1 == p2)
                 {
@@ -150,7 +150,7 @@ internal class ViewDrawMenuImageColumn : ViewDrawDocker
         // Prefer palette border colors so control overrides work; fallback to ColorTable
         Color lineLight = PaletteBorder!.GetBorderColor1(State);
         Color lineDark = PaletteBorder!.GetBorderColor2(State);
-        if (lineLight == GlobalStaticValues.EMPTY_COLOR && lineDark == GlobalStaticValues.EMPTY_COLOR)
+        if (lineLight == GlobalStaticVariables.EMPTY_COLOR && lineDark == GlobalStaticVariables.EMPTY_COLOR)
         {
             var colorTable = _provider.ProviderRedirector.ColorTable;
             lineLight = colorTable.ImageMarginGradientEnd;

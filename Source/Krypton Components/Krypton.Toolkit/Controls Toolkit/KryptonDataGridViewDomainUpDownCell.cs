@@ -242,7 +242,7 @@ public class KryptonDataGridViewDomainUpDownCell : KryptonDataGridViewTextBoxCel
     #region Private
 
     private KryptonDataGridViewDomainUpDownEditingControl EditingDomainUpDown => DataGridView!.EditingControl as KryptonDataGridViewDomainUpDownEditingControl
-        ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(DataGridView.EditingControl)));
+        ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(DataGridView.EditingControl)));
 
     private void OnCommonChange()
     {

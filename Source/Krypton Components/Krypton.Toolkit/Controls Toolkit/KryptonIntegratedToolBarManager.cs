@@ -12,7 +12,7 @@ namespace Krypton.Toolkit;
 /// <summary>Handles all the integrated toolbar functionality.</summary>
 [Category(@"code")]
 [Description(@"Handles all the integrated toolbar functionality.")]
-[ToolboxBitmap(typeof(ToolStrip))]
+[ToolboxBitmap(typeof(ToolStrip), "ToolboxBitmaps.KryptonMenuBar.bmp")]
 public class KryptonIntegratedToolBarManager : Component
 {
     #region Static Fields
@@ -118,15 +118,15 @@ public class KryptonIntegratedToolBarManager : Component
 
     public void ResetToolBarButtonValues() => IntegratedToolBarButtonValues.Reset();*/
 
-    /*[Category(@"Data")]
-    [Description(@"Handles the toolbar buttons.")]
+    [Category(@"Data")]
+    [Description(@"Commands for integrated toolbar buttons.")]
     [MergableProperty(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public IntegratedToolBarCommandValues ToolBarCommands => IntegratedToolBarCommandValues;
 
     private bool ShouldSerializeToolBarCommands() => !IntegratedToolBarCommandValues.IsDefault;
 
-    private void ResetToolBarCommands() => IntegratedToolBarCommandValues.Reset();*/
+    private void ResetToolBarCommands() => IntegratedToolBarCommandValues.Reset();
 
     #region Tool Bar Buttons
 
@@ -206,9 +206,10 @@ public class KryptonIntegratedToolBarManager : Component
 
     #region Static Properties
 
-    public static IntegratedToolBarButtonValues IntegratedToolBarButtonValues { get; } = new IntegratedToolBarButtonValues();
-
+    // Command values must initialize before button values (button values ctor creates a manager instance).
     public static IntegratedToolBarCommandValues IntegratedToolBarCommandValues { get; } = new IntegratedToolBarCommandValues();
+
+    public static IntegratedToolBarButtonValues IntegratedToolBarButtonValues { get; } = new IntegratedToolBarButtonValues();
 
     #endregion
 
@@ -354,6 +355,15 @@ public class KryptonIntegratedToolBarManager : Component
         _integratedToolBarButtons[13] = quickPrintToolbarButton;
     }
 
+    /// <summary>Re-applies <see cref="IntegratedToolBarCommandValues"/> to the toolbar buttons.</summary>
+    public void RefreshToolBarCommands()
+    {
+        if (_integratedToolBarButtons != null)
+        {
+            IntegratedToolBarCommandValues.ApplyTo(_integratedToolBarButtons);
+        }
+    }
+
     /// <summary>Shows the tool bar into parent form.</summary>
     /// <param name="showIntegratedToolBar">if set to <c>true</c> [show integrated tool bar].</param>
     /// <param name="parentForm">The parent form.</param>
@@ -378,7 +388,7 @@ public class KryptonIntegratedToolBarManager : Component
         }
         catch (Exception e)
         {
-            KryptonExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
+            KryptonExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
         }
     }
 
@@ -404,7 +414,7 @@ public class KryptonIntegratedToolBarManager : Component
         }
         catch (Exception e)
         {
-            KryptonExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
+            KryptonExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
         }
     }
 
@@ -431,7 +441,7 @@ public class KryptonIntegratedToolBarManager : Component
         }
         catch (Exception e)
         {
-            KryptonExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
+            KryptonExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
         }
     }
 
@@ -489,7 +499,7 @@ public class KryptonIntegratedToolBarManager : Component
         }
         catch (Exception e)
         {
-            KryptonExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
+            KryptonExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
         }
     }
 
@@ -529,7 +539,7 @@ public class KryptonIntegratedToolBarManager : Component
         }
         catch (Exception e)
         {
-            KryptonExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
+            KryptonExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
         }
     }
 

@@ -975,7 +975,7 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
     /// </summary>
     /// <param name="state">The state for which the overlay image is needed.</param>
     /// <returns>Color value.</returns>
-    public Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+    public Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the position of the overlay image relative to the main image.
@@ -1487,7 +1487,7 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
     public void AddUpdateRecentColors(IList<Color> colors)
     {
         foreach (Color color in colors
-                     .Where(static color => (color != null) && !color.Equals(GlobalStaticValues.EMPTY_COLOR))
+                     .Where(static color => (color != null) && !color.Equals(GlobalStaticVariables.EMPTY_COLOR))
                      .Where(color => !Enumerable.Contains(_recentColors, color)))
         {
             // Add to start of the list
@@ -1530,7 +1530,7 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
             }
 
             // If this color valid and so possible to become a recent color
-            if ((color != null) && !color.Equals(GlobalStaticValues.EMPTY_COLOR))
+            if ((color != null) && !color.Equals(GlobalStaticVariables.EMPTY_COLOR))
             {
                 var found = false;
                 foreach (Color recentColor in _recentColors)
@@ -1633,7 +1633,7 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
         }
 
         // Should the no color entry be checked?
-        _itemNoColor.Checked = _selectedColor.Equals(GlobalStaticValues.EMPTY_COLOR);
+        _itemNoColor.Checked = _selectedColor.Equals(GlobalStaticVariables.EMPTY_COLOR);
     }
 
     private void DecideOnVisible(KryptonContextMenuItemBase visible, KryptonContextMenuItemBase target)
@@ -1672,7 +1672,7 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
 
     private void OnColumnsSelectedColorChanged(object? sender, ColorEventArgs e) => SelectedColor = e.Color;
 
-    private void OnClickNoColor(object? sender, EventArgs e) => SelectedColor = GlobalStaticValues.EMPTY_COLOR;
+    private void OnClickNoColor(object? sender, EventArgs e) => SelectedColor = GlobalStaticVariables.EMPTY_COLOR;
 
     private void OnClickMoreColors(object? sender, EventArgs e)
     {

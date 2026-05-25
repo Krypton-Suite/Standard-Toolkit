@@ -413,7 +413,7 @@ internal class MenuColorBlockController : GlobalId,
     private void NormalState()
     {
         _highlight = false;
-        _menuColorBlock.KryptonContextMenuColorColumns.OnTrackingColor(new ColorEventArgs(GlobalStaticValues.EMPTY_COLOR));
+        _menuColorBlock.KryptonContextMenuColorColumns.OnTrackingColor(new ColorEventArgs(GlobalStaticVariables.EMPTY_COLOR));
         UpdateTarget();
     }
 

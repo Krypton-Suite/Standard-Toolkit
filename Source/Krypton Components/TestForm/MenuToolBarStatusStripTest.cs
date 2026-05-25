@@ -40,8 +40,8 @@ public partial class MenuToolBarStatusStripTest : KryptonForm
             // Reset to palette defaults when manually stopped
             if (statusStrip1 is Krypton.Toolkit.KryptonStatusStrip kss)
             {
-                kss.StateCommon.Color1 = GlobalStaticValues.EMPTY_COLOR;
-                kss.StateCommon.Color2 = GlobalStaticValues.EMPTY_COLOR;
+                kss.StateCommon.Color1 = GlobalStaticVariables.EMPTY_COLOR;
+                kss.StateCommon.Color2 = GlobalStaticVariables.EMPTY_COLOR;
                 kss.StateCommon.ColorStyle = PaletteColorStyle.Inherit;
                 kss.StateCommon.ColorAngle = -1f;
                 kss.Invalidate();
@@ -78,7 +78,7 @@ public partial class MenuToolBarStatusStripTest : KryptonForm
             // Use per-control override path
             kss.StateCommon.ColorStyle = Krypton.Toolkit.PaletteColorStyle.Solid;
             kss.StateCommon.Color1 = color;
-            kss.StateCommon.Color2 = GlobalStaticValues.EMPTY_COLOR;
+            kss.StateCommon.Color2 = GlobalStaticVariables.EMPTY_COLOR;
             kss.StateCommon.ColorAngle = -1f;
         }
         else
@@ -99,8 +99,8 @@ public partial class MenuToolBarStatusStripTest : KryptonForm
         if (statusStrip1 is Krypton.Toolkit.KryptonStatusStrip kss)
         {
             // Clear per-control overrides to fall back to palette
-            kss.StateCommon.Color1 = GlobalStaticValues.EMPTY_COLOR;
-            kss.StateCommon.Color2 = GlobalStaticValues.EMPTY_COLOR;
+            kss.StateCommon.Color1 = GlobalStaticVariables.EMPTY_COLOR;
+            kss.StateCommon.Color2 = GlobalStaticVariables.EMPTY_COLOR;
             kss.StateCommon.ColorStyle = PaletteColorStyle.Inherit;
             kss.StateCommon.ColorAngle = -1f;
             kss.Invalidate();
@@ -130,11 +130,11 @@ public partial class MenuToolBarStatusStripTest : KryptonForm
         var ct = KryptonManager.CurrentGlobalPalette?.ColorTable;
         if (ct is not null)
         {
-            if (ct.StatusStripGradientEnd != GlobalStaticValues.EMPTY_COLOR)
+            if (ct.StatusStripGradientEnd != GlobalStaticVariables.EMPTY_COLOR)
             {
                 return ct.StatusStripGradientEnd;
             }
-            if (ct.StatusStripGradientBegin != GlobalStaticValues.EMPTY_COLOR)
+            if (ct.StatusStripGradientBegin != GlobalStaticVariables.EMPTY_COLOR)
             {
                 return ct.StatusStripGradientBegin;
             }
@@ -145,7 +145,7 @@ public partial class MenuToolBarStatusStripTest : KryptonForm
         {
             // Use inherited default if available
             var c1 = kss.StateCommon.GetBackColor1(Krypton.Toolkit.PaletteState.Normal);
-            if (c1 != GlobalStaticValues.EMPTY_COLOR && !c1.IsEmpty)
+            if (c1 != GlobalStaticVariables.EMPTY_COLOR && !c1.IsEmpty)
             {
                 return c1;
             }

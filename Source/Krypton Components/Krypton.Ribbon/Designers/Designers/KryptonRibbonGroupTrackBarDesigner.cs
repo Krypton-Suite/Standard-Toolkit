@@ -62,7 +62,7 @@ internal class KryptonRibbonGroupTrackBarDesigner : ComponentDesigner, IKryptonD
         // Cast to correct type
         _ribbonTrackBar = component as KryptonRibbonGroupTrackBar ?? throw new ArgumentNullException(nameof(component));
 
-        if (_ribbonTrackBar is not null && _ribbonTrackBar.TrackBar is not null)
+        if (_ribbonTrackBar?.TrackBar != null)
         {
             _ribbonTrackBar.TrackBarDesigner = this;
 
@@ -82,8 +82,8 @@ internal class KryptonRibbonGroupTrackBarDesigner : ComponentDesigner, IKryptonD
         }
 
         // Get access to the services
-        _designerHost = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_designerHost)));
-        _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_changeService)));
+        _designerHost = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_designerHost)));
+        _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_changeService)));
 
         // We need to know when we are being removed/changed
         _changeService.ComponentChanged += OnComponentChanged;
@@ -206,7 +206,7 @@ internal class KryptonRibbonGroupTrackBarDesigner : ComponentDesigner, IKryptonD
 
         if (_ribbonTrackBar.Ribbon != null)
         {
-            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
+            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("items"));
             moveFirst = items.IndexOf(_ribbonTrackBar) > 0;
             movePrev = items.IndexOf(_ribbonTrackBar) > 0;
             moveNext = items.IndexOf(_ribbonTrackBar) < (items.Count - 1);
@@ -233,7 +233,7 @@ internal class KryptonRibbonGroupTrackBarDesigner : ComponentDesigner, IKryptonD
         if (_ribbonTrackBar.Ribbon is not null)
         {
             // Get access to the parent collection of items
-            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
+            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("items"));
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTrackBar MoveFirst");
@@ -268,7 +268,7 @@ internal class KryptonRibbonGroupTrackBarDesigner : ComponentDesigner, IKryptonD
         if (_ribbonTrackBar.Ribbon is not null)
         {
             // Get access to the parent collection of items
-            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
+            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("items"));
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTrackBar MovePrevious");
@@ -305,7 +305,7 @@ internal class KryptonRibbonGroupTrackBarDesigner : ComponentDesigner, IKryptonD
         if (_ribbonTrackBar.Ribbon is not null)
         {
             // Get access to the parent collection of items
-            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
+            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("items"));
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTrackBar MoveNext");
@@ -342,7 +342,7 @@ internal class KryptonRibbonGroupTrackBarDesigner : ComponentDesigner, IKryptonD
         if (_ribbonTrackBar.Ribbon is not null)
         {
             // Get access to the parent collection of items
-            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
+            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("items"));
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTrackBar MoveLast");
@@ -377,7 +377,7 @@ internal class KryptonRibbonGroupTrackBarDesigner : ComponentDesigner, IKryptonD
         if (_ribbonTrackBar.Ribbon is not null)
         {
             // Get access to the parent collection of items
-            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
+            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("items"));
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTrackBar DeleteTrackBar");
@@ -414,7 +414,7 @@ internal class KryptonRibbonGroupTrackBarDesigner : ComponentDesigner, IKryptonD
     {
         if (_ribbonTrackBar.Ribbon is not null)
         {
-            PropertyDescriptor? propertyEnabled = TypeDescriptor.GetProperties(_ribbonTrackBar)[nameof(Enabled)] ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("propertyEnabled"));
+            PropertyDescriptor? propertyEnabled = TypeDescriptor.GetProperties(_ribbonTrackBar)[nameof(Enabled)] ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("propertyEnabled"));
             var oldValue = (bool?)propertyEnabled.GetValue(_ribbonTrackBar);
             var newValue = !oldValue;
             _changeService.OnComponentChanged(_ribbonTrackBar, null, oldValue, newValue);
@@ -426,7 +426,7 @@ internal class KryptonRibbonGroupTrackBarDesigner : ComponentDesigner, IKryptonD
     {
         if (_ribbonTrackBar.Ribbon is not null)
         {
-            PropertyDescriptor? propertyVisible = TypeDescriptor.GetProperties(_ribbonTrackBar)[nameof(Visible)] ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("propertyVisible"));
+            PropertyDescriptor? propertyVisible = TypeDescriptor.GetProperties(_ribbonTrackBar)[nameof(Visible)] ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("propertyVisible"));
             var oldValue = (bool?)propertyVisible.GetValue(_ribbonTrackBar);
             var newValue = !oldValue;
             _changeService.OnComponentChanged(_ribbonTrackBar, null, oldValue, newValue);

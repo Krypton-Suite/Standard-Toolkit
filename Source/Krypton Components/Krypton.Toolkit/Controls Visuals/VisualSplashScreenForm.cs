@@ -143,7 +143,7 @@ internal partial class VisualSplashScreenForm : KryptonForm/*, ISplashScreenData
     {
         kpbProgress.Increment(1);
 
-        kpbProgress.Text = _splashScreenData.ShowProgressBarPercentage ? $@"{kpbProgress.Value}%" : GlobalStaticValues.DEFAULT_EMPTY_STRING;
+        kpbProgress.Text = _splashScreenData.ShowProgressBarPercentage ? $@"{kpbProgress.Value}%" : GlobalStaticVariables.DEFAULT_EMPTY_STRING;
 
         if (kpbProgress.Value == kpbProgress.Maximum)
         {
@@ -166,7 +166,7 @@ internal partial class VisualSplashScreenForm : KryptonForm/*, ISplashScreenData
 
     private void kbtnClose_MouseLeave(object sender, EventArgs e)
     {
-        kbtnClose.StateCommon.Content.ShortText.Color1 = GlobalStaticValues.EMPTY_COLOR;
+        kbtnClose.StateCommon.Content.ShortText.Color1 = GlobalStaticVariables.EMPTY_COLOR;
     }
 
     #endregion

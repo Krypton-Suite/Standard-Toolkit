@@ -116,7 +116,7 @@ namespace TestForm
             this.buttonSpecAny8 = new Krypton.Toolkit.ButtonSpecAny();
             this.buttonSpecAny9 = new Krypton.Toolkit.ButtonSpecAny();
             this.buttonSpecAny10 = new Krypton.Toolkit.ButtonSpecAny();
-            this.kryptonIntegratedToolbarPrintCommand1 = new Krypton.Toolkit.KryptonIntegratedToolbarPrintCommand();
+            this.kryptonIntegratedToolbarPrintCommand1 = new Krypton.Toolkit.KryptonCommand();
             this.kryptonCheckSet1 = new Krypton.Toolkit.KryptonCheckSet(this.components);
             this.kryptonInputBoxManager1 = new Krypton.Toolkit.KryptonInputBoxManager();
             this.kcmdOpenImage = new Krypton.Toolkit.KryptonCommand();
@@ -926,6 +926,7 @@ namespace TestForm
             // 
             // kryptonIntegratedToolbarPrintCommand1
             // 
+            this.kryptonIntegratedToolbarPrintCommand1.CommandType = Krypton.Toolkit.KryptonCommandType.IntegratedToolBarPrintCommand;
             this.kryptonIntegratedToolbarPrintCommand1.Text = "Print";
             // 
             // kcmdOpenImage
@@ -1016,7 +1017,7 @@ namespace TestForm
         private Krypton.Toolkit.ButtonSpecAny buttonSpecAny8;
         private Krypton.Toolkit.ButtonSpecAny buttonSpecAny9;
         private Krypton.Toolkit.ButtonSpecAny buttonSpecAny10;
-        private Krypton.Toolkit.KryptonIntegratedToolbarPrintCommand kryptonIntegratedToolbarPrintCommand1;
+        private Krypton.Toolkit.KryptonCommand kryptonIntegratedToolbarPrintCommand1;
         private Krypton.Toolkit.KryptonButton kbtnIntegratedToolbar;
         private Krypton.Toolkit.KryptonButton kryptonButton3;
         private Krypton.Toolkit.KryptonTrackBar ktrkProgressValues;

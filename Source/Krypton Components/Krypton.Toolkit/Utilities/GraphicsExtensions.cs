@@ -44,7 +44,7 @@ public static class GraphicsExtensions
         {
             //Console.WriteLine("Unable to extract the icon from the binary");
 
-            KryptonExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
+            KryptonExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
         }
 
         return result;
@@ -109,7 +109,7 @@ public static class GraphicsExtensions
         }
         catch (Exception e)
         {
-            KryptonExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
+            KryptonExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
 
             return null;
         }
@@ -161,7 +161,7 @@ public static class GraphicsExtensions
         }
         catch (Exception ex)
         {
-            KryptonExceptionHandler.CaptureException(ex, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
+            KryptonExceptionHandler.CaptureException(ex, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
 
             // /* EXTRACT ICON ERROR */
             //// BUBBLE UP

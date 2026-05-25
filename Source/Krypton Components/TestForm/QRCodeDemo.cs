@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-using Krypton.Utilities;
+using Krypton.Toolkit.Utilities;
 
 namespace TestForm;
 
@@ -213,7 +213,8 @@ public partial class QRCodeDemo : KryptonForm
                 _kcbtnLightColor.SelectedColor,
                 centerImage: _kryptonQRCode.CenterImage,
                 centerImageRelativeSize: _kryptonQRCode.CenterImageRelativeSize,
-                centerImagePaddingModules: _kryptonQRCode.CenterImagePaddingModules);
+                centerImagePaddingModules: _kryptonQRCode.CenterImagePaddingModules,
+                centerImagePalette: _kryptonQRCode.GetCenterImagePalette());
 
             Clipboard.SetImage(bmp);
             KryptonMessageBox.Show(this,

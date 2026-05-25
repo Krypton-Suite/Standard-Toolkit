@@ -46,21 +46,21 @@ public sealed class PaletteBackInheritMenuStrip : PaletteBackInherit
     public override Color GetBackColor1(PaletteState state)
     {
         var ct = CurrentColorTable;
-        if (ct is not null && ct.MenuStripGradientBegin != GlobalStaticValues.EMPTY_COLOR)
+        if (ct is not null && ct.MenuStripGradientBegin != GlobalStaticVariables.EMPTY_COLOR)
         {
             return ct.MenuStripGradientBegin;
         }
-        return GlobalStaticValues.EMPTY_COLOR;
+        return GlobalStaticVariables.EMPTY_COLOR;
     }
 
     public override Color GetBackColor2(PaletteState state)
     {
         var ct = CurrentColorTable;
-        if (ct is not null && ct.MenuStripGradientEnd != GlobalStaticValues.EMPTY_COLOR)
+        if (ct is not null && ct.MenuStripGradientEnd != GlobalStaticVariables.EMPTY_COLOR)
         {
             return ct.MenuStripGradientEnd;
         }
-        return GlobalStaticValues.EMPTY_COLOR;
+        return GlobalStaticVariables.EMPTY_COLOR;
     }
 
     public override PaletteColorStyle GetBackColorStyle(PaletteState state) => PaletteColorStyle.Inherit;

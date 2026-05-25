@@ -1572,14 +1572,15 @@ public abstract class VisualForm : Form,
         // Next time the mouse enters the window we need to track it leaving
         _trackingMouse = false;
 
-        // Perform actual mouse leave actions
-        WindowChromeMouseLeave();
+        // Spurious WM_NCMOUSELEAVE can fire while moving between title-bar ButtonSpecs or into the client area.
+        if (!IsMouseReallyOverWindowChrome())
+        {
+            WindowChromeMouseLeave();
+            InvalidateNonClient();
+        }
 
         // Indicate that we processed the message
         m.Result = IntPtr.Zero;
-
-        // Need a repaint to show change
-        InvalidateNonClient();
 
         // Message processed, do not pass onto base class for processing
         return true;
@@ -1834,9 +1835,49 @@ public abstract class VisualForm : Form,
     /// <summary>
     /// Perform mouse leave processing.
     /// </summary>
-    protected virtual void WindowChromeMouseLeave() =>
+    protected virtual void WindowChromeMouseLeave()
+    {
+        if (IsMouseReallyOverWindowChrome())
+        {
+            return;
+        }
+
         // Pass message onto the view elements
         ViewManager?.MouseLeave(EventArgs.Empty);
+    }
+
+    /// <summary>
+    /// Gets a value indicating if the screen mouse position is still over window chrome that should retain button tracking.
+    /// </summary>
+    /// <returns>True if the pointer should not be treated as having left; otherwise false.</returns>
+    protected virtual bool IsMouseReallyOverWindowChrome()
+    {
+        if (!IsHandleCreated)
+        {
+            return false;
+        }
+
+        var screenPoint = Control.MousePosition;
+
+        if (ClientRectangle.Contains(PointToClient(screenPoint)))
+        {
+            return true;
+        }
+
+        Point windowPoint = ScreenToWindow(screenPoint);
+        ViewBase? view = ViewManager?.Root.ViewFromPoint(windowPoint);
+        while (view != null)
+        {
+            if (view.FindMouseController() != null)
+            {
+                return true;
+            }
+
+            view = view.Parent;
+        }
+
+        return false;
+    }
 
     #endregion
 
@@ -1995,7 +2036,7 @@ public abstract class VisualForm : Form,
         {
             // Silently fail if jump list API is not available
             // This can happen on older Windows versions or if COM registration fails
-            KryptonExceptionHandler.CaptureException(ex, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
+            KryptonExceptionHandler.CaptureException(ex, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
         }
     }
 
@@ -2057,7 +2098,7 @@ public abstract class VisualForm : Form,
         }
         catch (Exception ex)
         {
-            KryptonExceptionHandler.CaptureException(ex, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
+            KryptonExceptionHandler.CaptureException(ex, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
             return null;
         }
     }
@@ -2176,7 +2217,7 @@ public abstract class VisualForm : Form,
         {
             // Silently fail if taskbar API is not available
             // This can happen on older Windows versions or if COM registration fails
-            KryptonExceptionHandler.CaptureException(ex, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
+            KryptonExceptionHandler.CaptureException(ex, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
         }
     }
 
@@ -2259,7 +2300,7 @@ public abstract class VisualForm : Form,
         }
         catch (Exception ex)
         {
-            KryptonExceptionHandler.CaptureException(ex, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
+            KryptonExceptionHandler.CaptureException(ex, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
         }
     }
 }

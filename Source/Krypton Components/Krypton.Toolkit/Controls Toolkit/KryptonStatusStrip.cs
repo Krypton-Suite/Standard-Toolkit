@@ -12,7 +12,9 @@
 
 namespace Krypton.Toolkit;
 
-[ToolboxBitmap(typeof(StatusStrip)), Description(@"A Krypton based status strip."), ToolboxItem(true)]
+[ToolboxBitmap(typeof(StatusStrip), "ToolboxBitmaps.KryptonStatusStrip.bmp")]
+[Description(@"A Krypton based status strip.")]
+[ToolboxItem(true)]
 public class KryptonStatusStrip : StatusStrip,
     IFocusLostMenuItem
 {

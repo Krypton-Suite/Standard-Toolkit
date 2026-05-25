@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -8,7 +8,7 @@
 #endregion
 
 using System.Security;
-using Krypton.Utilities;
+using Krypton.Toolkit.Utilities;
 
 namespace TestForm;
 
@@ -253,7 +253,7 @@ public partial class BugReportingDialogTest : KryptonForm
 
         var secureKey = CreateSecureString(secretKey);
         var configPath = string.IsNullOrWhiteSpace(ktbConfigPath.Text) ? null : ktbConfigPath.Text.Trim();
-        var result = Krypton.Utilities.KryptonGitHubIssueReportDialog.Show(this, secureKey, configPath);
+        var result = Krypton.Toolkit.Utilities.KryptonGitHubIssueReportDialog.Show(this, secureKey, configPath);
         if (result == DialogResult.OK)
         {
             MessageBox.Show("Bug report created successfully!", "Success",

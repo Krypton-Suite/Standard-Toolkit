@@ -334,7 +334,7 @@ public class KryptonForm : VisualForm,
 #pragma warning disable CS0618
         _useDropShadow = false;
 #pragma warning restore CS0618
-        TransparencyKey = GlobalStaticValues.TRANSPARENCY_KEY_COLOR; // Bug #1749
+        TransparencyKey = GlobalStaticVariables.TRANSPARENCY_KEY_COLOR; // Bug #1749
 
         // #1979 Temporary fix
         base.PaletteChanged += (s, e) => _internalKryptonPanel.PaletteMode = PaletteMode;
@@ -470,13 +470,13 @@ public class KryptonForm : VisualForm,
     {
         var palette = GetResolvedPalette() ?? KryptonManager.CurrentGlobalPalette;
         Color back = palette.GetBackColor1(PaletteBackStyle.FormMain, PaletteState.Normal);
-        if (back == GlobalStaticValues.EMPTY_COLOR || back.IsEmpty)
+        if (back == GlobalStaticVariables.EMPTY_COLOR || back.IsEmpty)
         {
             back = BackColor;
         }
 
         Color candidate = palette.GetBorderColor1(PaletteBorderStyle.FormMain, PaletteState.Normal);
-        if (candidate == GlobalStaticValues.EMPTY_COLOR || candidate.IsEmpty)
+        if (candidate == GlobalStaticVariables.EMPTY_COLOR || candidate.IsEmpty)
         {
             candidate = StateActive.Border.Color1;
         }
@@ -488,7 +488,7 @@ public class KryptonForm : VisualForm,
 
         // Try a typical text color from the palette which tends to be contrast-safe
         Color text = palette.GetContentShortTextColor1(PaletteContentStyle.LabelNormalPanel, PaletteState.Normal);
-        if (!(text == GlobalStaticValues.EMPTY_COLOR || text.IsEmpty) && HasSufficientContrast(text, back))
+        if (!(text == GlobalStaticVariables.EMPTY_COLOR || text.IsEmpty) && HasSufficientContrast(text, back))
         {
             return text;
         }
@@ -1492,7 +1492,7 @@ public class KryptonForm : VisualForm,
     /// <returns>Transparent Color.</returns>
     public Color GetImageTransparentColor(PaletteState state) =>
         // We never mark any color as transparent
-        GlobalStaticValues.EMPTY_COLOR;
+        GlobalStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the short text used as the main caption title.
@@ -1530,7 +1530,7 @@ public class KryptonForm : VisualForm,
     /// </summary>
     /// <param name="state">The state for which the overlay image is needed.</param>
     /// <returns>Color value.</returns>
-    public Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+    public Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the position of the overlay image relative to the main image.
@@ -2040,6 +2040,24 @@ public class KryptonForm : VisualForm,
     #endregion
 
     #region Protected Chrome
+    /// <inheritdoc />
+    protected override bool IsMouseReallyOverWindowChrome()
+    {
+        if (base.IsMouseReallyOverWindowChrome())
+        {
+            return true;
+        }
+
+        if (!IsHandleCreated)
+        {
+            return false;
+        }
+
+        Point windowPoint = ScreenToWindow(Control.MousePosition);
+        return _buttonManager.IsPointOverButton(windowPoint)
+               || (_titleBarButtonManager?.IsPointOverButton(windowPoint) ?? false);
+    }
+
     /// <summary>
     /// Perform setup for custom chrome.
     /// </summary>
@@ -2706,7 +2724,7 @@ public class KryptonForm : VisualForm,
                     : StateInactive.Border.Color1);
                 g.FillRectangle(backBrush, rect); // Bug #????
             }
-            else if (TransparencyKey == GlobalStaticValues.TRANSPARENCY_KEY_COLOR)
+            else if (TransparencyKey == GlobalStaticVariables.TRANSPARENCY_KEY_COLOR)
             {
                 g.FillRectangle(Brushes.Magenta, rect); // Bug #1749
             }

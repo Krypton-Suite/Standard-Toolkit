@@ -1,4 +1,4 @@
-:: Last updated: Sunday 29th March, 2026 @ 11:00
+:: Last updated: Sunday 19th April, 2026 @ 13:00
 
 @echo off
 
@@ -16,7 +16,7 @@ goto selectvsversion
 :selectvsversion
 cls
 
-@echo Welcome to the Krypton Toolkit Build system, version: 3.1.
+@echo Welcome to the Krypton Toolkit Build system, version: 3.1a.
 @echo Please select the Visual Studio toolset to target.
 echo:
 @echo ==============================================================================================
@@ -69,22 +69,22 @@ exit /b 0
 
 :cleanbinandobj
 echo Deleting the 'Bin' folder
-rd /s /q "Bin"
+if exist "Bin\" rd /s /q "Bin"
 echo Deleted the 'Bin' folder
 echo Deleting the 'Krypton.Docking\obj' folder
-rd /s /q "Source\Krypton Components\Krypton.Docking\obj"
+if exist "Source\Krypton Components\Krypton.Docking\obj\" rd /s /q "Source\Krypton Components\Krypton.Docking\obj"
 echo Deleted the 'Krypton.Docking\obj' folder
 echo Deleting the 'Krypton.Navigator\obj' folder
-rd /s /q "Source\Krypton Components\Krypton.Navigator\obj"
+if exist "Source\Krypton Components\Krypton.Navigator\obj\" rd /s /q "Source\Krypton Components\Krypton.Navigator\obj"
 echo Deleted the 'Krypton.Navigator\obj' folder
 echo Deleting the 'Krypton.Ribbon\obj' folder
-rd /s /q "Source\Krypton Components\Krypton.Ribbon\obj"
+if exist "Source\Krypton Components\Krypton.Ribbon\obj\" rd /s /q "Source\Krypton Components\Krypton.Ribbon\obj"
 echo Deleted the 'Krypton.Ribbon\obj' folder
 echo Deleting the 'Krypton.Toolkit\obj' folder
-rd /s /q "Source\Krypton Components\Krypton.Toolkit\obj"
+if exist "Source\Krypton Components\Krypton.Toolkit\obj\" rd /s /q "Source\Krypton Components\Krypton.Toolkit\obj"
 echo Deleted the 'Krypton.Toolkit\obj' folder
 echo Deleting the 'Krypton.Workspace\obj' folder
-rd /s /q "Source\Krypton Components\Krypton.Workspace\obj"
+if exist "Source\Krypton Components\Krypton.Workspace\obj\" rd /s /q "Source\Krypton Components\Krypton.Workspace\obj"
 echo Deleted the 'Krypton.Workspace\obj' folder
 exit /b 0
 
@@ -189,11 +189,13 @@ goto packmenu
 cls
 
 echo 1. Debug
-echo 2. Go back to main mainmenu
+echo 2. Run TestForm project
+echo 3. Go back to main mainmenu
 echo:
-set /p answer="Enter number (1 - 2): "
+set /p answer="Enter number (1 - 3): "
 if %answer%==1 (goto debug)
-if %answer%==2 (goto mainmenu)
+if %answer%==2 (goto runtestform)
+if %answer%==3 (goto mainmenu)
 
 @echo Invalid input, please try again.
 
@@ -892,3 +894,14 @@ goto webview2tools
 :clearlogfiles
 
 :clearbinaries
+
+:: ===================================================================================================
+
+:runtestform
+
+cls
+
+echo Running TestForm project...
+
+:: Allows running the TestForm project without needing to open the solution in Visual Studio.
+dotnet run --project "Source\Krypton Components\TestForm\TestForm.csproj" -c Debug

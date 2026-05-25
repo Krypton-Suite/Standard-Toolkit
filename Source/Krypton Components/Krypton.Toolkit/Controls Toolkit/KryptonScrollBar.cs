@@ -24,6 +24,8 @@ namespace Krypton.Toolkit;
 [ToolboxBitmap(typeof(VScrollBar), "ToolboxBitmaps.KryptonScrollBar.bmp")]
 [DesignerCategory(@"code")]
 [EditorBrowsable(EditorBrowsableState.Never)]
+[Browsable(false)]
+[ToolboxItem(false)]
 [Obsolete(@"Please use either KryptonHScrollBar or KryptonVScrollBar. This control will be removed in version 120 LTS.")]
 public class KryptonScrollBar : Control
 {

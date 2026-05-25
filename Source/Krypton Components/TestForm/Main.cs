@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -10,7 +10,7 @@
 using System.Diagnostics;
 using System.Reflection;
 
-using Krypton.Utilities;
+using Krypton.Toolkit.Utilities;
 
 namespace TestForm;
 
@@ -102,7 +102,8 @@ public partial class Main : KryptonForm
 
     private void kbtnIntegratedToolbar_Click(object sender, EventArgs e)
     {
-            
+        using var demo = new KryptonCommandButtonSpecDemo();
+        demo.ShowDialog(this);
     }
 
     private void kryptonButton3_Click(object sender, EventArgs e)
@@ -111,7 +112,7 @@ public partial class Main : KryptonForm
         {
             ShowImportButton = true,
             ShowSilentOption = true,
-            StartIndex = Krypton.Toolkit.GlobalStaticValues.GLOBAL_DEFAULT_THEME_INDEX,
+            StartIndex = GlobalStaticConstants.GLOBAL_DEFAULT_THEME_INDEX,
             StartPosition = FormStartPosition.CenterScreen,
             WindowTitle = KryptonManager.Strings.MiscellaneousThemeStrings.ThemeBrowserWindowTitle
         };

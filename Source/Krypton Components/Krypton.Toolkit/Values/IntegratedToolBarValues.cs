@@ -85,7 +85,7 @@ public class IntegratedToolBarValues : GlobalId
     {
         return base.ToString() is string s
             ? s
-            : GlobalStaticValues.DEFAULT_EMPTY_STRING;
+            : GlobalStaticVariables.DEFAULT_EMPTY_STRING;
     }
 
     #endregion
@@ -189,6 +189,8 @@ public class IntegratedToolBarValues : GlobalId
         buttons[12] = printToolbarButton;
 
         buttons[13] = quickPrintToolbarButton;
+
+        KryptonIntegratedToolBarManager.IntegratedToolBarCommandValues.ApplyTo(buttons);
 
         return buttons;
     }

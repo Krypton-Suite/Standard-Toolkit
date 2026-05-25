@@ -2121,8 +2121,8 @@ internal abstract class ViewBuilderOutlookBase : ViewBuilderBase,
             addRemoveButtons.Items.Add(addRemoveButtonItems);
 
             // Setup the transparent color for the images
-            moreButtons.ImageTransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
-            fewerButtons.ImageTransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
+            moreButtons.ImageTransparentColor = GlobalStaticVariables.TRANSPARENCY_KEY_COLOR;
+            fewerButtons.ImageTransparentColor = GlobalStaticVariables.TRANSPARENCY_KEY_COLOR;
 
             // Decide if the more/fewer buttons should be enabled/disabled
             moreButtons.Enabled = AreMoreButtons();

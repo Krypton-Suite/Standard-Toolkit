@@ -74,9 +74,9 @@ public abstract class ButtonSpec : Component,
     {
         _image = null;
         _toolTipImage = null;
-        _colorMap = GlobalStaticValues.EMPTY_COLOR;
-        _imageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
-        _toolTipImageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
+        _colorMap = GlobalStaticVariables.EMPTY_COLOR;
+        _imageTransparentColor = GlobalStaticVariables.EMPTY_COLOR;
+        _toolTipImageTransparentColor = GlobalStaticVariables.EMPTY_COLOR;
         _text = string.Empty;
         _extraText = string.Empty;
         UniqueName = CommonHelper.UniqueString;
@@ -217,8 +217,8 @@ public abstract class ButtonSpec : Component,
             }
         }
     }
-    private bool ShouldSerializeImageTransparentColor() => ImageTransparentColor != GlobalStaticValues.EMPTY_COLOR;
-    private void ResetImageTransparentColor() => ImageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
+    private bool ShouldSerializeImageTransparentColor() => ImageTransparentColor != GlobalStaticVariables.EMPTY_COLOR;
+    private void ResetImageTransparentColor() => ImageTransparentColor = GlobalStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region ImageStates
@@ -328,8 +328,8 @@ public abstract class ButtonSpec : Component,
             }
         }
     }
-    private bool ShouldSerializeToolTipImageTransparentColor() => ToolTipImageTransparentColor != GlobalStaticValues.EMPTY_COLOR;
-    private void ResetToolTipImageTransparentColor() => ToolTipImageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
+    private bool ShouldSerializeToolTipImageTransparentColor() => ToolTipImageTransparentColor != GlobalStaticVariables.EMPTY_COLOR;
+    private void ResetToolTipImageTransparentColor() => ToolTipImageTransparentColor = GlobalStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region ToolTipTitle
@@ -545,8 +545,8 @@ public abstract class ButtonSpec : Component,
             }
         }
     }
-    private bool ShouldSerializeColorMap() => ColorMap != GlobalStaticValues.EMPTY_COLOR;
-    private void ResetColorMap() => ColorMap = GlobalStaticValues.EMPTY_COLOR;
+    private bool ShouldSerializeColorMap() => ColorMap != GlobalStaticVariables.EMPTY_COLOR;
+    private void ResetColorMap() => ColorMap = GlobalStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region Style
@@ -750,30 +750,20 @@ public abstract class ButtonSpec : Component,
     /// <returns>Button image.</returns>
     public virtual Image? GetImage(PaletteBase? palette, PaletteState state)
     {
-        Image? image = null;
-
         // Prefer to get image from the command first
         if (KryptonCommand != null)
         {
-            return KryptonCommand.ImageSmall;
+            return KryptonCommand.GetButtonSpecImage(palette, state) ?? KryptonCommand.ImageSmall;
         }
 
-        // Try and recover a state specific image
-        image = state switch
-        {
-            PaletteState.Disabled => ImageStates.ImageDisabled,
-            PaletteState.Normal => ImageStates.ImageNormal,
-            PaletteState.Pressed => ImageStates.ImagePressed,
-            PaletteState.Tracking => ImageStates.ImageTracking,
-            PaletteState.CheckedNormal => ImageStates.ImageCheckedNormal,
-            PaletteState.CheckedPressed => ImageStates.ImageCheckedPressed,
-            PaletteState.CheckedTracking => ImageStates.ImageCheckedTracking,
-            _ => image
-        } ?? Image; // Default to the image if no state specific image is found
+        Image? image = GetStateImage(state) ?? Image;
 
-        return (image != null) || !AllowInheritImage
-            ? image
-            : palette?.GetButtonSpecImage(ProtectedType, state);
+        if (image != null || !AllowInheritImage)
+        {
+            return image;
+        }
+
+        return palette?.GetButtonSpecImage(ProtectedType, state);
     }
 
     /// <summary>
@@ -785,12 +775,12 @@ public abstract class ButtonSpec : Component,
     {
         if (KryptonCommand != null)
         {
-            return KryptonCommand.ImageTransparentColor;
+            return KryptonCommand.GetButtonSpecImageTransparentColor(palette);
         }
 
-        return ImageTransparentColor != GlobalStaticValues.EMPTY_COLOR
+        return ImageTransparentColor != GlobalStaticVariables.EMPTY_COLOR
             ? ImageTransparentColor
-            : palette?.GetButtonSpecImageTransparentColor(ProtectedType) ?? GlobalStaticValues.EMPTY_COLOR;
+            : palette?.GetButtonSpecImageTransparentColor(ProtectedType) ?? GlobalStaticVariables.EMPTY_COLOR;
     }
 
     /// <summary>
@@ -843,7 +833,7 @@ public abstract class ButtonSpec : Component,
     /// </summary>
     /// <param name="palette">Palette to use for inheriting values.</param>
     /// <returns>Color value.</returns>
-    public virtual Color GetColorMap(PaletteBase? palette) => ColorMap != GlobalStaticValues.EMPTY_COLOR
+    public virtual Color GetColorMap(PaletteBase? palette) => ColorMap != GlobalStaticVariables.EMPTY_COLOR
         ? ColorMap
         : palette!.GetButtonSpecColorMap(ProtectedType);
 
@@ -971,6 +961,7 @@ public abstract class ButtonSpec : Component,
             case nameof(ExtraText):
             case @"ImageSmall":
             case nameof(ImageTransparentColor):
+            case nameof(KryptonCommand.CommandType):
                 OnButtonSpecPropertyChanged(e.PropertyName);
                 break;
         }
@@ -1090,6 +1081,38 @@ public abstract class ButtonSpec : Component,
 
     #region Implementation
     private void OnImageStateChanged(object sender, NeedLayoutEventArgs e) => OnButtonSpecPropertyChanged(nameof(Image));
+
+    private Image? GetStateImage(PaletteState state)
+    {
+        Image? image = state switch
+        {
+            PaletteState.Disabled => ImageStates.ImageDisabled,
+            PaletteState.Normal => ImageStates.ImageNormal,
+            PaletteState.Pressed => ImageStates.ImagePressed,
+            PaletteState.Tracking => ImageStates.ImageTracking,
+            PaletteState.CheckedNormal => ImageStates.ImageCheckedNormal,
+            PaletteState.CheckedPressed => ImageStates.ImageCheckedPressed,
+            PaletteState.CheckedTracking => ImageStates.ImageCheckedTracking,
+            _ => null
+        };
+
+        if (image != null)
+        {
+            return image;
+        }
+
+        // When only a subset of ImageStates is assigned (for example ImageNormal without Image),
+        // reuse those images for other states instead of inheriting a different palette glyph on hover.
+        return state switch
+        {
+            PaletteState.Disabled => ImageStates.ImageNormal,
+            PaletteState.Pressed => ImageStates.ImageTracking ?? ImageStates.ImageNormal,
+            PaletteState.Tracking => ImageStates.ImageNormal,
+            PaletteState.CheckedPressed => ImageStates.ImageCheckedTracking ?? ImageStates.ImageCheckedNormal,
+            PaletteState.CheckedTracking => ImageStates.ImageCheckedNormal,
+            _ => null
+        };
+    }
 
     #endregion
 }

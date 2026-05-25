@@ -113,7 +113,7 @@ internal class KryptonCustomPaletteBaseDesigner : ComponentDesigner
         }
         catch (Exception exc)
         {
-            KryptonExceptionHandler.CaptureException(exc, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
+            KryptonExceptionHandler.CaptureException(exc, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
         }
     }
 

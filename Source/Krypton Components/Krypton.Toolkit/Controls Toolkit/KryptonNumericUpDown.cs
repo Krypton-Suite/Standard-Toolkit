@@ -523,7 +523,7 @@ public class KryptonNumericUpDown : VisualControlBase,
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Color value.</returns>
-        public virtual Color GetImageTransparentColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+        public virtual Color GetImageTransparentColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the content long text.
@@ -543,7 +543,7 @@ public class KryptonNumericUpDown : VisualControlBase,
         /// </summary>
         /// <param name="state">The state for which the overlay image is needed.</param>
         /// <returns>Color value.</returns>
-        public virtual Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+        public virtual Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the position of the overlay image relative to the main image.
@@ -782,6 +782,7 @@ public class KryptonNumericUpDown : VisualControlBase,
     private bool _alwaysActive;
     private bool _trackingMouseEnter;
     private bool _autoSize;
+    private int _cachedWidth;
     private int _cachedHeight;
     private Graphics? _graphics;
 
@@ -874,6 +875,7 @@ public class KryptonNumericUpDown : VisualControlBase,
         _upDownButtonStyle = ButtonStyle.InputControl;
         _alwaysActive = true;
         _autoSize = false;
+        _cachedWidth = -1;
         _cachedHeight = -1;
         _graphics = null;
         AllowButtonSpecToolTips = false;
@@ -977,8 +979,19 @@ public class KryptonNumericUpDown : VisualControlBase,
         {
             if (_autoSize != value)
             {
+                AutoSizeDimensionCacheHelper.CacheCurrentBeforeEnable(value, Width, ref _cachedWidth);
+
                 _autoSize = value;
-                UpdateAutoSizing();
+
+                if (_autoSize)
+                {
+                    UpdateAutoSizing();
+                }
+                else if (AutoSizeDimensionCacheHelper.TryGetCachedValue(_cachedWidth, out int restoredWidth))
+                {
+                    Width = restoredWidth;
+                    PerformNeedPaint(true);
+                }
             }
         }
     }
@@ -1872,6 +1885,11 @@ public class KryptonNumericUpDown : VisualControlBase,
         int width, int height,
         BoundsSpecified specified)
     {
+        if (!_autoSize)
+        {
+            AutoSizeDimensionCacheHelper.CacheIfSpecified(specified, BoundsSpecified.Width, width, ref _cachedWidth);
+        }
+
         // Changed from inline GetPreferredSize() to the same pattern as KryptonComboBox,
         // KryptonDateTimePicker, and KryptonDomainUpDown: cache incoming height on first set,
         // then always override to PreferredHeight (which honours MinimumControlHeight).

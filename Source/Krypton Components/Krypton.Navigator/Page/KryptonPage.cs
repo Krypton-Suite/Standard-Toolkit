@@ -44,6 +44,7 @@ public class KryptonPage : VisualPanel
     private readonly PaletteNavigatorRedirect? _stateCommon;
     private readonly PaletteNavigator _stateDisabled;
     private readonly PaletteNavigator _stateNormal;
+    private readonly BadgeValues _badgeValues;
     private readonly NeedPaintHandler? _needDisabledPaint;
     private readonly NeedPaintHandler? _needNormalPaint;
     private BoolFlags31 _flags;
@@ -241,6 +242,7 @@ public class KryptonPage : VisualPanel
 
         _stateDisabled = new PaletteNavigator(_stateCommon, _needDisabledPaint);
         _stateNormal = new PaletteNavigator(_stateCommon, _needNormalPaint);
+        _badgeValues = new BadgeValues(NeedPaintDelegate);
         StateTracking = new PaletteNavigatorOtherEx(_stateCommon, _needNormalPaint);
         StatePressed = new PaletteNavigatorOtherEx(_stateCommon, _needNormalPaint);
         StateSelected = new PaletteNavigatorOther(_stateCommon, _needNormalPaint);
@@ -401,6 +403,21 @@ public class KryptonPage : VisualPanel
     }
 
     private bool ShouldSerializeOverrideFocus() => !OverrideFocus.IsDefault;
+
+    /// <summary>
+    /// Gets access to the badge values.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Badge values")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public BadgeValues BadgeValues
+    {
+        [DebuggerStepThrough]
+        get => _badgeValues;
+    }
+
+    private bool ShouldSerializeBadgeValues() => !BadgeValues.IsDefault;
+    private void ResetBadgeValues() => BadgeValues.Reset();
 
     /// <summary>
     /// Gets and sets the page text.

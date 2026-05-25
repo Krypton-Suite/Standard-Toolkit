@@ -22,11 +22,16 @@ public abstract class PaletteBase : Component
     /// Direct indexed access to the palette's backing color array.
     /// </summary>
     protected abstract Color[] SchemeColors { get; }
+    
     internal Color[] GetSchemeColors() => SchemeColors;
 
     private Padding? _inputControlPadding;
+    
     private PaletteDragFeedback _dragFeedback;
+    
     private Image[] _toolBarImages;
+
+    private readonly bool _systemEventsUserPreferenceSubscribed;
 
     private readonly Font _defaultFontStyle = new Font("Segoe UI", 9f, FontStyle.Regular);
 
@@ -100,11 +105,26 @@ public abstract class PaletteBase : Component
     #endregion
 
     #region Identity
+
     /// <summary>Initializes a new instance of the <see cref="PaletteBase" /> class.</summary>
     protected PaletteBase()
+        : this(attachUserPreferenceChanged: true)
     {
-        // We need to notice when system color settings change
-        SystemEvents.UserPreferenceChanged += OnUserPreferenceChanged;
+    }
+
+    /// <summary>
+    /// Initializes palette identity; optionally skips <see cref="SystemEvents.UserPreferenceChanged"/> so
+    /// <see cref="PaletteRedirect"/> (often never disposed) is not rooted by a static event (#3385).
+    /// </summary>
+    /// <param name="attachUserPreferenceChanged">When <see langword="true"/>, subscribes to user preference changes.</param>
+    protected PaletteBase(bool attachUserPreferenceChanged)
+    {
+        _systemEventsUserPreferenceSubscribed = attachUserPreferenceChanged;
+        if (attachUserPreferenceChanged)
+        {
+            // We need to notice when system color settings change
+            SystemEvents.UserPreferenceChanged += OnUserPreferenceChanged;
+        }
 
         // Inherit means we need to calculate the value next time it is requested
         _dragFeedback = PaletteDragFeedback.Inherit;
@@ -112,6 +132,7 @@ public abstract class PaletteBase : Component
         BaseFont = _defaultFontStyle;
         ThemeName = @"PaletteBase"; // DisallowNull !
     }
+
     #endregion
 
     #region UseThemeFormChromeBorderWidth
@@ -888,7 +909,7 @@ public abstract class PaletteBase : Component
         switch (style)
         {
             case PaletteButtonSpecStyle.Generic:
-                return GlobalStaticValues.EMPTY_COLOR;
+                return GlobalStaticVariables.EMPTY_COLOR;
             case PaletteButtonSpecStyle.Close:
             case PaletteButtonSpecStyle.Context:
             case PaletteButtonSpecStyle.Next:
@@ -912,7 +933,7 @@ public abstract class PaletteBase : Component
             case PaletteButtonSpecStyle.WorkspaceRestore:
             case PaletteButtonSpecStyle.RibbonMinimize:
             case PaletteButtonSpecStyle.RibbonExpand:
-                return GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
+                return GlobalStaticVariables.TRANSPARENCY_KEY_COLOR;
             case PaletteButtonSpecStyle.New:
             case PaletteButtonSpecStyle.Open:
             case PaletteButtonSpecStyle.SaveAll:
@@ -927,12 +948,12 @@ public abstract class PaletteBase : Component
             case PaletteButtonSpecStyle.PrintPreview:
             case PaletteButtonSpecStyle.Print:
             case PaletteButtonSpecStyle.QuickPrint:
-                return GlobalStaticValues.EMPTY_COLOR;
+                return GlobalStaticVariables.EMPTY_COLOR;
             default:
                 // Should never happen!
                 Debug.Assert(false);
                 DebugTools.NotImplemented(style.ToString());
-                return GlobalStaticValues.EMPTY_COLOR;
+                return GlobalStaticVariables.EMPTY_COLOR;
         }
     }
 
@@ -1142,7 +1163,7 @@ public abstract class PaletteBase : Component
             case PaletteButtonSpecStyle.PrintPreview:
             case PaletteButtonSpecStyle.Print:
             case PaletteButtonSpecStyle.QuickPrint:
-                return GlobalStaticValues.EMPTY_COLOR;
+                return GlobalStaticVariables.EMPTY_COLOR;
             case PaletteButtonSpecStyle.Close:
             case PaletteButtonSpecStyle.Context:
             case PaletteButtonSpecStyle.Next:
@@ -1163,7 +1184,7 @@ public abstract class PaletteBase : Component
                 // Should never happen!
                 Debug.Assert(false);
                 DebugTools.NotImplemented(style.ToString());
-                return GlobalStaticValues.EMPTY_COLOR;
+                return GlobalStaticVariables.EMPTY_COLOR;
         }
     }
 
@@ -1191,7 +1212,7 @@ public abstract class PaletteBase : Component
             case PaletteButtonSpecStyle.PrintPreview:
             case PaletteButtonSpecStyle.Print:
             case PaletteButtonSpecStyle.QuickPrint:
-                return GlobalStaticValues.EMPTY_COLOR;
+                return GlobalStaticVariables.EMPTY_COLOR;
             case PaletteButtonSpecStyle.Close:
             case PaletteButtonSpecStyle.Context:
             case PaletteButtonSpecStyle.Next:
@@ -1215,12 +1236,12 @@ public abstract class PaletteBase : Component
             case PaletteButtonSpecStyle.WorkspaceRestore:
             case PaletteButtonSpecStyle.RibbonMinimize:
             case PaletteButtonSpecStyle.RibbonExpand:
-                return GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
+                return GlobalStaticVariables.TRANSPARENCY_KEY_COLOR;
             default:
                 // Should never happen!
                 Debug.Assert(false);
                 DebugTools.NotImplemented(style.ToString());
-                return GlobalStaticValues.EMPTY_COLOR;
+                return GlobalStaticVariables.EMPTY_COLOR;
         }
     }
 
@@ -2146,8 +2167,11 @@ public abstract class PaletteBase : Component
     {
         if (disposing)
         {
-            // Detach from static SystemEvents to prevent memory leaks
-            SystemEvents.UserPreferenceChanged -= OnUserPreferenceChanged;
+            if (_systemEventsUserPreferenceSubscribed)
+            {
+                // Detach from static SystemEvents to prevent memory leaks
+                SystemEvents.UserPreferenceChanged -= OnUserPreferenceChanged;
+            }
 
             // Dispose any font resources we created
             DisposeFonts();
@@ -2355,7 +2379,7 @@ public abstract class PaletteBase : Component
         lock (_colorLock)
         {
             var idx = (int)colorIndex;
-            return idx >= 0 && idx < _extraColors.Length ? _extraColors[idx] : GlobalStaticValues.EMPTY_COLOR;
+            return idx >= 0 && idx < _extraColors.Length ? _extraColors[idx] : GlobalStaticVariables.EMPTY_COLOR;
         }
     }
 
@@ -2414,7 +2438,7 @@ public abstract class PaletteBase : Component
 
         if (state is PaletteState.Tracking or PaletteState.CheckedTracking)
         {
-            return trackingColor != GlobalStaticValues.EMPTY_COLOR && !trackingColor.IsEmpty
+            return trackingColor != GlobalStaticVariables.EMPTY_COLOR && !trackingColor.IsEmpty
                 ? trackingColor
                 : defaultColor;
         }

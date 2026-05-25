@@ -20,7 +20,7 @@ public class LabelValues : Storage,
 {
     #region Static Fields
     private const string DEFAULT_TEXT = nameof(Label);
-    private static readonly string _defaultExtraText = GlobalStaticValues.DEFAULT_EMPTY_STRING;
+    private static readonly string _defaultExtraText = GlobalStaticVariables.DEFAULT_EMPTY_STRING;
     #endregion
 
     #region Instance Fields
@@ -52,7 +52,7 @@ public class LabelValues : Storage,
 
         // Set initial values
         _image = null;
-        _transparent = GlobalStaticValues.EMPTY_COLOR;
+        _transparent = GlobalStaticVariables.EMPTY_COLOR;
         _text = DEFAULT_TEXT;
         _extraText = _defaultExtraText;
         _overlayImage = new OverlayImageValues(needPaint);
@@ -66,7 +66,7 @@ public class LabelValues : Storage,
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public override bool IsDefault => (Image == null) &&
-                                      (ImageTransparentColor == GlobalStaticValues.EMPTY_COLOR) &&
+                                      (ImageTransparentColor == GlobalStaticVariables.EMPTY_COLOR) &&
                                       (Text == DEFAULT_TEXT) &&
                                       (ExtraText == _defaultExtraText) &&
                                       _overlayImage.IsDefault;
@@ -134,12 +134,12 @@ public class LabelValues : Storage,
         }
     }
 
-    private bool ShouldSerializeImageTransparentColor() => ImageTransparentColor != GlobalStaticValues.EMPTY_COLOR;
+    private bool ShouldSerializeImageTransparentColor() => ImageTransparentColor != GlobalStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Resets the ImageTransparentColor property to its default value.
     /// </summary>
-    public void ResetImageTransparentColor() => ImageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
+    public void ResetImageTransparentColor() => ImageTransparentColor = GlobalStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the content image transparent color.
@@ -162,7 +162,7 @@ public class LabelValues : Storage,
     [AllowNull]
     public string Text
     {
-        get => _text ?? GlobalStaticValues.DEFAULT_EMPTY_STRING;
+        get => _text ?? GlobalStaticVariables.DEFAULT_EMPTY_STRING;
 
         set
         {
