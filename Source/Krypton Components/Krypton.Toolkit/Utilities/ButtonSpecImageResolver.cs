@@ -79,9 +79,8 @@ public static class ButtonSpecImageResolver
             return source;
         }
 
-        bool downscale = source.Width > targetW + 0.5f || source.Height > targetH + 0.5f;
-        bool avoidPurple = !downscale;
-        return CommonHelper.ScaleImageForSizedDisplay(source, targetW, targetH, avoidPurple);
+        // Palette ButtonSpec art uses color-keyed edges; High-quality downscale bleeds magenta (see CommonHelper).
+        return CommonHelper.ScaleImageForSizedDisplay(source, targetW, targetH, avoidPurple: true);
     }
 
     /// <summary>

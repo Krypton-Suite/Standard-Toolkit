@@ -191,7 +191,7 @@ internal static class Program
     {
         float w = baseline.Width * multiplier;
         float h = baseline.Height * multiplier;
-        using Bitmap? scaled = CommonHelper.ScaleImageForSizedDisplay(baseline, w, h, avoidPurple: false);
+        using Bitmap? scaled = CommonHelper.ScaleImageForSizedDisplay(baseline, w, h, avoidPurple: true);
         if (scaled == null)
         {
             throw new InvalidOperationException(@"Failed to scale image for " + path);

@@ -92,7 +92,7 @@ internal static class ButtonSpecDpiImageRegistry
 
         float w = baseline.Width * multiplier;
         float h = baseline.Height * multiplier;
-        Image? scaled = CommonHelper.ScaleImageForSizedDisplay(baseline, w, h, avoidPurple: false);
+        Image? scaled = CommonHelper.ScaleImageForSizedDisplay(baseline, w, h, avoidPurple: true);
         if (scaled != null)
         {
             cache[baseline] = scaled;
