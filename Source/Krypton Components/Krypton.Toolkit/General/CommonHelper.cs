@@ -1711,6 +1711,43 @@ public static class CommonHelper
     }
 
     /// <summary>
+    /// Gets the per-monitor DPI scale factor for a control, preferring <see cref="Control.DeviceDpi"/>.
+    /// </summary>
+    /// <param name="control">The control to query, or null.</param>
+    /// <param name="graphics">Optional graphics fallback when the control DPI is unavailable.</param>
+    /// <returns>DPI factor relative to 96 DPI (1.0 at 100%).</returns>
+    internal static float GetControlDpiFactor(Control? control, Graphics? graphics = null)
+    {
+        if (control is { IsHandleCreated: true, DeviceDpi: > 0 })
+        {
+            return control.DeviceDpi / 96f;
+        }
+
+        if (control is { IsHandleCreated: true })
+        {
+            try
+            {
+                uint dpi = PI.GetDpiForWindow(control.Handle);
+                if (dpi > 0)
+                {
+                    return dpi / 96f;
+                }
+            }
+            catch
+            {
+                // GetDpiForWindow may not be available on older Windows versions
+            }
+        }
+
+        if (graphics != null && graphics.DpiY > 0)
+        {
+            return graphics.DpiY / 96f;
+        }
+
+        return 1f;
+    }
+
+    /// <summary>
     /// Do not use the `DpiHandler.ScaleBitmapLogicalToDevice` as that will introduce the "purple artifact" lines
     /// Also, Using the int version of the `DrawImage` produces better upscale for the 125% images
     /// </summary>

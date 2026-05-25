@@ -1475,6 +1475,9 @@ public abstract class VisualControlBase : Control,
         PI.SetWindowTheme(Handle, @"DarkMode_Explorer", null);
 
         base.OnHandleCreated(e);
+
+        ViewManager?.InvalidateDpiFactors();
+        PerformNeedPaint(true);
     }
     #endregion
 

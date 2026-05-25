@@ -2344,10 +2344,10 @@ public class KryptonTreeView : VisualControlBase,
                     Image? drawImage = _redirectImages!.GetTreeViewImage(e.Node.IsExpanded);
                     if (drawImage != null)
                     {
-                        float dpiFactor = g.DpiX / 96F;
+                        float dpiFactor = CommonHelper.GetControlDpiFactor(this, g);
                         drawImage = CommonHelper.ScaleImageForSizedDisplay(drawImage,
                             drawImage.Width * dpiFactor,
-                            drawImage.Height * dpiFactor, false)!;
+                            drawImage.Height * dpiFactor, true)!;
                         g.DrawImage(drawImage, new Rectangle(indentBounds.X + ((indentBounds.Width - drawImage.Width) / 2) - 1,
                             indentBounds.Y + ((indentBounds.Height - drawImage.Height) / 2),
                             drawImage.Width, drawImage.Height));
@@ -2413,10 +2413,10 @@ public class KryptonTreeView : VisualControlBase,
 
                     if (drawImage != null)
                     {
-                        float dpiFactor = g.DpiX / 96F;
+                        float dpiFactor = CommonHelper.GetControlDpiFactor(this, g);
                         drawImage = CommonHelper.ScaleImageForSizedDisplay(drawImage,
                             drawImage.Width * dpiFactor,
-                            drawImage.Height * dpiFactor, false)!;
+                            drawImage.Height * dpiFactor, true)!;
                         g.DrawImage(drawImage, _layoutImage.ClientRectangle);
                     }
                 }
@@ -2431,10 +2431,10 @@ public class KryptonTreeView : VisualControlBase,
             {
                 if (drawStateImage != null)
                 {
-                    float dpiFactor = g.DpiX / 96F;
+                    float dpiFactor = CommonHelper.GetControlDpiFactor(this, g);
                     drawStateImage = CommonHelper.ScaleImageForSizedDisplay(drawStateImage,
                         drawStateImage.Width * dpiFactor,
-                        drawStateImage.Height * dpiFactor, false)!;
+                        drawStateImage.Height * dpiFactor, true)!;
                     g.DrawImage(drawStateImage, _layoutImageState.ClientRectangle);
                 }
             }

@@ -369,6 +369,11 @@ public class RenderStandard : RenderBase
 		};
 		_gridErrorIcon.Images.AddStrip(GenericImageResources.GridErrorIcon);
 	}
+
+	private static Size ScaleGridGlyphSize(Size logicalSize, float dpiFactor) =>
+		new Size(Math.Max(1, (int)Math.Round(logicalSize.Width * dpiFactor)),
+			Math.Max(1, (int)Math.Round(logicalSize.Height * dpiFactor)));
+
 	#endregion
 
 	#region IRenderer Overrides
@@ -2408,7 +2413,7 @@ public class RenderStandard : RenderBase
 		else
 		{
 			Size drawImageSize = drawImage.Size;
-			float dpiFactor = context.Graphics.DpiY / 96f;
+			float dpiFactor = CommonHelper.GetControlDpiFactor(context.Control, context.Graphics);
 			return new Size((int)(drawImageSize.Width * dpiFactor), (int)(drawImageSize.Height * dpiFactor));
 		}
 	}
@@ -2460,9 +2465,9 @@ public class RenderStandard : RenderBase
 		}
 		else
 		{
-			float dpiFactor = context.Graphics.DpiY / 96f;
+			float dpiFactor = CommonHelper.GetControlDpiFactor(context.Control, context.Graphics);
 			drawImage = CommonHelper.ScaleImageForSizedDisplay(drawImage, drawImage.Width * dpiFactor,
-				drawImage.Height * dpiFactor, false)!;
+				drawImage.Height * dpiFactor, true)!;
 			// Find the offset to center the image
 			var xOffset = (displayRect.Width - drawImage.Width) / 2;
 			var yOffset = (displayRect.Height - drawImage.Height) / 2;
@@ -2504,7 +2509,7 @@ public class RenderStandard : RenderBase
 		else
 		{
 			Size drawImageSize = drawImage.Size;
-			float dpiFactor = context.Graphics.DpiY / 96f;
+			float dpiFactor = CommonHelper.GetControlDpiFactor(context.Control, context.Graphics);
 			return new Size((int)(drawImageSize.Width * dpiFactor), (int)(drawImageSize.Height * dpiFactor));
 		}
 	}
@@ -2556,9 +2561,9 @@ public class RenderStandard : RenderBase
 		}
 		else
 		{
-			float dpiFactor = context.Graphics.DpiY / 96f;
+			float dpiFactor = CommonHelper.GetControlDpiFactor(context.Control, context.Graphics);
 			drawImage = CommonHelper.ScaleImageForSizedDisplay(drawImage, drawImage.Width * dpiFactor,
-				drawImage.Height * dpiFactor, false)!;
+				drawImage.Height * dpiFactor, true)!;
 			// Find the offset to center the image
 			var xOffset = (displayRect.Width - drawImage.Width) / 2;
 			var yOffset = (displayRect.Height - drawImage.Height) / 2;
@@ -2591,7 +2596,8 @@ public class RenderStandard : RenderBase
 
 		var square = Math.Min(context.DisplayRectangle.Width, context.DisplayRectangle.Height);
 		square = Math.Min(square, baseSize);
-		square = (int)(square * context.Graphics.DpiY / 96f);
+		float dpiFactor = CommonHelper.GetControlDpiFactor(context.Control, context.Graphics);
+		square = (int)(square * dpiFactor);
 
 		return new Size(square, square);
 	}
@@ -3209,13 +3215,15 @@ public class RenderStandard : RenderBase
 
 		// Get the appropriate each to draw
 		Image sortImage = _gridSortOrder.Images[sortOrder == SortOrder.Ascending ? 0 : 1];
+		float dpiFactor = CommonHelper.GetControlDpiFactor(context.Control, context.Graphics);
+		Size sortGlyphSize = ScaleGridGlyphSize(sortImage.Size, dpiFactor);
 
 		// Is there enough room to draw the image?
-		if ((sortImage.Width < cellRect.Width) && (sortImage.Height < cellRect.Height))
+		if ((sortGlyphSize.Width < cellRect.Width) && (sortGlyphSize.Height < cellRect.Height))
 		{
 			// Find the drawing location of the image
-			var y = cellRect.Top + ((cellRect.Height - sortImage.Height) / 2);
-			var x = rtl ? cellRect.X : cellRect.Right - sortImage.Width;
+			var y = cellRect.Top + ((cellRect.Height - sortGlyphSize.Height) / 2);
+			var x = rtl ? cellRect.X : cellRect.Right - sortGlyphSize.Width;
 
 			// Grab the foreground color to use for the image
 			Color imageColor = paletteContent!.GetContentShortTextColor1(state);
@@ -3231,18 +3239,18 @@ public class RenderStandard : RenderBase
 				attribs.SetRemapTable([cm], ColorAdjustType.Bitmap);
 
 				context!.Graphics.DrawImage(sortImage,
-					new Rectangle(x, y, sortImage.Width, sortImage.Height),
+					new Rectangle(x, y, sortGlyphSize.Width, sortGlyphSize.Height),
 					0, 0, sortImage.Width, sortImage.Height,
 					GraphicsUnit.Pixel, attribs);
 			}
 
 			// Reduce the cell rect by that used up
-			cellRect.Width -= sortImage.Width;
+			cellRect.Width -= sortGlyphSize.Width;
 
 			// With rtl we need to move across to the right
 			if (rtl)
 			{
-				cellRect.X += sortImage.Width;
+				cellRect.X += sortGlyphSize.Width;
 			}
 		}
 
@@ -3288,41 +3296,47 @@ public class RenderStandard : RenderBase
 				break;
 		}
 
+		float dpiFactor = CommonHelper.GetControlDpiFactor(context.Control, context.Graphics);
+
 		// Is there enough room to draw the image?
-		if ((rowImage != null) &&
-			(rowImage.Width < cellRect.Width) &&
-			(rowImage.Height < cellRect.Height))
+		if (rowImage != null)
 		{
-			// Find the drawing location of the image
-			var y = cellRect.Top + ((cellRect.Height - rowImage.Height) / 2);
-			var x = rtl ? cellRect.Right - rowImage.Width : cellRect.Left;
+			Size rowGlyphSize = ScaleGridGlyphSize(rowImage.Size, dpiFactor);
 
-			// Grab the foreground color to use for the image
-			Color imageColor = paletteContent!.GetContentShortTextColor1(state);
-
-			// Draw the image with remapping the image color to the foreground color
-			using (var attribs = new ImageAttributes())
+			if ((rowGlyphSize.Width < cellRect.Width) &&
+			    (rowGlyphSize.Height < cellRect.Height))
 			{
-				var cm = new ColorMap
+				// Find the drawing location of the image
+				var y = cellRect.Top + ((cellRect.Height - rowGlyphSize.Height) / 2);
+				var x = rtl ? cellRect.Right - rowGlyphSize.Width : cellRect.Left;
+
+				// Grab the foreground color to use for the image
+				Color imageColor = paletteContent!.GetContentShortTextColor1(state);
+
+				// Draw the image with remapping the image color to the foreground color
+				using (var attribs = new ImageAttributes())
 				{
-					OldColor = Color.Black,
-					NewColor = CommonHelper.MergeColors(imageColor, 0.75f, Color.Transparent, 0.25f)
-				};
-				attribs.SetRemapTable([cm], ColorAdjustType.Bitmap);
+					var cm = new ColorMap
+					{
+						OldColor = Color.Black,
+						NewColor = CommonHelper.MergeColors(imageColor, 0.75f, Color.Transparent, 0.25f)
+					};
+					attribs.SetRemapTable([cm], ColorAdjustType.Bitmap);
 
-				context!.Graphics.DrawImage(rowImage,
-					new Rectangle(x, y, rowImage.Width, rowImage.Height),
-					0, 0, rowImage.Width, rowImage.Height,
-					GraphicsUnit.Pixel, attribs);
-			}
+					context!.Graphics.DrawImage(rowImage,
+						new Rectangle(x, y, rowGlyphSize.Width, rowGlyphSize.Height),
+						0, 0, rowImage.Width, rowImage.Height,
+						GraphicsUnit.Pixel, attribs);
+				}
 
-			// Reduce the cell rect by that used up
-			cellRect.Width -= rowImage.Width;
+				// Reduce the cell rect by that used up
+				cellRect.Width -= rowGlyphSize.Width;
 
-			// With NOT rtl we need to move across to the right
-			if (!rtl)
-			{
-				cellRect.X += rowImage.Width;
+				// With NOT rtl we need to move across to the right
+				if (!rtl)
+				{
+					cellRect.X += rowGlyphSize.Width;
+				}
 			}
 		}
 
@@ -3346,13 +3360,15 @@ public class RenderStandard : RenderBase
 
 		// Get the appropriate each to draw
 		Image errorImage = _gridErrorIcon.Images[0];
+		float dpiFactor = CommonHelper.GetControlDpiFactor(context.Control, context.Graphics);
+		Size errorGlyphSize = ScaleGridGlyphSize(errorImage.Size, dpiFactor);
 
 		// Is there enough room to draw the image?
-		if ((errorImage.Width < cellRect.Width) && (errorImage.Height < cellRect.Height))
+		if ((errorGlyphSize.Width < cellRect.Width) && (errorGlyphSize.Height < cellRect.Height))
 		{
 			// Find the drawing location of the image
-			var y = cellRect.Top + ((cellRect.Height - errorImage.Height) / 2);
-			var x = rtl ? cellRect.Left : cellRect.Right - errorImage.Width;
+			var y = cellRect.Top + ((cellRect.Height - errorGlyphSize.Height) / 2);
+			var x = rtl ? cellRect.Left : cellRect.Right - errorGlyphSize.Width;
 
 			if (state == PaletteState.Disabled)
 			{
@@ -3360,16 +3376,17 @@ public class RenderStandard : RenderBase
 			}
 			else
 			{
-				context!.Graphics.DrawImage(errorImage, x, y);
+				context!.Graphics.DrawImage(errorImage,
+					new Rectangle(x, y, errorGlyphSize.Width, errorGlyphSize.Height));
 			}
 
 			// Reduce the cell rect by that used up
-			cellRect.Width -= errorImage.Width;
+			cellRect.Width -= errorGlyphSize.Width;
 
 			// With rtl we need to move across to the right
 			if (rtl)
 			{
-				cellRect.X += errorImage.Width;
+				cellRect.X += errorGlyphSize.Width;
 			}
 		}
 

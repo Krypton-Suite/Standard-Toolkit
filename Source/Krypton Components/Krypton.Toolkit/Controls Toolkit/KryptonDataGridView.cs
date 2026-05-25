@@ -189,6 +189,10 @@ public class KryptonDataGridView : DataGridView
     private string _searchString;
     private List<int> _restrictColumnsSearch;
 
+    private int _baselineColumnHeadersHeight = -1;
+    private int _baselineRowHeadersWidth = -1;
+    private int _lastHeaderLayoutDpi = -1;
+
     #endregion
 
     #region Events
@@ -225,13 +229,8 @@ public class KryptonDataGridView : DataGridView
         // Yes, we want to be drawn double buffered by default
         DoubleBuffered = true;
 
-        //Seb : for DPi Correction
-        using (Graphics g = CreateGraphics())
-        {
-            //float factorX = g.DpiX > 96 ? (1f * g.DpiX / 96) : 1f;
-            var factorY = g.DpiY > 96 ? (1f * g.DpiY / 96) : 1f;
-            ColumnHeadersHeight = (int)(ColumnHeadersHeight * factorY);
-        }
+        _baselineColumnHeadersHeight = ColumnHeadersHeight;
+        _baselineRowHeadersWidth = RowHeadersWidth;
 
         SetupVisuals();
         SetupViewAndStates();
@@ -2165,6 +2164,8 @@ public class KryptonDataGridView : DataGridView
 
             DefaultCellStyle.Font = _dataCellFont;
         }
+
+        UpdateHeaderMetricsForDpi();
     }
 
     private void SyncPaddingCellStylesWithPalette()
@@ -2954,7 +2955,73 @@ public class KryptonDataGridView : DataGridView
         }
     }
 
-    private void OnUserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e) => OnNeedResyncPaint(Palette!, new NeedLayoutEventArgs(true));
+    private void OnUserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
+    {
+        UpdateHeaderMetricsForDpi();
+        OnNeedResyncPaint(Palette!, new NeedLayoutEventArgs(true));
+    }
+
+    /// <inheritdoc />
+    protected override void OnHandleCreated(EventArgs e)
+    {
+        base.OnHandleCreated(e);
+        UpdateHeaderMetricsForDpi();
+    }
+
+    private void UpdateHeaderMetricsForDpi()
+    {
+        if (!IsHandleCreated || DeviceDpi <= 0)
+        {
+            return;
+        }
+
+        if (_lastHeaderLayoutDpi == DeviceDpi)
+        {
+            return;
+        }
+
+        _lastHeaderLayoutDpi = DeviceDpi;
+
+        if (_baselineColumnHeadersHeight < 0)
+        {
+            _baselineColumnHeadersHeight = ColumnHeadersHeight;
+        }
+
+        if (_baselineRowHeadersWidth < 0)
+        {
+            _baselineRowHeadersWidth = RowHeadersWidth;
+        }
+
+        float dpiFactor = DeviceDpi / 96f;
+        int columnHeight = Math.Max(1, (int)Math.Round(_baselineColumnHeadersHeight * dpiFactor));
+        int rowWidth = Math.Max(1, (int)Math.Round(_baselineRowHeadersWidth * dpiFactor));
+
+        Font? columnFont = ColumnHeadersDefaultCellStyle.Font;
+        if (columnFont != null)
+        {
+            Padding columnPadding = ColumnHeadersDefaultCellStyle.Padding;
+            int fontHeight = columnFont.Height + columnPadding.Vertical + 4;
+            columnHeight = Math.Max(columnHeight, fontHeight);
+        }
+
+        Font? rowFont = RowHeadersDefaultCellStyle.Font;
+        if (rowFont != null)
+        {
+            Padding rowPadding = RowHeadersDefaultCellStyle.Padding;
+            int fontHeight = rowFont.Height + rowPadding.Vertical + 4;
+            rowWidth = Math.Max(rowWidth, fontHeight);
+        }
+
+        if (ColumnHeadersHeight != columnHeight)
+        {
+            ColumnHeadersHeight = columnHeight;
+        }
+
+        if (RowHeadersWidth != rowWidth)
+        {
+            RowHeadersWidth = rowWidth;
+        }
+    }
 
     private void OnSyncPropertyChanged(object? sender, EventArgs e) =>
         // Ensure the current cell style values are in sync with the new palette
