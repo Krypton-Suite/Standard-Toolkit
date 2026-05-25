@@ -20,6 +20,10 @@
 		<Version>$(LibraryVersion)</Version>
 	</PropertyGroup>
 
+	<PropertyGroup>
+		<Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>
+	</PropertyGroup>
+
 	<Choose>
 		<When Condition="'$(Configuration)' == 'Canary'">
 			<ItemGroup>

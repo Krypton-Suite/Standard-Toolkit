@@ -136,7 +136,7 @@ public class PaletteCueHintText : PaletteInputControlContentStates
         // that look like top/left "lines" (GDI+ DrawString + cue colour). Issue #3382.
         g.FillRectangle(backBrush, layoutRectangle);
 
-        var padding = GetBorderContentPadding(null, PaletteState.Normal);
+        var padding = GetContentPadding(PaletteState.Normal);
         if (!padding.Equals(CommonHelper.InheritPadding))
         {
             layoutRectangle.X += padding.Left;
