@@ -1,7 +1,7 @@
 ﻿#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2021 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2021 - 2026. All rights reserved.
  */
 #endregion
 
@@ -234,6 +234,9 @@ public class KryptonPropertyGrid : VisualControlBase,
     private bool _alwaysActive;
     private bool _forcedLayout;
     private readonly KryptonContextMenuItem _resetMenuItem;
+    private Font? _normalFont;
+    private Font? _disabledFont;
+    private Font? _activeFont;
 
     /// <summary>Occurs before a key is pressed while the control has focus.</summary>
     [Description(@"Occurs before a key is pressed while the control has focus.")]
@@ -333,6 +336,10 @@ public class KryptonPropertyGrid : VisualControlBase,
         {
             PI.DeleteDC(_screenDC);
         }
+
+        _normalFont?.Dispose();
+        _disabledFont?.Dispose();
+        _activeFont?.Dispose();
     }
     #endregion
 
@@ -634,8 +641,15 @@ public class KryptonPropertyGrid : VisualControlBase,
 
             var normalFont = gridState.PaletteContent?.GetContentShortTextFont(PaletteState.ContextNormal);
             var disabledFont = gridState.PaletteContent?.GetContentShortTextFont(PaletteState.Disabled);
+            List<Font>? oldFonts = null;
+            Font? normalControlFont = UpdateControlFont(ref _normalFont, normalFont, ref oldFonts);
+            Font? disabledControlFont = UpdateControlFont(ref _disabledFont, disabledFont, ref oldFonts);
+            Font? activeControlFont = UpdateControlFont(
+                ref _activeFont,
+                StateActive.PaletteContent?.GetContentShortTextFont(PaletteState.Tracking),
+                ref oldFonts);
 
-            _propertyGrid.Font = (Enabled ? normalFont : disabledFont)!;
+            _propertyGrid.Font = Enabled ? normalControlFont : disabledControlFont;
             _propertyGrid.BackColor =
                 gridState.PaletteBack.GetBackColor1(Enabled ? PaletteState.Normal : PaletteState.Disabled);
 
@@ -646,22 +660,21 @@ public class KryptonPropertyGrid : VisualControlBase,
                 IPaletteTriple triple;
                 if (control.Focused)
                 {
-                    state = PaletteState.FocusOverride;
+                    state = PaletteState.Tracking;
                     triple = StateActive;
-                    control.Font = StateActive.PaletteContent?.GetContentShortTextFont(PaletteState.FocusOverride)!;
+                    control.Font = activeControlFont;
                 }
                 else if (control.Enabled)
                 {
                     state = PaletteState.ContextNormal;
                     triple = StateNormal;
-                    // Note: tobitege commented out to avoid unrecoverable exception in System.Drawing, when toggling theme back and forth
-                    control.Font = normalFont!;
+                    control.Font = normalControlFont;
                 }
                 else
                 {
                     state = PaletteState.Disabled;
                     triple = StateDisabled;
-                    control.Font = disabledFont!;
+                    control.Font = disabledControlFont;
                 }
 
                 control.ForeColor = triple.PaletteContent!.GetContentShortTextColor1(state);
@@ -676,8 +689,60 @@ public class KryptonPropertyGrid : VisualControlBase,
             _propertyGrid.ViewForeColor = ContrastColor(_propertyGrid.ViewBackColor);
             //PI.SendMessage(_propertyGrid.Handle, PI.WM_.SETREDRAW, (IntPtr)PI.BOOL.TRUE, IntPtr.Zero);
             Invalidate();
+
+            if (oldFonts != null)
+            {
+                foreach (Font oldFont in oldFonts)
+                {
+                    oldFont.Dispose();
+                }
+            }
         }
     }
+
+    private static Font? UpdateControlFont(ref Font? controlFont, Font? paletteFont, ref List<Font>? oldFonts)
+    {
+        if (paletteFont == null)
+        {
+            if (controlFont != null)
+            {
+                if (oldFonts == null)
+                {
+                    oldFonts = new List<Font>();
+                }
+
+                oldFonts.Add(controlFont);
+                controlFont = null;
+            }
+
+            return null;
+        }
+
+        if ((controlFont == null) || !SameFont(controlFont, paletteFont))
+        {
+            if (controlFont != null)
+            {
+                if (oldFonts == null)
+                {
+                    oldFonts = new List<Font>();
+                }
+
+                oldFonts.Add(controlFont);
+            }
+
+            controlFont = (Font)paletteFont.Clone();
+        }
+
+        return controlFont;
+    }
+
+    private static bool SameFont(Font font1, Font font2) =>
+        font1.Name == font2.Name &&
+        font1.Size.Equals(font2.Size) &&
+        font1.Style == font2.Style &&
+        font1.Unit == font2.Unit &&
+        font1.GdiCharSet == font2.GdiCharSet &&
+        font1.GdiVerticalFont == font2.GdiVerticalFont;
 
     private IPaletteTriple GetTripleState() => Enabled ? (IsActive ? StateActive : StateNormal) : StateDisabled;
 

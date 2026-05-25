@@ -20,9 +20,22 @@
 		<Version>$(LibraryVersion)</Version>
 	</PropertyGroup>
 
+	<!-- MSB3822/3823: non-string .resx entries need preserialized resources + this package for the SDK GenerateResource task. -->
+	<PropertyGroup Condition="'$(UsingMicrosoftNETSdk)' == 'true'">
+		<GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
+	</PropertyGroup>
+
+	<ItemGroup Condition="'$(UsingMicrosoftNETSdk)' == 'true'">
+		<PackageReference Include="System.Resources.Extensions" Version="9.0.10" />
+	</ItemGroup>
+
 	<!-- Configure NuGet package output to separate directory for easier management -->
 	<PropertyGroup>
 		<PackageOutputPath>$(MSBuildThisFileDirectory)..\..\Bin\Packages\$(Configuration)\</PackageOutputPath>
+		<!-- Ensure multi-target outputs don't overwrite each other -->
+		<OutputPath>$(MSBuildThisFileDirectory)..\..\Bin\$(Configuration)\$(TargetFramework)\</OutputPath>
+		<IntermediateOutputPath>obj\$(Configuration)\$(TargetFramework)\</IntermediateOutputPath>
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 	</PropertyGroup>
 
 	<Choose>

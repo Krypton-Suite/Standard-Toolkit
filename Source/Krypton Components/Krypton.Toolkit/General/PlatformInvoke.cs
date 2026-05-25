@@ -651,6 +651,8 @@ internal partial class PI
             TVM_GETISEARCHSTRINGW = 0x1100 + 64,
             TVM_SETITEMHEIGHT = 0x1100 + 27,
             TVM_GETITEMHEIGHT = 0x1100 + 28,
+            TVM_SETEXTENDEDSTYLE = 0x1100 + 44,
+            TVM_GETEXTENDEDSTYLE = 0x1100 + 45,
 
             SETITEMA = 0x110d,
             SETITEM = 0x110d,
@@ -694,6 +696,7 @@ internal partial class PI
     internal const int TVS_EDITLABELS = 0x0008;
 
     internal const int TVS_CHECKBOXES = 0x0100;
+    internal const int TVS_EX_DOUBLEBUFFER = 0x0004;
     //TVS_HASBUTTONS = 0x0001,
     //TVS_HASLINES = 0x0002,
     //TVS_LINESATROOT = 0x0004,
