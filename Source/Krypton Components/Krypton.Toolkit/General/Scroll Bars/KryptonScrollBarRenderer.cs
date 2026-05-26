@@ -429,10 +429,10 @@ internal static class KryptonScrollBarRenderer
     #region private methods
 
     /// <summary>
-    /// Draws the background.
+    /// Gets the DPI scale factor.
     /// </summary>
-    /// <param name="g">The <see cref="Graphics"/> used to paint.</param>
-    /// <param name="rect">The rectangle in which to paint.</param>
+    /// <param name="g">The <see cref="Graphics"/> object.</param>
+    /// <returns>The DPI scale factor.</returns>
     private static float GetDpiScale(Graphics g) => g.DpiX / 96f;
 
     private static int ScaleScrollMetric(int valueAt96Dpi, float scale) =>
@@ -553,6 +553,7 @@ internal static class KryptonScrollBarRenderer
     /// <param name="rect">The rectangle to adjust.</param>
     /// <param name="orientation">The scrollbar orientation.</param>
     /// <param name="gripImage">The grip image.</param>
+    /// <param name="dpiScale">The DPI scale factor.</param>
     /// <returns>The adjusted rectangle.</returns>
     /// <remarks>Also rotates the grip image if necessary.</remarks>
     private static Rectangle AdjustThumbGrip(

@@ -3214,8 +3214,9 @@ public class RenderStandard : RenderBase
 		Debug.Assert(paletteContent != null);
 
 		// Get the appropriate each to draw
-		Image sortImage = _gridSortOrder.Images[sortOrder == SortOrder.Ascending ? 0 : 1];
-		float dpiFactor = CommonHelper.GetControlDpiFactor(context.Control, context.Graphics);
+		Image sortImage = _gridSortOrder.Images[sortOrder == SortOrder.Ascending ? 0 : 1]!;
+
+		float dpiFactor = CommonHelper.GetControlDpiFactor(context!.Control, context.Graphics);
 		Size sortGlyphSize = ScaleGridGlyphSize(sortImage.Size, dpiFactor);
 
 		// Is there enough room to draw the image?
@@ -3296,11 +3297,10 @@ public class RenderStandard : RenderBase
 				break;
 		}
 
-		float dpiFactor = CommonHelper.GetControlDpiFactor(context.Control, context.Graphics);
-
 		// Is there enough room to draw the image?
 		if (rowImage != null)
 		{
+			float dpiFactor = CommonHelper.GetControlDpiFactor(context!.Control, context.Graphics);
 			Size rowGlyphSize = ScaleGridGlyphSize(rowImage.Size, dpiFactor);
 
 			if ((rowGlyphSize.Width < cellRect.Width) &&
@@ -3359,8 +3359,8 @@ public class RenderStandard : RenderBase
 		Debug.Assert(context != null);
 
 		// Get the appropriate each to draw
-		Image errorImage = _gridErrorIcon.Images[0];
-		float dpiFactor = CommonHelper.GetControlDpiFactor(context.Control, context.Graphics);
+		Image errorImage = _gridErrorIcon.Images[0]!;
+		float dpiFactor = CommonHelper.GetControlDpiFactor(context!.Control, context.Graphics);
 		Size errorGlyphSize = ScaleGridGlyphSize(errorImage.Size, dpiFactor);
 
 		// Is there enough room to draw the image?
@@ -5775,13 +5775,9 @@ public class RenderStandard : RenderBase
 		// Not interested if not inside a krypton form
 		if (kryptonForm != null)
 		{
-			// Get the padding just for the chrome borders
-			Padding chromeBorders = kryptonForm.RealWindowBorders;
-
-			// How much border space to allocate per button edge
-			var buttonBorder = (chromeBorders.Top - allocatedHeight - 10) / 2;
-
-			return buttonBorder > 0 ? new Padding(buttonBorder) : Padding.Empty;
+			// Min/max/close images include the full button face; inherited padding misaligns them
+			// when EffectiveCaptionHeight exceeds system RealWindowBorders.Top at high DPI.
+			return Padding.Empty;
 		}
 
 		return original;
@@ -5796,11 +5792,8 @@ public class RenderStandard : RenderBase
 		// Not interested if not inside a krypton form
 		if (kryptonForm != null)
 		{
-			// Get the padding just for the chrome borders
-			Padding chromeBorders = kryptonForm.RealWindowBorders;
-
 			// How much space is available for the font
-			var fontSpace = chromeBorders.Top - 6;
+			var fontSpace = kryptonForm.EffectiveCaptionHeight - 6;
 
 			// If not enough room for the font then create a new smaller font
 			if ((font!.Height > fontSpace) && (fontSpace > 5))
@@ -5859,18 +5852,20 @@ public class RenderStandard : RenderBase
 					memento.DrawImage = false;
 					return;
 				}
-				// Check for enough space to show all of the image
+				bool avoidPurple = memento.ImageTransparentColor == GlobalStaticVariables.TRANSPARENCY_KEY_COLOR
+				                   || memento.ImageTransparentColor == Color.Magenta;
+
+				// Resize to fit the display cell while preserving aspect ratio.
 				if ((displayRect.Width < memento.Image.Width)
 					|| (displayRect.Height < memento.Image.Height)
 				   )
 				{
-					var ratio = 1.0f * Math.Min(memento.Image.Width, memento.Image.Height) / Math.Max(memento.Image.Width, memento.Image.Height);
-
-					// Resize image to fit display area (avoid magenta bleed on color-keyed ButtonSpec art)
-					bool avoidPurple = memento.ImageTransparentColor == GlobalStaticVariables.TRANSPARENCY_KEY_COLOR
-					                   || memento.ImageTransparentColor == Color.Magenta;
-					memento.Image = CommonHelper.ScaleImageForSizedDisplay(memento.Image, displayRect.Width * ratio,
-						displayRect.Height * ratio, avoidPurple);
+					float fitScale = Math.Min((float)displayRect.Width / memento.Image.Width,
+						(float)displayRect.Height / memento.Image.Height);
+					memento.Image = CommonHelper.ScaleImageForSizedDisplay(memento.Image,
+						memento.Image.Width * fitScale,
+						memento.Image.Height * fitScale,
+						avoidPurple);
 				}
 
 				if (memento.Image != null)

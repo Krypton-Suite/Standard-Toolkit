@@ -84,6 +84,23 @@ internal static class Program
         ("Office2010ToolbarQuickPrintNormal", PaletteButtonSpecStyle.QuickPrint),
     };
 
+    private static readonly (string FilePrefix, PaletteButtonSpecStyle Style)[] ControlBoxOffice2010SilverStyles =
+    [
+        ("Office2010SilverClose", PaletteButtonSpecStyle.FormClose),
+        ("Office2010SilverMinimise", PaletteButtonSpecStyle.FormMin),
+        ("Office2010SilverMaximise", PaletteButtonSpecStyle.FormMax),
+        ("Office2010SilverRestore", PaletteButtonSpecStyle.FormRestore),
+        ("Office2010HelpIcon", PaletteButtonSpecStyle.FormHelp),
+    ];
+
+    private static readonly (string FilePrefix, PaletteButtonSpecStyle Style)[] ControlBoxOffice2010BlackStyles =
+    [
+        ("Office2010BlackClose", PaletteButtonSpecStyle.FormClose),
+        ("Office2010BlackMinimise", PaletteButtonSpecStyle.FormMin),
+        ("Office2010BlackMaximise", PaletteButtonSpecStyle.FormMax),
+        ("Office2010BlackRestore", PaletteButtonSpecStyle.FormRestore),
+    ];
+
     private static readonly (string FileBase, PaletteButtonSpecStyle Style)[] ToolbarOffice2019Entries =
     {
         ("Office2019ToolbarNewNormal", PaletteButtonSpecStyle.New),
@@ -139,6 +156,16 @@ internal static class Program
                 GenerateAssetSets(outputDir, palette, ToolbarOffice2019Entries, resxNames);
             }
 
+            using (var palette = new PaletteOffice2010Silver())
+            {
+                GenerateControlBoxScaledAssets(outputDir, palette, ControlBoxOffice2010SilverStyles, resxNames);
+            }
+
+            using (var palette = new PaletteOffice2010Black())
+            {
+                GenerateControlBoxScaledAssets(outputDir, palette, ControlBoxOffice2010BlackStyles, resxNames);
+            }
+
             string resxPath = Path.Combine(GetToolkitRoot(), "ResourceFiles", "ButtonSpecs",
                 "ButtonSpecDpiImageResources.resx");
             WriteResx(resxPath, resxNames);
@@ -156,6 +183,38 @@ internal static class Program
             Console.Error.WriteLine(ex);
             return ExitError;
         }
+    }
+
+    private static void GenerateControlBoxScaledAssets(string outputDir, PaletteBase palette,
+        (string FilePrefix, PaletteButtonSpecStyle Style)[] entries, List<string> resxNames)
+    {
+        foreach ((string filePrefix, PaletteButtonSpecStyle style) in entries)
+        {
+            GenerateControlBoxStateAsset(outputDir, palette, style, filePrefix + "Normal", PaletteState.Normal, resxNames);
+            GenerateControlBoxStateAsset(outputDir, palette, style, filePrefix + "Active", PaletteState.Tracking, resxNames);
+            GenerateControlBoxStateAsset(outputDir, palette, style, filePrefix + "Pressed", PaletteState.Pressed, resxNames);
+            GenerateControlBoxStateAsset(outputDir, palette, style, filePrefix + "Disabled", PaletteState.Disabled, resxNames);
+        }
+    }
+
+    private static void GenerateControlBoxStateAsset(string outputDir, PaletteBase palette,
+        PaletteButtonSpecStyle style, string fileBase, PaletteState state, List<string> resxNames)
+    {
+        if (style == PaletteButtonSpecStyle.FormHelp && fileBase.EndsWith("Active", StringComparison.Ordinal))
+        {
+            fileBase = fileBase.Replace("Active", "Hover", StringComparison.Ordinal);
+        }
+
+        using Image? baseline = palette.GetButtonSpecImage(style, state);
+        if (baseline == null)
+        {
+            Console.WriteLine(@"Skipping {0} (no control box baseline).", fileBase);
+            return;
+        }
+
+        SaveScaled(baseline, 2f, Path.Combine(outputDir, fileBase + "_2x.bmp"));
+        SaveScaled(baseline, 3f, Path.Combine(outputDir, fileBase + "_3x.bmp"));
+        resxNames.Add(fileBase);
     }
 
     private static void GenerateAssetSets(string outputDir, PaletteBase palette,

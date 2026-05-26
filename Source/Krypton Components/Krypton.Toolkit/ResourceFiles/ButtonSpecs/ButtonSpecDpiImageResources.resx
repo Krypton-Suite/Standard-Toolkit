@@ -349,4 +349,220 @@
   <data name="Office2019ToolbarQuickPrintNormal_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\..\Resources\ButtonSpecs\Office2019ToolbarQuickPrintNormal_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Office2010SilverCloseNormal_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010SilverCloseNormal_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010SilverCloseNormal_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010SilverCloseNormal_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010SilverCloseActive_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010SilverCloseActive_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010SilverCloseActive_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010SilverCloseActive_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010SilverClosePressed_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010SilverClosePressed_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010SilverClosePressed_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010SilverClosePressed_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010SilverCloseDisabled_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010SilverCloseDisabled_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010SilverCloseDisabled_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010SilverCloseDisabled_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010SilverMinimiseNormal_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010SilverMinimiseNormal_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010SilverMinimiseNormal_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010SilverMinimiseNormal_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010SilverMinimiseActive_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010SilverMinimiseActive_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010SilverMinimiseActive_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010SilverMinimiseActive_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010SilverMinimisePressed_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010SilverMinimisePressed_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010SilverMinimisePressed_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010SilverMinimisePressed_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010SilverMinimiseDisabled_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010SilverMinimiseDisabled_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010SilverMinimiseDisabled_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010SilverMinimiseDisabled_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010SilverMaximiseNormal_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010SilverMaximiseNormal_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010SilverMaximiseNormal_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010SilverMaximiseNormal_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010SilverMaximiseActive_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010SilverMaximiseActive_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010SilverMaximiseActive_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010SilverMaximiseActive_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010SilverMaximisePressed_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010SilverMaximisePressed_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010SilverMaximisePressed_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010SilverMaximisePressed_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010SilverMaximiseDisabled_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010SilverMaximiseDisabled_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010SilverMaximiseDisabled_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010SilverMaximiseDisabled_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010SilverRestoreNormal_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010SilverRestoreNormal_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010SilverRestoreNormal_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010SilverRestoreNormal_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010SilverRestoreActive_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010SilverRestoreActive_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010SilverRestoreActive_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010SilverRestoreActive_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010SilverRestorePressed_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010SilverRestorePressed_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010SilverRestorePressed_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010SilverRestorePressed_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010SilverRestoreDisabled_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010SilverRestoreDisabled_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010SilverRestoreDisabled_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010SilverRestoreDisabled_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010HelpIconNormal_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010HelpIconNormal_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010HelpIconNormal_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010HelpIconNormal_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010HelpIconHover_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010HelpIconHover_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010HelpIconHover_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010HelpIconHover_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010HelpIconPressed_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010HelpIconPressed_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010HelpIconPressed_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010HelpIconPressed_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010HelpIconDisabled_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010HelpIconDisabled_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010HelpIconDisabled_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010HelpIconDisabled_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010BlackCloseNormal_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010BlackCloseNormal_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010BlackCloseNormal_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010BlackCloseNormal_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010BlackCloseActive_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010BlackCloseActive_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010BlackCloseActive_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010BlackCloseActive_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010BlackClosePressed_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010BlackClosePressed_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010BlackClosePressed_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010BlackClosePressed_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010BlackCloseDisabled_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010BlackCloseDisabled_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010BlackCloseDisabled_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010BlackCloseDisabled_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010BlackMinimiseNormal_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010BlackMinimiseNormal_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010BlackMinimiseNormal_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010BlackMinimiseNormal_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010BlackMinimiseActive_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010BlackMinimiseActive_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010BlackMinimiseActive_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010BlackMinimiseActive_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010BlackMinimisePressed_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010BlackMinimisePressed_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010BlackMinimisePressed_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010BlackMinimisePressed_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010BlackMinimiseDisabled_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010BlackMinimiseDisabled_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010BlackMinimiseDisabled_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010BlackMinimiseDisabled_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010BlackMaximiseNormal_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010BlackMaximiseNormal_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010BlackMaximiseNormal_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010BlackMaximiseNormal_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010BlackMaximiseActive_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010BlackMaximiseActive_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010BlackMaximiseActive_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010BlackMaximiseActive_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010BlackMaximisePressed_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010BlackMaximisePressed_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010BlackMaximisePressed_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010BlackMaximisePressed_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010BlackMaximiseDisabled_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010BlackMaximiseDisabled_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010BlackMaximiseDisabled_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010BlackMaximiseDisabled_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010BlackRestoreNormal_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010BlackRestoreNormal_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010BlackRestoreNormal_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010BlackRestoreNormal_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010BlackRestoreActive_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010BlackRestoreActive_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010BlackRestoreActive_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010BlackRestoreActive_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010BlackRestorePressed_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010BlackRestorePressed_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010BlackRestorePressed_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010BlackRestorePressed_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010BlackRestoreDisabled_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010BlackRestoreDisabled_2x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010BlackRestoreDisabled_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ButtonSpecs\Office2010BlackRestoreDisabled_3x.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

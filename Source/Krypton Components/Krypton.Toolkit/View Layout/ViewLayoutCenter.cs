@@ -247,44 +247,26 @@ public class ViewLayoutCenter : ViewComposite
                 // Ask child for it's own preferred size
                 Size childPreferred = child.GetPreferredSize(context);
 
-                // When touchscreen support is enabled for controlbox buttons, make the button fill
-                // the entire area (including padding) to avoid transparent magenta outlines
-                bool fillEntireArea = false;
-                if (KryptonManager.UseTouchscreenSupport && 
-                    MetricPadding == PaletteMetricPadding.HeaderButtonPaddingForm &&
-                    child is ViewDrawButton)
+                // Make sure the child is never bigger than the available space
+                if (childPreferred.Width > ClientWidth)
                 {
-                    fillEntireArea = true;
+                    childPreferred.Width = ClientWidth;
                 }
 
-                if (fillEntireArea)
+                if (childPreferred.Height > ClientHeight)
                 {
-                    // Make the button fill the entire original area (before padding was applied)
-                    context.DisplayRectangle = original;
+                    childPreferred.Height = ClientHeight;
                 }
-                else
-                {
-                    // Make sure the child is never bigger than the available space
-                    if (childPreferred.Width > ClientWidth)
-                    {
-                        childPreferred.Width = ClientWidth;
-                    }
 
-                    if (childPreferred.Height > ClientHeight)
-                    {
-                        childPreferred.Height = ClientHeight;
-                    }
+                // Find vertical and horizontal offsets for centering
+                var xOffset = (ClientWidth - childPreferred.Width) / 2;
+                var yOffset = (ClientHeight - childPreferred.Height) / 2;
 
-                    // Find vertical and horizontal offsets for centering
-                    var xOffset = (ClientWidth - childPreferred.Width) / 2;
-                    var yOffset = (ClientHeight - childPreferred.Height) / 2;
-
-                    // Create the rectangle that centers the child in our space
-                    context.DisplayRectangle = new Rectangle(ClientRectangle.X + xOffset,
-                        ClientRectangle.Y + yOffset,
-                        childPreferred.Width,
-                        childPreferred.Height);
-                }
+                // Create the rectangle that centers the child in our space
+                context.DisplayRectangle = new Rectangle(ClientRectangle.X + xOffset,
+                    ClientRectangle.Y + yOffset,
+                    childPreferred.Width,
+                    childPreferred.Height);
 
                 // Finally ask the child to layout
                 child.Layout(context);

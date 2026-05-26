@@ -1136,6 +1136,14 @@ public class KryptonForm : VisualForm,
     public FormButtonSpecCollection ButtonSpecs { get; }
 
     /// <summary>
+    /// Height of the custom caption chrome used for form button layout (may exceed system NC metrics at high DPI).
+    /// </summary>
+    internal int EffectiveCaptionHeight =>
+        _headingFixedSize.Visible && _headingFixedSize.FixedSize.Height > 0
+            ? _headingFixedSize.FixedSize.Height
+            : RealWindowBorders.Top;
+
+    /// <summary>
     /// Gets or sets the <see cref="KryptonFormTitleBar"/> component that hosts button-spec items
     /// in the title bar caption area, to the left of the form title text.
     /// Set to <c>null</c> to remove any previously attached title bar toolbar.
@@ -1800,6 +1808,10 @@ public class KryptonForm : VisualForm,
         _buttonManager?.RecreateButtons();
 
         _titleBarButtonManager?.RecreateButtons();
+        NeedLayout = true;
+        KryptonToolStripDpiHelper.SyncFonts(this);
+        PerformNeedPaint(true);
+        InvalidateNonClient();
     }
 
     /// <summary>
@@ -2614,16 +2626,28 @@ public class KryptonForm : VisualForm,
                     // Ensure the heading is visible
                     _headingFixedSize.Visible = true;
 
+                    float captionScaleY = FactorDpiY;
+                    if (KryptonManager.UseTouchscreenSupport)
+                    {
+                        captionScaleY *= KryptonManager.TouchscreenScaleFactor;
+                    }
+
                     if (Renderer is RenderMaterial)
                     {
-                        int materialCaptionHeight = Math.Max(44, (int)Math.Round(44 * FactorDpiY));
+                        int materialCaptionHeight = Math.Max(44, (int)Math.Round(44 * captionScaleY));
                         _headingFixedSize.FixedSize = new Size(materialCaptionHeight, materialCaptionHeight);
                     }
                     else
                     {
                         Padding windowBorders = RealWindowBorders;
                         int captionHeight = windowBorders.Top;
-                        int scaledCaption = (int)Math.Round(31 * FactorDpiY);
+                        // Office 2010 control box art is 31px tall at 96 DPI; round up for fractional scale.
+                        int scaledCaption = (int)Math.Ceiling(31 * captionScaleY);
+                        if (_titleBar != null)
+                        {
+                            scaledCaption = Math.Max(scaledCaption, (int)Math.Ceiling(36 * captionScaleY));
+                        }
+
                         captionHeight = Math.Max(captionHeight, scaledCaption);
                         _headingFixedSize.FixedSize = new Size(captionHeight, captionHeight);
                     }

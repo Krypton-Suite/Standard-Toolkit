@@ -23,6 +23,31 @@ public partial class MenuToolBarStatusStripTest : KryptonForm
         _statusStripTimer.Interval = 50;
         _statusStripTimer.Tick += StatusStripTimer_Tick;
         KryptonManager.GlobalPaletteChanged += KryptonManager_GlobalPaletteChanged;
+        KryptonManager.GlobalTouchscreenSupportChanged += OnGlobalTouchscreenSupportChanged;
+        Shown += (_, _) => KryptonToolStripDpiHelper.SyncFonts(this);
+    }
+
+    protected override void OnFormClosed(FormClosedEventArgs e)
+    {
+        KryptonManager.GlobalTouchscreenSupportChanged -= OnGlobalTouchscreenSupportChanged;
+        base.OnFormClosed(e);
+    }
+
+    private void OnGlobalTouchscreenSupportChanged(object? sender, EventArgs e)
+    {
+        if (IsDisposed)
+        {
+            return;
+        }
+
+        if (InvokeRequired)
+        {
+            BeginInvoke(new Action(() => KryptonToolStripDpiHelper.SyncFonts(this)));
+        }
+        else
+        {
+            KryptonToolStripDpiHelper.SyncFonts(this);
+        }
     }
 
     private void animateStatusStripToolStripMenuItem_Click(object? sender, EventArgs e)

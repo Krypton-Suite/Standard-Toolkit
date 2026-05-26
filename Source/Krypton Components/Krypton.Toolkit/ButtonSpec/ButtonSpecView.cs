@@ -326,7 +326,8 @@ public class ButtonSpecView : GlobalId,
             return null;
         }
 
-        float dpiFactor = _controller?.Target.FactorDpiX ?? 1f;
+        float dpiFactorX = _controller?.Target.FactorDpiX ?? 1f;
+        float dpiFactorY = _controller?.Target.FactorDpiY ?? 1f;
         float extraScaleFactor = KryptonManager.UseTouchscreenSupport
             ? KryptonManager.TouchscreenScaleFactor
             : 1f;
@@ -349,11 +350,11 @@ public class ButtonSpecView : GlobalId,
             float fitScale = Math.Min(1f, Math.Min(logicalBox / baseImage.Width, logicalBox / baseImage.Height));
             float logicalW = Math.Max(1f, baseImage.Width * fitScale);
             float logicalH = Math.Max(1f, baseImage.Height * fitScale);
-            return ButtonSpecImageResolver.ResolveForDpi(baseImage, scale2x, scale3x, dpiFactor, dpiFactor,
+            return ButtonSpecImageResolver.ResolveForDpi(baseImage, scale2x, scale3x, dpiFactorX, dpiFactorY,
                 extraScaleFactor, logicalW, logicalH);
         }
 
-        return ButtonSpecImageResolver.ResolveForDpi(baseImage, scale2x, scale3x, dpiFactor, dpiFactor,
+        return ButtonSpecImageResolver.ResolveForDpi(baseImage, scale2x, scale3x, dpiFactorX, dpiFactorY,
             extraScaleFactor, baseImage.Width, baseImage.Height);
     }
 

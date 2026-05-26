@@ -62,8 +62,18 @@ public class KryptonMenuStrip : MenuStrip,
         // Set initial font from palette
         UpdateFont();
 
+        KryptonManager.GlobalTouchscreenSupportChanged += OnGlobalTouchscreenSupportChanged;
+
         // Register with the FocusLostMenuHelper
         Register(this);
+    }
+
+    private void OnGlobalTouchscreenSupportChanged(object? sender, EventArgs e)
+    {
+        if (!IsDisposed)
+        {
+            UpdateFont();
+        }
     }
 
     /// <summary>
@@ -78,6 +88,7 @@ public class KryptonMenuStrip : MenuStrip,
             Deregister(this);
 
             // Unhook from events
+            KryptonManager.GlobalTouchscreenSupportChanged -= OnGlobalTouchscreenSupportChanged;
             KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChanged;
 
             // Unhook from palette events
@@ -395,6 +406,8 @@ public class KryptonMenuStrip : MenuStrip,
                     {
                         Font = toolStripFont;
                     }
+
+                    KryptonToolStripDpiHelper.SyncStrip(this);
                 }
             }
             catch

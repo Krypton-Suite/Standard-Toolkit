@@ -74,6 +74,15 @@ public static class ButtonSpecImageResolver
             return null;
         }
 
+        // Downscaling dedicated 2x/3x color-keyed art bleeds magenta; upscale baseline when it fits instead.
+        if (baseline != null
+            && (source.Width > targetW + 0.5f || source.Height > targetH + 0.5f)
+            && baseline.Width <= targetW + 0.5f
+            && baseline.Height <= targetH + 0.5f)
+        {
+            source = baseline;
+        }
+
         if (Math.Abs(source.Width - targetW) < 0.5f && Math.Abs(source.Height - targetH) < 0.5f)
         {
             return source;
@@ -100,14 +109,15 @@ public static class ButtonSpecImageResolver
             return best;
         }
 
-        if (scale3x != null)
-        {
-            return scale3x;
-        }
-
+        // Prefer 2x over 3x when upscaling; downscaling 3x color-keyed art bleeds magenta.
         if (scale2x != null)
         {
             return scale2x;
+        }
+
+        if (scale3x != null)
+        {
+            return scale3x;
         }
 
         return baseline;

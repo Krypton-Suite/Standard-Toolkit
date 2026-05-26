@@ -30,8 +30,18 @@ public class KryptonToolStrip : ToolStrip,
         // Use Krypton
         RenderMode = ToolStripRenderMode.ManagerRenderMode;
 
+        KryptonManager.GlobalTouchscreenSupportChanged += OnGlobalTouchscreenSupportChanged;
+
         // Register with the FocusLostMenuHelper
         Register(this);
+    }
+
+    private void OnGlobalTouchscreenSupportChanged(object? sender, EventArgs e)
+    {
+        if (!IsDisposed)
+        {
+            KryptonToolStripDpiHelper.SyncStrip(this);
+        }
     }
     #endregion
 
@@ -47,6 +57,8 @@ public class KryptonToolStrip : ToolStrip,
     {
         if (!_disposed && disposing)
         {
+            KryptonManager.GlobalTouchscreenSupportChanged -= OnGlobalTouchscreenSupportChanged;
+
             // Deregister from the FocusLostMenuHelper
             Deregister(this);
         }
