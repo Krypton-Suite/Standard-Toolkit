@@ -16,6 +16,7 @@
 - `Documents/`, `Assets/`, `Logs/`: Docs, images, and build logs
 
 ## Build, Test, and Development Commands
+- Script/CI builds use phased orchestration (`Scripts/Build/Krypton.Orchestration.targets`) with `msbuild /m` for parallel TFMs; do not build all `Krypton.*` projects in one parallel batch (shared `Bin/<Configuration>/<tfm>/` outputs).
 - Build solution (Debug):
   - `dotnet build "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.sln" -c Debug`
 - Run sample app:

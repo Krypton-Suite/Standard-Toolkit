@@ -186,7 +186,7 @@ jobs:
 
       - name: Restore
         if: steps.canary_lts_kill_switch.outputs.enabled == 'true'
-        run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnx"
+        run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnx" -p:Configuration=Canary -p:TFMs=all
 
       - name: Prepare Code Signing Certificate (Optional)
         if: steps.canary_lts_kill_switch.outputs.enabled == 'true'
@@ -214,26 +214,36 @@ jobs:
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
-          $buildArgs = 'Scripts/Build/canary.proj /t:Build /p:Configuration=Canary /p:Platform="Any CPU" /p:UseArtifactsOutput=true'
+          # /m: multi-processor MSBuild (matches Scripts/Build/build-nightly.cmd and local .proj orchestration).
+          $buildArgs = @(
+            '/m',
+            'Scripts/Build/canarylongtermstable.proj',
+            '/t:Build',
+            '/restore',
+            '/p:Configuration=Canary',
+            '/p:Platform=Any CPU',
+            '/p:UseArtifactsOutput=true'
+          )
 
           if (${{ steps.prepare_cert.outputs.cert_available }} -eq 'true') {
-            $buildArgs += ' /p:EnableAuthenticodeSigning=true'
-            $buildArgs += " /p:AuthenticodeCertificatePath=`"${{ steps.prepare_cert.outputs.cert_path }}`""
+            $buildArgs += '/p:EnableAuthenticodeSigning=true'
+            $buildArgs += "/p:AuthenticodeCertificatePath=${{ steps.prepare_cert.outputs.cert_path }}"
             if ($env:AUTHENTICODE_CERT_PASSWORD) {
-              $buildArgs += " /p:AuthenticodeCertificatePassword=`"$env:AUTHENTICODE_CERT_PASSWORD`""
+              $buildArgs += "/p:AuthenticodeCertificatePassword=$env:AUTHENTICODE_CERT_PASSWORD"
             }
             Write-Host "Building with Authenticode signing enabled"
           } else {
             Write-Host "Building without Authenticode signing"
           }
 
-          msbuild $buildArgs
+          & msbuild @buildArgs
         env:
           AUTHENTICODE_CERT_PASSWORD: ${{ secrets.AUTHENTICODE_CERT_PASSWORD }}
 
+      # /m: parallel pack across TFMs/projects on the runner (same as Build step above).
       - name: Pack Canary
         if: steps.canary_lts_kill_switch.outputs.enabled == 'true'
-        run: msbuild "Scripts/Build/canary.proj" /t:Pack /p:Configuration=Canary /p:Platform="Any CPU" /p:UseArtifactsOutput=true
+        run: msbuild /m "Scripts/Build/canarylongtermstable.proj" /t:Pack /restore /p:Configuration=Canary /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
       - name: Push NuGet Packages to nuget.org
         if: steps.canary_lts_kill_switch.outputs.enabled == 'true'

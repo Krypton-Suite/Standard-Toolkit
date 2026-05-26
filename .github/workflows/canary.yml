@@ -234,17 +234,18 @@ jobs:
       
                 Write-Host "WebView2 population complete."
 
+      # /m: multi-processor MSBuild (all runner CPUs). canary.proj orchestrates Krypton.* projects in parallel where references allow.
       - name: Restore
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
-        run: msbuild "Scripts/Build/canary.proj" /t:Restore /p:Configuration=Canary /p:Platform="Any CPU" /p:UseArtifactsOutput=true
+        run: msbuild /m "Scripts/Build/canary.proj" /t:Restore /p:Configuration=Canary /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
       - name: Build Canary
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
-        run: msbuild "Scripts/Build/canary.proj" /t:Build /p:Configuration=Canary /p:Platform="Any CPU" /p:UseArtifactsOutput=true
+        run: msbuild /m "Scripts/Build/canary.proj" /t:Build /restore /p:Configuration=Canary /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
       - name: Pack Canary
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
-        run: msbuild "Scripts/Build/canary.proj" /t:Pack /p:Configuration=Canary /p:Platform="Any CPU" /p:UseArtifactsOutput=true
+        run: msbuild /m "Scripts/Build/canary.proj" /t:Pack /restore /p:Configuration=Canary /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
       - name: Push NuGet Packages to nuget.org
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
