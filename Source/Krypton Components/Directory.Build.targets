@@ -14,6 +14,11 @@
 		<UseCommonOutputDirectory>true</UseCommonOutputDirectory>
 	</PropertyGroup>
 
+	<!-- Rebuild/Clean removes shared Bin\<Configuration>\<tfm>\ folders; GenerateDepsFile runs before compile recreates them. -->
+	<Target Name="EnsureOutputDirectoryExists" BeforeTargets="GenerateBuildDependencyFile" Condition="'$(TargetFramework)' != ''">
+		<MakeDir Directories="$(OutputPath)" Condition="!Exists('$(OutputPath)')" />
+	</Target>
+
 	<!-- Outer cross-targeting build: default BuildInParallel=true dispatches inner TFMs concurrently. With custom
 	     OutputPath/IntermediateOutputPath, concurrent inner builds can still mis-resolve or overwrite outputs in
 	     practice (CS1705: referenced assembly built for a higher TFM). Serialize inner TFMs per project. -->
