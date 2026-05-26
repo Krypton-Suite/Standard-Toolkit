@@ -5,7 +5,7 @@
 # Location: Repository Settings -> Secrets and variables -> Actions -> Variables tab
 # To re-enable: Set TEMPLATES_RELEASE_DISABLED=false or delete the variable
 
-name: Templates Release
+name: Visual Studio Templates Release
 
 on:
   push:
@@ -13,7 +13,7 @@ on:
       - master
       - alpha
       - canary
-      - V105-LTS
+      - V110
     paths:
       - "Templates/**"
       - ".github/workflows/templates-release.yml"
@@ -28,7 +28,7 @@ jobs:
     environment: production
 
     steps:
-      - name: Templates Release Kill Switch Check
+      - name: Visual Studio Templates Release Kill Switch Check
         id: templates_release_kill_switch
         shell: pwsh
         run: |
@@ -36,11 +36,11 @@ jobs:
           $disabled = '${{ vars.TEMPLATES_RELEASE_DISABLED }}'
 
           if ($disabled -eq 'true') {
-            Write-Host "::warning:: Templates release workflow is currently DISABLED via kill switch (TEMPLATES_RELEASE_DISABLED=true)"
+            Write-Host "::warning:: Visual Studio Templates release workflow is currently DISABLED via kill switch (TEMPLATES_RELEASE_DISABLED=true)"
             Write-Host "To re-enable: set TEMPLATES_RELEASE_DISABLED to 'false' or remove the variable."
             echo "enabled=false" >> $env:GITHUB_OUTPUT
           } else {
-            Write-Host "Templates release kill switch check has passed, continuing..."
+            Write-Host "Visual Studio Templates release kill switch check has passed, continuing..."
             echo "enabled=true" >> $env:GITHUB_OUTPUT
           }
 
@@ -50,7 +50,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Resolve templates release channel
+      - name: Resolve Visual Studio Templates release channel
         if: steps.templates_release_kill_switch.outputs.enabled == 'true'
         id: channel
         shell: pwsh
@@ -77,10 +77,10 @@ jobs:
               $title = 'Krypton Templates (Alpha)'
               $prerelease = 'true'
             }
-            'V105-LTS' {
-              $channel = 'lts'
-              $tag = 'templates-lts'
-              $title = 'Krypton Templates (LTS)'
+            'V110' {
+              $channel = 'current'
+              $tag = 'templates-current'
+              $title = 'Krypton Templates (Current)'
               $prerelease = 'false'
             }
             default {
@@ -97,6 +97,8 @@ jobs:
 
           $dateStamp = (Get-Date).ToUniversalTime().ToString("yyyyMMdd-HHmm")
           $version = "$channel-$dateStamp"
+          $utcNow = (Get-Date).ToUniversalTime()
+          $vsixVersion = "110.0.$($utcNow.ToString('MMdd')).$($utcNow.ToString('HHmm'))"
 
           echo "branch=$branch" >> $env:GITHUB_OUTPUT
           echo "channel=$channel" >> $env:GITHUB_OUTPUT
@@ -104,8 +106,9 @@ jobs:
           echo "title=$title" >> $env:GITHUB_OUTPUT
           echo "prerelease=$prerelease" >> $env:GITHUB_OUTPUT
           echo "version=$version" >> $env:GITHUB_OUTPUT
+          echo "vsix_version=$vsixVersion" >> $env:GITHUB_OUTPUT
 
-      - name: Build template zip artifacts
+      - name: Build Visual Studio Templates zip artifacts
         if: steps.templates_release_kill_switch.outputs.enabled == 'true'
         id: package_templates
         shell: pwsh
@@ -156,12 +159,49 @@ jobs:
           echo "ribbon_project_zip=$ribbonProjectZip" >> $env:GITHUB_OUTPUT
           echo "bundle_zip=$bundleZip" >> $env:GITHUB_OUTPUT
 
+      - name: Build template VSIX package
+        if: steps.templates_release_kill_switch.outputs.enabled == 'true'
+        id: build_vsix
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+
+          $vsixProj = Join-Path $env:GITHUB_WORKSPACE "Templates\Vsix\Krypton.Templates.Vsix\Krypton.Templates.Vsix.csproj"
+          $manifestPath = Join-Path $env:GITHUB_WORKSPACE "Templates\Vsix\Krypton.Templates.Vsix\source.extension.vsixmanifest"
+          if (-not (Test-Path $vsixProj)) { throw "Missing VSIX project: $vsixProj" }
+          if (-not (Test-Path $manifestPath)) { throw "Missing VSIX manifest: $manifestPath" }
+
+          $vsixVersion = '${{ steps.channel.outputs.vsix_version }}'
+          $manifest = Get-Content -Path $manifestPath -Raw -Encoding utf8
+          $manifest = $manifest.TrimStart([char]0xFEFF)
+          $manifest = $manifest -replace '(<Identity Id="Krypton\.Suite\.StandardToolkit\.Templates" Version=")[^"]*"', "`${1}$vsixVersion`""
+          $utf8NoBom = New-Object System.Text.UTF8Encoding $false
+          [System.IO.File]::WriteAllText($manifestPath, $manifest, $utf8NoBom)
+
+          dotnet restore $vsixProj
+          dotnet msbuild $vsixProj `
+            /p:Configuration=Release `
+            /p:DeployExtension=false `
+            /p:VsixVersion=${{ steps.channel.outputs.vsix_version }}
+
+          $vsixBuildDir = Join-Path $env:GITHUB_WORKSPACE "Templates\Vsix\Krypton.Templates.Vsix\bin\Release"
+          $builtVsix = Get-ChildItem -Path $vsixBuildDir -Filter *.vsix -Recurse -ErrorAction SilentlyContinue |
+            Sort-Object LastWriteTime -Descending |
+            Select-Object -First 1
+          if (-not $builtVsix) { throw "VSIX was not produced under $vsixBuildDir" }
+
+          $vsixDest = Join-Path "${{ steps.package_templates.outputs.output_dir }}" "krypton-templates-${{ steps.channel.outputs.version }}.vsix"
+          Copy-Item $builtVsix.FullName $vsixDest -Force
+          echo "vsix_path=$vsixDest" >> $env:GITHUB_OUTPUT
+
       - name: Upload workflow artifact
         if: steps.templates_release_kill_switch.outputs.enabled == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: templates-${{ steps.channel.outputs.channel }}
-          path: ${{ steps.package_templates.outputs.output_dir }}/*.zip
+          path: |
+            ${{ steps.package_templates.outputs.output_dir }}/*.zip
+            ${{ steps.build_vsix.outputs.vsix_path }}
           if-no-files-found: error
 
       - name: Publish templates to GitHub Release
@@ -175,7 +215,10 @@ jobs:
           body: |
             Visual Studio templates for Krypton Standard Toolkit.
 
+            **Recommended install:** download and run `krypton-templates-*.vsix`, then restart Visual Studio.
+
             Included assets:
+            - VSIX package (one-click install for all templates)
             - Item template (`Krypton Form`)
             - Item template (`Krypton Ribbon Form`)
             - Project template (`Krypton WinForms App`)
@@ -184,7 +227,9 @@ jobs:
 
             Source branch: `${{ steps.channel.outputs.branch }}`
             Build stamp: `${{ steps.channel.outputs.version }}`
+            VSIX version: `${{ steps.channel.outputs.vsix_version }}`
           files: |
+            ${{ steps.build_vsix.outputs.vsix_path }}
             ${{ steps.package_templates.outputs.item_zip }}
             ${{ steps.package_templates.outputs.ribbon_item_zip }}
             ${{ steps.package_templates.outputs.project_zip }}
