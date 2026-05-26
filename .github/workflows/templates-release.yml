@@ -172,9 +172,11 @@ jobs:
           if (-not (Test-Path $manifestPath)) { throw "Missing VSIX manifest: $manifestPath" }
 
           $vsixVersion = '${{ steps.channel.outputs.vsix_version }}'
-          $manifest = Get-Content -Path $manifestPath -Raw
-          $manifest = $manifest -replace 'Version="[^"]+"', "Version=`"$vsixVersion`""
-          Set-Content -Path $manifestPath -Value $manifest -NoNewline
+          $manifest = Get-Content -Path $manifestPath -Raw -Encoding utf8
+          $manifest = $manifest.TrimStart([char]0xFEFF)
+          $manifest = $manifest -replace '(<Identity Id="Krypton\.Suite\.StandardToolkit\.Templates" Version=")[^"]*"', "`${1}$vsixVersion`""
+          $utf8NoBom = New-Object System.Text.UTF8Encoding $false
+          [System.IO.File]::WriteAllText($manifestPath, $manifest, $utf8NoBom)
 
           dotnet restore $vsixProj
           dotnet msbuild $vsixProj `
