@@ -45,6 +45,12 @@ public sealed class AppState
     /// </summary>
     public string ProjectFile { get; set; } = string.Empty;
 
+    /// <summary>
+    /// Gets or sets the selected scripts profile (Auto, VS2022, Current).
+    /// Controls which Scripts folder variant is preferred when resolving .proj files.
+    /// </summary>
+    public ScriptProfile ScriptProfile { get; set; } = ScriptProfile.Auto;
+
     #endregion
 
     #region Logging Configuration
@@ -87,6 +93,11 @@ public sealed class AppState
     /// Gets or sets the UTC start time of the current build operation.
     /// </summary>
     public DateTime? StartTimeUtc { get; set; }
+
+    /// <summary>
+    /// Gets or sets the UTC end time of the most recently completed build operation.
+    /// </summary>
+    public DateTime? EndTimeUtc { get; set; }
     
     /// <summary>
     /// Gets or sets the count of errors encountered during the build.
