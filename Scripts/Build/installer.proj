@@ -4,8 +4,6 @@
 	<PropertyGroup>
 		<RootFolder>$(MSBuildProjectDirectory)</RootFolder>
 		<Configuration>Installer</Configuration>
-		<InstallerSourcePath>$(KryptonBuildOutputRoot)Installer\</InstallerSourcePath>
-		<InstallerPackagesPath>$(KryptonPackageOutputRoot)Installer\</InstallerPackagesPath>
 	</PropertyGroup>
 
 	<Target Name="Clean">
@@ -31,7 +29,7 @@
 	
 	<Target Name="CleanPackages">
 		<ItemGroup>
-			<NugetPkgs Include="$(InstallerPackagesPath)*.nupkg" />
+			<NugetPkgs Include="..\Bin\Packages\Installer\*.nupkg" />
 		</ItemGroup>
 		<Delete Files="@(NugetPkgs)" />
 	</Target>
@@ -56,7 +54,7 @@
 	
 	<Target Name="Push">
 		<ItemGroup>
-			<NugetPkgs Include="$(InstallerPackagesPath)*.$(LibraryVersion).nupkg" />
+			<NugetPkgs Include="..\Bin\Packages\Installer\*.$(LibraryVersion).nupkg" />
 		</ItemGroup>
 		<Exec Command="nuget.exe push %(NugetPkgs.Identity)" />
 	</Target>
@@ -66,11 +64,11 @@
 			<StringDate>$([System.DateTime]::Now.ToString('yyyyMMdd'))</StringDate>
 		</PropertyGroup>
 		<ItemGroup>
-			<DebugApplicationFiles Include="$(InstallerSourcePath)**\*.*" Exclude="$(InstallerSourcePath)*vshost.exe*" />
+			<DebugApplicationFiles Include="..\Bin\Installer\**\*.*" Exclude="..\Bin\Installer\*vshost.exe*" />
 		</ItemGroup>
 		<MakeDir Directories="$(NightlyBuildPath)"/>
 		<Zip Files="@(DebugApplicationFiles)"
-		     WorkingDirectory="$(InstallerSourcePath)"
+		     WorkingDirectory="..\Bin\Installer"
 		     ZipFileName="$(NightlyBuildPath)\$(StringDate)_$(NightlyZipName).zip"
 		     ZipLevel="9" />
 	</Target>

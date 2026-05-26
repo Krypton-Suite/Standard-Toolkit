@@ -338,3 +338,8 @@ Source/Krypton Components/Krypton.Ribbon/Temp.txt
 .vscode/
 Terminal.Gui/
 Scripts/ModernBuild/*.txt
+/Source/Krypton Components/Krypton.Toolkitobj
+/Source/Krypton Components/Krypton.Workspaceobj
+/Source/Krypton Components/Krypton.Ribbonobj
+/Source/Krypton Components/Krypton.Navigatorobj
+/Source/Krypton Components/Krypton.Dockingobj
