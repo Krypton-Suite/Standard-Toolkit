@@ -186,7 +186,7 @@ jobs:
 
       - name: Restore
         if: steps.canary_lts_kill_switch.outputs.enabled == 'true'
-        run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnx"
+        run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnx" -p:Configuration=Canary -p:TFMs=all
 
       - name: Prepare Code Signing Certificate (Optional)
         if: steps.canary_lts_kill_switch.outputs.enabled == 'true'
@@ -219,6 +219,7 @@ jobs:
             '/m',
             'Scripts/Build/canarylongtermstable.proj',
             '/t:Build',
+            '/restore',
             '/p:Configuration=Canary',
             '/p:Platform=Any CPU',
             '/p:UseArtifactsOutput=true'
@@ -242,7 +243,7 @@ jobs:
       # /m: parallel pack across TFMs/projects on the runner (same as Build step above).
       - name: Pack Canary
         if: steps.canary_lts_kill_switch.outputs.enabled == 'true'
-        run: msbuild /m "Scripts/Build/canarylongtermstable.proj" /t:Pack /p:Configuration=Canary /p:Platform="Any CPU" /p:UseArtifactsOutput=true
+        run: msbuild /m "Scripts/Build/canarylongtermstable.proj" /t:Pack /restore /p:Configuration=Canary /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
       - name: Push NuGet Packages to nuget.org
         if: steps.canary_lts_kill_switch.outputs.enabled == 'true'
