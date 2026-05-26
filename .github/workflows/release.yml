@@ -190,18 +190,18 @@ jobs:
       - name: Restore
         # Kill switch check
         if: steps.release_kill_switch.outputs.enabled == 'true'
-        run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnx"
+        run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnx" -p:Configuration=Release -p:TFMs=all
 
       # /m: multi-processor MSBuild (all runner CPUs). build.proj orchestrates Krypton.* in parallel where references allow.
       - name: Build Release
         # Kill switch check
         if: steps.release_kill_switch.outputs.enabled == 'true'
-        run: msbuild /m "Scripts/Build/build.proj" /t:Build /p:Configuration=Release /p:Platform="Any CPU" /p:UseArtifactsOutput=true
+        run: msbuild /m "Scripts/Build/build.proj" /t:Build /restore /p:Configuration=Release /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
       - name: Pack Release
         # Kill switch check
         if: steps.release_kill_switch.outputs.enabled == 'true'
-        run: msbuild /m "Scripts/Build/build.proj" /t:Pack /p:Configuration=Release /p:Platform="Any CPU" /p:UseArtifactsOutput=true
+        run: msbuild /m "Scripts/Build/build.proj" /t:Pack /restore /p:Configuration=Release /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
       - name: Push NuGet Packages to nuget.org
         # Kill switch check
@@ -523,18 +523,18 @@ jobs:
       - name: Restore
         # Kill switch check
         if: steps.release_kill_switch.outputs.enabled == 'true'
-        run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnx"
+        run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnx" -p:Configuration=Release -p:TFMs=all
 
       # /m: multi-processor MSBuild (all runner CPUs). build.proj orchestrates Krypton.* in parallel where references allow.
       - name: Build Release
         # Kill switch check
         if: steps.release_kill_switch.outputs.enabled == 'true'
-        run: msbuild /m "Scripts/Build/build.proj" /t:Build /p:Configuration=Release /p:Platform="Any CPU" /p:UseArtifactsOutput=true
+        run: msbuild /m "Scripts/Build/build.proj" /t:Build /restore /p:Configuration=Release /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
       - name: Pack Release
         # Kill switch check
         if: steps.release_kill_switch.outputs.enabled == 'true'
-        run: msbuild /m "Scripts/Build/build.proj" /t:Pack /p:Configuration=Release /p:Platform="Any CPU" /p:UseArtifactsOutput=true
+        run: msbuild /m "Scripts/Build/build.proj" /t:Pack /restore /p:Configuration=Release /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
       - name: Push NuGet Packages to nuget.org
         # Kill switch check
@@ -875,18 +875,18 @@ jobs:
       - name: Restore
         # Kill switch check
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
-        run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnx"
+        run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnx" -p:Configuration=Canary -p:TFMs=all
 
       # /m: multi-processor MSBuild (all runner CPUs). canary.proj orchestrates Krypton.* in parallel where references allow.
       - name: Build Canary
         # Kill switch check
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
-        run: msbuild /m "Scripts/Build/canary.proj" /t:Build /p:Configuration=Canary /p:Platform="Any CPU" /p:UseArtifactsOutput=true
+        run: msbuild /m "Scripts/Build/canary.proj" /t:Build /restore /p:Configuration=Canary /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
       - name: Pack Canary
         # Kill switch check
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
-        run: msbuild /m "Scripts/Build/canary.proj" /t:Pack /p:Configuration=Canary /p:Platform="Any CPU" /p:UseArtifactsOutput=true
+        run: msbuild /m "Scripts/Build/canary.proj" /t:Pack /restore /p:Configuration=Canary /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
       - name: Push NuGet Packages to nuget.org
         # Kill switch check
@@ -1218,18 +1218,18 @@ jobs:
       - name: Restore
         # Kill switch check
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
-        run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnx"
+        run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnx" -p:Configuration=Nightly -p:TFMs=all
 
       # /m: multi-processor MSBuild; nightly.proj sets BuildInParallel (project refs still order Toolkit → … → Docking).
       - name: Build Alpha
         # Kill switch check
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
-        run: msbuild /m "Scripts/Build/nightly.proj" /t:Build /p:Configuration=Nightly /p:Platform="Any CPU" /p:UseArtifactsOutput=true
+        run: msbuild /m "Scripts/Build/nightly.proj" /t:Build /restore /p:Configuration=Nightly /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
       - name: Pack Alpha
         # Kill switch check
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
-        run: msbuild /m "Scripts/Build/nightly.proj" /t:Pack /p:Configuration=Nightly /p:Platform="Any CPU" /p:UseArtifactsOutput=true
+        run: msbuild /m "Scripts/Build/nightly.proj" /t:Pack /restore /p:Configuration=Nightly /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
       # Note: NuGet publishing for alpha/nightly builds is handled by nightly.yml workflow
       # which runs on a schedule and checks for changes in the last 24 hours
