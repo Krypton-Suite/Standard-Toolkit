@@ -413,8 +413,8 @@ public abstract class ButtonSpecManagerBase : GlobalId
                 && buttonView.ViewButton != null
                )
             {
-                // Use the layout cell (includes metric padding) so hit targets match scaled chrome.
-                return buttonView.ViewCenter.ClientRectangle;
+                // Use the actual button bounds so hover/state matches rendered chrome.
+                return buttonView.ViewButton.ClientRectangle;
             }
         }
 
@@ -457,7 +457,7 @@ public abstract class ButtonSpecManagerBase : GlobalId
     public bool IsPointOverButton(Point pt) =>
         _specLookup.Values.Any(buttonView =>
             buttonView.ViewButton is { Visible: true, Enabled: true }
-            && buttonView.ViewCenter.ClientRectangle.Contains(pt)
+            && buttonView.ViewButton.ClientRectangle.Contains(pt)
         );
 
     /// <summary>

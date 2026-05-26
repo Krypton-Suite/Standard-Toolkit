@@ -1161,6 +1161,29 @@ public class KryptonForm : VisualForm,
         return new Padding(borders.Left, Math.Max(borders.Top, EffectiveCaptionHeight), borders.Right, borders.Bottom);
     }
 
+    private void SyncInternalPanelPaddingForMaximized()
+    {
+        if (IsDisposed
+            || Disposing
+            || _internalPanelState == InheritBool.True
+            || IsMdiContainer
+            || ShouldHideCaption()
+            || _internalKryptonPanel == null)
+        {
+            return;
+        }
+
+        int extraTop = Math.Max(0, EffectiveCaptionHeight - RealWindowBorders.Top);
+        int desiredTopPadding = GetWindowState() == FormWindowState.Maximized ? extraTop : 0;
+
+        Padding current = _internalKryptonPanel.Padding;
+        if (current.Top != desiredTopPadding)
+        {
+            _internalKryptonPanel.Padding = new Padding(current.Left, desiredTopPadding, current.Right, current.Bottom);
+            _internalKryptonPanel.PerformLayout();
+        }
+    }
+
     /// <summary>
     /// Combined DPI and touchscreen scale used for chrome hit testing.
     /// </summary>
@@ -1938,6 +1961,18 @@ public class KryptonForm : VisualForm,
         const int WM_PAINT = 0x000F;
         const int WM_CONTEXTMENU = 0x007B;
 
+        // VisualForm skips WM_NCCALCSIZE for maximized windows to avoid OS layout conflicts.
+        // KryptonForm uses WM_NCCALCSIZE to apply GetClientAreaBorders (incl. EffectiveCaptionHeight)
+        // so the titlebar/client boundary stays aligned for hover hit-testing and correct painting.
+        if (m.Msg == PI.WM_.NCCALCSIZE
+            && CommonHelper.IsFormMaximized(this)
+            && MdiParent is null
+            && UseThemeFormChromeBorderWidth)
+        {
+            OnWM_NCCALCSIZE(ref m);
+            return;
+        }
+
         if (m.Msg == WM_HELP)
         {
             var helpInfo = Marshal.PtrToStructure<PI.HELPINFO>(m.LParam);
@@ -2192,28 +2227,43 @@ public class KryptonForm : VisualForm,
         UpdateHeadingFixedSize();
 
         int hitCorner = ScaledHitTestCorner;
+        int hitInflate = Math.Max(1, hitCorner / 4);
         Padding borders = RealWindowBorders;
         Padding clientBorders = GetClientAreaBorders();
         int captionHeight = EffectiveCaptionHeight;
 
+        Rectangle Inflate(Rectangle r)
+        {
+            if (r.IsEmpty)
+            {
+                return r;
+            }
+
+            return new Rectangle(r.X - hitInflate, r.Y - hitInflate,
+                r.Width + (hitInflate * 2), r.Height + (hitInflate * 2));
+        }
+
         // Check min/max/close buttons first so they take precedence over CustomCaptionArea.
         // Issue #2921: When the ribbon injects into the caption, CustomCaptionArea can overlap
         // the form buttons; hitting CAPTION instead of CLOSE prevented closing the window.
-        if (_buttonManager.GetButtonRectangle(ButtonSpecClose).Contains(pt))
+        Rectangle closeRect = Inflate(_buttonManager.GetButtonRectangle(ButtonSpecClose));
+        if (closeRect.Contains(pt))
         {
-            SetButtonSpecNonClientAsNormal(pt);
+            SetButtonSpecNonClientAsNormal(ButtonSpecClose);
             return new IntPtr(PI.HT.CLOSE);
         }
 
-        if (_buttonManager.GetButtonRectangle(ButtonSpecMax).Contains(pt))
+        Rectangle maxRect = Inflate(_buttonManager.GetButtonRectangle(ButtonSpecMax));
+        if (maxRect.Contains(pt))
         {
-            SetButtonSpecNonClientAsNormal(pt);
+            SetButtonSpecNonClientAsNormal(ButtonSpecMax);
             return new IntPtr(OSUtilities.IsAtLeastWindowsEleven ? PI.HT.MAXBUTTON : PI.HT.ZOOM);
         }
 
-        if (_buttonManager.GetButtonRectangle(ButtonSpecMin).Contains(pt))
+        Rectangle minRect = Inflate(_buttonManager.GetButtonRectangle(ButtonSpecMin));
+        if (minRect.Contains(pt))
         {
-            SetButtonSpecNonClientAsNormal(pt);
+            SetButtonSpecNonClientAsNormal(ButtonSpecMin);
             return new IntPtr(PI.HT.REDUCE);
         }
 
@@ -2360,6 +2410,26 @@ public class KryptonForm : VisualForm,
 
     private void SetButtonSpecNonClientAsNormal(Point pt)
     {
+        // Reset first so hover state around hit-test edges doesn't get "stuck".
+        foreach (ButtonSpecView bsv in _buttonManager.ButtonSpecViews)
+        {
+            if (bsv.ViewButton?.FindMouseController() is ButtonController buttonController)
+            {
+                buttonController.NonClientAsNormal = false;
+            }
+        }
+
+        if (_titleBarButtonManager != null)
+        {
+            foreach (ButtonSpecView bsv in _titleBarButtonManager.ButtonSpecViews)
+            {
+                if (bsv.ViewButton?.FindMouseController() is ButtonController buttonController)
+                {
+                    buttonController.NonClientAsNormal = false;
+                }
+            }
+        }
+
         ViewBase? view = ViewManager?.Root.ViewFromPoint(pt);
         while (view != null)
         {
@@ -2370,6 +2440,19 @@ public class KryptonForm : VisualForm,
             }
 
             view = view.Parent;
+        }
+    }
+
+    private void SetButtonSpecNonClientAsNormal(ButtonSpec buttonSpec)
+    {
+        // Ensure only the intended ButtonSpec uses non-client rendering as "normal"
+        // so hover/press feedback remains consistent around hit-test edges.
+        foreach (ButtonSpecView bsv in _buttonManager.ButtonSpecViews)
+        {
+            if (bsv.ViewButton?.FindMouseController() is ButtonController buttonController)
+            {
+                buttonController.NonClientAsNormal = bsv.ButtonSpec == buttonSpec;
+            }
         }
     }
 
@@ -2729,6 +2812,8 @@ public class KryptonForm : VisualForm,
                     {
                         ViewManager.Layout(context);
                     }
+
+                    SyncInternalPanelPaddingForMaximized();
 
                     // Layout not needed until next indicated
                     NeedLayout = false;
