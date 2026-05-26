@@ -154,8 +154,9 @@ jobs:
       - name: Restore
         run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnx" -p:Configuration=Release -p:TFMs=all
 
+      # /m: multi-processor MSBuild; nightly.proj sets BuildInParallel on the Krypton.* graph.
       - name: Build
-        run: msbuild "Scripts/Build/nightly.proj" /t:Rebuild /restore /p:Configuration=Release /p:Platform="Any CPU" /p:UseArtifactsOutput=true
+        run: msbuild /m "Scripts/Build/nightly.proj" /t:Rebuild /restore /p:Configuration=Release /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
   release:
     runs-on: windows-2025-vs2026
@@ -282,11 +283,12 @@ jobs:
       - name: Restore
         run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnx" -p:Configuration=Release -p:TFMs=all
 
+      # /m: multi-processor MSBuild (all runner CPUs). build.proj orchestrates Krypton.* in parallel where references allow.
       - name: Build Release
-        run: msbuild "Scripts/Build/build.proj" /t:Build /restore /p:Configuration=Release /p:Platform="Any CPU" /p:UseArtifactsOutput=true
+        run: msbuild /m "Scripts/Build/build.proj" /t:Build /restore /p:Configuration=Release /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
       - name: Pack Release
-        run: msbuild "Scripts/Build/build.proj" /t:Pack /restore /p:Configuration=Release /p:Platform="Any CPU" /p:UseArtifactsOutput=true
+        run: msbuild /m "Scripts/Build/build.proj" /t:Pack /restore /p:Configuration=Release /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
       - name: Get Version
         id: get_version
