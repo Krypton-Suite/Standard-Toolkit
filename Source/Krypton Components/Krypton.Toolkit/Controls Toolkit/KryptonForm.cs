@@ -1478,7 +1478,7 @@ public class KryptonForm : VisualForm,
             // Cache for future access
             if (resizedBitmap != null)
             {
-                _cacheBitmap = CommonHelper.ScaleImageForSizedDisplay(resizedBitmap, currentWidth, currentHeight, false);
+                _cacheBitmap = CommonHelper.ScaleImageForSizedDisplay(resizedBitmap, currentWidth, currentHeight, true);
             }
         }
 
@@ -1831,6 +1831,13 @@ public class KryptonForm : VisualForm,
         }
 
         _cacheIcon = null;
+
+        _buttonManager?.RefreshButtons();
+        _titleBarButtonManager?.RefreshButtons();
+        NeedLayout = true;
+        KryptonToolStripDpiHelper.SyncFonts(this);
+        PerformNeedPaint(true);
+        InvalidateNonClient();
     }
 
     /// <summary>
@@ -2609,13 +2616,16 @@ public class KryptonForm : VisualForm,
 
                     if (Renderer is RenderMaterial)
                     {
-                        const int materialCaptionHeight = 44; // px
+                        int materialCaptionHeight = Math.Max(44, (int)Math.Round(44 * FactorDpiY));
                         _headingFixedSize.FixedSize = new Size(materialCaptionHeight, materialCaptionHeight);
                     }
                     else
                     {
                         Padding windowBorders = RealWindowBorders;
-                        _headingFixedSize.FixedSize = new Size(windowBorders.Top, windowBorders.Top);
+                        int captionHeight = windowBorders.Top;
+                        int scaledCaption = (int)Math.Round(31 * FactorDpiY);
+                        captionHeight = Math.Max(captionHeight, scaledCaption);
+                        _headingFixedSize.FixedSize = new Size(captionHeight, captionHeight);
                     }
                 }
 

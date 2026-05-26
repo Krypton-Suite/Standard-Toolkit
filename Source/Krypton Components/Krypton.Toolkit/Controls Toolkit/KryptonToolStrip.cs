@@ -36,6 +36,13 @@ public class KryptonToolStrip : ToolStrip,
     #endregion
 
     #region Override
+    /// <inheritdoc />
+    protected override void OnHandleCreated(EventArgs e)
+    {
+        base.OnHandleCreated(e);
+        KryptonToolStripDpiHelper.SyncFonts(this);
+    }
+
     protected override void Dispose(bool disposing)
     {
         if (!_disposed && disposing)

@@ -281,7 +281,8 @@ internal static class KryptonScrollBarRenderer
             throw new ArgumentNullException(nameof(g));
         }
 
-        if (rect.IsEmpty || g.IsVisibleClipEmpty
+        if (rect.IsEmpty || rect.Width <= 0 || rect.Height <= 0
+                         || g.IsVisibleClipEmpty
                          || !g.VisibleClipBounds.IntersectsWith(rect)
                          || state == ScrollBarState.Disabled)
         {
@@ -596,6 +597,11 @@ internal static class KryptonScrollBarRenderer
         Rectangle rect,
         ScrollBarState state)
     {
+        if (rect.Width < 2 || rect.Height < 2)
+        {
+            return;
+        }
+
         var index = state switch
         {
             ScrollBarState.Hot => 1,
@@ -606,9 +612,14 @@ internal static class KryptonScrollBarRenderer
         Rectangle innerRect = rect;
         innerRect.Inflate(-1, -1);
 
+        if (innerRect.Width <= 0 || innerRect.Height <= 0)
+        {
+            return;
+        }
+
         Rectangle r = innerRect;
         r.Width = Math.Max(1, innerRect.Width / 2);
-        r.Height++;
+        r.Height = Math.Max(1, innerRect.Height);
 
         // draw left gradient
         using (var brush = new LinearGradientBrush(r, _thumbColors[index, 1],
@@ -682,6 +693,11 @@ internal static class KryptonScrollBarRenderer
         Rectangle rect,
         ScrollBarState state)
     {
+        if (rect.Width < 2 || rect.Height < 2)
+        {
+            return;
+        }
+
         var index = state switch
         {
             ScrollBarState.Hot => 1,
@@ -692,9 +708,14 @@ internal static class KryptonScrollBarRenderer
         Rectangle innerRect = rect;
         innerRect.Inflate(-1, -1);
 
+        if (innerRect.Width <= 0 || innerRect.Height <= 0)
+        {
+            return;
+        }
+
         Rectangle r = innerRect;
         r.Height = Math.Max(1, innerRect.Height / 2);
-        r.Width++;
+        r.Width = Math.Max(1, innerRect.Width);
 
         // draw left gradient
         using (var brush = new LinearGradientBrush(r, _thumbColors[index, 1],

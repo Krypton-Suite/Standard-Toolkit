@@ -5866,9 +5866,11 @@ public class RenderStandard : RenderBase
 				{
 					var ratio = 1.0f * Math.Min(memento.Image.Width, memento.Image.Height) / Math.Max(memento.Image.Width, memento.Image.Height);
 
-					// Resize image to fit display area
+					// Resize image to fit display area (avoid magenta bleed on color-keyed ButtonSpec art)
+					bool avoidPurple = memento.ImageTransparentColor == GlobalStaticVariables.TRANSPARENCY_KEY_COLOR
+					                   || memento.ImageTransparentColor == Color.Magenta;
 					memento.Image = CommonHelper.ScaleImageForSizedDisplay(memento.Image, displayRect.Width * ratio,
-						displayRect.Height * ratio, false);
+						displayRect.Height * ratio, avoidPurple);
 				}
 
 				if (memento.Image != null)

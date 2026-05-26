@@ -111,6 +111,13 @@ public class KryptonMenuStrip : MenuStrip,
         Invalidate();
     }
 
+    /// <inheritdoc />
+    protected override void OnHandleCreated(EventArgs e)
+    {
+        base.OnHandleCreated(e);
+        KryptonToolStripDpiHelper.SyncFonts(this);
+    }
+
     /*/// <summary>
     /// Gets or sets the font of the text displayed by the control.
     /// </summary>

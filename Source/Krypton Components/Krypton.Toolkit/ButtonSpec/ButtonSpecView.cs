@@ -345,7 +345,8 @@ public class ButtonSpecView : GlobalId,
         if (ButtonSpec.GetStyle(_redirector) == ButtonStyle.InputControl)
         {
             const float logicalBox = 16f;
-            float fitScale = Math.Min(logicalBox / baseImage.Width, logicalBox / baseImage.Height);
+            // Fit within the logical box but never upscale beyond the source asset (avoids blocky InputControl glyphs).
+            float fitScale = Math.Min(1f, Math.Min(logicalBox / baseImage.Width, logicalBox / baseImage.Height));
             float logicalW = Math.Max(1f, baseImage.Width * fitScale);
             float logicalH = Math.Max(1f, baseImage.Height * fitScale);
             return ButtonSpecImageResolver.ResolveForDpi(baseImage, scale2x, scale3x, dpiFactor, dpiFactor,

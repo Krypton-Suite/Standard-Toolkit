@@ -51,6 +51,13 @@ public class KryptonStatusStrip : StatusStrip,
     #endregion
 
     #region Overrides
+    /// <inheritdoc />
+    protected override void OnHandleCreated(EventArgs e)
+    {
+        base.OnHandleCreated(e);
+        KryptonToolStripDpiHelper.SyncFonts(this);
+    }
+
     protected override void OnRendererChanged(EventArgs e)
     {
         if (ToolStripManager.Renderer is KryptonProfessionalRenderer kpr)

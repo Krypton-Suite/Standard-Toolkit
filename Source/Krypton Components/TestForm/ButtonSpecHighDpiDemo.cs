@@ -51,9 +51,12 @@ public class ButtonSpecHighDpiDemo : KryptonForm
         StartPosition = FormStartPosition.CenterScreen;
         AutoScroll = false;
 
+        MinimumSize = new Size(520, 520);
+
         _lblDpi = new KryptonLabel
         {
             Location = new Point(12, 12),
+            Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right,
             AutoSize = true,
             Text = @"DPI: ..."
         };
@@ -61,6 +64,8 @@ public class ButtonSpecHighDpiDemo : KryptonForm
         _lblInfo = new KryptonLabel
         {
             Location = new Point(12, 36),
+            Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right,
+            AutoSize = false,
             Size = new Size(740, 72),
             Text = @"Built-in ButtonSpec images resolve through ButtonSpecImageResolver using per-monitor DPI. "
                    + @"Use the sections below to compare global palette specs, early ScalePalette on a custom palette, "
@@ -70,6 +75,8 @@ public class ButtonSpecHighDpiDemo : KryptonForm
         _lblEarlyScale = new KryptonLabel
         {
             Location = new Point(12, 112),
+            Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right,
+            AutoSize = false,
             Size = new Size(740, 36),
             Text = @"Early ScalePalette: not run yet. Click the button to scale a local custom palette via PaletteImageScaler."
         };
@@ -101,6 +108,8 @@ public class ButtonSpecHighDpiDemo : KryptonForm
         _lblCommandPath = new KryptonLabel
         {
             Location = new Point(12, 196),
+            Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right,
+            AutoSize = false,
             Size = new Size(740, 20),
             Text = @"Command-backed path: KryptonCommand HelpCommand mapping (palette @2x/@3x, not upscaled 1x)."
         };
@@ -195,38 +204,80 @@ public class ButtonSpecHighDpiDemo : KryptonForm
 
         _lblScroll = new KryptonLabel
         {
-            Location = new Point(400, 520),
-            Size = new Size(360, 36),
-            Text = @"Krypton scrollbars (not system AutoScroll): verify track/thumb fill at this DPI."
+            Anchor = AnchorStyles.Bottom | AnchorStyles.Right,
+            AutoSize = false,
+            Size = new Size(390, 36),
+            Text = @"Krypton scrollbars (right half): track/thumb at this DPI — not form AutoScroll."
         };
 
         _scrollHost = new KryptonPanel
         {
-            Location = new Point(400, 556),
-            Size = new Size(360, 80)
+            Anchor = AnchorStyles.Bottom | AnchorStyles.Right,
+            Size = new Size(390, 88)
         };
+
         var scrollFill = new Panel
         {
             Dock = DockStyle.Fill,
             BackColor = Color.FromArgb(240, 248, 255)
         };
+        var scrollContent = new KryptonLabel
+        {
+            AutoSize = false,
+            Size = new Size(560, 56),
+            Location = Point.Empty,
+            Text = @"Scroll sample content (wider than viewport). "
+                   + @"Use the Krypton scrollbars to pan — this panel is independent of the form labels above."
+        };
         var vScroll = new KryptonVScrollBar
         {
             Dock = DockStyle.Right,
-            Maximum = 100,
-            LargeChange = 20,
-            Value = 35
+            Minimum = 0,
+            Maximum = 0,
+            LargeChange = 1,
+            SmallChange = 1,
+            Value = 0
         };
         var hScroll = new KryptonHScrollBar
         {
             Dock = DockStyle.Bottom,
-            Maximum = 100,
-            LargeChange = 20,
-            Value = 35
+            Minimum = 0,
+            Maximum = 0,
+            LargeChange = 1,
+            SmallChange = 1,
+            Value = 0
         };
+
+        void SyncScrollMetrics()
+        {
+            int viewW = Math.Max(1, scrollFill.ClientSize.Width);
+            int viewH = Math.Max(1, scrollFill.ClientSize.Height);
+            int maxH = Math.Max(0, scrollContent.Height - viewH);
+            int maxW = Math.Max(0, scrollContent.Width - viewW);
+
+            vScroll.Enabled = maxH > 0;
+            hScroll.Enabled = maxW > 0;
+            vScroll.Maximum = Math.Max(1, maxH);
+            hScroll.Maximum = Math.Max(1, maxW);
+            vScroll.LargeChange = Math.Max(1, Math.Min(viewH, maxH == 0 ? 1 : maxH));
+            hScroll.LargeChange = Math.Max(1, Math.Min(viewW, maxW == 0 ? 1 : maxW));
+            vScroll.Value = Math.Min(vScroll.Value, maxH);
+            hScroll.Value = Math.Min(hScroll.Value, maxW);
+            scrollContent.Top = -vScroll.Value;
+            scrollContent.Left = -hScroll.Value;
+        }
+
+        vScroll.Scroll += (_, _) => SyncScrollMetrics();
+        hScroll.Scroll += (_, _) => SyncScrollMetrics();
+        scrollFill.Resize += (_, _) => SyncScrollMetrics();
+        _scrollHost.Resize += (_, _) => SyncScrollMetrics();
+
+        scrollFill.Controls.Add(scrollContent);
         _scrollHost.Controls.Add(scrollFill);
         _scrollHost.Controls.Add(vScroll);
         _scrollHost.Controls.Add(hScroll);
+        _scrollHost.PerformLayout();
+        SyncScrollMetrics();
 
         Controls.Add(_lblDpi);
         Controls.Add(_lblInfo);
@@ -258,6 +309,23 @@ public class ButtonSpecHighDpiDemo : KryptonForm
         {
             BindEarlyScalePalette(earlyScaledPalette, ranEarlyScaleBeforeShow);
         }
+
+        LayoutScrollDemo();
+        Resize += (_, _) => LayoutScrollDemo();
+    }
+
+    private void LayoutScrollDemo()
+    {
+        const int margin = 12;
+        int hostW = Math.Max(200, (ClientSize.Width - (margin * 3)) / 2);
+        int hostH = _scrollHost.Height;
+        int bottom = ClientSize.Height - margin;
+
+        _scrollHost.Size = new Size(hostW, hostH);
+        _scrollHost.Location = new Point(ClientSize.Width - margin - hostW, bottom - hostH);
+
+        _lblScroll.Size = new Size(hostW, _lblScroll.Height);
+        _lblScroll.Location = new Point(_scrollHost.Left, _scrollHost.Top - _lblScroll.Height - 4);
     }
 
     /// <summary>
@@ -337,6 +405,7 @@ public class ButtonSpecHighDpiDemo : KryptonForm
         _cmdTextBox.PerformLayout();
         _comboBox.PerformLayout();
         _scrollHost.PerformLayout();
+        LayoutScrollDemo();
         Invalidate(true);
     }
 

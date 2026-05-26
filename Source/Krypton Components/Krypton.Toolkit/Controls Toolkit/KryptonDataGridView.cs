@@ -191,6 +191,7 @@ public class KryptonDataGridView : DataGridView
 
     private int _baselineColumnHeadersHeight = -1;
     private int _baselineRowHeadersWidth = -1;
+    private int _baselineRowHeight = -1;
     private int _lastHeaderLayoutDpi = -1;
 
     #endregion
@@ -231,6 +232,7 @@ public class KryptonDataGridView : DataGridView
 
         _baselineColumnHeadersHeight = ColumnHeadersHeight;
         _baselineRowHeadersWidth = RowHeadersWidth;
+        _baselineRowHeight = RowTemplate.Height;
 
         SetupVisuals();
         SetupViewAndStates();
@@ -2992,9 +2994,15 @@ public class KryptonDataGridView : DataGridView
             _baselineRowHeadersWidth = RowHeadersWidth;
         }
 
+        if (_baselineRowHeight < 0)
+        {
+            _baselineRowHeight = RowTemplate.Height;
+        }
+
         float dpiFactor = DeviceDpi / 96f;
         int columnHeight = Math.Max(1, (int)Math.Round(_baselineColumnHeadersHeight * dpiFactor));
         int rowWidth = Math.Max(1, (int)Math.Round(_baselineRowHeadersWidth * dpiFactor));
+        int rowHeight = Math.Max(1, (int)Math.Round(_baselineRowHeight * dpiFactor));
 
         Font? columnFont = ColumnHeadersDefaultCellStyle.Font;
         if (columnFont != null)
@@ -3020,6 +3028,19 @@ public class KryptonDataGridView : DataGridView
         if (RowHeadersWidth != rowWidth)
         {
             RowHeadersWidth = rowWidth;
+        }
+
+        Font? dataCellFont = DefaultCellStyle.Font;
+        if (dataCellFont != null)
+        {
+            Padding dataCellPadding = DefaultCellStyle.Padding;
+            int fontHeight = dataCellFont.Height + dataCellPadding.Vertical + 4;
+            rowHeight = Math.Max(rowHeight, fontHeight);
+        }
+
+        if (RowTemplate.Height != rowHeight)
+        {
+            RowTemplate.Height = rowHeight;
         }
     }
 

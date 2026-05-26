@@ -595,18 +595,21 @@ public class KryptonHScrollBar : Control
             ScrollBarOrientation.Horizontal);
 
         // draw thumb and grip
-        KryptonScrollBarRenderer.DrawThumb(
-            e.Graphics,
-            _thumbRectangle,
-            _thumbState,
-            ScrollBarOrientation.Horizontal);
-
-        if (Enabled)
+        if (_thumbRectangle.Width > 0 && _thumbRectangle.Height > 0)
         {
-            KryptonScrollBarRenderer.DrawThumbGrip(
+            KryptonScrollBarRenderer.DrawThumb(
                 e.Graphics,
                 _thumbRectangle,
+                _thumbState,
                 ScrollBarOrientation.Horizontal);
+
+            if (Enabled)
+            {
+                KryptonScrollBarRenderer.DrawThumbGrip(
+                    e.Graphics,
+                    _thumbRectangle,
+                    ScrollBarOrientation.Horizontal);
+            }
         }
 
         // draw arrows
@@ -1257,14 +1260,20 @@ public class KryptonHScrollBar : Control
     {
         var trackSize = Width - (2 * _arrowWidth);
 
+        if (trackSize <= 0)
+        {
+            return 0;
+        }
+
         if (_maximum == 0 || _largeChange == 0)
         {
             return trackSize;
         }
 
         var newThumbSize = _largeChange * trackSize / (float)_maximum;
+        int minThumb = Math.Max(1, (int)Math.Round(10f * GetDpiFactor()));
 
-        return Convert.ToInt32(Math.Min(trackSize, Math.Max(newThumbSize, 10f)));
+        return Convert.ToInt32(Math.Min(trackSize, Math.Max(newThumbSize, minThumb)));
     }
 
     /// <summary>
