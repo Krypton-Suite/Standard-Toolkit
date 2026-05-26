@@ -1,6 +1,7 @@
 <Project>
 	<Import Project="..\..\Directory.Build.props" />
-
+	<Import Project="..\Build\Krypton.Orchestration.targets" />
+	
 	<PropertyGroup>
 		<RootFolder>$(MSBuildProjectDirectory)</RootFolder>
 		<Configuration>Debug</Configuration>
@@ -10,20 +11,15 @@
 		<ItemGroup>
 			<Projects Include="..\..\Source\Krypton Components\Krypton.*\*.csproj" />
 		</ItemGroup>
-		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all;ExcludeVs2022UnsupportedTargetFrameworks=true" Targets="Clean" />
-	</Target>
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" Targets="Clean" BuildInParallel="false" />
+	</Target>	
 
 	<Target Name="Restore">
 		<ItemGroup>
 			<Projects Include="..\..\Source\Krypton Components\Krypton.*\*.csproj" />
 		</ItemGroup>
-		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all;ExcludeVs2022UnsupportedTargetFrameworks=true" Targets="Restore" />
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" Targets="Restore" BuildInParallel="false" />
 	</Target>
-
-	<Target Name="Build" DependsOnTargets="Restore">
-		<ItemGroup>
-			<Projects Include="..\..\Source\Krypton Components\Krypton.*\*.csproj" />
-		</ItemGroup>
-		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all;ExcludeVs2022UnsupportedTargetFrameworks=true" />
-	</Target>
+	
+	<Target Name="Build" DependsOnTargets="Restore;KryptonBuild" />
 </Project>

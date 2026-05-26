@@ -6,7 +6,7 @@
 		<RootFolder>$(MSBuildProjectDirectory)</RootFolder>
 		<Configuration>Canary</Configuration>
 		<CanaryBuildPath>..\Bin\Canary\Zips</CanaryBuildPath>
-		<CanaryZipName>Krypton-Canary</CanaryZipName>
+		<CanaryZipName>Krypton-Canary-LTS</CanaryZipName>
 	</PropertyGroup>
 
 	<Target Name="Clean">
