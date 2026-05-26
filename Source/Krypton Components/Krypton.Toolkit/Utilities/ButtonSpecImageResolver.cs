@@ -88,7 +88,7 @@ public static class ButtonSpecImageResolver
             return source;
         }
 
-        // Palette ButtonSpec art uses color-keyed edges; High-quality downscale bleeds magenta (see CommonHelper).
+        // Palette ButtonSpec art uses color-keyed edges; convert key to alpha before antialiased scale.
         return CommonHelper.ScaleImageForSizedDisplay(source, targetW, targetH, avoidPurple: true);
     }
 

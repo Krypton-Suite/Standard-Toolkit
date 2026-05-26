@@ -1748,41 +1748,87 @@ public static class CommonHelper
     }
 
     /// <summary>
-    /// Do not use the `DpiHandler.ScaleBitmapLogicalToDevice` as that will introduce the "purple artifact" lines
-    /// Also, Using the int version of the `DrawImage` produces better upscale for the 125% images
+    /// Scales an image for display using antialiased high-quality interpolation.
+    /// Color-keyed palette art converts magenta to alpha first so bicubic scaling does not bleed the key color.
     /// </summary>
-    /// <param name="src"></param>
-    /// <param name="trgtWidth"></param>
-    /// <param name="trgtHeight"></param>
-    /// <param name="avoidPurple"></param>
-    /// <returns></returns>
-    /// <exception >thrown if targets are negative</exception>
+    /// <param name="src">Source image.</param>
+    /// <param name="trgtWidth">Target width in pixels.</param>
+    /// <param name="trgtHeight">Target height in pixels.</param>
+    /// <param name="avoidPurple">When true, palette transparency key colors are converted to alpha before scaling.</param>
+    /// <returns>Scaled bitmap, or null when the target size is invalid.</returns>
     public static Bitmap? ScaleImageForSizedDisplay(Image? src, float trgtWidth, float trgtHeight, bool avoidPurple)
     {
-        if (trgtWidth <= 1.0 || trgtHeight <= 1.0)
+        if (src == null || trgtWidth <= 1.0 || trgtHeight <= 1.0)
         {
             // For some reason, in the designer it can send a rect that has a negative size element,
             // therefore the targets will also be negative
             // Also When collapsing / expanding ribbons the `trgtHeight` will > 0 BUT < 1.0
-            //return new Bitmap(0, 0);    // This will throw an exception
             return null;
         }
 
-        var newImage = new Bitmap((int)trgtWidth, (int)trgtHeight);
+        int width = (int)trgtWidth;
+        int height = (int)trgtHeight;
+
+        if (avoidPurple)
+        {
+            return ScaleColorKeyedImageAntialiased(src, width, height, GlobalStaticVariables.TRANSPARENCY_KEY_COLOR);
+        }
+
+        return ScaleImageAntialiased(src, width, height);
+    }
+
+    /// <summary>
+    /// Scales an image with antialiased bicubic interpolation.
+    /// </summary>
+    private static Bitmap ScaleImageAntialiased(Image src, int width, int height)
+    {
+        var newImage = new Bitmap(width, height, PixelFormat.Format32bppArgb);
+        newImage.SetResolution(src.HorizontalResolution, src.VerticalResolution);
+
         using Graphics gr = Graphics.FromImage(newImage);
+        ApplyAntialiasedImageQuality(gr);
         gr.Clear(Color.Transparent);
-        gr.SmoothingMode = SmoothingMode.AntiAlias;
-        // Got to be careful with this setting, otherwise "Purple" artifacts will be introduced !
-        gr.InterpolationMode = avoidPurple ? InterpolationMode.NearestNeighbor : InterpolationMode.High;
-        gr.PixelOffsetMode = PixelOffsetMode.HighQuality;
-        //var srcRect = new RectangleF(0.0f, 0.0f, src.Width, src.Height);
-        //var destRect = new RectangleF(0.0f, 0.0f, trgtWidth, trgtHeight);
-        //// Handle rounding down of the target `newImage` dimensions
-        //srcRect.Offset(-trgtWidth%1, -trgtHeight%1);
-        //gr.DrawImage(src, destRect, srcRect, GraphicsUnit.Pixel);
-        gr.DrawImage(src!, 0, 0, (int)trgtWidth, (int)trgtHeight);
+        gr.DrawImage(src, 0, 0, width, height);
 
         return newImage;
+    }
+
+    /// <summary>
+    /// Converts a palette color-key to alpha, then scales with antialiased bicubic interpolation.
+    /// </summary>
+    private static Bitmap ScaleColorKeyedImageAntialiased(Image src, int width, int height, Color transparentColor)
+    {
+        using Bitmap source32 = CloneToArgbWithTransparencyKey(src, transparentColor);
+        return ScaleImageAntialiased(source32, width, height);
+    }
+
+    /// <summary>
+    /// Copies an image into a 32bpp ARGB bitmap with the palette transparency key removed.
+    /// </summary>
+    private static Bitmap CloneToArgbWithTransparencyKey(Image src, Color transparentColor)
+    {
+        var work = new Bitmap(src.Width, src.Height, PixelFormat.Format32bppArgb);
+        work.SetResolution(src.HorizontalResolution, src.VerticalResolution);
+
+        using (Graphics g = Graphics.FromImage(work))
+        {
+            g.Clear(Color.Transparent);
+            g.DrawImage(src, 0, 0, src.Width, src.Height);
+        }
+
+        work.MakeTransparent(transparentColor);
+        return work;
+    }
+
+    /// <summary>
+    /// Applies graphics settings suited to antialiased image scaling.
+    /// </summary>
+    private static void ApplyAntialiasedImageQuality(Graphics gr)
+    {
+        gr.SmoothingMode = SmoothingMode.AntiAlias;
+        gr.InterpolationMode = InterpolationMode.HighQualityBicubic;
+        gr.PixelOffsetMode = PixelOffsetMode.HighQuality;
+        gr.CompositingQuality = CompositingQuality.HighQuality;
     }
 
     /// <summary>
