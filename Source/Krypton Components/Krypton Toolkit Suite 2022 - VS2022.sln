@@ -20,6 +20,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Development", "Development"
 		..\..\Documents\Development\Development-Workflow.md = ..\..\Documents\Development\Development-Workflow.md
 		..\..\Documents\Development\How to Manage Using Statements.md = ..\..\Documents\Development\How to Manage Using Statements.md
 		..\..\Documents\Development\How-to-Build.md = ..\..\Documents\Development\How-to-Build.md
+		..\..\Documents\Development\Visual-Studio-Templates-Developer-Guide.md = ..\..\Documents\Development\Visual-Studio-Templates-Developer-Guide.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Help", "Help", "{C2B58A1A-4451-4A21-8487-14DBA720672D}"
@@ -121,6 +122,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ChangeLog", "ChangeLog", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernBuild", "..\..\Scripts\ModernBuild\ModernBuild.csproj", "{572C5A4E-6D69-4A06-ED1B-1B083D837613}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Templates", "Templates", "{E8A91C4D-2F6B-4E3A-9D1C-7B4F5A6E8D90}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\Templates\README.md = ..\..\Templates\README.md
+		..\..\Documents\Development\Visual-Studio-Templates-Developer-Guide.md = ..\..\Documents\Development\Visual-Studio-Templates-Developer-Guide.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Krypton.Templates.Vsix", "..\..\Templates\Vsix\Krypton.Templates.Vsix\Krypton.Templates.Vsix.csproj", "{D4E8F1A2-3B5C-4D6E-9F0A-1B2C3D4E5F60}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Canary|Any CPU = Canary|Any CPU
@@ -200,6 +209,12 @@ Global
 		{572C5A4E-6D69-4A06-ED1B-1B083D837613}.Nightly|Any CPU.Build.0 = Release|Any CPU
 		{572C5A4E-6D69-4A06-ED1B-1B083D837613}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{572C5A4E-6D69-4A06-ED1B-1B083D837613}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4E8F1A2-3B5C-4D6E-9F0A-1B2C3D4E5F60}.Canary|Any CPU.ActiveCfg = Release|Any CPU
+		{D4E8F1A2-3B5C-4D6E-9F0A-1B2C3D4E5F60}.Debug|Any CPU.ActiveCfg = Release|Any CPU
+		{D4E8F1A2-3B5C-4D6E-9F0A-1B2C3D4E5F60}.Installer|Any CPU.ActiveCfg = Release|Any CPU
+		{D4E8F1A2-3B5C-4D6E-9F0A-1B2C3D4E5F60}.Nightly|Any CPU.ActiveCfg = Release|Any CPU
+		{D4E8F1A2-3B5C-4D6E-9F0A-1B2C3D4E5F60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4E8F1A2-3B5C-4D6E-9F0A-1B2C3D4E5F60}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -226,6 +241,8 @@ Global
 		{40B83627-BD68-488E-ACB0-5B83D0A8B69C} = {FB5BC976-FCC7-4729-9331-C2420DE7ADB6}
 		{F0BC3940-BAC0-40B9-AECB-2FC752486AD5} = {405E4318-4C8A-4DC7-B624-8F7097CDFF60}
 		{572C5A4E-6D69-4A06-ED1B-1B083D837613} = {511519DD-C887-40E5-8961-658AE4CA5D46}
+		{E8A91C4D-2F6B-4E3A-9D1C-7B4F5A6E8D90} = {B0683F1A-BA1F-4891-93BE-958319089C89}
+		{D4E8F1A2-3B5C-4D6E-9F0A-1B2C3D4E5F60} = {E8A91C4D-2F6B-4E3A-9D1C-7B4F5A6E8D90}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C8204ACC-48AA-49AC-8236-6E9C162EC2FA}
