@@ -3,6 +3,9 @@
 ###############################################################################
 * text=auto
 
+# VSIX manifest: UTF-8 without BOM, LF (VSSDK; avoid CRLF churn in PRs).
+*.vsixmanifest text eol=lf
+
 ###############################################################################
 # Set default behavior for command prompt diff.
 #
