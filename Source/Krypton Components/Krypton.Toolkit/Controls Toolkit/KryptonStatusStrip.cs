@@ -45,6 +45,7 @@ public class KryptonStatusStrip : StatusStrip,
         _stateNormal = new PaletteBack(_stateCommon, OnNeedPaint);
 
         KryptonManager.GlobalTouchscreenSupportChanged += OnGlobalTouchscreenSupportChanged;
+        KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged;
 
         // Register with the FocusLostMenuHelper
         Register(this);
@@ -54,9 +55,19 @@ public class KryptonStatusStrip : StatusStrip,
     {
         if (!IsDisposed)
         {
-            KryptonToolStripDpiHelper.SyncStrip(this);
+            SyncDpiFonts();
         }
     }
+
+    private void OnGlobalPaletteChanged(object? sender, EventArgs e)
+    {
+        if (!IsDisposed)
+        {
+            SyncDpiFonts();
+        }
+    }
+
+    private void SyncDpiFonts() => KryptonToolStripDpiHelper.SyncStrip(this);
 
     #endregion
 
@@ -65,7 +76,17 @@ public class KryptonStatusStrip : StatusStrip,
     protected override void OnHandleCreated(EventArgs e)
     {
         base.OnHandleCreated(e);
-        KryptonToolStripDpiHelper.SyncFonts(this);
+        SyncDpiFonts();
+    }
+
+    /// <inheritdoc />
+    protected override void OnItemAdded(ToolStripItemEventArgs e)
+    {
+        base.OnItemAdded(e);
+        if (IsHandleCreated)
+        {
+            SyncDpiFonts();
+        }
     }
 
     protected override void OnRendererChanged(EventArgs e)
@@ -90,6 +111,7 @@ public class KryptonStatusStrip : StatusStrip,
         if (!_disposed && disposing)
         {
             KryptonManager.GlobalTouchscreenSupportChanged -= OnGlobalTouchscreenSupportChanged;
+            KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChanged;
 
             // Deregister from the FocusLostMenuHelper
             Deregister(this);

@@ -40,9 +40,11 @@ public class KryptonToolStrip : ToolStrip,
     {
         if (!IsDisposed)
         {
-            KryptonToolStripDpiHelper.SyncStrip(this);
+            SyncDpiFonts();
         }
     }
+
+    private void SyncDpiFonts() => KryptonToolStripDpiHelper.SyncStrip(this);
     #endregion
 
     #region Override
@@ -50,7 +52,17 @@ public class KryptonToolStrip : ToolStrip,
     protected override void OnHandleCreated(EventArgs e)
     {
         base.OnHandleCreated(e);
-        KryptonToolStripDpiHelper.SyncFonts(this);
+        SyncDpiFonts();
+    }
+
+    /// <inheritdoc />
+    protected override void OnItemAdded(ToolStripItemEventArgs e)
+    {
+        base.OnItemAdded(e);
+        if (IsHandleCreated)
+        {
+            SyncDpiFonts();
+        }
     }
 
     protected override void Dispose(bool disposing)

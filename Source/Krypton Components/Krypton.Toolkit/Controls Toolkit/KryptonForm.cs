@@ -1162,6 +1162,28 @@ public class KryptonForm : VisualForm,
     }
 
     /// <summary>
+    /// Combined DPI and touchscreen scale used for chrome hit testing.
+    /// </summary>
+    private float ChromeHitTestScale
+    {
+        get
+        {
+            float scale = FactorDpiY;
+            if (KryptonManager.UseTouchscreenSupport)
+            {
+                scale *= KryptonManager.TouchscreenScaleFactor;
+            }
+
+            return scale;
+        }
+    }
+
+    /// <summary>
+    /// Corner resize band size in window coordinates, scaled for DPI and touchscreen.
+    /// </summary>
+    private int ScaledHitTestCorner => Math.Max(HT_CORNER, (int)Math.Round(HT_CORNER * ChromeHitTestScale));
+
+    /// <summary>
     /// Gets or sets the <see cref="KryptonFormTitleBar"/> component that hosts button-spec items
     /// in the title bar caption area, to the left of the form title text.
     /// Set to <c>null</c> to remove any previously attached title bar toolbar.
@@ -2098,19 +2120,25 @@ public class KryptonForm : VisualForm,
     /// <inheritdoc />
     protected override bool IsMouseReallyOverWindowChrome()
     {
-        if (base.IsMouseReallyOverWindowChrome())
-        {
-            return true;
-        }
-
         if (!IsHandleCreated)
         {
             return false;
         }
 
         Point windowPoint = ScreenToWindow(Control.MousePosition);
-        return _buttonManager.IsPointOverButton(windowPoint)
-               || (_titleBarButtonManager?.IsPointOverButton(windowPoint) ?? false);
+
+        if (_buttonManager.IsPointOverButton(windowPoint)
+            || (_titleBarButtonManager?.IsPointOverButton(windowPoint) ?? false))
+        {
+            return true;
+        }
+
+        if (windowPoint.Y < GetClientAreaBorders().Top)
+        {
+            return true;
+        }
+
+        return base.IsMouseReallyOverWindowChrome();
     }
 
     /// <summary>
@@ -2161,51 +2189,47 @@ public class KryptonForm : VisualForm,
     /// <returns>Hit test result indicating what part of window the point is over</returns>
     protected override IntPtr WindowChromeHitTest(Point pt)
     {
-        Point originalPt = pt;
+        UpdateHeadingFixedSize();
+
+        int hitCorner = ScaledHitTestCorner;
+        Padding borders = RealWindowBorders;
+        Padding clientBorders = GetClientAreaBorders();
+        int captionHeight = EffectiveCaptionHeight;
 
         // Check min/max/close buttons first so they take precedence over CustomCaptionArea.
         // Issue #2921: When the ribbon injects into the caption, CustomCaptionArea can overlap
         // the form buttons; hitting CAPTION instead of CLOSE prevented closing the window.
         if (_buttonManager.GetButtonRectangle(ButtonSpecClose).Contains(pt))
         {
-            ViewBase? viewBase = ViewManager?.Root.ViewFromPoint(pt);
-            if (viewBase?.FindMouseController() is ButtonController buttonController)
-            {
-                buttonController.NonClientAsNormal = true;
-            }
-
+            SetButtonSpecNonClientAsNormal(pt);
             return new IntPtr(PI.HT.CLOSE);
         }
 
         if (_buttonManager.GetButtonRectangle(ButtonSpecMax).Contains(pt))
         {
-            ViewBase? viewBase = ViewManager?.Root.ViewFromPoint(pt);
-            if (viewBase?.FindMouseController() is ButtonController buttonController)
-            {
-                buttonController.NonClientAsNormal = true;
-            }
-
+            SetButtonSpecNonClientAsNormal(pt);
             return new IntPtr(OSUtilities.IsAtLeastWindowsEleven ? PI.HT.MAXBUTTON : PI.HT.ZOOM);
         }
 
         if (_buttonManager.GetButtonRectangle(ButtonSpecMin).Contains(pt))
         {
-            ViewBase? viewBase = ViewManager?.Root.ViewFromPoint(pt);
-            if (viewBase?.FindMouseController() is ButtonController buttonController)
-            {
-                buttonController.NonClientAsNormal = true;
-            }
-
+            SetButtonSpecNonClientAsNormal(pt);
             return new IntPtr(PI.HT.REDUCE);
         }
 
-        Padding borders = RealWindowBorders;
+        if (_titleBarButtonManager?.IsPointOverButton(pt) == true
+            || _buttonManager.IsPointOverButton(pt))
+        {
+            SetButtonSpecNonClientAsNormal(pt);
+            // HT.CAPTION keeps WM_NCMOUSEMOVE flowing for custom hover; HT.CLIENT breaks it above the client rect.
+            return new IntPtr(PI.HT.CAPTION);
+        }
 
         // Issue #2921: CustomCaptionArea is in form client coordinates (set by ribbon);
         // hit-test pt is in window coordinates — convert for correct caption/drag detection.
         if (!CustomCaptionArea.IsEmpty)
         {
-            var clientPt = new Point(pt.X - borders.Left, pt.Y - borders.Top);
+            var clientPt = new Point(pt.X - clientBorders.Left, pt.Y - clientBorders.Top);
             if (CustomCaptionArea.Contains(clientPt))
             {
                 return new IntPtr(PI.HT.CAPTION);
@@ -2215,7 +2239,9 @@ public class KryptonForm : VisualForm,
         // Do not allow the caption to be moved or the border resized
         if (InertForm)
         {
-            return new IntPtr(PI.HT.CLIENT);
+            return pt.Y < clientBorders.Top
+                ? new IntPtr(PI.HT.CAPTION)
+                : new IntPtr(PI.HT.CLIENT);
         }
 
         using (var context = new ViewLayoutContext(this, Renderer))
@@ -2244,99 +2270,107 @@ public class KryptonForm : VisualForm,
 
         bool isResizable = FormBorderStyle is FormBorderStyle.Sizable or FormBorderStyle.SizableToolWindow;
 
-        // Material: use a wider invisible hit band for easier resize while keeping flat, borderless visuals.
-        // RealWindowBorders can be 0 when the palette (e.g., Material) suppresses border width for drawing.
-        // Expanding the hit test band preserves resize affordance without adding visible chrome.
-        if (isResizable && Renderer is RenderMaterial)
+        if (isResizable)
         {
-            const int materialResizeThickness = 6;
-            borders = new Padding(
-                Math.Max(borders.Left, materialResizeThickness),
-                Math.Max(borders.Top, materialResizeThickness),
-                Math.Max(borders.Right, materialResizeThickness),
-                Math.Max(borders.Bottom, materialResizeThickness));
-        }
-        // Restrict the top border to the same size as the left as we are using
-        // the values for the size of the border hit testing for resizing the window
-        // and not the size of the border for drawing purposes.
-        if (borders.Top > borders.Left)
-        {
-            borders.Top = borders.Left;
-        }
-
-        // Get the elements that contains the mouse point
-        ViewBase? mouseView = ViewManager?.Root.ViewFromPoint(pt);
-
-        // Scan up the view hierarchy until a recognized element is found
-        while (mouseView != null)
-        {
-            // Is mouse over one of the borders?
-            if (isResizable && (mouseView == _drawDocker || pt.Y < _drawHeading.ClientRectangle.Height))
+            // Material: use a wider invisible hit band for easier resize while keeping flat, borderless visuals.
+            if (Renderer is RenderMaterial)
             {
-                // Issue #3011 (regression of #2096): When maximized, top edge/corners must return HTCAPTION
-                // so the user can drag from the very top; HTTOP/HTTOPLEFT/HTTOPRIGHT prevent dragging.
-                if (GetWindowState() == FormWindowState.Maximized && pt.Y <= Math.Max(borders.Top, HT_CORNER))
-                {
-                    return new IntPtr(PI.HT.CAPTION);
-                }
-
-                // Is point over the left border?
-                if ((borders.Left > 0) && (pt.X <= borders.Left))
-                {
-                    if (pt.Y <= HT_CORNER)
-                    {
-                        return new IntPtr(PI.HT.TOPLEFT);
-                    }
-
-                    return pt.Y >= (Height - HT_CORNER) ? new IntPtr(PI.HT.BOTTOMLEFT) : new IntPtr(PI.HT.LEFT);
-                }
-
-                // Is point over the right border?
-                if ((borders.Right > 0) && (pt.X >= (Width - borders.Right)))
-                {
-                    if (pt.Y <= HT_CORNER)
-                    {
-                        return new IntPtr(PI.HT.TOPRIGHT);
-                    }
-
-                    return pt.Y >= (Height - HT_CORNER) ? new IntPtr(PI.HT.BOTTOMRIGHT) : new IntPtr(PI.HT.RIGHT);
-                }
-
-                // Is point over the bottom border?
-                if ((borders.Bottom > 0) && (pt.Y >= (Height - borders.Bottom)))
-                {
-                    if (pt.X <= HT_CORNER)
-                    {
-                        return new IntPtr(PI.HT.BOTTOMLEFT);
-                    }
-
-                    return pt.X >= (Width - HT_CORNER) ? new IntPtr(PI.HT.BOTTOMRIGHT) : new IntPtr(PI.HT.BOTTOM);
-                }
-
-                // Is point over the top border?
-                if ((borders.Top > 0) && (pt.Y <= borders.Top))
-                {
-                    if (pt.X <= HT_CORNER)
-                    {
-                        return new IntPtr(PI.HT.TOPLEFT);
-                    }
-
-                    return pt.X >= (Width - HT_CORNER) ? new IntPtr(PI.HT.TOPRIGHT) : new IntPtr(PI.HT.TOP);
-                }
+                int materialResizeThickness = Math.Max(6, (int)Math.Round(6 * ChromeHitTestScale));
+                borders = new Padding(
+                    Math.Max(borders.Left, materialResizeThickness),
+                    Math.Max(borders.Top, materialResizeThickness),
+                    Math.Max(borders.Right, materialResizeThickness),
+                    Math.Max(borders.Bottom, materialResizeThickness));
             }
 
-            // Additional check: if the mouse is in the top area of the form (title bar region)
-            // and we haven't identified a specific view, still allow moving
-            if (mouseView == _drawHeading || pt.Y < _drawHeading.ClientRectangle.Height)
+            // Issue #3011: When maximized, top edge/corners must return HTCAPTION so the user can drag.
+            if (GetWindowState() == FormWindowState.Maximized
+                && pt.Y <= Math.Max(borders.Left, hitCorner))
             {
                 return new IntPtr(PI.HT.CAPTION);
             }
 
-            // Mouse up another level
-            mouseView = mouseView.Parent;
+            IntPtr resizeHit = HitTestResizeEdges(pt, borders, hitCorner);
+            if (resizeHit != IntPtr.Zero)
+            {
+                return resizeHit;
+            }
         }
 
-        return base.WindowChromeHitTest(originalPt);
+        if (pt.Y < captionHeight)
+        {
+            return new IntPtr(PI.HT.CAPTION);
+        }
+
+        return new IntPtr(PI.HT.CLIENT);
+    }
+
+    /// <summary>
+    /// Hit-tests frame resize edges using thin border metrics only (not the full caption height).
+    /// </summary>
+    private IntPtr HitTestResizeEdges(Point pt, Padding borders, int hitCorner)
+    {
+        int frameTop = borders.Left;
+        int frameLeft = borders.Left;
+        int frameRight = borders.Right;
+        int frameBottom = borders.Bottom;
+
+        if (frameLeft > 0 && pt.X <= frameLeft)
+        {
+            if (pt.Y <= hitCorner)
+            {
+                return new IntPtr(PI.HT.TOPLEFT);
+            }
+
+            return pt.Y >= (Height - hitCorner) ? new IntPtr(PI.HT.BOTTOMLEFT) : new IntPtr(PI.HT.LEFT);
+        }
+
+        if (frameRight > 0 && pt.X >= (Width - frameRight))
+        {
+            if (pt.Y <= hitCorner)
+            {
+                return new IntPtr(PI.HT.TOPRIGHT);
+            }
+
+            return pt.Y >= (Height - hitCorner) ? new IntPtr(PI.HT.BOTTOMRIGHT) : new IntPtr(PI.HT.RIGHT);
+        }
+
+        if (frameBottom > 0 && pt.Y >= (Height - frameBottom))
+        {
+            if (pt.X <= hitCorner)
+            {
+                return new IntPtr(PI.HT.BOTTOMLEFT);
+            }
+
+            return pt.X >= (Width - hitCorner) ? new IntPtr(PI.HT.BOTTOMRIGHT) : new IntPtr(PI.HT.BOTTOM);
+        }
+
+        if (frameTop > 0 && pt.Y <= frameTop)
+        {
+            if (pt.X <= hitCorner)
+            {
+                return new IntPtr(PI.HT.TOPLEFT);
+            }
+
+            return pt.X >= (Width - hitCorner) ? new IntPtr(PI.HT.TOPRIGHT) : new IntPtr(PI.HT.TOP);
+        }
+
+        return IntPtr.Zero;
+    }
+
+    private void SetButtonSpecNonClientAsNormal(Point pt)
+    {
+        ViewBase? view = ViewManager?.Root.ViewFromPoint(pt);
+        while (view != null)
+        {
+            if (view.FindMouseController() is ButtonController buttonController)
+            {
+                buttonController.NonClientAsNormal = true;
+                return;
+            }
+
+            view = view.Parent;
+        }
     }
 
     /// <summary>

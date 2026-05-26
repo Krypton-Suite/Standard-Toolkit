@@ -72,7 +72,7 @@ public class KryptonMenuStrip : MenuStrip,
     {
         if (!IsDisposed)
         {
-            UpdateFont();
+            SyncDpiFonts();
         }
     }
 
@@ -126,7 +126,19 @@ public class KryptonMenuStrip : MenuStrip,
     protected override void OnHandleCreated(EventArgs e)
     {
         base.OnHandleCreated(e);
-        KryptonToolStripDpiHelper.SyncFonts(this);
+        SyncDpiFonts();
+        WireDropDownOpeningHandlers(Items);
+    }
+
+    /// <inheritdoc />
+    protected override void OnItemAdded(ToolStripItemEventArgs e)
+    {
+        base.OnItemAdded(e);
+        if (IsHandleCreated)
+        {
+            SyncDpiFonts();
+            WireDropDownOpeningHandlers(e.Item);
+        }
     }
 
     /*/// <summary>
@@ -394,26 +406,52 @@ public class KryptonMenuStrip : MenuStrip,
     {
         if (!IsDisposed)
         {
+            SyncDpiFonts();
+        }
+    }
+
+    private void SyncDpiFonts()
+    {
+        if (!IsDisposed)
+        {
             try
             {
-                var currentPalette = _palette ?? KryptonManager.CurrentGlobalPalette;
-                if (currentPalette != null)
-                {
-                    // Force ColorTable refresh to ensure ToolStripFont is up to date
-                    var colorTable = currentPalette.ColorTable;
-                    var toolStripFont = colorTable.ToolStripFont;
-                    if (Font != toolStripFont)
-                    {
-                        Font = toolStripFont;
-                    }
-
-                    KryptonToolStripDpiHelper.SyncStrip(this);
-                }
+                KryptonToolStripDpiHelper.SyncStrip(this, _palette ?? KryptonManager.CurrentGlobalPalette);
             }
             catch
             {
                 // Ignore errors accessing ColorTable (may not be initialized yet)
             }
+        }
+    }
+
+    private void WireDropDownOpeningHandlers(ToolStripItem item)
+    {
+        if (item is ToolStripDropDownItem dropDownItem)
+        {
+            dropDownItem.DropDownOpening -= OnDropDownOpening;
+            dropDownItem.DropDownOpening += OnDropDownOpening;
+
+            foreach (ToolStripItem child in dropDownItem.DropDownItems)
+            {
+                WireDropDownOpeningHandlers(child);
+            }
+        }
+    }
+
+    private void WireDropDownOpeningHandlers(ToolStripItemCollection items)
+    {
+        foreach (ToolStripItem item in items)
+        {
+            WireDropDownOpeningHandlers(item);
+        }
+    }
+
+    private void OnDropDownOpening(object? sender, EventArgs e)
+    {
+        if (sender is ToolStripDropDownItem { DropDown: ToolStripDropDown dropDown })
+        {
+            KryptonToolStripDpiHelper.SyncStrip(dropDown, _palette ?? KryptonManager.CurrentGlobalPalette);
         }
     }
     #endregion

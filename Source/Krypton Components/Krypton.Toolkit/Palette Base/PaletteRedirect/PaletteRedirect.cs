@@ -663,7 +663,25 @@ public class PaletteRedirect : PaletteBase, IGlobalId
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <param name="metric">Requested metric.</param>
     /// <returns>Integer value.</returns>
-    public override int GetMetricInt(KryptonForm? owningForm, PaletteState state, PaletteMetricInt metric) => _target!.GetMetricInt(owningForm, state, metric);
+    public override int GetMetricInt(KryptonForm? owningForm, PaletteState state, PaletteMetricInt metric)
+    {
+        int value = _target!.GetMetricInt(owningForm, state, metric);
+
+        if (owningForm != null
+            && (metric == PaletteMetricInt.HeaderButtonEdgeInsetForm
+                || metric == PaletteMetricInt.HeaderButtonEdgeInsetFormRight))
+        {
+            float scale = owningForm.FactorDpiX;
+            if (KryptonManager.UseTouchscreenSupport)
+            {
+                scale *= KryptonManager.TouchscreenScaleFactor;
+            }
+
+            value = (int)Math.Round(value * scale);
+        }
+
+        return value;
+    }
 
     /// <summary>
     /// Gets a boolean metric value.
@@ -686,17 +704,36 @@ public class PaletteRedirect : PaletteBase, IGlobalId
         // Get the base padding value from the target palette
         Padding basePadding = _target!.GetMetricPadding(owningForm, state, metric);
 
-        // Scale padding for context menu items when touchscreen mode is enabled
-        // Note: We don't scale HeaderButtonPaddingForm here as it creates transparent areas.
-        // Instead, we scale the button's content padding and image size directly.
-        if (KryptonManager.UseTouchscreenSupport)
+        float scaleFactor = 1f;
+        if (owningForm != null)
         {
-            float scaleFactor = KryptonManager.TouchscreenScaleFactor;
+            scaleFactor = owningForm.FactorDpiY;
+            if (KryptonManager.UseTouchscreenSupport)
+            {
+                scaleFactor *= KryptonManager.TouchscreenScaleFactor;
+            }
+        }
+        else if (KryptonManager.UseTouchscreenSupport)
+        {
+            scaleFactor = KryptonManager.TouchscreenScaleFactor;
+        }
 
-            // Scale context menu item padding
-            if (metric is PaletteMetricPadding.ContextMenuItemHighlight
-                or PaletteMetricPadding.ContextMenuItemOuter
-                or PaletteMetricPadding.ContextMenuItemsCollection)
+        if (scaleFactor > 1.001f)
+        {
+            if (owningForm != null && metric == PaletteMetricPadding.HeaderButtonPaddingForm)
+            {
+                return new Padding(
+                    (int)Math.Round(basePadding.Left * scaleFactor),
+                    (int)Math.Round(basePadding.Top * scaleFactor),
+                    (int)Math.Round(basePadding.Right * scaleFactor),
+                    (int)Math.Round(basePadding.Bottom * scaleFactor));
+            }
+
+            // Scale context menu item padding when touchscreen mode is enabled
+            if (KryptonManager.UseTouchscreenSupport
+                && metric is PaletteMetricPadding.ContextMenuItemHighlight
+                    or PaletteMetricPadding.ContextMenuItemOuter
+                    or PaletteMetricPadding.ContextMenuItemsCollection)
             {
                 return new Padding(
                     (int)Math.Round(basePadding.Left * scaleFactor),

@@ -26,7 +26,7 @@ public static class KryptonToolStripDpiHelper
 
         if (root is ToolStrip strip)
         {
-            ApplyDpiMetrics(strip, root is StatusStrip);
+            ApplyDpiMetrics(strip, strip is StatusStrip, null);
         }
 
         foreach (Control child in root.Controls)
@@ -38,15 +38,17 @@ public static class KryptonToolStripDpiHelper
     /// <summary>
     /// Syncs fonts and image metrics for a single strip.
     /// </summary>
-    public static void SyncStrip(ToolStrip strip)
+    /// <param name="strip">The strip to update.</param>
+    /// <param name="palette">Optional palette; uses <see cref="KryptonManager.CurrentGlobalPalette"/> when null.</param>
+    public static void SyncStrip(ToolStrip strip, PaletteBase? palette = null)
     {
         if (strip != null)
         {
-            ApplyDpiMetrics(strip, strip is StatusStrip);
+            ApplyDpiMetrics(strip, strip is StatusStrip, palette);
         }
     }
 
-    private static void ApplyDpiMetrics(ToolStrip strip, bool isStatusStrip)
+    private static void ApplyDpiMetrics(ToolStrip strip, bool isStatusStrip, PaletteBase? palette)
     {
         if (strip.IsDisposed)
         {
@@ -62,23 +64,29 @@ public static class KryptonToolStripDpiHelper
         float controlScale = KryptonManager.UseTouchscreenSupport ? KryptonManager.TouchscreenScaleFactor : 1f;
         float fontScale = KryptonManager.TouchscreenFontScaleFactor;
 
+        palette ??= KryptonManager.CurrentGlobalPalette;
+
         Font systemFont = isStatusStrip ? SystemFonts.StatusFont! : SystemFonts.MenuFont!;
+        FontFamily fontFamily = systemFont.FontFamily;
+        FontStyle fontStyle = systemFont.Style;
         float targetPoints = systemFont.SizeInPoints * dpiFactor * fontScale;
 
-        PaletteBase? palette = KryptonManager.CurrentGlobalPalette;
         if (palette?.ColorTable != null)
         {
-            Font paletteFont = isStatusStrip
+            Font? paletteFont = isStatusStrip
                 ? palette.ColorTable.StatusStripFont
                 : palette.ColorTable.ToolStripFont;
             if (paletteFont != null)
             {
+                fontFamily = paletteFont.FontFamily;
+                fontStyle = paletteFont.Style;
                 targetPoints = paletteFont.SizeInPoints * dpiFactor * fontScale;
             }
         }
 
-        Font scaledFont = new Font(systemFont.FontFamily, targetPoints, systemFont.Style, systemFont.Unit);
-        if (strip.Font == null || Math.Abs(strip.Font.SizeInPoints - scaledFont.SizeInPoints) > 0.01f)
+        Font scaledFont = new Font(fontFamily, targetPoints, fontStyle, systemFont.Unit);
+        if (strip.Font == null || Math.Abs(strip.Font.SizeInPoints - scaledFont.SizeInPoints) > 0.01f
+            || strip.Font.FontFamily != scaledFont.FontFamily)
         {
             strip.Font = scaledFont;
         }
@@ -104,7 +112,9 @@ public static class KryptonToolStripDpiHelper
                 continue;
             }
 
-            if (item.Font == null || Math.Abs(item.Font.SizeInPoints - font.SizeInPoints) > 0.01f)
+            if (item.Font == null
+                || Math.Abs(item.Font.SizeInPoints - font.SizeInPoints) > 0.01f
+                || item.Font.FontFamily != font.FontFamily)
             {
                 item.Font = font;
             }
@@ -112,6 +122,16 @@ public static class KryptonToolStripDpiHelper
             if (item is ToolStripDropDownItem dropDownItem)
             {
                 ApplyFontToItems(dropDownItem.DropDownItems, font);
+
+                if (dropDownItem.DropDown is ToolStripDropDown dropDown)
+                {
+                    if (dropDown.Font == null
+                        || Math.Abs(dropDown.Font.SizeInPoints - font.SizeInPoints) > 0.01f
+                        || dropDown.Font.FontFamily != font.FontFamily)
+                    {
+                        dropDown.Font = font;
+                    }
+                }
             }
         }
     }

@@ -413,7 +413,8 @@ public abstract class ButtonSpecManagerBase : GlobalId
                 && buttonView.ViewButton != null
                )
             {
-                return buttonView.ViewButton.ClientRectangle;
+                // Use the layout cell (includes metric padding) so hit targets match scaled chrome.
+                return buttonView.ViewCenter.ClientRectangle;
             }
         }
 
@@ -456,7 +457,7 @@ public abstract class ButtonSpecManagerBase : GlobalId
     public bool IsPointOverButton(Point pt) =>
         _specLookup.Values.Any(buttonView =>
             buttonView.ViewButton is { Visible: true, Enabled: true }
-            && buttonView.ViewButton.ClientRectangle.Contains(pt)
+            && buttonView.ViewCenter.ClientRectangle.Contains(pt)
         );
 
     /// <summary>

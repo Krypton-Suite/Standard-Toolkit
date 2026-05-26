@@ -56,9 +56,9 @@
 
 	<!-- Configure NuGet package output to separate directory for easier management -->
 	<PropertyGroup>
-		<PackageOutputPath>$(MSBuildThisFileDirectory)..\..\Bin\Packages\$(Configuration)\</PackageOutputPath>
+		<PackageOutputPath>$(KryptonPackageOutputRoot)$(Configuration)\</PackageOutputPath>
 		<!-- Ensure multi-target outputs don't overwrite each other -->
-		<OutputPath>$(MSBuildThisFileDirectory)..\..\Bin\$(Configuration)\$(TargetFramework)\</OutputPath>
+		<OutputPath>$(KryptonBuildOutputRoot)$(Configuration)\$(TargetFramework)\</OutputPath>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 		<!-- Per-TFM obj avoids races when msbuild /m compiles multiple target frameworks at once -->
 		<IntermediateOutputPath>$(MSBuildProjectDirectory)obj\$(Configuration)\$(TargetFramework)\</IntermediateOutputPath>
