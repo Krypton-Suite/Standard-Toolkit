@@ -17,7 +17,7 @@ public static class BuildUI
     /// <summary>
     /// The fixed width for the tasks area panel in the UI layout.
     /// </summary>
-    private static readonly byte TASKS_AREA_WIDTH = 46;
+    private static readonly byte TASKS_AREA_WIDTH = 40;
 
     /// <summary>
     /// Creates and configures the main UI for the Modern Build tool.
@@ -114,7 +114,6 @@ public static class BuildUI
         {
             state.Channel = BuildLogic.NextChannel(state.Channel);
             state.Configuration = state.Channel == ChannelType.Nightly ? "Debug" : BuildLogic.DefaultConfig(state.Channel);
-            NormalizeOpsActionForChannel(state);
             state.RequestRenderAll?.Invoke();
         });
         var tx1 = MakeText(0);
@@ -127,7 +126,7 @@ public static class BuildUI
             }
             else
             {
-                state.Action = NextOpsAction(state);
+                state.Action = NextOpsAction(state.Action);
             }
             state.RequestRenderAll?.Invoke();
         });
@@ -147,7 +146,6 @@ public static class BuildUI
             {
                 state.Action = BuildAction.Build;
             }
-            NormalizeOpsActionForChannel(state);
             if (state.TasksPage == TasksPage.NuGet)
             {
                 state.Configuration = "Release";
@@ -212,7 +210,7 @@ public static class BuildUI
 
         var hk9 = MakeHK("F9", 8, () =>
         {
-            ApplyF9Action(state);
+            state.PackMode = BuildLogic.NextPackMode(state.PackMode);
             state.RequestRenderAll?.Invoke();
         });
         var tx9 = MakeText(8);
@@ -490,7 +488,6 @@ public static class BuildUI
                 {
                     state.Channel = BuildLogic.NextChannel(state.Channel);
                     state.Configuration = state.Channel == ChannelType.Nightly ? "Debug" : BuildLogic.DefaultConfig(state.Channel);
-                    NormalizeOpsActionForChannel(state);
                     RenderAll(state, ui);
                     break;
                 }
@@ -502,7 +499,7 @@ public static class BuildUI
                     }
                     else
                     {
-                        state.Action = NextOpsAction(state);
+                        state.Action = NextOpsAction(state.Action);
                     }
                     RenderAll(state, ui);
                     break;
@@ -520,7 +517,6 @@ public static class BuildUI
                     {
                         state.Action = BuildAction.Build;
                     }
-                    NormalizeOpsActionForChannel(state);
                     if (state.TasksPage == TasksPage.NuGet)
                     {
                         state.Configuration = "Release";
@@ -587,7 +583,7 @@ public static class BuildUI
                 }
                 case KeyCode.F9:
                 {
-                    ApplyF9Action(state);
+                    state.PackMode = BuildLogic.NextPackMode(state.PackMode);
                     RenderAll(state, ui);
                     break;
                 }
@@ -777,7 +773,6 @@ public static class BuildUI
     /// <param name="ui">The UI context containing references to all UI components.</param>
     private static void RenderAll(AppState state, UIContext ui)
     {
-        NormalizeOpsActionForChannel(state);
         BuildLogic.EnsurePaths(state);
         RenderStatus(state, ui);
         RenderTasks(state, ui);
@@ -789,20 +784,14 @@ public static class BuildUI
     /// Gets the next build action in the Ops page cycle, excluding NuGet-specific actions.
     /// Provides a simplified cycle for the Ops page that skips NuGetTools and Installer actions.
     /// </summary>
-    /// <param name="state">The current application state.</param>
-    /// <returns>
-    /// The next build action in the Ops cycle.
-    /// Nightly: Build → Rebuild → Pack → BuildPack → Debug → Build.
-    /// Other channels: Build → Pack → BuildPack → Debug → Build.
-    /// </returns>
-    private static BuildAction NextOpsAction(AppState state)
+    /// <param name="action">The current build action.</param>
+    /// <returns>The next build action in the Ops cycle (Build → Rebuild → Pack → BuildPack → Debug → Build).</returns>
+    private static BuildAction NextOpsAction(BuildAction action)
     {
-        bool allowRebuild = SupportsRebuildForChannel(state.Channel);
-
-        // Ops action cycle excludes NuGet-specific actions and adapts when Rebuild isn't supported.
-        return state.Action switch
+        // Same cycle as BuildLogic.NextAction but skipping NuGetTools
+        return action switch
         {
-            BuildAction.Build       => allowRebuild ? BuildAction.Rebuild : BuildAction.Pack,
+            BuildAction.Build       => BuildAction.Rebuild,
             BuildAction.Rebuild     => BuildAction.Pack,
             BuildAction.Pack        => BuildAction.BuildPack,
             BuildAction.BuildPack   => BuildAction.Debug,
@@ -811,73 +800,6 @@ public static class BuildUI
             BuildAction.Installer   => BuildAction.Build, // sanitize if ever present
             _                       => BuildAction.Build
         };
-    }
-
-    /// <summary>
-    /// Returns whether the selected channel supports a dedicated Rebuild target in its .proj file.
-    /// </summary>
-    /// <param name="channel">The selected build channel.</param>
-    /// <returns>True when Rebuild is defined for the channel; otherwise false.</returns>
-    private static bool SupportsRebuildForChannel(ChannelType channel)
-    {
-        return channel == ChannelType.Nightly;
-    }
-
-    /// <summary>
-    /// Normalizes Ops action selections when channel capabilities change.
-    /// Ensures combinations like Canary/Stable + Rebuild are not kept selected.
-    /// </summary>
-    /// <param name="state">The current application state.</param>
-    private static void NormalizeOpsActionForChannel(AppState state)
-    {
-        if (!SupportsRebuildForChannel(state.Channel) && state.Action == BuildAction.Rebuild)
-        {
-            state.Action = BuildAction.Build;
-        }
-    }
-
-    /// <summary>
-    /// Applies the F9 action based on the current page and action context.
-    /// In Stable Pack/BuildPack Ops context F9 cycles PackMode, otherwise it cycles Scripts profile.
-    /// </summary>
-    /// <param name="state">The current application state.</param>
-    private static void ApplyF9Action(AppState state)
-    {
-        if (IsPackModeContext(state))
-        {
-            state.PackMode = BuildLogic.NextPackMode(state.PackMode);
-            return;
-        }
-
-        state.ScriptProfile = BuildLogic.NextScriptProfile(state.ScriptProfile);
-    }
-
-    /// <summary>
-    /// Determines whether F9 should cycle PackMode for the current state.
-    /// </summary>
-    /// <param name="state">The current application state.</param>
-    /// <returns>True when PackMode should be cycled; otherwise false.</returns>
-    private static bool IsPackModeContext(AppState state)
-    {
-        return state.TasksPage == TasksPage.Ops &&
-               state.Channel == ChannelType.Stable &&
-               (state.Action == BuildAction.Pack || state.Action == BuildAction.BuildPack);
-    }
-
-    /// <summary>
-    /// Formats the scripts profile text for display in the UI.
-    /// </summary>
-    /// <param name="state">The current application state.</param>
-    /// <returns>A formatted scripts profile string, including effective profile for Auto mode.</returns>
-    private static string FormatScriptProfile(AppState state)
-    {
-        ScriptProfile effective = BuildLogic.GetEffectiveScriptProfile(state.ScriptProfile, state.MsBuildPath);
-        if (state.ScriptProfile == ScriptProfile.Auto)
-        {
-            return $"Auto ({effective})";
-        }
-
-        return state.ScriptProfile.ToString();
     }
 
     /// <summary>
@@ -902,18 +824,16 @@ public static class BuildUI
     /// Formats a NuGet action enum value into a user-friendly display string.
     /// Converts enum values to readable descriptions for UI display.
     /// </summary>
-    /// <param name="state">The current application state.</param>
     /// <param name="action">The NuGet action to format.</param>
     /// <returns>A formatted string representation of the NuGet action.</returns>
-    private static string FormatNuGetAction(AppState state, NuGetAction action)
+    private static string FormatNuGetAction(NuGetAction action)
     {
-        bool allowRebuild = SupportsRebuildForChannel(state.Channel);
         return action switch
         {
-            NuGetAction.RebuildPack     => allowRebuild ? "Rebuild+Pack" : "Build+Pack",
+            NuGetAction.RebuildPack     => "Rebuild+Pack",
             NuGetAction.Push            => "Push",
             NuGetAction.PackPush        => "Pack+Push",
-            NuGetAction.BuildPackPush   => allowRebuild ? "Rebuild+Pack+Push" : "Build+Pack+Push",
+            NuGetAction.BuildPackPush   => "Rebuild+Pack+Push",
             NuGetAction.Tools           => "Update NuGet",
             _                           => action.ToString()
         };
@@ -991,9 +911,8 @@ public static class BuildUI
     {
         if (state.TasksPage == TasksPage.Ops)
         {
-            NormalizeOpsActionForChannel(state);
             ChannelType nextChannel = BuildLogic.NextChannel(state.Channel);
-            BuildAction nextAction = NextOpsAction(state);
+            BuildAction nextAction = NextOpsAction(state.Action);
             string FormatAction(BuildAction a)
             {
                 return a == BuildAction.Installer ? "Installer" : a.ToString();
@@ -1050,7 +969,8 @@ public static class BuildUI
             {
                 ui.CreateZip.Visible = false;
             }
-            bool showF9 = IsPackModeContext(state);
+            bool showF9 = (state.Channel == ChannelType.Stable) &&
+                          (state.Action == BuildAction.Pack || state.Action == BuildAction.BuildPack);
             if (showF9)
             {
                 PackMode nextPack = BuildLogic.NextPackMode(state.PackMode);
@@ -1061,8 +981,7 @@ public static class BuildUI
             }
             else
             {
-                ScriptProfile nextProfile = BuildLogic.NextScriptProfile(state.ScriptProfile);
-                if (ui.Tx9 != null) { ui.Tx9.Text = $"Scripts   {FormatScriptProfile(state)} (next: {nextProfile})"; }
+                if (ui.Tx9 != null) { ui.Tx9.Text = "PackMode  (Stable only)"; }
             }
             if (ui.TestBtn != null)
             {
@@ -1072,9 +991,7 @@ public static class BuildUI
             if (ui.TxTest != null) { ui.TxTest.Visible = false; ui.TxTest.Text = string.Empty; }
             if (ui.Hint != null)
             {
-                ui.Hint.Text = showF9
-                    ? "F-keys cycle options.\nF9 cycles PackMode. F5 toggles Run/Stop."
-                    : "F-keys cycle options.\nF9 cycles Scripts profile. F5 toggles Run/Stop.";
+                ui.Hint.Text = "F-keys cycle options.\nF5 toggles Run/Stop.";
             }
         }
         else
@@ -1096,7 +1013,7 @@ public static class BuildUI
             }
             if (ui.Tx2 != null)
             {
-                ui.Tx2.Text = $"Action    {FormatNuGetAction(state, state.NuGetAction)}";
+                ui.Tx2.Text = $"Action    {FormatNuGetAction(state.NuGetAction)}";
             }
             if (ui.Tx3 != null)
             {
@@ -1136,15 +1053,14 @@ public static class BuildUI
             }
 
             if (ui.TxTest != null) { ui.TxTest.Visible = true; ui.TxTest.Text = "Test      Preview commands"; }
-            ScriptProfile nextProfile = BuildLogic.NextScriptProfile(state.ScriptProfile);
-            if (ui.Tx9 != null) { ui.Tx9.Text = $"Scripts   {FormatScriptProfile(state)} (next: {nextProfile})"; }
+            if (ui.Tx9 != null) { ui.Tx9.Text = "PackMode  (Stable only)"; }
             if (ui.TxEsc != null)
             {
                 ui.TxEsc.Text = "Exit      Exit application";
             }
             if (ui.Hint != null)
             {
-                ui.Hint.Text = "NuGet page:\nF2 cycles NuGet actions.\nF9 cycles Scripts profile.";
+                ui.Hint.Text = "NuGet page:\nF2 cycles NuGet actions.\nF5 runs the selected action(s).";
             }
         }
     }
@@ -1216,7 +1132,6 @@ public static class BuildUI
         }
 
         AddKV("Project", TrimScriptsPath(state.ProjectFile));
-        AddKV("Scripts", FormatScriptProfile(state));
         AddKV("MSBuild", state.MsBuildPath);
 
         AddKV("Text Log", TrimLogsPath(Path.Combine(state.RootPath, "Logs", prefix + "-build-summary.log")));

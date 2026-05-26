@@ -1,12 +1,11 @@
 <Project>
 	<Import Project="..\..\Directory.Build.props" />
+	<Import Project="..\Build\Krypton.Orchestration.targets" />
 
 	<PropertyGroup>
 		<RootFolder>$(MSBuildProjectDirectory)</RootFolder>
 		<Configuration>Canary</Configuration>
-		<CanarySourcePath>$(KryptonBuildOutputRoot)Canary\</CanarySourcePath>
-		<CanaryPackagesPath>$(KryptonPackageOutputRoot)Canary\</CanaryPackagesPath>
-		<CanaryBuildPath>$(CanarySourcePath)Zips\</CanaryBuildPath>
+		<CanaryBuildPath>..\Bin\Canary\Zips</CanaryBuildPath>
 		<CanaryZipName>Krypton-Canary</CanaryZipName>
 	</PropertyGroup>
 
@@ -14,26 +13,21 @@
 		<ItemGroup>
 			<Projects Include="..\..\Source\Krypton Components\Krypton.*\*.csproj" />
 		</ItemGroup>
-		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all;ExcludeVs2022UnsupportedTargetFrameworks=true" Targets="Clean" />
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" Targets="Clean" BuildInParallel="false" />
 	</Target>
 
 	<Target Name="Restore">
 		<ItemGroup>
 			<Projects Include="..\..\Source\Krypton Components\Krypton.*\*.csproj" />
 		</ItemGroup>
-		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all;ExcludeVs2022UnsupportedTargetFrameworks=true" Targets="Restore" />
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" Targets="Restore" BuildInParallel="false" />
 	</Target>
 
-	<Target Name="Build" DependsOnTargets="Restore">
-		<ItemGroup>
-			<Projects Include="..\..\Source\Krypton Components\Krypton.*\*.csproj" />
-		</ItemGroup>
-		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all;ExcludeVs2022UnsupportedTargetFrameworks=true" />
-	</Target>
+	<Target Name="Build" DependsOnTargets="Restore;KryptonBuild" />
 
 	<Target Name="CleanPackages">
 		<ItemGroup>
-			<NugetPkgs Include="$(CanaryPackagesPath)*.nupkg" />
+			<NugetPkgs Include="..\Bin\Packages\Canary\*.nupkg" />
 		</ItemGroup>
 		<Delete Files="@(NugetPkgs)" />
 	</Target>
@@ -48,10 +42,10 @@
 			<NugetAssets Include="..\..\Source\Krypton Components\Krypton.*\obj\*.g.targets" />
 			<NugetAssets Include="..\..\Source\Krypton Components\Krypton.*\obj\*.g.props" />
 		</ItemGroup>
-		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all;ExcludeVs2022UnsupportedTargetFrameworks=true" Targets="Clean" />
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" Targets="Clean" BuildInParallel="false" />
 		<Delete Files="@(NugetAssets)" />
-		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all;ExcludeVs2022UnsupportedTargetFrameworks=true" Targets="Restore" />
-		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all;ExcludeVs2022UnsupportedTargetFrameworks=true" Targets="Pack" />
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" Targets="Restore" BuildInParallel="false" />
+		<CallTarget Targets="KryptonPack" />
 	</Target>
 
 	<Target Name="Pack" DependsOnTargets="CleanPackages;PackAll" />
@@ -59,7 +53,7 @@
 
 	<Target Name="Push">
 		<ItemGroup>
-			<NugetPkgs Include="$(CanaryPackagesPath)*.$(LibraryVersion).nupkg" />
+			<NugetPkgs Include="..\Bin\Packages\Canary\*.$(LibraryVersion).nupkg" />
 		</ItemGroup>
 		<Exec Command="nuget.exe push %(NugetPkgs.Identity)" />
 	</Target>
@@ -71,17 +65,17 @@
 			<StringDate>$([System.DateTime]::Now.ToString('yyyyMMdd'))</StringDate>
 		</PropertyGroup>
 		<ItemGroup>
-			<DebugApplicationFiles Include="$(CanarySourcePath)**\*.*" Exclude="$(CanarySourcePath)*vshost.exe*;$(CanarySourcePath)**\*.json;$(CanarySourcePath)**\*.pdb" />
+			<DebugApplicationFiles Include="..\Bin\Canary\**\*.*" Exclude="..\Bin\Canary\*vshost.exe*;..\Bin\Canary\**\*.json;..\Bin\Canary\**\*.pdb" />
 		</ItemGroup>
 		<MakeDir Directories="$(CanaryBuildPath)"/>
 
 		<!-- Using 7-Zip for ZIP creation (compatible with all MSBuild versions) -->
-		<Exec Command="7z.exe a -tzip &quot;$(CanaryBuildPath)\$(CanaryZipName)_$(StringDate).zip&quot; &quot;$(CanarySourcePath)*&quot; -x!*.json -x!*.pdb"
+		<Exec Command="7z.exe a -tzip &quot;$(CanaryBuildPath)\$(CanaryZipName)_$(StringDate).zip&quot; &quot;..\Bin\Canary\*&quot; -x!*.json -x!*.pdb"
 		      Condition="Exists('C:\Program Files\7-Zip\7z.exe')"
 		      WorkingDirectory="$(CanaryBuildPath)" />
 
 		<!-- Fallback: Using PowerShell Compress-Archive if 7-Zip not available -->
-		<Exec Command="powershell.exe -Command &quot;Get-ChildItem '$(CanarySourcePath)*' -Recurse | Where-Object {$_.Extension -notin '.json','.pdb'} | Compress-Archive -DestinationPath '$(CanaryBuildPath)\$(CanaryZipName)_$(StringDate).zip' -Force&quot;"
+		<Exec Command="powershell.exe -Command &quot;Get-ChildItem '..\Bin\Canary\*' -Recurse | Where-Object {$_.Extension -notin '.json','.pdb'} | Compress-Archive -DestinationPath '$(CanaryBuildPath)\$(CanaryZipName)_$(StringDate).zip' -Force&quot;"
 		      Condition="!Exists('C:\Program Files\7z.exe')" />
 	</Target>
 
@@ -90,12 +84,12 @@
 			<StringDate>$([System.DateTime]::Now.ToString('yyyyMMdd'))</StringDate>
 		</PropertyGroup>
 		<ItemGroup>
-			<DebugApplicationFiles Include="$(CanarySourcePath)**\*.*" Exclude="$(CanarySourcePath)*vshost.exe*;$(CanarySourcePath)**\*.json;$(CanarySourcePath)**\*.pdb" />
+			<DebugApplicationFiles Include="..\Bin\Canary\**\*.*" Exclude="..\Bin\Canary\*vshost.exe*;..\Bin\Canary\**\*.json;..\Bin\Canary\**\*.pdb" />
 		</ItemGroup>
 		<MakeDir Directories="$(CanaryBuildPath)"/>
 
 		<!-- Method 1: Using 7-Zip if available (recommended for Windows) -->
-		<Exec Command="7z.exe a -ttar &quot;$(CanaryBuildPath)\$(CanaryZipName)_$(StringDate).tar&quot; &quot;$(CanarySourcePath)*&quot; -x!*.json -x!*.pdb"
+		<Exec Command="7z.exe a -ttar &quot;$(CanaryBuildPath)\$(CanaryZipName)_$(StringDate).tar&quot; &quot;..\Bin\Canary\*&quot; -x!*.json -x!*.pdb"
 		      Condition="Exists('C:\Program Files\7-Zip\7z.exe')"
 		      WorkingDirectory="$(CanaryBuildPath)" />
 		<Exec Command="7z.exe a -tgzip &quot;$(CanaryBuildPath)\$(CanaryZipName)_$(StringDate).tar.gz&quot; &quot;$(CanaryBuildPath)\$(CanaryZipName)_$(StringDate).tar&quot;"
@@ -105,7 +99,7 @@
 		        Condition="Exists('C:\Program Files\7-Zip\7z.exe')" />
 
 		<!-- Method 2: Using PowerShell tar command (Windows 10/11) -->
-		<Exec Command="powershell.exe -Command tar -czf &quot;$(CanaryBuildPath)\$(CanaryZipName)_$(StringDate)_ps.tar.gz&quot; -C &quot;$(CanarySourcePath)&quot; . --exclude=*.json --exclude=*.pdb"
+		<Exec Command="powershell.exe -Command tar -czf &quot;$(CanaryBuildPath)\$(CanaryZipName)_$(StringDate)_ps.tar.gz&quot; -C &quot;..\Bin\Canary&quot; . --exclude=*.json --exclude=*.pdb"
 		      Condition="Exists('C:\Windows\System32\tar.exe')" />
 
 		<!-- Method 3: Using Git Bash tar if available -->

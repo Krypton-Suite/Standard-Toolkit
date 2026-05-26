@@ -13,7 +13,15 @@ For maintainer-focused implementation and release details, see:
 - `ProjectTemplates/KryptonWinFormsApp`: Adds a WinForms project template that starts with a `KryptonForm`.
 - `ProjectTemplates/KryptonRibbonWinFormsApp`: Adds a WinForms project template with a `KryptonRibbon` on the main form.
 
-## Install (Visual Studio 2022)
+## Install (recommended — VSIX)
+
+1. Open the [GitHub Releases](https://github.com/Krypton-Suite/Standard-Toolkit/releases) page for this repository.
+2. Select the templates release for your channel (`templates-stable`, `templates-canary`, `templates-alpha`, or `templates-current`).
+3. Download `krypton-templates-*.vsix` and double-click to install (or use **Extensions > Manage Extensions > Install from file**).
+4. Restart Visual Studio.
+5. Use **Add > New Item** or **Create a new project** and search for **Krypton**.
+
+## Install (manual zip fallback)
 
 1. Zip each template folder so that the `.vstemplate` file is at the root of the zip.
 2. Copy item template zip files to:
@@ -21,6 +29,15 @@ For maintainer-focused implementation and release details, see:
 3. Copy project template zip files to:
    - `%USERPROFILE%\Documents\Visual Studio 2022\Templates\ProjectTemplates\Visual C#\`
 4. Restart Visual Studio.
+
+## Local VSIX build
+
+```cmd
+dotnet restore "Templates\Vsix\Krypton.Templates.Vsix\Krypton.Templates.Vsix.csproj"
+dotnet msbuild "Templates\Vsix\Krypton.Templates.Vsix\Krypton.Templates.Vsix.csproj" /p:Configuration=Release /p:DeployExtension=false
+```
+
+Output: `Templates\Vsix\Krypton.Templates.Vsix\bin\Release\net472\Krypton.Templates.Vsix.vsix`
 
 ## Notes
 
