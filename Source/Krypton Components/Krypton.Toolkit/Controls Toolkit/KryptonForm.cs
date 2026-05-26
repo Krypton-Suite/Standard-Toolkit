@@ -171,6 +171,7 @@ public class KryptonForm : VisualForm,
     private readonly ViewDrawContent _drawContent;
     private readonly ViewDecoratorFixedSize _headingFixedSize;
     private readonly ViewLayoutNull _layoutNull;
+    private Size _lastHeadingFixedSize = Size.Empty;
     private HeaderStyle _headerStyle;
     private PaletteRelativeAlign _formTitleAlign;
     private HeaderStyle _headerStylePrev;
@@ -1143,6 +1144,23 @@ public class KryptonForm : VisualForm,
             ? _headingFixedSize.FixedSize.Height
             : RealWindowBorders.Top;
 
+    /// <inheritdoc />
+    protected override Padding GetClientAreaBorders()
+    {
+        if (!IsDisposed && !Disposing && ViewManager != null)
+        {
+            UpdateHeadingFixedSize();
+        }
+
+        Padding borders = RealWindowBorders;
+        if (ShouldHideCaption())
+        {
+            return new Padding(borders.Left, 0, borders.Right, borders.Bottom);
+        }
+
+        return new Padding(borders.Left, Math.Max(borders.Top, EffectiveCaptionHeight), borders.Right, borders.Bottom);
+    }
+
     /// <summary>
     /// Gets or sets the <see cref="KryptonFormTitleBar"/> component that hosts button-spec items
     /// in the title bar caption area, to the left of the form title text.
@@ -1703,6 +1721,8 @@ public class KryptonForm : VisualForm,
     protected override void OnShown(EventArgs e)
     {
         base.OnShown(e);
+        UpdateHeadingFixedSize();
+        RecalcNonClient();
     }
 
     /// <summary>
@@ -1811,6 +1831,7 @@ public class KryptonForm : VisualForm,
         NeedLayout = true;
         KryptonToolStripDpiHelper.SyncFonts(this);
         PerformNeedPaint(true);
+        RecalcNonClient();
         InvalidateNonClient();
     }
 
@@ -1849,6 +1870,7 @@ public class KryptonForm : VisualForm,
         NeedLayout = true;
         KryptonToolStripDpiHelper.SyncFonts(this);
         PerformNeedPaint(true);
+        RecalcNonClient();
         InvalidateNonClient();
     }
 
@@ -2386,14 +2408,7 @@ public class KryptonForm : VisualForm,
         // Does the LParam contain a RECT or an NCCALCSIZE_PARAMS
         if (m.WParam != IntPtr.Zero)
         {
-            // Get the border sizing needed around the client area
-            Padding borders = RealWindowBorders;
-
-            // If caption should be hidden, set top border to 0 to prevent white band
-            if (ShouldHideCaption())
-            {
-                borders = new Padding(borders.Left, 0, borders.Right, borders.Bottom);
-            }
+            Padding borders = GetClientAreaBorders();
 
             // Extract the Win32 NCCALCSIZE_PARAMS structure from LPARAM
             PI.NCCALCSIZE_PARAMS calcsize = (PI.NCCALCSIZE_PARAMS)m.GetLParam(typeof(PI.NCCALCSIZE_PARAMS))!;
@@ -2612,45 +2627,13 @@ public class KryptonForm : VisualForm,
                     _headerStylePrev = _headerStyle;
                 }
 
-                // Update the heading to enforce a fixed Material-like caption height when Material renderer is active
-                bool shouldHideCaption = ShouldHideCaption();
+                UpdateHeadingFixedSize();
 
-                if (shouldHideCaption)
+                if (_headingFixedSize.FixedSize != _lastHeadingFixedSize)
                 {
-                    // Hide the caption area when there's nothing to display
-                    _headingFixedSize.FixedSize = Size.Empty;
-                    _headingFixedSize.Visible = false;
-                }
-                else
-                {
-                    // Ensure the heading is visible
-                    _headingFixedSize.Visible = true;
-
-                    float captionScaleY = FactorDpiY;
-                    if (KryptonManager.UseTouchscreenSupport)
-                    {
-                        captionScaleY *= KryptonManager.TouchscreenScaleFactor;
-                    }
-
-                    if (Renderer is RenderMaterial)
-                    {
-                        int materialCaptionHeight = Math.Max(44, (int)Math.Round(44 * captionScaleY));
-                        _headingFixedSize.FixedSize = new Size(materialCaptionHeight, materialCaptionHeight);
-                    }
-                    else
-                    {
-                        Padding windowBorders = RealWindowBorders;
-                        int captionHeight = windowBorders.Top;
-                        // Office 2010 control box art is 31px tall at 96 DPI; round up for fractional scale.
-                        int scaledCaption = (int)Math.Ceiling(31 * captionScaleY);
-                        if (_titleBar != null)
-                        {
-                            scaledCaption = Math.Max(scaledCaption, (int)Math.Ceiling(36 * captionScaleY));
-                        }
-
-                        captionHeight = Math.Max(captionHeight, scaledCaption);
-                        _headingFixedSize.FixedSize = new Size(captionHeight, captionHeight);
-                    }
+                    _lastHeadingFixedSize = _headingFixedSize.FixedSize;
+                    NeedLayout = true;
+                    RecalcNonClient();
                 }
 
                 // A change in window state since last time requires a layout
@@ -2749,6 +2732,45 @@ public class KryptonForm : VisualForm,
         }
 
         return false;
+    }
+
+    /// <summary>
+    /// Updates the fixed caption height used by view layout and client-area calculation.
+    /// </summary>
+    private void UpdateHeadingFixedSize()
+    {
+        if (ShouldHideCaption())
+        {
+            _headingFixedSize.FixedSize = Size.Empty;
+            _headingFixedSize.Visible = false;
+            return;
+        }
+
+        _headingFixedSize.Visible = true;
+
+        float captionScaleY = FactorDpiY;
+        if (KryptonManager.UseTouchscreenSupport)
+        {
+            captionScaleY *= KryptonManager.TouchscreenScaleFactor;
+        }
+
+        if (Renderer is RenderMaterial)
+        {
+            int materialCaptionHeight = Math.Max(44, (int)Math.Round(44 * captionScaleY));
+            _headingFixedSize.FixedSize = new Size(materialCaptionHeight, materialCaptionHeight);
+            return;
+        }
+
+        Padding windowBorders = RealWindowBorders;
+        int captionHeight = windowBorders.Top;
+        int scaledCaption = (int)Math.Ceiling(31 * captionScaleY);
+        if (_titleBar != null)
+        {
+            scaledCaption = Math.Max(scaledCaption, (int)Math.Ceiling(36 * captionScaleY));
+        }
+
+        captionHeight = Math.Max(captionHeight, scaledCaption);
+        _headingFixedSize.FixedSize = new Size(captionHeight, captionHeight);
     }
 
     private void PerformViewPaint(Graphics g, Rectangle rect)

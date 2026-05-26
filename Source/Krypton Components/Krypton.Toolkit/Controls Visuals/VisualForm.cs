@@ -585,6 +585,11 @@ public abstract class VisualForm : Form,
     public Padding RealWindowBorders => CommonHelper.GetWindowBorders(CreateParams);
 
     /// <summary>
+    /// Gets the borders between the window edge and the client area used for NC clipping and WM_NCCALCSIZE.
+    /// </summary>
+    protected virtual Padding GetClientAreaBorders() => RealWindowBorders;
+
+    /// <summary>
     /// Gets a count of the number of paints that have occurred.
     /// </summary>
     [Browsable(false)]
@@ -1377,7 +1382,7 @@ public abstract class VisualForm : Form,
         if (m.WParam != IntPtr.Zero)
         {
             // Get the border sizing needed around the client area
-            Padding borders = RealWindowBorders;
+            Padding borders = GetClientAreaBorders();
 
             // Extract the Win32 NCCALCSIZE_PARAMS structure from LPARAM
             PI.NCCALCSIZE_PARAMS calcsize = (PI.NCCALCSIZE_PARAMS)m.GetLParam(typeof(PI.NCCALCSIZE_PARAMS))!;
@@ -1686,7 +1691,7 @@ public abstract class VisualForm : Form,
                 try
                 {
                     // Find the rectangle that covers the client area of the form
-                    Padding borders = RealWindowBorders;
+                    Padding borders = GetClientAreaBorders();
 
                     var clipClientRect = new Rectangle(borders.Left, borders.Top,
                         windowBounds.Width - borders.Horizontal, windowBounds.Height - borders.Vertical);
