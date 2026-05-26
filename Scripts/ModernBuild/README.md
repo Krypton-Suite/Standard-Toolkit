@@ -16,11 +16,11 @@ It uses `Terminal.Gui` for the UI and drives `MSBuild.exe` and `nuget.exe` under
   - Download from `https://dist.nuget.org/win-x86-commandline/latest/nuget.exe` and place it in a folder on PATH, or in the repo’s `Scripts/` folder.
 
 ### Repository layout ModernBuild expects
-- Project files:
-  - `Scripts/nightly.proj` or `Scripts/Project-Files/nightly.proj`
-  - `Scripts/canary.proj` or `Scripts/Project-Files/canary.proj`
-  - `Scripts/build.proj` (used for Stable) or `Scripts/Project-Files/build.proj`
-  - `Scripts/installer.proj` or `Scripts/Project-Files/installer.proj` (not exposed via Ops page)
+- Project files are resolved from the selected scripts profile:
+  - `Scripts/VS2022/`
+  - `Scripts/Current/`
+  - `Scripts/Build/`
+  - legacy fallbacks: `Scripts/` and `Scripts/Project-Files/`
 - Logs are written to `Logs/`
 - Packages are produced into `Bin/Release/`
 
@@ -49,6 +49,7 @@ Tip: Run ModernBuild from the repository root so it can auto-detect the correct 
 ### Global controls
 - F4: switch between Ops and NuGet pages
 - F5: start/stop the current action
+- F9: cycles scripts profile, except Stable Pack/BuildPack where it cycles PackMode
 - ESC or F10: exit
 - Auto-Scroll checkbox: toggles following live output
 
@@ -56,25 +57,28 @@ Tip: Run ModernBuild from the repository root so it can auto-detect the correct 
 - F1 Channel: cycles Nightly → Canary → Stable
   - When Nightly is selected, the configuration defaults to Debug
   - For other channels, default configuration is the channel-appropriate one (e.g., Canary) or Release
-- F2 Action: cycles Build → Rebuild → Pack → BuildPack → Debug
-  - Build/Rebuild: runs `Rebuild`
+- F2 Action:
+  - Nightly cycles Build → Rebuild → Pack → BuildPack → Debug
+  - Canary/Stable cycles Build → Pack → BuildPack → Debug
+  - Build runs `Build`
+  - Rebuild runs `Rebuild` for Nightly only
   - Pack: runs channel-appropriate `Pack`
-  - BuildPack: runs `Rebuild` then `Pack`
+  - BuildPack: runs `Rebuild` then `Pack` for Nightly, otherwise `Build` then `Pack`
   - Debug: runs a clean, switches to Nightly, then executes `Rebuild`
 - F3 Config: toggles Release/Debug (Nightly may auto-switch to Debug)
 - F6 Tail: cycles live-output buffer size 200 → 500 → 1000 lines
 - F7 Clean: deletes `Bin/`, component `obj/`, and `Logs/`
 - F8 Clear: clears the live output and resets horizontal scroll
-- F9 PackMode: only visible on Stable when Action is Pack or BuildPack; cycles Pack → PackLite → PackAll
+- F9 Scripts: cycles Auto → VS2022 → Current, except Stable Pack/BuildPack where it cycles Pack → PackLite → PackAll
 
 ### NuGet page (packaging and publishing)
 - Configuration is set to Release when entering the NuGet page
 - F1 Channel: still available (affects which `.proj` may be used for pack steps)
 - F2 Action: cycles
-  - Rebuild+Pack: `Rebuild` then `Pack`
+  - Rebuild+Pack: `Rebuild` then `Pack` for Nightly, otherwise `Build` then `Pack`
   - Push: push existing packages only
   - Pack+Push: `Pack` then push
-  - Rebuild+Pack+Push: `Rebuild`, `Pack`, then push
+  - Rebuild+Pack+Push: `Rebuild`, `Pack`, then push for Nightly, otherwise `Build`, `Pack`, then push
   - Update NuGet: runs `nuget.exe update -Self -NonInteractive`
 - F3 Config: toggles Release/Debug (normally keep Release for publishing)
 - F5 Run/Stop: executes the selected action(s)
@@ -101,10 +105,17 @@ Tip: Run ModernBuild from the repository root so it can auto-detect the correct 
   - When focused, TextView handles its own navigation
 
 ### How ModernBuild chooses the project file
-- Nightly channel → `Scripts/nightly.proj` (or `Scripts/Project-Files/nightly.proj`)
-- Canary channel → `Scripts/canary.proj` (or `Scripts/Project-Files/canary.proj`)
-- Stable channel → `Scripts/build.proj` (or `Scripts/Project-Files/build.proj`)
-- Installer (not exposed on Ops page) → `Scripts/installer.proj` (or `Scripts/Project-Files/installer.proj`)
+- Nightly channel → `nightly.proj`
+- Canary channel → `canary.proj`
+- Stable channel → `build.proj`
+- Installer (not exposed on Ops page) → `installer.proj`
+
+The Auto scripts profile chooses `VS2022` when MSBuild is detected under Visual Studio 2022, `Current` when MSBuild is detected under Visual Studio 18 (VS 2026), and otherwise defaults to `Current`.
+
+The effective profile controls the search order:
+- VS2022: `Scripts/VS2022/`, then `Scripts/Current/`, then `Scripts/Build/`
+- Current: `Scripts/Current/`, then `Scripts/VS2022/`, then `Scripts/Build/`
+- Both profiles then fall back to `Scripts/` and `Scripts/Project-Files/`
 
 ### Troubleshooting
 - "Could not find MSBuild.exe"
@@ -112,7 +123,7 @@ Tip: Run ModernBuild from the repository root so it can auto-detect the correct 
 - `nuget.exe` not found
   - Put `nuget.exe` on PATH or in the repo’s `Scripts/` folder
 - "Project file not found: ..."
-  - Verify the channel project files exist in `Scripts/` or `Scripts/Project-Files/`
+  - Verify the channel project files exist in the selected scripts profile folder or fallback locations
 - Build succeeds with no observable work
   - ModernBuild will note this in output; verify your Configuration and the `.proj` target frameworks so targets aren’t skipped
 - No packages found to push
