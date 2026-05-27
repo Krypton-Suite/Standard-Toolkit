@@ -134,7 +134,7 @@ public class KryptonMenuStrip : MenuStrip,
     protected override void OnItemAdded(ToolStripItemEventArgs e)
     {
         base.OnItemAdded(e);
-        if (IsHandleCreated)
+        if (IsHandleCreated && e.Item != null)
         {
             SyncDpiFonts();
             WireDropDownOpeningHandlers(e.Item);

@@ -210,7 +210,6 @@ public class KryptonForm : VisualForm,
     private KryptonFormTitleBar? _titleBar;
     private ViewDrawDocker? _titleBarDocker;
     private ButtonSpecManagerDraw? _titleBarButtonManager;
-
     #endregion
 
     #region Identity
@@ -293,6 +292,8 @@ public class KryptonForm : VisualForm,
         // B2318 - Since the introduction of the InternalPanel overrides for OnControlRemoved and OnControlAdded don't fire correctly.
         _internalKryptonPanel.ControlRemoved += (s, e) => OnControlRemoved(e);
         _internalKryptonPanel.ControlAdded += (s, e) => OnControlAdded(e);
+        _internalKryptonPanel.MouseMove += InternalKryptonPanel_CaptionOverlapMouseMove;
+        _internalKryptonPanel.MouseDown += InternalKryptonPanel_CaptionOverlapMouseDown;
 
         // Create the root element that contains the title bar and null filler
         _drawDocker = new ViewDrawForm(StateActive.Back, StateActive.Border)
@@ -1139,16 +1140,15 @@ public class KryptonForm : VisualForm,
     /// <summary>
     /// Height of the custom caption chrome used for form button layout (may exceed system NC metrics at high DPI).
     /// </summary>
-    internal int EffectiveCaptionHeight =>
-        _headingFixedSize.Visible && _headingFixedSize.FixedSize.Height > 0
-            ? _headingFixedSize.FixedSize.Height
-            : RealWindowBorders.Top;
+    internal int EffectiveCaptionHeight => GetCaptionHeight();
 
     /// <inheritdoc />
     protected override Padding GetClientAreaBorders()
     {
-        if (!IsDisposed && !Disposing && ViewManager != null)
+        if (!IsDisposed && !Disposing)
         {
+            // Ensure the caption/client boundary uses an up-to-date caption height during
+            // maximized transitions (ViewManager can be null while repainting non-client chrome).
             UpdateHeadingFixedSize();
         }
 
@@ -1158,10 +1158,66 @@ public class KryptonForm : VisualForm,
             return new Padding(borders.Left, 0, borders.Right, borders.Bottom);
         }
 
-        return new Padding(borders.Left, Math.Max(borders.Top, EffectiveCaptionHeight), borders.Right, borders.Bottom);
+        return new Padding(borders.Left, GetCaptionHeight(), borders.Right, borders.Bottom);
     }
 
-    private void SyncInternalPanelPaddingForMaximized()
+    /// <summary>
+    /// Computes the custom caption height from DPI/touchscreen scaling (not cached layout state).
+    /// </summary>
+    private int GetCaptionHeight()
+    {
+        if (ShouldHideCaption())
+        {
+            return 0;
+        }
+
+        float captionScaleY = FactorDpiY;
+        if (KryptonManager.UseTouchscreenSupport)
+        {
+            captionScaleY *= KryptonManager.TouchscreenScaleFactor;
+        }
+
+        if (Renderer is RenderMaterial)
+        {
+            return Math.Max(44, (int)Math.Round(44 * captionScaleY));
+        }
+
+        Padding windowBorders = RealWindowBorders;
+        int scaledCaption = (int)Math.Ceiling(31 * captionScaleY);
+        if (_titleBar != null)
+        {
+            scaledCaption = Math.Max(scaledCaption, (int)Math.Ceiling(36 * captionScaleY));
+        }
+
+        return Math.Max(windowBorders.Top, scaledCaption);
+    }
+
+    /// <summary>
+    /// Distance from the window top to the Win32 client area top (window coordinates).
+    /// </summary>
+    private int GetActualClientTopInset()
+    {
+        if (!IsHandleCreated)
+        {
+            return 0;
+        }
+
+        var windowRect = new PI.RECT();
+        PI.GetWindowRect(Handle, ref windowRect);
+        return Math.Max(0, PointToScreen(Point.Empty).Y - windowRect.top);
+    }
+
+    /// <summary>
+    /// Pixels of the custom caption band that still lie inside the Win32 client HWND.
+    /// </summary>
+    private int GetCaptionBandOverlap() =>
+        ShouldHideCaption() ? 0 : Math.Max(0, GetCaptionHeight() - GetActualClientTopInset());
+
+    /// <summary>
+    /// When Win32 client area intrudes into the caption band, inset the internal panel so the form
+    /// (not docked children) receives mouse messages and chrome hover can paint.
+    /// </summary>
+    private void SyncInternalPanelCaptionOverlap()
     {
         if (IsDisposed
             || Disposing
@@ -1173,14 +1229,14 @@ public class KryptonForm : VisualForm,
             return;
         }
 
-        int extraTop = Math.Max(0, EffectiveCaptionHeight - RealWindowBorders.Top);
-        int desiredTopPadding = GetWindowState() == FormWindowState.Maximized ? extraTop : 0;
+        int overlap = GetCaptionBandOverlap();
+        var desiredMargin = new Padding(0, overlap, 0, 0);
 
-        Padding current = _internalKryptonPanel.Padding;
-        if (current.Top != desiredTopPadding)
+        if (_internalKryptonPanel.Margin != desiredMargin)
         {
-            _internalKryptonPanel.Padding = new Padding(current.Left, desiredTopPadding, current.Right, current.Bottom);
+            _internalKryptonPanel.Margin = desiredMargin;
             _internalKryptonPanel.PerformLayout();
+            InvalidateNonClient();
         }
     }
 
@@ -1961,15 +2017,11 @@ public class KryptonForm : VisualForm,
         const int WM_PAINT = 0x000F;
         const int WM_CONTEXTMENU = 0x007B;
 
-        // VisualForm skips WM_NCCALCSIZE for maximized windows to avoid OS layout conflicts.
-        // KryptonForm uses WM_NCCALCSIZE to apply GetClientAreaBorders (incl. EffectiveCaptionHeight)
-        // so the titlebar/client boundary stays aligned for hover hit-testing and correct painting.
-        if (m.Msg == PI.WM_.NCCALCSIZE
-            && CommonHelper.IsFormMaximized(this)
-            && MdiParent is null
-            && UseThemeFormChromeBorderWidth)
+        // VisualForm skips WM_NCCALCSIZE when maximized; always apply KryptonForm client insets here.
+        if (m.Msg == PI.WM_.NCCALCSIZE && MdiParent is null)
         {
             OnWM_NCCALCSIZE(ref m);
+            m.Result = IntPtr.Zero;
             return;
         }
 
@@ -2013,6 +2065,16 @@ public class KryptonForm : VisualForm,
 
         // Let default processing run first
         base.WndProc(ref m);
+
+        if (m.Msg == PI.WM_.SIZE
+            && (PI.SIZE_)m.WParam.ToInt64() == PI.SIZE_.MAXIMIZED
+            && MdiParent is null
+            && IsHandleCreated)
+        {
+            UpdateHeadingFixedSize();
+            RecalcNonClient();
+            SyncInternalPanelCaptionOverlap();
+        }
 
         // After the client has painted, draw our grip overlay last so it isn't erased
         if (m.Msg == WM_PAINT)
@@ -2092,13 +2154,71 @@ public class KryptonForm : VisualForm,
     }
 
     /// <summary>
-    /// Draw after base non-client painting using a fresh window DC. We clip out the client area
-    /// so the sizing grip never paints over child controls.
+    /// Draw non-client chrome using the actual Win32 client top for clip (avoids painting into the
+    /// caption band when the client HWND starts above the custom caption height on Win11).
     /// </summary>
     protected override void OnNonClientPaint(IntPtr hWnd)
     {
-        // Let the base draw the border/chrome; our grippie is drawn in WM_PAINT overlay only
-        base.OnNonClientPaint(hWnd);
+        Rectangle windowBounds = RealWindowRectangle;
+        if (windowBounds is not { Width: > 0, Height: > 0 })
+        {
+            return;
+        }
+
+        IntPtr hDC = PI.GetWindowDC(Handle);
+        if (hDC == IntPtr.Zero)
+        {
+            return;
+        }
+
+        try
+        {
+            Padding borders = RealWindowBorders;
+            int clientTop = ShouldHideCaption() ? borders.Top : GetActualClientTopInset();
+            var clipClientRect = new Rectangle(
+                borders.Left,
+                clientTop,
+                windowBounds.Width - borders.Horizontal,
+                windowBounds.Height - clientTop - borders.Bottom);
+
+            bool minimized = CommonHelper.IsFormMinimized(this);
+            if (minimized || clipClientRect is { Width: > 0, Height: > 0 })
+            {
+                if (!minimized)
+                {
+                    PI.ExcludeClipRect(hDC, clipClientRect.Left, clipClientRect.Top,
+                        clipClientRect.Right, clipClientRect.Bottom);
+                }
+
+                IntPtr hBitmap = PI.CreateCompatibleBitmap(hDC, windowBounds.Width, windowBounds.Height);
+                if (hBitmap != IntPtr.Zero)
+                {
+                    IntPtr memDC = PI.CreateCompatibleDC(IntPtr.Zero);
+                    IntPtr oldBitmap = PI.SelectObject(memDC, hBitmap);
+                    try
+                    {
+                        using Graphics g = Graphics.FromHdc(memDC);
+                        WindowChromePaint(g, windowBounds);
+                        PI.BitBlt(hDC, 0, 0, windowBounds.Width, windowBounds.Height, memDC, 0, 0, PI.SRCCOPY);
+                    }
+                    finally
+                    {
+                        PI.SelectObject(memDC, oldBitmap);
+                        PI.DeleteObject(hBitmap);
+                        PI.DeleteDC(memDC);
+                    }
+                }
+                else
+                {
+                    using Graphics g = Graphics.FromHdc(hDC);
+                    WindowChromePaint(g, windowBounds);
+                }
+            }
+        }
+        finally
+        {
+            PI.ReleaseDC(Handle, hDC);
+        }
     }
 
 
@@ -2224,13 +2344,13 @@ public class KryptonForm : VisualForm,
     /// <returns>Hit test result indicating what part of window the point is over</returns>
     protected override IntPtr WindowChromeHitTest(Point pt)
     {
-        UpdateHeadingFixedSize();
+        EnsureViewLayoutForHitTest();
 
         int hitCorner = ScaledHitTestCorner;
         int hitInflate = Math.Max(1, hitCorner / 4);
         Padding borders = RealWindowBorders;
         Padding clientBorders = GetClientAreaBorders();
-        int captionHeight = EffectiveCaptionHeight;
+        int captionHeight = clientBorders.Top;
 
         Rectangle Inflate(Rectangle r)
         {
@@ -2250,21 +2370,21 @@ public class KryptonForm : VisualForm,
         if (closeRect.Contains(pt))
         {
             SetButtonSpecNonClientAsNormal(ButtonSpecClose);
-            return new IntPtr(PI.HT.CLOSE);
+            return new IntPtr(PI.HT.CAPTION);
         }
 
         Rectangle maxRect = Inflate(_buttonManager.GetButtonRectangle(ButtonSpecMax));
         if (maxRect.Contains(pt))
         {
             SetButtonSpecNonClientAsNormal(ButtonSpecMax);
-            return new IntPtr(OSUtilities.IsAtLeastWindowsEleven ? PI.HT.MAXBUTTON : PI.HT.ZOOM);
+            return new IntPtr(PI.HT.CAPTION);
         }
 
         Rectangle minRect = Inflate(_buttonManager.GetButtonRectangle(ButtonSpecMin));
         if (minRect.Contains(pt))
         {
             SetButtonSpecNonClientAsNormal(ButtonSpecMin);
-            return new IntPtr(PI.HT.REDUCE);
+            return new IntPtr(PI.HT.CAPTION);
         }
 
         if (_titleBarButtonManager?.IsPointOverButton(pt) == true
@@ -2340,7 +2460,7 @@ public class KryptonForm : VisualForm,
                 return new IntPtr(PI.HT.CAPTION);
             }
 
-            IntPtr resizeHit = HitTestResizeEdges(pt, borders, hitCorner);
+            IntPtr resizeHit = HitTestResizeEdges(pt, borders, hitCorner, captionHeight);
             if (resizeHit != IntPtr.Zero)
             {
                 return resizeHit;
@@ -2358,8 +2478,14 @@ public class KryptonForm : VisualForm,
     /// <summary>
     /// Hit-tests frame resize edges using thin border metrics only (not the full caption height).
     /// </summary>
-    private IntPtr HitTestResizeEdges(Point pt, Padding borders, int hitCorner)
+    private IntPtr HitTestResizeEdges(Point pt, Padding borders, int hitCorner, int captionHeight)
     {
+        // Caption band is for move/drag and custom buttons — never frame resize (fixes resize cursor mid-titlebar).
+        if (captionHeight > 0 && pt.Y < captionHeight)
+        {
+            return IntPtr.Zero;
+        }
+
         int frameTop = borders.Left;
         int frameLeft = borders.Left;
         int frameRight = borders.Right;
@@ -2454,6 +2580,37 @@ public class KryptonForm : VisualForm,
                 buttonController.NonClientAsNormal = bsv.ButtonSpec == buttonSpec;
             }
         }
+
+        if (_titleBarButtonManager != null)
+        {
+            foreach (ButtonSpecView bsv in _titleBarButtonManager.ButtonSpecViews)
+            {
+                if (bsv.ViewButton?.FindMouseController() is ButtonController buttonController)
+                {
+                    buttonController.NonClientAsNormal = bsv.ButtonSpec == buttonSpec;
+                }
+            }
+        }
+    }
+
+    private void EnsureViewLayoutForHitTest()
+    {
+        if (IsDisposed || Disposing || ViewManager == null)
+        {
+            return;
+        }
+
+        if (NeedLayout || _buttonManager.GetButtonRectangle(ButtonSpecClose).IsEmpty)
+        {
+            CheckViewLayout();
+        }
+    }
+
+    /// <inheritdoc />
+    protected override void WindowChromeNonClientMouseMove(Point pt)
+    {
+        EnsureViewLayoutForHitTest();
+        base.WindowChromeNonClientMouseMove(pt);
     }
 
     /// <summary>
@@ -2522,26 +2679,79 @@ public class KryptonForm : VisualForm,
     /// <inheritdoc />
     protected override bool OnWM_NCCALCSIZE(ref Message m)
     {
-        // Does the LParam contain a RECT or an NCCALCSIZE_PARAMS
-        if (m.WParam != IntPtr.Zero)
+        if (m.WParam == IntPtr.Zero)
         {
-            Padding borders = GetClientAreaBorders();
-
-            // Extract the Win32 NCCALCSIZE_PARAMS structure from LPARAM
-            PI.NCCALCSIZE_PARAMS calcsize = (PI.NCCALCSIZE_PARAMS)m.GetLParam(typeof(PI.NCCALCSIZE_PARAMS))!;
-
-            // Reduce provided RECT by the borders
-            calcsize.rectProposed.left += borders.Left;
-            calcsize.rectProposed.top += borders.Top;
-            calcsize.rectProposed.right -= borders.Right;
-            calcsize.rectProposed.bottom -= borders.Bottom;
-
-            // Put back the modified structure
-            Marshal.StructureToPtr(calcsize, m.LParam, false);
+            return false;
         }
 
-        // Message processed, do not pass onto base class for processing
+        PI.NCCALCSIZE_PARAMS calcsize = (PI.NCCALCSIZE_PARAMS)m.GetLParam(typeof(PI.NCCALCSIZE_PARAMS))!;
+        PI.RECT newWindowRect = calcsize.rectProposed;
+
+        if (ShouldHideCaption())
+        {
+            Padding borders = RealWindowBorders;
+            calcsize.rectProposed.left = newWindowRect.left + borders.Left;
+            calcsize.rectProposed.top = newWindowRect.top + borders.Top;
+            calcsize.rectProposed.right = newWindowRect.right - borders.Right;
+            calcsize.rectProposed.bottom = newWindowRect.bottom - borders.Bottom;
+        }
+        else
+        {
+            // Win11 (esp. maximized): let the OS compute the client rect, then expand the top inset
+            // to the full custom caption height so client HWND does not cover title-bar buttons.
+            DefWndProc(ref m);
+            calcsize = (PI.NCCALCSIZE_PARAMS)m.GetLParam(typeof(PI.NCCALCSIZE_PARAMS))!;
+
+            int requiredClientTop = newWindowRect.top + GetCaptionHeight();
+            if (calcsize.rectProposed.top < requiredClientTop)
+            {
+                calcsize.rectProposed.top = requiredClientTop;
+            }
+        }
+
+        Marshal.StructureToPtr(calcsize, m.LParam, false);
         return true;
+    }
+
+    private void InternalKryptonPanel_CaptionOverlapMouseMove(object? sender, MouseEventArgs e)
+    {
+        Point windowPoint = ScreenToWindow(_internalKryptonPanel.PointToScreen(e.Location));
+        if (windowPoint.Y < GetCaptionHeight())
+        {
+            ForwardChromeMouseMove(windowPoint);
+        }
+    }
+
+    private void InternalKryptonPanel_CaptionOverlapMouseDown(object? sender, MouseEventArgs e)
+    {
+        if (e.Button != MouseButtons.Left)
+        {
+            return;
+        }
+
+        Point windowPoint = ScreenToWindow(_internalKryptonPanel.PointToScreen(e.Location));
+        if (windowPoint.Y < GetCaptionHeight())
+        {
+            ForwardChromeLeftMouseDown(windowPoint);
+        }
+    }
+
+    private void ForwardChromeMouseMove(Point windowPoint)
+    {
+        EnsureViewLayoutForHitTest();
+        SetButtonSpecNonClientAsNormal(windowPoint);
+        WindowChromeNonClientMouseMove(windowPoint);
+    }
+
+    private void ForwardChromeLeftMouseDown(Point windowPoint)
+    {
+        EnsureViewLayoutForHitTest();
+        SetButtonSpecNonClientAsNormal(windowPoint);
+        if (WindowChromeLeftMouseDown(windowPoint)
+            && ViewManager is { ActiveView: not null, MouseCaptured: true })
+        {
+            StartCapture(ViewManager.ActiveView);
+        }
     }
 
     protected override void OnMove(EventArgs e)
@@ -2813,7 +3023,7 @@ public class KryptonForm : VisualForm,
                         ViewManager.Layout(context);
                     }
 
-                    SyncInternalPanelPaddingForMaximized();
+                    SyncInternalPanelCaptionOverlap();
 
                     // Layout not needed until next indicated
                     NeedLayout = false;
@@ -2866,29 +3076,7 @@ public class KryptonForm : VisualForm,
         }
 
         _headingFixedSize.Visible = true;
-
-        float captionScaleY = FactorDpiY;
-        if (KryptonManager.UseTouchscreenSupport)
-        {
-            captionScaleY *= KryptonManager.TouchscreenScaleFactor;
-        }
-
-        if (Renderer is RenderMaterial)
-        {
-            int materialCaptionHeight = Math.Max(44, (int)Math.Round(44 * captionScaleY));
-            _headingFixedSize.FixedSize = new Size(materialCaptionHeight, materialCaptionHeight);
-            return;
-        }
-
-        Padding windowBorders = RealWindowBorders;
-        int captionHeight = windowBorders.Top;
-        int scaledCaption = (int)Math.Ceiling(31 * captionScaleY);
-        if (_titleBar != null)
-        {
-            scaledCaption = Math.Max(scaledCaption, (int)Math.Ceiling(36 * captionScaleY));
-        }
-
-        captionHeight = Math.Max(captionHeight, scaledCaption);
+        int captionHeight = GetCaptionHeight();
         _headingFixedSize.FixedSize = new Size(captionHeight, captionHeight);
     }
 
@@ -2924,6 +3112,8 @@ public class KryptonForm : VisualForm,
                 g.FillRectangle(backBrush, rect); // Bug #1749
             }
 
+            SyncInternalPanelCaptionOverlap();
+
             // We draw the main form and header background
             _drawDocker.DrawCanvas = true;
             _drawHeading.DrawCanvas = true;
@@ -2948,29 +3138,11 @@ public class KryptonForm : VisualForm,
                 return;
             }
 
-            // Get per-side border widths
-            var formBorders = StateCommon?.Border as PaletteFormBorder;
-
-            var (borderX, borderY) =
-                formBorders?.BorderWidths(FormBorderStyle)
-                ?? (
-                    PI.GetSystemMetrics(PI.SM_.CXSIZEFRAME),
-                    PI.GetSystemMetrics(PI.SM_.CYSIZEFRAME)
-                );
-
-            // Convert to TOTAL border (this is REQUIRED for maximized Region)
-            int totalBorderX = borderX * 2;
-            int totalBorderY = borderY * 2;
-
-            var maximizedRect = new Rectangle(
-                totalBorderX,
-                totalBorderY,
-                Width - (totalBorderX * 2),
-                Height - (totalBorderY * 2));
-
+            // For maximized windows, region clipping can trim non-client hover/highlight painting
+            // at the top edge on high DPI. Keep the full window region and let NCCALCSIZE handle insets.
             SuspendPaint();
             _regionWindowState = FormWindowState.Maximized;
-            UpdateBorderRegion(new Region(maximizedRect));
+            UpdateBorderRegion(null);
             ResumePaint();
         }
         else
