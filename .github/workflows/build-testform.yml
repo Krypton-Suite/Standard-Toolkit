@@ -44,32 +44,42 @@ jobs:
             9.0.x
             10.0.x
 
-      # Stable TFMs only; rollForward latestPatch (matches Stable job intent).
-      - name: Pin SDK via global.json (stable)
+      - name: Setup .NET Preview
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ env.DOTNET_PREVIEW_SETUP_VERSION }}
+          dotnet-quality: preview
+
+      # Preview band is required because TFMs=all includes net11.0-windows.
+      - name: Pin SDK via global.json
         shell: pwsh
+        env:
+          SDK_BAND: ${{ env.DOTNET_PREVIEW_SDK_BAND }}
         run: |
           $ErrorActionPreference = 'Stop'
-          $stableLine = dotnet --list-sdks |
-            Where-Object { $_ -match '^10\.0\.[0-9]+\s' } |
+          $band = $env:SDK_BAND
+          if (-not $band) {
+            Write-Error 'DOTNET_PREVIEW_SDK_BAND is not set.'
+          }
+          $escaped = [regex]::Escape($band)
+          $pick = dotnet --list-sdks |
+            Where-Object { $_ -match "^$escaped\." } |
             Select-Object -Last 1
-          $sdkVersion = $null
-          if ($stableLine -match '^(\d+\.\d+\.\d+)\s') {
+          if (-not $pick) {
+            Write-Error "No preview SDK found for band '$band'. Check DOTNET_PREVIEW_SETUP_VERSION / DOTNET_PREVIEW_SDK_BAND in the workflow env."
+          }
+          if ($pick -match '^(\S+)\s') {
             $sdkVersion = $Matches[1]
+          } else {
+            Write-Error "Could not parse SDK version from line: $pick"
           }
-          if (-not $sdkVersion) {
-            $fallback = dotnet --list-sdks | Where-Object { $_ -match '^9\.0\.[0-9]+\s' } | Select-Object -Last 1
-            if ($fallback -match '^(\d+\.\d+\.\d+)\s') { $sdkVersion = $Matches[1] }
-          }
-          if (-not $sdkVersion) {
-            Write-Error 'No 10.0.x or 9.0.x SDK found after setup-dotnet.'
-          }
-          Write-Host "Using SDK $sdkVersion"
+          Write-Host "Using preview SDK $sdkVersion (band $band)"
           @"
           {
             "sdk": {
               "version": "$sdkVersion",
-              "rollForward": "latestPatch",
-              "allowPrerelease": false
+              "rollForward": "latestFeature",
+              "allowPrerelease": true
             }
           }
           "@ | Out-File -Encoding utf8 global.json
