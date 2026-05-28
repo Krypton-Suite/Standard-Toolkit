@@ -204,11 +204,39 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
 
-      - uses: actions/cache@v5
+      - name: Resolve WebView2 version
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
+        id: webview2_version
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $packageId = "Microsoft.Web.WebView2"
+
+          Write-Host "Querying NuGet for latest WebView2 prerelease..."
+
+          try {
+              $search = Invoke-RestMethod `
+                  -Uri "https://azuresearch-usnc.nuget.org/query?q=$packageId&prerelease=true&semVerLevel=2.0.0&take=1"
+              $latestVersion = $search.data[0].version
+          }
+          catch {
+              Write-Warning "NuGet search failed, using fallback version"
+              $latestVersion = "1.0.3595.46"
+          }
+
+          Write-Host "Using WebView2 version: $latestVersion"
+          "version=$latestVersion" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+
+      - name: Restore WebView2 cache
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
+        id: webview2_cache_restore
+        uses: actions/cache/restore@v5
+        continue-on-error: true
         with:
           path: ${{ runner.temp }}/webview2
-          key: webview2-${{ runner.os }}
+          key: webview2-${{ runner.os }}-${{ steps.webview2_version.outputs.version }}
+          restore-keys: |
+            webview2-${{ runner.os }}-
 
       - name: Populate WebView2 (Preview)
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
@@ -226,34 +254,31 @@ jobs:
           New-Item -ItemType Directory -Force -Path $tempDir | Out-Null
 
           $packageId = "Microsoft.Web.WebView2"
-
-          Write-Host "Querying NuGet for latest WebView2 prerelease..."
-
-          try {
-              $search = Invoke-RestMethod `
-                  -Uri "https://azuresearch-usnc.nuget.org/query?q=$packageId&prerelease=true&semVerLevel=2.0.0&take=1"
-
-              $latestVersion = $search.data[0].version
-          }
-          catch {
-              Write-Warning "NuGet search failed, using fallback version"
-              $latestVersion = "1.0.3595.46"
-          }
-
-          Write-Host "Using WebView2 version: $latestVersion"
+          $latestVersion = "${{ steps.webview2_version.outputs.version }}"
 
           $nupkg = Join-Path $tempDir "$packageId.$latestVersion.nupkg"
           $extractDir = Join-Path $tempDir "extract"
+          $expectedExtractedDll = Join-Path $extractDir "build\native\WebView2Loader.dll"
 
-          Write-Host "Downloading package..."
+          if (Test-Path -LiteralPath $tempDir -and -not (Test-Path -LiteralPath $expectedExtractedDll)) {
+              Write-Warning "Detected incomplete WebView2 cache state, rebuilding cache folder."
+              Remove-Item -LiteralPath $tempDir -Recurse -Force -ErrorAction SilentlyContinue
+              New-Item -ItemType Directory -Force -Path $tempDir | Out-Null
+          }
 
-          Invoke-WebRequest `
-              -Uri "https://www.nuget.org/api/v2/package/$packageId/$latestVersion" `
-              -OutFile $nupkg
+          if (-not (Test-Path -LiteralPath $expectedExtractedDll)) {
+              Write-Host "Downloading package..."
 
-          Write-Host "Extracting package..."
+              Invoke-WebRequest `
+                  -Uri "https://www.nuget.org/api/v2/package/$packageId/$latestVersion" `
+                  -OutFile $nupkg
 
-          Expand-Archive $nupkg $extractDir -Force
+              Write-Host "Extracting package..."
+              Expand-Archive $nupkg $extractDir -Force
+          }
+          else {
+              Write-Host "Using cached WebView2 package extraction."
+          }
 
           Write-Host "Copying required DLLs..."
 
@@ -275,6 +300,14 @@ jobs:
           }
 
           Write-Host "WebView2 population complete."
+
+      - name: Save WebView2 cache
+        if: success() && steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
+        uses: actions/cache/save@v5
+        continue-on-error: true
+        with:
+          path: ${{ runner.temp }}/webview2
+          key: ${{ steps.webview2_cache_restore.outputs.cache-primary-key }}
 
       # /m: multi-processor MSBuild (all runner CPUs). nightly.proj uses BuildInParallel; project references still order builds.
       - name: Restore
