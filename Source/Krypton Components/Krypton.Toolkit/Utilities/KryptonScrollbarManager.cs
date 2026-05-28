@@ -54,7 +54,6 @@ public class KryptonScrollbarManager : IDisposable
     private int _trackedListBoxHorizontalContentWidth = -1;
     private int _trackedListBoxHorizontalPageWidth = -1;
     private int _trackedListBoxMaximumLeftOffset = -1;
-    private const string DebugLogFileName = "KryptonVScrollBarDrag.log";
 
     #endregion
 
@@ -1051,7 +1050,6 @@ public class KryptonScrollbarManager : IDisposable
 
                 EnsureNativeScrollbarsHidden();
                 listBox.Invalidate();
-                AppendDebugLog($"sync type={e.Type} requested={e.NewValue} accepted={listBox.TopIndex} visible={visibleItems} items={listBox.Items.Count} maxTop={maximumTopIndex} scrollbarValue={_verticalScrollBar?.Value.ToString() ?? "<null>"} scrollbarBounds={FormatRectangle(_verticalScrollBar?.Bounds ?? Rectangle.Empty)} targetClient={FormatRectangle(listBox.ClientRectangle)}");
                 SyncListBoxVerticalScrollbarValue(listBox);
                 return;
             }
@@ -1250,21 +1248,6 @@ public class KryptonScrollbarManager : IDisposable
         else
         {
             parent.Controls.Remove(scrollbar);
-        }
-    }
-
-    private static string FormatRectangle(Rectangle rectangle) => $"{rectangle.X},{rectangle.Y},{rectangle.Width},{rectangle.Height}";
-
-    private static void AppendDebugLog(string message)
-    {
-        try
-        {
-            string path = System.IO.Path.Combine(System.IO.Path.GetTempPath(), DebugLogFileName);
-            System.IO.File.AppendAllText(path, $"{DateTime.Now:O} KryptonScrollbarManager {message}{Environment.NewLine}");
-        }
-        catch
-        {
-            // Debug logging must never affect scrollbar behavior.
         }
     }
 

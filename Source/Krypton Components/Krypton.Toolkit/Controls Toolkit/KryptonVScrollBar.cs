@@ -57,7 +57,6 @@ public class KryptonVScrollBar : Control
     private int _thumbTopLimit;
     private int _thumbPosition;
     private int _trackPosition;
-    private const string DebugLogFileName = "KryptonVScrollBarDrag.log";
 
     /// <summary>
     /// The progress timer for moving the thumb.
@@ -133,7 +132,7 @@ public class KryptonVScrollBar : Control
         _stateNormal.Border.Color1 = _borderColor;
         _stateActive.Border.Color1 = _borderColor;
         _stateDisabled.Border.Color1 = _disabledBorderColor;
-        
+
         // Ensure border is drawn by default (all palette border properties are accessible through StateCommon/StateNormal/StateDisabled/StateActive.Border)
         // Available properties: Draw, DrawBorders, Width, Color1, Color2, ColorStyle, ColorAlign, ColorAngle, Rounding, Image, ImageStyle, ImageAlign, GraphicsHint
 
@@ -385,7 +384,7 @@ public class KryptonVScrollBar : Control
             if (_borderColor != value)
             {
                 _borderColor = value;
-                
+
                 // Sync with palette system
                 _stateNormal.Border.Color1 = value;
                 _stateActive.Border.Color1 = value;
@@ -413,7 +412,7 @@ public class KryptonVScrollBar : Control
             if (_disabledBorderColor != value)
             {
                 _disabledBorderColor = value;
-                
+
                 // Sync with palette system
                 _stateDisabled.Border.Color1 = value;
 
@@ -552,11 +551,11 @@ public class KryptonVScrollBar : Control
         {
             IRenderer renderer = _palette.GetRenderer();
             PaletteState borderState = Enabled ? PaletteState.Normal : PaletteState.Disabled;
-            IPaletteBorder paletteBorder = borderState == PaletteState.Disabled 
-                ? _stateDisabled.PaletteBorder 
+            IPaletteBorder paletteBorder = borderState == PaletteState.Disabled
+                ? _stateDisabled.PaletteBorder
                 : _stateNormal.PaletteBorder;
             borderRounding = paletteBorder.GetBorderRounding(borderState);
-            
+
             // Ensure rounding doesn't exceed what can fit in the control
             if (borderRounding > 0)
             {
@@ -676,21 +675,21 @@ public class KryptonVScrollBar : Control
         {
             IRenderer renderer = _palette.GetRenderer();
             using var renderContext = new RenderContext(this, e.Graphics, e.ClipRectangle, renderer);
-            
+
             // Determine the appropriate palette state
             PaletteState borderState = Enabled ? PaletteState.Normal : PaletteState.Disabled;
-            
+
             // Get the appropriate border palette
-            IPaletteBorder paletteBorder = borderState == PaletteState.Disabled 
-                ? _stateDisabled.PaletteBorder 
+            IPaletteBorder paletteBorder = borderState == PaletteState.Disabled
+                ? _stateDisabled.PaletteBorder
                 : _stateNormal.PaletteBorder;
-            
+
             // Render the border with rounding support
             renderer.RenderStandardBorder.DrawBorder(
-                renderContext, 
-                ClientRectangle, 
-                paletteBorder, 
-                VisualOrientation.Top, 
+                renderContext,
+                ClientRectangle,
+                paletteBorder,
+                VisualOrientation.Top,
                 borderState);
         }
         else
@@ -724,7 +723,6 @@ public class KryptonVScrollBar : Control
                         _thumbPosition = mouseLocation.Y - _thumbRectangle.Y;
                         _thumbState = ScrollBarState.Pressed;
 
-                        AppendDebugLog($"down y={mouseLocation.Y} value={_value} min={_minimum} max={_maximum} scrollMax={GetScrollableMaximum()} large={_largeChange} thumb={FormatRectangle(_thumbRectangle)} limits={_thumbTopLimit},{_thumbBottomLimitTop} grab={_thumbPosition} bounds={FormatRectangle(Bounds)}");
                         Invalidate(_thumbRectangle);
                     }
                     else if (_topArrowRectangle.Contains(mouseLocation))
@@ -890,7 +888,6 @@ public class KryptonVScrollBar : Control
                 if (oldScrollValue != _value)
                 {
                     ChangeThumbPosition(GetThumbPosition());
-                    AppendDebugLog($"move y={e.Location.Y} old={oldScrollValue} new={_value} min={_minimum} max={_maximum} scrollMax={GetScrollableMaximum()} large={_largeChange} thumb={FormatRectangle(_thumbRectangle)} limits={_thumbTopLimit},{_thumbBottomLimitTop} grab={_thumbPosition} bounds={FormatRectangle(Bounds)}");
                     OnScroll(new ScrollEventArgs(ScrollEventType.ThumbTrack, oldScrollValue, _value, ScrollOrientation.VerticalScroll));
 
                     Refresh();
@@ -1234,21 +1231,6 @@ public class KryptonVScrollBar : Control
     private int CoerceValue(int value) => Math.Max(_minimum, Math.Min(value, GetScrollableMaximum()));
 
     private int GetThumbTravelRange() => Math.Max(0, _thumbBottomLimitTop - _thumbTopLimit);
-
-    private static string FormatRectangle(Rectangle rectangle) => $"{rectangle.X},{rectangle.Y},{rectangle.Width},{rectangle.Height}";
-
-    private static void AppendDebugLog(string message)
-    {
-        try
-        {
-            string path = System.IO.Path.Combine(System.IO.Path.GetTempPath(), DebugLogFileName);
-            System.IO.File.AppendAllText(path, $"{DateTime.Now:O} KryptonVScrollBar {message}{Environment.NewLine}");
-        }
-        catch
-        {
-            // Debug logging must never affect scrollbar behavior.
-        }
-    }
 
     private int GetValueFromThumbTop(int thumbTop)
     {
