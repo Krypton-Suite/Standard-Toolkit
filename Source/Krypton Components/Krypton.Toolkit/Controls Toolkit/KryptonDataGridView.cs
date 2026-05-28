@@ -237,6 +237,7 @@ public class KryptonDataGridView : DataGridView
         SetupViewAndStates();
         SetupDefaults();
         SetupSyncCellStyles();
+        UpdateCornerRoundingRegion();
     }
 
     /// <summary>
@@ -986,6 +987,8 @@ public class KryptonDataGridView : DataGridView
         // palette setting and any state overrides that are defined
         SyncCellStylesWithPalette();
 
+        UpdateCornerRoundingRegion();
+
         // Continue with usual painting logic
         OnNeedPaint(sender, e);
     }
@@ -1392,8 +1395,15 @@ public class KryptonDataGridView : DataGridView
                     Rectangle headerContentBounds = Rectangle.Empty;
 
                     // Force the border to have a specified maximum border edge
+                    _borderForced.ClearForcedState();
                     _borderForced.SetInherit(paletteBorder);
                     _borderForced.MaxBorderEdges = GetCellMaxBorderEdges(e.CellBounds, e.ColumnIndex, e.RowIndex);
+
+                    if (HasCornerRounding && TryGetOuterCornerBorderEdges(e.CellBounds, out _))
+                    {
+                        _borderForced.ForceBorderRounding(GetEffectiveCornerRounding());
+                        _borderForced.ForceGraphicsHint = PaletteGraphicsHint.AntiAlias;
+                    }
 
                     // Get the padding used to decide how to draw the background
                     Padding borderPadding = Renderer!.RenderStandardBorder.GetBorderRawPadding(_borderForced, state, VisualOrientation.Top);
@@ -1806,11 +1816,25 @@ public class KryptonDataGridView : DataGridView
             // Use the view manager to paint the view panel that fills the entire areas as the background
             using var context = new RenderContext(this, graphics, clipBounds, Renderer!);
             ViewManager.Paint(context);
+
+            if (HasCornerRounding)
+            {
+                IPaletteBorder paletteBorder = Enabled ? StateNormal.Border : StateDisabled.Border;
+                PaletteState borderState = Enabled ? PaletteState.Normal : PaletteState.Disabled;
+                Renderer!.RenderStandardBorder.DrawBorder(context, GetGridCornerBounds(), paletteBorder, VisualOrientation.Top, borderState);
+            }
         }
 
         // Request for a refresh has been serviced
         _refresh = false;
         _refreshAll = false;
+    }
+
+    /// <inheritdoc />
+    protected override void OnResize(EventArgs e)
+    {
+        base.OnResize(e);
+        UpdateCornerRoundingRegion();
     }
 
     /// <summary>
@@ -1843,6 +1867,11 @@ public class KryptonDataGridView : DataGridView
 
         // Let base class layout child controls
         base.OnLayout(levent);
+
+        if (HasCornerRounding)
+        {
+            UpdateCornerRoundingRegion();
+        }
     }
     #endregion
 
@@ -2514,6 +2543,11 @@ public class KryptonDataGridView : DataGridView
         int column,
         int row)
     {
+        if (HasCornerRounding && TryGetOuterCornerBorderEdges(cellBounds, out PaletteDrawBorders cornerEdges))
+        {
+            return cornerEdges;
+        }
+
         // We always draw the bottom border and left/right depending on RTL setting
         PaletteDrawBorders maxBorders = PaletteDrawBorders.Bottom |
                                         (RightToLeftInternal ? PaletteDrawBorders.Left :
@@ -2534,12 +2568,14 @@ public class KryptonDataGridView : DataGridView
 
         // Check if the cell is hard against the far or bottom edges, if so do not need to draw
         // border that is hard against the edge as it will then look like it has double borders
-        if (HideOuterBorders)
+        Rectangle gridBounds = GetGridCornerBounds();
+
+        if (HideOuterBorders || HasCornerRounding)
         {
             // With RTL we check the left border
             if (RightToLeftInternal)
             {
-                if (cellBounds.Left == 0)
+                if (IsAtGridLeft(cellBounds))
                 {
                     maxBorders &= ~PaletteDrawBorders.Left;
                 }
@@ -2547,20 +2583,164 @@ public class KryptonDataGridView : DataGridView
             else
             {
                 // Check the right border
-                if (cellBounds.Right == Width)
+                if (IsAtGridRight(cellBounds, gridBounds))
                 {
                     maxBorders &= ~PaletteDrawBorders.Right;
                 }
             }
 
             // Check the bottom border
-            if (cellBounds.Bottom == Height)
+            if (IsAtGridBottom(cellBounds, gridBounds))
             {
                 maxBorders &= ~PaletteDrawBorders.Bottom;
             }
         }
 
+        if (HasCornerRounding)
+        {
+            if (IsAtGridTop(cellBounds))
+            {
+                maxBorders &= ~PaletteDrawBorders.Top;
+            }
+
+            if (RightToLeftInternal)
+            {
+                if (IsAtGridRight(cellBounds, gridBounds))
+                {
+                    maxBorders &= ~PaletteDrawBorders.Right;
+                }
+            }
+            else
+            {
+                if (IsAtGridLeft(cellBounds))
+                {
+                    maxBorders &= ~PaletteDrawBorders.Left;
+                }
+            }
+        }
+
         return maxBorders;
+    }
+
+    private bool TryGetOuterCornerBorderEdges(Rectangle cellBounds, out PaletteDrawBorders cornerEdges)
+    {
+        cornerEdges = PaletteDrawBorders.None;
+
+        if (!HasCornerRounding)
+        {
+            return false;
+        }
+
+        Rectangle gridBounds = GetGridCornerBounds();
+        bool atTop = IsAtGridTop(cellBounds);
+        bool atBottom = IsAtGridBottom(cellBounds, gridBounds);
+        bool atLeft = IsAtGridLeft(cellBounds);
+        bool atRight = IsAtGridRight(cellBounds, gridBounds);
+
+        if (atTop && atLeft)
+        {
+            cornerEdges = PaletteDrawBorders.Top | PaletteDrawBorders.Left;
+            return true;
+        }
+
+        if (atTop && atRight)
+        {
+            cornerEdges = PaletteDrawBorders.Top | PaletteDrawBorders.Right;
+            return true;
+        }
+
+        if (atBottom && atLeft)
+        {
+            cornerEdges = PaletteDrawBorders.Bottom | PaletteDrawBorders.Left;
+            return true;
+        }
+
+        if (atBottom && atRight)
+        {
+            cornerEdges = PaletteDrawBorders.Bottom | PaletteDrawBorders.Right;
+            return true;
+        }
+
+        return false;
+    }
+
+    private bool AreCornerRoundingStatesReady() => StateNormal != null && StateDisabled != null;
+
+    private bool HasCornerRounding => AreCornerRoundingStatesReady() && GetEffectiveCornerRounding() > 0f;
+
+    private float GetEffectiveCornerRounding()
+    {
+        if (!AreCornerRoundingStatesReady())
+        {
+            return 0f;
+        }
+
+        PaletteBorder border = Enabled ? StateNormal.Border : StateDisabled.Border;
+        PaletteState state = Enabled ? PaletteState.Normal : PaletteState.Disabled;
+        return border.GetBorderRounding(state);
+    }
+
+    private Rectangle GetGridCornerBounds()
+    {
+        Rectangle bounds = ClientRectangle;
+
+        if (IsVerticalScrollBarVisible())
+        {
+            bounds.Width = Math.Max(0, bounds.Width - VerticalScrollBar.Width);
+        }
+
+        if (IsHorizontalScrollBarVisible())
+        {
+            bounds.Height = Math.Max(0, bounds.Height - HorizontalScrollBar.Height);
+        }
+
+        return bounds;
+    }
+
+    private bool IsVerticalScrollBarVisible()
+    {
+        if (ScrollBars != ScrollBars.Vertical && ScrollBars != ScrollBars.Both)
+        {
+            return false;
+        }
+
+        return VerticalScrollBar.Visible && VerticalScrollBar.Width > 0;
+    }
+
+    private bool IsHorizontalScrollBarVisible()
+    {
+        if (ScrollBars != ScrollBars.Horizontal && ScrollBars != ScrollBars.Both)
+        {
+            return false;
+        }
+
+        return HorizontalScrollBar.Visible && HorizontalScrollBar.Height > 0;
+    }
+
+    private static bool IsAtGridTop(Rectangle cellBounds) => cellBounds.Top == 0;
+
+    private static bool IsAtGridLeft(Rectangle cellBounds) => cellBounds.Left == 0;
+
+    private static bool IsAtGridBottom(Rectangle cellBounds, Rectangle gridBounds) =>
+        cellBounds.Bottom >= gridBounds.Bottom;
+
+    private static bool IsAtGridRight(Rectangle cellBounds, Rectangle gridBounds) =>
+        cellBounds.Right >= gridBounds.Right;
+
+    private void UpdateCornerRoundingRegion()
+    {
+        float rounding = GetEffectiveCornerRounding();
+        if (rounding <= 0f || Width <= 0 || Height <= 0)
+        {
+            Region?.Dispose();
+            Region = null;
+            return;
+        }
+
+        using GraphicsPath path = CommonHelper.RoundedRectanglePath(ClientRectangle, (int)Math.Round(rounding));
+        Region? oldRegion = Region;
+        Region = new Region(path);
+        oldRegion?.Dispose();
     }
 
     private void ViewManagerLayout()

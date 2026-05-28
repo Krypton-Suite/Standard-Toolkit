@@ -21,6 +21,8 @@ public class PaletteBorderInheritForced : PaletteBorderInherit
     private IPaletteBorder? _inherit;
     private PaletteDrawBorders _forceBorderEdges;
     private bool _forceBorders;
+    private float _forceBorderRounding;
+    private bool _forceBorderRoundingActive;
 
     #endregion
 
@@ -38,6 +40,32 @@ public class PaletteBorderInheritForced : PaletteBorderInherit
         MaxBorderEdges = PaletteDrawBorders.All;
         ForceGraphicsHint = PaletteGraphicsHint.Inherit;
         BorderIgnoreNormal = false;
+        _forceBorderRounding = -1f;
+        _forceBorderRoundingActive = false;
+    }
+    #endregion
+
+    #region ClearForcedState
+    /// <summary>
+    /// Reset forced border edge and rounding overrides.
+    /// </summary>
+    public void ClearForcedState()
+    {
+        _forceBorders = false;
+        _forceBorderRoundingActive = false;
+        ForceGraphicsHint = PaletteGraphicsHint.Inherit;
+    }
+    #endregion
+
+    #region ForceBorderRounding
+    /// <summary>
+    /// Force the border rounding to a particular value.
+    /// </summary>
+    /// <param name="rounding">Rounding to apply.</param>
+    public void ForceBorderRounding(float rounding)
+    {
+        _forceBorderRounding = rounding;
+        _forceBorderRoundingActive = true;
     }
     #endregion
 
@@ -184,7 +212,8 @@ public class PaletteBorderInheritForced : PaletteBorderInherit
     /// </summary>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Border rounding.</returns>
-    public override float GetBorderRounding(PaletteState state) => _inherit?.GetBorderRounding(state) ?? 0.0f;
+    public override float GetBorderRounding(PaletteState state) =>
+        _forceBorderRoundingActive ? _forceBorderRounding : _inherit?.GetBorderRounding(state) ?? 0.0f;
 
     /// <summary>
     /// Gets a border image.

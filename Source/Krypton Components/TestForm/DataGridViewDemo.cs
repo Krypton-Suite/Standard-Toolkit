@@ -191,6 +191,13 @@ public partial class DataGridViewDemo : KryptonForm
         kdgvMain.HideOuterBorders = !kchkShowGridLines.Checked;
     }
 
+    private void kchkCornerRounding_CheckedChanged(object sender, EventArgs e)
+    {
+        float rounding = kchkCornerRounding.Checked ? 5f : -1f;
+        kdgvMain.StateNormal.Border.Rounding = rounding;
+        kdgvMain.StateDisabled.Border.Rounding = rounding;
+    }
+
     private void kcmbAutoSizeColumnsMode_SelectedIndexChanged(object sender, EventArgs e)
     {
         if (kcmbAutoSizeColumnsMode.SelectedItem is string name)

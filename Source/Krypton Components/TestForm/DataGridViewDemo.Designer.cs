@@ -70,6 +70,7 @@ namespace TestForm
             this.kchkRowHeadersVisible = new Krypton.Toolkit.KryptonCheckBox();
             this.kchkReadOnly = new Krypton.Toolkit.KryptonCheckBox();
             this.kchkShowGridLines = new Krypton.Toolkit.KryptonCheckBox();
+            this.kchkCornerRounding = new Krypton.Toolkit.KryptonCheckBox();
             this.kchkMultiSelect = new Krypton.Toolkit.KryptonCheckBox();
             this.kchkAllowUserToResizeRows = new Krypton.Toolkit.KryptonCheckBox();
             this.kchkAllowUserToResizeColumns = new Krypton.Toolkit.KryptonCheckBox();
@@ -176,6 +177,7 @@ namespace TestForm
             this.pnlOptions.Controls.Add(this.kchkRowHeadersVisible);
             this.pnlOptions.Controls.Add(this.kchkReadOnly);
             this.pnlOptions.Controls.Add(this.kchkShowGridLines);
+            this.pnlOptions.Controls.Add(this.kchkCornerRounding);
             this.pnlOptions.Controls.Add(this.kchkMultiSelect);
             this.pnlOptions.Controls.Add(this.kchkAllowUserToResizeRows);
             this.pnlOptions.Controls.Add(this.kchkAllowUserToResizeColumns);
@@ -450,6 +452,15 @@ namespace TestForm
             this.kchkShowGridLines.Values.Text = "Show Grid Lines";
             this.kchkShowGridLines.CheckedChanged += new System.EventHandler(this.kchkShowGridLines_CheckedChanged);
             // 
+            // kchkCornerRounding
+            // 
+            this.kchkCornerRounding.Location = new System.Drawing.Point(360, 86);
+            this.kchkCornerRounding.Name = "kchkCornerRounding";
+            this.kchkCornerRounding.Size = new System.Drawing.Size(120, 20);
+            this.kchkCornerRounding.TabIndex = 14;
+            this.kchkCornerRounding.Values.Text = "Corner Rounding";
+            this.kchkCornerRounding.CheckedChanged += new System.EventHandler(this.kchkCornerRounding_CheckedChanged);
+            // 
             // kchkMultiSelect
             // 
             this.kchkMultiSelect.Checked = true;
@@ -686,6 +697,7 @@ namespace TestForm
         private Krypton.Toolkit.KryptonLabel klblColumnHeadersHeight;
         private Krypton.Toolkit.KryptonNumericUpDown knudColumnHeadersHeight;
         private Krypton.Toolkit.KryptonCheckBox kchkShowGridLines;
+        private Krypton.Toolkit.KryptonCheckBox kchkCornerRounding;
         private KryptonCheckBox kcbGridRtl;
         private KryptonDataGridViewTextBoxColumn colId;
         private KryptonDataGridViewTextBoxColumn colName;
