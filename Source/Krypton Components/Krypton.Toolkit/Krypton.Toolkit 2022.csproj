@@ -546,8 +546,12 @@
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonContextMenu.bmp" />
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonRichTextBox.bmp" />
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonComboBox.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonThemeComboBox.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonThemeListBox.bmp" />
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonTextBox.bmp" />
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonDataGridView.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonDataGridViewImageColumn.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonDataGridViewRatingColumn.bmp" />
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonRadioButton.bmp" />
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonCheckBox.bmp" />
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonButtonSpec.bmp" />

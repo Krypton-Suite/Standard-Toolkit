@@ -11,6 +11,7 @@ namespace Krypton.Toolkit;
 
 /// <summary>Allows the user to change themes using a <see cref="KryptonComboBox"/>.</summary>
 /// <seealso cref="KryptonComboBox" />
+[ToolboxBitmap(typeof(KryptonThemeComboBox), "ToolboxBitmaps.KryptonThemeComboBox.bmp")]
 [Designer(typeof(KryptonStubDesigner))]
 public class KryptonThemeComboBox : KryptonComboBox, IKryptonThemeSelectorBase
 {
