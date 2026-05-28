@@ -45,6 +45,7 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Resolved [#2926](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2926), Really fix themed scrollbars part of KryptonListBox
 * Implemented [#3514](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3514), Include `README.md` in NuGet Packages
 * Resolved [#3227](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3227), Fix disposed docking space load handling
 * Implemented [#3517](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3517), Add VISX package for item/project templates
