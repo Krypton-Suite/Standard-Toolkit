@@ -469,6 +469,7 @@
         <EmbeddedResource Include="ToolboxBitmaps\KryptonCommand.bmp" />
         <EmbeddedResource Include="ToolboxBitmaps\KryptonCheckedListBox.bmp" />
         <EmbeddedResource Include="ToolboxBitmaps\KryptonListBox.bmp" />
+        <EmbeddedResource Include="ToolboxBitmaps\KryptonThemeListBox.bmp" />
         <EmbeddedResource Include="ToolboxBitmaps\KryptonColorButton.bmp" />
         <EmbeddedResource Include="ToolboxBitmaps\KryptonDropButton.bmp" />
         <EmbeddedResource Include="ToolboxBitmaps\KryptonContextMenuColorColumns.bmp" />
@@ -480,6 +481,7 @@
         <EmbeddedResource Include="ToolboxBitmaps\KryptonContextMenu.bmp" />
         <EmbeddedResource Include="ToolboxBitmaps\KryptonRichTextBox.bmp" />
         <EmbeddedResource Include="ToolboxBitmaps\KryptonComboBox.bmp" />
+        <EmbeddedResource Include="ToolboxBitmaps\KryptonThemeComboBox.bmp" />
         <EmbeddedResource Include="ToolboxBitmaps\KryptonTextBox.bmp" />
         <EmbeddedResource Include="ToolboxBitmaps\KryptonDataGridView.bmp" />
         <EmbeddedResource Include="ToolboxBitmaps\KryptonRadioButton.bmp" />
