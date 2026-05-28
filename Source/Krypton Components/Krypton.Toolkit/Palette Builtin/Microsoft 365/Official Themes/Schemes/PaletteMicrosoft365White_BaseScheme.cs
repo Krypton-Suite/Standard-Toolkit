@@ -139,7 +139,7 @@ public sealed class PaletteMicrosoft365White_BaseScheme : KryptonColorSchemeBase
     public override Color RibbonGroupFrameInside4          { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
     public override Color RibbonGroupCollapsedText         { get; set; } = Color.FromArgb(59, 59, 59);
     public override Color RibbonGroupTextTracking          { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
-    public override Color ButtonTextTracking               { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
+    public override Color ButtonTextTracking               { get; set; } = Color.White;
     public override Color RibbonGroupButtonText            { get; set; } = GlobalStaticVariables.EMPTY_COLOR; // missing value
     public override Color AlternatePressedBack1            { get; set; } = Color.FromArgb(179, 185, 195);
     public override Color AlternatePressedBack2            { get; set; } = Color.FromArgb(216, 224, 224);

@@ -2244,7 +2244,9 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
                     : _ribbonColors[(int)SchemeBaseColors.TextLabelPanel],
                 PaletteState.Tracking => GetEffectiveButtonTextTracking(_ribbonColors[(int)SchemeBaseColors.TextButtonNormal]),
                 PaletteState.CheckedTracking => GetEffectiveButtonTextTracking(_ribbonColors[(int)SchemeBaseColors.TextButtonChecked]),
-                PaletteState.CheckedNormal or PaletteState.CheckedPressed => _ribbonColors[(int)SchemeBaseColors.TextButtonChecked],
+                PaletteState.CheckedNormal or PaletteState.CheckedPressed => style == PaletteContentStyle.ButtonListItem
+                    ? GetEffectiveButtonTextTracking(_ribbonColors[(int)SchemeBaseColors.TextButtonChecked])
+                    : _ribbonColors[(int)SchemeBaseColors.TextButtonChecked],
                 _ => _ribbonColors[(int)SchemeBaseColors.TextButtonNormal]
             },
             PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose => state switch
@@ -2326,7 +2328,9 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
                     : _ribbonColors[(int)SchemeBaseColors.TextLabelPanel],
                 PaletteState.Tracking => GetEffectiveButtonTextTracking(_ribbonColors[(int)SchemeBaseColors.TextButtonNormal]),
                 PaletteState.CheckedTracking => GetEffectiveButtonTextTracking(_ribbonColors[(int)SchemeBaseColors.TextButtonChecked]),
-                PaletteState.CheckedNormal or PaletteState.CheckedPressed => _ribbonColors[(int)SchemeBaseColors.TextButtonChecked],
+                PaletteState.CheckedNormal or PaletteState.CheckedPressed => style == PaletteContentStyle.ButtonListItem
+                    ? GetEffectiveButtonTextTracking(_ribbonColors[(int)SchemeBaseColors.TextButtonChecked])
+                    : _ribbonColors[(int)SchemeBaseColors.TextButtonChecked],
                 _ => _ribbonColors[(int)SchemeBaseColors.TextButtonNormal]
             },
             PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose => state switch
