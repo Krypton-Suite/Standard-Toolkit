@@ -169,7 +169,9 @@ jobs:
 
       - name: Cache NuGet
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
-        uses: actions/cache@v5
+        id: nuget_cache_restore
+        uses: actions/cache/restore@v5
+        continue-on-error: true
         with:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
@@ -246,6 +248,14 @@ jobs:
       - name: Pack Canary
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         run: msbuild /m "Scripts/Build/canary.proj" /t:Pack /restore /p:Configuration=Canary /p:Platform="Any CPU" /p:UseArtifactsOutput=true
+
+      - name: Save NuGet cache
+        if: success() && steps.canary_release_kill_switch.outputs.enabled == 'true'
+        uses: actions/cache/save@v5
+        continue-on-error: true
+        with:
+          path: ~/.nuget/packages
+          key: ${{ steps.nuget_cache_restore.outputs.cache-primary-key }}
 
       - name: Push NuGet Packages to nuget.org
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
