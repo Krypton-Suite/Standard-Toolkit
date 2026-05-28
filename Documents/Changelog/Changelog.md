@@ -51,6 +51,7 @@
   * `ButtonSpecView`, ribbon QAT buttons, and breadcrumb overflow arrows use the resolver; `KryptonManager.InvalidateDpiCache()` clears generated sources on DPI changes.
   * `ViewManager.InvalidateDpiFactors()` and `VisualForm.OnDpiFactorsUpdated()` refresh the view tree and repaint when per-monitor DPI changes; `KryptonForm` clears the cached caption icon.
   * `PaletteImageScaler` uses `ButtonSpecImageResolver` when baking custom palette ButtonSpec images at startup DPI.
+* Resolved [#3227](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3227), Fix disposed docking space load handling
 * Implemented [#3517](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3517), Add VISX package for item/project templates
 * Resolved [#3493](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3493), Fix Scripts build issues related to framework targeting
 * Enhanced `KryptonWebView2` palette integration. `BackColor`, `ForeColor`, and `DefaultBackgroundColor` are now driven from the active Krypton palette via `StateCommon`, `StateNormal`, `StateActive`, and `StateDisabled` (with `WebViewBackStyle` / `WebViewContentStyle`). Legacy appearance properties and their change events are hidden from the designer; use the `State###` entries under **Visuals** instead.
