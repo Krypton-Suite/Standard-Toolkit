@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, tobitege & Ahmed Abdelhameed et al. 2017 - 2026. All rights reserved.
+ *
  */
 #endregion
 
@@ -920,11 +920,16 @@ public abstract class KryptonDockingSpace : DockingElementClosedCollection
     private void OnSpaceDisposed(object? sender, EventArgs e)
     {
         // Unhook from events to prevent memory leaking
-        if (SpaceControl != null)
+        if (sender is KryptonSpace space)
         {
-            SpaceControl.Disposed -= OnSpaceDisposed;
-            SpaceControl.WorkspaceCellAdding -= OnSpaceCellAdding;
-            SpaceControl.PageDrop -= RaiseSpacePageDrop;
+            space.Disposed -= OnSpaceDisposed;
+            space.WorkspaceCellAdding -= OnSpaceCellAdding;
+            space.PageDrop -= RaiseSpacePageDrop;
+
+            if (ReferenceEquals(_space, space))
+            {
+                _space = null;
+            }
         }
 
         // Raise event to indicate the space control has been removed
