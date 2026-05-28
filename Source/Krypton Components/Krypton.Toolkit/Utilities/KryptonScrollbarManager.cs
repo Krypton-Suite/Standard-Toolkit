@@ -555,8 +555,11 @@ public class KryptonScrollbarManager : IDisposable
         bool hasHScroll = PI.GetScrollInfo(_targetControl.Handle, PI.SB_.HORZ, ref hScrollInfo);
         bool hasVScroll = PI.GetScrollInfo(_targetControl.Handle, PI.SB_.VERT, ref vScrollInfo);
 
+        bool showHorizontal = ShouldShowNativeScrollbar(hasHScroll, hScrollInfo);
+        bool showVertical = ShouldShowNativeScrollbar(hasVScroll, vScrollInfo);
+
         // Update or create horizontal scrollbar
-        if (hasHScroll && hScrollInfo.nMax >= hScrollInfo.nPage)
+        if (showHorizontal)
         {
             if (_horizontalScrollBar == null)
             {
@@ -584,7 +587,7 @@ public class KryptonScrollbarManager : IDisposable
         }
 
         // Update or create vertical scrollbar
-        if (hasVScroll && vScrollInfo.nMax >= vScrollInfo.nPage)
+        if (showVertical)
         {
             if (_verticalScrollBar == null)
             {
@@ -670,6 +673,17 @@ public class KryptonScrollbarManager : IDisposable
             // If we can't hide scrollbars, continue anyway
             // The Krypton scrollbars will still work
         }
+    }
+
+    private static bool ShouldShowNativeScrollbar(bool hasScrollInfo, WIN32ScrollBars.ScrollInfo scrollInfo)
+    {
+        if (!hasScrollInfo || scrollInfo.nPage <= 0)
+        {
+            return false;
+        }
+
+        long totalRange = (long)scrollInfo.nMax - scrollInfo.nMin + 1;
+        return totalRange > scrollInfo.nPage;
     }
 
     private void SyncNativeScrollPosition(bool horizontal, int value)

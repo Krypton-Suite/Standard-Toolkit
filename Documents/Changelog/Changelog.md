@@ -161,7 +161,9 @@
 * Implemented [#2925](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2925), Controlbox Touchscreen support
 * Implemented [#2916](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2916), Taskbar Thumbnail Button support
 * Resolved [#2914](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2914), White bar is shown in a `KryptonForm` Sizable without buttons and text
-* Implemented [#187](https://github.com/Krypton-Suite/Standard-Toolkit/issues/187), Can the Extended Kit Scrollbars be placed into standard and used by all controls that have scrollability?
+* Implemented [#187](https://github.com/Krypton-Suite/Standard-Toolkit/issues/187) & [#2917](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2917), Can the Extended Kit Scrollbars be placed into standard and used by all controls that have scrollability?
+  * Resolved, `KryptonScrollbarManager` native-wrapper visibility logic could keep Krypton scrollbars visible when no overflow existed. Visibility now requires a valid page size and an actual scroll range beyond the visible page.
+    * Added a comprehensive regression harness to `TestForm` (`ScrollbarManagerTest`) with explicit `No Overflow`, `Vertical`, and `Both Axes` scenarios for both `KryptonTextBox` and `KryptonRichTextBox`, including expected vs actual status output.
 * Resolved [#2862](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2862), Form border resize flicker
 * Implemented [#595](https://github.com/Krypton-Suite/Standard-Toolkit/issues/595), Detachable Ribbons - Added ability to detach `KryptonRibbon` into a floating window with `AllowDetach` property, `Detach()` and `Reattach()` methods, and `RibbonDetached`/`RibbonReattached` events. See [Detachable Ribbons Documentation](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/articles/Standard%20Toolkit/Ribbon/KryptonDetachableRibbon.html) for comprehensive details.
 * Implemented [#2898](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2898), `KryptonHScrollBar` & `KryptonVScrollBar` - Part of #2658

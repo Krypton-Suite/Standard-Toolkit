@@ -20,6 +20,10 @@ public partial class ScrollbarManagerTest : KryptonForm
     private KryptonScrollbarManager? _textBoxManager;
     private KryptonScrollbarManager? _richTextBoxManager;
     private int _contentCounter;
+    private string _textBoxScenarioName = "Both axes overflow";
+    private string _textBoxScenarioExpectation = "Expected H/V: Visible/Visible";
+    private string _richTextBoxScenarioName = "Vertical overflow only";
+    private string _richTextBoxScenarioExpectation = "Expected H/V: Hidden/Visible";
 
     #endregion
 
@@ -102,7 +106,7 @@ public partial class ScrollbarManagerTest : KryptonForm
 
     private void SetupNativeWrapperTextBoxExample()
     {
-        lblTextBoxExample.Text = "Example 2: Native Wrapper Mode - KryptonTextBox with Krypton Scrollbars";
+        lblTextBoxExample.Text = "Example 2: Native Wrapper Mode - KryptonTextBox regression harness";
         btnToggleTextBoxManager.Text = "Toggle Manager";
 
         // Create scrollbar manager for textbox (native wrapper mode)
@@ -126,24 +130,18 @@ public partial class ScrollbarManagerTest : KryptonForm
             }
         };
 
-        // Add sample text
-        textBoxNative.Text = "This is a sample text that should be long enough to require scrolling. " +
-                            "Let's add more text to make it scrollable. " +
-                            "Here is some more content. " +
-                            "And even more text to ensure horizontal scrolling is needed. " +
-                            "This text should wrap and create a vertical scrollbar as well. " +
-                            "Keep adding more lines to test the vertical scrolling functionality.";
-
         textBoxNative.Multiline = true;
         textBoxNative.WordWrap = false; // Enable horizontal scrolling
         textBoxNative.ScrollBars = ScrollBars.Both;
+        CreateNativeTextBoxScenarioButtons();
+        ApplyTextBoxScenarioBothOverflow();
 
         UpdateTextBoxStatus();
     }
 
     private void SetupNativeWrapperRichTextBoxExample()
     {
-        lblRichTextBoxExample.Text = "Example 3: Native Wrapper Mode - KryptonRichTextBox with Krypton Scrollbars";
+        lblRichTextBoxExample.Text = "Example 3: Native Wrapper Mode - KryptonRichTextBox regression harness";
         btnToggleRichTextBoxManager.Text = "Toggle Manager";
 
         // Create scrollbar manager for richtextbox (native wrapper mode)
@@ -167,24 +165,172 @@ public partial class ScrollbarManagerTest : KryptonForm
             }
         };
 
-        // Add sample rich text
-        richTextBoxNative.Text = "Rich Text Box Example\n\n" +
-                                 "This is a rich text box with formatted content.\n" +
-                                 "It supports multiple lines and formatting.\n\n" +
-                                 "Line 1: Sample text\n" +
-                                 "Line 2: More sample text\n" +
-                                 "Line 3: Even more text\n" +
-                                 "Line 4: Keep scrolling\n" +
-                                 "Line 5: More content\n" +
-                                 "Line 6: Additional lines\n" +
-                                 "Line 7: To test scrolling\n" +
-                                 "Line 8: Vertical scrolling\n" +
-                                 "Line 9: Works well\n" +
-                                 "Line 10: Final line";
-
         richTextBoxNative.Multiline = true;
         richTextBoxNative.WordWrap = true;
+        CreateNativeRichTextBoxScenarioButtons();
+        ApplyRichTextBoxScenarioVerticalOverflow();
 
+        UpdateRichTextBoxStatus();
+    }
+
+    private void CreateNativeTextBoxScenarioButtons()
+    {
+        KryptonButton btnNoOverflow = new()
+        {
+            Location = new Point(120, 191),
+            Size = new Size(90, 22),
+            Text = "No Overflow"
+        };
+        btnNoOverflow.Click += (s, e) => ApplyTextBoxScenarioNoOverflow();
+        kpgTextBox.Panel.Controls.Add(btnNoOverflow);
+
+        KryptonButton btnVerticalOnly = new()
+        {
+            Location = new Point(215, 191),
+            Size = new Size(92, 22),
+            Text = "Vertical"
+        };
+        btnVerticalOnly.Click += (s, e) => ApplyTextBoxScenarioVerticalOverflow();
+        kpgTextBox.Panel.Controls.Add(btnVerticalOnly);
+
+        KryptonButton btnBoth = new()
+        {
+            Location = new Point(312, 191),
+            Size = new Size(92, 22),
+            Text = "Both Axes"
+        };
+        btnBoth.Click += (s, e) => ApplyTextBoxScenarioBothOverflow();
+        kpgTextBox.Panel.Controls.Add(btnBoth);
+    }
+
+    private void CreateNativeRichTextBoxScenarioButtons()
+    {
+        KryptonButton btnNoOverflow = new()
+        {
+            Location = new Point(120, 191),
+            Size = new Size(90, 22),
+            Text = "No Overflow"
+        };
+        btnNoOverflow.Click += (s, e) => ApplyRichTextBoxScenarioNoOverflow();
+        kpgRichTextBox.Panel.Controls.Add(btnNoOverflow);
+
+        KryptonButton btnVerticalOnly = new()
+        {
+            Location = new Point(215, 191),
+            Size = new Size(92, 22),
+            Text = "Vertical"
+        };
+        btnVerticalOnly.Click += (s, e) => ApplyRichTextBoxScenarioVerticalOverflow();
+        kpgRichTextBox.Panel.Controls.Add(btnVerticalOnly);
+
+        KryptonButton btnBoth = new()
+        {
+            Location = new Point(312, 191),
+            Size = new Size(92, 22),
+            Text = "Both Axes"
+        };
+        btnBoth.Click += (s, e) => ApplyRichTextBoxScenarioBothOverflow();
+        kpgRichTextBox.Panel.Controls.Add(btnBoth);
+    }
+
+    private void ApplyTextBoxScenarioNoOverflow()
+    {
+        _textBoxScenarioName = "No overflow";
+        _textBoxScenarioExpectation = "Expected H/V: Hidden/Hidden";
+        textBoxNative.WordWrap = false;
+        textBoxNative.Text = "Short line";
+        _textBoxManager?.UpdateScrollbars();
+        UpdateTextBoxStatus();
+    }
+
+    private void ApplyTextBoxScenarioVerticalOverflow()
+    {
+        _textBoxScenarioName = "Vertical overflow only";
+        _textBoxScenarioExpectation = "Expected H/V: Hidden/Visible";
+        textBoxNative.WordWrap = true;
+        textBoxNative.Text = "Line 1 short text.\r\n" +
+                             "Line 2 short text.\r\n" +
+                             "Line 3 short text.\r\n" +
+                             "Line 4 short text.\r\n" +
+                             "Line 5 short text.\r\n" +
+                             "Line 6 short text.\r\n" +
+                             "Line 7 short text.\r\n" +
+                             "Line 8 short text.\r\n" +
+                             "Line 9 short text.\r\n" +
+                             "Line 10 short text.\r\n" +
+                             "Line 11 short text.\r\n" +
+                             "Line 12 short text.";
+        _textBoxManager?.UpdateScrollbars();
+        UpdateTextBoxStatus();
+    }
+
+    private void ApplyTextBoxScenarioBothOverflow()
+    {
+        _textBoxScenarioName = "Both axes overflow";
+        _textBoxScenarioExpectation = "Expected H/V: Visible/Visible";
+        textBoxNative.WordWrap = false;
+        textBoxNative.Text = "This is an intentionally very long line that should exceed the width of the native textbox and require a horizontal scrollbar.\r\n" +
+                             "Line 2 extends content vertically.\r\n" +
+                             "Line 3 extends content vertically.\r\n" +
+                             "Line 4 extends content vertically.\r\n" +
+                             "Line 5 extends content vertically.\r\n" +
+                             "Line 6 extends content vertically.\r\n" +
+                             "Line 7 extends content vertically.\r\n" +
+                             "Line 8 extends content vertically.\r\n" +
+                             "Line 9 extends content vertically.\r\n" +
+                             "Line 10 extends content vertically.";
+        _textBoxManager?.UpdateScrollbars();
+        UpdateTextBoxStatus();
+    }
+
+    private void ApplyRichTextBoxScenarioNoOverflow()
+    {
+        _richTextBoxScenarioName = "No overflow";
+        _richTextBoxScenarioExpectation = "Expected H/V: Hidden/Hidden";
+        richTextBoxNative.WordWrap = true;
+        richTextBoxNative.Text = "Short content";
+        _richTextBoxManager?.UpdateScrollbars();
+        UpdateRichTextBoxStatus();
+    }
+
+    private void ApplyRichTextBoxScenarioVerticalOverflow()
+    {
+        _richTextBoxScenarioName = "Vertical overflow only";
+        _richTextBoxScenarioExpectation = "Expected H/V: Hidden/Visible";
+        richTextBoxNative.WordWrap = true;
+        richTextBoxNative.Text = "Rich Text Box Example\r\n\r\n" +
+                                 "Line 1 short text.\r\n" +
+                                 "Line 2 short text.\r\n" +
+                                 "Line 3 short text.\r\n" +
+                                 "Line 4 short text.\r\n" +
+                                 "Line 5 short text.\r\n" +
+                                 "Line 6 short text.\r\n" +
+                                 "Line 7 short text.\r\n" +
+                                 "Line 8 short text.\r\n" +
+                                 "Line 9 short text.\r\n" +
+                                 "Line 10 short text.\r\n" +
+                                 "Line 11 short text.\r\n" +
+                                 "Line 12 short text.";
+        _richTextBoxManager?.UpdateScrollbars();
+        UpdateRichTextBoxStatus();
+    }
+
+    private void ApplyRichTextBoxScenarioBothOverflow()
+    {
+        _richTextBoxScenarioName = "Both axes overflow";
+        _richTextBoxScenarioExpectation = "Expected H/V: Visible/Visible";
+        richTextBoxNative.WordWrap = false;
+        richTextBoxNative.Text = "This is an intentionally very long rich text line that should overflow horizontally and trigger a horizontal scrollbar.\r\n" +
+                                 "Line 2 extends content vertically.\r\n" +
+                                 "Line 3 extends content vertically.\r\n" +
+                                 "Line 4 extends content vertically.\r\n" +
+                                 "Line 5 extends content vertically.\r\n" +
+                                 "Line 6 extends content vertically.\r\n" +
+                                 "Line 7 extends content vertically.\r\n" +
+                                 "Line 8 extends content vertically.\r\n" +
+                                 "Line 9 extends content vertically.\r\n" +
+                                 "Line 10 extends content vertically.";
+        _richTextBoxManager?.UpdateScrollbars();
         UpdateRichTextBoxStatus();
     }
 
@@ -322,8 +468,10 @@ public partial class ScrollbarManagerTest : KryptonForm
             bool hVisible = _textBoxManager.HorizontalScrollBar?.Visible ?? false;
             bool vVisible = _textBoxManager.VerticalScrollBar?.Visible ?? false;
             lblTextBoxStatus.Text = $"Manager: {(_textBoxManager.Enabled ? "Enabled" : "Disabled")} | " +
+                                   $"Scenario: {_textBoxScenarioName} | " +
                                    $"H-Scroll: {(hVisible ? "Visible" : "Hidden")} | " +
-                                   $"V-Scroll: {(vVisible ? "Visible" : "Hidden")}";
+                                   $"V-Scroll: {(vVisible ? "Visible" : "Hidden")} | " +
+                                   _textBoxScenarioExpectation;
         }
     }
 
@@ -334,8 +482,10 @@ public partial class ScrollbarManagerTest : KryptonForm
             bool hVisible = _richTextBoxManager.HorizontalScrollBar?.Visible ?? false;
             bool vVisible = _richTextBoxManager.VerticalScrollBar?.Visible ?? false;
             lblRichTextBoxStatus.Text = $"Manager: {(_richTextBoxManager.Enabled ? "Enabled" : "Disabled")} | " +
+                                       $"Scenario: {_richTextBoxScenarioName} | " +
                                        $"H-Scroll: {(hVisible ? "Visible" : "Hidden")} | " +
-                                       $"V-Scroll: {(vVisible ? "Visible" : "Hidden")}";
+                                       $"V-Scroll: {(vVisible ? "Visible" : "Hidden")} | " +
+                                       _richTextBoxScenarioExpectation;
         }
     }
 
