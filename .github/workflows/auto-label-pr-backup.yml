@@ -1,8 +1,8 @@
 # New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
 # Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, tobitege et al. 2026 - 2026. All rights reserved.
 #
-# Automatically adds the 'chore:automatic-backup' label to pull requests that modify
-# the alpha-backup-sync.yml workflow file.
+# Automatically adds the 'chore:automatic-backup' label to pull requests from branch
+# 'alpha' into 'alpha-backup' that modify the alpha-backup-sync.yml workflow file.
 
 name: Auto-label PR backup workflow
 
@@ -12,12 +12,16 @@ on:
       - opened
       - synchronize
       - reopened
+    branches:
+      - alpha-backup
 
 permissions:
   pull-requests: write
 
 jobs:
   label-backup-workflow:
+    # pull_request.branches filters base only; restrict head to sync-from-alpha scenarios
+    if: github.head_ref == 'alpha'
     runs-on: ubuntu-latest
     steps:
       - name: Check if PR modifies alpha-backup-sync.yml
