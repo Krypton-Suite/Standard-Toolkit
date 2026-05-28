@@ -1,9 +1,9 @@
-#region BSD License
+﻿#region BSD License
 /*
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2026 - 2026. All rights reserved.
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege, KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2026 - 2026. All rights reserved.
+ *
  */
 #endregion
 
@@ -39,6 +39,22 @@ public class KryptonScrollbarManager : IDisposable
     private readonly Timer _syncTimer;
     private RichTextBoxScrollBars? _originalRichTextBoxScrollBars;
     private ScrollBars? _originalTextBoxScrollBars;
+    private bool _nativeThumbTracking;
+    private IntPtr _hiddenNativeScrollbarsHandle;
+    private Control? _scrollbarHostControl;
+    private int _lastListBoxItemCount = -1;
+    private int _lastListBoxVisibleItems = -1;
+    private int _lastListBoxMaximumTopIndex = -1;
+    private int _lastListBoxHorizontalContentWidth = -1;
+    private int _lastListBoxHorizontalPageWidth = -1;
+    private int _lastListBoxMaximumLeftOffset = -1;
+    private int _trackedListBoxItemCount = -1;
+    private int _trackedListBoxVisibleItems = -1;
+    private int _trackedListBoxMaximumTopIndex = -1;
+    private int _trackedListBoxHorizontalContentWidth = -1;
+    private int _trackedListBoxHorizontalPageWidth = -1;
+    private int _trackedListBoxMaximumLeftOffset = -1;
+    private const string DebugLogFileName = "KryptonVScrollBarDrag.log";
 
     #endregion
 
@@ -198,6 +214,8 @@ public class KryptonScrollbarManager : IDisposable
         _targetControl.HandleDestroyed += OnTargetControlHandleDestroyed;
         _targetControl.Resize += OnTargetControlResize;
         _targetControl.Layout += OnTargetControlLayout;
+        _targetControl.ParentChanged += OnTargetControlParentChanged;
+        UpdateScrollbarHostHook();
 
         // Initialize based on mode
         switch (_mode)
@@ -233,6 +251,8 @@ public class KryptonScrollbarManager : IDisposable
             _targetControl.HandleDestroyed -= OnTargetControlHandleDestroyed;
             _targetControl.Resize -= OnTargetControlResize;
             _targetControl.Layout -= OnTargetControlLayout;
+            _targetControl.ParentChanged -= OnTargetControlParentChanged;
+            UnhookScrollbarHostControl();
 
             // Restore original ScrollBars values for RichTextBox/TextBox
             if (_targetControl is RichTextBox richTextBox && _originalRichTextBoxScrollBars.HasValue)
@@ -261,6 +281,7 @@ public class KryptonScrollbarManager : IDisposable
         // Remove and dispose scrollbars
         RemoveScrollbars();
         _contentContainer = null;
+        InvalidateNativeScrollbarState();
     }
 
     /// <summary>
@@ -268,7 +289,7 @@ public class KryptonScrollbarManager : IDisposable
     /// </summary>
     public void UpdateScrollbars()
     {
-        if (_targetControl == null || !_enabled || _isUpdating)
+        if (_targetControl == null || !_enabled || _isUpdating || (_mode == ScrollbarManagerMode.NativeWrapper && _nativeThumbTracking))
         {
             return;
         }
@@ -536,8 +557,13 @@ public class KryptonScrollbarManager : IDisposable
             return;
         }
 
-        // Hide native scrollbars
-        HideNativeScrollbars();
+        UpdateScrollbarHostHook();
+        if (NativeScrollbarsAppearVisible())
+        {
+            InvalidateNativeScrollbarHiddenState();
+        }
+
+        EnsureNativeScrollbarsHidden();
 
         // Get scroll information from native control
         var hScrollInfo = new WIN32ScrollBars.ScrollInfo
@@ -554,9 +580,14 @@ public class KryptonScrollbarManager : IDisposable
 
         bool hasHScroll = PI.GetScrollInfo(_targetControl.Handle, PI.SB_.HORZ, ref hScrollInfo);
         bool hasVScroll = PI.GetScrollInfo(_targetControl.Handle, PI.SB_.VERT, ref vScrollInfo);
+        int hScrollableMaximum = GetNativeScrollableMaximum(hScrollInfo);
+        int vScrollableMaximum = GetNativeScrollableMaximum(vScrollInfo);
 
-        // Update or create horizontal scrollbar
-        if (hasHScroll && hScrollInfo.nMax >= hScrollInfo.nPage)
+        if (_targetControl is ListBox listBox)
+        {
+            UpdateListBoxHorizontalScrollbar(listBox, hScrollInfo, hasHScroll);
+        }
+        else if (hasHScroll && hScrollableMaximum > hScrollInfo.nMin)
         {
             if (_horizontalScrollBar == null)
             {
@@ -566,13 +597,19 @@ public class KryptonScrollbarManager : IDisposable
             if (_horizontalScrollBar != null)
             {
                 _suppressScrollEvents = true;
-                _horizontalScrollBar.Visible = true;
-                _horizontalScrollBar.Minimum = hScrollInfo.nMin;
-                _horizontalScrollBar.Maximum = hScrollInfo.nMax;
-                _horizontalScrollBar.LargeChange = hScrollInfo.nPage;
-                _horizontalScrollBar.SmallChange = 1;
-                _horizontalScrollBar.Value = Math.Min(hScrollInfo.nPos, _horizontalScrollBar.Maximum);
-                _suppressScrollEvents = false;
+                try
+                {
+                    _horizontalScrollBar.Visible = true;
+                    _horizontalScrollBar.Minimum = hScrollInfo.nMin;
+                    _horizontalScrollBar.Maximum = hScrollInfo.nMax;
+                    _horizontalScrollBar.LargeChange = hScrollInfo.nPage;
+                    _horizontalScrollBar.SmallChange = 1;
+                    _horizontalScrollBar.Value = Math.Min(hScrollInfo.nPos, hScrollableMaximum);
+                }
+                finally
+                {
+                    _suppressScrollEvents = false;
+                }
             }
         }
         else
@@ -583,8 +620,11 @@ public class KryptonScrollbarManager : IDisposable
             }
         }
 
-        // Update or create vertical scrollbar
-        if (hasVScroll && vScrollInfo.nMax >= vScrollInfo.nPage)
+        if (_targetControl is ListBox listBoxForVertical)
+        {
+            UpdateListBoxVerticalScrollbar(listBoxForVertical);
+        }
+        else if (hasVScroll && vScrollableMaximum > vScrollInfo.nMin)
         {
             if (_verticalScrollBar == null)
             {
@@ -594,13 +634,19 @@ public class KryptonScrollbarManager : IDisposable
             if (_verticalScrollBar != null)
             {
                 _suppressScrollEvents = true;
-                _verticalScrollBar.Visible = true;
-                _verticalScrollBar.Minimum = vScrollInfo.nMin;
-                _verticalScrollBar.Maximum = vScrollInfo.nMax;
-                _verticalScrollBar.LargeChange = vScrollInfo.nPage;
-                _verticalScrollBar.SmallChange = 1;
-                _verticalScrollBar.Value = Math.Min(vScrollInfo.nPos, _verticalScrollBar.Maximum);
-                _suppressScrollEvents = false;
+                try
+                {
+                    _verticalScrollBar.Visible = true;
+                    _verticalScrollBar.Minimum = vScrollInfo.nMin;
+                    _verticalScrollBar.Maximum = vScrollInfo.nMax;
+                    _verticalScrollBar.LargeChange = vScrollInfo.nPage;
+                    _verticalScrollBar.SmallChange = 1;
+                    _verticalScrollBar.Value = Math.Min(vScrollInfo.nPos, vScrollableMaximum);
+                }
+                finally
+                {
+                    _suppressScrollEvents = false;
+                }
             }
         }
         else
@@ -615,6 +661,286 @@ public class KryptonScrollbarManager : IDisposable
         PositionScrollbars();
 
         OnScrollbarsChanged();
+    }
+
+    private void UpdateListBoxHorizontalScrollbar(ListBox listBox, WIN32ScrollBars.ScrollInfo hScrollInfo, bool hasHScroll)
+    {
+        int contentWidth = GetListBoxHorizontalContentWidth(listBox, hScrollInfo, hasHScroll);
+        int pageWidth = GetListBoxHorizontalPageWidth(listBox);
+        int maximumLeftOffset = Math.Max(0, contentWidth - pageWidth);
+
+        if (contentWidth != _lastListBoxHorizontalContentWidth ||
+            pageWidth != _lastListBoxHorizontalPageWidth ||
+            maximumLeftOffset != _lastListBoxMaximumLeftOffset)
+        {
+            _lastListBoxHorizontalContentWidth = contentWidth;
+            _lastListBoxHorizontalPageWidth = pageWidth;
+            _lastListBoxMaximumLeftOffset = maximumLeftOffset;
+            InvalidateNativeScrollbarHiddenState();
+            EnsureNativeScrollbarsHidden();
+        }
+
+        if (maximumLeftOffset > 0)
+        {
+            if (_horizontalScrollBar == null)
+            {
+                CreateHorizontalScrollbar();
+            }
+
+            if (_horizontalScrollBar != null)
+            {
+                _suppressScrollEvents = true;
+                try
+                {
+                    _horizontalScrollBar.Visible = true;
+                    _horizontalScrollBar.Minimum = 0;
+                    _horizontalScrollBar.Maximum = Math.Max(0, contentWidth - 1);
+                    _horizontalScrollBar.LargeChange = pageWidth;
+                    _horizontalScrollBar.SmallChange = Math.Max(1, Math.Min(16, pageWidth / 10));
+                    _horizontalScrollBar.Value = Math.Min(Math.Max(0, hScrollInfo.nPos), maximumLeftOffset);
+                }
+                finally
+                {
+                    _suppressScrollEvents = false;
+                }
+            }
+        }
+        else if (_horizontalScrollBar != null)
+        {
+            _horizontalScrollBar.Visible = false;
+        }
+    }
+
+    private void UpdateListBoxVerticalScrollbar(ListBox listBox)
+    {
+        int visibleItems = GetListBoxVisibleItemCount(listBox);
+        int itemCount = listBox.Items.Count;
+        int maximumTopIndex = Math.Max(0, itemCount - visibleItems);
+        if (itemCount != _lastListBoxItemCount ||
+            visibleItems != _lastListBoxVisibleItems ||
+            maximumTopIndex != _lastListBoxMaximumTopIndex)
+        {
+            _lastListBoxItemCount = itemCount;
+            _lastListBoxVisibleItems = visibleItems;
+            _lastListBoxMaximumTopIndex = maximumTopIndex;
+            InvalidateNativeScrollbarHiddenState();
+            EnsureNativeScrollbarsHidden();
+        }
+
+        if (itemCount > visibleItems)
+        {
+            if (_verticalScrollBar == null)
+            {
+                CreateVerticalScrollbar();
+            }
+
+            if (_verticalScrollBar != null)
+            {
+                _suppressScrollEvents = true;
+                try
+                {
+                    _verticalScrollBar.Visible = true;
+                    _verticalScrollBar.Minimum = 0;
+                    _verticalScrollBar.Maximum = Math.Max(0, itemCount - 1);
+                    _verticalScrollBar.LargeChange = visibleItems;
+                    _verticalScrollBar.SmallChange = 1;
+                    _verticalScrollBar.Value = Math.Min(listBox.TopIndex, maximumTopIndex);
+                }
+                finally
+                {
+                    _suppressScrollEvents = false;
+                }
+            }
+        }
+        else if (_verticalScrollBar != null)
+        {
+            _verticalScrollBar.Visible = false;
+        }
+    }
+
+    private static int GetListBoxVisibleItemCount(ListBox listBox)
+    {
+        if (listBox.Items.Count == 0)
+        {
+            return 1;
+        }
+
+        int itemHeight = Math.Max(1, listBox.ItemHeight);
+        try
+        {
+            itemHeight = Math.Max(itemHeight, listBox.GetItemRectangle(0).Height);
+        }
+        catch
+        {
+            // Use ItemHeight when the native item rectangle is not available.
+        }
+
+        return Math.Max(1, listBox.ClientSize.Height / itemHeight);
+    }
+
+    private static int GetListBoxHorizontalPageWidth(ListBox listBox) => Math.Max(1, listBox.ClientSize.Width);
+
+    private static int GetListBoxHorizontalContentWidth(ListBox listBox, WIN32ScrollBars.ScrollInfo hScrollInfo, bool hasHScroll)
+    {
+        int contentWidth = Math.Max(0, listBox.HorizontalExtent);
+        if (hasHScroll && hScrollInfo.nMax > hScrollInfo.nMin)
+        {
+            contentWidth = Math.Max(contentWidth, hScrollInfo.nMax - hScrollInfo.nMin + 1);
+        }
+
+        return contentWidth;
+    }
+
+    private static int GetNativeScrollableMaximum(WIN32ScrollBars.ScrollInfo scrollInfo)
+    {
+        int page = Math.Max(1, scrollInfo.nPage);
+        long scrollableMaximum = (long)scrollInfo.nMax - page + 1;
+
+        if (scrollableMaximum < scrollInfo.nMin)
+        {
+            return scrollInfo.nMin;
+        }
+
+        return scrollableMaximum > int.MaxValue ? int.MaxValue : (int)scrollableMaximum;
+    }
+
+    private void EnsureNativeScrollbarsHidden()
+    {
+        if (_targetControl == null || !_targetControl.IsHandleCreated || _hiddenNativeScrollbarsHandle == _targetControl.Handle)
+        {
+            return;
+        }
+
+        HideNativeScrollbars();
+        _hiddenNativeScrollbarsHandle = _targetControl.Handle;
+    }
+
+    private void InvalidateNativeScrollbarState()
+    {
+        _hiddenNativeScrollbarsHandle = IntPtr.Zero;
+        _lastListBoxItemCount = -1;
+        _lastListBoxVisibleItems = -1;
+        _lastListBoxMaximumTopIndex = -1;
+        _lastListBoxHorizontalContentWidth = -1;
+        _lastListBoxHorizontalPageWidth = -1;
+        _lastListBoxMaximumLeftOffset = -1;
+        ClearTrackedListBoxMetrics();
+    }
+
+    private void InvalidateNativeScrollbarHiddenState()
+    {
+        _hiddenNativeScrollbarsHandle = IntPtr.Zero;
+    }
+
+    private bool NativeScrollbarsAppearVisible()
+    {
+        if (_targetControl is not ListBox listBox)
+        {
+            return false;
+        }
+
+        int widthDifference = listBox.Width - listBox.ClientSize.Width;
+        int heightDifference = listBox.Height - listBox.ClientSize.Height;
+
+        return widthDifference >= SystemInformation.VerticalScrollBarWidth / 2 ||
+               heightDifference >= SystemInformation.HorizontalScrollBarHeight / 2;
+    }
+
+    private void BeginNativeThumbTracking()
+    {
+        if (_nativeThumbTracking)
+        {
+            return;
+        }
+
+        _nativeThumbTracking = true;
+
+        if (_targetControl is ListBox listBox)
+        {
+            int itemCount = listBox.Items.Count;
+            int visibleItems = _lastListBoxVisibleItems > 0
+                ? _lastListBoxVisibleItems
+                : GetListBoxVisibleItemCount(listBox);
+
+            _trackedListBoxItemCount = itemCount;
+            _trackedListBoxVisibleItems = visibleItems;
+            _trackedListBoxMaximumTopIndex = Math.Max(0, itemCount - visibleItems);
+            _trackedListBoxHorizontalContentWidth = _lastListBoxHorizontalContentWidth;
+            _trackedListBoxHorizontalPageWidth = _lastListBoxHorizontalPageWidth;
+            _trackedListBoxMaximumLeftOffset = _lastListBoxMaximumLeftOffset;
+        }
+    }
+
+    private void EndNativeThumbTracking()
+    {
+        _nativeThumbTracking = false;
+        ClearTrackedListBoxMetrics();
+    }
+
+    private void ClearTrackedListBoxMetrics()
+    {
+        _trackedListBoxItemCount = -1;
+        _trackedListBoxVisibleItems = -1;
+        _trackedListBoxMaximumTopIndex = -1;
+        _trackedListBoxHorizontalContentWidth = -1;
+        _trackedListBoxHorizontalPageWidth = -1;
+        _trackedListBoxMaximumLeftOffset = -1;
+    }
+
+    private int GetListBoxVisibleItemsForSync(ListBox listBox)
+    {
+        if (_nativeThumbTracking &&
+            _trackedListBoxItemCount == listBox.Items.Count &&
+            _trackedListBoxVisibleItems > 0)
+        {
+            return _trackedListBoxVisibleItems;
+        }
+
+        return GetListBoxVisibleItemCount(listBox);
+    }
+
+    private int GetListBoxMaximumTopIndexForSync(ListBox listBox, int visibleItems)
+    {
+        if (_nativeThumbTracking &&
+            _trackedListBoxItemCount == listBox.Items.Count &&
+            _trackedListBoxVisibleItems == visibleItems &&
+            _trackedListBoxMaximumTopIndex >= 0)
+        {
+            return _trackedListBoxMaximumTopIndex;
+        }
+
+        return Math.Max(0, listBox.Items.Count - visibleItems);
+    }
+
+    private int GetListBoxHorizontalPageWidthForSync(ListBox listBox)
+    {
+        if (_nativeThumbTracking &&
+            _trackedListBoxHorizontalPageWidth > 0)
+        {
+            return _trackedListBoxHorizontalPageWidth;
+        }
+
+        return GetListBoxHorizontalPageWidth(listBox);
+    }
+
+    private int GetListBoxMaximumLeftOffsetForSync(ListBox listBox, int pageWidth)
+    {
+        if (_nativeThumbTracking &&
+            _trackedListBoxHorizontalPageWidth == pageWidth &&
+            _trackedListBoxMaximumLeftOffset >= 0)
+        {
+            return _trackedListBoxMaximumLeftOffset;
+        }
+
+        var hScrollInfo = new WIN32ScrollBars.ScrollInfo
+        {
+            cbSize = Marshal.SizeOf(typeof(WIN32ScrollBars.ScrollInfo)),
+            fMask = (int)PI.SIF_.ALL
+        };
+        bool hasHScroll = PI.GetScrollInfo(listBox.Handle, PI.SB_.HORZ, ref hScrollInfo);
+        int contentWidth = GetListBoxHorizontalContentWidth(listBox, hScrollInfo, hasHScroll);
+
+        return Math.Max(0, contentWidth - pageWidth);
     }
 
     private void HideNativeScrollbars()
@@ -654,6 +980,12 @@ public class KryptonScrollbarManager : IDisposable
             // scrollbars via ShowScrollBar so only Krypton scrollbars are visible.
             _ = PI.ShowScrollBar(_targetControl.Handle, (int)PI.SB_.BOTH, false);
 
+            if (_targetControl is ListBox)
+            {
+                _targetControl.Invalidate();
+                return;
+            }
+
             // Also remove scrollbar window styles so they stay hidden; frame change is required
             // for style changes to take effect (see SetWindowLong / SetWindowPos docs).
             uint style = PI.GetWindowLong(_targetControl.Handle, PI.GWL_.STYLE);
@@ -672,7 +1004,7 @@ public class KryptonScrollbarManager : IDisposable
         }
     }
 
-    private void SyncNativeScrollPosition(bool horizontal, int value)
+    private void SyncNativeScrollPosition(bool horizontal, ScrollEventArgs e)
     {
         if (_targetControl == null || !_targetControl.IsHandleCreated || _suppressScrollEvents)
         {
@@ -681,16 +1013,258 @@ public class KryptonScrollbarManager : IDisposable
 
         try
         {
+            if (horizontal && _targetControl is ListBox horizontalListBox)
+            {
+                int pageWidth = GetListBoxHorizontalPageWidthForSync(horizontalListBox);
+                int maximumLeftOffset = GetListBoxMaximumLeftOffsetForSync(horizontalListBox, pageWidth);
+                int requestedLeftOffset = Math.Max(0, Math.Min(e.NewValue, maximumLeftOffset));
+                PI.SetScrollPos(horizontalListBox.Handle, PI.SB_.HORZ, requestedLeftOffset, true);
+
+                int horizontalScrollRequest = e.Type == ScrollEventType.ThumbTrack
+                    ? (int)PI.SB_.THUMBTRACK
+                    : (int)PI.SB_.THUMBPOSITION;
+
+                PI.SendMessage(horizontalListBox.Handle, PI.WM_.HSCROLL,
+                    (IntPtr)(horizontalScrollRequest | (requestedLeftOffset << 16)), IntPtr.Zero);
+
+                EnsureNativeScrollbarsHidden();
+                horizontalListBox.Invalidate();
+                SyncListBoxHorizontalScrollbarValue(horizontalListBox, requestedLeftOffset);
+                return;
+            }
+
+            if (!horizontal && _targetControl is ListBox listBox)
+            {
+                if (listBox.Items.Count == 0)
+                {
+                    return;
+                }
+
+                int visibleItems = GetListBoxVisibleItemsForSync(listBox);
+                int maximumTopIndex = GetListBoxMaximumTopIndexForSync(listBox, visibleItems);
+                int requestedTopIndex = Math.Max(0, Math.Min(e.NewValue, maximumTopIndex));
+
+                if (listBox.TopIndex != requestedTopIndex)
+                {
+                    listBox.TopIndex = requestedTopIndex;
+                }
+
+                EnsureNativeScrollbarsHidden();
+                listBox.Invalidate();
+                AppendDebugLog($"sync type={e.Type} requested={e.NewValue} accepted={listBox.TopIndex} visible={visibleItems} items={listBox.Items.Count} maxTop={maximumTopIndex} scrollbarValue={_verticalScrollBar?.Value.ToString() ?? "<null>"} scrollbarBounds={FormatRectangle(_verticalScrollBar?.Bounds ?? Rectangle.Empty)} targetClient={FormatRectangle(listBox.ClientRectangle)}");
+                SyncListBoxVerticalScrollbarValue(listBox);
+                return;
+            }
+
             PI.SB_ scrollBar = horizontal ? PI.SB_.HORZ : PI.SB_.VERT;
+            int value = e.NewValue;
             PI.SetScrollPos(_targetControl.Handle, scrollBar, value, true);
+            int scrollRequest = e.Type == ScrollEventType.ThumbTrack
+                ? (int)PI.SB_.THUMBTRACK
+                : (int)PI.SB_.THUMBPOSITION;
 
             // Send scroll message to update the control
             PI.SendMessage(_targetControl.Handle, horizontal ? PI.WM_.HSCROLL : PI.WM_.VSCROLL,
-                (IntPtr)((int)PI.SB_.THUMBPOSITION | (value << 16)), IntPtr.Zero);
+                (IntPtr)(scrollRequest | (value << 16)), IntPtr.Zero);
         }
         catch
         {
             // Ignore errors
+        }
+    }
+
+    private void SyncListBoxHorizontalScrollbarValue(ListBox listBox, int requestedLeftOffset)
+    {
+        if (_horizontalScrollBar == null)
+        {
+            return;
+        }
+
+        int pageWidth = GetListBoxHorizontalPageWidthForSync(listBox);
+        int maximumLeftOffset = GetListBoxMaximumLeftOffsetForSync(listBox, pageWidth);
+        int value = Math.Min(requestedLeftOffset, maximumLeftOffset);
+
+        var hScrollInfo = new WIN32ScrollBars.ScrollInfo
+        {
+            cbSize = Marshal.SizeOf(typeof(WIN32ScrollBars.ScrollInfo)),
+            fMask = (int)PI.SIF_.POS
+        };
+        if (PI.GetScrollInfo(listBox.Handle, PI.SB_.HORZ, ref hScrollInfo))
+        {
+            value = Math.Min(Math.Max(0, hScrollInfo.nPos), maximumLeftOffset);
+        }
+
+        _suppressScrollEvents = true;
+        try
+        {
+            _horizontalScrollBar.Value = value;
+        }
+        finally
+        {
+            _suppressScrollEvents = false;
+        }
+    }
+
+    private void SyncListBoxVerticalScrollbarValue(ListBox listBox)
+    {
+        if (_verticalScrollBar == null)
+        {
+            return;
+        }
+
+        int visibleItems = GetListBoxVisibleItemsForSync(listBox);
+        int maximumTopIndex = GetListBoxMaximumTopIndexForSync(listBox, visibleItems);
+        int value = Math.Min(listBox.TopIndex, maximumTopIndex);
+
+        _suppressScrollEvents = true;
+        try
+        {
+            _verticalScrollBar.Value = value;
+        }
+        finally
+        {
+            _suppressScrollEvents = false;
+        }
+    }
+
+    private Control? GetScrollbarHostControl()
+    {
+        if (_targetControl == null)
+        {
+            return null;
+        }
+
+        if (_mode == ScrollbarManagerMode.NativeWrapper &&
+            _targetControl is ListBox &&
+            _targetControl.Parent != null)
+        {
+            return _targetControl.Parent;
+        }
+
+        return _targetControl;
+    }
+
+    private void UpdateScrollbarHostHook()
+    {
+        Control? host = GetScrollbarHostControl();
+        if (_scrollbarHostControl == host)
+        {
+            MoveExistingScrollbarsToHost(host);
+            return;
+        }
+
+        UnhookScrollbarHostControl();
+
+        _scrollbarHostControl = host;
+        if (_scrollbarHostControl != null && _scrollbarHostControl != _targetControl)
+        {
+            _scrollbarHostControl.Resize += OnScrollbarHostResize;
+            _scrollbarHostControl.Layout += OnScrollbarHostLayout;
+        }
+
+        MoveExistingScrollbarsToHost(host);
+    }
+
+    private void UnhookScrollbarHostControl()
+    {
+        if (_scrollbarHostControl != null && _scrollbarHostControl != _targetControl)
+        {
+            _scrollbarHostControl.Resize -= OnScrollbarHostResize;
+            _scrollbarHostControl.Layout -= OnScrollbarHostLayout;
+        }
+
+        _scrollbarHostControl = null;
+    }
+
+    private Rectangle GetTargetClientRectangleInHost()
+    {
+        if (_targetControl == null)
+        {
+            return Rectangle.Empty;
+        }
+
+        Control? host = GetScrollbarHostControl();
+        if (host == null)
+        {
+            return Rectangle.Empty;
+        }
+
+        if (host == _targetControl)
+        {
+            return _targetControl.ClientRectangle;
+        }
+
+        Point location = host.PointToClient(_targetControl.PointToScreen(Point.Empty));
+        return new Rectangle(location, _targetControl.Size);
+    }
+
+    private void MoveExistingScrollbarsToHost(Control? host)
+    {
+        MoveScrollbarToHost(_horizontalScrollBar, host);
+        MoveScrollbarToHost(_verticalScrollBar, host);
+    }
+
+    private static void MoveScrollbarToHost(Control? scrollbar, Control? host)
+    {
+        if (scrollbar == null || scrollbar.Parent == host)
+        {
+            return;
+        }
+
+        if (scrollbar.Parent != null)
+        {
+            RemoveScrollbarFromHost(scrollbar);
+        }
+
+        if (host != null && host.IsHandleCreated)
+        {
+            AddScrollbarToHost(host, scrollbar);
+            scrollbar.BringToFront();
+        }
+    }
+
+    private static void AddScrollbarToHost(Control host, Control scrollbar)
+    {
+        if (host.Controls is KryptonControlCollection kryptonControls)
+        {
+            kryptonControls.AddInternal(scrollbar);
+        }
+        else
+        {
+            host.Controls.Add(scrollbar);
+        }
+    }
+
+    private static void RemoveScrollbarFromHost(Control scrollbar)
+    {
+        Control? parent = scrollbar.Parent;
+        if (parent == null)
+        {
+            return;
+        }
+
+        if (parent.Controls is KryptonControlCollection kryptonControls)
+        {
+            kryptonControls.RemoveInternal(scrollbar);
+        }
+        else
+        {
+            parent.Controls.Remove(scrollbar);
+        }
+    }
+
+    private static string FormatRectangle(Rectangle rectangle) => $"{rectangle.X},{rectangle.Y},{rectangle.Width},{rectangle.Height}";
+
+    private static void AppendDebugLog(string message)
+    {
+        try
+        {
+            string path = System.IO.Path.Combine(System.IO.Path.GetTempPath(), DebugLogFileName);
+            System.IO.File.AppendAllText(path, $"{DateTime.Now:O} KryptonScrollbarManager {message}{Environment.NewLine}");
+        }
+        catch
+        {
+            // Debug logging must never affect scrollbar behavior.
         }
     }
 
@@ -719,9 +1293,10 @@ public class KryptonScrollbarManager : IDisposable
 
         _horizontalScrollBar.Scroll += OnHorizontalScroll;
 
-        if (_targetControl.IsHandleCreated)
+        Control? host = GetScrollbarHostControl();
+        if (host != null && host.IsHandleCreated)
         {
-            _targetControl.Controls.Add(_horizontalScrollBar);
+            AddScrollbarToHost(host, _horizontalScrollBar);
             _horizontalScrollBar.BringToFront();
         }
     }
@@ -747,9 +1322,10 @@ public class KryptonScrollbarManager : IDisposable
 
         _verticalScrollBar.Scroll += OnVerticalScroll;
 
-        if (_targetControl.IsHandleCreated)
+        Control? host = GetScrollbarHostControl();
+        if (host != null && host.IsHandleCreated)
         {
-            _targetControl.Controls.Add(_verticalScrollBar);
+            AddScrollbarToHost(host, _verticalScrollBar);
             _verticalScrollBar.BringToFront();
         }
     }
@@ -761,7 +1337,7 @@ public class KryptonScrollbarManager : IDisposable
             _horizontalScrollBar.Scroll -= OnHorizontalScroll;
             if (_horizontalScrollBar.Parent != null)
             {
-                _horizontalScrollBar.Parent.Controls.Remove(_horizontalScrollBar);
+                RemoveScrollbarFromHost(_horizontalScrollBar);
             }
 
             _horizontalScrollBar.Dispose();
@@ -773,7 +1349,7 @@ public class KryptonScrollbarManager : IDisposable
             _verticalScrollBar.Scroll -= OnVerticalScroll;
             if (_verticalScrollBar.Parent != null)
             {
-                _verticalScrollBar.Parent.Controls.Remove(_verticalScrollBar);
+                RemoveScrollbarFromHost(_verticalScrollBar);
             }
 
             _verticalScrollBar.Dispose();
@@ -790,7 +1366,7 @@ public class KryptonScrollbarManager : IDisposable
             return;
         }
 
-        Rectangle clientRect = _targetControl.ClientRectangle;
+        Rectangle clientRect = GetTargetClientRectangleInHost();
         int scrollbarWidth = SystemInformation.VerticalScrollBarWidth;
         int scrollbarHeight = SystemInformation.HorizontalScrollBarHeight;
 
@@ -799,11 +1375,11 @@ public class KryptonScrollbarManager : IDisposable
         {
             int hScrollY = clientRect.Bottom - scrollbarHeight;
             int hScrollWidth = clientRect.Width - (_verticalScrollBar?.Visible == true ? scrollbarWidth : 0);
-            
+
             // Ensure scrollbar stays within bounds
             hScrollY = Math.Max(clientRect.Top, Math.Min(hScrollY, clientRect.Bottom - 1));
             hScrollWidth = Math.Max(0, Math.Min(hScrollWidth, clientRect.Width));
-            
+
             _horizontalScrollBar.Location = new Point(clientRect.Left, hScrollY);
             _horizontalScrollBar.Width = hScrollWidth;
             _horizontalScrollBar.Height = scrollbarHeight;
@@ -814,14 +1390,29 @@ public class KryptonScrollbarManager : IDisposable
         {
             int vScrollX = clientRect.Right - scrollbarWidth;
             int vScrollHeight = clientRect.Height - (_horizontalScrollBar?.Visible == true ? scrollbarHeight : 0);
-            
+
             // Ensure scrollbar stays within bounds
             vScrollX = Math.Max(clientRect.Left, Math.Min(vScrollX, clientRect.Right - 1));
             vScrollHeight = Math.Max(0, Math.Min(vScrollHeight, clientRect.Height));
-            
+
             _verticalScrollBar.Location = new Point(vScrollX, clientRect.Top);
             _verticalScrollBar.Width = scrollbarWidth;
             _verticalScrollBar.Height = vScrollHeight;
+        }
+
+        BringScrollbarsToFront();
+    }
+
+    private void BringScrollbarsToFront()
+    {
+        if (_horizontalScrollBar != null && _horizontalScrollBar.Visible)
+        {
+            _horizontalScrollBar.BringToFront();
+        }
+
+        if (_verticalScrollBar != null && _verticalScrollBar.Visible)
+        {
+            _verticalScrollBar.BringToFront();
         }
     }
 
@@ -831,16 +1422,21 @@ public class KryptonScrollbarManager : IDisposable
 
     private void OnTargetControlHandleCreated(object? sender, EventArgs e)
     {
+        InvalidateNativeScrollbarState();
+        UpdateScrollbarHostHook();
         UpdateScrollbars();
     }
 
     private void OnTargetControlHandleDestroyed(object? sender, EventArgs e)
     {
         // Scrollbars will be cleaned up in Detach
+        _nativeThumbTracking = false;
+        InvalidateNativeScrollbarState();
     }
 
     private void OnTargetControlResize(object? sender, EventArgs e)
     {
+        InvalidateNativeScrollbarHiddenState();
         UpdateScrollbars();
     }
 
@@ -848,6 +1444,29 @@ public class KryptonScrollbarManager : IDisposable
     {
         if (!_isUpdating)
         {
+            InvalidateNativeScrollbarHiddenState();
+            UpdateScrollbars();
+        }
+    }
+
+    private void OnTargetControlParentChanged(object? sender, EventArgs e)
+    {
+        UpdateScrollbarHostHook();
+        InvalidateNativeScrollbarHiddenState();
+        UpdateScrollbars();
+    }
+
+    private void OnScrollbarHostResize(object? sender, EventArgs e)
+    {
+        InvalidateNativeScrollbarHiddenState();
+        UpdateScrollbars();
+    }
+
+    private void OnScrollbarHostLayout(object? sender, LayoutEventArgs e)
+    {
+        if (!_isUpdating)
+        {
+            InvalidateNativeScrollbarHiddenState();
             UpdateScrollbars();
         }
     }
@@ -867,7 +1486,17 @@ public class KryptonScrollbarManager : IDisposable
         }
         else if (_mode == ScrollbarManagerMode.NativeWrapper)
         {
-            SyncNativeScrollPosition(true, e.NewValue);
+            if (e.Type == ScrollEventType.ThumbTrack)
+            {
+                BeginNativeThumbTracking();
+            }
+
+            SyncNativeScrollPosition(true, e);
+            if (e.Type == ScrollEventType.EndScroll)
+            {
+                EndNativeThumbTracking();
+                UpdateScrollbars();
+            }
         }
     }
 
@@ -886,7 +1515,17 @@ public class KryptonScrollbarManager : IDisposable
         }
         else if (_mode == ScrollbarManagerMode.NativeWrapper)
         {
-            SyncNativeScrollPosition(false, e.NewValue);
+            if (e.Type == ScrollEventType.ThumbTrack)
+            {
+                BeginNativeThumbTracking();
+            }
+
+            SyncNativeScrollPosition(false, e);
+            if (e.Type == ScrollEventType.EndScroll)
+            {
+                EndNativeThumbTracking();
+                UpdateScrollbars();
+            }
         }
     }
 
@@ -897,7 +1536,7 @@ public class KryptonScrollbarManager : IDisposable
 
     private void SyncTimer_Tick(object? sender, EventArgs e)
     {
-        if (_mode == ScrollbarManagerMode.NativeWrapper && _enabled && !_isUpdating)
+        if (_mode == ScrollbarManagerMode.NativeWrapper && _enabled && !_isUpdating && !_nativeThumbTracking)
         {
             UpdateNativeWrapperScrollbars();
         }
