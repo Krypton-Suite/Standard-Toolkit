@@ -33,8 +33,6 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const { owner, repo } = context.repo;
-            const expectedHeadBranch = 'compare';
-            const expectedBaseBranch = 'base';
             const isManualDispatch = context.eventName === 'workflow_dispatch';
             const isDryRun = isManualDispatch && String(context.payload.inputs?.dry_run) === 'true';
             let pr = context.payload.pull_request;
@@ -61,13 +59,7 @@ jobs:
               return;
             }
 
-            if (pr.base?.ref !== expectedBaseBranch || pr.head?.ref !== expectedHeadBranch) {
-              console.log(
-                `PR direction '${pr.head?.ref}' -> '${pr.base?.ref}' does not match ` +
-                `'${expectedHeadBranch}' -> '${expectedBaseBranch}'; skipping.`
-              );
-              return;
-            }
+            console.log(`Processing merged PR direction '${pr.head?.ref}' -> '${pr.base?.ref}'.`);
 
             // Prefer GitHub's parsed closing references, then fall back to regex.
             const closingIssueNumbers = new Set();
