@@ -142,7 +142,9 @@ jobs:
       - name: Cache NuGet
         # Kill switch check
         if: steps.release_kill_switch.outputs.enabled == 'true'
-        uses: actions/cache@v5
+        id: nuget_cache_restore
+        uses: actions/cache/restore@v5
+        continue-on-error: true
         with:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
@@ -202,6 +204,15 @@ jobs:
         # Kill switch check
         if: steps.release_kill_switch.outputs.enabled == 'true'
         run: msbuild /m "Scripts/Build/build.proj" /t:Pack /restore /p:Configuration=Release /p:Platform="Any CPU" /p:UseArtifactsOutput=true
+
+      - name: Save NuGet cache
+        # Kill switch check
+        if: success() && steps.release_kill_switch.outputs.enabled == 'true'
+        uses: actions/cache/save@v5
+        continue-on-error: true
+        with:
+          path: ~/.nuget/packages
+          key: ${{ steps.nuget_cache_restore.outputs.cache-primary-key }}
 
       - name: Push NuGet Packages to nuget.org
         # Kill switch check
@@ -475,7 +486,9 @@ jobs:
       - name: Cache NuGet
         # Kill switch check
         if: steps.release_kill_switch.outputs.enabled == 'true'
-        uses: actions/cache@v5
+        id: nuget_cache_restore
+        uses: actions/cache/restore@v5
+        continue-on-error: true
         with:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
@@ -535,6 +548,15 @@ jobs:
         # Kill switch check
         if: steps.release_kill_switch.outputs.enabled == 'true'
         run: msbuild /m "Scripts/Build/build.proj" /t:Pack /restore /p:Configuration=Release /p:Platform="Any CPU" /p:UseArtifactsOutput=true
+
+      - name: Save NuGet cache
+        # Kill switch check
+        if: success() && steps.release_kill_switch.outputs.enabled == 'true'
+        uses: actions/cache/save@v5
+        continue-on-error: true
+        with:
+          path: ~/.nuget/packages
+          key: ${{ steps.nuget_cache_restore.outputs.cache-primary-key }}
 
       - name: Push NuGet Packages to nuget.org
         # Kill switch check
@@ -826,7 +848,9 @@ jobs:
       - name: Cache NuGet
         # Kill switch check
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
-        uses: actions/cache@v5
+        id: nuget_cache_restore
+        uses: actions/cache/restore@v5
+        continue-on-error: true
         with:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
@@ -887,6 +911,15 @@ jobs:
         # Kill switch check
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         run: msbuild /m "Scripts/Build/canary.proj" /t:Pack /restore /p:Configuration=Canary /p:Platform="Any CPU" /p:UseArtifactsOutput=true
+
+      - name: Save NuGet cache
+        # Kill switch check
+        if: success() && steps.canary_release_kill_switch.outputs.enabled == 'true'
+        uses: actions/cache/save@v5
+        continue-on-error: true
+        with:
+          path: ~/.nuget/packages
+          key: ${{ steps.nuget_cache_restore.outputs.cache-primary-key }}
 
       - name: Push NuGet Packages to nuget.org
         # Kill switch check
@@ -1159,7 +1192,9 @@ jobs:
       - name: Cache NuGet
         # Kill switch check
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
-        uses: actions/cache@v5
+        id: nuget_cache_restore
+        uses: actions/cache/restore@v5
+        continue-on-error: true
         with:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
@@ -1230,6 +1265,15 @@ jobs:
         # Kill switch check
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
         run: msbuild /m "Scripts/Build/nightly.proj" /t:Pack /restore /p:Configuration=Nightly /p:Platform="Any CPU" /p:UseArtifactsOutput=true
+
+      - name: Save NuGet cache
+        # Kill switch check
+        if: success() && steps.nightly_release_kill_switch.outputs.enabled == 'true'
+        uses: actions/cache/save@v5
+        continue-on-error: true
+        with:
+          path: ~/.nuget/packages
+          key: ${{ steps.nuget_cache_restore.outputs.cache-primary-key }}
 
       # Note: NuGet publishing for alpha/nightly builds is handled by nightly.yml workflow
       # which runs on a schedule and checks for changes in the last 24 hours

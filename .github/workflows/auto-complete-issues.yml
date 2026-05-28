@@ -1,0 +1,192 @@
+# New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+# Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2026 - 2026. All rights reserved.
+
+name: Auto-complete linked issues
+
+on:
+  pull_request_target:
+    types:
+      - closed
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: Pull request number to process
+        required: true
+        type: number
+      dry_run:
+        description: Log actions only, do not mutate issues
+        required: true
+        default: true
+        type: boolean
+
+permissions:
+  issues: write
+  pull-requests: read
+
+jobs:
+  complete-linked-issues:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Close linked issues and tidy metadata
+        uses: actions/github-script@v9
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { owner, repo } = context.repo;
+            const isManualDispatch = context.eventName === 'workflow_dispatch';
+            const isDryRun = isManualDispatch && String(context.payload.inputs?.dry_run) === 'true';
+            let pr = context.payload.pull_request;
+
+            if (isManualDispatch) {
+              const prNumberInput = context.payload.inputs?.pr_number;
+              const prNumber = Number(prNumberInput);
+              if (!prNumber || Number.isNaN(prNumber)) {
+                core.setFailed(`Invalid pr_number input: ${prNumberInput}`);
+                return;
+              }
+
+              const { data: fetchedPr } = await github.rest.pulls.get({
+                owner,
+                repo,
+                pull_number: prNumber,
+              });
+              pr = fetchedPr;
+              console.log(`Manual run for PR #${pr.number} (dry_run=${isDryRun}).`);
+            }
+
+            if (!pr?.merged) {
+              console.log('PR was closed without merge; skipping.');
+              return;
+            }
+
+            console.log(`Processing merged PR direction '${pr.head?.ref}' -> '${pr.base?.ref}'.`);
+
+            // Prefer GitHub's parsed closing references, then fall back to regex.
+            const closingIssueNumbers = new Set();
+
+            try {
+              const result = await github.graphql(
+                `
+                query($owner: String!, $repo: String!, $number: Int!) {
+                  repository(owner: $owner, name: $repo) {
+                    pullRequest(number: $number) {
+                      closingIssuesReferences(first: 100) {
+                        nodes {
+                          number
+                        }
+                      }
+                    }
+                  }
+                }
+                `,
+                {
+                  owner,
+                  repo,
+                  number: pr.number,
+                }
+              );
+
+              const nodes = result?.repository?.pullRequest?.closingIssuesReferences?.nodes || [];
+              for (const issue of nodes) {
+                if (issue?.number) {
+                  closingIssueNumbers.add(issue.number);
+                }
+              }
+            } catch (error) {
+              console.warn(`GraphQL closing issue lookup failed: ${error.message}`);
+            }
+
+            if (closingIssueNumbers.size === 0) {
+              const body = pr.body || '';
+              const keywordPattern = /\b(?:close[sd]?|fix(?:e[sd])?|resolve[sd]?)\s+#(\d+)\b/gi;
+              let match;
+              while ((match = keywordPattern.exec(body)) !== null) {
+                closingIssueNumbers.add(Number(match[1]));
+              }
+            }
+
+            if (closingIssueNumbers.size === 0) {
+              console.log(`No linked issues found for PR #${pr.number}.`);
+              return;
+            }
+
+            console.log(`Processing linked issues: ${Array.from(closingIssueNumbers).join(', ')}`);
+
+            for (const issueNumber of closingIssueNumbers) {
+              try {
+                const { data: issue } = await github.rest.issues.get({
+                  owner,
+                  repo,
+                  issue_number: issueNumber,
+                });
+
+                // Skip pull requests referenced in text.
+                if (issue.pull_request) {
+                  console.log(`#${issueNumber} is a pull request, not an issue; skipping.`);
+                  continue;
+                }
+
+                const currentLabels = (issue.labels || []).map(label =>
+                  typeof label === 'string' ? label : label.name
+                );
+
+                const title = issue.title || '';
+                let labelToAdd = null;
+                if (/^\[bug\]:?/i.test(title)) {
+                  labelToAdd = 'fixed';
+                } else if (/^\[feature request\]:?/i.test(title)) {
+                  labelToAdd = 'completed';
+                }
+
+                if (labelToAdd && !currentLabels.includes(labelToAdd)) {
+                  try {
+                    if (isDryRun) {
+                      console.log(`[dry-run] Would add '${labelToAdd}' to issue #${issueNumber}.`);
+                    } else {
+                      await github.rest.issues.addLabels({
+                        owner,
+                        repo,
+                        issue_number: issueNumber,
+                        labels: [labelToAdd],
+                      });
+                      console.log(`Added '${labelToAdd}' to issue #${issueNumber}.`);
+                    }
+                  } catch (labelError) {
+                    console.warn(`Could not add '${labelToAdd}' to issue #${issueNumber}: ${labelError.message}`);
+                  }
+                }
+
+                if (issue.state !== 'closed') {
+                  if (isDryRun) {
+                    console.log(`[dry-run] Would close issue #${issueNumber}.`);
+                  } else {
+                    await github.rest.issues.update({
+                      owner,
+                      repo,
+                      issue_number: issueNumber,
+                      state: 'closed',
+                    });
+                    console.log(`Closed issue #${issueNumber}.`);
+                  }
+                } else {
+                  console.log(`Issue #${issueNumber} already closed.`);
+                }
+
+                const assignees = (issue.assignees || []).map(assignee => assignee.login).filter(Boolean);
+                if (assignees.length > 0) {
+                  if (isDryRun) {
+                    console.log(`[dry-run] Would remove assignees from issue #${issueNumber}: ${assignees.join(', ')}`);
+                  } else {
+                    await github.rest.issues.removeAssignees({
+                      owner,
+                      repo,
+                      issue_number: issueNumber,
+                      assignees,
+                    });
+                    console.log(`Removed assignees from issue #${issueNumber}: ${assignees.join(', ')}`);
+                  }
+                }
+              } catch (issueError) {
+                console.warn(`Failed to process issue #${issueNumber}: ${issueError.message}`);
+              }
+            }
