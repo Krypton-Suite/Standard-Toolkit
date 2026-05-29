@@ -1821,7 +1821,7 @@ public class KryptonDataGridView : DataGridView
             {
                 IPaletteBorder paletteBorder = Enabled ? StateNormal.Border : StateDisabled.Border;
                 PaletteState borderState = Enabled ? PaletteState.Normal : PaletteState.Disabled;
-                Renderer!.RenderStandardBorder.DrawBorder(context, GetGridCornerBounds(), paletteBorder, VisualOrientation.Top, borderState);
+                Renderer!.RenderStandardBorder.DrawBorder(context, GetOuterRoundingBounds(), paletteBorder, VisualOrientation.Top, borderState);
             }
         }
 
@@ -2568,14 +2568,14 @@ public class KryptonDataGridView : DataGridView
 
         // Check if the cell is hard against the far or bottom edges, if so do not need to draw
         // border that is hard against the edge as it will then look like it has double borders
-        Rectangle gridBounds = GetGridCornerBounds();
+        Rectangle outerBounds = GetOuterRoundingBounds();
 
         if (HideOuterBorders || HasCornerRounding)
         {
             // With RTL we check the left border
             if (RightToLeftInternal)
             {
-                if (IsAtGridLeft(cellBounds))
+                if (IsAtOuterLeft(cellBounds))
                 {
                     maxBorders &= ~PaletteDrawBorders.Left;
                 }
@@ -2583,14 +2583,14 @@ public class KryptonDataGridView : DataGridView
             else
             {
                 // Check the right border
-                if (IsAtGridRight(cellBounds, gridBounds))
+                if (IsAtOuterRight(cellBounds, outerBounds))
                 {
                     maxBorders &= ~PaletteDrawBorders.Right;
                 }
             }
 
             // Check the bottom border
-            if (IsAtGridBottom(cellBounds, gridBounds))
+            if (IsAtOuterBottom(cellBounds, outerBounds))
             {
                 maxBorders &= ~PaletteDrawBorders.Bottom;
             }
@@ -2598,21 +2598,21 @@ public class KryptonDataGridView : DataGridView
 
         if (HasCornerRounding)
         {
-            if (IsAtGridTop(cellBounds))
+            if (IsAtOuterTop(cellBounds))
             {
                 maxBorders &= ~PaletteDrawBorders.Top;
             }
 
             if (RightToLeftInternal)
             {
-                if (IsAtGridRight(cellBounds, gridBounds))
+                if (IsAtOuterRight(cellBounds, outerBounds))
                 {
                     maxBorders &= ~PaletteDrawBorders.Right;
                 }
             }
             else
             {
-                if (IsAtGridLeft(cellBounds))
+                if (IsAtOuterLeft(cellBounds))
                 {
                     maxBorders &= ~PaletteDrawBorders.Left;
                 }
@@ -2631,11 +2631,11 @@ public class KryptonDataGridView : DataGridView
             return false;
         }
 
-        Rectangle gridBounds = GetGridCornerBounds();
-        bool atTop = IsAtGridTop(cellBounds);
-        bool atBottom = IsAtGridBottom(cellBounds, gridBounds);
-        bool atLeft = IsAtGridLeft(cellBounds);
-        bool atRight = IsAtGridRight(cellBounds, gridBounds);
+        Rectangle outerBounds = GetOuterRoundingBounds();
+        bool atTop = IsAtOuterTop(cellBounds);
+        bool atBottom = IsAtOuterBottom(cellBounds, outerBounds);
+        bool atLeft = IsAtOuterLeft(cellBounds);
+        bool atRight = IsAtOuterRight(cellBounds, outerBounds);
 
         if (atTop && atLeft)
         {
@@ -2680,64 +2680,33 @@ public class KryptonDataGridView : DataGridView
         return border.GetBorderRounding(state);
     }
 
-    private Rectangle GetGridCornerBounds()
-    {
-        Rectangle bounds = ClientRectangle;
+    /// <summary>
+    /// Outer rectangle used for region clipping, outer border, and corner-cell detection.
+    /// </summary>
+    private Rectangle GetOuterRoundingBounds() => ClientRectangle;
 
-        if (IsVerticalScrollBarVisible())
-        {
-            bounds.Width = Math.Max(0, bounds.Width - VerticalScrollBar.Width);
-        }
+    private static bool IsAtOuterTop(Rectangle cellBounds) => cellBounds.Top == 0;
 
-        if (IsHorizontalScrollBarVisible())
-        {
-            bounds.Height = Math.Max(0, bounds.Height - HorizontalScrollBar.Height);
-        }
+    private static bool IsAtOuterLeft(Rectangle cellBounds) => cellBounds.Left == 0;
 
-        return bounds;
-    }
+    private static bool IsAtOuterBottom(Rectangle cellBounds, Rectangle outerBounds) =>
+        cellBounds.Bottom >= outerBounds.Bottom;
 
-    private bool IsVerticalScrollBarVisible()
-    {
-        if (ScrollBars != ScrollBars.Vertical && ScrollBars != ScrollBars.Both)
-        {
-            return false;
-        }
-
-        return VerticalScrollBar.Visible && VerticalScrollBar.Width > 0;
-    }
-
-    private bool IsHorizontalScrollBarVisible()
-    {
-        if (ScrollBars != ScrollBars.Horizontal && ScrollBars != ScrollBars.Both)
-        {
-            return false;
-        }
-
-        return HorizontalScrollBar.Visible && HorizontalScrollBar.Height > 0;
-    }
-
-    private static bool IsAtGridTop(Rectangle cellBounds) => cellBounds.Top == 0;
-
-    private static bool IsAtGridLeft(Rectangle cellBounds) => cellBounds.Left == 0;
-
-    private static bool IsAtGridBottom(Rectangle cellBounds, Rectangle gridBounds) =>
-        cellBounds.Bottom >= gridBounds.Bottom;
-
-    private static bool IsAtGridRight(Rectangle cellBounds, Rectangle gridBounds) =>
-        cellBounds.Right >= gridBounds.Right;
+    private static bool IsAtOuterRight(Rectangle cellBounds, Rectangle outerBounds) =>
+        cellBounds.Right >= outerBounds.Right;
 
     private void UpdateCornerRoundingRegion()
     {
         float rounding = GetEffectiveCornerRounding();
-        if (rounding <= 0f || Width <= 0 || Height <= 0)
+        Rectangle outerBounds = GetOuterRoundingBounds();
+        if (rounding <= 0f || outerBounds.Width <= 0 || outerBounds.Height <= 0)
         {
             Region?.Dispose();
             Region = null;
             return;
         }
 
-        using GraphicsPath path = CommonHelper.RoundedRectanglePath(ClientRectangle, (int)Math.Round(rounding));
+        using GraphicsPath path = CommonHelper.RoundedRectanglePath(outerBounds, (int)Math.Round(rounding));
         Region? oldRegion = Region;
         Region = new Region(path);
         oldRegion?.Dispose();
