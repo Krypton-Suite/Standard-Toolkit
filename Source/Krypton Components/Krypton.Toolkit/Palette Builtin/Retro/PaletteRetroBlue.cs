@@ -1,7 +1,7 @@
-#region BSD License
+﻿#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2025 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2026 - 2026. All rights reserved.
  */
 #endregion
 
@@ -19,6 +19,10 @@ public class PaletteRetroBlue : PaletteRetroBase
     private static readonly Color _ribbonAppButtonLightColor = Color.FromArgb(0, 0, 170);
 
     private static readonly Color _ribbonAppButtonTextColor = Color.White;
+
+    private static readonly Color _gridDataCellBackColor = Color.FromArgb(0, 0, 128);
+
+    private static readonly Color _groupBoxBorderColor = Color.FromArgb(192, 192, 192);
 
     public PaletteRetroBlue()
         : base(new PaletteRetroBlue_BaseScheme(), RetroPaletteSharedAssets.CheckBoxList,
@@ -96,11 +100,15 @@ public class PaletteRetroBlue : PaletteRetroBase
 
     protected override Color GetRetroListItemNormalTextColor() => Color.White;
 
-    public override Color GetContentShortTextColor1(PaletteContentStyle style, PaletteState state) =>
-        EnsureReadableOnWorkspace(base.GetContentShortTextColor1(style, state), state);
+    protected override Color GetRetroGridDataCellNormalBackColor() => _gridDataCellBackColor;
 
-    public override Color GetContentShortTextColor2(PaletteContentStyle style, PaletteState state) =>
-        EnsureReadableOnWorkspace(base.GetContentShortTextColor2(style, state), state);
+    protected override Color GetRetroGridDataCellNormalTextColor() => Color.White;
+
+    protected override Color WorkspaceTextColor => Color.White;
+
+    protected override Color GroupBoxBorderColor => _groupBoxBorderColor;
+
+    internal override Color RetroButtonFrameColor => _groupBoxBorderColor;
 
     public override Color GetBackColor1(PaletteBackStyle style, PaletteState state)
     {
@@ -131,13 +139,4 @@ public class PaletteRetroBlue : PaletteRetroBase
             or PaletteBackStyle.InputControlCustom1 or PaletteBackStyle.InputControlCustom2
             or PaletteBackStyle.InputControlCustom3;
 
-    private static Color EnsureReadableOnWorkspace(Color color, PaletteState state)
-    {
-        if (state == PaletteState.Disabled || color.IsEmpty || color == GlobalStaticVariables.EMPTY_COLOR)
-        {
-            return color;
-        }
-
-        return color.R + color.G + color.B < 384 ? Color.White : color;
-    }
 }

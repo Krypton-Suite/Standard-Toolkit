@@ -1,7 +1,7 @@
-#region BSD License
+﻿#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2025 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2026 - 2026. All rights reserved.
  */
 #endregion
 
@@ -49,6 +49,9 @@ public sealed class PaletteRetroBlue_BaseScheme : PaletteRetroGreen_BaseScheme
         GridListNormal1 = DosBlue;
         GridListNormal2 = DosBlueDark;
         GridListSelected = DosCyan;
+        GridListPressed1 = DosCyan;
+        GridListPressed2 = DosCyan;
+        GridDataCellBorder = Color.Black;
         GridDataCellSelected = DosCyan;
 
         InputControlBackNormal = DosBlueDark;

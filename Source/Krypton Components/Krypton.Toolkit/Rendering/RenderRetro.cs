@@ -1,7 +1,7 @@
-#region BSD License
+﻿#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2025 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2026 - 2026. All rights reserved.
  */
 #endregion
 
@@ -99,9 +99,18 @@ public sealed class RenderRetro : RenderOffice2010
             throw new ArgumentNullException(nameof(palette));
         }
 
-        if (!RetroRenderHelper.IsRetroButtonBack(palette, state)
-            || rect.Width <= 0
-            || rect.Height <= 0)
+        if (rect.Width <= 0 || rect.Height <= 0)
+        {
+            return base.DrawBack(context, rect, path, palette, orientation, state, memento);
+        }
+
+        if (RetroRenderHelper.IsRetroProgressValueBack(palette, state, out Color progressValueColor))
+        {
+            DrawRetroProgressValueBack(context, rect, path, progressValueColor);
+            return memento;
+        }
+
+        if (!RetroRenderHelper.IsRetroButtonBack(palette, state))
         {
             return base.DrawBack(context, rect, path, palette, orientation, state, memento);
         }
@@ -129,6 +138,7 @@ public sealed class RenderRetro : RenderOffice2010
             int shadow = RetroRenderHelper.GetButtonShadowSize(rect);
             bool pressed = state is PaletteState.Pressed or PaletteState.CheckedPressed;
             Color face = palette.GetBackColor1(state);
+            Color frame = RetroRenderHelper.GetButtonFrameColor(KryptonManager.CurrentGlobalPalette);
 
             var region = g.Clip;
             g.SetClip(path, System.Drawing.Drawing2D.CombineMode.Intersect);
@@ -141,7 +151,7 @@ public sealed class RenderRetro : RenderOffice2010
 
             if (!pressed && rect.Width > shadow && rect.Height > shadow)
             {
-                using var shadowBrush = new SolidBrush(Color.Black);
+                using var shadowBrush = new SolidBrush(frame);
                 g.FillRectangle(shadowBrush, rect.X + shadow, rect.Y + shadow, rect.Width - shadow, rect.Height - shadow);
             }
 
@@ -155,13 +165,48 @@ public sealed class RenderRetro : RenderOffice2010
                 using var faceBrush = new SolidBrush(face);
                 g.FillRectangle(faceBrush, faceX, faceY, faceW, faceH);
 
-                using var borderPen = new Pen(Color.Black, 1f);
+                using var borderPen = new Pen(frame, 1f);
                 int right = faceX + faceW - 1;
                 int bottom = faceY + faceH - 1;
                 g.DrawLine(borderPen, faceX, faceY, right, faceY);
                 g.DrawLine(borderPen, faceX, faceY, faceX, bottom);
                 g.DrawLine(borderPen, right, faceY, right, bottom);
                 g.DrawLine(borderPen, faceX, bottom, right, bottom);
+            }
+
+            g.Clip = region;
+        }
+        finally
+        {
+            g.SmoothingMode = oldSmoothing;
+            g.PixelOffsetMode = oldPixel;
+        }
+    }
+
+    private static void DrawRetroProgressValueBack(RenderContext context,
+        Rectangle rect,
+        GraphicsPath path,
+        Color valueColor)
+    {
+        var g = context.Graphics;
+        var oldSmoothing = g.SmoothingMode;
+        var oldPixel = g.PixelOffsetMode;
+        g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
+        g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.None;
+
+        try
+        {
+            var region = g.Clip;
+            g.SetClip(path, System.Drawing.Drawing2D.CombineMode.Intersect);
+
+            using (var valueBrush = new SolidBrush(valueColor))
+            {
+                g.FillRectangle(valueBrush, rect);
+            }
+
+            using (var borderPen = new Pen(Color.Black, 1f))
+            {
+                g.DrawRectangle(borderPen, rect.X, rect.Y, rect.Width - 1, rect.Height - 1);
             }
 
             g.Clip = region;
@@ -206,6 +251,9 @@ internal static class RetroRenderHelper
     internal static Color GetChromeBackgroundColor(PaletteBase? palette) =>
         AsRetroPalette(palette)?.ChromeBackgroundColor ?? Color.FromArgb(0, 160, 160);
 
+    internal static Color GetButtonFrameColor(PaletteBase? palette) =>
+        AsRetroPalette(palette)?.RetroButtonFrameColor ?? Color.Black;
+
     internal static bool UsesRetroPushButtonChrome(PaletteBackStyle style) =>
         !IsChromeAdjacentButtonBackStyle(style) && IsRetroPushButtonBackStyle(style);
 
@@ -229,6 +277,33 @@ internal static class RetroRenderHelper
 
         Color c = palette.GetBackColor1(state);
         return IsRetroButtonFaceColor(c, AsRetroPalette(KryptonManager.CurrentGlobalPalette));
+    }
+
+    internal static bool IsRetroProgressValueBack(IPaletteBack palette, PaletteState state, out Color valueColor)
+    {
+        valueColor = GlobalStaticVariables.EMPTY_COLOR;
+
+        if (CommonHelper.IsOverrideState(state)
+            || palette.GetBackColorStyle(state) != PaletteColorStyle.GlassNormalFull)
+        {
+            return false;
+        }
+
+        PaletteRetroBase? retro = AsRetroPalette(KryptonManager.CurrentGlobalPalette);
+        if (retro == null)
+        {
+            return false;
+        }
+
+        Color c = palette.GetBackColor1(state);
+        if (c.ToArgb() != Color.Green.ToArgb()
+            && c.ToArgb() != retro.ProgressValueColor.ToArgb())
+        {
+            return false;
+        }
+
+        valueColor = retro.ProgressValueColor;
+        return true;
     }
 
     internal static bool IsRetroButtonFaceColor(Color color, PaletteRetroBase? retro)

@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -174,10 +174,10 @@ public class PaletteRetroGreen_BaseScheme : KryptonColorSchemeBase
     public override Color ButtonClusterButtonBorder1       { get; set; } = Color.FromArgb(155, 183, 224);
     public override Color ButtonClusterButtonBorder2       { get; set; } = Color.FromArgb(117, 150, 191);
     public override Color NavigatorMiniBackColor           { get; set; } = Color.FromArgb(213, 228, 242);
-    public override Color GridListNormal1                  { get; set; } = Color.FromArgb(244, 249, 255);
-    public override Color GridListNormal2                  { get; set; } = Color.FromArgb(218, 231, 245);
-    public override Color GridListPressed1                 { get; set; } = Color.FromArgb(198, 211, 225);
-    public override Color GridListPressed2                 { get; set; } = Color.FromArgb(244, 249, 255);
+    public override Color GridListNormal1                  { get; set; } = Color.FromArgb(192, 192, 192);
+    public override Color GridListNormal2                  { get; set; } = Color.FromArgb(192, 192, 192);
+    public override Color GridListPressed1                 { get; set; } = Color.FromArgb(0, 160, 0);
+    public override Color GridListPressed2                 { get; set; } = Color.FromArgb(0, 160, 0);
     public override Color GridListSelected                 { get; set; } = Color.FromArgb(0, 160, 0);
     public override Color GridSheetColNormal1              { get; set; } = Color.FromArgb(233, 246, 255);
     public override Color GridSheetColNormal2              { get; set; } = Color.FromArgb(213, 226, 240);
@@ -188,11 +188,11 @@ public class PaletteRetroGreen_BaseScheme : KryptonColorSchemeBase
     public override Color GridSheetRowNormal               { get; set; } = Color.FromArgb(218, 231, 245);
     public override Color GridSheetRowPressed              { get; set; } = Color.FromArgb(255, 223, 107);
     public override Color GridSheetRowSelected             { get; set; } = Color.FromArgb(245, 210, 87);
-    public override Color GridDataCellBorder               { get; set; } = Color.FromArgb(218, 220, 221);
+    public override Color GridDataCellBorder               { get; set; } = Color.Black;
     public override Color GridDataCellSelected             { get; set; } = Color.FromArgb(0, 160, 0);
     public override Color InputControlTextNormal           { get; set; } = Color.FromArgb(0, 0, 0);
     public override Color InputControlTextDisabled         { get; set; } = Color.FromArgb(168, 168, 168);
-    public override Color InputControlBorderNormal         { get; set; } = Color.Black;
+    public override Color InputControlBorderNormal         { get; set; } = Color.FromArgb(192, 192, 192);
     public override Color InputControlBorderDisabled       { get; set; } = Color.FromArgb(177, 187, 198);
     public override Color InputControlBackNormal           { get; set; } = Color.White;
     public override Color InputControlBackDisabled         { get; set; } = Color.FromArgb(240, 240, 240);
