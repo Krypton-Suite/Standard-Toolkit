@@ -1,0 +1,164 @@
+﻿[*Assembly*.cs]
+#Warning	CS0105	The using directive for 'System' appeared previously in this namespace	Krypton.Toolkit 2019 (net5.0-windows)
+dotnet_diagnostic.CS0105.severity = None
+
+[PlatformInvoke.cs]
+#Message	CA1069	The enum member 'LINELEFT' has the same constant value '0' as member 'LINEUP'
+dotnet_diagnostic.CA1069.severity = None
+
+[*.cs]
+# Sort System.* using directives alphabetically, and place them before other using directives
+dotnet_sort_system_directives_first = true
+#Place a blank line between using directive groups.
+dotnet_separate_import_directive_groups = true
+dotnet_code_quality.enable_platform_analyzer_on_pre_net5_target=true
+
+# 	Indexing can be simplified	Krypton.Toolkit 2022 (net5.0-windows), Krypton.Toolkit 2022 (net6.0-windows), Krypton.Toolkit 2022 (netcoreapp3.1)	
+dotnet_diagnostic.IDE0056.severity = silent
+
+# 	Substring can be simplified	Krypton.Workspace 2022 (net5.0-windows), Krypton.Workspace 2022 (net6.0-windows), Krypton.Workspace 2022 (netcoreapp3.1)
+dotnet_diagnostic.IDE0057.severity = silent
+
+# 	Naming rule violation: These words must begin with upper case characters: textBoxResponse_KeyDown
+dotnet_diagnostic.IDE1006.severity = silent
+
+#	Remove unnecessary suppression
+dotnet_diagnostic.IDE0079.severity = silent
+
+# Warning	CS0436	The type 'AllowNullAttribute' in 'Z:\GitHub\Krypton-Suite\Standard-Toolkit\Source\Krypton Components\Krypton.Toolkit\Utilities\AllowNullAttribute.cs' conflicts with the imported type 'AllowNullAttribute' in 'System.Runtime, Version=7.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a'. Using the type defined in 'Z:\GitHub\Krypton-Suite\Standard-Toolkit\Source\Krypton Components\Krypton.Toolkit\Utilities\AllowNullAttribute.cs'.	Krypton.Toolkit 2022 (net48), Krypton.Toolkit 2022 (net7.0-windows)	Z:\GitHub\Krypton-Suite\Standard-Toolkit\Source\Krypton Components\Krypton.Toolkit\Controls Toolkit\KryptonRadioButton.cs	206	Active
+dotnet_diagnostic.CS0436.severity = None
+
+dotnet_diagnostic.CS0649.severity = None
+
+#warning CA1416: This call site is reachable on all platforms. 'KryptonRibbonGroupButton.Checked' is only supported on: 'Windows' 7.0 and later.
+dotnet_diagnostic.CA1416.severity = None
+
+# CS1591: Missing XML comment for publicly visible type or member
+dotnet_diagnostic.CS1591.severity = suggestion
+
+# UpdateShadowLayer calls ReleaseDC but does not use the HRESULT or error code that the method returns. This could lead to unexpected behavior in error conditions or low-resource situations. Use the result in a conditional statement, assign the result to a variable, or pass it as an argument to another method.	
+dotnet_diagnostic.CA1806.severity = silent
+
+# 	Member 'ShouldSerializeValue' does not access instance data and can be marked as static	
+dotnet_diagnostic.CA1822.severity = None
+
+# Identifier '_drawButton' is not CLS-compliant
+dotnet_diagnostic.CS3008.severity = suggestion
+
+# CS8073:  The result of the expression is always 'true' or 'null'
+dotnet_diagnostic.CS8073.severity = suggestion
+
+#Warning	CS8618	Non-nullable field '_panelMessage' must contain a non-null value when exiting constructor. Consider declaring the field as nullable.	
+dotnet_diagnostic.CS8618.severity = suggestion
+
+#Warning	CS8622	Nullability of reference types in type of parameter 'sender' of ####
+dotnet_diagnostic.CS8622.severity = Warning
+
+csharp_indent_labels = one_less_than_current
+csharp_using_directive_placement = outside_namespace:silent
+csharp_prefer_simple_using_statement = true:suggestion
+csharp_prefer_braces = true:silent
+csharp_style_namespace_declarations = block_scoped:silent
+csharp_style_prefer_method_group_conversion = true:silent
+csharp_style_prefer_top_level_statements = true:silent
+csharp_style_prefer_primary_constructors = true:suggestion
+csharp_prefer_system_threading_lock = true:suggestion
+csharp_style_expression_bodied_methods = false:silent
+csharp_style_expression_bodied_constructors = false:silent
+csharp_style_expression_bodied_operators = false:silent
+csharp_style_expression_bodied_properties = true:silent
+csharp_style_expression_bodied_indexers = true:silent
+csharp_style_expression_bodied_accessors = true:silent
+csharp_style_expression_bodied_lambdas = true:silent
+csharp_style_expression_bodied_local_functions = false:silent
+csharp_style_throw_expression = true:suggestion
+csharp_style_implicit_object_creation_when_type_is_apparent = true:suggestion
+csharp_style_prefer_tuple_swap = true:suggestion
+csharp_style_allow_embedded_statements_on_same_line_experimental = true:silent
+csharp_style_allow_blank_lines_between_consecutive_braces_experimental = true:silent
+csharp_style_allow_blank_line_after_colon_in_constructor_initializer_experimental = true:silent
+csharp_style_allow_blank_line_after_token_in_conditional_expression_experimental = true:silent
+csharp_style_allow_blank_line_after_token_in_arrow_expression_clause_experimental = true:silent
+csharp_style_prefer_switch_expression = true:suggestion
+csharp_style_pattern_matching_over_is_with_cast_check = true:suggestion
+csharp_style_pattern_matching_over_as_with_null_check = true:suggestion
+dotnet_diagnostic.WFO1000.severity = Warning
+
+
+[*.{cs,vb}]
+#### Naming styles ####
+
+# Naming rules
+
+dotnet_naming_rule.interface_should_be_begins_with_i.severity = suggestion
+dotnet_naming_rule.interface_should_be_begins_with_i.symbols = interface
+dotnet_naming_rule.interface_should_be_begins_with_i.style = begins_with_i
+
+dotnet_naming_rule.types_should_be_pascal_case.severity = suggestion
+dotnet_naming_rule.types_should_be_pascal_case.symbols = types
+dotnet_naming_rule.types_should_be_pascal_case.style = pascal_case
+
+dotnet_naming_rule.non_field_members_should_be_pascal_case.severity = suggestion
+dotnet_naming_rule.non_field_members_should_be_pascal_case.symbols = non_field_members
+dotnet_naming_rule.non_field_members_should_be_pascal_case.style = pascal_case
+
+# Naming rules for private variables with underscore prefix
+dotnet_naming_rule.private_members_with_underscore.symbols = private_fields
+dotnet_naming_rule.private_members_with_underscore.style = prefix_underscore
+dotnet_naming_rule.private_members_with_underscore.severity = suggestion
+dotnet_naming_symbols.private_fields.applicable_kinds = field
+dotnet_naming_symbols.private_fields.applicable_accessibilities = private
+dotnet_naming_style.prefix_underscore.capitalization = camel_case
+dotnet_naming_style.prefix_underscore.required_prefix = _
+
+# Symbol specifications
+
+dotnet_naming_symbols.interface.applicable_kinds = interface
+dotnet_naming_symbols.interface.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
+dotnet_naming_symbols.interface.required_modifiers = 
+
+dotnet_naming_symbols.types.applicable_kinds = class, struct, interface, enum
+dotnet_naming_symbols.types.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
+dotnet_naming_symbols.types.required_modifiers = 
+
+dotnet_naming_symbols.non_field_members.applicable_kinds = property, event, method
+dotnet_naming_symbols.non_field_members.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
+dotnet_naming_symbols.non_field_members.required_modifiers = 
+
+# Naming styles
+
+dotnet_naming_style.begins_with_i.required_prefix = I
+dotnet_naming_style.begins_with_i.required_suffix = 
+dotnet_naming_style.begins_with_i.word_separator = 
+dotnet_naming_style.begins_with_i.capitalization = pascal_case
+
+dotnet_naming_style.pascal_case.required_prefix = 
+dotnet_naming_style.pascal_case.required_suffix = 
+dotnet_naming_style.pascal_case.word_separator = 
+dotnet_naming_style.pascal_case.capitalization = pascal_case
+
+dotnet_naming_style.pascal_case.required_prefix = 
+dotnet_naming_style.pascal_case.required_suffix = 
+dotnet_naming_style.pascal_case.word_separator = 
+dotnet_naming_style.pascal_case.capitalization = pascal_case
+dotnet_style_operator_placement_when_wrapping = beginning_of_line
+tab_width = 4
+indent_size = 4
+end_of_line = crlf
+dotnet_style_coalesce_expression = true:suggestion
+dotnet_style_null_propagation = true:suggestion
+dotnet_style_prefer_is_null_check_over_reference_equality_method = true:suggestion
+dotnet_style_prefer_auto_properties = true:silent
+dotnet_style_object_initializer = true:suggestion
+dotnet_style_prefer_conditional_expression_over_assignment = true:silent
+dotnet_style_prefer_conditional_expression_over_return = true:silent
+dotnet_style_predefined_type_for_locals_parameters_members = true:silent
+dotnet_style_predefined_type_for_member_access = true:silent
+dotnet_style_allow_multiple_blank_lines_experimental = true:silent
+dotnet_style_allow_statement_immediately_after_block_experimental = true:silent
+dotnet_style_qualification_for_field = false:silent
+dotnet_style_qualification_for_property = false:silent
+dotnet_style_qualification_for_method = false:silent
+dotnet_style_collection_initializer = true:suggestion
+dotnet_style_prefer_simplified_boolean_expressions = true:suggestion
+dotnet_style_qualification_for_event = false:silent

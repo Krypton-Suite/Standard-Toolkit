@@ -1,0 +1,13 @@
+<VSTemplate Version="3.0.0" Type="Item" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005">
+  <TemplateData>
+    <Name>Krypton Form</Name>
+    <Description>Creates a Windows Form that inherits from KryptonForm.</Description>
+    <ProjectType>CSharp</ProjectType>
+    <DefaultName>KryptonForm1.cs</DefaultName>
+    <SortOrder>1200</SortOrder>
+  </TemplateData>
+  <TemplateContent>
+    <ProjectItem ReplaceParameters="true" TargetFileName="$safeitemrootname$.cs">KryptonForm.cs</ProjectItem>
+    <ProjectItem ReplaceParameters="true" TargetFileName="$safeitemrootname$.Designer.cs">KryptonForm.Designer.cs</ProjectItem>
+  </TemplateContent>
+</VSTemplate>
