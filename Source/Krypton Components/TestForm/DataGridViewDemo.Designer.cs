@@ -71,6 +71,8 @@ namespace TestForm
             this.kchkReadOnly = new Krypton.Toolkit.KryptonCheckBox();
             this.kchkShowGridLines = new Krypton.Toolkit.KryptonCheckBox();
             this.kchkCornerRounding = new Krypton.Toolkit.KryptonCheckBox();
+            this.klblCornerRoundingRadius = new Krypton.Toolkit.KryptonLabel();
+            this.knudCornerRoundingRadius = new Krypton.Toolkit.KryptonNumericUpDown();
             this.kchkMultiSelect = new Krypton.Toolkit.KryptonCheckBox();
             this.kchkAllowUserToResizeRows = new Krypton.Toolkit.KryptonCheckBox();
             this.kchkAllowUserToResizeColumns = new Krypton.Toolkit.KryptonCheckBox();
@@ -178,6 +180,8 @@ namespace TestForm
             this.pnlOptions.Controls.Add(this.kchkReadOnly);
             this.pnlOptions.Controls.Add(this.kchkShowGridLines);
             this.pnlOptions.Controls.Add(this.kchkCornerRounding);
+            this.pnlOptions.Controls.Add(this.klblCornerRoundingRadius);
+            this.pnlOptions.Controls.Add(this.knudCornerRoundingRadius);
             this.pnlOptions.Controls.Add(this.kchkMultiSelect);
             this.pnlOptions.Controls.Add(this.kchkAllowUserToResizeRows);
             this.pnlOptions.Controls.Add(this.kchkAllowUserToResizeColumns);
@@ -461,6 +465,44 @@ namespace TestForm
             this.kchkCornerRounding.Values.Text = "Corner Rounding";
             this.kchkCornerRounding.CheckedChanged += new System.EventHandler(this.kchkCornerRounding_CheckedChanged);
             // 
+            // klblCornerRoundingRadius
+            // 
+            this.klblCornerRoundingRadius.Enabled = false;
+            this.klblCornerRoundingRadius.Location = new System.Drawing.Point(486, 86);
+            this.klblCornerRoundingRadius.Name = "klblCornerRoundingRadius";
+            this.klblCornerRoundingRadius.Size = new System.Drawing.Size(52, 20);
+            this.klblCornerRoundingRadius.TabIndex = 15;
+            this.klblCornerRoundingRadius.Values.Text = "Radius:";
+            // 
+            // knudCornerRoundingRadius
+            // 
+            this.knudCornerRoundingRadius.Enabled = false;
+            this.knudCornerRoundingRadius.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.knudCornerRoundingRadius.Location = new System.Drawing.Point(544, 84);
+            this.knudCornerRoundingRadius.Maximum = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            this.knudCornerRoundingRadius.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.knudCornerRoundingRadius.Name = "knudCornerRoundingRadius";
+            this.knudCornerRoundingRadius.Size = new System.Drawing.Size(56, 22);
+            this.knudCornerRoundingRadius.TabIndex = 16;
+            this.knudCornerRoundingRadius.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.knudCornerRoundingRadius.ValueChanged += new System.EventHandler(this.knudCornerRoundingRadius_ValueChanged);
+            // 
             // kchkMultiSelect
             // 
             this.kchkMultiSelect.Checked = true;
@@ -698,6 +740,8 @@ namespace TestForm
         private Krypton.Toolkit.KryptonNumericUpDown knudColumnHeadersHeight;
         private Krypton.Toolkit.KryptonCheckBox kchkShowGridLines;
         private Krypton.Toolkit.KryptonCheckBox kchkCornerRounding;
+        private Krypton.Toolkit.KryptonLabel klblCornerRoundingRadius;
+        private Krypton.Toolkit.KryptonNumericUpDown knudCornerRoundingRadius;
         private KryptonCheckBox kcbGridRtl;
         private KryptonDataGridViewTextBoxColumn colId;
         private KryptonDataGridViewTextBoxColumn colName;
