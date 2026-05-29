@@ -76,6 +76,37 @@ jobs:
           ref: Canary
           fetch-depth: 0
 
+      # Canary always builds Canary; the workflow file may land before Populate-WebView2.ps1 is merged to Canary.
+      - name: Checkout WebView2 CI script overlay
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          sparse-checkout: Scripts/CI/Populate-WebView2.ps1
+          sparse-checkout-cone-mode: true
+          path: _ci-overlay
+
+      - name: Ensure WebView2 CI script
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $dest = Join-Path $env:GITHUB_WORKSPACE 'Scripts/CI/Populate-WebView2.ps1'
+          if (Test-Path -LiteralPath $dest) {
+            Write-Host 'WebView2 CI script already present on checked-out branch.'
+            exit 0
+          }
+          $src = Join-Path $env:GITHUB_WORKSPACE '_ci-overlay/Scripts/CI/Populate-WebView2.ps1'
+          if (-not (Test-Path -LiteralPath $src)) {
+            Write-Error @"
+          Scripts/CI/Populate-WebView2.ps1 is missing on Canary and on workflow ref ($env:GITHUB_SHA).
+          Merge Scripts/CI/Populate-WebView2.ps1 into Canary in the same change set as these workflow updates.
+          "@
+          }
+          New-Item -ItemType Directory -Force -Path (Split-Path -Parent $dest) | Out-Null
+          Copy-Item -LiteralPath $src -Destination $dest -Force
+          Write-Host 'Copied WebView2 CI script from workflow ref onto Canary checkout.'
+
       # .NET 9 and 10; .NET 11 for net11.0-windows (DOTNET_PREVIEW_SETUP_VERSION when set, else 11.0.x).
       - name: Setup .NET (9 and 10)
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
