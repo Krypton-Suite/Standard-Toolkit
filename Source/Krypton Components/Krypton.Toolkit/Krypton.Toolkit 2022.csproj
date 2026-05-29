@@ -917,6 +917,7 @@
 	<None Update="../../../Assets/PNG/NuGet Package Icons/Krypton Stable.png" Link="Krypton Stable.png" />
   </ItemGroup>
   <ItemGroup>
+	<Folder Include="Palette Builtin\Visual Studio\Official Themes\2022\Schemes\" />
 	<Folder Include="Storage\Images\Generic\" />
   </ItemGroup>
 
@@ -937,8 +938,7 @@
   </ItemGroup>
 
   <!-- Bundle preserialized-resource dependencies in the nupkg (aggregate packages suppress dependencies). -->
-  <Target Name="KryptonPackPreserializedResourceDependencies"
-          BeforeTargets="_GetPackageFiles">
+  <Target Name="KryptonPackPreserializedResourceDependencies" BeforeTargets="_GetPackageFiles">
 	<PropertyGroup>
 	  <_KryptonPackSreLibFolder Condition="$(TargetFramework.StartsWith('net4'))">net462</_KryptonPackSreLibFolder>
 	  <_KryptonPackSreLibFolder Condition="'$(TargetFramework)' == 'net8.0-windows'">net8.0</_KryptonPackSreLibFolder>

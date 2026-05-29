@@ -84,6 +84,8 @@ public class PaletteModeStrings : GlobalId
     internal const string DEFAULT_PALETTE_MATERIAL_DARK = @"Material - Dark";
     internal const string DEFAULT_PALETTE_MATERIAL_LIGHT_RIPPLE = @"Material - Light (Ripple)";
     internal const string DEFAULT_PALETTE_MATERIAL_DARK_RIPPLE = @"Material - Dark (Ripple)";
+    internal const string DEFAULT_PALETTE_RETRO_GREEN = @"Retro - Green";
+    internal const string DEFAULT_PALETTE_RETRO_BLUE = @"Retro - Blue";
     internal const string DEFAULT_PALETTE_CUSTOM = @"Custom";
 
     #endregion
@@ -164,12 +166,14 @@ public class PaletteModeStrings : GlobalId
             //{ DEFAULT_PALETTE_VISUAL_STUDIO_2017_LIGHT_MODE, PaletteMode.VisualStudio2017LightMode },
             //{ DEFAULT_PALETTE_VISUAL_STUDIO_2019_DARK_MODE, PaletteMode.VisualStudio2019DarkMode },
             //{ DEFAULT_PALETTE_VISUAL_STUDIO_2019_LIGHT_MODE, PaletteMode.VisualStudio2019LightMode },
-            //{ DEFAULT_PALETTE_VISUAL_STUDIO_2022_DARK_MODE, PaletteMode.VisualStudio2022DarkMode },
-            //{ DEFAULT_PALETTE_VISUAL_STUDIO_2022_LIGHT_MODE, PaletteMode.VisualStudio2022LightMode },
+            { DEFAULT_PALETTE_VISUAL_STUDIO_2022_DARK_MODE, PaletteMode.VisualStudio2022Dark },
+            //{ DEFAULT_PALETTE_VISUAL_STUDIO_2022_LIGHT_MODE, PaletteMode.VisualStudio2022Light },
             { DEFAULT_PALETTE_MATERIAL_LIGHT, PaletteMode.MaterialLight },
             { DEFAULT_PALETTE_MATERIAL_DARK, PaletteMode.MaterialDark },
             { DEFAULT_PALETTE_MATERIAL_LIGHT_RIPPLE, PaletteMode.MaterialLightRipple },
             { DEFAULT_PALETTE_MATERIAL_DARK_RIPPLE, PaletteMode.MaterialDarkRipple },
+            { DEFAULT_PALETTE_RETRO_GREEN, PaletteMode.RetroGreen },
+            { DEFAULT_PALETTE_RETRO_BLUE, PaletteMode.RetroBlue },
             { DEFAULT_PALETTE_CUSTOM, PaletteMode.Custom }
         });
 
