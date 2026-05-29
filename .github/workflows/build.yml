@@ -143,8 +143,9 @@ jobs:
           key: ${{ steps.webview2_cache_restore.outputs.cache-primary-key }}
 
       # Match nightly.proj: Release + TFMs=all so TargetFrameworks / package graphs align (avoids CS7069 / prune mismatches).
+      # UseArtifactsOutput must match MSBuild Build (avoids NETSDK1005 under artifacts/obj).
       - name: Restore
-        run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnx" -p:Configuration=Release -p:TFMs=all
+        run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnx" -p:Configuration=Release -p:TFMs=all -p:UseArtifactsOutput=true
 
       # /m: multi-processor MSBuild; nightly.proj sets BuildInParallel on the Krypton.* graph.
       - name: Build
@@ -264,8 +265,9 @@ jobs:
           path: ${{ runner.temp }}/webview2
           key: ${{ steps.webview2_cache_restore_release.outputs.cache-primary-key }}
 
+      # UseArtifactsOutput must match Build/Pack so project.assets.json lands under artifacts/obj (avoids NETSDK1005).
       - name: Restore
-        run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnx" -p:Configuration=Release -p:TFMs=all
+        run: msbuild /m "Scripts/Build/build.proj" /t:Restore /p:Configuration=Release /p:Platform="Any CPU" /p:UseArtifactsOutput=true /p:TFMs=all
 
       # /m: multi-processor MSBuild (all runner CPUs). build.proj orchestrates Krypton.* in parallel where references allow.
       - name: Build Release
