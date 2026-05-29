@@ -1,3 +1,0 @@
-<Project>
-  <Import Project="$(VSToolsPath)\vssdk\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != '' and Exists('$(VSToolsPath)\vssdk\Microsoft.VsSDK.targets')" />
-</Project>

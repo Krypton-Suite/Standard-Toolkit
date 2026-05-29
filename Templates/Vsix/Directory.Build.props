@@ -1,6 +1,0 @@
-<Project>
-  <PropertyGroup>
-    <IsPackable>false</IsPackable>
-    <EnableNETAnalyzers>false</EnableNETAnalyzers>
-  </PropertyGroup>
-</Project>
