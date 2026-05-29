@@ -1,0 +1,1067 @@
+﻿#region BSD License
+/*
+ *
+ * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
+ *
+ *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *
+ */
+#endregion
+
+namespace Krypton.Toolkit;
+
+/// <summary>
+/// Defines a KryptonDateTimePicker cell type for the KryptonDataGridView control
+/// </summary>
+public class KryptonDataGridViewDateTimePickerCell : DataGridViewTextBoxCell
+{
+    #region Static Fields
+    private static readonly DateTimeConverter _dtc = new DateTimeConverter();
+    private static readonly Type _defaultEditType = typeof(KryptonDataGridViewDateTimePickerEditingControl);
+    private static readonly Type _defaultValueType = typeof(DateTime);
+
+    protected static readonly int IndicatorSize = 16;
+    protected static readonly int IndicatorGap = 3;
+    #endregion
+
+    #region Instance Fields
+    private bool _showCheckBox;
+    private bool _showUpDown;
+    private bool _autoShift;
+    private bool _checked;
+    private string _customFormat;
+    private string _customNullText;
+    private DateTime _maxDate;
+    private DateTime _minDate;
+    private DateTimePickerFormat _format;
+    private Size _calendarDimensions;
+    private string _calendarTodayText;
+    private Day _calendarFirstDayOfWeek;
+    private bool _calendarShowToday;
+    private bool _calendarCloseOnTodayClick;
+    private bool _calendarShowTodayCircle;
+    private bool _calendarShowWeekNumbers;
+    private DateTime _calendarTodayDate;
+    #endregion
+
+    #region Identity
+    /// <summary>
+    /// Constructor for the KryptonDataGridViewDateTimePickerCell cell type
+    /// </summary>
+    public KryptonDataGridViewDateTimePickerCell()
+    {
+        // Set the default values of the properties:
+        _showCheckBox = false;
+        _showUpDown = false;
+        _autoShift = false;
+        _checked = false;
+        _customFormat = string.Empty;
+        _customNullText = " ";
+        _maxDate = DateTime.MaxValue;
+        _minDate = DateTime.MinValue;
+        _format = DateTimePickerFormat.Long;
+        _calendarDimensions = new Size(1, 1);
+        _calendarTodayText = "Today:";
+        _calendarFirstDayOfWeek = Day.Default;
+        _calendarShowToday = true;
+        _calendarCloseOnTodayClick = false;
+        _calendarShowTodayCircle = true;
+        _calendarShowWeekNumbers = false;
+        _calendarTodayDate = DateTime.Now.Date;
+    }
+
+    /// <summary>
+    /// Returns a standard textual representation of the cell.
+    /// </summary>
+    public override string ToString() => $"KryptonDataGridViewDateTimePickerCell {{ ColumnIndex={ColumnIndex.ToString(CultureInfo.CurrentCulture)}, RowIndex={RowIndex.ToString(CultureInfo.CurrentCulture)} }}";
+
+    #endregion
+
+    #region Public
+    /// <summary>
+    /// Define the type of the cell's editing control
+    /// </summary>
+    public override Type EditType => _defaultEditType;
+
+    /// <summary>
+    /// Returns the type of the cell's Value property
+    /// </summary>
+    public override Type ValueType => base.ValueType ?? _defaultValueType;
+
+    /// <summary>
+    /// Clones a DataGridViewDateTimePickerCell cell, copies all the custom properties.
+    /// </summary>
+    public override object Clone()
+    {
+        var dateTimeCell = base.Clone() as KryptonDataGridViewDateTimePickerCell ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("dateTimeCell"));
+
+        dateTimeCell.AutoShift = AutoShift;
+        dateTimeCell.Checked = Checked;
+        dateTimeCell.ShowCheckBox = ShowCheckBox;
+        dateTimeCell.ShowUpDown = ShowUpDown;
+        dateTimeCell.CustomFormat = CustomFormat;
+        dateTimeCell.CustomNullText = CustomNullText;
+        dateTimeCell.MaxDate = MaxDate;
+        dateTimeCell.MinDate = MinDate;
+        dateTimeCell.Format = Format;
+        dateTimeCell.CalendarDimensions = CalendarDimensions;
+        dateTimeCell.CalendarTodayText = CalendarTodayText;
+        dateTimeCell.CalendarFirstDayOfWeek = CalendarFirstDayOfWeek;
+        dateTimeCell.CalendarShowToday = CalendarShowToday;
+        dateTimeCell.CalendarCloseOnTodayClick = CalendarCloseOnTodayClick;
+        dateTimeCell.CalendarShowTodayCircle = CalendarShowTodayCircle;
+        dateTimeCell.CalendarShowWeekNumbers = CalendarShowWeekNumbers;
+        dateTimeCell.CalendarTodayDate = CalendarTodayDate;
+
+        return dateTimeCell;
+    }
+
+    /// <summary>
+    /// The ShowCheckBox property replicates the one from the KryptonDateTimePicker control
+    /// </summary>
+    [DefaultValue(false)]
+    public bool ShowCheckBox
+    {
+        get => _showCheckBox;
+
+        set
+        {
+            if (_showCheckBox != value)
+            {
+                SetShowCheckBox(RowIndex, value);
+                OnCommonChange();
+            }
+        }
+    }
+
+    /// <summary>
+    /// The ShowUpDown property replicates the one from the KryptonDateTimePicker control
+    /// </summary>
+    [DefaultValue(false)]
+    public bool ShowUpDown
+    {
+        get => _showUpDown;
+
+        set
+        {
+            if (_showUpDown != value)
+            {
+                SetShowUpDown(RowIndex, value);
+                OnCommonChange();
+            }
+        }
+    }
+
+    /// <summary>
+    /// The AutoShift property replicates the one from the KryptonDateTimePicker control
+    /// </summary>
+    [DefaultValue(false)]
+    public bool AutoShift
+    {
+        get => _autoShift;
+
+        set
+        {
+            if (_autoShift != value)
+            {
+                SetAutoShift(RowIndex, value);
+                OnCommonChange();
+            }
+        }
+    }
+
+    /// <summary>
+    /// The Checked property replicates the one from the KryptonDateTimePicker control
+    /// </summary>
+    [DefaultValue(false)]
+    public bool Checked
+    {
+        get => _checked;
+
+        set
+        {
+            if (_checked != value)
+            {
+                SetChecked(RowIndex, value);
+                OnCommonChange();
+            }
+        }
+    }
+
+    /// <summary>
+    /// The CustomFormat property replicates the one from the KryptonDateTimePicker control
+    /// </summary>
+    [DefaultValue("")]
+    public string CustomFormat
+    {
+        get => _customFormat;
+
+        set
+        {
+            if (_customFormat != value)
+            {
+                SetCustomFormat(RowIndex, value);
+                OnCommonChange();
+            }
+        }
+    }
+
+    /// <summary>
+    /// The CustomNullText property replicates the one from the KryptonDateTimePicker control
+    /// </summary>
+    [DefaultValue(" ")]
+    public string CustomNullText
+    {
+        get => _customNullText;
+
+        set
+        {
+            if (_customNullText != value)
+            {
+                SetCustomNullText(RowIndex, value);
+                OnCommonChange();
+            }
+        }
+    }
+
+    /// <summary>
+    /// The MaxDate property replicates the one from the KryptonDateTimePicker control
+    /// </summary>
+    public DateTime MaxDate
+    {
+        get => _maxDate;
+
+        set
+        {
+            if (_maxDate != value)
+            {
+                SetMaxDate(RowIndex, value);
+                OnCommonChange();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Should the MaxDate property be serialized.
+    /// </summary>
+    /// <returns>True if property needs to be serialized.</returns>
+    public bool ShouldSerializeMaxDate() => (MaxDate != DateTimePicker.MaximumDateTime) && (MaxDate != DateTime.MaxValue);
+
+    private void ResetMaxDate() => MaxDate = DateTime.MaxValue;
+
+    /// <summary>
+    /// The MaxDate property replicates the one from the KryptonDateTimePicker control
+    /// </summary>
+    public DateTime MinDate
+    {
+        get => _minDate;
+
+        set
+        {
+            if (_minDate != value)
+            {
+                SetMinDate(RowIndex, value);
+                OnCommonChange();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Should the MinDate property be serialized.
+    /// </summary>
+    /// <returns>True if property needs to be serialized.</returns>
+    public bool ShouldSerializeMinDate() => (MinDate != DateTimePicker.MinimumDateTime) && (MinDate != DateTime.MinValue);
+
+    private void ResetMinDate() => MinDate = DateTime.MinValue;
+
+    /// <summary>
+    /// The Format property replicates the one from the KryptonDateTimePicker control
+    /// </summary>
+    [DefaultValue(DateTimePickerFormat.Long)]
+    public DateTimePickerFormat Format
+    {
+        get => _format;
+
+        set
+        {
+            if (_format != value)
+            {
+                SetFormat(RowIndex, value);
+                OnCommonChange();
+            }
+        }
+    }
+
+    /// <summary>
+    /// The CalendarDimensions property replicates the one from the KryptonDateTimePicker control
+    /// </summary>
+    [DefaultValue(typeof(Size), "1,1")]
+    public Size CalendarDimensions
+    {
+        get => _calendarDimensions;
+
+        set
+        {
+            if (_calendarDimensions != value)
+            {
+                SetCalendarDimensions(RowIndex, value);
+                OnCommonChange();
+            }
+        }
+    }
+
+    /// <summary>
+    /// The CalendarTodayText property replicates the one from the KryptonDateTimePicker control
+    /// </summary>
+    [DefaultValue("Today:")]
+    public string CalendarTodayText
+    {
+        get => _calendarTodayText;
+
+        set
+        {
+            if (_calendarTodayText != value)
+            {
+                SetCalendarTodayText(RowIndex, value);
+                OnCommonChange();
+            }
+        }
+    }
+
+    /// <summary>
+    /// The CalendarFirstDayOfWeek property replicates the one from the KryptonDateTimePicker control
+    /// </summary>
+    [DefaultValue(Day.Default)]
+    public Day CalendarFirstDayOfWeek
+    {
+        get => _calendarFirstDayOfWeek;
+
+        set
+        {
+            if (_calendarFirstDayOfWeek != value)
+            {
+                SetCalendarFirstDayOfWeek(RowIndex, value);
+                OnCommonChange();
+            }
+        }
+    }
+
+    /// <summary>
+    /// The CalendarShowToday property replicates the one from the KryptonDateTimePicker control
+    /// </summary>
+    [DefaultValue(true)]
+    public bool CalendarShowToday
+    {
+        get => _calendarShowToday;
+
+        set
+        {
+            if (_calendarShowToday != value)
+            {
+                SetCalendarShowToday(RowIndex, value);
+                OnCommonChange();
+            }
+        }
+    }
+
+    /// <summary>
+    /// The CalendarCloseOnTodayClick property replicates the one from the KryptonDateTimePicker control
+    /// </summary>
+    [DefaultValue(true)]
+    public bool CalendarCloseOnTodayClick
+    {
+        get => _calendarCloseOnTodayClick;
+
+        set
+        {
+            if (_calendarCloseOnTodayClick != value)
+            {
+                SetCalendarCloseOnTodayClick(RowIndex, value);
+                OnCommonChange();
+            }
+        }
+    }
+
+
+    /// <summary>
+    /// The CalendarShowTodayCircle property replicates the one from the KryptonDateTimePicker control
+    /// </summary>
+    [DefaultValue(true)]
+    public bool CalendarShowTodayCircle
+    {
+        get => _calendarShowTodayCircle;
+
+        set
+        {
+            if (_calendarShowTodayCircle != value)
+            {
+                SetCalendarShowTodayCircle(RowIndex, value);
+                OnCommonChange();
+            }
+        }
+    }
+
+    /// <summary>
+    /// The CalendarShowWeekNumbers property replicates the one from the KryptonDateTimePicker control
+    /// </summary>
+    [DefaultValue(true)]
+    public bool CalendarShowWeekNumbers
+    {
+        get => _calendarShowWeekNumbers;
+
+        set
+        {
+            if (_calendarShowWeekNumbers != value)
+            {
+                SetCalendarShowWeekNumbers(RowIndex, value);
+                OnCommonChange();
+            }
+        }
+    }
+
+    /// <summary>
+    /// The CalendarTodayDate property replicates the one from the KryptonDateTimePicker control
+    /// </summary>
+    [DefaultValue(true)]
+    public DateTime CalendarTodayDate
+    {
+        get => _calendarTodayDate;
+
+        set
+        {
+            if (_calendarTodayDate != value)
+            {
+                SetCalendarTodayDate(RowIndex, value);
+                OnCommonChange();
+            }
+        }
+    }
+
+    private void ResetCalendarTodayDate() => CalendarTodayDate = DateTime.Now.Date;
+
+    private bool ShouldSerializeCalendarTodayDate() => CalendarTodayDate != DateTime.Now.Date;
+
+    /// <summary>
+    /// DetachEditingControl gets called by the DataGridView control when the editing session is ending
+    /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
+    public override void DetachEditingControl()
+    {
+        DataGridView? dataGridView = DataGridView;
+        if (dataGridView?.EditingControl == null)
+        {
+            throw new InvalidOperationException("Cell is detached or its grid has no editing control.");
+        }
+
+        base.DetachEditingControl();
+    }
+
+    /// <summary>
+    /// Custom implementation of the InitializeEditingControl function. This function is called by the DataGridView control
+    /// at the beginning of an editing session. It makes sure that the properties of the KryptonDateTimePicker editing control are
+    /// set according to the cell properties.
+    /// </summary>
+    public override void InitializeEditingControl(int rowIndex,
+        object? initialFormattedValue,
+        DataGridViewCellStyle dataGridViewCellStyle)
+    {
+        base.InitializeEditingControl(rowIndex, initialFormattedValue, dataGridViewCellStyle);
+
+        if (DataGridView!.EditingControl is KryptonDateTimePicker dateTime)
+        {
+            if (OwningColumn is KryptonDataGridViewDateTimePickerColumn dateTimeColumn)
+            {
+                // Ensure RTL-aware layout of the inner control (drops glyph to the left when RTL)
+                dateTime.RightToLeftLayout = DataGridView.RightToLeft == RightToLeft.Yes;
+                dateTime.ShowCheckBox = ShowCheckBox;
+                dateTime.ShowUpDown = ShowUpDown;
+                dateTime.ShowAdornments = true;
+                dateTime.AutoShift = AutoShift;
+                dateTime.Checked = Checked;
+                dateTime.CustomFormat = CustomFormat;
+                dateTime.CustomNullText = CustomNullText;
+                dateTime.MaxDate = MaxDate;
+                dateTime.MinDate = MinDate;
+                dateTime.Format = Format;
+                dateTime.CalendarDimensions = CalendarDimensions;
+                dateTime.CalendarTodayText = CalendarTodayText;
+                dateTime.CalendarFirstDayOfWeek = CalendarFirstDayOfWeek;
+                dateTime.CalendarShowToday = CalendarShowToday;
+                dateTime.CalendarCloseOnTodayClick = CalendarCloseOnTodayClick;
+                dateTime.CalendarShowTodayCircle = CalendarShowTodayCircle;
+                dateTime.CalendarShowWeekNumbers = CalendarShowWeekNumbers;
+                dateTime.CalendarTodayDate = CalendarTodayDate;
+                dateTime.CalendarAnnuallyBoldedDates = dateTimeColumn.CalendarAnnuallyBoldedDates;
+                dateTime.CalendarMonthlyBoldedDates = dateTimeColumn.CalendarMonthlyBoldedDates;
+                dateTime.CalendarBoldedDates = dateTimeColumn.CalendarBoldedDates;
+
+                // Map ButtonSpecs from column to editor
+                KryptonDataGridViewUtilities.SyncEditorButtonSpecs(DataGridView as KryptonDataGridView, dateTimeColumn, dateTime.ButtonSpecs);
+                foreach (var spec in dateTime.ButtonSpecs.Enumerate().OfType<ButtonSpecAny>())
+                {
+                    spec.Click += (s, e) =>
+                        dateTimeColumn.RaiseButtonSpecClick(new DataGridViewButtonSpecClickEventArgs(dateTimeColumn, this, spec));
+                }
+                dateTime.PerformLayout();
+                dateTime.Invalidate();
+            }
+
+            if ((initialFormattedValue is not string initialFormattedValueStr) || string.IsNullOrEmpty(initialFormattedValueStr))
+            {
+                dateTime.ValueNullable = null;
+                return;
+            }
+
+            var provider = CommonHelper.ResolveFormatProvider(dataGridViewCellStyle);
+            var culture = CommonHelper.ResolveCultureFromProvider(provider);
+            string fmt = ResolveDateTimeFormat(dataGridViewCellStyle?.Format, culture);
+
+            if (CommonHelper.TryParseDateTimeWithFallback(initialFormattedValueStr, fmt, culture, out DateTime dt))
+            {
+                dateTime.Value = dt;
+            }
+            else
+            {
+                dateTime.Text = initialFormattedValueStr;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets the value of the cell as formatted for display.
+    /// </summary>
+    /// <param name="value">The value to be formatted.</param>
+    /// <param name="rowIndex">The index of the cell's parent row.</param>
+    /// <param name="cellStyle">The DataGridViewCellStyle in effect for the cell.</param>
+    /// <param name="valueTypeConverter">A TypeConverter associated with the value type that provides custom conversion to the formatted value type, or null if no such custom conversion is needed</param>
+    /// <param name="formattedValueTypeConverter">A TypeConverter associated with the formatted value type that provides custom conversion from the value type, or null if no such custom conversion is needed.</param>
+    /// <param name="context">A bitwise combination of DataGridViewDataErrorContexts values describing the context in which the formatted value is needed.</param>
+    /// <returns></returns>
+    protected override object? GetFormattedValue(object? value,
+        int rowIndex,
+        ref DataGridViewCellStyle cellStyle,
+        TypeConverter? valueTypeConverter,
+        TypeConverter? formattedValueTypeConverter,
+        DataGridViewDataErrorContexts context)
+    {
+        if ((value == null) || (value == DBNull.Value))
+        {
+            return string.Empty;
+        }
+
+        if (value is DateTime dt)
+        {
+            var provider = CommonHelper.ResolveFormatProvider(cellStyle);
+            string format = ResolveDateTimeFormat(cellStyle?.Format, CultureInfo.CurrentCulture);
+            return dt.ToString(format, provider);
+        }
+
+        return base.GetFormattedValue(value, rowIndex, ref cellStyle, valueTypeConverter, formattedValueTypeConverter, context);
+    }
+
+    /// <summary>
+    /// Converts a value formatted for display to an actual cell value.
+    /// </summary>
+    /// <param name="formattedValue">The display value of the cell.</param>
+    /// <param name="cellStyle">The DataGridViewCellStyle in effect for the cell.</param>
+    /// <param name="formattedValueTypeConverter">A TypeConverter for the display value type, or null to use the default converter.</param>
+    /// <param name="valueTypeConverter">A TypeConverter for the cell value type, or null to use the default converter.</param>
+    /// <returns></returns>
+    public override object ParseFormattedValue(object? formattedValue,
+        DataGridViewCellStyle cellStyle,
+        TypeConverter? formattedValueTypeConverter,
+        TypeConverter? valueTypeConverter)
+    {
+        if (formattedValue == null)
+        {
+            return DBNull.Value;
+        }
+
+        string stringValue = (string)formattedValue;
+        if (string.IsNullOrEmpty(stringValue))
+        {
+            return DBNull.Value;
+        }
+
+        var provider = CommonHelper.ResolveFormatProvider(cellStyle);
+        var culture = CommonHelper.ResolveCultureFromProvider(provider);
+        string fmt = ResolveDateTimeFormat(cellStyle?.Format, culture);
+
+        if (CommonHelper.TryParseDateTimeWithFallback(stringValue, fmt, culture, out DateTime dt))
+        {
+            return dt;
+        }
+
+        return _dtc.ConvertFromString(null, culture, stringValue)!;
+    }
+
+    /// <summary>
+    /// Ensure the editing panel/control spans the full cell width by reclaiming the indicator strip at panel layout time.
+    /// </summary>
+    public override void PositionEditingControl(bool setLocation,
+        bool setSize,
+        Rectangle cellBounds,
+        Rectangle cellClip,
+        DataGridViewCellStyle cellStyle,
+        bool singleVerticalBorderAdded,
+        bool singleHorizontalBorderAdded,
+        bool isFirstDisplayedColumn,
+        bool isFirstDisplayedRow)
+    {
+        // Reserve strip: reclaim from padding first, then subtract only the residual from bounds
+        var padded = cellStyle.Clone();
+        int buttonWidth = SystemInformation.VerticalScrollBarWidth - 2; // actual button width used in edit mode
+        bool rtl = DataGridView?.RightToLeft == RightToLeft.Yes;
+        int residualButton;
+        if (rtl)
+        {
+            // In RTL scenarios the DataGridView tends to apply the reserve via Right padding
+            int reclaim = Math.Min(padded.Padding.Right, buttonWidth);
+            residualButton = buttonWidth - reclaim; // always >= 0
+            padded.Padding = new Padding(padded.Padding.Left, padded.Padding.Top, padded.Padding.Right - reclaim, padded.Padding.Bottom);
+        }
+        else
+        {
+            int reclaim = Math.Max(padded.Padding.Right, buttonWidth);
+            residualButton = buttonWidth - reclaim;
+            padded.Padding = new Padding(padded.Padding.Left, padded.Padding.Top, padded.Padding.Right - reclaim, padded.Padding.Bottom);
+        }
+
+        Rectangle editingControlBounds = PositionEditingPanel(cellBounds, cellClip, padded,
+            singleVerticalBorderAdded, singleHorizontalBorderAdded,
+            isFirstDisplayedColumn, isFirstDisplayedRow);
+
+        editingControlBounds = GetAdjustedEditingControlBounds(editingControlBounds, padded);
+        // Nothing further here for RTL!
+        if (!rtl)
+        {
+            // Important: mirror the non-edit left inset (IndicatorGap):
+            // = 1px base + cellStyle left padding + 2px from DTP layout padding (_drawDockerOuter)!!!
+            editingControlBounds.X += IndicatorGap;
+            editingControlBounds.Width -= IndicatorGap;
+            editingControlBounds.Width -= residualButton;
+        }
+
+        DataGridView!.EditingControl!.Location = new Point(editingControlBounds.X, editingControlBounds.Y);
+        DataGridView!.EditingControl!.Size = new Size(editingControlBounds.Width, editingControlBounds.Height);
+    }
+
+    #endregion
+
+    #region Protected
+
+    ///<inheritdoc/>
+    protected override void Paint(Graphics graphics, Rectangle clipBounds, Rectangle cellBounds, int rowIndex, DataGridViewElementStates cellState, object? value,
+        object? formattedValue, string? errorText, DataGridViewCellStyle cellStyle, DataGridViewAdvancedBorderStyle advancedBorderStyle, DataGridViewPaintParts paintParts)
+    {
+        if (DataGridView is not null
+            && KryptonOwningColumn?.CellIndicatorImage is Image image)
+        {
+            int pos;
+            Rectangle textArea;
+            var righToLeft = DataGridView.RightToLeft == RightToLeft.Yes;
+
+            // Use the same button width as the editor so renderer output matches
+            int buttonWidth = SystemInformation.VerticalScrollBarWidth - 2;
+            int reservedStrip = buttonWidth + IndicatorGap;
+
+            if (righToLeft)
+            {
+                pos = cellBounds.Left;
+
+                // The WinForms cell content always receives padding of one by default, custom padding is added to that.
+                // Reserve the indicator strip on the left; padding contributes first via reservedStrip semantics
+                int reserveLeft = Math.Max(reservedStrip - cellStyle.Padding.Left, 0);
+                textArea = new Rectangle(
+                    1 + cellBounds.Left + cellStyle.Padding.Left + reserveLeft,
+                    cellBounds.Top + cellStyle.Padding.Top,
+                    cellBounds.Width  - cellStyle.Padding.Left - cellStyle.Padding.Right  - reserveLeft,
+                    cellBounds.Height - cellStyle.Padding.Top  - cellStyle.Padding.Bottom - 2);
+            }
+            else
+            {
+                pos = cellBounds.Right - buttonWidth;
+
+                // The WinForms cell content always receives padding of one by default, custom padding is added to that.
+                // Reserve the indicator strip on the right; padding contributes first via reservedStrip semantics
+                int reserveRight = Math.Max(reservedStrip - cellStyle.Padding.Right, 0);
+                textArea = new Rectangle(
+                    1 + cellBounds.Left + cellStyle.Padding.Left,
+                    cellBounds.Top + cellStyle.Padding.Top,
+                    cellBounds.Width  - cellStyle.Padding.Left - cellStyle.Padding.Right  - reserveRight,
+                    cellBounds.Height - cellStyle.Padding.Top  - cellStyle.Padding.Bottom - 2);
+            }
+
+            // When the Krypton column is part of a WinForms DataGridView let the default paint routine paint the cell.
+            // Afterwards we paint the text and drop down image.
+            if (DataGridView is DataGridView)
+            {
+                base.Paint(graphics, clipBounds, cellBounds, rowIndex, cellState, null,
+                    string.Empty, errorText, cellStyle, advancedBorderStyle, paintParts);
+            }
+
+            // Draw the drop down button, only if no ErrorText has been set.
+            // If the ErrorText is set, only the error icon is shown. Otherwise both are painted on the same spot.
+            if (ErrorText.Length == 0)
+            {
+                var buttonRect = new Rectangle(
+                    righToLeft
+                        ? cellBounds.Left + IndicatorGap - 1
+                        : cellBounds.Right - buttonWidth - IndicatorGap + 1,
+                    textArea.Top,
+                    buttonWidth,
+                    textArea.Height);
+
+                if (false && DataGridView is KryptonDataGridView kgrid && kgrid.Renderer is { } renderer)
+                {
+                    var rc = new RenderContext(kgrid, graphics, buttonRect, renderer);
+                    var triple = new PaletteTripleToPalette(kgrid.Redirector,
+                        PaletteBackStyle.ButtonStandalone,
+                        PaletteBorderStyle.ButtonStandalone,
+                        PaletteContentStyle.ButtonStandalone);
+                    triple.SetStyles(ButtonStyle.InputControl);
+                    renderer.RenderGlyph.DrawInputControlDropDownGlyph(rc, buttonRect, triple.PaletteContent!, PaletteState.Normal);
+                }
+                else
+                {
+                    // Use crisp cached glyph rendered by renderer if available
+                    var sized = KryptonOwningColumn?.GetIndicatorImageForSize(Math.Min(buttonRect.Width, buttonRect.Height)) ?? image;
+                    int y = textArea.Top + (textArea.Height - buttonWidth) / 2;
+                    graphics.DrawImage(sized, new Rectangle(buttonRect.X, y, buttonWidth, buttonWidth));
+                }
+
+                if (DataGridView is DataGridView grid
+                    && grid.Rows.SharedRow(rowIndex).Index != -1
+                    && formattedValue is string str
+                    && str.Length > 0)
+                {
+                    var provider = CommonHelper.ResolveFormatProvider(cellStyle);
+                    var culture = CommonHelper.ResolveCultureFromProvider(provider);
+                    string fmt = ResolveDateTimeFormat(cellStyle?.Format, CultureInfo.CurrentCulture);
+                    if (CommonHelper.TryParseDateTimeWithFallback(str, fmt, culture, out DateTime dt))
+                    {
+                        formattedValue = dt.ToString(fmt, provider);
+                    }
+                }
+            }
+            else
+            {
+                formattedValue = errorText;
+            }
+
+            //#if DEBUG
+            //var dbg = new Rectangle(textArea.X, textArea.Y, Math.Max(0, textArea.Width - 1), Math.Max(0, textArea.Height - 1));
+            //graphics.DrawRectangle(Pens.Red, dbg);
+            //#endif
+
+            var displayForeColor = (cellState & DataGridViewElementStates.Selected) != 0
+                ? cellStyle!.SelectionForeColor
+                : cellStyle!.ForeColor;
+
+            TextRenderer.DrawText(graphics, formattedValue?.ToString() ?? string.Empty, cellStyle.Font, textArea, displayForeColor,
+                KryptonDataGridViewUtilities.ComputeTextFormatFlagsForCellStyleAlignment(righToLeft, cellStyle.Alignment, cellStyle.WrapMode));
+        }
+    }
+
+    /// <summary>
+    /// Customized implementation of the GetErrorIconBounds function in order to draw the potential
+    /// error icon next to the up/down buttons and not on top of them.
+    /// </summary>
+    protected override Rectangle GetErrorIconBounds(Graphics graphics, DataGridViewCellStyle cellStyle, int rowIndex)
+    {
+        Rectangle errorIconBounds = base.GetErrorIconBounds(graphics, cellStyle, rowIndex);
+
+        errorIconBounds.X = DataGridView!.RightToLeft == RightToLeft.Yes
+            ? errorIconBounds.Left + IndicatorSize
+            : errorIconBounds.Left - IndicatorSize;
+
+        return errorIconBounds;
+    }
+
+    /// <summary>
+    /// Custom implementation of the GetPreferredSize function.
+    /// </summary>
+    protected override Size GetPreferredSize(Graphics graphics, DataGridViewCellStyle cellStyle, int rowIndex, Size constraintSize)
+    {
+        if (DataGridView == null)
+        {
+            return new Size(-1, -1);
+        }
+
+        var sz = base.GetPreferredSize(graphics, cellStyle, rowIndex, constraintSize);
+        if (rowIndex < 0)
+        {
+            sz.Width += IndicatorSize + IndicatorGap;
+            return sz;
+        }
+
+        var provider = CommonHelper.ResolveFormatProvider(cellStyle);
+        string format = ResolveDateTimeFormat(cellStyle?.Format, CultureInfo.CurrentCulture);
+
+        object? raw = GetValue(rowIndex);
+        string text;
+        if (raw is DateTime dt)
+        {
+            text = dt.ToString(format, provider);
+        }
+        else if (raw is string s && DateTime.TryParse(s, out DateTime parsed))
+        {
+            text = parsed.ToString(format, provider);
+        }
+        else
+        {
+            text = Convert.ToString(raw, CultureInfo.CurrentCulture) ?? string.Empty;
+        }
+
+        bool rtl = DataGridView.RightToLeft == RightToLeft.Yes;
+        TextFormatFlags flags = KryptonDataGridViewUtilities.ComputeTextFormatFlagsForCellStyleAlignment(rtl, cellStyle!.Alignment, cellStyle!.WrapMode);
+
+        Size textSize;
+        if ((constraintSize.Width > 0) && (cellStyle.WrapMode != DataGridViewTriState.False))
+        {
+            int availTextW = Math.Max(1, constraintSize.Width - IndicatorSize - IndicatorGap - cellStyle.Padding.Horizontal);
+            textSize = TextRenderer.MeasureText(graphics, text, cellStyle.Font, new Size(availTextW, int.MaxValue), flags);
+        }
+        else
+        {
+            textSize = TextRenderer.MeasureText(graphics, text, cellStyle.Font, Size.Empty, flags);
+        }
+
+        int width = textSize.Width + cellStyle.Padding.Horizontal + IndicatorSize + IndicatorGap + 1;
+        int height = Math.Max(textSize.Height + cellStyle.Padding.Vertical + 1, sz.Height);
+        return new Size(width, height);
+    }
+    #endregion
+
+    #region Private
+
+    private KryptonDataGridViewDateTimePickerEditingControl EditingDateTimePicker =>
+        DataGridView!.EditingControl as KryptonDataGridViewDateTimePickerEditingControl ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(DataGridView.EditingControl)));
+
+    private void OnCommonChange()
+    {
+        if (DataGridView is { IsDisposed: false, Disposing: false })
+        {
+            if (RowIndex == -1)
+            {
+                DataGridView.InvalidateColumn(ColumnIndex);
+            }
+            else
+            {
+                DataGridView.UpdateCellValue(ColumnIndex, RowIndex);
+            }
+        }
+    }
+
+    private bool OwnsEditingDateTimePicker(int rowIndex) =>
+        rowIndex != -1 && DataGridView is { EditingControl: KryptonDataGridViewDateTimePickerEditingControl control }
+                       && (rowIndex == ((IDataGridViewEditingControl)control).EditingControlRowIndex);
+
+    private Rectangle GetAdjustedEditingControlBounds(Rectangle editingControlBounds,
+        DataGridViewCellStyle cellStyle)
+    {
+        var preferredHeight = DataGridView!.EditingControl!.GetPreferredSize(new Size(editingControlBounds.Width, 10000)).Height;
+        if (preferredHeight < editingControlBounds.Height)
+        {
+            switch (cellStyle.Alignment)
+            {
+                case DataGridViewContentAlignment.MiddleLeft:
+                case DataGridViewContentAlignment.MiddleCenter:
+                case DataGridViewContentAlignment.MiddleRight:
+                    editingControlBounds.Y += (editingControlBounds.Height - preferredHeight) / 2;
+                    break;
+                case DataGridViewContentAlignment.BottomLeft:
+                case DataGridViewContentAlignment.BottomCenter:
+                case DataGridViewContentAlignment.BottomRight:
+                    editingControlBounds.Y += editingControlBounds.Height - preferredHeight;
+                    break;
+            }
+
+            editingControlBounds.Height = preferredHeight;
+        }
+
+        return editingControlBounds;
+    }
+
+    private string ResolveDateTimeFormat(string? styleFormat, CultureInfo culture)
+    {
+        if (!string.IsNullOrEmpty(styleFormat))
+        {
+            return styleFormat!;
+        }
+
+        return _format switch
+        {
+            DateTimePickerFormat.Long => culture.DateTimeFormat.LongDatePattern,
+            DateTimePickerFormat.Short => culture.DateTimeFormat.ShortDatePattern,
+            DateTimePickerFormat.Time => culture.DateTimeFormat.LongTimePattern,
+            DateTimePickerFormat.Custom => string.IsNullOrEmpty(_customFormat) ? "G" : CommonHelper.MakeCustomDateFormat(_customFormat),
+            _ => "G"
+        };
+    }
+
+    #endregion
+
+    #region Internal
+    internal void SetShowCheckBox(int rowIndex, bool value)
+    {
+        _showCheckBox = value;
+        if (OwnsEditingDateTimePicker(rowIndex))
+        {
+            EditingDateTimePicker.ShowCheckBox = value;
+        }
+    }
+
+    internal void SetShowUpDown(int rowIndex, bool value)
+    {
+        _showUpDown = value;
+        if (OwnsEditingDateTimePicker(rowIndex))
+        {
+            EditingDateTimePicker.ShowUpDown = value;
+        }
+    }
+
+    internal void SetAutoShift(int rowIndex, bool value)
+    {
+        _autoShift = value;
+        if (OwnsEditingDateTimePicker(rowIndex))
+        {
+            EditingDateTimePicker.AutoShift = value;
+        }
+    }
+
+    internal void SetChecked(int rowIndex, bool value)
+    {
+        _checked = value;
+        if (OwnsEditingDateTimePicker(rowIndex))
+        {
+            EditingDateTimePicker.Checked = value;
+        }
+    }
+
+    internal void SetCustomFormat(int rowIndex, string value)
+    {
+        _customFormat = value;
+        if (OwnsEditingDateTimePicker(rowIndex))
+        {
+            EditingDateTimePicker.CustomFormat = value;
+        }
+    }
+
+    internal void SetCustomNullText(int rowIndex, string value)
+    {
+        _customNullText = value;
+        if (OwnsEditingDateTimePicker(rowIndex))
+        {
+            EditingDateTimePicker.CustomNullText = value;
+        }
+    }
+
+    internal void SetMaxDate(int rowIndex, DateTime value)
+    {
+        _maxDate = value;
+        if (OwnsEditingDateTimePicker(rowIndex))
+        {
+            EditingDateTimePicker.MaxDate = value;
+        }
+    }
+
+    internal void SetMinDate(int rowIndex, DateTime value)
+    {
+        _minDate = value;
+        if (OwnsEditingDateTimePicker(rowIndex))
+        {
+            EditingDateTimePicker.MinDate = value;
+        }
+    }
+
+    internal void SetFormat(int rowIndex, DateTimePickerFormat value)
+    {
+        _format = value;
+        if (OwnsEditingDateTimePicker(rowIndex))
+        {
+            EditingDateTimePicker.Format = value;
+        }
+    }
+
+    internal void SetCalendarCloseOnTodayClick(int rowIndex, bool value)
+    {
+        _calendarCloseOnTodayClick = value;
+        if (OwnsEditingDateTimePicker(rowIndex))
+        {
+            EditingDateTimePicker.CalendarCloseOnTodayClick = value;
+        }
+    }
+
+    internal void SetCalendarDimensions(int rowIndex, Size value)
+    {
+        _calendarDimensions = value;
+        if (OwnsEditingDateTimePicker(rowIndex))
+        {
+            EditingDateTimePicker.CalendarDimensions = value;
+        }
+    }
+
+    internal void SetCalendarFirstDayOfWeek(int rowIndex, Day value)
+    {
+        _calendarFirstDayOfWeek = value;
+        if (OwnsEditingDateTimePicker(rowIndex))
+        {
+            EditingDateTimePicker.CalendarFirstDayOfWeek = value;
+        }
+    }
+
+    internal void SetCalendarShowToday(int rowIndex, bool value)
+    {
+        _calendarShowToday = value;
+        if (OwnsEditingDateTimePicker(rowIndex))
+        {
+            EditingDateTimePicker.CalendarShowToday = value;
+        }
+    }
+
+    internal void SetCalendarShowTodayCircle(int rowIndex, bool value)
+    {
+        _calendarShowTodayCircle = value;
+        if (OwnsEditingDateTimePicker(rowIndex))
+        {
+            EditingDateTimePicker.CalendarShowTodayCircle = value;
+        }
+    }
+
+    internal void SetCalendarShowWeekNumbers(int rowIndex, bool value)
+    {
+        _calendarShowWeekNumbers = value;
+        if (OwnsEditingDateTimePicker(rowIndex))
+        {
+            EditingDateTimePicker.CalendarShowWeekNumbers = value;
+        }
+    }
+
+    internal void SetCalendarTodayText(int rowIndex, string value)
+    {
+        _calendarTodayText = value;
+        if (OwnsEditingDateTimePicker(rowIndex))
+        {
+            EditingDateTimePicker.CalendarTodayText = value;
+        }
+    }
+
+    internal void SetCalendarTodayDate(int rowIndex, DateTime value)
+    {
+        _calendarTodayDate = value;
+        if (OwnsEditingDateTimePicker(rowIndex))
+        {
+            EditingDateTimePicker.CalendarTodayDate = value;
+        }
+    }
+
+    /// <summary>
+    /// Type casted version of OwningColumn
+    /// </summary>
+    internal KryptonDataGridViewDateTimePickerColumn? KryptonOwningColumn => OwningColumn as KryptonDataGridViewDateTimePickerColumn;
+    #endregion
+}

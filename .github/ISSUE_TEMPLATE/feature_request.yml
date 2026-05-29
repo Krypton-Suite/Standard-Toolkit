@@ -1,0 +1,43 @@
+# New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+# Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2025 - 2026. All rights reserved.
+
+name: "✨ Feature Request"
+description: "Template for submitting a feature request"
+type: Feature
+labels:
+  - enhancement
+  - new feature
+  - suggestion
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Feature Request
+
+        Please provide a detailed description of the feature you would like to request. Include any relevant use cases, benefits, and potential implementation ideas.
+
+  - type: input
+    id: feature-title
+    attributes:
+      label: "Feature Title"
+      placeholder: "A brief title for the feature request"
+    validations:
+      required: true
+
+  - type: textarea
+    id: feature-description
+    attributes:
+      label: "Feature Description"
+      placeholder: "Describe the feature in detail"
+      description: "Include use cases, benefits, and any other relevant information."
+    validations:
+      required: true
+
+  - type: textarea
+    id: implementation-ideas
+    attributes:
+      label: "Implementation Ideas (Optional)"
+      placeholder: "Share any ideas on how this feature could be implemented."
+      description: "This section is optional but can help guide development."
+    validations:
+      required: false

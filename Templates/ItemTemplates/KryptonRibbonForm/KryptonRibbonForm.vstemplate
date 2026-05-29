@@ -1,0 +1,13 @@
+<VSTemplate Version="3.0.0" Type="Item" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005">
+  <TemplateData>
+    <Name>Krypton Ribbon Form</Name>
+    <Description>Creates a KryptonForm pre-configured with a KryptonRibbon control.</Description>
+    <ProjectType>CSharp</ProjectType>
+    <DefaultName>KryptonRibbonForm1.cs</DefaultName>
+    <SortOrder>1201</SortOrder>
+  </TemplateData>
+  <TemplateContent>
+    <ProjectItem ReplaceParameters="true" TargetFileName="$safeitemrootname$.cs">KryptonRibbonForm.cs</ProjectItem>
+    <ProjectItem ReplaceParameters="true" TargetFileName="$safeitemrootname$.Designer.cs">KryptonRibbonForm.Designer.cs</ProjectItem>
+  </TemplateContent>
+</VSTemplate>
