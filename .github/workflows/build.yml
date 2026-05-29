@@ -103,52 +103,44 @@ jobs:
             ${{ runner.os }}-nuget-
 
       # TODO: Remove the step-level `if` below in November 2026 so WebView2 runs on all branches.
-      - name: Populate WebView2 (latest)
+      # Prerelease WebView2 required for net11.0-windows on alpha/canary; stable packages do not support .NET 11 yet.
+      - name: Resolve WebView2 version
         if: github.ref == 'refs/heads/alpha' || github.ref == 'refs/heads/canary' || github.head_ref == 'alpha' || github.head_ref == 'canary'
+        id: webview2_version
         shell: pwsh
         run: |
-          $root = $env:GITHUB_WORKSPACE
-          if (-not $root) { $root = (Get-Location).Path }
-          $utilProj = Join-Path $root "Source\Krypton Components\Krypton.Toolkit.Utilities\Krypton.Toolkit.Utilities.csproj"
-          $libDir = Join-Path $root "Source\Krypton Components\Krypton.Toolkit.Utilities\Lib\WebView2"
-          if (-not (Test-Path $utilProj)) { Write-Error "Project not found: $utilProj"; exit 1 }
-          if (-not (Test-Path $libDir)) { New-Item -ItemType Directory -Path $libDir -Force }
-          $packageId = "Microsoft.Web.WebView2"
-          # Prerelease WebView2 on alpha/canary (NuGet search ordering); dotnet CLI still needs an SDK that supports net11.0-windows for restore.
-          $usePrerelease = ($env:GITHUB_REF -eq 'refs/heads/alpha' -or $env:GITHUB_REF -eq 'refs/heads/canary')
-          $prereleaseParam = if ($usePrerelease) { "true" } else { "false" }
-          Write-Host "Using prerelease=$prereleaseParam for WebView2 SDK lookup"
-          $latestVersion = $null
-          try {
-            $searchResponse = Invoke-RestMethod -Uri "https://azuresearch-usnc.nuget.org/query?q=$packageId&prerelease=$prereleaseParam&semVerLevel=2.0.0&take=1" -Method Get
-            if ($searchResponse.data -and $searchResponse.data.Count -gt 0) { $latestVersion = $searchResponse.data[0].version }
-          } catch {
-            try {
-              $response = Invoke-RestMethod -Uri "https://api.nuget.org/v3-flatcontainer/$packageId/index.json" -Method Get
-              if ($usePrerelease) {
-                # Include prerelease versions
-                $allVersions = $response.versions | Where-Object { $_ -match '^\d+\.\d+\.\d+' }
-                if ($allVersions) { $latestVersion = $allVersions | Sort-Object { [System.Version]($_ -replace '-.*', '') } -Descending | Select-Object -First 1 }
-              } else {
-                $stableVersions = $response.versions | Where-Object { $_ -notmatch '[-]' -and $_ -match '^\d+\.\d+\.\d+$' }
-                if ($stableVersions) { $latestVersion = $stableVersions | Sort-Object { [System.Version]$_ } -Descending | Select-Object -First 1 }
-              }
-            } catch {}
-          }
-          if (-not $latestVersion) { $latestVersion = "1.0.3595.46" }
-          Write-Host "Using WebView2 ($(if ($usePrerelease) { 'preview' } else { 'latest' })): $latestVersion"
-          dotnet add "$utilProj" package $packageId --version $latestVersion
-          dotnet restore "$utilProj"
-          $nugetBase = Join-Path $env:USERPROFILE ".nuget\packages\microsoft.web.webview2\$latestVersion"
-          @("Microsoft.Web.WebView2.Core.dll","Microsoft.Web.WebView2.WinForms.dll","WebView2Loader.dll") | ForEach-Object {
-            $f = Get-ChildItem -Path $nugetBase -Recurse -Name $_ -ErrorAction SilentlyContinue | Select-Object -First 1
-            if ($f) { Copy-Item (Join-Path $nugetBase $f) $libDir -Force; Write-Host "Copied $_" }
-          }
-          [xml]$proj = Get-Content $utilProj
-          $nodes = $proj.SelectNodes("//PackageReference[@Include='$packageId']")
-          foreach ($node in $nodes) { $node.ParentNode.RemoveChild($node) | Out-Null }
-          $proj.Save($utilProj)
-          Write-Host "Removed temporary WebView2 PackageReference entries"
+          $ErrorActionPreference = 'Stop'
+          $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
+          & (Join-Path $repoRoot 'Scripts/CI/Populate-WebView2.ps1') -Prerelease -ResolveVersionOnly -WriteGitHubOutputVersion
+
+      - name: Restore WebView2 cache
+        if: github.ref == 'refs/heads/alpha' || github.ref == 'refs/heads/canary' || github.head_ref == 'alpha' || github.head_ref == 'canary'
+        id: webview2_cache_restore
+        uses: actions/cache/restore@v5
+        continue-on-error: true
+        with:
+          path: ${{ runner.temp }}/webview2
+          key: webview2-${{ runner.os }}-${{ steps.webview2_version.outputs.version }}
+          restore-keys: |
+            webview2-${{ runner.os }}-
+
+      - name: Populate WebView2 (Preview)
+        if: github.ref == 'refs/heads/alpha' || github.ref == 'refs/heads/canary' || github.head_ref == 'alpha' || github.head_ref == 'canary'
+        shell: pwsh
+        env:
+          WEBVIEW2_VERSION: ${{ steps.webview2_version.outputs.version }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
+          & (Join-Path $repoRoot 'Scripts/CI/Populate-WebView2.ps1') -Prerelease -Version $env:WEBVIEW2_VERSION
+
+      - name: Save WebView2 cache
+        if: success() && (github.ref == 'refs/heads/alpha' || github.ref == 'refs/heads/canary' || github.head_ref == 'alpha' || github.head_ref == 'canary')
+        uses: actions/cache/save@v5
+        continue-on-error: true
+        with:
+          path: ${{ runner.temp }}/webview2
+          key: ${{ steps.webview2_cache_restore.outputs.cache-primary-key }}
 
       # Match nightly.proj: Release + TFMs=all so TargetFrameworks / package graphs align (avoids CS7069 / prune mismatches).
       - name: Restore
@@ -233,52 +225,44 @@ jobs:
             ${{ runner.os }}-nuget-
 
       # TODO: Remove the step-level `if` below in November 2026 so WebView2 runs on all branches.
-      - name: Populate WebView2 (latest)
+      # Prerelease WebView2 required for net11.0-windows on alpha/canary; stable packages do not support .NET 11 yet.
+      - name: Resolve WebView2 version
         if: github.ref == 'refs/heads/alpha' || github.ref == 'refs/heads/canary' || github.head_ref == 'alpha' || github.head_ref == 'canary'
+        id: webview2_version_release
         shell: pwsh
         run: |
-          $root = $env:GITHUB_WORKSPACE
-          if (-not $root) { $root = (Get-Location).Path }
-          $utilProj = Join-Path $root "Source\Krypton Components\Krypton.Toolkit.Utilities\Krypton.Toolkit.Utilities.csproj"
-          $libDir = Join-Path $root "Source\Krypton Components\Krypton.Toolkit.Utilities\Lib\WebView2"
-          if (-not (Test-Path $utilProj)) { Write-Error "Project not found: $utilProj"; exit 1 }
-          if (-not (Test-Path $libDir)) { New-Item -ItemType Directory -Path $libDir -Force }
-          $packageId = "Microsoft.Web.WebView2"
-          # Prerelease WebView2 on alpha/canary (NuGet search ordering); dotnet CLI still needs an SDK that supports net11.0-windows for restore.
-          $usePrerelease = ($env:GITHUB_REF -eq 'refs/heads/alpha' -or $env:GITHUB_REF -eq 'refs/heads/canary')
-          $prereleaseParam = if ($usePrerelease) { "true" } else { "false" }
-          Write-Host "Using prerelease=$prereleaseParam for WebView2 SDK lookup"
-          $latestVersion = $null
-          try {
-            $searchResponse = Invoke-RestMethod -Uri "https://azuresearch-usnc.nuget.org/query?q=$packageId&prerelease=$prereleaseParam&semVerLevel=2.0.0&take=1" -Method Get
-            if ($searchResponse.data -and $searchResponse.data.Count -gt 0) { $latestVersion = $searchResponse.data[0].version }
-          } catch {
-            try {
-              $response = Invoke-RestMethod -Uri "https://api.nuget.org/v3-flatcontainer/$packageId/index.json" -Method Get
-              if ($usePrerelease) {
-                # Include prerelease versions
-                $allVersions = $response.versions | Where-Object { $_ -match '^\d+\.\d+\.\d+' }
-                if ($allVersions) { $latestVersion = $allVersions | Sort-Object { [System.Version]($_ -replace '-.*', '') } -Descending | Select-Object -First 1 }
-              } else {
-                $stableVersions = $response.versions | Where-Object { $_ -notmatch '[-]' -and $_ -match '^\d+\.\d+\.\d+$' }
-                if ($stableVersions) { $latestVersion = $stableVersions | Sort-Object { [System.Version]$_ } -Descending | Select-Object -First 1 }
-              }
-            } catch {}
-          }
-          if (-not $latestVersion) { $latestVersion = "1.0.3595.46" }
-          Write-Host "Using WebView2 ($(if ($usePrerelease) { 'preview' } else { 'latest' })): $latestVersion"
-          dotnet add "$utilProj" package $packageId --version $latestVersion
-          dotnet restore "$utilProj"
-          $nugetBase = Join-Path $env:USERPROFILE ".nuget\packages\microsoft.web.webview2\$latestVersion"
-          @("Microsoft.Web.WebView2.Core.dll","Microsoft.Web.WebView2.WinForms.dll","WebView2Loader.dll") | ForEach-Object {
-            $f = Get-ChildItem -Path $nugetBase -Recurse -Name $_ -ErrorAction SilentlyContinue | Select-Object -First 1
-            if ($f) { Copy-Item (Join-Path $nugetBase $f) $libDir -Force; Write-Host "Copied $_" }
-          }
-          [xml]$proj = Get-Content $utilProj
-          $nodes = $proj.SelectNodes("//PackageReference[@Include='$packageId']")
-          foreach ($node in $nodes) { $node.ParentNode.RemoveChild($node) | Out-Null }
-          $proj.Save($utilProj)
-          Write-Host "Removed temporary WebView2 PackageReference entries"
+          $ErrorActionPreference = 'Stop'
+          $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
+          & (Join-Path $repoRoot 'Scripts/CI/Populate-WebView2.ps1') -Prerelease -ResolveVersionOnly -WriteGitHubOutputVersion
+
+      - name: Restore WebView2 cache
+        if: github.ref == 'refs/heads/alpha' || github.ref == 'refs/heads/canary' || github.head_ref == 'alpha' || github.head_ref == 'canary'
+        id: webview2_cache_restore_release
+        uses: actions/cache/restore@v5
+        continue-on-error: true
+        with:
+          path: ${{ runner.temp }}/webview2
+          key: webview2-${{ runner.os }}-${{ steps.webview2_version_release.outputs.version }}
+          restore-keys: |
+            webview2-${{ runner.os }}-
+
+      - name: Populate WebView2 (Preview)
+        if: github.ref == 'refs/heads/alpha' || github.ref == 'refs/heads/canary' || github.head_ref == 'alpha' || github.head_ref == 'canary'
+        shell: pwsh
+        env:
+          WEBVIEW2_VERSION: ${{ steps.webview2_version_release.outputs.version }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
+          & (Join-Path $repoRoot 'Scripts/CI/Populate-WebView2.ps1') -Prerelease -Version $env:WEBVIEW2_VERSION
+
+      - name: Save WebView2 cache
+        if: success() && (github.ref == 'refs/heads/alpha' || github.ref == 'refs/heads/canary' || github.head_ref == 'alpha' || github.head_ref == 'canary')
+        uses: actions/cache/save@v5
+        continue-on-error: true
+        with:
+          path: ${{ runner.temp }}/webview2
+          key: ${{ steps.webview2_cache_restore_release.outputs.cache-primary-key }}
 
       - name: Restore
         run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnx" -p:Configuration=Release -p:TFMs=all
