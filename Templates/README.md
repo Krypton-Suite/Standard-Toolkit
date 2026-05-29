@@ -32,16 +32,6 @@ For maintainer-focused implementation and release details, see:
 
 ## Local VSIX build
 
-Source project templates default to the **stable** NuGet package (`Krypton.Standard.Toolkit`). Before building a canary or nightly VSIX locally, apply the matching channel (this matches CI):
-
-```cmd
-pwsh -NoProfile -File "Scripts\CI\Apply-TemplatesNuGetPackage.ps1" -Channel stable
-pwsh -NoProfile -File "Scripts\CI\Apply-TemplatesNuGetPackage.ps1" -Channel canary
-pwsh -NoProfile -File "Scripts\CI\Apply-TemplatesNuGetPackage.ps1" -Channel alpha
-```
-
-Then build:
-
 ```cmd
 dotnet restore "Templates\Vsix\Krypton.Templates.Vsix\Krypton.Templates.Vsix.csproj"
 dotnet msbuild "Templates\Vsix\Krypton.Templates.Vsix\Krypton.Templates.Vsix.csproj" /p:Configuration=Release /p:DeployExtension=false
@@ -53,4 +43,4 @@ Output: `Templates\Vsix\Krypton.Templates.Vsix\bin\Release\net472\Krypton.Templa
 
 - These templates use `Krypton.Toolkit` and `KryptonManager`.
 - The ribbon item template also uses `Krypton.Ribbon`.
-- Project templates reference a `Krypton.Standard.Toolkit` aggregate package from NuGet. Published VSIX/zip releases use the package for that channel: stable (`Krypton.Standard.Toolkit`), canary (`.Canary`), or alpha/nightly (`.Nightly`).
+- The project template references `Krypton.Standard.Toolkit` from NuGet.
