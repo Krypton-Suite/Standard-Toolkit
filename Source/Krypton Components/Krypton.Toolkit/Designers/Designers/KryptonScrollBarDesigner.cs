@@ -1,0 +1,42 @@
+#region BSD License
+/*
+ *
+ *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2025 - 2026. All rights reserved.
+ *
+ */
+#endregion
+
+namespace Krypton.Toolkit;
+
+internal class KryptonScrollBarDesigner : ControlDesigner
+{
+    #region Identity
+    /// <summary>Initializes a new instance of the <see cref="KryptonScrollBarDesigner" /> class.</summary>
+    public KryptonScrollBarDesigner() =>
+        // The resizing handles around the control need to change depending on the
+        // value of the AutoSize and AutoSizeMode properties. When in AutoSize you
+        // do not get the resizing handles, otherwise you do.
+        AutoResizeHandles = true;
+
+    #endregion
+
+    #region Public Overrides
+
+    public override DesignerActionListCollection ActionLists
+    {
+        get
+        {
+#pragma warning disable CS0618
+            var actionList = new DesignerActionListCollection
+            {
+                new KryptonScrollBarActionList(this)
+            };
+#pragma warning restore CS0618
+
+            return actionList;
+        }
+    }
+
+    #endregion
+}
