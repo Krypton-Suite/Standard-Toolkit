@@ -1,7 +1,7 @@
-#region BSD License
+﻿#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2025 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2026 - 2026. All rights reserved.
  */
 #endregion
 
@@ -19,6 +19,12 @@ public class PaletteRetroGreen : PaletteRetroBase
     private static readonly Color _ribbonAppButtonLightColor = Color.FromArgb(0, 160, 160);
 
     private static readonly Color _ribbonAppButtonTextColor = Color.Black;
+
+    private static readonly Color _gridDataCellBackColor = Color.White;
+
+    private static readonly Color _gridDataCellTextColor = Color.Black;
+
+    private static readonly Color _workspaceTextColor = Color.Black;
 
     public PaletteRetroGreen()
         : base(new PaletteRetroGreen_BaseScheme(), RetroPaletteSharedAssets.CheckBoxList,
@@ -91,4 +97,14 @@ public class PaletteRetroGreen : PaletteRetroBase
     public override Color GetRibbonFileAppTabTopColor(PaletteState state) => _ribbonAppButtonLightColor;
 
     public override Color GetRibbonFileAppTabTextColor(PaletteState state) => _ribbonAppButtonTextColor;
+
+    protected override Color GetRetroListItemNormalBackColor() => _gridDataCellBackColor;
+
+    protected override Color GetRetroListItemNormalTextColor() => _gridDataCellTextColor;
+
+    protected override Color GetRetroGridDataCellNormalBackColor() => _gridDataCellBackColor;
+
+    protected override Color GetRetroGridDataCellNormalTextColor() => _gridDataCellTextColor;
+
+    protected override Color WorkspaceTextColor => _workspaceTextColor;
 }

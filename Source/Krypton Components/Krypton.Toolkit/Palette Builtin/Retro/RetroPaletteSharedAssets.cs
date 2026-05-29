@@ -1,7 +1,7 @@
-#region BSD License
+﻿#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2025 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2026 - 2026. All rights reserved.
  */
 #endregion
 
@@ -68,7 +68,7 @@ internal static class RetroPaletteSharedAssets
     {
         CheckBoxList = new ImageList
         {
-            ImageSize = new Size(13, 13),
+            ImageSize = new Size(19, 13),
             ColorDepth = ColorDepth.Depth32Bit
         };
 
