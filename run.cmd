@@ -6,6 +6,7 @@ setlocal EnableExtensions
 
 title Krypton Toolkit Build System
 
+set "REPO_ROOT=%~dp0"
 set "VS_VERSION="
 set "VS_SCRIPTS_DIR="
 
@@ -48,7 +49,7 @@ goto mainmenu
 
 :configurevsversion
 set "VS_VERSION=%~1"
-set "VS_SCRIPTS_DIR=Scripts\%~1"
+set "VS_SCRIPTS_DIR=%REPO_ROOT%Scripts\%~1"
 if not exist "%VS_SCRIPTS_DIR%" (
     echo.
     echo ERROR: Could not find "%VS_SCRIPTS_DIR%".
@@ -69,33 +70,33 @@ exit /b 0
 
 :cleanbinandobj
 echo Deleting the 'Bin' folder
-if exist "Bin\" rd /s /q "Bin"
+if exist "%REPO_ROOT%Bin\" rd /s /q "%REPO_ROOT%Bin"
 echo Deleted the 'Bin' folder
 echo Deleting the 'Krypton.Docking\obj' folder
-if exist "Source\Krypton Components\Krypton.Docking\obj\" rd /s /q "Source\Krypton Components\Krypton.Docking\obj"
+if exist "%REPO_ROOT%Source\Krypton Components\Krypton.Docking\obj\" rd /s /q "%REPO_ROOT%Source\Krypton Components\Krypton.Docking\obj"
 echo Deleted the 'Krypton.Docking\obj' folder
 echo Deleting the 'Krypton.Navigator\obj' folder
-if exist "Source\Krypton Components\Krypton.Navigator\obj\" rd /s /q "Source\Krypton Components\Krypton.Navigator\obj"
+if exist "%REPO_ROOT%Source\Krypton Components\Krypton.Navigator\obj\" rd /s /q "%REPO_ROOT%Source\Krypton Components\Krypton.Navigator\obj"
 echo Deleted the 'Krypton.Navigator\obj' folder
 echo Deleting the 'Krypton.Ribbon\obj' folder
-if exist "Source\Krypton Components\Krypton.Ribbon\obj\" rd /s /q "Source\Krypton Components\Krypton.Ribbon\obj"
+if exist "%REPO_ROOT%Source\Krypton Components\Krypton.Ribbon\obj\" rd /s /q "%REPO_ROOT%Source\Krypton Components\Krypton.Ribbon\obj"
 echo Deleted the 'Krypton.Ribbon\obj' folder
 echo Deleting the 'Krypton.Toolkit\obj' folder
-if exist "Source\Krypton Components\Krypton.Toolkit\obj\" rd /s /q "Source\Krypton Components\Krypton.Toolkit\obj"
+if exist "%REPO_ROOT%Source\Krypton Components\Krypton.Toolkit\obj\" rd /s /q "%REPO_ROOT%Source\Krypton Components\Krypton.Toolkit\obj"
 echo Deleted the 'Krypton.Toolkit\obj' folder
 echo Deleting the 'Krypton.Workspace\obj' folder
-if exist "Source\Krypton Components\Krypton.Workspace\obj\" rd /s /q "Source\Krypton Components\Krypton.Workspace\obj"
+if exist "%REPO_ROOT%Source\Krypton Components\Krypton.Workspace\obj\" rd /s /q "%REPO_ROOT%Source\Krypton Components\Krypton.Workspace\obj"
 echo Deleted the 'Krypton.Workspace\obj' folder
 exit /b 0
 
 :cleanlogs
 echo Deleting the 'Logs' folder
-del /f "Logs"
+del /f "%REPO_ROOT%Logs"
 exit /b 0
 
 :cleanrootbuildlog
 echo Deleting the 'build.log' file
-del /f build.log
+del /f "%REPO_ROOT%build.log"
 echo Deleted the 'build.log' file
 exit /b 0
 
@@ -904,4 +905,4 @@ cls
 echo Running TestForm project...
 
 :: Allows running the TestForm project without needing to open the solution in Visual Studio.
-dotnet run --project "Source\Krypton Components\TestForm\TestForm.csproj" -c Debug
+dotnet run --project "%REPO_ROOT%Source\Krypton Components\TestForm\TestForm.csproj" -c Debug

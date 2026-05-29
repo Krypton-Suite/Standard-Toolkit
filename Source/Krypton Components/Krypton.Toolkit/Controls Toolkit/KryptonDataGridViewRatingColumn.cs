@@ -18,6 +18,7 @@ namespace Krypton.Toolkit;
 /// You can assign custom images to the properties Image and ImageDisabled.<br/>
 /// If you do not supply your own images, default stock images will be used.
 /// </summary>
+[ToolboxBitmap(typeof(KryptonDataGridViewRatingColumn), "ToolboxBitmaps.KryptonDataGridViewRatingColumn.bmp")]
 public class KryptonDataGridViewRatingColumn : KryptonDataGridViewIconColumn
 {
     #region Private/internal static
