@@ -76,6 +76,37 @@ jobs:
           ref: alpha
           fetch-depth: 0
 
+      # Nightly always builds alpha; the workflow file may land before Populate-WebView2.ps1 is merged to alpha.
+      - name: Checkout WebView2 CI script overlay
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          sparse-checkout: Scripts/CI/Populate-WebView2.ps1
+          sparse-checkout-cone-mode: true
+          path: _ci-overlay
+
+      - name: Ensure WebView2 CI script
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $dest = Join-Path $env:GITHUB_WORKSPACE 'Scripts/CI/Populate-WebView2.ps1'
+          if (Test-Path -LiteralPath $dest) {
+            Write-Host 'WebView2 CI script already present on checked-out branch.'
+            exit 0
+          }
+          $src = Join-Path $env:GITHUB_WORKSPACE '_ci-overlay/Scripts/CI/Populate-WebView2.ps1'
+          if (-not (Test-Path -LiteralPath $src)) {
+            Write-Error @"
+          Scripts/CI/Populate-WebView2.ps1 is missing on alpha and on workflow ref ($env:GITHUB_SHA).
+          Merge Scripts/CI/Populate-WebView2.ps1 into alpha in the same change set as these workflow updates.
+          "@
+          }
+          New-Item -ItemType Directory -Force -Path (Split-Path -Parent $dest) | Out-Null
+          Copy-Item -LiteralPath $src -Destination $dest -Force
+          Write-Host 'Copied WebView2 CI script from workflow ref onto alpha checkout.'
+
       - name: Check for changes in last 24 hours
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
         id: check_changes
@@ -204,28 +235,15 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
 
+      # Prerelease WebView2 required for net11.0-windows; stable packages do not support .NET 11 yet.
       - name: Resolve WebView2 version
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
         id: webview2_version
         shell: pwsh
         run: |
-          $ErrorActionPreference = "Stop"
-          $packageId = "Microsoft.Web.WebView2"
-
-          Write-Host "Querying NuGet for latest WebView2 prerelease..."
-
-          try {
-              $search = Invoke-RestMethod `
-                  -Uri "https://azuresearch-usnc.nuget.org/query?q=$packageId&prerelease=true&semVerLevel=2.0.0&take=1"
-              $latestVersion = $search.data[0].version
-          }
-          catch {
-              Write-Warning "NuGet search failed, using fallback version"
-              $latestVersion = "1.0.3595.46"
-          }
-
-          Write-Host "Using WebView2 version: $latestVersion"
-          "version=$latestVersion" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          $ErrorActionPreference = 'Stop'
+          $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
+          & (Join-Path $repoRoot 'Scripts/CI/Populate-WebView2.ps1') -Prerelease -ResolveVersionOnly -WriteGitHubOutputVersion
 
       - name: Restore WebView2 cache
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
@@ -241,65 +259,12 @@ jobs:
       - name: Populate WebView2 (Preview)
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
         shell: pwsh
+        env:
+          WEBVIEW2_VERSION: ${{ steps.webview2_version.outputs.version }}
         run: |
-          $ErrorActionPreference = "Stop"
-
-          $root = $env:GITHUB_WORKSPACE
-          if (-not $root) { $root = (Get-Location).Path }
-
-          $libDir = Join-Path $root "Source\Krypton Components\Krypton.Toolkit.Utilities\Lib\WebView2"
-          $tempDir = Join-Path $env:RUNNER_TEMP "webview2"
-
-          New-Item -ItemType Directory -Force -Path $libDir | Out-Null
-          New-Item -ItemType Directory -Force -Path $tempDir | Out-Null
-
-          $packageId = "Microsoft.Web.WebView2"
-          $latestVersion = "${{ steps.webview2_version.outputs.version }}"
-
-          $nupkg = Join-Path $tempDir "$packageId.$latestVersion.nupkg"
-          $extractDir = Join-Path $tempDir "extract"
-          $expectedExtractedDll = Join-Path $extractDir "build\native\WebView2Loader.dll"
-
-          if (Test-Path -LiteralPath $tempDir -and -not (Test-Path -LiteralPath $expectedExtractedDll)) {
-              Write-Warning "Detected incomplete WebView2 cache state, rebuilding cache folder."
-              Remove-Item -LiteralPath $tempDir -Recurse -Force -ErrorAction SilentlyContinue
-              New-Item -ItemType Directory -Force -Path $tempDir | Out-Null
-          }
-
-          if (-not (Test-Path -LiteralPath $expectedExtractedDll)) {
-              Write-Host "Downloading package..."
-
-              Invoke-WebRequest `
-                  -Uri "https://www.nuget.org/api/v2/package/$packageId/$latestVersion" `
-                  -OutFile $nupkg
-
-              Write-Host "Extracting package..."
-              Expand-Archive $nupkg $extractDir -Force
-          }
-          else {
-              Write-Host "Using cached WebView2 package extraction."
-          }
-
-          Write-Host "Copying required DLLs..."
-
-          $files = @(
-              "Microsoft.Web.WebView2.Core.dll"
-              "Microsoft.Web.WebView2.WinForms.dll"
-              "WebView2Loader.dll"
-          )
-
-          foreach ($file in $files) {
-              $found = Get-ChildItem $extractDir -Recurse -Filter $file | Select-Object -First 1
-              if ($found) {
-                  Copy-Item $found.FullName $libDir -Force
-                  Write-Host "Copied $file"
-              }
-              else {
-                  Write-Warning "$file not found in package"
-              }
-          }
-
-          Write-Host "WebView2 population complete."
+          $ErrorActionPreference = 'Stop'
+          $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
+          & (Join-Path $repoRoot 'Scripts/CI/Populate-WebView2.ps1') -Prerelease -Version $env:WEBVIEW2_VERSION
 
       - name: Save WebView2 cache
         if: success() && steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
