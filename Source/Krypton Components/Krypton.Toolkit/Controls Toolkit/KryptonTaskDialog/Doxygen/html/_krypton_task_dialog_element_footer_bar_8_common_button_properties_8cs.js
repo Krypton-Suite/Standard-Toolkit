@@ -1,0 +1,4 @@
+var _krypton_task_dialog_element_footer_bar_8_common_button_properties_8cs =
+[
+    [ "Krypton.Toolkit.KryptonTaskDialogElementFooterBarCommonButtonProperties", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_footer_bar_common_button_properties.html", "class_krypton_1_1_toolkit_1_1_krypton_task_dialog_element_footer_bar_common_button_properties" ]
+];

@@ -1,7 +1,7 @@
 ﻿#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2025 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2025 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -80,7 +80,7 @@ public static class UACShieldHelper
             bool isLargeIcon = size.Width >= 32 || size.Height >= 32;
 
             // Try the primary UAC shield icon ID
-            var icon = GraphicsExtensions.ExtractIcon(Libraries.Imageres, GlobalStaticValues.UAC_SHIELD_ICON_ID, isLargeIcon);
+            var icon = GraphicsExtensions.ExtractIcon(Libraries.Imageres, GlobalStaticConstants.UAC_SHIELD_ICON_ID, isLargeIcon);
 
             if (icon != null)
             {
@@ -92,7 +92,7 @@ public static class UACShieldHelper
             }
 
             // Try the alternative UAC shield icon ID
-            icon = GraphicsExtensions.ExtractIcon(Libraries.Imageres, GlobalStaticValues.UAC_SHIELD_ICON_ID_ALT, isLargeIcon);
+            icon = GraphicsExtensions.ExtractIcon(Libraries.Imageres, GlobalStaticConstants.UAC_SHIELD_ICON_ID_ALT, isLargeIcon);
 
             if (icon != null)
             {

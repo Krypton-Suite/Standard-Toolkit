@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -81,8 +81,8 @@ internal class KryptonRibbonGroupDesigner : ComponentDesigner
         }
 
         // Get access to the services
-        _designerHost = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_designerHost)));
-        _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_changeService)));
+        _designerHost = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_designerHost)));
+        _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_changeService)));
 
         // We need to know when we are being removed/changed
         _changeService.ComponentRemoving += OnComponentRemoving;
@@ -333,8 +333,7 @@ internal class KryptonRibbonGroupDesigner : ComponentDesigner
 
     private void OnAddTriple(object? sender, EventArgs e)
     {
-        if ((_ribbonGroup.Ribbon != null) 
-            && _ribbonGroup.RibbonTab is not null
+        if (_ribbonGroup is { Ribbon: not null, RibbonTab: not null }
             && _ribbonGroup.RibbonTab.Groups.Contains(_ribbonGroup))
         {
             // Use a transaction to support undo/redo actions
@@ -392,7 +391,7 @@ internal class KryptonRibbonGroupDesigner : ComponentDesigner
                 RaiseComponentChanging(propertyItems);
 
                 // Get designer to create the new lines component
-                var lines = (KryptonRibbonGroupLines)_designerHost.CreateComponent(typeof(KryptonRibbonGroupLines)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("lines"));
+                var lines = (KryptonRibbonGroupLines)_designerHost.CreateComponent(typeof(KryptonRibbonGroupLines)) ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("lines"));
                 _ribbonGroup.Items.Add(lines);
 
                 // Get access to the Lines.Items property
@@ -497,7 +496,7 @@ internal class KryptonRibbonGroupDesigner : ComponentDesigner
                 RaiseComponentChanging(propertyItems);
 
                 // Need access to host in order to delete a component
-                var host = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("host"));
+                var host = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("host"));
 
                 // We need to remove all the items from the tab
                 for (var i = _ribbonGroup.Items.Count - 1; i >= 0; i--)
@@ -593,7 +592,7 @@ internal class KryptonRibbonGroupDesigner : ComponentDesigner
         if (e.Component == _ribbonGroup)
         {
             // Need access to host in order to delete a component
-            var host = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("host"));
+            var host = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("host"));
 
             // We need to remove all containers from the group
             for (var j = _ribbonGroup.Items.Count - 1; j >= 0; j--)
@@ -638,10 +637,10 @@ internal class KryptonRibbonGroupDesigner : ComponentDesigner
                     _clearItemsMenu, new ToolStripSeparator(),
                     _deleteGroupMenu });
 
-                _addTripleMenu.ImageTransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
-                _addLinesMenu.ImageTransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
-                _addSeparatorMenu.ImageTransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
-                _addGalleryMenu.ImageTransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
+                _addTripleMenu.ImageTransparentColor = GlobalStaticVariables.TRANSPARENCY_KEY_COLOR;
+                _addLinesMenu.ImageTransparentColor = GlobalStaticVariables.TRANSPARENCY_KEY_COLOR;
+                _addSeparatorMenu.ImageTransparentColor = GlobalStaticVariables.TRANSPARENCY_KEY_COLOR;
+                _addGalleryMenu.ImageTransparentColor = GlobalStaticVariables.TRANSPARENCY_KEY_COLOR;
             }
 
             // Update verbs to work out correct enable states
@@ -711,7 +710,7 @@ internal class KryptonRibbonGroupDesigner : ComponentDesigner
             var tabMenuItem = sender as ToolStripMenuItem ?? throw new ArgumentNullException(nameof(sender));
 
             // Get access to the destination tab
-            var destination = tabMenuItem.Tag as KryptonRibbonTab ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(tabMenuItem.Tag)));
+            var destination = tabMenuItem.Tag as KryptonRibbonTab ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(tabMenuItem.Tag)));
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroup MoveTabTo");

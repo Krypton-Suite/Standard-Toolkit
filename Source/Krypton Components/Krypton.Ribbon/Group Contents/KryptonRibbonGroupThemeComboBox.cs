@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2023 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -62,21 +62,6 @@ public class KryptonRibbonGroupThemeComboBox : KryptonRibbonGroupComboBox, IKryp
 
     /// <inheritdoc/>
     [Category(@"Visuals")]
-    [Description(@"The custom assigned palette mode.")]
-    [DefaultValue(null)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-    [Obsolete("Deprecated and will be removed in V110. Set a global custom palette through 'ThemeManager.ApplyTheme(...)'.")]
-    public KryptonCustomPaletteBase? KryptonCustomPalette
-    {
-        get => _kryptonCustomPalette;
-        set => _kryptonCustomPalette = value;
-    }
-
-    private void ResetKryptonCustomPalette() => _kryptonCustomPalette = null;
-    private bool ShouldSerializeKryptonCustomPalette() => _kryptonCustomPalette is not null;
-
-    /// <inheritdoc/>
-    [Category(@"Visuals")]
     [Description(@"The default palette mode.")]
     [DefaultValue(PaletteMode.Global)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
@@ -92,6 +77,20 @@ public class KryptonRibbonGroupThemeComboBox : KryptonRibbonGroupComboBox, IKryp
     #endregion
 
     #region Implementation
+
+    /// <summary>
+    /// Resolves the theme label from the combo's selected list item when possible, so programmatic
+    /// index changes still apply the correct palette (Toolkit #3283).
+    /// </summary>
+    private string GetSelectedThemeName()
+    {
+        if (SelectedIndex > -1 && SelectedItem is string s && s.Length > 0)
+        {
+            return s;
+        }
+
+        return Text ?? string.Empty;
+    }
 
     /// <summary>
     /// This method will run when the KryptonManager.GlobalPaletteChanged event is fired.<br/>
@@ -121,6 +120,10 @@ public class KryptonRibbonGroupThemeComboBox : KryptonRibbonGroupComboBox, IKryp
         {
             return;
         }
+
+        // Refresh theme list so "Custom" shows as "Custom - [Theme Name]" when a custom palette has a name (issue #1031)
+        Items.Clear();
+        Items.AddRange(CommonHelperThemeSelectors.GetThemesArray());
 
         int idx = CommonHelperThemeSelectors.GetPaletteIndex(Items, mode);
         if (idx == SelectedIndex)
@@ -162,7 +165,7 @@ public class KryptonRibbonGroupThemeComboBox : KryptonRibbonGroupComboBox, IKryp
     /// <inheritdoc />
     protected override void OnSelectedIndexChanged(EventArgs e)
     {
-        if (!CommonHelperThemeSelectors.OnSelectedIndexChanged(ref _isLocalUpdate, _isExternalUpdate, ref _defaultPalette, Text, _manager, _kryptonCustomPalette))
+        if (!CommonHelperThemeSelectors.OnSelectedIndexChanged(ref _isLocalUpdate, _isExternalUpdate, ref _defaultPalette, GetSelectedThemeName(), _manager, _kryptonCustomPalette))
         {
             //theme change went wrong, make the active theme the selected theme in the list.
             SelectedIndex = CommonHelperThemeSelectors.GetPaletteIndex(Items, _manager.GlobalPaletteMode);

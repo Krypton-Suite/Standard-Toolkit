@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -42,7 +42,7 @@ public class KryptonPaletteButtonSpecTyped : KryptonPaletteButtonSpecBase
         _text = string.Empty;
         _extraText = string.Empty;
         _toolTipTitle = string.Empty;
-        _colorMap = GlobalStaticValues.EMPTY_COLOR;
+        _colorMap = GlobalStaticVariables.EMPTY_COLOR;
         _allowInheritImage = true;
         _allowInheritText = true;
         _allowInheritExtraText = true;
@@ -66,7 +66,7 @@ public class KryptonPaletteButtonSpecTyped : KryptonPaletteButtonSpecBase
                                       (Text == string.Empty) &&
                                       (ExtraText == string.Empty) &&
                                       (ToolTipTitle == string.Empty) &&
-                                      (ColorMap == GlobalStaticValues.EMPTY_COLOR) &&
+                                      (ColorMap == GlobalStaticVariables.EMPTY_COLOR) &&
                                       AllowInheritImage &&
                                       AllowInheritText &&
                                       AllowInheritExtraText &&
@@ -264,12 +264,12 @@ public class KryptonPaletteButtonSpecTyped : KryptonPaletteButtonSpecBase
         }
     }
 
-    private bool ShouldSerializeColorMap() => ColorMap != GlobalStaticValues.EMPTY_COLOR;
+    private bool ShouldSerializeColorMap() => ColorMap != GlobalStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Resets the ColorMap property to its default value.
     /// </summary>
-    public void ResetColorMap() => ColorMap = GlobalStaticValues.EMPTY_COLOR;
+    public void ResetColorMap() => ColorMap = GlobalStaticVariables.EMPTY_COLOR;
 
     #endregion
 
@@ -451,7 +451,7 @@ public class KryptonPaletteButtonSpecTyped : KryptonPaletteButtonSpecBase
     /// <param name="style">Style of button spec.</param>
     /// <returns>Color value.</returns>
     public override Color GetButtonSpecColorMap(PaletteButtonSpecStyle style) =>
-        ColorMap != GlobalStaticValues.EMPTY_COLOR ? ColorMap : base.GetButtonSpecColorMap(style);
+        ColorMap != GlobalStaticVariables.EMPTY_COLOR ? ColorMap : base.GetButtonSpecColorMap(style);
 
     #endregion
 

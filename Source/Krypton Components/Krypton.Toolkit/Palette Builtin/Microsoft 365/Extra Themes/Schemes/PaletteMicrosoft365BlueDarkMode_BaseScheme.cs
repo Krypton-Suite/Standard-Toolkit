@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2025 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2025 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -101,8 +101,8 @@ public sealed class PaletteMicrosoft365BlueDarkMode_BaseScheme : KryptonColorSch
     public override Color RibbonGroupsArea3                { get; set; } = Color.FromArgb(201, 217, 237);
     public override Color RibbonGroupsArea4                { get; set; } = Color.FromArgb(231, 242, 255);
     public override Color RibbonGroupsArea5                { get; set; } = Color.FromArgb(219, 230, 244);
-    public override Color RibbonGroupBorder1               { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonGroupBorder2               { get; set; } = GlobalStaticValues.EMPTY_COLOR;
+    public override Color RibbonGroupBorder1               { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
+    public override Color RibbonGroupBorder2               { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
     public override Color RibbonGroupTitle1                { get; set; } = Color.FromArgb(193, 216, 242);
     public override Color RibbonGroupTitle2                { get; set; } = Color.FromArgb(193, 216, 242);
     public override Color RibbonGroupBorderContext1        { get; set; } = Color.FromArgb(202, 202, 202);
@@ -138,7 +138,9 @@ public sealed class PaletteMicrosoft365BlueDarkMode_BaseScheme : KryptonColorSch
     public override Color RibbonGroupFrameInside3          { get; set; } = Color.FromArgb(214, 228, 246);
     public override Color RibbonGroupFrameInside4          { get; set; } = Color.FromArgb(227, 236, 248);
     public override Color RibbonGroupCollapsedText         { get; set; } = Color.FromArgb(21, 66, 139);
-    public override Color RibbonGroupButtonText            { get; set; } = GlobalStaticValues.EMPTY_COLOR; // missing value
+    public override Color RibbonGroupTextTracking          { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
+    public override Color ButtonTextTracking               { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
+    public override Color RibbonGroupButtonText            { get; set; } = GlobalStaticVariables.EMPTY_COLOR; // missing value
     public override Color AlternatePressedBack1            { get; set; } = Color.FromArgb(118, 153, 200);
     public override Color AlternatePressedBack2            { get; set; } = Color.FromArgb(184, 215, 253);
     public override Color AlternatePressedBorder1          { get; set; } = Color.FromArgb(135, 156, 175);
@@ -166,7 +168,7 @@ public sealed class PaletteMicrosoft365BlueDarkMode_BaseScheme : KryptonColorSch
     public override Color RibbonQATOverflow1               { get; set; } = Color.FromArgb(192, 220, 255);
     public override Color RibbonQATOverflow2               { get; set; } = Color.FromArgb(55, 100, 160);
     public override Color RibbonGroupSeparatorDark         { get; set; } = Color.FromArgb(63, 122, 197);
-    public override Color RibbonGroupSeparatorLight        { get; set; } = GlobalStaticValues.EMPTY_COLOR;
+    public override Color RibbonGroupSeparatorLight        { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
     public override Color ButtonClusterButtonBack1         { get; set; } = Color.FromArgb(192, 212, 241);
     public override Color ButtonClusterButtonBack2         { get; set; } = Color.FromArgb(200, 219, 238);
     public override Color ButtonClusterButtonBorder1       { get; set; } = Color.FromArgb(155, 183, 224);
@@ -219,11 +221,11 @@ public sealed class PaletteMicrosoft365BlueDarkMode_BaseScheme : KryptonColorSch
     public override Color RibbonGalleryBackTracking        { get; set; } = Color.FromArgb(236, 243, 251);
     public override Color RibbonGalleryBack1               { get; set; } = Color.FromArgb(193, 213, 241);
     public override Color RibbonGalleryBack2               { get; set; } = Color.FromArgb(215, 233, 251);
-    public override Color RibbonTabTracking3               { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonTabTracking4               { get; set; } = GlobalStaticValues.EMPTY_COLOR;
+    public override Color RibbonTabTracking3               { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
+    public override Color RibbonTabTracking4               { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
     public override Color RibbonGroupBorder3               { get; set; } = Color.FromArgb(63, 122, 197);
     public override Color RibbonGroupBorder4               { get; set; } = Color.FromArgb(63, 122, 197);
-    public override Color RibbonGroupBorder5               { get; set; } = GlobalStaticValues.EMPTY_COLOR;
+    public override Color RibbonGroupBorder5               { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
     public override Color RibbonGroupTitleText             { get; set; } = Color.FromArgb(21, 66, 139);
     public override Color RibbonDropArrowLight             { get; set; } = Color.FromArgb(63, 122, 197);
     public override Color RibbonDropArrowDark              { get; set; } = Color.FromArgb(21, 66, 139);
@@ -238,12 +240,12 @@ public sealed class PaletteMicrosoft365BlueDarkMode_BaseScheme : KryptonColorSch
     public override Color ButtonNavigatorChecked1          { get; set; } = Color.FromArgb(200, 219, 240);
     public override Color ButtonNavigatorChecked2          { get; set; } = Color.FromArgb(177, 201, 228);
     public override Color ToolTipBottom                    { get; set; } = Color.FromArgb(201, 217, 239);
-    public override Color MenuItemText                     { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color MenuMarginGradientStart          { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color MenuMarginGradientMiddle         { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color MenuMarginGradientEnd            { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color DisabledMenuItemText             { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color MenuStripText                    { get; set; } = GlobalStaticValues.EMPTY_COLOR;
+    public override Color MenuItemText                     { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
+    public override Color MenuMarginGradientStart          { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
+    public override Color MenuMarginGradientMiddle         { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
+    public override Color MenuMarginGradientEnd            { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
+    public override Color DisabledMenuItemText             { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
+    public override Color MenuStripText                    { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
     public override Color TrackBarTickMarks                { get; set; } = Color.FromArgb(116, 150, 194);
     public override Color TrackBarTopTrack                 { get; set; } = Color.FromArgb(116, 150, 194);
     public override Color TrackBarBottomTrack              { get; set; } = Color.FromArgb(152, 190, 241);

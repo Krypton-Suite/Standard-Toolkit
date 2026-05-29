@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -149,7 +149,7 @@ public class KryptonBreadCrumbItem : KryptonListItem
     /// Initialize a new instance of the KryptonBreadCrumbItem class.
     /// </summary>
     public KryptonBreadCrumbItem()
-        : this("ListItem", null, null, GlobalStaticValues.EMPTY_COLOR)
+        : this("ListItem", null, null, GlobalStaticVariables.EMPTY_COLOR)
     {
     }
 
@@ -158,7 +158,7 @@ public class KryptonBreadCrumbItem : KryptonListItem
     /// </summary>
     /// <param name="shortText">Initial short text value.</param>
     public KryptonBreadCrumbItem(string shortText)
-        : this(shortText, null, null, GlobalStaticValues.EMPTY_COLOR)
+        : this(shortText, null, null, GlobalStaticVariables.EMPTY_COLOR)
     {
     }
 
@@ -168,7 +168,7 @@ public class KryptonBreadCrumbItem : KryptonListItem
     /// <param name="shortText">Initial short text value.</param>
     /// <param name="longText">Initial long text value.</param>
     public KryptonBreadCrumbItem(string shortText, string longText)
-        : this(shortText, longText, null, GlobalStaticValues.EMPTY_COLOR)
+        : this(shortText, longText, null, GlobalStaticVariables.EMPTY_COLOR)
     {
     }
 
@@ -181,7 +181,7 @@ public class KryptonBreadCrumbItem : KryptonListItem
     public KryptonBreadCrumbItem(string shortText,
         string longText,
         Image? image)
-        : this(shortText, longText, image, GlobalStaticValues.EMPTY_COLOR)
+        : this(shortText, longText, image, GlobalStaticVariables.EMPTY_COLOR)
     {
     }
 

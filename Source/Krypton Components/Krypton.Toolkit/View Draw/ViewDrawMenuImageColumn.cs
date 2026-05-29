@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -100,7 +100,7 @@ internal class ViewDrawMenuImageColumn : ViewDrawDocker
             Color p1 = PaletteBack!.GetBackColor1(State);
             Color p2 = PaletteBack!.GetBackColor2(State);
 
-            if (p1 != GlobalStaticValues.EMPTY_COLOR || p2 != GlobalStaticValues.EMPTY_COLOR)
+            if (p1 != GlobalStaticVariables.EMPTY_COLOR || p2 != GlobalStaticVariables.EMPTY_COLOR)
             {
                 if (p1 == p2)
                 {
@@ -150,7 +150,7 @@ internal class ViewDrawMenuImageColumn : ViewDrawDocker
         // Prefer palette border colors so control overrides work; fallback to ColorTable
         Color lineLight = PaletteBorder!.GetBorderColor1(State);
         Color lineDark = PaletteBorder!.GetBorderColor2(State);
-        if (lineLight == GlobalStaticValues.EMPTY_COLOR && lineDark == GlobalStaticValues.EMPTY_COLOR)
+        if (lineLight == GlobalStaticVariables.EMPTY_COLOR && lineDark == GlobalStaticVariables.EMPTY_COLOR)
         {
             var colorTable = _provider.ProviderRedirector.ColorTable;
             lineLight = colorTable.ImageMarginGradientEnd;

@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2025 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2025 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -34,21 +34,21 @@ public sealed class PaletteBackInheritStatusStrip : PaletteBackInherit
     public override Color GetBackColor1(PaletteState state)
     {
         var ct = CurrentColorTable;
-        if (ct is not null && ct.StatusStripGradientBegin != GlobalStaticValues.EMPTY_COLOR)
+        if (ct is not null && ct.StatusStripGradientBegin != GlobalStaticVariables.EMPTY_COLOR)
         {
             return ct.StatusStripGradientBegin;
         }
-        return GlobalStaticValues.EMPTY_COLOR;
+        return GlobalStaticVariables.EMPTY_COLOR;
     }
 
     public override Color GetBackColor2(PaletteState state)
     {
         var ct = CurrentColorTable;
-        if (ct is not null && ct.StatusStripGradientEnd != GlobalStaticValues.EMPTY_COLOR)
+        if (ct is not null && ct.StatusStripGradientEnd != GlobalStaticVariables.EMPTY_COLOR)
         {
             return ct.StatusStripGradientEnd;
         }
-        return GlobalStaticValues.EMPTY_COLOR;
+        return GlobalStaticVariables.EMPTY_COLOR;
     }
 
     public override PaletteColorStyle GetBackColorStyle(PaletteState state) => PaletteColorStyle.Inherit;

@@ -1,52 +1,42 @@
-# ![Krypton Logo](https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Krypton.png?raw=true) Standard Toolkit
+﻿# ![Krypton Logo](https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Krypton.png?raw=true) Standard Toolkit
 
-<!-- Start Document Outline -->
+## Table of Contents
 
-- [Standard Toolkit](#-standard-toolkit)
-- [NuGet Information](#nuget-information)
-- [Build Status](#build-status)
-  - [Documentation](#documentation)
-  - [Contributing to the Standard Toolkit](#contributing-to-the-standard-toolkit)
-  - [Package Support Information](#package-support-information)
-    - [Release Cadence](#release-cadence)
-    - [Package Descriptions](#package-descriptions)
-    - [Installing Pre-Release Versions](#installing-pre-release-versions)
-  - [Supporters](#supporters)
-  - [Toolkit Example images](#toolkit-example-images)
-- [Discord Server](#discord-server)
-  - [Version History](#version-history)
-  - [Breaking Changes](#breaking-changes)
-  - [V100.00 (2025-11-xx - Build 2511 - November 2025)](#v10000-2025-11-xx---build-2511---november-2025)
-  - [V95.00 (2025-02-01 - Build 2502 - February 2025)](#v9500-2025-02-01---build-2502---february-2025)
-  - [V90.00 (2024-11-12 - Build 2411 - November 2024)](#v9000-2024-11-12---build-2411---november-2024)
-    - [Support for .NET 6/7](#support-for-net-67)
-    - [`KryptonButton` Properties](#kryptonbutton-properties)
-    - [API Changes](#api-changes)
-    - [`KryptonInputBox`](#kryptoninputbox)
-    - [Building the Toolkit](#building-the-toolkit)
-  - [V85.00 (2025-02-01 - Build 2502 (Patch 5) - February 2025)](#v8500-2025-02-01---build-2502-patch-5---february-2025)
-  - [V85.00 (2024-06-24 - Build 2406 - June 2024)](#v8500-2024-06-24---build-2406---june-2024)
-  - [V80.00 (2023-11-14 - Build 2311 - November 2023)](#v8000-2023-11-14---build-2311---november-2023)
-    - [Support for .NET Core 3.1 and .NET 5](#support-for-net-core-31-and-net-5)
-    - [KryptonMessageBoxButtons](#kryptonmessageboxbuttons)
-    - [Palette usages](#palette-usages)
-    - [Depreciation of `KryptonManager.Strings`](#depreciation-of-kryptonmanagerstrings)
-  - [Known Issues \& Workarounds](#known-issues--workarounds)
-  - [Introduction](#introduction)
-  - [What is this Repository About?](#what-is-this-repository-about)
-  - [Contributing to this project](#contributing-to-this-project)
-  - [Individual Components](#individual-components)
-    - [Krypton Toolkit](#krypton-toolkit)
-    - [Krypton Ribbon](#krypton-ribbon)
-    - [Krypton Navigator](#krypton-navigator)
-    - [Krypton Workspace](#krypton-workspace)
-    - [Krypton Docking](#krypton-docking)
+* [NuGet Information](#nuget-information)
+* [Build Status](#build-status)
+  * [Documentation](#documentation)
+  * [Contributing to the Standard Toolkit](#contributing-to-the-standard-toolkit)
+* [Package Support Information](#package-support-information)
+  * [Release Cadence](#release-cadence)
+  * [Package Descriptions](#package-descriptions)
+  * [Installing Pre-Release Versions](#installing-pre-release-versions)
+* [Supporters](#supporters)
+* [Toolkit Example images](#toolkit-example-images)
+* [Discord Server](#discord-server)
+* [Version History](#version-history)
+* [Breaking Changes](#breaking-changes)
+  * [V110.00 (2026-11-xx - Build 2611 - November 2026)](#v11000-2026-11-xx---build-2611---november-2026)
+  * [V100.00 (2025-11-24 - Build 2511 - November 2025)](#v10000-2025-11-24---build-2511---november-2025)
+  * [Support for .NET FrameWork 4.6.2, 4.7 & 4.7.1](#support-for-net-framework-462-47--471)
+  * [V95.00 (2025-02-01 - Build 2502 - February 2025)](#v9500-2025-02-01---build-2502---february-2025)
+  * [V90.00 (2024-11-12 - Build 2411 - November 2024)](#v9000-2024-11-12---build-2411---november-2024)
+  * [Support for .NET 6/7](#support-for-net-67)
+  * [`KryptonButton` Properties](#kryptonbutton-properties)
+  * [API Changes](#api-changes)
+  * [`KryptonInputBox`](#kryptoninputbox)
+  * [Building the Toolkit](#building-the-toolkit)
+* [Known Issues & Workarounds](#known-issues--workarounds)
+* [Introduction](#introduction)
+* [What is this Repository About?](#what-is-this-repository-about)
+* [Contributing to this project](#contributing-to-this-project)
+* [Individual Components](#individual-components)
+  * [Krypton Toolkit](#krypton-toolkit)
+  * [Krypton Ribbon](#krypton-ribbon)
+  * [Krypton Navigator](#krypton-navigator)
+  * [Krypton Workspace](#krypton-workspace)
+  * [Krypton Docking](#krypton-docking)
 
-<!-- End Document Outline -->
-
-=======
-
-# NuGet Information
+## NuGet Information
 
 View [package version details and supported frameworks](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Support/Krypton%20Toolkit%20Suite%20Standard%20Modules.html).
 
@@ -55,12 +45,12 @@ View [package version details and supported frameworks](https://krypton-suite.gi
 ## Build Status
 
 | Workflow | Status |
-|----------|--------|
-| Build (Master)   | [![Build](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/build.yml/badge.svg)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/build.yml) |
-| Release (Master)  | [![Release](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/release.yml/badge.svg)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/release.yml) |
-| Build (Canary)    | [![Build](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/build.yml/badge.svg?branch=canary)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/build.yml) |
-| Release (Canary)  | [![Release](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/release.yml/badge.svg?branch=canary)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/release.yml) |
-| Build (Alpha)     | [![Build](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/build.yml/badge.svg?branch=alpha)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/build.yml) |
+| --- | --- |
+| Build (Master) | [![Build](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/build.yml/badge.svg)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/build.yml) |
+| Release (Master) | [![Release](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/release.yml/badge.svg)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/release.yml) |
+| Build (Canary) | [![Build](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/build.yml/badge.svg?branch=canary)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/build.yml) |
+| Release (Canary) | [![Release](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/release.yml/badge.svg?branch=canary)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/release.yml) |
+| Build (Alpha) | [![Build](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/build.yml/badge.svg?branch=alpha)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/build.yml) |
 | Release (Alpha) | [![Release](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/nightly.yml/badge.svg?branch=alpha)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/nightly.yml) |
 
 =======
@@ -103,8 +93,8 @@ To find out how to install either `Canary` or `Nightly` versions, please check o
 
 Development of the Krypton Standard Toolkit is supported by these generous organisations:
 
-| [![JetBrains logo.](https://resources.jetbrains.com/storage/products/company/brand/logos/jetbrains.svg)](https://jb.gg/OpenSource)       | [![YourKit logo](https://github.com/Krypton-Suite/Documentation/blob/main/Assets/Supporter-Logos/yourkit-logo.png?raw=true)](https://www.yourkit.com/)       |
-|----------------|----------------|
+| [![JetBrains logo.](https://resources.jetbrains.com/storage/products/company/brand/logos/jetbrains.svg)](https://jb.gg/OpenSource) | [![YourKit logo](https://github.com/Krypton-Suite/Documentation/blob/main/Assets/Supporter-Logos/yourkit-logo.png?raw=true)](https://www.yourkit.com/) |
+| --- | --- |
 | JetBrains provides cutting-edge IDE and developer productivity tools. | YourKit provides a market-leading intelligent [Java Profiler](https://www.yourkit.com/features/) and [.NET Profiler](https://www.yourkit.com/dotnet/features/). |
 
 =======
@@ -135,72 +125,97 @@ Follow the links to see the different objects and layouts that this framework al
 
 ## Breaking Changes
 
-## V100.00 (2025-11-xx - Build 2511 - November 2025)
+## V110.00 (2026-11-xx - Build 2611 - November 2026)
+
+There are list of changes that have occurred during the development of the V110.00 version
+
+* Implemented [#3177](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3177), **[Breaking Change]** Move `KryptonAboutBox` to `Krypton.Toolkit.Utilities`
+  * **Note:**: The `KryptonAboutBox` class has been moved from the `Krypton.Toolkit` namespace to the `Krypton.Toolkit.Utilities` namespace. Please update your using directives accordingly.
+  * You can find the `KryptonAboutBox` class in the `Krypton.Toolkit.Utilities` assembly, which is part of the `Krypton.Standard.Toolkit` NuGet package.
+
+* Implemented [#2858](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2858), **[Breaking Change]:** Move `KryptonCommandLink` buttons to `Krypton.Toolkit.Utilities`
+  * **Note:**: The `KryptonCommandLinkButton` class has been moved from the `Krypton.Toolkit` namespace to the `Krypton.Toolkit.Utilities` namespace. Please update your using directives accordingly.
+  * It is now located in the `Krypton.Toolkit.Utilities` assembly, which is part of the `Krypton.Standard.Toolkit` NuGet package.
+
+* Implemented [#2808](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2808), Move `KryptonToastNotification` feature to `Krypton.Toolkit.Utilities`
+  * **Note:**: The `KryptonToastNotification` class has been moved from the `Krypton.Toolkit` namespace to the `Krypton.Toolkit.Utilities` namespace. Please update your using directives accordingly.
+  * It is now located in the `Krypton.Toolkit.Utilities` assembly, which is part of the `Krypton.Standard.Toolkit` NuGet package.
+  * The `KryptonToastNotification` public API has also been renamed to `KryptonToast` to better reflect its purpose. It is recommended to update any references to the old class name in your codebase to ensure compatibility with the new version.
+
+* Implemented [#2762](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2762), Move the public facing version of `KryptonExceptionDialog` to `Krypton.Toolkit.Utilities`
+  * **Note:**: The `KryptonExceptionDialog` class has been moved from the `Krypton.Toolkit` namespace to the `Krypton.Toolkit.Utilities` namespace. Please update your using directives accordingly.
+  * It is now located in the `Krypton.Toolkit.Utilities` assembly, which is part of the `Krypton.Standard.Toolkit` NuGet package.
+
+## V100.00 (2025-11-24 - Build 2511 - November 2025)
 
 There are list of changes that have occurred during the development of the V100.00 version
 
-- Implemented [#984](https://github.com/Krypton-Suite/Standard-Toolkit/issues/984), `KryptonForm` using `SizeGripStyle` for grippie.
-  - **Note:** This contains a breaking change for **custom** themes as it introduces a new abstract method:
-    `public abstract Image? GetSizeGripImage(RightToLeft isRtl);`
-    so that themes can return a size grip image (or null).
+* Implemented [#984](https://github.com/Krypton-Suite/Standard-Toolkit/issues/984), `KryptonForm` using `SizeGripStyle` for grippie.
+  * **Note:** This contains a breaking change for **custom** themes as it introduces a new abstract method:
+ `public abstract Image? GetSizeGripImage(RightToLeft isRtl);`
+ so that themes can return a size grip image (or null).
 
-- Implemented [#2328](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2328), Set the baseline support to .NET Framework 4.7.2
-  - **Note:** This is a breaking change, as the minimum supported version of .NET Framework has been raised from 4.6.2 to 4.7.2.
-- Resolved [#240](https://github.com/Krypton-Suite/Standard-Toolkit/issues/240), **[Breaking Change]** `KryptonRichTextBox` Why is it not possible to have the `ButtonSpecs` aligned to the top of a control
-  - `ButtonSpecs` have been removed from the `KryptonRichTextBox`
-  - Use another layout to align in the designers
-- Resolved [#1212](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1842), **[Breaking Change]** `KColorButton` 'drop-down' arrow should be drawn
-  - Create Scaled Drop Glyph and use for colour button and comboDrops
-  - Remove the `PaletteRedirectDropDownButton`
-  - Remove `KryptonPaletteImagesDropDownButton`
-  - **Breaking Change**: Remove `DropDownButtonImages` from designers
+* Implemented [#2328](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2328), Set the baseline support to .NET Framework 4.7.2
+  * **Note:** This is a breaking change, as the minimum supported version of .NET Framework has been raised from 4.6.2 to 4.7.2.
+* Resolved [#240](https://github.com/Krypton-Suite/Standard-Toolkit/issues/240), **[Breaking Change]** `KryptonRichTextBox` Why is it not possible to have the `ButtonSpecs` aligned to the top of a control
+  * `ButtonSpecs` have been removed from the `KryptonRichTextBox`
+  * Use another layout to align in the designers
+* Resolved [#1212](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1842), **[Breaking Change]** `KColorButton` 'drop-down' arrow should be drawn
+  * Create Scaled Drop Glyph and use for colour button and comboDrops
+  * Remove the `PaletteRedirectDropDownButton`
+  * Remove `KryptonPaletteImagesDropDownButton`
+  * **Breaking Change**: Remove `DropDownButtonImages` from designers
+  
+### Support for .NET FrameWork 4.6.2, 4.7 & 4.7.1
+
+As of version 100, support for .NET FrameWork 4.6.2, 4.7 & 4.7.1 has been dropped, due to lack of native support for high DPI.
 
 ## V95.00 (2025-02-01 - Build 2502 - February 2025)
 
-- Resolved [#1212](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1842), **[Breaking Change]** `KColorButton` 'drop-down' arrow should be drawn
-  - Create Scaled Drop Glyph and use for colour button and comboDrops
-  - Remove the `PaletteRedirectDropDownButton`
-  - Remove `KryptonPaletteImagesDropDownButton`
-  - **Breaking Change**: Remove `DropDownButtonImages` from designers
+* Resolved [#1212](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1842), **[Breaking Change]** `KColorButton` 'drop-down' arrow should be drawn
+  * Create Scaled Drop Glyph and use for colour button and comboDrops
+  * Remove the `PaletteRedirectDropDownButton`
+  * Remove `KryptonPaletteImagesDropDownButton`
+  * **Breaking Change**: Remove `DropDownButtonImages` from designers
 
 ## V90.00 (2024-11-12 - Build 2411 - November 2024)
 
 There are list of changes that have occurred during the development of the V90.00 version
 
-- [#632](https://github.com/Krypton-Suite/Standard-Toolkit/issues/632), **[Breaking Change]** `KryptonPropertyGrid` should have a customisable back colour.
-  - `KryptonPropertyGrid` now uses the State### sets like the rest of the controls.
-  - Any build breaks in the designers can just be deleted, as the the colouring will be done by the `State####` equivalents
-- [#1435](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1435), **Breaking Change** Take KMB back to the Winform override (Remove Checkbox etc)
-- and [#1432](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1432), **Breaking Change placeholder** Copy `KryptonMessageBox` to `KryptonMessageBoxDep`
-  - The introduction of new Parameters elements to the `KryptonMessageBox` is now supported in the `KryptonMessageBoxDep` class
-  - This is so that the `KryptonMessageBox` gets back to being a drop in replacement for the WinForm `MessageBox`
-  - And a start of the introduction of the `KryptonMessageDialog` implementation of the UWP `MessageDialog`
-- [#1424](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1424), **Breaking Change** `KryptonMessageBox` does not obey tab characters like `MessageBox`
-  - The optional `ContentAlignment` for a `KryptonMessageBox.Show` command is no longer possible.
-- [#1356](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1356), AppButton colours don't change while switching themes
-  - See <https://github.com/Krypton-Suite/Standard-Toolkit/issues/1356#issuecomment-2039412890>
-  - `RibbonAppButton` has become `RibbonFileAppButton`
-  - Addition `RibbonFileAppTab` to hold the tab text (Defaults to `File`)
-  - Colours for the `FileAppTab` have been moved into the `StateCommon` area
-- [#1206](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1206), Remove the `Font Size` (as it is already covered by the actual font !)
-- [#1224](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1224), Move `GlobalPaletteMode` into `GlobalPalette` and rename
-  - BaseFont is now part of the KryptonManager class, and will override the applied palette font(s)
-  - `CustomPalette` must be derived from the `KryptonCustomPaletteBase` class
-  - `BasePaletteMode` has been removed from `KryptonCustomPaletteBase` class
-- [#124](https://github.com/Krypton-Suite/Standard-Toolkit/issues/124), When setting AllowFormChrome = false, then the Form Bar should still be Theme rendered
-  - `AllowFormChrome` has been removed and replaced with `UseThemeFormChromeBorderWidth` to better explain what it is doing
-  - It means that a theme can get closer to "Material Design", and that the Title bar can still be themed (And rounded)
-- [#215](https://github.com/Krypton-Suite/Standard-Toolkit/issues/215), `KryptonTreeView` Multi Node Select
-  - Designer values named `State####Pressed` have changed to `State#####MultiSelect` to reflect usage
-  - New ReeView Designer value `MultiSelect` allows drawing of selected items and retrieval via `CheckedNodes`
-- [#1268](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1268),  Many Krypton Controls have a `CornerRoundingRadius` that overrides the State#### Node Rounding values. Please remove!
-  - `CornerRoundingRadius` overrides **ONLY** the `StateCommon.Border.Rounding` which is incorrect.
-  - All `CornerRoundingRadius` have been removed
-- [#1269](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1269),  Remove AllowFormIntegrate to give consistent experience on all supported OS's
-  - Please check the images in the issue.
-  - To fix: just remove `AllowFormIntegrate` from your deisgner files
-- [#1266](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1266), Since V 5.400, the QAT button is supposed to perform the close, therefore the Close Form button should not be visible
-  - The RibbonAppButton has a new Designer field for setting the "Form Close Visible" to off by default
+* [#632](https://github.com/Krypton-Suite/Standard-Toolkit/issues/632), **[Breaking Change]** `KryptonPropertyGrid` should have a customisable back colour.
+  * `KryptonPropertyGrid` now uses the State### sets like the rest of the controls.
+  * Any build breaks in the designers can just be deleted, as the the colouring will be done by the `State####` equivalents
+* [#1435](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1435), **Breaking Change** Take KMB back to the Winform override (Remove Checkbox etc)
+* and [#1432](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1432), **Breaking Change placeholder** Copy `KryptonMessageBox` to `KryptonMessageBoxDep`
+  * The introduction of new Parameters elements to the `KryptonMessageBox` is now supported in the `KryptonMessageBoxDep` class
+  * This is so that the `KryptonMessageBox` gets back to being a drop in replacement for the WinForm `MessageBox`
+  * And a start of the introduction of the `KryptonMessageDialog` implementation of the UWP `MessageDialog`
+* [#1424](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1424), **Breaking Change** `KryptonMessageBox` does not obey tab characters like `MessageBox`
+  * The optional `ContentAlignment` for a `KryptonMessageBox.Show` command is no longer possible.
+* [#1356](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1356), AppButton colours don't change while switching themes
+  * See <https://github.com/Krypton-Suite/Standard-Toolkit/issues/1356#issuecomment-2039412890>
+  * `RibbonAppButton` has become `RibbonFileAppButton`
+  * Addition `RibbonFileAppTab` to hold the tab text (Defaults to `File`)
+  * Colours for the `FileAppTab` have been moved into the `StateCommon` area
+* [#1206](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1206), Remove the `Font Size` (as it is already covered by the actual font !)
+* [#1224](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1224), Move `GlobalPaletteMode` into `GlobalPalette` and rename
+  * BaseFont is now part of the KryptonManager class, and will override the applied palette font(s)
+  * `CustomPalette` must be derived from the `KryptonCustomPaletteBase` class
+  * `BasePaletteMode` has been removed from `KryptonCustomPaletteBase` class
+* [#124](https://github.com/Krypton-Suite/Standard-Toolkit/issues/124), When setting AllowFormChrome = false, then the Form Bar should still be Theme rendered
+  * `AllowFormChrome` has been removed and replaced with `UseThemeFormChromeBorderWidth` to better explain what it is doing
+  * It means that a theme can get closer to "Material Design", and that the Title bar can still be themed (And rounded)
+* [#215](https://github.com/Krypton-Suite/Standard-Toolkit/issues/215), `KryptonTreeView` Multi Node Select
+  * Designer values named `State####Pressed` have changed to `State#####MultiSelect` to reflect usage
+  * New ReeView Designer value `MultiSelect` allows drawing of selected items and retrieval via `CheckedNodes`
+* [#1268](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1268),  Many Krypton Controls have a `CornerRoundingRadius` that overrides the State#### Node Rounding values. Please remove!
+  * `CornerRoundingRadius` overrides **ONLY** the `StateCommon.Border.Rounding` which is incorrect.
+  * All `CornerRoundingRadius` have been removed
+* [#1269](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1269),  Remove AllowFormIntegrate to give consistent experience on all supported OS's
+  * Please check the images in the issue.
+  * To fix: just remove `AllowFormIntegrate` from your deisgner files
+* [#1266](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1266), Since V 5.400, the QAT button is supposed to perform the close, therefore the Close Form button should not be visible
+  * The RibbonAppButton has a new Designer field for setting the "Form Close Visible" to off by default
 
 ### Support for .NET 6/7
 
@@ -222,63 +237,25 @@ The `KryptonInputBox` now uses the new `KryptonInputBoxData` API, to handle data
 
 As of V90.00 support for longer path names **will** need to be enabled if you want to build the toolkit yourself. For more details on how to do this, please follow the instructions in the [long path names configuration guide](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Contributing/AllowingforLongerPathandFileNames.html).
 
-## V85.00 (2025-02-01 - Build 2502 (Patch 5) - February 2025)
+Quick options from the repository root:
 
-- Resolved [#1212](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1842), **[Breaking Change]** `KColorButton` 'drop-down' arrow should be drawn
-  - Create Scaled Drop Glyph and use for colour button and comboDrops
-  - Remove the `PaletteRedirectDropDownButton`
-  - Remove `KryptonPaletteImagesDropDownButton`
-  - **Breaking Change**: Remove `DropDownButtonImages` from designers
-
-## V85.00 (2024-06-24 - Build 2406 - June 2024)
-
-There are a list of changes that have occurred during the development of the V85.00 version
-
-- [#1302](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1302), **[Breaking Change]** Font being used by "Professional" theme is pants !
-  - The Option to use `SystemDefault` no longer exists a font rendering hint
-- [#1508](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1508), **[Breaking Change]** ButtonSpec does not open assigned context menu when clicked.
-  - Added property `ShowDrop`, which displays a drop-down arrow on the button.
-  - When a `KryptonContextMenu` is connected the menu is shown when the button is clicked.
-  - When a WinForms `ContextMenuStrip` is connected the menu is shown when the button is clicked.
-  - When both type of the above ContextMenus are connected the `KryptonContextMenu` takes precedence.
-  - The ButtonSpec's `Type` property does not need setting to "Context" to display the menu.
-- [#1424](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1424), **[Breaking Change]** `KryptonMessageBox` does not obey tab characters like `MessageBox`
-
-## V80.00 (2023-11-14 - Build 2311 - November 2023)
-
-There are list of changes that have occurred during the development of the V80.00 version
-
-### Support for .NET Core 3.1 and .NET 5
-
-As of V80.00, support for .NET Core 3.1 and .NET 5 has been removed due to their release cadences. It is strongly advised that you migrate your application to .NET 8, as the latest LTS version, or the slightly older .NET 6, if you require a more supported version. If you do not make these mitigations, the packages **will** fail to install when upgrading, if your project is configured to use either .NET Core 3.1 and .NET 5.
-
-### KryptonMessageBoxButtons
-
-- <https://github.com/Krypton-Suite/Standard-Toolkit/issues/728>:
-Bring MessageBox States inline with latest .Net 6 by using a new `KryptonMessageBoxButtons` type, which is effectively the same as .NET 6 enum version of `MessageBoxButtons` but backward compatible with .NET Framework 4.6.x onwards.
-
-### Palette usages
-
-- `KryptonPalette` has become `KryptonCustomPaletteBase` to better signify it's usage.
-- `IPalette` has been removed, and the usage of `PaletteBase` throughout the toolkit is used; to ensure consistent usage.
-
-### Depreciation of `KryptonManager.Strings`
-
-In a effort to support translations, `KryptonManager.Strings` is now obsolete. As such, the new `KryptonLanguageManager` will handle such strings.
+* **Solution build:** `dotnet build "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.sln" -c Debug` (see [AGENTS.md](AGENTS.md) for TestForm and preset script notes).
+* **Interactive scripts:** `run.cmd` or the channel scripts under `Scripts/VS2022/` (and related folders).
+* **ModernBuild (optional):** keyboard-driven build, pack, and NuGet workflows — see [Scripts/ModernBuild/README.md](Scripts/ModernBuild/README.md).
 
 =======
 
 ## Known Issues & Workarounds
 
-- [#1109](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1109) - KryptonPropertyGrid 'jagged' text
-  - Some controls can display `Jagged text` when drawing. (i.e. ComboBox contents / PropertyGrid / Extended controls )
+* [#1109](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1109) - KryptonPropertyGrid 'jagged' text
+  * Some controls can display `Jagged text` when drawing. (i.e. ComboBox contents / PropertyGrid / Extended controls )
   This is due to the usage of the Legacy API `Application.SetCompatibleTextRenderingDefault` having a value of `true`. Please set it to false.
 
-- [#665](https://github.com/Krypton-Suite/Standard-Toolkit/issues/665) - Workaround add `net48` or `net481` to your `<TargetFrameworks>` if using .NET 8 or newer.
+* [#665](https://github.com/Krypton-Suite/Standard-Toolkit/issues/665) - Workaround add `net48` or `net481` to your `<TargetFrameworks>` if using .NET 8 or newer.
 
-- .NET 6/7 Designer issues - If you are experiencing designer issues with your project, please refer to [this](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Support/DesignerFix.html) for more information
+* .NET 6/7 Designer issues - If you are experiencing designer issues with your project, please refer to [this](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Support/DesignerFix.html) for more information
 
-- ***URGENT:*** If anyone experiences "Double events" such as the one found in [issue #666 about double events](https://github.com/Krypton-Suite/Standard-Toolkit/issues/666), please can you report it ASAP, so that they can be investigated. Thanks!
+* ***URGENT:*** If anyone experiences "Double events" such as the one found in [issue #666 about double events](https://github.com/Krypton-Suite/Standard-Toolkit/issues/666), please can you report it ASAP, so that they can be investigated. Thanks!
 
 =======
 
@@ -288,13 +265,13 @@ The Krypton Suite contains user interface components designed to make it quick a
 
 ## What is this Repository About?
 
-- Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, tobitege &
+* Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, tobitege &
 Ahmed-Abdelhameed have been fixing and adding more capabilities to this toolkit.
-- There is also an Extensions project, which takes these base controls and add more useful complete controls (Currently outside the scope of this help). To find out more about the Extended Toolkit, please visit the [Extended Toolkit repository](https://github.com/Krypton-Suite/Extended-Toolkit)
-- All .Net Versions from 4.8.2 are catered for (interim releases, i.e. releases in-between Long Term Support (LTS) versions of .NET will **only** be supported for the duration of that particular version, usually 24 months.)
-- New versions of NuGet packages can be obtained via the [Krypton Suite NuGet profile page](https://www.nuget.org/profiles/Krypton_Suite), or via your package manager by searching `Krypton.`.
-- New, major versions are released annually, with patches if needed released throughout that period. Version 100 is expected to release in November 2025.
-- For tips on how to build the toolkit for yourself, please read the following [article](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Contributing/HowtoBuild.html).
+* There is also an Extensions project, which takes these base controls and add more useful complete controls (Currently outside the scope of this help). To find out more about the Extended Toolkit, please visit the [Extended Toolkit repository](https://github.com/Krypton-Suite/Extended-Toolkit)
+* All .Net Versions from 4.8.2 are catered for (interim releases, i.e. releases in-between Long Term Support (LTS) versions of .NET will **only** be supported for the duration of that particular version, usually 24 months.)
+* New versions of NuGet packages can be obtained via the [Krypton Suite NuGet profile page](https://www.nuget.org/profiles/Krypton_Suite), or via your package manager by searching `Krypton.`.
+* New, major versions are released annually, with patches if needed released throughout that period (for example, V100 shipped November 2025). See the [changelog](Documents/Changelog/Changelog.md) for current work.
+* For tips on how to build the toolkit for yourself, please read the following [article](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Contributing/HowtoBuild.html). Repository-specific commands and tooling are summarized in [AGENTS.md](AGENTS.md) and [Scripts/ModernBuild/README.md](Scripts/ModernBuild/README.md).
 
 ## Contributing to this project
 

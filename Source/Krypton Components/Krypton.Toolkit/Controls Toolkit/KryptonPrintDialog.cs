@@ -2,7 +2,7 @@
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2021 - 2025. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2021 - 2026. All rights reserved. 
  *  
  */
 #endregion
@@ -30,7 +30,7 @@ namespace Krypton.Toolkit;
 /// This may go into the extended toolkit as a "Full replacement" if it is deemed necessary.
 /// </remarks>
 [DefaultProperty(nameof(Document))]
-[ToolboxBitmap(typeof(PrintDialog), "ToolboxBitmaps.KryptonPrintDialog.png")]
+[ToolboxBitmap(typeof(PrintDialog), "ToolboxBitmaps.KryptonPrintDialog.bmp")]
 [Description(nameof(PrintDialog))]
 [Designer("System.Windows.Forms.Design.PrintDialogDesigner")]
 public class KryptonPrintDialog : /*!! sealed PrintDialog !!*/ CommonDialog

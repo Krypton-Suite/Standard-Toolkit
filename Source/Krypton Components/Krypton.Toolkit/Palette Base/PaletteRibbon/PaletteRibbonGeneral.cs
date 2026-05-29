@@ -4,7 +4,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  */
 #endregion
 
@@ -64,30 +64,30 @@ public class PaletteRibbonGeneral : Storage,
 
         // Set default values
         _contextTextAlign = PaletteRelativeAlign.Inherit;
-        _contextTextColor = GlobalStaticValues.EMPTY_COLOR;
+        _contextTextColor = GlobalStaticVariables.EMPTY_COLOR;
         _contextTextFont = null;
-        _disabledDarkColor = GlobalStaticValues.EMPTY_COLOR;
-        _disabledLightColor = GlobalStaticValues.EMPTY_COLOR;
-        _dialogDarkColor = GlobalStaticValues.EMPTY_COLOR;
-        _dialogLightColor = GlobalStaticValues.EMPTY_COLOR;
-        _dropArrowLightColor = GlobalStaticValues.EMPTY_COLOR;
-        _dropArrowDarkColor = GlobalStaticValues.EMPTY_COLOR;
-        _groupSeparatorDark = GlobalStaticValues.EMPTY_COLOR;
-        _groupSeparatorLight = GlobalStaticValues.EMPTY_COLOR;
-        _minimizeBarDarkColor = GlobalStaticValues.EMPTY_COLOR;
-        _minimizeBarLightColor = GlobalStaticValues.EMPTY_COLOR;
-        _tabBackgroundGradientRaftingDarkColor = GlobalStaticValues.EMPTY_COLOR;
-        _tabBackgroundGradientRaftingLightColor = GlobalStaticValues.EMPTY_COLOR;
-        _tabRowBackgroundSolidColor = GlobalStaticValues.EMPTY_COLOR;
-        _tabRowBackgroundGradientFirstColor = GlobalStaticValues.TAB_ROW_GRADIENT_FIRST_COLOR;
-        _ribbonTabRowGradientRaftingAngle = GlobalStaticValues.DEFAULT_RAFTING_RIBBON_TAB_BACKGROUND_GRADIENT;
+        _disabledDarkColor = GlobalStaticVariables.EMPTY_COLOR;
+        _disabledLightColor = GlobalStaticVariables.EMPTY_COLOR;
+        _dialogDarkColor = GlobalStaticVariables.EMPTY_COLOR;
+        _dialogLightColor = GlobalStaticVariables.EMPTY_COLOR;
+        _dropArrowLightColor = GlobalStaticVariables.EMPTY_COLOR;
+        _dropArrowDarkColor = GlobalStaticVariables.EMPTY_COLOR;
+        _groupSeparatorDark = GlobalStaticVariables.EMPTY_COLOR;
+        _groupSeparatorLight = GlobalStaticVariables.EMPTY_COLOR;
+        _minimizeBarDarkColor = GlobalStaticVariables.EMPTY_COLOR;
+        _minimizeBarLightColor = GlobalStaticVariables.EMPTY_COLOR;
+        _tabBackgroundGradientRaftingDarkColor = GlobalStaticVariables.EMPTY_COLOR;
+        _tabBackgroundGradientRaftingLightColor = GlobalStaticVariables.EMPTY_COLOR;
+        _tabRowBackgroundSolidColor = GlobalStaticVariables.EMPTY_COLOR;
+        _tabRowBackgroundGradientFirstColor = GlobalStaticVariables.TAB_ROW_GRADIENT_FIRST_COLOR;
+        _ribbonTabRowGradientRaftingAngle = GlobalStaticConstants.DEFAULT_RAFTING_RIBBON_TAB_BACKGROUND_GRADIENT;
         _ribbonShape = PaletteRibbonShape.Inherit;
-        _tabSeparatorColor = GlobalStaticValues.EMPTY_COLOR;
-        _tabSeparatorContextColor = GlobalStaticValues.EMPTY_COLOR;
+        _tabSeparatorColor = GlobalStaticVariables.EMPTY_COLOR;
+        _tabSeparatorContextColor = GlobalStaticVariables.EMPTY_COLOR;
         _textFont = null;
         _textHint = PaletteTextHint.Inherit;
-        _qatButtonDarkColor = GlobalStaticValues.EMPTY_COLOR;
-        _qatButtonLightColor = GlobalStaticValues.EMPTY_COLOR;
+        _qatButtonDarkColor = GlobalStaticVariables.EMPTY_COLOR;
+        _qatButtonLightColor = GlobalStaticVariables.EMPTY_COLOR;
     }
     #endregion
 
@@ -244,6 +244,7 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Color used for ribbon context text.")]
+    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color ContextTextColor
     {
@@ -258,8 +259,8 @@ public class PaletteRibbonGeneral : Storage,
             }
         }
     }
-    private void ResetContextTextColor() => ContextTextColor = GlobalStaticValues.EMPTY_COLOR;
-    private bool ShouldSerializeContextTextColor() => ContextTextColor != GlobalStaticValues.EMPTY_COLOR;
+    private void ResetContextTextColor() => ContextTextColor = GlobalStaticVariables.EMPTY_COLOR;
+    private bool ShouldSerializeContextTextColor() => ContextTextColor != GlobalStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the color of the ribbon caption text.
@@ -279,6 +280,7 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Dark disabled color for ribbon glyphs.")]
+    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color DisabledDark
     {
@@ -293,8 +295,8 @@ public class PaletteRibbonGeneral : Storage,
             }
         }
     }
-    private void ResetDisabledDark() => DisabledDark = GlobalStaticValues.EMPTY_COLOR;
-    private bool ShouldSerializeDisabledDark() => DisabledDark != GlobalStaticValues.EMPTY_COLOR;
+    private void ResetDisabledDark() => DisabledDark = GlobalStaticVariables.EMPTY_COLOR;
+    private bool ShouldSerializeDisabledDark() => DisabledDark != GlobalStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the dark disabled color used for ribbon glyphs.
@@ -313,6 +315,7 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Light disabled color for ribbon glyphs.")]
+    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color DisabledLight
     {
@@ -327,8 +330,8 @@ public class PaletteRibbonGeneral : Storage,
             }
         }
     }
-    private void ResetDisabledLight() => DisabledLight = GlobalStaticValues.EMPTY_COLOR;
-    private bool ShouldSerializeDisabledLight() => DisabledLight != GlobalStaticValues.EMPTY_COLOR;
+    private void ResetDisabledLight() => DisabledLight = GlobalStaticVariables.EMPTY_COLOR;
+    private bool ShouldSerializeDisabledLight() => DisabledLight != GlobalStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the light disabled color used for ribbon glyphs.
@@ -347,6 +350,7 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Ribbon group dialog launcher button dark color.")]
+    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color GroupDialogDark
     {
@@ -361,8 +365,8 @@ public class PaletteRibbonGeneral : Storage,
             }
         }
     }
-    private void ResetGroupDialogDark() => GroupDialogDark = GlobalStaticValues.EMPTY_COLOR;
-    private bool ShouldSerializeGroupDialogDark() => GroupDialogDark != GlobalStaticValues.EMPTY_COLOR;
+    private void ResetGroupDialogDark() => GroupDialogDark = GlobalStaticVariables.EMPTY_COLOR;
+    private bool ShouldSerializeGroupDialogDark() => GroupDialogDark != GlobalStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the color for the dialog launcher dark.
@@ -382,6 +386,7 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Ribbon group dialog launcher button light color.")]
+    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color GroupDialogLight
     {
@@ -396,8 +401,8 @@ public class PaletteRibbonGeneral : Storage,
             }
         }
     }
-    private void ResetGroupDialogLight() => GroupDialogLight = GlobalStaticValues.EMPTY_COLOR;
-    private bool ShouldSerializeGroupDialogLight() => GroupDialogLight != GlobalStaticValues.EMPTY_COLOR;
+    private void ResetGroupDialogLight() => GroupDialogLight = GlobalStaticVariables.EMPTY_COLOR;
+    private bool ShouldSerializeGroupDialogLight() => GroupDialogLight != GlobalStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the color for the dialog launcher light.
@@ -417,6 +422,7 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Ribbon drop arrow dark color.")]
+    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color DropArrowDark
     {
@@ -431,8 +437,8 @@ public class PaletteRibbonGeneral : Storage,
             }
         }
     }
-    private void ResetDropArrowDark() => DropArrowDark = GlobalStaticValues.EMPTY_COLOR;
-    private bool ShouldSerializeDropArrowDark() => DropArrowDark != GlobalStaticValues.EMPTY_COLOR;
+    private void ResetDropArrowDark() => DropArrowDark = GlobalStaticVariables.EMPTY_COLOR;
+    private bool ShouldSerializeDropArrowDark() => DropArrowDark != GlobalStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the color for the drop arrow dark color.
@@ -451,6 +457,7 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Ribbon drop arrow light color.")]
+    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color DropArrowLight
     {
@@ -465,8 +472,8 @@ public class PaletteRibbonGeneral : Storage,
             }
         }
     }
-    private void ResetDropArrowLight() => DropArrowLight = GlobalStaticValues.EMPTY_COLOR;
-    private bool ShouldSerializeDropArrowLight() => DropArrowLight != GlobalStaticValues.EMPTY_COLOR;
+    private void ResetDropArrowLight() => DropArrowLight = GlobalStaticVariables.EMPTY_COLOR;
+    private bool ShouldSerializeDropArrowLight() => DropArrowLight != GlobalStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the color for the drop arrow light.
@@ -486,6 +493,7 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Ribbon group separator dark color.")]
+    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color GroupSeparatorDark
     {
@@ -500,8 +508,8 @@ public class PaletteRibbonGeneral : Storage,
             }
         }
     }
-    private void ResetGroupSeparatorDark() => GroupSeparatorDark = GlobalStaticValues.EMPTY_COLOR;
-    private bool ShouldSerializeGroupSeparatorDark() => GroupSeparatorDark != GlobalStaticValues.EMPTY_COLOR;
+    private void ResetGroupSeparatorDark() => GroupSeparatorDark = GlobalStaticVariables.EMPTY_COLOR;
+    private bool ShouldSerializeGroupSeparatorDark() => GroupSeparatorDark != GlobalStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the color for the dialog launcher dark.
@@ -521,6 +529,7 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Ribbon group separator light color.")]
+    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color GroupSeparatorLight
     {
@@ -535,8 +544,8 @@ public class PaletteRibbonGeneral : Storage,
             }
         }
     }
-    private void ResetGroupSeparatorLight() => GroupSeparatorLight = GlobalStaticValues.EMPTY_COLOR;
-    private bool ShouldSerializeGroupSeparatorLight() => GroupSeparatorLight != GlobalStaticValues.EMPTY_COLOR;
+    private void ResetGroupSeparatorLight() => GroupSeparatorLight = GlobalStaticVariables.EMPTY_COLOR;
+    private bool ShouldSerializeGroupSeparatorLight() => GroupSeparatorLight != GlobalStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the color for the dialog launcher light.
@@ -556,6 +565,7 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Ribbon minimize bar dark color.")]
+    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color MinimizeBarDarkColor
     {
@@ -570,8 +580,8 @@ public class PaletteRibbonGeneral : Storage,
             }
         }
     }
-    private void ResetMinimizeBarDarkColor() => MinimizeBarDarkColor = GlobalStaticValues.EMPTY_COLOR;
-    private bool ShouldSerializeMinimizeBarDarkColor() => MinimizeBarDarkColor != GlobalStaticValues.EMPTY_COLOR;
+    private void ResetMinimizeBarDarkColor() => MinimizeBarDarkColor = GlobalStaticVariables.EMPTY_COLOR;
+    private bool ShouldSerializeMinimizeBarDarkColor() => MinimizeBarDarkColor != GlobalStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the color for the ribbon minimize bar dark.
@@ -591,6 +601,7 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Ribbon minimize bar light color.")]
+    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color MinimizeBarLightColor
     {
@@ -605,8 +616,8 @@ public class PaletteRibbonGeneral : Storage,
             }
         }
     }
-    private void ResetMinimizeBarLightColor() => MinimizeBarLightColor = GlobalStaticValues.EMPTY_COLOR;
-    private bool ShouldSerializeMinimizeBarLightColor() => MinimizeBarLightColor != GlobalStaticValues.EMPTY_COLOR;
+    private void ResetMinimizeBarLightColor() => MinimizeBarLightColor = GlobalStaticVariables.EMPTY_COLOR;
+    private bool ShouldSerializeMinimizeBarLightColor() => MinimizeBarLightColor != GlobalStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the color for the ribbon minimize bar light.
@@ -627,6 +638,7 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Ribbon tab row background solid color.")]
+    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color TabRowBackgroundSolidColor
     {
@@ -641,8 +653,8 @@ public class PaletteRibbonGeneral : Storage,
             }
         }
     }
-    private void ResetTabRowBackgroundSolidColor() => TabRowBackgroundSolidColor = GlobalStaticValues.EMPTY_COLOR;
-    private bool ShouldSerializeTabRowBackgroundSolidColor() => TabRowBackgroundSolidColor != GlobalStaticValues.EMPTY_COLOR;
+    private void ResetTabRowBackgroundSolidColor() => TabRowBackgroundSolidColor = GlobalStaticVariables.EMPTY_COLOR;
+    private bool ShouldSerializeTabRowBackgroundSolidColor() => TabRowBackgroundSolidColor != GlobalStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the solid color for the ribbon tab row.
@@ -663,6 +675,7 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Ribbon tab row background gradient dark rafting color.")]
+    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color TabRowBackgroundGradientRaftingDarkColor
     {
@@ -677,8 +690,8 @@ public class PaletteRibbonGeneral : Storage,
             }
         }
     }
-    private void ResetTabRowBackgroundGradientRaftingDarkColor() => TabRowBackgroundGradientRaftingDarkColor = GlobalStaticValues.EMPTY_COLOR;
-    private bool ShouldSerializeTabRowBackgroundGradientRaftingDarkColor() => TabRowBackgroundGradientRaftingDarkColor != GlobalStaticValues.EMPTY_COLOR;
+    private void ResetTabRowBackgroundGradientRaftingDarkColor() => TabRowBackgroundGradientRaftingDarkColor = GlobalStaticVariables.EMPTY_COLOR;
+    private bool ShouldSerializeTabRowBackgroundGradientRaftingDarkColor() => TabRowBackgroundGradientRaftingDarkColor != GlobalStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the dark Gradient rafting color for the ribbon tab row.
@@ -699,6 +712,7 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Ribbon tab row background gradient light rafting color.")]
+    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color TabRowBackgroundGradientRaftingLightColor
     {
@@ -713,8 +727,8 @@ public class PaletteRibbonGeneral : Storage,
             }
         }
     }
-    private void ResetTabRowBackgroundGradientRaftingLightColor() => TabRowBackgroundGradientRaftingLightColor = GlobalStaticValues.EMPTY_COLOR;
-    private bool ShouldSerializeTabRowBackgroundGradientRaftingLightColor() => TabRowBackgroundGradientRaftingLightColor != GlobalStaticValues.EMPTY_COLOR;
+    private void ResetTabRowBackgroundGradientRaftingLightColor() => TabRowBackgroundGradientRaftingLightColor = GlobalStaticVariables.EMPTY_COLOR;
+    private bool ShouldSerializeTabRowBackgroundGradientRaftingLightColor() => TabRowBackgroundGradientRaftingLightColor != GlobalStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the light rafting color for the ribbon tab row.
@@ -735,6 +749,7 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Ribbon tab row background gradient first color.")]
+    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color TabRowBackgroundGradientFirstColor
     {
@@ -749,8 +764,8 @@ public class PaletteRibbonGeneral : Storage,
             }
         }
     }
-    private void ResetTabRowBackgroundGradientFirstColor() => TabRowBackgroundGradientFirstColor = GlobalStaticValues.TAB_ROW_GRADIENT_FIRST_COLOR;
-    private bool ShouldSerializeTabRowBackgroundGradientFirstColor() => TabRowBackgroundGradientFirstColor != GlobalStaticValues.TAB_ROW_GRADIENT_FIRST_COLOR;
+    private void ResetTabRowBackgroundGradientFirstColor() => TabRowBackgroundGradientFirstColor = GlobalStaticVariables.TAB_ROW_GRADIENT_FIRST_COLOR;
+    private bool ShouldSerializeTabRowBackgroundGradientFirstColor() => TabRowBackgroundGradientFirstColor != GlobalStaticVariables.TAB_ROW_GRADIENT_FIRST_COLOR;
 
     /// <inheritdoc />
     public Color GetRibbonTabRowGradientColor1(PaletteState state) => ShouldSerializeTabRowBackgroundGradientFirstColor()
@@ -767,7 +782,7 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Ribbon tab row background gradient rafting angle.")]
-    [DefaultValue(GlobalStaticValues.DEFAULT_RAFTING_RIBBON_TAB_BACKGROUND_GRADIENT)]
+    [DefaultValue(GlobalStaticConstants.DEFAULT_RAFTING_RIBBON_TAB_BACKGROUND_GRADIENT)]
     [RefreshProperties(RefreshProperties.All)]
     public float RibbonTabRowGradientRaftingAngle
     {
@@ -783,9 +798,9 @@ public class PaletteRibbonGeneral : Storage,
         }
     }
     private void ResetRibbonTabRowGradientRaftingAngle() => RibbonTabRowGradientRaftingAngle =
-        GlobalStaticValues.DEFAULT_RAFTING_RIBBON_TAB_BACKGROUND_GRADIENT;
+        GlobalStaticConstants.DEFAULT_RAFTING_RIBBON_TAB_BACKGROUND_GRADIENT;
     private bool ShouldSerializeRibbonTabRowGradientRaftingAngle() => RibbonTabRowGradientRaftingAngle !=
-                                                                      GlobalStaticValues.DEFAULT_RAFTING_RIBBON_TAB_BACKGROUND_GRADIENT;
+                                                                      GlobalStaticConstants.DEFAULT_RAFTING_RIBBON_TAB_BACKGROUND_GRADIENT;
 
     /// <summary>
     /// Gets the rafting angle for the ribbon tab row.
@@ -838,6 +853,7 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Ribbon tab separator color.")]
+    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color TabSeparatorColor
     {
@@ -852,8 +868,8 @@ public class PaletteRibbonGeneral : Storage,
             }
         }
     }
-    private void ResetTabSeparatorColor() => TabSeparatorColor = GlobalStaticValues.EMPTY_COLOR;
-    private bool ShouldSerializeTabSeparatorColor() => TabSeparatorColor != GlobalStaticValues.EMPTY_COLOR;
+    private void ResetTabSeparatorColor() => TabSeparatorColor = GlobalStaticVariables.EMPTY_COLOR;
+    private bool ShouldSerializeTabSeparatorColor() => TabSeparatorColor != GlobalStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the color for the tab separator.
@@ -873,6 +889,7 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Ribbon tab context separator color.")]
+    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color TabSeparatorContextColor
     {
@@ -887,8 +904,8 @@ public class PaletteRibbonGeneral : Storage,
             }
         }
     }
-    private void ResetTabSeparatorContextColor() => TabSeparatorContextColor = GlobalStaticValues.EMPTY_COLOR;
-    private bool ShouldSerializeTabSeparatorContextColor() => TabSeparatorContextColor != GlobalStaticValues.EMPTY_COLOR;
+    private void ResetTabSeparatorContextColor() => TabSeparatorContextColor = GlobalStaticVariables.EMPTY_COLOR;
+    private bool ShouldSerializeTabSeparatorContextColor() => TabSeparatorContextColor != GlobalStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the color for the tab context separator.
@@ -978,6 +995,7 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Quick access toolbar extra button dark color.")]
+    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color QATButtonDarkColor
     {
@@ -992,8 +1010,8 @@ public class PaletteRibbonGeneral : Storage,
             }
         }
     }
-    private void ResetQATButtonDarkColor() => QATButtonDarkColor = GlobalStaticValues.EMPTY_COLOR;
-    private bool ShouldSerializeQATButtonDarkColor() => QATButtonDarkColor != GlobalStaticValues.EMPTY_COLOR;
+    private void ResetQATButtonDarkColor() => QATButtonDarkColor = GlobalStaticVariables.EMPTY_COLOR;
+    private bool ShouldSerializeQATButtonDarkColor() => QATButtonDarkColor != GlobalStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the color for the extra QAT button dark content color.
@@ -1013,6 +1031,7 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Quick access toolbar extra button light color.")]
+    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color QATButtonLightColor
     {
@@ -1027,8 +1046,8 @@ public class PaletteRibbonGeneral : Storage,
             }
         }
     }
-    private void ResetQATButtonLightColor() => QATButtonLightColor = GlobalStaticValues.EMPTY_COLOR;
-    private bool ShouldSerializeQATButtonLightColor() => QATButtonLightColor != GlobalStaticValues.EMPTY_COLOR;
+    private void ResetQATButtonLightColor() => QATButtonLightColor = GlobalStaticVariables.EMPTY_COLOR;
+    private bool ShouldSerializeQATButtonLightColor() => QATButtonLightColor != GlobalStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the color for the extra QAT button light content color.

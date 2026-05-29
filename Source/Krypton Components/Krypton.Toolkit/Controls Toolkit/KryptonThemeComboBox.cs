@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2024 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2024 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -50,21 +50,6 @@ public class KryptonThemeComboBox : KryptonComboBox, IKryptonThemeSelectorBase
 
     /// <inheritdoc/>
     [Category(@"Visuals")]
-    [Description(@"The custom assigned palette mode.")]
-    [DefaultValue(null)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-    [Obsolete("Deprecated and will be removed in V110. Set a global custom palette through 'ThemeManager.ApplyTheme(...)'.")]
-    public KryptonCustomPaletteBase? KryptonCustomPalette
-    {
-        get => _kryptonCustomPalette;
-        set => _kryptonCustomPalette = value;
-    }
-
-    private void ResetKryptonCustomPalette() => _kryptonCustomPalette = null;
-    private bool ShouldSerializeKryptonCustomPalette() => _kryptonCustomPalette is not null;
-
-    /// <inheritdoc/>
-    [Category(@"Visuals")]
     [Description(@"The default palette mode.")]
     [DefaultValue(PaletteMode.Global)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
@@ -80,6 +65,22 @@ public class KryptonThemeComboBox : KryptonComboBox, IKryptonThemeSelectorBase
     #endregion
 
     #region Implementation
+
+    /// <summary>
+    /// Theme resolution must use the list item string (same approach as <see cref="KryptonThemeListBox"/>).
+    /// For an owner-draw <see cref="KryptonComboBox"/>, <see cref="Control.Text"/> can lag or stay empty when
+    /// <see cref="ComboBox.SelectedIndex"/> is set programmatically, which would otherwise map to
+    /// <see cref="PaletteMode.Global"/> and revert the selection (see #3283).
+    /// </summary>
+    private string GetSelectedThemeName()
+    {
+        if (SelectedIndex > -1 && SelectedItem is string s && s.Length > 0)
+        {
+            return s;
+        }
+
+        return Text ?? string.Empty;
+    }
 
     /// <summary>
     /// Routine that will be executed when the control is fully instantiated.
@@ -109,6 +110,10 @@ public class KryptonThemeComboBox : KryptonComboBox, IKryptonThemeSelectorBase
         {
             return;
         }
+
+        // Refresh theme list so "Custom" shows as "Custom - [Theme Name]" when a custom palette has a name (issue #1031)
+        Items.Clear();
+        Items.AddRange(CommonHelperThemeSelectors.GetThemesArray());
 
         int idx = CommonHelperThemeSelectors.GetPaletteIndex(Items, mode);
         if (idx == SelectedIndex)
@@ -159,6 +164,11 @@ public class KryptonThemeComboBox : KryptonComboBox, IKryptonThemeSelectorBase
 
         if (!IsHandleCreated)
         {
+            if (!CommonHelperThemeSelectors.OnSelectedIndexChanged(ref _isLocalUpdate, _isExternalUpdate, ref _defaultPalette, GetSelectedThemeName(), _manager, _kryptonCustomPalette))
+            {
+                SelectedIndex = CommonHelperThemeSelectors.GetPaletteIndex(Items, _manager.GlobalPaletteMode);
+            }
+
             base.OnSelectedIndexChanged(e);
             return;
         }
@@ -173,7 +183,7 @@ public class KryptonThemeComboBox : KryptonComboBox, IKryptonThemeSelectorBase
             ThemeChangeCoordinator.Begin(FindForm());
             try
             {
-                if (!CommonHelperThemeSelectors.OnSelectedIndexChanged(ref _isLocalUpdate, _isExternalUpdate, ref _defaultPalette, Text, _manager, _kryptonCustomPalette))
+                if (!CommonHelperThemeSelectors.OnSelectedIndexChanged(ref _isLocalUpdate, _isExternalUpdate, ref _defaultPalette, GetSelectedThemeName(), _manager, _kryptonCustomPalette))
                 {
                     // theme change failed; resync index to current global palette
                     SelectedIndex = CommonHelperThemeSelectors.GetPaletteIndex(Items, _manager.GlobalPaletteMode);

@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2025 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2025 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -138,7 +138,9 @@ public sealed class PaletteOffice2010SilverDarkMode_BaseScheme : KryptonColorSch
     public override Color RibbonGroupFrameInside3          { get; set; } = Color.FromArgb(220, 224, 231);
     public override Color RibbonGroupFrameInside4          { get; set; } = Color.FromArgb(232, 234, 238);
     public override Color RibbonGroupCollapsedText         { get; set; } = Color.FromArgb(255, 255, 255);
-    public override Color RibbonGroupButtonText            { get; set; } = GlobalStaticValues.EMPTY_COLOR; // missing value
+    public override Color RibbonGroupTextTracking          { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
+    public override Color ButtonTextTracking               { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
+    public override Color RibbonGroupButtonText            { get; set; } = GlobalStaticVariables.EMPTY_COLOR; // missing value
     public override Color AlternatePressedBack1            { get; set; } = Color.FromArgb(179, 185, 195);
     public override Color AlternatePressedBack2            { get; set; } = Color.FromArgb(216, 224, 224);
     public override Color AlternatePressedBorder1          { get; set; } = Color.FromArgb(125, 125, 125);
@@ -210,7 +212,7 @@ public sealed class PaletteOffice2010SilverDarkMode_BaseScheme : KryptonColorSch
     public override Color AppButtonOuter3                  { get; set; } = Color.FromArgb(217, 221, 226);
     public override Color AppButtonInner1                  { get; set; } = Color.FromArgb(250, 250, 250);
     public override Color AppButtonInner2                  { get; set; } = Color.FromArgb(169, 174, 180);
-    public override Color AppButtonMenuDocsBack            { get; set; } = GlobalStaticValues.EMPTY_COLOR;
+    public override Color AppButtonMenuDocsBack            { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
     public override Color AppButtonMenuDocsText            { get; set; } = Color.FromArgb(255, 255, 255);
     public override Color SeparatorHighInternalBorder1     { get; set; } = Color.FromArgb(168, 167, 191);
     public override Color SeparatorHighInternalBorder2     { get; set; } = Color.FromArgb(119, 118, 151);
@@ -223,7 +225,7 @@ public sealed class PaletteOffice2010SilverDarkMode_BaseScheme : KryptonColorSch
     public override Color RibbonTabTracking4               { get; set; } = Color.FromArgb(119, 134, 172);
     public override Color RibbonGroupBorder3               { get; set; } = Color.FromArgb(173, 177, 181);
     public override Color RibbonGroupBorder4               { get; set; } = Color.FromArgb(124, 124, 148);
-    public override Color RibbonGroupBorder5               { get; set; } = GlobalStaticValues.EMPTY_COLOR;
+    public override Color RibbonGroupBorder5               { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
     public override Color RibbonGroupTitleText             { get; set; } = Color.FromArgb(255, 255, 255);
     public override Color RibbonDropArrowLight             { get; set; } = Color.FromArgb(255, 255, 255);
     public override Color RibbonDropArrowDark              { get; set; } = Color.FromArgb(222, 226, 236);
@@ -238,12 +240,12 @@ public sealed class PaletteOffice2010SilverDarkMode_BaseScheme : KryptonColorSch
     public override Color ButtonNavigatorChecked1          { get; set; } = Color.FromArgb(222, 227, 234);
     public override Color ButtonNavigatorChecked2          { get; set; } = Color.FromArgb(206, 214, 221);
     public override Color ToolTipBottom                    { get; set; } = Color.FromArgb(221, 221, 221);
-    public override Color MenuItemText                     { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color MenuMarginGradientStart          { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color MenuMarginGradientMiddle         { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color MenuMarginGradientEnd            { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color DisabledMenuItemText             { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color MenuStripText                    { get; set; } = GlobalStaticValues.EMPTY_COLOR;
+    public override Color MenuItemText                     { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
+    public override Color MenuMarginGradientStart          { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
+    public override Color MenuMarginGradientMiddle         { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
+    public override Color MenuMarginGradientEnd            { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
+    public override Color DisabledMenuItemText             { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
+    public override Color MenuStripText                    { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
     public override Color TrackBarTickMarks                { get; set; } = Color.FromArgb(170, 170, 170);
     public override Color TrackBarTopTrack                 { get; set; } = Color.FromArgb(166, 170, 175);
     public override Color TrackBarBottomTrack              { get; set; } = Color.FromArgb(226, 220, 235);

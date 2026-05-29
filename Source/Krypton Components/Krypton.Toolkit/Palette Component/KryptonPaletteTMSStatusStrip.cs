@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -36,10 +36,10 @@ public class KryptonPaletteTMSStatusStrip : KryptonPaletteTMSBase
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public override bool IsDefault => (InternalKCT.InternalStatusStripText == GlobalStaticValues.EMPTY_COLOR) &&
+    public override bool IsDefault => (InternalKCT.InternalStatusStripText == GlobalStaticVariables.EMPTY_COLOR) &&
                                       (InternalKCT.InternalStatusStripFont == null) &&
-                                      (InternalKCT.InternalStatusStripGradientBegin == GlobalStaticValues.EMPTY_COLOR) &&
-                                      (InternalKCT.InternalStatusStripGradientEnd == GlobalStaticValues.EMPTY_COLOR);
+                                      (InternalKCT.InternalStatusStripGradientBegin == GlobalStaticVariables.EMPTY_COLOR) &&
+                                      (InternalKCT.InternalStatusStripGradientEnd == GlobalStaticVariables.EMPTY_COLOR);
 
     #endregion
 
@@ -78,7 +78,7 @@ public class KryptonPaletteTMSStatusStrip : KryptonPaletteTMSBase
     /// <summary>
     /// Resets the StatusStripText property to its default value.
     /// </summary>
-    public void ResetStatusStripText() => StatusStripText = GlobalStaticValues.EMPTY_COLOR;
+    public void ResetStatusStripText() => StatusStripText = GlobalStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region StatusStripFont
@@ -103,7 +103,7 @@ public class KryptonPaletteTMSStatusStrip : KryptonPaletteTMSBase
     /// <summary>
     /// Resets the StatusStripFont property to its default value.
     /// </summary>
-    public void ResetStatusStripFont() => StatusStripText = GlobalStaticValues.EMPTY_COLOR;
+    public void ResetStatusStripFont() => StatusStripText = GlobalStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region StatusStripGradientBegin
@@ -128,7 +128,7 @@ public class KryptonPaletteTMSStatusStrip : KryptonPaletteTMSBase
     /// <summary>
     /// Resets the StatusStripGradientBegin property to its default value.
     /// </summary>
-    public void ResetStatusStripGradientBegin() => StatusStripGradientBegin = GlobalStaticValues.EMPTY_COLOR;
+    public void ResetStatusStripGradientBegin() => StatusStripGradientBegin = GlobalStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region StatusStripGradientEnd
@@ -153,6 +153,6 @@ public class KryptonPaletteTMSStatusStrip : KryptonPaletteTMSBase
     /// <summary>
     /// Resets the StatusStripGradientEnd property to its default value.
     /// </summary>
-    public void ResetStatusStripGradientEnd() => StatusStripGradientEnd = GlobalStaticValues.EMPTY_COLOR;
+    public void ResetStatusStripGradientEnd() => StatusStripGradientEnd = GlobalStaticVariables.EMPTY_COLOR;
     #endregion
 }

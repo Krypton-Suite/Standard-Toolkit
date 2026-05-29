@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -118,7 +118,7 @@ public class PaletteRibbonDoubleInheritOverride : PaletteRibbonDoubleInherit
         {
             Color ret = _primaryBack.GetRibbonBackColor1(Override ? OverrideState : state);
 
-            if (ret == GlobalStaticValues.EMPTY_COLOR)
+            if (ret == GlobalStaticVariables.EMPTY_COLOR)
             {
                 ret = _backupBack.GetRibbonBackColor1(state);
             }
@@ -142,7 +142,7 @@ public class PaletteRibbonDoubleInheritOverride : PaletteRibbonDoubleInherit
         {
             Color ret = _primaryBack.GetRibbonBackColor2(Override ? OverrideState : state);
 
-            if (ret == GlobalStaticValues.EMPTY_COLOR)
+            if (ret == GlobalStaticVariables.EMPTY_COLOR)
             {
                 ret = _backupBack.GetRibbonBackColor2(state);
             }
@@ -166,7 +166,7 @@ public class PaletteRibbonDoubleInheritOverride : PaletteRibbonDoubleInherit
         {
             Color ret = _primaryBack.GetRibbonBackColor3(Override ? OverrideState : state);
 
-            if (ret == GlobalStaticValues.EMPTY_COLOR)
+            if (ret == GlobalStaticVariables.EMPTY_COLOR)
             {
                 ret = _backupBack.GetRibbonBackColor3(state);
             }
@@ -190,7 +190,7 @@ public class PaletteRibbonDoubleInheritOverride : PaletteRibbonDoubleInherit
         {
             Color ret = _primaryBack.GetRibbonBackColor4(Override ? OverrideState : state);
 
-            if (ret == GlobalStaticValues.EMPTY_COLOR)
+            if (ret == GlobalStaticVariables.EMPTY_COLOR)
             {
                 ret = _backupBack.GetRibbonBackColor4(state);
             }
@@ -214,7 +214,7 @@ public class PaletteRibbonDoubleInheritOverride : PaletteRibbonDoubleInherit
         {
             Color ret = _primaryBack.GetRibbonBackColor5(Override ? OverrideState : state);
 
-            if (ret == GlobalStaticValues.EMPTY_COLOR)
+            if (ret == GlobalStaticVariables.EMPTY_COLOR)
             {
                 ret = _backupBack.GetRibbonBackColor5(state);
             }
@@ -240,7 +240,7 @@ public class PaletteRibbonDoubleInheritOverride : PaletteRibbonDoubleInherit
         {
             Color ret = _primaryText.GetRibbonTextColor(Override ? OverrideState : state);
 
-            if (ret == GlobalStaticValues.EMPTY_COLOR)
+            if (ret == GlobalStaticVariables.EMPTY_COLOR)
             {
                 ret = _backupText.GetRibbonTextColor(state);
             }

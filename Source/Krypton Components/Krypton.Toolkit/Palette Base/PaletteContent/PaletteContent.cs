@@ -4,7 +4,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  */
 #endregion
 
@@ -307,7 +307,7 @@ public class PaletteContent : Storage,
     /// </summary>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
-    public Color GetContentImageColorMap(PaletteState state) => _image.ImageColorMap != GlobalStaticValues.EMPTY_COLOR
+    public Color GetContentImageColorMap(PaletteState state) => _image.ImageColorMap != GlobalStaticVariables.EMPTY_COLOR
         ? _image.ImageColorMap
         : _inherit.GetContentImageColorMap(state);
 
@@ -316,7 +316,7 @@ public class PaletteContent : Storage,
     /// </summary>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
-    public Color GetContentImageColorTo(PaletteState state) => _image.ImageColorTo != GlobalStaticValues.EMPTY_COLOR
+    public Color GetContentImageColorTo(PaletteState state) => _image.ImageColorTo != GlobalStaticVariables.EMPTY_COLOR
         ? _image.ImageColorTo
         : _inherit.GetContentImageColorTo(state);
 
@@ -419,7 +419,7 @@ public class PaletteContent : Storage,
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
     public Color GetContentShortTextColor1(PaletteState state) =>
-        ShortText.Color1 != GlobalStaticValues.EMPTY_COLOR
+        ShortText.Color1 != GlobalStaticVariables.EMPTY_COLOR
             ? ShortText.Color1
             : _inherit.GetContentShortTextColor1(state);
 
@@ -428,7 +428,7 @@ public class PaletteContent : Storage,
     /// </summary>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
-    public Color GetContentShortTextColor2(PaletteState state) => ShortText.Color2 != GlobalStaticValues.EMPTY_COLOR
+    public Color GetContentShortTextColor2(PaletteState state) => ShortText.Color2 != GlobalStaticVariables.EMPTY_COLOR
         ? ShortText.Color2
         : _inherit.GetContentShortTextColor2(state);
 
@@ -588,7 +588,7 @@ public class PaletteContent : Storage,
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
     public Color GetContentLongTextColor1(PaletteState state) =>
-        LongText.Color1 != GlobalStaticValues.EMPTY_COLOR
+        LongText.Color1 != GlobalStaticVariables.EMPTY_COLOR
             ? LongText.Color1
             : _inherit.GetContentLongTextColor1(state);
 
@@ -598,7 +598,7 @@ public class PaletteContent : Storage,
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
     public Color GetContentLongTextColor2(PaletteState state) =>
-        LongText.Color2 != GlobalStaticValues.EMPTY_COLOR
+        LongText.Color2 != GlobalStaticVariables.EMPTY_COLOR
             ? LongText.Color2
             : _inherit.GetContentLongTextColor2(state);
 

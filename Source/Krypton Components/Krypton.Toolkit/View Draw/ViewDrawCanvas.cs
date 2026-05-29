@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -391,7 +391,8 @@ public class ViewDrawCanvas : ViewComposite
             DrawTabBorder
                 ? context.Renderer.RenderTabBorder.GetTabBorderDisplayPadding(context, _paletteBorder!, State, Orientation,
                     TabBorderStyle)
-                : context.Renderer.RenderStandardBorder.GetBorderDisplayPadding(_paletteBorder!, State, Orientation));
+                : context.Renderer.RenderStandardBorder.GetBorderDisplayPadding(_paletteBorder!, State, Orientation,
+                    context.DisplayRectangle.Size));
 
         // Do we have a metric source for additional padding?
         if (_paletteMetric != null)
@@ -440,7 +441,8 @@ public class ViewDrawCanvas : ViewComposite
         Padding padding = DrawTabBorder
             ? context.Renderer.RenderTabBorder.GetTabBorderDisplayPadding(context, _paletteBorder!, State,
                 Orientation, TabBorderStyle)
-            : context.Renderer.RenderStandardBorder.GetBorderDisplayPadding(_paletteBorder!, State, Orientation);
+            : context.Renderer.RenderStandardBorder.GetBorderDisplayPadding(_paletteBorder!, State, Orientation,
+                ClientRectangle.Size);
 
         // Apply the padding to the client rectangle
         context.DisplayRectangle = CommonHelper.ApplyPadding(Orientation, ClientRectangle, padding);

@@ -1,11 +1,11 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -27,12 +27,18 @@ public abstract class VisualForm : Form,
     #region Static Fields
     private static readonly bool _themedApp;
 
+    /// <summary>
+    /// Registered "TaskbarButtonCreated" message. Must handle this before using ITaskbarList3 (e.g. ThumbBarAddButtons).
+    /// </summary>
+    private static readonly uint s_taskbarButtonCreatedMsg = PI.RegisterWindowMessage("TaskbarButtonCreated");
+
     // To avoid lag when Acrylic is in use
     public const int WS_EX_NOREDIRECTIONBITMAP = 0x00200000;
 
     #endregion
 
     #region Instance Fields
+
     private bool _activated;
     private bool _windowActive;
     private bool _trackingMouse;
@@ -49,6 +55,11 @@ public abstract class VisualForm : Form,
     private BlurValues _blurValues;
     private BlurManager _blurManager;
     private readonly object lockObject = new();
+    readonly JumpListValues _jumpListValues;
+    private readonly WindowsShellValues _shellValues;
+    private bool _thumbButtonsAdded;
+    private bool _taskbarButtonCreated;
+
     #endregion
 
     #region Events
@@ -79,6 +90,14 @@ public abstract class VisualForm : Form,
     [Category(@"Property Changed")]
     [Description(@"Occurs when the value of the GlobalPalette property is changed.")]
     public event EventHandler? GlobalPaletteChanged;
+
+    /// <summary>
+    /// Occurs when a taskbar thumbnail toolbar button is clicked.
+    /// </summary>
+    [Category(@"Action")]
+    [Description(@"Occurs when the user clicks a button in the taskbar thumbnail preview.")]
+    public event EventHandler<ThumbnailButtonClickEventArgs>? ThumbnailButtonClick;
+
     #endregion
 
     #region Identity
@@ -91,7 +110,7 @@ public abstract class VisualForm : Form,
         }
         catch
         {
-            //
+            // Do nothing
         }
     }
 
@@ -128,6 +147,15 @@ public abstract class VisualForm : Form,
 
         ShadowValues = new ShadowValues();
         BlurValues = new BlurValues();
+
+        // Taskbar configuration
+        _shellValues = new WindowsShellValues(NeedPaintDelegate);
+        _shellValues.OverlayIconValues.OnTaskbarOverlayChanged += UpdateTaskbarOverlayIcon;
+        _shellValues.ThumbnailButtonValues.OnThumbnailButtonsChanged += UpdateTaskbarThumbnailButtons;
+
+        // Jump list
+        _jumpListValues = new JumpListValues(NeedPaintDelegate);
+        _jumpListValues.JumpListChanged += OnJumpListChanged;
 
 #if !NET462
         DpiChanged += OnDpiChanged;
@@ -396,6 +424,44 @@ public abstract class VisualForm : Form,
     /// Resets the <see cref="KryptonForm"/> blur values.
     /// </summary>
     public void ResetBlurValues() => _blurValues.Reset();
+
+    /// <summary>
+    /// Gets access to the shell values.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Windows shell related values.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public WindowsShellValues ShellValues => _shellValues;
+
+    /// <summary>
+    /// Resets the ShellValues property to its default value.
+    /// </summary>
+    public void ResetShellValues() => ShellValues.Reset();
+
+    /// <summary>
+    /// Indicates whether the ShellValues property should be serialized.
+    /// </summary>
+    /// <returns>true if the ShellValues property should be serialized; otherwise, false.</returns>
+    public bool ShouldSerializeShellValues() => !ShellValues.IsDefault;
+
+    /// <summary>
+    /// Gets access to the jump list values.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Jump list configuration for the taskbar button.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public JumpListValues JumpList => _jumpListValues;
+
+    /// <summary>
+    /// Resets the JumpList property to its default value.
+    /// </summary>
+    public void ResetJumpList() => JumpList.Reset();
+
+    /// <summary>
+    /// Indicates whether the JumpList property should be serialized.
+    /// </summary>
+    /// <returns>true if the JumpList property should be serialized; otherwise, false.</returns>
+    public bool ShouldSerializeJumpList() => !JumpList.IsDefault;
 
     /// <summary>
     /// Gets and sets the custom palette implementation.
@@ -711,8 +777,18 @@ public abstract class VisualForm : Form,
             {
                 hRgn = invalidRegion.GetHrgn(g);
 
+                if (!this.HasCaptionContent())
+                {
+                    this.SuspendPaint();
+                }
+
                 PI.RedrawWindow(Handle, IntPtr.Zero, hRgn.Value,
                     PI.RDW_FRAME | PI.RDW_UPDATENOW | PI.RDW_INVALIDATE);
+
+                if (!this.HasCaptionContent())
+                {
+                    this.ResumePaint();
+                }
             }
             catch (InvalidOperationException ioEx)
             {
@@ -729,10 +805,25 @@ public abstract class VisualForm : Form,
         }
     }
 
-    /// <summary>
-    /// Gets rectangle that is the real window rectangle based on Win32 API call.
-    /// </summary>
-    protected Rectangle RealWindowRectangle
+	/// <summary>
+	/// Determines whether the form has a native non-client frame with a usable caption.
+	/// 
+	/// This method must be overridden by derived classes that provide
+	/// a concrete implementation of form chrome handling.
+	/// </summary>
+	/// <exception cref="NotSupportedException">
+	/// Thrown when the method is not overridden in a derived class.
+	/// </exception>
+	protected virtual bool HasCaptionContent()
+	{
+		throw new NotSupportedException(
+			$"{GetType().Name} must override HasCaptionContent() to provide a valid implementation.");
+	}
+
+	/// <summary>
+	/// Gets rectangle that is the real window rectangle based on Win32 API call.
+	/// </summary>
+	protected Rectangle RealWindowRectangle
     {
         get
         {
@@ -777,7 +868,7 @@ public abstract class VisualForm : Form,
         }
         catch
         {
-            //
+            // Do nothing
         }
 
         //if (AcrylicValues.EnableAcrylic)
@@ -786,6 +877,24 @@ public abstract class VisualForm : Form,
         //}
 
         base.OnHandleCreated(e);
+
+        // Update taskbar overlay icon if set
+        UpdateTaskbarOverlayIcon();
+        UpdateTaskbarThumbnailButtons();
+
+        // Apply jump list when handle is created (properties may have been set before handle existed)
+        OnJumpListChanged();
+    }
+
+    /// <summary>
+    /// Raises the HandleDestroyed event.
+    /// </summary>
+    /// <param name="e">An EventArgs containing the event data.</param>
+    protected override void OnHandleDestroyed(EventArgs e)
+    {
+        _thumbButtonsAdded = false;
+        _taskbarButtonCreated = false;
+        base.OnHandleDestroyed(e);
     }
 
     /// <summary>
@@ -1010,27 +1119,85 @@ public abstract class VisualForm : Form,
 
         // We do not process the message if on an MDI child, because doing so prevents the
         // LayoutMdi call on the parent from working and cascading/tiling the children
-        if (_themedApp && MdiParent is null)
+        // WM_GETMINMAXINFO and WM_WINDOWPOSCHANGING must both be intercepted to prevent the
+        // DWM-extended values from being applied. Fixes issue #3013.
+        //
+        // WM_GETMINMAXINFO: Windows sends this multiple times during the maximize sequence —
+        // including after IsFormMaximized becomes true. We fill our work-area values and return 0
+        // immediately so neither DefWndProc nor base.WndProc can overwrite lParam.
+        //
+        // WM_WINDOWPOSCHANGING: DefWindowProc reads our MINMAXINFO correctly but then adds its
+        // own DWM extended-frame offset (typically ±8 px), producing the final x/y/cx/cy values
+        // it sends here. We snap them back to the work area so the window lands exactly on it.
+        if (_themedApp
+            && (m.Msg == PI.WM_.GETMINMAXINFO || m.Msg == PI.WM_.WINDOWPOSCHANGING)
+            && (MdiParent is null || UseThemeFormChromeBorderWidth))
+        {
+            if (m.Msg == PI.WM_.GETMINMAXINFO)
+            {
+                // Fill our MINMAXINFO and return 0 (required by WM_GETMINMAXINFO docs).
+                // Do NOT call DefWndProc or base.WndProc as either would overwrite lParam.
+                OnWM_GETMINMAXINFO(ref m);
+                m.Result = IntPtr.Zero;
+                return;
+            }
+
+            // WM_WINDOWPOSCHANGING — snap any DWM-extended position/size back to the work area.
+            if (m.LParam != IntPtr.Zero)
+            {
+                var wp = (PI.WINDOWPOS)Marshal.PtrToStructure(m.LParam, typeof(PI.WINDOWPOS))!;
+                const int MONITOR_DEFAULT_TO_NEAREST = 0x00000002;
+                IntPtr mon = PI.MonitorFromWindow(m.HWnd, MONITOR_DEFAULT_TO_NEAREST);
+                if (mon != IntPtr.Zero)
+                {
+                    PI.MONITORINFO mi = PI.GetMonitorInfo(mon);
+                    int workLeft   = mi.rcWork.left;
+                    int workTop    = mi.rcWork.top;
+                    int workWidth  = mi.rcWork.right  - mi.rcWork.left;
+                    int workHeight = mi.rcWork.bottom - mi.rcWork.top;
+
+                    // Detect the DWM-extended pattern: window extends past all four work-area edges.
+                    bool overLeft   = wp.x < workLeft;
+                    bool overTop    = wp.y < workTop;
+                    bool overRight  = (wp.x + wp.cx) > (workLeft + workWidth);
+                    bool overBottom = (wp.y + wp.cy) > (workTop  + workHeight);
+
+                    if (overLeft && overTop && overRight && overBottom)
+                    {
+                        wp.x  = workLeft;
+                        wp.y  = workTop;
+                        wp.cx = workWidth;
+                        wp.cy = workHeight;
+                        Marshal.StructureToPtr(wp, m.LParam, true);
+                    }
+                }
+            }
+        }
+
+        // WM_NCCALCSIZE and other chrome messages are skipped for maximized forms and MDI children
+        // to avoid conflicting with the OS layout.
+        if (_themedApp
+            && !CommonHelper.IsFormMaximized(this)
+            && (MdiParent is null || UseThemeFormChromeBorderWidth))
         {
             switch (m.Msg)
             {
                 case PI.WM_.NCCALCSIZE:
                     processed = OnWM_NCCALCSIZE(ref m);
                     break;
-                case PI.WM_.GETMINMAXINFO:
-                    OnWM_GETMINMAXINFO(ref m);
-                    /* Setting handled to false enables the application to process its own Min/Max requirements,
-                     * as mentioned by jason.bullard (comment from September 22, 2011) on http://gallery.expression.microsoft.com/ZuneWindowBehavior/ */
-                    // https://github.com/Krypton-Suite/Standard-Toolkit/issues/459
-                    // Still got to call - base - to allow the "application to process its own Min/Max requirements" !!
-                    base.WndProc(ref m);
-                    return;
             }
         }
 
         // Do we need to override message processing?
         if (!IsDisposed && !Disposing)
         {
+            if (s_taskbarButtonCreatedMsg != 0 && m.Msg == (int)s_taskbarButtonCreatedMsg)
+            {
+                _taskbarButtonCreated = true;
+                UpdateTaskbarThumbnailButtons();
+                processed = true;
+            }
+
             switch (m.Msg)
             {
                 case PI.WM_.NCPAINT:
@@ -1081,6 +1248,7 @@ public abstract class VisualForm : Form,
                 case PI.WM_.NCLBUTTONDBLCLK:
                     processed = OnWM_NCLBUTTONDBLCLK(ref m);
                     break;
+
                 case PI.WM_.SYSCOMMAND:
                 {
                     var sc = (PI.SC_)m.WParam.ToInt64();
@@ -1119,6 +1287,17 @@ public abstract class VisualForm : Form,
                     // and paint of the non-client area to get it shown.
                     PerformNeedPaint(true);
                     break;
+                case PI.WM_.COMMAND:
+                {
+                    var wp = (uint)(m.WParam.ToInt64() & 0xFFFFFFFF);
+                    if (((wp >> 16) & 0xFFFF) == PI.THBN_CLICKED)
+                    {
+                        var buttonId = wp & 0xFFFF;
+                        ThumbnailButtonClick?.Invoke(this, new ThumbnailButtonClickEventArgs(buttonId));
+                        processed = true;
+                    }
+                }
+                    break;
             }
         }
 
@@ -1146,19 +1325,27 @@ public abstract class VisualForm : Form,
     {
         PI.MINMAXINFO mmi = (PI.MINMAXINFO)Marshal.PtrToStructure(m.LParam, typeof(PI.MINMAXINFO))!;
 
-        // Adjust the maximized size and position to fit the work area of the correct monitor
+        // Adjust the maximized size and position to fit the work area of the correct monitor.
+        // For multi-monitor: ptMaxPosition must be in primary-monitor coordinates per MSDN.
+        // See https://stackoverflow.com/questions/35984883 and https://github.com/Krypton-Suite/Standard-Toolkit/issues/3249
         const int MONITOR_DEFAULT_TO_NEAREST = 0x00000002;
-        IntPtr monitor = PI.MonitorFromWindow(m.HWnd, MONITOR_DEFAULT_TO_NEAREST);
+        const int MONITOR_DEFAULT_TO_PRIMARY = 0x00000001;
+        IntPtr targetMonitor = PI.MonitorFromWindow(m.HWnd, MONITOR_DEFAULT_TO_NEAREST);
+        IntPtr primaryMonitor = PI.MonitorFromWindow(IntPtr.Zero, MONITOR_DEFAULT_TO_PRIMARY);
 
-        if (monitor != IntPtr.Zero)
+        if (targetMonitor != IntPtr.Zero && primaryMonitor != IntPtr.Zero)
         {
-            PI.MONITORINFO monitorInfo = PI.GetMonitorInfo(monitor);
-            PI.RECT rcWorkArea = monitorInfo.rcWork;
-            PI.RECT rcMonitorArea = monitorInfo.rcMonitor;
-            mmi.ptMaxPosition.X = Math.Abs(rcWorkArea.left - rcMonitorArea.left);
-            mmi.ptMaxPosition.Y = Math.Abs(rcWorkArea.top - rcMonitorArea.top);
-            mmi.ptMaxSize.X = Math.Abs(rcWorkArea.right - rcWorkArea.left);
-            mmi.ptMaxSize.Y = Math.Abs(rcWorkArea.bottom - rcWorkArea.top);
+            PI.MONITORINFO targetInfo = PI.GetMonitorInfo(targetMonitor);
+            PI.MONITORINFO primaryInfo = PI.GetMonitorInfo(primaryMonitor);
+            PI.RECT rcWorkArea = targetInfo.rcWork;
+            PI.RECT rcTargetMonitor = targetInfo.rcMonitor;
+
+            // ptMaxPosition must be expressed relative to the primary monitor so Windows
+            // correctly places the maximized window on the target (possibly secondary) monitor.
+            mmi.ptMaxPosition.X = primaryInfo.rcMonitor.left + rcWorkArea.left - rcTargetMonitor.left;
+            mmi.ptMaxPosition.Y = primaryInfo.rcMonitor.top + rcWorkArea.top - rcTargetMonitor.top;
+            mmi.ptMaxSize.X = rcWorkArea.right - rcWorkArea.left;
+            mmi.ptMaxSize.Y = rcWorkArea.bottom - rcWorkArea.top;
             // https://github.com/Krypton-Suite/Standard-Toolkit/issues/415 so changed to "* 3 / 2"
             mmi.ptMinTrackSize.X = Math.Max(mmi.ptMinTrackSize.X * 3 / 2, MinimumSize.Width);
             mmi.ptMinTrackSize.Y = Math.Max(mmi.ptMinTrackSize.Y * 2, MinimumSize.Height);
@@ -1385,14 +1572,15 @@ public abstract class VisualForm : Form,
         // Next time the mouse enters the window we need to track it leaving
         _trackingMouse = false;
 
-        // Perform actual mouse leave actions
-        WindowChromeMouseLeave();
+        // Spurious WM_NCMOUSELEAVE can fire while moving between title-bar ButtonSpecs or into the client area.
+        if (!IsMouseReallyOverWindowChrome())
+        {
+            WindowChromeMouseLeave();
+            InvalidateNonClient();
+        }
 
         // Indicate that we processed the message
         m.Result = IntPtr.Zero;
-
-        // Need a repaint to show change
-        InvalidateNonClient();
 
         // Message processed, do not pass onto base class for processing
         return true;
@@ -1647,9 +1835,49 @@ public abstract class VisualForm : Form,
     /// <summary>
     /// Perform mouse leave processing.
     /// </summary>
-    protected virtual void WindowChromeMouseLeave() =>
+    protected virtual void WindowChromeMouseLeave()
+    {
+        if (IsMouseReallyOverWindowChrome())
+        {
+            return;
+        }
+
         // Pass message onto the view elements
         ViewManager?.MouseLeave(EventArgs.Empty);
+    }
+
+    /// <summary>
+    /// Gets a value indicating if the screen mouse position is still over window chrome that should retain button tracking.
+    /// </summary>
+    /// <returns>True if the pointer should not be treated as having left; otherwise false.</returns>
+    protected virtual bool IsMouseReallyOverWindowChrome()
+    {
+        if (!IsHandleCreated)
+        {
+            return false;
+        }
+
+        var screenPoint = Control.MousePosition;
+
+        if (ClientRectangle.Contains(PointToClient(screenPoint)))
+        {
+            return true;
+        }
+
+        Point windowPoint = ScreenToWindow(screenPoint);
+        ViewBase? view = ViewManager?.Root.ViewFromPoint(windowPoint);
+        while (view != null)
+        {
+            if (view.FindMouseController() != null)
+            {
+                return true;
+            }
+
+            view = view.Parent;
+        }
+
+        return false;
+    }
 
     #endregion
 
@@ -1725,10 +1953,201 @@ public abstract class VisualForm : Form,
 #if !NET462
     private void OnDpiChanged(object? sender, DpiChangedEventArgs e) => UpdateDpiFactors();
 #endif
+
+    #region Jump List
+
+    /// <summary>
+    /// Updates the jump list using the Windows ICustomDestinationList API.
+    /// </summary>
+    private void OnJumpListChanged()
+    {
+        // Only update at runtime, not in designer
+        if (CommonHelper.DesignMode() || !IsHandleCreated)
+        {
+            return;
+        }
+
+        try
+        {
+            // Check if Windows 7+ (ICustomDestinationList requires Windows 7+)
+            if (Environment.OSVersion.Version.Major < 6 ||
+                (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor < 1))
+            {
+                return; // Not supported on Windows Vista or earlier
+            }
+
+            // Check if AppId is set
+            if (string.IsNullOrEmpty(_jumpListValues.AppId))
+            {
+                return;
+            }
+
+            // Create CustomDestinationList COM object
+            var destinationList = (PI.ICustomDestinationList)new PI.CustomDestinationList();
+            destinationList.SetAppID(_jumpListValues.AppId);
+
+            // Begin jump list creation
+            Guid iidObjectArray = new Guid("92ca9dcd-5622-4bba-a805-5e9f541bd8c9");
+            destinationList.BeginList(out uint maxSlots, ref iidObjectArray, out IntPtr removedItems);
+
+            // Add known categories if requested
+            if (_jumpListValues.ShowFrequentCategory)
+            {
+                destinationList.AppendKnownCategory(PI.KNOWNDESTCATEGORY.KDC_FREQUENT);
+            }
+
+            if (_jumpListValues.ShowRecentCategory)
+            {
+                destinationList.AppendKnownCategory(PI.KNOWNDESTCATEGORY.KDC_RECENT);
+            }
+
+            // Add custom categories
+            foreach (var category in _jumpListValues.Categories)
+            {
+                if (category.Value.Count > 0)
+                {
+                    var categoryItems = CreateObjectArray(category.Value);
+                    if (categoryItems != null)
+                    {
+                        destinationList.AppendCategory(category.Key, categoryItems);
+                    }
+                }
+            }
+
+            // Add user tasks
+            if (_jumpListValues.UserTasks.Count > 0)
+            {
+                var taskItems = CreateObjectArray(_jumpListValues.UserTasks);
+                if (taskItems != null)
+                {
+                    destinationList.AddUserTasks(taskItems);
+                }
+            }
+
+            // Commit the jump list
+            destinationList.CommitList();
+        }
+        catch (System.Runtime.InteropServices.COMException ex) when (ex.HResult == unchecked((int)0x80040154))
+        {
+            // REGDB_E_CLASSNOTREG: Jump list COM (CustomDestinationList) not available.
+            // Common on Server Core, 32/64-bit mismatch, or restricted environments.
+        }
+        catch (Exception ex)
+        {
+            // Silently fail if jump list API is not available
+            // This can happen on older Windows versions or if COM registration fails
+            KryptonExceptionHandler.CaptureException(ex, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
+        }
+    }
+
+    /// <summary>
+    /// Creates an IObjectArray from a list of JumpListItem objects.
+    /// Per MSDN: IShellLink for jump lists must have SetPath, SetArguments, SetIconLocation,
+    /// and display name via PKEY_Title (IPropertyStore).
+    /// </summary>
+    private PI.IObjectArray? CreateObjectArray(List<JumpListItem> items)
+    {
+        if (items == null || items.Count == 0)
+        {
+            return null;
+        }
+
+        try
+        {
+            // Create ObjectCollection (EnumerableObjectCollection)
+            var objectCollection = (PI.IObjectCollection)new PI.ObjectCollection();
+
+            // Create shell links for each item
+            foreach (var item in items)
+            {
+                if (string.IsNullOrEmpty(item.Path))
+                {
+                    continue;
+                }
+
+                var shellLink = (PI.IShellLinkW)new PI.ShellLink();
+                shellLink.SetPath(item.Path);
+
+                // Required: User Tasks must declare an argument list (MSDN). Use space if none.
+                shellLink.SetArguments(string.IsNullOrEmpty(item.Arguments) ? " " : item.Arguments);
+
+                if (!string.IsNullOrEmpty(item.WorkingDirectory))
+                {
+                    shellLink.SetWorkingDirectory(item.WorkingDirectory);
+                }
+
+                // Description provides tooltip; use Title as fallback
+                shellLink.SetDescription(string.IsNullOrEmpty(item.Description) ? item.Title : item.Description);
+
+                // Required: Icon location. Use path as fallback when no icon specified.
+                var iconPath = !string.IsNullOrEmpty(item.IconPath) ? item.IconPath : item.Path;
+                shellLink.SetIconLocation(iconPath, item.IconIndex);
+
+                // Set display name via PKEY_Title (required for custom jump list display names)
+                if (!string.IsNullOrEmpty(item.Title))
+                {
+                    PI.TrySetShellLinkTitle(shellLink, item.Title);
+                }
+
+                // Add to collection
+                objectCollection.AddObject(shellLink);
+            }
+
+            // Return as IObjectArray
+            return (PI.IObjectArray)objectCollection;
+        }
+        catch (Exception ex)
+        {
+            KryptonExceptionHandler.CaptureException(ex, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
+            return null;
+        }
+    }
+
+    #endregion
+
     #endregion
 
     private void UpdateDpiFactors()
     {
+        // Invalidate the global DPI cache to ensure fresh values are calculated
+        KryptonManager.InvalidateDpiCache();
+
+        // Use per-monitor DPI for proper high DPI and touchscreen scaling support
+        IntPtr hWnd = IsHandleCreated ? Handle : IntPtr.Zero;
+
+        if (hWnd != IntPtr.Zero)
+        {
+            try
+            {
+                // Try to use GetDpiForWindow for per-monitor DPI awareness (Windows 10 version 1607+)
+                uint dpi = PI.GetDpiForWindow(hWnd);
+                if (dpi > 0)
+                {
+                    FactorDpiX = dpi / 96f;
+                    FactorDpiY = dpi / 96f;
+                    return;
+                }
+            }
+            catch
+            {
+                // GetDpiForWindow may not be available on older Windows versions
+            }
+
+            // Fallback to window's Graphics DPI
+            try
+            {
+                using Graphics graphics = Graphics.FromHwnd(hWnd);
+                FactorDpiX = graphics.DpiX / 96f;
+                FactorDpiY = graphics.DpiY / 96f;
+                return;
+            }
+            catch
+            {
+                // Continue to primary monitor fallback
+            }
+        }
+
+        // Fallback
         // Do not use the control dpi, as these values are being used to target the screen
         IntPtr screenDc = PI.GetDC(IntPtr.Zero);
         if (screenDc != IntPtr.Zero)
@@ -1757,5 +2176,131 @@ public abstract class VisualForm : Form,
         ClientSize = new Size(284, 261);
         Name = "VisualForm";
         ResumeLayout(false);
+    }
+
+    /// <summary>
+    /// Updates the taskbar overlay icon using the Windows ITaskbarList3 API.
+    /// </summary>
+    private void UpdateTaskbarOverlayIcon()
+    {
+        // Only update at runtime, not in designer
+        if (CommonHelper.DesignMode() || !IsHandleCreated)
+        {
+            return;
+        }
+
+        try
+        {
+            // Check if Windows 7+ (ITaskbarList3 requires Windows 7+)
+            if (Environment.OSVersion.Version.Major < 6 ||
+                (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor < 1))
+            {
+                return; // Not supported on Windows Vista or earlier
+            }
+
+            // Create TaskbarList COM object
+            var taskbarList = (PI.ITaskbarList3)new PI.TaskbarList();
+            taskbarList.HrInit();
+
+            // Get icon handle
+            IntPtr hIcon = IntPtr.Zero;
+            if (_shellValues.OverlayIconValues.Icon != null)
+            {
+                hIcon = _shellValues.OverlayIconValues.Icon.Handle;
+            }
+
+            // Set overlay icon (passing null clears it)
+            string description = _shellValues.OverlayIconValues.Description ?? string.Empty;
+            taskbarList.SetOverlayIcon(Handle, hIcon, description);
+        }
+        catch (Exception ex)
+        {
+            // Silently fail if taskbar API is not available
+            // This can happen on older Windows versions or if COM registration fails
+            KryptonExceptionHandler.CaptureException(ex, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
+        }
+    }
+
+    /// <summary>
+    /// Updates the taskbar thumbnail toolbar buttons using the Windows ITaskbarList3 API.
+    /// </summary>
+    private void UpdateTaskbarThumbnailButtons()
+    {
+        if (CommonHelper.DesignMode() || !IsHandleCreated || !ShowInTaskbar || !_taskbarButtonCreated)
+        {
+            return;
+        }
+
+        try
+        {
+            if (Environment.OSVersion.Version.Major < 6 ||
+                (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor < 1))
+            {
+                return;
+            }
+
+            var buttons = _shellValues.ThumbnailButtonValues.Buttons;
+            if (buttons.Count == 0)
+            {
+                return;
+            }
+
+            var arr = new PI.THUMBBUTTON[buttons.Count];
+            const int maxTip = 259;
+            for (var i = 0; i < buttons.Count; i++)
+            {
+                var b = buttons[i];
+                var tip = (b.Tooltip ?? string.Empty);
+                if (tip.Length > maxTip)
+                {
+                    tip = tip.Substring(0, maxTip);
+                }
+
+                var flags = b.Hidden
+                    ? PI.THUMBBUTTONFLAGS.THBF_HIDDEN
+                    : (b.Enabled ? PI.THUMBBUTTONFLAGS.THBF_ENABLED : PI.THUMBBUTTONFLAGS.THBF_DISABLED);
+
+                arr[i] = new PI.THUMBBUTTON
+                {
+                    dwMask = PI.THUMBBUTTONMASK.THB_ICON | PI.THUMBBUTTONMASK.THB_TOOLTIP | PI.THUMBBUTTONMASK.THB_FLAGS,
+                    iId = b.Id,
+                    iBitmap = 0,
+                    hIcon = b.Icon?.Handle ?? IntPtr.Zero,
+                    szTip = tip,
+                    dwFlags = flags
+                };
+            }
+
+            var size = Marshal.SizeOf<PI.THUMBBUTTON>();
+            var buf = Marshal.AllocHGlobal(size * arr.Length);
+            try
+            {
+                for (var i = 0; i < arr.Length; i++)
+                {
+                    Marshal.StructureToPtr(arr[i], IntPtr.Add(buf, i * size), false);
+                }
+
+                var taskbarList = (PI.ITaskbarList3)new PI.TaskbarList();
+                taskbarList.HrInit();
+
+                if (!_thumbButtonsAdded)
+                {
+                    taskbarList.ThumbBarAddButtons(Handle, (uint)arr.Length, buf);
+                    _thumbButtonsAdded = true;
+                }
+                else
+                {
+                    taskbarList.ThumbBarUpdateButtons(Handle, (uint)arr.Length, buf);
+                }
+            }
+            finally
+            {
+                Marshal.FreeHGlobal(buf);
+            }
+        }
+        catch (Exception ex)
+        {
+            KryptonExceptionHandler.CaptureException(ex, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
+        }
     }
 }

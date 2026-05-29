@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -60,7 +60,7 @@ public class KryptonDataGridView : DataGridView
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Color value.</returns>
-        public Color GetImageTransparentColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+        public Color GetImageTransparentColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the content short text.
@@ -73,6 +73,48 @@ public class KryptonDataGridView : DataGridView
         /// </summary>
         /// <returns>String value.</returns>
         public string GetLongText() => string.Empty;
+
+        /// <summary>
+        /// Gets the overlay image.
+        /// </summary>
+        /// <param name="state">The state for which the overlay image is needed.</param>
+        /// <returns>Overlay image value, or null if no overlay image is set.</returns>
+        public Image? GetOverlayImage(PaletteState state) => null;
+
+        /// <summary>
+        /// Gets the overlay image color that should be transparent.
+        /// </summary>
+        /// <param name="state">The state for which the overlay image is needed.</param>
+        /// <returns>Color value.</returns>
+        public Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
+
+        /// <summary>
+        /// Gets the position of the overlay image relative to the main image.
+        /// </summary>
+        /// <param name="state">The state for which the overlay position is needed.</param>
+        /// <returns>Overlay image position.</returns>
+        public OverlayImagePosition GetOverlayImagePosition(PaletteState state) => OverlayImagePosition.TopRight;
+
+        /// <summary>
+        /// Gets the scaling mode for the overlay image.
+        /// </summary>
+        /// <param name="state">The state for which the overlay scale mode is needed.</param>
+        /// <returns>Overlay image scale mode.</returns>
+        public OverlayImageScaleMode GetOverlayImageScaleMode(PaletteState state) => OverlayImageScaleMode.None;
+
+        /// <summary>
+        /// Gets the scale factor for the overlay image.
+        /// </summary>
+        /// <param name="state">The state for which the overlay scale factor is needed.</param>
+        /// <returns>Scale factor.</returns>
+        public float GetOverlayImageScaleFactor(PaletteState state) => 0.5f;
+
+        /// <summary>
+        /// Gets the fixed size for the overlay image.
+        /// </summary>
+        /// <param name="state">The state for which the overlay fixed size is needed.</param>
+        /// <returns>Fixed size.</returns>
+        public Size GetOverlayImageFixedSize(PaletteState state) => new Size(16, 16);
 
         #endregion
     }
@@ -1071,8 +1113,27 @@ public class KryptonDataGridView : DataGridView
     }
     #endregion
 
-
     #region Protected Override
+    /// <inheritdoc/>
+    protected override void OnScroll(ScrollEventArgs e)
+    {
+        base.OnScroll(e);
+
+        // #2681 - work-around
+        // Headers not correctly repainted on horizontal mouse scroll
+        if (e.ScrollOrientation == ScrollOrientation.HorizontalScroll
+            && (MouseButtons & MouseButtons.Left) == MouseButtons.Left)
+        {
+            for (int i = 0; i < Columns.Count; i++)
+            {
+                if (Columns[i].Displayed)
+                {
+                    InvalidateCell(Columns[i].HeaderCell);
+                }
+            }
+        }
+    }
+
     /// <inheritdoc/>
     protected override void OnDataBindingComplete(DataGridViewBindingCompleteEventArgs e)
     {
@@ -1327,6 +1388,7 @@ public class KryptonDataGridView : DataGridView
                 using (var renderContext = new RenderContext(this, tempG, tempCellBounds, Renderer!))
                 {
                     bool isHeaderCell = e.RowIndex == -1 && e.ColumnIndex >= 0;
+
                     Rectangle headerContentBounds = Rectangle.Empty;
 
                     // Force the border to have a specified maximum border edge
@@ -1699,7 +1761,7 @@ public class KryptonDataGridView : DataGridView
                             focusCellBounds.X++;
                         }
 
-                        ControlPaint.DrawFocusRectangle(e.Graphics!, focusCellBounds, GlobalStaticValues.EMPTY_COLOR, paletteContent!.GetContentShortTextColor1(state));
+                        ControlPaint.DrawFocusRectangle(e.Graphics!, focusCellBounds, GlobalStaticVariables.EMPTY_COLOR, paletteContent!.GetContentShortTextColor1(state));
                     }
                 }
             }
@@ -2209,12 +2271,12 @@ public class KryptonDataGridView : DataGridView
     {
         PaletteState state = Enabled ? PaletteState.Normal : PaletteState.Disabled;
 
-        if ((ColumnHeadersDefaultCellStyle.BackColor == GlobalStaticValues.EMPTY_COLOR) ||
+        if ((ColumnHeadersDefaultCellStyle.BackColor == GlobalStaticVariables.EMPTY_COLOR) ||
             (ColumnHeadersDefaultCellStyle.BackColor == _columnBackColor))
         {
             _columnBackColor = StateNormal.HeaderColumn.Back.Color1;
 
-            if (_columnBackColor == GlobalStaticValues.EMPTY_COLOR)
+            if (_columnBackColor == GlobalStaticVariables.EMPTY_COLOR)
             {
                 _columnBackColor = StateNormal.HeaderColumn.Back.GetBackColor1(state);
             }
@@ -2222,12 +2284,12 @@ public class KryptonDataGridView : DataGridView
             ColumnHeadersDefaultCellStyle.BackColor = _columnBackColor;
         }
 
-        if ((RowHeadersDefaultCellStyle.BackColor == GlobalStaticValues.EMPTY_COLOR) ||
+        if ((RowHeadersDefaultCellStyle.BackColor == GlobalStaticVariables.EMPTY_COLOR) ||
             (RowHeadersDefaultCellStyle.BackColor == _rowBackColor))
         {
             _rowBackColor = StateNormal.HeaderRow.Back.Color1;
 
-            if (_rowBackColor == GlobalStaticValues.EMPTY_COLOR)
+            if (_rowBackColor == GlobalStaticVariables.EMPTY_COLOR)
             {
                 _rowBackColor = StateNormal.HeaderRow.Back.GetBackColor1(state);
             }
@@ -2235,12 +2297,12 @@ public class KryptonDataGridView : DataGridView
             RowHeadersDefaultCellStyle.BackColor = _rowBackColor;
         }
 
-        if ((DefaultCellStyle.BackColor == GlobalStaticValues.EMPTY_COLOR) ||
+        if ((DefaultCellStyle.BackColor == GlobalStaticVariables.EMPTY_COLOR) ||
             (DefaultCellStyle.BackColor == _dataCellBackColor))
         {
             _dataCellBackColor = StateNormal.DataCell.Back.Color1;
 
-            if (_dataCellBackColor == GlobalStaticValues.EMPTY_COLOR)
+            if (_dataCellBackColor == GlobalStaticVariables.EMPTY_COLOR)
             {
                 _dataCellBackColor = StateNormal.DataCell.Back.GetBackColor1(state);
             }
@@ -2253,12 +2315,12 @@ public class KryptonDataGridView : DataGridView
     {
         PaletteState state = Enabled ? PaletteState.CheckedNormal : PaletteState.Disabled;
 
-        if ((ColumnHeadersDefaultCellStyle.SelectionBackColor == GlobalStaticValues.EMPTY_COLOR) ||
+        if ((ColumnHeadersDefaultCellStyle.SelectionBackColor == GlobalStaticVariables.EMPTY_COLOR) ||
             (ColumnHeadersDefaultCellStyle.SelectionBackColor == _columnSelBackColor))
         {
             _columnSelBackColor = StateSelected.HeaderColumn.Back.Color1;
 
-            if (_columnSelBackColor == GlobalStaticValues.EMPTY_COLOR)
+            if (_columnSelBackColor == GlobalStaticVariables.EMPTY_COLOR)
             {
                 _columnSelBackColor = StateSelected.HeaderColumn.Back.GetBackColor1(state);
             }
@@ -2266,12 +2328,12 @@ public class KryptonDataGridView : DataGridView
             ColumnHeadersDefaultCellStyle.SelectionBackColor = _columnSelBackColor;
         }
 
-        if ((RowHeadersDefaultCellStyle.SelectionBackColor == GlobalStaticValues.EMPTY_COLOR) ||
+        if ((RowHeadersDefaultCellStyle.SelectionBackColor == GlobalStaticVariables.EMPTY_COLOR) ||
             (RowHeadersDefaultCellStyle.SelectionBackColor == _rowSelBackColor))
         {
             _rowSelBackColor = StateSelected.HeaderRow.Back.Color1;
 
-            if (_rowSelBackColor == GlobalStaticValues.EMPTY_COLOR)
+            if (_rowSelBackColor == GlobalStaticVariables.EMPTY_COLOR)
             {
                 _rowSelBackColor = StateSelected.HeaderRow.Back.GetBackColor1(state);
             }
@@ -2279,12 +2341,12 @@ public class KryptonDataGridView : DataGridView
             RowHeadersDefaultCellStyle.SelectionBackColor = _rowSelBackColor;
         }
 
-        if ((DefaultCellStyle.SelectionBackColor == GlobalStaticValues.EMPTY_COLOR) ||
+        if ((DefaultCellStyle.SelectionBackColor == GlobalStaticVariables.EMPTY_COLOR) ||
             (DefaultCellStyle.SelectionBackColor == _dataCellSelBackColor))
         {
             _dataCellSelBackColor = StateSelected.DataCell.Back.Color1;
 
-            if (_dataCellSelBackColor == GlobalStaticValues.EMPTY_COLOR)
+            if (_dataCellSelBackColor == GlobalStaticVariables.EMPTY_COLOR)
             {
                 _dataCellSelBackColor = StateSelected.DataCell.Back.GetBackColor1(state);
             }
@@ -2297,12 +2359,12 @@ public class KryptonDataGridView : DataGridView
     {
         PaletteState state = Enabled ? PaletteState.Normal : PaletteState.Disabled;
 
-        if ((ColumnHeadersDefaultCellStyle.ForeColor == GlobalStaticValues.EMPTY_COLOR) ||
+        if ((ColumnHeadersDefaultCellStyle.ForeColor == GlobalStaticVariables.EMPTY_COLOR) ||
             (ColumnHeadersDefaultCellStyle.ForeColor == _columnForeColor))
         {
             _columnForeColor = StateNormal.HeaderColumn.Content.Color1;
 
-            if (_columnForeColor == GlobalStaticValues.EMPTY_COLOR)
+            if (_columnForeColor == GlobalStaticVariables.EMPTY_COLOR)
             {
                 _columnForeColor = StateNormal.HeaderColumn.Content.GetContentShortTextColor1(state);
             }
@@ -2310,12 +2372,12 @@ public class KryptonDataGridView : DataGridView
             ColumnHeadersDefaultCellStyle.ForeColor = _columnForeColor;
         }
 
-        if ((RowHeadersDefaultCellStyle.ForeColor == GlobalStaticValues.EMPTY_COLOR) ||
+        if ((RowHeadersDefaultCellStyle.ForeColor == GlobalStaticVariables.EMPTY_COLOR) ||
             (RowHeadersDefaultCellStyle.ForeColor == _rowForeColor))
         {
             _rowForeColor = StateNormal.HeaderRow.Content.Color1;
 
-            if (_rowForeColor == GlobalStaticValues.EMPTY_COLOR)
+            if (_rowForeColor == GlobalStaticVariables.EMPTY_COLOR)
             {
                 _rowForeColor = StateNormal.HeaderRow.Content.GetContentShortTextColor1(state);
             }
@@ -2323,12 +2385,12 @@ public class KryptonDataGridView : DataGridView
             RowHeadersDefaultCellStyle.ForeColor = _rowForeColor;
         }
 
-        if ((DefaultCellStyle.ForeColor == GlobalStaticValues.EMPTY_COLOR) ||
+        if ((DefaultCellStyle.ForeColor == GlobalStaticVariables.EMPTY_COLOR) ||
             (DefaultCellStyle.ForeColor == _dataCellForeColor))
         {
             _dataCellForeColor = StateNormal.DataCell.Content.Color1;
 
-            if (_dataCellForeColor == GlobalStaticValues.EMPTY_COLOR)
+            if (_dataCellForeColor == GlobalStaticVariables.EMPTY_COLOR)
             {
                 _dataCellForeColor = StateNormal.DataCell.Content.GetContentShortTextColor1(state);
             }
@@ -2341,12 +2403,12 @@ public class KryptonDataGridView : DataGridView
     {
         PaletteState state = Enabled ? PaletteState.CheckedNormal : PaletteState.Disabled;
 
-        if ((ColumnHeadersDefaultCellStyle.SelectionForeColor == GlobalStaticValues.EMPTY_COLOR) ||
+        if ((ColumnHeadersDefaultCellStyle.SelectionForeColor == GlobalStaticVariables.EMPTY_COLOR) ||
             (ColumnHeadersDefaultCellStyle.SelectionForeColor == _columnSelForeColor))
         {
             _columnSelForeColor = StateSelected.HeaderColumn.Content.Color1;
 
-            if (_columnSelForeColor == GlobalStaticValues.EMPTY_COLOR)
+            if (_columnSelForeColor == GlobalStaticVariables.EMPTY_COLOR)
             {
                 _columnSelForeColor = StateSelected.HeaderColumn.Content.GetContentShortTextColor1(state);
             }
@@ -2354,12 +2416,12 @@ public class KryptonDataGridView : DataGridView
             ColumnHeadersDefaultCellStyle.SelectionForeColor = _columnSelForeColor;
         }
 
-        if ((RowHeadersDefaultCellStyle.SelectionForeColor == GlobalStaticValues.EMPTY_COLOR) ||
+        if ((RowHeadersDefaultCellStyle.SelectionForeColor == GlobalStaticVariables.EMPTY_COLOR) ||
             (RowHeadersDefaultCellStyle.SelectionForeColor == _rowSelForeColor))
         {
             _rowSelForeColor = StateSelected.HeaderRow.Content.Color1;
 
-            if (_rowSelForeColor == GlobalStaticValues.EMPTY_COLOR)
+            if (_rowSelForeColor == GlobalStaticVariables.EMPTY_COLOR)
             {
                 _rowSelForeColor = StateSelected.HeaderRow.Content.GetContentShortTextColor1(state);
             }
@@ -2367,12 +2429,12 @@ public class KryptonDataGridView : DataGridView
             RowHeadersDefaultCellStyle.SelectionForeColor = _rowSelForeColor;
         }
 
-        if ((DefaultCellStyle.SelectionForeColor == GlobalStaticValues.EMPTY_COLOR) ||
+        if ((DefaultCellStyle.SelectionForeColor == GlobalStaticVariables.EMPTY_COLOR) ||
             (DefaultCellStyle.SelectionForeColor == _dataCellSelForeColor))
         {
             _dataCellSelForeColor = StateSelected.DataCell.Content.Color1;
 
-            if (_dataCellSelForeColor == GlobalStaticValues.EMPTY_COLOR)
+            if (_dataCellSelForeColor == GlobalStaticVariables.EMPTY_COLOR)
             {
                 _dataCellSelForeColor = StateSelected.DataCell.Content.GetContentShortTextColor1(state);
             }

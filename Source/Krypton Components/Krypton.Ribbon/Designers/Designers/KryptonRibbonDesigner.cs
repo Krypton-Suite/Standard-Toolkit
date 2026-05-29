@@ -4,7 +4,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  */
 #endregion
 
@@ -13,15 +13,18 @@ namespace Krypton.Ribbon;
 internal class KryptonRibbonDesigner : ParentControlDesigner
 {
     #region Instance Fields
+
     private KryptonRibbon? _ribbon;
     private IDesignerHost? _designerHost;
     private ISelectionService? _selectionService;
     private IComponentChangeService? _changeService;
-    private DesignerVerbCollection _verbs = [];
+    private readonly DesignerVerbCollection _verbs = [];
     private DesignerVerb _toggleHelpersVerb;
     private DesignerVerb _addTabVerb;
     private DesignerVerb _clearTabsVerb;
+    private DesignerVerb _insertStandardQATVerb;
     private bool _lastHitTest;
+
     #endregion
 
     #region Identity
@@ -51,7 +54,7 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
         // Cast to correct type
         _ribbon = component as KryptonRibbon ?? throw new ArgumentNullException(nameof(_ribbon));
 
-        if (_ribbon.GetViewManager() is ViewManager viewManager && viewManager is not null)
+        if (_ribbon.GetViewManager() is ViewManager viewManager)
         {
             // Hook into ribbon events
             viewManager.MouseUpProcessed += OnRibbonMouseUp;
@@ -61,9 +64,9 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
         }
 
         // Get access to the services
-        _designerHost = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_designerHost)));
-        _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_changeService)));
-        _selectionService = (ISelectionService?)GetService(typeof(ISelectionService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_selectionService)));
+        _designerHost = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_designerHost)));
+        _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_changeService)));
+        _selectionService = (ISelectionService?)GetService(typeof(ISelectionService)) ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_selectionService)));
 
         // We need to know when we are being removed
         _changeService.ComponentRemoving += OnComponentRemoving;
@@ -137,7 +140,8 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
                 _toggleHelpersVerb = new DesignerVerb(@"Toggle Helpers", OnToggleHelpers);
                 _addTabVerb = new DesignerVerb(@"Add Tab", OnAddTab);
                 _clearTabsVerb = new DesignerVerb(@"Clear Tabs", OnClearTabs);
-                _verbs.AddRange(new[] { _toggleHelpersVerb, _addTabVerb, _clearTabsVerb });
+                _insertStandardQATVerb = new DesignerVerb(@"Insert Standard Quick Access Toolbar Items", OnInsertStandardQATItems);
+                _verbs.AddRange([_toggleHelpersVerb, _addTabVerb, _clearTabsVerb, _insertStandardQATVerb]);
             }
 
             UpdateVerbStatus();
@@ -157,16 +161,13 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
         {
             if (disposing)
             {
-                if (_ribbon is not null)
+                if (_ribbon?.GetViewManager() is ViewManager viewManager)
                 {
-                    if (_ribbon.GetViewManager() is ViewManager viewManager && viewManager is not null)
-                    {
-                        // Unhook from navigator events
-                        viewManager.MouseUpProcessed -= OnRibbonMouseUp;
-                        viewManager.DoubleClickProcessed -= OnRibbonDoubleClick;
-                        _ribbon.SelectedTabChanged -= OnSelectedTabChanged;
-                        _ribbon.DesignTimeAddTab -= OnAddTab;
-                    }
+                    // Unhook from navigator events
+                    viewManager.MouseUpProcessed -= OnRibbonMouseUp;
+                    viewManager.DoubleClickProcessed -= OnRibbonDoubleClick;
+                    _ribbon.SelectedTabChanged -= OnSelectedTabChanged;
+                    _ribbon.DesignTimeAddTab -= OnAddTab;
                 }
 
                 if (_changeService is not null)
@@ -260,12 +261,12 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
     {
         if (_designerHost is null)
         {
-            throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_designerHost)));
+            throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_designerHost)));
         }
 
         if (_ribbon is null)
         {
-            throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_ribbon)));
+            throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_ribbon)));
         }
 
         // Use a transaction to support undo/redo actions
@@ -297,12 +298,12 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
     {
         if (_designerHost is null)
         {
-            throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_designerHost)));
+            throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_designerHost)));
         }
 
         if (_ribbon is null)
         {
-            throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_ribbon)));
+            throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_ribbon)));
         }
 
         // Use a transaction to support undo/redo actions
@@ -316,7 +317,7 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
             RaiseComponentChanging(propertyPages);
 
             // Need access to host in order to delete a component
-            var host = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("host"));
+            var host = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("host"));
 
             // We need to remove all the tabs from the ribbon
             for (var i = _ribbon.RibbonTabs.Count - 1; i >= 0; i--)
@@ -337,12 +338,55 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
         }
     }
 
+    private void OnInsertStandardQATItems(object? sender, EventArgs e)
+    {
+        if (_designerHost is null)
+        {
+            throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_designerHost)));
+        }
+
+        if (_ribbon is null)
+        {
+            throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_ribbon)));
+        }
+
+        DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbon InsertStandardQATItems");
+
+        try
+        {
+            MemberDescriptor? propertyQatButtons = TypeDescriptor.GetProperties(_ribbon)[@"QATButtons"];
+
+            RaiseComponentChanging(propertyQatButtons);
+
+            // Remove any existing QAT buttons and their components
+            for (var i = _ribbon.QATButtons.Count - 1; i >= 0; i--)
+            {
+                Component button = _ribbon.QATButtons[i];
+                _ribbon.QATButtons.Remove(button);
+                _designerHost.DestroyComponent(button);
+            }
+
+            // Create the standard QAT buttons from templates
+            foreach (KryptonRibbonQATButton template in KryptonRibbon.CreateStandardQATButtons())
+            {
+                var qatButton = (KryptonRibbonQATButton)_designerHost.CreateComponent(typeof(KryptonRibbonQATButton));
+                qatButton.Type = template.Type;
+                qatButton.Text = template.Text;
+                _ribbon.QATButtons.Add(qatButton);
+            }
+
+            RaiseComponentChanged(propertyQatButtons, null, null);
+        }
+        finally
+        {
+            transaction?.Commit();
+        }
+    }
+
     private void OnRibbonMouseUp(object? sender, MouseEventArgs e)
     {
         // Get any component associated with the current mouse position
-        if (_ribbon is not null
-            && _ribbon.DesignerComponentFromPoint(new Point(e.X, e.Y)) is Component component
-            && component is not null)
+        if (_ribbon?.DesignerComponentFromPoint(new Point(e.X, e.Y)) is Component component)
         { 
             // Select the component
             ArrayList selectionList = [component];
@@ -360,9 +404,7 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
 
         // We are only interested in the contained components and not the ribbon control
         if ( _ribbon is not null
-             && _ribbon.DesignerComponentFromPoint(pt) is Component component
-             && component is not null
-             && component is not System.Windows.Forms.Control)
+             && _ribbon.DesignerComponentFromPoint(pt) is Component component and not System.Windows.Forms.Control)
         {
             // Get the designer for the component
             IDesigner? designer = _designerHost!.GetDesigner(component);
@@ -377,10 +419,10 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
     private void OnComponentRemoving(object? sender, ComponentEventArgs e)
     {
         // If our control is being removed
-        if (e.Component == _ribbon)
+        if (Equals(e.Component, _ribbon))
         {
             // Need access to host in order to delete a component
-            var host = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("host"));
+            var host = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("host"));
 
             // We need to remove all the button spec instances
             for (var i = _ribbon!.ButtonSpecs.Count - 1; i >= 0; i--)

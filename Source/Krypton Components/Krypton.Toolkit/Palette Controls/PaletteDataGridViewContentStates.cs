@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -56,8 +56,8 @@ public class PaletteDataGridViewContentStates : Storage,
         _draw = InheritBool.Inherit;
         _hint = PaletteTextHint.Inherit;
         _trim = PaletteTextTrim.Inherit;
-        _color1 = GlobalStaticValues.EMPTY_COLOR;
-        _color2 = GlobalStaticValues.EMPTY_COLOR;
+        _color1 = GlobalStaticVariables.EMPTY_COLOR;
+        _color2 = GlobalStaticVariables.EMPTY_COLOR;
         _colorStyle = PaletteColorStyle.Inherit;
         _colorAlign = PaletteRectangleAlign.Inherit;
         _colorAngle = -1;
@@ -86,8 +86,8 @@ public class PaletteDataGridViewContentStates : Storage,
     public override bool IsDefault => (Draw == InheritBool.Inherit) &&
                                       (Hint == PaletteTextHint.Inherit) &&
                                       (Trim == PaletteTextTrim.Inherit) &&
-                                      (Color1 == GlobalStaticValues.EMPTY_COLOR) &&
-                                      (Color2 == GlobalStaticValues.EMPTY_COLOR) &&
+                                      (Color1 == GlobalStaticVariables.EMPTY_COLOR) &&
+                                      (Color2 == GlobalStaticVariables.EMPTY_COLOR) &&
                                       (ColorStyle == PaletteColorStyle.Inherit) &&
                                       (ColorAlign == PaletteRectangleAlign.Inherit) &&
                                       (ColorAngle == -1) &&
@@ -412,7 +412,7 @@ public class PaletteDataGridViewContentStates : Storage,
     /// </summary>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
-    public Color GetContentShortTextColor1(PaletteState state) => _color1 != GlobalStaticValues.EMPTY_COLOR ? _color1 : Inherit.GetContentShortTextColor1(state);
+    public Color GetContentShortTextColor1(PaletteState state) => _color1 != GlobalStaticVariables.EMPTY_COLOR ? _color1 : Inherit.GetContentShortTextColor1(state);
 
     #endregion
 
@@ -444,7 +444,7 @@ public class PaletteDataGridViewContentStates : Storage,
     /// </summary>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
-    public Color GetContentShortTextColor2(PaletteState state) => _color2 != GlobalStaticValues.EMPTY_COLOR ? _color2 : Inherit.GetContentShortTextColor2(state);
+    public Color GetContentShortTextColor2(PaletteState state) => _color2 != GlobalStaticVariables.EMPTY_COLOR ? _color2 : Inherit.GetContentShortTextColor2(state);
 
     #endregion
 

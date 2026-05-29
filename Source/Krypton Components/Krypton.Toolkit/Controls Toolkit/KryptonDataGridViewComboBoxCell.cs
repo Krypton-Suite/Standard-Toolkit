@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -92,7 +92,7 @@ public class KryptonDataGridViewComboBoxCell : DataGridViewTextBoxCell
     /// </summary>
     public override object Clone()
     {
-        var dataGridViewCell = base.Clone() as KryptonDataGridViewComboBoxCell ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("dataGridViewCell"));
+        var dataGridViewCell = base.Clone() as KryptonDataGridViewComboBoxCell ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("dataGridViewCell"));
 
         dataGridViewCell.DropDownStyle = DropDownStyle;
         dataGridViewCell.DropDownHeight = DropDownHeight;

@@ -1,11 +1,11 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -72,6 +72,14 @@ internal partial class VisualMessageBoxForm : KryptonForm
         // Create the form contents
         InitializeComponent();
 
+        // Disable Krypton scrollbars for the message box - they cover text with minimal content (issue #2944).
+        krtbMessageText.UseKryptonScrollbars = false;
+
+        // Prevent native scrollbars from covering text: word wrap and hide scrollbars via API (issue #2944).
+        krtbMessageText.WordWrap = true;
+        krtbMessageText.RichTextBox.HandleCreated += OnMessageRichTextBoxHandleCreated;
+        krtbMessageText.RichTextBox.Layout += OnMessageRichTextBoxLayout;
+
         // Hookup the native window on the KRTB, only after IntializeComponent().
         _krtbNativeWindow.AssignHandle(krtbMessageText.RichTextBox.Handle);
 
@@ -80,7 +88,7 @@ internal partial class VisualMessageBoxForm : KryptonForm
 
         // #1692 text font colour for input controls does not work correct on KMBees when using dark themes.
         // Set the text colour to the one a control uses.
-        krtbMessageText.StateCommon.Content.Color1 = GlobalStaticValues.KryptonMessageBoxRichTextBoxTextColor;
+        krtbMessageText.StateCommon.Content.Color1 = GlobalStaticVariables.KryptonMessageBoxRichTextBoxTextColor;
 
         // Update contents to match requirements
         UpdateText();
@@ -92,12 +100,55 @@ internal partial class VisualMessageBoxForm : KryptonForm
         // Finally calculate and set form sizing
         UpdateSizing(showOwner);
 
+        // Hide native scrollbars so they never cover the message text (issue #2944).
+        HideMessageBoxScrollbars();
+
+        // Set message text last so it is not overwritten by layout/size (issue #2893).
+        krtbMessageText.Text = _text;
+
         ShowCloseButton(showCloseButton);
     }
 
     #endregion Identity
 
     #region Implementation
+
+    /// <summary>
+    /// Hides native scrollbars on the message RichTextBox so they never cover the text (issue #2944).
+    /// Uses ShowScrollBar API only to avoid handle recreation. Scrolls to top so message text is visible.
+    /// </summary>
+    private void HideMessageBoxScrollbars()
+    {
+        if (!krtbMessageText.RichTextBox.IsHandleCreated || krtbMessageText.RichTextBox.Disposing || krtbMessageText.RichTextBox.IsDisposed)
+        {
+            return;
+        }
+
+        try
+        {
+            krtbMessageText.WordWrap = true;
+            PI.ShowScrollBar(krtbMessageText.RichTextBox.Handle, (int)PI.SB_.BOTH, false);
+
+            // Ensure message text is visible: scroll to top (content may be off-screen after hiding scrollbars).
+            krtbMessageText.SelectionStart = 0;
+            krtbMessageText.SelectionLength = 0;
+            krtbMessageText.ScrollToCaret();
+        }
+        catch
+        {
+            // Ignore
+        }
+    }
+
+    private void OnMessageRichTextBoxHandleCreated(object? sender, EventArgs e)
+    {
+        HideMessageBoxScrollbars();
+    }
+
+    private void OnMessageRichTextBoxLayout(object? sender, LayoutEventArgs e)
+    {
+        HideMessageBoxScrollbars();
+    }
 
     private void UpdateText()
     {
@@ -106,6 +157,7 @@ internal partial class VisualMessageBoxForm : KryptonForm
             : _caption!.Split(Environment.NewLine.ToCharArray())[0];
 
         krtbMessageText.Text = _text;
+        HideMessageBoxScrollbars();
     }
 
     private void UpdateTextExtra(bool? showCtrlCopy)
@@ -560,14 +612,14 @@ internal partial class VisualMessageBoxForm : KryptonForm
 
         // Button1 is always visible
         Size button1Size = _button1.GetPreferredSize(Size.Empty);
-        var maxButtonSize = button1Size with { Width = button1Size.Width + GlobalStaticValues.GLOBAL_BUTTON_PADDING };
+        var maxButtonSize = button1Size with { Width = button1Size.Width + GlobalStaticConstants.GLOBAL_BUTTON_PADDING };
 
         // If Button2 is visible
         if (_button2.Enabled)
         {
             numButtons++;
             Size button2Size = _button2.GetPreferredSize(Size.Empty);
-            maxButtonSize.Width = Math.Max(maxButtonSize.Width, button2Size.Width + GlobalStaticValues.GLOBAL_BUTTON_PADDING);
+            maxButtonSize.Width = Math.Max(maxButtonSize.Width, button2Size.Width + GlobalStaticConstants.GLOBAL_BUTTON_PADDING);
             maxButtonSize.Height = Math.Max(maxButtonSize.Height, button2Size.Height);
         }
 
@@ -576,7 +628,7 @@ internal partial class VisualMessageBoxForm : KryptonForm
         {
             numButtons++;
             Size button3Size = _button3.GetPreferredSize(Size.Empty);
-            maxButtonSize.Width = Math.Max(maxButtonSize.Width, button3Size.Width + GlobalStaticValues.GLOBAL_BUTTON_PADDING);
+            maxButtonSize.Width = Math.Max(maxButtonSize.Width, button3Size.Width + GlobalStaticConstants.GLOBAL_BUTTON_PADDING);
             maxButtonSize.Height = Math.Max(maxButtonSize.Height, button3Size.Height);
         }
         // If Button4 is visible
@@ -584,48 +636,48 @@ internal partial class VisualMessageBoxForm : KryptonForm
         {
             numButtons++;
             Size button4Size = _button4.GetPreferredSize(Size.Empty);
-            maxButtonSize.Width = Math.Max(maxButtonSize.Width, button4Size.Width + GlobalStaticValues.GLOBAL_BUTTON_PADDING);
+            maxButtonSize.Width = Math.Max(maxButtonSize.Width, button4Size.Width + GlobalStaticConstants.GLOBAL_BUTTON_PADDING);
             maxButtonSize.Height = Math.Max(maxButtonSize.Height, button4Size.Height);
         }
 
         // Start positioning buttons 10 pixels from right edge
-        var right = _panelButtons.Right - GlobalStaticValues.GLOBAL_BUTTON_PADDING;
+        var right = _panelButtons.Right - GlobalStaticConstants.GLOBAL_BUTTON_PADDING;
 
         //var left = _panelButtons.Left - GlobalStaticValues.GLOBAL_BUTTON_PADDING;
 
         // If Button4 is visible
         if (_button4.Enabled)
         {
-            _button4.Location = new Point(right - maxButtonSize.Width, GlobalStaticValues.GLOBAL_BUTTON_PADDING);
+            _button4.Location = new Point(right - maxButtonSize.Width, GlobalStaticConstants.GLOBAL_BUTTON_PADDING);
             _button4.Size = maxButtonSize;
-            right -= maxButtonSize.Width + GlobalStaticValues.GLOBAL_BUTTON_PADDING;
+            right -= maxButtonSize.Width + GlobalStaticConstants.GLOBAL_BUTTON_PADDING;
         }
 
         // If Button3 is visible
         if (_button3.Enabled)
         {
-            _button3.Location = new Point(right - maxButtonSize.Width, GlobalStaticValues.GLOBAL_BUTTON_PADDING);
+            _button3.Location = new Point(right - maxButtonSize.Width, GlobalStaticConstants.GLOBAL_BUTTON_PADDING);
             _button3.Size = maxButtonSize;
-            right -= maxButtonSize.Width + GlobalStaticValues.GLOBAL_BUTTON_PADDING;
+            right -= maxButtonSize.Width + GlobalStaticConstants.GLOBAL_BUTTON_PADDING;
         }
 
         // If Button2 is visible
         if (_button2.Enabled)
         {
-            _button2.Location = new Point(right - maxButtonSize.Width, GlobalStaticValues.GLOBAL_BUTTON_PADDING);
+            _button2.Location = new Point(right - maxButtonSize.Width, GlobalStaticConstants.GLOBAL_BUTTON_PADDING);
             _button2.Size = maxButtonSize;
-            right -= maxButtonSize.Width + GlobalStaticValues.GLOBAL_BUTTON_PADDING;
+            right -= maxButtonSize.Width + GlobalStaticConstants.GLOBAL_BUTTON_PADDING;
         }
 
         // Button1 is always visible
-        _button1.Location = new Point(right - maxButtonSize.Width, GlobalStaticValues.GLOBAL_BUTTON_PADDING);
+        _button1.Location = new Point(right - maxButtonSize.Width, GlobalStaticConstants.GLOBAL_BUTTON_PADDING);
         _button1.Size = maxButtonSize;
 
         // Size the panel for the buttons
-        _panelButtons.Size = new Size((maxButtonSize.Width * numButtons) + (GlobalStaticValues.GLOBAL_BUTTON_PADDING * (numButtons + 1)), maxButtonSize.Height + (GlobalStaticValues.GLOBAL_BUTTON_PADDING * 2));
+        _panelButtons.Size = new Size((maxButtonSize.Width * numButtons) + (GlobalStaticConstants.GLOBAL_BUTTON_PADDING * (numButtons + 1)), maxButtonSize.Height + (GlobalStaticConstants.GLOBAL_BUTTON_PADDING * 2));
 
         // Button area is the number of buttons with gaps between them and 10 pixels around all edges
-        return new Size((maxButtonSize.Width * numButtons) + (GlobalStaticValues.GLOBAL_BUTTON_PADDING * (numButtons + 1)), maxButtonSize.Height + (GlobalStaticValues.GLOBAL_BUTTON_PADDING * 2));
+        return new Size((maxButtonSize.Width * numButtons) + (GlobalStaticConstants.GLOBAL_BUTTON_PADDING * (numButtons + 1)), maxButtonSize.Height + (GlobalStaticConstants.GLOBAL_BUTTON_PADDING * 2));
     }
 
     private void OnFormClosed(object sender, FormClosedEventArgs e)

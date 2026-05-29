@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2025 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2025 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -41,6 +41,7 @@ public class KryptonCalcInput : VisualControlBase, IContainedInputControl
     private int _decimalPlaces;
     private bool _trailingZeroes;
     private bool _autoSize;
+    private int _cachedWidth;
     private bool _forcedLayout;
     private bool _thousandsSeparator;
     private Padding _contentPadding;
@@ -144,6 +145,7 @@ public class KryptonCalcInput : VisualControlBase, IContainedInputControl
         _allowDecimals = false;
         _trailingZeroes = true;
         _autoSize = false;
+        _cachedWidth = -1;
         _contentPadding = Padding.Empty;
         _dropDownWidth = 0;
         _popupSide = VisualOrientation.Bottom;
@@ -314,8 +316,19 @@ public class KryptonCalcInput : VisualControlBase, IContainedInputControl
         {
             if (_autoSize != value)
             {
+                AutoSizeDimensionCacheHelper.CacheCurrentBeforeEnable(value, Width, ref _cachedWidth);
+
                 _autoSize = value;
-                UpdateAutoSizing();
+
+                if (_autoSize)
+                {
+                    UpdateAutoSizing();
+                }
+                else if (AutoSizeDimensionCacheHelper.TryGetCachedValue(_cachedWidth, out int restoredWidth))
+                {
+                    Width = restoredWidth;
+                    PerformNeedPaint(true);
+                }
             }
         }
     }
@@ -1020,6 +1033,11 @@ public class KryptonCalcInput : VisualControlBase, IContainedInputControl
         int width, int height,
         BoundsSpecified specified)
     {
+        if (!_autoSize)
+        {
+            AutoSizeDimensionCacheHelper.CacheIfSpecified(specified, BoundsSpecified.Width, width, ref _cachedWidth);
+        }
+
         // Get the preferred size of the entire control
         Size preferredSize = GetPreferredSize(new Size(int.MaxValue, int.MaxValue));
 
@@ -1315,9 +1333,9 @@ public class KryptonCalcInput : VisualControlBase, IContainedInputControl
 
     private void OnTextBoxPreviewKeyDown(object? sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-    private void OnTextBoxValidating(object? sender, CancelEventArgs e) => OnValidating(e);
+    private void OnTextBoxValidating(object? sender, CancelEventArgs e) => ForwardValidating(e);
 
-    private void OnTextBoxValidated(object? sender, EventArgs e) => OnValidated(e);
+    private void OnTextBoxValidated(object? sender, EventArgs e) => ForwardValidated(e);
 
     private void OnTextBoxMouseEnter(object? sender, EventArgs e)
     {
@@ -1383,7 +1401,7 @@ public class KryptonCalcInput : VisualControlBase, IContainedInputControl
         {
             // Use a palette-derived text color that contrasts with context menu surfaces
             var c = palette.GetContentShortTextColor1(PaletteContentStyle.ContextMenuItemTextStandard, PaletteState.Normal);
-            if (c != GlobalStaticValues.EMPTY_COLOR && !c.IsEmpty)
+            if (c != GlobalStaticVariables.EMPTY_COLOR && !c.IsEmpty)
             {
                 displayItem.StateDisabled.ItemTextStandard.ShortText.Color1 = c;
                 displayItem.StateDisabled.ItemTextStandard.ShortText.Color2 = c;

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -42,7 +42,7 @@ public class KryptonListItem : Component,
     /// Initialize a new instance of the KryptonListItem class.
     /// </summary>
     public KryptonListItem()
-        : this("ListItem", null, null, GlobalStaticValues.EMPTY_COLOR)
+        : this("ListItem", null, null, GlobalStaticVariables.EMPTY_COLOR)
     {
     }
 
@@ -51,7 +51,7 @@ public class KryptonListItem : Component,
     /// </summary>
     /// <param name="shortText">Initial short text value.</param>
     public KryptonListItem(string shortText)
-        : this(shortText, null, null, GlobalStaticValues.EMPTY_COLOR)
+        : this(shortText, null, null, GlobalStaticVariables.EMPTY_COLOR)
     {
     }
 
@@ -61,7 +61,7 @@ public class KryptonListItem : Component,
     /// <param name="shortText">Initial short text value.</param>
     /// <param name="longText">Initial long text value.</param>
     public KryptonListItem(string shortText, string longText)
-        : this(shortText, longText, null, GlobalStaticValues.EMPTY_COLOR)
+        : this(shortText, longText, null, GlobalStaticVariables.EMPTY_COLOR)
     {
     }
 
@@ -74,7 +74,7 @@ public class KryptonListItem : Component,
     public KryptonListItem(string shortText,
         string longText,
         Image? image)
-        : this(shortText, longText, image, GlobalStaticValues.EMPTY_COLOR)
+        : this(shortText, longText, image, GlobalStaticVariables.EMPTY_COLOR)
     {
     }
 
@@ -200,7 +200,7 @@ public class KryptonListItem : Component,
         }
     }
 
-    private bool ShouldSerializeImageTransparentColor() => _imageTransparentColor != GlobalStaticValues.EMPTY_COLOR;
+    private bool ShouldSerializeImageTransparentColor() => _imageTransparentColor != GlobalStaticVariables.EMPTY_COLOR;
 
     #endregion
 
@@ -242,6 +242,48 @@ public class KryptonListItem : Component,
     /// </summary>
     /// <returns>String value.</returns>
     public string GetLongText() => _longText!;
+
+    /// <summary>
+    /// Gets the overlay image.
+    /// </summary>
+    /// <param name="state">The state for which the overlay image is needed.</param>
+    /// <returns>Overlay image value, or null if no overlay image is set.</returns>
+    public Image? GetOverlayImage(PaletteState state) => null;
+
+    /// <summary>
+    /// Gets the overlay image color that should be transparent.
+    /// </summary>
+    /// <param name="state">The state for which the overlay image is needed.</param>
+    /// <returns>Color value.</returns>
+    public Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
+
+    /// <summary>
+    /// Gets the position of the overlay image relative to the main image.
+    /// </summary>
+    /// <param name="state">The state for which the overlay position is needed.</param>
+    /// <returns>Overlay image position.</returns>
+    public OverlayImagePosition GetOverlayImagePosition(PaletteState state) => OverlayImagePosition.TopRight;
+
+    /// <summary>
+    /// Gets the scaling mode for the overlay image.
+    /// </summary>
+    /// <param name="state">The state for which the overlay scale mode is needed.</param>
+    /// <returns>Overlay image scale mode.</returns>
+    public OverlayImageScaleMode GetOverlayImageScaleMode(PaletteState state) => OverlayImageScaleMode.None;
+
+    /// <summary>
+    /// Gets the scale factor for the overlay image.
+    /// </summary>
+    /// <param name="state">The state for which the overlay scale factor is needed.</param>
+    /// <returns>Scale factor.</returns>
+    public float GetOverlayImageScaleFactor(PaletteState state) => 0.5f;
+
+    /// <summary>
+    /// Gets the fixed size for the overlay image.
+    /// </summary>
+    /// <param name="state">The state for which the overlay fixed size is needed.</param>
+    /// <returns>Fixed size.</returns>
+    public Size GetOverlayImageFixedSize(PaletteState state) => new Size(16, 16);
 
     #endregion
 

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -46,11 +46,11 @@ public class PaletteRibbonBack : Storage,
         NeedPaint = needPaint;
 
         // Define default values
-        _backColor1 = GlobalStaticValues.EMPTY_COLOR;
-        _backColor2 = GlobalStaticValues.EMPTY_COLOR;
-        _backColor3 = GlobalStaticValues.EMPTY_COLOR;
-        _backColor4 = GlobalStaticValues.EMPTY_COLOR;
-        _backColor5 = GlobalStaticValues.EMPTY_COLOR;
+        _backColor1 = GlobalStaticVariables.EMPTY_COLOR;
+        _backColor2 = GlobalStaticVariables.EMPTY_COLOR;
+        _backColor3 = GlobalStaticVariables.EMPTY_COLOR;
+        _backColor4 = GlobalStaticVariables.EMPTY_COLOR;
+        _backColor5 = GlobalStaticVariables.EMPTY_COLOR;
     }
     #endregion
 
@@ -60,11 +60,11 @@ public class PaletteRibbonBack : Storage,
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public override bool IsDefault => (BackColor1 == GlobalStaticValues.EMPTY_COLOR) &&
-                                      (BackColor2 == GlobalStaticValues.EMPTY_COLOR) &&
-                                      (BackColor3 == GlobalStaticValues.EMPTY_COLOR) &&
-                                      (BackColor4 == GlobalStaticValues.EMPTY_COLOR) &&
-                                      (BackColor5 == GlobalStaticValues.EMPTY_COLOR);
+    public override bool IsDefault => (BackColor1 == GlobalStaticVariables.EMPTY_COLOR) &&
+                                      (BackColor2 == GlobalStaticVariables.EMPTY_COLOR) &&
+                                      (BackColor3 == GlobalStaticVariables.EMPTY_COLOR) &&
+                                      (BackColor4 == GlobalStaticVariables.EMPTY_COLOR) &&
+                                      (BackColor5 == GlobalStaticVariables.EMPTY_COLOR);
 
     #endregion
 
@@ -105,8 +105,10 @@ public class PaletteRibbonBack : Storage,
     /// <summary>
     /// Gets and sets the first background color for the ribbon item.
     /// </summary>
+    [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"First background color for the ribbon item.")]
+    [DefaultValue(typeof(Color), "Empty")]
     [RefreshProperties(RefreshProperties.All)]
     public virtual Color BackColor1
     {
@@ -122,8 +124,8 @@ public class PaletteRibbonBack : Storage,
         }
     }
 
-    private bool ShouldSerializeBackColor1() => _backColor1 != GlobalStaticValues.EMPTY_COLOR;
-    private void ResetBackColor1() => _backColor1 = GlobalStaticValues.EMPTY_COLOR;
+    private bool ShouldSerializeBackColor1() => _backColor1 != GlobalStaticVariables.EMPTY_COLOR;
+    private void ResetBackColor1() => _backColor1 = GlobalStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the first background color for the ribbon item.
@@ -131,7 +133,7 @@ public class PaletteRibbonBack : Storage,
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
     public Color GetRibbonBackColor1(PaletteState state) =>
-        BackColor1 != GlobalStaticValues.EMPTY_COLOR ? BackColor1 : _inheritBack.GetRibbonBackColor1(state);
+        BackColor1 != GlobalStaticVariables.EMPTY_COLOR ? BackColor1 : _inheritBack.GetRibbonBackColor1(state);
 
     #endregion
 
@@ -158,8 +160,8 @@ public class PaletteRibbonBack : Storage,
         }
     }
 
-    private bool ShouldSerializeBackColor2() => _backColor2 != GlobalStaticValues.EMPTY_COLOR;
-    private void ResetBackColor2() => BackColor2 = GlobalStaticValues.EMPTY_COLOR;
+    private bool ShouldSerializeBackColor2() => _backColor2 != GlobalStaticVariables.EMPTY_COLOR;
+    private void ResetBackColor2() => BackColor2 = GlobalStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the second background color for the ribbon item.
@@ -167,7 +169,7 @@ public class PaletteRibbonBack : Storage,
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
     public Color GetRibbonBackColor2(PaletteState state) =>
-        BackColor2 != GlobalStaticValues.EMPTY_COLOR ? BackColor2 : _inheritBack.GetRibbonBackColor2(state);
+        BackColor2 != GlobalStaticVariables.EMPTY_COLOR ? BackColor2 : _inheritBack.GetRibbonBackColor2(state);
 
     #endregion
 
@@ -194,8 +196,8 @@ public class PaletteRibbonBack : Storage,
         }
     }
 
-    private bool ShouldSerializeBackColor3() => _backColor3 != GlobalStaticValues.EMPTY_COLOR;
-    private void ResetBackColor3() => BackColor3 = GlobalStaticValues.EMPTY_COLOR;
+    private bool ShouldSerializeBackColor3() => _backColor3 != GlobalStaticVariables.EMPTY_COLOR;
+    private void ResetBackColor3() => BackColor3 = GlobalStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the third background color for the ribbon item.
@@ -203,7 +205,7 @@ public class PaletteRibbonBack : Storage,
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
     public Color GetRibbonBackColor3(PaletteState state) =>
-        BackColor3 != GlobalStaticValues.EMPTY_COLOR ? BackColor3 : _inheritBack.GetRibbonBackColor3(state);
+        BackColor3 != GlobalStaticVariables.EMPTY_COLOR ? BackColor3 : _inheritBack.GetRibbonBackColor3(state);
 
     #endregion
 
@@ -230,8 +232,8 @@ public class PaletteRibbonBack : Storage,
         }
     }
 
-    private bool ShouldSerializeBackColor4() => _backColor4 != GlobalStaticValues.EMPTY_COLOR;
-    private void ResetBackColor4() => BackColor4 = GlobalStaticValues.EMPTY_COLOR;
+    private bool ShouldSerializeBackColor4() => _backColor4 != GlobalStaticVariables.EMPTY_COLOR;
+    private void ResetBackColor4() => BackColor4 = GlobalStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the fourth background color for the ribbon item.
@@ -239,7 +241,7 @@ public class PaletteRibbonBack : Storage,
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
     public Color GetRibbonBackColor4(PaletteState state) =>
-        BackColor4 != GlobalStaticValues.EMPTY_COLOR ? BackColor4 : _inheritBack.GetRibbonBackColor4(state);
+        BackColor4 != GlobalStaticVariables.EMPTY_COLOR ? BackColor4 : _inheritBack.GetRibbonBackColor4(state);
 
     #endregion
 
@@ -247,6 +249,7 @@ public class PaletteRibbonBack : Storage,
     /// <summary>
     /// Gets and sets the fifth background color for the ribbon item.
     /// </summary>
+    [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Fifth background color for the ribbon item.")]
     [DefaultValue(typeof(Color), "Empty")]
@@ -265,8 +268,8 @@ public class PaletteRibbonBack : Storage,
         }
     }
 
-    private bool ShouldSerializeBackColor5() => _backColor5 != GlobalStaticValues.EMPTY_COLOR;
-    private void ResetBackColor5() => BackColor5 = GlobalStaticValues.EMPTY_COLOR;
+    private bool ShouldSerializeBackColor5() => _backColor5 != GlobalStaticVariables.EMPTY_COLOR;
+    private void ResetBackColor5() => BackColor5 = GlobalStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the fifth background color for the ribbon item.
@@ -274,7 +277,7 @@ public class PaletteRibbonBack : Storage,
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
     public Color GetRibbonBackColor5(PaletteState state) =>
-        BackColor5 != GlobalStaticValues.EMPTY_COLOR ? BackColor5 : _inheritBack.GetRibbonBackColor5(state);
+        BackColor5 != GlobalStaticVariables.EMPTY_COLOR ? BackColor5 : _inheritBack.GetRibbonBackColor5(state);
 
     #endregion
 }

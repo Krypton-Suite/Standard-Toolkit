@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp), Simon Coghlan(aka Smurf-IV), Giduac, et al. 2024 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp), Simon Coghlan(aka Smurf-IV), Giduac, et al. 2024 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -34,8 +34,8 @@ public class CountdownButtonValues : Storage
 
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public override bool IsDefault => CountdownDuration.Equals(GlobalStaticValues.DEFAULT_COUNTDOWN_VALUE) &&
-                                      CountdownInterval.Equals(GlobalStaticValues.DEFAULT_COUNTDOWN_INTERVAL) &&
+    public override bool IsDefault => CountdownDuration.Equals(GlobalStaticConstants.DEFAULT_COUNTDOWN_VALUE) &&
+                                      CountdownInterval.Equals(GlobalStaticConstants.DEFAULT_COUNTDOWN_INTERVAL) &&
                                       CountdownTextFormat.Equals("{0} ({1})");
 
     #endregion
@@ -95,8 +95,8 @@ public class CountdownButtonValues : Storage
 
     public void Reset()
     {
-        CountdownInterval = GlobalStaticValues.DEFAULT_COUNTDOWN_INTERVAL;
-        CountdownDuration = GlobalStaticValues.DEFAULT_COUNTDOWN_VALUE;
+        CountdownInterval = GlobalStaticConstants.DEFAULT_COUNTDOWN_INTERVAL;
+        CountdownDuration = GlobalStaticConstants.DEFAULT_COUNTDOWN_VALUE;
         CountdownTextFormat = "{0} ({1})";
     }
 

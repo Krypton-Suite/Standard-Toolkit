@@ -1,11 +1,11 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -167,7 +167,7 @@ public class KryptonSparkleRenderer : KryptonProfessionalRenderer
                     }
                     else
                     {
-                        if ((e.Item.Owner is not null or StatusStrip))
+                        if (e.Item.Owner is not (null or StatusStrip))
                         {
                             if ((e.Item is ToolStripSplitButton or ToolStripDropDownButton) && e.Item.Pressed)
                             {
@@ -342,7 +342,7 @@ public class KryptonSparkleRenderer : KryptonProfessionalRenderer
     /// <param name="e">A ToolStripItemTextRenderEventArgs that contains the event data.</param>
     protected override void OnRenderItemText(ToolStripItemTextRenderEventArgs e)
     {
-        if ((e.ToolStrip is not null or ContextMenuStrip or ToolStripDropDownMenu))
+        if (e.ToolStrip is not (null or ContextMenuStrip or ToolStripDropDownMenu))
         {
             if (!e.Item.Enabled)
             {

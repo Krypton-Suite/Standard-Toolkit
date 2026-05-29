@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -16,7 +16,7 @@ namespace Krypton.Toolkit;
 /// Represents a common dialog box that displays a list of fonts
 /// that are currently installed on the system.
 /// </summary>
-[ToolboxBitmap(typeof(FontDialog), "ToolboxBitmaps.KryptonFontDialog.png"),
+[ToolboxBitmap(typeof(FontDialog), "ToolboxBitmaps.KryptonFontDialog.bmp"),
  Description("Displays a Kryptonised version of the standard Font dialog, that prompts the user to choose a font from those installed on the local computer.")]
 public class KryptonFontDialog : FontDialog
 {

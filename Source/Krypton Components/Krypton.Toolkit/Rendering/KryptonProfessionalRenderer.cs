@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -182,7 +182,7 @@ public class KryptonProfessionalRenderer : ToolStripProfessionalRenderer
         // Default style when the user provides one color only: Solid
         if (effectiveStyle == PaletteColorStyle.Inherit)
         {
-            effectiveStyle = (color2 == GlobalStaticValues.EMPTY_COLOR || color2.IsEmpty)
+            effectiveStyle = (color2 == GlobalStaticVariables.EMPTY_COLOR || color2.IsEmpty)
                 ? PaletteColorStyle.Solid
                 : PaletteColorStyle.Linear;
         }
@@ -199,15 +199,15 @@ public class KryptonProfessionalRenderer : ToolStripProfessionalRenderer
         {
             case PaletteColorStyle.Solid:
             {
-                using var brush = new SolidBrush((color1 == GlobalStaticValues.EMPTY_COLOR || color1.IsEmpty)
+                using var brush = new SolidBrush((color1 == GlobalStaticVariables.EMPTY_COLOR || color1.IsEmpty)
                     ? KCT.StatusStripGradientEnd : color1);
                 graphics.FillRectangle(brush, rect);
                 break;
             }
             default:
             {
-                Color a = (color1 == GlobalStaticValues.EMPTY_COLOR || color1.IsEmpty) ? KCT.StatusStripGradientBegin : color1;
-                Color b = (color2 == GlobalStaticValues.EMPTY_COLOR || color2.IsEmpty) ? KCT.StatusStripGradientEnd : color2;
+                Color a = (color1 == GlobalStaticVariables.EMPTY_COLOR || color1.IsEmpty) ? KCT.StatusStripGradientBegin : color1;
+                Color b = (color2 == GlobalStaticVariables.EMPTY_COLOR || color2.IsEmpty) ? KCT.StatusStripGradientEnd : color2;
                 using var brush = new LinearGradientBrush(rect, a, b, angle);
                 graphics.FillRectangle(brush, rect);
                 break;

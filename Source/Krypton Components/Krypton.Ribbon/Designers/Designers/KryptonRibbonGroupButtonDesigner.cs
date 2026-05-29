@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -139,9 +139,9 @@ internal class KryptonRibbonGroupButtonDesigner : ComponentDesigner
         var moveNext = false;
         var moveLast = false;
 
-        if (_ribbonButton is not null && _ribbonButton.Ribbon is not null)
+        if (_ribbonButton?.Ribbon != null)
         {
-            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
+            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("items"));
             moveFirst = items.IndexOf(_ribbonButton) > 0;
             movePrev = items.IndexOf(_ribbonButton) > 0;
             moveNext = items.IndexOf(_ribbonButton) < (items.Count - 1);
@@ -165,12 +165,10 @@ internal class KryptonRibbonGroupButtonDesigner : ComponentDesigner
 
     private void OnMoveFirst(object? sender, EventArgs e)
     {
-        if (_ribbonButton is not null
-            && _ribbonButton.Ribbon is not null
-            && _ribbonButton.RibbonContainer is not null)
+        if (_ribbonButton is { Ribbon: not null, RibbonContainer: not null })
         {
             // Get access to the parent collection of items
-            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
+            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("items"));
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupButton MoveFirst");
@@ -199,12 +197,10 @@ internal class KryptonRibbonGroupButtonDesigner : ComponentDesigner
 
     private void OnMovePrevious(object? sender, EventArgs e)
     {
-        if (_ribbonButton is not null
-            && _ribbonButton.Ribbon is not null
-            && _ribbonButton.RibbonContainer is not null)
+        if (_ribbonButton is { Ribbon: not null, RibbonContainer: not null })
         {
             // Get access to the parent collection of items
-            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
+            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("items"));
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupButton MovePrevious");
@@ -235,12 +231,10 @@ internal class KryptonRibbonGroupButtonDesigner : ComponentDesigner
 
     private void OnMoveNext(object? sender, EventArgs e)
     {
-        if (_ribbonButton is not null
-            && _ribbonButton.Ribbon is not null
-            && _ribbonButton.RibbonContainer is not null)
+        if (_ribbonButton is { Ribbon: not null, RibbonContainer: not null })
         {
             // Get access to the parent collection of items
-            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
+            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("items"));
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupButton MoveNext");
@@ -271,12 +265,10 @@ internal class KryptonRibbonGroupButtonDesigner : ComponentDesigner
 
     private void OnMoveLast(object? sender, EventArgs e)
     {
-        if (_ribbonButton is not null
-            && _ribbonButton.RibbonContainer is not null
-            && _ribbonButton.Ribbon is not null)
+        if (_ribbonButton is { RibbonContainer: not null, Ribbon: not null })
         {
             // Get access to the parent collection of items
-            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
+            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("items"));
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupButton MoveLast");
@@ -305,12 +297,10 @@ internal class KryptonRibbonGroupButtonDesigner : ComponentDesigner
 
     private void OnDeleteButton(object? sender, EventArgs e)
     {
-        if (_ribbonButton is not null
-            && _ribbonButton.Ribbon is not null
-            && _ribbonButton.RibbonContainer is not null)
+        if (_ribbonButton is { Ribbon: not null, RibbonContainer: not null })
         {
             // Get access to the parent collection of items
-            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
+            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("items"));
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupButton DeleteButton");
@@ -408,7 +398,7 @@ internal class KryptonRibbonGroupButtonDesigner : ComponentDesigner
 
     private void OnContextMenu(object? sender, MouseEventArgs e)
     {
-        if ( _ribbonButton is not null && _ribbonButton.Ribbon is not null)
+        if ( _ribbonButton?.Ribbon != null)
         {
             // Create the menu strip the first time around
             if (_cms == null)

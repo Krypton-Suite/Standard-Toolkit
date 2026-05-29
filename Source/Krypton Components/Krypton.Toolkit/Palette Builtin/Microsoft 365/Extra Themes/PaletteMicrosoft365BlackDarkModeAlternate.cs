@@ -1,7 +1,7 @@
 #region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege, et al. 2024 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege, et al. 2024 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -149,7 +149,7 @@ public class PaletteMicrosoft365BlackDarkModeAlternate : PaletteMicrosoft365Blac
         {
             ImageSize = new Size(13, 7),
             ColorDepth = ColorDepth.Depth24Bit,
-            TransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR
+            TransparentColor = GlobalStaticVariables.TRANSPARENCY_KEY_COLOR
         };
 
         _galleryButtonList.Images.AddStrip(GalleryImageResources.Gallery2010);
@@ -335,15 +335,15 @@ public class PaletteMicrosoft365BlackDarkModeAlternate : PaletteMicrosoft365Blac
     #region Tab Row Background
 
     /// <inheritdoc />
-    public override Color GetRibbonTabRowGradientColor1(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+    public override Color GetRibbonTabRowGradientColor1(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
 
     /// <inheritdoc />
     public override Color GetRibbonTabRowBackgroundGradientRaftingDark(PaletteState state) =>
-        GlobalStaticValues.EMPTY_COLOR;
+        GlobalStaticVariables.EMPTY_COLOR;
 
     /// <inheritdoc />
     public override Color GetRibbonTabRowBackgroundGradientRaftingLight(PaletteState state) =>
-        GlobalStaticValues.EMPTY_COLOR;
+        GlobalStaticVariables.EMPTY_COLOR;
 
     /// <inheritdoc />
     public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) => _tabRowBackgroundColor;
