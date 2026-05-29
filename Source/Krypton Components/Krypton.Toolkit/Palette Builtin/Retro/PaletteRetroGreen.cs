@@ -26,6 +26,8 @@ public class PaletteRetroGreen : PaletteRetroBase
 
     private static readonly Color _workspaceTextColor = Color.Black;
 
+    private static readonly Color _panelAlternateBackColor = Color.FromArgb(0, 128, 128);
+
     public PaletteRetroGreen()
         : base(new PaletteRetroGreen_BaseScheme(), RetroPaletteSharedAssets.CheckBoxList,
             RetroPaletteSharedAssets.GalleryButtonList, RetroPaletteSharedAssets.RadioButtonArray)
@@ -105,6 +107,8 @@ public class PaletteRetroGreen : PaletteRetroBase
     protected override Color GetRetroGridDataCellNormalBackColor() => _gridDataCellBackColor;
 
     protected override Color GetRetroGridDataCellNormalTextColor() => _gridDataCellTextColor;
+
+    protected override Color PanelAlternateBackColor => _panelAlternateBackColor;
 
     protected override Color WorkspaceTextColor => _workspaceTextColor;
 }

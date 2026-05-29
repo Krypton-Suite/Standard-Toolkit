@@ -275,6 +275,11 @@ internal static class RetroRenderHelper
             return false;
         }
 
+        if (IsChromeAdjacentButtonBack(palette))
+        {
+            return false;
+        }
+
         Color c = palette.GetBackColor1(state);
         return IsRetroButtonFaceColor(c, AsRetroPalette(KryptonManager.CurrentGlobalPalette));
     }
@@ -345,6 +350,9 @@ internal static class RetroRenderHelper
                 or PaletteBackStyle.ButtonListItem => true,
             _ => false
         };
+
+    private static bool IsChromeAdjacentButtonBack(IPaletteBack palette) =>
+        palette is PaletteBackToPalette back && IsChromeAdjacentButtonBackStyle(back.BackStyle);
 
     private static bool IsChromeAdjacentButtonBorderStyle(PaletteBorderStyle style) =>
         style switch

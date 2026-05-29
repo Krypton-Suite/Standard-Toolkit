@@ -63,25 +63,16 @@ internal static class RetroSelectionGlyphFactory
 
     private static Image CreateRadioImage(bool enabled, bool isChecked, Size size)
     {
-        string text = isChecked ? "(*)" : "( )";
-        return DrawTextGlyph(text, size, enabled, fillDisabled: true);
+        return DrawRadioButtonGlyph(size, enabled, isChecked);
     }
 
-    private static Image DrawTextGlyph(string text, Size size, bool enabled, bool fillDisabled = false)
+    private static Image DrawTextGlyph(string text, Size size, bool enabled)
     {
         var bmp = new Bitmap(size.Width, size.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
         using (var g = Graphics.FromImage(bmp))
         {
             g.Clear(Color.Transparent);
             g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SingleBitPerPixelGridFit;
-
-            if (!enabled && fillDisabled)
-            {
-                using (var back = new SolidBrush(RetroSilverFill))
-                {
-                    g.FillRectangle(back, 0, 0, size.Width, size.Height);
-                }
-            }
 
             var color = enabled ? RetroText : RetroDisabled;
             using (var font = new Font("Courier New", 8f, FontStyle.Bold, GraphicsUnit.Point))
@@ -144,6 +135,48 @@ internal static class RetroSelectionGlyphFactory
                     g.DrawLine(pen, innerLeft, centerY, innerRight, centerY);
                     g.DrawLine(pen, innerLeft + 1, top + 2, innerLeft + 1, bottom - 2);
                     g.DrawLine(pen, innerRight - 1, top + 2, innerRight - 1, bottom - 2);
+                }
+            }
+        }
+
+        return bmp;
+    }
+
+    private static Image DrawRadioButtonGlyph(Size size, bool enabled, bool isChecked)
+    {
+        var bmp = new Bitmap(size.Width, size.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+        using (var g = Graphics.FromImage(bmp))
+        {
+            g.Clear(Color.Transparent);
+            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
+            g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.None;
+
+            Color color = enabled ? RetroText : RetroDisabled;
+            using (var pen = new Pen(color, 1f))
+            {
+                int top = Math.Max(1, (size.Height - 9) / 2);
+                int bottom = Math.Min(size.Height - 2, top + 8);
+                int left = 1;
+                int right = Math.Min(size.Width - 2, left + 10);
+                int midY = top + ((bottom - top) / 2);
+                int centerX = left + ((right - left) / 2);
+                int leftInner = left + 2;
+                int rightInner = right - 2;
+
+                g.DrawLine(pen, leftInner, top, left, top + 2);
+                g.DrawLine(pen, left, top + 2, left, bottom - 2);
+                g.DrawLine(pen, left, bottom - 2, leftInner, bottom);
+
+                g.DrawLine(pen, rightInner, top, right, top + 2);
+                g.DrawLine(pen, right, top + 2, right, bottom - 2);
+                g.DrawLine(pen, right, bottom - 2, rightInner, bottom);
+
+                if (isChecked)
+                {
+                    g.DrawLine(pen, centerX - 2, midY, centerX + 2, midY);
+                    g.DrawLine(pen, centerX, midY - 2, centerX, midY + 2);
+                    g.DrawLine(pen, centerX - 1, midY - 1, centerX + 1, midY + 1);
+                    g.DrawLine(pen, centerX + 1, midY - 1, centerX - 1, midY + 1);
                 }
             }
         }

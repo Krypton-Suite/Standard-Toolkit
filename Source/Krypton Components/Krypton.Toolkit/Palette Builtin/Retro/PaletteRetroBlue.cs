@@ -24,6 +24,8 @@ public class PaletteRetroBlue : PaletteRetroBase
 
     private static readonly Color _groupBoxBorderColor = Color.FromArgb(192, 192, 192);
 
+    private static readonly Color _panelAlternateBackColor = Color.FromArgb(0, 0, 204);
+
     public PaletteRetroBlue()
         : base(new PaletteRetroBlue_BaseScheme(), RetroPaletteSharedAssets.CheckBoxList,
             RetroPaletteSharedAssets.GalleryButtonList, RetroPaletteSharedAssets.RadioButtonArray)
@@ -108,35 +110,14 @@ public class PaletteRetroBlue : PaletteRetroBase
 
     protected override Color GroupBoxBorderColor => _groupBoxBorderColor;
 
+    protected override Color PanelAlternateBackColor => _panelAlternateBackColor;
+
+    protected override Color InputControlBackColor => _gridDataCellBackColor;
+
+    protected override Color InputControlTextColor => Color.White;
+
+    protected override Color FormHeaderTextColor => Color.Black;
+
     internal override Color RetroButtonFrameColor => _groupBoxBorderColor;
-
-    public override Color GetBackColor1(PaletteBackStyle style, PaletteState state)
-    {
-        if (IsRetroBlueWorkspaceBack(style))
-        {
-            return ChromeBackgroundColor;
-        }
-
-        return base.GetBackColor1(style, state);
-    }
-
-    public override Color GetBackColor2(PaletteBackStyle style, PaletteState state)
-    {
-        if (IsRetroBlueWorkspaceBack(style))
-        {
-            return ChromeBackgroundColor;
-        }
-
-        return base.GetBackColor2(style, state);
-    }
-
-    private static bool IsRetroBlueWorkspaceBack(PaletteBackStyle style) =>
-        style is PaletteBackStyle.ContextMenuOuter or PaletteBackStyle.ContextMenuInner
-            or PaletteBackStyle.ContextMenuSeparator or PaletteBackStyle.ContextMenuItemSplit
-            or PaletteBackStyle.PanelClient or PaletteBackStyle.PanelAlternate
-            or PaletteBackStyle.ControlClient or PaletteBackStyle.ControlAlternate
-            or PaletteBackStyle.InputControlStandalone or PaletteBackStyle.InputControlRibbon
-            or PaletteBackStyle.InputControlCustom1 or PaletteBackStyle.InputControlCustom2
-            or PaletteBackStyle.InputControlCustom3;
 
 }
