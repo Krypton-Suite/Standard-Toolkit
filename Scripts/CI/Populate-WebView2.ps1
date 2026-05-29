@@ -1,5 +1,6 @@
 # Downloads Microsoft.Web.WebView2 into Krypton.Toolkit.Utilities\Lib\WebView2 for CI builds.
 #
+# Must be committed on alpha (nightly) and Canary (canary release). build.yml checks out the triggering ref.
 # -Prerelease: required for alpha/canary/nightly (net11.0-windows). Stable WebView2 packages do not support .NET 11 yet.
 # -ResolveVersionOnly -WriteGitHubOutputVersion: emit version= for actions/cache keys (nightly/canary).
 # -Version: skip NuGet resolution when the workflow already resolved the version.
