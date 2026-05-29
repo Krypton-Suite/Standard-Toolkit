@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
-  <Relationship Type="http://schemas.microsoft.com/packaging/2010/07/manifest" Target="/Krypton.Standard.Toolkit.Nightly.nuspec" Id="RBC8BE432FE788861" />
-  <Relationship Type="http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties" Target="/package/services/metadata/core-properties/450370ed8bf84b7cba842fe3bb22dde3.psmdcp" Id="RFE4969E0BBED5431" />
-</Relationships>
