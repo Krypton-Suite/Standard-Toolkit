@@ -43,22 +43,21 @@ namespace TestForm
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StartScreen));
             this.kbtnExit = new Krypton.Toolkit.KryptonButton();
             this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
-            this.tlpRoot = new System.Windows.Forms.TableLayoutPanel();
             this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
             this.tbFilter = new Krypton.Toolkit.KryptonTextBox();
             this.btnClearFilter = new Krypton.Toolkit.ButtonSpecAny();
             this.kryptonThemeListBox1 = new Krypton.Toolkit.KryptonThemeListBox();
             this.btnDockTopRight = new Krypton.Toolkit.ButtonSpecAny();
             this.btnRestoreSize = new Krypton.Toolkit.ButtonSpecAny();
-            this.tlpRoot.SuspendLayout();
             this.SuspendLayout();
             // 
             // kbtnExit
             // 
+            this.kbtnExit.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.kbtnExit.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.kbtnExit.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.kbtnExit.Location = new System.Drawing.Point(0, 679);
-            this.kbtnExit.Margin = new System.Windows.Forms.Padding(0);
+            this.kbtnExit.Location = new System.Drawing.Point(12, 691);
+            this.kbtnExit.Margin = new System.Windows.Forms.Padding(2);
             this.kbtnExit.MinimumSize = new System.Drawing.Size(0, 30);
             this.kbtnExit.Name = "kbtnExit";
             this.kbtnExit.Size = new System.Drawing.Size(526, 30);
@@ -74,38 +73,14 @@ namespace TestForm
             this.kryptonManager1.ToolkitStrings.MessageBoxStrings.LessDetails = "L&ess Details...";
             this.kryptonManager1.ToolkitStrings.MessageBoxStrings.MoreDetails = "&More Details...";
             // 
-            // tlpRoot
-            // 
-            this.tlpRoot.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tlpRoot.ColumnCount = 3;
-            this.tlpRoot.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpRoot.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 13F));
-            this.tlpRoot.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 313F));
-            this.tlpRoot.Controls.Add(this.tbFilter, 0, 0);
-            this.tlpRoot.Controls.Add(this.tlpMain, 0, 2);
-            this.tlpRoot.Controls.Add(this.kbtnExit, 0, 4);
-            this.tlpRoot.Controls.Add(this.kryptonThemeListBox1, 2, 0);
-            this.tlpRoot.Location = new System.Drawing.Point(12, 12);
-            this.tlpRoot.Name = "tlpRoot";
-            this.tlpRoot.RowCount = 5;
-            this.tlpRoot.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tlpRoot.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 9F));
-            this.tlpRoot.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpRoot.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 11F));
-            this.tlpRoot.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tlpRoot.Size = new System.Drawing.Size(852, 709);
-            this.tlpRoot.TabIndex = 18;
-            this.tlpRoot.SetRowSpan(this.kryptonThemeListBox1, 5);
-            // 
             // tlpMain
             // 
+            this.tlpMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tlpMain.ColumnCount = 1;
             this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlpMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlpMain.Location = new System.Drawing.Point(0, 39);
-            this.tlpMain.Margin = new System.Windows.Forms.Padding(0);
+            this.tlpMain.Location = new System.Drawing.Point(12, 51);
             this.tlpMain.Name = "tlpMain";
             this.tlpMain.RowCount = 2;
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -115,10 +90,10 @@ namespace TestForm
             // 
             // tbFilter
             // 
+            this.tbFilter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tbFilter.ButtonSpecs.Add(this.btnClearFilter);
-            this.tbFilter.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbFilter.Location = new System.Drawing.Point(0, 0);
-            this.tbFilter.Margin = new System.Windows.Forms.Padding(0);
+            this.tbFilter.Location = new System.Drawing.Point(12, 12);
             this.tbFilter.MinimumSize = new System.Drawing.Size(0, 30);
             this.tbFilter.Name = "tbFilter";
             this.tbFilter.Size = new System.Drawing.Size(526, 30);
@@ -133,10 +108,10 @@ namespace TestForm
             // 
             // kryptonThemeListBox1
             // 
+            this.kryptonThemeListBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.kryptonThemeListBox1.DefaultPalette = Krypton.Toolkit.PaletteMode.Microsoft365Blue;
-            this.kryptonThemeListBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.kryptonThemeListBox1.Location = new System.Drawing.Point(539, 0);
-            this.kryptonThemeListBox1.Margin = new System.Windows.Forms.Padding(0);
+            this.kryptonThemeListBox1.Location = new System.Drawing.Point(551, 12);
             this.kryptonThemeListBox1.Name = "kryptonThemeListBox1";
             this.kryptonThemeListBox1.Size = new System.Drawing.Size(313, 709);
             this.kryptonThemeListBox1.TabIndex = 17;
@@ -163,23 +138,23 @@ namespace TestForm
             this.ButtonSpecs.Add(this.btnDockTopRight);
             this.CancelButton = this.kbtnExit;
             this.ClientSize = new System.Drawing.Size(876, 729);
-            this.Controls.Add(this.tlpRoot);
+            this.Controls.Add(this.kryptonThemeListBox1);
+            this.Controls.Add(this.tbFilter);
+            this.Controls.Add(this.tlpMain);
+            this.Controls.Add(this.kbtnExit);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(400, 0);
             this.Name = "StartScreen";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Welcome";
-            this.tlpRoot.ResumeLayout(false);
-            this.tlpRoot.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
         private Krypton.Toolkit.KryptonButton kbtnExit;
         private KryptonManager kryptonManager1;
-        private TableLayoutPanel tlpRoot;
         private TableLayoutPanel tlpMain;
         private KryptonTextBox tbFilter;
         private ButtonSpecAny btnClearFilter;

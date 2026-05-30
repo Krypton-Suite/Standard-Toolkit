@@ -40,10 +40,7 @@ for /f "tokens=* usebackq" %%A in (`tzutil /g`) do (
 @echo
 set targets=Rebuild
 if not "%~1" == "" set targets=%~1
-setlocal
-call "%~dp0setup-dotnet11-sdk.cmd" || (endlocal & goto exitbatch)
-"%msbuildpath%\msbuild.exe" /m -t:%targets% "%~dp0nightly.proj" /fl /flp:logfile="%~dp0..\..\Logs\nightly-build-log.log" /bl:"%~dp0..\..\Logs\nightly-build-log.binlog"  /clp:Summary;ShowTimestamp /v:quiet
-endlocal
+"%msbuildpath%\msbuild.exe" /m -t:%targets% nightly.proj /fl /flp:logfile=../Logs/nightly-build-log.log /bl:../Logs/nightly-build-log.binlog  /clp:Summary;ShowTimestamp /v:quiet
 
 :: -t:rebuild
 

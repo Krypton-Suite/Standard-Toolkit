@@ -7,7 +7,7 @@
 
 namespace Krypton.Toolkit;
 
-[ToolboxBitmap(typeof(KryptonThemeComboBox), "ToolboxBitmaps.KryptonThemeComboBox.bmp")]
+[ToolboxBitmap(typeof(KryptonThemeComboBox))]
 [ToolStripItemDesignerAvailability(ToolStripItemDesignerAvailability.All)]
 public class KryptonToolStripThemeComboBox : ToolStripControlHostFixed, ISupportInitialize
 {

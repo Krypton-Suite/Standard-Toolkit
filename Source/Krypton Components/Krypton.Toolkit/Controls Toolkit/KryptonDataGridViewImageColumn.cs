@@ -12,7 +12,6 @@
 namespace Krypton.Toolkit;
 
 /// <inheritdoc/>
-[ToolboxBitmap(typeof(KryptonDataGridViewImageColumn), "ToolboxBitmaps.KryptonDataGridViewImageColumn.bmp")]
 public class KryptonDataGridViewImageColumn : DataGridViewImageColumn, IIconCell
 {
     private KryptonDataGridView? _dataGridView = null;

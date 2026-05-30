@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- *
+ * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- *
+ * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege, KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
- *
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
+ *  
  */
 #endregion
 
@@ -132,11 +132,6 @@ internal static class KryptonScrollBarRenderer
          * | |-----------------------------------------| |
          * |                                             |
          * ----------------------------------------------- (15,17)
-         *
-         * The 15x17 diagram describes the source arrow bitmap only.
-         * Track and thumb rectangles are supplied by the controls and can
-         * be larger at high DPI, so those paint paths must fill rect, not a
-         * fixed 15px interior.
          */
 
         // hot state
@@ -439,14 +434,6 @@ internal static class KryptonScrollBarRenderer
     /// <param name="rect">The rectangle in which to paint.</param>
     private static void DrawBackgroundVertical(Graphics g, Rectangle rect)
     {
-        // Fill the full supplied bounds first. At high DPI the themed scrollbar is
-        // wider than the original 15px bitmap math, and fixed interior widths leave
-        // stale pixels along the inner edge while dragging.
-        using (var brush = new SolidBrush(_backgroundColors[4]))
-        {
-            g.FillRectangle(brush, rect);
-        }
-
         using (var p = new Pen(_backgroundColors[0]))
         {
             g.DrawLine(p, rect.Left + 1, rect.Top + 1, rect.Left + 1, rect.Bottom - 1);
@@ -458,31 +445,20 @@ internal static class KryptonScrollBarRenderer
             g.DrawLine(p, rect.Left + 2, rect.Top + 1, rect.Left + 2, rect.Bottom - 1);
         }
 
-        int gradientLeft = rect.Left + 3;
-        int gradientRight = rect.Right - 2;
+        var firstRect = new Rectangle(rect.Left + 3, rect.Top, 8, rect.Height);
 
-        if (gradientRight <= gradientLeft)
+        var secondRect = new Rectangle(firstRect.Right - 1, firstRect.Top, 7, firstRect.Height);
+
+        using (var brush = new LinearGradientBrush(firstRect, _backgroundColors[2],
+                   _backgroundColors[3], LinearGradientMode.Horizontal))
         {
-            return;
+            g.FillRectangle(brush, firstRect);
         }
 
-        var gradientRect = Rectangle.FromLTRB(gradientLeft, rect.Top, gradientRight, rect.Bottom);
-
-        using (var brush = new LinearGradientBrush(gradientRect, _backgroundColors[2],
+        using (var brush = new LinearGradientBrush(secondRect, _backgroundColors[3],
                    _backgroundColors[4], LinearGradientMode.Horizontal))
         {
-            brush.InterpolationColors = new ColorBlend(3)
-            {
-                Colors =
-                [
-                    _backgroundColors[2],
-                    _backgroundColors[3],
-                    _backgroundColors[4]
-                ],
-                Positions = [0f, .5f, 1f]
-            };
-
-            g.FillRectangle(brush, gradientRect);
+            g.FillRectangle(brush, secondRect);
         }
     }
 
@@ -493,13 +469,6 @@ internal static class KryptonScrollBarRenderer
     /// <param name="rect">The rectangle in which to paint.</param>
     private static void DrawBackgroundHorizontal(Graphics g, Rectangle rect)
     {
-        // See DrawBackgroundVertical: this rect can be DPI-scaled, so the whole
-        // background must be repainted before drawing the themed interior.
-        using (var brush = new SolidBrush(_backgroundColors[4]))
-        {
-            g.FillRectangle(brush, rect);
-        }
-
         using (var p = new Pen(_backgroundColors[0]))
         {
             g.DrawLine(p, rect.Left + 1, rect.Top + 1, rect.Right - 1, rect.Top + 1);
@@ -511,31 +480,20 @@ internal static class KryptonScrollBarRenderer
             g.DrawLine(p, rect.Left + 1, rect.Top + 2, rect.Right - 1, rect.Top + 2);
         }
 
-        int gradientTop = rect.Top + 3;
-        int gradientBottom = rect.Bottom - 2;
+        var firstRect = new Rectangle(rect.Left, rect.Top + 3, rect.Width, 8);
 
-        if (gradientBottom <= gradientTop)
+        var secondRect = new Rectangle(firstRect.Left, firstRect.Bottom - 1, firstRect.Width, 7);
+
+        using (var brush = new LinearGradientBrush(firstRect, _backgroundColors[2],
+                   _backgroundColors[3], LinearGradientMode.Vertical))
         {
-            return;
+            g.FillRectangle(brush, firstRect);
         }
 
-        var gradientRect = Rectangle.FromLTRB(rect.Left, gradientTop, rect.Right, gradientBottom);
-
-        using (var brush = new LinearGradientBrush(gradientRect, _backgroundColors[2],
+        using (var brush = new LinearGradientBrush(secondRect, _backgroundColors[3],
                    _backgroundColors[4], LinearGradientMode.Vertical))
         {
-            brush.InterpolationColors = new ColorBlend(3)
-            {
-                Colors =
-                [
-                    _backgroundColors[2],
-                    _backgroundColors[3],
-                    _backgroundColors[4]
-                ],
-                Positions = [0f, .5f, 1f]
-            };
-
-            g.FillRectangle(brush, gradientRect);
+            g.FillRectangle(brush, secondRect);
         }
     }
 
@@ -546,14 +504,7 @@ internal static class KryptonScrollBarRenderer
     /// <param name="rect">The rectangle in which to paint.</param>
     private static void DrawTrackVertical(Graphics g, Rectangle rect)
     {
-        // Keep this relative to rect.Width; hard-coded 15px track painting misses
-        // the right-side pixels when the scrollbar is scaled.
-        var innerRect = new Rectangle(rect.Left + 1, rect.Top, Math.Max(0, rect.Width - 2), rect.Height);
-
-        if (innerRect.Width <= 0 || innerRect.Height <= 0)
-        {
-            return;
-        }
+        var innerRect = new Rectangle(rect.Left + 1, rect.Top, 15, rect.Height);
 
         using var brush = new LinearGradientBrush(innerRect, _trackColors[0], _trackColors[1],
             LinearGradientMode.Horizontal);
@@ -567,14 +518,7 @@ internal static class KryptonScrollBarRenderer
     /// <param name="rect">The rectangle in which to paint.</param>
     private static void DrawTrackHorizontal(Graphics g, Rectangle rect)
     {
-        // Keep this relative to rect.Height; hard-coded 15px track painting misses
-        // the lower pixels when the scrollbar is scaled.
-        var innerRect = new Rectangle(rect.Left, rect.Top + 1, rect.Width, Math.Max(0, rect.Height - 2));
-
-        if (innerRect.Width <= 0 || innerRect.Height <= 0)
-        {
-            return;
-        }
+        var innerRect = new Rectangle(rect.Left, rect.Top + 1, rect.Width, 15);
 
         using var brush = new LinearGradientBrush(innerRect, _trackColors[0], _trackColors[1],
             LinearGradientMode.Vertical);
@@ -638,22 +582,9 @@ internal static class KryptonScrollBarRenderer
         Rectangle innerRect = rect;
         innerRect.Inflate(-1, -1);
 
-        if (innerRect.Width <= 0 || innerRect.Height <= 0)
-        {
-            return;
-        }
-
-        // Clear the full inner thumb before applying the split gradient. The old
-        // fixed 6px halves only covered a 12px interior and could leave stale
-        // vertical strips at high DPI.
-        using (var brush = new SolidBrush(_thumbColors[index, 5]))
-        {
-            g.FillRectangle(brush, innerRect);
-        }
-
-        int leftWidth = Math.Max(1, innerRect.Width / 2);
-
-        Rectangle r = new Rectangle(innerRect.Left, innerRect.Top, leftWidth, innerRect.Height + 1);
+        Rectangle r = innerRect;
+        r.Width = 6;
+        r.Height++;
 
         // draw left gradient
         using (var brush = new LinearGradientBrush(r, _thumbColors[index, 1],
@@ -662,7 +593,7 @@ internal static class KryptonScrollBarRenderer
             g.FillRectangle(brush, r);
         }
 
-        r = new Rectangle(r.Right, innerRect.Top, Math.Max(1, innerRect.Right - r.Right), innerRect.Height + 1);
+        r.X = r.Right;
 
         // draw right gradient
         if (index == 0)
@@ -735,22 +666,9 @@ internal static class KryptonScrollBarRenderer
         Rectangle innerRect = rect;
         innerRect.Inflate(-1, -1);
 
-        if (innerRect.Width <= 0 || innerRect.Height <= 0)
-        {
-            return;
-        }
-
-        // Clear the full inner thumb before applying the split gradient. The old
-        // fixed 6px halves only covered a 12px interior and could leave stale
-        // horizontal strips at high DPI.
-        using (var brush = new SolidBrush(_thumbColors[index, 5]))
-        {
-            g.FillRectangle(brush, innerRect);
-        }
-
-        int topHeight = Math.Max(1, innerRect.Height / 2);
-
-        Rectangle r = new Rectangle(innerRect.Left, innerRect.Top, innerRect.Width + 1, topHeight);
+        Rectangle r = innerRect;
+        r.Height = 6;
+        r.Width++;
 
         // draw left gradient
         using (var brush = new LinearGradientBrush(r, _thumbColors[index, 1],
@@ -759,7 +677,7 @@ internal static class KryptonScrollBarRenderer
             g.FillRectangle(brush, r);
         }
 
-        r = new Rectangle(innerRect.Left, r.Bottom, innerRect.Width + 1, Math.Max(1, innerRect.Bottom - r.Bottom));
+        r.Y = r.Bottom;
 
         // draw right gradient
         if (index == 0)

@@ -40,7 +40,7 @@ for /f "tokens=* usebackq" %%A in (`tzutil /g`) do (
 @echo
 set targets=Rebuild
 if not "%~1" == "" set targets=%~1
-"%msbuildpath%\msbuild.exe" /m -t:%targets% "%~dp0nightly.proj" /fl /flp:logfile="%~dp0..\..\Logs\nightly-build-log.log" /bl:"%~dp0..\..\Logs\nightly-build-log.binlog"  /clp:Summary;ShowTimestamp /v:quiet
+"%msbuildpath%\msbuild.exe" /m -t:%targets% nightly.proj /fl /flp:logfile=../Logs/nightly-build-log.log /bl:../Logs/nightly-build-log.binlog  /clp:Summary;ShowTimestamp /v:quiet
 
 :: -t:rebuild
 
