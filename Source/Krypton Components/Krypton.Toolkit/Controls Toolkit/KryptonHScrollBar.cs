@@ -1,9 +1,9 @@
-﻿#region BSD License
+#region BSD License
 /*
- *
+ * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege, KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2026 - 2026. All rights reserved.
- *
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2026 - 2026. All rights reserved.
+ *  
  */
 #endregion
 
@@ -132,7 +132,7 @@ public class KryptonHScrollBar : Control
         _stateNormal.Border.Color1 = _borderColor;
         _stateActive.Border.Color1 = _borderColor;
         _stateDisabled.Border.Color1 = _disabledBorderColor;
-
+        
         // Ensure border is drawn by default (all palette border properties are accessible through StateCommon/StateNormal/StateDisabled/StateActive.Border)
         // Available properties: Draw, DrawBorders, Width, Color1, Color2, ColorStyle, ColorAlign, ColorAngle, Rounding, Image, ImageStyle, ImageAlign, GraphicsHint
 
@@ -200,8 +200,6 @@ public class KryptonHScrollBar : Control
             if (_value < value)
             {
                 _value = value;
-                ChangeThumbPosition(GetThumbPosition());
-                Refresh();
             }
             else
             {
@@ -242,12 +240,9 @@ public class KryptonHScrollBar : Control
             SetUpScrollBar();
 
             // is current value greater than new maximum value - adjust
-            int scrollableMaximum = GetScrollableMaximum();
-            if (_value > scrollableMaximum)
+            if (_value > value)
             {
-                _value = scrollableMaximum;
-                ChangeThumbPosition(GetThumbPosition());
-                Refresh();
+                _value = _maximum;
             }
             else
             {
@@ -312,7 +307,6 @@ public class KryptonHScrollBar : Control
                 _largeChange = value;
             }
 
-            _value = CoerceValue(_value);
             SetUpScrollBar();
         }
     }
@@ -330,24 +324,18 @@ public class KryptonHScrollBar : Control
         set
         {
             // no change or invalid value - return
-            if (value < _minimum || value > _maximum)
+            if (_value == value || value < _minimum || value > _maximum)
             {
                 return;
             }
 
-            int newValue = CoerceValue(value);
-            if (_value == newValue)
-            {
-                return;
-            }
-
-            _value = newValue;
+            _value = value;
 
             // adjust thumb position
             ChangeThumbPosition(GetThumbPosition());
 
             // raise scroll event
-            OnScroll(new ScrollEventArgs(ScrollEventType.ThumbPosition, -1, newValue, ScrollOrientation.HorizontalScroll));
+            OnScroll(new ScrollEventArgs(ScrollEventType.ThumbPosition, -1, value, ScrollOrientation.HorizontalScroll));
 
             Refresh();
         }
@@ -384,7 +372,7 @@ public class KryptonHScrollBar : Control
             if (_borderColor != value)
             {
                 _borderColor = value;
-
+                
                 // Sync with palette system
                 _stateNormal.Border.Color1 = value;
                 _stateActive.Border.Color1 = value;
@@ -412,7 +400,7 @@ public class KryptonHScrollBar : Control
             if (_disabledBorderColor != value)
             {
                 _disabledBorderColor = value;
-
+                
                 // Sync with palette system
                 _stateDisabled.Border.Color1 = value;
 
@@ -551,11 +539,11 @@ public class KryptonHScrollBar : Control
         {
             IRenderer renderer = _palette.GetRenderer();
             PaletteState borderState = Enabled ? PaletteState.Normal : PaletteState.Disabled;
-            IPaletteBorder paletteBorder = borderState == PaletteState.Disabled
-                ? _stateDisabled.PaletteBorder
+            IPaletteBorder paletteBorder = borderState == PaletteState.Disabled 
+                ? _stateDisabled.PaletteBorder 
                 : _stateNormal.PaletteBorder;
             borderRounding = paletteBorder.GetBorderRounding(borderState);
-
+            
             // Ensure rounding doesn't exceed what can fit in the control
             if (borderRounding > 0)
             {
@@ -675,21 +663,21 @@ public class KryptonHScrollBar : Control
         {
             IRenderer renderer = _palette.GetRenderer();
             using var renderContext = new RenderContext(this, e.Graphics, e.ClipRectangle, renderer);
-
+            
             // Determine the appropriate palette state
             PaletteState borderState = Enabled ? PaletteState.Normal : PaletteState.Disabled;
-
+            
             // Get the appropriate border palette
-            IPaletteBorder paletteBorder = borderState == PaletteState.Disabled
-                ? _stateDisabled.PaletteBorder
+            IPaletteBorder paletteBorder = borderState == PaletteState.Disabled 
+                ? _stateDisabled.PaletteBorder 
                 : _stateNormal.PaletteBorder;
-
+            
             // Render the border with rounding support
             renderer.RenderStandardBorder.DrawBorder(
-                renderContext,
-                ClientRectangle,
-                paletteBorder,
-                VisualOrientation.Top,
+                renderContext, 
+                ClientRectangle, 
+                paletteBorder, 
+                VisualOrientation.Top, 
                 borderState);
         }
         else
@@ -877,17 +865,35 @@ public class KryptonHScrollBar : Control
                 else if (pos >= (_thumbRightLimitLeft + _thumbPosition))
                 {
                     // The thumb is all the way to the right
-                    _value = GetScrollableMaximum();
+                    ChangeThumbPosition(_thumbRightLimitLeft);
+
+                    _value = _maximum;
                 }
                 else
                 {
-                    _value = GetValueFromThumbLeft(pos - _thumbPosition);
+                    // The thumb is between the ends of the track.
+                    ChangeThumbPosition(pos - _thumbPosition);
+
+                    var pixelRange = Width - (2 * _arrowWidth) - _thumbWidth;
+                    var thumbPos = _thumbRectangle.X;
+                    var arrowSize = _arrowWidth;
+
+                    var percent = 0f;
+
+                    if (pixelRange != 0)
+                    {
+                        // percent of the new position
+                        percent = (thumbPos - arrowSize) / (float)pixelRange;
+                    }
+
+                    // the new value is somewhere between max and min, starting
+                    // at min position
+                    _value = Convert.ToInt32((percent * (_maximum - _minimum)) + _minimum);
                 }
 
                 // raise scroll event if new value different
                 if (oldScrollValue != _value)
                 {
-                    ChangeThumbPosition(GetThumbPosition());
                     OnScroll(new ScrollEventArgs(ScrollEventType.ThumbTrack, oldScrollValue, _value, ScrollOrientation.HorizontalScroll));
 
                     Refresh();
@@ -970,10 +976,9 @@ public class KryptonHScrollBar : Control
                 return true;
             case Keys.PageDown:
             {
-                int scrollableMaximum = GetScrollableMaximum();
-                if (_value + _largeChange > scrollableMaximum)
+                if (_value + _largeChange > _maximum)
                 {
-                    Value = scrollableMaximum;
+                    Value = _maximum;
                 }
                 else
                 {
@@ -989,7 +994,7 @@ public class KryptonHScrollBar : Control
                 return true;
             case Keys.End:
             case Keys.Control | Keys.End:
-                Value = GetScrollableMaximum();
+                Value = _maximum;
 
                 return true;
             default:
@@ -1105,7 +1110,7 @@ public class KryptonHScrollBar : Control
 
         // Set the right limit of the thumb's right border.
         _thumbRightLimitRight =
-            ClientRectangle.Right - _arrowWidth - borderOffset;
+            ClientRectangle.Right - _arrowWidth - verticalOffset;
 
         // Set the right limit of the thumb's left border.
         _thumbRightLimitLeft =
@@ -1168,7 +1173,6 @@ public class KryptonHScrollBar : Control
     private int GetValue(bool smallIncrement, bool left)
     {
         int newValue;
-        int scrollableMaximum = GetScrollableMaximum();
 
         // calculate the new value of the scrollbar
         // with checking if new value is in bounds (min/max)
@@ -1185,47 +1189,13 @@ public class KryptonHScrollBar : Control
         {
             newValue = _value + (smallIncrement ? _smallChange : _largeChange);
 
-            if (newValue > scrollableMaximum)
+            if (newValue > _maximum)
             {
-                newValue = scrollableMaximum;
+                newValue = _maximum;
             }
         }
 
         return newValue;
-    }
-
-    private int GetScrollableMaximum()
-    {
-        int page = Math.Max(1, _largeChange);
-        long scrollableMaximum = (long)_maximum - page + 1;
-
-        if (scrollableMaximum < _minimum)
-        {
-            return _minimum;
-        }
-
-        return scrollableMaximum > int.MaxValue ? int.MaxValue : (int)scrollableMaximum;
-    }
-
-    private int CoerceValue(int value) => Math.Max(_minimum, Math.Min(value, GetScrollableMaximum()));
-
-    private int GetThumbTravelRange() => Math.Max(0, _thumbRightLimitLeft - _thumbLeftLimit);
-
-    private int GetValueFromThumbLeft(int thumbLeft)
-    {
-        int pixelRange = GetThumbTravelRange();
-        int scrollableMaximum = GetScrollableMaximum();
-        int realRange = scrollableMaximum - _minimum;
-
-        if (pixelRange == 0 || realRange == 0)
-        {
-            return _minimum;
-        }
-
-        int clampedThumbLeft = Math.Max(_thumbLeftLimit, Math.Min(thumbLeft, _thumbRightLimitLeft));
-        float percent = (clampedThumbLeft - _thumbLeftLimit) / (float)pixelRange;
-
-        return CoerceValue(Convert.ToInt32((percent * realRange) + _minimum));
     }
 
     /// <summary>
@@ -1234,8 +1204,10 @@ public class KryptonHScrollBar : Control
     /// <returns>The new thumb position.</returns>
     private int GetThumbPosition()
     {
-        var pixelRange = GetThumbTravelRange();
-        var realRange = GetScrollableMaximum() - _minimum;
+        var pixelRange = Width - (2 * _arrowWidth) - _thumbWidth;
+        var arrowSize = _arrowWidth;
+
+        var realRange = _maximum - _minimum;
         var perc = 0f;
 
         if (realRange != 0)
@@ -1245,7 +1217,7 @@ public class KryptonHScrollBar : Control
 
         return Math.Max(_thumbLeftLimit, Math.Min(
             _thumbRightLimitLeft,
-            Convert.ToInt32((perc * pixelRange) + _thumbLeftLimit)));
+            Convert.ToInt32((perc * pixelRange) + arrowSize)));
     }
 
     /// <summary>
@@ -1254,16 +1226,14 @@ public class KryptonHScrollBar : Control
     /// <returns>The width of the thumb.</returns>
     private int GetThumbSize()
     {
-        int borderOffset = (int)Math.Round(1 * GetDpiFactor());
-        var trackSize = Math.Max(0, Width - (2 * _arrowWidth) - (borderOffset * 2));
+        var trackSize = Width - (2 * _arrowWidth);
 
         if (_maximum == 0 || _largeChange == 0)
         {
             return trackSize;
         }
 
-        int contentRange = Math.Max(1, _maximum - _minimum + 1);
-        var newThumbSize = _largeChange * trackSize / (float)contentRange;
+        var newThumbSize = _largeChange * trackSize / (float)_maximum;
 
         return Convert.ToInt32(Math.Min(trackSize, Math.Max(newThumbSize, 10f)));
     }
@@ -1297,7 +1267,7 @@ public class KryptonHScrollBar : Control
     /// <param name="position">The new position.</param>
     private void ChangeThumbPosition(int position)
     {
-        _thumbRectangle.X = Math.Max(_thumbLeftLimit, Math.Min(position, _thumbRightLimitLeft));
+        _thumbRectangle.X = position;
     }
 
     /// <summary>
@@ -1318,7 +1288,7 @@ public class KryptonHScrollBar : Control
 
             _value = GetValue(_rightArrowClicked, false);
 
-            if (_value == GetScrollableMaximum())
+            if (_value == _maximum)
             {
                 ChangeThumbPosition(_thumbRightLimitLeft);
 
@@ -1458,10 +1428,25 @@ public class KryptonHScrollBar : Control
     /// <param name="e">The event arguments.</param>
     private void ScrollHereClick(object? sender, EventArgs e)
     {
+        var thumbSize = _thumbWidth;
+        var arrowSize = _arrowWidth;
+        var size = Width;
+
+        ChangeThumbPosition(Math.Max(_thumbLeftLimit, Math.Min(_thumbRightLimitLeft, _trackPosition - (_thumbRectangle.Width / 2))));
+
+        var thumbPos = _thumbRectangle.X;
+
+        var pixelRange = size - (2 * arrowSize) - thumbSize;
+        var perc = 0f;
+
+        if (pixelRange != 0)
+        {
+            perc = (thumbPos - arrowSize) / (float)pixelRange;
+        }
+
         var oldValue = _value;
 
-        _value = GetValueFromThumbLeft(_trackPosition - (_thumbRectangle.Width / 2));
-        ChangeThumbPosition(GetThumbPosition());
+        _value = Convert.ToInt32((perc * (_maximum - _minimum)) + _minimum);
 
         OnScroll(new ScrollEventArgs(ScrollEventType.ThumbPosition, oldValue, _value, ScrollOrientation.HorizontalScroll));
 
@@ -1480,7 +1465,7 @@ public class KryptonHScrollBar : Control
     /// </summary>
     /// <param name="sender">The sender.</param>
     /// <param name="e">The event arguments.</param>
-    private void RightClick(object? sender, EventArgs e) => Value = GetScrollableMaximum();
+    private void RightClick(object? sender, EventArgs e) => Value = _maximum;
 
     /// <summary>
     /// Context menu handler.

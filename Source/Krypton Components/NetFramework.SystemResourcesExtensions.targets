@@ -35,17 +35,8 @@
 
 	<Target Name="KryptonCopyPreserializedResourceDependenciesToOutput"
 	        AfterTargets="Build"
-	        Condition="'$(GenerateResourceUsePreserializedResources)' == 'true' And '$(DesignTimeBuild)' != 'true'">
+	        Condition="'$(GenerateResourceUsePreserializedResources)' == 'true' And '$(DesignTimeBuild)' != 'true' And '$(_KryptonSreDllPath)' != ''">
 		<ItemGroup>
-			<_KryptonResourceRuntimeDll Include="@(ReferenceCopyLocalPaths)"
-			                            Condition="'%(ReferenceCopyLocalPaths.NuGetPackageId)' == 'System.Resources.Extensions'
-			                                       Or '%(ReferenceCopyLocalPaths.NuGetPackageId)' == 'System.Formats.Nrbf'
-			                                       Or '%(ReferenceCopyLocalPaths.NuGetPackageId)' == 'System.Memory'
-			                                       Or '%(ReferenceCopyLocalPaths.NuGetPackageId)' == 'System.Buffers'
-			                                       Or '%(ReferenceCopyLocalPaths.NuGetPackageId)' == 'System.Runtime.CompilerServices.Unsafe'
-			                                       Or '%(ReferenceCopyLocalPaths.NuGetPackageId)' == 'System.Collections.Immutable'
-			                                       Or '%(ReferenceCopyLocalPaths.NuGetPackageId)' == 'System.Reflection.Metadata'
-			                                       Or '%(ReferenceCopyLocalPaths.NuGetPackageId)' == 'System.Numerics.Vectors'" />
 			<_KryptonResourceRuntimeDll Include="$(_KryptonSreDllPath)" />
 			<_KryptonResourceRuntimeDll Include="$(_KryptonNrbfDllPath)" Condition="'$(_KryptonNrbfDllPath)' != ''" />
 			<_KryptonResourceRuntimeDll Include="$(_KryptonMemoryDllPath)" Condition="'$(_KryptonMemoryDllPath)' != ''" />
@@ -57,7 +48,6 @@
 		</ItemGroup>
 		<Copy SourceFiles="@(_KryptonResourceRuntimeDll)"
 		      DestinationFolder="$(OutputPath)"
-		      Condition="'@(_KryptonResourceRuntimeDll)' != ''"
 		      SkipUnchangedFiles="true" />
 	</Target>
 
