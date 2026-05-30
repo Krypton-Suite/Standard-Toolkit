@@ -3,6 +3,9 @@
 #
 # Mirrors major branches from this repository to a separate GitHub repository.
 # Branches: master, gold, canary, alpha, V105-LTS, V85-LTS (plus all tags).
+# Maintains mirror equivalence: updates refs on the target, deletes configured branches
+# removed from source, prunes tags removed from source, and fails if a configured branch
+# is missing from both source and mirror (typo guard).
 #
 # KILL-SWITCH: To disable this workflow, set repository variable REPO_MIRROR_DISABLED=true
 # Location: Repository Settings → Secrets and variables → Actions → Variables tab
@@ -24,7 +27,6 @@
 # DEPLOYMENT: Scheduled runs use the workflow file on the repository DEFAULT BRANCH (master).
 # Push triggers fire only on branches that contain this file. Merge to master for the daily
 # cron; backport to other major branches if push-triggered sync is required on those lines.
-
 
 name: Repository Mirror
 
@@ -134,13 +136,53 @@ jobs:
             fi
           }
 
+          trim_value() {
+            local value="$1"
+            value="${value#"${value%%[![:space:]]*}"}"
+            value="${value%"${value##*[![:space:]]}"}"
+            printf '%s' "$value"
+          }
+
+          validate_branch_name() {
+            local branch="$1"
+            if ! git check-ref-format --branch "$branch" 2>/dev/null; then
+              echo "::error::Invalid branch name in MIRROR_BRANCHES: '${branch}'"
+              exit 1
+            fi
+          }
+
+          mirror_has_branch() {
+            printf '%s\n' "$mirror_branch_names" | grep -Fx -- "$1" >/dev/null
+          }
+
+          tag_on_source() {
+            printf '%s\n' "$source_tags" | grep -Fx -- "$1" >/dev/null
+          }
+
+          list_mirror_tag_names() {
+            git_with_token "$MIRROR_REPO_TOKEN" ls-remote --tags "$mirror_remote" \
+              | awk '{print $2}' \
+              | sed 's|^refs/tags/||' \
+              | grep -v '\^{}$' \
+              | sort -u
+          }
+
+          list_source_tag_names() {
+            git tag -l | sort -u
+          }
+
           write_outputs() {
             {
               echo "pushed_branches=${pushed_branches[*]}"
               echo "would_push_branches=${would_push_branches[*]}"
-              echo "skipped_branches=${skipped_branches[*]}"
+              echo "deleted_branches=${deleted_branches[*]}"
+              echo "would_delete_branches=${would_delete_branches[*]}"
+              echo "missing_branches=${missing_branches[*]}"
               echo "failed_branches=${failed_branches[*]}"
+              echo "pruned_tags=${pruned_tags[*]}"
+              echo "would_prune_tags=${would_prune_tags[*]}"
               echo "tags_synced=${tags_synced}"
+              echo "tags_prune_failed=${tags_prune_failed}"
               echo "tags_failed=${tags_failed}"
               echo "dry_run=${DRY_RUN}"
               echo "mirror_repo=${repo_path}"
@@ -172,6 +214,18 @@ jobs:
             branches=(master gold canary alpha V105-LTS V85-LTS)
           fi
 
+          normalized_branches=()
+          for branch in "${branches[@]}"; do
+            branch="$(trim_value "$branch")"
+            if [ -z "$branch" ]; then
+              echo "::error::Empty branch entry in MIRROR_BRANCHES."
+              exit 1
+            fi
+            validate_branch_name "$branch"
+            normalized_branches+=("$branch")
+          done
+          branches=("${normalized_branches[@]}")
+
           mirror_remote="https://github.com/${repo_path}.git"
           source_remote="https://github.com/${GITHUB_REPOSITORY}.git"
 
@@ -188,6 +242,9 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
+          echo "Fetching mirror refs..."
+          mirror_branch_names="$(git_with_token "$MIRROR_REPO_TOKEN" ls-remote --heads "$mirror_remote" | awk '{print $2}' | sed 's|^refs/heads/||' | sort)"
+
           if [ "$DRY_RUN" = "true" ]; then
             echo "Checking mirror repository reachability..."
             if git_with_token "$MIRROR_REPO_TOKEN" ls-remote "$mirror_remote" HEAD >/dev/null 2>&1; then
@@ -199,15 +256,17 @@ jobs:
 
           pushed_branches=()
           would_push_branches=()
-          skipped_branches=()
+          deleted_branches=()
+          would_delete_branches=()
+          missing_branches=()
           failed_branches=()
+          pruned_tags=()
+          would_prune_tags=()
           tags_synced=false
           tags_failed=false
+          tags_prune_failed=false
 
           for branch in "${branches[@]}"; do
-            branch="$(echo "$branch" | xargs)"
-            [ -z "$branch" ] && continue
-
             if git show-ref --verify --quiet "refs/heads/${branch}"; then
               if [ "$DRY_RUN" = "true" ]; then
                 echo "Would push branch: ${branch}"
@@ -220,52 +279,94 @@ jobs:
                   failed_branches+=("$branch")
                 fi
               fi
+            elif mirror_has_branch "$branch"; then
+              if [ "$DRY_RUN" = "true" ]; then
+                echo "Would delete branch from mirror (removed from source): ${branch}"
+                would_delete_branches+=("$branch")
+              else
+                echo "Deleting branch from mirror (removed from source): ${branch}"
+                if git_with_token "$MIRROR_REPO_TOKEN" push "$mirror_remote" --delete "$branch"; then
+                  deleted_branches+=("$branch")
+                else
+                  failed_branches+=("$branch")
+                fi
+              fi
             else
-              echo "::warning::Branch '${branch}' does not exist in source repository; skipping."
-              skipped_branches+=("$branch")
+              echo "::error::Configured branch '${branch}' does not exist on source or mirror (check MIRROR_BRANCHES for typos)."
+              missing_branches+=("$branch")
             fi
           done
 
           if [ "${MIRROR_SYNC_TAGS:-true}" != "false" ]; then
-            if git show-ref --tags | grep -q .; then
+            source_tags="$(list_source_tag_names)"
+            mirror_tags="$(list_mirror_tag_names)"
+
+            if [ -n "$source_tags" ]; then
               if [ "$DRY_RUN" = "true" ]; then
-                tag_count="$(git show-ref --tags | wc -l | xargs)"
-                echo "Would sync ${tag_count} tag(s)."
+                source_tag_count="$(printf '%s\n' "$source_tags" | sed '/^$/d' | wc -l | tr -d ' ')"
+                echo "Would sync ${source_tag_count} tag(s) from source."
               else
-                echo "Syncing tags..."
+                echo "Syncing tags from source..."
                 if git_with_token "$MIRROR_REPO_TOKEN" push --force "$mirror_remote" 'refs/tags/*:refs/tags/*'; then
                   tags_synced=true
                 else
                   tags_failed=true
-                  echo "::error::Tag sync failed."
+                  echo "::error::Tag push failed."
                 fi
               fi
             else
-              echo "No tags to sync."
+              echo "No tags on source to sync."
             fi
+
+            while IFS= read -r tag; do
+              [ -z "$tag" ] && continue
+              if ! tag_on_source "$tag"; then
+                if [ "$DRY_RUN" = "true" ]; then
+                  echo "Would prune tag from mirror (removed from source): ${tag}"
+                  would_prune_tags+=("$tag")
+                else
+                  echo "Pruning tag from mirror (removed from source): ${tag}"
+                  if git_with_token "$MIRROR_REPO_TOKEN" push "$mirror_remote" ":refs/tags/${tag}"; then
+                    pruned_tags+=("$tag")
+                  else
+                    tags_prune_failed=true
+                    echo "::error::Failed to prune tag '${tag}' from mirror."
+                  fi
+                fi
+              fi
+            done <<< "$mirror_tags"
           fi
 
           write_outputs
+
+          if [ "${#missing_branches[@]}" -gt 0 ]; then
+            echo "::error::Configured branch(es) missing from source and mirror: ${missing_branches[*]}"
+            exit 1
+          fi
 
           if [ "${#failed_branches[@]}" -gt 0 ]; then
             echo "::error::Failed to mirror branch(es): ${failed_branches[*]}"
             exit 1
           fi
 
-          if [ "$tags_failed" = "true" ]; then
+          if [ "$tags_failed" = "true" ] || [ "$tags_prune_failed" = "true" ]; then
             exit 1
           fi
 
           if [ "$DRY_RUN" = "true" ]; then
             echo "Dry run complete -> ${repo_path}"
             echo "  Would push branches: ${would_push_branches[*]:-(none)}"
+            echo "  Would delete branches: ${would_delete_branches[*]:-(none)}"
+            echo "  Would prune tags: ${would_prune_tags[*]:-(none)}"
           else
             echo "Mirror complete -> ${repo_path}"
             echo "  Pushed branches: ${pushed_branches[*]:-(none)}"
+            echo "  Deleted branches: ${deleted_branches[*]:-(none)}"
+            echo "  Pruned tags: ${pruned_tags[*]:-(none)}"
           fi
-          echo "  Skipped branches: ${skipped_branches[*]:-(none)}"
           echo "  Tags synced: $tags_synced"
           echo "  Tags failed: $tags_failed"
+          echo "  Tag prune failed: $tags_prune_failed"
 
       - name: Discord notification
         if: steps.kill_switch.outputs.enabled == 'true' && always() && steps.mirror.outcome != 'skipped'
@@ -274,10 +375,15 @@ jobs:
           MIRROR_OUTCOME: ${{ steps.mirror.outcome }}
           PUSHED_BRANCHES: ${{ steps.mirror.outputs.pushed_branches }}
           WOULD_PUSH_BRANCHES: ${{ steps.mirror.outputs.would_push_branches }}
-          SKIPPED_BRANCHES: ${{ steps.mirror.outputs.skipped_branches }}
+          DELETED_BRANCHES: ${{ steps.mirror.outputs.deleted_branches }}
+          WOULD_DELETE_BRANCHES: ${{ steps.mirror.outputs.would_delete_branches }}
+          MISSING_BRANCHES: ${{ steps.mirror.outputs.missing_branches }}
           FAILED_BRANCHES: ${{ steps.mirror.outputs.failed_branches }}
+          PRUNED_TAGS: ${{ steps.mirror.outputs.pruned_tags }}
+          WOULD_PRUNE_TAGS: ${{ steps.mirror.outputs.would_prune_tags }}
           TAGS_SYNCED: ${{ steps.mirror.outputs.tags_synced }}
           TAGS_FAILED: ${{ steps.mirror.outputs.tags_failed }}
+          TAGS_PRUNE_FAILED: ${{ steps.mirror.outputs.tags_prune_failed }}
           DRY_RUN: ${{ steps.mirror.outputs.dry_run }}
           MIRROR_REPO: ${{ steps.mirror.outputs.mirror_repo }}
         run: |
@@ -299,11 +405,13 @@ jobs:
           fi
 
           if [ "$TAGS_FAILED" = "true" ]; then
-            tags_line="Tags sync failed"
+            tags_line="Tag push failed"
+          elif [ "$TAGS_PRUNE_FAILED" = "true" ]; then
+            tags_line="Tag prune failed"
           elif [ "$TAGS_SYNCED" = "true" ]; then
             tags_line="Tags synced: true"
           elif [ "$DRY_RUN" = "true" ]; then
-            tags_line="Tags: dry run (not pushed)"
+            tags_line="Tags: dry run (not pushed/pruned)"
           else
             tags_line="Tags synced: false"
           fi
@@ -311,10 +419,31 @@ jobs:
           dry_run_line=""
           branch_line_label="Pushed"
           branch_line_value="${PUSHED_BRANCHES:-none}"
+          delete_line=""
+          prune_line=""
+          missing_line=""
+
           if [ "$DRY_RUN" = "true" ]; then
-            dry_run_line="\n• Mode: dry run (no pushes)"
+            dry_run_line="\n• Mode: dry run (no pushes/deletes)"
             branch_line_label="Would push"
             branch_line_value="${WOULD_PUSH_BRANCHES:-none}"
+            if [ -n "${WOULD_DELETE_BRANCHES:-}" ]; then
+              delete_line="\n• Would delete: ${WOULD_DELETE_BRANCHES}"
+            fi
+            if [ -n "${WOULD_PRUNE_TAGS:-}" ]; then
+              prune_line="\n• Would prune tags: ${WOULD_PRUNE_TAGS}"
+            fi
+          else
+            if [ -n "${DELETED_BRANCHES:-}" ]; then
+              delete_line="\n• Deleted: ${DELETED_BRANCHES}"
+            fi
+            if [ -n "${PRUNED_TAGS:-}" ]; then
+              prune_line="\n• Pruned tags: ${PRUNED_TAGS}"
+            fi
+          fi
+
+          if [ -n "${MISSING_BRANCHES:-}" ]; then
+            missing_line="\n• Missing: ${MISSING_BRANCHES}"
           fi
 
           payload=$(jq -n \
@@ -322,7 +451,9 @@ jobs:
             --arg mirror_repo "$MIRROR_REPO" \
             --arg branch_line_label "$branch_line_label" \
             --arg branch_line_value "$branch_line_value" \
-            --arg skipped "${SKIPPED_BRANCHES:-none}" \
+            --arg delete_line "$delete_line" \
+            --arg prune_line "$prune_line" \
+            --arg missing_line "$missing_line" \
             --arg failed "${FAILED_BRANCHES:-none}" \
             --arg tags_line "$tags_line" \
             --arg dry_run_line "$dry_run_line" \
@@ -333,8 +464,8 @@ jobs:
                 title: $title,
                 description: (
                   "Target: " + $mirror_repo + "\n\n"
-                  + "• " + $branch_line_label + ": " + $branch_line_value + "\n"
-                  + "• Skipped: " + $skipped + "\n"
+                  + "• " + $branch_line_label + ": " + $branch_line_value
+                  + $delete_line + $prune_line + $missing_line + "\n"
                   + "• Failed: " + $failed + "\n"
                   + "• " + $tags_line
                   + $dry_run_line + "\n"
