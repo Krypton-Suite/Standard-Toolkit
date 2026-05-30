@@ -138,6 +138,11 @@ public sealed class RenderRetro : RenderOffice2010
             int shadow = RetroRenderHelper.GetButtonShadowSize(rect);
             bool pressed = state is PaletteState.Pressed or PaletteState.CheckedPressed;
             Color face = palette.GetBackColor1(state);
+            if (state is PaletteState.Tracking or PaletteState.CheckedTracking)
+            {
+                face = CommonHelper.MergeColors(face, 0.65f, Color.White, 0.35f);
+            }
+
             Color frame = RetroRenderHelper.GetButtonFrameColor(KryptonManager.CurrentGlobalPalette);
 
             var region = g.Clip;
@@ -438,18 +443,26 @@ internal static class RetroRenderHelper
     {
         int top = padding.Top;
         int left = padding.Left;
+        int right = padding.Right;
+        int bottom = padding.Bottom;
         int compensate = ButtonShadowVerticalPaddingCompensation;
         if (compensate > 0)
         {
             top = Math.Max(0, top - compensate);
         }
 
-        if (IsRetroButtonPressedState(state) && ButtonShadowSize > 0)
+        int shadow = ButtonShadowSize;
+        if (IsRetroButtonPressedState(state) && shadow > 0)
         {
-            top += ButtonShadowSize;
-            left += ButtonShadowSize;
+            top += shadow;
+            left += shadow;
+        }
+        else if (shadow > 0)
+        {
+            right += shadow;
+            bottom += shadow;
         }
 
-        return new Padding(left, top, padding.Right, padding.Bottom);
+        return new Padding(left, top, right, bottom);
     }
 }
