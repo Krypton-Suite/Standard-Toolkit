@@ -942,6 +942,8 @@ public class KryptonProgressBar : Control, IContentValues
         using var renderContext = new RenderContext(this, e.Graphics, e.ClipRectangle, renderer);
         // Set the style we want picked up from the base palette
         var (barPaletteState, barState) = GetBarPaletteState();
+        PaletteRetroBase? retroPalette = RetroRenderHelper.AsRetroPalette(_palette);
+        bool drawRetroProgress = retroPalette != null;
 
         // Draw the background of the entire control over the entire client area.
         using (GraphicsPath path = CreateRectGraphicsPath(ClientRectangle))
@@ -967,9 +969,16 @@ public class KryptonProgressBar : Control, IContentValues
         {
             // Ask renderer to draw the background
             using var gh = new GraphicsHint(renderContext.Graphics, barPaletteState.PaletteBorder!.GetBorderGraphicsHint(barState));
-            _mementoBackProgressBar = renderer.RenderStandardBack.DrawBack(renderContext, ClientRectangle,
-                fullLozengePath, barPaletteState.PaletteBack,
-                Orientation, barState, _mementoBackProgressBar);
+            if (drawRetroProgress)
+            {
+                DrawRetroProgressTrack(renderContext.Graphics, ClientRectangle, retroPalette!);
+            }
+            else
+            {
+                _mementoBackProgressBar = renderer.RenderStandardBack.DrawBack(renderContext, ClientRectangle,
+                    fullLozengePath, barPaletteState.PaletteBack,
+                    Orientation, barState, _mementoBackProgressBar);
+            }
             using var region = new Region(fullLozengePath);
             // Set the clipping region, So that "Small" rounded values do not escape the draw area
             e.Graphics.SetClip(region, CombineMode.Replace);
@@ -1034,10 +1043,7 @@ public class KryptonProgressBar : Control, IContentValues
                                Orientation,
                                barState))
                     {
-                        using var gh = new GraphicsHint(renderContext.Graphics,
-                            barPaletteState.PaletteBorder.GetBorderGraphicsHint(PaletteState.Normal));
-                        _mementoBackProgressValue = renderer.RenderStandardBack.DrawBack(renderContext, innerRect, valueLozengePath, _stateBackValue,
-                            Orientation, barState, _mementoBackProgressValue);
+                        DrawProgressValueBack(renderContext, renderer, barPaletteState, barState, innerRect, valueLozengePath, drawRetroProgress, retroPalette);
                     }
                     break;
                 }
@@ -1048,96 +1054,7 @@ public class KryptonProgressBar : Control, IContentValues
                     float ratio = maximumRange == 0 ? 0f : v / maximumRange;
                     int totalBlocks = _blockCount > 0 ? _blockCount : Math.Max(1, maximumRange / 10);
                     float filledBlocksFloat = ratio * totalBlocks;
-                    int fullBlocks = Math.Max(0, Math.Min(totalBlocks, (int)Math.Floor(filledBlocksFloat)));
-                    float fractional = Math.Max(0f, Math.Min(1f, filledBlocksFloat - fullBlocks));
-                    bool rtl = RightToLeft == RightToLeft.Yes;
-
-                    switch (Orientation)
-                    {
-                        case VisualOrientation.Top:
-                        case VisualOrientation.Bottom:
-                            {
-                                Rectangle barRect = ClientRectangle;
-                                int gap = 1;//Math.Max(1, Math.Min(2, barRect.Height / 6));
-                                int blockWidth = Math.Max(1, (barRect.Width - ((totalBlocks - 1) * gap)) / totalBlocks);
-                                // Draw full blocks
-                                for (int i = 0; i < fullBlocks; i++)
-                                {
-                                    int x = rtl
-                                        ? barRect.Right - ((i + 1) * blockWidth) - (i * gap)
-                                        : barRect.Left + (i * (blockWidth + gap));
-                                    Rectangle block = new Rectangle(x, barRect.Y, blockWidth, barRect.Height);
-                                    using (GraphicsPath path = CreateRectGraphicsPath(block))
-                                    {
-                                        using var gh = new GraphicsHint(renderContext.Graphics,
-                                            barPaletteState.PaletteBorder.GetBorderGraphicsHint(PaletteState.Normal));
-                                        _mementoBackProgressValue = renderer.RenderStandardBack.DrawBack(renderContext, block, path, _stateBackValue,
-                                            Orientation, barState, _mementoBackProgressValue);
-                                    }
-                                }
-                                // Draw partial last block if needed
-                                if (fractional > 0f && fullBlocks < totalBlocks)
-                                {
-                                    int i = fullBlocks;
-                                    int fractionWidth = Math.Max(1, (int)Math.Round(blockWidth * fractional, MidpointRounding.AwayFromZero));
-                                    int xBase = rtl
-                                        ? barRect.Right - ((i + 1) * blockWidth) - (i * gap)
-                                        : barRect.Left + (i * (blockWidth + gap));
-                                    int x = rtl ? xBase + (blockWidth - fractionWidth) : xBase;
-                                    Rectangle block = new Rectangle(x, barRect.Y, fractionWidth, barRect.Height);
-                                    using (GraphicsPath path = CreateRectGraphicsPath(block))
-                                    {
-                                        using var gh = new GraphicsHint(renderContext.Graphics,
-                                            barPaletteState.PaletteBorder.GetBorderGraphicsHint(PaletteState.Normal));
-                                        _mementoBackProgressValue = renderer.RenderStandardBack.DrawBack(renderContext, block, path, _stateBackValue,
-                                            Orientation, barState, _mementoBackProgressValue);
-                                    }
-                                }
-                            }
-                            break;
-
-                        case VisualOrientation.Left:
-                        case VisualOrientation.Right:
-                            {
-                                Rectangle barRect = ClientRectangle;
-                                int gap = 1;//Math.Max(1, Math.Min(2, barRect.Width / 6));
-                                int blockHeight = Math.Max(1, (barRect.Height - ((totalBlocks - 1) * gap)) / totalBlocks);
-                                // Draw full blocks
-                                for (int i = 0; i < fullBlocks; i++)
-                                {
-                                    int y = rtl
-                                        ? barRect.Bottom - ((i + 1) * blockHeight) - (i * gap)
-                                        : barRect.Top + (i * (blockHeight + gap));
-                                    Rectangle block = new Rectangle(barRect.X, y, barRect.Width, blockHeight);
-                                    using (GraphicsPath path = CreateRectGraphicsPath(block))
-                                    {
-                                        using var gh = new GraphicsHint(renderContext.Graphics,
-                                            barPaletteState.PaletteBorder.GetBorderGraphicsHint(PaletteState.Normal));
-                                        _mementoBackProgressValue = renderer.RenderStandardBack.DrawBack(renderContext, block, path, _stateBackValue,
-                                            Orientation, barState, _mementoBackProgressValue);
-                                    }
-                                }
-                                // Draw partial last block if needed
-                                if (fractional > 0f && fullBlocks < totalBlocks)
-                                {
-                                    int i = fullBlocks;
-                                    int fractionHeight = Math.Max(1, (int)Math.Round(blockHeight * fractional, MidpointRounding.AwayFromZero));
-                                    int yBase = rtl
-                                        ? barRect.Bottom - ((i + 1) * blockHeight) - (i * gap)
-                                        : barRect.Top + (i * (blockHeight + gap));
-                                    int y = rtl ? yBase + (blockHeight - fractionHeight) : yBase;
-                                    Rectangle block = new Rectangle(barRect.X, y, barRect.Width, fractionHeight);
-                                    using (GraphicsPath path = CreateRectGraphicsPath(block))
-                                    {
-                                        using var gh = new GraphicsHint(renderContext.Graphics,
-                                            barPaletteState.PaletteBorder.GetBorderGraphicsHint(PaletteState.Normal));
-                                        _mementoBackProgressValue = renderer.RenderStandardBack.DrawBack(renderContext, block, path, _stateBackValue,
-                                            Orientation, barState, _mementoBackProgressValue);
-                                    }
-                                }
-                            }
-                            break;
-                    }
+                    DrawProgressBlocks(renderContext, renderer, barPaletteState, barState, ClientRectangle, totalBlocks, filledBlocksFloat, drawRetroProgress, retroPalette);
                     break;
                 }
 
@@ -1145,6 +1062,13 @@ public class KryptonProgressBar : Control, IContentValues
                 {
                     float v = (Value - Minimum);
                     float ratio = maximumRange == 0 ? 0f : v / maximumRange;
+                    if (drawRetroProgress)
+                    {
+                        int totalBlocks = _blockCount > 0 ? _blockCount : Math.Max(1, maximumRange / 10);
+                        DrawProgressBlocks(renderContext, renderer, barPaletteState, barState, ClientRectangle, totalBlocks, ratio * totalBlocks, true, retroPalette);
+                        break;
+                    }
+
                     switch (Orientation)
                     {
                         case VisualOrientation.Top:
@@ -1172,18 +1096,22 @@ public class KryptonProgressBar : Control, IContentValues
                                Orientation,
                                barState))
                     {
-                        using var gh = new GraphicsHint(renderContext.Graphics,
-                            barPaletteState.PaletteBorder.GetBorderGraphicsHint(PaletteState.Normal));
-                        _mementoBackProgressValue = renderer.RenderStandardBack.DrawBack(renderContext, innerRect, valueLozengePath, _stateBackValue,
-                            Orientation, barState, _mementoBackProgressValue);
+                        DrawProgressValueBack(renderContext, renderer, barPaletteState, barState, innerRect, valueLozengePath, false, null);
                     }
                     break;
                 }
         }
 
         // Now we draw the border of the inner area
-        renderer.RenderStandardBorder.DrawBorder(renderContext, ClientRectangle, barPaletteState.PaletteBorder,
-            Orientation, barState);
+        if (drawRetroProgress)
+        {
+            DrawRetroProgressBorder(renderContext.Graphics, ClientRectangle);
+        }
+        else
+        {
+            renderer.RenderStandardBorder.DrawBorder(renderContext, ClientRectangle, barPaletteState.PaletteBorder,
+                Orientation, barState);
+        }
 
         // Optional text backdrop for readability
         if (_showTextBackdrop && !string.IsNullOrEmpty(Text))
@@ -1283,6 +1211,144 @@ public class KryptonProgressBar : Control, IContentValues
     #endregion
 
     #region Implementation
+
+    private void DrawProgressBlocks(RenderContext renderContext,
+        IRenderer renderer,
+        IPaletteTriple barPaletteState,
+        PaletteState barState,
+        Rectangle barRect,
+        int totalBlocks,
+        float filledBlocksFloat,
+        bool drawRetroProgress,
+        PaletteRetroBase? retroPalette)
+    {
+        int fullBlocks = Math.Max(0, Math.Min(totalBlocks, (int)Math.Floor(filledBlocksFloat)));
+        float fractional = Math.Max(0f, Math.Min(1f, filledBlocksFloat - fullBlocks));
+        bool rtl = RightToLeft == RightToLeft.Yes;
+
+        switch (Orientation)
+        {
+            case VisualOrientation.Top:
+            case VisualOrientation.Bottom:
+                {
+                    int gap = 1;
+                    int blockWidth = Math.Max(1, (barRect.Width - ((totalBlocks - 1) * gap)) / totalBlocks);
+                    for (int i = 0; i < fullBlocks; i++)
+                    {
+                        int x = rtl
+                            ? barRect.Right - ((i + 1) * blockWidth) - (i * gap)
+                            : barRect.Left + (i * (blockWidth + gap));
+                        Rectangle block = new Rectangle(x, barRect.Y, blockWidth, barRect.Height);
+                        DrawProgressValueBack(renderContext, renderer, barPaletteState, barState, block, null, drawRetroProgress, retroPalette);
+                    }
+
+                    if (fractional > 0f && fullBlocks < totalBlocks)
+                    {
+                        int fractionWidth = Math.Max(1, (int)Math.Round(blockWidth * fractional, MidpointRounding.AwayFromZero));
+                        int xBase = rtl
+                            ? barRect.Right - ((fullBlocks + 1) * blockWidth) - (fullBlocks * gap)
+                            : barRect.Left + (fullBlocks * (blockWidth + gap));
+                        int x = rtl ? xBase + (blockWidth - fractionWidth) : xBase;
+                        Rectangle block = new Rectangle(x, barRect.Y, fractionWidth, barRect.Height);
+                        DrawProgressValueBack(renderContext, renderer, barPaletteState, barState, block, null, drawRetroProgress, retroPalette);
+                    }
+                }
+                break;
+
+            case VisualOrientation.Left:
+            case VisualOrientation.Right:
+                {
+                    int gap = 1;
+                    int blockHeight = Math.Max(1, (barRect.Height - ((totalBlocks - 1) * gap)) / totalBlocks);
+                    for (int i = 0; i < fullBlocks; i++)
+                    {
+                        int y = rtl
+                            ? barRect.Bottom - ((i + 1) * blockHeight) - (i * gap)
+                            : barRect.Top + (i * (blockHeight + gap));
+                        Rectangle block = new Rectangle(barRect.X, y, barRect.Width, blockHeight);
+                        DrawProgressValueBack(renderContext, renderer, barPaletteState, barState, block, null, drawRetroProgress, retroPalette);
+                    }
+
+                    if (fractional > 0f && fullBlocks < totalBlocks)
+                    {
+                        int fractionHeight = Math.Max(1, (int)Math.Round(blockHeight * fractional, MidpointRounding.AwayFromZero));
+                        int yBase = rtl
+                            ? barRect.Bottom - ((fullBlocks + 1) * blockHeight) - (fullBlocks * gap)
+                            : barRect.Top + (fullBlocks * (blockHeight + gap));
+                        int y = rtl ? yBase + (blockHeight - fractionHeight) : yBase;
+                        Rectangle block = new Rectangle(barRect.X, y, barRect.Width, fractionHeight);
+                        DrawProgressValueBack(renderContext, renderer, barPaletteState, barState, block, null, drawRetroProgress, retroPalette);
+                    }
+                }
+                break;
+        }
+    }
+
+    private void DrawProgressValueBack(RenderContext renderContext,
+        IRenderer renderer,
+        IPaletteTriple barPaletteState,
+        PaletteState barState,
+        Rectangle valueRect,
+        GraphicsPath? valuePath,
+        bool drawRetroProgress,
+        PaletteRetroBase? retroPalette)
+    {
+        if (valueRect.Width <= 0 || valueRect.Height <= 0)
+        {
+            return;
+        }
+
+        if (drawRetroProgress)
+        {
+            DrawRetroProgressValue(renderContext.Graphics, valueRect, GetRetroProgressValueColor(retroPalette!));
+            return;
+        }
+
+        GraphicsPath? ownedPath = null;
+        try
+        {
+            GraphicsPath path = valuePath ?? (ownedPath = CreateRectGraphicsPath(valueRect));
+            using var gh = new GraphicsHint(renderContext.Graphics,
+                barPaletteState.PaletteBorder!.GetBorderGraphicsHint(PaletteState.Normal));
+            _mementoBackProgressValue = renderer.RenderStandardBack.DrawBack(renderContext, valueRect, path, _stateBackValue,
+                Orientation, barState, _mementoBackProgressValue);
+        }
+        finally
+        {
+            ownedPath?.Dispose();
+        }
+    }
+
+    private Color GetRetroProgressValueColor(PaletteRetroBase retroPalette)
+    {
+        Color color = _stateBackValue.Color1;
+        if (color == Color.Empty
+            || color.ToArgb() == Color.Green.ToArgb()
+            || color.ToArgb() == retroPalette.ButtonFaceColor.ToArgb())
+        {
+            return retroPalette.ProgressValueColor;
+        }
+
+        return color;
+    }
+
+    private static void DrawRetroProgressTrack(Graphics graphics, Rectangle rect, PaletteRetroBase retroPalette)
+    {
+        using var brush = new SolidBrush(retroPalette.ButtonDisabledColor);
+        graphics.FillRectangle(brush, rect);
+    }
+
+    private static void DrawRetroProgressValue(Graphics graphics, Rectangle rect, Color color)
+    {
+        using var brush = new SolidBrush(color);
+        graphics.FillRectangle(brush, rect);
+    }
+
+    private static void DrawRetroProgressBorder(Graphics graphics, Rectangle rect)
+    {
+        using var pen = new Pen(Color.Black, 1f);
+        graphics.DrawRectangle(pen, rect.X, rect.Y, rect.Width - 1, rect.Height - 1);
+    }
 
     private void OnlayoutInternal(LayoutEventArgs? e = null)
     {
