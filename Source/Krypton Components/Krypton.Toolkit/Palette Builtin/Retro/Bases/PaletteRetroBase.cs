@@ -12,6 +12,8 @@ namespace Krypton.Toolkit;
 /// </summary>
 public abstract class PaletteRetroBase : PaletteVisualStudioBase
 {
+    private Font _retroControlFont;
+
     protected PaletteRetroBase(
         KryptonColorSchemeBase scheme,
         ImageList checkBoxList,
@@ -19,7 +21,7 @@ public abstract class PaletteRetroBase : PaletteVisualStudioBase
         Image?[] radioButtonArray)
         : base(scheme, checkBoxList, galleryButtonList, radioButtonArray)
     {
-        BaseFont = new Font("Courier New", 12f, FontStyle.Regular);
+        _retroControlFont = CreateDefaultRetroControlFont();
         ChromeBackgroundColor = scheme.PanelClient;
         ButtonFaceColor = scheme.ButtonNormalBack1;
         ButtonDisabledColor = scheme.PanelAlternative;
@@ -41,6 +43,22 @@ public abstract class PaletteRetroBase : PaletteVisualStudioBase
 
     /// <summary>Gets the text color on retro push buttons.</summary>
     protected Color ButtonNormalTextColor { get; set; }
+
+    /// <summary>Gets or sets the font used for retro-styled control text.</summary>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [DisallowNull]
+    public Font RetroControlFont
+    {
+        get => _retroControlFont;
+        set
+        {
+            var retroControlFont = new Font(value, value.Style);
+            _retroControlFont.Dispose();
+            _retroControlFont = retroControlFont;
+            OnPalettePaint(this, new PaletteLayoutEventArgs(true, false));
+        }
+    }
 
     /// <summary>Gets the preferred text color on retro workspace surfaces.</summary>
     protected virtual Color WorkspaceTextColor => Color.Black;
@@ -116,6 +134,26 @@ public abstract class PaletteRetroBase : PaletteVisualStudioBase
         }
 
         return RetroRenderHelper.AdjustRetroButtonContentPadding(padding, state);
+    }
+
+    public override Font? GetContentShortTextFont(PaletteContentStyle style, PaletteState state)
+    {
+        if (UsesRetroControlFont(style, state))
+        {
+            return _retroControlFont;
+        }
+
+        return base.GetContentShortTextFont(style, state);
+    }
+
+    public override Font? GetContentLongTextFont(PaletteContentStyle style, PaletteState state)
+    {
+        if (UsesRetroControlFont(style, state))
+        {
+            return _retroControlFont;
+        }
+
+        return base.GetContentLongTextFont(style, state);
     }
 
     public override PaletteColorStyle GetBackColorStyle(PaletteBackStyle style, PaletteState state)
@@ -384,6 +422,20 @@ public abstract class PaletteRetroBase : PaletteVisualStudioBase
         return IsRetroWorkspaceContent(style) ? EnsureReadableOnWorkspace(color, state) : color;
     }
 
+    public override Color GetContentImageColorMap(PaletteContentStyle style, PaletteState state)
+    {
+        return TryGetRetroInputControlButtonTextColor(style, state, out _)
+            ? Color.Black
+            : base.GetContentImageColorMap(style, state);
+    }
+
+    public override Color GetContentImageColorTo(PaletteContentStyle style, PaletteState state)
+    {
+        return TryGetRetroInputControlButtonTextColor(style, state, out Color inputButtonColor)
+            ? inputButtonColor
+            : base.GetContentImageColorTo(style, state);
+    }
+
     protected virtual Color GetRetroGridDataCellNormalBackColor() => Color.White;
 
     protected virtual Color GetRetroGridDataCellNormalTextColor() => Color.Black;
@@ -451,6 +503,22 @@ public abstract class PaletteRetroBase : PaletteVisualStudioBase
     private static bool IsRetroButton(PaletteBackStyle style, PaletteState state) =>
         !CommonHelper.IsOverrideStateExclude(state, PaletteState.NormalDefaultOverride)
         && RetroRenderHelper.UsesRetroPushButtonChrome(style);
+
+    private static bool UsesRetroControlFont(PaletteContentStyle style, PaletteState state) =>
+        !CommonHelper.IsOverrideState(state)
+        && (IsRetroControlButtonContent(style)
+            || IsRetroInputControlContent(style)
+            || IsRetroInputControlButtonContent(style));
+
+    private static bool IsRetroControlButtonContent(PaletteContentStyle style) =>
+        style is PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonGallery
+            or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonLowProfile
+            or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonListItem
+            or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonCluster
+            or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2
+            or PaletteContentStyle.ButtonCustom3 or PaletteContentStyle.ButtonInputControl;
+
+    private static Font CreateDefaultRetroControlFont() => new Font("Courier New", 10f, FontStyle.Regular);
 
     private static bool IsRetroGridHeaderBack(PaletteBackStyle style) =>
         style is PaletteBackStyle.GridHeaderColumnList or PaletteBackStyle.GridHeaderColumnCustom1
@@ -848,4 +916,14 @@ public abstract class PaletteRetroBase : PaletteVisualStudioBase
     protected virtual Color GetRetroListItemNormalBackColor() => Color.White;
 
     protected virtual Color GetRetroListItemNormalTextColor() => Color.Black;
+
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            _retroControlFont.Dispose();
+        }
+
+        base.Dispose(disposing);
+    }
 }
