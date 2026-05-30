@@ -1,0 +1,208 @@
+# New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+# Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, tobitege et al. 2026 - 2026. All rights reserved.
+#
+# Mirrors major branches from this repository to a separate GitHub repository.
+# Branches: master, gold, canary, alpha, V105-LTS, V85-LTS (plus all tags).
+#
+# KILL-SWITCH: To disable this workflow, set repository variable REPO_MIRROR_DISABLED=true
+# Location: Repository Settings → Secrets and variables → Actions → Variables tab
+# To re-enable: Set REPO_MIRROR_DISABLED=false or delete the variable
+#
+# Required configuration:
+#   Variable  MIRROR_REPO         Target repo as owner/name (e.g. Krypton-Suite/Standard-Toolkit-Mirror)
+#   Secret    MIRROR_REPO_TOKEN   PAT with contents:write on the target repository
+#
+# Optional:
+#   Variable  MIRROR_BRANCHES     Comma-separated branch list (overrides the default six branches)
+#   Variable  MIRROR_SYNC_TAGS      Set to "false" to skip tag sync (default: sync tags)
+#   Secret    DISCORD_WEBHOOK_MIRROR  Discord webhook for mirror notifications
+
+name: Repository Mirror
+
+on:
+  schedule:
+    # Daily safety-net sync at 02:00 UTC
+    - cron: '0 2 * * *'
+  push:
+    branches:
+      - master
+      - gold
+      - canary
+      - alpha
+      - V105-LTS
+      - V85-LTS
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+
+    concurrency:
+      group: repo-mirror
+      cancel-in-progress: false
+
+    steps:
+      - name: Repository Mirror Kill Switch Check
+        id: kill_switch
+        run: |
+          disabled="${{ vars.REPO_MIRROR_DISABLED }}"
+          if [ "$disabled" = "true" ]; then
+            echo "::warning:: Repository Mirror workflow is currently DISABLED via kill switch (REPO_MIRROR_DISABLED=true)"
+            echo "To re-enable: Go to Repository Settings -> Secrets and Variables -> Actions -> Variables -> Set REPO_MIRROR_DISABLED to 'false'."
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "Repository Mirror kill switch check has passed, continuing..."
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Security - Verify Repository
+        if: steps.kill_switch.outputs.enabled == 'true'
+        run: |
+          if [ "$GITHUB_REPOSITORY" != "Krypton-Suite/Standard-Toolkit" ]; then
+            echo "::error::Security: Invalid repository '$GITHUB_REPOSITORY'. This workflow should only run on Krypton-Suite/Standard-Toolkit"
+            exit 1
+          fi
+          echo "Repository verified: $GITHUB_REPOSITORY"
+
+      - name: Mirror branches to target repository
+        if: steps.kill_switch.outputs.enabled == 'true'
+        id: mirror
+        env:
+          MIRROR_REPO: ${{ vars.MIRROR_REPO }}
+          MIRROR_REPO_TOKEN: ${{ secrets.MIRROR_REPO_TOKEN }}
+          MIRROR_BRANCHES: ${{ vars.MIRROR_BRANCHES }}
+          MIRROR_SYNC_TAGS: ${{ vars.MIRROR_SYNC_TAGS }}
+        run: |
+          set -euo pipefail
+
+          if [ -z "${MIRROR_REPO_TOKEN:-}" ] || [ -z "${MIRROR_REPO:-}" ]; then
+            echo "::error::MIRROR_REPO (variable) and MIRROR_REPO_TOKEN (secret) must both be configured."
+            exit 1
+          fi
+
+          repo_path="$MIRROR_REPO"
+          if [[ "$repo_path" == https://github.com/* ]] || [[ "$repo_path" == http://github.com/* ]]; then
+            repo_path="${repo_path#*github.com/}"
+            repo_path="${repo_path%.git}"
+            repo_path="${repo_path%/}"
+            echo "Normalized MIRROR_REPO from full URL to: $repo_path"
+          fi
+
+          if [ -n "${MIRROR_BRANCHES:-}" ]; then
+            IFS=',' read -r -a branches <<< "$MIRROR_BRANCHES"
+          else
+            branches=(master gold canary alpha V105-LTS V85-LTS)
+          fi
+
+          mirror_url="https://x-access-token:${MIRROR_REPO_TOKEN}@github.com/${repo_path}.git"
+
+          git clone --bare "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" source.git
+          cd source.git
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          pushed_branches=()
+          skipped_branches=()
+          failed_branches=()
+
+          for branch in "${branches[@]}"; do
+            branch="$(echo "$branch" | xargs)"
+            [ -z "$branch" ] && continue
+
+            if git show-ref --verify --quiet "refs/heads/${branch}"; then
+              echo "Pushing branch: ${branch}"
+              if git push --force "$mirror_url" "refs/heads/${branch}:refs/heads/${branch}"; then
+                pushed_branches+=("$branch")
+              else
+                failed_branches+=("$branch")
+              fi
+            else
+              echo "::warning::Branch '${branch}' does not exist in source repository; skipping."
+              skipped_branches+=("$branch")
+            fi
+          done
+
+          tags_synced=false
+          if [ "${MIRROR_SYNC_TAGS:-true}" != "false" ]; then
+            if git show-ref --tags | grep -q .; then
+              echo "Syncing tags..."
+              git push --force "$mirror_url" 'refs/tags/*:refs/tags/*'
+              tags_synced=true
+            else
+              echo "No tags to sync."
+            fi
+          fi
+
+          {
+            echo "pushed_branches=${pushed_branches[*]}"
+            echo "skipped_branches=${skipped_branches[*]}"
+            echo "failed_branches=${failed_branches[*]}"
+            echo "tags_synced=$tags_synced"
+            echo "mirror_repo=$repo_path"
+          } >> "$GITHUB_OUTPUT"
+
+          if [ "${#failed_branches[@]}" -gt 0 ]; then
+            echo "::error::Failed to mirror branch(es): ${failed_branches[*]}"
+            exit 1
+          fi
+
+          echo "Mirror complete -> ${repo_path}"
+          echo "  Pushed branches: ${pushed_branches[*]:-(none)}"
+          echo "  Skipped branches: ${skipped_branches[*]:-(none)}"
+          echo "  Tags synced: $tags_synced"
+
+      - name: Discord notification
+        if: steps.kill_switch.outputs.enabled == 'true' && always() && steps.mirror.outcome != 'skipped'
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_MIRROR }}
+          MIRROR_OUTCOME: ${{ steps.mirror.outcome }}
+          PUSHED_BRANCHES: ${{ steps.mirror.outputs.pushed_branches }}
+          SKIPPED_BRANCHES: ${{ steps.mirror.outputs.skipped_branches }}
+          FAILED_BRANCHES: ${{ steps.mirror.outputs.failed_branches }}
+          TAGS_SYNCED: ${{ steps.mirror.outputs.tags_synced }}
+          MIRROR_REPO: ${{ steps.mirror.outputs.mirror_repo }}
+        run: |
+          if [ -z "$DISCORD_WEBHOOK" ]; then
+            echo "DISCORD_WEBHOOK_MIRROR not set - skipping Discord notification"
+            exit 0
+          fi
+
+          if [ "$MIRROR_OUTCOME" = "success" ]; then
+            color=3066993
+            title="Repository Mirror succeeded"
+          else
+            color=15158332
+            title="Repository Mirror failed"
+          fi
+
+          tags_line="Tags synced: ${TAGS_SYNCED:-unknown}"
+          payload=$(jq -n \
+            --arg title "$title" \
+            --arg mirror_repo "$MIRROR_REPO" \
+            --arg pushed "${PUSHED_BRANCHES:-none}" \
+            --arg skipped "${SKIPPED_BRANCHES:-none}" \
+            --arg failed "${FAILED_BRANCHES:-none}" \
+            --arg tags_line "$tags_line" \
+            --arg run_url "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" \
+            --argjson color "$color" \
+            '{
+              embeds: [{
+                title: $title,
+                description: (
+                  "Target: " + $mirror_repo + "\n\n"
+                  + "• Pushed: " + $pushed + "\n"
+                  + "• Skipped: " + $skipped + "\n"
+                  + "• Failed: " + $failed + "\n"
+                  + "• " + $tags_line + "\n"
+                  + "• [Workflow run](" + $run_url + ")"
+                ),
+                color: $color,
+                timestamp: (now | todate),
+                footer: { text: "Repository Mirror" }
+              }]
+            }')
+          curl -sS -X POST "$DISCORD_WEBHOOK" -H "Content-Type: application/json" -d "$payload"
