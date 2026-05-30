@@ -20,14 +20,20 @@
 # Testing: Actions → Repository Mirror → Run workflow → enable "Dry run" to validate
 # configuration, clone the source, and list refs without force-pushing. Use a dedicated
 # test mirror repository before pointing MIRROR_REPO at production backup storage.
+#
+# DEPLOYMENT: Scheduled runs use the workflow file on the repository DEFAULT BRANCH (master).
+# Push triggers fire only on branches that contain this file. Merge to master for the daily
+# cron; backport to other major branches if push-triggered sync is required on those lines.
+
 
 name: Repository Mirror
 
 on:
   schedule:
-    # Daily safety-net sync at 02:00 UTC
+    # Daily safety-net sync at 02:00 UTC (runs only when this file exists on default branch: master)
     - cron: '0 2 * * *'
   push:
+    # Each branch below triggers this workflow only when this file is present on that branch
     branches:
       - master
       - gold
@@ -131,6 +137,7 @@ jobs:
           write_outputs() {
             {
               echo "pushed_branches=${pushed_branches[*]}"
+              echo "would_push_branches=${would_push_branches[*]}"
               echo "skipped_branches=${skipped_branches[*]}"
               echo "failed_branches=${failed_branches[*]}"
               echo "tags_synced=${tags_synced}"
@@ -191,6 +198,7 @@ jobs:
           fi
 
           pushed_branches=()
+          would_push_branches=()
           skipped_branches=()
           failed_branches=()
           tags_synced=false
@@ -203,7 +211,7 @@ jobs:
             if git show-ref --verify --quiet "refs/heads/${branch}"; then
               if [ "$DRY_RUN" = "true" ]; then
                 echo "Would push branch: ${branch}"
-                pushed_branches+=("$branch")
+                would_push_branches+=("$branch")
               else
                 echo "Pushing branch: ${branch}"
                 if git_with_token "$MIRROR_REPO_TOKEN" push --force "$mirror_remote" "refs/heads/${branch}:refs/heads/${branch}"; then
@@ -250,10 +258,11 @@ jobs:
 
           if [ "$DRY_RUN" = "true" ]; then
             echo "Dry run complete -> ${repo_path}"
+            echo "  Would push branches: ${would_push_branches[*]:-(none)}"
           else
             echo "Mirror complete -> ${repo_path}"
+            echo "  Pushed branches: ${pushed_branches[*]:-(none)}"
           fi
-          echo "  Pushed branches: ${pushed_branches[*]:-(none)}"
           echo "  Skipped branches: ${skipped_branches[*]:-(none)}"
           echo "  Tags synced: $tags_synced"
           echo "  Tags failed: $tags_failed"
@@ -264,6 +273,7 @@ jobs:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_MIRROR }}
           MIRROR_OUTCOME: ${{ steps.mirror.outcome }}
           PUSHED_BRANCHES: ${{ steps.mirror.outputs.pushed_branches }}
+          WOULD_PUSH_BRANCHES: ${{ steps.mirror.outputs.would_push_branches }}
           SKIPPED_BRANCHES: ${{ steps.mirror.outputs.skipped_branches }}
           FAILED_BRANCHES: ${{ steps.mirror.outputs.failed_branches }}
           TAGS_SYNCED: ${{ steps.mirror.outputs.tags_synced }}
@@ -299,14 +309,19 @@ jobs:
           fi
 
           dry_run_line=""
+          branch_line_label="Pushed"
+          branch_line_value="${PUSHED_BRANCHES:-none}"
           if [ "$DRY_RUN" = "true" ]; then
             dry_run_line="\n• Mode: dry run (no pushes)"
+            branch_line_label="Would push"
+            branch_line_value="${WOULD_PUSH_BRANCHES:-none}"
           fi
 
           payload=$(jq -n \
             --arg title "$title" \
             --arg mirror_repo "$MIRROR_REPO" \
-            --arg pushed "${PUSHED_BRANCHES:-none}" \
+            --arg branch_line_label "$branch_line_label" \
+            --arg branch_line_value "$branch_line_value" \
             --arg skipped "${SKIPPED_BRANCHES:-none}" \
             --arg failed "${FAILED_BRANCHES:-none}" \
             --arg tags_line "$tags_line" \
@@ -318,7 +333,7 @@ jobs:
                 title: $title,
                 description: (
                   "Target: " + $mirror_repo + "\n\n"
-                  + "• Pushed: " + $pushed + "\n"
+                  + "• " + $branch_line_label + ": " + $branch_line_value + "\n"
                   + "• Skipped: " + $skipped + "\n"
                   + "• Failed: " + $failed + "\n"
                   + "• " + $tags_line
