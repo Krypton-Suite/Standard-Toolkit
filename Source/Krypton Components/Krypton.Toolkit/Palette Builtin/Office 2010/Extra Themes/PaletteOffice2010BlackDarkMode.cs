@@ -405,6 +405,7 @@ public class PaletteOffice2010BlackDarkMode : PaletteOffice2010BlackDarkModeBase
     public override Image? GetButtonSpecImage(PaletteButtonSpecStyle style,
         PaletteState state) => style switch
     {
+        PaletteButtonSpecStyle.Close => _buttonSpecPendantClose,
         PaletteButtonSpecStyle.PendantClose => _buttonSpecPendantClose,
         PaletteButtonSpecStyle.PendantMin => _buttonSpecPendantMin,
         PaletteButtonSpecStyle.PendantRestore => _buttonSpecPendantRestore,
