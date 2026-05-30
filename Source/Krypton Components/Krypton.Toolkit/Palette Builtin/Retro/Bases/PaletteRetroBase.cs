@@ -475,7 +475,7 @@ public abstract class PaletteRetroBase : PaletteVisualStudioBase
             or PaletteBackStyle.InputControlCustom3;
 
     private static bool IsRetroInputControlButtonBack(PaletteBackStyle style) =>
-        style == PaletteBackStyle.ButtonInputControl;
+        style is PaletteBackStyle.ButtonInputControl or PaletteBackStyle.ButtonButtonSpec;
 
     private static bool IsRetroHeaderBack(PaletteBackStyle style) =>
         style is PaletteBackStyle.HeaderPrimary or PaletteBackStyle.HeaderSecondary
@@ -495,7 +495,7 @@ public abstract class PaletteRetroBase : PaletteVisualStudioBase
             or PaletteBorderStyle.InputControlCustom3;
 
     private static bool IsRetroInputControlButtonBorder(PaletteBorderStyle style) =>
-        style == PaletteBorderStyle.ButtonInputControl;
+        style is PaletteBorderStyle.ButtonInputControl or PaletteBorderStyle.ButtonButtonSpec;
 
     private static bool IsRetroGridBorder(PaletteBorderStyle style) =>
         style is PaletteBorderStyle.GridHeaderColumnList or PaletteBorderStyle.GridHeaderColumnSheet
@@ -548,7 +548,7 @@ public abstract class PaletteRetroBase : PaletteVisualStudioBase
             or PaletteContentStyle.InputControlCustom3;
 
     private static bool IsRetroInputControlButtonContent(PaletteContentStyle style) =>
-        style == PaletteContentStyle.ButtonInputControl;
+        style is PaletteContentStyle.ButtonInputControl or PaletteContentStyle.ButtonButtonSpec;
 
     private static bool IsRetroHeaderContent(PaletteContentStyle style) =>
         style is PaletteContentStyle.HeaderPrimary or PaletteContentStyle.HeaderSecondary

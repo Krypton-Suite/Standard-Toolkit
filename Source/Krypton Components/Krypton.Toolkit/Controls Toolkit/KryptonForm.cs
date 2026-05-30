@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -114,6 +114,17 @@ public class KryptonForm : VisualForm,
 
             return base.GetContentImageH(style, state);
         }
+
+        public override PaletteButtonStyle GetButtonSpecStyle(PaletteButtonSpecStyle style)
+        {
+            PaletteButtonStyle buttonStyle = base.GetButtonSpecStyle(style);
+
+            return UseRetroFormChromeButtonSpecs && buttonStyle == PaletteButtonStyle.ButtonSpec
+                ? PaletteButtonStyle.Form
+                : buttonStyle;
+        }
+
+        internal bool UseRetroFormChromeButtonSpecs => Target is PaletteRetroBase;
     }
 
     /// <summary>

@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -136,7 +136,18 @@ public class ButtonSpecView : GlobalId,
     /// <summary>
     /// Update the button style to reflect new button style setting.
     /// </summary>
-    public void UpdateButtonStyle() => _palette.SetStyles(ButtonSpec.GetStyle(_redirector));
+    public void UpdateButtonStyle()
+    {
+        ButtonStyle buttonStyle = ButtonSpec.GetStyle(_redirector);
+
+        if (_redirector is KryptonForm.FormPaletteRedirect { UseRetroFormChromeButtonSpecs: true }
+            && buttonStyle != ButtonStyle.FormClose)
+        {
+            buttonStyle = ButtonStyle.Form;
+        }
+
+        _palette.SetStyles(buttonStyle);
+    }
 
     /// <summary>
     /// Update view button to reflect new button visible setting.
