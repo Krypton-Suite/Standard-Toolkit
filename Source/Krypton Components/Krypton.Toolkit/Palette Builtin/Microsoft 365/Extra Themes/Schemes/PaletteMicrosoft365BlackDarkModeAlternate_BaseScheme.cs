@@ -139,7 +139,7 @@ public sealed class PaletteMicrosoft365BlackDarkModeAlternate_BaseScheme : Krypt
     public override Color RibbonGroupFrameInside4          { get; set; } = Color.FromArgb(222, 225, 230);
     public override Color RibbonGroupCollapsedText         { get; set; } = Color.FromArgb(255, 255, 255);
     public override Color RibbonGroupTextTracking          { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
-    public override Color ButtonTextTracking               { get; set; } = Color.Black;
+    public override Color ButtonTextTracking               { get; set; } = Color.White;
     public override Color RibbonGroupButtonText            { get; set; } = GlobalStaticVariables.EMPTY_COLOR; // missing value
     public override Color AlternatePressedBack1            { get; set; } = Color.FromArgb(158, 163, 172);
     public override Color AlternatePressedBack2            { get; set; } = Color.FromArgb(212, 215, 216);
