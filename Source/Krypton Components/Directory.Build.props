@@ -15,6 +15,7 @@
 	<PropertyGroup>
 		<Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>
 		<ExcludeVs2022UnsupportedTargetFrameworks Condition="'$(ExcludeVs2022UnsupportedTargetFrameworks)' == '' And '$(CI)' != 'true' And '$(MSBuildRuntimeType)' == 'Full' And $([System.String]::Copy('$(VisualStudioVersion)').StartsWith('17.'))">true</ExcludeVs2022UnsupportedTargetFrameworks>
+		<ExcludeNet11 Condition="'$(ExcludeNet11)' == '' And '$(CI)' != 'true' And '$(MSBuildRuntimeType)' == 'Full' And $([System.String]::Copy('$(VisualStudioVersion)').StartsWith('18.'))">true</ExcludeNet11>
 	</PropertyGroup>
 	<Choose>
 		<!-- Nightly, Canary, and Debug configurations build for all target frameworks -->

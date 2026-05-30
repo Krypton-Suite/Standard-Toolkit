@@ -523,12 +523,8 @@
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonContextMenu.bmp" />
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonRichTextBox.bmp" />
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonComboBox.bmp" />
-	<EmbeddedResource Include="ToolboxBitmaps\KryptonThemeComboBox.bmp" />
-	<EmbeddedResource Include="ToolboxBitmaps\KryptonThemeListBox.bmp" />
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonTextBox.bmp" />
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonDataGridView.bmp" />
-	<EmbeddedResource Include="ToolboxBitmaps\KryptonDataGridViewImageColumn.bmp" />
-	<EmbeddedResource Include="ToolboxBitmaps\KryptonDataGridViewRatingColumn.bmp" />
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonRadioButton.bmp" />
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonCheckBox.bmp" />
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonButtonSpec.bmp" />
@@ -930,10 +926,8 @@
   </ItemGroup>
 
   <ItemGroup>
-	<None Include="..\NetFramework.SystemResourcesExtensions.BindingRedirects.props" Link="NetFxSreRedirects.props" Pack="true" PackagePath="build\$(PackageId).props" Visible="false" />
-	<None Include="..\NetFramework.SystemResourcesExtensions.BindingRedirects.props" Link="NetFxSreRedirectsTransitive.props" Pack="true" PackagePath="buildTransitive\$(PackageId).props" Visible="false" />
-	<None Include="..\NetFramework.SystemResourcesExtensions.targets" Link="NetFxSreRedirects.targets" Pack="true" PackagePath="build\$(PackageId).targets" Visible="false" />
-	<None Include="..\NetFramework.SystemResourcesExtensions.targets" Link="NetFxSreRedirectsTransitive.targets" Pack="true" PackagePath="buildTransitive\$(PackageId).targets" Visible="false" />
+	<None Include="..\NetFramework.SystemResourcesExtensions.BindingRedirects.props" Pack="true" PackagePath="build\$(PackageId).props;buildTransitive\$(PackageId).props" Visible="false" />
+	<None Include="..\NetFramework.SystemResourcesExtensions.targets" Pack="true" PackagePath="build\$(PackageId).targets;buildTransitive\$(PackageId).targets" Visible="false" />
   </ItemGroup>
 
   <!-- Bundle preserialized-resource dependencies in the nupkg (aggregate packages suppress dependencies). -->
