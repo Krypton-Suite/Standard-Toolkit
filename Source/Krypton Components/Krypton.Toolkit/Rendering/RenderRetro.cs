@@ -143,7 +143,7 @@ public sealed class RenderRetro : RenderOffice2010
             var region = g.Clip;
             g.SetClip(path, System.Drawing.Drawing2D.CombineMode.Intersect);
 
-            Color chrome = RetroRenderHelper.GetChromeBackgroundColor(KryptonManager.CurrentGlobalPalette);
+            Color chrome = RetroRenderHelper.GetButtonAmbientBackgroundColor(context, KryptonManager.CurrentGlobalPalette);
             using (var chromeBrush = new SolidBrush(chrome))
             {
                 g.FillRectangle(chromeBrush, rect);
@@ -250,6 +250,28 @@ internal static class RetroRenderHelper
 
     internal static Color GetChromeBackgroundColor(PaletteBase? palette) =>
         AsRetroPalette(palette)?.ChromeBackgroundColor ?? Color.FromArgb(0, 160, 160);
+
+    internal static Color GetButtonAmbientBackgroundColor(RenderContext context, PaletteBase? palette)
+    {
+        for (Control? parent = context.Control?.Parent; parent != null; parent = parent.Parent)
+        {
+            PaletteState state = parent.Enabled ? PaletteState.Normal : PaletteState.Disabled;
+            Color color = parent switch
+            {
+                KryptonPanel panel => GetBackColor(panel.StateNormal, panel.StateDisabled, state),
+                KryptonTableLayoutPanel panel => GetBackColor(panel.StateNormal, panel.StateDisabled, state),
+                KryptonFlowLayoutPanel panel => GetBackColor(panel.StateNormal, panel.StateDisabled, state),
+                _ => parent.BackColor
+            };
+
+            if (IsUsableAmbientColor(color))
+            {
+                return color;
+            }
+        }
+
+        return GetChromeBackgroundColor(palette);
+    }
 
     internal static Color GetButtonFrameColor(PaletteBase? palette) =>
         AsRetroPalette(palette)?.RetroButtonFrameColor ?? Color.Black;
@@ -401,6 +423,16 @@ internal static class RetroRenderHelper
 
     internal static bool IsRetroButtonPressedState(PaletteState state) =>
         state is PaletteState.Pressed or PaletteState.CheckedPressed;
+
+    private static Color GetBackColor(IPaletteBack normalBack, IPaletteBack disabledBack, PaletteState state) =>
+        state == PaletteState.Disabled
+            ? disabledBack.GetBackColor1(state)
+            : normalBack.GetBackColor1(state);
+
+    private static bool IsUsableAmbientColor(Color color) =>
+        color != Color.Empty
+        && color.A > 0
+        && color.ToArgb() != Color.Transparent.ToArgb();
 
     internal static Padding AdjustRetroButtonContentPadding(Padding padding, PaletteState state)
     {

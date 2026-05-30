@@ -1052,7 +1052,7 @@ public class KryptonProgressBar : Control, IContentValues
                 {
                     float v = (Value - Minimum);
                     float ratio = maximumRange == 0 ? 0f : v / maximumRange;
-                    int totalBlocks = _blockCount > 0 ? _blockCount : Math.Max(1, maximumRange / 10);
+                    int totalBlocks = GetProgressBlockCount(renderContext, barPaletteState, barState, ClientRectangle, maximumRange, drawRetroProgress);
                     float filledBlocksFloat = ratio * totalBlocks;
                     DrawProgressBlocks(renderContext, renderer, barPaletteState, barState, ClientRectangle, totalBlocks, filledBlocksFloat, drawRetroProgress, retroPalette);
                     break;
@@ -1064,7 +1064,7 @@ public class KryptonProgressBar : Control, IContentValues
                     float ratio = maximumRange == 0 ? 0f : v / maximumRange;
                     if (drawRetroProgress)
                     {
-                        int totalBlocks = _blockCount > 0 ? _blockCount : Math.Max(1, maximumRange / 10);
+                        int totalBlocks = GetProgressBlockCount(renderContext, barPaletteState, barState, ClientRectangle, maximumRange, true);
                         DrawProgressBlocks(renderContext, renderer, barPaletteState, barState, ClientRectangle, totalBlocks, ratio * totalBlocks, true, retroPalette);
                         break;
                     }
@@ -1165,7 +1165,7 @@ public class KryptonProgressBar : Control, IContentValues
             };
 
             Color baseText = barPaletteState.PaletteContent!.GetContentShortTextColor1(barState);
-            Color shadow = _textShadowColor != Color.Empty ? _textShadowColor : ControlPaint.Dark(baseText);
+            Color shadow = _textShadowColor != Color.Empty ? _textShadowColor : GetTextShadowColor(baseText);
             shadow = Color.FromArgb(160, shadow);
             var textFont = barPaletteState.PaletteContent!.GetContentShortTextFont(barState) ?? Font;
 
@@ -1191,13 +1191,7 @@ public class KryptonProgressBar : Control, IContentValues
                 // Ensure drawing hint matches the main text draw
                 using (var drawHint = new GraphicsTextHint(renderContext.Graphics, renderingHint))
                 {
-                    AccurateText.DrawString(renderContext.Graphics,
-                        brush,
-                        shadowRect,
-                        RightToLeft,
-                        Orientation,
-                        barState,
-                        memento);
+                    DrawTextShadow(renderContext.Graphics, brush, shadowRect, barState, memento);
                 }
             }
         }
@@ -1206,11 +1200,99 @@ public class KryptonProgressBar : Control, IContentValues
             barPaletteState.PaletteContent!, _mementoContent!,
             Orientation, barState, false);
 
+        if (drawRetroProgress && !Enabled && !string.IsNullOrEmpty(Text))
+        {
+            DrawRetroProgressDisabledText(renderContext, renderer, barPaletteState, barState);
+        }
+
         base.OnPaint(e);
     }
     #endregion
 
     #region Implementation
+
+    private void DrawTextShadow(Graphics graphics,
+        Brush brush,
+        Rectangle textRect,
+        PaletteState barState,
+        AccurateTextMemento memento)
+    {
+        DrawTextShadowOffset(graphics, brush, textRect, barState, memento, 1, 1);
+        DrawTextShadowOffset(graphics, brush, textRect, barState, memento, -1, 1);
+        DrawTextShadowOffset(graphics, brush, textRect, barState, memento, 1, -1);
+    }
+
+    private void DrawTextShadowOffset(Graphics graphics,
+        Brush brush,
+        Rectangle textRect,
+        PaletteState barState,
+        AccurateTextMemento memento,
+        int x,
+        int y)
+    {
+        Rectangle shadowRect = textRect;
+        shadowRect.Offset(x, y);
+        AccurateText.DrawString(graphics,
+            brush,
+            shadowRect,
+            RightToLeft,
+            Orientation,
+            barState,
+            memento);
+    }
+
+    private static Color GetTextShadowColor(Color textColor)
+    {
+        if (textColor == Color.Empty)
+        {
+            return Color.Black;
+        }
+
+        int luminance = (textColor.R * 299) + (textColor.G * 587) + (textColor.B * 114);
+        return luminance > 128000 ? Color.Black : Color.White;
+    }
+
+    private int GetProgressBlockCount(RenderContext renderContext,
+        IPaletteTriple barPaletteState,
+        PaletteState barState,
+        Rectangle barRect,
+        int maximumRange,
+        bool drawRetroProgress)
+    {
+        if (_blockCount > 0)
+        {
+            return _blockCount;
+        }
+
+        if (!drawRetroProgress)
+        {
+            return Math.Max(1, maximumRange / 10);
+        }
+
+        int axisLength = Orientation switch
+        {
+            VisualOrientation.Left or VisualOrientation.Right => barRect.Height,
+            _ => barRect.Width
+        };
+        int gap = 1;
+        int cellExtent = GetRetroProgressCellExtent(renderContext, barPaletteState, barState);
+
+        return Math.Max(1, (axisLength + gap) / (cellExtent + gap));
+    }
+
+    private int GetRetroProgressCellExtent(RenderContext renderContext,
+        IPaletteTriple barPaletteState,
+        PaletteState barState)
+    {
+        Font font = barPaletteState.PaletteContent!.GetContentShortTextFont(barState) ?? Font;
+        Size cellSize = TextRenderer.MeasureText(renderContext.Graphics, "0", font, Size.Empty, TextFormatFlags.NoPadding);
+
+        return Orientation switch
+        {
+            VisualOrientation.Left or VisualOrientation.Right => Math.Max(1, cellSize.Height),
+            _ => Math.Max(1, cellSize.Width)
+        };
+    }
 
     private void DrawProgressBlocks(RenderContext renderContext,
         IRenderer renderer,
@@ -1340,14 +1422,78 @@ public class KryptonProgressBar : Control, IContentValues
 
     private static void DrawRetroProgressValue(Graphics graphics, Rectangle rect, Color color)
     {
-        using var brush = new SolidBrush(color);
-        graphics.FillRectangle(brush, rect);
+        using (var brush = new SolidBrush(color))
+        {
+            graphics.FillRectangle(brush, rect);
+        }
+
+        Color checkerColor = ControlPaint.Dark(color);
+        using var checkerBrush = new SolidBrush(checkerColor);
+        const int CHECKER_SIZE = 2;
+
+        for (int y = rect.Top; y < rect.Bottom; y += CHECKER_SIZE)
+        {
+            int row = (y - rect.Top) / CHECKER_SIZE;
+            for (int x = rect.Left + ((row & 1) * CHECKER_SIZE); x < rect.Right; x += CHECKER_SIZE * 2)
+            {
+                int width = Math.Min(CHECKER_SIZE, rect.Right - x);
+                int height = Math.Min(CHECKER_SIZE, rect.Bottom - y);
+                graphics.FillRectangle(checkerBrush, x, y, width, height);
+            }
+        }
     }
 
     private static void DrawRetroProgressBorder(Graphics graphics, Rectangle rect)
     {
         using var pen = new Pen(Color.Black, 1f);
         graphics.DrawRectangle(pen, rect.X, rect.Y, rect.Width - 1, rect.Height - 1);
+    }
+
+    private void DrawRetroProgressDisabledText(RenderContext renderContext,
+        IRenderer renderer,
+        IPaletteTriple barPaletteState,
+        PaletteState barState)
+    {
+        Rectangle textRect = renderer.RenderStandardContent.GetContentShortTextRectangle(_mementoContent!);
+        var paletteContent = barPaletteState.PaletteContent!;
+        var textFont = paletteContent.GetContentShortTextFont(barState) ?? Font;
+        var hAlign = paletteContent.GetContentShortTextH(barState);
+        var hint = paletteContent.GetContentShortTextHint(barState);
+        var trim = paletteContent.GetContentShortTextTrim(barState);
+        var prefix = paletteContent.GetContentShortTextPrefix(barState);
+        var renderingHint = CommonHelper.PaletteTextHintToRenderingHint(hint);
+
+        using var memento = AccurateText.MeasureString(renderContext.Graphics,
+            RightToLeft,
+            Text,
+            textFont,
+            trim,
+            hAlign,
+            prefix,
+            renderingHint,
+            false);
+
+        using var drawHint = new GraphicsTextHint(renderContext.Graphics, renderingHint);
+        using var shadowBrush = new SolidBrush(Color.Black);
+        using var textBrush = new SolidBrush(Color.White);
+
+        Rectangle shadowRect = textRect;
+        shadowRect.Offset(1, 1);
+        AccurateText.DrawString(renderContext.Graphics,
+            shadowBrush,
+            shadowRect,
+            RightToLeft,
+            Orientation,
+            barState,
+            memento);
+
+        AccurateText.DrawString(renderContext.Graphics,
+            textBrush,
+            textRect,
+            RightToLeft,
+            Orientation,
+            barState,
+            memento);
     }
 
     private void OnlayoutInternal(LayoutEventArgs? e = null)
