@@ -14,6 +14,7 @@
 		<KryptonDockingProject>$(KryptonComponentsRoot)\Krypton.Docking\Krypton.Docking 2022.csproj</KryptonDockingProject>
 		<KryptonComponentBuildProperties Condition="'$(TFMs)' != ''">Configuration=$(Configuration);TFMs=$(TFMs)</KryptonComponentBuildProperties>
 		<KryptonComponentBuildProperties Condition="'$(TFMs)' == ''">Configuration=$(Configuration);TFMs=all</KryptonComponentBuildProperties>
+		<KryptonComponentBuildProperties Condition="'$(ExcludeNet11)' != ''">$(KryptonComponentBuildProperties);ExcludeNet11=$(ExcludeNet11)</KryptonComponentBuildProperties>
 	</PropertyGroup>
 
 	<ItemGroup>
