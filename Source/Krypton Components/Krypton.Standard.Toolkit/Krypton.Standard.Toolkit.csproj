@@ -385,10 +385,8 @@
 
 	<!-- .NET Framework: binding redirects + consumer targets for System.Resources.Extensions. -->
 	<ItemGroup>
-		<None Include="..\NetFramework.SystemResourcesExtensions.BindingRedirects.props" Link="NetFxSreRedirects.props" Pack="true" PackagePath="build\$(PackageId).props" Visible="false" />
-		<None Include="..\NetFramework.SystemResourcesExtensions.BindingRedirects.props" Link="NetFxSreRedirectsTransitive.props" Pack="true" PackagePath="buildTransitive\$(PackageId).props" Visible="false" />
-		<None Include="..\NetFramework.SystemResourcesExtensions.targets" Link="NetFxSreRedirects.targets" Pack="true" PackagePath="build\$(PackageId).targets" Visible="false" />
-		<None Include="..\NetFramework.SystemResourcesExtensions.targets" Link="NetFxSreRedirectsTransitive.targets" Pack="true" PackagePath="buildTransitive\$(PackageId).targets" Visible="false" />
+		<None Include="..\NetFramework.SystemResourcesExtensions.BindingRedirects.props" Pack="true" PackagePath="build\$(PackageId).props;buildTransitive\$(PackageId).props" Visible="false" />
+		<None Include="..\NetFramework.SystemResourcesExtensions.targets" Pack="true" PackagePath="build\$(PackageId).targets;buildTransitive\$(PackageId).targets" Visible="false" />
 	</ItemGroup>
 
 </Project>

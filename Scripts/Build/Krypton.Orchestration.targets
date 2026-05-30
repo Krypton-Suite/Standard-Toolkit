@@ -18,6 +18,7 @@
 		<KryptonStandardToolkitProject>$(KryptonComponentsRoot)\Krypton.Standard.Toolkit\Krypton.Standard.Toolkit.csproj</KryptonStandardToolkitProject>
 		<KryptonComponentBuildProperties Condition="'$(TFMs)' != ''">Configuration=$(Configuration);TFMs=$(TFMs)</KryptonComponentBuildProperties>
 		<KryptonComponentBuildProperties Condition="'$(TFMs)' == ''">Configuration=$(Configuration);TFMs=all</KryptonComponentBuildProperties>
+		<KryptonComponentBuildProperties Condition="'$(ExcludeNet11)' != ''">$(KryptonComponentBuildProperties);ExcludeNet11=$(ExcludeNet11)</KryptonComponentBuildProperties>
 	</PropertyGroup>
 
 	<ItemGroup>
