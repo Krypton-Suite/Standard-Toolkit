@@ -43,6 +43,7 @@ on:
       - alpha
       - V105-LTS
       - V85-LTS
+      - 3591-feature-request-implement-a-automated-backup-system
   workflow_dispatch:
     inputs:
       dry_run:
