@@ -656,6 +656,13 @@ public class PaletteBorder : Storage,
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Border rounding.</returns>
     public virtual float GetBorderRounding(PaletteState state) => Rounding != -1f ? Rounding : _inherit.GetBorderRounding(state);
+
+    /// <summary>
+    /// Gets an explicitly configured positive border rounding override, regardless of border draw settings.
+    /// </summary>
+    /// <returns>Configured rounding, or -1 when no positive override exists.</returns>
+    public float GetConfiguredRounding() =>
+        _storage != null && _storage.BorderRounding > 0f ? _storage.BorderRounding : -1f;
     #endregion
 
     #region Image
