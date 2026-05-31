@@ -85,6 +85,7 @@ public partial class StartScreen : KryptonForm
         CreateButton<FadeFormTest>("FadeForm", string.Empty);
         CreateButton<GroupBoxTest>("GroupBox", string.Empty);
         CreateButton<InputBoxTest>("InputBox", string.Empty);
+        CreateButton<KryptonFolderBrowserDialogDemo>("Folder Browser Dialog", "Comprehensive demo of KryptonFolderBrowserDialog: configure Title, Icon, SelectedPath, RootFolder, and InitialDirectory, compare with the standard dialog, and try preset scenarios.");
         CreateButton<MessageBoxTest>("MessageBox", string.Empty);
         CreateButton<Main>("Old Style Main: Fullscreen", string.Empty);
         CreateButton<PropertyGridTest>("PropertyGridTest", string.Empty);
