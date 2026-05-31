@@ -74,6 +74,69 @@ public class KryptonColorTable : ProfessionalColorTable
 
     #endregion
 
+    #region ContextMenu
+    /// <summary>
+    /// Gets the palette colour used for context menu backgrounds.
+    /// </summary>
+    public Color ContextMenuBack => GetBackColor(PaletteBackStyle.ContextMenuInner, PaletteState.Normal, ToolStripDropDownBackground);
+
+    /// <summary>
+    /// Gets the palette colour used for context menu borders.
+    /// </summary>
+    public Color ContextMenuBorder => GetBorderColor(PaletteBorderStyle.ContextMenuOuter, PaletteState.Normal, MenuBorder);
+
+    /// <summary>
+    /// Gets the palette colour used for context menu image columns.
+    /// </summary>
+    public Color ContextMenuImageColumnBack => GetBackColor(PaletteBackStyle.ContextMenuItemImageColumn, PaletteState.Normal, ImageMarginGradientBegin);
+
+    /// <summary>
+    /// Gets the palette colour used for context menu image column borders.
+    /// </summary>
+    public Color ContextMenuImageColumnBorder => GetBorderColor(PaletteBorderStyle.ContextMenuItemImageColumn, PaletteState.Normal, ImageMarginGradientMiddle);
+
+    /// <summary>
+    /// Gets the palette colour used for checked context menu item image backgrounds.
+    /// </summary>
+    public Color ContextMenuItemImageBack => GetBackColor(PaletteBackStyle.ContextMenuItemImage, PaletteState.CheckedNormal, CheckBackground);
+
+    /// <summary>
+    /// Gets the palette colour used for checked context menu item image borders.
+    /// </summary>
+    public Color ContextMenuItemImageBorder => GetBorderColor(PaletteBorderStyle.ContextMenuItemImage, PaletteState.CheckedNormal, CommonHelper.WhitenColor(ContextMenuItemImageBack, 1.05f, 1.52f, 2.75f));
+
+    /// <summary>
+    /// Gets the palette colour used for checked context menu item glyphs.
+    /// </summary>
+    public Color ContextMenuItemImageText => GetContentColor(PaletteContentStyle.ContextMenuItemImage, PaletteState.CheckedNormal, CommonHelper.WhitenColor(ContextMenuItemImageBack, 3.86f, 3.02f, 1.07f));
+
+    /// <summary>
+    /// Gets the palette colour used for context menu item text.
+    /// </summary>
+    public Color ContextMenuItemText => GetContentColor(PaletteContentStyle.ContextMenuItemTextStandard, PaletteState.Normal, MenuItemText);
+
+    /// <summary>
+    /// Gets the palette colour used for disabled context menu item text.
+    /// </summary>
+    public Color ContextMenuItemDisabledText => GetContentColor(PaletteContentStyle.ContextMenuItemTextStandard, PaletteState.Disabled, SystemColors.GrayText);
+
+    /// <summary>
+    /// Gets the first palette colour used for highlighted context menu item backgrounds.
+    /// </summary>
+    public Color ContextMenuItemHighlightBack1 => GetBackColor(PaletteBackStyle.ContextMenuItemHighlight, PaletteState.Tracking, MenuItemSelectedGradientBegin);
+
+    /// <summary>
+    /// Gets the second palette colour used for highlighted context menu item backgrounds.
+    /// </summary>
+    public Color ContextMenuItemHighlightBack2 => GetBackColor2(PaletteBackStyle.ContextMenuItemHighlight, PaletteState.Tracking, ContextMenuItemHighlightBack1);
+
+    /// <summary>
+    /// Gets the palette colour used for highlighted context menu item borders.
+    /// </summary>
+    public Color ContextMenuItemHighlightBorder => GetBorderColor(PaletteBorderStyle.ContextMenuItemHighlight, PaletteState.Tracking, MenuItemBorder);
+
+    #endregion
+
     #region MenuStripFont
     /// <summary>
     /// Gets the font used on the menu strip.
@@ -95,6 +158,24 @@ public class KryptonColorTable : ProfessionalColorTable
     /// Gets the font used on the status strip.
     /// </summary>
     public virtual Font StatusStripFont => SystemInformation.MenuFont;
+
+    #endregion
+
+    #region Implementation
+    private Color GetBackColor(PaletteBackStyle style, PaletteState state, Color fallback) =>
+        ResolveColor(Palette.GetBackColor1(style, state), fallback);
+
+    private Color GetBackColor2(PaletteBackStyle style, PaletteState state, Color fallback) =>
+        ResolveColor(Palette.GetBackColor2(style, state), fallback);
+
+    private Color GetBorderColor(PaletteBorderStyle style, PaletteState state, Color fallback) =>
+        ResolveColor(Palette.GetBorderColor1(style, state), fallback);
+
+    private Color GetContentColor(PaletteContentStyle style, PaletteState state, Color fallback) =>
+        ResolveColor(Palette.GetContentShortTextColor1(style, state), fallback);
+
+    private static Color ResolveColor(Color color, Color fallback) =>
+        (color == GlobalStaticValues.EMPTY_COLOR) || color.IsEmpty ? fallback : color;
 
     #endregion
 }

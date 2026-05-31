@@ -47,6 +47,7 @@
 
 ## 2026-07-20 - Build 2607 (Version 105-LTS - Patch 3) - July 2026
 
+* Resolved [#397](https://github.com/Krypton-Suite/Standard-Toolkit/issues/397), normal context menus now use the same palette colours as `KryptonContextMenu`
 * Resolved [#1976](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1976), `MenuItem###` theme settings now apply to menu item selected, pressed, and border rendering.
 * Implemented [#3598](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3598), Fix KryptonContextMenu disposal leaks
 * Implemented [#3514](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3514), Include `README.md` in NuGet Packages
