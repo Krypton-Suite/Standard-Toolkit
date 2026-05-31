@@ -41,6 +41,7 @@ on:
       - gold
       - canary
       - alpha
+      - alpha-backup
       - V105-LTS
       - V85-LTS
       # The branch before code enters the alpha branch, i.e. V120
