@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -118,6 +118,11 @@ public sealed class KryptonMaterialRenderer : KryptonProfessionalRenderer
 
     protected override void OnRenderMenuItemBackground(ToolStripItemRenderEventArgs e)
     {
+        if (TryRenderMenuItemOverride(e))
+        {
+            return;
+        }
+
         if (e.ToolStrip is ContextMenuStrip or ToolStripDropDownMenu)
         {
             if (e.Item.Selected)
