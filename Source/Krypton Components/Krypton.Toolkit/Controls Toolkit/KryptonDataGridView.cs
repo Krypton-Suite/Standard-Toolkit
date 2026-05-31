@@ -254,7 +254,7 @@ public class KryptonDataGridView : DataGridView
     }
 
     /// <summary>
-    /// Gets or sets which scroll bars are visible when corner rounding is disabled.
+    /// Gets or sets which scroll bars are visible on the grid.
     /// </summary>
     [Category(@"Layout")]
     [DefaultValue(ScrollBars.Both)]
@@ -266,13 +266,7 @@ public class KryptonDataGridView : DataGridView
         {
             _savedScrollBarsForRounding = value;
             base.ScrollBars = value;
-
-            if (_roundingUsesDetachedScrollbars)
-            {
-                HideNativeScrollbarsForRounding();
-                SyncDetachedRoundingScrollbarsFromGrid();
-                LayoutDetachedRoundingScrollbars();
-            }
+            UpdateRoundingScrollbars();
         }
     }
 
@@ -2724,7 +2718,7 @@ public class KryptonDataGridView : DataGridView
     /// Outer rectangle used for region clipping, outer border, and corner-cell detection.
     /// </summary>
     private Rectangle GetOuterRoundingBounds() =>
-        _roundingUsesDetachedScrollbars ? GetDataAreaBounds() : ClientRectangle;
+        HasCornerRounding && _roundingUsesDetachedScrollbars ? GetDataAreaBounds() : ClientRectangle;
 
     private Rectangle GetDataAreaBounds()
     {
@@ -2754,12 +2748,7 @@ public class KryptonDataGridView : DataGridView
 
     private void UpdateRoundingScrollbars()
     {
-        if (!AreCornerRoundingStatesReady())
-        {
-            return;
-        }
-
-        if (HasCornerRounding)
+        if (ShouldUseDetachedScrollbars())
         {
             if (!_roundingUsesDetachedScrollbars)
             {
@@ -2775,6 +2764,12 @@ public class KryptonDataGridView : DataGridView
         {
             DisableDetachedRoundingScrollbars();
         }
+    }
+
+    private bool ShouldUseDetachedScrollbars()
+    {
+        ScrollBars scrollBars = _roundingUsesDetachedScrollbars ? _savedScrollBarsForRounding : base.ScrollBars;
+        return scrollBars != ScrollBars.None;
     }
 
     private void EnableDetachedRoundingScrollbars()
@@ -2799,6 +2794,14 @@ public class KryptonDataGridView : DataGridView
 
     private void DisableDetachedRoundingScrollbars()
     {
+        if (!_roundingUsesDetachedScrollbars
+            && _roundingVScrollBar == null
+            && _roundingHScrollBar == null
+            && _roundingScrollSyncTimer == null)
+        {
+            return;
+        }
+
         if (_roundingScrollSyncTimer != null)
         {
             _roundingScrollSyncTimer.Stop();
@@ -2807,26 +2810,34 @@ public class KryptonDataGridView : DataGridView
             _roundingScrollSyncTimer = null;
         }
 
-        if (_roundingVScrollBar != null)
-        {
-            _roundingVScrollBar.Scroll -= OnDetachedRoundingVScroll;
-            Controls.Remove(_roundingVScrollBar);
-            _roundingVScrollBar.Dispose();
-            _roundingVScrollBar = null;
-        }
-
-        if (_roundingHScrollBar != null)
-        {
-            _roundingHScrollBar.Scroll -= OnDetachedRoundingHScroll;
-            Controls.Remove(_roundingHScrollBar);
-            _roundingHScrollBar.Dispose();
-            _roundingHScrollBar = null;
-        }
-
-        if (_roundingUsesDetachedScrollbars)
+        bool wasUsingDetachedScrollbars = _roundingUsesDetachedScrollbars;
+        if (wasUsingDetachedScrollbars)
         {
             ShowNativeScrollbarsAfterRounding();
             _roundingUsesDetachedScrollbars = false;
+        }
+
+        KryptonVScrollBar? vScrollBar = _roundingVScrollBar;
+        KryptonHScrollBar? hScrollBar = _roundingHScrollBar;
+        _roundingVScrollBar = null;
+        _roundingHScrollBar = null;
+
+        if (vScrollBar != null)
+        {
+            vScrollBar.Scroll -= OnDetachedRoundingVScroll;
+            Controls.Remove(vScrollBar);
+            vScrollBar.Dispose();
+        }
+
+        if (hScrollBar != null)
+        {
+            hScrollBar.Scroll -= OnDetachedRoundingHScroll;
+            Controls.Remove(hScrollBar);
+            hScrollBar.Dispose();
+        }
+
+        if (wasUsingDetachedScrollbars)
+        {
             PerformLayout();
         }
     }
@@ -2884,18 +2895,8 @@ public class KryptonDataGridView : DataGridView
 
     private void ShowNativeScrollbarsAfterRounding()
     {
-        if (IsHandleCreated)
-        {
-            try
-            {
-                _ = PI.ShowScrollBar(Handle, (int)PI.SB_.BOTH, true);
-            }
-            catch
-            {
-                // Ignore restore failures
-            }
-        }
-
+        // DataGridView scrollbars are child VScrollBar/HScrollBar controls. Do not call
+        // ShowScrollBar(true) here; that exposes non-client scrollbars with classic Win32 chrome.
         for (int i = 0; i < Controls.Count; i++)
         {
             Control control = Controls[i];
@@ -2904,6 +2905,8 @@ public class KryptonDataGridView : DataGridView
                 control.Visible = true;
             }
         }
+
+        Invalidate(true);
     }
 
     private bool WantsDetachedVerticalScrollBar() =>
