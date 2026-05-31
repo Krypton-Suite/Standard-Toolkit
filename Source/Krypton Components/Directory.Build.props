@@ -5,6 +5,11 @@
 	<!--https://learn.microsoft.com/en-gb/dotnet/csharp/language-reference/configure-language-version#configure-multiple-projects-->
 	<PropertyGroup>
 		<LangVersion>preview</LangVersion>
+		<Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>
+		<ExcludeVs2019UnsupportedTargetFrameworks Condition="'$(ExcludeVs2019UnsupportedTargetFrameworks)' == '' And '$(CI)' != 'true' And '$(MSBuildRuntimeType)' == 'Full' And $([System.String]::Copy('$(VisualStudioVersion)').StartsWith('16.'))">true</ExcludeVs2019UnsupportedTargetFrameworks>
+		<ExcludeVs2022UnsupportedTargetFrameworks Condition="'$(ExcludeVs2022UnsupportedTargetFrameworks)' == '' And '$(CI)' != 'true' And '$(MSBuildRuntimeType)' == 'Full' And $([System.String]::Copy('$(VisualStudioVersion)').StartsWith('17.'))">true</ExcludeVs2022UnsupportedTargetFrameworks>
+		<KryptonBuildOutputRoot Condition="'$(KryptonBuildOutputRoot)' == ''">$(MSBuildThisFileDirectory)..\..\Bin\</KryptonBuildOutputRoot>
+		<KryptonPackageOutputRoot Condition="'$(KryptonPackageOutputRoot)' == ''">$(MSBuildThisFileDirectory)..\..\Bin\Packages\</KryptonPackageOutputRoot>
 	</PropertyGroup>
 
 	<!--Handle AssemblyInfo-->
@@ -27,17 +32,17 @@
 
 	<ItemGroup Condition="'$(UsingMicrosoftNETSdk)' == 'true'">
 		<PackageReference Include="System.Resources.Extensions" Version="9.0.10" />
+		<PackageReference Include="Microsoft.Net.Compilers.Toolset" Version="4.14.0" PrivateAssets="all" Condition="'$(ExcludeVs2019UnsupportedTargetFrameworks)' == 'true'" />
 	</ItemGroup>
 
 	<!-- Configure NuGet package output to separate directory for easier management -->
 	<PropertyGroup>
-		<PackageOutputPath>$(MSBuildThisFileDirectory)..\..\Bin\Packages\$(Configuration)\</PackageOutputPath>
+		<PackageOutputPath>$(KryptonPackageOutputRoot)$(Configuration)\</PackageOutputPath>
 		<!-- Ensure multi-target outputs don't overwrite each other -->
-		<OutputPath>$(MSBuildThisFileDirectory)..\..\Bin\$(Configuration)\$(TargetFramework)\</OutputPath>
-		<IntermediateOutputPath>obj\$(Configuration)\$(TargetFramework)\</IntermediateOutputPath>
+		<OutputPath>$(KryptonBuildOutputRoot)$(Configuration)\$(TargetFramework)\</OutputPath>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 		<!-- Per-TFM obj avoids races when msbuild /m compiles multiple target frameworks at once -->
-		<IntermediateOutputPath>$(MSBuildProjectDirectory)obj\$(Configuration)\$(TargetFramework)\</IntermediateOutputPath>
+		<IntermediateOutputPath>$(MSBuildProjectDirectory)\obj\$(Configuration)\$(TargetFramework)\</IntermediateOutputPath>
 		<AppendTargetFrameworkToIntermediateOutputPath>false</AppendTargetFrameworkToIntermediateOutputPath>
 	</PropertyGroup>
 

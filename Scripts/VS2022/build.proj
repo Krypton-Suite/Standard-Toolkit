@@ -5,6 +5,7 @@
 	<PropertyGroup>
 		<RootFolder>$(MSBuildProjectDirectory)</RootFolder>
 		<Configuration>Release</Configuration>
+		<ExcludeVs2022UnsupportedTargetFrameworks>true</ExcludeVs2022UnsupportedTargetFrameworks>
 		<ReleaseBuildPath>..\Bin\Release\Zips</ReleaseBuildPath>
 		<ReleaseZipName>Krypton-Release</ReleaseZipName>
 	</PropertyGroup>
@@ -13,14 +14,15 @@
 		<ItemGroup>
 			<Projects Include="..\..\Source\Krypton Components\Krypton.*\*.csproj" />
 		</ItemGroup>
-		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" Targets="Clean" BuildInParallel="false" />
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all;ExcludeVs2022UnsupportedTargetFrameworks=true" Targets="Restore" BuildInParallel="false" />
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all;ExcludeVs2022UnsupportedTargetFrameworks=true" Targets="Clean" BuildInParallel="false" />
 	</Target>
 
 	<Target Name="Restore">
 		<ItemGroup>
 			<Projects Include="..\..\Source\Krypton Components\Krypton.*\*.csproj" />
 		</ItemGroup>
-		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" Targets="Restore" BuildInParallel="false" />
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all;ExcludeVs2022UnsupportedTargetFrameworks=true" Targets="Restore" BuildInParallel="false" />
 	</Target>
 
 	<Target Name="Build" DependsOnTargets="Restore;KryptonBuild" />
@@ -42,10 +44,11 @@
 			<NugetAssets Include="..\..\Source\Krypton Components\Krypton.*\obj\*.g.targets" />
 			<NugetAssets Include="..\..\Source\Krypton Components\Krypton.*\obj\*.g.props" />
 		</ItemGroup>
-		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" Targets="Clean" BuildInParallel="false" />
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all;ExcludeVs2022UnsupportedTargetFrameworks=true" Targets="Restore" BuildInParallel="false" />
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all;ExcludeVs2022UnsupportedTargetFrameworks=true" Targets="Clean" BuildInParallel="false" />
 		<Delete Files="@(NugetAssets)" />
-		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=lite" Targets="Restore" BuildInParallel="false" />
-		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=lite" Targets="Pack" BuildInParallel="false" />
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=lite;ExcludeVs2022UnsupportedTargetFrameworks=true" Targets="Restore" BuildInParallel="false" />
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=lite;ExcludeVs2022UnsupportedTargetFrameworks=true" Targets="Pack" BuildInParallel="false" />
 	</Target>
 
 	<Target Name="PackAll">
@@ -58,9 +61,10 @@
 			<NugetAssets Include="..\..\Source\Krypton Components\Krypton.*\obj\*.g.targets" />
 			<NugetAssets Include="..\..\Source\Krypton Components\Krypton.*\obj\*.g.props" />
 		</ItemGroup>
-		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" Targets="Clean" BuildInParallel="false" />
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all;ExcludeVs2022UnsupportedTargetFrameworks=true" Targets="Restore" BuildInParallel="false" />
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all;ExcludeVs2022UnsupportedTargetFrameworks=true" Targets="Clean" BuildInParallel="false" />
 		<Delete Files="@(NugetAssets)" />
-		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" Targets="Restore" BuildInParallel="false" />
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all;ExcludeVs2022UnsupportedTargetFrameworks=true" Targets="Restore" BuildInParallel="false" />
 		<CallTarget Targets="KryptonPack" />
 	</Target>
 
