@@ -45,7 +45,7 @@ public class KryptonProfessionalRenderer : ToolStripProfessionalRenderer
     /// <param name="e">A ToolStripItemTextRenderEventArgs that contains the event data.</param>
     protected override void OnRenderItemText(ToolStripItemTextRenderEventArgs e)
     {
-        if (IsContextMenuToolStrip(e.ToolStrip))
+        if ((e != null) && IsContextMenuToolStrip(e.ToolStrip))
         {
             e.TextColor = e.Item.Enabled ? KCT.ContextMenuItemText : KCT.ContextMenuItemDisabledText;
         }
@@ -61,7 +61,7 @@ public class KryptonProfessionalRenderer : ToolStripProfessionalRenderer
     /// <param name="e">An ToolStripRenderEventArgs containing the event data.</param>
     protected override void OnRenderToolStripBackground(ToolStripRenderEventArgs e)
     {
-        if (IsContextMenuToolStrip(e.ToolStrip))
+        if ((e != null) && IsContextMenuToolStrip(e.ToolStrip))
         {
             using (var backBrush = new SolidBrush(KCT.ContextMenuBack))
             {
@@ -82,7 +82,7 @@ public class KryptonProfessionalRenderer : ToolStripProfessionalRenderer
     /// <param name="e">An ToolStripRenderEventArgs containing the event data.</param>
     protected override void OnRenderImageMargin(ToolStripRenderEventArgs e)
     {
-        if (IsContextMenuToolStrip(e.ToolStrip))
+        if ((e != null) && IsContextMenuToolStrip(e.ToolStrip))
         {
             using (var backBrush = new SolidBrush(KCT.ContextMenuImageColumnBack))
             {
@@ -103,7 +103,7 @@ public class KryptonProfessionalRenderer : ToolStripProfessionalRenderer
     /// <param name="e">An ToolStripItemRenderEventArgs containing the event data.</param>
     protected override void OnRenderMenuItemBackground(ToolStripItemRenderEventArgs e)
     {
-        if (TryRenderMenuItemOverride(e))
+        if ((e != null) && TryRenderMenuItemOverride(e))
         {
             return;
         }
@@ -407,6 +407,11 @@ public class KryptonProfessionalRenderer : ToolStripProfessionalRenderer
     /// <param name="e">An ToolStripRenderEventArgs containing the event data.</param>
     protected override void OnRenderToolStripBorder(ToolStripRenderEventArgs e)
     {
+        if (e == null)
+        {
+            return;
+        }
+
         if (IsContextMenuToolStrip(e.ToolStrip))
         {
             using (var borderPen = new Pen(KCT.ContextMenuBorder))
