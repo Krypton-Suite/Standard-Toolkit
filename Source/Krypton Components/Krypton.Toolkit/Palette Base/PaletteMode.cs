@@ -163,19 +163,15 @@ public enum PaletteMode
     Office2010LightGray,
     */
 
-    /* ToDo: Re-enable when the gray themes are completed
     /// <summary>
     /// Specifies the dark Gray color variant of the Office 2013 appearance.
     /// </summary>
     Office2013DarkGray,
-    */
 
-    /* ToDo: Re-enable when the gray themes are completed
     /// <summary>
     /// Specifies the light Gray color variant of the Office 2013 appearance.
     /// </summary>
     Office2013LightGray,
-    */
 
     /// <summary>
     /// Specifies the White color variant of the Office 2013 appearance.
