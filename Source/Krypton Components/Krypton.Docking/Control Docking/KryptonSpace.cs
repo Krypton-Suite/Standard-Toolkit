@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege, Giduac & Ahmed Abdelhameed et al. 2017 - 2026. All rights reserved.
+ *
  */
 #endregion
 
@@ -162,6 +162,11 @@ public abstract class KryptonSpace : KryptonWorkspace
     {
         if (disposing)
         {
+            foreach (CachedCellState cellState in _lookupCellState.Values)
+            {
+                DisposeCachedCellState(cellState);
+            }
+
             _lookupCellState.Clear();
         }
 
@@ -289,7 +294,7 @@ public abstract class KryptonSpace : KryptonWorkspace
         string uniqueName,
         UniqueNameToPage existingPages)
     {
-        // If a matching page with the unique name already exists then use it, 
+        // If a matching page with the unique name already exists then use it,
         // otherwise we need to create an entirely new page instance.
         if (existingPages.TryGetValue(uniqueName, out KryptonPage? page))
         {
@@ -328,7 +333,7 @@ public abstract class KryptonSpace : KryptonWorkspace
             }
         }
 
-        // Read past the page start element                 
+        // Read past the page start element
         if (!xmlReader.Read())
         {
             throw new ArgumentException(@"An element was expected, but could not be read in.", nameof(xmlReader));
@@ -495,6 +500,10 @@ public abstract class KryptonSpace : KryptonWorkspace
     protected override void ExistingCellDetach(KryptonWorkspaceCell cell)
     {
         // Grab the per-cell cached state
+        if (_lookupCellState.TryGetValue(cell, out CachedCellState? cellState))
+        {
+            DisposeCachedCellState(cellState);
+        }
 
         // Remove all those event hooks used to monitor focus changes
         FocusMonitorControl(cell, false);
@@ -629,7 +638,7 @@ public abstract class KryptonSpace : KryptonWorkspace
         if (!_awaitingFocusUpdate && IsHandleCreated)
         {
             // Async invoke ensures the delegate is called in sync with the message queue, this means that all the
-            // focus messages will have finished and the focus will have settled onto its new location. This is 
+            // focus messages will have finished and the focus will have settled onto its new location. This is
             // always true because SETFOCUS/KILLFOCUS messages are always 'send' and not 'post' messages.
             BeginInvoke(_focusUpdate);
             _awaitingFocusUpdate = true;
@@ -731,6 +740,7 @@ public abstract class KryptonSpace : KryptonWorkspace
     private void OnCellShowContextMenu(object? sender, ShowContextMenuArgs e)
     {
         // Make sure we have a menu for displaying
+        var disposeMenu = e.KryptonContextMenu == null;
         e.KryptonContextMenu ??= new KryptonContextMenu();
 
         // Use event to allow customization of the context menu
@@ -740,6 +750,19 @@ public abstract class KryptonSpace : KryptonWorkspace
         };
         OnPageDropDownClicked(args);
         e.Cancel = args.Cancel;
+
+        if (disposeMenu)
+        {
+            if (e.Cancel)
+            {
+                e.KryptonContextMenu.Dispose();
+                e.KryptonContextMenu = null;
+            }
+            else
+            {
+                e.KryptonContextMenu.Closed += OnTransientKryptonContextMenuClosed;
+            }
+        }
     }
 
     private void OnCellPrimaryHeaderLeftClicked(object? sender, EventArgs e)
@@ -774,7 +797,12 @@ public abstract class KryptonSpace : KryptonWorkspace
                 // Do we need to show a context menu
                 if (!args.Cancel && CommonHelper.ValidKryptonContextMenu(args.KryptonContextMenu))
                 {
-                    args.KryptonContextMenu?.Show(this, MousePosition);
+                    args.KryptonContextMenu!.Closed += OnTransientKryptonContextMenuClosed;
+                    args.KryptonContextMenu.Show(this, MousePosition);
+                }
+                else
+                {
+                    kcm.Dispose();
                 }
             }
         }
@@ -945,6 +973,26 @@ public abstract class KryptonSpace : KryptonWorkspace
 
                 break;
             }
+        }
+    }
+
+    private static void OnTransientKryptonContextMenuClosed(object? sender, EventArgs e)
+    {
+        if (sender is KryptonContextMenu contextMenu)
+        {
+            contextMenu.Closed -= OnTransientKryptonContextMenuClosed;
+            contextMenu.Dispose();
+        }
+    }
+
+    private void DisposeCachedCellState(CachedCellState cellState)
+    {
+        if (cellState.DropDownButtonSpec?.KryptonContextMenu != null)
+        {
+            cellState.DropDownButtonSpec.KryptonContextMenu.Opening -= OnCellDropDownOpening;
+            cellState.DropDownButtonSpec.KryptonContextMenu.Close();
+            cellState.DropDownButtonSpec.KryptonContextMenu.Dispose();
+            cellState.DropDownButtonSpec.KryptonContextMenu = null;
         }
     }
 
