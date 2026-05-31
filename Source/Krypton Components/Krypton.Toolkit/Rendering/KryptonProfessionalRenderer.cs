@@ -220,14 +220,25 @@ public class KryptonProfessionalRenderer : ToolStripProfessionalRenderer
 
     #region MenuItem Per-Item Override Helper
     /// <summary>
-    /// If the item is a KryptonToolStripMenuItem and it has any per-item palette overrides,
+    /// If the menu item has any per-item or color table overrides,
     /// draw its background/border here and return true to signal the caller to skip default painting.
     /// </summary>
     /// <param name="e">Item render event args.</param>
-    /// <returns>True if the item was painted using per-item overrides; otherwise false.</returns>
+    /// <returns>True if the item was painted using overrides; otherwise false.</returns>
     protected bool TryRenderMenuItemOverride(ToolStripItemRenderEventArgs e)
     {
-        if (e.Item is not KryptonToolStripMenuItem ktmi)
+        if (TryRenderMenuItemPaletteOverride(e))
+        {
+            return true;
+        }
+
+        return TryRenderMenuItemColorTableOverride(e);
+    }
+
+    private static bool TryRenderMenuItemPaletteOverride(ToolStripItemRenderEventArgs e)
+    {
+        var ktmi = e.Item as KryptonToolStripMenuItem;
+        if (ktmi == null)
         {
             return false;
         }
@@ -256,9 +267,9 @@ public class KryptonProfessionalRenderer : ToolStripProfessionalRenderer
         }
 
         Rectangle rect = e.Item.ContentRectangle;
-        if (hasBack)
+        if (hasBack || hasBorder)
         {
-            // Use a simple fill based on Color1; this is sufficient for per-item testing without full renderer path
+            // Use Color1 so border-only overrides still preserve a complete item background.
             var state = !ktmi.Enabled ? PaletteState.Disabled : (ktmi.Pressed || ktmi.Selected ? PaletteState.Tracking : PaletteState.Normal);
             Color c1 = highlight.Back.GetBackColor1(state);
             using var brush = new SolidBrush(c1);
@@ -274,6 +285,138 @@ public class KryptonProfessionalRenderer : ToolStripProfessionalRenderer
         }
 
         return true;
+    }
+
+    private bool TryRenderMenuItemColorTableOverride(ToolStripItemRenderEventArgs e)
+    {
+        var internalKCT = KCT as KryptonInternalKCT;
+        if (internalKCT == null || e.ToolStrip == null)
+        {
+            return false;
+        }
+
+        if (!(e.ToolStrip is MenuStrip || e.ToolStrip is ContextMenuStrip || e.ToolStrip is ToolStripDropDownMenu))
+        {
+            return false;
+        }
+
+        if (!e.Item.Enabled)
+        {
+            return false;
+        }
+
+        bool pressedMenuItem = e.Item.Pressed && e.ToolStrip is MenuStrip;
+        bool selectedMenuItem = e.Item.Selected;
+        if (!pressedMenuItem && !selectedMenuItem)
+        {
+            return false;
+        }
+
+        bool hasBorder = HasMenuItemOverrideColor(internalKCT.InternalMenuItemBorder);
+        bool hasBack;
+        Color color1;
+        Color color2;
+        Color colorMiddle;
+        bool useMiddle;
+
+        if (pressedMenuItem)
+        {
+            hasBack = HasMenuItemOverrideColor(internalKCT.InternalMenuItemPressedGradientBegin) ||
+                      HasMenuItemOverrideColor(internalKCT.InternalMenuItemPressedGradientMiddle) ||
+                      HasMenuItemOverrideColor(internalKCT.InternalMenuItemPressedGradientEnd);
+            color1 = ResolveMenuItemOverrideColor(internalKCT.InternalMenuItemPressedGradientBegin, KCT.MenuItemPressedGradientBegin);
+            color2 = ResolveMenuItemOverrideColor(internalKCT.InternalMenuItemPressedGradientEnd, KCT.MenuItemPressedGradientEnd);
+            colorMiddle = ResolveMenuItemOverrideColor(internalKCT.InternalMenuItemPressedGradientMiddle, KCT.MenuItemPressedGradientMiddle);
+            useMiddle = HasMenuItemOverrideColor(internalKCT.InternalMenuItemPressedGradientMiddle);
+        }
+        else
+        {
+            bool isDropDownMenuItem = !(e.ToolStrip is MenuStrip);
+            bool hasSelected = isDropDownMenuItem && HasMenuItemOverrideColor(internalKCT.InternalMenuItemSelected);
+            bool hasSelectedGradient = HasMenuItemOverrideColor(internalKCT.InternalMenuItemSelectedGradientBegin) ||
+                                       HasMenuItemOverrideColor(internalKCT.InternalMenuItemSelectedGradientEnd);
+            bool useSelectedSolid = hasSelected || (isDropDownMenuItem && !hasSelectedGradient);
+            hasBack = hasSelected || hasSelectedGradient;
+            color1 = useSelectedSolid
+                ? ResolveMenuItemOverrideColor(internalKCT.InternalMenuItemSelected, KCT.MenuItemSelected)
+                : ResolveMenuItemOverrideColor(internalKCT.InternalMenuItemSelectedGradientBegin, KCT.MenuItemSelectedGradientBegin);
+            color2 = useSelectedSolid
+                ? color1
+                : ResolveMenuItemOverrideColor(internalKCT.InternalMenuItemSelectedGradientEnd, KCT.MenuItemSelectedGradientEnd);
+            colorMiddle = GlobalStaticValues.EMPTY_COLOR;
+            useMiddle = false;
+        }
+
+        if (!hasBack && !hasBorder)
+        {
+            return false;
+        }
+
+        Rectangle rect = new Rectangle(Point.Empty, e.Item.Bounds.Size);
+        if (e.ToolStrip is ContextMenuStrip || e.ToolStrip is ToolStripDropDownMenu)
+        {
+            rect.X = 2;
+            rect.Width -= 3;
+        }
+
+        if (rect.Width <= 0 || rect.Height <= 0)
+        {
+            return false;
+        }
+
+        DrawMenuItemOverrideBackground(e.Graphics, rect, color1, color2, colorMiddle, useMiddle);
+
+        Color border = ResolveMenuItemOverrideColor(internalKCT.InternalMenuItemBorder, KCT.MenuItemBorder);
+        DrawMenuItemOverrideBorder(e.Graphics, rect, border);
+
+        return true;
+    }
+
+    private static bool HasMenuItemOverrideColor(Color color) => color != GlobalStaticValues.EMPTY_COLOR && !color.IsEmpty;
+
+    private static Color ResolveMenuItemOverrideColor(Color color, Color fallback) => HasMenuItemOverrideColor(color) ? color : fallback;
+
+    private static void DrawMenuItemOverrideBackground(Graphics graphics,
+        Rectangle rect,
+        Color color1,
+        Color color2,
+        Color colorMiddle,
+        bool useMiddle)
+    {
+        if (color1 == color2 && !useMiddle)
+        {
+            using (var brush = new SolidBrush(color1))
+            {
+                graphics.FillRectangle(brush, rect);
+            }
+        }
+        else
+        {
+            using (var brush = new LinearGradientBrush(rect, color1, color2, 90f))
+            {
+                if (useMiddle)
+                {
+                    brush.InterpolationColors = new ColorBlend
+                    {
+                        Colors = new[] { color1, colorMiddle, color2 },
+                        Positions = new[] { 0f, 0.5f, 1f }
+                    };
+                }
+
+                graphics.FillRectangle(brush, rect);
+            }
+        }
+    }
+
+    private static void DrawMenuItemOverrideBorder(Graphics graphics, Rectangle rect, Color border)
+    {
+        rect.Width -= 1;
+        rect.Height -= 1;
+
+        using (var pen = new Pen(border))
+        {
+            graphics.DrawRectangle(pen, rect);
+        }
     }
     #endregion
 
