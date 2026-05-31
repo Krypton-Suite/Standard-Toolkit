@@ -1,4 +1,7 @@
 echo off
+setlocal EnableExtensions
+set "SCRIPT_DIR=%~dp0"
+pushd "%SCRIPT_DIR%"
 
 echo Do you want to build using Visual Studio 2019 or 2026? (2019/2026)
 set INPUT=
@@ -42,10 +45,10 @@ goto build2019
 :build2019
 @echo Started: %date% %time%
 @echo
-set targets=Build
-if not "%~1" == "" set targets=%~1
+set "targets=Build"
+if not "%~1" == "" set "targets=%~1"
 REM /m: multi-processor MSBuild (all logical CPUs).
-"%msbuildpath%\msbuild.exe" /m /t:%targets% build.proj /fl /flp:logfile=../Logs/solution-build-log.log /bl:solution-build-log.binlog /clp:Summary;ShowTimestamp /v:quiet
+"%msbuildpath%\msbuild.exe" /m /t:%targets% "%SCRIPT_DIR%build.proj" /fl /flp:logfile="%SCRIPT_DIR%..\..\Logs\solution-build-log.log" /bl:"%SCRIPT_DIR%..\..\Logs\solution-build-log.binlog" /clp:Summary;ShowTimestamp /v:quiet
 
 :vs2026build
 if exist "%ProgramFiles%\Microsoft Visual Studio\18\Insiders\MSBuild\Current\Bin" goto vscurrentinsiders
@@ -79,10 +82,10 @@ set msbuildpath=%ProgramFiles%\Microsoft Visual Studio\18\BuildTools\MSBuild\Cur
 goto build2026
 
 :build2026
-set targets=Build
-if not "%~1" == "" set targets=%~1
+set "targets=Build"
+if not "%~1" == "" set "targets=%~1"
 REM /m: multi-processor MSBuild (all logical CPUs).
-"%msbuildpath%\msbuild.exe" /m /t:%targets% build.proj /fl /flp:logfile=build.log
+"%msbuildpath%\msbuild.exe" /m /t:%targets% "%SCRIPT_DIR%build.proj" /fl /flp:logfile="%SCRIPT_DIR%..\..\Logs\solution-build-log.log" /bl:"%SCRIPT_DIR%..\..\Logs\solution-build-log.binlog" /clp:Summary;ShowTimestamp /v:quiet
 
 echo Do you now want to create NuGet packages? (y/n)
 set INPUT=
@@ -112,3 +115,5 @@ pause
 @echo Build Completed: %date% %time%
 
 :exitbatch
+popd
+exit /b
