@@ -38,6 +38,80 @@ public class KryptonProfessionalRenderer : ToolStripProfessionalRenderer
 
     #endregion
 
+    #region OnRenderItemText
+    /// <summary>
+    /// Raises the RenderItemText event.
+    /// </summary>
+    /// <param name="e">A ToolStripItemTextRenderEventArgs that contains the event data.</param>
+    protected override void OnRenderItemText(ToolStripItemTextRenderEventArgs e)
+    {
+        if (IsContextMenuToolStrip(e.ToolStrip))
+        {
+            e.TextColor = e.Item.Enabled ? KCT.ContextMenuItemText : KCT.ContextMenuItemDisabledText;
+        }
+
+        base.OnRenderItemText(e);
+    }
+    #endregion
+
+    #region OnRenderToolStripBackground
+    /// <summary>
+    /// Raises the RenderToolStripBackground event.
+    /// </summary>
+    /// <param name="e">An ToolStripRenderEventArgs containing the event data.</param>
+    protected override void OnRenderToolStripBackground(ToolStripRenderEventArgs e)
+    {
+        if (IsContextMenuToolStrip(e.ToolStrip))
+        {
+            using (var backBrush = new SolidBrush(KCT.ContextMenuBack))
+            {
+                e.Graphics.FillRectangle(backBrush, e.AffectedBounds);
+            }
+
+            return;
+        }
+
+        base.OnRenderToolStripBackground(e);
+    }
+    #endregion
+
+    #region OnRenderImageMargin
+    /// <summary>
+    /// Raises the RenderImageMargin event.
+    /// </summary>
+    /// <param name="e">An ToolStripRenderEventArgs containing the event data.</param>
+    protected override void OnRenderImageMargin(ToolStripRenderEventArgs e)
+    {
+        if (IsContextMenuToolStrip(e.ToolStrip))
+        {
+            using (var backBrush = new SolidBrush(KCT.ContextMenuImageColumnBack))
+            {
+                e.Graphics.FillRectangle(backBrush, e.AffectedBounds);
+            }
+
+            return;
+        }
+
+        base.OnRenderImageMargin(e);
+    }
+    #endregion
+
+    #region OnRenderMenuItemBackground
+    /// <summary>
+    /// Raises the RenderMenuItemBackground event.
+    /// </summary>
+    /// <param name="e">An ToolStripItemRenderEventArgs containing the event data.</param>
+    protected override void OnRenderMenuItemBackground(ToolStripItemRenderEventArgs e)
+    {
+        if (TryRenderMenuItemOverride(e))
+        {
+            return;
+        }
+
+        base.OnRenderMenuItemBackground(e);
+    }
+    #endregion
+
     #region OnRenderItemImage
     /// <summary>
     /// Raises the RenderItemImage event.
@@ -229,7 +303,7 @@ public class KryptonProfessionalRenderer : ToolStripProfessionalRenderer
     {
         if (e.Item is not KryptonToolStripMenuItem ktmi)
         {
-            return false;
+            return TryRenderContextMenuItemBackground(e);
         }
 
         // Resolve which highlight palette to use based on state
@@ -252,13 +326,12 @@ public class KryptonProfessionalRenderer : ToolStripProfessionalRenderer
         bool hasBorder = !highlight.IsDefault && !highlight.Border.IsDefault;
         if (!hasBack && !hasBorder)
         {
-            return false;
+            return TryRenderContextMenuItemBackground(e);
         }
 
         Rectangle rect = e.Item.ContentRectangle;
         if (hasBack)
         {
-            // Use a simple fill based on Color1; this is sufficient for per-item testing without full renderer path
             var state = !ktmi.Enabled ? PaletteState.Disabled : (ktmi.Pressed || ktmi.Selected ? PaletteState.Tracking : PaletteState.Normal);
             Color c1 = highlight.Back.GetBackColor1(state);
             using var brush = new SolidBrush(c1);
@@ -277,6 +350,56 @@ public class KryptonProfessionalRenderer : ToolStripProfessionalRenderer
     }
     #endregion
 
+    #region ContextMenu Helper
+    /// <summary>
+    /// Determines if the tool strip is being used as a context menu.
+    /// </summary>
+    /// <param name="toolStrip">Tool strip to test.</param>
+    /// <returns>True if the tool strip is a context menu; otherwise false.</returns>
+    protected static bool IsContextMenuToolStrip(ToolStrip toolStrip) =>
+        (toolStrip is ContextMenuStrip) || (toolStrip is ToolStripDropDownMenu);
+
+    private bool TryRenderContextMenuItemBackground(ToolStripItemRenderEventArgs e)
+    {
+        if (!IsContextMenuToolStrip(e.ToolStrip) || !e.Item.Enabled || !e.Item.Selected)
+        {
+            return false;
+        }
+
+        Rectangle backRect = new Rectangle(2, 0, e.Item.Bounds.Width - 3, e.Item.Bounds.Height);
+        if ((backRect.Width <= 0) || (backRect.Height <= 0))
+        {
+            return false;
+        }
+
+        Color back1 = KCT.ContextMenuItemHighlightBack1;
+        Color back2 = KCT.ContextMenuItemHighlightBack2;
+        if (back1 == back2)
+        {
+            using (var backBrush = new SolidBrush(back1))
+            {
+                e.Graphics.FillRectangle(backBrush, backRect);
+            }
+        }
+        else
+        {
+            using (var backBrush = new LinearGradientBrush(backRect, back1, back2, 90f))
+            {
+                e.Graphics.FillRectangle(backBrush, backRect);
+            }
+        }
+
+        using (var borderPen = new Pen(KCT.ContextMenuItemHighlightBorder))
+        {
+            backRect.Width--;
+            backRect.Height--;
+            e.Graphics.DrawRectangle(borderPen, backRect);
+        }
+
+        return true;
+    }
+    #endregion
+
     #region OnRenderToolStripBorder
     /// <summary>
     /// Raises the RenderToolStripBorder event.
@@ -284,6 +407,19 @@ public class KryptonProfessionalRenderer : ToolStripProfessionalRenderer
     /// <param name="e">An ToolStripRenderEventArgs containing the event data.</param>
     protected override void OnRenderToolStripBorder(ToolStripRenderEventArgs e)
     {
+        if (IsContextMenuToolStrip(e.ToolStrip))
+        {
+            using (var borderPen = new Pen(KCT.ContextMenuBorder))
+            {
+                Rectangle borderRect = e.AffectedBounds;
+                borderRect.Width--;
+                borderRect.Height--;
+                e.Graphics.DrawRectangle(borderPen, borderRect);
+            }
+
+            return;
+        }
+
         // D0 not draw the annoying status strip single line that is not needed
         if (e.ToolStrip is not StatusStrip)
         {
