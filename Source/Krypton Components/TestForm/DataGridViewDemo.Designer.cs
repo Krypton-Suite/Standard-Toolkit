@@ -38,17 +38,27 @@ namespace TestForm
         private void InitializeComponent()
         {
             Krypton.Toolkit.KryptonDataGridViewIconColumn.ColumnButtonSpec columnButtonSpec1 = new Krypton.Toolkit.KryptonDataGridViewIconColumn.ColumnButtonSpec();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DataGridViewDemo));
             Krypton.Toolkit.KryptonDataGridViewIconColumn.ColumnButtonSpec columnButtonSpec2 = new Krypton.Toolkit.KryptonDataGridViewIconColumn.ColumnButtonSpec();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             Krypton.Toolkit.KryptonDataGridViewIconColumn.ColumnButtonSpec columnButtonSpec3 = new Krypton.Toolkit.KryptonDataGridViewIconColumn.ColumnButtonSpec();
             Krypton.Toolkit.KryptonDataGridViewIconColumn.ColumnButtonSpec columnButtonSpec4 = new Krypton.Toolkit.KryptonDataGridViewIconColumn.ColumnButtonSpec();
             Krypton.Toolkit.KryptonDataGridViewIconColumn.ColumnButtonSpec columnButtonSpec5 = new Krypton.Toolkit.KryptonDataGridViewIconColumn.ColumnButtonSpec();
-            Krypton.Toolkit.KryptonDataGridViewIconColumn.ColumnButtonSpec columnButtonSpec6 = new Krypton.Toolkit.KryptonDataGridViewIconColumn.ColumnButtonSpec();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DataGridViewDemo));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            Krypton.Toolkit.KryptonDataGridViewIconColumn.ColumnButtonSpec columnButtonSpec6 = new Krypton.Toolkit.KryptonDataGridViewIconColumn.ColumnButtonSpec();
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
             this.kcbGridRtl = new Krypton.Toolkit.KryptonCheckBox();
             this.kdgvMain = new Krypton.Toolkit.KryptonDataGridView();
+            this.colId = new Krypton.Toolkit.KryptonDataGridViewTextBoxColumn();
+            this.colName = new Krypton.Toolkit.KryptonDataGridViewTextBoxColumn();
+            this.colDate = new Krypton.Toolkit.KryptonDataGridViewDateTimePickerColumn();
+            this.colCombo = new Krypton.Toolkit.KryptonDataGridViewComboBoxColumn();
+            this.colQuantity = new Krypton.Toolkit.KryptonDataGridViewNumericUpDownColumn();
+            this.colDomain = new Krypton.Toolkit.KryptonDataGridViewDomainUpDownColumn();
+            this.colActive = new Krypton.Toolkit.KryptonDataGridViewCheckBoxColumn();
+            this.colMasked = new Krypton.Toolkit.KryptonDataGridViewMaskedTextBoxColumn();
+            this.colProgress = new Krypton.Toolkit.KryptonDataGridViewProgressColumn();
+            this.colRating = new Krypton.Toolkit.KryptonDataGridViewRatingColumn();
             this.kryptonThemeComboBox1 = new Krypton.Toolkit.KryptonThemeComboBox();
             this.pnlOptions = new Krypton.Toolkit.KryptonPanel();
             this.klblColumnHeadersHeight = new Krypton.Toolkit.KryptonLabel();
@@ -70,21 +80,14 @@ namespace TestForm
             this.kchkRowHeadersVisible = new Krypton.Toolkit.KryptonCheckBox();
             this.kchkReadOnly = new Krypton.Toolkit.KryptonCheckBox();
             this.kchkShowGridLines = new Krypton.Toolkit.KryptonCheckBox();
+            this.kchkCornerRounding = new Krypton.Toolkit.KryptonCheckBox();
+            this.klblCornerRoundingRadius = new Krypton.Toolkit.KryptonLabel();
+            this.knudCornerRoundingRadius = new Krypton.Toolkit.KryptonNumericUpDown();
             this.kchkMultiSelect = new Krypton.Toolkit.KryptonCheckBox();
             this.kchkAllowUserToResizeRows = new Krypton.Toolkit.KryptonCheckBox();
             this.kchkAllowUserToResizeColumns = new Krypton.Toolkit.KryptonCheckBox();
             this.kchkAllowUserToDeleteRows = new Krypton.Toolkit.KryptonCheckBox();
             this.kchkAllowUserToAddRows = new Krypton.Toolkit.KryptonCheckBox();
-            this.colId = new Krypton.Toolkit.KryptonDataGridViewTextBoxColumn();
-            this.colName = new Krypton.Toolkit.KryptonDataGridViewTextBoxColumn();
-            this.colDate = new Krypton.Toolkit.KryptonDataGridViewDateTimePickerColumn();
-            this.colCombo = new Krypton.Toolkit.KryptonDataGridViewComboBoxColumn();
-            this.colQuantity = new Krypton.Toolkit.KryptonDataGridViewNumericUpDownColumn();
-            this.colDomain = new Krypton.Toolkit.KryptonDataGridViewDomainUpDownColumn();
-            this.colActive = new Krypton.Toolkit.KryptonDataGridViewCheckBoxColumn();
-            this.colMasked = new Krypton.Toolkit.KryptonDataGridViewMaskedTextBoxColumn();
-            this.colProgress = new Krypton.Toolkit.KryptonDataGridViewProgressColumn();
-            this.colRating = new Krypton.Toolkit.KryptonDataGridViewRatingColumn();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kdgvMain)).BeginInit();
@@ -145,8 +148,134 @@ namespace TestForm
             this.kdgvMain.ColumnHeadersHeightChanged += new System.EventHandler(this.kdgvMain_ColumnHeadersHeightChanged);
             this.kdgvMain.RowHeadersWidthChanged += new System.EventHandler(this.kdgvMain_RowHeadersWidthChanged);
             // 
+            // colId
+            // 
+            this.colId.HeaderText = "Id";
+            this.colId.Name = "colId";
+            this.colId.Width = 46;
+            // 
+            // colName
+            // 
+            columnButtonSpec1.Alignment = Krypton.Toolkit.IconSpec.IconAlignment.Right;
+            columnButtonSpec1.ExtraText = null;
+            columnButtonSpec1.Icon = ((System.Drawing.Image)(resources.GetObject("columnButtonSpec1.Icon")));
+            columnButtonSpec1.ImageTransparentColor = System.Drawing.Color.Empty;
+            columnButtonSpec1.Text = null;
+            columnButtonSpec1.Type = Krypton.Toolkit.PaletteButtonSpecStyle.FormClose;
+            this.colName.ButtonSpecs.Add(columnButtonSpec1);
+            this.colName.HeaderText = "Name";
+            this.colName.Name = "colName";
+            this.colName.Width = 68;
+            // 
+            // colDate
+            // 
+            columnButtonSpec2.Alignment = Krypton.Toolkit.IconSpec.IconAlignment.Right;
+            columnButtonSpec2.ExtraText = null;
+            columnButtonSpec2.Icon = null;
+            columnButtonSpec2.ImageTransparentColor = System.Drawing.Color.Empty;
+            columnButtonSpec2.Text = null;
+            columnButtonSpec2.Type = Krypton.Toolkit.PaletteButtonSpecStyle.FormClose;
+            this.colDate.ButtonSpecs.Add(columnButtonSpec2);
+            this.colDate.Checked = false;
+            this.colDate.CustomFormat = "dd.MM.yyyy";
+            dataGridViewCellStyle1.Padding = new System.Windows.Forms.Padding(0, 0, 17, 0);
+            this.colDate.DefaultCellStyle = dataGridViewCellStyle1;
+            this.colDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.colDate.HeaderText = "Date";
+            this.colDate.MinimumWidth = 19;
+            this.colDate.Name = "colDate";
+            this.colDate.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.colDate.Width = 60;
+            // 
+            // colCombo
+            // 
+            columnButtonSpec3.Alignment = Krypton.Toolkit.IconSpec.IconAlignment.Right;
+            columnButtonSpec3.ExtraText = null;
+            columnButtonSpec3.Icon = null;
+            columnButtonSpec3.ImageTransparentColor = System.Drawing.Color.Empty;
+            columnButtonSpec3.Text = null;
+            columnButtonSpec3.Type = Krypton.Toolkit.PaletteButtonSpecStyle.FormClose;
+            this.colCombo.ButtonSpecs.Add(columnButtonSpec3);
+            this.colCombo.DropDownWidth = 121;
+            this.colCombo.HeaderText = "Combo";
+            this.colCombo.Name = "colCombo";
+            this.colCombo.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.colCombo.Width = 76;
+            // 
+            // colQuantity
+            // 
+            this.colQuantity.AllowDecimals = false;
+            columnButtonSpec4.Alignment = Krypton.Toolkit.IconSpec.IconAlignment.Right;
+            columnButtonSpec4.ExtraText = null;
+            columnButtonSpec4.Icon = null;
+            columnButtonSpec4.ImageTransparentColor = System.Drawing.Color.Empty;
+            columnButtonSpec4.Text = null;
+            columnButtonSpec4.Type = Krypton.Toolkit.PaletteButtonSpecStyle.FormClose;
+            this.colQuantity.ButtonSpecs.Add(columnButtonSpec4);
+            this.colQuantity.HeaderText = "Quantity";
+            this.colQuantity.Name = "colQuantity";
+            this.colQuantity.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.colQuantity.Width = 82;
+            // 
+            // colDomain
+            // 
+            columnButtonSpec5.Alignment = Krypton.Toolkit.IconSpec.IconAlignment.Right;
+            columnButtonSpec5.ExtraText = null;
+            columnButtonSpec5.Icon = null;
+            columnButtonSpec5.ImageTransparentColor = System.Drawing.Color.Empty;
+            columnButtonSpec5.Text = null;
+            columnButtonSpec5.Type = Krypton.Toolkit.PaletteButtonSpecStyle.FormClose;
+            this.colDomain.ButtonSpecs.Add(columnButtonSpec5);
+            this.colDomain.HeaderText = "Domain";
+            this.colDomain.Name = "colDomain";
+            this.colDomain.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.colDomain.Width = 78;
+            // 
+            // colActive
+            // 
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.NullValue = false;
+            this.colActive.DefaultCellStyle = dataGridViewCellStyle2;
+            this.colActive.FalseValue = null;
+            this.colActive.HeaderText = "Active";
+            this.colActive.IndeterminateValue = null;
+            this.colActive.Name = "colActive";
+            this.colActive.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.colActive.TrueValue = null;
+            this.colActive.Width = 69;
+            // 
+            // colMasked
+            // 
+            columnButtonSpec6.Alignment = Krypton.Toolkit.IconSpec.IconAlignment.Right;
+            columnButtonSpec6.ExtraText = null;
+            columnButtonSpec6.Icon = null;
+            columnButtonSpec6.ImageTransparentColor = System.Drawing.Color.Empty;
+            columnButtonSpec6.Text = null;
+            columnButtonSpec6.Type = Krypton.Toolkit.PaletteButtonSpecStyle.FormClose;
+            this.colMasked.ButtonSpecs.Add(columnButtonSpec6);
+            this.colMasked.HeaderText = "Masked";
+            this.colMasked.Name = "colMasked";
+            this.colMasked.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.colMasked.Width = 77;
+            // 
+            // colProgress
+            // 
+            this.colProgress.HeaderText = "Progress";
+            this.colProgress.Name = "colProgress";
+            this.colProgress.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.colProgress.Width = 81;
+            // 
+            // colRating
+            // 
+            this.colRating.HeaderText = "Rating";
+            this.colRating.Name = "colRating";
+            this.colRating.RatingMaximum = ((byte)(0));
+            this.colRating.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.colRating.Width = 70;
+            // 
             // kryptonThemeComboBox1
             // 
+            this.kryptonThemeComboBox1.DefaultPalette = Krypton.Toolkit.PaletteMode.Microsoft365Blue;
             this.kryptonThemeComboBox1.DropDownWidth = 500;
             this.kryptonThemeComboBox1.IntegralHeight = false;
             this.kryptonThemeComboBox1.Location = new System.Drawing.Point(12, 8);
@@ -176,6 +305,9 @@ namespace TestForm
             this.pnlOptions.Controls.Add(this.kchkRowHeadersVisible);
             this.pnlOptions.Controls.Add(this.kchkReadOnly);
             this.pnlOptions.Controls.Add(this.kchkShowGridLines);
+            this.pnlOptions.Controls.Add(this.kchkCornerRounding);
+            this.pnlOptions.Controls.Add(this.klblCornerRoundingRadius);
+            this.pnlOptions.Controls.Add(this.knudCornerRoundingRadius);
             this.pnlOptions.Controls.Add(this.kchkMultiSelect);
             this.pnlOptions.Controls.Add(this.kchkAllowUserToResizeRows);
             this.pnlOptions.Controls.Add(this.kchkAllowUserToResizeColumns);
@@ -450,6 +582,53 @@ namespace TestForm
             this.kchkShowGridLines.Values.Text = "Show Grid Lines";
             this.kchkShowGridLines.CheckedChanged += new System.EventHandler(this.kchkShowGridLines_CheckedChanged);
             // 
+            // kchkCornerRounding
+            // 
+            this.kchkCornerRounding.Location = new System.Drawing.Point(650, 148);
+            this.kchkCornerRounding.Name = "kchkCornerRounding";
+            this.kchkCornerRounding.Size = new System.Drawing.Size(117, 20);
+            this.kchkCornerRounding.TabIndex = 14;
+            this.kchkCornerRounding.Values.Text = "Corner Rounding";
+            this.kchkCornerRounding.CheckedChanged += new System.EventHandler(this.kchkCornerRounding_CheckedChanged);
+            // 
+            // klblCornerRoundingRadius
+            // 
+            this.klblCornerRoundingRadius.Enabled = false;
+            this.klblCornerRoundingRadius.Location = new System.Drawing.Point(773, 148);
+            this.klblCornerRoundingRadius.Name = "klblCornerRoundingRadius";
+            this.klblCornerRoundingRadius.Size = new System.Drawing.Size(49, 20);
+            this.klblCornerRoundingRadius.TabIndex = 15;
+            this.klblCornerRoundingRadius.Values.Text = "Radius:";
+            // 
+            // knudCornerRoundingRadius
+            // 
+            this.knudCornerRoundingRadius.Enabled = false;
+            this.knudCornerRoundingRadius.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.knudCornerRoundingRadius.Location = new System.Drawing.Point(828, 146);
+            this.knudCornerRoundingRadius.Maximum = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            this.knudCornerRoundingRadius.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.knudCornerRoundingRadius.Name = "knudCornerRoundingRadius";
+            this.knudCornerRoundingRadius.Size = new System.Drawing.Size(56, 22);
+            this.knudCornerRoundingRadius.TabIndex = 16;
+            this.knudCornerRoundingRadius.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.knudCornerRoundingRadius.ValueChanged += new System.EventHandler(this.knudCornerRoundingRadius_ValueChanged);
+            // 
             // kchkMultiSelect
             // 
             this.kchkMultiSelect.Checked = true;
@@ -504,131 +683,6 @@ namespace TestForm
             this.kchkAllowUserToAddRows.TabIndex = 0;
             this.kchkAllowUserToAddRows.Values.Text = "AllowUserToAddRows";
             this.kchkAllowUserToAddRows.CheckedChanged += new System.EventHandler(this.kchkAllowUserToAddRows_CheckedChanged);
-            // 
-            // colId
-            // 
-            this.colId.HeaderText = "Id";
-            this.colId.Name = "colId";
-            this.colId.Width = 46;
-            // 
-            // colName
-            // 
-            columnButtonSpec1.Alignment = Krypton.Toolkit.IconSpec.IconAlignment.Right;
-            columnButtonSpec1.ExtraText = null;
-            columnButtonSpec1.Icon = ((System.Drawing.Image)(resources.GetObject("columnButtonSpec1.Icon")));
-            columnButtonSpec1.ImageTransparentColor = System.Drawing.Color.Empty;
-            columnButtonSpec1.Text = null;
-            columnButtonSpec1.Type = Krypton.Toolkit.PaletteButtonSpecStyle.FormClose;
-            this.colName.ButtonSpecs.Add(columnButtonSpec1);
-            this.colName.HeaderText = "Name";
-            this.colName.Name = "colName";
-            this.colName.Width = 68;
-            // 
-            // colDate
-            // 
-            this.colDate.Checked = false;
-            this.colDate.CustomFormat = "dd.MM.yyyy";
-            dataGridViewCellStyle1.Padding = new System.Windows.Forms.Padding(0, 0, 17, 0);
-            this.colDate.DefaultCellStyle = dataGridViewCellStyle1;
-            this.colDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            columnButtonSpec2.Alignment = Krypton.Toolkit.IconSpec.IconAlignment.Right;
-            columnButtonSpec2.ExtraText = null;
-            columnButtonSpec2.Icon = null;
-            columnButtonSpec2.ImageTransparentColor = System.Drawing.Color.Empty;
-            columnButtonSpec2.Text = null;
-            columnButtonSpec2.Type = Krypton.Toolkit.PaletteButtonSpecStyle.FormClose;
-            this.colDate.ButtonSpecs.Add(columnButtonSpec2);
-            this.colDate.HeaderText = "Date";
-            this.colDate.MinimumWidth = 19;
-            this.colDate.Name = "colDate";
-            this.colDate.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.colDate.Width = 60;
-            // 
-            // colCombo
-            // 
-            this.colCombo.DropDownWidth = 121;
-            columnButtonSpec3.Alignment = Krypton.Toolkit.IconSpec.IconAlignment.Right;
-            columnButtonSpec3.ExtraText = null;
-            columnButtonSpec3.Icon = null;
-            columnButtonSpec3.ImageTransparentColor = System.Drawing.Color.Empty;
-            columnButtonSpec3.Text = null;
-            columnButtonSpec3.Type = Krypton.Toolkit.PaletteButtonSpecStyle.FormClose;
-            this.colCombo.ButtonSpecs.Add(columnButtonSpec3);
-            this.colCombo.HeaderText = "Combo";
-            this.colCombo.Name = "colCombo";
-            this.colCombo.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.colCombo.Width = 76;
-            // 
-            // colQuantity
-            // 
-            this.colQuantity.AllowDecimals = false;
-            columnButtonSpec4.Alignment = Krypton.Toolkit.IconSpec.IconAlignment.Right;
-            columnButtonSpec4.ExtraText = null;
-            columnButtonSpec4.Icon = null;
-            columnButtonSpec4.ImageTransparentColor = System.Drawing.Color.Empty;
-            columnButtonSpec4.Text = null;
-            columnButtonSpec4.Type = Krypton.Toolkit.PaletteButtonSpecStyle.FormClose;
-            this.colQuantity.ButtonSpecs.Add(columnButtonSpec4);
-            this.colQuantity.HeaderText = "Quantity";
-            this.colQuantity.Name = "colQuantity";
-            this.colQuantity.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.colQuantity.Width = 82;
-            // 
-            // colDomain
-            // 
-            columnButtonSpec5.Alignment = Krypton.Toolkit.IconSpec.IconAlignment.Right;
-            columnButtonSpec5.ExtraText = null;
-            columnButtonSpec5.Icon = null;
-            columnButtonSpec5.ImageTransparentColor = System.Drawing.Color.Empty;
-            columnButtonSpec5.Text = null;
-            columnButtonSpec5.Type = Krypton.Toolkit.PaletteButtonSpecStyle.FormClose;
-            this.colDomain.ButtonSpecs.Add(columnButtonSpec5);
-            this.colDomain.HeaderText = "Domain";
-            this.colDomain.Name = "colDomain";
-            this.colDomain.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.colDomain.Width = 78;
-            // 
-            // colActive
-            // 
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.NullValue = false;
-            this.colActive.DefaultCellStyle = dataGridViewCellStyle2;
-            this.colActive.FalseValue = null;
-            this.colActive.HeaderText = "Active";
-            this.colActive.IndeterminateValue = null;
-            this.colActive.Name = "colActive";
-            this.colActive.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.colActive.TrueValue = null;
-            this.colActive.Width = 69;
-            // 
-            // colMasked
-            // 
-            columnButtonSpec6.Alignment = Krypton.Toolkit.IconSpec.IconAlignment.Right;
-            columnButtonSpec6.ExtraText = null;
-            columnButtonSpec6.Icon = null;
-            columnButtonSpec6.ImageTransparentColor = System.Drawing.Color.Empty;
-            columnButtonSpec6.Text = null;
-            columnButtonSpec6.Type = Krypton.Toolkit.PaletteButtonSpecStyle.FormClose;
-            this.colMasked.ButtonSpecs.Add(columnButtonSpec6);
-            this.colMasked.HeaderText = "Masked";
-            this.colMasked.Name = "colMasked";
-            this.colMasked.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.colMasked.Width = 77;
-            // 
-            // colProgress
-            // 
-            this.colProgress.HeaderText = "Progress";
-            this.colProgress.Name = "colProgress";
-            this.colProgress.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.colProgress.Width = 81;
-            // 
-            // colRating
-            // 
-            this.colRating.HeaderText = "Rating";
-            this.colRating.Name = "colRating";
-            this.colRating.RatingMaximum = ((byte)(0));
-            this.colRating.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.colRating.Width = 70;
             // 
             // DataGridViewDemo
             // 
@@ -686,6 +740,9 @@ namespace TestForm
         private Krypton.Toolkit.KryptonLabel klblColumnHeadersHeight;
         private Krypton.Toolkit.KryptonNumericUpDown knudColumnHeadersHeight;
         private Krypton.Toolkit.KryptonCheckBox kchkShowGridLines;
+        private Krypton.Toolkit.KryptonCheckBox kchkCornerRounding;
+        private Krypton.Toolkit.KryptonLabel klblCornerRoundingRadius;
+        private Krypton.Toolkit.KryptonNumericUpDown knudCornerRoundingRadius;
         private KryptonCheckBox kcbGridRtl;
         private KryptonDataGridViewTextBoxColumn colId;
         private KryptonDataGridViewTextBoxColumn colName;
