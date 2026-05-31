@@ -178,6 +178,12 @@ public class KryptonDataGridView : DataGridView
     private Point _cellDown;
     private System.Windows.Forms.Timer? _showTimer;
     private bool _hideOuterBorders;
+    private ScrollBars _savedScrollBarsForRounding;
+    private bool _roundingUsesDetachedScrollbars;
+    private KryptonVScrollBar? _roundingVScrollBar;
+    private KryptonHScrollBar? _roundingHScrollBar;
+    private bool _suppressRoundingScrollSync;
+    private System.Windows.Forms.Timer? _roundingScrollSyncTimer;
     private string _toolTipText;
     private byte _oldLocation;
     private DataGridViewCell? _oldCell;
@@ -237,6 +243,37 @@ public class KryptonDataGridView : DataGridView
         SetupViewAndStates();
         SetupDefaults();
         SetupSyncCellStyles();
+        UpdateRoundingAppearance();
+    }
+
+    /// <inheritdoc />
+    protected override void OnHandleCreated(EventArgs e)
+    {
+        base.OnHandleCreated(e);
+        UpdateRoundingAppearance();
+    }
+
+    /// <summary>
+    /// Gets or sets which scroll bars are visible when corner rounding is disabled.
+    /// </summary>
+    [Category(@"Layout")]
+    [DefaultValue(ScrollBars.Both)]
+    public new ScrollBars ScrollBars
+    {
+        get => _roundingUsesDetachedScrollbars ? _savedScrollBarsForRounding : base.ScrollBars;
+
+        set
+        {
+            _savedScrollBarsForRounding = value;
+            base.ScrollBars = value;
+
+            if (_roundingUsesDetachedScrollbars)
+            {
+                HideNativeScrollbarsForRounding();
+                SyncDetachedRoundingScrollbarsFromGrid();
+                LayoutDetachedRoundingScrollbars();
+            }
+        }
     }
 
     /// <summary>
@@ -269,6 +306,8 @@ public class KryptonDataGridView : DataGridView
 
             // Dispose of view manager related resources
             ViewManager?.Dispose();
+
+            DisableDetachedRoundingScrollbars();
         }
 
         base.Dispose(disposing);
@@ -986,6 +1025,8 @@ public class KryptonDataGridView : DataGridView
         // palette setting and any state overrides that are defined
         SyncCellStylesWithPalette();
 
+        UpdateRoundingAppearance();
+
         // Continue with usual painting logic
         OnNeedPaint(sender, e);
     }
@@ -1118,6 +1159,11 @@ public class KryptonDataGridView : DataGridView
     protected override void OnScroll(ScrollEventArgs e)
     {
         base.OnScroll(e);
+
+        if (_roundingUsesDetachedScrollbars && !_suppressRoundingScrollSync)
+        {
+            SyncDetachedRoundingScrollbarsFromGrid();
+        }
 
         // #2681 - work-around
         // Headers not correctly repainted on horizontal mouse scroll
@@ -1392,8 +1438,15 @@ public class KryptonDataGridView : DataGridView
                     Rectangle headerContentBounds = Rectangle.Empty;
 
                     // Force the border to have a specified maximum border edge
+                    _borderForced.ClearForcedState();
                     _borderForced.SetInherit(paletteBorder);
                     _borderForced.MaxBorderEdges = GetCellMaxBorderEdges(e.CellBounds, e.ColumnIndex, e.RowIndex);
+
+                    if (HasCornerRounding && TryGetOuterCornerBorderEdges(e.CellBounds, out _))
+                    {
+                        _borderForced.ForceBorderRounding(GetEffectiveCornerRounding());
+                        _borderForced.ForceGraphicsHint = PaletteGraphicsHint.AntiAlias;
+                    }
 
                     // Get the padding used to decide how to draw the background
                     Padding borderPadding = Renderer!.RenderStandardBorder.GetBorderRawPadding(_borderForced, state, VisualOrientation.Top);
@@ -1806,11 +1859,25 @@ public class KryptonDataGridView : DataGridView
             // Use the view manager to paint the view panel that fills the entire areas as the background
             using var context = new RenderContext(this, graphics, clipBounds, Renderer!);
             ViewManager.Paint(context);
+
+            if (HasCornerRounding)
+            {
+                IPaletteBorder paletteBorder = Enabled ? StateNormal.Border : StateDisabled.Border;
+                PaletteState borderState = Enabled ? PaletteState.Normal : PaletteState.Disabled;
+                Renderer!.RenderStandardBorder.DrawBorder(context, GetOuterRoundingBounds(), paletteBorder, VisualOrientation.Top, borderState);
+            }
         }
 
         // Request for a refresh has been serviced
         _refresh = false;
         _refreshAll = false;
+    }
+
+    /// <inheritdoc />
+    protected override void OnResize(EventArgs e)
+    {
+        base.OnResize(e);
+        UpdateRoundingAppearance();
     }
 
     /// <summary>
@@ -1843,6 +1910,8 @@ public class KryptonDataGridView : DataGridView
 
         // Let base class layout child controls
         base.OnLayout(levent);
+
+        UpdateRoundingAppearance();
     }
     #endregion
 
@@ -2514,6 +2583,11 @@ public class KryptonDataGridView : DataGridView
         int column,
         int row)
     {
+        if (HasCornerRounding && TryGetOuterCornerBorderEdges(cellBounds, out PaletteDrawBorders cornerEdges))
+        {
+            return cornerEdges;
+        }
+
         // We always draw the bottom border and left/right depending on RTL setting
         PaletteDrawBorders maxBorders = PaletteDrawBorders.Bottom |
                                         (RightToLeftInternal ? PaletteDrawBorders.Left :
@@ -2534,12 +2608,14 @@ public class KryptonDataGridView : DataGridView
 
         // Check if the cell is hard against the far or bottom edges, if so do not need to draw
         // border that is hard against the edge as it will then look like it has double borders
-        if (HideOuterBorders)
+        Rectangle outerBounds = GetOuterRoundingBounds();
+
+        if (HideOuterBorders || HasCornerRounding)
         {
             // With RTL we check the left border
             if (RightToLeftInternal)
             {
-                if (cellBounds.Left == 0)
+                if (IsAtOuterLeft(cellBounds))
                 {
                     maxBorders &= ~PaletteDrawBorders.Left;
                 }
@@ -2547,20 +2623,769 @@ public class KryptonDataGridView : DataGridView
             else
             {
                 // Check the right border
-                if (cellBounds.Right == Width)
+                if (IsAtOuterRight(cellBounds, outerBounds))
                 {
                     maxBorders &= ~PaletteDrawBorders.Right;
                 }
             }
 
             // Check the bottom border
-            if (cellBounds.Bottom == Height)
+            if (IsAtOuterBottom(cellBounds, outerBounds))
             {
                 maxBorders &= ~PaletteDrawBorders.Bottom;
             }
         }
 
+        if (HasCornerRounding)
+        {
+            if (IsAtOuterTop(cellBounds))
+            {
+                maxBorders &= ~PaletteDrawBorders.Top;
+            }
+
+            if (RightToLeftInternal)
+            {
+                if (IsAtOuterRight(cellBounds, outerBounds))
+                {
+                    maxBorders &= ~PaletteDrawBorders.Right;
+                }
+            }
+            else
+            {
+                if (IsAtOuterLeft(cellBounds))
+                {
+                    maxBorders &= ~PaletteDrawBorders.Left;
+                }
+            }
+        }
+
         return maxBorders;
+    }
+
+    private bool TryGetOuterCornerBorderEdges(Rectangle cellBounds, out PaletteDrawBorders cornerEdges)
+    {
+        cornerEdges = PaletteDrawBorders.None;
+
+        if (!HasCornerRounding)
+        {
+            return false;
+        }
+
+        Rectangle outerBounds = GetOuterRoundingBounds();
+        bool atTop = IsAtOuterTop(cellBounds);
+        bool atBottom = IsAtOuterBottom(cellBounds, outerBounds);
+        bool atLeft = IsAtOuterLeft(cellBounds);
+        bool atRight = IsAtOuterRight(cellBounds, outerBounds);
+
+        if (atTop && atLeft)
+        {
+            cornerEdges = PaletteDrawBorders.Top | PaletteDrawBorders.Left;
+            return true;
+        }
+
+        if (atTop && atRight)
+        {
+            cornerEdges = PaletteDrawBorders.Top | PaletteDrawBorders.Right;
+            return true;
+        }
+
+        if (atBottom && atLeft)
+        {
+            cornerEdges = PaletteDrawBorders.Bottom | PaletteDrawBorders.Left;
+            return true;
+        }
+
+        if (atBottom && atRight)
+        {
+            cornerEdges = PaletteDrawBorders.Bottom | PaletteDrawBorders.Right;
+            return true;
+        }
+
+        return false;
+    }
+
+    private bool AreCornerRoundingStatesReady() => StateNormal != null && StateDisabled != null;
+
+    private bool HasCornerRounding => AreCornerRoundingStatesReady() && GetEffectiveCornerRounding() > 0f;
+
+    private float GetEffectiveCornerRounding()
+    {
+        if (!AreCornerRoundingStatesReady())
+        {
+            return 0f;
+        }
+
+        PaletteBorder border = Enabled ? StateNormal.Border : StateDisabled.Border;
+        PaletteState state = Enabled ? PaletteState.Normal : PaletteState.Disabled;
+        return border.GetBorderRounding(state);
+    }
+
+    /// <summary>
+    /// Outer rectangle used for region clipping, outer border, and corner-cell detection.
+    /// </summary>
+    private Rectangle GetOuterRoundingBounds() =>
+        _roundingUsesDetachedScrollbars ? GetDataAreaBounds() : ClientRectangle;
+
+    private Rectangle GetDataAreaBounds()
+    {
+        Rectangle bounds = ClientRectangle;
+
+        if (_roundingUsesDetachedScrollbars)
+        {
+            if (_roundingVScrollBar != null && _roundingVScrollBar.Visible)
+            {
+                bounds.Width = Math.Max(0, bounds.Width - _roundingVScrollBar.Width);
+            }
+
+            if (_roundingHScrollBar != null && _roundingHScrollBar.Visible)
+            {
+                bounds.Height = Math.Max(0, bounds.Height - _roundingHScrollBar.Height);
+            }
+        }
+
+        return bounds;
+    }
+
+    private void UpdateRoundingAppearance()
+    {
+        UpdateRoundingScrollbars();
+        UpdateCornerRoundingRegion();
+    }
+
+    private void UpdateRoundingScrollbars()
+    {
+        if (!AreCornerRoundingStatesReady())
+        {
+            return;
+        }
+
+        if (HasCornerRounding)
+        {
+            if (!_roundingUsesDetachedScrollbars)
+            {
+                EnableDetachedRoundingScrollbars();
+            }
+            else
+            {
+                LayoutDetachedRoundingScrollbars();
+                SyncDetachedRoundingScrollbarsFromGrid();
+            }
+        }
+        else if (_roundingUsesDetachedScrollbars)
+        {
+            DisableDetachedRoundingScrollbars();
+        }
+    }
+
+    private void EnableDetachedRoundingScrollbars()
+    {
+        _savedScrollBarsForRounding = base.ScrollBars;
+        _roundingUsesDetachedScrollbars = true;
+
+        if (_roundingScrollSyncTimer == null)
+        {
+            _roundingScrollSyncTimer = new System.Windows.Forms.Timer { Interval = 50 };
+            _roundingScrollSyncTimer.Tick += OnRoundingScrollSyncTimerTick;
+        }
+
+        _roundingScrollSyncTimer.Start();
+
+        EnsureDetachedRoundingScrollbarsCreated();
+        HideNativeScrollbarsForRounding();
+        SyncDetachedRoundingScrollbarsFromGrid();
+        LayoutDetachedRoundingScrollbars();
+        PerformLayout();
+    }
+
+    private void DisableDetachedRoundingScrollbars()
+    {
+        if (_roundingScrollSyncTimer != null)
+        {
+            _roundingScrollSyncTimer.Stop();
+            _roundingScrollSyncTimer.Tick -= OnRoundingScrollSyncTimerTick;
+            _roundingScrollSyncTimer.Dispose();
+            _roundingScrollSyncTimer = null;
+        }
+
+        if (_roundingVScrollBar != null)
+        {
+            _roundingVScrollBar.Scroll -= OnDetachedRoundingVScroll;
+            Controls.Remove(_roundingVScrollBar);
+            _roundingVScrollBar.Dispose();
+            _roundingVScrollBar = null;
+        }
+
+        if (_roundingHScrollBar != null)
+        {
+            _roundingHScrollBar.Scroll -= OnDetachedRoundingHScroll;
+            Controls.Remove(_roundingHScrollBar);
+            _roundingHScrollBar.Dispose();
+            _roundingHScrollBar = null;
+        }
+
+        if (_roundingUsesDetachedScrollbars)
+        {
+            ShowNativeScrollbarsAfterRounding();
+            _roundingUsesDetachedScrollbars = false;
+            PerformLayout();
+        }
+    }
+
+    private void EnsureDetachedRoundingScrollbarsCreated()
+    {
+        if (_roundingVScrollBar == null)
+        {
+            _roundingVScrollBar = new KryptonVScrollBar
+            {
+                TabStop = false,
+                Visible = false
+            };
+            _roundingVScrollBar.Scroll += OnDetachedRoundingVScroll;
+            Controls.Add(_roundingVScrollBar);
+        }
+
+        if (_roundingHScrollBar == null)
+        {
+            _roundingHScrollBar = new KryptonHScrollBar
+            {
+                TabStop = false,
+                Visible = false
+            };
+            _roundingHScrollBar.Scroll += OnDetachedRoundingHScroll;
+            Controls.Add(_roundingHScrollBar);
+        }
+    }
+
+    private void HideNativeScrollbarsForRounding()
+    {
+        for (int i = 0; i < Controls.Count; i++)
+        {
+            Control control = Controls[i];
+            if (control is VScrollBar || control is HScrollBar)
+            {
+                control.Visible = false;
+            }
+        }
+
+        if (!IsHandleCreated)
+        {
+            return;
+        }
+
+        try
+        {
+            _ = PI.ShowScrollBar(Handle, (int)PI.SB_.BOTH, false);
+        }
+        catch
+        {
+            // If native scrollbars cannot be hidden, continue with detached Krypton scrollbars
+        }
+    }
+
+    private void ShowNativeScrollbarsAfterRounding()
+    {
+        if (IsHandleCreated)
+        {
+            try
+            {
+                _ = PI.ShowScrollBar(Handle, (int)PI.SB_.BOTH, true);
+            }
+            catch
+            {
+                // Ignore restore failures
+            }
+        }
+
+        for (int i = 0; i < Controls.Count; i++)
+        {
+            Control control = Controls[i];
+            if (control is VScrollBar || control is HScrollBar)
+            {
+                control.Visible = true;
+            }
+        }
+    }
+
+    private bool WantsDetachedVerticalScrollBar() =>
+        _savedScrollBarsForRounding == ScrollBars.Vertical || _savedScrollBarsForRounding == ScrollBars.Both;
+
+    private bool WantsDetachedHorizontalScrollBar() =>
+        _savedScrollBarsForRounding == ScrollBars.Horizontal || _savedScrollBarsForRounding == ScrollBars.Both;
+
+    private void LayoutDetachedRoundingScrollbars()
+    {
+        if (!_roundingUsesDetachedScrollbars)
+        {
+            return;
+        }
+
+        EnsureDetachedRoundingScrollbarsCreated();
+
+        int scrollbarWidth = SystemInformation.VerticalScrollBarWidth;
+        int scrollbarHeight = SystemInformation.HorizontalScrollBarHeight;
+        bool showVertical = WantsDetachedVerticalScrollBar() && _roundingVScrollBar != null && _roundingVScrollBar.Visible;
+        bool showHorizontal = WantsDetachedHorizontalScrollBar() && _roundingHScrollBar != null && _roundingHScrollBar.Visible;
+
+        int dataRight = ClientSize.Width - (showVertical ? scrollbarWidth : 0);
+        int dataBottom = ClientSize.Height - (showHorizontal ? scrollbarHeight : 0);
+
+        if (_roundingVScrollBar != null)
+        {
+            _roundingVScrollBar.SetBounds(dataRight, 0, scrollbarWidth, Math.Max(0, dataBottom));
+            _roundingVScrollBar.BringToFront();
+        }
+
+        if (_roundingHScrollBar != null)
+        {
+            _roundingHScrollBar.SetBounds(0, dataBottom, Math.Max(0, dataRight), scrollbarHeight);
+            _roundingHScrollBar.BringToFront();
+        }
+
+        UpdateCornerRoundingRegion();
+    }
+
+    private void SyncDetachedRoundingScrollbarsFromGrid()
+    {
+        if (!_roundingUsesDetachedScrollbars || !IsHandleCreated || _suppressRoundingScrollSync)
+        {
+            return;
+        }
+
+        var hScrollInfo = new WIN32ScrollBars.ScrollInfo
+        {
+            cbSize = Marshal.SizeOf(typeof(WIN32ScrollBars.ScrollInfo)),
+            fMask = (int)PI.SIF_.ALL
+        };
+        var vScrollInfo = new WIN32ScrollBars.ScrollInfo
+        {
+            cbSize = Marshal.SizeOf(typeof(WIN32ScrollBars.ScrollInfo)),
+            fMask = (int)PI.SIF_.ALL
+        };
+
+        bool hasHScroll = PI.GetScrollInfo(Handle, PI.SB_.HORZ, ref hScrollInfo);
+        bool hasVScroll = PI.GetScrollInfo(Handle, PI.SB_.VERT, ref vScrollInfo);
+
+        _suppressRoundingScrollSync = true;
+        try
+        {
+            UpdateDetachedHorizontalScrollBar(hasHScroll, hScrollInfo);
+            UpdateDetachedVerticalScrollBar(hasVScroll, vScrollInfo);
+        }
+        finally
+        {
+            _suppressRoundingScrollSync = false;
+        }
+
+        LayoutDetachedRoundingScrollbars();
+    }
+
+    private void UpdateDetachedHorizontalScrollBar(bool hasNativeScrollInfo, WIN32ScrollBars.ScrollInfo scrollInfo)
+    {
+        if (_roundingHScrollBar == null || !WantsDetachedHorizontalScrollBar())
+        {
+            if (_roundingHScrollBar != null)
+            {
+                _roundingHScrollBar.Visible = false;
+            }
+
+            return;
+        }
+
+        int minimum;
+        int maximum;
+        int page;
+        int position;
+        if (hasNativeScrollInfo && TryGetNativeScrollMetrics(scrollInfo, out minimum, out maximum, out page, out position))
+        {
+            ApplyDetachedScrollBarMetrics(_roundingHScrollBar, minimum, maximum, page, position);
+            return;
+        }
+
+        if (TryComputeHorizontalScrollMetrics(out minimum, out maximum, out page, out position))
+        {
+            ApplyDetachedScrollBarMetrics(_roundingHScrollBar, minimum, maximum, page, position);
+        }
+        else
+        {
+            _roundingHScrollBar.Visible = false;
+        }
+    }
+
+    private void UpdateDetachedVerticalScrollBar(bool hasNativeScrollInfo, WIN32ScrollBars.ScrollInfo scrollInfo)
+    {
+        if (_roundingVScrollBar == null || !WantsDetachedVerticalScrollBar())
+        {
+            if (_roundingVScrollBar != null)
+            {
+                _roundingVScrollBar.Visible = false;
+            }
+
+            return;
+        }
+
+        int minimum;
+        int maximum;
+        int page;
+        int position;
+        if (hasNativeScrollInfo && TryGetNativeScrollMetrics(scrollInfo, out minimum, out maximum, out page, out position))
+        {
+            ApplyDetachedScrollBarMetrics(_roundingVScrollBar, minimum, maximum, page, position);
+            return;
+        }
+
+        if (TryComputeVerticalScrollMetrics(out minimum, out maximum, out page, out position))
+        {
+            ApplyDetachedScrollBarMetrics(_roundingVScrollBar, minimum, maximum, page, position);
+        }
+        else
+        {
+            _roundingVScrollBar.Visible = false;
+        }
+    }
+
+    private static bool TryGetNativeScrollMetrics(WIN32ScrollBars.ScrollInfo scrollInfo,
+        out int minimum,
+        out int maximum,
+        out int page,
+        out int position)
+    {
+        minimum = scrollInfo.nMin;
+        maximum = scrollInfo.nMax;
+        page = Math.Max(1, scrollInfo.nPage);
+        position = scrollInfo.nPos;
+
+        int scrollableMaximum = GetNativeScrollableMaximum(scrollInfo);
+        if (scrollableMaximum <= minimum)
+        {
+            return false;
+        }
+
+        position = Math.Min(position, scrollableMaximum);
+        return true;
+    }
+
+    private static void ApplyDetachedScrollBarMetrics(KryptonVScrollBar scrollBar,
+        int minimum,
+        int maximum,
+        int page,
+        int position)
+    {
+        scrollBar.Visible = true;
+        scrollBar.Minimum = minimum;
+        scrollBar.Maximum = maximum;
+        scrollBar.LargeChange = page;
+        scrollBar.SmallChange = 1;
+        scrollBar.Value = position;
+    }
+
+    private static void ApplyDetachedScrollBarMetrics(KryptonHScrollBar scrollBar,
+        int minimum,
+        int maximum,
+        int page,
+        int position)
+    {
+        scrollBar.Visible = true;
+        scrollBar.Minimum = minimum;
+        scrollBar.Maximum = maximum;
+        scrollBar.LargeChange = page;
+        scrollBar.SmallChange = 1;
+        scrollBar.Value = position;
+    }
+
+    private int GetDetachedScrollContentHeight()
+    {
+        int contentHeight = Rows.GetRowsHeight(DataGridViewElementStates.Visible);
+        if (ColumnHeadersVisible)
+        {
+            contentHeight += ColumnHeadersHeight;
+        }
+
+        return contentHeight;
+    }
+
+    private int GetDetachedScrollContentWidth()
+    {
+        int contentWidth = RowHeadersVisible ? RowHeadersWidth : 0;
+        for (int i = 0; i < Columns.Count; i++)
+        {
+            DataGridViewColumn column = Columns[i];
+            if (column.Visible)
+            {
+                contentWidth += column.Width;
+            }
+        }
+
+        return contentWidth;
+    }
+
+    private void GetDetachedScrollBarVisibility(out bool showVertical, out bool showHorizontal)
+    {
+        showVertical = false;
+        showHorizontal = false;
+
+        bool wantsVertical = WantsDetachedVerticalScrollBar();
+        bool wantsHorizontal = WantsDetachedHorizontalScrollBar();
+        if (!wantsVertical && !wantsHorizontal)
+        {
+            return;
+        }
+
+        int contentHeight = wantsVertical ? GetDetachedScrollContentHeight() : 0;
+        int contentWidth = wantsHorizontal ? GetDetachedScrollContentWidth() : 0;
+        int clientHeight = ClientSize.Height;
+        int clientWidth = ClientSize.Width;
+        int horizontalScrollBarHeight = SystemInformation.HorizontalScrollBarHeight;
+        int verticalScrollBarWidth = SystemInformation.VerticalScrollBarWidth;
+
+        for (int iteration = 0; iteration < 3; iteration++)
+        {
+            int viewportHeight = clientHeight - (showHorizontal ? horizontalScrollBarHeight : 0);
+            int viewportWidth = clientWidth - (showVertical ? verticalScrollBarWidth : 0);
+
+            bool newShowVertical = wantsVertical && contentHeight > viewportHeight;
+            bool newShowHorizontal = wantsHorizontal && contentWidth > viewportWidth;
+
+            if (newShowVertical == showVertical && newShowHorizontal == showHorizontal)
+            {
+                break;
+            }
+
+            showVertical = newShowVertical;
+            showHorizontal = newShowHorizontal;
+        }
+    }
+
+    private int GetDetachedScrollViewportHeight()
+    {
+        GetDetachedScrollBarVisibility(out _, out bool showHorizontal);
+
+        int viewportHeight = ClientSize.Height;
+        if (showHorizontal)
+        {
+            viewportHeight -= SystemInformation.HorizontalScrollBarHeight;
+        }
+
+        return Math.Max(0, viewportHeight);
+    }
+
+    private int GetDetachedScrollViewportWidth()
+    {
+        GetDetachedScrollBarVisibility(out bool showVertical, out _);
+
+        int viewportWidth = ClientSize.Width;
+        if (showVertical)
+        {
+            viewportWidth -= SystemInformation.VerticalScrollBarWidth;
+        }
+
+        return Math.Max(0, viewportWidth);
+    }
+
+    private bool TryComputeVerticalScrollMetrics(out int minimum,
+        out int maximum,
+        out int page,
+        out int position)
+    {
+        minimum = 0;
+        maximum = 0;
+        page = 1;
+        position = 0;
+
+        int contentHeight = GetDetachedScrollContentHeight();
+
+        page = Math.Max(1, GetDetachedScrollViewportHeight());
+        if (contentHeight <= page)
+        {
+            return false;
+        }
+
+        maximum = Math.Max(minimum, contentHeight - 1);
+        position = Math.Min(GetVerticalScrollPositionInPixels(), GetNativeScrollableMaximum(minimum, maximum, page));
+        return true;
+    }
+
+    private bool TryComputeHorizontalScrollMetrics(out int minimum,
+        out int maximum,
+        out int page,
+        out int position)
+    {
+        minimum = 0;
+        maximum = 0;
+        page = 1;
+        position = 0;
+
+        int contentWidth = GetDetachedScrollContentWidth();
+
+        page = Math.Max(1, GetDetachedScrollViewportWidth());
+        if (contentWidth <= page)
+        {
+            return false;
+        }
+
+        maximum = Math.Max(minimum, contentWidth - 1);
+        position = Math.Min(GetHorizontalScrollPositionInPixels(), GetNativeScrollableMaximum(minimum, maximum, page));
+        return true;
+    }
+
+    private int GetVerticalScrollPositionInPixels()
+    {
+        int position = 0;
+        int firstRow = Math.Max(0, FirstDisplayedScrollingRowIndex);
+
+        for (int i = 0; i < firstRow && i < Rows.Count; i++)
+        {
+            if (Rows[i].Visible)
+            {
+                position += Rows[i].Height;
+            }
+        }
+
+        return position;
+    }
+
+    private int GetHorizontalScrollPositionInPixels()
+    {
+        var hScrollInfo = new WIN32ScrollBars.ScrollInfo
+        {
+            cbSize = Marshal.SizeOf(typeof(WIN32ScrollBars.ScrollInfo)),
+            fMask = (int)PI.SIF_.POS
+        };
+
+        if (IsHandleCreated && PI.GetScrollInfo(Handle, PI.SB_.HORZ, ref hScrollInfo))
+        {
+            return hScrollInfo.nPos;
+        }
+
+        int position = 0;
+        int firstColumn = Math.Max(0, FirstDisplayedScrollingColumnIndex);
+        if (RowHeadersVisible)
+        {
+            position += RowHeadersWidth;
+        }
+
+        for (int i = 0; i < firstColumn && i < Columns.Count; i++)
+        {
+            if (Columns[i].Visible)
+            {
+                position += Columns[i].Width;
+            }
+        }
+
+        return position;
+    }
+
+    private static int GetNativeScrollableMaximum(int minimum, int maximum, int page) =>
+        Math.Max(minimum, maximum - Math.Max(1, page) + 1);
+
+    private static int GetNativeScrollableMaximum(WIN32ScrollBars.ScrollInfo scrollInfo)
+    {
+        int page = Math.Max(1, scrollInfo.nPage);
+        long scrollableMaximum = (long)scrollInfo.nMax - page + 1;
+
+        if (scrollableMaximum < scrollInfo.nMin)
+        {
+            return scrollInfo.nMin;
+        }
+
+        return scrollableMaximum > int.MaxValue ? int.MaxValue : (int)scrollableMaximum;
+    }
+
+    private void OnDetachedRoundingVScroll(object? sender, ScrollEventArgs e) =>
+        ApplyDetachedRoundingScrollToGrid(false, e);
+
+    private void OnDetachedRoundingHScroll(object? sender, ScrollEventArgs e) =>
+        ApplyDetachedRoundingScrollToGrid(true, e);
+
+    private void ApplyDetachedRoundingScrollToGrid(bool horizontal, ScrollEventArgs e)
+    {
+        if (!_roundingUsesDetachedScrollbars || !IsHandleCreated || _suppressRoundingScrollSync)
+        {
+            return;
+        }
+
+        try
+        {
+            PI.SB_ scrollBar = horizontal ? PI.SB_.HORZ : PI.SB_.VERT;
+            int value = e.NewValue;
+            PI.SetScrollPos(Handle, scrollBar, value, true);
+            int scrollRequest = e.Type == ScrollEventType.ThumbTrack
+                ? (int)PI.SB_.THUMBTRACK
+                : (int)PI.SB_.THUMBPOSITION;
+
+            PI.SendMessage(Handle, horizontal ? PI.WM_.HSCROLL : PI.WM_.VSCROLL,
+                (IntPtr)(scrollRequest | (value << 16)), IntPtr.Zero);
+        }
+        catch
+        {
+            // Ignore scroll sync failures
+        }
+    }
+
+    private void OnRoundingScrollSyncTimerTick(object? sender, EventArgs e) =>
+        SyncDetachedRoundingScrollbarsFromGrid();
+
+    private static bool IsAtOuterTop(Rectangle cellBounds) => cellBounds.Top == 0;
+
+    private static bool IsAtOuterLeft(Rectangle cellBounds) => cellBounds.Left == 0;
+
+    private static bool IsAtOuterBottom(Rectangle cellBounds, Rectangle outerBounds) =>
+        cellBounds.Bottom >= outerBounds.Bottom;
+
+    private static bool IsAtOuterRight(Rectangle cellBounds, Rectangle outerBounds) =>
+        cellBounds.Right >= outerBounds.Right;
+
+    private void UpdateCornerRoundingRegion()
+    {
+        float rounding = GetEffectiveCornerRounding();
+        Rectangle outerBounds = GetOuterRoundingBounds();
+        if (rounding <= 0f || outerBounds.Width <= 0 || outerBounds.Height <= 0)
+        {
+            Region?.Dispose();
+            Region = null;
+            return;
+        }
+
+        int radius = (int)Math.Round(rounding, MidpointRounding.AwayFromZero);
+        using GraphicsPath path = new GraphicsPath();
+        using (GraphicsPath roundedPath = CommonHelper.RoundedRectanglePath(outerBounds, radius))
+        {
+            path.AddPath(roundedPath, false);
+        }
+
+        AppendDetachedScrollbarGuttersToPath(path, outerBounds);
+
+        Region? oldRegion = Region;
+        Region = new Region(path);
+        oldRegion?.Dispose();
+    }
+
+    private void AppendDetachedScrollbarGuttersToPath(GraphicsPath path, Rectangle dataBounds)
+    {
+        if (!_roundingUsesDetachedScrollbars)
+        {
+            return;
+        }
+
+        int scrollbarWidth = SystemInformation.VerticalScrollBarWidth;
+        int scrollbarHeight = SystemInformation.HorizontalScrollBarHeight;
+        bool showVertical = WantsDetachedVerticalScrollBar() && _roundingVScrollBar != null && _roundingVScrollBar.Visible;
+        bool showHorizontal = WantsDetachedHorizontalScrollBar() && _roundingHScrollBar != null && _roundingHScrollBar.Visible;
+
+        if (showVertical)
+        {
+            path.AddRectangle(new Rectangle(dataBounds.Right, 0, scrollbarWidth, ClientSize.Height));
+        }
+
+        if (showHorizontal)
+        {
+            int horizontalWidth = showVertical ? dataBounds.Width : ClientSize.Width;
+            path.AddRectangle(new Rectangle(0, dataBounds.Bottom, horizontalWidth, scrollbarHeight));
+        }
+
+        if (showVertical && showHorizontal)
+        {
+            path.AddRectangle(new Rectangle(dataBounds.Right, dataBounds.Bottom, scrollbarWidth, scrollbarHeight));
+        }
     }
 
     private void ViewManagerLayout()
