@@ -4,7 +4,8 @@
 
 * [NuGet Information](#nuget-information)
 * [Build Status](#build-status)
-  * [Documentation](#documentation)
+* [Workflow Status](#workflow-status)
+* [Documentation](#documentation)
   * [Contributing to the Standard Toolkit](#contributing-to-the-standard-toolkit)
 * [Package Support Information](#package-support-information)
   * [Release Cadence](#release-cadence)
@@ -52,6 +53,24 @@ View [package version details and supported frameworks](https://krypton-suite.gi
 | Release (Canary) | [![Release](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/release.yml/badge.svg?branch=canary)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/release.yml) |
 | Build (Alpha) | [![Build](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/build.yml/badge.svg?branch=alpha)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/build.yml) |
 | Release (Alpha) | [![Release](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/nightly.yml/badge.svg?branch=alpha)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/nightly.yml) |
+
+=======
+
+## Workflow Status
+
+| Workflow | Status |
+| --- | --- |
+| Alpha Backup Synchronisation | [![Alpha to Alpha-Backup Sync](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/alpha-backup-sync.yml/badge.svg)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/alpha-backup-sync.yml) |
+| Build TestForm Project | [![Build TestForm](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/build-testform.yml/badge.svg)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/build-testform.yml) |
+| Canary LTS Release | [![Canary LTS Release](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/canary-lts-release.yml/badge.svg)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/canary-lts-release.yml) |
+| Canary Release | [![Canary Release](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/canary.yml/badge.svg)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/canary.yml) |
+| CodeQL | [![CodeQL](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/github-code-scanning/codeql) |
+| CodeQL Advanced | [![CodeQL Advanced](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/codeql.yml/badge.svg)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/codeql.yml) |
+| Dependabot Updates | [![Dependabot Updates](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/dependabot/dependabot-updates/badge.svg)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/dependabot/dependabot-updates) |
+| Nightly Release | [![Nightly Release](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/nightly.yml/badge.svg)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/nightly.yml) |
+| Release | [![Release](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/release.yml/badge.svg)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/release.yml) |
+| Repository Mirror | [![Repository Mirror](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/repo-mirror.yml/badge.svg)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/repo-mirror.yml) |
+| Visual Studio Templates Release | [![Visual Studio Templates Release](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/templates-release.yml/badge.svg)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/templates-release.yml) |
 
 =======
 
