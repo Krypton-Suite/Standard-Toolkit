@@ -46,10 +46,7 @@ for /f "tokens=* usebackq" %%A in (`tzutil /g`) do (
 set "targets=Build"
 if not "%~1" == "" set "targets=%~1"
 REM Phased Krypton.* build + /m (see Scripts\Build\Krypton.Orchestration.targets).
-setlocal
-call "%~dp0setup-dotnet11-sdk.cmd" || (endlocal & goto exitbatch)
 "%msbuildpath%\msbuild.exe" /m /t:%targets% "%SCRIPT_DIR%longtermstable.proj" /fl /flp:logfile="%SCRIPT_DIR%..\..\Logs\long-term-stable-build-log.log" /bl:"%SCRIPT_DIR%..\..\Logs\long-term-stable-build-log.binlog" /clp:Summary;ShowTimestamp /v:quiet
-endlocal
 @echo:
 @echo Stable release build completed: %date% %time% %zone%
 @echo:

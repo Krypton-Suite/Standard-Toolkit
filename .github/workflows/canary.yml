@@ -76,37 +76,6 @@ jobs:
           ref: Canary
           fetch-depth: 0
 
-      # Canary always builds Canary; the workflow file may land before Populate-WebView2.ps1 is merged to Canary.
-      - name: Checkout WebView2 CI script overlay
-        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
-        uses: actions/checkout@v6
-        with:
-          ref: ${{ github.sha }}
-          sparse-checkout: Scripts/CI/Populate-WebView2.ps1
-          sparse-checkout-cone-mode: true
-          path: _ci-overlay
-
-      - name: Ensure WebView2 CI script
-        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
-        shell: pwsh
-        run: |
-          $ErrorActionPreference = 'Stop'
-          $dest = Join-Path $env:GITHUB_WORKSPACE 'Scripts/CI/Populate-WebView2.ps1'
-          if (Test-Path -LiteralPath $dest) {
-            Write-Host 'WebView2 CI script already present on checked-out branch.'
-            exit 0
-          }
-          $src = Join-Path $env:GITHUB_WORKSPACE '_ci-overlay/Scripts/CI/Populate-WebView2.ps1'
-          if (-not (Test-Path -LiteralPath $src)) {
-            Write-Error @"
-          Scripts/CI/Populate-WebView2.ps1 is missing on Canary and on workflow ref ($env:GITHUB_SHA).
-          Merge Scripts/CI/Populate-WebView2.ps1 into Canary in the same change set as these workflow updates.
-          "@
-          }
-          New-Item -ItemType Directory -Force -Path (Split-Path -Parent $dest) | Out-Null
-          Copy-Item -LiteralPath $src -Destination $dest -Force
-          Write-Host 'Copied WebView2 CI script from workflow ref onto Canary checkout.'
-
       # .NET 9 and 10; .NET 11 for net11.0-windows (DOTNET_PREVIEW_SETUP_VERSION when set, else 11.0.x).
       - name: Setup .NET (9 and 10)
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
@@ -209,44 +178,63 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
 
-      # Prerelease WebView2 required for net11.0-windows; stable packages do not support .NET 11 yet.
-      - name: Resolve WebView2 version
-        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
-        id: webview2_version
-        shell: pwsh
-        run: |
-          $ErrorActionPreference = 'Stop'
-          $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
-          & (Join-Path $repoRoot 'Scripts/CI/Populate-WebView2.ps1') -Prerelease -ResolveVersionOnly -WriteGitHubOutputVersion
-
-      - name: Restore WebView2 cache
-        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
-        id: webview2_cache_restore
-        uses: actions/cache/restore@v5
-        continue-on-error: true
-        with:
-          path: ${{ runner.temp }}/webview2
-          key: webview2-${{ runner.os }}-${{ steps.webview2_version.outputs.version }}
-          restore-keys: |
-            webview2-${{ runner.os }}-
-
       - name: Populate WebView2 (Preview)
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         shell: pwsh
-        env:
-          WEBVIEW2_VERSION: ${{ steps.webview2_version.outputs.version }}
         run: |
-          $ErrorActionPreference = 'Stop'
-          $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
-          & (Join-Path $repoRoot 'Scripts/CI/Populate-WebView2.ps1') -Prerelease -Version $env:WEBVIEW2_VERSION
+          $ErrorActionPreference = "Stop"
 
-      - name: Save WebView2 cache
-        if: success() && steps.canary_release_kill_switch.outputs.enabled == 'true'
-        uses: actions/cache/save@v5
-        continue-on-error: true
-        with:
-          path: ${{ runner.temp }}/webview2
-          key: ${{ steps.webview2_cache_restore.outputs.cache-primary-key }}
+          $root = $env:GITHUB_WORKSPACE
+          if (-not $root) { $root = (Get-Location).Path }
+
+          $libDir = Join-Path $root "Source\Krypton Components\Krypton.Toolkit.Utilities\Lib\WebView2"
+          $tempDir = Join-Path $env:RUNNER_TEMP "webview2"
+                try {
+                    $search = Invoke-RestMethod `
+                        -Uri "https://azuresearch-usnc.nuget.org/query?q=$packageId&prerelease=true&semVerLevel=2.0.0&take=1"
+      
+                    $latestVersion = $search.data[0].version
+                }
+                catch {
+                    Write-Warning "NuGet search failed, using fallback version"
+                    $latestVersion = "1.0.3595.46"
+                }
+      
+                Write-Host "Using WebView2 version: $latestVersion"
+      
+                $nupkg = Join-Path $tempDir "$packageId.$latestVersion.nupkg"
+                $extractDir = Join-Path $tempDir "extract"
+      
+                Write-Host "Downloading package..."
+      
+                Invoke-WebRequest `
+                    -Uri "https://www.nuget.org/api/v2/package/$packageId/$latestVersion" `
+                    -OutFile $nupkg
+      
+                Write-Host "Extracting package..."
+      
+                Expand-Archive $nupkg $extractDir -Force
+      
+                Write-Host "Copying required DLLs..."
+      
+                $files = @(
+                    "Microsoft.Web.WebView2.Core.dll"
+                    "Microsoft.Web.WebView2.WinForms.dll"
+                    "WebView2Loader.dll"
+                )
+      
+                foreach ($file in $files) {
+                    $found = Get-ChildItem $extractDir -Recurse -Filter $file | Select-Object -First 1
+                    if ($found) {
+                        Copy-Item $found.FullName $libDir -Force
+                        Write-Host "Copied $file"
+                    }
+                    else {
+                        Write-Warning "$file not found in package"
+                    }
+                }
+      
+                Write-Host "WebView2 population complete."
 
       # /m: multi-processor MSBuild (all runner CPUs). canary.proj orchestrates Krypton.* projects in parallel where references allow.
       - name: Restore

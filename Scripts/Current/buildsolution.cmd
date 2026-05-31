@@ -40,7 +40,7 @@ set "targets=Build"
 if not "%~1" == "" set "targets=%~1"
 REM /m: multi-processor MSBuild (all logical CPUs).
 setlocal
-call "%SCRIPT_DIR%..\Build\setup-dotnet11-sdk.cmd" || (endlocal & goto exitbatch)
+call "%SCRIPT_DIR%setup-dotnet11-sdk.cmd" || (endlocal & goto exitbatch)
 "%msbuildpath%\msbuild.exe" /m /t:%targets% "%SCRIPT_DIR%build.proj" /fl /flp:logfile="%SCRIPT_DIR%..\..\Logs\solution-build-log.log" /bl:"%SCRIPT_DIR%..\..\Logs\solution-build-log.binlog" /clp:Summary;ShowTimestamp /v:quiet
 endlocal
 
