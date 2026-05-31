@@ -168,7 +168,7 @@ namespace MenuItemThemeSettingsRepro
             _palette.ToolMenuStatus.Menu.MenuItemPressedGradientMiddle = Color.White;
             _palette.ToolMenuStatus.Menu.MenuItemPressedGradientEnd = Color.Purple;
 
-            _modeLabel.Text = @"Full colors: top-level hover is magenta/cyan, drop-down hover is lime.";
+            _modeLabel.Text = @"Full colors: drop-down and context menu hover use the lime MenuItemSelected override.";
             RefreshRenderers();
         }
 
