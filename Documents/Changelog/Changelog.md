@@ -45,6 +45,7 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Resolved [#3580](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3580), Fix docked header autosizing
 * Resolved [#3616](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3616), Alpha Backup Synchronisation workflow fails to run
 * Implemented [#3591](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3591), Implement a automated backup system
 * Implemented [#3611](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3611), Badges for workflows
