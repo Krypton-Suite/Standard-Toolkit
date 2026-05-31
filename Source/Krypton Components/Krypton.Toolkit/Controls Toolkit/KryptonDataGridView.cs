@@ -3397,7 +3397,7 @@ public class KryptonDataGridView : DataGridView
         }
     }
 
-    private bool TryGetNativeDataGridScrollBar(bool horizontal, [NotNullWhen(true)] out ScrollBar? nativeScrollBar)
+    private bool TryGetNativeDataGridScrollBar(bool horizontal, out ScrollBar? nativeScrollBar)
     {
         nativeScrollBar = null;
 
@@ -3431,7 +3431,8 @@ public class KryptonDataGridView : DataGridView
         page = 1;
         position = 0;
 
-        if (!TryGetNativeDataGridScrollBar(horizontal, out ScrollBar? nativeScrollBar))
+        if (!TryGetNativeDataGridScrollBar(horizontal, out ScrollBar? nativeScrollBar)
+            || nativeScrollBar == null)
         {
             return false;
         }
@@ -3463,7 +3464,9 @@ public class KryptonDataGridView : DataGridView
             return;
         }
 
-        if (!TryGetNativeDataGridScrollBar(horizontal, out ScrollBar? nativeScrollBar) || !nativeScrollBar.IsHandleCreated)
+        if (!TryGetNativeDataGridScrollBar(horizontal, out ScrollBar? nativeScrollBar)
+            || nativeScrollBar == null
+            || !nativeScrollBar.IsHandleCreated)
         {
             return;
         }
