@@ -46,6 +46,7 @@
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
 * Implemented [#804](https://github.com/Krypton-Suite/Standard-Toolkit/issues/804), `KryptonDataGridView` external corner rounding via `StateNormal.Border.Rounding` (and `StateDisabled.Border`, same as other Krypton controls; `-1` inherits/disables). Clips the data area, paints a rounded outer border, draws rounded backgrounds/borders on outer corner cells, and detaches native scrollbars to themed `Krypton` scrollbars in the gutter while rounding is active. `PaletteDataGridViewAll` exposes `Border` in the designer (replacing `PaletteBorder` visibility).
+* Resolved [#3598](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3598), Fix KryptonContextMenu disposal leaks
 * Resolved [#2926](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2926), Really fix themed scrollbars part of KryptonListBox
 * Resolved [#3227](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3227), Fix disposed docking space load handling
 * Resolved [#3493](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3493), Fix Scripts build issues related to framework targeting. Updated AGENTS.md with better instructions.
