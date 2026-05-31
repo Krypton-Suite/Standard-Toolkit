@@ -65,6 +65,7 @@
 |-----------|-------|---------|------------|
 | 2026-05-31 | Tried to read `Source\Krypton Components\Krypton.Toolkit\Krypton.Toolkit.csproj`, which does not exist | 1 | Located the actual project file as `Krypton.Toolkit 2022.csproj`. |
 | 2026-05-31 | Review found checked/indeterminate normal context menu items still used `CheckBackground` instead of the `KryptonContextMenu` `ContextMenuItemImage` path | 1 | Reopened implementation to map checked image painting to `ContextMenuItemImage`. |
+| 2026-05-31 | Changelog entry was missing for issue #397 after the initial PR was opened | 1 | Added the entry under the 105-LTS Patch 3 changelog section. |
 
 ## 5-Question Reboot Check
 | Question | Answer |
@@ -73,4 +74,4 @@
 | Where am I going? | Final summary to user. |
 | What's the goal? | Normal context menus should use the same Krypton colours as `KContextMenu`. |
 | What have I learned? | Normal context menus use Krypton ToolStrip renderers, but those renderers read generic ToolStrip colour-table values instead of the `ContextMenu*` palette values used by `KryptonContextMenu`. |
-| What have I done? | Implemented the renderer fix, validated with a focused net472 build and `git diff --check`, and updated planning files. |
+| What have I done? | Implemented the renderer fix, validated with a focused net472 build and `git diff --check`, updated planning files, and added the changelog entry. |
