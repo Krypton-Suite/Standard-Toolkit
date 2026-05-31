@@ -1,0 +1,64 @@
+<Project>
+
+	<!--
+	  Phased Krypton.* orchestration: avoids parallel projects racing on shared Bin/<Configuration>/<tfm>/ outputs
+	  while still allowing Ribbon + Navigator to build together after Toolkit is complete.
+	  Use with msbuild /m on the command line for parallel multi-TFM builds within each project.
+	-->
+	<PropertyGroup>
+		<KryptonComponentsRoot>..\..\Source\Krypton Components</KryptonComponentsRoot>
+		<KryptonToolkitProject>$(KryptonComponentsRoot)\Krypton.Toolkit\Krypton.Toolkit 2022.csproj</KryptonToolkitProject>
+		<KryptonRibbonProject>$(KryptonComponentsRoot)\Krypton.Ribbon\Krypton.Ribbon 2022.csproj</KryptonRibbonProject>
+		<KryptonNavigatorProject>$(KryptonComponentsRoot)\Krypton.Navigator\Krypton.Navigator 2022.csproj</KryptonNavigatorProject>
+		<KryptonWorkspaceProject>$(KryptonComponentsRoot)\Krypton.Workspace\Krypton.Workspace 2022.csproj</KryptonWorkspaceProject>
+		<KryptonDockingProject>$(KryptonComponentsRoot)\Krypton.Docking\Krypton.Docking 2022.csproj</KryptonDockingProject>
+		<KryptonComponentBuildProperties Condition="'$(TFMs)' != ''">Configuration=$(Configuration);TFMs=$(TFMs)</KryptonComponentBuildProperties>
+		<KryptonComponentBuildProperties Condition="'$(TFMs)' == ''">Configuration=$(Configuration);TFMs=all</KryptonComponentBuildProperties>
+		<KryptonComponentBuildProperties Condition="'$(ExcludeVs2019UnsupportedTargetFrameworks)' != ''">$(KryptonComponentBuildProperties);ExcludeVs2019UnsupportedTargetFrameworks=$(ExcludeVs2019UnsupportedTargetFrameworks)</KryptonComponentBuildProperties>
+		<KryptonComponentBuildProperties Condition="'$(ExcludeVs2022UnsupportedTargetFrameworks)' != ''">$(KryptonComponentBuildProperties);ExcludeVs2022UnsupportedTargetFrameworks=$(ExcludeVs2022UnsupportedTargetFrameworks)</KryptonComponentBuildProperties>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<KryptonParallelAfterToolkit Include="$(KryptonRibbonProject)" />
+		<KryptonParallelAfterToolkit Include="$(KryptonNavigatorProject)" />
+	</ItemGroup>
+
+	<Target Name="KryptonBuild">
+		<MSBuild Projects="$(KryptonToolkitProject)"
+		         Properties="$(KryptonComponentBuildProperties)"
+		         Targets="Build" />
+
+		<MSBuild Projects="@(KryptonParallelAfterToolkit)"
+		         Properties="$(KryptonComponentBuildProperties)"
+		         Targets="Build"
+		         BuildInParallel="true" />
+
+		<MSBuild Projects="$(KryptonWorkspaceProject)"
+		         Properties="$(KryptonComponentBuildProperties)"
+		         Targets="Build" />
+
+		<MSBuild Projects="$(KryptonDockingProject)"
+		         Properties="$(KryptonComponentBuildProperties)"
+		         Targets="Build" />
+	</Target>
+
+	<Target Name="KryptonPack">
+		<MSBuild Projects="$(KryptonToolkitProject)"
+		         Properties="$(KryptonComponentBuildProperties)"
+		         Targets="Pack" />
+
+		<MSBuild Projects="@(KryptonParallelAfterToolkit)"
+		         Properties="$(KryptonComponentBuildProperties)"
+		         Targets="Pack"
+		         BuildInParallel="true" />
+
+		<MSBuild Projects="$(KryptonWorkspaceProject)"
+		         Properties="$(KryptonComponentBuildProperties)"
+		         Targets="Pack" />
+
+		<MSBuild Projects="$(KryptonDockingProject)"
+		         Properties="$(KryptonComponentBuildProperties)"
+		         Targets="Pack" />
+	</Target>
+
+</Project>

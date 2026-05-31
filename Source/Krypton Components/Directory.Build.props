@@ -5,6 +5,11 @@
 	<!--https://learn.microsoft.com/en-gb/dotnet/csharp/language-reference/configure-language-version#configure-multiple-projects-->
 	<PropertyGroup>
 		<LangVersion>preview</LangVersion>
+		<Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>
+		<ExcludeVs2019UnsupportedTargetFrameworks Condition="'$(ExcludeVs2019UnsupportedTargetFrameworks)' == '' And '$(CI)' != 'true' And '$(MSBuildRuntimeType)' == 'Full' And $([System.String]::Copy('$(VisualStudioVersion)').StartsWith('16.'))">true</ExcludeVs2019UnsupportedTargetFrameworks>
+		<ExcludeVs2022UnsupportedTargetFrameworks Condition="'$(ExcludeVs2022UnsupportedTargetFrameworks)' == '' And '$(CI)' != 'true' And '$(MSBuildRuntimeType)' == 'Full' And $([System.String]::Copy('$(VisualStudioVersion)').StartsWith('17.'))">true</ExcludeVs2022UnsupportedTargetFrameworks>
+		<KryptonBuildOutputRoot Condition="'$(KryptonBuildOutputRoot)' == ''">$(MSBuildThisFileDirectory)..\..\Bin\</KryptonBuildOutputRoot>
+		<KryptonPackageOutputRoot Condition="'$(KryptonPackageOutputRoot)' == ''">$(MSBuildThisFileDirectory)..\..\Bin\Packages\</KryptonPackageOutputRoot>
 	</PropertyGroup>
 
 	<!--Handle AssemblyInfo-->
@@ -12,7 +17,7 @@
 		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
 		<NeutralLanguage>en</NeutralLanguage>
 		<Authors>Phil Wright (A.K.A ComponentFactory), Peter Wagner (A.K.A Wagnerp), Simon Coghlan (A.K.A Smurf-IV), Giduac, Ahmed Abdelhameed, Lesandro and tobitege</Authors>
-		<Copyright>© Component Factory Pty Ltd, 2006 - 2016. Then modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, Lesandro and tobitege et al. 2017 - 2025. All rights reserved.</Copyright>
+		<Copyright>© Component Factory Pty Ltd, 2006 - 2016. Then modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, Lesandro and tobitege et al. 2017 - 2026. All rights reserved.</Copyright>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -27,33 +32,40 @@
 
 	<ItemGroup Condition="'$(UsingMicrosoftNETSdk)' == 'true'">
 		<PackageReference Include="System.Resources.Extensions" Version="9.0.10" />
+		<PackageReference Include="Microsoft.Net.Compilers.Toolset" Version="4.14.0" PrivateAssets="all" Condition="'$(ExcludeVs2019UnsupportedTargetFrameworks)' == 'true'" />
 	</ItemGroup>
 
 	<!-- Configure NuGet package output to separate directory for easier management -->
 	<PropertyGroup>
-		<PackageOutputPath>$(MSBuildThisFileDirectory)..\..\Bin\Packages\$(Configuration)\</PackageOutputPath>
+		<PackageOutputPath>$(KryptonPackageOutputRoot)$(Configuration)\</PackageOutputPath>
 		<!-- Ensure multi-target outputs don't overwrite each other -->
-		<OutputPath>$(MSBuildThisFileDirectory)..\..\Bin\$(Configuration)\$(TargetFramework)\</OutputPath>
-		<IntermediateOutputPath>obj\$(Configuration)\$(TargetFramework)\</IntermediateOutputPath>
+		<OutputPath>$(KryptonBuildOutputRoot)$(Configuration)\$(TargetFramework)\</OutputPath>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+		<!-- Per-TFM obj avoids races when msbuild /m compiles multiple target frameworks at once -->
+		<IntermediateOutputPath>$(MSBuildProjectDirectory)\obj\$(Configuration)\$(TargetFramework)\</IntermediateOutputPath>
+		<AppendTargetFrameworkToIntermediateOutputPath>false</AppendTargetFrameworkToIntermediateOutputPath>
+	</PropertyGroup>
+
+	<!-- NuGet package readme (https://aka.ms/nuget-include-readme) and license for all pack configurations. -->
+	<ItemGroup>
+		<None Include="..\..\..\Documents\License\License.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+		<None Include="..\..\..\README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
+
+	<PropertyGroup>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
 
 	<Choose>
 		<When Condition="'$(Configuration)' == 'Canary'">
 			<ItemGroup>
 				<None Include="../../../Assets/PNG/NuGet Package Icons/Krypton Canary.png" Link="Icon.png" Pack="true" PackagePath="" />
-
-				<None Include="..\..\..\Documents\License\License.md">
-					<Pack>True</Pack>
-					<PackagePath>\</PackagePath>
-				</None>
-
-
-				<None Include="..\..\..\README.md">
-					<Pack>True</Pack>
-					<PackagePath>\</PackagePath>
-				</None>
-
 			</ItemGroup>
 
 			<PropertyGroup>
@@ -75,18 +87,6 @@
 		<When Condition="'$(Configuration)' == 'Nightly'">
 			<ItemGroup>
 				<None Include="../../../Assets/PNG/NuGet Package Icons/Krypton Nightly.png" Link="Icon.png" Pack="true" PackagePath="" />
-
-				<None Include="..\..\..\Documents\License\License.md">
-					<Pack>True</Pack>
-					<PackagePath>\</PackagePath>
-				</None>
-
-
-				<None Include="..\..\..\README.md">
-					<Pack>True</Pack>
-					<PackagePath>\</PackagePath>
-				</None>
-
 			</ItemGroup>
 
 			<PropertyGroup>
@@ -107,18 +107,6 @@
 		<Otherwise>
 			<ItemGroup>
 				<None Include="../../../Assets/PNG/NuGet Package Icons/Krypton Stable.png" Link="Icon.png" Pack="true" PackagePath="" />
-
-				<None Include="..\..\..\Documents\License\License.md">
-					<Pack>True</Pack>
-					<PackagePath>\</PackagePath>
-				</None>
-
-
-				<None Include="..\..\..\README.md">
-					<Pack>True</Pack>
-					<PackagePath>\</PackagePath>
-				</None>
-
 			</ItemGroup>
 
 			<PropertyGroup>
@@ -132,7 +120,6 @@
 				<Authors>Peter William Wagner &amp; Simon Coghlan &amp; Giduac &amp; Ahmed Abdelhameed &amp; Lesandro &amp; tobitege &amp; Thomas Bolon</Authors>
 				<!--<PackageLicenseFile>License.md</PackageLicenseFile>-->
 				<PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
-				<PackageReadmeFile>README.md</PackageReadmeFile>
 				<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
 				<PackageTags>Krypton ComponentFactory WinForms Themes Controls DataGrid Ribbon Workspace Tabs .NET Toolkit</PackageTags>
 				<PackageReleaseNotes>Get updates here: https://github.com/Krypton-Suite/Standard-Toolkit</PackageReleaseNotes>

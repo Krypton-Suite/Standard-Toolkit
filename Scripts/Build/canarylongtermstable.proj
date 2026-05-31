@@ -1,12 +1,12 @@
 <Project>
 	<Import Project="..\..\Directory.Build.props" />
-	<Import Project="..\Build\Krypton.Orchestration.targets" />
+	<Import Project="Krypton.Orchestration.targets" />
 
 	<PropertyGroup>
 		<RootFolder>$(MSBuildProjectDirectory)</RootFolder>
 		<Configuration>Canary</Configuration>
 		<CanaryBuildPath>..\Bin\Canary\Zips</CanaryBuildPath>
-		<CanaryZipName>Krypton-Canary</CanaryZipName>
+		<CanaryZipName>Krypton-Canary-LTS</CanaryZipName>
 	</PropertyGroup>
 
 	<Target Name="Clean">

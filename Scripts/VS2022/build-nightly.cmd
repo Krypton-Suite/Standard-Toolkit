@@ -15,23 +15,23 @@ pause
 goto exitbatch
 
 :vs17prev
-set msbuildpath=%ProgramFiles%\Microsoft Visual Studio\2022\Preview\MSBuild\Current\Bin
+set "msbuildpath=%ProgramFiles%\Microsoft Visual Studio\2022\Preview\MSBuild\Current\Bin"
 goto build
 
 :vs17ent
-set msbuildpath=%ProgramFiles%\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin
+set "msbuildpath=%ProgramFiles%\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin"
 goto build
 
 :vs17pro
-set msbuildpath=%ProgramFiles%\Microsoft Visual Studio\2022\Professional\MSBuild\Current\Bin
+set "msbuildpath=%ProgramFiles%\Microsoft Visual Studio\2022\Professional\MSBuild\Current\Bin"
 goto build
 
 :vs17com
-set msbuildpath=%ProgramFiles%\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin
+set "msbuildpath=%ProgramFiles%\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin"
 goto build
 
 :vs17build
-set msbuildpath=%ProgramFiles%\Microsoft Visual Studio\2022\BuildTools\MSBuild\Current\Bin
+set "msbuildpath=%ProgramFiles%\Microsoft Visual Studio\2022\BuildTools\MSBuild\Current\Bin"
 goto build
 
 :build
@@ -39,13 +39,14 @@ for /f "tokens=* usebackq" %%A in (`tzutil /g`) do (
     set "zone=%%A"
 )
 
+REM Phased Krypton.* build + /m (see Scripts\Build\Krypton.Orchestration.targets).
 @echo Started to build Nightly release
 @echo:
 @echo Started: %date% %time% %zone%
 @echo:
-set targets=Build
-if not "%~1" == "" set targets=%~1
-"%msbuildpath%\msbuild.exe" -t:%targets% "%SCRIPT_DIR%nightly.proj" /fl /flp:logfile="%SCRIPT_DIR%..\..\Logs\nightly-build-log.log" /bl:"%SCRIPT_DIR%..\..\Logs\nightly-build-log.binlog"  /clp:Summary;ShowTimestamp /v:quiet
+set "targets=Build"
+if not "%~1" == "" set "targets=%~1"
+"%msbuildpath%\msbuild.exe" /m -t:%targets% "%SCRIPT_DIR%nightly.proj" /fl /flp:logfile="%SCRIPT_DIR%..\..\Logs\nightly-build-log.log" /bl:"%SCRIPT_DIR%..\..\Logs\nightly-build-log.binlog"  /clp:Summary;ShowTimestamp /v:quiet
 @echo:
 :: -t:rebuild
 
