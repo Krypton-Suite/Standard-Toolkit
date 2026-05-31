@@ -46,9 +46,10 @@
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
 * Implemented [#3591](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3591), Implement a automated backup system
+* Resolved [#3598](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3598), Fix KryptonContextMenu disposal leaks
 * Resolved [#2926](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2926), Really fix themed scrollbars part of KryptonListBox
 * Resolved [#3227](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3227), Fix disposed docking space load handling
-* Resolved [#3493](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3493), Fix Scripts build issues related to framework targeting
+* Resolved [#3493](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3493), Fix Scripts build issues related to framework targeting. Updated AGENTS.md with better instructions.
 * Enhanced `KryptonWebView2` palette integration. `BackColor`, `ForeColor`, and `DefaultBackgroundColor` are now driven from the active Krypton palette via `StateCommon`, `StateNormal`, `StateActive`, and `StateDisabled` (with `WebViewBackStyle` / `WebViewContentStyle`). Legacy appearance properties and their change events are hidden from the designer; use the `State###` entries under **Visuals** instead.
 * Implemented [#3445](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3445), `KryptonComboBox` - Checked combobox. Checked items update the editor summary live while the popup stays open; configurable value separator, `EmptySelectionText`, and `CloseDropDownOnEnter`. Forwarded list binding: `DataSource`, `DisplayMember`, `ValueMember`, `FormatString`, `FormattingEnabled`; `[LookupBindingProperties]`; `CheckedItemList`; `BindingContext` sync to the drop-down; summary text uses `GetItemText` so bound items display correctly. Designer smart-tag **Data** group for `DataSource`, `DisplayMember`, `ValueMember`, and `EmptySelectionText`.
 * Implemented [#1133](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1133), Have a 'enum' option in `KCommand` to deal with certain `ButtonSpecs`
