@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2021 - 2026. All rights reserved.
@@ -233,6 +233,7 @@ public class KryptonPropertyGrid : VisualControlBase,
     private readonly IntPtr _screenDC;
     private bool _alwaysActive;
     private bool _forcedLayout;
+    private readonly KryptonContextMenu _resetContextMenu;
     private readonly KryptonContextMenuItem _resetMenuItem;
     private KryptonScrollbarManager? _scrollbarManager;
     private bool? _useKryptonScrollbars;
@@ -314,7 +315,8 @@ public class KryptonPropertyGrid : VisualControlBase,
         ((KryptonReadOnlyControls)Controls).AddInternal(_propertyGrid);
 
         // Create a new KryptonContextMenu
-        KryptonContextMenu = new KryptonContextMenu();
+        _resetContextMenu = new KryptonContextMenu();
+        KryptonContextMenu = _resetContextMenu;
 
         KryptonContextMenuItems menuItems = new KryptonContextMenuItems();
 
@@ -322,7 +324,7 @@ public class KryptonPropertyGrid : VisualControlBase,
 
         menuItems.Items.Add(_resetMenuItem);
 
-        KryptonContextMenu.Items.Add(menuItems);
+        _resetContextMenu.Items.Add(menuItems);
     }
 
     /// <summary>
@@ -333,6 +335,8 @@ public class KryptonPropertyGrid : VisualControlBase,
     {
         if (disposing)
         {
+            _resetContextMenu.Close();
+            _resetContextMenu.Dispose();
             _scrollbarManager?.Dispose();
             _scrollbarManager = null;
         }

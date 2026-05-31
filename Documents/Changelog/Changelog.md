@@ -45,6 +45,7 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Resolved [#3598](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3598), Fix KryptonContextMenu disposal leaks
 * Resolved [#2926](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2926), Really fix themed scrollbars part of KryptonListBox
 * Resolved [#3227](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3227), Fix disposed docking space load handling
 * Resolved [#3493](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3493), Fix Scripts build issues related to framework targeting. Updated AGENTS.md with better instructions.
