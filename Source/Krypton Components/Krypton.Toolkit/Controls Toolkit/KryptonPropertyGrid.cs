@@ -233,6 +233,7 @@ public class KryptonPropertyGrid : VisualControlBase,
     private readonly IntPtr _screenDC;
     private bool _alwaysActive;
     private bool _forcedLayout;
+    private readonly KryptonContextMenu _resetContextMenu;
     private readonly KryptonContextMenuItem _resetMenuItem;
     private Font? _normalFont;
     private Font? _disabledFont;
@@ -314,7 +315,8 @@ public class KryptonPropertyGrid : VisualControlBase,
         ((KryptonReadOnlyControls)Controls).AddInternal(_propertyGrid);
 
         // Create a new KryptonContextMenu
-        KryptonContextMenu = new KryptonContextMenu();
+        _resetContextMenu = new KryptonContextMenu();
+        KryptonContextMenu = _resetContextMenu;
 
         KryptonContextMenuItems menuItems = new KryptonContextMenuItems();
 
@@ -322,7 +324,7 @@ public class KryptonPropertyGrid : VisualControlBase,
 
         menuItems.Items.Add(_resetMenuItem);
 
-        KryptonContextMenu.Items.Add(menuItems);
+        _resetContextMenu.Items.Add(menuItems);
     }
 
     /// <summary>
@@ -331,6 +333,12 @@ public class KryptonPropertyGrid : VisualControlBase,
     /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
     protected override void Dispose(bool disposing)
     {
+        if (disposing)
+        {
+            _resetContextMenu.Close();
+            _resetContextMenu.Dispose();
+        }
+
         base.Dispose(disposing);
         if (_screenDC != IntPtr.Zero)
         {

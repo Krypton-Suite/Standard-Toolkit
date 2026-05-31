@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 20265. All rights reserved.
  *
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -199,6 +199,22 @@ public class KryptonRibbonGroupColorButton : KryptonRibbonGroupItem
 
         // Listen for palette switches so we can refresh dynamic theme colors
         Krypton.Toolkit.KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChangedForThemeColors;
+    }
+
+    /// <summary>
+    /// Clean up any resources being used.
+    /// </summary>
+    /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            Krypton.Toolkit.KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChangedForThemeColors;
+            _kryptonContextMenu?.Close();
+            _kryptonContextMenu?.Dispose();
+        }
+
+        base.Dispose(disposing);
     }
     #endregion
 
