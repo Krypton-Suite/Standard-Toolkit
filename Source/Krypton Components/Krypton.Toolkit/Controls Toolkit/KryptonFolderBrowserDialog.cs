@@ -30,21 +30,19 @@ public class KryptonFolderBrowserDialog : ShellDialogWrapper, IDisposable
     /// <inheritdoc />
     protected override DialogResult ShowActualDialog(IWin32Window? owner) => _internalOpenFileDialog.ShowDialog(owner);
 
-    // If the description is used then the following code will need to be uncommented out, and then sort out the bottom buttons
-    //private protected override bool WndActivated(object sender, CbtEventArgs e)
-    //{
-    //    if (!base.WndActivated(sender, e))
-    //    {
-    //        // Not handled
-    //        return false;
-    //    }
+    private protected override bool WndActivated(object sender, MsdnMag.CbtEventArgs e)
+    {
+        if (!base.WndActivated(sender, e))
+        {
+            // Not handled
+            return false;
+        }
 
-    //    // Modify the ShellDialogWrapper window
-    //    // When it is the BrowseDlg, the Backgrounds of the list's etc are all messed up if made transparent
-    //    PI.SetWindowLong(_handle, PI.GWL_.EXSTYLE,
-    //        PI.GetWindowLong(_handle, PI.GWL_.EXSTYLE) ^ PI.WS_EX_.TRANSPARENT);
-    //    return true;
-    //}
+        // BrowseDlg does not repaint the native list backgrounds correctly when transparent.
+        var exStyle = PI.GetWindowLong(_handle, PI.GWL_.EXSTYLE);
+        PI.SetWindowLong(_handle, PI.GWL_.EXSTYLE, exStyle & ~PI.WS_EX_.TRANSPARENT);
+        return true;
+    }
 
 #if NET8_0_OR_GREATER
         /// <inheritdoc />
