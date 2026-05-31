@@ -45,7 +45,12 @@ public class KryptonProfessionalRenderer : ToolStripProfessionalRenderer
     /// <param name="e">A ToolStripItemTextRenderEventArgs that contains the event data.</param>
     protected override void OnRenderItemText(ToolStripItemTextRenderEventArgs e)
     {
-        if ((e != null) && IsContextMenuToolStrip(e.ToolStrip))
+        if (e == null)
+        {
+            return;
+        }
+
+        if (IsContextMenuToolStrip(e.ToolStrip))
         {
             e.TextColor = e.Item.Enabled ? KCT.ContextMenuItemText : KCT.ContextMenuItemDisabledText;
         }
@@ -61,7 +66,12 @@ public class KryptonProfessionalRenderer : ToolStripProfessionalRenderer
     /// <param name="e">An ToolStripRenderEventArgs containing the event data.</param>
     protected override void OnRenderToolStripBackground(ToolStripRenderEventArgs e)
     {
-        if ((e != null) && IsContextMenuToolStrip(e.ToolStrip))
+        if (e == null)
+        {
+            return;
+        }
+
+        if (IsContextMenuToolStrip(e.ToolStrip))
         {
             using (var backBrush = new SolidBrush(KCT.ContextMenuBack))
             {
@@ -82,7 +92,12 @@ public class KryptonProfessionalRenderer : ToolStripProfessionalRenderer
     /// <param name="e">An ToolStripRenderEventArgs containing the event data.</param>
     protected override void OnRenderImageMargin(ToolStripRenderEventArgs e)
     {
-        if ((e != null) && IsContextMenuToolStrip(e.ToolStrip))
+        if (e == null)
+        {
+            return;
+        }
+
+        if (IsContextMenuToolStrip(e.ToolStrip))
         {
             using (var backBrush = new SolidBrush(KCT.ContextMenuImageColumnBack))
             {
@@ -103,7 +118,12 @@ public class KryptonProfessionalRenderer : ToolStripProfessionalRenderer
     /// <param name="e">An ToolStripItemRenderEventArgs containing the event data.</param>
     protected override void OnRenderMenuItemBackground(ToolStripItemRenderEventArgs e)
     {
-        if ((e != null) && TryRenderMenuItemOverride(e))
+        if (e == null)
+        {
+            return;
+        }
+
+        if (TryRenderMenuItemOverride(e))
         {
             return;
         }
@@ -500,8 +520,8 @@ public class KryptonProfessionalRenderer : ToolStripProfessionalRenderer
     /// </summary>
     /// <param name="toolStrip">Tool strip to test.</param>
     /// <returns>True if the tool strip is a context menu; otherwise false.</returns>
-    protected static bool IsContextMenuToolStrip(ToolStrip toolStrip) =>
-        (toolStrip is ContextMenuStrip) || (toolStrip is ToolStripDropDownMenu);
+    protected static bool IsContextMenuToolStrip(ToolStrip? toolStrip) =>
+        toolStrip is ContextMenuStrip || toolStrip is ToolStripDropDownMenu;
 
     private bool TryRenderContextMenuItemBackground(ToolStripItemRenderEventArgs e)
     {
