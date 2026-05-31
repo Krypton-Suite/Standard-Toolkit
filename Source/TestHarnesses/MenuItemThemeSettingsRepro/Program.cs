@@ -23,6 +23,7 @@ namespace MenuItemThemeSettingsRepro
         private readonly MenuStrip _menuStrip;
         private readonly ContextMenuStrip _contextMenuStrip;
         private readonly Panel _contextPanel;
+        private readonly Label _modeLabel;
 
         public ReproForm()
         {
@@ -42,7 +43,7 @@ namespace MenuItemThemeSettingsRepro
             _contextMenuStrip = CreateContextMenuStrip();
             _contextPanel = CreateContextPanel();
 
-            var buttonsPanel = new FlowLayoutPanel
+            var optionsPanel = new FlowLayoutPanel
             {
                 Dock = DockStyle.Top,
                 AutoSize = true,
@@ -50,25 +51,34 @@ namespace MenuItemThemeSettingsRepro
                 FlowDirection = FlowDirection.LeftToRight
             };
 
-            var fullButton = new Button
-            {
-                Text = @"Full colors",
-                AutoSize = true
-            };
-            fullButton.Click += delegate { ApplyFullColors(); };
-
-            var borderOnlyButton = new Button
+            var borderOnlyCheckBox = new CheckBox
             {
                 Text = @"Border only",
                 AutoSize = true
             };
-            borderOnlyButton.Click += delegate { ApplyBorderOnly(); };
+            borderOnlyCheckBox.CheckedChanged += delegate
+            {
+                if (borderOnlyCheckBox.Checked)
+                {
+                    ApplyBorderOnly();
+                }
+                else
+                {
+                    ApplyFullColors();
+                }
+            };
 
-            buttonsPanel.Controls.Add(fullButton);
-            buttonsPanel.Controls.Add(borderOnlyButton);
+            _modeLabel = new Label
+            {
+                AutoSize = true,
+                Margin = new Padding(16, 4, 0, 0)
+            };
+
+            optionsPanel.Controls.Add(borderOnlyCheckBox);
+            optionsPanel.Controls.Add(_modeLabel);
 
             Controls.Add(_contextPanel);
-            Controls.Add(buttonsPanel);
+            Controls.Add(optionsPanel);
             Controls.Add(_menuStrip);
             MainMenuStrip = _menuStrip;
 
@@ -149,15 +159,16 @@ namespace MenuItemThemeSettingsRepro
         {
             ResetMenuItemColors();
 
-            _palette.ToolMenuStatus.Menu.MenuItemText = Color.FromArgb(20, 20, 20);
-            _palette.ToolMenuStatus.Menu.MenuItemBorder = Color.FromArgb(192, 32, 48);
-            _palette.ToolMenuStatus.Menu.MenuItemSelected = Color.FromArgb(255, 238, 128);
-            _palette.ToolMenuStatus.Menu.MenuItemSelectedGradientBegin = Color.FromArgb(103, 220, 255);
-            _palette.ToolMenuStatus.Menu.MenuItemSelectedGradientEnd = Color.FromArgb(0, 96, 160);
-            _palette.ToolMenuStatus.Menu.MenuItemPressedGradientBegin = Color.FromArgb(246, 169, 255);
-            _palette.ToolMenuStatus.Menu.MenuItemPressedGradientMiddle = Color.FromArgb(180, 74, 220);
-            _palette.ToolMenuStatus.Menu.MenuItemPressedGradientEnd = Color.FromArgb(74, 20, 140);
+            _palette.ToolMenuStatus.Menu.MenuItemText = Color.Black;
+            _palette.ToolMenuStatus.Menu.MenuItemBorder = Color.Black;
+            _palette.ToolMenuStatus.Menu.MenuItemSelected = Color.Lime;
+            _palette.ToolMenuStatus.Menu.MenuItemSelectedGradientBegin = Color.Magenta;
+            _palette.ToolMenuStatus.Menu.MenuItemSelectedGradientEnd = Color.Cyan;
+            _palette.ToolMenuStatus.Menu.MenuItemPressedGradientBegin = Color.Orange;
+            _palette.ToolMenuStatus.Menu.MenuItemPressedGradientMiddle = Color.White;
+            _palette.ToolMenuStatus.Menu.MenuItemPressedGradientEnd = Color.Purple;
 
+            _modeLabel.Text = @"Full colors: top-level hover is magenta/cyan, drop-down hover is lime.";
             RefreshRenderers();
         }
 
@@ -165,6 +176,7 @@ namespace MenuItemThemeSettingsRepro
         {
             ResetMenuItemColors();
             _palette.ToolMenuStatus.Menu.MenuItemBorder = Color.FromArgb(192, 32, 48);
+            _modeLabel.Text = @"Border only: normal highlight remains, red border is the only override.";
             RefreshRenderers();
         }
 
