@@ -45,9 +45,11 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Resolved [#1976](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1976), `MenuItem###` theme settings now apply to menu item selected, pressed, and border rendering.
 * Implemented [#3591](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3591), Implement a automated backup system
 * Implemented [#3611](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3611), Badges for workflows
 * Resolved [#3598](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3598), Fix KryptonContextMenu disposal leaks
+* Implemented [#3514](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3514), Include `README.md` in NuGet Packages
 * Resolved [#2926](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2926), Really fix themed scrollbars part of KryptonListBox
 * Resolved [#3227](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3227), Fix disposed docking space load handling
 * Resolved [#3493](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3493), Fix Scripts build issues related to framework targeting. Updated AGENTS.md with better instructions.
