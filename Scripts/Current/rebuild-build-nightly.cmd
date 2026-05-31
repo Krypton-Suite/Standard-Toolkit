@@ -1,4 +1,7 @@
 @echo off
+setlocal EnableExtensions
+set "SCRIPT_DIR=%~dp0"
+pushd "%SCRIPT_DIR%"
 
 if exist "%ProgramFiles%\Microsoft Visual Studio\18\Insiders\MSBuild\Current\Bin" goto vscurrentinsiders
 if exist "%ProgramFiles%\Microsoft Visual Studio\18\Enterprise\MSBuild\Current\Bin" goto vscurrentent
@@ -12,23 +15,23 @@ pause
 goto exitbatch
 
 :vscurrentinsiders
-set msbuildpath=%ProgramFiles%\Microsoft Visual Studio\18\Insiders\MSBuild\Current\Bin
+set "msbuildpath=%ProgramFiles%\Microsoft Visual Studio\18\Insiders\MSBuild\Current\Bin"
 goto build
 
 :vscurrentent
-set msbuildpath=%ProgramFiles%\Microsoft Visual Studio\18\Enterprise\MSBuild\Current\Bin
+set "msbuildpath=%ProgramFiles%\Microsoft Visual Studio\18\Enterprise\MSBuild\Current\Bin"
 goto build
 
 :vscurrentpro
-set msbuildpath=%ProgramFiles%\Microsoft Visual Studio\18\Professional\MSBuild\Current\Bin
+set "msbuildpath=%ProgramFiles%\Microsoft Visual Studio\18\Professional\MSBuild\Current\Bin"
 goto build
 
 :vscurrentcom
-set msbuildpath=%ProgramFiles%\Microsoft Visual Studio\18\Community\MSBuild\Current\Bin
+set "msbuildpath=%ProgramFiles%\Microsoft Visual Studio\18\Community\MSBuild\Current\Bin"
 goto build
 
 :vscurrentbuild
-set msbuildpath=%ProgramFiles%\Microsoft Visual Studio\18\BuildTools\MSBuild\Current\Bin
+set "msbuildpath=%ProgramFiles%\Microsoft Visual Studio\18\BuildTools\MSBuild\Current\Bin"
 goto build
 
 :build
@@ -38,12 +41,9 @@ for /f "tokens=* usebackq" %%A in (`tzutil /g`) do (
 
 @echo Rebuild Started: %date% %time% %zone%
 @echo
-set targets=Rebuild
-if not "%~1" == "" set targets=%~1
-setlocal
-call "%~dp0setup-dotnet11-sdk.cmd" || (endlocal & goto exitbatch)
-"%msbuildpath%\msbuild.exe" /m -t:%targets% "%~dp0nightly.proj" /fl /flp:logfile="%~dp0..\..\Logs\nightly-build-log.log" /bl:"%~dp0..\..\Logs\nightly-build-log.binlog"  /clp:Summary;ShowTimestamp /v:quiet
-endlocal
+set "targets=Rebuild"
+if not "%~1" == "" set "targets=%~1"
+"%msbuildpath%\msbuild.exe" /m -t:%targets% "%SCRIPT_DIR%nightly.proj" /fl /flp:logfile="%SCRIPT_DIR%..\..\Logs\nightly-build-log.log" /bl:"%SCRIPT_DIR%..\..\Logs\nightly-build-log.binlog"  /clp:Summary;ShowTimestamp /v:quiet
 
 :: -t:rebuild
 
@@ -61,8 +61,10 @@ if %answer%==n exit
 @echo Invalid input, please try again.
 
 :run
-cd ../..
-
-run.cmd
+popd
+"%SCRIPT_DIR%..\..\run.cmd"
+exit /b
 
 :exitbatch
+popd
+exit /b
