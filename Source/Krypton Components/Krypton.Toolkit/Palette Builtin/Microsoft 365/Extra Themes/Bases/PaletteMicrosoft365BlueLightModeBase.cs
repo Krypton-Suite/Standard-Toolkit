@@ -24,6 +24,9 @@ public abstract class PaletteMicrosoft365BlueLightModeBase : PaletteBase
     // registration guard so default colours are initialised lazily only once
     private static bool _defaultsRegistered;
 
+    private new static void RegisterColor<TEnum>(TEnum slot, Color value) where TEnum : struct, Enum =>
+        RegisterColor<PaletteMicrosoft365BlueLightModeBase, TEnum>(slot, value);
+
     static PaletteMicrosoft365BlueLightModeBase()
     {
         if (_defaultsRegistered)
