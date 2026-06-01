@@ -184,6 +184,7 @@ public class PaletteMicrosoft365Black : PaletteMicrosoft365Base
     /// </returns>
     public override Image? GetButtonSpecImage(PaletteButtonSpecStyle style, PaletteState state) => style switch
     {
+        PaletteButtonSpecStyle.Close => _buttonSpecPendantClose,
         PaletteButtonSpecStyle.PendantClose => _buttonSpecPendantClose,
         PaletteButtonSpecStyle.PendantMin => _buttonSpecPendantMin,
         PaletteButtonSpecStyle.PendantRestore => _buttonSpecPendantRestore,

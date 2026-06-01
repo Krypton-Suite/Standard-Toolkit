@@ -66,7 +66,7 @@ public class PaletteSparkleBase : PaletteBase
     private static readonly Image? _disabledDropDown = DropDownArrowImageResources.DisabledDropDownButton2;
     private static readonly Image? _disabledDropUp = DropDownArrowImageResources.DisabledDropUpButton;
     private static readonly Image? _disabledGalleryDrop = GalleryImageResources.DisabledGalleryDropButton;
-    private static readonly Image _buttonSpecClose = GenericWhiteImageResources.WhiteCloseButton;
+    private static readonly Image _buttonSpecClose = Office2010MDIImageResources.Office2010ButtonCloseBlack;
     private static readonly Image _buttonSpecContext = GenericWhiteImageResources.WhiteContextButton;
     private static readonly Image _buttonSpecNext = GenericWhiteImageResources.WhiteNextButton;
     private static readonly Image _buttonSpecPrevious = GenericWhiteImageResources.WhitePreviousButton;

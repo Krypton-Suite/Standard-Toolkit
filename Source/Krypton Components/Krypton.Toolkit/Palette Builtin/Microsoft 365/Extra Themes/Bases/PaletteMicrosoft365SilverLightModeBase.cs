@@ -23,6 +23,9 @@ public abstract class PaletteMicrosoft365SilverLightModeBase : PaletteBase
     // registration guard so default colours are initialised lazily only once
     private static bool _defaultsRegistered;
 
+    private new static void RegisterColor<TEnum>(TEnum slot, Color value) where TEnum : struct, Enum =>
+        RegisterColor<PaletteMicrosoft365SilverLightModeBase, TEnum>(slot, value);
+
     static PaletteMicrosoft365SilverLightModeBase()
     {
         if (_defaultsRegistered)
@@ -57,7 +60,7 @@ public abstract class PaletteMicrosoft365SilverLightModeBase : PaletteBase
         RegisterColor<ButtonBackColor>(ButtonBackColor.Color6, Color.FromArgb(214, 216, 221));
         RegisterColor<ButtonBackColor>(ButtonBackColor.Color7, Color.FromArgb(214, 216, 221));
         RegisterColor<ButtonBackColor>(ButtonBackColor.Color8, Color.FromArgb(216, 220, 222));
-        RegisterColor<ButtonBackColor>(ButtonBackColor.Color9, Color.FromArgb(219, 224, 222));
+        RegisterColor<ButtonBackColor>(ButtonBackColor.Color9, Color.FromArgb(196, 198, 206));
         RegisterColor<ButtonBackColor>(ButtonBackColor.Color10, Color.FromArgb(225, 228, 224));
 
         RegisterColor<ButtonBorderColor>(ButtonBorderColor.Color1, Color.FromArgb(212, 212, 212));

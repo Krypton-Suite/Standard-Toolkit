@@ -23,6 +23,9 @@ public abstract class PaletteMicrosoft365SilverDarkModeBase : PaletteBase
     // registration guard so default colours are initialised lazily only once
     private static bool _defaultsRegistered;
 
+    private new static void RegisterColor<TEnum>(TEnum slot, Color value) where TEnum : struct, Enum =>
+        RegisterColor<PaletteMicrosoft365SilverDarkModeBase, TEnum>(slot, value);
+
     static PaletteMicrosoft365SilverDarkModeBase()
     {
         if (_defaultsRegistered)
