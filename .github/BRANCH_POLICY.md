@@ -2,6 +2,8 @@
 
 This repository uses a **warn-then-fail** branch policy enforced in CI ([#3610](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3610)).
 
+**Full developer documentation:** [Documents/Developers/Branch-Policy-and-Workflow-Hardening.md](../Documents/Developers/Branch-Policy-and-Workflow-Hardening.md) (architecture, rules, operations, troubleshooting).
+
 ## Product vs workflow changes
 
 | Flow | Allowed |
@@ -27,6 +29,16 @@ Downstream branches must **contain** `master` in Git history (they may still dif
 ## Automated `.github` sync
 
 Workflow **Sync .github from master** (`.github/workflows/sync-github-from-master.yml`) opens PRs that copy only `.github/` from `master` onto configured release branches.
+
+Targets include `alpha`, `canary`, `gold`, `prerelease`, `V105-LTS`, `V85-LTS`, and `V110` (see `syncGithubFromMasterTargets` in `branch-policy.json`).
+
+## Behind-master report (optional)
+
+Workflow **Branch behind master report** runs weekly (report-only, never fails). Disable with `BRANCH_BEHIND_MASTER_REPORT_DISABLED=true`.
+
+## Required checks on `master` vs release branches
+
+When enforcing policy, require **PR branch policy** on release-branch rulesets only — not on `master` — so topic PRs into `master` are not gated by this check. Details in the [developer documentation](../Documents/Developers/Branch-Policy-and-Workflow-Hardening.md#required-check-only-on-release-branches-not-topic-prs--master).
 
 | Variable | Purpose |
 |----------|---------|
