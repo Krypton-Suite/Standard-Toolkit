@@ -23,6 +23,9 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
     // registration guard so default colours are initialised lazily only once
     private static bool _defaultsRegistered;
 
+    private new static void RegisterColor<TEnum>(TEnum slot, Color value) where TEnum : struct, Enum =>
+        RegisterColor<PaletteMicrosoft365BlackDarkModeBase, TEnum>(slot, value);
+
     static PaletteMicrosoft365BlackDarkModeBase()
     {
         if (_defaultsRegistered)
@@ -172,7 +175,7 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
 
     #region Colours
 
-    private static readonly Color _buttonTextTracking = Color.Black;
+    private static readonly Color _buttonTextTracking = Color.White;
     private static readonly Color _gridTextColor = Color.White;
     private static readonly Color _disabledText2 = Color.FromArgb(166, 166, 166);
     private static readonly Color _disabledText = Color.FromArgb(51, 51, 51);
