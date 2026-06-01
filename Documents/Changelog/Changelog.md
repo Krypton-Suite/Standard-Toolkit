@@ -46,6 +46,7 @@
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
 * Implemented [#3610](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3610), Harden workflows: PR branch policy (warn-then-fail via `BRANCH_POLICY_ENFORCE`), automated `.github` sync from `master`, and [branch policy documentation](https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/.github/BRANCH_POLICY.md)
+* Implemented [#3636](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3636), Improve 'Nightly' Release Workflow
 * Resolved [#3618](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3618), Canary LTS Release workflow fails
 * Implemented [#3550](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3550), Auto complete issues
 * Resolved [#3580](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3580), Fix docked header autosizing
