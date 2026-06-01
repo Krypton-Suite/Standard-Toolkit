@@ -169,14 +169,44 @@ public abstract class VisualSimpleBase : VisualControlBase
             {
                 if (GetAutoSizeMode() == AutoSizeMode.GrowAndShrink)
                 {
-                    width = preferredSize.Width;
-                    height = preferredSize.Height;
+                    switch (Dock)
+                    {
+                        case DockStyle.Top:
+                        case DockStyle.Bottom:
+                            height = preferredSize.Height;
+                            break;
+                        case DockStyle.Left:
+                        case DockStyle.Right:
+                            width = preferredSize.Width;
+                            break;
+                        case DockStyle.Fill:
+                            break;
+                        default:
+                            width = preferredSize.Width;
+                            height = preferredSize.Height;
+                            break;
+                    }
                 }
                 else
                 {
-                    // GrowOnly semantics: allow growth to preferred size, never force shrink.
-                    width = Math.Max(Width, preferredSize.Width);
-                    height = Math.Max(Height, preferredSize.Height);
+                    switch (Dock)
+                    {
+                        case DockStyle.Top:
+                        case DockStyle.Bottom:
+                            height = Math.Max(Height, preferredSize.Height);
+                            break;
+                        case DockStyle.Left:
+                        case DockStyle.Right:
+                            width = Math.Max(Width, preferredSize.Width);
+                            break;
+                        case DockStyle.Fill:
+                            break;
+                        default:
+                            // GrowOnly semantics: allow growth to preferred size, never force shrink.
+                            width = Math.Max(Width, preferredSize.Width);
+                            height = Math.Max(Height, preferredSize.Height);
+                            break;
+                    }
                 }
 
                 specified |= BoundsSpecified.Size;
