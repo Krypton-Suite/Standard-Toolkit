@@ -908,6 +908,11 @@ public enum RendererMode
     Material,
 
     /// <summary>
+    /// Specifies the RenderRetro be used.
+    /// </summary>
+    Retro,
+
+    /// <summary>
     /// Specifies a custom renderer be used.
     /// </summary>
     Custom
