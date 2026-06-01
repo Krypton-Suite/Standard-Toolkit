@@ -68,10 +68,13 @@ internal class PaletteClassTypeConverter : EnumConverter
             {PaletteMode.VisualStudio2010Render2010, typeof(PaletteVisualStudio2010Office2010Variation)},
             {PaletteMode.VisualStudio2010Render2013, typeof(PaletteVisualStudio2010Office2013Variation)},
             {PaletteMode.VisualStudio2010Render365, typeof(PaletteVisualStudio2010Microsoft365Variation)},
+            {PaletteMode.VisualStudio2022Dark, typeof(PaletteVisualStudio2022Dark)},
             {PaletteMode.MaterialLight, typeof(PaletteMaterialLight)},
             {PaletteMode.MaterialDark, typeof(PaletteMaterialDark)},
             {PaletteMode.MaterialLightRipple, typeof(PaletteMaterialLightRipple)},
-            {PaletteMode.MaterialDarkRipple, typeof(PaletteMaterialDarkRipple)}
+            {PaletteMode.MaterialDarkRipple, typeof(PaletteMaterialDarkRipple)},
+            {PaletteMode.RetroGreen, typeof(PaletteRetroGreen)},
+            {PaletteMode.RetroBlue, typeof(PaletteRetroBlue)}
             //{PaletteMode.Custom, typeof(KryptonCustomPaletteBase)}
         });
 
