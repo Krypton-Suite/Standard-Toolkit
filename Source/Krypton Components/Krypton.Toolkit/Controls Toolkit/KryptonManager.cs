@@ -131,6 +131,12 @@ public sealed class KryptonManager : Component
 
     #endregion
 
+    #region Visual Studio 2022
+
+    private static PaletteVisualStudio2022Dark? _paletteVisualStudio2022Dark;
+
+    #endregion
+
     #endregion
 
     private static RenderStandard? _renderStandard;
@@ -140,6 +146,7 @@ public sealed class KryptonManager : Component
     private static RenderOffice2013? _renderOffice2013;
     private static RenderMicrosoft365? _renderMicrosoft365;
     private static RenderMaterial? _renderMaterial;
+    private static RenderRetro? _renderRetro;
     private static RenderSparkle? _renderSparkle;
     private static RenderVisualStudio2010With2007? _renderVisualStudio2010With2007;
     private static RenderVisualStudio2010With2010? _renderVisualStudio2010With2010;
@@ -1048,6 +1055,8 @@ public sealed class KryptonManager : Component
                 return PaletteVisualStudio2010Office2013Variation;
             case PaletteMode.VisualStudio2010Render365:
                 return PaletteVisualStudio2010Microsoft365Variation;
+            case PaletteMode.VisualStudio2022Dark:
+                return PaletteVisualStudio2022Dark;
 
             case PaletteMode.MaterialLight:
                 return PaletteMaterialLight;
@@ -1057,6 +1066,10 @@ public sealed class KryptonManager : Component
                 return PaletteMaterialLightRipple;
             case PaletteMode.MaterialDarkRipple:
                 return PaletteMaterialDarkRipple;
+            case PaletteMode.RetroGreen:
+                return PaletteRetroGreen;
+            case PaletteMode.RetroBlue:
+                return PaletteRetroBlue;
 
             case PaletteMode.Custom:
             case PaletteMode.Global:
@@ -1340,15 +1353,33 @@ public sealed class KryptonManager : Component
     /// </summary>
     public static PaletteVisualStudio2010Microsoft365Variation PaletteVisualStudio2010Microsoft365Variation => _paletteVisualStudio2010Microsoft365Variation ??= new PaletteVisualStudio2010Microsoft365Variation();
 
+    /// <summary>
+    /// Gets the Visual Studio 2022 dark palette.
+    /// </summary>
+    public static PaletteVisualStudio2022Dark PaletteVisualStudio2022Dark => _paletteVisualStudio2022Dark ??= new PaletteVisualStudio2022Dark();
+
     public static PaletteMaterialLight PaletteMaterialLight => _paletteMaterialLight ??= new PaletteMaterialLight();
     public static PaletteMaterialDark PaletteMaterialDark => _paletteMaterialDark ??= new PaletteMaterialDark();
     public static PaletteMaterialLightRipple PaletteMaterialLightRipple => _paletteMaterialLightRipple ??= new PaletteMaterialLightRipple();
     public static PaletteMaterialDarkRipple PaletteMaterialDarkRipple => _paletteMaterialDarkRipple ??= new PaletteMaterialDarkRipple();
 
+    /// <summary>
+    /// Gets the DOS teal/green RetroUI palette.
+    /// </summary>
+    public static PaletteRetroGreen PaletteRetroGreen => _paletteRetroGreen ??= new PaletteRetroGreen();
+
+    /// <summary>
+    /// Gets the Norton Commander style blue RetroUI palette.
+    /// </summary>
+    public static PaletteRetroBlue PaletteRetroBlue => _paletteRetroBlue ??= new PaletteRetroBlue();
+
     private static PaletteMaterialLight? _paletteMaterialLight;
     private static PaletteMaterialDark? _paletteMaterialDark;
     private static PaletteMaterialLightRipple? _paletteMaterialLightRipple;
     private static PaletteMaterialDarkRipple? _paletteMaterialDarkRipple;
+
+    private static PaletteRetroGreen? _paletteRetroGreen;
+    private static PaletteRetroBlue? _paletteRetroBlue;
 
     //public static PaletteBase CustomPaletteBase => _customPalette ??= new PaletteBase ();
 
@@ -1387,6 +1418,8 @@ public sealed class KryptonManager : Component
                 return RenderVisualStudio2010WithMicrosoft365;
             case RendererMode.Material:
                 return RenderMaterial;
+            case RendererMode.Retro:
+                return RenderRetro;
             case RendererMode.Inherit:
             case RendererMode.Custom:
             default:
@@ -1425,6 +1458,11 @@ public sealed class KryptonManager : Component
     /// Gets the single instance of the Material renderer.
     /// </summary>
     public static RenderMaterial RenderMaterial => _renderMaterial ??= new RenderMaterial();
+
+    /// <summary>
+    /// Gets the single instance of the Retro renderer.
+    /// </summary>
+    public static RenderRetro RenderRetro => _renderRetro ??= new RenderRetro();
 
     /// <summary>
     /// Gets the single instance of the professional renderer.
@@ -1621,12 +1659,19 @@ public sealed class KryptonManager : Component
             case PaletteMode.VisualStudio2010Render365:
                 Images.ToolbarImages.SetToolBarImages(GlobalStaticVariables.Microsoft365ToolBarImages);
                 break;
+            case PaletteMode.VisualStudio2022Dark:
+                Images.ToolbarImages.SetToolBarImages(GlobalStaticVariables.VisualStudioToolBarImages);
+                break;
             case PaletteMode.MaterialLight:
             case PaletteMode.MaterialDark:
             case PaletteMode.MaterialLightRipple:
             case PaletteMode.MaterialDarkRipple:
                 // TODO create our own Material images
                 Images.ToolbarImages.SetToolBarImages(GlobalStaticVariables.Microsoft365ToolBarImages);
+                break;
+            case PaletteMode.RetroGreen:
+            case PaletteMode.RetroBlue:
+                Images.ToolbarImages.SetToolBarImages(GlobalStaticVariables.Office2010ToolBarImages);
                 break;
             default:
                 // Should not happen!
