@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege, Giduac & Ahmed Abdelhameed et al. 2017 - 2026. All rights reserved.
+ *
  */
 #endregion
 
@@ -164,14 +164,44 @@ public abstract class VisualSimpleBase : VisualControlBase
             {
                 if (GetAutoSizeMode() == AutoSizeMode.GrowAndShrink)
                 {
-                    width = preferredSize.Width;
-                    height = preferredSize.Height;
+                    switch (Dock)
+                    {
+                        case DockStyle.Top:
+                        case DockStyle.Bottom:
+                            height = preferredSize.Height;
+                            break;
+                        case DockStyle.Left:
+                        case DockStyle.Right:
+                            width = preferredSize.Width;
+                            break;
+                        case DockStyle.Fill:
+                            break;
+                        default:
+                            width = preferredSize.Width;
+                            height = preferredSize.Height;
+                            break;
+                    }
                 }
                 else
                 {
-                    // GrowOnly semantics: allow growth to preferred size, never force shrink.
-                    width = Math.Max(Width, preferredSize.Width);
-                    height = Math.Max(Height, preferredSize.Height);
+                    switch (Dock)
+                    {
+                        case DockStyle.Top:
+                        case DockStyle.Bottom:
+                            height = Math.Max(Height, preferredSize.Height);
+                            break;
+                        case DockStyle.Left:
+                        case DockStyle.Right:
+                            width = Math.Max(Width, preferredSize.Width);
+                            break;
+                        case DockStyle.Fill:
+                            break;
+                        default:
+                            // GrowOnly semantics: allow growth to preferred size, never force shrink.
+                            width = Math.Max(Width, preferredSize.Width);
+                            height = Math.Max(Height, preferredSize.Height);
+                            break;
+                    }
                 }
 
                 specified |= BoundsSpecified.Size;
