@@ -4,6 +4,12 @@
 # KILL-SWITCH: To disable this workflow, set repository variable NIGHTLY_DISABLED=true
 # Location: Repository Settings → Secrets and variables → Actions → Variables tab
 # To re-enable: Set NIGHTLY_DISABLED=false or delete the variable
+#
+# Optional:
+#   Variable  NIGHTLY_RELEASE_RETENTION_CHECK_DAYS  When no commits in 24h, scan alpha for
+#             commits in this many days (e.g. 7 after re-enabling the kill switch).
+# Manual run: Actions → Nightly Release → Run workflow → optional "Retention check days"
+#             (overrides NIGHTLY_RELEASE_RETENTION_CHECK_DAYS when set).
 
 name: Nightly Release
 
@@ -14,7 +20,14 @@ on:
   schedule:
     # Run nightly build automatically at midnight UTC every day
     - cron: '0 0 * * *'
-  workflow_dispatch:  # Allow manual triggering for testing
+  workflow_dispatch:
+    inputs:
+      retention_check_days:
+        description: >-
+          Days to look back on alpha when no commits in 24h (overrides
+          NIGHTLY_RELEASE_RETENTION_CHECK_DAYS when set)
+        type: number
+        required: false
 
 jobs:
   nightly:
@@ -76,31 +89,69 @@ jobs:
           ref: alpha
           fetch-depth: 0
 
-      - name: Check for changes in last 24 hours
+      - name: Check for changes on alpha
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
         id: check_changes
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
 
-          # Get commits from last 24 hours on alpha branch
+          function Get-RetentionCheckDays {
+            $inputDays = '${{ github.event.inputs.retention_check_days }}'
+            $varDays = '${{ vars.NIGHTLY_RELEASE_RETENTION_CHECK_DAYS }}'
+
+            if ($env:GITHUB_EVENT_NAME -eq 'workflow_dispatch' -and $inputDays -ne '' -and $inputDays -match '^\d+$') {
+              return [int]$inputDays
+            }
+            if ($varDays -ne '' -and $varDays -match '^\d+$') {
+              return [int]$varDays
+            }
+            return 0
+          }
+
           $yesterday = (Get-Date).AddDays(-1).ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss")
-          $commitCount = git rev-list --count --since="$yesterday" alpha
+          $commitCount24h = [int](git rev-list --count --since="$yesterday" alpha)
+          Write-Host "Commits in last 24 hours: $commitCount24h"
 
-          Write-Host "Commits in last 24 hours: $commitCount"
-
-          if ([int]$commitCount -gt 0) {
-            Write-Host "Changes detected - proceeding with nightly build"
+          if ($commitCount24h -gt 0) {
+            Write-Host "Changes in last 24 hours - proceeding with nightly build"
             echo "has_changes=true" >> $env:GITHUB_OUTPUT
-          } else {
-            Write-Host "No changes detected - skipping nightly build"
+            echo "change_window=24h" >> $env:GITHUB_OUTPUT
+            exit 0
+          }
+
+          $retentionDays = Get-RetentionCheckDays
+          if ($retentionDays -gt 90) {
+            Write-Host "::warning::Retention check days ($retentionDays) exceeds 90; using 90"
+            $retentionDays = 90
+          }
+          Write-Host "Retention check days: $retentionDays"
+
+          if ($retentionDays -le 0) {
+            Write-Host "No extended retention window configured - skipping nightly build"
             echo "has_changes=false" >> $env:GITHUB_OUTPUT
+            echo "change_window=none" >> $env:GITHUB_OUTPUT
+            exit 0
+          }
+
+          $since = (Get-Date).AddDays(-$retentionDays).ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss")
+          $commitCountRetention = [int](git rev-list --count --since="$since" alpha)
+          Write-Host "Commits in last $retentionDays day(s): $commitCountRetention"
+
+          if ($commitCountRetention -gt 0) {
+            Write-Host "Changes in retention window ($retentionDays days) - proceeding with nightly build"
+            echo "has_changes=true" >> $env:GITHUB_OUTPUT
+            echo "change_window=retention_${retentionDays}d" >> $env:GITHUB_OUTPUT
+          } else {
+            Write-Host "No changes in 24h or retention window - skipping nightly build"
+            echo "has_changes=false" >> $env:GITHUB_OUTPUT
+            echo "change_window=none" >> $env:GITHUB_OUTPUT
           }
 
       - name: Skip notification
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'false'
         run: |
-          Write-Host "::notice::No commits in the last 24 hours. Skipping nightly build and publish."
+          Write-Host "::notice::No commits on alpha in the last 24 hours (and none in the configured retention window). Skipping nightly build and publish."
 
       # .NET 9 and 10; .NET 11 for net11.0-windows (DOTNET_PREVIEW_SETUP_VERSION when set, else 11.0.x).
       - name: Setup .NET (9 and 10)
