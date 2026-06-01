@@ -2075,6 +2075,16 @@ public class KryptonTreeView : VisualControlBase,
             _treeView.Font = StateCommon.Node.Content.ShortText.Font;
 
             SyncTreeViewBackColor();
+            SyncTreeViewNativeTextColor();
+        }
+    }
+
+    private void SyncTreeViewNativeTextColor()
+    {
+        Color text = StateCommon.Node.Content.GetContentShortTextColor1(PaletteState.Normal);
+        if (_treeView.ForeColor != text)
+        {
+            _treeView.ForeColor = text;
         }
     }
 

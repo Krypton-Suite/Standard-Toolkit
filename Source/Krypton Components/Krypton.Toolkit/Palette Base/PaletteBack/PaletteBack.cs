@@ -113,6 +113,10 @@ public class PaletteBack : Storage,
     public void SetInherit(IPaletteBack inherit) => _inherit = inherit;
     #endregion
 
+    #region Inherit
+    internal IPaletteBack? Inherit => _inherit;
+    #endregion
+
     #region PopulateFromBase
     /// <summary>
     /// Populate values from the base palette.
