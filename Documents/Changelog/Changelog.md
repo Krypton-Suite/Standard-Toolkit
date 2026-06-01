@@ -45,6 +45,7 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Resolved [#3618](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3618), Canary LTS Release workflow fails
 * Implemented [#3550](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3550), Auto complete issues
 * Resolved [#3580](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3580), Fix docked header autosizing
 * Resolved [#1976](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1976), `MenuItem###` theme settings now apply to menu item selected, pressed, and border rendering.
