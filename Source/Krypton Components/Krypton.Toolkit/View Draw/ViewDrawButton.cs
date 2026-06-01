@@ -650,6 +650,8 @@ public class ViewDrawButton : ViewComposite, IRippleHost
     /// <param name="context">Reference to the view context.</param>
     protected virtual void CheckPaletteState(ViewContext context)
     {
+        UpdateDropDownShadowSpacing();
+
         // Default to using this element calculated state
         PaletteState buttonState = State;
 
@@ -737,8 +739,8 @@ public class ViewDrawButton : ViewComposite, IRippleHost
     {
         _drawDropDown.Visible = _dropDown;
         _drawSplitBorder.Visible = _splitter & _dropDown;
-        _drawOuterSeparator.Visible = !_splitter & _dropDown;
         _drawCanvas.Splitter = _splitter & _dropDown;
+        UpdateDropDownShadowSpacing();
 
         var dockStyle = ViewDockStyle.Right;
         var splitOrientation = System.Windows.Forms.Orientation.Vertical;
@@ -767,6 +769,20 @@ public class ViewDrawButton : ViewComposite, IRippleHost
         LayoutDocker.SetDock(_drawSplitBorder, dockStyle);
         LayoutDocker.SetDock(_drawDropDown, dockStyle);
         LayoutDocker.SetDock(_drawOuterSeparator, dockStyle);
+    }
+
+    private void UpdateDropDownShadowSpacing()
+    {
+        int shadow = RetroRenderHelper.ButtonShadowSize;
+        bool reserveShadow = _dropDown
+                             && shadow > 0
+                             && RetroRenderHelper.IsRetroPalette(KryptonManager.CurrentGlobalPalette)
+                             && (_dropDownPosition == VisualOrientation.Right || _dropDownPosition == VisualOrientation.Bottom);
+
+        _drawOuterSeparator.Visible = (!_splitter & _dropDown) || reserveShadow;
+        _drawOuterSeparator.SeparatorSize = _dropDownPosition == VisualOrientation.Bottom
+            ? new Size(1, reserveShadow ? shadow : 1)
+            : new Size(reserveShadow ? shadow : 1, 1);
     }
     #endregion
 }

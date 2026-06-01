@@ -362,10 +362,10 @@ public enum PaletteMode
     ///// </summary>
     //VisualStudio2019Light,
 
-    ///// <summary>
-    ///// Specifies the visual studio 2022 dark palette theme.
-    ///// </summary>
-    //VisualStudio2022Dark,
+    /// <summary>
+    /// Specifies the visual studio 2022 dark palette theme.
+    /// </summary>
+    VisualStudio2022Dark,
 
     ///// <summary>
     ///// Specifies the visual studio 2022 light palette theme.
@@ -391,6 +391,16 @@ public enum PaletteMode
     /// Material Dark palette with Ripple effect.
     /// </summary>
     MaterialDarkRipple,
+
+    /// <summary>
+    /// DOS teal/green RetroUI palette.
+    /// </summary>
+    RetroGreen,
+
+    /// <summary>
+    /// Norton Commander style blue RetroUI palette.
+    /// </summary>
+    RetroBlue,
 
     /// <summary>
     /// Specifies a custom palette be used.

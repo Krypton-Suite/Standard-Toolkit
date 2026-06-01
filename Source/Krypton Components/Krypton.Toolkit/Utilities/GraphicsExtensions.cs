@@ -531,6 +531,7 @@ public static class GraphicsExtensions
             PaletteMode.VisualStudio2010Render2010 => true,
             PaletteMode.VisualStudio2010Render2013 => true,
             PaletteMode.VisualStudio2010Render365 => true,
+            PaletteMode.VisualStudio2022Dark => true,
             _ => false
         };
     }
@@ -556,6 +557,8 @@ public static class GraphicsExtensions
             PaletteMode.MaterialDark => true,
             PaletteMode.MaterialLightRipple => true,
             PaletteMode.MaterialDarkRipple => true,
+            PaletteMode.VisualStudio2022Dark => true,
+            PaletteMode.RetroGreen or PaletteMode.RetroBlue => true,
             _ => false
         };
     }
