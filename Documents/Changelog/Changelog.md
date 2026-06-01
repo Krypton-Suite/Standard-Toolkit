@@ -46,6 +46,8 @@
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
 * Implemented [#804](https://github.com/Krypton-Suite/Standard-Toolkit/issues/804), `KryptonDataGridView` external corner rounding via `StateNormal.Border.Rounding` (and `StateDisabled.Border`, same as other Krypton controls; `-1` inherits/disables). Clips the data area, paints a rounded outer border, draws rounded backgrounds/borders on outer corner cells, and detaches native scrollbars to themed `Krypton` scrollbars in the gutter while rounding is active. `PaletteDataGridViewAll` exposes `Border` in the designer (replacing `PaletteBorder` visibility).
+* Resolved [#3618](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3618), Canary LTS Release workflow fails
+* Implemented [#3550](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3550), Auto complete issues
 * Resolved [#3580](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3580), Fix docked header autosizing
 * Resolved [#1976](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1976), `MenuItem###` theme settings now apply to menu item selected, pressed, and border rendering.
 * Resolved [#1929](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1929), `KryptonFolderBrowserDialog` drawing issues
