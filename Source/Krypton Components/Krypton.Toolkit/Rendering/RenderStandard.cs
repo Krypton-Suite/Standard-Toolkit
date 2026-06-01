@@ -5847,11 +5847,12 @@ public class RenderStandard : RenderBase
 					|| (displayRect.Height < memento.Image.Height)
 				   )
 				{
-					var ratio = 1.0f * Math.Min(memento.Image.Width, memento.Image.Height) / Math.Max(memento.Image.Width, memento.Image.Height);
+					float ratio = Math.Min(displayRect.Width / (float)memento.Image.Width,
+						displayRect.Height / (float)memento.Image.Height);
 
 					// Resize image to fit display area
-					memento.Image = CommonHelper.ScaleImageForSizedDisplay(memento.Image, displayRect.Width * ratio,
-						displayRect.Height * ratio, false);
+					memento.Image = CommonHelper.ScaleImageForSizedDisplay(memento.Image, memento.Image.Width * ratio,
+						memento.Image.Height * ratio, false);
 				}
 
 				if (memento.Image != null)
