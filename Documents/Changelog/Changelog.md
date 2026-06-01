@@ -46,6 +46,7 @@
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
 * Resolved [#3580](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3580), Fix docked header autosizing
+* Resolved [#1929](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1929), `KryptonFolderBrowserDialog` drawing issues
 * Resolved [#397](https://github.com/Krypton-Suite/Standard-Toolkit/issues/397), normal context menus now use the same palette colours as `KryptonContextMenu`
 * Resolved [#3545](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3545), `KryptonComboBoxUserControl` uses `VisualPopup` as a general `UserControl` host (e.g. `KryptonTreeView`, `DataGridView`). Replaced `VisualKryptonDropDownPopup` (`VisualPopup` + view layout over HWND children) with `KryptonDropDownHostForm`, a borderless top-level form that hosts `DropContent` on a plain `Panel` (not `KryptonPanel`), reuses the host between opens, and enables composited/double-buffered painting for the host and its descendants.
 * Resolved [#3616](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3616), Alpha Backup Synchronisation workflow fails to run
