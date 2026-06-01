@@ -2183,16 +2183,26 @@ public abstract class PaletteBase : Component
 
     #region Palette Helpers
 
-    // GLOBAL lookup table that holds every colour previously kept in the old static Color[] arrays
-    // Key = (enum type that defines the slot, zero-based index)
-    private static readonly Dictionary<(Type Enum, int Index), Color> _colorLut = new Dictionary<(Type Enum, int Index), Color>();
+    // Lookup table that holds every colour previously kept in the old static Color[] arrays.
+    // Key = (palette base type, enum type that defines the slot, zero-based index)
+    private static readonly Dictionary<(Type Owner, Type Enum, int Index), Color> _colorLut = new Dictionary<(Type Owner, Type Enum, int Index), Color>();
 
     /// <summary>
     /// Called once from a family base static constructor to seed default colours for a particular enum slot.
     /// </summary>
     protected static void RegisterColor<TEnum>(TEnum slot, Color value) where TEnum : struct, Enum
     {
-        _colorLut[(typeof(TEnum), Convert.ToInt32(slot))] = value;
+        RegisterColor<PaletteBase, TEnum>(slot, value);
+    }
+
+    /// <summary>
+    /// Called once from a family base static constructor to seed default colours for a particular enum slot.
+    /// </summary>
+    protected static void RegisterColor<TOwner, TEnum>(TEnum slot, Color value)
+        where TOwner : PaletteBase
+        where TEnum : struct, Enum
+    {
+        _colorLut[(typeof(TOwner), typeof(TEnum), Convert.ToInt32(slot))] = value;
     }
 
     /// <summary>
@@ -2200,7 +2210,14 @@ public abstract class PaletteBase : Component
     /// </summary>
     public Color GetArrayColor<TEnum>(TEnum slot) where TEnum : struct, Enum
     {
-        return _colorLut[(typeof(TEnum), Convert.ToInt32(slot))];
+        var key = ResolveColorLutKey(typeof(TEnum), Convert.ToInt32(slot));
+
+        if (key.HasValue)
+        {
+            return _colorLut[key.Value];
+        }
+
+        throw new KeyNotFoundException($@"No registered color for {typeof(TEnum).Name}.{slot}.");
     }
 
     /// <summary>
@@ -2208,9 +2225,26 @@ public abstract class PaletteBase : Component
     /// </summary>
     public void SetArrayColor<TEnum>(TEnum slot, Color newColor) where TEnum : struct, Enum
     {
-        _colorLut[(typeof(TEnum), Convert.ToInt32(slot))] = newColor;
+        var key = (GetType(), typeof(TEnum), Convert.ToInt32(slot));
+
+        _colorLut[key] = newColor;
         // Inform listeners that colours have changed so UI repaints.
         OnPalettePaint(this, new PaletteLayoutEventArgs(true, true));
+    }
+
+    private (Type Owner, Type Enum, int Index)? ResolveColorLutKey(Type enumType, int index)
+    {
+        for (var owner = GetType(); owner != null; owner = owner.BaseType)
+        {
+            var key = (owner, enumType, index);
+
+            if (_colorLut.ContainsKey(key))
+            {
+                return key;
+            }
+        }
+
+        return null;
     }
 
     private readonly object _colorLock = new();
