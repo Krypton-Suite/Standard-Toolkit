@@ -13,7 +13,7 @@ public sealed class PaletteOffice2010BlackDarkMode_BaseScheme : KryptonColorSche
 {
     public override Color TextLabelControl                 { get; set; } = Color.White;
     public override Color TextButtonNormal                 { get; set; } = Color.White;
-    public override Color TextButtonChecked                { get; set; } = Color.White;
+    public override Color TextButtonChecked                { get; set; } = Color.Black;
     public override Color ButtonNormalBorder               { get; set; } = Color.FromArgb(137, 135, 133);
     public override Color ButtonNormalDefaultBorder        { get; set; } = Color.FromArgb(127, 125, 123);
     public override Color ButtonNormalBack1                { get; set; } = Color.FromArgb(10, 10, 10);

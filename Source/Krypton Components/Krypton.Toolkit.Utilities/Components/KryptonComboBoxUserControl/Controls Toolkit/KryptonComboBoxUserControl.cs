@@ -44,7 +44,7 @@ public class KryptonComboBoxUserControl : KryptonTextBox
     #region Instance Fields
 
     private readonly ButtonSpecAny _dropButton;
-    private VisualKryptonDropDownPopup? _popup;
+    private KryptonDropDownHostForm? _popup;
     private Control? _dropContent;
     private object? _selectedValue;
     private LeftRightAlignment _dropDownAlign = LeftRightAlignment.Left;
@@ -131,6 +131,14 @@ public class KryptonComboBoxUserControl : KryptonTextBox
             _dropButton.Click -= OnDropButtonClick;
 
             CloseDropDown();
+
+            if (_popup != null)
+            {
+                _popup.Disposed -= OnPopupDisposed;
+                _popup.ValueCommitted -= OnPopupValueCommitted;
+                _popup.Dispose();
+                _popup = null;
+            }
         }
 
         base.Dispose(disposing);
@@ -164,6 +172,14 @@ public class KryptonComboBoxUserControl : KryptonTextBox
             if (IsDroppedDown)
             {
                 CloseDropDown();
+            }
+
+            if (_popup != null)
+            {
+                _popup.Disposed -= OnPopupDisposed;
+                _popup.ValueCommitted -= OnPopupValueCommitted;
+                _popup.Dispose();
+                _popup = null;
             }
 
             _dropContent = value;
@@ -307,7 +323,7 @@ public class KryptonComboBoxUserControl : KryptonTextBox
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public bool IsDroppedDown => _popup is { IsHandleCreated: true, IsDisposed: false };
+    public bool IsDroppedDown => _popup is { IsDropDownVisible: true, IsDisposed: false };
 
     /// <summary>
     /// Gets access to the drop button specification, allowing further customisation
@@ -351,20 +367,13 @@ public class KryptonComboBoxUserControl : KryptonTextBox
 
         Size popupSize = ResolvePopupSize();
 
-        IRenderer? renderer = null;
-        try
+        if (_popup == null || _popup.IsDisposed)
         {
-            renderer = KryptonManager.CurrentGlobalPalette.GetRenderer();
+            _popup = new KryptonDropDownHostForm(this, _dropContent,
+                _dropDownResizable, _minDropDownSize, _maxDropDownSize);
+            _popup.Disposed += OnPopupDisposed;
+            _popup.ValueCommitted += OnPopupValueCommitted;
         }
-        catch
-        {
-            // Fall back to default renderer if palette cannot supply one
-        }
-
-        _popup = new VisualKryptonDropDownPopup(this, _dropContent, renderer,
-            _dropDownResizable, _minDropDownSize, _maxDropDownSize);
-        _popup.Disposed += OnPopupDisposed;
-        _popup.ValueCommitted += OnPopupValueCommitted;
 
         Rectangle anchor = RectangleToScreen(ClientRectangle);
         _popup.ShowAnchored(anchor, popupSize, _dropDownAlign);
@@ -396,12 +405,11 @@ public class KryptonComboBoxUserControl : KryptonTextBox
             return;
         }
 
-        if (_popup is { IsDisposed: false, IsHandleCreated: true })
+        if (_popup is { IsDisposed: false, IsDropDownVisible: true })
         {
-            VisualPopupManager.Singleton.EndPopupTracking(_popup);
+            _popup.CloseDropDown();
+            OnDropDownClosed(EventArgs.Empty);
         }
-
-        _popup = null;
     }
 
     #endregion
@@ -603,14 +611,20 @@ public class KryptonComboBoxUserControl : KryptonTextBox
 
     private void OnPopupDisposed(object? sender, EventArgs e)
     {
-        if (_popup != null)
+        if (_popup == null)
         {
-            _popup.Disposed -= OnPopupDisposed;
-            _popup.ValueCommitted -= OnPopupValueCommitted;
-            _popup = null;
+            return;
         }
 
-        OnDropDownClosed(EventArgs.Empty);
+        bool wasVisible = _popup.IsDropDownVisible;
+        _popup.Disposed -= OnPopupDisposed;
+        _popup.ValueCommitted -= OnPopupValueCommitted;
+        _popup = null;
+
+        if (wasVisible)
+        {
+            OnDropDownClosed(EventArgs.Empty);
+        }
     }
 
     #endregion
