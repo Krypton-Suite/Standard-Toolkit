@@ -623,7 +623,7 @@ namespace TestForm
             this.knudCornerRoundingRadius.Size = new System.Drawing.Size(56, 22);
             this.knudCornerRoundingRadius.TabIndex = 16;
             this.knudCornerRoundingRadius.Value = new decimal(new int[] {
-            5,
+            20,
             0,
             0,
             0});

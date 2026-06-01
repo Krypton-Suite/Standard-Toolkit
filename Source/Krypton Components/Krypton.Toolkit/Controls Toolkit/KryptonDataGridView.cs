@@ -1196,6 +1196,16 @@ public class KryptonDataGridView : DataGridView
     }
 
     /// <summary>
+    /// Raises the Paint event.
+    /// </summary>
+    /// <param name="e">A PaintEventArgs that contains the event data.</param>
+    protected override void OnPaint(PaintEventArgs e)
+    {
+        base.OnPaint(e);
+        DrawCornerRoundingBorder(e.Graphics, e.ClipRectangle);
+    }
+
+    /// <summary>
     /// Raises the CellMouseEnter event.
     /// </summary>
     /// <param name="e">A DataGridViewCellEventArgs that contains the event data.</param>
@@ -1854,13 +1864,6 @@ public class KryptonDataGridView : DataGridView
             // Use the view manager to paint the view panel that fills the entire areas as the background
             using var context = new RenderContext(this, graphics, clipBounds, Renderer!);
             ViewManager.Paint(context);
-
-            if (HasCornerRounding)
-            {
-                IPaletteBorder paletteBorder = Enabled ? StateNormal.Border : StateDisabled.Border;
-                PaletteState borderState = Enabled ? PaletteState.Normal : PaletteState.Disabled;
-                Renderer!.RenderStandardBorder.DrawBorder(context, GetOuterRoundingBounds(), paletteBorder, VisualOrientation.Top, borderState);
-            }
         }
 
         // Request for a refresh has been serviced
@@ -2724,28 +2727,7 @@ public class KryptonDataGridView : DataGridView
     /// <summary>
     /// Outer rectangle used for region clipping, outer border, and corner-cell detection.
     /// </summary>
-    private Rectangle GetOuterRoundingBounds() =>
-        HasCornerRounding && _roundingUsesDetachedScrollbars ? GetDataAreaBounds() : ClientRectangle;
-
-    private Rectangle GetDataAreaBounds()
-    {
-        Rectangle bounds = ClientRectangle;
-
-        if (_roundingUsesDetachedScrollbars)
-        {
-            if (_roundingVScrollBar != null && _roundingVScrollBar.Visible)
-            {
-                bounds.Width = Math.Max(0, bounds.Width - _roundingVScrollBar.Width);
-            }
-
-            if (_roundingHScrollBar != null && _roundingHScrollBar.Visible)
-            {
-                bounds.Height = Math.Max(0, bounds.Height - _roundingHScrollBar.Height);
-            }
-        }
-
-        return bounds;
-    }
+    private Rectangle GetOuterRoundingBounds() => ClientRectangle;
 
     private void UpdateRoundingAppearance()
     {
@@ -2861,6 +2843,7 @@ public class KryptonDataGridView : DataGridView
                 TabStop = false,
                 Visible = false
             };
+            SetDetachedVerticalScrollBarBounds(false);
             _roundingVScrollBar.Scroll += OnDetachedRoundingVScroll;
             _roundingVScrollBar.MouseDown += OnDetachedRoundingScrollBarMouseDown;
             _roundingVScrollBar.MouseUp += OnDetachedRoundingScrollBarMouseUp;
@@ -2874,6 +2857,7 @@ public class KryptonDataGridView : DataGridView
                 TabStop = false,
                 Visible = false
             };
+            SetDetachedHorizontalScrollBarBounds(false);
             _roundingHScrollBar.Scroll += OnDetachedRoundingHScroll;
             _roundingHScrollBar.MouseDown += OnDetachedRoundingScrollBarMouseDown;
             _roundingHScrollBar.MouseUp += OnDetachedRoundingScrollBarMouseUp;
@@ -2925,6 +2909,42 @@ public class KryptonDataGridView : DataGridView
     private bool WantsDetachedHorizontalScrollBar() =>
         _savedScrollBarsForRounding == ScrollBars.Horizontal || _savedScrollBarsForRounding == ScrollBars.Both;
 
+    private int GetDetachedDataRight(bool showVertical) =>
+        ClientSize.Width - (showVertical ? SystemInformation.VerticalScrollBarWidth : 0);
+
+    private int GetDetachedDataBottom(bool showHorizontal) =>
+        ClientSize.Height - (showHorizontal ? SystemInformation.HorizontalScrollBarHeight : 0);
+
+    private void SetDetachedVerticalScrollBarBounds(bool showVertical) =>
+        SetDetachedVerticalScrollBarBounds(showVertical, GetDetachedDataBottom(false));
+
+    private void SetDetachedVerticalScrollBarBounds(bool showVertical, int dataBottom)
+    {
+        if (_roundingVScrollBar == null)
+        {
+            return;
+        }
+
+        int scrollbarWidth = SystemInformation.VerticalScrollBarWidth;
+        int dataRight = GetDetachedDataRight(showVertical);
+        _roundingVScrollBar.SetBounds(dataRight, 0, scrollbarWidth, Math.Max(0, dataBottom));
+    }
+
+    private void SetDetachedHorizontalScrollBarBounds(bool showHorizontal) =>
+        SetDetachedHorizontalScrollBarBounds(showHorizontal, GetDetachedDataRight(false));
+
+    private void SetDetachedHorizontalScrollBarBounds(bool showHorizontal, int dataRight)
+    {
+        if (_roundingHScrollBar == null)
+        {
+            return;
+        }
+
+        int scrollbarHeight = SystemInformation.HorizontalScrollBarHeight;
+        int dataBottom = GetDetachedDataBottom(showHorizontal);
+        _roundingHScrollBar.SetBounds(0, dataBottom, Math.Max(0, dataRight), scrollbarHeight);
+    }
+
     private void LayoutDetachedRoundingScrollbars(bool updateRoundingRegion = true)
     {
         if (!_roundingUsesDetachedScrollbars)
@@ -2934,25 +2954,17 @@ public class KryptonDataGridView : DataGridView
 
         EnsureDetachedRoundingScrollbarsCreated();
 
-        int scrollbarWidth = SystemInformation.VerticalScrollBarWidth;
-        int scrollbarHeight = SystemInformation.HorizontalScrollBarHeight;
         bool showVertical = WantsDetachedVerticalScrollBar() && _roundingVScrollBar != null && _roundingVScrollBar.Visible;
         bool showHorizontal = WantsDetachedHorizontalScrollBar() && _roundingHScrollBar != null && _roundingHScrollBar.Visible;
 
-        int dataRight = ClientSize.Width - (showVertical ? scrollbarWidth : 0);
-        int dataBottom = ClientSize.Height - (showHorizontal ? scrollbarHeight : 0);
+        int dataRight = GetDetachedDataRight(showVertical);
+        int dataBottom = GetDetachedDataBottom(showHorizontal);
 
-        if (_roundingVScrollBar != null)
-        {
-            _roundingVScrollBar.SetBounds(dataRight, 0, scrollbarWidth, Math.Max(0, dataBottom));
-            _roundingVScrollBar.BringToFront();
-        }
+        SetDetachedVerticalScrollBarBounds(showVertical, dataBottom);
+        _roundingVScrollBar?.BringToFront();
 
-        if (_roundingHScrollBar != null)
-        {
-            _roundingHScrollBar.SetBounds(0, dataBottom, Math.Max(0, dataRight), scrollbarHeight);
-            _roundingHScrollBar.BringToFront();
-        }
+        SetDetachedHorizontalScrollBarBounds(showHorizontal, dataRight);
+        _roundingHScrollBar?.BringToFront();
 
         SendNativeDataGridScrollBarsToBack();
 
@@ -2994,10 +3006,7 @@ public class KryptonDataGridView : DataGridView
             _suppressRoundingScrollSync = false;
         }
 
-        if (layoutScrollbars)
-        {
-            LayoutDetachedRoundingScrollbars();
-        }
+        LayoutDetachedRoundingScrollbars(layoutScrollbars);
     }
 
     private void UpdateDetachedHorizontalScrollBar(bool hasNativeScrollInfo, WIN32ScrollBars.ScrollInfo scrollInfo)
@@ -3011,6 +3020,8 @@ public class KryptonDataGridView : DataGridView
 
             return;
         }
+
+        SetDetachedHorizontalScrollBarBounds(false);
 
         int minimum;
         int maximum;
@@ -3049,6 +3060,8 @@ public class KryptonDataGridView : DataGridView
 
             return;
         }
+
+        SetDetachedVerticalScrollBarBounds(false);
 
         int minimum;
         int maximum;
@@ -3528,40 +3541,22 @@ public class KryptonDataGridView : DataGridView
             path.AddPath(roundedPath, false);
         }
 
-        AppendDetachedScrollbarGuttersToPath(path, outerBounds);
-
         Region? oldRegion = Region;
         Region = new Region(path);
         oldRegion?.Dispose();
     }
 
-    private void AppendDetachedScrollbarGuttersToPath(GraphicsPath path, Rectangle dataBounds)
+    private void DrawCornerRoundingBorder(Graphics graphics, Rectangle clipBounds)
     {
-        if (!_roundingUsesDetachedScrollbars)
+        if (!HasCornerRounding || Renderer == null)
         {
             return;
         }
 
-        int scrollbarWidth = SystemInformation.VerticalScrollBarWidth;
-        int scrollbarHeight = SystemInformation.HorizontalScrollBarHeight;
-        bool showVertical = WantsDetachedVerticalScrollBar() && _roundingVScrollBar != null && _roundingVScrollBar.Visible;
-        bool showHorizontal = WantsDetachedHorizontalScrollBar() && _roundingHScrollBar != null && _roundingHScrollBar.Visible;
-
-        if (showVertical)
-        {
-            path.AddRectangle(new Rectangle(dataBounds.Right, 0, scrollbarWidth, ClientSize.Height));
-        }
-
-        if (showHorizontal)
-        {
-            int horizontalWidth = showVertical ? dataBounds.Width : ClientSize.Width;
-            path.AddRectangle(new Rectangle(0, dataBounds.Bottom, horizontalWidth, scrollbarHeight));
-        }
-
-        if (showVertical && showHorizontal)
-        {
-            path.AddRectangle(new Rectangle(dataBounds.Right, dataBounds.Bottom, scrollbarWidth, scrollbarHeight));
-        }
+        using var context = new RenderContext(this, graphics, clipBounds, Renderer);
+        IPaletteBorder paletteBorder = Enabled ? StateNormal.Border : StateDisabled.Border;
+        PaletteState borderState = Enabled ? PaletteState.Normal : PaletteState.Disabled;
+        Renderer.RenderStandardBorder.DrawBorder(context, GetOuterRoundingBounds(), paletteBorder, VisualOrientation.Top, borderState);
     }
 
     private void ViewManagerLayout()
