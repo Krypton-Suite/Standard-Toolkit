@@ -309,7 +309,7 @@ public class KryptonProfessionalRenderer : ToolStripProfessionalRenderer
         return TryRenderMenuItemColorTableOverride(e);
     }
 
-    private static bool TryRenderMenuItemPaletteOverride(ToolStripItemRenderEventArgs e)
+    private bool TryRenderMenuItemPaletteOverride(ToolStripItemRenderEventArgs e)
     {
         var ktmi = e.Item as KryptonToolStripMenuItem;
         if (ktmi == null)
