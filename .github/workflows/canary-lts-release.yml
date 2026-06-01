@@ -303,7 +303,7 @@ jobs:
         run: |
           $ErrorActionPreference = 'Stop'
           $version = $null
-          $proj = 'Source/Current/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj'
+          $proj = 'Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj'
           $msbuildConfig = 'Canary'
 
           try {
