@@ -482,7 +482,15 @@ public class KryptonListView : VisualControlBase,
 
     private void OnItemChecked(object? sender, ItemCheckedEventArgs e) => ItemChecked?.Invoke(this, e);
 
-    private void OnItemSelectionChanged(object? sender, ListViewItemSelectionChangedEventArgs e) => ItemSelectionChanged?.Invoke(this, e);
+    private void OnItemSelectionChanged(object? sender, ListViewItemSelectionChangedEventArgs e)
+    {
+        if (e.Item != null)
+        {
+            SetItemState(e.Item);
+        }
+
+        ItemSelectionChanged?.Invoke(this, e);
+    }
 
     private void OnListViewKeyDown(object? sender, KeyEventArgs e) => OnKeyDown(e);
 
@@ -1361,10 +1369,20 @@ public class KryptonListView : VisualControlBase,
             _drawDockerOuter.ElementState = state;
 
             _listView.BackColor = doubleState.PaletteBack.GetBackColor1(state);
+            SyncListViewNativeTextColor();
             foreach (ListViewItem li in Items)
             {
                 SetItemState(li);
             }
+        }
+    }
+
+    private void SyncListViewNativeTextColor()
+    {
+        Color text = StateCommon.Node.Content.GetContentShortTextColor1(PaletteState.Normal);
+        if (_listView.ForeColor != text)
+        {
+            _listView.ForeColor = text;
         }
     }
 

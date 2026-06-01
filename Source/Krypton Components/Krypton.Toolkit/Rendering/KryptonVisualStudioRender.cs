@@ -478,13 +478,13 @@ public class KryptonVisualStudio365Renderer : KryptonProfessionalRenderer
         // Create border path for the check box
         using GraphicsPath borderPath = CreateBorderPath(checkBox, _cutItemMenu);
         // Fill the background in a solid color
-        using (var fillBrush = new SolidBrush(KCT.CheckBackground))
+        using (var fillBrush = new SolidBrush(KCT.ContextMenuItemImageBack))
         {
             e.Graphics.FillPath(fillBrush, borderPath);
         }
 
         // Draw the border around the check box
-        using (var borderPen = new Pen(CommonHelper.WhitenColor(KCT.CheckBackground, 1.05f, 1.52f, 2.75f)))
+        using (var borderPen = new Pen(KCT.ContextMenuItemImageBorder))
         {
             e.Graphics.DrawPath(borderPen, borderPath);
         }
@@ -509,7 +509,7 @@ public class KryptonVisualStudio365Renderer : KryptonProfessionalRenderer
                     {
                         // Draw the tick with a thickish brush
                         using var tickPen =
-                            new Pen(CommonHelper.WhitenColor(KCT.CheckBackground, 3.86f, 3.02f, 1.07f),
+                            new Pen(KCT.ContextMenuItemImageText,
                                 _contextCheckTickThickness);
                         e.Graphics.DrawPath(tickPen, tickPath);
                     }
@@ -520,7 +520,7 @@ public class KryptonVisualStudio365Renderer : KryptonProfessionalRenderer
                     {
                         // Draw the tick with a thickish brush
                         using (var tickBrush =
-                               new SolidBrush(CommonHelper.WhitenColor(KCT.CheckBackground, 3.86f, 3.02f, 1.07f)))
+                               new SolidBrush(KCT.ContextMenuItemImageText))
                         {
                             e.Graphics.FillPath(tickBrush, tickPath);
                         }
@@ -845,7 +845,7 @@ public class KryptonVisualStudio365Renderer : KryptonProfessionalRenderer
                 // Clip all drawing to within the border path
                 using var clipping = new Clipping(e.Graphics, clipPath);
                 // Create the background brush
-                using var backBrush = new SolidBrush(KCT.ToolStripDropDownBackground);
+                using var backBrush = new SolidBrush(KCT.ContextMenuBack);
                 e.Graphics.FillPath(backBrush, borderPath);
                 break;
             }
@@ -959,7 +959,7 @@ public class KryptonVisualStudio365Renderer : KryptonProfessionalRenderer
                 // If there is a connected area to be drawn
                 if (!e.ConnectedArea.IsEmpty)
                 {
-                    using var excludeBrush = new SolidBrush(KCT.ToolStripDropDownBackground);
+                    using var excludeBrush = new SolidBrush(KCT.ContextMenuBack);
                     e.Graphics.FillRectangle(excludeBrush, e.ConnectedArea);
                 }
 
@@ -968,8 +968,8 @@ public class KryptonVisualStudio365Renderer : KryptonProfessionalRenderer
                     insidePath = CreateInsideBorderPath(e.AffectedBounds, e.ConnectedArea, _cutContextMenu),
                     clipPath = CreateClipBorderPath(e.AffectedBounds, e.ConnectedArea, _cutContextMenu);
                 // Create the different pen colors we need
-                using Pen borderPen = new Pen(KCT.MenuBorder),
-                    insidePen = new Pen(KCT.ToolStripDropDownBackground);
+                using Pen borderPen = new Pen(KCT.ContextMenuBorder),
+                    insidePen = new Pen(KCT.ContextMenuBack);
                 // Clip all drawing to within the border path
                 using var clipping = new Clipping(e.Graphics, clipPath);
                 // Drawing with anti aliasing to create smoother appearance
@@ -1032,13 +1032,13 @@ public class KryptonVisualStudio365Renderer : KryptonProfessionalRenderer
             }
 
             // Fill the margin and draw the standard two separator lines using the color table
-            using (var backBrush = new SolidBrush(KCT.ImageMarginGradientBegin))
+            using (var backBrush = new SolidBrush(KCT.ContextMenuImageColumnBack))
             {
                 e.Graphics.FillRectangle(backBrush, marginRect);
             }
 
-            using (Pen lightPen = new Pen(KCT.ImageMarginGradientEnd),
-                   darkPen  = new Pen(KCT.ImageMarginGradientMiddle))
+            using (Pen lightPen = new Pen(KCT.ContextMenuImageColumnBorder),
+                   darkPen  = new Pen(KCT.ContextMenuImageColumnBorder))
             {
                 if (!rtl)
                 {
@@ -1253,13 +1253,13 @@ public class KryptonVisualStudio365Renderer : KryptonProfessionalRenderer
             // Clip all drawing to within the border path
             using var clipping = new Clipping(g, clipPath);
             // Draw the entire background area first
-            using (var backBrush = new SolidBrush(KCT.ToolStripDropDownBackground))
+            using (var backBrush = new SolidBrush(KCT.ContextMenuBack))
             {
                 g.FillPath(backBrush, borderPath);
             }
 
             // Draw the border
-            using (var borderPen = new Pen(KCT.MenuBorder))
+            using (var borderPen = new Pen(KCT.ContextMenuBorder))
             {
                 g.DrawPath(borderPen, borderPath);
             }
@@ -1343,7 +1343,7 @@ public class KryptonVisualStudio365Renderer : KryptonProfessionalRenderer
             var t = rect.Y;
             var b = rect.Bottom;
 
-            using var marginPen = new Pen(Color.FromArgb(80, KCT.MenuBorder));
+            using var marginPen = new Pen(Color.FromArgb(80, KCT.ContextMenuBorder));
             marginPen.DashPattern = [2, 2];
             g.DrawLine(marginPen, l, t, l, b);
         }
@@ -1353,7 +1353,7 @@ public class KryptonVisualStudio365Renderer : KryptonProfessionalRenderer
             var l = rect.X + (rtl ? 0 : horizontalInset);
             var r = rect.Right - (rtl ? horizontalInset : 0);
 
-            using var marginPen = new Pen(Color.FromArgb(80, KCT.MenuBorder));
+            using var marginPen = new Pen(Color.FromArgb(80, KCT.ContextMenuBorder));
             marginPen.DashPattern = [2, 2];
             g.DrawLine(marginPen, l, y, r, y);
         }

@@ -82,6 +82,12 @@ internal static class KryptonScrollBarRenderer
         _palette = KryptonManager.CurrentGlobalPalette;
         _paletteRedirect = new PaletteRedirect(_palette);
 
+        if (RetroRenderHelper.IsRetroPalette(_palette))
+        {
+            InitColorsForRetroPalette(_palette);
+            return;
+        }
+
         //Init Colors
         // hot state
         _thumbColors[0, 0] = _palette.GetBorderColor1(PaletteBorderStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(96, 111, 148); // border color
@@ -194,6 +200,100 @@ internal static class KryptonScrollBarRenderer
         GripColors[0] = _palette.ColorTable.GripLight;
         GripColors[1] = _palette.ColorTable.GripDark;
 
+    }
+
+    private static void InitColorsForRetroPalette(PaletteBase palette)
+    {
+        Color face = palette.GetBackColor1(PaletteBackStyle.PanelAlternate, PaletteState.Normal);
+        if (face.IsEmpty || face == GlobalStaticVariables.EMPTY_COLOR)
+        {
+            face = palette is PaletteRetroBase retro
+                ? retro.ButtonDisabledColor
+                : Color.FromArgb(192, 192, 192);
+        }
+
+        Color faceLight = Color.FromArgb(223, 223, 223);
+        Color faceMid = face;
+        Color faceDark = Color.FromArgb(160, 160, 160);
+        Color border = palette.GetBorderColor1(PaletteBorderStyle.InputControlStandalone, PaletteState.Normal);
+        if (border.IsEmpty || border == GlobalStaticVariables.EMPTY_COLOR)
+        {
+            border = Color.Black;
+        }
+
+        _thumbColors[0, 0] = border;
+        _thumbColors[0, 1] = faceLight;
+        _thumbColors[0, 2] = faceMid;
+        _thumbColors[0, 3] = faceDark;
+        _thumbColors[0, 4] = faceMid;
+        _thumbColors[0, 5] = faceLight;
+        _thumbColors[0, 6] = faceDark;
+        _thumbColors[0, 7] = border;
+
+        _thumbColors[1, 0] = border;
+        _thumbColors[1, 1] = faceLight;
+        _thumbColors[1, 2] = Color.White;
+        _thumbColors[1, 3] = faceLight;
+        _thumbColors[1, 4] = faceMid;
+        _thumbColors[1, 5] = faceLight;
+        _thumbColors[1, 6] = faceDark;
+        _thumbColors[1, 7] = faceDark;
+
+        _thumbColors[2, 0] = border;
+        _thumbColors[2, 1] = faceDark;
+        _thumbColors[2, 2] = faceMid;
+        _thumbColors[2, 3] = faceLight;
+        _thumbColors[2, 4] = faceDark;
+        _thumbColors[2, 5] = faceMid;
+        _thumbColors[2, 6] = faceDark;
+        _thumbColors[2, 7] = faceDark;
+
+        _arrowColors[0, 0] = faceLight;
+        _arrowColors[0, 1] = faceMid;
+        _arrowColors[0, 2] = Color.White;
+        _arrowColors[0, 3] = faceLight;
+        _arrowColors[0, 4] = faceMid;
+        _arrowColors[0, 5] = faceLight;
+        _arrowColors[0, 6] = Color.White;
+        _arrowColors[0, 7] = Color.White;
+
+        _arrowColors[1, 0] = faceMid;
+        _arrowColors[1, 1] = faceMid;
+        _arrowColors[1, 2] = faceLight;
+        _arrowColors[1, 3] = faceLight;
+        _arrowColors[1, 4] = faceMid;
+        _arrowColors[1, 5] = faceLight;
+        _arrowColors[1, 6] = faceLight;
+        _arrowColors[1, 7] = Color.White;
+
+        _arrowColors[2, 0] = faceDark;
+        _arrowColors[2, 1] = faceDark;
+        _arrowColors[2, 2] = faceMid;
+        _arrowColors[2, 3] = faceMid;
+        _arrowColors[2, 4] = faceDark;
+        _arrowColors[2, 5] = faceDark;
+        _arrowColors[2, 6] = faceMid;
+        _arrowColors[2, 7] = faceLight;
+
+        _backgroundColors[0] = faceDark;
+        _backgroundColors[1] = Color.White;
+        _backgroundColors[2] = faceLight;
+        _backgroundColors[3] = faceMid;
+        _backgroundColors[4] = face;
+
+        _trackColors[0] = faceDark;
+        _trackColors[1] = faceLight;
+
+        _arrowBorderColors[0] = border;
+        _arrowBorderColors[1] = border;
+        _arrowBorderColors[2] = faceDark;
+        _arrowBorderColors[3] = faceDark;
+
+        BorderColors[0] = border;
+        BorderColors[1] = border;
+
+        GripColors[0] = Color.FromArgb(64, 64, 64);
+        GripColors[1] = border;
     }
     #endregion
 
