@@ -115,7 +115,8 @@ public sealed class RenderRetro : RenderOffice2010
             return base.DrawBack(context, rect, path, palette, orientation, state, memento);
         }
 
-        DrawRetroButtonBack(context, rect, path, palette, state);
+        DrawRetroButtonBack(context, rect, path, palette, state,
+            RetroRenderHelper.IsRetroGridCellBack(palette) ? 1 : RetroRenderHelper.GetButtonShadowSize(rect));
         return memento;
     }
     #endregion
@@ -125,7 +126,8 @@ public sealed class RenderRetro : RenderOffice2010
         Rectangle rect,
         GraphicsPath path,
         IPaletteBack palette,
-        PaletteState state)
+        PaletteState state,
+        int shadow)
     {
         var g = context.Graphics;
         var oldSmoothing = g.SmoothingMode;
@@ -135,7 +137,6 @@ public sealed class RenderRetro : RenderOffice2010
 
         try
         {
-            int shadow = RetroRenderHelper.GetButtonShadowSize(rect);
             bool pressed = state is PaletteState.Pressed or PaletteState.CheckedPressed;
             Color face = palette.GetBackColor1(state);
             if (state is PaletteState.Tracking or PaletteState.CheckedTracking)
@@ -349,6 +350,18 @@ internal static class RetroRenderHelper
                || color.ToArgb() == retro.ButtonDisabledColor.ToArgb();
     }
 
+    internal static bool IsRetroGridCellBack(IPaletteBack palette) =>
+        palette is PaletteDataGridViewBackInherit dataGridViewBack
+            ? IsRetroGridCellBack(dataGridViewBack.Inherit)
+            : palette is PaletteBack paletteBack && paletteBack.Inherit is not null
+                ? IsRetroGridCellBack(paletteBack.Inherit)
+                : palette switch
+                {
+                    PaletteBackToPalette back => IsRetroGridBackStyle(back.BackStyle),
+                    PaletteBackInheritRedirect backRedirect => IsRetroGridBackStyle(backRedirect.Style),
+                    _ => false
+                };
+
     internal static int GetButtonShadowSize(Rectangle rect)
     {
         if (_buttonShadowSize <= 0)
@@ -423,6 +436,29 @@ internal static class RetroRenderHelper
             PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonLowProfile
                 or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonCluster
                 or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 => true,
+            _ => false
+        };
+
+    private static bool IsRetroGridBackStyle(PaletteBackStyle style) =>
+        IsRetroGridHeaderBackStyle(style) || IsRetroGridDataCellBackStyle(style);
+
+    private static bool IsRetroGridHeaderBackStyle(PaletteBackStyle style) =>
+        style switch
+        {
+            PaletteBackStyle.GridHeaderColumnList or PaletteBackStyle.GridHeaderColumnCustom1
+                or PaletteBackStyle.GridHeaderColumnCustom2 or PaletteBackStyle.GridHeaderColumnCustom3
+                or PaletteBackStyle.GridHeaderRowList or PaletteBackStyle.GridHeaderRowCustom1
+                or PaletteBackStyle.GridHeaderRowCustom2 or PaletteBackStyle.GridHeaderRowCustom3
+                or PaletteBackStyle.GridHeaderColumnSheet or PaletteBackStyle.GridHeaderRowSheet => true,
+            _ => false
+        };
+
+    private static bool IsRetroGridDataCellBackStyle(PaletteBackStyle style) =>
+        style switch
+        {
+            PaletteBackStyle.GridDataCellList or PaletteBackStyle.GridDataCellCustom1
+                or PaletteBackStyle.GridDataCellCustom2 or PaletteBackStyle.GridDataCellCustom3
+                or PaletteBackStyle.GridDataCellSheet => true,
             _ => false
         };
 

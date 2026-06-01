@@ -508,7 +508,8 @@ public abstract class PaletteRetroBase : PaletteVisualStudioBase
         !CommonHelper.IsOverrideState(state)
         && (IsRetroControlButtonContent(style)
             || IsRetroInputControlContent(style)
-            || IsRetroInputControlButtonContent(style));
+            || IsRetroInputControlButtonContent(style)
+            || IsRetroLabelContent(style));
 
     private static bool IsRetroControlButtonContent(PaletteContentStyle style) =>
         style is PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonGallery
