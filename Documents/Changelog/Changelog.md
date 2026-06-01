@@ -46,6 +46,7 @@
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
 * Resolved [#3618](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3618), Canary LTS Release workflow fails
+* Resolved [#397](https://github.com/Krypton-Suite/Standard-Toolkit/issues/397), normal context menus now use the same palette colours as `KryptonContextMenu`
 * Resolved [#3545](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3545), `KryptonComboBoxUserControl` uses `VisualPopup` as a general `UserControl` host (e.g. `KryptonTreeView`, `DataGridView`). Replaced `VisualKryptonDropDownPopup` (`VisualPopup` + view layout over HWND children) with `KryptonDropDownHostForm`, a borderless top-level form that hosts `DropContent` on a plain `Panel` (not `KryptonPanel`), reuses the host between opens, and enables composited/double-buffered painting for the host and its descendants.
 * Resolved [#3616](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3616), Alpha Backup Synchronisation workflow fails to run
 * Implemented [#3591](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3591), Implement a automated backup system
@@ -61,7 +62,7 @@
   * `KryptonIntegratedToolbar*Command` and `KryptonHelpCommand` are obsolete; use `KryptonCommand` with `CommandType` instead (removal in version 120 LTS).
 * Implemented [#3444](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3444), ComboBox with Grouping
   * `KryptonTreeComboBox` - a ComboBox-style control whose drop-down hosts a hierarchical `KryptonTreeView` (grouped/tree selection with leaf-only or any-node commit, full path / breadcrumb / leaf display modes, check boxes and images). Built on `KryptonComboBoxUserControl` in `Krypton.Toolkit.Utilities`. Includes designer smart-tag support.
-  * `KryptonCheckedListComboBox` - a ComboBox-style multi-select control whose drop-down hosts `KryptonCheckedListBox` on the same `KryptonComboBoxUserControl` stack. 
+  * `KryptonCheckedListComboBox` - a ComboBox-style multi-select control whose drop-down hosts `KryptonCheckedListBox` on the same `KryptonComboBoxUserControl` stack.
 * Resolved [#3451](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3451), Unable to add child controls into `KryptonHeaderGroup` at design time (`ReadOnly controls collection`). `DisplayRectangle` now reports the view fill rect, group container designers call `PerformLayout` after `EnableDesignMode`, and `KryptonGroupPanelDesigner.CanBeParentedTo` checks the parent component type correctly. Same `DisplayRectangle` improvement applied to `KryptonGroup` and `KryptonGroupBox`.
 * Resolved [#3282](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3282), `KryptonTreeView` items flicker when selected/clicked (`DrawDefault = false` for `OwnerDrawAll`; composite `WM_PAINT` off-screen buffer with `TVS_EX_DOUBLEBUFFER`; batch selection/check updates; no per-node background repaint)
 * Resolved [#3367](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3367), ButtonSpec hover flicker on `KryptonTextBox`, `KryptonMaskedTextBox`, and `KryptonForm` (including `ImageStates.ImageNormal` without `Image`)
