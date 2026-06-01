@@ -23,6 +23,9 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
     // registration guard so default colours are initialised lazily only once
     private static bool _defaultsRegistered;
 
+    private new static void RegisterColor<TEnum>(TEnum slot, Color value) where TEnum : struct, Enum =>
+        RegisterColor<PaletteMicrosoft365Base, TEnum>(slot, value);
+
     static PaletteMicrosoft365Base()
     {
         if (_defaultsRegistered)
@@ -2244,7 +2247,9 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
                     : _ribbonColors[(int)SchemeBaseColors.TextLabelPanel],
                 PaletteState.Tracking => GetEffectiveButtonTextTracking(_ribbonColors[(int)SchemeBaseColors.TextButtonNormal]),
                 PaletteState.CheckedTracking => GetEffectiveButtonTextTracking(_ribbonColors[(int)SchemeBaseColors.TextButtonChecked]),
-                PaletteState.CheckedNormal or PaletteState.CheckedPressed => _ribbonColors[(int)SchemeBaseColors.TextButtonChecked],
+                PaletteState.CheckedNormal or PaletteState.CheckedPressed => style == PaletteContentStyle.ButtonListItem
+                    ? GetEffectiveButtonTextTracking(_ribbonColors[(int)SchemeBaseColors.TextButtonChecked])
+                    : _ribbonColors[(int)SchemeBaseColors.TextButtonChecked],
                 _ => _ribbonColors[(int)SchemeBaseColors.TextButtonNormal]
             },
             PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose => state switch
@@ -2326,7 +2331,9 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
                     : _ribbonColors[(int)SchemeBaseColors.TextLabelPanel],
                 PaletteState.Tracking => GetEffectiveButtonTextTracking(_ribbonColors[(int)SchemeBaseColors.TextButtonNormal]),
                 PaletteState.CheckedTracking => GetEffectiveButtonTextTracking(_ribbonColors[(int)SchemeBaseColors.TextButtonChecked]),
-                PaletteState.CheckedNormal or PaletteState.CheckedPressed => _ribbonColors[(int)SchemeBaseColors.TextButtonChecked],
+                PaletteState.CheckedNormal or PaletteState.CheckedPressed => style == PaletteContentStyle.ButtonListItem
+                    ? GetEffectiveButtonTextTracking(_ribbonColors[(int)SchemeBaseColors.TextButtonChecked])
+                    : _ribbonColors[(int)SchemeBaseColors.TextButtonChecked],
                 _ => _ribbonColors[(int)SchemeBaseColors.TextButtonNormal]
             },
             PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose => state switch
