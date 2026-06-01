@@ -642,6 +642,12 @@ public class ViewDrawSplitCanvas : ViewComposite
             // If a theme change is in progress, still draw normally here; higher-level guards already prevent risky clipping
             if (Splitter)
             {
+                if (UseUnifiedRetroSplitState)
+                {
+                    DrawBackground(context, rect, PaletteBack, PaletteBorder!, State);
+                    return;
+                }
+
                 var mouseInSplit = MouseInSplit;
                 switch (State)
                 {
@@ -728,6 +734,12 @@ public class ViewDrawSplitCanvas : ViewComposite
         {
             if (Splitter)
             {
+                if (UseUnifiedRetroSplitState)
+                {
+                    DrawBorder(context!, rect, PaletteBorder, State);
+                    return;
+                }
+
                 var mouseInSplit = MouseInSplit;
                 switch (State)
                 {
@@ -831,6 +843,12 @@ public class ViewDrawSplitCanvas : ViewComposite
     private bool SplitWithFading => PaletteMetric == null ||
                                     PaletteMetric.GetMetricBool(State, PaletteMetricBool.SplitWithFading) ==
                                     InheritBool.True;
+
+    private bool UseUnifiedRetroSplitState =>
+        State is PaletteState.Tracking or PaletteState.Pressed
+            or PaletteState.CheckedTracking or PaletteState.CheckedPressed
+        && RetroRenderHelper.IsRetroPalette(KryptonManager.CurrentGlobalPalette)
+        && RetroRenderHelper.IsRetroButtonBack(PaletteBack, State);
 
     #endregion
 
