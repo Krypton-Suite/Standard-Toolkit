@@ -334,4 +334,4 @@ The Krypton Docking set of components allow the user to drag and drop docking pa
 
 ## Visitors
 
-<a href="https://info.flagcounter.com/zoqT"><img src="https://s01.flagcounter.com/map/zoqT/size_m/txt_000000/border_CCCCCC/pageviews_0/viewers_0/flags_0/" alt="Flag Counter" border="0"></a>
+<a href="https://info.flagcounter.com/zoqT"><img src="https://s01.flagcounter.com/map/zoqT/size_l/txt_000000/border_CCCCCC/pageviews_0/viewers_0/flags_0/" alt="Free counters!" border="0"></a>
