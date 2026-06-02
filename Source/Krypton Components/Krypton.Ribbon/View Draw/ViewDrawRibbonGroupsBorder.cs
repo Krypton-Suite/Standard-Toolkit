@@ -197,7 +197,7 @@ internal class ViewDrawRibbonGroupsBorder : ViewComposite,
             drawRect.Width += borderPadding.Horizontal;
             drawRect.Height += borderPadding.Vertical;
         }
-        else if (Ribbon.RibbonShape == PaletteRibbonShape.Office2010)
+        else if (Ribbon.RibbonShape is PaletteRibbonShape.Office2010 or PaletteRibbonShape.MacOS)
         {
             // Prevent the left and right edges from being drawn
             drawRect.X -= 1;

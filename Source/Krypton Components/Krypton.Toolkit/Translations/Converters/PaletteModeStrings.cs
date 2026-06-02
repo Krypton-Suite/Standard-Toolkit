@@ -86,6 +86,8 @@ public class PaletteModeStrings : GlobalId
     internal const string DEFAULT_PALETTE_MATERIAL_DARK_RIPPLE = @"Material - Dark (Ripple)";
     internal const string DEFAULT_PALETTE_RETRO_GREEN = @"Retro - Green";
     internal const string DEFAULT_PALETTE_RETRO_BLUE = @"Retro - Blue";
+    internal const string DEFAULT_PALETTE_MACOS_LIGHT = @"macOS - Light";
+    internal const string DEFAULT_PALETTE_MACOS_DARK = @"macOS - Dark";
     internal const string DEFAULT_PALETTE_CUSTOM = @"Custom";
 
     #endregion
@@ -174,6 +176,8 @@ public class PaletteModeStrings : GlobalId
             { DEFAULT_PALETTE_MATERIAL_DARK_RIPPLE, PaletteMode.MaterialDarkRipple },
             { DEFAULT_PALETTE_RETRO_GREEN, PaletteMode.RetroGreen },
             { DEFAULT_PALETTE_RETRO_BLUE, PaletteMode.RetroBlue },
+            { DEFAULT_PALETTE_MACOS_LIGHT, PaletteMode.MacOSLight },
+            { DEFAULT_PALETTE_MACOS_DARK, PaletteMode.MacOSDark },
             { DEFAULT_PALETTE_CUSTOM, PaletteMode.Custom }
         });
 

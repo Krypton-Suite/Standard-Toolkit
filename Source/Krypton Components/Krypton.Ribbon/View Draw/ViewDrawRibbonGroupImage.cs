@@ -110,6 +110,7 @@ internal class ViewDrawRibbonGroupImage : ViewLeaf
                 _offsetY = _imageOffsetY2007;
                 break;
             case PaletteRibbonShape.Office2010:
+            case PaletteRibbonShape.MacOS:
                 _viewSize = _viewSize2010;
                 _offsetY = _imageOffsetY2010;
                 break;

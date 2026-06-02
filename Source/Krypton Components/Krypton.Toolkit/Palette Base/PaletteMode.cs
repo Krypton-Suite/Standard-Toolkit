@@ -19,7 +19,7 @@ namespace Krypton.Toolkit;
 public enum PaletteMode
 {
     /*
-     * Adjustements made as per ticket 1328.
+     * Adjustments made as per ticket 1328.
      * See: https://github.com/Krypton-Suite/Standard-Toolkit/issues/1328
      *
      * These entries (also those disabled) are now sorted in the order of the SupportedThemes Dictionary.
@@ -401,6 +401,16 @@ public enum PaletteMode
     /// Norton Commander style blue RetroUI palette.
     /// </summary>
     RetroBlue,
+
+    /// <summary>
+    /// macOS-inspired light palette (Material renderer, Apple HIG colors).
+    /// </summary>
+    MacOSLight,
+
+    /// <summary>
+    /// macOS-inspired dark palette (Material renderer, Apple HIG colors).
+    /// </summary>
+    MacOSDark,
 
     /// <summary>
     /// Specifies a custom palette be used.

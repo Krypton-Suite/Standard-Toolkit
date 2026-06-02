@@ -147,6 +147,7 @@ public sealed class KryptonManager : Component
     private static RenderMicrosoft365? _renderMicrosoft365;
     private static RenderMaterial? _renderMaterial;
     private static RenderRetro? _renderRetro;
+    private static RenderMacOS? _renderMacOS;
     private static RenderSparkle? _renderSparkle;
     private static RenderVisualStudio2010With2007? _renderVisualStudio2010With2007;
     private static RenderVisualStudio2010With2010? _renderVisualStudio2010With2010;
@@ -1070,6 +1071,10 @@ public sealed class KryptonManager : Component
                 return PaletteRetroGreen;
             case PaletteMode.RetroBlue:
                 return PaletteRetroBlue;
+            case PaletteMode.MacOSLight:
+                return PaletteMacOSLight;
+            case PaletteMode.MacOSDark:
+                return PaletteMacOSDark;
 
             case PaletteMode.Custom:
             case PaletteMode.Global:
@@ -1373,6 +1378,16 @@ public sealed class KryptonManager : Component
     /// </summary>
     public static PaletteRetroBlue PaletteRetroBlue => _paletteRetroBlue ??= new PaletteRetroBlue();
 
+    /// <summary>
+    /// Gets the macOS-inspired light palette.
+    /// </summary>
+    public static PaletteMacOSLight PaletteMacOSLight => _paletteMacOSLight ??= new PaletteMacOSLight();
+
+    /// <summary>
+    /// Gets the macOS-inspired dark palette.
+    /// </summary>
+    public static PaletteMacOSDark PaletteMacOSDark => _paletteMacOSDark ??= new PaletteMacOSDark();
+
     private static PaletteMaterialLight? _paletteMaterialLight;
     private static PaletteMaterialDark? _paletteMaterialDark;
     private static PaletteMaterialLightRipple? _paletteMaterialLightRipple;
@@ -1380,6 +1395,8 @@ public sealed class KryptonManager : Component
 
     private static PaletteRetroGreen? _paletteRetroGreen;
     private static PaletteRetroBlue? _paletteRetroBlue;
+    private static PaletteMacOSLight? _paletteMacOSLight;
+    private static PaletteMacOSDark? _paletteMacOSDark;
 
     //public static PaletteBase CustomPaletteBase => _customPalette ??= new PaletteBase ();
 
@@ -1420,6 +1437,8 @@ public sealed class KryptonManager : Component
                 return RenderMaterial;
             case RendererMode.Retro:
                 return RenderRetro;
+            case RendererMode.MacOS:
+                return RenderMacOS;
             case RendererMode.Inherit:
             case RendererMode.Custom:
             default:
@@ -1463,6 +1482,11 @@ public sealed class KryptonManager : Component
     /// Gets the single instance of the Retro renderer.
     /// </summary>
     public static RenderRetro RenderRetro => _renderRetro ??= new RenderRetro();
+
+    /// <summary>
+    /// Gets the single instance of the macOS-inspired renderer.
+    /// </summary>
+    public static RenderMacOS RenderMacOS => _renderMacOS ??= new RenderMacOS();
 
     /// <summary>
     /// Gets the single instance of the professional renderer.
@@ -1672,6 +1696,10 @@ public sealed class KryptonManager : Component
             case PaletteMode.RetroGreen:
             case PaletteMode.RetroBlue:
                 Images.ToolbarImages.SetToolBarImages(GlobalStaticVariables.Office2010ToolBarImages);
+                break;
+            case PaletteMode.MacOSLight:
+            case PaletteMode.MacOSDark:
+                Images.ToolbarImages.SetToolBarImages(GlobalStaticVariables.Microsoft365ToolBarImages);
                 break;
             default:
                 // Should not happen!
