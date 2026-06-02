@@ -54,6 +54,7 @@ public class KryptonScrollbarManager : IDisposable
     private int _trackedListBoxHorizontalContentWidth = -1;
     private int _trackedListBoxHorizontalPageWidth = -1;
     private int _trackedListBoxMaximumLeftOffset = -1;
+    private int _listBoxMouseWheelDelta;
 
     #endregion
 
@@ -187,6 +188,35 @@ public class KryptonScrollbarManager : IDisposable
     #endregion
 
     #region Public Methods
+
+    /// <summary>
+    /// Synchronizes a ListBox after mouse wheel input when native scrollbars are hidden.
+    /// </summary>
+    /// <param name="delta">The mouse wheel delta.</param>
+    /// <param name="oldTopIndex">The TopIndex before native mouse wheel handling.</param>
+    /// <param name="newTopIndex">The TopIndex after native mouse wheel handling.</param>
+    internal void SyncListBoxMouseWheel(int delta, int oldTopIndex, int newTopIndex)
+    {
+        if (_mode != ScrollbarManagerMode.NativeWrapper ||
+            !_enabled ||
+            _targetControl is not ListBox listBox ||
+            !listBox.IsHandleCreated)
+        {
+            return;
+        }
+
+        if (oldTopIndex == newTopIndex)
+        {
+            ScrollListBoxByMouseWheel(listBox, delta);
+        }
+        else
+        {
+            _listBoxMouseWheelDelta = 0;
+        }
+
+        EnsureNativeScrollbarsHidden();
+        SyncListBoxVerticalScrollbarValue(listBox);
+    }
 
     /// <summary>
     /// Attaches the manager to a control.
@@ -916,6 +946,46 @@ public class KryptonScrollbarManager : IDisposable
         _trackedListBoxHorizontalContentWidth = -1;
         _trackedListBoxHorizontalPageWidth = -1;
         _trackedListBoxMaximumLeftOffset = -1;
+        _listBoxMouseWheelDelta = 0;
+    }
+
+    private void ScrollListBoxByMouseWheel(ListBox listBox, int delta)
+    {
+        if (listBox.Items.Count == 0 || delta == 0)
+        {
+            return;
+        }
+
+        int scrollLines = SystemInformation.MouseWheelScrollLines;
+        if (scrollLines == 0)
+        {
+            _listBoxMouseWheelDelta = 0;
+            return;
+        }
+
+        _listBoxMouseWheelDelta += delta;
+        int wheelClicks = _listBoxMouseWheelDelta / SystemInformation.MouseWheelScrollDelta;
+        if (wheelClicks == 0)
+        {
+            return;
+        }
+
+        _listBoxMouseWheelDelta %= SystemInformation.MouseWheelScrollDelta;
+
+        int visibleItems = GetListBoxVisibleItemCount(listBox);
+        int maximumTopIndex = Math.Max(0, listBox.Items.Count - visibleItems);
+        int linesPerWheel = scrollLines < 0 ? visibleItems : scrollLines;
+        int scrollItems = linesPerWheel * Math.Abs(wheelClicks);
+        int requestedTopIndex = wheelClicks > 0
+            ? listBox.TopIndex - scrollItems
+            : listBox.TopIndex + scrollItems;
+
+        requestedTopIndex = Math.Max(0, Math.Min(requestedTopIndex, maximumTopIndex));
+        if (listBox.TopIndex != requestedTopIndex)
+        {
+            listBox.TopIndex = requestedTopIndex;
+            listBox.Invalidate();
+        }
     }
 
     private int GetListBoxVisibleItemsForSync(ListBox listBox)
