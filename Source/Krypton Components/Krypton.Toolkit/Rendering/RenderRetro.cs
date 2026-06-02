@@ -115,15 +115,15 @@ public sealed class RenderRetro : RenderOffice2010
             return base.DrawBack(context, rect, path, palette, orientation, state, memento);
         }
 
-        DrawRetroButtonBack(context, rect, path, palette, state, GetRetroButtonShadowSize(context, rect, palette));
+        DrawRetroButtonBack(context, rect, path, palette, state, GetRetroButtonShadowSize(context, rect, palette, state));
         return memento;
     }
     #endregion
 
     #region Implementation
-    private static int GetRetroButtonShadowSize(RenderContext context, Rectangle rect, IPaletteBack palette)
+    private static int GetRetroButtonShadowSize(RenderContext context, Rectangle rect, IPaletteBack palette, PaletteState state)
     {
-        if (RetroRenderHelper.IsRibbonContext(context))
+        if (state == PaletteState.Disabled || RetroRenderHelper.IsRibbonContext(context))
         {
             return 0;
         }
@@ -164,7 +164,7 @@ public sealed class RenderRetro : RenderOffice2010
                 g.FillRectangle(chromeBrush, rect);
             }
 
-            if (!pressed && rect.Width > shadow && rect.Height > shadow)
+            if (!pressed && shadow > 0 && rect.Width > shadow && rect.Height > shadow)
             {
                 using var shadowBrush = new SolidBrush(frame);
                 g.FillRectangle(shadowBrush, rect.X + shadow, rect.Y + shadow, rect.Width - shadow, rect.Height - shadow);

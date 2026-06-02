@@ -102,6 +102,9 @@ public abstract class PaletteRetroBase : PaletteVisualStudioBase
     /// <summary>Gets the border color for transient retro popup surfaces.</summary>
     internal virtual Color RetroPopupBorderColor => RetroButtonFrameColor;
 
+    /// <summary>Gets the separator color between the retro ribbon and client surface.</summary>
+    internal virtual Color RetroRibbonSeparatorColor => RetroButtonFrameColor;
+
     public override IRenderer GetRenderer() => KryptonManager.RenderRetro;
 
     /// <summary>

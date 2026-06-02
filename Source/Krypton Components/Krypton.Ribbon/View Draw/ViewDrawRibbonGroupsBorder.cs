@@ -212,6 +212,12 @@ internal class ViewDrawRibbonGroupsBorder : ViewComposite,
             using var borderPen = new Pen(popupBorderColor, 1f);
             context.Graphics.DrawRectangle(borderPen, drawRect.X, drawRect.Y, drawRect.Width - 1, drawRect.Height - 1);
         }
+
+        if (TryGetRetroRibbonSeparatorColor(out Color separatorColor))
+        {
+            using var separatorPen = new Pen(separatorColor, 1f);
+            context.Graphics.DrawLine(separatorPen, drawRect.X, drawRect.Bottom - 1, drawRect.Right - 1, drawRect.Bottom - 1);
+        }
     }
     #endregion
 
@@ -396,6 +402,18 @@ internal class ViewDrawRibbonGroupsBorder : ViewComposite,
         if (_borderOutside && KryptonManager.CurrentGlobalPalette is PaletteRetroBase retroPalette)
         {
             color = retroPalette.RetroPopupBorderColor;
+            return true;
+        }
+
+        color = GlobalStaticVariables.EMPTY_COLOR;
+        return false;
+    }
+
+    private bool TryGetRetroRibbonSeparatorColor(out Color color)
+    {
+        if (!_borderOutside && KryptonManager.CurrentGlobalPalette is PaletteRetroBase retroPalette)
+        {
+            color = retroPalette.RetroRibbonSeparatorColor;
             return true;
         }
 
