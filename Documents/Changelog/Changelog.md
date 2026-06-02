@@ -45,6 +45,7 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#804](https://github.com/Krypton-Suite/Standard-Toolkit/issues/804), `KryptonDataGridView` external corner rounding via `StateNormal.Border.Rounding` (and `StateDisabled.Border`, same as other Krypton controls; `-1` inherits/disables). Clips the data area, paints a rounded outer border, draws rounded backgrounds/borders on outer corner cells, and detaches native scrollbars to themed `Krypton` scrollbars in the gutter while rounding is active. `PaletteDataGridViewAll` exposes `Border` in the designer (replacing `PaletteBorder` visibility).
 * Resolved [#2862](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2862), Fixed flicker in VisualForm resizing for .net 10+
 * Resolved [#3640](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3640), Fixed retro themed buttons with icons
 * Implemented [#3610](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3610), Harden workflows: PR branch policy (warn-then-fail via `BRANCH_POLICY_ENFORCE`), automated `.github` sync from `master` (including `gold` and `prerelease`), weekly behind-master report workflow, [branch policy cheat sheet](https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/.github/BRANCH_POLICY.md)
