@@ -764,6 +764,38 @@ public class KryptonScrollbarManager : IDisposable
             return 1;
         }
 
+        try
+        {
+            int visibleItems = 0;
+            int topIndex = Math.Max(0, Math.Min(listBox.TopIndex, listBox.Items.Count - 1));
+            int clientBottom = listBox.ClientSize.Height;
+
+            for (int i = topIndex; i < listBox.Items.Count; i++)
+            {
+                Rectangle itemRect = listBox.GetItemRectangle(i);
+                if (itemRect.Top >= clientBottom)
+                {
+                    break;
+                }
+
+                if (itemRect.Height <= 0 || itemRect.Bottom > clientBottom)
+                {
+                    break;
+                }
+
+                visibleItems++;
+            }
+
+            if (visibleItems > 0)
+            {
+                return visibleItems;
+            }
+        }
+        catch
+        {
+            // Fall back to ItemHeight when item rectangles are unavailable.
+        }
+
         int itemHeight = Math.Max(1, listBox.ItemHeight);
         try
         {
