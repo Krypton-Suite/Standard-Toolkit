@@ -159,7 +159,7 @@ public abstract class VisualForm : Form,
 		_jumpListValues = new JumpListValues(NeedPaintDelegate);
 		_jumpListValues.JumpListChanged += OnJumpListChanged;
 
-		// Create the palette specific values helper
+		// Create the palette specific values object that is used to cache values from the palette for quick access
 		_paletteValues = new PaletteSpecificValues(this);
 
 #if !NET462
@@ -281,40 +281,40 @@ public abstract class VisualForm : Form,
 							PI.SetWindowTheme(Handle, string.Empty, string.Empty);
 
 #if NET10_0_OR_GREATER
-                            PI.Dwm.WindowSetAttribute(Handle, PI.Dwm.DWMWINDOWATTRIBUTE.NCRenderingPolicy,
-                                (int)PI.Dwm.DWMNCRENDERINGPOLICY.Disabled);
+							PI.Dwm.WindowSetAttribute(Handle, PI.Dwm.DWMWINDOWATTRIBUTE.NCRenderingPolicy,
+								(int)PI.Dwm.DWMNCRENDERINGPOLICY.Disabled);
 #endif
 
-                            // Call virtual method for initializing own chrome
-                            WindowChromeStart();
-                        }
-                    }
-                    catch
-                    {
-                        // Failed and so cannot provide custom chrome
-                        _useThemeFormChromeBorderWidth = false;
-                    }
-                }
-                else
-                {
-                    try
-                    {
-                        // Restore the application to previous theme setting
-                        PI.SetWindowTheme(Handle, null, null);
+							// Call virtual method for initializing own chrome
+							WindowChromeStart();
+						}
+					}
+					catch
+					{
+						// Failed and so cannot provide custom chrome
+						_useThemeFormChromeBorderWidth = false;
+					}
+				}
+				else
+				{
+					try
+					{
+						// Restore the application to previous theme setting
+						PI.SetWindowTheme(Handle, null, null);
 
 #if NET10_0_OR_GREATER
-                        PI.Dwm.WindowSetAttribute(Handle, PI.Dwm.DWMWINDOWATTRIBUTE.NCRenderingPolicy,
-                            (int)PI.Dwm.DWMNCRENDERINGPOLICY.UseWindowStyle);
+						PI.Dwm.WindowSetAttribute(Handle, PI.Dwm.DWMWINDOWATTRIBUTE.NCRenderingPolicy,
+							(int)PI.Dwm.DWMNCRENDERINGPOLICY.UseWindowStyle);
 #endif
 
-                        // Call virtual method to reverse own chrome setup
-                        WindowChromeEnd();
-                    }
-                    catch
-                    {
-                        //
-                    }
-                }
+						// Call virtual method to reverse own chrome setup
+						WindowChromeEnd();
+					}
+					catch
+					{
+						//
+					}
+				}
 
 				// Raise event to notify a change in setting
 				if (_useThemeFormChromeBorderWidth != oldUseThemeFormChromeBorderWidth)
@@ -416,6 +416,20 @@ public abstract class VisualForm : Form,
 	/// </summary>
 	public void ResetShadowValues() => _shadowValues.Reset();
 
+	/// <summary>Gets the palette values.</summary>
+	/// <value>The palette values.</value>
+	[Category(@"Visuals")]
+	[Description(@"Palette specific values applied to drawing.")]
+	[DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+	public PaletteSpecificValues PaletteValues => _paletteValues;
+
+	private bool ShouldSerializePaletteValues() => !_paletteValues.IsDefault;
+
+	/// <summary>
+	/// Resets the <see cref="KryptonForm"/> palette specific values.
+	/// </summary>
+	public void ResetPaletteValues() => _paletteValues.Reset();
+
 	/// <summary>
 	/// Gets access to the button content.
 	/// </summary>
@@ -439,20 +453,6 @@ public abstract class VisualForm : Form,
 	/// Resets the <see cref="KryptonForm"/> blur values.
 	/// </summary>
 	public void ResetBlurValues() => _blurValues.Reset();
-
-	/// <summary>Gets the palette values.</summary>
-	/// <value>The palette values.</value>
-	[Category(@"Visuals")]
-	[Description(@"Palette specific values.")]
-	[DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-	public PaletteSpecificValues PaletteValues => _paletteValues;
-
-	private bool ShouldSerializePaletteValues() => !_paletteValues.IsDefault;
-
-	/// <summary>
-	/// Resets the PaletteValues property to its default value.
-	/// </summary>
-	public void ResetPaletteValues() => _paletteValues.Reset();
 
 	/// <summary>
 	/// Gets access to the shell values.
@@ -786,7 +786,7 @@ public abstract class VisualForm : Form,
 			{
 				Padding realWindowBorders = RealWindowBorders;
 				Rectangle realWindowRectangle = RealWindowRectangle;
-				
+
 				invalidRect = realWindowRectangle with
 				{
 					X = -realWindowBorders.Left,
@@ -1180,21 +1180,21 @@ public abstract class VisualForm : Form,
 				if (mon != IntPtr.Zero)
 				{
 					PI.MONITORINFO mi = PI.GetMonitorInfo(mon);
-					int workLeft   = mi.rcWork.left;
-					int workTop    = mi.rcWork.top;
-					int workWidth  = mi.rcWork.right  - mi.rcWork.left;
+					int workLeft = mi.rcWork.left;
+					int workTop = mi.rcWork.top;
+					int workWidth = mi.rcWork.right - mi.rcWork.left;
 					int workHeight = mi.rcWork.bottom - mi.rcWork.top;
 
 					// Detect the DWM-extended pattern: window extends past all four work-area edges.
-					bool overLeft   = wp.x < workLeft;
-					bool overTop    = wp.y < workTop;
-					bool overRight  = (wp.x + wp.cx) > (workLeft + workWidth);
-					bool overBottom = (wp.y + wp.cy) > (workTop  + workHeight);
+					bool overLeft = wp.x < workLeft;
+					bool overTop = wp.y < workTop;
+					bool overRight = (wp.x + wp.cx) > (workLeft + workWidth);
+					bool overBottom = (wp.y + wp.cy) > (workTop + workHeight);
 
 					if (overLeft && overTop && overRight && overBottom)
 					{
-						wp.x  = workLeft;
-						wp.y  = workTop;
+						wp.x = workLeft;
+						wp.y = workTop;
 						wp.cx = workWidth;
 						wp.cy = workHeight;
 						Marshal.StructureToPtr(wp, m.LParam, true);
@@ -1279,25 +1279,25 @@ public abstract class VisualForm : Form,
 					break;
 
 				case PI.WM_.SYSCOMMAND:
-				{
-					var sc = (PI.SC_)m.WParam.ToInt64();
-					// Is this the command for closing the form?
-					if (sc == PI.SC_.CLOSE)
 					{
-						PropertyInfo? pi = typeof(Form).GetProperty(nameof(CloseReason),
-							BindingFlags.Instance |
-							BindingFlags.SetProperty |
-							BindingFlags.NonPublic);
+						var sc = (PI.SC_)m.WParam.ToInt64();
+						// Is this the command for closing the form?
+						if (sc == PI.SC_.CLOSE)
+						{
+							PropertyInfo? pi = typeof(Form).GetProperty(nameof(CloseReason),
+								BindingFlags.Instance |
+								BindingFlags.SetProperty |
+								BindingFlags.NonPublic);
 
-						// Update form with the reason for the close
-						pi?.SetValue(this, CloseReason.UserClosing, null);
-					}
+							// Update form with the reason for the close
+							pi?.SetValue(this, CloseReason.UserClosing, null);
+						}
 
-					if (sc != PI.SC_.KEYMENU)
-					{
-						processed = OnPaintNonClient(ref m);
+						if (sc != PI.SC_.KEYMENU)
+						{
+							processed = OnPaintNonClient(ref m);
+						}
 					}
-				}
 					break;
 				case PI.WM_.INITMENU:
 				case PI.WM_.SETTEXT:
@@ -1317,15 +1317,15 @@ public abstract class VisualForm : Form,
 					PerformNeedPaint(true);
 					break;
 				case PI.WM_.COMMAND:
-				{
-					var wp = (uint)(m.WParam.ToInt64() & 0xFFFFFFFF);
-					if (((wp >> 16) & 0xFFFF) == PI.THBN_CLICKED)
 					{
-						var buttonId = wp & 0xFFFF;
-						ThumbnailButtonClick?.Invoke(this, new ThumbnailButtonClickEventArgs(buttonId));
-						processed = true;
+						var wp = (uint)(m.WParam.ToInt64() & 0xFFFFFFFF);
+						if (((wp >> 16) & 0xFFFF) == PI.THBN_CLICKED)
+						{
+							var buttonId = wp & 0xFFFF;
+							ThumbnailButtonClick?.Invoke(this, new ThumbnailButtonClickEventArgs(buttonId));
+							processed = true;
+						}
 					}
-				}
 					break;
 			}
 		}
