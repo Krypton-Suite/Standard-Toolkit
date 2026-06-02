@@ -379,6 +379,13 @@ public class KryptonListBox : VisualControlBase,
             }
         }
 
+        protected override void OnMouseWheel(MouseEventArgs e)
+        {
+            int oldTopIndex = TopIndex;
+            base.OnMouseWheel(e);
+            _kryptonListBox.SyncScrollbarManagerMouseWheel(e.Delta, oldTopIndex, TopIndex);
+        }
+
         private void OnInternalListBoxMouseDown(object? sender, MouseEventArgs e)
         {
             // Only capture scroll position if the clicked item is already visible
@@ -1945,6 +1952,9 @@ public class KryptonListBox : VisualControlBase,
     private void OnDoubleClick(object? sender, EventArgs e) => base.OnDoubleClick(e);
 
     private void OnMouseDoubleClick(object? sender, MouseEventArgs e) => base.OnMouseDoubleClick(e);
+
+    private void SyncScrollbarManagerMouseWheel(int delta, int oldTopIndex, int newTopIndex) =>
+        _scrollbarManager?.SyncListBoxMouseWheel(delta, oldTopIndex, newTopIndex);
 
     private void UpdateScrollbarManager()
     {
