@@ -96,6 +96,28 @@ public partial class PaletteViewerForm : KryptonForm
         return false;
     }
 
+    private static bool ShouldSkipColorMethod(System.Reflection.MethodInfo m)
+    {
+        if (m.IsSpecialName
+            || m.ReturnType != typeof(Color)
+            || m.ContainsGenericParameters
+            || IsProblematicBaseMethod(m))
+        {
+            return true;
+        }
+
+        foreach (var p in m.GetParameters())
+        {
+            var parameterType = p.ParameterType;
+            if (p.IsOut || parameterType.IsByRef || parameterType.ContainsGenericParameters)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     /// <summary>
     /// Initializes a new instance of the <see cref="PaletteViewerForm"/> class.
     /// </summary>
@@ -222,25 +244,7 @@ public partial class PaletteViewerForm : KryptonForm
 
         foreach (var m in methods)
         {
-            if (m.IsSpecialName
-                || IsProblematicBaseMethod(m)
-                || m.ReturnType != typeof(Color))
-            {
-                continue;
-            }
-
-            // Skip methods with ref/out parameters or open generics
-            bool skip = false;
-            foreach (var p in m.GetParameters())
-            {
-                if (p.IsOut || p.ParameterType.IsByRef)
-                {
-                    skip = true;
-                    break;
-                }
-            }
-
-            if (skip)
+            if (ShouldSkipColorMethod(m))
             {
                 continue;
             }
@@ -366,22 +370,7 @@ public partial class PaletteViewerForm : KryptonForm
         var paletteMethods = palette.GetType().GetMethods(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
         foreach (var m in paletteMethods)
         {
-            if (m.IsSpecialName || m.ReturnType != typeof(Color) || (IsProblematicBaseMethod(m)))
-            {
-                continue;
-            }
-
-            // Skip methods with ref/out parameters
-            bool skip = false;
-            foreach (var p in m.GetParameters())
-            {
-                if (p.IsOut || p.ParameterType.IsByRef)
-                {
-                    skip = true;
-                    break;
-                }
-            }
-            if (skip)
+            if (ShouldSkipColorMethod(m))
             {
                 continue;
             }
