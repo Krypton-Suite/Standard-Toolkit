@@ -94,17 +94,28 @@ public class PaletteDataGridViewAll : PaletteDataGridViewCells
 
     #endregion
 
-    #region PaletteBorder
+    #region Border
     /// <summary>
-    /// Gets access to the data grid view background palette details.
+    /// Gets access to the data grid view border appearance.
     /// </summary>
     [KryptonPersist]
     [Category(@"Visuals")]
     [Description(@"Overrides for defining data grid view border appearance.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-    public virtual PaletteBorder PaletteBorder => _background.Border;
+    public virtual PaletteBorder Border => _background.Border;
 
-    private bool ShouldSerializePaletteBorder() => !_background.Border.IsDefault;
+    private bool ShouldSerializeBorder() => !_background.Border.IsDefault;
+
+    #endregion
+
+    #region PaletteBorder
+    /// <summary>
+    /// Gets access to the data grid view border appearance.
+    /// </summary>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public virtual PaletteBorder PaletteBorder => _background.Border;
 
     #endregion
 }
