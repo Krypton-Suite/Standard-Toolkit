@@ -64,6 +64,7 @@ public class KryptonDateTimePicker : VisualControlBase,
     private readonly ViewDrawDateTimeText _drawText;
     private readonly ViewLayoutCenter _layoutCheckBox;
     private readonly ButtonSpecManagerDraw? _buttonManager;
+    private ButtonSpecAccessibilityProxyManager? _buttonSpecAccessibilityProxyManager;
     private VisualPopupToolTip? _visualPopupToolTip;
     private KryptonContextMenuMonthCalendar? _kmc;
     private InputControlStyle _inputControlStyle;
@@ -303,6 +304,7 @@ public class KryptonDateTimePicker : VisualControlBase,
         ToolTipManager.ShowToolTip += OnShowToolTip;
         ToolTipManager.CancelToolTip += OnCancelToolTip;
         _buttonManager.ToolTipManager = ToolTipManager;
+        _buttonSpecAccessibilityProxyManager = new ButtonSpecAccessibilityProxyManager(this, ButtonSpecs, () => _buttonManager);
 
         // Update alignment to match current RightToLeft settings
         UpdateForRightToLeft();
@@ -321,6 +323,8 @@ public class KryptonDateTimePicker : VisualControlBase,
 
             // Remember to pull down the manager instance
             _buttonManager?.Destruct();
+            _buttonSpecAccessibilityProxyManager?.Dispose();
+            _buttonSpecAccessibilityProxyManager = null;
         }
 
         base.Dispose(disposing);
@@ -1785,6 +1789,7 @@ public class KryptonDateTimePicker : VisualControlBase,
 
         // Update state to reflect change in enabled state
         _buttonManager?.RefreshButtons();
+        _buttonSpecAccessibilityProxyManager?.Sync();
 
         // Change in enabled state requires a layout and repaint
         PerformNeedPaint(true);
@@ -1870,6 +1875,7 @@ public class KryptonDateTimePicker : VisualControlBase,
 
             // Let base class calulcate fill rectangle
             base.OnLayout(levent);
+            _buttonSpecAccessibilityProxyManager?.Sync();
         }
     }
 

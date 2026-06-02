@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -39,6 +39,11 @@ internal class KryptonCheckedListBoxAccessibleObject : Control.ControlAccessible
     {
         get
         {
+            if (!string.IsNullOrEmpty(_owner.AccessibleName))
+            {
+                return _owner.AccessibleName;
+            }
+
             // Try to get name from internal ListBox (CheckedListBox inherits from ListBox) first
             var internalAccessible = _owner.ListBox?.AccessibilityObject;
             if (internalAccessible?.Name != null)
@@ -58,6 +63,11 @@ internal class KryptonCheckedListBoxAccessibleObject : Control.ControlAccessible
     {
         get
         {
+            if (!string.IsNullOrEmpty(_owner.AccessibleDescription))
+            {
+                return _owner.AccessibleDescription;
+            }
+
             // Try to get description from internal ListBox first
             var internalAccessible = _owner.ListBox?.AccessibilityObject;
             if (internalAccessible?.Description != null)
@@ -77,6 +87,11 @@ internal class KryptonCheckedListBoxAccessibleObject : Control.ControlAccessible
     {
         get
         {
+            if (_owner.AccessibleRole != AccessibleRole.Default)
+            {
+                return _owner.AccessibleRole;
+            }
+
             // Delegate to internal ListBox's role
             var internalAccessible = _owner.ListBox?.AccessibilityObject;
             if (internalAccessible != null)
@@ -129,6 +144,23 @@ internal class KryptonCheckedListBoxAccessibleObject : Control.ControlAccessible
 
             // Fall back to base implementation
             return base.Value;
+        }
+
+        set
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            for (int i = 0; i < _owner.Items.Count; i++)
+            {
+                if (string.Equals(_owner.ListBox.GetItemText(_owner.Items[i]), value, StringComparison.CurrentCulture))
+                {
+                    _owner.SelectedIndex = i;
+                    break;
+                }
+            }
         }
     }
 

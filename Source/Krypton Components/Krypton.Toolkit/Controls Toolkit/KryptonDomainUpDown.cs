@@ -737,6 +737,7 @@ public class KryptonDomainUpDown : VisualControlBase,
     #region Instance Fields
     private VisualPopupToolTip? _visualPopupToolTip;
     private readonly ButtonSpecManagerLayout _buttonManager;
+    private ButtonSpecAccessibilityProxyManager? _buttonSpecAccessibilityProxyManager;
     private readonly ViewLayoutDocker _drawDockerInner;
     private readonly ViewDrawDocker _drawDockerOuter;
     private readonly ViewLayoutFill _layoutFill;
@@ -909,6 +910,7 @@ public class KryptonDomainUpDown : VisualControlBase,
         ToolTipManager.ShowToolTip += OnShowToolTip;
         ToolTipManager.CancelToolTip += OnCancelToolTip;
         _buttonManager.ToolTipManager = ToolTipManager;
+        _buttonSpecAccessibilityProxyManager = new ButtonSpecAccessibilityProxyManager(this, ButtonSpecs, () => _buttonManager);
 
         // Add text box to the controls collection
         ((KryptonReadOnlyControls)Controls).AddInternal(_domainUpDown);
@@ -927,6 +929,8 @@ public class KryptonDomainUpDown : VisualControlBase,
 
             // Remember to pull down the manager instance
             _buttonManager.Destruct();
+            _buttonSpecAccessibilityProxyManager?.Dispose();
+            _buttonSpecAccessibilityProxyManager = null;
 
             // Tell the buttons class to cleanup resources
             _subclassButtons?.Dispose();
@@ -1614,6 +1618,7 @@ public class KryptonDomainUpDown : VisualControlBase,
 
         // Update state to reflect change in enabled state
         _buttonManager.RefreshButtons();
+        _buttonSpecAccessibilityProxyManager?.Sync();
 
         PerformNeedPaint(true);
 
@@ -1703,6 +1708,7 @@ public class KryptonDomainUpDown : VisualControlBase,
             {
                 Rectangle fillRect = _layoutFill.FillRect;
                 _domainUpDown.SetBounds(fillRect.X, fillRect.Y, fillRect.Width, fillRect.Height);
+                _buttonSpecAccessibilityProxyManager?.Sync();
             }
         }
     }
@@ -1795,6 +1801,7 @@ public class KryptonDomainUpDown : VisualControlBase,
         if (IsHandleCreated && !e.NeedLayout)
         {
             InvalidateChildren();
+            _buttonSpecAccessibilityProxyManager?.Sync();
         }
         else
         {

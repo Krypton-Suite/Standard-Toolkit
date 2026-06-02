@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -353,6 +353,7 @@ public class KryptonTextBox : VisualControlBase,
     private bool _showEllipsisButton;
     //private bool _isInAlphaNumericMode;
     private readonly ButtonSpecAny _editorButton;
+    private ButtonSpecAccessibilityProxyManager? _buttonSpecAccessibilityProxyManager;
     private KryptonScrollbarManager? _scrollbarManager;
     private bool? _useKryptonScrollbars;
 
@@ -534,6 +535,7 @@ public class KryptonTextBox : VisualControlBase,
         ToolTipManager.ShowToolTip += OnShowToolTip;
         ToolTipManager.CancelToolTip += OnCancelToolTip;
         _buttonManager.ToolTipManager = ToolTipManager;
+        _buttonSpecAccessibilityProxyManager = new ButtonSpecAccessibilityProxyManager(this, ButtonSpecs, () => _buttonManager);
 
         // Create the button spec for the multiline editor button.
         _editorButton = new ButtonSpecAny
@@ -565,6 +567,8 @@ public class KryptonTextBox : VisualControlBase,
 
             // Remember to pull down the manager instance
             _buttonManager?.Destruct();
+            _buttonSpecAccessibilityProxyManager?.Dispose();
+            _buttonSpecAccessibilityProxyManager = null;
 
             _scrollbarManager?.Dispose();
             _scrollbarManager = null;
@@ -645,6 +649,8 @@ public class KryptonTextBox : VisualControlBase,
     [EditorBrowsable(EditorBrowsableState.Always)]
     [Browsable(false)]
     public TextBox TextBox => _textBox;
+
+    internal ButtonSpecManagerLayout? ButtonSpecManager => _buttonManager;
 
     /// <summary>
     /// Gets access to the contained input control.
@@ -1700,6 +1706,7 @@ public class KryptonTextBox : VisualControlBase,
             var y = Height / 2 - _textBox.Height / 2;
 
             _textBox.SetBounds(fillRect.X, y, fillRect.Width, fillRect.Height);
+            _buttonSpecAccessibilityProxyManager?.Sync();
         }
     }
 
@@ -1777,6 +1784,7 @@ public class KryptonTextBox : VisualControlBase,
         if (IsHandleCreated && !e.NeedLayout)
         {
             _textBox.Invalidate();
+            _buttonSpecAccessibilityProxyManager?.Sync();
         }
         else
         {

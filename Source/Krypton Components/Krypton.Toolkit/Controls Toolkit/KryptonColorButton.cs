@@ -1019,6 +1019,12 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
     protected override ImeMode DefaultImeMode => ImeMode.Disable;
 
     /// <summary>
+    /// Creates a new accessibility object for this control.
+    /// </summary>
+    /// <returns>A new accessibility object for this control.</returns>
+    protected override AccessibleObject CreateAccessibilityInstance() => new KryptonColorButtonAccessibleObject(this);
+
+    /// <summary>
     /// Clean up any resources being used.
     /// </summary>
     /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>

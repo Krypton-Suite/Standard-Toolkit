@@ -25,6 +25,7 @@ public class KryptonCalcInput : VisualControlBase, IContainedInputControl
     #region Instance Fields
     private VisualPopupToolTip? _visualPopupToolTip;
     private readonly ButtonSpecManagerLayout? _buttonManager;
+    private ButtonSpecAccessibilityProxyManager? _buttonSpecAccessibilityProxyManager;
     private readonly ViewLayoutDocker _drawDockerInner;
     private readonly ViewDrawDocker _drawDockerOuter;
     private readonly ViewLayoutFill _layoutFill;
@@ -216,6 +217,7 @@ public class KryptonCalcInput : VisualControlBase, IContainedInputControl
         ToolTipManager.ShowToolTip += OnShowToolTip;
         ToolTipManager.CancelToolTip += OnCancelToolTip;
         _buttonManager.ToolTipManager = ToolTipManager;
+        _buttonSpecAccessibilityProxyManager = new ButtonSpecAccessibilityProxyManager(this, ButtonSpecs, () => _buttonManager);
 
         // Create the dropdown glyph view (renderer draws an arrow or custom glyph)
         _dropDownGlyph = new ViewDrawDropDownButton(StateCommon.Content)
@@ -276,6 +278,8 @@ public class KryptonCalcInput : VisualControlBase, IContainedInputControl
 
             // Tell the buttons class to cleanup resources
             _buttonManager?.Destruct();
+            _buttonSpecAccessibilityProxyManager?.Dispose();
+            _buttonSpecAccessibilityProxyManager = null;
         }
 
         base.Dispose(disposing);
@@ -869,6 +873,7 @@ public class KryptonCalcInput : VisualControlBase, IContainedInputControl
 
         // Update state to reflect change in enabled state
         _buttonManager?.RefreshButtons();
+        _buttonSpecAccessibilityProxyManager?.Sync();
 
         PerformNeedPaint(true);
 
@@ -972,6 +977,7 @@ public class KryptonCalcInput : VisualControlBase, IContainedInputControl
             {
                 Rectangle fillRect = _layoutFill.FillRect;
                 _textBox?.SetBounds(fillRect.X, fillRect.Y, fillRect.Width, fillRect.Height);
+                _buttonSpecAccessibilityProxyManager?.Sync();
 
                 // In the designer, ensure the control Width reflects the full visual width
                 // (not just the inner textbox width), so the property grid reports the true size.
@@ -1066,6 +1072,7 @@ public class KryptonCalcInput : VisualControlBase, IContainedInputControl
         if (IsHandleCreated && !e.NeedLayout)
         {
             InvalidateChildren();
+            _buttonSpecAccessibilityProxyManager?.Sync();
         }
         else
         {

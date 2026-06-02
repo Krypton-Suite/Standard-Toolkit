@@ -646,6 +646,11 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
     protected override ImeMode DefaultImeMode => ImeMode.Disable;
 
     /// <summary>
+    /// Creates the accessibility object for the control.
+    /// </summary>
+    protected override AccessibleObject CreateAccessibilityInstance() => new KryptonDropButtonAccessibleObject(this);
+
+    /// <summary>
     /// Raises the EnabledChanged event.
     /// </summary>
     /// <param name="e">An EventArgs that contains the event data.</param>

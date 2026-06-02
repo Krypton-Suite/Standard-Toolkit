@@ -496,6 +496,12 @@ public class InternalKryptonCommandLinkButton : VisualSimpleBase, IButtonControl
     protected override ImeMode DefaultImeMode => ImeMode.Disable;
 
     /// <summary>
+    /// Creates a new accessibility object for this control.
+    /// </summary>
+    /// <returns>A new accessibility object for this control.</returns>
+    protected override AccessibleObject CreateAccessibilityInstance() => new InternalKryptonCommandLinkButtonAccessibleObject(this);
+
+    /// <summary>
     /// Raises the EnabledChanged event.
     /// </summary>
     /// <param name="e">An EventArgs that contains the event data.</param>
