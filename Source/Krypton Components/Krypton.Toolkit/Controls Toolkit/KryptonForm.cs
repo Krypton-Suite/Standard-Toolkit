@@ -165,6 +165,7 @@ public class KryptonForm : VisualForm,
     #region Instance Fields
 
     private readonly ButtonSpecManagerDraw _buttonManager;
+    private readonly FormFixedButtonSpecCollection _buttonSpecsFixed;
     private VisualPopupToolTip? _visualPopupToolTip;
     private readonly ViewDrawForm _drawDocker;
     private readonly ViewDrawDocker _drawHeading;
@@ -243,13 +244,13 @@ public class KryptonForm : VisualForm,
 
         // Create storage objects
         ButtonSpecs = new FormButtonSpecCollection(this);
-        var buttonSpecsFixed = new FormFixedButtonSpecCollection(this);
+        _buttonSpecsFixed = new FormFixedButtonSpecCollection(this);
 
         // Add the fixed set of window form buttons
         ButtonSpecMin = new ButtonSpecFormWindowMin(this);
         ButtonSpecMax = new ButtonSpecFormWindowMax(this);
         ButtonSpecClose = new ButtonSpecFormWindowClose(this);
-        buttonSpecsFixed.AddRange([ButtonSpecMin, ButtonSpecMax, ButtonSpecClose]);
+        SyncFormFixedButtonSpecOrder();
 
         // Create the palette storage
         StateCommon = new PaletteFormRedirect(Redirector, NeedPaintDelegate, this);
@@ -301,7 +302,7 @@ public class KryptonForm : VisualForm,
         };
 
         // Create button specification collection manager
-        _buttonManager = new ButtonSpecManagerDraw(this, Redirector, ButtonSpecs, buttonSpecsFixed,
+        _buttonManager = new ButtonSpecManagerDraw(this, Redirector, ButtonSpecs, _buttonSpecsFixed,
             [_drawHeading],
             [StateCommon.Header],
             [PaletteMetricInt.HeaderButtonEdgeInsetForm],
@@ -348,7 +349,7 @@ public class KryptonForm : VisualForm,
     #endregion
 
     #region Private
-    private KryptonSystemMenu? GetSystemMenu() 
+    private KryptonSystemMenu? GetSystemMenu()
     {
         // Only assign the menu at runtime
         return CommonHelper.DesignMode()
@@ -821,7 +822,7 @@ public class KryptonForm : VisualForm,
     [Category("Window Style")]
     [Description("Toggles display of the minimize button.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-    public new bool MinimizeBox 
+    public new bool MinimizeBox
     {
         get => base.MinimizeBox;
 
@@ -842,7 +843,7 @@ public class KryptonForm : VisualForm,
     [Category("Window Style")]
     [Description("Toggles display of the maximize button.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-    public new bool MaximizeBox 
+    public new bool MaximizeBox
     {
         get => base.MaximizeBox;
 
@@ -863,12 +864,12 @@ public class KryptonForm : VisualForm,
     [Category("Window Style")]
     [Description("Toggles display of the close button.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-    public new bool CloseBox 
+    public new bool CloseBox
     {
         get => base.CloseBox;
 
         set
-        { 
+        {
             if (base.CloseBox != value)
             {
                 base.CloseBox = value;
@@ -1339,7 +1340,7 @@ public class KryptonForm : VisualForm,
             UpdateTitleStyle(value);
         }
     }
-    
+
     /// <summary>
     /// Gets or sets a value indicating whether the form has a control box.
     /// </summary>
@@ -2004,6 +2005,15 @@ public class KryptonForm : VisualForm,
     protected override void OnHandleCreated(EventArgs e)
     {
         base.OnHandleCreated(e);
+
+        if (GetResolvedPalette() is PaletteMacOSBase macPalette)
+        {
+            ApplyMacWindowEffects(macPalette);
+        }
+        else if (Renderer is RenderMacOS)
+        {
+            ApplyMacWindowEffects(null);
+        }
 
         // Differ on MdiContainer first
         if (IsMdiContainer)
@@ -2944,6 +2954,37 @@ public class KryptonForm : VisualForm,
 
     private void ApplyMaterialFormChromeDefaultsIfNeeded()
     {
+        var palette = GetResolvedPalette() ?? KryptonManager.CurrentGlobalPalette;
+        if (palette is PaletteMacOSBase macPalette)
+        {
+            if (FormTitleAlign is PaletteRelativeAlign.Center or PaletteRelativeAlign.Far)
+            {
+                FormTitleAlign = PaletteRelativeAlign.Near;
+            }
+
+            AllowIconDisplay = false;
+            SyncFormFixedButtonSpecOrder();
+            _recreateButtons = true;
+            ApplyMacWindowEffects(macPalette);
+            return;
+        }
+
+        if (Renderer is RenderMacOS)
+        {
+            if (FormTitleAlign is PaletteRelativeAlign.Center or PaletteRelativeAlign.Far)
+            {
+                FormTitleAlign = PaletteRelativeAlign.Near;
+            }
+
+            AllowIconDisplay = false;
+            SyncFormFixedButtonSpecOrder();
+            _recreateButtons = true;
+            ApplyMacWindowEffects(null);
+            return;
+        }
+
+        ClearMacWindowEffects();
+
         if (Renderer is RenderMaterial)
         {
             if (FormTitleAlign is PaletteRelativeAlign.Near or PaletteRelativeAlign.Inherit)
@@ -2953,6 +2994,43 @@ public class KryptonForm : VisualForm,
 
             // Hide the form icon by default for a cleaner Material header (user can still re-enable later)
             AllowIconDisplay = false;
+            SyncFormFixedButtonSpecOrder();
+            _recreateButtons = true;
+        }
+    }
+
+    private void SyncFormFixedButtonSpecOrder()
+    {
+        var palette = GetResolvedPalette() ?? KryptonManager.CurrentGlobalPalette;
+        _buttonSpecsFixed.Clear();
+        if (palette is PaletteMacOSBase)
+        {
+            _buttonSpecsFixed.AddRange([ButtonSpecClose, ButtonSpecMin, ButtonSpecMax]);
+        }
+        else
+        {
+            _buttonSpecsFixed.AddRange([ButtonSpecMin, ButtonSpecMax, ButtonSpecClose]);
+        }
+    }
+
+    private void ApplyMacWindowEffects(PaletteMacOSBase? macPalette)
+    {
+        macPalette ??= GetResolvedPalette() as PaletteMacOSBase
+                     ?? (KryptonManager.CurrentGlobalPaletteMode == PaletteMode.MacOSDark
+                         ? KryptonManager.PaletteMacOSDark
+                         : KryptonManager.PaletteMacOSLight);
+
+        if (IsHandleCreated)
+        {
+            MacOSFormChromeHelper.ApplyWindowEffects(this, macPalette);
+        }
+    }
+
+    private void ClearMacWindowEffects()
+    {
+        if (IsHandleCreated)
+        {
+            MacOSFormChromeHelper.ClearWindowEffects(this);
         }
     }
 
@@ -3289,12 +3367,12 @@ public class KryptonForm : VisualForm,
             // a drop shadow around the form
             CreateParams cp = base.CreateParams;
 
-            #pragma warning disable CS0618 // Type or member is obsolete
+#pragma warning disable CS0618 // Type or member is obsolete
             if (UseDropShadow)
             {
                 cp.ClassStyle |= CS_DROPSHADOW;
             }
-            #pragma warning restore CS0618 // Type or member is obsolete
+#pragma warning restore CS0618 // Type or member is obsolete
 
             return cp;
         }
@@ -3340,22 +3418,22 @@ public class KryptonForm : VisualForm,
 
         return _isInAdministratorMode;
     }
-	#endregion
+    #endregion
 
 
-	/// <summary>
-	/// Determines whether the form has usable caption content
-	/// for non-client area painting.
-	/// </summary>
-	protected override bool HasCaptionContent()
-	{
+    /// <summary>
+    /// Determines whether the form has usable caption content
+    /// for non-client area painting.
+    /// </summary>
+    protected override bool HasCaptionContent()
+    {
         // No border means no non-client caption at all.
         if (FormBorderStyle == FormBorderStyle.None)
         {
             return false;
         }
 
-		/*
+        /*
 		 * Special-case workaround:
 		 *
 		 * For Sizable forms without a control box and without any caption text,
@@ -3366,26 +3444,26 @@ public class KryptonForm : VisualForm,
 		 * Tool window styles are excluded because they may legitimately have
 		 * no visible title text and still require non-client painting.
 		 */
-		if (FormBorderStyle == FormBorderStyle.Sizable &&
-			!ControlBox &&
-			string.IsNullOrWhiteSpace(Text) &&
-			string.IsNullOrWhiteSpace(TextExtra))
-		{
-			return false;
-		}
+        if (FormBorderStyle == FormBorderStyle.Sizable &&
+            !ControlBox &&
+            string.IsNullOrWhiteSpace(Text) &&
+            string.IsNullOrWhiteSpace(TextExtra))
+        {
+            return false;
+        }
 
-		// All remaining bordered styles are considered to have usable
-		// caption content from a non-client painting perspective,
-		// regardless of whether a visible title text is present.
-		return FormBorderStyle switch
-		{
-			FormBorderStyle.FixedSingle => true,
-			FormBorderStyle.Fixed3D => true,
-			FormBorderStyle.FixedDialog => true,
-			FormBorderStyle.Sizable => true,
-			FormBorderStyle.FixedToolWindow => true,
-			FormBorderStyle.SizableToolWindow => true,
-			_ => false
-		};
-	}
+        // All remaining bordered styles are considered to have usable
+        // caption content from a non-client painting perspective,
+        // regardless of whether a visible title text is present.
+        return FormBorderStyle switch
+        {
+            FormBorderStyle.FixedSingle => true,
+            FormBorderStyle.Fixed3D => true,
+            FormBorderStyle.FixedDialog => true,
+            FormBorderStyle.Sizable => true,
+            FormBorderStyle.FixedToolWindow => true,
+            FormBorderStyle.SizableToolWindow => true,
+            _ => false
+        };
+    }
 }
