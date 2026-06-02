@@ -247,6 +247,11 @@ public abstract class VisualForm : Form,
                             // Remove any theme that is currently drawing chrome
                             PI.SetWindowTheme(Handle, string.Empty, string.Empty);
 
+#if NET10_0_OR_GREATER
+                            PI.Dwm.WindowSetAttribute(Handle, PI.Dwm.DWMWINDOWATTRIBUTE.NCRenderingPolicy,
+                                (int)PI.Dwm.DWMNCRENDERINGPOLICY.Disabled);
+#endif
+
                             // Call virtual method for initializing own chrome
                             WindowChromeStart();
                         }
@@ -263,6 +268,11 @@ public abstract class VisualForm : Form,
                     {
                         // Restore the application to previous theme setting
                         PI.SetWindowTheme(Handle, null, null);
+
+#if NET10_0_OR_GREATER
+                        PI.Dwm.WindowSetAttribute(Handle, PI.Dwm.DWMWINDOWATTRIBUTE.NCRenderingPolicy,
+                            (int)PI.Dwm.DWMNCRENDERINGPOLICY.UseWindowStyle);
+#endif
 
                         // Call virtual method to reverse own chrome setup
                         WindowChromeEnd();
