@@ -650,6 +650,487 @@ public abstract class VisualForm : Form,
 				PI.SWP_.NOOWNERZORDER | PI.SWP_.FRAMECHANGED);
 		}
 	}
+        // Note: Will not handle movement between monitors
+        UpdateDpiFactors();
+    }
+
+    /// <summary>
+    /// Releases all resources used by the Control.
+    /// </summary>
+    /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
+    protected override void Dispose(bool disposing)
+    {
+        _disposing = true;
+
+        if (disposing)
+        {
+            // Must unhook from the palette paint events
+            if (_palette != null!)
+            {
+                _palette.PalettePaintInternal -= OnNeedPaint;
+                _palette.ButtonSpecChanged -= OnButtonSpecChanged;
+                _palette.UseThemeFormChromeBorderWidthChanged -= OnUseThemeFormChromeBorderWidthChanged;
+                _palette.BasePaletteChanged -= OnBaseChanged;
+                _palette.BaseRendererChanged -= OnBaseChanged;
+                _palette = null!;
+            }
+
+            // Unhook from global static events
+            KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChanged;
+            SystemEvents.UserPreferenceChanged -= OnUserPreferenceChanged;
+        }
+
+        base.Dispose(disposing);
+
+        ViewManager?.Dispose();
+
+        if (_screenDC != IntPtr.Zero)
+        {
+            PI.DeleteDC(_screenDC);
+        }
+    }
+    #endregion
+
+    #region Public
+
+    /*public AcrylicValues AcrylicValues { get; } = new AcrylicValues();
+
+    private void ResetAcrylicValues() => AcrylicValues.Reset();
+
+    private bool ShouldSerializeAcrylicValues() => !AcrylicValues.IsDefault;*/
+
+    /// <summary>
+    /// Gets the DpiX of the view.
+    /// </summary>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public float FactorDpiX
+    {
+        [DebuggerStepThrough]
+        get;
+        set;
+    } = 1;
+
+    /// <summary>
+    /// Gets the DpiY of the view.
+    /// </summary>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public float FactorDpiY
+    {
+        [DebuggerStepThrough]
+        get;
+        set;
+    } = 1;
+
+    /// <summary>
+    /// Gets and sets a value indicating if palette chrome should be applied.
+    /// </summary>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    internal bool UseThemeFormChromeBorderWidth
+    {
+        [DebuggerStepThrough]
+        get => _useThemeFormChromeBorderWidth;
+
+        set
+        {
+            // Only interested in changed values
+            if (_useThemeFormChromeBorderWidth != value)
+            {
+                // Cache old setting
+                var oldUseThemeFormChromeBorderWidth = _useThemeFormChromeBorderWidth;
+
+                // Store the new setting
+                _useThemeFormChromeBorderWidth = value;
+
+                // If we need custom chrome drawing...
+                if (_useThemeFormChromeBorderWidth)
+                {
+                    try
+                    {
+                        // Set back to false in case we decide that the operating system
+                        // is not capable of supporting our custom chrome implementation
+                        _useThemeFormChromeBorderWidth = false;
+
+                        // Only need to remove the window theme, if there is one
+                        if (PI.IsAppThemed() && PI.IsThemeActive())
+                        {
+                            // Assume that we can apply custom chrome
+                            _useThemeFormChromeBorderWidth = true;
+
+                            // Remove any theme that is currently drawing chrome
+                            PI.SetWindowTheme(Handle, string.Empty, string.Empty);
+
+#if NET10_0_OR_GREATER
+                            PI.Dwm.WindowSetAttribute(Handle, PI.Dwm.DWMWINDOWATTRIBUTE.NCRenderingPolicy,
+                                (int)PI.Dwm.DWMNCRENDERINGPOLICY.Disabled);
+#endif
+
+                            // Call virtual method for initializing own chrome
+                            WindowChromeStart();
+                        }
+                    }
+                    catch
+                    {
+                        // Failed and so cannot provide custom chrome
+                        _useThemeFormChromeBorderWidth = false;
+                    }
+                }
+                else
+                {
+                    try
+                    {
+                        // Restore the application to previous theme setting
+                        PI.SetWindowTheme(Handle, null, null);
+
+#if NET10_0_OR_GREATER
+                        PI.Dwm.WindowSetAttribute(Handle, PI.Dwm.DWMWINDOWATTRIBUTE.NCRenderingPolicy,
+                            (int)PI.Dwm.DWMNCRENDERINGPOLICY.UseWindowStyle);
+#endif
+
+                        // Call virtual method to reverse own chrome setup
+                        WindowChromeEnd();
+                    }
+                    catch
+                    {
+                        //
+                    }
+                }
+
+                // Raise event to notify a change in setting
+                if (_useThemeFormChromeBorderWidth != oldUseThemeFormChromeBorderWidth)
+                {
+                    // Generate change event
+                    OnApplyUseThemeFormChromeBorderWidthChanged(EventArgs.Empty);
+                }
+            }
+        }
+    }
+
+    /// <summary>Gets or sets a value indicating whether the Close button is displayed in the caption bar of the form.</summary>
+    /// <returns>
+    /// <see langword="true" /> to display a Close button for the form; otherwise, <see langword="false" />. The default is <see langword="true" />.</returns>
+    [Category("Window Style")]
+    [DefaultValue(true)]
+    [Description(
+        "Form Close Button Visiblity: This will also Hide the System Menu `Close` and disable the `Alt+F4` action")]
+    public bool CloseBox { [DebuggerStepThrough] get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets the palette to be applied.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Palette applied to drawing.")]
+    public PaletteMode PaletteMode
+    {
+        [DebuggerStepThrough]
+        get => _paletteMode;
+
+        set
+        {
+            if (_paletteMode != value)
+            {
+                // Action depends on new value
+                switch (value)
+                {
+                    case PaletteMode.Custom:
+                        // Do nothing, you must assign a palette to the
+                        // 'Palette' property in order to get the custom mode
+                        break;
+                    default:
+                        // Use the new value
+                        _paletteMode = value;
+
+                        // Get a reference to the standard palette from its name
+                        _localCustomPalette = null;
+                        SetPalette(KryptonManager.GetPaletteForMode(_paletteMode));
+
+                        // Must raise event to change palette in redirector
+                        OnPaletteChanged(EventArgs.Empty);
+
+                        // Need to layout again use new palette
+                        PerformLayout();
+                        break;
+                }
+            }
+        }
+    }
+
+    private void ResetPaletteMode() => PaletteMode = PaletteMode.Global;
+
+    private bool ShouldSerializePaletteMode() => PaletteMode != PaletteMode.Global;
+
+    /* FadeValues disabled and moved to extended until proven stable. Further development in V100
+    /// <summary>Gets access to the fade values.</summary>
+    [Category(@"Visuals")]
+    [Description(@"Form fading.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public FadeValues FadeValues { get; } = new FadeValues();
+
+    private bool ShouldSerializeFadeValues() => !FadeValues.IsDefault;
+
+    /// <summary>Resets the fade values.</summary>
+    private void ResetFadeValues() => FadeValues.Reset();
+    */
+
+    /// <summary>
+    /// Gets access to the button content.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Form Shadowing")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public ShadowValues ShadowValues
+    {
+        [DebuggerStepThrough]
+        get => _shadowValues;
+        set
+        {
+            _shadowValues = value;
+            _shadowManager = new ShadowManager(this, _shadowValues);
+        }
+    }
+
+    private bool ShouldSerializeShadowValues() => !_shadowValues.IsDefault;
+
+    /// <summary>
+    /// Resets the <see cref="KryptonForm"/> shadow values.
+    /// </summary>
+    public void ResetShadowValues() => _shadowValues.Reset();
+
+    /// <summary>
+    /// Gets access to the button content.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Form Blurring")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public BlurValues BlurValues
+    {
+        [DebuggerStepThrough]
+        get => _blurValues;
+        set
+        {
+            _blurValues = value;
+            _blurManager = new BlurManager(this, _blurValues);
+        }
+    }
+
+    private bool ShouldSerializeBlurValues() => !_blurValues.IsDefault;
+
+    /// <summary>
+    /// Resets the <see cref="KryptonForm"/> blur values.
+    /// </summary>
+    public void ResetBlurValues() => _blurValues.Reset();
+
+    /// <summary>
+    /// Gets access to the shell values.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Windows shell related values.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public WindowsShellValues ShellValues => _shellValues;
+
+    /// <summary>
+    /// Resets the ShellValues property to its default value.
+    /// </summary>
+    public void ResetShellValues() => ShellValues.Reset();
+
+    /// <summary>
+    /// Indicates whether the ShellValues property should be serialized.
+    /// </summary>
+    /// <returns>true if the ShellValues property should be serialized; otherwise, false.</returns>
+    public bool ShouldSerializeShellValues() => !ShellValues.IsDefault;
+
+    /// <summary>
+    /// Gets access to the jump list values.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Jump list configuration for the taskbar button.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public JumpListValues JumpList => _jumpListValues;
+
+    /// <summary>
+    /// Resets the JumpList property to its default value.
+    /// </summary>
+    public void ResetJumpList() => JumpList.Reset();
+
+    /// <summary>
+    /// Indicates whether the JumpList property should be serialized.
+    /// </summary>
+    /// <returns>true if the JumpList property should be serialized; otherwise, false.</returns>
+    public bool ShouldSerializeJumpList() => !JumpList.IsDefault;
+
+    /// <summary>
+    /// Gets and sets the custom palette implementation.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Custom palette applied to drawing.")]
+    [DefaultValue(null)]
+    public KryptonCustomPaletteBase? LocalCustomPalette
+    {
+        [DebuggerStepThrough]
+        get => _localCustomPalette;
+
+        set
+        {
+            // Only interested in changes of value
+            if (_localCustomPalette != value)
+            {
+                // Remember the starting palette
+                PaletteBase? old = _localCustomPalette;
+
+                // If no custom palette is required
+                if (value == null)
+                {
+                    // No custom palette, so revert back to the global setting
+                    _paletteMode = PaletteMode.Global;
+
+                    // Get the appropriate palette for the global mode
+                    _localCustomPalette = null;
+                    SetPalette(KryptonManager.GetPaletteForMode(_paletteMode));
+                }
+                else
+                {
+                    // No longer using a standard palette
+                    _localCustomPalette = value;
+                    _paletteMode = PaletteMode.Custom;
+                    // Use the provided palette value
+                    SetPalette(value);
+                }
+
+                // If real change has occurred
+                if (old != _localCustomPalette)
+                {
+                    // Raise the change event
+                    OnPaletteChanged(EventArgs.Empty);
+
+                    // Need to layout again use new palette
+                    PerformLayout();
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Resets the Palette property to its default value.
+    /// </summary>
+    public void ResetPalette() => _localCustomPalette = null;
+
+    /// <summary>
+    /// Gets access to the current renderer.
+    /// </summary>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public IRenderer Renderer
+    {
+        [DebuggerStepThrough]
+        get;
+        private set;
+    }
+
+    /// <summary>
+    /// Fires the NeedPaint event.
+    /// </summary>
+    /// <param name="needLayout">Does the palette change require a layout.</param>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
+    public void PerformNeedPaint(bool needLayout) => OnNeedPaint(this, new NeedLayoutEventArgs(needLayout));
+
+    /// <summary>
+    /// Gets the resolved palette to actually use when drawing.
+    /// </summary>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public PaletteBase GetResolvedPalette() => _palette;
+
+    /// <summary>
+    /// Create a tool strip renderer appropriate for the current renderer/palette pair.
+    /// </summary>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
+    public ToolStripRenderer CreateToolStripRenderer()
+    {
+        var palette = GetResolvedPalette() ?? KryptonManager.CurrentGlobalPalette;
+        return Renderer.RenderToolStrip(palette);
+    }
+
+    /// <summary>
+    /// Send the provided system command to the window for processing.
+    /// </summary>
+    /// <param name="sysCommand">System command.</param>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    internal void SendSysCommand(PI.SC_ sysCommand) => SendSysCommand(sysCommand, IntPtr.Zero);
+
+    /// <summary>
+    /// Send the provided system command to the window for processing.
+    /// </summary>
+    /// <param name="sysCommand">System command.</param>
+    /// <param name="lParam">LPARAM value.</param>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    internal void SendSysCommand(PI.SC_ sysCommand, IntPtr lParam) =>
+        // Send window message to ourself
+        PI.SendMessage(Handle, PI.WM_.SYSCOMMAND, (IntPtr)sysCommand, lParam);
+
+    /// <summary>
+    /// Gets the size of the borders requested by the real window.
+    /// </summary>
+    /// <returns>Border sizing.</returns>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public Padding RealWindowBorders => CommonHelper.GetWindowBorders(CreateParams);
+
+    /// <summary>
+    /// Gets a count of the number of paints that have occurred.
+    /// </summary>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public int PaintCount { get; private set; }
+
+    /// <summary>
+    /// Gets and sets the active state of the window.
+    /// </summary>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public bool WindowActive
+    {
+        get => _windowActive;
+
+        set
+        {
+            if (_windowActive != value)
+            {
+                _windowActive = value;
+                _blurManager.SetBlurState(_windowActive);
+                OnWindowActiveChanged();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Request the non-client area be repainted.
+    /// </summary>
+    public void RedrawNonClient() => InvalidateNonClient(Rectangle.Empty, true);
+
+    /// <summary>
+    /// Request the non-client area be recalculated.
+    /// </summary>
+    public void RecalcNonClient()
+    {
+        if (!IsDisposed && !Disposing && IsHandleCreated)
+        {
+            PI.SetWindowPos(Handle, IntPtr.Zero, 0, 0, 0, 0,
+                PI.SWP_.NOACTIVATE | PI.SWP_.NOMOVE |
+                PI.SWP_.NOZORDER | PI.SWP_.NOSIZE |
+                PI.SWP_.NOOWNERZORDER | PI.SWP_.FRAMECHANGED);
+        }
+    }
 
 #if NET8_0_OR_GREATER
 		/// <summary>Gets or sets the anchoring for minimized MDI children.</summary>

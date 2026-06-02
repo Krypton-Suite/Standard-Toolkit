@@ -2116,12 +2116,22 @@ public class KryptonRichTextBox : VisualControlBase,
             PaletteState state = _drawDockerOuter.State;
 
             Color backColor = triple.PaletteBack.GetBackColor1(state);
+            if (KryptonManager.CurrentGlobalPalette is PaletteRetroBase)
+            {
+                backColor = Color.White;
+            }
+
             if (_richTextBox.BackColor != backColor)
             {
                 _richTextBox.BackColor = backColor;
             }
 
             Color foreColor = triple.PaletteContent!.GetContentShortTextColor1(state);
+            if (KryptonManager.CurrentGlobalPalette is PaletteRetroBase)
+            {
+                foreColor = Color.Black;
+            }
+
             if (_richTextBox.ForeColor != foreColor)
             {
                 _richTextBox.ForeColor = foreColor;
