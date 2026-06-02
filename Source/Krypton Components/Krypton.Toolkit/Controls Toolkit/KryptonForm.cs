@@ -2957,8 +2957,8 @@ public class KryptonForm : VisualForm,
 		var palette = GetResolvedPalette() ?? KryptonManager.CurrentGlobalPalette;
 		if (palette is PaletteMacOSBase macPalette)
 		{
-            // MacOS renderer defaults to center aligned title and no icon, so if we are switching to a MacOS palette then apply those defaults.
-            if (FormTitleAlign is PaletteRelativeAlign.Near or PaletteRelativeAlign.Far)
+			// MacOS renderer defaults to center aligned title and no icon, so if we are switching to a MacOS palette then apply those defaults.
+			if (FormTitleAlign is PaletteRelativeAlign.Near or PaletteRelativeAlign.Far)
 			{
 				FormTitleAlign = PaletteRelativeAlign.Center;
 			}
@@ -2972,8 +2972,8 @@ public class KryptonForm : VisualForm,
 
 		if (Renderer is RenderMacOS)
 		{
-            // If switching from a MacOS palette to a non-MacOS palette but still have the MacOS renderer active, then apply the MacOS defaults to prevent ending up with a misaligned title and visible icon.
-            if (FormTitleAlign is PaletteRelativeAlign.Near or PaletteRelativeAlign.Far)
+			// If switching from a MacOS palette to a non-MacOS palette but still have the MacOS renderer active, then apply the MacOS defaults to prevent ending up with a misaligned title and visible icon.
+			if (FormTitleAlign is PaletteRelativeAlign.Near or PaletteRelativeAlign.Far)
 			{
 				FormTitleAlign = PaletteRelativeAlign.Center;
 			}
@@ -3001,17 +3001,43 @@ public class KryptonForm : VisualForm,
 		}
 	}
 
+	/// <summary>
+	/// Synchronizes the form fixed button spec order.
+	/// </summary>
 	private void SyncFormFixedButtonSpecOrder()
 	{
 		var palette = GetResolvedPalette() ?? KryptonManager.CurrentGlobalPalette;
 		_buttonSpecsFixed.Clear();
 		if (palette is PaletteMacOSBase)
 		{
-			_buttonSpecsFixed.AddRange([ButtonSpecClose, ButtonSpecMin, ButtonSpecMax]);
+			if (PaletteValues.UseWindowsControlBoxLayout)
+			{
+				// Windows layout is Close, Min, Max (regardless of RTL or LTR)
+				if (RightToLeftLayout && RightToLeft == RightToLeft.Yes)
+				{
+					_buttonSpecsFixed.AddRange([ButtonSpecClose, ButtonSpecMax, ButtonSpecMin]);
+				}
+				else
+				{
+					_buttonSpecsFixed.AddRange([ButtonSpecMin, ButtonSpecMax, ButtonSpecClose]);
+				}
+			}
+			else
+			{
+				// MacOS layout is Close, Min, Max (regardless of RTL or LTR)
+				_buttonSpecsFixed.AddRange([ButtonSpecClose, ButtonSpecMin, ButtonSpecMax]);
+			}
 		}
 		else
 		{
-			_buttonSpecsFixed.AddRange([ButtonSpecMin, ButtonSpecMax, ButtonSpecClose]);
+			if (RightToLeftLayout && RightToLeft == RightToLeft.Yes)
+			{
+				_buttonSpecsFixed.AddRange([ButtonSpecClose, ButtonSpecMax, ButtonSpecMin]);
+			}
+			else
+			{
+				_buttonSpecsFixed.AddRange([ButtonSpecMin, ButtonSpecMax, ButtonSpecClose]);
+			}
 		}
 	}
 
