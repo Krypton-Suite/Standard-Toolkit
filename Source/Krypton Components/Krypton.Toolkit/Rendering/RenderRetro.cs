@@ -115,13 +115,22 @@ public sealed class RenderRetro : RenderOffice2010
             return base.DrawBack(context, rect, path, palette, orientation, state, memento);
         }
 
-        DrawRetroButtonBack(context, rect, path, palette, state,
-            RetroRenderHelper.IsRetroGridCellBack(palette) ? 1 : RetroRenderHelper.GetButtonShadowSize(rect));
+        DrawRetroButtonBack(context, rect, path, palette, state, GetRetroButtonShadowSize(context, rect, palette, state));
         return memento;
     }
     #endregion
 
     #region Implementation
+    private static int GetRetroButtonShadowSize(RenderContext context, Rectangle rect, IPaletteBack palette, PaletteState state)
+    {
+        if (state == PaletteState.Disabled || RetroRenderHelper.IsRibbonContext(context))
+        {
+            return 0;
+        }
+
+        return RetroRenderHelper.IsRetroGridCellBack(palette) ? 1 : RetroRenderHelper.GetButtonShadowSize(rect);
+    }
+
     private static void DrawRetroButtonBack(RenderContext context,
         Rectangle rect,
         GraphicsPath path,
@@ -155,7 +164,7 @@ public sealed class RenderRetro : RenderOffice2010
                 g.FillRectangle(chromeBrush, rect);
             }
 
-            if (!pressed && rect.Width > shadow && rect.Height > shadow)
+            if (!pressed && shadow > 0 && rect.Width > shadow && rect.Height > shadow)
             {
                 using var shadowBrush = new SolidBrush(frame);
                 g.FillRectangle(shadowBrush, rect.X + shadow, rect.Y + shadow, rect.Width - shadow, rect.Height - shadow);
@@ -253,6 +262,9 @@ internal static class RetroRenderHelper
     internal static bool IsRetroPalette(PaletteBase? palette) => palette is PaletteRetroBase;
 
     internal static PaletteRetroBase? AsRetroPalette(PaletteBase? palette) => palette as PaletteRetroBase;
+
+    internal static bool IsRibbonContext(RenderContext context) =>
+        context.Control?.GetType().Namespace == "Krypton.Ribbon";
 
     internal static Color GetChromeBackgroundColor(PaletteBase? palette) =>
         AsRetroPalette(palette)?.ChromeBackgroundColor ?? Color.FromArgb(0, 160, 160);
@@ -392,7 +404,15 @@ internal static class RetroRenderHelper
         };
 
     private static bool IsChromeAdjacentButtonBack(IPaletteBack palette) =>
-        palette is PaletteBackToPalette back && IsChromeAdjacentButtonBackStyle(back.BackStyle);
+        palette switch
+        {
+            PaletteBackToPalette back => IsChromeAdjacentButtonBackStyle(back.BackStyle),
+            PaletteBack back when back.Inherit != null => IsChromeAdjacentButtonBack(back.Inherit),
+            PaletteBackInheritRedirect backRedirect => IsChromeAdjacentButtonBackStyle(backRedirect.Style),
+            PaletteBackInheritForced backForced => IsChromeAdjacentButtonBack(backForced.Inherit),
+            PaletteBackLightenColors backLighten => IsChromeAdjacentButtonBack(backLighten.Inherit),
+            _ => false
+        };
 
     private static bool IsChromeAdjacentButtonBorderStyle(PaletteBorderStyle style) =>
         style switch

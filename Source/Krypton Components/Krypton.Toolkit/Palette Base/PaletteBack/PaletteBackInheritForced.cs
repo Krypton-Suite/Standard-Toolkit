@@ -51,6 +51,10 @@ public class PaletteBackInheritForced : PaletteBackInherit
     }
     #endregion
 
+    #region Inherit
+    internal IPaletteBack Inherit => _inherit;
+    #endregion
+
     #region BorderIgnoreNormal
     /// <summary>
     /// Gets and sets the ignoring of normal borders.

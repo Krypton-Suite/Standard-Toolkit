@@ -98,9 +98,16 @@ public class PaletteRetroBlue : PaletteRetroBase
 
     public override Color GetRibbonFileAppTabTextColor(PaletteState state) => _ribbonAppButtonTextColor;
 
+    public override Color GetRibbonTextColor(PaletteRibbonTextStyle style, PaletteState state) =>
+        style == PaletteRibbonTextStyle.RibbonTab && state is PaletteState.Tracking or PaletteState.Pressed
+            ? Color.Black
+            : base.GetRibbonTextColor(style, state);
+
     protected override Color GetRetroListItemNormalBackColor() => ChromeBackgroundColor;
 
     protected override Color GetRetroListItemNormalTextColor() => Color.White;
+
+    protected override Color GetRetroCommandButtonTextColor() => Color.White;
 
     protected override Color GetRetroGridDataCellNormalBackColor() => _gridDataCellBackColor;
 
