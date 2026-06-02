@@ -60,7 +60,7 @@ public abstract class VisualForm : Form,
 	private bool _thumbButtonsAdded;
 	private bool _taskbarButtonCreated;
 
-	private PaletteSpecificValues _paletteValues;
+	private readonly PaletteSpecificValues _paletteValues;
 
 	#endregion
 
