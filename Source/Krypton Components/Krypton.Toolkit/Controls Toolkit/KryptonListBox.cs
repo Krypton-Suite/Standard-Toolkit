@@ -385,7 +385,7 @@ public class KryptonListBox : VisualControlBase,
             if (index >= 0 && index < Items.Count)
             {
                 // Check if the item is already visible
-                int visibleItems = ClientSize.Height / ItemHeight;
+                int visibleItems = GetFullyVisibleItemCount();
                 int bottomVisibleIndex = TopIndex + visibleItems - 1;
 
                 if (index >= TopIndex && index <= bottomVisibleIndex)
@@ -398,6 +398,58 @@ public class KryptonListBox : VisualControlBase,
                     _preClickTopIndex = -1;
                 }
             }
+        }
+
+        private int GetFullyVisibleItemCount()
+        {
+            if (Items.Count == 0)
+            {
+                return 1;
+            }
+
+            try
+            {
+                int visibleItems = 0;
+                int topIndex = Math.Max(0, Math.Min(TopIndex, Items.Count - 1));
+                int clientBottom = ClientSize.Height;
+
+                for (int i = topIndex; i < Items.Count; i++)
+                {
+                    Rectangle itemRect = GetItemRectangle(i);
+                    if (itemRect.Top >= clientBottom)
+                    {
+                        break;
+                    }
+
+                    if (itemRect.Height <= 0 || itemRect.Bottom > clientBottom)
+                    {
+                        break;
+                    }
+
+                    visibleItems++;
+                }
+
+                if (visibleItems > 0)
+                {
+                    return visibleItems;
+                }
+            }
+            catch
+            {
+                // Fall back to ItemHeight when item rectangles are unavailable.
+            }
+
+            int itemHeight = Math.Max(1, ItemHeight);
+            try
+            {
+                itemHeight = Math.Max(itemHeight, GetItemRectangle(0).Height);
+            }
+            catch
+            {
+                // Use ItemHeight when the native item rectangle is not available.
+            }
+
+            return Math.Max(1, ClientSize.Height / itemHeight);
         }
     }
     #endregion
