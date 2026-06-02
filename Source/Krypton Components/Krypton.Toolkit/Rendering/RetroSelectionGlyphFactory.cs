@@ -48,7 +48,7 @@ internal static class RetroSelectionGlyphFactory
     }
 
     internal static Image CreateMenuCheckedGlyph(Size size, bool enabled) =>
-        DrawTextGlyph(enabled ? "[X]" : "[X]", size, enabled);
+        DrawMenuCheckGlyph(size, enabled);
 
     internal static Image CreateMenuIndeterminateGlyph(Size size, bool enabled) =>
         DrawTextGlyph("[#]", size, enabled);
@@ -84,6 +84,33 @@ internal static class RetroSelectionGlyphFactory
                     LineAlignment = StringAlignment.Center
                 };
                 g.DrawString(text, font, brush, new RectangleF(0, 0, size.Width, size.Height), format);
+            }
+        }
+
+        return bmp;
+    }
+
+    private static Image DrawMenuCheckGlyph(Size size, bool enabled)
+    {
+        var bmp = new Bitmap(size.Width, size.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+        using (var g = Graphics.FromImage(bmp))
+        {
+            g.Clear(Color.Transparent);
+            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
+            g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.None;
+
+            Color color = enabled ? RetroText : RetroDisabled;
+            using (var pen = new Pen(color, 2f))
+            {
+                int left = Math.Max(3, size.Width / 4);
+                int middleX = Math.Max(left + 2, size.Width / 2);
+                int right = Math.Max(middleX + 3, size.Width - 3);
+                int middleY = Math.Max(2, size.Height - 5);
+                int top = Math.Max(2, size.Height / 4);
+                int bottom = Math.Max(top + 3, size.Height - 4);
+
+                g.DrawLine(pen, left, middleY, middleX, bottom);
+                g.DrawLine(pen, middleX, bottom, right, top);
             }
         }
 

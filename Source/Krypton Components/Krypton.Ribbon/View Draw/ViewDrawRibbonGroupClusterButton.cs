@@ -285,6 +285,9 @@ internal class ViewDrawRibbonGroupClusterButton : ViewComposite,
     {
         Debug.Assert(context is not null);
 
+        // Update palette inheritance because Retro themes use non-shadow ribbon button chrome for cluster buttons.
+        UpdateForcedPalettes();
+
         // Update our enabled and checked state
         UpdateEnabledState();
         UpdateCheckedState();
@@ -340,8 +343,8 @@ internal class ViewDrawRibbonGroupClusterButton : ViewComposite,
     private void CreateView()
     {
         // Override the palette provided values
-        _backForced = new PaletteBackInheritForced(_ribbon.StateCommon.RibbonGroupClusterButton.PaletteBack);
-        _borderForced = new PaletteBorderInheritForced(_ribbon.StateCommon.RibbonGroupClusterButton.PaletteBorder);
+        _backForced = new PaletteBackInheritForced(GetRibbonGroupClusterButtonBack());
+        _borderForced = new PaletteBorderInheritForced(GetRibbonGroupClusterButtonBorder());
 
         // Create the background and border view
         _viewMediumSmall = new ViewDrawRibbonGroupButtonBackBorder(_ribbon, GroupClusterButton!, _backForced, _borderForced, true, _needPaint)
@@ -399,6 +402,22 @@ internal class ViewDrawRibbonGroupClusterButton : ViewComposite,
         // Define the actual view
         Add(_viewMediumSmall);
     }
+
+    private void UpdateForcedPalettes()
+    {
+        _backForced.SetInherit(GetRibbonGroupClusterButtonBack());
+        _borderForced.SetInherit(GetRibbonGroupClusterButtonBorder());
+    }
+
+    private IPaletteBack GetRibbonGroupClusterButtonBack() =>
+        KryptonManager.CurrentGlobalPalette is PaletteRetroBase
+            ? _ribbon.StateCommon.RibbonGroupButton.PaletteBack
+            : _ribbon.StateCommon.RibbonGroupClusterButton.PaletteBack;
+
+    private IPaletteBorder GetRibbonGroupClusterButtonBorder() =>
+        KryptonManager.CurrentGlobalPalette is PaletteRetroBase
+            ? _ribbon.StateCommon.RibbonGroupButton.PaletteBorder!
+            : _ribbon.StateCommon.RibbonGroupClusterButton.PaletteBorder!;
 
     private void UpdateItemSizeState() => UpdateItemSizeState(GroupClusterButton!.ItemSizeCurrent);
 

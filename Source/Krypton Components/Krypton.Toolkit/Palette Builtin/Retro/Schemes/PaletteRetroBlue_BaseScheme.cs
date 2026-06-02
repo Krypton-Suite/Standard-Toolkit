@@ -65,13 +65,31 @@ public sealed class PaletteRetroBlue_BaseScheme : PaletteRetroGreen_BaseScheme
         ContextMenuHeadingBack = DosBlueDark;
         ContextMenuImageColumn = DosBlue;
 
+        RibbonQATMini1 = DosBlue;
+        RibbonQATMini2 = DosBlue;
+        RibbonQATMini3 = Color.Black;
+        RibbonQATMini4 = GlobalStaticVariables.EMPTY_COLOR;
+        RibbonQATMini5 = GlobalStaticVariables.EMPTY_COLOR;
+        RibbonQATMini1I = DosBlueDark;
+        RibbonQATMini2I = DosBlueDark;
+        RibbonQATMini3I = Color.Black;
+        RibbonQATMini4I = GlobalStaticVariables.EMPTY_COLOR;
+        RibbonQATMini5I = GlobalStaticVariables.EMPTY_COLOR;
+        RibbonQATFullbar1 = DosBlue;
+        RibbonQATFullbar2 = DosBlue;
+        RibbonQATFullbar3 = Color.Black;
+        RibbonQATButtonDark = Color.White;
+        RibbonQATButtonLight = Color.FromArgb(192, 192, 192);
+        RibbonQATOverflow1 = DosBlue;
+        RibbonQATOverflow2 = DosBlue;
+
         ToolStripBack = DosBlueDark;
         HeaderPrimaryBack1 = DosBlueDark;
         HeaderPrimaryBack2 = DosBlue;
         HeaderText = Color.White;
 
         RibbonTabTextNormal = Color.White;
-        RibbonTabTextChecked = DosYellow;
+        RibbonTabTextChecked = Color.Black;
         RibbonGroupCollapsedText = Color.White;
         RibbonGroupTitleText = Color.White;
         ContextMenuHeadingText = Color.White;
