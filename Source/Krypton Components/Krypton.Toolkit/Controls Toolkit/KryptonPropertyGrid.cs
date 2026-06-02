@@ -271,7 +271,7 @@ public class KryptonPropertyGrid : VisualControlBase,
         base.Padding = new Padding(1);
 
         // Create the palette provider
-        StateCommon = new PaletteInputControlTripleRedirect(Redirector, PaletteBackStyle.InputControlStandalone, PaletteBorderStyle.HeaderCalendar, PaletteContentStyle.LabelNormalPanel, null);
+        StateCommon = new PaletteInputControlTripleRedirect(Redirector, PaletteBackStyle.GridBackgroundList, PaletteBorderStyle.HeaderCalendar, PaletteContentStyle.GridDataCellList, null);
         StateDisabled = new PaletteInputControlTripleStates(StateCommon, NeedPaintDelegate);
         StateNormal = new PaletteInputControlTripleStates(StateCommon, NeedPaintDelegate);
         StateActive = new PaletteInputControlTripleStates(StateCommon, NeedPaintDelegate);

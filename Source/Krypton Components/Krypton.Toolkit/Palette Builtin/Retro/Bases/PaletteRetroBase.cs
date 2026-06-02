@@ -96,6 +96,12 @@ public abstract class PaletteRetroBase : PaletteVisualStudioBase
     /// <summary>Gets the border and shadow color for retro push buttons.</summary>
     internal virtual Color RetroButtonFrameColor => Color.Black;
 
+    /// <summary>Gets the background color for transient retro popup surfaces.</summary>
+    internal virtual Color RetroPopupBackColor => PanelAlternateBackColor;
+
+    /// <summary>Gets the border color for transient retro popup surfaces.</summary>
+    internal virtual Color RetroPopupBorderColor => RetroButtonFrameColor;
+
     public override IRenderer GetRenderer() => KryptonManager.RenderRetro;
 
     /// <summary>
@@ -177,6 +183,13 @@ public abstract class PaletteRetroBase : PaletteVisualStudioBase
 
         return base.GetBackColorStyle(style, state);
     }
+
+    public override PaletteRibbonColorStyle GetRibbonBackColorStyle(PaletteRibbonBackStyle style, PaletteState state) =>
+        style is PaletteRibbonBackStyle.RibbonQATMinibar
+            or PaletteRibbonBackStyle.RibbonQATFullbar
+            or PaletteRibbonBackStyle.RibbonQATOverflow
+            ? PaletteRibbonColorStyle.Solid
+            : base.GetRibbonBackColorStyle(style, state);
 
     public override Color GetBackColor1(PaletteBackStyle style, PaletteState state)
     {
@@ -320,6 +333,11 @@ public abstract class PaletteRetroBase : PaletteVisualStudioBase
             return formHeaderColor;
         }
 
+        if (TryGetRetroDockTabTextColor(style, state, out Color dockTabColor))
+        {
+            return dockTabColor;
+        }
+
         if (IsRetroButtonContent(style, state))
         {
             return state == PaletteState.Disabled ? Color.FromArgb(64, 64, 64) : ButtonNormalTextColor;
@@ -356,6 +374,11 @@ public abstract class PaletteRetroBase : PaletteVisualStudioBase
             return formHeaderColor;
         }
 
+        if (TryGetRetroDockTabTextColor(style, state, out Color dockTabColor))
+        {
+            return dockTabColor;
+        }
+
         if (IsRetroButtonContent(style, state))
         {
             return state == PaletteState.Disabled ? Color.FromArgb(64, 64, 64) : ButtonNormalTextColor;
@@ -387,6 +410,11 @@ public abstract class PaletteRetroBase : PaletteVisualStudioBase
             return formHeaderColor;
         }
 
+        if (TryGetRetroDockTabTextColor(style, state, out Color dockTabColor))
+        {
+            return dockTabColor;
+        }
+
         if (TryGetRetroWorkspaceTextColor(style, state, out Color workspaceColor))
         {
             return workspaceColor;
@@ -411,6 +439,11 @@ public abstract class PaletteRetroBase : PaletteVisualStudioBase
         if (TryGetRetroFormHeaderTextColor(style, state, out Color formHeaderColor))
         {
             return formHeaderColor;
+        }
+
+        if (TryGetRetroDockTabTextColor(style, state, out Color dockTabColor))
+        {
+            return dockTabColor;
         }
 
         if (TryGetRetroWorkspaceTextColor(style, state, out Color workspaceColor))
@@ -849,6 +882,30 @@ public abstract class PaletteRetroBase : PaletteVisualStudioBase
 
         color = FormHeaderTextColor;
         return true;
+    }
+
+    private static bool TryGetRetroDockTabTextColor(PaletteContentStyle style, PaletteState state, out Color color)
+    {
+        color = GlobalStaticVariables.EMPTY_COLOR;
+
+        if (style is not (PaletteContentStyle.TabHighProfile or PaletteContentStyle.TabStandardProfile
+                or PaletteContentStyle.TabLowProfile or PaletteContentStyle.TabOneNote
+                or PaletteContentStyle.TabDock or PaletteContentStyle.TabDockAutoHidden
+                or PaletteContentStyle.TabCustom1 or PaletteContentStyle.TabCustom2
+                or PaletteContentStyle.TabCustom3)
+            || CommonHelper.IsOverrideStateExclude(state, PaletteState.NormalDefaultOverride))
+        {
+            return false;
+        }
+
+        if (state is PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking
+            or PaletteState.Pressed or PaletteState.Tracking)
+        {
+            color = Color.Black;
+            return true;
+        }
+
+        return false;
     }
 
     private bool TryGetRetroWorkspaceTextColor(PaletteContentStyle style, PaletteState state, out Color color)
